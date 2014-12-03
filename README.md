@@ -1,6 +1,6 @@
-sjPlot - data visualization
+sjPlot - Data Visualization for Statistics in Social Science
 ------------------------------------------------------------------------------
-Collection of several plotting / table output functions for visualizing data. Results of various statistical analyses (that are commonly used in social sciences) can be visualized using this package, including simple and cross tabulated frequencies, histograms, box plots, (generalized) linear models (forest plots), mixed effects models, PCA, correlations, cluster analyses, scatter plots etc.
+Collection of several plotting and table output functions for visualizing data. Results of various statistical analyses (that are commonly used in social sciences) can be visualized using this package, including simple and cross tabulated frequencies, histograms, box plots, (generalized) linear models (forest plots), mixed effects models, PCA, correlations, cluster analyses, scatter plots etc.
 
 Furthermore, this package contains some tools that are useful when carrying out data analysis or interpreting data (especially intended for people coming from SPSS and/or who are new to R). These tool functions support importing (SPSS) data, variable recoding and weighting, statistical tests, determination of cluster groups, interpretation of interaction terms in regression models etc.
 
@@ -9,20 +9,20 @@ Furthermore, this package contains some tools that are useful when carrying out 
 
 #### Latest development build
 
-To install the latest development snapshot (see latest changes below), type following command in the R console:
+To install the latest development snapshot (see latest changes below), type following commands into the R console:
 
 ```r
+library(devtools)
 devtools::install_github("sjPlot/devel")
 ```
 
 #### Officiale, stable release
-To install the latest stable release from CRAN, type following command in the R console:
+To install the latest stable release from CRAN, type following command into the R console:
 
 ```r
 install.packages("sjPlot")
 ```
 
-<<<<<<< HEAD
 ### References and documentation
 
 - [Documentation](http://www.strengejacke.de/sjPlot/)
@@ -36,10 +36,6 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 
 ### Changelog of development build 1.6.1-4
 
-=======
-### Changelog of development build 1.6.1-3
-
->>>>>>> origin/master
 #### New functions
 * New function `sjp.glm.int` to plot probability curves of interaction terms in generalized linear models.
 
@@ -53,10 +49,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 
 #### Bug fixes
 * Parameter `geom.size` was not applied to bar charts in `sjp.grpfrq` - fixed.
-<<<<<<< HEAD
 * Q-Q plot of `sjp.lm.ma` used wrong linear q-q line - fixed.
-=======
->>>>>>> origin/master
 
 
 ### Changelog of current stable build 1.6

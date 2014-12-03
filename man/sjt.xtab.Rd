@@ -160,36 +160,35 @@ efc.labels <- sji.getValueLabels(efc)
 
 # print simple cross table w/o labels
 \dontrun{
-sjt.xtab(efc$e16sex, efc$e42dep)}
+sjt.xtab(efc$e16sex, efc$e42dep)
 
 # print cross table with labels and expected values
-\dontrun{
-sjt.xtab(efc$e16sex, efc$e42dep,
-         variableLabels=c("Elder's gender", "Elder's dependency"),
-         valueLabels=list(efc.labels[['e16sex']], efc.labels[['e42dep']]),
-         showExpected=TRUE)}
+sjt.xtab(efc$e16sex,
+         efc$e42dep,
+         variableLabels = c("Elder's gender",
+                            "Elder's dependency"),
+         valueLabels = list(efc.labels[['e16sex']],
+                            efc.labels[['e42dep']]),
+         showExpected = TRUE)
 
 # print minimal cross table with labels, total col/row highlighted
-\dontrun{
 sjt.xtab(efc$e16sex, efc$e42dep,
-         variableLabels=c("Elder's gender", "Elder's dependency"),
-         valueLabels=list(efc.labels[['e16sex']], efc.labels[['e42dep']]),
-         showHorizontalLine=FALSE,
-         showCellPerc=FALSE,
-         highlightTotal=TRUE)}
+         variableLabels = c("Elder's gender", "Elder's dependency"),
+         valueLabels = list(efc.labels[['e16sex']], efc.labels[['e42dep']]),
+         showHorizontalLine = FALSE,
+         showCellPerc = FALSE,
+         highlightTotal = TRUE)
 
 # -------------------------------
 # auto-detection of labels
 # -------------------------------
 efc <- sji.setVariableLabels(efc, sji.getVariableLabels(efc))
 # print cross table with labels and all percentages
-\dontrun{
 sjt.xtab(efc$e16sex, efc$e42dep,
-         showRowPerc=TRUE, showColPerc=TRUE)}
+         showRowPerc = TRUE, showColPerc = TRUE)
 
 # print cross table with labels and all percentages, including
 # grouping variable
-\dontrun{
 sjt.xtab(efc$e16sex, efc$e42dep, efc$c161sex,
          variableLabels=c("Elder's gender",
                           "Elder's dependency",
@@ -197,12 +196,11 @@ sjt.xtab(efc$e16sex, efc$e42dep, efc$c161sex,
          valueLabels=list(efc.labels[['e16sex']],
                           efc.labels[['e42dep']],
                           efc.labels[['c161sex']]),
-         showRowPerc=TRUE, showColPerc=TRUE)}
+         showRowPerc=TRUE, showColPerc=TRUE)
 
 # ----------------------------------------------------------------
 # User defined style sheet
 # ----------------------------------------------------------------
-\dontrun{
 sjt.xtab(efc$e16sex, efc$e42dep,
          variableLabels=c("Elder's gender", "Elder's dependency"),
          valueLabels=list(efc.labels[['e16sex']], efc.labels[['e42dep']]),

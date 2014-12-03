@@ -6,8 +6,8 @@ Version: 1.6.1-4
 Date: 2014-12-03
 Author: Daniel Lüdecke <d.luedecke@uke.de>
 Maintainer: Daniel Luedecke <d.luedecke@uke.de>
-Description: Collection of several plotting / table output functions for
-    visualizing data and utility functions.
+Description: Collection of several plotting and table output functions for
+    visualizing data, and utility functions.
 License: GPL-3
 Imports:
     ggplot2,

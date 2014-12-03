@@ -267,7 +267,10 @@ sjp.frq(efc$neg_c_7)
 # Simulate ggplot-default histogram, using "hist.skipZeros"
 # and adjusted "geom.size".
 # -------------------------------------------------
-sjp.frq(efc$c160age, type="h", hist.skipZeros=TRUE, geom.size=1)
+sjp.frq(efc$c160age,
+        type = "h",
+        hist.skipZeros = TRUE,
+        geom.size = 1)
 }
 \seealso{
 \itemize{

@@ -211,7 +211,10 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "ia", "..de
 #' # Simulate ggplot-default histogram, using "hist.skipZeros"
 #' # and adjusted "geom.size".
 #' # -------------------------------------------------
-#' sjp.frq(efc$c160age, type="h", hist.skipZeros=TRUE, geom.size=1)
+#' sjp.frq(efc$c160age, 
+#'         type = "h", 
+#'         hist.skipZeros = TRUE, 
+#'         geom.size = 1)
 #' 
 #'   
 #' @import ggplot2
@@ -795,3 +798,5 @@ insertRowToDF<-function(X,index_after,vector_to_insert){
   X<-rbind(X[1:index_after,],vector_to_insert,X[(index_after+1):nrow(X),])
   row.names(X)<-1:nrow(X)
   return (X)
+}
+

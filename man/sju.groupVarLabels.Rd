@@ -66,8 +66,7 @@ ageGrp <- sju.groupVar(efc$e17age)
 ageGrpLab <- sju.groupVarLabels(efc$e17age)
 sjp.frq(ageGrp,
         title=efc.var[['e17age']],
-        axisLabels.x=ageGrpLab,
-        maxYlim=FALSE)
+        axisLabels.x=ageGrpLab)
 }
 \seealso{
 \code{\link{sju.groupVar}}

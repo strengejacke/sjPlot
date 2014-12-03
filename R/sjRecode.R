@@ -102,8 +102,7 @@ sju.dicho <- function(var, dichBy="median", dichVal=-1, asNum = FALSE) {
 #' ageGrpLab <- sju.groupVarLabels(efc$e17age)
 #' sjp.frq(ageGrp,
 #'         title=efc.var[['e17age']],
-#'         axisLabels.x=ageGrpLab,
-#'         maxYlim=FALSE)
+#'         axisLabels.x=ageGrpLab)
 #'  
 #' @export
 sju.groupVar <- function(var, groupsize=5, asNumeric=TRUE, rightInterval=FALSE, autoGroupCount=30) {
@@ -189,8 +188,7 @@ sju.groupVar <- function(var, groupsize=5, asNumeric=TRUE, rightInterval=FALSE, 
 #' ageGrpLab <- sju.groupVarLabels(efc$e17age)
 #' sjp.frq(ageGrp,
 #'         title=efc.var[['e17age']],
-#'         axisLabels.x=ageGrpLab,
-#'         maxYlim=FALSE)
+#'         axisLabels.x=ageGrpLab)
 #' 
 #' @export
 sju.groupVarLabels <- function(var, groupsize=5, rightInterval=FALSE, autoGroupCount=30) {
