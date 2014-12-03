@@ -1,0 +1,9 @@
+year <- sub("-.*", "", meta$Date)
+note <- sprintf("R package version %s", meta$Version)
+
+bibentry(bibtype="manual",
+         title = "sjPlot: Data Visualization for Statistics in Social Science",
+         author = person("Daniel", "Lüdecke"),
+         year = year,
+         note = note,
+         url = "http://CRAN.R-project.org/package=sjPlot")

@@ -1,0 +1,31 @@
+Package: sjPlot
+Type: Package
+Encoding: UTF-8
+Title: Data Visualization for Statistics in Social Science
+Version: 1.6.1-4
+Date: 2014-12-03
+Author: Daniel Lüdecke <d.luedecke@uke.de>
+Maintainer: Daniel Luedecke <d.luedecke@uke.de>
+Description: Collection of several plotting / table output functions for
+    visualizing data and utility functions.
+License: GPL-3
+Imports:
+    ggplot2,
+    MASS,
+    car,
+    foreign,
+    plyr,
+    psych,
+    reshape2,
+    scales
+Suggests:
+    arm,
+    cluster,
+    coin,
+    lme4,
+    lsmeans,
+    lmtest,
+    Matrix,
+    stringdist
+URL: https://github.com/sjPlot/devel
+BugReports: https://github.com/sjPlot/devel/issues
