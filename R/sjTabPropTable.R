@@ -39,6 +39,7 @@
 #' @param showCellPerc If \code{TRUE}, cell percentage values are shown.
 #' @param showRowPerc If \code{TRUE}, row percentage values are shown.
 #' @param showColPerc If \code{TRUE}, column percentage values are shown.
+#' @param showObserved If \code{TRUE}, observed values are shown.
 #' @param showExpected If \code{TRUE}, expected values are also shown.
 #' @param showHorizontalLine If \code{TRUE}, data rows are separated with a horizontal line.
 #' @param showSummary If \code{TRUE} (default), a summary row with Chi-square statistics (see \code{\link{chisq.test}}),
@@ -176,6 +177,7 @@ sjt.xtab <- function (var.row,
                       breakVariableLabelsAt=40,
                       breakValueLabelsAt=20,
                       stringTotal="Total",
+                      showObserved=TRUE,
                       showCellPerc=FALSE,
                       showRowPerc=FALSE,
                       showColPerc=FALSE,
@@ -567,33 +569,40 @@ sjt.xtab <- function (var.row,
     # iterate all data columns
     # -------------------------------------
     for (icol in 1:ncol(tab)) {
+      cellstring <- ""
       # -------------------------------------
       # first table cell data contains observed values
       # -------------------------------------
-      cellstring <- sprintf("<span class=\"td_n\">%i</span>", tab[irow,icol])
+      if (showObserved) {
+        cellstring <- sprintf("<span class=\"td_n\">%i</span>", tab[irow,icol])
+      }
       # -------------------------------------
       # if we have expected values, add them to table cell
       # -------------------------------------
       if (showExpected) {
-        cellstring <- paste(cellstring, sprintf("<br><span class=\"td_ex\">%s</span>", tab.expected[irow,icol]), sep="")
+        if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+        cellstring <- paste(cellstring, sprintf("<span class=\"td_ex\">%s</span>", tab.expected[irow,icol]), sep="")
       }
       # -------------------------------------
       # if we have row-percentage, add percentage value to table cell
       # -------------------------------------
       if (showRowPerc) {
-        cellstring <- paste(cellstring, sprintf("<br><span class=\"td_rw\">%s%s</span>", tab.row[irow,icol],percSign), sep="")
+        if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+        cellstring <- paste(cellstring, sprintf("<span class=\"td_rw\">%s%s</span>", tab.row[irow,icol],percSign), sep="")
       }
       # -------------------------------------
       # if we have col-percentage, add percentage value to table cell
       # -------------------------------------
       if (showColPerc) {
-        cellstring <- paste(cellstring, sprintf("<br><span class=\"td_cl\">%s%s</span>", tab.col[irow,icol], percSign), sep="")
+        if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+        cellstring <- paste(cellstring, sprintf("<span class=\"td_cl\">%s%s</span>", tab.col[irow,icol], percSign), sep="")
       }
       # -------------------------------------
       # if we have cell-percentage, add percentage value to table cell
       # -------------------------------------
       if (showCellPerc) {
-        cellstring <- paste(cellstring, sprintf("<br><span class=\"td_c\">%s%s</span>", tab.cell[irow,icol], percSign), sep="")
+        if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+        cellstring <- paste(cellstring, sprintf("<span class=\"td_c\">%s%s</span>", tab.cell[irow,icol], percSign), sep="")
       }
       # -------------------------------------
       # write table cell data
@@ -604,24 +613,32 @@ sjt.xtab <- function (var.row,
     # after all data columns have been printed,
     # add a total column
     # -------------------------------------
+    cellstring <- ""
+    # -------------------------------------
     # first table cell data contains observed values
     # -------------------------------------
-    cellstring <- sprintf("<span class=\"td_n\">%i</span>", rowSums(tab)[irow])
+    if (showObserved) {
+      cellstring <- sprintf("<span class=\"td_n\">%i</span>", rowSums(tab)[irow])
+    }
     # if we have expected values, add them to table cell
     if (showExpected) {
-      cellstring <- paste(cellstring, sprintf("<br><span class=\"td_ex\">%s</span>", rowSums(tab.expected)[irow]), sep="")
+      if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+      cellstring <- paste(cellstring, sprintf("<span class=\"td_ex\">%s</span>", rowSums(tab.expected)[irow]), sep="")
     }
     # if we have row-percentage, add percentage value to table cell
     if (showRowPerc) {
-      cellstring <- paste(cellstring, sprintf("<br><span class=\"td_rw\">%s%s</span>", hundret, percSign), sep="")
+      if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+      cellstring <- paste(cellstring, sprintf("<span class=\"td_rw\">%s%s</span>", hundret, percSign), sep="")
     }
     # if we have col-percentage, add percentage value to table cell
     if (showColPerc) {
-      cellstring <- paste(cellstring, sprintf("<br><span class=\"td_cl\">%s%s</span>", rowSums(tab.cell)[irow], percSign), sep="")
+      if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+      cellstring <- paste(cellstring, sprintf("<span class=\"td_cl\">%s%s</span>", rowSums(tab.cell)[irow], percSign), sep="")
     }
     # if we have cell-percentage, add percentage value to table cell
     if (showCellPerc) {
-      cellstring <- paste(cellstring, sprintf("<br><span class=\"td_c\">%s%s</span>", rowSums(tab.cell)[irow], percSign), sep="")
+      if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+      cellstring <- paste(cellstring, sprintf("<span class=\"td_c\">%s%s</span>", rowSums(tab.cell)[irow], percSign), sep="")
     }
     # write table cell data
     page.content <- paste(page.content, sprintf("\n    <td class=\"tdata centeralign totcol horline\">%s</td>", cellstring), sep="")
@@ -644,27 +661,34 @@ sjt.xtab <- function (var.row,
   # iterate all data columns
   # --------------------------
   for (icol in 1:ncol(tab)) {
+    cellstring <- ""
     # -------------------------------------
     # add total row, first table cell data contains observed values
     # -------------------------------------
-    cellstring <- sprintf("<span class=\"td_n\">%i</span>", colSums(tab)[icol])
+    if (showObserved) {
+      cellstring <- sprintf("<span class=\"td_n\">%i</span>", colSums(tab)[icol])
+    }
     # calculate total percentage value
     cellpercval <- round(100*colSums(tab)[icol]/sum(tab),digits)
     # if we have expected values, add them to table cell
     if (showExpected) {
-      cellstring <- paste(cellstring, sprintf("<br><span class=\"td_ex\">%s</span>", colSums(tab.expected)[icol]), sep="")
+      if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+      cellstring <- paste(cellstring, sprintf("<span class=\"td_ex\">%s</span>", colSums(tab.expected)[icol]), sep="")
     }
     # if we have row-percentage, add percentage value to table cell
     if (showRowPerc) {
-      cellstring <- paste(cellstring, sprintf("<br><span class=\"td_rw\">%s%s</span>", cellpercval, percSign), sep="")
+      if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+      cellstring <- paste(cellstring, sprintf("<span class=\"td_rw\">%s%s</span>", cellpercval, percSign), sep="")
     }
     # if we have col-percentage, add percentage value to table cell
     if (showColPerc) {
-      cellstring <- paste(cellstring, sprintf("<br><span class=\"td_cl\">%s%s</span>", hundret, percSign), sep="")
+      if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+      cellstring <- paste(cellstring, sprintf("<span class=\"td_cl\">%s%s</span>", hundret, percSign), sep="")
     }
     # if we have cell-percentage, add percentage value to table cell
     if (showCellPerc) {
-      cellstring <- paste(cellstring, sprintf("<br><span class=\"td_c\">%s%s</span>", cellpercval, percSign), sep="")
+      if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+      cellstring <- paste(cellstring, sprintf("<span class=\"td_c\">%s%s</span>", cellpercval, percSign), sep="")
     }
     page.content <- paste(page.content, sprintf("\n    <td class=\"tdata lasttablerow centeralign\">%s</td>", cellstring), sep="")
   }
@@ -672,11 +696,27 @@ sjt.xtab <- function (var.row,
   # the lower right table cell contains the complete
   # total values, i.e. all percentages are 100%
   # --------------------------
-  cellstring <- sprintf("%s", sum(tab))
-  if (showExpected) cellstring <- paste(cellstring, sprintf("<br>%s", sum(tab.expected)), sep="")
-  if (showColPerc) cellstring <- paste(cellstring, sprintf("<br>%s%s", hundret, percSign), sep="")
-  if (showRowPerc) cellstring <- paste(cellstring, sprintf("<br>%s%s", hundret, percSign), sep="")
-  if (showCellPerc) cellstring <- paste(cellstring, sprintf("<br>%s%s", hundret, percSign), sep="")
+  cellstring <- ""
+  # -------------------------------------
+  # add total row, first table cell data contains observed values
+  # -------------------------------------
+  if (showObserved) cellstring <- sprintf("%s", sum(tab))
+  if (showExpected) {
+    if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+    cellstring <- paste(cellstring, sprintf("%s", sum(tab.expected)), sep="")
+  }
+  if (showColPerc) {
+    if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+    cellstring <- paste(cellstring, sprintf("%s%s", hundret, percSign), sep="")
+  }
+  if (showRowPerc) {
+    if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+    cellstring <- paste(cellstring, sprintf("%s%s", hundret, percSign), sep="")
+  }
+  if (showCellPerc) {
+    if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+    cellstring <- paste(cellstring, sprintf("%s%s", hundret, percSign), sep="")
+  }
   # write table cell data
   page.content <- paste(page.content, sprintf("\n    <td class=\"tdata lasttablerow centeralign\">%s</td>", cellstring), sep="")
   # close table row

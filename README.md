@@ -38,8 +38,12 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 
 #### New functions
 * New function `sjp.glm.int` to plot probability curves of interaction terms in generalized linear models.
+* New function `sjp.glmer.int` to plot probability curves of interaction terms in generalized linear mixed effects models.
+* New function `sjp.lmer.int` to plot probability curves of interaction terms in linear mixed effects models.
+
 
 #### Changes to functions
+* `sjt.xtab` can now show/hide observed values in table cells with `showObserved` parameter.
 * `sjt.df` now distinguishes more variable / vector types (like ordinal and categorial, instead of factor only, or double, integer and numeric).
 * `sjp.lm1` no longer requires the data frame used to fit the model.
 * Added parameter `useResiduals` to `sjp.lm1`, so residuals may be plotted against predictor (for diagnostic purposes).

@@ -6,10 +6,11 @@
 sjt.xtab(var.row, var.col, var.grp = NULL, weightBy = NULL, digits = 1,
   file = NULL, variableLabels = NULL, valueLabels = NULL,
   breakVariableLabelsAt = 40, breakValueLabelsAt = 20,
-  stringTotal = "Total", showCellPerc = FALSE, showRowPerc = FALSE,
-  showColPerc = FALSE, showExpected = FALSE, showHorizontalLine = FALSE,
-  showSummary = TRUE, showLegend = TRUE, showNA = FALSE, labelNA = "NA",
-  tdcol.n = "black", tdcol.expected = "#339999", tdcol.cell = "#993333",
+  stringTotal = "Total", showObserved = TRUE, showCellPerc = FALSE,
+  showRowPerc = FALSE, showColPerc = FALSE, showExpected = FALSE,
+  showHorizontalLine = FALSE, showSummary = TRUE, showLegend = TRUE,
+  showNA = FALSE, labelNA = "NA", tdcol.n = "black",
+  tdcol.expected = "#339999", tdcol.cell = "#993333",
   tdcol.row = "#333399", tdcol.col = "#339933", highlightTotal = FALSE,
   highlightColor = "#f8f8f8", percSign = "&nbsp;&#37;", hundret = "100.0",
   encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE)
@@ -52,6 +53,8 @@ one line and when a line break is inserted. Default is 40.}
 one line and when a line break is inserted. Default is 20.}
 
 \item{stringTotal}{String label for the total column / row header.}
+
+\item{showObserved}{If \code{TRUE}, observed values are shown.}
 
 \item{showCellPerc}{If \code{TRUE}, cell percentage values are shown.}
 

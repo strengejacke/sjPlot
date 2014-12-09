@@ -1,20 +1,20 @@
 #' @title Plot interaction terms (moderation) of linear models
 #' @name sjp.lm.int
-#' 
+#'
 #' @references \itemize{
 #'              \item \href{http://www.theanalysisfactor.com/interpreting-interactions-in-regression/}{Grace-Martin K: Interpreting Interactions in Regression}
 #'              \item \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin K: Clarifications on Interpreting Interactions in Regression}
 #'              \item \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}
 #'              \item Aiken and West (1991). Multiple Regression: Testing and Interpreting Interactions.
 #'              }
-#'             
+#'
 #' @description Plot regression lines of significant interaction terms (moderation) in linear models (lm). Note that beside interaction
 #'                terms, also the single predictors of each interaction must be included in the fitted model as well.
 #'                Thus, \code{lm(dep~pred1*pred2)} will work, but \code{lm(dep~pred1:pred2)} won't!
-#' 
+#'
 #' @note Beside interaction terms, also the single predictors of each interaction must be included in the fitted model as well.
 #'         Thus, \code{lm(dep~pred1*pred2)} will work, but \code{lm(dep~pred1:pred2)} won't!
-#' 
+#'
 #' @seealso \itemize{
 #'            \item \code{\link{sjp.glm.int}}
 #'            \item \code{\link{sjp.lm}}
@@ -22,17 +22,17 @@
 #'            \item \code{\link{sjp.reglin}}
 #'            \item \code{\link{sjp.lm.ma}}
 #'            }
-#' 
+#'
 #' @param fit the fitted linear model (lm) object, including interaction terms
 #' @param diff if \code{FALSE} (default), the minimum and maximum interaction effects of predictor 2 on predictor 1
 #'          are shown (one line each). if \code{TRUE}, only the difference between minimum and maximum interaction effect
 #'          is shown (single line)
-#' @param moderatorValues indicates which values of the moderator variable should be used when plotting the effects of the 
+#' @param moderatorValues indicates which values of the moderator variable should be used when plotting the effects of the
 #'          independent variable on the dependent variable. By default, \code{"minmax"} is used, i.e. the minimum and maximum values
 #'          (lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator.
 #'          Use \code{"meansd"} to use the mean value of the moderator as well as one standard deviation below and above mean value
 #'          to plot the effect of the moderator on the independent variable (following
-#'          the convention suggested by Cohen and Cohen and popularized by Aiken and West, 
+#'          the convention suggested by Cohen and Cohen and popularized by Aiken and West,
 #'          i.e. using the mean, the value one standard deviation above, and the value one standard deviation below the mean
 #'          as values of the moderator, see \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}).
 #' @param swapPredictors if \code{TRUE}, the predictor with less unique values is printed along the x-axis. Default is
@@ -45,24 +45,24 @@
 #'          Either set \code{fillColor} to \code{NULL} or use 0 for \code{fillAlpha} if you want to hide the shaded area.
 #' @param fillAlpha alpha value (transparancy) of the shaded area between the minimum and maximum lines. Default is 0.4.
 #'          Use either 0 or set \code{fillColor} to \code{NULL} if you want to hide the shaded area.
-#' @param geom.colors A vector of color values. First value is the color of the line indicating the lower bound of 
-#'          the interaction term (moderator value). Second value is the color of the line indicating the upper bound of 
-#'          the interaction term (moderator value). Third value, if applicable, is the color of the line indicating the 
-#'          mean value of the interaction term (moderator value). Third value is only used when \code{moderatorValues} 
-#'          is \code{"meansd"}. Or, if \code{diff} is \code{TRUE}, only one color value for the line indicating the 
+#' @param geom.colors A vector of color values. First value is the color of the line indicating the lower bound of
+#'          the interaction term (moderator value). Second value is the color of the line indicating the upper bound of
+#'          the interaction term (moderator value). Third value, if applicable, is the color of the line indicating the
+#'          mean value of the interaction term (moderator value). Third value is only used when \code{moderatorValues}
+#'          is \code{"meansd"}. Or, if \code{diff} is \code{TRUE}, only one color value for the line indicating the
 #'          upper difference between lower and upper bound of interaction terms.
-#' @param axisTitle.x a default title used for the x-axis. Default value is \code{NULL}, 
+#' @param axisTitle.x a default title used for the x-axis. Default value is \code{NULL},
 #'          which means that each plot's x-axis uses the predictor's name as title.
-#' @param axisTitle.y a default title used for the y-axis. Default value is \code{NULL}, 
+#' @param axisTitle.y a default title used for the y-axis. Default value is \code{NULL},
 #'          which means that each plot's y-axis uses the dependent variable's name as title.
-#' @param legendLabels Labels for the guide/legend. Default is \code{NULL}, so the name of the predictor with 
+#' @param legendLabels Labels for the guide/legend. Default is \code{NULL}, so the name of the predictor with
 #'          min/max-effect is used as legend label.
 #' @param showValueLabels if \code{TRUE}, value labels are plotted along the lines. Default is \code{FALSE}.
-#' @param breakTitleAt Wordwrap for diagram's title. Determines how many chars of the title are 
+#' @param breakTitleAt Wordwrap for diagram's title. Determines how many chars of the title are
 #'          displayed in one line and when a line break is inserted. Default is \code{50}.
-#' @param breakLegendLabelsAt Wordwrap for diagram legend labels. Determines how many chars of the legend labels are 
+#' @param breakLegendLabelsAt Wordwrap for diagram legend labels. Determines how many chars of the legend labels are
 #'          displayed in one line and when a line break is inserted. Default is \code{20}.
-#' @param breakAnnotationLabelsAt Wordwrap for diagram annotation labels. Determines how many chars of the legend labels are 
+#' @param breakAnnotationLabelsAt Wordwrap for diagram annotation labels. Determines how many chars of the legend labels are
 #'          displayed in one line and when a line break is inserted. Default is \code{50}.
 #'          Only applies if \code{showInterceptLine} is \code{TRUE}.
 #' @param axisLimits.y A vector with two values, defining the lower and upper limit from the y-axis.
@@ -86,55 +86,55 @@
 #'          variable name. By default, this string is \code{"(no interaction)"}.
 #' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
-#' @return (Insisibily) returns the ggplot-objects with the complete plot-list (\code{plot.list}) 
+#' @return (Insisibily) returns the ggplot-objects with the complete plot-list (\code{plot.list})
 #'           as well as the data frame that were used for setting up the ggplot-objects (\code{df.list}).
-#' 
+#'
 #' @examples
 #' # Note that the data sets used in this example may not be perfectly suitable for
 #' # fitting linear models. I just used them because they are part of the R-software.
-#' 
+#'
 #' # fit "dummy" model.
-#' fit <- lm(weight ~ Time * Diet, 
-#'           data = ChickWeight, 
+#' fit <- lm(weight ~ Time * Diet,
+#'           data = ChickWeight,
 #'           x = TRUE)
-#' 
+#'
 #' # show summary to see significant interactions
 #' summary(fit)
-#' 
+#'
 #' # plot regression line of interaction terms
 #' sjp.lm.int(fit)
 #' # plot regression line of interaction terms, including value labels
 #' sjp.lm.int(fit, showValueLabels = TRUE)
-#' 
-#' 
+#'
+#'
 #' # load sample data set
 #' data(efc)
 #' # create data frame with variables that should be included
 #' # in the model
 #' mydf <- data.frame(usage = efc$tot_sc_e,
-#'                    sex = efc$c161sex, 
-#'                    education = efc$c172code, 
-#'                    burden = efc$neg_c_7, 
+#'                    sex = efc$c161sex,
+#'                    education = efc$c172code,
+#'                    burden = efc$neg_c_7,
 #'                    dependency = efc$e42dep)
-#' # convert gender predictor to factor                         
+#' # convert gender predictor to factor
 #' mydf$sex <- relevel(factor(mydf$sex), ref = "2")
 #' # fit "dummy" model
 #' fit <- lm(usage ~ .*., data = mydf, x = TRUE)
 #' summary(fit)
-#' 
+#'
 #' # plot interactions
 #' sjp.lm.int(fit)
-#' 
+#'
 #' # plot interactions, using mean and sd as moderator
 #' # values to calculate interaction effect
 #' sjp.lm.int(fit, moderatorValues = "meansd")
-#' 
+#'
 #' # plot interactions, including those with p-value up to 0.1
 #' sjp.lm.int(fit,
-#'            plevel = 0.1, 
+#'            plevel = 0.1,
 #'            showInterceptLines = TRUE)
-#' 
-#' 
+#'
+#'
 #' @import ggplot2
 #' @export
 sjp.lm.int <- function(fit,
@@ -236,26 +236,94 @@ sjp.interaction <- function(fit,
     legendLabels <- unlistlabels(legendLabels)
   }
   # -----------------------------------------------------------
-  # retrieve amount and names of predictor variables and
-  # of dependent variable
+  # prepare values for (generalized) linear models
   # -----------------------------------------------------------
-  predvars <- attr(attr(fit$terms, "dataClasses"), "names")[-1]
-  depvar.label <- attr(attr(fit$terms, "dataClasses"), "names")[1]
-  # remember length of predictor variables
-  predvars.length <- length(predvars)
+  if (fun == "lm" || fun == "glm") {
+    # -----------------------------------------------------------
+    # retrieve amount and names of predictor variables and
+    # of dependent variable
+    # -----------------------------------------------------------
+    predvars <- attr(attr(fit$terms, "dataClasses"), "names")[-1]
+    depvar.label <- attr(attr(fit$terms, "dataClasses"), "names")[1]
+    # remember length of predictor variables
+    predvars.length <- length(predvars)
+    # -----------------------------------------------------------
+    # retrieve p-values, without intercept
+    # -----------------------------------------------------------
+    pval <- summary(fit)$coefficients[-1, 4]
+    # -----------------------------------------------------------
+    # retrieve estimates, without intercept
+    # -----------------------------------------------------------
+    estimates <- summary(fit)$coefficients[-1, 1]
+    estimates.names <- it <- names(estimates)
+    # -----------------------------------------------------------
+    # retrieve estimate of intercept
+    # -----------------------------------------------------------
+    b0 <- estimates.intercept <- summary(fit)$coefficients[1, 1]
+  }
   # -----------------------------------------------------------
-  # retrieve p-values, without intercept
+  # prepare values for (generalized) linear mixed effecrs models
   # -----------------------------------------------------------
-  pval <- summary(fit)$coefficients[-1, 4]
-  # -----------------------------------------------------------
-  # retrieve estimates, without intercept
-  # -----------------------------------------------------------
-  estimates <- summary(fit)$coefficients[-1, 1]
-  estimates.names <- names(estimates)
-  # -----------------------------------------------------------
-  # retrieve estimate of intercept
-  # -----------------------------------------------------------
-  b0 <- estimates.intercept <- summary(fit)$coefficients[1, 1]
+  else {
+    # -----------------------------------------------------------
+    # retrieve amount and names of predictor variables and
+    # of dependent variable
+    # -----------------------------------------------------------
+    predvars <- attr(attr(attr(fit@frame, "terms"), "dataClasses"), "names")[-1]
+    depvar.label <- attr(attr(attr(fit@frame, "terms"), "dataClasses"), "names")[1]
+    # remember length of predictor variables
+    predvars.length <- length(predvars)
+    # -----------------------------------------------------------
+    # retrieve p-values, without intercept
+    # -----------------------------------------------------------
+    pval <- summary(fit)$coefficients[-1, 4]
+    # -----------------------------------------------------------
+    # retrieve estimates, without intercept
+    # -----------------------------------------------------------
+    estimates <- unname(lme4::fixef(fit)[-1])
+    estimates.names <- names(lme4::fixef(fit)[-1])
+    # -----------------------------------------------------------
+    # copy variable values to data frame
+    # -----------------------------------------------------------
+    fitdat <- fit@frame
+    # -----------------------------------------------------------
+    # extract factors, to check whether factor levels are included
+    # as interaction terms. interaction terms with factors are labelled
+    # with additional factor levels (e.g. "sex" will be "sex2:age").
+    # However, since merMod objects don't return the model matrix,
+    # the data frame's variable names do not equal the term names.
+    # in order to find the original values of interaction terms in
+    # the data frame, we need to "rename" the terms into the related
+    # variable names in the data frame
+    # -----------------------------------------------------------
+    fac.names <- c()
+    # find factor variables
+    for (i in 1 : ncol(fitdat)) {
+      if (is.factor(fitdat[,i])) fac.names <- c(fac.names, colnames(fitdat)[i])
+    }
+    # if we found any, check if factor variable
+    # was used as interaction term
+    if (!is.null(fac.names)) {
+      for (i in 1 : length(fac.names)) {
+        # retrieve all factor levels except reference category
+        fac.lvl <- levels(fitdat[, fac.names[i]])[-1]
+        # iterate interaction term for all factor levels,
+        # and replace with "original variable name in data frame
+        for (j in 1 : length(fac.lvl)) {
+          # create replacement-strings
+          rep1 <- paste0(fac.names[i], fac.lvl[j])
+          rep2 <- paste0(fac.names[i])
+          # replace in all
+          estimates.names <- gsub(rep1, rep2, estimates.names, fixed = TRUE)
+        }
+      }
+    }
+    it <- estimates.names
+    # -----------------------------------------------------------
+    # retrieve estimate of intercept
+    # -----------------------------------------------------------
+    b0 <- estimates.intercept <- unname(lme4::fixef(fit)[1])
+  }
   # -----------------------------------------------------------
   # find all significant interactions
   # we start looking for significant p-values beginning
@@ -263,8 +331,6 @@ sjp.interaction <- function(fit,
   # thus, the starting point is first position after all single
   # predictor variables
   # -----------------------------------------------------------
-  # retrieve position of interaction terms
-  it <- rownames(summary(fit)$coefficients)[-1]
   # init indicator for first term
   firstit <- 0
   # iterate all rownames. interaction terms contain a colon...
@@ -293,25 +359,20 @@ sjp.interaction <- function(fit,
   if (is.null(intnames)) {
     stop("No significant interactions found...", call. = FALSE)
   }
-  # --------------------------------------------------------
-  # Check whether we have any estimate names. this variable is
-  # null in case we only have one interaction in the fitted
-  # model.
-  # --------------------------------------------------------
-  if (is.null(estimates.names)) {
-    estimates.names <- it
-  }
   # -----------------------------------------------------------
   # check whether parameter X=TRUE was set when fitting the linear
-  # model. if not, we cannot procede here
+  # model. if not, we cannot procede here. not needed for
+  # merMod objects, see above
   # -----------------------------------------------------------
-  if(class(fit$x) != "matrix") {
-    stop("The model matrix is not available! Please use \"x=TRUE\" in your (g)lm-command...", call. = FALSE)
+  if(fun == "lm" || fun == "glm") {
+    if (class(fit$x) != "matrix") {
+      stop("The model matrix is not available! Please use \"x=TRUE\" in your (g)lm-command...", call. = FALSE)
+    }
+    # -----------------------------------------------------------
+    # copy variable values to data frame
+    # -----------------------------------------------------------
+    fitdat <- as.data.frame(fit$x)
   }
-  # -----------------------------------------------------------
-  # copy variable values to data frame
-  # -----------------------------------------------------------
-  fitdat <- as.data.frame(fit$x)
   # init vector that saves ggplot objects
   plotlist <- list()
   dflist <- list()
@@ -323,7 +384,7 @@ sjp.interaction <- function(fit,
   # -----------------------------------------------------------
   for (cnt in 1:length(intnames)) {
     # -----------------------------------------------------------
-    # first, retrieve and split interaction term so we know 
+    # first, retrieve and split interaction term so we know
     # the two predictor variables of the interaction term
     # -----------------------------------------------------------
     interactionterms <- strsplit(intnames[cnt], ":")
@@ -338,7 +399,7 @@ sjp.interaction <- function(fit,
     b2 <- as.numeric(estimates[match(interactionterms[[1]][2], estimates.names)])
     b3 <- as.numeric(estimates[match(intnames[cnt], estimates.names)])
     # -----------------------------------------------------------
-    # check whether each predictor was included in the model 
+    # check whether each predictor was included in the model
     # as single term as well
     # -----------------------------------------------------------
     if(is.na(b1) || is.na(b2) || is.na(b3)) {
@@ -379,7 +440,7 @@ sjp.interaction <- function(fit,
       predy <- c(interactionterms[[1]][2])
       # -----------------------------------------------------------
       # check which values of moderator should be plotted, i.e. if
-      # lower/upper bound (min-max) or mean and standard-deviation 
+      # lower/upper bound (min-max) or mean and standard-deviation
       # should be used as valus for the moderator.
       # see http://www.theanalysisfactor.com/3-tips-interpreting-moderation/
       # -----------------------------------------------------------
@@ -429,7 +490,7 @@ sjp.interaction <- function(fit,
         # store in df
         if (moderatorValues != "minmax") {
           # ------------------------------
-          # here we calculate the effect of predictor 1 under presence 
+          # here we calculate the effect of predictor 1 under presence
           # of mean of predictor 2 on the dependent variable. Thus, the slope for
           # predictor 2 only is not needed. see references above
           # ------------------------------
@@ -444,7 +505,7 @@ sjp.interaction <- function(fit,
       predy <- c(interactionterms[[1]][1])
       # -----------------------------------------------------------
       # check which values of moderator should be plotted, i.e. if
-      # lower/upper bound (min-max) or mean and standard-deviation 
+      # lower/upper bound (min-max) or mean and standard-deviation
       # should be used as valus for the moderator.
       # see http://www.theanalysisfactor.com/3-tips-interpreting-moderation/
       # -----------------------------------------------------------
@@ -495,7 +556,7 @@ sjp.interaction <- function(fit,
         # store in df
         if (moderatorValues != "minmax") {
           # ------------------------------
-          # here we calculate the effect of predictor 2 under presence 
+          # here we calculate the effect of predictor 2 under presence
           # of mean of predictor 1 on the dependent variable. Thus, the slope for
           # predictor 1 only is not needed. see references above
           # ------------------------------
@@ -508,7 +569,7 @@ sjp.interaction <- function(fit,
     # -----------------------------------------------------------
     # convert df-values to numeric
     # -----------------------------------------------------------
-    if (fun == "lm") {
+    if (fun == "lm" || fun == "lmer") {
       intdf$x <- as.numeric(as.character(intdf$x))
       intdf$y <- as.numeric(as.character(intdf$y))
       intdf$ymin <- as.numeric(as.character(intdf$ymin))
@@ -578,12 +639,12 @@ sjp.interaction <- function(fit,
     # prepare plot title and axis titles
     # -----------------------------------------------------------
     if (is.null(title)) {
-#       labtitle <- paste0("Effect of ", interactionterms[[1]][ifelse(useFirstPredOnY==TRUE,1,2)], 
-#                          " on ", depvar.label, 
+#       labtitle <- paste0("Effect of ", interactionterms[[1]][ifelse(useFirstPredOnY==TRUE,1,2)],
+#                          " on ", depvar.label,
 #                          " under minimum and maximum interaction with ", interactionterms[[1]][ifelse(useFirstPredOnY==TRUE,2,1)])
-      labtitle <- paste0("Interaction of ", 
-                         interactionterms[[1]][ifelse(useFirstPredOnY == TRUE, 1, 2)], 
-                         " and ", 
+      labtitle <- paste0("Interaction of ",
+                         interactionterms[[1]][ifelse(useFirstPredOnY == TRUE, 1, 2)],
+                         " and ",
                          interactionterms[[1]][ifelse(useFirstPredOnY == TRUE, 2, 1)],
                          " on ", depvar.label)
     }
@@ -622,13 +683,13 @@ sjp.interaction <- function(fit,
     # prepare base plot of interactions
     # -----------------------------------------------------------
     if (diff) {
-      baseplot <- ggplot(intdf, aes(x = x, y = ydiff)) + 
+      baseplot <- ggplot(intdf, aes(x = x, y = ydiff)) +
         # -----------------------------------------------------------
-        # add a shaded region between minimun 
+        # add a shaded region between minimun
         # and maximum curve of interactions
         # -----------------------------------------------------------
-        geom_ribbon(aes(x = x, ymin = 0, ymax = ydiff), 
-                    fill = fillColor, 
+        geom_ribbon(aes(x = x, ymin = 0, ymax = ydiff),
+                    fill = fillColor,
                     alpha = fillAlpha) +
         geom_line()
       # -----------------------------------------------------------
@@ -637,16 +698,16 @@ sjp.interaction <- function(fit,
       if (showValueLabels) {
         baseplot <- baseplot +
           geom_text(aes(label = round(ydiff, 1), x = x, y = ydiff),
-                    vjust = 1.5, 
+                    vjust = 1.5,
                     show_guide = FALSE)
       }
     }
     else {
-      baseplot <- ggplot(intdf) + 
+      baseplot <- ggplot(intdf) +
         geom_point(aes(x = x, y = y, colour = grp)) +
         # add a shaded region between minimun and maximum curve of interactions
-        geom_ribbon(aes(x = x, ymin = ymin, ymax = ymax), 
-                    fill = fillColor, 
+        geom_ribbon(aes(x = x, ymin = ymin, ymax = ymax),
+                    fill = fillColor,
                     alpha = fillAlpha) +
         geom_line(aes(x = x, y = y, colour = grp))
       # ------------------------------------------------------------
@@ -654,8 +715,8 @@ sjp.interaction <- function(fit,
       # ------------------------------------------------------------
       if (showValueLabels) {
         baseplot <- baseplot +
-          geom_text(aes(label = round(y, 1), x = x, y = y), 
-                    vjust = 1.5, 
+          geom_text(aes(label = round(y, 1), x = x, y = y),
+                    vjust = 1.5,
                     show_guide = FALSE)
       }
       # ------------------------------------------------------------
@@ -664,29 +725,29 @@ sjp.interaction <- function(fit,
       # ------------------------------------------------------------
       if (showInterceptLines) {
         baseplot <- baseplot +
-          geom_abline(intercept = b0, 
-                      slope = 0, 
+          geom_abline(intercept = b0,
+                      slope = 0,
                       colour = interceptLineColor) +
-          geom_abline(intercept = est_b, 
-                      slope = 0, 
+          geom_abline(intercept = est_b,
+                      slope = 0,
                       colour = estLineColor)
         if (showInterceptLabels) {
           baseplot <- baseplot +
-            annotate("text", 
-                     label = annoLabels[1], 
-                     x = -Inf, 
-                     hjust = -0.05, 
-                     vjust = -0.5, 
-                     colour = lineLabelColor, 
-                     size = lineLabelSize, 
+            annotate("text",
+                     label = annoLabels[1],
+                     x = -Inf,
+                     hjust = -0.05,
+                     vjust = -0.5,
+                     colour = lineLabelColor,
+                     size = lineLabelSize,
                      y = b0) +
-            annotate("text", 
-                     label = annoLabels[2], 
-                     x = -Inf, 
-                     hjust = -0.05, 
-                     vjust = -0.5, 
-                     colour = lineLabelColor, 
-                     size = lineLabelSize, 
+            annotate("text",
+                     label = annoLabels[2],
+                     x = -Inf,
+                     hjust = -0.05,
+                     vjust = -0.5,
+                     colour = lineLabelColor,
+                     size = lineLabelSize,
                      y = est_b)
         }
       }
@@ -694,7 +755,7 @@ sjp.interaction <- function(fit,
     # ------------------------------------------------------------------------------------
     # build plot object with theme and labels
     # ------------------------------------------------------------------------------------
-    baseplot <- baseplot + 
+    baseplot <- baseplot +
       # set plot and axis titles
       labs(title = labtitle, x = labx, y = laby) +
       # set axis scale breaks
@@ -740,37 +801,37 @@ sjp.interaction <- function(fit,
 
 #' @title Plot interaction terms (moderation) of generalized linear models
 #' @name sjp.glm.int
-#' 
+#'
 #' @references \itemize{
 #'              \item \href{http://www.theanalysisfactor.com/interpreting-interactions-in-regression/}{Grace-Martin K: Interpreting Interactions in Regression}
 #'              \item \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin K: Clarifications on Interpreting Interactions in Regression}
 #'              \item \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}
 #'              \item Aiken and West (1991). Multiple Regression: Testing and Interpreting Interactions.
 #'              }
-#'             
+#'
 #' @description Plot probability curves of significant interaction terms (moderation) in generalized linear models (glm). Note that beside interaction
 #'                terms, also the single predictors of each interaction must be included in the fitted model as well.
 #'                Thus, \code{glm(dep~pred1*pred2)} will work, but \code{glm(dep~pred1:pred2)} won't!
-#' 
+#'
 #' @note Beside interaction terms, also the single predictors of each interaction must be included in the fitted model as well.
 #'         Thus, \code{glm(dep~pred1*pred2)} will work, but \code{glm(dep~pred1:pred2)} won't!
-#' 
+#'
 #' @seealso \itemize{
 #'            \item \code{\link{sjp.lm.int}}
 #'            \item \code{\link{sjp.glm}}
 #'            \item \code{\link{sjp.glm.ma}}
 #'            }
-#' 
+#'
 #' @param fit the fitted linear model (lm) object, including interaction terms
 #' @param diff if \code{FALSE} (default), the minimum and maximum interaction effects of predictor 2 on predictor 1
 #'          are shown (one line each). if \code{TRUE}, only the difference between minimum and maximum interaction effect
 #'          is shown (single line)
-#' @param moderatorValues indicates which values of the moderator variable should be used when plotting the effects of the 
+#' @param moderatorValues indicates which values of the moderator variable should be used when plotting the effects of the
 #'          independent variable on the dependent variable. By default, \code{"minmax"} is used, i.e. the minimum and maximum values
 #'          (lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator.
 #'          Use \code{"meansd"} to use the mean value of the moderator as well as one standard deviation below and above mean value
 #'          to plot the effect of the moderator on the independent variable (following
-#'          the convention suggested by Cohen and Cohen and popularized by Aiken and West, 
+#'          the convention suggested by Cohen and Cohen and popularized by Aiken and West,
 #'          i.e. using the mean, the value one standard deviation above, and the value one standard deviation below the mean
 #'          as values of the moderator, see \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}).
 #' @param swapPredictors if \code{TRUE}, the predictor with less unique values is printed along the x-axis. Default is
@@ -783,24 +844,24 @@ sjp.interaction <- function(fit,
 #'          Either set \code{fillColor} to \code{NULL} or use 0 for \code{fillAlpha} if you want to hide the shaded area.
 #' @param fillAlpha alpha value (transparancy) of the shaded area between the minimum and maximum lines. Default is 0.4.
 #'          Use either 0 or set \code{fillColor} to \code{NULL} if you want to hide the shaded area.
-#' @param geom.colors A vector of color values. First value is the color of the line indicating the lower bound of 
-#'          the interaction term (moderator value). Second value is the color of the line indicating the upper bound of 
-#'          the interaction term (moderator value). Third value, if applicable, is the color of the line indicating the 
-#'          mean value of the interaction term (moderator value). Third value is only used when \code{moderatorValues} 
-#'          is \code{"meansd"}. Or, if \code{diff} is \code{TRUE}, only one color value for the line indicating the 
+#' @param geom.colors A vector of color values. First value is the color of the line indicating the lower bound of
+#'          the interaction term (moderator value). Second value is the color of the line indicating the upper bound of
+#'          the interaction term (moderator value). Third value, if applicable, is the color of the line indicating the
+#'          mean value of the interaction term (moderator value). Third value is only used when \code{moderatorValues}
+#'          is \code{"meansd"}. Or, if \code{diff} is \code{TRUE}, only one color value for the line indicating the
 #'          upper difference between lower and upper bound of interaction terms.
-#' @param axisTitle.x a default title used for the x-axis. Default value is \code{NULL}, 
+#' @param axisTitle.x a default title used for the x-axis. Default value is \code{NULL},
 #'          which means that each plot's x-axis uses the predictor's name as title.
-#' @param axisTitle.y a default title used for the y-axis. Default value is \code{NULL}, 
+#' @param axisTitle.y a default title used for the y-axis. Default value is \code{NULL},
 #'          which means that each plot's y-axis uses the dependent variable's name as title.
-#' @param legendLabels Labels for the guide/legend. Default is \code{NULL}, so the name of the predictor with 
+#' @param legendLabels Labels for the guide/legend. Default is \code{NULL}, so the name of the predictor with
 #'          min/max-effect is used as legend label.
 #' @param showValueLabels if \code{TRUE}, value labels are plotted along the lines. Default is \code{FALSE}.
-#' @param breakTitleAt Wordwrap for diagram's title. Determines how many chars of the title are 
+#' @param breakTitleAt Wordwrap for diagram's title. Determines how many chars of the title are
 #'          displayed in one line and when a line break is inserted. Default is \code{50}.
-#' @param breakLegendLabelsAt Wordwrap for diagram legend labels. Determines how many chars of the legend labels are 
+#' @param breakLegendLabelsAt Wordwrap for diagram legend labels. Determines how many chars of the legend labels are
 #'          displayed in one line and when a line break is inserted. Default is \code{20}.
-#' @param breakAnnotationLabelsAt Wordwrap for diagram annotation labels. Determines how many chars of the legend labels are 
+#' @param breakAnnotationLabelsAt Wordwrap for diagram annotation labels. Determines how many chars of the legend labels are
 #'          displayed in one line and when a line break is inserted. Default is \code{50}.
 #'          Only applies if \code{showInterceptLine} is \code{TRUE}.
 #' @param axisLimits.y A vector with two values, defining the lower and upper limit from the y-axis.
@@ -824,12 +885,12 @@ sjp.interaction <- function(fit,
 #'          variable name. By default, this string is \code{"(no interaction)"}.
 #' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
-#' @return (Insisibily) returns the ggplot-objects with the complete plot-list (\code{plot.list}) 
+#' @return (Insisibily) returns the ggplot-objects with the complete plot-list (\code{plot.list})
 #'           as well as the data frame that were used for setting up the ggplot-objects (\code{df.list}).
-#' 
+#'
 #' @examples
 #' # -------------------------------
-#' # Predictors for negative impact of care. 
+#' # Predictors for negative impact of care.
 #' # Data from the EUROFAMCARE sample dataset
 #' # -------------------------------
 #' data(efc)
@@ -840,23 +901,23 @@ sjp.interaction <- function(fit,
 #'                    sex = as.factor(efc$c161sex),
 #'                    barthel = as.numeric(efc$barthtot))
 #' # fit model
-#' fit <- glm(y ~ sex * barthel, 
-#'            data = mydf, 
+#' fit <- glm(y ~ sex * barthel,
+#'            data = mydf,
 #'            family = binomial(link = "logit"),
 #'            x = TRUE)
 #' # plot interaction, increase p-level sensivity
 #' sjp.glm.int(fit,
 #'             legendLabels = sji.getValueLabels(efc$c161sex),
 #'             plevel = 0.1)
-#'             
+#'
 #' # compare results to boxplots
-#' sjp.grpfrq(mydf$barthel, 
-#'            mydf$y, 
-#'            interactionVar = mydf$sex, 
-#'            interactionVarLabels = sji.getValueLabels(efc$c161sex), 
+#' sjp.grpfrq(mydf$barthel,
+#'            mydf$y,
+#'            interactionVar = mydf$sex,
+#'            interactionVarLabels = sji.getValueLabels(efc$c161sex),
 #'            legendLabels = c("low burden", "high burden"),
 #'            type = "box")
-#' 
+#'
 #' @import ggplot2
 #' @export
 sjp.glm.int <- function(fit,
@@ -888,7 +949,7 @@ sjp.glm.int <- function(fit,
   if (is.null(axisTitle.y)) {
     axisTitle.y <- "Probability"
   }
-  
+
   sjp.interaction(fit,
                   diff,
                   moderatorValues,
@@ -916,4 +977,307 @@ sjp.glm.int <- function(fit,
                   lineLabelString,
                   printPlot,
                   fun = "glm")
+}
+
+
+#' @title Plot interaction terms (moderation) of generalized linear mixed effects models
+#' @name sjp.glmer.int
+#'
+#' @references \itemize{
+#'              \item \href{http://www.theanalysisfactor.com/interpreting-interactions-in-regression/}{Grace-Martin K: Interpreting Interactions in Regression}
+#'              \item \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin K: Clarifications on Interpreting Interactions in Regression}
+#'              \item \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}
+#'              \item Aiken and West (1991). Multiple Regression: Testing and Interpreting Interactions.
+#'              }
+#'
+#' @description Plot probability curves of significant interaction terms (moderation) in generalized linear mixed effects models (glmer) of \code{merMod} objects that have been
+#'                fitted using the \code{lme4} package. Note that beside interaction
+#'                terms, also the single predictors of each interaction must be included in the fitted model as well.
+#'                Thus, \code{glmer(dep~pred1*pred2+(1|grp))} will work, but \code{glmer(dep~pred1:pred2+(1|grp))} won't!
+#'
+#' @note Beside interaction terms, also the single predictors of each interaction must be included in the fitted model as well.
+#'         Thus, \code{glmer(dep~pred1*pred2+(1|grp))} will work, but \code{glmer(dep~pred1:pred2+(1|grp))} won't!
+#'
+#' @seealso \itemize{
+#'            \item \code{\link{sjp.glmer}}
+#'            \item \code{\link{sjp.lmer.int}}
+#'            \item \code{\link{sjp.lm.int}}
+#'            \item \code{\link{sjp.glm.int}}
+#'            }
+#'
+#' @param fit the fitted generalized linear mixed effects model (glmer) object, including interaction terms
+#' @param diff if \code{FALSE} (default), the minimum and maximum interaction effects of predictor 2 on predictor 1
+#'          are shown (one line each). if \code{TRUE}, only the difference between minimum and maximum interaction effect
+#'          is shown (single line)
+#' @param moderatorValues indicates which values of the moderator variable should be used when plotting the effects of the
+#'          independent variable on the dependent variable. By default, \code{"minmax"} is used, i.e. the minimum and maximum values
+#'          (lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator.
+#'          Use \code{"meansd"} to use the mean value of the moderator as well as one standard deviation below and above mean value
+#'          to plot the effect of the moderator on the independent variable (following
+#'          the convention suggested by Cohen and Cohen and popularized by Aiken and West,
+#'          i.e. using the mean, the value one standard deviation above, and the value one standard deviation below the mean
+#'          as values of the moderator, see \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}).
+#' @param swapPredictors if \code{TRUE}, the predictor with less unique values is printed along the x-axis. Default is
+#'          \code{FALSE}, so the predictor with more unique values is printed along the x-axis.
+#' @param plevel Indicates at which p-value an interaction term is considered as significant. Default is
+#'          0.05 (5 percent).
+#' @param title a default title used for the plots. Default value is \code{NULL}, which means that each plot's title
+#'          includes the dependent variable as well as the names of the interaction terms.
+#' @param fillColor fill color of the shaded area between the minimum and maximum lines. Default is \code{"grey"}.
+#'          Either set \code{fillColor} to \code{NULL} or use 0 for \code{fillAlpha} if you want to hide the shaded area.
+#' @param fillAlpha alpha value (transparancy) of the shaded area between the minimum and maximum lines. Default is 0.4.
+#'          Use either 0 or set \code{fillColor} to \code{NULL} if you want to hide the shaded area.
+#' @param geom.colors A vector of color values. First value is the color of the line indicating the lower bound of
+#'          the interaction term (moderator value). Second value is the color of the line indicating the upper bound of
+#'          the interaction term (moderator value). Third value, if applicable, is the color of the line indicating the
+#'          mean value of the interaction term (moderator value). Third value is only used when \code{moderatorValues}
+#'          is \code{"meansd"}. Or, if \code{diff} is \code{TRUE}, only one color value for the line indicating the
+#'          upper difference between lower and upper bound of interaction terms.
+#' @param axisTitle.x a default title used for the x-axis. Default value is \code{NULL},
+#'          which means that each plot's x-axis uses the predictor's name as title.
+#' @param axisTitle.y a default title used for the y-axis. Default value is \code{NULL},
+#'          which means that each plot's y-axis uses the dependent variable's name as title.
+#' @param legendLabels Labels for the guide/legend. Default is \code{NULL}, so the name of the predictor with
+#'          min/max-effect is used as legend label.
+#' @param showValueLabels if \code{TRUE}, value labels are plotted along the lines. Default is \code{FALSE}.
+#' @param breakTitleAt Wordwrap for diagram's title. Determines how many chars of the title are
+#'          displayed in one line and when a line break is inserted. Default is \code{50}.
+#' @param breakLegendLabelsAt Wordwrap for diagram legend labels. Determines how many chars of the legend labels are
+#'          displayed in one line and when a line break is inserted. Default is \code{20}.
+#' @param breakAnnotationLabelsAt Wordwrap for diagram annotation labels. Determines how many chars of the legend labels are
+#'          displayed in one line and when a line break is inserted. Default is \code{50}.
+#'          Only applies if \code{showInterceptLine} is \code{TRUE}.
+#' @param axisLimits.y A vector with two values, defining the lower and upper limit from the y-axis.
+#'          By default, this value is \code{NULL}, i.e. axis limits will be calculated upon the
+#'          range of y-values.
+#' @param gridBreaksAt Sets the breaks on the y axis, i.e. at every n'th position a major
+#'          grid is being printed. Default is \code{NULL}.
+#' @param showInterceptLines If \code{TRUE}, the intercept and the estimate of the predictor
+#'          (reference category of predictor in case interaction is not present) are plotted.
+#' @param showInterceptLabels If \code{TRUE} (default), the intercept lines are labelled. Only
+#'          applies if \code{showInterceptLines} is \code{TRUE}.
+#' @param interceptLineColor The line color of the model's intercept line. Only applies, if
+#'          \code{showInterceptLines} is \code{TRUE}.
+#' @param estLineColor The line color of the model's predictor's estimate line. Only applies, if
+#'          \code{showInterceptLines} is \code{TRUE}.
+#' @param lineLabelSize The size of the intercept line annotations inside the plot. Only applies
+#'          if \code{showInterceptLines} is \code{TRUE}. Default is 3.7.
+#' @param lineLabelColor The color of the intercept line annotations inside the plot. Only applies
+#'          if \code{showInterceptLines} is \code{TRUE}. Default is \code{"black"}.
+#' @param lineLabelString Default string for the intercept lines that is appended to the predictor
+#'          variable name. By default, this string is \code{"(no interaction)"}.
+#' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+#'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
+#' @return (Insisibily) returns the ggplot-objects with the complete plot-list (\code{plot.list})
+#'           as well as the data frame that were used for setting up the ggplot-objects (\code{df.list}).
+#'
+#'
+#' @import ggplot2
+#' @export
+sjp.glmer.int <- function(fit,
+                        diff=FALSE,
+                        moderatorValues="minmax",
+                        swapPredictors=FALSE,
+                        plevel=0.05,
+                        title=NULL,
+                        fillColor="grey",
+                        fillAlpha=0.4,
+                        geom.colors="Set1",
+                        axisTitle.x=NULL,
+                        axisTitle.y=NULL,
+                        legendLabels=NULL,
+                        showValueLabels=FALSE,
+                        breakTitleAt=50,
+                        breakLegendLabelsAt=20,
+                        breakAnnotationLabelsAt=50,
+                        axisLimits.y=NULL,
+                        gridBreaksAt=NULL,
+                        showInterceptLines=FALSE,
+                        showInterceptLabels=TRUE,
+                        interceptLineColor="darkseagreen4",
+                        estLineColor="darkslategray4",
+                        lineLabelSize=3.7,
+                        lineLabelColor="black",
+                        lineLabelString="(no interaction)",
+                        printPlot=TRUE) {
+  if (is.null(axisTitle.y)) {
+    axisTitle.y <- "Probability"
+  }
+
+  sjp.interaction(fit,
+                  diff,
+                  moderatorValues,
+                  swapPredictors,
+                  plevel,
+                  title,
+                  fillColor,
+                  fillAlpha,
+                  geom.colors,
+                  axisTitle.x,
+                  axisTitle.y,
+                  legendLabels,
+                  showValueLabels,
+                  breakTitleAt,
+                  breakLegendLabelsAt,
+                  breakAnnotationLabelsAt,
+                  axisLimits.y,
+                  gridBreaksAt,
+                  showInterceptLines,
+                  showInterceptLabels,
+                  interceptLineColor,
+                  estLineColor,
+                  lineLabelSize,
+                  lineLabelColor,
+                  lineLabelString,
+                  printPlot,
+                  fun = "glmer")
+}
+
+
+#' @title Plot interaction terms (moderation) of linear mixed effects models
+#' @name sjp.lmer.int
+#'
+#' @references \itemize{
+#'              \item \href{http://www.theanalysisfactor.com/interpreting-interactions-in-regression/}{Grace-Martin K: Interpreting Interactions in Regression}
+#'              \item \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin K: Clarifications on Interpreting Interactions in Regression}
+#'              \item \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}
+#'              \item Aiken and West (1991). Multiple Regression: Testing and Interpreting Interactions.
+#'              }
+#'
+#' @description Plot regression lines of significant interaction terms (moderation) in linear mixed effects models (lmer)
+#'                of \code{merMod} objects that have been fitted using the \code{lme4} package. Note that beside interaction
+#'                terms, also the single predictors of each interaction must be included in the fitted model as well.
+#'                Thus, \code{lmer(dep~pred1*pred2+(1|grp))} will work, but \code{lmer(dep~pred1:pred2+(1|grp))} won't!
+#'
+#' @note Beside interaction terms, also the single predictors of each interaction must be included in the fitted model as well.
+#'         Thus, \code{lmer(dep~pred1*pred2+(1|grp))} will work, but \code{lmer(dep~pred1:pred2+(1|grp))} won't!
+#'
+#' @seealso \itemize{
+#'            \item \code{\link{sjp.lmer}}
+#'            \item \code{\link{sjp.glmer.int}}
+#'            \item \code{\link{sjp.lm.int}}
+#'            \item \code{\link{sjp.glm.int}}
+#'            }
+#'
+#' @param fit the fitted linear mixed effects model (lmer) object, including interaction terms
+#' @param diff if \code{FALSE} (default), the minimum and maximum interaction effects of predictor 2 on predictor 1
+#'          are shown (one line each). if \code{TRUE}, only the difference between minimum and maximum interaction effect
+#'          is shown (single line)
+#' @param moderatorValues indicates which values of the moderator variable should be used when plotting the effects of the
+#'          independent variable on the dependent variable. By default, \code{"minmax"} is used, i.e. the minimum and maximum values
+#'          (lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator.
+#'          Use \code{"meansd"} to use the mean value of the moderator as well as one standard deviation below and above mean value
+#'          to plot the effect of the moderator on the independent variable (following
+#'          the convention suggested by Cohen and Cohen and popularized by Aiken and West,
+#'          i.e. using the mean, the value one standard deviation above, and the value one standard deviation below the mean
+#'          as values of the moderator, see \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}).
+#' @param swapPredictors if \code{TRUE}, the predictor with less unique values is printed along the x-axis. Default is
+#'          \code{FALSE}, so the predictor with more unique values is printed along the x-axis.
+#' @param plevel Indicates at which p-value an interaction term is considered as significant. Default is
+#'          0.05 (5 percent).
+#' @param title a default title used for the plots. Default value is \code{NULL}, which means that each plot's title
+#'          includes the dependent variable as well as the names of the interaction terms.
+#' @param fillColor fill color of the shaded area between the minimum and maximum lines. Default is \code{"grey"}.
+#'          Either set \code{fillColor} to \code{NULL} or use 0 for \code{fillAlpha} if you want to hide the shaded area.
+#' @param fillAlpha alpha value (transparancy) of the shaded area between the minimum and maximum lines. Default is 0.4.
+#'          Use either 0 or set \code{fillColor} to \code{NULL} if you want to hide the shaded area.
+#' @param geom.colors A vector of color values. First value is the color of the line indicating the lower bound of
+#'          the interaction term (moderator value). Second value is the color of the line indicating the upper bound of
+#'          the interaction term (moderator value). Third value, if applicable, is the color of the line indicating the
+#'          mean value of the interaction term (moderator value). Third value is only used when \code{moderatorValues}
+#'          is \code{"meansd"}. Or, if \code{diff} is \code{TRUE}, only one color value for the line indicating the
+#'          upper difference between lower and upper bound of interaction terms.
+#' @param axisTitle.x a default title used for the x-axis. Default value is \code{NULL},
+#'          which means that each plot's x-axis uses the predictor's name as title.
+#' @param axisTitle.y a default title used for the y-axis. Default value is \code{NULL},
+#'          which means that each plot's y-axis uses the dependent variable's name as title.
+#' @param legendLabels Labels for the guide/legend. Default is \code{NULL}, so the name of the predictor with
+#'          min/max-effect is used as legend label.
+#' @param showValueLabels if \code{TRUE}, value labels are plotted along the lines. Default is \code{FALSE}.
+#' @param breakTitleAt Wordwrap for diagram's title. Determines how many chars of the title are
+#'          displayed in one line and when a line break is inserted. Default is \code{50}.
+#' @param breakLegendLabelsAt Wordwrap for diagram legend labels. Determines how many chars of the legend labels are
+#'          displayed in one line and when a line break is inserted. Default is \code{20}.
+#' @param breakAnnotationLabelsAt Wordwrap for diagram annotation labels. Determines how many chars of the legend labels are
+#'          displayed in one line and when a line break is inserted. Default is \code{50}.
+#'          Only applies if \code{showInterceptLine} is \code{TRUE}.
+#' @param axisLimits.y A vector with two values, defining the lower and upper limit from the y-axis.
+#'          By default, this value is \code{NULL}, i.e. axis limits will be calculated upon the
+#'          range of y-values.
+#' @param gridBreaksAt Sets the breaks on the y axis, i.e. at every n'th position a major
+#'          grid is being printed. Default is \code{NULL}.
+#' @param showInterceptLines If \code{TRUE}, the intercept and the estimate of the predictor
+#'          (reference category of predictor in case interaction is not present) are plotted.
+#' @param showInterceptLabels If \code{TRUE} (default), the intercept lines are labelled. Only
+#'          applies if \code{showInterceptLines} is \code{TRUE}.
+#' @param interceptLineColor The line color of the model's intercept line. Only applies, if
+#'          \code{showInterceptLines} is \code{TRUE}.
+#' @param estLineColor The line color of the model's predictor's estimate line. Only applies, if
+#'          \code{showInterceptLines} is \code{TRUE}.
+#' @param lineLabelSize The size of the intercept line annotations inside the plot. Only applies
+#'          if \code{showInterceptLines} is \code{TRUE}. Default is 3.7.
+#' @param lineLabelColor The color of the intercept line annotations inside the plot. Only applies
+#'          if \code{showInterceptLines} is \code{TRUE}. Default is \code{"black"}.
+#' @param lineLabelString Default string for the intercept lines that is appended to the predictor
+#'          variable name. By default, this string is \code{"(no interaction)"}.
+#' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+#'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
+#' @return (Insisibily) returns the ggplot-objects with the complete plot-list (\code{plot.list})
+#'           as well as the data frame that were used for setting up the ggplot-objects (\code{df.list}).
+#'
+#' @import ggplot2
+#' @export
+sjp.lmer.int <- function(fit,
+                       diff=FALSE,
+                       moderatorValues="minmax",
+                       swapPredictors=FALSE,
+                       plevel=0.05,
+                       title=NULL,
+                       fillColor="grey",
+                       fillAlpha=0.4,
+                       geom.colors="Set1",
+                       axisTitle.x=NULL,
+                       axisTitle.y=NULL,
+                       legendLabels=NULL,
+                       showValueLabels=FALSE,
+                       breakTitleAt=50,
+                       breakLegendLabelsAt=20,
+                       breakAnnotationLabelsAt=50,
+                       axisLimits.y=NULL,
+                       gridBreaksAt=NULL,
+                       showInterceptLines=FALSE,
+                       showInterceptLabels=TRUE,
+                       interceptLineColor="darkseagreen4",
+                       estLineColor="darkslategray4",
+                       lineLabelSize=3.7,
+                       lineLabelColor="black",
+                       lineLabelString="(no interaction)",
+                       printPlot=TRUE) {
+  sjp.interaction(fit,
+                  diff,
+                  moderatorValues,
+                  swapPredictors,
+                  plevel,
+                  title,
+                  fillColor,
+                  fillAlpha,
+                  geom.colors,
+                  axisTitle.x,
+                  axisTitle.y,
+                  legendLabels,
+                  showValueLabels,
+                  breakTitleAt,
+                  breakLegendLabelsAt,
+                  breakAnnotationLabelsAt,
+                  axisLimits.y,
+                  gridBreaksAt,
+                  showInterceptLines,
+                  showInterceptLabels,
+                  interceptLineColor,
+                  estLineColor,
+                  lineLabelSize,
+                  lineLabelColor,
+                  lineLabelString,
+                  printPlot,
+                  fun = "lmer")
 }
