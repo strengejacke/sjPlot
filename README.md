@@ -34,7 +34,7 @@ install.packages("sjPlot")
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
 
-### Changelog of development build 1.6.1-4
+### Changelog of development build 1.6.1-6
 
 #### New functions
 * New function `sjp.int`, which can plot regression lines or probability curves of interaction effects in (generalized) linear (mixed effects) models, i.e. fitted models of class `lm`, `glm`, `lmerMod` and `glmerMod` are covered by this function.
