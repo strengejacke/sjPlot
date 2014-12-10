@@ -1,11 +1,10 @@
 Version 1.6.1
 ------------------------------------------------------------------------------
 New functions:
-* New function "sjp.glm.int" to plot probability curves of interaction terms in generalized linear models.
-* New function "sjp.glmer.int" to plot probability curves of interaction terms in generalized linear mixed effects models.
-* New function "sjp.lmer.int" to plot probability curves of interaction terms in linear mixed effects models.
+* New function "sjp.int", which can plot regression lines or probability curves of interaction effects in (generalized) linear (mixed effects) models, i.e. fitted models of class "lm", "glm", "lmerMod" and "glmerMod" are covered by this function.
 
 Changes to functions:
+* "sjp.lm.int" was merged with function "sjp.int".
 * Added parameter "ri.nr" to "sjp.glmer" and "sjp.lmer" to select which random effects of which random intercept to plot, in case the model has multiple random intercepts.
 * "sjt.xtab" can now show/hide observed values in table cells with "showObserved" parameter.
 * "sjt.df" now distinguishes more variable / vector types (like ordinal and categorial, instead of factor only, or double, integer and numeric).
