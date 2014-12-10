@@ -3,7 +3,7 @@
 \alias{sjp.lmer}
 \title{Plot estimates (forest plots) of linear mixed effects models}
 \usage{
-sjp.lmer(fit, type = "re", title = NULL, geom.size = 3,
+sjp.lmer(fit, type = "re", ri.nr = 1, title = NULL, geom.size = 3,
   geom.colors = "Set1", hideErrorBars = FALSE, showIntercept = TRUE,
   sort.coef = NULL, pred.labels = NULL, interceptLineType = 2,
   interceptLineColor = "grey70", facet.grid = TRUE, free.scale = FALSE,
@@ -19,6 +19,11 @@ sjp.lmer(fit, type = "re", title = NULL, geom.size = 3,
   \item \code{"fe.cor"} for correlation matrix of fixed effects
   \item \code{"re.qq"} for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)
 }}
+
+\item{ri.nr}{Numeric value. If \code{type = "re} and fitted model has more than one random
+intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
+which list element of \code{lme4::ranef}) will be plotted. Default is \code{1},
+so the first (or only) random intercept will be plotted.}
 
 \item{title}{a character vector with one or more labels that are used as plot title. If
 \code{type = "re"}, use the predictors' variable labels as titles.}

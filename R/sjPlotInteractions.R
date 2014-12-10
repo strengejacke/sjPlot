@@ -269,8 +269,8 @@ sjp.interaction <- function(fit,
     # retrieve amount and names of predictor variables and
     # of dependent variable
     # -----------------------------------------------------------
-    predvars <- attr(attr(attr(fit@frame, "terms"), "dataClasses"), "names")[-1]
-    depvar.label <- attr(attr(attr(fit@frame, "terms"), "dataClasses"), "names")[1]
+    predvars <- colnames(fit@frame)[-1]
+    depvar.label <- colnames(fit@frame)[1]
     # remember length of predictor variables
     predvars.length <- length(predvars)
     # -----------------------------------------------------------

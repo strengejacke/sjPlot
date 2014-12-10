@@ -28,6 +28,10 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #'            \item \code{"fe.pc"} or \code{"fe.prob"} to plot probability curves of all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
 #'            \item \code{"ri.pc"} or \code{"ri.prob"} to plot probability curves of random intercept variances for all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
 #'          }
+#' @param ri.nr Numeric value. If \code{type = "re} and fitted model has more than one random
+#'          intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
+#'          which list element of \code{lme4::ranef}) will be plotted. Default is \code{1},
+#'          so the first (or only) random intercept will be plotted.
 #' @param show.se Use \code{TRUE} to plot (depending on \code{type}) the standard
 #'          error for probability curves.
 #' @param title a character vector with one or more labels that are used as plot title. If
@@ -151,6 +155,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #' @export
 sjp.glmer <- function(fit,
                       type = "re",
+                      ri.nr = 1,
                       title = NULL,
                       geom.size = 3,
                       geom.colors = "Set1",
@@ -171,6 +176,7 @@ sjp.glmer <- function(fit,
   
   sjp.lme4(fit,
            type,
+           ri.nr,
            title,
            geom.size,
            geom.colors,
@@ -213,6 +219,10 @@ sjp.glmer <- function(fit,
 #'            \item \code{"fe.cor"} for correlation matrix of fixed effects
 #'            \item \code{"re.qq"} for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)
 #'          }
+#' @param ri.nr Numeric value. If \code{type = "re} and fitted model has more than one random
+#'          intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
+#'          which list element of \code{lme4::ranef}) will be plotted. Default is \code{1},
+#'          so the first (or only) random intercept will be plotted.
 #' @param title a character vector with one or more labels that are used as plot title. If
 #'          \code{type = "re"}, use the predictors' variable labels as titles.
 #' @param geom.colors User defined color palette for geoms. Must either be vector with two color values
@@ -317,6 +327,7 @@ sjp.glmer <- function(fit,
 #' @export
 sjp.lmer <- function(fit,
                      type = "re",
+                     ri.nr = 1,
                      title = NULL,
                      geom.size = 3,
                      geom.colors = "Set1",
@@ -332,6 +343,7 @@ sjp.lmer <- function(fit,
                      printPlot = TRUE) {
   sjp.lme4(fit,
            type,
+           ri.nr,
            title,
            geom.size,
            geom.colors,
@@ -351,6 +363,7 @@ sjp.lmer <- function(fit,
 
 sjp.lme4  <- function(fit,
                       type,
+                      ri.nr,
                       title,
                       geom.size,
                       geom.colors,
@@ -388,9 +401,13 @@ sjp.lme4  <- function(fit,
   # ---------------------------------------
   if (type == "re") {
     # ---------------------------------------
+    # check amounnt of random intercepts
+    # ---------------------------------------
+    if (length(lme4::ranef(fit)) > ri.nr) ri.nr <- 1
+    # ---------------------------------------
     # copy estimates of random effects
     # ---------------------------------------
-    mydf.ef <- as.data.frame(lme4::ranef(fit)[[1]])
+    mydf.ef <- as.data.frame(lme4::ranef(fit)[[ri.nr]])
     # ---------------------------------------
     # copy rownames as axis labels, if not set
     # ---------------------------------------
@@ -406,7 +423,7 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------
       # retrieve standard errors, for ci
       # ---------------------------------------
-      se.fit <- arm::se.ranef(fit)[[1]]
+      se.fit <- arm::se.ranef(fit)[[ri.nr]]
       # ---------------------------------------
       # create data frame
       # 1. col: odds ratios /estimates of re-estimates

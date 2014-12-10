@@ -43,6 +43,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 
 
 #### Changes to functions
+* Added parameter `ri.nr` to `sjp.glmer` and `sjp.lmer` to select which random effects of which random intercept to plot, in case the model has multiple random intercepts.
 * `sjt.xtab` can now show/hide observed values in table cells with `showObserved` parameter.
 * `sjt.df` now distinguishes more variable / vector types (like ordinal and categorial, instead of factor only, or double, integer and numeric).
 * `sjp.lm1` no longer requires the data frame used to fit the model.
@@ -100,3 +101,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * Fixed bug with dot plots in `sjp.grpfrq`.
 * Fixed bug with retrieving interaction terms from fitted models in `sjp.emm.int`.
 * Fixed bug in `sju.strpos` where returned indices in some cases were _1_ instead of correct match.
+
+### Some ideas for future updates
+* Plotting interaction terms of mixed effects models depending on random intercept.
+* Printing tables of (generalized) linear models from models with different coefficients (e.g. to print stepwise regressions).

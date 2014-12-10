@@ -3,7 +3,7 @@
 \alias{sjp.glmer}
 \title{Plot odds ratios (forest plots) of generalized linear mixed effects models}
 \usage{
-sjp.glmer(fit, type = "re", title = NULL, geom.size = 3,
+sjp.glmer(fit, type = "re", ri.nr = 1, title = NULL, geom.size = 3,
   geom.colors = "Set1", hideErrorBars = FALSE, showIntercept = TRUE,
   sort.coef = NULL, pred.labels = NULL, facet.grid = TRUE,
   free.scale = FALSE, interceptLineType = 2,
@@ -22,6 +22,11 @@ sjp.glmer(fit, type = "re", title = NULL, geom.size = 3,
   \item \code{"fe.pc"} or \code{"fe.prob"} to plot probability curves of all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
   \item \code{"ri.pc"} or \code{"ri.prob"} to plot probability curves of random intercept variances for all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
 }}
+
+\item{ri.nr}{Numeric value. If \code{type = "re} and fitted model has more than one random
+intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
+which list element of \code{lme4::ranef}) will be plotted. Default is \code{1},
+so the first (or only) random intercept will be plotted.}
 
 \item{title}{a character vector with one or more labels that are used as plot title. If
 \code{type = "re"}, use the predictors' variable labels as titles.}
