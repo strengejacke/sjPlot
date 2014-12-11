@@ -381,13 +381,13 @@ sjp.glm <- function(fit,
                       la=sprintf("%.2f", -2*logLik(fit)),
                       c2=sprintf("%.2f", Chisquare.glm(fit)),
                       aic=sprintf("%.2f", fit$aic)))))
-    cat(sprintf("Intercept = %.2f\nR2[cs] = %.3f\nR2[n] = %.3f\nLambda = %.2f\nChi2 = %.2f\nAIC = %.2f",
-            exp(coef(fit)[1]),
-            psr[2],
-            psr[3],
-            -2*logLik(fit),
-            Chisquare.glm(fit),
-            fit$aic))
+    cat(sprintf("Intercept = %.2f\nR2[cs] = %.3f\nR2[n] = %.3f\nLambda = %.2f\nChi2 = %.2f\nAIC = %.2f\n",
+                exp(coef(fit)[1]),
+                psr[2],
+                psr[3],
+                -2*logLik(fit),
+                Chisquare.glm(fit),
+                fit$aic))
   }
   else {
     modsum <- NULL
@@ -708,12 +708,12 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   # ---------------------------------
   # print steps from original to updated model
   # ---------------------------------
-  cat(sprintf(("\nRemoved %i cases during %i step(s).\nAIC-value of original model: %.2f\nAIC-value of updated model: %.2f\n\n"),
-              removedcases,
-              maxloops-(maxcnt+1),
-              logreg$aic,
-              model$aic))
-
+  message(sprintf(("Removed %i cases during %i step(s).\nAIC-value of original model: %.2f\nAIC-value of updated model: %.2f\n"),
+                  removedcases,
+                  maxloops-(maxcnt+1),
+                  logreg$aic,
+                  model$aic))
+  
   modelOptmized <- ifelse(removedcases>0, TRUE, FALSE)
   if (showOriginalModelOnly) modelOptmized <- FALSE
   # ---------------------------------
@@ -774,11 +774,11 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   # We can see that all terms were highly significant when they were
   # introduced into the model.
   # -------------------------------------
-  cat(paste("\n--------------------\nCheck significance of terms when they entered the model...\n"))
-  cat(paste("\nAnova original model:\n"))
+  message(paste("--------------------\nCheck significance of terms when they entered the model..."))
+  message(paste("Anova original model:"))
   print(anova(logreg,test="Chisq"))
   if (!showOriginalModelOnly) {
-    cat(paste("\n\n\nAnova updated model:\n"))
+    message(paste("\n\nAnova updated model:\n"))
     print(anova(model,test="Chisq"))
   }
   # -------------------------------------

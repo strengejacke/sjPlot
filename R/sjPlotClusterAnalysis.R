@@ -236,7 +236,7 @@ sjc.qclus <- function(data,
     # check whether method is kmeans. hierarchical clustering
     # requires a specified groupcount
     if (method!="k") {
-      cat("\nCannot compute hierarchical cluster analysis when 'groupcount' is NULL. Using kmeans clustering instead.\n")
+      message("\nCannot compute hierarchical cluster analysis when 'groupcount' is NULL. Using kmeans clustering instead.\n")
       method <- "k"
     }
     # retrieve optimal group count via gap statistics
@@ -876,9 +876,9 @@ sjc.kgap <- function(x, max=10, B=100, SE.factor=1, method="Tibs2001SEmax", plot
   gap <- cluster::clusGap(x, kmeans, max, B)
 
   stopifnot((K <- nrow(T <-gap$Tab)) >= 1, SE.factor >= 0)
-  cat("Clustering Gap statistic [\"clusGap\"].\n", sprintf("B=%d simulated reference sets, k = 1..%d\n",gap$B, K), sep="")
+  message("Clustering Gap statistic [\"clusGap\"].\n", sprintf("B=%d simulated reference sets, k = 1..%d\n",gap$B, K), sep="")
   nc <- cluster::maxSE(f = T[,"gap"], SE.f = T[,"SE.sim"], method=method, SE.factor=SE.factor)
-  cat(sprintf(" --> Number of clusters (method '%s'%s): %d\n",
+  message(sprintf(" --> Number of clusters (method '%s'%s): %d\n",
               method,
               if(grepl("SE", method)) sprintf(", SE.factor=%g",SE.factor) else "", nc))
   # point size for cluster solution

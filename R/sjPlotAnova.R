@@ -524,16 +524,16 @@ sjs.aov1.levene <- function(depVar, grpVar) {
   # calculate means
   means <- tapply(df$depVar, df$grpVar, mean)
   depVarNew <- abs(df$depVar - means[df$grpVar])
-  cat("\nLevene's Test for Homogeneity of Variances\n------------------------------------------\n")
+  message("\nLevene's Test for Homogeneity of Variances\n------------------------------------------")
   fit <- aov(depVarNew ~ df$grpVar)
   print(summary(fit))
   pval <- summary(fit)[[1]]['Pr(>F)'][1,1]
   # print "summary" of test
-  cat("\nConclusion:\n")
+  message("\nConclusion:")
   if (pval>0.05) {
-    cat("Groups are homogeneous. Everything's fine.\n")
+    message("Groups are homogeneous. Everything's fine.\n")
   }
   else {
-    cat("Groups are not homogeneous!\n")
+    message("Groups are not homogeneous!\n")
   }
 }

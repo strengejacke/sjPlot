@@ -203,7 +203,7 @@ sjt.frq <- function (data,
   # -------------------------------------
   # warning
   # -------------------------------------
-  if (!is.null(sort.frq)) cat("Sorting may not work when data contains values with zero-counts.")
+  if (!is.null(sort.frq)) message("Sorting may not work when data contains values with zero-counts.")
   # -------------------------------------
   # table init
   # -------------------------------------
@@ -441,7 +441,7 @@ sjt.frq <- function (data,
     # check for length of unique values and skip if too long
     # -----------------------------------------------
     if (!is.null(autoGroupAt) && length(unique(var))>=autoGroupAt) {
-      cat(sprintf("\nVariable %s with %i unique values was grouped...\n", colnames(data)[cnt], length(unique(var))))
+      message(sprintf("Variable %s with %i unique values was grouped...", colnames(data)[cnt], length(unique(var))))
       varsum <- var
       agcnt <- ifelse (autoGroupAt<30, autoGroupAt, 30)
       valueLabels[[cnt]] <- sju.groupVarLabels(var, groupsize="auto", autoGroupCount=agcnt)

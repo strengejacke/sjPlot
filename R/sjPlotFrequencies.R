@@ -325,7 +325,7 @@ sjp.frq <- function(varCount,
   # check whether variable should be auto-grouped
   #---------------------------------------------------
   if (!is.null(autoGroupAt) && length(unique(varCount))>=autoGroupAt) {
-    cat(sprintf("\nVariable has %i unique values and was grouped...\n", length(unique(varCount))))
+    message(sprintf("Variable has %i unique values and was grouped...", length(unique(varCount))))
     agcnt <- ifelse (autoGroupAt<30, autoGroupAt, 30)
     axisLabels.x <- sju.groupVarLabels(varCount, groupsize="auto", autoGroupCount=agcnt)
     varCount <- sju.groupVar(varCount, groupsize="auto", asNumeric=TRUE, autoGroupCount=agcnt)
@@ -655,7 +655,7 @@ sjp.frq <- function(varCount,
       # base constructor
       if (hist.skipZeros) {
         x <- na.omit(varCount)
-        if (geom.size<round(diff(range(x))/50)) cat("Using very small binwidth. Consider adjusting \"geom.size\"-parameter.\n")
+        if (geom.size<round(diff(range(x))/50)) message("Using very small binwidth. Consider adjusting \"geom.size\"-parameter.")
         hist.dat <- data.frame(x)
         baseplot <- ggplot(mydat)
         basehist <- geom_histogram(data = hist.dat, aes(x = x), binwidth = geom.size, fill = geom.colors)

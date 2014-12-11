@@ -20,7 +20,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("xn", "vld"))
 #' @seealso \itemize{
 #'            \item \href{http://www.strengejacke.de/sjPlot/sjp.emm.int/}{sjPlot manual: sjp.emm.int}
 #'            \item \href{http://strengejacke.wordpress.com/2014/08/19/visualize-pre-post-comparison-of-intervention-rstats/}{Weblog example}
-#'            \item \code{\link{sjp.lm.int}}
+#'            \item \code{\link{sjp.int}}
 #'            \item \code{\link{sjp.reglin}}
 #'            \item \code{\link{sjp.aov1}}
 #'            \item \code{\link{sjp.lm.ma}}

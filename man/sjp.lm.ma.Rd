@@ -38,7 +38,7 @@ fit.updated <- sjp.lm.ma(fit, completeDiagnostic = TRUE)}
              \item \href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm}
              \item \code{\link{sjp.lm}}
              \item \code{\link{sjp.reglin}}
-             \item \code{\link{sjp.lm.int}}
+             \item \code{\link{sjp.int}}
             }
 }
 

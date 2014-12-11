@@ -23,7 +23,7 @@ sjp.glmer(fit, type = "re", ri.nr = 1, title = NULL, geom.size = 3,
   \item \code{"ri.pc"} or \code{"ri.prob"} to plot probability curves of random intercept variances for all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
 }}
 
-\item{ri.nr}{Numeric value. If \code{type = "re} and fitted model has more than one random
+\item{ri.nr}{Numeric value. If \code{type = "re"} and fitted model has more than one random
 intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
 which list element of \code{lme4::ranef}) will be plotted. Default is \code{1},
 so the first (or only) random intercept will be plotted.}

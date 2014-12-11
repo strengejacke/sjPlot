@@ -295,7 +295,7 @@ sjp.corr <- function(data,
       correlationPValues <- c("")
     }
   }
-  cat(sprintf("Computing correlation using %s-method with %s-deletion...\n", corMethod, missingDeletion))
+  message(sprintf("Computing correlation using %s-method with %s-deletion...", corMethod, missingDeletion))
   # --------------------------------------------------------
   # start with base plot object here
   # --------------------------------------------------------

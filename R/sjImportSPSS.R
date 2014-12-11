@@ -42,7 +42,7 @@ sji.SPSS <- function(path, enc=NA, autoAttachVarLabels=FALSE) {
   data.spss <- read.spss(path, to.data.frame=TRUE, use.value.labels=FALSE, reencode=enc)
   # auto attach labels
   if (autoAttachVarLabels) {
-    cat("Attaching variable labels. Please wait...\n")
+    message("Attaching variable labels. Please wait...\n")
     data.spss <- sji.setVariableLabels(data.spss, sji.getVariableLabels(data.spss))
   }
   # return data frame
@@ -150,8 +150,8 @@ sji.setValueLabels <- function(x, labels) {
 sji.setValueLabels.vector <- function(var, labels) {
   # check for null
   if (!is.null(labels)) {
-    if (is.character(var) || is.null(var)) {
-      cat("Can't attach labels to string or NULL vectors.\n")
+    if (is.null(var) || is.character(var)) {
+      warning("Can't attach labels to string or NULL vectors.\n")
     }
     else {
       # check if var is a factor
@@ -172,16 +172,16 @@ sji.setValueLabels.vector <- function(var, labels) {
       lablen <- length(labels)
       valrange <- maxval-minval+1
       if (is.infinite(valrange)) {
-        cat("Can't set value labels. Infinite value range.\n")
+        warning("Can't set value labels. Infinite value range.\n")
       }
       # check for valid length of labels
       else if (valrange<lablen) {
-        cat(sprintf("More labels than values of \"var\". Using first %i labels.\n", valrange))
+        message(sprintf("More labels than values of \"var\". Using first %i labels.\n", valrange))
         attr(var, "value.labels") <- c(as.character(c(minval:maxval)))
         names(attr(var, "value.labels")) <- rev(labels[1:valrange])
       }
       else if (valrange>lablen) {
-        cat("Can't set value labels. Value range of \"var\" is longer than length of \"labels\".\n")
+        warning("Can't set value labels. Value range of \"var\" is longer than length of \"labels\".\n")
       }
       else {
         attr(var, "value.labels") <- c(as.character(c(minval:maxval)))

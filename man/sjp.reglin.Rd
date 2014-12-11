@@ -88,7 +88,7 @@ sjp.reglin(fit, showCI=FALSE)
              \item \href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm}
              \item \code{\link{sjp.lm}}
              \item \code{\link{sjp.lm.ma}}
-             \item \code{\link{sjp.lm.int}}
+             \item \code{\link{sjp.int}}
              \item \code{\link{sjp.scatter}}
             }
 }

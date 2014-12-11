@@ -171,7 +171,7 @@ sjp.scatter <- function(x,
     # check for valid range of jitter ratio
     if (jitterRatio<=0 || jitterRatio>=1) {
       # inform user
-      cat("\njitterRatio out of valid bounds. Using 0.15 for jitterRatio...\n")
+      warning("jitterRatio out of valid bounds. Using 0.15 for jitterRatio...")
       jitterRatio <- 0.15
     }
     # retrieve the highest amount of points lying
@@ -181,7 +181,7 @@ sjp.scatter <- function(x,
     if (overlap < (length(x)*jitterRatio)) {
       # use jittering now
       useJitter <- TRUE
-      cat("\nauto-jittering values...\n")
+      message("auto-jittering values...")
     }
   }
   # --------------------------------------------------------

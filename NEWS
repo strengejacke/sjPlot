@@ -14,6 +14,9 @@ Changes to functions:
 * Removed parameters "maxYlim" and "upperYLim" from "sjp.grpfrq", "sjp.xtab" and "sjp.frq", and added "axisLimits.y" as new option to define y-axis-range.
 * Parameter "labelPos" now also works for flipped coordinates in "sjp.xtab".
 
+General:
+* Console output of various function that used the "cat" or "print" command were replaced by "message" or "warning", if more appropriate.
+
 Bug fixes:
 * Parameter "geom.size" was not applied to bar charts in "sjp.grpfrq" - fixed.
 * Q-Q plot of "sjp.lm.ma" used wrong linear q-q line - fixed.

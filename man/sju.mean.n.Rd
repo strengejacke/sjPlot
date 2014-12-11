@@ -3,10 +3,10 @@
 \alias{sju.mean.n}
 \title{Compute row means with min amount of valid values}
 \usage{
-sju.mean.n(df, n)
+sju.mean.n(dat, n)
 }
 \arguments{
-\item{df}{a \link{data.frame} with at least two columns, where row means are applied.}
+\item{dat}{a \link{data.frame} with at least two columns, where row means are applied.}
 
 \item{n}{the amount of valid values per row to calculate the row mean. If a row's valid
          values is smaller than \code{n}, \link{NA} will be returned as row mean value.}
@@ -21,11 +21,14 @@ This function is similar to the SPSS \code{MEAN.n} function and computes
                values of a row a valid (and not \link{NA}).
 }
 \examples{
-df <- data.frame(a=c(1,2,NA,4), b=c(NA,2,NA,5), c=c(NA,4,NA,NA), d=c(2,3,7,8))
-sju.mean.n(df, 4) # 1 valid return value
-sju.mean.n(df, 3) # 2 valid return values
-sju.mean.n(df, 2)
-sju.mean.n(df, 1) # all means are shown
+dat <- data.frame(c1 = c(1,2,NA,4),
+                  c2 = c(NA,2,NA,5),
+                  c3 = c(NA,4,NA,NA),
+                  c4 = c(2,3,7,8))
+sju.mean.n(dat, 4) # 1 valid return value
+sju.mean.n(dat, 3) # 2 valid return values
+sju.mean.n(dat, 2)
+sju.mean.n(dat, 1) # all means are shown
 }
 \references{
 \itemize{

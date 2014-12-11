@@ -28,7 +28,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #'            \item \code{"fe.pc"} or \code{"fe.prob"} to plot probability curves of all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
 #'            \item \code{"ri.pc"} or \code{"ri.prob"} to plot probability curves of random intercept variances for all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
 #'          }
-#' @param ri.nr Numeric value. If \code{type = "re} and fitted model has more than one random
+#' @param ri.nr Numeric value. If \code{type = "re"} and fitted model has more than one random
 #'          intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
 #'          which list element of \code{lme4::ranef}) will be plotted. Default is \code{1},
 #'          so the first (or only) random intercept will be plotted.
@@ -219,7 +219,7 @@ sjp.glmer <- function(fit,
 #'            \item \code{"fe.cor"} for correlation matrix of fixed effects
 #'            \item \code{"re.qq"} for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)
 #'          }
-#' @param ri.nr Numeric value. If \code{type = "re} and fitted model has more than one random
+#' @param ri.nr Numeric value. If \code{type = "re"} and fitted model has more than one random
 #'          intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
 #'          which list element of \code{lme4::ranef}) will be plotted. Default is \code{1},
 #'          so the first (or only) random intercept will be plotted.
@@ -464,7 +464,7 @@ sjp.lme4  <- function(fit,
             # (group levels / labels) have to be re-sorted for
             # each coefficient, which is not possible with facet.grids
             # ---------------------------------------
-            cat("Sorting each group of random intercept ('sort.all') is not possible when 'facet.grids = TRUE'.")
+            message("Sorting each group of random intercept ('sort.all') is not possible when 'facet.grids = TRUE'.")
           }
           else {
             # ---------------------------------------
@@ -1048,7 +1048,7 @@ sjp.lme.reqq <- function(fit,
   # print plot?
   # ---------------------------------------------------------
   if (printPlot) {
-    print("Testing for normal distribution. Dots should be plotted along the line.")
+    message("Testing for normal distribution. Dots should be plotted along the line.")
     print(gp)
   }
   # -------------------------------------

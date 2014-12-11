@@ -20,7 +20,7 @@ sjp.lmer(fit, type = "re", ri.nr = 1, title = NULL, geom.size = 3,
   \item \code{"re.qq"} for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)
 }}
 
-\item{ri.nr}{Numeric value. If \code{type = "re} and fitted model has more than one random
+\item{ri.nr}{Numeric value. If \code{type = "re"} and fitted model has more than one random
 intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
 which list element of \code{lme4::ranef}) will be plotted. Default is \code{1},
 so the first (or only) random intercept will be plotted.}

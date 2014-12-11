@@ -205,11 +205,11 @@ sjp.pca <- function(data,
         labs(title = NULL, y = "Eigenvalue", x = "Number of factors")
     plot(eigenplot)
     # print statistics
-    cat("\n--------------------------------------------\n")
+    message("--------------------------------------------")
     print(summary(pcadata))
-    cat("\nEigenvalues:\n")
+    message("Eigenvalues:")
     print(pcadata.eigenval)
-    cat("--------------------------------------------\n")
+    message("--------------------------------------------")
   }
   # --------------------------------------------------------
   # varimax rotation, retrieve factor loadings
@@ -323,7 +323,7 @@ sjp.pca <- function(data,
     alphaValues <- getCronbach(data, getItemLoadings(df))
   }
   else {
-    cat("\nCronbach's Alpha can only be calculated when having a data frame with each component / variable as column\n")
+    message("Cronbach's Alpha can only be calculated when having a data frame with each component / variable as column.")
     showCronbachsAlpha <- FALSE
   }
   # retrieve those items that have unclear factor loadings, i.e.
@@ -393,13 +393,13 @@ sjp.pca <- function(data,
   # --------------------------------------------------------
   remdf <- NULL
   if (class(data) == "data.frame") {
-    cat("\nFollowing items have been removed:\n")
+    message("Following items have been removed:")
     if (!is.null(removableItems)) {
-      print(colnames(data)[removableItems])
+      message(colnames(data)[removableItems])
       remdf <- data[,c(-removableItems)]
     }
     else {
-      cat("none.\n")
+      message("none.")
     }
   }
   # --------------------------------------------------------

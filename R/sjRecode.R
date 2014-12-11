@@ -920,7 +920,7 @@ sju.strpos <- function(searchString, findTerm, maxdist = 3, part.dist.match = 0,
   # check if required package is available
   # -------------------------------------
   if (!requireNamespace("stringdist", quietly = TRUE)) {
-    cat("Package 'stringdist' needed for this function to fully work. Please install it. Only partial matching indices are returned.")
+    warning("Package 'stringdist' needed for this function to fully work. Please install it. Only partial matching indices are returned.")
     return (indices)
   }
   # -------------------------------------
@@ -1011,7 +1011,7 @@ sju.strpos <- function(searchString, findTerm, maxdist = 3, part.dist.match = 0,
 #'                row means from a \link{data.frame} or \link{matrix} if at least \code{n}
 #'                values of a row a valid (and not \link{NA}).
 #'
-#' @param df a \link{data.frame} with at least two columns, where row means are applied.
+#' @param dat a \link{data.frame} with at least two columns, where row means are applied.
 #' @param n the amount of valid values per row to calculate the row mean. If a row's valid
 #'          values is smaller than \code{n}, \link{NA} will be returned as row mean value.
 #' 
@@ -1024,31 +1024,34 @@ sju.strpos <- function(searchString, findTerm, maxdist = 3, part.dist.match = 0,
 #'              }
 #' 
 #' @examples
-#' df <- data.frame(a=c(1,2,NA,4), b=c(NA,2,NA,5), c=c(NA,4,NA,NA), d=c(2,3,7,8))
-#' sju.mean.n(df, 4) # 1 valid return value
-#' sju.mean.n(df, 3) # 2 valid return values
-#' sju.mean.n(df, 2)
-#' sju.mean.n(df, 1) # all means are shown
+#' dat <- data.frame(c1 = c(1,2,NA,4), 
+#'                   c2 = c(NA,2,NA,5), 
+#'                   c3 = c(NA,4,NA,NA), 
+#'                   c4 = c(2,3,7,8))
+#' sju.mean.n(dat, 4) # 1 valid return value
+#' sju.mean.n(dat, 3) # 2 valid return values
+#' sju.mean.n(dat, 2)
+#' sju.mean.n(dat, 1) # all means are shown
 #' 
 #' @export
-sju.mean.n <- function(df, n) {
+sju.mean.n <- function(dat, n) {
   # ---------------------------------------
   # coerce matrix to data frame
   # ---------------------------------------
-  if (is.matrix(df)) df <- as.data.frame(df)
+  if (is.matrix(dat)) dat <- as.data.frame(dat)
   # ---------------------------------------
   # check if we have a data framme with at least two columns
   # ---------------------------------------
-  if (!is.data.frame(df) || ncol(df) < 2) {
-    warning("'df' must be a data.frame with at least two columns.")
+  if (!is.data.frame(dat) || ncol(dat) < 2) {
+    warning("'dat' must be a data.frame with at least two columns.")
     return (NA)
   }
   # ---------------------------------------
   # n may not be larger as df's amount of columns
   # ---------------------------------------
-  if (ncol(df) < n) {
+  if (ncol(dat) < n) {
     warning("'n' must be smaller or equal to data.frame's amount of columns.")
     return (NA)
   }
-  apply(df, 1, function(x) ifelse(sum(!is.na(x)) >= n, mean(x, na.rm=TRUE), NA))
+  apply(dat, 1, function(x) ifelse(sum(!is.na(x)) >= n, mean(x, na.rm=TRUE), NA))
 }

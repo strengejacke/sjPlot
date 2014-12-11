@@ -155,9 +155,9 @@ sjs.mwu <- function(var, grp, distribution="asymptotic", weights=NULL) {
   }
   cnt <- length(unique(na.omit(grp)))
   labels <- autoSetValueLabels(grp)
-  cat("\nPerforming Mann-Whitney-U-Test...\n")
-  cat("---------------------------------\n")
-  cat("(showing statistics between groups (x|y)\n")
+  message("Performing Mann-Whitney-U-Test...")
+  message("---------------------------------")
+  message("showing statistics between groups (x|y)")
   df <- data.frame()
   for (i in 1:cnt) {
     for (j in i:cnt) {
@@ -188,24 +188,24 @@ sjs.mwu <- function(var, grp, distribution="asymptotic", weights=NULL) {
         rkm.i <- mean(rank(xsub)[which(ysub.n==i)], na.rm=TRUE)
         rkm.j <- mean(rank(xsub)[which(ysub.n==j)], na.rm=TRUE)
         if (is.null(labels)) {
-          cat(sprintf("Groups (%i|%i), n=%i/%i:\n", i, j, length(xsub[which(ysub.n==i)]), length(xsub[which(ysub.n==j)])))
+          cat(sprintf("Groups (%i|%i), n = %i/%i:\n", i, j, length(xsub[which(ysub.n==i)]), length(xsub[which(ysub.n==j)])))
         }
         else {
-          cat(sprintf("Groups %i=%s (n=%i) | %i=%s (n=%i):\n", i, labels[i], length(xsub[which(ysub.n==i)]), j, labels[j], length(xsub[which(ysub.n==j)])))
+          cat(sprintf("Groups %i = %s (n = %i) | %i = %s (n = %i):\n", i, labels[i], length(xsub[which(ysub.n==i)]), j, labels[j], length(xsub[which(ysub.n==j)])))
         }
-        cat(sprintf("  U=%.3f, W=%.3f, p=%.3f, Z=%.3f\n  effect-size r=%.3f\n  rank-mean(%i)=%.2f\n  rank-mean(%i)=%.2f\n\n", u, w, p, z, r, i, rkm.i, j, rkm.j))
+        cat(sprintf("  U = %.3f, W = %.3f, p = %.3f, Z = %.3f\n  effect-size r = %.3f\n  rank-mean(%i) = %.2f\n  rank-mean(%i) = %.2f\n\n", u, w, p, z, r, i, rkm.i, j, rkm.j))
         df <- rbind(df, cbind(grp1=i, grp2=j, u=u, w=w, p=p, z=z, r=r, rank.mean.grp1=rkm.i, rank.mean.grp2=rkm.j))
       }
     }
   }
   # if we have more than 2 groups, also perfom kruskal-wallis-test
   if (cnt>2) {
-    cat("\nPerforming Kruskal-Wallis-Test...\n")
-    cat("---------------------------------\n")
+    message("Performing Kruskal-Wallis-Test...")
+    message("---------------------------------")
     kw <- kruskal.test(var, grp)
-    cat(sprintf("chi-squared=%.3f\n",kw$statistic ))
-    cat(sprintf("df=%i\n",kw$parameter ))
-    cat(sprintf("p=%.3f\n",kw$p.value ))
+    cat(sprintf("chi-squared = %.3f\n",kw$statistic ))
+    cat(sprintf("df = %i\n",kw$parameter ))
+    cat(sprintf("p = %.3f\n",kw$p.value ))
   }
   invisible(df)
 }

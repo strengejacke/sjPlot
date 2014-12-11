@@ -385,7 +385,7 @@ sjt.pca <- function (data,
     alphaValues <- getCronbach(data, getItemLoadings(df))
   }
   else {
-    cat("\nCronbach's Alpha can only be calculated when having a data frame with each component / variable as column\n")
+    message("Cronbach's Alpha can only be calculated when having a data frame with each component / variable as column.")
     alphaValues <- NULL
     showCronbachsAlpha <- FALSE
   }

@@ -9,7 +9,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lo
 #'              \item \href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm}
 #'              \item \code{\link{sjp.lm.ma}}
 #'              \item \code{\link{sjp.reglin}}
-#'              \item \code{\link{sjp.lm.int}}
+#'              \item \code{\link{sjp.int}}
 #'              \item \code{\link{sjp.scatter}}
 #'              \item  \code{\link{sjs.betaCoef}}
 #'             }
@@ -370,7 +370,7 @@ sjp.lm <- function(fit,
 #'              \item \href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm}
 #'              \item \code{\link{sjp.lm}}
 #'              \item \code{\link{sjp.lm.ma}}
-#'              \item \code{\link{sjp.lm.int}}
+#'              \item \code{\link{sjp.int}}
 #'              \item \code{\link{sjp.scatter}}
 #'             }
 #'          
@@ -535,7 +535,7 @@ sjp.reglin <- function(fit,
 #'              \item \href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm}
 #'              \item \code{\link{sjp.lm}}
 #'              \item \code{\link{sjp.reglin}}
-#'              \item \code{\link{sjp.lm.int}}
+#'              \item \code{\link{sjp.int}}
 #'             }
 #'          
 #' @param linreg a fitted lm-model
@@ -607,7 +607,7 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FAL
   # ---------------------------------
   # print steps from original to updated model
   # ---------------------------------
-  cat(sprintf(("\nRemoved %i cases during %i step(s).\nR-square/adj. R-square of original model: %f / %f\nR-square/adj. R-square of updated model: %f / %f\n\n"), 
+  message(sprintf(("Removed %i cases during %i step(s).\nR-square/adj. R-square of original model: %f / %f\nR-square/adj. R-square of updated model: %f / %f\n"), 
               removedcases,
               maxloops-(maxcnt+1), 
               summary(linreg)$r.squared, 
