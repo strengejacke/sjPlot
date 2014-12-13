@@ -49,6 +49,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * Added parameters `showCountValues` and `showPercentageValues` to function `sjp.xtab`, so either percentage value labels, count value labels or both can be printed.
 * Removed parameters `maxYlim` and `upperYLim` from `sjp.grpfrq`, `sjp.xtab` and `sjp.frq`, and added `axisLimits.y` as new option to define y-axis-range.
 * Parameter `labelPos` now also works for flipped coordinates in `sjp.xtab`.
+* Added parameters to define axis titles and intercept label for y axis to `sjp.glmer` and `sjp.lmer`.
 
 #### General
 * Console output of various function that used the `cat` or `print` command were replaced by `message` or `warning`, if more appropriate.
@@ -56,6 +57,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 #### Bug fixes
 * Parameter `geom.size` was not applied to bar charts in `sjp.grpfrq` - fixed.
 * Q-Q plot of `sjp.lm.ma` used wrong linear q-q line - fixed.
+* Fixed bug in `sjp.glmer` with plot type `ri.pc`.
 
 
 ### Changelog of current stable build 1.6

@@ -5,7 +5,8 @@
 \usage{
 sjp.glmer(fit, type = "re", ri.nr = 1, title = NULL, geom.size = 3,
   geom.colors = "Set1", hideErrorBars = FALSE, showIntercept = TRUE,
-  sort.coef = NULL, pred.labels = NULL, facet.grid = TRUE,
+  stringIntercept = "(Intercept)", sort.coef = NULL, pred.labels = NULL,
+  axisTitle.x = NULL, axisTitle.y = NULL, facet.grid = TRUE,
   free.scale = FALSE, interceptLineType = 2,
   interceptLineColor = "grey70", fade.ns = FALSE, show.se = FALSE,
   printPlot = TRUE)
@@ -47,6 +48,9 @@ shown.}
 
 \item{showIntercept}{if \code{TRUE}, the intercept is included when plotting random or fixed effects.}
 
+\item{stringIntercept}{string of intercept estimate on the y axis. Only applies, if \code{showIntercept}
+is \code{TRUE} and \code{pred.labels} is not \code{NULL}.}
+
 \item{sort.coef}{indicates which coefficient should be used for sorting odds ratios
 \itemize{
   \item If \code{NULL} (default), no sorting is done and odds ratios are sorted in order of model coefficients.
@@ -59,6 +63,12 @@ shown.}
 \item{pred.labels}{a character vector with labels for the predictors / covariates / groups. Should either be vector
 of fixed effects variable labels (if \code{type = "fe"}) or a vector of group (value)
 labels from the random intercept's categories (if \code{type = "re"}).}
+
+\item{axisTitle.x}{A label (title) for the x axis. If not specified, a default labelling depending
+on the plot type is chosen.}
+
+\item{axisTitle.y}{A label (title) for the y axis. If not specified, a default labelling depending
+on the plot type is chosen.}
 
 \item{facet.grid}{\code{TRUE} when each plot should be plotted separately instead of
 an integrated (faceted) single graph.}
