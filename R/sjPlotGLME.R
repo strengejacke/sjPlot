@@ -407,6 +407,15 @@ sjp.lme4  <- function(fit,
                       printPlot,
                       fun) {
   # -------------------------------------
+  # check type
+  # -------------------------------------
+  if (type != "re" && type != "fe" && type != "fe.cor" &&
+      type != "re.qq" && type != "fe.pc" && type != "ri.pc" &&
+      type != "fe.prob" && type != "ri.prob") {
+    warning("'type' must be one of 're', 'fe', 'fe.cor', 're.qq', 'fe.pc', 'ri.pc', 'fe.prob' or 'ri.prob'. Defaulting to 'fe' now.")
+    type  <- "fe"
+  }
+  # -------------------------------------
   # check if required package is available
   # -------------------------------------
   if (!require("lme4", quietly = TRUE)) {
@@ -453,6 +462,7 @@ sjp.lme4  <- function(fit,
     # show intercept?
     # ---------------------------------------
     startAt <- ifelse (showIntercept == TRUE, 1, 2)
+    if (is.null(title)) title <- "Random effects"
     # ---------------------------------------
     # select random effects for each coefficient
     # ---------------------------------------
@@ -559,7 +569,7 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     mydf$grp <- c("1")
     facet.grid <- FALSE
-    if (is.null(title)) title <- ""
+    if (is.null(title)) title <- "Fixed effects"
     # ---------------------------------------
     # show intercept?
     # ---------------------------------------
@@ -702,11 +712,11 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     if (type == "fe") {
       if (is.null(axisTitle.x)) axisTitle.x <- ""
-      if (is.null(axisTitle.y)) axisTitle.y <- "Fixed effects"
+      if (is.null(axisTitle.y)) axisTitle.y <- ""
     }
     else if (type == "re") {
       if (is.null(axisTitle.x)) axisTitle.x <- "Group levels"
-      if (is.null(axisTitle.y)) axisTitle.y <- "Random effects"
+      if (is.null(axisTitle.y)) axisTitle.y <- ""
     }
     # ---------------------------------------
     # add facet grid here, faceting by group
