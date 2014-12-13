@@ -701,12 +701,13 @@ sjp.lme4  <- function(fit,
     # axis titles
     # ---------------------------------------
     if (type == "fe") {
+      if (is.null(axisTitle.x)) axisTitle.x <- ""
       if (is.null(axisTitle.y)) axisTitle.y <- "Fixed effects"
     }
     else if (type == "re") {
+      if (is.null(axisTitle.x)) axisTitle.x <- "Group levels"
       if (is.null(axisTitle.y)) axisTitle.y <- "Random effects"
     }
-    if (is.null(axisTitle.x)) axisTitle.x <- "Levels"
     # ---------------------------------------
     # add facet grid here, faceting by group
     # (level) of random intercept
