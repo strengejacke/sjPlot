@@ -11,7 +11,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lo
 #'              \item \code{\link{sjp.reglin}}
 #'              \item \code{\link{sjp.int}}
 #'              \item \code{\link{sjp.scatter}}
-#'              \item  \code{\link{sjs.betaCoef}}
+#'              \item  \code{\link{sjs.stdb}}
 #'             }
 #' 
 #' @description Plot beta coefficients (estimates) of linear regressions with confidence intervalls as dot plot
@@ -173,7 +173,7 @@ sjp.lm <- function(fit,
   # retrieve betas, leave out intercept ([-1])
   bv <- coef(fit)[-1]
   # retrieve standardized betas
-  stdbv <- sjs.betaCoef(fit)
+  stdbv <- sjs.stdb(fit)
   # init data column for p-values
   ps <- sprintf("%.*f", labelDigits, bv)
   pstdbv <- sprintf("%.*f", labelDigits, stdbv)
@@ -230,7 +230,7 @@ sjp.lm <- function(fit,
   # case no values are drawn, we simply use an empty string.
   # finally, we need the p-values of the coefficients, because the value
   # labels may have different colours according to their significance level
-  betas <- cbind(tmp, c(ps), sjs.betaCoef(fit), c(pstdbv), pv)
+  betas <- cbind(tmp, c(ps), sjs.stdb(fit), c(pstdbv), pv)
   # --------------------------------------------------------
   # check if user defined labels have been supplied
   # if not, use variable names from data frame

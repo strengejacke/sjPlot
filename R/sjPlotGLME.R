@@ -1,5 +1,5 @@
 # bind global variables
-if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "pred", "prob"))
+if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "pred", "prob", "p"))
 
 
 #' @title Plot odds ratios (forest plots) of generalized linear mixed effects models
@@ -68,6 +68,11 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #'          on the plot type is chosen.
 #' @param interceptLineType The linetype of the intercept line (zero point). Default is \code{2} (dashed line).
 #' @param interceptLineColor The color of the intercept line. Default value is \code{"grey70"}.
+#' @param showValueLabels Whether odds ratio values should be plotted to each dot or not.
+#' @param labelDigits The amount of digits for rounding the estimations (see \code{showValueLabels}).
+#'          Default is 2, i.e. estimators have 2 digits after decimal point.
+#' @param showPValueLabels Whether the significance levels of each coefficient should be appended
+#'          to values or not.
 #' @param facet.grid \code{TRUE} when each plot should be plotted separately instead of
 #'          an integrated (faceted) single graph.
 #' @param free.scale If \code{TRUE} and \code{facet.grid=TRUE}, each facet grid gets its own fitted scale. If
@@ -176,6 +181,9 @@ sjp.glmer <- function(fit,
                       free.scale = FALSE,
                       interceptLineType = 2,
                       interceptLineColor = "grey70",
+                      showValueLabels = TRUE, 
+                      labelDigits = 2,
+                      showPValueLabels = TRUE,
                       fade.ns = FALSE,
                       show.se = FALSE,
                       printPlot = TRUE) {
@@ -198,6 +206,9 @@ sjp.glmer <- function(fit,
            axisTitle.y,
            interceptLineType,
            interceptLineColor,
+           showValueLabels, 
+           labelDigits,
+           showPValueLabels,
            facet.grid,
            free.scale,
            fade.ns,
@@ -269,6 +280,12 @@ sjp.glmer <- function(fit,
 #'          on the plot type is chosen.
 #' @param interceptLineType The linetype of the intercept line (zero point). Default is \code{2} (dashed line).
 #' @param interceptLineColor The color of the intercept line. Default value is \code{"grey70"}.
+#' @param showValueLabels Whether the beta and standardized beta values should be plotted 
+#'          to each dot or not.
+#' @param labelDigits The amount of digits for rounding the estimations (see \code{showValueLabels}).
+#'          Default is 2, i.e. estimators have 2 digits after decimal point.
+#' @param showPValueLabels Whether the significance levels of each coefficient should be appended
+#'          to values or not
 #' @param facet.grid \code{TRUE} when each plot should be plotted separately instead of
 #'          an integrated (faceted) single graph.
 #' @param free.scale If \code{TRUE} and \code{facet.grid=TRUE}, each facet grid gets its own fitted scale. If
@@ -358,6 +375,9 @@ sjp.lmer <- function(fit,
                      axisTitle.y = NULL,
                      interceptLineType = 2,
                      interceptLineColor = "grey70",
+                     showValueLabels=TRUE, 
+                     labelDigits=2,
+                     showPValueLabels=TRUE,
                      facet.grid = TRUE,
                      free.scale = FALSE,
                      fade.ns = FALSE,
@@ -377,6 +397,9 @@ sjp.lmer <- function(fit,
            axisTitle.y,
            interceptLineType,
            interceptLineColor,
+           showValueLabels, 
+           labelDigits,
+           showPValueLabels,
            facet.grid,
            free.scale,
            fade.ns,
@@ -396,10 +419,13 @@ sjp.lme4  <- function(fit,
                       stringIntercept,
                       sort.coef,
                       pred.labels,
-                      axisTitle.x = NULL,
-                      axisTitle.y = NULL,
+                      axisTitle.x,
+                      axisTitle.y,
                       interceptLineType,
                       interceptLineColor,
+                      showValueLabels, 
+                      labelDigits,
+                      showPValueLabels,
                       facet.grid,
                       free.scale,
                       fade.ns,
@@ -511,7 +537,7 @@ sjp.lme4  <- function(fit,
             # (group levels / labels) have to be re-sorted for
             # each coefficient, which is not possible with facet.grids
             # ---------------------------------------
-            message("Sorting each group of random intercept ('sort.all') is not possible when 'facet.grids = TRUE'.")
+            message("Sorting each group of random intercept ('sort.all') is not possible when 'facet.grid = TRUE'.")
           }
           else {
             # ---------------------------------------
@@ -538,6 +564,8 @@ sjp.lme4  <- function(fit,
       # axis labels can be sorted accordingly later
       # ---------------------------------------
       tmp$sorting <- reihe
+      # no p-values for random effects
+      tmp$p <- ""
       # ---------------------------------------
       # add to final data frame
       # ---------------------------------------
@@ -560,10 +588,60 @@ sjp.lme4  <- function(fit,
       mydf <- as.data.frame(cbind(OR = lme4::fixef(fit),
                                   lme4::confint.merMod(fit, method = "Wald")))
     }
+    # ----------------------------
+    # print p-values in bar charts
+    # ----------------------------
+    # retrieve sigificance level of independent variables (p-values)
+    pv <- coef(summary(fit))[,4]
+    # for better readability, convert p-values to asterisks
+    # with:
+    # p < 0.001 = ***
+    # p < 0.01 = **
+    # p < 0.05 = *
+    # retrieve odds ratios
+    if (fun == "glm") {
+      ov <- exp(lme4::fixef(fit))
+    }
+    else {
+      ov <- lme4::fixef(fit)
+    }
+    # init data column for p-values
+    ps <- NULL
+    for (i in 1:length(pv)) {
+      ps[i] <- c("")
+    }
+    # ----------------------------
+    # copy OR-values into data column
+    # ----------------------------
+    if (showValueLabels) {
+      for (i in 1:length(pv)) {
+        ps[i] <- sprintf("%.*f", labelDigits, ov[i])
+      }
+    }
+    # ----------------------------
+    # copy p-values into data column
+    # ----------------------------
+    if (showPValueLabels) {
+      for (i in 1:length(pv)) {
+        if (pv[i] >= 0.05) {
+        }
+        else if (pv[i] >= 0.01 && pv[i] < 0.05) {
+          ps[i] <- paste(ps[i], "*")
+        }
+        else if (pv[i] >= 0.001 && pv[i] < 0.01) {
+          ps[i] <- paste(ps[i], "**")
+        }
+        else {
+          ps[i] <- paste(ps[i], "***")
+        }
+      }
+    }
+    # bind p-values
+    mydf$p <- ps
     # ---------------------------------------
     # set proper column names
     # ---------------------------------------
-    colnames(mydf) <- c("OR", "lower.CI", "upper.CI")
+    colnames(mydf) <- c("OR", "lower.CI", "upper.CI", "p")
     # ---------------------------------------
     # just one group, so no faceting needed
     # ---------------------------------------
@@ -648,7 +726,8 @@ sjp.lme4  <- function(fit,
   # odds ratios should be faded.
   # ---------------------------------------
   if (fade.ns == TRUE) {
-    mydf$fade <- (mydf$lower.CI < 1 & mydf$upper.CI > 1)
+    interc <- ifelse (fun == "glm", 1, 0)
+    mydf$fade <- (mydf$lower.CI < interc & mydf$upper.CI > interc)
   }
   else {
     mydf$fade <- FALSE
@@ -679,6 +758,9 @@ sjp.lme4  <- function(fit,
                  linetype = interceptLineType,
                  color = interceptLineColor) +
       geom_point(size = geom.size) +
+      # print value labels and p-values
+      geom_text(aes(label = p, y = OR), 
+                vjust = -0.7) +
       # ---------------------------------------
       # labels in sorted order
       # ---------------------------------------
@@ -741,6 +823,11 @@ sjp.lme4  <- function(fit,
   # facet grid means, just one plot
   # ---------------------------------------
   if (facet.grid) {
+    # ---------------------------------------
+    # for random effects, no title is displayed in facet. so
+    # tell user via message that random effects are plotted
+    # ---------------------------------------
+    if (type == "re") message("Plotting random effects...")
     me.plot <- plot.effe(mydf,
                          title,
                          facet.grid,

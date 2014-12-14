@@ -68,8 +68,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #'          Default is \code{FALSE}. Please note that due to exp-transformation of
 #'          estimates, the intercept in some cases can not be calculated, thus the
 #'          function call is interrupted and no plot printed.
-#' @param showValueLabels Whether the beta and standardized beta values should be plotted
-#'          to each dot or not.
+#' @param showValueLabels Whether odds ratio values should be plotted to each dot or not.
 #' @param labelDigits The amount of digits for rounding the estimations (see \code{showValueLabels}).
 #'          Default is 2, i.e. estimators have 2 digits after decimal point.
 #' @param showPValueLabels Whether the significance levels of each coefficient should be appended

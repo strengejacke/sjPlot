@@ -65,7 +65,7 @@ sjs.etasq <- function(...) {
 
 
 #' @title Retrieve std. beta coefficients of lm
-#' @name sjs.betaCoef
+#' @name sjs.stdb
 #' @description Returns the standardized beta coefficients of a fitted linear model.
 #' 
 #' @seealso \itemize{
@@ -89,10 +89,10 @@ sjs.etasq <- function(...) {
 #' # fit linear model
 #' fit <- lm(airquality$Ozone ~ airquality$Wind + airquality$Temp + airquality$Solar.R)
 #' # print std. beta coefficients
-#' sjs.betaCoef(fit)
+#' sjs.stdb(fit)
 #' 
 #' @export
-sjs.betaCoef <- function(fit) {
+sjs.stdb <- function(fit) {
   b <- summary(fit)$coef[-1, 1]
   sx <- sapply(fit$model[-1], sd)
   sy <- sapply(fit$model[1], sd)
