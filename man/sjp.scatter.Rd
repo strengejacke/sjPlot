@@ -23,7 +23,7 @@ sjp.scatter(x, y, grp = NULL, title = "", legendTitle = NULL,
 examples below. Default is \code{NULL}, i.e. not grouping is done.}
 
 \item{title}{Title of the diagram, plotted above the whole diagram panel.
-Use \code{"auto"} to automatically detect variable names that will be used as title
+Use \code{NULL} to automatically detect variable names that will be used as title
 (see \code{\link{sji.setVariableLabels}}) for details).}
 
 \item{legendTitle}{Title of the diagram's legend.}
@@ -31,11 +31,11 @@ Use \code{"auto"} to automatically detect variable names that will be used as ti
 \item{legendLabels}{Labels for the guide/legend.}
 
 \item{axisTitle.x}{A label (title) for the x axis.
-Use \code{"auto"} to automatically detect variable names that will be used as title
+Use \code{NULL} to automatically detect variable names that will be used as title
 (see \code{\link{sji.setVariableLabels}}) for details).}
 
 \item{axisTitle.y}{A label (title) for the y axis.
-Use \code{"auto"} to automatically detect variable names that will be used as title
+Use \code{NULL} to automatically detect variable names that will be used as title
 (see \code{\link{sji.setVariableLabels}}) for details).}
 
 \item{breakTitleAt}{Wordwrap for diagram title. Determines how many chars of the title are displayed in

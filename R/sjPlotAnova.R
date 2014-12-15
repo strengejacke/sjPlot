@@ -41,8 +41,8 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("pv"))
 #'          the value label of the grouping variable. Default is \code{"(Intercept)"}.
 #' @param showAxisLabels.y Whether y axis text (category value) should be shown (use \code{TRUE})
 #'          or not. Default is \code{TRUE}.
-#' @param axisTitle.x A label for the x axis. Default is \code{NULL}, which means no x-axis title.
-#'          Use \code{"auto"} to automatically detect variable names that will be used as title
+#' @param axisTitle.x A label for the x axis. Default is \code{""}, which means no x-axis title.
+#'          Use \code{NULL} to automatically detect variable names that will be used as title
 #'          (see \code{\link{sji.setVariableLabels}}) for details).
 #' @param axisLimits Defines the range of the axis where the beta coefficients and their confidence intervalls
 #'          are drawn. By default, the limits range from the lowest confidence interval to the highest one, so
@@ -126,7 +126,7 @@ sjp.aov1 <- function(depVar,
                     reverseOrder=FALSE,
                     stringIntercept="(Intercept)",
                     showAxisLabels.y=TRUE,
-                    axisTitle.x=NULL,
+                    axisTitle.x="",
                     axisLimits=NULL,
                     errorBarColor=NULL,
                     geom.colors=c("#3366a0", "#aa3333"),

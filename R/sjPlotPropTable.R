@@ -36,7 +36,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Perc", "Sum", "Count", "
 #'          y-axis ranges from 0 to required maximum. Note that the values are percentages, so valid
 #'          range is between 0 and 1.
 #' @param title Title of the diagram, plotted above the whole diagram panel.
-#'          Use \code{"auto"} to automatically detect variable names that will be used as title
+#'          Use \code{NULL} to automatically detect variable names that will be used as title
 #'          (see \code{\link{sji.setVariableLabels}}) for details).
 #' @param legendTitle Title of the diagram's legend.
 #' @param axisLabels.x Labels for the x-axis breaks.
@@ -94,7 +94,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Perc", "Sum", "Count", "
 #'          it's percentages will be added to each category.
 #' @param axisTitle.x A label for the x axis. useful when plotting histograms with metric scales where no category labels
 #'          are assigned to the x axis.
-#'          Use \code{"auto"} to automatically detect variable names that will be used as title
+#'          Use \code{NULL} to automatically detect variable names that will be used as title
 #'          (see \code{\link{sji.setVariableLabels}}) for details).
 #' @param axisTitle.y A label for the y axis. useful when plotting histograms with metric scales where no category labels
 #'          are assigned to the y axis.

@@ -28,7 +28,7 @@ are along the y-axis, the variable's categories on the x-axis.}
 the \code{y} variable.}
 
 \item{title}{Title of the diagram, plotted above the whole diagram panel.
-Use \code{"auto"} to automatically detect variable names that will be used as title
+Use \code{NULL} to automatically detect variable names that will be used as title
 (see \code{\link{sji.setVariableLabels}}) for details).}
 
 \item{legendTitle}{Title of the diagram's legend.}
@@ -138,7 +138,7 @@ the legend is shown.}
 
 \item{axisTitle.x}{A label for the x axis. useful when plotting histograms with metric scales where no category labels
 are assigned to the x axis.
-Use \code{"auto"} to automatically detect variable names that will be used as title
+Use \code{NULL} to automatically detect variable names that will be used as title
 (see \code{\link{sji.setVariableLabels}}) for details).}
 
 \item{axisTitle.y}{A label for the y axis. useful when plotting histograms with metric scales where no category labels

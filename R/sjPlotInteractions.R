@@ -708,7 +708,6 @@ sjp.int <- function(fit,
     }
     else {
       baseplot <- ggplot(intdf) +
-        geom_point(aes(x = x, y = y, colour = grp)) +
         # add a shaded region between minimun and maximum curve of interactions
         geom_ribbon(aes(x = x, ymin = ymin, ymax = ymax),
                     fill = fillColor,
@@ -719,6 +718,7 @@ sjp.int <- function(fit,
       # ------------------------------------------------------------
       if (showValueLabels) {
         baseplot <- baseplot +
+          geom_point(aes(x = x, y = y, colour = grp)) +
           geom_text(aes(label = round(y, 1), x = x, y = y),
                     vjust = 1.5,
                     show_guide = FALSE)

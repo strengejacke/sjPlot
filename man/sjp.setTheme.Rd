@@ -5,13 +5,14 @@
 \title{Set global theme options for sjp-functions}
 \usage{
 sjp.setTheme(title.color = "black", title.size = 1.3,
-  geom.outline.color = NULL, geom.outline.size = 0.1,
-  geom.boxoutline.size = 0.5, geom.boxoutline.color = "black",
-  geom.alpha = 1, geom.linetype = 1, geom.errorbar.size = 0.7,
-  geom.errorbar.linetype = 1, geom.label.color = "black",
-  geom.label.size = 4.5, geom.label.alpha = 1, geom.label.angle = 0,
-  axis.title.color = "grey30", axis.title.size = 1.2, axis.angle.x = 0,
-  axis.angle.y = 0, axis.angle = NULL, axis.textcolor.x = "grey30",
+  title.align = "left", geom.outline.color = NULL,
+  geom.outline.size = 0.1, geom.boxoutline.size = 0.5,
+  geom.boxoutline.color = "black", geom.alpha = 1, geom.linetype = 1,
+  geom.errorbar.size = 0.7, geom.errorbar.linetype = 1,
+  geom.label.color = "black", geom.label.size = 4.5, geom.label.alpha = 1,
+  geom.label.angle = 0, axis.title.color = "grey30",
+  axis.title.size = 1.2, axis.angle.x = 0, axis.angle.y = 0,
+  axis.angle = NULL, axis.textcolor.x = "grey30",
   axis.textcolor.y = "grey30", axis.textcolor = NULL,
   axis.linecolor.x = NULL, axis.linecolor.y = NULL, axis.linecolor = NULL,
   axis.line.size = 0.5, axis.textsize.x = 1.1, axis.textsize.y = 1.1,
@@ -30,6 +31,9 @@ sjp.setTheme(title.color = "black", title.size = 1.3,
 \item{title.color}{Color of the plot title. Default is \code{"black"}.}
 
 \item{title.size}{Size of the plot title. Default is 1.3.}
+
+\item{title.align}{Alignment of plot title. Must be one of \code{"left"} (default),
+\code{"center"} or \code{"right"}. You may use initial letter only.}
 
 \item{geom.outline.color}{Color of geom outline. Only applies, if \code{geom.outline.size}
 is larger than 0.}

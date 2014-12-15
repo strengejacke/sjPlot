@@ -488,7 +488,6 @@ sjp.lme4  <- function(fit,
     # show intercept?
     # ---------------------------------------
     startAt <- ifelse (showIntercept == TRUE, 1, 2)
-    if (is.null(title)) title <- "Random effects"
     # ---------------------------------------
     # select random effects for each coefficient
     # ---------------------------------------
@@ -592,7 +591,17 @@ sjp.lme4  <- function(fit,
     # print p-values in bar charts
     # ----------------------------
     # retrieve sigificance level of independent variables (p-values)
-    pv <- coef(summary(fit))[,4]
+    cs <- coef(summary(fit))
+    # check if we have p-values in summary
+    if (ncol(cs) >= 4) {
+      pv <- cs[, 4]
+    }
+    else {
+      # if we don't have p-values in summary,
+      # don't show them
+      pv <- rep(1, nrow(cs))
+      showPValueLabels <- FALSE
+    }
     # for better readability, convert p-values to asterisks
     # with:
     # p < 0.001 = ***
@@ -606,15 +615,12 @@ sjp.lme4  <- function(fit,
       ov <- lme4::fixef(fit)
     }
     # init data column for p-values
-    ps <- NULL
-    for (i in 1:length(pv)) {
-      ps[i] <- c("")
-    }
+    ps <- rep("", length(ov))
     # ----------------------------
     # copy OR-values into data column
     # ----------------------------
     if (showValueLabels) {
-      for (i in 1:length(pv)) {
+      for (i in 1:length(ov)) {
         ps[i] <- sprintf("%.*f", labelDigits, ov[i])
       }
     }
@@ -856,7 +862,7 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     # set title for plots (coefficient label)
     # ---------------------------------------
-    if (is.null(title)) title <- as.character(groups)
+    if (is.null(title)) title <- paste("Random effects of ", as.character(groups))
     me.plot.list <- list()
     # ---------------------------------------
     # iterate coefficients

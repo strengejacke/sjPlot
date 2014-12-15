@@ -25,7 +25,7 @@ sjp.frq(varCount, title = "", weightBy = NULL, weightByTitleString = NULL,
 \item{varCount}{The variable which frequencies should be plotted.}
 
 \item{title}{Title of diagram as string. Example: \code{title=c("my title")}.
-Use \code{"auto"} to automatically detect variable names that will be used as title
+Use \code{NULL} to automatically detect variable names that will be used as title
 (see \code{\link{sji.setVariableLabels}}) for details).}
 
 \item{weightBy}{A weight factor that will be applied to weight all cases from \code{varCount}.
@@ -143,12 +143,16 @@ applies if \code{showNormalCurve} is \code{TRUE}.}
 applies if \code{showNormalCurve} is \code{TRUE}.}
 
 \item{axisTitle.x}{A label for the x axis. useful when plotting histograms with metric scales where no category labels
-are assigned to the x axis.
-Use \code{"auto"} to automatically detect variable names that will be used as title
+are assigned to the x axis. By default, \code{""} is used, i.e. no title
+is printed.
+Use \code{NULL} to automatically detect variable names that will be used as title
 (see \code{\link{sji.setVariableLabels}}) for details).}
 
 \item{axisTitle.y}{A label for the y axis. useful when plotting histograms with metric scales where no category labels
-are assigned to the y axis.}
+are assigned to the y axis. By default, \code{""} is used, i.e. no title
+is printed.
+Use \code{NULL} to automatically detect variable names that will be used as title
+(see \code{\link{sji.setVariableLabels}}) for details).}
 
 \item{startAxisAt}{Determines the first value on the x-axis. By default, this value is set
 to \code{"auto"}, i.e. the value range on the x axis starts with the lowest value of \code{varCount}.

@@ -7,7 +7,7 @@
 sjp.aov1(depVar, grpVar, meansums = FALSE, type = "dots",
   hideErrorBars = FALSE, title = NULL, axisLabels.y = NULL,
   reverseOrder = FALSE, stringIntercept = "(Intercept)",
-  showAxisLabels.y = TRUE, axisTitle.x = NULL, axisLimits = NULL,
+  showAxisLabels.y = TRUE, axisTitle.x = "", axisLimits = NULL,
   errorBarColor = NULL, geom.colors = c("#3366a0", "#aa3333"),
   geom.size = 3, breakTitleAt = 50, breakLabelsAt = 25,
   gridBreaksAt = NULL, expand.grid = FALSE, showValueLabels = TRUE,
@@ -54,8 +54,8 @@ the value label of the grouping variable. Default is \code{"(Intercept)"}.}
 \item{showAxisLabels.y}{Whether y axis text (category value) should be shown (use \code{TRUE})
 or not. Default is \code{TRUE}.}
 
-\item{axisTitle.x}{A label for the x axis. Default is \code{NULL}, which means no x-axis title.
-Use \code{"auto"} to automatically detect variable names that will be used as title
+\item{axisTitle.x}{A label for the x axis. Default is \code{""}, which means no x-axis title.
+Use \code{NULL} to automatically detect variable names that will be used as title
 (see \code{\link{sji.setVariableLabels}}) for details).}
 
 \item{axisLimits}{Defines the range of the axis where the beta coefficients and their confidence intervalls

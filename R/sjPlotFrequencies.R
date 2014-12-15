@@ -19,7 +19,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "ia", "..de
 #' 
 #' @param varCount The variable which frequencies should be plotted.
 #' @param title Title of diagram as string. Example: \code{title=c("my title")}.
-#'          Use \code{"auto"} to automatically detect variable names that will be used as title
+#'          Use \code{NULL} to automatically detect variable names that will be used as title
 #'          (see \code{\link{sji.setVariableLabels}}) for details).
 #' @param weightBy A weight factor that will be applied to weight all cases from \code{varCount}.
 #'          default is \code{NULL}, so no weights are used.
@@ -104,11 +104,15 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "ia", "..de
 #' @param normalCurveAlpha Specify the transparancy (alpha value) of the normal curve. Only
 #'          applies if \code{showNormalCurve} is \code{TRUE}.
 #' @param axisTitle.x A label for the x axis. useful when plotting histograms with metric scales where no category labels
-#'          are assigned to the x axis.
-#'          Use \code{"auto"} to automatically detect variable names that will be used as title
+#'          are assigned to the x axis. By default, \code{""} is used, i.e. no title
+#'          is printed.
+#'          Use \code{NULL} to automatically detect variable names that will be used as title
 #'          (see \code{\link{sji.setVariableLabels}}) for details).
 #' @param axisTitle.y A label for the y axis. useful when plotting histograms with metric scales where no category labels
-#'          are assigned to the y axis.
+#'          are assigned to the y axis. By default, \code{""} is used, i.e. no title
+#'          is printed.
+#'          Use \code{NULL} to automatically detect variable names that will be used as title
+#'          (see \code{\link{sji.setVariableLabels}}) for details).
 #' @param hist.skipZeros If \code{TRUE}, zero counts (categories with no answer) in \code{varCount} are omitted
 #'          when drawing histrograms, and the mapping is changed to \code{\link{stat_bin}}. Only applies to 
 #'          histograms (see \code{type}). Use this parameter to get identical results to the default

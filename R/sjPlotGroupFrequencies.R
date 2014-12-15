@@ -47,7 +47,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ypos", "wb", "ia", "mw",
 #'          bar charts. Ideal for larger amount of groups. This parameter wraps a single panel into 
 #'          \code{varGroup} amount of panels, i.e. each group is represented within a new panel.
 #' @param title Title of the diagram, plotted above the whole diagram panel.
-#'          Use \code{"auto"} to automatically detect variable names that will be used as title
+#'          Use \code{NULL} to automatically detect variable names that will be used as title
 #'          (see \code{\link{sji.setVariableLabels}}) for details).
 #' @param legendTitle Title of the diagram's legend.
 #' @param axisLabels.x Labels for the x-axis breaks. Passed as vector of strings. \emph{Note:} This parameter
@@ -122,11 +122,15 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ypos", "wb", "ia", "mw",
 #' @param meanInterceptLineSize The size of the mean intercept line. Only applies to histogram-charts and when
 #'          \code{showMeanIntercept} is \code{TRUE}.
 #' @param axisTitle.x A label for the x axis. Useful when plotting histograms with metric scales where no category labels
-#'          are assigned to the x axis.
-#'          Use \code{"auto"} to automatically detect variable names that will be used as title
+#'          are assigned to the x axis. By default, \code{""} is used, i.e. no title
+#'          is printed.
+#'          Use \code{NULL} to automatically detect variable names that will be used as title
 #'          (see \code{\link{sji.setVariableLabels}}) for details).
 #' @param axisTitle.y A label for the y axis. Useful when plotting histograms with metric scales where no category labels
-#'          are assigned to the y axis.
+#'          are assigned to the y axis. By default, \code{""} is used, i.e. no title
+#'          is printed.
+#'          Use \code{NULL} to automatically detect variable names that will be used as title
+#'          (see \code{\link{sji.setVariableLabels}}) for details).
 #' @param autoGroupAt A value indicating at which length of unique values of \code{varCount} the variable
 #'          is automatically grouped into smaller units (see \code{\link{sju.groupVar}}). If \code{varCount} has large 
 #'          numbers of unique values, too many bars for the graph have to be plotted. Hence it's recommended 
@@ -247,8 +251,8 @@ sjp.grpfrq <- function(varCount,
                        tableSummaryPos="r",
                        meanInterceptLineType=2,
                        meanInterceptLineSize=0.5,
-                       axisTitle.x=NULL,
-                       axisTitle.y=NULL,
+                       axisTitle.x="",
+                       axisTitle.y="",
                        autoGroupAt=NULL,
                        startAxisAt="auto",
                        coord.flip=FALSE,

@@ -5,6 +5,8 @@
 #' 
 #' @param title.size Size of the plot title. Default is 1.3.
 #' @param title.color Color of the plot title. Default is \code{"black"}.
+#' @param title.align Alignment of plot title. Must be one of \code{"left"} (default),
+#'          \code{"center"} or \code{"right"}. You may use initial letter only.
 #' @param geom.outline.size Size of the bar outlines. Default is 0.1. Use
 #'          size of \code{0} to remove geom outline.
 #' @param geom.outline.color Color of geom outline. Only applies, if \code{geom.outline.size}
@@ -145,6 +147,7 @@
 #' @export
 sjp.setTheme <- function(title.color="black",
                          title.size=1.3,
+                         title.align = "left",
                          # geom defaults
                          # geom.colors=NULL,
                          geom.outline.color=NULL,
@@ -296,6 +299,17 @@ sjp.setTheme <- function(title.color="black",
       panel.col <- panel.backcol
   }
   # ----------------------------------------
+  # set title alignment
+  # ----------------------------------------
+  if (!is.null(title.align)) {
+    if (title.align == "left" || title.align == "l") title.align <- 0
+    if (title.align == "right" || title.align == "r") title.align <- 1
+    if (title.align == "center" || title.align == "c") title.align <- 0.5
+  }
+  else {
+    title.align <- 0
+  }
+  # ----------------------------------------
   # set defaults for plot colors
   # ----------------------------------------
   if (!is.null(plot.col)) {
@@ -338,7 +352,8 @@ sjp.setTheme <- function(title.color="black",
       # set base elements that are always set
       # ----------------------------------------
       theme(plot.title = element_text(size = rel(title.size), 
-                                      colour = title.color),
+                                      colour = title.color,
+                                      hjust = title.align),
             axis.text = element_text(angle = axis.angle, 
                                      size = rel(axis.textsize), 
                                      colour = axis.textcolor),
