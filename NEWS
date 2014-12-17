@@ -1,3 +1,9 @@
+Version 1.6.7
+------------------------------------------------------------------------------
+Changes to functions:
+* Added parameter "vars" to "sjp.glmer" and "sjp.lmer" to plot probability curves only for selected variables.
+
+
 Version 1.6.5
 ------------------------------------------------------------------------------
 New functions:

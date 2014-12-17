@@ -28,6 +28,11 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #'            \item \code{"fe.pc"} or \code{"fe.prob"} to plot probability curves of all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
 #'            \item \code{"ri.pc"} or \code{"ri.prob"} to plot probability curves of random intercept variances for all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
 #'          }
+#' @param vars a numeric vector with column indices of selected variables or a character vector with
+#'          variable names of selected variables from the fitted model, which should be used to plot probability
+#'          curves. This parameter only applies if \code{type} is either \code{"fe.pc"} (resp. \code{"fe.prob"}
+#'          or \code{"fe.pc"} (resp. \code{"re.pc"}). In this case, only probability curves for the selected
+#'          variables specified in \code{"vars"} will be plotted.
 #' @param ri.nr Numeric value. If \code{type = "re"} and fitted model has more than one random
 #'          intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
 #'          which list element of \code{lme4::ranef}) will be plotted. Default is \code{1},
@@ -166,6 +171,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #' @export
 sjp.glmer <- function(fit,
                       type = "re",
+                      vars = NULL,
                       ri.nr = 1,
                       title = NULL,
                       geom.size = 3,
@@ -181,7 +187,7 @@ sjp.glmer <- function(fit,
                       free.scale = FALSE,
                       interceptLineType = 2,
                       interceptLineColor = "grey70",
-                      showValueLabels = TRUE, 
+                      showValueLabels = TRUE,
                       labelDigits = 2,
                       showPValueLabels = TRUE,
                       fade.ns = FALSE,
@@ -193,6 +199,7 @@ sjp.glmer <- function(fit,
 
   sjp.lme4(fit,
            type,
+           vars,
            ri.nr,
            title,
            geom.size,
@@ -206,7 +213,7 @@ sjp.glmer <- function(fit,
            axisTitle.y,
            interceptLineType,
            interceptLineColor,
-           showValueLabels, 
+           showValueLabels,
            labelDigits,
            showPValueLabels,
            facet.grid,
@@ -242,6 +249,11 @@ sjp.glmer <- function(fit,
 #'            \item \code{"fe.cor"} for correlation matrix of fixed effects
 #'            \item \code{"re.qq"} for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)
 #'          }
+#' @param vars a numeric vector with column indices of selected variables or a character vector with
+#'          variable names of selected variables from the fitted model, which should be used to plot probability
+#'          curves. This parameter only applies if \code{type} is either \code{"fe.pc"} (resp. \code{"fe.prob"}
+#'          or \code{"fe.pc"} (resp. \code{"re.pc"}). In this case, only probability curves for the selected
+#'          variables specified in \code{"vars"} will be plotted.
 #' @param ri.nr Numeric value. If \code{type = "re"} and fitted model has more than one random
 #'          intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
 #'          which list element of \code{lme4::ranef}) will be plotted. Default is \code{1},
@@ -280,7 +292,7 @@ sjp.glmer <- function(fit,
 #'          on the plot type is chosen.
 #' @param interceptLineType The linetype of the intercept line (zero point). Default is \code{2} (dashed line).
 #' @param interceptLineColor The color of the intercept line. Default value is \code{"grey70"}.
-#' @param showValueLabels Whether the beta and standardized beta values should be plotted 
+#' @param showValueLabels Whether the beta and standardized beta values should be plotted
 #'          to each dot or not.
 #' @param labelDigits The amount of digits for rounding the estimations (see \code{showValueLabels}).
 #'          Default is 2, i.e. estimators have 2 digits after decimal point.
@@ -362,6 +374,7 @@ sjp.glmer <- function(fit,
 #' @export
 sjp.lmer <- function(fit,
                      type = "re",
+                     vars = NULL,
                      ri.nr = 1,
                      title = NULL,
                      geom.size = 3,
@@ -375,7 +388,7 @@ sjp.lmer <- function(fit,
                      axisTitle.y = NULL,
                      interceptLineType = 2,
                      interceptLineColor = "grey70",
-                     showValueLabels=TRUE, 
+                     showValueLabels=TRUE,
                      labelDigits=2,
                      showPValueLabels=TRUE,
                      facet.grid = TRUE,
@@ -384,6 +397,7 @@ sjp.lmer <- function(fit,
                      printPlot = TRUE) {
   sjp.lme4(fit,
            type,
+           vars,
            ri.nr,
            title,
            geom.size,
@@ -397,7 +411,7 @@ sjp.lmer <- function(fit,
            axisTitle.y,
            interceptLineType,
            interceptLineColor,
-           showValueLabels, 
+           showValueLabels,
            labelDigits,
            showPValueLabels,
            facet.grid,
@@ -410,6 +424,7 @@ sjp.lmer <- function(fit,
 
 sjp.lme4  <- function(fit,
                       type,
+                      vars,
                       ri.nr,
                       title,
                       geom.size,
@@ -423,7 +438,7 @@ sjp.lme4  <- function(fit,
                       axisTitle.y,
                       interceptLineType,
                       interceptLineColor,
-                      showValueLabels, 
+                      showValueLabels,
                       labelDigits,
                       showPValueLabels,
                       facet.grid,
@@ -704,6 +719,7 @@ sjp.lme4  <- function(fit,
       return(invisible(sjp.lme.feprobcurv(fit,
                                           show.se,
                                           facet.grid,
+                                          vars,
                                           printPlot)))
     }
     else {
@@ -716,6 +732,7 @@ sjp.lme4  <- function(fit,
       return (invisible(sjp.lme.reprobcurve(fit,
                                             show.se,
                                             facet.grid,
+                                            vars,
                                             printPlot)))
     }
     else {
@@ -765,7 +782,7 @@ sjp.lme4  <- function(fit,
                  color = interceptLineColor) +
       geom_point(size = geom.size) +
       # print value labels and p-values
-      geom_text(aes(label = p, y = OR), 
+      geom_text(aes(label = p, y = OR),
                 vjust = -0.7) +
       # ---------------------------------------
       # labels in sorted order
@@ -899,9 +916,24 @@ sjp.lme4  <- function(fit,
 }
 
 
+lme.p <- function(fit) {
+  # retrieve sigificance level of independent variables (p-values)
+  cs <- coef(summary(fit))
+  # check if we have p-values in summary
+  if (ncol(cs) >= 4) {
+    pv <- cs[, 4]
+  }
+  else {
+    ps <- NULL
+  }
+  return (ps)
+}
+
+
 sjp.lme.feprobcurv <- function(fit,
                                show.se,
                                facet.grid,
+                               vars,
                                printPlot) {
   # ----------------------------
   # prepare additional plots, when metric
@@ -923,8 +955,19 @@ sjp.lme.feprobcurv <- function(fit,
   # coefficients list
   # ----------------------------
   fit.term.length <- length(names(lme4::fixef(fit))[-1])
-  fit.term.names <- attr(attr(fit.df, "terms"), "term.labels")[1 : fit.term.length]
+  fit.term.names <- na.omit(attr(attr(fit.df, "terms"), "term.labels")[1 : fit.term.length])
   response.name <- attr(attr(attr(fit.df, "terms"), "dataClasses"), "names")[1]
+  # ----------------------------
+  # filter vars?
+  # ----------------------------
+  if (!is.null(vars)) {
+    if (is.character(vars)) {
+      fit.term.names <- fit.term.names[!is.na(match(fit.term.names, vars))]
+    }
+    else {
+      fit.term.names <- fit.term.names[vars]
+    }
+  }
   # ----------------------------
   # plot all terms
   # ----------------------------
@@ -1044,6 +1087,7 @@ sjp.lme.feprobcurv <- function(fit,
 sjp.lme.reprobcurve <- function(fit,
                                 show.se,
                                 facet.grid,
+                                vars,
                                 printPlot) {
   # ----------------------------
   # retrieve data frame of model to check whether
@@ -1057,10 +1101,21 @@ sjp.lme.reprobcurve <- function(fit,
   plot.prob <- list()
   mydf.prob <- list()
   fit.term.length <- length(names(lme4::fixef(fit))[-1])
-  fit.term.names <- attr(attr(fit.df, "terms"), "term.labels")[1 : fit.term.length]
+  fit.term.names <- na.omit(attr(attr(fit.df, "terms"), "term.labels")[1 : fit.term.length])
   response.name <- attr(attr(attr(fit.df, "terms"), "dataClasses"), "names")[1]
   # retrieve random effects
   rand.ef <- lme4::ranef(fit)[[1]]
+  # ----------------------------
+  # filter vars?
+  # ----------------------------
+  if (!is.null(vars)) {
+    if (is.character(vars)) {
+      fit.term.names <- fit.term.names[!is.na(match(fit.term.names, vars))]
+    }
+    else {
+      fit.term.names <- fit.term.names[vars]
+    }
+  }
   # ----------------------------
   # loop through all coefficients
   # ----------------------------

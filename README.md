@@ -34,6 +34,12 @@ install.packages("sjPlot")
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
 
+### Changelog of current stable build 1.6.7-1
+
+#### Changes to functions
+* Added parameter `vars` to `sjp.glmer` and `sjp.lmer` to plot probability curves only for selected variables.
+
+
 ### Changelog of current stable build 1.6.5
 
 #### New functions

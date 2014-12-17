@@ -4,11 +4,11 @@
 \alias{sjp.glmer}
 \title{Plot odds ratios (forest plots) of generalized linear mixed effects models}
 \usage{
-sjp.glmer(fit, type = "re", ri.nr = 1, title = NULL, geom.size = 3,
-  geom.colors = "Set1", hideErrorBars = FALSE, showIntercept = TRUE,
-  stringIntercept = "(Intercept)", sort.coef = NULL, pred.labels = NULL,
-  axisTitle.x = NULL, axisTitle.y = NULL, facet.grid = TRUE,
-  free.scale = FALSE, interceptLineType = 2,
+sjp.glmer(fit, type = "re", vars = NULL, ri.nr = 1, title = NULL,
+  geom.size = 3, geom.colors = "Set1", hideErrorBars = FALSE,
+  showIntercept = TRUE, stringIntercept = "(Intercept)", sort.coef = NULL,
+  pred.labels = NULL, axisTitle.x = NULL, axisTitle.y = NULL,
+  facet.grid = TRUE, free.scale = FALSE, interceptLineType = 2,
   interceptLineColor = "grey70", showValueLabels = TRUE, labelDigits = 2,
   showPValueLabels = TRUE, fade.ns = FALSE, show.se = FALSE,
   printPlot = TRUE)
@@ -25,6 +25,12 @@ sjp.glmer(fit, type = "re", ri.nr = 1, title = NULL, geom.size = 3,
   \item \code{"fe.pc"} or \code{"fe.prob"} to plot probability curves of all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
   \item \code{"ri.pc"} or \code{"ri.prob"} to plot probability curves of random intercept variances for all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
 }}
+
+\item{vars}{a numeric vector with column indices of selected variables or a character vector with
+variable names of selected variables from the fitted model, which should be used to plot probability
+curves. This parameter only applies if \code{type} is either \code{"fe.pc"} (resp. \code{"fe.prob"}
+or \code{"fe.pc"} (resp. \code{"re.pc"}). In this case, only probability curves for the selected
+variables specified in \code{"vars"} will be plotted.}
 
 \item{ri.nr}{Numeric value. If \code{type = "re"} and fitted model has more than one random
 intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
