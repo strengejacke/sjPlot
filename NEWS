@@ -6,7 +6,7 @@ Changes to functions:
 
 Bug fixes:
 * Fixed bug with type = "dots" in "sjp.grpfrq".
-* Fixex bug with predictor labelling in "sjp.lm" and "sjp.glm" when parameter "labelPredictors" was not used.
+* Fixed bug with predictor labelling in "sjp.lm" and "sjp.glm" when parameter "labelPredictors" was not used.
 
 
 Version 1.6.5

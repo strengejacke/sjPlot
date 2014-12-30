@@ -42,7 +42,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 
 #### Bug fixes
 * Fixed bug with `type = "dots"` in `sjp.grpfrq`.
-* Fixex bug with predictor labelling in `sjp.lm` and `sjp.glm` when parameter `labelPredictors` was not used.
+* Fixed bug with predictor labelling in `sjp.lm` and `sjp.glm` when parameter `labelPredictors` was not used.
 
 ### Changelog of current stable build 1.6.5
 
