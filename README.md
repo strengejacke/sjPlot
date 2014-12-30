@@ -37,7 +37,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 ### Changelog of current development build 1.6.7-2
 
 #### Changes to functions
-* Added parameter `vars` to `sjp.glmer` and `sjp.lmer` to plot probability curves only for selected variables.
+* Added parameter `vars` to `sjp.glmer` to plot probability curves only for selected variables.
 * Added parameter `pvaluesApaStyle` to various functions. If this parameter is `TRUE`, p-values less than 0.001 will be indicates as `p < 0.001` instead of being rounded to `p = 0.000`.
 
 #### Bug fixes

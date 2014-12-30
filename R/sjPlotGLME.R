@@ -249,11 +249,6 @@ sjp.glmer <- function(fit,
 #'            \item \code{"fe.cor"} for correlation matrix of fixed effects
 #'            \item \code{"re.qq"} for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)
 #'          }
-#' @param vars a numeric vector with column indices of selected variables or a character vector with
-#'          variable names of selected variables from the fitted model, which should be used to plot probability
-#'          curves. This parameter only applies if \code{type} is either \code{"fe.pc"} (resp. \code{"fe.prob"}
-#'          or \code{"fe.pc"} (resp. \code{"re.pc"}). In this case, only probability curves for the selected
-#'          variables specified in \code{"vars"} will be plotted.
 #' @param ri.nr Numeric value. If \code{type = "re"} and fitted model has more than one random
 #'          intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
 #'          which list element of \code{lme4::ranef}) will be plotted. Default is \code{1},
@@ -374,7 +369,6 @@ sjp.glmer <- function(fit,
 #' @export
 sjp.lmer <- function(fit,
                      type = "re",
-                     vars = NULL,
                      ri.nr = 1,
                      title = NULL,
                      geom.size = 3,
@@ -397,7 +391,7 @@ sjp.lmer <- function(fit,
                      printPlot = TRUE) {
   sjp.lme4(fit,
            type,
-           vars,
+           NULL,
            ri.nr,
            title,
            geom.size,
