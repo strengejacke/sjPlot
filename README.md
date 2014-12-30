@@ -34,11 +34,15 @@ install.packages("sjPlot")
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
 
-### Changelog of current stable build 1.6.7-1
+### Changelog of current development build 1.6.7-2
 
 #### Changes to functions
 * Added parameter `vars` to `sjp.glmer` and `sjp.lmer` to plot probability curves only for selected variables.
+* Added parameter `pvaluesApaStyle` to various functions. If this parameter is `TRUE`, p-values less than 0.001 will be indicates as `p < 0.001` instead of being rounded to `p = 0.000`.
 
+#### Bug fixes
+* Fixed bug with `type = "dots"` in `sjp.grpfrq`.
+* Fixex bug with predictor labelling in `sjp.lm` and `sjp.glm` when parameter `labelPredictors` was not used.
 
 ### Changelog of current stable build 1.6.5
 

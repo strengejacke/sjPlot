@@ -6,9 +6,10 @@
 \usage{
 sjt.corr(data, missingDeletion = "pairwise", corMethod = "spearman",
   title = NULL, showPValues = TRUE, pvaluesAsNumbers = FALSE,
-  fadeNS = TRUE, file = NULL, varlabels = NULL, breakLabelsAt = 40,
-  digits = 3, triangle = "both", val.rm = NULL, stringDiagonal = NULL,
-  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE)
+  pvaluesApaStyle = TRUE, fadeNS = TRUE, file = NULL, varlabels = NULL,
+  breakLabelsAt = 40, digits = 3, triangle = "both", val.rm = NULL,
+  stringDiagonal = NULL, encoding = NULL, CSS = NULL, useViewer = TRUE,
+  no.output = FALSE)
 }
 \arguments{
 \item{data}{A correlation object, built with the R-\code{\link{cor}}-function, or a data frame
@@ -27,6 +28,9 @@ be printed or not.}
 
 \item{pvaluesAsNumbers}{If \code{TRUE}, the significance levels (p-values) are printed as numbers.
 if \code{FALSE} (default), asterisks are used.}
+
+\item{pvaluesApaStyle}{if both \code{pvaluesAsNumbers} and \code{pvaluesApaStyle} are \code{TRUE}, p-values
+smaller than 0.001 are abbreviated as \code{p < 0.001}. Else, the p-value is rounded to \code{0.000}.}
 
 \item{fadeNS}{If \code{TRUE} (default), non-significant correlation-values appear faded (by using
 a lighter grey text color).}

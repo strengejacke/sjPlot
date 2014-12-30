@@ -49,6 +49,8 @@
 #' @param digits.summary Amount of decimals for values in model summary.
 #' @param pvaluesAsNumbers If \code{TRUE}, p-values are shown as numbers. If \code{FALSE} (default),
 #'          p-values are indicated by asterisks.
+#' @param pvaluesApaStyle if both \code{pvaluesAsNumbers} and \code{pvaluesApaStyle} are \code{TRUE}, p-values
+#'          smaller than 0.001 are abbreviated as \code{p < 0.001}. Else, the p-value is rounded to \code{0.000}.
 #' @param boldpvalues If \code{TRUE} (default), significant p-values are shown bold faced.
 #' @param separateConfColumn if \code{TRUE}, the CI values are shown in a separate table column.
 #'          Default is \code{FALSE}.
@@ -240,6 +242,7 @@ sjt.lm <- function (...,
                     digits.sb=2,
                     digits.summary=3,
                     pvaluesAsNumbers=FALSE,
+                    pvaluesApaStyle=TRUE,
                     boldpvalues=TRUE,
                     separateConfColumn=FALSE,
                     newLineConf=TRUE,
@@ -459,7 +462,7 @@ sjt.lm <- function (...,
       lab <- autoSetVariableLabels(fit$model[, i])
       # if not, use coefficient name
       if (is.null(lab)) {
-        lab <- row.names(coeffs)[-1][i]
+        lab <- row.names(coeffs)[i]
       }
       labelPredictors <- c(labelPredictors, lab)
     }
@@ -485,9 +488,23 @@ sjt.lm <- function (...,
     })
   }
   else {
+    if (boldpvalues) {
+      sb1 <- "<b>"
+      sb2 <- "</b>"
+    }
+    else {
+      sb1 <- sb2 <- ""
+    }
     pv <- apply(pv, c(1,2), function(x) {
-      if (x <0.05 && boldpvalues) {
-        x <- sprintf("<b>%.*f</b>", digits.p, x)      }
+      if (x <0.05) {
+        if (x < 0.001 && pvaluesApaStyle) {
+          x <- sprintf("%s&lt;&nbsp;0.001%s", sb1, sb2)
+        }
+        else {
+          x <- sprintf("%s%.*f%s", sb1, digits.p, x, sb2)
+        }
+        
+      }
       else {
         x <- sprintf("%.*f", digits.p, x) 
       }

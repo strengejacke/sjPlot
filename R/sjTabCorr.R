@@ -20,6 +20,8 @@
 #'          be printed or not.
 #' @param pvaluesAsNumbers If \code{TRUE}, the significance levels (p-values) are printed as numbers.
 #'          if \code{FALSE} (default), asterisks are used.
+#' @param pvaluesApaStyle if both \code{pvaluesAsNumbers} and \code{pvaluesApaStyle} are \code{TRUE}, p-values
+#'          smaller than 0.001 are abbreviated as \code{p < 0.001}. Else, the p-value is rounded to \code{0.000}.
 #' @param fadeNS If \code{TRUE} (default), non-significant correlation-values appear faded (by using
 #'          a lighter grey text color).
 #' @param file The destination file, which will be in html-format. If no filepath is specified,
@@ -151,6 +153,7 @@ sjt.corr <- function (data,
                       title=NULL,
                       showPValues=TRUE,
                       pvaluesAsNumbers=FALSE,
+                      pvaluesApaStyle=TRUE,
                       fadeNS=TRUE,
                       file=NULL, 
                       varlabels=NULL,
@@ -274,6 +277,9 @@ sjt.corr <- function (data,
       }
     }
     cpvalues <- apply(cpvalues, c(1,2), fun.star)
+    if (pvaluesAsNumbers && pvaluesApaStyle) {
+      cpvalues <- apply(cpvalues, c(1,2), function (x) if (x < 0.001) x <- "&lt;&nbsp;0.001" else x <- sprintf("%.*f", digits, x))
+    }
   }
   else {
     showPValues <- FALSE
@@ -412,7 +418,7 @@ sjt.corr <- function (data,
               # --------------------------------------------------------
               # if we have p-values as number, print them in new row
               # --------------------------------------------------------
-              cellval <- sprintf("%s<br><span class=\"pval\">(%.*f)</span>", cellval, digits, cpvalues[i,j])
+              cellval <- sprintf("%s<br><span class=\"pval\">(%s)</span>", cellval, cpvalues[i,j])
             }
             else {
               # --------------------------------------------------------

@@ -290,21 +290,42 @@ crosstabsum <- function(ftab) {
     if(min(tab$expected)<5 || (min(tab$expected)<10 && chsq$parameter==1)) fish <- fisher.test(ftab, simulate.p.value=TRUE)
     # check whether fisher's test or chi-squared should be printed
     if (is.null(fish)) {
-      modsum <- as.character(as.expression(
-        substitute("N" == tn * "," ~~ chi^2 == c2 * "," ~~ "df" == dft * "," ~~ phi[c] == kook * "," ~~ "p" == pva,
-                   list(tn=summary(ftab)$n.cases,
-                        c2=sprintf("%.2f", chsq$statistic),
-                        dft=c(chsq$parameter),
-                        kook=sprintf("%.2f", sjs.cramer(ftab)),
-                        pva=sprintf("%.3f", chsq$p.value)))))
+      if (chsq$p.value < 0.001) {
+        modsum <- as.character(as.expression(
+          substitute("N" == tn * "," ~~ chi^2 == c2 * "," ~~ "df" == dft * "," ~~ phi[c] == kook * "," ~~ "p" < pva,
+                     list(tn=summary(ftab)$n.cases,
+                          c2=sprintf("%.2f", chsq$statistic),
+                          dft=c(chsq$parameter),
+                          kook=sprintf("%.2f", sjs.cramer(ftab)),
+                          pva=0.001))))
+      }
+      else {
+        modsum <- as.character(as.expression(
+          substitute("N" == tn * "," ~~ chi^2 == c2 * "," ~~ "df" == dft * "," ~~ phi[c] == kook * "," ~~ "p" == pva,
+                     list(tn=summary(ftab)$n.cases,
+                          c2=sprintf("%.2f", chsq$statistic),
+                          dft=c(chsq$parameter),
+                          kook=sprintf("%.2f", sjs.cramer(ftab)),
+                          pva=sprintf("%.3f", chsq$p.value)))))
+      }
     }
     else {
-      modsum <- as.character(as.expression(
-        substitute("N" == tn * "," ~~ "df" == dft * "," ~~ phi[c] == kook * "," ~~ "Fisher's p" == pva,
-                   list(tn=summary(ftab)$n.cases,
-                        dft=c(chsq$parameter),
-                        kook=sprintf("%.2f", sjs.cramer(ftab)),
-                        pva=sprintf("%.3f", fish$p.value)))))
+      if (fish$p.value < 0.001) {
+        modsum <- as.character(as.expression(
+          substitute("N" == tn * "," ~~ "df" == dft * "," ~~ phi[c] == kook * "," ~~ "Fisher's p" < pva,
+                     list(tn=summary(ftab)$n.cases,
+                          dft=c(chsq$parameter),
+                          kook=sprintf("%.2f", sjs.cramer(ftab)),
+                          pva=0.001))))
+      }
+      else {
+        modsum <- as.character(as.expression(
+          substitute("N" == tn * "," ~~ "df" == dft * "," ~~ phi[c] == kook * "," ~~ "Fisher's p" == pva,
+                     list(tn=summary(ftab)$n.cases,
+                          dft=c(chsq$parameter),
+                          kook=sprintf("%.2f", sjs.cramer(ftab)),
+                          pva=sprintf("%.3f", fish$p.value)))))
+      }
     }
   }
   # if variables have two categories (2x2 table), use phi to calculate

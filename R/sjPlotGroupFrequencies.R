@@ -481,10 +481,10 @@ sjp.grpfrq <- function(varCount,
     miss <- as.numeric(as.character(allgroups[!allgroups %in% mydat$group]))
     # retrieve subset of all rows where group is from lowest group-value to 
     # missing group
-    dummy1 <- mydat[apply(mydat, MARGIN=1, function(xy) all(xy[2]<miss)),]
+    dummy1 <- mydat[apply(mydat, MARGIN=1, function(xy) all(xy[2] < miss)), ]
     # retrieve subset of all rows where group is from missing group to
     # highest group-value
-    dummy2 <- mydat[apply(mydat, MARGIN=1, function(xy) all(xy[2]>miss)),]
+    dummy2 <- mydat[apply(mydat, MARGIN=1, function(xy) all(xy[2] > miss)), ]
     # create dummy-data frame that contains the missing row with zero-values
     emptyrows <- as.data.frame(cbind(count=c(1:catcount), group=miss, frq=0, layer=1:catcount))
     emptyrows$count <- as.factor(as.character(emptyrows$count))
@@ -555,9 +555,17 @@ sjp.grpfrq <- function(varCount,
           xsub <- as.numeric(na.omit(xsub))
           ysub <- as.numeric(na.omit(ysub))
           wt <- wilcox.test(xsub ~ ysub)
-          modsum <- as.character(as.expression(
-            substitute(p[pgrp] == pval, list(pgrp=sprintf("(%i|%i)", i, j),
-                                        pval=sprintf("%.3f", wt$p.value)))))
+          
+          if (wt$p.value < 0.001) {
+            modsum <- as.character(as.expression(
+              substitute(p[pgrp] < pval, list(pgrp=sprintf("(%i|%i)", i, j),
+                                               pval=0.001))))
+          }
+          else {
+            modsum <- as.character(as.expression(
+              substitute(p[pgrp] == pval, list(pgrp=sprintf("(%i|%i)", i, j),
+                                               pval=sprintf("%.3f", wt$p.value)))))
+          }
           completeString <- sprintf("%s * \",\" ~ ~ %s", 
                                     completeString, 
                                     modsum)
@@ -785,16 +793,11 @@ sjp.grpfrq <- function(varCount,
   # init shaded rectangles for plot
   ganno <- NULL
   # check whether we have dots or bars
-  if (type=="dots" || type=="dotlines") {
+  if (type=="dots") {
     # position_dodge displays dots in a dodged position so we avoid overlay here. This may lead
     # to a more difficult distinction of group belongings, since the dots are "horizontally spread"
     # over the digram. For a better overview, we can add a "PlotAnnotation" (see "showPlotAnnotation) here.
-    geob <- geom_point(position=position_dodge(0.8), size=geom.size, shape=21)
-    # connect dots with lines?
-    if (type=="dotlines") {
-      geob <- geom_point(position=position_dodge(0.8), size=geom.size, shape=21) + geom_line()
-      type  <- "dots"
-    }
+    geob <- geom_point(position=position_dodge(0.8), size=geom.size, shape=16)
     # create shaded rectangle, so we know which dots belong to the same category
     if (showPlotAnnotation) {
       ganno <- annotate("rect", xmin=mydat$layer-0.4, xmax=mydat$layer+0.4, ymin=lower_lim, ymax=upper_lim, fill="grey80", alpha=0.1)
@@ -1086,10 +1089,18 @@ sjp.grpfrq <- function(varCount,
                    fill = fcsp)
   }
   else {
-    baseplot <- ggplot(mydat, 
-                       aes(x = factor(count), 
-                           y = frq, 
-                           fill = group))
+    if (type == "dots") {
+      baseplot <- ggplot(mydat, 
+                         aes(x = factor(count), 
+                             y = frq, 
+                             colour = group))
+    }
+    else {
+      baseplot <- ggplot(mydat, 
+                         aes(x = factor(count), 
+                             y = frq, 
+                             fill = group))
+    }
     # ---------------------------------------------------------
     # check whether we have dots plotted, and if so, use annotation
     # We have to use annotation first, because the diagram's layers are plotted

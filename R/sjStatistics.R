@@ -193,7 +193,14 @@ sjs.mwu <- function(var, grp, distribution="asymptotic", weights=NULL) {
         else {
           cat(sprintf("Groups %i = %s (n = %i) | %i = %s (n = %i):\n", i, labels[i], length(xsub[which(ysub.n==i)]), j, labels[j], length(xsub[which(ysub.n==j)])))
         }
-        cat(sprintf("  U = %.3f, W = %.3f, p = %.3f, Z = %.3f\n  effect-size r = %.3f\n  rank-mean(%i) = %.2f\n  rank-mean(%i) = %.2f\n\n", u, w, p, z, r, i, rkm.i, j, rkm.j))
+        if (p < 0.001) {
+          p  <- 0.001
+          p.string <- "<"
+        }
+        else {
+          p.string <- "="
+        }
+        cat(sprintf("  U = %.3f, W = %.3f, p %s %.3f, Z = %.3f\n  effect-size r = %.3f\n  rank-mean(%i) = %.2f\n  rank-mean(%i) = %.2f\n\n", u, w, p.string, p, z, r, i, rkm.i, j, rkm.j))
         df <- rbind(df, cbind(grp1=i, grp2=j, u=u, w=w, p=p, z=z, r=r, rank.mean.grp1=rkm.i, rank.mean.grp2=rkm.j))
       }
     }
@@ -203,9 +210,17 @@ sjs.mwu <- function(var, grp, distribution="asymptotic", weights=NULL) {
     message("Performing Kruskal-Wallis-Test...")
     message("---------------------------------")
     kw <- kruskal.test(var, grp)
-    cat(sprintf("chi-squared = %.3f\n",kw$statistic ))
-    cat(sprintf("df = %i\n",kw$parameter ))
-    cat(sprintf("p = %.3f\n",kw$p.value ))
+    cat(sprintf("chi-squared = %.3f\n", kw$statistic))
+    cat(sprintf("df = %i\n", kw$parameter))
+    if (kw$p.value < 0.001) {
+      p  <- 0.001
+      p.string <- "<"
+    }
+    else {
+      p <- kw$p.value
+      p.string <- "="
+    }
+    cat(sprintf("p %s %.3f\n", p.string, p))
   }
   invisible(df)
 }
