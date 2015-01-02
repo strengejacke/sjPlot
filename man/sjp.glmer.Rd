@@ -28,7 +28,7 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = 1, title = NULL,
 
 \item{vars}{a numeric vector with column indices of selected variables or a character vector with
 variable names of selected variables from the fitted model, which should be used to plot probability
-curves. This parameter only applies if \code{type} is either \code{"fe.pc"} (resp. \code{"fe.prob"}
+curves. This parameter only applies if \code{type} is either \code{"fe.pc"} (resp. \code{"fe.prob"})
 or \code{"fe.pc"} (resp. \code{"re.pc"}). In this case, only probability curves for the selected
 variables specified in \code{"vars"} will be plotted.}
 

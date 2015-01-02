@@ -30,7 +30,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #'          }
 #' @param vars a numeric vector with column indices of selected variables or a character vector with
 #'          variable names of selected variables from the fitted model, which should be used to plot probability
-#'          curves. This parameter only applies if \code{type} is either \code{"fe.pc"} (resp. \code{"fe.prob"}
+#'          curves. This parameter only applies if \code{type} is either \code{"fe.pc"} (resp. \code{"fe.prob"})
 #'          or \code{"fe.pc"} (resp. \code{"re.pc"}). In this case, only probability curves for the selected
 #'          variables specified in \code{"vars"} will be plotted.
 #' @param ri.nr Numeric value. If \code{type = "re"} and fitted model has more than one random
@@ -1041,7 +1041,7 @@ sjp.lme.feprobcurv <- function(fit,
       mydf.ges <- rbind(mydf.ges, mydf.metricpred[[i]])
       # create single plots for each numeric predictor
       mp <- ggplot(mydf.metricpred[[i]], aes(x = value, y = y)) +
-        labs(x = axisLabels.mp[i], y = "Probability") +
+        labs(x = axisLabels.mp[i], y = "Predicted Probability") +
         stat_smooth(method = "glm",
                     family = "binomial",
                     se = show.se) +
@@ -1059,8 +1059,8 @@ sjp.lme.feprobcurv <- function(fit,
                                  y = y,
                                  colour = grp)) +
         labs(x = NULL,
-             y = "Probability",
-             title = "Probability of coefficients") +
+             y = "Predicted Probability",
+             title = "Predicted Probabilities of coefficients") +
 #         scale_colour_manual(values = brewer_pal(palette = "Set1")(length(axisLabels.mp)),
 #                             labels = axisLabels.mp) +
         stat_smooth(method = "glm",
@@ -1206,8 +1206,8 @@ sjp.lme.reprobcurve <- function(fit,
           # when se exceeds plot range.
           coord_cartesian(ylim = c(0, 1)) +
           labs(x = NULL,
-               y = "Probability",
-               title = sprintf("Probability of %s on %s", pred.name, response.name))
+               y = "Predicted Probability",
+               title = sprintf("Preicted Probability of %s on %s", pred.name, response.name))
         # wrap to facets
         if (facet.grid) {
           mp <- mp + facet_wrap( ~ grp,
