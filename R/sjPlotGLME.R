@@ -710,7 +710,6 @@ sjp.lme4  <- function(fit,
   else if (type == "fe.ri") {
     if (fun == "lm") {
       return (invisible(sjp.lme.feri(fit,
-                                     facet.grid,
                                      ri.nr,
                                      vars,
                                      printPlot)))
@@ -1238,7 +1237,6 @@ sjp.lme.reprobcurve <- function(fit,
 
 
 sjp.lme.feri <- function(fit,
-                         facet.grid,
                          ri.nr,
                          vars,
                          printPlot) {
@@ -1314,7 +1312,17 @@ sjp.lme.feri <- function(fit,
       geom_line() +
       xlab(fit.term.names[j]) +
       ylab(response.name)
-    print(gp)
+    # -------------------------------------
+    # add to plot and df list
+    # -------------------------------------
+    plot.fe[[length(plot.fe)+1]] <- gp
+    mydf.fe[[length(mydf.fe)+1]] <- final.df
+    # -------------------------------------
+    # check if metric plots should be plotted
+    # -------------------------------------
+    if (printPlot) {
+      print(gp)
+    }
   }
   invisible(structure(class = "sjplmer.feri",
                       list(mydf = mydf.fe,
