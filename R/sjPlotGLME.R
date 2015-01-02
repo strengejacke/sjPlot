@@ -1249,6 +1249,7 @@ sjp.lme.feri <- function(fit,
   plot.fe <- list()
   mydf.fe <- list()
   all.term.names <- colnames(fit@frame)
+  response.name <- all.term.names[1]
   fit.term.names <- names(lme4::fixef(fit))[-1]
   estimates <- unname(lme4::fixef(fit))[-1]
   fi <- unname(lme4::fixef(fit))[1]
@@ -1311,7 +1312,8 @@ sjp.lme.feri <- function(fit,
     levels(final.df$grp)  <- row.names(rand.ef)
     gp <- ggplot(final.df, aes(x = x, y = y, colour = grp)) + 
       geom_line() +
-      xlab(fit.term.names[j])
+      xlab(fit.term.names[j]) +
+      ylab(response.name)
     print(gp)
   }
   invisible(structure(class = "sjplmer.feri",

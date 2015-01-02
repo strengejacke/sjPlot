@@ -34,10 +34,11 @@ install.packages("sjPlot")
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
 
-### Changelog of current development build 1.6.7-2
+### Changelog of current development build 1.6.7-3
 
 #### Changes to functions
 * Added parameter `vars` to `sjp.glmer` to plot probability curves only for selected variables.
+* Added type `fe.ri` to `type` parameter of `sjp.lmer` to plot fixed effects slopes for each random intercept (group level).
 * Added parameter `pvaluesApaStyle` to various functions. If this parameter is `TRUE`, p-values less than 0.001 will be indicates as `p < 0.001` instead of being rounded to `p = 0.000`.
 
 #### Bug fixes
