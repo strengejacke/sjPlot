@@ -22,13 +22,13 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = 1, title = NULL,
   \item \code{"fe"} for estimates of fixed effects
   \item \code{"fe.cor"} for correlation matrix of fixed effects
   \item \code{"re.qq"} for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)
+  \item \code{"fe.ri"} for fixed effects slopes depending on the random intercept.
 }}
 
 \item{vars}{a numeric vector with column indices of selected variables or a character vector with
 variable names of selected variables from the fitted model, which should be used to plot probability
-curves. This parameter only applies if \code{type} is either \code{"fe.pc"} (resp. \code{"fe.prob"}
-or \code{"fe.pc"} (resp. \code{"re.pc"}). In this case, only probability curves for the selected
-variables specified in \code{"vars"} will be plotted.}
+curves. This parameter only applies if \code{type = "fe.ri"}. In this case, only
+probability curves for the selected variables specified in \code{"vars"} will be plotted.}
 
 \item{ri.nr}{Numeric value. If \code{type = "re"} and fitted model has more than one random
 intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
