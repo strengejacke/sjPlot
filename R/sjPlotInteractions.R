@@ -221,7 +221,7 @@ sjp.int <- function(fit,
     fun <- "glmer"
   }
   if ((fun == "glm" || fun == "glmer") && is.null(axisTitle.y)) {
-    axisTitle.y <- "Probability"
+    axisTitle.y <- "Predicted Probability"
   }
   # -----------------------------------------------------------
   # parameter check
