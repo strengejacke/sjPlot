@@ -3,7 +3,7 @@ Version 1.6.7
 Changes to functions:
 * Added parameter "vars" to "sjp.glmer" to plot probability curves only for selected variables.
 * Added type "fe.ri" to "type" parameter of "sjp.lmer" to plot fixed effects slopes for each random intercept (group level).
-* Added parameter "pvaluesApaStyle" to various functions. If this parameter is TRUE, p-values less than 0.001 will be indicates as "p < 0.001" instead of being rounded to "p = 0.000".
+* Added parameter "pvaluesApaStyle" to various functions. If this parameter is TRUE, p-values less than 0.001 are indicated as "p < 0.001" instead of being rounded to "p = 0.000".
 * Added parameter "showTotalN" to "sjt.xtab" to show column and row sums even if parameter "showObserved" is FALSE.
 
 Bug fixes:
