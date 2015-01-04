@@ -9,8 +9,8 @@ sjt.xtab(var.row, var.col, var.grp = NULL, weightBy = NULL, digits = 1,
   breakVariableLabelsAt = 40, breakValueLabelsAt = 20,
   stringTotal = "Total", showObserved = TRUE, showCellPerc = FALSE,
   showRowPerc = FALSE, showColPerc = FALSE, showExpected = FALSE,
-  showHorizontalLine = FALSE, showSummary = TRUE, showLegend = TRUE,
-  showNA = FALSE, labelNA = "NA", tdcol.n = "black",
+  showTotalN = FALSE, showHorizontalLine = FALSE, showSummary = TRUE,
+  showLegend = TRUE, showNA = FALSE, labelNA = "NA", tdcol.n = "black",
   tdcol.expected = "#339999", tdcol.cell = "#993333",
   tdcol.row = "#333399", tdcol.col = "#339933", highlightTotal = FALSE,
   highlightColor = "#f8f8f8", percSign = "&nbsp;&#37;", hundret = "100.0",
@@ -64,6 +64,8 @@ one line and when a line break is inserted. Default is 20.}
 \item{showColPerc}{If \code{TRUE}, column percentage values are shown.}
 
 \item{showExpected}{If \code{TRUE}, expected values are also shown.}
+
+\item{showTotalN}{If \code{TRUE}, column and row sums are also shown, even if \code{showObserved} is \code{FALSE}.}
 
 \item{showHorizontalLine}{If \code{TRUE}, data rows are separated with a horizontal line.}
 
