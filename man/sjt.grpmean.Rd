@@ -4,8 +4,9 @@
 \alias{sjt.grpmean}
 \title{Show grouped means as HTML table}
 \usage{
-sjt.grpmean(varCount, varGrp, rowLabels = NULL, digits = 2, file = NULL,
-  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE)
+sjt.grpmean(varCount, varGrp, rowLabels = NULL, digits = 2,
+  digits.summary = 3, file = NULL, encoding = NULL, CSS = NULL,
+  useViewer = TRUE, no.output = FALSE)
 }
 \arguments{
 \item{varCount}{a numeric vector / variable. Mean, SD and SE for this variable are calculated.}
@@ -17,6 +18,8 @@ value labels of \code{varGrp}. Used to name table rows. By default, row labels
 are automatically detected if set by \code{sji.setValueLabels}.}
 
 \item{digits}{amount of digits for table values.}
+
+\item{digits.summary}{amount of digits for summary statistics (Anova).}
 
 \item{file}{The destination file, which will be in html-format. If no filepath is specified,
 the file will be saved as temporary file and openend either in the RStudio View pane or
@@ -62,7 +65,7 @@ Invisibly returns a \code{\link{structure}} with
 }
 \description{
 Computes mean, sd and se for each sub-group (indicated by \code{varGrp})
-               of \code{varCount} as prints the result as HTML table.
+               of \code{varCount} and prints the result as HTML table.
 }
 \examples{
 \dontrun{

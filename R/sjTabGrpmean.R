@@ -2,7 +2,7 @@
 #' @name sjt.grpmean
 #' 
 #' @description Computes mean, sd and se for each sub-group (indicated by \code{varGrp})
-#'                of \code{varCount} as prints the result as HTML table.
+#'                of \code{varCount} and prints the result as HTML table.
 #'              
 #' @seealso \code{\link{sjp.aov1}}  
 #' 
@@ -12,6 +12,7 @@
 #'          value labels of \code{varGrp}. Used to name table rows. By default, row labels
 #'          are automatically detected if set by \code{sji.setValueLabels}.
 #' @param digits amount of digits for table values.
+#' @param digits.summary amount of digits for summary statistics (Anova).
 #' @param file The destination file, which will be in html-format. If no filepath is specified,
 #'          the file will be saved as temporary file and openend either in the RStudio View pane or
 #'          in the default web browser.
@@ -59,6 +60,7 @@ sjt.grpmean <- function(varCount,
                         varGrp, 
                         rowLabels=NULL, 
                         digits=2,
+                        digits.summary = 3,
                         file=NULL,
                         encoding=NULL,
                         CSS=NULL,
@@ -145,7 +147,7 @@ sjt.grpmean <- function(varCount,
                  encoding = encoding,
                  hideProgressBar = TRUE,
                  commentString = sprintf("<strong>Anova:</strong> R<sup>2</sup>=%.*f &middot; adj. R<sup>2</sup>=%.*f &middot; F=%.*f &middot; p=%.*f",
-                                         digits, r2, digits, r2.adj, digits, fstat, digits, pval))
+                                         digits.summary, r2, digits.summary, r2.adj, digits.summary, fstat, digits.summary, pval))
   # -------------------------------------
   # check if html-content should be printed
   # -------------------------------------

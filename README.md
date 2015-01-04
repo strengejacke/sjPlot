@@ -41,6 +41,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * Added type `fe.ri` to `type` parameter of `sjp.lmer` to plot fixed effects slopes for each random intercept (group level).
 * Added parameter `pvaluesApaStyle` to various functions. If this parameter is `TRUE`, p-values less than 0.001 are indicated as `p < 0.001` instead of being rounded to `p = 0.000`.
 * Added parameter `showTotalN` to `sjt.xtab` to show column and row sums even if parameter `showObserved` is `FALSE`.
+* Added parameter `digits.summary` to `sjt.grpmean` to use different digits for table values and summary statistics.
 
 #### Bug fixes
 * Fixed bug with `type = "dots"` in `sjp.grpfrq`.
