@@ -453,7 +453,7 @@ sjt.xtab <- function (var.row,
   css.tdata <- "padding:0.2cm;"
   css.firstcolborder <- "border-bottom:1px solid;"
   css.secondtablerow <- "border-bottom:1px solid; text-align:center;"
-  css.leftalign <- "text-align:left; vertical-align:top;"
+  css.leftalign <- ifelse(showObserved & showTotalN, "text-align:left; vertical-align:top;", "text-align:left; vertical-align:middle;")
   css.centeralign <- "text-align:center;"
   css.lasttablerow <- ifelse(highlightTotal==TRUE, sprintf(" border-bottom:double; background-color:%s;", highlightColor), " border-bottom:double;")
   css.totcol <- ifelse(highlightTotal==TRUE, sprintf(" background-color:%s;", highlightColor), "")
@@ -747,10 +747,12 @@ sjt.xtab <- function (var.row,
     }
     # create summary row
     if (is.null(fish)) {
-      page.content <- paste(page.content, sprintf("    <td class=\"summary tdata\" colspan=\"%i\">&Chi;<sup>2</sup>=%.3f &middot; df=%i &middot; %s &middot; p=%.3f</td>", totalncol, chsq$statistic, chsq$parameter, kook, chsq$p.value), sep="")
+      pvalstring <- ifelse(chsq$p.value < 0.001, "p&lt;0.001", sprintf("p=%.3f", chsq$p.value))
+      page.content <- paste(page.content, sprintf("    <td class=\"summary tdata\" colspan=\"%i\">&Chi;<sup>2</sup>=%.3f &middot; df=%i &middot; %s &middot; %s</td>", totalncol, chsq$statistic, chsq$parameter, kook, pvalstring), sep="")
     }
     else {
-      page.content <- paste(page.content, sprintf("    <td class=\"summary tdata\" colspan=\"%i\">Fisher's p=%.3f &middot; df=%i &middot; %s</td>", totalncol, fish$p.value, chsq$parameter, kook), sep="")
+      pvalstring <- ifelse(fish$p.value < 0.001, "p&lt;0.001", sprintf("p=%.3f", fish$p.value))
+      page.content <- paste(page.content, sprintf("    <td class=\"summary tdata\" colspan=\"%i\">Fisher's %s &middot; df=%i &middot; %s</td>", totalncol, pvalstring, chsq$parameter, kook), sep="")
     }
     # close table row
     page.content <- paste(page.content, "\n  </tr>\n")
