@@ -13,8 +13,10 @@ sji.setValueLabels(x, labels)
 the \code{"value.labels"} attribute. The length of this character vector must equal
 the value range of \code{"x"}, i.e. if \code{"x"} has values from 1 to 3,
 \code{"labels"} should have a length of 3.
-If \code{"x"} is a data frame, \code{labels} must be a \code{\link{list}} of
-character vectors.}
+If \code{"x"} is a data frame, \code{labels} may also be a \code{\link{list}} of
+character vectors. If \code{labels} is a list, it must have the same length as
+number of columns of \code{x}. If \code{labels} is a vector and \code{x} is a data frame,
+the \code{labels} will be applied to each column of \code{x}.}
 }
 \value{
 \code{"x"} with attached value labels.

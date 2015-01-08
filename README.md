@@ -34,7 +34,7 @@ install.packages("sjPlot")
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
 
-### Changelog of current development build 1.6.7-4
+### Changelog of current development build 1.6.7-5
 
 #### Changes to functions
 * Added parameter `vars` to `sjp.glmer` to plot probability curves only for selected variables.
@@ -42,6 +42,8 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * Added parameter `pvaluesApaStyle` to various functions. If this parameter is `TRUE`, p-values less than 0.001 are indicated as `p < 0.001` instead of being rounded to `p = 0.000`.
 * Added parameter `showTotalN` to `sjt.xtab` to show column and row sums even if parameter `showObserved` is `FALSE`.
 * Added parameter `digits.summary` to `sjt.grpmean` to use different digits for table values and summary statistics.
+* `sji.setValueLabels` now also accepts a vector for the parameter `labels` if `x` is a data frame. Using a vector will apply the labels to each variable of the data frame `x`.
+
 
 #### Bug fixes
 * Fixed bug with `type = "dots"` in `sjp.grpfrq`.
