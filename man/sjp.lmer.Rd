@@ -166,6 +166,13 @@ sjp.lmer(fit,
          type = "fe",
          sort.coef = TRUE)
 
+# plot fixed effects slopes for
+# each random intercept, but only for
+# coefficient "c12hour"
+sjp.lmer(fit,
+         type = "fe.ri",
+         vars = "c12hour")
+
 # plot fixed effects correlations
 sjp.lmer(fit, type = "fe.cor")
 

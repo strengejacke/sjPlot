@@ -191,8 +191,11 @@ sjp.glmer(fit,
           type = "ri.pc",
           facet.grid = FALSE)
 
-# plot probability curve of fixed effects
-sjp.glmer(fit, type = "fe.pc")}
+# plot probability curve of fixed effect,
+# only for coefficient "neg_c_7"
+sjp.glmer(fit,
+          type = "fe.pc",
+          vars = "neg_c_7")}
 }
 \seealso{
 \itemize{

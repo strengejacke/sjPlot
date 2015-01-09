@@ -163,8 +163,11 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #'           type = "ri.pc",
 #'           facet.grid = FALSE)
 #'
-#' # plot probability curve of fixed effects
-#' sjp.glmer(fit, type = "fe.pc")}
+#' # plot probability curve of fixed effect, 
+#' # only for coefficient "neg_c_7"
+#' sjp.glmer(fit, 
+#'           type = "fe.pc", 
+#'           vars = "neg_c_7")}
 #'
 #' @import ggplot2
 #' @importFrom reshape2 melt
@@ -364,6 +367,13 @@ sjp.glmer <- function(fit,
 #'          type = "fe",
 #'          sort.coef = TRUE)
 #'
+#' # plot fixed effects slopes for
+#' # each random intercept, but only for
+#' # coefficient "c12hour"
+#' sjp.lmer(fit, 
+#'          type = "fe.ri", 
+#'          vars = "c12hour")
+#' 
 #' # plot fixed effects correlations
 #' sjp.lmer(fit, type = "fe.cor")
 #'

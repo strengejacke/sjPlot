@@ -34,7 +34,7 @@ install.packages("sjPlot")
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
 
-### Changelog of current development build 1.6.7-5
+### Changelog of current development build 1.6.7-6
 
 #### Changes to functions
 * Added parameter `vars` to `sjp.glmer` to plot probability curves only for selected variables.
@@ -60,7 +60,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * `sjp.lm.int` was merged with function `sjp.int`.
 * Added parameter `ri.nr` to `sjp.glmer` and `sjp.lmer` to select which random effects of which random intercept to plot, in case the model has multiple random intercepts.
 * Added parameters `showValueLabels`, `labelDigits` and `showPValueLabels` to `sjp.glmer` and `sjp.lmer` to plot beta or odds ratio values and p-value-stars to fixed effects plots.
-* Added paramerter `title.align` to `sjp.setTheme` to change alignment of plot title.
+* Added parameter `title.align` to `sjp.setTheme` to change alignment of plot title.
 * `sjt.xtab` can now show/hide observed values in table cells with `showObserved` parameter.
 * `sjt.df` now distinguishes more variable / vector types (like ordinal and categorial, instead of factor only, or double, integer and numeric).
 * `sjp.lm1` no longer requires the data frame used to fit the model.
