@@ -10,7 +10,7 @@ sjt.frq(data, file = NULL, weightBy = NULL, variableLabels = NULL,
   stringPerc = "raw \%", stringValidPerc = "valid \%",
   stringCumPerc = "cumulative \%", stringMissingValue = "missings",
   highlightMedian = FALSE, highlightQuartiles = FALSE,
-  skipZeroRows = FALSE, showSummary = TRUE, showSkew = FALSE,
+  skipZeroRows = "auto", showSummary = TRUE, showSkew = FALSE,
   showKurtosis = FALSE, skewString = "&gamma;",
   kurtosisString = "&omega;", removeStringVectors = TRUE,
   autoGroupStrings = TRUE, maxStringDist = 3, encoding = NULL,
@@ -75,7 +75,13 @@ be highlighted.}
 \item{highlightQuartiles}{If \code{TRUE}, the table row indicating the lower and upper quartiles will
 be highlighted.}
 
-\item{skipZeroRows}{If \code{TRUE}, rows with only zero-values are not printed. Default is \code{FALSE}.}
+\item{skipZeroRows}{If \code{TRUE}, rows with only zero-values are not printed
+(e.g. if a variable has values or levels 1 to 8, and levels / values
+4 to 6 have no counts, these values would not be printed in the table).
+Use \code{FALSE} to print also zero-values, or use \code{"auto"} (default)
+to detect whether it makes sense or not to print zero-values (e.g., a variable
+"age" with values from 10 to 100, where at least 25 percent of all possible values have no
+counts, zero-values would be skipped automatically).}
 
 \item{showSummary}{If \code{TRUE} (default), a summary row with total and valid N as well as mean and
 standard deviation is shown.}

@@ -7,6 +7,7 @@ Changes to functions:
 * Added parameter "showTotalN" to "sjt.xtab" to show column and row sums even if parameter "showObserved" is FALSE.
 * Added parameter "digits.summary" to "sjt.grpmean" to use different digits for table values and summary statistics.
 * "sji.setValueLabels" now also accepts a vector for the parameter "labels" if "x" is a data frame. Using a vector will apply the labels to each variable of the data frame "x".
+* "sjt.frq" now by default automatically detects whether a variable has a certain proportion of zero-count values and does not print them by default then. Use "skipZeroRows = TRUE" or "skipZeroRows = FALSE" to explicitly show or remove zero-counts from the table.
 
 Bug fixes:
 * Fixed bug with type = "dots" in "sjp.grpfrq".

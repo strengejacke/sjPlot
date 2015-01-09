@@ -51,7 +51,13 @@
 #'          be highlighted.
 #' @param highlightQuartiles If \code{TRUE}, the table row indicating the lower and upper quartiles will
 #'          be highlighted.
-#' @param skipZeroRows If \code{TRUE}, rows with only zero-values are not printed. Default is \code{FALSE}.
+#' @param skipZeroRows If \code{TRUE}, rows with only zero-values are not printed
+#'          (e.g. if a variable has values or levels 1 to 8, and levels / values 
+#'          4 to 6 have no counts, these values would not be printed in the table). 
+#'          Use \code{FALSE} to print also zero-values, or use \code{"auto"} (default)
+#'          to detect whether it makes sense or not to print zero-values (e.g., a variable
+#'          "age" with values from 10 to 100, where at least 25 percent of all possible values have no
+#'          counts, zero-values would be skipped automatically).
 #' @param showSummary If \code{TRUE} (default), a summary row with total and valid N as well as mean and
 #'          standard deviation is shown.
 #' @param showSkew If \code{TRUE}, the variable's skewness is added to the summary.
@@ -183,7 +189,7 @@ sjt.frq <- function (data,
                      stringMissingValue="missings",
                      highlightMedian=FALSE,
                      highlightQuartiles=FALSE,
-                     skipZeroRows=FALSE,
+                     skipZeroRows="auto",
                      showSummary=TRUE,
                      showSkew=FALSE,
                      showKurtosis=FALSE,
@@ -200,6 +206,8 @@ sjt.frq <- function (data,
   # check encoding
   # -------------------------------------
   encoding <- get.encoding(encoding)
+  # save original value
+  o.skipZeroRows <- skipZeroRows
   # -------------------------------------
   # warning
   # -------------------------------------
@@ -459,6 +467,23 @@ sjt.frq <- function (data,
     #---------------------------------------------------
     df.frq <- create.frq.df(var, valueLabels[[cnt]], -1, sort.frq, weightBy = weightBy)
     df <- df.frq$mydat
+    #---------------------------------------------------
+    # auto-set skipping zero-rows?
+    #---------------------------------------------------
+    if (!is.logical(o.skipZeroRows)) {
+      # retrieve range of values
+      vonbis <- max(var, na.rm = T) - min(var, na.rm = T)
+      # retrieve count of unique values
+      anzval <- unique(var)
+      # check proportion of possible values and actual values
+      # if we have more than 25% of zero-values, or if we have
+      # in general a large variable range, skip zero-rows.
+      skipZeroRows <- ((100 * anzval / vonbis) < 75) || (anzval > 20)
+    }
+    else {
+      skipZeroRows <- o.skipZeroRows
+    }
+    # save labels
     vallab <- df.frq$labels
     # rename "NA" row
     rownames(df)[nrow(df)] <- "NA"
