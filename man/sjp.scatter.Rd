@@ -148,8 +148,6 @@ sjp.scatter(efc$c160age,efc$e17age, efc$e42dep,
 \seealso{
 \itemize{
           \item \href{http://www.strengejacke.de/sjPlot/sjp.scatter}{sjPlot manual: sjp.scatter}
-          \item \code{\link{sjp.lm1}}
-          \item \code{\link{sjp.reglin}}
          }
 }
 

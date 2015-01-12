@@ -101,6 +101,26 @@ sjs.stdb <- function(fit) {
 }
 
 
+sjs.stdmm <- function(object) {
+  # code from Ben Bolker, see
+  # http://stackoverflow.com/a/26206119/2094622
+  # ------------------------
+  # check if suggested package is available
+  # ------------------------
+  if (!requireNamespace("lme4", quietly = TRUE)) {
+    stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
+  }
+  sdy <- sd(lme4::getME(object,"y"))
+  sdx <- apply(lme4::getME(object,"X"), 2, sd)
+  sc <- lme4::fixef(object)*sdx/sdy
+  se.fixef <- coef(summary(object))[,"Std. Error"]
+  se <- se.fixef*sdx/sdy
+  mydf <- data.frame(stdcoef=sc, stdse=se)
+  rownames(mydf) <- names(lme4::fixef(fit))
+  return(mydf)
+}
+
+
 #' @title Performs a Mann-Whitney-U-Test
 #' @name sjs.mwu
 #' @description This function performs a Mann-Whitney-U-Test (or \code{Wilcoxon rank sum test},

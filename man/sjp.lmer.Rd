@@ -20,6 +20,7 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = 1, title = NULL,
 \itemize{
   \item \code{"re"} (default) for estimates of random effects
   \item \code{"fe"} for estimates of fixed effects
+  \item \code{"fe.std"} for standardized estimates of fixed effects
   \item \code{"fe.cor"} for correlation matrix of fixed effects
   \item \code{"re.qq"} for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)
   \item \code{"fe.ri"} for fixed effects slopes depending on the random intercept.
@@ -61,13 +62,13 @@ is \code{TRUE} and \code{pred.labels} is not \code{NULL}.}
 \itemize{
   \item If \code{NULL} (default), no sorting is done and estimates are sorted in order of model coefficients.
   \item If \code{sort.coef = "sort.all"}, estimates are re-sorted for each coefficient (only applies if \code{type = "re"} and \code{facet.grid = FALSE}), i.e. the estimates of the random effects for each predictor are sorted and plotted to an own plot.
-  \item If \code{type = "fe"}, \code{TRUE} value will sort the estimates.
+  \item If \code{type = "fe"} or \code{type = "fe.std"}, \code{TRUE} value will sort the estimates.
   \item Else, specify a predictor's / coefficient's name to sort estimators according to this coefficient.
   }
   See examples for details.}
 
 \item{pred.labels}{a character vector with labels for the predictors / covariates / groups. Should either be vector
-of fixed effects variable labels (if \code{type = "fe"}) or a vector of group (value)
+of fixed effects variable labels (if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
 labels from the random intercept's categories (if \code{type = "re"}).}
 
 \item{axisTitle.x}{A label (title) for the x axis. If not specified, a default labelling depending
@@ -163,7 +164,7 @@ sjp.lmer(fit)
 sjp.lmer(fit, type = "fe")
 
 sjp.lmer(fit,
-         type = "fe",
+         type = "fe.std",
          sort.coef = TRUE)
 
 # plot fixed effects slopes for

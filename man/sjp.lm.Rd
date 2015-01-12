@@ -2,26 +2,45 @@
 % Please edit documentation in R/sjPlotLinreg.R
 \name{sjp.lm}
 \alias{sjp.lm}
-\title{Plot beta coefficients of lm}
+\title{Plot linear models}
 \usage{
-sjp.lm(fit, sort = "beta", title = NULL, axisLabels.y = NULL,
-  showAxisLabels.y = TRUE, axisTitle.x = "Estimates", axisLimits = NULL,
-  geom.colors = "Set1", geom.size = 3, stdBetaLineType = 2,
-  stdBetaLineAlpha = 0.3, interceptLineType = 2,
-  interceptLineColor = "grey70", breakTitleAt = 50, breakLabelsAt = 25,
-  gridBreaksAt = NULL, coord.flip = TRUE, showValueLabels = TRUE,
-  labelDigits = 2, showPValueLabels = TRUE, showModelSummary = TRUE,
-  showStandardBeta = FALSE, showStandardBetaLine = FALSE,
+sjp.lm(fit, type = "lm", sort = "beta", title = NULL,
+  axisLabels.x = NULL, axisLabels.y = NULL, showAxisLabels.y = TRUE,
+  axisTitle.x = "Estimates", axisLimits = NULL, geom.colors = "Set1",
+  geom.size = 3, stdBetaLineType = 2, stdBetaLineAlpha = 0.3,
+  interceptLineType = 2, interceptLineColor = "grey70", breakTitleAt = 50,
+  breakLabelsAt = 25, gridBreaksAt = NULL, coord.flip = TRUE,
+  showValueLabels = TRUE, labelDigits = 2, showPValueLabels = TRUE,
+  showModelSummary = TRUE, showStandardBeta = FALSE,
+  showStandardBetaLine = FALSE, lineColor = "blue", showCI = TRUE,
+  ciLevel = 0.95, pointAlpha = 0.2, pointColor = "black",
+  showScatterPlot = TRUE, showLoess = FALSE, loessLineColor = "red",
+  showLoessCI = FALSE, loessCiLevel = 0.95, useResiduals = FALSE,
+  showOriginalModelOnly = TRUE, completeDiagnostic = FALSE,
   printPlot = TRUE)
 }
 \arguments{
-\item{fit}{The model of the linear regression (lm-Object).}
+\item{fit}{The model of the linear regression (\code{\link{lm}}-Object).}
+
+\item{type}{type of plot. Use one of following:
+\itemize{
+  \item \code{"lm"} (default) for forest-plot like plot of estimates. If the fitted model only contains one predictor, intercept and slope are plotted.
+  \item \code{"pred"} to plot regression lines for each single predictor of the fitted model.
+  \item \code{type = "ma"} to check model assumptions. Note that only three parameters are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.
+}}
 
 \item{sort}{Determines whether the predictors are sorted by beta-values (default, or use \code{"beta"} as
 parameter) or by standardized beta values (use \code{"std"}).}
 
 \item{title}{Diagram's title as string.
 Example: \code{title=c("my title")}}
+
+\item{axisLabels.x}{Labels of the predictor (independent variable) that is used for labelling the
+axis. Passed as string. Not used if fitted model has more than one predictor and \code{type = "lm"}.
+Example: \code{axisLabel.x=c("My Predictor Var")}.
+Note: If you use the \code{\link{sji.SPSS}} function and the \code{\link{sji.getVariableLabels}} function, you receive a
+character vector with variable label strings. You can use it like so:
+\code{axisLabel.x=sji.getVariableLabels(efc)['quol_5']}}
 
 \item{axisLabels.y}{Labels of the predictor variables (independent vars) that are used for labelling the
 axis. Passed as vector of strings.
@@ -91,6 +110,69 @@ should be plotted to the diagram.}
 \item{showStandardBetaLine}{Whether or not the connecting line for the standardized beta values
 should be plotted to the diagram. Default is \code{FALSE}.}
 
+\item{lineColor}{The color of the regression line. Default is \code{"blue"}.
+Only applies if \code{type = "lm"} and fitted model has only one predictor,
+or if \code{type = "pred"}.}
+
+\item{showCI}{If \code{TRUE} (default), a confidence region for the regression line
+will be plotted. Use \code{ciLevel} to specifiy the confidence level.
+Only applies if \code{type = "lm"} and fitted model has only one predictor,
+or if \code{type = "pred"}.}
+
+\item{ciLevel}{The confidence level of the confidence region. Only applies when
+\code{showCI} is \code{TRUE}. Default is 0.95.
+Only applies if \code{type = "lm"} and fitted model has only one predictor,
+or if \code{type = "pred"}.}
+
+\item{pointAlpha}{The alpha values of the scatter plot's point-geoms.
+Default is 0.2.
+Only applies if \code{type = "lm"} and fitted model has only one predictor,
+or if \code{type = "pred"}.}
+
+\item{pointColor}{The color of the scatter plot's point-geoms. Only applies when \code{showScatterPlot}
+is \code{TRUE}. Default is \code{"black"}.
+Only applies if \code{type = "lm"} and fitted model has only one predictor,
+or if \code{type = "pred"}.}
+
+\item{showScatterPlot}{If \code{TRUE} (default), a scatter plot of response and predictor values
+for each predictor of the fitted model \code{fit} is plotted.
+Only applies if \code{type = "lm"} and fitted model has only one predictor,
+or if \code{type = "pred"}.}
+
+\item{showLoess}{If \code{TRUE}, an additional loess-smoothed line is plotted.
+Only applies if \code{type = "lm"} and fitted model has only one predictor,
+or if \code{type = "pred"}.}
+
+\item{loessLineColor}{The color of the loess-smoothed line. Default is \code{"red"}. Only applies, if
+\code{showLoess} is \code{TRUE}.
+Only applies if \code{type = "lm"} and fitted model has only one predictor,
+or if \code{type = "pred"}.}
+
+\item{showLoessCI}{If \code{TRUE}, a confidence region for the loess-smoothed line
+will be plotted. Default is \code{FALSE}. Use \code{loessCiLevel} to specifiy the confidence level.
+Only applies, if \code{showLoess} is \code{TRUE}.
+Only applies if \code{type = "lm"} and fitted model has only one predictor,
+or if \code{type = "pred"}.}
+
+\item{loessCiLevel}{The confidence level of the loess-line's confidence region.
+Only applies, if \code{showLoessCI} is \code{TRUE}. Default is 0.95.
+Only applies if \code{type = "lm"} and fitted model has only one predictor,
+or if \code{type = "pred"}.}
+
+\item{useResiduals}{If \code{TRUE}, the residuals (instead of response) are plotted
+against the predictor. May be used for model diagnostics
+(see \url{https://www.otexts.org/fpp/5/4}).
+Only applies if \code{type = "lm"} and fitted model has only one predictor,
+or if \code{type = "pred"}.}
+
+\item{showOriginalModelOnly}{if \code{TRUE} (default), only the model assumptions of the fitted model
+\code{fit} are plotted. if \code{FALSE}, the model assumptions of an updated model where outliers
+are automatically excluded are also plotted.
+Only applies if \code{type = "ma"}.}
+
+\item{completeDiagnostic}{if \code{TRUE}, additional tests are performed. Default is \code{FALSE}
+Only applies if \code{type = "ma"}.}
+
 \item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
@@ -99,11 +181,22 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
           was used for setting up the ggplot-object (\code{df}).
 }
 \description{
-Plot beta coefficients (estimates) of linear regressions with confidence intervalls as dot plot
-               (forest plot). Additionally, the standardized beta values are plotted
-               as red dots.
+Depending on the \code{type}, this function plots beta coefficients (estimates)
+               of linear regressions with confidence intervalls as dot plot (forest plot),
+               model assumptions for linear models or slopes and scatter plots for each single
+               coefficient. See \code{type} for details.
+}
+\details{
+\itemize{
+           \item If \code{type = "lm"} and fitted model only has one predictor, no forest plot is shown. Instead, a regression line with confidence interval (in blue) is plotted by default, and a loess-smoothed line without confidence interval (in red) can be added if parameter \code{showLoess} is \code{TRUE}.
+           \item If \code{type = "pred"}, regression lines with confidence intervals for each single predictor of the fitted model are plotted, i.e. all predictors of the fitted model are extracted and each of them are fitted against the response variable.
+           \item If \code{type = "ma"} (i.e. checking model assumptions), please note that only three parameters are relevant: \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.
+           }
 }
 \examples{
+# --------------------------------------------------
+# plotting estimates of linear models as forest plot
+# --------------------------------------------------
 # fit linear model
 fit <- lm(airquality$Ozone ~ airquality$Wind + airquality$Temp + airquality$Solar.R)
 
@@ -113,12 +206,44 @@ sjp.lm(fit, gridBreaksAt=2)
 # plot estimates with CI without standardized beta-values
 # and with narrower tick marks (because "gridBreaksAt" was not specified)
 sjp.lm(fit, showStandardBeta=FALSE)
+
+# ---------------------------------------------------
+# plotting regression line of linear model (done
+# automatically if fitted model has only 1 predictor)
+# ---------------------------------------------------
+# fit model
+fit <- lm(neg_c_7 ~ quol_5, data=efc)
+# plot regression line
+sjp.lm(fit)
+# plot regression line with label strings
+sjp.lm(fit,
+       axisLabels.x = "Quality of life",
+       axisLabels.y = "Burden of care",
+       showLoess = TRUE)
+
+# --------------------------------------------------
+# plotting regression lines of each single predictor
+# of a fitted model
+# --------------------------------------------------
+# fit model
+fit <- lm(tot_sc_e ~ c12hour + e17age + e42dep, data=efc)
+
+# reression line and scatter plot
+sjp.lm(fit, type = "pred")
+
+# reression line w/o scatter plot
+sjp.lm(fit,
+       type = "pred",
+       showScatterPlot = FALSE)
+
+# --------------------------
+# plotting model assumptions
+# --------------------------
+sjp.lm(fit, type = "ma")
 }
 \seealso{
 \itemize{
              \item \href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm}
-             \item \code{\link{sjp.lm.ma}}
-             \item \code{\link{sjp.reglin}}
              \item \code{\link{sjp.int}}
              \item \code{\link{sjp.scatter}}
              \item  \code{\link{sjs.stdb}}

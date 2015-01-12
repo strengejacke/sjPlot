@@ -219,7 +219,6 @@ sjp.grpfrq(mydf$barthel,
 \seealso{
 \itemize{
            \item \code{\link{sjp.emm.int}}
-           \item \code{\link{sjp.reglin}}
            }
 }
 

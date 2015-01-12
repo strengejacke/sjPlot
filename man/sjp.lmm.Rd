@@ -149,7 +149,6 @@ sjp.lmm(fit1, fit2, fit3,
 \itemize{
            \item \code{\link{sjp.lm}}
            \item \code{\link{sjt.lm}}
-           \item \code{\link{sjp.lm.ma}}
            \item \code{\link{sjp.glmm}}
            }
 }

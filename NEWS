@@ -1,7 +1,9 @@
 Version 1.6.7
 ------------------------------------------------------------------------------
 Changes to functions:
+* "sjp.lm1", "sjp.reglin" and "sjp.lm.ma" were merged into "sjp.lm". Use the "type" parameter to select plot type.
 * Added parameter "vars" to "sjp.glmer" to plot probability curves only for selected variables.
+* Added type "fe.std" to "type" parameter of "sjp.lmer" to plot standardized coefficients of fixed effects.
 * Added type "fe.ri" to "type" parameter of "sjp.lmer" to plot fixed effects slopes for each random intercept (group level).
 * Added parameter "pvaluesApaStyle" to various functions. If this parameter is TRUE, p-values less than 0.001 are indicated as "p < 0.001" instead of being rounded to "p = 0.000".
 * Added parameter "showTotalN" to "sjt.xtab" to show column and row sums even if parameter "showObserved" is FALSE.

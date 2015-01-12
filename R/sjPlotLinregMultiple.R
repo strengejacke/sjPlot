@@ -10,7 +10,6 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("beta", "lower", "upper",
 #' @seealso \itemize{
 #'            \item \code{\link{sjp.lm}}
 #'            \item \code{\link{sjt.lm}}
-#'            \item \code{\link{sjp.lm.ma}}
 #'            \item \code{\link{sjp.glmm}}
 #'            }
 #' 

@@ -7,8 +7,6 @@
 #'
 #' @seealso \itemize{
 #'           \item \href{http://www.strengejacke.de/sjPlot/sjp.scatter}{sjPlot manual: sjp.scatter}
-#'           \item \code{\link{sjp.lm1}}
-#'           \item \code{\link{sjp.reglin}}
 #'          }
 #'              
 #' @param x A vector (variable) indicating the x positions.

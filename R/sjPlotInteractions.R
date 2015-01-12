@@ -26,7 +26,6 @@
 #'
 #' @seealso \itemize{
 #'            \item \code{\link{sjp.emm.int}}
-#'            \item \code{\link{sjp.reglin}}
 #'            }
 #'
 #' @param fit the fitted (generalized) linear (mixed) model object, including interaction terms. Accepted model

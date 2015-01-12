@@ -249,6 +249,7 @@ sjp.glmer <- function(fit,
 #'          \itemize{
 #'            \item \code{"re"} (default) for estimates of random effects
 #'            \item \code{"fe"} for estimates of fixed effects
+#'            \item \code{"fe.std"} for standardized estimates of fixed effects
 #'            \item \code{"fe.cor"} for correlation matrix of fixed effects
 #'            \item \code{"re.qq"} for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)
 #'            \item \code{"fe.ri"} for fixed effects slopes depending on the random intercept.
@@ -281,13 +282,13 @@ sjp.glmer <- function(fit,
 #'          \itemize{
 #'            \item If \code{NULL} (default), no sorting is done and estimates are sorted in order of model coefficients.
 #'            \item If \code{sort.coef = "sort.all"}, estimates are re-sorted for each coefficient (only applies if \code{type = "re"} and \code{facet.grid = FALSE}), i.e. the estimates of the random effects for each predictor are sorted and plotted to an own plot.
-#'            \item If \code{type = "fe"}, \code{TRUE} value will sort the estimates.
+#'            \item If \code{type = "fe"} or \code{type = "fe.std"}, \code{TRUE} value will sort the estimates.
 #'            \item Else, specify a predictor's / coefficient's name to sort estimators according to this coefficient.
 #'            }
 #'            See examples for details.
 #' @param fade.ns if \code{TRUE}, non significant estimates will be printed in slightly fading colors.
 #' @param pred.labels a character vector with labels for the predictors / covariates / groups. Should either be vector
-#'          of fixed effects variable labels (if \code{type = "fe"}) or a vector of group (value)
+#'          of fixed effects variable labels (if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
 #'          labels from the random intercept's categories (if \code{type = "re"}).
 #' @param axisTitle.x A label (title) for the x axis. If not specified, a default labelling depending
 #'          on the plot type is chosen.
@@ -362,9 +363,9 @@ sjp.glmer <- function(fit,
 #' # plot fixed effects
 #' sjp.lmer(fit, type = "fe")
 #'
-# plot and sort fixed effects
+# plot and sort standardized fixed effects
 #' sjp.lmer(fit,
-#'          type = "fe",
+#'          type = "fe.std",
 #'          sort.coef = TRUE)
 #'
 #' # plot fixed effects slopes for
@@ -460,10 +461,10 @@ sjp.lme4  <- function(fit,
   # -------------------------------------
   # check type
   # -------------------------------------
-  if (type != "re" && type != "fe" && type != "fe.cor" &&
+  if (type != "re" && type != "fe" && type != "fe.std" && type != "fe.cor" &&
       type != "re.qq" && type != "fe.pc" && type != "ri.pc" &&
       type != "fe.prob" && type != "ri.prob" && type != "fe.ri") {
-    warning("'type' must be one of 're', 'fe', 'fe.cor', 're.qq', 'fe.ri', 'fe.pc', 'ri.pc', 'fe.prob' or 'ri.prob'. Defaulting to 'fe' now.")
+    warning("'type' must be one of 're', 'fe', 'fe.cor', 're.qq', 'fe.ri', 'fe.pc', 'ri.pc', 'fe.std', 'fe.prob' or 'ri.prob'. Defaulting to 'fe' now.")
     type  <- "fe"
   }
   # -------------------------------------
@@ -478,6 +479,11 @@ sjp.lme4  <- function(fit,
   if (!requireNamespace("arm", quietly = TRUE)) {
     stop("Package 'arm' needed for this function to work. Please install it.", call. = FALSE)
   }
+  # ---------------------------------------
+  # for standardized coefficients, intercept
+  # is always 0, so no need to be shown
+  # ---------------------------------------
+  if (type == "fe.std") showIntercept <- FALSE
   # ---------------------------------------
   # empty mydf
   # ---------------------------------------
@@ -602,18 +608,31 @@ sjp.lme4  <- function(fit,
   # ---------------------------------------
   # fixed effects, odds ratios
   # ---------------------------------------
-  else if (type == "fe") {
+  else if (type == "fe" || type == "fe.std") {
     # ---------------------------------------
     # retrieve odds ratios and conf int of
     # fixed effects
     # ---------------------------------------
     if (fun == "glm") {
+      if (type == "fe.std") {
+        warning("'type = fe.std' only works for linear models.", call. = F)
+      }
       mydf <- as.data.frame(exp(cbind(OR = lme4::fixef(fit),
                                       lme4::confint.merMod(fit, method = "Wald"))))
     }
     else {
-      mydf <- as.data.frame(cbind(OR = lme4::fixef(fit),
-                                  lme4::confint.merMod(fit, method = "Wald")))
+      if (type == "fe.std") {
+        tmpdf <- sjs.stdmm(fit)
+        mydf <- as.data.frame(cbind(OR = tmpdf$stdcoef,
+                                    lower.CI = tmpdf$stdcoef - (1.96 * tmpdf$stdse),
+                                    upper.CI = tmpdf$stdcoef + (1.96 * tmpdf$stdse)))
+        # set default row names
+        rownames(mydf) <- names(lme4::fixef(fit))
+      }
+      else {
+        mydf <- as.data.frame(cbind(OR = lme4::fixef(fit),
+                                    lme4::confint.merMod(fit, method = "Wald")))
+      }
     }
     # ----------------------------
     # print p-values in bar charts
@@ -640,7 +659,12 @@ sjp.lme4  <- function(fit,
       ov <- exp(lme4::fixef(fit))
     }
     else {
-      ov <- lme4::fixef(fit)
+      if (type == "fe.std") {
+        ov <- sjs.stdmm(fit)$stdcoef
+      }
+      else {
+        ov <- lme4::fixef(fit)
+      }
     }
     # init data column for p-values
     ps <- rep("", length(ov))
@@ -841,7 +865,7 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     # axis titles
     # ---------------------------------------
-    if (type == "fe") {
+    if (type == "fe" || type == "fe.std") {
       if (is.null(axisTitle.x)) axisTitle.x <- ""
       if (is.null(axisTitle.y)) axisTitle.y <- ""
     }
