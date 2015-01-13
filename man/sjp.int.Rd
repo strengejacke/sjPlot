@@ -117,7 +117,8 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
           as well as the data frame that were used for setting up the ggplot-objects (\code{df.list}).
 }
 \description{
-Plot regression or probability lines of significant interaction terms to better understand effects
+Plot regression (predicted values) or probability lines (predicted probabilities) of
+               significant interaction terms to better understand effects
                of moderations in regression models. This function accepts following fitted model classes:
                \itemize{
                  \item linear models (\code{lm})

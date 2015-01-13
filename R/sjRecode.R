@@ -429,27 +429,6 @@ sju.recode <- function(...) {
 }
 
 
-#' @title Plot Variance Inflation Factors of linear models
-#' @name sjp.vif
-#' 
-#' @description Plots the Variance Inflation Factors (check for multicollinearity) of 
-#'                (generalized) linear models. Values below 5 are good and indicating no
-#'                multicollinearity, values between 5 and 10 may be tolerable. Values 
-#'                greater than 10 are not acceptable and indicate multicollinearity
-#'                between model's predictors.
-#'
-#' @param fit The fitted (generalized) linear model which should be checked for
-#'          multicollinearity.
-#' @return (invisibly) returns the VIF values.
-#' 
-#' @examples
-#' # fit linear model
-#' fit <- lm(airquality$Ozone ~ airquality$Wind + airquality$Temp + airquality$Solar.R)
-#' # plot VIF values
-#' sjp.vif(fit)
-#' 
-#' @importFrom car vif
-#' @export
 sjp.vif <- function(fit) {
   # check if we have more than 1 term
   if (length(coef(fit))>2) {

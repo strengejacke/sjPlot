@@ -4,18 +4,27 @@
 \alias{sjp.glm}
 \title{Plot odds ratios (forest plots)}
 \usage{
-sjp.glm(fit, sortOdds = TRUE, title = NULL, axisLabels.y = NULL,
-  axisTitle.x = "Odds Ratios", axisLimits = NULL, breakTitleAt = 50,
-  breakLabelsAt = 25, gridBreaksAt = 0.5, transformTicks = FALSE,
-  type = "dots", geom.size = 3, geom.colors = "Set1",
+sjp.glm(fit, type = "dots", sortOdds = TRUE, title = NULL,
+  axisLabels.y = NULL, axisTitle.x = "Odds Ratios", axisLimits = NULL,
+  breakTitleAt = 50, breakLabelsAt = 25, gridBreaksAt = 0.5,
+  transformTicks = FALSE, geom.size = 3, geom.colors = "Set1",
   hideErrorBars = FALSE, interceptLineType = 2,
   interceptLineColor = "grey70", coord.flip = TRUE, showIntercept = FALSE,
   showAxisLabels.y = TRUE, showValueLabels = TRUE, labelDigits = 2,
   showPValueLabels = TRUE, showModelSummary = TRUE, facet.grid = TRUE,
-  show.se = FALSE, printPlot = TRUE)
+  show.se = FALSE, showOriginalModelOnly = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{The fitted model of a logistic regression (or any other \code{\link{glm}}-object).}
+
+\item{type}{type of plot. Use one of following:
+\itemize{
+  \item \code{"dots"}, \code{"glm"} or \code{"or"} (default) for odds ratios (forest plot)
+  \item \code{"bars"} for odds ratios as bar plot
+  \item \code{"prob"} or \code{"pc"} to plot probability (predicted probabilities) curves of coefficients (model terms). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
+  \item \code{"ma"} to check model assumptions. Note that only two parameters are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other parameters are ignored.
+  \item \code{"vif"} to plot Variance Inflation Factors. See details.
+}}
 
 \item{sortOdds}{If \code{TRUE} (default), the odds ratios are ordered according their OR value from highest first
 to lowest last. Use \code{FALSE} if you don't want to change the order of the predictors.}
@@ -49,13 +58,6 @@ grid is being printed. Default is 0.5}
 visually have the same distance from one grid bar to the next. Default is \code{FALSE} which
 means that grids are plotted on every \code{gridBreaksAt}'s position, thus the grid bars
 become narrower with higher odds ratio values.}
-
-\item{type}{type of plot. Use one of following:
-\itemize{
-  \item \code{"dots"} or \code{"or"} (default) for odds ratios (forest plot)
-  \item \code{"bars"} for odds ratios as bar plot
-  \item \code{"prob"} or \code{"pc"} to plot probability curves of coefficients (model terms). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
-}}
 
 \item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} parameter).}
 
@@ -101,7 +103,12 @@ of the diagram.}
 an integrated (faceted) single graph. Only applies, if \code{type="prob"}.}
 
 \item{show.se}{Use \code{TRUE} to plot (depending on \code{type}) the standard
-error for probability curves.}
+error for probability curves (predicted probabilities).}
+
+\item{showOriginalModelOnly}{if \code{TRUE} (default) and \code{type = "ma"},
+only the model assumptions of the fitted model \code{fit} are plotted.
+If \code{FALSE}, the model assumptions of an updated model where outliers
+are automatically excluded are also plotted.}
 
 \item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
@@ -116,7 +123,10 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
         }
 }
 \description{
-Plot odds ratios (exponentiated coefficients) with confidence intervalls as bar chart or dot plot
+Plot odds ratios (exponentiated coefficients) with confidence intervalls as bar chart or dot plot.
+               Depending on the \code{type} parameter, this function may also plot model
+               assumptions for generalized linear models, or predicted probabilities
+               of coefficients.
 }
 \note{
 Based on the script from \href{http://www.surefoss.org/dataanalysis/plotting-odds-ratios-aka-a-forrestplot-with-ggplot2/}{surefoss}
@@ -170,7 +180,8 @@ sjp.glm(fit,
         title = labs[['neg_c_7']],
         axisLabels.y = predlab)
 
-# plot probability curves of coefficients
+# plot probability curves (predicted probabilities)
+# of coefficients
 sjp.glm(fit,
         title = labs[['neg_c_7']],
         axisLabels.y = predlab,
@@ -180,7 +191,6 @@ sjp.glm(fit,
 \itemize{
              \item \href{http://www.strengejacke.de/sjPlot/sjp.glm/}{sjPlot manual: sjp.glm}
              \item \code{\link{sjp.glmm}}
-             \item \code{\link{sjp.glm.ma}}
              \item \code{\link{sjt.glm}}
              }
 }

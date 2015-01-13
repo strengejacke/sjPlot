@@ -25,20 +25,20 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #'            \item \code{"fe"} for odds ratios of fixed effects
 #'            \item \code{"fe.cor"} for correlation matrix of fixed effects
 #'            \item \code{"re.qq"} for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)
-#'            \item \code{"fe.pc"} or \code{"fe.prob"} to plot probability curves of all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
-#'            \item \code{"ri.pc"} or \code{"ri.prob"} to plot probability curves of random intercept variances for all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
+#'            \item \code{"fe.pc"} or \code{"fe.prob"} to plot probability curves (predicted probabilities) of all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
+#'            \item \code{"ri.pc"} or \code{"ri.prob"} to plot probability curves (predicted probabilities) of random intercept variances for all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
 #'          }
 #' @param vars a numeric vector with column indices of selected variables or a character vector with
 #'          variable names of selected variables from the fitted model, which should be used to plot probability
 #'          curves. This parameter only applies if \code{type} is either \code{"fe.pc"} (resp. \code{"fe.prob"})
-#'          or \code{"fe.pc"} (resp. \code{"re.pc"}). In this case, only probability curves for the selected
+#'          or \code{"fe.pc"} (resp. \code{"re.pc"}). In this case, only probability curves (predicted probabilities) for the selected
 #'          variables specified in \code{"vars"} will be plotted.
 #' @param ri.nr Numeric value. If \code{type = "re"} and fitted model has more than one random
 #'          intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
 #'          which list element of \code{lme4::ranef}) will be plotted. Default is \code{1},
 #'          so the first (or only) random intercept will be plotted.
 #' @param show.se Use \code{TRUE} to plot (depending on \code{type}) the standard
-#'          error for probability curves.
+#'          error for probability curves (predicted probabilities).
 #' @param title a character vector with one or more labels that are used as plot title. If
 #'          \code{type = "re"}, use the predictors' variable labels as titles.
 #' @param geom.colors User defined color palette for geoms. Must either be vector with two color values
@@ -151,20 +151,21 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #' # qq-plot of random effects
 #' sjp.glmer(fit, type = "re.qq")
 #'
-#' # plot probability curves for each covariate
-#' # grouped by random intercepts
+#' # plot probability curves (predicted probabilities) 
+#' # for each covariate, grouped by random intercepts
 #' sjp.glmer(fit,
 #'           type = "ri.pc",
 #'           show.se = TRUE)
 #'
-#' # plot probability curves for each covariate
-#' # grouped by random intercepts in integrated plots
+#' # plot probability curves (predicted probabilities)
+#' # for each covariate, grouped by random intercepts 
+#' # in integrated plots
 #' sjp.glmer(fit,
 #'           type = "ri.pc",
 #'           facet.grid = FALSE)
 #'
-#' # plot probability curve of fixed effect, 
-#' # only for coefficient "neg_c_7"
+#' # plot probability curve (predicted probabilities)
+#' # of fixed effect, only for coefficient "neg_c_7"
 #' sjp.glmer(fit, 
 #'           type = "fe.pc", 
 #'           vars = "neg_c_7")}
@@ -256,7 +257,7 @@ sjp.glmer <- function(fit,
 #'          }
 #' @param vars a numeric vector with column indices of selected variables or a character vector with
 #'          variable names of selected variables from the fitted model, which should be used to plot probability
-#'          curves. This parameter only applies if \code{type = "fe.ri"}. In this case, only 
+#'          curves (predicted probabilities). This parameter only applies if \code{type = "fe.ri"}. In this case, only 
 #'          probability curves for the selected variables specified in \code{"vars"} will be plotted.
 #' @param ri.nr Numeric value. If \code{type = "re"} and fitted model has more than one random
 #'          intercept, \code{ri.nr} indicates which random effects of which random intercept (or:

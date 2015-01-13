@@ -9,15 +9,25 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #' @seealso \itemize{
 #'              \item \href{http://www.strengejacke.de/sjPlot/sjp.glm/}{sjPlot manual: sjp.glm}
 #'              \item \code{\link{sjp.glmm}}
-#'              \item \code{\link{sjp.glm.ma}}
 #'              \item \code{\link{sjt.glm}}
 #'              }
 #'
-#' @description Plot odds ratios (exponentiated coefficients) with confidence intervalls as bar chart or dot plot
+#' @description Plot odds ratios (exponentiated coefficients) with confidence intervalls as bar chart or dot plot.
+#'                Depending on the \code{type} parameter, this function may also plot model
+#'                assumptions for generalized linear models, or predicted probabilities
+#'                of coefficients.
 #'
 #' @note Based on the script from \href{http://www.surefoss.org/dataanalysis/plotting-odds-ratios-aka-a-forrestplot-with-ggplot2/}{surefoss}
 #'
 #' @param fit The fitted model of a logistic regression (or any other \code{\link{glm}}-object).
+#' @param type type of plot. Use one of following:
+#'          \itemize{
+#'            \item \code{"dots"}, \code{"glm"} or \code{"or"} (default) for odds ratios (forest plot)
+#'            \item \code{"bars"} for odds ratios as bar plot
+#'            \item \code{"prob"} or \code{"pc"} to plot probability (predicted probabilities) curves of coefficients (model terms). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
+#'            \item \code{"ma"} to check model assumptions. Note that only two parameters are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other parameters are ignored.
+#'            \item \code{"vif"} to plot Variance Inflation Factors. See details.
+#'          }
 #' @param sortOdds If \code{TRUE} (default), the odds ratios are ordered according their OR value from highest first
 #'          to lowest last. Use \code{FALSE} if you don't want to change the order of the predictors.
 #' @param title Diagram's title as string.
@@ -43,12 +53,6 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #'          visually have the same distance from one grid bar to the next. Default is \code{FALSE} which
 #'          means that grids are plotted on every \code{gridBreaksAt}'s position, thus the grid bars
 #'          become narrower with higher odds ratio values.
-#' @param type type of plot. Use one of following:
-#'          \itemize{
-#'            \item \code{"dots"} or \code{"or"} (default) for odds ratios (forest plot)
-#'            \item \code{"bars"} for odds ratios as bar plot
-#'            \item \code{"prob"} or \code{"pc"} to plot probability curves of coefficients (model terms). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
-#'          }
 #' @param geom.colors User defined color palette for geoms. Must either be vector with two color values
 #'          or a specific color palette code (see below).
 #'          \itemize{
@@ -77,9 +81,13 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #'          Intercept, R-square, F-Test and AIC-value is printed to the lower right corner
 #'          of the diagram.
 #' @param show.se Use \code{TRUE} to plot (depending on \code{type}) the standard
-#'          error for probability curves.
+#'          error for probability curves (predicted probabilities).
 #' @param facet.grid \code{TRUE} when each plot should be plotted separately instead of
 #'          an integrated (faceted) single graph. Only applies, if \code{type="prob"}.
+#' @param showOriginalModelOnly if \code{TRUE} (default) and \code{type = "ma"}, 
+#'          only the model assumptions of the fitted model \code{fit} are plotted.
+#'          If \code{FALSE}, the model assumptions of an updated model where outliers
+#'          are automatically excluded are also plotted.
 #' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #' @return (Invisibly) returns a structure with following elements:
@@ -139,7 +147,8 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #'         title = labs[['neg_c_7']],
 #'         axisLabels.y = predlab)
 #'
-#' # plot probability curves of coefficients
+#' # plot probability curves (predicted probabilities)
+#' # of coefficients
 #' sjp.glm(fit,
 #'         title = labs[['neg_c_7']],
 #'         axisLabels.y = predlab,
@@ -147,8 +156,10 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #'
 #' @import ggplot2
 #' @importFrom reshape2 melt
+#' @importFrom car outlierTest influencePlot crPlots durbinWatsonTest leveragePlots ncvTest spreadLevelPlot vif
 #' @export
 sjp.glm <- function(fit,
+                    type="dots",
                     sortOdds=TRUE,
                     title=NULL,
                     axisLabels.y=NULL,
@@ -158,7 +169,6 @@ sjp.glm <- function(fit,
                     breakLabelsAt=25,
                     gridBreaksAt=0.5,
                     transformTicks=FALSE,
-                    type="dots",
                     geom.size=3,
                     geom.colors="Set1",
                     hideErrorBars=FALSE,
@@ -173,6 +183,7 @@ sjp.glm <- function(fit,
                     showModelSummary=TRUE,
                     facet.grid = TRUE,
                     show.se = FALSE,
+                    showOriginalModelOnly=TRUE,
                     printPlot=TRUE) {
   # --------------------------------------------------------
   # check type
@@ -183,7 +194,13 @@ sjp.glm <- function(fit,
                                 facet.grid,
                                 printPlot)))
   }
-  if (type == "or") type <- "dots"
+  if (type == "ma") {
+    return (invisible(sjp.glm.ma(fit, showOriginalModelOnly)))
+  }
+  if (type == "vif") {
+    return (invisible(sjp.vif(fit)))
+  }
+  if (type == "or" || type == "glm") type <- "dots"
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
@@ -636,33 +653,6 @@ sjp.glm.pc <- function(fit,
 }
 
 
-#' @title Plot model assumptions of glm's
-#' @name sjp.glm.ma
-#'
-#' @description Plots model assumptions of generalized linear models
-#'              to verify if generalized linear regression is applicable
-#'
-#' @seealso \code{\link{sjp.glm}}
-
-#' @param logreg a fitted \code{\link{glm}}-model
-#' @param showOriginalModelOnly if \code{TRUE} (default), only the model assumptions of the fitted model
-#'   \code{logreg} are plotted. if \code{FALSE}, the model assumptions of an updated model where outliers
-#'   are automatically excluded are also plotted.
-#' @return an updated fitted generalized linear model where outliers are dropped out.
-#'
-#' @examples
-#' # prepare dichotomous dependent variable
-#' y <- ifelse(swiss$Fertility<median(swiss$Fertility), 0, 1)
-#'
-#' # fit model
-#' fitOR <- glm(y ~ swiss$Education + swiss$Examination + swiss$Infant.Mortality + swiss$Catholic,
-#'              family=binomial(link="logit"))
-#'
-#' # plot model assumptions
-#' sjp.glm.ma(fitOR)
-#'
-#' @importFrom car outlierTest influencePlot
-#' @export
 sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   # ---------------------------------
   # remove outliers

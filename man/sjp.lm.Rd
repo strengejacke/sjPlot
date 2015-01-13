@@ -26,7 +26,8 @@ sjp.lm(fit, type = "lm", sort = "beta", title = NULL,
 \itemize{
   \item \code{"lm"} (default) for forest-plot like plot of estimates. If the fitted model only contains one predictor, intercept and slope are plotted.
   \item \code{"pred"} to plot regression lines for each single predictor of the fitted model.
-  \item \code{type = "ma"} to check model assumptions. Note that only three parameters are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.
+  \item \code{"ma"} to check model assumptions. Note that only three parameters are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.
+  \item \code{"vif"} to plot Variance Inflation Factors. See details.
 }}
 
 \item{sort}{Determines whether the predictors are sorted by beta-values (default, or use \code{"beta"} as
@@ -177,8 +178,10 @@ Only applies if \code{type = "ma"}.}
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
-(Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-          was used for setting up the ggplot-object (\code{df}).
+Depending on the \code{type}, in most cases (insisibily)
+          returns the ggplot-object with the complete plot (\code{plot})
+          as well as the data frame that was used for setting up the
+          ggplot-object (\code{df}).
 }
 \description{
 Depending on the \code{type}, this function plots beta coefficients (estimates)
@@ -191,6 +194,7 @@ Depending on the \code{type}, this function plots beta coefficients (estimates)
            \item If \code{type = "lm"} and fitted model only has one predictor, no forest plot is shown. Instead, a regression line with confidence interval (in blue) is plotted by default, and a loess-smoothed line without confidence interval (in red) can be added if parameter \code{showLoess} is \code{TRUE}.
            \item If \code{type = "pred"}, regression lines with confidence intervals for each single predictor of the fitted model are plotted, i.e. all predictors of the fitted model are extracted and each of them are fitted against the response variable.
            \item If \code{type = "ma"} (i.e. checking model assumptions), please note that only three parameters are relevant: \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.
+           \item If \code{type = "vif"}, the Variance Inflation Factors (check for multicollinearity) are plotted. As a rule of thumb, values below 5 are considered as good and indicate no multicollinearity, values between 5 and 10 may be tolerable. Values greater than 10 are not acceptable and indicate multicollinearity between model's predictors.
            }
 }
 \examples{

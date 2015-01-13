@@ -34,10 +34,11 @@ install.packages("sjPlot")
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
 
-### Changelog of current development build 1.6.7-7
+### Changelog of current development build 1.6.7-8
 
 #### Changes to functions
-* `sjp.lm1`, `sjp.reglin` and `sjp.lm.ma` were merged into `sjp.lm`. Use the `type` parameter to select plot type.
+* `sjp.vif` and `sjp.glm.ma` were merged into `sjp.glm`. Use the `type` parameter to select plot type.
+* `sjp.lm1`, `sjp.reglin`, `sjp.vif` and `sjp.lm.ma` were merged into `sjp.lm`. Use the `type` parameter to select plot type.
 * Added parameter `vars` to `sjp.glmer` to plot probability curves only for selected variables.
 * Added type `fe.ri` to `type` parameter of `sjp.lmer` to plot fixed effects slopes for each random intercept (group level).
 * Added type `fe.std` to `type` parameter of `sjp.lmer` to plot standardized coefficients of fixed effects.
