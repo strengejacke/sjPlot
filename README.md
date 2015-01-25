@@ -34,7 +34,7 @@ install.packages("sjPlot")
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
 
-### Changelog of current development build 1.6.7-8
+### Changelog of current development build 1.6.7-9
 
 #### Changes to functions
 * Plotting standardized beta values in `sjp.glm` can be achieved via the `type` parameter (`type = "std"`). Furthermore, confidence intervals and p-values are shown in the standardized beta plot.
