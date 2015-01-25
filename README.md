@@ -37,6 +37,8 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 ### Changelog of current development build 1.6.7-8
 
 #### Changes to functions
+* Plotting standardized beta values in `sjp.glm` can be achieved via the `type` parameter (`type = "std"`). Furthermore, confidence intervals and p-values are shown in the standardized beta plot.
+* `sjt.lm` now also prints confidence intervals for standardized beta values.
 * `sjp.vif` and `sjp.glm.ma` were merged into `sjp.glm`. Use the `type` parameter to select plot type.
 * `sjp.lm1`, `sjp.reglin`, `sjp.vif` and `sjp.lm.ma` were merged into `sjp.lm`. Use the `type` parameter to select plot type.
 * Added parameter `vars` to `sjp.glmer` to plot probability curves only for selected variables.

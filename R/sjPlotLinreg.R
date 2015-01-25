@@ -28,6 +28,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lo
 #' @param type type of plot. Use one of following:
 #'          \itemize{
 #'            \item \code{"lm"} (default) for forest-plot like plot of estimates. If the fitted model only contains one predictor, intercept and slope are plotted.
+#'            \item \code{"std"} for forest-plot like plot of standardized beta values. If the fitted model only contains one predictor, intercept and slope are plotted.
 #'            \item \code{"pred"} to plot regression lines for each single predictor of the fitted model.
 #'            \item \code{"ma"} to check model assumptions. Note that only three parameters are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.
 #'            \item \code{"vif"} to plot Variance Inflation Factors. See details.
@@ -63,10 +64,6 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lo
 #'          }
 #'          Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000", "#00ff00")}).
 #' @param geom.size size resp. width of the geoms (bar width or point size, depending on \code{type} parameter).
-#' @param stdBetaLineType The standardized beta-value dots are connected by a thin line
-#'          for a better overview. With this parameter you can specify the line type.
-#' @param stdBetaLineAlpha The alpha-value for the line that connects the
-#'          standardized beta-value dots.
 #' @param interceptLineType The linetype of the intercept line (zero point). Default is \code{2} (dashed line).
 #' @param interceptLineColor The color of the intercept line. Default value is \code{"grey70"}.
 #' @param breakTitleAt Wordwrap for diagram title. Determines how many chars of the title are displayed in
@@ -86,10 +83,6 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lo
 #' @param showModelSummary If \code{TRUE} (default), a summary of the regression model with 
 #'          Intercept, R-square, F-Test and AIC-value is printed to the lower right corner
 #'          of the diagram.
-#' @param showStandardBeta Whether or not the dots for the standardized beta values 
-#'          should be plotted to the diagram.
-#' @param showStandardBetaLine Whether or not the connecting line for the standardized beta values 
-#'          should be plotted to the diagram. Default is \code{FALSE}.
 #' @param lineColor The color of the regression line. Default is \code{"blue"}.
 #'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
 #'          or if \code{type = "pred"}.
@@ -154,12 +147,12 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lo
 #' # fit linear model
 #' fit <- lm(airquality$Ozone ~ airquality$Wind + airquality$Temp + airquality$Solar.R)
 #' 
-#' # plot estimates with CI and standardized beta-values
-#' sjp.lm(fit, gridBreaksAt=2)
+#' # plot estimates with CI
+#' sjp.lm(fit, gridBreaksAt = 2)
 #' 
 #' # plot estimates with CI without standardized beta-values
 #' # and with narrower tick marks (because "gridBreaksAt" was not specified)
-#' sjp.lm(fit, showStandardBeta=FALSE)
+#' sjp.lm(fit)
 #' 
 #' # ---------------------------------------------------
 #' # plotting regression line of linear model (done 
@@ -209,8 +202,6 @@ sjp.lm <- function(fit,
                    axisLimits=NULL,
                    geom.colors="Set1",
                    geom.size=3,
-                   stdBetaLineType=2,
-                   stdBetaLineAlpha=0.3,
                    interceptLineType=2,
                    interceptLineColor="grey70",
                    breakTitleAt=50, 
@@ -221,8 +212,6 @@ sjp.lm <- function(fit,
                    labelDigits=2,
                    showPValueLabels=TRUE,
                    showModelSummary=TRUE,
-                   showStandardBeta=FALSE,
-                   showStandardBetaLine=FALSE,
                    lineColor="blue",
                    showCI=TRUE,
                    ciLevel=0.95,
@@ -351,10 +340,10 @@ sjp.lm <- function(fit,
   # retrieve betas, leave out intercept ([-1])
   bv <- coef(fit)[-1]
   # retrieve standardized betas
-  stdbv <- sjs.stdb(fit)
+  stdbv <- sjs.stdb(fit, include.ci = TRUE)
   # init data column for p-values
   ps <- sprintf("%.*f", labelDigits, bv)
-  pstdbv <- sprintf("%.*f", labelDigits, stdbv)
+  pstdbv <- sprintf("%.*f", labelDigits, stdbv$beta)
   # if no values should be shown, clear
   # vector now
   if (!showValueLabels) {
@@ -370,12 +359,15 @@ sjp.lm <- function(fit,
       }
       else if (pv[i]>=0.01 && pv[i]<0.05) {
         ps[i] <- paste(ps[i], "*")
+        pstdbv[i] <- paste(pstdbv[i], "*")
       }
       else if (pv[i]>=0.001 && pv[i]<0.01) {
         ps[i] <- paste(ps[i], "**")
+        pstdbv[i] <- paste(pstdbv[i], "**")
       }
       else {
         ps[i] <- paste(ps[i], "***")
+        pstdbv[i] <- paste(pstdbv[i], "***")
       }
     }  
   }
@@ -386,29 +378,35 @@ sjp.lm <- function(fit,
   # if we have only one independent variable, cbind does not
   # work, since it duplicates the coefficients. so we simply
   # concatenate here
-  if (1==length(coefficients(fit)[-1])) {
-    tmp <- data.frame(
-      # Append beta coefficients, [-1] means that the first
-      # row (Intercept) will be removed / ignored
-      coefficients(fit)[-1],
-      # append CI
-      confint(fit, level=0.95)[-1,1],
-      confint(fit, level=0.95)[-1,2])
+  if (type == "std") {
+    tmp <- stdbv
+    ps <- pstdbv
   }
   else {
-    tmp <- data.frame(cbind(
-      # Append beta coefficients, [-1] means that the first
-      # row (Intercept) will be removed / ignored
-      coefficients(fit)[-1],
-      # append CI
-      confint(fit, level=0.95)[-1,]))
+    if (1==length(coefficients(fit)[-1])) {
+      tmp <- data.frame(
+        # Append beta coefficients, [-1] means that the first
+        # row (Intercept) will be removed / ignored
+        coefficients(fit)[-1],
+        # append CI
+        confint(fit, level=0.95)[-1,1],
+        confint(fit, level=0.95)[-1,2])
+    }
+    else {
+      tmp <- data.frame(cbind(
+        # Append beta coefficients, [-1] means that the first
+        # row (Intercept) will be removed / ignored
+        coefficients(fit)[-1],
+        # append CI
+        confint(fit, level=0.95)[-1,]))
+    }
   }
   # append p-values and standardized beta coefficients
   # further more, we take the stand. beta as string, because in
   # case no values are drawn, we simply use an empty string.
   # finally, we need the p-values of the coefficients, because the value
   # labels may have different colours according to their significance level
-  betas <- cbind(tmp, c(ps), sjs.stdb(fit), c(pstdbv), pv)
+  betas <- cbind(tmp, c(ps), pv)
   # --------------------------------------------------------
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
@@ -426,25 +424,21 @@ sjp.lm <- function(fit,
   # beta values (sort = anything else)
   # --------------------------------------------------------
   # sort labels descending in order of (std.) beta values
-  # --------------------------------------------------------
-  if (sort=="beta") {
-    axisLabels.y <- axisLabels.y[order(bv)]
-  }
-  else {
-    axisLabels.y <- axisLabels.y[order(stdbv)]
-  }
-  # --------------------------------------------------------
   # sort rows of data frame descending in order of (std.) beta values
   # --------------------------------------------------------
-  if (sort=="beta") {
-    betas <- betas[order(bv),]
-  }
-  else {
-    betas <- betas[order(stdbv),]
+  if (sort) {
+    if (type == "lm") {
+      axisLabels.y <- axisLabels.y[order(bv)]
+      betas <- betas[order(bv),]
+    }
+    else if (type == "std") {
+      axisLabels.y <- axisLabels.y[order(stdbv)]
+      betas <- betas[order(stdbv),]
+    }
   }
   betas <- cbind(c(seq(1:nrow(betas))), betas)
   # give columns names
-  names(betas)<-c("xv", "Beta", "lower", "upper", "p", "stdbeta", "pstdbv", "pv")
+  names(betas)<-c("xv", "Beta", "lower", "upper", "p", "pv")
   betas$p <- as.character(betas$p)
   # --------------------------------------------------------
   # Calculate axis limits. The range is from lowest lower-CI
@@ -472,26 +466,11 @@ sjp.lm <- function(fit,
   # --------------------------------------------------------
   # Start plot here!
   # --------------------------------------------------------
-  # show points for standard beta values
-  if (showStandardBeta) {
-    betaplot <- ggplot(betas, aes(y=stdbeta, x=xv, colour=Beta>=0)) +
-      # Print std.beta-values. With vertical adjustment, so they don't overlap with the errorbars
-      geom_text(aes(label=pstdbv, y=stdbeta), vjust=1.8, show_guide=FALSE)
-      # to better distinguish betas and stand. betas, the stand. beta points can be connected with a line
-    if (showStandardBetaLine) {
-      # print line for standardized beta values
-      betaplot <- betaplot +
-        geom_line()
-    }
-  }
-  else {
-    betaplot <- ggplot(betas, aes(y=Beta, x=xv, colour=Beta>=0)) +
-      # and error bar
-      geom_errorbar(aes(ymin=lower, ymax=upper), width=0) +
-      # Print p-values. With vertical adjustment, so they don't overlap with the errorbars
-      geom_text(aes(label=p, y=Beta), vjust=-0.8, show_guide=FALSE)
-  }
-  betaplot <- betaplot +
+  betaplot <- ggplot(betas, aes(y=Beta, x=xv, colour=Beta>=0)) +
+    # and error bar
+    geom_errorbar(aes(ymin=lower, ymax=upper), width=0) +
+    # Print p-values. With vertical adjustment, so they don't overlap with the errorbars
+    geom_text(aes(label=p, y=Beta), vjust=-0.8, show_guide=FALSE) +
     # print point
     geom_point(size=geom.size) +
     # Intercept-line

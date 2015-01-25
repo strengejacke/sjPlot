@@ -48,8 +48,6 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
 #'          be plotted to each geom.
 #' @param pvaluesAsNumbers If \code{TRUE}, the significance levels (p-values) are printed as numbers.
 #'          if \code{FALSE} (default), asterisks are used.
-#' @param pvaluesApaStyle if both \code{pvaluesAsNumbers} and \code{pvaluesApaStyle} are \code{TRUE}, p-values
-#'          smaller than 0.001 are abbreviated as \code{p < 0.001}. Else, the p-value is rounded to \code{0.000}.
 #' @param geom.colors A color palette for fillng the geoms. If not specified, the 5th diverging color palette
 #'          from the color brewer palettes (RdBu) is used, resulting in red colors for negative and blue colors
 #'          for positive correlations, that become lighter the weaker the correlations are. Use any
@@ -117,7 +115,6 @@ sjp.corr <- function(data,
                      showCorrelationValueLabels=TRUE,
                      showCorrelationPValues=TRUE,
                      pvaluesAsNumbers=FALSE,
-                     pvaluesApaStyle=TRUE,
                      printPlot=TRUE) {
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
@@ -275,13 +272,8 @@ sjp.corr <- function(data,
       }
     }
     else {
-      if (pvaluesApaStyle) {
-        cpv <- cpvalues$value
-        cpv <- sapply(cpv, function (x) if (x < 0.001) x <- "\n(< 0.001)" else x <- sprintf("\n(%.*f)", decimals, x))
-      }
-      else {
-        cpv <- sprintf("\n(%.*f)", decimals, cpvalues$value)
-      }
+      cpv <- cpvalues$value
+      cpv <- sapply(cpv, function (x) if (x < 0.001) x <- "\n(< 0.001)" else x <- sprintf("\n(%.*f)", decimals, x))
     }
   }
   else {

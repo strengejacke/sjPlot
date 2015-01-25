@@ -10,7 +10,7 @@ sjp.corr(data, title = NULL, axisLabels = NULL, type = "circle",
   breakTitleAt = 50, breakLabelsAt = 20, hideLegend = TRUE,
   legendTitle = NULL, showCorrelationValueLabels = TRUE,
   showCorrelationPValues = TRUE, pvaluesAsNumbers = FALSE,
-  pvaluesApaStyle = TRUE, printPlot = TRUE)
+  printPlot = TRUE)
 }
 \arguments{
 \item{data}{A correlation object, built with the R-\code{\link{cor}}-function, or a data frame
@@ -67,9 +67,6 @@ be plotted to each geom.}
 
 \item{pvaluesAsNumbers}{If \code{TRUE}, the significance levels (p-values) are printed as numbers.
 if \code{FALSE} (default), asterisks are used.}
-
-\item{pvaluesApaStyle}{if both \code{pvaluesAsNumbers} and \code{pvaluesApaStyle} are \code{TRUE}, p-values
-smaller than 0.001 are abbreviated as \code{p < 0.001}. Else, the p-value is rounded to \code{0.000}.}
 
 \item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}

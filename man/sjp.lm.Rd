@@ -7,13 +7,11 @@
 sjp.lm(fit, type = "lm", sort = "beta", title = NULL,
   axisLabels.x = NULL, axisLabels.y = NULL, showAxisLabels.y = TRUE,
   axisTitle.x = "Estimates", axisLimits = NULL, geom.colors = "Set1",
-  geom.size = 3, stdBetaLineType = 2, stdBetaLineAlpha = 0.3,
-  interceptLineType = 2, interceptLineColor = "grey70", breakTitleAt = 50,
-  breakLabelsAt = 25, gridBreaksAt = NULL, coord.flip = TRUE,
-  showValueLabels = TRUE, labelDigits = 2, showPValueLabels = TRUE,
-  showModelSummary = TRUE, showStandardBeta = FALSE,
-  showStandardBetaLine = FALSE, lineColor = "blue", showCI = TRUE,
-  ciLevel = 0.95, pointAlpha = 0.2, pointColor = "black",
+  geom.size = 3, interceptLineType = 2, interceptLineColor = "grey70",
+  breakTitleAt = 50, breakLabelsAt = 25, gridBreaksAt = NULL,
+  coord.flip = TRUE, showValueLabels = TRUE, labelDigits = 2,
+  showPValueLabels = TRUE, showModelSummary = TRUE, lineColor = "blue",
+  showCI = TRUE, ciLevel = 0.95, pointAlpha = 0.2, pointColor = "black",
   showScatterPlot = TRUE, showLoess = FALSE, loessLineColor = "red",
   showLoessCI = FALSE, loessCiLevel = 0.95, useResiduals = FALSE,
   showOriginalModelOnly = TRUE, completeDiagnostic = FALSE,
@@ -25,6 +23,7 @@ sjp.lm(fit, type = "lm", sort = "beta", title = NULL,
 \item{type}{type of plot. Use one of following:
 \itemize{
   \item \code{"lm"} (default) for forest-plot like plot of estimates. If the fitted model only contains one predictor, intercept and slope are plotted.
+  \item \code{"std"} for forest-plot like plot of standardized beta values. If the fitted model only contains one predictor, intercept and slope are plotted.
   \item \code{"pred"} to plot regression lines for each single predictor of the fitted model.
   \item \code{"ma"} to check model assumptions. Note that only three parameters are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.
   \item \code{"vif"} to plot Variance Inflation Factors. See details.
@@ -70,12 +69,6 @@ Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000"
 
 \item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} parameter).}
 
-\item{stdBetaLineType}{The standardized beta-value dots are connected by a thin line
-for a better overview. With this parameter you can specify the line type.}
-
-\item{stdBetaLineAlpha}{The alpha-value for the line that connects the
-standardized beta-value dots.}
-
 \item{interceptLineType}{The linetype of the intercept line (zero point). Default is \code{2} (dashed line).}
 
 \item{interceptLineColor}{The color of the intercept line. Default value is \code{"grey70"}.}
@@ -104,12 +97,6 @@ to values or not}
 \item{showModelSummary}{If \code{TRUE} (default), a summary of the regression model with
 Intercept, R-square, F-Test and AIC-value is printed to the lower right corner
 of the diagram.}
-
-\item{showStandardBeta}{Whether or not the dots for the standardized beta values
-should be plotted to the diagram.}
-
-\item{showStandardBetaLine}{Whether or not the connecting line for the standardized beta values
-should be plotted to the diagram. Default is \code{FALSE}.}
 
 \item{lineColor}{The color of the regression line. Default is \code{"blue"}.
 Only applies if \code{type = "lm"} and fitted model has only one predictor,
@@ -204,12 +191,12 @@ Depending on the \code{type}, this function plots beta coefficients (estimates)
 # fit linear model
 fit <- lm(airquality$Ozone ~ airquality$Wind + airquality$Temp + airquality$Solar.R)
 
-# plot estimates with CI and standardized beta-values
-sjp.lm(fit, gridBreaksAt=2)
+# plot estimates with CI
+sjp.lm(fit, gridBreaksAt = 2)
 
 # plot estimates with CI without standardized beta-values
 # and with narrower tick marks (because "gridBreaksAt" was not specified)
-sjp.lm(fit, showStandardBeta=FALSE)
+sjp.lm(fit)
 
 # ---------------------------------------------------
 # plotting regression line of linear model (done

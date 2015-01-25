@@ -64,9 +64,9 @@ sjs.etasq <- function(...) {
 }
 
 
-#' @title Retrieve std. beta coefficients of lm
+#' @title Retrieve std. beta coefficients and ci of lm
 #' @name sjs.stdb
-#' @description Returns the standardized beta coefficients of a fitted linear model.
+#' @description Returns the standardized beta coefficients and confidence intervals of a fitted linear model.
 #' 
 #' @seealso \itemize{
 #'            \item \code{\link{sjp.lm}}
@@ -74,7 +74,9 @@ sjs.etasq <- function(...) {
 #'            }
 #'         
 #' @param fit A fitted linear model.
-#' @return The standardiized beta coefficients of the fitted linear model.
+#' @param include.ci logical, if \code{TRUE}, a data frame with confidence intervals will be returned.
+#' @return A vector with standardiized beta coefficients of the fitted linear model, or a data frame
+#'           with standardiized confidence intervals, if \code{include.ci = TRUE}.
 #' 
 #' @note "Standardized coefficients refer to how many standard deviations a dependent variable will change, 
 #'         per standard deviation increase in the predictor variable. Standardization of the coefficient is 
@@ -91,13 +93,24 @@ sjs.etasq <- function(...) {
 #' # print std. beta coefficients
 #' sjs.stdb(fit)
 #' 
+#' # print std. beta coefficients and ci
+#' sjs.stdb(fit, include.ci = TRUE)
+#' 
 #' @export
-sjs.stdb <- function(fit) {
+sjs.stdb <- function(fit, include.ci = FALSE) {
   b <- summary(fit)$coef[-1, 1]
   sx <- sapply(fit$model[-1], sd)
   sy <- sapply(fit$model[1], sd)
   beta <- b * sx/sy
-  return(beta)
+  se <- summary(fit)$coefficients[-1, 2]
+  beta.se <- se * sx/sy
+  
+  if (include.ci) {
+    return (data.frame(beta = beta, ci.low = (beta - beta.se * 1.96), ci.hi = (beta + beta.se * 1.96)))
+  }
+  else {
+    return(beta)
+  }
 }
 
 

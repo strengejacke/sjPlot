@@ -13,7 +13,7 @@ sjt.lm(..., file = NULL, labelPredictors = NULL,
   stringP = "p", showConfInt = TRUE, showStdBeta = FALSE,
   showStdError = FALSE, digits.est = 2, digits.p = 3, digits.ci = 2,
   digits.se = 2, digits.sb = 2, digits.summary = 3,
-  pvaluesAsNumbers = FALSE, pvaluesApaStyle = TRUE, boldpvalues = TRUE,
+  pvaluesAsNumbers = FALSE, boldpvalues = TRUE,
   separateConfColumn = FALSE, newLineConf = TRUE, showAbbrHeadline = TRUE,
   showR2 = TRUE, showFStat = FALSE, showAIC = FALSE, cellSpacing = 0.2,
   encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE)
@@ -82,9 +82,6 @@ Default is \code{FALSE}.}
 
 \item{pvaluesAsNumbers}{If \code{TRUE}, p-values are shown as numbers. If \code{FALSE} (default),
 p-values are indicated by asterisks.}
-
-\item{pvaluesApaStyle}{if both \code{pvaluesAsNumbers} and \code{pvaluesApaStyle} are \code{TRUE}, p-values
-smaller than 0.001 are abbreviated as \code{p < 0.001}. Else, the p-value is rounded to \code{0.000}.}
 
 \item{boldpvalues}{If \code{TRUE} (default), significant p-values are shown bold faced.}
 

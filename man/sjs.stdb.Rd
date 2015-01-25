@@ -2,18 +2,21 @@
 % Please edit documentation in R/sjStatistics.R
 \name{sjs.stdb}
 \alias{sjs.stdb}
-\title{Retrieve std. beta coefficients of lm}
+\title{Retrieve std. beta coefficients and ci of lm}
 \usage{
-sjs.stdb(fit)
+sjs.stdb(fit, include.ci = FALSE)
 }
 \arguments{
 \item{fit}{A fitted linear model.}
+
+\item{include.ci}{logical, if \code{TRUE}, a data frame with confidence intervals will be returned.}
 }
 \value{
-The standardiized beta coefficients of the fitted linear model.
+A vector with standardiized beta coefficients of the fitted linear model, or a data frame
+          with standardiized confidence intervals, if \code{include.ci = TRUE}.
 }
 \description{
-Returns the standardized beta coefficients of a fitted linear model.
+Returns the standardized beta coefficients and confidence intervals of a fitted linear model.
 }
 \note{
 "Standardized coefficients refer to how many standard deviations a dependent variable will change,
@@ -28,6 +31,9 @@ Returns the standardized beta coefficients of a fitted linear model.
 fit <- lm(airquality$Ozone ~ airquality$Wind + airquality$Temp + airquality$Solar.R)
 # print std. beta coefficients
 sjs.stdb(fit)
+
+# print std. beta coefficients and ci
+sjs.stdb(fit, include.ci = TRUE)
 }
 \references{
 \href{http://en.wikipedia.org/wiki/Standardized_coefficient}{Wikipedia: Standardized coefficient}
