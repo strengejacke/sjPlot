@@ -4,7 +4,7 @@
 \alias{sjp.lm}
 \title{Plot linear models}
 \usage{
-sjp.lm(fit, type = "lm", sort = "beta", title = NULL,
+sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   axisLabels.x = NULL, axisLabels.y = NULL, showAxisLabels.y = TRUE,
   axisTitle.x = "Estimates", axisLimits = NULL, geom.colors = "Set1",
   geom.size = 3, interceptLineType = 2, interceptLineColor = "grey70",
@@ -29,8 +29,7 @@ sjp.lm(fit, type = "lm", sort = "beta", title = NULL,
   \item \code{"vif"} to plot Variance Inflation Factors. See details.
 }}
 
-\item{sort}{Determines whether the predictors are sorted by beta-values (default, or use \code{"beta"} as
-parameter) or by standardized beta values (use \code{"std"}).}
+\item{sort.est}{Logical, determines whether estimates should be sorted by their values.}
 
 \item{title}{Diagram's title as string.
 Example: \code{title=c("my title")}}
@@ -202,6 +201,7 @@ sjp.lm(fit)
 # plotting regression line of linear model (done
 # automatically if fitted model has only 1 predictor)
 # ---------------------------------------------------
+data(efc)
 # fit model
 fit <- lm(neg_c_7 ~ quol_5, data=efc)
 # plot regression line

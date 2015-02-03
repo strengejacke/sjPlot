@@ -1,14 +1,20 @@
+Version 1.6.8-2
+------------------------------------------------------------------------------
+Bug fixes:
+* Fixed bug in function "sjs.stdmm", which was the cause for a bug with type = "fe.std" in "sjp.lmer".
+
+
 Version 1.6.8
 ------------------------------------------------------------------------------
 Changes to functions:
-* Plotting standardized beta values in "sjp.glm" can be achieved via the "type" parameter (type = "std"). Furthermore, confidence intervals and p-values are shown in the standardized beta plot.
+* Plotting standardized beta values in "sjp.lm" can be achieved via the "type" parameter (type = "std"). Furthermore, confidence intervals and p-values are shown in the standardized beta plot.
 * "sjt.lm" now also prints confidence intervals for standardized beta values.
 * "sjp.vif" and "sjp.glm.ma" were merged into "sjp.glm". Use the "type" parameter to select plot type.
 * "sjp.lm1", "sjp.reglin", "sjp.vif" and "sjp.lm.ma" were merged into "sjp.lm". Use the "type" parameter to select plot type.
 * Added parameter "vars" to "sjp.glmer" to plot probability curves only for selected variables.
 * Added type "fe.std" to "type" parameter of "sjp.lmer" to plot standardized coefficients of fixed effects.
 * Added type "fe.ri" to "type" parameter of "sjp.lmer" to plot fixed effects slopes for each random intercept (group level).
-* Added parameter "pvaluesApaStyle" to various functions. If this parameter is TRUE, p-values less than 0.001 are indicated as "p < 0.001" instead of being rounded to "p = 0.000".
+* p-values less than 0.001 are indicated as "p < 0.001" instead of being rounded to "p = 0.000".
 * Added parameter "showTotalN" to "sjt.xtab" to show column and row sums even if parameter "showObserved" is FALSE.
 * Added parameter "digits.summary" to "sjt.grpmean" to use different digits for table values and summary statistics.
 * "sji.setValueLabels" now also accepts a vector for the parameter "labels" if "x" is a data frame. Using a vector will apply the labels to each variable of the data frame "x".
@@ -17,6 +23,7 @@ Changes to functions:
 Bug fixes:
 * Fixed bug with type = "dots" in "sjp.grpfrq".
 * Fixed bug with predictor labelling in "sjp.lm" and "sjp.glm" when parameter "labelPredictors" was not used.
+* Fixed bug with custom color palettes and neutral categories in "sjp.likert".
 
 
 Version 1.6.5

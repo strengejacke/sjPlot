@@ -35,8 +35,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lo
 #'          }
 #' @param title Diagram's title as string.
 #'          Example: \code{title=c("my title")}
-#' @param sort Determines whether the predictors are sorted by beta-values (default, or use \code{"beta"} as
-#'          parameter) or by standardized beta values (use \code{"std"}).
+#' @param sort.est Logical, determines whether estimates should be sorted by their values.
 #' @param axisLabels.x Labels of the predictor (independent variable) that is used for labelling the
 #'          axis. Passed as string. Not used if fitted model has more than one predictor and \code{type = "lm"}.
 #'          Example: \code{axisLabel.x=c("My Predictor Var")}.
@@ -158,6 +157,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lo
 #' # plotting regression line of linear model (done 
 #' # automatically if fitted model has only 1 predictor)
 #' # ---------------------------------------------------
+#' data(efc)
 #' # fit model
 #' fit <- lm(neg_c_7 ~ quol_5, data=efc)
 #' # plot regression line
@@ -193,7 +193,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lo
 #' @export
 sjp.lm <- function(fit,
                    type="lm",
-                   sort="beta",
+                   sort.est=TRUE,
                    title=NULL,
                    axisLabels.x=NULL,
                    axisLabels.y=NULL, 
@@ -426,14 +426,14 @@ sjp.lm <- function(fit,
   # sort labels descending in order of (std.) beta values
   # sort rows of data frame descending in order of (std.) beta values
   # --------------------------------------------------------
-  if (sort) {
+  if (sort.est) {
     if (type == "lm") {
       axisLabels.y <- axisLabels.y[order(bv)]
       betas <- betas[order(bv),]
     }
     else if (type == "std") {
-      axisLabels.y <- axisLabels.y[order(stdbv)]
-      betas <- betas[order(stdbv),]
+      axisLabels.y <- axisLabels.y[order(stdbv$beta)]
+      betas <- betas[order(stdbv$beta),]
     }
   }
   betas <- cbind(c(seq(1:nrow(betas))), betas)

@@ -286,7 +286,7 @@ sjp.likert <- function(items,
   # set legend labels, if we have none yet
   # --------------------------------------------------------
   if (is.null(legendLabels)) {
-    legendLabels <- c(1 : catcount + adding)
+    legendLabels <- c(1 : (catcount + adding))
   }
   # --------------------------------------------------------
   # prepare data frames
@@ -605,7 +605,7 @@ sjp.likert <- function(items,
   # ---------------------------------------------------------
   gp <- sj.setGeomColors(gp, 
                          geom.colors, 
-                         catcount, 
+                         (catcount + adding), 
                          ifelse(hideLegend==TRUE, FALSE, TRUE), 
                          legendLabels,
                          reverse.colors)

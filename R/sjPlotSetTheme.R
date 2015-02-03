@@ -567,10 +567,13 @@ sj.setGeomColors <- function(plot,
   if (!is.null(geom.colors)) {
     # brewer palette?
     if (is.brewer.pal(geom.colors[1])) {
-      if (length(geom.colors) > 1)
+      if (length(geom.colors) > 1) {
         neutral.color <- geom.colors[2]
-      else
+        pal.len <- pal.len - 1
+      }
+      else {
         neutral.color <- NULL
+      }
       geom.colors <- brewer_pal(palette=geom.colors[1])(pal.len)
       if (reverse.colors) geom.colors <- rev(geom.colors)
       if (!is.null(neutral.color)) geom.colors <- c(geom.colors, neutral.color)

@@ -471,10 +471,10 @@ sjp.lme4  <- function(fit,
   # -------------------------------------
   # check if required package is available
   # -------------------------------------
-  if (!require("lme4", quietly = TRUE)) {
+  if (!requireNamespace("lme4", quietly = TRUE)) {
     stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
   }
-  if (!require("Matrix", quietly = TRUE)) {
+  if (!requireNamespace("Matrix", quietly = TRUE)) {
     stop("Package 'Matrix' needed for this function to work. Please install it.", call. = FALSE)
   }
   if (!requireNamespace("arm", quietly = TRUE)) {

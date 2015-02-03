@@ -75,6 +75,8 @@ as they are provided by the \code{\link{summary}} function.}
 \item{pvaluesAsNumbers}{If \code{TRUE}, p-values are shown as numbers. If \code{FALSE} (default),
 p-values are indicated by asterisks.}
 
+\item{boldpvalues}{If \code{TRUE} (default), significant p-values are shown bold faced.}
+
 \item{showConfInt}{If \code{TRUE} (default), the confidence intervall is also printed to the table. Use
 \code{FALSE} to omit the CI in the table.}
 

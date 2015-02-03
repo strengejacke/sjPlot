@@ -2,10 +2,10 @@ Package: sjPlot
 Type: Package
 Encoding: UTF-8
 Title: Data Visualization for Statistics in Social Science
-Version: 1.6.7-9
-Date: 2015-01-25
+Version: 1.6.8-2
+Date: 2015-02-03
 Author: Daniel Lüdecke <d.luedecke@uke.de>
-Maintainer: Daniel Luedecke <d.luedecke@uke.de>
+Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
 Description: Collection of several plotting and table output functions for
     visualizing data, and utility functions.
 License: GPL-3

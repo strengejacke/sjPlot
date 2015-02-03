@@ -1,3 +1,7 @@
+# bind global variables
+if(getRversion() >= "2.15.1") utils::globalVariables(c("fit"))
+
+
 #' @title Retrieve eta squared of fitted anova
 #' @name sjs.etasq
 #' @description Returns the eta squared value for 1-way-anovas.
@@ -114,7 +118,7 @@ sjs.stdb <- function(fit, include.ci = FALSE) {
 }
 
 
-sjs.stdmm <- function(object) {
+sjs.stdmm <- function(fit) {
   # code from Ben Bolker, see
   # http://stackoverflow.com/a/26206119/2094622
   # ------------------------
@@ -123,10 +127,10 @@ sjs.stdmm <- function(object) {
   if (!requireNamespace("lme4", quietly = TRUE)) {
     stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
   }
-  sdy <- sd(lme4::getME(object,"y"))
-  sdx <- apply(lme4::getME(object,"X"), 2, sd)
-  sc <- lme4::fixef(object)*sdx/sdy
-  se.fixef <- coef(summary(object))[,"Std. Error"]
+  sdy <- sd(lme4::getME(fit,"y"))
+  sdx <- apply(lme4::getME(fit,"X"), 2, sd)
+  sc <- lme4::fixef(fit)*sdx/sdy
+  se.fixef <- coef(summary(fit))[,"Std. Error"]
   se <- se.fixef*sdx/sdy
   mydf <- data.frame(stdcoef=sc, stdse=se)
   rownames(mydf) <- names(lme4::fixef(fit))

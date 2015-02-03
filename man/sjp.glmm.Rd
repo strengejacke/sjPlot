@@ -156,7 +156,6 @@ sjp.glmm(fitOR1, fitOR2, fitOR3,
 \itemize{
            \item \code{\link{sjp.glm}}
            \item \code{\link{sjt.glm}}
-           \item \code{\link{sjp.glm.ma}}
            \item \code{\link{sjp.lmm}}
            }
 }
