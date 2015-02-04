@@ -622,7 +622,7 @@ sjp.int <- function(fit,
     if (showInterceptLines) {
       # retrieve intercept bounds
       ilmin <- min(b0, est_b)
-      ilmax <- min(b0, est_b)
+      ilmax <- max(b0, est_b)
       # adjust lower lim if necessary
       if (ilmin < lowerLim.y) {
         lowerLim.y <- floor(ilmin)
