@@ -133,6 +133,7 @@ sjt.grpmean <- function(varCount,
   fstat <- summary.lm(fit)$fstatistic[1]
   # p-value for F-test
   pval <- summary(fit)[[1]]['Pr(>F)'][1,1]
+  pvalstring <- ifelse(pval < 0.001, "p&lt;0.001", sprintf("p=%.*f", digits.summary, pval))  
   # --------------------------------------
   # print data frame to html table
   # --------------------------------------
@@ -146,8 +147,8 @@ sjt.grpmean <- function(varCount,
                  CSS = CSS,
                  encoding = encoding,
                  hideProgressBar = TRUE,
-                 commentString = sprintf("<strong>Anova:</strong> R<sup>2</sup>=%.*f &middot; adj. R<sup>2</sup>=%.*f &middot; F=%.*f &middot; p=%.*f",
-                                         digits.summary, r2, digits.summary, r2.adj, digits.summary, fstat, digits.summary, pval))
+                 commentString = sprintf("<strong>Anova:</strong> R<sup>2</sup>=%.*f &middot; adj. R<sup>2</sup>=%.*f &middot; F=%.*f &middot; %s",
+                                         digits.summary, r2, digits.summary, r2.adj, digits.summary, fstat, pvalstring))
   # -------------------------------------
   # check if html-content should be printed
   # -------------------------------------
