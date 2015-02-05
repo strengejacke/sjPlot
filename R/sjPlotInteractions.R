@@ -240,6 +240,11 @@ sjp.int <- function(fit,
     legendLabels <- unlistlabels(legendLabels)
   }
   # -----------------------------------------------------------
+  # retrieve coefficients
+  # -----------------------------------------------------------
+  coef.tab <- summary(fit)$coefficients
+  pval <- rep(0, times = nrow(coef.tab)-1)
+  # -----------------------------------------------------------
   # prepare values for (generalized) linear models
   # -----------------------------------------------------------
   if (fun == "lm" || fun == "glm") {
@@ -254,16 +259,18 @@ sjp.int <- function(fit,
     # -----------------------------------------------------------
     # retrieve p-values, without intercept
     # -----------------------------------------------------------
-    pval <- summary(fit)$coefficients[-1, 4]
+    if (ncol(coef.tab) > 3) {
+      pval <- coef.tab[-1, 4]
+    }
     # -----------------------------------------------------------
     # retrieve estimates, without intercept
     # -----------------------------------------------------------
-    estimates <- summary(fit)$coefficients[-1, 1]
+    estimates <- coef.tab[-1, 1]
     estimates.names <- it <- names(estimates)
     # -----------------------------------------------------------
     # retrieve estimate of intercept
     # -----------------------------------------------------------
-    b0 <- estimates.intercept <- summary(fit)$coefficients[1, 1]
+    b0 <- estimates.intercept <- coef.tab[1, 1]
   }
   # -----------------------------------------------------------
   # prepare values for (generalized) linear mixed effecrs models
@@ -280,7 +287,9 @@ sjp.int <- function(fit,
     # -----------------------------------------------------------
     # retrieve p-values, without intercept
     # -----------------------------------------------------------
-    pval <- summary(fit)$coefficients[-1, 4]
+    if (ncol(coef.tab) > 3) {
+      pval <- coef.tab[-1, 4]
+    }
     # -----------------------------------------------------------
     # retrieve estimates, without intercept
     # -----------------------------------------------------------

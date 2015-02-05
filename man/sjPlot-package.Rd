@@ -57,7 +57,7 @@
 Package: \tab sjPlot\cr
 Type: \tab Package\cr
 Version: \tab 1.6.8-2\cr
-Date: \tab 2015-02-03\cr
+Date: \tab 2015-02-05\cr
 License: \tab GPL-3\cr
 }
 }
