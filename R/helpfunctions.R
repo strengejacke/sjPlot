@@ -362,12 +362,12 @@ crosstabsum <- function(ftab) {
 # -------------------------------------
 autoSetValueLabels <- function(x) {
   # check if we have value label attribut
-  vl <- attr(x, "value.labels")
+  vl <- sji.getValueLabel(x)
   lv <- levels(x)
   label <- NULL
   # check  if we have value labels
   if (!is.null(vl) && length(vl)>0) {
-    label <- rev(names(vl))
+    label <- vl
   }
   # check  if we have factor levels
   else if (!is.null(lv)) {

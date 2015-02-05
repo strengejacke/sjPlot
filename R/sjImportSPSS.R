@@ -97,7 +97,14 @@ sji.getValueLabels <- function(x) {
   return (a)
 }
 sji.getValueLabel <- function(x) {
-  return (rev(names(attr(x, "value.labels"))))
+  # retrieve named labels
+  lab <- attr(x, "value.labels")
+  # retrieve order of value labels
+  reihenfolge <- order(as.numeric(unname(lab)))
+  # retrieve label values in correct order
+  labels <- names(lab)[reihenfolge]
+  # return them
+  return (labels)
 }
 
 
