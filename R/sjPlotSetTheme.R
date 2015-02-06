@@ -105,6 +105,10 @@
 #'            \item \href{http://www.strengejacke.de/sjPlot/custplot/}{sjPlot manual: customize plot appearance}
 #'          }
 #' 
+#' @references \itemize{
+#'              \item \href{http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/}(Beautiful plotting in R: A ggplot2 cheatsheet)
+#'             }
+#' 
 #' @examples
 #' \dontrun{
 #' data(efc)

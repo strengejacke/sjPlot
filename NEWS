@@ -4,7 +4,7 @@ Bug fixes:
 * "sjt.grpmean" did not indicate p-values smaller than 0.001 as "p<0.001", but still as "p=0.000" - fixed.
 * Fixed bug in function "sjs.stdmm", which was the cause for a bug with type = "fe.std" in "sjp.lmer".
 * Fixed bug in "sjp.int" when fitted model does not contain p-values (e.g. when passing a merMod object from lme4).
-* Minor bug fix in "sjt.int".
+* Minor bug fix in "sjp.int".
 
 
 Version 1.6.8

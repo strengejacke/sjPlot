@@ -40,7 +40,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * `sjt.grpmean` did not indicate p-values smaller than 0.001 as _p<0.001_, but still as _p=0.000_ - fixed.
 * Fixed bug in function `sjs.stdmm`, which was the cause for a bug with `type = "fe.std"` in `sjp.lmer`.
 * Fixed bug in `sjp.int` when fitted model does not contain p-values (e.g. when passing a merMod object from lme4).
-* Minor bug fix in `sjt.int`.
+* Minor bug fix in `sjp.int`.
 
 
 ### Changelog of current stable build 1.6.8
