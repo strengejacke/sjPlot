@@ -1034,3 +1034,11 @@ sju.mean.n <- function(dat, n) {
   }
   apply(dat, 1, function(x) ifelse(sum(!is.na(x)) >= n, mean(x, na.rm=TRUE), NA))
 }
+
+
+sju.rmspc <- function(html.table) {
+  cleaned <- gsub("      <", "<", html.table, fixed = TRUE)
+  cleaned <- gsub("    <", "<", cleaned, fixed = TRUE)
+  cleaned <- gsub("  <", "<", cleaned, fixed = TRUE)
+  return (cleaned)
+}

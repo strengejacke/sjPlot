@@ -31,6 +31,8 @@
 #'          In case you want to revers order (descending from highest count), use
 #'          \code{reverseOrder} parameter.
 #' @param reverseOrder If \code{TRUE}, the item order is reversed.
+#' @param digits The amount of digits for rounding the percentage values.
+#'          Default is 2, i.e. percentage values have 2 digits after decimal point.
 #' @param showN If \code{TRUE}, each item's category N is printed in the table cells.
 #' @param showTotalN If \code{TRUE}, an additional column with each item's total N is printed.
 #' @param showNA If \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.
@@ -41,6 +43,8 @@
 #' @param showKurtosis If \code{TRUE}, an additional column with each item's kurtosis is printed.
 #'          The kurtosis is retrieved from the \code{\link{describe}} function of the \code{\link{psych}}
 #'          package.
+#' @param digits.stats The amount of digits for rounding the skewness and kurtosis valuess.
+#'          Default is 2, i.e. skewness and kurtosis values have 2 digits after decimal point.
 #' @param skewString A character string, which is used as header for the skew column (see \code{showSkew})).
 #'          Default is \code{"Skew"}.
 #' @param kurtosisString A character string, which is used as header for the kurtosis column (see \code{showKurtosis})).
@@ -75,6 +79,9 @@
 #'          the viewer pane and not even saved to file. This option is useful when the html output
 #'          should be used in \code{knitr} documents. The html output can be accessed via the return
 #'          value.
+#' @param remove.spaces logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+#'          that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
+#'          may look less pretty, but it may help when exporting html-tables to office tools.
 #' @return Invisibly returns a \code{\link{structure}} with
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
@@ -163,19 +170,22 @@ sjt.stackfrq <- function (items,
                           orderBy=NULL,
                           reverseOrder=FALSE,
                           alternateRowColors=FALSE,
+                          digits=2,
                           showN=FALSE,
                           showTotalN=FALSE,
                           showNA=FALSE,
                           labelNA="NA",
                           showSkew=FALSE,
                           showKurtosis=FALSE,
+                          digits.stats=2,
                           skewString="Skew",
                           kurtosisString="Kurtosis",
                           file=NULL, 
                           encoding=NULL,
                           CSS=NULL,
                           useViewer=TRUE,
-                          no.output=FALSE) {
+                          no.output=FALSE,
+                          remove.spaces=TRUE) {
   # --------------------------------------------------------
   # check encoding
   # --------------------------------------------------------
@@ -458,18 +468,18 @@ sjt.stackfrq <- function (items,
     # --------------------------------------------------------
     for (j in 1:ncol(mat)) {
       if (showN) {
-        page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s\">%i<br>(%.2f&nbsp;%%)</td>\n", arcstring, mat.n[facord[i],j], 100*mat[facord[i],j]))
+        page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s\">%i<br>(%.*f&nbsp;%%)</td>\n", arcstring, mat.n[facord[i],j], digits, 100*mat[facord[i],j]))
       }
       else {
-        page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s\">%.2f&nbsp;%%</td>\n", arcstring, 100*mat[facord[i],j]))
+        page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s\">%.*f&nbsp;%%</td>\n", arcstring, digits, 100*mat[facord[i],j]))
       }
     }
     # add column with N's
     if (showTotalN) page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign ncol summary%s\">%i</td>\n", arcstring, itemcount[facord[i]]))
     # add column with Skew's
-    if (showSkew) page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign skewcol summary%s\">%.2f</td>\n", arcstring, pstat$skew[facord[i]]))
+    if (showSkew) page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign skewcol summary%s\">%.*f</td>\n", arcstring, digits.stats, pstat$skew[facord[i]]))
     # add column with Kurtosis's
-    if (showKurtosis) page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign kurtcol summary%s\">%.2f</td>\n", arcstring, pstat$kurtosis[facord[i]]))
+    if (showKurtosis) page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign kurtcol summary%s\">%.*f</td>\n", arcstring, digits.stats, pstat$kurtosis[facord[i]]))
     # close row
     page.content <- paste0(page.content, "  </tr>\n")
   }
@@ -507,6 +517,14 @@ sjt.stackfrq <- function (items,
   knitr <- gsub(tag.kurtcol, css.kurtcol, knitr)  
   knitr <- gsub(tag.summary, css.summary, knitr)  
   knitr <- gsub(tag.arc, css.arc, knitr)  
+  # -------------------------------------
+  # remove spaces?
+  # -------------------------------------
+  if (remove.spaces) {
+    knitr <- sju.rmspc(knitr)
+    toWrite <- sju.rmspc(toWrite)
+    page.content <- sju.rmspc(page.content)
+  }
   # -------------------------------------
   # check if html-content should be outputted
   # -------------------------------------

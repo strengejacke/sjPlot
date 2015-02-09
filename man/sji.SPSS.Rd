@@ -4,7 +4,8 @@
 \alias{sji.SPSS}
 \title{Import SPSS dataset as data frame into R}
 \usage{
-sji.SPSS(path, enc = NA, autoAttachVarLabels = FALSE)
+sji.SPSS(path, enc = NA, autoAttachVarLabels = FALSE,
+  atomic.to.fac = FALSE)
 }
 \arguments{
 \item{path}{The file path to the SPSS dataset.}
@@ -14,6 +15,10 @@ sji.SPSS(path, enc = NA, autoAttachVarLabels = FALSE)
 \item{autoAttachVarLabels}{if \code{TRUE}, variable labels will automatically be
 attached to each variable as \code{"variable.label"} attribute.
 See \code{\link{sji.setVariableLabels}} for details.}
+
+\item{atomic.to.fac}{Logical, if \code{TRUE}, factor variables imported from
+SPSS (which are imported as \code{\link{atomic}}) will be converted
+to \code{\link{factor}}s.}
 }
 \value{
 A data frame containing the SPSS data. retrieve value labels with \code{\link{sji.getValueLabels}}

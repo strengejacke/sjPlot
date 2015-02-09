@@ -14,7 +14,8 @@ sjt.xtab(var.row, var.col, var.grp = NULL, weightBy = NULL, digits = 1,
   tdcol.expected = "#339999", tdcol.cell = "#993333",
   tdcol.row = "#333399", tdcol.col = "#339933", highlightTotal = FALSE,
   highlightColor = "#f8f8f8", percSign = "&nbsp;&#37;", hundret = "100.0",
-  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE)
+  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
+  remove.spaces = TRUE)
 }
 \arguments{
 \item{var.row}{Variable that should be displayed in the table rows.}
@@ -133,6 +134,10 @@ See further examples below and \href{http://www.strengejacke.de/sjPlot/sjtbasics
 the viewer pane and not even saved to file. This option is useful when the html output
 should be used in \code{knitr} documents. The html output can be accessed via the return
 value.}
+
+\item{remove.spaces}{logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
+may look less pretty, but it may help when exporting html-tables to office tools.}
 }
 \value{
 Invisibly returns a \code{\link{structure}} with

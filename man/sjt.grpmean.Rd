@@ -6,7 +6,7 @@
 \usage{
 sjt.grpmean(varCount, varGrp, rowLabels = NULL, digits = 2,
   digits.summary = 3, file = NULL, encoding = NULL, CSS = NULL,
-  useViewer = TRUE, no.output = FALSE)
+  useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{varCount}{a numeric vector / variable. Mean, SD and SE for this variable are calculated.}
@@ -51,6 +51,10 @@ See further examples below and the \href{http://www.strengejacke.de/sjPlot/sjtba
 the viewer pane and not even saved to file. This option is useful when the html output
 should be used in \code{knitr} documents. The html output can be accessed via the return
 value.}
+
+\item{remove.spaces}{logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
+may look less pretty, but it may help when exporting html-tables to office tools.}
 }
 \value{
 Invisibly returns a \code{\link{structure}} with

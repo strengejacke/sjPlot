@@ -14,7 +14,7 @@ sjt.frq(data, file = NULL, weightBy = NULL, variableLabels = NULL,
   showKurtosis = FALSE, skewString = "&gamma;",
   kurtosisString = "&omega;", removeStringVectors = TRUE,
   autoGroupStrings = TRUE, maxStringDist = 3, encoding = NULL,
-  CSS = NULL, useViewer = TRUE, no.output = FALSE)
+  CSS = NULL, useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{data}{The variables which frequencies should be printed as table. Either use a single variable
@@ -139,6 +139,10 @@ See further examples below and \href{http://www.strengejacke.de/sjPlot/sjtbasics
 the viewer pane and not even saved to file. This option is useful when the html output
 should be used in \code{knitr} documents. The html output can be accessed via the return
 value.}
+
+\item{remove.spaces}{logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
+may look less pretty, but it may help when exporting html-tables to office tools.}
 }
 \value{
 Invisibly returns a \code{\link{structure}} with

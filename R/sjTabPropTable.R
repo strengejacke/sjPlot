@@ -91,6 +91,9 @@
 #'          the viewer pane and not even saved to file. This option is useful when the html output
 #'          should be used in \code{knitr} documents. The html output can be accessed via the return
 #'          value.
+#' @param remove.spaces logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+#'          that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
+#'          may look less pretty, but it may help when exporting html-tables to office tools.
 #' @return Invisibly returns a \code{\link{structure}} with
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
@@ -201,7 +204,8 @@ sjt.xtab <- function (var.row,
                       encoding=NULL,
                       CSS=NULL,
                       useViewer=TRUE,
-                      no.output=FALSE) {
+                      no.output=FALSE,
+                      remove.spaces=TRUE) {
   # -------------------------------------
   # check encoding
   # -------------------------------------
@@ -808,6 +812,14 @@ sjt.xtab <- function (var.row,
   knitr <- gsub(tag.td_rw, sprintf("color:%s;",tdcol.row), knitr)  
   knitr <- gsub(tag.td_c, sprintf("color:%s;",tdcol.cell), knitr)  
   knitr <- gsub(tag.td_n, sprintf("color:%s;",tdcol.n), knitr)  
+  # -------------------------------------
+  # remove spaces?
+  # -------------------------------------
+  if (remove.spaces) {
+    knitr <- sju.rmspc(knitr)
+    toWrite <- sju.rmspc(toWrite)
+    page.content <- sju.rmspc(page.content)
+  }
   # -------------------------------------
   # check if html-content should be printed
   # -------------------------------------

@@ -39,6 +39,9 @@
 #'          the viewer pane and not even saved to file. This option is useful when the html output
 #'          should be used in \code{knitr} documents. The html output can be accessed via the return
 #'          value.
+#' @param remove.spaces logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+#'          that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
+#'          may look less pretty, but it may help when exporting html-tables to office tools.
 #' @return Invisibly returns a \code{\link{structure}} with
 #'          \itemize{
 #'            \item the data frame with the description information (\code{df}),
@@ -65,7 +68,8 @@ sjt.grpmean <- function(varCount,
                         encoding=NULL,
                         CSS=NULL,
                         useViewer=TRUE,
-                        no.output=FALSE) {
+                        no.output=FALSE,
+                        remove.spaces=TRUE) {
   # --------------------------------------
   # set value and row labels
   # --------------------------------------
@@ -148,7 +152,8 @@ sjt.grpmean <- function(varCount,
                  encoding = encoding,
                  hideProgressBar = TRUE,
                  commentString = sprintf("<strong>Anova:</strong> R<sup>2</sup>=%.*f &middot; adj. R<sup>2</sup>=%.*f &middot; F=%.*f &middot; %s",
-                                         digits.summary, r2, digits.summary, r2.adj, digits.summary, fstat, pvalstring))
+                                         digits.summary, r2, digits.summary, r2.adj, digits.summary, fstat, pvalstring),
+                 remove.spaces = remove.spaces)
   # -------------------------------------
   # check if html-content should be printed
   # -------------------------------------

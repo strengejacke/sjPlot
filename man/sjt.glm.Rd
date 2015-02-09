@@ -17,7 +17,7 @@ sjt.glm(..., file = NULL, labelPredictors = NULL,
   showAbbrHeadline = TRUE, showPseudoR = TRUE, showLogLik = FALSE,
   showAIC = FALSE, showChi2 = FALSE, showFamily = FALSE,
   cellSpacing = 0.2, encoding = NULL, CSS = NULL, useViewer = TRUE,
-  no.output = FALSE)
+  no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{One or more fitted \code{\link{glm}}-objects.}
@@ -145,6 +145,10 @@ See further examples below and \href{http://www.strengejacke.de/sjPlot/sjtbasics
 the viewer pane and not even saved to file. This option is useful when the html output
 should be used in \code{knitr} documents. The html output can be accessed via the return
 value.}
+
+\item{remove.spaces}{logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
+may look less pretty, but it may help when exporting html-tables to office tools.}
 }
 \value{
 Invisibly returns a \code{\link{structure}} with

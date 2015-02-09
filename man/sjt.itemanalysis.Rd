@@ -8,7 +8,8 @@ sjt.itemanalysis(df, factor.groups = NULL, factor.groups.titles = "auto",
   scaleItems = FALSE, minValidRowMeanValue = 2, alternateRowColors = TRUE,
   orderColumn = NULL, orderAscending = TRUE, showShapiro = FALSE,
   showKurtosis = FALSE, showCompCorrMat = TRUE, file = NULL,
-  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE)
+  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
+  remove.spaces = TRUE)
 }
 \arguments{
 \item{df}{A data frame with items (from a scale)}
@@ -92,6 +93,10 @@ See further examples at \href{http://www.strengejacke.de/sjPlot/sjtbasics}{sjPlo
 the viewer pane and not even saved to file. This option is useful when the html output
 should be used in \code{knitr} documents. The html output can be accessed via the return
 value.}
+
+\item{remove.spaces}{logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
+may look less pretty, but it may help when exporting html-tables to office tools.}
 }
 \value{
 (Invisibly) returns a structure with following elements:

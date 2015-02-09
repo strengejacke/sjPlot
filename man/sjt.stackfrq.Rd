@@ -7,10 +7,11 @@
 sjt.stackfrq(items, weightBy = NULL, title = NULL, varlabels = NULL,
   breakLabelsAt = 40, valuelabels = NULL, breakValueLabelsAt = 20,
   orderBy = NULL, reverseOrder = FALSE, alternateRowColors = FALSE,
-  showN = FALSE, showTotalN = FALSE, showNA = FALSE, labelNA = "NA",
-  showSkew = FALSE, showKurtosis = FALSE, skewString = "Skew",
-  kurtosisString = "Kurtosis", file = NULL, encoding = NULL, CSS = NULL,
-  useViewer = TRUE, no.output = FALSE)
+  digits = 2, showN = FALSE, showTotalN = FALSE, showNA = FALSE,
+  labelNA = "NA", showSkew = FALSE, showKurtosis = FALSE,
+  digits.stats = 2, skewString = "Skew", kurtosisString = "Kurtosis",
+  file = NULL, encoding = NULL, CSS = NULL, useViewer = TRUE,
+  no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{items}{A \code{\link{data.frame}} with each column representing one (likert- or scale-)item.}
@@ -44,6 +45,9 @@ In case you want to revers order (descending from highest count), use
 \item{alternateRowColors}{If \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
 
+\item{digits}{The amount of digits for rounding the percentage values.
+Default is 2, i.e. percentage values have 2 digits after decimal point.}
+
 \item{showN}{If \code{TRUE}, each item's category N is printed in the table cells.}
 
 \item{showTotalN}{If \code{TRUE}, an additional column with each item's total N is printed.}
@@ -59,6 +63,9 @@ package.}
 \item{showKurtosis}{If \code{TRUE}, an additional column with each item's kurtosis is printed.
 The kurtosis is retrieved from the \code{\link{describe}} function of the \code{\link{psych}}
 package.}
+
+\item{digits.stats}{The amount of digits for rounding the skewness and kurtosis valuess.
+Default is 2, i.e. skewness and kurtosis values have 2 digits after decimal point.}
 
 \item{skewString}{A character string, which is used as header for the skew column (see \code{showSkew})).
 Default is \code{"Skew"}.}
@@ -98,6 +105,10 @@ See further examples below and \href{http://www.strengejacke.de/sjPlot/sjtbasics
 the viewer pane and not even saved to file. This option is useful when the html output
 should be used in \code{knitr} documents. The html output can be accessed via the return
 value.}
+
+\item{remove.spaces}{logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
+may look less pretty, but it may help when exporting html-tables to office tools.}
 }
 \value{
 Invisibly returns a \code{\link{structure}} with

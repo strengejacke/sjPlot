@@ -407,6 +407,10 @@ sjp.lmer <- function(fit,
                      free.scale = FALSE,
                      fade.ns = FALSE,
                      printPlot = TRUE) {
+
+  if (type == "fe.prob") type <- "fe.pc"
+  if (type == "ri.prob") type <- "ri.pc"
+  
   sjp.lme4(fit,
            type,
            vars,

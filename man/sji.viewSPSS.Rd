@@ -8,7 +8,7 @@ sji.viewSPSS(df, file = NULL, alternateRowColors = TRUE, showID = TRUE,
   showType = FALSE, showValues = TRUE, showValueLabels = TRUE,
   showFreq = FALSE, showPerc = FALSE, orderByName = FALSE,
   breakVariableNamesAt = 50, encoding = NULL, hideProgressBar = FALSE,
-  CSS = NULL, useViewer = TRUE, no.output = FALSE)
+  CSS = NULL, useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{df}{An imported data frame, imported by \code{\link{sji.SPSS}} function.}
@@ -73,6 +73,10 @@ See further examples below and \href{http://www.strengejacke.de/sjPlot/sjtbasics
 the viewer pane and not even saved to file. This option is useful when the html output
 should be used in \code{knitr} documents. The html output can be accessed via the return
 value.}
+
+\item{remove.spaces}{logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
+may look less pretty, but it may help when exporting html-tables to office tools.}
 }
 \value{
 Invisibly returns a \code{\link{structure}} with

@@ -8,7 +8,8 @@ sjt.corr(data, missingDeletion = "pairwise", corMethod = "spearman",
   title = NULL, showPValues = TRUE, pvaluesAsNumbers = FALSE,
   fadeNS = TRUE, file = NULL, varlabels = NULL, breakLabelsAt = 40,
   digits = 3, triangle = "both", val.rm = NULL, stringDiagonal = NULL,
-  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE)
+  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
+  remove.spaces = TRUE)
 }
 \arguments{
 \item{data}{A correlation object, built with the R-\code{\link{cor}}-function, or a data frame
@@ -93,6 +94,10 @@ See further examples below and \href{http://www.strengejacke.de/sjPlot/sjtbasics
 the viewer pane and not even saved to file. This option is useful when the html output
 should be used in \code{knitr} documents. The html output can be accessed via the return
 value.}
+
+\item{remove.spaces}{logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
+may look less pretty, but it may help when exporting html-tables to office tools.}
 }
 \value{
 Invisibly returns a \code{\link{structure}} with

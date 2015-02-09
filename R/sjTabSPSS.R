@@ -61,6 +61,9 @@
 #'          the viewer pane and not even saved to file. This option is useful when the html output
 #'          should be used in \code{knitr} documents. The html output can be accessed via the return
 #'          value.
+#' @param remove.spaces logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+#'          that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
+#'          may look less pretty, but it may help when exporting html-tables to office tools.
 #' @return Invisibly returns a \code{\link{structure}} with
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
@@ -108,7 +111,8 @@ sji.viewSPSS <- function (df,
                           hideProgressBar=FALSE,
                           CSS=NULL,
                           useViewer=TRUE,
-                          no.output=FALSE) {
+                          no.output=FALSE,
+                          remove.spaces=TRUE) {
   # -------------------------------------
   # check encoding
   # -------------------------------------
@@ -315,6 +319,14 @@ sji.viewSPSS <- function (df,
   knitr <- gsub(tag.tdata, css.tdata, knitr)
   knitr <- gsub(tag.thead, css.thead, knitr)
   knitr <- gsub(tag.arc, css.arc, knitr)
+  # -------------------------------------
+  # remove spaces?
+  # -------------------------------------
+  if (remove.spaces) {
+    knitr <- sju.rmspc(knitr)
+    toWrite <- sju.rmspc(toWrite)
+    page.content <- sju.rmspc(page.content)
+  }
   # -------------------------------------
   # check if html-content should be outputted
   # -------------------------------------
