@@ -574,11 +574,11 @@ sjp.reglin <- function(fit,
     # -----------------------------------------------------------
     if (fit.x) {
       if (useResiduals) {
-        mydat <- as.data.frame(cbind(fit$x[,which(cn==xval)],
+        mydat <- as.data.frame(cbind(fit$x[,which(cn==xval)+1],
                                      fit$residuals))
       }
       else {
-        mydat <- as.data.frame(cbind(fit$x[,which(cn==xval)],
+        mydat <- as.data.frame(cbind(fit$x[,which(cn==xval)+1],
                                      fit$model[, 1]))
       }
     }
