@@ -525,10 +525,24 @@ sjp.reglin <- function(fit,
                        useResiduals=FALSE,
                        printPlot=TRUE) {
   # -----------------------------------------------------------
-  # retrieve amount of predictor variables
+  # retrieve amount of predictor variables and
+  # retrieve column names of dataset so we can identify in which
+  # column the data for each predictor is.
   # -----------------------------------------------------------
-  listpv <- attr(fit$terms,"predvars")
-  predvars <- attr(attr(fit$terms, "dataClasses"), "names")[-1]
+  # check if we have x=TRUE parameter, so we use this. this
+  # data matrix also contains interaction terms or factor levels
+  if (any(names(fit) == "x")) {
+    predvars <- colnames(fit$x)[-1]
+    cn <- predvars
+    fit.x <- TRUE
+  }
+  # else we use the normal data frame retrieves from the model
+  else {
+    predvars <- attr(attr(fit$terms, "dataClasses"), "names")[-1]
+    cn <- colnames(fit$model)
+    fit.x <- FALSE
+    message("Interaction terms and factor levels may not be included. Use 'x=TRUE' parameter in lm-call to plot all predictors.")
+  }
   depvar.label <- attr(attr(fit$terms, "dataClasses"), "names")[1]
   # remember length of predictor variables
   predvars.length <- length(predvars)
@@ -536,11 +550,6 @@ sjp.reglin <- function(fit,
   # retrieve name of dependent variable
   # -----------------------------------------------------------
   response <- ifelse(useResiduals==TRUE, "residuals", depvar.label)
-  # -----------------------------------------------------------
-  # retrieve column names of dataset so we can identify in which
-  # column the data for each predictor is.
-  # -----------------------------------------------------------
-  cn <- colnames(fit$model)
   # init return var
   plotlist <- list()
   dflist <- list()
@@ -563,13 +572,25 @@ sjp.reglin <- function(fit,
     # create dummy-data frame with response and predictor
     # as data columns, used for the ggplot
     # -----------------------------------------------------------
-    if (useResiduals) {
-      mydat <- as.data.frame(cbind(fit$model[,which(cn==xval)],
-                                   fit$residuals))
+    if (fit.x) {
+      if (useResiduals) {
+        mydat <- as.data.frame(cbind(fit$x[,which(cn==xval)],
+                                     fit$residuals))
+      }
+      else {
+        mydat <- as.data.frame(cbind(fit$x[,which(cn==xval)],
+                                     fit$model[, 1]))
+      }
     }
     else {
-      mydat <- as.data.frame(cbind(fit$model[,which(cn==xval)],
-                                   fit$model[,which(cn==response)]))
+      if (useResiduals) {
+        mydat <- as.data.frame(cbind(fit$model[,which(cn==xval)],
+                                     fit$residuals))
+      }
+      else {
+        mydat <- as.data.frame(cbind(fit$model[,which(cn==xval)],
+                                     fit$model[,which(cn==response)]))
+      }
     }
     # -----------------------------------------------------------
     # plot regression line and confidence intervall

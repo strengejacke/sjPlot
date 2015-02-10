@@ -4,20 +4,24 @@
 \alias{sjp.scatter}
 \title{Plot (grouped) scatter plots}
 \usage{
-sjp.scatter(x, y, grp = NULL, title = "", legendTitle = NULL,
-  legendLabels = NULL, axisTitle.x = NULL, axisTitle.y = NULL,
-  breakTitleAt = 50, breakLegendTitleAt = 20, breakLegendLabelsAt = 20,
-  geom.size = 3, geom.colors = NULL, showTickMarkLabels.x = TRUE,
-  showTickMarkLabels.y = TRUE, showGroupFitLine = FALSE,
-  showTotalFitLine = FALSE, showSE = FALSE, fitmethod = "lm",
-  useJitter = FALSE, autojitter = TRUE, jitterRatio = 0.15,
-  showRug = FALSE, hideLegend = FALSE, facet.grid = FALSE,
-  printPlot = TRUE)
+sjp.scatter(x = NULL, y = NULL, grp = NULL, title = "",
+  legendTitle = NULL, legendLabels = NULL, axisTitle.x = NULL,
+  axisTitle.y = NULL, breakTitleAt = 50, breakLegendTitleAt = 20,
+  breakLegendLabelsAt = 20, geom.size = 3, geom.colors = NULL,
+  showTickMarkLabels.x = TRUE, showTickMarkLabels.y = TRUE,
+  showGroupFitLine = FALSE, showTotalFitLine = FALSE, showSE = FALSE,
+  fitmethod = "lm", useJitter = FALSE, autojitter = TRUE,
+  jitterRatio = 0.15, showRug = FALSE, hideLegend = FALSE,
+  facet.grid = FALSE, printPlot = TRUE)
 }
 \arguments{
-\item{x}{A vector (variable) indicating the x positions.}
+\item{x}{A vector (variable) indicating the x positions. If not specified (i.e. if
+\code{NULL}), a range from 1 to length of \code{y} is used to spread the
+dots along the x axis.}
 
-\item{y}{A vector (variable) indicating the y positions.}
+\item{y}{A vector (variable) indicating the y positions. If not specified (i.e. if
+\code{NULL}), a range from 1 to length of \code{x} is used to spread the
+dots along the y axis.}
 
 \item{grp}{A grouping variable. If not \code{NULL}, the scatter plot will be grouped. See
 examples below. Default is \code{NULL}, i.e. not grouping is done.}
@@ -137,6 +141,10 @@ sjp.scatter(efc$c160age,efc$e17age, efc$e42dep, title="Scatter Plot",
             axisTitle.x=sji.getVariableLabels(efc)['c160age'],
             axisTitle.y=sji.getVariableLabels(efc)['e17age'],
             showGroupFitLine=TRUE, facet.grid=TRUE, showSE=TRUE)
+
+# plot residuals of fitted models
+fit <- lm(neg_c_7 ~ quol_5, data = efc)
+sjp.scatter(y = fit$residuals, showTotalFitLine = TRUE)
 
 # -------------------------------
 # auto-detection of labels

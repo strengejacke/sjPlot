@@ -9,8 +9,12 @@
 #'           \item \href{http://www.strengejacke.de/sjPlot/sjp.scatter}{sjPlot manual: sjp.scatter}
 #'          }
 #'              
-#' @param x A vector (variable) indicating the x positions.
-#' @param y A vector (variable) indicating the y positions.
+#' @param x A vector (variable) indicating the x positions. If not specified (i.e. if
+#'          \code{NULL}), a range from 1 to length of \code{y} is used to spread the
+#'          dots along the x axis.
+#' @param y A vector (variable) indicating the y positions. If not specified (i.e. if
+#'          \code{NULL}), a range from 1 to length of \code{x} is used to spread the
+#'          dots along the y axis.
 #' @param grp A grouping variable. If not \code{NULL}, the scatter plot will be grouped. See
 #'          examples below. Default is \code{NULL}, i.e. not grouping is done.
 #' @param title Title of the diagram, plotted above the whole diagram panel.
@@ -100,6 +104,10 @@
 #'             axisTitle.y=sji.getVariableLabels(efc)['e17age'],
 #'             showGroupFitLine=TRUE, facet.grid=TRUE, showSE=TRUE)
 #' 
+#' # plot residuals of fitted models
+#' fit <- lm(neg_c_7 ~ quol_5, data = efc)
+#' sjp.scatter(y = fit$residuals, showTotalFitLine = TRUE)
+#' 
 #' # -------------------------------
 #' # auto-detection of labels
 #' # -------------------------------
@@ -111,8 +119,8 @@
 #' @importFrom scales brewer_pal
 #' @import ggplot2
 #' @export
-sjp.scatter <- function(x,
-                        y,
+sjp.scatter <- function(x=NULL,
+                        y=NULL,
                         grp=NULL,
                         title="", 
                         legendTitle=NULL,
@@ -137,6 +145,18 @@ sjp.scatter <- function(x,
                         hideLegend=FALSE,
                         facet.grid=FALSE,
                         printPlot=TRUE) {
+  # --------------------------------------------------------
+  # check parameters
+  # --------------------------------------------------------
+  if (is.null(x) && is.null(y)) {
+    stop("At least either 'x' or 'y' must be specified.", call. = FALSE)
+  }
+  if (is.null(x)) {
+    x <- c(1 : length(y))
+  }
+  if (is.null(y)) {
+    y <- c(1 : length(x))
+  }
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
