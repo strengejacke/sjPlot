@@ -10,14 +10,17 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("pv"))
 #'                dependent variable (variance within and between groups) is printed to
 #'                the model summary.
 #'                
-#' @seealso \code{\link{sjs.aov1.levene}}
+#' @seealso \itemize{
+#'            \item \code{\link{sjs.aov1.levene}}
+#'            \item \code{\link{sjt.grpmean}}
+#'          }
 #'                
 #' @param depVar The dependent variable. Will be used with following formular:
 #'          \code{aov(depVar ~ grpVar)}
 #' @param grpVar The grouping variable, as unordered factor. Will be used with following formular:
 #'          \code{aov(depVar ~ grpVar)}
-#' @param meansums If \code{TRUE}, the values reported are the true group mean values. If \code{FALSE} (default),
-#'          the values are reported in the standard way, i.e. the values indicate the difference of
+#' @param meansums If \code{TRUE}, the values reported are the true group mean values (see also \code{\link{sjt.grpmean}}).
+#'          If \code{FALSE} (default), the values are reported in the standard way, i.e. the values indicate the difference of
 #'          the group mean in relation to the intercept (reference group).
 #' @param type Indicates Whether the group means should be plotted as \code{"dots"} (aka forest plots, default)
 #'          or as \code{"bars"}.

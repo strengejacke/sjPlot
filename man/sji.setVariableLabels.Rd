@@ -2,7 +2,7 @@
 % Please edit documentation in R/sjImportSPSS.R
 \name{sji.setVariableLabels}
 \alias{sji.setVariableLabels}
-\title{Set variable label(s) to a single variable or data frame}
+\title{Attach variable label(s) to a single variable or data frame}
 \usage{
 sji.setVariableLabels(x, lab)
 }

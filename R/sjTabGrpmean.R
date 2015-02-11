@@ -87,6 +87,23 @@ sjt.grpmean <- function(varCount,
   varCount <- as.numeric(varCount)
   varGrp <- as.numeric(varGrp)
   # --------------------------------------
+  # compute anova statistics for mean table
+  # see below
+  # --------------------------------------
+  fit <- aov(varCount ~ as.factor(varGrp))
+  # p-values of means
+  means.p <- summary.lm(fit)$coefficients[, 4]
+  pval <- c()
+  # convert means to apa style
+  for (i in 1:length(means.p)) {
+    if (means.p[i] < 0.001) {
+      pval <- c(pval, "&lt;0.001")
+    }
+    else {
+      pval <- c(pval, sprintf("%.*f", digits, means.p[i]))
+    }
+  } 
+  # --------------------------------------
   # retrieve group indices
   # --------------------------------------
   indices <- sort(unique(na.omit(varGrp)))
@@ -104,7 +121,8 @@ sjt.grpmean <- function(varCount,
                 cbind(mean = sprintf("%.*f", digits, mean(varCount[varGrp == indices[i]], na.rm = TRUE)),
                       N = length(na.omit(varCount[varGrp == indices[i]])),
                       sd = sprintf("%.*f", digits, sd(varCount[varGrp == indices[i]], na.rm = TRUE)),
-                      se = sprintf("%.*f", digits, sjs.se(varCount[varGrp == indices[i]]))))
+                      se = sprintf("%.*f", digits, sjs.se(varCount[varGrp == indices[i]])),
+                      p = pval[i]))
   }
   # --------------------------------------
   # finally, add total-row
@@ -113,7 +131,8 @@ sjt.grpmean <- function(varCount,
               cbind(mean = sprintf("%.*f", digits, mean(varCount, na.rm = TRUE)),
                     N = length(na.omit(varCount)),
                     sd = sprintf("%.*f", digits, sd(varCount, na.rm = TRUE)),
-                    se = sprintf("%.*f", digits, sjs.se(varCount))))
+                    se = sprintf("%.*f", digits, sjs.se(varCount)),
+                    p = ""))
   # --------------------------------------
   # fix row labels, if empty or NULL
   # --------------------------------------
@@ -122,13 +141,8 @@ sjt.grpmean <- function(varCount,
   }
   rownames(df) <- c(rowLabels, "Total")
   # --------------------------------------
-  # convert grp to factor for one-way-anova
+  # get anova statistics for mean table
   # --------------------------------------
-  varGrp <- as.factor(varGrp)
-  # --------------------------------------
-  # compute anova statistics for mean table
-  # --------------------------------------
-  fit <- aov(varCount ~ varGrp)
   # multiple r2
   r2 <- summary.lm(fit)$r.squared
   # adj. r2

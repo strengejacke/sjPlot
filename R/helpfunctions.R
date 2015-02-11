@@ -226,7 +226,7 @@ create.frq.df <- function(varCount,
     # increase counter
     dfc <- dfc+1
   }
-  # check if we modified ,ydat
+  # check if we modified mydat
   if (dfc>1) {
     # set var
     mydat$var <- c(1:nrow(mydat))

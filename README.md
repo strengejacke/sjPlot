@@ -34,7 +34,7 @@ install.packages("sjPlot")
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
 
-### Changelog of current development build 1.6.8-4
+### Changelog of current development build 1.6.8-5
 
 #### Changes to functions
 * Plotting single predictors of linear models (`type = "pred"` in function `sjp.lm`) now also supports plotting interaction terms and factor levels. Needs parameter `x=TRUE` in `lm`-call to work.
@@ -42,14 +42,15 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * Added parameters `digits` and `digits.stats` to `sjt.stackfrq`, to specifiy digits after decimal point for percentage and statistic values.
 * Added parameter `atomic.to.fac` to `sji.SPSS`, so variables with nominal or ordinal scale imported from SPSS data sets are imported as `factors`, not as `atomic`.
 * `sjp.scatter` no longer needs both `x` and `y` to be specified, but at least one of them.
+* `sjt.grpmean` now shows p-values for each group (retrieved from anova table).
 
 
 #### Bug fixes
 * `sjt.grpmean` did not indicate p-values smaller than 0.001 as _p<0.001_, but still as _p=0.000_ - fixed.
 * Fixed bug in function `sjs.stdmm`, which was the cause for a bug with `type = "fe.std"` in `sjp.lmer`.
 * Fixed bug in `sjp.int` when fitted model does not contain p-values (e.g. when passing a merMod object from lme4).
+* `sji.setValueLabels` did not set labels properly when paramerer `labels` was a list - fixed.
 * Minor bug fix in `sjp.int`.
-
 
 ### Changelog of current stable build 1.6.8
 

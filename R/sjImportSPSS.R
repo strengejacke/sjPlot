@@ -191,11 +191,11 @@ sji.setValueLabels <- function(x, labels) {
   }
   else if (is.data.frame(x) || is.matrix(x)) {
     for (i in 1:ncol(x)) {
-      if (is.vector(labels)) {
-        x[,i] <- sji.setValueLabels.vector(x[,i], labels)
-      }
-      else if (is.list(labels)) {
+      if (is.list(labels)) {
         x[,i] <- sji.setValueLabels.vector(x[,i], labels[[i]])
+      }
+      else if (is.vector(labels)) {
+        x[,i] <- sji.setValueLabels.vector(x[,i], labels)
       }
       else {
         warning("'labels' must be a list of same length as 'ncol(x)' or a vector.", call. = F)
@@ -297,7 +297,7 @@ sji.getVariableLabels <- function(x) {
 }
 
 
-#' @title Set variable label(s) to a single variable or data frame
+#' @title Attach variable label(s) to a single variable or data frame
 #' @name sji.setVariableLabels
 #' @description This function sets variable labels to a single variable or to
 #'                a set of variables in a data frame. To each variable, the

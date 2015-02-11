@@ -21,8 +21,8 @@ sjp.aov1(depVar, grpVar, meansums = FALSE, type = "dots",
 \item{grpVar}{The grouping variable, as unordered factor. Will be used with following formular:
 \code{aov(depVar ~ grpVar)}}
 
-\item{meansums}{If \code{TRUE}, the values reported are the true group mean values. If \code{FALSE} (default),
-the values are reported in the standard way, i.e. the values indicate the difference of
+\item{meansums}{If \code{TRUE}, the values reported are the true group mean values (see also \code{\link{sjt.grpmean}}).
+If \code{FALSE} (default), the values are reported in the standard way, i.e. the values indicate the difference of
 the group mean in relation to the intercept (reference group).}
 
 \item{type}{Indicates Whether the group means should be plotted as \code{"dots"} (aka forest plots, default)
@@ -149,6 +149,9 @@ sjp.aov1(efc$c12hour,
          showModelSummary = FALSE)
 }
 \seealso{
-\code{\link{sjs.aov1.levene}}
+\itemize{
+           \item \code{\link{sjs.aov1.levene}}
+           \item \code{\link{sjt.grpmean}}
+         }
 }
 
