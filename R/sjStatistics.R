@@ -641,3 +641,20 @@ sjs.cramer <- function(tab) {
 #' 
 #' @export
 sjs.se <- function(x) sqrt(var(x, na.rm = TRUE) / length(na.omit(x)))
+
+sjs.frqci <- function(x) {
+  ft <- as.numeric(unname(table(x)))
+  n <- sum(ft, na.rm = T)
+  rel_frq <- as.numeric(ft/n)
+  ci <- 1.96 * sqrt(rel_frq * (1 - rel_frq)/n)
+  ci.u <- n * (rel_frq + ci)
+  ci.l <- n * (rel_frq - ci)
+  rel.ci.u <- rel_frq + ci
+  rel.ci.l <- rel_frq - ci
+  mydat.frq <- data.frame(frq = ft, lower.ci = ci.l, upper.ci = ci.u)
+  mydat.rel <- data.frame(rel.frq = rel_frq, rel.lower.ci = rel.ci.l, rel.upper.ci = rel.ci.u)
+  
+  invisible (structure(class = "sjs.frqci",
+                       list(mydat.frq = mydat.frq,
+                            mydat.rel = mydat.rel)))
+}

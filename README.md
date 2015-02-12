@@ -34,10 +34,11 @@ install.packages("sjPlot")
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
 
-### Changelog of current development build 1.6.8-5
+### Changelog of current development build 1.6.8-6
 
 #### Changes to functions
 * Plotting single predictors of linear models (`type = "pred"` in function `sjp.lm`) now also supports plotting interaction terms and factor levels. Needs parameter `x=TRUE` in `lm`-call to work.
+* Added parameter `showCI` to `sjp.frq` to show 95% confidence intervals. Use `error.bar.colors` to change colors of error bars when using bar charts. In case of dot plots, error bars have the same color as dots (see `geom.colors`).
 * Added parameter `remove.spaces` to all `sjt`-function to remove leading spaces (parantheses of html-tags), which may make tables less cluttered when importing them into office applications.
 * Added parameters `digits` and `digits.stats` to `sjt.stackfrq`, to specifiy digits after decimal point for percentage and statistic values.
 * Added parameter `atomic.to.fac` to `sji.SPSS`, so variables with nominal or ordinal scale imported from SPSS data sets are imported as `factors`, not as `atomic`.

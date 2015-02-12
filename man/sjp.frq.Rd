@@ -11,15 +11,16 @@ sjp.frq(varCount, title = "", weightBy = NULL, weightByTitleString = NULL,
   breakLabelsAt = 20, gridBreaksAt = NULL, innerBoxPlotWidth = 0.15,
   innerBoxPlotDotSize = 3, expand.grid = FALSE, showValueLabels = TRUE,
   showCountValues = TRUE, showPercentageValues = TRUE,
-  showAxisLabels.x = TRUE, showAxisLabels.y = TRUE,
-  showMeanIntercept = FALSE, showMeanValue = TRUE,
-  showStandardDeviation = TRUE, showNormalCurve = FALSE,
-  showStandardNormalCurve = FALSE, adjustNormalCurve.x = FALSE,
-  meanInterceptLineType = 2, meanInterceptLineSize = 0.5,
-  normalCurveColor = "red", normalCurveSize = 0.8, normalCurveAlpha = 0.4,
-  axisTitle.x = NULL, axisTitle.y = NULL, startAxisAt = "auto",
-  hist.skipZeros = FALSE, autoGroupAt = NULL, coord.flip = FALSE,
-  labelPos = "outside", na.rm = TRUE, printPlot = TRUE)
+  showAxisLabels.x = TRUE, showAxisLabels.y = TRUE, showCI = FALSE,
+  error.bar.color = "darkred", showMeanIntercept = FALSE,
+  showMeanValue = TRUE, showStandardDeviation = TRUE,
+  showNormalCurve = FALSE, showStandardNormalCurve = FALSE,
+  adjustNormalCurve.x = FALSE, meanInterceptLineType = 2,
+  meanInterceptLineSize = 0.5, normalCurveColor = "red",
+  normalCurveSize = 0.8, normalCurveAlpha = 0.4, axisTitle.x = NULL,
+  axisTitle.y = NULL, startAxisAt = "auto", hist.skipZeros = FALSE,
+  autoGroupAt = NULL, coord.flip = FALSE, labelPos = "outside",
+  na.rm = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{varCount}{The variable which frequencies should be plotted.}
@@ -105,6 +106,12 @@ percentage-values are removed.}
 
 \item{showAxisLabels.y}{Whether y axis labels (count values) should be shown or not.}
 
+\item{showCI}{logical, whether or not confidence intervals should be plotted. Only applies to \code{type = "dots"}
+or \code{type = "bars"}.}
+
+\item{error.bar.color}{Color of confidence interval bars (error bars). Only applies to \code{type = "bars"}. In case
+of dot plots, error bars will have same colors as dots (see \code{geom.colors}).}
+
 \item{showMeanIntercept}{If \code{TRUE}, a vertical line in histograms is drawn to indicate the mean value of the count
 variables. Only applies to histogram-charts.}
 
@@ -188,7 +195,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 }
 \value{
 (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-          was used for setting up the ggplot-object (\code{df}).
+          was used for setting up the ggplot-object (\code{mydf}).
 }
 \description{
 Plot frequencies of a (count) variable as bar graph, histogram,
@@ -267,6 +274,16 @@ sjp.frq(efc$neg_c_7, startAxisAt=1)
 # negative impact scale, ranging from 7-28, using
 # automatic detection of start index of x-axis
 sjp.frq(efc$neg_c_7)
+
+# -------------------------------------------------
+# plotting confidence intervals
+# -------------------------------------------------
+sjp.frq(efc$e15relat,
+        type = "dots",
+        showCI = TRUE,
+        sort.frq = "desc",
+        geom.size = 3,
+        coord.flip = TRUE)
 
 # -------------------------------------------------
 # Simulate ggplot-default histogram, using "hist.skipZeros"

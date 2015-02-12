@@ -1,5 +1,5 @@
 # bind global variables
-if(getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "ia", "..density.."))
+if(getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "upper.ci", "lower.ci", "ia", "..density.."))
 
 
 
@@ -77,6 +77,10 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "ia", "..de
 #'          percentage-values are removed.
 #' @param showAxisLabels.x Whether x axis labels (category names) should be shown or not.
 #' @param showAxisLabels.y Whether y axis labels (count values) should be shown or not.
+#' @param showCI logical, whether or not confidence intervals should be plotted. Only applies to \code{type = "dots"}
+#'          or \code{type = "bars"}.
+#' @param error.bar.color Color of confidence interval bars (error bars). Only applies to \code{type = "bars"}. In case
+#'          of dot plots, error bars will have same colors as dots (see \code{geom.colors}).
 #' @param showMeanIntercept If \code{TRUE}, a vertical line in histograms is drawn to indicate the mean value of the count
 #'          variables. Only applies to histogram-charts.
 #' @param showMeanValue If \code{TRUE} (default value), the mean value is printed to the vertical line that indicates the mean value
@@ -139,7 +143,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "ia", "..de
 #' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-#'           was used for setting up the ggplot-object (\code{df}).
+#'           was used for setting up the ggplot-object (\code{mydf}).
 #' 
 #' @examples
 #' # ---------------
@@ -212,6 +216,16 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "ia", "..de
 #' sjp.frq(efc$neg_c_7)
 #' 
 #' # -------------------------------------------------
+#' # plotting confidence intervals
+#' # -------------------------------------------------
+#' sjp.frq(efc$e15relat,
+#'         type = "dots",
+#'         showCI = TRUE,
+#'         sort.frq = "desc",
+#'         geom.size = 3,
+#'         coord.flip = TRUE)
+#' 
+#' # -------------------------------------------------
 #' # Simulate ggplot-default histogram, using "hist.skipZeros"
 #' # and adjusted "geom.size".
 #' # -------------------------------------------------
@@ -246,6 +260,8 @@ sjp.frq <- function(varCount,
                     showPercentageValues=TRUE,
                     showAxisLabels.x=TRUE,
                     showAxisLabels.y=TRUE,
+                    showCI=FALSE,
+                    error.bar.color="darkred",
                     showMeanIntercept=FALSE,
                     showMeanValue=TRUE,
                     showStandardDeviation=TRUE,
@@ -350,6 +366,23 @@ sjp.frq <- function(varCount,
   mydat <- df.frq$mydat
   axisLabels.x <- df.frq$labels
   catmin <- df.frq$catmin
+  # --------------------------------------------------------
+  # add confidence intervals. first, retrieve conf int
+  # --------------------------------------------------------
+  df.frqci <- sjs.frqci(varCount)$mydat.frq
+  # init variables
+  mydat$lower.ci <- 0
+  mydat$upper.ci <- 0
+  # add conf. to related frequencies
+  for (ici in 1 : length(mydat$frq)) {
+    # find frq-pos
+    fpos <- which(df.frqci$frq == mydat$frq[ici])
+    # found anything?
+    if (!is.null(fpos) && length(fpos) > 0) {
+      mydat$lower.ci[ici] <- round(df.frqci$lower.ci[fpos])
+      mydat$upper.ci[ici] <- round(df.frqci$upper.ci[fpos])
+    }
+  }
   # --------------------------------------------------------
   # Trim labels and title to appropriate size
   # --------------------------------------------------------
@@ -489,27 +522,61 @@ sjp.frq <- function(varCount,
     # here we have counts and percentages
     if (showPercentageValues && showCountValues) {
       if (coord.flip) {
-        ggvaluelabels <-  geom_text(label=sprintf("%i (%.01f%%)", mydat$frq, mydat$prz),
-                                    hjust=hort,
-                                    vjust=vert)
+        if (showCI) {
+          ggvaluelabels <-  geom_text(label=sprintf("%i (%.01f%%)", mydat$frq, mydat$prz),
+                                      hjust=hort,
+                                      vjust=vert,
+                                      aes(y = upper.ci))
+        }
+        else {
+          ggvaluelabels <-  geom_text(label=sprintf("%i (%.01f%%)", mydat$frq, mydat$prz),
+                                      hjust=hort,
+                                      vjust=vert)
+        }
       }
       else {
-        ggvaluelabels <-  geom_text(label=sprintf("%i\n(%.01f%%)", mydat$frq, mydat$prz),
-                                    hjust=hort,
-                                    vjust=vert)
+        if (showCI) {
+          ggvaluelabels <-  geom_text(label=sprintf("%i\n(%.01f%%)", mydat$frq, mydat$prz),
+                                      hjust=hort,
+                                      vjust=vert,
+                                      aes(y = upper.ci))
+        }
+        else {
+          ggvaluelabels <-  geom_text(label=sprintf("%i\n(%.01f%%)", mydat$frq, mydat$prz),
+                                      hjust=hort,
+                                      vjust=vert)
+        }
       }
     }
     else if (showCountValues) {
-      # here we have counts, without percentages
-      ggvaluelabels <-  geom_text(label=sprintf("%i", mydat$frq),
-                                  hjust=hort,
-                                  vjust=vert)
+      if (showCI) {
+        # here we have counts, without percentages
+        ggvaluelabels <-  geom_text(label=sprintf("%i", mydat$frq),
+                                    hjust=hort,
+                                    vjust=vert,
+                                    aes(y = upper.ci))
+      }
+      else {
+        # here we have counts, without percentages
+        ggvaluelabels <-  geom_text(label=sprintf("%i", mydat$frq),
+                                    hjust=hort,
+                                    vjust=vert)
+      }
     }
     else if (showPercentageValues) {
-      # here we have counts, without percentages
-      ggvaluelabels <-  geom_text(label=sprintf("%.01f%%", mydat$prz),
-                                  hjust=hort,
-                                  vjust=vert)
+      if (showCI) {
+        # here we have counts, without percentages
+        ggvaluelabels <-  geom_text(label=sprintf("%.01f%%", mydat$prz),
+                                    hjust=hort,
+                                    vjust=vert,
+                                    aes(y = upper.ci))
+      }
+      else {
+        # here we have counts, without percentages
+        ggvaluelabels <-  geom_text(label=sprintf("%.01f%%", mydat$prz),
+                                    hjust=hort,
+                                    vjust=vert)
+      }
     }
     else {
       # no labels
@@ -572,6 +639,11 @@ sjp.frq <- function(varCount,
       # If parameter "axisLabels.x" is NULL, the category numbers (1 to ...) 
       # appear on the x-axis
       scale_x_discrete(labels=axisLabels.x)
+    if (showCI) {
+      ebcol <- ifelse(type == "dots", geom.colors, error.bar.color)
+      # print confidence intervalls (error bars)
+      baseplot <- baseplot + geom_errorbar(aes(ymin=lower.ci, ymax=upper.ci), colour = ebcol, width=0)
+    }
     # check whether coordinates should be flipped, i.e.
     # swap x and y axis
     if (coord.flip) {
@@ -747,7 +819,7 @@ sjp.frq <- function(varCount,
   # -------------------------------------
   invisible (structure(class = "sjpfrq",
                        list(plot = baseplot,
-                            df = mydat)))
+                            mydf = mydat)))
 }
 
 
