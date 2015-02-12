@@ -1,5 +1,8 @@
 Version 1.6.8-6
 ------------------------------------------------------------------------------
+New functions:
+* Added new functions "sjd.norm", "sjd.chisq", "sjd.f" and "sjd.t" to plot distribution curves, optionally with shaded areas indicating the p-level area.
+
 Changes to functions:
 * Plotting single predictors of linear models (type = "pred" in function "sjp.lm") now also supports plotting interaction terms and factor levels. Needs parameter "x=TRUE" in lm-call to work.
 * Added parameter "showCI" to "sjp.frq" to show 95% confidence intervals. Use "error.bar.colors" to change colors of error bars when using bar charts. In case of dot plots, error bars have the same color as dots (see "geom.colors").
