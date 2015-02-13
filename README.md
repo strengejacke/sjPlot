@@ -34,7 +34,7 @@ install.packages("sjPlot")
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
 
-### Changelog of current development build 1.6.8-6
+### Changelog of current development build 1.6.8-7
 
 #### New functions
 * Added new functions `sjd.norm`, `sjd.chisq`, `sjd.f` and `sjd.t` to plot distribution curves, optionally with shaded areas indicating the p-level area.

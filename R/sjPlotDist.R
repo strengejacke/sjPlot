@@ -103,7 +103,21 @@ sjd.norm <- function(norm = NULL,
                label = sprintf("x = %.2f", cs), 
                x = cs, 
                y = 0,
-               vjust = 1.2)
+               vjust = 1.3)
+    # add limit of p-value
+    if (!is.null(norm)) {
+      pv <- pnorm(norm, mean, sd, lower.tail = F)
+      if (pv >= 0.05) {
+        gp <- gp +
+          annotate("text", 
+                   label = sprintf("p = %.2f", pv), 
+                   x = norm, 
+                   y = 0,
+                   hjust = -0.1,
+                   vjust = -0.5,
+                   angle = 90)
+      }
+    }
   }
   gp <- sj.setGeomColors(gp, geom.colors, pal.len = 2, labels = c("p > 5%", "p < 0.05"))
   gp <- gp + ylab(NULL) + xlab(NULL)
@@ -233,6 +247,20 @@ sjd.chisq <- function(chi2 = NULL,
                x = cs, 
                y = 0,
                vjust = 1.2)
+    # add limit of p-value
+    if (!is.null(chi2)) {
+      pv <- pchisq(chi2, deg.f, lower.tail = F)
+      if (pv >= 0.05) {
+        gp <- gp +
+          annotate("text", 
+                   label = sprintf("p = %.2f", pv), 
+                   x = chi2, 
+                   y = 0,
+                   hjust = -0.1,
+                   vjust = -0.5,
+                   angle = 90)
+      }
+    }
   }
   gp <- sj.setGeomColors(gp, geom.colors, pal.len = 2, labels = c("p > 5%", "p < 0.05"))
   gp <- gp + ylab(NULL) + xlab("chi-squared value")
@@ -355,7 +383,21 @@ sjd.f <- function(f = NULL,
                label = sprintf("F = %.2f", fv), 
                x = fv, 
                y = 0,
-               vjust = 1.2)
+               vjust = 1.3)
+    # add limit of p-value
+    if (!is.null(f)) {
+      pv <- pf(f, deg.f1, deg.f2, lower.tail = F)
+      if (pv >= 0.05) {
+        gp <- gp +
+          annotate("text", 
+                   label = sprintf("p = %.2f", pv), 
+                   x = f, 
+                   y = 0,
+                   hjust = -0.1,
+                   vjust = -0.5,
+                   angle = 90)
+      }
+    }
   }
   gp <- sj.setGeomColors(gp, geom.colors, pal.len = 2, labels = c("p > 5%", "p < 0.05"))
   gp <- gp + ylab(NULL) + xlab("F-value")
@@ -477,7 +519,21 @@ sjd.t <- function(t = NULL,
                label = sprintf("t = %.2f", tv), 
                x = tv, 
                y = 0,
-               vjust = 1.2)
+               vjust = 1.3)
+    # add limit of p-value
+    if (!is.null(t)) {
+      pv <- pt(t, deg.f, lower.tail = F)
+      if (pv >= 0.05) {
+        gp <- gp +
+          annotate("text", 
+                   label = sprintf("p = %.2f", pv), 
+                   x = t, 
+                   y = 0,
+                   hjust = -0.1,
+                   vjust = -0.5,
+                   angle = 90)
+      }
+    }
   }
   gp <- sj.setGeomColors(gp, geom.colors, pal.len = 2, labels = c("p > 5%", "p < 0.05"))
   gp <- gp + ylab(NULL) + xlab("t-value")

@@ -18,8 +18,8 @@ area is plotted.}
 
 \item{sd}{numeric. Standard deviation for normal distribution. By default 1.}
 
-\item{p}{numeric, optional. If specified, a normal distribution with \code{deg.f} degrees
-of freedom is plotted and a shaded area at the position where the specified p-level
+\item{p}{numeric, optional. If specified, a normal distribution with \code{mean} and \code{sd}
+is plotted and a shaded area at the position where the specified p-level
 starts is plotted. If both \code{norm} and \code{p} are not specified, a distribution
 without shaded area is plotted.}
 
@@ -33,7 +33,7 @@ of same length as groups defined in \code{x}, or a specific color palette code (
   \item If \code{"gs"}, a greyscale will be used.
   \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
 }
-Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000", "#00ff00", "#0080ff")}).}
+Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000", "#00ff00")}).}
 
 \item{geom.alpha}{specified the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.}
 }
