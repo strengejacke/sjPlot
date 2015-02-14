@@ -93,6 +93,7 @@
 #'        Furthermore, there are some theme-presets, which can be used:
 #'        \itemize{
 #'          \item \code{"blank"}: a theme with no grids and axes.
+#'          \item \code{"538"}: a theme inspired by \href{http://fivethirtyeight.com}{538-charts}, adapted from \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{minimaxir.com}.
 #'          \item \code{"forest"}: a theme for forest plots, with no grids.
 #'        }
 #' @param base Base theme where theme is built on. By default, all 
@@ -148,6 +149,7 @@
 #'
 #' @import ggplot2
 #' @importFrom grid unit
+#' @importFrom scales brewer_pal
 #' @export
 sjp.setTheme <- function(title.color="black",
                          title.size=1.3,
@@ -225,13 +227,28 @@ sjp.setTheme <- function(title.color="black",
     base <- theme_classic()
     axis.linecolor <- "white"
     axis.ticksol <- "white"
-    panel.backcol <- "white"
     panel.gridcol <- "white"
+    plot.col <- "white"
   }
   if (!is.null(theme) && theme=="forest") {
     base <- theme_bw()
     panel.gridcol <- "white"
     axis.tickslen <- 0
+  }  
+  if (!is.null(theme) && theme=="538") {
+    base <- theme_bw()
+    g.palette <- brewer_pal(pal = "Greys")(9)
+    panel.bordercol <- panel.backcol <- panel.col <- g.palette[2]
+    plot.backcol <- plot.bordercol <- plot.col <- g.palette[2]
+    panel.major.gridcol <- g.palette[4]
+    panel.minor.gridcol <- g.palette[2]
+    axis.linecolor.x <- axis.linecolor.y <- axis.linecolor <- g.palette[2]
+    legend.backgroundcol <- legend.bordercol <- g.palette[2]
+    title.col <- g.palette[9]
+    axis.textcol <- g.palette[6]
+    axis.title.color <- g.palette[7]
+    axis.tickslen <- 0
+    message("Theme '538' looks better with panel margins. You may want to use parameter 'expand.grid = TRUE' in sjp-functions.")
   }  
   # ----------------------------------------  
   # set defaults for axis text angle
@@ -417,7 +434,8 @@ sjp.setTheme <- function(title.color="black",
     if (!is.null(panel.col)) {
       sjtheme <- sjtheme +
         theme(panel.background = element_rect(colour = panel.bordercol, 
-                                              fill = panel.backcol))
+                                              fill = panel.backcol),
+              panel.border = element_rect(colour = panel.bordercol))
     }
     # ----------------------------------------
     # set panel grids, if defined

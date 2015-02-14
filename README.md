@@ -47,7 +47,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * Added parameter `atomic.to.fac` to `sji.SPSS`, so variables with nominal or ordinal scale imported from SPSS data sets are imported as `factors`, not as `atomic`.
 * `sjp.scatter` no longer needs both `x` and `y` to be specified, but at least one of them.
 * `sjt.grpmean` now shows p-values for each group (retrieved from anova table).
-
+* Added new theme-preset (`theme = "538"`) to `sjp.setTheme`.
 
 #### Bug fixes
 * `sjt.grpmean` did not indicate p-values smaller than 0.001 as _p<0.001_, but still as _p=0.000_ - fixed.
@@ -55,6 +55,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * Fixed bug in `sjp.int` when fitted model does not contain p-values (e.g. when passing a merMod object from lme4).
 * `sji.setValueLabels` did not set labels properly when paramerer `labels` was a list - fixed.
 * Minor bug fix in `sjp.int`.
+* Minor bug fix in `sjp.setTheme`.
 
 ### Changelog of current stable build 1.6.8
 
