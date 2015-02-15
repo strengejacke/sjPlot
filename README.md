@@ -34,7 +34,7 @@ install.packages("sjPlot")
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
 
-### Changelog of current development build 1.6.8-7
+### Changelog of current stable build 1.6.9
 
 #### New functions
 * Added new functions `sjd.norm`, `sjd.chisq`, `sjd.f` and `sjd.t` to plot distribution curves, optionally with shaded areas indicating the p-level area.
@@ -56,28 +56,6 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * `sji.setValueLabels` did not set labels properly when paramerer `labels` was a list - fixed.
 * Minor bug fix in `sjp.int`.
 * Minor bug fix in `sjp.setTheme`.
-
-### Changelog of current stable build 1.6.8
-
-#### Changes to functions
-* Plotting standardized beta values in `sjp.lm` can be achieved via the `type` parameter (`type = "std"`). Furthermore, confidence intervals and p-values are shown in the standardized beta plot.
-* `sjt.lm` now also prints confidence intervals for standardized beta values.
-* `sjp.vif` and `sjp.glm.ma` were merged into `sjp.glm`. Use the `type` parameter to select plot type.
-* `sjp.lm1`, `sjp.reglin`, `sjp.vif` and `sjp.lm.ma` were merged into `sjp.lm`. Use the `type` parameter to select plot type.
-* Added parameter `vars` to `sjp.glmer` to plot probability curves only for selected variables.
-* Added type `fe.ri` to `type` parameter of `sjp.lmer` to plot fixed effects slopes for each random intercept (group level).
-* Added type `fe.std` to `type` parameter of `sjp.lmer` to plot standardized coefficients of fixed effects.
-* p-values less than 0.001 are indicated as `p < 0.001` instead of being rounded to `p = 0.000`.
-* Added parameter `showTotalN` to `sjt.xtab` to show column and row sums even if parameter `showObserved` is `FALSE`.
-* Added parameter `digits.summary` to `sjt.grpmean` to use different digits for table values and summary statistics.
-* `sji.setValueLabels` now also accepts a vector for the parameter `labels` if `x` is a data frame. Using a vector will apply the labels to each variable of the data frame `x`.
-* `sjt.frq` now by default automatically detects whether a variable has a certain proportion of zero-count values and does not print them by default then. Use `skipZeroRows = TRUE` or `skipZeroRows = FALSE` to explicitly show or remove zero-counts from the table.
-
-
-#### Bug fixes
-* Fixed bug with `type = "dots"` in `sjp.grpfrq`.
-* Fixed bug with predictor labelling in `sjp.lm` and `sjp.glm` when parameter `labelPredictors` was not used.
-* Fixed bug with custom color palettes and neutral categories in `sjp.likert`.
 
 
 ### Some ideas for future updates

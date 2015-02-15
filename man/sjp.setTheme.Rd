@@ -219,11 +219,25 @@ sjp.xtab(efc$e42dep,
 sjp.setTheme(base = theme_classic(),
              axis.linecolor = "grey50",
              axis.textcolor = "#6699cc")
-sjp.frq(efc$e42dep)}
+sjp.frq(efc$e42dep)
+
+# use theme pre-set, taken from tutorial
+# http://minimaxir.com/2015/02/ggplot-tutorial/
+sjp.setTheme(theme = "538",
+             geom.alpha = 0.8)
+library(ggplot2) # for custom base-line
+sjp.frq(efc$e42dep,
+        geom.color = "#c0392b",
+        expand.grid = TRUE,
+        printPlot = FALSE)$plot +
+  geom_hline(yintercept = 0,
+             size = 0.5,
+             colour = "black")}
 }
 \references{
 \itemize{
              \item \href{http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/}{Beautiful plotting in R: A ggplot2 cheatsheet}
+             \item \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{An Introduction on How to Make Beautiful Charts With R and ggplot2}
             }
 }
 \seealso{

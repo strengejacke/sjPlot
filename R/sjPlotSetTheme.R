@@ -108,6 +108,7 @@
 #' 
 #' @references \itemize{
 #'              \item \href{http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/}{Beautiful plotting in R: A ggplot2 cheatsheet}
+#'              \item \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{An Introduction on How to Make Beautiful Charts With R and ggplot2}
 #'             }
 #' 
 #' @examples
@@ -145,8 +146,21 @@
 #' sjp.setTheme(base = theme_classic(),
 #'              axis.linecolor = "grey50",
 #'              axis.textcolor = "#6699cc")
-#' sjp.frq(efc$e42dep)}
+#' sjp.frq(efc$e42dep)
 #'
+#' # use theme pre-set, taken from tutorial
+#' # http://minimaxir.com/2015/02/ggplot-tutorial/
+#' sjp.setTheme(theme = "538",
+#'              geom.alpha = 0.8)
+#' library(ggplot2) # for custom base-line
+#' sjp.frq(efc$e42dep, 
+#'         geom.color = "#c0392b",
+#'         expand.grid = TRUE,
+#'         printPlot = FALSE)$plot + 
+#'   geom_hline(yintercept = 0, 
+#'              size = 0.5, 
+#'              colour = "black")}
+#' 
 #' @import ggplot2
 #' @importFrom grid unit
 #' @importFrom scales brewer_pal
@@ -237,12 +251,12 @@ sjp.setTheme <- function(title.color="black",
   }  
   if (!is.null(theme) && theme=="538") {
     base <- theme_bw()
-    g.palette <- brewer_pal(pal = "Greys")(9)
+    g.palette <- brewer_pal(palette = "Greys")(9)
     panel.bordercol <- panel.backcol <- panel.col <- g.palette[2]
     plot.backcol <- plot.bordercol <- plot.col <- g.palette[2]
     panel.major.gridcol <- g.palette[4]
     panel.minor.gridcol <- g.palette[2]
-    axis.linecolor.x <- axis.linecolor.y <- axis.linecolor <- g.palette[2]
+    axis.linecolor.x  <- axis.linecolor.y <- axis.linecolor <- g.palette[2]
     legend.backgroundcol <- legend.bordercol <- g.palette[2]
     title.col <- g.palette[9]
     axis.textcol <- g.palette[6]
