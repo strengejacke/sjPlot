@@ -40,7 +40,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * Added further pre-set themes to `sjp.setTheme`.
 
 #### Bug fixes
-* Fixed bug in `sjt.itemanalysis` [#issue 8](https://github.com/sjPlot/devel/issues/8)
+* Fixed bug in `sjt.itemanalysis` [(#issue 8)](https://github.com/sjPlot/devel/issues/8).
 .
 
 ### Changelog of current stable build 1.6.9
