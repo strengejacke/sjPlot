@@ -408,7 +408,7 @@ sjt.itemanalysis <- function(df,
   # -------------------------------------
   if (remove.spaces) {
     knitr <- sju.rmspc(knitr)
-    page.content <- sju.rmspc(page.content)
+    complete.page <- sju.rmspc(complete.page)
   }
   # -------------------------------------
   # check if html-content should be printed
