@@ -408,7 +408,6 @@ sjt.itemanalysis <- function(df,
   # -------------------------------------
   if (remove.spaces) {
     knitr <- sju.rmspc(knitr)
-    toWrite <- sju.rmspc(toWrite)
     page.content <- sju.rmspc(page.content)
   }
   # -------------------------------------

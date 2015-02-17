@@ -93,8 +93,11 @@
 #'        Furthermore, there are some theme-presets, which can be used:
 #'        \itemize{
 #'          \item \code{"blank"}: a theme with no grids and axes.
-#'          \item \code{"538"}: a theme inspired by \href{http://fivethirtyeight.com}{538-charts}, adapted from \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{minimaxir.com}.
 #'          \item \code{"forest"}: a theme for forest plots, with no grids.
+#'          \item \code{"538"}: a grey-scaled theme inspired by \href{http://fivethirtyeight.com}{538-charts}, adapted from \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{minimaxir.com}.
+#'          \item \code{"539"}: a slight modification of the 538-theme.
+#'          \item \code{"blues"}: a blue-colored scheme based on the Blues color-brewer-palette.
+#'          \item \code{"greens"}: a green-colored scheme.
 #'        }
 #' @param base Base theme where theme is built on. By default, all 
 #'          metrics from \code{theme_gray()} are used.
@@ -233,6 +236,12 @@ sjp.setTheme <- function(title.color="black",
                          theme=NULL,
                          base=theme_grey()) {
   sjtheme <- NULL
+  title.vjust <- NULL
+  axis.title.x.vjust <- NULL
+  axis.title.y.vjust <- NULL
+  plot.margins <- NULL
+  panel.gridcol.x <- NULL
+  panel.gridcol.y <- NULL
   # ----------------------------------------  
   # check for blank theme, i.e. if user requires special
   # theme without any grids or axis lines
@@ -258,11 +267,99 @@ sjp.setTheme <- function(title.color="black",
     panel.minor.gridcol <- g.palette[2]
     axis.linecolor.x  <- axis.linecolor.y <- axis.linecolor <- g.palette[2]
     legend.backgroundcol <- legend.bordercol <- g.palette[2]
-    title.col <- g.palette[9]
-    axis.textcol <- g.palette[6]
+    title.color <- g.palette[9]
+    axis.textcolor <- g.palette[6]
     axis.title.color <- g.palette[7]
+    geom.label.color <- g.palette[6]
+    legend.title.color <- g.palette[7]
+    legend.color <- g.palette[6]
     axis.tickslen <- 0
+    # custom modifications
+    title.align <- "center"
+    axis.title.x.vjust <- -1
+    axis.title.y.vjust <- 1.5
+    title.vjust <- 1.75
+    plot.margins <- unit(c(1, .5, 1, 0.5), "cm")
     message("Theme '538' looks better with panel margins. You may want to use parameter 'expand.grid = TRUE' in sjp-functions.")
+  }  
+  if (!is.null(theme) && theme=="539") {
+    base <- theme_bw()
+    g.palette <- brewer_pal(palette = "Greys")(9)
+    panel.bordercol <- panel.backcol <- panel.col <- g.palette[2]
+    plot.backcol <- plot.bordercol <- plot.col <- g.palette[2]
+    panel.major.gridcol <- g.palette[4]
+    panel.minor.gridcol <- g.palette[2]
+    axis.linecolor <- NULL
+    axis.linecolor.y  <- g.palette[2]
+    axis.linecolor.x <- g.palette[9]
+    panel.gridcol.x <- g.palette[2]
+    legend.backgroundcol <- legend.bordercol <- g.palette[2]
+    title.color <- g.palette[9]
+    axis.textcolor <- g.palette[6]
+    axis.title.color <- g.palette[7]
+    geom.label.color <- g.palette[6]
+    legend.title.color <- g.palette[7]
+    legend.color <- g.palette[6]
+    axis.tickslen <- 0
+    # custom modifications
+    title.align <- "center"
+    axis.title.x.vjust <- -1
+    axis.title.y.vjust <- 1.5
+    title.vjust <- 1.75
+    plot.margins <- unit(c(1, .5, 1, 0.5), "cm")
+  }  
+  if (!is.null(theme) && theme=="blues") {
+    base <- theme_bw()
+    g.palette <- brewer_pal(palette = "Blues")(9)
+    panel.bordercol <- panel.backcol <- panel.col <- g.palette[1]
+    plot.backcol <- plot.bordercol <- plot.col <- g.palette[1]
+    panel.major.gridcol <- g.palette[3]
+    panel.minor.gridcol <- g.palette[1]
+    axis.linecolor <- NULL
+    axis.linecolor.y  <- g.palette[1]
+    axis.linecolor.x <- g.palette[9]
+    panel.gridcol.x <- g.palette[1]
+    legend.backgroundcol <- legend.bordercol <- g.palette[1]
+    title.color <- "black"
+    axis.textcolor <- g.palette[9]
+    axis.title.color <- "black"
+    geom.label.color <- g.palette[5]
+    legend.title.color <- g.palette[8]
+    legend.color <- g.palette[6]
+    axis.tickslen <- 0
+    # custom modifications
+    title.align <- "center"
+    axis.title.x.vjust <- -1
+    axis.title.y.vjust <- 1.5
+    title.vjust <- 1.75
+    plot.margins <- unit(c(1, .5, 1, 0.5), "cm")
+  }  
+  if (!is.null(theme) && theme=="greens") {
+    base <- theme_bw()
+    g.palette <- brewer_pal(palette = "BrBG")(9)
+    g.palette[5] <- "#f5faf5"
+    panel.bordercol <- panel.backcol <- panel.col <- g.palette[5]
+    plot.backcol <- plot.bordercol <- plot.col <- g.palette[5]
+    panel.major.gridcol <- g.palette[6]
+    panel.minor.gridcol <- g.palette[5]
+    axis.linecolor <- NULL
+    axis.linecolor.y  <- g.palette[5]
+    axis.linecolor.x <- g.palette[9]
+    panel.gridcol.x <- g.palette[5]
+    legend.backgroundcol <- legend.bordercol <- g.palette[5]
+    title.color <- "black"
+    axis.textcolor <- g.palette[9]
+    axis.title.color <- "black"
+    geom.label.color <- g.palette[8]
+    legend.title.color <- g.palette[9]
+    legend.color <- g.palette[8]
+    axis.tickslen <- 0
+    # custom modifications
+    title.align <- "center"
+    axis.title.x.vjust <- -1
+    axis.title.y.vjust <- 1.5
+    title.vjust <- 1.75
+    plot.margins <- unit(c(1, .5, 1, 0.5), "cm")
   }  
   # ----------------------------------------  
   # set defaults for axis text angle
@@ -459,6 +556,49 @@ sjp.setTheme <- function(title.color="black",
         theme(panel.grid.minor = element_line(colour = panel.minor.gridcol),
               panel.grid.major = element_line(colour = panel.major.gridcol))
     }
+    # ----------------------------------------
+    # set plot margins. onyl applies to pre-set themes
+    # ----------------------------------------
+    if (!is.null(plot.margins)) {
+      sjtheme <- sjtheme +
+        theme(plot.margin = plot.margins)
+    }
+    # ----------------------------------------
+    # set title adjustments. only applies to
+    # pre-set themes
+    # ----------------------------------------
+    if (!is.null(plot.margins)) {
+      sjtheme <- sjtheme +
+        theme(plot.margin = plot.margins)
+    }
+    if (!is.null(title.vjust)) {
+      sjtheme <- sjtheme +
+        theme(plot.title = element_text(vjust = title.vjust))
+    }
+    if (!is.null(axis.title.x.vjust)) {
+      sjtheme <- sjtheme +
+        theme(axis.title.x = element_text(vjust = axis.title.x.vjust))
+    }
+    if (!is.null(axis.title.y.vjust)) {
+      sjtheme <- sjtheme +
+        theme(axis.title.y = element_text(vjust = axis.title.y.vjust))
+    }
+    # ----------------------------------------
+    # panel grid colors
+    # ----------------------------------------
+    if (!is.null(panel.gridcol.x)) {
+      sjtheme <- sjtheme +
+        theme(panel.grid.minor.x = element_line(colour = panel.gridcol.x),
+              panel.grid.major.x = element_line(colour = panel.gridcol.x))
+    }
+    if (!is.null(panel.gridcol.y)) {
+      sjtheme <- sjtheme +
+        theme(panel.grid.minor.y = element_line(colour = panel.gridcol.y),
+              panel.grid.major.y = element_line(colour = panel.gridcol.y))
+    }
+    # ----------------------------------------
+    # finally, set theme
+    # ----------------------------------------
     theme_set(sjtheme)
   }
   else {

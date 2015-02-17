@@ -170,8 +170,11 @@ legend justification is set according to legend position.}
 Furthermore, there are some theme-presets, which can be used:
 \itemize{
   \item \code{"blank"}: a theme with no grids and axes.
-  \item \code{"538"}: a theme inspired by \href{http://fivethirtyeight.com}{538-charts}, adapted from \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{minimaxir.com}.
   \item \code{"forest"}: a theme for forest plots, with no grids.
+  \item \code{"538"}: a grey-scaled theme inspired by \href{http://fivethirtyeight.com}{538-charts}, adapted from \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{minimaxir.com}.
+  \item \code{"539"}: a slight modification of the 538-theme.
+  \item \code{"blues"}: a blue-colored scheme based on the Blues color-brewer-palette.
+  \item \code{"greens"}: a green-colored scheme.
 }}
 
 \item{base}{Base theme where theme is built on. By default, all

@@ -1,3 +1,12 @@
+Version 1.6.9-2
+------------------------------------------------------------------------------
+Changes to functions:
+* Improved pre-set theme "538" in "sjp.setTheme".
+* Added further pre-set themes to "sjp.setTheme".
+
+Bug fixes:
+* Fixed bug in "sjt.itemanalysis".
+
 Version 1.6.9
 ------------------------------------------------------------------------------
 New functions:

@@ -33,6 +33,15 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
+### Changelog of current development build 1.6.9-2
+
+#### Changes to functions
+* Improved pre-set theme `538` in `sjp.setTheme`.
+* Added further pre-set themes to `sjp.setTheme`.
+
+#### Bug fixes
+* Fixed bug in `sjt.itemanalysis` [#issue 8](https://github.com/sjPlot/devel/issues/8)
+.
 
 ### Changelog of current stable build 1.6.9
 
