@@ -290,17 +290,7 @@ sjp.lm <- function(fit,
   # auto-retrieve value labels
   # --------------------------------------------------------
   if (is.null(axisLabels.y)) {
-    axisLabels.y <- c()
-    # iterate coefficients (1 is intercept or response)
-    for (i in 2 : ncol(fit$model)) {
-      # check if we hav label
-      lab <- autoSetVariableLabels(fit$model[, i])
-      # if not, use coefficient name
-      if (is.null(lab)) {
-        lab <- attr(fit$coefficients[i], "names")
-      }
-      axisLabels.y <- c(axisLabels.y, lab)
-    }
+    axisLabels.y <- retrieveModelLabels(fit)
   }
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
@@ -658,7 +648,7 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FAL
     # get outliers of model
     ol <- outlierTest(model)
     # retrieve variable numbers of outliers
-    vars <- as.numeric(attr(ol$p, "names"))
+    vars <- as.numeric(names(ol$p))
     # update model by removing outliers
     dummymodel <- update(model, subset=-c(vars))
     # retrieve new r2
@@ -683,7 +673,7 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FAL
   # ---------------------------------
   # print steps from original to updated model
   # ---------------------------------
-  message(sprintf(("Removed %i cases during %i step(s).\nR-square/adj. R-square of original model: %f / %f\nR-square/adj. R-square of updated model: %f / %f\n"), 
+  message(sprintf(("Removed %i cases during %i step(s).\nR^2 / adj. R^2 of original model: %f / %f\nR^2 / adj. R^2 of updated model: %f / %f\n"), 
               removedcases,
               maxloops-(maxcnt+1), 
               summary(linreg)$r.squared, 
@@ -705,13 +695,17 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FAL
   print(ggplot(mydf, aes(x = x, y = y)) + 
           geom_point() + 
           stat_smooth(method = "lm", se = FALSE) +
-          ggtitle("Non-normality of residuals and outliers (original model)\n(Dots should be plotted along the line)"))
+          labs(title = "Non-normality of residuals and outliers (original model)\n(Dots should be plotted along the line)",
+               y = "Residuals",
+               x = "Theoretical quantiles"))
   if (modelOptmized) {
     mydf <- data.frame(x = sort(model$fitted.values), y = sort(model$residuals))
     print(ggplot(mydf, aes(x = x, y = y)) + 
             geom_point() + 
             stat_smooth(method = "lm", se = FALSE) +
-            ggtitle("Non-normality of residuals and outliers (updated model)\n(Dots should be plotted along the line)"))
+            labs(title = "Non-normality of residuals and outliers (updated model)\n(Dots should be plotted along the line)",
+                 y = "Residuals",
+                 x = "Theoretical quantiles"))
   }
   # ---------------------------------
   # Print non-normality of residuals both of original and updated model

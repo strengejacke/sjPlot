@@ -375,7 +375,17 @@ sjt.itemanalysis <- function(df,
     # check if we have titles for each component-table
     if (!is.null(factor.groups.titles)) dftitle <- factor.groups.titles[i]
     # get html-table from data frame
-    html <- sjt.df(df.ia[[i]], describe=FALSE, no.output=TRUE, title=dftitle, orderAscending=orderAscending, orderColumn=orderColumn, alternateRowColors=alternateRowColors, CSS=CSS, encoding=encoding, showCommentRow=TRUE, commentString=sprintf("Mean inter-item-correlation=%.3f &middot; Cronbach's &alpha;=%.3f", mic.total[[i]], cronbach.total[[i]]))
+    html <- sjt.df(df.ia[[i]], 
+                   describe = FALSE, 
+                   no.output = TRUE, 
+                   title = dftitle, 
+                   orderAscending = orderAscending, 
+                   orderColumn = orderColumn, 
+                   alternateRowColors = alternateRowColors, 
+                   CSS = CSS, 
+                   encoding = encoding, 
+                   showCommentRow = TRUE, 
+                   commentString = sprintf("Mean inter-item-correlation=%.3f &middot; Cronbach's &alpha;=%.3f", mic.total[[i]], cronbach.total[[i]]))
     # add to complete html-page
     complete.page <- paste0(complete.page, html$knitr)
     complete.page <- paste0(complete.page, "<p style=\"margin:2em;\">&nbsp;</p>")
@@ -392,7 +402,13 @@ sjt.itemanalysis <- function(df,
       # give proper columm names
       colnames(df.cc) <- sprintf("Component %i", c(1:ncol(df.cc)))
       # compute correlation table, store html result
-      html <- sjt.corr(df.cc, missingDeletion="listwise", pvaluesAsNumbers=TRUE, triangle="lower", stringDiagonal=sprintf("&alpha;=%.3f", unlist(cronbach.total)), encoding=encoding, no.output=TRUE)
+      html <- sjt.corr(df.cc, 
+                       missingDeletion = "listwise", 
+                       pvaluesAsNumbers = TRUE, 
+                       triangle = "lower", 
+                       stringDiagonal = sprintf("&alpha;=%.3f", unlist(cronbach.total)), 
+                       encoding = encoding, 
+                       no.output = TRUE)
       # add to html that is printed
       complete.page <- paste0(complete.page, html$knitr)
       knitr.list[[length(knitr.list)+1]] <- html$knitr

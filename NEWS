@@ -1,11 +1,16 @@
-Version 1.6.9-2
+Version 1.6.9-3
 ------------------------------------------------------------------------------
 Changes to functions:
+* Added parameter "group.pred" in "sjt.lm" and "sjt.glm" to automatically group table rows with factor levels of same factor.
+* Improved automatic label extraction for "sjp.lm", "sjt.lm", "sjp.glm" and "sjt.glm".
 * Improved pre-set theme "538" in "sjp.setTheme".
 * Added further pre-set themes to "sjp.setTheme".
+* Minor improvements in "sjp.lm" with "type='ma'".
 
 Bug fixes:
 * Fixed bug in "sjt.itemanalysis".
+* Fixed bug in "sji.setValueLabels".
+* Minor bug fixes in "sjp.lm" with "type='ma'".
 
 Version 1.6.9
 ------------------------------------------------------------------------------

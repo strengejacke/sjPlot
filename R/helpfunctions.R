@@ -397,6 +397,93 @@ autoSetVariableLabels <- function(x) {
 }
 
 
+
+# -------------------------------------
+# checks at which position in fitted models factors with
+# more than two levels are located.
+# -------------------------------------
+retrieveModelGroupIndices <- function(fit) {
+  # init group-row-indices
+  group.pred.rows <- c()
+  group.pred.labs <- c()
+  group.pred.span <- c()
+  add.index <- 0
+  # retrieve all factors from model
+  for (grp.cnt in 2 : ncol(fit$model)) {
+    # get variable
+    fit.var <- fit$model[, grp.cnt]
+    # is factor? and has more than two levels?
+    # (otherwise, only one category would appear in
+    # coefficients, so no grouping needed anyway)
+    if (is.factor(fit.var) && length(levels(fit.var)) > 2) {
+      # save factor name
+      lab <- unname(sji.getVariableLabels(fit.var))
+      # any label?
+      if (is.null(lab)) lab <- colnames(fit$model)[grp.cnt]
+      # determins startindex
+      index <- grp.cnt + add.index - 1
+      index.add <- length(levels(fit.var)) - 2
+      # save row index, so we know where to start group
+      group.pred.rows <- c(group.pred.rows, index)
+      group.pred.span <- c(group.pred.span, index : (index + index.add))
+      group.pred.labs <- c(group.pred.labs, lab)
+      # increase add.index by amount of factor levels (minus reference cat.)
+      add.index <- add.index + index.add
+    }
+  }
+  # have any groups? if not, reset row-index-counter
+  if (length(group.pred.rows) < 1) {
+    group.pred.rows <- NULL
+    group.pred.labs <- NULL
+    group.pred.span <- NULL
+  }
+  return (list(group.pred.rows,
+               group.pred.span,
+               group.pred.labs))
+}
+
+
+# -------------------------------------
+# automatically retrieve predictor labels
+# of fitted (g)lm
+# -------------------------------------
+retrieveModelLabels <- function(fit) {
+  fit.labels <- c()
+  # iterate coefficients (1 is intercept or response)
+  for (i in 2 : ncol(fit$model)) {
+    # is predictor a factor?
+    pvar <- fit$model[, i]
+    # if yes, we have this variable multiple
+    # times, so manually set value labels
+    if (is.factor(pvar)) {
+      # get amount of levels
+      pvar.len <- length(levels(pvar))
+      # get value labels, if any
+      pvar.lab <- sji.getValueLabels(pvar)
+      # have any labels, and have we same amount of labels
+      # as factor levels?
+      if (!is.null(pvar.lab) && length(pvar.lab) == pvar.len) {
+        # add labels
+        fit.labels <- c(fit.labels, pvar.lab[2 : pvar.len])
+      }
+      else {
+        fit.labels <- c(fit.labels, attr(fit$coefficients[i], "names"))
+      }
+    }
+    else {
+      # check if we hav label
+      lab <- autoSetVariableLabels(fit$model[, i])
+      # if not, use coefficient name
+      if (is.null(lab)) {
+        lab <- attr(fit$coefficients[i], "names")
+      }
+      fit.labels <- c(fit.labels, lab)
+    }
+  }
+  return (fit.labels)
+}
+
+
 # -------------------------------------
 # compute pseudo r-square for glm
 # -------------------------------------

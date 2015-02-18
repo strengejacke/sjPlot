@@ -430,6 +430,7 @@ sju.recode <- function(...) {
 
 
 sjp.vif <- function(fit) {
+  vifval <- NULL
   # check if we have more than 1 term
   if (length(coef(fit))>2) {
     # variance inflation factor

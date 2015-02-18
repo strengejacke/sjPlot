@@ -211,17 +211,7 @@ sjp.glm <- function(fit,
   # auto-retrieve value labels
   # --------------------------------------------------------
   if (is.null(axisLabels.y)) {
-    axisLabels.y <- c()
-    # iterate coefficients (1 is intercept or response)
-    for (i in 2 : ncol(fit$model)) {
-      # check if we hav label
-      lab <- autoSetVariableLabels(fit$model[, i])
-      # if not, use coefficient name
-      if (is.null(lab)) {
-        lab <- attr(fit$coefficients[i], "names")
-      }
-      axisLabels.y <- c(axisLabels.y, lab)
-    }
+    axisLabels.y <- retrieveModelLabels(fit)
   }
   # ----------------------------
   # Prepare length of title and labels

@@ -12,12 +12,13 @@ sjt.glm(..., file = NULL, labelPredictors = NULL,
   stringOR = "OR", stringCI = "CI", stringSE = "std. Error",
   stringP = "p", digits.est = 2, digits.p = 3, digits.ci = 2,
   digits.se = 2, digits.summary = 3, exp.coef = TRUE,
-  pvaluesAsNumbers = FALSE, boldpvalues = TRUE, showConfInt = TRUE,
-  showStdError = FALSE, separateConfColumn = FALSE, newLineConf = TRUE,
-  showAbbrHeadline = TRUE, showPseudoR = TRUE, showLogLik = FALSE,
-  showAIC = FALSE, showChi2 = FALSE, showFamily = FALSE,
-  cellSpacing = 0.2, encoding = NULL, CSS = NULL, useViewer = TRUE,
-  no.output = FALSE, remove.spaces = TRUE)
+  pvaluesAsNumbers = TRUE, boldpvalues = TRUE, showConfInt = TRUE,
+  showStdError = FALSE, separateConfColumn = TRUE, newLineConf = TRUE,
+  group.pred = TRUE, showAbbrHeadline = TRUE, showPseudoR = TRUE,
+  showLogLik = FALSE, showAIC = FALSE, showChi2 = FALSE,
+  showFamily = FALSE, cellSpacing = 0.2, cellGroupIndent = 0.6,
+  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
+  remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{One or more fitted \code{\link{glm}}-objects.}
@@ -90,6 +91,11 @@ Default is \code{FALSE}.}
 between OR and CI values. If \code{FALSE}, CI values are printed in the same
 line with OR values.}
 
+\item{group.pred}{logical, if \code{TRUE} (default), automatically groups table rows with
+factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
+be grouped, if the factor has more than two levels. Grouping means that a separate headline
+row is inserted to the table just before the predictor values.}
+
 \item{showAbbrHeadline}{If \code{TRUE} (default), the table data columns have a headline with
 abbreviations for odds ratios, confidence interval and p-values.}
 
@@ -116,6 +122,9 @@ decision help for which model to choose.}
 suitable for viewing the table. Decrease this value (0.05 to 0.1) if you want to import the table
 into Office documents. This is a convenient parameter for the \code{CSS} parameter for changing
 cell spacing, which would be: \code{CSS=list(css.thead="padding:0.2cm;", css.tzdata="padding:0.2cm;")}.}
+
+\item{cellGroupIndent}{Indent for table rows with grouped factor predictors. Only applies
+if \code{group.pred} is \code{TRUE}.}
 
 \item{encoding}{The charset encoding used for variable and value labels. Default is \code{NULL}, so encoding
 will be auto-detected depending on your platform (\code{"UTF-8"} for Unix and \code{"Windows-1252"} for
@@ -202,27 +211,42 @@ sjt.glm(fitOR1,
                             "Catholic"))
 
 # open HTML-table in RStudio Viewer Pane or web browser,
-# table indicating p-values as numbers
+# table indicating p-values as stars
 sjt.glm(fitOR1,
         fitOR2,
         labelDependentVariables = c("Fertility",
                                     "Infant Mortality"),
-        labelPredictors=c("Education", "Examination", "Catholic"),
-        pvaluesAsNumbers=TRUE)
+        labelPredictors = c("Education", "Examination", "Catholic"),
+        pvaluesAsNumbers = FALSE)
 
 # open HTML-table in RStudio Viewer Pane or web browser,
-# printing CI in a separate column
+# integrate CI in OR column
 sjt.glm(fitOR1, fitOR2, fitOR3,
-        labelDependentVariables=c("Fertility", "Infant Mortality", "Agriculture"),
-        labelPredictors=c("Education", "Examination", "Catholic"),
-        separateConfColumn=TRUE)
+        labelDependentVariables = c("Fertility",
+                                    "Infant Mortality",
+                                    "Agriculture"),
+        labelPredictors = c("Education", "Examination", "Catholic"),
+        separateConfColumn = FALSE)
 
 # open HTML-table in RStudio Viewer Pane or web browser,
 # indicating p-values as numbers and printing CI in a separate column
 sjt.glm(fitOR1, fitOR2, fitOR3,
-        labelDependentVariables=c("Fertility", "Infant Mortality", "Agriculture"),
-        labelPredictors=c("Education", "Examination", "Catholic"),
-        pvaluesAsNumbers=TRUE, separateConfColumn=TRUE)
+        labelDependentVariables = c("Fertility",
+                                    "Infant Mortality",
+                                    "Agriculture"),
+        labelPredictors = c("Education", "Examination", "Catholic"))
+
+# open HTML-table in RStudio Viewer Pane or web browser,
+# indicating p-values as stars and integrate CI in OR column
+sjt.glm(fitOR1, fitOR2, fitOR3,
+        labelDependentVariables = c("Fertility",
+                                    "Infant Mortality",
+                                    "Agriculture"),
+        labelPredictors = c("Education",
+                            "Examination",
+                            "Catholic"),
+        pvaluesAsNumbers = FALSE,
+        separateConfColumn = FALSE)
 
 # ----------------------------------------------------------------
 # User defined style sheet

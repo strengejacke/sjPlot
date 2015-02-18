@@ -13,11 +13,11 @@ sjt.lm(..., file = NULL, labelPredictors = NULL,
   stringP = "p", showConfInt = TRUE, showStdBeta = FALSE,
   showStdError = FALSE, digits.est = 2, digits.p = 3, digits.ci = 2,
   digits.se = 2, digits.sb = 2, digits.summary = 3,
-  pvaluesAsNumbers = FALSE, boldpvalues = TRUE,
-  separateConfColumn = FALSE, newLineConf = TRUE, showAbbrHeadline = TRUE,
+  pvaluesAsNumbers = TRUE, boldpvalues = TRUE, separateConfColumn = TRUE,
+  newLineConf = TRUE, group.pred = TRUE, showAbbrHeadline = TRUE,
   showR2 = TRUE, showFStat = FALSE, showAIC = FALSE, cellSpacing = 0.2,
-  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
-  remove.spaces = TRUE)
+  cellGroupIndent = 0.6, encoding = NULL, CSS = NULL, useViewer = TRUE,
+  no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{One or more fitted lm-objects.}
@@ -93,6 +93,11 @@ Default is \code{FALSE}.}
 between B and CI values. If \code{FALSE}, CI values are printed in the same
 line with B values.}
 
+\item{group.pred}{logical, if \code{TRUE} (default), automatically groups table rows with
+factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
+be grouped, if the factor has more than two levels. Grouping means that a separate headline
+row is inserted to the table just before the predictor values.}
+
 \item{showAbbrHeadline}{If \code{TRUE} (default), the table data columns have a headline with
 abbreviations for beta- and std. beta-values, confidence interval and p-values.}
 
@@ -109,6 +114,9 @@ in the model summary. Default is \code{FALSE}.}
 suitable for viewing the table. Decrease this value (0.05 to 0.1) if you want to import the table
 into Office documents. This is a convenient parameter for the \code{CSS} parameter for changing
 cell spacing, which would be: \code{CSS=list(css.thead="padding:0.2cm;", css.tzdata="padding:0.2cm;")}.}
+
+\item{cellGroupIndent}{Indent for table rows with grouped factor predictors. Only applies
+if \code{group.pred} is \code{TRUE}.}
 
 \item{encoding}{The charset encoding used for variable and value labels. Default is \code{NULL}, so encoding
 will be auto-detected depending on your platform (\code{"UTF-8"} for Unix and \code{"Windows-1252"} for
@@ -185,7 +193,7 @@ sjt.lm(fit1,
                            "Carer's Sex",
                            "Educational Status"))
 
-# show HTML-table, indicating p-values as numbers
+# show HTML-table, indicating p-values as asterisks
 sjt.lm(fit1,
        fit2,
        labelDependentVariables = c("Barthel-Index",
@@ -195,10 +203,10 @@ sjt.lm(fit1,
                            "Carer's Sex",
                            "Educational Status"),
        showStdBeta = TRUE,
-       pvaluesAsNumbers = TRUE)
+       pvaluesAsNumbers = FALSE)
 
 # create and open HTML-table in RStudio Viewer Pane or web browser,
-# printing CI in a separate column
+# integrate CI in estimate column
 sjt.lm(fit1,
        fit2,
        labelDependentVariables = c("Barthel-Index",
@@ -207,7 +215,7 @@ sjt.lm(fit1,
                            "Hours of Care",
                            "Carer's Sex",
                            "Educational Status"),
-       separateConfColumn = TRUE)
+       separateConfColumn = FALSE)
 
 # show HTML-table, indicating p-values as numbers
 # and printing CI in a separate column
@@ -219,9 +227,21 @@ sjt.lm(fit1,
                            "Hours of Care",
                            "Carer's Sex",
                            "Educational Status"),
+       showStdBeta = TRUE)
+
+# show HTML-table, indicating p-values as stars
+# and integrate CI in estimate column
+sjt.lm(fit1,
+       fit2,
+       labelDependentVariables = c("Barthel-Index",
+                                   "Negative Impact"),
+       labelPredictors = c("Carer's Age",
+                           "Hours of Care",
+                           "Carer's Sex",
+                           "Educational Status"),
        showStdBeta = TRUE,
-       pvaluesAsNumbers = TRUE,
-       separateConfColumn = TRUE)
+       pvaluesAsNumbers = FALSE,
+       separateConfColumn = FALSE)
 
 # ----------------------------------------------------------------
 # connecting two html-tables

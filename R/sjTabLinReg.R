@@ -55,6 +55,10 @@
 #' @param newLineConf If \code{TRUE} and \code{separateConfColumn} is \code{FALSE}, inserts a line break
 #'          between B and CI values. If \code{FALSE}, CI values are printed in the same
 #'          line with B values.
+#' @param group.pred logical, if \code{TRUE} (default), automatically groups table rows with 
+#'          factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
+#'          be grouped, if the factor has more than two levels. Grouping means that a separate headline
+#'          row is inserted to the table just before the predictor values.
 #' @param showAbbrHeadline If \code{TRUE} (default), the table data columns have a headline with 
 #'          abbreviations for beta- and std. beta-values, confidence interval and p-values.
 #' @param showR2 If \code{TRUE} (default), the R2 and adjusted R2 values for each model are printed
@@ -67,6 +71,8 @@
 #'          suitable for viewing the table. Decrease this value (0.05 to 0.1) if you want to import the table
 #'          into Office documents. This is a convenient parameter for the \code{CSS} parameter for changing
 #'          cell spacing, which would be: \code{CSS=list(css.thead="padding:0.2cm;", css.tzdata="padding:0.2cm;")}.
+#' @param cellGroupIndent Indent for table rows with grouped factor predictors. Only applies
+#'          if \code{group.pred} is \code{TRUE}.
 #' @param encoding The charset encoding used for variable and value labels. Default is \code{NULL}, so encoding
 #'          will be auto-detected depending on your platform (\code{"UTF-8"} for Unix and \code{"Windows-1252"} for
 #'          Windows OS). Change encoding if specific chars are not properly displayed (e.g.) German umlauts).
@@ -130,7 +136,7 @@
 #'                            "Carer's Sex", 
 #'                            "Educational Status"))
 #' 
-#' # show HTML-table, indicating p-values as numbers
+#' # show HTML-table, indicating p-values as asterisks
 #' sjt.lm(fit1, 
 #'        fit2, 
 #'        labelDependentVariables = c("Barthel-Index", 
@@ -140,10 +146,10 @@
 #'                            "Carer's Sex", 
 #'                            "Educational Status"),
 #'        showStdBeta = TRUE, 
-#'        pvaluesAsNumbers = TRUE)
+#'        pvaluesAsNumbers = FALSE)
 #' 
 #' # create and open HTML-table in RStudio Viewer Pane or web browser,
-#' # printing CI in a separate column
+#' # integrate CI in estimate column
 #' sjt.lm(fit1, 
 #'        fit2, 
 #'        labelDependentVariables = c("Barthel-Index", 
@@ -152,7 +158,7 @@
 #'                            "Hours of Care", 
 #'                            "Carer's Sex", 
 #'                            "Educational Status"),
-#'        separateConfColumn = TRUE)
+#'        separateConfColumn = FALSE)
 #' 
 #' # show HTML-table, indicating p-values as numbers
 #' # and printing CI in a separate column
@@ -164,9 +170,21 @@
 #'                            "Hours of Care", 
 #'                            "Carer's Sex", 
 #'                            "Educational Status"),
+#'        showStdBeta = TRUE)
+#' 
+#' # show HTML-table, indicating p-values as stars
+#' # and integrate CI in estimate column
+#' sjt.lm(fit1, 
+#'        fit2, 
+#'        labelDependentVariables = c("Barthel-Index", 
+#'                                    "Negative Impact"),
+#'        labelPredictors = c("Carer's Age", 
+#'                            "Hours of Care", 
+#'                            "Carer's Sex", 
+#'                            "Educational Status"),
 #'        showStdBeta = TRUE, 
-#'        pvaluesAsNumbers = TRUE, 
-#'        separateConfColumn = TRUE)
+#'        pvaluesAsNumbers = FALSE, 
+#'        separateConfColumn = FALSE)
 #' 
 #' # ---------------------------------------------------------------- 
 #' # connecting two html-tables
@@ -242,15 +260,17 @@ sjt.lm <- function (...,
                     digits.se=2,
                     digits.sb=2,
                     digits.summary=3,
-                    pvaluesAsNumbers=FALSE,
+                    pvaluesAsNumbers=TRUE,
                     boldpvalues=TRUE,
-                    separateConfColumn=FALSE,
+                    separateConfColumn=TRUE,
                     newLineConf=TRUE,
+                    group.pred=TRUE,
                     showAbbrHeadline=TRUE,
                     showR2=TRUE,
                     showFStat=FALSE,
                     showAIC=FALSE,
                     cellSpacing=0.2,
+                    cellGroupIndent=0.6,
                     encoding=NULL,
                     CSS=NULL,
                     useViewer=TRUE,
@@ -285,6 +305,9 @@ sjt.lm <- function (...,
   tag.annostyle <- "annostyle"
   tag.leftalign <- "leftalign"
   tag.centeralign <- "centeralign"
+  tag.grouprow <- "grouprow"
+  tag.tgrpdata <- "tgrpdata"
+  tag.modelcolumnstart <- "modelcolumnstart"
   css.table <- "border-collapse:collapse; border:none;"
   css.thead <- sprintf("border-bottom: 1px solid; padding:%.1fcm;", cellSpacing)
   css.tdata <- sprintf("padding:%.1fcm;", cellSpacing)
@@ -301,6 +324,9 @@ sjt.lm <- function (...,
   css.annostyle <- "text-align:right;"
   css.leftalign <- "text-align:left;"
   css.centeralign <- "text-align:center;"
+  css.grouprow <- sprintf("font-style:italic; padding:%.1fcm;", cellSpacing)
+  css.tgrpdata <- sprintf("padding:%.1fcm; padding-left:%.1fcm;", cellSpacing, cellGroupIndent)
+  css.modelcolumnstart <- ""
   # change table style if we have pvalues as numbers
   if (pvaluesAsNumbers) css.table <- sprintf("%s%s", css.table, css.noannorow)
   if (showHeaderStrings) css.labelcellborder <- ""
@@ -324,11 +350,14 @@ sjt.lm <- function (...,
     if (!is.null(CSS[['css.annorow']])) css.annorow <- ifelse(substring(CSS[['css.annorow']],1,1)=='+', paste0(css.annorow, substring(CSS[['css.annorow']],2)), CSS[['css.annorow']])
     if (!is.null(CSS[['css.noannorow']])) css.noannorow <- ifelse(substring(CSS[['css.noannorow']],1,1)=='+', paste0(css.noannorow, substring(CSS[['css.noannorow']],2)), CSS[['css.noannorow']])
     if (!is.null(CSS[['css.annostyle']])) css.annostyle <- ifelse(substring(CSS[['css.annostyle']],1,1)=='+', paste0(css.annostyle, substring(CSS[['css.annostyle']],2)), CSS[['css.annostyle']])
+    if (!is.null(CSS[['css.grouprow']])) css.grouprow <- ifelse(substring(CSS[['css.grouprow']],1,1)=='+', paste0(css.grouprow, substring(CSS[['css.grouprow']],2)), CSS[['css.grouprow']])
+    if (!is.null(CSS[['css.tgrpdata']])) css.tgrpdata <- ifelse(substring(CSS[['css.tgrpdata']],1,1)=='+', paste0(css.tgrpdata, substring(CSS[['css.tgrpdata']],2)), CSS[['css.tgrpdata']])
+    if (!is.null(CSS[['css.modelcolumnstart']])) css.modelcolumnstart <- ifelse(substring(CSS[['css.modelcolumnstart']],1,1)=='+', paste0(css.modelcolumnstart, substring(CSS[['css.modelcolumnstart']],2)), CSS[['css.modelcolumnstart']])
   }
   # ------------------------
   # set page style
   # ------------------------
-  page.style <-  sprintf("<style>%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
+  page.style <-  sprintf("<style>%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
                          tag.table, css.table, tag.thead, css.thead, tag.tdata, css.tdata,
                          tag.summary, css.summary, tag.colnames, css.colnames,
                          tag.firstsumrow, css.firstsumrow, tag.lasttablerow, css.lasttablerow,
@@ -336,7 +365,9 @@ sjt.lm <- function (...,
                          tag.topcontentborder, css.topcontentborder, tag.annorow, css.annorow, 
                          tag.noannorow, css.noannorow, tag.annostyle, css.annostyle,
                          tag.labelcellborder, css.labelcellborder,
-                         tag.centeralign, css.centeralign, tag.leftalign, css.leftalign)
+                         tag.centeralign, css.centeralign, tag.leftalign, css.leftalign,
+                         tag.grouprow, css.grouprow, tag.tgrpdata, css.tgrpdata,
+                         tag.modelcolumnstart, css.modelcolumnstart)
   # ------------------------
   # start content
   # ------------------------
@@ -464,22 +495,8 @@ sjt.lm <- function (...,
   # set default predictor labels
   # -------------------------------------
   if (is.null(labelPredictors)) {
-    fit <- input_list[[i]]
-    labelPredictors <- c()
-    # --------------------------------------------------------
-    # auto-retrieve value labels
-    # --------------------------------------------------------
-    # iterate coefficients (1 is intercept or response)
-    for (i in 2 : ncol(fit$model)) {
-      # check if we hav label
-      lab <- autoSetVariableLabels(fit$model[, i])
-      # if not, use coefficient name
-      if (is.null(lab)) {
-        lab <- row.names(coeffs)[i]
-      }
-      labelPredictors <- c(labelPredictors, lab)
-    }
-    # labelPredictors <- row.names(coeffs)[-1]
+    fit <- input_list[[1]]
+    labelPredictors <- retrieveModelLabels(fit)
   }
   # --------------------------------------------------------
   # auto-retrieving variable labels does not work when we
@@ -524,6 +541,19 @@ sjt.lm <- function (...,
     })
   }
   # -------------------------------------
+  # should factor predictors be grouped?
+  # -------------------------------------
+  if (group.pred) {
+    # get indices
+    group.pred.list <- retrieveModelGroupIndices(input_list[[1]])
+    group.pred.rows <- group.pred.list[[1]]
+    group.pred.span <- group.pred.list[[2]]
+    group.pred.labs <- group.pred.list[[3]]
+  }
+  else {
+    group.pred.rows <- group.pred.span <- group.pred.labs <- NULL
+  }
+  # -------------------------------------
   # table header: or/ci and p-labels
   # -------------------------------------
   if (showAbbrHeadline) {
@@ -532,12 +562,12 @@ sjt.lm <- function (...,
     for (i in 1:colnr) {
       # confidence interval in separate column
       if (separateConfColumn) {
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign colnames\">%s</td>", stringB))
+        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign colnames modelcolumnstart\">%s</td>", stringB))
         if (showConfInt) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames\">%s</td>", stringCI))
       }
       else {
         # confidence interval in Beta-column
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign colnames\">%s</td>", showCIString))
+        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign colnames modelcolumnstart\">%s</td>", showCIString))
       }
       # show std. error
       if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames\">%s</td>", stringSE))
@@ -571,7 +601,7 @@ sjt.lm <- function (...,
     # confidence interval in separate column
     if (separateConfColumn) {
       # open table cell for Beta-coefficient
-      page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign topcontentborder\">%.*f", digits.est, coeffs[1,i]))
+      page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign topcontentborder modelcolumnstart\">%.*f", digits.est, coeffs[1,i]))
       # if p-values are not shown as numbers, insert them after beta-value
       if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf(" %s", pv[1,i]))
       # if we have CI, start new table cell (CI in separate column)
@@ -584,7 +614,7 @@ sjt.lm <- function (...,
     }
     else {
       # open table cell for Beta-coefficient
-      page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign topcontentborder\">%.*f", digits.est, coeffs[1,i]))
+      page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign topcontentborder modelcolumnstart\">%.*f", digits.est, coeffs[1,i]))
       # confidence interval in Beta-column
       if (showConfInt) page.content <- paste0(page.content, sprintf("%s(%.*f-%.*f)", linebreakstring, digits.ci, confi_lower[1,i], digits.ci, confi_higher[1,i]))
       # if p-values are not shown as numbers, insert them after beta-value
@@ -602,16 +632,33 @@ sjt.lm <- function (...,
   }
   page.content <- paste0(page.content, "\n  </tr>")  
   # -------------------------------------
-  # subsequent rows: pedictors
+  # subsequent rows: predictors
   # -------------------------------------
   predlen <- length(labelPredictors)
   for (i in 1:predlen) {
-    page.content <- paste0(page.content, "\n  <tr>\n", sprintf("    <td class=\"tdata leftalign\">%s</td>", labelPredictors[i]))
+    # -------------------------------------
+    # do we need to insert a "factor grouping headline row"?
+    # -------------------------------------
+    if (!is.null(group.pred.rows) && any(group.pred.rows == i)) {
+      page.content <- paste0(page.content, 
+                             "\n  <tr>\n", 
+                             sprintf("\n    <td class=\"grouprow\" colspan=\"%i\">%s</td>", 
+                                     headerColSpanFactor + 1, 
+                                     group.pred.labs[which(group.pred.rows == i)]),
+                             "\n  </tr>")
+    }
+    if (!is.null(group.pred.rows) && any(group.pred.span == i)) {
+      indent.tag <- "tgrpdata"
+    }
+    else {
+      indent.tag <- "tdata"
+    }
+    page.content <- paste0(page.content, "\n  <tr>\n", sprintf("    <td class=\"%s leftalign\">%s</td>", indent.tag, labelPredictors[i]))
     for (j in 1:ncol(coeffs)) {
       # confidence interval in separate column
       if (separateConfColumn) {
         # open table cell for Beta-coefficient
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign\">%.*f", digits.est, coeffs[i+1,j]))
+        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumnstart\">%.*f", digits.est, coeffs[i+1,j]))
         # if p-values are not shown as numbers, insert them after beta-value
         if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf(" %s", pv[i+1,j]))
         # if we have CI, start new table cell (CI in separate column)
@@ -624,7 +671,7 @@ sjt.lm <- function (...,
       }
       else {
         # open table cell for Beta-coefficient
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign\">%.*f", digits.est, coeffs[i+1,j]))
+        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumnstart\">%.*f", digits.est, coeffs[i+1,j]))
         # confidence interval in Beta-column
         if (showConfInt) page.content <- paste0(page.content, sprintf("%s(%.*f-%.*f)", linebreakstring, digits.ci, confi_lower[i+1,j], digits.ci, confi_higher[i+1,j]))
         # if p-values are not shown as numbers, insert them after beta-value

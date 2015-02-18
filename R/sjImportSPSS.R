@@ -235,14 +235,14 @@ sji.setValueLabels.vector <- function(var, labels) {
       else if (valrange<lablen) {
         message(sprintf("More labels than values of \"var\". Using first %i labels.\n", valrange))
         attr(var, "value.labels") <- c(as.character(c(minval:maxval)))
-        names(attr(var, "value.labels")) <- rev(labels[1:valrange])
+        names(attr(var, "value.labels")) <- labels[1:valrange]
       }
       else if (valrange>lablen) {
         warning("Can't set value labels. Value range of \"var\" is longer than length of \"labels\".\n")
       }
       else {
         attr(var, "value.labels") <- c(as.character(c(minval:maxval)))
-        names(attr(var, "value.labels")) <- rev(labels)
+        names(attr(var, "value.labels")) <- labels
       }
     }
   }
