@@ -478,7 +478,7 @@ sjt.frq <- function (data,
       # retrieve range of values
       vonbis <- max(var, na.rm = T) - min(var, na.rm = T)
       # retrieve count of unique values
-      anzval <- unique(var)
+      anzval <- na.omit(unique(var))
       # check proportion of possible values and actual values
       # if we have more than 25% of zero-values, or if we have
       # in general a large variable range, skip zero-rows.

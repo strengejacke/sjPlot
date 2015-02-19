@@ -45,6 +45,7 @@
   The functions follow specific naming conventions:
   \itemize{
     \item \code{sjc} - cluster analysis functions
+    \item \code{sjd} - distribution functions
     \item \code{sji} - data import functions
     \item \code{sjp} - plotting functions
     \item \code{sjt} - (HTML) table output functions
@@ -56,8 +57,8 @@
 \tabular{ll}{
 Package: \tab sjPlot\cr
 Type: \tab Package\cr
-Version: \tab 1.6.9-3\cr
-Date: \tab 2015-02-18\cr
+Version: \tab 1.6.9-4\cr
+Date: \tab 2015-02-19\cr
 License: \tab GPL-3\cr
 }
 }

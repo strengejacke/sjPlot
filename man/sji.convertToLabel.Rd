@@ -31,6 +31,7 @@ table(sji.convertToLabel(efc$e42dep))
 }
 \seealso{
 \itemize{
+           \item \code{\link{sji.toFac}}
            \item \code{\link{sji.convertToValue}}
            \item \code{\link{sji.getValueLabels}}
            \item \code{\link{sji.getVariableLabels}}

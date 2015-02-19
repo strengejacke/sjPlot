@@ -387,6 +387,7 @@ sji.setVariableLabels <- function(x, lab) {
 #' all 1 to female in the data frame.
 #' 
 #' @seealso \itemize{
+#'            \item \code{\link{sji.toFac}}
 #'            \item \code{\link{sji.convertToValue}}
 #'            \item \code{\link{sji.getValueLabels}}
 #'            \item \code{\link{sji.getVariableLabels}}
@@ -418,6 +419,52 @@ sji.convertToLabel <- function(variable) {
 }
 
 
+#' @title Convert variable into factor and keep value labels
+#' @name sji.toFac
+#' 
+#' @description This function converts a variable into a factor, but keeps
+#'                variable and value labels, if these are attached as attributes
+#'                to the variale \code{var}. See examples.
+#' 
+#' @seealso \itemize{
+#'            \item \code{\link{sji.convertToValue}}
+#'            \item \code{\link{sji.convertToLabel}}
+#'            \item \code{\link{sji.getValueLabels}}
+#'            \item \code{\link{sji.getVariableLabels}}
+#'            \item \code{\link{sji.SPSS}}
+#'            }
+#' 
+#' @param var A (numeric or atomic) variable.
+#' @return A factor variable, including variable and value labels.
+#' 
+#' @examples
+#' \dontrun{
+#' data(efc)
+#' # normal factor conversion, loses value attributes
+#' efc$e42dep <- as.factor(efc$e42dep)
+#' sjt.frq(efc$e42dep)
+#' 
+#' data(efc)
+#' # factor conversion, which keeps value attributes
+#' efc$e42dep <- sji.toFac(efc$e42dep)
+#' sjt.frq(efc$e42dep)}
+#' 
+#' @export
+sji.toFac <- function(var) {
+  # retrieve value labels
+  lab <- sji.getValueLabels(var)
+  # retrieve variable labels
+  varlab <- sji.getVariableLabels(var)
+  # convert variable to factor
+  var <- as.factor(var)
+  # set back value labels
+  var <- sji.setValueLabels(var, lab)
+  # set back variable labels
+  var <- sji.setVariableLabels(var, varlab)
+  return (var)
+}
+
+
 #' @title Converts factors to numeric variables
 #' @name sji.convertToValue
 #' 
@@ -426,6 +473,7 @@ sji.convertToLabel <- function(variable) {
 #' a numeric variable.
 #' 
 #' @seealso \itemize{
+#'            \item \code{\link{sji.toFac}}
 #'            \item \code{\link{sji.convertToLabel}}
 #'            \item \code{\link{sji.getValueLabels}}
 #'            \item \code{\link{sji.getVariableLabels}}

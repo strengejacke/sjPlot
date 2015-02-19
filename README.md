@@ -33,7 +33,10 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of current development build 1.6.9-3
+### Changelog of current development build 1.6.9-4
+
+#### New functions
+* `sji.toFac` to convert (numeric or atomic) variables to factors, but keeps value and variable labels. Useful alternative to `as.factor`, when data has been imported from SPSS (e.g. with `sji.SPSS`).
 
 #### Changes to functions
 * Added parameter `group.pred` in `sjt.lm` and `sjt.glm` to automatically group table rows with factor levels of same factor.
@@ -42,9 +45,13 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * Added further pre-set themes to `sjp.setTheme`.
 * Minor improvements in `sjp.lm` with `type="ma"`.
 
+#### General
+* `autoSetValueLabels` and `autoSetVariableLabels` are now global options. E.g., use `options(autoSetValueLabels = FALSE)` to turn off automatic value label detection in plotting and table functions, or `options(autoSetValueLabels = TRUE)` to turn on automatic label detection.
+
 #### Bug fixes
 * Fixed bug in `sjt.itemanalysis` [(#issue 8)](https://github.com/sjPlot/devel/issues/8).
 * Fixed bug in `sji.setValueLabels`.
+* Fixed bug in `sjt.frq` with string-variables that contained a larger amount of unique values including `NA`-values, when parameter `skipZeroRows` was set to `auto` (default).
 * Minor bug fixes in `sjp.lm` with `type="ma"`.
 
 

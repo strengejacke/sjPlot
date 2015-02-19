@@ -361,23 +361,28 @@ crosstabsum <- function(ftab) {
 # if attributes are present
 # -------------------------------------
 autoSetValueLabels <- function(x) {
-  # check if we have value label attribut
-  vl <- sji.getValueLabel(x)
-  lv <- levels(x)
-  label <- NULL
-  # check  if we have value labels
-  if (!is.null(vl) && length(vl)>0) {
-    label <- vl
+  # do we have global options?
+  opt <- getOption("autoSetValueLabels")
+  if (is.null(opt) || opt == TRUE) {
+    # check if we have value label attribut
+    vl <- sji.getValueLabel(x)
+    lv <- levels(x)
+    label <- NULL
+    # check  if we have value labels
+    if (!is.null(vl) && length(vl)>0) {
+      label <- vl
+    }
+    # check  if we have factor levels
+    else if (!is.null(lv)) {
+      label <- lv
+    }
+    # if we have string values, copy them as labels
+    else if (is.character(x)) {
+      label <- unique(x)
+    }
+    return(label)
   }
-  # check  if we have factor levels
-  else if (!is.null(lv)) {
-    label <- lv
-  }
-  # if we have string values, copy them as labels
-  else if (is.character(x)) {
-    label <- unique(x)
-  }
-  return(label)
+  return (NULL)
 }
 
 
@@ -386,14 +391,19 @@ autoSetValueLabels <- function(x) {
 # if attributes are present
 # -------------------------------------
 autoSetVariableLabels <- function(x) {
-  # check if we have variable label attribut
-  vl <- as.vector(attr(x, "variable.label"))
-  label <- NULL
-  # check if we have variable labels
-  if (!is.null(vl) && length(vl)>0) {
-    label <- vl
+  # do we have global options?
+  opt <- getOption("autoSetVariableLabels")
+  if (is.null(opt) || opt == TRUE) {
+    # check if we have variable label attribut
+    vl <- as.vector(attr(x, "variable.label"))
+    label <- NULL
+    # check if we have variable labels
+    if (!is.null(vl) && length(vl)>0) {
+      label <- vl
+    }
+    return(label)
   }
-  return(label)
+  return (NULL)
 }
 
 
@@ -448,39 +458,44 @@ retrieveModelGroupIndices <- function(fit) {
 # of fitted (g)lm
 # -------------------------------------
 retrieveModelLabels <- function(fit) {
-  fit.labels <- c()
-  # iterate coefficients (1 is intercept or response)
-  for (i in 2 : ncol(fit$model)) {
-    # is predictor a factor?
-    pvar <- fit$model[, i]
-    # if yes, we have this variable multiple
-    # times, so manually set value labels
-    if (is.factor(pvar)) {
-      # get amount of levels
-      pvar.len <- length(levels(pvar))
-      # get value labels, if any
-      pvar.lab <- sji.getValueLabels(pvar)
-      # have any labels, and have we same amount of labels
-      # as factor levels?
-      if (!is.null(pvar.lab) && length(pvar.lab) == pvar.len) {
-        # add labels
-        fit.labels <- c(fit.labels, pvar.lab[2 : pvar.len])
+  # do we have global options?
+  opt <- getOption("autoSetVariableLabels")
+  if (is.null(opt) || opt == TRUE) {
+    fit.labels <- c()
+    # iterate coefficients (1 is intercept or response)
+    for (i in 2 : ncol(fit$model)) {
+      # is predictor a factor?
+      pvar <- fit$model[, i]
+      # if yes, we have this variable multiple
+      # times, so manually set value labels
+      if (is.factor(pvar)) {
+        # get amount of levels
+        pvar.len <- length(levels(pvar))
+        # get value labels, if any
+        pvar.lab <- sji.getValueLabels(pvar)
+        # have any labels, and have we same amount of labels
+        # as factor levels?
+        if (!is.null(pvar.lab) && length(pvar.lab) == pvar.len) {
+          # add labels
+          fit.labels <- c(fit.labels, pvar.lab[2 : pvar.len])
+        }
+        else {
+          fit.labels <- c(fit.labels, attr(fit$coefficients[i], "names"))
+        }
       }
       else {
-        fit.labels <- c(fit.labels, attr(fit$coefficients[i], "names"))
+        # check if we hav label
+        lab <- autoSetVariableLabels(fit$model[, i])
+        # if not, use coefficient name
+        if (is.null(lab)) {
+          lab <- attr(fit$coefficients[i], "names")
+        }
+        fit.labels <- c(fit.labels, lab)
       }
     }
-    else {
-      # check if we hav label
-      lab <- autoSetVariableLabels(fit$model[, i])
-      # if not, use coefficient name
-      if (is.null(lab)) {
-        lab <- attr(fit$coefficients[i], "names")
-      }
-      fit.labels <- c(fit.labels, lab)
-    }
+    return (fit.labels)
   }
-  return (fit.labels)
+  return (NULL)
 }
 
 

@@ -30,6 +30,7 @@ hist(sji.convertToValue(test,0))
 }
 \seealso{
 \itemize{
+           \item \code{\link{sji.toFac}}
            \item \code{\link{sji.convertToLabel}}
            \item \code{\link{sji.getValueLabels}}
            \item \code{\link{sji.getVariableLabels}}
