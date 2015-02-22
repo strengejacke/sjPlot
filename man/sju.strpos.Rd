@@ -2,9 +2,13 @@
 % Please edit documentation in R/sjRecode.R
 \name{sju.strpos}
 \alias{sju.strpos}
+\alias{str_pos}
 \title{Find partial matching and close distance elements in strings}
 \usage{
 sju.strpos(searchString, findTerm, maxdist = 3, part.dist.match = 0,
+  showProgressBar = FALSE)
+
+str_pos(searchString, findTerm, maxdist = 3, part.dist.match = 0,
   showProgressBar = FALSE)
 }
 \arguments{
@@ -37,6 +41,10 @@ This function finds the element indices of partial matching or similar strings
                in a character vector. Can be used to find exact or slightly mistyped elements
                in a string vector.
 }
+\section{Functions}{
+\itemize{
+\item \code{str_pos}: 
+}}
 \note{
 this function does \emph{not} return the position of a matching string \emph{inside}
         another string, but the element's index of the \code{searchString} vector, where

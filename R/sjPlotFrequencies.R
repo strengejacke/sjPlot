@@ -379,8 +379,8 @@ sjp.frq <- function(varCount,
     fpos <- which(df.frqci$frq == mydat$frq[ici])
     # found anything?
     if (!is.null(fpos) && length(fpos) > 0) {
-      mydat$lower.ci[ici] <- round(df.frqci$lower.ci[fpos])
-      mydat$upper.ci[ici] <- round(df.frqci$upper.ci[fpos])
+      mydat$lower.ci[ici] <- round(df.frqci$lower.ci[fpos][1])
+      mydat$upper.ci[ici] <- round(df.frqci$upper.ci[fpos][1])
     }
   }
   # --------------------------------------------------------

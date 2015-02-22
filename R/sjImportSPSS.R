@@ -26,7 +26,8 @@
 #'   
 #' @note This is a wrapper function for \code{\link{read.spss}} of the
 #'         \code{foreign} package, using convenient parameter default
-#'         settings.
+#'         settings. This function attaches value and variable
+#'         labels to the imported variables of the data frame.
 #' 
 #' @examples
 #' # import SPSS data set
@@ -90,6 +91,16 @@ sji.SPSS <- function(path,
 }
 
 
+#' @describeIn sji.SPSS
+read_spss <- function(path, 
+                      enc=NA, 
+                      autoAttachVarLabels=FALSE,
+                      atomic.to.fac=FALSE) {
+  return (sji.SPSS(path, enc, autoAttachVarLabels, atomic.to.fac))
+}
+  
+
+
 #' @title Retrieve value labels of a variable or an SPSS-imported data frame
 #' @name sji.getValueLabels
 #' @description This function retrieves the value labels of an imported
@@ -112,6 +123,12 @@ sji.SPSS <- function(path,
 #' @return Either a list with all value labels from the data frame's variables,
 #'           or a string with the value labels, if \code{x} is a variable.
 #' 
+#' @note This function only works with vectors that have value and variable
+#'        labels attached. This is automatically done by importing SPSS data sets
+#'        with the \code{\link{read_spss}} function and can manually be applied
+#'        with the \code{\link{sji.setValueLabels}} and \code{\link{sji.setVariableLabels}}
+#'        functions.
+#'        
 #' @examples
 #' # import SPSS data set
 #' # mydat <- sji.SPSS("my_spss_data.sav", enc="UTF-8")
@@ -273,6 +290,12 @@ sji.setValueLabels.vector <- function(var, labels) {
 #' @return A list with all variable labels from the SPSS dataset,
 #'           or a string with the variable label, if \code{x} is a variable.
 #' 
+#' @note This function only works with vectors that have value and variable
+#'        labels attached. This is automatically done by importing SPSS data sets
+#'        with the \code{\link{read_spss}} function and can manually be applied
+#'        with the \code{\link{sji.setValueLabels}} and \code{\link{sji.setVariableLabels}}
+#'        functions.
+#' 
 #' @examples
 #' # import SPSS data set
 #' # mydat <- sji.SPSS("my_spss_data.sav", enc="UTF-8")
@@ -377,6 +400,7 @@ sji.setVariableLabels <- function(x, lab) {
   return (x)
 }
 
+
 #' @title Replaces variable values with their associated value labels
 #' @name sji.convertToLabel
 #' 
@@ -419,6 +443,12 @@ sji.convertToLabel <- function(variable) {
 }
 
 
+#' @describeIn sji.convertToLabel
+to_label <- function(variable) {
+  return (sji.convertToLabel(variable))
+}
+
+
 #' @title Convert variable into factor and keep value labels
 #' @name sji.toFac
 #' 
@@ -436,6 +466,12 @@ sji.convertToLabel <- function(variable) {
 #' 
 #' @param var A (numeric or atomic) variable.
 #' @return A factor variable, including variable and value labels.
+#' 
+#' @note This function only works with vectors that have value and variable
+#'        labels attached. This is automatically done by importing SPSS data sets
+#'        with the \code{\link{read_spss}} function and can manually be applied
+#'        with the \code{\link{sji.setValueLabels}} and \code{\link{sji.setVariableLabels}}
+#'        functions.
 #' 
 #' @examples
 #' \dontrun{
@@ -462,6 +498,12 @@ sji.toFac <- function(var) {
   # set back variable labels
   var <- sji.setVariableLabels(var, varlab)
   return (var)
+}
+
+
+#' @describeIn sji.toFac
+to_fac <- function(var) {
+  return (sji.toFac(var))
 }
 
 
@@ -499,4 +541,10 @@ sji.convertToValue <- function(fac, startAt=1) {
   end <- startAt+l-1
   levels(fac) <- c(startAt:end)
   return (as.numeric(as.character(fac)))
+}
+
+
+#' @describeIn sji.convertToValue
+to_value <- function(fac, startAt=1) {
+  return (sji.convertToValue(fac, startAt))
 }

@@ -2,9 +2,12 @@
 % Please edit documentation in R/sjImportSPSS.R
 \name{sji.convertToValue}
 \alias{sji.convertToValue}
+\alias{to_value}
 \title{Converts factors to numeric variables}
 \usage{
 sji.convertToValue(fac, startAt = 1)
+
+to_value(fac, startAt = 1)
 }
 \arguments{
 \item{fac}{A (factor) variable.}
@@ -20,6 +23,10 @@ This function converts (replaces) factor values with the
 related factor level index number, thus the factor is converted to
 a numeric variable.
 }
+\section{Functions}{
+\itemize{
+\item \code{to_value}: 
+}}
 \examples{
 data(efc)
 test <- sji.convertToLabel(efc$e42dep)

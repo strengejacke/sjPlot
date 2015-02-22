@@ -2,9 +2,12 @@
 % Please edit documentation in R/sjImportSPSS.R
 \name{sji.toFac}
 \alias{sji.toFac}
+\alias{to_fac}
 \title{Convert variable into factor and keep value labels}
 \usage{
 sji.toFac(var)
+
+to_fac(var)
 }
 \arguments{
 \item{var}{A (numeric or atomic) variable.}
@@ -17,6 +20,10 @@ This function converts a variable into a factor, but keeps
                variable and value labels, if these are attached as attributes
                to the variale \code{var}. See examples.
 }
+\section{Functions}{
+\itemize{
+\item \code{to_fac}: 
+}}
 \examples{
 \dontrun{
 data(efc)

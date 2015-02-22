@@ -53,6 +53,12 @@ sju.dicho <- function(var, dichBy="median", dichVal=-1, asNum = FALSE) {
 }
 
 
+#' @describeIn sju.dicho
+dicho <- function(var, dichBy="median", dichVal=-1, asNum = FALSE) {
+  return (sju.dicho(var, dichBy, dichVal, asNum))
+}
+
+
 #' @title Recode count variables into grouped factors
 #' @name sju.groupVar
 #' 
@@ -129,6 +135,13 @@ sju.groupVar <- function(var, groupsize=5, asNumeric=TRUE, rightInterval=FALSE, 
   }
   return (var)
 }
+
+
+#' @describeIn sju.groupVar
+group_var <- function(var, groupsize=5, asNumeric=TRUE, rightInterval=FALSE, autoGroupCount=30) {
+  return (sju.groupVar(var, groupsize, asNumeric, rightInterval, autoGroupCount))
+}
+
 
 #' @title Create labels for recoded groups
 #' @name sju.groupVarLabels
@@ -234,6 +247,12 @@ sju.groupVarLabels <- function(var, groupsize=5, rightInterval=FALSE, autoGroupC
     retval[i] <- c(paste(c(lower), "-", c(upper), sep=""))
   }
   return (c(retval))
+}
+
+
+#' @describeIn sju.groupVarLabels
+group_labels <- function(var, groupsize=5, rightInterval=FALSE, autoGroupCount=30) {
+  return (sju.groupVarLabels(var, groupsize, rightInterval, autoGroupCount))
 }
 
 
@@ -407,6 +426,12 @@ sju.recodeTo <- function(var, lowest=0, highest=-1) {
 }
 
 
+#' @describeIn sju.recodeTo
+recode_to <- function(var, lowest=0, highest=-1) {
+  return(sju.recodeTo(var, lowest, highest))
+}
+
+
 #' @title Recode variable values.
 #' @name sju.recode
 #' 
@@ -531,6 +556,12 @@ sju.setNA <- function(var, values) {
   # set back updated label attribute
   attr(var, "value.labels") <- vl
   return(var)
+}
+
+
+#' @describeIn sju.setNA
+set_na <- function(var, values) {
+  return(sju.setNA(var, values))
 }
 
 
@@ -833,6 +864,12 @@ sju.groupString <- function(strings, maxdist = 3, method = "lv", strict = FALSE,
 }
 
 
+#' @describeIn sju.groupString
+group_str <- function(strings, maxdist = 3, method = "lv", strict = FALSE, trim.whitespace = TRUE, remove.empty = TRUE, showProgressBar = FALSE) {
+  return (sju.groupString(strings, maxdist, method, strict, trim.whitespace, remove.empty, showProgressBar))
+}
+
+
 #' @title Find partial matching and close distance elements in strings
 #' @name sju.strpos
 #' @description This function finds the element indices of partial matching or similar strings 
@@ -985,6 +1022,12 @@ sju.strpos <- function(searchString, findTerm, maxdist = 3, part.dist.match = 0,
 }
 
 
+#' @describeIn sju.strpos
+str_pos <- function(searchString, findTerm, maxdist = 3, part.dist.match = 0, showProgressBar = FALSE) {
+  return (sju.strpos(searchString, findTerm, maxdist, part.dist.match, showProgressBar))
+}
+
+
 #' @title Compute row means with min amount of valid values
 #' @name sju.mean.n
 #' @description This function is similar to the SPSS \code{MEAN.n} function and computes
@@ -1034,6 +1077,12 @@ sju.mean.n <- function(dat, n) {
     return (NA)
   }
   apply(dat, 1, function(x) ifelse(sum(!is.na(x)) >= n, mean(x, na.rm=TRUE), NA))
+}
+
+
+#' @describeIn sju.mean.n
+mean_n <- function(dat, n) {
+  sju.mean.n(dat, n)
 }
 
 

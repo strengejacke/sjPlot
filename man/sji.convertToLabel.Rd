@@ -2,9 +2,12 @@
 % Please edit documentation in R/sjImportSPSS.R
 \name{sji.convertToLabel}
 \alias{sji.convertToLabel}
+\alias{to_label}
 \title{Replaces variable values with their associated value labels}
 \usage{
 sji.convertToLabel(variable)
+
+to_label(variable)
 }
 \arguments{
 \item{variable}{A (factor) variable.}
@@ -19,6 +22,10 @@ For instance, if you have a Gender variable with 0/1, and associated
 labels are male/female, this function would convert all 0 to male and
 all 1 to female in the data frame.
 }
+\section{Functions}{
+\itemize{
+\item \code{to_label}: 
+}}
 \examples{
 data(efc)
 print(sji.getValueLabels(efc)['c161sex'])

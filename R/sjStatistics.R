@@ -605,6 +605,12 @@ sjs.phi <- function(tab) {
 }
 
 
+#' @describeIn sjs.phi
+phi <- function(tab) {
+  return (sjs.phi(tab))
+}
+
+
 #' @title Cramer's V for a contingency table
 #' @name sjs.cramer
 #' @description Compute Cramer's V for a table with more than 2x2 fields.
@@ -626,6 +632,12 @@ sjs.cramer <- function(tab) {
   phi <- sjs.phi(tab)
   cramer <- sqrt(phi^2/min(dim(tab)-1))
   return (cramer)
+}
+
+
+#' @describeIn sjs.cramer
+cramer <- function(tab) {
+  return (sjs.cramer(tab))
 }
 
 
