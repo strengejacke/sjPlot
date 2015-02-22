@@ -38,7 +38,8 @@ Import data from SPSS, including NA's, value and variable labels.
 \note{
 This is a wrapper function for \code{\link{read.spss}} of the
         \code{foreign} package, using convenient parameter default
-        settings.
+        settings. This function attaches value and variable
+        labels to the imported variables of the data frame.
 }
 \examples{
 # import SPSS data set

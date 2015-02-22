@@ -163,6 +163,10 @@ sji.getValueLabel <- function(x) {
   # return them
   return (labels)
 }
+#' @describeIn sji.getValueLabels
+get_val_lab <- function(x) {
+  return (sji.getValueLabels(x))
+}
 
 
 #' @title Attach value labels to a variable or vector
@@ -265,7 +269,10 @@ sji.setValueLabels.vector <- function(var, labels) {
   }
   return (var)
 }
-
+#' @describeIn sji.setValueLabels
+set_val_lab <- function(x, labels) {
+  return (sji.setValueLabels(x, labels))
+}
 
 #' @title Retrieve variable labels of (an SPSS-imported) data frame or of a specific variable
 #' @name sji.getVariableLabels
@@ -317,6 +324,10 @@ sji.getVariableLabels <- function(x) {
   else {
     return(attr(x, "variable.label"))
   }
+}
+#' @describeIn sji.getVariableLabels
+get_var_lab <- function(x) {
+  return (sji.getVariableLabels(x))
 }
 
 
@@ -399,7 +410,10 @@ sji.setVariableLabels <- function(x, lab) {
   }
   return (x)
 }
-
+#' @describeIn sji.setVariableLabels
+set_var_lab <- function(x, lab) {
+   return (sji.setVariableLabels(x, lab))
+}
 
 #' @title Replaces variable values with their associated value labels
 #' @name sji.convertToLabel

@@ -66,21 +66,30 @@ sjs.etasq <- function(...) {
   return (summary.lm(fit)$r.squared)
   # return (1 - var(fit$residuals, na.rm = T) / var(fit$model[,1], na.rm = T))
 }
+#' @describeIn sjs.etasq
+eta_sq <- function(...) {
+  return (sjs.etasq(...))
+}
 
 
-#' @title Retrieve std. beta coefficients and ci of lm
+#' @title Retrieve std. beta coefficients and ci of lm and mixed models
 #' @name sjs.stdb
-#' @description Returns the standardized beta coefficients and confidence intervals of a fitted linear model.
+#' @description Returns the standardized beta coefficients and confidence intervals 
+#'                of a fitted linear (mixed) models, i.e. \code{fit} must either
+#'                be of class \code{lm} or \code{lmerMod} (lme4-package).
 #' 
 #' @seealso \itemize{
 #'            \item \code{\link{sjp.lm}}
 #'            \item \code{\link{sjt.lm}}
 #'            }
 #'         
-#' @param fit A fitted linear model.
-#' @param include.ci logical, if \code{TRUE}, a data frame with confidence intervals will be returned.
+#' @param fit A fitted linear (mixed) model of class \code{lm} or \code{lmerMod} (lme4-package).
+#' @param include.ci logical, if \code{TRUE}, a data frame with confidence intervals will be returned,
+#'          when \code{fit} is of class \code{lm}. If \code{fit} is a \code{lmerMod} object (lme4-package),
+#'          always returns standard error instead of confidence intervals (hence, this paramezer will
+#'          be ignored when \code{fit} is a \code{lmerMod} object).
 #' @return A vector with standardiized beta coefficients of the fitted linear model, or a data frame
-#'           with standardiized confidence intervals, if \code{include.ci = TRUE}.
+#'           with standardized confidence intervals, if \code{include.ci = TRUE}.
 #' 
 #' @note "Standardized coefficients refer to how many standard deviations a dependent variable will change, 
 #'         per standard deviation increase in the predictor variable. Standardization of the coefficient is 
@@ -102,19 +111,28 @@ sjs.etasq <- function(...) {
 #' 
 #' @export
 sjs.stdb <- function(fit, include.ci = FALSE) {
-  b <- summary(fit)$coef[-1, 1]
-  sx <- sapply(fit$model[-1], sd)
-  sy <- sapply(fit$model[1], sd)
-  beta <- b * sx/sy
-  se <- summary(fit)$coefficients[-1, 2]
-  beta.se <- se * sx/sy
-  
-  if (include.ci) {
-    return (data.frame(beta = beta, ci.low = (beta - beta.se * 1.96), ci.hi = (beta + beta.se * 1.96)))
+  if (class(fit) == "lmerMod") {
+    return (sjs.stdmm(fit))
   }
   else {
-    return(beta)
+    b <- summary(fit)$coef[-1, 1]
+    sx <- sapply(fit$model[-1], sd)
+    sy <- sapply(fit$model[1], sd)
+    beta <- b * sx/sy
+    se <- summary(fit)$coefficients[-1, 2]
+    beta.se <- se * sx/sy
+    
+    if (include.ci) {
+      return (data.frame(beta = beta, ci.low = (beta - beta.se * 1.96), ci.hi = (beta + beta.se * 1.96)))
+    }
+    else {
+      return(beta)
+    }
   }
+}
+#' @describeIn sjs.stdb
+std_beta <- function(fit, include.ci = FALSE) {
+  return (sjs.stdb(fit, include.ci))
 }
 
 
@@ -261,6 +279,10 @@ sjs.mwu <- function(var, grp, distribution="asymptotic", weights=NULL) {
   }
   invisible(df)
 }
+#' @describeIn sjs.mwu
+mwu <- function(var, grp, distribution="asymptotic", weights=NULL) {
+  return (sjs.mwu(var, grp, distribution, weights))
+}
 
 
 #' @title Performs a Chi-square goodness-of-fit-test
@@ -295,6 +317,10 @@ sjs.chi2.gof <- function(var, prob, weights=NULL) {
   print(chi2gof)
   invisible (chi2gof)
 }
+#' @describeIn sjs.chi2.gof
+chisq_gof <- function(var, prob, weights=NULL) {
+  return (sjs.chi2.gof(var, prob, weights))
+}
 
 
 #' @title Calculates Cronbach's Alpha for a matrix
@@ -322,6 +348,10 @@ sjs.cronbach <- function(df) { # df must be matrix or data.frame with more than 
     return(0)
   }
   return (dim(df)[2]/(dim(df)[2]-1)*(1-sum(apply(df,2,var))/var(rowSums(df))))
+}    
+#' @describeIn sjs.cronbach
+cronb <- function(df) { # df must be matrix or data.frame with more than 2 columns
+  return (sjs.cronbach(df))
 }    
 
 
@@ -465,6 +495,10 @@ sjs.reliability <- function(df, scaleItems=FALSE, digits=3) {
   # -----------------------------------
   return(ret.df)
 }
+#' @describeIn sjs.reliability
+reliab_test <- function(df, scaleItems=FALSE, digits=3) {
+  return (sjs.reliability(df, scaleItems, digits))
+}
 
 
 #' @title Computes a mean inter-item-correlation.
@@ -533,6 +567,10 @@ sjs.mic <- function(data,
     }
   }
   return (mean(mic))
+}
+#' @describeIn sjs.mic
+mic <- function(data, corMethod="pearson") {
+  return (sji.mic(data, corMethod))
 }
 
 

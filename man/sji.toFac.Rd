@@ -24,6 +24,13 @@ This function converts a variable into a factor, but keeps
 \itemize{
 \item \code{to_fac}: 
 }}
+\note{
+This function only works with vectors that have value and variable
+       labels attached. This is automatically done by importing SPSS data sets
+       with the \code{\link{read_spss}} function and can manually be applied
+       with the \code{\link{sji.setValueLabels}} and \code{\link{sji.setVariableLabels}}
+       functions.
+}
 \examples{
 \dontrun{
 data(efc)
