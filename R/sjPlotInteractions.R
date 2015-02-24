@@ -165,14 +165,14 @@
 #'            x = TRUE)
 #' # plot interaction, increase p-level sensivity
 #' sjp.int(fit,
-#'         legendLabels = sji.getValueLabels(efc$c161sex),
+#'         legendLabels = get_val_labels(efc$c161sex),
 #'         plevel = 0.1)
 #'
 #' # compare results to boxplots
 #' sjp.grpfrq(mydf$barthel,
 #'            mydf$y,
 #'            interactionVar = mydf$sex,
-#'            interactionVarLabels = sji.getValueLabels(efc$c161sex),
+#'            interactionVarLabels = get_val_labels(efc$c161sex),
 #'            legendLabels = c("low burden", "high burden"),
 #'            type = "box")
 #'
@@ -687,11 +687,11 @@ sjp.int <- function(fit,
     annoLabels <- paste(lLabels[1], lineLabelString)
     annoLabels <- c(annoLabels, paste(lLabels[2], lineLabelString))
     # wrap title
-    labtitle <- sju.wordwrap(labtitle, breakTitleAt)
+    labtitle <- word_wrap(labtitle, breakTitleAt)
     # wrap legend labels
-    lLabels <- sju.wordwrap(lLabels, breakLegendLabelsAt)
+    lLabels <- word_wrap(lLabels, breakLegendLabelsAt)
     # wrap annotation labels
-    annoLabels <- sju.wordwrap(annoLabels, breakAnnotationLabelsAt)
+    annoLabels <- word_wrap(annoLabels, breakAnnotationLabelsAt)
     # -----------------------------------------------------------
     # prepare base plot of interactions
     # -----------------------------------------------------------

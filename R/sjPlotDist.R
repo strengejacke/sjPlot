@@ -3,7 +3,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("p.level"))
 
 
 #' @title Plot normal distributions
-#' @name sjd.norm
+#' @name norm_dist
 #' 
 #' @description This function plots a simple normal distribution or a normal distribution
 #'                with shaded areas that indicate at which value a significant p-level 
@@ -34,22 +34,22 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("p.level"))
 #' 
 #' @examples
 #' # a simple normal distribution
-#' sjd.norm()
+#' norm_dist()
 #' 
 #' # a simple normal distribution with different mean and sd. 
 #' # note that curve looks similar to above plot, but axis range
 #' # has changed.
-#' sjd.norm(mean = 2, sd = 4)
+#' norm_dist(mean = 2, sd = 4)
 #' 
 #' # a simple normal distribution
-#' sjd.norm(norm = 1)
+#' norm_dist(norm = 1)
 #' 
 #' # a simple normal distribution
-#' sjd.norm(p = 0.2)
+#' norm_dist(p = 0.2)
 #' 
 #' @import ggplot2
 #' @export
-sjd.norm <- function(norm = NULL,
+norm_dist <- function(norm = NULL,
                      mean = 0,
                      sd = 1,
                      p = NULL,
@@ -130,7 +130,7 @@ sjd.norm <- function(norm = NULL,
 
 
 #' @title Plot chi-squared distributions
-#' @name sjd.chisq
+#' @name chisq_dist
 #' 
 #' @description This function plots a simple chi-squared distribution or a chi-squared distribution
 #'                with shaded areas that indicate at which chi-squared value a significant p-level 
@@ -162,7 +162,7 @@ sjd.norm <- function(norm = NULL,
 #' @examples
 #' # a simple chi-squared distribution
 #' # for 6 degrees of freedom
-#' sjd.chisq(deg.f = 6)
+#' chisq_dist(deg.f = 6)
 #' 
 #' # a chi-squared distribution for 6 degrees of freedom,
 #' # and a shaded area starting at chi-squared value of ten.
@@ -170,7 +170,7 @@ sjd.norm <- function(norm = NULL,
 #' # thus the shaded area from 10 to 12.58 is filled as "non-significant",
 #' # while the area starting from chi-squared value 12.59 is filled as
 #' # "significant"
-#' sjd.chisq(chi2 = 10, deg.f = 6)
+#' chisq_dist(chi2 = 10, deg.f = 6)
 #' 
 #' # a chi-squared distribution for 6 degrees of freedom,
 #' # and a shaded area starting at that chi-squared value, which has
@@ -179,11 +179,11 @@ sjd.norm <- function(norm = NULL,
 #' # thus the shaded area from 10 to 12.58 (p-level 0.125 to p-level 0.05) 
 #' # is filled as "non-significant", while the area starting from chi-squared 
 #' # value 12.59 (p-level < 0.05) is filled as "significant".
-#' sjd.chisq(p = 0.125, deg.f = 6)
+#' chisq_dist(p = 0.125, deg.f = 6)
 #' 
 #' @import ggplot2
 #' @export
-sjd.chisq <- function(chi2 = NULL,
+chisq_dist <- function(chi2 = NULL,
                       deg.f = NULL,
                       p = NULL,
                       xmax = NULL,
@@ -273,7 +273,7 @@ sjd.chisq <- function(chi2 = NULL,
 
 
 #' @title Plot F distributions
-#' @name sjd.f
+#' @name f_dist
 #' 
 #' @description This function plots a simple F distribution or an F distribution
 #'                with shaded areas that indicate at which F value a significant p-level 
@@ -306,21 +306,21 @@ sjd.chisq <- function(chi2 = NULL,
 #' 
 #' @examples
 #' # a simple F distribution for 6 and 45 degrees of freedom
-#' sjd.f(deg.f1 = 6, deg.f2 = 45)
+#' f_dist(deg.f1 = 6, deg.f2 = 45)
 #' 
 #' # F distribution for 6 and 45 degrees of freedom,
 #' # and a shaded area starting at F value of two.
 #' # F-values equal or greater than 2.31 are "significant"
-#' sjd.f(f = 2, deg.f1 = 6, deg.f2 = 45)
+#' f_dist(f = 2, deg.f1 = 6, deg.f2 = 45)
 #' 
 #' # F distribution for 6 and 45 degrees of freedom,
 #' # and a shaded area starting at a p-level of 0.2
 #' # (F-Value about 1.5).
-#' sjd.f(p = 0.2, deg.f1 = 6, deg.f2 = 45)
+#' f_dist(p = 0.2, deg.f1 = 6, deg.f2 = 45)
 #' 
 #' @import ggplot2
 #' @export
-sjd.f <- function(f = NULL,
+f_dist <- function(f = NULL,
                   deg.f1 = NULL,
                   deg.f2 = NULL,
                   p = NULL,
@@ -411,7 +411,7 @@ sjd.f <- function(f = NULL,
 
 
 #' @title Plot t-distributions
-#' @name sjd.t
+#' @name t_dist
 #' 
 #' @description This function plots a simple t-distribution or a t-distribution
 #'                with shaded areas that indicate at which t-value a significant p-level 
@@ -443,21 +443,21 @@ sjd.f <- function(f = NULL,
 #' @examples
 #' # a simple t-distribution
 #' # for 6 degrees of freedom
-#' sjd.t(deg.f = 6)
+#' t_dist(deg.f = 6)
 #' 
 #' # a t-distribution for 6 degrees of freedom,
 #' # and a shaded area starting at t-value of one.
 #' # With a df of 6, a t-value of 1.94 would be "significant".
-#' sjd.t(t = 1, deg.f = 6)
+#' t_dist(t = 1, deg.f = 6)
 #' 
 #' # a t-distribution for 6 degrees of freedom,
 #' # and a shaded area starting at p-level of 0.4
 #' # (t-value of about 0.26).
-#' sjd.t(p = 0.4, deg.f = 6)
+#' t_dist(p = 0.4, deg.f = 6)
 #' 
 #' @import ggplot2
 #' @export
-sjd.t <- function(t = NULL,
+t_dist <- function(t = NULL,
                   deg.f = NULL,
                   p = NULL,
                   xmax = NULL,

@@ -19,15 +19,15 @@
 #'          examples below. Default is \code{NULL}, i.e. not grouping is done.
 #' @param title Title of the diagram, plotted above the whole diagram panel.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link{sji.setVariableLabels}}) for details).
+#'          (see \code{\link{set_var_labels}}) for details).
 #' @param legendTitle Title of the diagram's legend.
 #' @param legendLabels Labels for the guide/legend.
 #' @param axisTitle.x A label (title) for the x axis.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link{sji.setVariableLabels}}) for details).
+#'          (see \code{\link{set_var_labels}}) for details).
 #' @param axisTitle.y A label (title) for the y axis.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link{sji.setVariableLabels}}) for details).
+#'          (see \code{\link{set_var_labels}}) for details).
 #' @param breakTitleAt Wordwrap for diagram title. Determines how many chars of the title are displayed in
 #'          one line and when a line break is inserted into the title.
 #' @param breakLegendTitleAt Wordwrap for diagram legend title. Determines how many chars of the legend's title 
@@ -90,19 +90,19 @@
 #' 
 #' # grouped and labelled scatter plot
 #' sjp.scatter(efc$c160age,efc$e17age, efc$e42dep, title="Scatter Plot",
-#'             legendTitle=sji.getVariableLabels(efc)['e42dep'],
-#'             legendLabels=sji.getValueLabels(efc)[['e42dep']],
-#'             axisTitle.x=sji.getVariableLabels(efc)['c160age'],
-#'             axisTitle.y=sji.getVariableLabels(efc)['e17age'],
-#'             showGroupFitLine=TRUE)
+#'             legendTitle = get_var_labels(efc)['e42dep'],
+#'             legendLabels = get_val_labels(efc)[['e42dep']],
+#'             axisTitle.x = get_var_labels(efc)['c160age'],
+#'             axisTitle.y = get_var_labels(efc)['e17age'],
+#'             showGroupFitLine = TRUE)
 #' 
 #' # grouped and labelled scatter plot as facets
 #' sjp.scatter(efc$c160age,efc$e17age, efc$e42dep, title="Scatter Plot",
-#'             legendTitle=sji.getVariableLabels(efc)['e42dep'],
-#'             legendLabels=sji.getValueLabels(efc)[['e42dep']],
-#'             axisTitle.x=sji.getVariableLabels(efc)['c160age'],
-#'             axisTitle.y=sji.getVariableLabels(efc)['e17age'],
-#'             showGroupFitLine=TRUE, facet.grid=TRUE, showSE=TRUE)
+#'             legendTitle = get_var_labels(efc)['e42dep'],
+#'             legendLabels = get_val_labels(efc)[['e42dep']],
+#'             axisTitle.x = get_var_labels(efc)['c160age'],
+#'             axisTitle.y = get_var_labels(efc)['e17age'],
+#'             showGroupFitLine = TRUE, facet.grid = TRUE, showSE = TRUE)
 #' 
 #' # plot residuals of fitted models
 #' fit <- lm(neg_c_7 ~ quol_5, data = efc)
@@ -111,7 +111,7 @@
 #' # -------------------------------
 #' # auto-detection of labels
 #' # -------------------------------
-#' efc <- sji.setVariableLabels(efc, sji.getVariableLabels(efc))
+#' efc <- set_var_labels(efc, get_var_labels(efc))
 #' sjp.scatter(efc$c160age,efc$e17age, efc$e42dep,
 #'             title="", axisTitle.x="", axisTitle.y="")
 #' 
@@ -231,26 +231,26 @@ sjp.scatter <- function(x=NULL,
     legendLabels <- c(sort(unique(df$grp)))
   }
   # wrap legend text lines
-  legendLabels <- sju.wordwrap(legendLabels, breakLegendLabelsAt)
+  legendLabels <- word_wrap(legendLabels, breakLegendLabelsAt)
   # check whether we have a title for the legend
   if (!is.null(legendTitle)) {
     # if yes, wrap legend title line
-    legendTitle <- sju.wordwrap(legendTitle, breakLegendTitleAt)
+    legendTitle <- word_wrap(legendTitle, breakLegendTitleAt)
   }
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
   if (!is.null(title)) {
-    title <- sju.wordwrap(title, breakTitleAt)
+    title <- word_wrap(title, breakTitleAt)
   }
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
   if (!is.null(axisTitle.x)) {
-    axisTitle.x <- sju.wordwrap(axisTitle.x, breakTitleAt)
+    axisTitle.x <- word_wrap(axisTitle.x, breakTitleAt)
   }
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
   if (!is.null(axisTitle.y)) {
-    axisTitle.y <- sju.wordwrap(axisTitle.y, breakTitleAt)
+    axisTitle.y <- word_wrap(axisTitle.y, breakTitleAt)
   }
   # --------------------------------------------------------
   # Plot scatter plot

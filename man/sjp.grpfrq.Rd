@@ -73,15 +73,15 @@ bar charts. Ideal for larger amount of groups. This parameter wraps a single pan
 
 \item{title}{Title of the diagram, plotted above the whole diagram panel.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link{sji.setVariableLabels}}) for details).}
+(see \code{\link{set_var_labels}}) for details).}
 
 \item{legendTitle}{Title of the diagram's legend.}
 
 \item{axisLabels.x}{Labels for the x-axis breaks. Passed as vector of strings. \emph{Note:} This parameter
-is not necessary when data was either imported with \code{\link{sji.SPSS}} or has named factor levels
+is not necessary when data was either imported with \code{\link{read_spss}} or has named factor levels
 (see examples below). Else, specifiy parameter like this:
 \code{axisLabels.x=c("Label1", "Label2", "Label3")}.
-Note: If you use the \code{\link{sji.SPSS}} function and the \code{\link{sji.getValueLabels}} function, you receive a
+Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_val_labels}} function, you receive a
 list object with label string. The labels may also be passed as list object. They will be unlisted and
 converted to character vector automatically.}
 
@@ -178,19 +178,19 @@ Default value is \code{FALSE}.}
 are assigned to the x axis. By default, \code{""} is used, i.e. no title
 is printed.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link{sji.setVariableLabels}}) for details).}
+(see \code{\link{set_var_labels}}) for details).}
 
 \item{axisTitle.y}{A label for the y axis. Useful when plotting histograms with metric scales where no category labels
 are assigned to the y axis. By default, \code{""} is used, i.e. no title
 is printed.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link{sji.setVariableLabels}}) for details).}
+(see \code{\link{set_var_labels}}) for details).}
 
 \item{autoGroupAt}{A value indicating at which length of unique values of \code{varCount} the variable
-is automatically grouped into smaller units (see \code{\link{sju.groupVar}}). If \code{varCount} has large
+is automatically grouped into smaller units (see \code{\link{group_var}}). If \code{varCount} has large
 numbers of unique values, too many bars for the graph have to be plotted. Hence it's recommended
 to group such variables. For example, if \code{autoGroupAt} is 50, i.e. if \code{varCount} has 50 and more unique values
-it will be grouped using \code{\link{sju.groupVar}} with \code{groupsize="auto"} parameter. By default,
+it will be grouped using \code{\link{group_var}} with \code{groupsize="auto"} parameter. By default,
 the maximum group count is 30. However, if \code{autoGroupAt} is less than 30, \code{autoGroupAt}
 groups are built. Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.}
 
@@ -223,8 +223,8 @@ Plot grouped or stacked frequencies of variables
 \examples{
 # histrogram with EUROFAMCARE sample dataset
 data(efc)
-efc.val <- sji.getValueLabels(efc)
-efc.var <- sji.getVariableLabels(efc)
+efc.val <- get_val_labels(efc)
+efc.var <- get_var_labels(efc)
 sjp.grpfrq(efc$e17age,
            efc$e16sex,
            title = efc.var['e17age'],
@@ -241,8 +241,8 @@ sjp.grpfrq(efc$e17age,
 # -------------------------------------------------
 # auto-detection of value labels and variable names
 # -------------------------------------------------
-efc.var <- sji.getVariableLabels(efc)
-efc <- sji.setVariableLabels(efc, efc.var)
+efc.var <- get_var_labels(efc)
+efc <- set_var_labels(efc, efc.var)
 # grouped bars using necessary y-limit
 sjp.grpfrq(efc$e42dep,
            efc$e16sex,

@@ -34,12 +34,12 @@ shown. Only applies if parameter \code{type} is \code{"bars"}. Default value is 
 \item{title}{Diagram's title as string.
 Example: \code{title=c("my title")}
 Use \code{"NULL"} to automatically detect variable names that will be used as title
-(see \code{\link{sji.setVariableLabels}}) for details). Use \code{title=""} for a blank title.}
+(see \code{\link{set_var_labels}}) for details). Use \code{title=""} for a blank title.}
 
 \item{axisLabels.y}{Value labels of the grouping variable \code{grpVar} that are used for labelling the
 grouping variable axis. Passed as vector of strings.
 Example: \code{axisLabels.y=c("Label1", "Label2", "Label3")}. \cr
-Note: If you use the \code{\link{sji.SPSS}} function and the \code{\link{sji.getValueLabels}} function, you receive a
+Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_val_labels}} function, you receive a
 list object with label string. The labels may also be passed as list object. They will be unlisted and
 converted to character vector automatically. See examples below. \cr
 Note: In case \code{type} is \code{"bars"}, the \code{grpVar} will be plotted along
@@ -56,7 +56,7 @@ or not. Default is \code{TRUE}.}
 
 \item{axisTitle.x}{A label for the x axis. Default is \code{""}, which means no x-axis title.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link{sji.setVariableLabels}}) for details).}
+(see \code{\link{set_var_labels}}) for details).}
 
 \item{axisLimits}{Defines the range of the axis where the beta coefficients and their confidence intervalls
 are drawn. By default, the limits range from the lowest confidence interval to the highest one, so
@@ -123,8 +123,8 @@ sjp.aov1(efc$c12hour, efc$e42dep)
 
 
 data(efc)
-efc.val <- sji.getValueLabels(efc)
-efc.var <- sji.getVariableLabels(efc)
+efc.val <- get_val_labels(efc)
+efc.var <- get_var_labels(efc)
 sjp.aov1(efc$c12hour,
          as.factor(efc$e42dep),
          axisLabels.y = efc.val['e42dep'],
@@ -133,7 +133,7 @@ sjp.aov1(efc$c12hour,
 # -------------------------------------------------
 # auto-detection of value labels and variable names
 # -------------------------------------------------
-efc <- sji.setVariableLabels(efc, efc.var)
+efc <- set_var_labels(efc, efc.var)
 sjp.aov1(efc$c12hour,
          efc$e42dep)
 
@@ -150,7 +150,7 @@ sjp.aov1(efc$c12hour,
 }
 \seealso{
 \itemize{
-           \item \code{\link{sjs.aov1.levene}}
+           \item \code{\link{leve_test}}
            \item \code{\link{sjt.grpmean}}
          }
 }

@@ -67,7 +67,7 @@ Example: \code{title=c("my title")}}
 
 \item{axisLabels.x}{Labels for the x-axis breaks.
 Example: \code{axisLabels.x=c("Label1", "Label2", "Label3")}.
-Note: If you use the \code{\link{sji.SPSS}} function and the \code{\link{sji.getValueLabels}} function, you receive a
+Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_val_labels}} function, you receive a
 list object with label string. The labels may also be passed as list object. They will be unlisted and
 converted to character vector automatically.}
 

@@ -29,7 +29,7 @@ the \code{y} variable.}
 
 \item{title}{Title of the diagram, plotted above the whole diagram panel.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link{sji.setVariableLabels}}) for details).}
+(see \code{\link{set_var_labels}}) for details).}
 
 \item{legendTitle}{Title of the diagram's legend.}
 
@@ -139,7 +139,7 @@ the legend is shown.}
 \item{axisTitle.x}{A label for the x axis. useful when plotting histograms with metric scales where no category labels
 are assigned to the x axis.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link{sji.setVariableLabels}}) for details).}
+(see \code{\link{set_var_labels}}) for details).}
 
 \item{axisTitle.y}{A label for the y axis. useful when plotting histograms with metric scales where no category labels
 are assigned to the y axis.}
@@ -190,10 +190,10 @@ sjp.xtab(efc$e42dep,
 
 # grouped bars with EUROFAMCARE sample dataset
 # dataset was importet from an SPSS-file, using:
-# efc <- sji.SPSS("efc.sav", enc="UTF-8")
+# efc <- read_spss("efc.sav", enc="UTF-8")
 data(efc)
-efc.val <- sji.getValueLabels(efc)
-efc.var <- sji.getVariableLabels(efc)
+efc.val <- get_val_labels(efc)
+efc.var <- get_var_labels(efc)
 
 sjp.xtab(efc$e42dep,
          efc$e16sex,
@@ -223,7 +223,7 @@ sjp.xtab(efc$e16sex,
 # -------------------------------
 # auto-detection of labels
 # -------------------------------
-efc <- sji.setVariableLabels(efc, efc.var)
+efc <- set_var_labels(efc, efc.var)
 sjp.xtab(efc$e16sex, efc$e42dep)
 }
 \seealso{

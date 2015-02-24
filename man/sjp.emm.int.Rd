@@ -106,7 +106,7 @@ df$education <- factor(df$education)
 # name factor levels and dependent variable
 levels(df$sex) <- c("female", "male")
 levels(df$education) <- c("low", "mid", "high")
-df$burden <- sji.setVariableLabels(df$burden, "care burden")
+df$burden <- set_var_labels(df$burden, "care burden")
 # fit "dummy" model
 fit <- lm(burden ~ .*., data=df, na.action=na.omit)
 summary(fit)

@@ -146,7 +146,7 @@ library(lme4)
 data(efc)
 # prepare group variable
 efc$grp = as.factor(efc$e15relat)
-levels(x = efc$grp) <- sji.getValueLabels(efc$e15relat)
+levels(x = efc$grp) <- get_val_labels(efc$e15relat)
 # data frame for fitted model
 mydf <- na.omit(data.frame(neg_c_7 = as.numeric(efc$neg_c_7),
                            sex = as.factor(efc$c161sex),

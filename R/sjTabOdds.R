@@ -207,7 +207,7 @@
 #' # load efc sample data
 #' data(efc)
 #' # dichtomozize service usage by "service usage yes/no"
-#' efc$services <- sju.dicho(efc$tot_sc_e, "v", 0, asNum = TRUE)
+#' efc$services <- dicho(efc$tot_sc_e, "v", 0, asNum = TRUE)
 #' # fit 3 models with different link-functions
 #' fit1 <- glm(services ~ neg_c_7 + c161sex + e42dep, data=efc, family=binomial(link="logit"))
 #' fit2 <- glm(services ~ neg_c_7 + c161sex + e42dep, data=efc, family=binomial(link="probit"))

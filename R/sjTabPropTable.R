@@ -6,7 +6,7 @@
 #' @seealso \itemize{
 #'            \item \href{http://www.strengejacke.de/sjPlot/sjt.xtab}{sjPlot manual: sjt.xtab}
 #'            \item \code{\link{sjp.xtab}}
-#'            \item \code{\link{sjs.table.values}}
+#'            \item \code{\link{table_values}}
 #'          }
 #'              
 #' @param var.row Variable that should be displayed in the table rows.
@@ -25,7 +25,7 @@
 #'          name of \code{var.col}, and - if \code{var.grp} is not \code{NULL} - name of \code{var.grp}.
 #'          See examples for more details.
 #'          variableLabels are detected automatically, if \code{var.row} or \code{var.col}
-#'          have a \code{"variable.label"} attribute (see \code{\link{sji.setVariableLabels}}) for details).
+#'          have a \code{"variable.label"} attribute (see \code{\link{set_var_labels}}) for details).
 #' @param valueLabels A list of character vectors that indicate the value labels of the supplied
 #'          variables. Following order is needed: value labels of \code{var.row},
 #'          value labels  of \code{var.col}, and - if \code{var.grp} is not \code{NULL} - 
@@ -109,7 +109,7 @@
 #'         default behaviour (i.e. \code{file=NULL}). \cr \cr
 #'         Since package version 1.3, the parameter \code{valueLabels}, which represent the 
 #'         value labels, is retrieved automatically if a) the variables \code{var.col} and \code{var.row} come from a data frame
-#'         that was imported with the \code{\link{sji.SPSS}} function (because then value labels are
+#'         that was imported with the \code{\link{read_spss}} function (because then value labels are
 #'         attached as attributes to the data) or b) when the variables are factors with named factor levels
 #'         (e.g., see column \code{group} in dataset \code{\link{PlantGrowth}}). However, you still
 #'         can use own parameters variable labels.
@@ -117,7 +117,7 @@
 #' @examples 
 #' # prepare sample data set
 #' data(efc)
-#' efc.labels <- sji.getValueLabels(efc)
+#' efc.labels <- get_val_labels(efc)
 #' 
 #' # print simple cross table w/o labels
 #' \dontrun{
@@ -143,7 +143,7 @@
 #' # -------------------------------
 #' # auto-detection of labels
 #' # -------------------------------
-#' efc <- sji.setVariableLabels(efc, sji.getVariableLabels(efc))
+#' efc <- set_var_labels(efc, get_var_labels(efc))
 #' # print cross table with labels and all percentages
 #' sjt.xtab(efc$e16sex, efc$e42dep,
 #'          showRowPerc = TRUE, showColPerc = TRUE)
@@ -281,9 +281,9 @@ sjt.xtab <- function (var.row,
     s.var.grp <- "var.grp"
   }
   # check length of variable labels and split longer strings at into new lines
-  if (!is.null(s.var.row)) s.var.row <- sju.wordwrap(s.var.row, breakVariableLabelsAt, "<br>")
-  if (!is.null(s.var.col)) s.var.col <- sju.wordwrap(s.var.col, breakVariableLabelsAt, "<br>")
-  if (!is.null(s.var.grp)) s.var.grp <- sju.wordwrap(s.var.grp, breakVariableLabelsAt, "<br>")
+  if (!is.null(s.var.row)) s.var.row <- word_wrap(s.var.row, breakVariableLabelsAt, "<br>")
+  if (!is.null(s.var.col)) s.var.col <- word_wrap(s.var.col, breakVariableLabelsAt, "<br>")
+  if (!is.null(s.var.grp)) s.var.grp <- word_wrap(s.var.grp, breakVariableLabelsAt, "<br>")
   # -------------------------------------
   # compute xtab
   # -------------------------------------
@@ -370,7 +370,7 @@ sjt.xtab <- function (var.row,
   # -------------------------------------
   # compute table percentages
   # -------------------------------------
-  tab.values <- sjs.table.values(tab, digits)
+  tab.values <- table_values(tab, digits)
   tab.cell <- tab.values$cell
   tab.row <- tab.values$row
   tab.col <- tab.values$col
@@ -422,9 +422,9 @@ sjt.xtab <- function (var.row,
     if (!is.null(labels.var.grp)) labels.var.grp <- c(labels.var.grp, labelNA)
   }
   # check length of variable labels and split longer strings at into new lines
-  if (!is.null(labels.var.row)) labels.var.row <- sju.wordwrap(labels.var.row, breakValueLabelsAt, "<br>")
-  if (!is.null(labels.var.col)) labels.var.col <- sju.wordwrap(labels.var.col, breakValueLabelsAt, "<br>")
-  if (!is.null(labels.var.grp)) labels.var.grp <- sju.wordwrap(labels.var.grp, breakValueLabelsAt, "<br>")
+  if (!is.null(labels.var.row)) labels.var.row <- word_wrap(labels.var.row, breakValueLabelsAt, "<br>")
+  if (!is.null(labels.var.col)) labels.var.col <- word_wrap(labels.var.col, breakValueLabelsAt, "<br>")
+  if (!is.null(labels.var.grp)) labels.var.grp <- word_wrap(labels.var.grp, breakValueLabelsAt, "<br>")
   # -------------------------------------
   # table init
   # -------------------------------------
@@ -740,12 +740,12 @@ sjt.xtab <- function (var.row,
     # than two categories. if they have more, use Cramer's V to calculate
     # the contingency coefficient
     if (nrow(tab)>2 || ncol(tab)>2) {
-      kook <- sprintf("&Phi;<sub>c</sub>=%.3f", sjs.cramer(tab))
+      kook <- sprintf("&Phi;<sub>c</sub>=%.3f", cramer(tab))
       # if minimum expected values below 5, compute fisher's exact test
       if(min(tab.expected)<5 || (min(tab.expected)<10 && chsq$parameter==1)) fish <- fisher.test(tab, simulate.p.value=TRUE)
     }
     else {
-      kook <- sprintf("&Phi;=%.3f", sjs.phi(tab))
+      kook <- sprintf("&Phi;=%.3f", phi(tab))
       # if minimum expected values below 5 and df=1, compute fisher's exact test
       if(min(tab.expected)<5 || (min(tab.expected)<10 && chsq$parameter==1)) fish <- fisher.test(tab)
     }

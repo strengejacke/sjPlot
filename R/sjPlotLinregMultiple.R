@@ -28,7 +28,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("beta", "lower", "upper",
 #' @param axisLabels.y Labels of the predictor variables (independent vars, betas) that are used for labelling the
 #'          axis. Passed as vector of strings.
 #'          Example: \code{axisLabels.y=c("Label1", "Label2", "Label3")}
-#'          Note: If you use the \code{\link{sji.SPSS}} function and the \code{\link{sji.getValueLabels}} function, you receive a
+#'          Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_val_labels}} function, you receive a
 #'          \code{list} object with label strings. The labels may also be passed as list object. They will be unlisted and
 #'          converted to character vector automatically.
 #' @param showAxisLabels.y Whether beta names (predictor labels) should be shown or not.
@@ -163,16 +163,16 @@ sjp.lmm <- function(...,
   # ----------------------------
   # check length of diagram title and split longer string at into new lines
   if (!is.null(title)) {
-    title <- sju.wordwrap(title, breakTitleAt)
+    title <- word_wrap(title, breakTitleAt)
   }
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
   if (!is.null(axisTitle.x)) {
-    axisTitle.x <- sju.wordwrap(axisTitle.x, breakTitleAt)
+    axisTitle.x <- word_wrap(axisTitle.x, breakTitleAt)
   }
   # check length of dependent variables
   if (!is.null(labelDependentVariables)) {
-    labelDependentVariables <- sju.wordwrap(labelDependentVariables, breakLegendAt)
+    labelDependentVariables <- word_wrap(labelDependentVariables, breakLegendAt)
   }
   else {
     # else if we have no labels of dependent variables supplied, use a 
@@ -181,7 +181,7 @@ sjp.lmm <- function(...,
   }
   # check length of x-axis-labels and split longer strings at into new lines
   if (!is.null(axisLabels.y)) {
-    axisLabels.y <- sju.wordwrap(axisLabels.y, breakLabelsAt)
+    axisLabels.y <- word_wrap(axisLabels.y, breakLabelsAt)
   }
   # ----------------------------
   # iterate all fitted models

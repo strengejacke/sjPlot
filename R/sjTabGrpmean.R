@@ -10,7 +10,7 @@
 #' @param varGrp a (numeric) vector with group indices, used to select sub-groups from \code{varCount}.
 #' @param rowLabels a character vector of same length as \code{varGrp} unqiue values. In short: the
 #'          value labels of \code{varGrp}. Used to name table rows. By default, row labels
-#'          are automatically detected if set by \code{sji.setValueLabels}.
+#'          are automatically detected if set by \code{set_val_labels}.
 #' @param digits amount of digits for table values.
 #' @param digits.summary amount of digits for summary statistics (Anova).
 #' @param file The destination file, which will be in html-format. If no filepath is specified,
@@ -121,7 +121,7 @@ sjt.grpmean <- function(varCount,
                 cbind(mean = sprintf("%.*f", digits, mean(varCount[varGrp == indices[i]], na.rm = TRUE)),
                       N = length(na.omit(varCount[varGrp == indices[i]])),
                       sd = sprintf("%.*f", digits, sd(varCount[varGrp == indices[i]], na.rm = TRUE)),
-                      se = sprintf("%.*f", digits, sjs.se(varCount[varGrp == indices[i]])),
+                      se = sprintf("%.*f", digits, std_e(varCount[varGrp == indices[i]])),
                       p = pval[i]))
   }
   # --------------------------------------
@@ -131,7 +131,7 @@ sjt.grpmean <- function(varCount,
               cbind(mean = sprintf("%.*f", digits, mean(varCount, na.rm = TRUE)),
                     N = length(na.omit(varCount)),
                     sd = sprintf("%.*f", digits, sd(varCount, na.rm = TRUE)),
-                    se = sprintf("%.*f", digits, sjs.se(varCount)),
+                    se = sprintf("%.*f", digits, std_e(varCount)),
                     p = ""))
   # --------------------------------------
   # fix row labels, if empty or NULL

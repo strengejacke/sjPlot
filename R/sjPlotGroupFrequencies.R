@@ -48,13 +48,13 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ypos", "wb", "ia", "mw",
 #'          \code{varGroup} amount of panels, i.e. each group is represented within a new panel.
 #' @param title Title of the diagram, plotted above the whole diagram panel.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link{sji.setVariableLabels}}) for details).
+#'          (see \code{\link{set_var_labels}}) for details).
 #' @param legendTitle Title of the diagram's legend.
 #' @param axisLabels.x Labels for the x-axis breaks. Passed as vector of strings. \emph{Note:} This parameter
-#'          is not necessary when data was either imported with \code{\link{sji.SPSS}} or has named factor levels 
+#'          is not necessary when data was either imported with \code{\link{read_spss}} or has named factor levels 
 #'          (see examples below). Else, specifiy parameter like this:
 #'          \code{axisLabels.x=c("Label1", "Label2", "Label3")}.
-#'          Note: If you use the \code{\link{sji.SPSS}} function and the \code{\link{sji.getValueLabels}} function, you receive a
+#'          Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_val_labels}} function, you receive a
 #'          list object with label string. The labels may also be passed as list object. They will be unlisted and
 #'          converted to character vector automatically.
 #' @param interactionVarLabels Labels for the x-axis breaks when having interaction variables included.
@@ -125,17 +125,17 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ypos", "wb", "ia", "mw",
 #'          are assigned to the x axis. By default, \code{""} is used, i.e. no title
 #'          is printed.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link{sji.setVariableLabels}}) for details).
+#'          (see \code{\link{set_var_labels}}) for details).
 #' @param axisTitle.y A label for the y axis. Useful when plotting histograms with metric scales where no category labels
 #'          are assigned to the y axis. By default, \code{""} is used, i.e. no title
 #'          is printed.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link{sji.setVariableLabels}}) for details).
+#'          (see \code{\link{set_var_labels}}) for details).
 #' @param autoGroupAt A value indicating at which length of unique values of \code{varCount} the variable
-#'          is automatically grouped into smaller units (see \code{\link{sju.groupVar}}). If \code{varCount} has large 
+#'          is automatically grouped into smaller units (see \code{\link{group_var}}). If \code{varCount} has large 
 #'          numbers of unique values, too many bars for the graph have to be plotted. Hence it's recommended 
 #'          to group such variables. For example, if \code{autoGroupAt} is 50, i.e. if \code{varCount} has 50 and more unique values 
-#'          it will be grouped using \code{\link{sju.groupVar}} with \code{groupsize="auto"} parameter. By default, 
+#'          it will be grouped using \code{\link{group_var}} with \code{groupsize="auto"} parameter. By default, 
 #'          the maximum group count is 30. However, if \code{autoGroupAt} is less than 30, \code{autoGroupAt} 
 #'          groups are built. Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.
 #' @param startAxisAt Determines the first value on the x-axis. By default, this value is set
@@ -156,8 +156,8 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ypos", "wb", "ia", "mw",
 #' @examples
 #' # histrogram with EUROFAMCARE sample dataset
 #' data(efc)
-#' efc.val <- sji.getValueLabels(efc)
-#' efc.var <- sji.getVariableLabels(efc)
+#' efc.val <- get_val_labels(efc)
+#' efc.var <- get_var_labels(efc)
 #' sjp.grpfrq(efc$e17age,
 #'            efc$e16sex,
 #'            title = efc.var['e17age'],
@@ -174,8 +174,8 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ypos", "wb", "ia", "mw",
 #' # -------------------------------------------------
 #' # auto-detection of value labels and variable names
 #' # -------------------------------------------------
-#' efc.var <- sji.getVariableLabels(efc)
-#' efc <- sji.setVariableLabels(efc, efc.var)
+#' efc.var <- get_var_labels(efc)
+#' efc <- set_var_labels(efc, efc.var)
 #' # grouped bars using necessary y-limit            
 #' sjp.grpfrq(efc$e42dep, 
 #'            efc$e16sex, 
@@ -207,7 +207,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ypos", "wb", "ia", "mw",
 #'            showValueLabels = FALSE)
 #' 
 #' @import ggplot2
-#' @importFrom plyr ddply
+#' @import dplyr
 #' @importFrom MASS loglm
 #' @export
 sjp.grpfrq <- function(varCount,
@@ -327,11 +327,19 @@ sjp.grpfrq <- function(varCount,
   #---------------------------------------------------
   # check whether variable should be auto-grouped
   #---------------------------------------------------
-  if (!is.null(autoGroupAt) && length(unique(varCount))>=autoGroupAt) {
+  if (!is.null(autoGroupAt) && length(unique(varCount)) >= autoGroupAt) {
     message(sprintf("Variable has %i unique values and was grouped...", length(unique(varCount))))
-    agcnt <- ifelse (autoGroupAt<30, autoGroupAt, 30)
-    axisLabels.x <- sju.groupVarLabels(varCount, groupsize="auto", autoGroupCount=agcnt)
-    varCount <- sju.groupVar(varCount, groupsize="auto", asNumeric=TRUE, autoGroupCount=agcnt)
+    # check for default auto-group-size or user-defined groups
+    agcnt <- ifelse (autoGroupAt < 30, autoGroupAt, 30)
+    # group axis labels
+    axisLabels.x <- group_labels(varCount, 
+                                 groupsize = "auto", 
+                                 autoGroupCount = agcnt)
+    # group variable
+    varCount <- group_var(varCount, 
+                          groupsize = "auto", 
+                          asNumeric = TRUE, 
+                          autoGroupCount = agcnt)
   }
   # --------------------------------------------------------
   # unlist labels
@@ -521,7 +529,8 @@ sjp.grpfrq <- function(varCount,
   # convert prz to numeric
   mydat$texty <- as.numeric(as.character(mydat$prz))
   # add half of Percentage values as new y-position for stacked bars
-  mydat <- ddply(mydat, "count", transform, ypos = cumsum(frq) - 0.5*frq)
+  # mydat <- ddply(mydat, "count", transform, ypos = cumsum(frq) - 0.5*frq)
+  mydat <- mydat %>% dplyr::group_by(count) %>% dplyr::mutate(ypos = cumsum(frq) - 0.5*frq) %>% dplyr::arrange(count)
   # --------------------------------------------------------
   # If we have boxplots, use different data frame structure
   # --------------------------------------------------------
@@ -628,11 +637,11 @@ sjp.grpfrq <- function(varCount,
     legendLabels <- c(dfgrp$Var1)
   }
   # wrap legend text lines
-  legendLabels <- sju.wordwrap(legendLabels, breakLegendLabelsAt)
+  legendLabels <- word_wrap(legendLabels, breakLegendLabelsAt)
   # check whether we have a title for the legend
   if (!is.null(legendTitle)) {
     # if yes, wrap legend title line
-    legendTitle <- sju.wordwrap(legendTitle, breakLegendTitleAt)
+    legendTitle <- word_wrap(legendTitle, breakLegendTitleAt)
   }
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
@@ -641,22 +650,22 @@ sjp.grpfrq <- function(varCount,
     if (!is.null(weightByTitleString)) {
       title <- paste(title, weightByTitleString, sep="")
     }
-    title <- sju.wordwrap(title, breakTitleAt)
+    title <- word_wrap(title, breakTitleAt)
   }
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
   if (!is.null(axisTitle.x)) {
-    axisTitle.x <- sju.wordwrap(axisTitle.x, breakTitleAt)
+    axisTitle.x <- word_wrap(axisTitle.x, breakTitleAt)
   }
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
   if (!is.null(axisTitle.y)) {
-    axisTitle.y <- sju.wordwrap(axisTitle.y, breakTitleAt)
+    axisTitle.y <- word_wrap(axisTitle.y, breakTitleAt)
   }
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
   if (!is.null(axisLabels.x)) {
-    axisLabels.x <- sju.wordwrap(axisLabels.x, breakLabelsAt)
+    axisLabels.x <- word_wrap(axisLabels.x, breakLabelsAt)
   }
   # If axisLabels.x were not defined, simply set numbers from 1 to
   # amount of categories (=number of rows) in dataframe instead
@@ -667,7 +676,7 @@ sjp.grpfrq <- function(varCount,
   # longer strings into new lines
   if (!is.null(interactionVar)) {
     if (!is.null(interactionVarLabels)) {
-      interactionVarLabels <- sju.wordwrap(interactionVarLabels, breakLabelsAt)
+      interactionVarLabels <- word_wrap(interactionVarLabels, breakLabelsAt)
     }
     # If interaction-variable-labels were not defined, simply set numbers from 1 to
     # amount of categories instead
@@ -694,7 +703,7 @@ sjp.grpfrq <- function(varCount,
         gc <- table(varGroup, interactionVar, useNA=nas)
       }
       else {
-        gc <- table(sju.weight2(varGroup, weightBy), interactionVar, useNA=nas)
+        gc <- table(weight2(varGroup, weightBy), interactionVar, useNA=nas)
       }
       # determinte loop-steps
       lst <- length(interactionVarLabels)

@@ -127,7 +127,7 @@ Thanks to Robert Reijntjes from Leiden University Medical Center for sharing
 \dontrun{
 library(lme4)
 # create binary response
-sleepstudy$Reaction.dicho <- sju.dicho(sleepstudy$Reaction, dichBy = "md")
+sleepstudy$Reaction.dicho <- dicho(sleepstudy$Reaction, dichBy = "md")
 # fit model
 fit <- glmer(Reaction.dicho ~ Days + (Days | Subject),
              sleepstudy,
@@ -147,10 +147,10 @@ sjp.glmer(fit,
 library(lme4)
 data(efc)
 # create binary response
-efc$hi_qol <- sju.dicho(efc$quol_5)
+efc$hi_qol <- dicho(efc$quol_5)
 # prepare group variable
 efc$grp = as.factor(efc$e15relat)
-levels(x = efc$grp) <- sji.getValueLabels(efc$e15relat)
+levels(x = efc$grp) <- get_val_labels(efc$e15relat)
 # data frame for fitted model
 mydf <- na.omit(data.frame(hi_qol = as.factor(efc$hi_qol),
                            sex = as.factor(efc$c161sex),

@@ -9,7 +9,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lo
 #'              \item \href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm}
 #'              \item \code{\link{sjp.int}}
 #'              \item \code{\link{sjp.scatter}}
-#'              \item  \code{\link{sjs.stdb}}
+#'              \item  \code{\link{std_beta}}
 #'             }
 #' 
 #' @description Depending on the \code{type}, this function plots beta coefficients (estimates) 
@@ -39,13 +39,13 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lo
 #' @param axisLabels.x Labels of the predictor (independent variable) that is used for labelling the
 #'          axis. Passed as string. Not used if fitted model has more than one predictor and \code{type = "lm"}.
 #'          Example: \code{axisLabel.x=c("My Predictor Var")}.
-#'          Note: If you use the \code{\link{sji.SPSS}} function and the \code{\link{sji.getVariableLabels}} function, you receive a
+#'          Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_var_labels}} function, you receive a
 #'          character vector with variable label strings. You can use it like so:
-#'          \code{axisLabel.x=sji.getVariableLabels(efc)['quol_5']}
+#'          \code{axisLabel.x = get_var_labels(efc)['quol_5']}
 #' @param axisLabels.y Labels of the predictor variables (independent vars) that are used for labelling the
 #'          axis. Passed as vector of strings.
 #'          Example: \code{axisLabels.y=c("Label1", "Label2", "Label3")}.
-#'          Note: If you use the \code{\link{sji.SPSS}} function and the \code{\link{sji.getValueLabels}} function, you receive a
+#'          Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_val_labels}} function, you receive a
 #'          list object with label string. The labels may also be passed as list object. They will be unlisted and
 #'          converted to character vector automatically.
 #' @param showAxisLabels.y Whether x axis text (category names, predictor labels) should be shown (use \code{TRUE})
@@ -295,17 +295,17 @@ sjp.lm <- function(fit,
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
   if (!is.null(title)) {
-    title <- sju.wordwrap(title, breakTitleAt)
+    title <- word_wrap(title, breakTitleAt)
   }
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
   if (!is.null(axisTitle.x)) {
-    axisTitle.x <- sju.wordwrap(axisTitle.x, breakTitleAt)
+    axisTitle.x <- word_wrap(axisTitle.x, breakTitleAt)
   }
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
   if (!is.null(axisLabels.y)) {
-    axisLabels.y <- sju.wordwrap(axisLabels.y, breakLabelsAt)
+    axisLabels.y <- word_wrap(axisLabels.y, breakLabelsAt)
   }
   # ----------------------------
   # create expression with model summarys. used
@@ -330,7 +330,7 @@ sjp.lm <- function(fit,
   # retrieve betas, leave out intercept ([-1])
   bv <- coef(fit)[-1]
   # retrieve standardized betas
-  stdbv <- sjs.stdb(fit, include.ci = TRUE)
+  stdbv <- std_beta(fit, include.ci = TRUE)
   # init data column for p-values
   ps <- sprintf("%.*f", labelDigits, bv)
   pstdbv <- sprintf("%.*f", labelDigits, stdbv$beta)
@@ -548,7 +548,7 @@ sjp.reglin <- function(fit,
   # every 50 chars
   # -----------------------------------------------------------
   if (!is.null(title)) {
-    title <- sju.wordwrap(title, breakTitleAt)
+    title <- word_wrap(title, breakTitleAt)
   }
   # -----------------------------------------------------------
   # iterate all predictors
@@ -811,7 +811,7 @@ sjp.lm1 <- function(fit,
   # every 50 chars
   # -----------------------------------------------------------
   if (!is.null(title)) {
-    title <- sju.wordwrap(title, breakTitleAt)    
+    title <- word_wrap(title, breakTitleAt)    
   }
   # -----------------------------------------------------------
   # remember length of predictor variables
@@ -867,8 +867,8 @@ sjp.lm1 <- function(fit,
   }
   # check length of axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
-  axisLabel.x <- sju.wordwrap(axisLabel.x, breakLabelsAt)    
-  axisLabel.y <- sju.wordwrap(axisLabel.y, breakLabelsAt)    
+  axisLabel.x <- word_wrap(axisLabel.x, breakLabelsAt)    
+  axisLabel.y <- word_wrap(axisLabel.y, breakLabelsAt)    
   # -----------------------------------------------------------
   # plot regression line and confidence intervall
   # -----------------------------------------------------------

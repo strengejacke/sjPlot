@@ -11,7 +11,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("pv"))
 #'                the model summary.
 #'                
 #' @seealso \itemize{
-#'            \item \code{\link{sjs.aov1.levene}}
+#'            \item \code{\link{leve_test}}
 #'            \item \code{\link{sjt.grpmean}}
 #'          }
 #'                
@@ -29,11 +29,11 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("pv"))
 #' @param title Diagram's title as string.
 #'          Example: \code{title=c("my title")}
 #'          Use \code{"NULL"} to automatically detect variable names that will be used as title
-#'          (see \code{\link{sji.setVariableLabels}}) for details). Use \code{title=""} for a blank title.
+#'          (see \code{\link{set_var_labels}}) for details). Use \code{title=""} for a blank title.
 #' @param axisLabels.y Value labels of the grouping variable \code{grpVar} that are used for labelling the
 #'          grouping variable axis. Passed as vector of strings.
 #'          Example: \code{axisLabels.y=c("Label1", "Label2", "Label3")}. \cr
-#'          Note: If you use the \code{\link{sji.SPSS}} function and the \code{\link{sji.getValueLabels}} function, you receive a
+#'          Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_val_labels}} function, you receive a
 #'          list object with label string. The labels may also be passed as list object. They will be unlisted and
 #'          converted to character vector automatically. See examples below. \cr
 #'          Note: In case \code{type} is \code{"bars"}, the \code{grpVar} will be plotted along
@@ -46,7 +46,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("pv"))
 #'          or not. Default is \code{TRUE}.
 #' @param axisTitle.x A label for the x axis. Default is \code{""}, which means no x-axis title.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link{sji.setVariableLabels}}) for details).
+#'          (see \code{\link{set_var_labels}}) for details).
 #' @param axisLimits Defines the range of the axis where the beta coefficients and their confidence intervalls
 #'          are drawn. By default, the limits range from the lowest confidence interval to the highest one, so
 #'          the diagram has maximum zoom. Use your own values as 2-value-vector, for instance: \code{limits=c(-0.8,0.8)}.
@@ -92,8 +92,8 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("pv"))
 #' 
 #' 
 #' data(efc)
-#' efc.val <- sji.getValueLabels(efc)
-#' efc.var <- sji.getVariableLabels(efc)
+#' efc.val <- get_val_labels(efc)
+#' efc.var <- get_var_labels(efc)
 #' sjp.aov1(efc$c12hour,
 #'          as.factor(efc$e42dep),
 #'          axisLabels.y = efc.val['e42dep'],
@@ -102,7 +102,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("pv"))
 #' # -------------------------------------------------
 #' # auto-detection of value labels and variable names
 #' # -------------------------------------------------
-#' efc <- sji.setVariableLabels(efc, efc.var)
+#' efc <- set_var_labels(efc, efc.var)
 #' sjp.aov1(efc$c12hour,
 #'          efc$e42dep)
 #' 
@@ -218,17 +218,17 @@ sjp.aov1 <- function(depVar,
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
   if (!is.null(title)) {
-    title <- sju.wordwrap(title, breakTitleAt)
+    title <- word_wrap(title, breakTitleAt)
   }
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
   if (!is.null(axisTitle.x)) {
-    axisTitle.x <- sju.wordwrap(axisTitle.x, breakTitleAt)
+    axisTitle.x <- word_wrap(axisTitle.x, breakTitleAt)
   }
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
   if (!is.null(axisLabels.y)) {
-    axisLabels.y <- sju.wordwrap(axisLabels.y, breakLabelsAt)
+    axisLabels.y <- word_wrap(axisLabels.y, breakLabelsAt)
   }
   # ----------------------------
   # Calculate one-way-anova. Since we have
@@ -502,10 +502,10 @@ sjp.aov1 <- function(depVar,
 
 
 #' @title Plot Levene-Test for One-Way-Anova
-#' @name sjs.aov1.levene
+#' @name leve_test
 #' 
 #' @description Plot results of Levene's Test for Equality of Variances for One-Way-Anova.
-#' @seealso \code{\link{sjp.aov1}}, \code{\link{sjs.chi2.gof}}, \code{\link{sjs.mwu}} and \code{\link{wilcox.test}}, 
+#' @seealso \code{\link{sjp.aov1}}, \code{\link{chisq_gof}}, \code{\link{mwu}} and \code{\link{wilcox.test}}, 
 #'          \code{\link{ks.test}}, \code{\link{kruskal.test}}, \code{\link{t.test}}, \code{\link{chisq.test}}, 
 #'          \code{\link{fisher.test}}
 #'           
@@ -516,10 +516,10 @@ sjp.aov1 <- function(depVar,
 #' 
 #' @examples
 #' data(efc)
-#' sjs.aov1.levene(efc$c12hour, efc$e42dep)
+#' leve_test(efc$c12hour, efc$e42dep)
 #' 
 #' @export
-sjs.aov1.levene <- function(depVar, grpVar) {
+leve_test <- function(depVar, grpVar) {
   # check if grpVar is factor
   if (!is.factor(grpVar)) grpVar <- factor(grpVar)
   # remove missings

@@ -25,7 +25,7 @@
   }
   
   However, meanwhile the amount of functions has increased, hence you’ll also find 
-  some utility functions beside the plotting functions (see below).
+  some utility functions beside the plotting functions.
   
   \emph{How does this package help me?}
   
@@ -45,20 +45,16 @@
   The functions follow specific naming conventions:
   \itemize{
     \item \code{sjc} - cluster analysis functions
-    \item \code{sjd} - distribution functions
-    \item \code{sji} - data import functions
     \item \code{sjp} - plotting functions
     \item \code{sjt} - (HTML) table output functions
-    \item \code{sjs} - statistical (tests) functions
-    \item \code{sju} - utility and recode functions
   }
 }
 \details{
 \tabular{ll}{
 Package: \tab sjPlot\cr
 Type: \tab Package\cr
-Version: \tab 1.6.9-5\cr
-Date: \tab 2015-02-22\cr
+Version: \tab 1.6.9-6\cr
+Date: \tab 2015-02-24\cr
 License: \tab GPL-3\cr
 }
 }

@@ -113,7 +113,7 @@ sjp.pca(pca, plotEigenvalues = TRUE, type = "circle")
 data(efc)
 
 # retrieve variable and value labels
-varlabs <- sji.getVariableLabels(efc)
+varlabs <- get_var_labels(efc)
 
 # recveive first item of COPE-index scale
 start <- which(colnames(efc) == "c82cop1")
@@ -129,16 +129,16 @@ sjp.pca(df)
 # -------------------------------
 # auto-detection of labels
 # -------------------------------
-efc <- sji.setVariableLabels(efc, varlabs)
+efc <- set_var_labels(efc, varlabs)
 sjp.pca(efc[, c(start:end)])
 }
 \seealso{
 \itemize{
            \item \href{http://www.strengejacke.de/sjPlot/sjp.pca/}{sjPlot manual: sjp.pca}
            \item \code{\link{sjt.pca}}
-           \item \code{\link{sjs.reliability}}
+           \item \code{\link{reliab_test}}
            \item \code{\link{sjt.itemanalysis}}
-           \item \code{\link{sjs.cronbach}}
+           \item \code{\link{cronb}}
            }
 }
 

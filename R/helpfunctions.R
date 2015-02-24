@@ -108,7 +108,7 @@ create.frq.df <- function(varCount,
   # weight variable
   #---------------------------------------------------
   if (!is.null(weightBy)) {
-    varCount <- sju.weight(varCount, weightBy)
+    varCount <- weight(varCount, weightBy)
   }
   #---------------------------------------------------
   # create frequency data frame
@@ -177,7 +177,7 @@ create.frq.df <- function(varCount,
   # caculate missings here
   missingcount <- length(which(is.na(varCount)))
   if (!is.null(labels)) {
-    labels <- sju.wordwrap(labels, breakLabelsAt)    
+    labels <- word_wrap(labels, breakLabelsAt)    
   }
   # If axisLabels.x were not defined, simply set numbers from 1 to
   # amount of categories (=number of rows) in dataframe instead
@@ -280,7 +280,7 @@ is.brewer.pal <- function(pal) {
 crosstabsum <- function(ftab) {
   # calculate chi square value
   chsq <- chisq.test(ftab)
-  tab <- sjs.table.values(ftab)
+  tab <- table_values(ftab)
   fish <- NULL
   # check whether variables are dichotome or if they have more
   # than two categories. if they have more, use Cramer's V to calculate
@@ -293,38 +293,38 @@ crosstabsum <- function(ftab) {
       if (chsq$p.value < 0.001) {
         modsum <- as.character(as.expression(
           substitute("N" == tn * "," ~~ chi^2 == c2 * "," ~~ "df" == dft * "," ~~ phi[c] == kook * "," ~~ "p" < pva,
-                     list(tn=summary(ftab)$n.cases,
-                          c2=sprintf("%.2f", chsq$statistic),
-                          dft=c(chsq$parameter),
-                          kook=sprintf("%.2f", sjs.cramer(ftab)),
-                          pva=0.001))))
+                     list(tn = summary(ftab)$n.cases,
+                          c2 = sprintf("%.2f", chsq$statistic),
+                          dft = c(chsq$parameter),
+                          kook = sprintf("%.2f", cramer(ftab)),
+                          pva = 0.001))))
       }
       else {
         modsum <- as.character(as.expression(
           substitute("N" == tn * "," ~~ chi^2 == c2 * "," ~~ "df" == dft * "," ~~ phi[c] == kook * "," ~~ "p" == pva,
-                     list(tn=summary(ftab)$n.cases,
-                          c2=sprintf("%.2f", chsq$statistic),
-                          dft=c(chsq$parameter),
-                          kook=sprintf("%.2f", sjs.cramer(ftab)),
-                          pva=sprintf("%.3f", chsq$p.value)))))
+                     list(tn = summary(ftab)$n.cases,
+                          c2 = sprintf("%.2f", chsq$statistic),
+                          dft = c(chsq$parameter),
+                          kook = sprintf("%.2f", cramer(ftab)),
+                          pva = sprintf("%.3f", chsq$p.value)))))
       }
     }
     else {
       if (fish$p.value < 0.001) {
         modsum <- as.character(as.expression(
           substitute("N" == tn * "," ~~ "df" == dft * "," ~~ phi[c] == kook * "," ~~ "Fisher's p" < pva,
-                     list(tn=summary(ftab)$n.cases,
-                          dft=c(chsq$parameter),
-                          kook=sprintf("%.2f", sjs.cramer(ftab)),
-                          pva=0.001))))
+                     list(tn = summary(ftab)$n.cases,
+                          dft = c(chsq$parameter),
+                          kook = sprintf("%.2f", cramer(ftab)),
+                          pva = 0.001))))
       }
       else {
         modsum <- as.character(as.expression(
           substitute("N" == tn * "," ~~ "df" == dft * "," ~~ phi[c] == kook * "," ~~ "Fisher's p" == pva,
-                     list(tn=summary(ftab)$n.cases,
-                          dft=c(chsq$parameter),
-                          kook=sprintf("%.2f", sjs.cramer(ftab)),
-                          pva=sprintf("%.3f", fish$p.value)))))
+                     list(tn = summary(ftab)$n.cases,
+                          dft = c(chsq$parameter),
+                          kook = sprintf("%.2f", cramer(ftab)),
+                          pva = sprintf("%.3f", fish$p.value)))))
       }
     }
   }
@@ -337,19 +337,19 @@ crosstabsum <- function(ftab) {
     if (is.null(fish)) {
       modsum <- as.character(as.expression(
         substitute("N" == tn * "," ~~ chi^2 == c2 * "," ~~ "df" == dft * "," ~~ phi == kook * "," ~~ "p" == pva,
-                   list(tn=summary(ftab)$n.cases,
-                        c2=sprintf("%.2f", chsq$statistic),
-                        dft=c(chsq$parameter),
-                        kook=sprintf("%.2f", sjs.phi(ftab)),
-                        pva=sprintf("%.3f", chsq$p.value)))))
+                   list(tn = summary(ftab)$n.cases,
+                        c2 = sprintf("%.2f", chsq$statistic),
+                        dft = c(chsq$parameter),
+                        kook = sprintf("%.2f", phi(ftab)),
+                        pva = sprintf("%.3f", chsq$p.value)))))
     }
     else {
       modsum <- as.character(as.expression(
         substitute("N" == tn * "," ~~ "df" == dft * "," ~~ phi == kook * "," ~~ "Fisher's p" == pva,
-                   list(tn=summary(ftab)$n.cases,
-                        dft=c(chsq$parameter),
-                        kook=sprintf("%.2f", sjs.phi(ftab)),
-                        pva=sprintf("%.3f", fish$p.value)))))
+                   list(tn = summary(ftab)$n.cases,
+                        dft = c(chsq$parameter),
+                        kook = sprintf("%.2f", phi(ftab)),
+                        pva = sprintf("%.3f", fish$p.value)))))
     }
   }  
   return (modsum)
@@ -427,7 +427,7 @@ retrieveModelGroupIndices <- function(fit) {
     # coefficients, so no grouping needed anyway)
     if (is.factor(fit.var) && length(levels(fit.var)) > 2) {
       # save factor name
-      lab <- unname(sji.getVariableLabels(fit.var))
+      lab <- unname(get_var_labels(fit.var))
       # any label?
       if (is.null(lab)) lab <- colnames(fit$model)[grp.cnt]
       # determins startindex
@@ -472,7 +472,7 @@ retrieveModelLabels <- function(fit) {
         # get amount of levels
         pvar.len <- length(levels(pvar))
         # get value labels, if any
-        pvar.lab <- sji.getValueLabels(pvar)
+        pvar.lab <- get_val_labels(pvar)
         # have any labels, and have we same amount of labels
         # as factor levels?
         if (!is.null(pvar.lab) && length(pvar.lab) == pvar.len) {

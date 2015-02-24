@@ -17,7 +17,7 @@
 #' @param title A table caption.
 #' @param varlabels A list or vector of strings with variable names. If not specified, row names of \code{items}
 #'          will be used, resp. variable labels will automatically be detected, when they have
-#'          a \code{"variable.lable"} attribute (see \code{\link{sji.setVariableLabels}}) for details).
+#'          a \code{"variable.lable"} attribute (see \code{\link{set_var_labels}}) for details).
 #' @param breakLabelsAt Wordwrap for variable labels. Determines how many chars of the variable labels are displayed in 
 #'          one line and when a line break is inserted. Default is 40.
 #' @param valuelabels A list or vector of strings that category/value labels, which
@@ -126,7 +126,7 @@
 #' # recveive first item of COPE-index scale
 #' end <- which(colnames(efc)=="c90cop9")
 #' # retrieve variable labels
-#' varlabs <- sji.getVariableLabels(efc)
+#' varlabs <- get_var_labels(efc)
 #' 
 #' # Note: Parameter "valuelabels" is only needed for datasets
 #' # that have been imported from SPSS.
@@ -143,7 +143,7 @@
 #' # -------------------------------
 #' # auto-detection of labels
 #' # -------------------------------
-#' efc <- sji.setVariableLabels(efc, varlabs)
+#' efc <- set_var_labels(efc, varlabs)
 #' sjt.stackfrq(efc[,c(start:end)])
 #'          
 #' # -------------------------------- 
@@ -243,7 +243,7 @@ sjt.stackfrq <- function (items,
   # save amolunt of values
   catcount <- length(valuelabels)
   # check length of x-axis-labels and split longer strings at into new lines
-  valuelabels <- sju.wordwrap(valuelabels, breakValueLabelsAt, "<br>")
+  valuelabels <- word_wrap(valuelabels, breakValueLabelsAt, "<br>")
   # ----------------------------
   # if we have no variable labels, use row names
   # ----------------------------
@@ -251,7 +251,7 @@ sjt.stackfrq <- function (items,
     varlabels <- colnames(items)
   }
   # check length of x-axis-labels and split longer strings at into new lines
-  varlabels <- sju.wordwrap(varlabels, breakLabelsAt, "<br>")
+  varlabels <- word_wrap(varlabels, breakLabelsAt, "<br>")
   # ----------------------------  
   # additional statistics required from psych-package?
   # ----------------------------

@@ -33,21 +33,23 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of current development build 1.6.9-5
+### Changelog of current development build 1.6.9-6
 
+#### General
+* Renamed `sjs`, `sju` and `sji`-functions into more intuitiv and shorter function names.
+* `autoSetValueLabels` and `autoSetVariableLabels` are now global options. E.g., use `options(autoSetValueLabels = FALSE)` to turn off automatic value label detection in plotting and table functions, or `options(autoSetValueLabels = TRUE)` to turn on automatic label detection.
+* Removed `plyr` dependency and replaced with `dplyr` functions.
+* 
 #### New functions
-* `sji.toFac` to convert (numeric or atomic) variables to factors, but keeps value and variable labels. Useful alternative to `as.factor`, when data has been imported from SPSS (e.g. with `sji.SPSS`).
+* `to_fac` to convert (numeric or atomic) variables to factors, but keeps value and variable labels. Useful alternative to `as.factor`, when data has been imported from SPSS (e.g. with `read_spss`).
 
 #### Changes to functions
+* `sjt.lm` now also plots multiple fitted models with different predictors in each model (e.g. when comparing stepwise regression). See examples in `?sjt.lm`.
 * Added parameter `group.pred` in `sjt.lm` and `sjt.glm` to automatically group table rows with factor levels of same factor.
 * Improved automatic label extraction for `sjp.lm`, `sjt.lm`, `sjp.glm` and `sjt.glm`.
 * Improved pre-set theme `538` in `sjp.setTheme`.
 * Added further pre-set themes to `sjp.setTheme`.
 * Minor improvements in `sjp.lm` with `type="ma"`.
-
-#### General
-* Added various aliases to `sjs`, `sju` and `sji`-functions.
-* `autoSetValueLabels` and `autoSetVariableLabels` are now global options. E.g., use `options(autoSetValueLabels = FALSE)` to turn off automatic value label detection in plotting and table functions, or `options(autoSetValueLabels = TRUE)` to turn on automatic label detection.
 
 #### Bug fixes
 * Fixed bug in `sjt.itemanalysis` [(#issue 8)](https://github.com/sjPlot/devel/issues/8).

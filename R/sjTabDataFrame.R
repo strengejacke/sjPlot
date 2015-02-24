@@ -3,8 +3,8 @@
 #' 
 #' @seealso \itemize{
 #'                \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
-#'                \item \href{http://www.strengejacke.de/sjPlot/sji.viewSPSS/}{sjPlot manual: inspecting (SPSS imported) data frames}
-#'                \item \code{\link{sji.viewSPSS}}
+#'                \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
+#'                \item \code{\link{view_spss}}
 #'              }
 #'              
 #' @description Shows description or the content of data frame (rows and columns) as HTML table,

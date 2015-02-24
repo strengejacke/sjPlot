@@ -19,7 +19,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
 #' @param title Title of the diagram, plotted above the whole diagram panel.
 #' @param axisLabels Labels for the x- andy y-axis.
 #'          axisLabels are detected automatically if \code{data} is a data frame where each variable has
-#'          a \code{"variable.label"} attribute (see \code{\link{sji.setVariableLabels}}) for details).
+#'          a \code{"variable.label"} attribute (see \code{\link{set_var_labels}}) for details).
 #' @param type Indicates whether the geoms of correlation values should be plotted
 #'          as \code{"circle"} (default) or as \code{"tile"}.
 #' @param sortCorrelations If \code{TRUE} (default), the axis labels are sorted
@@ -75,7 +75,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
 #' data(efc)
 #'
 #' # retrieve variable and value labels
-#' varlabs <- sji.getVariableLabels(efc)
+#' varlabs <- get_var_labels(efc)
 #'
 #' # create data frame
 #' vars.index <- c(1, 4, 15, 19, 20, 21, 22, 24, 25)
@@ -88,7 +88,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
 #' # -------------------------------
 #' # auto-detection of labels
 #' # -------------------------------
-#' efc <- sji.setVariableLabels(efc, varlabs)
+#' efc <- set_var_labels(efc, varlabs)
 #' # blank theme
 #' sjp.setTheme(theme = "blank", axis.angle.x = 90)
 #' sjp.corr(efc[, vars.index])
@@ -207,11 +207,11 @@ sjp.corr <- function(data,
   # ----------------------------
   # check length of diagram title and split longer string at into new lines
   if (!is.null(title)) {
-    title <- sju.wordwrap(title, breakTitleAt)
+    title <- word_wrap(title, breakTitleAt)
   }
   # check length of x-axis-labels and split longer strings at into new lines
   if (!is.null(axisLabels)) {
-    axisLabels <- sju.wordwrap(axisLabels, breakLabelsAt)
+    axisLabels <- word_wrap(axisLabels, breakLabelsAt)
   }
   # --------------------------------------------------------
   # order correlations from highest to lowest correlation coefficient
@@ -247,6 +247,7 @@ sjp.corr <- function(data,
   oricor <- orderedCorr
   orderedCorr <- melt(orderedCorr)
   if (!is.null(cpvalues)) cpvalues <- melt(cpvalues)
+  # print(tidyr::gather(orderedCorr, "Var", "values", 1:(ncol(orderedCorr))))
   # bind additional information like order for x- and y-axis
   # as well as the size of plotted points
   orderedCorr <- cbind(orderedCorr, ordx=c(1:nrow(corr)), ordy=yo, psize=c(exp(abs(orderedCorr$value))*geom.size))

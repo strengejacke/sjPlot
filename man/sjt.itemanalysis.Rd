@@ -25,13 +25,13 @@ Default is \code{"auto"}, which means that each table has a standard caption \em
 Use \code{NULL} to suppress table captions.}
 
 \item{scaleItems}{If \code{TRUE}, the data frame's vectors will be scaled when calculating the
-Cronbach's Alpha value (see \code{\link{sjs.reliability}}). Recommended, when
+Cronbach's Alpha value (see \code{\link{reliab_test}}). Recommended, when
 the variables have different measures / scales.}
 
 \item{minValidRowMeanValue}{the minimum amount of valid values to compute row means for index scores.
 Default is 2, i.e. the return values \code{index.scores} and \code{df.index.scores} are
 computed for those items that have at least \code{minValidRowMeanValue} per case (observation, or
-technically, row). See \link{sju.mean.n} for details.}
+technically, row). See \link{mean_n} for details.}
 
 \item{alternateRowColors}{If \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
@@ -143,7 +143,7 @@ This function performs an item analysis with certain statistics that are
 \itemize{
          \item The \emph{Shapiro-Wilk Normality Test} (see column \code{W(p)}) tests if an item has a distribution that is significantly different from normal.
          \item \emph{Item difficulty} should range between 0.2 and 0.8. Ideal value is \code{p+(1-p)/2} (which mostly is between 0.5 and 0.8).
-         \item For \emph{item discrimination}, acceptable values are 0.20 or higher; the closer to 1.00 the better. See \code{\link{sjs.reliability}} for more details.
+         \item For \emph{item discrimination}, acceptable values are 0.20 or higher; the closer to 1.00 the better. See \code{\link{reliab_test}} for more details.
          \item In case the total \emph{Cronbach's Alpha} value is below the acceptable cut-off of 0.7 (mostly if an index has few items), the \emph{mean inter-item-correlation} is an alternative measure to indicate acceptability. Satisfactory range lies between 0.2 and 0.4.
        }
 }
@@ -154,7 +154,7 @@ This function performs an item analysis with certain statistics that are
 data(efc)
 
 # retrieve variable and value labels
-varlabs <- sji.getVariableLabels(efc)
+varlabs <- get_var_labels(efc)
 
 # recveive first item of COPE-index scale
 start <- which(colnames(efc)=="c82cop1")
@@ -171,7 +171,7 @@ sjt.itemanalysis(df)
 # -------------------------------
 # auto-detection of labels
 # -------------------------------
-efc <- sji.setVariableLabels(efc, varlabs)
+efc <- set_var_labels(efc, varlabs)
 sjt.itemanalysis(efc[,c(start:end)])
 
 # ---------------------------------------
@@ -190,12 +190,14 @@ sjt.itemanalysis(df, factor.groups)}
             }
 }
 \seealso{
-\code{\link{sjs.cronbach}} \cr
-         \code{\link{sjs.reliability}} \cr
-         \code{\link{sjs.mic}} \cr
-         \code{\link{sjp.pca}} \cr
-         \code{\link{sjt.pca}} \cr
-         \code{\link{sjt.df}} \cr
-         \code{\link{sju.mean.n}}
+\itemize{
+           \item \code{\link{sjp.pca}}
+           \item \code{\link{sjt.pca}}
+           \item \code{\link{sjt.df}}
+           \item \code{\link{cronb}}
+           \item \code{\link{reliab_test}}
+           \item \code{\link{mic}}
+           \item \code{\link{mean_n}}
+           }
 }
 

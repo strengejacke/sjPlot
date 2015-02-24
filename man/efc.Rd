@@ -19,10 +19,10 @@ head(efc)
 
 # show variables
 \dontrun{
-sji.viewSPSS(efc)
+view_spss(efc)
 
 # show variable labels
-sji.getVariableLabels(efc)
+get_var_label(efc)
 
 # plot efc-data frame summary
 sjt.df(efc, alternateRowColor=TRUE)}
@@ -32,12 +32,12 @@ sjt.df(efc, alternateRowColor=TRUE)}
 }
 \seealso{
 \itemize{
-           \item \code{\link{sji.SPSS}}
-           \item \code{\link{sji.viewSPSS}}
+           \item \code{\link{read_spss}}
+           \item \code{\link{view_spss}}
+           \item \code{\link{get_val_labels}}
+           \item \code{\link{get_var_labels}}
+           \item \code{\link{to_label}}
            \item \code{\link{sjt.df}}
-           \item \code{\link{sji.getValueLabels}}
-           \item \code{\link{sji.getVariableLabels}}
-           \item \code{\link{sji.convertToLabel}}
            \item \code{\link{sjp.frq}}
            \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data init}
          }

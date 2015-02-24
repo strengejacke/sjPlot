@@ -99,7 +99,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #' \dontrun{
 #' library(lme4)
 #' # create binary response
-#' sleepstudy$Reaction.dicho <- sju.dicho(sleepstudy$Reaction, dichBy = "md")
+#' sleepstudy$Reaction.dicho <- dicho(sleepstudy$Reaction, dichBy = "md")
 #' # fit model
 #' fit <- glmer(Reaction.dicho ~ Days + (Days | Subject),
 #'              sleepstudy,
@@ -119,10 +119,10 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #' library(lme4)
 #' data(efc)
 #' # create binary response
-#' efc$hi_qol <- sju.dicho(efc$quol_5)
+#' efc$hi_qol <- dicho(efc$quol_5)
 #' # prepare group variable
 #' efc$grp = as.factor(efc$e15relat)
-#' levels(x = efc$grp) <- sji.getValueLabels(efc$e15relat)
+#' levels(x = efc$grp) <- get_val_labels(efc$e15relat)
 #' # data frame for fitted model
 #' mydf <- na.omit(data.frame(hi_qol = as.factor(efc$hi_qol),
 #'                            sex = as.factor(efc$c161sex),
@@ -347,7 +347,7 @@ sjp.glmer <- function(fit,
 #' data(efc)
 #' # prepare group variable
 #' efc$grp = as.factor(efc$e15relat)
-#' levels(x = efc$grp) <- sji.getValueLabels(efc$e15relat)
+#' levels(x = efc$grp) <- get_val_labels(efc$e15relat)
 #' # data frame for fitted model
 #' mydf <- na.omit(data.frame(neg_c_7 = as.numeric(efc$neg_c_7),
 #'                            sex = as.factor(efc$c161sex),
@@ -627,7 +627,7 @@ sjp.lme4  <- function(fit,
     }
     else {
       if (type == "fe.std") {
-        tmpdf <- sjs.stdmm(fit)
+        tmpdf <- std_beta(fit)
         mydf <- as.data.frame(cbind(OR = tmpdf$stdcoef,
                                     lower.CI = tmpdf$stdcoef - (1.96 * tmpdf$stdse),
                                     upper.CI = tmpdf$stdcoef + (1.96 * tmpdf$stdse)))
@@ -665,7 +665,7 @@ sjp.lme4  <- function(fit,
     }
     else {
       if (type == "fe.std") {
-        ov <- sjs.stdmm(fit)$stdcoef
+        ov <- std_beta(fit)$stdcoef
       }
       else {
         ov <- lme4::fixef(fit)
@@ -1040,7 +1040,7 @@ sjp.lme.feprobcurv <- function(fit,
       # set colnames
       colnames(mydf.vals) <- c("value")
       # convert factor to numeric
-      if (is.factor(mydf.vals$value)) mydf.vals$value <- sji.convertToValue(mydf.vals$value, 0)
+      if (is.factor(mydf.vals$value)) mydf.vals$value <- to_value(mydf.vals$value, 0)
       # retrieve names of coefficients
       coef.names <- names(lme4::fixef(fit))
       # check if we have a factor, then we may have reference levels
@@ -1201,7 +1201,7 @@ sjp.lme.reprobcurve <- function(fit,
       # set colnames
       colnames(mydf.vals) <- c("value")
       # convert factor to numeric
-      if (is.factor(mydf.vals$value)) mydf.vals$value <- sji.convertToValue(mydf.vals$value, 0)
+      if (is.factor(mydf.vals$value)) mydf.vals$value <- to_value(mydf.vals$value, 0)
       # retrieve names of coefficients
       coef.names <- names(lme4::fixef(fit))
       # check if we have a factor, then we may have reference levels

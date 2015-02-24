@@ -1,31 +1,32 @@
 #' @title Dichotomize variables
-#' @name sju.dicho
+#' @name dicho
 #' 
 #' @description Dichotomizes variables into dummy variables (0/1). Dichotomization is
-#'                either done by median or mean (see \code{dichBy}).
+#'                either done by median, mean or a specific value (see \code{dichBy}).
 #'
 #' @param var The variable that should be dichotomized.
-#' @param dichBy Indicates the split criterion where the variable is dichotomized. By default,
-#'          \code{var} is split into two groups at the median (\code{dichBy="median"} or
-#'          \code{dichBy="md"}). Further values for \code{dichBy} are \code{"mean"} (or \code{"m"}),
-#'          which splits into groups at the mean of \code{var}; and \code{"value"} (or \code{"v"}).
-#'          In the latter case, you have to specifiy \code{dichVal}.
-#' @param dichVal Indicates a value where \code{var} is dichotomized when \code{dichBy="value"}.
-#'          Note that \code{dichVal} is inclusive, i.e. \code{dichVal=10} will split \code{var}
+#' @param dichBy Indicates the split criterion where the variable is dichotomized.
+#'          \itemize{
+#'            \item By default, \code{var} is split into two groups at the median (\code{dichBy = "median"} or \code{dichBy = "md"}).
+#'            \item \code{dichBy = "mean"} (or \code{dichBy = "m"}) splits \code{var} into two groups at the mean of \code{var}.
+#'            \item \code{dichBy = "value"} (or \code{dichBy = "v"}) splits \code{var} into two groups at a specific value (see \code{dichVal}).
+#'            }
+#' @param dichVal numeric, indicates a value where \code{var} is dichotomized when \code{dichBy = "value"}.
+#'          \emph{Note that \code{dichVal} is inclusive}, i.e. \code{dichVal = 10} will split \code{var}
 #'          into one group with values from lowest to 10 and another group with values greater
 #'          than 10.
-#' @param asNum If \code{TRUE}, return value will be numeric, not a factor.
+#' @param asNum logical, if \code{TRUE}, return value will be numeric, not a factor.
 #' @return A dichotomized factor (or numeric, if \code{asNum = TRUE} variable (0/1-coded).
 #' 
 #' @examples
 #' data(efc)
 #' summary(efc$c12hour)
-#' table(sju.dicho(efc$c12hour))
-#' table(sju.dicho(efc$c12hour, "mean"))
-#' table(sju.dicho(efc$c12hour, "value", 30))
+#' table(dicho(efc$c12hour))
+#' table(dicho(efc$c12hour, "mean"))
+#' table(dicho(efc$c12hour, "value", 30))
 #'  
 #' @export
-sju.dicho <- function(var, dichBy="median", dichVal=-1, asNum = FALSE) {
+dicho <- function(var, dichBy="median", dichVal=-1, asNum = FALSE) {
   # check abbreviations
   if (dichBy=="md") dichBy <- "median"
   if (dichBy=="m") dichBy <- "mean"
@@ -53,18 +54,12 @@ sju.dicho <- function(var, dichBy="median", dichVal=-1, asNum = FALSE) {
 }
 
 
-#' @describeIn sju.dicho
-dicho <- function(var, dichBy="median", dichVal=-1, asNum = FALSE) {
-  return (sju.dicho(var, dichBy, dichVal, asNum))
-}
-
-
 #' @title Recode count variables into grouped factors
-#' @name sju.groupVar
+#' @name group_var
 #' 
 #' @description Recode count variables into grouped factors.
 #' 
-#' @seealso \code{\link{sju.groupVarLabels}}
+#' @seealso \code{\link{group_labels}}
 #'
 #' @param var The count variable, which should recoded into groups.
 #' @param groupsize The group-size, i.e. the range for grouping. By default, for each 5 categories 
@@ -85,50 +80,54 @@ dicho <- function(var, dichBy="median", dichVal=-1, asNum = FALSE) {
 #' 
 #' @examples
 #' age <- abs(round(rnorm(100, 65, 20)))
-#' age.grp <- sju.groupVar(age, 10)
+#' age.grp <- group_var(age, 10)
 #' hist(age)
 #' hist(age.grp)
 #' 
 #' # histogram with EUROFAMCARE sample dataset
 #' # variable not grouped
 #' data(efc)
-#' efc.val <- sji.getValueLabels(efc)
-#' efc.var <- sji.getVariableLabels(efc)
+#' efc.val <- get_val_labels(efc)
+#' efc.var <- get_var_labels(efc)
 #' sjp.frq(efc$e17age,
-#'         title=efc.var[['e17age']],
-#'         type="h",
-#'         showValueLabels=FALSE)
+#'         title = efc.var[['e17age']],
+#'         type = "h",
+#'         showValueLabels = FALSE)
 #' 
 #' # bar plot with EUROFAMCARE sample dataset
 #' # grouped variable
 #' data(efc)
-#' efc.val <- sji.getValueLabels(efc)
-#' efc.var <- sji.getVariableLabels(efc)
-#' ageGrp <- sju.groupVar(efc$e17age)
-#' ageGrpLab <- sju.groupVarLabels(efc$e17age)
+#' efc.val <- get_val_labels(efc)
+#' efc.var <- get_var_labels(efc)
+#' ageGrp <- group_var(efc$e17age)
+#' ageGrpLab <- group_labels(efc$e17age)
 #' sjp.frq(ageGrp,
-#'         title=efc.var[['e17age']],
-#'         axisLabels.x=ageGrpLab)
+#'         title = efc.var[['e17age']],
+#'         axisLabels.x = ageGrpLab)
 #'  
 #' @export
-sju.groupVar <- function(var, groupsize=5, asNumeric=TRUE, rightInterval=FALSE, autoGroupCount=30) {
+group_var <- function(var, groupsize=5, asNumeric=TRUE, rightInterval=FALSE, autoGroupCount=30) {
   # minimum range. will be changed when autogrouping
   minval <- 0
   multip <- 2
   # check for auto-grouping
   if (groupsize=="auto") {
     # determine groupsize, which is 1/30 of range
-    size <- ceiling((max(var, na.rm=TRUE)-min(var, na.rm=TRUE))/autoGroupCount)
+    size <- ceiling((max(var, na.rm = TRUE) - min(var, na.rm = TRUE)) / autoGroupCount)
     # reset groupsize var
     groupsize <- as.numeric(size)
     # change minvalue
-    minval <- min(var, na.rm=TRUE)
+    minval <- min(var, na.rm = TRUE)
     multip <- 1
   }
   # Einteilung der Variablen in Gruppen. Dabei werden unbenutzte Faktoren gleich entfernt
-  var <- droplevels(cut(var, breaks=c(seq(minval, max(var, na.rm=TRUE)+multip*groupsize, by=groupsize)), right=rightInterval))
+  var <- droplevels(cut(var, 
+                        breaks = c(seq(minval, 
+                                       max(var, na.rm = TRUE) + multip * groupsize, 
+                                       by = groupsize)), 
+                        right = rightInterval))
   # Die Level der Gruppierung wird neu erstellt
-  levels(var) <- c(1:length(levels(var)))
+  levels(var) <- c(1 : length(levels(var)))
   # in numerisch umwandeln
   if (asNumeric) {
     var <- as.numeric(as.character(var))  
@@ -137,22 +136,16 @@ sju.groupVar <- function(var, groupsize=5, asNumeric=TRUE, rightInterval=FALSE, 
 }
 
 
-#' @describeIn sju.groupVar
-group_var <- function(var, groupsize=5, asNumeric=TRUE, rightInterval=FALSE, autoGroupCount=30) {
-  return (sju.groupVar(var, groupsize, asNumeric, rightInterval, autoGroupCount))
-}
-
-
 #' @title Create labels for recoded groups
-#' @name sju.groupVarLabels
+#' @name group_labels
 #' 
 #' @description Creates the related labels for the grouped variable created by
-#'                the \code{\link{sju.groupVar}} function.
+#'                the \code{\link{group_var}} function.
 #'                
-#' @seealso \code{\link{sju.groupVar}}
+#' @seealso \code{\link{group_var}}
 #' 
 #' @note Usually you should use the same values for \code{groupsize} and
-#'         \code{rightInterval} as used in the \code{\link{sju.groupVar}} function
+#'         \code{rightInterval} as used in the \code{\link{group_var}} function
 #'         if you want to create labels for the related recoded variable.
 #'         
 #' @param var The scale variable, which should recoded into groups.
@@ -174,37 +167,37 @@ group_var <- function(var, groupsize=5, asNumeric=TRUE, rightInterval=FALSE, aut
 #' 
 #' @examples
 #' age <- abs(round(rnorm(100, 65, 20)))
-#' age.grp <- sju.groupVar(age, 10)
+#' age.grp <- group_var(age, 10)
 #' hist(age)
 #' hist(age.grp)
 #' 
-#' age.grpvar <- sju.groupVarLabels(age, 10)
+#' age.grpvar <- group_labels(age, 10)
 #' table(age.grp)
 #' print(age.grpvar)
 #' 
 #' # histogram with EUROFAMCARE sample dataset
 #' # variable not grouped
 #' data(efc)
-#' efc.val <- sji.getValueLabels(efc)
-#' efc.var <- sji.getVariableLabels(efc)
+#' efc.val <- get_val_labels(efc)
+#' efc.var <- get_var_labels(efc)
 #' sjp.frq(efc$e17age,
-#'         title=efc.var[['e17age']],
-#'         type="h",
-#'         showValueLabels=FALSE)
+#'         title = efc.var[['e17age']],
+#'         type = "h",
+#'         showValueLabels = FALSE)
 #' 
 #' # bar plot with EUROFAMCARE sample dataset
 #' # grouped variable
 #' data(efc)
-#' efc.val <- sji.getValueLabels(efc)
-#' efc.var <- sji.getVariableLabels(efc)
-#' ageGrp <- sju.groupVar(efc$e17age)
-#' ageGrpLab <- sju.groupVarLabels(efc$e17age)
+#' efc.val <- get_val_labels(efc)
+#' efc.var <- get_var_labels(efc)
+#' ageGrp <- group_var(efc$e17age)
+#' ageGrpLab <- group_labels(efc$e17age)
 #' sjp.frq(ageGrp,
-#'         title=efc.var[['e17age']],
-#'         axisLabels.x=ageGrpLab)
+#'         title = efc.var[['e17age']],
+#'         axisLabels.x = ageGrpLab)
 #' 
 #' @export
-sju.groupVarLabels <- function(var, groupsize=5, rightInterval=FALSE, autoGroupCount=30) {
+group_labels <- function(var, groupsize=5, rightInterval=FALSE, autoGroupCount=30) {
   # minimum range. will be changed when autogrouping
   minval <- 0
   multip <- 2
@@ -250,14 +243,8 @@ sju.groupVarLabels <- function(var, groupsize=5, rightInterval=FALSE, autoGroupC
 }
 
 
-#' @describeIn sju.groupVarLabels
-group_labels <- function(var, groupsize=5, rightInterval=FALSE, autoGroupCount=30) {
-  return (sju.groupVarLabels(var, groupsize, rightInterval, autoGroupCount))
-}
-
-
 #' @title Adjust y range of ggplot-objects
-#' @name sju.adjustPlotRange.y
+#' @name adjust_plot_range
 #' 
 #' @description This method adjusts the y-range of a ggplot-object, which is useful when
 #'                value labels are outside of the plot region. A modified ggplot-object will
@@ -286,10 +273,10 @@ group_labels <- function(var, groupsize=5, rightInterval=FALSE, autoGroupCount=3
 #' # show current plot
 #' plot(gp$plot)
 #' # show adjusted plot
-#' sju.adjustPlotRange.y(gp$plot)
+#' adjust_plot_range(gp$plot)
 #' 
 #' @export
-sju.adjustPlotRange.y <- function(gp, upperMargin=1.05) {
+adjust_plot_range <- function(gp, upperMargin=1.05) {
   # retrieve y-range of original plot
   gp <- gp + scale_y_continuous(limits=NULL)
   # build ggplot object
@@ -306,7 +293,7 @@ sju.adjustPlotRange.y <- function(gp, upperMargin=1.05) {
 
 
 #' @title Insert line breaks in long labels
-#' @name sju.wordwrap
+#' @name word_wrap
 #' 
 #' @description Insert line breaks in long character strings. Useful if you want to wordwrap
 #'                plot labels.
@@ -319,10 +306,10 @@ sju.adjustPlotRange.y <- function(gp, upperMargin=1.05) {
 #' @return New label(s) with line breaks inserted at every \code{wrap}'s position.
 #' 
 #' @examples
-#' sju.wordwrap(c("A very long string", "And another even longer string!"), 10)
+#' word_wrap(c("A very long string", "And another even longer string!"), 10)
 #' 
 #' @export
-sju.wordwrap <- function(labels, wrap, linesep=NULL) {
+word_wrap <- function(labels, wrap, linesep=NULL) {
   # check for valid value
   if (is.null(labels) || length(labels)==0) {
     return(NULL)
@@ -368,7 +355,7 @@ sju.wordwrap <- function(labels, wrap, linesep=NULL) {
 
 
 #' @title Recode variable categories into new values.
-#' @name sju.recodeTo
+#' @name recode_to
 #' 
 #' @description Recodes the categories of a variables \code{var} into new category values, beginning
 #'                with the lowest value specified by parameter \code{lowest}. Useful if you want
@@ -387,24 +374,24 @@ sju.wordwrap <- function(labels, wrap, linesep=NULL) {
 #' @examples
 #' # recode 1-4 to 0-3
 #' dummy <- sample(1:4, 10, replace=TRUE)
-#' sju.recodeTo(dummy)
+#' recode_to(dummy)
 #' 
 #' # recode 3-6 to 0-3
 #' # note that numeric type is returned
 #' dummy <- as.factor(3:6)
-#' sju.recodeTo(dummy) 
+#' recode_to(dummy) 
 #' 
 #' # lowest value starting with 1
 #' dummy <- sample(11:15, 10, replace=TRUE)
-#' sju.recodeTo(dummy, 1) 
+#' recode_to(dummy, 1) 
 #'
 #' # lowest value starting with 1, highest with 3
 #' # all others set to NA
 #' dummy <- sample(11:15, 10, replace=TRUE)
-#' sju.recodeTo(dummy, 1, 3) 
+#' recode_to(dummy, 1, 3) 
 #' 
 #' @export
-sju.recodeTo <- function(var, lowest=0, highest=-1) {
+recode_to <- function(var, lowest=0, highest=-1) {
   # check if factor
   if (is.factor(var)) {
     # try to convert to numeric
@@ -423,34 +410,6 @@ sju.recodeTo <- function(var, lowest=0, highest=-1) {
   }
   # return recoded var
   return(var)
-}
-
-
-#' @describeIn sju.recodeTo
-recode_to <- function(var, lowest=0, highest=-1) {
-  return(sju.recodeTo(var, lowest, highest))
-}
-
-
-#' @title Recode variable values.
-#' @name sju.recode
-#' 
-#' @description Recodes the categories of a variables. Wrapper function that calls
-#'                the \code{\link{recode}} function from the \code{car} package.
-#'
-#' @param ... parameters, see \code{\link{recode}} function from the \code{car} package.
-#' @return A variable with recoded values.
-#' 
-#' @examples
-#' data(efc)
-#' table(efc$e42dep)
-#' table(sju.recode(efc$e42dep, "1:2=1;3:4=2"))
-#'
-#' @importFrom car recode
-#' @export
-sju.recode <- function(...) {
-  # return recoded var
-  return(recode(...))
 }
 
 
@@ -514,7 +473,7 @@ sjp.vif <- function(fit) {
 
 
 #' @title Set NA for specific variable values
-#' @name sju.setNA
+#' @name set_na
 #' 
 #' @description This function sets specific values of a variable \code{var}
 #'                as missings (\code{NA}).
@@ -530,12 +489,12 @@ sjp.vif <- function(fit) {
 #' # show value distribution
 #' table(dummy)
 #' # set value 1 and 8 as missings
-#' dummy <- sju.setNA(dummy, c(1,8))
+#' dummy <- set_na(dummy, c(1,8))
 #' # show value distribution, including missings
 #' table(dummy, exclude=NULL)
 #' 
 #' @export
-sju.setNA <- function(var, values) {
+set_na <- function(var, values) {
   # retrieve value labels
   vl <- attr(var, "value.labels")
   # retrieve label names
@@ -559,25 +518,19 @@ sju.setNA <- function(var, values) {
 }
 
 
-#' @describeIn sju.setNA
-set_na <- function(var, values) {
-  return(sju.setNA(var, values))
-}
-
-
 #' @title Weight a variable
-#' @name sju.weight2
+#' @name weight2
 #' 
 #' @description This function weights the variable \code{var} by
 #'                a specific vector of \code{weights}. It's an 
-#'                alternative weight calculation to \code{\link{sju.weight}},
-#'                though \code{\link{sju.weight}} usage is recommended.
+#'                alternative weight calculation to \code{\link{weight}},
+#'                though \code{\link{weight}} usage is recommended.
 #'                This function sums up all \code{weights} values of the associated
-#'                categories of \code{var}, whereas the \code{\link{sju.weight}} function
+#'                categories of \code{var}, whereas the \code{\link{weight}} function
 #'                uses a \code{\link{xtabs}} formula to weight cases. Thus, this function
 #'                may return a value with a different length than that from \code{var}.
 #'
-#' @seealso \code{\link{sju.weight}}
+#' @seealso \code{\link{weight}}
 #'
 #' @param var The (unweighted) variable 
 #' @param weights A vector with same length as \code{var}, which
@@ -596,10 +549,10 @@ set_na <- function(var, values) {
 #' v <- sample(1:4, 20, TRUE)
 #' table(v)
 #' w <- abs(rnorm(20))
-#' table(sju.weight2(v,w))
+#' table(weight2(v,w))
 #' 
 #' @export
-sju.weight2 <- function(var, weights) {
+weight2 <- function(var, weights) {
   items <- unique(var)
   newvar <- c()
   for (i in 1:length(items)) {
@@ -611,11 +564,11 @@ sju.weight2 <- function(var, weights) {
 
 
 #' @title Weight a variable
-#' @name sju.weight
+#' @name weight
 #' @description This function weights the variable \code{var} by
 #'                a specific vector of \code{weights}.
 #'
-#' @seealso \code{\link{sju.weight2}}
+#' @seealso \code{\link{weight2}}
 #' 
 #' @param var The (unweighted) variable 
 #' @param weights A vector with same length as \code{var}, which
@@ -634,10 +587,10 @@ sju.weight2 <- function(var, weights) {
 #' v <- sample(1:4, 20, TRUE)
 #' table(v)
 #' w <- abs(rnorm(20))
-#' table(sju.weight(v,w))
+#' table(weight(v,w))
 #' 
 #' @export
-sju.weight <- function(var, weights) {
+weight <- function(var, weights) {
   # init values
   weightedvar <- c()
   wtab <- round(xtabs(weights ~ var, data=data.frame(cbind(weights=weights,var=var))))
@@ -655,9 +608,9 @@ sju.weight <- function(var, weights) {
 
 
 #' @title Group near elements of string vectors
-#' @name sju.groupString
+#' @name group_str
 #' 
-#' @seealso \code{\link{sju.strpos}}
+#' @seealso \code{\link{str_pos}}
 #' 
 #' @description This function groups elements of a string vector (character or string variable) according
 #'                to the element's distance. The more similar two string elements are, the higher is the
@@ -680,14 +633,14 @@ sju.weight <- function(var, weights) {
 #' @examples
 #' \dontrun{
 #' oldstring <- c("Hello", "Helo", "Hole", "Apple", "Ape", "New", "Old", "System", "Systemic")
-#' newstring <- sju.groupString(oldstring)
+#' newstring <- group_str(oldstring)
 #' sjt.frq(data.frame(oldstring, newstring), removeStringVectors = FALSE, autoGroupStrings = FALSE)
 #' 
-#' newstring <- sju.groupString(oldstring, strict = TRUE)
+#' newstring <- group_str(oldstring, strict = TRUE)
 #' sjt.frq(data.frame(oldstring, newstring), removeStringVectors = FALSE, autoGroupStrings = FALSE)}
 #' 
 #' @export
-sju.groupString <- function(strings, maxdist = 3, method = "lv", strict = FALSE, trim.whitespace = TRUE, remove.empty = TRUE, showProgressBar = FALSE) {
+group_str <- function(strings, maxdist = 3, method = "lv", strict = FALSE, trim.whitespace = TRUE, remove.empty = TRUE, showProgressBar = FALSE) {
   # -------------------------------------
   # check if required package is available
   # -------------------------------------
@@ -864,19 +817,13 @@ sju.groupString <- function(strings, maxdist = 3, method = "lv", strict = FALSE,
 }
 
 
-#' @describeIn sju.groupString
-group_str <- function(strings, maxdist = 3, method = "lv", strict = FALSE, trim.whitespace = TRUE, remove.empty = TRUE, showProgressBar = FALSE) {
-  return (sju.groupString(strings, maxdist, method, strict, trim.whitespace, remove.empty, showProgressBar))
-}
-
-
 #' @title Find partial matching and close distance elements in strings
-#' @name sju.strpos
+#' @name str_pos
 #' @description This function finds the element indices of partial matching or similar strings 
 #'                in a character vector. Can be used to find exact or slightly mistyped elements
 #'                in a string vector.
 #'
-#' @seealso \code{\link{sju.groupString}}
+#' @seealso \code{\link{group_str}}
 #'
 #' @param searchString a character vector with string elements
 #' @param findTerm the string that should be matched against the elements of \code{searchString}.
@@ -906,24 +853,24 @@ group_str <- function(strings, maxdist = 3, method = "lv", strict = FALSE, trim.
 #' @examples
 #' \dontrun{
 #' string <- c("Hello", "Helo", "Hole", "Apple", "Ape", "New", "Old", "System", "Systemic")
-#' sju.strpos(string, "hel")   # partial match
-#' sju.strpos(string, "stem")  # partial match
-#' sju.strpos(string, "R")     # no match
-#' sju.strpos(string, "saste") # similarity to "System"
+#' str_pos(string, "hel")   # partial match
+#' str_pos(string, "stem")  # partial match
+#' str_pos(string, "R")     # no match
+#' str_pos(string, "saste") # similarity to "System"
 #' 
 #' # finds two indices, because partial matching now 
 #' # also applies to "Systemic"
-#' sju.strpos(string, 
-#'            "sytsme", 
-#'            part.dist.match = 1)
+#' str_pos(string, 
+#'         "sytsme", 
+#'         part.dist.match = 1)
 #' 
 #' # finds nothing
-#' sju.strpos("We are Sex Pistols!", "postils")
+#' str_pos("We are Sex Pistols!", "postils")
 #' # finds partial matching of similarity
-#' sju.strpos("We are Sex Pistols!", "postils", part.dist.match = 1)}
+#' str_pos("We are Sex Pistols!", "postils", part.dist.match = 1)}
 #' 
 #' @export
-sju.strpos <- function(searchString, findTerm, maxdist = 3, part.dist.match = 0, showProgressBar = FALSE) {
+str_pos <- function(searchString, findTerm, maxdist = 3, part.dist.match = 0, showProgressBar = FALSE) {
   # -------------------------------------
   # init return value
   # -------------------------------------
@@ -1022,14 +969,8 @@ sju.strpos <- function(searchString, findTerm, maxdist = 3, part.dist.match = 0,
 }
 
 
-#' @describeIn sju.strpos
-str_pos <- function(searchString, findTerm, maxdist = 3, part.dist.match = 0, showProgressBar = FALSE) {
-  return (sju.strpos(searchString, findTerm, maxdist, part.dist.match, showProgressBar))
-}
-
-
 #' @title Compute row means with min amount of valid values
-#' @name sju.mean.n
+#' @name mean_n
 #' @description This function is similar to the SPSS \code{MEAN.n} function and computes
 #'                row means from a \link{data.frame} or \link{matrix} if at least \code{n}
 #'                values of a row a valid (and not \link{NA}).
@@ -1051,13 +992,13 @@ str_pos <- function(searchString, findTerm, maxdist = 3, part.dist.match = 0, sh
 #'                   c2 = c(NA,2,NA,5), 
 #'                   c3 = c(NA,4,NA,NA), 
 #'                   c4 = c(2,3,7,8))
-#' sju.mean.n(dat, 4) # 1 valid return value
-#' sju.mean.n(dat, 3) # 2 valid return values
-#' sju.mean.n(dat, 2)
-#' sju.mean.n(dat, 1) # all means are shown
+#' mean_n(dat, 4) # 1 valid return value
+#' mean_n(dat, 3) # 2 valid return values
+#' mean_n(dat, 2)
+#' mean_n(dat, 1) # all means are shown
 #' 
 #' @export
-sju.mean.n <- function(dat, n) {
+mean_n <- function(dat, n) {
   # ---------------------------------------
   # coerce matrix to data frame
   # ---------------------------------------
@@ -1077,12 +1018,6 @@ sju.mean.n <- function(dat, n) {
     return (NA)
   }
   apply(dat, 1, function(x) ifelse(sum(!is.na(x)) >= n, mean(x, na.rm=TRUE), NA))
-}
-
-
-#' @describeIn sju.mean.n
-mean_n <- function(dat, n) {
-  sju.mean.n(dat, n)
 }
 
 

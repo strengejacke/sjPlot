@@ -182,7 +182,7 @@ sjp.setTheme <- function(title.color="black",
                          geom.errorbar.size=0.7,
                          geom.errorbar.linetype=1,
                          # value labels
-                         geom.label.color="black",
+                         geom.label.color=NULL,
                          geom.label.size=4.5,
                          geom.label.alpha=1,
                          geom.label.angle=0,
@@ -361,6 +361,12 @@ sjp.setTheme <- function(title.color="black",
     title.vjust <- 1.75
     plot.margins <- unit(c(1, .5, 1, 0.5), "cm")
   }  
+  # ----------------------------------------  
+  # set defaults for geom label colors
+  # ----------------------------------------  
+  if (is.null(geom.label.color)) {
+    geom.label.color <- "black"
+  }
   # ----------------------------------------  
   # set defaults for axis text angle
   # ----------------------------------------  

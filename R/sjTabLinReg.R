@@ -2,8 +2,8 @@
 #' @name sjt.lm
 #' 
 #' @description Shows (multiple) fitted linear models (beta coefficients, std. beta values etc.)
-#'                as HTML table, or saves them as file. The fitted lm's should have the same predictor variables and
-#'                differ only in their response (dependent variable).
+#'                as HTML table, or saves them as file. The fitted models may hav different predictors,
+#'                e.g. when comparing different stepwise fitted models.
 #'                
 #' @seealso \itemize{
 #'            \item \code{\link{sjt.glm}}
@@ -116,9 +116,15 @@
 #'         default behaviour (i.e. \code{file=NULL}).
 #' 
 #' @examples
+#' \dontrun{
 #' # Now fit the models. Note that both models share the same predictors
-#' # and only differ in their dependent variable
+#' # and only differ in their dependent variable. See examples of stepwise
+#' # models below at the end.
 #' data(efc)
+#' 
+#' # attach variable labels to each variable of the data
+#' # frame - useful for automatic label detection
+#' efc <- set_var_labels(efc, get_var_labels(efc))
 #' 
 #' # fit first model
 #' fit1 <- lm(barthtot ~ c160age + c12hour + c161sex + c172code, data=efc)
@@ -126,7 +132,12 @@
 #' fit2 <- lm(neg_c_7 ~ c160age + c12hour + c161sex + c172code, data=efc)
 #' 
 #' # create and open HTML-table in RStudio Viewer Pane or web browser
-#' \dontrun{
+#' # note that we don't need to specify labels for the predictors,
+#' # because these are automatically read
+#' sjt.lm(fit1, fit2)
+#' 
+#' # create and open HTML-table in RStudio Viewer Pane or web browser
+#' # in the following examples, we set labels via parameter
 #' sjt.lm(fit1, 
 #'        fit2, 
 #'        labelDependentVariables = c("Barthel-Index",
@@ -186,9 +197,9 @@
 #'        pvaluesAsNumbers = FALSE, 
 #'        separateConfColumn = FALSE)
 #' 
-#' # ---------------------------------------------------------------- 
+#' # ---------------------------------- 
 #' # connecting two html-tables
-#' # ---------------------------------------------------------------- 
+#' # ---------------------------------- 
 #' # fit two more models
 #' fit3 <- lm(tot_sc_e ~ c160age + c12hour + c161sex + c172code, data=efc)
 #' fit4 <- lm(e42dep ~ c160age + c12hour + c161sex + c172code, data=efc)
@@ -221,9 +232,9 @@
 #' viewer <- getOption("viewer")
 #' if (!is.null(viewer)) viewer(htmlFile) else utils::browseURL(htmlFile)
 #' 
-#' # ---------------------------------------------------------------- 
+#' # ---------------------------------- 
 #' # User defined style sheet
-#' # ---------------------------------------------------------------- 
+#' # ---------------------------------- 
 #' sjt.lm(fit1, 
 #'        fit2, 
 #'        labelDependentVariables = c("Barthel-Index", "Negative Impact"),
@@ -233,8 +244,54 @@
 #'                            "Educational Status"),
 #'        CSS = list(css.table = "border: 2px solid;",
 #'                   css.tdata = "border: 1px solid;",
-#'                   css.depvarhead = "color:#003399;"))}
-#'        
+#'                   css.depvarhead = "color:#003399;"))
+#'                   
+#' # ---------------------------------- 
+#' # automatic grouping of predictors
+#' # ---------------------------------- 
+#' data(efc)
+#' 
+#' # attach variable labels to each variable of the data
+#' # frame - useful for automatic label detection
+#' efc <- set_var_labels(efc, get_var_labels(efc))
+#' 
+#' # make education categorical
+#' efc$c172code <- to_fac(efc$c172code)
+#'     
+#' # fit first model again (with c172code as factor)
+#' fit1 <- lm(barthtot ~ c160age + c12hour + c172code + c161sex, data=efc)
+#' # fit second model again (with c172code as factor)
+#' fit2 <- lm(neg_c_7 ~ c160age + c12hour + c172code + c161sex, data=efc)
+#' 
+#' # plot models, but group by predictors
+#' sjt.lm(fit1,
+#'        fit2,
+#'        group.pred = TRUE)}
+#'
+#' # ---------------------------------------- 
+#' # compare models with different predictors
+#' # ---------------------------------------- 
+#' data(efc)
+#' 
+#' # attach variable labels to each variable of the data
+#' # frame - useful for automatic label detection
+#' efc <- set_var_labels(efc, get_var_labels(efc))
+#' 
+#' # make education categorical
+#' efc$c172code <- to_fac(efc$c172code)
+#' # make education categorical
+#' efc$e42dep <- to_fac(efc$e42dep)
+#' 
+#' # fit first model
+#' fit1 <- lm(neg_c_7 ~ c160age + c172code + c161sex, data=efc)
+#' # fit second model
+#' fit2 <- lm(neg_c_7 ~ c160age + c172code + c161sex + c12hour, data=efc)
+#' # fit second model
+#' fit3 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e, data=efc)
+#'
+#' sjt.lm(fit1, fit2, fit3)
+#'
+#' @import dplyr
 #' @export
 sjt.lm <- function (..., 
                     file=NULL, 
@@ -377,6 +434,120 @@ sjt.lm <- function (...,
   # retrieve fitted models
   # ------------------------
   input_list <- list(...)
+  # check if we have different amount of coefficients
+  # in fitted models - if yes, we have e.g. stepwise models
+  sw.fit <- (length(unique(sapply(input_list, function(x) length(coef(x))))) > 1)
+  # if all fitted models have same amount of coefficients, check
+  # whether all coefficients have same name. if not, we have models
+  # with different predictors (e.g. stepwise comparison)
+  if (sw.fit == FALSE) {
+    all.coefs <- sapply(input_list, function(x) sort(names(coef(x))))
+    sw.fit <- any(apply(all.coefs, 1, function(x) length(unique(x))) > 1)
+  }
+  # -------------------------------------
+  # prepare content, i.e. retrieve all
+  # statistics from all fitted models
+  # -------------------------------------
+  df.fit <- list()
+  # -------------------------------------
+  # iterate all models
+  # -------------------------------------
+  for (i in 1:length(input_list)) {
+    fit.df <- data.frame()
+    # -------------------------------------
+    # retrieve model
+    # -------------------------------------
+    fit <- input_list[[i]]
+    # -------------------------------------
+    # retrieve ci for model
+    # -------------------------------------
+    confis <- confint(fit)
+    sbvals <- suppressWarnings(std_beta(fit, include.ci = T))
+    # -------------------------------------
+    # write data to data frame. we need names of
+    # coefficients, estimated values, ci,
+    # std. beta and p-values
+    # -------------------------------------
+    fit.df <- data.frame(names(coef(fit)))
+    fit.df$coeffs <- sprintf("%.*f", digits.est, coef(fit))
+    fit.df$confi_lower <- sprintf("%.*f", digits.ci, confis[,1])
+    fit.df$confi_higher <- sprintf("%.*f", digits.ci, confis[,2])
+    # p-values
+    fit.df$pv <- round(summary(fit)$coefficients[,4], digits.p)
+    # standard error
+    fit.df$se <- sprintf("%.*f", digits.se, summary(fit)$coefficients[,2])
+    # retrieve standardized betas and CI
+    fit.df$stdbv <- c("", sprintf("%.*f", digits.sb, sbvals[,1]))
+    fit.df$stdbvci_lower <- c("", sprintf("%.*f", digits.ci, sbvals[,2]))
+    fit.df$stdbvci_higher <- c("", sprintf("%.*f", digits.ci, sbvals[,3]))
+    # -------------------------------------
+    # prepare p-values, either as * or as numbers
+    # -------------------------------------
+    if (!pvaluesAsNumbers) {
+      fit.df$pv <- sapply(fit.df$pv, function(x) {
+        if (x>=0.05) x <- c("")
+        else if (x>=0.01 && x<0.05) x <- c("*")
+        else if (x>=0.001 && x<0.01) x <- c("**")
+        else if (x<0.001) x <- c("***")
+      })
+    }
+    else {
+      if (boldpvalues) {
+        sb1 <- "<b>"
+        sb2 <- "</b>"
+      }
+      else {
+        sb1 <- sb2 <- ""
+      }
+      fit.df$pv <- sapply(fit.df$pv, function(x) {
+        if (x <0.05) {
+          if (x < 0.001) {
+            x <- sprintf("%s&lt;&nbsp;0.001%s", sb1, sb2)
+          }
+          else {
+            x <- sprintf("%s%.*f%s", sb1, digits.p, x, sb2)
+          }
+          
+        }
+        else {
+          x <- sprintf("%.*f", digits.p, x) 
+        }
+      })
+    }
+    # -------------------------------------
+    # set column names. we need the same name
+    # for first column witrh coefficient names
+    # and different column names for all model-statistics.
+    # with this structure, we can join data frame with dplyr
+    # in case we have fitted model with different predictors.
+    # -------------------------------------
+    colnames(fit.df) <- c("coef.name",
+                          sprintf("estimate%i", i),
+                          sprintf("ci.lo%i", i),
+                          sprintf("ci.hi%i", i),
+                          sprintf("p-value%i", i),
+                          sprintf("se%i", i),
+                          sprintf("std.beta%i", i),
+                          sprintf("std.beta.ci.lo%i", i),
+                          sprintf("std.beta.ci.hi%i", i))
+    # -------------------------------------
+    # add to df list
+    # -------------------------------------
+    df.fit[[length(df.fit) + 1]] <- fit.df
+  }
+  # -------------------------------------
+  # join all data frame
+  # -------------------------------------
+  joined.df <- df.fit[[1]]
+  for (i in 2 : length(df.fit)) {
+    joined.df <- suppressWarnings(dplyr::full_join(joined.df, df.fit[[i]], "coef.name"))
+  }
+  # -------------------------------------
+  # replace NA, created by join, with empty string
+  # -------------------------------------
+  for (i in 1 : ncol(joined.df)) {
+    joined.df[, i] <- sapply(joined.df[, i], function(x) if (is.na(x)) x <- "" else x)
+  }
   # -------------------------------------
   # if confidence interval should be omitted,
   # don't use separate column for CI!
@@ -455,105 +626,6 @@ sjt.lm <- function (...,
     page.content <- paste0(page.content, "\n  </tr>")
   }
   # -------------------------------------
-  # calculate coefficients and confidence intervalls
-  # for all models
-  # -------------------------------------
-  coeffs <- c()
-  confi_lower <- c()
-  confi_higher <- c()
-  pv <- c()
-  se <- c()
-  stdbv <- c()
-  stdbvci_lower <- c()
-  stdbvci_higher <- c()
-  # -------------------------------------
-  # retrieve data from fitted models
-  # -------------------------------------
-  for (i in 1:length(input_list)) {
-    # retirve model
-    fit <- input_list[[i]]
-    # retrieve ci for model
-    confis <- confint(fit)
-    sbvals <- sjs.stdb(fit, include.ci = T)
-    # get coefficients
-    coeffs <- rbind(coeffs, coef(fit))
-    confi_lower <- cbind(confi_lower, confis[,1])
-    confi_higher <- cbind(confi_higher, confis[,2])
-    pv <- cbind(pv, round(summary(fit)$coefficients[,4], digits.p))
-    # standard error
-    se <- cbind(se, round(summary(fit)$coefficients[,2], digits.se))
-    # retrieve standardized betas and CI
-    stdbv <- cbind(stdbv, sprintf("%.*f", digits.sb, sbvals[,1]))
-    stdbvci_lower <- cbind(stdbvci_lower, sbvals[,2])
-    stdbvci_higher <- cbind(stdbvci_higher, sbvals[,3])
-  }
-  # -------------------------------------
-  # rotate coefficients
-  # -------------------------------------
-  coeffs <- t(coeffs)
-  # -------------------------------------
-  # set default predictor labels
-  # -------------------------------------
-  if (is.null(labelPredictors)) {
-    fit <- input_list[[1]]
-    labelPredictors <- retrieveModelLabels(fit)
-  }
-  # --------------------------------------------------------
-  # auto-retrieving variable labels does not work when we
-  # have factors with different levels, which appear as 
-  # "multiple predictors", but are only one variable
-  # --------------------------------------------------------
-  if (is.null(labelPredictors) || length(labelPredictors) < length(row.names(coeffs)[-1])) {
-    labelPredictors <- row.names(coeffs)[-1]
-  }
-  # -------------------------------------
-  # prepare p-values, either as * or as numbers
-  # -------------------------------------
-  if (!pvaluesAsNumbers) {
-    pv <- apply(pv, c(1,2), function(x) {
-      if (x>=0.05) x <- c("")
-      else if (x>=0.01 && x<0.05) x <- c("*")
-      else if (x>=0.001 && x<0.01) x <- c("**")
-      else if (x<0.001) x <- c("***")
-    })
-  }
-  else {
-    if (boldpvalues) {
-      sb1 <- "<b>"
-      sb2 <- "</b>"
-    }
-    else {
-      sb1 <- sb2 <- ""
-    }
-    pv <- apply(pv, c(1,2), function(x) {
-      if (x <0.05) {
-        if (x < 0.001) {
-          x <- sprintf("%s&lt;&nbsp;0.001%s", sb1, sb2)
-        }
-        else {
-          x <- sprintf("%s%.*f%s", sb1, digits.p, x, sb2)
-        }
-        
-      }
-      else {
-        x <- sprintf("%.*f", digits.p, x) 
-      }
-    })
-  }
-  # -------------------------------------
-  # should factor predictors be grouped?
-  # -------------------------------------
-  if (group.pred) {
-    # get indices
-    group.pred.list <- retrieveModelGroupIndices(input_list[[1]])
-    group.pred.rows <- group.pred.list[[1]]
-    group.pred.span <- group.pred.list[[2]]
-    group.pred.labs <- group.pred.list[[3]]
-  }
-  else {
-    group.pred.rows <- group.pred.span <- group.pred.labs <- NULL
-  }
-  # -------------------------------------
   # table header: or/ci and p-labels
   # -------------------------------------
   if (showAbbrHeadline) {
@@ -593,20 +665,49 @@ sjt.lm <- function (...,
   # -------------------------------------
   page.content <- paste0(page.content, "  <tr>\n")
   # -------------------------------------
+  # set default predictor labels
+  # -------------------------------------
+  if (is.null(labelPredictors) && !sw.fit) {
+    fit <- input_list[[1]]
+    labelPredictors <- retrieveModelLabels(fit)
+  }
+  # --------------------------------------------------------
+  # auto-retrieving variable labels does not work when we
+  # have factors with different levels, which appear as 
+  # "multiple predictors", but are only one variable
+  # --------------------------------------------------------
+  if (is.null(labelPredictors) || length(labelPredictors) < length(joined.df[-1, 1])) {
+    labelPredictors <- joined.df[-1, 1]
+  }
+  # -------------------------------------
+  # should factor predictors be grouped?
+  # -------------------------------------
+  if (group.pred) {
+    # get indices
+    group.pred.list <- retrieveModelGroupIndices(input_list[[1]])
+    # append indices
+    group.pred.rows <- group.pred.list[[1]]
+    group.pred.span <- group.pred.list[[2]]
+    group.pred.labs <- group.pred.list[[3]]
+  }
+  else {
+    group.pred.rows <- group.pred.span <- group.pred.labs <- NULL
+  }
+  # -------------------------------------
   # 1. row: intercept
   # -------------------------------------
   page.content <- paste0(page.content, sprintf("    <td class=\"tdata leftalign topcontentborder\">%s</td>", stringIntercept))
-  
-  for (i in 1:ncol(coeffs)) {
+
+  for (i in 1 : length(input_list)) {
     # confidence interval in separate column
     if (separateConfColumn) {
       # open table cell for Beta-coefficient
-      page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign topcontentborder modelcolumnstart\">%.*f", digits.est, coeffs[1,i]))
+      page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign topcontentborder modelcolumnstart\">%s", joined.df[1, (i-1)*8+2]))
       # if p-values are not shown as numbers, insert them after beta-value
-      if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf(" %s", pv[1,i]))
+      if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf(" %s", joined.df[1, (i-1)*8+5]))
       # if we have CI, start new table cell (CI in separate column)
       if (showConfInt) {
-        page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign topcontentborder\">%.*f-%.*f</td>", digits.ci, confi_lower[1,i], digits.ci, confi_higher[1,i]))
+        page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign topcontentborder\">%s&nbsp;-&nbsp;%s</td>", joined.df[1, (i-1)*8+3], joined.df[1, (i-1)*8+4]))
       }
       else {
         page.content <- paste0(page.content, "</td>")
@@ -614,28 +715,27 @@ sjt.lm <- function (...,
     }
     else {
       # open table cell for Beta-coefficient
-      page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign topcontentborder modelcolumnstart\">%.*f", digits.est, coeffs[1,i]))
+      page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign topcontentborder modelcolumnstart\">%s", joined.df[1, (i-1)*8+2]))
       # confidence interval in Beta-column
-      if (showConfInt) page.content <- paste0(page.content, sprintf("%s(%.*f-%.*f)", linebreakstring, digits.ci, confi_lower[1,i], digits.ci, confi_higher[1,i]))
+      if (showConfInt) page.content <- paste0(page.content, sprintf("%s(%s&nbsp;-&nbsp;%s)", linebreakstring, joined.df[1, (i-1)*8+3], joined.df[1, (i-1)*8+4]))
       # if p-values are not shown as numbers, insert them after beta-value
-      if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf(" %s", pv[1,i]))
+      if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf(" %s", joined.df[1, (i-1)*8+5]))
       page.content <- paste0(page.content, "</td>")
     }
     # show std. error
-    if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign topcontentborder\">%.*f</td>", digits.se, se[1,i]))
+    if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign topcontentborder\">%s</td>", joined.df[1, (i-1)*8+6]))
     # show std. beta
     if (showStdBeta) page.content <- paste0(page.content, "<td class=\"tdata centeralign topcontentborder\"></td>")
     # show std. beta
     if (showStdBeta && showConfInt) page.content <- paste0(page.content, "<td class=\"tdata centeralign topcontentborder\"></td>")
     # show p-values as numbers in separate column
-    if (pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign topcontentborder\">%s</td>", pv[1,i]))
+    if (pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign topcontentborder\">%s</td>", joined.df[1, (i-1)*8+5]))
   }
   page.content <- paste0(page.content, "\n  </tr>")  
   # -------------------------------------
   # subsequent rows: predictors
   # -------------------------------------
-  predlen <- length(labelPredictors)
-  for (i in 1:predlen) {
+  for (i in 1 : (nrow(joined.df)-1)) {
     # -------------------------------------
     # do we need to insert a "factor grouping headline row"?
     # -------------------------------------
@@ -654,16 +754,27 @@ sjt.lm <- function (...,
       indent.tag <- "tdata"
     }
     page.content <- paste0(page.content, "\n  <tr>\n", sprintf("    <td class=\"%s leftalign\">%s</td>", indent.tag, labelPredictors[i]))
-    for (j in 1:ncol(coeffs)) {
+    # ---------------------------------------
+    # helper function, checks if string is empty
+    # ---------------------------------------
+    is_empty <- function(x) return (is.null(x) || nchar(x) == 0)
+    # ---------------------------------------
+    # go through fitted model's statistics
+    # ---------------------------------------
+    for (j in 1 : length(input_list)) {
+      # retieve lower and upper ci
+      ci.lo <- joined.df[i+1, (j-1)*8+3]
+      ci.hi <- joined.df[i+1, (j-1)*8+4]
+      ci.sep.string <- ifelse(is_empty(ci.lo), "", "&nbsp;-&nbsp;")
       # confidence interval in separate column
       if (separateConfColumn) {
         # open table cell for Beta-coefficient
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumnstart\">%.*f", digits.est, coeffs[i+1,j]))
+        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumnstart\">%s", joined.df[i+1, (j-1)*8+2]))
         # if p-values are not shown as numbers, insert them after beta-value
-        if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf(" %s", pv[i+1,j]))
+        if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf(" %s", joined.df[i+1, (j-1)*8+5]))
         # if we have CI, start new table cell (CI in separate column)
         if (showConfInt) {
-          page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign\">%.*f-%.*f</td>", digits.ci, confi_lower[i+1,j], digits.ci, confi_higher[i+1,j]))
+          page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign\">%s%s%s</td>", ci.lo, ci.sep.string, ci.hi))
         }
         else {
           page.content <- paste0(page.content, "</td>")
@@ -671,23 +782,27 @@ sjt.lm <- function (...,
       }
       else {
         # open table cell for Beta-coefficient
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumnstart\">%.*f", digits.est, coeffs[i+1,j]))
+        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumnstart\">%s", joined.df[i+1, (j-1)*8+2]))
         # confidence interval in Beta-column
-        if (showConfInt) page.content <- paste0(page.content, sprintf("%s(%.*f-%.*f)", linebreakstring, digits.ci, confi_lower[i+1,j], digits.ci, confi_higher[i+1,j]))
+        if (showConfInt) page.content <- paste0(page.content, sprintf("%s(%s%s%s)", linebreakstring, ci.lo, ci.sep.string, ci.hi))
         # if p-values are not shown as numbers, insert them after beta-value
-        if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf(" %s", pv[i+1,j]))
+        if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf(" %s", joined.df[i+1, (j-1)*8+5]))
         page.content <- paste0(page.content, "</td>")
       }
       # show std. error
-      if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign\">%.*f</td>", digits.se, se[i+1,j]))
+      if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign\">%s</td>", joined.df[i+1, (j-1)*8+6]))
       # show std. beta
       if (showStdBeta) {
+        # retieve lower and upper ci
+        ci.lo <- joined.df[i+1, (j-1)*8+8]
+        ci.hi <- joined.df[i+1, (j-1)*8+9]
+        ci.sep.string <- ifelse(is_empty(ci.lo), "", "&nbsp;-&nbsp;")
         if (separateConfColumn) {
           # open table cell for Beta-coefficient
-          page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign\">%s</td>", stdbv[i,j]))
+          page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign\">%s</td>", joined.df[i+1, (j-1)*8+7]))
           # if we have CI, start new table cell (CI in separate column)
           if (showConfInt) {
-            page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign\">%.*f-%.*f</td>", digits.ci, stdbvci_lower[i,j], digits.ci, stdbvci_higher[i,j]))
+            page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign\">%s%s%s</td>", ci.lo, ci.sep.string, ci.hi))
           }
           else {
             page.content <- paste0(page.content, "</td>")
@@ -695,14 +810,14 @@ sjt.lm <- function (...,
         }
         else {
           # open table cell for Beta-coefficient
-          page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign\">%s", stdbv[i,j]))
+          page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign\">%s", joined.df[i+1, (j-1)*8+7]))
           # confidence interval in Beta-column
-          if (showConfInt) page.content <- paste0(page.content, sprintf("%s(%.*f-%.*f)", linebreakstring, digits.ci, stdbvci_lower[i,j], digits.ci, stdbvci_higher[i,j]))
+          if (showConfInt) page.content <- paste0(page.content, sprintf("%s(%s%s%s)", linebreakstring, ci.lo, ci.sep.string, ci.hi))
           page.content <- paste0(page.content, "</td>")
         }
       }
       # show p-values as numbers in separate column
-      if (pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign\">%s</td>", pv[i+1,j]))
+      if (pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign\">%s</td>", joined.df[i+1, (j-1)*8+5]))
     }
     page.content <- paste0(page.content, "\n  </tr>")
   }
@@ -827,7 +942,8 @@ sjt.lm <- function (...,
                        list(page.style = page.style,
                             page.content = page.content,
                             output.complete = toWrite,
-                            knitr = knitr)))
+                            knitr = knitr,
+                            joined.df = joined.df)))
 }
 
 

@@ -37,7 +37,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Perc", "Sum", "Count", "
 #'          range is between 0 and 1.
 #' @param title Title of the diagram, plotted above the whole diagram panel.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link{sji.setVariableLabels}}) for details).
+#'          (see \code{\link{set_var_labels}}) for details).
 #' @param legendTitle Title of the diagram's legend.
 #' @param axisLabels.x Labels for the x-axis breaks.
 #' @param legendLabels Labels for the guide/legend.
@@ -95,7 +95,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Perc", "Sum", "Count", "
 #' @param axisTitle.x A label for the x axis. useful when plotting histograms with metric scales where no category labels
 #'          are assigned to the x axis.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link{sji.setVariableLabels}}) for details).
+#'          (see \code{\link{set_var_labels}}) for details).
 #' @param axisTitle.y A label for the y axis. useful when plotting histograms with metric scales where no category labels
 #'          are assigned to the y axis.
 #' @param coord.flip If \code{TRUE}, the x and y axis are swapped.
@@ -138,10 +138,10 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Perc", "Sum", "Count", "
 #' 
 #' # grouped bars with EUROFAMCARE sample dataset
 #' # dataset was importet from an SPSS-file, using:
-#' # efc <- sji.SPSS("efc.sav", enc="UTF-8")
+#' # efc <- read_spss("efc.sav", enc="UTF-8")
 #' data(efc)
-#' efc.val <- sji.getValueLabels(efc)
-#' efc.var <- sji.getVariableLabels(efc)
+#' efc.val <- get_val_labels(efc)
+#' efc.var <- get_var_labels(efc)
 #' 
 #' sjp.xtab(efc$e42dep,
 #'          efc$e16sex,
@@ -171,11 +171,11 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Perc", "Sum", "Count", "
 #' # -------------------------------
 #' # auto-detection of labels
 #' # -------------------------------
-#' efc <- sji.setVariableLabels(efc, efc.var)
+#' efc <- set_var_labels(efc, efc.var)
 #' sjp.xtab(efc$e16sex, efc$e42dep)
 #'
 #' @import ggplot2
-#' @importFrom plyr ddply
+#' @import dplyr
 #' @importFrom scales percent
 #' @importFrom MASS loglm
 #' @export
@@ -436,7 +436,9 @@ sjp.xtab <- function(y,
   mydf$Count <- as.factor(mydf$Count)
   mydf$Group <- as.factor(mydf$Group)
   # add half of Percentage values as new y-position for stacked bars
-  mydf = ddply(mydf, "Count", transform, ypos = cumsum(Perc) - 0.5*Perc)
+  # mydf = ddply(mydf, "Count", transform, ypos = cumsum(Perc) - 0.5*Perc)
+  mydf <- mydf %>% dplyr::group_by(Count) %>% dplyr::mutate(ypos = cumsum(Perc) - 0.5*Perc) %>% dplyr::arrange(Count)
+  
   # add line-break char
   if (showPercentageValues && showCountValues) {
     mydf$line.break <- ifelse (coord.flip == TRUE, ' ', '\n')
@@ -482,11 +484,11 @@ sjp.xtab <- function(y,
   }
   legendLabels <- c(legendLabels, stringTotal)
   # wrap legend text lines
-  legendLabels <- sju.wordwrap(legendLabels, breakLegendLabelsAt)
+  legendLabels <- word_wrap(legendLabels, breakLegendLabelsAt)
   # check whether we have a title for the legend
   if (!is.null(legendTitle)) {
     # if yes, wrap legend title line
-    legendTitle <- sju.wordwrap(legendTitle, breakLegendTitleAt)
+    legendTitle <- word_wrap(legendTitle, breakLegendTitleAt)
   }
   # --------------------------------------------------------
   # Trim labels and title to appropriate size
@@ -498,12 +500,12 @@ sjp.xtab <- function(y,
     if (!is.null(weightByTitleString)) {
       title <- paste(title, weightByTitleString, sep="")
     }
-    title <- sju.wordwrap(title, breakTitleAt)
+    title <- word_wrap(title, breakTitleAt)
   }
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
   if (!is.null(axisLabels.x)) {
-    axisLabels.x <- sju.wordwrap(axisLabels.x, breakLabelsAt)
+    axisLabels.x <- word_wrap(axisLabels.x, breakLabelsAt)
   }
   # If axisLabels.x were not defined, simply set numbers from 1 to
   # amount of categories (=number of rows) in dataframe instead

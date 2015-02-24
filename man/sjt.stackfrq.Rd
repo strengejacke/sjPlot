@@ -22,7 +22,7 @@ sjt.stackfrq(items, weightBy = NULL, title = NULL, varlabels = NULL,
 
 \item{varlabels}{A list or vector of strings with variable names. If not specified, row names of \code{items}
 will be used, resp. variable labels will automatically be detected, when they have
-a \code{"variable.lable"} attribute (see \code{\link{sji.setVariableLabels}}) for details).}
+a \code{"variable.lable"} attribute (see \code{\link{set_var_labels}}) for details).}
 
 \item{breakLabelsAt}{Wordwrap for variable labels. Determines how many chars of the variable labels are displayed in
 one line and when a line break is inserted. Default is 40.}
@@ -162,7 +162,7 @@ start <- which(colnames(efc)=="c82cop1")
 # recveive first item of COPE-index scale
 end <- which(colnames(efc)=="c90cop9")
 # retrieve variable labels
-varlabs <- sji.getVariableLabels(efc)
+varlabs <- get_var_labels(efc)
 
 # Note: Parameter "valuelabels" is only needed for datasets
 # that have been imported from SPSS.
@@ -179,7 +179,7 @@ sjt.stackfrq(efc[,c(start:end)],
 # -------------------------------
 # auto-detection of labels
 # -------------------------------
-efc <- sji.setVariableLabels(efc, varlabs)
+efc <- set_var_labels(efc, varlabs)
 sjt.stackfrq(efc[,c(start:end)])
 
 # --------------------------------

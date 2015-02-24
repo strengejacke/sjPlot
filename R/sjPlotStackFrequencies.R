@@ -43,7 +43,7 @@
 #' @param axisLabels.y Labels for the y-axis (the labels of the \code{items}). These parameters must
 #'          be passed as list! Example: \code{axisLabels.y=list(c("Q1", "Q2", "Q3"))}
 #'          Axis labels will automatically be detected, when they have
-#'          a \code{"variable.lable"} attribute (see \code{\link{sji.setVariableLabels}}) for details).
+#'          a \code{"variable.lable"} attribute (see \code{\link{set_var_labels}}) for details).
 #' @param breakTitleAt Wordwrap for diagram title. Determines how many chars of the title are displayed in
 #'          one line and when a line break is inserted into the title.
 #' @param breakLabelsAt Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in 
@@ -107,8 +107,8 @@
 #' end <- which(colnames(efc)=="c90cop9")
 #' 
 #' # retrieve variable and value labels
-#' varlabs <- sji.getVariableLabels(efc)
-#' vallabs <- sji.getValueLabels(efc)
+#' varlabs <- get_var_labels(efc)
+#' vallabs <- get_val_labels(efc)
 #' 
 #' # create value labels. We need just one variable of
 #' # the COPE-index scale because they have all the same
@@ -124,12 +124,12 @@
 #' # -------------------------------
 #' # auto-detection of labels
 #' # -------------------------------
-#' efc <- sji.setVariableLabels(efc, varlabs)
+#' efc <- set_var_labels(efc, varlabs)
 #' sjp.stackfrq(efc[,c(start:end)])
 #' 
 #' 
 #' @import ggplot2
-#' @importFrom plyr ddply
+#' @import dplyr
 #' @importFrom scales percent
 #' @export
 sjp.stackfrq <- function(items,
@@ -275,7 +275,8 @@ sjp.stackfrq <- function(items,
   mydat$grp <- as.factor(mydat$grp)
   mydat$cat <- as.factor(mydat$cat)
   # add half of Percentage values as new y-position for stacked bars
-  mydat = ddply(mydat, "grp", transform, ypos = cumsum(prc) - 0.5*prc)
+  # mydat = ddply(mydat, "grp", transform, ypos = cumsum(prc) - 0.5*prc)
+  mydat <- mydat %>% dplyr::group_by(grp) %>% dplyr::mutate(ypos = cumsum(prc) - 0.5*prc) %>% dplyr::arrange(grp)
   # --------------------------------------------------------
   # Caculate vertical adjustment to avoid overlapping labels
   # --------------------------------------------------------
@@ -285,11 +286,11 @@ sjp.stackfrq <- function(items,
   # Prepare and trim legend labels to appropriate size
   # --------------------------------------------------------
   # wrap legend text lines
-  legendLabels <- sju.wordwrap(legendLabels, breakLegendLabelsAt)    
+  legendLabels <- word_wrap(legendLabels, breakLegendLabelsAt)    
   # check whether we have a title for the legend
   if (!is.null(legendTitle)) {
     # if yes, wrap legend title line
-    legendTitle <- sju.wordwrap(legendTitle, breakLegendTitleAt)    
+    legendTitle <- word_wrap(legendTitle, breakLegendTitleAt)    
   }
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
@@ -298,12 +299,12 @@ sjp.stackfrq <- function(items,
     if (!is.null(weightByTitleString)) {
       title <- paste(title, weightByTitleString, sep="")
     }
-    title <- sju.wordwrap(title, breakTitleAt)    
+    title <- word_wrap(title, breakTitleAt)    
   }
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
   if (!is.null(axisLabels.y)) {
-    axisLabels.y <- sju.wordwrap(axisLabels.y, breakLabelsAt)    
+    axisLabels.y <- word_wrap(axisLabels.y, breakLabelsAt)    
   }
   # ----------------------------
   # Check if ordering was requested

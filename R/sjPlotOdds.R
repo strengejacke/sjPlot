@@ -35,7 +35,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #' @param axisLabels.y Labels of the predictor variables (independent vars, odds) that are used for labelling the
 #'          axis. Passed as vector of strings.
 #'          Example: \code{axisLabels.y=c("Label1", "Label2", "Label3")}
-#'          Note: If you use the \code{\link{sji.SPSS}} function and the \code{\link{sji.getValueLabels}} function, you receive a
+#'          Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_val_labels}} function, you receive a
 #'          \code{list} object with label string. The labels may also be passed as list object. They will be unlisted and
 #'          converted to character vector automatically.
 #' @param showAxisLabels.y Whether odds names (predictor labels) should be shown or not.
@@ -120,7 +120,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #' # -------------------------------
 #' data(efc)
 #' # retrieve predictor variable labels
-#' labs <- sji.getVariableLabels(efc)
+#' labs <- get_var_labels(efc)
 #' predlab <- c(labs[['c161sex']],
 #'              paste0(labs[['e42dep']], " (slightly)"),
 #'              paste0(labs[['e42dep']], " (moderate)"),
@@ -218,16 +218,16 @@ sjp.glm <- function(fit,
   # ----------------------------
   # check length of diagram title and split longer string at into new lines
   if (!is.null(title)) {
-    title <- sju.wordwrap(title, breakTitleAt)
+    title <- word_wrap(title, breakTitleAt)
   }
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
   if (!is.null(axisTitle.x)) {
-    axisTitle.x <- sju.wordwrap(axisTitle.x, breakTitleAt)
+    axisTitle.x <- word_wrap(axisTitle.x, breakTitleAt)
   }
   # check length of x-axis-labels and split longer strings at into new lines
   if (!is.null(axisLabels.y)) {
-    axisLabels.y <- sju.wordwrap(axisLabels.y, breakLabelsAt)
+    axisLabels.y <- word_wrap(axisLabels.y, breakLabelsAt)
   }
   # create data frame for ggplot
   tmp <- data.frame(cbind(exp(coef(fit)), exp(confint(fit))))
@@ -555,7 +555,7 @@ sjp.glm.pc <- function(fit,
       # set colnames
       colnames(mydf.vals) <- c("value")
       # convert factor to numeric
-      if (is.factor(mydf.vals$value)) mydf.vals$value <- sji.convertToValue(mydf.vals$value, 0)
+      if (is.factor(mydf.vals$value)) mydf.vals$value <- to_value(mydf.vals$value, 0)
       # retrieve names of coefficients
       coef.names <- names(coef(fit))
       # check if we have a factor, then we may have reference levels

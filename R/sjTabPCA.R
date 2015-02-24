@@ -11,9 +11,9 @@
 #' @seealso \itemize{
 #'            \item \href{http://www.strengejacke.de/sjPlot/sjt.pca/}{sjPlot manual: sjt.pca}
 #'            \item \code{\link{sjp.pca}}
-#'            \item \code{\link{sjs.reliability}}
+#'            \item \code{\link{reliab_test}}
 #'            \item \code{\link{sjt.itemanalysis}}
-#'            \item \code{\link{sjs.cronbach}}
+#'            \item \code{\link{cronb}}
 #'          }
 #' 
 #' @param data A data frame with factors (each columns one variable) that should be used 
@@ -99,21 +99,41 @@
 #'         This PCA uses the \code{\link{prcomp}} function and the \code{\link{varimax}} rotation.
 #' 
 #' @examples
+#' \dontrun{
 #' # randomly create data frame with 7 items, each consisting of 4 categories
-#' likert_4 <- data.frame(sample(1:4, 500, replace=TRUE, prob=c(0.2,0.3,0.1,0.4)),
-#'                        sample(1:4, 500, replace=TRUE, prob=c(0.5,0.25,0.15,0.1)),
-#'                        sample(1:4, 500, replace=TRUE, prob=c(0.4,0.15,0.25,0.2)),
-#'                        sample(1:4, 500, replace=TRUE, prob=c(0.25,0.1,0.4,0.25)),
-#'                        sample(1:4, 500, replace=TRUE, prob=c(0.1,0.4,0.4,0.1)),
-#'                        sample(1:4, 500, replace=TRUE),
-#'                        sample(1:4, 500, replace=TRUE, prob=c(0.35,0.25,0.15,0.25)))
+#' likert_4 <- data.frame(sample(1:4, 
+#'                               500, 
+#'                               replace = TRUE, 
+#'                               prob = c(0.2, 0.3, 0.1, 0.4)),
+#'                        sample(1:4, 
+#'                               500, 
+#'                               replace = TRUE, 
+#'                               prob = c(0.5, 0.25, 0.15, 0.1)),
+#'                        sample(1:4, 
+#'                               500, 
+#'                               replace = TRUE, 
+#'                               prob = c(0.4, 0.15, 0.25, 0.2)),
+#'                        sample(1:4, 
+#'                               500, 
+#'                               replace = TRUE, 
+#'                               prob = c(0.25, 0.1, 0.4, 0.25)),
+#'                        sample(1:4, 
+#'                               500, 
+#'                               replace = TRUE, 
+#'                               prob = c(0.1, 0.4, 0.4, 0.1)),
+#'                        sample(1:4, 
+#'                               500, 
+#'                               replace = TRUE),
+#'                        sample(1:4, 
+#'                               500, 
+#'                               replace = TRUE, 
+#'                               prob = c(0.35, 0.25, 0.15, 0.25)))
 #'
 #' # Create variable labels
 #' colnames(likert_4) <- c("V1", "V2", "V3", "V4", "V5", "V6", "V7")
 #' 
 #' # show table
-#' \dontrun{
-#' sjt.pca(likert_4)}
+#' sjt.pca(likert_4)
 #' 
 #' # -------------------------------
 #' # Data from the EUROFAMCARE sample dataset
@@ -121,26 +141,24 @@
 #' data(efc)
 #' 
 #' # retrieve variable and value labels
-#' varlabs <- sji.getVariableLabels(efc)
+#' varlabs <- get_var_labels(efc)
 #' 
 #' # recveive first item of COPE-index scale
-#' start <- which(colnames(efc)=="c82cop1")
+#' start <- which(colnames(efc) == "c82cop1")
 #' # recveive last item of COPE-index scale
-#' end <- which(colnames(efc)=="c90cop9")
+#' end <- which(colnames(efc) == "c90cop9")
 #'  
 #' # create data frame with COPE-index scale
-#' df <- as.data.frame(efc[,c(start:end)])
-#' colnames(df) <- varlabs[c(start:end)]
+#' df <- as.data.frame(efc[, c(start : end)])
+#' colnames(df) <- varlabs[c(start : end)]
 #' 
-#' \dontrun{
-#' sjt.pca(df)}
+#' sjt.pca(df)
 #' 
 #' # -------------------------------
 #' # auto-detection of labels
 #' # -------------------------------
-#' efc <- sji.setVariableLabels(efc, varlabs)
-#' \dontrun{
-#' sjt.pca(efc[,c(start:end)])}
+#' efc <- set_var_labels(efc, varlabs)
+#' sjt.pca(efc[, c(start : end)])}
 #' 
 #' @importFrom psych KMO
 #' @export
@@ -309,7 +327,7 @@ sjt.pca <- function (data,
   # ----------------------------
   if (!is.null(varlabels)) {
     # wrap long variable labels
-    varlabels <- sju.wordwrap(varlabels, breakLabelsAt, "<br>")
+    varlabels <- word_wrap(varlabels, breakLabelsAt, "<br>")
   }
   # --------------------------------------------------------
   # this function checks which items have unclear factor loadings,
@@ -374,7 +392,7 @@ sjt.pca <- function (data,
     for (n in 1:length(unique(itemloadings))) {
       # calculate cronbach's alpha for those cases that all have the
       # highest loading on the same factor
-      cbv <- c(cbv, sjs.cronbach(na.omit(dataframe[,which(itemloadings==n)])))
+      cbv <- c(cbv, cronb(na.omit(dataframe[,which(itemloadings==n)])))
     }
     # cbv now contains the factor numbers and the related alpha values
     # for each "factor dimension scale"

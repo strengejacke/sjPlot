@@ -48,7 +48,7 @@ cases are weighted. Use a string as parameter, e.g.: \code{weightByTitleString="
 \item{axisLabels.y}{Labels for the y-axis (the labels of the \code{items}). These parameters must
 be passed as list! Example: \code{axisLabels.y=list(c("Q1", "Q2", "Q3"))}
 Axis labels will automatically be detected, when they have
-a \code{"variable.lable"} attribute (see \code{\link{sji.setVariableLabels}}) for details).}
+a \code{"variable.lable"} attribute (see \code{\link{set_var_labels}}) for details).}
 
 \item{breakTitleAt}{Wordwrap for diagram title. Determines how many chars of the title are displayed in
 one line and when a line break is inserted into the title.}
@@ -150,8 +150,8 @@ start <- which(colnames(efc)=="c82cop1")
 end <- which(colnames(efc)=="c90cop9")
 
 # retrieve variable and value labels
-varlabs <- sji.getVariableLabels(efc)
-vallabs <- sji.getValueLabels(efc)
+varlabs <- get_var_labels(efc)
+vallabs <- get_val_labels(efc)
 
 # create value labels. We need just one variable of
 # the COPE-index scale because they have all the same
@@ -167,7 +167,7 @@ sjp.stackfrq(efc[,c(start:end)], legendLabels=levels,
 # -------------------------------
 # auto-detection of labels
 # -------------------------------
-efc <- sji.setVariableLabels(efc, varlabs)
+efc <- set_var_labels(efc, varlabs)
 sjp.stackfrq(efc[,c(start:end)])
 }
 \seealso{

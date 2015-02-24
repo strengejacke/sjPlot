@@ -15,7 +15,7 @@ sjp.chi2(df, title = "Pearson's Chi2-Test of Independence",
 
 \item{axisLabels}{Labels for the x- andy y-axis
 axisLabels are detected automatically if each variable has
-a \code{"variable.label"} attribute (see \code{\link{sji.setVariableLabels}}) for details).}
+a \code{"variable.label"} attribute (see \code{\link{set_var_labels}}) for details).}
 
 \item{breakTitleAt}{Wordwrap for diagram title. Determines how many chars of the title are displayed in
 one line and when a line break is inserted into the title}
@@ -34,7 +34,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 }
 \value{
 (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-          was used for setting up the ggplot-object (\code{df}).
+          was used for setting up the ggplot-object (\code{mydf}).
 }
 \description{
 Plot Pearson's Chi2-Test of multiple contingency tables as ellipses or tiles.
@@ -44,16 +44,16 @@ Plot Pearson's Chi2-Test of multiple contingency tables as ellipses or tiles.
 }
 \examples{
 # create data frame with 5 dichotomous (dummy) variables
-df <- data.frame(as.factor(sample(1:2, 100, replace=TRUE)),
-                 as.factor(sample(1:2, 100, replace=TRUE)),
-                 as.factor(sample(1:2, 100, replace=TRUE)),
-                 as.factor(sample(1:2, 100, replace=TRUE)),
-                 as.factor(sample(1:2, 100, replace=TRUE)))
+mydf <- data.frame(as.factor(sample(1:2, 100, replace=TRUE)),
+                   as.factor(sample(1:2, 100, replace=TRUE)),
+                   as.factor(sample(1:2, 100, replace=TRUE)),
+                   as.factor(sample(1:2, 100, replace=TRUE)),
+                   as.factor(sample(1:2, 100, replace=TRUE)))
 # create variable labels
 items <- list(c("Item 1", "Item 2", "Item 3", "Item 4", "Item 5"))
 
 # plot Chi2-contingency-table
-sjp.chi2(df, axisLabels=items)
+sjp.chi2(mydf, axisLabels = items)
 }
 \seealso{
 \href{http://talesofr.wordpress.com/2013/05/05/ridiculously-photogenic-factors-heatmap-with-p-values/}{Tales of R}.

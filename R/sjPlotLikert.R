@@ -73,7 +73,7 @@
 #' @param axisLabels.y a character vector with labels for the y-axis (the labels of the 
 #'          \code{items}). Example: \code{axisLabels.y=c("Q1", "Q2", "Q3")}
 #'          Axis labels will automatically be detected, when they have
-#'          a \code{"variable.lable"} attribute (see \code{\link{sji.setVariableLabels}}) for details).
+#'          a \code{"variable.lable"} attribute (see \code{\link{set_var_labels}}) for details).
 #' @param breakTitleAt Wordwrap for diagram title. Determines how many chars of the title are displayed in
 #'          one line and when a line break is inserted into the title.
 #' @param breakLabelsAt Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in 
@@ -171,6 +171,7 @@
 #'            value.labels = "sum.inside")
 #' 
 #' @import ggplot2
+#' @importFrom car recode
 #' @export
 sjp.likert <- function(items,
                        catcount = NULL, 
@@ -308,7 +309,7 @@ sjp.likert <- function(items,
       # --------------------------------------------------------
       isnum <- na.omit(as.numeric(levels(items[, i])))
       if (length(isnum) == 0) {
-        items[ ,i] <- sji.convertToValue(items[ ,i])
+        items[ ,i] <- to_value(items[ ,i])
       }
       items[ ,i] <- as.numeric(items[ ,i])
     }
@@ -317,18 +318,18 @@ sjp.likert <- function(items,
     # category, recode neutral category to last category
     # --------------------------------------------------------
     if (!is.null(cat.neutral) && cat.neutral <= catcount) {
-      items[, i] <- sju.recode(items[, i], sprintf("%i=%i;%i=%i", 
-                                                   cat.neutral, 
-                                                   catcount + 1, 
-                                                   catcount + 1,
-                                                   cat.neutral))
+      items[, i] <- car::recode(items[, i], sprintf("%i=%i;%i=%i", 
+                                                    cat.neutral, 
+                                                    catcount + 1, 
+                                                    catcount + 1,
+                                                    cat.neutral))
     }
     # --------------------------------------------------------
     # If we don't plot neutral category, but item still contains
     # that category, replace it with NA
     # --------------------------------------------------------
     if (is.null(cat.neutral) && max(items[, i], na.rm = T) > catcount)
-      items[, i] <- sju.setNA(items[, i], catcount + 1)
+      items[, i] <- set_na(items[, i], catcount + 1)
     # --------------------------------------------------------
     # create proportional frequency table
     # --------------------------------------------------------
@@ -467,11 +468,11 @@ sjp.likert <- function(items,
   # Prepare and trim legend labels to appropriate size
   # --------------------------------------------------------
   # wrap legend text lines
-  legendLabels <- sju.wordwrap(legendLabels, breakLegendLabelsAt)
+  legendLabels <- word_wrap(legendLabels, breakLegendLabelsAt)
   # check whether we have a title for the legend
   if (!is.null(legendTitle)) {
     # if yes, wrap legend title line
-    legendTitle <- sju.wordwrap(legendTitle, breakLegendTitleAt)
+    legendTitle <- word_wrap(legendTitle, breakLegendTitleAt)
   }
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
@@ -480,12 +481,12 @@ sjp.likert <- function(items,
     if (!is.null(weightByTitleString)) {
       title <- paste(title, weightByTitleString, sep="")
     }
-    title <- sju.wordwrap(title, breakTitleAt)
+    title <- word_wrap(title, breakTitleAt)
   }
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
   if (!is.null(axisLabels.y)) {
-    axisLabels.y <- sju.wordwrap(axisLabels.y, breakLabelsAt)
+    axisLabels.y <- word_wrap(axisLabels.y, breakLabelsAt)
   }
   # --------------------------------------------------------
   # set diagram margins

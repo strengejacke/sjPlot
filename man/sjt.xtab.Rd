@@ -40,7 +40,7 @@ the associated variable names. Following order is needed: name of \code{var.row}
 name of \code{var.col}, and - if \code{var.grp} is not \code{NULL} - name of \code{var.grp}.
 See examples for more details.
 variableLabels are detected automatically, if \code{var.row} or \code{var.col}
-have a \code{"variable.label"} attribute (see \code{\link{sji.setVariableLabels}}) for details).}
+have a \code{"variable.label"} attribute (see \code{\link{set_var_labels}}) for details).}
 
 \item{valueLabels}{A list of character vectors that indicate the value labels of the supplied
 variables. Following order is needed: value labels of \code{var.row},
@@ -159,7 +159,7 @@ The HTML tables can either be saved as file and manually opened (specify paramet
         default behaviour (i.e. \code{file=NULL}). \cr \cr
         Since package version 1.3, the parameter \code{valueLabels}, which represent the
         value labels, is retrieved automatically if a) the variables \code{var.col} and \code{var.row} come from a data frame
-        that was imported with the \code{\link{sji.SPSS}} function (because then value labels are
+        that was imported with the \code{\link{read_spss}} function (because then value labels are
         attached as attributes to the data) or b) when the variables are factors with named factor levels
         (e.g., see column \code{group} in dataset \code{\link{PlantGrowth}}). However, you still
         can use own parameters variable labels.
@@ -167,7 +167,7 @@ The HTML tables can either be saved as file and manually opened (specify paramet
 \examples{
 # prepare sample data set
 data(efc)
-efc.labels <- sji.getValueLabels(efc)
+efc.labels <- get_val_labels(efc)
 
 # print simple cross table w/o labels
 \dontrun{
@@ -193,7 +193,7 @@ sjt.xtab(efc$e16sex, efc$e42dep,
 # -------------------------------
 # auto-detection of labels
 # -------------------------------
-efc <- sji.setVariableLabels(efc, sji.getVariableLabels(efc))
+efc <- set_var_labels(efc, get_var_labels(efc))
 # print cross table with labels and all percentages
 sjt.xtab(efc$e16sex, efc$e42dep,
          showRowPerc = TRUE, showColPerc = TRUE)
@@ -223,7 +223,7 @@ sjt.xtab(efc$e16sex, efc$e42dep,
 \itemize{
            \item \href{http://www.strengejacke.de/sjPlot/sjt.xtab}{sjPlot manual: sjt.xtab}
            \item \code{\link{sjp.xtab}}
-           \item \code{\link{sjs.table.values}}
+           \item \code{\link{table_values}}
          }
 }
 

@@ -40,7 +40,7 @@ in the default web browser.}
 provided (default), the data frame's column names are used. Item labels must
 be a string vector, e.g.: \code{varlabels=c("Var 1", "Var 2", "Var 3")}.
 varlabels are detected automatically if \code{data} is a data frame where each variable has
-a \code{"variable.label"} attribute (see \code{\link{sji.setVariableLabels}}) for details).}
+a \code{"variable.label"} attribute (see \code{\link{set_var_labels}}) for details).}
 
 \item{breakLabelsAt}{Wordwrap for diagram labels. Determines how many chars of the variable labels are displayed in
 one line and when a line break is inserted. Default is 40.}
@@ -120,12 +120,16 @@ The HTML tables can either be saved as file and manually opened (specify paramet
         default behaviour (i.e. \code{file=NULL}).
 }
 \examples{
+\dontrun{
 # create data frame with 5 random variables
-df <- as.data.frame(cbind(rnorm(10), rnorm(10), rnorm(10), rnorm(10), rnorm(10)))
+df <- as.data.frame(cbind(rnorm(10),
+                          rnorm(10),
+                          rnorm(10),
+                          rnorm(10),
+                          rnorm(10)))
 
 # plot correlation matrix using circles
-\dontrun{
-sjt.corr(df)}
+sjt.corr(df)
 
 # -------------------------------
 # Data from the EUROFAMCARE sample dataset
@@ -133,47 +137,47 @@ sjt.corr(df)}
 data(efc)
 
 # retrieve variable and value labels
-varlabs <- sji.getVariableLabels(efc)
+varlabs <- get_var_labels(efc)
 
 # recveive first item of COPE-index scale
-start <- which(colnames(efc)=="c83cop2")
+start <- which(colnames(efc) == "c83cop2")
 # recveive last item of COPE-index scale
-end <- which(colnames(efc)=="c88cop7")
+end <- which(colnames(efc) == "c88cop7")
 
 # create data frame with COPE-index scale
-df <- as.data.frame(efc[,c(start:end)])
-colnames(df) <- varlabs[c(start:end)]
+df <- as.data.frame(efc[, c(start : end)])
+colnames(df) <- varlabs[c(start : end)]
 
 # we have high correlations here, because all items
 # belong to one factor. See example from "sjp.pca".
-\dontrun{
-sjt.corr(df, pvaluesAsNumbers=TRUE)}
+sjt.corr(df, pvaluesAsNumbers = TRUE)
 
 # -------------------------------
 # auto-detection of labels, only lower triangle
 # -------------------------------
-efc <- sji.setVariableLabels(efc, varlabs)
-\dontrun{
-sjt.corr(efc[,c(start:end)], triangle="lower")}
+efc <- set_var_labels(efc, varlabs)
+sjt.corr(efc[, c(start : end)], triangle = "lower")
 
 # -------------------------------
 # auto-detection of labels, only lower triangle,
 # all correlation values smaller than 0.3 are not
 # shown in the table
 # -------------------------------
-efc <- sji.setVariableLabels(efc, varlabs)
-\dontrun{
-sjt.corr(efc[,c(start:end)], triangle="lower", val.rm=0.3)}
+efc <- set_var_labels(efc, varlabs)
+sjt.corr(efc[, c(start : end)],
+         triangle = "lower",
+         val.rm = 0.3)
 
 # -------------------------------
 # auto-detection of labels, only lower triangle,
 # all correlation values smaller than 0.3 are printed
 # in blue
 # -------------------------------
-efc <- sji.setVariableLabels(efc, varlabs)
-\dontrun{
-sjt.corr(efc[,c(start:end)], triangle="lower",
-         val.rm=0.3, CSS=list(css.valueremove='color:blue;'))}
+efc <- set_var_labels(efc, varlabs)
+sjt.corr(efc[, c(start : end)],
+         triangle = "lower",
+         val.rm = 0.3,
+         CSS = list(css.valueremove = 'color:blue;'))}
 }
 \seealso{
 \itemize{

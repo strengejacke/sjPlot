@@ -163,8 +163,8 @@ Invisibly returns a \code{\link{structure}} with
 }
 \description{
 Shows (multiple) fitted linear models (beta coefficients, std. beta values etc.)
-               as HTML table, or saves them as file. The fitted lm's should have the same predictor variables and
-               differ only in their response (dependent variable).
+               as HTML table, or saves them as file. The fitted models may hav different predictors,
+               e.g. when comparing different stepwise fitted models.
 }
 \note{
 The HTML tables can either be saved as file and manually opened (specify parameter \code{file}) or
@@ -173,9 +173,15 @@ The HTML tables can either be saved as file and manually opened (specify paramet
         default behaviour (i.e. \code{file=NULL}).
 }
 \examples{
+\dontrun{
 # Now fit the models. Note that both models share the same predictors
-# and only differ in their dependent variable
+# and only differ in their dependent variable. See examples of stepwise
+# models below at the end.
 data(efc)
+
+# attach variable labels to each variable of the data
+# frame - useful for automatic label detection
+efc <- set_var_labels(efc, get_var_labels(efc))
 
 # fit first model
 fit1 <- lm(barthtot ~ c160age + c12hour + c161sex + c172code, data=efc)
@@ -183,7 +189,12 @@ fit1 <- lm(barthtot ~ c160age + c12hour + c161sex + c172code, data=efc)
 fit2 <- lm(neg_c_7 ~ c160age + c12hour + c161sex + c172code, data=efc)
 
 # create and open HTML-table in RStudio Viewer Pane or web browser
-\dontrun{
+# note that we don't need to specify labels for the predictors,
+# because these are automatically read
+sjt.lm(fit1, fit2)
+
+# create and open HTML-table in RStudio Viewer Pane or web browser
+# in the following examples, we set labels via parameter
 sjt.lm(fit1,
        fit2,
        labelDependentVariables = c("Barthel-Index",
@@ -243,9 +254,9 @@ sjt.lm(fit1,
        pvaluesAsNumbers = FALSE,
        separateConfColumn = FALSE)
 
-# ----------------------------------------------------------------
+# ----------------------------------
 # connecting two html-tables
-# ----------------------------------------------------------------
+# ----------------------------------
 # fit two more models
 fit3 <- lm(tot_sc_e ~ c160age + c12hour + c161sex + c172code, data=efc)
 fit4 <- lm(e42dep ~ c160age + c12hour + c161sex + c172code, data=efc)
@@ -278,9 +289,9 @@ write(sprintf("<html><head>\%s</head><body>\%s<p></p>\%s</body></html>",
 viewer <- getOption("viewer")
 if (!is.null(viewer)) viewer(htmlFile) else utils::browseURL(htmlFile)
 
-# ----------------------------------------------------------------
+# ----------------------------------
 # User defined style sheet
-# ----------------------------------------------------------------
+# ----------------------------------
 sjt.lm(fit1,
        fit2,
        labelDependentVariables = c("Barthel-Index", "Negative Impact"),
@@ -290,7 +301,52 @@ sjt.lm(fit1,
                            "Educational Status"),
        CSS = list(css.table = "border: 2px solid;",
                   css.tdata = "border: 1px solid;",
-                  css.depvarhead = "color:#003399;"))}
+                  css.depvarhead = "color:#003399;"))
+
+# ----------------------------------
+# automatic grouping of predictors
+# ----------------------------------
+data(efc)
+
+# attach variable labels to each variable of the data
+# frame - useful for automatic label detection
+efc <- set_var_labels(efc, get_var_labels(efc))
+
+# make education categorical
+efc$c172code <- to_fac(efc$c172code)
+
+# fit first model again (with c172code as factor)
+fit1 <- lm(barthtot ~ c160age + c12hour + c172code + c161sex, data=efc)
+# fit second model again (with c172code as factor)
+fit2 <- lm(neg_c_7 ~ c160age + c12hour + c172code + c161sex, data=efc)
+
+# plot models, but group by predictors
+sjt.lm(fit1,
+       fit2,
+       group.pred = TRUE)}
+
+# ----------------------------------------
+# compare models with different predictors
+# ----------------------------------------
+data(efc)
+
+# attach variable labels to each variable of the data
+# frame - useful for automatic label detection
+efc <- set_var_labels(efc, get_var_labels(efc))
+
+# make education categorical
+efc$c172code <- to_fac(efc$c172code)
+# make education categorical
+efc$e42dep <- to_fac(efc$e42dep)
+
+# fit first model
+fit1 <- lm(neg_c_7 ~ c160age + c172code + c161sex, data=efc)
+# fit second model
+fit2 <- lm(neg_c_7 ~ c160age + c172code + c161sex + c12hour, data=efc)
+# fit second model
+fit3 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e, data=efc)
+
+sjt.lm(fit1, fit2, fit3)
 }
 \seealso{
 \itemize{

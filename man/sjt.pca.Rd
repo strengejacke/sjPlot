@@ -126,21 +126,41 @@ The HTML tables can either be saved as file and manually opened (specify paramet
         This PCA uses the \code{\link{prcomp}} function and the \code{\link{varimax}} rotation.
 }
 \examples{
+\dontrun{
 # randomly create data frame with 7 items, each consisting of 4 categories
-likert_4 <- data.frame(sample(1:4, 500, replace=TRUE, prob=c(0.2,0.3,0.1,0.4)),
-                       sample(1:4, 500, replace=TRUE, prob=c(0.5,0.25,0.15,0.1)),
-                       sample(1:4, 500, replace=TRUE, prob=c(0.4,0.15,0.25,0.2)),
-                       sample(1:4, 500, replace=TRUE, prob=c(0.25,0.1,0.4,0.25)),
-                       sample(1:4, 500, replace=TRUE, prob=c(0.1,0.4,0.4,0.1)),
-                       sample(1:4, 500, replace=TRUE),
-                       sample(1:4, 500, replace=TRUE, prob=c(0.35,0.25,0.15,0.25)))
+likert_4 <- data.frame(sample(1:4,
+                              500,
+                              replace = TRUE,
+                              prob = c(0.2, 0.3, 0.1, 0.4)),
+                       sample(1:4,
+                              500,
+                              replace = TRUE,
+                              prob = c(0.5, 0.25, 0.15, 0.1)),
+                       sample(1:4,
+                              500,
+                              replace = TRUE,
+                              prob = c(0.4, 0.15, 0.25, 0.2)),
+                       sample(1:4,
+                              500,
+                              replace = TRUE,
+                              prob = c(0.25, 0.1, 0.4, 0.25)),
+                       sample(1:4,
+                              500,
+                              replace = TRUE,
+                              prob = c(0.1, 0.4, 0.4, 0.1)),
+                       sample(1:4,
+                              500,
+                              replace = TRUE),
+                       sample(1:4,
+                              500,
+                              replace = TRUE,
+                              prob = c(0.35, 0.25, 0.15, 0.25)))
 
 # Create variable labels
 colnames(likert_4) <- c("V1", "V2", "V3", "V4", "V5", "V6", "V7")
 
 # show table
-\dontrun{
-sjt.pca(likert_4)}
+sjt.pca(likert_4)
 
 # -------------------------------
 # Data from the EUROFAMCARE sample dataset
@@ -148,34 +168,32 @@ sjt.pca(likert_4)}
 data(efc)
 
 # retrieve variable and value labels
-varlabs <- sji.getVariableLabels(efc)
+varlabs <- get_var_labels(efc)
 
 # recveive first item of COPE-index scale
-start <- which(colnames(efc)=="c82cop1")
+start <- which(colnames(efc) == "c82cop1")
 # recveive last item of COPE-index scale
-end <- which(colnames(efc)=="c90cop9")
+end <- which(colnames(efc) == "c90cop9")
 
 # create data frame with COPE-index scale
-df <- as.data.frame(efc[,c(start:end)])
-colnames(df) <- varlabs[c(start:end)]
+df <- as.data.frame(efc[, c(start : end)])
+colnames(df) <- varlabs[c(start : end)]
 
-\dontrun{
-sjt.pca(df)}
+sjt.pca(df)
 
 # -------------------------------
 # auto-detection of labels
 # -------------------------------
-efc <- sji.setVariableLabels(efc, varlabs)
-\dontrun{
-sjt.pca(efc[,c(start:end)])}
+efc <- set_var_labels(efc, varlabs)
+sjt.pca(efc[, c(start : end)])}
 }
 \seealso{
 \itemize{
            \item \href{http://www.strengejacke.de/sjPlot/sjt.pca/}{sjPlot manual: sjt.pca}
            \item \code{\link{sjp.pca}}
-           \item \code{\link{sjs.reliability}}
+           \item \code{\link{reliab_test}}
            \item \code{\link{sjt.itemanalysis}}
-           \item \code{\link{sjs.cronbach}}
+           \item \code{\link{cronb}}
          }
 }
 

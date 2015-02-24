@@ -198,14 +198,14 @@ fit <- glm(y ~ sex * barthel,
            x = TRUE)
 # plot interaction, increase p-level sensivity
 sjp.int(fit,
-        legendLabels = sji.getValueLabels(efc$c161sex),
+        legendLabels = get_val_labels(efc$c161sex),
         plevel = 0.1)
 
 # compare results to boxplots
 sjp.grpfrq(mydf$barthel,
            mydf$y,
            interactionVar = mydf$sex,
-           interactionVarLabels = sji.getValueLabels(efc$c161sex),
+           interactionVarLabels = get_val_labels(efc$c161sex),
            legendLabels = c("low burden", "high burden"),
            type = "box")
 }
