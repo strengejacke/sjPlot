@@ -155,7 +155,6 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #'         type = "prob")
 #'
 #' @import ggplot2
-#' @importFrom reshape2 melt
 #' @importFrom car outlierTest influencePlot crPlots durbinWatsonTest leveragePlots ncvTest spreadLevelPlot vif
 #' @export
 sjp.glm <- function(fit,
@@ -211,7 +210,7 @@ sjp.glm <- function(fit,
   # auto-retrieve value labels
   # --------------------------------------------------------
   if (is.null(axisLabels.y)) {
-    axisLabels.y <- retrieveModelLabels(fit)
+    axisLabels.y <- retrieveModelLabels(list(fit))
   }
   # ----------------------------
   # Prepare length of title and labels
@@ -551,9 +550,7 @@ sjp.glm.pc <- function(fit,
       # sort values, for x axis
       vals.unique <- sort(vals)
       # melt variable
-      mydf.vals <- data.frame(melt(vals.unique))
-      # set colnames
-      colnames(mydf.vals) <- c("value")
+      mydf.vals <- data.frame(value = vals.unique)
       # convert factor to numeric
       if (is.factor(mydf.vals$value)) mydf.vals$value <- to_value(mydf.vals$value, 0)
       # retrieve names of coefficients

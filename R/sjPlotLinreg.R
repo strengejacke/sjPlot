@@ -290,7 +290,7 @@ sjp.lm <- function(fit,
   # auto-retrieve value labels
   # --------------------------------------------------------
   if (is.null(axisLabels.y)) {
-    axisLabels.y <- retrieveModelLabels(fit)
+    axisLabels.y <- retrieveModelLabels(list(fit))
   }
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
@@ -330,7 +330,7 @@ sjp.lm <- function(fit,
   # retrieve betas, leave out intercept ([-1])
   bv <- coef(fit)[-1]
   # retrieve standardized betas
-  stdbv <- std_beta(fit, include.ci = TRUE)
+  stdbv <- suppressWarnings(std_beta(fit, include.ci = TRUE))
   # init data column for p-values
   ps <- sprintf("%.*f", labelDigits, bv)
   pstdbv <- sprintf("%.*f", labelDigits, stdbv$beta)

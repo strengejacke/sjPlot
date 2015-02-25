@@ -171,7 +171,6 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #'           vars = "neg_c_7")}
 #'
 #' @import ggplot2
-#' @importFrom reshape2 melt
 #' @export
 sjp.glmer <- function(fit,
                       type = "re",
@@ -1036,9 +1035,7 @@ sjp.lme.feprobcurv <- function(fit,
       # find unique values, for x axis
       vals.unique <- sort(vals)
       # melt variable
-      mydf.vals <- data.frame(melt(vals.unique))
-      # set colnames
-      colnames(mydf.vals) <- c("value")
+      mydf.vals <- data.frame(value = vals.unique)
       # convert factor to numeric
       if (is.factor(mydf.vals$value)) mydf.vals$value <- to_value(mydf.vals$value, 0)
       # retrieve names of coefficients
@@ -1197,9 +1194,7 @@ sjp.lme.reprobcurve <- function(fit,
       # sort values, for x axis
       vals.unique <- sort(vals)
       # melt variable
-      mydf.vals <- data.frame(melt(vals.unique))
-      # set colnames
-      colnames(mydf.vals) <- c("value")
+      mydf.vals <- data.frame(value = vals.unique)
       # convert factor to numeric
       if (is.factor(mydf.vals$value)) mydf.vals$value <- to_value(mydf.vals$value, 0)
       # retrieve names of coefficients
@@ -1527,10 +1522,8 @@ sjp.lme.fecondpred.onlynumeric <- function(fit,
       # find unique values, for x axis
       vals.unique <- sort(unique(vals))
       # melt variable
-      mydf.vals <- data.frame(melt(vals.unique))
-      mydf.vals <- cbind(seq(from = 1, to = nrow(mydf.vals), by = 1), mydf.vals)
-      # set colnames
-      colnames(mydf.vals) <- c("x", "value")
+      mydf.vals <- data.frame(value = vals.unique)
+      mydf.vals$x <- seq(from = 1, to = nrow(mydf.vals), by = 1)
       # retrieve names of coefficients
       coef.names <- names(lme4::fixef(fit))
       # find coef-position

@@ -95,7 +95,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
 #'
 #'
 #' @import ggplot2
-#' @importFrom reshape2 melt
+#' @import tidyr
 #' @importFrom scales brewer_pal
 #' @export
 sjp.corr <- function(data,
@@ -245,9 +245,10 @@ sjp.corr <- function(data,
   # --------------------------------------------------------
   # first, save original matrix for return value
   oricor <- orderedCorr
-  orderedCorr <- melt(orderedCorr)
-  if (!is.null(cpvalues)) cpvalues <- melt(cpvalues)
-  # print(tidyr::gather(orderedCorr, "Var", "values", 1:(ncol(orderedCorr))))
+  orderedCorr <- tidyr::gather(data.frame(orderedCorr), "var", "value", 1:ncol(orderedCorr))
+  # orderedCorr <- melt(orderedCorr)
+  if (!is.null(cpvalues)) cpvalues <- tidyr::gather(data.frame(cpvalues), "var", "value", 1:ncol(cpvalues))
+  # if (!is.null(cpvalues)) cpvalues <- melt(cpvalues)
   # bind additional information like order for x- and y-axis
   # as well as the size of plotted points
   orderedCorr <- cbind(orderedCorr, ordx=c(1:nrow(corr)), ordy=yo, psize=c(exp(abs(orderedCorr$value))*geom.size))

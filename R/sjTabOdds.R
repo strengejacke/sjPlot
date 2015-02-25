@@ -194,11 +194,13 @@
 #' # User defined style sheet
 #' # ---------------------------------------------------------------- 
 #' sjt.glm(fitOR1, fitOR2, fitOR3,
-#'         labelDependentVariables=c("Fertility", "Infant Mortality", "Agriculture"),
-#'         labelPredictors=c("Education", "Examination", "Catholic"),
-#'         CSS=list(css.table="border: 2px solid;",
-#'                  css.tdata="border: 1px solid;",
-#'                  css.depvarhead="color:#003399;"))
+#'         labelDependentVariables = c("Fertility", 
+#'                                     "Infant Mortality", 
+#'                                     "Agriculture"),
+#'         labelPredictors = c("Education", "Examination", "Catholic"),
+#'         CSS = list(css.table = "border: 2px solid;",
+#'                    css.tdata = "border: 1px solid;",
+#'                    css.depvarhead = "color:#003399;"))
 #' 
 #' # ---------------------------------------------------------------- 
 #' # Compare models with different link functions, but same
@@ -209,11 +211,20 @@
 #' # dichtomozize service usage by "service usage yes/no"
 #' efc$services <- dicho(efc$tot_sc_e, "v", 0, asNum = TRUE)
 #' # fit 3 models with different link-functions
-#' fit1 <- glm(services ~ neg_c_7 + c161sex + e42dep, data=efc, family=binomial(link="logit"))
-#' fit2 <- glm(services ~ neg_c_7 + c161sex + e42dep, data=efc, family=binomial(link="probit"))
-#' fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep, data=efc, family=poisson(link="log"))
+#' fit1 <- glm(services ~ neg_c_7 + c161sex + e42dep, 
+#'             data=efc, 
+#'             family=binomial(link="logit"))
+#' fit2 <- glm(services ~ neg_c_7 + c161sex + e42dep, 
+#'             data=efc, 
+#'             family=binomial(link="probit"))
+#' fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep, 
+#'             data=efc, 
+#'             family=poisson(link="log"))
 #' # compare models
-#' sjt.glm(fit1, fit2, fit3, showAIC=TRUE, showFamily=TRUE, showPseudoR=FALSE)}
+#' sjt.glm(fit1, fit2, fit3, 
+#'         showAIC = TRUE, 
+#'         showFamily = TRUE, 
+#'         showPseudoR = FALSE)}
 #' 
 #' @export
 sjt.glm <- function (..., 
@@ -474,8 +485,7 @@ sjt.glm <- function (...,
   # set default predictor labels
   # -------------------------------------
   if (is.null(labelPredictors)) {
-    fit <- input_list[[1]]
-    labelPredictors <- retrieveModelLabels(fit)
+    labelPredictors <- retrieveModelLabels(input_list)
   }
   # --------------------------------------------------------
   # auto-retrieving variable labels does not work when we
@@ -524,7 +534,7 @@ sjt.glm <- function (...,
   # -------------------------------------
   if (group.pred) {
     # get indices
-    group.pred.list <- retrieveModelGroupIndices(input_list[[1]])
+    group.pred.list <- retrieveModelGroupIndices(input_list)
     group.pred.rows <- group.pred.list[[1]]
     group.pred.span <- group.pred.list[[2]]
     group.pred.labs <- group.pred.list[[3]]

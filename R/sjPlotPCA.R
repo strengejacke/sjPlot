@@ -114,8 +114,8 @@
 #' 
 #' 
 #' @import ggplot2
+#' @import tidyr
 #' @importFrom scales brewer_pal grey_pal
-#' @importFrom reshape2 melt
 #' @export
 sjp.pca <- function(data,
                     numberOfFactors=NULL,
@@ -334,11 +334,9 @@ sjp.pca <- function(data,
   # rename columns, so we have numbers on x axis
   names(df) <- c(1:ncol(df))
   # convert to long data
-  df <- melt(df)
+  df <- tidyr::gather(df, "xpos", "value", 1:ncol(df))  
   # we need new columns for y-positions and point sizes
   df <- cbind(df, ypos = c(1:nrow(pcadata.varim$loadings)), psize = c(exp(abs(df$value)) * geom.size))
-  # rename first column for more intuitive name
-  colnames(df)[1] <- c("xpos")
   if (!showValueLabels) {
     valueLabels <- c("")
   }

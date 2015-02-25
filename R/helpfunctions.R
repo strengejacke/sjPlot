@@ -412,33 +412,52 @@ autoSetVariableLabels <- function(x) {
 # checks at which position in fitted models factors with
 # more than two levels are located.
 # -------------------------------------
-retrieveModelGroupIndices <- function(fit) {
+retrieveModelGroupIndices <- function(models) {
   # init group-row-indices
   group.pred.rows <- c()
   group.pred.labs <- c()
   group.pred.span <- c()
+  found.factors <- c()
   add.index <- 0
-  # retrieve all factors from model
-  for (grp.cnt in 2 : ncol(fit$model)) {
-    # get variable
-    fit.var <- fit$model[, grp.cnt]
-    # is factor? and has more than two levels?
-    # (otherwise, only one category would appear in
-    # coefficients, so no grouping needed anyway)
-    if (is.factor(fit.var) && length(levels(fit.var)) > 2) {
-      # save factor name
-      lab <- unname(get_var_labels(fit.var))
-      # any label?
-      if (is.null(lab)) lab <- colnames(fit$model)[grp.cnt]
-      # determins startindex
-      index <- grp.cnt + add.index - 1
-      index.add <- length(levels(fit.var)) - 2
-      # save row index, so we know where to start group
-      group.pred.rows <- c(group.pred.rows, index)
-      group.pred.span <- c(group.pred.span, index : (index + index.add))
-      group.pred.labs <- c(group.pred.labs, lab)
-      # increase add.index by amount of factor levels (minus reference cat.)
-      add.index <- add.index + index.add
+  # ------------------------
+  # retrieve fitted models
+  # ------------------------
+  # go through fitted models
+  for (k in 1 : length(models)) {
+    # get model
+    fit <- models[[k]]
+    # retrieve all factors from model
+    for (grp.cnt in 2 : ncol(fit$model)) {
+      # get variable
+      fit.var <- fit$model[, grp.cnt]
+      # is factor? and has more than two levels?
+      # (otherwise, only one category would appear in
+      # coefficients, so no grouping needed anyway)
+      if (is.factor(fit.var) && length(levels(fit.var)) > 2) {
+        # get factor name
+        fac.name <- colnames(fit$model)[grp.cnt]
+        # check whether we already have this factor
+        if (!any(found.factors == fac.name)) {
+          # if not, save found factor variable name
+          found.factors <- c(found.factors, fac.name)
+          # save factor name
+          lab <- unname(get_var_labels(fit.var))
+          # any label?
+          if (is.null(lab)) lab <- colnames(fit$model)[grp.cnt]
+          # determins startindex
+          index <- grp.cnt + add.index - 1
+          index.add <- length(levels(fit.var)) - 2
+          # save row index, so we know where to start group
+          group.pred.rows <- c(group.pred.rows, index)
+          group.pred.span <- c(group.pred.span, index : (index + index.add))
+          group.pred.labs <- c(group.pred.labs, lab)
+          # increase add.index by amount of factor levels (minus reference cat.)
+          add.index <- add.index + index.add
+        }
+        else {
+          add.index <- add.index + length(levels(fit.var)) - 2
+        }
+      }
     }
   }
   # have any groups? if not, reset row-index-counter
@@ -457,40 +476,49 @@ retrieveModelGroupIndices <- function(fit) {
 # automatically retrieve predictor labels
 # of fitted (g)lm
 # -------------------------------------
-retrieveModelLabels <- function(fit) {
+retrieveModelLabels <- function(models) {
   # do we have global options?
   opt <- getOption("autoSetVariableLabels")
   if (is.null(opt) || opt == TRUE) {
     fit.labels <- c()
-    # iterate coefficients (1 is intercept or response)
-    for (i in 2 : ncol(fit$model)) {
-      # is predictor a factor?
-      pvar <- fit$model[, i]
-      # if yes, we have this variable multiple
-      # times, so manually set value labels
-      if (is.factor(pvar)) {
-        # get amount of levels
-        pvar.len <- length(levels(pvar))
-        # get value labels, if any
-        pvar.lab <- get_val_labels(pvar)
-        # have any labels, and have we same amount of labels
-        # as factor levels?
-        if (!is.null(pvar.lab) && length(pvar.lab) == pvar.len) {
-          # add labels
-          fit.labels <- c(fit.labels, pvar.lab[2 : pvar.len])
+    for (k in 1 : length(models)) {
+      # get model
+      fit <- models[[k]]
+      # iterate coefficients (1 is intercept or response)
+      for (i in 2 : ncol(fit$model)) {
+        # is predictor a factor?
+        pvar <- fit$model[, i]
+        # if yes, we have this variable multiple
+        # times, so manually set value labels
+        if (is.factor(pvar)) {
+          # get amount of levels
+          pvar.len <- length(levels(pvar))
+          # get value labels, if any
+          pvar.lab <- get_val_labels(pvar)
+          # have any labels, and have we same amount of labels
+          # as factor levels?
+          if (!is.null(pvar.lab) && length(pvar.lab) == pvar.len) {
+            # add labels
+            if (!any(fit.labels == pvar.lab[2 : pvar.len])) {
+              fit.labels <- c(fit.labels, pvar.lab[2 : pvar.len])
+            }
+          }
+          else {
+            # add labels
+            if (!any(fit.labels == attr(fit$coefficients[i], "names"))) {
+              fit.labels <- c(fit.labels, attr(fit$coefficients[i], "names"))
+            }
+          }
         }
         else {
-          fit.labels <- c(fit.labels, attr(fit$coefficients[i], "names"))
+          # check if we hav label
+          lab <- autoSetVariableLabels(fit$model[, i])
+          # if not, use coefficient name
+          if (is.null(lab)) {
+            lab <- attr(fit$coefficients[i], "names")
+          }
+          if (!any(fit.labels == lab)) fit.labels <- c(fit.labels, lab)
         }
-      }
-      else {
-        # check if we hav label
-        lab <- autoSetVariableLabels(fit$model[, i])
-        # if not, use coefficient name
-        if (is.null(lab)) {
-          lab <- attr(fit$coefficients[i], "names")
-        }
-        fit.labels <- c(fit.labels, lab)
       }
     }
     return (fit.labels)

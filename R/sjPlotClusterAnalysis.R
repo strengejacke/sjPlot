@@ -785,7 +785,7 @@ sjc.elbow <- function (data, steps=15, showDiff=FALSE) {
   # calculate differences between each step
   diff <- c()
   for (i in 2:steps) diff <- cbind(diff,wssround[i-1]-wssround[i])
-  dfElbowDiff <- tidyr::gather(as.data.frame(diff), "Var2", "value", 1:ncol(dummy))
+  dfElbowDiff <- tidyr::gather(as.data.frame(diff), "Var2", "value", 1:ncol(diff))
   # --------------------------------------------------
   # Plot diagram with sum of squares
   # all pointes are connected with a line

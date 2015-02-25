@@ -10,14 +10,15 @@ sjt.lm(..., file = NULL, labelPredictors = NULL,
   showHeaderStrings = FALSE, stringIntercept = "(Intercept)",
   stringObservations = "Observations", stringB = "B",
   stringSB = "std. Beta", stringCI = "CI", stringSE = "std. Error",
-  stringP = "p", showConfInt = TRUE, showStdBeta = FALSE,
-  showStdError = FALSE, digits.est = 2, digits.p = 3, digits.ci = 2,
-  digits.se = 2, digits.sb = 2, digits.summary = 3,
-  pvaluesAsNumbers = TRUE, boldpvalues = TRUE, separateConfColumn = TRUE,
-  newLineConf = TRUE, group.pred = TRUE, showAbbrHeadline = TRUE,
-  showR2 = TRUE, showFStat = FALSE, showAIC = FALSE, cellSpacing = 0.2,
-  cellGroupIndent = 0.6, encoding = NULL, CSS = NULL, useViewer = TRUE,
-  no.output = FALSE, remove.spaces = TRUE)
+  stringP = "p", showEst = TRUE, showConfInt = TRUE,
+  showStdBeta = FALSE, showStdError = FALSE, digits.est = 2,
+  digits.p = 3, digits.ci = 2, digits.se = 2, digits.sb = 2,
+  digits.summary = 3, pvaluesAsNumbers = TRUE, boldpvalues = TRUE,
+  separateConfColumn = TRUE, newLineConf = TRUE, group.pred = TRUE,
+  showAbbrHeadline = TRUE, showR2 = TRUE, showFStat = FALSE,
+  showAIC = FALSE, cellSpacing = 0.2, cellGroupIndent = 0.6,
+  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
+  remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{One or more fitted lm-objects.}
@@ -59,6 +60,8 @@ default is \code{"Intercept"}.}
 \item{stringSE}{String used for the column heading of standard error values. Default is \code{"std. Error"}.}
 
 \item{stringP}{String used for the column heading of p values. Default is \code{"p"}.}
+
+\item{showEst}{If \code{TRUE} (default), the estimates are printed.}
 
 \item{showConfInt}{If \code{TRUE} (default), the confidence intervall is also printed to the table. Use
 \code{FALSE} to omit the CI in the table.}
@@ -323,7 +326,7 @@ fit2 <- lm(neg_c_7 ~ c160age + c12hour + c172code + c161sex, data=efc)
 # plot models, but group by predictors
 sjt.lm(fit1,
        fit2,
-       group.pred = TRUE)}
+       group.pred = TRUE)
 
 # ----------------------------------------
 # compare models with different predictors
@@ -347,6 +350,52 @@ fit2 <- lm(neg_c_7 ~ c160age + c172code + c161sex + c12hour, data=efc)
 fit3 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e, data=efc)
 
 sjt.lm(fit1, fit2, fit3)
+
+
+# ----------------------------------------
+# compare models with different predictors
+# and grouping
+# ----------------------------------------
+
+# make cope-index categorical
+efc$c82cop1 <- to_fac(efc$c82cop1)
+# fit another model
+fit4 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e + c82cop1, data=efc)
+
+sjt.lm(fit1, fit2, fit4, fit3)
+
+# show standardized beta only
+sjt.lm(fit1, fit2, fit4, fit3,
+       showEst = FALSE,
+       showStdBeta = TRUE,
+       showAIC = TRUE,
+       showFStat = TRUE)
+
+# -----------------------------------------------------------
+# color insanity. just to show that each column has an own
+# CSS-tag, so - depending on the stats and values you show -
+# you can define column spaces / margins, border etc. to
+# visually separate your models in the table
+# -----------------------------------------------------------
+sjt.lm(fit1, fit2, fit4, fit3,
+       showStdBeta = TRUE,
+       showAIC = TRUE,
+       showFStat = TRUE,
+       showStdError = TRUE,
+       CSS = list(css.modelcolumn1 = 'color:blue;',
+                  css.modelcolumn2 = 'color:red;',
+                  css.modelcolumn3 = 'color:green;',
+                  css.modelcolumn4 = 'color:#ffff00;',
+                  css.modelcolumn5 = 'color:#777777;',
+                  css.modelcolumn6 = 'color:#3399cc;'))
+
+sjt.lm(fit1, fit2, fit4, fit3,
+       showEst = FALSE,
+       showStdBeta = TRUE,
+       pvaluesAsNumbers = FALSE,
+       group.pred = FALSE,
+       CSS = list(css.modelcolumn4 = 'border-left:1px solid black;',
+                  css.modelcolumn5 = 'padding-right:50px;'))}
 }
 \seealso{
 \itemize{
