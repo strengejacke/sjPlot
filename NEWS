@@ -22,6 +22,8 @@ Bug fixes:
 * Fixed bug in "sji.setValueLabels".
 * Fixed bug in "sjt.frq" with string-variables that contained a larger amount of unique values including "NA"-values, when parameter "skipZeroRows" was set to "auto" (default).
 * Minor bug fixes in "sjp.lm" with "type='ma'".
+* "weight"" should now also include "NA"s.
+
 
 Version 1.6.9
 ------------------------------------------------------------------------------

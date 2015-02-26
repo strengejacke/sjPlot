@@ -30,7 +30,7 @@ Use \code{NULL} to automatically detect variable names that will be used as titl
 (see \code{\link{set_var_labels}}) for details).}
 
 \item{weightBy}{A weight factor that will be applied to weight all cases from \code{varCount}.
-default is \code{NULL}, so no weights are used.}
+Must be a vector of same length as \code{varCount}. Default is \code{NULL}, so no weights are used.}
 
 \item{weightByTitleString}{If a weight factor is supplied via the parameter \code{weightBy}, the diagram's title
 may indicate this with a remark. Default is \code{NULL}, so the diagram's title will not be modified when

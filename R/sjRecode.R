@@ -593,7 +593,10 @@ weight2 <- function(var, weights) {
 weight <- function(var, weights) {
   # init values
   weightedvar <- c()
-  wtab <- round(xtabs(weights ~ var, data=data.frame(cbind(weights=weights,var=var))))
+  wtab <- round(xtabs(weights ~ var, 
+                      data = data.frame(weights = weights, var = var), 
+                      na.action = na.pass,
+                      exclude = NULL))
   # iterate all table values
   for (w in 1:length(wtab)) {
     # retrieve count of each table cell

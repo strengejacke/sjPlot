@@ -33,7 +33,8 @@ Use \code{NULL} to automatically detect variable names that will be used as titl
 
 \item{legendTitle}{Title of the diagram's legend.}
 
-\item{weightBy}{A weight factor that will be applied to weight all cases from \code{y}.}
+\item{weightBy}{A weight factor that will be applied to weight all cases from \code{y}.
+Must be a vector of same length as \code{y}. Default is \code{NULL}, so no weights are used.}
 
 \item{weightByTitleString}{If a weight factor is supplied via the parameter \code{weightBy}, the diagram's title
 may indicate this with a remark. Default is \code{NULL}, so the diagram's title will not be modified when

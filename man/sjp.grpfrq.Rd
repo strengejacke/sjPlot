@@ -31,7 +31,8 @@ y-axis, the variable's categories on the x-axis.}
 \item{varGroup}{the grouping variable, where each value represents a single bar chart within each category of
 the \code{varCount} variable.}
 
-\item{weightBy}{A weight factor that will be applied to weight all cases from \code{varCount}.}
+\item{weightBy}{A weight factor that will be applied to weight all cases from \code{varCount}.
+Must be a vector of same length as \code{varCount}. Default is \code{NULL}, so no weights are used.}
 
 \item{weightByTitleString}{If a weight factor is supplied via the parameter \code{weightBy}, the diagram's title
 may indicate this with a remark. Default is \code{NULL}, so the diagram's title will not be modified when

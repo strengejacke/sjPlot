@@ -26,7 +26,7 @@ sjt.xtab(var.row, var.col, var.grp = NULL, weightBy = NULL, digits = 1,
 depending on the amount of categories. See examples for details.}
 
 \item{weightBy}{A weight factor that will be applied to weight all cases.
-Default is \code{NULL}, so no weights are used.}
+Must be a vector of same length as \code{var.row}. Default is \code{NULL}, so no weights are used.}
 
 \item{digits}{The amount of digits used for the percentage values inside table cells.
 Default is 1.}

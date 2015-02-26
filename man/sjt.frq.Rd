@@ -25,7 +25,7 @@ the file will be saved as temporary file and openend either in the RStudio View 
 in the default web browser.}
 
 \item{weightBy}{A weight factor that will be applied to weight all cases from \code{data}.
-default is \code{NULL}, so no weights are used.}
+Must be a vector of same length as \code{nrow(data)}. Default is \code{NULL}, so no weights are used.}
 
 \item{variableLabels}{A single character vector or a list of character vectors that indicate
 the variable names of those variables from \code{data} and will be used as variable labels

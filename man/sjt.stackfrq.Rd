@@ -16,7 +16,8 @@ sjt.stackfrq(items, weightBy = NULL, title = NULL, varlabels = NULL,
 \arguments{
 \item{items}{A \code{\link{data.frame}} with each column representing one (likert- or scale-)item.}
 
-\item{weightBy}{A weight factor that will be applied to weight all cases from \code{items}.}
+\item{weightBy}{A weight factor that will be applied to weight all cases from \code{items}.
+Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, so no weights are used.}
 
 \item{title}{A table caption.}
 

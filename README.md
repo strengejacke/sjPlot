@@ -57,31 +57,4 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * Fixed bug in `sji.setValueLabels`.
 * Fixed bug in `sjt.frq` with string-variables that contained a larger amount of unique values including `NA`-values, when parameter `skipZeroRows` was set to `auto` (default).
 * Minor bug fixes in `sjp.lm` with `type="ma"`.
-
-
-### Changelog of current stable build 1.6.9
-
-#### New functions
-* Added new functions `sjd.norm`, `sjd.chisq`, `sjd.f` and `sjd.t` to plot distribution curves, optionally with shaded areas indicating the p-level area.
-
-#### Changes to functions
-* Plotting single predictors of linear models (`type = "pred"` in function `sjp.lm`) now also supports plotting interaction terms and factor levels. Needs parameter `x=TRUE` in `lm`-call to work.
-* Added parameter `showCI` to `sjp.frq` to show 95% confidence intervals. Use `error.bar.colors` to change colors of error bars when using bar charts. In case of dot plots, error bars have the same color as dots (see `geom.colors`).
-* Added parameter `remove.spaces` to all `sjt`-function to remove leading spaces (parantheses of html-tags), which may make tables less cluttered when importing them into office applications.
-* Added parameters `digits` and `digits.stats` to `sjt.stackfrq`, to specifiy digits after decimal point for percentage and statistic values.
-* Added parameter `atomic.to.fac` to `sji.SPSS`, so variables with nominal or ordinal scale imported from SPSS data sets are imported as `factors`, not as `atomic`.
-* `sjp.scatter` no longer needs both `x` and `y` to be specified, but at least one of them.
-* `sjt.grpmean` now shows p-values for each group (retrieved from anova table).
-* Added new theme-preset (`theme = "538"`) to `sjp.setTheme`.
-
-#### Bug fixes
-* `sjt.grpmean` did not indicate p-values smaller than 0.001 as _p<0.001_, but still as _p=0.000_ - fixed.
-* Fixed bug in function `sjs.stdmm`, which was the cause for a bug with `type = "fe.std"` in `sjp.lmer`.
-* Fixed bug in `sjp.int` when fitted model does not contain p-values (e.g. when passing a merMod object from lme4).
-* `sji.setValueLabels` did not set labels properly when paramerer `labels` was a list - fixed.
-* Minor bug fix in `sjp.int`.
-* Minor bug fix in `sjp.setTheme`.
-
-
-### Some ideas for future updates
-* Printing tables of (generalized) linear models from models with different coefficients (e.g. to print stepwise regressions).
+* `weight` should now also include `NA`s.
