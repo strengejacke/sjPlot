@@ -14,6 +14,7 @@
 #'                
 #' @param items A \code{\link{data.frame}} with each column representing one (likert- or scale-)item.
 #' @param weightBy A weight factor that will be applied to weight all cases from \code{items}.
+#'          Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, so no weights are used.
 #' @param title A table caption.
 #' @param varlabels A list or vector of strings with variable names. If not specified, row names of \code{items}
 #'          will be used, resp. variable labels will automatically be detected, when they have

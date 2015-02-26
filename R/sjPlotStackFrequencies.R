@@ -23,6 +23,7 @@
 #'          In case you want to revers order (descending from highest count), use
 #'          \code{reverseOrder} parameter.
 #' @param weightBy A weight factor that will be applied to weight all cases from \code{items}.
+#'          Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, so no weights are used.
 #' @param weightByTitleString If a weight factor is supplied via the parameter \code{weightBy}, the diagram's title
 #'          may indicate this with a remark. Default is \code{NULL}, so the diagram's title will not be modified when
 #'          cases are weighted. Use a string as parameter, e.g.: \code{weightByTitleString=" (weighted)"}.

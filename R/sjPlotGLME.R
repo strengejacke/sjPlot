@@ -1079,9 +1079,7 @@ sjp.lme.feprobcurv <- function(fit,
       # create single plots for each numeric predictor
       mp <- ggplot(mydf.metricpred[[i]], aes(x = value, y = y)) +
         labs(x = axisLabels.mp[i], y = "Predicted Probability") +
-        stat_smooth(method = "glm",
-                    family = "binomial",
-                    se = show.se) +
+        stat_smooth(method = "glm", family = "binomial", se = show.se) +
         # cartesian coord still plots range of se, even
         # when se exceeds plot range.
         coord_cartesian(ylim = c(0, 1))
@@ -1100,9 +1098,7 @@ sjp.lme.feprobcurv <- function(fit,
              title = "Predicted Probabilities of coefficients") +
 #         scale_colour_manual(values = brewer_pal(palette = "Set1")(length(axisLabels.mp)),
 #                             labels = axisLabels.mp) +
-        stat_smooth(method = "glm",
-                    family = "binomial",
-                    se = show.se) +
+        stat_smooth(method = "glm", family = "binomial", se = show.se) +
         # cartesian coord still plots range of se, even
         # when se exceeds plot range.
         coord_cartesian(ylim = c(0, 1)) +
@@ -1235,9 +1231,7 @@ sjp.lme.reprobcurve <- function(fit,
         # plot
         # ---------------------------------------------------------
         mp <- ggplot(final.df, aes(x = pred, y = prob, colour = grp)) +
-          stat_smooth(method = "glm",
-                      family = "binomial",
-                      se = show.se) +
+          stat_smooth(method = "glm", family = "binomial", se = show.se) +
           # cartesian coord still plots range of se, even
           # when se exceeds plot range.
           coord_cartesian(ylim = c(0, 1)) +
@@ -1554,9 +1548,7 @@ sjp.lme.fecondpred.onlynumeric <- function(fit,
       mp <- ggplot(mydf.metricpred[[i]], aes(x = value, y = y)) +
         geom_point() +
         labs(x = axisLabels.mp[i], y = "Probability") +
-        stat_smooth(method = "glm",
-                    family = "binomial",
-                    se = show.se) +
+        stat_smooth(method = "glm", family = "binomial", se = show.se) +
         # cartesian coord still plots range of se, even
         # when se exceeds plot range.
         coord_cartesian(ylim = c(0, 1))
@@ -1576,9 +1568,7 @@ sjp.lme.fecondpred.onlynumeric <- function(fit,
              title = "Probability of coefficients") +
         #         scale_colour_manual(values = brewer_pal(palette = "Set1")(length(axisLabels.mp)),
         #                             labels = axisLabels.mp) +
-        stat_smooth(method = "glm",
-                    family = "binomial",
-                    se = show.se) +
+        stat_smooth(method = "glm", family = "binomial", se = show.se) +
         # cartesian coord still plots range of se, even
         # when se exceeds plot range.
         coord_cartesian(ylim = c(0, 1)) +

@@ -14,7 +14,7 @@
 #' @param var.grp An optional grouping variable that splits the data into several groups,
 #'          depending on the amount of categories. See examples for details.
 #' @param weightBy A weight factor that will be applied to weight all cases.
-#'          Default is \code{NULL}, so no weights are used.
+#'          Must be a vector of same length as \code{var.row}. Default is \code{NULL}, so no weights are used.
 #' @param digits The amount of digits used for the percentage values inside table cells.
 #'          Default is 1.
 #' @param file The destination file, which will be in html-format. If no filepath is specified,

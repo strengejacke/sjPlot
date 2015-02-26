@@ -17,6 +17,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Perc", "Sum", "Count", "
 #' @param x The grouping variable, where each value represents a single bar chart within each category of
 #'          the \code{y} variable.
 #' @param weightBy A weight factor that will be applied to weight all cases from \code{y}.
+#'          Must be a vector of same length as \code{y}. Default is \code{NULL}, so no weights are used.
 #' @param weightByTitleString If a weight factor is supplied via the parameter \code{weightBy}, the diagram's title
 #'          may indicate this with a remark. Default is \code{NULL}, so the diagram's title will not be modified when
 #'          cases are weighted. Use a string as parameter, e.g.: \code{weightByTitleString=" (weighted)"}.

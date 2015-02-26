@@ -270,7 +270,7 @@ sjp.setTheme <- function(title.color="black",
     title.color <- g.palette[9]
     axis.textcolor <- g.palette[6]
     axis.title.color <- g.palette[7]
-    geom.label.color <- g.palette[6]
+    if (is.null(geom.label.color)) geom.label.color <- g.palette[6]
     legend.title.color <- g.palette[7]
     legend.color <- g.palette[6]
     axis.tickslen <- 0
@@ -297,7 +297,7 @@ sjp.setTheme <- function(title.color="black",
     title.color <- g.palette[9]
     axis.textcolor <- g.palette[6]
     axis.title.color <- g.palette[7]
-    geom.label.color <- g.palette[6]
+    if (is.null(geom.label.color)) geom.label.color <- g.palette[6]
     legend.title.color <- g.palette[7]
     legend.color <- g.palette[6]
     axis.tickslen <- 0
@@ -323,7 +323,7 @@ sjp.setTheme <- function(title.color="black",
     title.color <- "black"
     axis.textcolor <- g.palette[9]
     axis.title.color <- "black"
-    geom.label.color <- g.palette[5]
+    if (is.null(geom.label.color)) geom.label.color <- g.palette[5]
     legend.title.color <- g.palette[8]
     legend.color <- g.palette[6]
     axis.tickslen <- 0
@@ -350,7 +350,7 @@ sjp.setTheme <- function(title.color="black",
     title.color <- "black"
     axis.textcolor <- g.palette[9]
     axis.title.color <- "black"
-    geom.label.color <- g.palette[8]
+    if (is.null(geom.label.color)) geom.label.color <- g.palette[8]
     legend.title.color <- g.palette[9]
     legend.color <- g.palette[8]
     axis.tickslen <- 0
