@@ -57,6 +57,7 @@ This is a wrapper function for \code{\link{read.spss}} of the
            \item \code{\link{get_var_labels}}
            \item \code{\link{to_label}}
            \item \code{\link{to_value}}
+           \item \code{\link{to_fac}}
            \item \code{\link{view_spss}}
            }
 }

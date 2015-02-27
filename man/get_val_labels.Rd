@@ -9,7 +9,7 @@ get_val_labels(x)
 \arguments{
 \item{x}{a data frame with variables that have attached value labels (e.g.
 from an imported SPSS data (see \code{\link{read_spss}})) or a variable
-with attached value labels.}
+(vector) with attached value labels.}
 }
 \value{
 Either a list with all value labels from the data frame's variables,
@@ -17,8 +17,11 @@ Either a list with all value labels from the data frame's variables,
 }
 \description{
 This function retrieves the value labels of an imported
-               SPSS data set and returns the result as list or of a variable and returns
-               the label as string.
+               SPSS data set (via \code{\link{read_spss}}) and
+               \itemize{
+                 \item if \code{x} is a data frame, returns the all variable's value labels as \code{\link{list}} object
+                 \item or, if \code{x} is a vector, returns the label as string.
+                 }
 }
 \note{
 This function only works with vectors that have value and variable

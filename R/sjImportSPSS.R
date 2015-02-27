@@ -10,6 +10,7 @@
 #'            \item \code{\link{get_var_labels}}
 #'            \item \code{\link{to_label}}
 #'            \item \code{\link{to_value}}
+#'            \item \code{\link{to_fac}}
 #'            \item \code{\link{view_spss}}
 #'            }
 #'          
@@ -100,8 +101,11 @@ read_spss <- function(path,
 #' @title Retrieve value labels of a variable or an SPSS-imported data frame
 #' @name get_val_labels
 #' @description This function retrieves the value labels of an imported
-#'                SPSS data set and returns the result as list or of a variable and returns
-#'                the label as string.
+#'                SPSS data set (via \code{\link{read_spss}}) and
+#'                \itemize{
+#'                  \item if \code{x} is a data frame, returns the all variable's value labels as \code{\link{list}} object
+#'                  \item or, if \code{x} is a vector, returns the label as string.
+#'                  }
 #' 
 #' @seealso \itemize{
 #'            \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
@@ -115,7 +119,7 @@ read_spss <- function(path,
 #'
 #' @param x a data frame with variables that have attached value labels (e.g.
 #'          from an imported SPSS data (see \code{\link{read_spss}})) or a variable
-#'          with attached value labels.
+#'          (vector) with attached value labels.
 #' @return Either a list with all value labels from the data frame's variables,
 #'           or a string with the value labels, if \code{x} is a variable.
 #' 
@@ -156,14 +160,27 @@ get_val_labels <- function(x) {
   return (a)
 }
 sji.getValueLabel <- function(x) {
+  labels <- NULL
+  attr.string <- "value.labels"
   # retrieve named labels
   lab <- attr(x, "value.labels")
-  # retrieve order of value labels
-  reihenfolge <- order(as.numeric(unname(lab)))
-  # retrieve label values in correct order
-  labels <- names(lab)[reihenfolge]
+  # check if we have anything
+  if (is.null(lab)) {
+    # perhaps haven import?
+    lab <- attr(x, "label")
+    attr.string <- "label"
+  }
+  if (!is.null(lab)) {
+    # retrieve order of value labels
+    reihenfolge <- sji.getValueLabelValues(x, attr.string)
+    # retrieve label values in correct order
+    labels <- names(lab)[reihenfolge]
+  }
   # return them
   return (labels)
+}
+sji.getValueLabelValues <- function(x, attr.string = "value.labels") {
+  return (order(as.numeric(unname(attr(x, attr.string)))))
 }
 
 
@@ -280,8 +297,11 @@ sji.setValueLabel.vector <- function(var, labels) {
 #' @name get_var_labels
 #' 
 #' @description This function retrieves the variable labels of an imported
-#'                SPSS data set and returns the result as list or the variable 
-#'                label of a specific vector / variable and returns it as string.
+#'                SPSS data set (via \code{\link{read_spss}}) and
+#'                \itemize{
+#'                  \item if \code{x} is a data frame, returns the all variable labels as \code{\link{list}} object
+#'                  \item or, if \code{x} is a vector, returns the variable label as string.
+#'                  }
 #' 
 #' @seealso \itemize{
 #'            \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
@@ -350,6 +370,7 @@ get_var_labels <- function(x) {
 #'            \item \code{\link{get_var_labels}}
 #'            \item \code{\link{to_label}}
 #'            \item \code{\link{to_value}}
+#'            \item \code{\link{to_fac}}
 #'            \item \code{\link{get_val_labels}}
 #'            \item \code{\link{set_val_labels}}
 #'            }
@@ -423,14 +444,14 @@ set_var_labels <- function(x, lab) {
 }
 
 
-#' @title Replaces variable values with their associated value labels
+#' @title Converts variable into factor and replaces values with associated value labels
 #' @name to_label
 #' 
-#' @description This function converts (replaces) variable values (of factors) with their
-#' associated value labels. Might be helpful for factor variables.
-#' For instance, if you have a Gender variable with 0/1, and associated
-#' labels are male/female, this function would convert all 0 to male and
-#' all 1 to female in the data frame.
+#' @description This function converts (replaces) variable values (also of factors) 
+#'                with their associated value labels. Might be helpful for factor variables.
+#'                For instance, if you have a Gender variable with 0/1 value, and associated
+#'                labels are male/female, this function would convert all 0 to male and
+#'                all 1 to female and returns the new variable as \code{\link{factor}}.
 #' 
 #' @seealso \itemize{
 #'            \item \code{\link{to_fac}}
@@ -440,8 +461,13 @@ set_var_labels <- function(x, lab) {
 #'            \item \code{\link{read_spss}}
 #'            }
 #' 
-#' @param variable A (factor) variable.
-#' @return A factor variable containing with the replaced value labels.
+#' @param variable A variable of type \code{\link{numeric}}, \code{\link{atomic}}
+#'          or \code{\link{factor}} \emph{with associated value labels}
+#'          (see \code{\link{set_val_labels}}).
+#' @return A factor variable with the associated value labels as factor levels.
+#' 
+#' @note The \code{"value.labels"} attribute will be removed when converting
+#'         variables to factors.
 #' 
 #' @examples
 #' data(efc)
@@ -455,13 +481,18 @@ set_var_labels <- function(x, lab) {
 #' 
 #' @export
 to_label <- function(variable) {
-  vl <- rev(names(attr(variable, "value.labels")))
-  vn <- sort(unique(na.omit(variable)))
-  
+  # get value labels
+  vl <- get_val_labels(variable)
+  # get associated values for value labels
+  vn <- rev(sji.getValueLabelValues(variable))
+  # replace values with labels
   for (i in 1:length(vl)) {
     variable[variable==vn[i]] <- vl[i]
   }
-  return (as.factor(variable))
+  # to factor
+  variable <- factor(variable, levels = vl)
+  # return as factor
+  return (variable)
 }
 
 
@@ -533,7 +564,10 @@ to_fac <- function(var) {
 #'            }
 #'            
 #' @param fac A (factor) variable.
-#' @param startAt the starting index, i.e. numeric value of the variable.
+#' @param startAt the starting index, i.e. the lowest numeric value of the variable's
+#'          value range.
+#' @param keep.labels logical, if \code{TRUE}, former factor levels will be attached as
+#'          value labels. See \code{\link{set_val_labels}} for more details.
 #' @return A numeric variable with values ranging from \code{startAt} to
 #'           \code{startAt} + length of factor levels.
 #' 
@@ -545,10 +579,23 @@ to_fac <- function(var) {
 #' table(to_value(test))
 #' hist(to_value(test, 0))
 #' 
+#' # set lowest value of new variable
+#' # to "5".
+#' table(to_value(test, 5))
+#' 
 #' @export
-to_value <- function(fac, startAt=1) {
+to_value <- function(fac, startAt = 1, keep.labels = TRUE) {
+  # get amount of categories
   l <- length(levels(fac))
+  # determine highest category value
   end <- startAt+l-1
+  # retrieve "value labels"
+  labels <- levels(fac)
+  # replace labels with numeric values
   levels(fac) <- c(startAt:end)
-  return (as.numeric(as.character(fac)))
+  # convert to numeric
+  new_value <- as.numeric(as.character(fac))
+  # check if we should attach former labels as value labels
+  if (keep.labels) new_value <- set_val_labels(new_value, labels)
+  return (new_value)
 }

@@ -63,6 +63,7 @@ sjp.frq(dummy, title="auto")
            \item \code{\link{get_var_labels}}
            \item \code{\link{to_label}}
            \item \code{\link{to_value}}
+           \item \code{\link{to_fac}}
            \item \code{\link{get_val_labels}}
            \item \code{\link{set_val_labels}}
            }

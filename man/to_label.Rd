@@ -2,22 +2,28 @@
 % Please edit documentation in R/sjImportSPSS.R
 \name{to_label}
 \alias{to_label}
-\title{Replaces variable values with their associated value labels}
+\title{Converts variable into factor and replaces values with associated value labels}
 \usage{
 to_label(variable)
 }
 \arguments{
-\item{variable}{A (factor) variable.}
+\item{variable}{A variable of type \code{\link{numeric}}, \code{\link{atomic}}
+or \code{\link{factor}} \emph{with associated value labels}
+(see \code{\link{set_val_labels}}).}
 }
 \value{
-A factor variable containing with the replaced value labels.
+A factor variable with the associated value labels as factor levels.
 }
 \description{
-This function converts (replaces) variable values (of factors) with their
-associated value labels. Might be helpful for factor variables.
-For instance, if you have a Gender variable with 0/1, and associated
-labels are male/female, this function would convert all 0 to male and
-all 1 to female in the data frame.
+This function converts (replaces) variable values (also of factors)
+               with their associated value labels. Might be helpful for factor variables.
+               For instance, if you have a Gender variable with 0/1 value, and associated
+               labels are male/female, this function would convert all 0 to male and
+               all 1 to female and returns the new variable as \code{\link{factor}}.
+}
+\note{
+The \code{"value.labels"} attribute will be removed when converting
+        variables to factors.
 }
 \examples{
 data(efc)

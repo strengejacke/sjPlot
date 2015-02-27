@@ -16,8 +16,11 @@ A list with all variable labels from the SPSS dataset,
 }
 \description{
 This function retrieves the variable labels of an imported
-               SPSS data set and returns the result as list or the variable
-               label of a specific vector / variable and returns it as string.
+               SPSS data set (via \code{\link{read_spss}}) and
+               \itemize{
+                 \item if \code{x} is a data frame, returns the all variable labels as \code{\link{list}} object
+                 \item or, if \code{x} is a vector, returns the variable label as string.
+                 }
 }
 \note{
 This function only works with vectors that have value and variable

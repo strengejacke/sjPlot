@@ -4,12 +4,16 @@
 \alias{to_value}
 \title{Converts factors to numeric variables}
 \usage{
-to_value(fac, startAt = 1)
+to_value(fac, startAt = 1, keep.labels = TRUE)
 }
 \arguments{
 \item{fac}{A (factor) variable.}
 
-\item{startAt}{the starting index, i.e. numeric value of the variable.}
+\item{startAt}{the starting index, i.e. the lowest numeric value of the variable's
+value range.}
+
+\item{keep.labels}{logical, if \code{TRUE}, former factor levels will be attached as
+value labels. See \code{\link{set_val_labels}} for more details.}
 }
 \value{
 A numeric variable with values ranging from \code{startAt} to
@@ -27,6 +31,10 @@ table(test)
 
 table(to_value(test))
 hist(to_value(test, 0))
+
+# set lowest value of new variable
+# to "5".
+table(to_value(test, 5))
 }
 \seealso{
 \itemize{
