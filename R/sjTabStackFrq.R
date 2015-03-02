@@ -257,7 +257,7 @@ sjt.stackfrq <- function (items,
   # additional statistics required from psych-package?
   # ----------------------------
   if (showSkew || showKurtosis) {
-    pstat <- describe(items)
+    pstat <- psych::describe(items)
   }
   # ----------------------------
   # create data frame with each item in a row

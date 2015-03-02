@@ -1,17 +1,21 @@
-Version 1.6.9-7
+Version 1.6.9-8
 ------------------------------------------------------------------------------
 General:
-* Renamed sjs, sju and sji-functions into more intuitiv and shorter function names.
+* Renamed sjs, sju, sjd and sji-functions into more intuitiv and shorter function names.
 * "autoSetValueLabels" and "autoSetVariableLabels" are now global options. E.g., use "options(autoSetValueLabels = FALSE)" to turn off automatic value label detection in plotting and table functions, or "options(autoSetValueLabels = TRUE)" to turn on automatic label detection.
 * Removed "plyr" import and replaced with "dplyr" functions.
 * Removed "reshape2" import and replaced with "tidyr" functions.
 
 New functions:
+* "write_spss" to write data frames to SPSS sav-files, including value and variable labels.
+* "to_sjPlot" to convert data frames imported with the "haven" package to a more sjPlot-friendly format.
 * "to_fac" to convert (numeric or atomic) variables to factors, but keeps value and variable labels. Useful alternative to "as.factor", when data has been imported from SPSS (e.g. with "read_spss").
 
 Changes to functions:
 * "sjt.lm" now also prints multiple fitted models with different predictors in each model (e.g. when comparing stepwise regression). See examples in "?sjt.lm".
 * Added parameter "group.pred" in "sjt.lm" and "sjt.glm" to automatically group table rows with factor levels of same factor.
+* Improved "set_var_labels", "get_var_labels", "set_val_labels" and "get_val_labels" to cope with "haven" package data structure.
+* Improved "view_spss" function (former "sji.viewSPSS").
 * Improved automatic label extraction for "sjp.lm", "sjt.lm", "sjp.glm" and "sjt.glm".
 * Improved pre-set theme "538" in "sjp.setTheme".
 * Added further pre-set themes to "sjp.setTheme".

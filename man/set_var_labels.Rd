@@ -4,7 +4,7 @@
 \alias{set_var_labels}
 \title{Attach variable label(s) to a single variable or data frame}
 \usage{
-set_var_labels(x, lab)
+set_var_labels(x, lab, attr.string = "variable.label")
 }
 \arguments{
 \item{x}{A single variable (vector) or data frame with variables.}
@@ -12,6 +12,13 @@ set_var_labels(x, lab)
 \item{lab}{If \code{x} is a vector (single variable), use a single character string with
 the variable label for \code{x}. If \code{x} is a \code{\link{data.frame}}, use a
 vector with character labels of same length as \code{ncol(x)}.}
+
+\item{attr.string}{The attribute string for the variable label. To ensure
+compatibility to the \code{foreign}-package, use the default string
+\code{"variable.label"}. If you want to save data with the \code{haven}
+package, use \code{attr.string = "label"}. There is a wrapper function
+\code{\link{write_spss}} to save SPSS files, so you don't need to take
+care of this.}
 }
 \value{
 \code{x}, with attached \code{"variable.label"} attribute(s), which contains the
@@ -52,14 +59,15 @@ dummy <- sample(1:4, 40, replace=TRUE)
 dummy <- set_val_labels(dummy, c("very low", "low", "mid", "hi"))
 dummy <- set_var_labels(dummy, "Dummy-variable")
 # auto-detection of value labels by default, auto-detection of
-# variable labels if parameter "title" set to "auto"
-sjp.frq(dummy, title="auto")
+# variable labels if parameter "title" set to NULL.
+sjp.frq(dummy, title=NULL)
 }
 \seealso{
 \itemize{
            \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
            \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
            \item \code{\link{read_spss}}
+           \item \code{\link{write_spss}}
            \item \code{\link{get_var_labels}}
            \item \code{\link{to_label}}
            \item \code{\link{to_value}}

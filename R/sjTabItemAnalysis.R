@@ -290,7 +290,7 @@ sjt.itemanalysis <- function(df,
     # -----------------------------------
     # get statistics
     # -----------------------------------
-    dstat <- describe(df.sub)
+    dstat <- psych::describe(df.sub)
     reli <- reliab_test(df.sub, scaleItems=scaleItems)
     # -----------------------------------
     # get index score value, by retrieving the row mean

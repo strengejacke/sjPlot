@@ -4,10 +4,10 @@
 \alias{to_fac}
 \title{Convert variable into factor and keep value labels}
 \usage{
-to_fac(var)
+to_fac(x)
 }
 \arguments{
-\item{var}{A (numeric or atomic) variable.}
+\item{x}{A (numeric or atomic) variable.}
 }
 \value{
 A factor variable, including variable and value labels.
@@ -43,6 +43,7 @@ sjt.frq(efc$e42dep)}
            \item \code{\link{get_val_labels}}
            \item \code{\link{get_var_labels}}
            \item \code{\link{read_spss}}
+           \item \code{\link{write_spss}}
            }
 }
 

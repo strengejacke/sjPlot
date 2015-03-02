@@ -11,7 +11,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("pv"))
 #'                the model summary.
 #'                
 #' @seealso \itemize{
-#'            \item \code{\link{leve_test}}
+#'            \item \code{\link{levene_test}}
 #'            \item \code{\link{sjt.grpmean}}
 #'          }
 #'                
@@ -502,7 +502,7 @@ sjp.aov1 <- function(depVar,
 
 
 #' @title Plot Levene-Test for One-Way-Anova
-#' @name leve_test
+#' @name levene_test
 #' 
 #' @description Plot results of Levene's Test for Equality of Variances for One-Way-Anova.
 #' @seealso \code{\link{sjp.aov1}}, \code{\link{chisq_gof}}, \code{\link{mwu}} and \code{\link{wilcox.test}}, 
@@ -516,10 +516,10 @@ sjp.aov1 <- function(depVar,
 #' 
 #' @examples
 #' data(efc)
-#' leve_test(efc$c12hour, efc$e42dep)
+#' levene_test(efc$c12hour, efc$e42dep)
 #' 
 #' @export
-leve_test <- function(depVar, grpVar) {
+levene_test <- function(depVar, grpVar) {
   # check if grpVar is factor
   if (!is.factor(grpVar)) grpVar <- factor(grpVar)
   # remove missings

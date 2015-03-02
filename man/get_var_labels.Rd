@@ -4,15 +4,22 @@
 \alias{get_var_labels}
 \title{Retrieve variable labels of (an SPSS-imported) data frame or of a specific variable}
 \usage{
-get_var_labels(x)
+get_var_labels(x, attr.string = "variable.label")
 }
 \arguments{
 \item{x}{A data frame (containing imported SPSS data or with attached variable labels) or
-         a vector with \code{"variable.label"} attribute.}
+a vector with \code{"variable.label"} attribute.}
+
+\item{attr.string}{The attribute string for the variable label. To ensure
+         compatibility to the \code{foreign}-package, use the default string
+         \code{"variable.label"}. If you want to save data with the \code{haven}
+         package, use \code{attr.string = "label"}. There is a wrapper function
+         \code{\link{write_spss}} to save SPSS files, so you don't need to take
+         care of this.}
 }
 \value{
-A list with all variable labels from the SPSS dataset,
-          or a string with the variable label, if \code{x} is a variable.
+A named char vector with all variable labels from the SPSS dataset,
+          or a simple string vector with the variable label, if \code{x} is a variable.
 }
 \description{
 This function retrieves the variable labels of an imported
@@ -46,13 +53,23 @@ This function only works with vectors that have value and variable
 # mydat.val <- get_val_labels(mydat)
 
 data(efc)
+# sample data set has not attached variable labels to each vector
+# so we have to do this first... use 'autoAttachVarLabels' in
+# function 'read_spss' to automatically perform this step.
+efc <- set_var_labels(efc, get_var_labels(efc))
+
+# get variable lable
 get_var_labels(efc$e42dep)
+
+# alternative way
+get_var_labels(efc)["e42dep"]
 }
 \seealso{
 \itemize{
            \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
            \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
            \item \code{\link{read_spss}}
+           \item \code{\link{write_spss}}
            \item \code{\link{get_val_labels}}
            \item \code{\link{to_label}}
            \item \code{\link{to_value}}

@@ -207,14 +207,14 @@ view_spss <- function (df,
     # ID
     if (showID) page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%i</td>\n", arcstring, index))
     # name
-    page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, names(df.var[index])))
+    page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, colnames(df)[index]))
     # type
     if (showType) {
       vartype <- c("unknown type")
-      if (is.character(df[,index])) vartype <- c("character")
-      else if (is.factor(df[,index])) vartype <- c("factor")
-      else if (is.numeric(df[,index])) vartype <- c("numeric")
-      else if (is.atomic(df[,index])) vartype <- c("atomic")
+      if (is.character(df[[index]])) vartype <- c("character")
+      else if (is.factor(df[[index]])) vartype <- c("factor")
+      else if (is.numeric(df[[index]])) vartype <- c("numeric")
+      else if (is.atomic(df[[index]])) vartype <- c("atomic")
       page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, vartype))
     }
     # label
@@ -232,7 +232,7 @@ view_spss <- function (df,
     # values
     if (showValues) {
       if (index<=ncol(df)) {
-        vals <- rev(unname(attr(df[,index], "value.labels")))
+        vals <- sji.getValueLabelValues(df[[index]])
         valstring <- c("")
         for (i in 1:length(vals)) {
           valstring <- paste0(valstring, vals[i])
@@ -262,8 +262,8 @@ view_spss <- function (df,
     }
     # frequencies
     if (showFreq) {
-      if (index<=ncol(df) && !is.null(attr(df[,index], "value.labels"))) {
-        ftab <- as.numeric(table(df[,index]))
+      if (index<=ncol(df) && !is.null(attr(df[[index]], "value.labels"))) {
+        ftab <- as.numeric(table(df[[index]]))
         valstring <- c("")
         for (i in 1:length(ftab)) {
           valstring <- paste0(valstring, ftab[i])
@@ -277,8 +277,8 @@ view_spss <- function (df,
     }
     # frequencies
     if (showPerc) {
-      if (index<=ncol(df) && !is.null(attr(df[,index], "value.labels"))) {
-        ftab <- 100*as.numeric(prop.table(table(df[,index])))
+      if (index<=ncol(df) && !is.null(attr(df[[index]], "value.labels"))) {
+        ftab <- 100*as.numeric(prop.table(table(df[[index]])))
         valstring <- c("")
         for (i in 1:length(ftab)) {
           valstring <- paste0(valstring, sprintf("%.2f", ftab[i]))

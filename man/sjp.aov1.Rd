@@ -150,7 +150,7 @@ sjp.aov1(efc$c12hour,
 }
 \seealso{
 \itemize{
-           \item \code{\link{leve_test}}
+           \item \code{\link{levene_test}}
            \item \code{\link{sjt.grpmean}}
          }
 }

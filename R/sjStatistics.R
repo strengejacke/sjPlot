@@ -605,10 +605,11 @@ table_values <- function(tab, digits=2) {
 #' tab <- table(sample(1:2, 30, TRUE), sample(1:2, 30, TRUE))
 #' phi(tab)
 #' 
+#' @importFrom MASS loglm
 #' @export
 phi <- function(tab) {
   if (class(tab)!="ftable") tab <- ftable(tab)
-  tb <- summary(loglm(~1+2, tab))$tests
+  tb <- summary(MASS::loglm(~1+2, tab))$tests
   phi_val <- sqrt(tb[2,1]/sum(tab))
   return (phi_val)
 }

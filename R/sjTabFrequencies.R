@@ -590,7 +590,7 @@ sjt.frq <- function (data,
       }
       descr <- ""
       if (showSkew || showKurtosis) {
-        pstat <- describe(data.frame(orivar))
+        pstat <- psych::describe(data.frame(orivar))
         if (showSkew) descr <- sprintf(" &middot; %s=%.2f", skewString, pstat$skew)
         if (showKurtosis) descr <- sprintf("%s &middot; %s=%.2f", descr, kurtosisString, pstat$kurtosis)
       }

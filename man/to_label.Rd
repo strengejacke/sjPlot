@@ -4,11 +4,12 @@
 \alias{to_label}
 \title{Converts variable into factor and replaces values with associated value labels}
 \usage{
-to_label(variable)
+to_label(x)
 }
 \arguments{
-\item{variable}{A variable of type \code{\link{numeric}}, \code{\link{atomic}}
-or \code{\link{factor}} \emph{with associated value labels}
+\item{x}{A variable of type \code{\link{numeric}}, \code{\link{atomic}}
+\code{\link{factor}} or \code{labelled} (see \code{haven} package)
+\emph{with associated value labels}
 (see \code{\link{set_val_labels}}).}
 }
 \value{
@@ -34,6 +35,12 @@ head(to_label(efc$c161sex))
 print(get_val_labels(efc)['e42dep'])
 table(efc$e42dep)
 table(to_label(efc$e42dep))
+
+# structure of numeric values won't be changed
+# by this function, it only applies to labelled vectors
+# (typically categorical or factor variables)
+print(str(efc$e17age))
+print(str(to_label(efc$e17age)))
 }
 \seealso{
 \itemize{
@@ -42,6 +49,7 @@ table(to_label(efc$e42dep))
            \item \code{\link{get_val_labels}}
            \item \code{\link{get_var_labels}}
            \item \code{\link{read_spss}}
+           \item \code{\link{write_spss}}
            }
 }
 

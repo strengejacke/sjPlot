@@ -96,7 +96,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
 #'
 #' @import ggplot2
 #' @import tidyr
-#' @importFrom scales brewer_pal
+#' @importFrom scales grey_pal
 #' @export
 sjp.corr <- function(data,
                      title=NULL,
@@ -140,10 +140,10 @@ sjp.corr <- function(data,
   # set color palette
   # ----------------------------
   if (is.brewer.pal(geom.colors[1])) {
-    geom.colors <- brewer_pal(palette=geom.colors[1])(5)
+    geom.colors <- (palette=geom.colors[1])(5)
   }
   else if (geom.colors[1] == "gs") {
-    geom.colors <- grey_pal()(5)
+    geom.colors <- scales::grey_pal()(5)
   }
   # ----------------------------
   # check for valid parameter

@@ -260,7 +260,7 @@ sjp.setTheme <- function(title.color="black",
   }  
   if (!is.null(theme) && theme=="538") {
     base <- theme_bw()
-    g.palette <- brewer_pal(palette = "Greys")(9)
+    g.palette <- scales::brewer_pal(palette = "Greys")(9)
     panel.bordercol <- panel.backcol <- panel.col <- g.palette[2]
     plot.backcol <- plot.bordercol <- plot.col <- g.palette[2]
     panel.major.gridcol <- g.palette[4]
@@ -284,7 +284,7 @@ sjp.setTheme <- function(title.color="black",
   }  
   if (!is.null(theme) && theme=="539") {
     base <- theme_bw()
-    g.palette <- brewer_pal(palette = "Greys")(9)
+    g.palette <- scales::brewer_pal(palette = "Greys")(9)
     panel.bordercol <- panel.backcol <- panel.col <- g.palette[2]
     plot.backcol <- plot.bordercol <- plot.col <- g.palette[2]
     panel.major.gridcol <- g.palette[4]
@@ -310,7 +310,7 @@ sjp.setTheme <- function(title.color="black",
   }  
   if (!is.null(theme) && theme=="blues") {
     base <- theme_bw()
-    g.palette <- brewer_pal(palette = "Blues")(9)
+    g.palette <- scales::brewer_pal(palette = "Blues")(9)
     panel.bordercol <- panel.backcol <- panel.col <- g.palette[1]
     plot.backcol <- plot.bordercol <- plot.col <- g.palette[1]
     panel.major.gridcol <- g.palette[3]
@@ -336,7 +336,7 @@ sjp.setTheme <- function(title.color="black",
   }  
   if (!is.null(theme) && theme=="greens") {
     base <- theme_bw()
-    g.palette <- brewer_pal(palette = "BrBG")(9)
+    g.palette <- scales::brewer_pal(palette = "BrBG")(9)
     g.palette[5] <- "#f5faf5"
     panel.bordercol <- panel.backcol <- panel.col <- g.palette[5]
     plot.backcol <- plot.bordercol <- plot.col <- g.palette[5]
@@ -756,12 +756,12 @@ sj.setGeomColors <- function(plot,
       else {
         neutral.color <- NULL
       }
-      geom.colors <- brewer_pal(palette=geom.colors[1])(pal.len)
+      geom.colors <- scales::brewer_pal(palette=geom.colors[1])(pal.len)
       if (reverse.colors) geom.colors <- rev(geom.colors)
       if (!is.null(neutral.color)) geom.colors <- c(geom.colors, neutral.color)
     }
     else if (geom.colors[1] == "gs") {
-      geom.colors <- grey_pal()(pal.len)
+      geom.colors <- scales::grey_pal()(pal.len)
       if (reverse.colors) geom.colors <- rev(geom.colors)
     }
     else if (length(geom.colors) > pal.len) {

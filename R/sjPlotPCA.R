@@ -155,10 +155,10 @@ sjp.pca <- function(data,
   # set color palette
   # ----------------------------  
   if (is.brewer.pal(geom.colors[1])) {
-    geom.colors <- brewer_pal(palette=geom.colors[1])(5)
+    geom.colors <- scales::brewer_pal(palette=geom.colors[1])(5)
   }
   else if (geom.colors[1] == "gs") {
-    geom.colors <- grey_pal()(5)
+    geom.colors <- scales::grey_pal()(5)
   }
   # ----------------------------
   # check if user has passed a data frame

@@ -12,7 +12,7 @@
   
   Furthermore, this package contains some tools that are useful when carrying out data
   analysis or interpreting data (especially intended for people coming from SPSS and/or who
-  are new to R). These tool functions support importing (SPSS) data, 
+  are new to R). These tool functions support reading and writing (SPSS) data, 
   variable recoding and weighting, statistical tests, determination of cluster groups, 
   interpretation of interaction terms in regression models etc.
   
@@ -53,8 +53,8 @@
 \tabular{ll}{
 Package: \tab sjPlot\cr
 Type: \tab Package\cr
-Version: \tab 1.6.9-7\cr
-Date: \tab 2015-02-25\cr
+Version: \tab 1.6.9-8\cr
+Date: \tab 2015-03-02\cr
 License: \tab GPL-3\cr
 }
 }

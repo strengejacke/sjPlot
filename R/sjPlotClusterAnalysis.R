@@ -564,7 +564,7 @@ sjc.dend <- function(data, groupcount, distance="euclidean", agglomeration="ward
   gl <- length(groupcount)
   if (gl>1) {
     # retrieve different colors
-    color <- brewer_pal("qual", "Set1")(gl)
+    color <- scales::brewer_pal("qual", "Set1")(gl)
     # iterate all groupcounts
     for (cnt in 1:gl) {
       k <- groupcount[cnt]
@@ -645,7 +645,7 @@ sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect=TRUE, printPl
   # ---------------------------------------------------------------
   # compute discriminant analysis of groups on original data frame
   # ---------------------------------------------------------------
-  disc <- lda(groups ~ ., data=data, na.action="na.omit", CV=TRUE)
+  disc <- MASS::lda(groups ~ ., data=data, na.action="na.omit", CV=TRUE)
   # ---------------------------------------------------------------
   # Assess the accuracy of the prediction
   # percent correct for each category of groups

@@ -209,7 +209,6 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ypos", "wb", "ia", "mw",
 #' 
 #' @import ggplot2
 #' @import dplyr
-#' @importFrom MASS loglm
 #' @export
 sjp.grpfrq <- function(varCount,
                        varGroup,

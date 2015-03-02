@@ -53,7 +53,7 @@ read_spss <- function(path,
                      autoAttachVarLabels=FALSE,
                      atomic.to.fac=FALSE) {
   # import data as data frame
-  data.spss <- suppressWarnings(read.spss(path, to.data.frame=TRUE, use.value.labels=FALSE, reencode=enc))
+  data.spss <- suppressWarnings(foreign::read.spss(path, to.data.frame=TRUE, use.value.labels=FALSE, reencode=enc))
   # convert atomic values to factors
   if (atomic.to.fac) {
     # -------------------------------------
@@ -98,6 +98,148 @@ read_spss <- function(path,
 }
 
 
+#' @title Write content of data frame to SPSS sav-file
+#' @name write_spss
+#' 
+#' @description This function saves the content of a data frame to an SPSS sav-file.
+#' 
+#' @seealso \itemize{
+#'            \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
+#'            \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
+#'            \item \code{\link{get_val_labels}}
+#'            \item \code{\link{get_var_labels}}
+#'            \item \code{\link{to_label}}
+#'            \item \code{\link{to_value}}
+#'            \item \code{\link{to_fac}}
+#'            \item \code{\link{view_spss}}
+#'            \item \code{\link{read_spss}}
+#'            }
+#'          
+#' @note You don't need to take care whether variables have been imported with
+#'         the \code{\link{read_spss}} function from this package or from \code{haven}
+#'         or even the \code{foreign} package, or if you have imported SPSS data and
+#'         created new variables. This function does all necessary data preparation
+#'         to write a properly labelled SPSS sav file.
+#' 
+#' @param x data frame that should be saved as SPSS sav-file.
+#' @param path file path to the SPSS dataset.
+#'   
+#' @export
+write_spss <- function(x, path) {
+  write_data(x, path, "spss")
+}
+
+
+write_data <- function(x, path, type = "spss") {
+  # ------------------------
+  # check if suggested package is available
+  # ------------------------
+  if (!requireNamespace("haven", quietly = TRUE)) {
+    stop("Package 'haven' needed for this function to work. Please install it.", call. = FALSE)
+  }
+  # -------------------------------------
+  # create progress bar
+  # -------------------------------------
+  pb <- txtProgressBar(min = 0, 
+                       max = ncol(x), 
+                       style = 3)
+  # tell user...
+  message(sprintf("Prepare writing %s file. Please wait...\n", type))
+  # check if variables should be converted to factors
+  for (i in 1:ncol(x)) {
+    # haven labelled objects don't need conversion
+    if (!is_labelled(x[[i]])) {
+      # get variable value
+      var.lab <- get_var_labels(x[[i]], "label")
+      # convert variable to labelled factor, so it can be saved
+      x[[i]] <- to_label(x[[i]])
+      # set back variable label
+      x[[i]] <- set_var_labels(x, var.lab, "label")
+    }
+    # update progress bar
+    setTxtProgressBar(pb, i)
+  }
+  if (type == "spss") {
+    haven::write_sav(x, path)
+  }
+  close(pb)
+}
+
+
+is_labelled <- function(x) {
+  return (class(x) == "labelled")
+}
+
+
+#' @title Convert a haven-imported data frame to sjPlot format
+#' @name to_sjPlot
+#' 
+#' @description This function converts a data frame, which was imported with any of
+#'                \code{haven}'s read functions and contains \code{labelled} class
+#'                vectors, into an sjPlot friendly data frame format.
+#' 
+#' @param x a data frame, which contains \code{labelled} class vectors
+#' @return a data frame with 'sjPlot' friendly vector classes and attached
+#'           label attributes.
+#' 
+#' @export
+to_sjPlot <- function(x) {
+  # -------------------------------------
+  # create progress bar
+  # -------------------------------------
+  pb <- txtProgressBar(min = 0, 
+                       max = ncol(x), 
+                       style = 3)
+  # tell user...
+  message("Cconverting from haven to sjPlot. Please wait...\n")
+  for (i in 1:ncol(x)) {
+    # haven labelled vector?
+    if (is_labelled(x[[i]])) {
+      # read current labels
+      var.lab <- attr(x[[i]], "label")
+      val.lab <- unname(attr(x[[i]], "labels"))
+      val.lab.names <- names(attr(x[[i]], "labels"))
+      # delete old attributes
+      attr(x[[i]], "label") <- NULL
+      names(attr(x[[i]], "labels")) <- NULL
+      attr(x[[i]], "labels") <- NULL
+      # set back labels
+      x[[i]] <- set_val_labels(x[[i]], val.lab.names)
+      x[[i]] <- set_var_labels(x[[i]], var.lab)
+      # remove labelled class attribute
+      class(x[[i]]) <- NULL
+    }
+    else {
+      # read current labels
+      var.lab <- attr(x[[i]], "label")
+      # do we have any?
+      if (!is.null(var.lab)) {
+        # delete old attributes
+        attr(x[[i]], "label") <- NULL
+        # set back labels
+        x[[i]] <- set_var_labels(x[[i]], var.lab)
+      }
+      # read current labels
+      val.lab <- unname(attr(x[[i]], "labels"))
+      if (!is.null(val.lab)) {
+        val.lab.names <- names(attr(x[[i]], "labels"))
+        # delete old attributes
+        names(attr(x[[i]], "labels")) <- NULL
+        attr(x[[i]], "labels") <- NULL
+        # set back labels
+        x[[i]] <- set_val_labels(x[[i]], val.lab.names)
+      }
+    }
+    # update progress bar
+    setTxtProgressBar(pb, i)
+  }
+  close(pb)
+  # remove redundant class attributes
+  class(x) <- "data.frame"
+  return (x)
+}
+
+
 #' @title Retrieve value labels of a variable or an SPSS-imported data frame
 #' @name get_val_labels
 #' @description This function retrieves the value labels of an imported
@@ -111,6 +253,7 @@ read_spss <- function(path,
 #'            \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
 #'            \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
 #'            \item \code{\link{read_spss}}
+#'            \item \code{\link{write_spss}}
 #'            \item \code{\link{get_var_labels}}
 #'            \item \code{\link{to_label}}
 #'            \item \code{\link{to_value}}
@@ -167,8 +310,8 @@ sji.getValueLabel <- function(x) {
   # check if we have anything
   if (is.null(lab)) {
     # perhaps haven import?
-    lab <- attr(x, "label")
-    attr.string <- "label"
+    lab <- attr(x, "labels")
+    attr.string <- "labels"
   }
   if (!is.null(lab)) {
     # retrieve order of value labels
@@ -180,6 +323,7 @@ sji.getValueLabel <- function(x) {
   return (labels)
 }
 sji.getValueLabelValues <- function(x, attr.string = "value.labels") {
+  if (is.null(attr.string)) attr.string <- "value.labels"
   return (order(as.numeric(unname(attr(x, attr.string)))))
 }
 
@@ -196,6 +340,7 @@ sji.getValueLabelValues <- function(x, attr.string = "value.labels") {
 #'            \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
 #'            \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
 #'            \item \code{\link{read_spss}}
+#'            \item \code{\link{write_spss}}
 #'            \item \code{\link{get_var_labels}}
 #'            \item \code{\link{to_label}}
 #'            \item \code{\link{to_value}}
@@ -307,6 +452,7 @@ sji.setValueLabel.vector <- function(var, labels) {
 #'            \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
 #'            \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
 #'            \item \code{\link{read_spss}}
+#'            \item \code{\link{write_spss}}
 #'            \item \code{\link{get_val_labels}}
 #'            \item \code{\link{to_label}}
 #'            \item \code{\link{to_value}}
@@ -315,9 +461,15 @@ sji.setValueLabel.vector <- function(var, labels) {
 #' 
 #' @param x A data frame (containing imported SPSS data or with attached variable labels) or
 #'          a vector with \code{"variable.label"} attribute.
+#' @param attr.string The attribute string for the variable label. To ensure
+#'          compatibility to the \code{foreign}-package, use the default string
+#'          \code{"variable.label"}. If you want to save data with the \code{haven}
+#'          package, use \code{attr.string = "label"}. There is a wrapper function
+#'          \code{\link{write_spss}} to save SPSS files, so you don't need to take
+#'          care of this.
 #' 
-#' @return A list with all variable labels from the SPSS dataset,
-#'           or a string with the variable label, if \code{x} is a variable.
+#' @return A named char vector with all variable labels from the SPSS dataset,
+#'           or a simple string vector with the variable label, if \code{x} is a variable.
 #' 
 #' @note This function only works with vectors that have value and variable
 #'        labels attached. This is automatically done by importing SPSS data sets
@@ -342,15 +494,55 @@ sji.setValueLabel.vector <- function(var, labels) {
 #' # mydat.val <- get_val_labels(mydat)
 #' 
 #' data(efc)
+#' # sample data set has not attached variable labels to each vector
+#' # so we have to do this first... use 'autoAttachVarLabels' in
+#' # function 'read_spss' to automatically perform this step.
+#' efc <- set_var_labels(efc, get_var_labels(efc))
+#' 
+#' # get variable lable
 #' get_var_labels(efc$e42dep)
 #' 
+#' # alternative way
+#' get_var_labels(efc)["e42dep"]
+#' 
 #' @export
-get_var_labels <- function(x) {
+get_var_labels <- function(x, attr.string = "variable.label") {
+  # default string
+  if (is.null(attr.string)) attr.string <- "variable.label"
+  # do we have a df?
   if (is.data.frame(x) || is.matrix(x)) {
-    return(attr(x, "variable.labels"))
+    # if yes, check if we have attached labels from
+    # foreign import
+    labels <- attr(x, "variable.labels")
+    # if not, get labels from each single vector
+    if (is.null(labels)) {
+      # return value
+      all.labels <- c()
+      # iterate df
+      for (i in 1:ncol(x)) {
+        # get label
+        label <- attr(x[[i]], "variable.label")
+        # haven?
+        if (is.null(label)) {
+          # get label
+          label <- attr(x[[i]], "label")
+        }
+        # any label?
+        if (!is.null(label)) {
+          all.labels <- c(all.labels, label)
+        }
+        else {
+          all.labels <- c(all.labels, "")
+        }
+      }
+      return (all.labels)
+    }
+    else {
+      return(attr(x, "variable.labels"))
+    }
   }
   else {
-    return(attr(x, "variable.label"))
+    return(attr(x, attr.string))
   }
 }
 
@@ -367,6 +559,7 @@ get_var_labels <- function(x) {
 #'            \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
 #'            \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
 #'            \item \code{\link{read_spss}}
+#'            \item \code{\link{write_spss}}
 #'            \item \code{\link{get_var_labels}}
 #'            \item \code{\link{to_label}}
 #'            \item \code{\link{to_value}}
@@ -379,6 +572,12 @@ get_var_labels <- function(x) {
 #' @param lab If \code{x} is a vector (single variable), use a single character string with 
 #'          the variable label for \code{x}. If \code{x} is a \code{\link{data.frame}}, use a
 #'          vector with character labels of same length as \code{ncol(x)}.
+#' @param attr.string The attribute string for the variable label. To ensure
+#'          compatibility to the \code{foreign}-package, use the default string
+#'          \code{"variable.label"}. If you want to save data with the \code{haven}
+#'          package, use \code{attr.string = "label"}. There is a wrapper function
+#'          \code{\link{write_spss}} to save SPSS files, so you don't need to take
+#'          care of this.
 #' @return \code{x}, with attached \code{"variable.label"} attribute(s), which contains the
 #'           variable name(s).
 #' 
@@ -409,15 +608,16 @@ get_var_labels <- function(x) {
 #' dummy <- set_val_labels(dummy, c("very low", "low", "mid", "hi"))
 #' dummy <- set_var_labels(dummy, "Dummy-variable")
 #' # auto-detection of value labels by default, auto-detection of
-#' # variable labels if parameter "title" set to "auto"
-#' sjp.frq(dummy, title="auto")
+#' # variable labels if parameter "title" set to NULL.
+#' sjp.frq(dummy, title=NULL)
 #' 
 #' @export
-set_var_labels <- function(x, lab) {
+set_var_labels <- function(x, lab, attr.string = "variable.label") {
+  if (is.null(attr.string)) attr.string <- "variable.label"
   if (!is.null(lab) && !is.null(x)) {
     if (is.data.frame(x)) {
       if (ncol(x)!=length(lab)) {
-        cat("Parameter \"lab\" must be of same length as numbers of columns in \"x\".\n")
+        message("Parameter \"lab\" must be of same length as numbers of columns in \"x\".")
       }
       else {
         # -------------------------------------
@@ -425,19 +625,22 @@ set_var_labels <- function(x, lab) {
         # -------------------------------------
         pb <- txtProgressBar(min=0, max=ncol(x), style=3)
         for (i in 1:ncol(x)) {
-          attr(x[,i], "variable.label") <- lab[i]
+          # set variable label
+          attr(x[,i], attr.string) <- lab[i]
+          # set names attribute. equals variable name
+          names(attr(x[,i], attr.string)) <- colnames(x)[i]
           # update progress bar
           setTxtProgressBar(pb, i)
         }
         close(pb)
       }
       # attach also all labels to df
-      attr(x, "variable.labels") <- lab
+      attr(x, attr.string) <- lab
       # and name attribute
-      attr(attr(x, "variable.labels"), "names") <- colnames(x)
+      names(attr(x, attr.string)) <- colnames(x)
     }
     else {
-      attr(x, "variable.label") <- lab
+      attr(x, attr.string) <- lab
     }
   }
   return (x)
@@ -459,10 +662,12 @@ set_var_labels <- function(x, lab) {
 #'            \item \code{\link{get_val_labels}}
 #'            \item \code{\link{get_var_labels}}
 #'            \item \code{\link{read_spss}}
+#'            \item \code{\link{write_spss}}
 #'            }
 #' 
-#' @param variable A variable of type \code{\link{numeric}}, \code{\link{atomic}}
-#'          or \code{\link{factor}} \emph{with associated value labels}
+#' @param x A variable of type \code{\link{numeric}}, \code{\link{atomic}}
+#'          \code{\link{factor}} or \code{labelled} (see \code{haven} package)
+#'          \emph{with associated value labels}
 #'          (see \code{\link{set_val_labels}}).
 #' @return A factor variable with the associated value labels as factor levels.
 #' 
@@ -479,20 +684,35 @@ set_var_labels <- function(x, lab) {
 #' table(efc$e42dep)
 #' table(to_label(efc$e42dep))
 #' 
+#' # structure of numeric values won't be changed
+#' # by this function, it only applies to labelled vectors
+#' # (typically categorical or factor variables)
+#' print(str(efc$e17age))
+#' print(str(to_label(efc$e17age)))
+#' 
 #' @export
-to_label <- function(variable) {
+to_label <- function(x) {
   # get value labels
-  vl <- get_val_labels(variable)
-  # get associated values for value labels
-  vn <- rev(sji.getValueLabelValues(variable))
-  # replace values with labels
-  for (i in 1:length(vl)) {
-    variable[variable==vn[i]] <- vl[i]
+  vl <- get_val_labels(x)
+  # check if we have any labels, else
+  # return variable "as is"
+  if (!is.null(vl)) {
+    # haven or sjPlot?
+    if(is_labelled(x))
+      attr.string <- "labels"
+    else
+      attr.string <- NULL
+    # get associated values for value labels
+    vn <- rev(sji.getValueLabelValues(x, attr.string))
+    # replace values with labels
+    for (i in 1:length(vl)) {
+      x[x==vn[i]] <- vl[i]
+    }
+    # to factor
+    x <- factor(x, levels = vl)
   }
-  # to factor
-  variable <- factor(variable, levels = vl)
   # return as factor
-  return (variable)
+  return (x)
 }
 
 
@@ -509,9 +729,10 @@ to_label <- function(variable) {
 #'            \item \code{\link{get_val_labels}}
 #'            \item \code{\link{get_var_labels}}
 #'            \item \code{\link{read_spss}}
+#'            \item \code{\link{write_spss}}
 #'            }
 #' 
-#' @param var A (numeric or atomic) variable.
+#' @param x A (numeric or atomic) variable.
 #' @return A factor variable, including variable and value labels.
 #' 
 #' @note This function only works with vectors that have value and variable
@@ -533,18 +754,18 @@ to_label <- function(variable) {
 #' sjt.frq(efc$e42dep)}
 #' 
 #' @export
-to_fac <- function(var) {
+to_fac <- function(x) {
   # retrieve value labels
-  lab <- get_val_labels(var)
+  lab <- get_val_labels(x)
   # retrieve variable labels
-  varlab <- get_var_labels(var)
+  varlab <- get_var_labels(x)
   # convert variable to factor
-  var <- as.factor(var)
+  x <- as.factor(x)
   # set back value labels
-  var <- set_val_labels(var, lab)
+  x <- set_val_labels(x, lab)
   # set back variable labels
-  var <- set_var_labels(var, varlab)
-  return (var)
+  x <- set_var_labels(x, varlab)
+  return (x)
 }
 
 
@@ -561,9 +782,10 @@ to_fac <- function(var) {
 #'            \item \code{\link{get_val_labels}}
 #'            \item \code{\link{get_var_labels}}
 #'            \item \code{\link{read_spss}}
+#'            \item \code{\link{write_spss}}
 #'            }
 #'            
-#' @param fac A (factor) variable.
+#' @param x A (factor) variable.
 #' @param startAt the starting index, i.e. the lowest numeric value of the variable's
 #'          value range.
 #' @param keep.labels logical, if \code{TRUE}, former factor levels will be attached as
@@ -584,17 +806,17 @@ to_fac <- function(var) {
 #' table(to_value(test, 5))
 #' 
 #' @export
-to_value <- function(fac, startAt = 1, keep.labels = TRUE) {
+to_value <- function(x, startAt = 1, keep.labels = TRUE) {
   # get amount of categories
-  l <- length(levels(fac))
+  l <- length(levels(x))
   # determine highest category value
   end <- startAt+l-1
   # retrieve "value labels"
-  labels <- levels(fac)
+  labels <- levels(x)
   # replace labels with numeric values
-  levels(fac) <- c(startAt:end)
+  levels(x) <- c(startAt:end)
   # convert to numeric
-  new_value <- as.numeric(as.character(fac))
+  new_value <- as.numeric(as.character(x))
   # check if we should attach former labels as value labels
   if (keep.labels) new_value <- set_val_labels(new_value, labels)
   return (new_value)

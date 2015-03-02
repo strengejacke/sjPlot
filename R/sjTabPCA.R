@@ -422,7 +422,7 @@ sjt.pca <- function (data,
   # retrieve kmo and msa for data set
   # -------------------------------------
   kmo <- NULL
-  if (showMSA) kmo <- KMO(data)
+  if (showMSA) kmo <- psych::KMO(data)
   # -------------------------------------
   # variance
   # -------------------------------------

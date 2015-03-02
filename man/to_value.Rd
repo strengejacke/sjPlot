@@ -4,10 +4,10 @@
 \alias{to_value}
 \title{Converts factors to numeric variables}
 \usage{
-to_value(fac, startAt = 1, keep.labels = TRUE)
+to_value(x, startAt = 1, keep.labels = TRUE)
 }
 \arguments{
-\item{fac}{A (factor) variable.}
+\item{x}{A (factor) variable.}
 
 \item{startAt}{the starting index, i.e. the lowest numeric value of the variable's
 value range.}
@@ -43,6 +43,7 @@ table(to_value(test, 5))
            \item \code{\link{get_val_labels}}
            \item \code{\link{get_var_labels}}
            \item \code{\link{read_spss}}
+           \item \code{\link{write_spss}}
            }
 }
 
