@@ -5,7 +5,7 @@
 \title{Import SPSS dataset as data frame into R}
 \usage{
 read_spss(path, enc = NA, autoAttachVarLabels = FALSE,
-  atomic.to.fac = FALSE)
+  atomic.to.fac = FALSE, option = "foreign")
 }
 \arguments{
 \item{path}{The file path to the SPSS dataset.}
@@ -19,6 +19,12 @@ See \code{\link{set_var_labels}} for details.}
 \item{atomic.to.fac}{Logical, if \code{TRUE}, factor variables imported from
 SPSS (which are imported as \code{\link{atomic}}) will be converted
 to \code{\link{factor}}s.}
+
+\item{option}{string, indicating which package will be used to read the SPSS data file.
+By default, \code{option = "foreign"}, which means, the \code{read.spss} function
+from the \code{foreign} package is used. Use \code{option = "haven"} to
+use haven's \code{read_spss} function, which is usually faster, however,
+not all string variables may be read properly.}
 }
 \value{
 A data frame containing the SPSS data. retrieve value labels with \code{\link{get_val_labels}}

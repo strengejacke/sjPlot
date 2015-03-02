@@ -7,15 +7,19 @@
 to_sjPlot(x)
 }
 \arguments{
-\item{x}{a data frame, which contains \code{labelled} class vectors}
+\item{x}{a data frame, which contains \code{labelled} class vectors or a single vector
+of class \code{labelled}.}
 }
 \value{
-a data frame with 'sjPlot' friendly vector classes and attached
-          label attributes.
+a data frame or single vector (depending on \code{x}) with 'sjPlot' friendly
+          vector classes and attached label attributes.
 }
 \description{
-This function converts a data frame, which was imported with any of
-               \code{haven}'s read functions and contains \code{labelled} class
-               vectors, into an sjPlot friendly data frame format.
+This function converts
+               \itemize{
+                 \item a data frame, which was imported with any of \code{haven}'s read functions and contains \code{labelled} class vectors or
+                 \item a single vector of type \code{labelled}
+               }
+               into an sjPlot friendly data frame format.
 }
 

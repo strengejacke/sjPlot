@@ -22,6 +22,11 @@
 #' @param atomic.to.fac Logical, if \code{TRUE}, factor variables imported from
 #'          SPSS (which are imported as \code{\link{atomic}}) will be converted
 #'          to \code{\link{factor}}s.
+#' @param option string, indicating which package will be used to read the SPSS data file.
+#'          By default, \code{option = "foreign"}, which means, the \code{read.spss} function
+#'          from the \code{foreign} package is used. Use \code{option = "haven"} to
+#'          use haven's \code{read_spss} function, which is usually faster, however,
+#'          not all string variables may be read properly.
 #' @return A data frame containing the SPSS data. retrieve value labels with \code{\link{get_val_labels}}
 #'   and variable labels with \code{\link{get_var_labels}}.
 #'   
@@ -51,47 +56,72 @@
 read_spss <- function(path, 
                      enc=NA, 
                      autoAttachVarLabels=FALSE,
-                     atomic.to.fac=FALSE) {
-  # import data as data frame
-  data.spss <- suppressWarnings(foreign::read.spss(path, to.data.frame=TRUE, use.value.labels=FALSE, reencode=enc))
-  # convert atomic values to factors
-  if (atomic.to.fac) {
-    # -------------------------------------
-    # create progress bar
-    # -------------------------------------
-    pb <- txtProgressBar(min = 0, 
-                         max = ncol(data.spss), 
-                         style = 3)
-    # tell user...
-    message("Converting atomic to factors. Please wait...\n")
-    # iterate all columns
-    for (i in 1:ncol(data.spss)) {
-      # copy column to vector
-      x <- data.spss[, i]
-      # is atomic, which was factor in SPSS?
-      if (is.atomic(x) && !is.null(attr(x, "value.labels"))) {
-        # so we have value labels (only typical for factors, not
-        # continuous variables) and a variable of type "atomic" (SPSS
-        # continuous variables would be imported as numeric) - this
-        # indicates we have a factor variable. now we convert to 
-        # factor, but need to capture labels attribute first
-        labs <- attr(x, "value.labels")
-        # to factor
-        x <- as.factor(x)
-        # set back labels attribute
-        attr(x, "value.labels") <- labs
-        # copy vector back to data frame
-        data.spss[, i] <- x
-      }
-      # update progress bar
-      setTxtProgressBar(pb, i)
-    }
-    close(pb)
+                     atomic.to.fac=FALSE,
+                     option = "foreign") {
+  # -------------------------------------
+  # check parameter
+  # -------------------------------------
+  if (option != "foreign" && option != "haven") {
+    warning("'option' must be either 'foreign' or 'haven'. Defaulting to 'foreign'.", call. = F)
+    option <- "foreign"
   }
-  # auto attach labels
-  if (autoAttachVarLabels) {
-    message("Attaching variable labels. Please wait...\n")
-    data.spss <- set_var_labels(data.spss, get_var_labels(data.spss))
+  # -------------------------------------
+  # foreign import
+  # -------------------------------------
+  if (option == "foreign") {
+    # import data as data frame
+    data.spss <- suppressWarnings(foreign::read.spss(path, to.data.frame=TRUE, use.value.labels=FALSE, reencode=enc))
+    # convert atomic values to factors
+    if (atomic.to.fac) {
+      # -------------------------------------
+      # create progress bar
+      # -------------------------------------
+      pb <- txtProgressBar(min = 0, 
+                           max = ncol(data.spss), 
+                           style = 3)
+      # tell user...
+      message("Converting atomic to factors. Please wait...\n")
+      # iterate all columns
+      for (i in 1:ncol(data.spss)) {
+        # copy column to vector
+        x <- data.spss[, i]
+        # is atomic, which was factor in SPSS?
+        if (is.atomic(x) && !is.null(attr(x, "value.labels"))) {
+          # so we have value labels (only typical for factors, not
+          # continuous variables) and a variable of type "atomic" (SPSS
+          # continuous variables would be imported as numeric) - this
+          # indicates we have a factor variable. now we convert to 
+          # factor, but need to capture labels attribute first
+          labs <- attr(x, "value.labels")
+          # to factor
+          x <- as.factor(x)
+          # set back labels attribute
+          attr(x, "value.labels") <- labs
+          # copy vector back to data frame
+          data.spss[, i] <- x
+        }
+        # update progress bar
+        setTxtProgressBar(pb, i)
+      }
+      close(pb)
+    }
+    # auto attach labels
+    if (autoAttachVarLabels) {
+      message("Attaching variable labels. Please wait...\n")
+      data.spss <- set_var_labels(data.spss, get_var_labels(data.spss))
+    }
+  }
+  else {
+    # ------------------------
+    # check if suggested package is available
+    # ------------------------
+    if (!requireNamespace("haven", quietly = TRUE)) {
+      stop("Package 'haven' needed for this function to work. Please install it.", call. = FALSE)
+    }
+    # read data file
+    data.spss <- haven::read_spss(path)
+    # convert to sjPlot
+    data.spss <- to_sjPlot(data.spss)
   }
   # return data frame
   return(data.spss)
@@ -150,11 +180,11 @@ write_data <- function(x, path, type = "spss") {
     # haven labelled objects don't need conversion
     if (!is_labelled(x[[i]])) {
       # get variable value
-      var.lab <- get_var_labels(x[[i]], "label")
+      var.lab <- get_var_labels(x[[i]])
       # convert variable to labelled factor, so it can be saved
       x[[i]] <- to_label(x[[i]])
       # set back variable label
-      x[[i]] <- set_var_labels(x, var.lab, "label")
+      x[[i]] <- set_var_labels(x[[i]], var.lab, "label")
     }
     # update progress bar
     setTxtProgressBar(pb, i)
@@ -174,68 +204,87 @@ is_labelled <- function(x) {
 #' @title Convert a haven-imported data frame to sjPlot format
 #' @name to_sjPlot
 #' 
-#' @description This function converts a data frame, which was imported with any of
-#'                \code{haven}'s read functions and contains \code{labelled} class
-#'                vectors, into an sjPlot friendly data frame format.
+#' @description This function converts 
+#'                \itemize{
+#'                  \item a data frame, which was imported with any of \code{haven}'s read functions and contains \code{labelled} class vectors or
+#'                  \item a single vector of type \code{labelled}
+#'                }
+#'                into an sjPlot friendly data frame format.
 #' 
-#' @param x a data frame, which contains \code{labelled} class vectors
-#' @return a data frame with 'sjPlot' friendly vector classes and attached
-#'           label attributes.
+#' @param x a data frame, which contains \code{labelled} class vectors or a single vector
+#'          of class \code{labelled}.
+#' @return a data frame or single vector (depending on \code{x}) with 'sjPlot' friendly 
+#'           vector classes and attached label attributes.
 #' 
 #' @export
 to_sjPlot <- function(x) {
   # -------------------------------------
-  # create progress bar
+  # check if complete data frame or only single
+  # vector should be converted
   # -------------------------------------
-  pb <- txtProgressBar(min = 0, 
-                       max = ncol(x), 
-                       style = 3)
-  # tell user...
-  message("Cconverting from haven to sjPlot. Please wait...\n")
-  for (i in 1:ncol(x)) {
-    # haven labelled vector?
-    if (is_labelled(x[[i]])) {
-      # read current labels
-      var.lab <- attr(x[[i]], "label")
-      val.lab <- unname(attr(x[[i]], "labels"))
-      val.lab.names <- names(attr(x[[i]], "labels"))
-      # delete old attributes
-      attr(x[[i]], "label") <- NULL
-      names(attr(x[[i]], "labels")) <- NULL
-      attr(x[[i]], "labels") <- NULL
-      # set back labels
-      x[[i]] <- set_val_labels(x[[i]], val.lab.names)
-      x[[i]] <- set_var_labels(x[[i]], var.lab)
-      # remove labelled class attribute
-      class(x[[i]]) <- NULL
+  if (is.data.frame(x) || is.matrix(x)) {
+    # -------------------------------------
+    # create progress bar
+    # -------------------------------------
+    pb <- txtProgressBar(min = 0, 
+                         max = ncol(x), 
+                         style = 3)
+    # tell user...
+    message("Cconverting from haven to sjPlot. Please wait...\n")
+    for (i in 1:ncol(x)) {
+      # convert vector
+      x[[i]] <- sji.toSjPlot(x[[i]], colnames(x)[i])
+      # update progress bar
+      setTxtProgressBar(pb, i)
     }
-    else {
-      # read current labels
-      var.lab <- attr(x[[i]], "label")
-      # do we have any?
-      if (!is.null(var.lab)) {
-        # delete old attributes
-        attr(x[[i]], "label") <- NULL
-        # set back labels
-        x[[i]] <- set_var_labels(x[[i]], var.lab)
-      }
-      # read current labels
-      val.lab <- unname(attr(x[[i]], "labels"))
-      if (!is.null(val.lab)) {
-        val.lab.names <- names(attr(x[[i]], "labels"))
-        # delete old attributes
-        names(attr(x[[i]], "labels")) <- NULL
-        attr(x[[i]], "labels") <- NULL
-        # set back labels
-        x[[i]] <- set_val_labels(x[[i]], val.lab.names)
-      }
-    }
-    # update progress bar
-    setTxtProgressBar(pb, i)
+    close(pb)
+    # remove redundant class attributes
+    class(x) <- "data.frame"
   }
-  close(pb)
-  # remove redundant class attributes
-  class(x) <- "data.frame"
+  else {
+    x <- sji.toSjPlot(x)
+  }
+  return (x)
+}
+
+sji.toSjPlot <- function(x, var.name = NULL) {
+  # haven labelled vector?
+  if (is_labelled(x)) {
+    # read current labels
+    var.lab <- attr(x, "label")
+    val.lab <- unname(attr(x, "labels"))
+    val.lab.names <- names(attr(x, "labels"))
+    # delete old attributes
+    attr(x, "label") <- NULL
+    names(attr(x, "labels")) <- NULL
+    attr(x, "labels") <- NULL
+    # set back labels
+    x <- sji.setValueLabelNameParam(x, val.lab.names, var.name)
+    x <- set_var_labels(x, var.lab)
+    # remove labelled class attribute
+    class(x) <- NULL
+  }
+  else {
+    # read current labels
+    var.lab <- attr(x, "label")
+    # do we have any?
+    if (!is.null(var.lab)) {
+      # delete old attributes
+      attr(x, "label") <- NULL
+      # set back labels
+      x <- set_var_labels(x, var.lab)
+    }
+    # read current labels
+    val.lab <- unname(attr(x, "labels"))
+    if (!is.null(val.lab)) {
+      val.lab.names <- names(attr(x, "labels"))
+      # delete old attributes
+      names(attr(x, "labels")) <- NULL
+      attr(x, "labels") <- NULL
+      # set back labels
+      x <- sji.setValueLabelNameParam(x, val.lab.names, var.name)
+    }
+  }
   return (x)
 }
 
@@ -374,16 +423,20 @@ sji.getValueLabelValues <- function(x, attr.string = "value.labels") {
 #' 
 #' @export
 set_val_labels <- function(x, labels) {
+  return (sji.setValueLabelNameParam(x, labels, NULL))
+}
+
+sji.setValueLabelNameParam <- function(x, labels, var.name) {
   if (is.vector(x) || is.atomic(x)) {
-    return (sji.setValueLabel.vector(x, labels))
+    return (sji.setValueLabel.vector(x, labels, var.name))
   }
   else if (is.data.frame(x) || is.matrix(x)) {
     for (i in 1:ncol(x)) {
       if (is.list(labels)) {
-        x[,i] <- sji.setValueLabel.vector(x[,i], labels[[i]])
+        x[,i] <- sji.setValueLabel.vector(x[,i], labels[[i]], colnames(x)[i])
       }
       else if (is.vector(labels)) {
-        x[,i] <- sji.setValueLabel.vector(x[,i], labels)
+        x[,i] <- sji.setValueLabel.vector(x[,i], labels, colnames(x)[i])
       }
       else {
         warning("'labels' must be a list of same length as 'ncol(x)' or a vector.", call. = F)
@@ -392,7 +445,8 @@ set_val_labels <- function(x, labels) {
     return (x)
   }
 }
-sji.setValueLabel.vector <- function(var, labels) {
+
+sji.setValueLabel.vector <- function(var, labels, var.name = NULL) {
   # check for null
   if (!is.null(labels)) {
     if (is.null(var) || is.character(var)) {
@@ -401,9 +455,19 @@ sji.setValueLabel.vector <- function(var, labels) {
     else {
       # check if var is a factor
       if (is.factor(var)) {
-        # retrieve levels
-        minval <- 1
-        maxval <- length(levels(var))
+        # check if we have numeric levels
+        numlev <- suppressWarnings(as.numeric(levels(var)))
+        if (is.na(numlev[1])) {
+          # retrieve levels
+          minval <- 1
+          maxval <- length(levels(var))
+        }
+        else {
+          # retrieve minimum level, as numeric
+          minval <- min(as.numeric(levels(var)), na.rm = T)
+          # check range, add minimum, so we have max
+          maxval <- diff(range(as.numeric(levels(var)))) + minval
+        }
       }
       else {
         # retrieve values
@@ -416,17 +480,24 @@ sji.setValueLabel.vector <- function(var, labels) {
       }
       lablen <- length(labels)
       valrange <- maxval-minval+1
+      # set var name string
+      if (is.null(var.name) || nchar(var.name) < 1) {
+        name.string <- "var"
+      }
+      else {
+        name.string <- var.name
+      }
       if (is.infinite(valrange)) {
         warning("Can't set value labels. Infinite value range.\n")
       }
       # check for valid length of labels
       else if (valrange<lablen) {
-        message(sprintf("More labels than values of \"var\". Using first %i labels.\n", valrange))
+        message(sprintf("More labels than values of \"%s\". Using first %i labels.\n", name.string, valrange))
         attr(var, "value.labels") <- c(as.character(c(minval:maxval)))
         names(attr(var, "value.labels")) <- labels[1:valrange]
       }
       else if (valrange>lablen) {
-        warning("Can't set value labels. Value range of \"var\" is longer than length of \"labels\".\n")
+        warning(sprintf("Can't set value labels. Value range of \"%s\" is longer than length of \"labels\".\n", name.string))
       }
       else {
         attr(var, "value.labels") <- c(as.character(c(minval:maxval)))
@@ -617,7 +688,7 @@ set_var_labels <- function(x, lab, attr.string = "variable.label") {
   if (!is.null(lab) && !is.null(x)) {
     if (is.data.frame(x)) {
       if (ncol(x)!=length(lab)) {
-        message("Parameter \"lab\" must be of same length as numbers of columns in \"x\".")
+        message("Parameter \"x\" must be of same length as numbers of columns in \"x\".")
       }
       else {
         # -------------------------------------
