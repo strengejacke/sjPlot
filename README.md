@@ -44,7 +44,6 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 #### New functions
 * `write_spss` to write data frames to SPSS sav-files, including value and variable labels.
 * `write_stata` to write data frames to STATA files, including value and variable labels.
-* `write_sas` to write data frames to SAS files, including value and variable labels.
 * `read_stata` to read STATA files, including value and variable labels.
 * `read_sas` to read SAS files, including value and variable labels.
 * `to_sjPlot` to convert data frames imported with the `haven` package ([see GitHub](https://github.com/hadley/haven)) to a more sjPlot-friendly format.
