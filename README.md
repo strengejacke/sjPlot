@@ -33,7 +33,7 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of current development build 1.6.9-8
+### Changelog of current development build 1.6.9-9
 
 #### General
 * Renamed `sjs`, `sju`, `sjd` and `sji`-functions into more intuitiv and shorter function names.
@@ -48,7 +48,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 
 #### Changes to functions
 * `read_spss` (former `sji.SPSS`) now supports reading data via `haven`'s read-function (see parameter `option`).
-* `sjt.lm` now also prints multiple fitted models with different predictors in each model (e.g. when comparing stepwise regression). See examples in `?sjt.lm`.
+* `sjt.lm` and `sjt.glm` now also print multiple fitted models with different predictors in each model (e.g. when comparing stepwise regression). See examples in `?sjt.lm` and `?sjt.glm`.
 * Added parameter `group.pred` in `sjt.lm` and `sjt.glm` to automatically group table rows with factor levels of same factor.
 * Improved `set_var_labels`, `get_var_labels`, `set_val_labels` and `get_val_labels` to cope with `haven` package data structure.
 * Improved `view_spss` function (former `sji.viewSPSS`).

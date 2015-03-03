@@ -128,6 +128,77 @@ read_spss <- function(path,
 }
 
 
+#' @title Import SAS dataset as data frame into R
+#' @name read_sas
+#' 
+#' @description Imports data from SAS (\code{.sas7bdat}), including NA's, 
+#'                value and variable labels.
+#' 
+#' @seealso \itemize{
+#'            \item \code{\link{read_spss}}
+#'            }
+#'          
+#' @param path The file path to the SAS data file.
+#' @param patch.cat optional, the file path to the SAS catalog file.
+#' @return A data frame containing the SAS data. Retrieve value labels with \code{\link{get_val_labels}}
+#'   and variable labels with \code{\link{get_var_labels}}.
+#'   
+#' @note This is a wrapper function for \code{read_sas} function of the
+#'         \code{haven} package. This function converts the imported data
+#'         into a sjPlot friendly format (see \code{\link{to_sjPlot}}).
+#' 
+#' @export
+read_sas <- function(path, path.cat = NULL) {
+  # ------------------------
+  # check if suggested package is available
+  # ------------------------
+  if (!requireNamespace("haven", quietly = TRUE)) {
+    stop("Package 'haven' needed for this function to work. Please install it.", call. = FALSE)
+  }
+  # read data file
+  data <- haven::read_sas(path, path.cat)
+  # convert to sjPlot
+  data <- to_sjPlot(data)
+  # return data frame
+  return(data)
+}
+
+
+#' @title Import STATA dataset as data frame into R
+#' @name read_stata
+#' 
+#' @description Imports data from STATA dta-files, including NA's, 
+#'                value and variable labels.
+#' 
+#' @seealso \itemize{
+#'            \item \code{\link{read_spss}}
+#'            }
+#'          
+#' @param path The file path to the STATA data file.
+#' @return A data frame containing the STATA data. Retrieve value labels with \code{\link{get_val_labels}}
+#'   and variable labels with \code{\link{get_var_labels}}.
+#'   
+#' @note This is a wrapper function for \code{read_dta} function of the
+#'         \code{haven} package. This function converts the imported data
+#'         into a sjPlot friendly format (see \code{\link{to_sjPlot}}).
+#' 
+#' @export
+read_stata <- function(path, path.cat = NULL) {
+  # ------------------------
+  # check if suggested package is available
+  # ------------------------
+  if (!requireNamespace("haven", quietly = TRUE)) {
+    stop("Package 'haven' needed for this function to work. Please install it.", call. = FALSE)
+  }
+  # read data file
+  data <- haven::read_dta(path)
+  # convert to sjPlot
+  data <- to_sjPlot(data)
+  # return data frame
+  return(data)
+}
+
+
 #' @title Write content of data frame to SPSS sav-file
 #' @name write_spss
 #' 
@@ -160,6 +231,30 @@ write_spss <- function(x, path) {
 }
 
 
+#' @title Write content of data frame to STATA dta-file
+#' @name write_stata
+#' 
+#' @description This function saves the content of a data frame to an STATA dta-file.
+#' 
+#' @seealso \itemize{
+#'            \item \code{\link{write_spss}}
+#'            }
+#'          
+#' @note You don't need to take care whether variables have been imported with
+#'         the \code{\link{read_stata}} function from this package or from \code{haven},
+#'         or if you have imported STATA data and
+#'         created new variables. This function does all necessary data preparation
+#'         to write a properly labelled STATA file.
+#' 
+#' @param x data frame that should be saved as STATA-file.
+#' @param path file path to the STATA dataset.
+#'   
+#' @export
+write_stata <- function(x, path) {
+  write_data(x, path, "stata")
+}
+
+
 write_data <- function(x, path, type = "spss") {
   # ------------------------
   # check if suggested package is available
@@ -189,13 +284,25 @@ write_data <- function(x, path, type = "spss") {
     # update progress bar
     setTxtProgressBar(pb, i)
   }
+  # hide pb
+  close(pb)
   if (type == "spss") {
+    # tell user
+    message(sprintf("Writing %s file to '%s'. Please wait...\n", type, path))
+    # write SPSS
     haven::write_sav(x, path)
   }
-  close(pb)
+  else if (type == "stata") {
+    # tell user
+    message(sprintf("Writing %s file to '%s'. Please wait...\n", type, path))
+    # write SPSS
+    haven::write_dta(x, path)
+  }
 }
 
 
+# this function returns TRUE, if a vector is
+# of class "labelled" (haven package)
 is_labelled <- function(x) {
   return (class(x) == "labelled")
 }
@@ -247,6 +354,8 @@ to_sjPlot <- function(x) {
   return (x)
 }
 
+
+# see to_sjPlot
 sji.toSjPlot <- function(x, var.name = NULL) {
   # haven labelled vector?
   if (is_labelled(x)) {
@@ -364,7 +473,7 @@ sji.getValueLabel <- function(x) {
   }
   if (!is.null(lab)) {
     # retrieve order of value labels
-    reihenfolge <- sji.getValueLabelValues(x, attr.string)
+    reihenfolge <- order(as.numeric(unname(attr(x, attr.string))))
     # retrieve label values in correct order
     labels <- names(lab)[reihenfolge]
   }
@@ -372,8 +481,12 @@ sji.getValueLabel <- function(x) {
   return (labels)
 }
 sji.getValueLabelValues <- function(x, attr.string = "value.labels") {
+  # set default string
   if (is.null(attr.string)) attr.string <- "value.labels"
-  return (order(as.numeric(unname(attr(x, attr.string)))))
+  # sort values
+  val.sort <- sort(as.numeric(unname(attr(x, attr.string))))
+  # return sorted
+  return (val.sort)
 }
 
 
@@ -425,7 +538,6 @@ sji.getValueLabelValues <- function(x, attr.string = "value.labels") {
 set_val_labels <- function(x, labels) {
   return (sji.setValueLabelNameParam(x, labels, NULL))
 }
-
 sji.setValueLabelNameParam <- function(x, labels, var.name) {
   if (is.vector(x) || is.atomic(x)) {
     return (sji.setValueLabel.vector(x, labels, var.name))
@@ -445,7 +557,6 @@ sji.setValueLabelNameParam <- function(x, labels, var.name) {
     return (x)
   }
 }
-
 sji.setValueLabel.vector <- function(var, labels, var.name = NULL) {
   # check for null
   if (!is.null(labels)) {
@@ -456,8 +567,7 @@ sji.setValueLabel.vector <- function(var, labels, var.name = NULL) {
       # check if var is a factor
       if (is.factor(var)) {
         # check if we have numeric levels
-        numlev <- suppressWarnings(as.numeric(levels(var)))
-        if (is.na(numlev[1])) {
+        if (!is_num_fac(var)) {
           # retrieve levels
           minval <- 1
           maxval <- length(levels(var))
@@ -506,6 +616,15 @@ sji.setValueLabel.vector <- function(var, labels, var.name = NULL) {
     }
   }
   return (var)
+}
+
+
+# this function returns TRUE if factor 'x' has numeric
+# factor levels.
+is_num_fac <- function(x) {
+  # check if we have numeric levels
+  numlev <- suppressWarnings(as.numeric(levels(x)))
+  return (!is.na(numlev[1]))
 }
 
 
@@ -763,6 +882,12 @@ set_var_labels <- function(x, lab, attr.string = "variable.label") {
 #' 
 #' @export
 to_label <- function(x) {
+  # check if factor has numeric factor levels
+  if (is.factor(x) && !is_num_fac(x)) {
+    # if not, stop here
+    warning("'x' must have numeric factor levels only.", call. = F)
+    return (x)
+  }
   # get value labels
   vl <- get_val_labels(x)
   # check if we have any labels, else
@@ -774,13 +899,18 @@ to_label <- function(x) {
     else
       attr.string <- NULL
     # get associated values for value labels
-    vn <- rev(sji.getValueLabelValues(x, attr.string))
+    vn <- sji.getValueLabelValues(x, attr.string)
     # replace values with labels
-    for (i in 1:length(vl)) {
-      x[x==vn[i]] <- vl[i]
+    if (is.factor(x)) {
+      levels(x) <- vl
     }
-    # to factor
-    x <- factor(x, levels = vl)
+    else {
+      for (i in 1:length(vl)) {
+        x[x==vn[i]] <- vl[i]
+      }
+      # to factor
+      x <- factor(x, levels = vl)
+    }
   }
   # return as factor
   return (x)

@@ -1009,6 +1009,14 @@ sjt.lm <- function (...,
   knitr <- gsub(tag.noannorow, css.noannorow, knitr)
   knitr <- gsub(tag.annorow, css.annorow, knitr)  
   knitr <- gsub(tag.annostyle, css.annostyle, knitr)  
+  knitr <- gsub(tag.grouprow, css.grouprow, knitr)
+  knitr <- gsub(tag.tgrpdata, css.tgrpdata, knitr)
+  knitr <- gsub(tag.modelcolumn1, css.modelcolumn1, knitr)
+  knitr <- gsub(tag.modelcolumn2, css.modelcolumn2, knitr)
+  knitr <- gsub(tag.modelcolumn3, css.modelcolumn3, knitr)
+  knitr <- gsub(tag.modelcolumn4, css.modelcolumn4, knitr)
+  knitr <- gsub(tag.modelcolumn5, css.modelcolumn5, knitr)
+  knitr <- gsub(tag.modelcolumn6, css.modelcolumn6, knitr)
   # -------------------------------------
   # remove spaces?
   # -------------------------------------

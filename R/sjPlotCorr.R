@@ -19,7 +19,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
 #' @param title Title of the diagram, plotted above the whole diagram panel.
 #' @param axisLabels Labels for the x- andy y-axis.
 #'          axisLabels are detected automatically if \code{data} is a data frame where each variable has
-#'          a \code{"variable.label"} attribute (see \code{\link{set_var_labels}}) for details).
+#'          a \code{"variable.labels"} attribute (see \code{\link{set_var_labels}}) for details).
 #' @param type Indicates whether the geoms of correlation values should be plotted
 #'          as \code{"circle"} (default) or as \code{"tile"}.
 #' @param sortCorrelations If \code{TRUE} (default), the axis labels are sorted
@@ -96,7 +96,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
 #'
 #' @import ggplot2
 #' @import tidyr
-#' @importFrom scales grey_pal
+#' @importFrom scales brewer_pal grey_pal
 #' @export
 sjp.corr <- function(data,
                      title=NULL,
@@ -140,7 +140,7 @@ sjp.corr <- function(data,
   # set color palette
   # ----------------------------
   if (is.brewer.pal(geom.colors[1])) {
-    geom.colors <- (palette=geom.colors[1])(5)
+    geom.colors <- scales::brewer_pal(palette=geom.colors[1])(5)
   }
   else if (geom.colors[1] == "gs") {
     geom.colors <- scales::grey_pal()(5)
