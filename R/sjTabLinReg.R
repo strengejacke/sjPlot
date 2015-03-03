@@ -769,6 +769,9 @@ sjt.lm <- function (...,
     group.pred.rows <- group.pred.list[[1]]
     group.pred.span <- group.pred.list[[2]]
     group.pred.labs <- group.pred.list[[3]]
+    # if we have also stepwise models, grouping may
+    # not work properly
+    if (sw.fit) message("Fitted models have different coefficients. Grouping may not work properly. Set 'group.pred = FALSE' if you encouter cluttered labelling.")
   }
   else {
     group.pred.rows <- group.pred.span <- group.pred.labs <- NULL
