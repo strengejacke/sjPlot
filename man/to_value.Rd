@@ -40,10 +40,6 @@ table(to_value(test, 5))
 \itemize{
            \item \code{\link{to_fac}}
            \item \code{\link{to_label}}
-           \item \code{\link{get_val_labels}}
-           \item \code{\link{get_var_labels}}
-           \item \code{\link{read_spss}}
-           \item \code{\link{write_spss}}
            }
 }
 

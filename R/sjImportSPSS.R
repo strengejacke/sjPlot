@@ -318,6 +318,10 @@ is_labelled <- function(x) {
 #'                }
 #'                into an sjPlot friendly data frame format.
 #' 
+#' @seealso \itemize{
+#'            \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
+#'            }
+#' 
 #' @param x a data frame, which contains \code{labelled} class vectors or a single vector
 #'          of class \code{labelled}.
 #' @return a data frame or single vector (depending on \code{x}) with 'sjPlot' friendly 
@@ -412,10 +416,12 @@ sji.toSjPlot <- function(x, var.name = NULL) {
 #'            \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
 #'            \item \code{\link{read_spss}}
 #'            \item \code{\link{write_spss}}
-#'            \item \code{\link{get_var_labels}}
 #'            \item \code{\link{to_label}}
 #'            \item \code{\link{to_value}}
+#'            \item \code{\link{to_fac}}
 #'            \item \code{\link{set_val_labels}}
+#'            \item \code{\link{get_var_labels}}
+#'            \item \code{\link{set_var_labels}}
 #'            }
 #'
 #' @param x a data frame with variables that have attached value labels (e.g.
@@ -503,10 +509,11 @@ sji.getValueLabelValues <- function(x, attr.string = "value.labels") {
 #'            \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
 #'            \item \code{\link{read_spss}}
 #'            \item \code{\link{write_spss}}
-#'            \item \code{\link{get_var_labels}}
 #'            \item \code{\link{to_label}}
 #'            \item \code{\link{to_value}}
 #'            \item \code{\link{get_val_labels}}
+#'            \item \code{\link{get_var_labels}}
+#'            \item \code{\link{set_var_labels}}
 #'            }
 #' 
 #' @param x a variable (vector) or a data frame where labels should be attached. Replaces former value labels.
@@ -643,10 +650,11 @@ is_num_fac <- function(x) {
 #'            \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
 #'            \item \code{\link{read_spss}}
 #'            \item \code{\link{write_spss}}
-#'            \item \code{\link{get_val_labels}}
 #'            \item \code{\link{to_label}}
 #'            \item \code{\link{to_value}}
+#'            \item \code{\link{set_var_labels}}
 #'            \item \code{\link{set_val_labels}}
+#'            \item \code{\link{get_val_labels}}
 #'            }
 #' 
 #' @param x A data frame (containing imported SPSS data or with attached variable labels) or
@@ -750,10 +758,10 @@ get_var_labels <- function(x, attr.string = "variable.label") {
 #'            \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
 #'            \item \code{\link{read_spss}}
 #'            \item \code{\link{write_spss}}
-#'            \item \code{\link{get_var_labels}}
 #'            \item \code{\link{to_label}}
 #'            \item \code{\link{to_value}}
 #'            \item \code{\link{to_fac}}
+#'            \item \code{\link{get_var_labels}}
 #'            \item \code{\link{get_val_labels}}
 #'            \item \code{\link{set_val_labels}}
 #'            }
@@ -849,10 +857,6 @@ set_var_labels <- function(x, lab, attr.string = "variable.label") {
 #' @seealso \itemize{
 #'            \item \code{\link{to_fac}}
 #'            \item \code{\link{to_value}}
-#'            \item \code{\link{get_val_labels}}
-#'            \item \code{\link{get_var_labels}}
-#'            \item \code{\link{read_spss}}
-#'            \item \code{\link{write_spss}}
 #'            }
 #' 
 #' @param x A variable of type \code{\link{numeric}}, \code{\link{atomic}}
@@ -980,10 +984,6 @@ to_fac <- function(x) {
 #' @seealso \itemize{
 #'            \item \code{\link{to_fac}}
 #'            \item \code{\link{to_label}}
-#'            \item \code{\link{get_val_labels}}
-#'            \item \code{\link{get_var_labels}}
-#'            \item \code{\link{read_spss}}
-#'            \item \code{\link{write_spss}}
 #'            }
 #'            
 #' @param x A (factor) variable.

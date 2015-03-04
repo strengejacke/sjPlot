@@ -68,10 +68,10 @@ sjp.frq(dummy, title=NULL)
            \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
            \item \code{\link{read_spss}}
            \item \code{\link{write_spss}}
-           \item \code{\link{get_var_labels}}
            \item \code{\link{to_label}}
            \item \code{\link{to_value}}
            \item \code{\link{to_fac}}
+           \item \code{\link{get_var_labels}}
            \item \code{\link{get_val_labels}}
            \item \code{\link{set_val_labels}}
            }

@@ -22,4 +22,9 @@ This function converts
                }
                into an sjPlot friendly data frame format.
 }
+\seealso{
+\itemize{
+           \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
+           }
+}
 

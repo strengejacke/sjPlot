@@ -46,10 +46,6 @@ print(str(to_label(efc$e17age)))
 \itemize{
            \item \code{\link{to_fac}}
            \item \code{\link{to_value}}
-           \item \code{\link{get_val_labels}}
-           \item \code{\link{get_var_labels}}
-           \item \code{\link{read_spss}}
-           \item \code{\link{write_spss}}
            }
 }
 
