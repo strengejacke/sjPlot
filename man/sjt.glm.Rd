@@ -16,9 +16,9 @@ sjt.glm(..., file = NULL, labelPredictors = NULL,
   showStdError = FALSE, separateConfColumn = TRUE, newLineConf = TRUE,
   group.pred = TRUE, showAbbrHeadline = TRUE, showPseudoR = TRUE,
   showLogLik = FALSE, showAIC = FALSE, showChi2 = FALSE,
-  showFamily = FALSE, cellSpacing = 0.2, cellGroupIndent = 0.6,
-  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
-  remove.spaces = TRUE)
+  showFamily = FALSE, remove.estimates = NULL, cellSpacing = 0.2,
+  cellGroupIndent = 0.6, encoding = NULL, CSS = NULL, useViewer = TRUE,
+  no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{One or more fitted \code{\link{glm}}-objects.}
@@ -117,6 +117,14 @@ are printed. Can be used in case you want to compare models with different link 
 and same predictors and response, to decide which model fits best. See \code{\link{family}}
 for more details. It is recommended to inspect the model \code{\link{AIC}} (see \code{showAIC}) to get a
 decision help for which model to choose.}
+
+\item{remove.estimates}{numeric vector with indices (order equals to row index of \code{coef(fit)})
+or character vector with coefficient names that indicate which estimates should be removed
+from the table output. The first estimate is the intercept, followed by the model predictors.
+\emph{The intercept cannot be removed from the table output!} \code{remove.estimates = c(2:4)}
+would remove the 2nd to the 4th estimate (1st to 3d predictor after intercept) from the output.
+\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
+is \code{NULL}, i.e. all estimates are printed.}
 
 \item{cellSpacing}{The inner padding of table cells. By default, this value is 0.2 (measure is cm), which is
 suitable for viewing the table. Decrease this value (0.05 to 0.1) if you want to import the table

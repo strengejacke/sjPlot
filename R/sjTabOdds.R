@@ -79,6 +79,13 @@
 #'          and same predictors and response, to decide which model fits best. See \code{\link{family}}
 #'          for more details. It is recommended to inspect the model \code{\link{AIC}} (see \code{showAIC}) to get a
 #'          decision help for which model to choose.
+#' @param remove.estimates numeric vector with indices (order equals to row index of \code{coef(fit)}) 
+#'          or character vector with coefficient names that indicate which estimates should be removed
+#'          from the table output. The first estimate is the intercept, followed by the model predictors.
+#'          \emph{The intercept cannot be removed from the table output!} \code{remove.estimates = c(2:4)} 
+#'          would remove the 2nd to the 4th estimate (1st to 3d predictor after intercept) from the output. 
+#'          \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default 
+#'          is \code{NULL}, i.e. all estimates are printed.
 #' @param cellSpacing The inner padding of table cells. By default, this value is 0.2 (measure is cm), which is
 #'          suitable for viewing the table. Decrease this value (0.05 to 0.1) if you want to import the table
 #'          into Office documents. This is a convenient parameter for the \code{CSS} parameter for changing
@@ -299,6 +306,7 @@ sjt.glm <- function (...,
                      showAIC=FALSE,
                      showChi2=FALSE,
                      showFamily=FALSE,
+                     remove.estimates=NULL,
                      cellSpacing=0.2,
                      cellGroupIndent=0.6,
                      encoding=NULL,
@@ -542,6 +550,38 @@ sjt.glm <- function (...,
     joined.df[, i] <- sapply(joined.df[, i], function(x) if (is.na(x)) x <- "" else x)
   }
   # -------------------------------------
+  # remove estimates?
+  # -------------------------------------
+  keep.estimates <- NULL
+  if (!is.null(remove.estimates)) {
+    # do we have variable names instead of index numbers?
+    if (!is.numeric(remove.estimates)) {
+      # if so, retrieve index numbers
+      tmp_re <- c()
+      # iterate all var names
+      for (re in 1:length(remove.estimates)) {
+        # find row index by name
+        tmp_re <- c(tmp_re, which(joined.df$coef.name == remove.estimates[re]))
+      }
+      # copy row numbers back
+      remove.estimates <- tmp_re
+    }
+    # remove double indices and sort remaining indices
+    remove.estimates <- sort(unique(remove.estimates))
+    # check if intercept is in remove index, because intercept cannot be removed
+    if (any(remove.estimates == 1)) {
+      # remove intercept index
+      remove.estimates <- remove.estimates[-which(remove.estimates == 1)]
+      message("Intercept cannot be removed from table output.")
+    }
+    # create all row indices
+    rowind <- c(1 : nrow(joined.df))
+    # "inverse" removable inices
+    keep.estimates <- rowind[-remove.estimates]
+    # select rows
+    joined.df <- dplyr::slice(joined.df, keep.estimates)
+  }
+  # -------------------------------------
   # if confidence interval should be omitted,
   # don't use separate column for CI!
   # -------------------------------------
@@ -633,7 +673,7 @@ sjt.glm <- function (...,
   # -------------------------------------
   if (group.pred) {
     # get indices
-    group.pred.list <- retrieveModelGroupIndices(input_list)
+    group.pred.list <- retrieveModelGroupIndices(input_list, remove.estimates)
     group.pred.rows <- group.pred.list[[1]]
     group.pred.span <- group.pred.list[[2]]
     group.pred.labs <- group.pred.list[[3]]

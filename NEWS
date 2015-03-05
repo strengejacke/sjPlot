@@ -1,4 +1,4 @@
-Version 1.6.9-9
+Version 1.6.9-10
 ------------------------------------------------------------------------------
 General:
 * Renamed sjs, sju, sjd and sji-functions into more intuitiv and shorter function names.
@@ -17,6 +17,7 @@ New functions:
 Changes to functions:
 * "read_spss" (former "sji.SPSS") now supports reading data via "haven"'s read-function (see parameter "option").
 * "sjt.lm" and "sjt.glm" now also print multiple fitted models with different predictors in each model (e.g. when comparing stepwise regression). See examples in "?sjt.lm" and "?sjt.glm".
+* Added parameter "remove.estimates" to "sjt.lm" and "sjt.glm", so specific estimates can be removed from the table output.
 * Added parameter "group.pred" in "sjt.lm" and "sjt.glm" to automatically group table rows with factor levels of same factor.
 * Improved "set_var_labels", "get_var_labels", "set_val_labels" and "get_val_labels" to cope with "haven" package data structure.
 * Improved "view_spss" function (former "sji.viewSPSS").

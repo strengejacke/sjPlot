@@ -16,9 +16,9 @@ sjt.lm(..., file = NULL, labelPredictors = NULL,
   digits.summary = 3, pvaluesAsNumbers = TRUE, boldpvalues = TRUE,
   separateConfColumn = TRUE, newLineConf = TRUE, group.pred = TRUE,
   showAbbrHeadline = TRUE, showR2 = TRUE, showFStat = FALSE,
-  showAIC = FALSE, cellSpacing = 0.2, cellGroupIndent = 0.6,
-  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
-  remove.spaces = TRUE)
+  showAIC = FALSE, remove.estimates = NULL, cellSpacing = 0.2,
+  cellGroupIndent = 0.6, encoding = NULL, CSS = NULL, useViewer = TRUE,
+  no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{One or more fitted lm-objects.}
@@ -112,6 +112,14 @@ in the model summary. Default is \code{FALSE}.}
 
 \item{showAIC}{If \code{TRUE}, the AIC value for each model is printed
 in the model summary. Default is \code{FALSE}.}
+
+\item{remove.estimates}{numeric vector with indices (order equals to row index of \code{coef(fit)})
+or character vector with coefficient names that indicate which estimates should be removed
+from the table output. The first estimate is the intercept, followed by the model predictors.
+\emph{The intercept cannot be removed from the table output!} \code{remove.estimates = c(2:4)}
+would remove the 2nd to the 4th estimate (1st to 3d predictor after intercept) from the output.
+\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
+is \code{NULL}, i.e. all estimates are printed.}
 
 \item{cellSpacing}{The inner padding of table cells. By default, this value is 0.2 (measure is cm), which is
 suitable for viewing the table. Decrease this value (0.05 to 0.1) if you want to import the table
@@ -399,6 +407,7 @@ sjt.lm(fit1, fit2, fit4, fit3,
 }
 \seealso{
 \itemize{
+           \item \href{http://strengejacke.de/sjPlot/sjt.lm/}{sjPlot manual: sjt.lm}
            \item \code{\link{sjt.glm}}
            \item \code{\link{sjp.lm}}
            }

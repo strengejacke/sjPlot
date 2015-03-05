@@ -412,7 +412,7 @@ autoSetVariableLabels <- function(x) {
 # checks at which position in fitted models factors with
 # more than two levels are located.
 # -------------------------------------
-retrieveModelGroupIndices <- function(models) {
+retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
   # init group-row-indices
   group.pred.rows <- c()
   group.pred.labs <- c()
@@ -427,7 +427,7 @@ retrieveModelGroupIndices <- function(models) {
     # get model
     fit <- models[[k]]
     # retrieve all factors from model
-    for (grp.cnt in 2 : ncol(fit$model)) {
+    for (grp.cnt in 1 : ncol(fit$model)) {
       # get variable
       fit.var <- fit$model[, grp.cnt]
       # is factor? and has more than two levels?
@@ -465,6 +465,40 @@ retrieveModelGroupIndices <- function(models) {
     group.pred.rows <- NULL
     group.pred.labs <- NULL
     group.pred.span <- NULL
+  }
+  # do we have any rows removed?
+  else if (!is.null(rem_rows)) {
+    # any non-computed row-indices left?
+    while (length(rem_rows) > 0) {
+      # take care, while loop!
+      any.found <- FALSE
+      # if yes, go through all grouping row indices
+      for (i in 1:length(group.pred.rows)) {
+        # if yes, check if removed row was before
+        # grouped row indes
+        if (length(rem_rows) > 0 && rem_rows[1] <= group.pred.rows[i]) {
+          # if yes, iterate all remaining group indices
+          for (j in i:length(group.pred.rows)) {
+            # and reduce index number (because of removed rows)
+            group.pred.rows[j] <- group.pred.rows[j] - 1
+          }
+          # where does span for grouping start?
+          start <- min(which(group.pred.span >= rem_rows[1]))
+          for (j in start:length(group.pred.span)) {
+            # and reduce index number (because of removed rows)
+            group.pred.span[j] <- group.pred.span[j] - 1
+          }
+          # reduce indices
+          rem_rows <- rem_rows - 1
+          # remove computed row-index
+          rem_rows <- rem_rows[-1]
+          # found something!
+          any.found <- TRUE
+        }
+      }
+      # removed any index? if not, break loop
+      if (!any.found) break
+    }
   }
   return (list(group.pred.rows,
                group.pred.span,
