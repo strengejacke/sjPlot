@@ -273,13 +273,13 @@ sjp.aov1 <- function(depVar,
     pval <- summary(fit)[[1]]['Pr(>F)'][1,1]
     # indicate significance level by stars
     pan <- c("")
-    if (pval<=0.001) {
+    if (pval < 0.001) {
       pan <- c("***")
     }
-    else  if (pval<=0.01) {
+    else  if (pval < 0.01) {
       pan <- c("**")
     }
-    else  if (pval<=0.05) {
+    else  if (pval < 0.05) {
       pan <- c("*")
     }
     # create mathematical term

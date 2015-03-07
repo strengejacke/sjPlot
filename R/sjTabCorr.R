@@ -172,6 +172,16 @@ sjt.corr <- function (data,
                       no.output=FALSE,
                       remove.spaces=TRUE) {
   # --------------------------------------------------------
+  # check p-value-style option
+  # --------------------------------------------------------
+  opt <- getOption("p_zero")
+  if (is.null(opt) || opt == FALSE) {
+    p_zero <- ""
+  }
+  else {
+    p_zero <- "0"
+  }
+  # --------------------------------------------------------
   # check encoding
   # --------------------------------------------------------
   encoding <- get.encoding(encoding)
@@ -283,7 +293,7 @@ sjt.corr <- function (data,
     }
     cpvalues <- apply(cpvalues, c(1,2), fun.star)
     if (pvaluesAsNumbers) {
-      cpvalues <- apply(cpvalues, c(1,2), function (x) if (x < 0.001) x <- "&lt;&nbsp;0.001" else x <- sprintf("%.*f", digits, x))
+      cpvalues <- apply(cpvalues, c(1,2), function (x) if (x < 0.001) x <- sprintf("&lt;%s.001", p_zero) else x <- sub("0", p_zero, sprintf("%.*f", digits, x)))
     }
   }
   else {

@@ -70,6 +70,16 @@ sjt.grpmean <- function(varCount,
                         useViewer=TRUE,
                         no.output=FALSE,
                         remove.spaces=TRUE) {
+  # --------------------------------------------------------
+  # check p-value-style option
+  # --------------------------------------------------------
+  opt <- getOption("p_zero")
+  if (is.null(opt) || opt == FALSE) {
+    p_zero <- ""
+  }
+  else {
+    p_zero <- "0"
+  }
   # --------------------------------------
   # set value and row labels
   # --------------------------------------
@@ -97,10 +107,10 @@ sjt.grpmean <- function(varCount,
   # convert means to apa style
   for (i in 1:length(means.p)) {
     if (means.p[i] < 0.001) {
-      pval <- c(pval, "&lt;0.001")
+      pval <- c(pval, sprintf("&lt;%s.001", p_zero))
     }
     else {
-      pval <- c(pval, sprintf("%.*f", digits, means.p[i]))
+      pval <- c(pval, sub("0", p_zero, sprintf("%.*f", digits, means.p[i])))
     }
   } 
   # --------------------------------------

@@ -206,6 +206,16 @@ sjt.xtab <- function (var.row,
                       useViewer=TRUE,
                       no.output=FALSE,
                       remove.spaces=TRUE) {
+  # --------------------------------------------------------
+  # check p-value-style option
+  # --------------------------------------------------------
+  opt <- getOption("p_zero")
+  if (is.null(opt) || opt == FALSE) {
+    p_zero <- ""
+  }
+  else {
+    p_zero <- "0"
+  }
   # -------------------------------------
   # check encoding
   # -------------------------------------
@@ -751,11 +761,11 @@ sjt.xtab <- function (var.row,
     }
     # create summary row
     if (is.null(fish)) {
-      pvalstring <- ifelse(chsq$p.value < 0.001, "p&lt;0.001", sprintf("p=%.3f", chsq$p.value))
+      pvalstring <- ifelse(chsq$p.value < 0.001, sprintf("p&lt;%s.001", p_zero) , sub("0", p_zero, sprintf("p=%.3f", chsq$p.value)))
       page.content <- paste(page.content, sprintf("    <td class=\"summary tdata\" colspan=\"%i\">&Chi;<sup>2</sup>=%.3f &middot; df=%i &middot; %s &middot; %s</td>", totalncol, chsq$statistic, chsq$parameter, kook, pvalstring), sep="")
     }
     else {
-      pvalstring <- ifelse(fish$p.value < 0.001, "p&lt;0.001", sprintf("p=%.3f", fish$p.value))
+      pvalstring <- ifelse(fish$p.value < 0.001, sprintf("p&lt;%s.001", p_zero), sub("0", p_zero, sprintf("p=%.3f", fish$p.value)))
       page.content <- paste(page.content, sprintf("    <td class=\"summary tdata\" colspan=\"%i\">Fisher's %s &middot; df=%i &middot; %s</td>", totalncol, pvalstring, chsq$parameter, kook), sep="")
     }
     # close table row

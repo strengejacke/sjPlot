@@ -117,6 +117,16 @@ sjp.corr <- function(data,
                      pvaluesAsNumbers=FALSE,
                      printPlot=TRUE) {
   # --------------------------------------------------------
+  # check p-value-style option
+  # --------------------------------------------------------
+  opt <- getOption("p_zero")
+  if (is.null(opt) || opt == FALSE) {
+    p_zero <- ""
+  }
+  else {
+    p_zero <- "0"
+  }
+  # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
   if (is.null(axisLabels) && is.data.frame(data)) {
@@ -275,7 +285,7 @@ sjp.corr <- function(data,
     }
     else {
       cpv <- cpvalues$value
-      cpv <- sapply(cpv, function (x) if (x < 0.001) x <- "\n(< 0.001)" else x <- sprintf("\n(%.*f)", decimals, x))
+      cpv <- sapply(cpv, function (x) if (x < 0.001) x <- sprintf("\n(< %s.001)", p_zero) else x <- sub("0", p_zero, sprintf("\n(%.*f)", decimals, x)))
     }
   }
   else {

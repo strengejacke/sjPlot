@@ -33,11 +33,12 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of current development build 1.6.9-10
+### Changelog of current development build 1.6.9-11
 
 #### General
 * Renamed `sjs`, `sju`, `sjd` and `sji`-functions into more intuitiv and shorter function names.
 * `autoSetValueLabels` and `autoSetVariableLabels` are now global options. E.g., use `options(autoSetValueLabels = FALSE)` to turn off automatic value label detection in plotting and table functions, or `options(autoSetValueLabels = TRUE)` to turn on automatic label detection.
+* `p_zero` is now global options. Use `options(p_zero = TRUE)` to show leading zero before period in p-value labels.
 * Removed `plyr` import and replaced with `dplyr` functions.
 * Removed `reshape2` import and replaced with `tidyr` functions.
 

@@ -278,6 +278,16 @@ is.brewer.pal <- function(pal) {
 # Calculate statistics of cross tabs
 # -------------------------------------
 crosstabsum <- function(ftab) {
+  # --------------------------------------------------------
+  # check p-value-style option
+  # --------------------------------------------------------
+  opt <- getOption("p_zero")
+  if (is.null(opt) || opt == FALSE) {
+    p_zero <- ""
+  }
+  else {
+    p_zero <- "0"
+  }
   # calculate chi square value
   chsq <- chisq.test(ftab)
   tab <- table_values(ftab)
@@ -297,7 +307,7 @@ crosstabsum <- function(ftab) {
                           c2 = sprintf("%.2f", chsq$statistic),
                           dft = c(chsq$parameter),
                           kook = sprintf("%.2f", cramer(ftab)),
-                          pva = 0.001))))
+                          pva = sprintf("%s.001", p_zero)))))
       }
       else {
         modsum <- as.character(as.expression(
@@ -306,7 +316,7 @@ crosstabsum <- function(ftab) {
                           c2 = sprintf("%.2f", chsq$statistic),
                           dft = c(chsq$parameter),
                           kook = sprintf("%.2f", cramer(ftab)),
-                          pva = sprintf("%.3f", chsq$p.value)))))
+                          pva = sub("0", p_zero, sprintf("%.3f", chsq$p.value))))))
       }
     }
     else {
@@ -316,7 +326,7 @@ crosstabsum <- function(ftab) {
                      list(tn = summary(ftab)$n.cases,
                           dft = c(chsq$parameter),
                           kook = sprintf("%.2f", cramer(ftab)),
-                          pva = 0.001))))
+                          pva = sprintf("%s.001", p_zero)))))
       }
       else {
         modsum <- as.character(as.expression(
@@ -324,7 +334,7 @@ crosstabsum <- function(ftab) {
                      list(tn = summary(ftab)$n.cases,
                           dft = c(chsq$parameter),
                           kook = sprintf("%.2f", cramer(ftab)),
-                          pva = sprintf("%.3f", fish$p.value)))))
+                          pva = sub("0", p_zero, sprintf("%.3f", fish$p.value))))))
       }
     }
   }
@@ -591,13 +601,13 @@ sju.modsum.lm <- function(fit) {
   pval <- pf(fstat[1], fstat[2], fstat[3],lower.tail = FALSE)
   # indicate significance level by stars
   pan <- c("")
-  if (pval<=0.001) {
+  if (pval < 0.001) {
     pan <- c("***")
   }
-  else  if (pval<=0.01) {
+  else  if (pval < 0.01) {
     pan <- c("**")
   }
-  else  if (pval<=0.05) {
+  else  if (pval < 0.05) {
     pan <- c("*")
   }
   # create mathematical term

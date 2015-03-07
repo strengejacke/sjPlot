@@ -314,6 +314,16 @@ sjt.glm <- function (...,
                      useViewer=TRUE,
                      no.output=FALSE,
                      remove.spaces=TRUE) {
+  # --------------------------------------------------------
+  # check p-value-style option
+  # --------------------------------------------------------
+  opt <- getOption("p_zero")
+  if (is.null(opt) || opt == FALSE) {
+    p_zero <- ""
+  }
+  else {
+    p_zero <- "0"
+  }
   # -------------------------------------
   # check options
   # -------------------------------------
@@ -504,16 +514,17 @@ sjt.glm <- function (...,
       fit.df$pv <- sapply(fit.df$pv, function(x) {
         if (x <0.05) {
           if (x < 0.001) {
-            x <- sprintf("%s&lt;&nbsp;0.001%s", sb1, sb2)
+            x <- sprintf("%s&lt;%s.001%s", p_zero, sb1, sb2)
           }
           else {
             x <- sprintf("%s%.*f%s", sb1, digits.p, x, sb2)
           }
-          
         }
         else {
           x <- sprintf("%.*f", digits.p, x) 
         }
+        # remove leading zero, APA style for p-value
+        x <- sub("0", p_zero, x)
       })
     }
     # -------------------------------------
@@ -881,7 +892,7 @@ sjt.glm <- function (...,
   # -------------------------------------
   # table footnote
   # -------------------------------------
-  if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata annorow\">Notes</td><td class=\"tdata annorow annostyle\" colspan=\"%i\"><em>* p&lt;0.05&nbsp;&nbsp;&nbsp;** p&lt;0.01&nbsp;&nbsp;&nbsp;*** p&lt;0.001</em></td>\n  </tr>\n", headerColSpan))
+  if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata annorow\">Notes</td><td class=\"tdata annorow annostyle\" colspan=\"%i\"><em>* p&lt;%s.05&nbsp;&nbsp;&nbsp;** p&lt;%s.01&nbsp;&nbsp;&nbsp;*** p&lt;%s.001</em></td>\n  </tr>\n", headerColSpan, p_zero, p_zero, p_zero))
   page.content <- paste0(page.content, "</table>\n")
   # -------------------------------------
   # finish table

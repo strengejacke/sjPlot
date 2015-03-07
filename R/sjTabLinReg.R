@@ -390,6 +390,16 @@ sjt.lm <- function (...,
                     useViewer=TRUE,
                     no.output=FALSE,
                     remove.spaces=TRUE) {
+  # --------------------------------------------------------
+  # check p-value-style option
+  # --------------------------------------------------------
+  opt <- getOption("p_zero")
+  if (is.null(opt) || opt == FALSE) {
+    p_zero <- ""
+  }
+  else {
+    p_zero <- "0"
+  }
   # -------------------------------------
   # check parameter
   # -------------------------------------
@@ -586,7 +596,7 @@ sjt.lm <- function (...,
       fit.df$pv <- sapply(fit.df$pv, function(x) {
         if (x <0.05) {
           if (x < 0.001) {
-            x <- sprintf("%s&lt;&nbsp;0.001%s", sb1, sb2)
+            x <- sprintf("%s&lt;%s.001%s", p_zero, sb1, sb2)
           }
           else {
             x <- sprintf("%s%.*f%s", sb1, digits.p, x, sb2)
@@ -596,6 +606,8 @@ sjt.lm <- function (...,
         else {
           x <- sprintf("%.*f", digits.p, x) 
         }
+        # remove leading zero, APA style for p-value
+        x <- sub("0", p_zero, x)
       })
     }
     # -------------------------------------
@@ -990,13 +1002,13 @@ sjt.lm <- function (...,
       pval <- pf(fstat[1], fstat[2], fstat[3],lower.tail = FALSE)
       # indicate significance level by stars
       pan <- c("")
-      if (pval<=0.001) {
+      if (pval < 0.001) {
         pan <- c("***")
       }
-      else  if (pval<=0.01) {
+      else  if (pval < 0.01) {
         pan <- c("**")
       }
-      else  if (pval<=0.05) {
+      else  if (pval < 0.05) {
         pan <- c("*")
       }
       page.content <- paste(page.content, sprintf("    %s%.*f%s</td>\n", colspanstring, digits.summary, fstat[1], pan))
@@ -1016,7 +1028,7 @@ sjt.lm <- function (...,
   # -------------------------------------
   # table footnote
   # -------------------------------------
-  if (!pvaluesAsNumbers) page.content <- paste(page.content, sprintf("  <tr class=\"tdata annorow\">\n    <td class=\"tdata\">Notes</td><td class=\"tdata annostyle\" colspan=\"%i\"><em>* p&lt;0.05&nbsp;&nbsp;&nbsp;** p&lt;0.01&nbsp;&nbsp;&nbsp;*** p&lt;0.001</em></td>\n  </tr>\n", headerColSpan), sep="")
+  if (!pvaluesAsNumbers) page.content <- paste(page.content, sprintf("  <tr class=\"tdata annorow\">\n    <td class=\"tdata\">Notes</td><td class=\"tdata annostyle\" colspan=\"%i\"><em>* p&lt;%s.05&nbsp;&nbsp;&nbsp;** p&lt;%s.01&nbsp;&nbsp;&nbsp;*** p&lt;%s.001</em></td>\n  </tr>\n", headerColSpan, p_zero, p_zero, p_zero), sep="")
   page.content <- paste0(page.content, "</table>\n")
   # -------------------------------------
   # finish table
