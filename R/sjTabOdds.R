@@ -843,7 +843,10 @@ sjt.glm <- function (...,
     page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">Pseudo-R<sup>2</sup></td>\n")
     for (i in 1:length(input_list)) {
       psr <- PseudoR2(input_list[[i]])
-      page.content <- paste0(page.content, sprintf("    %sR<sup>2</sup><sub>CS</sub> = %.*f<br>R<sup>2</sup><sub>N</sub> = %.*f</td>\n", colspanstring, digits.summary, psr[2], digits.summary, psr[3]))
+      page.content <- paste0(page.content, gsub("0.", 
+                                                paste0(".", p_zero),
+                                                sprintf("    %sR<sup>2</up><sub>CS</sub> = %.*f<br>R<sup>2</sup><sub>N</sub> = %.*f</td>\n", colspanstring, digits.summary, psr[2], digits.summary, psr[3]),
+                                                fixed = TRUE))
     }
     page.content <- paste(page.content, "  </tr>\n")
   }

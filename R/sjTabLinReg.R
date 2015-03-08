@@ -987,7 +987,10 @@ sjt.lm <- function (...,
     for (i in 1:length(input_list)) {
       rsqu <- summary(input_list[[i]])$r.squared
       adjrsqu <- summary(input_list[[i]])$adj.r.squared
-      page.content <- paste0(page.content, sprintf("    %s%.*f / %.*f</td>\n", colspanstring, digits.summary, rsqu, digits.summary, adjrsqu))
+      page.content <- paste0(page.content, gsub("0.", 
+                                                paste0(".", p_zero), 
+                                                sprintf("    %s%.*f / %.*f</td>\n", colspanstring, digits.summary, rsqu, digits.summary, adjrsqu),
+                                                fixed = TRUE))
     }
     page.content <- paste(page.content, "  </tr>\n")
   }

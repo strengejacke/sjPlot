@@ -759,6 +759,8 @@ sjt.xtab <- function (var.row,
       # if minimum expected values below 5 and df=1, compute fisher's exact test
       if(min(tab.expected)<5 || (min(tab.expected)<10 && chsq$parameter==1)) fish <- fisher.test(tab)
     }
+    # make phi-value apa style
+    kook <- gsub("0.", paste0(".", p_zero), kook, fixed = TRUE)
     # create summary row
     if (is.null(fish)) {
       pvalstring <- ifelse(chsq$p.value < 0.001, sprintf("p&lt;%s.001", p_zero) , sub("0", p_zero, sprintf("p=%.3f", chsq$p.value)))

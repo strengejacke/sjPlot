@@ -139,7 +139,7 @@ read_spss <- function(path,
 #'            }
 #'          
 #' @param path The file path to the SAS data file.
-#' @param patch.cat optional, the file path to the SAS catalog file.
+#' @param path.cat optional, the file path to the SAS catalog file.
 #' @return A data frame containing the SAS data. Retrieve value labels with \code{\link{get_val_labels}}
 #'   and variable labels with \code{\link{get_var_labels}}.
 #'   
@@ -183,7 +183,7 @@ read_sas <- function(path, path.cat = NULL) {
 #'         into a sjPlot friendly format (see \code{\link{to_sjPlot}}).
 #' 
 #' @export
-read_stata <- function(path, path.cat = NULL) {
+read_stata <- function(path) {
   # ------------------------
   # check if suggested package is available
   # ------------------------

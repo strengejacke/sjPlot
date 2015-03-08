@@ -4,7 +4,7 @@
 \alias{read_stata}
 \title{Import STATA dataset as data frame into R}
 \usage{
-read_stata(path, path.cat = NULL)
+read_stata(path)
 }
 \arguments{
 \item{path}{The file path to the STATA data file.}

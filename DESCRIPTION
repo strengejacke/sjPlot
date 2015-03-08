@@ -16,8 +16,8 @@ Imports:
     foreign,
     psych,
     scales,
-    dplyr,
-    tidyr
+    dplyr (>= 0.4.1),
+    tidyr (>= 0.2.0)
 Suggests:
     arm,
     cluster,

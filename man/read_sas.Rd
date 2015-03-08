@@ -9,7 +9,7 @@ read_sas(path, path.cat = NULL)
 \arguments{
 \item{path}{The file path to the SAS data file.}
 
-\item{patch.cat}{optional, the file path to the SAS catalog file.}
+\item{path.cat}{optional, the file path to the SAS catalog file.}
 }
 \value{
 A data frame containing the SAS data. Retrieve value labels with \code{\link{get_val_labels}}
