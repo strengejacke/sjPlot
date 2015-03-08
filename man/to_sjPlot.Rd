@@ -20,7 +20,10 @@ This function converts
                  \item a data frame, which was imported with any of \code{haven}'s read functions and contains \code{labelled} class vectors or
                  \item a single vector of type \code{labelled}
                }
-               into an sjPlot friendly data frame format.
+               into an sjPlot friendly data frame format. This means, that all \code{labelled} class attributes
+               will be removed, so all vectors / variables are now most likely \code{\link{atomic}}, and
+               all \code{"label"} and \code{"labels"} attributes are renamed into \code{"value.labels"}
+               and \code{"variable.label"} (which corresponds to the \code{forein} format).
 }
 \seealso{
 \itemize{

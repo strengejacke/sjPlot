@@ -404,11 +404,21 @@ autoSetVariableLabels <- function(x) {
   # do we have global options?
   opt <- getOption("autoSetVariableLabels")
   if (is.null(opt) || opt == TRUE) {
+    # ----------------------------
+    # check value_labels option
+    # ----------------------------
+    opt <- getOption("value_labels")
+    if (!is.null(opt) && opt == "haven") {
+      attr.string <- "label"
+    }
+    else {
+      attr.string <- "variable.label"
+    }
     # check if we have variable label attribut
-    vl <- as.vector(attr(x, "variable.label"))
+    vl <- as.vector(attr(x, attr.string))
     label <- NULL
     # check if we have variable labels
-    if (!is.null(vl) && length(vl)>0) {
+    if (!is.null(vl) && length(vl) > 0) {
       label <- vl
     }
     return(label)

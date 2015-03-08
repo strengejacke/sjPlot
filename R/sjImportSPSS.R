@@ -57,11 +57,26 @@ read_spss <- function(path,
                      enc=NA, 
                      autoAttachVarLabels=FALSE,
                      atomic.to.fac=FALSE,
-                     option = "foreign") {
+                     option = NULL) {
+  # --------------------------------------------------------
+  # check read_spss option
+  # --------------------------------------------------------
+  if (is.null(option)) {
+    opt <- getOption("read_spss")
+    if (is.null(opt) || opt == "foreign") {
+      option <- "foreign"
+    }
+    else if (opt == "haven") {
+      option <- "haven"
+    }
+    else {
+      option <- "foreign"
+    }
+  }
   # -------------------------------------
   # check parameter
   # -------------------------------------
-  if (option != "foreign" && option != "haven") {
+  if (!is.null(option) && option != "foreign" && option != "haven") {
     warning("'option' must be either 'foreign' or 'haven'. Defaulting to 'foreign'.", call. = F)
     option <- "foreign"
   }
@@ -316,7 +331,10 @@ is_labelled <- function(x) {
 #'                  \item a data frame, which was imported with any of \code{haven}'s read functions and contains \code{labelled} class vectors or
 #'                  \item a single vector of type \code{labelled}
 #'                }
-#'                into an sjPlot friendly data frame format.
+#'                into an sjPlot friendly data frame format. This means, that all \code{labelled} class attributes
+#'                will be removed, so all vectors / variables are now most likely \code{\link{atomic}}, and
+#'                all \code{"label"} and \code{"labels"} attributes are renamed into \code{"value.labels"}
+#'                and \code{"variable.label"} (which corresponds to the \code{forein} format).
 #' 
 #' @seealso \itemize{
 #'            \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
@@ -486,9 +504,12 @@ sji.getValueLabel <- function(x) {
   # return them
   return (labels)
 }
-sji.getValueLabelValues <- function(x, attr.string = "value.labels") {
-  # set default string
-  if (is.null(attr.string)) attr.string <- "value.labels"
+sji.getValueLabelValues <- function(x) {
+  # haven or sjPlot?
+  if(is_labelled(x))
+    attr.string <- "labels"
+  else
+    attr.string <- "value.labels"
   # sort values
   val.sort <- sort(as.numeric(unname(attr(x, attr.string))))
   # return sorted
@@ -565,6 +586,16 @@ sji.setValueLabelNameParam <- function(x, labels, var.name) {
   }
 }
 sji.setValueLabel.vector <- function(var, labels, var.name = NULL) {
+  # ----------------------------
+  # check value_labels option
+  # ----------------------------
+  opt <- getOption("value_labels")
+  if (!is.null(opt) && opt == "haven") {
+    attr.string <- "labels"
+  }
+  else {
+    attr.string <- "value.labels"
+  }
   # check for null
   if (!is.null(labels)) {
     if (is.null(var) || is.character(var)) {
@@ -575,12 +606,14 @@ sji.setValueLabel.vector <- function(var, labels, var.name = NULL) {
       if (is.factor(var)) {
         # check if we have numeric levels
         if (!is_num_fac(var)) {
-          # retrieve levels
+          # retrieve levels. since levels are numeric, we
+          # have minimum and maximum values
           minval <- 1
           maxval <- length(levels(var))
         }
         else {
-          # retrieve minimum level, as numeric
+          # levels are not numeric. we need to convert them
+          # first to retrieve minimum level, as numeric
           minval <- min(as.numeric(levels(var)), na.rm = T)
           # check range, add minimum, so we have max
           maxval <- diff(range(as.numeric(levels(var)))) + minval
@@ -596,7 +629,7 @@ sji.setValueLabel.vector <- function(var, labels, var.name = NULL) {
         labels <- as.vector(unlist(labels))
       }
       lablen <- length(labels)
-      valrange <- maxval-minval+1
+      valrange <- maxval - minval + 1
       # set var name string
       if (is.null(var.name) || nchar(var.name) < 1) {
         name.string <- "var"
@@ -608,17 +641,17 @@ sji.setValueLabel.vector <- function(var, labels, var.name = NULL) {
         warning("Can't set value labels. Infinite value range.\n")
       }
       # check for valid length of labels
-      else if (valrange<lablen) {
+      else if (valrange < lablen) {
         message(sprintf("More labels than values of \"%s\". Using first %i labels.\n", name.string, valrange))
-        attr(var, "value.labels") <- c(as.character(c(minval:maxval)))
-        names(attr(var, "value.labels")) <- labels[1:valrange]
+        attr(var, attr.string) <- c(as.character(c(minval:maxval)))
+        names(attr(var, attr.string)) <- labels[1:valrange]
       }
       else if (valrange>lablen) {
         warning(sprintf("Can't set value labels. Value range of \"%s\" is longer than length of \"labels\".\n", name.string))
       }
       else {
-        attr(var, "value.labels") <- c(as.character(c(minval:maxval)))
-        names(attr(var, "value.labels")) <- labels
+        attr(var, attr.string) <- c(as.character(c(minval:maxval)))
+        names(attr(var, attr.string)) <- labels
       }
     }
   }
@@ -659,12 +692,6 @@ is_num_fac <- function(x) {
 #' 
 #' @param x A data frame (containing imported SPSS data or with attached variable labels) or
 #'          a vector with \code{"variable.label"} attribute.
-#' @param attr.string The attribute string for the variable label. To ensure
-#'          compatibility to the \code{foreign}-package, use the default string
-#'          \code{"variable.label"}. If you want to save data with the \code{haven}
-#'          package, use \code{attr.string = "label"}. There is a wrapper function
-#'          \code{\link{write_spss}} to save SPSS files, so you don't need to take
-#'          care of this.
 #' 
 #' @return A named char vector with all variable labels from the SPSS dataset,
 #'           or a simple string vector with the variable label, if \code{x} is a variable.
@@ -704,9 +731,17 @@ is_num_fac <- function(x) {
 #' get_var_labels(efc)["e42dep"]
 #' 
 #' @export
-get_var_labels <- function(x, attr.string = "variable.label") {
-  # default string
-  if (is.null(attr.string)) attr.string <- "variable.label"
+get_var_labels <- function(x) {
+  # ----------------------------
+  # check value_labels option
+  # ----------------------------
+  opt <- getOption("value_labels")
+  if (!is.null(opt) && opt == "haven") {
+    attr.string <- "label"
+  }
+  else {
+    attr.string <- "variable.label"
+  }
   # do we have a df?
   if (is.data.frame(x) || is.matrix(x)) {
     # if yes, check if we have attached labels from
@@ -719,12 +754,7 @@ get_var_labels <- function(x, attr.string = "variable.label") {
       # iterate df
       for (i in 1:ncol(x)) {
         # get label
-        label <- attr(x[[i]], "variable.label")
-        # haven?
-        if (is.null(label)) {
-          # get label
-          label <- attr(x[[i]], "label")
-        }
+        label <- attr(x[[i]], attr.string)
         # any label?
         if (!is.null(label)) {
           all.labels <- c(all.labels, label)
@@ -810,8 +840,19 @@ get_var_labels <- function(x, attr.string = "variable.label") {
 #' sjp.frq(dummy, title=NULL)
 #' 
 #' @export
-set_var_labels <- function(x, lab, attr.string = "variable.label") {
-  if (is.null(attr.string)) attr.string <- "variable.label"
+set_var_labels <- function(x, lab, attr.string = NULL) {
+  if (is.null(attr.string)) {
+    # ----------------------------
+    # check value_labels option
+    # ----------------------------
+    opt <- getOption("value_labels")
+    if (!is.null(opt) && opt == "haven") {
+      attr.string <- "label"
+    }
+    else {
+      attr.string <- "variable.label"
+    }
+  }
   if (!is.null(lab) && !is.null(x)) {
     if (is.data.frame(x)) {
       if (ncol(x)!=length(lab)) {
@@ -865,8 +906,8 @@ set_var_labels <- function(x, lab, attr.string = "variable.label") {
 #'          (see \code{\link{set_val_labels}}).
 #' @return A factor variable with the associated value labels as factor levels.
 #' 
-#' @note The \code{"value.labels"} attribute will be removed when converting
-#'         variables to factors.
+#' @note The \code{"value.labels"} or \code{"labels"} attribute will be removed 
+#'         when converting variables to factors.
 #' 
 #' @examples
 #' data(efc)
@@ -897,13 +938,8 @@ to_label <- function(x) {
   # check if we have any labels, else
   # return variable "as is"
   if (!is.null(vl)) {
-    # haven or sjPlot?
-    if(is_labelled(x))
-      attr.string <- "labels"
-    else
-      attr.string <- NULL
     # get associated values for value labels
-    vn <- sji.getValueLabelValues(x, attr.string)
+    vn <- sji.getValueLabelValues(x)
     # replace values with labels
     if (is.factor(x)) {
       levels(x) <- vl

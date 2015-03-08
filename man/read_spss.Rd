@@ -5,7 +5,7 @@
 \title{Import SPSS dataset as data frame into R}
 \usage{
 read_spss(path, enc = NA, autoAttachVarLabels = FALSE,
-  atomic.to.fac = FALSE, option = "foreign")
+  atomic.to.fac = FALSE, option = NULL)
 }
 \arguments{
 \item{path}{The file path to the SPSS dataset.}

@@ -4,18 +4,11 @@
 \alias{get_var_labels}
 \title{Retrieve variable labels of (an SPSS-imported) data frame or of a specific variable}
 \usage{
-get_var_labels(x, attr.string = "variable.label")
+get_var_labels(x)
 }
 \arguments{
 \item{x}{A data frame (containing imported SPSS data or with attached variable labels) or
-a vector with \code{"variable.label"} attribute.}
-
-\item{attr.string}{The attribute string for the variable label. To ensure
-         compatibility to the \code{foreign}-package, use the default string
-         \code{"variable.label"}. If you want to save data with the \code{haven}
-         package, use \code{attr.string = "label"}. There is a wrapper function
-         \code{\link{write_spss}} to save SPSS files, so you don't need to take
-         care of this.}
+         a vector with \code{"variable.label"} attribute.}
 }
 \value{
 A named char vector with all variable labels from the SPSS dataset,

@@ -113,6 +113,16 @@ view_spss <- function (df,
                        useViewer=TRUE,
                        no.output=FALSE,
                        remove.spaces=TRUE) {
+  # ----------------------------
+  # check value_labels option
+  # ----------------------------
+  opt <- getOption("value_labels")
+  if (!is.null(opt) && opt == "haven") {
+    attr.string <- "labels"
+  }
+  else {
+    attr.string <- "value.labels"
+  }
   # -------------------------------------
   # check encoding
   # -------------------------------------
@@ -262,7 +272,7 @@ view_spss <- function (df,
     }
     # frequencies
     if (showFreq) {
-      if (index<=ncol(df) && !is.null(attr(df[[index]], "value.labels"))) {
+      if (index <= ncol(df) && !is.null(attr(df[[index]], attr.string))) {
         ftab <- as.numeric(table(df[[index]]))
         valstring <- c("")
         for (i in 1:length(ftab)) {
@@ -277,7 +287,7 @@ view_spss <- function (df,
     }
     # frequencies
     if (showPerc) {
-      if (index<=ncol(df) && !is.null(attr(df[[index]], "value.labels"))) {
+      if (index <= ncol(df) && !is.null(attr(df[[index]], attr.string))) {
         ftab <- 100*as.numeric(prop.table(table(df[[index]])))
         valstring <- c("")
         for (i in 1:length(ftab)) {

@@ -277,8 +277,15 @@ sjp.emm.int <- function(fit,
     # -----------------------------------------------------------
     # prepare label and name from depend variable
     # -----------------------------------------------------------
-    response.name <- attr(fit$model[[1]],"variable.label")
-    response.label <- unname(attr(fit$model[[1]],"variable.label"))    
+    # get variable label attribute
+    var.attr <- attr(fit$model[[1]], "variable.label")
+    # check if we have any
+    if (is.null(var.attr)) {
+      # if NULL, might be haven label style
+      var.attr <- attr(fit$model[[1]], "label")
+    }
+    response.name <- var.attr
+    response.label <- unname(var.attr)    
     # -----------------------------------------------------------
     # prepare plot title and axis titles
     # -----------------------------------------------------------

@@ -1,6 +1,6 @@
 sjPlot - Data Visualization for Statistics in Social Science
 ------------------------------------------------------------------------------
-Collection of plotting and table output functions for data visualization. Results of various statistical analyses (that are commonly used in social sciences) can be visualized using this package, including simple and cross tabulated,  frequencies, histograms, box plots, (generalized) linear models, mixed effects models, PCA and correlation matrices, cluster analyses, scatter plots, Likert scales etc.
+Collection of plotting and table output functions for data visualization. Results of various statistical analyses (that are commonly used in social sciences) can be visualized using this package, including simple and cross tabulated frequencies, histograms, box plots, (generalized) linear models, mixed effects models, PCA and correlation matrices, cluster analyses, scatter plots, Likert scales etc.
 
 Furthermore, this package contains some tools that are useful when carrying out data analysis or interpreting data (especially intended for people coming from SPSS and/or who are new to R). These tool functions support reading and writing data (SPSS, SAS and STATA), variable recoding and weighting, statistical tests, interpretation of interaction terms in regression models, reliability tests and constructing index or score variables and much more.
 
@@ -33,12 +33,14 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of current development build 1.6.9-11
+### Changelog of current development build 1.6.9-12
 
 #### General
 * Renamed `sjs`, `sju`, `sjd` and `sji`-functions into more intuitiv and shorter function names.
 * `autoSetValueLabels` and `autoSetVariableLabels` are now global options. E.g., use `options(autoSetValueLabels = FALSE)` to turn off automatic value label detection in plotting and table functions, or `options(autoSetValueLabels = TRUE)` to turn on automatic label detection.
-* `p_zero` is now global options. Use `options(p_zero = TRUE)` to show leading zero before period in p-value labels.
+* `p_zero` is now global options. Use `options(p_zero = TRUE)` to show leading zero before period in p-value, r-quared and phi labels.
+* `read_spss` is now global options. Use `options(read_spss = 'haven')` to set default package for readind spss data to haven, or `options(read_spss = 'foreign')` to make `read_spss` use the foreign package to read spss data.
+* `value_labels` is now global options. Use `options(value_labels = 'haven')` to set default attribute assignment in haven format (`labels` and `label`), or `options(value_labels = 'foreign')` to to set default attribute assignment in foreign format (`value.labels` and `variable.label`). Affects functions like auto-detection of labels, `set_var_labels` or `set_val_labels` etc.
 * Removed `plyr` import and replaced with `dplyr` functions.
 * Removed `reshape2` import and replaced with `tidyr` functions.
 

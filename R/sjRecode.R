@@ -495,8 +495,18 @@ sjp.vif <- function(fit) {
 #' 
 #' @export
 set_na <- function(var, values) {
+  # ----------------------------
+  # check value_labels option
+  # ----------------------------
+  opt <- getOption("value_labels")
+  if (!is.null(opt) && opt == "haven") {
+    attr.string <- "labels"
+  }
+  else {
+    attr.string <- "value.labels"
+  }
   # retrieve value labels
-  vl <- attr(var, "value.labels")
+  vl <- attr(var, attr.string)
   # retrieve label names
   ln <- names(vl)
   # iterate all values that should be 
@@ -504,16 +514,16 @@ set_na <- function(var, values) {
   for (i in seq_along(values)) {
     # find associated values in var
     # and set them to NA
-    var[var==values[i]] <- NA
+    var[var == values[i]] <- NA
     # check if value labels exist, and if yes, remove them
-    labelpos <- which(as.numeric(vl)==values[i])
+    labelpos <- which(as.numeric(vl) == values[i])
     if (length(labelpos > 0)) {
       # remove NA label
       vl <- vl[-labelpos]
     }
   }
   # set back updated label attribute
-  attr(var, "value.labels") <- vl
+  attr(var, attr.string) <- vl
   return(var)
 }
 

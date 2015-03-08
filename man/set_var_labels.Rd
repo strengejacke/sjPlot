@@ -4,7 +4,7 @@
 \alias{set_var_labels}
 \title{Attach variable label(s) to a single variable or data frame}
 \usage{
-set_var_labels(x, lab, attr.string = "variable.label")
+set_var_labels(x, lab, attr.string = NULL)
 }
 \arguments{
 \item{x}{A single variable (vector) or data frame with variables.}
