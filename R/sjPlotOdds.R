@@ -210,7 +210,7 @@ sjp.glm <- function(fit,
   # auto-retrieve value labels
   # --------------------------------------------------------
   if (is.null(axisLabels.y)) {
-    axisLabels.y <- retrieveModelLabels(list(fit))
+    axisLabels.y <- suppressWarnings(retrieveModelLabels(list(fit)))
   }
   # ----------------------------
   # Prepare length of title and labels

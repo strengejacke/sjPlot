@@ -802,7 +802,7 @@ sjt.lm <- function (...,
   # set default predictor labels
   # -------------------------------------
   if (is.null(labelPredictors) && !sw.fit) {
-    labelPredictors <- retrieveModelLabels(input_list)
+    labelPredictors <- suppressWarnings(retrieveModelLabels(input_list))
   }
   # --------------------------------------------------------
   # auto-retrieving variable labels does not work when we
@@ -882,7 +882,7 @@ sjt.lm <- function (...,
       page.content <- paste0(page.content, 
                              "\n  <tr>\n", 
                              sprintf("\n    <td class=\"grouprow\" colspan=\"%i\">%s</td>", 
-                                     headerColSpanFactor + 1, 
+                                     (length(input_list) * headerColSpanFactor) + 1, 
                                      group.pred.labs[which(group.pred.rows == i)]),
                              "\n  </tr>")
     }

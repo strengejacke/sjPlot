@@ -290,7 +290,7 @@ sjp.lm <- function(fit,
   # auto-retrieve value labels
   # --------------------------------------------------------
   if (is.null(axisLabels.y)) {
-    axisLabels.y <- retrieveModelLabels(list(fit))
+    axisLabels.y <- suppressWarnings(retrieveModelLabels(list(fit)))
   }
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
