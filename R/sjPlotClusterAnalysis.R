@@ -65,8 +65,8 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("xpos", "value", "Var2", 
 #' @param axisLabels.x Labels for the x-axis breaks.
 #'          Example: \code{axisLabels.x=c("Label1", "Label2", "Label3")}.
 #'          Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_val_labels}} function, you receive a
-#'          list object with label string. The labels may also be passed as list object. They will be unlisted and
-#'          converted to character vector automatically.
+#'          list object with label string. The labels may also be passed as list object. They will be coerced
+#'          to character vector automatically.
 #' @param axisTitle.x A label for the x axis. useful when plotting histograms with metric scales where no category labels
 #'          are assigned to the x axis.
 #' @param axisTitle.y A label for the y axis. useful when plotting histograms with metric scales where no category labels

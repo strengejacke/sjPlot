@@ -40,8 +40,8 @@ Use \code{"NULL"} to automatically detect variable names that will be used as ti
 grouping variable axis. Passed as vector of strings.
 Example: \code{axisLabels.y=c("Label1", "Label2", "Label3")}. \cr
 Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_val_labels}} function, you receive a
-list object with label string. The labels may also be passed as list object. They will be unlisted and
-converted to character vector automatically. See examples below. \cr
+list object with label string. The labels may also be passed as list object. They will be coerced
+to character vector automatically. See examples below. \cr
 Note: In case \code{type} is \code{"bars"}, the \code{grpVar} will be plotted along
 the x-axis.}
 

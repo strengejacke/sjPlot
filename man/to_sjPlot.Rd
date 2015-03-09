@@ -28,6 +28,7 @@ This function converts
 \seealso{
 \itemize{
            \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
+           \item \code{\link{to_haven}}
            }
 }
 

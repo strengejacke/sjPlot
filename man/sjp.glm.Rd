@@ -36,8 +36,8 @@ Example: \code{title=c("my title")}}
 axis. Passed as vector of strings.
 Example: \code{axisLabels.y=c("Label1", "Label2", "Label3")}
 Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_val_labels}} function, you receive a
-\code{list} object with label string. The labels may also be passed as list object. They will be unlisted and
-converted to character vector automatically.}
+\code{list} object with label string. The labels may also be passed as list object. They will be coerced
+to character vector automatically.}
 
 \item{axisTitle.x}{A label ("title") for the x axis.}
 

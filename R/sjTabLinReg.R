@@ -596,7 +596,7 @@ sjt.lm <- function (...,
       fit.df$pv <- sapply(fit.df$pv, function(x) {
         if (x <0.05) {
           if (x < 0.001) {
-            x <- sprintf("%s&lt;%s.001%s", p_zero, sb1, sb2)
+            x <- sprintf("%s&lt;0.001%s", sb1, sb2)
           }
           else {
             x <- sprintf("%s%.*f%s", sb1, digits.p, x, sb2)

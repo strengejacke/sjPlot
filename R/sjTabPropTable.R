@@ -763,7 +763,7 @@ sjt.xtab <- function (var.row,
     kook <- gsub("0.", paste0(".", p_zero), kook, fixed = TRUE)
     # create summary row
     if (is.null(fish)) {
-      pvalstring <- ifelse(chsq$p.value < 0.001, sprintf("p&lt;%s.001", p_zero) , sub("0", p_zero, sprintf("p=%.3f", chsq$p.value)))
+      pvalstring <- ifelse(chsq$p.value < 0.001, sprintf("p&lt;%s.001", p_zero), sub("0", p_zero, sprintf("p=%.3f", chsq$p.value)))
       page.content <- paste(page.content, sprintf("    <td class=\"summary tdata\" colspan=\"%i\">&Chi;<sup>2</sup>=%.3f &middot; df=%i &middot; %s &middot; %s</td>", totalncol, chsq$statistic, chsq$parameter, kook, pvalstring), sep="")
     }
     else {

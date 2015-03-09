@@ -319,6 +319,11 @@ write_data <- function(x, path, type = "spss") {
 # this function returns TRUE, if a vector is
 # of class "labelled" (haven package)
 is_labelled <- function(x) {
+  # check if object has multiple class attributes
+  if (length(class(x)) > 1) {
+    return (any(class(x) == "labelled"))
+  }
+  # return if labelled
   return (class(x) == "labelled")
 }
 
@@ -386,32 +391,27 @@ sji.toSjPlot <- function(x, var.name = NULL) {
     val.lab <- unname(attr(x, "labels"))
     val.lab.names <- names(attr(x, "labels"))
     # delete old attributes
-    attr(x, "label") <- NULL
-    names(attr(x, "labels")) <- NULL
-    attr(x, "labels") <- NULL
+    x <- as.vector(x)
     # set back labels
     x <- sji.setValueLabelNameParam(x, val.lab.names, var.name)
     x <- set_var_labels(x, var.lab)
     # remove labelled class attribute
-    class(x) <- NULL
+    x <- unclass(x)
   }
   else {
-    # read current labels
+    # read current variable label
     var.lab <- attr(x, "label")
-    # do we have any?
+    # read current value labels
+    val.lab <- unname(attr(x, "labels"))
+    val.lab.names <- names(attr(x, "labels"))
+    # delete old attributes
+    x <- as.vector(x)
+    # do we have any attributes?
     if (!is.null(var.lab)) {
-      # delete old attributes
-      attr(x, "label") <- NULL
       # set back labels
       x <- set_var_labels(x, var.lab)
     }
-    # read current labels
-    val.lab <- unname(attr(x, "labels"))
     if (!is.null(val.lab)) {
-      val.lab.names <- names(attr(x, "labels"))
-      # delete old attributes
-      names(attr(x, "labels")) <- NULL
-      attr(x, "labels") <- NULL
       # set back labels
       x <- sji.setValueLabelNameParam(x, val.lab.names, var.name)
     }
@@ -1044,16 +1044,28 @@ to_fac <- function(x) {
 #' 
 #' @export
 to_value <- function(x, startAt = 1, keep.labels = TRUE) {
-  # get amount of categories
-  l <- length(levels(x))
-  # determine highest category value
-  end <- startAt+l-1
   # retrieve "value labels"
   labels <- levels(x)
-  # replace labels with numeric values
-  levels(x) <- c(startAt:end)
-  # convert to numeric
-  new_value <- as.numeric(as.character(x))
+  # check if we have numeric factor levels
+  if (is_num_fac(x)) {
+    # convert to numeric via as.vector
+    new_value <- as.numeric(as.vector((x)))
+    # check if lowest value of variable differs from
+    # requested minimum conversion value
+    val_diff <- startAt - min(new_value, na.rm = T)
+    # adjust new_value
+    new_value <- new_value + val_diff
+  }
+  else {
+    # get amount of categories
+    l <- length(levels(x))
+    # determine highest category value
+    end <- startAt+l-1
+    # replace labels with numeric values
+    levels(x) <- c(startAt:end)
+    # convert to numeric
+    new_value <- as.numeric(as.character(x))
+  }
   # check if we should attach former labels as value labels
   if (keep.labels) new_value <- set_val_labels(new_value, labels)
   return (new_value)

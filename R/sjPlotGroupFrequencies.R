@@ -56,8 +56,8 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ypos", "wb", "ia", "mw",
 #'          (see examples below). Else, specifiy parameter like this:
 #'          \code{axisLabels.x=c("Label1", "Label2", "Label3")}.
 #'          Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_val_labels}} function, you receive a
-#'          list object with label string. The labels may also be passed as list object. They will be unlisted and
-#'          converted to character vector automatically.
+#'          list object with label string. The labels may also be passed as list object. They will be coerced
+#'          to character vector automatically.
 #' @param interactionVarLabels Labels for the x-axis breaks when having interaction variables included.
 #'          These labels replace the \code{axisLabels.x}. Only applies, when using box or violin plots
 #'          (i.e. \code{"type"} is \code{"box"} or \code{"violin"}) and \code{interactionVar} is not \code{NULL}.

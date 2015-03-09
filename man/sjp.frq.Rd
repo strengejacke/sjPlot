@@ -40,8 +40,8 @@ cases are weighted. Use a string as parameter, e.g.: \code{weightByTitleString="
 \code{varCount} into the factors (sub groups) of \code{interactionVar}. Only applies when parameter \code{"type"}
 is \code{"box"} or \code{"violin"} (resp. their alternative strings like \code{"boxplot"}, \code{"boxplots"} or \code{"v"}).}
 
-\item{sort.frq}{Determines whether categories on x-axis should be order according to the frequencies or not.
-Default is \code{"none"}, so categories are not ordered by frequency. Use \code{"asc"} or
+\item{sort.frq}{Determines whether categories on x-axis should be sorted according to the frequencies or not.
+Default is \code{"none"}, so categories are not sorted by frequency. Use \code{"asc"} or
 \code{"desc"} for sorting categories ascending or descending in relation to the frequencies.}
 
 \item{type}{Specifies the type of distribution plot that will be plotted.
@@ -64,8 +64,8 @@ bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type
 \item{axisLabels.x}{Labels for the x-axis breaks.
 Example: \code{axisLabels.x=c("Label1", "Label2", "Label3")}.
 Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_val_labels}} function, you receive a
-list object with label string. The labels may also be passed as list object. They will be unlisted and
-converted to character vector automatically.}
+list object with label string. The labels may also be passed as list object. They will be coerced
+to character vector automatically.}
 
 \item{interactionVarLabels}{Labels for the x-axis breaks when having interaction variables included.
 These labels replace the \code{axisLabels.x}. Only applies, when using box or violin plots

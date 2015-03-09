@@ -16,7 +16,7 @@
 #'          into one group with values from lowest to 10 and another group with values greater
 #'          than 10.
 #' @param asNum logical, if \code{TRUE}, return value will be numeric, not a factor.
-#' @return A dichotomized factor (or numeric, if \code{asNum = TRUE} variable (0/1-coded).
+#' @return A dichotomized factor (or numeric, if \code{asNum = TRUE}) variable (0/1-coded).
 #' 
 #' @examples
 #' data(efc)

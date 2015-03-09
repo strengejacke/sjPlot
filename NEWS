@@ -2,10 +2,10 @@ Version 1.6.9-12
 ------------------------------------------------------------------------------
 General:
 * Renamed sjs, sju, sjd and sji-functions into more intuitiv and shorter function names.
-* "autoSetValueLabels" and "autoSetVariableLabels" are now global options. E.g., use "options(autoSetValueLabels = FALSE)" to turn off automatic value label detection in plotting and table functions, or "options(autoSetValueLabels = TRUE)" to turn on automatic label detection.
-* "p_zero" is now global options. Use "options(p_zero = TRUE)" to show leading zero before period in p-value, r-quared and phi labels.
-* "read_spss" is now global options. Use "options(read_spss = 'haven')" to set default package for readind spss data to haven, or "options(read_spss = 'foreign')" to make "read_spss" use the foreign package to read spss data.
-* "value_labels" is now global options. Use "options(value_labels = 'haven')" to set default attribute assignment in haven format ("labels" and "label"), or "options(value_labels = 'foreign')" to to set default attribute assignment in foreign format ("value.labels" and "variable.label"). Affects functions like auto-detection of labels, "set_var_labels"or "set_val_labels" etc.
+* "autoSetValueLabels" and "autoSetVariableLabels" are now a global option. E.g., use "options(autoSetValueLabels = FALSE)" to turn off automatic value label detection in plotting and table functions, or "options(autoSetValueLabels = TRUE)" to turn on automatic label detection.
+* "p_zero" is now a global option. Use "options(p_zero = TRUE)" to show leading zero before period in p-value, r-quared and phi labels.
+* "read_spss" is now a global option. Use "options(read_spss = 'haven')" to set default package for readind spss data to haven, or "options(read_spss = 'foreign')" to make "read_spss" use the foreign package to read spss data.
+* "value_labels" is now a global option. Use "options(value_labels = 'haven')" to set default attribute assignment in haven format ("labels" and "label"), or "options(value_labels = 'foreign')" to to set default attribute assignment in foreign format ("value.labels" and "variable.label"). Affects functions like auto-detection of labels, "set_var_labels"or "set_val_labels" etc.
 * Removed "plyr" import and replaced with "dplyr" functions.
 * Removed "reshape2" import and replaced with "tidyr" functions.
 

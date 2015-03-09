@@ -24,7 +24,7 @@ than 10.}
 \item{asNum}{logical, if \code{TRUE}, return value will be numeric, not a factor.}
 }
 \value{
-A dichotomized factor (or numeric, if \code{asNum = TRUE} variable (0/1-coded).
+A dichotomized factor (or numeric, if \code{asNum = TRUE}) variable (0/1-coded).
 }
 \description{
 Dichotomizes variables into dummy variables (0/1). Dichotomization is

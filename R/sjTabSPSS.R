@@ -228,7 +228,7 @@ view_spss <- function (df,
       page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, vartype))
     }
     # label
-    if (index<=length(df.var)) {
+    if (index <= length(df.var)) {
       varlab <- df.var[index]
       if (!is.null(breakVariableNamesAt)) {
         # wrap long variable labels
@@ -241,12 +241,12 @@ view_spss <- function (df,
     page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, varlab))
     # values
     if (showValues) {
-      if (index<=ncol(df)) {
+      if (index <= ncol(df)) {
         vals <- sji.getValueLabelValues(df[[index]])
         valstring <- c("")
         for (i in 1:length(vals)) {
           valstring <- paste0(valstring, vals[i])
-          if (i<length(vals)) valstring <- paste0(valstring, "<br>")
+          if (i < length(vals)) valstring <- paste0(valstring, "<br>")
         }
       }
       else {

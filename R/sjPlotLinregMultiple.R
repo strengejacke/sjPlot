@@ -29,8 +29,8 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("beta", "lower", "upper",
 #'          axis. Passed as vector of strings.
 #'          Example: \code{axisLabels.y=c("Label1", "Label2", "Label3")}
 #'          Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_val_labels}} function, you receive a
-#'          \code{list} object with label strings. The labels may also be passed as list object. They will be unlisted and
-#'          converted to character vector automatically.
+#'          \code{list} object with label strings. The labels may also be passed as list object. They will be coerced
+#'          to character vector automatically.
 #' @param showAxisLabels.y Whether beta names (predictor labels) should be shown or not.
 #' @param axisTitle.x A label ("title") for the x axis.
 #' @param axisLimits Defines the range of the axis where the beta coefficients and their confidence intervalls
