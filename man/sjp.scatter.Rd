@@ -150,6 +150,11 @@ sjp.scatter(y = fit$residuals, showTotalFitLine = TRUE)
 # auto-detection of labels
 # -------------------------------
 efc <- set_var_labels(efc, get_var_labels(efc))
+
+# show axis titles
+sjp.scatter(efc$c160age,efc$e17age, efc$e42dep)
+
+# hide axis titles
 sjp.scatter(efc$c160age,efc$e17age, efc$e42dep,
             title="", axisTitle.x="", axisTitle.y="")
 }

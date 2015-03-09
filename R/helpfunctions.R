@@ -351,7 +351,7 @@ crosstabsum <- function(ftab) {
                         c2 = sprintf("%.2f", chsq$statistic),
                         dft = c(chsq$parameter),
                         kook = sprintf("%.2f", phi(ftab)),
-                        pva = sprintf("%.3f", chsq$p.value)))))
+                        pva = sub("0", p_zero, sprintf("%.3f", chsq$p.value))))))
     }
     else {
       modsum <- as.character(as.expression(
@@ -359,7 +359,7 @@ crosstabsum <- function(ftab) {
                    list(tn = summary(ftab)$n.cases,
                         dft = c(chsq$parameter),
                         kook = sprintf("%.2f", phi(ftab)),
-                        pva = sprintf("%.3f", fish$p.value)))))
+                        pva = sub("0", p_zero, sprintf("%.3f", fish$p.value))))))
     }
   }  
   return (modsum)

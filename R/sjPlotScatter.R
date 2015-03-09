@@ -112,6 +112,11 @@
 #' # auto-detection of labels
 #' # -------------------------------
 #' efc <- set_var_labels(efc, get_var_labels(efc))
+#' 
+#' # show axis titles
+#' sjp.scatter(efc$c160age,efc$e17age, efc$e42dep)
+#'             
+#' # hide axis titles
 #' sjp.scatter(efc$c160age,efc$e17age, efc$e42dep,
 #'             title="", axisTitle.x="", axisTitle.y="")
 #' 
@@ -152,10 +157,10 @@ sjp.scatter <- function(x=NULL,
     stop("At least either 'x' or 'y' must be specified.", call. = FALSE)
   }
   if (is.null(x)) {
-    x <- c(1 : length(y))
+    x <- c(1:length(y))
   }
   if (is.null(y)) {
-    y <- c(1 : length(x))
+    y <- c(1:length(x))
   }
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
