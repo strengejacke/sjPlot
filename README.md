@@ -33,7 +33,7 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of current development build 1.6.9-12
+### Changelog of current development build 1.6.9-13
 
 #### General
 * Renamed `sjs`, `sju`, `sjd` and `sji`-functions into more intuitiv and shorter function names.
