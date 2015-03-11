@@ -292,7 +292,7 @@ write_data <- function(x, path, type = "spss") {
       # get variable value
       var.lab <- get_var_labels(x[[i]])
       # convert variable to labelled factor, so it can be saved
-      x[[i]] <- to_label(x[[i]])
+      x[[i]] <- suppressWarnings(to_label(x[[i]]))
       # set back variable label
       x[[i]] <- set_var_labels(x[[i]], var.lab, "label")
     }

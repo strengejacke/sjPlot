@@ -322,6 +322,8 @@ sjt.xtab <- function (var.row,
         tab <- ftable(xtabs(weightBy ~ addNA(var.grp) + addNA(as.factor(var.row)) + addNA(as.factor(var.col))))
         coladd <- 4
       }
+      # round integer
+      tab <- round(tab)
     }
   }
   # -------------------------------------
@@ -350,6 +352,8 @@ sjt.xtab <- function (var.row,
         tab <- ftable(xtabs(weightBy ~ var.grp + as.factor(var.row) + as.factor(var.col)))
         coladd <- 3
       }
+      # round integer
+      tab <- round(tab)
     }
   }
   #   # -------------------------------------

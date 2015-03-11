@@ -33,7 +33,13 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of current development build 1.6.9-13
+### Changelog of current development build 1.7-1
+
+#### Bug fixes
+* Weights with decimals in `sjt.xtab` (e.g. `weightBy = abs(rnorm(100, 2, 1)`) caused an error - fixed.
+
+
+### Changelog of current stable build 1.7
 
 #### General
 * Renamed `sjs`, `sju`, `sjd` and `sji`-functions into more intuitiv and shorter function names.
@@ -43,6 +49,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * `value_labels` is now a global option. Use `options(value_labels = 'haven')` to set default attribute assignment in haven format (`labels` and `label`), or `options(value_labels = 'foreign')` to to set default attribute assignment in foreign format (`value.labels` and `variable.label`). Affects functions like auto-detection of labels, `set_var_labels` or `set_val_labels` etc.
 * Removed `plyr` import and replaced with `dplyr` functions.
 * Removed `reshape2` import and replaced with `tidyr` functions.
+* Added two more sample datasets (`efc2` and `efc3`) to the package, which slightly differ in their structure.
 
 #### New functions
 * `write_spss` to write data frames to SPSS sav-files, including value and variable labels.

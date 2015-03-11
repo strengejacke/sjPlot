@@ -1,4 +1,10 @@
-Version 1.6.9-13
+Version 1.7-1
+------------------------------------------------------------------------------
+Bug fixes:
+* Weights with decimals in `sjt.xtab` (e.g. `weightBy = abs(rnorm(100, 2, 1)`) caused an error - fixed.
+
+
+Version 1.7
 ------------------------------------------------------------------------------
 General:
 * Renamed sjs, sju, sjd and sji-functions into more intuitiv and shorter function names.
@@ -8,6 +14,7 @@ General:
 * "value_labels" is now a global option. Use "options(value_labels = 'haven')" to set default attribute assignment in haven format ("labels" and "label"), or "options(value_labels = 'foreign')" to to set default attribute assignment in foreign format ("value.labels" and "variable.label"). Affects functions like auto-detection of labels, "set_var_labels"or "set_val_labels" etc.
 * Removed "plyr" import and replaced with "dplyr" functions.
 * Removed "reshape2" import and replaced with "tidyr" functions.
+* Added two more sample datasets ("efc2" and "efc3") to the package, which slightly differ in their structure.
 
 New functions:
 * "write_spss" to write data frames to SPSS sav-files, including value and variable labels.
