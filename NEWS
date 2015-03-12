@@ -1,5 +1,11 @@
-Version 1.7-1
+Version 1.7-2
 ------------------------------------------------------------------------------
+General:
+* Change R-Version dependency to R >= 3.1, due to import of "tidyr" and "haven" packages.
+
+Changes to functions:
+* "sjp.glm" now supports plotting "logistf" objects.
+
 Bug fixes:
 * Weights with decimals in `sjt.xtab` (e.g. `weightBy = abs(rnorm(100, 2, 1)`) caused an error - fixed.
 

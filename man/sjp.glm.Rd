@@ -15,7 +15,7 @@ sjp.glm(fit, type = "dots", sortOdds = TRUE, title = NULL,
   show.se = FALSE, showOriginalModelOnly = TRUE, printPlot = TRUE)
 }
 \arguments{
-\item{fit}{The fitted model of a logistic regression (or any other \code{\link{glm}}-object).}
+\item{fit}{The fitted model of a logistic regression (or any other \code{\link{glm}}- or \code{logistf}-object).}
 
 \item{type}{type of plot. Use one of following:
 \itemize{

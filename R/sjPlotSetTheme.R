@@ -290,8 +290,8 @@ sjp.setTheme <- function(title.color="black",
     panel.major.gridcol <- g.palette[4]
     panel.minor.gridcol <- g.palette[2]
     axis.linecolor <- NULL
-    axis.linecolor.y  <- g.palette[2]
-    axis.linecolor.x <- g.palette[9]
+    if (is.null(axis.linecolor.y)) axis.linecolor.y <- g.palette[2]
+    if (is.null(axis.linecolor.x)) axis.linecolor.x <- g.palette[9]
     panel.gridcol.x <- g.palette[2]
     legend.backgroundcol <- legend.bordercol <- g.palette[2]
     title.color <- g.palette[9]

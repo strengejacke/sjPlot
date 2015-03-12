@@ -33,7 +33,13 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of current development build 1.7-1
+### Changelog of current development build 1.7-2
+
+#### General
+* Change R-Version dependency to R >= 3.1, due to import of `tidyr` and `haven` packages.
+
+#### Changes to functions
+* `sjp.glm` now supports plotting `logistf` objects.
 
 #### Bug fixes
 * Weights with decimals in `sjt.xtab` (e.g. `weightBy = abs(rnorm(100, 2, 1)`) caused an error - fixed.

@@ -19,7 +19,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #'
 #' @note Based on the script from \href{http://www.surefoss.org/dataanalysis/plotting-odds-ratios-aka-a-forrestplot-with-ggplot2/}{surefoss}
 #'
-#' @param fit The fitted model of a logistic regression (or any other \code{\link{glm}}-object).
+#' @param fit The fitted model of a logistic regression (or any other \code{\link{glm}}- or \code{logistf}-object).
 #' @param type type of plot. Use one of following:
 #'          \itemize{
 #'            \item \code{"dots"}, \code{"glm"} or \code{"or"} (default) for odds ratios (forest plot)
@@ -185,6 +185,20 @@ sjp.glm <- function(fit,
                     showOriginalModelOnly=TRUE,
                     printPlot=TRUE) {
   # --------------------------------------------------------
+  # check param
+  # --------------------------------------------------------
+  if (class(fit) == "logistf") {
+    # no model summary currently supported for logistf class
+    showModelSummary = FALSE
+    # create "dummy" variable, to avoid errors
+    fit$model <- fit$data
+    # no probability curves currently supported
+    if (type == "prob" || type == "pc") {
+      warning("Predicted probability plots currently not supported for 'logistf' objects.", call. = F)
+      type <- "dots"
+    }
+  }
+  # --------------------------------------------------------
   # check type
   # --------------------------------------------------------
   if (type == "prob" || type == "pc") {
@@ -234,7 +248,12 @@ sjp.glm <- function(fit,
   # print p-values in bar charts
   # ----------------------------
   # retrieve sigificance level of independent variables (p-values)
-  pv <- coef(summary(fit))[,4]
+  if (class(fit) == "logistf") {
+    pv <- fit$prob
+  }
+  else {
+    pv <- coef(summary(fit))[,4]
+  }
   # for better readability, convert p-values to asterisks
   # with:
   # p < 0.001 = ***

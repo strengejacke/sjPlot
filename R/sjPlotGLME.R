@@ -171,6 +171,8 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #'           vars = "neg_c_7")}
 #'
 #' @import ggplot2
+#' @import lme4
+#' @importFrom arm se.ranef
 #' @export
 sjp.glmer <- function(fit,
                       type = "re",
@@ -382,6 +384,8 @@ sjp.glmer <- function(fit,
 #' sjp.lmer(fit, type = "re.qq")}
 #'
 #' @import ggplot2
+#' @import lme4
+#' @importFrom arm se.ranef
 #' @export
 sjp.lmer <- function(fit,
                      type = "re",
@@ -470,18 +474,6 @@ sjp.lme4  <- function(fit,
       type != "fe.prob" && type != "ri.prob" && type != "fe.ri") {
     warning("'type' must be one of 're', 'fe', 'fe.cor', 're.qq', 'fe.ri', 'fe.pc', 'ri.pc', 'fe.std', 'fe.prob' or 'ri.prob'. Defaulting to 'fe' now.")
     type  <- "fe"
-  }
-  # -------------------------------------
-  # check if required package is available
-  # -------------------------------------
-  if (!requireNamespace("lme4", quietly = TRUE)) {
-    stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
-  }
-  if (!requireNamespace("Matrix", quietly = TRUE)) {
-    stop("Package 'Matrix' needed for this function to work. Please install it.", call. = FALSE)
-  }
-  if (!requireNamespace("arm", quietly = TRUE)) {
-    stop("Package 'arm' needed for this function to work. Please install it.", call. = FALSE)
   }
   # ---------------------------------------
   # for standardized coefficients, intercept
