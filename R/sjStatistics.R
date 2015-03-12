@@ -50,17 +50,14 @@ eta_sq <- function(...) {
   if (length(input_list) == 1 && any(class(input_list[[1]]) == "aov")) {
     # retrieve model
     fit <- input_list[[1]]
-  }
-  else if (length(input_list) == 2) {
+  } else if (length(input_list) == 2) {
     # retrieve variables
     depVar <- input_list[[1]]
     grpVar <- input_list[[2]]
     # convert to factor
-    if (!is.factor(grpVar)) {
-      grpVar <- as.factor(grpVar)
-    }
+    if (!is.factor(grpVar)) grpVar <- as.factor(grpVar)
     # fit anova
-    fit  <- aov(depVar ~ grpVar)
+    fit <- aov(depVar ~ grpVar)
   }
   # return eta squared
   return (summary.lm(fit)$r.squared)
@@ -114,14 +111,13 @@ std_beta <- function(fit, include.ci = FALSE) {
     b <- summary(fit)$coef[-1, 1]
     sx <- sapply(fit$model[-1], sd)
     sy <- sapply(fit$model[1], sd)
-    beta <- b * sx/sy
+    beta <- b * sx / sy
     se <- summary(fit)$coefficients[-1, 2]
-    beta.se <- se * sx/sy
+    beta.se <- se * sx / sy
     
     if (include.ci) {
       return (data.frame(beta = beta, ci.low = (beta - beta.se * 1.96), ci.hi = (beta + beta.se * 1.96)))
-    }
-    else {
+    } else {
       return(beta)
     }
   }
@@ -137,12 +133,12 @@ sjs.stdmm <- function(fit) {
   if (!requireNamespace("lme4", quietly = TRUE)) {
     stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
   }
-  sdy <- sd(lme4::getME(fit,"y"))
-  sdx <- apply(lme4::getME(fit,"X"), 2, sd)
-  sc <- lme4::fixef(fit)*sdx/sdy
-  se.fixef <- coef(summary(fit))[,"Std. Error"]
-  se <- se.fixef*sdx/sdy
-  mydf <- data.frame(stdcoef=sc, stdse=se)
+  sdy <- sd(lme4::getME(fit, "y"))
+  sdx <- apply(lme4::getME(fit, "X"), 2, sd)
+  sc <- lme4::fixef(fit) * sdx / sdy
+  se.fixef <- coef(summary(fit))[, "Std. Error"]
+  se <- se.fixef * sdx / sdy
+  mydf <- data.frame(stdcoef = sc, stdse = se)
   rownames(mydf) <- names(lme4::fixef(fit))
   return(mydf)
 }
@@ -197,9 +193,7 @@ mwu <- function(var, grp, distribution="asymptotic", weights=NULL) {
   if (!requireNamespace("coin", quietly = TRUE)) {
     stop("Package 'coin' needed for this function to work. Please install it.", call. = FALSE)
   }
-  if (min(grp, na.rm=TRUE)==0) {
-    grp <- grp+1
-  }
+  if (min(grp, na.rm = TRUE) == 0) grp <- grp + 1
   cnt <- length(unique(na.omit(grp)))
   labels <- autoSetValueLabels(grp)
   message("Performing Mann-Whitney-U-Test...")
@@ -208,10 +202,10 @@ mwu <- function(var, grp, distribution="asymptotic", weights=NULL) {
   df <- data.frame()
   for (i in 1:cnt) {
     for (j in i:cnt) {
-      if (i!=j) {
+      if (i != j) {
         # retrieve cases (rows) of subgroups
-        xsub <- var[which(grp==i | grp==j)]
-        ysub <- grp[which(grp==i | grp==j)]
+        xsub <- var[which(grp == i | grp == j)]
+        ysub <- grp[which(grp == i | grp == j)]
         # only use rows with non-missings
         ysub <- ysub[which(!is.na(xsub))]
         # adjust weights, pick rows from subgroups (see above)
@@ -222,29 +216,28 @@ mwu <- function(var, grp, distribution="asymptotic", weights=NULL) {
         ysub.n <- na.omit(ysub)
         ysub <- as.factor(ysub.n)
         if (is.null(weights)) {
-          wt <- coin::wilcox_test(xsub ~ ysub, distribution=distribution)
+          wt <- coin::wilcox_test(xsub ~ ysub, distribution = distribution)
+        } else {
+          wt <- coin::wilcox_test(xsub ~ ysub, 
+                                  distribution = distribution, 
+                                  weights = as.formula("~wsub"))
         }
-        else {
-          wt <- coin::wilcox_test(xsub ~ ysub, distribution=distribution, weights=as.formula("~wsub"))
-        }
-        u <- as.numeric(coin::statistic(wt, type="linear"))
-        z <- as.numeric(coin::statistic(wt, type="standardized"))
+        u <- as.numeric(coin::statistic(wt, type = "linear"))
+        z <- as.numeric(coin::statistic(wt, type = "standardized"))
         p <- coin::pvalue(wt)
         r <- abs(z / sqrt(length(var)))
         w <- wilcox.test(xsub, ysub.n, paired = TRUE)$statistic
-        rkm.i <- mean(rank(xsub)[which(ysub.n==i)], na.rm=TRUE)
-        rkm.j <- mean(rank(xsub)[which(ysub.n==j)], na.rm=TRUE)
+        rkm.i <- mean(rank(xsub)[which(ysub.n == i)], na.rm = TRUE)
+        rkm.j <- mean(rank(xsub)[which(ysub.n == j)], na.rm = TRUE)
         if (is.null(labels)) {
-          cat(sprintf("Groups (%i|%i), n = %i/%i:\n", i, j, length(xsub[which(ysub.n==i)]), length(xsub[which(ysub.n==j)])))
-        }
-        else {
-          cat(sprintf("Groups %i = %s (n = %i) | %i = %s (n = %i):\n", i, labels[i], length(xsub[which(ysub.n==i)]), j, labels[j], length(xsub[which(ysub.n==j)])))
+          cat(sprintf("Groups (%i|%i), n = %i/%i:\n", i, j, length(xsub[which(ysub.n == i)]), length(xsub[which(ysub.n == j)])))
+        } else {
+          cat(sprintf("Groups %i = %s (n = %i) | %i = %s (n = %i):\n", i, labels[i], length(xsub[which(ysub.n == i)]), j, labels[j], length(xsub[which(ysub.n == j)])))
         }
         if (p < 0.001) {
-          p  <- 0.001
+          p <- 0.001
           p.string <- "<"
-        }
-        else {
+        } else {
           p.string <- "="
         }
         cat(sprintf("  U = %.3f, W = %.3f, p %s %.3f, Z = %.3f\n  effect-size r = %.3f\n  rank-mean(%i) = %.2f\n  rank-mean(%i) = %.2f\n\n", u, w, p.string, p, z, r, i, rkm.i, j, rkm.j))
@@ -262,8 +255,7 @@ mwu <- function(var, grp, distribution="asymptotic", weights=NULL) {
     if (kw$p.value < 0.001) {
       p  <- 0.001
       p.string <- "<"
-    }
-    else {
+    } else {
       p <- kw$p.value
       p.string <- "="
     }
@@ -467,8 +459,7 @@ reliab_test <- function(df, scaleItems=FALSE, digits=3) {
     # -----------------------------------
     colnames(ret.df) <- c("Cronbach's &alpha; if item deleted", "Item discrimination")
     rownames(ret.df) <- df.names
-  }
-  else {
+  } else {
     warning("Data frame needs at least three columns for reliability-test!")
     ret.df <- NULL
   }
@@ -519,8 +510,7 @@ mic <- function(data, corMethod="pearson") {
   # -----------------------------------
   if (class(data)=="matrix") {
     corr <- data
-  }
-  else {
+  } else {
     data <- na.omit(data)
     corr <- cor(data, method=corMethod)
   }
@@ -528,15 +518,14 @@ mic <- function(data, corMethod="pearson") {
   # Sum up all correlation values
   # -----------------------------------
   mic <- c()
-  for (j in 1:(ncol(corr)-1)) {
+  for (j in 1:(ncol(corr) - 1)) {
     # first correlation is always "1" (self-correlation)
-    for (i in (j+1):nrow(corr)) {
+    for (i in (j + 1):nrow(corr)) {
       # check four valid bound
-      if (i<=nrow(corr) && j<=ncol(corr)) {
+      if (i <= nrow(corr) && j <= ncol(corr)) {
         # add up all subsequent values
-        mic <- c(mic, corr[i,j])
-      }
-      else {
+        mic <- c(mic, corr[i, j])
+      } else {
         mic <- c(mic, "NA")
       }
     }

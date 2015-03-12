@@ -559,7 +559,7 @@ sjp.glm.pc <- function(fit,
   # ----------------------------
   # loop through all coefficients
   # ----------------------------
-  for (i in 1 : length(fit.term.names)) {
+  for (i in 1:length(fit.term.names)) {
     # get values from coefficient
     coef.column <- which(colnames(fit$model) == fit.term.names[i])
     # check if we have found the coefficient
@@ -645,7 +645,7 @@ sjp.glm.pc <- function(fit,
       print(plot.facet)
     }
     else {
-      for (i in 1 : length(plot.metricpred)) {
+      for (i in 1:length(plot.metricpred)) {
         print(plot.metricpred[[i]])
       }
     }

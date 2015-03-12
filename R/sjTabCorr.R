@@ -117,8 +117,8 @@
 #' end <- which(colnames(efc) == "c88cop7")
 #'  
 #' # create data frame with COPE-index scale
-#' df <- as.data.frame(efc[, c(start : end)])
-#' colnames(df) <- varlabs[c(start : end)]
+#' df <- as.data.frame(efc[, c(start:end)])
+#' colnames(df) <- varlabs[c(start:end)]
 #'
 #' # we have high correlations here, because all items
 #' # belong to one factor. See example from "sjp.pca". 
@@ -128,7 +128,7 @@
 #' # auto-detection of labels, only lower triangle
 #' # -------------------------------
 #' efc <- set_var_labels(efc, varlabs)
-#' sjt.corr(efc[, c(start : end)], triangle = "lower")
+#' sjt.corr(efc[, c(start:end)], triangle = "lower")
 #' 
 #' # -------------------------------
 #' # auto-detection of labels, only lower triangle,
@@ -136,7 +136,7 @@
 #' # shown in the table
 #' # -------------------------------
 #' efc <- set_var_labels(efc, varlabs)
-#' sjt.corr(efc[, c(start : end)], 
+#' sjt.corr(efc[, c(start:end)], 
 #'          triangle = "lower", 
 #'          val.rm = 0.3)
 #' 
@@ -146,7 +146,7 @@
 #' # in blue
 #' # -------------------------------
 #' efc <- set_var_labels(efc, varlabs)
-#' sjt.corr(efc[, c(start : end)], 
+#' sjt.corr(efc[, c(start:end)], 
 #'          triangle = "lower",
 #'          val.rm = 0.3, 
 #'          CSS = list(css.valueremove = 'color:blue;'))}
@@ -177,8 +177,7 @@ sjt.corr <- function (data,
   opt <- getOption("p_zero")
   if (is.null(opt) || opt == FALSE) {
     p_zero <- ""
-  }
-  else {
+  } else {
     p_zero <- "0"
   }
   # --------------------------------------------------------
@@ -190,14 +189,11 @@ sjt.corr <- function (data,
   # --------------------------------------------------------
   if (is.null(triangle)) {
     triangle <- "both"
-  }
-  else if (triangle=="u" || triangle=="upper") {
+  } else if (triangle == "u" || triangle == "upper") {
     triangle <- "upper"
-  }
-  else if (triangle=="l" || triangle=="lower") {
+  } else if (triangle == "l" || triangle == "lower") {
     triangle <- "lower"
-  }
-  else triangle <- "both"
+  } else triangle <- "both"
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
@@ -206,12 +202,11 @@ sjt.corr <- function (data,
     # if yes, iterate each variable
     for (i in 1:ncol(data)) {
       # retrieve variable name attribute
-      vn <- autoSetVariableLabels(data[,i])
+      vn <- autoSetVariableLabels(data[, i])
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         varlabels <- c(varlabels, vn)
-      }
-      else {
+      } else {
         # else break out of loop
         varlabels <- NULL
         break
@@ -228,21 +223,21 @@ sjt.corr <- function (data,
   # check if user has passed a data frame
   # or a pca object
   # ----------------------------
-  if (class(data)=="matrix") {
+  if (class(data) == "matrix") {
     corr <- data
     cpvalues <- NULL
-  }
-  else {
+  } else {
     # missing deletion corresponds to
     # SPSS listwise
-    if (missingDeletion=="listwise") {
+    if (missingDeletion == "listwise") {
       data <- na.omit(data)
-      corr <- cor(data, method=corMethod)
-    }
-    # missing deletion corresponds to
-    # SPSS pairwise
-    else {
-      corr <- cor(data, method=corMethod, use="pairwise.complete.obs")
+      corr <- cor(data, method = corMethod)
+    } else {
+      # missing deletion corresponds to
+      # SPSS pairwise
+      corr <- cor(data, 
+                  method = corMethod, 
+                  use = "pairwise.complete.obs")
     }
     #---------------------------------------
     # if we have a data frame as parameter,
@@ -253,8 +248,11 @@ sjt.corr <- function (data,
       for (i in 1:ncol(df)) {
         pv <- c()
         for (j in 1:ncol(df)) {
-          test <- cor.test(df[,i], df[,j], alternative="two.sided", method=corMethod)
-          pv <- cbind(pv, round(test$p.value,5))
+          test <- cor.test(df[, i], 
+                           df[, j], 
+                           alternative = "two.sided", 
+                           method = corMethod)
+          pv <- cbind(pv, round(test$p.value, 5))
         }
         cp <- rbind(cp, pv)
       }
@@ -276,27 +274,25 @@ sjt.corr <- function (data,
       # with asterisks
       # --------------------------------------------------------
       fun.star <- function(x) {
-        if (x>=0.05) x=""
-        else if (x>=0.01 && x<0.05) x="*"
-        else if (x>=0.001 && x<0.01) x="**"
-        else if (x<0.001) x="***"
+        if (x >= 0.05) x <- ""
+        else if (x >= 0.01 && x < 0.05) x <- "*"
+        else if (x >= 0.001 && x < 0.01) x <- "**"
+        else if (x < 0.001) x <- "***"
       }
-    }
-    else {
+    } else {
       # --------------------------------------------------------
       # prepare function for apply-function.
       # round p-values, keeping the numeric values
       # --------------------------------------------------------
       fun.star <- function(x) {
-        round(x,digits)
+        round(x, digits)
       }
     }
     cpvalues <- apply(cpvalues, c(1,2), fun.star)
     if (pvaluesAsNumbers) {
       cpvalues <- apply(cpvalues, c(1,2), function (x) if (x < 0.001) x <- sprintf("&lt;%s.001", p_zero) else x <- sub("0", p_zero, sprintf("%.*f", digits, x)))
     }
-  }
-  else {
+  } else {
     showPValues <- FALSE
   }
   # ----------------------------
@@ -410,12 +406,10 @@ sjt.corr <- function (data,
       if (j==i) {
         if (is.null(stringDiagonal) || length(stringDiagonal)>ncol(corr)) {
           page.content <- paste0(page.content, "    <td class=\"tdata centeralign\">&nbsp;</td>\n")
-        }
-        else {
+        } else {
           page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign\">%s</td>\n", stringDiagonal[j]))
         }
-      }
-      else {
+      } else {
         # --------------------------------------------------------
         # check whether only lower or upper triangle of correlation
         # table should be printed
@@ -434,8 +428,7 @@ sjt.corr <- function (data,
               # if we have p-values as number, print them in new row
               # --------------------------------------------------------
               cellval <- sprintf("%s<br><span class=\"pval\">(%s)</span>", cellval, cpvalues[i,j])
-            }
-            else {
+            } else {
               # --------------------------------------------------------
               # if we have p-values as "*", add them
               # --------------------------------------------------------
@@ -451,7 +444,7 @@ sjt.corr <- function (data,
           # --------------------------------------------------------
           if (fadeNS && !is.null(cpv)) {
             # set css-class-attribute
-            if (cpv[i,j] >=0.05) notsig <- " notsig"
+            if (cpv[i, j] >= 0.05) notsig <- " notsig"
           }
           # --------------------------------------------------------
           # prepare css for values that shoould be removed due to low
@@ -466,8 +459,7 @@ sjt.corr <- function (data,
             value.remove <- " valueremove"            
           }
           page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s%s\">%s</td>\n", notsig, value.remove, cellval))
-        }
-        else {
+        } else {
           page.content <- paste0(page.content, "    <td class=\"tdata centeralign\">&nbsp;</td>\n")
         }
       }

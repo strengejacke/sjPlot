@@ -85,7 +85,7 @@ sjp.chi2 <- function(df,
   # when 2 variables are *not* significant, they are independent
   # ----------------------------------------------------------------
   m <- data.frame()
-  for (i in 1 : ncol(combos)) {
+  for (i in 1:ncol(combos)) {
     test <- chisq.test(df[, combos[1, i]], df[, combos[2, i]])
     out <- data.frame("Row" = colnames(df)[combos[1, i]], "Column" = colnames(df)[combos[2, i]],
                       "Chi.Square" = round(test$statistic, 4), "df"= test$parameter, 

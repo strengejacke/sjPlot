@@ -263,8 +263,7 @@ sjp.emm.int <- function(fit,
     if (is.null(axisLimits.y)) {
       lowerLim.y <- floor(min(intdf$y))
       upperLim.y <- ceiling(max(intdf$y))
-    }
-    else {
+    } else {
       lowerLim.y <- axisLimits.y[1]
       upperLim.y <- axisLimits.y[2]
     }
@@ -293,26 +292,22 @@ sjp.emm.int <- function(fit,
       labtitle <- paste0("Interaction of ", term.pairs[1], 
                          " and ", term.pairs[2],
                          " on ", response.label)
-    }
-    else {
+    } else {
       labtitle <- title
     }
     if (is.null(legendLabels)) {
       lLabels <- levels(fit$model[term.pairs[1]][,1])
-    }
-    else {
+    } else {
       lLabels <- legendLabels
     }
     if (!is.null(axisTitle.x)) {
       labx <- axisTitle.x
-    }
-    else {
+    } else {
       labx <- term.pairs[2]
     }
     if (!is.null(axisTitle.y)) {
       laby <- axisTitle.y
-    }
-    else {
+    } else {
       laby <- response.name
     }
     # -----------------------------------------------------------

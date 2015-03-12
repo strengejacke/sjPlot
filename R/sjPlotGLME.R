@@ -550,7 +550,7 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------
       # sort data frame. init order
       # ---------------------------------------
-      reihe <- c(1 : nrow(tmp))
+      reihe <- c(1:nrow(tmp))
       # ---------------------------------------
       # sorting requested?
       # ---------------------------------------
@@ -720,7 +720,7 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     # sort data frame. init order
     # ---------------------------------------
-    reihe <- c(1 : nrow(mydf))
+    reihe <- c(1:nrow(mydf))
     # ---------------------------------------
     # just one sorting option, simply sort odds ratios
     # ---------------------------------------
@@ -789,7 +789,7 @@ sjp.lme4  <- function(fit,
   # ---------------------------------------
   # discrete x position, needed for ggplot
   # ---------------------------------------
-  mydf$x <- as.factor(1 : length(pred.labels))
+  mydf$x <- as.factor(1:length(pred.labels))
   # ---------------------------------------
   # set indicator whether or not non significant
   # odds ratios should be faded.
@@ -930,7 +930,7 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     # iterate coefficients
     # ---------------------------------------
-    for (j in 1 : length(groups)) {
+    for (j in 1:length(groups)) {
       me.plot <- plot.effe(mydf[mydf$grp == groups[j], ],
                            title[j],
                            facet.grid,
@@ -1001,7 +1001,7 @@ sjp.lme.feprobcurv <- function(fit,
   # coefficients list
   # ----------------------------
   fit.term.length <- length(names(lme4::fixef(fit))[-1])
-  fit.term.names <- na.omit(attr(attr(fit.df, "terms"), "term.labels")[1 : fit.term.length])
+  fit.term.names <- na.omit(attr(attr(fit.df, "terms"), "term.labels")[1:fit.term.length])
   response.name <- attr(attr(attr(fit.df, "terms"), "dataClasses"), "names")[1]
   fi <- unname(lme4::fixef(fit))[1]
   # ----------------------------
@@ -1018,7 +1018,7 @@ sjp.lme.feprobcurv <- function(fit,
   # ----------------------------
   # plot all terms
   # ----------------------------
-  for (i in 1 : length(fit.term.names)) {
+  for (i in 1:length(fit.term.names)) {
     # get values from coefficient
     coef.column <- which(colnames(fit.df) == fit.term.names[i])
     # check if we have found the coefficient
@@ -1112,7 +1112,7 @@ sjp.lme.feprobcurv <- function(fit,
       print(plot.facet)
     }
     else {
-      for (i in 1 : length(plot.metricpred)) {
+      for (i in 1:length(plot.metricpred)) {
         print(plot.metricpred[[i]])
       }
     }
@@ -1143,7 +1143,7 @@ sjp.lme.reprobcurve <- function(fit,
   plot.prob <- list()
   mydf.prob <- list()
   fit.term.length <- length(names(lme4::fixef(fit))[-1])
-  fit.term.names <- na.omit(attr(attr(fit.df, "terms"), "term.labels")[1 : fit.term.length])
+  fit.term.names <- na.omit(attr(attr(fit.df, "terms"), "term.labels")[1:fit.term.length])
   response.name <- attr(attr(attr(fit.df, "terms"), "dataClasses"), "names")[1]
   fi <- unname(lme4::fixef(fit))[1]
   # ---------------------------------------
@@ -1169,7 +1169,7 @@ sjp.lme.reprobcurve <- function(fit,
   # ----------------------------
   # loop through all coefficients
   # ----------------------------
-  for (i in 1 : length(fit.term.names)) {
+  for (i in 1:length(fit.term.names)) {
     # init lists with all additional data frames and plots
     final.df <- data.frame()
     final.grp <- c()
@@ -1205,7 +1205,7 @@ sjp.lme.reprobcurve <- function(fit,
         # save predictor name
         pred.name <- fit.term.names[i]
         # do this for each random intercept group
-        for (j in 1 : nrow(rand.ef)) {
+        for (j in 1:nrow(rand.ef)) {
           # calculate probability for each random effect group
           mydf.vals$y <- odds.to.prob(fi + rand.ef[j, 1] + mydf.vals$xbeta)
           # add to final data frame
@@ -1299,16 +1299,16 @@ sjp.lme.feri <- function(fit,
   # loop through all coefficients
   # ----------------------------
   # slopes for all fixed effects
-  for (j in 1 : length(estimates)) {
+  for (j in 1:length(estimates)) {
     # reset data frame
     final.df <- data.frame()
     # slopes for each random intercept
-    for (i in 1 : nrow(rand.ef)) {
+    for (i in 1:nrow(rand.ef)) {
       # retrieve intercept
       ri <- rand.ef[i, 1]
       xpos <- NULL
       # find original values for estimates
-      for (k in 1 : length(all.term.names)) {
+      for (k in 1:length(all.term.names)) {
         # check if estimate's name matches any column
         # in the data frame of the fitted model
         pos <- grep(all.term.names[k], fit.term.names[j], fixed = T)
@@ -1368,9 +1368,9 @@ sjp.lme.reqq <- function(fit,
                          printPlot) {
   re   <- lme4::ranef(fit, condVar = T)[[1]]
   pv   <- attr(re, "postVar")
-  cols <- 1 : (dim(pv)[1])
+  cols <- 1:(dim(pv)[1])
   se   <- unlist(lapply(cols, function(i) sqrt(pv[i, i, ])))
-  ord  <- unlist(lapply(re, order)) + rep((0 : (ncol(re) - 1)) * nrow(re), each=nrow(re))
+  ord  <- unlist(lapply(re, order)) + rep((0:(ncol(re) - 1)) * nrow(re), each=nrow(re))
   pDf  <- data.frame(y = unlist(re)[ord],
                      ci = 1.96 * se[ord],
                      nQQ = rep(qnorm(ppoints(nrow(re))), ncol(re)),
@@ -1493,7 +1493,7 @@ sjp.lme.fecondpred.onlynumeric <- function(fit,
   # find amount of numeric terms
   # ----------------------------
   findnumeric <- c()
-  for (i in 1 : length(fit.term.names)) {
+  for (i in 1:length(fit.term.names)) {
     if (class(fit.df[, fit.term.names[i]]) == "numeric")
       findnumeric <- c(findnumeric, which(colnames(fit.df) == fit.term.names[i]))
   }
@@ -1502,7 +1502,7 @@ sjp.lme.fecondpred.onlynumeric <- function(fit,
   # ----------------------------
   if (length(findnumeric > 0)) {
     # loop through all numeric termns
-    for (i in 1 : length(findnumeric)) {
+    for (i in 1:length(findnumeric)) {
       # get values from numeric term
       vals <- fit.df[, findnumeric[i]]
       # find unique values, for x axis
@@ -1582,7 +1582,7 @@ sjp.lme.fecondpred.onlynumeric <- function(fit,
       print(plot.facet)
     }
     else {
-      for (i in 1 : length(plot.metricpred)) {
+      for (i in 1:length(plot.metricpred)) {
         print(plot.metricpred[[i]])
       }
     }

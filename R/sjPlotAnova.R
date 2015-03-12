@@ -439,11 +439,10 @@ sjp.aov1 <- function(depVar,
       geom_errorbar(aes(ymin=lower, ymax=upper), colour=df$errcol, width=0) +
       # Print p-values. With vertical adjustment, so they don't overlap with the errorbars
       geom_text(aes(label=pv, y=means), vjust=-0.8, show_guide=FALSE)
-  }
   # --------------------------------------------------------
   # start with bar plots here
   # --------------------------------------------------------
-  else if (type=="bars") {
+  } else if (type=="bars") {
     # check whether we have error bars. if yes, adjust horizontal
     # posizion of labels
     hlabj <- ifelse(hideErrorBars==FALSE, 1.3, 0.5)
@@ -453,8 +452,11 @@ sjp.aov1 <- function(depVar,
       # stat="identity": y-axis relates to value of variable
       geom_bar(fill=df$geocol, stat="identity", position="identity", width=geom.size) +
       # print value labels and p-values
-      geom_text(aes(label=pv, y=means), vjust=ifelse(df$means >= 0, -1, 1), hjust=hlabj, show_guide=FALSE)
-    if (hideErrorBars==FALSE) {
+      geom_text(aes(label = pv, y = means), 
+                vjust = ifelse(df$means >= 0, -1, 1), 
+                hjust = hlabj, 
+                show_guide = FALSE)
+    if (hideErrorBars == FALSE) {
       anovaplot <- anovaplot +
         # print confidence intervalls (error bars)
         geom_errorbar(aes(ymin=lower, ymax=upper), colour=df$errcol, width=0)
@@ -467,24 +469,33 @@ sjp.aov1 <- function(depVar,
     # set y-scale-limits, breaks and tick labels
     scaley +
     # set value labels to x-axis
-    scale_x_discrete(labels=axisLabels.y, limits=c(1:nrow(df))) +
+    scale_x_discrete(labels = axisLabels.y, limits = c(1:nrow(df))) +
     # flip coordinates
-    labs(title=title, x=NULL, y=axisTitle.x)
+    labs(title = title, x = NULL, y = axisTitle.x)
   # --------------------------------------------------------
   # Flip coordinates when we have dots
   # --------------------------------------------------------
-  if (type=="dots") {
-    anovaplot <- anovaplot + coord_flip()
-  }
+  if (type=="dots") anovaplot <- anovaplot + coord_flip()
   # check whether modelsummary should be printed
   if (showModelSummary) {
     # add annotations with model summary
     # annotations include intercept-value and model's r-square
-    if (type=="dots") {
-      anovaplot <- anovaplot + annotate("text", label=modsum, parse=TRUE, x=-Inf, y=Inf, vjust=-0.5, hjust=1.1)
-    }
-    else {
-      anovaplot <- anovaplot + annotate("text", label=modsum, parse=TRUE, x=-Inf, y=Inf, vjust=1.2, hjust=-0.02)
+    if (type == "dots") {
+      anovaplot <- anovaplot + annotate("text", 
+                                        label = modsum, 
+                                        parse = TRUE, 
+                                        x = -Inf, 
+                                        y = Inf, 
+                                        vjust = -0.5, 
+                                        hjust = 1.1)
+    } else {
+      anovaplot <- anovaplot + annotate("text", 
+                                        label = modsum, 
+                                        parse = TRUE, 
+                                        x = -Inf, 
+                                        y = Inf, 
+                                        vjust = 1.2, 
+                                        hjust = -0.02)
     }
   }
   # ---------------------------------------------------------
@@ -533,10 +544,9 @@ levene_test <- function(depVar, grpVar) {
   pval <- summary(fit)[[1]]['Pr(>F)'][1,1]
   # print "summary" of test
   message("\nConclusion:")
-  if (pval>0.05) {
+  if (pval > 0.05) {
     message("Groups are homogeneous. Everything's fine.\n")
-  }
-  else {
+  } else {
     message("Groups are not homogeneous!\n")
   }
 }

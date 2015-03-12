@@ -298,15 +298,12 @@ sjt.frq <- function (data,
       # if yes, iterate each variable
       for (i in 1:ncol(data)) {
         # check type
-        if (is.character(data[,i])) stringcolumns <- c(stringcolumns, i)
+        if (is.character(data[, i])) stringcolumns <- c(stringcolumns, i)
       }
       # check if any strings found
-      if (length(stringcolumns)>0) {
-        # remove string variables
-        data <- data[,-stringcolumns]
-      }
-    }
-    else {
+      # remove string variables
+      if (length(stringcolumns) > 0) data <- data[, -stringcolumns]
+    } else {
       if (is.character(data)) {
         stop("Parameter 'data' is a single string vector, where string vectors should be removed. No data to compute frequency table left. See parameter 'removeStringVectors' for details.", call. = FALSE)
       }
@@ -327,23 +324,20 @@ sjt.frq <- function (data,
         # if variable has attribute, add to variableLabel list
         if (!is.null(vn)) {
           variableLabels <- c(variableLabels, vn)
-        }
-        else {
+        } else {
           # else break out of loop
           variableLabels <- NULL
           break
         }
       }
-    }
     # we have a single variable only
-    else {
+    } else {
       # retrieve variable name attribute
       vn <- autoSetVariableLabels(data)
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         variableLabels <- c(variableLabels, vn)
-      }
-      else {
+      } else {
         # else reset variableLabels
         variableLabels <- NULL
       }
@@ -412,14 +406,12 @@ sjt.frq <- function (data,
       # set value labels according to values
       if (is.character(dummy)) {
         valueLabels <- c(valueLabels, list(names(table(dummy))))
-      }
-      else {
+      } else {
         # check for auto-detection of labels
         avl <- autoSetValueLabels(dummy)
         if (!is.null(avl)) {
           valueLabels <- c(valueLabels, list(avl))
-        }
-        else {
+        } else {
           valueLabels <- c(valueLabels, list(min(dummy, na.rm=TRUE):max(dummy, na.rm=TRUE)))
         }
       }
@@ -444,9 +436,8 @@ sjt.frq <- function (data,
     if (is.character(data[,cnt])) {
       # convert string to numeric
       orivar <- var <- as.numeric(as.factor(data[,cnt]))
-    }
     # here we have numeric or factor variables
-    else {
+    } else {
       orivar <- var <- as.numeric(data[,cnt])
     }
     # -----------------------------------------------
@@ -516,7 +507,7 @@ sjt.frq <- function (data,
     # -------------------------------------
     page.content <- paste0(page.content, headerRow)
     # iterate all labels, each one in one row
-    for (j in 1 : (nrow(df) - 1)) {
+    for (j in 1:(nrow(df) - 1)) {
       # retrieve data row
       datarow <- df[j,]
       zerorow <- (datarow[3] == 0)

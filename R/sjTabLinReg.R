@@ -636,14 +636,14 @@ sjt.lm <- function (...,
   # -------------------------------------
   joined.df <- df.fit[[1]]
   if (length(df.fit) > 1) {
-    for (i in 2 : length(df.fit)) {
+    for (i in 2:length(df.fit)) {
       joined.df <- suppressWarnings(dplyr::full_join(joined.df, df.fit[[i]], "coef.name"))
     }
   }
   # -------------------------------------
   # replace NA, created by join, with empty string
   # -------------------------------------
-  for (i in 1 : ncol(joined.df)) {
+  for (i in 1:ncol(joined.df)) {
     joined.df[, i] <- sapply(joined.df[, i], function(x) if (is.na(x)) x <- "" else x)
   }
   # -------------------------------------
@@ -672,7 +672,7 @@ sjt.lm <- function (...,
       message("Intercept cannot be removed from table output.")
     }
     # create all row indices
-    rowind <- c(1 : nrow(joined.df))
+    rowind <- c(1:nrow(joined.df))
     # "inverse" removable inices
     keep.estimates <- rowind[-remove.estimates]
     # select rows
@@ -834,7 +834,7 @@ sjt.lm <- function (...,
   # -------------------------------------
   page.content <- paste0(page.content, sprintf("    <td class=\"tdata leftalign topcontentborder\">%s</td>", stringIntercept))
 
-  for (i in 1 : length(input_list)) {
+  for (i in 1:length(input_list)) {
     # show estimates?
     if (showEst) {
       # confidence interval in separate column
@@ -874,7 +874,7 @@ sjt.lm <- function (...,
   # -------------------------------------
   # subsequent rows: predictors
   # -------------------------------------
-  for (i in 1 : (nrow(joined.df)-1)) {
+  for (i in 1:(nrow(joined.df)-1)) {
     # -------------------------------------
     # do we need to insert a "factor grouping headline row"?
     # -------------------------------------
@@ -900,7 +900,7 @@ sjt.lm <- function (...,
     # ---------------------------------------
     # go through fitted model's statistics
     # ---------------------------------------
-    for (j in 1 : length(input_list)) {
+    for (j in 1:length(input_list)) {
       # show estimates?
       if (showEst) {
         # retieve lower and upper ci

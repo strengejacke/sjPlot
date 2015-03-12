@@ -43,7 +43,7 @@
 #' 
 #' @examples
 #' # import SPSS data set
-#' # mydat <- read_spss("my_spss_data.sav", enc="UTF-8")
+#' # mydat <- read_spss("my_spss_data.sav", enc = "UTF-8")
 #' 
 #' # retrieve variable labels
 #' # mydat.var <- get_var_labels(mydat)
@@ -65,11 +65,9 @@ read_spss <- function(path,
     opt <- getOption("read_spss")
     if (is.null(opt) || opt == "foreign") {
       option <- "foreign"
-    }
-    else if (opt == "haven") {
+    } else if (opt == "haven") {
       option <- "haven"
-    }
-    else {
+    } else {
       option <- "foreign"
     }
   }
@@ -125,8 +123,7 @@ read_spss <- function(path,
       message("Attaching variable labels. Please wait...\n")
       data.spss <- set_var_labels(data.spss, get_var_labels(data.spss))
     }
-  }
-  else {
+  } else {
     # ------------------------
     # check if suggested package is available
     # ------------------------
@@ -306,8 +303,7 @@ write_data <- function(x, path, type = "spss") {
     message(sprintf("Writing %s file to '%s'. Please wait...\n", type, path))
     # write SPSS
     haven::write_sav(x, path)
-  }
-  else if (type == "stata") {
+  } else if (type == "stata") {
     # tell user
     message(sprintf("Writing %s file to '%s'. Please wait...\n", type, path))
     # write SPSS
@@ -320,9 +316,7 @@ write_data <- function(x, path, type = "spss") {
 # of class "labelled" (haven package)
 is_labelled <- function(x) {
   # check if object has multiple class attributes
-  if (length(class(x)) > 1) {
-    return (any(class(x) == "labelled"))
-  }
+  if (length(class(x)) > 1) return (any(class(x) == "labelled"))
   # return if labelled
   return (class(x) == "labelled")
 }
@@ -374,8 +368,7 @@ to_sjPlot <- function(x) {
     close(pb)
     # remove redundant class attributes
     class(x) <- "data.frame"
-  }
-  else {
+  } else {
     x <- sji.toSjPlot(x)
   }
   return (x)
@@ -397,8 +390,7 @@ sji.toSjPlot <- function(x, var.name = NULL) {
     x <- set_var_labels(x, var.lab)
     # remove labelled class attribute
     x <- unclass(x)
-  }
-  else {
+  } else {
     # read current variable label
     var.lab <- attr(x, "label")
     # read current value labels
@@ -407,14 +399,10 @@ sji.toSjPlot <- function(x, var.name = NULL) {
     # delete old attributes
     x <- as.vector(x)
     # do we have any attributes?
-    if (!is.null(var.lab)) {
-      # set back labels
-      x <- set_var_labels(x, var.lab)
-    }
-    if (!is.null(val.lab)) {
-      # set back labels
-      x <- sji.setValueLabelNameParam(x, val.lab.names, var.name)
-    }
+    # set back labels
+    if (!is.null(var.lab)) x <- set_var_labels(x, var.lab)
+    # set back labels
+    if (!is.null(val.lab)) x <- sji.setValueLabelNameParam(x, val.lab.names, var.name)
   }
   return (x)
 }
@@ -477,13 +465,13 @@ sji.toSjPlot <- function(x, var.name = NULL) {
 get_val_labels <- function(x) {
   if (is.data.frame(x) || is.matrix(x)) {
     a <- lapply(x, FUN = sji.getValueLabel)
-  }
-  else {
+  } else {
     a <- sji.getValueLabel(x)
   }
-  
   return (a)
 }
+
+
 sji.getValueLabel <- function(x) {
   labels <- NULL
   attr.string <- "value.labels"
@@ -504,6 +492,8 @@ sji.getValueLabel <- function(x) {
   # return them
   return (labels)
 }
+
+
 sji.getValueLabelValues <- function(x) {
   # haven or sjPlot?
   if(is_labelled(x))
@@ -569,16 +559,13 @@ set_val_labels <- function(x, labels) {
 sji.setValueLabelNameParam <- function(x, labels, var.name) {
   if (is.vector(x) || is.atomic(x)) {
     return (sji.setValueLabel.vector(x, labels, var.name))
-  }
-  else if (is.data.frame(x) || is.matrix(x)) {
+  } else if (is.data.frame(x) || is.matrix(x)) {
     for (i in 1:ncol(x)) {
       if (is.list(labels)) {
         x[,i] <- sji.setValueLabel.vector(x[,i], labels[[i]], colnames(x)[i])
-      }
-      else if (is.vector(labels)) {
+      } else if (is.vector(labels)) {
         x[,i] <- sji.setValueLabel.vector(x[,i], labels, colnames(x)[i])
-      }
-      else {
+      } else {
         warning("'labels' must be a list of same length as 'ncol(x)' or a vector.", call. = F)
       }
     }
@@ -592,16 +579,14 @@ sji.setValueLabel.vector <- function(var, labels, var.name = NULL) {
   opt <- getOption("value_labels")
   if (!is.null(opt) && opt == "haven") {
     attr.string <- "labels"
-  }
-  else {
+  } else {
     attr.string <- "value.labels"
   }
   # check for null
   if (!is.null(labels)) {
     if (is.null(var) || is.character(var)) {
       warning("Can't attach labels to string or NULL vectors.\n")
-    }
-    else {
+    } else {
       # check if var is a factor
       if (is.factor(var)) {
         # check if we have numeric levels
@@ -610,19 +595,17 @@ sji.setValueLabel.vector <- function(var, labels, var.name = NULL) {
           # have minimum and maximum values
           minval <- 1
           maxval <- length(levels(var))
-        }
-        else {
+        } else {
           # levels are not numeric. we need to convert them
           # first to retrieve minimum level, as numeric
           minval <- min(as.numeric(levels(var)), na.rm = T)
           # check range, add minimum, so we have max
           maxval <- diff(range(as.numeric(levels(var)))) + minval
         }
-      }
-      else {
+      } else {
         # retrieve values
-        minval <- min(var, na.rm=TRUE)
-        maxval <- max(var, na.rm=TRUE)
+        minval <- min(var, na.rm = TRUE)
+        maxval <- max(var, na.rm = TRUE)
       }
       # check for unlisting
       if (is.list(labels)) {
@@ -633,23 +616,19 @@ sji.setValueLabel.vector <- function(var, labels, var.name = NULL) {
       # set var name string
       if (is.null(var.name) || nchar(var.name) < 1) {
         name.string <- "var"
-      }
-      else {
+      } else {
         name.string <- var.name
       }
       if (is.infinite(valrange)) {
         warning("Can't set value labels. Infinite value range.\n")
-      }
       # check for valid length of labels
-      else if (valrange < lablen) {
+      } else if (valrange < lablen) {
         message(sprintf("More labels than values of \"%s\". Using first %i labels.\n", name.string, valrange))
         attr(var, attr.string) <- c(as.character(c(minval:maxval)))
         names(attr(var, attr.string)) <- labels[1:valrange]
-      }
-      else if (valrange>lablen) {
+      } else if (valrange>lablen) {
         warning(sprintf("Can't set value labels. Value range of \"%s\" is longer than length of \"labels\".\n", name.string))
-      }
-      else {
+      } else {
         attr(var, attr.string) <- c(as.character(c(minval:maxval)))
         names(attr(var, attr.string)) <- labels
       }
@@ -738,8 +717,7 @@ get_var_labels <- function(x) {
   opt <- getOption("value_labels")
   if (!is.null(opt) && opt == "haven") {
     attr.string <- "label"
-  }
-  else {
+  } else {
     attr.string <- "variable.label"
   }
   # do we have a df?
@@ -758,18 +736,15 @@ get_var_labels <- function(x) {
         # any label?
         if (!is.null(label)) {
           all.labels <- c(all.labels, label)
-        }
-        else {
+        } else {
           all.labels <- c(all.labels, "")
         }
       }
       return (all.labels)
-    }
-    else {
+    } else {
       return(attr(x, "variable.labels"))
     }
-  }
-  else {
+  } else {
     return(attr(x, attr.string))
   }
 }
@@ -848,26 +823,26 @@ set_var_labels <- function(x, lab, attr.string = NULL) {
     opt <- getOption("value_labels")
     if (!is.null(opt) && opt == "haven") {
       attr.string <- "label"
-    }
-    else {
+    } else {
       attr.string <- "variable.label"
     }
   }
   if (!is.null(lab) && !is.null(x)) {
     if (is.data.frame(x)) {
-      if (ncol(x)!=length(lab)) {
+      if (ncol(x) != length(lab)) {
         message("Parameter \"x\" must be of same length as numbers of columns in \"x\".")
-      }
-      else {
+      } else {
         # -------------------------------------
         # create progress bar
         # -------------------------------------
-        pb <- txtProgressBar(min=0, max=ncol(x), style=3)
+        pb <- txtProgressBar(min = 0, 
+                             max = ncol(x), 
+                             style = 3)
         for (i in 1:ncol(x)) {
           # set variable label
-          attr(x[,i], attr.string) <- lab[i]
+          attr(x[, i], attr.string) <- lab[i]
           # set names attribute. equals variable name
-          names(attr(x[,i], attr.string)) <- colnames(x)[i]
+          names(attr(x[, i], attr.string)) <- colnames(x)[i]
           # update progress bar
           setTxtProgressBar(pb, i)
         }
@@ -877,8 +852,7 @@ set_var_labels <- function(x, lab, attr.string = NULL) {
       attr(x, attr.string) <- lab
       # and name attribute
       names(attr(x, attr.string)) <- colnames(x)
-    }
-    else {
+    } else {
       attr(x, attr.string) <- lab
     }
   }
@@ -943,11 +917,8 @@ to_label <- function(x) {
     # replace values with labels
     if (is.factor(x)) {
       levels(x) <- vl
-    }
-    else {
-      for (i in 1:length(vl)) {
-        x[x==vn[i]] <- vl[i]
-      }
+    } else {
+      for (i in 1:length(vl)) x[x == vn[i]] <- vl[i]
       # to factor
       x <- factor(x, levels = vl)
     }
@@ -1055,12 +1026,11 @@ to_value <- function(x, startAt = 1, keep.labels = TRUE) {
     val_diff <- startAt - min(new_value, na.rm = T)
     # adjust new_value
     new_value <- new_value + val_diff
-  }
-  else {
+  } else {
     # get amount of categories
     l <- length(levels(x))
     # determine highest category value
-    end <- startAt+l-1
+    end <- startAt + l - 1
     # replace labels with numeric values
     levels(x) <- c(startAt:end)
     # convert to numeric

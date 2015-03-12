@@ -382,7 +382,7 @@ sjp.frq <- function(varCount,
   mydat$lower.ci <- 0
   mydat$upper.ci <- 0
   # add conf. to related frequencies
-  for (ici in 1 : length(mydat$frq)) {
+  for (ici in 1:length(mydat$frq)) {
     # find frq-pos
     fpos <- which(df.frqci$frq == mydat$frq[ici])
     # found anything?

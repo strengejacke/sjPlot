@@ -311,18 +311,18 @@ sjp.int <- function(fit,
     # -----------------------------------------------------------
     fac.names <- c()
     # find factor variables
-    for (i in 1 : ncol(fitdat)) {
+    for (i in 1:ncol(fitdat)) {
       if (is.factor(fitdat[,i])) fac.names <- c(fac.names, colnames(fitdat)[i])
     }
     # if we found any, check if factor variable
     # was used as interaction term
     if (!is.null(fac.names)) {
-      for (i in 1 : length(fac.names)) {
+      for (i in 1:length(fac.names)) {
         # retrieve all factor levels except reference category
         fac.lvl <- levels(fitdat[, fac.names[i]])[-1]
         # iterate interaction term for all factor levels,
         # and replace with "original variable name in data frame
-        for (j in 1 : length(fac.lvl)) {
+        for (j in 1:length(fac.lvl)) {
           # create replacement-strings
           rep1 <- paste0(fac.names[i], fac.lvl[j])
           rep2 <- paste0(fac.names[i])

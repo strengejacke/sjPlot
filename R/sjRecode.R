@@ -28,26 +28,27 @@
 #' @export
 dicho <- function(var, dichBy="median", dichVal=-1, asNum = FALSE) {
   # check abbreviations
-  if (dichBy=="md") dichBy <- "median"
-  if (dichBy=="m") dichBy <- "mean"
-  if (dichBy=="v") dichBy <- "value"
+  if (dichBy == "md") dichBy <- "median"
+  if (dichBy == "m") dichBy <- "mean"
+  if (dichBy == "v") dichBy <- "value"
   # check if factor
   if (is.factor(var)) {
     # try to convert to numeric
     var <- as.numeric(as.character(var))
   }
   # check for correct dichotome types
-  if (dichBy!="median" && dichBy!="mean" && dichBy!="value") {
-    stop("Parameter \"dichBy\" must either be \"median\", \"mean\" or \"value\"..." , call.=FALSE)
+  if (dichBy != "median" && dichBy != "mean" && dichBy != "value") {
+    stop("Parameter \"dichBy\" must either be \"median\", \"mean\" or \"value\"..." , call. = FALSE)
   }
-  if (dichBy=="median") {
-    var <- ifelse(var<=median(var, na.rm=T),0,1)
-  }
-  else if (dichBy=="mean") {
-    var <- ifelse(var<=mean(var, na.rm=T),0,1)
-  }
-  else {
-    var <- ifelse(var<=dichVal,0,1)
+  # split at median
+  if (dichBy == "median") {
+    var <- ifelse(var <= median(var, na.rm = T), 0, 1)
+  # split at mean
+  } else if (dichBy == "mean") {
+    var <- ifelse(var <= mean(var, na.rm = T), 0, 1)
+  # split at specific value
+  } else {
+    var <- ifelse(var <= dichVal, 0, 1)
   }
   if (!asNum) var <- as.factor(var)
   return(var)
@@ -111,7 +112,7 @@ group_var <- function(var, groupsize=5, asNumeric=TRUE, rightInterval=FALSE, aut
   minval <- 0
   multip <- 2
   # check for auto-grouping
-  if (groupsize=="auto") {
+  if (groupsize == "auto") {
     # determine groupsize, which is 1/30 of range
     size <- ceiling((max(var, na.rm = TRUE) - min(var, na.rm = TRUE)) / autoGroupCount)
     # reset groupsize var
@@ -127,11 +128,9 @@ group_var <- function(var, groupsize=5, asNumeric=TRUE, rightInterval=FALSE, aut
                                        by = groupsize)), 
                         right = rightInterval))
   # Die Level der Gruppierung wird neu erstellt
-  levels(var) <- c(1 : length(levels(var)))
+  levels(var) <- c(1:length(levels(var)))
   # in numerisch umwandeln
-  if (asNumeric) {
-    var <- as.numeric(as.character(var))  
-  }
+  if (asNumeric) var <- as.numeric(as.character(var))  
   return (var)
 }
 
@@ -202,17 +201,21 @@ group_labels <- function(var, groupsize=5, rightInterval=FALSE, autoGroupCount=3
   minval <- 0
   multip <- 2
   # check for auto-grouping
-  if (groupsize=="auto") {
+  if (groupsize == "auto") {
     # determine groupsize, which is 1/30 of range
-    size <- ceiling((max(var, na.rm=TRUE)-min(var, na.rm=TRUE))/autoGroupCount)
+    size <- ceiling((max(var, na.rm = TRUE) - min(var, na.rm = TRUE)) / autoGroupCount)
     # reset groupsize var
     groupsize <- as.numeric(size)
     # change minvalue
-    minval <- min(var, na.rm=TRUE)
+    minval <- min(var, na.rm = TRUE)
     multip <- 1
   }
   # Einteilung der Variablen in Gruppen. Dabei werden unbenutzte Faktoren gleich entfernt
-  var <- droplevels(cut(var,breaks=c(seq(minval, max(var, na.rm=TRUE)+multip*groupsize, by=groupsize)), right=rightInterval))
+  var <- droplevels(cut(var,
+                        breaks = c(seq(minval, 
+                                       max(var, na.rm = TRUE) + multip * groupsize, 
+                                       by = groupsize)), 
+                        right = rightInterval))
   # Gruppen holen
   lvl <- levels(var) 
   # rückgabewert init
@@ -222,7 +225,7 @@ group_labels <- function(var, groupsize=5, rightInterval=FALSE, autoGroupCount=3
     # Länge jedes Labels der Gruppeneinteilungen auslesen
     sublength <- nchar(lvl[i])
     # "(" und "]", das bei "cut"-Funktion automatisch erstellt wird, aus dem Label entfernen
-    lvlstr <- substr(lvl[i], 2, sublength-1)
+    lvlstr <- substr(lvl[i], 2, sublength - 1)
     # Unter- und Obergrenze in jeweils einem string
     subs <- strsplit(lvlstr, ",")
     # Untergrenze als Zahlenwert
@@ -232,8 +235,7 @@ group_labels <- function(var, groupsize=5, rightInterval=FALSE, autoGroupCount=3
     # Prüfen, welche Intervallgrenze ein- und welche ausgeschlossen werden soll
     if(rightInterval) {
       lower <- lower+1
-    }
-    else {
+    } else {
       upper <- upper-1
     }
     # Rückgabe des Strings
@@ -278,15 +280,15 @@ group_labels <- function(var, groupsize=5, rightInterval=FALSE, autoGroupCount=3
 #' @export
 adjust_plot_range <- function(gp, upperMargin=1.05) {
   # retrieve y-range of original plot
-  gp <- gp + scale_y_continuous(limits=NULL)
+  gp <- gp + scale_y_continuous(limits = NULL)
   # build ggplot object
   gy <- ggplot_build(gp)
   # calculate new limit
   ylo <- abs(gy$panel$ranges[[1]]$y.range[1])
-  yhi <- abs(gy$panel$ranges[[1]]$y.range[2]*upperMargin)
+  yhi <- abs(gy$panel$ranges[[1]]$y.range[2] * upperMargin)
   # change y scale
-  gp <- gp + scale_y_continuous(expand=c(0,0), 
-                                limits=c(0,ylo+yhi))
+  gp <- gp + scale_y_continuous(expand = c(0, 0), 
+                                limits = c(0, ylo + yhi))
   # return plot
   return(gp)
 }
@@ -311,19 +313,16 @@ adjust_plot_range <- function(gp, upperMargin=1.05) {
 #' @export
 word_wrap <- function(labels, wrap, linesep=NULL) {
   # check for valid value
-  if (is.null(labels) || length(labels)==0) {
-    return(NULL)
-  }
+  if (is.null(labels) || length(labels) == 0) return(NULL)
   # default line separator is \n
   if (is.null(linesep)) {
     linesep <- '\\1\n'
     lsub <- 0
     ori.linesep <- '\n'
-  }
-  else {
+  } else {
     # however, for html-function we can use "<br>"
     # as parameter
-    lsub <- nchar(linesep)-1
+    lsub <- nchar(linesep) - 1
     ori.linesep <- linesep
     linesep <- sprintf("\\1%s", linesep)
   }
@@ -332,7 +331,7 @@ word_wrap <- function(labels, wrap, linesep=NULL) {
   # iterate all labels
   for (n in 1:length(labels)) {
     # check if wrap exceeds lengths of labels
-    if (wrap>0 && nchar(labels[n])>wrap) {
+    if (wrap > 0 && nchar(labels[n]) > wrap) {
       # insert line breaks
       labels[n] <- gsub(pattern, linesep, labels[n])
       # -----------------------
@@ -342,11 +341,11 @@ word_wrap <- function(labels, wrap, linesep=NULL) {
       # get length of label
       l <- nchar(labels[n])
       # get last char
-      lc <- substr(labels[n], l-lsub, l)
+      lc <- substr(labels[n], l - lsub, l)
       # check if line break
-      if (lc==ori.linesep) {
+      if (lc == ori.linesep) {
         # if yes, remove it
-        labels[n] <- substr(labels[n], 0, l-(lsub+1))
+        labels[n] <- substr(labels[n], 0, l - (lsub + 1))
       }
     }
   }
@@ -373,7 +372,7 @@ word_wrap <- function(labels, wrap, linesep=NULL) {
 #' 
 #' @examples
 #' # recode 1-4 to 0-3
-#' dummy <- sample(1:4, 10, replace=TRUE)
+#' dummy <- sample(1:4, 10, replace = TRUE)
 #' recode_to(dummy)
 #' 
 #' # recode 3-6 to 0-3
@@ -382,12 +381,12 @@ word_wrap <- function(labels, wrap, linesep=NULL) {
 #' recode_to(dummy) 
 #' 
 #' # lowest value starting with 1
-#' dummy <- sample(11:15, 10, replace=TRUE)
+#' dummy <- sample(11:15, 10, replace = TRUE)
 #' recode_to(dummy, 1) 
 #'
 #' # lowest value starting with 1, highest with 3
 #' # all others set to NA
-#' dummy <- sample(11:15, 10, replace=TRUE)
+#' dummy <- sample(11:15, 10, replace = TRUE)
 #' recode_to(dummy, 1, 3) 
 #' 
 #' @export
@@ -398,16 +397,14 @@ recode_to <- function(var, lowest=0, highest=-1) {
     var <- as.numeric(as.character(var))
   }
   # retrieve lowest category
-  minval <- min(var, na.rm=TRUE)
+  minval <- min(var, na.rm = TRUE)
   # check substraction difference between current lowest value
   # and requested lowest value
-  downsize <- minval-lowest
-  var <- sapply(var, function(x) x-downsize)
+  downsize <- minval - lowest
+  var <- sapply(var, function(x) x - downsize)
   # check for highest range
-  if (highest>lowest) {
-    # set NA to all values out of range
-    var[var>highest] <- NA
-  }
+  # set NA to all values out of range
+  if (highest > lowest) var[var > highest] <- NA
   # return recoded var
   return(var)
 }
@@ -416,39 +413,36 @@ recode_to <- function(var, lowest=0, highest=-1) {
 sjp.vif <- function(fit) {
   vifval <- NULL
   # check if we have more than 1 term
-  if (length(coef(fit))>2) {
+  if (length(coef(fit)) > 2) {
     # variance inflation factor
     # claculate VIF
     vifval <- vif(fit)
     if (is.matrix(vifval)) {
-      val <- vifval[,1]
-    }
-    else {
+      val <- vifval[, 1]
+    } else {
       val <- vifval
     }
     # retrieve highest VIF-value to determine y-axis range
     maxval <- val[which.max(val)]
     # determine upper limit of y-axis
-    upperLimit <-10
+    upperLimit <- 10
     # check whether maxval exceeds the critical VIF-Limit
     # of 10. If so, set upper limit to max. value
-    if (maxval >= upperLimit) {
-      upperLimit <- ceiling(maxval)
-    }
-    mydat <- data.frame(cbind(round(val,2)))
+    if (maxval >= upperLimit) upperLimit <- ceiling(maxval)
+    mydat <- data.frame(cbind(round(val, 2)))
     # Neue Variable erstellen, damit die Ergebnisse sortiert werden
     # können (siehe reorder in ggplot-Funktion)
-    mydat$vars<-row.names(mydat)
+    mydat$vars <- row.names(mydat)
     # die variablenlabel sollen noch mal sortiert werden, nach 
     # VIF-Werten aufsteigend. Dies ist für die X-Achsenbeschriftung
     # nötig, da diese sonst nicht mehr mit den sortierten VIF-Werten
     # (Balkenreihenfolge auf X-Achse) übereinstimmt
-    mydat <- cbind(mydat, mydat[order(val),2])
+    mydat <- cbind(mydat, mydat[order(val), 2])
     # Spalten sollen Namen kriegen
-    names(mydat)<-c("vif", "vars", "label")
+    names(mydat) <- c("vif", "vars", "label")
     # grafik ausgeben, dabei die variablen der X-Achse nach aufsteigenden
     # VIF-Werten ordnen
-    plot(ggplot(mydat, aes(x=reorder(vars, vif), y=vif)) +
+    plot(ggplot(mydat, aes(x = reorder(vars, vif), y = vif)) +
             # Balken zeichnen. Stat=identity heißt, dass nicht die counts, sondern
             # die tatsächlichen Zahlenwerte (VIF-Werte) abgebildet werden sollen
             geom_bar(stat="identity", width=0.7, fill="#80acc8") +
@@ -501,8 +495,7 @@ set_na <- function(var, values) {
   opt <- getOption("value_labels")
   if (!is.null(opt) && opt == "haven") {
     attr.string <- "labels"
-  }
-  else {
+  } else {
     attr.string <- "value.labels"
   }
   # retrieve value labels
@@ -517,10 +510,8 @@ set_na <- function(var, values) {
     var[var == values[i]] <- NA
     # check if value labels exist, and if yes, remove them
     labelpos <- which(as.numeric(vl) == values[i])
-    if (length(labelpos > 0)) {
-      # remove NA label
-      vl <- vl[-labelpos]
-    }
+    # remove NA label
+    if (length(labelpos > 0)) vl <- vl[-labelpos]
   }
   # set back updated label attribute
   attr(var, attr.string) <- vl
@@ -566,7 +557,7 @@ weight2 <- function(var, weights) {
   items <- unique(var)
   newvar <- c()
   for (i in 1:length(items)) {
-    newcount = round(sum(weights[which(var==items[i])]))
+    newcount = round(sum(weights[which(var == items[i])]))
     newvar <- c(newvar, rep(items[i], newcount))
   }
   return (newvar)
@@ -672,9 +663,7 @@ group_str <- function(strings, maxdist = 3, method = "lv", strict = FALSE, trim.
   # trim white spaces
   # -------------------------------------
   if (trim.whitespace) {
-    for (i in 1:length(strings)) {
-      strings[i] <- trim(strings[i])
-    }
+    for (i in 1:length(strings)) strings[i] <- trim(strings[i])
   }
   # -------------------------------------
   # remove empty values
@@ -682,9 +671,7 @@ group_str <- function(strings, maxdist = 3, method = "lv", strict = FALSE, trim.
   if (remove.empty) {
     removers <- c()
     for (i in 1:length(strings)) {
-      if (0==nchar(strings[i])) {
-        removers <- c(removers, i)
-      }
+      if (0 == nchar(strings[i])) removers <- c(removers, i)
     }
     if (length(removers)>0) strings <- strings[-removers]
   }
@@ -704,10 +691,10 @@ group_str <- function(strings, maxdist = 3, method = "lv", strict = FALSE, trim.
   # -------------------------------------
   findInPairs <- function(curel) {
     elfound <- FALSE
-    if (length(pairs)>0) {
+    if (length(pairs) > 0) {
       for (ll in 1:length(pairs)) {
         pel <- pairs[[ll]]
-        if (any(pel==curel)) elfound <- TRUE
+        if (any(pel == curel)) elfound <- TRUE
       }
     }
     return (elfound)
@@ -715,7 +702,9 @@ group_str <- function(strings, maxdist = 3, method = "lv", strict = FALSE, trim.
   # -------------------------------------
   # create progress bar
   # -------------------------------------
-  if (showProgressBar) pb <- txtProgressBar(min=0, max=ncol(m), style=3)
+  if (showProgressBar) pb <- txtProgressBar(min = 0, 
+                                            max = ncol(m), 
+                                            style = 3)
   # -------------------------------------
   # iterate matrix
   # -------------------------------------
@@ -737,7 +726,7 @@ group_str <- function(strings, maxdist = 3, method = "lv", strict = FALSE, trim.
         # is within the maximum requested distance
         # i.e. which are "close" enough
         # -------------------------------------
-        if (m[i,j] <= maxdist) {
+        if (m[i, j] <= maxdist) {
           # -------------------------------------
           # go through all rows of this column and 
           # check if there's a better match for the
@@ -746,10 +735,9 @@ group_str <- function(strings, maxdist = 3, method = "lv", strict = FALSE, trim.
           foundBetterToken <- !strict
           for (cnt in 1:nrow(m)) {
             if (strict) {
-              if (m[cnt,j] > 0 && m[cnt,j] < m[i,j]) foundBetterToken <- TRUE
-            }
-            else {
-              if (m[cnt,j] <= maxdist && m[i,cnt] <= maxdist) foundBetterToken <- FALSE
+              if (m[cnt, j] > 0 && m[cnt, j] < m[i, j]) foundBetterToken <- TRUE
+            } else {
+              if (m[cnt, j] <= maxdist && m[i, cnt] <= maxdist) foundBetterToken <- FALSE
             }
           }
           # -------------------------------------
@@ -764,15 +752,10 @@ group_str <- function(strings, maxdist = 3, method = "lv", strict = FALSE, trim.
             token <- colnames(m)[j]
             # -------------------------------------
             # check if we already found a string value
-            # within this column
+            # within this column. if not, add string values 
+            # to "close" pairs of this column
             # -------------------------------------
-            if (!any(pairvector==token) && !findInPairs(token)) {
-              # -------------------------------------
-              # if not, add string values to "close" pairs
-              # of this column
-              # -------------------------------------
-              pairvector <- c(pairvector, token)
-            }
+            if (!any(pairvector == token) && !findInPairs(token)) pairvector <- c(pairvector, token)
           }
         }
       }
@@ -783,13 +766,9 @@ group_str <- function(strings, maxdist = 3, method = "lv", strict = FALSE, trim.
       pairvector <- sort(pairvector)
       # -------------------------------------
       # check if we already have saved these values to our list
+      # if not, add "close" values as new list element
       # -------------------------------------
-      if (!any(unlist(lapply(pairs, function(x) length(x)==length(pairvector) && any(x==pairvector))))) {
-        # -------------------------------------
-        # if not, add "close" values as new list element
-        # -------------------------------------
-        pairs <- c(pairs, list(pairvector))
-      }
+      if (!any(unlist(lapply(pairs, function(x) length(x) == length(pairvector) && any(x == pairvector))))) pairs <- c(pairs, list(pairvector))
     }
   }
   # -------------------------------------
@@ -806,7 +785,7 @@ group_str <- function(strings, maxdist = 3, method = "lv", strict = FALSE, trim.
     # find vector indices of "close" values in
     # original string
     # -------------------------------------
-    indices <- unlist(lapply(r, function(x) which(strings==x)))  
+    indices <- unlist(lapply(r, function(x) which(strings == x)))  
     newvalue <- r[1]
     count <- 2
     # -------------------------------------
@@ -815,7 +794,7 @@ group_str <- function(strings, maxdist = 3, method = "lv", strict = FALSE, trim.
     # -------------------------------------
     while (count <= length(r)) {
       newvalue <- paste0(newvalue, ", ", r[count])
-      count <- count+1
+      count <- count + 1
     }
     strings.new[indices] <- newvalue
   }
@@ -892,7 +871,7 @@ str_pos <- function(searchString, findTerm, maxdist = 3, part.dist.match = 0, sh
   # find element indices from partial matching of string and find term
   # -------------------------------------
   pos <- as.numeric(grep(findTerm, searchString, ignore.case = T))
-  if (length(pos)>0) indices <- c(indices, pos)
+  if (length(pos) > 0) indices <- c(indices, pos)
   # -------------------------------------
   # check if required package is available
   # -------------------------------------
@@ -904,12 +883,12 @@ str_pos <- function(searchString, findTerm, maxdist = 3, part.dist.match = 0, sh
   # find element indices from similar strings
   # -------------------------------------
   pos <- which(stringdist::stringdist(tolower(findTerm), tolower(searchString)) <= maxdist)
-  if (length(pos)>0) indices <- c(indices, pos)
+  if (length(pos) > 0) indices <- c(indices, pos)
   # -------------------------------------
   # find element indices from partial similar (distance) 
   # string matching
   # -------------------------------------
-  if (part.dist.match>0) {
+  if (part.dist.match > 0) {
     # -------------------------------------
     # helper function to trim white spaces
     # -------------------------------------
@@ -918,7 +897,9 @@ str_pos <- function(searchString, findTerm, maxdist = 3, part.dist.match = 0, sh
     # -------------------------------------
     # create progress bar
     # -------------------------------------
-    if (showProgressBar) pb <- txtProgressBar(min=0, max=length(searchString), style=3)
+    if (showProgressBar) pb <- txtProgressBar(min = 0, 
+                                              max = length(searchString), 
+                                              style = 3)
     # -------------------------------------
     # iterate search string vector
     # -------------------------------------
@@ -939,31 +920,31 @@ str_pos <- function(searchString, findTerm, maxdist = 3, part.dist.match = 0, sh
         # -------------------------------------
         # retrieve substring
         # -------------------------------------
-        sust <- trim(substr(sst, pi, pi+ftlength-1))
+        sust <- trim(substr(sst, pi, pi + ftlength - 1))
         # -------------------------------------
         # find element indices from similar substrings
         # -------------------------------------
         pos <- which(stringdist::stringdist(tolower(findTerm), tolower(sust)) <= maxdist)
-        if (length(pos)>0) indices <- c(indices, ssl)
+        if (length(pos) > 0) indices <- c(indices, ssl)
       }
-      if (part.dist.match>1) {
+      if (part.dist.match > 1) {
         # -------------------------------------
         # 2nd loop picks longer substrings, because similarity
         # may also be present if length of strings differ
         # (e.g. "app" and "apple")
         # -------------------------------------
         steps <- nchar(sst) - ftlength
-        if (steps>1) {
+        if (steps > 1) {
           for (pi in 2:steps) {
             # -------------------------------------
             # retrieve substring
             # -------------------------------------
-            sust <- trim(substr(sst, pi-1, pi+ftlength))
+            sust <- trim(substr(sst, pi - 1, pi + ftlength))
             # -------------------------------------
             # find element indices from similar substrings
             # -------------------------------------
             pos <- which(stringdist::stringdist(tolower(findTerm), tolower(sust)) <= maxdist)
-            if (length(pos)>0) indices <- c(indices, ssl)
+            if (length(pos) > 0) indices <- c(indices, ssl)
           }
         }
       }
@@ -975,9 +956,7 @@ str_pos <- function(searchString, findTerm, maxdist = 3, part.dist.match = 0, sh
   # -------------------------------------
   # return result
   # -------------------------------------
-  if (length(indices) > 0) {
-    return (sort(unique(indices)))
-  }
+  if (length(indices) > 0) return (sort(unique(indices)))
   return (-1)
 }
 

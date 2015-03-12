@@ -272,7 +272,7 @@ sjp.likert <- function(items,
   if (is.null(catcount)) {
     catcount <- c()
     # iterate all items
-    for (i in 1 : ncol(items)) {
+    for (i in 1:ncol(items)) {
       # add new unique item values to catcount, so catcount
       # finally contains all unique values of items
       catcount <- unique(c(catcount, unique(na.omit(items[, i]))))
@@ -288,7 +288,7 @@ sjp.likert <- function(items,
   # set legend labels, if we have none yet
   # --------------------------------------------------------
   if (is.null(legendLabels)) {
-    legendLabels <- c(1 : (catcount + adding))
+    legendLabels <- c(1:(catcount + adding))
   }
   # --------------------------------------------------------
   # prepare data frames
@@ -300,7 +300,7 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   # loop through all likert-items
   # --------------------------------------------------------
-  for (i in 1 : ncol(items)) {
+  for (i in 1:ncol(items)) {
     # --------------------------------------------------------
     # convert to numeric values
     # --------------------------------------------------------
@@ -363,7 +363,7 @@ sjp.likert <- function(items,
   # axis labels
   # --------------------------------------------------------
   if (includeN && !is.null(axisLabels.y)) {
-    for (i in 1 : length(axisLabels.y)) {
+    for (i in 1:length(axisLabels.y)) {
       axisLabels.y[i] <- paste(axisLabels.y[i], 
                                sprintf(" (n=%i)", length(na.omit(items[, i]))), 
                                sep="")
@@ -383,13 +383,13 @@ sjp.likert <- function(items,
   # sort items
   # --------------------------------------------------------
   if (is.null(sort.frq))
-    sort.freq <- c(1 : ncol(freq.df))
+    sort.freq <- c(1:ncol(freq.df))
   else if (sort.frq == "pos")
     sort.freq <- order(sums.lower)
   else if (sort.frq == "neg")
     sort.freq <- order(sums.upper)
   else
-    sort.freq <- c(1 : ncol(freq.df))
+    sort.freq <- c(1:ncol(freq.df))
   # --------------------------------------------------------
   # reverse item order?
   # --------------------------------------------------------
@@ -406,7 +406,7 @@ sjp.likert <- function(items,
   # data rows in this data frame and now need to "split"
   # positive and negative values
   # --------------------------------------------------------
-  for (i in 1 : ncol(freq.df)) {
+  for (i in 1:ncol(freq.df)) {
     # sort
     fr <- freq.df[, sort.freq[i]]
     # --------------------------------------------------------
@@ -454,7 +454,7 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   # x-positions for cumulative percentages
   # --------------------------------------------------------
-  xpos.sum.dk <- xpos.sum.neg <- xpos.sum.pos <- c(1 : length(ypos.sum.pos))
+  xpos.sum.dk <- xpos.sum.neg <- xpos.sum.pos <- c(1:length(ypos.sum.pos))
   # --------------------------------------------------------
   # grp as factor
   # --------------------------------------------------------
@@ -592,7 +592,7 @@ sjp.likert <- function(items,
     # scale x is continuous to make plotting the bar annotation
     # for neutral category work...
     # ---------------------------------------------------------
-    scale_x_continuous(breaks = c(1 : ncol(freq.df)), labels = axisLabels.y) +
+    scale_x_continuous(breaks = c(1:ncol(freq.df)), labels = axisLabels.y) +
     scale_y_continuous(breaks = gridbreaks, limits = c(-gridRange, gridRange), expand = expgrid, labels = gridlabs) +
     geom_hline(yintercept = 0, color = intercept.line.color)
   # ---------------------------------------------------------

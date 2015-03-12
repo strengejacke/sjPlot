@@ -550,14 +550,14 @@ sjt.glm <- function (...,
   # -------------------------------------
   joined.df <- df.fit[[1]]
   if (length(df.fit) > 1) {
-    for (i in 2 : length(df.fit)) {
+    for (i in 2:length(df.fit)) {
       joined.df <- suppressWarnings(dplyr::full_join(joined.df, df.fit[[i]], "coef.name"))
     }
   }
   # -------------------------------------
   # replace NA, created by join, with empty string
   # -------------------------------------
-  for (i in 1 : ncol(joined.df)) {
+  for (i in 1:ncol(joined.df)) {
     joined.df[, i] <- sapply(joined.df[, i], function(x) if (is.na(x)) x <- "" else x)
   }
   # -------------------------------------
@@ -586,7 +586,7 @@ sjt.glm <- function (...,
       message("Intercept cannot be removed from table output.")
     }
     # create all row indices
-    rowind <- c(1 : nrow(joined.df))
+    rowind <- c(1:nrow(joined.df))
     # "inverse" removable inices
     keep.estimates <- rowind[-remove.estimates]
     # select rows
@@ -759,7 +759,7 @@ sjt.glm <- function (...,
   # -------------------------------------
   # subsequent rows: pedictors
   # -------------------------------------
-  for (i in 1 : (nrow(joined.df)-1)) {
+  for (i in 1:(nrow(joined.df)-1)) {
     # -------------------------------------
     # do we need to insert a "factor grouping headline row"?
     # -------------------------------------
@@ -785,7 +785,7 @@ sjt.glm <- function (...,
     # ---------------------------------------
     # go through fitted model's statistics
     # ---------------------------------------
-    for (j in 1 : length(input_list)) {
+    for (j in 1:length(input_list)) {
       # retieve lower and upper ci
       ci.lo <- joined.df[i+1, (j-1)*5+3]
       ci.hi <- joined.df[i+1, (j-1)*5+4]
