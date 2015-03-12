@@ -39,7 +39,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * Change R-Version dependency to R >= 3.1, due to import of `tidyr` and `haven` packages.
 
 #### Changes to functions
-* `sjp.glm` now supports plotting `logistf` objects.
+* `sjp.glm` now supports plotting `logistf` objects [(#issue 8)](https://github.com/sjPlot/devel/issues/11).
 
 #### Bug fixes
 * Weights with decimals in `sjt.xtab` (e.g. `weightBy = abs(rnorm(100, 2, 1)`) caused an error - fixed.
