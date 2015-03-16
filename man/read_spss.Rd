@@ -5,38 +5,38 @@
 \title{Import SPSS dataset as data frame into R}
 \usage{
 read_spss(path, enc = NA, autoAttachVarLabels = FALSE,
-  atomic.to.fac = FALSE, option = NULL)
+  atomic.to.fac = FALSE, option = "haven")
 }
 \arguments{
 \item{path}{The file path to the SPSS dataset.}
 
-\item{enc}{The file encoding of the SPSS dataset.}
+\item{enc}{The file encoding of the SPSS dataset. \emph{Not needed if \code{option = "haven"} (default).}}
 
 \item{autoAttachVarLabels}{if \code{TRUE}, variable labels will automatically be
 attached to each variable as \code{"variable.label"} attribute.
-See \code{\link{set_var_labels}} for details.}
+See \code{\link{set_var_labels}} for details.
+\emph{Not needed if \code{option = "haven"} (default).}}
 
 \item{atomic.to.fac}{Logical, if \code{TRUE}, factor variables imported from
 SPSS (which are imported as \code{\link{atomic}}) will be converted
 to \code{\link{factor}}s.}
 
 \item{option}{string, indicating which package will be used to read the SPSS data file.
-By default, \code{option = "foreign"}, which means, the \code{read.spss} function
-from the \code{foreign} package is used. Use \code{option = "haven"} to
-use haven's \code{read_spss} function, which is usually faster, however,
-not all string variables may be read properly.}
+By default, \code{option = "haven"}, which means, the \code{read_spss} function
+from the \code{haven} package is used. Use \code{option = "foreign"} to
+use foreign's \code{read.spss} function. Use \code{options(read_spss = "foreign")}
+to make this function always use the foreign-package \code{read.spss} function.}
 }
 \value{
-A data frame containing the SPSS data. retrieve value labels with \code{\link{get_val_labels}}
+A data frame containing the SPSS data. Retrieve value labels with \code{\link{get_val_labels}}
   and variable labels with \code{\link{get_var_labels}}.
 }
 \description{
 Import data from SPSS, including NA's, value and variable labels.
 }
 \note{
-This is a wrapper function for \code{\link{read.spss}} of the
-        \code{foreign} package, using convenient parameter default
-        settings. This function attaches value and variable
+This is a wrapper function for \code{\link{read_spss}} of the
+        \code{haven} package. This function adds value and variable
         labels to the imported variables of the data frame. \cr \cr
        With attached value and variable labels, most functions of this package
        automatically detect labels and uses them as axis, legend or title labels
@@ -47,7 +47,7 @@ This is a wrapper function for \code{\link{read.spss}} of the
 }
 \examples{
 # import SPSS data set
-# mydat <- read_spss("my_spss_data.sav", enc="UTF-8")
+# mydat <- read_spss("my_spss_data.sav", enc = "UTF-8")
 
 # retrieve variable labels
 # mydat.var <- get_var_labels(mydat)

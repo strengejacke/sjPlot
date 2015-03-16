@@ -94,9 +94,7 @@ create.frq.df <- function(varCount,
   #---------------------------------------------------
   # weight variable
   #---------------------------------------------------
-  if (!is.null(weightBy)) {
-    varCount <- weight(varCount, weightBy)
-  }
+  if (!is.null(weightBy)) varCount <- weight(varCount, weightBy)
   #---------------------------------------------------
   # create frequency data frame
   #---------------------------------------------------
@@ -161,7 +159,7 @@ create.frq.df <- function(varCount,
   missingcount <- length(which(is.na(varCount)))
   if (!is.null(labels)) {
     labels <- word_wrap(labels, breakLabelsAt)    
-  } else  {
+  } else {
     # If axisLabels.x were not defined, simply set numbers from 1 to
     # amount of categories (=number of rows) in dataframe instead
     if (is.null(labels)) labels <- c(startAxisAt:(nrow(mydat) + startAxisAt - 1))
@@ -229,7 +227,10 @@ create.frq.df <- function(varCount,
 # (sjt-functions)
 get.encoding <- function(encoding) {
   if (is.null(encoding)) {
-    if (.Platform$OS.type == "unix") encoding <- "UTF-8" else encoding <- "Windows-1252"
+    if (.Platform$OS.type == "unix") 
+      encoding <- "UTF-8" 
+    else 
+      encoding <- "Windows-1252"
   }
   return (encoding)
 }
@@ -360,28 +361,80 @@ autoSetValueLabels <- function(x) {
 }
 
 
+# auto-detect attribute style for variable labels.
+# either haven style ("label") or foreign style
+# ("variable.label")
+getVarLabelAttribute <- function(x) {
+  attr.string <- NULL
+  # check if x is data frame. if yes, just retrieve one "example" variable
+  if (is.data.frame(x)) x <- x[[1]]
+  # check if vector has label attribute
+  if (!is.null(attr(x, "label"))) attr.string <- "label"
+  # check if vector has variable label attribute
+  if (!is.null(attr(x, "variable.label"))) attr.string <- "variable.label"
+  # not found any label yet?
+  if (is.null(attr.string)) {
+    # ----------------------------
+    # check value_labels option
+    # ----------------------------
+    opt <- getOption("value_labels")
+    if (!is.null(opt)) attr.string <- ifelse (opt == "haven", "label", "variable.label")
+  }
+  return (attr.string)
+}
+
+
+# auto-detect attribute style for value labels.
+# either haven style ("labels") or foreign style
+# ("value.labels")
+getValLabelAttribute <- function(x) {
+  attr.string <- NULL
+  # check if x is data frame. if yes, just retrieve one "example" variable
+  if (is.data.frame(x)) {
+    # find first variable with labels or value.labels attribute
+    for (i in 1:ncol(x)) {
+      # has any attribute?
+      if (!is.null(attr(x[[i]], "labels"))) {
+        attr.string <- "labels"
+        break
+      } else if (!is.null(attr(x[[i]], "value.labels"))) {
+        attr.string <- "value.labels"
+        break
+      }
+    }
+  } else {
+    # check if vector has labels attribute
+    if (!is.null(attr(x, "labels"))) attr.string <- "labels"
+    # check if vector has value.labels attribute
+    if (!is.null(attr(x, "value.labels"))) attr.string <- "value.labels"
+  }
+  # not found any label yet?
+  if (is.null(attr.string)) {
+    # ----------------------------
+    # check value_labels option
+    # ----------------------------
+    opt <- getOption("value_labels")
+    if (!is.null(opt)) attr.string <- ifelse (opt == "haven", "label", "variable.label")
+  }
+  return (attr.string)
+}
+
+
 # automatically set labels of variables,
 # if attributes are present
 autoSetVariableLabels <- function(x) {
   # do we have global options?
   opt <- getOption("autoSetVariableLabels")
   if (is.null(opt) || opt == TRUE) {
-    # ----------------------------
-    # check value_labels option
-    # ----------------------------
-    opt <- getOption("value_labels")
-    if (!is.null(opt) && opt == "haven") {
-      attr.string <- "label"
-    } else {
-      attr.string <- "variable.label"
-    }
-    # check if we have variable label attribut
+    # auto-detect variable label attribute
+    attr.string <- getVarLabelAttribute(x)
+    # nothing found? then leave...
+    if (is.null(attr.string)) return (NULL)
+    # check if we have variable label attribute
     vl <- as.vector(attr(x, attr.string))
     label <- NULL
     # check if we have variable labels
-    if (!is.null(vl) && length(vl) > 0) {
-      label <- vl
-    }
+    if (!is.null(vl) && length(vl) > 0) label <- vl
     return(label)
   }
   return (NULL)

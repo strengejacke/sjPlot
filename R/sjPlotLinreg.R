@@ -283,45 +283,34 @@ sjp.lm <- function(fit,
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
-  if (!is.null(axisLabels.y) && is.list(axisLabels.y)) {
-    axisLabels.y <- unlistlabels(axisLabels.y)
-  }
+  if (!is.null(axisLabels.y) && is.list(axisLabels.y)) axisLabels.y <- unlistlabels(axisLabels.y)
   # --------------------------------------------------------
   # auto-retrieve value labels
   # --------------------------------------------------------
-  if (is.null(axisLabels.y)) {
-    axisLabels.y <- suppressWarnings(retrieveModelLabels(list(fit)))
-  }
+  if (is.null(axisLabels.y)) axisLabels.y <- suppressWarnings(retrieveModelLabels(list(fit)))
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(title)) {
-    title <- word_wrap(title, breakTitleAt)
-  }
+  if (!is.null(title)) title <- word_wrap(title, breakTitleAt)
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(axisTitle.x)) {
-    axisTitle.x <- word_wrap(axisTitle.x, breakTitleAt)
-  }
+  if (!is.null(axisTitle.x)) axisTitle.x <- word_wrap(axisTitle.x, breakTitleAt)
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
-  if (!is.null(axisLabels.y)) {
-    axisLabels.y <- word_wrap(axisLabels.y, breakLabelsAt)
-  }
+  if (!is.null(axisLabels.y)) axisLabels.y <- word_wrap(axisLabels.y, breakLabelsAt)
   # ----------------------------
   # create expression with model summarys. used
   # for plotting in the diagram later
   # ----------------------------
   if (showModelSummary) {
     modsum <- sju.modsum.lm(fit)
-  }
-  else {
+  } else {
     modsum <- NULL
   }
   # ----------------------------
   # print beta- and p-values in bar charts
   # ----------------------------
   # retrieve sigificance level of independent variables (p-values)
-  pv <- coef(summary(fit))[-1,4]
+  pv <- coef(summary(fit))[-1, 4]
   # for better readability, convert p-values to asterisks
   # with:
   # p < 0.001 = ***
@@ -345,17 +334,13 @@ sjp.lm <- function(fit,
   # --------------------------------------------------------
   if (showPValueLabels) {
     for (i in 1:length(pv)) {
-      if (pv[i]>=0.05) {
-      }
-      else if (pv[i]>=0.01 && pv[i]<0.05) {
+      if (pv[i] >= 0.01 && pv[i] < 0.05) {
         ps[i] <- paste(ps[i], "*")
         pstdbv[i] <- paste(pstdbv[i], "*")
-      }
-      else if (pv[i]>=0.001 && pv[i]<0.01) {
+      } else if (pv[i] >= 0.001 && pv[i] < 0.01) {
         ps[i] <- paste(ps[i], "**")
         pstdbv[i] <- paste(pstdbv[i], "**")
-      }
-      else {
+      } else if (pv[i] < 0.001) {
         ps[i] <- paste(ps[i], "***")
         pstdbv[i] <- paste(pstdbv[i], "***")
       }
@@ -371,24 +356,22 @@ sjp.lm <- function(fit,
   if (type == "std") {
     tmp <- stdbv
     ps <- pstdbv
-  }
-  else {
-    if (1==length(coefficients(fit)[-1])) {
+  } else {
+    if (1 == length(coefficients(fit)[-1])) {
       tmp <- data.frame(
         # Append beta coefficients, [-1] means that the first
         # row (Intercept) will be removed / ignored
         coefficients(fit)[-1],
         # append CI
-        confint(fit, level=0.95)[-1,1],
-        confint(fit, level=0.95)[-1,2])
-    }
-    else {
+        confint(fit, level=0.95)[-1, 1],
+        confint(fit, level=0.95)[-1, 2])
+    } else {
       tmp <- data.frame(cbind(
         # Append beta coefficients, [-1] means that the first
         # row (Intercept) will be removed / ignored
         coefficients(fit)[-1],
         # append CI
-        confint(fit, level=0.95)[-1,]))
+        confint(fit, level=0.95)[-1, ]))
     }
   }
   # append p-values and standardized beta coefficients
@@ -405,9 +388,7 @@ sjp.lm <- function(fit,
   # have factors with different levels, which appear as 
   # "multiple predictors", but are only one variable
   # --------------------------------------------------------
-  if (is.null(axisLabels.y) || length(axisLabels.y) < length(row.names(betas))) {
-    axisLabels.y <- row.names(betas)
-  }
+  if (is.null(axisLabels.y) || length(axisLabels.y) < length(row.names(betas))) axisLabels.y <- row.names(betas)
   # --------------------------------------------------------
   # define sorting criteria. the values on the x-axis are being sorted
   # either by beta-values (sort="beta") or by standardized
@@ -419,11 +400,10 @@ sjp.lm <- function(fit,
   if (sort.est) {
     if (type == "lm") {
       axisLabels.y <- axisLabels.y[order(bv)]
-      betas <- betas[order(bv),]
-    }
-    else if (type == "std") {
+      betas <- betas[order(bv), ]
+    } else if (type == "std") {
       axisLabels.y <- axisLabels.y[order(stdbv$beta)]
-      betas <- betas[order(stdbv$beta),]
+      betas <- betas[order(stdbv$beta), ]
     }
   }
   betas <- cbind(c(seq(1:nrow(betas))), betas)
@@ -436,23 +416,19 @@ sjp.lm <- function(fit,
   # is not NULL)
   # --------------------------------------------------------
   if (is.null(axisLimits)) {
-    upper_lim <- (ceiling(10*max(betas$upper))) / 10
-    lower_lim <- (floor(10*min(betas$lower))) / 10
-  }
-  else {
+    upper_lim <- (ceiling(10 * max(betas$upper))) / 10
+    lower_lim <- (floor(10 * min(betas$lower))) / 10
+  } else {
     lower_lim <- axisLimits[1]
     upper_lim <- axisLimits[2]
   }
   # determine gridbreaks
   if (is.null(gridBreaksAt)) {
     ticks <- pretty(c(lower_lim, upper_lim))
+  } else {
+    ticks <- c(seq(lower_lim, upper_lim, by = gridBreaksAt))
   }
-  else {
-    ticks <- c(seq(lower_lim, upper_lim, by=gridBreaksAt))
-  }
-  if (!showAxisLabels.y) {
-    axisLabels.y <- c("")
-  }
+  if (!showAxisLabels.y) axisLabels.y <- c("")
   # --------------------------------------------------------
   # Start plot here!
   # --------------------------------------------------------
@@ -525,9 +501,8 @@ sjp.reglin <- function(fit,
     predvars <- colnames(fit$x)[-1]
     cn <- predvars
     fit.x <- TRUE
-  }
   # else we use the normal data frame retrieves from the model
-  else {
+  } else {
     predvars <- attr(attr(fit$terms, "dataClasses"), "names")[-1]
     cn <- colnames(fit$model)
     fit.x <- FALSE
@@ -539,7 +514,7 @@ sjp.reglin <- function(fit,
   # -----------------------------------------------------------
   # retrieve name of dependent variable
   # -----------------------------------------------------------
-  response <- ifelse(useResiduals==TRUE, "residuals", depvar.label)
+  response <- ifelse(useResiduals == TRUE, "residuals", depvar.label)
   # init return var
   plotlist <- list()
   dflist <- list()
@@ -547,9 +522,7 @@ sjp.reglin <- function(fit,
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
   # -----------------------------------------------------------
-  if (!is.null(title)) {
-    title <- word_wrap(title, breakTitleAt)
-  }
+  if (!is.null(title)) title <- word_wrap(title, breakTitleAt)
   # -----------------------------------------------------------
   # iterate all predictors
   # -----------------------------------------------------------
@@ -564,53 +537,60 @@ sjp.reglin <- function(fit,
     # -----------------------------------------------------------
     if (fit.x) {
       if (useResiduals) {
-        mydat <- as.data.frame(cbind(fit$x[,which(cn==xval)+1],
+        mydat <- as.data.frame(cbind(fit$x[, which(cn == xval) + 1],
                                      fit$residuals))
       }
       else {
-        mydat <- as.data.frame(cbind(fit$x[,which(cn==xval)+1],
+        mydat <- as.data.frame(cbind(fit$x[, which(cn == xval) + 1],
                                      fit$model[, 1]))
       }
     }
     else {
       if (useResiduals) {
-        mydat <- as.data.frame(cbind(fit$model[,which(cn==xval)],
+        mydat <- as.data.frame(cbind(fit$model[, which(cn == xval)],
                                      fit$residuals))
       }
       else {
-        mydat <- as.data.frame(cbind(fit$model[,which(cn==xval)],
-                                     fit$model[,which(cn==response)]))
+        mydat <- as.data.frame(cbind(fit$model[, which(cn == xval)],
+                                     fit$model[, which(cn == response)]))
       }
     }
     # -----------------------------------------------------------
     # plot regression line and confidence intervall
     # -----------------------------------------------------------
-    reglinplot <- ggplot(mydat, aes(x=V1, y=V2)) +
-      stat_smooth(method="lm", se=showCI, level=ciLevel, colour=lineColor)
+    reglinplot <- ggplot(mydat, aes(x = V1, y = V2)) +
+      stat_smooth(method = "lm", 
+                  se = showCI, 
+                  level = ciLevel, 
+                  colour = lineColor)
     # -----------------------------------------------------------
     # plot jittered values if requested
     # -----------------------------------------------------------
-    if (showScatterPlot) {
-      reglinplot <- reglinplot + geom_jitter(alpha=pointAlpha, colour=pointColor)
-    }
+    if (showScatterPlot) reglinplot <- reglinplot + geom_jitter(alpha = pointAlpha, 
+                                                                colour = pointColor)
     # -----------------------------------------------------------
     # check whether additional loess-line should be plotted
     # -----------------------------------------------------------
     if (showLoess) {
       reglinplot <- reglinplot + 
-        stat_smooth(method="loess", se=showLoessCI, level=loessCiLevel, colour=loessLineColor)
+        stat_smooth(method = "loess", 
+                    se = showLoessCI, 
+                    level = loessCiLevel, 
+                    colour = loessLineColor)
     }
     # -----------------------------------------------------------
     # set plot labs
     # -----------------------------------------------------------
     reglinplot <- reglinplot + 
-      labs(title=title, x=xval, y=response)
+      labs(title = title, 
+           x = xval, 
+           y = response)
     # ---------------------------------------------------------
     # Check whether ggplot object should be returned or plotted
     # ---------------------------------------------------------
     # concatenate plot object
-    plotlist[[length(plotlist)+1]] <- reglinplot
-    dflist[[length(dflist)+1]] <- mydat
+    plotlist[[length(plotlist) + 1]] <- reglinplot
+    dflist[[length(dflist) + 1]] <- mydat
     # print plot
     if (printPlot) print(reglinplot)
   }
@@ -646,7 +626,7 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FAL
   # start loop
   while(loop==TRUE) {
     # get outliers of model
-    ol <- outlierTest(model)
+    ol <- car::outlierTest(model)
     # retrieve variable numbers of outliers
     vars <- as.numeric(names(ol$p))
     # update model by removing outliers
@@ -766,21 +746,21 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FAL
     # ---------------------------------
     # Non-linearity
     # ---------------------------------
-    plot(crPlots(linreg))
+    plot(car::crPlots(linreg))
     # ---------------------------------
     # non-independence of residuals
     # ---------------------------------
-    print(durbinWatsonTest(linreg))
+    print(car::durbinWatsonTest(linreg))
     # ---------------------------------
     # Print leverage plots
     # ---------------------------------
-    plot(leveragePlots(linreg))
+    plot(car::leveragePlots(linreg))
     # ---------------------------------
     # Non-constant residuals
     # ---------------------------------
-    print(ncvTest(linreg))
+    print(car::ncvTest(linreg))
     print(lmtest::bptest(linreg))
-    print(spreadLevelPlot(linreg))
+    print(car::spreadLevelPlot(linreg))
   }
   # return updated model
   return(model)

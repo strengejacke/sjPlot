@@ -113,16 +113,6 @@ view_spss <- function (df,
                        useViewer=TRUE,
                        no.output=FALSE,
                        remove.spaces=TRUE) {
-  # ----------------------------
-  # check value_labels option
-  # ----------------------------
-  opt <- getOption("value_labels")
-  if (!is.null(opt) && opt == "haven") {
-    attr.string <- "labels"
-  }
-  else {
-    attr.string <- "value.labels"
-  }
   # -------------------------------------
   # check encoding
   # -------------------------------------
@@ -131,9 +121,7 @@ view_spss <- function (df,
   # make data frame of single variable, so we have
   # unique handling for the data
   # -------------------------------------
-  if (!is.data.frame(df)) {
-    stop("Parameter needs to be a data frame!", call.=FALSE)
-  }
+  if (!is.data.frame(df)) stop("Parameter needs to be a data frame!", call. = FALSE)
   # -------------------------------------
   # retrieve value and variable labels
   # -------------------------------------
@@ -147,10 +135,7 @@ view_spss <- function (df,
   # -------------------------------------
   # Order data set if requested
   # -------------------------------------
-  if (orderByName) {
-    # retrieve order
-    id <- id[order(colnames(df))]
-  }
+  if (orderByName) id <- id[order(colnames(df))]
   # -------------------------------------
   # init style sheet and tags used for css-definitions
   # we can use these variables for string-replacement
@@ -212,7 +197,7 @@ view_spss <- function (df,
     # default row string
     arcstring <- ""
     # if we have alternating row colors, set css
-    if (alternateRowColors) arcstring <- ifelse(rcnt %% 2 ==0, " arc", "")
+    if (alternateRowColors) arcstring <- ifelse(rcnt %% 2 == 0, " arc", "")
     page.content <- paste0(page.content, "  <tr>\n")
     # ID
     if (showID) page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%i</td>\n", arcstring, index))
@@ -234,8 +219,7 @@ view_spss <- function (df,
         # wrap long variable labels
         varlab <- word_wrap(varlab, breakVariableNamesAt, "<br>")
       }
-    }
-    else {
+    } else {
       varlab <- "<NA>"
     }
     page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, varlab))
@@ -248,54 +232,50 @@ view_spss <- function (df,
           valstring <- paste0(valstring, vals[i])
           if (i < length(vals)) valstring <- paste0(valstring, "<br>")
         }
-      }
-      else {
+      } else {
         valstring <- "<NA>"
       }
       page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, valstring))
     }
     # values
     if (showValueLabels) {
-      if (index<=length(df.val)) {
+      if (index <= length(df.val)) {
         # value labels
         vals <- df.val[[index]]
         valstring <- c("")
         for (i in 1:length(vals)) {
           valstring <- paste0(valstring, vals[i])
-          if (i<length(vals)) valstring <- paste0(valstring, "<br>")
+          if (i < length(vals)) valstring <- paste0(valstring, "<br>")
         }
-      }
-      else {
+      } else {
         valstring <- "<NA>"
       }
       page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, valstring))
     }
     # frequencies
     if (showFreq) {
-      if (index <= ncol(df) && !is.null(attr(df[[index]], attr.string))) {
+      if (index <= ncol(df) && !is.null(df.val[[index]])) {
         ftab <- as.numeric(table(df[[index]]))
         valstring <- c("")
         for (i in 1:length(ftab)) {
           valstring <- paste0(valstring, ftab[i])
-          if (i<length(ftab)) valstring <- paste0(valstring, "<br>")
+          if (i < length(ftab)) valstring <- paste0(valstring, "<br>")
         }
-      }
-      else {
+      } else {
         valstring <- ""
       }
       page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, valstring))
     }
     # frequencies
     if (showPerc) {
-      if (index <= ncol(df) && !is.null(attr(df[[index]], attr.string))) {
-        ftab <- 100*as.numeric(prop.table(table(df[[index]])))
+      if (index <= ncol(df) && !is.null(df.val[[index]])) {
+        ftab <- 100 * as.numeric(prop.table(table(df[[index]])))
         valstring <- c("")
         for (i in 1:length(ftab)) {
           valstring <- paste0(valstring, sprintf("%.2f", ftab[i]))
-          if (i<length(ftab)) valstring <- paste0(valstring, "<br>")
+          if (i < length(ftab)) valstring <- paste0(valstring, "<br>")
         }
-      }
-      else {
+      } else {
         valstring <- ""
       }
       page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, valstring))

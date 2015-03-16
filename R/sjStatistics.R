@@ -104,19 +104,23 @@ eta_sq <- function(...) {
 #' 
 #' @export
 std_beta <- function(fit, include.ci = FALSE) {
+  # if we have merMod object (lme4), we need
+  # other function to compute std. beta
   if (class(fit) == "lmerMod") {
     return (sjs.stdmm(fit))
-  }
-  else {
+  } else {
     b <- summary(fit)$coef[-1, 1]
     sx <- sapply(fit$model[-1], sd)
     sy <- sapply(fit$model[1], sd)
     beta <- b * sx / sy
     se <- summary(fit)$coefficients[-1, 2]
     beta.se <- se * sx / sy
-    
+    # check if confidence intervals should also be returned
+    # if yes, create data frame with sb and ci
     if (include.ci) {
-      return (data.frame(beta = beta, ci.low = (beta - beta.se * 1.96), ci.hi = (beta + beta.se * 1.96)))
+      return (data.frame(beta = beta, 
+                         ci.low = (beta - beta.se * 1.96), 
+                         ci.hi = (beta + beta.se * 1.96)))
     } else {
       return(beta)
     }
@@ -193,6 +197,7 @@ mwu <- function(var, grp, distribution="asymptotic", weights=NULL) {
   if (!requireNamespace("coin", quietly = TRUE)) {
     stop("Package 'coin' needed for this function to work. Please install it.", call. = FALSE)
   }
+  # group "counter" (index) should start with 1, not 0
   if (min(grp, na.rm = TRUE) == 0) grp <- grp + 1
   cnt <- length(unique(na.omit(grp)))
   labels <- autoSetValueLabels(grp)
@@ -212,8 +217,10 @@ mwu <- function(var, grp, distribution="asymptotic", weights=NULL) {
         if (!is.null(weights)) {
           wsub <- as.integer(na.omit(weights[which(!is.na(xsub))]))
         }
+        # remove missings
         xsub <- as.numeric(na.omit(xsub))
         ysub.n <- na.omit(ysub)
+        # grouping variable is a factor
         ysub <- as.factor(ysub.n)
         if (is.null(weights)) {
           wt <- coin::wilcox_test(xsub ~ ysub, distribution = distribution)
@@ -222,6 +229,7 @@ mwu <- function(var, grp, distribution="asymptotic", weights=NULL) {
                                   distribution = distribution, 
                                   weights = as.formula("~wsub"))
         }
+        # compute statistics
         u <- as.numeric(coin::statistic(wt, type = "linear"))
         z <- as.numeric(coin::statistic(wt, type = "standardized"))
         p <- coin::pvalue(wt)
@@ -230,9 +238,18 @@ mwu <- function(var, grp, distribution="asymptotic", weights=NULL) {
         rkm.i <- mean(rank(xsub)[which(ysub.n == i)], na.rm = TRUE)
         rkm.j <- mean(rank(xsub)[which(ysub.n == j)], na.rm = TRUE)
         if (is.null(labels)) {
-          cat(sprintf("Groups (%i|%i), n = %i/%i:\n", i, j, length(xsub[which(ysub.n == i)]), length(xsub[which(ysub.n == j)])))
+          cat(sprintf("Groups (%i|%i), n = %i/%i:\n", 
+                      i, 
+                      j, 
+                      length(xsub[which(ysub.n == i)]), 
+                      length(xsub[which(ysub.n == j)])))
         } else {
-          cat(sprintf("Groups %i = %s (n = %i) | %i = %s (n = %i):\n", i, labels[i], length(xsub[which(ysub.n == i)]), j, labels[j], length(xsub[which(ysub.n == j)])))
+          cat(sprintf("Groups %i = %s (n = %i) | %i = %s (n = %i):\n", 
+                      i, 
+                      labels[i], 
+                      length(xsub[which(ysub.n == i)]), 
+                      j, labels[j], 
+                      length(xsub[which(ysub.n == j)])))
         }
         if (p < 0.001) {
           p <- 0.001
@@ -241,12 +258,21 @@ mwu <- function(var, grp, distribution="asymptotic", weights=NULL) {
           p.string <- "="
         }
         cat(sprintf("  U = %.3f, W = %.3f, p %s %.3f, Z = %.3f\n  effect-size r = %.3f\n  rank-mean(%i) = %.2f\n  rank-mean(%i) = %.2f\n\n", u, w, p.string, p, z, r, i, rkm.i, j, rkm.j))
-        df <- rbind(df, cbind(grp1=i, grp2=j, u=u, w=w, p=p, z=z, r=r, rank.mean.grp1=rkm.i, rank.mean.grp2=rkm.j))
+        df <- rbind(df, 
+                    cbind(grp1 = i, 
+                          grp2 = j, 
+                          u = u, 
+                          w = w, 
+                          p = p, 
+                          z = z, 
+                          r = r, 
+                          rank.mean.grp1 = rkm.i, 
+                          rank.mean.grp2 = rkm.j))
       }
     }
   }
   # if we have more than 2 groups, also perfom kruskal-wallis-test
-  if (cnt>2) {
+  if (cnt > 2) {
     message("Performing Kruskal-Wallis-Test...")
     message("---------------------------------")
     kw <- kruskal.test(var, grp)
@@ -293,7 +319,9 @@ chisq_gof <- function(var, prob, weights=NULL) {
   # performs a Chi-square goodnes-of-fit-test
   if (!is.null(weights)) var <- weight(var, weights)
   dummy <- as.vector(table(var))
-  chi2gof <- chisq.test(dummy, p=prob)
+  # goodness of fit-test. x is one-dimensional and
+  # y not given
+  chi2gof <- chisq.test(dummy, p = prob)
   print(chi2gof)
   invisible (chi2gof)
 }
@@ -317,13 +345,13 @@ chisq_gof <- function(var, prob, weights=NULL) {
 #' @note See examples from \code{\link{sjp.pca}} and \code{\link{sjt.pca}}.
 #' 
 #' @export
-cronb <- function(df) { # df must be matrix or data.frame with more than 2 columns
+cronb <- function(df) {
   df <- na.omit(df)
-  if (is.null(ncol(df)) || ncol(df)<2) {
+  if (is.null(ncol(df)) || ncol(df) < 2) {
     cat("\nToo less columns in this factor to calculate alpha value!\n")
     return(0)
   }
-  return (dim(df)[2]/(dim(df)[2]-1)*(1-sum(apply(df,2,var))/var(rowSums(df))))
+  return (dim(df)[2] / (dim(df)[2] - 1) * (1 - sum(apply(df, 2, var)) / var(rowSums(df))))
 }    
 
 
@@ -419,14 +447,12 @@ reliab_test <- function(df, scaleItems=FALSE, digits=3) {
   # item is deleted. If data frame has only two columns
   # and one is deleted, Cronbach's alpha cannot be calculated.
   # -----------------------------------
-  if (ncol(df)>2) {
+  if (ncol(df) > 2) {
     # -----------------------------------
     # Check whether items should be scaled. Needed,
     # when items have different measures / scales
     # -----------------------------------
-    if (scaleItems) {
-      df <- data.frame(scale(df, center=TRUE, scale=TRUE))
-    }
+    if (scaleItems) df <- data.frame(scale(df, center = TRUE, scale = TRUE))
     # -----------------------------------
     # init vars
     # -----------------------------------
@@ -440,7 +466,7 @@ reliab_test <- function(df, scaleItems=FALSE, digits=3) {
       # create subset with all items except current one
       # (current item "deleted")
       # -----------------------------------
-      sub.df <- subset(df, select=c(-i))
+      sub.df <- subset(df, select = c(-i))
       # -----------------------------------
       # calculate cronbach-if-deleted
       # -----------------------------------
@@ -448,12 +474,15 @@ reliab_test <- function(df, scaleItems=FALSE, digits=3) {
       # -----------------------------------
       # calculate corrected total-item correlation
       # -----------------------------------
-      totalCorr <- c(totalCorr, cor(df[,i], apply(sub.df, 1, sum), use="pairwise.complete.obs"))
+      totalCorr <- c(totalCorr, cor(df[, i], 
+                                    apply(sub.df, 1, sum), 
+                                    use = "pairwise.complete.obs"))
     }
     # -----------------------------------
     # create return value
     # -----------------------------------
-    ret.df <- data.frame(cbind(round(cronbachDeleted,digits), round(totalCorr,digits)))
+    ret.df <- data.frame(cbind(round(cronbachDeleted, digits), 
+                               round(totalCorr, digits)))
     # -----------------------------------
     # set names of data frame
     # -----------------------------------
@@ -508,11 +537,11 @@ mic <- function(data, corMethod="pearson") {
   # -----------------------------------
   # Mean-interitem-corelation
   # -----------------------------------
-  if (class(data)=="matrix") {
+  if (class(data) == "matrix") {
     corr <- data
   } else {
     data <- na.omit(data)
-    corr <- cor(data, method=corMethod)
+    corr <- cor(data, method = corMethod)
   }
   # -----------------------------------
   # Sum up all correlation values
@@ -563,11 +592,12 @@ mic <- function(data, corMethod="pearson") {
 #' 
 #' @export
 table_values <- function(tab, digits=2) {
-  if (class(tab)!="ftable") tab <- ftable(tab)
-  tab.cell <- round(100*prop.table(tab),digits)
-  tab.row <- round(100*prop.table(tab,1),digits)
-  tab.col <- round(100*prop.table(tab,2),digits)
-  tab.expected <- as.table(round(as.array(margin.table(tab,1)) %*% t(as.array(margin.table(tab,2))) / margin.table(tab)))
+  # convert to ftable object
+  if (class(tab) != "ftable") tab <- ftable(tab)
+  tab.cell <- round(100 * prop.table(tab), digits)
+  tab.row <- round(100 * prop.table(tab, 1), digits)
+  tab.col <- round(100 * prop.table(tab, 2), digits)
+  tab.expected <- as.table(round(as.array(margin.table(tab, 1)) %*% t(as.array(margin.table(tab, 2))) / margin.table(tab)))
   # -------------------------------------
   # return results
   # -------------------------------------
@@ -597,9 +627,10 @@ table_values <- function(tab, digits=2) {
 #' @importFrom MASS loglm
 #' @export
 phi <- function(tab) {
-  if (class(tab)!="ftable") tab <- ftable(tab)
-  tb <- summary(MASS::loglm(~1+2, tab))$tests
-  phi_val <- sqrt(tb[2,1]/sum(tab))
+  # convert to flat table
+  if (class(tab) != "ftable") tab <- ftable(tab)
+  tb <- summary(MASS::loglm(~1 + 2, tab))$tests
+  phi_val <- sqrt(tb[2, 1] / sum(tab))
   return (phi_val)
 }
 
@@ -621,9 +652,9 @@ phi <- function(tab) {
 #' 
 #' @export
 cramer <- function(tab) {
-  if (class(tab)!="ftable") tab <- ftable(tab)
+  if (class(tab) != "ftable") tab <- ftable(tab)
   phi_val <- phi(tab)
-  cramer <- sqrt(phi_val^2/min(dim(tab)-1))
+  cramer <- sqrt(phi_val^2 / min(dim(tab) - 1))
   return (cramer)
 }
 
@@ -641,6 +672,9 @@ cramer <- function(tab) {
 #' @export
 std_e <- function(x) sqrt(var(x, na.rm = TRUE) / length(na.omit(x)))
 
+
+# helper function to compute absolute and relative
+# confidence intervals
 sjs.frqci <- function(x) {
   ft <- as.numeric(unname(table(x)))
   n <- sum(ft, na.rm = T)
@@ -650,10 +684,31 @@ sjs.frqci <- function(x) {
   ci.l <- n * (rel_frq - ci)
   rel.ci.u <- rel_frq + ci
   rel.ci.l <- rel_frq - ci
-  mydat.frq <- data.frame(frq = ft, lower.ci = ci.l, upper.ci = ci.u)
-  mydat.rel <- data.frame(rel.frq = rel_frq, rel.lower.ci = rel.ci.l, rel.upper.ci = rel.ci.u)
+  mydat.frq <- data.frame(frq = ft, 
+                          lower.ci = ci.l, 
+                          upper.ci = ci.u)
+  mydat.rel <- data.frame(rel.frq = rel_frq, 
+                          rel.lower.ci = rel.ci.l, 
+                          rel.upper.ci = rel.ci.u)
   
   invisible (structure(class = "sjs.frqci",
                        list(mydat.frq = mydat.frq,
                             mydat.rel = mydat.rel)))
 }
+
+
+#' @title Compute coefficient of variance
+#' @name cv
+#' @description Compute coefficient of variance (standard deviation divided 
+#'                by mean).
+#'
+#' @param x a (numeric) vector / variable.
+#' @return The coefficient of variance (standard deviation divided 
+#'           by mean) of \code{x}.
+#' 
+#' @examples
+#' data(efc)
+#' cv(efc$e17age)
+#' 
+#' @export
+cv <- function(x) sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE)

@@ -28,7 +28,7 @@ Recodes the categories of a variables \code{var} into new category values, begin
 }
 \examples{
 # recode 1-4 to 0-3
-dummy <- sample(1:4, 10, replace=TRUE)
+dummy <- sample(1:4, 10, replace = TRUE)
 recode_to(dummy)
 
 # recode 3-6 to 0-3
@@ -37,12 +37,12 @@ dummy <- as.factor(3:6)
 recode_to(dummy)
 
 # lowest value starting with 1
-dummy <- sample(11:15, 10, replace=TRUE)
+dummy <- sample(11:15, 10, replace = TRUE)
 recode_to(dummy, 1)
 
 # lowest value starting with 1, highest with 3
 # all others set to NA
-dummy <- sample(11:15, 10, replace=TRUE)
+dummy <- sample(11:15, 10, replace = TRUE)
 recode_to(dummy, 1, 3)
 }
 

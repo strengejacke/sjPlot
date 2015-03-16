@@ -55,6 +55,8 @@
 #' @param panel.minor.gridcol Color of the minor grid lines of the diagram background.
 #' @param panel.gridcol Color for both minor and major grid lines of the diagram background.
 #'          If set, overrides both \code{panel.major.gridcol} and \code{panel.minor.gridcol}.
+#' @param panel.major.linetype Line type for major grid lines.
+#' @param panel.minor.linetype Line type for minor grid lines.
 #' @param plot.backcol Color of the plot's background.
 #' @param plot.bordercol Color of whole plot's border (panel border).
 #' @param plot.col Color of both plot's region border and background.
@@ -96,6 +98,7 @@
 #'          \item \code{"forest"}: a theme for forest plots, with no grids.
 #'          \item \code{"538"}: a grey-scaled theme inspired by \href{http://fivethirtyeight.com}{538-charts}, adapted from \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{minimaxir.com}.
 #'          \item \code{"539"}: a slight modification of the 538-theme.
+#'          \item \code{"scatter"}: a theme for scatter plots in 539-theme-style.
 #'          \item \code{"blues"}: a blue-colored scheme based on the Blues color-brewer-palette.
 #'          \item \code{"greens"}: a green-colored scheme.
 #'        }
@@ -217,6 +220,8 @@ sjp.setTheme <- function(title.color="black",
                          panel.major.gridcol=NULL,
                          panel.minor.gridcol=NULL,
                          panel.gridcol=NULL,
+                         panel.major.linetype = 1,
+                         panel.minor.linetype = 1,
                          # plot background color
                          plot.backcol=NULL,
                          plot.bordercol=NULL,
@@ -302,6 +307,31 @@ sjp.setTheme <- function(title.color="black",
     legend.color <- g.palette[6]
     axis.tickslen <- 0
     # custom modifications
+    title.align <- "center"
+    axis.title.x.vjust <- -1
+    axis.title.y.vjust <- 1.5
+    title.vjust <- 1.75
+    plot.margins <- unit(c(1, .5, 1, 0.5), "cm")
+  }  
+  if (!is.null(theme) && theme=="scatter") {
+    base <- theme_bw()
+    g.palette <- scales::brewer_pal(palette = "Greys")(9)
+    panel.bordercol <- panel.backcol <- panel.col <- g.palette[2]
+    plot.backcol <- plot.bordercol <- plot.col <- g.palette[2]
+    panel.major.gridcol <- panel.minor.gridcol <- g.palette[4]
+    axis.linecolor <- g.palette[5]
+    if (is.null(axis.linecolor.y)) axis.linecolor.y <- g.palette[2]
+    if (is.null(axis.linecolor.x)) axis.linecolor.x <- g.palette[2]
+    legend.backgroundcol <- legend.bordercol <- g.palette[2]
+    title.color <- g.palette[9]
+    axis.textcolor <- g.palette[6]
+    axis.title.color <- g.palette[7]
+    if (is.null(geom.label.color)) geom.label.color <- g.palette[6]
+    legend.title.color <- g.palette[7]
+    legend.color <- g.palette[6]
+    axis.tickslen <- 0
+    # custom modifications
+    panel.major.linetype <- panel.minor.linetype <- 2
     title.align <- "center"
     axis.title.x.vjust <- -1
     axis.title.y.vjust <- 1.5
@@ -559,8 +589,8 @@ sjp.setTheme <- function(title.color="black",
     # ----------------------------------------
     if (!is.null(panel.gridcol)) {
       sjtheme <- sjtheme +
-        theme(panel.grid.minor = element_line(colour = panel.minor.gridcol),
-              panel.grid.major = element_line(colour = panel.major.gridcol))
+        theme(panel.grid.minor = element_line(colour = panel.minor.gridcol, linetype = panel.minor.linetype),
+              panel.grid.major = element_line(colour = panel.major.gridcol, linetype = panel.major.linetype))
     }
     # ----------------------------------------
     # set plot margins. onyl applies to pre-set themes
@@ -594,13 +624,13 @@ sjp.setTheme <- function(title.color="black",
     # ----------------------------------------
     if (!is.null(panel.gridcol.x)) {
       sjtheme <- sjtheme +
-        theme(panel.grid.minor.x = element_line(colour = panel.gridcol.x),
-              panel.grid.major.x = element_line(colour = panel.gridcol.x))
+        theme(panel.grid.minor.x = element_line(colour = panel.gridcol.x, linetype = panel.minor.linetype),
+              panel.grid.major.x = element_line(colour = panel.gridcol.x, linetype = panel.major.linetype))
     }
     if (!is.null(panel.gridcol.y)) {
       sjtheme <- sjtheme +
-        theme(panel.grid.minor.y = element_line(colour = panel.gridcol.y),
-              panel.grid.major.y = element_line(colour = panel.gridcol.y))
+        theme(panel.grid.minor.y = element_line(colour = panel.gridcol.y, linetype = panel.minor.linetype),
+              panel.grid.major.y = element_line(colour = panel.gridcol.y, linetype = panel.major.linetype))
     }
     # ----------------------------------------
     # finally, set theme

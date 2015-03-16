@@ -19,7 +19,8 @@ sjp.setTheme(title.color = "black", title.size = 1.3,
   axis.textsize = NULL, axis.tickslen = NULL, axis.ticksol = NULL,
   axis.ticksmar = NULL, panel.backcol = NULL, panel.bordercol = NULL,
   panel.col = NULL, panel.major.gridcol = NULL,
-  panel.minor.gridcol = NULL, panel.gridcol = NULL, plot.backcol = NULL,
+  panel.minor.gridcol = NULL, panel.gridcol = NULL,
+  panel.major.linetype = 1, panel.minor.linetype = 1, plot.backcol = NULL,
   plot.bordercol = NULL, plot.col = NULL, legend.pos = "right",
   legend.just = NULL, legend.inside = FALSE, legend.size = 1,
   legend.color = "black", legend.title.size = 1,
@@ -119,6 +120,10 @@ If set, overrides both \code{panel.bordercol} and \code{panel.backcol}.}
 \item{panel.gridcol}{Color for both minor and major grid lines of the diagram background.
 If set, overrides both \code{panel.major.gridcol} and \code{panel.minor.gridcol}.}
 
+\item{panel.major.linetype}{Line type for major grid lines.}
+
+\item{panel.minor.linetype}{Line type for minor grid lines.}
+
 \item{plot.backcol}{Color of the plot's background.}
 
 \item{plot.bordercol}{Color of whole plot's border (panel border).}
@@ -173,6 +178,7 @@ Furthermore, there are some theme-presets, which can be used:
   \item \code{"forest"}: a theme for forest plots, with no grids.
   \item \code{"538"}: a grey-scaled theme inspired by \href{http://fivethirtyeight.com}{538-charts}, adapted from \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{minimaxir.com}.
   \item \code{"539"}: a slight modification of the 538-theme.
+  \item \code{"scatter"}: a theme for scatter plots in 539-theme-style.
   \item \code{"blues"}: a blue-colored scheme based on the Blues color-brewer-palette.
   \item \code{"greens"}: a green-colored scheme.
 }}

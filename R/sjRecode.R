@@ -490,18 +490,21 @@ sjp.vif <- function(fit) {
 #' @export
 set_na <- function(var, values) {
   # ----------------------------
-  # check value_labels option
+  # auto-detect variable label attribute
   # ----------------------------
-  opt <- getOption("value_labels")
-  if (!is.null(opt) && opt == "haven") {
-    attr.string <- "labels"
+  attr.string <- getValLabelAttribute(var)
+  # check if var has label attributes
+  if (!is.null(attr.string)) {
+    # retrieve value labels
+    vl <- attr(var, attr.string)
+    # retrieve label names
+    ln <- names(vl)
   } else {
-    attr.string <- "value.labels"
+    # if var has no label attributes, use values
+    # as labels
+    vl <- as.character(sort(unique(na.omit(var))))
+    ln <- vl
   }
-  # retrieve value labels
-  vl <- attr(var, attr.string)
-  # retrieve label names
-  ln <- names(vl)
   # iterate all values that should be 
   # replaced by NA's
   for (i in seq_along(values)) {
@@ -511,10 +514,16 @@ set_na <- function(var, values) {
     # check if value labels exist, and if yes, remove them
     labelpos <- which(as.numeric(vl) == values[i])
     # remove NA label
-    if (length(labelpos > 0)) vl <- vl[-labelpos]
+    if (length(labelpos > 0)) {
+      vl <- vl[-labelpos]
+      ln <- ln[-labelpos]
+    }
   }
   # set back updated label attribute
-  attr(var, attr.string) <- vl
+  if (!is.null(attr.string)) {
+    attr(var, attr.string) <- vl
+    names(attr(var, attr.string)) <- ln
+  }
   return(var)
 }
 
@@ -1009,7 +1018,7 @@ mean_n <- function(dat, n) {
     warning("'n' must be smaller or equal to data.frame's amount of columns.")
     return (NA)
   }
-  apply(dat, 1, function(x) ifelse(sum(!is.na(x)) >= n, mean(x, na.rm=TRUE), NA))
+  apply(dat, 1, function(x) ifelse(sum(!is.na(x)) >= n, mean(x, na.rm = TRUE), NA))
 }
 
 

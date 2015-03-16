@@ -2,8 +2,8 @@ Package: sjPlot
 Type: Package
 Encoding: UTF-8
 Title: Data Visualization for Statistics in Social Science
-Version: 1.7-2
-Date: 2015-03-12
+Version: 1.7-3
+Date: 2015-03-16
 Author: Daniel Lüdecke <d.luedecke@uke.de>
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
 Description: Collection of several plotting and table output functions for
@@ -15,7 +15,6 @@ Imports:
     arm,
     car,
     dplyr (>= 0.4.1),
-    foreign,
     ggplot2,
     lme4,
     MASS,
@@ -25,10 +24,10 @@ Imports:
 Suggests:
     cluster,
     coin,
+    foreign,
     haven,
     lmtest,
     lsmeans,
-    Matrix,
     stringdist
 URL: https://github.com/sjPlot/devel
 BugReports: https://github.com/sjPlot/devel/issues

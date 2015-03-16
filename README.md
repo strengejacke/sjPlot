@@ -33,10 +33,15 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of current development build 1.7-2
+### Changelog of current development build 1.7-3
 
 #### General
 * Change R-Version dependency to R >= 3.1, due to import of `tidyr` and `haven` packages.
+* Improved internal management of imported data via `haven` and `foreign` packages, so users don't need to care of structure and classed of data read with either haven, foreing or sjPlot's read-functions.
+
+
+#### New functions
+* `cv` to compute coefficient of variance.
 
 #### Changes to functions
 * `sjp.glm` now supports plotting `logistf` objects [(#issue 11)](https://github.com/sjPlot/devel/issues/11).

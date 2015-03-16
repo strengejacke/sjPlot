@@ -230,18 +230,12 @@ sjp.glm <- function(fit,
   # Prepare length of title and labels
   # ----------------------------
   # check length of diagram title and split longer string at into new lines
-  if (!is.null(title)) {
-    title <- word_wrap(title, breakTitleAt)
-  }
+  if (!is.null(title)) title <- word_wrap(title, breakTitleAt)
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(axisTitle.x)) {
-    axisTitle.x <- word_wrap(axisTitle.x, breakTitleAt)
-  }
+  if (!is.null(axisTitle.x)) axisTitle.x <- word_wrap(axisTitle.x, breakTitleAt)
   # check length of x-axis-labels and split longer strings at into new lines
-  if (!is.null(axisLabels.y)) {
-    axisLabels.y <- word_wrap(axisLabels.y, breakLabelsAt)
-  }
+  if (!is.null(axisLabels.y)) axisLabels.y <- word_wrap(axisLabels.y, breakLabelsAt)
   # create data frame for ggplot
   tmp <- data.frame(cbind(exp(coef(fit)), exp(confint(fit))))
   # ----------------------------
@@ -250,8 +244,7 @@ sjp.glm <- function(fit,
   # retrieve sigificance level of independent variables (p-values)
   if (class(fit) == "logistf") {
     pv <- fit$prob
-  }
-  else {
+  } else {
     pv <- coef(summary(fit))[,4]
   }
   # for better readability, convert p-values to asterisks
@@ -279,15 +272,11 @@ sjp.glm <- function(fit,
   # ----------------------------
   if (showPValueLabels) {
     for (i in 1:length(pv)) {
-      if (pv[i]>=0.05) {
-      }
-      else if (pv[i]>=0.01 && pv[i]<0.05) {
+      if (pv[i] >= 0.01 && pv[i] < 0.05) {
         ps[i] <- paste(ps[i], "*")
-      }
-      else if (pv[i]>=0.001 && pv[i]<0.01) {
+      } else if (pv[i] >= 0.001 && pv[i] < 0.01) {
         ps[i] <- paste(ps[i], "**")
-      }
-      else {
+      } else if (pv[i] < 0.001) {
         ps[i] <- paste(ps[i], "***")
       }
     }
@@ -295,7 +284,7 @@ sjp.glm <- function(fit,
   # ----------------------------
   # remove intercept
   # ----------------------------
-  odds <- cbind(tmp[-1,])
+  odds <- cbind(tmp[-1, ])
   # ----------------------------
   # retrieve odds ratios, without intercept. now we can order
   # the predictors according to their OR value, while the intercept
@@ -319,9 +308,7 @@ sjp.glm <- function(fit,
   # This is necessary because the OR-values are reorderd by size
   # in the ggplot function below
   # ----------------------------
-  if (sortOdds) {
-    axisLabels.y <- axisLabels.y[order(ov)]
-  }
+  if (sortOdds) axisLabels.y <- axisLabels.y[order(ov)]
   # ----------------------------
   # bind p-values to data frame
   # ----------------------------
@@ -336,10 +323,10 @@ sjp.glm <- function(fit,
   # set column names
   names(odds) <- c("OR", "lower", "upper", "p")
   names(tmp) <- c("OR", "lower", "upper", "p")
-  lhj <- ifelse(odds$OR>1, 1.3, -0.3)
-  odds <- cbind(odds, labhjust=lhj)
-  lhj <- ifelse(tmp$OR>1, 1.3, -0.3)
-  tmp <- cbind(tmp, labhjust=lhj)
+  lhj <- ifelse(odds$OR > 1, 1.3, -0.3)
+  odds <- cbind(odds, labhjust = lhj)
+  lhj <- ifelse(tmp$OR > 1, 1.3, -0.3)
+  tmp <- cbind(tmp, labhjust = lhj)
   # ----------------------------
   # Create new variable. Needed for sorting the variables / OR
   # in the graph (see reorder in ggplot-function)
@@ -354,34 +341,31 @@ sjp.glm <- function(fit,
     # values of odds ratios AND intercept
     if (showIntercept) {
       rdf <- tmp
-    }
-    # else, we have to adjuste the axis limits to max/min
-    # values just of odds ratios
-    else {
+    } else {
+      # else, we have to adjuste the axis limits to max/min
+      # values just of odds ratios
       rdf <- odds
     }
     # check whether we have bar chart and error bars hidden
     # in this case, the upper limit does not correspond to the
     # upper CI, but to the highest OR value
-    if (type=="bars" && hideErrorBars) {
+    if (type == "bars" && hideErrorBars) {
       maxval <- max(rdf$OR)
       minval <- min(rdf$OR)
-    }
-    else {
+    } else {
       # else we have confindence intervals displayed, so
       # the range corresponds to the boundaries given by
       # the CI's
       maxval <- max(rdf$upper)
       minval <- min(rdf$lower)
     }
-    upper_lim <- (ceiling(10*maxval)) / 10
-    lower_lim <- (floor(10*minval)) / 10
+    upper_lim <- (ceiling(10 * maxval)) / 10
+    lower_lim <- (floor(10 * minval)) / 10
     # give warnings when auto-limits are very low/high
     if ((minval < 0.1) || (maxval > 100)) {
       warning("Exp. coefficients and/or exp. confidence intervals may be out of printable bounds. Consider using \"axisLimits\" parameter!")
     }
-  }
-  else {
+  } else {
     # Here we have user defind axis range
     lower_lim <- axisLimits[1]
     upper_lim <- axisLimits[2]
@@ -390,7 +374,7 @@ sjp.glm <- function(fit,
   # Define axis ticks, i.e. at which position we have grid
   # bars.
   # --------------------------------------------------------
-  ticks <- c(seq(lower_lim, upper_lim, by=gridBreaksAt))
+  ticks <- c(seq(lower_lim, upper_lim, by = gridBreaksAt))
   # ----------------------------
   # create expression with model summarys. used
   # for plotting in the diagram later
@@ -399,39 +383,37 @@ sjp.glm <- function(fit,
     psr <- PseudoR2(fit)
     modsum <- as.character(as.expression(
       substitute("(Intercept)" == ic * "," ~~ italic(R)[CS]^2 == r2cs * "," ~~ italic(R)[N]^2 == r2n * "," ~~ -2 * lambda == la * "," ~~ chi^2 == c2 * "," ~~ "AIC" == aic,
-                 list(ic=sprintf("%.2f", exp(coef(fit)[1])),
-                      r2cs=sprintf("%.3f", psr[2]),
-                      r2n=sprintf("%.3f", psr[3]),
-                      la=sprintf("%.2f", -2*logLik(fit)),
-                      c2=sprintf("%.2f", Chisquare.glm(fit)),
-                      aic=sprintf("%.2f", fit$aic)))))
+                 list(ic = sprintf("%.2f", exp(coef(fit)[1])),
+                      r2cs = sprintf("%.3f", psr[2]),
+                      r2n = sprintf("%.3f", psr[3]),
+                      la = sprintf("%.2f", -2 * logLik(fit)),
+                      c2 = sprintf("%.2f", Chisquare.glm(fit)),
+                      aic = sprintf("%.2f", fit$aic)))))
     cat(sprintf("Intercept = %.2f\nR2[cs] = %.3f\nR2[n] = %.3f\nLambda = %.2f\nChi2 = %.2f\nAIC = %.2f\n",
                 exp(coef(fit)[1]),
                 psr[2],
                 psr[3],
-                -2*logLik(fit),
+                -2 * logLik(fit),
                 Chisquare.glm(fit),
                 fit$aic))
-  }
-  else {
+  } else {
     modsum <- NULL
   }
-  if (!showAxisLabels.y) {
-    axisLabels.y <- c("")
-  }
+  # --------------------------------------------------------
+  # should axis labels be hidden? if yes, clear labels
+  # --------------------------------------------------------
+  if (!showAxisLabels.y) axisLabels.y <- c("")
   # --------------------------------------------------------
   # Order odds according to beta-coefficients
   # --------------------------------------------------------
-  if (sortOdds) {
-    odds <- odds[order(ov),]
-  }
+  if (sortOdds) odds <- odds[order(ov), ]
   odds$vars <- cbind(c(1:nrow(odds)))
   odds$vars <- as.factor(odds$vars)
   # --------------------------------------------------------
   # check whether intercept should be shown
   # --------------------------------------------------------
   if (showIntercept) {
-    odds <- data.frame(rbind(tmp[1,], odds))
+    odds <- data.frame(rbind(tmp[1, ], odds))
     axisLabels.y <- c("Intercept", axisLabels.y)
   }
   # --------------------------------------------------------
@@ -439,37 +421,47 @@ sjp.glm <- function(fit,
   # --------------------------------------------------------
   # plot as bars, fill bars according to
   # OR-value greater / lower than 1
-  plotHeader <- ggplot(odds, aes(y=OR, x=vars))
+  plotHeader <- ggplot(odds, aes(y = OR, x = vars))
   # --------------------------------------------------------
   # start with dot-plotting here
   # --------------------------------------------------------
-  if (type=="dots") {
+  if (type == "dots") {
     plotHeader <- plotHeader +
       # Order odds according to beta-coefficients, colour points and lines according to
       # OR-value greater / lower than 1
-      geom_point(size=geom.size, aes(colour=(OR>1))) +
+      geom_point(size = geom.size, aes(colour = (OR > 1))) +
       # print confidence intervalls (error bars)
-      geom_errorbar(aes(ymin=lower, ymax=upper, colour=(OR>1)), width=0) +
+      geom_errorbar(aes(ymin = lower, 
+                        ymax = upper, 
+                        colour = (OR > 1)), 
+                    width = 0) +
       # print value labels and p-values
-      geom_text(aes(label=p, y=OR), vjust=-0.7)
-  }
+      geom_text(aes(label = p, y = OR), vjust = -0.7)
   # --------------------------------------------------------
   # start with bar plots here
   # --------------------------------------------------------
-  else if (type=="bars") {
+  } else if (type == "bars") {
     # Order odds according to beta-coefficients, colour points and lines according to
     # OR-value greater / lower than 1
     plotHeader <- plotHeader +
       # stat-parameter indicates statistics
       # stat="bin": y-axis relates to count of variable
       # stat="identity": y-axis relates to value of variable
-      geom_bar(aes(fill=(OR>1)), stat="identity", position="identity", width=geom.size) +
+      geom_bar(aes(fill = (OR > 1)), 
+               stat = "identity", 
+               position = "identity", 
+               width = geom.size) +
       # print value labels and p-values
-      geom_text(aes(label=p, y=1), vjust=-1, hjust=odds$labhjust)
+      geom_text(aes(label = p, y = 1), 
+                vjust = -1, 
+                hjust = odds$labhjust)
     if (hideErrorBars==FALSE) {
       plotHeader <- plotHeader +
         # print confidence intervalls (error bars)
-      geom_errorbar(aes(ymin=lower, ymax=upper), colour="black", width=0)
+      geom_errorbar(aes(ymin = lower, 
+                        ymax = upper), 
+                    colour = "black", 
+                    width = 0)
     }
   }
   # ------------------------------------------
@@ -477,8 +469,7 @@ sjp.glm <- function(fit,
   # here we print out the log-lik-ratio "lambda" and the chi-square significance of the model
   # compared to the null-model
   # ------------------------------------------
-  plotHeader <- print.table.summary(plotHeader,
-                                    modsum)
+  plotHeader <- print.table.summary(plotHeader, modsum)
   plotHeader <- plotHeader +
     # Intercept-line
     geom_hline(yintercept = 1,
@@ -501,8 +492,7 @@ sjp.glm <- function(fit,
                          limits = c(lower_lim, upper_lim),
                          breaks = base_breaks(upper_lim),
                          labels = prettyNum)
-  }
-  else {
+  } else {
     plotHeader <- plotHeader +
       # logarithmic scale for odds
       scale_y_log10(limits = c(lower_lim, upper_lim),
@@ -512,10 +502,7 @@ sjp.glm <- function(fit,
   # --------------------------------------------------------
   # flip coordinates?
   # --------------------------------------------------------
-  if (coord.flip)  {
-    plotHeader <- plotHeader +
-      coord_flip()
-  }
+  if (coord.flip) plotHeader <- plotHeader + coord_flip()
   # ---------------------------------------------------------
   # set geom colors
   # ---------------------------------------------------------
@@ -523,10 +510,7 @@ sjp.glm <- function(fit,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (printPlot) {
-    # print base plot
-    print(plotHeader)
-  }
+  if (printPlot) print(plotHeader)
   # -------------------------------------
   # return results
   # -------------------------------------
@@ -579,8 +563,7 @@ sjp.glm.pc <- function(fit,
         # add reference level to coefficient name
         ll <- levels(vals)
         fit.fac.name <- paste0(fit.term.names[i], ll[length(ll)])
-      }
-      else {
+      } else {
         fit.fac.name <- fit.term.names[i]
       }
       # find coef-position
@@ -600,7 +583,7 @@ sjp.glm.pc <- function(fit,
   # ---------------------------------------------------------
   # Prepare metric plots
   # ---------------------------------------------------------
-  if (length(mydf.metricpred)>0) {
+  if (length(mydf.metricpred) > 0) {
     # create mydf for integrated plot
     mydf.ges <- data.frame()
     for (i in 1:length(mydf.metricpred)) {
@@ -608,11 +591,14 @@ sjp.glm.pc <- function(fit,
       mydf.ges <- rbind(mydf.ges, mydf.metricpred[[i]])
       # create single plots for each numeric predictor
       mp <- ggplot(mydf.metricpred[[i]], aes(x = value, y = y)) +
-        labs(x = axisLabels.mp[i], y = "Probability") +
-        stat_smooth(method = "glm", family = "binomial", se = show.se) +
+        labs(x = axisLabels.mp[i], 
+             y = "Probability") +
+        stat_smooth(method = "glm", 
+                    family = "binomial", 
+                    se = show.se) +
         coord_cartesian(ylim = c(0, 1))
       # add plot to list
-      plot.metricpred[[length(plot.metricpred)+1]] <- mp
+      plot.metricpred[[length(plot.metricpred) + 1]] <- mp
     }
     # if we have more than one numeric var, also create integrated plot
     if (length(mydf.metricpred) > 1) {
@@ -625,7 +611,9 @@ sjp.glm.pc <- function(fit,
              title = "Probability of coefficients") +
         scale_colour_manual(values = brewer_pal(palette = "Set1")(length(axisLabels.mp)),
                             labels = axisLabels.mp) +
-        stat_smooth(method = "glm", family = "binomial", se = show.se) +
+        stat_smooth(method = "glm", 
+                    family = "binomial", 
+                    se = show.se) +
         coord_cartesian(ylim = c(0, 1)) +
         facet_wrap( ~ grp,
                     ncol = round(sqrt(length(mydf.metricpred))),
@@ -643,8 +631,7 @@ sjp.glm.pc <- function(fit,
   if (printPlot) {
     if (facet.grid && !is.null(plot.facet)) {
       print(plot.facet)
-    }
-    else {
+    } else {
       for (i in 1:length(plot.metricpred)) {
         print(plot.metricpred[[i]])
       }
@@ -674,24 +661,23 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   removedcases <- 0
   loop <- TRUE
   # start loop
-  while(loop==TRUE) {
+  while(loop == TRUE) {
     # get outliers of model
     ol <- outlierTest(model)
     # retrieve variable numbers of outliers
     vars <- as.numeric(attr(ol$p, "names"))
     # update model by removing outliers
-    dummymodel <- update(model, subset=-c(vars))
+    dummymodel <- update(model, subset = -c(vars))
     # retrieve new AIC-value
     dummyaic <- dummymodel$aic
     # decrease maximum loops
-    maxcnt <- maxcnt -1
+    maxcnt <- maxcnt - 1
     # check whether AIC-value of updated model is larger
     # than previous AIC-value or if we have already all loop-steps done,
     # stop loop
-    if(dummyaic >= aic || maxcnt<1) {
+    if(dummyaic >= aic || maxcnt < 1) {
       loop <- FALSE
-    }
-    else {
+    } else {
       # else copy new model, which is the better one (according to AIC-value)
       model <- dummymodel
       # and get new AIC-value
@@ -705,11 +691,11 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   # ---------------------------------
   message(sprintf(("Removed %i cases during %i step(s).\nAIC-value of original model: %.2f\nAIC-value of updated model: %.2f\n"),
                   removedcases,
-                  maxloops-(maxcnt+1),
+                  maxloops - (maxcnt + 1),
                   logreg$aic,
                   model$aic))
   
-  modelOptmized <- ifelse(removedcases>0, TRUE, FALSE)
+  modelOptmized <- ifelse(removedcases > 0, TRUE, FALSE)
   if (showOriginalModelOnly) modelOptmized <- FALSE
   # ---------------------------------
   # show VIF-Values
@@ -730,25 +716,29 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
     i <- order(x)
     n <- length(x)
     ui <- qnorm((n + 1:n)/(2 * n + 1))
-    plot(ui, x[i], xlab="Half-normal quantiles", ylab=ylab, ylim=c(0,max(x)), type="n", ...)
-    if(nlab < n) {
-      points(ui[1:(n - nlab)], x[i][1:(n - nlab)])
-    }
-    text(ui[(n - nlab + 1):n], x[i][(n - nlab + 1):n], labs[labord][(n - nlab + 1):n])
+    plot(ui, 
+         x[i], 
+         xlab = "Half-normal quantiles", 
+         ylab = ylab, 
+         ylim = c(0, max(x)), 
+         type="n",
+         ...)
+    if(nlab < n) points(ui[1:(n - nlab)], x[i][1:(n - nlab)])
+    text(ui[(n - nlab + 1):n], 
+         x[i][(n - nlab + 1):n], 
+         labs[labord][(n - nlab + 1):n])
   }
   # show half-normal quantiles for original model
-  halfnorm(residuals(logreg), main="Original model (over-/underdispersion)")
+  halfnorm(residuals(logreg), main = "Original model (over-/underdispersion)")
   if (!showOriginalModelOnly) {
     # show half-normal quantiles for updated model
-    halfnorm(residuals(model), main="Updated model (over-/underdispersion)")
+    halfnorm(residuals(model), main = "Updated model (over-/underdispersion)")
   }
   # ------------------------------------------------------
   # Influential and leverage points
   # ------------------------------------------------------
   influencePlot(logreg)
-  if (!showOriginalModelOnly) {
-    influencePlot(model)
-  }
+  if (!showOriginalModelOnly) influencePlot(model)
   # ------------------------------------------------------
   # Residual plot
   # ------------------------------------------------------

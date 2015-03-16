@@ -21,7 +21,7 @@ package, use \code{attr.string = "label"}. There is a wrapper function
 care of this.}
 }
 \value{
-\code{x}, with attached \code{"variable.label"} attribute(s), which contains the
+\code{x}, with attached variable label attribute(s), which contains the
           variable name(s).
 }
 \description{
@@ -60,7 +60,7 @@ dummy <- set_val_labels(dummy, c("very low", "low", "mid", "hi"))
 dummy <- set_var_labels(dummy, "Dummy-variable")
 # auto-detection of value labels by default, auto-detection of
 # variable labels if parameter "title" set to NULL.
-sjp.frq(dummy, title=NULL)
+sjp.frq(dummy, title = NULL)
 }
 \seealso{
 \itemize{

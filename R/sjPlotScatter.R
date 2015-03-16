@@ -156,17 +156,13 @@ sjp.scatter <- function(x=NULL,
   if (is.null(x) && is.null(y)) {
     stop("At least either 'x' or 'y' must be specified.", call. = FALSE)
   }
-  if (is.null(x)) {
-    x <- c(1:length(y))
-  }
-  if (is.null(y)) {
-    y <- c(1:length(x))
-  }
+  if (is.null(x)) x <- c(1:length(y))
+  if (is.null(y)) y <- c(1:length(x))
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
   if (is.null(legendLabels) && !is.null(grp)) legendLabels <- autoSetValueLabels(grp)
-  if (is.null(legendTitle)) legendTitle <- autoSetVariableLabels(grp)
+  if (is.null(legendTitle) && !is.null(grp)) legendTitle <- autoSetVariableLabels(grp)
   if (is.null(axisTitle.x)) axisTitle.x <- autoSetVariableLabels(x)
   if (is.null(axisTitle.y)) axisTitle.y <- autoSetVariableLabels(y)
   if (is.null(title)) {
