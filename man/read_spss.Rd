@@ -46,14 +46,24 @@ This is a wrapper function for \code{\link{read_spss}} of the
        label detection.
 }
 \examples{
-# import SPSS data set
-# mydat <- read_spss("my_spss_data.sav", enc = "UTF-8")
+\dontrun{
+# import SPSS data set. uses haven's read function
+# by default
+mydat <- read_spss("my_spss_data.sav")
+
+# use foreign's read function
+mydat <- read_spss("my_spss_data.sav",
+                   enc = "UTF-8",
+                   option = "foreign")
+
+# use haven's read function, convert atomic to factor
+mydat <- read_spss("my_spss_data.sav", atomic.to.fac = TRUE)
 
 # retrieve variable labels
-# mydat.var <- get_var_labels(mydat)
+mydat.var <- get_var_labels(mydat)
 
 # retrieve value labels
-# mydat.val <- get_val_labels(mydat)
+mydat.val <- get_val_labels(mydat)}
 }
 \seealso{
 \itemize{

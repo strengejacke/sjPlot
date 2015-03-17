@@ -7,19 +7,19 @@
 mean_n(dat, n)
 }
 \arguments{
-\item{dat}{a \link{data.frame} with at least two columns, where row means are applied.}
+\item{dat}{a \code{\link{data.frame}} with at least two columns, where row means are applied.}
 
-\item{n}{the amount of valid values per row to calculate the row mean. If a row's valid
-         values is smaller than \code{n}, \link{NA} will be returned as row mean value.}
+\item{n}{the amount of valid values per row to calculate the row mean. If a row's amount of valid
+         values is less than \code{n}, \code{\link{NA}} will be returned as row mean value.}
 }
 \value{
 A vector with row mean values of \code{df} for those rows with at least \code{n}
-          valid values. Else, \link{NA} is returned.
+          valid values. Else, \code{\link{NA}} is returned.
 }
 \description{
 This function is similar to the SPSS \code{MEAN.n} function and computes
-               row means from a \link{data.frame} or \link{matrix} if at least \code{n}
-               values of a row a valid (and not \link{NA}).
+               row means from a \code{\link{data.frame}} or \code{\link{matrix}} if at least \code{n}
+               values of a row are valid (and not \code{\link{NA}}).
 }
 \examples{
 dat <- data.frame(c1 = c(1,2,NA,4),

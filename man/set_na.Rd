@@ -18,6 +18,10 @@ The \code{var} where each value of \code{values} replaced by an \code{NA}.
 This function sets specific values of a variable \code{var}
                as missings (\code{NA}).
 }
+\note{
+Value and variable label attributes (see, for instance, \code{\link{get_val_labels}}
+        or \code{\link{set_val_labels}}) are retained.
+}
 \examples{
 # create random variable
 dummy <- sample(1:8, 100, replace=TRUE)

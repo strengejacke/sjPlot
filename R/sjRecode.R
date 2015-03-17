@@ -370,6 +370,9 @@ word_wrap <- function(labels, wrap, linesep=NULL) {
 #' @return A new variable with recoded category values, where \code{lowest} indicates the lowest
 #'           value.
 #' 
+#' @note Value and variable label attributes (see, for instance, \code{\link{get_val_labels}}
+#'         or \code{\link{set_val_labels}}) are retained.
+#' 
 #' @examples
 #' # recode 1-4 to 0-3
 #' dummy <- sample(1:4, 10, replace = TRUE)
@@ -391,6 +394,10 @@ word_wrap <- function(labels, wrap, linesep=NULL) {
 #' 
 #' @export
 recode_to <- function(var, lowest=0, highest=-1) {
+  # retrieve value labels
+  val_lab <- get_val_labels(var)
+  # retrieve variable label
+  var_lab <- get_var_labels(var)
   # check if factor
   if (is.factor(var)) {
     # try to convert to numeric
@@ -405,6 +412,9 @@ recode_to <- function(var, lowest=0, highest=-1) {
   # check for highest range
   # set NA to all values out of range
   if (highest > lowest) var[var > highest] <- NA
+  # set back labels, if we have any
+  if (!is.null(val_lab)) dummy <- suppressWarnings(set_val_labels(dummy, val_lab))
+  if (!is.null(var_lab)) dummy <- suppressWarnings(set_var_labels(dummy, var_lab))
   # return recoded var
   return(var)
 }
@@ -477,6 +487,9 @@ sjp.vif <- function(fit) {
 #' 
 #' @return The \code{var} where each value of \code{values} replaced by an \code{NA}.
 #' 
+#' @note Value and variable label attributes (see, for instance, \code{\link{get_val_labels}}
+#'         or \code{\link{set_val_labels}}) are retained.
+#'         
 #' @examples
 #' # create random variable
 #' dummy <- sample(1:8, 100, replace=TRUE)
@@ -973,15 +986,15 @@ str_pos <- function(searchString, findTerm, maxdist = 3, part.dist.match = 0, sh
 #' @title Compute row means with min amount of valid values
 #' @name mean_n
 #' @description This function is similar to the SPSS \code{MEAN.n} function and computes
-#'                row means from a \link{data.frame} or \link{matrix} if at least \code{n}
-#'                values of a row a valid (and not \link{NA}).
+#'                row means from a \code{\link{data.frame}} or \code{\link{matrix}} if at least \code{n}
+#'                values of a row are valid (and not \code{\link{NA}}).
 #'
-#' @param dat a \link{data.frame} with at least two columns, where row means are applied.
-#' @param n the amount of valid values per row to calculate the row mean. If a row's valid
-#'          values is smaller than \code{n}, \link{NA} will be returned as row mean value.
+#' @param dat a \code{\link{data.frame}} with at least two columns, where row means are applied.
+#' @param n the amount of valid values per row to calculate the row mean. If a row's amount of valid
+#'          values is less than \code{n}, \code{\link{NA}} will be returned as row mean value.
 #' 
 #' @return A vector with row mean values of \code{df} for those rows with at least \code{n}
-#'           valid values. Else, \link{NA} is returned.
+#'           valid values. Else, \code{\link{NA}} is returned.
 #' 
 #' @references \itemize{
 #'              \item \href{http://candrea.ch/blog/compute-spss-like-mean-index-variables/}{candrea's blog}

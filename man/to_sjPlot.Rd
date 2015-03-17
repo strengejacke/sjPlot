@@ -15,14 +15,18 @@ a data frame or single vector (depending on \code{x}) with 'sjPlot' friendly
           vector classes.
 }
 \description{
-This function converts
-               \itemize{
-                 \item a data frame, which was imported with any of \code{haven}'s read functions and contains \code{labelled} class vectors or
-                 \item a single vector of type \code{labelled}
-               }
-               into an sjPlot friendly data frame format, which means that simply
-               all \code{labelled} class attributes will be removed, so all vectors
-               / variables are now most likely \code{\link{atomic}}.
+This function converts a data frame, which was imported with any of
+               \code{haven}'s read functions and contains \code{labelled} class vectors or
+               a single vector of type \code{labelled} into an sjPlot friendly data
+               frame format, which means that simply all \code{labelled} class
+               attributes will be removed, so all vectors / variables will most
+               likely become \code{\link{atomic}}.
+}
+\note{
+This function is currently only used to avoid possible compatibility issues
+        with \code{labelled} class vectors. Some known issues with \code{labelled}
+        class vectors have already been fixed, so it might be that this function
+        will become redundant in the future.
 }
 \seealso{
 \itemize{

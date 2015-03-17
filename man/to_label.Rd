@@ -23,8 +23,8 @@ This function converts (replaces) variable values (also of factors)
                all 1 to female and returns the new variable as \code{\link{factor}}.
 }
 \note{
-The \code{"value.labels"} or \code{"labels"} attribute will be removed
-        when converting variables to factors.
+Value and variable label attributes (see, for instance, \code{\link{get_val_labels}}
+        or \code{\link{set_val_labels}}) will be removed  when converting variables to factors.
 }
 \examples{
 data(efc)

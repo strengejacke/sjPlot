@@ -42,14 +42,24 @@
 #'        label detection.
 #' 
 #' @examples
-#' # import SPSS data set
-#' # mydat <- read_spss("my_spss_data.sav", enc = "UTF-8")
+#' \dontrun{
+#' # import SPSS data set. uses haven's read function
+#' # by default
+#' mydat <- read_spss("my_spss_data.sav")
+#' 
+#' # use foreign's read function
+#' mydat <- read_spss("my_spss_data.sav", 
+#'                    enc = "UTF-8",
+#'                    option = "foreign")
+#' 
+#' # use haven's read function, convert atomic to factor
+#' mydat <- read_spss("my_spss_data.sav", atomic.to.fac = TRUE)
 #' 
 #' # retrieve variable labels
-#' # mydat.var <- get_var_labels(mydat)
+#' mydat.var <- get_var_labels(mydat)
 #' 
 #' # retrieve value labels
-#' # mydat.val <- get_val_labels(mydat)
+#' mydat.val <- get_val_labels(mydat)}
 #' 
 #' @export
 read_spss <- function(path, 
@@ -349,14 +359,12 @@ is_labelled <- function(x) {
 #' @title Convert a haven-imported data frame to sjPlot format
 #' @name to_sjPlot
 #' 
-#' @description This function converts 
-#'                \itemize{
-#'                  \item a data frame, which was imported with any of \code{haven}'s read functions and contains \code{labelled} class vectors or
-#'                  \item a single vector of type \code{labelled}
-#'                }
-#'                into an sjPlot friendly data frame format, which means that simply
-#'                all \code{labelled} class attributes will be removed, so all vectors 
-#'                / variables are now most likely \code{\link{atomic}}.
+#' @description This function converts a data frame, which was imported with any of 
+#'                \code{haven}'s read functions and contains \code{labelled} class vectors or
+#'                a single vector of type \code{labelled} into an sjPlot friendly data 
+#'                frame format, which means that simply all \code{labelled} class 
+#'                attributes will be removed, so all vectors / variables will most 
+#'                likely become \code{\link{atomic}}.
 #' 
 #' @seealso \itemize{
 #'            \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
@@ -366,6 +374,11 @@ is_labelled <- function(x) {
 #'          of class \code{labelled}.
 #' @return a data frame or single vector (depending on \code{x}) with 'sjPlot' friendly 
 #'           vector classes.
+#' 
+#' @note This function is currently only used to avoid possible compatibility issues
+#'         with \code{labelled} class vectors. Some known issues with \code{labelled} 
+#'         class vectors have already been fixed, so it might be that this function
+#'         will become redundant in the future.
 #' 
 #' @export
 to_sjPlot <- function(x) {
@@ -876,8 +889,8 @@ set_var_labels <- function(x, lab, attr.string = NULL) {
 #'          (see \code{\link{set_val_labels}}).
 #' @return A factor variable with the associated value labels as factor levels.
 #' 
-#' @note The \code{"value.labels"} or \code{"labels"} attribute will be removed 
-#'         when converting variables to factors.
+#' @note Value and variable label attributes (see, for instance, \code{\link{get_val_labels}}
+#'         or \code{\link{set_val_labels}}) will be removed  when converting variables to factors.
 #' 
 #' @examples
 #' data(efc)

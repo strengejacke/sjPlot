@@ -325,13 +325,6 @@ sjt.glm <- function (...,
     p_zero <- "0"
   }
   # -------------------------------------
-  # check options
-  # -------------------------------------
-  #   sjt.option <- getOption("sjt.pvalueAsNumbers")
-  #   if (!is.null(sjt.option)) pvalueAsNumbers <- sjt.option
-  #   sjt.option <- getOption("sjt.separateConfColumn")
-  #   if (!is.null(sjt.option)) separateConfColumn <- sjt.option
-  # -------------------------------------
   # check encoding
   # -------------------------------------
   encoding <- get.encoding(encoding)

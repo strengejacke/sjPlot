@@ -26,6 +26,10 @@ Recodes the categories of a variables \code{var} into new category values, begin
                to recode dummy variables with 1/2 coding to 0/1 coding, or recoding scales from
                1-4 to 0-3 etc.
 }
+\note{
+Value and variable label attributes (see, for instance, \code{\link{get_val_labels}}
+        or \code{\link{set_val_labels}}) are retained.
+}
 \examples{
 # recode 1-4 to 0-3
 dummy <- sample(1:4, 10, replace = TRUE)
