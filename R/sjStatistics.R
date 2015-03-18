@@ -697,18 +697,79 @@ sjs.frqci <- function(x) {
 }
 
 
-#' @title Compute coefficient of variance
+#' @title Compute coefficient of variation
 #' @name cv
-#' @description Compute coefficient of variance (standard deviation divided 
-#'                by mean).
+#' @description Compute coefficient of variation for single variables
+#'                (standard deviation divided by mean) or for fitted
+#'                linear (mixed effects) models (root mean squared error 
+#'                (RMSE) divided by mean of dependent variable).
 #'
-#' @param x a (numeric) vector / variable.
-#' @return The coefficient of variance (standard deviation divided 
-#'           by mean) of \code{x}.
+#' @param x a (numeric) vector / variable or a fitted model of class
+#'          \code{lm}, \code{lmerMod} (lme4) or \code{lme} (nlme).
+#' @return The coefficient of variation of \code{x}.
+#' 
+#' @seealso \itemize{
+#'            \item \href{http://www.ats.ucla.edu/stat/mult_pkg/faq/general/coefficient_of_variation.htm}{UCLA-FAQ: What is the coefficient of variation?}
+#'            \item \code{\link{rmse}}
+#'          }
 #' 
 #' @examples
 #' data(efc)
 #' cv(efc$e17age)
 #' 
 #' @export
-cv <- function(x) sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE)
+cv <- function(x) {
+  # check if we have a fitted linear model
+  if (class(x) == "lm" || class(x) == "lmerMod" || class(x) == "lme") {
+    if (class(x) == "lm") {
+      # dependent variable in lm
+      dv <- x$model[[1]]
+    } else if (class(x) == "lmerMod") {
+      # dependent variable in lmerMod
+      dv <- x@frame[[1]]
+    } else if (class(x) == "lme") {
+      # dependent variable in lme
+      dv <- x@data[[1]]
+    }
+    # compute mean of dependent variable
+    mw <- mean(dv, na.rm = TRUE)
+    # check if mean is zero?
+    if (mw != 0) {
+      # cv = root mean squared error (RMSE) divided by mean of dep. var.
+      rmse(x) / mw
+    } else {
+      warning("Mean of dependent variable is zero. Cannot compute model's coefficient of variation.", call. = F)
+    }
+  } else {
+    # compute mean of variable
+    mw <- mean(x, na.rm = TRUE)    
+    # check if mean is zero?
+    if (mw != 0) {
+      #  we assume a simple vector
+      sd(x, na.rm = TRUE) / mw
+    } else {
+      warning("Mean of 'x' is zero. Cannot compute coefficient of variation.", call. = F)
+    }
+  }
+}
+
+
+#' @title Compute root mean squared error (RMSE)
+#' @name rmse
+#' @description Compute root mean squared error  of fitted linear (mixed effects) models.
+#'
+#' @param fit a fitted model of class \code{lm}, \code{lmerMod} (lme4) or 
+#'          \code{lme} (nlme).
+#' @return The root mean squared error of \code{fit}.
+#' 
+#' @seealso \itemize{
+#'            \item \code{\link{cv}}
+#'          }
+#' 
+#' @examples
+#' data(efc)
+#' fit <- lm(barthtot ~ c160age + c12hour, data=efc)
+#' rmse(fit)
+#' 
+#' @export
+rmse <- function(fit) sqrt(mean(residuals(fit)^2, na.rm = TRUE))

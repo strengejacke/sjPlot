@@ -31,7 +31,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #' @param vars a numeric vector with column indices of selected variables or a character vector with
 #'          variable names of selected variables from the fitted model, which should be used to plot probability
 #'          curves. This parameter only applies if \code{type} is either \code{"fe.pc"} (resp. \code{"fe.prob"})
-#'          or \code{"fe.pc"} (resp. \code{"re.pc"}). In this case, only probability curves (predicted probabilities) for the selected
+#'          or \code{"ri.pc"} (resp. \code{"ri.prob"}). In this case, only probability curves (predicted probabilities) for the selected
 #'          variables specified in \code{"vars"} will be plotted.
 #' @param ri.nr Numeric value. If \code{type = "re"} and fitted model has more than one random
 #'          intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
@@ -257,9 +257,9 @@ sjp.glmer <- function(fit,
 #'            \item \code{"fe.ri"} for fixed effects slopes depending on the random intercept.
 #'          }
 #' @param vars a numeric vector with column indices of selected variables or a character vector with
-#'          variable names of selected variables from the fitted model, which should be used to plot probability
-#'          curves (predicted probabilities). This parameter only applies if \code{type = "fe.ri"}. In this case, only 
-#'          probability curves for the selected variables specified in \code{"vars"} will be plotted.
+#'          variable names of selected variables from the fitted model, which should be used to plot
+#'          fixed effects slopes for random intercept. This parameter only applies if \code{type = "fe.ri"}.
+#'          In this case, only slopes for the selected variables specified in \code{"vars"} will be plotted.
 #' @param ri.nr Numeric value. If \code{type = "re"} and fitted model has more than one random
 #'          intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
 #'          which list element of \code{lme4::ranef}) will be plotted. Default is \code{1},

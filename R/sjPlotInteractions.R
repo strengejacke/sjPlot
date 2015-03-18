@@ -210,19 +210,14 @@ sjp.int <- function(fit,
   c.f <- class(fit)
   if (length(c.f) == 1 && c.f == "lm") {
     fun <- "lm"
-  }
-  else if (length(c.f) > 1 && any(c.f == "glm")) {
+  } else if (length(c.f) > 1 && any(c.f == "glm")) {
     fun <- "glm"
-  }
-  else if (c.f == "lmerMod") {
+  } else if (c.f == "lmerMod") {
     fun <- "lmer"
-  }
-  else if (c.f == "glmerMod") {
+  } else if (c.f == "glmerMod") {
     fun <- "glmer"
   }
-  if ((fun == "glm" || fun == "glmer") && is.null(axisTitle.y)) {
-    axisTitle.y <- "Predicted Probability"
-  }
+  if ((fun == "glm" || fun == "glmer") && is.null(axisTitle.y)) axisTitle.y <- "Predicted Probability"
   # -----------------------------------------------------------
   # parameter check
   # -----------------------------------------------------------
@@ -230,9 +225,7 @@ sjp.int <- function(fit,
     fillColor <- "white"
     fillAlpha <- 0
   }
-  if (is.null(gridBreaksAt)) {
-    gridbreaks.x <- gridbreaks.y <- waiver()
-  }
+  if (is.null(gridBreaksAt)) gridbreaks.x <- gridbreaks.y <- waiver()
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
@@ -243,7 +236,7 @@ sjp.int <- function(fit,
   # retrieve coefficients
   # -----------------------------------------------------------
   coef.tab <- summary(fit)$coefficients
-  pval <- rep(0, times = nrow(coef.tab)-1)
+  pval <- rep(0, times = nrow(coef.tab) - 1)
   # -----------------------------------------------------------
   # prepare values for (generalized) linear models
   # -----------------------------------------------------------
@@ -259,9 +252,7 @@ sjp.int <- function(fit,
     # -----------------------------------------------------------
     # retrieve p-values, without intercept
     # -----------------------------------------------------------
-    if (ncol(coef.tab) > 3) {
-      pval <- coef.tab[-1, 4]
-    }
+    if (ncol(coef.tab) > 3) pval <- coef.tab[-1, 4]
     # -----------------------------------------------------------
     # retrieve estimates, without intercept
     # -----------------------------------------------------------
@@ -271,11 +262,10 @@ sjp.int <- function(fit,
     # retrieve estimate of intercept
     # -----------------------------------------------------------
     b0 <- estimates.intercept <- coef.tab[1, 1]
-  }
   # -----------------------------------------------------------
   # prepare values for (generalized) linear mixed effecrs models
   # -----------------------------------------------------------
-  else {
+  } else {
     # -----------------------------------------------------------
     # retrieve amount and names of predictor variables and
     # of dependent variable
@@ -287,9 +277,7 @@ sjp.int <- function(fit,
     # -----------------------------------------------------------
     # retrieve p-values, without intercept
     # -----------------------------------------------------------
-    if (ncol(coef.tab) > 3) {
-      pval <- coef.tab[-1, 4]
-    }
+    if (ncol(coef.tab) > 3) pval <- coef.tab[-1, 4]
     # -----------------------------------------------------------
     # retrieve estimates, without intercept
     # -----------------------------------------------------------
@@ -312,7 +300,7 @@ sjp.int <- function(fit,
     fac.names <- c()
     # find factor variables
     for (i in 1:ncol(fitdat)) {
-      if (is.factor(fitdat[,i])) fac.names <- c(fac.names, colnames(fitdat)[i])
+      if (is.factor(fitdat[, i])) fac.names <- c(fac.names, colnames(fitdat)[i])
     }
     # if we found any, check if factor variable
     # was used as interaction term
@@ -358,20 +346,14 @@ sjp.int <- function(fit,
     }
   }
   # check whether we have any interaction terms included at all
-  if(firstit == 0) {
-    stop("No interaction term found in fitted model...", call. = FALSE)
-  }
+  if(firstit == 0) stop("No interaction term found in fitted model...", call. = FALSE)
   # save names of interaction predictor variables into this object
   intnames <- c()
   for (i in firstit:length(pval)) {
-    if (pval[i] < plevel) {
-      intnames <- c(intnames, it[i])
-    }
+    if (pval[i] < plevel) intnames <- c(intnames, it[i])
   }
   # check for any signigicant interactions, stop if nothing found
-  if (is.null(intnames)) {
-    stop("No significant interactions found...", call. = FALSE)
-  }
+  if (is.null(intnames)) stop("No significant interactions found...", call. = FALSE)
   # -----------------------------------------------------------
   # check whether parameter X=TRUE was set when fitting the linear
   # model. if not, we cannot procede here. not needed for
@@ -441,8 +423,7 @@ sjp.int <- function(fit,
     # -----------------------------------------------------------
     if (swapPredictors) {
       useFirstPredOnY <- ifelse(length(pred1uniquevals) > length(pred2uniquevals), F, T)
-    }
-    else {
+    } else {
       useFirstPredOnY <- ifelse(length(pred1uniquevals) > length(pred2uniquevals), T, F)
     }
     # -----------------------------------------------------------
@@ -461,8 +442,7 @@ sjp.int <- function(fit,
         mw <- NA
         ymin <- min(pred2uniquevals)
         ymax <- max(pred2uniquevals)
-      }
-      else {
+      } else {
         mw <- mean(pred2uniquevals, na.rm = T)
         ymin <- mw - sd(pred2uniquevals, na.rm = T)
         ymax <- mw + sd(pred2uniquevals, na.rm = T)
@@ -495,10 +475,18 @@ sjp.int <- function(fit,
         # maxy = (b0 + (b1*pr) + (b2*ymax) + (b3*pr*ymax))
         maxy = (b0 + (b1 * pr) + (b3 * pr * ymax))
         # store in df
-        tmp <- as.data.frame(cbind(x = pr, y = miny, ymin = miny, ymax = maxy, grp = "min"))
+        tmp <- as.data.frame(cbind(x = pr, 
+                                   y = miny, 
+                                   ymin = miny, 
+                                   ymax = maxy, 
+                                   grp = "min"))
         intdf <- as.data.frame(rbind(intdf, tmp))
         # store in df
-        tmp <- as.data.frame(cbind(x = pr, y = maxy, ymin = miny, ymax = maxy, grp = "max"))
+        tmp <- as.data.frame(cbind(x = pr, 
+                                   y = maxy, 
+                                   ymin = miny, 
+                                   ymax = maxy, 
+                                   grp = "max"))
         intdf <- as.data.frame(rbind(intdf, tmp))
         # store in df
         if (moderatorValues != "minmax") {
@@ -508,12 +496,15 @@ sjp.int <- function(fit,
           # predictor 2 only is not needed. see references above
           # ------------------------------
           mittelwert <- (b0 + (b1 * pr) + (b3 * pr * mw))
-          tmp <- as.data.frame(cbind(x = pr, y = mittelwert, ymin = miny, ymax = maxy, grp = "mean"))
+          tmp <- as.data.frame(cbind(x = pr, 
+                                     y = mittelwert, 
+                                     ymin = miny, 
+                                     ymax = maxy, 
+                                     grp = "mean"))
           intdf <- as.data.frame(rbind(intdf, tmp))
         }
       }
-    }
-    else {
+    } else {
       labx <- c(interactionterms[[1]][2])
       predy <- c(interactionterms[[1]][1])
       # -----------------------------------------------------------
@@ -526,8 +517,7 @@ sjp.int <- function(fit,
         mw <- NA
         ymin <- min(pred1uniquevals)
         ymax <- max(pred1uniquevals)
-      }
-      else {
+      } else {
         mw <- mean(pred1uniquevals, na.rm = T)
         ymin <- mw-sd(pred1uniquevals, na.rm = T)
         ymax <- mw+sd(pred1uniquevals, na.rm = T)
@@ -561,10 +551,18 @@ sjp.int <- function(fit,
         # maxy = (b0 + (b1*ymax) + (b2*pr) + (b3*pr*ymax))
         maxy = (b0 + (b2 * pr) + (b3 * pr * ymax))
         # store in df
-        tmp <- as.data.frame(cbind(x = pr, y = miny, ymin = miny, ymax = maxy, grp = "min"))
+        tmp <- as.data.frame(cbind(x = pr, 
+                                   y = miny, 
+                                   ymin = miny, 
+                                   ymax = maxy, 
+                                   grp = "min"))
         intdf <- as.data.frame(rbind(intdf, tmp))
         # store in df
-        tmp <- as.data.frame(cbind(x = pr, y = maxy, ymin = miny, ymax = maxy, grp = "max"))
+        tmp <- as.data.frame(cbind(x = pr, 
+                                   y = maxy, 
+                                   ymin = miny, 
+                                   ymax = maxy, 
+                                   grp = "max"))
         intdf <- as.data.frame(rbind(intdf, tmp))
         # store in df
         if (moderatorValues != "minmax") {
@@ -587,7 +585,7 @@ sjp.int <- function(fit,
       intdf$y <- as.numeric(as.character(intdf$y))
       intdf$ymin <- as.numeric(as.character(intdf$ymin))
       intdf$ymax <- as.numeric(as.character(intdf$ymax))
-      intdf$ydiff <- intdf$ymax-intdf$ymin
+      intdf$ydiff <- intdf$ymax - intdf$ymin
       # -----------------------------------------------------------
       # retrieve lowest and highest x and y position to determine
       # the scale limits
@@ -597,18 +595,16 @@ sjp.int <- function(fit,
       if (is.null(axisLimits.y)) {
         lowerLim.y <- floor(min(intdf$y))
         upperLim.y <- ceiling(max(intdf$y))
-      }
-      else {
+      } else {
         lowerLim.y <- axisLimits.y[1]
         upperLim.y <- axisLimits.y[2]
       }
-    }
-    else {
+    } else {
       intdf$x <- as.numeric(as.character(intdf$x))
       intdf$y <- odds.to.prob(as.numeric(as.character(intdf$y)))
       intdf$ymin <- odds.to.prob(as.numeric(as.character(intdf$ymin)))
       intdf$ymax <- odds.to.prob(as.numeric(as.character(intdf$ymax)))
-      intdf$ydiff <- odds.to.prob(intdf$ymax-intdf$ymin)
+      intdf$ydiff <- odds.to.prob(intdf$ymax - intdf$ymin)
       # -----------------------------------------------------------
       # retrieve lowest and highest x and y position to determine
       # the scale limits
@@ -618,8 +614,7 @@ sjp.int <- function(fit,
       if (is.null(axisLimits.y)) {
         lowerLim.y <- 0
         upperLim.y <- 1
-      }
-      else {
+      } else {
         lowerLim.y <- axisLimits.y[1]
         upperLim.y <- axisLimits.y[2]
       }
@@ -633,13 +628,9 @@ sjp.int <- function(fit,
       ilmin <- min(b0, est_b)
       ilmax <- max(b0, est_b)
       # adjust lower lim if necessary
-      if (ilmin < lowerLim.y) {
-        lowerLim.y <- floor(ilmin)
-      }
+      if (ilmin < lowerLim.y) lowerLim.y <- floor(ilmin)
       # adjust upper lim if necessary
-      if (ilmax > upperLim.y) {
-        upperLim.y <- ceiling(max(ilmax))
-      }
+      if (ilmax > upperLim.y) upperLim.y <- ceiling(max(ilmax))
     }
     # -----------------------------------------------------------
     # check whether user defined grid breaks / tick marks are used
@@ -660,27 +651,20 @@ sjp.int <- function(fit,
                          " and ",
                          interactionterms[[1]][ifelse(useFirstPredOnY == TRUE, 2, 1)],
                          " on ", depvar.label)
-    }
-    else {
+    } else {
       labtitle <- title
     }
     if (is.null(legendLabels)) {
       if (moderatorValues == "minmax") {
         lLabels <- c(paste0("lower bound of ", predy), paste0("upper bound of ", predy))
-      }
-      else {
+      } else {
         lLabels <- c(paste0("lower sd of ", predy), paste0("upper sd of ", predy), paste0("mean of ", predy))
       }
-    }
-    else {
+    } else {
       lLabels <- legendLabels
     }
-    if (!is.null(axisTitle.x)) {
-      labx <- axisTitle.x
-    }
-    if (!is.null(axisTitle.y)) {
-      laby <- axisTitle.y
-    }
+    if (!is.null(axisTitle.x)) labx <- axisTitle.x
+    if (!is.null(axisTitle.y)) laby <- axisTitle.y
     # -----------------------------------------------------------
     # prepare annotation labels
     # -----------------------------------------------------------
@@ -714,8 +698,7 @@ sjp.int <- function(fit,
                     vjust = 1.5,
                     show_guide = FALSE)
       }
-    }
-    else {
+    } else {
       baseplot <- ggplot(intdf) +
         # add a shaded region between minimun and maximum curve of interactions
         geom_ribbon(aes(x = x, ymin = ymin, ymax = ymax),
@@ -781,12 +764,10 @@ sjp.int <- function(fit,
     if (diff) {
       col.len <- 1
       lLabels <- NULL
-    }
-    else {
+    } else {
       if (moderatorValues == "minmax") {
         col.len <- 2
-      }
-      else {
+      } else {
         col.len <- 3
       }
     }

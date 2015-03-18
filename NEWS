@@ -1,4 +1,4 @@
-Version 1.7-3
+Version 1.7-4
 ------------------------------------------------------------------------------
 General:
 * Change R-Version dependency to R >= 3.1, due to import of "tidyr" and "dplyr" packages.
@@ -6,6 +6,7 @@ General:
 
 New functions:
 * "cv" to compute coefficient of variance.
+* "rmse" to compute root-mean-square error.
 
 Changes to functions:
 * "sjp.glm" now supports plotting "logistf" objects.

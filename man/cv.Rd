@@ -2,23 +2,31 @@
 % Please edit documentation in R/sjStatistics.R
 \name{cv}
 \alias{cv}
-\title{Compute coefficient of variance}
+\title{Compute coefficient of variation}
 \usage{
 cv(x)
 }
 \arguments{
-\item{x}{a (numeric) vector / variable.}
+\item{x}{a (numeric) vector / variable or a fitted model of class
+\code{lm}, \code{lmerMod} (lme4) or \code{lme} (nlme).}
 }
 \value{
-The coefficient of variance (standard deviation divided
-          by mean) of \code{x}.
+The coefficient of variation of \code{x}.
 }
 \description{
-Compute coefficient of variance (standard deviation divided
-               by mean).
+Compute coefficient of variation for single variables
+               (standard deviation divided by mean) or for fitted
+               linear (mixed effects) models (root mean squared error
+               (RMSE) divided by mean of dependent variable).
 }
 \examples{
 data(efc)
 cv(efc$e17age)
+}
+\seealso{
+\itemize{
+           \item \href{http://www.ats.ucla.edu/stat/mult_pkg/faq/general/coefficient_of_variation.htm}{UCLA-FAQ: What is the coefficient of variation?}
+           \item \code{\link{rmse}}
+         }
 }
 
