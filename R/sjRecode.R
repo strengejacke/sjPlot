@@ -666,7 +666,7 @@ weight <- function(var, weights) {
 #' sjt.frq(data.frame(oldstring, newstring), removeStringVectors = FALSE, autoGroupStrings = FALSE)}
 #' 
 #' @export
-group_str <- function(strings, maxdist = 3, method = "lv", strict = FALSE, trim.whitespace = TRUE, remove.empty = TRUE, showProgressBar = FALSE) {
+group_str <- function(strings, maxdist = 2, method = "lv", strict = FALSE, trim.whitespace = TRUE, remove.empty = TRUE, showProgressBar = FALSE) {
   # -------------------------------------
   # check if required package is available
   # -------------------------------------
@@ -884,7 +884,7 @@ group_str <- function(strings, maxdist = 3, method = "lv", strict = FALSE, trim.
 #' str_pos("We are Sex Pistols!", "postils", part.dist.match = 1)}
 #' 
 #' @export
-str_pos <- function(searchString, findTerm, maxdist = 3, part.dist.match = 0, showProgressBar = FALSE) {
+str_pos <- function(searchString, findTerm, maxdist = 2, part.dist.match = 0, showProgressBar = FALSE) {
   # -------------------------------------
   # init return value
   # -------------------------------------

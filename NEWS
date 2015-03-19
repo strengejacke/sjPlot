@@ -1,8 +1,8 @@
-Version 1.7-4
+Version 1.7-5
 ------------------------------------------------------------------------------
 General:
-* Change R-Version dependency to R >= 3.1, due to import of "tidyr" and "dplyr" packages.
-* Improved internal management of imported data via "haven" and "foreign" packages, so users don't need to care of structure and classed of data read with either haven, foreing or sjPlot's read-functions.
+* R-Version dependency changed to R >= 3.1, due to import of "tidyr" and "dplyr" packages.
+* Improved internal management of imported data via "haven" and "foreign" packages, so users don't need to care of structure and classed of data read with either haven, foreign or sjPlot's read-functions.
 
 New functions:
 * "cv" to compute coefficient of variance.
@@ -10,9 +10,15 @@ New functions:
 
 Changes to functions:
 * "sjp.glm" now supports plotting "logistf" objects.
+* Added parameter "legendTitle" to "sjp.int".
+* Added parameter "int.plot.index" to "sjp.int", so only selected interaction terms may be plotted.
+* Parameter "legendLabels" of "sjp.int" now accepts a list of character vectors, with one vector of legend labels for each interaction plot plotted.
+* Parameter "title" of "sjp.int" now accepts a character vector of same length as interaction terms, with one title character string for each interaction plot plotted.
 * Added further pre-set themes to "sjp.setTheme".
+* Minor improvements of "sjp.setTheme".
 
 Bug fixes:
+* "sjp.int" did not work for interaction terms of factors with more than two levels in mixed effects models ("merMod"-objects) - fixed.
 * Weights with decimals in "sjt.xtab" (e.g. "weightBy = abs(rnorm(100, 2, 1)") caused an error - fixed.
 
 

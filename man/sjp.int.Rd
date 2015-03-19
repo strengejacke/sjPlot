@@ -4,11 +4,12 @@
 \alias{sjp.int}
 \title{Plot interaction effects of (generalized) linear (mixed) models}
 \usage{
-sjp.int(fit, diff = FALSE, moderatorValues = "minmax",
-  swapPredictors = FALSE, plevel = 0.05, title = NULL,
-  fillColor = "grey", fillAlpha = 0.4, geom.colors = "Set1",
-  axisTitle.x = NULL, axisTitle.y = NULL, legendLabels = NULL,
-  showValueLabels = FALSE, breakTitleAt = 50, breakLegendLabelsAt = 20,
+sjp.int(fit, int.plot.index = NULL, diff = FALSE,
+  moderatorValues = "minmax", swapPredictors = FALSE, plevel = 0.05,
+  title = NULL, fillColor = "grey", fillAlpha = 0.4,
+  geom.colors = "Set1", axisTitle.x = NULL, axisTitle.y = NULL,
+  legendTitle = NULL, legendLabels = NULL, showValueLabels = FALSE,
+  breakTitleAt = 50, breakLegendLabelsAt = 20, breakLegendTitleAt = 20,
   breakAnnotationLabelsAt = 50, axisLimits.y = NULL, gridBreaksAt = NULL,
   showInterceptLines = FALSE, showInterceptLabels = TRUE,
   interceptLineColor = "darkseagreen4", estLineColor = "darkslategray4",
@@ -24,6 +25,11 @@ classes are
   \item linear mixed effects models (\code{lme4::lmer})
   \item generalized linear mixed effects models (\code{lme4::glmer})
   }}
+
+\item{int.plot.index}{A numeric vector with index numbers that indicate which
+interaction terms should be plotted in case the \code{fit} has more than
+one interaction. By default, this values is \code{NULL}, hence all interactions
+are plotted.}
 
 \item{diff}{if \code{FALSE} (default), the minimum and maximum interaction effects of predictor 2 on predictor 1
 are shown (one line each). if \code{TRUE}, only the difference between minimum and maximum interaction effect
@@ -44,7 +50,8 @@ as values of the moderator, see \href{http://www.theanalysisfactor.com/3-tips-in
 \item{plevel}{Indicates at which p-value an interaction term is considered as significant. Default is
 0.05 (5 percent).}
 
-\item{title}{a default title used for the plots. Default value is \code{NULL}, which means that each plot's title
+\item{title}{a default title used for the plots. Should be a character vector
+of same length as interaction plots to be plotted. Default value is \code{NULL}, which means that each plot's title
 includes the dependent variable as well as the names of the interaction terms.}
 
 \item{fillColor}{fill color of the shaded area between the minimum and maximum lines. Default is \code{"grey"}.
@@ -60,14 +67,22 @@ mean value of the interaction term (moderator value). Third value is only used w
 is \code{"meansd"}. Or, if \code{diff} is \code{TRUE}, only one color value for the line indicating the
 upper difference between lower and upper bound of interaction terms.}
 
-\item{axisTitle.x}{a default title used for the x-axis. Default value is \code{NULL},
+\item{axisTitle.x}{a default title used for the x-axis. Should be a character vector
+of same length as interaction plots to be plotted. Default value is \code{NULL},
 which means that each plot's x-axis uses the predictor's name as title.}
 
 \item{axisTitle.y}{a default title used for the y-axis. Default value is \code{NULL},
 which means that each plot's y-axis uses the dependent variable's name as title.}
 
-\item{legendLabels}{Labels for the guide/legend. Default is \code{NULL}, so the name of the predictor with
-min/max-effect is used as legend label.}
+\item{legendTitle}{Title of the diagram's legend. A character vector of same length as
+amount of interaction plots to be plotted (i.e. one vector element for each
+plot's legend title).}
+
+\item{legendLabels}{Labels for the guide/legend. Either a character vector of same length as
+amount of legend labels of the plot, or a \code{list} of character vectors, if more than one
+interaction plot is plotted (i.e. one vector of legend labels for each interaction plot).
+Default is \code{NULL}, so the name of the predictor with min/max-effect is used
+as legend label.}
 
 \item{showValueLabels}{if \code{TRUE}, value labels are plotted along the lines. Default is \code{FALSE}.}
 
@@ -76,6 +91,9 @@ displayed in one line and when a line break is inserted. Default is \code{50}.}
 
 \item{breakLegendLabelsAt}{Wordwrap for diagram legend labels. Determines how many chars of the legend labels are
 displayed in one line and when a line break is inserted. Default is \code{20}.}
+
+\item{breakLegendTitleAt}{Wordwrap for diagram legend title. Determines how many chars of the legend's title
+are displayed in one line and when a line break is inserted.}
 
 \item{breakAnnotationLabelsAt}{Wordwrap for diagram annotation labels. Determines how many chars of the legend labels are
 displayed in one line and when a line break is inserted. Default is \code{50}.

@@ -37,6 +37,10 @@
 #'            \item linear mixed effects models (\code{lme4::lmer})
 #'            \item generalized linear mixed effects models (\code{lme4::glmer})
 #'            }
+#' @param int.plot.index A numeric vector with index numbers that indicate which 
+#'          interaction terms should be plotted in case the \code{fit} has more than
+#'          one interaction. By default, this values is \code{NULL}, hence all interactions
+#'          are plotted.
 #' @param diff if \code{FALSE} (default), the minimum and maximum interaction effects of predictor 2 on predictor 1
 #'          are shown (one line each). if \code{TRUE}, only the difference between minimum and maximum interaction effect
 #'          is shown (single line)
@@ -52,7 +56,8 @@
 #'          \code{FALSE}, so the predictor with more unique values is printed along the x-axis.
 #' @param plevel Indicates at which p-value an interaction term is considered as significant. Default is
 #'          0.05 (5 percent).
-#' @param title a default title used for the plots. Default value is \code{NULL}, which means that each plot's title
+#' @param title a default title used for the plots. Should be a character vector
+#'          of same length as interaction plots to be plotted. Default value is \code{NULL}, which means that each plot's title
 #'          includes the dependent variable as well as the names of the interaction terms.
 #' @param fillColor fill color of the shaded area between the minimum and maximum lines. Default is \code{"grey"}.
 #'          Either set \code{fillColor} to \code{NULL} or use 0 for \code{fillAlpha} if you want to hide the shaded area.
@@ -64,15 +69,24 @@
 #'          mean value of the interaction term (moderator value). Third value is only used when \code{moderatorValues}
 #'          is \code{"meansd"}. Or, if \code{diff} is \code{TRUE}, only one color value for the line indicating the
 #'          upper difference between lower and upper bound of interaction terms.
-#' @param axisTitle.x a default title used for the x-axis. Default value is \code{NULL},
+#' @param axisTitle.x a default title used for the x-axis. Should be a character vector
+#'          of same length as interaction plots to be plotted. Default value is \code{NULL},
 #'          which means that each plot's x-axis uses the predictor's name as title.
 #' @param axisTitle.y a default title used for the y-axis. Default value is \code{NULL},
 #'          which means that each plot's y-axis uses the dependent variable's name as title.
-#' @param legendLabels Labels for the guide/legend. Default is \code{NULL}, so the name of the predictor with
-#'          min/max-effect is used as legend label.
+#' @param legendTitle Title of the diagram's legend. A character vector of same length as 
+#'          amount of interaction plots to be plotted (i.e. one vector element for each
+#'          plot's legend title).
+#' @param legendLabels Labels for the guide/legend. Either a character vector of same length as
+#'          amount of legend labels of the plot, or a \code{list} of character vectors, if more than one
+#'          interaction plot is plotted (i.e. one vector of legend labels for each interaction plot).
+#'          Default is \code{NULL}, so the name of the predictor with min/max-effect is used 
+#'          as legend label.
 #' @param showValueLabels if \code{TRUE}, value labels are plotted along the lines. Default is \code{FALSE}.
 #' @param breakTitleAt Wordwrap for diagram's title. Determines how many chars of the title are
 #'          displayed in one line and when a line break is inserted. Default is \code{50}.
+#' @param breakLegendTitleAt Wordwrap for diagram legend title. Determines how many chars of the legend's title 
+#'          are displayed in one line and when a line break is inserted.
 #' @param breakLegendLabelsAt Wordwrap for diagram legend labels. Determines how many chars of the legend labels are
 #'          displayed in one line and when a line break is inserted. Default is \code{20}.
 #' @param breakAnnotationLabelsAt Wordwrap for diagram annotation labels. Determines how many chars of the legend labels are
@@ -179,6 +193,7 @@
 #' @import ggplot2
 #' @export
 sjp.int <- function(fit,
+                    int.plot.index=NULL,
                     diff=FALSE,
                     moderatorValues="minmax",
                     swapPredictors=FALSE,
@@ -189,10 +204,12 @@ sjp.int <- function(fit,
                     geom.colors="Set1",
                     axisTitle.x=NULL,
                     axisTitle.y=NULL,
+                    legendTitle=NULL,
                     legendLabels=NULL,
                     showValueLabels=FALSE,
                     breakTitleAt=50,
                     breakLegendLabelsAt=20,
+                    breakLegendTitleAt=20, 
                     breakAnnotationLabelsAt=50,
                     axisLimits.y=NULL,
                     gridBreaksAt=NULL,
@@ -218,6 +235,12 @@ sjp.int <- function(fit,
     fun <- "glmer"
   }
   if ((fun == "glm" || fun == "glmer") && is.null(axisTitle.y)) axisTitle.y <- "Predicted Probability"
+  # ------------------------
+  # check if suggested package is available
+  # ------------------------
+  if ((fun == "lmer" || fun == "glmer") && !requireNamespace("lme4", quietly = TRUE)) {
+    stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
+  }
   # -----------------------------------------------------------
   # parameter check
   # -----------------------------------------------------------
@@ -227,11 +250,10 @@ sjp.int <- function(fit,
   }
   if (is.null(gridBreaksAt)) gridbreaks.x <- gridbreaks.y <- waiver()
   # --------------------------------------------------------
-  # unlist labels
+  # list labels
   # --------------------------------------------------------
-  if (!is.null(legendLabels) && is.list(legendLabels)) {
-    legendLabels <- unlistlabels(legendLabels)
-  }
+  if (!is.null(legendLabels) && !is.list(legendLabels)) legendLabels <- list(legendLabels)
+  if (!is.null(legendTitle) && is.list(legendTitle)) legendTitle <- unlist(legendTitle)
   # -----------------------------------------------------------
   # retrieve coefficients
   # -----------------------------------------------------------
@@ -311,11 +333,22 @@ sjp.int <- function(fit,
         # iterate interaction term for all factor levels,
         # and replace with "original variable name in data frame
         for (j in 1:length(fac.lvl)) {
+          # -----------------------------------------------
+          # the following code "converts" a factor 
+          # into a 0/1 dummy coded variable, so each factor
+          # level is present as 0/1 coded dummy
+          # ----------------------------------------------
+          # create new dummy variable
+          fitdat$sj__new__est <- 0
+          # set all factor levels to 1
+          fitdat$sj__new__est[which(fitdat[, fac.names[i]] == levels(fitdat[, fac.names[i]])[j])] <- 1
+          # rename intro "proper" name
+          colnames(fitdat)[ncol(fitdat)] <- paste0(fac.names[i], fac.lvl[j])
           # create replacement-strings
-          rep1 <- paste0(fac.names[i], fac.lvl[j])
-          rep2 <- paste0(fac.names[i])
+          # rep1 <- paste0(fac.names[i], fac.lvl[j])
+          # rep2 <- paste0(fac.names[i])
           # replace in all
-          estimates.names <- gsub(rep1, rep2, estimates.names, fixed = TRUE)
+          # estimates.names <- gsub(rep1, rep2, estimates.names, fixed = TRUE)
         }
       }
     }
@@ -371,6 +404,15 @@ sjp.int <- function(fit,
   # init vector that saves ggplot objects
   plotlist <- list()
   dflist <- list()
+  # -----------------------------------------------------------
+  # when we have linear mixed effects models and both interaction 
+  # terms are factors, we may have the same interaction term names
+  # multiples times - thus, remove redundant duplicates
+  # -----------------------------------------------------------
+  intnames <- unique(intnames)
+  # check if we have selected plots only, and remove any plots
+  # that should not be plotted.
+  if (!is.null(int.plot.index)) intnames <- intnames[int.plot.index]
   # -----------------------------------------------------------
   # Now iterate all significant interaction terms
   # and manually calculate the linear regression by inserting
@@ -652,8 +694,16 @@ sjp.int <- function(fit,
                          interactionterms[[1]][ifelse(useFirstPredOnY == TRUE, 2, 1)],
                          " on ", depvar.label)
     } else {
-      labtitle <- title
+      # copy plot counter 
+      l_nr <- cnt
+      # check if we have enough labels. if not, use last labels
+      if (l_nr > length(title)) l_nr <- length(title)
+      # set legend labels for plot
+      labtitle <- title[l_nr]
     }
+    # -----------------------------------------------------------
+    # legend labels
+    # -----------------------------------------------------------
     if (is.null(legendLabels)) {
       if (moderatorValues == "minmax") {
         lLabels <- c(paste0("lower bound of ", predy), paste0("upper bound of ", predy))
@@ -661,9 +711,37 @@ sjp.int <- function(fit,
         lLabels <- c(paste0("lower sd of ", predy), paste0("upper sd of ", predy), paste0("mean of ", predy))
       }
     } else {
-      lLabels <- legendLabels
+      # copy plot counter 
+      l_nr <- cnt
+      # check if we have enough labels. if not, use last labels
+      if (l_nr > length(legendLabels)) l_nr <- length(legendLabels)
+      # set legend labels for plot
+      lLabels <- legendLabels[[l_nr]]
     }
-    if (!is.null(axisTitle.x)) labx <- axisTitle.x
+    # -----------------------------------------------------------
+    # legend titles
+    # -----------------------------------------------------------
+    if (is.null(legendTitle)) {
+      lTitle <- predy
+    } else {
+      # copy plot counter 
+      l_nr <- cnt
+      # check if we have enough legend titles, if not, use last legend title
+      if (l_nr > length(legendTitle)) l_nr <- length(legendTitle)
+      # set legend title for plot
+      lTitle <- legendTitle[l_nr]
+    }
+    # -----------------------------------------------------------
+    # x axis titles
+    # -----------------------------------------------------------
+    if (!is.null(axisTitle.x)) {
+      # copy plot counter 
+      l_nr <- cnt
+      # check if we have enough axis titles, if not, use last legend title
+      if (l_nr > length(axisTitle.x)) l_nr <- length(axisTitle.x)
+      # set axis title
+      labx <- axisTitle.x[l_nr]
+    }
     if (!is.null(axisTitle.y)) laby <- axisTitle.y
     # -----------------------------------------------------------
     # prepare annotation labels
@@ -674,6 +752,8 @@ sjp.int <- function(fit,
     labtitle <- word_wrap(labtitle, breakTitleAt)
     # wrap legend labels
     lLabels <- word_wrap(lLabels, breakLegendLabelsAt)
+    # wrap legend title
+    lTitle <- word_wrap(lTitle, breakLegendTitleAt)
     # wrap annotation labels
     annoLabels <- word_wrap(annoLabels, breakAnnotationLabelsAt)
     # -----------------------------------------------------------
@@ -749,21 +829,13 @@ sjp.int <- function(fit,
       }
     }
     # ------------------------------------------------------------------------------------
-    # build plot object with theme and labels
-    # ------------------------------------------------------------------------------------
-    baseplot <- baseplot +
-      # set plot and axis titles
-      labs(title = labtitle, x = labx, y = laby) +
-      # set axis scale breaks
-      scale_x_continuous(limits = c(lowerLim.x, upperLim.x), breaks = gridbreaks.x) +
-      scale_y_continuous(limits = c(lowerLim.y, upperLim.y), breaks = gridbreaks.y)
-    # ------------------------------------------------------------------------------------
     # check whether only diff-line is shown or upper and lower boundaries. in the latter
     # case, show legend, else hide legend
     # ------------------------------------------------------------------------------------
     if (diff) {
       col.len <- 1
       lLabels <- NULL
+      lTitle <- NULL
     } else {
       if (moderatorValues == "minmax") {
         col.len <- 2
@@ -771,6 +843,15 @@ sjp.int <- function(fit,
         col.len <- 3
       }
     }
+    # ------------------------------------------------------------------------------------
+    # build plot object with theme and labels
+    # ------------------------------------------------------------------------------------
+    baseplot <- baseplot +
+      # set plot and axis titles
+      labs(title = labtitle, x = labx, y = laby, colour = lTitle) +
+      # set axis scale breaks
+      scale_x_continuous(limits = c(lowerLim.x, upperLim.x), breaks = gridbreaks.x) +
+      scale_y_continuous(limits = c(lowerLim.y, upperLim.y), breaks = gridbreaks.y)
     # ---------------------------------------------------------
     # set geom colors
     # ---------------------------------------------------------

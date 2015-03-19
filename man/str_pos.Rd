@@ -4,7 +4,7 @@
 \alias{str_pos}
 \title{Find partial matching and close distance elements in strings}
 \usage{
-str_pos(searchString, findTerm, maxdist = 3, part.dist.match = 0,
+str_pos(searchString, findTerm, maxdist = 2, part.dist.match = 0,
   showProgressBar = FALSE)
 }
 \arguments{

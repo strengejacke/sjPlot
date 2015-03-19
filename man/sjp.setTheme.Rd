@@ -26,6 +26,7 @@ sjp.setTheme(title.color = "black", title.size = 1.3,
   legend.color = "black", legend.title.size = 1,
   legend.title.color = "black", legend.title.face = "bold",
   legend.backgroundcol = "white", legend.bordercol = "white",
+  legend.item.backcol = "grey90", legend.item.bordercol = "white",
   theme = NULL, base = theme_grey())
 }
 \arguments{
@@ -162,6 +163,10 @@ legend justification is set according to legend position.}
 \item{legend.backgroundcol}{Fill color of the legend's background. Default is \code{"white"}, so no visible background is drawn.}
 
 \item{legend.bordercol}{Color of the legend's border. Default is \code{"white"}, so no visible border is drawn.}
+
+\item{legend.item.backcol}{Fill color of the legend's item-background. Default is \code{"grey90"}.}
+
+\item{legend.item.bordercol}{Color of the legend's item-border. Default is \code{"white"}.}
 
 \item{theme}{valid parameter for ggplot default-themes are:
 \itemize{

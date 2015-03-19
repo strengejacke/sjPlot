@@ -83,6 +83,8 @@
 #' @param legend.title.face Font face of the legend title. By default, \code{"bold"} face is used.
 #' @param legend.bordercol Color of the legend's border. Default is \code{"white"}, so no visible border is drawn.
 #' @param legend.backgroundcol Fill color of the legend's background. Default is \code{"white"}, so no visible background is drawn.
+#' @param legend.item.bordercol Color of the legend's item-border. Default is \code{"white"}.
+#' @param legend.item.backcol Fill color of the legend's item-background. Default is \code{"grey90"}.
 #' @param theme valid parameter for ggplot default-themes are:
 #'        \itemize{
 #'          \item \code{theme_bw}
@@ -237,6 +239,8 @@ sjp.setTheme <- function(title.color="black",
                          legend.title.face="bold",
                          legend.backgroundcol="white",
                          legend.bordercol="white",
+                         legend.item.backcol="grey90",
+                         legend.item.bordercol="white",
                          # base theme
                          theme=NULL,
                          base=theme_grey()) {
@@ -271,7 +275,7 @@ sjp.setTheme <- function(title.color="black",
     panel.major.gridcol <- g.palette[4]
     panel.minor.gridcol <- g.palette[2]
     axis.linecolor.x  <- axis.linecolor.y <- axis.linecolor <- g.palette[2]
-    legend.backgroundcol <- legend.bordercol <- g.palette[2]
+    legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[2]
     title.color <- g.palette[9]
     axis.textcolor <- g.palette[6]
     axis.title.color <- g.palette[7]
@@ -298,7 +302,7 @@ sjp.setTheme <- function(title.color="black",
     if (is.null(axis.linecolor.y)) axis.linecolor.y <- g.palette[2]
     if (is.null(axis.linecolor.x)) axis.linecolor.x <- g.palette[9]
     panel.gridcol.x <- g.palette[2]
-    legend.backgroundcol <- legend.bordercol <- g.palette[2]
+    legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[2]
     title.color <- g.palette[9]
     axis.textcolor <- g.palette[6]
     axis.title.color <- g.palette[7]
@@ -322,7 +326,7 @@ sjp.setTheme <- function(title.color="black",
     axis.linecolor <- g.palette[5]
     if (is.null(axis.linecolor.y)) axis.linecolor.y <- g.palette[2]
     if (is.null(axis.linecolor.x)) axis.linecolor.x <- g.palette[2]
-    legend.backgroundcol <- legend.bordercol <- g.palette[2]
+    legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[2]
     title.color <- g.palette[9]
     axis.textcolor <- g.palette[6]
     axis.title.color <- g.palette[7]
@@ -349,7 +353,7 @@ sjp.setTheme <- function(title.color="black",
     axis.linecolor.y  <- g.palette[1]
     axis.linecolor.x <- g.palette[9]
     panel.gridcol.x <- g.palette[1]
-    legend.backgroundcol <- legend.bordercol <- g.palette[1]
+    legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[1]
     title.color <- "black"
     axis.textcolor <- g.palette[9]
     axis.title.color <- "black"
@@ -376,7 +380,7 @@ sjp.setTheme <- function(title.color="black",
     axis.linecolor.y  <- g.palette[5]
     axis.linecolor.x <- g.palette[9]
     panel.gridcol.x <- g.palette[5]
-    legend.backgroundcol <- legend.bordercol <- g.palette[5]
+    legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[5]
     title.color <- "black"
     axis.textcolor <- g.palette[9]
     axis.title.color <- "black"
@@ -542,6 +546,14 @@ sjp.setTheme <- function(title.color="black",
                                         face = legend.title.face),
             legend.background = element_rect(colour = legend.bordercol, 
                                              fill = legend.backgroundcol))
+    # ----------------------------------------
+    # set legend items background-color
+    # ----------------------------------------
+    if (!is.null(legend.item.backcol)) {
+      sjtheme <- sjtheme +
+        theme(legend.key = element_rect(colour = legend.item.bordercol, 
+                                        fill = legend.item.backcol))
+    }
     # ----------------------------------------
     # set axis line colors, if defined
     # ----------------------------------------

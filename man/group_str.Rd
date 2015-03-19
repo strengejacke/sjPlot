@@ -4,7 +4,7 @@
 \alias{group_str}
 \title{Group near elements of string vectors}
 \usage{
-group_str(strings, maxdist = 3, method = "lv", strict = FALSE,
+group_str(strings, maxdist = 2, method = "lv", strict = FALSE,
   trim.whitespace = TRUE, remove.empty = TRUE, showProgressBar = FALSE)
 }
 \arguments{
