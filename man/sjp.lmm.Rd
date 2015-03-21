@@ -38,7 +38,7 @@ Default is \code{"Model"}.}
 \item{axisLabels.y}{Labels of the predictor variables (independent vars, betas) that are used for labelling the
 axis. Passed as vector of strings.
 Example: \code{axisLabels.y=c("Label1", "Label2", "Label3")}
-Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_val_labels}} function, you receive a
+Note: If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
 \code{list} object with label strings. The labels may also be passed as list object. They will be coerced
 to character vector automatically.}
 
@@ -123,6 +123,7 @@ Plot beta coefficients (estimates) with confidence intervalls of multiple fitted
 # prepare dummy variables for binary logistic regression
 # Now fit the models. Note that all models share the same predictors
 # and only differ in their dependent variable
+library(sjmisc)
 data(efc)
 
 # fit first model
@@ -144,12 +145,5 @@ sjp.lmm(fit1, fit2, fit3,
          showPValueLabels=FALSE,
          usePShapes=TRUE,
          nsAlpha=0.3)
-}
-\seealso{
-\itemize{
-           \item \code{\link{sjp.lm}}
-           \item \code{\link{sjt.lm}}
-           \item \code{\link{sjp.glmm}}
-           }
 }
 

@@ -126,6 +126,7 @@ Thanks to Robert Reijntjes from Leiden University Medical Center for sharing
 \examples{
 \dontrun{
 library(lme4)
+library(sjmisc)
 # create binary response
 sleepstudy$Reaction.dicho <- dicho(sleepstudy$Reaction, dichBy = "md")
 # fit model
@@ -145,6 +146,7 @@ sjp.glmer(fit,
           sort.coef = "sort.all")
 
 library(lme4)
+library(sjmisc)
 data(efc)
 # create binary response
 efc$hi_qol <- dicho(efc$quol_5)
@@ -199,12 +201,6 @@ sjp.glmer(fit,
           vars = "neg_c_7")}
 }
 \seealso{
-\itemize{
-           \item \href{http://www.strengejacke.de/sjPlot/sjp.glmer/}{sjPlot manual: sjp.glmer}
-           \item \code{\link{sjp.lmer}}
-           \item \code{\link{sjp.glm}}
-           \item \code{\link{sjp.glmm}}
-           \item \code{\link{sjt.glm}}
-         }
+\href{http://www.strengejacke.de/sjPlot/sjp.glmer/}{sjPlot manual: sjp.glmer}
 }
 

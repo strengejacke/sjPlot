@@ -159,13 +159,14 @@ The HTML tables can either be saved as file and manually opened (specify paramet
         default behaviour (i.e. \code{file=NULL}). \cr \cr
         Since package version 1.3, the parameter \code{valueLabels}, which represent the
         value labels, is retrieved automatically if a) the variables \code{var.col} and \code{var.row} come from a data frame
-        that was imported with the \code{\link{read_spss}} function (because then value labels are
+        that was imported with the \code{\link[sjmisc]{read_spss}} function (because then value labels are
         attached as attributes to the data) or b) when the variables are factors with named factor levels
         (e.g., see column \code{group} in dataset \code{\link{PlantGrowth}}). However, you still
         can use own parameters variable labels.
 }
 \examples{
 # prepare sample data set
+library(sjmisc)
 data(efc)
 efc.labels <- get_val_labels(efc)
 
@@ -223,7 +224,6 @@ sjt.xtab(efc$e16sex, efc$e42dep,
 \itemize{
            \item \href{http://www.strengejacke.de/sjPlot/sjt.xtab}{sjPlot manual: sjt.xtab}
            \item \code{\link{sjp.xtab}}
-           \item \code{\link{table_values}}
          }
 }
 

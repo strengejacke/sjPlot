@@ -2,9 +2,8 @@
 #' @name sjp.stackfrq
 #' 
 #' @seealso \itemize{
-#'              \item \code{\link{sjp.likert}}
-#'              \item \code{\link{sjt.stackfrq}}
 #'              \item \href{http://www.strengejacke.de/sjPlot/sjp.stackfrq/}{sjPlot manual: sjp.stackfrq}
+#'              \item \code{\link{sjt.stackfrq}}
 #'              }
 #' 
 #' @description Plot items (variables) of a scale as stacked proportional bars. This
@@ -99,6 +98,7 @@
 #' # -------------------------------
 #' # Data from the EUROFAMCARE sample dataset
 #' # -------------------------------
+#' library(sjmisc)
 #' data(efc)
 #' 
 #' # recveive first item of COPE-index scale
@@ -131,6 +131,7 @@
 #' 
 #' @import ggplot2
 #' @import dplyr
+#' @import sjmisc
 #' @importFrom scales percent
 #' @export
 sjp.stackfrq <- function(items,
@@ -166,13 +167,13 @@ sjp.stackfrq <- function(items,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(legendLabels)) legendLabels <- autoSetValueLabels(items[,1])
+  if (is.null(legendLabels)) legendLabels <- sjmisc:::autoSetValueLabels(items[,1])
   if (is.null(axisLabels.y)) {
     axisLabels.y <- c()
     # if yes, iterate each variable
     for (i in 1:ncol(items)) {
       # retrieve variable name attribute
-      vn <- autoSetVariableLabels(items[,i])
+      vn <- sjmisc:::autoSetVariableLabels(items[,i])
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         axisLabels.y <- c(axisLabels.y, vn)
@@ -287,11 +288,11 @@ sjp.stackfrq <- function(items,
   # Prepare and trim legend labels to appropriate size
   # --------------------------------------------------------
   # wrap legend text lines
-  legendLabels <- word_wrap(legendLabels, breakLegendLabelsAt)    
+  legendLabels <- sjmisc::word_wrap(legendLabels, breakLegendLabelsAt)    
   # check whether we have a title for the legend
   if (!is.null(legendTitle)) {
     # if yes, wrap legend title line
-    legendTitle <- word_wrap(legendTitle, breakLegendTitleAt)    
+    legendTitle <- sjmisc::word_wrap(legendTitle, breakLegendTitleAt)    
   }
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
@@ -300,12 +301,12 @@ sjp.stackfrq <- function(items,
     if (!is.null(weightByTitleString)) {
       title <- paste(title, weightByTitleString, sep="")
     }
-    title <- word_wrap(title, breakTitleAt)    
+    title <- sjmisc::word_wrap(title, breakTitleAt)    
   }
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
   if (!is.null(axisLabels.y)) {
-    axisLabels.y <- word_wrap(axisLabels.y, breakLabelsAt)    
+    axisLabels.y <- sjmisc::word_wrap(axisLabels.y, breakLabelsAt)    
   }
   # ----------------------------
   # Check if ordering was requested

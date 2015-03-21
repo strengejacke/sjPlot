@@ -35,7 +35,7 @@ Example: \code{title=c("my title")}}
 \item{axisLabels.y}{Labels of the predictor variables (independent vars, odds) that are used for labelling the
 axis. Passed as vector of strings.
 Example: \code{axisLabels.y=c("Label1", "Label2", "Label3")}
-Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_val_labels}} function, you receive a
+Note: If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
 \code{list} object with label string. The labels may also be passed as list object. They will be coerced
 to character vector automatically.}
 
@@ -151,6 +151,7 @@ sjp.glm(fitOR, type="bars")
 # of care. Data from the EUROFAMCARE
 # sample dataset
 # -------------------------------
+library(sjmisc)
 data(efc)
 # retrieve predictor variable labels
 labs <- get_var_labels(efc)
@@ -188,10 +189,6 @@ sjp.glm(fit,
         type = "prob")
 }
 \seealso{
-\itemize{
-             \item \href{http://www.strengejacke.de/sjPlot/sjp.glm/}{sjPlot manual: sjp.glm}
-             \item \code{\link{sjp.glmm}}
-             \item \code{\link{sjt.glm}}
-             }
+\href{http://www.strengejacke.de/sjPlot/sjp.glm/}{sjPlot manual: sjp.glm}
 }
 

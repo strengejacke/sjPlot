@@ -19,7 +19,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
 #' @param title Title of the diagram, plotted above the whole diagram panel.
 #' @param axisLabels Labels for the x- andy y-axis.
 #'          axisLabels are detected automatically if \code{data} is a data frame where each variable has
-#'          a \code{"variable.labels"} attribute (see \code{\link{set_var_labels}}) for details).
+#'          a \code{"variable.labels"} attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).
 #' @param type Indicates whether the geoms of correlation values should be plotted
 #'          as \code{"circle"} (default) or as \code{"tile"}.
 #' @param sortCorrelations If \code{TRUE} (default), the axis labels are sorted
@@ -72,6 +72,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
 #' # -------------------------------
 #' # Data from the EUROFAMCARE sample dataset
 #' # -------------------------------
+#' library(sjmisc)
 #' data(efc)
 #'
 #' # retrieve variable and value labels
@@ -96,6 +97,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
 #'
 #' @import ggplot2
 #' @import tidyr
+#' @import sjmisc
 #' @importFrom scales brewer_pal grey_pal
 #' @export
 sjp.corr <- function(data,
@@ -134,7 +136,7 @@ sjp.corr <- function(data,
     # if yes, iterate each variable
     for (i in 1:ncol(data)) {
       # retrieve variable name attribute
-      vn <- autoSetVariableLabels(data[,i])
+      vn <- sjmisc:::autoSetVariableLabels(data[, i])
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         axisLabels <- c(axisLabels, vn)
@@ -216,13 +218,9 @@ sjp.corr <- function(data,
   # Prepare length of title and labels
   # ----------------------------
   # check length of diagram title and split longer string at into new lines
-  if (!is.null(title)) {
-    title <- word_wrap(title, breakTitleAt)
-  }
+  if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
   # check length of x-axis-labels and split longer strings at into new lines
-  if (!is.null(axisLabels)) {
-    axisLabels <- word_wrap(axisLabels, breakLabelsAt)
-  }
+  if (!is.null(axisLabels)) axisLabels <- sjmisc::word_wrap(axisLabels, breakLabelsAt)
   # --------------------------------------------------------
   # order correlations from highest to lowest correlation coefficient
   # --------------------------------------------------------

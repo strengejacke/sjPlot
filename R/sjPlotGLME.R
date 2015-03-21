@@ -5,13 +5,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #' @title Plot odds ratios (forest plots) of generalized linear mixed effects models
 #' @name sjp.glmer
 #'
-#' @seealso \itemize{
-#'            \item \href{http://www.strengejacke.de/sjPlot/sjp.glmer/}{sjPlot manual: sjp.glmer}
-#'            \item \code{\link{sjp.lmer}}
-#'            \item \code{\link{sjp.glm}}
-#'            \item \code{\link{sjp.glmm}}
-#'            \item \code{\link{sjt.glm}}
-#'          }
+#' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.glmer/}{sjPlot manual: sjp.glmer}
 #'
 #' @description Plot odds ratios (exponentiated coefficients) with confidence intervalls of either
 #'                fixed effects or random effects of generalized linear mixed effects models
@@ -98,6 +92,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #' @examples
 #' \dontrun{
 #' library(lme4)
+#' library(sjmisc)
 #' # create binary response
 #' sleepstudy$Reaction.dicho <- dicho(sleepstudy$Reaction, dichBy = "md")
 #' # fit model
@@ -117,6 +112,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #'           sort.coef = "sort.all")
 #'
 #' library(lme4)
+#' library(sjmisc)
 #' data(efc)
 #' # create binary response
 #' efc$hi_qol <- dicho(efc$quol_5)
@@ -231,13 +227,7 @@ sjp.glmer <- function(fit,
 #' @title Plot estimates (forest plots) of linear mixed effects models
 #' @name sjp.lmer
 #'
-#' @seealso \itemize{
-#'            \item \href{http://www.strengejacke.de/sjPlot/sjp.lmer/}{sjPlot manual: sjp.lmer}
-#'            \item \code{\link{sjp.glmer}}
-#'            \item \code{\link{sjp.lm}}
-#'            \item \code{\link{sjp.lmm}}
-#'            \item \code{\link{sjt.lm}}
-#'          }
+#' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.lmer/}{sjPlot manual: sjp.lmer}
 #'
 #' @description Plot estimates (coefficients) with confidence intervalls of either
 #'                fixed effects or random effects of linear mixed effects models
@@ -319,6 +309,7 @@ sjp.glmer <- function(fit,
 #' \dontrun{
 #' # fit model
 #' library(lme4)
+#' library(sjmisc)
 #' fit <- lmer(Reaction ~ Days + (Days | Subject), sleepstudy)
 #'
 #' # simple plot
@@ -343,6 +334,7 @@ sjp.glmer <- function(fit,
 #'
 #'
 #' library(lme4)
+#' library(sjmisc)
 #' data(efc)
 #' # prepare group variable
 #' efc$grp = as.factor(efc$e15relat)
@@ -623,7 +615,7 @@ sjp.lme4  <- function(fit,
     }
     else {
       if (type == "fe.std") {
-        tmpdf <- std_beta(fit)
+        tmpdf <- sjmisc::std_beta(fit)
         mydf <- as.data.frame(cbind(OR = tmpdf$stdcoef,
                                     lower.CI = tmpdf$stdcoef - (1.96 * tmpdf$stdse),
                                     upper.CI = tmpdf$stdcoef + (1.96 * tmpdf$stdse)))
@@ -658,12 +650,10 @@ sjp.lme4  <- function(fit,
     # retrieve odds ratios
     if (fun == "glm") {
       ov <- exp(lme4::fixef(fit))
-    }
-    else {
+    } else {
       if (type == "fe.std") {
-        ov <- std_beta(fit)$stdcoef
-      }
-      else {
+        ov <- sjmisc::std_beta(fit)$stdcoef
+      } else {
         ov <- lme4::fixef(fit)
       }
     }
@@ -1034,7 +1024,7 @@ sjp.lme.feprobcurv <- function(fit,
       # melt variable
       mydf.vals <- data.frame(value = vals.unique)
       # convert factor to numeric
-      if (is.factor(mydf.vals$value)) mydf.vals$value <- to_value(mydf.vals$value, 0)
+      if (is.factor(mydf.vals$value)) mydf.vals$value <- sjmisc::to_value(mydf.vals$value, 0)
       # retrieve names of coefficients
       coef.names <- names(lme4::fixef(fit))
       # check if we have a factor, then we may have reference levels
@@ -1189,7 +1179,7 @@ sjp.lme.reprobcurve <- function(fit,
       # melt variable
       mydf.vals <- data.frame(value = vals.unique)
       # convert factor to numeric
-      if (is.factor(mydf.vals$value)) mydf.vals$value <- to_value(mydf.vals$value, 0)
+      if (is.factor(mydf.vals$value)) mydf.vals$value <- sjmisc::to_value(mydf.vals$value, 0)
       # retrieve names of coefficients
       coef.names <- names(lme4::fixef(fit))
       # check if we have a factor, then we may have reference levels

@@ -165,6 +165,7 @@ sjt.pca(likert_4)
 # -------------------------------
 # Data from the EUROFAMCARE sample dataset
 # -------------------------------
+library(sjmisc)
 data(efc)
 
 # retrieve variable and value labels
@@ -176,10 +177,10 @@ start <- which(colnames(efc) == "c82cop1")
 end <- which(colnames(efc) == "c90cop9")
 
 # create data frame with COPE-index scale
-df <- as.data.frame(efc[, c(start:end)])
-colnames(df) <- varlabs[c(start:end)]
+mydf <- as.data.frame(efc[, c(start:end)])
+colnames(mydf) <- varlabs[c(start:end)]
 
-sjt.pca(df)
+sjt.pca(mydf)
 
 # -------------------------------
 # auto-detection of labels
@@ -191,9 +192,6 @@ sjt.pca(efc[, c(start:end)])}
 \itemize{
            \item \href{http://www.strengejacke.de/sjPlot/sjt.pca/}{sjPlot manual: sjt.pca}
            \item \code{\link{sjp.pca}}
-           \item \code{\link{reliab_test}}
-           \item \code{\link{sjt.itemanalysis}}
-           \item \code{\link{cronb}}
          }
 }
 

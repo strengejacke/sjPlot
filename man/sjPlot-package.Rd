@@ -5,9 +5,7 @@
 \docType{package}
 \title{Data Visualization for Statistics in Social Science}
 \description{
-  Collection of plotting and table output functions for data visualization. Results of various statistical analyses (that are commonly used in social sciences) can be visualized using this package, including simple and cross tabulated frequencies, histograms, box plots, (generalized) linear models, mixed effects models, PCA and correlation matrices, cluster analyses, scatter plots, Likert scales etc.
-
-  Furthermore, this package contains some tools that are useful when carrying out data analysis or interpreting data (especially intended for people coming from SPSS and/or who are new to R). These tool functions support reading and writing data (SPSS, SAS and STATA), variable recoding and weighting, statistical tests, interpretation of interaction terms in regression models, reliability tests and constructing index or score variables and much more.
+  Collection of plotting and table output functions for data visualization. Results of various statistical analyses (that are commonly used in social sciences) can be visualized using this package, including simple and cross tabulated frequencies, histograms, box plots, (generalized) linear models, mixed effects models, PCA and correlation matrices, cluster analyses, scatter plots, Likert scales, interpretation of interaction terms in regression models, constructing index or score variables and much more.
 
   \emph{What does this package do?}
   
@@ -16,8 +14,6 @@
     \item compute basic or advanced statistical analyses
     \item either plot the results as ggplot-figure or print them as html-table
   }
-  
-  However, meanwhile the amount of functions has increased, hence you’ll also find some utility functions beside the plotting functions.
   
   \emph{How does this package help me?}
   
@@ -35,11 +31,11 @@
   }
 }
 \details{
-\tabular{ll}{
+\tabular{rl}{
 Package: \tab sjPlot\cr
 Type: \tab Package\cr
-Version: \tab 1.7-5\cr
-Date: \tab 2015-03-19\cr
+Version: \tab 1.7-6\cr
+Date: \tab 2015-03-20\cr
 License: \tab GPL-3\cr
 }
 }
@@ -47,8 +43,10 @@ License: \tab GPL-3\cr
 Daniel Lüdecke \email{d.luedecke@uke.de}
 }
 \references{
-Documentation: \url{http://www.strengejacke.de/sjPlot} \cr
-Weblog: \url{http://strengejacke.wordpress.com/sjplot-r-package/} \cr
-Github: \url{https://github.com/sjPlot/devel} \cr
-Bug reports: \url{https://github.com/sjPlot/devel/issues}
+  \itemize{
+    \item Documentation: \url{http://www.strengejacke.de/sjPlot}
+    \item Weblog: \url{http://strengejacke.wordpress.com/sjplot-r-package/}
+    \item Github: \url{https://github.com/sjPlot/devel}
+    \item Bug reports: \url{https://github.com/sjPlot/devel/issues}
+  }
 }

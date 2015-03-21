@@ -94,7 +94,7 @@ appear as legend text.}
 \item{axisLabels.y}{a character vector with labels for the y-axis (the labels of the
 \code{items}). Example: \code{axisLabels.y=c("Q1", "Q2", "Q3")}
 Axis labels will automatically be detected, when they have
-a \code{"variable.lable"} attribute (see \code{\link{set_var_labels}}) for details).}
+a \code{"variable.lable"} attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
 \item{breakTitleAt}{Wordwrap for diagram title. Determines how many chars of the title are displayed in
 one line and when a line break is inserted into the title.}
@@ -213,10 +213,6 @@ sjp.likert(likert_6,
            value.labels = "sum.inside")
 }
 \seealso{
-\itemize{
-             \item \code{\link{sjp.stackfrq}}
-             \item \code{\link{sjt.stackfrq}}
-             \item \href{http://www.strengejacke.de/sjPlot/sjp.likert/}{sjPlot manual: sjp.likert}
-             }
+\href{http://www.strengejacke.de/sjPlot/sjp.likert/}{sjPlot manual: sjp.likert}
 }
 

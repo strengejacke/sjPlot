@@ -54,10 +54,12 @@
 #'
 #' @examples
 #' \dontrun{
+#' library(sjmisc)
 #' data(efc)
 #' sjt.grpmean(efc$c12hour,
 #'             efc$e42dep)}
 #'             
+#' @import sjmisc
 #' @export
 sjt.grpmean <- function(varCount, 
                         varGrp, 
@@ -83,9 +85,9 @@ sjt.grpmean <- function(varCount,
   # --------------------------------------
   # set value and row labels
   # --------------------------------------
-  if (is.null(rowLabels)) rowLabels <- autoSetValueLabels(varGrp)
-  varGrpLabel <- autoSetVariableLabels(varGrp)
-  varCountLabel <- autoSetVariableLabels(varCount)
+  if (is.null(rowLabels)) rowLabels <- sjmisc:::autoSetValueLabels(varGrp)
+  varGrpLabel <- sjmisc:::autoSetVariableLabels(varGrp)
+  varCountLabel <- sjmisc:::autoSetVariableLabels(varCount)
   # --------------------------------------
   # handle NULL parameter
   # --------------------------------------
@@ -131,7 +133,7 @@ sjt.grpmean <- function(varCount,
                 cbind(mean = sprintf("%.*f", digits, mean(varCount[varGrp == indices[i]], na.rm = TRUE)),
                       N = length(na.omit(varCount[varGrp == indices[i]])),
                       sd = sprintf("%.*f", digits, sd(varCount[varGrp == indices[i]], na.rm = TRUE)),
-                      se = sprintf("%.*f", digits, std_e(varCount[varGrp == indices[i]])),
+                      se = sprintf("%.*f", digits, sjmisc::std_e(varCount[varGrp == indices[i]])),
                       p = pval[i]))
   }
   # --------------------------------------
@@ -141,7 +143,7 @@ sjt.grpmean <- function(varCount,
               cbind(mean = sprintf("%.*f", digits, mean(varCount, na.rm = TRUE)),
                     N = length(na.omit(varCount)),
                     sd = sprintf("%.*f", digits, sd(varCount, na.rm = TRUE)),
-                    se = sprintf("%.*f", digits, std_e(varCount)),
+                    se = sprintf("%.*f", digits, sjmisc::std_e(varCount)),
                     p = ""))
   # --------------------------------------
   # fix row labels, if empty or NULL

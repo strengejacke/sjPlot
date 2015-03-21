@@ -5,11 +5,7 @@
 #'                as HTML table, or saves them as file. The fitted models may hav different predictors,
 #'                e.g. when comparing different stepwise fitted models.
 #'                
-#' @seealso \itemize{
-#'            \item \href{http://strengejacke.de/sjPlot/sjt.lm/}{sjPlot manual: sjt.lm}
-#'            \item \code{\link{sjt.glm}}
-#'            \item \code{\link{sjp.lm}}
-#'            }
+#' @seealso \href{http://strengejacke.de/sjPlot/sjt.lm/}{sjPlot manual: sjt.lm}
 #' 
 #' @param ... One or more fitted lm-objects.
 #' @param file The destination file, which will be in html-format. If no filepath is specified,
@@ -129,6 +125,7 @@
 #' # Now fit the models. Note that both models share the same predictors
 #' # and only differ in their dependent variable. See examples of stepwise
 #' # models below at the end.
+#' library(sjmisc)
 #' data(efc)
 #' 
 #' # attach variable labels to each variable of the data
@@ -556,7 +553,7 @@ sjt.lm <- function (...,
     # retrieve ci for model
     # -------------------------------------
     confis <- confint(fit)
-    sbvals <- suppressWarnings(std_beta(fit, include.ci = T))
+    sbvals <- suppressWarnings(sjmisc::std_beta(fit, include.ci = T))
     # -------------------------------------
     # write data to data frame. we need names of
     # coefficients, estimated values, ci,

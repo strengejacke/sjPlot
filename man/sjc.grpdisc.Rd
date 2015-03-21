@@ -47,9 +47,4 @@ groups <- sjc.cluster(mtcars, 5)
 # plot goodness of group classificatoin
 sjc.grpdisc(mtcars, groups, 5)
 }
-\seealso{
-\code{\link{sjc.dend}} \cr
-         \code{\link{sjc.cluster}} \cr
-         \code{\link{sjc.elbow}}
-}
 

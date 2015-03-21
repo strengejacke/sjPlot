@@ -112,6 +112,7 @@ Display scatter plot of two variables. Adding a grouping variable to
 }
 \examples{
 # load sample date
+library(sjmisc)
 data(efc)
 
 # simple scatter plot, auto-jittering
@@ -159,8 +160,6 @@ sjp.scatter(efc$c160age,efc$e17age, efc$e42dep,
             title="", axisTitle.x="", axisTitle.y="")
 }
 \seealso{
-\itemize{
-          \item \href{http://www.strengejacke.de/sjPlot/sjp.scatter}{sjPlot manual: sjp.scatter}
-         }
+\href{http://www.strengejacke.de/sjPlot/sjp.scatter}{sjPlot manual: sjp.scatter}
 }
 

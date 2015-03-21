@@ -38,7 +38,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Perc", "Sum", "Count", "
 #'          range is between 0 and 1.
 #' @param title Title of the diagram, plotted above the whole diagram panel.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link{set_var_labels}}) for details).
+#'          (see \code{\link[sjmisc]{set_var_labels}}) for details).
 #' @param legendTitle Title of the diagram's legend.
 #' @param axisLabels.x Labels for the x-axis breaks.
 #' @param legendLabels Labels for the guide/legend.
@@ -96,7 +96,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Perc", "Sum", "Count", "
 #' @param axisTitle.x A label for the x axis. useful when plotting histograms with metric scales where no category labels
 #'          are assigned to the x axis.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link{set_var_labels}}) for details).
+#'          (see \code{\link[sjmisc]{set_var_labels}}) for details).
 #' @param axisTitle.y A label for the y axis. useful when plotting histograms with metric scales where no category labels
 #'          are assigned to the y axis.
 #' @param coord.flip If \code{TRUE}, the x and y axis are swapped.
@@ -127,6 +127,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Perc", "Sum", "Count", "
 #'          coord.flip = TRUE)
 #' 
 #' # example with vertical labels
+#' library(sjmisc)
 #' data(efc)
 #' sjp.setTheme(geom.label.angle = 90)
 #' # hjust-aes needs adjustment for this
@@ -177,6 +178,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Perc", "Sum", "Count", "
 #'
 #' @import ggplot2
 #' @import dplyr
+#' @import sjmisc
 #' @importFrom scales percent
 #' @export
 sjp.xtab <- function(y,
@@ -221,13 +223,13 @@ sjp.xtab <- function(y,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(axisLabels.x)) axisLabels.x <- autoSetValueLabels(y)
-  if (is.null(legendLabels)) legendLabels <- autoSetValueLabels(x)
-  if (is.null(axisTitle.x)) axisTitle.x <- autoSetVariableLabels(y)
-  if (is.null(legendTitle)) legendTitle <- autoSetVariableLabels(x)  
+  if (is.null(axisLabels.x)) axisLabels.x <- sjmisc:::autoSetValueLabels(y)
+  if (is.null(legendLabels)) legendLabels <- sjmisc:::autoSetValueLabels(x)
+  if (is.null(axisTitle.x)) axisTitle.x <- sjmisc:::autoSetVariableLabels(y)
+  if (is.null(legendTitle)) legendTitle <- sjmisc:::autoSetVariableLabels(x)  
   if (is.null(title)) {
-    t1 <- autoSetVariableLabels(y)
-    t2 <- autoSetVariableLabels(x)
+    t1 <- sjmisc:::autoSetVariableLabels(y)
+    t2 <- sjmisc:::autoSetVariableLabels(x)
     if (!is.null(t1) && !is.null(t2)) {
       title <- paste0(t1, " by ", t2)
     }
@@ -484,11 +486,11 @@ sjp.xtab <- function(y,
   }
   legendLabels <- c(legendLabels, stringTotal)
   # wrap legend text lines
-  legendLabels <- word_wrap(legendLabels, breakLegendLabelsAt)
+  legendLabels <- sjmisc::word_wrap(legendLabels, breakLegendLabelsAt)
   # check whether we have a title for the legend
   if (!is.null(legendTitle)) {
     # if yes, wrap legend title line
-    legendTitle <- word_wrap(legendTitle, breakLegendTitleAt)
+    legendTitle <- sjmisc::word_wrap(legendTitle, breakLegendTitleAt)
   }
   # --------------------------------------------------------
   # Trim labels and title to appropriate size
@@ -500,12 +502,12 @@ sjp.xtab <- function(y,
     if (!is.null(weightByTitleString)) {
       title <- paste(title, weightByTitleString, sep="")
     }
-    title <- word_wrap(title, breakTitleAt)
+    title <- sjmisc::word_wrap(title, breakTitleAt)
   }
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
   if (!is.null(axisLabels.x)) {
-    axisLabels.x <- word_wrap(axisLabels.x, breakLabelsAt)
+    axisLabels.x <- sjmisc::word_wrap(axisLabels.x, breakLabelsAt)
   }
   # If axisLabels.x were not defined, simply set numbers from 1 to
   # amount of categories (=number of rows) in dataframe instead

@@ -10,9 +10,6 @@
 #' @seealso \itemize{
 #'            \item \href{http://www.strengejacke.de/sjPlot/sjp.pca/}{sjPlot manual: sjp.pca}
 #'            \item \code{\link{sjt.pca}}
-#'            \item \code{\link{reliab_test}}
-#'            \item \code{\link{sjt.itemanalysis}}
-#'            \item \code{\link{cronb}}
 #'            }
 #' 
 #' @param data A data frame with factors (each columns one variable) that should be used 
@@ -90,6 +87,7 @@
 #' # -------------------------------
 #' # Data from the EUROFAMCARE sample dataset
 #' # -------------------------------
+#' library(sjmisc)
 #' data(efc)
 #' 
 #' # retrieve variable and value labels
@@ -139,7 +137,7 @@ sjp.pca <- function(data,
     # if yes, iterate each variable
     for (i in 1:ncol(data)) {
       # retrieve variable name attribute
-      vn <- autoSetVariableLabels(data[, i])
+      vn <- sjmisc:::autoSetVariableLabels(data[, i])
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         axisLabels.y <- c(axisLabels.y, vn)
@@ -234,13 +232,9 @@ sjp.pca <- function(data,
   # Prepare length of title and labels
   # ----------------------------
   # check length of diagram title and split longer string at into new lines
-  if (!is.null(title)) {
-    title <- word_wrap(title, breakTitleAt)
-  }
+  if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
   # check length of x-axis-labels and split longer strings at into new lines
-  if (!is.null(axisLabels.y)) {
-    axisLabels.y <- word_wrap(axisLabels.y, breakLabelsAt)
-  }
+  if (!is.null(axisLabels.y)) axisLabels.y <- sjmisc::word_wrap(axisLabels.y, breakLabelsAt)
   # --------------------------------------------------------
   # this function checks which items have unclear factor loadings,
   # i.e. which items do not strongly load on a single factor but
@@ -304,7 +298,7 @@ sjp.pca <- function(data,
     for (n in 1:length(unique(itemloadings))) {
       # calculate cronbach's alpha for those cases that all have the
       # highest loading on the same factor
-      cbv <- as.data.frame(rbind(cbv, cbind(nr = n, cronb(na.omit(dataframe[, which(itemloadings == n)])))))
+      cbv <- as.data.frame(rbind(cbv, cbind(nr = n, sjmisc::cronb(na.omit(dataframe[, which(itemloadings == n)])))))
     }
     # just for vertical position adjustment when we print the alpha values
     vpos <- rep(c(-0.25, -1), nrow(cbv))

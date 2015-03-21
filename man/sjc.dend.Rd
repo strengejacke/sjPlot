@@ -44,9 +44,4 @@ sjc.dend(mtcars, 5)
 # and show group classification for 2 to 4 groups
 sjc.dend(mtcars, 2:4)
 }
-\seealso{
-\code{\link{sjc.cluster}} \cr
-         \code{\link{sjc.grpdisc}} \cr
-         \code{\link{sjc.elbow}}
-}
 

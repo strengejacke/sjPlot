@@ -11,9 +11,6 @@
 #' @seealso \itemize{
 #'            \item \href{http://www.strengejacke.de/sjPlot/sjt.pca/}{sjPlot manual: sjt.pca}
 #'            \item \code{\link{sjp.pca}}
-#'            \item \code{\link{reliab_test}}
-#'            \item \code{\link{sjt.itemanalysis}}
-#'            \item \code{\link{cronb}}
 #'          }
 #' 
 #' @param data A data frame with factors (each columns one variable) that should be used 
@@ -138,6 +135,7 @@
 #' # -------------------------------
 #' # Data from the EUROFAMCARE sample dataset
 #' # -------------------------------
+#' library(sjmisc)
 #' data(efc)
 #' 
 #' # retrieve variable and value labels
@@ -149,10 +147,10 @@
 #' end <- which(colnames(efc) == "c90cop9")
 #'  
 #' # create data frame with COPE-index scale
-#' df <- as.data.frame(efc[, c(start:end)])
-#' colnames(df) <- varlabs[c(start:end)]
+#' mydf <- as.data.frame(efc[, c(start:end)])
+#' colnames(mydf) <- varlabs[c(start:end)]
 #' 
-#' sjt.pca(df)
+#' sjt.pca(mydf)
 #' 
 #' # -------------------------------
 #' # auto-detection of labels
@@ -192,7 +190,7 @@ sjt.pca <- function (data,
     # if yes, iterate each variable
     for (i in 1:ncol(data)) {
       # retrieve variable name attribute
-      vn <- autoSetVariableLabels(data[,i])
+      vn <- sjmisc:::autoSetVariableLabels(data[,i])
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         varlabels <- c(varlabels, vn)
@@ -327,7 +325,7 @@ sjt.pca <- function (data,
   # ----------------------------
   if (!is.null(varlabels)) {
     # wrap long variable labels
-    varlabels <- word_wrap(varlabels, breakLabelsAt, "<br>")
+    varlabels <- sjmisc::word_wrap(varlabels, breakLabelsAt, "<br>")
   }
   # --------------------------------------------------------
   # this function checks which items have unclear factor loadings,
@@ -392,7 +390,7 @@ sjt.pca <- function (data,
     for (n in 1:length(unique(itemloadings))) {
       # calculate cronbach's alpha for those cases that all have the
       # highest loading on the same factor
-      cbv <- c(cbv, cronb(na.omit(dataframe[,which(itemloadings==n)])))
+      cbv <- c(cbv, sjmisc::cronb(na.omit(dataframe[,which(itemloadings==n)])))
     }
     # cbv now contains the factor numbers and the related alpha values
     # for each "factor dimension scale"

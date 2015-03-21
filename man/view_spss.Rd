@@ -11,7 +11,7 @@ view_spss(df, file = NULL, alternateRowColors = TRUE, showID = TRUE,
   CSS = NULL, useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
-\item{df}{An imported data frame, imported by \code{\link{read_spss}} function.}
+\item{df}{An imported data frame, imported by \code{\link[sjmisc]{read_spss}} function.}
 
 \item{file}{The destination file, which will be in html-format. If no filepath is specified,
 the file will be saved as temporary file and openend either in the IDE's viewer pane or
@@ -98,6 +98,7 @@ Save (or show) content of an imported SPSS data file as HTML table.
 \examples{
 \dontrun{
 # init dataset
+library(sjmisc)
 data(efc)
 
 # view variables
@@ -121,8 +122,6 @@ view_spss(efc,
 \itemize{
            \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
            \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
-           \item \code{\link{read_spss}}
-           \item \code{\link{sjt.df}}
          }
 }
 

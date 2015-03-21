@@ -18,7 +18,7 @@
 #' @param title A table caption.
 #' @param varlabels A list or vector of strings with variable names. If not specified, row names of \code{items}
 #'          will be used, resp. variable labels will automatically be detected, when they have
-#'          a \code{"variable.lable"} attribute (see \code{\link{set_var_labels}}) for details).
+#'          a \code{"variable.lable"} attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).
 #' @param breakLabelsAt Wordwrap for variable labels. Determines how many chars of the variable labels are displayed in 
 #'          one line and when a line break is inserted. Default is 40.
 #' @param valuelabels A list or vector of strings that category/value labels, which
@@ -121,6 +121,7 @@
 #' # -------------------------------
 #' # Data from the EUROFAMCARE sample dataset
 #' # -------------------------------
+#' library(sjmisc)
 #' data(efc)
 #' # recveive first item of COPE-index scale
 #' start <- which(colnames(efc)=="c82cop1")
@@ -194,12 +195,12 @@ sjt.stackfrq <- function (items,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(valuelabels)) valuelabels <- autoSetValueLabels(items[,1])
+  if (is.null(valuelabels)) valuelabels <- sjmisc:::autoSetValueLabels(items[,1])
   if (is.null(varlabels)) {
     # if yes, iterate each variable
     for (i in 1:ncol(items)) {
       # retrieve variable name attribute
-      vn <- autoSetVariableLabels(items[,i])
+      vn <- sjmisc:::autoSetVariableLabels(items[,i])
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         varlabels <- c(varlabels, vn)
@@ -244,7 +245,7 @@ sjt.stackfrq <- function (items,
   # save amolunt of values
   catcount <- length(valuelabels)
   # check length of x-axis-labels and split longer strings at into new lines
-  valuelabels <- word_wrap(valuelabels, breakValueLabelsAt, "<br>")
+  valuelabels <- sjmisc::word_wrap(valuelabels, breakValueLabelsAt, "<br>")
   # ----------------------------
   # if we have no variable labels, use row names
   # ----------------------------
@@ -252,7 +253,7 @@ sjt.stackfrq <- function (items,
     varlabels <- colnames(items)
   }
   # check length of x-axis-labels and split longer strings at into new lines
-  varlabels <- word_wrap(varlabels, breakLabelsAt, "<br>")
+  varlabels <- sjmisc::word_wrap(varlabels, breakLabelsAt, "<br>")
   # ----------------------------  
   # additional statistics required from psych-package?
   # ----------------------------

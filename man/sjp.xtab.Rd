@@ -29,7 +29,7 @@ the \code{y} variable.}
 
 \item{title}{Title of the diagram, plotted above the whole diagram panel.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link{set_var_labels}}) for details).}
+(see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
 \item{legendTitle}{Title of the diagram's legend.}
 
@@ -140,7 +140,7 @@ the legend is shown.}
 \item{axisTitle.x}{A label for the x axis. useful when plotting histograms with metric scales where no category labels
 are assigned to the x axis.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link{set_var_labels}}) for details).}
+(see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
 \item{axisTitle.y}{A label for the y axis. useful when plotting histograms with metric scales where no category labels
 are assigned to the y axis.}
@@ -179,6 +179,7 @@ sjp.xtab(y, x,
          coord.flip = TRUE)
 
 # example with vertical labels
+library(sjmisc)
 data(efc)
 sjp.setTheme(geom.label.angle = 90)
 # hjust-aes needs adjustment for this

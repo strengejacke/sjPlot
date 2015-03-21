@@ -6,11 +6,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #' @title Plot odds ratios (forest plots)
 #' @name sjp.glm
 #'
-#' @seealso \itemize{
-#'              \item \href{http://www.strengejacke.de/sjPlot/sjp.glm/}{sjPlot manual: sjp.glm}
-#'              \item \code{\link{sjp.glmm}}
-#'              \item \code{\link{sjt.glm}}
-#'              }
+#' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.glm/}{sjPlot manual: sjp.glm}
 #'
 #' @description Plot odds ratios (exponentiated coefficients) with confidence intervalls as bar chart or dot plot.
 #'                Depending on the \code{type} parameter, this function may also plot model
@@ -35,7 +31,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #' @param axisLabels.y Labels of the predictor variables (independent vars, odds) that are used for labelling the
 #'          axis. Passed as vector of strings.
 #'          Example: \code{axisLabels.y=c("Label1", "Label2", "Label3")}
-#'          Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_val_labels}} function, you receive a
+#'          Note: If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
 #'          \code{list} object with label string. The labels may also be passed as list object. They will be coerced
 #'          to character vector automatically.
 #' @param showAxisLabels.y Whether odds names (predictor labels) should be shown or not.
@@ -118,6 +114,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #' # of care. Data from the EUROFAMCARE
 #' # sample dataset
 #' # -------------------------------
+#' library(sjmisc)
 #' data(efc)
 #' # retrieve predictor variable labels
 #' labs <- get_var_labels(efc)
@@ -155,6 +152,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #'         type = "prob")
 #'
 #' @import ggplot2
+#' @import sjmisc
 #' @importFrom car outlierTest influencePlot crPlots durbinWatsonTest leveragePlots ncvTest spreadLevelPlot vif
 #' @export
 sjp.glm <- function(fit,
@@ -230,12 +228,12 @@ sjp.glm <- function(fit,
   # Prepare length of title and labels
   # ----------------------------
   # check length of diagram title and split longer string at into new lines
-  if (!is.null(title)) title <- word_wrap(title, breakTitleAt)
+  if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(axisTitle.x)) axisTitle.x <- word_wrap(axisTitle.x, breakTitleAt)
+  if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
   # check length of x-axis-labels and split longer strings at into new lines
-  if (!is.null(axisLabels.y)) axisLabels.y <- word_wrap(axisLabels.y, breakLabelsAt)
+  if (!is.null(axisLabels.y)) axisLabels.y <- sjmisc::word_wrap(axisLabels.y, breakLabelsAt)
   # create data frame for ggplot
   tmp <- data.frame(cbind(exp(coef(fit)), exp(confint(fit))))
   # ----------------------------
@@ -555,7 +553,7 @@ sjp.glm.pc <- function(fit,
       # melt variable
       mydf.vals <- data.frame(value = vals.unique)
       # convert factor to numeric
-      if (is.factor(mydf.vals$value)) mydf.vals$value <- to_value(mydf.vals$value, 0)
+      if (is.factor(mydf.vals$value)) mydf.vals$value <- sjmisc::to_value(mydf.vals$value, 0)
       # retrieve names of coefficients
       coef.names <- names(coef(fit))
       # check if we have a factor, then we may have reference levels

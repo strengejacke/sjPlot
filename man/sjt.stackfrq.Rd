@@ -23,7 +23,7 @@ Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, s
 
 \item{varlabels}{A list or vector of strings with variable names. If not specified, row names of \code{items}
 will be used, resp. variable labels will automatically be detected, when they have
-a \code{"variable.lable"} attribute (see \code{\link{set_var_labels}}) for details).}
+a \code{"variable.lable"} attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
 \item{breakLabelsAt}{Wordwrap for variable labels. Determines how many chars of the variable labels are displayed in
 one line and when a line break is inserted. Default is 40.}
@@ -157,6 +157,7 @@ sjt.stackfrq(likert_4, valuelabels=levels_4, varlabels=items)
 # -------------------------------
 # Data from the EUROFAMCARE sample dataset
 # -------------------------------
+library(sjmisc)
 data(efc)
 # recveive first item of COPE-index scale
 start <- which(colnames(efc)=="c82cop1")

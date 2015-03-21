@@ -166,6 +166,7 @@ The HTML tables can either be saved as file and manually opened (specify paramet
 \examples{
 \dontrun{
 # load sample data
+library(sjmisc)
 data(efc)
 
 # retrieve value and variable labels
@@ -221,7 +222,6 @@ sjt.frq(efc$e42dep,
 \itemize{
            \item \href{http://www.strengejacke.de/sjPlot/sjt.frq/}{sjPlot manual: sjt.frq}
            \item \code{\link{sjp.frq}}
-           \item \code{\link{sjt.xtab}}
          }
 }
 

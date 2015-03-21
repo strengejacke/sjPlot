@@ -25,9 +25,7 @@
 #'        must be included in the fitted model as well. Thus, \code{lm(dep ~ pred1 * pred2)} will work, 
 #'        but \code{lm(dep ~ pred1:pred2)} won't!
 #'
-#' @seealso \itemize{
-#'            \item \code{\link{sjp.emm.int}}
-#'            }
+#' @seealso \code{\link{sjp.emm.int}}
 #'
 #' @param fit the fitted (generalized) linear (mixed) model object, including interaction terms. Accepted model
 #'          classes are
@@ -135,6 +133,7 @@
 #'
 #'
 #' # load sample data set
+#' library(sjmisc)
 #' data(efc)
 #' # create data frame with variables that should be included
 #' # in the model
@@ -191,6 +190,7 @@
 #'            type = "box")
 #'
 #' @import ggplot2
+#' @import sjmisc
 #' @export
 sjp.int <- function(fit,
                     int.plot.index=NULL,
@@ -749,13 +749,13 @@ sjp.int <- function(fit,
     annoLabels <- paste(lLabels[1], lineLabelString)
     annoLabels <- c(annoLabels, paste(lLabels[2], lineLabelString))
     # wrap title
-    labtitle <- word_wrap(labtitle, breakTitleAt)
+    labtitle <- sjmisc::word_wrap(labtitle, breakTitleAt)
     # wrap legend labels
-    lLabels <- word_wrap(lLabels, breakLegendLabelsAt)
+    lLabels <- sjmisc::word_wrap(lLabels, breakLegendLabelsAt)
     # wrap legend title
-    lTitle <- word_wrap(lTitle, breakLegendTitleAt)
+    lTitle <- sjmisc::word_wrap(lTitle, breakLegendTitleAt)
     # wrap annotation labels
-    annoLabels <- word_wrap(annoLabels, breakAnnotationLabelsAt)
+    annoLabels <- sjmisc::word_wrap(annoLabels, breakAnnotationLabelsAt)
     # -----------------------------------------------------------
     # prepare base plot of interactions
     # -----------------------------------------------------------

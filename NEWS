@@ -1,12 +1,8 @@
-Version 1.7-5
+Version 1.7-6
 ------------------------------------------------------------------------------
 General:
+* Utility, recode and statistical test functions have been moved to another package called "sjmisc"!
 * R-Version dependency changed to R >= 3.1, due to import of "tidyr" and "dplyr" packages.
-* Improved internal management of imported data via "haven" and "foreign" packages, so users don't need to care of structure and classed of data read with either haven, foreign or sjPlot's read-functions.
-
-New functions:
-* "cv" to compute coefficient of variance.
-* "rmse" to compute root-mean-square error.
 
 Changes to functions:
 * "sjp.glm" now supports plotting "logistf" objects.

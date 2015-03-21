@@ -134,6 +134,7 @@ sjt.corr(df)
 # -------------------------------
 # Data from the EUROFAMCARE sample dataset
 # -------------------------------
+library(sjmisc)
 data(efc)
 
 # retrieve variable and value labels

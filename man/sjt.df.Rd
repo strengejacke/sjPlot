@@ -111,6 +111,7 @@ Shows description or the content of data frame (rows and columns) as HTML table,
 \examples{
 \dontrun{
 # init dataset
+library(sjmisc)
 data(efc)
 
 # plot efc-data frame summary

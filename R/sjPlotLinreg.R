@@ -5,12 +5,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lo
 #' @title Plot linear models
 #' @name sjp.lm
 #' 
-#' @seealso \itemize{
-#'              \item \href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm}
-#'              \item \code{\link{sjp.int}}
-#'              \item \code{\link{sjp.scatter}}
-#'              \item  \code{\link{std_beta}}
-#'             }
+#' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm}
 #' 
 #' @description Depending on the \code{type}, this function plots beta coefficients (estimates) 
 #'                of linear regressions with confidence intervalls as dot plot (forest plot),
@@ -39,13 +34,13 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lo
 #' @param axisLabels.x Labels of the predictor (independent variable) that is used for labelling the
 #'          axis. Passed as string. Not used if fitted model has more than one predictor and \code{type = "lm"}.
 #'          Example: \code{axisLabel.x=c("My Predictor Var")}.
-#'          Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_var_labels}} function, you receive a
-#'          character vector with variable label strings. You can use it like so:
+#'          Note: If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_var_labels}} function, you receive a
+#'          character vector with variable label strings. You can use it like this:
 #'          \code{axisLabel.x = get_var_labels(efc)['quol_5']}
 #' @param axisLabels.y Labels of the predictor variables (independent vars) that are used for labelling the
 #'          axis. Passed as vector of strings.
 #'          Example: \code{axisLabels.y=c("Label1", "Label2", "Label3")}.
-#'          Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_val_labels}} function, you receive a
+#'          Note: If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
 #'          list object with label string. The labels may also be passed as list object. They will be coerced
 #'          to character vector automatically.
 #' @param showAxisLabels.y Whether x axis text (category names, predictor labels) should be shown (use \code{TRUE})
@@ -157,6 +152,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lo
 #' # plotting regression line of linear model (done 
 #' # automatically if fitted model has only 1 predictor)
 #' # ---------------------------------------------------
+#' library(sjmisc)
 #' data(efc)
 #' # fit model
 #' fit <- lm(neg_c_7 ~ quol_5, data=efc)
@@ -189,6 +185,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lo
 #' sjp.lm(fit, type = "ma")
 #'         
 #' @import ggplot2
+#' @import sjmisc
 #' @importFrom car outlierTest crPlots durbinWatsonTest leveragePlots ncvTest spreadLevelPlot vif
 #' @export
 sjp.lm <- function(fit,
@@ -290,13 +287,13 @@ sjp.lm <- function(fit,
   if (is.null(axisLabels.y)) axisLabels.y <- suppressWarnings(retrieveModelLabels(list(fit)))
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(title)) title <- word_wrap(title, breakTitleAt)
+  if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(axisTitle.x)) axisTitle.x <- word_wrap(axisTitle.x, breakTitleAt)
+  if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
-  if (!is.null(axisLabels.y)) axisLabels.y <- word_wrap(axisLabels.y, breakLabelsAt)
+  if (!is.null(axisLabels.y)) axisLabels.y <- sjmisc::word_wrap(axisLabels.y, breakLabelsAt)
   # ----------------------------
   # create expression with model summarys. used
   # for plotting in the diagram later
@@ -319,7 +316,7 @@ sjp.lm <- function(fit,
   # retrieve betas, leave out intercept ([-1])
   bv <- coef(fit)[-1]
   # retrieve standardized betas
-  stdbv <- suppressWarnings(std_beta(fit, include.ci = TRUE))
+  stdbv <- suppressWarnings(sjmisc::std_beta(fit, include.ci = TRUE))
   # init data column for p-values
   ps <- sprintf("%.*f", labelDigits, bv)
   pstdbv <- sprintf("%.*f", labelDigits, stdbv$beta)
@@ -522,7 +519,7 @@ sjp.reglin <- function(fit,
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
   # -----------------------------------------------------------
-  if (!is.null(title)) title <- word_wrap(title, breakTitleAt)
+  if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
   # -----------------------------------------------------------
   # iterate all predictors
   # -----------------------------------------------------------
@@ -791,7 +788,7 @@ sjp.lm1 <- function(fit,
   # every 50 chars
   # -----------------------------------------------------------
   if (!is.null(title)) {
-    title <- word_wrap(title, breakTitleAt)    
+    title <- sjmisc::word_wrap(title, breakTitleAt)    
   }
   # -----------------------------------------------------------
   # remember length of predictor variables
@@ -847,8 +844,8 @@ sjp.lm1 <- function(fit,
   }
   # check length of axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
-  axisLabel.x <- word_wrap(axisLabel.x, breakLabelsAt)    
-  axisLabel.y <- word_wrap(axisLabel.y, breakLabelsAt)    
+  axisLabel.x <- sjmisc::word_wrap(axisLabel.x, breakLabelsAt)    
+  axisLabel.y <- sjmisc::word_wrap(axisLabel.y, breakLabelsAt)    
   # -----------------------------------------------------------
   # plot regression line and confidence intervall
   # -----------------------------------------------------------

@@ -20,7 +20,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "upper.ci",
 #' @param varCount The variable which frequencies should be plotted.
 #' @param title Title of diagram as string. Example: \code{title=c("my title")}.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link{set_var_labels}}) for details).
+#'          (see \code{\link[sjmisc]{set_var_labels}}) for details).
 #' @param weightBy A weight factor that will be applied to weight all cases from \code{varCount}.
 #'          Must be a vector of same length as \code{varCount}. Default is \code{NULL}, so no weights are used.
 #' @param weightByTitleString If a weight factor is supplied via the parameter \code{weightBy}, the diagram's title
@@ -48,7 +48,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "upper.ci",
 #'          \code{"dots"}).
 #' @param axisLabels.x Labels for the x-axis breaks.
 #'          Example: \code{axisLabels.x=c("Label1", "Label2", "Label3")}.
-#'          Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_val_labels}} function, you receive a
+#'          Note: If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
 #'          list object with label string. The labels may also be passed as list object. They will be coerced
 #'          to character vector automatically.
 #' @param interactionVarLabels Labels for the x-axis breaks when having interaction variables included.
@@ -111,16 +111,16 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "upper.ci",
 #'          are assigned to the x axis. By default, \code{""} is used, i.e. no title
 #'          is printed.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link{set_var_labels}}) for details).
+#'          (see \code{\link[sjmisc]{set_var_labels}}) for details).
 #' @param axisTitle.y A label for the y axis. useful when plotting histograms with metric scales where no category labels
 #'          are assigned to the y axis. By default, \code{""} is used, i.e. no title
 #'          is printed.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link{set_var_labels}}) for details).
+#'          (see \code{\link[sjmisc]{set_var_labels}}) for details).
 #' @param hist.skipZeros If \code{TRUE}, zero counts (categories with no answer) in \code{varCount} are omitted
-#'          when drawing histrograms, and the mapping is changed to \code{\link{stat_bin}}. Only applies to 
+#'          when drawing histrograms, and the mapping is changed to \code{\link[ggplot2]{stat_bin}}. Only applies to 
 #'          histograms (see \code{type}). Use this parameter to get identical results to the default
-#'          \code{\link{qplot}} or \code{\link{geom_histogram}} histogram plots of ggplot. You may need
+#'          \code{\link[ggplot2]{qplot}} or \code{\link[ggplot2]{geom_histogram}} histogram plots of ggplot. You may need
 #'          to adjust the \code{geom.size} parameter for better visual results (which, by ggplot-default, is
 #'          1/30 of the x-axis-range).
 #' @param startAxisAt Determines the first value on the x-axis. By default, this value is set
@@ -128,10 +128,10 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "upper.ci",
 #'          If you set \code{startAxisAt} to 1, you may have zero counts if the lowest value of \code{varCount}
 #'          is larger than 1 and hence no bars plotted for these values in such cases.
 #' @param autoGroupAt A value indicating at which length of unique values of \code{varCount} the variable
-#'          is automatically grouped into smaller units (see \code{\link{group_var}}). If \code{varCount} has large 
+#'          is automatically grouped into smaller units (see \code{\link[sjmisc]{group_var}}). If \code{varCount} has large 
 #'          numbers of unique values, too many bars for the graph have to be plotted. Hence it's recommended 
 #'          to group such variables. For example, if \code{autoGroupAt} is 50, i.e. if \code{varCount} has 50 and more unique values 
-#'          it will be grouped using \code{\link{group_var}} with \code{groupsize="auto"} parameter. By default, 
+#'          it will be grouped using \code{\link[sjmisc]{group_var}} with \code{groupsize="auto"} parameter. By default, 
 #'          the maximum group count is 30. However, if \code{autoGroupAt} is less than 30, \code{autoGroupAt} 
 #'          groups are built. Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.
 #' @param coord.flip If \code{TRUE}, the x and y axis are swapped. Default is \code{FALSE}.
@@ -175,6 +175,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "upper.ci",
 #' # dataset was importet from an SPSS-file, using:
 #' # efc <- read_spss("efc.sav", enc="UTF-8")
 #' # ---------------
+#' library(sjmisc)
 #' data(efc)
 #' efc.val <- get_val_labels(efc)
 #' efc.var <- get_var_labels(efc)
@@ -236,6 +237,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "upper.ci",
 #' 
 #'   
 #' @import ggplot2
+#' @import sjmisc
 #' @export
 sjp.frq <- function(varCount, 
                     title="",
@@ -285,10 +287,10 @@ sjp.frq <- function(varCount,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(axisLabels.x)) axisLabels.x <- autoSetValueLabels(varCount)
-  if (is.null(interactionVarLabels) && !is.null(interactionVar)) interactionVarLabels <- autoSetValueLabels(interactionVar)
-  if (is.null(axisTitle.x)) axisTitle.x <- autoSetVariableLabels(varCount)
-  if (is.null(title)) title <- autoSetVariableLabels(varCount)
+  if (is.null(axisLabels.x)) axisLabels.x <- sjmisc:::autoSetValueLabels(varCount)
+  if (is.null(interactionVarLabels) && !is.null(interactionVar)) interactionVarLabels <- sjmisc:::autoSetValueLabels(interactionVar)
+  if (is.null(axisTitle.x)) axisTitle.x <- sjmisc:::autoSetVariableLabels(varCount)
+  if (is.null(title)) title <- sjmisc:::autoSetVariableLabels(varCount)
   # --------------------------------------------------------
   # remove titles if empty
   # --------------------------------------------------------
@@ -349,11 +351,11 @@ sjp.frq <- function(varCount,
     # check for default auto-group-size or user-defined groups
     agcnt <- ifelse (autoGroupAt < 30, autoGroupAt, 30)
     # group axis labels
-    axisLabels.x <- group_labels(varCount, 
+    axisLabels.x <- sjmisc::group_labels(varCount, 
                                  groupsize = "auto", 
                                  autoGroupCount = agcnt)
     # group variable
-    varCount <- group_var(varCount, 
+    varCount <- sjmisc::group_var(varCount, 
                           groupsize = "auto", 
                           asNumeric = TRUE, 
                           autoGroupCount = agcnt)
@@ -370,7 +372,14 @@ sjp.frq <- function(varCount,
   #---------------------------------------------------
   # create frequency data frame
   #---------------------------------------------------
-  df.frq <- create.frq.df(varCount, axisLabels.x, breakLabelsAt, sort.frq, 2, na.rm, startAxisAt, weightBy)
+  df.frq <- create.frq.df(varCount, 
+                          axisLabels.x, 
+                          breakLabelsAt, 
+                          sort.frq, 
+                          2, 
+                          na.rm, 
+                          startAxisAt, 
+                          weightBy)
   mydat <- df.frq$mydat
   axisLabels.x <- df.frq$labels
   catmin <- df.frq$catmin
@@ -401,23 +410,23 @@ sjp.frq <- function(varCount,
     if (!is.null(weightByTitleString)) {
       title <- paste(title, weightByTitleString, sep="")
     }
-    title <- word_wrap(title, breakTitleAt)    
+    title <- sjmisc::word_wrap(title, breakTitleAt)    
   }
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
   if (!is.null(axisTitle.x)) {
-    axisTitle.x <- word_wrap(axisTitle.x, breakTitleAt)    
+    axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)    
   }
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
   if (!is.null(axisTitle.y)) {
-    axisTitle.y <- word_wrap(axisTitle.y, breakTitleAt)    
+    axisTitle.y <- sjmisc::word_wrap(axisTitle.y, breakTitleAt)    
   }
   # check length of x-axis-labels of interaction variable and split 
   # longer strings into new lines
   if (!is.null(interactionVar)) {
     if (!is.null(interactionVarLabels)) {
-      interactionVarLabels <- word_wrap(interactionVarLabels, breakLabelsAt)    
+      interactionVarLabels <- sjmisc::word_wrap(interactionVarLabels, breakLabelsAt)    
     }
     # If interaction-variable-labels were not defined, simply set numbers from 1 to
     # amount of categories instead

@@ -4,11 +4,7 @@
 #' @title Plot likert scales as centered stacked bars
 #' @name sjp.likert
 #'             
-#' @seealso \itemize{
-#'              \item \code{\link{sjp.stackfrq}}
-#'              \item \code{\link{sjt.stackfrq}}
-#'              \item \href{http://www.strengejacke.de/sjPlot/sjp.likert/}{sjPlot manual: sjp.likert}
-#'              }
+#' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.likert/}{sjPlot manual: sjp.likert}
 #' 
 #' @description Plot likert scales as centered stacked bars.
 #' 
@@ -74,7 +70,7 @@
 #' @param axisLabels.y a character vector with labels for the y-axis (the labels of the 
 #'          \code{items}). Example: \code{axisLabels.y=c("Q1", "Q2", "Q3")}
 #'          Axis labels will automatically be detected, when they have
-#'          a \code{"variable.lable"} attribute (see \code{\link{set_var_labels}}) for details).
+#'          a \code{"variable.lable"} attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).
 #' @param breakTitleAt Wordwrap for diagram title. Determines how many chars of the title are displayed in
 #'          one line and when a line break is inserted into the title.
 #' @param breakLabelsAt Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in 
@@ -172,6 +168,7 @@
 #'            value.labels = "sum.inside")
 #' 
 #' @import ggplot2
+#' @import sjmisc
 #' @importFrom car recode
 #' @export
 sjp.likert <- function(items,
@@ -232,13 +229,13 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(legendLabels)) legendLabels <- autoSetValueLabels(items[, 1])
+  if (is.null(legendLabels)) legendLabels <- sjmisc:::autoSetValueLabels(items[, 1])
   if (is.null(axisLabels.y)) {
     axisLabels.y <- c()
     # if yes, iterate each variable
     for (i in 1:ncol(items)) {
       # retrieve variable name attribute
-      vn <- autoSetVariableLabels(items[, i])
+      vn <- sjmisc:::autoSetVariableLabels(items[, i])
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         axisLabels.y <- c(axisLabels.y, vn)
@@ -310,7 +307,7 @@ sjp.likert <- function(items,
       # --------------------------------------------------------
       isnum <- na.omit(as.numeric(levels(items[, i])))
       if (length(isnum) == 0) {
-        items[ ,i] <- to_value(items[ ,i])
+        items[ ,i] <- sjmisc::to_value(items[ ,i])
       }
       items[ ,i] <- as.numeric(items[ ,i])
     }
@@ -330,7 +327,7 @@ sjp.likert <- function(items,
     # that category, replace it with NA
     # --------------------------------------------------------
     if (is.null(cat.neutral) && max(items[, i], na.rm = T) > catcount)
-      items[, i] <- set_na(items[, i], catcount + 1)
+      items[, i] <- sjmisc::set_na(items[, i], catcount + 1)
     # --------------------------------------------------------
     # create proportional frequency table
     # --------------------------------------------------------
@@ -469,11 +466,11 @@ sjp.likert <- function(items,
   # Prepare and trim legend labels to appropriate size
   # --------------------------------------------------------
   # wrap legend text lines
-  legendLabels <- word_wrap(legendLabels, breakLegendLabelsAt)
+  legendLabels <- sjmisc::word_wrap(legendLabels, breakLegendLabelsAt)
   # check whether we have a title for the legend
   if (!is.null(legendTitle)) {
     # if yes, wrap legend title line
-    legendTitle <- word_wrap(legendTitle, breakLegendTitleAt)
+    legendTitle <- sjmisc::word_wrap(legendTitle, breakLegendTitleAt)
   }
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
@@ -482,12 +479,12 @@ sjp.likert <- function(items,
     if (!is.null(weightByTitleString)) {
       title <- paste(title, weightByTitleString, sep="")
     }
-    title <- word_wrap(title, breakTitleAt)
+    title <- sjmisc::word_wrap(title, breakTitleAt)
   }
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
   if (!is.null(axisLabels.y)) {
-    axisLabels.y <- word_wrap(axisLabels.y, breakLabelsAt)
+    axisLabels.y <- sjmisc::word_wrap(axisLabels.y, breakLabelsAt)
   }
   # --------------------------------------------------------
   # set diagram margins

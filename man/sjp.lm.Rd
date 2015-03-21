@@ -37,14 +37,14 @@ Example: \code{title=c("my title")}}
 \item{axisLabels.x}{Labels of the predictor (independent variable) that is used for labelling the
 axis. Passed as string. Not used if fitted model has more than one predictor and \code{type = "lm"}.
 Example: \code{axisLabel.x=c("My Predictor Var")}.
-Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_var_labels}} function, you receive a
-character vector with variable label strings. You can use it like so:
+Note: If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_var_labels}} function, you receive a
+character vector with variable label strings. You can use it like this:
 \code{axisLabel.x = get_var_labels(efc)['quol_5']}}
 
 \item{axisLabels.y}{Labels of the predictor variables (independent vars) that are used for labelling the
 axis. Passed as vector of strings.
 Example: \code{axisLabels.y=c("Label1", "Label2", "Label3")}.
-Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_val_labels}} function, you receive a
+Note: If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
 list object with label string. The labels may also be passed as list object. They will be coerced
 to character vector automatically.}
 
@@ -201,6 +201,7 @@ sjp.lm(fit)
 # plotting regression line of linear model (done
 # automatically if fitted model has only 1 predictor)
 # ---------------------------------------------------
+library(sjmisc)
 data(efc)
 # fit model
 fit <- lm(neg_c_7 ~ quol_5, data=efc)
@@ -233,11 +234,6 @@ sjp.lm(fit,
 sjp.lm(fit, type = "ma")
 }
 \seealso{
-\itemize{
-             \item \href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm}
-             \item \code{\link{sjp.int}}
-             \item \code{\link{sjp.scatter}}
-             \item  \code{\link{std_beta}}
-            }
+\href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm}
 }
 

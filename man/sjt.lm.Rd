@@ -188,6 +188,7 @@ The HTML tables can either be saved as file and manually opened (specify paramet
 # Now fit the models. Note that both models share the same predictors
 # and only differ in their dependent variable. See examples of stepwise
 # models below at the end.
+library(sjmisc)
 data(efc)
 
 # attach variable labels to each variable of the data
@@ -406,10 +407,6 @@ sjt.lm(fit1, fit2, fit4, fit3,
                   css.modelcolumn5 = 'padding-right:50px;'))}
 }
 \seealso{
-\itemize{
-           \item \href{http://strengejacke.de/sjPlot/sjt.lm/}{sjPlot manual: sjt.lm}
-           \item \code{\link{sjt.glm}}
-           \item \code{\link{sjp.lm}}
-           }
+\href{http://strengejacke.de/sjPlot/sjt.lm/}{sjPlot manual: sjt.lm}
 }
 

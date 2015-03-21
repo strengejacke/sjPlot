@@ -142,6 +142,7 @@ sjp.stackfrq(likert_4, legendLabels=levels_4, axisLabels.y=items)
 # -------------------------------
 # Data from the EUROFAMCARE sample dataset
 # -------------------------------
+library(sjmisc)
 data(efc)
 
 # recveive first item of COPE-index scale
@@ -173,9 +174,8 @@ sjp.stackfrq(efc[,c(start:end)])
 }
 \seealso{
 \itemize{
-             \item \code{\link{sjp.likert}}
-             \item \code{\link{sjt.stackfrq}}
              \item \href{http://www.strengejacke.de/sjPlot/sjp.stackfrq/}{sjPlot manual: sjp.stackfrq}
+             \item \code{\link{sjt.stackfrq}}
              }
 }
 

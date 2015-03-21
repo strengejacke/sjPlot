@@ -1,8 +1,6 @@
 sjPlot - Data Visualization for Statistics in Social Science
 ------------------------------------------------------------------------------
-Collection of plotting and table output functions for data visualization. Results of various statistical analyses (that are commonly used in social sciences) can be visualized using this package, including simple and cross tabulated frequencies, histograms, box plots, (generalized) linear models, mixed effects models, PCA and correlation matrices, cluster analyses, scatter plots, Likert scales etc.
-
-Furthermore, this package contains some tools that are useful when carrying out data analysis or interpreting data (especially intended for people coming from SPSS and/or who are new to R). These tool functions support reading and writing data (SPSS, SAS and STATA), variable recoding and weighting, statistical tests, interpretation of interaction terms in regression models, reliability tests and constructing index or score variables and much more.
+Collection of plotting and table output functions for data visualization. Results of various statistical analyses (that are commonly used in social sciences) can be visualized using this package, including simple and cross tabulated frequencies, histograms, box plots, (generalized) linear models, mixed effects models, PCA and correlation matrices, cluster analyses, scatter plots, Likert scales, interpretation of interaction terms in regression models, constructing index or score variables and much more.
 
 
 ### Installation
@@ -33,15 +31,11 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of current development build 1.7-5
+### Changelog of current development build 1.7-6
 
 #### General
+* _Utility, recode and statistical test functions have been moved to another package called `sjmisc`!_
 * R-Version dependency changed to R >= 3.1, due to import of `tidyr` and `dplyr` packages.
-* Improved internal management of imported data via `haven` and `foreign` packages, so users don't need to care of structure and classed of data read with either haven, foreign or sjPlot's read-functions.
-
-#### New functions
-* `cv` to compute coefficient of variance.
-* `rmse` to compute root-mean-square error.
 
 #### Changes to functions
 * `sjp.glm` now supports plotting `logistf` objects [(#issue 11)](https://github.com/sjPlot/devel/issues/11).

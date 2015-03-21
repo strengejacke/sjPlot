@@ -67,7 +67,7 @@ Example: \code{title=c("my title")}}
 
 \item{axisLabels.x}{Labels for the x-axis breaks.
 Example: \code{axisLabels.x=c("Label1", "Label2", "Label3")}.
-Note: If you use the \code{\link{read_spss}} function and the \code{\link{get_val_labels}} function, you receive a
+Note: If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
 list object with label string. The labels may also be passed as list object. They will be coerced
 to character vector automatically.}
 
@@ -181,13 +181,5 @@ sjc.qclus(airquality,
 }
 \references{
 Maechler M, Rousseeuw P, Struyf A, Hubert M, Hornik K (2014) cluster: Cluster Analysis Basics and Extensions. R package.
-}
-\seealso{
-\itemize{
-           \item \code{\link{sjc.cluster}}
-           \item \code{\link{sjc.kgap}}
-           \item \code{\link{sjc.elbow}}
-           \item \code{\link{sjc.grpdisc}}
-           }
 }
 

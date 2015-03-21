@@ -106,6 +106,7 @@
 #' # -------------------------------
 #' # Data from the EUROFAMCARE sample dataset
 #' # -------------------------------
+#' library(sjmisc)
 #' data(efc)
 #' 
 #' # retrieve variable and value labels
@@ -202,7 +203,7 @@ sjt.corr <- function (data,
     # if yes, iterate each variable
     for (i in 1:ncol(data)) {
       # retrieve variable name attribute
-      vn <- autoSetVariableLabels(data[, i])
+      vn <- sjmisc:::autoSetVariableLabels(data[, i])
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         varlabels <- c(varlabels, vn)
@@ -303,7 +304,7 @@ sjt.corr <- function (data,
     varlabels <- row.names(corr)
   }
   # check length of x-axis-labels and split longer strings at into new lines
-  varlabels <- word_wrap(varlabels, breakLabelsAt, "<br>")
+  varlabels <- sjmisc::word_wrap(varlabels, breakLabelsAt, "<br>")
   # -------------------------------------
   # init header
   # -------------------------------------

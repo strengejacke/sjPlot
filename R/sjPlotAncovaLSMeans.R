@@ -4,9 +4,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("xn", "vld"))
 #' @title Plot adjusted (estimated marginal) means of interaction (moderation) in linear models
 #' @name sjp.emm.int
 #' 
-#' @references \itemize{
-#'              \item \href{http://www.theanalysisfactor.com/using-adjusted-means-to-interpret-moderators-in-analysis-of-covariance/}{Grace-Martin K: Using Adjusted Means to Interpret Moderators in Analysis of Covariance.}
-#'              }
+#' @references \href{http://www.theanalysisfactor.com/using-adjusted-means-to-interpret-moderators-in-analysis-of-covariance/}{Grace-Martin K: Using Adjusted Means to Interpret Moderators in Analysis of Covariance.}
 #'             
 #' @description Plot estimated marginal means of (significant) interaction terms in linear models (lm). This function may
 #'                be used to plot differences in interventions between control and treatment groups over multiple
@@ -20,8 +18,6 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("xn", "vld"))
 #' @seealso \itemize{
 #'            \item \href{http://www.strengejacke.de/sjPlot/sjp.emm.int/}{sjPlot manual: sjp.emm.int}
 #'            \item \href{http://strengejacke.wordpress.com/2014/08/19/visualize-pre-post-comparison-of-intervention-rstats/}{Weblog example}
-#'            \item \code{\link{sjp.int}}
-#'            \item \code{\link{sjp.aov1}}
 #'          }
 #' 
 #' @param fit the fitted linear model (lm) object, including interaction terms
@@ -78,6 +74,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("xn", "vld"))
 #' 
 #' 
 #' # load sample data set
+#' library(sjmisc)
 #' data(efc)
 #' # create data frame with variables that should be included
 #' # in the model
@@ -104,6 +101,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("xn", "vld"))
 #' 
 #' 
 #' @import ggplot2
+#' @import sjmisc
 #' @export
 sjp.emm.int <- function(fit,
                        swapPredictors=FALSE,
@@ -314,9 +312,9 @@ sjp.emm.int <- function(fit,
     # prepare annotation labels
     # -----------------------------------------------------------
     # wrap title
-    labtitle <- word_wrap(labtitle, breakTitleAt)
+    labtitle <- sjmisc::word_wrap(labtitle, breakTitleAt)
     # wrap legend labels
-    lLabels <- word_wrap(lLabels, breakLegendLabelsAt)
+    lLabels <- sjmisc::word_wrap(lLabels, breakLegendLabelsAt)
     # -----------------------------------------------------------
     # prepare base plot of interactions
     # -----------------------------------------------------------

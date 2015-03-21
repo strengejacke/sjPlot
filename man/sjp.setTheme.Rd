@@ -200,6 +200,7 @@ Set global theme options for sjp-functions.
 }
 \examples{
 \dontrun{
+library(sjmisc)
 data(efc)
 # set sjPlot-defaults, a slightly modification
 # of the ggplot base theme
@@ -255,8 +256,6 @@ sjp.frq(efc$e42dep,
             }
 }
 \seealso{
-\itemize{
-           \item \href{http://www.strengejacke.de/sjPlot/custplot/}{sjPlot manual: customize plot appearance}
-         }
+\href{http://www.strengejacke.de/sjPlot/custplot/}{sjPlot manual: customize plot appearance}
 }
 

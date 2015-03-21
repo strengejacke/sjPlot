@@ -110,6 +110,7 @@ sjp.pca(pca, plotEigenvalues = TRUE, type = "circle")
 # -------------------------------
 # Data from the EUROFAMCARE sample dataset
 # -------------------------------
+library(sjmisc)
 data(efc)
 
 # retrieve variable and value labels
@@ -136,9 +137,6 @@ sjp.pca(efc[, c(start:end)])
 \itemize{
            \item \href{http://www.strengejacke.de/sjPlot/sjp.pca/}{sjPlot manual: sjp.pca}
            \item \code{\link{sjt.pca}}
-           \item \code{\link{reliab_test}}
-           \item \code{\link{sjt.itemanalysis}}
-           \item \code{\link{cronb}}
            }
 }
 

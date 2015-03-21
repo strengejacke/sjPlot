@@ -119,6 +119,7 @@ Plot estimates (coefficients) with confidence intervalls of either
 \dontrun{
 # fit model
 library(lme4)
+library(sjmisc)
 fit <- lmer(Reaction ~ Days + (Days | Subject), sleepstudy)
 
 # simple plot
@@ -143,6 +144,7 @@ sjp.lmer(fit,
 
 
 library(lme4)
+library(sjmisc)
 data(efc)
 # prepare group variable
 efc$grp = as.factor(efc$e15relat)
@@ -181,12 +183,6 @@ sjp.lmer(fit, type = "fe.cor")
 sjp.lmer(fit, type = "re.qq")}
 }
 \seealso{
-\itemize{
-           \item \href{http://www.strengejacke.de/sjPlot/sjp.lmer/}{sjPlot manual: sjp.lmer}
-           \item \code{\link{sjp.glmer}}
-           \item \code{\link{sjp.lm}}
-           \item \code{\link{sjp.lmm}}
-           \item \code{\link{sjt.lm}}
-         }
+\href{http://www.strengejacke.de/sjPlot/sjp.lmer/}{sjPlot manual: sjp.lmer}
 }
 

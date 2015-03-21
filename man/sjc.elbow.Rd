@@ -29,10 +29,4 @@ Plot elbow values of a k-means cluster analysis. This function
 # plot elbow values of mtcars dataset
 sjc.elbow(mtcars)
 }
-\seealso{
-\code{\link{sjc.kgap}} \cr
-         \code{\link{sjc.dend}} \cr
-         \code{\link{sjc.cluster}} \cr
-         \code{\link{sjc.grpdisc}}
-}
 

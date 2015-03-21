@@ -20,7 +20,7 @@ which correlations should be calculated.}
 
 \item{axisLabels}{Labels for the x- andy y-axis.
 axisLabels are detected automatically if \code{data} is a data frame where each variable has
-a \code{"variable.labels"} attribute (see \code{\link{set_var_labels}}) for details).}
+a \code{"variable.labels"} attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
 \item{type}{Indicates whether the geoms of correlation values should be plotted
 as \code{"circle"} (default) or as \code{"tile"}.}
@@ -97,6 +97,7 @@ sjp.corr(df, type="tile")
 # -------------------------------
 # Data from the EUROFAMCARE sample dataset
 # -------------------------------
+library(sjmisc)
 data(efc)
 
 # retrieve variable and value labels

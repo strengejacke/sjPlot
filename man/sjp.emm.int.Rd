@@ -94,6 +94,7 @@ sjp.emm.int(fit, plevel=1, showValueLabels=TRUE)
 
 
 # load sample data set
+library(sjmisc)
 data(efc)
 # create data frame with variables that should be included
 # in the model
@@ -119,16 +120,12 @@ sjp.emm.int(fit, plevel=1)
 sjp.emm.int(fit, plevel=1, swapPredictors=TRUE)}
 }
 \references{
-\itemize{
-             \item \href{http://www.theanalysisfactor.com/using-adjusted-means-to-interpret-moderators-in-analysis-of-covariance/}{Grace-Martin K: Using Adjusted Means to Interpret Moderators in Analysis of Covariance.}
-             }
+\href{http://www.theanalysisfactor.com/using-adjusted-means-to-interpret-moderators-in-analysis-of-covariance/}{Grace-Martin K: Using Adjusted Means to Interpret Moderators in Analysis of Covariance.}
 }
 \seealso{
 \itemize{
            \item \href{http://www.strengejacke.de/sjPlot/sjp.emm.int/}{sjPlot manual: sjp.emm.int}
            \item \href{http://strengejacke.wordpress.com/2014/08/19/visualize-pre-post-comparison-of-intervention-rstats/}{Weblog example}
-           \item \code{\link{sjp.int}}
-           \item \code{\link{sjp.aov1}}
          }
 }
 

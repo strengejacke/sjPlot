@@ -6,7 +6,6 @@
 #' @seealso \itemize{
 #'            \item \href{http://www.strengejacke.de/sjPlot/sjt.xtab}{sjPlot manual: sjt.xtab}
 #'            \item \code{\link{sjp.xtab}}
-#'            \item \code{\link{table_values}}
 #'          }
 #'              
 #' @param var.row Variable that should be displayed in the table rows.
@@ -109,13 +108,14 @@
 #'         default behaviour (i.e. \code{file=NULL}). \cr \cr
 #'         Since package version 1.3, the parameter \code{valueLabels}, which represent the 
 #'         value labels, is retrieved automatically if a) the variables \code{var.col} and \code{var.row} come from a data frame
-#'         that was imported with the \code{\link{read_spss}} function (because then value labels are
+#'         that was imported with the \code{\link[sjmisc]{read_spss}} function (because then value labels are
 #'         attached as attributes to the data) or b) when the variables are factors with named factor levels
 #'         (e.g., see column \code{group} in dataset \code{\link{PlantGrowth}}). However, you still
 #'         can use own parameters variable labels.
 #'         
 #' @examples 
 #' # prepare sample data set
+#' library(sjmisc)
 #' data(efc)
 #' efc.labels <- get_val_labels(efc)
 #' 
@@ -169,6 +169,7 @@
 #'                  css.tdata="border: 1px solid;",
 #'                  css.horline="border-bottom: double blue;"))}
 #'
+#' @import sjmisc
 #' @export
 sjt.xtab <- function (var.row,
                       var.col,
@@ -228,7 +229,7 @@ sjt.xtab <- function (var.row,
     # --------------------------------------------------------
     # row value labels
     # --------------------------------------------------------
-    vl <- autoSetValueLabels(var.row)
+    vl <- sjmisc:::autoSetValueLabels(var.row)
     if (is.null(vl)) {
       vl <- sort(unique(na.omit(var.row)))
     }
@@ -236,7 +237,7 @@ sjt.xtab <- function (var.row,
     # --------------------------------------------------------
     # column value labels
     # --------------------------------------------------------
-    vl <- autoSetValueLabels(var.col)
+    vl <- sjmisc:::autoSetValueLabels(var.col)
     if (is.null(vl)) {
       vl <- sort(unique(na.omit(var.col)))
     }
@@ -245,7 +246,7 @@ sjt.xtab <- function (var.row,
     # group value labels
     # --------------------------------------------------------
     if (!is.null(var.grp)) {
-      vl <- autoSetValueLabels(var.grp)
+      vl <- sjmisc:::autoSetValueLabels(var.grp)
       if (is.null(vl)) {
         vl <- sort(unique(na.omit(var.grp)))
       }
@@ -264,13 +265,13 @@ sjt.xtab <- function (var.row,
   # --------------------------------------------------------
   if (is.null(variableLabels)) {
     variableLabels <- c()
-    vn1 <- autoSetVariableLabels(var.row)
-    vn2 <- autoSetVariableLabels(var.col)
+    vn1 <- sjmisc:::autoSetVariableLabels(var.row)
+    vn2 <- sjmisc:::autoSetVariableLabels(var.col)
     if (!is.null(vn1) && !is.null(vn2)) {
       variableLabels <- c(vn1, vn2)
     }
     if (!is.null(var.grp)) {
-      vn3 <- autoSetVariableLabels(var.grp)
+      vn3 <- sjmisc:::autoSetVariableLabels(var.grp)
       if (!is.null(vn3)) {
         variableLabels <- c(variableLabels, vn3)
       }
@@ -291,9 +292,9 @@ sjt.xtab <- function (var.row,
     s.var.grp <- "var.grp"
   }
   # check length of variable labels and split longer strings at into new lines
-  if (!is.null(s.var.row)) s.var.row <- word_wrap(s.var.row, breakVariableLabelsAt, "<br>")
-  if (!is.null(s.var.col)) s.var.col <- word_wrap(s.var.col, breakVariableLabelsAt, "<br>")
-  if (!is.null(s.var.grp)) s.var.grp <- word_wrap(s.var.grp, breakVariableLabelsAt, "<br>")
+  if (!is.null(s.var.row)) s.var.row <- sjmisc::word_wrap(s.var.row, breakVariableLabelsAt, "<br>")
+  if (!is.null(s.var.col)) s.var.col <- sjmisc::word_wrap(s.var.col, breakVariableLabelsAt, "<br>")
+  if (!is.null(s.var.grp)) s.var.grp <- sjmisc::word_wrap(s.var.grp, breakVariableLabelsAt, "<br>")
   # -------------------------------------
   # compute xtab
   # -------------------------------------
@@ -384,7 +385,7 @@ sjt.xtab <- function (var.row,
   # -------------------------------------
   # compute table percentages
   # -------------------------------------
-  tab.values <- table_values(tab, digits)
+  tab.values <- sjmisc::table_values(tab, digits)
   tab.cell <- tab.values$cell
   tab.row <- tab.values$row
   tab.col <- tab.values$col
@@ -436,9 +437,9 @@ sjt.xtab <- function (var.row,
     if (!is.null(labels.var.grp)) labels.var.grp <- c(labels.var.grp, labelNA)
   }
   # check length of variable labels and split longer strings at into new lines
-  if (!is.null(labels.var.row)) labels.var.row <- word_wrap(labels.var.row, breakValueLabelsAt, "<br>")
-  if (!is.null(labels.var.col)) labels.var.col <- word_wrap(labels.var.col, breakValueLabelsAt, "<br>")
-  if (!is.null(labels.var.grp)) labels.var.grp <- word_wrap(labels.var.grp, breakValueLabelsAt, "<br>")
+  if (!is.null(labels.var.row)) labels.var.row <- sjmisc::word_wrap(labels.var.row, breakValueLabelsAt, "<br>")
+  if (!is.null(labels.var.col)) labels.var.col <- sjmisc::word_wrap(labels.var.col, breakValueLabelsAt, "<br>")
+  if (!is.null(labels.var.grp)) labels.var.grp <- sjmisc::word_wrap(labels.var.grp, breakValueLabelsAt, "<br>")
   # -------------------------------------
   # table init
   # -------------------------------------
@@ -754,12 +755,12 @@ sjt.xtab <- function (var.row,
     # than two categories. if they have more, use Cramer's V to calculate
     # the contingency coefficient
     if (nrow(tab)>2 || ncol(tab)>2) {
-      kook <- sprintf("&Phi;<sub>c</sub>=%.3f", cramer(tab))
+      kook <- sprintf("&Phi;<sub>c</sub>=%.3f", sjmisc::cramer(tab))
       # if minimum expected values below 5, compute fisher's exact test
       if(min(tab.expected)<5 || (min(tab.expected)<10 && chsq$parameter==1)) fish <- fisher.test(tab, simulate.p.value=TRUE)
     }
     else {
-      kook <- sprintf("&Phi;=%.3f", phi(tab))
+      kook <- sprintf("&Phi;=%.3f", sjmisc::phi(tab))
       # if minimum expected values below 5 and df=1, compute fisher's exact test
       if(min(tab.expected)<5 || (min(tab.expected)<10 && chsq$parameter==1)) fish <- fisher.test(tab)
     }

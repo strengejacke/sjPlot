@@ -110,9 +110,7 @@
 #' @return The customized theme object, or \code{NULL}, if a ggplot-theme
 #'           was used.
 #' 
-#' @seealso \itemize{
-#'            \item \href{http://www.strengejacke.de/sjPlot/custplot/}{sjPlot manual: customize plot appearance}
-#'          }
+#' @seealso \href{http://www.strengejacke.de/sjPlot/custplot/}{sjPlot manual: customize plot appearance}
 #' 
 #' @references \itemize{
 #'              \item \href{http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/}{Beautiful plotting in R: A ggplot2 cheatsheet}
@@ -121,6 +119,7 @@
 #' 
 #' @examples
 #' \dontrun{
+#' library(sjmisc)
 #' data(efc)
 #' # set sjPlot-defaults, a slightly modification
 #' # of the ggplot base theme

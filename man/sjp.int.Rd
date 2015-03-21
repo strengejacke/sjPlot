@@ -172,6 +172,7 @@ sjp.int(fit, showValueLabels = TRUE)
 
 
 # load sample data set
+library(sjmisc)
 data(efc)
 # create data frame with variables that should be included
 # in the model
@@ -236,8 +237,6 @@ sjp.grpfrq(mydf$barthel,
              }
 }
 \seealso{
-\itemize{
-           \item \code{\link{sjp.emm.int}}
-           }
+\code{\link{sjp.emm.int}}
 }
 

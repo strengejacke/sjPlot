@@ -254,10 +254,11 @@ sjt.glm(fitOR1, fitOR2, fitOR3,
 # Compare models with different link functions,
 # but same predictors and response
 # --------------------------------------------
+library(sjmisc)
 # load efc sample data
 data(efc)
 # dichtomozize service usage by "service usage yes/no"
-efc$services <- dicho(efc$tot_sc_e, "v", 0, asNum = TRUE)
+efc$services <- sjmisc::dicho(efc$tot_sc_e, "v", 0, asNum = TRUE)
 # fit 3 models with different link-functions
 fit1 <- glm(services ~ neg_c_7 + c161sex + e42dep,
             data=efc,
@@ -304,7 +305,7 @@ data(efc)
 # set variable labels
 efc <- set_var_labels(efc, get_var_labels(efc))
 # dichtomozize service usage by "service usage yes/no"
-efc$services <- dicho(efc$tot_sc_e, "v", 0, asNum = TRUE)
+efc$services <- sjmisc::dicho(efc$tot_sc_e, "v", 0, asNum = TRUE)
 # make dependency categorical
 efc$e42dep <- to_fac(efc$e42dep)
 # fit model with "grouped" predictor
@@ -329,11 +330,5 @@ fit3 <- glm(services ~ neg_c_7 + c161sex + c172code, data=efc)
 
 # print models with different predictors
 sjt.glm(fit, fit2, fit3, group.pred = FALSE)}
-}
-\seealso{
-\itemize{
-           \item \code{\link{sjt.lm}}
-           \item \code{\link{sjp.glm}}
-           }
 }
 

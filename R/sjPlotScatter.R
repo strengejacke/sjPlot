@@ -5,9 +5,7 @@
 #'                the scatter plot is possible. Furthermore, fitted lines can be added
 #'                for each group as well as for the overall plot.
 #'
-#' @seealso \itemize{
-#'           \item \href{http://www.strengejacke.de/sjPlot/sjp.scatter}{sjPlot manual: sjp.scatter}
-#'          }
+#' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.scatter}{sjPlot manual: sjp.scatter}
 #'              
 #' @param x A vector (variable) indicating the x positions. If not specified (i.e. if
 #'          \code{NULL}), a range from 1 to length of \code{y} is used to spread the
@@ -74,6 +72,7 @@
 #'
 #' @examples
 #' # load sample date
+#' library(sjmisc)
 #' data(efc)
 #' 
 #' # simple scatter plot, auto-jittering
@@ -161,17 +160,17 @@ sjp.scatter <- function(x=NULL,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(legendLabels) && !is.null(grp)) legendLabels <- autoSetValueLabels(grp)
-  if (is.null(legendTitle) && !is.null(grp)) legendTitle <- autoSetVariableLabels(grp)
-  if (is.null(axisTitle.x)) axisTitle.x <- autoSetVariableLabels(x)
-  if (is.null(axisTitle.y)) axisTitle.y <- autoSetVariableLabels(y)
+  if (is.null(legendLabels) && !is.null(grp)) legendLabels <- sjmisc:::autoSetValueLabels(grp)
+  if (is.null(legendTitle) && !is.null(grp)) legendTitle <- sjmisc:::autoSetVariableLabels(grp)
+  if (is.null(axisTitle.x)) axisTitle.x <- sjmisc:::autoSetVariableLabels(x)
+  if (is.null(axisTitle.y)) axisTitle.y <- sjmisc:::autoSetVariableLabels(y)
   if (is.null(title)) {
-    t1 <- autoSetVariableLabels(x)
-    t2 <- autoSetVariableLabels(y)
+    t1 <- sjmisc:::autoSetVariableLabels(x)
+    t2 <- sjmisc:::autoSetVariableLabels(y)
     if (!is.null(t1) && !is.null(t2)) {
       title <- paste0(t1, " by ", t2)
       if (!is.null(grp)) {
-        t3 <- autoSetVariableLabels(grp)
+        t3 <- sjmisc:::autoSetVariableLabels(grp)
         if (!is.null(t3)) title <- paste0(title, " (grouped by ", t3, ")")
       }
     }
@@ -232,26 +231,26 @@ sjp.scatter <- function(x=NULL,
     legendLabels <- c(sort(unique(df$grp)))
   }
   # wrap legend text lines
-  legendLabels <- word_wrap(legendLabels, breakLegendLabelsAt)
+  legendLabels <- sjmisc::word_wrap(legendLabels, breakLegendLabelsAt)
   # check whether we have a title for the legend
   if (!is.null(legendTitle)) {
     # if yes, wrap legend title line
-    legendTitle <- word_wrap(legendTitle, breakLegendTitleAt)
+    legendTitle <- sjmisc::word_wrap(legendTitle, breakLegendTitleAt)
   }
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
   if (!is.null(title)) {
-    title <- word_wrap(title, breakTitleAt)
+    title <- sjmisc::word_wrap(title, breakTitleAt)
   }
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
   if (!is.null(axisTitle.x)) {
-    axisTitle.x <- word_wrap(axisTitle.x, breakTitleAt)
+    axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
   }
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
   if (!is.null(axisTitle.y)) {
-    axisTitle.y <- word_wrap(axisTitle.y, breakTitleAt)
+    axisTitle.y <- sjmisc::word_wrap(axisTitle.y, breakTitleAt)
   }
   # --------------------------------------------------------
   # Plot scatter plot

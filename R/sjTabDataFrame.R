@@ -84,6 +84,7 @@
 #' @examples
 #' \dontrun{
 #' # init dataset
+#' library(sjmisc)
 #' data(efc)
 #' 
 #' # plot efc-data frame summary

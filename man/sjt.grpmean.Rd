@@ -73,6 +73,7 @@ Computes mean, sd and se for each sub-group (indicated by \code{varGrp})
 }
 \examples{
 \dontrun{
+library(sjmisc)
 data(efc)
 sjt.grpmean(efc$c12hour,
             efc$e42dep)}

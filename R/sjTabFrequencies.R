@@ -6,7 +6,6 @@
 #' @seealso \itemize{
 #'            \item \href{http://www.strengejacke.de/sjPlot/sjt.frq/}{sjPlot manual: sjt.frq}
 #'            \item \code{\link{sjp.frq}}
-#'            \item \code{\link{sjt.xtab}}
 #'          }
 #' 
 #' @param data The variables which frequencies should be printed as table. Either use a single variable
@@ -123,6 +122,7 @@
 #' @examples
 #' \dontrun{
 #' # load sample data
+#' library(sjmisc)
 #' data(efc)
 #' 
 #' # retrieve value and variable labels
@@ -175,6 +175,7 @@
 #' }
 #' 
 #' @importFrom psych describe
+#' @import sjmisc
 #' @export
 sjt.frq <- function (data,
                      file=NULL,
@@ -320,7 +321,7 @@ sjt.frq <- function (data,
       # if yes, iterate each variable
       for (i in 1:ncol(data)) {
         # retrieve variable name attribute
-        vn <- autoSetVariableLabels(data[,i])
+        vn <- sjmisc:::autoSetVariableLabels(data[,i])
         # if variable has attribute, add to variableLabel list
         if (!is.null(vn)) {
           variableLabels <- c(variableLabels, vn)
@@ -333,7 +334,7 @@ sjt.frq <- function (data,
     # we have a single variable only
     } else {
       # retrieve variable name attribute
-      vn <- autoSetVariableLabels(data)
+      vn <- sjmisc:::autoSetVariableLabels(data)
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         variableLabels <- c(variableLabels, vn)
@@ -351,7 +352,7 @@ sjt.frq <- function (data,
     isString <- is.character(data)
     # check for auto-detection of labels, but only for non-character-vectors
     # characters will be handled later
-    if (is.null(valueLabels) && !isString) valueLabels <- autoSetValueLabels(data)
+    if (is.null(valueLabels) && !isString) valueLabels <- sjmisc:::autoSetValueLabels(data)
     # copy variable to data frame for unuqie handling
     data <- as.data.frame(data)
     if (isString) {
@@ -370,11 +371,11 @@ sjt.frq <- function (data,
     # iterate data frame
     for (i in 1:nvar) {
       # get variable
-      sv <- data[,i]
+      sv <- data[, i]
       # check if character
       if (is.character(sv)) {
         # group strings
-        data[,i] <- group_str(sv, maxStringDist, remove.empty = F)
+        data[, i] <- sjmisc::group_str(sv, maxStringDist, remove.empty = F)
       }
     }
   }
@@ -408,7 +409,7 @@ sjt.frq <- function (data,
         valueLabels <- c(valueLabels, list(names(table(dummy))))
       } else {
         # check for auto-detection of labels
-        avl <- autoSetValueLabels(dummy)
+        avl <- sjmisc:::autoSetValueLabels(dummy)
         if (!is.null(avl)) {
           valueLabels <- c(valueLabels, list(avl))
         } else {
@@ -449,14 +450,14 @@ sjt.frq <- function (data,
       # check for default auto-group-size or user-defined groups
       agcnt <- ifelse (autoGroupAt < 30, autoGroupAt, 30)
       # group labels
-      valueLabels[[cnt]] <- group_labels(var, 
-                                         groupsize ="auto", 
-                                         autoGroupCount = agcnt)
+      valueLabels[[cnt]] <- sjmisc::group_labels(var, 
+                                                 groupsize = "auto", 
+                                                 autoGroupCount = agcnt)
       # group variable
-      var <- group_var(var, 
-                       groupsize = "auto", 
-                       asNumeric = TRUE, 
-                       autoGroupCount = agcnt)
+      var <- sjmisc::group_var(var, 
+                               groupsize = "auto", 
+                               asNumeric = TRUE, 
+                               autoGroupCount = agcnt)
     }
     # retrieve summary
     varsummary <- summary(var)

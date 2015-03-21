@@ -77,14 +77,4 @@ groups <- sjc.cluster(mtcars, 5, method="k")
 \references{
 Maechler M, Rousseeuw P, Struyf A, Hubert M, Hornik K (2014) cluster: Cluster Analysis Basics and Extensions. R package.
 }
-\seealso{
-\itemize{
-           \item \code{\link{sjc.qclus}}
-           \item \code{\link{sjc.dend}}
-           \item \code{\link{sjc.grpdisc}}
-           \item \code{\link{sjc.elbow}}
-           \item \code{\link{kmeans}}
-           \item \code{\link{hclust}}
-           }
-}
 

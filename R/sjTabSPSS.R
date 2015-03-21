@@ -10,11 +10,9 @@
 #' @seealso \itemize{
 #'            \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
 #'            \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
-#'            \item \code{\link{read_spss}}
-#'            \item \code{\link{sjt.df}}
 #'          }
 #' 
-#' @param df An imported data frame, imported by \code{\link{read_spss}} function.
+#' @param df An imported data frame, imported by \code{\link[sjmisc]{read_spss}} function.
 #' @param file The destination file, which will be in html-format. If no filepath is specified,
 #'          the file will be saved as temporary file and openend either in the IDE's viewer pane or
 #'          in the default web browser.
@@ -76,6 +74,7 @@
 #' @examples
 #' \dontrun{
 #' # init dataset
+#' library(sjmisc)
 #' data(efc)
 #' 
 #' # view variables
@@ -94,7 +93,8 @@
 #'           CSS=list(css.table = "border: 2px solid;",
 #'                    css.tdata = "border: 1px solid;",
 #'                    css.arc = "color:blue;"))}
-#' 
+#'
+#' @import sjmisc 
 #' @export
 view_spss <- function (df,
                        file=NULL,
@@ -125,8 +125,8 @@ view_spss <- function (df,
   # -------------------------------------
   # retrieve value and variable labels
   # -------------------------------------
-  df.var <- get_var_labels(df)
-  df.val <- get_val_labels(df)
+  df.var <- sjmisc::get_var_labels(df)
+  df.val <- sjmisc::get_val_labels(df)
   # -------------------------------------
   # get row count and ID's
   # -------------------------------------
@@ -217,7 +217,7 @@ view_spss <- function (df,
       varlab <- df.var[index]
       if (!is.null(breakVariableNamesAt)) {
         # wrap long variable labels
-        varlab <- word_wrap(varlab, breakVariableNamesAt, "<br>")
+        varlab <- sjmisc::word_wrap(varlab, breakVariableNamesAt, "<br>")
       }
     } else {
       varlab <- "<NA>"
@@ -226,7 +226,7 @@ view_spss <- function (df,
     # values
     if (showValues) {
       if (index <= ncol(df)) {
-        vals <- sji.getValueLabelValues(df[[index]])
+        vals <- sjmisc:::sji.getValueLabelValues(df[[index]])
         valstring <- c("")
         for (i in 1:length(vals)) {
           valstring <- paste0(valstring, vals[i])

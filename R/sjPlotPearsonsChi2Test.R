@@ -16,7 +16,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Row", "Column", "p.value
 #' @param title Title of the diagram, plotted above the whole diagram panel
 #' @param axisLabels Labels for the x- andy y-axis
 #'          axisLabels are detected automatically if each variable has
-#'          a \code{"variable.label"} attribute (see \code{\link{set_var_labels}}) for details).
+#'          a label attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).
 #' @param breakTitleAt Wordwrap for diagram title. Determines how many chars of the title are displayed in
 #'          one line and when a line break is inserted into the title
 #' @param breakLabelsAt Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in 
@@ -45,6 +45,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Row", "Column", "p.value
 #' 
 #' @import ggplot2
 #' @import dplyr
+#' @import sjmisc
 #' @export
 sjp.chi2 <- function(df,
                      title="Pearson's Chi2-Test of Independence",
@@ -62,7 +63,7 @@ sjp.chi2 <- function(df,
     # if yes, iterate each variable
     for (i in 1:ncol(df)) {
       # retrieve variable name attribute
-      vn <- autoSetVariableLabels(df[,i])
+      vn <- sjmisc:::autoSetVariableLabels(df[, i])
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         axisLabels <- c(axisLabels, vn)
@@ -109,13 +110,9 @@ sjp.chi2 <- function(df,
   # Prepare length of title and labels
   # ----------------------------
   # check length of diagram title and split longer string at into new lines
-  if (!is.null(title)) {
-    title <- word_wrap(title, breakTitleAt)
-  }
+  if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
   # check length of x-axis-labels and split longer strings at into new lines
-  if (!is.null(axisLabels)) {
-    axisLabels <- word_wrap(axisLabels, breakLabelsAt)
-  }
+  if (!is.null(axisLabels)) axisLabels <- sjmisc::word_wrap(axisLabels, breakLabelsAt)
   # --------------------------------------------------------
   # start with base plot object here
   # --------------------------------------------------------
