@@ -34,7 +34,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 ### Changelog of current development build 1.7-6
 
 #### General
-* _Utility, recode and statistical test functions have been moved to another package called `sjmisc`!_
+* _Utility, recode and statistical test functions have been moved to another package called [sjmisc](https://github.com/sjPlot/sjmisc)!_
 * R-Version dependency changed to R >= 3.1, due to import of `tidyr` and `dplyr` packages.
 
 #### Changes to functions
