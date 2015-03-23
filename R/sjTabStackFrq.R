@@ -102,20 +102,38 @@
 #' # random sample
 #' # -------------------------------
 #' # prepare data for 4-category likert scale, 5 items
-#' likert_4 <- data.frame(as.factor(sample(1:4, 500, replace=TRUE, prob=c(0.2,0.3,0.1,0.4))),
-#'                        as.factor(sample(1:4, 500, replace=TRUE, prob=c(0.5,0.25,0.15,0.1))),
-#'                        as.factor(sample(1:4, 500, replace=TRUE, prob=c(0.25,0.1,0.4,0.25))),
-#'                        as.factor(sample(1:4, 500, replace=TRUE, prob=c(0.1,0.4,0.4,0.1))),
-#'                        as.factor(sample(1:4, 500, replace=TRUE, prob=c(0.35,0.25,0.15,0.25))))
+#' likert_4 <- data.frame(as.factor(sample(1:4, 
+#'                                         500, 
+#'                                         replace = TRUE, 
+#'                                         prob = c(0.2, 0.3, 0.1, 0.4))),
+#'                        as.factor(sample(1:4, 
+#'                                         500, 
+#'                                         replace = TRUE, 
+#'                                         prob = c(0.5, 0.25, 0.15, 0.1))),
+#'                        as.factor(sample(1:4, 
+#'                                         500, 
+#'                                         replace = TRUE, 
+#'                                         prob = c(0.25, 0.1, 0.4, 0.25))),
+#'                        as.factor(sample(1:4, 
+#'                                         500, 
+#'                                         replace = TRUE, 
+#'                                         prob = c(0.1, 0.4, 0.4, 0.1))),
+#'                        as.factor(sample(1:4, 
+#'                                         500, 
+#'                                         replace = TRUE, 
+#'                                         prob = c(0.35, 0.25, 0.15, 0.25))))
 #' # create labels
-#' levels_4 <- c("Independent", "Slightly dependent", "Dependent", "Severely dependent")
+#' levels_4 <- c("Independent", 
+#'               "Slightly dependent", 
+#'               "Dependent", 
+#'               "Severely dependent")
 #' 
 #' # create item labels
 #' items <- c("Q1", "Q2", "Q3", "Q4", "Q5")
 #' 
 #' # plot stacked frequencies of 5 (ordered) item-scales
 #' \dontrun{
-#' sjt.stackfrq(likert_4, valuelabels=levels_4, varlabels=items)
+#' sjt.stackfrq(likert_4, valuelabels = levels_4, varlabels = items)
 #' 
 #' 
 #' # -------------------------------
@@ -124,41 +142,41 @@
 #' library(sjmisc)
 #' data(efc)
 #' # recveive first item of COPE-index scale
-#' start <- which(colnames(efc)=="c82cop1")
+#' start <- which(colnames(efc) == "c82cop1")
 #' # recveive first item of COPE-index scale
-#' end <- which(colnames(efc)=="c90cop9")
+#' end <- which(colnames(efc) == "c90cop9")
 #' # retrieve variable labels
 #' varlabs <- get_var_labels(efc)
 #' 
 #' # Note: Parameter "valuelabels" is only needed for datasets
 #' # that have been imported from SPSS.
-#' sjt.stackfrq(efc[,c(start:end)],
-#'              varlabels=varlabs[c(start:end)],
-#'              alternateRowColors=TRUE)
+#' sjt.stackfrq(efc[, c(start:end)],
+#'              varlabels = varlabs[c(start:end)],
+#'              alternateRowColors = TRUE)
 #' 
-#' sjt.stackfrq(efc[,c(start:end)],
+#' sjt.stackfrq(efc[, c(start:end)],
 #'              varlabels=varlabs[c(start:end)],
-#'              alternateRowColors=TRUE,
-#'              showN=TRUE,
-#'              showNA=TRUE)
+#'              alternateRowColors = TRUE,
+#'              showN = TRUE,
+#'              showNA = TRUE)
 #'          
 #' # -------------------------------
 #' # auto-detection of labels
 #' # -------------------------------
 #' efc <- set_var_labels(efc, varlabs)
-#' sjt.stackfrq(efc[,c(start:end)])
+#' sjt.stackfrq(efc[, c(start:end)])
 #'          
 #' # -------------------------------- 
 #' # User defined style sheet
 #' # -------------------------------- 
-#' sjt.stackfrq(efc[,c(start:end)],
-#'              varlabels=varlabs[c(start:end)],
-#'              alternateRowColors=TRUE,
-#'              showTotalN=TRUE,
-#'              showSkew=TRUE,
-#'              showKurtosis=TRUE,
-#'              CSS=list(css.ncol="border-left:1px dotted black;",
-#'                       css.summary="font-style:italic;"))}
+#' sjt.stackfrq(efc[, c(start:end)],
+#'              varlabels = varlabs[c(start:end)],
+#'              alternateRowColors = TRUE,
+#'              showTotalN = TRUE,
+#'              showSkew = TRUE,
+#'              showKurtosis = TRUE,
+#'              CSS=list(css.ncol = "border-left:1px dotted black;",
+#'                       css.summary = "font-style:italic;"))}
 #'              
 #' @importFrom psych describe
 #' @export
@@ -195,17 +213,16 @@ sjt.stackfrq <- function (items,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(valuelabels)) valuelabels <- sjmisc:::autoSetValueLabels(items[,1])
+  if (is.null(valuelabels)) valuelabels <- sjmisc:::autoSetValueLabels(items[, 1])
   if (is.null(varlabels)) {
     # if yes, iterate each variable
     for (i in 1:ncol(items)) {
       # retrieve variable name attribute
-      vn <- sjmisc:::autoSetVariableLabels(items[,i])
+      vn <- sjmisc:::autoSetVariableLabels(items[, i])
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         varlabels <- c(varlabels, vn)
-      }
-      else {
+      } else {
         # else break out of loop
         varlabels <- NULL
         break
@@ -222,24 +239,18 @@ sjt.stackfrq <- function (items,
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
-  if (!is.null(varlabels) && is.list(varlabels)) {
-    varlabels <- unlistlabels(varlabels)
-  }
-  if (!is.null(valuelabels) && is.list(valuelabels)) {
-    valuelabels <- unlistlabels(valuelabels)
-  }
+  if (!is.null(varlabels) && is.list(varlabels)) varlabels <- unlistlabels(varlabels)
+  if (!is.null(valuelabels) && is.list(valuelabels)) valuelabels <- unlistlabels(valuelabels)
   # ----------------------------
   # retrieve min and max values
   # ----------------------------
-  minval <- as.numeric(min(apply(items, 2, function(x) min(x, na.rm=TRUE))))
-  maxval <- as.numeric(max(apply(items, 2, function(x) max(x, na.rm=TRUE))))
+  minval <- as.numeric(min(apply(items, 2, function(x) min(x, na.rm = TRUE))))
+  maxval <- as.numeric(max(apply(items, 2, function(x) max(x, na.rm = TRUE))))
   # ----------------------------
   # if we have no value labels, set default labels and find amount
   # of unique categories
   # ----------------------------
-  if (is.null(valuelabels)) {
-    valuelabels <- as.character(minval:maxval)
-  }
+  if (is.null(valuelabels)) valuelabels <- as.character(minval:maxval)
   # check whether missings should be shown
   if (showNA) valuelabels <- c(valuelabels, labelNA)
   # save amolunt of values
@@ -249,17 +260,13 @@ sjt.stackfrq <- function (items,
   # ----------------------------
   # if we have no variable labels, use row names
   # ----------------------------
-  if (is.null(varlabels)) {
-    varlabels <- colnames(items)
-  }
+  if (is.null(varlabels)) varlabels <- colnames(items)
   # check length of x-axis-labels and split longer strings at into new lines
   varlabels <- sjmisc::word_wrap(varlabels, breakLabelsAt, "<br>")
   # ----------------------------  
   # additional statistics required from psych-package?
   # ----------------------------
-  if (showSkew || showKurtosis) {
-    pstat <- psych::describe(items)
-  }
+  if (showSkew || showKurtosis) pstat <- psych::describe(items)
   # ----------------------------
   # create data frame with each item in a row
   # therefore, iterate each item
@@ -272,11 +279,11 @@ sjt.stackfrq <- function (items,
   # determine minimum value. if 0, add one, because
   # vector indexing starts with 1
   # ----------------------------
-  if (any(apply(items, c(1,2), is.factor)) || any(apply(items, c(1,2), is.character))) {
-    diff <- ifelse(min(apply(items, c(1,2), as.numeric),na.rm=TRUE)==0, 1, 0)
-  }
-  else {
-    diff <- ifelse(min(items,na.rm=TRUE)==0, 1, 0)
+  if (any(apply(items, c(1, 2), is.factor)) || 
+      any(apply(items, c(1, 2), is.character))) {
+    diff <- ifelse(min(apply(items, c(1, 2), as.numeric), na.rm = TRUE) == 0, 1, 0)
+  } else {
+    diff <- ifelse(min(items, na.rm = TRUE) == 0, 1, 0)
   }
   # iterate item-list
   for (i in 1:ncol(items)) {
@@ -289,23 +296,20 @@ sjt.stackfrq <- function (items,
       # include missing
       # ----------------------------
       if (is.null(weightBy)) {
-        dummy <- table(addNA(items[,i]))
-      }
-      else {
+        dummy <- table(addNA(items[, i]))
+      } else {
         # else weight with xtabs
-        dummy <- round(xtabs(weightBy ~ addNA(items[,i])),0)
+        dummy <- round(xtabs(weightBy ~ addNA(items[, i])), 0)
       }
-    }
     # ----------------------------
     # exclude missing
     # ----------------------------
-    else {
+    } else {
       if (is.null(weightBy)) {
-        dummy <- table(items[,i])
-      }
-      else {
+        dummy <- table(items[, i])
+      } else {
         # else weight with xtabs
-        dummy <- round(xtabs(weightBy ~ items[,i]),0)
+        dummy <- round(xtabs(weightBy ~ items[, i]), 0)
       }
     }
     # ----------------------------
@@ -327,17 +331,17 @@ sjt.stackfrq <- function (items,
       maxtl <- max(as.numeric(na.omit(names(dummy))))
       # set NA table name to max-value+1, so we have continuous
       # vector-index (needed below)
-      names(dummy)[tl] <- maxtl+1
+      names(dummy)[tl] <- maxtl + 1
     }
     # ----------------------------
     # table name equals cateogory value,
     # table itself contains counts of each category
     # ----------------------------
-    fr[as.numeric(names(dummy))+diff] <- dummy
+    fr[as.numeric(names(dummy)) + diff] <- dummy
     # ----------------------------
     # add proportional percentages to data frame row
     # ----------------------------
-    mat <- rbind(mat, round(prop.table(fr),4))
+    mat <- rbind(mat, round(prop.table(fr), 4))
     mat.n <- rbind(mat.n, fr)
   }
   # ----------------------------
@@ -350,13 +354,12 @@ sjt.stackfrq <- function (items,
     # order by first cat
     # ----------------------------
     if (orderBy=="first") {
-      facord <- order(mat[,1])
-    }
+      facord <- order(mat[, 1])
     # ----------------------------
     # order by last cat
     # ----------------------------
-    else {
-      facord <- order(mat[,ncol(mat)])
+    } else {
+      facord <- order(mat[, ncol(mat)])
     }
   }
   # ----------------------------
@@ -471,8 +474,7 @@ sjt.stackfrq <- function (items,
     for (j in 1:ncol(mat)) {
       if (showN) {
         page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s\">%i<br>(%.*f&nbsp;%%)</td>\n", arcstring, mat.n[facord[i],j], digits, 100*mat[facord[i],j]))
-      }
-      else {
+      } else {
         page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s\">%.*f&nbsp;%%</td>\n", arcstring, digits, 100*mat[facord[i],j]))
       }
     }

@@ -197,7 +197,8 @@ sjt.xtab(efc$e16sex, efc$e42dep,
 efc <- set_var_labels(efc, get_var_labels(efc))
 # print cross table with labels and all percentages
 sjt.xtab(efc$e16sex, efc$e42dep,
-         showRowPerc = TRUE, showColPerc = TRUE)
+         showRowPerc = TRUE,
+         showColPerc = TRUE)
 
 # print cross table with labels and all percentages, including
 # grouping variable
@@ -208,17 +209,19 @@ sjt.xtab(efc$e16sex, efc$e42dep, efc$c161sex,
          valueLabels=list(efc.labels[['e16sex']],
                           efc.labels[['e42dep']],
                           efc.labels[['c161sex']]),
-         showRowPerc=TRUE, showColPerc=TRUE)
+         showRowPerc = TRUE,
+         showColPerc = TRUE)
 
 # ----------------------------------------------------------------
 # User defined style sheet
 # ----------------------------------------------------------------
 sjt.xtab(efc$e16sex, efc$e42dep,
-         variableLabels=c("Elder's gender", "Elder's dependency"),
-         valueLabels=list(efc.labels[['e16sex']], efc.labels[['e42dep']]),
-         CSS=list(css.table="border: 2px solid;",
-                 css.tdata="border: 1px solid;",
-                 css.horline="border-bottom: double blue;"))}
+         variableLabels = c("Elder's gender", "Elder's dependency"),
+         valueLabels = list(efc.labels[['e16sex']],
+                            efc.labels[['e42dep']]),
+         CSS = list(css.table = "border: 2px solid;",
+                    css.tdata = "border: 1px solid;",
+                    css.horline = "border-bottom: double blue;"))}
 }
 \seealso{
 \itemize{

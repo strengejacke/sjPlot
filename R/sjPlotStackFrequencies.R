@@ -80,19 +80,39 @@
 #' # random sample
 #' # -------------------------------
 #' # prepare data for 4-category likert scale, 5 items
-#' likert_4 <- data.frame(as.factor(sample(1:4, 500, replace=TRUE, prob=c(0.2,0.3,0.1,0.4))),
-#'                        as.factor(sample(1:4, 500, replace=TRUE, prob=c(0.5,0.25,0.15,0.1))),
-#'                        as.factor(sample(1:4, 500, replace=TRUE, prob=c(0.25,0.1,0.4,0.25))),
-#'                        as.factor(sample(1:4, 500, replace=TRUE, prob=c(0.1,0.4,0.4,0.1))),
-#'                        as.factor(sample(1:4, 500, replace=TRUE, prob=c(0.35,0.25,0.15,0.25))))
+#' likert_4 <- data.frame(as.factor(sample(1:4, 
+#'                                         500, 
+#'                                         replace = TRUE, 
+#'                                         prob = c(0.2, 0.3, 0.1, 0.4))),
+#'                        as.factor(sample(1:4, 
+#'                                         500, 
+#'                                         replace = TRUE, 
+#'                                         prob = c(0.5, 0.25, 0.15, 0.1))),
+#'                        as.factor(sample(1:4, 
+#'                                         500, 
+#'                                         replace = TRUE, 
+#'                                         prob = c(0.25, 0.1, 0.4, 0.25))),
+#'                        as.factor(sample(1:4, 
+#'                                         500, 
+#'                                         replace = TRUE, 
+#'                                         prob = c(0.1, 0.4, 0.4, 0.1))),
+#'                        as.factor(sample(1:4, 
+#'                                         500, 
+#'                                         replace = TRUE, 
+#'                                         prob = c(0.35, 0.25, 0.15, 0.25))))
 #' # create labels
-#' levels_4 <- list(c("Independent", "Slightly dependent", "Dependent", "Severely dependent"))
+#' levels_4 <- list(c("Independent", 
+#'                    "Slightly dependent", 
+#'                    "Dependent", 
+#'                    "Severely dependent"))
 #' 
 #' # create item labels
 #' items <- list(c("Q1", "Q2", "Q3", "Q4", "Q5"))
 #' 
 #' # plot stacked frequencies of 5 (ordered) item-scales
-#' sjp.stackfrq(likert_4, legendLabels=levels_4, axisLabels.y=items)
+#' sjp.stackfrq(likert_4, 
+#'              legendLabels = levels_4, 
+#'              axisLabels.y = items)
 #' 
 #' 
 #' # -------------------------------
@@ -102,10 +122,10 @@
 #' data(efc)
 #' 
 #' # recveive first item of COPE-index scale
-#' start <- which(colnames(efc)=="c82cop1")
+#' start <- which(colnames(efc) == "c82cop1")
 #' 
 #' # recveive first item of COPE-index scale
-#' end <- which(colnames(efc)=="c90cop9")
+#' end <- which(colnames(efc) == "c90cop9")
 #' 
 #' # retrieve variable and value labels
 #' varlabs <- get_var_labels(efc)
@@ -119,14 +139,16 @@
 #' # create item labels
 #' items <- list(varlabs[c(start:end)])
 #' 
-#' sjp.stackfrq(efc[,c(start:end)], legendLabels=levels,
-#'              axisLabels.y=items, jitterValueLabels=TRUE)
+#' sjp.stackfrq(efc[, c(start:end)], 
+#'              legendLabels = levels,
+#'              axisLabels.y = items, 
+#'              jitterValueLabels = TRUE)
 #' 
 #' # -------------------------------
 #' # auto-detection of labels
 #' # -------------------------------
 #' efc <- set_var_labels(efc, varlabs)
-#' sjp.stackfrq(efc[,c(start:end)])
+#' sjp.stackfrq(efc[, c(start:end)])
 #' 
 #' 
 #' @import ggplot2
@@ -167,18 +189,17 @@ sjp.stackfrq <- function(items,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(legendLabels)) legendLabels <- sjmisc:::autoSetValueLabels(items[,1])
+  if (is.null(legendLabels)) legendLabels <- sjmisc:::autoSetValueLabels(items[, 1])
   if (is.null(axisLabels.y)) {
     axisLabels.y <- c()
     # if yes, iterate each variable
     for (i in 1:ncol(items)) {
       # retrieve variable name attribute
-      vn <- sjmisc:::autoSetVariableLabels(items[,i])
+      vn <- sjmisc:::autoSetVariableLabels(items[, i])
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         axisLabels.y <- c(axisLabels.y, vn)
-      }
-      else {
+      } else {
         # else break out of loop
         axisLabels.y <- NULL
         break
@@ -188,28 +209,20 @@ sjp.stackfrq <- function(items,
   # --------------------------------------------------------
   # If axisLabels.y were not defined, simply use column names
   # --------------------------------------------------------
-  if (is.null(axisLabels.y)) {
-    axisLabels.y <- colnames(items)
-  }
+  if (is.null(axisLabels.y)) axisLabels.y <- colnames(items)
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
-  if (!is.null(axisLabels.y) && is.list(axisLabels.y)) {
-    axisLabels.y <- unlistlabels(axisLabels.y)
-  }
-  if (!is.null(legendLabels) && is.list(legendLabels)) {
-    legendLabels <- unlistlabels(legendLabels)
-  }
-  if (is.null(legendLabels)) {
-    legendLabels <- c(as.character(sort(unique(items[,1]))))
-  }
+  if (!is.null(axisLabels.y) && is.list(axisLabels.y)) axisLabels.y <- unlistlabels(axisLabels.y)
+  if (!is.null(legendLabels) && is.list(legendLabels)) legendLabels <- unlistlabels(legendLabels)
+  if (is.null(legendLabels)) legendLabels <- c(as.character(sort(unique(items[, 1]))))
   # --------------------------------------------------------
   # Check whether N of each item should be included into
   # axis labels
   # --------------------------------------------------------
   if (includeN && !is.null(axisLabels.y)) {
     for (i in 1:length(axisLabels.y)) {
-      axisLabels.y[i] <- paste(axisLabels.y[i], sprintf(" (n=%i)", length(na.omit(items[,i]))), sep="")
+      axisLabels.y[i] <- paste(axisLabels.y[i], sprintf(" (n=%i)", length(na.omit(items[, i]))), sep = "")
     }
   }
   # -----------------------------------------------

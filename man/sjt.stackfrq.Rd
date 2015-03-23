@@ -138,20 +138,38 @@ The HTML tables can either be saved as file and manually opened (specify paramet
 # random sample
 # -------------------------------
 # prepare data for 4-category likert scale, 5 items
-likert_4 <- data.frame(as.factor(sample(1:4, 500, replace=TRUE, prob=c(0.2,0.3,0.1,0.4))),
-                       as.factor(sample(1:4, 500, replace=TRUE, prob=c(0.5,0.25,0.15,0.1))),
-                       as.factor(sample(1:4, 500, replace=TRUE, prob=c(0.25,0.1,0.4,0.25))),
-                       as.factor(sample(1:4, 500, replace=TRUE, prob=c(0.1,0.4,0.4,0.1))),
-                       as.factor(sample(1:4, 500, replace=TRUE, prob=c(0.35,0.25,0.15,0.25))))
+likert_4 <- data.frame(as.factor(sample(1:4,
+                                        500,
+                                        replace = TRUE,
+                                        prob = c(0.2, 0.3, 0.1, 0.4))),
+                       as.factor(sample(1:4,
+                                        500,
+                                        replace = TRUE,
+                                        prob = c(0.5, 0.25, 0.15, 0.1))),
+                       as.factor(sample(1:4,
+                                        500,
+                                        replace = TRUE,
+                                        prob = c(0.25, 0.1, 0.4, 0.25))),
+                       as.factor(sample(1:4,
+                                        500,
+                                        replace = TRUE,
+                                        prob = c(0.1, 0.4, 0.4, 0.1))),
+                       as.factor(sample(1:4,
+                                        500,
+                                        replace = TRUE,
+                                        prob = c(0.35, 0.25, 0.15, 0.25))))
 # create labels
-levels_4 <- c("Independent", "Slightly dependent", "Dependent", "Severely dependent")
+levels_4 <- c("Independent",
+              "Slightly dependent",
+              "Dependent",
+              "Severely dependent")
 
 # create item labels
 items <- c("Q1", "Q2", "Q3", "Q4", "Q5")
 
 # plot stacked frequencies of 5 (ordered) item-scales
 \dontrun{
-sjt.stackfrq(likert_4, valuelabels=levels_4, varlabels=items)
+sjt.stackfrq(likert_4, valuelabels = levels_4, varlabels = items)
 
 
 # -------------------------------
@@ -160,41 +178,41 @@ sjt.stackfrq(likert_4, valuelabels=levels_4, varlabels=items)
 library(sjmisc)
 data(efc)
 # recveive first item of COPE-index scale
-start <- which(colnames(efc)=="c82cop1")
+start <- which(colnames(efc) == "c82cop1")
 # recveive first item of COPE-index scale
-end <- which(colnames(efc)=="c90cop9")
+end <- which(colnames(efc) == "c90cop9")
 # retrieve variable labels
 varlabs <- get_var_labels(efc)
 
 # Note: Parameter "valuelabels" is only needed for datasets
 # that have been imported from SPSS.
-sjt.stackfrq(efc[,c(start:end)],
-             varlabels=varlabs[c(start:end)],
-             alternateRowColors=TRUE)
+sjt.stackfrq(efc[, c(start:end)],
+             varlabels = varlabs[c(start:end)],
+             alternateRowColors = TRUE)
 
-sjt.stackfrq(efc[,c(start:end)],
+sjt.stackfrq(efc[, c(start:end)],
              varlabels=varlabs[c(start:end)],
-             alternateRowColors=TRUE,
-             showN=TRUE,
-             showNA=TRUE)
+             alternateRowColors = TRUE,
+             showN = TRUE,
+             showNA = TRUE)
 
 # -------------------------------
 # auto-detection of labels
 # -------------------------------
 efc <- set_var_labels(efc, varlabs)
-sjt.stackfrq(efc[,c(start:end)])
+sjt.stackfrq(efc[, c(start:end)])
 
 # --------------------------------
 # User defined style sheet
 # --------------------------------
-sjt.stackfrq(efc[,c(start:end)],
-             varlabels=varlabs[c(start:end)],
-             alternateRowColors=TRUE,
-             showTotalN=TRUE,
-             showSkew=TRUE,
-             showKurtosis=TRUE,
-             CSS=list(css.ncol="border-left:1px dotted black;",
-                      css.summary="font-style:italic;"))}
+sjt.stackfrq(efc[, c(start:end)],
+             varlabels = varlabs[c(start:end)],
+             alternateRowColors = TRUE,
+             showTotalN = TRUE,
+             showSkew = TRUE,
+             showKurtosis = TRUE,
+             CSS=list(css.ncol = "border-left:1px dotted black;",
+                      css.summary = "font-style:italic;"))}
 }
 \seealso{
 \itemize{
