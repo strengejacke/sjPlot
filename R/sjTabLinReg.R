@@ -598,7 +598,6 @@ sjt.lm <- function (...,
           else {
             x <- sprintf("%s%.*f%s", sb1, digits.p, x, sb2)
           }
-          
         }
         else {
           x <- sprintf("%.*f", digits.p, x) 

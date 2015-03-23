@@ -17,15 +17,15 @@
 #'          examples below. Default is \code{NULL}, i.e. not grouping is done.
 #' @param title Title of the diagram, plotted above the whole diagram panel.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link{set_var_labels}}) for details).
+#'          (see \code{\link[sjmisc]{set_var_labels}}) for details).
 #' @param legendTitle Title of the diagram's legend.
 #' @param legendLabels Labels for the guide/legend.
 #' @param axisTitle.x A label (title) for the x axis.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link{set_var_labels}}) for details).
+#'          (see \code{\link[sjmisc]{set_var_labels}}) for details).
 #' @param axisTitle.y A label (title) for the y axis.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link{set_var_labels}}) for details).
+#'          (see \code{\link[sjmisc]{set_var_labels}}) for details).
 #' @param breakTitleAt Wordwrap for diagram title. Determines how many chars of the title are displayed in
 #'          one line and when a line break is inserted into the title.
 #' @param breakLegendTitleAt Wordwrap for diagram legend title. Determines how many chars of the legend's title 
@@ -178,25 +178,25 @@ sjp.scatter <- function(x=NULL,
   # --------------------------------------------------------
   # remove titles if empty
   # --------------------------------------------------------
-  if (!is.null(legendTitle) && legendTitle=="") legendTitle <- NULL
-  if (!is.null(axisTitle.x) && axisTitle.x=="") axisTitle.x <- NULL
-  if (!is.null(axisTitle.y) && axisTitle.y=="") axisTitle.y <- NULL  
-  if (!is.null(title) && title=="") title <- NULL  
+  if (!is.null(legendTitle) && legendTitle == "") legendTitle <- NULL
+  if (!is.null(axisTitle.x) && axisTitle.x == "") axisTitle.x <- NULL
+  if (!is.null(axisTitle.y) && axisTitle.y == "") axisTitle.y <- NULL  
+  if (!is.null(title) && title == "") title <- NULL  
   # ------------------------------------------
   # check for auto-jittering
   # ------------------------------------------
   if (autojitter && !useJitter) {
     # check for valid range of jitter ratio
-    if (jitterRatio<=0 || jitterRatio>=1) {
+    if (jitterRatio <= 0 || jitterRatio >= 1) {
       # inform user
       warning("jitterRatio out of valid bounds. Using 0.15 for jitterRatio...")
       jitterRatio <- 0.15
     }
     # retrieve the highest amount of points lying
     # on the same coordinate
-    overlap <- nrow(table(x,y)) * ncol(table(x,y))
+    overlap <- nrow(table(x, y)) * ncol(table(x, y))
     # check ratio of overlapping points according to total points
-    if (overlap < (length(x)*jitterRatio)) {
+    if (overlap < (length(x) * jitterRatio)) {
       # use jittering now
       useJitter <- TRUE
       message("auto-jittering values...")
@@ -205,9 +205,7 @@ sjp.scatter <- function(x=NULL,
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
-  if (!is.null(legendLabels) && is.list(legendLabels)) {
-    legendLabels <- unlistlabels(legendLabels)
-  }
+  if (!is.null(legendLabels) && is.list(legendLabels)) legendLabels <- unlistlabels(legendLabels)
   # ------------------------------------------
   # create data frame
   # ------------------------------------------
@@ -219,51 +217,40 @@ sjp.scatter <- function(x=NULL,
     hideLegend <- TRUE
   }
   # simple data frame
-  df <- na.omit(data.frame(cbind(x=x, y=y, grp=grp)))
+  df <- na.omit(data.frame(cbind(x = x, y = y, grp = grp)))
   # group as factor
   df$grp <- as.factor(df$grp)
   # --------------------------------------------------------
   # Prepare and trim legend labels to appropriate size
   # --------------------------------------------------------
   # Check whether we have any labels passed as parameter
-  if (is.null(legendLabels)) {
-    # if not, use category text of group variable as legend text
-    legendLabels <- c(sort(unique(df$grp)))
-  }
+  # if not, use category text of group variable as legend text
+  if (is.null(legendLabels)) legendLabels <- c(sort(unique(df$grp)))
   # wrap legend text lines
   legendLabels <- sjmisc::word_wrap(legendLabels, breakLegendLabelsAt)
   # check whether we have a title for the legend
-  if (!is.null(legendTitle)) {
-    # if yes, wrap legend title line
-    legendTitle <- sjmisc::word_wrap(legendTitle, breakLegendTitleAt)
-  }
+  # if yes, wrap legend title line
+  if (!is.null(legendTitle)) legendTitle <- sjmisc::word_wrap(legendTitle, breakLegendTitleAt)
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(title)) {
-    title <- sjmisc::word_wrap(title, breakTitleAt)
-  }
+  if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(axisTitle.x)) {
-    axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
-  }
+  if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(axisTitle.y)) {
-    axisTitle.y <- sjmisc::word_wrap(axisTitle.y, breakTitleAt)
-  }
+  if (!is.null(axisTitle.y)) axisTitle.y <- sjmisc::word_wrap(axisTitle.y, breakTitleAt)
   # --------------------------------------------------------
   # Plot scatter plot
   # --------------------------------------------------------
-  scatter <- ggplot(df,aes(x, y, colour=grp))
+  scatter <- ggplot(df,aes(x, y, colour = grp))
   # --------------------------------------------------------
   # Add marginal rug
   # --------------------------------------------------------
   if (showRug) {
     if (useJitter) {
-      scatter <- scatter + geom_rug(position="jitter")
-    }
-    else {
+      scatter <- scatter + geom_rug(position = "jitter")
+    } else {
       scatter <- scatter + geom_rug()
     }
   }
@@ -272,55 +259,55 @@ sjp.scatter <- function(x=NULL,
   # --------------------------------------------------------
   if (useJitter) {
     scatter <- scatter + geom_jitter(size = geom.size)
-  }
-  else {
+  } else {
     scatter <- scatter + geom_point(size = geom.size)
   }
   # --------------------------------------------------------
   # Show fitted lines
   # --------------------------------------------------------
-  if (showGroupFitLine) {
-    scatter <- scatter + stat_smooth(data=df, aes(colour=grp), method=fitmethod, se=showSE)
-  }
-  if (showTotalFitLine) {
-    scatter <- scatter + stat_smooth(method=fitmethod, se=showSE, colour="black")
-  }
+  if (showGroupFitLine) scatter <- scatter + stat_smooth(data = df, 
+                                                         aes(colour = grp), 
+                                                         method = fitmethod, 
+                                                         se = showSE)
+  if (showTotalFitLine) scatter <- scatter + stat_smooth(method = fitmethod, 
+                                                         se = showSE, 
+                                                         colour = "black")
   # --------------------------------------------------------
   # set font size for axes.
   # --------------------------------------------------------
   scatter <- scatter + 
-    labs(title=title, x=axisTitle.x, y=axisTitle.y, colour=legendTitle)
+    labs(title = title, 
+         x = axisTitle.x,
+         y = axisTitle.y,
+         colour = legendTitle)
   # --------------------------------------------------------
   # Hide or show tick marks
   # --------------------------------------------------------
-  if (!showTickMarkLabels.x) {
-    scatter <- scatter + scale_x_continuous(labels=NULL)
-  }
-  if (!showTickMarkLabels.y) {
-    scatter <- scatter + scale_y_continuous(labels=NULL)
-  }
+  if (!showTickMarkLabels.x) scatter <- scatter + scale_x_continuous(labels = NULL)
+  if (!showTickMarkLabels.y) scatter <- scatter + scale_y_continuous(labels = NULL)
   # --------------------------------------
   # facet plot
   # --------------------------------------
-  if (facet.grid){
-    scatter <- scatter + facet_wrap(~ grp)
-  } 
+  if (facet.grid) scatter <- scatter + facet_wrap(~ grp)
   # --------------------------------------------------------
   # Prepare fill colors
   # --------------------------------------------------------
   if (is.null(geom.colors)) {
     colen <- length(unique(na.omit(grp)))
-    if (colen==1) {
+    if (colen == 1) {
       geom.colors <- "#003399"
-    }
-    else {
+    } else {
       geom.colors <- "Dark2"
     }
   }
   # ---------------------------------------------------------
   # set geom colors
   # ---------------------------------------------------------
-  scatter <- sj.setGeomColors(scatter, geom.colors, length(legendLabels), ifelse(hideLegend==TRUE, FALSE, TRUE), legendLabels)
+  scatter <- sj.setGeomColors(scatter, 
+                              geom.colors, 
+                              length(legendLabels), 
+                              ifelse(hideLegend == TRUE, FALSE, TRUE), 
+                              legendLabels)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------

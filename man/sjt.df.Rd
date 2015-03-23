@@ -16,7 +16,7 @@ sjt.df(df, describe = TRUE, file = NULL, alternateRowColors = FALSE,
 \item{df}{A data frame that should be printed.}
 
 \item{describe}{If \code{TRUE} (default), a description of the data frame's variables is given.
-The description is retrieved from the \code{\link{describe}} function of the \code{\link{psych}}
+The description is retrieved from the \code{\link[psych]{describe}} function of the \code{psych}
 package. If this parameter is \code{FALSE}, the data frame's content (values) is shown.}
 
 \item{file}{The destination file, which will be in html-format. If no filepath is specified,
@@ -106,7 +106,7 @@ Shows description or the content of data frame (rows and columns) as HTML table,
                or saves it as file. Helpful if you want a quick overview of a data frame's
                content. See parameter \code{describe} for details. By default, \code{describe}
                is \code{TRUE} and a description of the data frame is given,
-               using the \code{\link{describe}} function of the \code{psych} package.
+               using the \code{\link[psych]{describe}} function of the \code{psych} package.
 }
 \examples{
 \dontrun{
@@ -145,7 +145,6 @@ sjt.df(efc,
 \itemize{
                \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
                \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
-               \item \code{\link{view_spss}}
              }
 }
 

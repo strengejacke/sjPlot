@@ -24,7 +24,7 @@
 #'          name of \code{var.col}, and - if \code{var.grp} is not \code{NULL} - name of \code{var.grp}.
 #'          See examples for more details.
 #'          variableLabels are detected automatically, if \code{var.row} or \code{var.col}
-#'          have a \code{"variable.label"} attribute (see \code{\link{set_var_labels}}) for details).
+#'          have a variable label attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).
 #' @param valueLabels A list of character vectors that indicate the value labels of the supplied
 #'          variables. Following order is needed: value labels of \code{var.row},
 #'          value labels  of \code{var.col}, and - if \code{var.grp} is not \code{NULL} - 

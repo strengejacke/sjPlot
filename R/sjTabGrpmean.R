@@ -10,7 +10,7 @@
 #' @param varGrp a (numeric) vector with group indices, used to select sub-groups from \code{varCount}.
 #' @param rowLabels a character vector of same length as \code{varGrp} unqiue values. In short: the
 #'          value labels of \code{varGrp}. Used to name table rows. By default, row labels
-#'          are automatically detected if set by \code{set_val_labels}.
+#'          are automatically detected if set by \code{\link[sjmisc]{set_val_labels}}.
 #' @param digits amount of digits for table values.
 #' @param digits.summary amount of digits for summary statistics (Anova).
 #' @param file The destination file, which will be in html-format. If no filepath is specified,

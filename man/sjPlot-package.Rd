@@ -1,4 +1,4 @@
-\encoding{UTF-8} 
+\encoding{UTF-8}
 \name{sjPlot-package}
 \alias{sjPlot-package}
 \alias{sjPlot}
@@ -19,7 +19,7 @@
   
   One of the more challenging tasks when working with R is to get nicely formatted output of statistical analyses, either in graphical or table format. The sjPlot-package takes over these tasks and makes it very easy to create beautiful figures or tables in a very intuitive way.
 
-  There are many examples for each function in the related help files and a comprehensive \href{http://www.strengejacke.de/sjPlot}{online documentation}.
+  There are many examples for each function in the related help files and a comprehensive online documentation at \url{http://www.strengejacke.de/sjPlot}.
   
   \emph{A note on the package functions}
 
@@ -35,7 +35,7 @@
 Package: \tab sjPlot\cr
 Type: \tab Package\cr
 Version: \tab 1.7-6\cr
-Date: \tab 2015-03-20\cr
+Date: \tab 2015-03-21\cr
 License: \tab GPL-3\cr
 }
 }

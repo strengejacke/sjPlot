@@ -188,10 +188,10 @@ Use \code{NULL} to automatically detect variable names that will be used as titl
 (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
 \item{autoGroupAt}{A value indicating at which length of unique values of \code{varCount} the variable
-is automatically grouped into smaller units (see \code{\link[sjmisc]{group_var}}). If \code{varCount} has large
+is automatically grouped into smaller units (see \code{group_var}). If \code{varCount} has large
 numbers of unique values, too many bars for the graph have to be plotted. Hence it's recommended
 to group such variables. For example, if \code{autoGroupAt} is 50, i.e. if \code{varCount} has 50 and more unique values
-it will be grouped using \code{\link[sjmisc]{group_var}} with \code{groupsize="auto"} parameter. By default,
+it will be grouped using \code{group_var} with \code{groupsize="auto"} parameter. By default,
 the maximum group count is 30. However, if \code{autoGroupAt} is less than 30, \code{autoGroupAt}
 groups are built. Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.}
 
@@ -276,8 +276,6 @@ sjp.grpfrq(efc$neg_c_7,
            showValueLabels = FALSE)
 }
 \seealso{
-\itemize{
-             \item \href{http://www.strengejacke.de/sjPlot/sjp.grpfrq/}{sjPlot manual: sjp.grpfrq}
-             }
+\href{http://www.strengejacke.de/sjPlot/sjp.grpfrq/}{sjPlot manual: sjp.grpfrq}
 }
 

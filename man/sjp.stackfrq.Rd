@@ -49,7 +49,7 @@ cases are weighted. Use a string as parameter, e.g.: \code{weightByTitleString="
 \item{axisLabels.y}{Labels for the y-axis (the labels of the \code{items}). These parameters must
 be passed as list! Example: \code{axisLabels.y=list(c("Q1", "Q2", "Q3"))}
 Axis labels will automatically be detected, when they have
-a \code{"variable.lable"} attribute (see \code{\link{set_var_labels}}) for details).}
+a variable label attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
 \item{breakTitleAt}{Wordwrap for diagram title. Determines how many chars of the title are displayed in
 one line and when a line break is inserted into the title.}

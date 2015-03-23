@@ -23,7 +23,7 @@ Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, s
 
 \item{varlabels}{A list or vector of strings with variable names. If not specified, row names of \code{items}
 will be used, resp. variable labels will automatically be detected, when they have
-a \code{"variable.lable"} attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).}
+a variable label attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
 \item{breakLabelsAt}{Wordwrap for variable labels. Determines how many chars of the variable labels are displayed in
 one line and when a line break is inserted. Default is 40.}
@@ -58,11 +58,11 @@ Default is 2, i.e. percentage values have 2 digits after decimal point.}
 \item{labelNA}{The label for the missing column/row.}
 
 \item{showSkew}{If \code{TRUE}, an additional column with each item's skewness is printed.
-The skewness is retrieved from the \code{\link{describe}} function of the \code{\link{psych}}
+The skewness is retrieved from the \code{\link[psych]{describe}} function of the \code{psych}
 package.}
 
 \item{showKurtosis}{If \code{TRUE}, an additional column with each item's kurtosis is printed.
-The kurtosis is retrieved from the \code{\link{describe}} function of the \code{\link{psych}}
+The kurtosis is retrieved from the \code{\link[psych]{describe}} function of the \code{psych}
 package.}
 
 \item{digits.stats}{The amount of digits for rounding the skewness and kurtosis valuess.

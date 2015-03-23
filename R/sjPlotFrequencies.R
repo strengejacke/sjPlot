@@ -128,10 +128,10 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "upper.ci",
 #'          If you set \code{startAxisAt} to 1, you may have zero counts if the lowest value of \code{varCount}
 #'          is larger than 1 and hence no bars plotted for these values in such cases.
 #' @param autoGroupAt A value indicating at which length of unique values of \code{varCount} the variable
-#'          is automatically grouped into smaller units (see \code{\link[sjmisc]{group_var}}). If \code{varCount} has large 
+#'          is automatically grouped into smaller units (see \code{group_var}). If \code{varCount} has large 
 #'          numbers of unique values, too many bars for the graph have to be plotted. Hence it's recommended 
 #'          to group such variables. For example, if \code{autoGroupAt} is 50, i.e. if \code{varCount} has 50 and more unique values 
-#'          it will be grouped using \code{\link[sjmisc]{group_var}} with \code{groupsize="auto"} parameter. By default, 
+#'          it will be grouped using \code{group_var} with \code{groupsize="auto"} parameter. By default, 
 #'          the maximum group count is 30. However, if \code{autoGroupAt} is less than 30, \code{autoGroupAt} 
 #'          groups are built. Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.
 #' @param coord.flip If \code{TRUE}, the x and y axis are swapped. Default is \code{FALSE}.

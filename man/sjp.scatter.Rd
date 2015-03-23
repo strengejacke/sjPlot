@@ -28,7 +28,7 @@ examples below. Default is \code{NULL}, i.e. not grouping is done.}
 
 \item{title}{Title of the diagram, plotted above the whole diagram panel.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link{set_var_labels}}) for details).}
+(see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
 \item{legendTitle}{Title of the diagram's legend.}
 
@@ -36,11 +36,11 @@ Use \code{NULL} to automatically detect variable names that will be used as titl
 
 \item{axisTitle.x}{A label (title) for the x axis.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link{set_var_labels}}) for details).}
+(see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
 \item{axisTitle.y}{A label (title) for the y axis.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link{set_var_labels}}) for details).}
+(see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
 \item{breakTitleAt}{Wordwrap for diagram title. Determines how many chars of the title are displayed in
 one line and when a line break is inserted into the title.}

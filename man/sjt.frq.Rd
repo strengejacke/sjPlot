@@ -38,10 +38,10 @@ from \code{data}. Note that if multiple variables are supplied (as data frame), 
 value labels must be supplied as nested \code{list} object (see examples).}
 
 \item{autoGroupAt}{A value indicating at which length of unique values a variable from \code{data}
-is automatically grouped into smaller units (see \code{\link{group_var}}). Variables with large
+is automatically grouped into smaller units (see \code{group_var}). Variables with large
 numbers of unique values may be too time consuming when a HTML table is created and R would
 not respond any longer. Hence it's recommended to group such variables. Default value is 50,
-i.e. variables with 50 and more unique values will be grouped using \code{\link{group_var}} with
+i.e. variables with 50 and more unique values will be grouped using \code{group_var} with
 \code{groupsize="auto"} parameter. By default, the maximum group count is 30. However, if
 \code{autoGroupAt} is less than 30, \code{autoGroupAt} groups are built. Default value is \code{NULL},
 i.e. auto-grouping is turned off.}
@@ -87,11 +87,11 @@ counts, zero-values would be skipped automatically).}
 standard deviation is shown.}
 
 \item{showSkew}{If \code{TRUE}, the variable's skewness is added to the summary.
-The skewness is retrieved from the \code{\link{describe}} function of the \code{\link{psych}}
+The skewness is retrieved from the \code{\link[psych]{describe}} function of the \code{psych}
 package.}
 
 \item{showKurtosis}{If \code{TRUE}, the variable's kurtosis is added to the summary.
-The kurtosis is retrieved from the \code{\link{describe}} function of the \code{\link{psych}}
+The kurtosis is retrieved from the \code{\link[psych]{describe}} function of the \code{psych}
 package.}
 
 \item{skewString}{A character string, which is used as header for the skew column (see \code{showSkew})).
@@ -215,8 +215,7 @@ sjt.frq(efc$e42dep,
         valueLabels=values[['e42dep']],
         CSS=list(css.table="border: 2px solid;",
                  css.tdata="border: 1px solid;",
-                 css.firsttablecol="color:#003399; font-weight:bold;"))
-}
+                 css.firsttablecol="color:#003399; font-weight:bold;"))}
 }
 \seealso{
 \itemize{

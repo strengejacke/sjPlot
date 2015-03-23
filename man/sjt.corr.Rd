@@ -40,7 +40,7 @@ in the default web browser.}
 provided (default), the data frame's column names are used. Item labels must
 be a string vector, e.g.: \code{varlabels=c("Var 1", "Var 2", "Var 3")}.
 varlabels are detected automatically if \code{data} is a data frame where each variable has
-a \code{"variable.label"} attribute (see \code{\link{set_var_labels}}) for details).}
+a variable label attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
 \item{breakLabelsAt}{Wordwrap for diagram labels. Determines how many chars of the variable labels are displayed in
 one line and when a line break is inserted. Default is 40.}
