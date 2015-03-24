@@ -4,7 +4,7 @@
 \alias{sjt.df}
 \title{Show (description of) data frame as HTML table}
 \usage{
-sjt.df(df, describe = TRUE, file = NULL, alternateRowColors = FALSE,
+sjt.df(mydf, describe = TRUE, file = NULL, alternateRowColors = FALSE,
   orderColumn = NULL, orderAscending = TRUE, title = NULL,
   repeatHeader = FALSE, stringVariable = "Variable", showType = FALSE,
   showRowNames = TRUE, showCommentRow = FALSE,
@@ -13,7 +13,7 @@ sjt.df(df, describe = TRUE, file = NULL, alternateRowColors = FALSE,
   remove.spaces = TRUE)
 }
 \arguments{
-\item{df}{A data frame that should be printed.}
+\item{mydf}{A data frame that should be printed.}
 
 \item{describe}{If \code{TRUE} (default), a description of the data frame's variables is given.
 The description is retrieved from the \code{\link[psych]{describe}} function of the \code{psych}
@@ -27,7 +27,7 @@ in the default web browser.}
 background color.}
 
 \item{orderColumn}{Indicates a column, either by column name or by column index number,
-that should be orderd. Default order is ascending, which can be changed with
+that should be sorted. Default order is ascending, which can be changed with
 \code{orderAscending} parameter. Default is \code{NULL}, hence the data frame
 is printed with no specific order. See examples for further details.}
 
@@ -115,31 +115,40 @@ library(sjmisc)
 data(efc)
 
 # plot efc-data frame summary
-sjt.df(efc, alternateRowColors=TRUE)
+sjt.df(efc, alternateRowColors = TRUE)
 
 # plot content, first 50 rows of first 5 columns of example data set
-sjt.df(efc[1:50,1:5], describe=FALSE, stringVariable="Observation")
+sjt.df(efc[1:50, 1:5],
+       describe = FALSE,
+       stringVariable = "Observation")
 
-# plot efc-data frame summary, ordered descending by mean-column
-sjt.df(efc, orderColumn="mean", orderAscending=FALSE)
+# plot efc-data frame summary, sorted descending by mean-column
+sjt.df(efc,
+       orderColumn = "mean",
+       orderAscending = FALSE)
 
 # plot first 20 rows of first 5 columns of example data set,
-# ordered by column "e42dep" with alternating row colors
-sjt.df(efc[1:20,1:5], alternateRowColors=TRUE,
-       orderColumn="e42dep", describe=FALSE)
+# sort by column "e42dep" with alternating row colors
+sjt.df(efc[1:20, 1:5],
+       alternateRowColors = TRUE,
+       orderColumn = "e42dep",
+       describe = FALSE)
 
 # plot first 20 rows of first 5 columns of example data set,
-# ordered by 4th column in descending order.
-sjt.df(efc[1:20,1:5], orderColumn=4, orderAscending=FALSE, describe=FALSE)
+# sorted by 4th column in descending order.
+sjt.df(efc[1:20, 1:5],
+       orderColumn = 4,
+       orderAscending = FALSE,
+       describe = FALSE)
 
 # ----------------------------------------------------------------
 # User defined style sheet
 # ----------------------------------------------------------------
 sjt.df(efc,
-       alternateRowColor=TRUE,
-       CSS=list(css.table="border: 2px solid #999999;",
-                css.tdata="border-top: 1px solid;",
-                css.arc="color:blue;"))}
+       alternateRowColor = TRUE,
+       CSS = list(css.table = "border: 2px solid #999999;",
+                  css.tdata = "border-top: 1px solid;",
+                  css.arc = "color:blue;"))}
 }
 \seealso{
 \itemize{

@@ -316,8 +316,7 @@ sjt.glm <- function (...,
   opt <- getOption("p_zero")
   if (is.null(opt) || opt == FALSE) {
     p_zero <- ""
-  }
-  else {
+  } else {
     p_zero <- "0"
   }
   # -------------------------------------
@@ -469,52 +468,54 @@ sjt.glm <- function (...,
     fit.df <- data.frame(names(coef(fit)))
     if (exp.coef) {
       fit.df$coeffs <- sprintf("%.*f", digits.est, exp(coef(fit)))
-      fit.df$confi_lower <- sprintf("%.*f", digits.ci, exp(confis[,1]))
-      fit.df$confi_higher <- sprintf("%.*f", digits.ci, exp(confis[,2]))
-    }
-    else {
+      fit.df$confi_lower <- sprintf("%.*f", digits.ci, exp(confis[, 1]))
+      fit.df$confi_higher <- sprintf("%.*f", digits.ci, exp(confis[, 2]))
+    } else {
       fit.df$coeffs <- sprintf("%.*f", digits.est, coef(fit))
-      fit.df$confi_lower <- sprintf("%.*f", digits.ci, confis[,1])
-      fit.df$confi_higher <- sprintf("%.*f", digits.ci, confis[,2])
+      fit.df$confi_lower <- sprintf("%.*f", digits.ci, confis[, 1])
+      fit.df$confi_higher <- sprintf("%.*f", digits.ci, confis[, 2])
     }
     # p-values
-    fit.df$pv <- round(summary(fit)$coefficients[,4], digits.p)
+    fit.df$pv <- round(summary(fit)$coefficients[, 4], digits.p)
     # standard error
-    fit.df$se <- sprintf("%.*f", digits.se, summary(fit)$coefficients[,2])
+    fit.df$se <- sprintf("%.*f", digits.se, summary(fit)$coefficients[, 2])
     # -------------------------------------
     # prepare p-values, either as * or as numbers
     # -------------------------------------
     if (!pvaluesAsNumbers) {
       fit.df$pv <- sapply(fit.df$pv, function(x) {
-        if (x>=0.05) x <- c("")
-        else if (x>=0.01 && x<0.05) x <- c("*")
-        else if (x>=0.001 && x<0.01) x <- c("**")
-        else if (x<0.001) x <- c("***")
+        if (x >= 0.05) x <- c("")
+        else if (x >= 0.01 && x < 0.05) x <- c("*")
+        else if (x >= 0.001 && x < 0.01) x <- c("**")
+        else if (x < 0.001) x <- c("***")
       })
-    }
-    else {
+    } else {
       if (boldpvalues) {
         sb1 <- "<b>"
         sb2 <- "</b>"
-      }
-      else {
+      } else {
         sb1 <- sb2 <- ""
       }
       fit.df$pv <- sapply(fit.df$pv, function(x) {
-        if (x <0.05) {
+        if (x < 0.05) {
           if (x < 0.001) {
             x <- sprintf("%s&lt;0.001%s", sb1, sb2)
-          }
-          else {
+          } else {
             x <- sprintf("%s%.*f%s", sb1, digits.p, x, sb2)
           }
-        }
-        else {
+        } else {
           x <- sprintf("%.*f", digits.p, x) 
         }
         # remove leading zero, APA style for p-value
-        x <- sub("0", p_zero, x)
+        x <- sub("0", p_zero, x, fixed = TRUE)
       })
+    }
+    # -------------------------------------
+    # retrieve factors and number of levels
+    # -------------------------------------
+    for (f in 1:ncol(fit$model)) {
+      fit.df$is_fac[f] <- is.factor(fit$model[, f])
+      fit.df$fac_lvl[f] <- length(levels(fit$model[, f]))
     }
     # -------------------------------------
     # set column names. we need the same name
@@ -528,7 +529,9 @@ sjt.glm <- function (...,
                           sprintf("ci.lo%i", i),
                           sprintf("ci.hi%i", i),
                           sprintf("p-value%i", i),
-                          sprintf("se%i", i))
+                          sprintf("se%i", i),
+                          sprintf("categorical%i", i),
+                          sprintf("fac.levels%i", i))
     # -------------------------------------
     # add to df list
     # -------------------------------------
@@ -572,7 +575,7 @@ sjt.glm <- function (...,
     if (any(remove.estimates == 1)) {
       # remove intercept index
       remove.estimates <- remove.estimates[-which(remove.estimates == 1)]
-      message("Intercept cannot be removed from table output.")
+      message("Intercept cannot be removed from table output. However, you may fake with style sheet, e.g. CSS = list(css.topcontentborder = \"+font-size: 0px;\").")
     }
     # create all row indices
     rowind <- c(1:nrow(joined.df))
@@ -582,14 +585,25 @@ sjt.glm <- function (...,
     joined.df <- dplyr::slice(joined.df, keep.estimates)
   }
   # -------------------------------------
+  # copy all variables with factor status and levels
+  # -------------------------------------
+  fac_cat.df <- dplyr::select(joined.df, starts_with("categorical")) 
+  fac_lvl.df <- dplyr::select(joined.df, starts_with("fac.levels")) 
+  # -------------------------------------
+  # remove all variables with factor status 
+  # and levels from joined.df
+  # -------------------------------------
+  joined.df <- dplyr::select(joined.df, 
+                             -c(starts_with("categorical"), 
+                                starts_with("fac.levels")))
+  # -------------------------------------
   # if confidence interval should be omitted,
   # don't use separate column for CI!
   # -------------------------------------
   if (!showConfInt) {
     separateConfColumn <- FALSE
     showCIString <- stringOR
-  }
-  else {
+  } else {
     showCIString <- sprintf("%s (%s)", stringOR, stringCI)
   }
   # -------------------------------------
@@ -597,9 +611,9 @@ sjt.glm <- function (...,
   # -------------------------------------
   headerColSpan <- length(input_list)
   headerColSpanFactor <- 1
-  if (pvaluesAsNumbers) headerColSpanFactor <- headerColSpanFactor+1
-  if (separateConfColumn) headerColSpanFactor <- headerColSpanFactor+1
-  if (showStdError) headerColSpanFactor <- headerColSpanFactor+1
+  if (pvaluesAsNumbers) headerColSpanFactor <- headerColSpanFactor + 1
+  if (separateConfColumn) headerColSpanFactor <- headerColSpanFactor + 1
+  if (showStdError) headerColSpanFactor <- headerColSpanFactor + 1
   
   headerColSpan <- headerColSpanFactor * headerColSpan
   linebreakstring <- " "
@@ -901,32 +915,32 @@ sjt.glm <- function (...,
   # -------------------------------------
   # set style attributes for main table tags
   # -------------------------------------
-  knitr <- gsub("class=", "style=", knitr)
-  knitr <- gsub("<table", sprintf("<table style=\"%s\"", css.table), knitr)
+  knitr <- gsub("class=", "style=", knitr, fixed = TRUE)
+  knitr <- gsub("<table", sprintf("<table style=\"%s\"", css.table), knitr, fixed = TRUE)
   # -------------------------------------
   # replace class-attributes with inline-style-definitions
   # -------------------------------------
-  knitr <- gsub(tag.tdata, css.tdata, knitr)
-  knitr <- gsub(tag.thead, css.thead, knitr)
-  knitr <- gsub(tag.summary, css.summary, knitr)  
-  knitr <- gsub(tag.colnames, css.colnames, knitr)
-  knitr <- gsub(tag.leftalign, css.leftalign, knitr)
-  knitr <- gsub(tag.centeralign, css.centeralign, knitr)
-  knitr <- gsub(tag.firstsumrow, css.firstsumrow, knitr)
-  knitr <- gsub(tag.lasttablerow, css.lasttablerow, knitr)  
-  knitr <- gsub(tag.labelcellborder, css.labelcellborder, knitr)  
-  knitr <- gsub(tag.topborder, css.topborder, knitr)  
-  knitr <- gsub(tag.depvarhead, css.depvarhead, knitr)  
-  knitr <- gsub(tag.topcontentborder, css.topcontentborder, knitr)  
-  knitr <- gsub(tag.noannorow, css.noannorow, knitr)
-  knitr <- gsub(tag.annorow, css.annorow, knitr)  
-  knitr <- gsub(tag.annostyle, css.annostyle, knitr)
-  knitr <- gsub(tag.grouprow, css.grouprow, knitr)
-  knitr <- gsub(tag.tgrpdata, css.tgrpdata, knitr)
-  knitr <- gsub(tag.modelcolumn1, css.modelcolumn1, knitr)
-  knitr <- gsub(tag.modelcolumn2, css.modelcolumn2, knitr)
-  knitr <- gsub(tag.modelcolumn3, css.modelcolumn3, knitr)
-  knitr <- gsub(tag.modelcolumn4, css.modelcolumn4, knitr)
+  knitr <- gsub(tag.tdata, css.tdata, knitr, fixed = TRUE)
+  knitr <- gsub(tag.thead, css.thead, knitr, fixed = TRUE)
+  knitr <- gsub(tag.summary, css.summary, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.colnames, css.colnames, knitr, fixed = TRUE)
+  knitr <- gsub(tag.leftalign, css.leftalign, knitr, fixed = TRUE)
+  knitr <- gsub(tag.centeralign, css.centeralign, knitr, fixed = TRUE)
+  knitr <- gsub(tag.firstsumrow, css.firstsumrow, knitr, fixed = TRUE)
+  knitr <- gsub(tag.lasttablerow, css.lasttablerow, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.labelcellborder, css.labelcellborder, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.topborder, css.topborder, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.depvarhead, css.depvarhead, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.topcontentborder, css.topcontentborder, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.noannorow, css.noannorow, knitr, fixed = TRUE)
+  knitr <- gsub(tag.annorow, css.annorow, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.annostyle, css.annostyle, knitr, fixed = TRUE)
+  knitr <- gsub(tag.grouprow, css.grouprow, knitr, fixed = TRUE)
+  knitr <- gsub(tag.tgrpdata, css.tgrpdata, knitr, fixed = TRUE)
+  knitr <- gsub(tag.modelcolumn1, css.modelcolumn1, knitr, fixed = TRUE)
+  knitr <- gsub(tag.modelcolumn2, css.modelcolumn2, knitr, fixed = TRUE)
+  knitr <- gsub(tag.modelcolumn3, css.modelcolumn3, knitr, fixed = TRUE)
+  knitr <- gsub(tag.modelcolumn4, css.modelcolumn4, knitr, fixed = TRUE)
   # -------------------------------------
   # remove spaces?
   # -------------------------------------

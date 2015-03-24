@@ -98,6 +98,7 @@
 #'        \itemize{
 #'          \item \code{"blank"}: a theme with no grids and axes.
 #'          \item \code{"forest"}: a theme for forest plots, with no grids.
+#'          \item \code{"forestgrey"}: a theme for forest plots, with no grids, in "539" style.
 #'          \item \code{"538"}: a grey-scaled theme inspired by \href{http://fivethirtyeight.com}{538-charts}, adapted from \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{minimaxir.com}.
 #'          \item \code{"539"}: a slight modification of the 538-theme.
 #'          \item \code{"scatter"}: a theme for scatter plots in 539-theme-style.
@@ -290,17 +291,21 @@ sjp.setTheme <- function(title.color="black",
     plot.margins <- unit(c(1, .5, 1, 0.5), "cm")
     message("Theme '538' looks better with panel margins. You may want to use parameter 'expand.grid = TRUE' in sjp-functions.")
   }  
-  if (!is.null(theme) && theme=="539") {
+  if (!is.null(theme) && (theme == "539" || theme == "forestgrey")) {
     base <- theme_bw()
     g.palette <- scales::brewer_pal(palette = "Greys")(9)
     panel.bordercol <- panel.backcol <- panel.col <- g.palette[2]
     plot.backcol <- plot.bordercol <- plot.col <- g.palette[2]
-    panel.major.gridcol <- g.palette[4]
-    panel.minor.gridcol <- g.palette[2]
+    if (theme == "539") {
+      panel.major.gridcol <- g.palette[4]
+      panel.minor.gridcol <- g.palette[2]
+      panel.gridcol.x <- g.palette[2]
+    } else {
+      panel.major.gridcol <- panel.minor.gridcol <- g.palette[2]
+    }
     axis.linecolor <- NULL
     if (is.null(axis.linecolor.y)) axis.linecolor.y <- g.palette[2]
     if (is.null(axis.linecolor.x)) axis.linecolor.x <- g.palette[9]
-    panel.gridcol.x <- g.palette[2]
     legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[2]
     title.color <- g.palette[9]
     axis.textcolor <- g.palette[6]

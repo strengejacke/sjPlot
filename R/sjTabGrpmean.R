@@ -78,8 +78,7 @@ sjt.grpmean <- function(varCount,
   opt <- getOption("p_zero")
   if (is.null(opt) || opt == FALSE) {
     p_zero <- ""
-  }
-  else {
+  } else {
     p_zero <- "0"
   }
   # --------------------------------------
@@ -112,7 +111,7 @@ sjt.grpmean <- function(varCount,
       pval <- c(pval, sprintf("&lt;%s.001", p_zero))
     }
     else {
-      pval <- c(pval, sub("0", p_zero, sprintf("%.*f", digits, means.p[i])))
+      pval <- c(pval, sub("0", p_zero, sprintf("%.*f", digits, means.p[i]), fixed = T))
     }
   } 
   # --------------------------------------

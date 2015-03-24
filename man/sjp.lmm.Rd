@@ -17,7 +17,8 @@ sjp.lmm(..., title = NULL, labelDependentVariables = NULL,
   printPlot = TRUE)
 }
 \arguments{
-\item{...}{One or more fitted lm-objects.}
+\item{...}{One or more fitted lm-objects. May also be a \code{\link{list}}-object with
+fitted models, instead of separating each model with comma. See examples.}
 
 \item{title}{Diagram's title as string.
 Example: \code{title=c("my title")}}
@@ -126,24 +127,34 @@ Plot beta coefficients (estimates) with confidence intervalls of multiple fitted
 library(sjmisc)
 data(efc)
 
-# fit first model
-fit1 <- lm(barthtot ~ c160age + c12hour + c161sex + c172code, data=efc)
-# fit second model
-fit2 <- lm(neg_c_7 ~ c160age + c12hour + c161sex + c172code, data=efc)
-# fit third model
-fit3 <- lm(tot_sc_e ~ c160age + c12hour + c161sex + c172code, data=efc)
+# fit three models
+fit1 <- lm(barthtot ~ c160age + c12hour + c161sex + c172code, data = efc)
+fit2 <- lm(neg_c_7 ~ c160age + c12hour + c161sex + c172code, data = efc)
+fit3 <- lm(tot_sc_e ~ c160age + c12hour + c161sex + c172code, data = efc)
 
 # plot multiple models
-sjp.lmm(fit1, fit2, fit3, facet.grid=TRUE)
+sjp.lmm(fit1, fit2, fit3, facet.grid = TRUE)
 
 # plot multiple models with legend labels and point shapes instead of value  labels
 sjp.lmm(fit1, fit2, fit3,
-         axisLabels.y=c("Carer's Age", "Hours of Care",
-                        "Carer's Sex", "Educational Status"),
-         labelDependentVariables=c("Barthel Index", "Negative Impact", "Services used"),
-         showValueLabels=FALSE,
-         showPValueLabels=FALSE,
-         usePShapes=TRUE,
-         nsAlpha=0.3)
+         axisLabels.y = c("Carer's Age",
+                          "Hours of Care",
+                          "Carer's Sex",
+                          "Educational Status"),
+         labelDependentVariables = c("Barthel Index",
+                                     "Negative Impact",
+                                     "Services used"),
+         showValueLabels = FALSE,
+         showPValueLabels = FALSE,
+         usePShapes = TRUE,
+         nsAlpha = 0.3)
+
+# plot multiple models from nested lists parameter
+all.models <- list()
+all.models[[1]] <- fit1
+all.models[[2]] <- fit2
+all.models[[3]] <- fit3
+
+sjp.lmm(all.models)
 }
 

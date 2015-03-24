@@ -63,13 +63,33 @@
 #' 
 #' @examples
 #' # randomly create data frame with 7 items, each consisting of 4 categories
-#' likert_4 <- data.frame(sample(1:4, 500, replace = TRUE, prob = c(0.2,0.3,0.1,0.4)),
-#'                        sample(1:4, 500, replace = TRUE, prob = c(0.5,0.25,0.15,0.1)),
-#'                        sample(1:4, 500, replace = TRUE, prob = c(0.4,0.15,0.25,0.2)),
-#'                        sample(1:4, 500, replace = TRUE, prob = c(0.25,0.1,0.4,0.25)),
-#'                        sample(1:4, 500, replace = TRUE, prob = c(0.1,0.4,0.4,0.1)),
-#'                        sample(1:4, 500, replace = TRUE),
-#'                        sample(1:4, 500, replace = TRUE, prob = c(0.35,0.25,0.15,0.25)))
+#' likert_4 <- data.frame(sample(1:4, 
+#'                               500, 
+#'                               replace = TRUE, 
+#'                               prob = c(0.2, 0.3, 0.1, 0.4)),
+#'                        sample(1:4, 
+#'                               500, 
+#'                               replace = TRUE, 
+#'                               prob = c(0.5, 0.25, 0.15, 0.1)),
+#'                        sample(1:4, 
+#'                               500, 
+#'                               replace = TRUE, 
+#'                               prob = c(0.4, 0.15, 0.25, 0.2)),
+#'                        sample(1:4, 
+#'                               500, 
+#'                               replace = TRUE, 
+#'                               prob = c(0.25, 0.1, 0.4, 0.25)),
+#'                        sample(1:4, 
+#'                               500, 
+#'                               replace = TRUE, 
+#'                               prob = c(0.1, 0.4, 0.4, 0.1)),
+#'                        sample(1:4, 
+#'                               500, 
+#'                               replace = TRUE),
+#'                        sample(1:4, 
+#'                               500, 
+#'                               replace = TRUE, 
+#'                               prob = c(0.35, 0.25, 0.15, 0.25)))
 #'
 #' # Create variable labels
 #' colnames(likert_4) <- c("V1", "V2", "V3", "V4", "V5", "V6", "V7")
@@ -78,7 +98,10 @@
 #' sjp.pca(likert_4)
 #' 
 #' # manually compute PCA
-#' pca <- prcomp(na.omit(likert_4), retx = TRUE, center = TRUE, scale. = TRUE)
+#' pca <- prcomp(na.omit(likert_4), 
+#'               retx = TRUE, 
+#'               center = TRUE, 
+#'               scale. = TRUE)
 #' # plot results from PCA as circles, including Eigenvalue-diagnostic.
 #' # note that this plot does not compute the Cronbach's Alpha
 #' sjp.pca(pca, plotEigenvalues = TRUE, type = "circle")
@@ -99,10 +122,10 @@
 #' end <- which(colnames(efc) == "c90cop9")
 #'  
 #' # create data frame with COPE-index scale
-#' df <- as.data.frame(efc[,c(start:end)])
-#' colnames(df) <- varlabs[c(start:end)]
+#' mydf <- as.data.frame(efc[, c(start:end)])
+#' colnames(mydf) <- varlabs[c(start:end)]
 #' 
-#' sjp.pca(df)
+#' sjp.pca(mydf)
 #' 
 #' # -------------------------------
 #' # auto-detection of labels
@@ -141,8 +164,7 @@ sjp.pca <- function(data,
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         axisLabels.y <- c(axisLabels.y, vn)
-      }
-      else {
+      } else {
         # else break out of loop
         axisLabels.y <- NULL
         break
@@ -153,9 +175,8 @@ sjp.pca <- function(data,
   # set color palette
   # ----------------------------  
   if (is.brewer.pal(geom.colors[1])) {
-    geom.colors <- scales::brewer_pal(palette=geom.colors[1])(5)
-  }
-  else if (geom.colors[1] == "gs") {
+    geom.colors <- scales::brewer_pal(palette = geom.colors[1])(5)
+  } else if (geom.colors[1] == "gs") {
     geom.colors <- scales::grey_pal()(5)
   }
   # ----------------------------
@@ -165,17 +186,14 @@ sjp.pca <- function(data,
   if (class(data) == "prcomp") {
     pcadata <- data
     dataframeparam <- FALSE
-  }
-  else {
+  } else {
     pcadata <- prcomp(na.omit(data), retx = TRUE, center = TRUE, scale. = TRUE)
     dataframeparam <- TRUE
   }
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
-  if (!is.null(axisLabels.y) && is.list(axisLabels.y)) {
-    axisLabels.y <- unlistlabels(axisLabels.y)
-  }
+  if (!is.null(axisLabels.y) && is.list(axisLabels.y)) axisLabels.y <- unlistlabels(axisLabels.y)
   # ----------------------------
   # calculate eigenvalues
   # ----------------------------
@@ -198,7 +216,12 @@ sjp.pca <- function(data,
         geom_line() + geom_point() +
         geom_hline(y = 1, linetype = 2, colour = "grey50") +
         # print best number of factors according to eigen value
-        annotate("text", label = sprintf("Factors: %i", pcadata.kaiser), x = Inf, y = Inf, vjust = 2, hjust = 1.2) +
+        annotate("text", 
+                 label = sprintf("Factors: %i", pcadata.kaiser), 
+                 x = Inf, 
+                 y = Inf, 
+                 vjust = 2, 
+                 hjust = 1.2) +
         scale_x_continuous(breaks = c(seq(1, nrow(mydat), by = 2))) +
         labs(title = NULL, y = "Eigenvalue", x = "Number of factors")
     plot(eigenplot)
@@ -213,9 +236,7 @@ sjp.pca <- function(data,
   # varimax rotation, retrieve factor loadings
   # --------------------------------------------------------
   # check for predefined number of factors
-  if (!is.null(numberOfFactors) && is.numeric(numberOfFactors)) {
-    pcadata.kaiser <- numberOfFactors
-  }
+  if (!is.null(numberOfFactors) && is.numeric(numberOfFactors)) pcadata.kaiser <- numberOfFactors
   pcadata.varim <- varimaxrota(pcadata, pcadata.kaiser)
   # pcadata.varim = varimax(loadings(pcadata))
   # create data frame with factor loadings
@@ -225,9 +246,7 @@ sjp.pca <- function(data,
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
   # ----------------------------
-  if (is.null(axisLabels.y)) {
-    axisLabels.y <- row.names(df)
-  }
+  if (is.null(axisLabels.y)) axisLabels.y <- row.names(df)
   # ----------------------------
   # Prepare length of title and labels
   # ----------------------------
@@ -315,8 +334,7 @@ sjp.pca <- function(data,
   if (dataframeparam) {
     # get alpha values
     alphaValues <- getCronbach(data, getItemLoadings(df))
-  }
-  else {
+  } else {
     message("Cronbach's Alpha can only be calculated when having a data frame with each component / variable as column.")
     showCronbachsAlpha <- FALSE
   }
@@ -333,8 +351,7 @@ sjp.pca <- function(data,
   df <- cbind(df, ypos = c(1:nrow(pcadata.varim$loadings)), psize = c(exp(abs(df$value)) * geom.size))
   if (!showValueLabels) {
     valueLabels <- c("")
-  }
-  else {
+  } else {
     valueLabels <- sprintf("%.*f", digits, df$value)
   }
   # --------------------------------------------------------
@@ -346,11 +363,10 @@ sjp.pca <- function(data,
   # --------------------------------------------------------
   if (type == "circle") {
     geo <- geom_point(shape = 21, size = df$psize)
-  }
   # --------------------------------------------------------
   # or boxes / tiles when "type" is "tile"
   # --------------------------------------------------------
-  else {
+  } else {
     geo <- geom_tile()
   }
   heatmap <- heatmap +
@@ -389,8 +405,7 @@ sjp.pca <- function(data,
     if (!is.null(removableItems)) {
       message(colnames(data)[removableItems])
       remdf <- data[,c(-removableItems)]
-    }
-    else {
+    } else {
       message("none.")
     }
   }

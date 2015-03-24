@@ -393,8 +393,7 @@ sjt.lm <- function (...,
   opt <- getOption("p_zero")
   if (is.null(opt) || opt == FALSE) {
     p_zero <- ""
-  }
-  else {
+  } else {
     p_zero <- "0"
   }
   # -------------------------------------
@@ -472,30 +471,30 @@ sjt.lm <- function (...,
   # check user defined style sheets
   # ------------------------
   if (!is.null(CSS)) {
-    if (!is.null(CSS[['css.table']])) css.table <- ifelse(substring(CSS[['css.table']],1,1)=='+', paste0(css.table, substring(CSS[['css.table']],2)), CSS[['css.table']])
-    if (!is.null(CSS[['css.thead']])) css.thead <- ifelse(substring(CSS[['css.thead']],1,1)=='+', paste0(css.thead, substring(CSS[['css.thead']],2)), CSS[['css.thead']])
-    if (!is.null(CSS[['css.tdata']])) css.tdata <- ifelse(substring(CSS[['css.tdata']],1,1)=='+', paste0(css.tdata, substring(CSS[['css.tdata']],2)), CSS[['css.tdata']])
-    if (!is.null(CSS[['css.leftalign']])) css.leftalign <- ifelse(substring(CSS[['css.leftalign']],1,1)=='+', paste0(css.leftalign, substring(CSS[['css.leftalign']],2)), CSS[['css.leftalign']])
-    if (!is.null(CSS[['css.centeralign']])) css.centeralign <- ifelse(substring(CSS[['css.centeralign']],1,1)=='+', paste0(css.centeralign, substring(CSS[['css.centeralign']],2)), CSS[['css.centeralign']])
-    if (!is.null(CSS[['css.summary']])) css.summary <- ifelse(substring(CSS[['css.summary']],1,1)=='+', paste0(css.summary, substring(CSS[['css.summary']],2)), CSS[['css.summary']])
-    if (!is.null(CSS[['css.lasttablerow']])) css.lasttablerow <- ifelse(substring(CSS[['css.lasttablerow']],1,1)=='+', paste0(css.lasttablerow, substring(CSS[['css.lasttablerow']],2)), CSS[['css.lasttablerow']])
-    if (!is.null(CSS[['css.labelcellborder']])) css.labelcellborder <- ifelse(substring(CSS[['css.labelcellborder']],1,1)=='+', paste0(css.table, substring(CSS[['css.labelcellborder']],2)), CSS[['css.labelcellborder']])
-    if (!is.null(CSS[['css.colnames']])) css.colnames <- ifelse(substring(CSS[['css.colnames']],1,1)=='+', paste0(css.colnames, substring(CSS[['css.colnames']],2)), CSS[['css.colnames']])
-    if (!is.null(CSS[['css.firstsumrow']])) css.firstsumrow <- ifelse(substring(CSS[['css.firstsumrow']],1,1)=='+', paste0(css.firstsumrow, substring(CSS[['css.firstsumrow']],2)), CSS[['css.firstsumrow']])
-    if (!is.null(CSS[['css.topborder']])) css.topborder <- ifelse(substring(CSS[['css.topborder']],1,1)=='+', paste0(css.topborder, substring(CSS[['css.topborder']],2)), CSS[['css.topborder']])
-    if (!is.null(CSS[['css.depvarhead']])) css.depvarhead <- ifelse(substring(CSS[['css.depvarhead']],1,1)=='+', paste0(css.depvarhead, substring(CSS[['css.depvarhead']],2)), CSS[['css.depvarhead']])
-    if (!is.null(CSS[['css.topcontentborder']])) css.topcontentborder <- ifelse(substring(CSS[['css.topcontentborder']],1,1)=='+', paste0(css.topcontentborder, substring(CSS[['css.topcontentborder']],2)), CSS[['css.topcontentborder']])
-    if (!is.null(CSS[['css.annorow']])) css.annorow <- ifelse(substring(CSS[['css.annorow']],1,1)=='+', paste0(css.annorow, substring(CSS[['css.annorow']],2)), CSS[['css.annorow']])
-    if (!is.null(CSS[['css.noannorow']])) css.noannorow <- ifelse(substring(CSS[['css.noannorow']],1,1)=='+', paste0(css.noannorow, substring(CSS[['css.noannorow']],2)), CSS[['css.noannorow']])
-    if (!is.null(CSS[['css.annostyle']])) css.annostyle <- ifelse(substring(CSS[['css.annostyle']],1,1)=='+', paste0(css.annostyle, substring(CSS[['css.annostyle']],2)), CSS[['css.annostyle']])
-    if (!is.null(CSS[['css.grouprow']])) css.grouprow <- ifelse(substring(CSS[['css.grouprow']],1,1)=='+', paste0(css.grouprow, substring(CSS[['css.grouprow']],2)), CSS[['css.grouprow']])
-    if (!is.null(CSS[['css.tgrpdata']])) css.tgrpdata <- ifelse(substring(CSS[['css.tgrpdata']],1,1)=='+', paste0(css.tgrpdata, substring(CSS[['css.tgrpdata']],2)), CSS[['css.tgrpdata']])
-    if (!is.null(CSS[['css.modelcolumn1']])) css.modelcolumn1 <- ifelse(substring(CSS[['css.modelcolumn1']],1,1)=='+', paste0(css.modelcolumn1, substring(CSS[['css.modelcolumn1']],2)), CSS[['css.modelcolumn1']])
-    if (!is.null(CSS[['css.modelcolumn2']])) css.modelcolumn2 <- ifelse(substring(CSS[['css.modelcolumn2']],1,1)=='+', paste0(css.modelcolumn2, substring(CSS[['css.modelcolumn2']],2)), CSS[['css.modelcolumn2']])
-    if (!is.null(CSS[['css.modelcolumn3']])) css.modelcolumn3 <- ifelse(substring(CSS[['css.modelcolumn3']],1,1)=='+', paste0(css.modelcolumn3, substring(CSS[['css.modelcolumn3']],2)), CSS[['css.modelcolumn3']])
-    if (!is.null(CSS[['css.modelcolumn4']])) css.modelcolumn4 <- ifelse(substring(CSS[['css.modelcolumn4']],1,1)=='+', paste0(css.modelcolumn4, substring(CSS[['css.modelcolumn4']],2)), CSS[['css.modelcolumn4']])
-    if (!is.null(CSS[['css.modelcolumn5']])) css.modelcolumn5 <- ifelse(substring(CSS[['css.modelcolumn5']],1,1)=='+', paste0(css.modelcolumn5, substring(CSS[['css.modelcolumn5']],2)), CSS[['css.modelcolumn5']])
-    if (!is.null(CSS[['css.modelcolumn6']])) css.modelcolumn6 <- ifelse(substring(CSS[['css.modelcolumn6']],1,1)=='+', paste0(css.modelcolumn6, substring(CSS[['css.modelcolumn6']],2)), CSS[['css.modelcolumn6']])
+    if (!is.null(CSS[['css.table']])) css.table <- ifelse(substring(CSS[['css.table']], 1, 1) == '+', paste0(css.table, substring(CSS[['css.table']], 2)), CSS[['css.table']])
+    if (!is.null(CSS[['css.thead']])) css.thead <- ifelse(substring(CSS[['css.thead']], 1, 1) == '+', paste0(css.thead, substring(CSS[['css.thead']], 2)), CSS[['css.thead']])
+    if (!is.null(CSS[['css.tdata']])) css.tdata <- ifelse(substring(CSS[['css.tdata']], 1, 1) == '+', paste0(css.tdata, substring(CSS[['css.tdata']], 2)), CSS[['css.tdata']])
+    if (!is.null(CSS[['css.leftalign']])) css.leftalign <- ifelse(substring(CSS[['css.leftalign']], 1, 1) == '+', paste0(css.leftalign, substring(CSS[['css.leftalign']], 2)), CSS[['css.leftalign']])
+    if (!is.null(CSS[['css.centeralign']])) css.centeralign <- ifelse(substring(CSS[['css.centeralign']], 1, 1) == '+', paste0(css.centeralign, substring(CSS[['css.centeralign']], 2)), CSS[['css.centeralign']])
+    if (!is.null(CSS[['css.summary']])) css.summary <- ifelse(substring(CSS[['css.summary']], 1, 1) == '+', paste0(css.summary, substring(CSS[['css.summary']], 2)), CSS[['css.summary']])
+    if (!is.null(CSS[['css.lasttablerow']])) css.lasttablerow <- ifelse(substring(CSS[['css.lasttablerow']], 1, 1) == '+', paste0(css.lasttablerow, substring(CSS[['css.lasttablerow']], 2)), CSS[['css.lasttablerow']])
+    if (!is.null(CSS[['css.labelcellborder']])) css.labelcellborder <- ifelse(substring(CSS[['css.labelcellborder']], 1, 1) == '+', paste0(css.table, substring(CSS[['css.labelcellborder']], 2)), CSS[['css.labelcellborder']])
+    if (!is.null(CSS[['css.colnames']])) css.colnames <- ifelse(substring(CSS[['css.colnames']], 1, 1) == '+', paste0(css.colnames, substring(CSS[['css.colnames']], 2)), CSS[['css.colnames']])
+    if (!is.null(CSS[['css.firstsumrow']])) css.firstsumrow <- ifelse(substring(CSS[['css.firstsumrow']], 1, 1) == '+', paste0(css.firstsumrow, substring(CSS[['css.firstsumrow']], 2)), CSS[['css.firstsumrow']])
+    if (!is.null(CSS[['css.topborder']])) css.topborder <- ifelse(substring(CSS[['css.topborder']], 1, 1) == '+', paste0(css.topborder, substring(CSS[['css.topborder']], 2)), CSS[['css.topborder']])
+    if (!is.null(CSS[['css.depvarhead']])) css.depvarhead <- ifelse(substring(CSS[['css.depvarhead']], 1, 1) == '+', paste0(css.depvarhead, substring(CSS[['css.depvarhead']], 2)), CSS[['css.depvarhead']])
+    if (!is.null(CSS[['css.topcontentborder']])) css.topcontentborder <- ifelse(substring(CSS[['css.topcontentborder']], 1, 1) == '+', paste0(css.topcontentborder, substring(CSS[['css.topcontentborder']], 2)), CSS[['css.topcontentborder']])
+    if (!is.null(CSS[['css.annorow']])) css.annorow <- ifelse(substring(CSS[['css.annorow']], 1, 1) == '+', paste0(css.annorow, substring(CSS[['css.annorow']], 2)), CSS[['css.annorow']])
+    if (!is.null(CSS[['css.noannorow']])) css.noannorow <- ifelse(substring(CSS[['css.noannorow']], 1, 1) == '+', paste0(css.noannorow, substring(CSS[['css.noannorow']], 2)), CSS[['css.noannorow']])
+    if (!is.null(CSS[['css.annostyle']])) css.annostyle <- ifelse(substring(CSS[['css.annostyle']], 1, 1) == '+', paste0(css.annostyle, substring(CSS[['css.annostyle']], 2)), CSS[['css.annostyle']])
+    if (!is.null(CSS[['css.grouprow']])) css.grouprow <- ifelse(substring(CSS[['css.grouprow']], 1, 1) == '+', paste0(css.grouprow, substring(CSS[['css.grouprow']], 2)), CSS[['css.grouprow']])
+    if (!is.null(CSS[['css.tgrpdata']])) css.tgrpdata <- ifelse(substring(CSS[['css.tgrpdata']], 1, 1) == '+', paste0(css.tgrpdata, substring(CSS[['css.tgrpdata']], 2)), CSS[['css.tgrpdata']])
+    if (!is.null(CSS[['css.modelcolumn1']])) css.modelcolumn1 <- ifelse(substring(CSS[['css.modelcolumn1']], 1, 1) == '+', paste0(css.modelcolumn1, substring(CSS[['css.modelcolumn1']], 2)), CSS[['css.modelcolumn1']])
+    if (!is.null(CSS[['css.modelcolumn2']])) css.modelcolumn2 <- ifelse(substring(CSS[['css.modelcolumn2']], 1, 1) == '+', paste0(css.modelcolumn2, substring(CSS[['css.modelcolumn2']], 2)), CSS[['css.modelcolumn2']])
+    if (!is.null(CSS[['css.modelcolumn3']])) css.modelcolumn3 <- ifelse(substring(CSS[['css.modelcolumn3']], 1, 1) == '+', paste0(css.modelcolumn3, substring(CSS[['css.modelcolumn3']], 2)), CSS[['css.modelcolumn3']])
+    if (!is.null(CSS[['css.modelcolumn4']])) css.modelcolumn4 <- ifelse(substring(CSS[['css.modelcolumn4']], 1, 1) == '+', paste0(css.modelcolumn4, substring(CSS[['css.modelcolumn4']], 2)), CSS[['css.modelcolumn4']])
+    if (!is.null(CSS[['css.modelcolumn5']])) css.modelcolumn5 <- ifelse(substring(CSS[['css.modelcolumn5']], 1, 1) == '+', paste0(css.modelcolumn5, substring(CSS[['css.modelcolumn5']], 2)), CSS[['css.modelcolumn5']])
+    if (!is.null(CSS[['css.modelcolumn6']])) css.modelcolumn6 <- ifelse(substring(CSS[['css.modelcolumn6']], 1, 1) == '+', paste0(css.modelcolumn6, substring(CSS[['css.modelcolumn6']], 2)), CSS[['css.modelcolumn6']])
   }
   # ------------------------
   # set page style
@@ -561,50 +560,53 @@ sjt.lm <- function (...,
     # -------------------------------------
     fit.df <- data.frame(names(coef(fit)))
     fit.df$coeffs <- sprintf("%.*f", digits.est, coef(fit))
-    fit.df$confi_lower <- sprintf("%.*f", digits.ci, confis[,1])
-    fit.df$confi_higher <- sprintf("%.*f", digits.ci, confis[,2])
+    fit.df$confi_lower <- sprintf("%.*f", digits.ci, confis[, 1])
+    fit.df$confi_higher <- sprintf("%.*f", digits.ci, confis[, 2])
     # p-values
-    fit.df$pv <- round(summary(fit)$coefficients[,4], digits.p)
+    fit.df$pv <- round(summary(fit)$coefficients[, 4], digits.p)
     # standard error
-    fit.df$se <- sprintf("%.*f", digits.se, summary(fit)$coefficients[,2])
+    fit.df$se <- sprintf("%.*f", digits.se, summary(fit)$coefficients[, 2])
     # retrieve standardized betas and CI
-    fit.df$stdbv <- c("", sprintf("%.*f", digits.sb, sbvals[,1]))
-    fit.df$stdbvci_lower <- c("", sprintf("%.*f", digits.ci, sbvals[,2]))
-    fit.df$stdbvci_higher <- c("", sprintf("%.*f", digits.ci, sbvals[,3]))
+    fit.df$stdbv <- c("", sprintf("%.*f", digits.sb, sbvals[, 1]))
+    fit.df$stdbvci_lower <- c("", sprintf("%.*f", digits.ci, sbvals[, 2]))
+    fit.df$stdbvci_higher <- c("", sprintf("%.*f", digits.ci, sbvals[, 3]))
     # -------------------------------------
     # prepare p-values, either as * or as numbers
     # -------------------------------------
     if (!pvaluesAsNumbers) {
       fit.df$pv <- sapply(fit.df$pv, function(x) {
-        if (x>=0.05) x <- c("")
-        else if (x>=0.01 && x<0.05) x <- c("*")
-        else if (x>=0.001 && x<0.01) x <- c("**")
-        else if (x<0.001) x <- c("***")
+        if (x >= 0.05) x <- c("")
+        else if (x >= 0.01 && x < 0.05) x <- c("*")
+        else if (x >= 0.001 && x < 0.01) x <- c("**")
+        else if (x < 0.001) x <- c("***")
       })
-    }
-    else {
+    } else {
       if (boldpvalues) {
         sb1 <- "<b>"
         sb2 <- "</b>"
-      }
-      else {
+      } else {
         sb1 <- sb2 <- ""
       }
       fit.df$pv <- sapply(fit.df$pv, function(x) {
-        if (x <0.05) {
+        if (x < 0.05) {
           if (x < 0.001) {
             x <- sprintf("%s&lt;0.001%s", sb1, sb2)
-          }
-          else {
+          } else {
             x <- sprintf("%s%.*f%s", sb1, digits.p, x, sb2)
           }
-        }
-        else {
+        } else {
           x <- sprintf("%.*f", digits.p, x) 
         }
         # remove leading zero, APA style for p-value
-        x <- sub("0", p_zero, x)
+        x <- sub("0", p_zero, x, fixed = TRUE)
       })
+    }
+    # -------------------------------------
+    # retrieve factors and number of levels
+    # -------------------------------------
+    for (f in 1:ncol(fit$model)) {
+      fit.df$is_fac[f] <- is.factor(fit$model[, f])
+      fit.df$fac_lvl[f] <- length(levels(fit$model[, f]))
     }
     # -------------------------------------
     # set column names. we need the same name
@@ -621,14 +623,17 @@ sjt.lm <- function (...,
                           sprintf("se%i", i),
                           sprintf("std.beta%i", i),
                           sprintf("std.beta.ci.lo%i", i),
-                          sprintf("std.beta.ci.hi%i", i))
+                          sprintf("std.beta.ci.hi%i", i),
+                          sprintf("categorical%i", i),
+                          sprintf("fac.levels%i", i))
     # -------------------------------------
     # add to df list
     # -------------------------------------
     df.fit[[length(df.fit) + 1]] <- fit.df
   }
   # -------------------------------------
-  # join all data frame
+  # join all data frame, i.e. "merge" all
+  # model predictors into a single data frame
   # -------------------------------------
   joined.df <- df.fit[[1]]
   if (length(df.fit) > 1) {
@@ -665,7 +670,7 @@ sjt.lm <- function (...,
     if (any(remove.estimates == 1)) {
       # remove intercept index
       remove.estimates <- remove.estimates[-which(remove.estimates == 1)]
-      message("Intercept cannot be removed from table output.")
+      message("Intercept cannot be removed from table output. However, you may fake with style sheet, e.g. CSS = list(css.topcontentborder = \"+font-size: 0px;\").")
     }
     # create all row indices
     rowind <- c(1:nrow(joined.df))
@@ -675,6 +680,18 @@ sjt.lm <- function (...,
     joined.df <- dplyr::slice(joined.df, keep.estimates)
   }
   # -------------------------------------
+  # copy all variables with factor status and levels
+  # -------------------------------------
+  fac_cat.df <- dplyr::select(joined.df, starts_with("categorical")) 
+  fac_lvl.df <- dplyr::select(joined.df, starts_with("fac.levels")) 
+  # -------------------------------------
+  # remove all variables with factor status 
+  # and levels from joined.df
+  # -------------------------------------
+  joined.df <- dplyr::select(joined.df, 
+                             -c(starts_with("categorical"), 
+                               starts_with("fac.levels")))
+  # -------------------------------------
   # if confidence interval should be omitted,
   # don't use separate column for CI!
   # -------------------------------------
@@ -682,8 +699,7 @@ sjt.lm <- function (...,
     separateConfColumn <- FALSE
     showCIString <- stringB
     showCIStringSB <- stringSB
-  }
-  else {
+  } else {
     showCIString <- sprintf("%s (%s)", stringB, stringCI)
     showCIStringSB <- sprintf("%s (%s)", stringSB, stringCI)
   }
@@ -694,11 +710,11 @@ sjt.lm <- function (...,
   headerColSpanFactor <- 1
   if (!showEst) headerColSpanFactor <- 0
   if (!showEst && separateConfColumn) headerColSpanFactor <- -1
-  if (pvaluesAsNumbers) headerColSpanFactor <- headerColSpanFactor+1
-  if (separateConfColumn) headerColSpanFactor <- headerColSpanFactor+1
-  if (showStdBeta) headerColSpanFactor <- headerColSpanFactor+1
-  if (showStdBeta && separateConfColumn) headerColSpanFactor <- headerColSpanFactor+1
-  if (showStdError) headerColSpanFactor <- headerColSpanFactor+1
+  if (pvaluesAsNumbers) headerColSpanFactor <- headerColSpanFactor + 1
+  if (separateConfColumn) headerColSpanFactor <- headerColSpanFactor + 1
+  if (showStdBeta) headerColSpanFactor <- headerColSpanFactor + 1
+  if (showStdBeta && separateConfColumn) headerColSpanFactor <- headerColSpanFactor + 1
+  if (showStdError) headerColSpanFactor <- headerColSpanFactor + 1
   
   headerColSpan <- headerColSpanFactor * headerColSpan
   linebreakstring <- " "
@@ -733,21 +749,25 @@ sjt.lm <- function (...,
   # -------------------------------------
   if (!is.null(labelDependentVariables)) {
     for (i in 1:length(labelDependentVariables)) {
-      if (headerColSpanFactor>1) {
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\" colspan=\"%i\">%s</td>", tcp, headerColSpanFactor, labelDependentVariables[i]))
-      }
-      else {
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\">%s</td>", tcp, labelDependentVariables[i]))
+      if (headerColSpanFactor > 1) {
+        page.content <- paste0(page.content, 
+                               sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\" colspan=\"%i\">%s</td>", 
+                                       tcp, 
+                                       headerColSpanFactor, 
+                                       labelDependentVariables[i]))
+      } else {
+        page.content <- paste0(page.content, 
+                               sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\">%s</td>", 
+                                       tcp, 
+                                       labelDependentVariables[i]))
       }
     }
     page.content <- paste0(page.content, "\n  </tr>")
-  }
-  else {
+  } else {
     for (i in 1:length(input_list)) {
-      if (headerColSpanFactor>1) {
+      if (headerColSpanFactor > 1) {
         page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\" colspan=\"%i\">%s %i</td>", tcp, headerColSpanFactor, stringModel, i))
-      }
-      else {
+      } else {
         page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\">%s %i</td>", tcp, stringModel, i))
       }
     }
@@ -765,8 +785,7 @@ sjt.lm <- function (...,
         if (separateConfColumn) {
           page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign colnames modelcolumn1\">%s</td>", stringB))
           if (showConfInt) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames modelcolumn2\">%s</td>", stringCI))
-        }
-        else {
+        } else {
           # confidence interval in Beta-column
           page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign colnames modelcolumn1\">%s</td>", showCIString))
         }
@@ -779,8 +798,7 @@ sjt.lm <- function (...,
         if (separateConfColumn) {
           page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames modelcolumn4\">%s</td>", stringSB))
           if (showConfInt) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames modelcolumn5\">%s</td>", stringCI))
-        }
-        else {
+        } else {
           # confidence interval in Beta-column
           page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign colnames modelcolumn4\">%s</td>", showCIStringSB))
         }
@@ -821,8 +839,7 @@ sjt.lm <- function (...,
     # if we have also stepwise models, grouping may
     # not work properly
     if (sw.fit) message("Fitted models have different coefficients. Grouping may not work properly. Set 'group.pred = FALSE' if you encouter cluttered labelling.")
-  }
-  else {
+  } else {
     group.pred.rows <- group.pred.span <- group.pred.labs <- NULL
   }
   # -------------------------------------
@@ -836,12 +853,12 @@ sjt.lm <- function (...,
       # confidence interval in separate column
       if (separateConfColumn) {
         # open table cell for Beta-coefficient
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign topcontentborder modelcolumn1\">%s", joined.df[1, (i-1)*8+2]))
+        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign topcontentborder modelcolumn1\">%s", joined.df[1, (i - 1) * 8 + 2]))
         # if p-values are not shown as numbers, insert them after beta-value
-        if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[1, (i-1)*8+5]))
+        if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[1, (i - 1) * 8 + 5]))
         # if we have CI, start new table cell (CI in separate column)
         if (showConfInt) {
-          page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign topcontentborder modelcolumn2\">%s&nbsp;-&nbsp;%s</td>", joined.df[1, (i-1)*8+3], joined.df[1, (i-1)*8+4]))
+          page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign topcontentborder modelcolumn2\">%s&nbsp;-&nbsp;%s</td>", joined.df[1, (i - 1) * 8 + 3], joined.df[1, (i - 1) * 8 + 4]))
         }
         else {
           page.content <- paste0(page.content, "</td>")
@@ -849,28 +866,28 @@ sjt.lm <- function (...,
       }
       else {
         # open table cell for Beta-coefficient
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign topcontentborder modelcolumn1\">%s", joined.df[1, (i-1)*8+2]))
+        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign topcontentborder modelcolumn1\">%s", joined.df[1, (i - 1) * 8 + 2]))
         # confidence interval in Beta-column
-        if (showConfInt) page.content <- paste0(page.content, sprintf("%s(%s&nbsp;-&nbsp;%s)", linebreakstring, joined.df[1, (i-1)*8+3], joined.df[1, (i-1)*8+4]))
+        if (showConfInt) page.content <- paste0(page.content, sprintf("%s(%s&nbsp;-&nbsp;%s)", linebreakstring, joined.df[1, (i - 1) * 8 + 3], joined.df[1, (i - 1) * 8 + 4]))
         # if p-values are not shown as numbers, insert them after beta-value
-        if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[1, (i-1)*8+5]))
+        if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[1, (i - 1) * 8 + 5]))
         page.content <- paste0(page.content, "</td>")
       }
     }
     # show std. error
-    if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign topcontentborder modelcolumn3\">%s</td>", joined.df[1, (i-1)*8+6]))
+    if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign topcontentborder modelcolumn3\">%s</td>", joined.df[1, (i - 1) * 8 + 6]))
     # show std. beta
     if (showStdBeta) page.content <- paste0(page.content, "<td class=\"tdata centeralign topcontentborder modelcolumn4\"></td>")
     # show std. beta
     if (showStdBeta && showConfInt && separateConfColumn) page.content <- paste0(page.content, "<td class=\"tdata centeralign topcontentborder modelcolumn5\"></td>")
     # show p-values as numbers in separate column
-    if (pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign topcontentborder modelcolumn6\">%s</td>", joined.df[1, (i-1)*8+5]))
+    if (pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign topcontentborder modelcolumn6\">%s</td>", joined.df[1, (i - 1) * 8 + 5]))
   }
   page.content <- paste0(page.content, "\n  </tr>")  
   # -------------------------------------
   # subsequent rows: predictors
   # -------------------------------------
-  for (i in 1:(nrow(joined.df)-1)) {
+  for (i in 1:(nrow(joined.df) - 1)) {
     # -------------------------------------
     # do we need to insert a "factor grouping headline row"?
     # -------------------------------------
@@ -884,8 +901,7 @@ sjt.lm <- function (...,
     }
     if (!is.null(group.pred.rows) && any(group.pred.span == i)) {
       indent.tag <- "tgrpdata"
-    }
-    else {
+    } else {
       indent.tag <- "tdata"
     }
     page.content <- paste0(page.content, "\n  <tr>\n", sprintf("    <td class=\"%s leftalign\">%s</td>", indent.tag, labelPredictors[i]))
@@ -900,73 +916,68 @@ sjt.lm <- function (...,
       # show estimates?
       if (showEst) {
         # retieve lower and upper ci
-        ci.lo <- joined.df[i+1, (j-1)*8+3]
-        ci.hi <- joined.df[i+1, (j-1)*8+4]
+        ci.lo <- joined.df[i + 1, (j - 1) * 8 + 3]
+        ci.hi <- joined.df[i + 1, (j - 1) * 8 + 4]
         ci.sep.string <- ifelse(is_empty(ci.lo), "", "&nbsp;-&nbsp;")
         # confidence interval in separate column
         if (separateConfColumn) {
           # open table cell for Beta-coefficient
-          page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumn1\">%s", joined.df[i+1, (j-1)*8+2]))
+          page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumn1\">%s", joined.df[i + 1, (j - 1) * 8 + 2]))
           # if p-values are not shown as numbers, insert them after beta-value
-          if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[i+1, (j-1)*8+5]))
+          if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[i + 1, (j - 1) * 8 + 5]))
           # if we have CI, start new table cell (CI in separate column)
           if (showConfInt) {
             page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign modelcolumn2\">%s%s%s</td>", ci.lo, ci.sep.string, ci.hi))
-          }
-          else {
+          } else {
             page.content <- paste0(page.content, "</td>")
           }
-        }
-        else {
+        } else {
           # open table cell for Beta-coefficient
-          page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumn1\">%s", joined.df[i+1, (j-1)*8+2]))
+          page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumn1\">%s", joined.df[i + 1, (j - 1) * 8 + 2]))
           # confidence interval in Beta-column
           if (showConfInt && !is_empty(ci.lo)) page.content <- paste0(page.content, sprintf("%s(%s%s%s)", linebreakstring, ci.lo, ci.sep.string, ci.hi))
           # if p-values are not shown as numbers, insert them after beta-value
-          if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[i+1, (j-1)*8+5]))
+          if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[i + 1, (j - 1) * 8 + 5]))
           page.content <- paste0(page.content, "</td>")
         }
       }
       # show std. error
-      if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign modelcolumn3\">%s</td>", joined.df[i+1, (j-1)*8+6]))
+      if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign modelcolumn3\">%s</td>", joined.df[i + 1, (j - 1) * 8 + 6]))
       # show std. beta
       if (showStdBeta) {
         # retieve lower and upper ci
-        ci.lo <- joined.df[i+1, (j-1)*8+8]
-        ci.hi <- joined.df[i+1, (j-1)*8+9]
+        ci.lo <- joined.df[i + 1, (j - 1) * 8 + 8]
+        ci.hi <- joined.df[i + 1, (j - 1) * 8 + 9]
         ci.sep.string <- ifelse(is_empty(ci.lo), "", "&nbsp;-&nbsp;")
         if (separateConfColumn) {
           # open table cell for Beta-coefficient
-          page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign modelcolumn4\">%s", joined.df[i+1, (j-1)*8+7]))
+          page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign modelcolumn4\">%s", joined.df[i + 1, (j - 1) * 8 + 7]))
           # if we have CI, start new table cell (CI in separate column)
           if (showConfInt) {
             page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign modelcolumn5\">%s%s%s</td>", ci.lo, ci.sep.string, ci.hi))
-          }
-          else {
+          } else {
             page.content <- paste0(page.content, "</td>")
           }
-        }
-        else {
+        } else {
           # open table cell for Beta-coefficient
-          page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign modelcolumn4\">%s", joined.df[i+1, (j-1)*8+7]))
+          page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign modelcolumn4\">%s", joined.df[i + 1, (j - 1) * 8 + 7]))
           # confidence interval in Beta-column
           if (showConfInt && !is_empty(ci.lo)) page.content <- paste0(page.content, sprintf("%s(%s%s%s)", linebreakstring, ci.lo, ci.sep.string, ci.hi))
           page.content <- paste0(page.content, "</td>")
         }
       }
       # show p-values as numbers in separate column
-      if (pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign modelcolumn6\">%s</td>", joined.df[i+1, (j-1)*8+5]))
+      if (pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign modelcolumn6\">%s</td>", joined.df[i + 1, (j - 1) * 8 + 5]))
     }
     page.content <- paste0(page.content, "\n  </tr>")
   }
   # -------------------------------------
   # Model-Summary: N
   # -------------------------------------
-  if (headerColSpanFactor>1) {
+  if (headerColSpanFactor > 1) {
     colspanstring <- sprintf("<td class=\"tdata centeralign summary\" colspan=\"%i\">", headerColSpanFactor)
     colspanstringfirstrow <- sprintf("<td class=\"tdata summary centeralign firstsumrow\" colspan=\"%i\">", headerColSpanFactor)
-  }
-  else {
+  } else {
     colspanstring <- c("<td class=\"tdata centeralign summary\">")
     colspanstringfirstrow <- c("<td class=\"tdata summary centeralign firstsumrow\">")
   }
@@ -998,16 +1009,17 @@ sjt.lm <- function (...,
     for (i in 1:length(input_list)) {
       fstat <- summary(input_list[[i]])$fstatistic
       # Calculate p-value for F-test
-      pval <- pf(fstat[1], fstat[2], fstat[3],lower.tail = FALSE)
+      pval <- pf(fstat[1], 
+                 fstat[2], 
+                 fstat[3],
+                 lower.tail = FALSE)
       # indicate significance level by stars
       pan <- c("")
       if (pval < 0.001) {
         pan <- c("***")
-      }
-      else  if (pval < 0.01) {
+      } else  if (pval < 0.01) {
         pan <- c("**")
-      }
-      else  if (pval < 0.05) {
+      } else  if (pval < 0.05) {
         pan <- c("*")
       }
       page.content <- paste(page.content, sprintf("    %s%.*f%s</td>\n", colspanstring, digits.summary, fstat[1], pan))
@@ -1044,34 +1056,34 @@ sjt.lm <- function (...,
   # -------------------------------------
   # set style attributes for main table tags
   # -------------------------------------
-  knitr <- gsub("class=", "style=", knitr)
-  knitr <- gsub("<table", sprintf("<table style=\"%s\"", css.table), knitr)
+  knitr <- gsub("class=", "style=", knitr, fixed = TRUE)
+  knitr <- gsub("<table", sprintf("<table style=\"%s\"", css.table), knitr, fixed = TRUE)
   # -------------------------------------
   # replace class-attributes with inline-style-definitions
   # -------------------------------------
-  knitr <- gsub(tag.tdata, css.tdata, knitr)
-  knitr <- gsub(tag.thead, css.thead, knitr)
-  knitr <- gsub(tag.summary, css.summary, knitr)  
-  knitr <- gsub(tag.colnames, css.colnames, knitr)
-  knitr <- gsub(tag.leftalign, css.leftalign, knitr)
-  knitr <- gsub(tag.centeralign, css.centeralign, knitr)
-  knitr <- gsub(tag.firstsumrow, css.firstsumrow, knitr)
-  knitr <- gsub(tag.lasttablerow, css.lasttablerow, knitr)  
-  knitr <- gsub(tag.labelcellborder, css.labelcellborder, knitr)  
-  knitr <- gsub(tag.topborder, css.topborder, knitr)  
-  knitr <- gsub(tag.depvarhead, css.depvarhead, knitr)  
-  knitr <- gsub(tag.topcontentborder, css.topcontentborder, knitr)  
-  knitr <- gsub(tag.noannorow, css.noannorow, knitr)
-  knitr <- gsub(tag.annorow, css.annorow, knitr)  
-  knitr <- gsub(tag.annostyle, css.annostyle, knitr)  
-  knitr <- gsub(tag.grouprow, css.grouprow, knitr)
-  knitr <- gsub(tag.tgrpdata, css.tgrpdata, knitr)
-  knitr <- gsub(tag.modelcolumn1, css.modelcolumn1, knitr)
-  knitr <- gsub(tag.modelcolumn2, css.modelcolumn2, knitr)
-  knitr <- gsub(tag.modelcolumn3, css.modelcolumn3, knitr)
-  knitr <- gsub(tag.modelcolumn4, css.modelcolumn4, knitr)
-  knitr <- gsub(tag.modelcolumn5, css.modelcolumn5, knitr)
-  knitr <- gsub(tag.modelcolumn6, css.modelcolumn6, knitr)
+  knitr <- gsub(tag.tdata, css.tdata, knitr, fixed = TRUE)
+  knitr <- gsub(tag.thead, css.thead, knitr, fixed = TRUE)
+  knitr <- gsub(tag.summary, css.summary, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.colnames, css.colnames, knitr, fixed = TRUE)
+  knitr <- gsub(tag.leftalign, css.leftalign, knitr, fixed = TRUE)
+  knitr <- gsub(tag.centeralign, css.centeralign, knitr, fixed = TRUE)
+  knitr <- gsub(tag.firstsumrow, css.firstsumrow, knitr, fixed = TRUE)
+  knitr <- gsub(tag.lasttablerow, css.lasttablerow, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.labelcellborder, css.labelcellborder, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.topborder, css.topborder, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.depvarhead, css.depvarhead, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.topcontentborder, css.topcontentborder, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.noannorow, css.noannorow, knitr, fixed = TRUE)
+  knitr <- gsub(tag.annorow, css.annorow, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.annostyle, css.annostyle, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.grouprow, css.grouprow, knitr, fixed = TRUE)
+  knitr <- gsub(tag.tgrpdata, css.tgrpdata, knitr, fixed = TRUE)
+  knitr <- gsub(tag.modelcolumn1, css.modelcolumn1, knitr, fixed = TRUE)
+  knitr <- gsub(tag.modelcolumn2, css.modelcolumn2, knitr, fixed = TRUE)
+  knitr <- gsub(tag.modelcolumn3, css.modelcolumn3, knitr, fixed = TRUE)
+  knitr <- gsub(tag.modelcolumn4, css.modelcolumn4, knitr, fixed = TRUE)
+  knitr <- gsub(tag.modelcolumn5, css.modelcolumn5, knitr, fixed = TRUE)
+  knitr <- gsub(tag.modelcolumn6, css.modelcolumn6, knitr, fixed = TRUE)
   # -------------------------------------
   # remove spaces?
   # -------------------------------------

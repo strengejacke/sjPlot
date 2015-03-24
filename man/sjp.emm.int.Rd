@@ -79,18 +79,20 @@ Please note that all interaction terms have to be of type \code{\link{factor}}!
 # fitting linear models. I just used them because they are part of the R-software.
 
 # prepare data frame
-df <- data.frame(mpg=mtcars$mpg,vs=factor(mtcars$vs),am=factor(mtcars$am))
+df <- data.frame(mpg = mtcars$mpg,
+                 vs = factor(mtcars$vs),
+                 am = factor(mtcars$am))
 # fit "dummy" model.
-fit <- lm(mpg~vs+am+vs:am, data=df)
+fit <- lm(mpg ~ vs + am + vs:am, data = df)
 # show summary to see significant interactions
 summary(fit)
 
 # plot marginal means of interaction terms
 # note we have to adjust plevel, because no interaction
 # is significant
-sjp.emm.int(fit, plevel=1)
+sjp.emm.int(fit, plevel = 1)
 # plot marginal means of interaction terms, including value labels
-sjp.emm.int(fit, plevel=1, showValueLabels=TRUE)
+sjp.emm.int(fit, plevel = 1, showValueLabels = TRUE)
 
 
 # load sample data set
@@ -98,26 +100,26 @@ library(sjmisc)
 data(efc)
 # create data frame with variables that should be included
 # in the model
-df <- as.data.frame(cbind(burden=efc$neg_c_7,
-                          sex=efc$c161sex,
-                          education=efc$c172code))
+mydf <- data.frame(burden = efc$neg_c_7,
+                   sex = efc$c161sex,
+                   education = efc$c172code)
 # convert gender predictor to factor
-df$sex <- factor(df$sex)
-df$education <- factor(df$education)
+mydf$sex <- factor(mydf$sex)
+mydf$education <- factor(mydf$education)
 # name factor levels and dependent variable
-levels(df$sex) <- c("female", "male")
-levels(df$education) <- c("low", "mid", "high")
-df$burden <- set_var_labels(df$burden, "care burden")
+levels(mydf$sex) <- c("female", "male")
+levels(mydf$education) <- c("low", "mid", "high")
+mydf$burden <- set_var_labels(mydf$burden, "care burden")
 # fit "dummy" model
-fit <- lm(burden ~ .*., data=df, na.action=na.omit)
+fit <- lm(burden ~ .*., data = mydf, na.action = na.omit)
 summary(fit)
 
 # plot marginal means of interactions, no interaction found
 sjp.emm.int(fit)
 # plot marginal means of interactions, including those with p-value up to 1
-sjp.emm.int(fit, plevel=1)
+sjp.emm.int(fit, plevel = 1)
 # swap predictors
-sjp.emm.int(fit, plevel=1, swapPredictors=TRUE)}
+sjp.emm.int(fit, plevel = 1, swapPredictors = TRUE)}
 }
 \references{
 \href{http://www.theanalysisfactor.com/using-adjusted-means-to-interpret-moderators-in-analysis-of-covariance/}{Grace-Martin K: Using Adjusted Means to Interpret Moderators in Analysis of Covariance.}

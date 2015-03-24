@@ -8,7 +8,7 @@ sjp.glmm(..., title = NULL, labelDependentVariables = NULL,
   legendDepVarTitle = "Dependent Variables", legendPValTitle = "p-level",
   stringModel = "Model", axisLabels.y = NULL, axisTitle.x = "Odds Ratios",
   axisLimits = NULL, breakTitleAt = 50, breakLabelsAt = 25,
-  breakLegendAt = 20, gridBreaksAt = 0.5, transformTicks = FALSE,
+  breakLegendAt = 20, gridBreaksAt = 0.5, transformTicks = TRUE,
   geom.size = 3, geom.spacing = 0.4, geom.colors = "Dark2", nsAlpha = 1,
   usePShapes = FALSE, interceptLineType = 2,
   interceptLineColor = "grey70", coord.flip = TRUE, showIntercept = FALSE,
@@ -17,7 +17,8 @@ sjp.glmm(..., title = NULL, labelDependentVariables = NULL,
   printPlot = TRUE)
 }
 \arguments{
-\item{...}{One or more fitted glm-objects.}
+\item{...}{One or more fitted glm-objects. May also be a \code{\link{list}}-object with
+fitted models, instead of separating each model with comma. See examples.}
 
 \item{title}{Diagram's title as string.
 Example: \code{title=c("my title")}}
@@ -128,28 +129,38 @@ Plot odds ratios (forest plots) of multiple fitted glm's with confidence interva
 }
 \examples{
 # prepare dummy variables for binary logistic regression
-y1 <- ifelse(swiss$Fertility<median(swiss$Fertility), 0, 1)
-y2 <- ifelse(swiss$Infant.Mortality<median(swiss$Infant.Mortality), 0, 1)
+y1 <- ifelse(swiss$Fertility < median(swiss$Fertility), 0, 1)
+y2 <- ifelse(swiss$Infant.Mortality < median(swiss$Infant.Mortality), 0, 1)
 y3 <- ifelse(swiss$Agriculture<median(swiss$Agriculture), 0, 1)
 
 # Now fit the models. Note that all models share the same predictors
 # and only differ in their dependent variable (y1, y2 and y3)
-fitOR1 <- glm(y1 ~ swiss$Education+swiss$Examination+swiss$Catholic,
-              family=binomial(link="logit"))
-fitOR2 <- glm(y2 ~ swiss$Education+swiss$Examination+swiss$Catholic,
-              family=binomial(link="logit"))
-fitOR3 <- glm(y3 ~ swiss$Education+swiss$Examination+swiss$Catholic,
-              family=binomial(link="logit"))
+fitOR1 <- glm(y1 ~ swiss$Education + swiss$Examination + swiss$Catholic,
+              family = binomial(link = "logit"))
+fitOR2 <- glm(y2 ~ swiss$Education + swiss$Examination + swiss$Catholic,
+              family = binomial(link = "logit"))
+fitOR3 <- glm(y3 ~ swiss$Education + swiss$Examination + swiss$Catholic,
+              family = binomial(link = "logit"))
 
 # plot multiple models
-sjp.glmm(fitOR1, fitOR2, fitOR3, facet.grid=TRUE)
+sjp.glmm(fitOR1, fitOR2, fitOR3, facet.grid = TRUE)
 
 # plot multiple models with legend labels and point shapes instead of value  labels
 sjp.glmm(fitOR1, fitOR2, fitOR3,
-         labelDependentVariables=c("Fertility", "Infant Mortality", "Agriculture"),
-         showValueLabels=FALSE,
-         showPValueLabels=FALSE,
-         usePShapes=TRUE,
-         nsAlpha=0.2)
+         labelDependentVariables = c("Fertility",
+                                     "Infant Mortality",
+                                     "Agriculture"),
+         showValueLabels = FALSE,
+         showPValueLabels = FALSE,
+         usePShapes = TRUE,
+         nsAlpha = 0.2)
+
+# plot multiple models from nested lists parameter
+all.models <- list()
+all.models[[1]] <- fitOR1
+all.models[[2]] <- fitOR2
+all.models[[3]] <- fitOR3
+
+sjp.glmm(all.models)
 }
 

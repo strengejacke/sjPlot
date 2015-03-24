@@ -59,18 +59,20 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("xn", "vld"))
 #' # fitting linear models. I just used them because they are part of the R-software.
 #' 
 #' # prepare data frame
-#' df <- data.frame(mpg=mtcars$mpg,vs=factor(mtcars$vs),am=factor(mtcars$am))
+#' df <- data.frame(mpg = mtcars$mpg,
+#'                  vs = factor(mtcars$vs),
+#'                  am = factor(mtcars$am))
 #' # fit "dummy" model.
-#' fit <- lm(mpg~vs+am+vs:am, data=df)
+#' fit <- lm(mpg ~ vs + am + vs:am, data = df)
 #' # show summary to see significant interactions
 #' summary(fit)
 #' 
 #' # plot marginal means of interaction terms
 #' # note we have to adjust plevel, because no interaction
 #' # is significant
-#' sjp.emm.int(fit, plevel=1)
+#' sjp.emm.int(fit, plevel = 1)
 #' # plot marginal means of interaction terms, including value labels
-#' sjp.emm.int(fit, plevel=1, showValueLabels=TRUE)
+#' sjp.emm.int(fit, plevel = 1, showValueLabels = TRUE)
 #' 
 #' 
 #' # load sample data set
@@ -78,26 +80,26 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("xn", "vld"))
 #' data(efc)
 #' # create data frame with variables that should be included
 #' # in the model
-#' df <- as.data.frame(cbind(burden=efc$neg_c_7,
-#'                           sex=efc$c161sex, 
-#'                           education=efc$c172code))
+#' mydf <- data.frame(burden = efc$neg_c_7,
+#'                    sex = efc$c161sex, 
+#'                    education = efc$c172code)
 #' # convert gender predictor to factor                         
-#' df$sex <- factor(df$sex)
-#' df$education <- factor(df$education)
+#' mydf$sex <- factor(mydf$sex)
+#' mydf$education <- factor(mydf$education)
 #' # name factor levels and dependent variable
-#' levels(df$sex) <- c("female", "male")
-#' levels(df$education) <- c("low", "mid", "high")
-#' df$burden <- set_var_labels(df$burden, "care burden")
+#' levels(mydf$sex) <- c("female", "male")
+#' levels(mydf$education) <- c("low", "mid", "high")
+#' mydf$burden <- set_var_labels(mydf$burden, "care burden")
 #' # fit "dummy" model
-#' fit <- lm(burden ~ .*., data=df, na.action=na.omit)
+#' fit <- lm(burden ~ .*., data = mydf, na.action = na.omit)
 #' summary(fit)
 #' 
 #' # plot marginal means of interactions, no interaction found
 #' sjp.emm.int(fit)
 #' # plot marginal means of interactions, including those with p-value up to 1
-#' sjp.emm.int(fit, plevel=1)
+#' sjp.emm.int(fit, plevel = 1)
 #' # swap predictors
-#' sjp.emm.int(fit, plevel=1, swapPredictors=TRUE)}
+#' sjp.emm.int(fit, plevel = 1, swapPredictors = TRUE)}
 #' 
 #' 
 #' @import ggplot2
@@ -131,19 +133,15 @@ sjp.emm.int <- function(fit,
   # -----------------------------------------------------------
   # parameter check
   # -----------------------------------------------------------
-  if (is.null(gridBreaksAt)) {
-    gridbreaks.x <- gridbreaks.y <- waiver()
-  }
+  if (is.null(gridBreaksAt)) gridbreaks.x <- gridbreaks.y <- waiver()
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
-  if (!is.null(legendLabels) && is.list(legendLabels)) {
-    legendLabels <- unlistlabels(legendLabels)
-  }
+  if (!is.null(legendLabels) && is.list(legendLabels)) legendLabels <- unlistlabels(legendLabels)
   # -----------------------------------------------------------
   # retrieve p-values, without intercept
   # -----------------------------------------------------------
-  pval <- summary(fit)$coefficients[-1,4]
+  pval <- summary(fit)$coefficients[-1, 4]
   # -----------------------------------------------------------
   # find all significant interactions
   # we start looking for significant p-values beginning
@@ -165,9 +163,7 @@ sjp.emm.int <- function(fit,
     # thus if it is an interaction term
     pos <- grep(":", it[i])
     # if yes...
-    if (length(pos)>0) {
-      it.names <- c(it.names, it[i])
-    }
+    if (length(pos) > 0) it.names <- c(it.names, it[i])
   }
   # loop all coefficients
   for (i in 1:length(cf)) {
@@ -175,16 +171,16 @@ sjp.emm.int <- function(fit,
     # thus if it is an interaction term
     pos <- grep(":", cf[i])
     # if yes...
-    if (length(pos)>0) {
+    if (length(pos) > 0) {
       # ... increase counter of interactions
-      it.nr <- it.nr+1
+      it.nr <- it.nr + 1
       # ... and save position of coefficient in model
       it.pos <- c(it.pos, i)
     }
   }
   # check whether we have any interaction terms included at all
-  if(it.nr==0) {
-    stop("No interaction term found in fitted model...", call.=FALSE)
+  if(it.nr == 0) {
+    stop("No interaction term found in fitted model...", call. = FALSE)
   }
   # save names of interaction predictor variables into this object
   # but only those with a specific p-level
@@ -195,8 +191,8 @@ sjp.emm.int <- function(fit,
     }
   }
   # check for any signigicant interactions, stop if nothing found
-  if (is.null(intnames) || 0==length(intnames)) {
-    stop("No significant interactions found...", call.=FALSE)
+  if (is.null(intnames) || 0 == length(intnames)) {
+    stop("No significant interactions found...", call. = FALSE)
   }
   # -----------------------------------------------------------
   # Now iterate all interaction terms from model
@@ -244,7 +240,12 @@ sjp.emm.int <- function(fit,
     # -----------------------------------------------------------
     emm <- summary(lsmeans::lsmeans.character(fit, term.pairs))
     # create data frame from lsmeans
-    intdf <- data.frame(emm[2], emm[3], emm[1], emm[6], emm[7], rep(valueLabel.digits, times=nrow(emm[1])))
+    intdf <- data.frame(emm[2], 
+                        emm[3],
+                        emm[1], 
+                        emm[6], 
+                        emm[7], 
+                        rep(valueLabel.digits, times = nrow(emm[1])))
     colnames(intdf) <- c("x", "y", "grp", "l.ci", "u.ci", "vld")
     # -----------------------------------------------------------
     # convert df-values to numeric
@@ -253,7 +254,7 @@ sjp.emm.int <- function(fit,
     # add numeric x for geom_line
     intdf$xn <- as.numeric(intdf$x)
     # order data frame
-    intdf <- intdf[order(intdf$grp),]
+    intdf <- intdf[order(intdf$grp), ]
     # -----------------------------------------------------------
     # retrieve lowest and highest x and y position to determine
     # the scale limits
@@ -269,7 +270,7 @@ sjp.emm.int <- function(fit,
     # check whether user defined grid breaks / tick marks are used
     # -----------------------------------------------------------
     if (!is.null(gridBreaksAt)) {
-      gridbreaks.y <- c(seq(lowerLim.y, upperLim.y, by=gridBreaksAt))
+      gridbreaks.y <- c(seq(lowerLim.y, upperLim.y, by = gridBreaksAt))
     }
     # -----------------------------------------------------------
     # prepare label and name from depend variable
@@ -277,10 +278,8 @@ sjp.emm.int <- function(fit,
     # get variable label attribute
     var.attr <- attr(fit$model[[1]], "variable.label")
     # check if we have any
-    if (is.null(var.attr)) {
-      # if NULL, might be haven label style
-      var.attr <- attr(fit$model[[1]], "label")
-    }
+    # if NULL, might be haven label style
+    if (is.null(var.attr)) var.attr <- attr(fit$model[[1]], "label")
     response.name <- var.attr
     response.label <- unname(var.attr)    
     # -----------------------------------------------------------
@@ -294,7 +293,7 @@ sjp.emm.int <- function(fit,
       labtitle <- title
     }
     if (is.null(legendLabels)) {
-      lLabels <- levels(fit$model[term.pairs[1]][,1])
+      lLabels <- levels(fit$model[term.pairs[1]][, 1])
     } else {
       lLabels <- legendLabels
     }
@@ -319,23 +318,28 @@ sjp.emm.int <- function(fit,
     # prepare base plot of interactions
     # -----------------------------------------------------------
     baseplot <- ggplot(intdf) + 
-      geom_point(aes(x=x, y=y, colour=grp)) +
-      geom_line(aes(x=xn, y=y, colour=grp))
+      geom_point(aes(x = x, y = y, colour = grp)) +
+      geom_line(aes(x = xn, y = y, colour = grp))
     # ------------------------------------------------------------
     # plot value labels
     # ------------------------------------------------------------
     if (showValueLabels) {
       baseplot <- baseplot +
-        geom_text(aes(label=round(y,vld), x=x, y=y), vjust=1.5, show_guide=FALSE)
+        geom_text(aes(label = round(y, vld), x = x, y = y), 
+                  vjust = 1.5, 
+                  show_guide = FALSE)
     }
     # ------------------------------------------------------------------------------------
     # build plot object with theme and labels
     # ------------------------------------------------------------------------------------
     baseplot <- baseplot + 
       # set plot and axis titles
-      labs(title=labtitle, x=labx, y=laby, colour = term.pairs[1]) +
+      labs(title = labtitle, 
+           x = labx, 
+           y = laby, 
+           colour = term.pairs[1]) +
       # set axis scale breaks
-      scale_y_continuous(limits=c(lowerLim.y, upperLim.y), breaks=gridbreaks.y)
+      scale_y_continuous(limits = c(lowerLim.y, upperLim.y), breaks = gridbreaks.y)
     # ---------------------------------------------------------
     # set geom colors
     # ---------------------------------------------------------
@@ -345,8 +349,8 @@ sjp.emm.int <- function(fit,
     # ---------------------------------------------------------
     if (printPlot) print(baseplot)
     # concatenate plot object
-    plotlist[[length(plotlist)+1]] <- baseplot
-    dflist[[length(dflist)+1]] <- intdf
+    plotlist[[length(plotlist) + 1]] <- baseplot
+    dflist[[length(dflist) + 1]] <- intdf
   }
   # -------------------------------------
   # return results

@@ -181,6 +181,7 @@ Furthermore, there are some theme-presets, which can be used:
 \itemize{
   \item \code{"blank"}: a theme with no grids and axes.
   \item \code{"forest"}: a theme for forest plots, with no grids.
+  \item \code{"forestgrey"}: a theme for forest plots, with no grids, in "539" style.
   \item \code{"538"}: a grey-scaled theme inspired by \href{http://fivethirtyeight.com}{538-charts}, adapted from \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{minimaxir.com}.
   \item \code{"539"}: a slight modification of the 538-theme.
   \item \code{"scatter"}: a theme for scatter plots in 539-theme-style.

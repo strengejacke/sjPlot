@@ -7,7 +7,7 @@
 sjp.glm(fit, type = "dots", sortOdds = TRUE, title = NULL,
   axisLabels.y = NULL, axisTitle.x = "Odds Ratios", axisLimits = NULL,
   breakTitleAt = 50, breakLabelsAt = 25, gridBreaksAt = 0.5,
-  transformTicks = FALSE, geom.size = 3, geom.colors = "Set1",
+  transformTicks = TRUE, geom.size = 3, geom.colors = "Set1",
   hideErrorBars = FALSE, interceptLineType = 2,
   interceptLineColor = "grey70", coord.flip = TRUE, showIntercept = FALSE,
   showAxisLabels.y = TRUE, showValueLabels = TRUE, labelDigits = 2,

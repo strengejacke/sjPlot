@@ -505,8 +505,7 @@ sjp.lme4  <- function(fit,
       pred.labels <- rownames(mydf.ef)
       # check if intercept should be removed?
       if (!showIntercept) pred.labels <- pred.labels[-1]
-    }
-    else {
+    } else {
       # check if intercept should be added, in case
       # pred.labels are passed
       if (showIntercept) pred.labels <- c(stringIntercept, pred.labels)
@@ -533,8 +532,7 @@ sjp.lme4  <- function(fit,
         tmp <- as.data.frame(cbind(OR = exp(mydf.ef[, i]),
                                    lower.CI = exp(mydf.ef[, i] - (1.96 * se.fit[, i])),
                                    upper.CI = exp(mydf.ef[, i] + (1.96 * se.fit[, i]))))
-      }
-      else {
+      } else {
         tmp <- as.data.frame(cbind(OR = mydf.ef[, i],
                                    lower.CI = mydf.ef[, i] - (1.96 * se.fit[, i]),
                                    upper.CI = mydf.ef[, i] + (1.96 * se.fit[, i])))
@@ -564,16 +562,14 @@ sjp.lme4  <- function(fit,
             # each coefficient, which is not possible with facet.grids
             # ---------------------------------------
             message("Sorting each group of random intercept ('sort.all') is not possible when 'facet.grid = TRUE'.")
-          }
-          else {
+          } else {
             # ---------------------------------------
             # sort odds ratios of random effects
             # for current coefficient
             # ---------------------------------------
             reihe <- order(mydf.ef[, i])
           }
-        }
-        else {
+        } else {
           # ---------------------------------------
           # else, just sort a specific coefficient
           # this also works with facet.grid
@@ -583,7 +579,7 @@ sjp.lme4  <- function(fit,
         # ---------------------------------------
         # sort data frame
         # ---------------------------------------
-        tmp <- tmp[reihe,]
+        tmp <- tmp[reihe, ]
       }
       # ---------------------------------------
       # save sorting order to data frame, so
@@ -597,11 +593,10 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------
       mydf <- data.frame(rbind(mydf, tmp))
     }
-  }
   # ---------------------------------------
   # fixed effects, odds ratios
   # ---------------------------------------
-  else if (type == "fe" || type == "fe.std") {
+  } else if (type == "fe" || type == "fe.std") {
     # ---------------------------------------
     # retrieve odds ratios and conf int of
     # fixed effects
@@ -612,8 +607,7 @@ sjp.lme4  <- function(fit,
       }
       mydf <- as.data.frame(exp(cbind(OR = lme4::fixef(fit),
                                       lme4::confint.merMod(fit, method = "Wald"))))
-    }
-    else {
+    } else {
       if (type == "fe.std") {
         tmpdf <- sjmisc::std_beta(fit)
         mydf <- as.data.frame(cbind(OR = tmpdf$stdcoef,
@@ -621,8 +615,7 @@ sjp.lme4  <- function(fit,
                                     upper.CI = tmpdf$stdcoef + (1.96 * tmpdf$stdse)))
         # set default row names
         rownames(mydf) <- names(lme4::fixef(fit))
-      }
-      else {
+      } else {
         mydf <- as.data.frame(cbind(OR = lme4::fixef(fit),
                                     lme4::confint.merMod(fit, method = "Wald")))
       }
@@ -635,8 +628,7 @@ sjp.lme4  <- function(fit,
     # check if we have p-values in summary
     if (ncol(cs) >= 4) {
       pv <- cs[, 4]
-    }
-    else {
+    } else {
       # if we don't have p-values in summary,
       # don't show them
       pv <- rep(1, nrow(cs))
@@ -672,15 +664,11 @@ sjp.lme4  <- function(fit,
     # ----------------------------
     if (showPValueLabels) {
       for (i in 1:length(pv)) {
-        if (pv[i] >= 0.05) {
-        }
-        else if (pv[i] >= 0.01 && pv[i] < 0.05) {
+        if (pv[i] >= 0.01 && pv[i] < 0.05) {
           ps[i] <- paste(ps[i], "*")
-        }
-        else if (pv[i] >= 0.001 && pv[i] < 0.01) {
+        } else if (pv[i] >= 0.001 && pv[i] < 0.01) {
           ps[i] <- paste(ps[i], "**")
-        }
-        else {
+        } else if (pv[i] < 0.001) {
           ps[i] <- paste(ps[i], "***")
         }
       }
@@ -706,8 +694,7 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     if (is.null(pred.labels)) {
       pred.labels <- rownames(mydf)
-    }
-    else {
+    } else {
       # check if intercept should be added, in case
       # pred.labels are passed
       if (showIntercept) pred.labels <- c(stringIntercept, pred.labels)
@@ -724,27 +711,23 @@ sjp.lme4  <- function(fit,
       mydf <- mydf[reihe,]
     }
     mydf$sorting <- reihe
-  }
-  else if (type == "fe.cor") {
+  } else if (type == "fe.cor") {
     return (invisible(sjp.lme.fecor(fit,
                                     pred.labels,
                                     sort.coef,
                                     fun,
                                     printPlot)))
-  }
-  else if (type == "fe.ri") {
+  } else if (type == "fe.ri") {
     if (fun == "lm") {
       return (invisible(sjp.lme.feri(fit,
                                      ri.nr,
                                      vars,
                                      printPlot)))
-      }
-    else {
+    } else {
       warning("Fixed effects plots by random intercept effects (grouping levels) only works for function 'sjp.lmer'.", call. = FALSE)
       return
     }
-  }
-  else if (type == "re.qq") {
+  } else if (type == "re.qq") {
     return (invisible(sjp.lme.reqq(fit,
                                    geom.colors,
                                    geom.size,
@@ -753,21 +736,18 @@ sjp.lme4  <- function(fit,
                                    interceptLineColor,
                                    fun,
                                    printPlot)))
-  }
-  else if (type == "fe.pc") {
+  } else if (type == "fe.pc") {
     if (fun == "glm") {
       return(invisible(sjp.lme.feprobcurv(fit,
                                           show.se,
                                           facet.grid,
                                           vars,
                                           printPlot)))
-    }
-    else {
+    } else {
       warning("Probability plots of fixed effects only works for function 'sjp.glmer'.", call. = FALSE)
       return
     }
-  }
-  else if (type == "ri.pc") {
+  } else if (type == "ri.pc") {
     if (fun == "glm") {
       return (invisible(sjp.lme.reprobcurve(fit,
                                             show.se,
@@ -775,8 +755,7 @@ sjp.lme4  <- function(fit,
                                             ri.nr,
                                             vars,
                                             printPlot)))
-    }
-    else {
+    } else {
       warning("Probability plots of random intercept effects only works for function 'sjp.glmer'.", call. = FALSE)
       return
     }
@@ -792,8 +771,7 @@ sjp.lme4  <- function(fit,
   if (fade.ns == TRUE) {
     interc <- ifelse (fun == "glm", 1, 0)
     mydf$fade <- (mydf$lower.CI < interc & mydf$upper.CI > interc)
-  }
-  else {
+  } else {
     mydf$fade <- FALSE
   }
   # ---------------------------------------
@@ -823,8 +801,7 @@ sjp.lme4  <- function(fit,
                  color = interceptLineColor) +
       geom_point(size = geom.size) +
       # print value labels and p-values
-      geom_text(aes(label = p, y = OR),
-                vjust = -0.7) +
+      geom_text(aes(label = p, y = OR), vjust = -0.7) +
       # ---------------------------------------
       # labels in sorted order
       # ---------------------------------------
@@ -843,24 +820,21 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     if (fun == "glm") {
       gp <- gp + scale_y_continuous(trans = "log10",
-                                    breaks = base_breaks(ceiling(max(mydf$upper.CI))),
+                                    breaks = base_breaks(ceiling(max(mydf$upper.CI, na.rm = T))),
                                     labels = prettyNum)
     }
     # ---------------------------------------
     # hide error bars (conf int)?
     # ---------------------------------------
-    if (!hideErrorBars) {
-      gp <- gp +
+    if (!hideErrorBars)  gp <- gp +
         geom_errorbar(aes(ymin = lower.CI, ymax = upper.CI), width = 0)
-    }
     # ---------------------------------------
     # axis titles
     # ---------------------------------------
     if (type == "fe" || type == "fe.std") {
       if (is.null(axisTitle.x)) axisTitle.x <- ""
       if (is.null(axisTitle.y)) axisTitle.y <- ""
-    }
-    else if (type == "re") {
+    } else if (type == "re") {
       if (is.null(axisTitle.x)) axisTitle.x <- "Group levels"
       if (is.null(axisTitle.y)) axisTitle.y <- ""
     }
@@ -869,15 +843,13 @@ sjp.lme4  <- function(fit,
     # (level) of random intercept
     # ---------------------------------------
     if (facet.grid) {
-      gp <- gp +
-        labs(x = axisTitle.x, y = axisTitle.y)
+      gp <- gp + labs(x = axisTitle.x, y = axisTitle.y)
       # check if user wants free scale for each facet
       if (free.scale)
         gp  <- gp + facet_wrap( ~ grp, scales = "free_y")
       else
         gp  <- gp + facet_grid( ~ grp)
-    }
-    else {
+    } else {
       gp <- gp +
         labs(x = axisTitle.x, y = axisTitle.y, title = title)
     }
@@ -910,8 +882,7 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------------------------
     if (printPlot) print(me.plot)
     me.plot.list <- NULL
-  }
-  else {
+  } else {
     # ---------------------------------------
     # single plots means, each coefficient is
     # plotted to an own figure
@@ -963,8 +934,7 @@ lme.p <- function(fit) {
   # check if we have p-values in summary
   if (ncol(cs) >= 4) {
     pv <- cs[, 4]
-  }
-  else {
+  } else {
     ps <- NULL
   }
   return (ps)
@@ -1005,8 +975,7 @@ sjp.lme.feprobcurv <- function(fit,
   if (!is.null(vars)) {
     if (is.character(vars)) {
       fit.term.names <- fit.term.names[!is.na(match(fit.term.names, vars))]
-    }
-    else {
+    } else {
       fit.term.names <- fit.term.names[vars]
     }
   }
@@ -1032,8 +1001,7 @@ sjp.lme.feprobcurv <- function(fit,
         # add reference level to coefficient name
         ll <- levels(vals)
         fit.fac.name <- paste0(fit.term.names[i], ll[length(ll)])
-      }
-      else {
+      } else {
         fit.fac.name <- fit.term.names[i]
       }
       # find coef-position
@@ -1071,7 +1039,7 @@ sjp.lme.feprobcurv <- function(fit,
         # when se exceeds plot range.
         coord_cartesian(ylim = c(0, 1))
       # add plot to list
-      plot.metricpred[[length(plot.metricpred)+1]] <- mp
+      plot.metricpred[[length(plot.metricpred) + 1]] <- mp
     }
     # -------------------------------------
     # if we have more than one numeric var, also create integrated plot

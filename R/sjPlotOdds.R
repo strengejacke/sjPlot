@@ -165,7 +165,7 @@ sjp.glm <- function(fit,
                     breakTitleAt=50,
                     breakLabelsAt=25,
                     gridBreaksAt=0.5,
-                    transformTicks=FALSE,
+                    transformTicks=TRUE,
                     geom.size=3,
                     geom.colors="Set1",
                     hideErrorBars=FALSE,
@@ -185,7 +185,7 @@ sjp.glm <- function(fit,
   # --------------------------------------------------------
   # check param
   # --------------------------------------------------------
-  if (class(fit) == "logistf") {
+  if (any(class(fit) == "logistf")) {
     # no model summary currently supported for logistf class
     showModelSummary = FALSE
     # create "dummy" variable, to avoid errors
@@ -357,8 +357,11 @@ sjp.glm <- function(fit,
       maxval <- max(rdf$upper)
       minval <- min(rdf$lower)
     }
-    upper_lim <- (ceiling(10 * maxval)) / 10
-    lower_lim <- (floor(10 * minval)) / 10
+    upper_lim <- ceiling(10 * maxval) / 10
+    lower_lim <- floor(10 * minval) / 10
+    # avoid zero or NA axis limit!
+    if (is.na(upper_lim)) upper_lim <- ceiling(10 * max(na.omit(maxval))) / 10
+    if (lower_lim == 0 || is.na(lower_lim)) lower_lim <- 0.01
     # give warnings when auto-limits are very low/high
     if ((minval < 0.1) || (maxval > 100)) {
       warning("Exp. coefficients and/or exp. confidence intervals may be out of printable bounds. Consider using \"axisLimits\" parameter!")

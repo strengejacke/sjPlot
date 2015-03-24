@@ -731,7 +731,11 @@ sjt.xtab <- function (var.row,
   # -------------------------------------
   # print legend
   # -------------------------------------
-  if (showLegend) page.content <- paste(page.content, sprintf("<p>\n  <span class=\"td_n\">observed values</span> &middot; \n  <span class=\"td_ex\">expected values</span> &middot; \n  <span class=\"td_rw\">&#37; within %s</span> &middot; \n  <span class=\"td_cl\">&#37; within %s</span> &middot; \n  <span class=\"td_c\">&#37; of total</span>\n</p>", gsub("<br>", " ", s.var.row), gsub("<br>", " ", s.var.col)), "\n")
+  if (showLegend) page.content <- paste(page.content, 
+                                        sprintf("<p>\n  <span class=\"td_n\">observed values</span> &middot; \n  <span class=\"td_ex\">expected values</span> &middot; \n  <span class=\"td_rw\">&#37; within %s</span> &middot; \n  <span class=\"td_cl\">&#37; within %s</span> &middot; \n  <span class=\"td_c\">&#37; of total</span>\n</p>", 
+                                                gsub("<br>", " ", s.var.row, fixed = TRUE), 
+                                                gsub("<br>", " ", s.var.col, fixed = TRUE)), 
+                                        "\n")
   # -------------------------------------
   # add table to return value list, so user can access each
   # single frequency table
@@ -751,30 +755,30 @@ sjt.xtab <- function (var.row,
   # -------------------------------------
   # set style attributes for main table tags
   # -------------------------------------
-  knitr <- gsub("class=", "style=", knitr)
-  knitr <- gsub("<table", sprintf("<table style=\"%s\"", css.table), knitr)
+  knitr <- gsub("class=", "style=", knitr, fixed = TRUE)
+  knitr <- gsub("<table", sprintf("<table style=\"%s\"", css.table), knitr, fixed = TRUE)
   # -------------------------------------
   # replace class-attributes with inline-style-definitions
   # -------------------------------------
-  knitr <- gsub(tag.tdata, css.tdata, knitr)
-  knitr <- gsub(tag.thead, css.thead, knitr)
-  knitr <- gsub(tag.secondtablerow, css.secondtablerow, knitr)
-  knitr <- gsub(tag.firstcolborder, css.firstcolborder, knitr)
-  knitr <- gsub(tag.leftalign, css.leftalign, knitr)  
-  knitr <- gsub(tag.centeralign, css.centeralign, knitr)  
-  knitr <- gsub(tag.horline, css.horline, knitr)  
-  knitr <- gsub(tag.lasttablerow, css.lasttablerow, knitr)  
-  knitr <- gsub(tag.totcol, css.totcol, knitr)  
-  knitr <- gsub(tag.summary, css.summary, knitr)  
-  knitr <- gsub(tag.tothi, css.tothi, knitr)  
+  knitr <- gsub(tag.tdata, css.tdata, knitr, fixed = TRUE)
+  knitr <- gsub(tag.thead, css.thead, knitr, fixed = TRUE)
+  knitr <- gsub(tag.secondtablerow, css.secondtablerow, knitr, fixed = TRUE)
+  knitr <- gsub(tag.firstcolborder, css.firstcolborder, knitr, fixed = TRUE)
+  knitr <- gsub(tag.leftalign, css.leftalign, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.centeralign, css.centeralign, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.horline, css.horline, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.lasttablerow, css.lasttablerow, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.totcol, css.totcol, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.summary, css.summary, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.tothi, css.tothi, knitr, fixed = TRUE)  
   # -------------------------------------
   # replace color-attributes for legend
   # -------------------------------------
-  knitr <- gsub(tag.td_ex, sprintf("color:%s;",tdcol.expected), knitr)  
-  knitr <- gsub(tag.td_cl, sprintf("color:%s;",tdcol.col), knitr)  
-  knitr <- gsub(tag.td_rw, sprintf("color:%s;",tdcol.row), knitr)  
-  knitr <- gsub(tag.td_c, sprintf("color:%s;",tdcol.cell), knitr)  
-  knitr <- gsub(tag.td_n, sprintf("color:%s;",tdcol.n), knitr)  
+  knitr <- gsub(tag.td_ex, sprintf("color:%s;",tdcol.expected), knitr, fixed = TRUE)  
+  knitr <- gsub(tag.td_cl, sprintf("color:%s;",tdcol.col), knitr, fixed = TRUE)  
+  knitr <- gsub(tag.td_rw, sprintf("color:%s;",tdcol.row), knitr, fixed = TRUE)  
+  knitr <- gsub(tag.td_c, sprintf("color:%s;",tdcol.cell), knitr, fixed = TRUE)  
+  knitr <- gsub(tag.td_n, sprintf("color:%s;",tdcol.n), knitr, fixed = TRUE)  
   # -------------------------------------
   # remove spaces?
   # -------------------------------------

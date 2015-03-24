@@ -508,14 +508,14 @@ sjp.int <- function(fit,
         # http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/
         # ------------------------------
         # miny = (b0 + (b1*pr) + (b2*ymin) + (b3*pr*ymin))
-        miny = (b0 + (b1 * pr) + (b3 * pr * ymin))
+        miny <- (b0 + (b1 * pr) + (b3 * pr * ymin))
         # ------------------------------
         # here we calculate the effect of predictor 1 under presence (or strongest
         # impact) of predictor 2 on the dependent variable. Thus, the slope for
         # predictor 2 only is not needed. see references above
         # ------------------------------
         # maxy = (b0 + (b1*pr) + (b2*ymax) + (b3*pr*ymax))
-        maxy = (b0 + (b1 * pr) + (b3 * pr * ymax))
+        maxy <- (b0 + (b1 * pr) + (b3 * pr * ymax))
         # store in df
         tmp <- as.data.frame(cbind(x = pr, 
                                    y = miny, 
@@ -584,14 +584,14 @@ sjp.int <- function(fit,
         # http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/
         # ------------------------------
         # miny = (b0 + (b1*ymin) + (b2*pr) + (b3*pr*ymin))
-        miny = (b0 + (b2 * pr) + (b3 * pr * ymin))
+        miny <- (b0 + (b2 * pr) + (b3 * pr * ymin))
         # ------------------------------
         # here we calculate the effect of predictor 2 under presence (or strongest
         # impact) of predictor 1 on the dependent variable. Thus, the slope for
         # predictor 1 only is not needed. see references above
         # ------------------------------
         # maxy = (b0 + (b1*ymax) + (b2*pr) + (b3*pr*ymax))
-        maxy = (b0 + (b2 * pr) + (b3 * pr * ymax))
+        maxy <- (b0 + (b2 * pr) + (b3 * pr * ymax))
         # store in df
         tmp <- as.data.frame(cbind(x = pr, 
                                    y = miny, 

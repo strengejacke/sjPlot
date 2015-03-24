@@ -12,7 +12,7 @@
 #'                is \code{TRUE} and a description of the data frame is given,
 #'                using the \code{\link[psych]{describe}} function of the \code{psych} package.
 #'
-#' @param df A data frame that should be printed.
+#' @param mydf A data frame that should be printed.
 #' @param describe If \code{TRUE} (default), a description of the data frame's variables is given.
 #'          The description is retrieved from the \code{\link[psych]{describe}} function of the \code{psych}
 #'          package. If this parameter is \code{FALSE}, the data frame's content (values) is shown.
@@ -22,7 +22,7 @@
 #' @param alternateRowColors If \code{TRUE}, alternating rows are highlighted with a light gray
 #'          background color.
 #' @param orderColumn Indicates a column, either by column name or by column index number,
-#'          that should be orderd. Default order is ascending, which can be changed with
+#'          that should be sorted. Default order is ascending, which can be changed with
 #'          \code{orderAscending} parameter. Default is \code{NULL}, hence the data frame
 #'          is printed with no specific order. See examples for further details.
 #' @param orderAscending If \code{TRUE} (default) and \code{orderColumn} is not \code{NULL},
@@ -87,34 +87,43 @@
 #' data(efc)
 #' 
 #' # plot efc-data frame summary
-#' sjt.df(efc, alternateRowColors=TRUE)
+#' sjt.df(efc, alternateRowColors = TRUE)
 #' 
 #' # plot content, first 50 rows of first 5 columns of example data set
-#' sjt.df(efc[1:50,1:5], describe=FALSE, stringVariable="Observation")
+#' sjt.df(efc[1:50, 1:5], 
+#'        describe = FALSE, 
+#'        stringVariable = "Observation")
 #' 
-#' # plot efc-data frame summary, ordered descending by mean-column
-#' sjt.df(efc, orderColumn="mean", orderAscending=FALSE)
+#' # plot efc-data frame summary, sorted descending by mean-column
+#' sjt.df(efc, 
+#'        orderColumn = "mean", 
+#'        orderAscending = FALSE)
 #' 
 #' # plot first 20 rows of first 5 columns of example data set,
-#' # ordered by column "e42dep" with alternating row colors
-#' sjt.df(efc[1:20,1:5], alternateRowColors=TRUE, 
-#'        orderColumn="e42dep", describe=FALSE)
+#' # sort by column "e42dep" with alternating row colors
+#' sjt.df(efc[1:20, 1:5], 
+#'        alternateRowColors = TRUE, 
+#'        orderColumn = "e42dep", 
+#'        describe = FALSE)
 #' 
 #' # plot first 20 rows of first 5 columns of example data set,
-#' # ordered by 4th column in descending order.
-#' sjt.df(efc[1:20,1:5], orderColumn=4, orderAscending=FALSE, describe=FALSE)
+#' # sorted by 4th column in descending order.
+#' sjt.df(efc[1:20, 1:5], 
+#'        orderColumn = 4, 
+#'        orderAscending = FALSE, 
+#'        describe = FALSE)
 #' 
 #' # ---------------------------------------------------------------- 
 #' # User defined style sheet
 #' # ---------------------------------------------------------------- 
 #' sjt.df(efc,
-#'        alternateRowColor=TRUE,
-#'        CSS=list(css.table="border: 2px solid #999999;",
-#'                 css.tdata="border-top: 1px solid;",
-#'                 css.arc="color:blue;"))}
+#'        alternateRowColor = TRUE,
+#'        CSS = list(css.table = "border: 2px solid #999999;",
+#'                   css.tdata = "border-top: 1px solid;",
+#'                   css.arc = "color:blue;"))}
 #'
 #' @export
-sjt.df <- function (df,
+sjt.df <- function (mydf,
                     describe=TRUE,
                     file=NULL,
                     alternateRowColors=FALSE,
@@ -140,22 +149,25 @@ sjt.df <- function (df,
   # unique handling for the data
   # -------------------------------------
   encoding <- get.encoding(encoding)
-  if (!is.data.frame(df)) {
-    stop("Parameter needs to be a data frame!", call.=FALSE)
+  if (!is.data.frame(mydf)) {
+    stop("Parameter needs to be a data frame!", call. = FALSE)
   }
   # -------------------------------------
   # Description?
   # -------------------------------------
   if (describe) {
     # also include missings
-    missings <- apply(df, 2, function(x) sum(is.na(x)))
+    missings <- apply(mydf, 2, function(x) sum(is.na(x)))
     # and proportion of missings
-    missings.percentage <- round(100*missings/nrow(df),2)
-    df <- round(describe(df),2)
+    missings.percentage <- round(100 * missings / nrow(mydf), 2)
+    mydf <- round(describe(mydf), 2)
     # insert missing variables in data frame
-    df <- data.frame(df[,1:2], missings, missings.percentage, df[,3:ncol(df)])
+    mydf <- data.frame(mydf[, 1:2], 
+                       missings, 
+                       missings.percentage, 
+                       mydf[, 3:ncol(mydf)])
     # proper column name
-    colnames(df)[4] <- "missings (percentage)"
+    colnames(mydf)[4] <- "missings (percentage)"
   }
   # -------------------------------------
   # Order data set if requested
@@ -164,19 +176,17 @@ sjt.df <- function (df,
     # check whether orderColumn is numeric or character
     if (is.character(orderColumn)) {
       # retrieve column that equals orderColumn string
-      nr <- which(colnames(df)==orderColumn)
+      nr <- which(colnames(mydf) == orderColumn)
       orderColumn <- as.numeric(nr)
     }
     # check for correct range
-    if (is.numeric(orderColumn) && orderColumn>0 && orderColumn<=ncol(df)) {
+    if (is.numeric(orderColumn) && orderColumn > 0 && orderColumn <= ncol(mydf)) {
       # retrieve order
-      rfolge <- order(df[,orderColumn])
+      rfolge <- order(mydf[, orderColumn])
       # reverse order?
-      if (!orderAscending) {
-        rfolge <- rev(rfolge)
-      }
+      if (!orderAscending) rfolge <- rev(rfolge)
       # sort dataframe
-      df <- df[rfolge,]
+      mydf <- mydf[rfolge, ]
     }
   }
   # -------------------------------------
@@ -211,17 +221,17 @@ sjt.df <- function (df,
   # check user defined style sheets
   # ------------------------
   if (!is.null(CSS)) {
-    if (!is.null(CSS[['css.table']])) css.table <- ifelse(substring(CSS[['css.table']],1,1)=='+', paste0(css.table, substring(CSS[['css.table']],2)), CSS[['css.table']])
-    if (!is.null(CSS[['css.caption']])) css.caption <- ifelse(substring(CSS[['css.caption']],1,1)=='+', paste0(css.caption, substring(CSS[['css.caption']],2)), CSS[['css.caption']])
-    if (!is.null(CSS[['css.thead']])) css.thead <- ifelse(substring(CSS[['css.thead']],1,1)=='+', paste0(css.thead, substring(CSS[['css.thead']],2)), CSS[['css.thead']])
-    if (!is.null(CSS[['css.tdata']])) css.tdata <- ifelse(substring(CSS[['css.tdata']],1,1)=='+', paste0(css.tdata, substring(CSS[['css.tdata']],2)), CSS[['css.tdata']])
-    if (!is.null(CSS[['css.arc']])) css.arc <- ifelse(substring(CSS[['css.arc']],1,1)=='+', paste0(css.arc, substring(CSS[['css.arc']],2)), CSS[['css.arc']])
-    if (!is.null(CSS[['css.lasttablerow']])) css.lasttablerow <- ifelse(substring(CSS[['css.lasttablerow']],1,1)=='+', paste0(css.lasttablerow, substring(CSS[['css.lasttablerow']],2)), CSS[['css.lasttablerow']])
-    if (!is.null(CSS[['css.firsttablerow']])) css.firsttablerow <- ifelse(substring(CSS[['css.firsttablerow']],1,1)=='+', paste0(css.firsttablerow, substring(CSS[['css.firsttablerow']],2)), CSS[['css.firsttablerow']])
-    if (!is.null(CSS[['css.leftalign']])) css.leftalign <- ifelse(substring(CSS[['css.leftalign']],1,1)=='+', paste0(css.leftalign, substring(CSS[['css.leftalign']],2)), CSS[['css.leftalign']])
-    if (!is.null(CSS[['css.centeralign']])) css.centeralign <- ifelse(substring(CSS[['css.centeralign']],1,1)=='+', paste0(css.centeralign, substring(CSS[['css.centeralign']],2)), CSS[['css.centeralign']])
-    if (!is.null(CSS[['css.firsttablecol']])) css.firsttablecol <- ifelse(substring(CSS[['css.firsttablecol']],1,1)=='+', paste0(css.firsttablecol, substring(CSS[['css.firsttablecol']],2)), CSS[['css.firsttablecol']])
-    if (!is.null(CSS[['css.comment']])) css.comment <- ifelse(substring(CSS[['css.comment']],1,1)=='+', paste0(css.comment, substring(CSS[['css.comment']],2)), CSS[['css.comment']])
+    if (!is.null(CSS[['css.table']])) css.table <- ifelse(substring(CSS[['css.table']], 1, 1) == '+', paste0(css.table, substring(CSS[['css.table']], 2)), CSS[['css.table']])
+    if (!is.null(CSS[['css.caption']])) css.caption <- ifelse(substring(CSS[['css.caption']], 1, 1) == '+', paste0(css.caption, substring(CSS[['css.caption']], 2)), CSS[['css.caption']])
+    if (!is.null(CSS[['css.thead']])) css.thead <- ifelse(substring(CSS[['css.thead']], 1, 1) == '+', paste0(css.thead, substring(CSS[['css.thead']], 2)), CSS[['css.thead']])
+    if (!is.null(CSS[['css.tdata']])) css.tdata <- ifelse(substring(CSS[['css.tdata']], 1, 1) == '+', paste0(css.tdata, substring(CSS[['css.tdata']], 2)), CSS[['css.tdata']])
+    if (!is.null(CSS[['css.arc']])) css.arc <- ifelse(substring(CSS[['css.arc']], 1, 1) == '+', paste0(css.arc, substring(CSS[['css.arc']], 2)), CSS[['css.arc']])
+    if (!is.null(CSS[['css.lasttablerow']])) css.lasttablerow <- ifelse(substring(CSS[['css.lasttablerow']], 1, 1) == '+', paste0(css.lasttablerow, substring(CSS[['css.lasttablerow']], 2)), CSS[['css.lasttablerow']])
+    if (!is.null(CSS[['css.firsttablerow']])) css.firsttablerow <- ifelse(substring(CSS[['css.firsttablerow']], 1, 1) == '+', paste0(css.firsttablerow, substring(CSS[['css.firsttablerow']], 2)), CSS[['css.firsttablerow']])
+    if (!is.null(CSS[['css.leftalign']])) css.leftalign <- ifelse(substring(CSS[['css.leftalign']], 1, 1) == '+', paste0(css.leftalign, substring(CSS[['css.leftalign']], 2)), CSS[['css.leftalign']])
+    if (!is.null(CSS[['css.centeralign']])) css.centeralign <- ifelse(substring(CSS[['css.centeralign']], 1, 1) == '+', paste0(css.centeralign, substring(CSS[['css.centeralign']], 2)), CSS[['css.centeralign']])
+    if (!is.null(CSS[['css.firsttablecol']])) css.firsttablecol <- ifelse(substring(CSS[['css.firsttablecol']], 1, 1) == '+', paste0(css.firsttablecol, substring(CSS[['css.firsttablecol']], 2)), CSS[['css.firsttablecol']])
+    if (!is.null(CSS[['css.comment']])) css.comment <- ifelse(substring(CSS[['css.comment']], 1, 1) == '+', paste0(css.comment, substring(CSS[['css.comment']], 2)), CSS[['css.comment']])
   }
   # -------------------------------------
   # set style sheet
@@ -236,13 +246,13 @@ sjt.df <- function (df,
   # -------------------------------------
   # get row and column count of data frame
   # -------------------------------------
-  rowcnt <- nrow(df)
-  colcnt <- ncol(df)
+  rowcnt <- nrow(mydf)
+  colcnt <- ncol(mydf)
   # -------------------------------------
   # get row and column names of data frame
   # -------------------------------------
-  rnames <- rownames(df)
-  cnames <- colnames(df)
+  rnames <- rownames(mydf)
+  cnames <- colnames(mydf)
   # -------------------------------------
   # start table tag
   # -------------------------------------
@@ -252,6 +262,21 @@ sjt.df <- function (df,
   # -------------------------------------
   if (!is.null(title)) page.content <- paste0(page.content, sprintf("  <caption>%s</caption>\n", title))
   # -------------------------------------
+  # helper function to retrieve type
+  # of variables
+  # -------------------------------------
+  get.vartype <- function(x) {
+    vt <- c("unknown type")
+    if (is.character(x)) vt <- c("character")
+    else if (is.ordered(x)) vt <- c("ordinal")
+    else if (is.factor(x)) vt <- c("categorical")
+    else if (is.integer(x)) vt <- c("numeric")
+    else if (is.double(x)) vt <- c("numeric-double")
+    else if (is.numeric(x)) vt <- c("numeric")
+    else if (is.atomic(x)) vt <- c("atomic")
+    return (vt)
+  }
+  # -------------------------------------
   # header row
   # -------------------------------------
   page.content <- paste0(page.content, "  <tr>\n")
@@ -259,14 +284,7 @@ sjt.df <- function (df,
   if (showRowNames) page.content <- paste0(page.content, sprintf("    <th class=\"thead firsttablerow firsttablecol\">%s</th>\n", stringVariable))
   for (i in 1:colcnt) {
     # check variable type
-    vartype <- c("unknown type")
-    if (is.character(df[,i])) vartype <- c("character")
-    else if (is.ordered(df[,i])) vartype <- c("ordinal")
-    else if (is.factor(df[,i])) vartype <- c("categorical")
-    else if (is.integer(df[,i])) vartype <- c("numeric")
-    else if (is.double(df[,i])) vartype <- c("numeric-double")
-    else if (is.numeric(df[,i])) vartype <- c("numeric")
-    else if (is.atomic(df[,i])) vartype <- c("atomic")
+    vartype <- get.vartype(mydf[, i])
     # column names and variable as table headline
     page.content <- paste0(page.content, sprintf("    <th class=\"thead firsttablerow\">%s", cnames[i]))
     if (showType) page.content <- paste0(page.content, sprintf("<br>(%s)", vartype))
@@ -276,7 +294,9 @@ sjt.df <- function (df,
   # -------------------------------------
   # create progress bar
   # -------------------------------------
-  if (!hideProgressBar) pb <- txtProgressBar(min=0, max=rowcnt, style=3)
+  if (!hideProgressBar) pb <- txtProgressBar(min = 0, 
+                                             max = rowcnt, 
+                                             style = 3)
   # -------------------------------------
   # subsequent rows
   # -------------------------------------
@@ -284,13 +304,13 @@ sjt.df <- function (df,
     # default row string
     arcstring <- ""
     # if we have alternating row colors, set css
-    if (alternateRowColors) arcstring <- ifelse(rcnt %% 2 ==0, " arc", "")
+    if (alternateRowColors) arcstring <- ifelse(rcnt %% 2 == 0, " arc", "")
     page.content <- paste0(page.content, "  <tr>\n")
     # first table cell is rowname
     if (showRowNames) page.content <- paste0(page.content, sprintf("    <td class=\"tdata leftalign firsttablecol%s\">%s</td>\n", arcstring, rnames[rcnt]))
     # all columns of a row
     for (ccnt in 1:colcnt) {
-      page.content <- paste0(page.content, sprintf("    <td class=\"tdata centertalign%s\">%s</td>\n", arcstring, df[rcnt,ccnt]))
+      page.content <- paste0(page.content, sprintf("    <td class=\"tdata centertalign%s\">%s</td>\n", arcstring, mydf[rcnt, ccnt]))
     }
     # update progress bar
     if (!hideProgressBar) setTxtProgressBar(pb, rcnt)
@@ -306,14 +326,7 @@ sjt.df <- function (df,
     if (showRowNames) page.content <- paste0(page.content, sprintf("    <th class=\"thead lasttablerow firsttablecol\">%s</th>\n", stringVariable))
     for (i in 1:colcnt) {
       # check variable type
-      vartype <- c("unknown type")
-      if (is.character(df[,i])) vartype <- c("character")
-      else if (is.ordered(df[,i])) vartype <- c("ordinal")
-      else if (is.factor(df[,i])) vartype <- c("categorical")
-      else if (is.integer(df[,i])) vartype <- c("numeric")
-      else if (is.double(df[,i])) vartype <- c("numeric-double")
-      else if (is.numeric(df[,i])) vartype <- c("numeric")
-      else if (is.atomic(df[,i])) vartype <- c("atomic")
+      vartype <- get.vartype(mydf[, i])
       # column names and variable as table headline
       page.content <- paste0(page.content, sprintf("    <th class=\"thead lasttablerow\">%s", cnames[i]))
       if (showType) page.content <- paste0(page.content, sprintf("<br>(%s)", vartype))
@@ -326,8 +339,8 @@ sjt.df <- function (df,
   # -------------------------------------
   if (showCommentRow) {
     page.content <- paste0(page.content, "  <tr>\n")
-    if (!showRowNames) colcnt <- colcnt-1
-    page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"comment\">%s</td>\n", colcnt+1, commentString))
+    if (!showRowNames) colcnt <- colcnt - 1
+    page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"comment\">%s</td>\n", colcnt + 1, commentString))
     # close row tag
     page.content <- paste0(page.content, "</tr>\n")
   }
@@ -346,21 +359,21 @@ sjt.df <- function (df,
   # -------------------------------------
   # set style attributes for main table tags
   # -------------------------------------
-  knitr <- gsub("class=", "style=", knitr)
-  knitr <- gsub("<table", sprintf("<table style=\"%s\"", css.table), knitr)
-  knitr <- gsub("<caption", sprintf("<caption style=\"%s\"", css.caption), knitr)
+  knitr <- gsub("class=", "style=", knitr, fixed = TRUE)
+  knitr <- gsub("<table", sprintf("<table style=\"%s\"", css.table), knitr, fixed = TRUE)
+  knitr <- gsub("<caption", sprintf("<caption style=\"%s\"", css.caption), knitr, fixed = TRUE)
   # -------------------------------------
   # replace class-attributes with inline-style-definitions
   # -------------------------------------
-  knitr <- gsub(tag.tdata, css.tdata, knitr)
-  knitr <- gsub(tag.thead, css.thead, knitr)
-  knitr <- gsub(tag.arc, css.arc, knitr)
-  knitr <- gsub(tag.comment, css.comment, knitr)
-  knitr <- gsub(tag.lasttablerow, css.lasttablerow, knitr)
-  knitr <- gsub(tag.firsttablerow, css.firsttablerow, knitr)
-  knitr <- gsub(tag.firsttablecol, css.firsttablecol, knitr)
-  knitr <- gsub(tag.leftalign, css.leftalign, knitr)
-  knitr <- gsub(tag.centertalign, css.centertalign, knitr)
+  knitr <- gsub(tag.tdata, css.tdata, knitr, fixed = TRUE)
+  knitr <- gsub(tag.thead, css.thead, knitr, fixed = TRUE)
+  knitr <- gsub(tag.arc, css.arc, knitr, fixed = TRUE)
+  knitr <- gsub(tag.comment, css.comment, knitr, fixed = TRUE)
+  knitr <- gsub(tag.lasttablerow, css.lasttablerow, knitr, fixed = TRUE)
+  knitr <- gsub(tag.firsttablerow, css.firsttablerow, knitr, fixed = TRUE)
+  knitr <- gsub(tag.firsttablecol, css.firsttablecol, knitr, fixed = TRUE)
+  knitr <- gsub(tag.leftalign, css.leftalign, knitr, fixed = TRUE)
+  knitr <- gsub(tag.centertalign, css.centertalign, knitr, fixed = TRUE)
   # -------------------------------------
   # remove spaces?
   # -------------------------------------
@@ -377,7 +390,7 @@ sjt.df <- function (df,
   # return results
   # -------------------------------------
   invisible (structure(class = "sjtdf",
-                       list(data = df,
+                       list(data = mydf,
                             page.style = page.style,
                             page.content = page.content,
                             output.complete = toWrite,
