@@ -852,7 +852,7 @@ sjc.kgap <- function(x, max=10, B=100, SE.factor=1, method="Tibs2001SEmax", plot
   nc <- cluster::maxSE(f = T[,"gap"], SE.f = T[,"SE.sim"], method=method, SE.factor=SE.factor)
   message(sprintf(" --> Number of clusters (method '%s'%s): %d\n",
               method,
-              if(grepl("SE", method)) sprintf(", SE.factor=%g",SE.factor) else "", nc))
+              if(grepl("SE", method, fixed = T)) sprintf(", SE.factor=%g",SE.factor) else "", nc))
   # point size for cluster solution
   nclus <- rep(2, max)
   nclus[nc] <- 4

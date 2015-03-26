@@ -61,7 +61,7 @@
 #' @param plot.bordercol Color of whole plot's border (panel border).
 #' @param plot.col Color of both plot's region border and background.
 #'          If set, overrides both \code{plot.backcol} and \code{plot.bordercol}.
-#' @param legend.pos Position of the legend, if a legend is drawn. \cr
+#' @param legend.pos Position of the legend, if a legend is drawn.\cr
 #'          \emph{legend outside plot} \cr
 #'          Use \code{"bottom"}, \code{"top"}, \code{"left"}
 #'          or \code{"right"} to position the legend above, below, on the left or right side of the diagram. 
@@ -69,7 +69,8 @@
 #'          \emph{legend inside plot} \cr
 #'          If \code{legend.inside} is \code{TRUE}, legend can be placed inside
 #'          plot. Use \code{"top left"}, \code{"top right"}, \code{"bottom left"} and \code{"bottom right"}
-#'          to position legend in any of these corners, or a two-element numeric vector with values from 0-1.
+#'          to position legend in any of these corners, or a two-element numeric vector with values from 0-1. \cr
+#'          See also \code{legend.inside}.
 #' @param legend.just Justification of legend, relative to its position ("center" or 
 #'          two-element numeric vector with values from 0-1. By default (outside legend),
 #'          justification is centered. If legend is inside and justification not specified,

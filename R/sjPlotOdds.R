@@ -701,6 +701,7 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   # ---------------------------------
   # show VIF-Values
   # ---------------------------------
+  sjp.setTheme(theme ="539")
   sjp.vif(logreg)
   if (modelOptmized) sjp.vif(model)
   # ------------------------------------------------------
@@ -710,13 +711,13 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   # sparse data or clustering of data. A half-normal plot of the residuals
   # can help checking for outliers:
   # ------------------------------------------------------
-  halfnorm <- function (x, nlab=2, labs=as.character(1:length(x)), ylab="Sorted Data", ...) {
+  halfnorm <- function (x, nlab = 2, labs = as.character(1:length(x)), ylab = "Sorted Data", ...) {
     x <- abs(x)
     labord <- order(x)
     x <- sort(x)
     i <- order(x)
     n <- length(x)
-    ui <- qnorm((n + 1:n)/(2 * n + 1))
+    ui <- qnorm((n + 1:n) / (2 * n + 1))
     plot(ui, 
          x[i], 
          xlab = "Half-normal quantiles", 
@@ -743,15 +744,22 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   # ------------------------------------------------------
   # Residual plot
   # ------------------------------------------------------
-  res <- residuals(logreg, type="deviance")
-  plot(log(abs(predict(logreg))), res, main="Residual plot (original model)", xlab="Log-predicted values", ylab="Deviance residuals")
-  abline(h=0, lty=2)
+  res <- residuals(logreg, type = "deviance")
+  plot(log(abs(predict(logreg))), 
+       res, main="Residual plot (original model)", 
+       xlab = "Log-predicted values", 
+       ylab = "Deviance residuals")
+  abline(h = 0, lty = 2)
   qqnorm(res)
   qqline(res)
   if (!showOriginalModelOnly) {
-    res <- residuals(model, type="deviance")
-    plot(log(abs(predict(model))), res, main="Residual plot (updated model)", xlab="Log-predicted values", ylab="Deviance residuals")
-    abline(h=0, lty=2)
+    res <- residuals(model, type = "deviance")
+    plot(log(abs(predict(model))), 
+         res, 
+         main = "Residual plot (updated model)", 
+         xlab = "Log-predicted values", 
+         ylab = "Deviance residuals")
+    abline(h = 0, lty = 2)
     qqnorm(res)
     qqline(res)
   }
@@ -762,16 +770,15 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   # -------------------------------------
   message(paste("--------------------\nCheck significance of terms when they entered the model..."))
   message(paste("Anova original model:"))
-  print(anova(logreg,test="Chisq"))
+  print(anova(logreg, test = "Chisq"))
   if (!showOriginalModelOnly) {
     message(paste("\n\nAnova updated model:\n"))
-    print(anova(model,test="Chisq"))
+    print(anova(model, test = "Chisq"))
   }
   # -------------------------------------
-  sjp.glm(logreg, title="Original model")
-  if (!showOriginalModelOnly) {
-    sjp.glm(model, title="Updated model")
-  }
+  sjp.setTheme(theme ="forestgrey")
+  sjp.glm(logreg, title = "Original model")
+  if (!showOriginalModelOnly) sjp.glm(model, title = "Updated model")
   # return updated model
   return(model)
 }

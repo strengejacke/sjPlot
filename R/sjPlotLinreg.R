@@ -429,32 +429,35 @@ sjp.lm <- function(fit,
   # --------------------------------------------------------
   # Start plot here!
   # --------------------------------------------------------
-  betaplot <- ggplot(betas, aes(y=Beta, x=xv, colour=Beta>=0)) +
+  betaplot <- ggplot(betas, aes(y = Beta, x = xv, colour = Beta >= 0)) +
     # and error bar
-    geom_errorbar(aes(ymin=lower, ymax=upper), width=0) +
+    geom_errorbar(aes(ymin = lower, ymax = upper), width = 0) +
     # Print p-values. With vertical adjustment, so they don't overlap with the errorbars
-    geom_text(aes(label=p, y=Beta), vjust=-0.8, show_guide=FALSE) +
+    geom_text(aes(label = p, y = Beta), 
+              vjust = -0.8, 
+              show_guide = FALSE) +
     # print point
-    geom_point(size=geom.size) +
+    geom_point(size = geom.size) +
     # Intercept-line
-    geom_hline(yintercept=0, linetype=interceptLineType, color=interceptLineColor) +
+    geom_hline(yintercept = 0, 
+               linetype = interceptLineType, 
+               color = interceptLineColor) +
     # set y-scale-limits, breaks and tick labels
-    scale_y_continuous(limits=c(lower_lim,upper_lim), breaks=ticks, labels=ticks) +
+    scale_y_continuous(limits = c(lower_lim, upper_lim), 
+                       breaks = ticks, 
+                       labels = ticks) +
     # set value labels to x-axis
-    scale_x_discrete(labels=axisLabels.y, limits=c(1:nrow(betas))) +
-    labs(title=title, x=NULL, y=axisTitle.x)
+    scale_x_discrete(labels = axisLabels.y, 
+                     limits = c(1:nrow(betas))) +
+    labs(title = title, x = NULL, y = axisTitle.x)
   # --------------------------------------------------------
   # flip coordinates?
   # --------------------------------------------------------
-  if (coord.flip)  {
-    betaplot <- betaplot +
-      coord_flip()
-  }
+  if (coord.flip) betaplot <- betaplot + coord_flip()
   # ------------------------------------------
   # check whether table summary should be printed
   # ------------------------------------------
-  betaplot <- print.table.summary(betaplot,
-                                  modsum)
+  betaplot <- print.table.summary(betaplot, modsum)
   # ---------------------------------------------------------
   # set geom colors
   # ---------------------------------------------------------
@@ -536,18 +539,15 @@ sjp.reglin <- function(fit,
       if (useResiduals) {
         mydat <- as.data.frame(cbind(fit$x[, which(cn == xval) + 1],
                                      fit$residuals))
-      }
-      else {
+      } else {
         mydat <- as.data.frame(cbind(fit$x[, which(cn == xval) + 1],
                                      fit$model[, 1]))
       }
-    }
-    else {
+    } else {
       if (useResiduals) {
         mydat <- as.data.frame(cbind(fit$model[, which(cn == xval)],
                                      fit$residuals))
-      }
-      else {
+      } else {
         mydat <- as.data.frame(cbind(fit$model[, which(cn == xval)],
                                      fit$model[, which(cn == response)]))
       }
@@ -621,24 +621,23 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FAL
   removedcases <- 0
   loop <- TRUE
   # start loop
-  while(loop==TRUE) {
+  while(loop == TRUE) {
     # get outliers of model
     ol <- car::outlierTest(model)
     # retrieve variable numbers of outliers
     vars <- as.numeric(names(ol$p))
     # update model by removing outliers
-    dummymodel <- update(model, subset=-c(vars))
+    dummymodel <- update(model, subset = -c(vars))
     # retrieve new r2
     dummyrs <- summary(dummymodel)$r.squared
     # decrease maximum loops
-    maxcnt <- maxcnt -1
+    maxcnt <- maxcnt - 1
     # check whether r2 of updated model is lower
     # than previous r2 or if we have already all loop-steps done,
     # stop loop
-    if(dummyrs<rs || maxcnt<1) {
+    if(dummyrs < rs || maxcnt < 1) {
       loop <- FALSE
-    }
-    else {
+    } else {
       # else copy new model, which is the better one (according to r2)
       model <- dummymodel
       # and get new r2
@@ -652,23 +651,26 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FAL
   # ---------------------------------
   message(sprintf(("Removed %i cases during %i step(s).\nR^2 / adj. R^2 of original model: %f / %f\nR^2 / adj. R^2 of updated model: %f / %f\n"), 
               removedcases,
-              maxloops-(maxcnt+1), 
+              maxloops - (maxcnt + 1), 
               summary(linreg)$r.squared, 
               summary(linreg)$adj.r.squared,
               summary(model)$r.squared, 
               summary(model)$adj.r.squared))
-  modelOptmized <- ifelse(removedcases>0, TRUE, FALSE)
+  modelOptmized <- ifelse(removedcases > 0, TRUE, FALSE)
   if (showOriginalModelOnly) modelOptmized <- FALSE
   # ---------------------------------
   # show VIF-Values
   # ---------------------------------
+  sjp.setTheme(theme = "539")
   sjp.vif(linreg)
   if (modelOptmized) sjp.vif(model)
   # ---------------------------------
   # Print non-normality of residuals and outliers both of original and updated model
   # dots should be plotted along the line, this the dots should follow a linear direction
   # ---------------------------------
-  mydf <- data.frame(x = sort(linreg$fitted.values), y = sort(linreg$residuals))
+  mydf <- data.frame(x = sort(linreg$fitted.values), 
+                     y = sort(linreg$residuals))
+  sjp.setTheme(theme = "scatter")
   print(ggplot(mydf, aes(x = x, y = y)) + 
           geom_point() + 
           stat_smooth(method = "lm", se = FALSE) +
@@ -688,16 +690,35 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FAL
   # Print non-normality of residuals both of original and updated model
   # Distribution should look like normal curve
   # ---------------------------------
-  print(ggplot(linreg, aes(x=.resid)) + 
-          geom_histogram(aes(y=..density..), binwidth=0.2, fill="grey60", colour="grey30") +
-          geom_density(aes(y=..density..), fill="#4080cc", alpha=0.2) +
-          stat_function(fun=dnorm, args=list(mean=mean(unname(linreg$residuals), na.rm=TRUE), sd=sd(unname(linreg$residuals), na.rm=TRUE)), colour="FireBrick", size=0.8) +
+  sjp.setTheme(theme = "539")
+  print(ggplot(linreg, aes(x = .resid)) + 
+          geom_histogram(aes(y = ..density..), 
+                         binwidth = 0.2, 
+                         fill = "grey60", 
+                         colour = "grey30") +
+          geom_density(aes(y = ..density..), 
+                       fill = "#4080cc", 
+                       alpha = 0.2) +
+          stat_function(fun = dnorm, 
+                        args = list(mean = mean(unname(linreg$residuals), na.rm = TRUE), 
+                                    sd = sd(unname(linreg$residuals), na.rm = TRUE)), 
+                        colour = "FireBrick", 
+                        size = 0.8) +
           ggtitle("Non-normality of residuals (original model)\n(Distribution should look like normal curve)"))
   if (modelOptmized) {
-    print(ggplot(model, aes(x=.resid)) + 
-            geom_histogram(aes(y=..density..), binwidth=0.2, fill="grey60", colour="grey30") +
-            geom_density(aes(y=..density..), fill="#4080cc", alpha=0.2) +
-            stat_function(fun=dnorm, args=list(mean=mean(unname(model$residuals), na.rm=TRUE), sd=sd(unname(model$residuals), na.rm=TRUE)), colour="FireBrick", size=0.8) +
+    print(ggplot(model, aes(x = .resid)) + 
+            geom_histogram(aes(y = ..density..), 
+                           binwidth = 0.2, 
+                           fill = "grey60", 
+                           colour = "grey30") +
+            geom_density(aes(y = ..density..), 
+                         fill = "#4080cc", 
+                         alpha = 0.2) +
+            stat_function(fun = dnorm, 
+                          args = list(mean = mean(unname(model$residuals), na.rm = TRUE), 
+                                      sd = sd(unname(model$residuals), na.rm = TRUE)), 
+                          colour = "FireBrick", 
+                          size = 0.8) +
             ggtitle("Non-normality of residuals (updated model)\n(Distribution should look like normal curve)"))
   }
   # ---------------------------------
@@ -716,30 +737,33 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FAL
   # you want is something that is akin towards a horizontal line. In such case, the data is somehow not homogenous 
   # maybe because one part of the data is more variable than another. If that is the case, you might need to transform 
   # the data in order to make it meet the assumptions that are necessary for linear models.  
-  print(ggplot(linreg, aes(x=.fitted, y=.resid)) +
-          geom_hline(yintercept=0, alpha=0.7) +
+  sjp.setTheme(theme = "scatter")
+  print(ggplot(linreg, aes(x = .fitted, y = .resid)) +
+          geom_hline(yintercept = 0, alpha = 0.7) +
           geom_point() +
-          geom_smooth(method="loess", se=FALSE) +
+          geom_smooth(method = "loess", se = FALSE) +
           ggtitle("Homoscedasticity (homogeneity of variance,\nrandomly distributed residuals, original model)\n(Amount and distance of points scattered above/below line is equal)"))
   
   if (modelOptmized) {
-    print(ggplot(model, aes(x=.fitted, y=.resid)) +
-            geom_hline(yintercept=0, alpha=0.7) +
+    print(ggplot(model, aes(x = .fitted, y = .resid)) +
+            geom_hline(yintercept = 0, alpha = 0.7) +
             geom_point() +
-            geom_smooth(method="loess", se=FALSE) +
+            geom_smooth(method = "loess", se = FALSE) +
             ggtitle("Homoscedasticity (homogeneity of variance,\nrandomly distributed residuals, updated model)\n(Amount and distance of points scattered above/below line is equal)"))
   }
   # ---------------------------------
   # summarize old and new model
   # ---------------------------------
-  sjp.lm(linreg, title="Original model")
-  if (modelOptmized) sjp.lm(model, title="Updated model")
+  sjp.setTheme(theme = "forestgrey")
+  sjp.lm(linreg, title = "Original model")
+  if (modelOptmized) sjp.lm(model, title = "Updated model")
   if (completeDiagnostic) {
     # ---------------------------------
     # Plot residuals against predictors
     # ---------------------------------
-    sjp.reglin(linreg, title="Relationship of residuals against predictors (original model) (if scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly", breakTitleAt=60, useResiduals = T)
-    if (modelOptmized) sjp.reglin(model, title="Relationship of residuals against predictors (updated model) (if scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly", breakTitleAt=60, useResiduals = T)
+    sjp.setTheme(theme = "scatter")
+    sjp.reglin(linreg, title = "Relationship of residuals against predictors (original model) (if scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly", breakTitleAt=60, useResiduals = T)
+    if (modelOptmized) sjp.reglin(model, title = "Relationship of residuals against predictors (updated model) (if scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly", breakTitleAt=60, useResiduals = T)
     # ---------------------------------
     # Non-linearity
     # ---------------------------------

@@ -365,28 +365,23 @@ sjp.int <- function(fit,
   # thus, the starting point is first position after all single
   # predictor variables
   # -----------------------------------------------------------
-  # init indicator for first term
-  firstit <- 0
-  # iterate all rownames. interaction terms contain a colon...
-  for (i in 1:length(it)) {
-    # check whether current interactio term name contains a ":",
-    # and firstit is not already set
-    pos <- grep(":", it[i], fixed = FALSE)
-    if (length(pos) > 0) {
-      # set position to first interaction term in model
-      firstit <- i
-      break;
-    }
-  }
+  # find interaction terms, which contains a colon, in row names
+  firstit <- grep(":", it, fixed = TRUE)[1]
   # check whether we have any interaction terms included at all
-  if(firstit == 0) stop("No interaction term found in fitted model...", call. = FALSE)
+  if(is.null(firstit) || is.na(firstit) || firstit == 0) {
+    warning("No interaction term found in fitted model...", call. = FALSE)
+    return (NULL)
+  }
   # save names of interaction predictor variables into this object
   intnames <- c()
   for (i in firstit:length(pval)) {
     if (pval[i] < plevel) intnames <- c(intnames, it[i])
   }
   # check for any signigicant interactions, stop if nothing found
-  if (is.null(intnames)) stop("No significant interactions found...", call. = FALSE)
+  if (is.null(intnames)) {
+    warning("No significant interactions found...", call. = FALSE)
+    return (NULL)
+  }
   # -----------------------------------------------------------
   # check whether parameter X=TRUE was set when fitting the linear
   # model. if not, we cannot procede here. not needed for
@@ -394,7 +389,8 @@ sjp.int <- function(fit,
   # -----------------------------------------------------------
   if(fun == "lm" || fun == "glm") {
     if (class(fit$x) != "matrix") {
-      stop("The model matrix is not available! Please use \"x=TRUE\" in your (g)lm-command...", call. = FALSE)
+      warning("The model matrix is not available! Please use \"x=TRUE\" in your (g)lm-command...", call. = FALSE)
+      return (NULL)
     }
     # -----------------------------------------------------------
     # copy variable values to data frame

@@ -2,17 +2,18 @@
 % Please edit documentation in R/sjPlotAncovaLSMeans.R
 \name{sjp.emm.int}
 \alias{sjp.emm.int}
-\title{Plot adjusted (estimated marginal) means of interaction (moderation) in linear models}
+\title{Plot estimated marginal means of Two-Way Repeated Measures AN(C)OVA}
 \usage{
 sjp.emm.int(fit, swapPredictors = FALSE, plevel = 0.05, title = NULL,
   geom.colors = "Set1", axisTitle.x = NULL, axisTitle.y = NULL,
-  legendLabels = NULL, showValueLabels = FALSE, valueLabel.digits = 2,
-  breakTitleAt = 50, breakLegendLabelsAt = 20,
-  breakAnnotationLabelsAt = 50, axisLimits.y = NULL, gridBreaksAt = NULL,
+  axisLabels.x = NULL, legendLabels = NULL, showValueLabels = FALSE,
+  valueLabel.digits = 2, showCI = FALSE, breakTitleAt = 50,
+  breakLegendLabelsAt = 20, axisLimits.y = NULL, gridBreaksAt = NULL,
   printPlot = TRUE)
 }
 \arguments{
-\item{fit}{the fitted linear model (lm) object, including interaction terms}
+\item{fit}{the fitted linear (mixed effect) model (\code{\link{lm}} or \code{\link[lme4]{lmer}}),
+including interaction terms}
 
 \item{swapPredictors}{if \code{TRUE}, the grouping variable and predictor on
 the x-axis are swapped.}
@@ -31,6 +32,9 @@ which means that each plot's x-axis uses the predictor's name as title.}
 \item{axisTitle.y}{a default title used for the y-axis. Default value is \code{NULL},
 which means that each plot's y-axis uses the dependent variable's name as title.}
 
+\item{axisLabels.x}{Character vector with value labels of the repeated measure variable
+that are used for labelling the x-axis.}
+
 \item{legendLabels}{Labels for the guide/legend. Default is \code{NULL}, so the name of the predictor with
 min/max-effect is used as legend label.}
 
@@ -38,15 +42,14 @@ min/max-effect is used as legend label.}
 
 \item{valueLabel.digits}{the amount of digits of the displayed value labels. Defaults to 2.}
 
+\item{showCI}{If \code{TRUE}, a confidence region for the estimated marginal means
+will be plotted.}
+
 \item{breakTitleAt}{Wordwrap for diagram's title. Determines how many chars of the title are
 displayed in one line and when a line break is inserted. Default is \code{50}.}
 
 \item{breakLegendLabelsAt}{Wordwrap for diagram legend labels. Determines how many chars of the legend labels are
 displayed in one line and when a line break is inserted. Default is \code{20}.}
-
-\item{breakAnnotationLabelsAt}{Wordwrap for diagram annotation labels. Determines how many chars of the legend labels are
-displayed in one line and when a line break is inserted. Default is \code{50}.
-Only applies if \code{showInterceptLine} is \code{TRUE}.}
 
 \item{axisLimits.y}{A vector with two values, defining the lower and upper limit from the y-axis.
 By default, this value is \code{NULL}, i.e. axis limits will be calculated upon the
@@ -63,9 +66,12 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
           as well as the data frame that were used for setting up the ggplot-objects (\code{df.list}).
 }
 \description{
-Plot estimated marginal means of (significant) interaction terms in linear models (lm). This function may
-               be used to plot differences in interventions between control and treatment groups over multiple
-               time points.
+Plot estimated marginal means (also called \emph{least square means} or
+               \emph{marginal means}) of (significant) interaction terms in two-way
+               repeated measure ANOVA or ANCOVA. The fitted models may be linear (mixed
+               effects) models of class \code{\link{lm}} or \code{\link[lme4]{merMod}}.
+               This function may be used to plot differences in interventions between
+               control and treatment groups over multiple time points.
 }
 \note{
 Please note that all interaction terms have to be of type \code{\link{factor}}!

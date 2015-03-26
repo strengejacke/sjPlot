@@ -193,7 +193,8 @@ dist_chisq <- function(chi2 = NULL,
   # check parameters
   # --------------------------------------
   if (is.null(deg.f)) {
-    stop("Degrees of freedom ('deg.f') needs to be specified.", call. = F)
+    warning("Degrees of freedom ('deg.f') needs to be specified.", call. = F)
+    return (NULL)
   }
   # --------------------------------------
   # determine maximum range of x-axis. if we have
@@ -331,7 +332,8 @@ dist_f <- function(f = NULL,
   # check parameters
   # --------------------------------------
   if (is.null(deg.f1) || is.null(deg.f2)) {
-    stop("Both degrees of freedom ('deg.f1' and 'deg.f2') needs to be specified.", call. = F)
+    warning("Both degrees of freedom ('deg.f1' and 'deg.f2') needs to be specified.", call. = F)
+    return (NULL)
   }
   # --------------------------------------
   # determine maximum range of x-axis. if we have
@@ -342,20 +344,16 @@ dist_f <- function(f = NULL,
   if (is.null(xmax)) {
     if (is.null(f)) {
       f.max <- qf(0.00001, deg.f1, deg.f2, lower.tail = F)
-    }
     # --------------------------------------
     # else, if we have a f-value, take into
     # account all possible f-values that would lead
     # to a theoretical p-value of 0.00001.
     # --------------------------------------
-    else {
+    } else {
       f.max <- f
-      while (pf(f.max, deg.f1, deg.f2, lower.tail = F) > 0.00001) {
-        f.max <- f.max +1
-      }
+      while (pf(f.max, deg.f1, deg.f2, lower.tail = F) > 0.00001) f.max <- f.max +1
     }
-  }
-  else {
+  } else {
     f.max <- xmax
   }
   # --------------------------------------
@@ -369,15 +367,14 @@ dist_f <- function(f = NULL,
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated f-value...
-    sub.df <- mydat[mydat$x > qf(p, deg.f1, deg.f2, lower.tail=F), ]
-  }
-  else if (!is.null(f)) {
+    sub.df <- mydat[mydat$x > qf(p, deg.f1, deg.f2, lower.tail = F), ]
+  } else if (!is.null(f)) {
     # resp. for p-value...
     sub.df <- mydat[mydat$x > f, ]
   }
   if (!is.null(sub.df)) {
-    sub.df$p.level  <- ifelse(sub.df$x > qf(0.05, deg.f1, deg.f2, lower.tail=F), "sig", "non-sig")
-    fv <- qf(0.05, deg.f1, deg.f2, lower.tail=F)
+    sub.df$p.level  <- ifelse(sub.df$x > qf(0.05, deg.f1, deg.f2, lower.tail = F), "sig", "non-sig")
+    fv <- qf(0.05, deg.f1, deg.f2, lower.tail = F)
     gp <- gp +
       geom_ribbon(data = sub.df,
                   aes(ymax = y, fill = p.level),
@@ -467,7 +464,8 @@ dist_t <- function(t = NULL,
   # check parameters
   # --------------------------------------
   if (is.null(deg.f)) {
-    stop("Degrees of freedom ('deg.f') needs to be specified.", call. = F)
+    warning("Degrees of freedom ('deg.f') needs to be specified.", call. = F)
+    return (NULL)
   }
   # --------------------------------------
   # determine maximum range of x-axis. if we have
