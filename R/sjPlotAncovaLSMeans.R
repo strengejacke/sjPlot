@@ -414,15 +414,9 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, axisTi
   # --------------------------------------------------------
   if (!is.null(legendLabels) && is.list(legendLabels)) legendLabels <- unlistlabels(legendLabels)
   # -----------------------------------------------------------
-  # retrieve estimated marginal means for all predictors of
-  # the model, with various statistics in a data frame format
+  # get terms of fitted model
   # -----------------------------------------------------------
-  emm.df <- lmerTest::lsmeans(fit)[[1]]
-  # -----------------------------------------------------------
-  # get row names (all predictor names) of fitted model
-  # needed to find interaction terms
-  # -----------------------------------------------------------
-  preds <- unique(substr(rownames(emm.df), 0, regexpr(" ", rownames(emm.df)) - 1))
+  preds <- attr(terms(fit), "term.labels")
   # interaction terms contain colons
   it.names <- c()
   # any predictors with colon?
@@ -502,11 +496,10 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, axisTi
     # -----------------------------------------------------------
     term.pairs <- interactionterms[cnt, ]
     # -----------------------------------------------------------
-    # get all data from estimated marginal means for this interaction
+    # retrieve estimated marginal means for all predictors of
+    # the model, with various statistics in a data frame format
     # -----------------------------------------------------------
-    emm.rows <- grep(paste(term.pairs, collapse = ":"), 
-                     rownames(emm.df), 
-                     fixed = T)
+    emm.df <- lmerTest::lsmeans(fit, paste(term.pairs, collapse = ":"))[[1]]
     # swap predictors?
     if (swapPredictors) term.pairs <- rev(term.pairs)
     # -----------------------------------------------------------
@@ -523,12 +516,8 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, axisTi
     # -----------------------------------Ï------------------------
     # create data frame from lsmeans
     # -----------------------------------------------------------
-    intdf <- data.frame(emm.df[emm.rows, emm.col[1]],
-                        emm.df[emm.rows, emm.col[2]], 
-                        emm.df[emm.rows, emm.col[3]], 
-                        emm.df[emm.rows, emm.col[4]],
-                        emm.df[emm.rows, emm.col[5]], 
-                        rep(valueLabel.digits, times = length(emm.rows)))
+    intdf <- data.frame(emm.df[, emm.col],
+                        rep(valueLabel.digits, times = nrow(emm.df)))
     colnames(intdf) <- c("x", "y", "grp", "l.ci", "u.ci", "vld")
     # -----------------------------------------------------------
     # convert df-values to numeric

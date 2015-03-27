@@ -374,6 +374,7 @@ sjp.glmer <- function(fit,
 #' sjp.lmer(fit, type = "re.qq")}
 #'
 #' @import ggplot2
+#' @importFrom car Anova
 #' @export
 sjp.lmer <- function(fit,
                      type = "re",
@@ -629,17 +630,23 @@ sjp.lme4  <- function(fit,
     if (ncol(cs) >= 4) {
       pv <- cs[, 4]
     } else {
-      # if we don't have p-values in summary,
-      # don't show them
-      pv <- rep(1, nrow(cs))
-      showPValueLabels <- FALSE
+      # if we don't have p-values in summary, try to get them via anova
+      pia <- car::Anova(fit, type = "III")
+      # find column that indicates p-values
+      pia_col <- grep("Pr(>", colnames(pia), fixed = T)
+      # if we found p-values, use these values
+      if(length(pia_col) > 0 && nrow(cs) == nrow(pia)) {
+        pv <- pia[, pia_col]
+      } else {
+        # else don't show p-values
+        pv <- rep(1, nrow(cs))
+        showPValueLabels <- FALSE
+      }
     }
-    # for better readability, convert p-values to asterisks
-    # with:
-    # p < 0.001 = ***
-    # p < 0.01 = **
-    # p < 0.05 = *
-    # retrieve odds ratios
+    # ----------------------------
+    # retrieve odds ratios resp.
+    # betas or standardized betas
+    # ----------------------------
     if (fun == "glm") {
       ov <- exp(lme4::fixef(fit))
     } else {
@@ -661,6 +668,11 @@ sjp.lme4  <- function(fit,
     }
     # ----------------------------
     # copy p-values into data column
+    # for better readability, convert p-values to asterisks
+    # with:
+    # p < 0.001 = ***
+    # p < 0.01 = **
+    # p < 0.05 = *
     # ----------------------------
     if (showPValueLabels) {
       for (i in 1:length(pv)) {
@@ -684,7 +696,7 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     mydf$grp <- c("1")
     facet.grid <- FALSE
-    if (is.null(title)) title <- "Fixed effects"
+    if (is.null(title)) title <- ifelse(type == "fe.std", "Standardized fixed effects", "Fixed effects")
     # ---------------------------------------
     # show intercept?
     # ---------------------------------------
@@ -923,7 +935,7 @@ sjp.lme4  <- function(fit,
   # -------------------------------------
   invisible (structure(class = ifelse (fun == "glm", "sjpglmer", "sjplmer"),
                        list(plot = me.plot,
-                            plot.list <- me.plot.list,
+                            plot.list = me.plot.list,
                             mydf = mydf)))
 }
 
