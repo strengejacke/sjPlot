@@ -490,7 +490,7 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     # check amounnt of random intercepts
     # ---------------------------------------
-    if (length(lme4::ranef(fit)) > ri.nr) {
+    if (ri.nr > length(lme4::ranef(fit))) {
       message("Index specified in 'ri.nr' was larger than amount of random intercepts in model. Paramater 'ri.nr' was set to 1.")
       ri.nr <- 1
     }
@@ -1124,7 +1124,7 @@ sjp.lme.reprobcurve <- function(fit,
   # ---------------------------------------
   # check amounnt of random intercepts
   # ---------------------------------------
-  if (length(lme4::ranef(fit)) > ri.nr) {
+  if (ri.nr > length(lme4::ranef(fit))) {
     message("Index specified in 'ri.nr' was larger than amount of random intercepts in model. Paramater 'ri.nr' was set to 1.")
     ri.nr <- 1
   }
@@ -1136,8 +1136,7 @@ sjp.lme.reprobcurve <- function(fit,
   if (!is.null(vars)) {
     if (is.character(vars)) {
       fit.term.names <- fit.term.names[!is.na(match(fit.term.names, vars))]
-    }
-    else {
+    } else {
       fit.term.names <- fit.term.names[vars]
     }
   }
@@ -1167,8 +1166,7 @@ sjp.lme.reprobcurve <- function(fit,
         # add reference level to coefficient name
         ll <- levels(vals)
         fit.fac.name <- paste0(fit.term.names[i], ll[length(ll)])
-      }
-      else {
+      } else {
         fit.fac.name <- fit.term.names[i]
       }
       # find coef-position
@@ -1251,7 +1249,7 @@ sjp.lme.feri <- function(fit,
   # ---------------------------------------
   # check amounnt of random intercepts
   # ---------------------------------------
-  if (length(lme4::ranef(fit)) > ri.nr) {
+  if (ri.nr > length(lme4::ranef(fit))) {
     message("Index specified in 'ri.nr' was larger than amount of random intercepts in model. Paramater 'ri.nr' was set to 1.")
     ri.nr <- 1
   }
