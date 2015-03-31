@@ -6,14 +6,14 @@
 \usage{
 sjp.emm.int(fit, swapPredictors = FALSE, plevel = 0.05, title = NULL,
   geom.colors = "Set1", axisTitle.x = NULL, axisTitle.y = NULL,
-  axisLabels.x = NULL, legendLabels = NULL, showValueLabels = FALSE,
-  valueLabel.digits = 2, showCI = FALSE, breakTitleAt = 50,
-  breakLegendLabelsAt = 20, axisLimits.y = NULL, gridBreaksAt = NULL,
-  printPlot = TRUE)
+  axisLabels.x = NULL, legendTitle = NULL, legendLabels = NULL,
+  showValueLabels = FALSE, valueLabel.digits = 2, showCI = FALSE,
+  breakTitleAt = 50, breakLegendTitleAt = 20, breakLegendLabelsAt = 20,
+  axisLimits.y = NULL, gridBreaksAt = NULL, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{the fitted linear (mixed effect) model (\code{\link{lm}} or \code{\link[lme4]{lmer}}),
-including interaction terms}
+including interaction terms.}
 
 \item{swapPredictors}{if \code{TRUE}, the grouping variable and predictor on
 the x-axis are swapped.}
@@ -35,8 +35,11 @@ which means that each plot's y-axis uses the dependent variable's name as title.
 \item{axisLabels.x}{Character vector with value labels of the repeated measure variable
 that are used for labelling the x-axis.}
 
-\item{legendLabels}{Labels for the guide/legend. Default is \code{NULL}, so the name of the predictor with
-min/max-effect is used as legend label.}
+\item{legendTitle}{Character vector with title of the diagram's legend. Default is
+\code{NULL}, so the name of the grouping variable is used as legend title.}
+
+\item{legendLabels}{Labels for the guide/legend. Default is \code{NULL}, so the levels of
+the grouping variable are used as legend labels.}
 
 \item{showValueLabels}{if \code{TRUE}, value labels are plotted along the lines. Default is \code{FALSE}.}
 
@@ -47,6 +50,9 @@ will be plotted.}
 
 \item{breakTitleAt}{Wordwrap for diagram's title. Determines how many chars of the title are
 displayed in one line and when a line break is inserted. Default is \code{50}.}
+
+\item{breakLegendTitleAt}{Wordwrap for diagram legend title. Determines how many chars of the legend's title
+are displayed in one line and when a line break is inserted.}
 
 \item{breakLegendLabelsAt}{Wordwrap for diagram legend labels. Determines how many chars of the legend labels are
 displayed in one line and when a line break is inserted. Default is \code{20}.}

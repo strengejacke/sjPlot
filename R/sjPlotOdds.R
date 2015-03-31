@@ -240,7 +240,7 @@ sjp.glm <- function(fit,
   # print p-values in bar charts
   # ----------------------------
   # retrieve sigificance level of independent variables (p-values)
-  if (class(fit) == "logistf") {
+  if (any(class(fit) == "logistf")) {
     pv <- fit$prob
   } else {
     pv <- coef(summary(fit))[,4]
@@ -252,19 +252,11 @@ sjp.glm <- function(fit,
   # p < 0.05 = *
   # retrieve odds ratios
   ov <- exp(coef(fit))
-  # init data column for p-values
-  ps <- NULL
-  for (i in 1:length(pv)) {
-    ps[i] <- c("")
-  }
   # ----------------------------
   # copy OR-values into data column
   # ----------------------------
-  if (showValueLabels) {
-    for (i in 1:length(pv)) {
-      ps[i] <- sprintf("%.*f", labelDigits, ov[i])
-    }
-  }
+  ps <- rep("", length(ov))
+  if (showValueLabels) ps <- sprintf("%.*f", labelDigits, ov)
   # ----------------------------
   # copy p-values into data column
   # ----------------------------

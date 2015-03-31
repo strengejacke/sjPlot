@@ -111,9 +111,9 @@ Invisibly returns a \code{\link{structure}} with
            for further use.
 }
 \description{
-Performes a principle component analysis on a data frame or matrix and
-               displays the factor solution as HTML table, or saves them as file.
-               \cr \cr In case a data frame is used as
+Performes a principle component analysis on a data frame or matrix
+               (with varimax rotation) and displays the factor solution as HTML
+               table, or saves them as file. \cr \cr In case a data frame is used as
                parameter, the Cronbach's Alpha value for each factor scale will be calculated,
                i.e. all variables with the highest loading for a factor are taken for the
                reliability test. The result is an alpha value for each factor dimension.

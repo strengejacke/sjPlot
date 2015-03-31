@@ -75,11 +75,12 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
            }
 }
 \description{
-Performes a principle component analysis on a data frame or matrix and plots
-               the factor solution as ellipses or tiles. \cr \cr In case a data frame is used as
-               parameter, the cronbach's alpha value for each factor scale will be calculated,
-               i.e. all variables with the highest loading for a factor are taken for the
-               reliability test. The result is an alpha value for each factor dimension.
+Performes a principle component analysis on a data frame or matrix (with
+               varimax rotation) and plots the factor solution as ellipses or tiles. \cr \cr
+               In case a data frame is used as parameter, the cronbach's alpha value for
+               each factor scale will be calculated, i.e. all variables with the highest
+               loading for a factor are taken for the reliability test. The result is
+               an alpha value for each factor dimension.
 }
 \note{
 This PCA uses the \code{\link{prcomp}} function and the \code{\link{varimax}} rotation.

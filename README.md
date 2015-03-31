@@ -41,12 +41,13 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * `sjt.mwu` to print Mann-Whitney-tests as HTML-table.
 
 #### Changes to functions
+* `sjp.lmer` now calculates approximate p-values based on Wald chi-squared tests.
 * `sjp.glm` now supports plotting `logistf` objects [(#issue 11)](https://github.com/sjPlot/devel/issues/11).
 * `sjp.glmm` and `sjp.lmm` now also accept a list of fitted models (see examples in `?sjp.glmm` and `?sjp.lmm`).
 * `sjp.emm.int` now also accepts `lmerMod`-objects from `lme4`-package.
 * Added parameter `legendTitle` to `sjp.int`.
 * Added parameter `int.plot.index` to `sjp.int`, so only selected interaction terms may be plotted.
-* Added parameter `showCI` to `sjp.emm.int` to add confidence intervals to estimates marginal means.
+* Added parameter `showCI` to `sjp.emm.int` to add confidence intervals to estimated marginal means.
 * Added parameter `axisLabels.x` to `sjp.emm.int` to manually add value labels for the x-axis.
 * Parameter `legendLabels` of `sjp.int` now accepts a list of character vectors, with one vector of legend labels for each interaction plot plotted.
 * Parameter `title` of `sjp.int` now accepts a character vector of same length as interaction terms, with one title character string for each interaction plot plotted.

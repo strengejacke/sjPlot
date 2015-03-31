@@ -57,7 +57,7 @@ that contains the html-data. Use this, if you want to remove parantheses for htm
 may look less pretty, but it may help when exporting html-tables to office tools.}
 }
 \value{
-Invisibly returns a \code{\link{structure}} with
+Invisibly returns a \code{\link{list}} with
          \itemize{
            \item the data frame with the description information (\code{df}),
            \item the web page style sheet (\code{page.style}),

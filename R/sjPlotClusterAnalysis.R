@@ -274,9 +274,9 @@ sjc.qclus <- function(data,
     # iterate legend labels
     for (i in 1:length(legendLabels)) {
       # label string for group count
-      gcnt.label <- sprintf("n=%i", length(which(grp==i)))
+      gcnt.label <- sprintf("n=%i", length(which(grp == i)))
       # label string for accuracy
-      acc.label <- sprintf("accuracy=%.2f%%", 100*grp.accuracy$accuracy[i])
+      acc.label <- sprintf("accuracy=%.2f%%", 100 * grp.accuracy$accuracy[i])
       # prepare legend label
       legendLabels[i] <- paste0(legendLabels[i], " (")
       # add group count to each label
@@ -297,16 +297,16 @@ sjc.qclus <- function(data,
   # ---------------------------------------------
   for (cnt in 1:colnr) {
     # retrieve column data
-    coldat <- z[,cnt]
+    coldat <- z[, cnt]
     # ---------------------------------------------
     # iterate groups
     # ---------------------------------------------
     for (i in 1:groupcount) {
       # retrieve column values for each group
-      grpvalues <- coldat[which(grp==i)]
+      grpvalues <- coldat[which(grp == i)]
       # calculate mean
-      mw <- mean(grpvalues, na.rm=TRUE)
-      df <- rbind(df, cbind(x=cnt, y=mw, group=i))
+      mw <- mean(grpvalues, na.rm = TRUE)
+      df <- rbind(df, cbind(x = cnt, y = mw, group = i))
     }
     # df %.% group_by(grp) %.% summarise(mean(a))
   }
@@ -317,9 +317,7 @@ sjc.qclus <- function(data,
   # --------------------------------------------------------
   # Hide or show Axis Labels (x axis text) 
   # --------------------------------------------------------
-  if (!showAxisLabels.x) {
-    axisLabels.x <- NULL
-  }
+  if (!showAxisLabels.x) axisLabels.x <- NULL
   # --------------------------------------------------------
   # create plot
   # --------------------------------------------------------

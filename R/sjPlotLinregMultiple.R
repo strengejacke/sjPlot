@@ -225,11 +225,8 @@ sjp.lmm <- function(...,
     # ----------------------------
     # copy beta-values into data column
     # ----------------------------
-    if (showValueLabels) {
-      for (i in 1:length(pv)) {
-        ps[i] <- sprintf("%.*f", labelDigits, ov[i])
-      }
-    }
+    ps <- rep("", length(ov))
+    if (showValueLabels) ps <- sprintf("%.*f", labelDigits, ov)
     # ----------------------------
     # copy p-values into data column
     # ----------------------------

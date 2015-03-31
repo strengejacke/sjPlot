@@ -42,7 +42,7 @@
 #' @param remove.spaces logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
 #'          that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
 #'          may look less pretty, but it may help when exporting html-tables to office tools.
-#' @return Invisibly returns a \code{\link{structure}} with
+#' @return Invisibly returns a \code{\link{list}} with
 #'          \itemize{
 #'            \item the data frame with the description information (\code{df}),
 #'            \item the web page style sheet (\code{page.style}),
@@ -109,8 +109,7 @@ sjt.grpmean <- function(varCount,
   for (i in 1:length(means.p)) {
     if (means.p[i] < 0.001) {
       pval <- c(pval, sprintf("&lt;%s.001", p_zero))
-    }
-    else {
+    } else {
       pval <- c(pval, sub("0", p_zero, sprintf("%.*f", digits, means.p[i]), fixed = T))
     }
   } 
@@ -147,9 +146,7 @@ sjt.grpmean <- function(varCount,
   # --------------------------------------
   # fix row labels, if empty or NULL
   # --------------------------------------
-  if (is.null(rowLabels) || length(rowLabels) < (nrow(df) - 1)) {
-    rowLabels <- as.character(indices)
-  }
+  if (is.null(rowLabels) || length(rowLabels) < (nrow(df) - 1)) rowLabels <- as.character(indices)
   rownames(df) <- c(rowLabels, "Total")
   # --------------------------------------
   # get anova statistics for mean table
@@ -161,8 +158,10 @@ sjt.grpmean <- function(varCount,
   # get F-statistics
   fstat <- summary.lm(fit)$fstatistic[1]
   # p-value for F-test
-  pval <- summary(fit)[[1]]['Pr(>F)'][1,1]
-  pvalstring <- ifelse(pval < 0.001, sprintf("p&lt;%s.001", p_zero), sub("0", p_zero, sprintf("p=%.*f", digits.summary, pval)))
+  pval <- summary(fit)[[1]]['Pr(>F)'][1, 1]
+  pvalstring <- ifelse(pval < 0.001, 
+                       sprintf("p&lt;%s.001", p_zero), 
+                       sub("0", p_zero, sprintf("p=%.*f", digits.summary, pval)))
   # --------------------------------------
   # print data frame to html table
   # --------------------------------------
@@ -186,10 +185,10 @@ sjt.grpmean <- function(varCount,
   # check if html-content should be printed
   # -------------------------------------
   out.html.table(no.output, file, html$knitr, html$output.complete, useViewer)  
-  invisible (list(class="sjtgrpmean",
-                  df=df,
+  invisible (list(class = "sjtgrpmean",
+                  df = df, 
                   page.style = html$page.style,
                   page.content = html$page.content,
-                  knitr=html$knitr,
-                  output.complete=html$output.complete))
+                  knitr = html$knitr,
+                  output.complete = html$output.complete))
 }

@@ -188,12 +188,11 @@ sjt.itemanalysis <- function(df,
   varlabels <- c()
   for (i in 1:ncol(df)) {
     # retrieve variable name attribute
-    vn <- sjmisc:::autoSetVariableLabels(df[,i])
+    vn <- sjmisc:::autoSetVariableLabels(df[, i])
     # if variable has attribute, add to variableLabel list
     if (!is.null(vn)) {
       varlabels <- c(varlabels, vn)
-    }
-    else {
+    } else {
       # else break out of loop
       varlabels <- NULL
       break
@@ -205,7 +204,7 @@ sjt.itemanalysis <- function(df,
   # for data frame
   # -----------------------------------
   if (is.null(factor.groups)) {
-    factor.groups <- rep(1, length.out=ncol(df))
+    factor.groups <- rep(1, length.out = ncol(df))
   }
   # data frame with data from item-analysis-output-table
   df.ia <- list()
@@ -224,7 +223,7 @@ sjt.itemanalysis <- function(df,
   # -----------------------------------
   # set titles
   # -----------------------------------
-  if (!is.null(factor.groups.titles) && (factor.groups.titles[1]=="auto" || length(factor.groups.titles)!=length(findex))) {
+  if (!is.null(factor.groups.titles) && (factor.groups.titles[1] == "auto" || length(factor.groups.titles) != length(findex))) {
     factor.groups.titles <- sprintf("Component %i", seq_along(findex))
   }
   # -----------------------------------
@@ -249,12 +248,12 @@ sjt.itemanalysis <- function(df,
     # -----------------------------------
     # retrieve sub-scale
     # -----------------------------------
-    df.sub <- subset(df, select=which(factor.groups==findex[i]))
+    df.sub <- subset(df, select = which(factor.groups == findex[i]))
     # -----------------------------------
     # remember item (column) names for return value
     # return value gets column names of initial data frame
     # -----------------------------------
-    df.names <- colnames(df)[which(factor.groups==findex[i])]
+    df.names <- colnames(df)[which(factor.groups == findex[i])]
     # -----------------------------------
     # retrieve missings for each item
     # -----------------------------------
@@ -262,7 +261,7 @@ sjt.itemanalysis <- function(df,
     # -----------------------------------
     # retrieve missing percentage for each item
     # -----------------------------------
-    missings.prz <- apply(df.sub, 2, function(x) round(100*sum(is.na(x))/length(x),2))
+    missings.prz <- apply(df.sub, 2, function(x) round(100 * sum(is.na(x)) / length(x), 2))
     # -----------------------------------
     # remove missings
     # -----------------------------------
@@ -271,20 +270,20 @@ sjt.itemanalysis <- function(df,
     # item difficulty
     # -----------------------------------
     itemcnt <- ncol(df.sub)
-    difficulty <- apply(df.sub, 2, function(x) round(sum(x)/(max(x)*length(x)),2))
+    difficulty <- apply(df.sub, 2, function(x) round(sum(x) / (max(x) * length(x)), 2))
     # -----------------------------------
     # ideal item difficulty
     # -----------------------------------
     fun.diff.ideal <- function(x) {
-      p <- 1/max(x)
-      return (round(p+(1-p)/2,2))
+      p <- 1 / max(x)
+      return (round(p + (1 - p) / 2, 2))
     }
     diff.ideal <- apply(df.sub, 2, fun.diff.ideal)
     # -----------------------------------
     # get statistics
     # -----------------------------------
     dstat <- psych::describe(df.sub)
-    reli <- sjmisc::reliab_test(df.sub, scaleItems=scaleItems)
+    reli <- sjmisc::reliab_test(df.sub, scaleItems = scaleItems)
     # -----------------------------------
     # get index score value, by retrieving the row mean
     # -----------------------------------
@@ -293,30 +292,32 @@ sjt.itemanalysis <- function(df,
     # store scaled values of each item's total score
     # to compute correlation coefficients between identified components
     # -----------------------------------
-    df.subcc <- subset(df, select=which(factor.groups==findex[i]))
-    comcor <- scale(apply(df.subcc, 1, sum), center=TRUE, scale=TRUE)
+    df.subcc <- subset(df, select = which(factor.groups == findex[i]))
+    comcor <- scale(apply(df.subcc, 1, sum), center = TRUE, scale = TRUE)
     # -----------------------------------
     # check if we have valid return values from reliability test.
     # In case df had less than 3 columns, NULL is returned
     # -----------------------------------
     if (!is.null(reli)) {
-      alpha <- reli[,1]
-      itemdis <- reli[,2]
-    }
-    else {
+      alpha <- reli[, 1]
+      itemdis <- reli[, 2]
+    } else {
       alpha <- as.factor(NA)
       itemdis <- as.factor(NA)
     }
     # -----------------------------------
     # create dummy data frame
     # -----------------------------------
-    df.dummy <- data.frame(cbind(sprintf("%.2f %%", missings.prz), round(dstat$mean,2), round(dstat$sd,2), round(dstat$skew,2)))
+    df.dummy <- data.frame(cbind(sprintf("%.2f %%", missings.prz), 
+                                 round(dstat$mean, 2), 
+                                 round(dstat$sd, 2), 
+                                 round(dstat$skew, 2)))
     df.colnames <- c("Missings", "Mean", "SD", "Skew")
     # -----------------------------------
     # include kurtosis statistics
     # -----------------------------------
     if (showKurtosis) {
-      df.dummy <- data.frame(cbind(df.dummy, round(dstat$kurtosis,2)))
+      df.dummy <- data.frame(cbind(df.dummy, round(dstat$kurtosis, 2)))
       df.colnames <- c(df.colnames, "Kurtosis")
     }
     # -----------------------------------
@@ -338,15 +339,15 @@ sjt.itemanalysis <- function(df,
     # -----------------------------------
     # add results to return list
     # -----------------------------------
-    df.ia[[length(df.ia)+1]] <- df.dummy
-    diff.ideal.list[[length(diff.ideal.list)+1]] <- diff.ideal
-    index.scores[[length(index.scores)+1]] <- item.score
-    cronbach.total[[length(cronbach.total)+1]] <- sjmisc::cronb(df.sub)
-    df.comcor[[length(df.comcor)+1]] <- comcor
+    df.ia[[length(df.ia) + 1]] <- df.dummy
+    diff.ideal.list[[length(diff.ideal.list) + 1]] <- diff.ideal
+    index.scores[[length(index.scores) + 1]] <- item.score
+    cronbach.total[[length(cronbach.total) + 1]] <- sjmisc::cronb(df.sub)
+    df.comcor[[length(df.comcor) + 1]] <- comcor
     # -----------------------------------
     # Mean-interitem-corelation
     # -----------------------------------
-    mic.total[[length(mic.total)+1]] <- sjmisc::mic(df.sub)
+    mic.total[[length(mic.total) + 1]] <- sjmisc::mic(df.sub)
   }
   # -----------------------------------
   # create data frame with index scores,
@@ -356,7 +357,7 @@ sjt.itemanalysis <- function(df,
     # column names equal row-index-values
     index <- as.numeric(names(index.scores[[i]]))
     # fill df with index-score-values
-    df.index.scores[index,i] <- index.scores[[i]]
+    df.index.scores[index, i] <- index.scores[[i]]
   }
   # -----------------------------------
   # create page with all html content
@@ -384,16 +385,18 @@ sjt.itemanalysis <- function(df,
     # add to complete html-page
     complete.page <- paste0(complete.page, html$knitr)
     complete.page <- paste0(complete.page, "<p style=\"margin:2em;\">&nbsp;</p>")
-    knitr.list[[length(knitr.list)+1]] <- html$knitr
+    knitr.list[[length(knitr.list) + 1]] <- html$knitr
   }
   # -------------------------------------
   # show component correlation table
   # -------------------------------------
   if (showCompCorrMat) {
     # check if we have enough components
-    if (length(df.comcor)>1) {
+    if (length(df.comcor) > 1) {
       # copy all component correlation values to a data frame
-      df.cc <- data.frame(matrix(unlist(df.comcor), nrow=nrow(df), byrow=FALSE))
+      df.cc <- data.frame(matrix(unlist(df.comcor), 
+                                 nrow = nrow(df), 
+                                 byrow = FALSE))
       # give proper columm names
       colnames(df.cc) <- sprintf("Component %i", c(1:ncol(df.cc)))
       # compute correlation table, store html result
@@ -406,7 +409,7 @@ sjt.itemanalysis <- function(df,
                        no.output = TRUE)
       # add to html that is printed
       complete.page <- paste0(complete.page, html$knitr)
-      knitr.list[[length(knitr.list)+1]] <- html$knitr
+      knitr.list[[length(knitr.list) + 1]] <- html$knitr
     }
   }
   # -------------------------------------
@@ -425,13 +428,13 @@ sjt.itemanalysis <- function(df,
   # check if html-content should be printed
   # -------------------------------------
   out.html.table(no.output, file, knitr, complete.page, useViewer)  
-  invisible (list(class="sjtitemanalysis",
-                  df.list=df.ia,
-                  index.scores=index.scores,
-                  df.index.scores=df.index.scores,
-                  cronbach.values=cronbach.total,
-                  ideal.item.diff=diff.ideal.list,
-                  knitr=knitr,
-                  knitr.list=knitr.list,
-                  complete.page=complete.page))
+  invisible (list(class = "sjtitemanalysis",
+                  df.list = df.ia,
+                  index.scores = index.scores,
+                  df.index.scores = df.index.scores,
+                  cronbach.values = cronbach.total,
+                  ideal.item.diff = diff.ideal.list,
+                  knitr = knitr,
+                  knitr.list = knitr.list,
+                  complete.page = complete.page))
 }

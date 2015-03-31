@@ -24,7 +24,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("xn", "vld"))
 #'          }
 #' 
 #' @param fit the fitted linear (mixed effect) model (\code{\link{lm}} or \code{\link[lme4]{lmer}}),
-#'          including interaction terms
+#'          including interaction terms.
 #' @param swapPredictors if \code{TRUE}, the grouping variable and predictor on
 #'          the x-axis are swapped.
 #' @param plevel Indicates at which p-value an interaction term is considered as significant. Default is
@@ -38,14 +38,18 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("xn", "vld"))
 #'          which means that each plot's y-axis uses the dependent variable's name as title.
 #' @param axisLabels.x Character vector with value labels of the repeated measure variable 
 #'          that are used for labelling the x-axis.
-#' @param legendLabels Labels for the guide/legend. Default is \code{NULL}, so the name of the predictor with 
-#'          min/max-effect is used as legend label.
+#' @param legendTitle Character vector with title of the diagram's legend. Default is 
+#'          \code{NULL}, so the name of the grouping variable is used as legend title.
+#' @param legendLabels Labels for the guide/legend. Default is \code{NULL}, so the levels of 
+#'          the grouping variable are used as legend labels.
 #' @param showValueLabels if \code{TRUE}, value labels are plotted along the lines. Default is \code{FALSE}.
 #' @param valueLabel.digits the amount of digits of the displayed value labels. Defaults to 2.
 #' @param showCI If \code{TRUE}, a confidence region for the estimated marginal means
 #'          will be plotted.
 #' @param breakTitleAt Wordwrap for diagram's title. Determines how many chars of the title are 
 #'          displayed in one line and when a line break is inserted. Default is \code{50}.
+#' @param breakLegendTitleAt Wordwrap for diagram legend title. Determines how many chars of the legend's title 
+#'          are displayed in one line and when a line break is inserted.
 #' @param breakLegendLabelsAt Wordwrap for diagram legend labels. Determines how many chars of the legend labels are 
 #'          displayed in one line and when a line break is inserted. Default is \code{20}.
 #' @param axisLimits.y A vector with two values, defining the lower and upper limit from the y-axis.
@@ -118,11 +122,13 @@ sjp.emm.int <- function(fit,
                        axisTitle.x=NULL,
                        axisTitle.y=NULL,
                        axisLabels.x=NULL,
+                       legendTitle=NULL,
                        legendLabels=NULL,
                        showValueLabels=FALSE,
                        valueLabel.digits=2,
                        showCI=FALSE,
                        breakTitleAt=50,
+                       breakLegendTitleAt=20,
                        breakLegendLabelsAt=20,
                        axisLimits.y=NULL,
                        gridBreaksAt=NULL,
@@ -156,6 +162,7 @@ sjp.emm.int <- function(fit,
   # unlist labels
   # --------------------------------------------------------
   if (!is.null(legendLabels) && is.list(legendLabels)) legendLabels <- unlistlabels(legendLabels)
+  if (!is.null(legendTitle) && is.list(legendTitle)) legendTitle <- unlist(legendTitle)
   # -----------------------------------------------------------
   # retrieve p-values, without intercept
   # -----------------------------------------------------------
@@ -315,10 +322,22 @@ sjp.emm.int <- function(fit,
     } else {
       labtitle <- title
     }
+    # -----------------------------------------------------------
+    # legend labels
+    # -----------------------------------------------------------
     if (is.null(legendLabels)) {
       lLabels <- levels(fit$model[term.pairs[1]][, 1])
     } else {
       lLabels <- legendLabels
+    }
+    # -----------------------------------------------------------
+    # legend title
+    # -----------------------------------------------------------
+    if (is.null(legendTitle)) {
+      lTitle <- term.pairs[1]
+    } else {
+      # set legend title for plot
+      lTitle <- legendTitle
     }
     if (is.null(axisLabels.x)) axisLabels.x <- alx
     if (!is.null(axisTitle.x)) {
@@ -338,6 +357,8 @@ sjp.emm.int <- function(fit,
     labtitle <- sjmisc::word_wrap(labtitle, breakTitleAt)
     # wrap legend labels
     lLabels <- sjmisc::word_wrap(lLabels, breakLegendLabelsAt)
+    # wrap legend title
+    lTitle <- sjmisc::word_wrap(lTitle, breakLegendTitleAt)
     # -----------------------------------------------------------
     # prepare base plot of interactions
     # -----------------------------------------------------------
@@ -371,7 +392,7 @@ sjp.emm.int <- function(fit,
       labs(title = labtitle, 
            x = labx, 
            y = laby, 
-           colour = term.pairs[1]) +
+           colour = lTitle) +
       # set axis scale breaks
       scale_y_continuous(limits = c(lowerLim.y, upperLim.y), breaks = gridbreaks.y)
     # ---------------------------------------------------------

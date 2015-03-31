@@ -631,17 +631,19 @@ sjp.lme4  <- function(fit,
       pv <- cs[, 4]
     } else {
       # if we don't have p-values in summary, try to get them via anova
-      pia <- car::Anova(fit, type = "III")
-      # find column that indicates p-values
-      pia_col <- grep("Pr(>", colnames(pia), fixed = T)
-      # if we found p-values, use these values
-      if(length(pia_col) > 0 && nrow(cs) == nrow(pia)) {
-        pv <- pia[, pia_col]
-      } else {
-        # else don't show p-values
-        pv <- rep(1, nrow(cs))
-        showPValueLabels <- FALSE
-      }
+      # we use type 3 here to include intercept
+      message("Computing approximate p-values via Wald chi-squared test...")
+      pia <- suppressMessages(car::Anova(fit, type = "III"))
+      # factors may have multiple levels, however, p-value 
+      # is not calculated for each factor level. Drop these p-values.
+      pia$`Pr(>Chisq)`[which(pia$Df > 1)] <- NA
+      pv <- c()
+      # to get matching rows between model coefficient and p-values
+      # calculated by anova, we "repeat" rows of factors - these factors
+      # appear multiple times in the coefficient table (one for each factor
+      # level), however, only once in the anova table. Factor levels,
+      # i.e. times to repeat, is indicated by the Df.
+      pv <- c(pv, rep(pia$`Pr(>Chisq)`, pia$Df))
     }
     # ----------------------------
     # retrieve odds ratios resp.
@@ -661,11 +663,7 @@ sjp.lme4  <- function(fit,
     # ----------------------------
     # copy OR-values into data column
     # ----------------------------
-    if (showValueLabels) {
-      for (i in 1:length(ov)) {
-        ps[i] <- sprintf("%.*f", labelDigits, ov[i])
-      }
-    }
+    if (showValueLabels) ps <- sprintf("%.*f", labelDigits, ov)
     # ----------------------------
     # copy p-values into data column
     # for better readability, convert p-values to asterisks
@@ -676,7 +674,9 @@ sjp.lme4  <- function(fit,
     # ----------------------------
     if (showPValueLabels) {
       for (i in 1:length(pv)) {
-        if (pv[i] >= 0.01 && pv[i] < 0.05) {
+        if (is.na(pv[i])) {
+          ps[i] <- ""
+        } else if (pv[i] >= 0.01 && pv[i] < 0.05) {
           ps[i] <- paste(ps[i], "*")
         } else if (pv[i] >= 0.001 && pv[i] < 0.01) {
           ps[i] <- paste(ps[i], "**")

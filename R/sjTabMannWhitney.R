@@ -9,6 +9,12 @@
 #' @param alternateRowColors If \code{TRUE}, alternating rows are highlighted with a light gray
 #'          background color.
 #' @param title A table caption. By default, \code{title} is \code{NULL}, hence no title will be used.
+#' @param file The destination file, which will be in html-format. If no filepath is specified,
+#'          the file will be saved as temporary file and openend either in the RStudio View pane or
+#'          in the default web browser.
+#' @param encoding The charset encoding used for variable and value labels. Default is \code{NULL}, so encoding
+#'          will be auto-detected depending on your platform (\code{"UTF-8"} for Unix and \code{"Windows-1252"} for
+#'          Windows OS). Change encoding if specific chars are not properly displayed (e.g.) German umlauts).
 #' @param CSS A \code{\link{list}} with user-defined style-sheet-definitions, according to the 
 #'          \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See return value \code{page.style} for details
 #'          of all style-sheet-classnames that are used in this function. Parameters for this list need:
@@ -34,7 +40,7 @@
 #' @param remove.spaces logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
 #'          that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
 #'          may look less pretty, but it may help when exporting html-tables to office tools.
-#' @return Invisibly returns a \code{\link{structure}} with
+#' @return Invisibly returns a \code{\link{list}} with
 #'          \itemize{
 #'            \item the data frame with the description information (\code{data}),
 #'            \item the web page style sheet (\code{page.style}),
@@ -54,7 +60,9 @@
 sjt.mwu <- function(x, 
                     title = NULL, 
                     alternateRowColors = TRUE, 
-                    CSS = NULL, 
+                    file=NULL,
+                    encoding=NULL,
+                    CSS=NULL,
                     useViewer = TRUE, 
                     no.output = FALSE,
                     remove.spaces = TRUE) {
@@ -81,13 +89,24 @@ sjt.mwu <- function(x,
   # --------------------------------------------------------
   # print table and return results
   # --------------------------------------------------------
-  return(sjt.df(x$tab.df, 
-                title = title,
-                describe = F, 
-                showRowNames = F, 
-                alternateRowColors = alternateRowColors,
-                CSS = CSS,
-                useViewer = useViewer,
-                no.output = no.output,
-                remove.spaces = remove.spaces))
+  html <- sjt.df(x$tab.df, 
+                 title = title,
+                 describe = F, 
+                 showRowNames = F, 
+                 alternateRowColors = alternateRowColors,
+                 CSS = CSS,
+                 no.output = T,
+                 encoding = encoding,
+                 hideProgressBar = T,
+                 remove.spaces = remove.spaces)
+  # -------------------------------------
+  # check if html-content should be printed
+  # -------------------------------------
+  out.html.table(no.output, file, html$knitr, html$output.complete, useViewer)  
+  invisible (list(class = "sjtmwu",
+                  df = x$tab.df, 
+                  page.style = html$page.style,
+                  page.content = html$page.content,
+                  knitr = html$knitr,
+                  output.complete = html$output.complete))
 }

@@ -250,9 +250,9 @@ sjp.aov1 <- function(depVar,
   # ----------------------------
   if (meansums) {
     for (i in 2:length(means)) {
-      means[i] <- means[i]+means[1]
-      means.lci[i] <- means.lci[i]+means[1]
-      means.uci[i] <- means.uci[i]+means[1]
+      means[i] <- means[i] + means[1]
+      means.lci[i] <- means.lci[i] + means[1]
+      means.uci[i] <- means.uci[i] + means[1]
     }
   }
   # ----------------------------
@@ -269,16 +269,14 @@ sjp.aov1 <- function(depVar,
     # get F-statistics
     fstat <- summary.lm(fit)$fstatistic[1]
     # p-value for F-test
-    pval <- summary(fit)[[1]]['Pr(>F)'][1,1]
+    pval <- summary(fit)[[1]]['Pr(>F)'][1, 1]
     # indicate significance level by stars
     pan <- c("")
     if (pval < 0.001) {
       pan <- c("***")
-    }
-    else  if (pval < 0.01) {
+    } else if (pval < 0.01) {
       pan <- c("**")
-    }
-    else  if (pval < 0.05) {
+    } else if (pval < 0.05) {
       pan <- c("*")
     }
     # create mathematical term
@@ -306,16 +304,12 @@ sjp.aov1 <- function(depVar,
   # --------------------------------------------------------
   if (showPValueLabels) {
     for (i in 1:length(means.p)) {
-      if (means.p[i] >= 0.05) {
-      }
-      else if (means.p[i] >= 0.01 && means.p[i] < 0.05) {
-        ps[i] <- paste(ps[i], "*")
-      }
-      else if (means.p[i] >= 0.001 && means.p[i] < 0.01) {
-        ps[i] <- paste(ps[i], "**")
-      }
-      else {
+      if (means.p[i] < 0.001) {
         ps[i] <- paste(ps[i], "***")
+      } else if (means.p[i] >= 0.001 && means.p[i] < 0.01) {
+        ps[i] <- paste(ps[i], "**")
+      } else if (means.p[i] >= 0.01 && means.p[i] < 0.05) {
+        ps[i] <- paste(ps[i], "*")
       }
     }  
   }

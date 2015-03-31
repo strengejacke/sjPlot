@@ -1,11 +1,12 @@
 #' @title Plot PCA results
 #' @name sjp.pca
 #' 
-#' @description Performes a principle component analysis on a data frame or matrix and plots 
-#'                the factor solution as ellipses or tiles. \cr \cr In case a data frame is used as 
-#'                parameter, the cronbach's alpha value for each factor scale will be calculated,
-#'                i.e. all variables with the highest loading for a factor are taken for the
-#'                reliability test. The result is an alpha value for each factor dimension.
+#' @description Performes a principle component analysis on a data frame or matrix (with
+#'                varimax rotation) and plots the factor solution as ellipses or tiles. \cr \cr 
+#'                In case a data frame is used as parameter, the cronbach's alpha value for 
+#'                each factor scale will be calculated, i.e. all variables with the highest 
+#'                loading for a factor are taken for the reliability test. The result is 
+#'                an alpha value for each factor dimension.
 #' 
 #' @seealso \itemize{
 #'            \item \href{http://www.strengejacke.de/sjPlot/sjp.pca/}{sjPlot manual: sjp.pca}
@@ -272,7 +273,7 @@ sjp.pca <- function(data,
       # retrieve 2. highest loading
       max2load <- sort(rowval, TRUE)[2]
       # check difference between both
-      if (abs(maxload-max2load) < factorLoadingTolerance) {
+      if (abs(maxload - max2load) < factorLoadingTolerance) {
         # if difference is below the tolerance,
         # remeber row-ID so we can remove that items
         # for further PCA with updated data frame
@@ -371,13 +372,15 @@ sjp.pca <- function(data,
   }
   heatmap <- heatmap +
     geo +
-    scale_y_reverse(breaks = c(seq(1, length(axisLabels.y), by = 1)), labels = axisLabels.y) +
+    scale_y_reverse(breaks = c(seq(1, length(axisLabels.y), by = 1)), 
+                    labels = axisLabels.y) +
     # --------------------------------------------------------
-    # fill gradient colour from distinct color brewer palette. negative correlations are dark
-    # red, positive corr. are dark blue, and they become lighter the closer they are to a
-    # correlation coefficient of zero
+    # fill gradient colour from distinct color brewer palette. 
+    # negative correlations are dark red, positive corr. are dark blue, 
+    # and they become lighter the closer they are to a correlation 
+    # coefficient of zero
     # --------------------------------------------------------
-    scale_fill_gradientn(colours = geom.colors, limits = c(-1,1)) +
+    scale_fill_gradientn(colours = geom.colors, limits = c(-1, 1)) +
     geom_text(label = valueLabels) +
     labs(title = title, x = NULL, y = NULL, fill = NULL) +
     guides(fill = FALSE)
@@ -386,7 +389,12 @@ sjp.pca <- function(data,
   # --------------------------------------------------------
   if (showCronbachsAlpha) {
     heatmap <- heatmap +
-      annotate("text", x = alphaValues$nr, y = Inf, parse = TRUE, label = sprintf("alpha == %.*f", digits, alphaValues$alpha), vjust = -0.5)
+      annotate("text", 
+               x = alphaValues$nr, 
+               y = Inf, 
+               parse = TRUE, 
+               label = sprintf("alpha == %.*f", digits, alphaValues$alpha), 
+               vjust = -0.5)
   }
   # --------------------------------------------------------
   # print plot

@@ -4,8 +4,9 @@
 \alias{sjt.mwu}
 \title{Show Mann-Whitney-Test as HTML table}
 \usage{
-sjt.mwu(x, title = NULL, alternateRowColors = TRUE, CSS = NULL,
-  useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
+sjt.mwu(x, title = NULL, alternateRowColors = TRUE, file = NULL,
+  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
+  remove.spaces = TRUE)
 }
 \arguments{
 \item{x}{Results of a Mann-Whitney-U test, provided by \code{\link[sjmisc]{mwu}}. See examples.}
@@ -14,6 +15,14 @@ sjt.mwu(x, title = NULL, alternateRowColors = TRUE, CSS = NULL,
 
 \item{alternateRowColors}{If \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
+
+\item{file}{The destination file, which will be in html-format. If no filepath is specified,
+the file will be saved as temporary file and openend either in the RStudio View pane or
+in the default web browser.}
+
+\item{encoding}{The charset encoding used for variable and value labels. Default is \code{NULL}, so encoding
+will be auto-detected depending on your platform (\code{"UTF-8"} for Unix and \code{"Windows-1252"} for
+Windows OS). Change encoding if specific chars are not properly displayed (e.g.) German umlauts).}
 
 \item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See return value \code{page.style} for details
@@ -45,7 +54,7 @@ that contains the html-data. Use this, if you want to remove parantheses for htm
 may look less pretty, but it may help when exporting html-tables to office tools.}
 }
 \value{
-Invisibly returns a \code{\link{structure}} with
+Invisibly returns a \code{\link{list}} with
          \itemize{
            \item the data frame with the description information (\code{data}),
            \item the web page style sheet (\code{page.style}),

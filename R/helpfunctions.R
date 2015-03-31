@@ -556,9 +556,7 @@ varimaxrota <- function(data, factors) {
 unlistlabels <- function(lab) {
   dummy <- unlist(lab)
   labels <- c()
-  for (i in 1:length(dummy)) {
-    labels <- c(labels, as.character(dummy[i]))
-  }
+  labels <- c(labels, as.character(dummy))
   return (labels)
 }
 

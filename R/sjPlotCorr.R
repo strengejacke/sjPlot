@@ -140,8 +140,7 @@ sjp.corr <- function(data,
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         axisLabels <- c(axisLabels, vn)
-      }
-      else {
+      } else {
         # else break out of loop
         axisLabels <- NULL
         break
@@ -153,8 +152,7 @@ sjp.corr <- function(data,
   # ----------------------------
   if (is.brewer.pal(geom.colors[1])) {
     geom.colors <- scales::brewer_pal(palette=geom.colors[1])(5)
-  }
-  else if (geom.colors[1] == "gs") {
+  } else if (geom.colors[1] == "gs") {
     geom.colors <- scales::grey_pal()(5)
   }
   # ----------------------------
@@ -193,8 +191,8 @@ sjp.corr <- function(data,
       for (i in 1:ncol(df)) {
         pv <- c()
         for (j in 1:ncol(df)) {
-          test <- cor.test(df[,i], df[,j], alternative="two.sided", method=corMethod)
-          pv <- cbind(pv, round(test$p.value,4))
+          test <- cor.test(df[, i], df[, j], alternative = "two.sided", method = corMethod)
+          pv <- cbind(pv, round(test$p.value, 4))
         }
         cp <- rbind(cp, pv)
       }
@@ -247,7 +245,7 @@ sjp.corr <- function(data,
   # --------------------------------------------------------
   yo <- c()
   for (i in 1:nrow(corr)) {
-    yo <- c(yo, c(rep(i,nrow(corr))))
+    yo <- c(yo, c(rep(i, nrow(corr))))
   }
   # --------------------------------------------------------
   # melt correlation matrix and create data frame
@@ -276,10 +274,10 @@ sjp.corr <- function(data,
     if (!pvaluesAsNumbers) {
       for (cpi in 1:nrow(cpvalues)) {
         cva <- cpvalues$value[cpi]
-        if (cva>=0.05) cpv <- c(cpv, "")
-        else if (cva>=0.01 && cva<0.05) cpv <- c(cpv, "*")
-        else if (cva>=0.001 && cva<0.01) cpv <- c(cpv, "**")
-        else if (cva<0.001) cpv <- c(cpv, "***")
+        if (cva >= 0.05) cpv <- c(cpv, "")
+        else if (cva >= 0.01 && cva < 0.05) cpv <- c(cpv, "*")
+        else if (cva >= 0.001 && cva < 0.01) cpv <- c(cpv, "**")
+        else if (cva < 0.001) cpv <- c(cpv, "***")
       }
     }
     else {

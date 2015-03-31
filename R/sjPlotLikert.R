@@ -239,8 +239,7 @@ sjp.likert <- function(items,
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         axisLabels.y <- c(axisLabels.y, vn)
-      }
-      else {
+      } else {
         # else break out of loop
         axisLabels.y <- NULL
         break
@@ -250,9 +249,7 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   # If axisLabels.y were not defined, simply use column names
   # --------------------------------------------------------
-  if (is.null(axisLabels.y)) {
-    axisLabels.y <- colnames(items)
-  }
+  if (is.null(axisLabels.y)) axisLabels.y <- colnames(items)
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------

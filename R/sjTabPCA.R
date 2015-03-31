@@ -1,9 +1,9 @@
 #' @title Show principal component analysis as HTML table
 #' @name sjt.pca
 #' 
-#' @description Performes a principle component analysis on a data frame or matrix and
-#'                displays the factor solution as HTML table, or saves them as file. 
-#'                \cr \cr In case a data frame is used as 
+#' @description Performes a principle component analysis on a data frame or matrix 
+#'                (with varimax rotation) and displays the factor solution as HTML 
+#'                table, or saves them as file. \cr \cr In case a data frame is used as 
 #'                parameter, the Cronbach's Alpha value for each factor scale will be calculated,
 #'                i.e. all variables with the highest loading for a factor are taken for the
 #'                reliability test. The result is an alpha value for each factor dimension.
@@ -190,12 +190,11 @@ sjt.pca <- function (data,
     # if yes, iterate each variable
     for (i in 1:ncol(data)) {
       # retrieve variable name attribute
-      vn <- sjmisc:::autoSetVariableLabels(data[,i])
+      vn <- sjmisc:::autoSetVariableLabels(data[, i])
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         varlabels <- c(varlabels, vn)
-      }
-      else {
+      } else {
         # else break out of loop
         varlabels <- NULL
         break
@@ -206,13 +205,15 @@ sjt.pca <- function (data,
   # check if user has passed a data frame
   # or a pca object
   # ----------------------------
-  if (class(data)=="prcomp") {
+  if (class(data) == "prcomp") {
     pcadata <- data
     dataframeparam <- FALSE
     showMSA <- FALSE
-  }
-  else {
-    pcadata <- prcomp(na.omit(data), retx=TRUE, center=TRUE, scale.=TRUE)
+  } else {
+    pcadata <- prcomp(na.omit(data), 
+                      retx = TRUE, 
+                      center = TRUE, 
+                      scale. = TRUE)
     dataframeparam <- TRUE
   }
   # -------------------------------------
@@ -302,24 +303,20 @@ sjt.pca <- function (data,
   # retrieve best amount of factors according
   # to Kaiser-critearia, i.e. factors with eigen value > 1
   # ----------------------------
-  pcadata.kaiser <- which(pcadata.eigenval<1)[1]-1
+  pcadata.kaiser <- which(pcadata.eigenval < 1)[1] - 1
   # --------------------------------------------------------
   # varimax rotation, retrieve factor loadings
   # --------------------------------------------------------
   # check for predefined number of factors
-  if (!is.null(numberOfFactors) && is.numeric(numberOfFactors)) {
-    pcadata.kaiser <- numberOfFactors
-  }
-  pcadata.varim = varimaxrota(pcadata, pcadata.kaiser)
+  if (!is.null(numberOfFactors) && is.numeric(numberOfFactors)) pcadata.kaiser <- numberOfFactors
+  pcadata.varim <- varimaxrota(pcadata, pcadata.kaiser)
   # create data frame with factor loadings
-  df <- as.data.frame(pcadata.varim$loadings[,1:ncol(pcadata.varim$loadings)])
+  df <- as.data.frame(pcadata.varim$loadings[, 1:ncol(pcadata.varim$loadings)])
   # ----------------------------
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
   # ----------------------------
-  if (is.null(varlabels)) {
-    varlabels <- row.names(df)
-  }
+  if (is.null(varlabels)) varlabels <- row.names(df)
   # ----------------------------
   # Prepare length of labels
   # ----------------------------
@@ -339,13 +336,13 @@ sjt.pca <- function (data,
     # one item with its factor loadings
     for (i in 1:nrow(dataframe)) {
       # get factor loadings for each item
-      rowval <- as.numeric(abs(df[i,]))
+      rowval <- as.numeric(abs(df[i, ]))
       # retrieve highest loading
       maxload <- max(rowval)
       # retrieve 2. highest loading
       max2load <- sort(rowval, TRUE)[2]
       # check difference between both
-      if (abs(maxload-max2load)<factorLoadingTolerance) {
+      if (abs(maxload-max2load) < factorLoadingTolerance) {
         # if difference is below the tolerance,
         # remeber row-ID so we can remove that items
         # for further PCA with updated data frame
@@ -369,9 +366,9 @@ sjt.pca <- function (data,
     # one item with its factor loadings
     for (i in 1:nrow(dataframe)) {
       # get factor loadings for each item
-      rowval <- abs(df[i,])
+      rowval <- abs(df[i, ])
       # retrieve highest loading and remeber that column
-      itemloading <- c(itemloading, which(rowval==max(rowval)))
+      itemloading <- c(itemloading, which(rowval == max(rowval)))
     }
     # return a vector with index numbers indicating which items
     # loads the highest on which factor
@@ -390,7 +387,7 @@ sjt.pca <- function (data,
     for (n in 1:length(unique(itemloadings))) {
       # calculate cronbach's alpha for those cases that all have the
       # highest loading on the same factor
-      cbv <- c(cbv, sjmisc::cronb(na.omit(dataframe[,which(itemloadings==n)])))
+      cbv <- c(cbv, sjmisc::cronb(na.omit(dataframe[, which(itemloadings == n)])))
     }
     # cbv now contains the factor numbers and the related alpha values
     # for each "factor dimension scale"
