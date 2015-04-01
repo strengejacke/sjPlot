@@ -8,7 +8,8 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lo
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm}
 #' 
 #' @description Depending on the \code{type}, this function plots beta coefficients (estimates) 
-#'                of linear regressions with confidence intervalls as dot plot (forest plot),
+#'                of linear regressions (including panel models fitted with the \code{plm} function 
+#'                from the plm-package) with confidence intervalls as dot plot (forest plot),
 #'                model assumptions for linear models or slopes and scatter plots for each single
 #'                coefficient. See \code{type} for details.
 #' 
@@ -19,7 +20,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lo
 #'            \item If \code{type = "vif"}, the Variance Inflation Factors (check for multicollinearity) are plotted. As a rule of thumb, values below 5 are considered as good and indicate no multicollinearity, values between 5 and 10 may be tolerable. Values greater than 10 are not acceptable and indicate multicollinearity between model's predictors.
 #'            }
 #'                
-#' @param fit The model of the linear regression (\code{\link{lm}}-Object).
+#' @param fit The model of the linear regression (\code{\link{lm}}- or \code{\link[plm]{plm}}-object).
 #' @param type type of plot. Use one of following:
 #'          \itemize{
 #'            \item \code{"lm"} (default) for forest-plot like plot of estimates. If the fitted model only contains one predictor, intercept and slope are plotted.
@@ -227,6 +228,21 @@ sjp.lm <- function(fit,
   # remember length of predictor variables
   # -----------------------------------------------------------
   predvars.length <- length(fit$coefficients)
+  # -----------------------------------------------------------
+  # check parameter. No model-summary supported for plm-objects
+  # -----------------------------------------------------------
+  if (any(class(fit) == "plm")) showModelSummary = F
+  # -----------------------------------------------------------
+  # check package availability if fit is plm-object
+  # -----------------------------------------------------------
+  if (any(class(fit) == "plm") && !"package:plm" %in% search()) {
+    # load needed package, for summary function
+    package_da <- require("plm")
+    # if package not available, tell user
+    if (!package_da) {
+      stop("Package 'plm' needed for this function to work. Please install it.", call. = FALSE)
+    }
+  }
   # -----------------------------------------------------------
   # this function requires a fitted model with only one predictor,
   # so check whether only one predictor was used
@@ -495,20 +511,16 @@ sjp.reglin <- function(fit,
   # retrieve column names of dataset so we can identify in which
   # column the data for each predictor is.
   # -----------------------------------------------------------
-  # check if we have x=TRUE parameter, so we use this. this
-  # data matrix also contains interaction terms or factor levels
-  if (any(names(fit) == "x")) {
-    predvars <- colnames(fit$x)[-1]
-    cn <- predvars
-    fit.x <- TRUE
-  # else we use the normal data frame retrieves from the model
+  if (any(class(fit) == "plm")) {
+    # plm objects have different structure than (g)lm
+    fit_x <- data.frame(cbind(fit$model[, 1], model.matrix(fit)))
+    depvar.label <- attr(attr(attr(fit$model, "terms"), "dataClasses"), "names")[1]
   } else {
-    predvars <- attr(attr(fit$terms, "dataClasses"), "names")[-1]
-    cn <- colnames(fit$model)
-    fit.x <- FALSE
-    message("Interaction terms and factor levels may not be included. Use 'x=TRUE' parameter in lm-call to plot all predictors.")
+    fit_x <- data.frame(model.matrix(fit))
+    depvar.label <- attr(attr(fit$terms, "dataClasses"), "names")[1]
   }
-  depvar.label <- attr(attr(fit$terms, "dataClasses"), "names")[1]
+  predvars <- colnames(fit_x)[-1]
+  cn <- predvars
   # remember length of predictor variables
   predvars.length <- length(predvars)
   # -----------------------------------------------------------
@@ -535,22 +547,12 @@ sjp.reglin <- function(fit,
     # create dummy-data frame with response and predictor
     # as data columns, used for the ggplot
     # -----------------------------------------------------------
-    if (fit.x) {
-      if (useResiduals) {
-        mydat <- as.data.frame(cbind(fit$x[, which(cn == xval) + 1],
-                                     fit$residuals))
-      } else {
-        mydat <- as.data.frame(cbind(fit$x[, which(cn == xval) + 1],
-                                     fit$model[, 1]))
-      }
+    if (useResiduals) {
+      mydat <- as.data.frame(cbind(fit_x[, which(cn == xval) + 1],
+                                   fit$residuals))
     } else {
-      if (useResiduals) {
-        mydat <- as.data.frame(cbind(fit$model[, which(cn == xval)],
-                                     fit$residuals))
-      } else {
-        mydat <- as.data.frame(cbind(fit$model[, which(cn == xval)],
-                                     fit$model[, which(cn == response)]))
-      }
+      mydat <- as.data.frame(cbind(fit_x[, which(cn == xval) + 1],
+                                   as.data.frame(fit$model)[, 1]))
     }
     # -----------------------------------------------------------
     # plot regression line and confidence intervall

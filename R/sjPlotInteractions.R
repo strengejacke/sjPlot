@@ -243,6 +243,14 @@ sjp.int <- function(fit,
   if ((fun == "lmer" || fun == "glmer") && !requireNamespace("lme4", quietly = TRUE)) {
     stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
   }
+  if (fun == "plm" && !"package:plm" %in% search()) {
+    # load needed package, for summary function
+    package_da <- require("plm")
+    # if package not available, tell user
+    if (!package_da) {
+      stop("Package 'plm' needed for this function to work. Please install it.", call. = FALSE)
+    }
+  }
   # -----------------------------------------------------------
   # parameter check
   # -----------------------------------------------------------
@@ -399,7 +407,11 @@ sjp.int <- function(fit,
     # -----------------------------------------------------------
     # copy variable values to data frame
     # -----------------------------------------------------------
-    fitdat <- as.data.frame(stats::model.matrix(fit))
+    if (fun == "plm") {
+      fitdat <- as.data.frame(cbind(fit$model[,1 ], model.matrix(fit)))
+    } else {
+      fitdat <- as.data.frame(model.matrix(fit))
+    }
   }
   # init vector that saves ggplot objects
   plotlist <- list()

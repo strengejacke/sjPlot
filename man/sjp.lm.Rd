@@ -18,7 +18,7 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   printPlot = TRUE)
 }
 \arguments{
-\item{fit}{The model of the linear regression (\code{\link{lm}}-Object).}
+\item{fit}{The model of the linear regression (\code{\link{lm}}- or \code{\link[plm]{plm}}-object).}
 
 \item{type}{type of plot. Use one of following:
 \itemize{
@@ -171,7 +171,8 @@ Depending on the \code{type}, in most cases (insisibily)
 }
 \description{
 Depending on the \code{type}, this function plots beta coefficients (estimates)
-               of linear regressions with confidence intervalls as dot plot (forest plot),
+               of linear regressions (including panel models fitted with the \code{plm} function
+               from the plm-package) with confidence intervalls as dot plot (forest plot),
                model assumptions for linear models or slopes and scatter plots for each single
                coefficient. See \code{type} for details.
 }
