@@ -408,7 +408,7 @@ sjp.int <- function(fit,
     # copy variable values to data frame
     # -----------------------------------------------------------
     if (fun == "plm") {
-      fitdat <- as.data.frame(cbind(fit$model[,1 ], model.matrix(fit)))
+      fitdat <- as.data.frame(cbind(as.vector(fit$model[, 1]), model.matrix(fit)))
     } else {
       fitdat <- as.data.frame(model.matrix(fit))
     }

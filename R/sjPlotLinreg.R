@@ -513,7 +513,7 @@ sjp.reglin <- function(fit,
   # -----------------------------------------------------------
   if (any(class(fit) == "plm")) {
     # plm objects have different structure than (g)lm
-    fit_x <- data.frame(cbind(fit$model[, 1], model.matrix(fit)))
+    fit_x <- data.frame(cbind(as.vector(fit$model[, 1]), model.matrix(fit)))
     depvar.label <- attr(attr(attr(fit$model, "terms"), "dataClasses"), "names")[1]
   } else {
     fit_x <- data.frame(model.matrix(fit))
@@ -552,7 +552,7 @@ sjp.reglin <- function(fit,
                                    fit$residuals))
     } else {
       mydat <- as.data.frame(cbind(fit_x[, which(cn == xval) + 1],
-                                   as.data.frame(fit$model)[, 1]))
+                                   as.vector(fit$model[, 1])))
     }
     # -----------------------------------------------------------
     # plot regression line and confidence intervall
@@ -813,9 +813,7 @@ sjp.lm1 <- function(fit,
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
   # -----------------------------------------------------------
-  if (!is.null(title)) {
-    title <- sjmisc::word_wrap(title, breakTitleAt)    
-  }
+  if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)    
   # -----------------------------------------------------------
   # remember length of predictor variables
   # -----------------------------------------------------------
@@ -824,7 +822,7 @@ sjp.lm1 <- function(fit,
   # this function requires a fitted model with only one predictor,
   # so check whether only one predictor was used
   # -----------------------------------------------------------
-  if (predvars.length>2) {
+  if (predvars.length > 2) {
     stop("Only one predictor is allowed in fitted model. Formula y=b*x is plotted.", call.=FALSE)
   }
   # -----------------------------------------------------------
@@ -842,12 +840,12 @@ sjp.lm1 <- function(fit,
   # as data columns, used for the ggplot
   # -----------------------------------------------------------
   if (useResiduals) {
-    mydat <- as.data.frame(cbind(x = fit$model[,2],
+    mydat <- as.data.frame(cbind(x = as.vector(fit$model[, 2]),
                                  y = fit$residuals))
-  }
-  else {
-    mydat <- as.data.frame(cbind(x = fit$model[,2],
-                                 y = fit$model[,1]))
+  } else {
+    # use as.vector, to make function work with plm-objects
+    mydat <- as.data.frame(cbind(x = as.vector(fit$model[, 2]),
+                                 y = as.vector(fit$model[, 1])))
   }
   # ----------------------------
   # create expression with model summarys. used
@@ -855,19 +853,14 @@ sjp.lm1 <- function(fit,
   # ----------------------------
   if (showModelSummary) {
     modsum <- sju.modsum.lm(fit)
-  }
-  else {
+  } else {
     modsum <- NULL
   }
   # ----------------------------
   # prepare axis labels
   # ----------------------------
-  if (is.null(axisLabel.x)) {
-    axisLabel.x <- xval
-  }
-  if (is.null(axisLabel.y)) {
-    axisLabel.y <- response
-  }
+  if (is.null(axisLabel.x)) axisLabel.x <- xval
+  if (is.null(axisLabel.y)) axisLabel.y <- response
   # check length of axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
   axisLabel.x <- sjmisc::word_wrap(axisLabel.x, breakLabelsAt)    
