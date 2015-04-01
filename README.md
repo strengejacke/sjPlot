@@ -31,7 +31,7 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of current development build 1.7-9
+### Changelog of current development build 1.7-10
 
 #### General
 * _Utility, recode and statistical test functions have been moved to another package called [sjmisc](https://github.com/sjPlot/sjmisc)!_
@@ -45,6 +45,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * `sjp.glm` now supports plotting `logistf` objects [(#issue 11)](https://github.com/sjPlot/devel/issues/11).
 * `sjp.glmm` and `sjp.lmm` now also accept a list of fitted models (see examples in `?sjp.glmm` and `?sjp.lmm`).
 * `sjp.emm.int` now also accepts `lmerMod`-objects from `lme4`-package.
+* `sjp.int` now supports `plm` objects (from plm-package).
 * Added parameter `legendTitle` to `sjp.int`.
 * Added parameter `int.plot.index` to `sjp.int`, so only selected interaction terms may be plotted.
 * Added parameter `showCI` to `sjp.emm.int` to add confidence intervals to estimated marginal means.

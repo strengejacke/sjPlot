@@ -1,4 +1,4 @@
-Version 1.7-9
+Version 1.7-10
 ------------------------------------------------------------------------------
 General:
 * Utility, recode and statistical test functions have been moved to another package called "sjmisc"! sjPlot now imports sjmisc.
@@ -12,6 +12,7 @@ Changes to functions:
 * "sjp.glm" now supports plotting "logistf" objects.
 * "sjp.glmm" and "sjp.lmm" now also accept a list of fitted models (see examples in ?sjp.glmm and ?sjp.lmm).
 * "sjp.emm.int" now also accepts lmerMod-objects from lme4-package.
+* "sjp.int" now supports "plm" objects (from plm-package).
 * Added parameter "legendTitle" to "sjp.int".
 * Added parameter "int.plot.index" to "sjp.int", so only selected interaction terms may be plotted.
 * Added parameter "showCI" to "sjp.emm.int" to add confidence intervals to estimated marginal means.

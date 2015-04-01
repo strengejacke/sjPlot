@@ -24,6 +24,7 @@ classes are
   \item generalized linear models (\code{glm})
   \item linear mixed effects models (\code{lme4::lmer})
   \item generalized linear mixed effects models (\code{lme4::glmer})
+  \item panel data estimators (\code{plm::plm})
   }}
 
 \item{int.plot.index}{A numeric vector with index numbers that indicate which
@@ -143,6 +144,7 @@ Plot regression (predicted values) or probability lines (predicted probabilities
                  \item generalized linear models (\code{glm})
                  \item linear mixed effects models (\code{lme4::lmer})
                  \item generalized linear mixed effects models (\code{lme4::glmer})
+                 \item panel data estimators (\code{plm::plm})
                }
                Note that beside interaction terms, also the single predictors of each interaction (main effects)
                must be included in the fitted model as well. Thus, \code{lm(dep ~ pred1 * pred2)} will work,
@@ -158,9 +160,7 @@ Note that beside interaction terms, also the single predictors of each interacti
 # fitting linear models. I just used them because they are part of the R-software.
 
 # fit "dummy" model.
-fit <- lm(weight ~ Time * Diet,
-          data = ChickWeight,
-          x = TRUE)
+fit <- lm(weight ~ Time * Diet, data = ChickWeight)
 
 # show summary to see significant interactions
 summary(fit)
@@ -184,7 +184,7 @@ mydf <- data.frame(usage = efc$tot_sc_e,
 # convert gender predictor to factor
 mydf$sex <- relevel(factor(mydf$sex), ref = "2")
 # fit "dummy" model
-fit <- lm(usage ~ .*., data = mydf, x = TRUE)
+fit <- lm(usage ~ .*., data = mydf)
 summary(fit)
 
 # plot interactions
@@ -213,8 +213,7 @@ mydf <- data.frame(y = as.factor(y),
 # fit model
 fit <- glm(y ~ sex * barthel,
            data = mydf,
-           family = binomial(link = "logit"),
-           x = TRUE)
+           family = binomial(link = "logit"))
 # plot interaction, increase p-level sensivity
 sjp.int(fit,
         legendLabels = get_val_labels(efc$c161sex),

@@ -16,6 +16,7 @@
 #'                  \item generalized linear models (\code{glm})
 #'                  \item linear mixed effects models (\code{lme4::lmer})
 #'                  \item generalized linear mixed effects models (\code{lme4::glmer})
+#'                  \item panel data estimators (\code{plm::plm})
 #'                }
 #'                Note that beside interaction terms, also the single predictors of each interaction (main effects)
 #'                must be included in the fitted model as well. Thus, \code{lm(dep ~ pred1 * pred2)} will work, 
@@ -34,6 +35,7 @@
 #'            \item generalized linear models (\code{glm})
 #'            \item linear mixed effects models (\code{lme4::lmer})
 #'            \item generalized linear mixed effects models (\code{lme4::glmer})
+#'            \item panel data estimators (\code{plm::plm})
 #'            }
 #' @param int.plot.index A numeric vector with index numbers that indicate which 
 #'          interaction terms should be plotted in case the \code{fit} has more than
@@ -119,9 +121,7 @@
 #' # fitting linear models. I just used them because they are part of the R-software.
 #'
 #' # fit "dummy" model.
-#' fit <- lm(weight ~ Time * Diet,
-#'           data = ChickWeight,
-#'           x = TRUE)
+#' fit <- lm(weight ~ Time * Diet, data = ChickWeight)
 #'
 #' # show summary to see significant interactions
 #' summary(fit)
@@ -145,7 +145,7 @@
 #' # convert gender predictor to factor
 #' mydf$sex <- relevel(factor(mydf$sex), ref = "2")
 #' # fit "dummy" model
-#' fit <- lm(usage ~ .*., data = mydf, x = TRUE)
+#' fit <- lm(usage ~ .*., data = mydf)
 #' summary(fit)
 #'
 #' # plot interactions
@@ -174,8 +174,7 @@
 #' # fit model
 #' fit <- glm(y ~ sex * barthel,
 #'            data = mydf,
-#'            family = binomial(link = "logit"),
-#'            x = TRUE)
+#'            family = binomial(link = "logit"))
 #' # plot interaction, increase p-level sensivity
 #' sjp.int(fit,
 #'         legendLabels = get_val_labels(efc$c161sex),
@@ -225,14 +224,17 @@ sjp.int <- function(fit,
   # check class of fitted model
   # -----------------------------------------------------------
   c.f <- class(fit)
-  if (length(c.f) == 1 && c.f == "lm") {
-    fun <- "lm"
-  } else if (length(c.f) > 1 && any(c.f == "glm")) {
+  fun <- "lm"
+  if (any(c.f == "glm")) {
     fun <- "glm"
-  } else if (c.f == "lmerMod") {
-    fun <- "lmer"
-  } else if (c.f == "glmerMod") {
+  } else if (any(c.f == "lm")) {
+    fun <- "lm"
+  } else if (any(c.f == "plm")) {
+    fun <- "plm"
+  } else if (any(c.f == "glmerMod")) {
     fun <- "glmer"
+  } else if (any(c.f == "lmerMod")) {
+    fun <- "lmer"
   }
   if ((fun == "glm" || fun == "glmer") && is.null(axisTitle.y)) axisTitle.y <- "Predicted Probability"
   # ------------------------
@@ -262,13 +264,19 @@ sjp.int <- function(fit,
   # -----------------------------------------------------------
   # prepare values for (generalized) linear models
   # -----------------------------------------------------------
-  if (fun == "lm" || fun == "glm") {
+  if (fun == "lm" || fun == "glm" || fun == "plm") {
     # -----------------------------------------------------------
     # retrieve amount and names of predictor variables and
     # of dependent variable
     # -----------------------------------------------------------
-    predvars <- attr(attr(fit$terms, "dataClasses"), "names")[-1]
-    depvar.label <- attr(attr(fit$terms, "dataClasses"), "names")[1]
+    if (fun == "plm") {
+      # plm objects have different structure than (g)lm
+      predvars <- attr(attr(attr(fit$model, "terms"), "dataClasses"), "names")[-1]
+      depvar.label <- attr(attr(attr(fit$model, "terms"), "dataClasses"), "names")[1]
+    } else {
+      predvars <- attr(attr(fit$terms, "dataClasses"), "names")[-1]
+      depvar.label <- attr(attr(fit$terms, "dataClasses"), "names")[1]
+    }
     # remember length of predictor variables
     predvars.length <- length(predvars)
     # -----------------------------------------------------------
@@ -387,15 +395,11 @@ sjp.int <- function(fit,
   # model. if not, we cannot procede here. not needed for
   # merMod objects, see above
   # -----------------------------------------------------------
-  if(fun == "lm" || fun == "glm") {
-    if (class(fit$x) != "matrix") {
-      warning("The model matrix is not available! Please use \"x=TRUE\" in your (g)lm-command...", call. = FALSE)
-      return (NULL)
-    }
+  if(fun == "lm" || fun == "glm" || fun == "plm") {
     # -----------------------------------------------------------
     # copy variable values to data frame
     # -----------------------------------------------------------
-    fitdat <- as.data.frame(fit$x)
+    fitdat <- as.data.frame(stats::model.matrix(fit))
   }
   # init vector that saves ggplot objects
   plotlist <- list()
