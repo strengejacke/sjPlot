@@ -235,13 +235,8 @@ sjp.lm <- function(fit,
   # -----------------------------------------------------------
   # check package availability if fit is plm-object
   # -----------------------------------------------------------
-  if (any(class(fit) == "plm") && !"package:plm" %in% search()) {
-    # load needed package, for summary function
-    package_da <- require("plm")
-    # if package not available, tell user
-    if (!package_da) {
-      stop("Package 'plm' needed for this function to work. Please install it.", call. = FALSE)
-    }
+  if (fun == "plm" && !"package:plm" %in% search()) {
+    stop("Package 'plm' needs to be loaded for this function to work... Use 'library(plm)' and call this function again.", call. = FALSE)
   }
   # -----------------------------------------------------------
   # this function requires a fitted model with only one predictor,

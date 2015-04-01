@@ -1,5 +1,5 @@
 # bind global variables
-if(getRversion() >= "2.15.1") utils::globalVariables(c("xn", "vld"))
+if(getRversion() >= "2.15.1") utils::globalVariables(c("xn", "vld", "l.ci", "u.ci"))
 
 #' @title Plot estimated marginal means of Two-Way Repeated Measures AN(C)OVA
 #' @name sjp.emm.int

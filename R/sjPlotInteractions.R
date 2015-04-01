@@ -244,12 +244,7 @@ sjp.int <- function(fit,
     stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
   }
   if (fun == "plm" && !"package:plm" %in% search()) {
-    # load needed package, for summary function
-    package_da <- require("plm")
-    # if package not available, tell user
-    if (!package_da) {
-      stop("Package 'plm' needed for this function to work. Please install it.", call. = FALSE)
-    }
+    stop("Package 'plm' needs to be loaded for this function to work... Use 'library(plm)' and call this function again.", call. = FALSE)
   }
   # -----------------------------------------------------------
   # parameter check
