@@ -32,9 +32,9 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ypos", "wb", "ia", "mw",
 #' @param type The plot type. May be one of the following:
 #'          \itemize{
 #'            \item \code{"b"}, \code{"bar"}, \code{"bars"} (default) for bar charts
-#'            \item \code{"l"}, \code{"line"}, \code{"lines"} for line diagram
 #'            \item \code{"d"}, \code{"dot"}, \code{"dots"} for dot plots
 #'            \item \code{"h"}, \code{"hist"}, \code{"histogram"} for grouped histograms
+#'            \item \code{"l"}, \code{"line"}, \code{"lines"} for line-styled histogram
 #'            \item \code{"box"}, \code{"boxplot"}, \code{"boxplots"} for box plots
 #'            \item \code{"v"}, \code{"violin"} for violin box plots
 #'            }
@@ -263,15 +263,9 @@ sjp.grpfrq <- function(varCount,
   # We have several options to name the diagram type
   # Here we will reduce it to a unique value
   # --------------------------------------------------------
-  if (type == "b" || type == "bar") {
-    type <- c("bars")
-  }
-  if (type == "l" || type == "line") {
-    type <- c("lines")
-  }
-  if (type == "d" || type == "dot") {
-    type <- c("dots")
-  }
+  if (type == "b" || type == "bar") type <- c("bars")
+  if (type == "l" || type == "line") type <- c("lines")
+  if (type == "d" || type == "dot") type <- c("dots")
   if (type == "h" || type == "hist") {
     type <- c("histogram")
     # no table summary and no group count for
@@ -279,16 +273,18 @@ sjp.grpfrq <- function(varCount,
     showTableSummary <- FALSE
     showGroupCount <- FALSE
   }
-  if (type == "box" || type == "boxplot") {
-    type <- c("boxplots")
-  }
-  if (type == "v") {
-    type <- c("violin")
-  }
+  if (type == "box" || type == "boxplot") type <- c("boxplots")
+  if (type == "v") type <- c("violin")
   if (expand.grid == TRUE) {
     expand.grid <- waiver()
   } else {
     expand.grid <- c(0, 0)
+  }
+  #---------------------------------------------------
+  # check whether variable should be auto-grouped
+  #---------------------------------------------------
+  if (!is.null(interactionVar) && type != "boxplots" && type != "violin") {
+    warning("'interactionVar' only applies to boxplots and violinplots (see 'type') and will be ignored.", call. = F)
   }
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
@@ -791,7 +787,9 @@ sjp.grpfrq <- function(varCount,
     }
   } else if (type == "lines") {
     if (smoothLines) {
-      geob <- geom_line(size = geom.size, stat = "smooth")
+      geob <- geom_line(size = geom.size, 
+                        stat = "smooth", 
+                        method = "loess")
     } else {
       geob <- geom_line(size = geom.size)
     }
@@ -847,19 +845,16 @@ sjp.grpfrq <- function(varCount,
       # ---------------------------------------------------------
       if (barPosition == "stack") {
         if (showPercentageValues && showCountValues) {
-          ggvaluelabels <-  geom_text(aes(y = ypos, 
-                                          label = sprintf("%i\n(%.01f%%)", frq, prz)),
+          ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%i\n(%.01f%%)", frq, prz)),
                                       vjust = vert)
         } else if (showCountValues) {
-          ggvaluelabels <-  geom_text(aes(y = ypos, 
-                                          label = sprintf("%i", frq)),
+          ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%i", frq)),
                                       vjust = vert)
         } else if (showPercentageValues) {
-          ggvaluelabels <-  geom_text(aes(y = ypos, 
-                                          label = sprintf("%.01f%%", prz)),
+          ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%.01f%%", prz)),
                                       vjust = vert)
         } else {
-          ggvaluelabels <-  geom_text(label="")
+          ggvaluelabels <-  geom_text(label = "")
         }
       } else {
         # ---------------------------------------------------------
@@ -869,27 +864,23 @@ sjp.grpfrq <- function(varCount,
         # ---------------------------------------------------------
         if (showPercentageValues && showCountValues) {
           if (coord.flip) {
-            ggvaluelabels <-  geom_text(aes(y = frq, 
-                                            label = sprintf("%i (%.01f%%)", frq, prz)),
+            ggvaluelabels <-  geom_text(aes(y = frq, label = sprintf("%i (%.01f%%)", frq, prz)),
                                         position = position_dodge(posdodge),
                                         vjust = vert,
                                         hjust = hort)
           } else {
-            ggvaluelabels <-  geom_text(aes(y = frq, 
-                                            label = sprintf("%i\n(%.01f%%)", frq, prz)),
+            ggvaluelabels <-  geom_text(aes(y = frq, label = sprintf("%i\n(%.01f%%)", frq, prz)),
                                         position = position_dodge(posdodge),
                                         vjust = vert,
                                         hjust = hort)
           }
         } else if (showCountValues) {
-          ggvaluelabels <-  geom_text(aes(y = frq, 
-                                          label = sprintf("%i", frq)),
+          ggvaluelabels <-  geom_text(aes(y = frq, label = sprintf("%i", frq)),
                                       position = position_dodge(posdodge),
                                       hjust = hort,
                                       vjust = vert)
         } else if (showPercentageValues) {
-          ggvaluelabels <-  geom_text(aes(y = frq, 
-                                          label = sprintf("%.01f%%", prz)),
+          ggvaluelabels <-  geom_text(aes(y = frq, label = sprintf("%.01f%%", prz)),
                                       position = position_dodge(posdodge),
                                       hjust = hort,
                                       vjust = vert)
@@ -933,8 +924,7 @@ sjp.grpfrq <- function(varCount,
       # -----------------------------------------
       baseplot <- baseplot + 
         geom_vline(data = vldat, 
-                   aes(xintercept = mw, 
-                       colour = group), 
+                   aes(xintercept = mw, colour = group), 
                    linetype = meanInterceptLineType, 
                    size = meanInterceptLineSize)
       # -----------------------------------------
@@ -977,14 +967,12 @@ sjp.grpfrq <- function(varCount,
           # in the related group colours.
           # -----------------------------------------
           geom_vline(data = vldat, 
-                     aes(xintercept = mw - stddev, 
-                         colour = group), 
+                     aes(xintercept = mw - stddev, colour = group), 
                      linetype = 3, 
                      size = meanInterceptLineSize, 
                      alpha = 0.7) +
           geom_vline(data = vldat, 
-                     aes(xintercept = mw + stddev, 
-                         colour = group), 
+                     aes(xintercept = mw + stddev, colour = group), 
                      linetype = 3, 
                      size = meanInterceptLineSize, 
                      alpha = 0.7)
@@ -1024,13 +1012,15 @@ sjp.grpfrq <- function(varCount,
                              y = frq, 
                              fill = group, 
                              weight = wb)) + geob
-      scalex <- scale_x_discrete(labels=interactionVarLabels)
+      scalex <- scale_x_discrete(labels = interactionVarLabels)
     }
     # if we have a violin plot, add an additional boxplot inside to show
     # more information
     if (type == "violin") {
       baseplot <- baseplot +
-        geom_boxplot(width = innerBoxPlotWidth, fill = "white", outlier.colour = NA)
+        geom_boxplot(width = innerBoxPlotWidth, 
+                     fill = "white", 
+                     outlier.colour = NA)
     }
     # ---------------------------------------------------------
     # if we have boxplots or violon plots, also add a point that indicates
@@ -1065,7 +1055,7 @@ sjp.grpfrq <- function(varCount,
     if (!is.null(ganno) && !facet.grid) baseplot <- baseplot + ganno
     # add geom
     baseplot <- baseplot + geob
-    if (startAxisAt>1) {
+    if (startAxisAt > 1) {
       scalex <- scale_x_discrete(labels = axisLabels.x, 
                                  limits = as.factor(seq(from = startAxisAt,
                                                         to = catcount,
@@ -1099,11 +1089,6 @@ sjp.grpfrq <- function(varCount,
   # continue with plot objects...
   # ------------------------------
   baseplot <- baseplot +
-    # set Y-axis, depending on the calculated upper y-range.
-    # It either corresponds to the maximum amount of cases in the data set
-    # (length of var) or to the highest count of var's categories.
-    # coord_cartesian(ylim=c(0, upper_lim)) +
-    y_scale +
     # show absolute and percentage value of each bar.
     ggvaluelabels +
     # no additional labels for the x- and y-axis, only diagram title
@@ -1114,15 +1099,20 @@ sjp.grpfrq <- function(varCount,
     # print value labels to the x-axis.
     # If parameter "axisLabels.x" is NULL, the category numbers (1 to ...) 
     # appear on the x-axis
-    scalex
+    scalex +
+    # set Y-axis, depending on the calculated upper y-range.
+    # It either corresponds to the maximum amount of cases in the data set
+    # (length of var) or to the highest count of var's categories.
+    # coord_cartesian(ylim=c(0, upper_lim)) +
+    y_scale
   # check whether coordinates should be flipped, i.e.
   # swap x and y axis
   if (coord.flip) baseplot <- baseplot + coord_flip()
+  # --------------------------------------------------
+  # Here we start when we have a faces grid instead of
+  # a grouped bar plot.
+  # --------------------------------------------------
   if (facet.grid) {
-    # --------------------------------------------------
-    # Here we start when we have a faces grid instead of
-    # a grouped bar plot.
-    # --------------------------------------------------
     baseplot <- baseplot + 
       # set font size for axes.
       theme(strip.text = element_text(face = "bold",size = rel(1.2))) +

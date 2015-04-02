@@ -328,7 +328,7 @@ sjp.frq <- function(varCount,
   #---------------------------------------------------
   # check whether variable should be auto-grouped
   #---------------------------------------------------
-  if (!is.null(interactionVar) && (type != "boxplots" || type != "violin")) {
+  if (!is.null(interactionVar) && type != "boxplots" && type != "violin") {
     warning("'interactionVar' only applies to boxplots and violinplots (see 'type') and will be ignored.", call. = F)
   }
   #---------------------------------------------------

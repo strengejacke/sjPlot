@@ -46,9 +46,9 @@ is \code{box} or \code{violin} (resp. their alternative strings like \code{"boxp
 \item{type}{The plot type. May be one of the following:
 \itemize{
   \item \code{"b"}, \code{"bar"}, \code{"bars"} (default) for bar charts
-  \item \code{"l"}, \code{"line"}, \code{"lines"} for line diagram
   \item \code{"d"}, \code{"dot"}, \code{"dots"} for dot plots
   \item \code{"h"}, \code{"hist"}, \code{"histogram"} for grouped histograms
+  \item \code{"l"}, \code{"line"}, \code{"lines"} for line-styled histogram
   \item \code{"box"}, \code{"boxplot"}, \code{"boxplots"} for box plots
   \item \code{"v"}, \code{"violin"} for violin box plots
   }}

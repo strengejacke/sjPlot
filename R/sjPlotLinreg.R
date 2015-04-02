@@ -231,12 +231,14 @@ sjp.lm <- function(fit,
   # -----------------------------------------------------------
   # check parameter. No model-summary supported for plm-objects
   # -----------------------------------------------------------
-  if (any(class(fit) == "plm")) showModelSummary = F
-  # -----------------------------------------------------------
-  # check package availability if fit is plm-object
-  # -----------------------------------------------------------
-  if (fun == "plm" && !"package:plm" %in% search()) {
-    stop("Package 'plm' needs to be loaded for this function to work... Use 'library(plm)' and call this function again.", call. = FALSE)
+  if (any(class(fit) == "plm")) {
+    showModelSummary = F
+    # -----------------------------------------------------------
+    # check package availability if fit is plm-object
+    # -----------------------------------------------------------
+    if (!"package:plm" %in% search()) {
+      stop("Package 'plm' needs to be loaded for this function to work... Use 'library(plm)' and call this function again.", call. = FALSE)
+    }
   }
   # -----------------------------------------------------------
   # this function requires a fitted model with only one predictor,

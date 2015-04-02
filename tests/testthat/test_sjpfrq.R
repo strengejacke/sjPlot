@@ -44,4 +44,16 @@ test_that("Check plot frq", {
           showStandardNormalCurve = T,
           normalCurveColor = "blue",
           normalCurveSize = 3)
+
+  sjp.frq(efc$e42dep,
+          type = "dots",
+          showCI = T,
+          error.bar.color = "blue",
+          coord.flip = T,
+          geom.size = 3)
+  
+  sjp.frq(efc$e42dep,
+          showCI = T,
+          error.bar.color = "blue")
+
 })
