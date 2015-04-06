@@ -265,6 +265,20 @@ sjp.int <- function(fit,
   coef.tab <- summary(fit)$coefficients
   pval <- rep(0, times = nrow(coef.tab) - 1)
   # -----------------------------------------------------------
+  # Help-function that removes AsIS I from formulas.
+  # If someone know regular expressions better than me,
+  # please provide a one-liner solution for the 3 sub commands.
+  # -----------------------------------------------------------
+  remove_I <- function(xnames) {
+    fpos <- grep("I(", xnames, fixed = T)
+    if (length(fpos) > 0 && fpos > 0) {
+      xnames <- sub("I(", "", xnames, fixed = T)
+      xnames <- sub(")", "", xnames, fixed = T)
+      xnames <- sub(" * ", ":", xnames, fixed = T)
+    }
+    return (xnames)
+  }
+  # -----------------------------------------------------------
   # prepare values for (generalized) linear models
   # -----------------------------------------------------------
   if (fun == "lm" || fun == "glm" || fun == "plm") {
@@ -290,7 +304,13 @@ sjp.int <- function(fit,
     # retrieve estimates, without intercept
     # -----------------------------------------------------------
     estimates <- coef.tab[-1, 1]
-    estimates.names <- it <- names(estimates)
+    # -----------------------------------------------------------
+    # need to remove "I(...)"?
+    # -----------------------------------------------------------
+    predvars <- remove_I(predvars)
+    estimates.names <- names(estimates)
+    estimates.names <- remove_I(estimates.names)
+    it <- estimates.names
     # -----------------------------------------------------------
     # retrieve estimate of intercept
     # -----------------------------------------------------------
@@ -363,6 +383,11 @@ sjp.int <- function(fit,
         }
       }
     }
+    # -----------------------------------------------------------
+    # need to remove "I(...)"?
+    # -----------------------------------------------------------
+    predvars <- remove_I(predvars)
+    estimates.names <- remove_I(estimates.names)
     it <- estimates.names
     # -----------------------------------------------------------
     # retrieve estimate of intercept
@@ -460,8 +485,8 @@ sjp.int <- function(fit,
     df_pred2uniquevals <- unique(fitdat[interactionterms[[1]][2]])
     # convert data frame to numeric vector
     pred1uniquevals <- pred2uniquevals <- as.numeric(c())
-    pred1uniquevals <- sort(as.numeric(c(apply(df_pred1uniquevals, c(1), as.numeric ))))
-    pred2uniquevals <- sort(as.numeric(c(apply(df_pred2uniquevals, c(1), as.numeric ))))
+    pred1uniquevals <- sort(as.numeric(c(apply(df_pred1uniquevals, 1, as.numeric))))
+    pred2uniquevals <- sort(as.numeric(c(apply(df_pred2uniquevals, 1, as.numeric))))
     # init data frame
     intdf <- c()
     # -----------------------------------------------------------
@@ -504,54 +529,49 @@ sjp.int <- function(fit,
       # the estimates of each term and the associated interaction term,
       # i.e.: y = b0 + (b1 * pred1) + (b2 * pred2) + (b3 * pred1 * pred2)
       # -----------------------------------------------------------
-      for (j in 1:length(pred1uniquevals)) {
-        # iterate x-values and calculate minimum y
-        pr <- pred1uniquevals[j]
+      # We now calculate the effect of predictor 1 under absence (or lowest
+      # impact) of predictor 2 on the dependent variable. Thus, the slope for
+      # predictor 2 is not calculated. see
+      # http://www.theanalysisfactor.com/interpreting-interactions-in-regression/
+      # http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/
+      # ------------------------------
+      # miny = (b0 + (b1*pr) + (b2*ymin) + (b3*pr*ymin))
+      miny <- (b0 + (b1 * pred1uniquevals) + (b3 * pred1uniquevals * ymin))
+      # ------------------------------
+      # here we calculate the effect of predictor 1 under presence (or strongest
+      # impact) of predictor 2 on the dependent variable. Thus, the slope for
+      # predictor 2 only is not needed. see references above
+      # ------------------------------
+      # maxy = (b0 + (b1*pr) + (b2*ymax) + (b3*pr*ymax))
+      maxy <- (b0 + (b1 * pred1uniquevals) + (b3 * pred1uniquevals * ymax))
+      # store in df
+      tmp <- as.data.frame(cbind(x = pred1uniquevals, 
+                                 y = miny, 
+                                 ymin = miny, 
+                                 ymax = maxy, 
+                                 grp = "min"))
+      intdf <- as.data.frame(rbind(intdf, tmp))
+      # store in df
+      tmp <- as.data.frame(cbind(x = pred1uniquevals, 
+                                 y = maxy, 
+                                 ymin = miny, 
+                                 ymax = maxy, 
+                                 grp = "max"))
+      intdf <- as.data.frame(rbind(intdf, tmp))
+      # store in df
+      if (moderatorValues != "minmax") {
         # ------------------------------
-        # We now calculate the effect of predictor 1 under absence (or lowest
-        # impact) of predictor 2 on the dependent variable. Thus, the slope for
-        # predictor 2 is not calculated. see
-        # http://www.theanalysisfactor.com/interpreting-interactions-in-regression/
-        # http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/
-        # ------------------------------
-        # miny = (b0 + (b1*pr) + (b2*ymin) + (b3*pr*ymin))
-        miny <- (b0 + (b1 * pr) + (b3 * pr * ymin))
-        # ------------------------------
-        # here we calculate the effect of predictor 1 under presence (or strongest
-        # impact) of predictor 2 on the dependent variable. Thus, the slope for
+        # here we calculate the effect of predictor 1 under presence
+        # of mean of predictor 2 on the dependent variable. Thus, the slope for
         # predictor 2 only is not needed. see references above
         # ------------------------------
-        # maxy = (b0 + (b1*pr) + (b2*ymax) + (b3*pr*ymax))
-        maxy <- (b0 + (b1 * pr) + (b3 * pr * ymax))
-        # store in df
-        tmp <- as.data.frame(cbind(x = pr, 
-                                   y = miny, 
+        mittelwert <- (b0 + (b1 * pred1uniquevals) + (b3 * pred1uniquevals * mw))
+        tmp <- as.data.frame(cbind(x = pred1uniquevals, 
+                                   y = mittelwert, 
                                    ymin = miny, 
                                    ymax = maxy, 
-                                   grp = "min"))
+                                   grp = "mean"))
         intdf <- as.data.frame(rbind(intdf, tmp))
-        # store in df
-        tmp <- as.data.frame(cbind(x = pr, 
-                                   y = maxy, 
-                                   ymin = miny, 
-                                   ymax = maxy, 
-                                   grp = "max"))
-        intdf <- as.data.frame(rbind(intdf, tmp))
-        # store in df
-        if (moderatorValues != "minmax") {
-          # ------------------------------
-          # here we calculate the effect of predictor 1 under presence
-          # of mean of predictor 2 on the dependent variable. Thus, the slope for
-          # predictor 2 only is not needed. see references above
-          # ------------------------------
-          mittelwert <- (b0 + (b1 * pr) + (b3 * pr * mw))
-          tmp <- as.data.frame(cbind(x = pr, 
-                                     y = mittelwert, 
-                                     ymin = miny, 
-                                     ymax = maxy, 
-                                     grp = "mean"))
-          intdf <- as.data.frame(rbind(intdf, tmp))
-        }
       }
     } else {
       labx <- c(interactionterms[[1]][2])
@@ -579,51 +599,49 @@ sjp.int <- function(fit,
       # the estimates of each term and the associated interaction term,
       # i.e.: y = b0 + (b1 * pred1) + (b2 * pred2) + (b3 * pred1 * pred2)
       # -----------------------------------------------------------
-      # compute for minimum value
-      for (j in 1:length(pred2uniquevals)) {
-        # iterate x-values and calculate minimum y
-        pr <- pred2uniquevals[j]
+      # We now calculate the effect of predictor 2 under absence (or lowest
+      # impact) of predictor 1 on the dependent variable. Thus, the slope for
+      # predictor 1 is not calculated. see
+      # http://www.theanalysisfactor.com/interpreting-interactions-in-regression/
+      # http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/
+      # ------------------------------
+      # miny = (b0 + (b1*ymin) + (b2*pr) + (b3*pr*ymin))
+      miny <- (b0 + (b2 * pred2uniquevals) + (b3 * pred2uniquevals * ymin))
+      # ------------------------------
+      # here we calculate the effect of predictor 2 under presence (or strongest
+      # impact) of predictor 1 on the dependent variable. Thus, the slope for
+      # predictor 1 only is not needed. see references above
+      # ------------------------------
+      # maxy = (b0 + (b1*ymax) + (b2*pr) + (b3*pr*ymax))
+      maxy <- (b0 + (b2 * pred2uniquevals) + (b3 * pred2uniquevals * ymax))
+      # store in df
+      tmp <- as.data.frame(cbind(x = pred2uniquevals, 
+                                 y = miny, 
+                                 ymin = miny, 
+                                 ymax = maxy, 
+                                 grp = "min"))
+      intdf <- as.data.frame(rbind(intdf, tmp))
+      # store in df
+      tmp <- as.data.frame(cbind(x = pred2uniquevals, 
+                                 y = maxy, 
+                                 ymin = miny, 
+                                 ymax = maxy, 
+                                 grp = "max"))
+      intdf <- as.data.frame(rbind(intdf, tmp))
+      # store in df
+      if (moderatorValues != "minmax") {
         # ------------------------------
-        # We now calculate the effect of predictor 2 under absence (or lowest
-        # impact) of predictor 1 on the dependent variable. Thus, the slope for
-        # predictor 1 is not calculated. see
-        # http://www.theanalysisfactor.com/interpreting-interactions-in-regression/
-        # http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/
-        # ------------------------------
-        # miny = (b0 + (b1*ymin) + (b2*pr) + (b3*pr*ymin))
-        miny <- (b0 + (b2 * pr) + (b3 * pr * ymin))
-        # ------------------------------
-        # here we calculate the effect of predictor 2 under presence (or strongest
-        # impact) of predictor 1 on the dependent variable. Thus, the slope for
+        # here we calculate the effect of predictor 2 under presence
+        # of mean of predictor 1 on the dependent variable. Thus, the slope for
         # predictor 1 only is not needed. see references above
         # ------------------------------
-        # maxy = (b0 + (b1*ymax) + (b2*pr) + (b3*pr*ymax))
-        maxy <- (b0 + (b2 * pr) + (b3 * pr * ymax))
-        # store in df
-        tmp <- as.data.frame(cbind(x = pr, 
-                                   y = miny, 
+        mittelwert <- (b0 + (b2 * pred2uniquevals) + (b3 * pred2uniquevals * mw))
+        tmp <- as.data.frame(cbind(x = pred2uniquevals, 
+                                   y = mittelwert, 
                                    ymin = miny, 
                                    ymax = maxy, 
-                                   grp = "min"))
+                                   grp = "mean"))
         intdf <- as.data.frame(rbind(intdf, tmp))
-        # store in df
-        tmp <- as.data.frame(cbind(x = pr, 
-                                   y = maxy, 
-                                   ymin = miny, 
-                                   ymax = maxy, 
-                                   grp = "max"))
-        intdf <- as.data.frame(rbind(intdf, tmp))
-        # store in df
-        if (moderatorValues != "minmax") {
-          # ------------------------------
-          # here we calculate the effect of predictor 2 under presence
-          # of mean of predictor 1 on the dependent variable. Thus, the slope for
-          # predictor 1 only is not needed. see references above
-          # ------------------------------
-          mittelwert <- (b0 + (b2 * pr) + (b3 * pr * mw))
-          tmp <- as.data.frame(cbind(x = pr, y = mittelwert, ymin = miny, ymax = maxy, grp = "mean"))
-          intdf <- as.data.frame(rbind(intdf, tmp))
-        }
       }
     }
     # -----------------------------------------------------------

@@ -31,7 +31,7 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of current development build 1.7-10
+### Changelog of current development build 1.7-11
 
 #### General
 * _Utility, recode and statistical test functions have been moved to another package called [sjmisc](https://github.com/sjPlot/sjmisc)!_
@@ -61,3 +61,4 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * `sjp.glm` and `sjp.glmm` should catch axis limits, which are out of printable bounds, hence these function should no longer stop in such cases.
 * `sjp.lmer` and `sjp.glmer` wrongly stated that paramter `ri.nr` was out of bound when `type` was `re`, `fe.ri` or `ri.pc` - fixed.
 * Weights with decimals in `sjt.xtab` (e.g. `weightBy = abs(rnorm(100, 2, 1)`) caused an error - fixed.
+* `sjp.int` did not work with interaction terms that used `AsIs` conversion (function `I`) - fixed.
