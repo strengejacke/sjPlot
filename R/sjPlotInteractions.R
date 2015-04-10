@@ -1223,7 +1223,7 @@ sjp.eff.int <- function(fit,
     # legend labels
     # -----------------------------------------------------------
     if (is.null(legendLabels)) {
-      lLabels <- as.vector(unique(intdf$grp))
+      lLabels <- levels(intdf$grp)
     } else {
       # copy plot counter 
       l_nr <- i
