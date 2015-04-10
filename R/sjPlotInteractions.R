@@ -796,10 +796,10 @@ sjp.int <- function(fit,
     # convert df-values to numeric
     # -----------------------------------------------------------
     if (fun == "lm" || fun == "lmer") {
-      intdf$x <- sjmisc::to_value(intdf$x)
-      intdf$y <- sjmisc::to_value(intdf$y)
-      intdf$ymin <- sjmisc::to_value(intdf$ymin)
-      intdf$ymax <- sjmisc::to_value(intdf$ymax)
+      intdf$x <- sjmisc::to_value(intdf$x, keep.labels = F)
+      intdf$y <- sjmisc::to_value(intdf$y, keep.labels = F)
+      intdf$ymin <- sjmisc::to_value(intdf$ymin, keep.labels = F)
+      intdf$ymax <- sjmisc::to_value(intdf$ymax, keep.labels = F)
       intdf$ydiff <- intdf$ymax - intdf$ymin
       # -----------------------------------------------------------
       # retrieve lowest and highest x and y position to determine
@@ -820,10 +820,10 @@ sjp.int <- function(fit,
         upperLim.y <- axisLimits.y[2]
       }
     } else {
-      intdf$x <- sjmisc::to_value(intdf$x)
-      intdf$y <- odds.to.prob(sjmisc::to_value(intdf$y))
-      intdf$ymin <- odds.to.prob(sjmisc::to_value(intdf$ymin))
-      intdf$ymax <- odds.to.prob(sjmisc::to_value(intdf$ymax))
+      intdf$x <- sjmisc::to_value(intdf$x, keep.labels = F)
+      intdf$y <- odds.to.prob(sjmisc::to_value(intdf$y, keep.labels = F))
+      intdf$ymin <- odds.to.prob(sjmisc::to_value(intdf$ymin, keep.labels = F))
+      intdf$ymax <- odds.to.prob(sjmisc::to_value(intdf$ymax, keep.labels = F))
       intdf$ydiff <- odds.to.prob(intdf$ymax - intdf$ymin)
       # -----------------------------------------------------------
       # retrieve lowest and highest x and y position to determine
@@ -1149,7 +1149,7 @@ sjp.eff.int <- function(fit,
       # Label on y-axis is name of dependent variable
       laby <- response.name
       # make sure x is numeric
-      intdf$x <- sjmisc::to_value(intdf$x)
+      intdf$x <- sjmisc::to_value(intdf$x, keep.labels = F)
       # group as factor
       intdf$grp <- as.factor(intdf$grp)
       # -----------------------------------------------------------
@@ -1174,7 +1174,7 @@ sjp.eff.int <- function(fit,
       # Label on y-axis is fixed
       if (is.null(axisTitle.y)) axisTitle.y <- "Predicted Probability"
       # make sure x is numeric
-      intdf$x <- sjmisc::to_value(intdf$x)
+      intdf$x <- sjmisc::to_value(intdf$x, keep.labels = F)
       # convert log-odds to probabilities
       intdf$y <- odds.to.prob(intdf$y)
       intdf$lower <- odds.to.prob(intdf$lower)

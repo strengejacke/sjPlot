@@ -1005,7 +1005,7 @@ sjp.lme.feprobcurv <- function(fit,
       # melt variable
       mydf.vals <- data.frame(value = vals.unique)
       # convert factor to numeric
-      if (is.factor(mydf.vals$value)) mydf.vals$value <- sjmisc::to_value(mydf.vals$value, 0)
+      if (is.factor(mydf.vals$value)) mydf.vals$value <- sjmisc::to_value(mydf.vals$value, 0, keep.labels = F)
       # retrieve names of coefficients
       coef.names <- names(lme4::fixef(fit))
       # check if we have a factor, then we may have reference levels
@@ -1158,7 +1158,7 @@ sjp.lme.reprobcurve <- function(fit,
       # melt variable
       mydf.vals <- data.frame(value = vals.unique)
       # convert factor to numeric
-      if (is.factor(mydf.vals$value)) mydf.vals$value <- sjmisc::to_value(mydf.vals$value, 0)
+      if (is.factor(mydf.vals$value)) mydf.vals$value <- sjmisc::to_value(mydf.vals$value, 0, keep.labels = F)
       # retrieve names of coefficients
       coef.names <- names(lme4::fixef(fit))
       # check if we have a factor, then we may have reference levels
@@ -1294,8 +1294,8 @@ sjp.lme.feri <- function(fit,
       # check if we found any values...
       if (!is.null(xpos)) {
         final.df <- rbind(final.df,
-                          cbind(x = sjmisc::to_value(xpos),
-                                y = fi + ri + sjmisc::to_value(xpos) * estimates[j],
+                          cbind(x = sjmisc::to_value(xpos, keep.labels = F),
+                                y = fi + ri + sjmisc::to_value(xpos, keep.labels = F) * estimates[j],
                                 grp = i))
       }
     }

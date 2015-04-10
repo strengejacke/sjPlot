@@ -348,10 +348,10 @@ sjp.aov1 <- function(depVar,
   axisLabels.y <- axisLabels.y[catorder]
   # give columns names
   names(df) <- c("means", "lower", "upper", "p", "pv", "xv")
-  df$means <- sjmisc::to_value(df$means)
-  df$lower <- sjmisc::to_value(df$lower)
-  df$upper <- sjmisc::to_value(df$upper)
-  df$p <- sjmisc::to_value(df$p)
+  df$means <- sjmisc::to_value(df$means, keep.labels = F)
+  df$lower <- sjmisc::to_value(df$lower, keep.labels = F)
+  df$upper <- sjmisc::to_value(df$upper, keep.labels = F)
+  df$p <- sjmisc::to_value(df$p, keep.labels = F)
   df$pv <- as.character(df$pv)
   # bind color values to data frame, because we cannot use several
   # different color aesthetics in ggplot

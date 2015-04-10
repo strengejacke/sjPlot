@@ -268,7 +268,7 @@ sjp.stackfrq <- function(items,
     names(df) <- c("var", "prc")
     # need to be numeric, so percentage values (see below) are
     # correctly assigned, i.e. missing categories are considered
-    df$var <- sjmisc::to_value(df$var) + diff # if categories start with zero, fix this here
+    df$var <- sjmisc::to_value(df$var, keep.labels = F) + diff # if categories start with zero, fix this here
     # Create a vector of zeros 
     prc <- rep(0, countlen)
     # Replace the values in prc for those indices which equal df$var

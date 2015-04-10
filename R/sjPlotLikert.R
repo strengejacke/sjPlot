@@ -304,7 +304,7 @@ sjp.likert <- function(items,
       # --------------------------------------------------------
       isnum <- na.omit(as.numeric(levels(items[, i])))
       if (length(isnum) == 0) {
-        items[ ,i] <- sjmisc::to_value(items[ ,i])
+        items[ ,i] <- sjmisc::to_value(items[ ,i], keep.labels = F)
       }
       items[ ,i] <- as.numeric(items[ ,i])
     }

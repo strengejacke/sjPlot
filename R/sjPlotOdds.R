@@ -548,7 +548,7 @@ sjp.glm.pc <- function(fit,
       # melt variable
       mydf.vals <- data.frame(values = values)
       # convert factor to numeric
-      if (is.factor(mydf.vals$values)) mydf.vals$values <- sjmisc::to_value(mydf.vals$values, 0)
+      if (is.factor(mydf.vals$values)) mydf.vals$values <- sjmisc::to_value(mydf.vals$values, 0, keep.labels = F)
       # retrieve names of coefficients
       coef.names <- names(coef(fit))
       # check if we have a factor, then we may have reference levels
