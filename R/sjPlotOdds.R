@@ -544,11 +544,11 @@ sjp.glm.pc <- function(fit,
       # get values from numeric term
       vals <- fit$model[, coef.column]
       # sort values, for x axis
-      vals.unique <- sort(vals)
+      values <- sort(vals)
       # melt variable
-      mydf.vals <- data.frame(value = vals.unique)
+      mydf.vals <- data.frame(values = values)
       # convert factor to numeric
-      if (is.factor(mydf.vals$value)) mydf.vals$value <- sjmisc::to_value(mydf.vals$value, 0)
+      if (is.factor(mydf.vals$values)) mydf.vals$values <- sjmisc::to_value(mydf.vals$values, 0)
       # retrieve names of coefficients
       coef.names <- names(coef(fit))
       # check if we have a factor, then we may have reference levels
@@ -562,7 +562,7 @@ sjp.glm.pc <- function(fit,
       # find coef-position
       coef.pos <- which(coef.names == fit.fac.name)
       # calculate x-beta by multiplying original values with estimate of that term
-      mydf.vals$xbeta <- mydf.vals$value * (coef(fit)[coef.pos])
+      mydf.vals$xbeta <- mydf.vals$values * (coef(fit)[coef.pos])
       # calculate probability (y) via cdf-function
       mydf.vals$y <- odds.to.prob(coef(fit)[1] + mydf.vals$xbeta)
       # assign group

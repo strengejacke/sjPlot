@@ -45,7 +45,7 @@ print.table.summary <- function(baseplot,
 odds.to.prob <- function(x) {
   # formular: probality = odds divided by (1+odds),
   # where odds = exp(logit)
-  # return(exp(x)/(1+exp(x)))
+  # x = log-odds (logits)
   return (1 / (1 + exp(-x)))
 }
 

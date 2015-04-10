@@ -13,10 +13,8 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("xn", "vld", "l.ci", "u.c
 #'                This function may be used to plot differences in interventions between
 #'                control and treatment groups over multiple time points.
 #'
-#' @note Please note that all interaction terms have to be of type \code{\link{factor}}!
-#'         Furthermore, predictors of interactions that are introduced first into the model
-#'         are used as grouping variable, while the latter predictor is printed along the x-axis
-#'         (i.e. lm(y~a+b+a:b) means that "a" is used as grouping variable and "b" is plotted along the x-axis).
+#' @note This function is deprecated and will be removed in future releases of \code{sjPlot}.
+#'         Please use \code{\link{sjp.int}} with parameter \code{type = "emm"}.
 #'
 #' @seealso \itemize{
 #'            \item \href{http://www.strengejacke.de/sjPlot/sjp.emm.int/}{sjPlot manual: sjp.emm.int}
@@ -27,8 +25,9 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("xn", "vld", "l.ci", "u.c
 #'          including interaction terms.
 #' @param swapPredictors if \code{TRUE}, the grouping variable and predictor on
 #'          the x-axis are swapped.
-#' @param plevel Indicates at which p-value an interaction term is considered as significant. Default is
-#'          0.05 (5 percent).
+#' @param plevel Indicates at which p-value an interaction term is considered as \emph{significant},
+#'          i.e. at which p-level an interaction term will be considered for plotting. Default is
+#'          0.05 (5 percent), hence, non-significant interactions are excluded by default.
 #' @param title a default title used for the plots. Default value is \code{NULL}, which means that each plot's title
 #'          includes the dependent variable as well as the names of the interaction terms.
 #' @param geom.colors A vector of color values.
@@ -62,54 +61,6 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("xn", "vld", "l.ci", "u.c
 #' @return (Insisibily) returns the ggplot-objects with the complete plot-list (\code{plot.list})
 #'           as well as the data frame that were used for setting up the ggplot-objects (\code{df.list}).
 #'
-#' @examples
-#' \dontrun{
-#' # Note that the data sets used in this example may not be perfectly suitable for
-#' # fitting linear models. I just used them because they are part of the R-software.
-#'
-#' # prepare data frame
-#' df <- data.frame(mpg = mtcars$mpg,
-#'                  vs = factor(mtcars$vs),
-#'                  am = factor(mtcars$am))
-#' # fit "dummy" model.
-#' fit <- lm(mpg ~ vs + am + vs:am, data = df)
-#' # show summary to see significant interactions
-#' summary(fit)
-#'
-#' # plot marginal means of interaction terms
-#' # note we have to adjust plevel, because no interaction
-#' # is significant
-#' sjp.emm.int(fit, plevel = 1)
-#' # plot marginal means of interaction terms, including value labels
-#' sjp.emm.int(fit, plevel = 1, showValueLabels = TRUE)
-#'
-#'
-#' # load sample data set
-#' library(sjmisc)
-#' data(efc)
-#' # create data frame with variables that should be included
-#' # in the model
-#' mydf <- data.frame(burden = efc$neg_c_7,
-#'                    sex = efc$c161sex,
-#'                    education = efc$c172code)
-#' # convert gender predictor to factor
-#' mydf$sex <- factor(mydf$sex)
-#' mydf$education <- factor(mydf$education)
-#' # name factor levels and dependent variable
-#' levels(mydf$sex) <- c("female", "male")
-#' levels(mydf$education) <- c("low", "mid", "high")
-#' mydf$burden <- set_var_labels(mydf$burden, "care burden")
-#' # fit "dummy" model
-#' fit <- lm(burden ~ .*., data = mydf, na.action = na.omit)
-#' summary(fit)
-#'
-#' # plot marginal means of interactions, no interaction found
-#' sjp.emm.int(fit)
-#' # plot marginal means of interactions, including those with p-value up to 1
-#' sjp.emm.int(fit, plevel = 1)
-#' # swap predictors
-#' sjp.emm.int(fit, plevel = 1, swapPredictors = TRUE)}
-#'
 #'
 #' @import ggplot2
 #' @import sjmisc
@@ -133,6 +84,37 @@ sjp.emm.int <- function(fit,
                        axisLimits.y=NULL,
                        gridBreaksAt=NULL,
                        printPlot=TRUE) {
+  .Deprecated("sjp.int", 
+              package = "sjPlot", 
+              msg = "sjp.emm.int is deprecated. Please use 'sjp.int' with paramerer 'type = \"emm\"'.",
+              old = as.character(sys.call(sys.parent()))[1L])
+
+  return (sjp.emm(fit, swapPredictors, plevel, title, geom.colors,
+                  axisTitle.x, axisTitle.y, axisLabels.x, legendTitle, legendLabels,
+                  showValueLabels, valueLabel.digits, showCI, breakTitleAt,
+                  breakLegendTitleAt, breakLegendLabelsAt, axisLimits.y, 
+                  gridBreaksAt, printPlot))
+}
+
+sjp.emm <- function(fit,
+                    swapPredictors=FALSE,
+                    plevel=0.05,
+                    title=NULL,
+                    geom.colors="Set1",
+                    axisTitle.x=NULL,
+                    axisTitle.y=NULL,
+                    axisLabels.x=NULL,
+                    legendTitle=NULL,
+                    legendLabels=NULL,
+                    showValueLabels=FALSE,
+                    valueLabel.digits=2,
+                    showCI=FALSE,
+                    breakTitleAt=50,
+                    breakLegendTitleAt=20,
+                    breakLegendLabelsAt=20,
+                    axisLimits.y=NULL,
+                    gridBreaksAt=NULL,
+                    printPlot=TRUE) {
   # ------------------------
   # check if suggested packages are available
   # ------------------------

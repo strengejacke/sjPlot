@@ -4,17 +4,19 @@
 \alias{sjp.int}
 \title{Plot interaction effects of (generalized) linear (mixed) models}
 \usage{
-sjp.int(fit, int.plot.index = NULL, diff = FALSE,
+sjp.int(fit, type = "diff", int.plot.index = NULL, diff = FALSE,
   moderatorValues = "minmax", swapPredictors = FALSE, plevel = 0.05,
-  title = NULL, fillColor = "grey", fillAlpha = 0.4,
+  title = NULL, fillColor = "grey", fillAlpha = 0.3,
   geom.colors = "Set1", axisTitle.x = NULL, axisTitle.y = NULL,
-  legendTitle = NULL, legendLabels = NULL, showValueLabels = FALSE,
-  breakTitleAt = 50, breakLegendLabelsAt = 20, breakLegendTitleAt = 20,
-  breakAnnotationLabelsAt = 50, axisLimits.y = NULL, gridBreaksAt = NULL,
-  showInterceptLines = FALSE, showInterceptLabels = TRUE,
+  axisLabels.x = NULL, legendTitle = NULL, legendLabels = NULL,
+  showValueLabels = FALSE, breakTitleAt = 50, breakLegendLabelsAt = 20,
+  breakLegendTitleAt = 20, breakAnnotationLabelsAt = 50,
+  axisLimits.y = NULL, gridBreaksAt = NULL, showInterceptLines = FALSE,
+  showInterceptLabels = TRUE, showCI = FALSE, valueLabel.digits = 2,
   interceptLineColor = "darkseagreen4", estLineColor = "darkslategray4",
   lineLabelSize = 3.7, lineLabelColor = "black",
-  lineLabelString = "(no interaction)", printPlot = TRUE)
+  lineLabelString = "(no interaction)", facet.grid = FALSE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{fit}{the fitted (generalized) linear (mixed) model object, including interaction terms. Accepted model
@@ -27,29 +29,36 @@ classes are
   \item panel data estimators (\code{plm::plm})
   }}
 
+\item{type}{interaction plot type. Use one of following values:
+\itemize{
+  \item \code{type = "diff"} plots the change of the moderating effect on the response value. See details.
+  \item \code{type = "eff"} plots the overall moderation effect on the response value. See details.
+  \item \code{type = "emm"} plots the estimated marginal means (least square means). If this type is chosen, not all parameters are applicable. See details.
+}}
+
 \item{int.plot.index}{A numeric vector with index numbers that indicate which
 interaction terms should be plotted in case the \code{fit} has more than
 one interaction. By default, this values is \code{NULL}, hence all interactions
 are plotted.}
 
-\item{diff}{if \code{FALSE} (default), the minimum and maximum interaction effects of predictor 2 on predictor 1
-are shown (one line each). if \code{TRUE}, only the difference between minimum and maximum interaction effect
+\item{diff}{if \code{FALSE} (default), the minimum and maximum interaction effects of the moderating variable
+is shown (one line each). if \code{TRUE}, only the difference between minimum and maximum interaction effect
 is shown (single line)}
 
 \item{moderatorValues}{indicates which values of the moderator variable should be used when plotting the effects of the
-independent variable on the dependent variable. By default, \code{"minmax"} is used, i.e. the minimum and maximum values
-(lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator.
-Use \code{"meansd"} to use the mean value of the moderator as well as one standard deviation below and above mean value
-to plot the effect of the moderator on the independent variable (following
-the convention suggested by Cohen and Cohen and popularized by Aiken and West,
-i.e. using the mean, the value one standard deviation above, and the value one standard deviation below the mean
-as values of the moderator, see \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}).}
+independent variable on the dependent variable.
+\itemize{
+  \item By default, \code{"minmax"} is used, i.e. the minimum and maximum values (lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator.
+  \item Use \code{"meansd"} to use the mean value of the moderator as well as one standard deviation below and above mean value to plot the effect of the moderator on the independent variable (following the convention suggested by Cohen and Cohen and popularized by Aiken and West, i.e. using the mean, the value one standard deviation above, and the value one standard deviation below the mean as values of the moderator, see \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}).
+  \item The \code{"zeromax"} is similar to the \code{"minmax"} option, however, \code{0} is always used as minimum value for the moderator. This may be useful for predictors that don't have an empirical zero-value, but absence of moderation should be simulated by using 0 as minimum
+}}
 
 \item{swapPredictors}{if \code{TRUE}, the predictor with less unique values is printed along the x-axis. Default is
 \code{FALSE}, so the predictor with more unique values is printed along the x-axis.}
 
-\item{plevel}{Indicates at which p-value an interaction term is considered as significant. Default is
-0.05 (5 percent).}
+\item{plevel}{Indicates at which p-value an interaction term is considered as \emph{significant},
+i.e. at which p-level an interaction term will be considered for plotting. Default is
+0.05 (5 percent), hence, non-significant interactions are excluded by default.}
 
 \item{title}{a default title used for the plots. Should be a character vector
 of same length as interaction plots to be plotted. Default value is \code{NULL}, which means that each plot's title
@@ -74,6 +83,9 @@ which means that each plot's x-axis uses the predictor's name as title.}
 
 \item{axisTitle.y}{a default title used for the y-axis. Default value is \code{NULL},
 which means that each plot's y-axis uses the dependent variable's name as title.}
+
+\item{axisLabels.x}{Character vector with value labels of the repeated measure variable
+that are used for labelling the x-axis.}
 
 \item{legendTitle}{Title of the diagram's legend. A character vector of same length as
 amount of interaction plots to be plotted (i.e. one vector element for each
@@ -113,6 +125,11 @@ grid is being printed. Default is \code{NULL}.}
 \item{showInterceptLabels}{If \code{TRUE} (default), the intercept lines are labelled. Only
 applies if \code{showInterceptLines} is \code{TRUE}.}
 
+\item{showCI}{If \code{TRUE}, a confidence region for the estimated marginal means
+will be plotted.}
+
+\item{valueLabel.digits}{the amount of digits of the displayed value labels. Defaults to 2.}
+
 \item{interceptLineColor}{The line color of the model's intercept line. Only applies, if
 \code{showInterceptLines} is \code{TRUE}.}
 
@@ -127,6 +144,8 @@ if \code{showInterceptLines} is \code{TRUE}. Default is \code{"black"}.}
 
 \item{lineLabelString}{Default string for the intercept lines that is appended to the predictor
 variable name. By default, this string is \code{"(no interaction)"}.}
+
+\item{facet.grid}{\code{TRUE} for faceted plots instead of an integrated single plot.}
 
 \item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
@@ -150,10 +169,40 @@ Plot regression (predicted values) or probability lines (predicted probabilities
                must be included in the fitted model as well. Thus, \code{lm(dep ~ pred1 * pred2)} will work,
                but \code{lm(dep ~ pred1:pred2)} won't!
 }
+\details{
+\describe{
+           \item{type = "diff"}{plots the effective change on a dependent variable of a moderation
+             effect, as described in \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin K: Clarifications on Interpreting Interactions in Regression},
+             i.e. the difference of the moderation effect on the dependent variable in present
+             and absence of the moderating effect. This type \emph{does not} show the overall effect of
+             interactions on the result of Y. Use \code{type = "effect"} for effect displays similar
+             to the \code{\link[effects]{effect}} function from the effects-package.
+           }
+           \item{type = "eff}{plots the overall effects of the interaction, with all remaining
+             covariates set to the mean. Effects are calculated using the \code{\link[effects]{effecf}}-
+             function from the \code{effects}-package.
+           }
+           \item{type = "emm"}{plots the estimated marginal means of Two-Way Repeated Measures AN(C)OVA,
+             which was the former \code{sjp.emm.int} function. This plot type plots estimated marginal means
+             (also called \emph{least square means} or \emph{marginal means}) of (significant) interaction terms
+             in two-way repeated measure ANOVA or ANCOVA. The fitted models may be linear (mixed effects)
+             models of class \code{\link{lm}} or \code{\link[lme4]{merMod}}. This function may be used, for example,
+             to plot differences in interventions between control and treatment groups over multiple time points.
+             \itemize{
+               \item Following paramters only apply to this plot type: \code{showCI}, \code{valueLabel.digits} and \code{axisLabels.x}.
+               \item Following parameters \emph{do not} apply to this function: \code{int.plot.index}, \code{diff}, \code{moderatorValues}, \code{fillColor}, \code{fillAlpha}, \code{interceptLineColor}, \code{estLineColor}, \code{lineLabelSize}, \code{lineLabelColor} and \code{lineLabelString}.
+             }
+           }
+         }
+}
 \note{
 Note that beside interaction terms, also the single predictors of each interaction (main effects)
        must be included in the fitted model as well. Thus, \code{lm(dep ~ pred1 * pred2)} will work,
-       but \code{lm(dep ~ pred1:pred2)} won't!
+       but \code{lm(dep ~ pred1:pred2)} won't! \cr \cr
+       For \code{type = "emm"}, all interaction terms have to be \code{\link{factor}}s!
+       Furthermore, predictors of interactions that are introduced first into the model
+       are used as grouping variable, while the latter predictor is printed along the x-axis
+       (i.e. lm(y~a+b+a:b) means that "a" is used as grouping variable and "b" is plotted along the x-axis).
 }
 \examples{
 # Note that the data sets used in this example may not be perfectly suitable for
@@ -194,6 +243,9 @@ sjp.int(fit)
 # values to calculate interaction effect
 sjp.int(fit, moderatorValues = "meansd")
 
+# use zero and maximum value of moderation effect
+sjp.int(fit, moderatorValues = "zeromax")
+
 # plot interactions, including those with p-value up to 0.1
 sjp.int(fit,
         plevel = 0.1,
@@ -203,6 +255,7 @@ sjp.int(fit,
 # Predictors for negative impact of care.
 # Data from the EUROFAMCARE sample dataset
 # -------------------------------
+library(sjmisc)
 data(efc)
 # create binary response
 y <- ifelse(efc$neg_c_7 < median(na.omit(efc$neg_c_7)), 0, 1)
@@ -226,16 +279,50 @@ sjp.grpfrq(mydf$barthel,
            interactionVarLabels = get_val_labels(efc$c161sex),
            legendLabels = c("low burden", "high burden"),
            type = "box")
+
+# -------------------------------
+# Plot estimated marginal means
+# -------------------------------
+# load sample data set
+library(sjmisc)
+data(efc)
+# create data frame with variables that should be included
+# in the model
+mydf <- data.frame(burden = efc$neg_c_7,
+                   sex = efc$c161sex,
+                   education = efc$c172code)
+# convert gender predictor to factor
+mydf$sex <- factor(mydf$sex)
+mydf$education <- factor(mydf$education)
+# name factor levels and dependent variable
+levels(mydf$sex) <- c("female", "male")
+levels(mydf$education) <- c("low", "mid", "high")
+mydf$burden <- set_var_labels(mydf$burden, "care burden")
+# fit "dummy" model
+fit <- lm(burden ~ .*., data = mydf)
+summary(fit)
+
+\dontrun{
+# plot marginal means of interactions, no interaction found
+sjp.int(fit, type = "emm")}
+# plot marginal means of interactions, including those with p-value up to 1
+sjp.int(fit, type = "emm", plevel = 1)
+# swap predictors
+sjp.int(fit,
+        type = "emm",
+        plevel = 1,
+        swapPredictors = TRUE)
 }
 \references{
 \itemize{
              \item \href{http://www.theanalysisfactor.com/interpreting-interactions-in-regression/}{Grace-Martin K: Interpreting Interactions in Regression}
              \item \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin K: Clarifications on Interpreting Interactions in Regression}
              \item \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}
+             \item \href{http://www.theanalysisfactor.com/using-adjusted-means-to-interpret-moderators-in-analysis-of-covariance/}{Grace-Martin K: Using Adjusted Means to Interpret Moderators in Analysis of Covariance.}
              \item Aiken and West (1991). Multiple Regression: Testing and Interpreting Interactions.
              }
 }
 \seealso{
-\code{\link{sjp.emm.int}}
+\href{http://www.strengejacke.de/sjPlot/sjp.int/}{sjPlot manual: sjp.int}
 }
 
