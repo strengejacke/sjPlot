@@ -312,6 +312,24 @@ sjp.int(fit,
         type = "emm",
         plevel = 1,
         swapPredictors = TRUE)
+
+# -------------------------------
+# Plot effects
+# -------------------------------
+# add continuous variable
+mydf$barthel <- efc$barthtot
+# re-fit model with continuous variable
+fit <- lm(burden ~ .*., data = mydf)
+
+# plot effects
+sjp.int(fit, type = "eff", showCI = TRUE)
+
+# plot effects, faceted
+sjp.int(fit,
+        type = "eff",
+        int.plot.index = 3,
+        showCI = TRUE,
+        facet.grid = TRUE)
 }
 \references{
 \itemize{

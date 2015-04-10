@@ -222,7 +222,9 @@ sjp.stackfrq <- function(items,
   # --------------------------------------------------------
   if (includeN && !is.null(axisLabels.y)) {
     for (i in 1:length(axisLabels.y)) {
-      axisLabels.y[i] <- paste(axisLabels.y[i], sprintf(" (n=%i)", length(na.omit(items[, i]))), sep = "")
+      axisLabels.y[i] <- paste(axisLabels.y[i], 
+                               sprintf(" (n=%i)", length(na.omit(items[, i]))), 
+                               sep = "")
     }
   }
   # -----------------------------------------------
@@ -240,16 +242,15 @@ sjp.stackfrq <- function(items,
   # determine minimum value. if 0, add one, because
   # vector indexing starts with 1
   # ----------------------------
-  if (any(apply(items, c(1,2), is.factor)) || any(apply(items, c(1,2), is.character))) {
-    diff <- ifelse(min(apply(items, c(1,2), as.numeric),na.rm=TRUE)==0, 1, 0)
-  }
-  else {
-    diff <- ifelse(min(items,na.rm=TRUE)==0, 1, 0)
+  if (any(apply(items, c(1, 2), is.factor)) || any(apply(items, c(1, 2), is.character))) {
+    diff <- ifelse(min(apply(items, c(1, 2), as.numeric), na.rm = TRUE) == 0, 1, 0)
+  } else {
+    diff <- ifelse(min(items, na.rm = TRUE) == 0, 1, 0)
   }
   # iterate item-list
   for (i in 1:ncol(items)) {
     # get each single items
-    variable <- items[,i]
+    variable <- items[ ,i]
     # -----------------------------------------------
     # create proportional table so we have the percentage
     # values that should be used as y-value for the bar charts
@@ -260,26 +261,24 @@ sjp.stackfrq <- function(items,
     # check whether counts should be weighted or not
     if (is.null(weightBy)) {
       df <- as.data.frame(prop.table(table(variable)))
-    }
-    else {
-      df <- as.data.frame(prop.table(round(xtabs(weightBy ~ variable),0)))
+    } else {
+      df <- as.data.frame(prop.table(round(xtabs(weightBy ~ variable), 0)))
     }
     # give columns names
     names(df) <- c("var", "prc")
     # need to be numeric, so percentage values (see below) are
     # correctly assigned, i.e. missing categories are considered
-    df$var <- as.numeric(as.character(df$var))+diff # if categories start with zero, fix this here
-    #     if (min(df$var)==0) {
-    #       df$var <- df$var+1
-    #     }
+    df$var <- sjmisc::to_value(df$var) + diff # if categories start with zero, fix this here
     # Create a vector of zeros 
-    prc <- rep(0,countlen)
+    prc <- rep(0, countlen)
     # Replace the values in prc for those indices which equal df$var
     prc[df$var] <- df$prc
     # create new data frame. We now have a data frame with all
     # variable categories abd their related percentages, including
     # zero counts, but no(!) missings!
-    mydf <- as.data.frame(cbind(grp=i, cat=1:countlen, prc))
+    mydf <- as.data.frame(cbind(grp = i, 
+                                cat = 1:countlen, 
+                                prc))
     # now, append data frames
     mydat <- as.data.frame(rbind(mydat, mydf))
   }
@@ -291,47 +290,43 @@ sjp.stackfrq <- function(items,
   mydat$cat <- as.factor(mydat$cat)
   # add half of Percentage values as new y-position for stacked bars
   # mydat = ddply(mydat, "grp", transform, ypos = cumsum(prc) - 0.5*prc)
-  mydat <- mydat %>% dplyr::group_by(grp) %>% dplyr::mutate(ypos = cumsum(prc) - 0.5*prc) %>% dplyr::arrange(grp)
+  mydat <- mydat %>% 
+    dplyr::group_by(grp) %>% 
+    dplyr::mutate(ypos = cumsum(prc) - 0.5 * prc) %>% 
+    dplyr::arrange(grp)
   # --------------------------------------------------------
   # Caculate vertical adjustment to avoid overlapping labels
   # --------------------------------------------------------
-  jvert <- rep(c(1.1,-0.1), length.out=length(unique(mydat$cat)))
-  jvert <- rep(jvert, length.out=nrow(mydat))
+  jvert <- rep(c(1.1, -0.1), length.out = length(unique(mydat$cat)))
+  jvert <- rep(jvert, length.out = nrow(mydat))
   # --------------------------------------------------------
   # Prepare and trim legend labels to appropriate size
   # --------------------------------------------------------
   # wrap legend text lines
   legendLabels <- sjmisc::word_wrap(legendLabels, breakLegendLabelsAt)    
   # check whether we have a title for the legend
-  if (!is.null(legendTitle)) {
-    # if yes, wrap legend title line
-    legendTitle <- sjmisc::word_wrap(legendTitle, breakLegendTitleAt)    
-  }
+  # if yes, wrap legend title line
+  if (!is.null(legendTitle)) legendTitle <- sjmisc::word_wrap(legendTitle, breakLegendTitleAt)
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
   if (!is.null(title)) {
     # if we have weighted values, say that in diagram's title
-    if (!is.null(weightByTitleString)) {
-      title <- paste(title, weightByTitleString, sep="")
-    }
+    if (!is.null(weightByTitleString)) title <- paste0(title, weightByTitleString)
     title <- sjmisc::word_wrap(title, breakTitleAt)    
   }
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
-  if (!is.null(axisLabels.y)) {
-    axisLabels.y <- sjmisc::word_wrap(axisLabels.y, breakLabelsAt)    
-  }
+  if (!is.null(axisLabels.y)) axisLabels.y <- sjmisc::word_wrap(axisLabels.y, breakLabelsAt)    
   # ----------------------------
   # Check if ordering was requested
   # ----------------------------
   if (!is.null(orderBy)) {
     # order by first cat
-    if (orderBy=="first") {
-      facord <- order(mydat$prc[which(mydat$cat==1)])
-    }
-    # order by last cat
-    else {
-      facord <- order(mydat$prc[which(mydat$cat==countlen)])
+    if (orderBy == "first") {
+      facord <- order(mydat$prc[which(mydat$cat == 1)])
+    } else {
+      # order by last cat
+      facord <- order(mydat$prc[which(mydat$cat == countlen)])
     }
     # create dummy vectors from 1 to itemlength
     dummy1 <- dummy2 <- c(1:length(facord))
@@ -347,14 +342,13 @@ sjp.stackfrq <- function(items,
     # second pos and item 4 is on third pos in order)
     if (reverseOrder) {
       dummy2[rev(facord)] <- dummy1
-    }
-    else {
+    } else {
       dummy2[facord] <- dummy1
     }
     # now we have the order of either lowest to highest counts of first
     # or last category of "items". We now need to repeat these values as 
     # often as we have answer categories
-    orderedrow <- unlist(tapply(dummy2, 1:length(dummy2), function (x) rep(x,countlen)))
+    orderedrow <- unlist(tapply(dummy2, 1:length(dummy2), function (x) rep(x, countlen)))
     # replace old grp-order by new order
     mydat$grp <- as.factor(orderedrow)
     # reorder axis labels as well
@@ -364,9 +358,7 @@ sjp.stackfrq <- function(items,
   # check if category-oder on x-axis should be reversed
   # change category label order then
   # --------------------------------------------------------
-  if (reverseOrder && is.null(orderBy)) {
-    axisLabels.y <- rev(axisLabels.y)
-  }
+  if (reverseOrder && is.null(orderBy)) axisLabels.y <- rev(axisLabels.y)
   # --------------------------------------------------------
   # define vertical position for labels
   # --------------------------------------------------------
@@ -374,8 +366,7 @@ sjp.stackfrq <- function(items,
     # if we flip coordinates, we have to use other parameters
     # than for the default layout
     vert <- 0.35
-  }
-  else {
+  } else {
     vert <- waiver()
   }
   # --------------------------------------------------------
@@ -383,55 +374,52 @@ sjp.stackfrq <- function(items,
   # --------------------------------------------------------
   if (expand.grid) {
     expgrid <- waiver()
-  }
-  else {
-    expgrid <- c(0,0)
+  } else {
+    expgrid <- c(0, 0)
   }
   # --------------------------------------------------------
   # Set value labels
   # --------------------------------------------------------
   if (showValueLabels) {
     if (jitterValueLabels) {
-      ggvaluelabels <-  geom_text(aes(y=ypos, label=sprintf("%.01f%%", 100*prc)),
-                                  vjust=jvert)
+      ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%.01f%%", 100 * prc)),
+                                  vjust = jvert)
+    } else {
+      ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%.01f%%", 100 * prc)),
+                                  vjust = vert)
     }
-    else {
-      ggvaluelabels <-  geom_text(aes(y=ypos, label=sprintf("%.01f%%", 100*prc)),
-                                  vjust=vert)
-    }
-  }
-  else {
-    ggvaluelabels <-  geom_text(label="")
+  } else {
+    ggvaluelabels <-  geom_text(label = "")
   }
   # --------------------------------------------------------
   # Set up grid breaks
   # --------------------------------------------------------
   if (is.null(gridBreaksAt)) {
     gridbreaks <- waiver()
-  }
-  else {
-    gridbreaks <- c(seq(0, 1, by=gridBreaksAt))
+  } else {
+    gridbreaks <- c(seq(0, 1, by = gridBreaksAt))
   }
   # --------------------------------------------------------
   # check if category-oder on x-axis should be reversed
   # change x axis order then
   # --------------------------------------------------------
   if (reverseOrder && is.null(orderBy)) {
-    baseplot <- ggplot(mydat, aes(x=rev(grp), y=prc, fill=cat))
-  }
-  else {
-    baseplot <- ggplot(mydat, aes(x=grp, y=prc, fill=cat))
+    baseplot <- ggplot(mydat, aes(x = rev(grp), y = prc, fill = cat))
+  } else {
+    baseplot <- ggplot(mydat, aes(x = grp, y = prc, fill = cat))
   }  
   baseplot <- baseplot +
     # plot bar chart
-    geom_bar(stat="identity", position="stack", width=geom.size)
+    geom_bar(stat = "identity", position = "stack", width = geom.size)
   # --------------------------------------------------------
   # check whether bars should be visually separated by an 
   # additional separator line
   # --------------------------------------------------------
   if (showSeparatorLine) {
     baseplot <- baseplot +
-      geom_vline(x=c(seq(1.5, length(items), by=1)), size=separatorLineSize, colour=separatorLineColor)
+      geom_vline(x = c(seq(1.5, length(items), by = 1)), 
+                 size = separatorLineSize, 
+                 colour = separatorLineColor)
   }
   # -----------------
   # show/hide percentage values on x axis
@@ -441,24 +429,29 @@ sjp.stackfrq <- function(items,
     # show absolute and percentage value of each bar.
     ggvaluelabels +
     # no additional labels for the x- and y-axis, only diagram title
-    labs(title=title, x=axisTitle.x, y=axisTitle.y, fill=legendTitle) +
+    labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legendTitle) +
     # print value labels to the x-axis.
     # If parameter "axisLabels.y" is NULL, the category numbers (1 to ...) 
     # appear on the x-axis
-    scale_x_discrete(labels=axisLabels.y) +
+    scale_x_discrete(labels = axisLabels.y) +
     # set Y-axis, depending on the calculated upper y-range.
     # It either corresponds to the maximum amount of cases in the data set
     # (length of var) or to the highest count of var's categories.
-    scale_y_continuous(breaks=gridbreaks, limits=c(0, 1), expand=expgrid, labels=percent)
+    scale_y_continuous(breaks = gridbreaks, 
+                       limits = c(0, 1), 
+                       expand = expgrid, 
+                       labels = percent)
   # check whether coordinates should be flipped, i.e.
   # swap x and y axis
-  if (coord.flip) {
-    baseplot <- baseplot + coord_flip()
-  }
+  if (coord.flip) baseplot <- baseplot + coord_flip()
   # ---------------------------------------------------------
   # set geom colors
   # ---------------------------------------------------------
-  baseplot <- sj.setGeomColors(baseplot, geom.colors, length(legendLabels), ifelse(hideLegend==TRUE, FALSE, TRUE), legendLabels)
+  baseplot <- sj.setGeomColors(baseplot, 
+                               geom.colors, 
+                               length(legendLabels), 
+                               ifelse(hideLegend == TRUE, FALSE, TRUE), 
+                               legendLabels)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------

@@ -372,11 +372,11 @@ sjp.xtab <- function(y,
     # if the maximum value of the group variable differs from the estimated
     # group length we probably have missing categoriesm, i.e. one group has no
     # cases. Then, we insert an empty row here
-    mydf$Group <- as.numeric(as.character(mydf$Group))
+    mydf$Group <- sjmisc::to_value(mydf$Group)
     # range of groups from lowest to highest group value
     allgroups <- factor(c(min(mydf$Group):max(mydf$Group)))
     # retrieve zero-counts, i.e. which group is missing in the data frame
-    miss <- as.numeric(as.character(allgroups[!allgroups %in% mydf$Group]))
+    miss <- sjmisc::to_value(allgroups[!allgroups %in% mydf$Group])
     # retrieve subset of all rows where group is from lowest group-value to 
     # missing group
     dummy1 <- mydf[apply(mydf, MARGIN=1, function(x) all(x[2]<miss)),]
@@ -410,8 +410,8 @@ sjp.xtab <- function(y,
       subdf <- mydf[mydf$Group == dfgrp$Var1[i],]
       # convert factors to numeric (due to calculations they have
       # to be treated like that)
-      subdf$Count <- as.numeric(as.character(subdf$Count))
-      subdf$Group <- as.numeric(as.character(subdf$Group))
+      subdf$Count <- sjmisc::to_value(subdf$Count)
+      subdf$Group <- sjmisc::to_value(subdf$Group)
       # Create a vector of zeros 
       frq <- rep(0,catcount)
       sm <- rep(0,catcount)

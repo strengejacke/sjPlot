@@ -1294,8 +1294,8 @@ sjp.lme.feri <- function(fit,
       # check if we found any values...
       if (!is.null(xpos)) {
         final.df <- rbind(final.df,
-                          cbind(x = as.numeric(as.character(xpos)),
-                                y = fi + ri + (as.numeric(as.character(xpos)) * estimates[j]),
+                          cbind(x = sjmisc::to_value(xpos),
+                                y = fi + ri + sjmisc::to_value(xpos) * estimates[j],
                                 grp = i))
       }
     }

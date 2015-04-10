@@ -133,11 +133,11 @@ Based on the script from \href{http://www.surefoss.org/dataanalysis/plotting-odd
 }
 \examples{
 # prepare dichotomous dependent variable
-y <- ifelse(swiss$Fertility<median(swiss$Fertility), 0, 1)
+y <- ifelse(swiss$Fertility < median(swiss$Fertility), 0, 1)
 
 # fit model
 fitOR <- glm(y ~ swiss$Education + swiss$Examination + swiss$Infant.Mortality + swiss$Catholic,
-             family=binomial(link="logit"))
+             family = binomial(link = "logit"))
 
 # print Odds Ratios as dots
 sjp.glm(fitOR)

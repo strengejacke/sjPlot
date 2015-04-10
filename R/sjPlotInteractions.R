@@ -270,7 +270,20 @@
 #' # -------------------------------
 #' # Plot effects
 #' # -------------------------------
-#'  sjp.int(fit, type = "eff", showCI = TRUE)
+#' # add continuous variable
+#' mydf$barthel <- efc$barthtot
+#' # re-fit model with continuous variable
+#' fit <- lm(burden ~ .*., data = mydf)
+#' 
+#' # plot effects
+#' sjp.int(fit, type = "eff", showCI = TRUE)
+#'
+#' # plot effects, faceted
+#' sjp.int(fit, 
+#'         type = "eff", 
+#'         int.plot.index = 3,
+#'         showCI = TRUE,
+#'         facet.grid = TRUE)
 #'
 #' @import ggplot2
 #' @import sjmisc
@@ -783,10 +796,10 @@ sjp.int <- function(fit,
     # convert df-values to numeric
     # -----------------------------------------------------------
     if (fun == "lm" || fun == "lmer") {
-      intdf$x <- as.numeric(as.character(intdf$x))
-      intdf$y <- as.numeric(as.character(intdf$y))
-      intdf$ymin <- as.numeric(as.character(intdf$ymin))
-      intdf$ymax <- as.numeric(as.character(intdf$ymax))
+      intdf$x <- sjmisc::to_value(intdf$x)
+      intdf$y <- sjmisc::to_value(intdf$y)
+      intdf$ymin <- sjmisc::to_value(intdf$ymin)
+      intdf$ymax <- sjmisc::to_value(intdf$ymax)
       intdf$ydiff <- intdf$ymax - intdf$ymin
       # -----------------------------------------------------------
       # retrieve lowest and highest x and y position to determine
@@ -807,10 +820,10 @@ sjp.int <- function(fit,
         upperLim.y <- axisLimits.y[2]
       }
     } else {
-      intdf$x <- as.numeric(as.character(intdf$x))
-      intdf$y <- odds.to.prob(as.numeric(as.character(intdf$y)))
-      intdf$ymin <- odds.to.prob(as.numeric(as.character(intdf$ymin)))
-      intdf$ymax <- odds.to.prob(as.numeric(as.character(intdf$ymax)))
+      intdf$x <- sjmisc::to_value(intdf$x)
+      intdf$y <- odds.to.prob(sjmisc::to_value(intdf$y))
+      intdf$ymin <- odds.to.prob(sjmisc::to_value(intdf$ymin))
+      intdf$ymax <- odds.to.prob(sjmisc::to_value(intdf$ymax))
       intdf$ydiff <- odds.to.prob(intdf$ymax - intdf$ymin)
       # -----------------------------------------------------------
       # retrieve lowest and highest x and y position to determine
@@ -1095,6 +1108,8 @@ sjp.eff.int <- function(fit,
   # retrieve position of interaction terms in effects-object
   # ------------------------
   intpos <- which(as.vector(sapply(eff, function(x) length(grep("*", x['term'], fixed = T)) > 0)) == T)
+  # select only specific plots
+  if (!is.null(int.plot.index)) intpos <- intpos[int.plot.index]  
   # init vector that saves ggplot objects
   plotlist <- list()
   dflist <- list()
@@ -1123,11 +1138,18 @@ sjp.eff.int <- function(fit,
       colnames(intdf) <- c("grp", "x", "y", "se", "lower", "upper")
     }
     # -----------------------------------------------------------
+    # effects-package creates "NA" factor levels, which
+    # need to be removed
+    # -----------------------------------------------------------
+    intdf <- droplevels(intdf)
+    # -----------------------------------------------------------
     # convert df-values to numeric
     # -----------------------------------------------------------
     if (fun == "lm" || fun == "lmer") {
       # Label on y-axis is name of dependent variable
       laby <- response.name
+      # make sure x is numeric
+      intdf$x <- sjmisc::to_value(intdf$x)
       # group as factor
       intdf$grp <- as.factor(intdf$grp)
       # -----------------------------------------------------------
@@ -1151,6 +1173,8 @@ sjp.eff.int <- function(fit,
     } else {
       # Label on y-axis is fixed
       if (is.null(axisTitle.y)) axisTitle.y <- "Predicted Probability"
+      # make sure x is numeric
+      intdf$x <- sjmisc::to_value(intdf$x)
       # convert log-odds to probabilities
       intdf$y <- odds.to.prob(intdf$y)
       intdf$lower <- odds.to.prob(intdf$lower)
@@ -1199,7 +1223,7 @@ sjp.eff.int <- function(fit,
     # legend labels
     # -----------------------------------------------------------
     if (is.null(legendLabels)) {
-      lLabels <- c(paste0("lower bound of ", moderator.name), paste0("upper bound of ", moderator.name))
+      lLabels <- as.vector(unique(intdf$grp))
     } else {
       # copy plot counter 
       l_nr <- i
@@ -1281,7 +1305,11 @@ sjp.eff.int <- function(fit,
     # ---------------------------------------------------------
     # set geom colors
     # ---------------------------------------------------------
-    baseplot <- sj.setGeomColors(baseplot, geom.colors, 2, !is.null(lLabels), lLabels)
+    baseplot <- sj.setGeomColors(baseplot, 
+                                 geom.colors, 
+                                 length(unique(na.omit(intdf$grp))), 
+                                 !is.null(lLabels), 
+                                 lLabels)
     # ---------------------------------------------------------
     # Check whether ggplot object should be returned or plotted
     # ---------------------------------------------------------

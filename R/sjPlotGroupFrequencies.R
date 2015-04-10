@@ -405,7 +405,7 @@ sjp.grpfrq <- function(varCount,
   dfgrp <- as.data.frame(table(df$varGroup))
   # Factors have to be transformed into numeric values
   # for continiuos x-axis-scale
-  df$varCount <- as.numeric(as.character(df$varCount))
+  df$varCount <- sjmisc::to_value(df$varCount)
   # if categories start with zero, fix this here
   if (min(df$varCount) == 0) df$varCount<- df$varCount + 1
   # convcert group variables to chars
@@ -454,13 +454,13 @@ sjp.grpfrq <- function(varCount,
     mydat <- data.frame(rbind(mydat, dummydat))
   }
   # convert grouping variable to character
-  mydat$count <- as.numeric(as.character(mydat$count))
+  mydat$count <- sjmisc::to_value(mydat$count)
   # convert grouping variable to character
-  mydat$group <- as.numeric(as.character(mydat$group))
+  mydat$group <- sjmisc::to_value(mydat$group)
   # convert frequencies to numeric
-  mydat$frq <- as.numeric(as.character(mydat$frq))
+  mydat$frq <- sjmisc::to_value(mydat$frq)
   # convert layer to numeric
-  mydat$layer <- as.numeric(as.character(mydat$layer))
+  mydat$layer <- sjmisc::to_value(mydat$layer)
   # -----------------------------------------------
   # Handle zero-counts in group-variable
   # only possible if we know the exact number of groups,
@@ -473,7 +473,7 @@ sjp.grpfrq <- function(varCount,
     # range of groups from lowest to highest group value
     allgroups <- factor(c(min(mydat$group):max(mydat$group)))
     # retrieve zero-counts, i.e. which group is missing in the data frame
-    miss <- as.numeric(as.character(allgroups[!allgroups %in% mydat$group]))
+    miss <- sjmisc::to_value(allgroups[!allgroups %in% mydat$group])
     # retrieve subset of all rows where group is from lowest group-value to 
     # missing group
     dummy1 <- mydat[apply(mydat, MARGIN = 1, function(xy) all(xy[2] < miss)), ]
@@ -516,7 +516,7 @@ sjp.grpfrq <- function(varCount,
   # bind percentage as final column
   mydat <- as.data.frame(cbind(mydat, prz))
   # convert prz to numeric
-  mydat$texty <- as.numeric(as.character(mydat$prz))
+  mydat$texty <- sjmisc::to_value(mydat$prz)
   # add half of Percentage values as new y-position for stacked bars
   # mydat <- ddply(mydat, "count", transform, ypos = cumsum(frq) - 0.5*frq)
   mydat <- mydat %>% 
@@ -906,7 +906,7 @@ sjp.grpfrq <- function(varCount,
   # plot object for histogram style
   # ----------------------------------
   if (type == "histogram" || type == "lines") {
-    mydat$count <- as.numeric(as.character(mydat$count))
+    mydat$count <- sjmisc::to_value(mydat$count)
     if (type == "histogram") {
       # histrogram need fill aes
       baseplot <- ggplot(mydat, aes(x = count, y = frq, fill = group)) + geob

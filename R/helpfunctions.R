@@ -123,7 +123,7 @@ create.frq.df <- function(varCount,
   }
   # Factors have to be transformed into numeric values
   # for continiuos x-axis-scale
-  df$y <- as.numeric(as.character(df$y))
+  df$y <- sjmisc::to_value(df$y)
   # if categories start with zero, fix this here
   if (min(df$y) == 0 && startAxisAt > 0) df$y <- df$y + 1
   # get the highest answer category of "y", so we know where the
