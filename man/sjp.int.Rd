@@ -179,7 +179,7 @@ Plot regression (predicted values) or probability lines (predicted probabilities
              to the \code{\link[effects]{effect}} function from the effects-package.
            }
            \item{type = "eff}{plots the overall effects of the interaction, with all remaining
-             covariates set to the mean. Effects are calculated using the \code{\link[effects]{effecf}}-
+             covariates set to the mean. Effects are calculated using the \code{\link[effects]{effect}}-
              function from the \code{effects}-package.
            }
            \item{type = "emm"}{plots the estimated marginal means of Two-Way Repeated Measures AN(C)OVA,

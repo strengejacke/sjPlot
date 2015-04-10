@@ -96,17 +96,17 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #'
 #' @examples
 #' # prepare dichotomous dependent variable
-#' y <- ifelse(swiss$Fertility<median(swiss$Fertility), 0, 1)
+#' y <- ifelse(swiss$Fertility < median(swiss$Fertility), 0, 1)
 #'
 #' # fit model
 #' fitOR <- glm(y ~ swiss$Education + swiss$Examination + swiss$Infant.Mortality + swiss$Catholic,
-#'              family=binomial(link="logit"))
+#'              family = binomial(link = "logit"))
 #'
 #' # print Odds Ratios as dots
 #' sjp.glm(fitOR)
 #'
 #' # print Odds Ratios as bars
-#' sjp.glm(fitOR, type="bars")
+#' sjp.glm(fitOR, type = "bars", geom.size = .3)
 #'
 #'
 #' # -------------------------------
@@ -583,7 +583,7 @@ sjp.glm.pc <- function(fit,
       # "melt" all single mydf's to one
       mydf.ges <- rbind(mydf.ges, mydf.metricpred[[i]])
       # create single plots for each numeric predictor
-      mp <- ggplot(mydf.metricpred[[i]], aes(x = value, y = y)) +
+      mp <- ggplot(mydf.metricpred[[i]], aes(x = values, y = y)) +
         labs(x = axisLabels.mp[i], 
              y = "Probability") +
         stat_smooth(method = "glm", 
@@ -595,7 +595,7 @@ sjp.glm.pc <- function(fit,
     }
     # if we have more than one numeric var, also create integrated plot
     if (length(mydf.metricpred) > 1) {
-      mp <- ggplot(mydf.ges, aes(x = value,
+      mp <- ggplot(mydf.ges, aes(x = values,
                                  y = y,
                                  colour = grp)) +
         labs(x = NULL,

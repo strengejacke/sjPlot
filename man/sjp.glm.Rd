@@ -143,7 +143,7 @@ fitOR <- glm(y ~ swiss$Education + swiss$Examination + swiss$Infant.Mortality + 
 sjp.glm(fitOR)
 
 # print Odds Ratios as bars
-sjp.glm(fitOR, type="bars")
+sjp.glm(fitOR, type = "bars", geom.size = .3)
 
 
 # -------------------------------

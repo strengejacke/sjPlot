@@ -134,7 +134,7 @@
 #'              to the \code{\link[effects]{effect}} function from the effects-package.
 #'            }
 #'            \item{type = "eff}{plots the overall effects of the interaction, with all remaining
-#'              covariates set to the mean. Effects are calculated using the \code{\link[effects]{effecf}}-
+#'              covariates set to the mean. Effects are calculated using the \code{\link[effects]{effect}}-
 #'              function from the \code{effects}-package.
 #'            }
 #'            \item{type = "emm"}{plots the estimated marginal means of Two-Way Repeated Measures AN(C)OVA,
@@ -266,6 +266,11 @@
 #'         type = "emm",
 #'         plevel = 1, 
 #'         swapPredictors = TRUE)
+#'
+#' # -------------------------------
+#' # Plot effects
+#' # -------------------------------
+#'  sjp.int(fit, type = "eff", showCI = TRUE)
 #'
 #' @import ggplot2
 #' @import sjmisc
@@ -1122,7 +1127,7 @@ sjp.eff.int <- function(fit,
     # -----------------------------------------------------------
     if (fun == "lm" || fun == "lmer") {
       # Label on y-axis is name of dependent variable
-      laby <- paste0("Change in ", response.name)
+      laby <- response.name
       # group as factor
       intdf$grp <- as.factor(intdf$grp)
       # -----------------------------------------------------------
@@ -1144,6 +1149,9 @@ sjp.eff.int <- function(fit,
         upperLim.y <- axisLimits.y[2]
       }
     } else {
+      # Label on y-axis is fixed
+      if (is.null(axisTitle.y)) axisTitle.y <- "Predicted Probability"
+      # convert log-odds to probabilities
       intdf$y <- odds.to.prob(intdf$y)
       intdf$lower <- odds.to.prob(intdf$lower)
       intdf$upper <- odds.to.prob(intdf$upper)
@@ -1181,7 +1189,7 @@ sjp.eff.int <- function(fit,
                          response.name)
     } else {
       # copy plot counter 
-      l_nr <- cnt
+      l_nr <- i
       # check if we have enough labels. if not, use last labels
       if (l_nr > length(title)) l_nr <- length(title)
       # set legend labels for plot
@@ -1194,7 +1202,7 @@ sjp.eff.int <- function(fit,
       lLabels <- c(paste0("lower bound of ", moderator.name), paste0("upper bound of ", moderator.name))
     } else {
       # copy plot counter 
-      l_nr <- cnt
+      l_nr <- i
       # check if we have enough labels. if not, use last labels
       if (l_nr > length(legendLabels)) l_nr <- length(legendLabels)
       # set legend labels for plot
@@ -1207,7 +1215,7 @@ sjp.eff.int <- function(fit,
       lTitle <- moderator.name
     } else {
       # copy plot counter 
-      l_nr <- cnt
+      l_nr <- i
       # check if we have enough legend titles, if not, use last legend title
       if (l_nr > length(legendTitle)) l_nr <- length(legendTitle)
       # set legend title for plot
@@ -1218,7 +1226,7 @@ sjp.eff.int <- function(fit,
     # -----------------------------------------------------------
     if (!is.null(axisTitle.x)) {
       # copy plot counter 
-      l_nr <- cnt
+      l_nr <- i
       # check if we have enough axis titles, if not, use last legend title
       if (l_nr > length(axisTitle.x)) l_nr <- length(axisTitle.x)
       # set axis title
