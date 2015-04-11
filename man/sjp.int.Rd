@@ -333,11 +333,13 @@ sjp.int(fit,
 }
 \references{
 \itemize{
+             \item Fox J (2003) Effect displays in R for generalised linear models. Journal of Statistical Software 8:15, 1–27, \href{http://www.jstatsoft.org/v08/i15/}{<http://www.jstatsoft.org/v08/i15/>}.
+             \item Brambor T, Clark WR and Golder M (2006) Understanding Interaction Models: Improving Empirical Analyses. Political Analysis 14: 63-82 \href{https://files.nyu.edu/mrg217/public/pa_final.pdf}{download}
+             \item Aiken and West (1991). Multiple Regression: Testing and Interpreting Interactions.
              \item \href{http://www.theanalysisfactor.com/interpreting-interactions-in-regression/}{Grace-Martin K: Interpreting Interactions in Regression}
              \item \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin K: Clarifications on Interpreting Interactions in Regression}
              \item \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}
              \item \href{http://www.theanalysisfactor.com/using-adjusted-means-to-interpret-moderators-in-analysis-of-covariance/}{Grace-Martin K: Using Adjusted Means to Interpret Moderators in Analysis of Covariance.}
-             \item Aiken and West (1991). Multiple Regression: Testing and Interpreting Interactions.
              }
 }
 \seealso{

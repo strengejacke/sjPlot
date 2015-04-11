@@ -2,11 +2,13 @@
 #' @name sjp.int
 #'
 #' @references \itemize{
+#'              \item Fox J (2003) Effect displays in R for generalised linear models. Journal of Statistical Software 8:15, 1–27, \href{http://www.jstatsoft.org/v08/i15/}{<http://www.jstatsoft.org/v08/i15/>}.
+#'              \item Brambor T, Clark WR and Golder M (2006) Understanding Interaction Models: Improving Empirical Analyses. Political Analysis 14: 63-82 \href{https://files.nyu.edu/mrg217/public/pa_final.pdf}{download}
+#'              \item Aiken and West (1991). Multiple Regression: Testing and Interpreting Interactions.
 #'              \item \href{http://www.theanalysisfactor.com/interpreting-interactions-in-regression/}{Grace-Martin K: Interpreting Interactions in Regression}
 #'              \item \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin K: Clarifications on Interpreting Interactions in Regression}
 #'              \item \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}
 #'              \item \href{http://www.theanalysisfactor.com/using-adjusted-means-to-interpret-moderators-in-analysis-of-covariance/}{Grace-Martin K: Using Adjusted Means to Interpret Moderators in Analysis of Covariance.}
-#'              \item Aiken and West (1991). Multiple Regression: Testing and Interpreting Interactions.
 #'              }
 #'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.int/}{sjPlot manual: sjp.int}
@@ -1129,6 +1131,8 @@ sjp.eff.int <- function(fit,
     response.name <- eff[[i]]$response
     # prepare axis titles
     labx <- pred_x.name
+    # check whether x-axis-predictor is a factor or not
+    x_is_factor <- is.factor(intdf[[pred_x.name]])
     # -----------------------------------------------------------
     # change column names
     # -----------------------------------------------------------
@@ -1273,18 +1277,37 @@ sjp.eff.int <- function(fit,
     # confidence interval?
     # ------------------------------------------------------------
     if (showCI) {
-      baseplot <- baseplot +
-        geom_ribbon(aes(ymin = lower, ymax = upper, colour = NULL, fill = grp),
-                    alpha = fillAlpha,
-                    show_guide = FALSE)
+      if (x_is_factor) {
+        # -------------------------------------------------
+        # for factors, we add error bars instead of
+        # continuous confidence region
+        # -------------------------------------------------
+        baseplot <- baseplot +
+          geom_errorbar(aes(ymin = lower, ymax = upper, colour = grp),
+                        width = 0,
+                        show_guide = FALSE) +
+          geom_point()
+      } else {
+        # -------------------------------------------------
+        # for continuous variables, we add  continuous 
+        # confidence region instead of error bars 
+        # -------------------------------------------------
+        baseplot <- baseplot +
+          geom_ribbon(aes(ymin = lower, ymax = upper, colour = NULL, fill = grp),
+                      alpha = fillAlpha,
+                      show_guide = FALSE)
+      }
     }
     baseplot <- baseplot + geom_line()
     # ------------------------------------------------------------
     # plot value labels
     # ------------------------------------------------------------
     if (showValueLabels) {
+      # don't need geom_point, because point-layer already 
+      # added with x_is_factor
+      if (!x_is_factor) baseplot <- baseplot + geom_point()
+      # add value label text
       baseplot <- baseplot +
-        geom_point() +
         geom_text(aes(label = round(y, 1)),
                   vjust = 1.5,
                   show_guide = FALSE)

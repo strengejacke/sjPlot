@@ -43,13 +43,13 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 
 #### Changes to functions
 * `sjp.lmer` now calculates approximate p-values based on Wald chi-squared tests.
-* `sjp.glm` now supports plotting `logistf` objects [(#issue 11)](https://github.com/sjPlot/devel/issues/11).
+* `sjp.glm` now supports plotting `logistf` objects.
 * `sjp.glmm` and `sjp.lmm` now also accept a list of fitted models (see examples in `?sjp.glmm` and `?sjp.lmm`).
 * `sjp.int` and `sjp.lm` now support `plm` objects (from plm-package).
 * Added parameter `type` to `sjp.int` to plot different types of interactions, including estimated marginal means.
 * Added parameter `legendTitle` to `sjp.int`.
 * Added parameter `int.plot.index` to `sjp.int`, so only selected interaction terms may be plotted.
-* Added parameter `showCI` to `sjp.int` (only applies to `type = "emm"` to add confidence intervals to estimated marginal means.
+* Added parameter `showCI` to `sjp.int` (only applies to `type = "emm"` and `"eff"`) to add confidence intervals to estimated marginal means.
 * Added parameter `facet.grid` to `sjp.int` to plot each effect in a separate plot.
 * Parameter `moderatorValues` in `sjp.int` now has a new option `zeromax` for chosing the moderator values.
 * Parameter `legendLabels` of `sjp.int` now accepts a list of character vectors, with one vector of legend labels for each interaction plot plotted.
