@@ -1137,6 +1137,43 @@ sjp.eff.int <- function(fit,
     # check whether x-axis-predictor is a factor or not
     x_is_factor <- is.factor(intdf[[pred_x.name]])
     # -----------------------------------------------------------
+    # check for moderator values, but only, if moderator 
+    # is no factor value
+    # -----------------------------------------------------------
+    if (!is.factor(intdf[[moderator.name]])) {
+      # retrieve moderator value
+      modval <- eff[[intpos[i]]]$data[[moderator.name]]
+      # we have more than two values, so re-calculate effects, just using
+      # min and max value of moderator. 
+      if (moderatorValues == "minmax" && length(unique(intdf[[moderator.name]])) > 2) {
+        # retrieve min and max values
+        mv.min <- min(modval, na.rm = T)
+        mv.max <- max(modval, na.rm = T)
+        # re-compute effects, prepare xlevels
+        xl <- list(x = c(mv.min, mv.max))
+      # we have more than two values, so re-calculate effects, just using
+      # 0 and max value of moderator.
+      } else if (moderatorValues == "zeromax" && length(unique(intdf[[moderator.name]])) > 2) {
+        # retrieve max values
+        mv.max <- max(modval, na.rm = T)
+        # re-compute effects, prepare xlevels
+        xl <- list(x = c(0, mv.max))
+      # compute mean +/- sd
+      } else if (moderatorValues == "meansd") {
+        # retrieve mean and sd
+        mv.mean <- round(mean(modval, na.rm = T), 2)
+        mv.sd <- round(sd(modval, na.rm = T), 2)
+        # re-compute effects, prepare xlevels
+        xl <- list(x = c(mv.mean - mv.sd, mv.mean, mv.mean + mv.sd))
+      }
+      # change list name to moderator value name
+      names(xl) <- moderator.name
+      # re-compute effects
+      eff.tmp <- effects::allEffects(fit, xlevels = xl)
+      # reset data frame
+      intdf <- data.frame(eff.tmp[[intpos[i]]])
+    }
+    # -----------------------------------------------------------
     # change column names
     # -----------------------------------------------------------
     if (swapPredictors) {
