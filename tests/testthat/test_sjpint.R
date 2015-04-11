@@ -106,4 +106,13 @@ test_that("Check tab crosstabs", {
           int.plot.index = 3,
           showCI = TRUE,
           facet.grid = TRUE)
+  
+  
+  library(sjmisc)
+  data(efc)
+  fit <- lm(neg_c_7 ~ c12hour + barthtot + c12hour:barthtot, data = efc)
+  sjp.int(fit, type = "eff")
+  sjp.int(fit, type = "eff", moderatorValues = "zeromax")
+  sjp.int(fit, type = "eff", moderatorValues = "meansd", showCI = T)
+  sjp.int(fit, type = "eff", moderatorValues = "meansd", showCI = T, facet.grid = T)
 })

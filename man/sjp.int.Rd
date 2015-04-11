@@ -4,7 +4,7 @@
 \alias{sjp.int}
 \title{Plot interaction effects of (generalized) linear (mixed) models}
 \usage{
-sjp.int(fit, type = "diff", int.plot.index = NULL, diff = FALSE,
+sjp.int(fit, type = "eff", int.plot.index = NULL, diff = FALSE,
   moderatorValues = "minmax", swapPredictors = FALSE, plevel = 0.05,
   title = NULL, fillColor = "grey", fillAlpha = 0.3,
   geom.colors = "Set1", axisTitle.x = NULL, axisTitle.y = NULL,
@@ -26,13 +26,14 @@ classes are
   \item generalized linear models (\code{glm})
   \item linear mixed effects models (\code{lme4::lmer})
   \item generalized linear mixed effects models (\code{lme4::glmer})
+  \item linear mixed effects models (\code{nlme::lme}, but only for \code{type = "eff"})
   \item panel data estimators (\code{plm::plm})
   }}
 
 \item{type}{interaction plot type. Use one of following values:
 \itemize{
+  \item \code{type = "eff"} (default) plots the overall moderation effect on the response value. See details.
   \item \code{type = "diff"} plots the change of the moderating effect on the response value. See details.
-  \item \code{type = "eff"} plots the overall moderation effect on the response value. See details.
   \item \code{type = "emm"} plots the estimated marginal means (least square means). If this type is chosen, not all parameters are applicable. See details.
 }}
 
@@ -163,6 +164,7 @@ Plot regression (predicted values) or probability lines (predicted probabilities
                  \item generalized linear models (\code{glm})
                  \item linear mixed effects models (\code{lme4::lmer})
                  \item generalized linear mixed effects models (\code{lme4::glmer})
+                 \item linear mixed effects models (\code{nlme::lme}, but only for \code{type = "eff"})
                  \item panel data estimators (\code{plm::plm})
                }
                Note that beside interaction terms, also the single predictors of each interaction (main effects)
@@ -171,16 +173,16 @@ Plot regression (predicted values) or probability lines (predicted probabilities
 }
 \details{
 \describe{
+           \item{type = "eff}{plots the overall effects of the interaction, with all remaining
+             covariates set to the mean. Effects are calculated using the \code{\link[effects]{effect}}-
+             function from the \code{effects}-package.
+           }
            \item{type = "diff"}{plots the effective change on a dependent variable of a moderation
              effect, as described in \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin K: Clarifications on Interpreting Interactions in Regression},
              i.e. the difference of the moderation effect on the dependent variable in present
              and absence of the moderating effect. This type \emph{does not} show the overall effect of
-             interactions on the result of Y. Use \code{type = "effect"} for effect displays similar
+             interactions on the result of Y. Use \code{type = "eff"} for effect displays similar
              to the \code{\link[effects]{effect}} function from the effects-package.
-           }
-           \item{type = "eff}{plots the overall effects of the interaction, with all remaining
-             covariates set to the mean. Effects are calculated using the \code{\link[effects]{effect}}-
-             function from the \code{effects}-package.
            }
            \item{type = "emm"}{plots the estimated marginal means of Two-Way Repeated Measures AN(C)OVA,
              which was the former \code{sjp.emm.int} function. This plot type plots estimated marginal means
@@ -208,14 +210,18 @@ Note that beside interaction terms, also the single predictors of each interacti
 # Note that the data sets used in this example may not be perfectly suitable for
 # fitting linear models. I just used them because they are part of the R-software.
 
-# fit "dummy" model.
-fit <- lm(weight ~ Time * Diet, data = ChickWeight)
+# fit "dummy" model. Note that moderator should enter
+# first the model, followed by predictor. Else, use
+# parameter "swapPredictors" to change predictor on
+# x-axis with moderator
+fit <- lm(weight ~ Diet * Time, data = ChickWeight)
 
 # show summary to see significant interactions
 summary(fit)
 
-# plot regression line of interaction terms
+# plot interaction effects
 sjp.int(fit)
+
 # plot regression line of interaction terms, including value labels
 sjp.int(fit, showValueLabels = TRUE)
 
@@ -238,16 +244,22 @@ summary(fit)
 
 # plot interactions
 sjp.int(fit)
+# note that type = "diff" only considers significant
+# interactions by default. use "plevel" to adjust p-level
+# sensivity
+sjp.int(fit, type = "diff")
 
 # plot interactions, using mean and sd as moderator
 # values to calculate interaction effect
 sjp.int(fit, moderatorValues = "meansd")
+sjp.int(fit, type = "diff", moderatorValues = "meansd")
 
 # use zero and maximum value of moderation effect
 sjp.int(fit, moderatorValues = "zeromax")
 
 # plot interactions, including those with p-value up to 0.1
 sjp.int(fit,
+        type = "diff",
         plevel = 0.1,
         showInterceptLines = TRUE)
 
@@ -269,6 +281,11 @@ fit <- glm(y ~ sex * barthel,
            family = binomial(link = "logit"))
 # plot interaction, increase p-level sensivity
 sjp.int(fit,
+        legendLabels = get_val_labels(efc$c161sex),
+        plevel = 0.1)
+
+sjp.int(fit,
+        type = "diff",
         legendLabels = get_val_labels(efc$c161sex),
         plevel = 0.1)
 
@@ -322,11 +339,10 @@ mydf$barthel <- efc$barthtot
 fit <- lm(burden ~ .*., data = mydf)
 
 # plot effects
-sjp.int(fit, type = "eff", showCI = TRUE)
+sjp.int(fit, showCI = TRUE)
 
 # plot effects, faceted
 sjp.int(fit,
-        type = "eff",
         int.plot.index = 3,
         showCI = TRUE,
         facet.grid = TRUE)
