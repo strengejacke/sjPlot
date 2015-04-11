@@ -346,7 +346,6 @@ sjp.int <- function(fit,
     fun <- "lmer"
     stat.fun <- "lm"
   }
-  if ((fun == "glm" || fun == "glmer") && is.null(axisTitle.y)) axisTitle.y <- "Change in Predicted Probability"
   # ------------------------
   # check if suggested package is available
   # ------------------------
@@ -401,6 +400,10 @@ sjp.int <- function(fit,
                         breakLegendTitleAt, breakAnnotationLabelsAt, axisLimits.y,
                         gridBreaksAt, showCI, facet.grid, printPlot, fun))
   }
+  # -----------------------------------------------------------
+  # set axis title
+  # -----------------------------------------------------------
+  if ((fun == "glm" || fun == "glmer") && is.null(axisTitle.y)) axisTitle.y <- "Change in Predicted Probability"
   # -----------------------------------------------------------
   # retrieve coefficients
   # -----------------------------------------------------------
@@ -1146,6 +1149,8 @@ sjp.eff.int <- function(fit,
     # need to be removed
     # -----------------------------------------------------------
     intdf <- droplevels(intdf)
+    # group as factor
+    intdf$grp <- as.factor(intdf$grp)
     # -----------------------------------------------------------
     # convert df-values to numeric
     # -----------------------------------------------------------
@@ -1154,8 +1159,6 @@ sjp.eff.int <- function(fit,
       laby <- response.name
       # make sure x is numeric
       intdf$x <- sjmisc::to_value(intdf$x, keep.labels = F)
-      # group as factor
-      intdf$grp <- as.factor(intdf$grp)
       # -----------------------------------------------------------
       # retrieve lowest and highest x and y position to determine
       # the scale limits
