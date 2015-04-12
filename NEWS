@@ -1,4 +1,4 @@
-Version 1.7-11
+Version 1.8
 ------------------------------------------------------------------------------
 General:
 * Utility, recode and statistical test functions have been moved to another package called "sjmisc"! sjPlot now imports sjmisc.
