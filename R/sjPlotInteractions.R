@@ -17,12 +17,13 @@
 #'                significant interaction terms to better understand effects
 #'                of moderations in regression models. This function accepts following fitted model classes:
 #'                \itemize{
-#'                  \item linear models (\code{lm})
-#'                  \item generalized linear models (\code{glm})
-#'                  \item linear mixed effects models (\code{lme4::lmer})
-#'                  \item generalized linear mixed effects models (\code{lme4::glmer})
-#'                  \item linear mixed effects models (\code{nlme::lme}, but only for \code{type = "eff"})
-#'                  \item panel data estimators (\code{plm::plm})
+#'                  \item linear models (\code{\link{lm}})
+#'                  \item generalized linear models (\code{\link{glm}})
+#'                  \item linear mixed effects models (\code{\link[lme4]{lmer}})
+#'                  \item generalized linear mixed effects models (\code{\link[lme4]{glmer}})
+#'                  \item linear mixed effects models (\code{\link[nlme]{lme}}, but only for \code{type = "eff"})
+#'                  \item generalized least squares models (\code{\link[nlme]{gls}}, but only for \code{type = "eff"})
+#'                  \item panel data estimators (\code{\link[plm]{plm}})
 #'                }
 #'                Note that beside interaction terms, also the single predictors of each interaction (main effects)
 #'                must be included in the fitted model as well. Thus, \code{lm(dep ~ pred1 * pred2)} will work, 
@@ -31,13 +32,14 @@
 #' @param fit the fitted (generalized) linear (mixed) model object, including interaction terms. Accepted model
 #'          classes are
 #'          \itemize{
-#'            \item linear models (\code{lm})
-#'            \item generalized linear models (\code{glm})
-#'            \item linear mixed effects models (\code{lme4::lmer})
-#'            \item generalized linear mixed effects models (\code{lme4::glmer})
-#'            \item linear mixed effects models (\code{nlme::lme}, but only for \code{type = "eff"})
-#'            \item panel data estimators (\code{plm::plm})
-#'            }
+#'            \item linear models (\code{\link{lm}})
+#'            \item generalized linear models (\code{\link{glm}})
+#'            \item linear mixed effects models (\code{\link[lme4]{lmer}})
+#'            \item generalized linear mixed effects models (\code{\link[lme4]{glmer}})
+#'            \item linear mixed effects models (\code{\link[nlme]{lme}}, but only for \code{type = "eff"})
+#'            \item generalized least squares models (\code{\link[nlme]{gls}}, but only for \code{type = "eff"})
+#'            \item panel data estimators (\code{\link[plm]{plm}})
+#'          }
 #' @param type interaction plot type. Use one of following values:
 #'          \itemize{
 #'            \item \code{type = "eff"} (default) plots the overall moderation effect on the response value. See details.
@@ -132,11 +134,14 @@
 #' @details \describe{
 #'            \item{type = "eff}{plots the overall effects of the interaction, with all remaining
 #'              covariates set to the mean. Effects are calculated using the \code{\link[effects]{effect}}-
-#'              function from the \code{effects}-package.
+#'              function from the \code{effects}-package. \cr \cr
+#'              Following parameters \emph{do not} apply to this function: \code{diff}, \code{axisLabels.x}
+#'              \code{interceptLineColor}, \code{estLineColor}, \code{lineLabelSize}, \code{lineLabelColor} 
+#'              and \code{lineLabelString}.
 #'            }
 #'            \item{type = "diff"}{plots the effective change on a dependent variable of a moderation
 #'              effect, as described in \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin K: Clarifications on Interpreting Interactions in Regression},
-#'              i.e. the difference of the moderation effect on the dependent variable in present
+#'              i.e. the difference of the moderation effect on the dependent variable in presence
 #'              and absence of the moderating effect. This type \emph{does not} show the overall effect of
 #'              interactions on the result of Y. Use \code{type = "eff"} for effect displays similar
 #'              to the \code{\link[effects]{effect}} function from the effects-package.
@@ -148,7 +153,7 @@
 #'              models of class \code{\link{lm}} or \code{\link[lme4]{merMod}}. This function may be used, for example,
 #'              to plot differences in interventions between control and treatment groups over multiple time points.
 #'              \itemize{
-#'                \item Following paramters only apply to this plot type: \code{showCI}, \code{valueLabel.digits} and \code{axisLabels.x}.
+#'                \item Following paramters apply to this plot type: \code{showCI}, \code{valueLabel.digits} and \code{axisLabels.x}.
 #'                \item Following parameters \emph{do not} apply to this function: \code{int.plot.index}, \code{diff}, \code{moderatorValues}, \code{fillColor}, \code{fillAlpha}, \code{interceptLineColor}, \code{estLineColor}, \code{lineLabelSize}, \code{lineLabelColor} and \code{lineLabelString}.
 #'              }
 #'            }
@@ -176,10 +181,10 @@
 #' summary(fit)
 #'
 #' # plot interaction effects
-#' sjp.int(fit)
+#' sjp.int(fit, type = "eff")
 #' 
 #' # plot regression line of interaction terms, including value labels
-#' sjp.int(fit, showValueLabels = TRUE)
+#' sjp.int(fit, type = "eff", showValueLabels = TRUE)
 #'
 #'
 #' # load sample data set
@@ -199,7 +204,7 @@
 #' summary(fit)
 #'
 #' # plot interactions
-#' sjp.int(fit)
+#' sjp.int(fit, type = "eff")
 #' # note that type = "diff" only considers significant
 #' # interactions by default. use "plevel" to adjust p-level
 #' # sensivity
@@ -207,11 +212,11 @@
 #'
 #' # plot interactions, using mean and sd as moderator
 #' # values to calculate interaction effect
-#' sjp.int(fit, moderatorValues = "meansd")
+#' sjp.int(fit, type = "eff", moderatorValues = "meansd")
 #' sjp.int(fit, type = "diff", moderatorValues = "meansd")
 #'
 #' # use zero and maximum value of moderation effect
-#' sjp.int(fit, moderatorValues = "zeromax")
+#' sjp.int(fit, type = "eff", moderatorValues = "zeromax")
 #' 
 #' # plot interactions, including those with p-value up to 0.1
 #' sjp.int(fit,
@@ -237,6 +242,7 @@
 #'            family = binomial(link = "logit"))
 #' # plot interaction, increase p-level sensivity
 #' sjp.int(fit,
+#'         type = "eff",
 #'         legendLabels = get_val_labels(efc$c161sex),
 #'         plevel = 0.1)
 #'
@@ -295,10 +301,11 @@
 #' fit <- lm(burden ~ .*., data = mydf)
 #' 
 #' # plot effects
-#' sjp.int(fit, showCI = TRUE)
+#' sjp.int(fit, type = "eff", showCI = TRUE)
 #'
 #' # plot effects, faceted
 #' sjp.int(fit, 
+#'         type = "eff", 
 #'         int.plot.index = 3,
 #'         showCI = TRUE,
 #'         facet.grid = TRUE)
@@ -364,6 +371,17 @@ sjp.int <- function(fit,
   } else if (any(c.f == "lme")) {
     fun <- "lme"
     stat.fun <- "lm"
+    if (type != "eff") {
+      message("Only 'type = \"eff\"' supports objects of class 'nlme::lme'. Defaulting type to \"eff\".")
+      type <- "eff"
+    }
+  } else if (any(c.f == "gls")) {
+    fun <- "gls"
+    stat.fun <- "lm"
+    if (type != "eff") {
+      message("Only 'type = \"eff\"' supports objects of class 'nlme::gls'. Defaulting type to \"eff\".")
+      type <- "eff"
+    }
   }
   # ------------------------
   # check if suggested package is available
@@ -414,7 +432,7 @@ sjp.int <- function(fit,
   if (type == "eff") {
     return (sjp.eff.int(fit, int.plot.index, moderatorValues, swapPredictors, plevel,
                         title, fillAlpha, geom.colors, axisTitle.x,
-                        axisTitle.y, axisLabels.x, legendTitle, legendLabels,
+                        axisTitle.y, legendTitle, legendLabels,
                         showValueLabels, breakTitleAt, breakLegendLabelsAt, 
                         breakLegendTitleAt, breakAnnotationLabelsAt, axisLimits.y,
                         gridBreaksAt, showCI, facet.grid, printPlot, fun))
@@ -1094,7 +1112,6 @@ sjp.eff.int <- function(fit,
                         geom.colors="Set1",
                         axisTitle.x=NULL,
                         axisTitle.y=NULL,
-                        axisLabels.x=NULL,
                         legendTitle=NULL,
                         legendLabels=NULL,
                         showValueLabels=FALSE,
@@ -1210,7 +1227,7 @@ sjp.eff.int <- function(fit,
     # -----------------------------------------------------------
     # convert df-values to numeric
     # -----------------------------------------------------------
-    if (fun == "lm" || fun == "lmer" || fun == "lme") {
+    if (fun == "lm" || fun == "lmer" || fun == "lme" || fun == "gls") {
       # Label on y-axis is name of dependent variable
       laby <- response.name
       # make sure x is numeric

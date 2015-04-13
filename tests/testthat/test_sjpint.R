@@ -29,17 +29,17 @@ test_that("Check tab crosstabs", {
   summary(fit)
   
   # plot interactions
-  sjp.int(fit)
+  sjp.int(fit, type = "diff")
   
   # plot interactions, using mean and sd as moderator
   # values to calculate interaction effect
-  sjp.int(fit, moderatorValues = "meansd")
+  sjp.int(fit, type = "diff", moderatorValues = "meansd")
   
   # use zero and maximum value of moderation effect
-  sjp.int(fit, moderatorValues = "zeromax")
+  sjp.int(fit, type = "diff", moderatorValues = "zeromax")
   
   # plot interactions, including those with p-value up to 0.1
-  sjp.int(fit, plevel = 0.1, showInterceptLines = TRUE)
+  sjp.int(fit, type = "diff", plevel = 0.1, showInterceptLines = TRUE)
 
     
   library(sjmisc)
@@ -56,6 +56,7 @@ test_that("Check tab crosstabs", {
              family = binomial(link = "logit"))
   # plot interaction, increase p-level sensivity
   sjp.int(fit,
+          type = "diff",
           legendLabels = get_val_labels(efc$c161sex),
           plevel = 0.1)
   
@@ -92,6 +93,13 @@ test_that("Check tab crosstabs", {
           type = "emm",
           plevel = 1,
           swapPredictors = TRUE)  
+
+  sjp.int(fit,
+          type = "emm",
+          plevel = 1,
+          facet.grid = TRUE,
+          showCI = TRUE,
+          swapPredictors = TRUE)  
   
   mydf$barthel <- efc$barthtot
   # re-fit model with continuous variable
@@ -115,4 +123,6 @@ test_that("Check tab crosstabs", {
   sjp.int(fit, type = "eff", moderatorValues = "zeromax")
   sjp.int(fit, type = "eff", moderatorValues = "meansd", showCI = T)
   sjp.int(fit, type = "eff", moderatorValues = "meansd", showCI = T, facet.grid = T)
+  
+  sjp.int(fit, type = "diff", int.plot.index = 3, showCI = TRUE, facet.grid = TRUE)  
 })
