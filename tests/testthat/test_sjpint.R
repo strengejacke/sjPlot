@@ -1,15 +1,15 @@
 test_that("Check tab crosstabs", { 
   skip_on_cran()
   
-  fit <- lm(weight ~ Time * Diet, data = ChickWeight)
+  fit <- lm(weight ~ Diet * Time, data = ChickWeight)
   
   # show summary to see significant interactions
   summary(fit)
   
   # plot regression line of interaction terms
-  sjp.int(fit)
+  sjp.int(fit, type = "eff")
   # plot regression line of interaction terms, including value labels
-  sjp.int(fit, showValueLabels = TRUE)
+  sjp.int(fit, type = "eff", showValueLabels = TRUE)
   
   
   # load sample data set
@@ -29,17 +29,17 @@ test_that("Check tab crosstabs", {
   summary(fit)
   
   # plot interactions
-  sjp.int(fit, type = "diff")
+  sjp.int(fit, type = "cond")
   
   # plot interactions, using mean and sd as moderator
   # values to calculate interaction effect
-  sjp.int(fit, type = "diff", moderatorValues = "meansd")
+  sjp.int(fit, type = "cond", moderatorValues = "meansd")
   
   # use zero and maximum value of moderation effect
-  sjp.int(fit, type = "diff", moderatorValues = "zeromax")
+  sjp.int(fit, type = "cond", moderatorValues = "zeromax")
   
   # plot interactions, including those with p-value up to 0.1
-  sjp.int(fit, type = "diff", plevel = 0.1, showInterceptLines = TRUE)
+  sjp.int(fit, type = "cond", plevel = 0.1, showInterceptLines = TRUE)
 
     
   library(sjmisc)
@@ -56,7 +56,7 @@ test_that("Check tab crosstabs", {
              family = binomial(link = "logit"))
   # plot interaction, increase p-level sensivity
   sjp.int(fit,
-          type = "diff",
+          type = "cond",
           legendLabels = get_val_labels(efc$c161sex),
           plevel = 0.1)
   
@@ -82,10 +82,8 @@ test_that("Check tab crosstabs", {
   fit <- lm(burden ~ .*., data = mydf)
   summary(fit)
   
-  ## Not run: 
   # plot marginal means of interactions, no interaction found
   sjp.int(fit, type = "emm")
-  ## End(Not run)
   # plot marginal means of interactions, including those with p-value up to 1
   sjp.int(fit, type = "emm", plevel = 1)
   # swap predictors
@@ -123,6 +121,9 @@ test_that("Check tab crosstabs", {
   sjp.int(fit, type = "eff", moderatorValues = "zeromax")
   sjp.int(fit, type = "eff", moderatorValues = "meansd", showCI = T)
   sjp.int(fit, type = "eff", moderatorValues = "meansd", showCI = T, facet.grid = T)
+
+  sjp.int(fit, type = "eff", moderatorValues = "quart", showCI = T)
+  sjp.int(fit, type = "cond", moderatorValues = "quart", showCI = T)
   
-  sjp.int(fit, type = "diff", int.plot.index = 3, showCI = TRUE, facet.grid = TRUE)  
+  sjp.int(fit, type = "cond", int.plot.index = 3, showCI = TRUE, facet.grid = TRUE)  
 })

@@ -17,6 +17,7 @@ Changes to function 'sjp.int':
 * Added parameter "facet.grid" to "sjp.int" to plot each effect in a separate plot.
 * Parameter "legendLabels" of "sjp.int" now accepts a list of character vectors, with one vector of legend labels for each interaction plot plotted.
 * Parameter "title" of "sjp.int" now accepts a character vector of same length as interaction terms, with one title character string for each interaction plot plotted.
+* Parameter "moderatorValues" in "sjp.int" has two new options "zeromax" and "quart" for chosing the moderator values.
 
 Changes to functions:
 * "sjp.lmer" now calculates approximate p-values based on Wald chi-squared tests.
@@ -24,7 +25,6 @@ Changes to functions:
 * "sjp.glmm" and "sjp.lmm" now also accept a list of fitted models (see examples in ?sjp.glmm and ?sjp.lmm).
 * "sjp.int" and "sjp.lm" now support "plm" objects (from plm-package).
 * Parameter "transformTicks" in "sjp.glm" and "sjp.glmm" now defaults to "TRUE".
-* Parameter "moderatorValues" in "sjp.int" now has a new option "zeromax" for chosing the moderator values.
 * Added further pre-set themes to "sjp.setTheme".
 * Minor improvements of "sjp.setTheme".
 

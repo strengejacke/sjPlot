@@ -4,7 +4,7 @@
 \alias{sjp.int}
 \title{Plot interaction effects of (generalized) linear (mixed) models}
 \usage{
-sjp.int(fit, type = "eff", int.plot.index = NULL, diff = FALSE,
+sjp.int(fit, type = "cond", int.plot.index = NULL, diff = FALSE,
   moderatorValues = "minmax", swapPredictors = FALSE, plevel = 0.05,
   title = NULL, fillColor = "grey", fillAlpha = 0.3,
   geom.colors = "Set1", axisTitle.x = NULL, axisTitle.y = NULL,
@@ -33,8 +33,8 @@ classes are
 
 \item{type}{interaction plot type. Use one of following values:
 \itemize{
+  \item \code{type = "cond"} plots the mere change of the moderating effect on the response value (conditional effect). See details.
   \item \code{type = "eff"} (default) plots the overall moderation effect on the response value. See details.
-  \item \code{type = "diff"} plots the mere change of the moderating effect on the response value. See details.
   \item \code{type = "emm"} plots the estimated marginal means (least square means). If this type is chosen, not all parameters are applicable. See details.
 }}
 
@@ -45,7 +45,7 @@ are plotted.}
 
 \item{diff}{if \code{FALSE} (default), the minimum and maximum interaction effects of the moderating variable
 is shown (one line each). if \code{TRUE}, only the difference between minimum and maximum interaction effect
-is shown (single line). Only applies to \code{type = "diff"}.}
+is shown (single line). Only applies to \code{type = "cond"}.}
 
 \item{moderatorValues}{indicates which values of the moderator variable should be used when plotting the effects of the
 independent variable on the dependent variable.
@@ -53,11 +53,12 @@ independent variable on the dependent variable.
   \item By default, \code{"minmax"} is used, i.e. the minimum and maximum values (lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator.
   \item Use \code{"meansd"} to use the mean value of the moderator as well as one standard deviation below and above mean value to plot the effect of the moderator on the independent variable (following the convention suggested by Cohen and Cohen and popularized by Aiken and West, i.e. using the mean, the value one standard deviation above, and the value one standard deviation below the mean as values of the moderator, see \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}).
   \item The \code{"zeromax"} is similar to the \code{"minmax"} option, however, \code{0} is always used as minimum value for the moderator. This may be useful for predictors that don't have an empirical zero-value, but absence of moderation should be simulated by using 0 as minimum.
+  \item \code{"quart"} calculates and uses the quartiles (lower, median and upper) of the moderator value.
 }}
 
 \item{swapPredictors}{if \code{TRUE}, the predictor on the x-axis and the moderator value in an interaction are
 swapped. For \code{type = "eff"}, the first interaction term is used as moderator and the second term
-is plotted at the x-axis. For \code{type = "diff"}, the interaction's predictor with less unique values is
+is plotted at the x-axis. For \code{type = "cond"}, the interaction's predictor with less unique values is
 printed along the x-axis. Default is \code{FALSE}, so the second predictor in an interaction, respectively
 the predictor with more unique values is printed along the x-axis.}
 
@@ -179,21 +180,24 @@ Plot regression (predicted values) or probability lines (predicted probabilities
 }
 \details{
 \describe{
+           \item{type = "cond"}{plots the effective \emph{change} or \emph{impact}
+             (conditional effect) on a dependent variable of a moderation effect, as
+             described in \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin},
+             i.e. the difference of the moderation effect on the dependent variable in \emph{presence}
+             and \emph{absence} of the moderating effect (\emph{simple slope} plot or
+             \emph{conditional effect}, see \href{http://www.personal.psu.edu/jxb14/M554/articles/process2012.pdf}{Hayes 2012}).
+             Hence, this plot type may be used especially for \emph{binary or dummy coded}
+             moderator values (see also \href{http://jee3.web.rice.edu/interaction-overconfidence.pdf}{Esarey and Summer 2015}).
+             This type \emph{does not} show the overall effect of interactions on the result of Y. Use
+             \code{type = "eff"} for effect displays similar to the \code{\link[effects]{effect}} function
+             from the effects-package.
+           }
            \item{type = "eff}{plots the overall effects of the interaction, with all remaining
              covariates set to the mean. Effects are calculated using the \code{\link[effects]{effect}}-
              function from the \code{effects}-package. \cr \cr
              Following parameters \emph{do not} apply to this function: \code{diff}, \code{axisLabels.x}
              \code{interceptLineColor}, \code{estLineColor}, \code{lineLabelSize}, \code{lineLabelColor}
              and \code{lineLabelString}.
-           }
-           \item{type = "diff"}{plots the effective \emph{change} or \emph{impact} on a dependent variable of a moderation
-             effect, as described in \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin K: Clarifications on Interpreting Interactions in Regression},
-             i.e. the difference of the moderation effect on the dependent variable in \emph{presence}
-             and \emph{absence} of the moderating effect. Hence, this plot type may be used especially for
-             \emph{binary or dummy coded} moderator values (see also \href{http://jee3.web.rice.edu/interaction-overconfidence.pdf}{Esarey and Summer 2015}).
-             This type \emph{does not} show the overall effect of interactions on the result of Y. Use
-             \code{type = "eff"} for effect displays similar to the \code{\link[effects]{effect}} function
-             from the effects-package.
            }
            \item{type = "emm"}{plots the estimated marginal means of Two-Way Repeated Measures AN(C)OVA,
              which was the former \code{sjp.emm.int} function. This plot type plots estimated marginal means
@@ -255,22 +259,22 @@ summary(fit)
 
 # plot interactions
 sjp.int(fit, type = "eff")
-# note that type = "diff" only considers significant
+# note that type = "cond" only considers significant
 # interactions by default. use "plevel" to adjust p-level
 # sensivity
-sjp.int(fit, type = "diff")
+sjp.int(fit, type = "cond")
 
 # plot interactions, using mean and sd as moderator
 # values to calculate interaction effect
 sjp.int(fit, type = "eff", moderatorValues = "meansd")
-sjp.int(fit, type = "diff", moderatorValues = "meansd")
+sjp.int(fit, type = "cond", moderatorValues = "meansd")
 
 # use zero and maximum value of moderation effect
 sjp.int(fit, type = "eff", moderatorValues = "zeromax")
 
 # plot interactions, including those with p-value up to 0.1
 sjp.int(fit,
-        type = "diff",
+        type = "cond",
         plevel = 0.1,
         showInterceptLines = TRUE)
 
@@ -297,7 +301,7 @@ sjp.int(fit,
         plevel = 0.1)
 
 sjp.int(fit,
-        type = "diff",
+        type = "cond",
         legendLabels = get_val_labels(efc$c161sex),
         plevel = 0.1)
 
@@ -366,6 +370,7 @@ sjp.int(fit,
              \item Brambor T, Clark WR and Golder M (2006) Understanding Interaction Models: Improving Empirical Analyses. Political Analysis 14: 63-82 \href{https://files.nyu.edu/mrg217/public/pa_final.pdf}{download}
              \item Esarey J, Sumner JL (2015) Marginal Effects in Interaction Models: Determining and Controlling the False Positive Rate. \href{http://jee3.web.rice.edu/interaction-overconfidence.pdf}{download}
              \item Fox J (2003) Effect displays in R for generalised linear models. Journal of Statistical Software 8:15, 1–27, \href{http://www.jstatsoft.org/v08/i15/}{<http://www.jstatsoft.org/v08/i15/>}
+             \item Hayes AF (2012) PROCESS: A versatile computational tool for observed variable mediation, moderation, and conditional process modeling [White paper] \href{http://www.personal.psu.edu/jxb14/M554/articles/process2012.pdf}{download}
              \item \href{http://www.theanalysisfactor.com/interpreting-interactions-in-regression/}{Grace-Martin K: Interpreting Interactions in Regression}
              \item \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin K: Clarifications on Interpreting Interactions in Regression}
              \item \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}

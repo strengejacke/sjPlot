@@ -48,7 +48,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * Added parameter `int.plot.index` to `sjp.int`, so only selected interaction terms may be plotted.
 * Added parameter `showCI` to `sjp.int` (only applies to `type = "emm"` and `"eff"`) to add confidence intervals to estimated marginal means.
 * Added parameter `facet.grid` to `sjp.int` to plot each effect in a separate plot.
-* Parameter `moderatorValues` in `sjp.int` now has a new option `zeromax` for chosing the moderator values.
+* Parameter `moderatorValues` in `sjp.int` has two new options `zeromax` and `quart` for chosing the moderator values.
 * Parameter `legendLabels` of `sjp.int` now accepts a list of character vectors, with one vector of legend labels for each interaction plot plotted.
 * Parameter `title` of `sjp.int` now accepts a character vector of same length as interaction terms, with one title character string for each interaction plot plotted.
 
