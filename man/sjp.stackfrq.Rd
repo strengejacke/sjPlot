@@ -4,17 +4,16 @@
 \alias{sjp.stackfrq}
 \title{Plot stacked proportional bars}
 \usage{
-sjp.stackfrq(items, legendLabels = NULL, orderBy = NULL, weightBy = NULL,
-  weightByTitleString = NULL, hideLegend = FALSE, reverseOrder = TRUE,
-  title = NULL, legendTitle = NULL, includeN = TRUE,
-  axisLabels.y = NULL, breakTitleAt = 50, breakLabelsAt = 30,
-  breakLegendTitleAt = 30, breakLegendLabelsAt = 28, gridBreaksAt = 0.2,
-  expand.grid = FALSE, geom.size = 0.5, geom.colors = "Blues",
-  axisTitle.x = NULL, axisTitle.y = NULL, showValueLabels = TRUE,
-  showPercentageAxis = TRUE, jitterValueLabels = FALSE,
-  showItemLabels = TRUE, showSeparatorLine = FALSE,
-  separatorLineColor = "grey80", separatorLineSize = 0.3,
-  coord.flip = TRUE, printPlot = TRUE)
+sjp.stackfrq(items, legendLabels = NULL, sort.frq = NULL, weightBy = NULL,
+  weightByTitleString = NULL, hideLegend = FALSE, title = NULL,
+  legendTitle = NULL, includeN = TRUE, axisLabels.y = NULL,
+  breakTitleAt = 50, breakLabelsAt = 30, breakLegendTitleAt = 30,
+  breakLegendLabelsAt = 28, gridBreaksAt = 0.2, expand.grid = FALSE,
+  geom.size = 0.5, geom.colors = "Blues", axisTitle.x = NULL,
+  axisTitle.y = NULL, showValueLabels = TRUE, showPercentageAxis = TRUE,
+  jitterValueLabels = FALSE, showItemLabels = TRUE,
+  showSeparatorLine = FALSE, separatorLineColor = "grey80",
+  separatorLineSize = 0.3, coord.flip = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{items}{A data frame with each column representing one likert-item.}
@@ -22,12 +21,15 @@ sjp.stackfrq(items, legendLabels = NULL, orderBy = NULL, weightBy = NULL,
 \item{legendLabels}{A list or vector of strings that indicate the likert-scale-categories and which
 appear as legend text.}
 
-\item{orderBy}{Indicates whether the \code{items} should be ordered by highest count of first or last category of \code{items}.
-Use \code{"first"} to order ascending by lowest count of first category,
-\code{"last"} to order ascending by lowest count of last category
-or \code{NULL} (default) for no sorting.
-In case you want to revers order (descending from highest count), use
-\code{reverseOrder} parameter.}
+\item{sort.frq}{Indicates whether the \code{items} should be ordered by
+by highest count of first or last category of \code{items}.
+\itemize{
+  \item Use \code{"first.asc"} to order ascending by lowest count of first category,
+  \item \code{"first.desc"} to order descending by lowest count of first category,
+  \item \code{"last.asc"} to order ascending by lowest count of last category,
+  \item \code{"last.desc"} to order descending by lowest count of last category,
+  \item or \code{NULL} (default) for no sorting.
+}}
 
 \item{weightBy}{A weight factor that will be applied to weight all cases from \code{items}.
 Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, so no weights are used.}
@@ -37,8 +39,6 @@ may indicate this with a remark. Default is \code{NULL}, so the diagram's title 
 cases are weighted. Use a string as parameter, e.g.: \code{weightByTitleString=" (weighted)"}.}
 
 \item{hideLegend}{Indicates whether legend (guide) should be shown or not.}
-
-\item{reverseOrder}{If \code{TRUE}, the item order on the x-axis is reversed.}
 
 \item{title}{Title of the diagram, plotted above the whole diagram panel.}
 

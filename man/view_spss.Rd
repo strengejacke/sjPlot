@@ -6,7 +6,7 @@
 \usage{
 view_spss(df, file = NULL, alternateRowColors = TRUE, showID = TRUE,
   showType = FALSE, showValues = TRUE, showValueLabels = TRUE,
-  showFreq = FALSE, showPerc = FALSE, orderByName = FALSE,
+  showFreq = FALSE, showPerc = FALSE, sortByName = FALSE,
   breakVariableNamesAt = 50, encoding = NULL, hideProgressBar = FALSE,
   CSS = NULL, useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
@@ -34,7 +34,7 @@ is hidden by default.}
 
 \item{showPerc}{If \code{TRUE}, an additional column with percentage of frequencies for each variable is shown.}
 
-\item{orderByName}{If \code{TRUE}, rows are ordered according to the variable
+\item{sortByName}{If \code{TRUE}, rows are sorted according to the variable
 names. By default, rows (variables) are ordered according to their
 order in the data frame.}
 
@@ -108,7 +108,7 @@ view_spss(efc)
 view_spss(efc, showValues=FALSE, showValueLabels=FALSE)
 
 # view variables including variable typed, orderd by name
-view_spss(efc, orderByName=TRUE, showType=TRUE)
+view_spss(efc, sortByName=TRUE, showType=TRUE)
 
 # ----------------------------------------------------------------
 # User defined style sheet

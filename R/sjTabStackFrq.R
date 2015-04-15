@@ -25,13 +25,15 @@
 #'          appear in the header row.
 #' @param breakValueLabelsAt Wordwrap for value labels. Determines how many chars of the value labels are displayed in 
 #'          one line and when a line break is inserted. Default is 20.
-#' @param orderBy Indicates whether the \code{items} should be ordered by highest count of first or last category of \code{items}.
-#'          Use \code{"first"} to order ascending by lowest count of first category, 
-#'          \code{"last"} to order ascending by lowest count of last category
-#'          or \code{NULL} (default) for no sorting. You can specify just the initial letter.
-#'          In case you want to revers order (descending from highest count), use
-#'          \code{reverseOrder} parameter.
-#' @param reverseOrder If \code{TRUE}, the item order is reversed.
+#' @param sort.frq Indicates whether the \code{items} should be ordered by
+#'          by highest count of first or last category of \code{items}.
+#'          \itemize{
+#'            \item Use \code{"first.asc"} to order ascending by lowest count of first category,
+#'            \item \code{"first.desc"} to order descending by lowest count of first category,
+#'            \item \code{"last.asc"} to order ascending by lowest count of last category,
+#'            \item \code{"last.desc"} to order descending by lowest count of last category,
+#'            \item or \code{NULL} (default) for no sorting.
+#'          }
 #' @param digits The amount of digits for rounding the percentage values.
 #'          Default is 2, i.e. percentage values have 2 digits after decimal point.
 #' @param showN If \code{TRUE}, each item's category N is printed in the table cells.
@@ -187,8 +189,7 @@ sjt.stackfrq <- function (items,
                           breakLabelsAt=40,
                           valuelabels=NULL,
                           breakValueLabelsAt=20,
-                          orderBy=NULL,
-                          reverseOrder=FALSE,
+                          sort.frq=NULL,
                           alternateRowColors=FALSE,
                           digits=2,
                           showN=FALSE,
@@ -206,6 +207,30 @@ sjt.stackfrq <- function (items,
                           useViewer=TRUE,
                           no.output=FALSE,
                           remove.spaces=TRUE) {
+  # --------------------------------------------------------
+  # check sorting
+  # --------------------------------------------------------
+  if (!is.null(sort.frq)) {
+    if (sort.frq == "first.asc") {
+      sort.frq  <- "first"
+      reverseOrder <- FALSE
+    } else if (sort.frq == "first.desc") {
+      sort.frq  <- "first"
+      reverseOrder <- TRUE
+    } else if (sort.frq == "last.asc") {
+      sort.frq  <- "last"
+      reverseOrder <- FALSE
+    } else if (sort.frq == "last.desc") {
+      sort.frq  <- "last"
+      reverseOrder <- TRUE
+    } else {
+      sort.frq  <- NULL
+      reverseOrder <- FALSE
+    }
+    
+  } else {
+    reverseOrder <- FALSE
+  }
   # --------------------------------------------------------
   # check encoding
   # --------------------------------------------------------
@@ -228,13 +253,6 @@ sjt.stackfrq <- function (items,
         break
       }
     }
-  }
-  # --------------------------------------------------------
-  # check abbreviations
-  # --------------------------------------------------------
-  if (!is.null(orderBy)) {
-    if (orderBy=="f") orderBy <- "first"
-    if (orderBy=="l") orderBy <- "last"
   }
   # --------------------------------------------------------
   # unlist labels
@@ -349,11 +367,11 @@ sjt.stackfrq <- function (items,
   # ----------------------------
   # default order
   facord <- c(1:nrow(mat))
-  if (!is.null(orderBy)) {
+  if (!is.null(sort.frq)) {
     # ----------------------------
     # order by first cat
     # ----------------------------
-    if (orderBy=="first") {
+    if (sort.frq=="first") {
       facord <- order(mat[, 1])
     # ----------------------------
     # order by last cat

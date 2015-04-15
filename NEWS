@@ -19,11 +19,13 @@ Changes to function 'sjp.int':
 * Parameter "title" of "sjp.int" now accepts a character vector of same length as interaction terms, with one title character string for each interaction plot plotted.
 * Parameter "moderatorValues" in "sjp.int" has two new options "zeromax" and "quart" for chosing the moderator values.
 
-Changes to functions:
+Changes to other functions:
 * "sjp.lmer" now calculates approximate p-values based on Wald chi-squared tests.
 * "sjp.glm" now supports plotting "logistf" objects.
 * "sjp.glmm" and "sjp.lmm" now also accept a list of fitted models (see examples in ?sjp.glmm and ?sjp.lmm).
 * "sjp.int" and "sjp.lm" now support "plm" objects (from plm-package).
+* Parameters "orderBy" and "reverseOrder" in "sjp.stackfrq" were merged into new parameter "sort.frq".
+* Parameters "orderBy" and "reverseOrder" in "sjt.stackfrq" were merged into new parameter "sort.frq".
 * Parameter "transformTicks" in "sjp.glm" and "sjp.glmm" now defaults to "TRUE".
 * Added further pre-set themes to "sjp.setTheme".
 * Minor improvements of "sjp.setTheme".

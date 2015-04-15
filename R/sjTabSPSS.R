@@ -26,7 +26,7 @@
 #' @param showValueLabels If \code{TRUE} (default), the value labels are shown as additional column.
 #' @param showFreq If \code{TRUE}, an additional column with frequencies for each variable is shown.
 #' @param showPerc If \code{TRUE}, an additional column with percentage of frequencies for each variable is shown.
-#' @param orderByName If \code{TRUE}, rows are ordered according to the variable
+#' @param sortByName If \code{TRUE}, rows are sorted according to the variable
 #'          names. By default, rows (variables) are ordered according to their
 #'          order in the data frame.
 #' @param breakVariableNamesAt Wordwrap for lomg variable names. Determines how many chars of
@@ -84,7 +84,7 @@
 #' view_spss(efc, showValues=FALSE, showValueLabels=FALSE)
 #' 
 #' # view variables including variable typed, orderd by name
-#' view_spss(efc, orderByName=TRUE, showType=TRUE)
+#' view_spss(efc, sortByName=TRUE, showType=TRUE)
 #' 
 #' # ---------------------------------------------------------------- 
 #' # User defined style sheet
@@ -105,7 +105,7 @@ view_spss <- function (df,
                        showValueLabels=TRUE,
                        showFreq=FALSE,
                        showPerc=FALSE,
-                       orderByName=FALSE,
+                       sortByName=FALSE,
                        breakVariableNamesAt=50,
                        encoding=NULL,
                        hideProgressBar=FALSE,
@@ -135,7 +135,7 @@ view_spss <- function (df,
   # -------------------------------------
   # Order data set if requested
   # -------------------------------------
-  if (orderByName) id <- id[order(colnames(df))]
+  if (sortByName) id <- id[order(colnames(df))]
   # -------------------------------------
   # init style sheet and tags used for css-definitions
   # we can use these variables for string-replacement

@@ -6,12 +6,12 @@
 \usage{
 sjt.stackfrq(items, weightBy = NULL, title = NULL, varlabels = NULL,
   breakLabelsAt = 40, valuelabels = NULL, breakValueLabelsAt = 20,
-  orderBy = NULL, reverseOrder = FALSE, alternateRowColors = FALSE,
-  digits = 2, showN = FALSE, showTotalN = FALSE, showNA = FALSE,
-  labelNA = "NA", showSkew = FALSE, showKurtosis = FALSE,
-  digits.stats = 2, skewString = "Skew", kurtosisString = "Kurtosis",
-  file = NULL, encoding = NULL, CSS = NULL, useViewer = TRUE,
-  no.output = FALSE, remove.spaces = TRUE)
+  sort.frq = NULL, alternateRowColors = FALSE, digits = 2,
+  showN = FALSE, showTotalN = FALSE, showNA = FALSE, labelNA = "NA",
+  showSkew = FALSE, showKurtosis = FALSE, digits.stats = 2,
+  skewString = "Skew", kurtosisString = "Kurtosis", file = NULL,
+  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
+  remove.spaces = TRUE)
 }
 \arguments{
 \item{items}{A \code{\link{data.frame}} with each column representing one (likert- or scale-)item.}
@@ -34,14 +34,15 @@ appear in the header row.}
 \item{breakValueLabelsAt}{Wordwrap for value labels. Determines how many chars of the value labels are displayed in
 one line and when a line break is inserted. Default is 20.}
 
-\item{orderBy}{Indicates whether the \code{items} should be ordered by highest count of first or last category of \code{items}.
-Use \code{"first"} to order ascending by lowest count of first category,
-\code{"last"} to order ascending by lowest count of last category
-or \code{NULL} (default) for no sorting. You can specify just the initial letter.
-In case you want to revers order (descending from highest count), use
-\code{reverseOrder} parameter.}
-
-\item{reverseOrder}{If \code{TRUE}, the item order is reversed.}
+\item{sort.frq}{Indicates whether the \code{items} should be ordered by
+by highest count of first or last category of \code{items}.
+\itemize{
+  \item Use \code{"first.asc"} to order ascending by lowest count of first category,
+  \item \code{"first.desc"} to order descending by lowest count of first category,
+  \item \code{"last.asc"} to order ascending by lowest count of last category,
+  \item \code{"last.desc"} to order descending by lowest count of last category,
+  \item or \code{NULL} (default) for no sorting.
+}}
 
 \item{alternateRowColors}{If \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}

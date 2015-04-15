@@ -15,19 +15,21 @@
 #' @param items A data frame with each column representing one likert-item.
 #' @param legendLabels A list or vector of strings that indicate the likert-scale-categories and which
 #'          appear as legend text.
-#' @param orderBy Indicates whether the \code{items} should be ordered by highest count of first or last category of \code{items}.
-#'          Use \code{"first"} to order ascending by lowest count of first category, 
-#'          \code{"last"} to order ascending by lowest count of last category
-#'          or \code{NULL} (default) for no sorting.
-#'          In case you want to revers order (descending from highest count), use
-#'          \code{reverseOrder} parameter.
+#' @param sort.frq Indicates whether the \code{items} should be ordered by
+#'          by highest count of first or last category of \code{items}.
+#'          \itemize{
+#'            \item Use \code{"first.asc"} to order ascending by lowest count of first category,
+#'            \item \code{"first.desc"} to order descending by lowest count of first category,
+#'            \item \code{"last.asc"} to order ascending by lowest count of last category,
+#'            \item \code{"last.desc"} to order descending by lowest count of last category,
+#'            \item or \code{NULL} (default) for no sorting.
+#'          }
 #' @param weightBy A weight factor that will be applied to weight all cases from \code{items}.
 #'          Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, so no weights are used.
 #' @param weightByTitleString If a weight factor is supplied via the parameter \code{weightBy}, the diagram's title
 #'          may indicate this with a remark. Default is \code{NULL}, so the diagram's title will not be modified when
 #'          cases are weighted. Use a string as parameter, e.g.: \code{weightByTitleString=" (weighted)"}.
 #' @param hideLegend Indicates whether legend (guide) should be shown or not.
-#' @param reverseOrder If \code{TRUE}, the item order on the x-axis is reversed.
 #' @param title Title of the diagram, plotted above the whole diagram panel.
 #' @param legendTitle Title of the diagram's legend.
 #' @param includeN If \code{TRUE} (default), the N of each item is included into axis labels.
@@ -158,11 +160,10 @@
 #' @export
 sjp.stackfrq <- function(items,
                         legendLabels=NULL,
-                        orderBy=NULL,
+                        sort.frq=NULL,
                         weightBy=NULL,
                         weightByTitleString=NULL,
                         hideLegend=FALSE,
-                        reverseOrder=TRUE,
                         title=NULL,
                         legendTitle=NULL,
                         includeN=TRUE,
@@ -186,6 +187,30 @@ sjp.stackfrq <- function(items,
                         separatorLineSize=0.3,
                         coord.flip=TRUE,
                         printPlot=TRUE) {
+  # --------------------------------------------------------
+  # check sorting
+  # --------------------------------------------------------
+  if (!is.null(sort.frq)) {
+    if (sort.frq == "first.asc") {
+      sort.frq  <- "first"
+      reverseOrder <- FALSE
+    } else if (sort.frq == "first.desc") {
+      sort.frq  <- "first"
+      reverseOrder <- TRUE
+    } else if (sort.frq == "last.asc") {
+      sort.frq  <- "last"
+      reverseOrder <- TRUE
+    } else if (sort.frq == "last.desc") {
+      sort.frq  <- "last"
+      reverseOrder <- FALSE
+    } else {
+      sort.frq  <- NULL
+      reverseOrder <- FALSE
+    }
+    
+  } else {
+    reverseOrder <- FALSE
+  }
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
@@ -320,9 +345,9 @@ sjp.stackfrq <- function(items,
   # ----------------------------
   # Check if ordering was requested
   # ----------------------------
-  if (!is.null(orderBy)) {
+  if (!is.null(sort.frq)) {
     # order by first cat
-    if (orderBy == "first") {
+    if (sort.frq == "first") {
       facord <- order(mydat$prc[which(mydat$cat == 1)])
     } else {
       # order by last cat
@@ -358,7 +383,7 @@ sjp.stackfrq <- function(items,
   # check if category-oder on x-axis should be reversed
   # change category label order then
   # --------------------------------------------------------
-  if (reverseOrder && is.null(orderBy)) axisLabels.y <- rev(axisLabels.y)
+  if (reverseOrder && is.null(sort.frq)) axisLabels.y <- rev(axisLabels.y)
   # --------------------------------------------------------
   # define vertical position for labels
   # --------------------------------------------------------
@@ -403,7 +428,7 @@ sjp.stackfrq <- function(items,
   # check if category-oder on x-axis should be reversed
   # change x axis order then
   # --------------------------------------------------------
-  if (reverseOrder && is.null(orderBy)) {
+  if (reverseOrder && is.null(sort.frq)) {
     baseplot <- ggplot(mydat, aes(x = rev(grp), y = prc, fill = cat))
   } else {
     baseplot <- ggplot(mydat, aes(x = grp, y = prc, fill = cat))
