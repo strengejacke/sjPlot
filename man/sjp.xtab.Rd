@@ -4,7 +4,7 @@
 \alias{sjp.xtab}
 \title{Plot contingency tables}
 \usage{
-sjp.xtab(y, x, title = "", legendTitle = NULL, weightBy = NULL,
+sjp.xtab(var, grp, title = "", legendTitle = NULL, weightBy = NULL,
   weightByTitleString = NULL, type = "bars", tableIndex = "col",
   reverseOrder = FALSE, axisLimits.y = NULL, axisLabels.x = NULL,
   legendLabels = NULL, labelPos = "outside", stringTotal = "Total",
@@ -20,12 +20,12 @@ sjp.xtab(y, x, title = "", legendTitle = NULL, weightBy = NULL,
   printPlot = TRUE)
 }
 \arguments{
-\item{y}{The variable which proportions (percentage values) should be plotted. The percentage proportion
-(within table row, table column or complete table, see parameter \code{tableIndex} of this variable
-are along the y-axis, the variable's categories on the x-axis.}
+\item{var}{The variable which proportions (percentage values) should be plotted. The percentage proportions
+(within table row, table column or complete table, see parameter \code{tableIndex} of this variable)
+are plotted along the y-axis, the variable's categories on the x-axis.}
 
-\item{x}{The grouping variable, where each value represents a single bar chart within each category of
-the \code{y} variable.}
+\item{grp}{The grouping variable, where each value represents a single bar chart
+within each category of \code{var}.}
 
 \item{title}{Title of the diagram, plotted above the whole diagram panel.
 Use \code{NULL} to automatically detect variable names that will be used as title
@@ -33,8 +33,8 @@ Use \code{NULL} to automatically detect variable names that will be used as titl
 
 \item{legendTitle}{Title of the diagram's legend.}
 
-\item{weightBy}{A weight factor that will be applied to weight all cases from \code{y}.
-Must be a vector of same length as \code{y}. Default is \code{NULL}, so no weights are used.}
+\item{weightBy}{A weight factor that will be applied to weight all cases from \code{var}.
+Must be a vector of same length as \code{var}. Default is \code{NULL}, so no weights are used.}
 
 \item{weightByTitleString}{If a weight factor is supplied via the parameter \code{weightBy}, the diagram's title
 may indicate this with a remark. Default is \code{NULL}, so the diagram's title will not be modified when
@@ -159,21 +159,21 @@ Plot proportional crosstables (contingency tables) of two variables as ggplot di
 }
 \examples{
 # create 4-category-items
-x <- sample(1:4, 100, replace=TRUE)
+grp <- sample(1:4, 100, replace=TRUE)
 # create 3-category-items
-y <- sample(1:3, 100, replace=TRUE)
+var <- sample(1:3, 100, replace=TRUE)
 
-# plot "cross tablulation" of x and y
-sjp.xtab(y,x)
+# plot "cross tablulation" of var and grp
+sjp.xtab(var, grp)
 
 # plot "cross tablulation" of x and y, including labels
-sjp.xtab(y, x,
+sjp.xtab(var, grp,
          axisLabels.x = c("low", "mid", "high"),
          legendLabels = c("Grp 1", "Grp 2", "Grp 3", "Grp 4"))
 
-# plot "cross tablulation" of x and y
+# plot "cross tablulation" of var and grp
 # as stacked proportional bars
-sjp.xtab(y, x,
+sjp.xtab(var, grp,
          tableIndex = "row",
          barPosition = "stack",
          coord.flip = TRUE)
@@ -191,36 +191,36 @@ sjp.xtab(efc$e42dep,
          labelPos = "center")
 
 # grouped bars with EUROFAMCARE sample dataset
-# dataset was importet from an SPSS-file, using:
-# efc <- read_spss("efc.sav", enc="UTF-8")
+# dataset was importet from an SPSS-file,
+# see ?sjmisc::read_spss
 data(efc)
 efc.val <- get_val_labels(efc)
 efc.var <- get_var_labels(efc)
 
 sjp.xtab(efc$e42dep,
          efc$e16sex,
-         title=efc.var['e42dep'],
-         axisLabels.x=efc.val[['e42dep']],
-         legendTitle=efc.var['e16sex'],
-         legendLabels=efc.val[['e16sex']])
+         title = efc.var['e42dep'],
+         axisLabels.x = efc.val[['e42dep']],
+         legendTitle = efc.var['e16sex'],
+         legendLabels = efc.val[['e16sex']])
 
 sjp.xtab(efc$e16sex,
          efc$e42dep,
-         title=efc.var['e16sex'],
-         axisLabels.x=efc.val[['e16sex']],
-         legendTitle=efc.var['e42dep'],
-         legendLabels=efc.val[['e42dep']])
+         title = efc.var['e16sex'],
+         axisLabels.x = efc.val[['e16sex']],
+         legendTitle = efc.var['e42dep'],
+         legendLabels = efc.val[['e42dep']])
 
 sjp.xtab(efc$e16sex,
          efc$e42dep,
-         title=efc.var['e16sex'],
-         axisLabels.x=efc.val[['e16sex']],
-         legendTitle=efc.var['e42dep'],
-         legendLabels=efc.val[['e42dep']],
-         tableIndex="row",
-         barPosition="stack",
-         coord.flip=TRUE,
-         jitterValueLabels=TRUE)
+         title = efc.var['e16sex'],
+         axisLabels.x = efc.val[['e16sex']],
+         legendTitle = efc.var['e42dep'],
+         legendLabels = efc.val[['e42dep']],
+         tableIndex = "row",
+         barPosition = "stack",
+         coord.flip = TRUE,
+         jitterValueLabels = TRUE)
 
 # -------------------------------
 # auto-detection of labels

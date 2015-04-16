@@ -10,10 +10,11 @@ sjp.stackfrq(items, legendLabels = NULL, sort.frq = NULL, weightBy = NULL,
   breakTitleAt = 50, breakLabelsAt = 30, breakLegendTitleAt = 30,
   breakLegendLabelsAt = 28, gridBreaksAt = 0.2, expand.grid = FALSE,
   geom.size = 0.5, geom.colors = "Blues", axisTitle.x = NULL,
-  axisTitle.y = NULL, showValueLabels = TRUE, showPercentageAxis = TRUE,
-  jitterValueLabels = FALSE, showItemLabels = TRUE,
-  showSeparatorLine = FALSE, separatorLineColor = "grey80",
-  separatorLineSize = 0.3, coord.flip = TRUE, printPlot = TRUE)
+  axisTitle.y = NULL, showValueLabels = TRUE, labelDigits = 0.1,
+  showPercentageAxis = TRUE, jitterValueLabels = FALSE,
+  showItemLabels = TRUE, showSeparatorLine = FALSE,
+  separatorLineColor = "grey80", separatorLineSize = 0.3,
+  coord.flip = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{items}{A data frame with each column representing one likert-item.}
@@ -87,6 +88,9 @@ are assigned to the x axis.}
 are assigned to the y axis.}
 
 \item{showValueLabels}{Whether counts and percentage values should be plotted to each bar.}
+
+\item{labelDigits}{The amount of digits for rounding \code{value.labels}. Default is 1,
+i.e. value labels have 1 digit after decimal point.}
 
 \item{showPercentageAxis}{If \code{TRUE} (default), the percentage values at the x-axis are shown.}
 

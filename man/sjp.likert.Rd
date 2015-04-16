@@ -8,13 +8,13 @@ sjp.likert(items, catcount = NULL, cat.neutral = NULL, weightBy = NULL,
   weightByTitleString = NULL, sort.frq = NULL, geom.size = 0.6,
   geom.colors = "BrBG", reverse.colors = FALSE,
   cat.neutral.color = "grey70", intercept.line.color = "grey50",
-  value.labels = "show", showPercentageSign = FALSE, legendLabels = NULL,
-  hideLegend = FALSE, title = NULL, legendTitle = NULL, includeN = TRUE,
-  showItemLabels = TRUE, axisLabels.y = NULL, breakTitleAt = 50,
-  breakLabelsAt = 30, breakLegendTitleAt = 30, breakLegendLabelsAt = 28,
-  gridRange = 1, gridBreaksAt = 0.2, expand.grid = TRUE,
-  axisTitle.x = NULL, axisTitle.y = NULL, coord.flip = TRUE,
-  printPlot = TRUE)
+  value.labels = "show", showPercentageSign = FALSE, labelDigits = 0.1,
+  legendLabels = NULL, hideLegend = FALSE, title = NULL,
+  legendTitle = NULL, includeN = TRUE, showItemLabels = TRUE,
+  axisLabels.y = NULL, breakTitleAt = 50, breakLabelsAt = 30,
+  breakLegendTitleAt = 30, breakLegendLabelsAt = 28, gridRange = 1,
+  gridBreaksAt = 0.2, expand.grid = TRUE, axisTitle.x = NULL,
+  axisTitle.y = NULL, coord.flip = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{items}{A data frame with each column representing one likert-item.}
@@ -77,6 +77,9 @@ so positive and negative value switch colors.}
 }}
 
 \item{showPercentageSign}{If \code{TRUE}, percentage signs on value labels are shown.}
+
+\item{labelDigits}{The amount of digits for rounding \code{value.labels}. Default is 1,
+i.e. value labels have 1 digit after decimal point.}
 
 \item{legendLabels}{A list or vector of strings that indicate the likert-scale-categories and which
 appear as legend text.}

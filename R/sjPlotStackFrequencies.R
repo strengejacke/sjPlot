@@ -63,6 +63,8 @@
 #' @param axisTitle.y A label for the y axis. Useful when plotting histograms with metric scales where no category labels
 #'          are assigned to the y axis.
 #' @param showValueLabels Whether counts and percentage values should be plotted to each bar.
+#' @param labelDigits The amount of digits for rounding \code{value.labels}. Default is 1, 
+#'          i.e. value labels have 1 digit after decimal point.
 #' @param showPercentageAxis If \code{TRUE} (default), the percentage values at the x-axis are shown.
 #' @param jitterValueLabels If \code{TRUE}, the value labels on the bars will be "jittered", i.e. they have
 #'          alternating vertical positions to avoid overlapping of labels in case bars are
@@ -179,6 +181,7 @@ sjp.stackfrq <- function(items,
                         axisTitle.x=NULL,
                         axisTitle.y=NULL,
                         showValueLabels=TRUE,
+                        labelDigits = 0.1,
                         showPercentageAxis=TRUE,
                         jitterValueLabels=FALSE,
                         showItemLabels=TRUE,
@@ -407,10 +410,10 @@ sjp.stackfrq <- function(items,
   # --------------------------------------------------------
   if (showValueLabels) {
     if (jitterValueLabels) {
-      ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%.01f%%", 100 * prc)),
+      ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%.*f%%", labelDigits, 100 * prc)),
                                   vjust = jvert)
     } else {
-      ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%.01f%%", 100 * prc)),
+      ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%.*f%%", labelDigits, 100 * prc)),
                                   vjust = vert)
     }
   } else {

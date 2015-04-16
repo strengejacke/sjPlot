@@ -371,7 +371,7 @@ sjt.stackfrq <- function (items,
     # ----------------------------
     # order by first cat
     # ----------------------------
-    if (sort.frq=="first") {
+    if (sort.frq == "first") {
       facord <- order(mat[, 1])
     # ----------------------------
     # order by last cat
@@ -491,9 +491,9 @@ sjt.stackfrq <- function (items,
     # --------------------------------------------------------
     for (j in 1:ncol(mat)) {
       if (showN) {
-        page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s\">%i<br>(%.*f&nbsp;%%)</td>\n", arcstring, mat.n[facord[i],j], digits, 100*mat[facord[i],j]))
+        page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s\">%i<br>(%.*f&nbsp;%%)</td>\n", arcstring, mat.n[facord[i], j], digits, 100 * mat[facord[i], j]))
       } else {
-        page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s\">%.*f&nbsp;%%</td>\n", arcstring, digits, 100*mat[facord[i],j]))
+        page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s\">%.*f&nbsp;%%</td>\n", arcstring, digits, 100 * mat[facord[i], j]))
       }
     }
     # add column with N's

@@ -66,6 +66,8 @@
 #'            \item \code{"sum.outide"} shows the sums of percentage values for both negative and positive values and prints them outside the end of each bar.
 #'          }
 #' @param showPercentageSign If \code{TRUE}, percentage signs on value labels are shown.
+#' @param labelDigits The amount of digits for rounding \code{value.labels}. Default is 1, 
+#'          i.e. value labels have 1 digit after decimal point.
 #' @param showItemLabels Whether x axis text (category names) should be shown or not
 #' @param axisLabels.y a character vector with labels for the y-axis (the labels of the 
 #'          \code{items}). Example: \code{axisLabels.y=c("Q1", "Q2", "Q3")}
@@ -184,6 +186,7 @@ sjp.likert <- function(items,
                        intercept.line.color = "grey50",
                        value.labels = "show",
                        showPercentageSign = FALSE,
+                       labelDigits = 0.1,
                        legendLabels = NULL,
                        hideLegend = FALSE,
                        title = NULL, 
@@ -222,8 +225,7 @@ sjp.likert <- function(items,
       sort.frq  <- "neg"
       reverseOrder <- TRUE
     }
-  }
-  else {
+  } else {
     reverseOrder <- FALSE
   }
   # --------------------------------------------------------
@@ -273,10 +275,8 @@ sjp.likert <- function(items,
     }
     # length of catcount
     catcount <- length(catcount)
-    # if catcount odd or even?
-    if ((catcount %% 2) == 1)
-      # make catcount even
-      catcount <- catcount - 1
+    # if catcount odd or even? make catcount even
+    if ((catcount %% 2) == 1) catcount <- catcount - 1
   }
   # --------------------------------------------------------
   # set legend labels, if we have none yet
@@ -330,8 +330,7 @@ sjp.likert <- function(items,
     # --------------------------------------------------------
     if (is.null(weightBy)) {
       tab <- round(prop.table(table(items[, i])), 3)
-    }
-    else {
+    } else {
       tab <- round(prop.table(xtabs(weightBy ~ items[, i])), 3)
     }
     # --------------------------------------------------------
@@ -474,7 +473,7 @@ sjp.likert <- function(items,
   if (!is.null(title)) {
     # if we have weighted values, say that in diagram's title
     if (!is.null(weightByTitleString)) {
-      title <- paste(title, weightByTitleString, sep="")
+      title <- paste(title, weightByTitleString, sep = "")
     }
     title <- sjmisc::word_wrap(title, breakTitleAt)
   }
@@ -488,17 +487,15 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   if (expand.grid) {
     expgrid <- waiver()
-  }
-  else {
-    expgrid <- c(0,0)
+  } else {
+    expgrid <- c(0, 0)
   }
   # --------------------------------------------------------
   # Hide or show Category Labels (x axis text) 
   # --------------------------------------------------------
   if (!showItemLabels) {
     axisLabels.y <- c("")
-  }
-  else {
+  } else {
     axisLabels.y <- axisLabels.y[sort.freq]
   }
   # --------------------------------------------------------
@@ -511,9 +508,15 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   gp <- ggplot() +
     # positive value bars
-    geom_bar(data = mydat.pos, aes(x=x, y=frq, fill=grp), width = geom.size, stat="identity") +
+    geom_bar(data = mydat.pos, 
+             aes(x = x, y = frq, fill = grp), 
+             width = geom.size, 
+             stat = "identity") +
     # negative value bars
-    geom_bar(data = mydat.neg, aes(x=x, y=frq, fill=grp), width = geom.size, stat="identity")
+    geom_bar(data = mydat.neg, 
+             aes(x = x, y = frq, fill = grp), 
+             width = geom.size, 
+             stat = "identity")
   # --------------------------------------------------------
   # print bar for neutral category. this is a "fake" bar created
   # with geom_rect. to make this work, we need to set the x-axis
@@ -531,8 +534,7 @@ sjp.likert <- function(items,
   # if we have neutral colors, we need to add the geom-color
   # to the color values.
   # --------------------------------------------------------
-  if (!is.null(cat.neutral))
-    geom.colors <- c(geom.colors, cat.neutral.color)
+  if (!is.null(cat.neutral)) geom.colors <- c(geom.colors, cat.neutral.color)
   # --------------------------------------------------------
   # should percentage value labels be printed?
   # --------------------------------------------------------
@@ -542,29 +544,29 @@ sjp.likert <- function(items,
   # creating value labels for cumulative percentages, so
   # zero-percentages are not printed
   # --------------------------------------------------------
-  ypos.sum.pos.lab  <- ifelse (ypos.sum.pos > 0, sprintf("%.01f%s", 100 * ypos.sum.pos, percsign), "")
-  ypos.sum.neg.lab  <- ifelse (ypos.sum.neg < 0, sprintf("%.01f%s", 100 * abs(ypos.sum.neg), percsign), "")
-  ypos.sum.dk.lab  <- ifelse (ypos.sum.dk > -1, sprintf("%.01f%s", 100 * (1 + ypos.sum.dk), percsign), "")
+  ypos.sum.pos.lab  <- ifelse (ypos.sum.pos > 0, sprintf("%.*f%s", labelDigits, 100 * ypos.sum.pos, percsign), "")
+  ypos.sum.neg.lab  <- ifelse (ypos.sum.neg < 0, sprintf("%.*f%s", labelDigits, 100 * abs(ypos.sum.neg), percsign), "")
+  ypos.sum.dk.lab  <- ifelse (ypos.sum.dk > -1, sprintf("%.*f%s", labelDigits, 100 * (1 + ypos.sum.dk), percsign), "")
   
   if (value.labels == "show") {
     # show them in middle of bar
     gp <- gp +
-      geom_text(data = subset(mydat.pos, frq > 0), aes(x = x, y = ypos, label = sprintf("%.01f%s", 100 * frq, percsign))) +
-      geom_text(data = subset(mydat.neg, frq < 0), aes(x = x, y = ypos, label = sprintf("%.01f%s", 100 * abs(frq), percsign)))
+      geom_text(data = subset(mydat.pos, frq > 0), 
+                aes(x = x, y = ypos, label = sprintf("%.*f%s", labelDigits, 100 * frq, percsign))) +
+      geom_text(data = subset(mydat.neg, frq < 0), 
+                aes(x = x, y = ypos, label = sprintf("%.*f%s", labelDigits, 100 * abs(frq), percsign)))
     if (!is.null(cat.neutral)) {
       gp <- gp +
-        geom_text(data = subset(mydat.dk, frq > -1), aes(x = x, y = ypos + offset + 1, label = sprintf("%.01f%s", 100 * (1 + frq), percsign)))
+        geom_text(data = subset(mydat.dk, frq > -1), aes(x = x, y = ypos + offset + 1, label = sprintf("%.*f%s", labelDigits, 100 * (1 + frq), percsign)))
     }
-  }
-  else if (value.labels == "sum.inside" || value.labels == "sum.outside") {
+  } else if (value.labels == "sum.inside" || value.labels == "sum.outside") {
     # show cumulative outside bar
     if (value.labels == "sum.outside") {
       hort.pos <- -0.15
       hort.neg <- 1.15
       hort.dk <- -0.15
-    }
     # show cumulative inside bar
-    else {
+    } else {
       hort.pos <- 1.15
       hort.neg <- -0.15
       hort.dk <- 1.15

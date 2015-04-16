@@ -24,9 +24,10 @@ Changes to other functions:
 * "sjp.glm" now supports plotting "logistf" objects.
 * "sjp.glmm" and "sjp.lmm" now also accept a list of fitted models (see examples in ?sjp.glmm and ?sjp.lmm).
 * "sjp.int" and "sjp.lm" now support "plm" objects (from plm-package).
-* Parameters "orderBy" and "reverseOrder" in "sjp.stackfrq" were merged into new parameter "sort.frq".
-* Parameters "orderBy" and "reverseOrder" in "sjt.stackfrq" were merged into new parameter "sort.frq".
+* Parameters "orderBy" and "reverseOrder" in "sjp.stackfrq" and "sjt.stackfrq" were merged into new parameter "sort.frq".
 * Parameter "transformTicks" in "sjp.glm" and "sjp.glmm" now defaults to "TRUE".
+* Parameter "labelDigits" added to functions "sjp.likert" and "sjp.stackfrq", so digits of value labels can be changed.
+* Renamed parameters "y" and "x" in "sjp.xtab" into "var" and "grp".
 * Added further pre-set themes to "sjp.setTheme".
 * Minor improvements of "sjp.setTheme".
 
