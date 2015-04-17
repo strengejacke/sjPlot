@@ -240,6 +240,7 @@ sjp.glmer <- function(fit,
 #'            \item \code{"re"} (default) for estimates of random effects
 #'            \item \code{"fe"} for estimates of fixed effects
 #'            \item \code{"fe.std"} for standardized estimates of fixed effects
+#'            \item \code{"fe.pred"} for regression lines (slopes) with confidence intervals for each single fixed effect are plotted, i.e. all fixed effects are extracted and each is plotted against the response variable.
 #'            \item \code{"fe.cor"} for correlation matrix of fixed effects
 #'            \item \code{"re.qq"} for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)
 #'            \item \code{"fe.ri"} for fixed effects slopes depending on the random intercept.
@@ -468,9 +469,9 @@ sjp.lme4  <- function(fit,
   # check type
   # -------------------------------------
   if (type != "re" && type != "fe" && type != "fe.std" && type != "fe.cor" &&
-      type != "re.qq" && type != "fe.pc" && type != "ri.pc" &&
+      type != "re.qq" && type != "fe.pc" && type != "ri.pc" && type != "fe.pred" &&
       type != "fe.prob" && type != "ri.prob" && type != "fe.ri") {
-    warning("'type' must be one of 're', 'fe', 'fe.cor', 're.qq', 'fe.ri', 'fe.pc', 'ri.pc', 'fe.std', 'fe.prob' or 'ri.prob'. Defaulting to 'fe' now.")
+    warning("'type' must be one of 're', 'fe', 'fe.cor', 're.qq', 'fe.ri', 'fe.pc', 'fe.pred', 'ri.pc', 'fe.std', 'fe.prob' or 'ri.prob'. Defaulting to 'fe' now.")
     type  <- "fe"
   }
   # ---------------------------------------
@@ -729,6 +730,13 @@ sjp.lme4  <- function(fit,
                                     sort.coef,
                                     fun,
                                     printPlot)))
+  } else if (type == "fe.pred") {
+    if (fun == "lm") {
+      return (invisible(sjp.reglin(fit, title, printPlot)))
+    } else {
+      warning("Plotting slopes of fixed effects only works for function 'sjp.lmer'.", call. = FALSE)
+      return
+    }
   } else if (type == "fe.ri") {
     if (fun == "lm") {
       return (invisible(sjp.lme.feri(fit,
@@ -1456,7 +1464,7 @@ sjp.lme.fecondpred.onlynumeric <- function(fit,
   # retrieve data frame of model to check whether
   # we have any numeric terms in fitted model
   # ----------------------------
-  fit.df<- fit@frame
+  fit.df <- fit@frame
   # ----------------------------
   # retrieve term names, so we find the estimates in the
   # coefficients list

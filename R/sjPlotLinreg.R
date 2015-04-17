@@ -15,7 +15,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lo
 #' 
 #' @details \itemize{
 #'            \item If \code{type = "lm"} and fitted model only has one predictor, no forest plot is shown. Instead, a regression line with confidence interval (in blue) is plotted by default, and a loess-smoothed line without confidence interval (in red) can be added if parameter \code{showLoess} is \code{TRUE}.
-#'            \item If \code{type = "pred"}, regression lines with confidence intervals for each single predictor of the fitted model are plotted, i.e. all predictors of the fitted model are extracted and each of them are fitted against the response variable.
+#'            \item If \code{type = "pred"}, regression lines (slopes) with confidence intervals for each single predictor of the fitted model are plotted, i.e. all predictors of the fitted model are extracted and each of them is plotted against the response variable.
 #'            \item If \code{type = "ma"} (i.e. checking model assumptions), please note that only three parameters are relevant: \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.
 #'            \item If \code{type = "vif"}, the Variance Inflation Factors (check for multicollinearity) are plotted. As a rule of thumb, values below 5 are considered as good and indicate no multicollinearity, values between 5 and 10 may be tolerable. Values greater than 10 are not acceptable and indicate multicollinearity between model's predictors.
 #'            }
@@ -336,8 +336,8 @@ sjp.lm <- function(fit,
   # if no values should be shown, clear
   # vector now
   if (!showValueLabels) {
-    ps <- rep(c(""), length(ps))
-    pstdbv <- rep(c(""), length(pstdbv))
+    ps <- rep("", length(ps))
+    pstdbv <- rep("", length(pstdbv))
   }
   # --------------------------------------------------------
   # copy p-values into data column
@@ -373,15 +373,15 @@ sjp.lm <- function(fit,
         # row (Intercept) will be removed / ignored
         coefficients(fit)[-1],
         # append CI
-        confint(fit, level=0.95)[-1, 1],
-        confint(fit, level=0.95)[-1, 2])
+        confint(fit, level = 0.95)[-1, 1],
+        confint(fit, level = 0.95)[-1, 2])
     } else {
       tmp <- data.frame(cbind(
         # Append beta coefficients, [-1] means that the first
         # row (Intercept) will be removed / ignored
         coefficients(fit)[-1],
         # append CI
-        confint(fit, level=0.95)[-1, ]))
+        confint(fit, level = 0.95)[-1, ]))
     }
   }
   # append p-values and standardized beta coefficients
@@ -442,7 +442,7 @@ sjp.lm <- function(fit,
   # --------------------------------------------------------
   # Start plot here!
   # --------------------------------------------------------
-  betaplot <- ggplot(betas, aes(y = Beta, x = xv, colour = Beta >= 0)) +
+  betaplot <- ggplot(betas, aes(y = Beta, x = xv, colour = (Beta >= 0))) +
     # and error bar
     geom_errorbar(aes(ymin = lower, ymax = upper), width = 0) +
     # Print p-values. With vertical adjustment, so they don't overlap with the errorbars
@@ -512,9 +512,18 @@ sjp.reglin <- function(fit,
     # plm objects have different structure than (g)lm
     fit_x <- data.frame(cbind(as.vector(fit$model[, 1]), model.matrix(fit)))
     depvar.label <- attr(attr(attr(fit$model, "terms"), "dataClasses"), "names")[1]
+    # retrieve response vector
+    resp <- as.vector(fit$model[, 1])
+  } else if (any(class(fit) == "lmerMod")) {
+    fit_x <- data.frame(model.matrix(fit))
+    # retrieve response vector
+    resp <- lme4::getME(fit, "y")
+    depvar.label <- attr(attr(attr(fit@frame, "terms"), "dataClasses"), "names")[1]
   } else {
     fit_x <- data.frame(model.matrix(fit))
     depvar.label <- attr(attr(fit$terms, "dataClasses"), "names")[1]
+    # retrieve response vector
+    resp <- as.vector(fit$model[, 1])
   }
   predvars <- colnames(fit_x)[-1]
   cn <- predvars
@@ -545,16 +554,14 @@ sjp.reglin <- function(fit,
     # as data columns, used for the ggplot
     # -----------------------------------------------------------
     if (useResiduals) {
-      mydat <- as.data.frame(cbind(fit_x[, which(cn == xval) + 1],
-                                   fit$residuals))
+      mydat <- data.frame(x = fit_x[, which(cn == xval) + 1], y = residuals(fit))
     } else {
-      mydat <- as.data.frame(cbind(fit_x[, which(cn == xval) + 1],
-                                   as.vector(fit$model[, 1])))
+      mydat <- data.frame(x = fit_x[, which(cn == xval) + 1], y = resp)
     }
     # -----------------------------------------------------------
     # plot regression line and confidence intervall
     # -----------------------------------------------------------
-    reglinplot <- ggplot(mydat, aes(x = V1, y = V2)) +
+    reglinplot <- ggplot(mydat, aes(x = x, y = y)) +
       stat_smooth(method = "lm", 
                   se = showCI, 
                   level = ciLevel, 

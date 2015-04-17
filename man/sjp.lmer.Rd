@@ -21,6 +21,7 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = 1, title = NULL,
   \item \code{"re"} (default) for estimates of random effects
   \item \code{"fe"} for estimates of fixed effects
   \item \code{"fe.std"} for standardized estimates of fixed effects
+  \item \code{"fe.pred"} for regression lines (slopes) with confidence intervals for each single fixed effect are plotted, i.e. all fixed effects are extracted and each is plotted against the response variable.
   \item \code{"fe.cor"} for correlation matrix of fixed effects
   \item \code{"re.qq"} for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)
   \item \code{"fe.ri"} for fixed effects slopes depending on the random intercept.

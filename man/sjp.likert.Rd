@@ -8,7 +8,7 @@ sjp.likert(items, catcount = NULL, cat.neutral = NULL, weightBy = NULL,
   weightByTitleString = NULL, sort.frq = NULL, geom.size = 0.6,
   geom.colors = "BrBG", reverse.colors = FALSE,
   cat.neutral.color = "grey70", intercept.line.color = "grey50",
-  value.labels = "show", showPercentageSign = FALSE, labelDigits = 0.1,
+  value.labels = "show", showPercentageSign = FALSE, labelDigits = 1,
   legendLabels = NULL, hideLegend = FALSE, title = NULL,
   legendTitle = NULL, includeN = TRUE, showItemLabels = TRUE,
   axisLabels.y = NULL, breakTitleAt = 50, breakLabelsAt = 30,
@@ -24,10 +24,10 @@ sjp.likert(items, catcount = NULL, cat.neutral = NULL, weightBy = NULL,
 Note that this parameter only applies to "valid" answers, i.e. if you
 have an additional neutral category (see \code{cat.neutral}) like "don't know",
 this won't count for \code{catcount} (e.g. "strongly disagree",
-"disagree", "agree", "strongly agree" and neutral category "son't know"
+"disagree", "agree", "strongly agree" and neutral category "don't know"
 would still mean that \code{catcount=4}). \cr
 Normally, this parameter can be ignored because the amount of valid categories
-is retrieved by the function itself.}
+is retrieved automatically.}
 
 \item{cat.neutral}{If there's a neutral category (like "don't know" etc.), specify
 the index number for this category. Else, set \code{cat.neutral=NULL} (default).
@@ -55,7 +55,7 @@ cases are weighted. Use a string as parameter, e.g.: \code{weightByTitleString="
 \item{geom.colors}{User defined color palette for geoms. If specified, must either be vector with color values
 of same length as groups defined in \code{legendLabels}, or a specific color palette code (see below).
 \itemize{
-  \item If not specified, the diverging \code{"GnBu"} color brewer palette will be used.
+  \item If not specified, the diverging \code{"BrBG"} color brewer palette will be used.
   \item If \code{"gs"}, a greyscale will be used.
   \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
 }
@@ -97,7 +97,7 @@ appear as legend text.}
 \item{axisLabels.y}{a character vector with labels for the y-axis (the labels of the
 \code{items}). Example: \code{axisLabels.y=c("Q1", "Q2", "Q3")}
 Axis labels will automatically be detected, when they have
-a \code{"variable.lable"} attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).}
+a variable label attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
 \item{breakTitleAt}{Wordwrap for diagram title. Determines how many chars of the title are displayed in
 one line and when a line break is inserted into the title.}
@@ -159,16 +159,14 @@ likert_2 <- data.frame(as.factor(sample(1:2, 500, replace=TRUE, prob=c(0.3,0.7))
 levels_2 <- c("Agree", "Disagree")
 
 # prepare data for 4-category likert scale, with neutral category 5 items
-likert_4 <- data.frame(as.factor(sample(1:5, 500, replace=TRUE,
-                                        prob=c(0.2,0.3,0.1,0.35,0.05))),
-                       as.factor(sample(1:5, 500, replace=TRUE,
-                                        prob=c(0.5,0.25,0.15,0.1,0.0))),
-                       as.factor(sample(1:5, 500, replace=TRUE,
-                                        prob=c(0.25,0.1,0.38,0.24,0.03))),
-                       as.factor(sample(1:5, 500, replace=TRUE,
-                                        prob=c(0.1,0.32,0.37,0.1,0.11))),
-                       as.factor(sample(1:5, 500, replace=TRUE,
-                                        prob=c(0.35,0.22,0.15,0.25, 0.03))))
+Q1 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.2, 0.3, 0.1, 0.4)))
+Q2 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.5, 0.25, 0.15, 0.1)))
+Q3 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.25, 0.1, 0.4, 0.25)))
+Q4 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.1, 0.4, 0.4, 0.1)))
+Q5 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.35, 0.25, 0.15, 0.25)))
+
+likert_4 <- data.frame(Q1, Q2, Q3, Q4, Q5)
+
 # create labels
 levels_4 <- c("Strongly agree",
               "Agree",
@@ -177,12 +175,16 @@ levels_4 <- c("Strongly agree",
               "Don't know")
 
 # prepare data for 6-category likert scale, 5 items
-likert_6 <- data.frame(
-               as.factor(sample(1:6, 500, replace=TRUE, prob=c(0.2,0.1,0.1,0.3,0.2,0.1))),
-               as.factor(sample(1:6, 500, replace=TRUE, prob=c(0.15,0.15,0.3,0.1,0.1,0.2))),
-               as.factor(sample(1:6, 500, replace=TRUE, prob=c(0.2,0.25,0.05,0.2,0.2,0.2))),
-               as.factor(sample(1:6, 500, replace=TRUE, prob=c(0.2,0.1,0.1,0.4,0.1,0.1))),
-               as.factor(sample(1:6, 500, replace=TRUE, prob=c(0.1,0.4,0.1,0.3,0.05,0.15))))
+likert_6 <- data.frame()
+
+Q1 <- as.factor(sample(1:6, 500, replace=TRUE, prob=c(0.2,0.1,0.1,0.3,0.2,0.1)))
+Q2 <- as.factor(sample(1:6, 500, replace=TRUE, prob=c(0.15,0.15,0.3,0.1,0.1,0.2)))
+Q3 <- as.factor(sample(1:6, 500, replace=TRUE, prob=c(0.2,0.25,0.05,0.2,0.2,0.2)))
+Q4 <- as.factor(sample(1:6, 500, replace=TRUE, prob=c(0.2,0.1,0.1,0.4,0.1,0.1)))
+Q5 <- as.factor(sample(1:6, 500, replace=TRUE, prob=c(0.1,0.4,0.1,0.3,0.05,0.15)))
+
+likert_6 <- data.frame(Q1, Q2, Q3, Q4, Q5)
+
 # create labels
 levels_6 <- c("Very strongly agree", "Strongly agree", "Agree",
               "Disagree", "Strongly disagree", "Very strongly disagree")
@@ -213,6 +215,8 @@ sjp.likert(likert_6,
            legendLabels = levels_6,
            axisLabels.y = items,
            sort.frq = "pos.asc",
+           labelDigits = 0,
+           showPercentageSign = TRUE,
            value.labels = "sum.inside")
 }
 \seealso{

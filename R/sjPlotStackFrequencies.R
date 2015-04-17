@@ -84,39 +84,22 @@
 #' # random sample
 #' # -------------------------------
 #' # prepare data for 4-category likert scale, 5 items
-#' likert_4 <- data.frame(as.factor(sample(1:4, 
-#'                                         500, 
-#'                                         replace = TRUE, 
-#'                                         prob = c(0.2, 0.3, 0.1, 0.4))),
-#'                        as.factor(sample(1:4, 
-#'                                         500, 
-#'                                         replace = TRUE, 
-#'                                         prob = c(0.5, 0.25, 0.15, 0.1))),
-#'                        as.factor(sample(1:4, 
-#'                                         500, 
-#'                                         replace = TRUE, 
-#'                                         prob = c(0.25, 0.1, 0.4, 0.25))),
-#'                        as.factor(sample(1:4, 
-#'                                         500, 
-#'                                         replace = TRUE, 
-#'                                         prob = c(0.1, 0.4, 0.4, 0.1))),
-#'                        as.factor(sample(1:4, 
-#'                                         500, 
-#'                                         replace = TRUE, 
-#'                                         prob = c(0.35, 0.25, 0.15, 0.25))))
+#' Q1 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.2, 0.3, 0.1, 0.4)))
+#' Q2 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.5, 0.25, 0.15, 0.1)))
+#' Q3 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.25, 0.1, 0.4, 0.25)))
+#' Q4 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.1, 0.4, 0.4, 0.1)))
+#' Q5 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.35, 0.25, 0.15, 0.25)))
+#' 
+#' likert_4 <- data.frame(Q1, Q2, Q3, Q4, Q5)
+#' 
 #' # create labels
 #' levels_4 <- list(c("Independent", 
 #'                    "Slightly dependent", 
 #'                    "Dependent", 
 #'                    "Severely dependent"))
 #' 
-#' # create item labels
-#' items <- list(c("Q1", "Q2", "Q3", "Q4", "Q5"))
-#' 
 #' # plot stacked frequencies of 5 (ordered) item-scales
-#' sjp.stackfrq(likert_4, 
-#'              legendLabels = levels_4, 
-#'              axisLabels.y = items)
+#' sjp.stackfrq(likert_4, legendLabels = levels_4)
 #' 
 #' 
 #' # -------------------------------
@@ -181,7 +164,7 @@ sjp.stackfrq <- function(items,
                         axisTitle.x=NULL,
                         axisTitle.y=NULL,
                         showValueLabels=TRUE,
-                        labelDigits = 0.1,
+                        labelDigits = 1,
                         showPercentageAxis=TRUE,
                         jitterValueLabels=FALSE,
                         showItemLabels=TRUE,
@@ -304,11 +287,11 @@ sjp.stackfrq <- function(items,
     # create new data frame. We now have a data frame with all
     # variable categories abd their related percentages, including
     # zero counts, but no(!) missings!
-    mydf <- as.data.frame(cbind(grp = i, 
-                                cat = 1:countlen, 
-                                prc))
+    mydf <- data.frame(grp = i, 
+                       cat = 1:countlen, 
+                       prc)
     # now, append data frames
-    mydat <- as.data.frame(rbind(mydat, mydf))
+    mydat <- data.frame(rbind(mydat, mydf))
   }
   # ----------------------------
   # make sure group and count variable 
@@ -317,7 +300,6 @@ sjp.stackfrq <- function(items,
   mydat$grp <- as.factor(mydat$grp)
   mydat$cat <- as.factor(mydat$cat)
   # add half of Percentage values as new y-position for stacked bars
-  # mydat = ddply(mydat, "grp", transform, ypos = cumsum(prc) - 0.5*prc)
   mydat <- mydat %>% 
     dplyr::group_by(grp) %>% 
     dplyr::mutate(ypos = cumsum(prc) - 0.5 * prc) %>% 
@@ -406,8 +388,9 @@ sjp.stackfrq <- function(items,
     expgrid <- c(0, 0)
   }
   # --------------------------------------------------------
-  # Set value labels
+  # Set value labels and label digits
   # --------------------------------------------------------
+  mydat$labelDigits <- labelDigits
   if (showValueLabels) {
     if (jitterValueLabels) {
       ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%.*f%%", labelDigits, 100 * prc)),

@@ -26,7 +26,8 @@ Changes to other functions:
 * "sjp.int" and "sjp.lm" now support "plm" objects (from plm-package).
 * Parameters "orderBy" and "reverseOrder" in "sjp.stackfrq" and "sjt.stackfrq" were merged into new parameter "sort.frq".
 * Parameter "transformTicks" in "sjp.glm" and "sjp.glmm" now defaults to "TRUE".
-* Parameter "labelDigits" added to functions "sjp.likert" and "sjp.stackfrq", so digits of value labels can be changed.
+* Added parameter "labelDigits" to functions "sjp.likert" and "sjp.stackfrq", so digits of value labels can be changed.
+* Added option "fe.pred" to "type"-parameter of "sjp.lmer" to plot slopes for each single fixed effect.
 * Renamed parameters "y" and "x" in "sjp.xtab" into "var" and "grp".
 * Added further pre-set themes to "sjp.setTheme".
 * Minor improvements of "sjp.setTheme".

@@ -10,7 +10,7 @@ sjp.stackfrq(items, legendLabels = NULL, sort.frq = NULL, weightBy = NULL,
   breakTitleAt = 50, breakLabelsAt = 30, breakLegendTitleAt = 30,
   breakLegendLabelsAt = 28, gridBreaksAt = 0.2, expand.grid = FALSE,
   geom.size = 0.5, geom.colors = "Blues", axisTitle.x = NULL,
-  axisTitle.y = NULL, showValueLabels = TRUE, labelDigits = 0.1,
+  axisTitle.y = NULL, showValueLabels = TRUE, labelDigits = 1,
   showPercentageAxis = TRUE, jitterValueLabels = FALSE,
   showItemLabels = TRUE, showSeparatorLine = FALSE,
   separatorLineColor = "grey80", separatorLineSize = 0.3,
@@ -128,39 +128,22 @@ Thanks to \href{http://www.clas.ufl.edu/users/forrest/}{Forrest Stevens} for bug
 # random sample
 # -------------------------------
 # prepare data for 4-category likert scale, 5 items
-likert_4 <- data.frame(as.factor(sample(1:4,
-                                        500,
-                                        replace = TRUE,
-                                        prob = c(0.2, 0.3, 0.1, 0.4))),
-                       as.factor(sample(1:4,
-                                        500,
-                                        replace = TRUE,
-                                        prob = c(0.5, 0.25, 0.15, 0.1))),
-                       as.factor(sample(1:4,
-                                        500,
-                                        replace = TRUE,
-                                        prob = c(0.25, 0.1, 0.4, 0.25))),
-                       as.factor(sample(1:4,
-                                        500,
-                                        replace = TRUE,
-                                        prob = c(0.1, 0.4, 0.4, 0.1))),
-                       as.factor(sample(1:4,
-                                        500,
-                                        replace = TRUE,
-                                        prob = c(0.35, 0.25, 0.15, 0.25))))
+Q1 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.2, 0.3, 0.1, 0.4)))
+Q2 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.5, 0.25, 0.15, 0.1)))
+Q3 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.25, 0.1, 0.4, 0.25)))
+Q4 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.1, 0.4, 0.4, 0.1)))
+Q5 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.35, 0.25, 0.15, 0.25)))
+
+likert_4 <- data.frame(Q1, Q2, Q3, Q4, Q5)
+
 # create labels
 levels_4 <- list(c("Independent",
                    "Slightly dependent",
                    "Dependent",
                    "Severely dependent"))
 
-# create item labels
-items <- list(c("Q1", "Q2", "Q3", "Q4", "Q5"))
-
 # plot stacked frequencies of 5 (ordered) item-scales
-sjp.stackfrq(likert_4,
-             legendLabels = levels_4,
-             axisLabels.y = items)
+sjp.stackfrq(likert_4, legendLabels = levels_4)
 
 
 # -------------------------------
