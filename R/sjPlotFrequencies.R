@@ -330,6 +330,7 @@ sjp.frq <- function(varCount,
   #---------------------------------------------------
   if (!is.null(interactionVar) && type != "boxplots" && type != "violin") {
     warning("'interactionVar' only applies to boxplots and violinplots (see 'type') and will be ignored.", call. = F)
+    interactionVar <- NULL
   }
   #---------------------------------------------------
   # check whether variable should be auto-grouped
@@ -413,7 +414,7 @@ sjp.frq <- function(varCount,
       interactionVarLabels <- sjmisc::word_wrap(interactionVarLabels, breakLabelsAt)    
     # If interaction-variable-labels were not defined, simply set numbers from 1 to
     # amount of categories instead
-    } else  {
+    } else {
       iavarLabLength <- length(unique(na.omit(interactionVar)))
       interactionVarLabels <- c(1:iavarLabLength)
     }

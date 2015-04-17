@@ -119,8 +119,8 @@
 #'          (reference category of predictor in case interaction is not present) are plotted.
 #' @param showInterceptLabels If \code{TRUE} (default), the intercept lines are labelled. Only
 #'          applies if \code{showInterceptLines} is \code{TRUE}.
-#' @param showCI If \code{TRUE}, a confidence region for the estimated marginal means
-#'          will be plotted.
+#' @param showCI If \code{TRUE}, a confidence region will be plotted. Onyl applies
+#'          to \code{type = "emm"} or \code{type = "eff"}.
 #' @param valueLabel.digits the amount of digits of the displayed value labels. Defaults to 2.
 #' @param interceptLineColor The line color of the model's intercept line. Only applies, if
 #'          \code{showInterceptLines} is \code{TRUE}.
@@ -377,7 +377,7 @@ sjp.int <- function(fit,
   } else if (any(c.f == "glmerMod")) {
     fun <- "glmer"
     stat.fun <- "glm"
-  } else if (any(c.f == "lmerMod")) {
+  } else if (any(c.f == "lmerMod") || any(c.f == "merModLmerTest")) {
     fun <- "lmer"
     stat.fun <- "lm"
   } else if (any(c.f == "lme")) {
