@@ -194,7 +194,7 @@ dist_chisq <- function(chi2 = NULL,
   # --------------------------------------
   if (is.null(deg.f)) {
     warning("Degrees of freedom ('deg.f') needs to be specified.", call. = F)
-    return (NULL)
+    return (invisible (NULL))
   }
   # --------------------------------------
   # determine maximum range of x-axis. if we have
@@ -333,7 +333,7 @@ dist_f <- function(f = NULL,
   # --------------------------------------
   if (is.null(deg.f1) || is.null(deg.f2)) {
     warning("Both degrees of freedom ('deg.f1' and 'deg.f2') needs to be specified.", call. = F)
-    return (NULL)
+    return (invisible (NULL))
   }
   # --------------------------------------
   # determine maximum range of x-axis. if we have
@@ -465,7 +465,7 @@ dist_t <- function(t = NULL,
   # --------------------------------------
   if (is.null(deg.f)) {
     warning("Degrees of freedom ('deg.f') needs to be specified.", call. = F)
-    return (NULL)
+    return (invisible (NULL))
   }
   # --------------------------------------
   # determine maximum range of x-axis. if we have

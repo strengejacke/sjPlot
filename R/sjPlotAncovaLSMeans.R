@@ -121,13 +121,13 @@ sjp.emm <- function(fit,
   if (!requireNamespace("lsmeans", quietly = TRUE)) {
     stop("Package 'lsmeans' needed for this function to work. Please install it.", call. = FALSE)
   }
-  if (any(class(fit) == "lmerMod") && !requireNamespace("lmerTest", quietly = TRUE)) {
+  if ((any(class(fit) == "lmerMod" || any(class(fit) == "merModLmerTest"))) && !requireNamespace("lmerTest", quietly = TRUE)) {
     stop("Package 'lmerTest' needed for this function to work. Please install it.", call. = FALSE)
   }
   # -----------------------------------------------------------
   # go to sub-function if class = lmerMod
   # -----------------------------------------------------------
-  if (any(class(fit) == "lmerMod")) {
+  if (any(class(fit) == "lmerMod") || any(class(fit) == "merModLmerTest")) {
     return (sjp.emm.lmer(fit, swapPredictors, plevel, title, geom.colors,
                          axisTitle.x, axisTitle.y, axisLabels.x, legendLabels,
                          showValueLabels, valueLabel.digits, showCI, breakTitleAt,
@@ -182,7 +182,7 @@ sjp.emm <- function(fit,
   # check whether we have any interaction terms included at all
   if(it.nr == 0) {
     warning("No interaction term found in fitted model...", call. = FALSE)
-    return (NULL)
+    return (invisible (NULL))
   }
   # save names of interaction predictor variables into this object
   # but only those with a specific p-level
@@ -195,7 +195,7 @@ sjp.emm <- function(fit,
   # check for any signigicant interactions, stop if nothing found
   if (is.null(intnames) || 0 == length(intnames)) {
     warning("No significant interactions found...", call. = FALSE)
-    return (NULL)
+    return (invisible (NULL))
   }
   # -----------------------------------------------------------
   # Now iterate all interaction terms from model
@@ -402,7 +402,7 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, axisTi
                          axisTitle.y, axisLabels.x, legendLabels, showValueLabels,
                          valueLabel.digits, showCI, breakTitleAt, breakLegendLabelsAt,
                          axisLimits.y, gridBreaksAt, printPlot) {
-  if (any(class(fit) == "lmerMod") && !requireNamespace("lmerTest", quietly = TRUE)) {
+  if ((any(class(fit) == "lmerMod") || any(class(fit) == "merModLmerTest")) && !requireNamespace("lmerTest", quietly = TRUE)) {
     stop("Package 'lmerTest' needed for this function to work. Please install it.", call. = FALSE)
   }
   # init vector that saves ggplot objects
@@ -429,7 +429,7 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, axisTi
     it.names <- preds[pos]
   } else {
     warning("No interaction term found in fitted model...", call. = F)
-    return (NULL)
+    return (invisible (NULL))
   }
   # -----------------------------------------------------------
   # find all significant interactions
@@ -456,7 +456,7 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, axisTi
   # check for any signigicant interactions, stop if nothing found
   if (is.null(intnames) || 0 == length(intnames)) {
     warning("No significant interactions found...", call. = FALSE)
-    return (NULL)
+    return (invisible (NULL))
   }
   # -----------------------------------------------------------
   # Now iterate all interaction terms from model

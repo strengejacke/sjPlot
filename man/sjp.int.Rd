@@ -132,8 +132,8 @@ grid is being printed. Default is \code{NULL}.}
 \item{showInterceptLabels}{If \code{TRUE} (default), the intercept lines are labelled. Only
 applies if \code{showInterceptLines} is \code{TRUE}.}
 
-\item{showCI}{If \code{TRUE}, a confidence region for the estimated marginal means
-will be plotted.}
+\item{showCI}{If \code{TRUE}, a confidence region will be plotted. Onyl applies
+to \code{type = "emm"} or \code{type = "eff"}.}
 
 \item{valueLabel.digits}{the amount of digits of the displayed value labels. Defaults to 2.}
 

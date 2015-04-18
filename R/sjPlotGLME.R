@@ -623,29 +623,9 @@ sjp.lme4  <- function(fit,
       }
     }
     # ----------------------------
-    # print p-values in bar charts
-    # ----------------------------
     # retrieve sigificance level of independent variables (p-values)
-    cs <- coef(summary(fit))
-    # check if we have p-values in summary
-    if (ncol(cs) >= 4) {
-      pv <- cs[, 4]
-    } else {
-      # if we don't have p-values in summary, try to get them via anova
-      # we use type 3 here to include intercept
-      message("Computing approximate p-values via Wald chi-squared test...")
-      pia <- suppressMessages(car::Anova(fit, type = "III"))
-      # factors may have multiple levels, however, p-value 
-      # is not calculated for each factor level. Drop these p-values.
-      pia$`Pr(>Chisq)`[which(pia$Df > 1)] <- NA
-      pv <- c()
-      # to get matching rows between model coefficient and p-values
-      # calculated by anova, we "repeat" rows of factors - these factors
-      # appear multiple times in the coefficient table (one for each factor
-      # level), however, only once in the anova table. Factor levels,
-      # i.e. times to repeat, is indicated by the Df.
-      pv <- c(pv, rep(pia$`Pr(>Chisq)`, pia$Df))
-    }
+    # ----------------------------
+    pv <- get_lmerMod_pvalues(fit)
     # ----------------------------
     # retrieve odds ratios resp.
     # betas or standardized betas
@@ -945,19 +925,6 @@ sjp.lme4  <- function(fit,
                        list(plot = me.plot,
                             plot.list = me.plot.list,
                             mydf = mydf)))
-}
-
-
-lme.p <- function(fit) {
-  # retrieve sigificance level of independent variables (p-values)
-  cs <- coef(summary(fit))
-  # check if we have p-values in summary
-  if (ncol(cs) >= 4) {
-    pv <- cs[, 4]
-  } else {
-    ps <- NULL
-  }
-  return (ps)
 }
 
 
@@ -1573,4 +1540,37 @@ sjp.lme.fecondpred.onlynumeric <- function(fit,
                          plot.mp = plot.metricpred,
                          mydf.facet = mydf.facet,
                          plot.facet = plot.facet)))
+}
+
+get_lmerMod_pvalues <- function(fitmod) {
+  # retrieve sigificance level of independent variables (p-values)
+  if (any(class(fitmod) == "merModLmerTest")) {
+    cs <- coef(lmerTest::summary(fitmod))
+  } else {
+    cs <- coef(summary(fitmod))
+  }
+  # check if we have p-values in summary
+  if (ncol(cs) >= 4) {
+    # do we have a p-value column?
+    pvcn <- which(colnames(cs) == "Pr(>|t|)")
+    # if not, default to 4
+    if (length(pvcn) == 0) pvcn <- 4
+    pv <- cs[, pvcn]
+  } else {
+    # if we don't have p-values in summary, try to get them via anova
+    # we use type 3 here to include intercept
+    message("Computing approximate p-values via Wald chi-squared test...")
+    pia <- suppressMessages(car::Anova(fitmod, type = "III"))
+    # factors may have multiple levels, however, p-value 
+    # is not calculated for each factor level. Drop these p-values.
+    pia$`Pr(>Chisq)`[which(pia$Df > 1)] <- NA
+    pv <- c()
+    # to get matching rows between model coefficient and p-values
+    # calculated by anova, we "repeat" rows of factors - these factors
+    # appear multiple times in the coefficient table (one for each factor
+    # level), however, only once in the anova table. Factor levels,
+    # i.e. times to repeat, is indicated by the Df.
+    pv <- c(pv, rep(pia$`Pr(>Chisq)`, pia$Df))
+  }
+  return (pv)
 }

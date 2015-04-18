@@ -514,7 +514,7 @@ sjp.reglin <- function(fit,
     depvar.label <- attr(attr(attr(fit$model, "terms"), "dataClasses"), "names")[1]
     # retrieve response vector
     resp <- as.vector(fit$model[, 1])
-  } else if (any(class(fit) == "lmerMod")) {
+  } else if (any(class(fit) == "lmerMod") || any(class(fit) == "merModLmerTest")) {
     fit_x <- data.frame(model.matrix(fit))
     # retrieve response vector
     resp <- lme4::getME(fit, "y")

@@ -160,7 +160,7 @@ sjp.corr <- function(data,
   # ----------------------------
   if (corMethod!="pearson" && corMethod!="spearman" && corMethod!= "kendall") {
     warning("Parameter 'corMethod' must be one of: pearson, spearman or kendall.", call. = F)
-    return (NULL)
+    return (invisible (NULL))
   }
   # ----------------------------
   # check if user has passed a data frame

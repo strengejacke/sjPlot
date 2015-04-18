@@ -524,7 +524,7 @@ sjp.int <- function(fit,
     # -----------------------------------------------------------
     # retrieve p-values, without intercept
     # -----------------------------------------------------------
-    if (ncol(coef.tab) > 3) pval <- coef.tab[-1, 4]
+    pval <- get_lmerMod_pvalues(fit)[-1]
     # -----------------------------------------------------------
     # retrieve estimates, without intercept
     # -----------------------------------------------------------
@@ -600,7 +600,7 @@ sjp.int <- function(fit,
   # check whether we have any interaction terms included at all
   if(is.null(firstit) || is.na(firstit) || firstit == 0) {
     warning("No interaction term found in fitted model...", call. = FALSE)
-    return (NULL)
+    return (invisible (NULL))
   }
   # save names of interaction predictor variables into this object
   intnames <- c()
@@ -610,7 +610,7 @@ sjp.int <- function(fit,
   # check for any signigicant interactions, stop if nothing found
   if (is.null(intnames)) {
     warning("No significant interactions found...", call. = FALSE)
-    return (NULL)
+    return (invisible (NULL))
   }
   # -----------------------------------------------------------
   # check whether parameter X=TRUE was set when fitting the linear
@@ -701,170 +701,99 @@ sjp.int <- function(fit,
       labx <- c(interactionterms[[1]][1])
       predy <- c(interactionterms[[1]][2])
       # -----------------------------------------------------------
-      # Check whether moderator value has enough unique values
-      # for quartiles
+      # define predictor and moderator values
       # -----------------------------------------------------------
-      moderatorValues <- mv_check(moderatorValues, pred2uniquevals)
-      # -----------------------------------------------------------
-      # check which values of moderator should be plotted, i.e. if
-      # lower/upper bound (min-max) or mean and standard-deviation
-      # should be used as valus for the moderator.
-      # see http://www.theanalysisfactor.com/3-tips-interpreting-moderation/
-      # -----------------------------------------------------------
-      if (moderatorValues == "minmax") {
-        mw <- NA
-        ymin <- min(pred2uniquevals, na.rm = T)
-        ymax <- max(pred2uniquevals, na.rm = T)
-      } else if (moderatorValues == "meansd") {
-        mw <- mean(pred2uniquevals, na.rm = T)
-        ymin <- mw - sd(pred2uniquevals, na.rm = T)
-        ymax <- mw + sd(pred2uniquevals, na.rm = T)
-      } else if (moderatorValues == "zeromax") {
-        mw <- NA
-        ymin <- 0
-        ymax <- max(pred2uniquevals, na.rm = T)
-      } else if (moderatorValues == "quart") {
-        qu <- as.vector(quantile(pred2uniquevals, na.rm = T))
-        mw <- qu[3]
-        ymin <- qu[2]
-        ymax <- qu[4]
-      }
-      # intercept of predictor's reference category
-      est_b <- b2 + b0
-      # -----------------------------------------------------------
-      # Create data frame for plotting the interactions by
-      # manually calculating the linear regression by inserting
-      # the estimates of each term and the associated interaction term,
-      # i.e.: y = b0 + (b1 * pred1) + (b2 * pred2) + (b3 * pred1 * pred2)
-      # -----------------------------------------------------------
-      # We now calculate the effect of predictor 1 under absence (or lowest
-      # impact) of predictor 2 on the dependent variable. Thus, the slope for
-      # predictor 2 is not calculated. see
-      # http://www.theanalysisfactor.com/interpreting-interactions-in-regression/
-      # http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/
-      # ------------------------------
-      # miny = (b0 + (b1*pr) + (b2*ymin) + (b3*pr*ymin))
-      miny <- (b0 + (b1 * pred1uniquevals) + (b3 * pred1uniquevals * ymin))
-      # ------------------------------
-      # here we calculate the effect of predictor 1 under presence (or strongest
-      # impact) of predictor 2 on the dependent variable. Thus, the slope for
-      # predictor 2 only is not needed. see references above
-      # ------------------------------
-      # maxy = (b0 + (b1*pr) + (b2*ymax) + (b3*pr*ymax))
-      maxy <- (b0 + (b1 * pred1uniquevals) + (b3 * pred1uniquevals * ymax))
-      # store in df
-      tmp <- as.data.frame(cbind(x = pred1uniquevals, 
-                                 y = miny, 
-                                 ymin = miny, 
-                                 ymax = maxy, 
-                                 grp = "min"))
-      intdf <- as.data.frame(rbind(intdf, tmp))
-      # store in df
-      tmp <- as.data.frame(cbind(x = pred1uniquevals, 
-                                 y = maxy, 
-                                 ymin = miny, 
-                                 ymax = maxy, 
-                                 grp = "max"))
-      intdf <- as.data.frame(rbind(intdf, tmp))
-      # store in df
-      if (moderatorValues == "meansd" || moderatorValues == "quart") {
-        # ------------------------------
-        # here we calculate the effect of predictor 1 under presence
-        # of mean of predictor 2 on the dependent variable. Thus, the slope for
-        # predictor 2 only is not needed. see references above
-        # ------------------------------
-        mittelwert <- (b0 + (b1 * pred1uniquevals) + (b3 * pred1uniquevals * mw))
-        tmp <- as.data.frame(cbind(x = pred1uniquevals, 
-                                   y = mittelwert, 
-                                   ymin = miny, 
-                                   ymax = maxy, 
-                                   grp = "mean"))
-        intdf <- as.data.frame(rbind(intdf, tmp))
-      }
+      pred.value <- pred1uniquevals
+      mod.value <- pred2uniquevals
     } else {
       labx <- c(interactionterms[[1]][2])
       predy <- c(interactionterms[[1]][1])
       # -----------------------------------------------------------
-      # Check whether moderator value has enough unique values
-      # for quartiles
+      # define predictor and moderator values
       # -----------------------------------------------------------
-      moderatorValues <- mv_check(moderatorValues, pred1uniquevals)
-      # -----------------------------------------------------------
-      # check which values of moderator should be plotted, i.e. if
-      # lower/upper bound (min-max) or mean and standard-deviation
-      # should be used as valus for the moderator.
-      # see http://www.theanalysisfactor.com/3-tips-interpreting-moderation/
-      # -----------------------------------------------------------
-      if (moderatorValues == "minmax") {
-        mw <- NA
-        ymin <- min(pred1uniquevals, na.rm = T)
-        ymax <- max(pred1uniquevals, na.rm = T)
-      } else if (moderatorValues == "meansd") {
-        mw <- mean(pred1uniquevals, na.rm = T)
-        ymin <- mw - sd(pred1uniquevals, na.rm = T)
-        ymax <- mw + sd(pred1uniquevals, na.rm = T)
-      } else if (moderatorValues == "zeromax") {
-        mw <- NA
-        ymin <- 0
-        ymax <- max(pred1uniquevals, na.rm = T)
-      } else if (moderatorValues == "quart") {
-        qu <- as.vector(quantile(pred1uniquevals, na.rm = T))
-        mw <- qu[3]
-        ymin <- qu[2]
-        ymax <- qu[4]
-      }
-      # intercept of predictor's reference category
-      est_b <- b1 + b0
-      # -----------------------------------------------------------
-      # Create data frame for plotting the interactions by
-      # manually calculating the linear regression by inserting
-      # the estimates of each term and the associated interaction term,
-      # i.e.: y = b0 + (b1 * pred1) + (b2 * pred2) + (b3 * pred1 * pred2)
-      # -----------------------------------------------------------
-      # We now calculate the effect of predictor 2 under absence (or lowest
-      # impact) of predictor 1 on the dependent variable. Thus, the slope for
-      # predictor 1 is not calculated. see
-      # http://www.theanalysisfactor.com/interpreting-interactions-in-regression/
-      # http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/
+      pred.value <- pred2uniquevals
+      mod.value <- pred1uniquevals
+    }
+    # -----------------------------------------------------------
+    # Check whether moderator value has enough unique values
+    # for quartiles
+    # -----------------------------------------------------------
+    moderatorValues <- mv_check(moderatorValues, mod.value)
+    # -----------------------------------------------------------
+    # check which values of moderator should be plotted, i.e. if
+    # lower/upper bound (min-max) or mean and standard-deviation
+    # should be used as valus for the moderator.
+    # see http://www.theanalysisfactor.com/3-tips-interpreting-moderation/
+    # -----------------------------------------------------------
+    if (moderatorValues == "minmax") {
+      mw <- NA
+      ymin <- min(mod.value, na.rm = T)
+      ymax <- max(mod.value, na.rm = T)
+    } else if (moderatorValues == "meansd") {
+      mw <- mean(mod.value, na.rm = T)
+      ymin <- mw - sd(mod.value, na.rm = T)
+      ymax <- mw + sd(mod.value, na.rm = T)
+    } else if (moderatorValues == "zeromax") {
+      mw <- NA
+      ymin <- 0
+      ymax <- max(mod.value, na.rm = T)
+    } else if (moderatorValues == "quart") {
+      qu <- as.vector(quantile(mod.value, na.rm = T))
+      mw <- qu[3]
+      ymin <- qu[2]
+      ymax <- qu[4]
+    }
+    # intercept of predictor's reference category
+    est_b <- b2 + b0
+    # -----------------------------------------------------------
+    # Create data frame for plotting the interactions by
+    # manually calculating the linear regression by inserting
+    # the estimates of each term and the associated interaction term,
+    # i.e.: y = b0 + (b1 * pred1) + (b2 * pred2) + (b3 * pred1 * pred2)
+    # -----------------------------------------------------------
+    # We now calculate the effect of predictor 1 under absence (or lowest
+    # impact) of predictor 2 on the dependent variable. Thus, the slope for
+    # predictor 2 is not calculated. see
+    # http://www.theanalysisfactor.com/interpreting-interactions-in-regression/
+    # http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/
+    # ------------------------------
+    # miny = (b0 + (b1*pr) + (b2*ymin) + (b3*pr*ymin))
+    miny <- (b0 + (b1 * pred.value) + (b3 * pred.value * ymin))
+    # ------------------------------
+    # here we calculate the effect of predictor 1 under presence (or strongest
+    # impact) of predictor 2 on the dependent variable. Thus, the slope for
+    # predictor 2 only is not needed. see references above
+    # ------------------------------
+    # maxy = (b0 + (b1*pr) + (b2*ymax) + (b3*pr*ymax))
+    maxy <- (b0 + (b1 * pred.value) + (b3 * pred.value * ymax))
+    # store in df
+    tmp <- as.data.frame(cbind(x = pred.value, 
+                               y = miny, 
+                               ymin = miny, 
+                               ymax = maxy, 
+                               grp = "min"))
+    intdf <- as.data.frame(rbind(intdf, tmp))
+    # store in df
+    tmp <- as.data.frame(cbind(x = pred.value, 
+                               y = maxy, 
+                               ymin = miny, 
+                               ymax = maxy, 
+                               grp = "max"))
+    intdf <- as.data.frame(rbind(intdf, tmp))
+    # store in df
+    if (moderatorValues == "meansd" || moderatorValues == "quart") {
       # ------------------------------
-      # miny = (b0 + (b1*ymin) + (b2*pr) + (b3*pr*ymin))
-      miny <- (b0 + (b2 * pred2uniquevals) + (b3 * pred2uniquevals * ymin))
+      # here we calculate the effect of predictor 1 under presence
+      # of mean of predictor 2 on the dependent variable. Thus, the slope for
+      # predictor 2 only is not needed. see references above
       # ------------------------------
-      # here we calculate the effect of predictor 2 under presence (or strongest
-      # impact) of predictor 1 on the dependent variable. Thus, the slope for
-      # predictor 1 only is not needed. see references above
-      # ------------------------------
-      # maxy = (b0 + (b1*ymax) + (b2*pr) + (b3*pr*ymax))
-      maxy <- (b0 + (b2 * pred2uniquevals) + (b3 * pred2uniquevals * ymax))
-      # store in df
-      tmp <- as.data.frame(cbind(x = pred2uniquevals, 
-                                 y = miny, 
+      mittelwert <- (b0 + (b1 * pred.value) + (b3 * pred.value * mw))
+      tmp <- as.data.frame(cbind(x = pred.value, 
+                                 y = mittelwert, 
                                  ymin = miny, 
                                  ymax = maxy, 
-                                 grp = "min"))
+                                 grp = "mean"))
       intdf <- as.data.frame(rbind(intdf, tmp))
-      # store in df
-      tmp <- as.data.frame(cbind(x = pred2uniquevals, 
-                                 y = maxy, 
-                                 ymin = miny, 
-                                 ymax = maxy, 
-                                 grp = "max"))
-      intdf <- as.data.frame(rbind(intdf, tmp))
-      # store in df
-      if (moderatorValues == "meansd" || moderatorValues == "quart") {
-        # ------------------------------
-        # here we calculate the effect of predictor 2 under presence
-        # of mean of predictor 1 on the dependent variable. Thus, the slope for
-        # predictor 1 only is not needed. see references above
-        # ------------------------------
-        mittelwert <- (b0 + (b2 * pred2uniquevals) + (b3 * pred2uniquevals * mw))
-        tmp <- as.data.frame(cbind(x = pred2uniquevals, 
-                                   y = mittelwert, 
-                                   ymin = miny, 
-                                   ymax = maxy, 
-                                   grp = "mean"))
-        intdf <- as.data.frame(rbind(intdf, tmp))
-      }
     }
     # -----------------------------------------------------------
     # convert df-values to numeric
@@ -1177,7 +1106,7 @@ sjp.eff.int <- function(fit,
   int <- unlist(lapply(eff, function(x) grep("*", x['term'], fixed = T)))
   if (length(int) == 0) {
     warning("No interaction term found in fitted model...", call. = FALSE)
-    return (NULL)
+    return (invisible (NULL))
   }
   # ------------------------
   # retrieve position of interaction terms in effects-object
