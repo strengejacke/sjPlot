@@ -12,7 +12,7 @@ test_that("Check plot frq", {
           geom.colors = "#0088ff",
           axisLabels.x = get_val_labels(efc$e15relat))
 
-  # sjp.frq(efc$e17age, interactionVar = efc$c161sex)
+  sjp.frq(efc$e17age, interactionVar = efc$c161sex)
           
   sjp.frq(efc$e17age, 
           interactionVar = efc$c161sex,

@@ -54,6 +54,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * Parameter `moderatorValues` in `sjp.int` has two new options `zeromax` and `quart` for chosing the moderator values.
 
 #### Changes to other functions
+* Linear mixed model methods (`sjp.int`, `sjp.lmer`) can now cope with `modMerLmerTest` objects (fitted with `lmerTest`-package).
 * `sjp.lmer` now calculates approximate p-values based on Wald chi-squared tests.
 * `sjp.glm` now supports plotting `logistf` objects.
 * `sjp.glmm` and `sjp.lmm` now also accept a list of fitted models (see examples in `?sjp.glmm` and `?sjp.lmm`).
