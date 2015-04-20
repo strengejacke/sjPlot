@@ -31,7 +31,7 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of current official release 1.7-15
+### Changelog of current official release 1.7-16
 
 #### General
 * _Utility, recode and statistical test functions have been moved to another package called [sjmisc](https://github.com/sjPlot/sjmisc)!_

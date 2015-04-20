@@ -114,6 +114,7 @@ sjp.emm <- function(fit,
                     breakLegendLabelsAt=20,
                     axisLimits.y=NULL,
                     gridBreaksAt=NULL,
+                    facet.grid = FALSE,
                     printPlot=TRUE) {
   # ------------------------
   # check if suggested packages are available
@@ -131,7 +132,8 @@ sjp.emm <- function(fit,
     return (sjp.emm.lmer(fit, swapPredictors, plevel, title, geom.colors,
                          axisTitle.x, axisTitle.y, axisLabels.x, legendLabels,
                          showValueLabels, valueLabel.digits, showCI, breakTitleAt,
-                         breakLegendLabelsAt, axisLimits.y, gridBreaksAt, printPlot))
+                         breakLegendLabelsAt, axisLimits.y, gridBreaksAt, 
+                         facet.grid, printPlot))
   }
   # init vector that saves ggplot objects
   plotlist <- list()
@@ -378,6 +380,10 @@ sjp.emm <- function(fit,
       # set axis scale breaks
       scale_y_continuous(limits = c(lowerLim.y, upperLim.y), breaks = gridbreaks.y)
     # ---------------------------------------------------------
+    # facet grid?
+    # ---------------------------------------------------------
+    if (facet.grid) baseplot <- baseplot + facet_grid( ~ grp)    
+    # ---------------------------------------------------------
     # set geom colors
     # ---------------------------------------------------------
     baseplot <- sj.setGeomColors(baseplot, geom.colors, length(lLabels), TRUE, lLabels) + guides(fill = FALSE)
@@ -401,7 +407,7 @@ sjp.emm <- function(fit,
 sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, axisTitle.x,
                          axisTitle.y, axisLabels.x, legendLabels, showValueLabels,
                          valueLabel.digits, showCI, breakTitleAt, breakLegendLabelsAt,
-                         axisLimits.y, gridBreaksAt, printPlot) {
+                         axisLimits.y, gridBreaksAt, facet.grid, printPlot) {
   if ((any(class(fit) == "lmerMod") || any(class(fit) == "merModLmerTest")) && !requireNamespace("lmerTest", quietly = TRUE)) {
     stop("Package 'lmerTest' needed for this function to work. Please install it.", call. = FALSE)
   }
@@ -445,14 +451,9 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, axisTi
   # find first interaction terms
   pos <- grep(":", cf)
   # get all p-values
-  if (ncol(fit.coef) > 4) {
-    pval <- fit.coef[pos[1]:nrow(fit.coef), 5]
-    # get significant interactions
-    intnames <- cf[pos[which(pval < plevel)]]
-  } else {
-    pval <- NULL
-    intnames <- cf[pos[1]:nrow(fit.coef)]
-  }
+  pval <- get_lmerMod_pvalues(fit)[pos]
+  # get significant interactions
+  intnames <- cf[pos[which(pval < plevel)]]
   # check for any signigicant interactions, stop if nothing found
   if (is.null(intnames) || 0 == length(intnames)) {
     warning("No significant interactions found...", call. = FALSE)
@@ -637,6 +638,10 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, axisTi
            colour = term.pairs[1]) +
       # set axis scale breaks
       scale_y_continuous(limits = c(lowerLim.y, upperLim.y), breaks = gridbreaks.y)
+    # ---------------------------------------------------------
+    # facet grid?
+    # ---------------------------------------------------------
+    if (facet.grid) baseplot <- baseplot + facet_grid( ~ grp)    
     # ---------------------------------------------------------
     # set geom colors
     # ---------------------------------------------------------

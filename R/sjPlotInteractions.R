@@ -431,7 +431,7 @@ sjp.int <- function(fit,
                     axisTitle.x, axisTitle.y, axisLabels.x, legendTitle, legendLabels,
                     showValueLabels, valueLabel.digits, showCI, breakTitleAt,
                     breakLegendTitleAt, breakLegendLabelsAt, axisLimits.y, 
-                    gridBreaksAt, printPlot))
+                    gridBreaksAt, facet.grid, printPlot))
   }
   # --------------------------------------------------------
   # list labels
@@ -475,7 +475,7 @@ sjp.int <- function(fit,
   # -----------------------------------------------------------
   # prepare values for (generalized) linear models
   # -----------------------------------------------------------
-  if (fun == "lm" || fun == "glm" || fun == "plm") {
+  if (fun == "lm" || fun == "glm" || fun == "plm" || fun == "lme" || fun == "gls") {
     # -----------------------------------------------------------
     # retrieve amount and names of predictor variables and
     # of dependent variable
@@ -484,9 +484,13 @@ sjp.int <- function(fit,
       # plm objects have different structure than (g)lm
       predvars <- attr(attr(attr(fit$model, "terms"), "dataClasses"), "names")[-1]
       depvar.label <- attr(attr(attr(fit$model, "terms"), "dataClasses"), "names")[1]
+      # retrieve model matrix
+      fitdat <- data.frame(cbind(as.vector(fit$model[, 1]), model.matrix(fit)))
     } else {
       predvars <- attr(attr(fit$terms, "dataClasses"), "names")[-1]
       depvar.label <- attr(attr(fit$terms, "dataClasses"), "names")[1]
+      # retrieve model matrix
+      fitdat <- data.frame(model.matrix(fit))
     }
     # remember length of predictor variables
     predvars.length <- length(predvars)
@@ -531,52 +535,9 @@ sjp.int <- function(fit,
     estimates <- unname(lme4::fixef(fit)[-1])
     estimates.names <- names(lme4::fixef(fit)[-1])
     # -----------------------------------------------------------
-    # copy variable values to data frame
+    # retrieve model matrix with all relevant predictors
     # -----------------------------------------------------------
-    fitdat <- fit@frame
-    # -----------------------------------------------------------
-    # extract factors, to check whether factor levels are included
-    # as interaction terms. interaction terms with factors are labelled
-    # with additional factor levels (e.g. "sex" will be "sex2:age").
-    # However, since merMod objects don't return the model matrix,
-    # the data frame's variable names do not equal the term names.
-    # in order to find the original values of interaction terms in
-    # the data frame, we need to "rename" the terms into the related
-    # variable names in the data frame
-    # -----------------------------------------------------------
-    fac.names <- c()
-    # find factor variables
-    for (i in 1:ncol(fitdat)) {
-      if (is.factor(fitdat[, i])) fac.names <- c(fac.names, colnames(fitdat)[i])
-    }
-    # if we found any, check if factor variable
-    # was used as interaction term
-    if (!is.null(fac.names)) {
-      for (i in 1:length(fac.names)) {
-        # retrieve all factor levels except reference category
-        fac.lvl <- levels(fitdat[, fac.names[i]])[-1]
-        # iterate interaction term for all factor levels,
-        # and replace with "original variable name in data frame
-        for (j in 1:length(fac.lvl)) {
-          # -----------------------------------------------
-          # the following code "converts" a factor 
-          # into a 0/1 dummy coded variable, so each factor
-          # level is present as 0/1 coded dummy
-          # ----------------------------------------------
-          # create new dummy variable
-          fitdat$sj__new__est <- 0
-          # set all factor levels to 1
-          fitdat$sj__new__est[which(fitdat[, fac.names[i]] == levels(fitdat[, fac.names[i]])[j])] <- 1
-          # rename intro "proper" name
-          colnames(fitdat)[ncol(fitdat)] <- paste0(fac.names[i], fac.lvl[j])
-          # create replacement-strings
-          # rep1 <- paste0(fac.names[i], fac.lvl[j])
-          # rep2 <- paste0(fac.names[i])
-          # replace in all
-          # estimates.names <- gsub(rep1, rep2, estimates.names, fixed = TRUE)
-        }
-      }
-    }
+    fitdat <- model.matrix(fit)
     # -----------------------------------------------------------
     # need to remove "I(...)"?
     # -----------------------------------------------------------
@@ -612,21 +573,6 @@ sjp.int <- function(fit,
     warning("No significant interactions found...", call. = FALSE)
     return (invisible (NULL))
   }
-  # -----------------------------------------------------------
-  # check whether parameter X=TRUE was set when fitting the linear
-  # model. if not, we cannot procede here. not needed for
-  # merMod objects, see above
-  # -----------------------------------------------------------
-  if (fun == "lm" || fun == "glm" || fun == "plm") {
-    # -----------------------------------------------------------
-    # copy variable values to data frame
-    # -----------------------------------------------------------
-    if (fun == "plm") {
-      fitdat <- as.data.frame(cbind(as.vector(fit$model[, 1]), model.matrix(fit)))
-    } else {
-      fitdat <- as.data.frame(model.matrix(fit))
-    }
-  }
   # init vector that saves ggplot objects
   plotlist <- list()
   dflist <- list()
@@ -650,7 +596,7 @@ sjp.int <- function(fit,
     # first, retrieve and split interaction term so we know
     # the two predictor variables of the interaction term
     # -----------------------------------------------------------
-    interactionterms <- strsplit(intnames[cnt], ":")
+    interactionterms <- unlist(strsplit(intnames[cnt], ":"))
     labx <- c()
     # Label on y-axis is name of dependent variable
     laby <- paste0("Change in ", depvar.label)
@@ -658,8 +604,8 @@ sjp.int <- function(fit,
     # find estimates (beta values) for each single predictor of
     # the interaction as well as of the interaction term
     # -----------------------------------------------------------
-    b1 <- as.numeric(estimates[match(interactionterms[[1]][1], estimates.names)])
-    b2 <- as.numeric(estimates[match(interactionterms[[1]][2], estimates.names)])
+    b1 <- as.numeric(estimates[match(interactionterms[1], estimates.names)])
+    b2 <- as.numeric(estimates[match(interactionterms[2], estimates.names)])
     b3 <- as.numeric(estimates[match(intnames[cnt], estimates.names)])
     # -----------------------------------------------------------
     # check whether each predictor was included in the model
@@ -675,12 +621,12 @@ sjp.int <- function(fit,
     # number of unique values on the x-axis.
     # -----------------------------------------------------------
     # retrieve values as data frame
-    df_pred1uniquevals <- unique(na.omit(fitdat[interactionterms[[1]][1]]))
-    df_pred2uniquevals <- unique(na.omit(fitdat[interactionterms[[1]][2]]))
+    df_pred1uniquevals <- unique(na.omit(fitdat[, interactionterms[1]]))
+    df_pred2uniquevals <- unique(na.omit(fitdat[, interactionterms[2]]))
     # convert data frame to numeric vector
     pred1uniquevals <- pred2uniquevals <- as.numeric(c())
-    pred1uniquevals <- sort(as.numeric(c(apply(df_pred1uniquevals, 1, as.numeric))))
-    pred2uniquevals <- sort(as.numeric(c(apply(df_pred2uniquevals, 1, as.numeric))))
+    pred1uniquevals <- sort(as.numeric(sapply(df_pred1uniquevals, as.numeric)))
+    pred2uniquevals <- sort(as.numeric(sapply(df_pred2uniquevals, as.numeric)))
     # init data frame
     intdf <- c()
     # -----------------------------------------------------------
@@ -698,21 +644,29 @@ sjp.int <- function(fit,
     # calculate regression line
     # -----------------------------------------------------------
     if (useFirstPredOnY) {
-      labx <- c(interactionterms[[1]][1])
-      predy <- c(interactionterms[[1]][2])
+      labx <- interactionterms[1]
+      predy <- interactionterms[2]
       # -----------------------------------------------------------
       # define predictor and moderator values
       # -----------------------------------------------------------
       pred.value <- pred1uniquevals
       mod.value <- pred2uniquevals
+      # -----------------------------------------------------------
+      # define predictor beta
+      # -----------------------------------------------------------
+      b.pred <- b1
     } else {
-      labx <- c(interactionterms[[1]][2])
-      predy <- c(interactionterms[[1]][1])
+      labx <- interactionterms[2]
+      predy <- interactionterms[1]
       # -----------------------------------------------------------
       # define predictor and moderator values
       # -----------------------------------------------------------
       pred.value <- pred2uniquevals
       mod.value <- pred1uniquevals
+      # -----------------------------------------------------------
+      # define predictor beta
+      # -----------------------------------------------------------
+      b.pred <- b2
     }
     # -----------------------------------------------------------
     # Check whether moderator value has enough unique values
@@ -751,21 +705,19 @@ sjp.int <- function(fit,
     # the estimates of each term and the associated interaction term,
     # i.e.: y = b0 + (b1 * pred1) + (b2 * pred2) + (b3 * pred1 * pred2)
     # -----------------------------------------------------------
-    # We now calculate the effect of predictor 1 under absence (or lowest
-    # impact) of predictor 2 on the dependent variable. Thus, the slope for
-    # predictor 2 is not calculated. see
+    # We now calculate the conditional effect of predictor 1 under absence 
+    # (or lowest impact) of predictor 2 on the dependent variable. Thus, 
+    # the slope for predictor 2 is not calculated. see
     # http://www.theanalysisfactor.com/interpreting-interactions-in-regression/
     # http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/
     # ------------------------------
-    # miny = (b0 + (b1*pr) + (b2*ymin) + (b3*pr*ymin))
-    miny <- (b0 + (b1 * pred.value) + (b3 * pred.value * ymin))
+    miny <- (b0 + (b.pred * pred.value) + (b3 * pred.value * ymin))
     # ------------------------------
-    # here we calculate the effect of predictor 1 under presence (or strongest
-    # impact) of predictor 2 on the dependent variable. Thus, the slope for
-    # predictor 2 only is not needed. see references above
+    # here we calculate the conditional effect of predictor 1 under presence
+    # (or strongest impact) of predictor 2 on the dependent variable. Thus, 
+    # the slope for predictor 2 only is not needed. see references above
     # ------------------------------
-    # maxy = (b0 + (b1*pr) + (b2*ymax) + (b3*pr*ymax))
-    maxy <- (b0 + (b1 * pred.value) + (b3 * pred.value * ymax))
+    maxy <- (b0 + (b.pred * pred.value) + (b3 * pred.value * ymax))
     # store in df
     tmp <- as.data.frame(cbind(x = pred.value, 
                                y = miny, 
@@ -787,7 +739,7 @@ sjp.int <- function(fit,
       # of mean of predictor 2 on the dependent variable. Thus, the slope for
       # predictor 2 only is not needed. see references above
       # ------------------------------
-      mittelwert <- (b0 + (b1 * pred.value) + (b3 * pred.value * mw))
+      mittelwert <- (b0 + (b.pred * pred.value) + (b3 * pred.value * mw))
       tmp <- as.data.frame(cbind(x = pred.value, 
                                  y = mittelwert, 
                                  ymin = miny, 
@@ -867,9 +819,9 @@ sjp.int <- function(fit,
     # -----------------------------------------------------------
     if (is.null(title)) {
       labtitle <- paste0("Conditional effect of ",
-                         interactionterms[[1]][ifelse(useFirstPredOnY == TRUE, 1, 2)],
+                         interactionterms[ifelse(useFirstPredOnY == TRUE, 1, 2)],
                          " (by ",
-                         interactionterms[[1]][ifelse(useFirstPredOnY == TRUE, 2, 1)],
+                         interactionterms[ifelse(useFirstPredOnY == TRUE, 2, 1)],
                          ") on ", depvar.label)
     } else {
       # copy plot counter 

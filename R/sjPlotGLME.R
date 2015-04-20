@@ -1563,7 +1563,7 @@ get_lmerMod_pvalues <- function(fitmod) {
     pia <- suppressMessages(car::Anova(fitmod, type = "III"))
     # factors may have multiple levels, however, p-value 
     # is not calculated for each factor level. Drop these p-values.
-    pia$`Pr(>Chisq)`[which(pia$Df > 1)] <- NA
+    # pia$`Pr(>Chisq)`[which(pia$Df > 1)] <- NA
     pv <- c()
     # to get matching rows between model coefficient and p-values
     # calculated by anova, we "repeat" rows of factors - these factors
