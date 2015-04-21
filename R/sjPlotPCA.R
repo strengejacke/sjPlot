@@ -31,8 +31,9 @@
 #' @param axisLabels.y The item labels that are printed on the y-axis. If no item labels are
 #'          provided (default), the data frame's column names are used. Item labels must
 #'          be a string vector, e.g.: \code{axisLabels.y = c("Var 1", "Var 2", "Var 3")}.
-#' @param type Indicates whether \code{"circle"} (default) or \code{"tile"} geoms
-#'          should be used for plotting.
+#' @param type Plot type resp. geom type. May be one of following: \code{"circle"} or \code{"tile"} 
+#'          circular or tiled geoms, or \code{"bar"} for a bar plot. You may use initial letter only
+#'          for this parameter.
 #' @param geom.colors A color palette for fillng the geoms. If not specified, the diverging \code{"RdBl"} color palette
 #'          from the color brewer palettes is used, resulting in red colors for negative and blue colors
 #'          for positive factor loadings, that become lighter the weaker the loadings are. Use any
@@ -96,7 +97,10 @@
 #' colnames(likert_4) <- c("V1", "V2", "V3", "V4", "V5", "V6", "V7")
 #' 
 #' # plot results from PCA as square-tiled "heatmap"
-#' sjp.pca(likert_4)
+#' sjp.pca(likert_4, type = "tile")
+#' 
+#' # plot results from PCA as bars
+#' sjp.pca(likert_4, type = "bar")
 #' 
 #' # manually compute PCA
 #' pca <- prcomp(na.omit(likert_4), 
@@ -105,7 +109,10 @@
 #'               scale. = TRUE)
 #' # plot results from PCA as circles, including Eigenvalue-diagnostic.
 #' # note that this plot does not compute the Cronbach's Alpha
-#' sjp.pca(pca, plotEigenvalues = TRUE, type = "circle")
+#' sjp.pca(pca, 
+#'         plotEigenvalues = TRUE, 
+#'         type = "circle",
+#'         geom.size = 10)
 #' 
 #' 
 #' # -------------------------------
@@ -127,12 +134,13 @@
 #' colnames(mydf) <- varlabs[c(start:end)]
 #' 
 #' sjp.pca(mydf)
+#' sjp.pca(mydf, type = "tile")
 #' 
 #' # -------------------------------
 #' # auto-detection of labels
 #' # -------------------------------
 #' efc <- set_var_labels(efc, varlabs)
-#' sjp.pca(efc[, c(start:end)])
+#' sjp.pca(efc[, c(start:end)], type = "circle", geom.size = 10)
 #' 
 #' 
 #' @import ggplot2
@@ -146,14 +154,20 @@ sjp.pca <- function(data,
                     digits=2,
                     title=NULL,
                     axisLabels.y=NULL,
-                    type="tile",
-                    geom.size=10,
+                    type="b",
+                    geom.size=.6,
                     geom.colors="RdBu",                    
                     breakTitleAt=50, 
                     breakLabelsAt=20, 
                     showValueLabels=TRUE,
                     showCronbachsAlpha=TRUE,
                     printPlot=TRUE) {
+  # --------------------------------------------------------
+  # check parameters
+  # --------------------------------------------------------
+  if (type == "circles" || type == "circle") type <- "c"
+  if (type == "tiles" || type == "tile") type <- "t"
+  if (type == "bars" || type == "bar") type <- "b"
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
@@ -358,22 +372,33 @@ sjp.pca <- function(data,
   # --------------------------------------------------------
   # start with base plot object here
   # --------------------------------------------------------
-  heatmap <- ggplot(data = df, aes(x = xpos, y = ypos, fill = value))
+  if (type == "b") {
+    heatmap <- ggplot(df, aes(x = rev(factor(ypos)), 
+                              y = abs(value), 
+                              fill = value))
+  } else {
+    heatmap <- ggplot(data = df, aes(x = xpos, 
+                                     y = ypos, 
+                                     fill = value))
+  }
   # --------------------------------------------------------
   # determine the geom type, either points when "type" is "circles"
   # --------------------------------------------------------
-  if (type == "circle") {
+  if (type == "c") {
     geo <- geom_point(shape = 21, size = df$psize)
-  # --------------------------------------------------------
-  # or boxes / tiles when "type" is "tile"
-  # --------------------------------------------------------
-  } else {
+  } else if (type == "t") {
+    # ----------------------------------------
+    # or boxes / tiles when "type" is "tile"
+    # ----------------------------------------
     geo <- geom_tile()
+  } else {
+    # ----------
+    # or bars
+    # ----------
+    geo <- geom_bar(stat = "identity", width = geom.size)
   }
   heatmap <- heatmap +
     geo +
-    scale_y_reverse(breaks = c(seq(1, length(axisLabels.y), by = 1)), 
-                    labels = axisLabels.y) +
     # --------------------------------------------------------
     # fill gradient colour from distinct color brewer palette. 
     # negative correlations are dark red, positive corr. are dark blue, 
@@ -381,20 +406,34 @@ sjp.pca <- function(data,
     # coefficient of zero
     # --------------------------------------------------------
     scale_fill_gradientn(colours = geom.colors, limits = c(-1, 1)) +
-    geom_text(label = valueLabels) +
     labs(title = title, x = NULL, y = NULL, fill = NULL) +
     guides(fill = FALSE)
   # --------------------------------------------------------
-  # show cronbach's alpha value for each scale 
+  # facet bars, and flip coordinates
   # --------------------------------------------------------
-  if (showCronbachsAlpha) {
-    heatmap <- heatmap +
-      annotate("text", 
-               x = alphaValues$nr, 
-               y = Inf, 
-               parse = TRUE, 
-               label = sprintf("alpha == %.*f", digits, alphaValues$alpha), 
-               vjust = -0.5)
+  if (type == "b") {
+    heatmap <- heatmap + 
+      scale_x_discrete(labels = axisLabels.y) +
+      scale_y_continuous(limits = c(0, 1)) +
+      facet_grid(~ xpos) +
+      coord_flip()
+  } else {
+    heatmap <- heatmap + 
+      geom_text(label = valueLabels) +
+      scale_y_reverse(breaks = c(seq(1, length(axisLabels.y), by = 1)), 
+                      labels = axisLabels.y)
+    # --------------------------------------------------------
+    # show cronbach's alpha value for each scale 
+    # --------------------------------------------------------
+    if (showCronbachsAlpha) {
+      heatmap <- heatmap +
+        annotate("text", 
+                 x = alphaValues$nr, 
+                 y = Inf, 
+                 parse = TRUE, 
+                 label = sprintf("alpha == %.*f", digits, alphaValues$alpha), 
+                 vjust = -0.5)
+    }
   }
   # --------------------------------------------------------
   # print plot

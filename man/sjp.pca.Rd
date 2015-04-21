@@ -6,7 +6,7 @@
 \usage{
 sjp.pca(data, numberOfFactors = NULL, factorLoadingTolerance = 0.1,
   plotEigenvalues = FALSE, digits = 2, title = NULL,
-  axisLabels.y = NULL, type = "tile", geom.size = 10,
+  axisLabels.y = NULL, type = "b", geom.size = 0.6,
   geom.colors = "RdBu", breakTitleAt = 50, breakLabelsAt = 20,
   showValueLabels = TRUE, showCronbachsAlpha = TRUE, printPlot = TRUE)
 }
@@ -36,8 +36,9 @@ Kaiser criteria is plotted to determine the number of factors.}
 provided (default), the data frame's column names are used. Item labels must
 be a string vector, e.g.: \code{axisLabels.y = c("Var 1", "Var 2", "Var 3")}.}
 
-\item{type}{Indicates whether \code{"circle"} (default) or \code{"tile"} geoms
-should be used for plotting.}
+\item{type}{Plot type resp. geom type. May be one of following: \code{"circle"} or \code{"tile"}
+circular or tiled geoms, or \code{"bar"} for a bar plot. You may use initial letter only
+for this parameter.}
 
 \item{geom.size}{Specifies the circle size factor. The circle size depends on the correlation
 value multiplicated with this factor. Default is 10.}
@@ -119,7 +120,10 @@ likert_4 <- data.frame(sample(1:4,
 colnames(likert_4) <- c("V1", "V2", "V3", "V4", "V5", "V6", "V7")
 
 # plot results from PCA as square-tiled "heatmap"
-sjp.pca(likert_4)
+sjp.pca(likert_4, type = "tile")
+
+# plot results from PCA as bars
+sjp.pca(likert_4, type = "bar")
 
 # manually compute PCA
 pca <- prcomp(na.omit(likert_4),
@@ -128,7 +132,10 @@ pca <- prcomp(na.omit(likert_4),
               scale. = TRUE)
 # plot results from PCA as circles, including Eigenvalue-diagnostic.
 # note that this plot does not compute the Cronbach's Alpha
-sjp.pca(pca, plotEigenvalues = TRUE, type = "circle")
+sjp.pca(pca,
+        plotEigenvalues = TRUE,
+        type = "circle",
+        geom.size = 10)
 
 
 # -------------------------------
@@ -150,12 +157,13 @@ mydf <- as.data.frame(efc[, c(start:end)])
 colnames(mydf) <- varlabs[c(start:end)]
 
 sjp.pca(mydf)
+sjp.pca(mydf, type = "tile")
 
 # -------------------------------
 # auto-detection of labels
 # -------------------------------
 efc <- set_var_labels(efc, varlabs)
-sjp.pca(efc[, c(start:end)])
+sjp.pca(efc[, c(start:end)], type = "circle", geom.size = 10)
 }
 \seealso{
 \itemize{

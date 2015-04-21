@@ -4,11 +4,12 @@
 \alias{sjp.glmer}
 \title{Plot odds ratios (forest plots) of generalized linear mixed effects models}
 \usage{
-sjp.glmer(fit, type = "re", vars = NULL, ri.nr = 1, title = NULL,
-  geom.size = 3, geom.colors = "Set1", hideErrorBars = FALSE,
-  showIntercept = TRUE, stringIntercept = "(Intercept)", sort.coef = NULL,
-  pred.labels = NULL, axisTitle.x = NULL, axisTitle.y = NULL,
-  facet.grid = TRUE, free.scale = FALSE, interceptLineType = 2,
+sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL,
+  highlight.grp = NULL, title = NULL, geom.size = 3,
+  geom.colors = "Set1", hideErrorBars = FALSE, showIntercept = TRUE,
+  stringIntercept = "(Intercept)", sort.coef = NULL, pred.labels = NULL,
+  axisTitle.x = NULL, axisTitle.y = NULL, facet.grid = TRUE,
+  free.scale = FALSE, interceptLineType = 2,
   interceptLineColor = "grey70", showValueLabels = TRUE, labelDigits = 2,
   showPValueLabels = TRUE, fade.ns = FALSE, show.se = FALSE,
   printPlot = TRUE)
@@ -32,10 +33,16 @@ curves. This parameter only applies if \code{type} is either \code{"fe.pc"} (res
 or \code{"ri.pc"} (resp. \code{"ri.prob"}). In this case, only probability curves (predicted probabilities) for the selected
 variables specified in \code{"vars"} will be plotted.}
 
-\item{ri.nr}{Numeric value. If \code{type = "re"} and fitted model has more than one random
+\item{ri.nr}{Numeric vector. If \code{type = "re"} or \code{type = "ri.pc"}, and fitted model has more than one random
 intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
-which list element of \code{lme4::ranef}) will be plotted. Default is \code{1},
-so the first (or only) random intercept will be plotted.}
+which list elements of \code{lme4::ranef}) will be plotted. Default is \code{NULL},
+so all random effects will be plotted.}
+
+\item{highlight.grp}{numeric vector with index numbers of grouping levels (from random effect).
+If \code{type = "ri.pc"} and \code{facet.grid = FALSE}, an integrated plot of predicted
+probabilities of all fixed coefficients for each grouping level is plotted. To better find
+certain groups, use this parameter to highlight these groups in the plot.
+See examples for details.}
 
 \item{title}{a character vector with one or more labels that are used as plot title. If
 \code{type = "re"}, use the predictors' variable labels as titles.}
@@ -192,6 +199,11 @@ sjp.glmer(fit,
 # in integrated plots
 sjp.glmer(fit,
           type = "ri.pc",
+          facet.grid = FALSE)
+
+sjp.glmer(fit,
+          type = "ri.pc",
+          highlight.grp = c(1, 4),
           facet.grid = FALSE)
 
 # plot probability curve (predicted probabilities)

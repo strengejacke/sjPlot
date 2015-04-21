@@ -4,14 +4,14 @@
 \alias{sjp.lmer}
 \title{Plot estimates (forest plots) of linear mixed effects models}
 \usage{
-sjp.lmer(fit, type = "re", vars = NULL, ri.nr = 1, title = NULL,
-  geom.size = 3, geom.colors = "Set1", hideErrorBars = FALSE,
-  showIntercept = TRUE, stringIntercept = "(Intercept)", sort.coef = NULL,
-  pred.labels = NULL, axisTitle.x = NULL, axisTitle.y = NULL,
-  interceptLineType = 2, interceptLineColor = "grey70",
-  showValueLabels = TRUE, labelDigits = 2, showPValueLabels = TRUE,
-  facet.grid = TRUE, free.scale = FALSE, fade.ns = FALSE,
-  printPlot = TRUE)
+sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL,
+  highlight.grp = NULL, title = NULL, geom.size = 3,
+  geom.colors = "Set1", hideErrorBars = FALSE, showIntercept = TRUE,
+  stringIntercept = "(Intercept)", sort.coef = NULL, pred.labels = NULL,
+  axisTitle.x = NULL, axisTitle.y = NULL, interceptLineType = 2,
+  interceptLineColor = "grey70", showValueLabels = TRUE, labelDigits = 2,
+  showPValueLabels = TRUE, facet.grid = TRUE, free.scale = FALSE,
+  fade.ns = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{a fitted \code{lmer} object.}
@@ -32,10 +32,16 @@ variable names of selected variables from the fitted model, which should be used
 fixed effects slopes for random intercept. This parameter only applies if \code{type = "fe.ri"}.
 In this case, only slopes for the selected variables specified in \code{"vars"} will be plotted.}
 
-\item{ri.nr}{Numeric value. If \code{type = "re"} and fitted model has more than one random
+\item{ri.nr}{Numeric vector. If \code{type = "re"} or \code{type = "fe.ri"}, and fitted model has more than one random
 intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
-which list element of \code{lme4::ranef}) will be plotted. Default is \code{1},
-so the first (or only) random intercept will be plotted.}
+which list elements of \code{lme4::ranef}) will be plotted. Default is \code{NULL},
+so all random effects will be plotted.}
+
+\item{highlight.grp}{numeric vector with index numbers of grouping levels (from random effect).
+If \code{type = "fe.ri"} and \code{facet.grid = FALSE}, an integrated plot of fixed
+effects slopes for each grouping level is plotted. To better find
+certain groups, use this parameter to highlight these groups in the plot.
+See examples for details.}
 
 \item{title}{a character vector with one or more labels that are used as plot title. If
 \code{type = "re"}, use the predictors' variable labels as titles.}
@@ -175,6 +181,14 @@ sjp.lmer(fit,
 # coefficient "c12hour"
 sjp.lmer(fit,
          type = "fe.ri",
+         vars = "c12hour")
+
+# highlight specific grouping levels
+# in this case we compare spouses, children
+# and children-in-law
+sjp.lmer(fit,
+         type = "fe.ri",
+         highlight.grp = c(1, 2, 4)
          vars = "c12hour")
 
 # plot fixed effects correlations

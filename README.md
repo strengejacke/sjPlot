@@ -31,7 +31,7 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of current official release 1.7-16
+### Changelog of current official release 1.7-17
 
 #### General
 * _Utility, recode and statistical test functions have been moved to another package called [sjmisc](https://github.com/sjPlot/sjmisc)!_
@@ -56,13 +56,16 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 #### Changes to other functions
 * Linear mixed model methods (`sjp.int`, `sjp.lmer`) can now cope with `modMerLmerTest` objects (fitted with `lmerTest`-package).
 * `sjp.lmer` now calculates approximate p-values based on Wald chi-squared tests.
+* `sjp.lmer` and `sjp.glmer` now plot all random effects (when `type = "re"`) by default, instead of only the first random effect. Furthermore, parameter `ri.nr` now may be a numeric vector (instead of single numeric value) with several random effect index numbers.
 * `sjp.glm` now supports plotting `logistf` objects.
 * `sjp.glmm` and `sjp.lmm` now also accept a list of fitted models (see examples in `?sjp.glmm` and `?sjp.lmm`).
 * `sjp.int` and `sjp.lm` now support `plm` objects (from plm-package).
 * Parameters `orderBy` and `reverseOrder` in `sjp.stackfrq` and `sjt.stackfrq` were merged into new parameter `sort.frq`.
 * Parameter `transformTicks` in `sjp.glm` and `sjp.glmm` now defaults to `TRUE`.
+* Added parameter `highlight.grp` to `sjp.lmer` and `sjp.glmer` to highiglight specific grouping levels when plot-type is either `fe.ri` or `ri.pc`.
 * Added parameter `labelDigits` to functions `sjp.likert` and `sjp.stackfrq`, so digits of value labels can be changed.
 * Added option `fe.pred` to `type`-parameter of `sjp.lmer` to plot slopes for each single fixed effect.
+* Added parameter `bar` to `sjp.pca` to plot loadings of principle components as bar charts.
 * Renamed parameters `y` and `x` in `sjp.xtab` into `var` and `grp`.
 * Added further pre-set themes to `sjp.setTheme`.
 * Minor improvements of `sjp.setTheme`.
