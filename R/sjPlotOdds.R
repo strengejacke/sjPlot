@@ -562,7 +562,7 @@ sjp.glm.pc <- function(fit,
       # find coef-position
       coef.pos <- which(coef.names == fit.fac.name)
       # calculate x-beta by multiplying original values with estimate of that term
-      mydf.vals$xbeta <- mydf.vals$values * (coef(fit)[coef.pos])
+      mydf.vals$xbeta <- mydf.vals$values * coef(fit)[coef.pos]
       # calculate probability (y) via cdf-function
       mydf.vals$y <- odds.to.prob(coef(fit)[1] + mydf.vals$xbeta)
       # assign group

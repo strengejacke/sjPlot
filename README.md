@@ -31,7 +31,7 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of current official release 1.7-17
+### Changelog of current official release 1.8
 
 #### General
 * _Utility, recode and statistical test functions have been moved to another package called [sjmisc](https://github.com/sjPlot/sjmisc)!_
@@ -62,7 +62,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * `sjp.int` and `sjp.lm` now support `plm` objects (from plm-package).
 * Parameters `orderBy` and `reverseOrder` in `sjp.stackfrq` and `sjt.stackfrq` were merged into new parameter `sort.frq`.
 * Parameter `transformTicks` in `sjp.glm` and `sjp.glmm` now defaults to `TRUE`.
-* Added parameter `highlight.grp` to `sjp.lmer` and `sjp.glmer` to highiglight specific grouping levels when plot-type is either `fe.ri` or `ri.pc`.
+* Added parameter `emph.grp` to `sjp.lmer` and `sjp.glmer` to emphasize specific grouping levels when plot-type is either `fe.ri` or `ri.pc`.
 * Added parameter `labelDigits` to functions `sjp.likert` and `sjp.stackfrq`, so digits of value labels can be changed.
 * Added option `fe.pred` to `type`-parameter of `sjp.lmer` to plot slopes for each single fixed effect.
 * Added parameter `bar` to `sjp.pca` to plot loadings of principle components as bar charts.

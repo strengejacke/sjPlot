@@ -72,9 +72,34 @@ test_that("sjp.glmer", {
   
   sjp.glmer(fit,
             type = "ri.pc",
-            highlight.grp = c(1, 4),
+            emph.grp = c(1, 4),
             facet.grid = FALSE)
   
+  sjp.glmer(fit,
+            type = "ri.pc",
+            emph.grp = c("child", "cousin"),
+            facet.grid = FALSE)
+  
+  expect_message(sjp.glmer(fit,
+            type = "ri.pc",
+            emph.grp = c(1, 4),
+            facet.grid = T))
+
+  expect_warning(sjp.glmer(fit,
+                           type = "ri.pc",
+                           emph.grp = c(14, 16),
+                           facet.grid = F))
+  
+  expect_warning(sjp.glmer(fit,
+                           type = "ri.pc",
+                           emph.grp = c("sparse"),
+                           facet.grid = F))
+  
+  sjp.glmer(fit,
+            type = "ri.pc",
+            emph.grp = c("sparse", "child"),
+            facet.grid = F)
+
   # plot probability curve (predicted probabilities)
   # of fixed effect, only for coefficient "neg_c_7"
   sjp.glmer(fit,

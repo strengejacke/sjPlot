@@ -31,10 +31,10 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #'          intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
 #'          which list elements of \code{lme4::ranef}) will be plotted. Default is \code{NULL},
 #'          so all random effects will be plotted.
-#' @param highlight.grp numeric vector with index numbers of grouping levels (from random effect).
+#' @param emph.grp numeric vector with index numbers of grouping levels (from random effect).
 #'          If \code{type = "ri.pc"} and \code{facet.grid = FALSE}, an integrated plot of predicted 
 #'          probabilities of all fixed coefficients for each grouping level is plotted. To better find
-#'          certain groups, use this parameter to highlight these groups in the plot.
+#'          certain groups, use this parameter to emphasize these groups in the plot.
 #'          See examples for details.
 #' @param show.se Use \code{TRUE} to plot (depending on \code{type}) the standard
 #'          error for probability curves (predicted probabilities).
@@ -167,7 +167,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #'
 #' sjp.glmer(fit,
 #'           type = "ri.pc",
-#'           highlight.grp = c(1, 4),
+#'           emph.grp = c(1, 4),
 #'           facet.grid = FALSE)
 #'           
 #' # plot probability curve (predicted probabilities)
@@ -182,7 +182,7 @@ sjp.glmer <- function(fit,
                       type = "re",
                       vars = NULL,
                       ri.nr = NULL,
-                      highlight.grp = NULL,
+                      emph.grp = NULL,
                       title = NULL,
                       geom.size = 3,
                       geom.colors = "Set1",
@@ -211,7 +211,7 @@ sjp.glmer <- function(fit,
            type,
            vars,
            ri.nr,
-           highlight.grp,
+           emph.grp,
            title,
            geom.size,
            geom.colors,
@@ -265,10 +265,10 @@ sjp.glmer <- function(fit,
 #'          intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
 #'          which list elements of \code{lme4::ranef}) will be plotted. Default is \code{NULL},
 #'          so all random effects will be plotted.
-#' @param highlight.grp numeric vector with index numbers of grouping levels (from random effect).
+#' @param emph.grp numeric vector with index numbers of grouping levels (from random effect).
 #'          If \code{type = "fe.ri"} and \code{facet.grid = FALSE}, an integrated plot of fixed 
 #'          effects slopes for each grouping level is plotted. To better find
-#'          certain groups, use this parameter to highlight these groups in the plot.
+#'          certain groups, use this parameter to emphasize these groups in the plot.
 #'          See examples for details.
 #' @param title a character vector with one or more labels that are used as plot title. If
 #'          \code{type = "re"}, use the predictors' variable labels as titles.
@@ -390,7 +390,7 @@ sjp.glmer <- function(fit,
 #' # and children-in-law
 #' sjp.lmer(fit,
 #'          type = "fe.ri",
-#'          highlight.grp = c(1, 2, 4)
+#'          emph.grp = c(1, 2, 4),
 #'          vars = "c12hour")
 #'
 #' # plot fixed effects correlations
@@ -406,7 +406,7 @@ sjp.lmer <- function(fit,
                      type = "re",
                      vars = NULL,
                      ri.nr = NULL,
-                     highlight.grp = NULL,
+                     emph.grp = NULL,
                      title = NULL,
                      geom.size = 3,
                      geom.colors = "Set1",
@@ -434,7 +434,7 @@ sjp.lmer <- function(fit,
            type,
            vars,
            ri.nr,
-           highlight.grp,
+           emph.grp,
            title,
            geom.size,
            geom.colors,
@@ -462,7 +462,7 @@ sjp.lme4  <- function(fit,
                       type,
                       vars,
                       ri.nr,
-                      highlight.grp,
+                      emph.grp,
                       title,
                       geom.size,
                       geom.colors,
@@ -560,6 +560,49 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------
       loops <- ri.nr <- seq(ri.cnt)
     }
+    # ---------------------------------------
+    # Check valid index of highlighted group levels
+    # ---------------------------------------
+    if (!is.null(emph.grp)) {
+      # ---------------------------------------
+      # emphasizing groups does only work if
+      # plot is not faceted!
+      # ---------------------------------------
+      if (facet.grid) {
+        message("Emphasizing groups only works in non-faceted plots. Use 'facet.grid = FALSE' to enable group emphasizing. 'emph.grp' was set to NULL.")
+        emph.grp <- NULL
+      } else {
+        # ---------------------------------------
+        # get random effects
+        # ---------------------------------------
+        rand.ef <- lme4::ranef(fit)[[1]]
+        # ---------------------------------------
+        # if "emph.grp" is numeric, check
+        # correct index values
+        # ---------------------------------------
+        if (is.numeric(emph.grp)) {
+          out.of.bounds <- which(emph.grp > nrow(rand.ef))
+        } else {
+          # find matching groupin levels, and automatically
+          # convert character to numeric indices
+          emph.grp <- match(emph.grp, row.names(rand.ef))
+          out.of.bounds <- which(is.na(emph.grp))
+        }
+        if (length(out.of.bounds) > 0) {
+          # ---------------------------------------
+          # remove out of bound indices
+          # ---------------------------------------
+          emph.grp <- emph.grp[-out.of.bounds]
+          # ---------------------------------------
+          # any valid indices left?
+          # ---------------------------------------
+          if (length(emph.grp) == 0) {
+            warning("No index value in 'emph.grp' matches any grouping level. Please use valid values for 'emph.grp'.", call. = F)
+            return (invisible (NULL))
+          }
+        }
+      }
+    }
   }
   # ---------------------------------------
   # plot correlation matrix of fixed effects,
@@ -590,7 +633,7 @@ sjp.lme4  <- function(fit,
       return (invisible(sjp.lme.feri(fit,
                                      ri.nr,
                                      vars,
-                                     highlight.grp,
+                                     emph.grp,
                                      printPlot)))
     } else {
       warning("Fixed effects plots by random intercept effects (grouping levels) only works for function 'sjp.lmer'.", call. = FALSE)
@@ -635,7 +678,7 @@ sjp.lme4  <- function(fit,
                                             facet.grid,
                                             ri.nr,
                                             vars,
-                                            highlight.grp,
+                                            emph.grp,
                                             printPlot)))
     } else {
       warning("Probability plots of random intercept effects only works for function 'sjp.glmer'.", call. = FALSE)
@@ -1201,7 +1244,7 @@ sjp.lme.reprobcurve <- function(fit,
                                 facet.grid,
                                 ri.nr,
                                 vars,
-                                highlight.grp,
+                                emph.grp,
                                 printPlot) {
   # ----------------------------
   # retrieve data frame of model to check whether
@@ -1239,15 +1282,12 @@ sjp.lme.reprobcurve <- function(fit,
     # to highlight specific grouping levels
     # ------------------------------
     geom.colors <- NULL
-    if (!is.null(highlight.grp)) {
+    if (!is.null(emph.grp)) {
       # create color palette
-      grp.col <- scales::brewer_pal(palette = "Set1")(length(highlight.grp))
+      grp.col <- scales::brewer_pal(palette = "Set1")(length(emph.grp))
       # now set only colors for highlighted groups
       geom.colors <- rep("#999999", length(row.names(rand.ef)))
-      # the legend is sorted alphabetically, so index-number of grouping levels
-      # may change. hence, find position of original grouping level index
-      # in sorted groupin level order.
-      geom.colors[match(highlight.grp, order(row.names(rand.ef)))] <- grp.col
+      geom.colors[emph.grp] <- grp.col
     }
     # ----------------------------
     # loop through all coefficients
@@ -1255,8 +1295,6 @@ sjp.lme.reprobcurve <- function(fit,
     for (i in 1:length(fit.term.names)) {
       # init lists with all additional data frames and plots
       final.df <- data.frame()
-      final.grp <- c()
-      final.cols <- c()
       # get values from coefficient
       coef.column <- which(colnames(fit.df) == fit.term.names[i])
       # check if we have found the coefficient
@@ -1292,16 +1330,15 @@ sjp.lme.reprobcurve <- function(fit,
             # calculate probability for each random effect group
             mydf.vals$y <- odds.to.prob(fi + rand.ef[j, 1] + mydf.vals$xbeta)
             # add to final data frame
-            final.df <- rbind(final.df, cbind(pred = mydf.vals$value,
-                                              prob = mydf.vals$y))
-            # need to add grp vector later to data frame,
-            # else "x" and "prob" would be coerced to factors
-            final.grp <- c(final.grp,
-                           rep(row.names(rand.ef)[j],
-                               times = length(mydf.vals$value)))
+            final.df <- rbind(final.df,
+                              cbind(pred = mydf.vals$value,
+                                    prob = mydf.vals$y,
+                                    grp = j))
           }
-          # add grp vector
-          final.df$grp <- final.grp
+          # convert grouping level to factor
+          final.df$grp <- as.factor(final.df$grp)
+          # retrieve group level label
+          levels(final.df$grp) <- row.names(rand.ef)
           # ---------------------------------------------------------
           # prepare base plot
           # ---------------------------------------------------------
@@ -1330,7 +1367,7 @@ sjp.lme.reprobcurve <- function(fit,
             # highlight specific groups?
             # ------------------------------
             # set grouping levels as legend labels
-            legendLabels <- sort(row.names(rand.ef))
+            legendLabels <- row.names(rand.ef)
             # set new color scale
             mp <- sj.setGeomColors(mp,
                                    geom.colors,
@@ -1360,7 +1397,7 @@ sjp.lme.reprobcurve <- function(fit,
 sjp.lme.feri <- function(fit,
                          ri.nr,
                          vars,
-                         highlight.grp,
+                         emph.grp,
                          printPlot) {
   # ----------------------------
   # retrieve term names, so we find the estimates in the
@@ -1386,12 +1423,12 @@ sjp.lme.feri <- function(fit,
     # to highlight specific grouping levels
     # ------------------------------
     geom.colors <- NULL
-    if (!is.null(highlight.grp)) {
+    if (!is.null(emph.grp)) {
       # create color palette
-      grp.col <- scales::brewer_pal(palette = "Set1")(length(highlight.grp))
+      grp.col <- scales::brewer_pal(palette = "Set1")(length(emph.grp))
       # now set only colors for highlighted groups
       geom.colors <- rep("#999999", length(row.names(rand.ef)))
-      geom.colors[highlight.grp] <- grp.col
+      geom.colors[emph.grp] <- grp.col
     }
     # ----------------------------
     # filter vars?

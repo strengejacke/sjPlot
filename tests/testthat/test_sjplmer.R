@@ -3,7 +3,7 @@ test_that("sjp.lmer", {
 
   library(lme4)
   library(sjmisc)
-  fit <- lmer(Reaction ~ Days + (Days | Subject), sleepstudy)
+  fit <- lme4::lmer(Reaction ~ Days + (Days | Subject), sleepstudy)
   
   # simple plot
   sjp.lmer(fit)
@@ -33,13 +33,13 @@ test_that("sjp.lmer", {
   efc$grp = as.factor(efc$e15relat)
   levels(x = efc$grp) <- get_val_labels(efc$e15relat)
   # data frame for fitted model
-  mydf <- na.omit(data.frame(neg_c_7 = as.numeric(efc$neg_c_7),
-                             sex = as.factor(efc$c161sex),
-                             c12hour = as.numeric(efc$c12hour),
-                             barthel = as.numeric(efc$barthtot),
-                             grp = efc$grp))
+  mydf <- data.frame(neg_c_7 = as.numeric(efc$neg_c_7),
+                     sex = as.factor(efc$c161sex),
+                     c12hour = as.numeric(efc$c12hour),
+                     barthel = as.numeric(efc$barthtot),
+                     grp = efc$grp)
   # fit glmer
-  fit <- lmer(neg_c_7 ~ sex + c12hour + barthel + (1|grp),
+  fit <- lme4::lmer(neg_c_7 ~ sex + c12hour + barthel + (1|grp),
               data = mydf)
   
   # plot random effects
@@ -61,7 +61,7 @@ test_that("sjp.lmer", {
   
   sjp.lmer(fit,
            type = "fe.ri",
-           highlight.grp = c(1, 2, 4),
+           emph.grp = c(1, 2, 4),
            vars = "c12hour")
   
   # plot fixed effects correlations
@@ -115,9 +115,9 @@ test_that("sjp.lmer", {
   expect_warning(sjp.lmer(fit, ri.nr = c(3,5)))
   sjp.lmer(fit, type = "fe")
   sjp.lmer(fit, type = "fe.ri")
-  sjp.lmer(fit, type = "fe.ri", highlight.grp = c(3, 5))
+  sjp.lmer(fit, type = "fe.ri", emph.grp = c(3, 5))
   sjp.lmer(fit, type = "fe.ri", ri.nr = 2)
-  sjp.lmer(fit, type = "fe.ri", ri.nr = 2, highlight.grp = c(3, 5))
+  sjp.lmer(fit, type = "fe.ri", ri.nr = 2, emph.grp = c(3, 5))
   
   sjp.lmer(fit, type = "re.qq")
 })

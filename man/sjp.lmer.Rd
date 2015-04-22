@@ -4,9 +4,9 @@
 \alias{sjp.lmer}
 \title{Plot estimates (forest plots) of linear mixed effects models}
 \usage{
-sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL,
-  highlight.grp = NULL, title = NULL, geom.size = 3,
-  geom.colors = "Set1", hideErrorBars = FALSE, showIntercept = TRUE,
+sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
+  title = NULL, geom.size = 3, geom.colors = "Set1",
+  hideErrorBars = FALSE, showIntercept = TRUE,
   stringIntercept = "(Intercept)", sort.coef = NULL, pred.labels = NULL,
   axisTitle.x = NULL, axisTitle.y = NULL, interceptLineType = 2,
   interceptLineColor = "grey70", showValueLabels = TRUE, labelDigits = 2,
@@ -37,10 +37,10 @@ intercept, \code{ri.nr} indicates which random effects of which random intercept
 which list elements of \code{lme4::ranef}) will be plotted. Default is \code{NULL},
 so all random effects will be plotted.}
 
-\item{highlight.grp}{numeric vector with index numbers of grouping levels (from random effect).
+\item{emph.grp}{numeric vector with index numbers of grouping levels (from random effect).
 If \code{type = "fe.ri"} and \code{facet.grid = FALSE}, an integrated plot of fixed
 effects slopes for each grouping level is plotted. To better find
-certain groups, use this parameter to highlight these groups in the plot.
+certain groups, use this parameter to emphasize these groups in the plot.
 See examples for details.}
 
 \item{title}{a character vector with one or more labels that are used as plot title. If
@@ -188,7 +188,7 @@ sjp.lmer(fit,
 # and children-in-law
 sjp.lmer(fit,
          type = "fe.ri",
-         highlight.grp = c(1, 2, 4)
+         emph.grp = c(1, 2, 4),
          vars = "c12hour")
 
 # plot fixed effects correlations

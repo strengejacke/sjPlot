@@ -30,7 +30,7 @@
 #' @param varlabels The item labels that are printed in the first column. If no item labels are
 #'          provided (default), the data frame's column names are used. Item labels must
 #'          be a string vector, e.g.: \code{varlabels=c("Var 1", "Var 2", "Var 3")}.
-#' @param title A table caption. By default, \code{"Principal Component Analysis (with varimax rotation)"}
+#' @param title A table caption. By default, \emph{"Principal Component Analysis (with varimax rotation)"}
 #'          is used as the table's title.
 #' @param breakLabelsAt Wordwrap for diagram labels. Determines how many chars of the variable labels are displayed in 
 #'          one line and when a line break is inserted. Default is 20.
@@ -47,9 +47,9 @@
 #' @param alternateRowColors If \code{TRUE}, alternating rows are highlighted with a light gray
 #'          background color.
 #' @param stringPov The string for the table row that contains the proportions of variances. By default, 
-#'          \code{"Proportion of Variance"} will be used.
+#'          \emph{"Proportion of Variance"} will be used.
 #' @param stringCpov The string for the table row that contains the cumulative variances. By default, 
-#'          \code{"Cumulative Proportion"} will be used.
+#'          \emph{"Cumulative Proportion"} will be used.
 #' @param encoding The charset encoding used for variable and value labels. Default is \code{NULL}, so encoding
 #'          will be auto-detected depending on your platform (\code{"UTF-8"} for Unix and \code{"Windows-1252"} for
 #'          Windows OS). Change encoding if specific chars are not properly displayed (e.g.) German umlauts).
@@ -78,7 +78,7 @@
 #' @param remove.spaces logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
 #'          that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
 #'          may look less pretty, but it may help when exporting html-tables to office tools.
-#' @return Invisibly returns a \code{\link{structure}} with
+#' @return Invisibly returns
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
 #'            \item the web page content (\code{page.content}),

@@ -35,7 +35,7 @@
 #'          Default is \code{"auto"}, which means that each table has a standard caption \emph{Component x}.
 #'          Use \code{NULL} to suppress table captions.
 #' @param scaleItems If \code{TRUE}, the data frame's vectors will be scaled when calculating the
-#'          Cronbach's Alpha value (see \code{reliab_test}). Recommended, when 
+#'          Cronbach's Alpha value (see \code{\link[sjmisc]{reliab_test}}). Recommended, when 
 #'          the variables have different measures / scales.
 #' @param minValidRowMeanValue the minimum amount of valid values to compute row means for index scores.
 #'          Default is 2, i.e. the return values \code{index.scores} and \code{df.index.scores} are
@@ -94,7 +94,7 @@
 #' @param remove.spaces logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
 #'          that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
 #'          may look less pretty, but it may help when exporting html-tables to office tools.
-#' @return (Invisibly) returns a structure with following elements:
+#' @return Invisibly returns
 #'         \itemize{
 #'          \item \code{df.list}: List of data frames with the item analysis for each sub.group (or complete, if \code{factor.groups} was \code{NULL})
 #'          \item \code{index.scores}: List of standardized scale / index scores of each case (mean value of all scale items for each case) for each sub-group. Note that NA's are removed from this list. Use \code{df.index.scores} if you want to append the cases' related index scores to the original data frame.
@@ -112,7 +112,7 @@
 #' @note \itemize{
 #'          \item The \emph{Shapiro-Wilk Normality Test} (see column \code{W(p)}) tests if an item has a distribution that is significantly different from normal.
 #'          \item \emph{Item difficulty} should range between 0.2 and 0.8. Ideal value is \code{p+(1-p)/2} (which mostly is between 0.5 and 0.8).
-#'          \item For \emph{item discrimination}, acceptable values are 0.20 or higher; the closer to 1.00 the better. See \code{reliab_test} for more details.
+#'          \item For \emph{item discrimination}, acceptable values are 0.20 or higher; the closer to 1.00 the better. See \code{\link[sjmisc]{reliab_test}} for more details.
 #'          \item In case the total \emph{Cronbach's Alpha} value is below the acceptable cut-off of 0.7 (mostly if an index has few items), the \emph{mean inter-item-correlation} is an alternative measure to indicate acceptability. Satisfactory range lies between 0.2 and 0.4.
 #'        }
 #' 

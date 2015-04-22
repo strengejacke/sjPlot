@@ -36,7 +36,7 @@ in the default web browser.}
 provided (default), the data frame's column names are used. Item labels must
 be a string vector, e.g.: \code{varlabels=c("Var 1", "Var 2", "Var 3")}.}
 
-\item{title}{A table caption. By default, \code{"Principal Component Analysis (with varimax rotation)"}
+\item{title}{A table caption. By default, \emph{"Principal Component Analysis (with varimax rotation)"}
 is used as the table's title.}
 
 \item{breakLabelsAt}{Wordwrap for diagram labels. Determines how many chars of the variable labels are displayed in
@@ -60,10 +60,10 @@ variance are shown in the table footer.}
 background color.}
 
 \item{stringPov}{The string for the table row that contains the proportions of variances. By default,
-\code{"Proportion of Variance"} will be used.}
+\emph{"Proportion of Variance"} will be used.}
 
 \item{stringCpov}{The string for the table row that contains the cumulative variances. By default,
-\code{"Cumulative Proportion"} will be used.}
+\emph{"Cumulative Proportion"} will be used.}
 
 \item{encoding}{The charset encoding used for variable and value labels. Default is \code{NULL}, so encoding
 will be auto-detected depending on your platform (\code{"UTF-8"} for Unix and \code{"Windows-1252"} for
@@ -99,7 +99,7 @@ that contains the html-data. Use this, if you want to remove parantheses for htm
 may look less pretty, but it may help when exporting html-tables to office tools.}
 }
 \value{
-Invisibly returns a \code{\link{structure}} with
+Invisibly returns
          \itemize{
            \item the web page style sheet (\code{page.style}),
            \item the web page content (\code{page.content}),
