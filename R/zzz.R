@@ -1,7 +1,5 @@
 .onAttach <- function(libname, pkgname) {
-  if (stats::runif(1) > .66) {
-    packageStartupMessage("Utilitiy- and tool-functions have been moved to the 'sjmisc'-package! See \"news(Version == \"1.8\", package = \"sjPlot\")\" for more information.")
-  } else if (stats::runif(1) > .75) {
+  if (stats::runif(1) > .8) {
     packageStartupMessage("Visit http://strengejacke.de/sjPlot for illustrative examples of sjPlot-functions.")
   }
 }
