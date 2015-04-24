@@ -491,7 +491,7 @@ sjp.lme4  <- function(fit,
     stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
   }
   if (!requireNamespace("arm", quietly = TRUE)) {
-    stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
+    stop("Package 'arm' needed for this function to work. Please install it.", call. = FALSE)
   }
   # -------------------------------------
   # check type
