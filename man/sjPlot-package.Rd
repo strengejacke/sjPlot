@@ -45,7 +45,6 @@ Daniel Lüdecke \email{d.luedecke@uke.de}
 \references{
   \itemize{
     \item Documentation: \url{http://www.strengejacke.de/sjPlot}
-    \item Weblog: \url{http://strengejacke.wordpress.com/sjplot-r-package/}
     \item Github: \url{https://github.com/sjPlot/devel}
     \item Bug reports: \url{https://github.com/sjPlot/devel/issues}
   }

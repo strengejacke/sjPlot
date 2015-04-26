@@ -21,10 +21,9 @@ To install the latest stable release from CRAN, type following command into the 
 install.packages("sjPlot")
 ```
 
-### References, documentation and examples
+### Documentation and examples
 
 - [Documentation and examples](http://www.strengejacke.de/sjPlot/)
-- [Weblog](http://strengejacke.wordpress.com/sjplot-r-package/)
 
 
 ### Citation
