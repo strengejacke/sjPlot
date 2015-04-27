@@ -3,6 +3,9 @@ Version 1.8-1
 General:
 * Deprecated function "sjp.emm.int" was removed. Use "sjp.int" with parameter "type = 'emm'" to plot estimated marginal means.
 
+Bug fixes:
+* Fixed formatting bug for pseudo-R2 in "sjt.glm".
+
 Version 1.8
 ------------------------------------------------------------------------------
 General:
