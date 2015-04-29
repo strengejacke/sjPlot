@@ -425,6 +425,7 @@ sjt.lm <- function (...,
   tag.tdata <- "tdata"
   tag.summary <- "summary"
   tag.fixedparts <- "fixedparts"
+  tag.randomparts <- "randomparts"
   tag.colnames <- "colnames"
   tag.firstsumrow <- "firstsumrow"
   tag.labelcellborder <- "labelcellborder"
@@ -450,6 +451,7 @@ sjt.lm <- function (...,
   css.tdata <- sprintf("padding:%.1fcm;", cellSpacing)
   css.summary <- "padding-top:0.1cm; padding-bottom:0.1cm;"
   css.fixedparts <- "font-weight:bold; text-align:left;"
+  css.randomparts <- "font-weight:bold; text-align:left; padding-top:0.5em;"
   css.colnames <- "font-style:italic;"
   css.firstsumrow <- "border-top:1px solid;"
   css.labelcellborder <- "border-bottom:1px solid;"
@@ -484,6 +486,7 @@ sjt.lm <- function (...,
     if (!is.null(CSS[['css.centeralign']])) css.centeralign <- ifelse(substring(CSS[['css.centeralign']], 1, 1) == '+', paste0(css.centeralign, substring(CSS[['css.centeralign']], 2)), CSS[['css.centeralign']])
     if (!is.null(CSS[['css.summary']])) css.summary <- ifelse(substring(CSS[['css.summary']], 1, 1) == '+', paste0(css.summary, substring(CSS[['css.summary']], 2)), CSS[['css.summary']])
     if (!is.null(CSS[['css.fixedparts']])) css.fixedparts <- ifelse(substring(CSS[['css.fixedparts']], 1, 1) == '+', paste0(css.fixedparts, substring(CSS[['css.fixedparts']], 2)), CSS[['css.fixedparts']])
+    if (!is.null(CSS[['css.randomparts']])) css.randomparts <- ifelse(substring(CSS[['css.randomparts']], 1, 1) == '+', paste0(css.randomparts, substring(CSS[['css.randomparts']], 2)), CSS[['css.randomparts']])
     if (!is.null(CSS[['css.lasttablerow']])) css.lasttablerow <- ifelse(substring(CSS[['css.lasttablerow']], 1, 1) == '+', paste0(css.lasttablerow, substring(CSS[['css.lasttablerow']], 2)), CSS[['css.lasttablerow']])
     if (!is.null(CSS[['css.labelcellborder']])) css.labelcellborder <- ifelse(substring(CSS[['css.labelcellborder']], 1, 1) == '+', paste0(css.table, substring(CSS[['css.labelcellborder']], 2)), CSS[['css.labelcellborder']])
     if (!is.null(CSS[['css.colnames']])) css.colnames <- ifelse(substring(CSS[['css.colnames']], 1, 1) == '+', paste0(css.colnames, substring(CSS[['css.colnames']], 2)), CSS[['css.colnames']])
@@ -506,7 +509,7 @@ sjt.lm <- function (...,
   # ------------------------
   # set page style
   # ------------------------
-  page.style <-  sprintf("<style>%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
+  page.style <-  sprintf("<style>%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
                          tag.table, css.table, tag.thead, css.thead, tag.tdata, css.tdata,
                          tag.summary, css.summary, tag.colnames, css.colnames,
                          tag.firstsumrow, css.firstsumrow, tag.lasttablerow, css.lasttablerow,
@@ -522,7 +525,8 @@ sjt.lm <- function (...,
                          tag.modelcolumn4, css.modelcolumn4,
                          tag.modelcolumn5, css.modelcolumn5,
                          tag.modelcolumn6, css.modelcolumn6,
-                         tag.fixedparts, css.fixedparts)
+                         tag.fixedparts, css.fixedparts,
+                         tag.randomparts, css.randomparts)
   # ------------------------
   # start content
   # ------------------------
@@ -1070,7 +1074,7 @@ sjt.lm <- function (...,
   # -------------------------------------
   if (lmerob) {
     # css attribute "topcontentborder" already in this table row
-    page.content <- paste0(page.content, sprintf("  <tr>\n    <td colspan=\"%i\" class=\"tdata summary leftalign fixedparts\">Random Parts</td>\n  </tr>\n", headerColSpan + 1))
+    page.content <- paste0(page.content, sprintf("  <tr>\n    <td colspan=\"%i\" class=\"tdata summary leftalign randomparts\">Random Parts</td>\n  </tr>\n", headerColSpan + 1))
     # first models indicates grouping levels
     # we have to assume comparable models with same
     # random intercepts
@@ -1210,6 +1214,7 @@ sjt.lm <- function (...,
   knitr <- gsub(tag.thead, css.thead, knitr, fixed = TRUE)
   knitr <- gsub(tag.summary, css.summary, knitr, fixed = TRUE)  
   knitr <- gsub(tag.fixedparts, css.fixedparts, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.randomparts, css.randomparts, knitr, fixed = TRUE)
   knitr <- gsub(tag.colnames, css.colnames, knitr, fixed = TRUE)
   knitr <- gsub(tag.leftalign, css.leftalign, knitr, fixed = TRUE)
   knitr <- gsub(tag.centeralign, css.centeralign, knitr, fixed = TRUE)
