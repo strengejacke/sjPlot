@@ -173,8 +173,8 @@ Invisibly returns
            for further use.
 }
 \description{
-Shows (multiple) fitted linear models (beta coefficients, std. beta values etc.)
-               as HTML table, or saves them as file. The fitted models may hav different predictors,
+Summarizes (multiple) fitted linear models (beta coefficients, std. beta values etc.)
+               as HTML table, or saves them as file. The fitted models may have different predictors,
                e.g. when comparing different stepwise fitted models.
 }
 \note{

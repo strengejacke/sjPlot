@@ -1591,7 +1591,9 @@ sjp.lme.fecor <- function(fit,
                           pred.labels,
                           sort.coef,
                           fun,
-                          printPlot) {
+                          printPlot,
+                          fcall = "sjp",
+                          ...) {
   # ---------------------------------------
   # copy rownames as axis labels, if not set
   # ---------------------------------------
@@ -1616,15 +1618,23 @@ sjp.lme.fecor <- function(fit,
   # ---------------------------------------
   # return correlation plot
   # ---------------------------------------
-  corret <- sjp.corr(as.matrix(mydf),
-                     sortCorrelations = sort.coef,
-                     axisLabels = pred.labels)
+  if (fcall == "sjp") {
+    corret <- sjp.corr(as.matrix(mydf),
+                       sortCorrelations = sort.coef,
+                       axisLabels = pred.labels,
+                       printPlot = printPlot)
+  } else {
+    corret <- sjt.corr(as.matrix(mydf), 
+                       triangle = "l",
+                       CSS = CSS,
+                       useViewer = useViewer,
+                       no.output = no.output)
+  }
   return (invisible(structure(class = ifelse (fun == "glm", "sjpglmer.cor", "sjplmer.cor"),
                               list(plot = corret$plot,
                                    mydf = corret$df,
                                    corr.matrix = corret$corr.matrix))))
 }
-
 
 
 sjp.lme.fecondpred.onlynumeric <- function(fit,
