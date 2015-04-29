@@ -933,42 +933,60 @@ sjt.lm <- function (...,
   # -------------------------------------
   # 1. row: intercept
   # -------------------------------------
-  page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata %sleftalign\">%s</td>", tcb_class, stringIntercept))
+  page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata %sleftalign\">%s</td>", 
+                                               tcb_class, 
+                                               stringIntercept))
   for (i in 1:length(input_list)) {
     # show estimates?
     if (showEst) {
       # confidence interval in separate column
       if (separateConfColumn) {
         # open table cell for Beta-coefficient
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign %smodelcolumn1\">%s", tcb_class, joined.df[1, (i - 1) * 8 + 2]))
+        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign %smodelcolumn1\">%s", 
+                                                     tcb_class, 
+                                                     joined.df[1, (i - 1) * 8 + 2]))
         # if p-values are not shown as numbers, insert them after beta-value
-        if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[1, (i - 1) * 8 + 5]))
+        if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", 
+                                                                            joined.df[1, (i - 1) * 8 + 5]))
         # if we have CI, start new table cell (CI in separate column)
         if (showConfInt) {
-          page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign %smodelcolumn2\">%s&nbsp;-&nbsp;%s</td>", tcb_class, joined.df[1, (i - 1) * 8 + 3], joined.df[1, (i - 1) * 8 + 4]))
-        }
-        else {
+          page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign %smodelcolumn2\">%s&nbsp;-&nbsp;%s</td>", 
+                                                       tcb_class, 
+                                                       joined.df[1, (i - 1) * 8 + 3], 
+                                                       joined.df[1, (i - 1) * 8 + 4]))
+        } else {
           page.content <- paste0(page.content, "</td>")
         }
-      }
-      else {
+      } else {
         # open table cell for Beta-coefficient
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign %smodelcolumn1\">%s", tcb_class, joined.df[1, (i - 1) * 8 + 2]))
+        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign %smodelcolumn1\">%s",
+                                                     tcb_class, 
+                                                     joined.df[1, (i - 1) * 8 + 2]))
         # confidence interval in Beta-column
-        if (showConfInt) page.content <- paste0(page.content, sprintf("%s(%s&nbsp;-&nbsp;%s)", linebreakstring, joined.df[1, (i - 1) * 8 + 3], joined.df[1, (i - 1) * 8 + 4]))
+        if (showConfInt) page.content <- paste0(page.content, sprintf("%s(%s&nbsp;-&nbsp;%s)", 
+                                                                      linebreakstring, 
+                                                                      joined.df[1, (i - 1) * 8 + 3], 
+                                                                      joined.df[1, (i - 1) * 8 + 4]))
         # if p-values are not shown as numbers, insert them after beta-value
-        if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[1, (i - 1) * 8 + 5]))
+        if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", 
+                                                                            joined.df[1, (i - 1) * 8 + 5]))
         page.content <- paste0(page.content, "</td>")
       }
     }
     # show std. error
-    if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign %smodelcolumn3\">%s</td>", tcb_class, joined.df[1, (i - 1) * 8 + 6]))
+    if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign %smodelcolumn3\">%s</td>", 
+                                                                   tcb_class, 
+                                                                   joined.df[1, (i - 1) * 8 + 6]))
     # show std. beta
-    if (showStdBeta) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign %smodelcolumn4\"></td>", tcb_class))
+    if (showStdBeta) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign %smodelcolumn4\"></td>", 
+                                                                  tcb_class))
     # show std. beta
-    if (showStdBeta && showConfInt && separateConfColumn) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign %smodelcolumn5\"></td>", tcb_class))
+    if (showStdBeta && showConfInt && separateConfColumn) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign %smodelcolumn5\"></td>", 
+                                                                                                       tcb_class))
     # show p-values as numbers in separate column
-    if (pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign %smodelcolumn6\">%s</td>", tcb_class, joined.df[1, (i - 1) * 8 + 5]))
+    if (pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign %smodelcolumn6\">%s</td>", 
+                                                                       tcb_class, 
+                                                                       joined.df[1, (i - 1) * 8 + 5]))
   }
   page.content <- paste0(page.content, "\n  </tr>")  
   # -------------------------------------
@@ -1009,27 +1027,39 @@ sjt.lm <- function (...,
         # confidence interval in separate column
         if (separateConfColumn) {
           # open table cell for Beta-coefficient
-          page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumn1\">%s", joined.df[i + 1, (j - 1) * 8 + 2]))
+          page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumn1\">%s", 
+                                                       joined.df[i + 1, (j - 1) * 8 + 2]))
           # if p-values are not shown as numbers, insert them after beta-value
-          if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[i + 1, (j - 1) * 8 + 5]))
+          if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", 
+                                                                              joined.df[i + 1, (j - 1) * 8 + 5]))
           # if we have CI, start new table cell (CI in separate column)
           if (showConfInt) {
-            page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign modelcolumn2\">%s%s%s</td>", ci.lo, ci.sep.string, ci.hi))
+            page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign modelcolumn2\">%s%s%s</td>", 
+                                                         ci.lo, 
+                                                         ci.sep.string, 
+                                                         ci.hi))
           } else {
             page.content <- paste0(page.content, "</td>")
           }
         } else {
           # open table cell for Beta-coefficient
-          page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumn1\">%s", joined.df[i + 1, (j - 1) * 8 + 2]))
+          page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumn1\">%s", 
+                                                       joined.df[i + 1, (j - 1) * 8 + 2]))
           # confidence interval in Beta-column
-          if (showConfInt && !is_empty(ci.lo)) page.content <- paste0(page.content, sprintf("%s(%s%s%s)", linebreakstring, ci.lo, ci.sep.string, ci.hi))
+          if (showConfInt && !is_empty(ci.lo)) page.content <- paste0(page.content, sprintf("%s(%s%s%s)", 
+                                                                                            linebreakstring, 
+                                                                                            ci.lo, 
+                                                                                            ci.sep.string, 
+                                                                                            ci.hi))
           # if p-values are not shown as numbers, insert them after beta-value
-          if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[i + 1, (j - 1) * 8 + 5]))
+          if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", 
+                                                                              joined.df[i + 1, (j - 1) * 8 + 5]))
           page.content <- paste0(page.content, "</td>")
         }
       }
       # show std. error
-      if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign modelcolumn3\">%s</td>", joined.df[i + 1, (j - 1) * 8 + 6]))
+      if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign modelcolumn3\">%s</td>", 
+                                                                     joined.df[i + 1, (j - 1) * 8 + 6]))
       # show std. beta
       if (showStdBeta) {
         # retieve lower and upper ci

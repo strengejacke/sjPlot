@@ -493,7 +493,7 @@ PseudoR2 <- function(rr) { # rr must be the result of lm/glm
 
 # compute chi-square for glm
 Chisquare.glm <- function(rr, digits=3) {
-  return (with(rr, pchisq(null.deviance - deviance, df.null - df.residual, lower.tail = FALSE), digits = digits))
+  return(with(rr, pchisq(null.deviance - deviance, df.null - df.residual, lower.tail = FALSE), digits = digits))
 }
 
 
@@ -502,7 +502,7 @@ sju.modsum.lm <- function(fit) {
   # get F-statistics
   fstat <- summary(fit)$fstatistic
   # Calculate p-value for F-test
-  pval <- pf(fstat[1], fstat[2], fstat[3],lower.tail = FALSE)
+  pval <- pf(fstat[1], fstat[2], fstat[3], lower.tail = FALSE)
   # indicate significance level by stars
   pan <- c("")
   if (pval < 0.001) {

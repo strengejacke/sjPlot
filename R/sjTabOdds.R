@@ -1,18 +1,13 @@
 # bind global variables
-if(getRversion() >= "2.15.1") utils::globalVariables(c("starts_with"))
+if (getRversion() >= "2.15.1") utils::globalVariables(c("starts_with"))
 
 
 #' @title Show (and compare) generalized linear models as HTML table
 #' @name sjt.glm
 #' 
-#' @description Shows (and compares multiple) generalized linear models (Odds Ratios)
-#'                as HTML table, or saves them as file. The fitted glm's should have the same predictor variables and
-#'                either
-#'                \itemize{
-#'                \item differ only in their response (dependent variable), to see the effect of a specific set of predictors on different responses, or
-#'                \item all have the same reponse variables, but differ in their \code{\link{family}} objects and link function in order to see which model fits best to the data.
-#'                }
-#'                See parameter \code{showFamily} for details and section \code{examples}.
+#' @description Summarizes (multiple) fitted generalized linear models (odds ratios, ci, p-values...)
+#'                as HTML table, or saves them as file. The fitted models may have different predictors,
+#'                e.g. when comparing different stepwise fitted models.
 #' 
 #' @param ... One or more fitted \code{\link{glm}}-objects.
 #' @param file The destination file, which will be in html-format. If no filepath is specified,
@@ -273,47 +268,47 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("starts_with"))
 #' 
 #' @import dplyr
 #' @export
-sjt.glm <- function (..., 
-                     file=NULL, 
-                     labelPredictors=NULL, 
-                     labelDependentVariables=NULL, 
-                     stringPredictors="Predictors", 
-                     stringDependentVariables="Dependent Variables", 
-                     showHeaderStrings=FALSE,
-                     stringModel="Model",
-                     stringIntercept="(Intercept)",
-                     stringObservations="Observations",
-                     stringOR="OR",
-                     stringCI="CI",
-                     stringSE="std. Error",
-                     stringP="p",
-                     digits.est=2,
-                     digits.p=3,
-                     digits.ci=2,
-                     digits.se=2,
-                     digits.summary=3,
-                     exp.coef=TRUE,
-                     pvaluesAsNumbers=TRUE,
-                     boldpvalues=TRUE,
-                     showConfInt=TRUE,
-                     showStdError=FALSE,
-                     separateConfColumn=TRUE,
-                     newLineConf=TRUE,
-                     group.pred=TRUE,
-                     showAbbrHeadline=TRUE,
-                     showPseudoR=TRUE,
-                     showLogLik=FALSE,
-                     showAIC=FALSE,
-                     showChi2=FALSE,
-                     showFamily=FALSE,
-                     remove.estimates=NULL,
-                     cellSpacing=0.2,
-                     cellGroupIndent=0.6,
-                     encoding=NULL,
-                     CSS=NULL,
-                     useViewer=TRUE,
-                     no.output=FALSE,
-                     remove.spaces=TRUE) {
+sjt.glm <- function(..., 
+                    file=NULL, 
+                    labelPredictors=NULL, 
+                    labelDependentVariables=NULL, 
+                    stringPredictors="Predictors", 
+                    stringDependentVariables="Dependent Variables", 
+                    showHeaderStrings=FALSE,
+                    stringModel="Model",
+                    stringIntercept="(Intercept)",
+                    stringObservations="Observations",
+                    stringOR="OR",
+                    stringCI="CI",
+                    stringSE="std. Error",
+                    stringP="p",
+                    digits.est=2,
+                    digits.p=3,
+                    digits.ci=2,
+                    digits.se=2,
+                    digits.summary=3,
+                    exp.coef=TRUE,
+                    pvaluesAsNumbers=TRUE,
+                    boldpvalues=TRUE,
+                    showConfInt=TRUE,
+                    showStdError=FALSE,
+                    separateConfColumn=TRUE,
+                    newLineConf=TRUE,
+                    group.pred=TRUE,
+                    showAbbrHeadline=TRUE,
+                    showPseudoR=FALSE,
+                    showLogLik=FALSE,
+                    showAIC=FALSE,
+                    showChi2=FALSE,
+                    showFamily=FALSE,
+                    remove.estimates=NULL,
+                    cellSpacing=0.2,
+                    cellGroupIndent=0.6,
+                    encoding=NULL,
+                    CSS=NULL,
+                    useViewer=TRUE,
+                    no.output=FALSE,
+                    remove.spaces=TRUE) {
   # --------------------------------------------------------
   # check p-value-style option
   # --------------------------------------------------------
@@ -340,6 +335,8 @@ sjt.glm <- function (...,
   tag.thead <- "thead"
   tag.tdata <- "tdata"
   tag.summary <- "summary"
+  tag.fixedparts <- "fixedparts"
+  tag.randomparts <- "randomparts"
   tag.colnames <- "colnames"
   tag.firstsumrow <- "firstsumrow"
   tag.labelcellborder <- "labelcellborder"
@@ -362,6 +359,8 @@ sjt.glm <- function (...,
   css.thead <- sprintf("border-bottom: 1px solid; padding:%.1fcm;", cellSpacing)
   css.tdata <- sprintf("padding:%.1fcm;", cellSpacing)
   css.summary <- "padding-top:0.1cm; padding-bottom:0.1cm;"
+  css.fixedparts <- "font-weight:bold; text-align:left;"
+  css.randomparts <- "font-weight:bold; text-align:left; padding-top:0.5em;"
   css.colnames <- "font-style:italic;"
   css.firstsumrow <- "border-top:1px solid;"
   css.labelcellborder <- "border-bottom:1px solid;"
@@ -387,33 +386,35 @@ sjt.glm <- function (...,
   # check user defined style sheets
   # ------------------------
   if (!is.null(CSS)) {
-    if (!is.null(CSS[['css.table']])) css.table <- ifelse(substring(CSS[['css.table']],1,1)=='+', paste0(css.table, substring(CSS[['css.table']],2)), CSS[['css.table']])
-    if (!is.null(CSS[['css.thead']])) css.thead <- ifelse(substring(CSS[['css.thead']],1,1)=='+', paste0(css.thead, substring(CSS[['css.thead']],2)), CSS[['css.thead']])
-    if (!is.null(CSS[['css.tdata']])) css.tdata <- ifelse(substring(CSS[['css.tdata']],1,1)=='+', paste0(css.tdata, substring(CSS[['css.tdata']],2)), CSS[['css.tdata']])
-    if (!is.null(CSS[['css.leftalign']])) css.leftalign <- ifelse(substring(CSS[['css.leftalign']],1,1)=='+', paste0(css.leftalign, substring(CSS[['css.leftalign']],2)), CSS[['css.leftalign']])
-    if (!is.null(CSS[['css.centeralign']])) css.centeralign <- ifelse(substring(CSS[['css.centeralign']],1,1)=='+', paste0(css.centeralign, substring(CSS[['css.centeralign']],2)), CSS[['css.centeralign']])
-    if (!is.null(CSS[['css.summary']])) css.summary <- ifelse(substring(CSS[['css.summary']],1,1)=='+', paste0(css.summary, substring(CSS[['css.summary']],2)), CSS[['css.summary']])
-    if (!is.null(CSS[['css.lasttablerow']])) css.lasttablerow <- ifelse(substring(CSS[['css.lasttablerow']],1,1)=='+', paste0(css.lasttablerow, substring(CSS[['css.lasttablerow']],2)), CSS[['css.lasttablerow']])
-    if (!is.null(CSS[['css.labelcellborder']])) css.labelcellborder <- ifelse(substring(CSS[['css.labelcellborder']],1,1)=='+', paste0(css.table, substring(CSS[['css.labelcellborder']],2)), CSS[['css.labelcellborder']])
-    if (!is.null(CSS[['css.colnames']])) css.colnames <- ifelse(substring(CSS[['css.colnames']],1,1)=='+', paste0(css.colnames, substring(CSS[['css.colnames']],2)), CSS[['css.colnames']])
-    if (!is.null(CSS[['css.firstsumrow']])) css.firstsumrow <- ifelse(substring(CSS[['css.firstsumrow']],1,1)=='+', paste0(css.firstsumrow, substring(CSS[['css.firstsumrow']],2)), CSS[['css.firstsumrow']])
-    if (!is.null(CSS[['css.topborder']])) css.topborder <- ifelse(substring(CSS[['css.topborder']],1,1)=='+', paste0(css.topborder, substring(CSS[['css.topborder']],2)), CSS[['css.topborder']])
-    if (!is.null(CSS[['css.depvarhead']])) css.depvarhead <- ifelse(substring(CSS[['css.depvarhead']],1,1)=='+', paste0(css.depvarhead, substring(CSS[['css.depvarhead']],2)), CSS[['css.depvarhead']])
-    if (!is.null(CSS[['css.topcontentborder']])) css.topcontentborder <- ifelse(substring(CSS[['css.topcontentborder']],1,1)=='+', paste0(css.topcontentborder, substring(CSS[['css.topcontentborder']],2)), CSS[['css.topcontentborder']])
-    if (!is.null(CSS[['css.annorow']])) css.annorow <- ifelse(substring(CSS[['css.annorow']],1,1)=='+', paste0(css.annorow, substring(CSS[['css.annorow']],2)), CSS[['css.annorow']])
-    if (!is.null(CSS[['css.noannorow']])) css.noannorow <- ifelse(substring(CSS[['css.noannorow']],1,1)=='+', paste0(css.noannorow, substring(CSS[['css.noannorow']],2)), CSS[['css.noannorow']])
-    if (!is.null(CSS[['css.annostyle']])) css.annostyle <- ifelse(substring(CSS[['css.annostyle']],1,1)=='+', paste0(css.annostyle, substring(CSS[['css.annostyle']],2)), CSS[['css.annostyle']])
-    if (!is.null(CSS[['css.grouprow']])) css.grouprow <- ifelse(substring(CSS[['css.grouprow']],1,1)=='+', paste0(css.grouprow, substring(CSS[['css.grouprow']],2)), CSS[['css.grouprow']])
-    if (!is.null(CSS[['css.tgrpdata']])) css.tgrpdata <- ifelse(substring(CSS[['css.tgrpdata']],1,1)=='+', paste0(css.tgrpdata, substring(CSS[['css.tgrpdata']],2)), CSS[['css.tgrpdata']])
-    if (!is.null(CSS[['css.modelcolumn1']])) css.modelcolumn1 <- ifelse(substring(CSS[['css.modelcolumn1']],1,1)=='+', paste0(css.modelcolumn1, substring(CSS[['css.modelcolumn1']],2)), CSS[['css.modelcolumn1']])
-    if (!is.null(CSS[['css.modelcolumn2']])) css.modelcolumn2 <- ifelse(substring(CSS[['css.modelcolumn2']],1,1)=='+', paste0(css.modelcolumn2, substring(CSS[['css.modelcolumn2']],2)), CSS[['css.modelcolumn2']])
-    if (!is.null(CSS[['css.modelcolumn3']])) css.modelcolumn3 <- ifelse(substring(CSS[['css.modelcolumn3']],1,1)=='+', paste0(css.modelcolumn3, substring(CSS[['css.modelcolumn3']],2)), CSS[['css.modelcolumn3']])
-    if (!is.null(CSS[['css.modelcolumn4']])) css.modelcolumn4 <- ifelse(substring(CSS[['css.modelcolumn4']],1,1)=='+', paste0(css.modelcolumn4, substring(CSS[['css.modelcolumn4']],2)), CSS[['css.modelcolumn4']])
+    if (!is.null(CSS[['css.table']])) css.table <- ifelse(substring(CSS[['css.table']], 1, 1) == '+', paste0(css.table, substring(CSS[['css.table']], 2)), CSS[['css.table']])
+    if (!is.null(CSS[['css.thead']])) css.thead <- ifelse(substring(CSS[['css.thead']], 1, 1) == '+', paste0(css.thead, substring(CSS[['css.thead']], 2)), CSS[['css.thead']])
+    if (!is.null(CSS[['css.tdata']])) css.tdata <- ifelse(substring(CSS[['css.tdata']], 1, 1) == '+', paste0(css.tdata, substring(CSS[['css.tdata']], 2)), CSS[['css.tdata']])
+    if (!is.null(CSS[['css.leftalign']])) css.leftalign <- ifelse(substring(CSS[['css.leftalign']], 1, 1) == '+', paste0(css.leftalign, substring(CSS[['css.leftalign']], 2)), CSS[['css.leftalign']])
+    if (!is.null(CSS[['css.centeralign']])) css.centeralign <- ifelse(substring(CSS[['css.centeralign']], 1, 1) == '+', paste0(css.centeralign, substring(CSS[['css.centeralign']], 2)), CSS[['css.centeralign']])
+    if (!is.null(CSS[['css.summary']])) css.summary <- ifelse(substring(CSS[['css.summary']], 1, 1) == '+', paste0(css.summary, substring(CSS[['css.summary']], 2)), CSS[['css.summary']])
+    if (!is.null(CSS[['css.fixedparts']])) css.fixedparts <- ifelse(substring(CSS[['css.fixedparts']], 1, 1) == '+', paste0(css.fixedparts, substring(CSS[['css.fixedparts']], 2)), CSS[['css.fixedparts']])
+    if (!is.null(CSS[['css.randomparts']])) css.randomparts <- ifelse(substring(CSS[['css.randomparts']], 1, 1) == '+', paste0(css.randomparts, substring(CSS[['css.randomparts']], 2)), CSS[['css.randomparts']])
+    if (!is.null(CSS[['css.lasttablerow']])) css.lasttablerow <- ifelse(substring(CSS[['css.lasttablerow']], 1, 1) == '+', paste0(css.lasttablerow, substring(CSS[['css.lasttablerow']], 2)), CSS[['css.lasttablerow']])
+    if (!is.null(CSS[['css.labelcellborder']])) css.labelcellborder <- ifelse(substring(CSS[['css.labelcellborder']], 1, 1) == '+', paste0(css.table, substring(CSS[['css.labelcellborder']], 2)), CSS[['css.labelcellborder']])
+    if (!is.null(CSS[['css.colnames']])) css.colnames <- ifelse(substring(CSS[['css.colnames']], 1, 1) == '+', paste0(css.colnames, substring(CSS[['css.colnames']], 2)), CSS[['css.colnames']])
+    if (!is.null(CSS[['css.firstsumrow']])) css.firstsumrow <- ifelse(substring(CSS[['css.firstsumrow']], 1, 1) == '+', paste0(css.firstsumrow, substring(CSS[['css.firstsumrow']], 2)), CSS[['css.firstsumrow']])
+    if (!is.null(CSS[['css.topborder']])) css.topborder <- ifelse(substring(CSS[['css.topborder']], 1, 1) == '+', paste0(css.topborder, substring(CSS[['css.topborder']], 2)), CSS[['css.topborder']])
+    if (!is.null(CSS[['css.depvarhead']])) css.depvarhead <- ifelse(substring(CSS[['css.depvarhead']], 1, 1) == '+', paste0(css.depvarhead, substring(CSS[['css.depvarhead']], 2)), CSS[['css.depvarhead']])
+    if (!is.null(CSS[['css.topcontentborder']])) css.topcontentborder <- ifelse(substring(CSS[['css.topcontentborder']], 1, 1) == '+', paste0(css.topcontentborder, substring(CSS[['css.topcontentborder']], 2)), CSS[['css.topcontentborder']])
+    if (!is.null(CSS[['css.annorow']])) css.annorow <- ifelse(substring(CSS[['css.annorow']], 1, 1) == '+', paste0(css.annorow, substring(CSS[['css.annorow']], 2)), CSS[['css.annorow']])
+    if (!is.null(CSS[['css.noannorow']])) css.noannorow <- ifelse(substring(CSS[['css.noannorow']], 1, 1) == '+', paste0(css.noannorow, substring(CSS[['css.noannorow']], 2)), CSS[['css.noannorow']])
+    if (!is.null(CSS[['css.annostyle']])) css.annostyle <- ifelse(substring(CSS[['css.annostyle']], 1, 1) == '+', paste0(css.annostyle, substring(CSS[['css.annostyle']], 2)), CSS[['css.annostyle']])
+    if (!is.null(CSS[['css.grouprow']])) css.grouprow <- ifelse(substring(CSS[['css.grouprow']], 1, 1) == '+', paste0(css.grouprow, substring(CSS[['css.grouprow']], 2)), CSS[['css.grouprow']])
+    if (!is.null(CSS[['css.tgrpdata']])) css.tgrpdata <- ifelse(substring(CSS[['css.tgrpdata']], 1, 1) == '+', paste0(css.tgrpdata, substring(CSS[['css.tgrpdata']], 2)), CSS[['css.tgrpdata']])
+    if (!is.null(CSS[['css.modelcolumn1']])) css.modelcolumn1 <- ifelse(substring(CSS[['css.modelcolumn1']], 1, 1) == '+', paste0(css.modelcolumn1, substring(CSS[['css.modelcolumn1']], 2)), CSS[['css.modelcolumn1']])
+    if (!is.null(CSS[['css.modelcolumn2']])) css.modelcolumn2 <- ifelse(substring(CSS[['css.modelcolumn2']], 1, 1) == '+', paste0(css.modelcolumn2, substring(CSS[['css.modelcolumn2']], 2)), CSS[['css.modelcolumn2']])
+    if (!is.null(CSS[['css.modelcolumn3']])) css.modelcolumn3 <- ifelse(substring(CSS[['css.modelcolumn3']], 1, 1) == '+', paste0(css.modelcolumn3, substring(CSS[['css.modelcolumn3']], 2)), CSS[['css.modelcolumn3']])
+    if (!is.null(CSS[['css.modelcolumn4']])) css.modelcolumn4 <- ifelse(substring(CSS[['css.modelcolumn4']], 1, 1) == '+', paste0(css.modelcolumn4, substring(CSS[['css.modelcolumn4']], 2)), CSS[['css.modelcolumn4']])
   }
   # ------------------------
   # set page style
   # ------------------------
-  page.style <-  sprintf("<style>%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }.%s { %s }.%s { %s }.%s { %s }\n</style>",
+  page.style <-  sprintf("<style>%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
                          tag.table, css.table, tag.thead, css.thead, tag.tdata, css.tdata,
                          tag.summary, css.summary, tag.colnames, css.colnames,
                          tag.firstsumrow, css.firstsumrow, tag.lasttablerow, css.lasttablerow,
@@ -426,7 +427,9 @@ sjt.glm <- function (...,
                          tag.modelcolumn1, css.modelcolumn1,
                          tag.modelcolumn2, css.modelcolumn2,
                          tag.modelcolumn3, css.modelcolumn3,
-                         tag.modelcolumn4, css.modelcolumn4)
+                         tag.modelcolumn4, css.modelcolumn4,
+                         tag.fixedparts, css.fixedparts,
+                         tag.randomparts, css.randomparts)
   # ------------------------
   # start content
   # ------------------------
@@ -436,15 +439,55 @@ sjt.glm <- function (...,
   # retrieve fitted models
   # ------------------------
   input_list <- list(...)
-  # check if we have different amount of coefficients
-  # in fitted models - if yes, we have e.g. stepwise models
-  sw.fit <- (length(unique(sapply(input_list, function(x) length(coef(x))))) > 1)
-  # if all fitted models have same amount of coefficients, check
-  # whether all coefficients have same name. if not, we have models
-  # with different predictors (e.g. stepwise comparison)
-  if (sw.fit == FALSE) {
-    all.coefs <- sapply(input_list, function(x) sort(names(coef(x))))
-    sw.fit <- any(apply(all.coefs, 1, function(x) length(unique(x))) > 1)
+  # --------------------------------------------------------
+  # check length. if we have a list of fitted model, 
+  # we need to "unlist" them
+  # --------------------------------------------------------
+  if (class(input_list[[1]]) == "list") input_list <- lapply(input_list[[1]], function(x) x)
+  # ------------------------
+  # do we have mixed models?
+  # ------------------------
+  lmerob <- any(class(input_list[[1]]) == "glmerMod")
+  if (lmerob && !requireNamespace("lme4", quietly = TRUE)) {
+    stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
+  }
+  # ------------------------
+  # check for stepwise models, when fitted models
+  # are mixed effects models
+  # ------------------------
+  if (lmerob) {
+    # "showICC" is not used in this function, so we
+    # use "showR2" instead of showICC when calling this function
+    # with mixed models.
+    showICC <- showPseudoR
+    showPseudoR <- FALSE
+    # check if we have different amount of coefficients
+    # in fitted models - if yes, we have e.g. stepwise models
+    sw.fit <- length(unique(sapply(input_list, function(x) length(lme4::fixef(x))))) > 1
+    # if all fitted models have same amount of coefficients, check
+    # whether all coefficients have same name. if not, we have models
+    # with different predictors (e.g. stepwise comparison)
+    if (sw.fit == FALSE) {
+      all.coefs <- sapply(input_list, function(x) sort(names(lme4::fixef(x))))
+      sw.fit <- any(apply(all.coefs, 1, function(x) length(unique(x))) > 1)
+    }
+  }
+  # ------------------------
+  # check for stepwise models, when fitted models
+  # are simple linear models
+  # ------------------------
+  else {
+    showICC <- FALSE
+    # check if we have different amount of coefficients
+    # in fitted models - if yes, we have e.g. stepwise models
+    sw.fit <- length(unique(sapply(input_list, function(x) length(coef(x))))) > 1
+    # if all fitted models have same amount of coefficients, check
+    # whether all coefficients have same name. if not, we have models
+    # with different predictors (e.g. stepwise comparison)
+    if (sw.fit == FALSE) {
+      all.coefs <- sapply(input_list, function(x) sort(names(coef(x))))
+      sw.fit <- any(apply(all.coefs, 1, function(x) length(unique(x))) > 1)
+    }
   }
   # -------------------------------------
   # prepare content, i.e. retrieve all
@@ -455,7 +498,6 @@ sjt.glm <- function (...,
   # iterate all models
   # -------------------------------------
   for (i in 1:length(input_list)) {
-    fit.df <- data.frame()
     # -------------------------------------
     # retrieve model
     # -------------------------------------
@@ -463,26 +505,43 @@ sjt.glm <- function (...,
     # -------------------------------------
     # retrieve ci for model
     # -------------------------------------
-    confis <- confint(fit)
+    if (lmerob) {
+      confis <- lme4::confint.merMod(fit, method = "Wald")
+      coef.fit <- lme4::fixef(fit)
+    } else {
+      confis <- confint(fit)
+      coef.fit <- coef(fit)
+    }
     # -------------------------------------
     # write data to data frame. we need names of
     # coefficients, estimated values, ci,
     # std. beta and p-values
     # -------------------------------------
-    fit.df <- data.frame(names(coef(fit)))
+    fit.df <- data.frame(names(coef.fit))
     if (exp.coef) {
-      fit.df$coeffs <- sprintf("%.*f", digits.est, exp(coef(fit)))
+      fit.df$coeffs <- sprintf("%.*f", digits.est, exp(coef.fit))
       fit.df$confi_lower <- sprintf("%.*f", digits.ci, exp(confis[, 1]))
       fit.df$confi_higher <- sprintf("%.*f", digits.ci, exp(confis[, 2]))
     } else {
-      fit.df$coeffs <- sprintf("%.*f", digits.est, coef(fit))
+      fit.df$coeffs <- sprintf("%.*f", digits.est, coef.fit)
       fit.df$confi_lower <- sprintf("%.*f", digits.ci, confis[, 1])
       fit.df$confi_higher <- sprintf("%.*f", digits.ci, confis[, 2])
     }
-    # p-values
-    fit.df$pv <- round(summary(fit)$coefficients[, 4], digits.p)
-    # standard error
-    fit.df$se <- sprintf("%.*f", digits.se, summary(fit)$coefficients[, 2])
+    # -------------------------------------
+    # extracting p-values and se differs between
+    # lmer and lm
+    # -------------------------------------
+    if (lmerob) {
+      # p-values
+      fit.df$pv <- round(get_lmerMod_pvalues(fit), digits.p)
+      # standard error
+      fit.df$se <- sprintf("%.*f", digits.se, coef(summary(fit))[, "Std. Error"])
+    } else {
+      # p-values
+      fit.df$pv <- round(summary(fit)$coefficients[, 4], digits.p)
+      # standard error
+      fit.df$se <- sprintf("%.*f", digits.se, summary(fit)$coefficients[, 2])
+    }
     # -------------------------------------
     # prepare p-values, either as * or as numbers
     # -------------------------------------
@@ -517,9 +576,18 @@ sjt.glm <- function (...,
     # -------------------------------------
     # retrieve factors and number of levels
     # -------------------------------------
-    for (f in 1:ncol(fit$model)) {
-      fit.df$is_fac[f] <- is.factor(fit$model[, f])
-      fit.df$fac_lvl[f] <- length(levels(fit$model[, f]))
+    if (lmerob) {
+      # find fixed effects in model frame
+      fe.pos <- which(names(lme4::fixef(fit)) %in% colnames(fit@frame))
+      # copy intercept and fixed effects of model
+      fit.model <- data.frame(cbind(y = lme4::getME(fit, "y"),
+                                    fit@frame[, fe.pos]))
+    } else {
+      fit.model <- fit$model
+    }
+    for (f in 1:ncol(fit.model)) {
+      fit.df$is_fac[f] <- is.factor(fit.model[[f]])
+      fit.df$fac_lvl[f] <- length(levels(fit.model[[f]]))
     }
     # -------------------------------------
     # set column names. we need the same name
@@ -589,11 +657,6 @@ sjt.glm <- function (...,
     joined.df <- dplyr::slice(joined.df, keep.estimates)
   }
   # -------------------------------------
-  # copy all variables with factor status and levels
-  # -------------------------------------
-  fac_cat.df <- dplyr::select(joined.df, starts_with("categorical")) 
-  fac_lvl.df <- dplyr::select(joined.df, starts_with("fac.levels")) 
-  # -------------------------------------
   # remove all variables with factor status 
   # and levels from joined.df
   # -------------------------------------
@@ -652,7 +715,7 @@ sjt.glm <- function (...,
   # -------------------------------------
   if (!is.null(labelDependentVariables)) {
     for (i in 1:length(labelDependentVariables)) {
-      if (headerColSpanFactor>1) {
+      if (headerColSpanFactor > 1) {
         page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\" colspan=\"%i\">%s</td>", tcp, headerColSpanFactor, labelDependentVariables[i]))
       }
       else {
@@ -663,7 +726,7 @@ sjt.glm <- function (...,
   }
   else {
     for (i in 1:length(input_list)) {
-      if (headerColSpanFactor>1) {
+      if (headerColSpanFactor > 1) {
         page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\" colspan=\"%i\">%s %i</td>", tcp, headerColSpanFactor, stringModel, i))
       }
       else {
@@ -675,7 +738,7 @@ sjt.glm <- function (...,
   # -------------------------------------
   # set default predictor labels
   # -------------------------------------
-  if (is.null(labelPredictors)) {
+  if (is.null(labelPredictors) && !lmerob) {
     labelPredictors <- suppressWarnings(retrieveModelLabels(input_list))
   }
   # --------------------------------------------------------
@@ -689,7 +752,7 @@ sjt.glm <- function (...,
   # -------------------------------------
   # should factor predictors be grouped?
   # -------------------------------------
-  if (group.pred) {
+  if (group.pred && !lmerob) {
     # get indices
     group.pred.list <- retrieveModelGroupIndices(input_list, remove.estimates)
     group.pred.rows <- group.pred.list[[1]]
@@ -698,8 +761,7 @@ sjt.glm <- function (...,
     # if we have also stepwise models, grouping may
     # not work properly
     if (sw.fit) message("Fitted models have different coefficients. Grouping may not work properly. Set 'group.pred = FALSE' if you encouter cluttered labelling.")
-  }
-  else {
+  } else {
     group.pred.rows <- group.pred.span <- group.pred.labs <- NULL
   }
   # -------------------------------------
@@ -726,47 +788,70 @@ sjt.glm <- function (...,
     page.content <- paste(page.content, "\n  </tr>\n")
   }
   # -------------------------------------
-  # close table headline
+  # 1. table part: "Fixed parts" - only used
+  # for linear mixed models
   # -------------------------------------
-  page.content <- paste0(page.content, "  <tr>\n")
+  if (lmerob) {
+    # css attribute "topcontentborder" already in this table row
+    page.content <- paste0(page.content, sprintf("  <tr>\n    <td colspan=\"%i\" class=\"tdata leftalign topcontentborder fixedparts\">Fixed Parts</td>\n  </tr>\n", headerColSpan + 1))
+    # so it's not needed for intercept row
+    tcb_class <- ""
+  } else {
+    # for simple linear models, we need the
+    # css attribute "topcontentborder" for the
+    # intercept row
+    tcb_class <- "topcontentborder "
+  }
   # -------------------------------------
   # 1. row: intercept
   # -------------------------------------
-  page.content <- paste0(page.content, sprintf("    <td class=\"tdata leftalign topcontentborder\">%s</td>", stringIntercept))
+  page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata %sleftalign\">%s</td>", tcb_class, stringIntercept))
   for (i in 1:length(input_list)) {
     # confidence interval in separate column
     if (separateConfColumn) {
       # open table cell for Beta-coefficient
-      page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign topcontentborder modelcolumn1\">%s", joined.df[1, (i-1)*5+2]))
+      page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign %smodelcolumn1\">%s", 
+                                                   tcb_class, 
+                                                   joined.df[1, (i - 1) * 5 + 2]))
       # if p-values are not shown as numbers, insert them after beta-value
-      if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[1, (i-1)*5+5]))
+      if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[1, (i - 1) * 5 + 5]))
       # if we have CI, start new table cell (CI in separate column)
       if (showConfInt) {
-        page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign topcontentborder modelcolumn2\">%s&nbsp;-&nbsp;%s</td>", joined.df[1, (i-1)*5+3], joined.df[1, (i-1)*5+4]))
-      }
-      else {
+        page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign %smodelcolumn2\">%s&nbsp;-&nbsp;%s</td>", 
+                                                     tcb_class, 
+                                                     joined.df[1, (i - 1) * 5 + 3], 
+                                                     joined.df[1, (i - 1) * 5 + 4]))
+      } else {
         page.content <- paste0(page.content, "</td>")
       }
-    }
-    else {
+    } else {
       # open table cell for Beta-coefficient
-      page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign topcontentborder modelcolumn1\">%s", joined.df[1, (i-1)*5+2]))
+      page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign %smodelcolumn1\">%s", 
+                                                   tcb_class, 
+                                                   joined.df[1, (i - 1) * 5 + 2]))
       # confidence interval in Beta-column
-      if (showConfInt) page.content <- paste0(page.content, sprintf("%s(%s&nbsp;-&nbsp;%s)", linebreakstring, joined.df[1, (i-1)*5+3], joined.df[1, (i-1)*5+4]))
+      if (showConfInt) page.content <- paste0(page.content, sprintf("%s(%s&nbsp;-&nbsp;%s)", 
+                                                                    linebreakstring, 
+                                                                    joined.df[1, (i - 1) * 5 + 3], 
+                                                                    joined.df[1, (i - 1) * 5 + 4]))
       # if p-values are not shown as numbers, insert them after beta-value
-      if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[1, (i-1)*5+5]))
+      if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[1, (i - 1) * 5 + 5]))
       page.content <- paste0(page.content, "</td>")
     }
     # show std. error
-    if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign topcontentborder modelcolumn3\">%s</td>", joined.df[1, (i-1)*5+6]))
+    if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign %smodelcolumn3\">%s</td>",
+                                                                   tcb_class,
+                                                                   joined.df[1, (i - 1) * 5 + 6]))
     # show p-values as numbers in separate column
-    if (pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign topcontentborder modelcolumn4\">%s</td>", joined.df[1, (i-1)*5+5]))
+    if (pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign %smodelcolumn4\">%s</td>", 
+                                                                       tcb_class,
+                                                                       joined.df[1, (i - 1) * 5 + 5]))
   }
   page.content <- paste0(page.content, "\n  </tr>")  
   # -------------------------------------
   # subsequent rows: pedictors
   # -------------------------------------
-  for (i in 1:(nrow(joined.df)-1)) {
+  for (i in 1:(nrow(joined.df) - 1)) {
     # -------------------------------------
     # do we need to insert a "factor grouping headline row"?
     # -------------------------------------
@@ -780,57 +865,67 @@ sjt.glm <- function (...,
     }
     if (!is.null(group.pred.rows) && any(group.pred.span == i)) {
       indent.tag <- "tgrpdata"
-    }
-    else {
+    } else {
       indent.tag <- "tdata"
     }
     page.content <- paste0(page.content, "\n  <tr>\n", sprintf("    <td class=\"%s leftalign\">%s</td>", indent.tag, labelPredictors[i]))
     # ---------------------------------------
     # helper function, checks if string is empty
     # ---------------------------------------
-    is_empty <- function(x) return (is.null(x) || nchar(x) == 0)
+    is_empty <- function(x) return(is.null(x) || nchar(x) == 0)
     # ---------------------------------------
     # go through fitted model's statistics
     # ---------------------------------------
     for (j in 1:length(input_list)) {
       # retieve lower and upper ci
-      ci.lo <- joined.df[i+1, (j-1)*5+3]
-      ci.hi <- joined.df[i+1, (j-1)*5+4]
+      ci.lo <- joined.df[i + 1, (j - 1) * 5 + 3]
+      ci.hi <- joined.df[i + 1, (j - 1) * 5 + 4]
       ci.sep.string <- ifelse(is_empty(ci.lo), "", "&nbsp;-&nbsp;")
       # confidence interval in separate column
       if (separateConfColumn) {
         # open table cell for Beta-coefficient
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumn1\">%s", joined.df[i+1, (j-1)*5+2]))
+        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumn1\">%s", 
+                                                     joined.df[i + 1, (j - 1) * 5 + 2]))
         # if p-values are not shown as numbers, insert them after beta-value
-        if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[i+1, (j-1)*5+5]))
+        if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", 
+                                                                            joined.df[i + 1, (j - 1) * 5 + 5]))
         # if we have CI, start new table cell (CI in separate column)
         if (showConfInt) {
-          page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign modelcolumn2\">%s%s%s</td>", ci.lo, ci.sep.string, ci.hi))
-        }
-        else {
+          page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign modelcolumn2\">%s%s%s</td>", 
+                                                       ci.lo, 
+                                                       ci.sep.string, 
+                                                       ci.hi))
+        } else {
           page.content <- paste0(page.content, "</td>")
         }
-      }
-      else {
+      } else {
         # open table cell for Beta-coefficient
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumn1\">%s", joined.df[i+1, (j-1)*5+2]))
+        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumn1\">%s", 
+                                                     joined.df[i + 1, (j - 1) * 5 + 2]))
         # confidence interval in Beta-column
-        if (showConfInt && !is_empty(ci.lo)) page.content <- paste0(page.content, sprintf("%s(%s%s%s)", linebreakstring, ci.lo, ci.sep.string, ci.hi))
+        if (showConfInt && !is_empty(ci.lo)) page.content <- paste0(page.content, sprintf("%s(%s%s%s)", 
+                                                                                          linebreakstring, 
+                                                                                          ci.lo, 
+                                                                                          ci.sep.string, 
+                                                                                          ci.hi))
         # if p-values are not shown as numbers, insert them after beta-value
-        if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[i+1, (j-1)*5+5]))
+        if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", 
+                                                                            joined.df[i + 1, (j - 1) * 5 + 5]))
         page.content <- paste0(page.content, "</td>")
       }
       # show std. error
-      if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign modelcolumn3\">%s</td>", joined.df[i+1, (j-1)*5+6]))
+      if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign modelcolumn3\">%s</td>", 
+                                                                     joined.df[i + 1, (j - 1) * 5 + 6]))
       # show p-values as numbers in separate column
-      if (pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign modelcolumn4\">%s</td>", joined.df[i+1, (j-1)*5+5]))
+      if (pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign modelcolumn4\">%s</td>", 
+                                                                         joined.df[i + 1, (j - 1) * 5 + 5]))
     }
     page.content <- paste0(page.content, "\n  </tr>")
   }
   # -------------------------------------
-  # Model-Summary: N
+  # Summary-row: column spans
   # -------------------------------------
-  if (headerColSpanFactor>1) {
+  if (headerColSpanFactor > 1) {
     colspanstring <- sprintf("<td class=\"tdata centeralign summary\" colspan=\"%i\">", headerColSpanFactor)
     colspanstringfirstrow <- sprintf("<td class=\"tdata summary centeralign firstsumrow\" colspan=\"%i\">", headerColSpanFactor)
   }
@@ -838,6 +933,68 @@ sjt.glm <- function (...,
     colspanstring <- c("<td class=\"tdata centeralign summary\">")
     colspanstringfirstrow <- c("<td class=\"tdata summary centeralign firstsumrow\">")
   }
+  # -------------------------------------
+  # Model-Summary: N of grouping levels
+  # only applies to mixed models
+  # -------------------------------------
+  if (lmerob) {
+    # css attribute "topcontentborder" already in this table row
+    page.content <- paste0(page.content, sprintf("  <tr>\n    <td colspan=\"%i\" class=\"tdata summary leftalign randomparts\">Random Parts</td>\n  </tr>\n", headerColSpan + 1))
+    # first models indicates grouping levels
+    # we have to assume comparable models with same
+    # random intercepts
+    # count all random intercepts of all models
+    all_mm_counts <- unlist(lapply(input_list, function(x) length(lme4::getME(x, "flist"))))
+    # retrieve maximum random intercepts
+    mmcount <- max(all_mm_counts)
+    # get random intercepts from model with most intercepts
+    mmgrps <- lme4::getME(input_list[[which.max(all_mm_counts)]], "flist")
+    # iterate grouping levels
+    for (gl in 1:mmcount) {
+      page.content <- paste0(page.content, sprintf("\n  <tr>\n    <td class=\"tdata summary leftalign\">N<sub>%s</sub></td>\n", names(mmgrps[gl])))
+      # iterate models
+      for (i in 1:length(input_list)) {
+        # retrieve random intercepts of each model
+        sub.mmgrps <- lme4::getME(input_list[[i]], "flist")
+        # does model have enough random intercepts?
+        # if yes, print
+        if (length(sub.mmgrps) >= gl) {
+          page.content <- paste(page.content, sprintf("   %s%i</td>\n", colspanstring, length(levels(sub.mmgrps[[gl]]))))
+        } else {
+          page.content <- paste(page.content, sprintf("   %s&nbsp;</td>\n", colspanstring))
+        }
+      }
+      page.content <- paste0(page.content, "  </tr>\n")
+    }
+    # -------------------------------------
+    # Model-Summary: icc
+    # -------------------------------------
+    if (showICC) {
+      # get icc from models
+      summary.icc <- sjmisc::icc(input_list[[which.max(all_mm_counts)]])
+      # iterate icc's
+      for (si in 1:mmcount) {
+        page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata leftalign summary\">ICC<sub>%s</sub></td>\n", names(summary.icc[si])))
+        # iterate models
+        for (i in 1:length(input_list)) {
+          # get icc from models
+          sub.summary.icc <- sjmisc::icc(input_list[[i]])
+          # does model have enough icc values?
+          # if yes, print
+          if (length(sub.summary.icc) >= si) {
+            sum.icc.str <- paste0(sprintf("    %.*f", digits.summary, sub.summary.icc[si]), collapse = "")
+            page.content <- paste0(page.content, colspanstring, sum.icc.str, "</td>\n")
+          } else {
+            page.content <- paste0(page.content, colspanstring, "&nbsp;</td>\n")
+          }
+        }
+        page.content <- paste(page.content, "  </tr>\n")
+      }
+    }
+  }
+  # -------------------------------------
+  # Model-Summary: N
+  # -------------------------------------
   page.content <- paste0(page.content, sprintf("\n  <tr>\n    <td class=\"tdata summary leftalign firstsumrow\">%s</td>\n", stringObservations))
   for (i in 1:length(input_list)) {
     page.content <- paste(page.content, sprintf("   %s%i</td>\n", colspanstringfirstrow, nobs(input_list[[i]])))
@@ -864,7 +1021,7 @@ sjt.glm <- function (...,
     page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">-2 Log-Likelihood</td>\n")
     for (i in 1:length(input_list)) {
       psr <- PseudoR2(input_list[[i]])
-      page.content <- paste0(page.content, sprintf("    %s%.*f</td>\n", colspanstring, digits.summary, -2*logLik(input_list[[i]])))
+      page.content <- paste0(page.content, sprintf("    %s%.*f</td>\n", colspanstring, digits.summary, -2*as.vector(logLik(input_list[[i]]))))
     }
     page.content <- paste0(page.content, "  </tr>\n")
   }
@@ -894,7 +1051,11 @@ sjt.glm <- function (...,
   if (showFamily) {
     page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">Family</td>\n")
     for (i in 1:length(input_list)) {
-      fam <- input_list[[i]]$family
+      if (lmerob) {
+        fam <- family(fit)
+      } else {
+        fam <- input_list[[i]]$family
+      }
       page.content <- paste0(page.content, sprintf("    %s%s (%s)</td>\n", colspanstring, fam$family, fam$link))
     }
     page.content <- paste0(page.content, "  </tr>\n")
@@ -960,9 +1121,221 @@ sjt.glm <- function (...,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = "sjtglm",
-                       list(page.style = page.style,
-                            page.content = page.content,
-                            output.complete = toWrite,
-                            knitr = knitr)))
+  invisible(structure(class = "sjtglm",
+                      list(page.style = page.style,
+                           page.content = page.content,
+                           output.complete = toWrite,
+                           knitr = knitr)))
+}
+
+
+#' @title Show (and compare) generalized linear mixed models as HTML table
+#' @name sjt.glmer
+#' 
+#' @description Summarizes (multiple) fitted generalized linear mixed models (odds ratios, ci, p-values...)
+#'                as HTML table, or saves them as file. The fitted models may have different predictors,
+#'                e.g. when comparing different stepwise fitted models.
+#' 
+#' @param ... One or more mixed models fitted with \code{\link[lme4]{glmer}}.
+#' @param file The destination file, which will be in html-format. If no filepath is specified,
+#'          the file will be saved as temporary file and openend either in the RStudio View pane or
+#'          in the default web browser.
+#' @param labelPredictors Labels of the predictor variables, provided as char vector.
+#' @param labelDependentVariables Labels of the dependent variables of all fitted models
+#'          which have been used as first parameter(s), provided as char vector.
+#' @param stringPredictors String constant used as headline for the predictor column.
+#'          Default is \code{"Predictors"}.
+#' @param stringDependentVariables String constant used as headline for the 
+#'          dependent variable columns. Default is \code{"Dependent Variables"}.
+#' @param showHeaderStrings If \code{TRUE}, the header strings \code{stringPredictors}
+#'          and \code{stringDependentVariables} are shown. By default, they're hidden.
+#' @param stringModel String constant used as headline for the model names in case no 
+#'          labels for the dependent variables are provided (see labelDependentVariables).
+#'          Default is \code{"Model"}.
+#' @param stringIntercept String constant used as headline for the Intercept row
+#'          default is \code{"Intercept"}.
+#' @param stringObservations String constant used in the summary row for the count of observation
+#'          (cases). Default is \code{"Observations"}.
+#' @param stringOR String used for the column heading of odds ratio values. Default is \code{"OR"}.
+#' @param stringCI String used for the column heading of confidence interval values. Default is \code{"CI"}.
+#' @param stringSE String used for the column heading of standard error values. Default is \code{"std. Error"}.
+#' @param stringP String used for the column heading of p values. Default is \code{"p"}.
+#' @param digits.est Amount of decimals for estimators.
+#' @param digits.p Amount of decimals for p-values.
+#' @param digits.ci Amount of decimals for confidence intervals.
+#' @param digits.se Amount of decimals for standard error.
+#' @param digits.summary Amount of decimals for values in model summary.
+#' @param exp.coef If \code{TRUE} (default), regression coefficients and confidence intervals are exponentiated
+#'          (odds ratios, \code{\link{exp}(\link{coef}(fit))}. Use \code{FALSE} if you want the non-exponentiated coefficients
+#'          (log-odds) as they are provided by the \code{\link{summary}} function.
+#' @param pvaluesAsNumbers If \code{TRUE}, p-values are shown as numbers. If \code{FALSE} (default),
+#'          p-values are indicated by asterisks.
+#' @param boldpvalues If \code{TRUE} (default), significant p-values are shown bold faced.
+#' @param showConfInt If \code{TRUE} (default), the confidence intervall is also printed to the table. Use
+#'          \code{FALSE} to omit the CI in the table.
+#' @param showStdError If \code{TRUE}, the standard errors are also printed.
+#'          Default is \code{FALSE}.
+#' @param separateConfColumn if \code{TRUE}, the CI values are shown in a separate table column.
+#'          Default is \code{FALSE}.
+#' @param newLineConf If \code{TRUE} and \code{separateConfColumn} is \code{FALSE}, inserts a line break
+#'          between OR and CI values. If \code{FALSE}, CI values are printed in the same
+#'          line with OR values.
+#' @param showAbbrHeadline If \code{TRUE} (default), the table data columns have a headline with 
+#'          abbreviations for odds ratios, confidence interval and p-values.
+#' @param showLogLik If \code{TRUE}, the Log-Likelihood for each model is printed
+#'          in the model summary. Default is \code{FALSE}.
+#' @param showICC If \code{TRUE}, the intra-class-correlation for each model is printed
+#'          in the model summary.
+#' @param showAIC If \code{TRUE}, the \code{\link{AIC}} value for each model is printed
+#'          in the model summary. Default is \code{FALSE}.
+#' @param showFamily If \code{TRUE}, the family object and link function for each fitted model
+#'          are printed. Can be used in case you want to compare models with different link functions
+#'          and same predictors and response, to decide which model fits best. See \code{\link{family}}
+#'          for more details. It is recommended to inspect the model \code{\link{AIC}} (see \code{showAIC}) to get a
+#'          decision help for which model to choose.
+#' @param remove.estimates numeric vector with indices (order equals to row index of \code{coef(fit)}) 
+#'          or character vector with coefficient names that indicate which estimates should be removed
+#'          from the table output. The first estimate is the intercept, followed by the model predictors.
+#'          \emph{The intercept cannot be removed from the table output!} \code{remove.estimates = c(2:4)} 
+#'          would remove the 2nd to the 4th estimate (1st to 3d predictor after intercept) from the output. 
+#'          \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default 
+#'          is \code{NULL}, i.e. all estimates are printed.
+#' @param cellSpacing The inner padding of table cells. By default, this value is 0.2 (measure is cm), which is
+#'          suitable for viewing the table. Decrease this value (0.05 to 0.1) if you want to import the table
+#'          into Office documents. This is a convenient parameter for the \code{CSS} parameter for changing
+#'          cell spacing, which would be: \code{CSS=list(css.thead="padding:0.2cm;", css.tzdata="padding:0.2cm;")}.
+#' @param encoding The charset encoding used for variable and value labels. Default is \code{NULL}, so encoding
+#'          will be auto-detected depending on your platform (\code{"UTF-8"} for Unix and \code{"Windows-1252"} for
+#'          Windows OS). Change encoding if specific chars are not properly displayed (e.g.) German umlauts).
+#' @param CSS A \code{\link{list}} with user-defined style-sheet-definitions, according to the 
+#'          \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See return value \code{page.style} for details
+#'          of all style-sheet-classnames that are used in this function. Parameters for this list need:
+#'          \enumerate{
+#'            \item the class-names with \code{"css."}-prefix as parameter name and
+#'            \item each style-definition must end with a semicolon
+#'          } 
+#'          You can add style information to the default styles by using a + (plus-sign) as
+#'          initial character for the parameter attributes. Examples:
+#'          \itemize{
+#'            \item \code{css.table='border:2px solid red;'} for a solid 2-pixel table border in red.
+#'            \item \code{css.summary='font-weight:bold;'} for a bold fontweight in the summary row.
+#'            \item \code{css.lasttablerow='border-bottom: 1px dotted blue;'} for a blue dotted border of the last table row.
+#'            \item \code{css.colnames='+color:green'} to add green color formatting to column names.
+#'          }
+#'          See further examples below and \href{http://www.strengejacke.de/sjPlot/sjtbasics}{sjPlot manual: sjt-basics}.
+#' @param useViewer If \code{TRUE}, the function tries to show the HTML table in the IDE's viewer pane. If
+#'          \code{FALSE} or no viewer available, the HTML table is opened in a web browser.
+#' @param no.output If \code{TRUE}, the html-output is neither opened in a browser nor shown in
+#'          the viewer pane and not even saved to file. This option is useful when the html output
+#'          should be used in \code{knitr} documents. The html output can be accessed via the return
+#'          value.
+#' @param remove.spaces logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+#'          that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
+#'          may look less pretty, but it may help when exporting html-tables to office tools.
+#' @return Invisibly returns
+#'          \itemize{
+#'            \item the web page style sheet (\code{page.style}),
+#'            \item the web page content (\code{page.content}),
+#'            \item the complete html-output (\code{output.complete}) and
+#'            \item the html-table with inline-css for use with knitr (\code{knitr})
+#'            }
+#'            for further use.
+#'
+#' @note The HTML tables can either be saved as file and manually opened (specify parameter \code{file}) or
+#'         they can be saved as temporary files and will be displayed in the RStudio Viewer pane (if working with RStudio)
+#'         or opened with the default web browser. Displaying resp. opening a temporary file is the
+#'         default behaviour (i.e. \code{file=NULL}).
+#'         
+#' @examples
+#' \dontrun{
+#' library(lme4)
+#' library(sjmisc)
+#' data(efc)
+#' 
+#' # create binary response
+#' efc$hi_qol <- dicho(efc$quol_5)
+#' # prepare group variable
+#' efc$grp = as.factor(efc$e15relat)
+#' levels(x = efc$grp) <- get_val_labels(efc$e15relat)
+#' # data frame for fitted model
+#' mydf <- data.frame(hi_qol = as.factor(efc$hi_qol),
+#'                    sex = as.factor(efc$c161sex),
+#'                    c12hour = as.numeric(efc$c12hour),
+#'                    neg_c_7 = as.numeric(efc$neg_c_7),
+#'                    education = as.factor(efc$c172code),
+#'                    grp = efc$grp)
+#'                    
+#' # fit glmer
+#' fit1 <- glmer(hi_qol ~ sex + c12hour + neg_c_7 + (1|grp),
+#'               data = mydf,
+#'               family = binomial("logit"))
+#' fit2 <- glmer(hi_qol ~ sex + c12hour + neg_c_7 + education + (1|grp),
+#'               data = mydf,
+#'               family = binomial("logit"))
+#'               
+#' # print summary table
+#' sjt.glmer(fit1, fit2)
+#' sjt.glmer(fit1, fit2,
+#'           showAIC = TRUE,
+#'           showConfInt = FALSE,
+#'           showStdError = TRUE,
+#'           pvaluesAsNumbers = FALSE)}
+#' 
+#' @export
+sjt.glmer <- function(..., 
+                     file=NULL, 
+                     labelPredictors=NULL, 
+                     labelDependentVariables=NULL, 
+                     stringPredictors="Predictors", 
+                     stringDependentVariables="Dependent Variables", 
+                     showHeaderStrings=FALSE,
+                     stringModel="Model",
+                     stringIntercept="(Intercept)",
+                     stringObservations="Observations",
+                     stringOR="OR",
+                     stringCI="CI",
+                     stringSE="std. Error",
+                     stringP="p",
+                     digits.est=2,
+                     digits.p=3,
+                     digits.ci=2,
+                     digits.se=2,
+                     digits.summary=3,
+                     exp.coef=TRUE,
+                     pvaluesAsNumbers=TRUE,
+                     boldpvalues=TRUE,
+                     showConfInt=TRUE,
+                     showStdError=FALSE,
+                     separateConfColumn=TRUE,
+                     newLineConf=TRUE,
+                     group.pred=TRUE,
+                     showAbbrHeadline=TRUE,
+                     showICC=TRUE,
+                     showLogLik=FALSE,
+                     showAIC=FALSE,
+                     showFamily=FALSE,
+                     remove.estimates=NULL,
+                     cellSpacing=0.2,
+                     encoding=NULL,
+                     CSS=NULL,
+                     useViewer=TRUE,
+                     no.output=FALSE,
+                     remove.spaces=TRUE) {
+  input_list <- list(...)
+  return(sjt.glm(input_list, file = file, labelPredictors = labelPredictors, 
+                 labelDependentVariables = labelDependentVariables, stringPredictors = stringPredictors, 
+                 stringDependentVariables = stringDependentVariables, showHeaderStrings = showHeaderStrings, 
+                 stringModel = stringModel, stringIntercept = stringIntercept,
+                 stringObservations = stringObservations, stringOR = stringOR,
+                 stringCI = stringCI, stringSE = stringSE, stringP = stringP, 
+                 digits.est = digits.est, digits.p = digits.p, digits.ci = digits.ci,
+                 digits.se = digits.se, digits.summary = digits.summary, exp.coef = exp.coef,
+                 pvaluesAsNumbers = pvaluesAsNumbers, boldpvalues = boldpvalues, 
+                 showConfInt = showConfInt, showStdError = showStdError, 
+                 separateConfColumn = separateConfColumn, newLineConf = newLineConf, 
+                 group.pred = FALSE, showAbbrHeadline = showAbbrHeadline, showPseudoR = showICC, 
+                 showLogLik = showLogLik, showAIC = showAIC, showChi2 = FALSE, showFamily = showFamily,
+                 remove.estimates = remove.estimates, 
+                 cellSpacing = cellSpacing, cellGroupIndent = 0, encoding = encoding, 
+                 CSS = CSS, useViewer = useViewer, no.output = no.output, remove.spaces = remove.spaces))
 }
