@@ -783,7 +783,12 @@ sjt.lm <- function (...,
   # -------------------------------------
   # table headline
   # -------------------------------------
+  # headerColSpan indicates the column span over all model table columns,
+  # i.e. the sum of all columns for each model
   headerColSpan <- length(input_list)
+  # headerColSpanFactor indicates the column span per model,
+  # i.e. the amount of table columns that are needed for each model
+  # (B, p, CI, se...)
   headerColSpanFactor <- 1
   if (!showEst) headerColSpanFactor <- 0
   if (!showEst && separateConfColumn) headerColSpanFactor <- -1
@@ -792,7 +797,6 @@ sjt.lm <- function (...,
   if (showStdBeta) headerColSpanFactor <- headerColSpanFactor + 1
   if (showStdBeta && separateConfColumn) headerColSpanFactor <- headerColSpanFactor + 1
   if (showStdError) headerColSpanFactor <- headerColSpanFactor + 1
-  
   headerColSpan <- headerColSpanFactor * headerColSpan
   linebreakstring <- " "
   if (newLineConf) linebreakstring <- "<br>"
@@ -822,7 +826,8 @@ sjt.lm <- function (...,
     tcp <- " topborder"
   }
   # -------------------------------------
-  # continue with labels
+  # continue with model-labels (dependent variables)
+  # which are the heading for each model column
   # -------------------------------------
   if (!is.null(labelDependentVariables)) {
     for (i in 1:length(labelDependentVariables)) {
@@ -1000,7 +1005,7 @@ sjt.lm <- function (...,
       page.content <- paste0(page.content, 
                              "\n  <tr>\n", 
                              sprintf("\n    <td class=\"grouprow\" colspan=\"%i\">%s</td>", 
-                                     (length(input_list) * headerColSpanFactor) + 1, 
+                                     headerColSpan + 1, 
                                      group.pred.labs[which(group.pred.rows == i)]),
                              "\n  </tr>")
     }
