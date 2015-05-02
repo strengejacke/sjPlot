@@ -693,7 +693,7 @@ sjt.glm <- function(...,
   # now that we know how many columns each model needs,
   # we multiply columns per model with count of models, so we have
   # the column span over all models together; furthermore, we add
-  # count of models - 1 to the overall column span, because
+  # count of models  to the overall column span, because
   # each model is separated with an empty table column
   headerColSpan <- headerColSpanFactor * headerColSpan + length(input_list)
   linebreakstring <- " "
@@ -720,7 +720,7 @@ sjt.glm <- function(...,
   # -------------------------------------
   tcp <- ""
   if (!showHeaderStrings) {
-    page.content <- paste0(page.content, "\n    <td class=\"tdata topborder\"></td>")
+    page.content <- paste0(page.content, "\n    <td class=\"tdata topborder\">&nbsp;</td>")
     tcp <- " topborder"
   }
   # -------------------------------------
@@ -730,22 +730,32 @@ sjt.glm <- function(...,
   if (!is.null(labelDependentVariables)) {
     for (i in 1:length(labelDependentVariables)) {
       # insert "separator column"
-      page.content <- paste0(page.content, sprintf("\n    <td class=\"separatorcol %s\">&nbsp;</td>", tcp))
+      page.content <- paste0(page.content, sprintf("\n    <td class=\"separatorcol%s\">&nbsp;</td>", tcp))
       if (headerColSpanFactor > 1) {
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\" colspan=\"%i\">%s</td>", tcp, headerColSpanFactor, labelDependentVariables[i]))
+        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\" colspan=\"%i\">%s</td>", 
+                                                     tcp, 
+                                                     headerColSpanFactor, 
+                                                     labelDependentVariables[i]))
       } else {
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\">%s</td>", tcp, labelDependentVariables[i]))
+        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\">%s</td>", 
+                                                     tcp, 
+                                                     labelDependentVariables[i]))
       }
     }
     page.content <- paste0(page.content, "\n  </tr>")
   } else {
     for (i in 1:length(input_list)) {
       # insert "separator column"
-      page.content <- paste0(page.content, "\n    <td class=\"separatorcol labelcellborder\">&nbsp;</td>")
+      page.content <- paste0(page.content, sprintf("\n    <td class=\"separatorcol labelcellborder%s\">&nbsp;</td>", tcp))
       if (headerColSpanFactor > 1) {
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\" colspan=\"%i\">%s %i</td>", tcp, headerColSpanFactor, stringModel, i))
+        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\" colspan=\"%i\">%s %i</td>", 
+                                                     tcp, 
+                                                     headerColSpanFactor, 
+                                                     stringModel, i))
       } else {
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\">%s %i</td>", tcp, stringModel, i))
+        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\">%s %i</td>", 
+                                                     tcp, 
+                                                     stringModel, i))
       }
     }
     page.content <- paste0(page.content, "\n  </tr>")
@@ -899,7 +909,13 @@ sjt.glm <- function(...,
       # retieve lower and upper ci
       ci.lo <- joined.df[i + 1, (j - 1) * 5 + 3]
       ci.hi <- joined.df[i + 1, (j - 1) * 5 + 4]
-      ci.sep.string <- ifelse(is_empty(ci.lo), "", "&nbsp;-&nbsp;")
+      # if we have empry cells (due to different predictors in models)
+      # we don't print CI-separator strings and we don't print any esitmate
+      # values - however, for proper display, we fill these values with "&nbsp;"
+      ci.sep.string <- ifelse(is_empty(ci.lo), "&nbsp;", "&nbsp;-&nbsp;")
+      # replace empty beta and p-values with &nbsp;
+      if (is_empty(joined.df[i + 1, (j - 1) * 5 + 2])) joined.df[i + 1, (j - 1) * 5 + 2] <- "&nbsp;"
+      if (is_empty(joined.df[i + 1, (j - 1) * 5 + 5])) joined.df[i + 1, (j - 1) * 5 + 5] <- "&nbsp;"
       # insert "separator column"
       page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
       # confidence interval in separate column
@@ -1125,6 +1141,9 @@ sjt.glm <- function(...,
   knitr <- gsub(tag.tdata, css.tdata, knitr, fixed = TRUE)
   knitr <- gsub(tag.thead, css.thead, knitr, fixed = TRUE)
   knitr <- gsub(tag.summary, css.summary, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.fixedparts, css.fixedparts, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.randomparts, css.randomparts, knitr, fixed = TRUE)
+  knitr <- gsub(tag.separatorcol, css.separatorcol, knitr, fixed = TRUE)  
   knitr <- gsub(tag.colnames, css.colnames, knitr, fixed = TRUE)
   knitr <- gsub(tag.leftalign, css.leftalign, knitr, fixed = TRUE)
   knitr <- gsub(tag.centeralign, css.centeralign, knitr, fixed = TRUE)
@@ -1156,13 +1175,18 @@ sjt.glm <- function(...,
   # -------------------------------------
   out.html.table(no.output, file, knitr, toWrite, useViewer)
   # -------------------------------------
+  # replace &nbsp; (former NA), created by join, with empty string
+  # -------------------------------------
+  joined.df <- apply(joined.df, 1:2, function(x) if (x == "&nbsp;") "" else x)
+  # -------------------------------------
   # return results
   # -------------------------------------
   invisible(structure(class = "sjtglm",
                       list(page.style = page.style,
                            page.content = page.content,
                            output.complete = toWrite,
-                           knitr = knitr)))
+                           knitr = knitr,
+                           data = joined.df)))
 }
 
 
