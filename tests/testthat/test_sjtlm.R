@@ -182,6 +182,7 @@ test_that("Check sjt.lm", {
   sjt.lm(fit1, fit2, fit3,
          showHeaderStrings = T,
          useViewer = F,
+         showStdError = T,
          CSS = CSS,
          remove.estimates = c(2,5,6,10))  
 })

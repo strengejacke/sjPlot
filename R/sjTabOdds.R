@@ -729,7 +729,9 @@ sjt.glm <- function(...,
   # -------------------------------------
   if (!is.null(labelDependentVariables)) {
     for (i in 1:length(labelDependentVariables)) {
+      # -------------------------
       # insert "separator column"
+      # -------------------------
       page.content <- paste0(page.content, sprintf("\n    <td class=\"separatorcol%s\">&nbsp;</td>", tcp))
       if (headerColSpanFactor > 1) {
         page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\" colspan=\"%i\">%s</td>", 
@@ -745,8 +747,10 @@ sjt.glm <- function(...,
     page.content <- paste0(page.content, "\n  </tr>")
   } else {
     for (i in 1:length(input_list)) {
+      # -------------------------
       # insert "separator column"
-      page.content <- paste0(page.content, sprintf("\n    <td class=\"separatorcol labelcellborder%s\">&nbsp;</td>", tcp))
+      # -------------------------
+      page.content <- paste0(page.content, sprintf("\n    <td class=\"separatorcol%s\">&nbsp;</td>", tcp))
       if (headerColSpanFactor > 1) {
         page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\" colspan=\"%i\">%s %i</td>", 
                                                      tcp, 
@@ -796,7 +800,9 @@ sjt.glm <- function(...,
     page.content <- paste0(page.content, "\n  <tr>\n    <td class=\"tdata colnames\">&nbsp;</td>")
     colnr <- ifelse(is.null(labelDependentVariables), length(input_list), length(labelDependentVariables))
     for (i in 1:colnr) {
+      # -------------------------
       # insert "separator column"
+      # -------------------------
       page.content <- paste0(page.content, "<td class=\"separatorcol colnames\">&nbsp;</td>")
       # confidence interval in separate column
       if (separateConfColumn) {
@@ -834,7 +840,9 @@ sjt.glm <- function(...,
   # -------------------------------------
   page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata %sleftalign\">%s</td>", tcb_class, stringIntercept))
   for (i in 1:length(input_list)) {
+    # -------------------------
     # insert "separator column"
+    # -------------------------
     page.content <- paste0(page.content, sprintf("<td class=\"separatorcol %s\">&nbsp;</td>", tcb_class))
     # confidence interval in separate column
     if (separateConfColumn) {
@@ -913,10 +921,13 @@ sjt.glm <- function(...,
       # we don't print CI-separator strings and we don't print any esitmate
       # values - however, for proper display, we fill these values with "&nbsp;"
       ci.sep.string <- ifelse(is_empty(ci.lo), "&nbsp;", "&nbsp;-&nbsp;")
-      # replace empty beta and p-values with &nbsp;
+      # replace empty beta, se and p-values with &nbsp;
       if (is_empty(joined.df[i + 1, (j - 1) * 5 + 2])) joined.df[i + 1, (j - 1) * 5 + 2] <- "&nbsp;"
       if (is_empty(joined.df[i + 1, (j - 1) * 5 + 5])) joined.df[i + 1, (j - 1) * 5 + 5] <- "&nbsp;"
+      if (is_empty(joined.df[i + 1, (j - 1) * 5 + 6])) joined.df[i + 1, (j - 1) * 5 + 6] <- "&nbsp;"
+      # -------------------------
       # insert "separator column"
+      # -------------------------
       page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
       # confidence interval in separate column
       if (separateConfColumn) {
@@ -991,7 +1002,9 @@ sjt.glm <- function(...,
       page.content <- paste0(page.content, sprintf("\n  <tr>\n    <td class=\"tdata summary leftalign\">N<sub>%s</sub></td>", names(mmgrps[gl])))
       # iterate models
       for (i in 1:length(input_list)) {
+        # -------------------------
         # insert "separator column"
+        # -------------------------
         page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
         # retrieve random intercepts of each model
         sub.mmgrps <- lme4::getME(input_list[[i]], "flist")
@@ -1016,7 +1029,9 @@ sjt.glm <- function(...,
         page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata leftalign summary\">ICC<sub>%s</sub></td>", names(summary.icc[si])))
         # iterate models
         for (i in 1:length(input_list)) {
+          # -------------------------
           # insert "separator column"
+          # -------------------------
           page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
           # get icc from models
           sub.summary.icc <- sjmisc::icc(input_list[[i]])
@@ -1038,7 +1053,9 @@ sjt.glm <- function(...,
   # -------------------------------------
   page.content <- paste0(page.content, sprintf("\n  <tr>\n    <td class=\"tdata summary leftalign firstsumrow\">%s</td>", stringObservations))
   for (i in 1:length(input_list)) {
+    # -------------------------
     # insert "separator column"
+    # -------------------------
     page.content <- paste0(page.content, "<td class=\"separatorcol firstsumrow\">&nbsp;</td>")
     page.content <- paste(page.content, sprintf("%s%i</td>", colspanstringfirstrow, nobs(input_list[[i]])))
   }
@@ -1049,7 +1066,9 @@ sjt.glm <- function(...,
   if (showPseudoR) {
     page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">Pseudo-R<sup>2</sup></td>")
     for (i in 1:length(input_list)) {
+      # -------------------------
       # insert "separator column"
+      # -------------------------
       page.content <- paste0(page.content, "\n    <td class=\"separatorcol\">&nbsp;</td>")
       psr <- PseudoR2(input_list[[i]])
       page.content <- paste0(page.content, gsub("0.", 
@@ -1065,7 +1084,9 @@ sjt.glm <- function(...,
   if (showLogLik) {
     page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">-2 Log-Likelihood</td>")
     for (i in 1:length(input_list)) {
+      # -------------------------
       # insert "separator column"
+      # -------------------------
       page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
       psr <- PseudoR2(input_list[[i]])
       page.content <- paste0(page.content, sprintf("%s%.*f</td>", colspanstring, digits.summary, -2 * as.vector(logLik(input_list[[i]]))))
@@ -1078,7 +1099,9 @@ sjt.glm <- function(...,
   if (showAIC) {
     page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">AIC</td>")
     for (i in 1:length(input_list)) {
+      # -------------------------
       # insert "separator column"
+      # -------------------------
       page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
       page.content <- paste0(page.content, sprintf("%s%.*f</td>", colspanstring, digits.summary, AIC(input_list[[i]])))
     }
@@ -1090,7 +1113,9 @@ sjt.glm <- function(...,
   if (showChi2) {
     page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">&Chi;<sup>2</sup></td>")
     for (i in 1:length(input_list)) {
+      # -------------------------
       # insert "separator column"
+      # -------------------------
       page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
       page.content <- paste0(page.content, sprintf("%s%.*f</td>", colspanstring, digits.summary, Chisquare.glm(input_list[[i]])))
     }
@@ -1102,7 +1127,9 @@ sjt.glm <- function(...,
   if (showFamily) {
     page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">Family</td>")
     for (i in 1:length(input_list)) {
+      # -------------------------
       # insert "separator column"
+      # -------------------------
       page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
       if (lmerob) {
         fam <- family(fit)
