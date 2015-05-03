@@ -7,7 +7,7 @@
 sjp.pca(data, numberOfFactors = NULL, factorLoadingTolerance = 0.1,
   plotEigenvalues = FALSE, digits = 2, title = NULL,
   axisLabels.y = NULL, type = "b", geom.size = 0.6,
-  geom.colors = "RdBu", breakTitleAt = 50, breakLabelsAt = 20,
+  geom.colors = "RdBu", breakTitleAt = 50, breakLabelsAt = 30,
   showValueLabels = TRUE, showCronbachsAlpha = TRUE, printPlot = TRUE)
 }
 \arguments{
@@ -71,6 +71,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
            \item the varimax-rotated factor loading matrix (\code{varim})
            \item the column indices of removed variables (for more details see next list item) (\code{removed.colindex})
            \item an updated data frame containing all factors that have a clear loading on a specific scale in case \code{data} was a data frame (See parameter \code{factorLoadingTolerance} for more details) (\code{removed.df})
+           \item the \code{factor.index}, i.e. the column index of each variable with the highest factor loading for each factor,
            \item the ggplot-object (\code{plot}),
            \item the data frame that was used for setting up the ggplot-object (\code{df}).
            }

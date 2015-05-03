@@ -57,6 +57,7 @@
 #'            \item the varimax-rotated factor loading matrix (\code{varim})
 #'            \item the column indices of removed variables (for more details see next list item) (\code{removed.colindex})
 #'            \item an updated data frame containing all factors that have a clear loading on a specific scale in case \code{data} was a data frame (See parameter \code{factorLoadingTolerance} for more details) (\code{removed.df})
+#'            \item the \code{factor.index}, i.e. the column index of each variable with the highest factor loading for each factor,
 #'            \item the ggplot-object (\code{plot}),
 #'            \item the data frame that was used for setting up the ggplot-object (\code{df}).
 #'            }
@@ -158,7 +159,7 @@ sjp.pca <- function(data,
                     geom.size=.6,
                     geom.colors="RdBu",                    
                     breakTitleAt=50, 
-                    breakLabelsAt=20, 
+                    breakLabelsAt=30, 
                     showValueLabels=TRUE,
                     showCronbachsAlpha=TRUE,
                     printPlot=TRUE) {
@@ -296,7 +297,7 @@ sjp.pca <- function(data,
     }
     # return a vector with index numbers indicating which items
     # have unclear loadings
-    return (removers)
+    return(removers)
   }
   # --------------------------------------------------------
   # this function retrieves a list with the column index ("factor" index)
@@ -305,19 +306,9 @@ sjp.pca <- function(data,
   # data frame belongs to according to the pca results
   # --------------------------------------------------------
   getItemLoadings <- function(dataframe) {
-    # clear vector
-    itemloading <- c()
-    # iterate each row of the data frame. each row represents
-    # one item with its factor loadings
-    for (i in 1:nrow(dataframe)) {
-      # get factor loadings for each item
-      rowval <- abs(df[i, ])
-      # retrieve highest loading and remeber that column
-      itemloading <- c(itemloading, which(rowval == max(rowval)))
-    }
     # return a vector with index numbers indicating which items
     # loads the highest on which factor
-    return (itemloading)
+    return(apply(dataframe, 1, function(x) which.max(abs(x))))
   }
   # --------------------------------------------------------
   # this function calculates the cronbach's alpha value for
@@ -353,6 +344,12 @@ sjp.pca <- function(data,
     message("Cronbach's Alpha can only be calculated when having a data frame with each component / variable as column.")
     showCronbachsAlpha <- FALSE
   }
+  # -------------------------------------
+  # create list with factor loadings that indicate
+  # on which column inside the data frame the highest
+  # loading is
+  # -------------------------------------
+  factorindex <- getItemLoadings(df)
   # retrieve those items that have unclear factor loadings, i.e.
   # which almost load equally on several factors. The tolerance
   # that indicates which difference between factor loadings is
@@ -363,7 +360,7 @@ sjp.pca <- function(data,
   # convert to long data
   df <- tidyr::gather(df, "xpos", "value", 1:ncol(df))  
   # we need new columns for y-positions and point sizes
-  df <- cbind(df, ypos = c(1:nrow(pcadata.varim$loadings)), psize = c(exp(abs(df$value)) * geom.size))
+  df <- cbind(df, ypos = 1:nrow(pcadata.varim$loadings), psize = exp(abs(df$value)) * geom.size)
   if (!showValueLabels) {
     valueLabels <- c("")
   } else {
@@ -414,13 +411,13 @@ sjp.pca <- function(data,
   if (type == "b") {
     heatmap <- heatmap + 
       scale_x_discrete(labels = axisLabels.y) +
-      scale_y_continuous(limits = c(0, 1)) +
-      facet_grid(~ xpos) +
+      scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .2)) +
+      facet_grid(~xpos) +
       coord_flip()
   } else {
     heatmap <- heatmap + 
       geom_text(label = valueLabels) +
-      scale_y_reverse(breaks = c(seq(1, length(axisLabels.y), by = 1)), 
+      scale_y_reverse(breaks = seq(1, length(axisLabels.y), by = 1), 
                       labels = axisLabels.y)
     # --------------------------------------------------------
     # show cronbach's alpha value for each scale 
@@ -459,10 +456,11 @@ sjp.pca <- function(data,
   # --------------------------------------------------------
   # return structure with various results
   # --------------------------------------------------------
-  invisible (structure(class = "sjcpca",
-                       list(varim = pcadata.varim,
-                            removed.colindex = removableItems,
-                            removed.df = remdf,
-                            plot = heatmap,
-                            df = df)))
+  invisible(structure(class = "sjcpca",
+                      list(varim = pcadata.varim,
+                           removed.colindex = removableItems,
+                           removed.df = remdf,
+                           factor.index = factorindex,
+                           plot = heatmap,
+                           df = df)))
 }

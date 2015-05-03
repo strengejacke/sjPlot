@@ -81,14 +81,14 @@ test_that("Check sjt.lm", {
   efc$services <- sjmisc::dicho(efc$tot_sc_e, "v", 0, asNum = TRUE)
   # fit 3 models with different link-functions
   fit1 <- glm(services ~ neg_c_7 + c161sex + e42dep,
-              data=efc,
-              family=binomial(link="logit"))
+              data = efc,
+              family = binomial(link = "logit"))
   fit2 <- glm(services ~ neg_c_7 + c161sex + e42dep,
-              data=efc,
-              family=binomial(link="probit"))
+              data = efc,
+              family = binomial(link = "probit"))
   fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep,
-              data=efc,
-              family=poisson(link="log"))
+              data = efc,
+              family = poisson(link = "log"))
   
   # compare models
   sjt.glm(fit1, fit2, fit3,
@@ -135,7 +135,7 @@ test_that("Check sjt.lm", {
   # make dependency categorical
   efc$e42dep <- to_fac(efc$e42dep)
   # fit model with "grouped" predictor
-  fit <- glm(services ~ neg_c_7 + c161sex + e42dep, data=efc)
+  fit <- glm(services ~ neg_c_7 + c161sex + e42dep, data = efc)
   
   # automatic grouping of categorical predictors
   sjt.glm(fit,
@@ -146,8 +146,8 @@ test_that("Check sjt.lm", {
   # ----------------------------------
   # compare models with different predictors
   # ----------------------------------
-  fit2 <- glm(services ~ neg_c_7 + c161sex + e42dep + c12hour, data=efc)
-  fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep + c12hour + c172code, data=efc)
+  fit2 <- glm(services ~ neg_c_7 + c161sex + e42dep + c12hour, data = efc)
+  fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep + c12hour + c172code, data = efc)
   
   # print models with different predictors
   sjt.glm(fit, fit2, fit3,
@@ -155,8 +155,8 @@ test_that("Check sjt.lm", {
           useViewer = F)
   
   efc$c172code <- to_fac(efc$c172code)
-  fit2 <- glm(services ~ neg_c_7 + c161sex + c12hour, data=efc)
-  fit3 <- glm(services ~ neg_c_7 + c161sex + c172code, data=efc)
+  fit2 <- glm(services ~ neg_c_7 + c161sex + c12hour, data = efc)
+  fit3 <- glm(services ~ neg_c_7 + c161sex + c172code, data = efc)
   
   # print models with different predictors
   sjt.glm(fit, fit2, fit3, group.pred = FALSE,

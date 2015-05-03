@@ -116,7 +116,7 @@ would remove the 2nd to the 4th estimate (1st to 3d predictor after intercept) f
 \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 is \code{NULL}, i.e. all estimates are printed.}
 
-\item{cellSpacing}{The inner padding of table cells. By default, this value is 0.2 (measure is cm), which is
+\item{cellSpacing}{The inner padding of table cells. By default, this value is 0.2 (unit is cm), which is
 suitable for viewing the table. Decrease this value (0.05 to 0.1) if you want to import the table
 into Office documents. This is a convenient parameter for the \code{CSS} parameter for changing
 cell spacing, which would be: \code{CSS=list(css.thead="padding:0.2cm;", css.tzdata="padding:0.2cm;")}.}

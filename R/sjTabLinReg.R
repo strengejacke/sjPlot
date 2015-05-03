@@ -76,7 +76,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("starts_with"))
 #'          would remove the 2nd to the 4th estimate (1st to 3d predictor after intercept) from the output. 
 #'          \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default 
 #'          is \code{NULL}, i.e. all estimates are printed.
-#' @param cellSpacing The inner padding of table cells. By default, this value is 0.2 (measure is cm), which is
+#' @param cellSpacing The inner padding of table cells. By default, this value is 0.2 (unit is cm), which is
 #'          suitable for viewing the table. Decrease this value (0.05 to 0.1) if you want to import the table
 #'          into Office documents. This is a convenient parameter for the \code{CSS} parameter for changing
 #'          cell spacing, which would be: \code{CSS=list(css.thead="padding:0.2cm;", css.tzdata="padding:0.2cm;")}.
@@ -259,6 +259,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("starts_with"))
 #' # ---------------------------------- 
 #' # automatic grouping of predictors
 #' # ---------------------------------- 
+#' library(sjmisc)
 #' data(efc)
 #' 
 #' # attach variable labels to each variable of the data
@@ -281,6 +282,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("starts_with"))
 #' # ---------------------------------------- 
 #' # compare models with different predictors
 #' # ---------------------------------------- 
+#' library(sjmisc)
 #' data(efc)
 #' 
 #' # attach variable labels to each variable of the data
@@ -1462,7 +1464,7 @@ sjt.lm <- function (...,
 #'          would remove the 2nd to the 4th estimate (1st to 3d predictor after intercept) from the output. 
 #'          \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default 
 #'          is \code{NULL}, i.e. all estimates are printed.
-#' @param cellSpacing The inner padding of table cells. By default, this value is 0.2 (measure is cm), which is
+#' @param cellSpacing The inner padding of table cells. By default, this value is 0.2 (unit is cm), which is
 #'          suitable for viewing the table. Decrease this value (0.05 to 0.1) if you want to import the table
 #'          into Office documents. This is a convenient parameter for the \code{CSS} parameter for changing
 #'          cell spacing, which would be: \code{CSS=list(css.thead="padding:0.2cm;", css.tzdata="padding:0.2cm;")}.
@@ -1517,6 +1519,8 @@ sjt.lm <- function (...,
 #' # prepare group variable
 #' efc$grp = as.factor(efc$e15relat)
 #' levels(x = efc$grp) <- get_val_labels(efc$e15relat)
+#' efc$care.level <- as.factor(sjmisc::rec(efc$n4pstu, "0=0;1=1;2=2;3:4=4"))
+#' levels(x = efc$care.level) <- c("none", "I", "II", "III")
 #' 
 #' # data frame for fitted model
 #' mydf <- data.frame(neg_c_7 = as.numeric(efc$neg_c_7),
@@ -1524,11 +1528,15 @@ sjt.lm <- function (...,
 #'                    c12hour = as.numeric(efc$c12hour),
 #'                    barthel = as.numeric(efc$barthtot),
 #'                    education = as.factor(efc$c172code),
-#'                    grp = efc$grp)
+#'                    grp = efc$grp,
+#'                    carelevel = efc$care.level)
 #'                    
 #' # fit two sample models
 #' fit1 <- lmer(neg_c_7 ~ sex + c12hour + barthel + (1|grp), data = mydf)
 #' fit2 <- lmer(neg_c_7 ~ sex + c12hour + education + barthel + (1|grp), data = mydf)
+#' fit3 <- lmer(neg_c_7 ~ sex + c12hour + education + barthel + 
+#'               (1|grp) + 
+#'               (1|carelevel), data = mydf)
 #' 
 #' # print summary table
 #' sjt.lmer(fit1, fit2)
@@ -1537,7 +1545,12 @@ sjt.lm <- function (...,
 #'          showAIC = TRUE,
 #'          showConfInt = FALSE,
 #'          showStdError = TRUE,
-#'          pvaluesAsNumbers = FALSE)}
+#'          pvaluesAsNumbers = FALSE)
+#'            
+#' sjt.lmer(fit1, fit2, fit3, 
+#'          showAIC = TRUE,
+#'          separateConfColumn = FALSE,
+#'          newLineConf = FALSE)}
 #'                   
 #' @export
 sjt.lmer <- function(..., 
