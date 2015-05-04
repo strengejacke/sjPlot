@@ -1,4 +1,4 @@
-Version 1.8-2
+Version 1.8-4
 ------------------------------------------------------------------------------
 General:
 * Deprecated function "sjp.emm.int" was removed. Use "sjp.int" with parameter "type = 'emm'" to plot estimated marginal means.
@@ -10,6 +10,7 @@ New functions:
 
 Bug fixes:
 * Fixed formatting bug for pseudo-R2 in "sjt.glm".
+* Fixed bug in "sjp.likert" when data frame had only one column.
 
 Version 1.8
 ------------------------------------------------------------------------------
