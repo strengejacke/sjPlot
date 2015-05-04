@@ -2,8 +2,8 @@
 #' @name sjt.itemanalysis
 #' 
 #' @description This function performs an item analysis with certain statistics that are
-#'                useful for scale / index development. The resulting tables are shown in the
-#'                viewer pane / webbrowser or can be saved as file. Following statistics are 
+#'                useful for scale or index development. The resulting tables are shown in the
+#'                viewer pane resp. webbrowser or can be saved as file. Following statistics are 
 #'                computed for each item of a data frame:
 #'                \itemize{
 #'                  \item percentage of missing values
@@ -24,6 +24,8 @@
 #'                splitted into groups, assuming that \code{factor.groups} indicate those columns
 #'                of the data frame that belong to a certain factor (see return value of function \code{\link{sjt.pca}}
 #'                as example for retrieving factor groups for a scale and see examples for more details).
+#'
+#' @seealso \href{http://www.strengejacke.de/sjPlot/sjt.itemanalysis/}{sjPlot manual: sjt.itemanalysis}
 #'
 #' @param df A data frame with items (from a scale)
 #' @param factor.groups If not \code{NULL}, the data frame \code{df} will be splitted into sub-groups,
@@ -134,29 +136,29 @@
 #' varlabs <- get_var_labels(efc)
 #' 
 #' # recveive first item of COPE-index scale
-#' start <- which(colnames(efc)=="c82cop1")
+#' start <- which(colnames(efc) == "c82cop1")
 #' # recveive last item of COPE-index scale
-#' end <- which(colnames(efc)=="c90cop9")
+#' end <- which(colnames(efc) == "c90cop9")
 #'  
 #' # create data frame with COPE-index scale
-#' df <- as.data.frame(efc[,c(start:end)])
-#' colnames(df) <- varlabs[c(start:end)]
+#' mydf <- data.frame(efc[, c(start:end)])
+#' colnames(mydf) <- varlabs[c(start:end)]
 #' 
 #' \dontrun{
-#' sjt.itemanalysis(df)
+#' sjt.itemanalysis(mydf)
 #' 
 #' # -------------------------------
 #' # auto-detection of labels
 #' # -------------------------------
 #' efc <- set_var_labels(efc, varlabs)
-#' sjt.itemanalysis(efc[,c(start:end)])
+#' sjt.itemanalysis(efc[, c(start:end)])
 #'   
 #' # ---------------------------------------
 #' # Compute PCA on Cope-Index, and perform a
 #' # item analysis for each extracted factor.
 #' # ---------------------------------------
-#' factor.groups <- sjt.pca(df, no.output=TRUE)$factor.index
-#' sjt.itemanalysis(df, factor.groups)}
+#' factor.groups <- sjt.pca(mydf, no.output = TRUE)$factor.index
+#' sjt.itemanalysis(mydf, factor.groups)}
 #'  
 #' @importFrom psych describe
 #' @import sjmisc
@@ -255,10 +257,6 @@ sjt.itemanalysis <- function(df,
     # -----------------------------------
     df.names <- colnames(df)[which(factor.groups == findex[i])]
     # -----------------------------------
-    # retrieve missings for each item
-    # -----------------------------------
-    missings <- apply(df.sub, 2, function(x) sum(is.na(x)))
-    # -----------------------------------
     # retrieve missing percentage for each item
     # -----------------------------------
     missings.prz <- apply(df.sub, 2, function(x) round(100 * sum(is.na(x)) / length(x), 2))
@@ -269,14 +267,13 @@ sjt.itemanalysis <- function(df,
     # -----------------------------------
     # item difficulty
     # -----------------------------------
-    itemcnt <- ncol(df.sub)
     difficulty <- apply(df.sub, 2, function(x) round(sum(x) / (max(x) * length(x)), 2))
     # -----------------------------------
     # ideal item difficulty
     # -----------------------------------
     fun.diff.ideal <- function(x) {
       p <- 1 / max(x)
-      return (round(p + (1 - p) / 2, 2))
+      return(round(p + (1 - p) / 2, 2))
     }
     diff.ideal <- apply(df.sub, 2, fun.diff.ideal)
     # -----------------------------------
@@ -428,13 +425,13 @@ sjt.itemanalysis <- function(df,
   # check if html-content should be printed
   # -------------------------------------
   out.html.table(no.output, file, knitr, complete.page, useViewer)  
-  invisible (list(class = "sjtitemanalysis",
-                  df.list = df.ia,
-                  index.scores = index.scores,
-                  df.index.scores = df.index.scores,
-                  cronbach.values = cronbach.total,
-                  ideal.item.diff = diff.ideal.list,
-                  knitr = knitr,
-                  knitr.list = knitr.list,
-                  complete.page = complete.page))
+  invisible(list(class = "sjtitemanalysis",
+                 df.list = df.ia,
+                 index.scores = index.scores,
+                 df.index.scores = df.index.scores,
+                 cronbach.values = cronbach.total,
+                 ideal.item.diff = diff.ideal.list,
+                 knitr = knitr,
+                 knitr.list = knitr.list,
+                 complete.page = complete.page))
 }

@@ -116,8 +116,8 @@ Invisibly returns
 }
 \description{
 This function performs an item analysis with certain statistics that are
-               useful for scale / index development. The resulting tables are shown in the
-               viewer pane / webbrowser or can be saved as file. Following statistics are
+               useful for scale or index development. The resulting tables are shown in the
+               viewer pane resp. webbrowser or can be saved as file. Following statistics are
                computed for each item of a data frame:
                \itemize{
                  \item percentage of missing values
@@ -158,29 +158,29 @@ data(efc)
 varlabs <- get_var_labels(efc)
 
 # recveive first item of COPE-index scale
-start <- which(colnames(efc)=="c82cop1")
+start <- which(colnames(efc) == "c82cop1")
 # recveive last item of COPE-index scale
-end <- which(colnames(efc)=="c90cop9")
+end <- which(colnames(efc) == "c90cop9")
 
 # create data frame with COPE-index scale
-df <- as.data.frame(efc[,c(start:end)])
-colnames(df) <- varlabs[c(start:end)]
+mydf <- data.frame(efc[, c(start:end)])
+colnames(mydf) <- varlabs[c(start:end)]
 
 \dontrun{
-sjt.itemanalysis(df)
+sjt.itemanalysis(mydf)
 
 # -------------------------------
 # auto-detection of labels
 # -------------------------------
 efc <- set_var_labels(efc, varlabs)
-sjt.itemanalysis(efc[,c(start:end)])
+sjt.itemanalysis(efc[, c(start:end)])
 
 # ---------------------------------------
 # Compute PCA on Cope-Index, and perform a
 # item analysis for each extracted factor.
 # ---------------------------------------
-factor.groups <- sjt.pca(df, no.output=TRUE)$factor.index
-sjt.itemanalysis(df, factor.groups)}
+factor.groups <- sjt.pca(mydf, no.output = TRUE)$factor.index
+sjt.itemanalysis(mydf, factor.groups)}
 }
 \references{
 \itemize{
@@ -189,5 +189,8 @@ sjt.itemanalysis(df, factor.groups)}
              \item McLean S et al. (2013) Stigmatizing attitudes and beliefs about bulimia nervosa: Gender, age, education and income variability in a community sample. International Journal of Eating Disorders, doi: 10.1002/eat.22227.
              \item Trochim WMK (2008) Types of Reliability. (\href{http://www.socialresearchmethods.net/kb/reltypes.php}{web})
             }
+}
+\seealso{
+\href{http://www.strengejacke.de/sjPlot/sjt.itemanalysis/}{sjPlot manual: sjt.itemanalysis}
 }
 
