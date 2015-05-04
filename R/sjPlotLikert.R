@@ -370,8 +370,8 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   # sum up values to total, so we can sort items
   # --------------------------------------------------------
-  sums.lower <- unname(apply(freq.df[lower.half, ], 2, sum))
-  sums.upper <- unname(apply(freq.df[upper.half, ], 2, sum))
+  sums.lower <- unname(apply(freq.df[lower.half, , drop = FALSE], 2, sum))
+  sums.upper <- unname(apply(freq.df[upper.half, , drop = FALSE], 2, sum))
   # --------------------------------------------------------
   # sort items
   # --------------------------------------------------------
