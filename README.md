@@ -40,6 +40,9 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * `sjt.lmer` to print summary tables of linear mixed models.
 * `sjt.glmer` to print summary tables of generalized linear mixed models.
 
+#### Changes to functions
+* Added `type = "probc"` to `sjp.glm` as alternative to `type = "prob"`. `type = "probc"` calculated predicted probabilities based on the `predict` function.
+
 #### Bug fixes
 * Fixed formatting bug for pseudo-R2 in `sjt.glm`.
 * Fixed bug in `sjp.likert` when data frame had only one column.

@@ -776,10 +776,10 @@ sjp.int <- function(fit,
       }
     } else {
       intdf$x <- sjmisc::to_value(intdf$x, keep.labels = F)
-      intdf$y <- odds.to.prob(sjmisc::to_value(intdf$y, keep.labels = F))
-      intdf$ymin <- odds.to.prob(sjmisc::to_value(intdf$ymin, keep.labels = F))
-      intdf$ymax <- odds.to.prob(sjmisc::to_value(intdf$ymax, keep.labels = F))
-      intdf$ydiff <- odds.to.prob(intdf$ymax - intdf$ymin)
+      intdf$y <- plogis(sjmisc::to_value(intdf$y, keep.labels = F))
+      intdf$ymin <- plogis(sjmisc::to_value(intdf$ymin, keep.labels = F))
+      intdf$ymax <- plogis(sjmisc::to_value(intdf$ymax, keep.labels = F))
+      intdf$ydiff <- plogis(intdf$ymax - intdf$ymin)
       # -----------------------------------------------------------
       # retrieve lowest and highest x and y position to determine
       # the scale limits
@@ -1179,10 +1179,10 @@ sjp.eff.int <- function(fit,
       # make sure x is numeric
       intdf$x <- sjmisc::to_value(intdf$x, keep.labels = F)
       # convert log-odds to probabilities
-      intdf$y <- odds.to.prob(intdf$y)
-      intdf$lower <- odds.to.prob(intdf$lower)
-      intdf$upper <- odds.to.prob(intdf$upper)
-      intdf$se <- odds.to.prob(intdf$se)
+      intdf$y <- plogis(intdf$y)
+      intdf$lower <- plogis(intdf$lower)
+      intdf$upper <- plogis(intdf$upper)
+      intdf$se <- plogis(intdf$se)
       # -----------------------------------------------------------
       # retrieve lowest and highest x and y position to determine
       # the scale limits

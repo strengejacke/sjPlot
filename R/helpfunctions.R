@@ -38,18 +38,6 @@ print.table.summary <- function(baseplot,
 }
 
 
-# helper function to calculate probabilities for odds ratios
-# see http://stats.stackexchange.com/questions/89474/interpretation-of-ordinal-logistic-regression,
-# http://stats.stackexchange.com/questions/26288/understanding-odds-ratios-in-logistic-regression
-# and http://pages.uoregon.edu/aarong/teaching/G4075_Outline/node16.html
-odds.to.prob <- function(x) {
-  # formular: probality = odds divided by (1+odds),
-  # where odds = exp(logit)
-  # x = log-odds (logits)
-  return (1 / (1 + exp(-x)))
-}
-
-
 # display html-content in viewer pane
 # or write it to file
 out.html.table <- function(no.output, file, knitr, toWrite, useViewer) {

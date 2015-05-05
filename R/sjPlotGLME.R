@@ -1159,7 +1159,7 @@ sjp.lme.feprobcurv <- function(fit,
         # calculate x-beta by multiplying original values with estimate of that term
         mydf.vals$xbeta <- mydf.vals$value * lme4::fixef(fit)[coef.pos]
         # calculate probability (y) via cdf-function
-        mydf.vals$y <- odds.to.prob(fi + mydf.vals$xbeta)
+        mydf.vals$y <- plogis(fi + mydf.vals$xbeta)
         # save predictor name
         pred.name <- fit.term.names[i]
         axisLabels.mp <- c(axisLabels.mp, pred.name)
@@ -1328,7 +1328,7 @@ sjp.lme.reprobcurve <- function(fit,
           # do this for each random intercept group
           for (j in 1:nrow(rand.ef)) {
             # calculate probability for each random effect group
-            mydf.vals$y <- odds.to.prob(fi + rand.ef[j, 1] + mydf.vals$xbeta)
+            mydf.vals$y <- plogis(fi + rand.ef[j, 1] + mydf.vals$xbeta)
             # add to final data frame
             final.df <- rbind(final.df,
                               cbind(pred = mydf.vals$value,
@@ -1689,7 +1689,7 @@ sjp.lme.fecondpred.onlynumeric <- function(fit,
       # calculate x-beta by multiplying original values with estimate of that term
       mydf.vals$xbeta <- mydf.vals$value * (lme4::fixef(fit)[coef.pos])
       # calculate probability (y) via cdf-function
-      mydf.vals$y <- odds.to.prob(lme4::fixef(fit)[1] + mydf.vals$xbeta)
+      mydf.vals$y <- plogis(lme4::fixef(fit)[1] + mydf.vals$xbeta)
       # save predictor name
       pred.name <- colnames(fit.df)[findnumeric[i]]
       axisLabels.mp <- c(axisLabels.mp, pred.name)

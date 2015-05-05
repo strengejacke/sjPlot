@@ -210,6 +210,11 @@ sjp.likert <- function(items,
                        coord.flip=TRUE,
                        printPlot=TRUE) {
   # --------------------------------------------------------
+  # check param. if we have a single vector instead of
+  # a data frame with several items, convert vector to data frame
+  # --------------------------------------------------------
+  if (!is.data.frame(items) && !is.matrix(items)) items <- as.data.frame(items)
+  # --------------------------------------------------------
   # check sorting
   # --------------------------------------------------------
   if (!is.null(sort.frq)) {

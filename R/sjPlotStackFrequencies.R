@@ -174,6 +174,11 @@ sjp.stackfrq <- function(items,
                         coord.flip=TRUE,
                         printPlot=TRUE) {
   # --------------------------------------------------------
+  # check param. if we have a single vector instead of
+  # a data frame with several items, convert vector to data frame
+  # --------------------------------------------------------
+  if (!is.data.frame(items) && !is.matrix(items)) items <- as.data.frame(items)
+  # --------------------------------------------------------
   # check sorting
   # --------------------------------------------------------
   if (!is.null(sort.frq)) {
@@ -193,7 +198,6 @@ sjp.stackfrq <- function(items,
       sort.frq  <- NULL
       reverseOrder <- FALSE
     }
-    
   } else {
     reverseOrder <- FALSE
   }
@@ -226,7 +230,7 @@ sjp.stackfrq <- function(items,
   # --------------------------------------------------------
   if (!is.null(axisLabels.y) && is.list(axisLabels.y)) axisLabels.y <- unlistlabels(axisLabels.y)
   if (!is.null(legendLabels) && is.list(legendLabels)) legendLabels <- unlistlabels(legendLabels)
-  if (is.null(legendLabels)) legendLabels <- c(as.character(sort(unique(items[, 1]))))
+  if (is.null(legendLabels)) legendLabels <- as.character(sort(unique(items[, 1])))
   # --------------------------------------------------------
   # Check whether N of each item should be included into
   # axis labels

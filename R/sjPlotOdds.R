@@ -20,7 +20,8 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #'          \itemize{
 #'            \item \code{"dots"}, \code{"glm"} or \code{"or"} (default) for odds ratios (forest plot)
 #'            \item \code{"bars"} for odds ratios as bar plot
-#'            \item \code{"prob"} or \code{"pc"} to plot probability (predicted probabilities) curves of coefficients (model terms). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
+#'            \item \code{"prob"} or \code{"pc"} to plot predicted probabilities for each model terms, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
+#'            \item \code{"probc"} or \code{"pcc"} to plot centered predicted probabilities for each model term (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
 #'            \item \code{"ma"} to check model assumptions. Note that only two parameters are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other parameters are ignored.
 #'            \item \code{"vif"} to plot Variance Inflation Factors. See details.
 #'          }
@@ -93,6 +94,14 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #'          \item \code{mydf.mp}: a list of data frames with the data for metric predictors (terms of type \code{numeric}), which will be plotted if \code{showContPredPlots} is \code{TRUE}
 #'          \item \code{plot.mp}: a list of ggplot-objects with plots of metric predictors (terms of type \code{numeric}), which will be plotted if \code{showContPredPlots} is \code{TRUE}
 #'         }
+#'
+#' @details For \code{type = "prob"} (or \code{"pc"}), the predicted probabilities
+#'            are based on the intercept's estimate and each specific term's estimate.
+#'            All other co-variates are set to zero (i.e. ignored). \cr \cr
+#'            For \code{type = "probc"} (or \code{"pcc"}), the predicted probabilities
+#'            are based on the \code{\link{predict.glm}} method, where predicted values 
+#'            are "centered"
+#'            (see \href{http://stats.stackexchange.com/questions/35682/contribution-of-each-covariate-to-a-single-prediction-in-a-logistic-regression-m#comment71993_35802}{CrossValidated}).
 #'
 #' @examples
 #' # prepare dichotomous dependent variable
@@ -202,14 +211,22 @@ sjp.glm <- function(fit,
   if (type == "prob" || type == "pc") {
     return(invisible(sjp.glm.pc(fit,
                                 show.se,
+                                type = "prob",
+                                facet.grid,
+                                printPlot)))
+  }
+  if (type == "probc" || type == "pcc") {
+    return(invisible(sjp.glm.pc(fit,
+                                show.se,
+                                type = "probc",
                                 facet.grid,
                                 printPlot)))
   }
   if (type == "ma") {
-    return (invisible(sjp.glm.ma(fit, showOriginalModelOnly)))
+    return(invisible(sjp.glm.ma(fit, showOriginalModelOnly)))
   }
   if (type == "vif") {
-    return (invisible(sjp.vif(fit)))
+    return(invisible(sjp.vif(fit)))
   }
   if (type == "or" || type == "glm") type <- "dots"
   # --------------------------------------------------------
@@ -448,7 +465,7 @@ sjp.glm <- function(fit,
       geom_text(aes(label = p, y = 1), 
                 vjust = -1, 
                 hjust = odds$labhjust)
-    if (hideErrorBars==FALSE) {
+    if (hideErrorBars == FALSE) {
       plotHeader <- plotHeader +
         # print confidence intervalls (error bars)
       geom_errorbar(aes(ymin = lower, 
@@ -516,6 +533,7 @@ sjp.glm <- function(fit,
 sjp.glm.pc <- function(fit,
                        show.se,
                        facet.grid,
+                       type,
                        printPlot) {
   # ----------------------------
   # prepare additional plots, when metric
@@ -527,9 +545,6 @@ sjp.glm.pc <- function(fit,
   axisLabels.mp <- c()
   plot.facet <- NULL
   mydf.facet <- NULL
-  # retrieve data classes of model terms to check whether
-  # we have any numeric terms in fitted model
-  fit.data.classes <- unname(attr(fit$terms, "dataClasses"))
   # retrieve term names, so we find the estimates in the
   # coefficients list
   fit.term.names <- names(attr(fit$terms, "dataClasses"))[-1]
@@ -542,9 +557,7 @@ sjp.glm.pc <- function(fit,
     # check if we have found the coefficient
     if (length(coef.column) > 0) {
       # get values from numeric term
-      vals <- fit$model[, coef.column]
-      # sort values, for x axis
-      values <- sort(vals)
+      values <- fit$model[, coef.column]
       # melt variable
       mydf.vals <- data.frame(values = values)
       # convert factor to numeric
@@ -552,19 +565,42 @@ sjp.glm.pc <- function(fit,
       # retrieve names of coefficients
       coef.names <- names(coef(fit))
       # check if we have a factor, then we may have reference levels
-      if (is.factor(vals)) {
+      if (is.factor(values)) {
         # add reference level to coefficient name
-        ll <- levels(vals)
+        ll <- levels(values)
         fit.fac.name <- paste0(fit.term.names[i], ll[length(ll)])
       } else {
         fit.fac.name <- fit.term.names[i]
       }
       # find coef-position
       coef.pos <- which(coef.names == fit.fac.name)
-      # calculate x-beta by multiplying original values with estimate of that term
-      mydf.vals$xbeta <- mydf.vals$values * coef(fit)[coef.pos]
-      # calculate probability (y) via cdf-function
-      mydf.vals$y <- odds.to.prob(coef(fit)[1] + mydf.vals$xbeta)
+      # ---------------------------------------------
+      # Here we go with predicted probabilities
+      # for each single term, w/o including remaining
+      # co-variates to predict the values. This can be
+      # used to investigate a term "isolated"
+      # ---------------------------------------------
+      if (type == "prob") {
+        # calculate x-beta by multiplying original values with estimate of that term
+        mydf.vals$xbeta <- mydf.vals$values * coef(fit)[coef.pos]
+        # calculate probability (y) via cdf-function
+        mydf.vals$y <- plogis(coef(fit)[1] + mydf.vals$xbeta)
+      # ---------------------------------------------
+      # Here we go with predicted probabilities,
+      # with all remaining co-variates set to zero or mean
+      # i.e. we are using the 'predict' function to predict
+      # fitted values of terms
+      # ---------------------------------------------
+      } else {
+        # get predicted values. Note that the returned matrix
+        # does not contain response value
+        pred.vals <- predict(fit, type = "terms")
+        # retrieve predicted prob. of term. coef.column -1
+        # because coef.column relates to fit$model, which has one
+        # more column (response)
+        mydf.vals$y <- plogis(pred.vals[, coef.column - 1])
+        # add title prefix for predicted values
+      }
       # assign group
       mydf.vals$grp = coef.names[coef.pos]
       # add mydf to list
@@ -585,7 +621,7 @@ sjp.glm.pc <- function(fit,
       # create single plots for each numeric predictor
       mp <- ggplot(mydf.metricpred[[i]], aes(x = values, y = y)) +
         labs(x = axisLabels.mp[i], 
-             y = "Probability") +
+             y = "Predicted Probability") +
         stat_smooth(method = "glm", 
                     family = "binomial", 
                     se = show.se) +
@@ -599,18 +635,18 @@ sjp.glm.pc <- function(fit,
                                  y = y,
                                  colour = grp)) +
         labs(x = NULL,
-             y = "Probability",
+             y = "Predicted Probability",
              colour = "Term",
-             title = "Probability of coefficients") +
+             title = "Predicted probabilities of coefficients") +
         scale_colour_manual(values = brewer_pal(palette = "Set1")(length(axisLabels.mp)),
                             labels = axisLabels.mp) +
         stat_smooth(method = "glm", 
                     family = "binomial", 
                     se = show.se) +
         coord_cartesian(ylim = c(0, 1)) +
-        facet_wrap( ~ grp,
-                    ncol = round(sqrt(length(mydf.metricpred))),
-                    scales = "free_x") +
+        facet_wrap(~grp,
+                   ncol = round(sqrt(length(mydf.metricpred))),
+                   scales = "free_x") +
         guides(colour = FALSE)
       # add integrated plot to plot list
       plot.facet <- mp
@@ -631,11 +667,11 @@ sjp.glm.pc <- function(fit,
     }
   }
 
-  invisible (structure(class = "sjpglm.pc",
-                       list(mydf.mp = mydf.metricpred,
-                            plot.mp = plot.metricpred,
-                            mydf.facet = mydf.facet,
-                            plot.facet = plot.facet)))
+  invisible(structure(class = "sjpglm.pc",
+                      list(mydf.mp = mydf.metricpred,
+                           plot.mp = plot.metricpred,
+                           mydf.facet = mydf.facet,
+                           plot.facet = plot.facet)))
 }
 
 
