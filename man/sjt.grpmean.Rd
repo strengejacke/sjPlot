@@ -4,14 +4,18 @@
 \alias{sjt.grpmean}
 \title{Show grouped means as HTML table}
 \usage{
-sjt.grpmean(varCount, varGrp, rowLabels = NULL, digits = 2,
-  digits.summary = 3, file = NULL, encoding = NULL, CSS = NULL,
-  useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
+sjt.grpmean(varCount, varGrp, weightBy = NULL, rowLabels = NULL,
+  digits = 2, digits.summary = 3, file = NULL, encoding = NULL,
+  CSS = NULL, useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{varCount}{a numeric vector / variable. Mean, SD and SE for this variable are calculated.}
 
 \item{varGrp}{a (numeric) vector with group indices, used to select sub-groups from \code{varCount}.}
+
+\item{weightBy}{A weight factor that will be applied to weight all cases.
+Must be a vector of same length as \code{varCount}. Default is \code{NULL},
+so no weights are used.}
 
 \item{rowLabels}{a character vector of same length as \code{varGrp} unqiue values. In short: the
 value labels of \code{varGrp}. Used to name table rows. By default, row labels

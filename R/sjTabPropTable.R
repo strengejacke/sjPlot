@@ -705,14 +705,14 @@ sjt.xtab <- function (var.row,
     if (nrow(tab) > 2 || ncol(tab) > 2) {
       kook <- sprintf("&Phi;<sub>c</sub>=%.3f", sjmisc::cramer(tab))
       # if minimum expected values below 5, compute fisher's exact test
-      if(min(tab.expected) < 5 || (min(tab.expected) < 10 && chsq$parameter == 1)) fish <- fisher.test(tab, simulate.p.value = TRUE)
+      if (min(tab.expected) < 5 || (min(tab.expected) < 10 && chsq$parameter == 1)) fish <- fisher.test(tab, simulate.p.value = TRUE)
     } else {
       kook <- sprintf("&Phi;=%.3f", sjmisc::phi(tab))
       # if minimum expected values below 5 and df=1, compute fisher's exact test
-      if(min(tab.expected) < 5 || (min(tab.expected) < 10 && chsq$parameter == 1)) fish <- fisher.test(tab)
+      if (min(tab.expected) < 5 || (min(tab.expected) < 10 && chsq$parameter == 1)) fish <- fisher.test(tab)
     }
     # make phi-value apa style
-    kook <- gsub("0.", paste0(".", p_zero), kook, fixed = TRUE)
+    kook <- gsub("0.", paste0(p_zero, "."), kook, fixed = TRUE)
     # create summary row
     if (is.null(fish)) {
       pvalstring <- ifelse(chsq$p.value < 0.001, sprintf("p&lt;%s.001", p_zero), sub("0", p_zero, sprintf("p=%.3f", chsq$p.value)))

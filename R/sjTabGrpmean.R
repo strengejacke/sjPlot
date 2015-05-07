@@ -8,6 +8,9 @@
 #' 
 #' @param varCount a numeric vector / variable. Mean, SD and SE for this variable are calculated.
 #' @param varGrp a (numeric) vector with group indices, used to select sub-groups from \code{varCount}.
+#' @param weightBy A weight factor that will be applied to weight all cases.
+#'          Must be a vector of same length as \code{varCount}. Default is \code{NULL}, 
+#'          so no weights are used.
 #' @param rowLabels a character vector of same length as \code{varGrp} unqiue values. In short: the
 #'          value labels of \code{varGrp}. Used to name table rows. By default, row labels
 #'          are automatically detected if set by \code{\link[sjmisc]{set_val_labels}}.
@@ -63,6 +66,7 @@
 #' @export
 sjt.grpmean <- function(varCount, 
                         varGrp, 
+                        weightBy = NULL,
                         rowLabels=NULL, 
                         digits=2,
                         digits.summary = 3,
@@ -101,9 +105,15 @@ sjt.grpmean <- function(varCount,
   # compute anova statistics for mean table
   # see below
   # --------------------------------------
-  fit <- aov(varCount ~ as.factor(varGrp))
+  if (!is.null(weightBy)) {
+    fit <- lm(varCount ~ as.factor(varGrp), weights = weightBy)
+  } else {
+    fit <- lm(varCount ~ as.factor(varGrp))
+  }
+  # get model summary
+  sum.fit <- summary(fit)
   # p-values of means
-  means.p <- summary.lm(fit)$coefficients[, 4]
+  means.p <- sum.fit$coefficients[, 4]
   pval <- c()
   # convert means to apa style
   for (i in 1:length(means.p)) {
@@ -123,22 +133,42 @@ sjt.grpmean <- function(varCount,
   # --------------------------------------
   for (i in 1:length(indices)) {
     # --------------------------------------
+    # do we have weighted means?
+    # --------------------------------------
+    if (!is.null(weightBy)) {
+      mw <- weighted.mean(varCount[varGrp == indices[i]], 
+                          w = weightBy[varGrp == indices[i]],
+                          na.rm = TRUE)
+    } else {
+      mw <- mean(varCount[varGrp == indices[i]], na.rm = TRUE)
+    }
+    # --------------------------------------
     # add new row to data frame with
     # mean, N, sd and se of varCount for each
     # sub-group (indicated by indices)
     # --------------------------------------
     df <- rbind(df, 
-                cbind(mean = sprintf("%.*f", digits, mean(varCount[varGrp == indices[i]], na.rm = TRUE)),
+                cbind(mean = sprintf("%.*f", digits, mw),
                       N = length(na.omit(varCount[varGrp == indices[i]])),
                       sd = sprintf("%.*f", digits, sd(varCount[varGrp == indices[i]], na.rm = TRUE)),
                       se = sprintf("%.*f", digits, sjmisc::std_e(varCount[varGrp == indices[i]])),
                       p = pval[i]))
   }
   # --------------------------------------
+  # do we have weighted means?
+  # --------------------------------------
+  if (!is.null(weightBy)) {
+    mw <- weighted.mean(varCount, 
+                        w = weightBy,
+                        na.rm = TRUE)
+  } else {
+    mw <- mean(varCount, na.rm = TRUE)
+  }
+  # --------------------------------------
   # finally, add total-row
   # --------------------------------------
   df <- rbind(df, 
-              cbind(mean = sprintf("%.*f", digits, mean(varCount, na.rm = TRUE)),
+              cbind(mean = sprintf("%.*f", digits, mw),
                     N = length(na.omit(varCount)),
                     sd = sprintf("%.*f", digits, sd(varCount, na.rm = TRUE)),
                     se = sprintf("%.*f", digits, sjmisc::std_e(varCount)),
@@ -152,13 +182,13 @@ sjt.grpmean <- function(varCount,
   # get anova statistics for mean table
   # --------------------------------------
   # multiple r2
-  r2 <- summary.lm(fit)$r.squared
+  r2 <- sum.fit$r.squared
   # adj. r2
-  r2.adj <- summary.lm(fit)$adj.r.squared
+  r2.adj <- sum.fit$adj.r.squared
   # get F-statistics
-  fstat <- summary.lm(fit)$fstatistic[1]
+  fstat <- sum.fit$fstatistic[1]
   # p-value for F-test
-  pval <- summary(fit)[[1]]['Pr(>F)'][1, 1]
+  pval <- sjmisc:::lm_pval_fstat(fit)
   pvalstring <- ifelse(pval < 0.001, 
                        sprintf("p&lt;%s.001", p_zero), 
                        sub("0", p_zero, sprintf("p=%.*f", digits.summary, pval)))
@@ -175,8 +205,8 @@ sjt.grpmean <- function(varCount,
                  CSS = CSS,
                  encoding = encoding,
                  hideProgressBar = TRUE,
-                 commentString = gsub("0.", 
-                                      paste0(".", p_zero), 
+                 commentString = gsub("=0.", 
+                                      paste0("=", p_zero, "."), 
                                       sprintf("<strong>Anova:</strong> R<sup>2</sup>=%.*f &middot; adj. R<sup>2</sup>=%.*f &middot; F=%.*f &middot; %s",
                                               digits.summary, r2, digits.summary, r2.adj, digits.summary, fstat, pvalstring),
                                       fixed = TRUE),
@@ -185,10 +215,10 @@ sjt.grpmean <- function(varCount,
   # check if html-content should be printed
   # -------------------------------------
   out.html.table(no.output, file, html$knitr, html$output.complete, useViewer)  
-  invisible (list(class = "sjtgrpmean",
-                  df = df, 
-                  page.style = html$page.style,
-                  page.content = html$page.content,
-                  knitr = html$knitr,
-                  output.complete = html$output.complete))
+  invisible(list(class = "sjtgrpmean",
+                 df = df, 
+                 page.style = html$page.style,
+                 page.content = html$page.content,
+                 knitr = html$knitr,
+                 output.complete = html$output.complete))
 }

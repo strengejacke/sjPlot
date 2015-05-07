@@ -1073,7 +1073,7 @@ sjt.glm <- function(...,
       page.content <- paste0(page.content, "\n    <td class=\"separatorcol\">&nbsp;</td>")
       psr <- PseudoR2(input_list[[i]])
       page.content <- paste0(page.content, gsub("0.", 
-                                                paste0(".", p_zero),
+                                                paste0(p_zero, "."),
                                                 sprintf("%sR<sup>2</sup><sub>CS</sub> = %.*f<br>R<sup>2</sup><sub>N</sub> = %.*f</td>", colspanstring, digits.summary, psr[2], digits.summary, psr[3]),
                                                 fixed = TRUE))
     }

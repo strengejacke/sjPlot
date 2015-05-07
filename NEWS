@@ -10,10 +10,13 @@ New functions:
 
 Changes to functions:
 * Added 'type = "probc"' to "sjp.glm" as alternative to 'type = "prob"'. 'type = "probc"' calculated predicted probabilities based on the "predict" function.
+* "sjt.grpmean" gets a "weightBy" parameter to compute weighted group-means.
 
 Bug fixes:
+* Fixed bug with "options(p_zero = TRUE)", where leading zero was inserted after, instead of before decimal point.
 * Fixed formatting bug for pseudo-R2 in "sjt.glm".
 * Fixed bug in "sjp.likert" when data frame had only one column.
+* Fixed bug in "sjt.frq" when a data frame contained variables with only NA values.
 
 Version 1.8
 ------------------------------------------------------------------------------
