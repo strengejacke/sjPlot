@@ -298,7 +298,7 @@ sjt.frq <- function (data,
       # if yes, iterate each variable
       for (i in 1:ncol(data)) {
         # check type
-        if (is.character(data[, i])) stringcolumns <- c(stringcolumns, i)
+        if (is.character(data[[i]])) stringcolumns <- c(stringcolumns, i)
       }
       # check if any strings found
       # remove string variables
@@ -307,6 +307,23 @@ sjt.frq <- function (data,
       if (is.character(data)) {
         stop("Parameter 'data' is a single string vector, where string vectors should be removed. No data to compute frequency table left. See parameter 'removeStringVectors' for details.", call. = FALSE)
       }
+    }
+  }
+  # -------------------------------------
+  # Remove variables that only have missings
+  # -------------------------------------
+  if (is.data.frame(data)) {
+    # store column indices of variables that only have NA's
+    NAcolumns <- c()
+    # iterate all columns
+    for (i in 1:ncol(data)) {
+      # check type
+      if (length(na.omit(data[[i]])) == 0) NAcolumns <- c(NAcolumns, i)
+    }
+    # check if any NA-only variables found
+    if (length(NAcolumns) > 0) {
+      message(sprintf("%i variables have been removed from output, because they contained only NA's: %s", length(NAcolumns), paste(colnames(data)[NAcolumns], collapse = "; ")))
+      data <- data[, -NAcolumns]
     }
   }
   # -------------------------------------
@@ -370,11 +387,11 @@ sjt.frq <- function (data,
     # iterate data frame
     for (i in 1:nvar) {
       # get variable
-      sv <- data[, i]
+      sv <- data[[i]]
       # check if character
       if (is.character(sv)) {
         # group strings
-        data[, i] <- sjmisc::group_str(sv, maxStringDist, remove.empty = F)
+        data[[i]] <- sjmisc::group_str(sv, maxStringDist, remove.empty = F)
       }
     }
   }
@@ -509,7 +526,7 @@ sjt.frq <- function (data,
     # iterate all labels, each one in one row
     for (j in 1:(nrow(df) - 1)) {
       # retrieve data row
-      datarow <- df[j,]
+      datarow <- df[j, ]
       zerorow <- (datarow[3] == 0)
       # -------------------------------------
       # check if to skip zero rows
@@ -527,7 +544,7 @@ sjt.frq <- function (data,
         # init default values
         rowstring <- ""
         # init default value for alternating colors
-        if (alternateRowColors) rowstring <- ifelse(j %% 2 ==0, " arc", "")
+        if (alternateRowColors) rowstring <- ifelse(j %% 2 == 0, " arc", "")
         rowcss <- rowstring
         # check whether we have median row and whether it should be highlighted
         if (highlightMedian && ((j + df.frq$minval) == (var.median + 1))) {

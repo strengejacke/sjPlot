@@ -87,6 +87,7 @@ create.frq.df <- function(varCount,
   # create frequency data frame
   #---------------------------------------------------
   df <- as.data.frame(table(varCount))
+  # name columns
   names(df) <- c("y", "Freq")
   # --------------------------------------------------------
   # Define amount of category, include zero counts
@@ -130,7 +131,7 @@ create.frq.df <- function(varCount,
     # categories (factor levels) corresponds either to the highest factor level
     # value or to the amount of different factor levels, depending on which one
     # is larger
-    catcount <- ifelse (catcount_1 > catcount_2, catcount_1, catcount_2)
+    catcount <- ifelse(catcount_1 > catcount_2, catcount_1, catcount_2)
   }
   # Create a vector of zeros
   frq <- rep(0, catcount)
@@ -204,10 +205,10 @@ create.frq.df <- function(varCount,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(list(mydat = mydat,
-                            labels = labels,
-                            catmin = catmin,
-                            minval = minval)))
+  invisible(structure(list(mydat = mydat,
+                           labels = labels,
+                           catmin = catmin,
+                           minval = minval)))
 }
 
 
