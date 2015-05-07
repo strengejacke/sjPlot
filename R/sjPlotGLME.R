@@ -1,5 +1,5 @@
 # bind global variables
-if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "pred", "prob", "p"))
+if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "pred", "prob", "p", "CSS", "useViewer", "no.output"))
 
 
 #' @title Plot odds ratios (forest plots) of generalized linear mixed effects models

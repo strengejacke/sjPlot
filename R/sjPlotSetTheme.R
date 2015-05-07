@@ -86,7 +86,7 @@
 #' @param legend.backgroundcol Fill color of the legend's background. Default is \code{"white"}, so no visible background is drawn.
 #' @param legend.item.bordercol Color of the legend's item-border. Default is \code{"white"}.
 #' @param legend.item.backcol Fill color of the legend's item-background. Default is \code{"grey90"}.
-#' @param theme valid parameter for ggplot default-themes are:
+#' @param theme Specify pre-set themes (see 'Details'). Valid parameter for ggplot default-themes are:
 #'        \itemize{
 #'          \item \code{theme_bw}
 #'          \item \code{theme_classic}
@@ -103,14 +103,27 @@
 #'          \item \code{"538"}: a grey-scaled theme inspired by \href{http://fivethirtyeight.com}{538-charts}, adapted from \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{minimaxir.com}.
 #'          \item \code{"539"}: a slight modification of the 538-theme.
 #'          \item \code{"scatter"}: a theme for scatter plots in 539-theme-style.
+#'          \item \code{"538w"}, \code{"539w"} and \code{"scatterw"} for themes as described above, however all with white backgrounds.
 #'          \item \code{"blues"}: a blue-colored scheme based on the Blues color-brewer-palette.
 #'          \item \code{"greens"}: a green-colored scheme.
 #'        }
 #' @param base Base theme where theme is built on. By default, all 
-#'          metrics from \code{theme_gray()} are used.
+#'          metrics from \code{theme_gray()} are used. See 'Details'
 #' 
 #' @return The customized theme object, or \code{NULL}, if a ggplot-theme
 #'           was used.
+#' 
+#' @details If the \code{theme} parameter is one of the valid ggplot-themes, this theme
+#'            will be used and all further parameters will be ignored. If you want to modify
+#'            a ggplot-theme, use \code{base = "theme_xy"} and then further parameters to
+#'            this function will be applied to the theme as well.
+#'            \cr \cr
+#'            If the \code{theme} parameter is one of sjPlot-pre-set-themes, you
+#'            can use further parameters for specific customization of the theme.
+#'            \emph{sjPlot-pre-set-themes won't work with the \code{base} parameter!}
+#'            The \code{base} parameter is only intended to select a ggplot-theme
+#'            as base for further modifications (which can be triggered via the
+#'            various function parameters).
 #' 
 #' @seealso \href{http://www.strengejacke.de/sjPlot/custplot/}{sjPlot manual: customize plot appearance}
 #' 
@@ -134,10 +147,10 @@
 #'          efc$e16sex,
 #'          showTableSummary = FALSE)
 #' 
-#' # Use classic-theme as base. you may need to
+#' # Use classic-theme. you may need to
 #' # load the ggplot2-library.
 #' library(ggplot2)
-#' sjp.setTheme(base = theme_classic())
+#' sjp.setTheme(theme = theme_classic())
 #' sjp.frq(efc$e42dep)
 #' 
 #' # adjust value labels
@@ -256,27 +269,35 @@ sjp.setTheme <- function(title.color="black",
   # check for blank theme, i.e. if user requires special
   # theme without any grids or axis lines
   # ----------------------------------------  
-  if (!is.null(theme) && theme=="blank") {
+  if (!is.null(theme) && theme == "blank") {
     base <- theme_classic()
     axis.linecolor <- "white"
     axis.ticksol <- "white"
     panel.gridcol <- "white"
     plot.col <- "white"
   }
-  if (!is.null(theme) && theme=="forest") {
+  # ----------------------------------------  
+  # check for forset theme. based on theme_bw,
+  # this theme has no grids
+  # ----------------------------------------  
+  if (!is.null(theme) && theme == "forest") {
     base <- theme_bw()
     panel.gridcol <- "white"
     axis.tickslen <- 0
   }  
-  if (!is.null(theme) && theme=="538") {
+  # ----------------------------------------  
+  # check for grey-scaled 538 theme.
+  # ----------------------------------------  
+  if (!is.null(theme) && (theme == "538" || theme == "538w")) {
     base <- theme_bw()
     g.palette <- scales::brewer_pal(palette = "Greys")(9)
-    panel.bordercol <- panel.backcol <- panel.col <- g.palette[2]
-    plot.backcol <- plot.bordercol <- plot.col <- g.palette[2]
+    col.ind <- ifelse(theme == "538", 2, 1)
+    panel.bordercol <- panel.backcol <- panel.col <- g.palette[col.ind]
+    plot.backcol <- plot.bordercol <- plot.col <- g.palette[col.ind]
+    panel.minor.gridcol <- g.palette[col.ind]
+    axis.linecolor.x  <- axis.linecolor.y <- axis.linecolor <- g.palette[col.ind]
+    legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[col.ind]
     panel.major.gridcol <- g.palette[4]
-    panel.minor.gridcol <- g.palette[2]
-    axis.linecolor.x  <- axis.linecolor.y <- axis.linecolor <- g.palette[2]
-    legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[2]
     title.color <- g.palette[9]
     axis.textcolor <- g.palette[6]
     axis.title.color <- g.palette[7]
@@ -292,22 +313,27 @@ sjp.setTheme <- function(title.color="black",
     plot.margins <- unit(c(1, .5, 1, 0.5), "cm")
     message("Theme '538' looks better with panel margins. You may want to use parameter 'expand.grid = TRUE' in sjp-functions.")
   }  
-  if (!is.null(theme) && (theme == "539" || theme == "forestgrey")) {
+  # ----------------------------------------  
+  # check for grey-scaled 539 theme, which are
+  # alternatives to 538
+  # ----------------------------------------  
+  if (!is.null(theme) && (theme == "539" || theme == "539w" || theme == "forestgrey")) {
     base <- theme_bw()
     g.palette <- scales::brewer_pal(palette = "Greys")(9)
-    panel.bordercol <- panel.backcol <- panel.col <- g.palette[2]
-    plot.backcol <- plot.bordercol <- plot.col <- g.palette[2]
-    if (theme == "539") {
+    col.ind <- ifelse(theme == "539w", 1, 2)
+    panel.bordercol <- panel.backcol <- panel.col <- g.palette[col.ind]
+    plot.backcol <- plot.bordercol <- plot.col <- g.palette[col.ind]
+    if (theme == "539" || theme == "539w") {
       panel.major.gridcol <- g.palette[4]
-      panel.minor.gridcol <- g.palette[2]
-      panel.gridcol.x <- g.palette[2]
+      panel.minor.gridcol <- g.palette[col.ind]
+      panel.gridcol.x <- g.palette[col.ind]
     } else {
-      panel.major.gridcol <- panel.minor.gridcol <- g.palette[2]
+      panel.major.gridcol <- panel.minor.gridcol <- g.palette[col.ind]
     }
     axis.linecolor <- NULL
-    if (is.null(axis.linecolor.y)) axis.linecolor.y <- g.palette[2]
+    if (is.null(axis.linecolor.y)) axis.linecolor.y <- g.palette[col.ind]
     if (is.null(axis.linecolor.x)) axis.linecolor.x <- g.palette[9]
-    legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[2]
+    legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[col.ind]
     title.color <- g.palette[9]
     axis.textcolor <- g.palette[6]
     axis.title.color <- g.palette[7]
@@ -322,16 +348,21 @@ sjp.setTheme <- function(title.color="black",
     title.vjust <- 1.75
     plot.margins <- unit(c(1, .5, 1, 0.5), "cm")
   }  
-  if (!is.null(theme) && theme=="scatter") {
+  # ----------------------------------------  
+  # check for scatter, a theme with crossed
+  # grids and based on 538
+  # ----------------------------------------  
+  if (!is.null(theme) && (theme == "scatter" || theme == "scatterw")) {
     base <- theme_bw()
+    col.ind <- ifelse(theme == "scatterw", 1, 2)
     g.palette <- scales::brewer_pal(palette = "Greys")(9)
-    panel.bordercol <- panel.backcol <- panel.col <- g.palette[2]
-    plot.backcol <- plot.bordercol <- plot.col <- g.palette[2]
+    panel.bordercol <- panel.backcol <- panel.col <- g.palette[col.ind]
+    plot.backcol <- plot.bordercol <- plot.col <- g.palette[col.ind]
     panel.major.gridcol <- panel.minor.gridcol <- g.palette[4]
     axis.linecolor <- g.palette[5]
-    if (is.null(axis.linecolor.y)) axis.linecolor.y <- g.palette[2]
-    if (is.null(axis.linecolor.x)) axis.linecolor.x <- g.palette[2]
-    legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[2]
+    if (is.null(axis.linecolor.y)) axis.linecolor.y <- g.palette[col.ind]
+    if (is.null(axis.linecolor.x)) axis.linecolor.x <- g.palette[col.ind]
+    legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[col.ind]
     title.color <- g.palette[9]
     axis.textcolor <- g.palette[6]
     axis.title.color <- g.palette[7]
@@ -655,7 +686,7 @@ sjp.setTheme <- function(title.color="black",
     theme_set(sjtheme)
   }
   else {
-    warning("Either 'theme' or 'base' must be supplied as ggplot-theme-object to set global theme options for sjPlot.")
+    warning("Either 'theme' or 'base' must be supplied as ggplot-theme-object to set global theme options for sjPlot.", call. = F)
   }
   
   # ----------------------------------------

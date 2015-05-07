@@ -30,7 +30,7 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of current development snapshot 1.8-4
+### Changelog of current development snapshot 1.8-6
 
 #### General
 * Deprecated function `sjp.emm.int` was removed. Use `sjp.int` with parameter `type = 'emm'` to plot estimated marginal means.
@@ -43,6 +43,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 #### Changes to functions
 * Added `type = "probc"` to `sjp.glm` as alternative to `type = "prob"`. `type = "probc"` calculated predicted probabilities based on the `predict` function.
 * `sjt.grpmean` gets a `weightBy` parameter to compute weighted group-means.
+* Added white-background-alternative-themes of 538, 539 and scatter to `sjp.setTheme`.
 
 #### Bug fixes
 * Fixed bug with `options(p_zero = TRUE)`, where leading zero was inserted after, instead of before decimal point.

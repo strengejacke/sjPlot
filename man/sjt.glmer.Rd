@@ -14,10 +14,10 @@ sjt.glmer(..., file = NULL, labelPredictors = NULL,
   digits.se = 2, digits.summary = 3, exp.coef = TRUE,
   pvaluesAsNumbers = TRUE, boldpvalues = TRUE, showConfInt = TRUE,
   showStdError = FALSE, separateConfColumn = TRUE, newLineConf = TRUE,
-  group.pred = TRUE, showAbbrHeadline = TRUE, showICC = TRUE,
-  showLogLik = FALSE, showAIC = FALSE, showFamily = FALSE,
-  remove.estimates = NULL, cellSpacing = 0.2, encoding = NULL,
-  CSS = NULL, useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
+  showAbbrHeadline = TRUE, showICC = TRUE, showLogLik = FALSE,
+  showAIC = FALSE, showFamily = FALSE, remove.estimates = NULL,
+  cellSpacing = 0.2, encoding = NULL, CSS = NULL, useViewer = TRUE,
+  no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{One or more mixed models fitted with \code{\link[lme4]{glmer}}.}
