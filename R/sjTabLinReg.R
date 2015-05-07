@@ -681,22 +681,6 @@ sjt.lm <- function (...,
       })
     }
     # -------------------------------------
-    # retrieve factors and number of levels
-    # -------------------------------------
-    if (lmerob) {
-      # find fixed effects in model frame
-      fe.pos <- which(names(lme4::fixef(fit)) %in% colnames(fit@frame))
-      # copy intercept and fixed effects of model
-      fit.model <- data.frame(cbind(y = lme4::getME(fit, "y"),
-                                    fit@frame[, fe.pos]))
-    } else {
-      fit.model <- fit$model
-    }
-    for (f in 1:ncol(fit.model)) {
-      fit.df$is_fac[f] <- is.factor(fit.model[[f]])
-      fit.df$fac_lvl[f] <- length(levels(fit.model[[f]]))
-    }
-    # -------------------------------------
     # set column names. we need the same name
     # for first column witrh coefficient names
     # and different column names for all model-statistics.
@@ -711,9 +695,7 @@ sjt.lm <- function (...,
                           sprintf("se%i", i),
                           sprintf("std.beta%i", i),
                           sprintf("std.beta.ci.lo%i", i),
-                          sprintf("std.beta.ci.hi%i", i),
-                          sprintf("categorical%i", i),
-                          sprintf("fac.levels%i", i))
+                          sprintf("std.beta.ci.hi%i", i))
     # -------------------------------------
     # add to df list
     # -------------------------------------
@@ -767,13 +749,6 @@ sjt.lm <- function (...,
     # select rows
     joined.df <- dplyr::slice(joined.df, keep.estimates)
   }
-  # -------------------------------------
-  # remove all variables with factor status 
-  # and levels from joined.df
-  # -------------------------------------
-  joined.df <- dplyr::select(joined.df, 
-                             -c(starts_with("categorical"), 
-                               starts_with("fac.levels")))
   # -------------------------------------
   # if confidence interval should be omitted,
   # don't use separate column for CI!
