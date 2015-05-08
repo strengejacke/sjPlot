@@ -11,7 +11,7 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   axisTitle.x = NULL, axisTitle.y = NULL, interceptLineType = 2,
   interceptLineColor = "grey70", showValueLabels = TRUE, labelDigits = 2,
   showPValueLabels = TRUE, facet.grid = TRUE, free.scale = FALSE,
-  fade.ns = FALSE, printPlot = TRUE)
+  fade.ns = FALSE, show.se = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{a fitted \code{lmer} object.}
@@ -25,6 +25,7 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   \item \code{"fe.cor"} for correlation matrix of fixed effects
   \item \code{"re.qq"} for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)
   \item \code{"fe.ri"} for fixed effects slopes depending on the random intercept.
+  \item \code{"y.pc"} or \code{"y.prob"} to plot predicted probabilities for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot.
 }}
 
 \item{vars}{a numeric vector with column indices of selected variables or a character vector with
@@ -104,6 +105,9 @@ an integrated (faceted) single graph.}
 \code{free.scale=FALSE}, each facet in the grid has the same scale range.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly fading colors.}
+
+\item{show.se}{Use \code{TRUE} to plot (depending on \code{type}) the standard
+error for predicted values.}
 
 \item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
