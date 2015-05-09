@@ -127,7 +127,7 @@ Plot odds ratios (exponentiated coefficients) with confidence intervalls of eith
                \code{lme4} package.
 }
 \note{
-Thanks to Robert Reijntjes from Leiden University Medical Center for sharing
+Thanks go to Robert Reijntjes from Leiden University Medical Center for sharing
         R code that is used to compute fixed effects correlation matrices and
         qq-plots of random effects.
 }

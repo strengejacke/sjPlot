@@ -30,7 +30,7 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of current development snapshot 1.8-6
+### Changelog of current development snapshot 1.8-7
 
 #### General
 * Deprecated function `sjp.emm.int` was removed. Use `sjp.int` with parameter `type = 'emm'` to plot estimated marginal means.
@@ -42,7 +42,10 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 
 #### Changes to functions
 * Added `type = "probc"` to `sjp.glm` as alternative to `type = "prob"`. `type = "probc"` calculated predicted probabilities based on the `predict` function.
+* Added `type = "y.prob"` to `sjp.glm` and `sjp.glmer` to plot predicted probabilities of the response.
+* Added `type = "resp"` to `sjp.lm` and `sjp.lmer` to plot predicted values of the response.
 * `sjt.grpmean` gets a `weightBy` parameter to compute weighted group-means.
+* `sjt.glm` gets a `showHosLem` parameter to print results of the Hosmer-Lemeshow-Goodness-of-fit-Test for generalized linear models.
 * Added white-background-alternative-themes of 538, 539 and scatter to `sjp.setTheme`.
 
 #### Bug fixes

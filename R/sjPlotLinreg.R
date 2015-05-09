@@ -1,5 +1,5 @@
 # bind global variables
-if(getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p", "x", "ydiff", "y", "grp", ".stdresid", ".resid", ".fitted", "V1", "V2"))
+if (getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p", "x", "ydiff", "y", "grp", ".stdresid", ".resid", ".fitted", "V1", "V2"))
 
 
 #' @title Plot linear models
@@ -26,6 +26,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lo
 #'            \item \code{"lm"} (default) for forest-plot like plot of estimates. If the fitted model only contains one predictor, intercept and slope are plotted.
 #'            \item \code{"std"} for forest-plot like plot of standardized beta values. If the fitted model only contains one predictor, intercept and slope are plotted.
 #'            \item \code{"pred"} to plot regression lines for each single predictor of the fitted model.
+#'            \item \code{"resp"} to plot predicted values for the response. Use \code{showCI} parameter to plot standard errors as well.
 #'            \item \code{"ma"} to check model assumptions. Note that only three parameters are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.
 #'            \item \code{"vif"} to plot Variance Inflation Factors. See details.
 #'          }
@@ -245,50 +246,53 @@ sjp.lm <- function(fit,
   # so check whether only one predictor was used
   # -----------------------------------------------------------
   if (type == "lm" && predvars.length <= 2) {
-    return (invisible(sjp.lm1(fit,
-                              title,
-                              breakTitleAt, 
-                              axisLabels.x,
-                              axisLabels.y,
-                              breakLabelsAt,
-                              lineColor,
-                              showCI,
-                              ciLevel,
-                              pointAlpha,
-                              pointColor,
-                              showScatterPlot,
-                              showLoess,
-                              loessLineColor,
-                              showLoessCI,
-                              loessCiLevel,
-                              showModelSummary,
-                              useResiduals,
-                              printPlot)))
+    return(invisible(sjp.lm1(fit,
+                             title,
+                             breakTitleAt, 
+                             axisLabels.x,
+                             axisLabels.y,
+                             breakLabelsAt,
+                             lineColor,
+                             showCI,
+                             ciLevel,
+                             pointAlpha,
+                             pointColor,
+                             showScatterPlot,
+                             showLoess,
+                             loessLineColor,
+                             showLoessCI,
+                             loessCiLevel,
+                             showModelSummary,
+                             useResiduals,
+                             printPlot)))
   }
   if (type == "pred") {
-    return (invisible(sjp.reglin(fit,
-                                 title,
-                                 breakTitleAt, 
-                                 lineColor,
-                                 showCI,
-                                 ciLevel,
-                                 pointAlpha,
-                                 pointColor,
-                                 showScatterPlot,
-                                 showLoess,
-                                 loessLineColor,
-                                 showLoessCI,
-                                 loessCiLevel,
-                                 useResiduals,
-                                 printPlot)))
+    return(invisible(sjp.reglin(fit,
+                                title,
+                                breakTitleAt, 
+                                lineColor,
+                                showCI,
+                                ciLevel,
+                                pointAlpha,
+                                pointColor,
+                                showScatterPlot,
+                                showLoess,
+                                loessLineColor,
+                                showLoessCI,
+                                loessCiLevel,
+                                useResiduals,
+                                printPlot)))
+  }
+  if (type == "resp") {
+    return(invisible(sjp.lm.response.pred(fit, showCI, printPlot)))
   }
   if (type == "ma") {
-    return (invisible(sjp.lm.ma(fit,
-                                showOriginalModelOnly,
-                                completeDiagnostic)))
+    return(invisible(sjp.lm.ma(fit,
+                               showOriginalModelOnly,
+                               completeDiagnostic)))
   }
   if (type == "vif") {
-    return (invisible(sjp.vif(fit)))
+    return(invisible(sjp.vif(fit)))
   }
   # --------------------------------------------------------
   # unlist labels
@@ -418,7 +422,7 @@ sjp.lm <- function(fit,
   }
   betas <- cbind(c(seq(1:nrow(betas))), betas)
   # give columns names
-  names(betas)<-c("xv", "Beta", "lower", "upper", "p", "pv")
+  names(betas) <- c("xv", "Beta", "lower", "upper", "p", "pv")
   betas$p <- as.character(betas$p)
   # --------------------------------------------------------
   # Calculate axis limits. The range is from lowest lower-CI
@@ -482,9 +486,41 @@ sjp.lm <- function(fit,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = "sjplm",
-                       list(plot = betaplot,
-                            df = betas)))
+  invisible(structure(class = "sjplm",
+                      list(plot = betaplot,
+                           df = betas)))
+}
+
+
+sjp.lm.response.pred <- function(fit,
+                                 show.se,
+                                 printPlot) {
+  # ----------------------------
+  # get predicted values for response
+  # ----------------------------
+  pp <- predict(fit, type = "response")
+  # ----------------------------
+  # get predicted probabilities for 
+  # response, including random effects
+  # ----------------------------
+  mydf <- data.frame(x = 1:length(pp), y = sort(pp))
+  # ---------------------------------------------------------
+  # Prepare plot
+  # ---------------------------------------------------------
+  mp <- ggplot(mydf, aes(x = x, y = y)) +
+    labs(x = NULL, 
+         y = "Predicted values",
+         title = "Predicted value for model-response") +
+    stat_smooth(method = "lm", 
+                se = show.se)
+  # --------------------------
+  # plot plots
+  # --------------------------
+  if (printPlot) print(mp)
+  return(structure(class = "sjplm.pvresp",
+                   list(mydf = mydf,
+                        plot = mp,
+                        mean.pp = mean(pp))))
 }
 
 

@@ -1,5 +1,5 @@
 # bind global variables
-if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "p"))
+if (getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "p"))
 
 
 
@@ -22,6 +22,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #'            \item \code{"bars"} for odds ratios as bar plot
 #'            \item \code{"prob"} or \code{"pc"} to plot predicted probabilities for each model terms, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
 #'            \item \code{"probc"} or \code{"pcc"} to plot centered predicted probabilities for each model term (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
+#'            \item \code{"y.pc"} or \code{"y.prob"} to plot predicted probabilities for the response.
 #'            \item \code{"ma"} to check model assumptions. Note that only two parameters are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other parameters are ignored.
 #'            \item \code{"vif"} to plot Variance Inflation Factors. See details.
 #'          }
@@ -97,11 +98,16 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #'
 #' @details For \code{type = "prob"} (or \code{"pc"}), the predicted probabilities
 #'            are based on the intercept's estimate and each specific term's estimate.
-#'            All other co-variates are set to zero (i.e. ignored). \cr \cr
+#'            All other co-variates are set to zero (i.e. ignored).
+#'            \cr \cr
 #'            For \code{type = "probc"} (or \code{"pcc"}), the predicted probabilities
 #'            are based on the \code{\link{predict.glm}} method, where predicted values 
 #'            are "centered"
 #'            (see \href{http://stats.stackexchange.com/questions/35682/contribution-of-each-covariate-to-a-single-prediction-in-a-logistic-regression-m#comment71993_35802}{CrossValidated}).
+#'            \cr \cr
+#'            With \code{type = "y.pc"} (or \code{type = "y.prob"}), the predicted values
+#'            of the response are computed, based on the \code{\link{predict.glm}}
+#'            method.
 #'
 #' @examples
 #' # prepare dichotomous dependent variable
@@ -221,6 +227,11 @@ sjp.glm <- function(fit,
                                 type = "probc",
                                 facet.grid,
                                 printPlot)))
+  }
+  if (type == "y.pc" || type == "y.prob") {
+    return(invisible(sjp.glm.response.probcurv(fit,
+                                               show.se,
+                                               printPlot)))
   }
   if (type == "ma") {
     return(invisible(sjp.glm.ma(fit, showOriginalModelOnly)))
@@ -672,6 +683,43 @@ sjp.glm.pc <- function(fit,
                            plot.mp = plot.metricpred,
                            mydf.facet = mydf.facet,
                            plot.facet = plot.facet)))
+}
+
+
+sjp.glm.response.probcurv <- function(fit,
+                                      show.se,
+                                      printPlot) {
+  # ----------------------------
+  # get predicted values for response with and
+  # without random effects
+  # ----------------------------
+  pp <- plogis(predict(fit, type = "response"))
+  # ----------------------------
+  # get predicted probabilities for 
+  # response, including random effects
+  # ----------------------------
+  mydf <- data.frame(x = 1:length(pp), y = sort(pp))
+  # ---------------------------------------------------------
+  # Prepare plot
+  # ---------------------------------------------------------
+  mp <- ggplot(mydf, aes(x = x, y = y)) +
+    labs(x = NULL, 
+         y = "Predicted Probability",
+         title = "Predicted Probabilities for model-response") +
+    stat_smooth(method = "glm", 
+                family = "binomial", 
+                se = show.se) +
+    # cartesian coord still plots range of se, even
+    # when se exceeds plot range.
+    coord_cartesian(ylim = c(0, 1))
+  # --------------------------
+  # plot plots
+  # --------------------------
+  if (printPlot) print(mp)
+  return(structure(class = "sjpglm.ppresp",
+                   list(mydf = mydf,
+                        plot = mp,
+                        mean.pp = mean(pp))))
 }
 
 

@@ -1,4 +1,4 @@
-Version 1.8-6
+Version 1.8-7
 ------------------------------------------------------------------------------
 General:
 * Deprecated function "sjp.emm.int" was removed. Use "sjp.int" with parameter "type = 'emm'" to plot estimated marginal means.
@@ -10,7 +10,10 @@ New functions:
 
 Changes to functions:
 * Added 'type = "probc"' to "sjp.glm" as alternative to 'type = "prob"'. 'type = "probc"' calculated predicted probabilities based on the "predict" function.
+* Added 'type = "y.prob"' to "sjp.glm" and "sjp.glmer" to plot predicted probabilities of the response.
+* Added 'type = "resp"' to "sjp.lm" and to "sjp.lmer" to plot predicted values of the response.
 * "sjt.grpmean" gets a "weightBy" parameter to compute weighted group-means.
+* "sjt.glm" gets a "showHosLem" parameter to print results of the Hosmer-Lemeshow-Goodness-of-fit-Test for generalized linear models.
 * Added white-background-alternative-themes of 538, 539 and scatter to "sjp.setTheme".
 
 Bug fixes:

@@ -66,8 +66,13 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("starts_with"))
 #'          in the model summary. Default is \code{FALSE}.
 #' @param showAIC If \code{TRUE}, the \code{\link{AIC}} value for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
-#' @param showChi2 If \code{TRUE}, the chi-square value for each model is printed
+#' @param showChi2 If \code{TRUE}, the p-value of the chi-squared value for each 
+#'          model's residual deviance against the null deviance is printed
 #'          in the model summary. Default is \code{FALSE}.
+#' @param showHosLem If \code{TRUE}, a Hosmer-Lemeshow-Goodness-of-fit-test is
+#'          performed. A well-fitting model shows no significant difference between 
+#'          the model and the observed data, i.e. the reported p-values should be
+#'          greater than 0.05. This option depends on the \emph{ResourceSelection}-package.
 #' @param showFamily If \code{TRUE}, the family object and link function for each fitted model
 #'          are printed. Can be used in case you want to compare models with different link functions
 #'          and same predictors and response, to decide which model fits best. See \code{\link{family}}
@@ -301,6 +306,7 @@ sjt.glm <- function(...,
                     showLogLik=FALSE,
                     showAIC=FALSE,
                     showChi2=FALSE,
+                    showHosLem = FALSE,
                     showFamily=FALSE,
                     remove.estimates=NULL,
                     cellSpacing=0.2,
@@ -1087,15 +1093,63 @@ sjt.glm <- function(...,
   # Model-Summary: Chi2
   # -------------------------------------
   if (showChi2) {
-    page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">&Chi;<sup>2</sup></td>")
+    page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">&Chi;<sup>2</sup><sub>deviance</sub></td>")
     for (i in 1:length(input_list)) {
       # -------------------------
       # insert "separator column"
       # -------------------------
       page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
-      page.content <- paste0(page.content, sprintf("%s%.*f</td>", colspanstring, digits.summary, Chisquare.glm(input_list[[i]])))
+      page.content <- paste0(page.content, gsub("0.",
+                                                paste0(p_zero, "."),
+                                                sprintf("%sp=%.*f</td>", 
+                                                        colspanstring, 
+                                                        digits.summary, 
+                                                        Chisquare.glm(input_list[[i]])),
+                                                fixed = TRUE))
     }
     page.content <- paste0(page.content, "\n  </tr>\n")
+  }
+  # -------------------------------------
+  # Model-Summary: Hosmer-Lemeshow-GOF
+  # -------------------------------------
+  if (showHosLem) {
+    # -------------------------
+    # package ResourceSelection needed for Hosmer-Lemeshow-Test
+    # -------------------------
+    if (requireNamespace("ResourceSelection", quietly = TRUE)) {
+      page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">Hosmer-Lemeshow-&Chi;<sup>2</sup></td>")
+      for (i in 1:length(input_list)) {
+        # -------------------------
+        # insert "separator column"
+        # -------------------------
+        page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
+        # -------------------------
+        # compute Hosmer-Lemeshow test
+        # -------------------------
+        hlfit <- input_list[[i]]
+        if (lmerob) {
+          hlgof <- ResourceSelection::hoslem.test(lme4::getME(hlfit, "y"), fitted(hlfit))
+        } else {
+          hlgof <- ResourceSelection::hoslem.test(hlfit$y, fitted(hlfit))
+        }
+        # -------------------------
+        # print chisq and p
+        # -------------------------
+        page.content <- paste0(page.content, 
+                               gsub("0.",
+                                    paste0(p_zero, "."),
+                                    sprintf("%s%.*f; p=%.*f</td>", 
+                                            colspanstring, 
+                                            digits.summary, 
+                                            unname(hlgof$statistic),
+                                            digits.summary, 
+                                            hlgof$p.value),
+                                    fixed = T))
+      }
+      page.content <- paste0(page.content, "\n  </tr>\n")
+    } else {
+      warning("Package 'ResourceSelection' needed to compute Hosmer-Lemeshow-Goodnes of fit test.", call. = FALSE)
+    }
   }
   # -------------------------------------
   # Model-Summary: Family

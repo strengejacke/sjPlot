@@ -23,6 +23,7 @@ sjp.glm(fit, type = "dots", sortOdds = TRUE, title = NULL,
   \item \code{"bars"} for odds ratios as bar plot
   \item \code{"prob"} or \code{"pc"} to plot predicted probabilities for each model terms, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
   \item \code{"probc"} or \code{"pcc"} to plot centered predicted probabilities for each model term (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
+  \item \code{"y.pc"} or \code{"y.prob"} to plot predicted probabilities for the response.
   \item \code{"ma"} to check model assumptions. Note that only two parameters are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other parameters are ignored.
   \item \code{"vif"} to plot Variance Inflation Factors. See details.
 }}
@@ -132,11 +133,16 @@ Plot odds ratios (exponentiated coefficients) with confidence intervalls as bar 
 \details{
 For \code{type = "prob"} (or \code{"pc"}), the predicted probabilities
            are based on the intercept's estimate and each specific term's estimate.
-           All other co-variates are set to zero (i.e. ignored). \cr \cr
+           All other co-variates are set to zero (i.e. ignored).
+           \cr \cr
            For \code{type = "probc"} (or \code{"pcc"}), the predicted probabilities
            are based on the \code{\link{predict.glm}} method, where predicted values
            are "centered"
            (see \href{http://stats.stackexchange.com/questions/35682/contribution-of-each-covariate-to-a-single-prediction-in-a-logistic-regression-m#comment71993_35802}{CrossValidated}).
+           \cr \cr
+           With \code{type = "y.pc"} (or \code{type = "y.prob"}), the predicted values
+           of the response are computed, based on the \code{\link{predict.glm}}
+           method.
 }
 \note{
 Based on the script from \href{http://www.surefoss.org/dataanalysis/plotting-odds-ratios-aka-a-forrestplot-with-ggplot2/}{surefoss}

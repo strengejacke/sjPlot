@@ -91,7 +91,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #'            \item a data frame \code{mydf} with the data used to build the ggplot-object(s).
 #'            }
 #'
-#' @note Thanks to Robert Reijntjes from Leiden University Medical Center for sharing
+#' @note Thanks go to Robert Reijntjes from Leiden University Medical Center for sharing
 #'         R code that is used to compute fixed effects correlation matrices and
 #'         qq-plots of random effects.
 #'
@@ -258,7 +258,7 @@ sjp.glmer <- function(fit,
 #'            \item \code{"fe.cor"} for correlation matrix of fixed effects
 #'            \item \code{"re.qq"} for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)
 #'            \item \code{"fe.ri"} for fixed effects slopes depending on the random intercept.
-#'            \item \code{"y.pc"} or \code{"y.prob"} to plot predicted probabilities for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot.
+#'            \item \code{"resp"} to plot predicted values for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot.
 #'          }
 #' @param vars a numeric vector with column indices of selected variables or a character vector with
 #'          variable names of selected variables from the fitted model, which should be used to plot
@@ -435,7 +435,7 @@ sjp.lmer <- function(fit,
 
   if (type == "fe.prob") type <- "fe.pc"
   if (type == "ri.prob") type <- "ri.pc"
-  if (type == "y.prob") type <- "y.pc"
+  if (type == "resp") type <- "y.pc"
   
   sjp.lme4(fit,
            type,
@@ -506,7 +506,7 @@ sjp.lme4  <- function(fit,
   if (type != "re" && type != "fe" && type != "fe.std" && type != "fe.cor" &&
       type != "re.qq" && type != "fe.pc" && type != "ri.pc" && type != "fe.pred" &&
       type != "fe.prob" && type != "ri.prob" && type != "fe.ri" && type != "y.pc") {
-    warning("'type' must be one of 're', 'fe', 'fe.cor', 're.qq', 'fe.ri', 'fe.pc', 'fe.pred', 'ri.pc', 'y.pc', 'y.prob', 'fe.std', 'fe.prob' or 'ri.prob'. Defaulting to 'fe' now.")
+    warning("'type' must be one of 're', 'fe', 'fe.cor', 're.qq', 'fe.ri', 'fe.pc', 'fe.pred', 'y.pred', 'ri.pc', 'y.pc', 'y.prob', 'fe.std', 'fe.prob' or 'ri.prob'. Defaulting to 'fe' now.")
     type  <- "fe"
   }
   # ---------------------------------------
@@ -654,14 +654,14 @@ sjp.lme4  <- function(fit,
     # plot qq-plots for random effects to
     # inspect normality
     # ---------------------------------------
-    return (invisible(sjp.lme.reqq(fit,
-                                   geom.colors,
-                                   geom.size,
-                                   hideErrorBars,
-                                   interceptLineType,
-                                   interceptLineColor,
-                                   fun,
-                                   printPlot)))
+    return(invisible(sjp.lme.reqq(fit,
+                                  geom.colors,
+                                  geom.size,
+                                  hideErrorBars,
+                                  interceptLineType,
+                                  interceptLineColor,
+                                  fun,
+                                  printPlot)))
   } else if (type == "fe.pc") {
     # ---------------------------------------
     # plot predicted probabilities of

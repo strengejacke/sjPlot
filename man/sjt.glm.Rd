@@ -16,9 +16,9 @@ sjt.glm(..., file = NULL, labelPredictors = NULL,
   showStdError = FALSE, separateConfColumn = TRUE, newLineConf = TRUE,
   group.pred = TRUE, showAbbrHeadline = TRUE, showPseudoR = FALSE,
   showLogLik = FALSE, showAIC = FALSE, showChi2 = FALSE,
-  showFamily = FALSE, remove.estimates = NULL, cellSpacing = 0.2,
-  cellGroupIndent = 0.6, encoding = NULL, CSS = NULL, useViewer = TRUE,
-  no.output = FALSE, remove.spaces = TRUE)
+  showHosLem = FALSE, showFamily = FALSE, remove.estimates = NULL,
+  cellSpacing = 0.2, cellGroupIndent = 0.6, encoding = NULL, CSS = NULL,
+  useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{One or more fitted \code{\link{glm}}-objects.}
@@ -109,8 +109,14 @@ in the model summary. Default is \code{FALSE}.}
 \item{showAIC}{If \code{TRUE}, the \code{\link{AIC}} value for each model is printed
 in the model summary. Default is \code{FALSE}.}
 
-\item{showChi2}{If \code{TRUE}, the chi-square value for each model is printed
+\item{showChi2}{If \code{TRUE}, the p-value of the chi-squared value for each
+model's residual deviance against the null deviance is printed
 in the model summary. Default is \code{FALSE}.}
+
+\item{showHosLem}{If \code{TRUE}, a Hosmer-Lemeshow-Goodness-of-fit-test is
+performed. A well-fitting model shows no significant difference between
+the model and the observed data, i.e. the reported p-values should be
+greater than 0.05. This option depends on the \emph{ResourceSelection}-package.}
 
 \item{showFamily}{If \code{TRUE}, the family object and link function for each fitted model
 are printed. Can be used in case you want to compare models with different link functions

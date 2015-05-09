@@ -25,6 +25,7 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   \item \code{"lm"} (default) for forest-plot like plot of estimates. If the fitted model only contains one predictor, intercept and slope are plotted.
   \item \code{"std"} for forest-plot like plot of standardized beta values. If the fitted model only contains one predictor, intercept and slope are plotted.
   \item \code{"pred"} to plot regression lines for each single predictor of the fitted model.
+  \item \code{"resp"} to plot predicted values for the response. Use \code{showCI} parameter to plot standard errors as well.
   \item \code{"ma"} to check model assumptions. Note that only three parameters are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.
   \item \code{"vif"} to plot Variance Inflation Factors. See details.
 }}
