@@ -470,16 +470,6 @@ retrieveModelLabels <- function(models) {
 }
 
 
-# compute pseudo r-square for glm
-PseudoR2 <- function(rr) { # rr must be the result of lm/glm
-  n <- nrow(rr$model)
-  COX <- (1 - exp((rr$deviance - rr$null) / n))
-  NR <- COX / (1 - exp(-rr$null / n))
-  RVAL <- c(N = n, CoxSnell = COX, Nagelkerke = NR)
-  return(RVAL)
-}
-
-
 # compute chi-square for glm
 Chisquare.glm <- function(rr, digits=3) {
   return(with(rr, pchisq(null.deviance - deviance, df.null - df.residual, lower.tail = FALSE), digits = digits))

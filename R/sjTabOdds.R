@@ -69,7 +69,10 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("starts_with"))
 #'          in the model summary. Default is \code{FALSE}.
 #' @param showChi2 If \code{TRUE}, the p-value of the chi-squared value for each 
 #'          model's residual deviance against the null deviance is printed
-#'          in the model summary. Default is \code{FALSE}.
+#'          in the model summary. Default is \code{FALSE}. A well-fitting model
+#'          with predictors should significantly differ from the null-model
+#'          (without predictors), thus, a p-value less than 0.05 indicates a
+#'          good model-fit.
 #' @param showHosLem If \code{TRUE}, a Hosmer-Lemeshow-Goodness-of-fit-test is
 #'          performed. A well-fitting model shows no significant difference between 
 #'          the model and the observed data, i.e. the reported p-values should be
@@ -1051,16 +1054,16 @@ sjt.glm <- function(...,
       # insert "separator column"
       # -------------------------
       page.content <- paste0(page.content, "\n    <td class=\"separatorcol\">&nbsp;</td>")
-      psr <- PseudoR2(input_list[[i]])
+      psr <- sjmisc::pseudo_r2(input_list[[i]])
       tjur <- sjmisc::cod(input_list[[i]])
       page.content <- paste0(page.content, gsub("0.", 
                                                 paste0(p_zero, "."),
                                                 sprintf("%sR<sup>2</sup><sub>CS</sub> = %.*f<br>R<sup>2</sup><sub>N</sub> = %.*f<br>D = %.*f</td>", 
                                                         colspanstring, 
                                                         digits.summary, 
-                                                        psr[2], 
+                                                        psr$CoxSnell,
                                                         digits.summary, 
-                                                        psr[3],
+                                                        psr$Nagelkerke,
                                                         digits.summary, 
                                                         tjur),
                                                 fixed = TRUE))
@@ -1077,7 +1080,6 @@ sjt.glm <- function(...,
       # insert "separator column"
       # -------------------------
       page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
-      psr <- PseudoR2(input_list[[i]])
       page.content <- paste0(page.content, sprintf("%s%.*f</td>", colspanstring, digits.summary, -2 * as.vector(logLik(input_list[[i]]))))
     }
     page.content <- paste0(page.content, "\n  </tr>\n")

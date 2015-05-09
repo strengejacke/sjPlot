@@ -401,19 +401,19 @@ sjp.glm <- function(fit,
   # for plotting in the diagram later
   # ----------------------------
   if (showModelSummary) {
-    psr <- PseudoR2(fit)
+    psr <- sjmisc::pseudo_r2(fit)
     modsum <- as.character(as.expression(
       substitute("(Intercept)" == ic * "," ~~ italic(R)[CS]^2 == r2cs * "," ~~ italic(R)[N]^2 == r2n * "," ~~ -2 * lambda == la * "," ~~ chi^2 == c2 * "," ~~ "AIC" == aic,
                  list(ic = sprintf("%.2f", exp(coef(fit)[1])),
-                      r2cs = sprintf("%.3f", psr[2]),
-                      r2n = sprintf("%.3f", psr[3]),
+                      r2cs = sprintf("%.3f", psr$CoxSnell),
+                      r2n = sprintf("%.3f", psr$Nagelkerke),
                       la = sprintf("%.2f", -2 * logLik(fit)),
                       c2 = sprintf("%.2f", Chisquare.glm(fit)),
                       aic = sprintf("%.2f", fit$aic)))))
     cat(sprintf("Intercept = %.2f\nR2[cs] = %.3f\nR2[n] = %.3f\nLambda = %.2f\nChi2 = %.2f\nAIC = %.2f\n",
                 exp(coef(fit)[1]),
-                psr[2],
-                psr[3],
+                psr$CoxSnell,
+                psr$Nagelkerke,
                 -2 * logLik(fit),
                 Chisquare.glm(fit),
                 fit$aic))

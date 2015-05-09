@@ -112,7 +112,10 @@ in the model summary. Default is \code{FALSE}.}
 
 \item{showChi2}{If \code{TRUE}, the p-value of the chi-squared value for each
 model's residual deviance against the null deviance is printed
-in the model summary. Default is \code{FALSE}.}
+in the model summary. Default is \code{FALSE}. A well-fitting model
+with predictors should significantly differ from the null-model
+(without predictors), thus, a p-value less than 0.05 indicates a
+good model-fit.}
 
 \item{showHosLem}{If \code{TRUE}, a Hosmer-Lemeshow-Goodness-of-fit-test is
 performed. A well-fitting model shows no significant difference between
