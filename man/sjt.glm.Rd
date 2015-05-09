@@ -101,7 +101,8 @@ abbreviations for odds ratios, confidence interval and p-values.}
 
 \item{showPseudoR}{If \code{TRUE} (default), the pseudo R2 values for each model are printed
 in the model summary. R2cs is the Cox-Snell-pseudo R-square value, R2n is Nagelkerke's
-pseudo R-square value.}
+pseudo R-square value and \code{D} is Tjur's Coefficient of Discrimination
+(see \code{\link[sjmisc]{cod}}).}
 
 \item{showLogLik}{If \code{TRUE}, the Log-Likelihood for each model is printed
 in the model summary. Default is \code{FALSE}.}
@@ -274,8 +275,7 @@ fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep,
 # compare models
 sjt.glm(fit1, fit2, fit3,
         showAIC = TRUE,
-        showFamily = TRUE,
-        showPseudoR = FALSE)
+        showFamily = TRUE)
 
 
 # --------------------------------------------
@@ -286,8 +286,7 @@ sjt.glm(fit1, fit2, fit3,
 sjt.glm(fit1, fit2, fit3,
         pvaluesAsNumbers = FALSE,
         showAIC = TRUE,
-        showFamily = TRUE,
-        showPseudoR = FALSE)
+        showFamily = TRUE)
 
 # open HTML-table in RStudio Viewer Pane or web browser,
 # indicating p-values as stars and integrate CI in OR column
@@ -296,7 +295,7 @@ sjt.glm(fit1, fit2, fit3,
         separateConfColumn = FALSE,
         showAIC = TRUE,
         showFamily = TRUE,
-        showPseudoR = FALSE)
+        showPseudoR = TRUE)
 
 # ----------------------------------
 # automatic grouping of predictors

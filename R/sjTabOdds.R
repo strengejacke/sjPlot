@@ -61,7 +61,8 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("starts_with"))
 #'          abbreviations for odds ratios, confidence interval and p-values.
 #' @param showPseudoR If \code{TRUE} (default), the pseudo R2 values for each model are printed
 #'          in the model summary. R2cs is the Cox-Snell-pseudo R-square value, R2n is Nagelkerke's 
-#'          pseudo R-square value.
+#'          pseudo R-square value and \code{D} is Tjur's Coefficient of Discrimination
+#'          (see \code{\link[sjmisc]{cod}}).
 #' @param showLogLik If \code{TRUE}, the Log-Likelihood for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
 #' @param showAIC If \code{TRUE}, the \code{\link{AIC}} value for each model is printed
@@ -213,8 +214,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("starts_with"))
 #' # compare models
 #' sjt.glm(fit1, fit2, fit3, 
 #'         showAIC = TRUE, 
-#'         showFamily = TRUE, 
-#'         showPseudoR = FALSE)
+#'         showFamily = TRUE)
 #' 
 #' 
 #' # --------------------------------------------
@@ -225,8 +225,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("starts_with"))
 #' sjt.glm(fit1, fit2, fit3, 
 #'         pvaluesAsNumbers = FALSE,
 #'         showAIC = TRUE, 
-#'         showFamily = TRUE, 
-#'         showPseudoR = FALSE)
+#'         showFamily = TRUE)
 #' 
 #' # open HTML-table in RStudio Viewer Pane or web browser,
 #' # indicating p-values as stars and integrate CI in OR column
@@ -234,8 +233,8 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("starts_with"))
 #'         pvaluesAsNumbers = FALSE,
 #'         separateConfColumn = FALSE,
 #'         showAIC = TRUE, 
-#'         showFamily = TRUE, 
-#'         showPseudoR = FALSE)
+#'         showFamily = TRUE,
+#'         showPseudoR = TRUE)
 #' 
 #' # ---------------------------------- 
 #' # automatic grouping of predictors
@@ -1053,9 +1052,17 @@ sjt.glm <- function(...,
       # -------------------------
       page.content <- paste0(page.content, "\n    <td class=\"separatorcol\">&nbsp;</td>")
       psr <- PseudoR2(input_list[[i]])
+      tjur <- sjmisc::cod(input_list[[i]])
       page.content <- paste0(page.content, gsub("0.", 
                                                 paste0(p_zero, "."),
-                                                sprintf("%sR<sup>2</sup><sub>CS</sub> = %.*f<br>R<sup>2</sup><sub>N</sub> = %.*f</td>", colspanstring, digits.summary, psr[2], digits.summary, psr[3]),
+                                                sprintf("%sR<sup>2</sup><sub>CS</sub> = %.*f<br>R<sup>2</sup><sub>N</sub> = %.*f<br>D = %.*f</td>", 
+                                                        colspanstring, 
+                                                        digits.summary, 
+                                                        psr[2], 
+                                                        digits.summary, 
+                                                        psr[3],
+                                                        digits.summary, 
+                                                        tjur),
                                                 fixed = TRUE))
     }
     page.content <- paste(page.content, "\n  </tr>\n")
