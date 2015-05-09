@@ -9,8 +9,8 @@ sjp.glmm(..., title = NULL, labelDependentVariables = NULL,
   stringModel = "Model", axisLabels.y = NULL, axisTitle.x = "Odds Ratios",
   axisLimits = NULL, breakTitleAt = 50, breakLabelsAt = 25,
   breakLegendAt = 20, gridBreaksAt = 0.5, transformTicks = TRUE,
-  geom.size = 3, geom.spacing = 0.4, geom.colors = "Dark2", nsAlpha = 1,
-  usePShapes = FALSE, interceptLineType = 2,
+  geom.size = 3, geom.spacing = 0.4, geom.colors = "Set1",
+  fade.ns = TRUE, usePShapes = FALSE, interceptLineType = 2,
   interceptLineColor = "grey70", coord.flip = TRUE, showIntercept = FALSE,
   showAxisLabels.y = TRUE, showValueLabels = TRUE, labelDigits = 2,
   showPValueLabels = TRUE, hideLegend = FALSE, facet.grid = FALSE,
@@ -83,8 +83,7 @@ You can use:
   }
 Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000", "#00ff00", "#0080ff")}).}
 
-\item{nsAlpha}{The alpha level (transparancy) of non significant predicors. Points and error bars
-are affected by this value and plotted with a slight transparancy. Default is 1.}
+\item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 
 \item{usePShapes}{If \code{TRUE}, significant levels are distinguished by different point shapes and a related
 legend is plotted. Default is \code{FALSE}.}
@@ -143,7 +142,7 @@ fitOR3 <- glm(y3 ~ swiss$Education + swiss$Examination + swiss$Catholic,
               family = binomial(link = "logit"))
 
 # plot multiple models
-sjp.glmm(fitOR1, fitOR2, fitOR3, facet.grid = TRUE)
+sjp.glmm(fitOR1, fitOR2, fitOR3, facet.grid = TRUE, fade.ns = FALSE)
 
 # plot multiple models with legend labels and point shapes instead of value  labels
 sjp.glmm(fitOR1, fitOR2, fitOR3,
@@ -152,8 +151,7 @@ sjp.glmm(fitOR1, fitOR2, fitOR3,
                                      "Agriculture"),
          showValueLabels = FALSE,
          showPValueLabels = FALSE,
-         usePShapes = TRUE,
-         nsAlpha = 0.2)
+         usePShapes = TRUE)
 
 # plot multiple models from nested lists parameter
 all.models <- list()

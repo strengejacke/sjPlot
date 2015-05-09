@@ -56,8 +56,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
 #'            }
 #'          Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000", "#00ff00", "#0080ff")}).
-#' @param nsAlpha The alpha level (transparancy) of non significant predicors. Points and error bars
-#'          are affected by this value and plotted with a slight transparancy. Default is 1.
+#' @param fade.ns if \code{TRUE}, non significant estimates will be printed in slightly faded colors.
 #' @param usePShapes If \code{TRUE}, significant levels are distinguished by different point shapes and a related
 #'          legend is plotted. Default is \code{FALSE}.
 #' @param interceptLineType The linetype of the intercept line (zero point). Default is \code{2} (dashed line).
@@ -98,7 +97,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #'               family = binomial(link = "logit"))
 #' 
 #' # plot multiple models
-#' sjp.glmm(fitOR1, fitOR2, fitOR3, facet.grid = TRUE)
+#' sjp.glmm(fitOR1, fitOR2, fitOR3, facet.grid = TRUE, fade.ns = FALSE)
 #' 
 #' # plot multiple models with legend labels and point shapes instead of value  labels
 #' sjp.glmm(fitOR1, fitOR2, fitOR3,
@@ -107,8 +106,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #'                                      "Agriculture"),
 #'          showValueLabels = FALSE,
 #'          showPValueLabels = FALSE,
-#'          usePShapes = TRUE,
-#'          nsAlpha = 0.2)
+#'          usePShapes = TRUE)
 #' 
 #' # plot multiple models from nested lists parameter
 #' all.models <- list()
@@ -137,8 +135,8 @@ sjp.glmm <- function(...,
                     transformTicks=TRUE,
                     geom.size=3,
                     geom.spacing=0.4,
-                    geom.colors="Dark2",
-                    nsAlpha=1,
+                    geom.colors="Set1",
+                    fade.ns=TRUE,
                     usePShapes=FALSE,
                     interceptLineType=2,
                     interceptLineColor="grey70",
@@ -352,6 +350,10 @@ sjp.glmm <- function(...,
       geom_point(size = geom.size, 
                  position = position_dodge(-geom.spacing))
   }
+  # --------------------------------------------------------
+  # fade non-significant estimates?
+  # --------------------------------------------------------
+  nsAlpha <- ifelse(fade.ns == TRUE, 0.3, 1.0)
   # --------------------------------------------------------
   # continue with errorbars, p-value-label and intercept line
   # --------------------------------------------------------

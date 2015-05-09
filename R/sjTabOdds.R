@@ -72,7 +72,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("starts_with"))
 #' @param showHosLem If \code{TRUE}, a Hosmer-Lemeshow-Goodness-of-fit-test is
 #'          performed. A well-fitting model shows no significant difference between 
 #'          the model and the observed data, i.e. the reported p-values should be
-#'          greater than 0.05. This option depends on the \emph{ResourceSelection}-package.
+#'          greater than 0.05.
 #' @param showFamily If \code{TRUE}, the family object and link function for each fitted model
 #'          are printed. Can be used in case you want to compare models with different link functions
 #'          and same predictors and response, to decide which model fits best. See \code{\link{family}}
@@ -1110,46 +1110,71 @@ sjt.glm <- function(...,
     page.content <- paste0(page.content, "\n  </tr>\n")
   }
   # -------------------------------------
+  # Model-Summary: Chi-squared-GOF
+  # -------------------------------------
+  #   if (showGoF) {
+  #     # -------------------------
+  #     # not working for glmer
+  #     # -------------------------
+  #     if (lmerob) {
+  #       warning("Chi-squared Goodness-of-Fit-test does not work for 'merMod'-objects.", call. = F)
+  #     } else {
+  #       page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">Pearson's &Chi;<sup>2</sup></td>")
+  #       for (i in 1:length(input_list)) {
+  #         # -------------------------
+  #         # insert "separator column"
+  #         # -------------------------
+  #         page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
+  #         # -------------------------
+  #         # compute Pearson's X2 GOF-test
+  #         # -------------------------
+  #         pgof <- sjmisc::chisq_gof(input_list[[i]])
+  #         # -------------------------
+  #         # print chisq and p
+  #         # -------------------------
+  #         page.content <- paste0(page.content, 
+  #                                gsub("0.",
+  #                                     paste0(p_zero, "."),
+  #                                     sprintf("%s%.*f; p=%.*f</td>", 
+  #                                             colspanstring, 
+  #                                             digits.summary, 
+  #                                             pgof$X2,
+  #                                             digits.summary, 
+  #                                             pgof$p.value),
+  #                                     fixed = T))
+  #       }
+  #       page.content <- paste0(page.content, "\n  </tr>\n")
+  #     }
+  #   }
+  # -------------------------------------
   # Model-Summary: Hosmer-Lemeshow-GOF
   # -------------------------------------
   if (showHosLem) {
-    # -------------------------
-    # package ResourceSelection needed for Hosmer-Lemeshow-Test
-    # -------------------------
-    if (requireNamespace("ResourceSelection", quietly = TRUE)) {
-      page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">Hosmer-Lemeshow-&Chi;<sup>2</sup></td>")
-      for (i in 1:length(input_list)) {
-        # -------------------------
-        # insert "separator column"
-        # -------------------------
-        page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
-        # -------------------------
-        # compute Hosmer-Lemeshow test
-        # -------------------------
-        hlfit <- input_list[[i]]
-        if (lmerob) {
-          hlgof <- ResourceSelection::hoslem.test(lme4::getME(hlfit, "y"), fitted(hlfit))
-        } else {
-          hlgof <- ResourceSelection::hoslem.test(hlfit$y, fitted(hlfit))
-        }
-        # -------------------------
-        # print chisq and p
-        # -------------------------
-        page.content <- paste0(page.content, 
-                               gsub("0.",
-                                    paste0(p_zero, "."),
-                                    sprintf("%s%.*f; p=%.*f</td>", 
-                                            colspanstring, 
-                                            digits.summary, 
-                                            unname(hlgof$statistic),
-                                            digits.summary, 
-                                            hlgof$p.value),
-                                    fixed = T))
-      }
-      page.content <- paste0(page.content, "\n  </tr>\n")
-    } else {
-      warning("Package 'ResourceSelection' needed to compute Hosmer-Lemeshow-Goodnes of fit test.", call. = FALSE)
+    page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">Hosmer-Lemeshow-&Chi;<sup>2</sup></td>")
+    for (i in 1:length(input_list)) {
+      # -------------------------
+      # insert "separator column"
+      # -------------------------
+      page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
+      # -------------------------
+      # compute Hosmer-Lemeshow test
+      # -------------------------
+      hlgof <- sjmisc::hoslem_gof(input_list[[i]])
+      # -------------------------
+      # print chisq and p
+      # -------------------------
+      page.content <- paste0(page.content, 
+                             gsub("0.",
+                                  paste0(p_zero, "."),
+                                  sprintf("%s%.*f; p=%.*f</td>", 
+                                          colspanstring, 
+                                          digits.summary, 
+                                          unname(hlgof$chisq),
+                                          digits.summary, 
+                                          hlgof$p.value),
+                                  fixed = T))
     }
+    page.content <- paste0(page.content, "\n  </tr>\n")
   }
   # -------------------------------------
   # Model-Summary: Family
@@ -1162,7 +1187,7 @@ sjt.glm <- function(...,
       # -------------------------
       page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
       if (lmerob) {
-        fam <- family(fit)
+        fam <- family(input_list[[i]])
       } else {
         fam <- input_list[[i]]$family
       }
@@ -1306,6 +1331,10 @@ sjt.glm <- function(...,
 #'          in the model summary.
 #' @param showAIC If \code{TRUE}, the \code{\link{AIC}} value for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
+#' @param showHosLem If \code{TRUE}, a Hosmer-Lemeshow-Goodness-of-fit-test is
+#'          performed. A well-fitting model shows no significant difference between 
+#'          the model and the observed data, i.e. the reported p-values should be
+#'          greater than 0.05.
 #' @param showFamily If \code{TRUE}, the family object and link function for each fitted model
 #'          are printed. Can be used in case you want to compare models with different link functions
 #'          and same predictors and response, to decide which model fits best. See \code{\link{family}}
@@ -1430,6 +1459,7 @@ sjt.glmer <- function(...,
                      showICC=TRUE,
                      showLogLik=FALSE,
                      showAIC=FALSE,
+                     showHosLem = FALSE,
                      showFamily=FALSE,
                      remove.estimates=NULL,
                      cellSpacing=0.2,
@@ -1451,8 +1481,8 @@ sjt.glmer <- function(...,
                  showConfInt = showConfInt, showStdError = showStdError, 
                  separateConfColumn = separateConfColumn, newLineConf = newLineConf, 
                  group.pred = FALSE, showAbbrHeadline = showAbbrHeadline, showPseudoR = showICC, 
-                 showLogLik = showLogLik, showAIC = showAIC, showChi2 = FALSE, showFamily = showFamily,
-                 remove.estimates = remove.estimates, 
+                 showLogLik = showLogLik, showAIC = showAIC, showChi2 = FALSE, showHosLem = showHosLem,
+                 showFamily = showFamily, remove.estimates = remove.estimates, 
                  cellSpacing = cellSpacing, cellGroupIndent = 0, encoding = encoding, 
                  CSS = CSS, useViewer = useViewer, no.output = no.output, remove.spaces = remove.spaces))
 }

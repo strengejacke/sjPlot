@@ -104,7 +104,7 @@ Default is 2, i.e. estimators have 2 digits after decimal point.}
 \item{showPValueLabels}{Whether the significance levels of each coefficient should be appended
 to values or not.}
 
-\item{fade.ns}{if \code{TRUE}, non significant odds ratios will be printed in slightly fading colors.}
+\item{fade.ns}{if \code{TRUE}, non significant odds ratios will be printed in slightly faded colors.}
 
 \item{show.se}{Use \code{TRUE} to plot (depending on \code{type}) the standard
 error for probability curves (predicted probabilities).}

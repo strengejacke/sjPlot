@@ -1,5 +1,5 @@
 # bind global variables
-if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "pred", "prob", "p", "CSS", "useViewer", "no.output"))
+if (getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "pred", "prob", "p", "CSS", "useViewer", "no.output"))
 
 
 #' @title Plot odds ratios (forest plots) of generalized linear mixed effects models
@@ -63,7 +63,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fa
 #'            \item Else, specify a predictor's / coefficient's name to sort odds ratios according to this coefficient.
 #'            }
 #'            See examples for details.
-#' @param fade.ns if \code{TRUE}, non significant odds ratios will be printed in slightly fading colors.
+#' @param fade.ns if \code{TRUE}, non significant odds ratios will be printed in slightly faded colors.
 #' @param pred.labels a character vector with labels for the predictors / covariates / groups. Should either be vector
 #'          of fixed effects variable labels (if \code{type = "fe"}) or a vector of group (value)
 #'          labels from the random intercept's categories (if \code{type = "re"}).
@@ -947,7 +947,7 @@ sjp.lme4  <- function(fit,
     # odds ratios should be faded.
     # ---------------------------------------
     if (fade.ns == TRUE) {
-      interc <- ifelse (fun == "glm", 1, 0)
+      interc <- ifelse(fun == "glm", 1, 0)
       mydf$fade <- (mydf$lower.CI < interc & mydf$upper.CI > interc)
     } else {
       mydf$fade <- FALSE

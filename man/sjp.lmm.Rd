@@ -9,7 +9,7 @@ sjp.lmm(..., title = NULL, labelDependentVariables = NULL,
   stringModel = "Model", axisLabels.y = NULL, axisTitle.x = "Estimates",
   axisLimits = NULL, breakTitleAt = 50, breakLabelsAt = 25,
   breakLegendAt = 20, gridBreaksAt = NULL, geom.size = 3,
-  geom.spacing = 0.4, geom.colors = "Dark2", nsAlpha = 1,
+  geom.spacing = 0.4, geom.colors = "Set1", fade.ns = TRUE,
   usePShapes = FALSE, interceptLineType = 2,
   interceptLineColor = "grey70", coord.flip = TRUE, showIntercept = FALSE,
   showAxisLabels.y = TRUE, showValueLabels = TRUE, labelDigits = 2,
@@ -78,8 +78,7 @@ You can use:
   }
 Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000", "#00ff00", "#0080ff")}).}
 
-\item{nsAlpha}{The alpha level (transparancy) of non significant predicors. Points and error bars
-are affected by this value and plotted with a slight transparancy. Default is 1.}
+\item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 
 \item{usePShapes}{If \code{TRUE}, significant levels are distinguished by different point shapes and a related
 legend is plotted. Default is \code{FALSE}.}
@@ -133,7 +132,7 @@ fit2 <- lm(neg_c_7 ~ c160age + c12hour + c161sex + c172code, data = efc)
 fit3 <- lm(tot_sc_e ~ c160age + c12hour + c161sex + c172code, data = efc)
 
 # plot multiple models
-sjp.lmm(fit1, fit2, fit3, facet.grid = TRUE)
+sjp.lmm(fit1, fit2, fit3, facet.grid = TRUE, fade.ns = FALSE)
 
 # plot multiple models with legend labels and point shapes instead of value  labels
 sjp.lmm(fit1, fit2, fit3,
@@ -146,8 +145,7 @@ sjp.lmm(fit1, fit2, fit3,
                                      "Services used"),
          showValueLabels = FALSE,
          showPValueLabels = FALSE,
-         usePShapes = TRUE,
-         nsAlpha = 0.3)
+         usePShapes = TRUE)
 
 # plot multiple models from nested lists parameter
 all.models <- list()

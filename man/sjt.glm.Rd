@@ -116,7 +116,7 @@ in the model summary. Default is \code{FALSE}.}
 \item{showHosLem}{If \code{TRUE}, a Hosmer-Lemeshow-Goodness-of-fit-test is
 performed. A well-fitting model shows no significant difference between
 the model and the observed data, i.e. the reported p-values should be
-greater than 0.05. This option depends on the \emph{ResourceSelection}-package.}
+greater than 0.05.}
 
 \item{showFamily}{If \code{TRUE}, the family object and link function for each fitted model
 are printed. Can be used in case you want to compare models with different link functions
