@@ -111,21 +111,7 @@ will be auto-detected depending on your platform (\code{"UTF-8"} for Unix and \c
 Windows OS). Change encoding if specific chars are not properly displayed (e.g.) German umlauts).}
 
 \item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
-\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See return value \code{page.style} for details
-of all style-sheet-classnames that are used in this function. Parameters for this list need:
-\enumerate{
-  \item the class-names with \code{"css."}-prefix as parameter name and
-  \item each style-definition must end with a semicolon
-}
-You can add style information to the default styles by using a + (plus-sign) as
-initial character for the parameter attributes. Examples:
-\itemize{
-  \item \code{css.table='border:2px solid red;'} for a solid 2-pixel table border in red.
-  \item \code{css.summary='font-weight:bold;'} for a bold fontweight in the summary row.
-  \item \code{css.lasttablerow='border-bottom: 1px dotted blue;'} for a blue dotted border of the last table row.
-  \item \code{css.summary='+color:blue;'} to add blue font color style to the summary row.
-}
-See further examples below and \href{http://www.strengejacke.de/sjPlot/sjtbasics}{sjPlot manual: sjt-basics}.}
+\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Detail'.}
 
 \item{useViewer}{If \code{TRUE}, the function tries to show the HTML table in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
@@ -151,6 +137,29 @@ Invisibly returns
 }
 \description{
 Shows contingency tables as HTML file in browser or viewer pane, or saves them as file.
+}
+\details{
+\bold{How does the \code{CSS}-parameter work?}
+           \cr \cr
+           With the \code{CSS}-paramater, the visual appearance of the tables
+           can be modified. To get an overview of all style-sheet-classnames
+           that are used in this function, see return value \code{page.style} for details.
+           Parameters for this list have following syntax:
+         \enumerate{
+           \item the class-names with \code{"css."}-prefix as parameter name and
+           \item each style-definition must end with a semicolon
+         }
+         You can add style information to the default styles by using a + (plus-sign) as
+         initial character for the parameter attributes. Examples:
+         \itemize{
+           \item \code{css.table='border:2px solid red;'} for a solid 2-pixel table border in red.
+           \item \code{css.summary='font-weight:bold;'} for a bold fontweight in the summary row.
+           \item \code{css.lasttablerow='border-bottom: 1px dotted blue;'} for a blue dotted border of the last table row.
+           \item \code{css.colnames='+color:green'} to add green color formatting to column names.
+           \item \code{css.arc='color:blue;'} for a blue text color each 2nd row.
+           \item \code{css.caption='+color:red;'} to add red font-color to the default table caption style.
+         }
+         See further examples at \href{http://www.strengejacke.de/sjPlot/sjtbasics}{sjPlot manual: sjt-basics}.
 }
 \note{
 The HTML tables can either be saved as file and manually opened (specify parameter \code{file}) or

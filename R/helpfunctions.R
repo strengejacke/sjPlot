@@ -118,6 +118,12 @@ create.frq.df <- function(varCount,
   # get the highest answer category of "y", so we know where the
   # range of the x-axis ends
   if (!is.null(labels)) {
+    # check if we have much less labels than values
+    # so there might be a labelling mistake with
+    # the variable
+    if (length(labels) < length(unique(na.omit(varCount)))) {
+      warning("Variable has less labels than unique values. Output might be incorrect. Please check value labels.", call. = F)
+    }
     catcount <- startAxisAt + length(labels) - 1
   } else {
     # determine maximum values
