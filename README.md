@@ -47,6 +47,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * `sjt.grpmean` gets a `weightBy` parameter to compute weighted group-means.
 * `sjt.glm` gets a `showHosLem` parameter to print results of the Hosmer-Lemeshow-Goodness-of-fit-Test for generalized linear models.
 * Added white-background-alternative-themes of 538, 539 and scatter to `sjp.setTheme`.
+* `sjt.frq` now warns when a variable has less labels than unique values.
 
 #### Bug fixes
 * Fixed bug with `options(p_zero = TRUE)`, where leading zero was inserted after, instead of before decimal point.
