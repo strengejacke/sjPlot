@@ -15,7 +15,7 @@ devtools::install_github("sjPlot/devel")
 ```
 
 #### Officiale, stable release
-To install the latest stable release from CRAN, type following command into the R console:
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/sjPlot)](http://cran.r-project.org/web/packages/sjPlot) To install the latest stable release from CRAN, type following command into the R console:
 
 ```r
 install.packages("sjPlot")
