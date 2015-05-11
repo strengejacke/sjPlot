@@ -150,85 +150,62 @@ sjp.aov1 <- function(depVar,
   if (is.null(title)) {
     t1 <- sjmisc:::autoSetVariableLabels(depVar)
     t2 <- sjmisc:::autoSetVariableLabels(grpVar)
-    if (!is.null(t1) && !is.null(t2)) {
-      title <- paste0(t1, " by ", t2)
-    }
+    if (!is.null(t1) && !is.null(t2)) title <- paste0(t1, " by ", t2)
   }
   # --------------------------------------------------------
   # remove titles if empty
   # --------------------------------------------------------
-  if (!is.null(axisLabels.y) && axisLabels.y=="") axisLabels.y <- NULL
-  if (!is.null(axisTitle.x) && axisTitle.x=="") axisTitle.x <- NULL  
-  if (!is.null(title) && title=="") title <- NULL    
+  if (!is.null(axisLabels.y) && axisLabels.y == "") axisLabels.y <- NULL
+  if (!is.null(axisTitle.x) && axisTitle.x == "") axisTitle.x <- NULL  
+  if (!is.null(title) && title == "") title <- NULL    
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
   if (!is.null(axisLabels.y)) {
     # if labels are lists, unlist
-    if (is.list(axisLabels.y)) {
-      axisLabels.y <- unlistlabels(axisLabels.y)
-    }
+    if (is.list(axisLabels.y)) axisLabels.y <- unlistlabels(axisLabels.y)
     # append "intercept" string, to mark the reference category
     axisLabels.y[1] <- paste(axisLabels.y[1], stringIntercept)
   }
   # --------------------------------------------------------
   # Check if grpVar is factor. If not, convert to factor
   # --------------------------------------------------------
-  if (!is.factor(grpVar)) {
-    grpVar <- as.factor(grpVar)
-  }
+  if (!is.factor(grpVar)) grpVar <- as.factor(grpVar)
   # --------------------------------------------------------
   # Check spelling of type-param
   # --------------------------------------------------------
-  if (type=="dot" || type=="d") {
-    type <- "dots"
-  }
-  if (type=="bar" || type=="b") {
-    type <- "bars"
-  }
-  if (expand.grid==TRUE) {
+  if (type == "dot" || type == "d") type <- "dots"
+  if (type == "bar" || type == "b") type <- "bars"
+  if (expand.grid == TRUE) 
     expand.grid <- waiver()
-  }
-  else {
-    expand.grid <- c(0,0)
-  }
+  else
+    expand.grid <- c(0, 0)
   # --------------------------------------------------------
   # check whether we colors for error bars. if not, use point color
   # in case of dots or "black" in case of bars.
   # --------------------------------------------------------
   if (is.null(errorBarColor)) {
-    if (type=="dots") {
+    if (type == "dots")
       errorBarColors <- geom.colors
-    }
-    else {
+    else
       errorBarColors <- c("black", "black")
-    }
-  }
-  else {
+  } else {
     errorBarColors <- c(errorBarColor, errorBarColor)
   }
   # --------------------------------------------------------
   # check whether we have x-axis title. if not, use standard
   # value
   # --------------------------------------------------------
-  if (is.null(axisTitle.x)) {
-    axisTitle.x <- c("")
-  }
+  if (is.null(axisTitle.x)) axisTitle.x <- c("")
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(title)) {
-    title <- sjmisc::word_wrap(title, breakTitleAt)
-  }
+  if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(axisTitle.x)) {
-    axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
-  }
+  if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
-  if (!is.null(axisLabels.y)) {
-    axisLabels.y <- sjmisc::word_wrap(axisLabels.y, breakLabelsAt)
-  }
+  if (!is.null(axisLabels.y)) axisLabels.y <- sjmisc::word_wrap(axisLabels.y, breakLabelsAt)
   # ----------------------------
   # Calculate one-way-anova. Since we have
   # only one group variable, Type of SS does
@@ -282,12 +259,12 @@ sjp.aov1 <- function(depVar,
     # create mathematical term
     modsum <- as.character(as.expression(
       substitute(italic(SS[B]) == ssb * "," ~~ italic(SS[W]) == ssw * "," ~~ R^2 == mr2 * "," ~~ "adj." * R^2 == ar2 * "," ~~ "F" == f * panval,
-                 list(ssb=sprintf("%.2f", ss[1, ]),
-                      ssw=sprintf("%.2f", ss[2, ]),
-                      mr2=sprintf("%.3f", r2),
-                      ar2=sprintf("%.3f", r2),
-                      f=sprintf("%.2f", fstat),
-                      panval=pan))))
+                 list(ssb = sprintf("%.2f", ss[1, ]),
+                      ssw = sprintf("%.2f", ss[2, ]),
+                      mr2 = sprintf("%.3f", r2),
+                      ar2 = sprintf("%.3f", r2.adj),
+                      f = sprintf("%.2f", fstat),
+                      panval = pan))))
   }
   # ----------------------------
   # print coefficients and p-values in plot
@@ -296,9 +273,7 @@ sjp.aov1 <- function(depVar,
   ps <- c(round(means,labelDigits))
   # if no values should be shown, clear
   # vector now
-  if (!showValueLabels) {
-    ps <- rep(c(""), length(ps))
-  }
+  if (!showValueLabels) ps <- rep(c(""), length(ps))
   # --------------------------------------------------------
   # copy p-values into data column
   # --------------------------------------------------------
@@ -317,33 +292,25 @@ sjp.aov1 <- function(depVar,
   # check whether order of category items should be reversed
   # or not
   # --------------------------------------------------------
-  if (reverseOrder) {
+  if (reverseOrder)
     catorder <- c(length(means):1)
-  }
-  else {
+  else
     catorder <- c(1:length(means))
-  }
   # --------------------------------------------------------
   # create new data.frame, since ggplot requires data.frame as parameter
   # The data frame contains means, CI and p-values
   # --------------------------------------------------------
-  df <- data.frame(cbind(
-    # Append coefficients
-    means,
-    # append CI
-    means.lci,
-    means.uci,
-    # append p-value
-    means.p,
-    ps,
-    catorder))
+  df <- data.frame(means,     # Append coefficients
+                   means.lci, # append CI
+                   means.uci,
+                   means.p,   # append p-value
+                   ps,
+                   catorder)
   # --------------------------------------------------------
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
   # --------------------------------------------------------
-  if (is.null(axisLabels.y)) {
-    axisLabels.y <- row.names(df)
-  }
+  if (is.null(axisLabels.y)) axisLabels.y <- row.names(df)
   # order labels
   axisLabels.y <- axisLabels.y[catorder]
   # give columns names
@@ -356,8 +323,8 @@ sjp.aov1 <- function(depVar,
   # bind color values to data frame, because we cannot use several
   # different color aesthetics in ggplot
   df <- cbind(df,
-              geocol=ifelse(df$means >= 0, geom.colors[1], geom.colors[2]), 
-              errcol=ifelse(df$means >= 0, errorBarColors[1], errorBarColors[2]))
+              geocol = ifelse(df$means >= 0, geom.colors[1], geom.colors[2]), 
+              errcol = ifelse(df$means >= 0, errorBarColors[1], errorBarColors[2]))
   # --------------------------------------------------------
   # Calculate axis limits. The range is from lowest lower-CI
   # to highest upper-CI, or a user-defined range (if "axisLimits"
@@ -371,7 +338,7 @@ sjp.aov1 <- function(depVar,
       # if errorbars are hidden, the axis range is defined
       # by the mean values
       if (hideErrorBars) {
-        maxval <- max(df$means)+10
+        maxval <- max(df$means) + 10
         minval <- min(df$means)
       }
       # if errorbars are shown, axis range is defined
@@ -381,69 +348,77 @@ sjp.aov1 <- function(depVar,
         minval <- min(df$lower)
       }
       # if minval is > 0, set it to zero, so we have a proper baseline
-      if (minval>0) minval <- 0
+      if (minval > 0) minval <- 0
       # if maxval is < 0, set it to zero, so we have a proper baseline
-      if (maxval<0) maxval <- 0
-    }
-    else {
+      if (maxval < 0) maxval <- 0
+    } else {
       # else we have confindence intervals displayed, so
       # the range corresponds to the boundaries given by
       # the CI's
       maxval <- max(df$upper)
       minval <- min(df$lower)
     }
-    if (maxval>0) limfac <- ifelse(abs(maxval)<5, 5, 10)
-    else limfac <- ifelse(abs(minval)<5, 5, 10)
-    upper_lim <- ifelse(maxval==0, 0, limfac*ceiling((maxval+1)/limfac))
-    lower_lim <- ifelse(minval==0, 0, limfac*floor(minval/limfac))
-  }
-  else {
+    if (maxval > 0)
+      limfac <- ifelse(abs(maxval) < 5, 5, 10)
+    else 
+      limfac <- ifelse(abs(minval) < 5, 5, 10)
+    upper_lim <- ifelse(maxval == 0, 0, limfac * ceiling((maxval + 1) / limfac))
+    lower_lim <- ifelse(minval == 0, 0, limfac * floor(minval / limfac))
+  } else {
     lower_lim <- axisLimits[1]
     upper_lim <- axisLimits[2]
   }
   # determine gridbreaks
-  if (is.null(gridBreaksAt)) {
+  if (is.null(gridBreaksAt))
     ticks <- pretty(c(lower_lim, upper_lim))
-  }
-  else {
-    ticks <- c(seq(lower_lim, upper_lim, by=gridBreaksAt))
-  }
-  if (!showAxisLabels.y) {
-    axisLabels.y <- c("")
-  }
+  else
+    ticks <- c(seq(lower_lim, upper_lim, by = gridBreaksAt))
+  if (!showAxisLabels.y) axisLabels.y <- c("")
   # --------------------------------------------------------
   # Set up plot padding (margins inside diagram). In case of
   # bars, we don't want margins.
   # --------------------------------------------------------
-  if (type=="bars") {
-    scaley <- scale_y_continuous(limits=c(lower_lim,upper_lim), expand=expand.grid, breaks=ticks, labels=ticks)    
-  }
-  else {
-    scaley <- scale_y_continuous(limits=c(lower_lim,upper_lim), breaks=ticks, labels=ticks)    
+  if (type == "bars") {
+    scaley <- scale_y_continuous(limits = c(lower_lim, upper_lim), 
+                                 expand = expand.grid, 
+                                 breaks = ticks, 
+                                 labels = ticks)    
+  } else {
+    scaley <- scale_y_continuous(limits = c(lower_lim, upper_lim), 
+                                 breaks = ticks, 
+                                 labels = ticks)    
   }
   # --------------------------------------------------------
   # Start plot here!
   # --------------------------------------------------------
-  if (type=="dots") {
-    anovaplot <- ggplot(df, aes(y=means, x=xv)) +
+  if (type == "dots") {
+    anovaplot <- ggplot(df, aes(y = means, x = xv)) +
       # print point
-      geom_point(size=geom.size, colour=df$geocol) +
+      geom_point(size = geom.size, colour = df$geocol) +
       # and error bar
-      geom_errorbar(aes(ymin=lower, ymax=upper), colour=df$errcol, width=0) +
-      # Print p-values. With vertical adjustment, so they don't overlap with the errorbars
-      geom_text(aes(label=pv, y=means), vjust=-0.8, show_guide=FALSE)
+      geom_errorbar(aes(ymin = lower, ymax = upper), 
+                    colour = df$errcol, 
+                    width = 0) +
+      # Print p-values. With vertical adjustment, so 
+      # they don't overlap with the errorbars
+      geom_text(aes(label = pv, y = means), 
+                vjust = -0.8, 
+                show_guide = FALSE)
   # --------------------------------------------------------
   # start with bar plots here
   # --------------------------------------------------------
-  } else if (type=="bars") {
+  } else if (type == "bars") {
     # check whether we have error bars. if yes, adjust horizontal
     # posizion of labels
-    hlabj <- ifelse(hideErrorBars==FALSE, 1.3, 0.5)
-    anovaplot <- ggplot(df, aes(y=means, x=xv)) +
+    hlabj <- ifelse(hideErrorBars == FALSE, 1.3, 0.5)
+    anovaplot <- ggplot(df, aes(y = means, x = xv)) +
       # stat-parameter indicates statistics
       # stat="bin": y-axis relates to count of variable
       # stat="identity": y-axis relates to value of variable
-      geom_bar(fill=df$geocol, stat="identity", position="identity", width=geom.size) +
+      geom_bar(fill = df$geocol, 
+               stat = "identity", 
+               position = "identity", 
+               width = geom.size) +
       # print value labels and p-values
       geom_text(aes(label = pv, y = means), 
                 vjust = ifelse(df$means >= 0, -1, 1), 
@@ -452,7 +427,9 @@ sjp.aov1 <- function(depVar,
     if (hideErrorBars == FALSE) {
       anovaplot <- anovaplot +
         # print confidence intervalls (error bars)
-        geom_errorbar(aes(ymin=lower, ymax=upper), colour=df$errcol, width=0)
+        geom_errorbar(aes(ymin = lower, ymax = upper), 
+                      colour = df$errcol, 
+                      width = 0)
     }
   }
   # --------------------------------------------------------
@@ -468,7 +445,7 @@ sjp.aov1 <- function(depVar,
   # --------------------------------------------------------
   # Flip coordinates when we have dots
   # --------------------------------------------------------
-  if (type=="dots") anovaplot <- anovaplot + coord_flip()
+  if (type == "dots") anovaplot <- anovaplot + coord_flip()
   # check whether modelsummary should be printed
   if (showModelSummary) {
     # add annotations with model summary
@@ -498,7 +475,7 @@ sjp.aov1 <- function(depVar,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = "sjpaov1",
-                       list(plot = anovaplot,
-                            df = df)))
+  invisible(structure(class = "sjpaov1",
+                      list(plot = anovaplot,
+                           df = df)))
 }

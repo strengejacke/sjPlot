@@ -129,18 +129,18 @@ or if \code{type = "pred"}.}
 
 \item{showLoess}{If \code{TRUE}, an additional loess-smoothed line is plotted.
 Only applies if \code{type = "lm"} and fitted model has only one predictor,
-or if \code{type = "pred"}.}
+or if \code{type = "pred"} or \code{type = "resp"}.}
 
 \item{loessLineColor}{The color of the loess-smoothed line. Default is \code{"red"}. Only applies, if
 \code{showLoess} is \code{TRUE}.
 Only applies if \code{type = "lm"} and fitted model has only one predictor,
-or if \code{type = "pred"}.}
+or if \code{type = "pred"} or \code{type = "resp"}.}
 
 \item{showLoessCI}{If \code{TRUE}, a confidence region for the loess-smoothed line
 will be plotted. Default is \code{FALSE}. Use \code{loessCiLevel} to specifiy the confidence level.
 Only applies, if \code{showLoess} is \code{TRUE}.
 Only applies if \code{type = "lm"} and fitted model has only one predictor,
-or if \code{type = "pred"}.}
+or if \code{type = "pred"} or \code{type = "resp"}.}
 
 \item{loessCiLevel}{The confidence level of the loess-line's confidence region.
 Only applies, if \code{showLoessCI} is \code{TRUE}. Default is 0.95.
@@ -168,7 +168,8 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 Depending on the \code{type}, in most cases (insisibily)
           returns the ggplot-object with the complete plot (\code{plot})
           as well as the data frame that was used for setting up the
-          ggplot-object (\code{df}).
+          ggplot-object (\code{df}). For \code{type = "ma"}, an updated model
+          with removed outliers is returned.
 }
 \description{
 Depending on the \code{type}, this function plots beta coefficients (estimates)
