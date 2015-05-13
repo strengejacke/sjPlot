@@ -266,7 +266,7 @@ sjp.glmer <- function(fit,
 #'          In this case, only slopes for the selected variables specified in \code{"vars"} will be plotted.
 #' @param ri.nr Numeric vector. If \code{type = "re"} or \code{type = "fe.ri"}, and fitted model has more than one random
 #'          intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
-#'          which list elements of \code{lme4::ranef}) will be plotted. Default is \code{NULL},
+#'          which list elements of \code{\link[lme4]{ranef}}) will be plotted. Default is \code{NULL},
 #'          so all random effects will be plotted.
 #' @param emph.grp numeric vector with index numbers of grouping levels (from random effect).
 #'          If \code{type = "fe.ri"} and \code{facet.grid = FALSE}, an integrated plot of fixed 
@@ -281,8 +281,8 @@ sjp.glmer <- function(fit,
 #'            \item If not specified, the diverging \code{"Set1"} color brewer palette will be used.
 #'            \item If \code{"gs"}, a greyscale will be used.
 #'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
+#'            \item Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000", "#00ff00")}).
 #'          }
-#'          Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000", "#00ff00")}).
 #' @param geom.size size of geoms (point size).
 #' @param hideErrorBars If \code{TRUE}, the error bars that indicate the confidence intervals of the estimates are not
 #'          shown.
@@ -318,7 +318,7 @@ sjp.glmer <- function(fit,
 #' @param facet.grid \code{TRUE} when each plot should be plotted separately instead of
 #'          an integrated (faceted) single graph.
 #' @param free.scale If \code{TRUE} and \code{facet.grid=TRUE}, each facet grid gets its own fitted scale. If
-#'          \code{free.scale=FALSE}, each facet in the grid has the same scale range.
+#'          \code{free.scale = FALSE}, each facet in the grid has the same scale range.
 #' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #' @return (Insisibily) returns
@@ -363,11 +363,11 @@ sjp.glmer <- function(fit,
 #' efc$grp = as.factor(efc$e15relat)
 #' levels(x = efc$grp) <- get_val_labels(efc$e15relat)
 #' # data frame for fitted model
-#' mydf <- na.omit(data.frame(neg_c_7 = as.numeric(efc$neg_c_7),
-#'                            sex = as.factor(efc$c161sex),
-#'                            c12hour = as.numeric(efc$c12hour),
-#'                            barthel = as.numeric(efc$barthtot),
-#'                            grp = efc$grp))
+#' mydf <- data.frame(neg_c_7 = as.numeric(efc$neg_c_7),
+#'                    sex = as.factor(efc$c161sex),
+#'                    c12hour = as.numeric(efc$c12hour),
+#'                    barthel = as.numeric(efc$barthtot),
+#'                    grp = efc$grp)
 #' # fit glmer
 #' fit <- lmer(neg_c_7 ~ sex + c12hour + barthel + (1|grp),
 #'             data = mydf)

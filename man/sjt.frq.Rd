@@ -12,7 +12,7 @@ sjt.frq(data, file = NULL, weightBy = NULL, variableLabels = NULL,
   highlightMedian = FALSE, highlightQuartiles = FALSE,
   skipZeroRows = "auto", showSummary = TRUE, showSkew = FALSE,
   showKurtosis = FALSE, skewString = "&gamma;",
-  kurtosisString = "&omega;", removeStringVectors = TRUE,
+  kurtosisString = "&omega;", digits = 2, removeStringVectors = TRUE,
   autoGroupStrings = TRUE, maxStringDist = 3, encoding = NULL,
   CSS = NULL, useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
@@ -99,6 +99,8 @@ Default is lower case Greek gamma.}
 
 \item{kurtosisString}{A character string, which is used as header for the kurtosis column (see \code{showKurtosis})).
 Default is lower case Greek omega.}
+
+\item{digits}{amount of digits used for table values. Default is 2.}
 
 \item{removeStringVectors}{If \code{TRUE} (default), character vectors / string variables will be removed from
 \code{data} before frequency tables are computed.}

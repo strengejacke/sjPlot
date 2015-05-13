@@ -69,6 +69,7 @@
 #'          Default is lower case Greek gamma.
 #' @param kurtosisString A character string, which is used as header for the kurtosis column (see \code{showKurtosis})).
 #'          Default is lower case Greek omega.
+#' @param digits amount of digits used for table values. Default is 2.
 #' @param removeStringVectors If \code{TRUE} (default), character vectors / string variables will be removed from
 #'          \code{data} before frequency tables are computed.
 #' @param autoGroupStrings if \code{TRUE} (default), string values in character vectors (string variables) are automatically
@@ -206,6 +207,7 @@ sjt.frq <- function (data,
                      showKurtosis=FALSE,
                      skewString="&gamma;",
                      kurtosisString="&omega;",
+                     digits=2,
                      removeStringVectors=TRUE,
                      autoGroupStrings=TRUE,
                      maxStringDist=3,
@@ -410,8 +412,7 @@ sjt.frq <- function (data,
   if (!is.null(variableLabels) && !is.list(variableLabels)) {
     # if we have variable labels as vector, convert them to list
     variableLabels <- as.list(variableLabels)
-  }
-  else if (is.null(variableLabels)) {
+  } else if (is.null(variableLabels)) {
     # if we have no variable labels, use column names
     # of data frame
     variableLabels <- as.list(colnames(data))
@@ -419,14 +420,13 @@ sjt.frq <- function (data,
   if (!is.null(valueLabels) && !is.list(valueLabels)) {
     # if we have value labels as vector, convert them to list
     valueLabels <- list(valueLabels)
-  }
-  else if (is.null(valueLabels)) {
+  } else if (is.null(valueLabels)) {
     # create list
     valueLabels <- list()
     # iterate all variables
     for (i in 1:nvar) {
       # retrieve variable
-      dummy <- data[,i]
+      dummy <- data[, i]
       # usually, value labels are NULL if we have string vector. if so
       # set value labels according to values
       if (is.character(dummy)) {
@@ -437,11 +437,13 @@ sjt.frq <- function (data,
         if (!is.null(avl)) {
           valueLabels <- c(valueLabels, list(avl))
         } else {
-          valueLabels <- c(valueLabels, list(min(dummy, na.rm=TRUE):max(dummy, na.rm=TRUE)))
+          valueLabels <- c(valueLabels, 
+                           list(min(dummy, na.rm = TRUE):max(dummy, na.rm = TRUE)))
         }
       }
       # and add label range to value labels list
-      if (is.null(valueLabels)) valueLabels <- c(valueLabels, list(min(dummy, na.rm=TRUE):max(dummy, na.rm=TRUE)))
+      if (is.null(valueLabels)) valueLabels <- c(valueLabels, 
+                                                 list(min(dummy, na.rm = TRUE):max(dummy, na.rm = TRUE)))
     }
   }
   # -------------------------------------
@@ -469,10 +471,11 @@ sjt.frq <- function (data,
     # check for length of unique values and skip if too long
     # -----------------------------------------------
     if (!is.null(autoGroupAt) && length(unique(var)) >= autoGroupAt) {
-      message(sprintf("Variable %s with %i unique values was grouped...", colnames(data)[cnt], length(unique(var))))
-      varsum <- var
+      message(sprintf("Variable %s with %i unique values was grouped...", 
+                      colnames(data)[cnt], 
+                      length(unique(var))))
       # check for default auto-group-size or user-defined groups
-      agcnt <- ifelse (autoGroupAt < 30, autoGroupAt, 30)
+      agcnt <- ifelse(autoGroupAt < 30, autoGroupAt, 30)
       # group labels
       valueLabels[[cnt]] <- sjmisc::group_labels(var, 
                                                  groupsize = "auto", 
@@ -493,7 +496,11 @@ sjt.frq <- function (data,
     #---------------------------------------------------
     # create frequency data frame
     #---------------------------------------------------
-    df.frq <- create.frq.df(var, valueLabels[[cnt]], -1, sort.frq, weightBy = weightBy)
+    df.frq <- create.frq.df(var, 
+                            valueLabels[[cnt]], 
+                            -1, 
+                            sort.frq, 
+                            weightBy = weightBy)
     df <- df.frq$mydat
     #---------------------------------------------------
     # auto-set skipping zero-rows?
@@ -507,8 +514,7 @@ sjt.frq <- function (data,
       # if we have more than 25% of zero-values, or if we have
       # in general a large variable range, skip zero-rows.
       skipZeroRows <- ((100 * anzval / vonbis) < 75) || (anzval > 20)
-    }
-    else {
+    } else {
       skipZeroRows <- o.skipZeroRows
     }
     # save labels
@@ -541,8 +547,7 @@ sjt.frq <- function (data,
       # -------------------------------------
       if (skipZeroRows && zerorow) {
         # nothing here...
-      }
-      else {
+      } else {
         # -------------------------------------
         # access cell data via "celldata <- c(datarow[XY])
         # we have 4 data cells (freq, perc, valid and cumperc)
@@ -561,18 +566,28 @@ sjt.frq <- function (data,
         # check whether we have lower quartile and whether it should be highlighted
         else {
           if (highlightQuartiles) {
-            if(((j + df.frq$minval) == (var.lowerq + 1)) || ((j + df.frq$minval) == (var.upperq + 1))) {
+            if (((j + df.frq$minval) == (var.lowerq + 1)) || ((j + df.frq$minval) == (var.upperq + 1))) {
               rowcss <- sprintf(" qrow%s", rowstring)
             }
           }
         }
         # value label
-        page.content <- paste(page.content, sprintf("  <tr>\n     <td class=\"tdata leftalign firsttablecol%s\">%s</td>\n", rowcss, vallab[j]))
+        page.content <- paste(page.content, 
+                              sprintf("  <tr>\n     <td class=\"tdata leftalign firsttablecol%s\">%s</td>\n", 
+                                      rowcss, 
+                                      vallab[j]))
         # cell values, first value is integer
-        page.content <- paste(page.content, sprintf("    <td class=\"tdata centeralign%s\">%i</td>\n", rowcss, as.integer(c(datarow[2])[[1]])))
+        page.content <- paste(page.content, 
+                              sprintf("    <td class=\"tdata centeralign%s\">%i</td>\n", 
+                                      rowcss, 
+                                      as.integer(datarow[2][[1]])))
         for (i in 3:5) {
           # following values are float
-          page.content <- paste(page.content, sprintf("    <td class=\"tdata centeralign%s\">%.2f</td>\n", rowcss, c(datarow[i])[[1]]))
+          page.content <- paste(page.content, 
+                                sprintf("    <td class=\"tdata centeralign%s\">%.*f</td>\n", 
+                                        rowcss, 
+                                        digits,
+                                        datarow[i][[1]]))
         }
         # close row-tag
         page.content <- paste(page.content, "  </tr>\n", "\n")
@@ -582,16 +597,16 @@ sjt.frq <- function (data,
     # write last table data row with NA
     # -------------------------------------
     # retrieve data row
-    datarow <- df[nrow(df),]
+    datarow <- df[nrow(df), ]
     # -------------------------------------
     # write table data row
     # -------------------------------------
     # value label
     page.content <- paste(page.content, sprintf("  <tr>\n     <td class=\"tdata leftalign lasttablerow firsttablecol\">%s</td>\n", stringMissingValue))
     # cell values, first value is integer
-    page.content <- paste(page.content, sprintf("    <td class=\"tdata centeralign lasttablerow\">%i</td>\n", as.integer(c(datarow[2])[[1]])))
+    page.content <- paste(page.content, sprintf("    <td class=\"tdata centeralign lasttablerow\">%i</td>\n", as.integer(datarow[2][[1]])))
     # 2nd value is float. we don't need 3rd and 4th value as they are always 0 and 100
-    page.content <- paste(page.content, sprintf("    <td class=\"tdata centeralign lasttablerow\">%.2f</td>\n     <td class=\"tdata lasttablerow\"></td>\n     <td class=\"tdata lasttablerow\"></td>\n", c(datarow[3])[[1]]))
+    page.content <- paste(page.content, sprintf("    <td class=\"tdata centeralign lasttablerow\">%.*f</td>\n     <td class=\"tdata lasttablerow\"></td>\n     <td class=\"tdata lasttablerow\"></td>\n", digits, datarow[3][[1]]))
     # -------------------------------------
     # add info for mean, standard deviation
     # -------------------------------------
@@ -599,18 +614,31 @@ sjt.frq <- function (data,
       vartot <- length(var)
       varvalid <- vartot - length(var[which(is.na(var))])
       if (is.null(weightBy)) {
-        mw <- mean(orivar, na.rm=TRUE)
-      }
-      else {
-        mw <- weighted.mean(orivar, weightBy, na.rm=TRUE)
+        mw <- mean(orivar, na.rm = TRUE)
+      } else {
+        mw <- weighted.mean(orivar, weightBy, na.rm = TRUE)
       }
       descr <- ""
       if (showSkew || showKurtosis) {
         pstat <- psych::describe(data.frame(orivar))
-        if (showSkew) descr <- sprintf(" &middot; %s=%.2f", skewString, pstat$skew)
-        if (showKurtosis) descr <- sprintf("%s &middot; %s=%.2f", descr, kurtosisString, pstat$kurtosis)
+        if (showSkew) descr <- sprintf(" &middot; %s=%.*f", 
+                                       skewString, 
+                                       digits,
+                                       pstat$skew)
+        if (showKurtosis) descr <- sprintf("%s &middot; %s=%.*f", 
+                                           descr, 
+                                           kurtosisString, 
+                                           digits,
+                                           pstat$kurtosis)
       }
-      page.content <- paste(page.content, sprintf("  </tr>\n  <tr>\n    <td class=\"tdata summary\" colspan=\"5\">total N=%i &middot; valid N=%i &middot; x&#772;=%.2f &middot; &sigma;=%.2f%s</td>\n", vartot, varvalid, mw, sd(orivar, na.rm=TRUE), descr))
+      page.content <- paste(page.content, sprintf("  </tr>\n  <tr>\n    <td class=\"tdata summary\" colspan=\"5\">total N=%i &middot; valid N=%i &middot; x&#772;=%.*f &middot; &sigma;=%.*f%s</td>\n", 
+                                                  vartot, 
+                                                  varvalid, 
+                                                  digits,
+                                                  mw, 
+                                                  digits,
+                                                  sd(orivar, na.rm = TRUE), 
+                                                  descr))
     }
     # -------------------------------------
     # finish table
@@ -620,14 +648,12 @@ sjt.frq <- function (data,
     # add table to return value list, so user can access each
     # single frequency table
     # -------------------------------------
-    page.content.list[[length(page.content.list)+1]] <- page.content
+    page.content.list[[length(page.content.list) + 1]] <- page.content
     toWrite <- paste(toWrite, page.content, "\n")
     # -------------------------------------
     # add separator in case we have more than one table
     # -------------------------------------
-    if (nvar>1) {
-      toWrite = paste(toWrite, "\n<p class=\"abstand\">&nbsp;</p>\n", "\n")
-    }
+    if (nvar > 1) toWrite = paste(toWrite, "\n<p class=\"abstand\">&nbsp;</p>\n", "\n")
   }
   # -------------------------------------
   # finish html page
@@ -639,10 +665,12 @@ sjt.frq <- function (data,
   # -------------------------------------
   # copy page content
   # -------------------------------------
-  if (nvar>1) {
+  if (nvar > 1) {
     knitr <- c()
     for (i in 1:length(page.content.list)) {
-      knitr <- paste0(knitr, page.content.list[[i]], sprintf("\n<p style=\"%s\">&nbsp;</p>\n", css.abstand))
+      knitr <- paste0(knitr, 
+                      page.content.list[[i]], 
+                      sprintf("\n<p style=\"%s\">&nbsp;</p>\n", css.abstand))
     }
   } else {
     knitr <- page.content
@@ -683,9 +711,9 @@ sjt.frq <- function (data,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = "sjtfrq",
-                       list(page.style = page.style,
-                            page.content.list = page.content.list,
-                            output.complete = toWrite,
-                            knitr = knitr)))
+  invisible(structure(class = "sjtfrq",
+                      list(page.style = page.style,
+                           page.content.list = page.content.list,
+                           output.complete = toWrite,
+                           knitr = knitr)))
 }

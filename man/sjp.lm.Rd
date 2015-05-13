@@ -18,7 +18,7 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   printPlot = TRUE)
 }
 \arguments{
-\item{fit}{The model of the linear regression (\code{\link{lm}}- or \code{\link[plm]{plm}}-object).}
+\item{fit}{fitted linear regression model (\code{\link{lm}}- or \code{\link[plm]{plm}}-object).}
 
 \item{type}{type of plot. Use one of following:
 \describe{
@@ -32,20 +32,20 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
 
 \item{sort.est}{Logical, determines whether estimates should be sorted by their values.}
 
-\item{title}{Diagram's title as string.
-Example: \code{title=c("my title")}}
+\item{title}{Diagram's title as string. Example: \code{title = c("my title")}}
 
-\item{axisLabels.x}{Labels of the predictor (independent variable) that is used for labelling the
-axis. Passed as string. Not used if fitted model has more than one predictor and \code{type = "lm"}.
-Example: \code{axisLabel.x=c("My Predictor Var")}.
-Note: If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_var_labels}} function, you receive a
-character vector with variable label strings. You can use it like this:
-\code{axisLabel.x = get_var_labels(efc)['quol_5']}}
+\item{axisLabels.x}{predictor label (independent variable) that is used for labelling the
+axis. Passed as string.
+Two things to consider:
+\itemize{
+  \item Only used if fitted model has one predictor and \code{type = "lm"}.
+  \item If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_var_labels}} function, you receive a character vector with variable label strings. You can use it like this: \code{axisLabel.x = get_var_labels(efc)['quol_5']}
+}}
 
 \item{axisLabels.y}{Labels of the predictor variables (independent vars) that are used for labelling the
 axis. Passed as vector of strings.
-Example: \code{axisLabels.y=c("Label1", "Label2", "Label3")}.
-Note: If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
+Example: \code{axisLabels.y = c("Label1", "Label2", "Label3")}.
+\strong{Note:} If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
 list object with label string. The labels may also be passed as list object. They will be coerced
 to character vector automatically.}
 
@@ -56,16 +56,16 @@ or not. Default is \code{TRUE}}
 
 \item{axisLimits}{Defines the range of the axis where the beta coefficients and their confidence intervalls
 are drawn. By default, the limits range from the lowest confidence interval to the highest one, so
-the diagram has maximum zoom. Use your own values as 2-value-vector, for instance: \code{limits=c(-0.8,0.8)}.}
+the diagram has maximum zoom. Use your own values as 2-value-vector, for instance: \code{limits = c(-0.8, 0.8)}.}
 
 \item{geom.colors}{User defined color palette for geoms. Must either be vector with two color values
 or a specific color palette code (see below).
 \itemize{
-  \item If not specified, the diverging \code{"Paired"} color brewer palette will be used.
+  \item If not specified, the \code{"Set1"} color brewer palette will be used.
   \item If \code{"gs"}, a greyscale will be used.
   \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
-}
-Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000", "#00ff00")}).}
+  \item Else specify your own color values as vector, e.g. \code{geom.colors = c("#f00000", "#00ff00")}.
+}}
 
 \item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} parameter).}
 
@@ -82,14 +82,13 @@ one line and when a line break is inserted}
 \item{gridBreaksAt}{Sets the breaks on the y axis, i.e. at every n'th position a major
 grid is being printed. Default is \code{NULL}, so \code{\link{pretty}} gridbeaks will be used.}
 
-\item{coord.flip}{If \code{TRUE} (default), predictors are plotted on the left y-axis and estimate
+\item{coord.flip}{If \code{TRUE} (default), predictors are plotted along the y-axis and estimate
 values are plotted on the x-axis.}
 
-\item{showValueLabels}{Whether the beta and standardized beta values should be plotted
-to each dot or not.}
+\item{showValueLabels}{Whether value labels should be plotted to each dot or not.}
 
 \item{labelDigits}{The amount of digits for rounding the estimations (see \code{showValueLabels}).
-Default is 2, i.e. estimators have 2 digits after decimal point.}
+Default is 2, i.e. estimates have 2 digits after decimal point.}
 
 \item{showPValueLabels}{Whether the significance levels of each coefficient should be appended
 to values or not}
