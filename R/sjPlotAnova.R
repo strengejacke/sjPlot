@@ -1,5 +1,5 @@
 # bind global variables
-if(getRversion() >= "2.15.1") utils::globalVariables(c("pv"))
+if (getRversion() >= "2.15.1") utils::globalVariables(c("pv"))
 
 
 #' @title Plot One-Way-Anova tables

@@ -13,14 +13,14 @@ sjp.corr(data, title = NULL, axisLabels = NULL, type = "circle",
   printPlot = TRUE)
 }
 \arguments{
-\item{data}{A correlation object, built with the R-\code{\link{cor}}-function, or a data frame
-which correlations should be calculated.}
+\item{data}{a \code{\link{cor}}-object, or a data frame of variables that
+should be correlated.}
 
-\item{title}{Title of the diagram, plotted above the whole diagram panel.}
+\item{title}{plot title as string.}
 
 \item{axisLabels}{Labels for the x- andy y-axis.
 axisLabels are detected automatically if \code{data} is a data frame where each variable has
-a \code{"variable.labels"} attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).}
+a variable label attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
 \item{type}{Indicates whether the geoms of correlation values should be plotted
 as \code{"circle"} (default) or as \code{"tile"}.}
@@ -77,11 +77,11 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
           (\code{corr.matrix}).
 }
 \description{
-Plot correlations as ellipses or tiles. Required parameter is either
+Plot correlation matrix as ellipses or tiles. Required parameter is either
                a data frame or a computed \code{\link{cor}}-object. In case of ellipses, the
                ellipses size indicates the strength of the correlation. Furthermore,
                blue and red colors indicate positive or negative correlations, where
-               stronger correlations are darkened.
+               stronger correlations are darker.
 }
 \examples{
 # create data frame with 5 random variables

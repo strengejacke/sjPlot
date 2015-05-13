@@ -7,7 +7,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Row", "Column", "p.value
 #' 
 #' @seealso \href{http://talesofr.wordpress.com/2013/05/05/ridiculously-photogenic-factors-heatmap-with-p-values/}{Tales of R}.
 #' 
-#' @description Plot Pearson's Chi2-Test of multiple contingency tables as ellipses or tiles. 
+#' @description Plot p-values of Pearson's Chi2-tests for multiple contingency tables as ellipses or tiles. 
 #'                Requires a data frame with dichotomous (dummy) variables.
 #'                Calculation of Chi2-matrix taken from 
 #'                \href{http://talesofr.wordpress.com/2013/05/05/ridiculously-photogenic-factors-heatmap-with-p-values/}{Tales of R}.
@@ -67,8 +67,7 @@ sjp.chi2 <- function(df,
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         axisLabels <- c(axisLabels, vn)
-      }
-      else {
+      } else {
         # else break out of loop
         axisLabels <- NULL
         break
@@ -88,18 +87,18 @@ sjp.chi2 <- function(df,
   m <- data.frame()
   for (i in 1:ncol(combos)) {
     test <- chisq.test(df[, combos[1, i]], df[, combos[2, i]])
-    out <- data.frame("Row" = colnames(df)[combos[1, i]], "Column" = colnames(df)[combos[2, i]],
-                      "Chi.Square" = round(test$statistic, 4), "df"= test$parameter, 
-                      "p.value" = round(test$p.value, 4))
+    out <- data.frame(Row = colnames(df)[combos[1, i]], 
+                      Column = colnames(df)[combos[2, i]],
+                      Chi.Square = round(test$statistic, 4), 
+                      df =  test$parameter, 
+                      p.value = round(test$p.value, 4))
     m <- suppressWarnings(dplyr::bind_rows(m, out))
   }
   # ----------------------------
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
   # ----------------------------
-  if (is.null(axisLabels)) {
-    axisLabels <- row.names(m)
-  }
+  if (is.null(axisLabels)) axisLabels <- row.names(m)
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
@@ -129,10 +128,10 @@ sjp.chi2 <- function(df,
          x = NULL, 
          y = NULL, 
          fill = legendTitle)
-  if (hideLegend) {
-    chiPlot <- chiPlot + 
-      guides(fill=FALSE)
-  }
+  # ---------------------------------------------------------
+  # hide legend?
+  # ---------------------------------------------------------
+  if (hideLegend) chiPlot <- chiPlot + guides(fill = FALSE)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
@@ -140,7 +139,7 @@ sjp.chi2 <- function(df,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = "sjpchi2",
-                       list(plot = chiPlot,
-                            mydf = m)))
+  invisible(structure(class = "sjpchi2",
+                      list(plot = chiPlot,
+                           mydf = m)))
 }

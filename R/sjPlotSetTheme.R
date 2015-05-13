@@ -185,7 +185,7 @@
 #' 
 #' @import ggplot2
 #' @importFrom grid unit
-#' @importFrom scales brewer_pal
+#' @importFrom scales brewer_pal grey_pal
 #' @export
 sjp.setTheme <- function(title.color="black",
                          title.size=1.3,
@@ -763,17 +763,6 @@ sj.theme_geoms <- function(geom.alpha,
 }
 
 
-#' @title Helper function to set geom colors
-#' @name sj.setGeomColors
-#' 
-#' @param plot a ggplot object where scales (geom colors) should be set
-#' @param geom.colors the color palette for the scales to be used
-#' @param pal.len the length of the required colors in \code{geom.colors}
-#' @param show.guide whether or not legend should be displayed
-#' @param labels a character vector with legend labels
-#' @param reverse.colors If \code{TRUE}, the color scale is reversed.
-#' 
-#' @importFrom scales brewer_pal grey_pal
 sj.setGeomColors <- function(plot, 
                              geom.colors, 
                              pal.len, 
@@ -784,7 +773,7 @@ sj.setGeomColors <- function(plot,
   # check for themr options
   # ---------------------------------------------------------
   if (!is.null(geom.colors) && geom.colors == "themr") {
-    return (plot)
+    return(plot)
   }
   # ---------------------------------------------------------
   # dummy function for setting legend labels and geom-colors
@@ -795,13 +784,12 @@ sj.setGeomColors <- function(plot,
         scale_fill_manual(values = geom.colors, guide = FALSE) +
         scale_colour_manual(values = geom.colors, guide = FALSE) +
         guides(fill = FALSE)
-    }
-    else {
+    } else {
       plot <- plot + 
         scale_fill_manual(values = geom.colors, labels = labels) +
         scale_colour_manual(values = geom.colors, labels = labels)
     }
-    return (plot)
+    return(plot)
   }
   # ---------------------------------------------------------
   # dummy function for only setting legend labels, but no
@@ -813,13 +801,12 @@ sj.setGeomColors <- function(plot,
         scale_fill_discrete(guide = FALSE) +
         scale_colour_discrete(guide = FALSE) +
         guides(fill = FALSE)
-    }
-    else {
+    } else {
       plot <- plot + 
         scale_fill_discrete(labels = labels) +
         scale_colour_discrete(labels = labels)
     }
-    return (plot)
+    return(plot)
   }
   # ---------------------------------------------------------
   # set geom colors
@@ -830,19 +817,16 @@ sj.setGeomColors <- function(plot,
       if (length(geom.colors) > 1) {
         neutral.color <- geom.colors[2]
         pal.len <- pal.len - 1
-      }
-      else {
+      } else {
         neutral.color <- NULL
       }
-      geom.colors <- scales::brewer_pal(palette=geom.colors[1])(pal.len)
+      geom.colors <- scales::brewer_pal(palette = geom.colors[1])(pal.len)
       if (reverse.colors) geom.colors <- rev(geom.colors)
       if (!is.null(neutral.color)) geom.colors <- c(geom.colors, neutral.color)
-    }
-    else if (geom.colors[1] == "gs") {
+    } else if (geom.colors[1] == "gs") {
       geom.colors <- scales::grey_pal()(pal.len)
       if (reverse.colors) geom.colors <- rev(geom.colors)
-    }
-    else if (length(geom.colors) > pal.len) {
+    } else if (length(geom.colors) > pal.len) {
       warning("More colors provided than needed. Shortening color palette.")
       geom.colors <- geom.colors[1:pal.len]
       if (reverse.colors) geom.colors <- rev(geom.colors)
@@ -851,13 +835,11 @@ sj.setGeomColors <- function(plot,
     if (length(geom.colors) < pal.len) {
       warning("Too less colors provided for plot. Using default color palette.")
       plot <- uselegendscale(plot, labels)
-    }
-    else {
+    } else {
       plot <- usenormalscale(plot, geom.colors, labels)
     }
-  }
-  else {
+  } else {
     plot <- uselegendscale(plot, labels)
   }
-  return (plot)
+  return(plot)
 }

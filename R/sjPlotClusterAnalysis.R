@@ -1,5 +1,5 @@
 # bind global variables
-if(getRversion() >= "2.15.1") utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "se", "group"))
+if (getRversion() >= "2.15.1") utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "se", "group"))
 
 
 #' @title Compute quick cluster analysis
@@ -28,8 +28,8 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("xpos", "value", "Var2", 
 #'          to determine the group-count depending on the elbow-criterion. Use \code{\link{sjc.grpdisc}}-function 
 #'          to inspect the goodness of grouping.
 #' @param groups By default, this parameter is \code{NULL} and will be ignored. However, if you just want to plot
-#'          an already existing cluster solution without computing a new cluster analysis, specifiy \code{groupcount}
-#'          and \code{group}. \code{group} is a vector of same length as \code{nrow(data)} and indicates the group
+#'          an already existing cluster solution without computing a new cluster analysis, specify \code{groupcount}
+#'          and \code{groups}. \code{groups} is a vector of same length as \code{nrow(data)} and indicates the group
 #'          classification of the cluster analysis. The group classification can be computed with the
 #'          \code{\link{sjc.cluster}} function.
 #' @param method The method for computing the cluster analysis. By default (\code{"kmeans"}), a
@@ -102,16 +102,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("xpos", "value", "Var2", 
 #'            \item \code{accuracy}: the accuracy of group classification (as calculated by \code{\link{sjc.grpdisc}}).
 #'           }
 #' 
-#' @note To get similar results as in SPSS Quick Cluster function, following points
-#'        have to be considered:
-#'        \enumerate{
-#'          \item Use the \code{/PRINT INITIAL} option for SPSS Quick Cluster to get a table with initial cluster centers.
-#'          \item Create a \code{\link{matrix}} of this table, by consecutively copying the values, one row after another, from the SPSS output into a matrix and specifying \code{nrow} and \code{ncol} parameters.
-#'          \item Use \code{algorithm="Lloyd"}.
-#'          \item Use the same amount of \code{iter.max} both in SPSS and this \code{sjc.qclus}.
-#'        }
-#'        This ensures a fixed initial set of cluster centers (as in SPSS), while \code{\link{kmeans}} in R
-#'        always selects initial cluster sets randomly.
+#' @note See 'Note' in \code{\link{sjc.cluster}}
 #' 
 #' @examples
 #' \dontrun{
@@ -785,8 +776,7 @@ sjc.elbow <- function (data, steps=15, showDiff=FALSE) {
 #' @name sjc.kgap
 #' @description An implementation of the gap statistic algorithm from Tibshirani, Walther, and Hastie's
 #'                "Estimating the number of clusters in a data set via the gap statistic".
-#'                This function calls the \code{clusGap} function of the
-#'                \href{http://cran.r-project.org/web/packages/cluster/index.html}{cluster-package}
+#'                This function calls the \code{\link[cluster]{clusGap}} function
 #'                to calculate the data for the plot.
 #'                
 #' @seealso \code{\link{sjc.elbow}}
@@ -803,18 +793,18 @@ sjc.elbow <- function (data, steps=15, showDiff=FALSE) {
 #'          k^, is computed from the gap statistics (and their standard deviations), 
 #'          or more generally how the location k^ of the maximum of f[k] should be 
 #'          determined. Default is \code{"Tibs2001SEmax"}. Possible value are:
-#'          \itemize{
-#'            \item \code{"globalmax"} simply corresponds to the global maximum, i.e., is which.max(f).
-#'            \item \code{"firstmax"} gives the location of the first local maximum.
-#'            \item \code{"Tibs2001SEmax"} uses the criterion, Tibshirani et al(2001) proposed: "the smallest k such that f(k) >= f(k+1) - s_{k+1}". Note that this chooses k = 1 when all standard deviations are larger than the differences f(k+1) - f(k).
-#'            \item \code{"firstSEmax"} is the location of the first f() value which is not larger than the first local maximum minus SE.factor * SE.f[], i.e, within an "f S.E." range of that maximum (see also SE.factor).
-#'            \item \code{"globalSEmax"} (used in Dudoit and Fridlyand (2002), supposedly following Tibshirani's proposition) is the location of the first f() value which is not larger than the global maximum minus SE.factor * SE.f[], i.e, within an "f S.E." range of that maximum (see also SE.factor).
+#'          \describe{
+#'            \item{"globalmax"}{simply corresponds to the global maximum, i.e., is which.max(f).}
+#'            \item{"firstmax"}{gives the location of the first local maximum.}
+#'            \item{"Tibs2001SEmax"}{uses the criterion, Tibshirani et al(2001) proposed: "the smallest k such that f(k) >= f(k+1) - s_{k+1}". Note that this chooses k = 1 when all standard deviations are larger than the differences f(k+1) - f(k).}
+#'            \item{"firstSEmax"}{is the location of the first f() value which is not larger than the first local maximum minus SE.factor * SE.f[], i.e, within an "f S.E." range of that maximum (see also SE.factor).}
+#'            \item{"globalSEmax"}{(used in Dudoit and Fridlyand (2002), supposedly following Tibshirani's proposition) is the location of the first f() value which is not larger than the global maximum minus SE.factor * SE.f[], i.e, within an "f S.E." range of that maximum (see also SE.factor).}
 #'            }
-#' @param plotResults If \code{TRUE} (default), a graph visualiting the gap statistic will
+#' @param plotResults If \code{TRUE} (default), a graph visualizing the gap statistic will
 #'          be plotted. Use \code{FALSE} to omit the plot.
 #' 
-#' @return An object containing the used data frame for plotting, the ggplot object
-#'           and the number of found cluster.
+#' @return An object containing the data frame used for plotting, the ggplot object
+#'           and the number of clusters.
 #' 
 #' @references \itemize{
 #'              \item Tibshirani R, Walther G, Hastie T (2001) Estimating the number of clusters in a data set via gap statistic. J. R. Statist. Soc. B, 63, Part 2, pp. 411-423
@@ -828,7 +818,7 @@ sjc.elbow <- function (data, steps=15, showDiff=FALSE) {
 #' sjc.kgap(mtcars)
 #' 
 #' # and in iris dataset
-#' sjc.kgap(iris[,1:4])}
+#' sjc.kgap(iris[, 1:4])}
 #' 
 #' @import ggplot2
 #' @export
@@ -845,12 +835,19 @@ sjc.kgap <- function(x, max=10, B=100, SE.factor=1, method="Tibs2001SEmax", plot
   
   gap <- cluster::clusGap(x, kmeans, max, B)
 
-  stopifnot((K <- nrow(T <-gap$Tab)) >= 1, SE.factor >= 0)
-  message("Clustering Gap statistic [\"clusGap\"].\n", sprintf("B=%d simulated reference sets, k = 1..%d\n",gap$B, K), sep="")
-  nc <- cluster::maxSE(f = T[,"gap"], SE.f = T[,"SE.sim"], method=method, SE.factor=SE.factor)
+  stopifnot((K <- nrow(T <- gap$Tab)) >= 1, SE.factor >= 0)
+  message("Clustering Gap statistic [\"clusGap\"].\n", sprintf("B=%d simulated reference sets, k = 1..%d\n", gap$B, K), sep = "")
+  nc <- cluster::maxSE(f = T[ ,"gap"], 
+                       SE.f = T[ ,"SE.sim"], 
+                       method = method, 
+                       SE.factor = SE.factor)
   message(sprintf(" --> Number of clusters (method '%s'%s): %d\n",
               method,
-              if(grepl("SE", method, fixed = T)) sprintf(", SE.factor=%g",SE.factor) else "", nc))
+              if (grepl("SE", method, fixed = T))
+                sprintf(", SE.factor=%g", SE.factor) 
+              else 
+                "", 
+              nc))
   # point size for cluster solution
   nclus <- rep(2, max)
   nclus[nc] <- 4
@@ -858,21 +855,28 @@ sjc.kgap <- function(x, max=10, B=100, SE.factor=1, method="Tibs2001SEmax", plot
   cclus <- rep("black", max)
   cclus[nc] <- "#cc3366"
   # create data frame
-  df <- data.frame(x=1:max, y=gap$Tab[,'gap'], se=gap$Tab[,'SE.sim'], psize=nclus, pcol=cclus)
+  df <- data.frame(x = 1:max, 
+                   y = gap$Tab[, 'gap'], 
+                   se = gap$Tab[, 'SE.sim'], 
+                   psize = nclus, 
+                   pcol = cclus)
   # plot cluster solution
-  gp <- ggplot(df, aes(x=x, y=y)) + 
-    geom_errorbar(aes(ymin=y-se, ymax=y+se), width=0, size=0.5, colour="#3366cc") +
-    geom_line(colour="gray50") +
-    geom_point(colour=df$pcol, size=df$psize) +
-    scale_x_discrete(breaks=c(1:nrow(df))) +
-    labs(x="Number of clusters", y="Gap", title=sprintf("Estimation of clusters (gap statistics)\n%i-cluster solution found",nc)) +
+  gp <- ggplot(df, aes(x = x, y = y)) + 
+    geom_errorbar(aes(ymin = y - se, ymax = y + se), 
+                  width = 0, 
+                  size = 0.5, 
+                  colour = "#3366cc") +
+    geom_line(colour = "gray50") +
+    geom_point(colour = df$pcol, size = df$psize) +
+    scale_x_discrete(breaks = c(1:nrow(df))) +
+    labs(x = "Number of clusters", 
+         y = "Gap", 
+         title = sprintf("Estimation of clusters (gap statistics)\n%i-cluster solution found", nc)) +
     theme_classic()
-  if (plotResults) {
-    plot(gp)
-  }
+  if (plotResults) plot(gp)
   # return value
   invisible(structure(class = "sjckgap",
                       list(data = df,
-                      plot = gp,
-                      solution = nc)))
+                           plot = gp,
+                           solution = nc)))
 }

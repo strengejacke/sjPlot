@@ -18,14 +18,14 @@ sjp.glm(fit, type = "dots", sortOdds = TRUE, title = NULL,
 \item{fit}{The fitted model of a logistic regression (or any other \code{\link{glm}}- or \code{logistf}-object).}
 
 \item{type}{type of plot. Use one of following:
-\itemize{
-  \item \code{"dots"}, \code{"glm"} or \code{"or"} (default) for odds ratios (forest plot)
-  \item \code{"bars"} for odds ratios as bar plot
-  \item \code{"prob"} or \code{"pc"} to plot predicted probabilities for each model terms, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
-  \item \code{"probc"} or \code{"pcc"} to plot centered predicted probabilities for each model term (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
-  \item \code{"y.pc"} or \code{"y.prob"} to plot predicted probabilities for the response.
-  \item \code{"ma"} to check model assumptions. Note that only two parameters are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other parameters are ignored.
-  \item \code{"vif"} to plot Variance Inflation Factors. See details.
+\describe{
+  \item{"dots"}{(or \code{"glm"} or \code{"or"} (default)) for odds ratios (forest plot)}
+  \item{"bars"}{for odds ratios as bar plot}
+  \item{"prob"}{(or \code{"pc"}) to plot predicted probabilities for each model terms, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
+  \item{"probc"}{(or \code{"pcc"}) to plot centered predicted probabilities for each model term (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
+  \item{"y.pc"}{(or \code{"y.prob"}) to plot predicted probabilities for the response.}
+  \item{"ma"}{to check model assumptions. Note that only two parameters are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other parameters are ignored.}
+  \item{"vif"}{to plot Variance Inflation Factors. See details.}
 }}
 
 \item{sortOdds}{If \code{TRUE} (default), the odds ratios are ordered according their OR value from highest first

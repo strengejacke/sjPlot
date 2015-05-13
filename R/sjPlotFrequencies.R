@@ -1,5 +1,5 @@
 # bind global variables
-if(getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "upper.ci", "lower.ci", "ia", "..density.."))
+if (getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "upper.ci", "lower.ci", "ia", "..density.."))
 
 
 
@@ -313,13 +313,13 @@ sjp.frq <- function(varCount,
   # We have several options to name the histrogram type
   # Here we will reduce it to a unique value
   # --------------------------------------------------------
-  if (type=="b" || type=="bar") type <- c("bars")
-  if (type=="dot") type <- c("dots")
-  if (type=="h" || type=="hist") type <- c("histogram")
-  if (type=="d" || type=="density") type <- c("dens")
-  if (type=="l" || type=="lines") type <- c("line")
-  if (type=="box" || type=="boxplot") type <- c("boxplots")
-  if (type=="v") type <- c("violin")
+  if (type == "b" || type == "bar") type <- c("bars")
+  if (type == "dot") type <- c("dots")
+  if (type == "h" || type == "hist") type <- c("histogram")
+  if (type == "d" || type == "density") type <- c("dens")
+  if (type == "l" || type == "lines") type <- c("line")
+  if (type == "box" || type == "boxplot") type <- c("boxplots")
+  if (type == "v") type <- c("violin")
   if (expand.grid == TRUE) {
     expand.grid <- waiver()
   } else {
@@ -338,16 +338,16 @@ sjp.frq <- function(varCount,
   if (!is.null(autoGroupAt) && length(unique(varCount)) >= autoGroupAt) {
     message(sprintf("Variable has %i unique values and was grouped...", length(unique(varCount))))
     # check for default auto-group-size or user-defined groups
-    agcnt <- ifelse (autoGroupAt < 30, autoGroupAt, 30)
+    agcnt <- ifelse(autoGroupAt < 30, autoGroupAt, 30)
     # group axis labels
     axisLabels.x <- sjmisc::group_labels(varCount, 
-                                 groupsize = "auto", 
-                                 autoGroupCount = agcnt)
+                                         groupsize = "auto", 
+                                         autoGroupCount = agcnt)
     # group variable
     varCount <- sjmisc::group_var(varCount, 
-                          groupsize = "auto", 
-                          asNumeric = TRUE, 
-                          autoGroupCount = agcnt)
+                                  groupsize = "auto", 
+                                  asNumeric = TRUE, 
+                                  autoGroupCount = agcnt)
   }
   # --------------------------------------------------------
   # unlist labels
@@ -393,7 +393,7 @@ sjp.frq <- function(varCount,
   if (!is.null(title)) {
     # if we have weighted values, say that in diagram's title
     if (!is.null(weightByTitleString)) {
-      title <- paste(title, weightByTitleString, sep="")
+      title <- paste(title, weightByTitleString, sep = "")
     }
     title <- sjmisc::word_wrap(title, breakTitleAt)    
   }
@@ -423,15 +423,15 @@ sjp.frq <- function(varCount,
   # If we have a histogram, caluclate means of groups
   # --------------------------------------------------------
   if (is.null(weightBy)) {
-    mittelwert <- mean(varCount, na.rm=TRUE)
+    mittelwert <- mean(varCount, na.rm = TRUE)
   } else {
-    mittelwert <- weighted.mean(varCount, weightBy, na.rm=TRUE)
+    mittelwert <- weighted.mean(varCount, weightBy, na.rm = TRUE)
   }
-  stddev <- sd(varCount, na.rm=TRUE)
+  stddev <- sd(varCount, na.rm = TRUE)
   # --------------------------------------------------------
   # If we have boxplots, use different data frame structure
   # --------------------------------------------------------
-  if (type=="boxplots" || type=="violin") {
+  if (type == "boxplots" || type == "violin") {
     if (is.null(interactionVar)) {
       mydat <- na.omit(data.frame(cbind(grp = 1, 
                                         frq = varCount, 
@@ -487,7 +487,7 @@ sjp.frq <- function(varCount,
     geob <- geom_bar(stat = "identity", 
                      width = geom.size, 
                      fill = geom.colors)
-  } else if (type=="dots") {
+  } else if (type == "dots") {
     geob <- geom_point(size = geom.size, fill = geom.colors)
   }
   if (!showAxisLabels.x) axisLabels.x <- c("")
@@ -724,7 +724,7 @@ sjp.frq <- function(varCount,
       # base constructor
       if (hist.skipZeros) {
         x <- na.omit(varCount)
-        if (geom.size<round(diff(range(x)) / 50)) message("Using very small binwidth. Consider adjusting \"geom.size\"-parameter.")
+        if (geom.size < round(diff(range(x)) / 50)) message("Using very small binwidth. Consider adjusting \"geom.size\"-parameter.")
         hist.dat <- data.frame(x)
         baseplot <- ggplot(mydat)
         basehist <- geom_histogram(data = hist.dat, 
@@ -838,9 +838,9 @@ sjp.frq <- function(varCount,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = "sjpfrq",
-                       list(plot = baseplot,
-                            mydf = mydat)))
+  invisible(structure(class = "sjpfrq",
+                      list(plot = baseplot,
+                           mydf = mydat)))
 }
 
 
@@ -859,11 +859,11 @@ freqYlim <- function(var) {
   len <- max(var)
   
   anzahl <- 5
-  while (len>=(10*anzahl)) {
+  while (len >= (10 * anzahl)) {
     anzahl <- anzahl + 5
   }
-  correct <- 10+(floor(log10(len))-1)
-  return (correct*anzahl)  
+  correct <- 10 + (floor(log10(len)) - 1)
+  return(correct * anzahl)  
 }
 
 histYlim <- function(var) {
@@ -871,29 +871,26 @@ histYlim <- function(var) {
   # also den höchsten Wert einer Variablenausprägung
   len <- max(table(var))
   
-  if (len<100) {
+  if (len < 100) {
     anzahl <- 10
-  }
-  else {
+  } else {
     anzahl <- 100
   }
   
   li <- ceiling(len/anzahl)
-  if ((li %% 2) == 1) {
-    li <- li+1
-  }
-  
-  retval <- li*anzahl
-  
-  return (retval)
+  if ((li %% 2) == 1) li <- li + 1
+
+  return(li * anzahl)
 }
 
 # usage:
 # df<-insertRowToDF(df,5,c(16,0)); # inserting the values (16,0) after the 5th row
-insertRowToDF<-function(X,index_after,vector_to_insert){
+insertRowToDF <- function(X, index_after, vector_to_insert){
   stopifnot(length(vector_to_insert) == ncol(X)) # to check valid row to be inserted
-  X<-rbind(X[1:index_after,],vector_to_insert,X[(index_after+1):nrow(X),])
-  row.names(X)<-1:nrow(X)
-  return (X)
+  X <- rbind(X[1:index_after,],
+             vector_to_insert,
+             X[(index_after + 1):nrow(X), ])
+  row.names(X) <- 1:nrow(X)
+  return(X)
 }
 

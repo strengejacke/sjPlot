@@ -84,11 +84,16 @@
 #' # random sample
 #' # -------------------------------
 #' # prepare data for 4-category likert scale, 5 items
-#' Q1 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.2, 0.3, 0.1, 0.4)))
-#' Q2 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.5, 0.25, 0.15, 0.1)))
-#' Q3 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.25, 0.1, 0.4, 0.25)))
-#' Q4 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.1, 0.4, 0.4, 0.1)))
-#' Q5 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.35, 0.25, 0.15, 0.25)))
+#' Q1 <- as.factor(sample(1:4, 500, replace = TRUE, 
+#'                        prob = c(0.2, 0.3, 0.1, 0.4)))
+#' Q2 <- as.factor(sample(1:4, 500, replace = TRUE, 
+#'                        prob = c(0.5, 0.25, 0.15, 0.1)))
+#' Q3 <- as.factor(sample(1:4, 500, replace = TRUE, 
+#'                        prob = c(0.25, 0.1, 0.4, 0.25)))
+#' Q4 <- as.factor(sample(1:4, 500, replace = TRUE, 
+#'                        prob = c(0.1, 0.4, 0.4, 0.1)))
+#' Q5 <- as.factor(sample(1:4, 500, replace = TRUE, 
+#'                        prob = c(0.35, 0.25, 0.15, 0.25)))
 #' 
 #' likert_4 <- data.frame(Q1, Q2, Q3, Q4, Q5)
 #' 
@@ -362,7 +367,7 @@ sjp.stackfrq <- function(items,
     # now we have the order of either lowest to highest counts of first
     # or last category of "items". We now need to repeat these values as 
     # often as we have answer categories
-    orderedrow <- unlist(tapply(dummy2, 1:length(dummy2), function (x) rep(x, countlen)))
+    orderedrow <- unlist(tapply(dummy2, 1:length(dummy2), function(x) rep(x, countlen)))
     # replace old grp-order by new order
     mydat$grp <- as.factor(orderedrow)
     # reorder axis labels as well
@@ -474,7 +479,7 @@ sjp.stackfrq <- function(items,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = "sjpstackfrq",
-                       list(plot = baseplot,
-                            df = mydat)))
+  invisible(structure(class = "sjpstackfrq",
+                      list(plot = baseplot,
+                           df = mydat)))
 }

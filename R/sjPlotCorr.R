@@ -1,25 +1,25 @@
 # bind global variables
-if(getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
+if (getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
 
 
 
 #' @title Plot correlation matrix
 #' @name sjp.corr
 #'
-#' @description Plot correlations as ellipses or tiles. Required parameter is either
+#' @description Plot correlation matrix as ellipses or tiles. Required parameter is either
 #'                a data frame or a computed \code{\link{cor}}-object. In case of ellipses, the
 #'                ellipses size indicates the strength of the correlation. Furthermore,
 #'                blue and red colors indicate positive or negative correlations, where
-#'                stronger correlations are darkened.
+#'                stronger correlations are darker.
 #'
 #' @seealso \code{\link{sjt.corr}}
 #'
-#' @param data A correlation object, built with the R-\code{\link{cor}}-function, or a data frame
-#'          which correlations should be calculated.
-#' @param title Title of the diagram, plotted above the whole diagram panel.
+#' @param data a \code{\link{cor}}-object, or a data frame of variables that
+#'          should be correlated.
+#' @param title plot title as string.
 #' @param axisLabels Labels for the x- andy y-axis.
 #'          axisLabels are detected automatically if \code{data} is a data frame where each variable has
-#'          a \code{"variable.labels"} attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).
+#'          a variable label attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).
 #' @param type Indicates whether the geoms of correlation values should be plotted
 #'          as \code{"circle"} (default) or as \code{"tile"}.
 #' @param sortCorrelations If \code{TRUE} (default), the axis labels are sorted

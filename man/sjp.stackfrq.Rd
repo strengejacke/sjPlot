@@ -128,11 +128,16 @@ Thanks to \href{http://www.clas.ufl.edu/users/forrest/}{Forrest Stevens} for bug
 # random sample
 # -------------------------------
 # prepare data for 4-category likert scale, 5 items
-Q1 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.2, 0.3, 0.1, 0.4)))
-Q2 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.5, 0.25, 0.15, 0.1)))
-Q3 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.25, 0.1, 0.4, 0.25)))
-Q4 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.1, 0.4, 0.4, 0.1)))
-Q5 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.35, 0.25, 0.15, 0.25)))
+Q1 <- as.factor(sample(1:4, 500, replace = TRUE,
+                       prob = c(0.2, 0.3, 0.1, 0.4)))
+Q2 <- as.factor(sample(1:4, 500, replace = TRUE,
+                       prob = c(0.5, 0.25, 0.15, 0.1)))
+Q3 <- as.factor(sample(1:4, 500, replace = TRUE,
+                       prob = c(0.25, 0.1, 0.4, 0.25)))
+Q4 <- as.factor(sample(1:4, 500, replace = TRUE,
+                       prob = c(0.1, 0.4, 0.4, 0.1)))
+Q5 <- as.factor(sample(1:4, 500, replace = TRUE,
+                       prob = c(0.35, 0.25, 0.15, 0.25)))
 
 likert_4 <- data.frame(Q1, Q2, Q3, Q4, Q5)
 
