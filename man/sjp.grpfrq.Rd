@@ -88,7 +88,7 @@ to character vector automatically.}
 
 \item{interactionVarLabels}{Labels for the x-axis breaks when having interaction variables included.
 These labels replace the \code{axisLabels.x}. Only applies, when using box or violin plots
-(i.e. \code{"type"} is \code{"box"} or \code{"violin"}) and \code{interactionVar} is not \code{NULL}.
+(i.e. \code{type} is \code{"box"} or \code{"violin"}) and \code{interactionVar} is not \code{NULL}.
 Example: See \code{axisLabels.x}.}
 
 \item{legendLabels}{Labels for the guide/legend.

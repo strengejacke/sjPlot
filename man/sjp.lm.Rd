@@ -18,7 +18,7 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   printPlot = TRUE)
 }
 \arguments{
-\item{fit}{fitted linear regression model (\code{\link{lm}}- or \code{\link[plm]{plm}}-object).}
+\item{fit}{fitted linear regression model (\code{\link{lm}}- or \code{plm}-object).}
 
 \item{type}{type of plot. Use one of following:
 \describe{

@@ -61,14 +61,14 @@ bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type
 \item{geom.colors}{user defined color for geoms, e.g. \code{geom.colors = "#0080ff"}.}
 
 \item{axisLabels.x}{Labels for the x-axis breaks.
-Example: \code{axisLabels.x = c("Label1", "Label2", "Label3")}.
+Example: \code{axisLabels.x = c("Label1", "Label2", "Label3")}. \cr
 \strong{Note:} If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
 list object with label string. The labels may also be passed as list object. They will be coerced
 to character vector automatically.}
 
 \item{interactionVarLabels}{Labels for the x-axis breaks when having interaction variables included.
 These labels replace the \code{axisLabels.x}. Only applies, when using box or violin plots
-(i.e. \code{"type"} is \code{"box"} or \code{"violin"}) and \code{interactionVar} is not \code{NULL}.
+(i.e. \code{type} is \code{"box"} or \code{"violin"}) and \code{interactionVar} is not \code{NULL}.
 Example: See \code{axisLabels.x}.}
 
 \item{axisLimits.y}{A numeric vector of length two, defining lower and upper axis limits

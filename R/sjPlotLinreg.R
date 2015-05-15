@@ -20,7 +20,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "l
 #'            \item If \code{type = "vif"}, the Variance Inflation Factors (check for multicollinearity) are plotted. As a rule of thumb, values below 5 are considered as good and indicate no multicollinearity, values between 5 and 10 may be tolerable. Values greater than 10 are not acceptable and indicate multicollinearity between model's predictors.
 #'            }
 #'
-#' @param fit fitted linear regression model (\code{\link{lm}}- or \code{\link[plm]{plm}}-object).
+#' @param fit fitted linear regression model (\code{\link{lm}}- or \code{plm}-object).
 #' @param type type of plot. Use one of following:
 #'          \describe{
 #'            \item{\code{"lm"}}{(default) for forest-plot like plot of estimates. If the fitted model only contains one predictor, intercept and slope are plotted.}
