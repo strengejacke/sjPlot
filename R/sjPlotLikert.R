@@ -13,14 +13,14 @@
 #'        can be used, but must be indicated by \code{cat.neutral}.
 #' 
 #' @param items A data frame with each column representing one likert-item.
-#' @param catcount the amount of categories of the items (e.g. "strongly disagree", 
-#'          "disagree", "agree" and "strongly agree" would be \code{catcount=4}).
+#' @param catcount optional, the amount of categories of the items (e.g. \emph{"strongly disagree", 
+#'          "disagree", "agree" and "strongly agree"} would be \code{catcount=4}).
 #'          Note that this parameter only applies to "valid" answers, i.e. if you
-#'          have an additional neutral category (see \code{cat.neutral}) like "don't know",
+#'          have an additional neutral category (see \code{cat.neutral}) like \emph{"don't know"},
 #'          this won't count for \code{catcount} (e.g. "strongly disagree", 
 #'          "disagree", "agree", "strongly agree" and neutral category "don't know"
 #'          would still mean that \code{catcount=4}). \cr
-#'          Normally, this parameter can be ignored because the amount of valid categories
+#'          \strong{Note:} Normally, this parameter can be ignored because the amount of valid categories
 #'          is retrieved automatically.
 #' @param cat.neutral If there's a neutral category (like "don't know" etc.), specify
 #'          the index number for this category. Else, set \code{cat.neutral=NULL} (default).
@@ -32,12 +32,12 @@
 #'          may indicate this with a remark. Default is \code{NULL}, so the diagram's title will not be modified when
 #'          cases are weighted. Use a string as parameter, e.g.: \code{weightByTitleString=" (weighted)"}
 #' @param sort.frq Indicates whether the items of \code{items} should be ordered by total sum of positive or negative answers.
-#'          \itemize{
-#'            \item Use \code{"pos.asc"} to order ascending by sum of positive answers,
-#'            \item \code{"pos.desc"} to order descending by sum of positive answers,
-#'            \item \code{"neg.asc"} for sorting ascending negative answers,
-#'            \item \code{"neg.desc"} for sorting descending negative answers
-#'            \item or \code{NULL} (default) for no sorting.
+#'          \describe{
+#'            \item{\code{"pos.asc"}}{to order ascending by sum of positive answers}
+#'            \item{\code{"pos.desc"}}{to order descending by sum of positive answers}
+#'            \item{\code{"neg.asc"}}{for sorting ascending negative answers}
+#'            \item{\code{"neg.desc"}}{for sorting descending negative answers}
+#'            \item{\code{NULL}}{(default) for no sorting}
 #'          }
 #' @param geom.colors User defined color palette for geoms. If specified, must either be vector with color values 
 #'          of same length as groups defined in \code{legendLabels}, or a specific color palette code (see below).
@@ -45,8 +45,8 @@
 #'            \item If not specified, the diverging \code{"BrBG"} color brewer palette will be used.
 #'            \item If \code{"gs"}, a greyscale will be used.
 #'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
+#'            \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00", "#0080ff")}).
 #'          }
-#'          Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000", "#00ff00", "#0080ff")}).
 #' @param reverse.colors If \code{TRUE}, the color scale from \code{geom.colors} will be reversed,
 #'          so positive and negative value switch colors.
 #' @param geom.size Width of bars. Recommended values for this parameter are from 0.4 to 1.5
@@ -59,20 +59,20 @@
 #' @param legendTitle Title of the diagram's legend.
 #' @param includeN If \code{TRUE} (default), the N of each item is included into axis labels.
 #' @param value.labels determines style and position of percentage value labels on the bars:
-#'          \itemize{
-#'            \item \code{"hide"} hides the value labels, so no percentage values on the bars are printed.
-#'            \item \code{"show"} (default) shows percentage value labels in the middle of each category bar.
-#'            \item \code{"sum.inside"} shows the sums of percentage values for both negative and positive values and prints them inside the end of each bar.
-#'            \item \code{"sum.outide"} shows the sums of percentage values for both negative and positive values and prints them outside the end of each bar.
+#'          \describe{
+#'            \item{\code{"show"}}{(default) shows percentage value labels in the middle of each category bar}
+#'            \item{\code{"hide"}}{hides the value labels, so no percentage values on the bars are printed}
+#'            \item{\code{"sum.inside"}}{shows the sums of percentage values for both negative and positive values and prints them inside the end of each bar}
+#'            \item{\code{"sum.outide"}}{shows the sums of percentage values for both negative and positive values and prints them outside the end of each bar}
 #'          }
 #' @param showPercentageSign If \code{TRUE}, percentage signs on value labels are shown.
 #' @param labelDigits The amount of digits for rounding \code{value.labels}. Default is 1, 
 #'          i.e. value labels have 1 digit after decimal point.
 #' @param showItemLabels Whether x axis text (category names) should be shown or not
-#' @param axisLabels.y a character vector with labels for the y-axis (the labels of the 
-#'          \code{items}). Example: \code{axisLabels.y=c("Q1", "Q2", "Q3")}
+#' @param axisLabels.y a character vector with labels for the y-axis (the names of the 
+#'          \code{items}). Example: \code{axisLabels.y = c("Q1", "Q2", "Q3")}.
 #'          Axis labels will automatically be detected, when they have
-#'          a variable label attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).
+#'          a variable label attribute (see \code{\link[sjmisc]{set_var_labels}} for details).
 #' @param breakTitleAt Wordwrap for diagram title. Determines how many chars of the title are displayed in
 #'          one line and when a line break is inserted into the title.
 #' @param breakLabelsAt Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in 
@@ -91,10 +91,10 @@
 #'          grid is being printed. Valid values range from 0 to 1.
 #' @param expand.grid If \code{TRUE} (default), the diagram has margins, i.e. the y-axis is not exceeded
 #'          to the diagram's boundaries.
-#' @param axisTitle.x A label for the x axis. Useful when plotting histograms with metric scales where no category labels
-#'          are assigned to the x axis.
-#' @param axisTitle.y A label for the y axis. Useful when plotting histograms with metric scales where no category labels
-#'          are assigned to the y axis.
+#' @param axisTitle.x label for the x-axis. Useful when plotting histograms with metric scales where no category labels
+#'          are assigned to the x-axis.
+#' @param axisTitle.y label for the y-axis. Useful when plotting histograms with metric scales where no category labels
+#'          are assigned to the y-axis.
 #' @param coord.flip If \code{TRUE}, the x and y axis are swapped.
 #' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
@@ -240,13 +240,13 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(legendLabels)) legendLabels <- sjmisc:::autoSetValueLabels(items[, 1])
+  if (is.null(legendLabels)) legendLabels <- sjmisc:::autoSetValueLabels(items[[1]])
   if (is.null(axisLabels.y)) {
     axisLabels.y <- c()
     # if yes, iterate each variable
     for (i in 1:ncol(items)) {
       # retrieve variable name attribute
-      vn <- sjmisc:::autoSetVariableLabels(items[, i])
+      vn <- sjmisc:::autoSetVariableLabels(items[[i]])
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         axisLabels.y <- c(axisLabels.y, vn)
@@ -273,7 +273,7 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   # determine catcount
   # --------------------------------------------------------
-  adding <- ifelse (is.null(cat.neutral), 0, 1)
+  adding <- ifelse(is.null(cat.neutral), 0, 1)
   if (is.null(catcount)) {
     catcount <- c()
     # iterate all items
@@ -329,7 +329,7 @@ sjp.likert <- function(items,
     # that category, replace it with NA
     # --------------------------------------------------------
     if (is.null(cat.neutral) && max(items[, i], na.rm = T) > catcount)
-      items[, i] <- sjmisc::set_na(items[, i], catcount + 1)
+      items[[i]] <- sjmisc::set_na(items[[i]], catcount + 1)
     # --------------------------------------------------------
     # create proportional frequency table
     # --------------------------------------------------------
@@ -364,7 +364,7 @@ sjp.likert <- function(items,
     for (i in 1:length(axisLabels.y)) {
       axisLabels.y[i] <- paste(axisLabels.y[i], 
                                sprintf(" (n=%i)", length(na.omit(items[, i]))), 
-                               sep="")
+                               sep = "")
     }
   }
   # --------------------------------------------------------

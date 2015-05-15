@@ -48,8 +48,8 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Perc", "Sum", "Count", "
 #'            \item If not specified, the qualitative \code{"Paired"} color brewer palette will be used.
 #'            \item If \code{"gs"}, a greyscale will be used.
 #'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
+#'            \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
 #'          }
-#'          Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000", "#00ff00", "#0080ff")}).
 #' @param geom.size size resp. width of the geoms (bar width).
 #' @param geom.spacing the spacing between geoms (i.e. bar spacing)
 #' @param breakTitleAt Wordwrap for diagram title. Determines how many chars of the title are displayed in
@@ -159,22 +159,20 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Perc", "Sum", "Count", "
 #'          legendTitle = efc.var['e42dep'],
 #'          legendLabels = efc.val[['e42dep']])
 #'          
+#' # -------------------------------
+#' # auto-detection of labels works here
+#' # so no need to specify labels. For
+#' # title-auto-detection, use NULL
+#' # -------------------------------
+#' sjp.xtab(efc$e16sex, efc$e42dep, title = NULL)
+#' 
 #' sjp.xtab(efc$e16sex,
 #'          efc$e42dep,
-#'          title = efc.var['e16sex'],
-#'          axisLabels.x = efc.val[['e16sex']],
-#'          legendTitle = efc.var['e42dep'],
-#'          legendLabels = efc.val[['e42dep']],
 #'          tableIndex = "row",
 #'          barPosition = "stack",
 #'          coord.flip = TRUE,
 #'          jitterValueLabels = TRUE)
 #'
-#' # -------------------------------
-#' # auto-detection of labels
-#' # -------------------------------
-#' efc <- set_var_labels(efc, efc.var)
-#' sjp.xtab(efc$e16sex, efc$e42dep)
 #'
 #' @import ggplot2
 #' @import dplyr

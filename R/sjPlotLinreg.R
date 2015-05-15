@@ -2,7 +2,7 @@
 if (getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p", "x", "ydiff", "y", "grp", ".stdresid", ".resid", ".fitted", "V1", "V2"))
 
 
-#' @title Plot linear models
+#' @title Plot estimates or predicted values of linear models
 #' @name sjp.lm
 #'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm}
@@ -23,12 +23,12 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "l
 #' @param fit fitted linear regression model (\code{\link{lm}}- or \code{\link[plm]{plm}}-object).
 #' @param type type of plot. Use one of following:
 #'          \describe{
-#'            \item{"lm"}{(default) for forest-plot like plot of estimates. If the fitted model only contains one predictor, intercept and slope are plotted.}
-#'            \item{"std"}{for forest-plot like plot of standardized beta values. If the fitted model only contains one predictor, intercept and slope are plotted.}
-#'            \item{"pred"}{to plot regression lines for each single predictor of the fitted model.}
-#'            \item{"resp"}{to plot predicted values for the response. Use \code{showCI} parameter to plot standard errors as well.}
-#'            \item{"ma"}{to check model assumptions. Note that only three parameters are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.}
-#'            \item{"vif"}{to plot Variance Inflation Factors. See details.}
+#'            \item{\code{"lm"}}{(default) for forest-plot like plot of estimates. If the fitted model only contains one predictor, intercept and slope are plotted.}
+#'            \item{\code{"std"}}{for forest-plot like plot of standardized beta values. If the fitted model only contains one predictor, intercept and slope are plotted.}
+#'            \item{\code{"pred"}}{to plot regression lines for each single predictor of the fitted model.}
+#'            \item{\code{"resp"}}{to plot predicted values for the response. Use \code{showCI} parameter to plot standard errors as well.}
+#'            \item{\code{"ma"}}{to check model assumptions. Note that only three parameters are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.}
+#'            \item{\code{"vif"}}{to plot Variance Inflation Factors. See details.}
 #'          }
 #' @param title Diagram's title as string. Example: \code{title = c("my title")}
 #' @param sort.est Logical, determines whether estimates should be sorted by their values.

@@ -1,7 +1,7 @@
-#' @title View SPSS data set structure
+#' @title View SPSS (and SAS/Stata) data set structure
 #' @name view_spss
 #' 
-#' @description Save (or show) content of an imported SPSS data file as HTML table.
+#' @description Save (or show) content of an imported SPSS, SAS or Stata data file as HTML table.
 #'                Similar to the SPSS variable view. This quick overview shows
 #'                variable ID numner, name, label, type and associated
 #'                value labels. The result can be considered as "codeplan" of
@@ -12,21 +12,22 @@
 #'            \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
 #'          }
 #' 
-#' @param df An imported data frame, imported by \code{\link[sjmisc]{read_spss}} function.
+#' @param df An imported data frame, imported by \code{\link[sjmisc]{read_spss}},
+#'          \code{\link[sjmisc]{read_sas}} or \code{\link[sjmisc]{read_stata}} function.
 #' @param file The destination file, which will be in html-format. If no filepath is specified,
 #'          the file will be saved as temporary file and openend either in the IDE's viewer pane or
 #'          in the default web browser.
-#' @param alternateRowColors If \code{TRUE}, alternating rows are highlighted with a light gray
+#' @param alternateRowColors logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 #'          background color.
-#' @param showID If \code{TRUE} (default), the variable ID is shown in the first column.
-#' @param showType If \code{TRUE}, the variable type is shown in a separate column. Since
+#' @param showID logical, if \code{TRUE} (default), the variable ID is shown in the first column.
+#' @param showType logical, if \code{TRUE}, the variable type is shown in a separate column. Since
 #'          SPSS variable types are mostly \code{\link{numeric}} after import, this column
 #'          is hidden by default.
-#' @param showValues If \code{TRUE} (default), the variable values are shown as additional column.
-#' @param showValueLabels If \code{TRUE} (default), the value labels are shown as additional column.
-#' @param showFreq If \code{TRUE}, an additional column with frequencies for each variable is shown.
-#' @param showPerc If \code{TRUE}, an additional column with percentage of frequencies for each variable is shown.
-#' @param sortByName If \code{TRUE}, rows are sorted according to the variable
+#' @param showValues logical, if \code{TRUE} (default), the variable values are shown as additional column.
+#' @param showValueLabels logical, if \code{TRUE} (default), the value labels are shown as additional column.
+#' @param showFreq logical, if \code{TRUE}, an additional column with frequencies for each variable is shown.
+#' @param showPerc logical, if \code{TRUE}, an additional column with percentage of frequencies for each variable is shown.
+#' @param sortByName logical, if \code{TRUE}, rows are sorted according to the variable
 #'          names. By default, rows (variables) are ordered according to their
 #'          order in the data frame.
 #' @param breakVariableNamesAt Wordwrap for lomg variable names. Determines how many chars of
@@ -71,10 +72,10 @@
 #' view_spss(efc)
 #' 
 #' # view variables w/o values and value labels
-#' view_spss(efc, showValues=FALSE, showValueLabels=FALSE)
+#' view_spss(efc, showValues = FALSE, showValueLabels = FALSE)
 #' 
 #' # view variables including variable typed, orderd by name
-#' view_spss(efc, sortByName=TRUE, showType=TRUE)
+#' view_spss(efc, sortByName = TRUE, showType = TRUE)
 #' 
 #' # ---------------------------------------------------------------- 
 #' # User defined style sheet
@@ -86,24 +87,24 @@
 #'
 #' @import sjmisc 
 #' @export
-view_spss <- function (df,
-                       file=NULL,
-                       alternateRowColors=TRUE,
-                       showID=TRUE,
-                       showType=FALSE,
-                       showValues=TRUE,
-                       showValueLabels=TRUE,
-                       showFreq=FALSE,
-                       showPerc=FALSE,
-                       sortByName=FALSE,
-                       breakVariableNamesAt=50,
-                       encoding=NULL,
-                       hideProgressBar=FALSE,
-                       CSS=NULL,
-                       useViewer=TRUE,
-                       no.output=FALSE,
-                       remove.spaces=TRUE) {
-  # -------------------------------------
+view_spss <- function(df,
+                      file = NULL,
+                      alternateRowColors = TRUE,
+                      showID = TRUE,
+                      showType = FALSE,
+                      showValues = TRUE,
+                      showValueLabels = TRUE,
+                      showFreq = FALSE,
+                      showPerc = FALSE,
+                      sortByName = FALSE,
+                      breakVariableNamesAt = 50,
+                      encoding = NULL,
+                      hideProgressBar = FALSE,
+                      CSS = NULL,
+                      useViewer = TRUE,
+                      no.output = FALSE,
+                      remove.spaces = TRUE) {
+# -------------------------------------
   # check encoding
   # -------------------------------------
   encoding <- get.encoding(encoding)
@@ -143,10 +144,10 @@ view_spss <- function (df,
   # check user defined style sheets
   # ------------------------
   if (!is.null(CSS)) {
-    if (!is.null(CSS[['css.table']])) css.table <- ifelse(substring(CSS[['css.table']],1,1)=='+', paste0(css.table, substring(CSS[['css.table']],2)), CSS[['css.table']])
-    if (!is.null(CSS[['css.thead']])) css.thead <- ifelse(substring(CSS[['css.thead']],1,1)=='+', paste0(css.thead, substring(CSS[['css.thead']],2)), CSS[['css.thead']])
-    if (!is.null(CSS[['css.tdata']])) css.tdata <- ifelse(substring(CSS[['css.tdata']],1,1)=='+', paste0(css.tdata, substring(CSS[['css.tdata']],2)), CSS[['css.tdata']])
-    if (!is.null(CSS[['css.arc']])) css.arc <- ifelse(substring(CSS[['css.arc']],1,1)=='+', paste0(css.arc, substring(CSS[['css.arc']],2)), CSS[['css.arc']])
+    if (!is.null(CSS[['css.table']])) css.table <- ifelse(substring(CSS[['css.table']], 1, 1) == '+', paste0(css.table, substring(CSS[['css.table']], 2)), CSS[['css.table']])
+    if (!is.null(CSS[['css.thead']])) css.thead <- ifelse(substring(CSS[['css.thead']], 1, 1) == '+', paste0(css.thead, substring(CSS[['css.thead']], 2)), CSS[['css.thead']])
+    if (!is.null(CSS[['css.tdata']])) css.tdata <- ifelse(substring(CSS[['css.tdata']], 1, 1) == '+', paste0(css.tdata, substring(CSS[['css.tdata']], 2)), CSS[['css.tdata']])
+    if (!is.null(CSS[['css.arc']])) css.arc <- ifelse(substring(CSS[['css.arc']], 1, 1) == '+', paste0(css.arc, substring(CSS[['css.arc']], 2)), CSS[['css.arc']])
   }
   # -------------------------------------
   # set style sheet
@@ -177,7 +178,7 @@ view_spss <- function (df,
   # -------------------------------------
   # create progress bar
   # -------------------------------------
-  if (!hideProgressBar) pb <- txtProgressBar(min=0, max=rowcnt, style=3)
+  if (!hideProgressBar) pb <- txtProgressBar(min = 0, max = rowcnt, style = 3)
   # -------------------------------------
   # subsequent rows
   # -------------------------------------
@@ -279,7 +280,7 @@ view_spss <- function (df,
   # -------------------------------------
   # finish html page
   # -------------------------------------
-  page.content <- paste(page.content, "</table>", sep="\n")
+  page.content <- paste(page.content, "</table>", sep = "\n")
   toWrite <- paste0(toWrite, sprintf("%s\n</body></html>", page.content))
   # -------------------------------------
   # replace class attributes with inline style,
@@ -314,9 +315,9 @@ view_spss <- function (df,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = "sjiviewspss",
-                       list(page.style = page.style,
-                            page.content = page.content,
-                            output.complete = toWrite,
-                            knitr = knitr)))
+  invisible(structure(class = "sjiviewspss",
+                      list(page.style = page.style,
+                           page.content = page.content,
+                           output.complete = toWrite,
+                           knitr = knitr)))
 }

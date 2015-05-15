@@ -63,8 +63,8 @@ of same length as groups defined in \code{varGroup}, or a specific color palette
   \item If not specified, the diverging \code{"Paired"} color brewer palette will be used.
   \item If \code{"gs"}, a greyscale will be used.
   \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
-}
-Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000", "#00ff00", "#0080ff")}).}
+  \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
+}}
 
 \item{hideLegend}{Indicates whether legend (guide) should be shown or not.}
 
@@ -78,11 +78,11 @@ Use \code{NULL} to automatically detect variable names that will be used as titl
 
 \item{legendTitle}{Title of the diagram's legend.}
 
-\item{axisLabels.x}{Labels for the x-axis breaks. Passed as vector of strings. \emph{Note:} This parameter
+\item{axisLabels.x}{Labels for the x-axis breaks. Passed as vector of strings. \strong{Note:} This parameter
 is not necessary when data was either imported with \code{\link[sjmisc]{read_spss}} or has named factor levels
 (see examples below). Else, specifiy parameter like this:
-\code{axisLabels.x=c("Label1", "Label2", "Label3")}.
-Note: If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
+\code{axisLabels.x=c("Label1", "Label2", "Label3")}. \cr
+\strong{Note:} If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
 list object with label string. The labels may also be passed as list object. They will be coerced
 to character vector automatically.}
 
@@ -230,7 +230,6 @@ efc.var <- get_var_labels(efc)
 sjp.grpfrq(efc$e17age,
            efc$e16sex,
            title = efc.var['e17age'],
-           legendTitle = efc.var['e16sex'],
            type = "hist",
            showValueLabels = FALSE,
            showMeanIntercept = TRUE)
@@ -243,8 +242,6 @@ sjp.grpfrq(efc$e17age,
 # -------------------------------------------------
 # auto-detection of value labels and variable names
 # -------------------------------------------------
-efc.var <- get_var_labels(efc)
-efc <- set_var_labels(efc, efc.var)
 # grouped bars using necessary y-limit
 sjp.grpfrq(efc$e42dep,
            efc$e16sex,

@@ -113,25 +113,25 @@
 #'                   css.arc = "color:blue;"))}
 #'
 #' @export
-sjt.df <- function (mydf,
-                    describe=TRUE,
-                    file=NULL,
-                    alternateRowColors=FALSE,
-                    orderColumn=NULL,
-                    orderAscending=TRUE,
-                    title=NULL,
-                    repeatHeader=FALSE,
-                    stringVariable="Variable",
-                    showType=FALSE,
-                    showRowNames=TRUE,
-                    showCommentRow=FALSE,
-                    commentString="No comment...",
-                    hideProgressBar=FALSE,
-                    encoding=NULL,
-                    CSS=NULL,
-                    useViewer=TRUE,
-                    no.output=FALSE,
-                    remove.spaces=TRUE) {
+sjt.df <- function(mydf,
+                   describe = TRUE,
+                   file = NULL,
+                   alternateRowColors = FALSE,
+                   orderColumn = NULL,
+                   orderAscending = TRUE,
+                   title = NULL,
+                   repeatHeader = FALSE,
+                   stringVariable = "Variable",
+                   showType = FALSE,
+                   showRowNames = TRUE,
+                   showCommentRow = FALSE,
+                   commentString = "No comment...",
+                   hideProgressBar = FALSE,
+                   encoding = NULL,
+                   CSS = NULL,
+                   useViewer = TRUE,
+                   no.output = FALSE,
+                   remove.spaces = TRUE) {
   # check encoding
   encoding <- get.encoding(encoding)
   # -------------------------------------
@@ -264,7 +264,7 @@ sjt.df <- function (mydf,
     else if (is.double(x)) vt <- c("numeric-double")
     else if (is.numeric(x)) vt <- c("numeric")
     else if (is.atomic(x)) vt <- c("atomic")
-    return (vt)
+    return(vt)
   }
   # -------------------------------------
   # header row
@@ -274,7 +274,7 @@ sjt.df <- function (mydf,
   if (showRowNames) page.content <- paste0(page.content, sprintf("    <th class=\"thead firsttablerow firsttablecol\">%s</th>\n", stringVariable))
   for (i in 1:colcnt) {
     # check variable type
-    vartype <- get.vartype(mydf[, i])
+    vartype <- get.vartype(mydf[[i]])
     # column names and variable as table headline
     page.content <- paste0(page.content, sprintf("    <th class=\"thead firsttablerow\">%s", cnames[i]))
     if (showType) page.content <- paste0(page.content, sprintf("<br>(%s)", vartype))
@@ -316,7 +316,7 @@ sjt.df <- function (mydf,
     if (showRowNames) page.content <- paste0(page.content, sprintf("    <th class=\"thead lasttablerow firsttablecol\">%s</th>\n", stringVariable))
     for (i in 1:colcnt) {
       # check variable type
-      vartype <- get.vartype(mydf[, i])
+      vartype <- get.vartype(mydf[[i]])
       # column names and variable as table headline
       page.content <- paste0(page.content, sprintf("    <th class=\"thead lasttablerow\">%s", cnames[i]))
       if (showType) page.content <- paste0(page.content, sprintf("<br>(%s)", vartype))

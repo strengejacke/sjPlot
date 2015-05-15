@@ -180,7 +180,7 @@ sjt.itemanalysis <- function(df,
   varlabels <- c()
   for (i in 1:ncol(df)) {
     # retrieve variable name attribute
-    vn <- sjmisc:::autoSetVariableLabels(df[, i])
+    vn <- sjmisc:::autoSetVariableLabels(df[[i]])
     # if variable has attribute, add to variableLabel list
     if (!is.null(vn)) {
       varlabels <- c(varlabels, vn)

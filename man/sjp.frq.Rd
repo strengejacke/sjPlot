@@ -25,7 +25,7 @@ sjp.frq(varCount, title = "", weightBy = NULL, weightByTitleString = NULL,
 \arguments{
 \item{varCount}{The variable which frequencies should be plotted.}
 
-\item{title}{Title of diagram as string. Example: \code{title=c("my title")}.
+\item{title}{Title of diagram as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
 (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
@@ -45,25 +45,24 @@ Default is \code{"none"}, so categories are not sorted by frequency. Use \code{"
 \code{"desc"} for sorting categories ascending or descending in relation to the frequencies.}
 
 \item{type}{Specifies the type of distribution plot that will be plotted.
-\itemize{
-  \item \code{"bar"}, \code{"bars"} or \code{"b"} for simple bars (the default setting).
-  \item \code{"dots"} or \code{"dot"} for a dot plot.
-  \item \code{"h"}, \code{"hist"} or \code{"histogram"} for a histogram.
-  \item \code{"line"}, \code{"lines"} or \code{"l"} for a histogram with filled area with line.
-  \item \code{"dens"}, \code{"d"} or \code{"density"} for a density plot.
-  \item \code{"box"}, \code{"boxplot"} or \code{"boxplots"} for box plots.
-  \item \code{"v"} or \code{"violin"} for violin plots.
+\describe{
+  \item{\code{"bar"}}{or \code{"bars"} or \code{"b"} for simple bars (the default setting)}
+  \item{\code{"dots"}}{or \code{"dot"} for a dot plot}
+  \item{\code{"h"}}{or \code{"hist"} or \code{"histogram"} for a histogram}
+  \item{\code{"line"}}{or \code{"lines"} or \code{"l"} for a histogram with filled area with line}
+  \item{\code{"dens"}}{or \code{"d"} or \code{"density"} for a density plot}
+  \item{\code{"box"}}{or \code{"boxplot"} or \code{"boxplots"} for box plots}
+  \item{\code{"v"}}{or \code{"violin"} for violin plots}
   }}
 
-\item{geom.size}{The size of the geoms, depending on the \code{type} of the plot. Note that
-bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type} is
-\code{"dots"}).}
+\item{geom.size}{size of geoms, depending on the plot \code{type}. Note that
+bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).}
 
-\item{geom.colors}{User defined color for geoms, e.g. \code{geom.colors="#0080ff"}.}
+\item{geom.colors}{user defined color for geoms, e.g. \code{geom.colors = "#0080ff"}.}
 
 \item{axisLabels.x}{Labels for the x-axis breaks.
-Example: \code{axisLabels.x=c("Label1", "Label2", "Label3")}.
-Note: If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
+Example: \code{axisLabels.x = c("Label1", "Label2", "Label3")}.
+\strong{Note:} If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
 list object with label string. The labels may also be passed as list object. They will be coerced
 to character vector automatically.}
 
@@ -86,7 +85,7 @@ one line and when a line break is inserted into the axis labels.}
 grid is being printed.}
 
 \item{innerBoxPlotWidth}{The width of the inner box plot that is plotted inside of violin plots. Only applies
-if \code{type} is \code{"violin"}. Default value is 0.15}
+if \code{type = "violin"}. Default value is 0.15}
 
 \item{innerBoxPlotDotSize}{Size of mean dot insie a violin plot. Applies only when \code{type} is set to \code{"violin"} or \code{"box"}.}
 
@@ -102,9 +101,9 @@ count values are removed.}
 \item{showPercentageValues}{If \code{TRUE} (default), percentage values are be plotted to each bar, if \code{FALSE},
 percentage-values are removed.}
 
-\item{showAxisLabels.x}{Whether x axis labels (category names) should be shown or not.}
+\item{showAxisLabels.x}{Whether x-axis labels (category names) should be shown or not.}
 
-\item{showAxisLabels.y}{Whether y axis labels (count values) should be shown or not.}
+\item{showAxisLabels.y}{Whether y-axis labels (count values) should be shown or not.}
 
 \item{showCI}{logical, whether or not confidence intervals should be plotted. Only applies to \code{type = "dots"}
 or \code{type = "bars"}.}
@@ -149,14 +148,14 @@ applies if \code{showNormalCurve} is \code{TRUE}.}
 \item{normalCurveAlpha}{Specify the transparancy (alpha value) of the normal curve. Only
 applies if \code{showNormalCurve} is \code{TRUE}.}
 
-\item{axisTitle.x}{A label for the x axis. useful when plotting histograms with metric scales where no category labels
-are assigned to the x axis. By default, \code{""} is used, i.e. no title
+\item{axisTitle.x}{label for the x-axis. useful when plotting histograms with metric scales where no category labels
+are assigned to the x-axis. By default, \code{""} is used, i.e. no title
 is printed.
 Use \code{NULL} to automatically detect variable names that will be used as title
 (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
-\item{axisTitle.y}{A label for the y axis. useful when plotting histograms with metric scales where no category labels
-are assigned to the y axis. By default, \code{""} is used, i.e. no title
+\item{axisTitle.y}{label for the y-axis. useful when plotting histograms with metric scales where no category labels
+are assigned to the y-axis. By default, \code{""} is used, i.e. no title
 is printed.
 Use \code{NULL} to automatically detect variable names that will be used as title
 (see \code{\link[sjmisc]{set_var_labels}}) for details).}
@@ -174,10 +173,10 @@ to adjust the \code{geom.size} parameter for better visual results (which, by gg
 1/30 of the x-axis-range).}
 
 \item{autoGroupAt}{A value indicating at which length of unique values of \code{varCount} the variable
-is automatically grouped into smaller units (see \code{group_var}). If \code{varCount} has large
+is automatically grouped into smaller units (see \code{\link[sjmisc]{group_var}}). If \code{varCount} has large
 numbers of unique values, too many bars for the graph have to be plotted. Hence it's recommended
 to group such variables. For example, if \code{autoGroupAt} is 50, i.e. if \code{varCount} has 50 and more unique values
-it will be grouped using \code{group_var} with \code{groupsize="auto"} parameter. By default,
+it will be grouped using \code{group_var} with \code{groupsize = "auto"} parameter. By default,
 the maximum group count is 30. However, if \code{autoGroupAt} is less than 30, \code{autoGroupAt}
 groups are built. Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.}
 
@@ -209,21 +208,21 @@ This function only works with variables with integer values, i.e. scales / centr
 # ---------------
 # boxplot
 # ---------------
-sjp.frq(ChickWeight$weight, type="box")
+sjp.frq(ChickWeight$weight, type = "box")
 
 # ---------------
 # histogram
 # ---------------
-sjp.frq(discoveries, type="hist", showMeanIntercept=TRUE)
+sjp.frq(discoveries, type = "hist", showMeanIntercept = TRUE)
 # histogram with minimal theme and w/o labels
-sjp.frq(discoveries, type="hist",
-        showMeanIntercept=TRUE,
-        showValueLabels=FALSE)
+sjp.frq(discoveries, type = "hist",
+        showMeanIntercept = TRUE,
+        showValueLabels = FALSE)
 
 # ---------------
 # violin plot
 # ---------------
-sjp.frq(ChickWeight$weight, type="v")
+sjp.frq(ChickWeight$weight, type = "v")
 
 # ---------------
 # bar plot
@@ -233,7 +232,7 @@ sjp.frq(ChickWeight$Diet)
 # ---------------
 # bar plot with EUROFAMCARE sample dataset
 # dataset was importet from an SPSS-file, using:
-# efc <- read_spss("efc.sav", enc="UTF-8")
+# efc <- sjmisc::read_spss("efc.sav", enc = "UTF-8")
 # ---------------
 library(sjmisc)
 data(efc)
@@ -241,36 +240,36 @@ efc.val <- get_val_labels(efc)
 efc.var <- get_var_labels(efc)
 # you may use sjp.setTheme here to change axis textangle
 sjp.frq(as.factor(efc$e15relat),
-        title=efc.var[['e15relat']],
-        axisLabels.x=efc.val['e15relat'])
+        title = efc.var[['e15relat']],
+        axisLabels.x = efc.val['e15relat'])
 
 # bar plot with EUROFAMCARE sample dataset
 # grouped variable
 ageGrp <- group_var(efc$e17age)
 ageGrpLab <- group_labels(efc$e17age)
 sjp.frq(ageGrp,
-        title=efc.var[['e17age']],
-        axisLabels.x=ageGrpLab)
+        title = efc.var[['e17age']],
+        axisLabels.x = ageGrpLab)
 
 # ---------------
 # box plots with interaction variable
 # the following example is equal to the function call
-# sjp.grpfrq(efc$e17age, efc$e16sex, type="box")
+# sjp.grpfrq(efc$e17age, efc$e16sex, type = "box")
 # ---------------
 sjp.frq(efc$e17age,
-        title=paste(efc.var[['e17age']], "by", efc.var[['e16sex']]),
-        interactionVar=efc$e16sex,
-        interactionVarLabels=efc.val['e16sex'],
-        type="box")
+        title = paste(efc.var[['e17age']],
+                      "by",
+                      efc.var[['e16sex']]),
+        interactionVar = efc$e16sex,
+        interactionVarLabels = efc.val['e16sex'],
+        type = "box")
 
 # -------------------------------------------------
 # auto-detection of value labels and variable names
 # -------------------------------------------------
-efc <- set_var_labels(efc, get_var_labels(efc))
-
 # negative impact scale, ranging from 7-28, assuming that
 # variable scale (lowest value) starts with 1
-sjp.frq(efc$neg_c_7, startAxisAt=1)
+sjp.frq(efc$neg_c_7, startAxisAt = 1)
 
 # negative impact scale, ranging from 7-28, using
 # automatic detection of start index of x-axis

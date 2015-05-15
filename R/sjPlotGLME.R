@@ -2,7 +2,7 @@
 if (getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "pred", "prob", "p", "CSS", "useViewer", "no.output"))
 
 
-#' @title Plot odds ratios (forest plots) of generalized linear mixed effects models
+#' @title Plot odds ratios or predicted probabilities of generalized linear mixed effects models
 #' @name sjp.glmer
 #'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.glmer/}{sjPlot manual: sjp.glmer}
@@ -14,14 +14,14 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "f
 #'
 #' @param fit a fitted \code{glmer} object.
 #' @param type type of plot. Use one of following:
-#'          \itemize{
-#'            \item \code{"re"} (default) for odds ratios of random effects
-#'            \item \code{"fe"} for odds ratios of fixed effects
-#'            \item \code{"fe.cor"} for correlation matrix of fixed effects
-#'            \item \code{"re.qq"} for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)
-#'            \item \code{"fe.pc"} or \code{"fe.prob"} to plot probability curves (predicted probabilities) of all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
-#'            \item \code{"ri.pc"} or \code{"ri.prob"} to plot probability curves (predicted probabilities) of random intercept variances for all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.
-#'            \item \code{"y.pc"} or \code{"y.prob"} to plot predicted probabilities for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot.
+#'          \describe{
+#'            \item{\code{"re"}}{(default) for odds ratios of random effects}
+#'            \item{\code{"fe"}}{for odds ratios of fixed effects}
+#'            \item{\code{"fe.cor"}}{for correlation matrix of fixed effects}
+#'            \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
+#'            \item{\code{"fe.pc"}}{or \code{"fe.prob"} to plot probability curves (predicted probabilities) of all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
+#'            \item{\code{"ri.pc"}}{or \code{"ri.prob"} to plot probability curves (predicted probabilities) of random intercept variances for all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
+#'            \item{\code{"y.pc"}}{or \code{"y.prob"} to plot predicted probabilities for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot.}
 #'          }
 #' @param vars a numeric vector with column indices of selected variables or a character vector with
 #'          variable names of selected variables from the fitted model, which should be used to plot probability
@@ -47,8 +47,8 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "f
 #'            \item If not specified, the diverging \code{"Set1"} color brewer palette will be used.
 #'            \item If \code{"gs"}, a greyscale will be used.
 #'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
+#'            \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
 #'          }
-#'          Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000", "#00ff00")}).
 #' @param geom.size size of geoms (point size).
 #' @param hideErrorBars If \code{TRUE}, the error bars that indicate the confidence intervals of the odds ratios are not
 #'          shown.
@@ -126,11 +126,11 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "f
 #' efc$grp = as.factor(efc$e15relat)
 #' levels(x = efc$grp) <- get_val_labels(efc$e15relat)
 #' # data frame for fitted model
-#' mydf <- na.omit(data.frame(hi_qol = as.factor(efc$hi_qol),
-#'                            sex = as.factor(efc$c161sex),
-#'                            c12hour = as.numeric(efc$c12hour),
-#'                            neg_c_7 = as.numeric(efc$neg_c_7),
-#'                            grp = efc$grp))
+#' mydf <- data.frame(hi_qol = as.factor(efc$hi_qol),
+#'                    sex = as.factor(efc$c161sex),
+#'                    c12hour = as.numeric(efc$c12hour),
+#'                    neg_c_7 = as.numeric(efc$neg_c_7),
+#'                    grp = efc$grp)
 #' # fit glmer
 #' fit <- glmer(hi_qol ~ sex + c12hour + neg_c_7 + (1|grp),
 #'              data = mydf,
@@ -238,7 +238,7 @@ sjp.glmer <- function(fit,
 }
 
 
-#' @title Plot estimates (forest plots) of linear mixed effects models
+#' @title Plot estimates or predicted values of linear mixed effects models
 #' @name sjp.lmer
 #'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.lmer/}{sjPlot manual: sjp.lmer}
@@ -250,15 +250,15 @@ sjp.glmer <- function(fit,
 #'
 #' @param fit a fitted \code{lmer} object.
 #' @param type type of plot. Use one of following:
-#'          \itemize{
-#'            \item \code{"re"} (default) for estimates of random effects
-#'            \item \code{"fe"} for estimates of fixed effects
-#'            \item \code{"fe.std"} for standardized estimates of fixed effects
-#'            \item \code{"fe.pred"} for regression lines (slopes) with confidence intervals for each single fixed effect are plotted, i.e. all fixed effects are extracted and each is plotted against the response variable.
-#'            \item \code{"fe.cor"} for correlation matrix of fixed effects
-#'            \item \code{"re.qq"} for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)
-#'            \item \code{"fe.ri"} for fixed effects slopes depending on the random intercept.
-#'            \item \code{"resp"} to plot predicted values for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot.
+#'          \describe{
+#'            \item{\code{"re"}}{(default) for estimates of random effects}
+#'            \item{\code{"fe"}}{for estimates of fixed effects}
+#'            \item{\code{"fe.std"}}{for standardized estimates of fixed effects}
+#'            \item{\code{"fe.pred"}}{for regression lines (slopes) with confidence intervals for each single fixed effect are plotted, i.e. all fixed effects are extracted and each is plotted against the response variable.}
+#'            \item{\code{"fe.cor"}}{for correlation matrix of fixed effects}
+#'            \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
+#'            \item{\code{"fe.ri"}}{for fixed effects slopes depending on the random intercept.}
+#'            \item{\code{"resp"}}{to plot predicted values for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot.}
 #'          }
 #' @param vars a numeric vector with column indices of selected variables or a character vector with
 #'          variable names of selected variables from the fitted model, which should be used to plot
@@ -548,10 +548,10 @@ sjp.lme4  <- function(fit,
         # any valid indices left?
         # ---------------------------------------
         if (length(ri.nr) == 0) {
-          warning("All indices specified in 'ri.nr' were larger than amount of random intercepts in model. Please use valid range for 'ri.nr'.", call. = F)
+          warning("All indices specified in 'ri.nr' were greater than amount of random intercepts in model. Please use valid range for 'ri.nr'.", call. = F)
           return(invisible(NULL))
         } else {
-          message("One or more indices specified in 'ri.nr' were larger than amount of random intercepts in model. These indices have been removed from 'ri.nr'.")
+          message("One or more indices specified in 'ri.nr' were greater than amount of random intercepts in model. These indices have been removed from 'ri.nr'.")
         }
       }
       # ---------------------------------------

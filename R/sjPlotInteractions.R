@@ -139,7 +139,7 @@
 #'           as well as the data frame that were used for setting up the ggplot-objects (\code{df.list}).
 #'
 #' @details \describe{
-#'            \item{type = "cond"}{plots the effective \emph{change} or \emph{impact} 
+#'            \item{\code{type = "cond"}}{plots the effective \emph{change} or \emph{impact} 
 #'              (conditional effect) on a dependent variable of a moderation effect, as 
 #'              described in \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin},
 #'              i.e. the difference of the moderation effect on the dependent variable in \emph{presence}
@@ -151,14 +151,14 @@
 #'              \code{type = "eff"} for effect displays similar to the \code{\link[effects]{effect}} function 
 #'              from the effects-package.
 #'            }
-#'            \item{type = "eff}{plots the overall effects of the interaction, with all remaining
+#'            \item{\code{type = "eff"}}{plots the overall effects of the interaction, with all remaining
 #'              covariates set to the mean. Effects are calculated using the \code{\link[effects]{effect}}-
 #'              function from the \code{effects}-package. \cr \cr
 #'              Following parameters \emph{do not} apply to this function: \code{diff}, \code{axisLabels.x}
 #'              \code{interceptLineColor}, \code{estLineColor}, \code{lineLabelSize}, \code{lineLabelColor} 
 #'              and \code{lineLabelString}.
 #'            }
-#'            \item{type = "emm"}{plots the estimated marginal means of Two-Way Repeated Measures AN(C)OVA,
+#'            \item{\code{type = "emm"}}{plots the estimated marginal means of Two-Way Repeated Measures AN(C)OVA,
 #'              which was the former \code{sjp.emm.int} function. This plot type plots estimated marginal means 
 #'              (also called \emph{least square means} or \emph{marginal means}) of (significant) interaction terms 
 #'              in two-way repeated measure ANOVA or ANCOVA. The fitted models may be linear (mixed effects) 

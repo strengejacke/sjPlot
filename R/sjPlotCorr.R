@@ -80,16 +80,15 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
 #'
 #' # create data frame
 #' vars.index <- c(1, 4, 15, 19, 20, 21, 22, 24, 25)
-#' df <- as.data.frame(efc[, vars.index])
+#' df <- data.frame(efc[, vars.index])
 #' colnames(df) <- varlabs[vars.index]
 #'
 #' # show legend
-#' sjp.corr(df, type="tile", hideLegend=FALSE)
+#' sjp.corr(df, type = "tile", hideLegend = FALSE)
 #'
 #' # -------------------------------
 #' # auto-detection of labels
 #' # -------------------------------
-#' efc <- set_var_labels(efc, varlabs)
 #' # blank theme
 #' sjp.setTheme(theme = "blank", axis.angle.x = 90)
 #' sjp.corr(efc[, vars.index])
@@ -124,8 +123,7 @@ sjp.corr <- function(data,
   opt <- getOption("p_zero")
   if (is.null(opt) || opt == FALSE) {
     p_zero <- ""
-  }
-  else {
+  } else {
     p_zero <- "0"
   }
   # --------------------------------------------------------
@@ -136,7 +134,7 @@ sjp.corr <- function(data,
     # if yes, iterate each variable
     for (i in 1:ncol(data)) {
       # retrieve variable name attribute
-      vn <- sjmisc:::autoSetVariableLabels(data[, i])
+      vn <- sjmisc:::autoSetVariableLabels(data[[i]])
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         axisLabels <- c(axisLabels, vn)
@@ -151,36 +149,35 @@ sjp.corr <- function(data,
   # set color palette
   # ----------------------------
   if (is.brewer.pal(geom.colors[1])) {
-    geom.colors <- scales::brewer_pal(palette=geom.colors[1])(5)
+    geom.colors <- scales::brewer_pal(palette = geom.colors[1])(5)
   } else if (geom.colors[1] == "gs") {
     geom.colors <- scales::grey_pal()(5)
   }
   # ----------------------------
   # check for valid parameter
   # ----------------------------
-  if (corMethod!="pearson" && corMethod!="spearman" && corMethod!= "kendall") {
+  if (corMethod != "pearson" && corMethod != "spearman" && corMethod != "kendall") {
     warning("Parameter 'corMethod' must be one of: pearson, spearman or kendall.", call. = F)
-    return (invisible (NULL))
+    return(invisible(NULL))
   }
   # ----------------------------
   # check if user has passed a data frame
   # or a pca object
   # ----------------------------
-  if (class(data)=="matrix") {
+  if (any(class(data)) == "matrix") {
     corr <- data
     cpvalues <- NULL
-  }
-  else {
+  } else {
     # missing deletion corresponds to
     # SPSS listwise
-    if (missingDeletion=="listwise") {
+    if (missingDeletion == "listwise") {
       data <- na.omit(data)
-      corr <- cor(data, method=corMethod)
+      corr <- cor(data, method = corMethod)
     }
     # missing deletion corresponds to
     # SPSS pairwise
     else {
-      corr <- cor(data, method=corMethod, use="pairwise.complete.obs")
+      corr <- cor(data, method = corMethod, use = "pairwise.complete.obs")
     }
     #---------------------------------------
     # if we have a data frame as parameter,
@@ -191,12 +188,15 @@ sjp.corr <- function(data,
       for (i in 1:ncol(df)) {
         pv <- c()
         for (j in 1:ncol(df)) {
-          test <- cor.test(df[, i], df[, j], alternative = "two.sided", method = corMethod)
+          test <- cor.test(df[[i]], 
+                           df[[j]], 
+                           alternative = "two.sided", 
+                           method = corMethod)
           pv <- cbind(pv, round(test$p.value, 4))
         }
         cp <- rbind(cp, pv)
       }
-      return (cp)
+      return(cp)
     }
     cpvalues <- computePValues(data)
   }
@@ -204,15 +204,11 @@ sjp.corr <- function(data,
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
   # ----------------------------
-  if (is.null(axisLabels)) {
-    axisLabels <- row.names(corr)
-  }
+  if (is.null(axisLabels)) axisLabels <- row.names(corr)
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
-  if (!is.null(axisLabels) && is.list(axisLabels)) {
-    axisLabels <- unlistlabels(axisLabels)
-  }
+  if (!is.null(axisLabels) && is.list(axisLabels)) axisLabels <- unlistlabels(axisLabels)
   # ----------------------------
   # Prepare length of title and labels
   # ----------------------------
@@ -224,20 +220,17 @@ sjp.corr <- function(data,
   # order correlations from highest to lowest correlation coefficient
   # --------------------------------------------------------
   if (sortCorrelations) {
-    neword <- order(corr[1,])
+    neword <- order(corr[1, ])
     orderedCorr <- corr[neword, neword]
     # order variable labels as well
     axisLabels <- axisLabels[neword]
     if (!is.null(cpvalues)) {
       cpvalues <- cpvalues[neword, neword]
     }
-  }
-  else {
+  } else {
     orderedCorr <- rev(corr)
     axisLabels <- rev(axisLabels)
-    if (!is.null(cpvalues)) {
-      cpvalues <- rev(cpvalues)
-    }
+    if (!is.null(cpvalues)) cpvalues <- rev(cpvalues)
   }
   # --------------------------------------------------------
   # prepare a ordering-index-column needed for the data frame
@@ -252,17 +245,26 @@ sjp.corr <- function(data,
   # --------------------------------------------------------
   # first, save original matrix for return value
   oricor <- orderedCorr
-  orderedCorr <- tidyr::gather(data.frame(orderedCorr), "var", "value", 1:ncol(orderedCorr))
+  orderedCorr <- tidyr::gather(data.frame(orderedCorr), 
+                               "var", 
+                               "value", 
+                               1:ncol(orderedCorr))
   # orderedCorr <- melt(orderedCorr)
-  if (!is.null(cpvalues)) cpvalues <- tidyr::gather(data.frame(cpvalues), "var", "value", 1:ncol(cpvalues))
+  if (!is.null(cpvalues)) cpvalues <- tidyr::gather(data.frame(cpvalues), 
+                                                    "var", 
+                                                    "value", 
+                                                    1:ncol(cpvalues))
   # if (!is.null(cpvalues)) cpvalues <- melt(cpvalues)
   # bind additional information like order for x- and y-axis
   # as well as the size of plotted points
-  orderedCorr <- cbind(orderedCorr, ordx=c(1:nrow(corr)), ordy=yo, psize=c(exp(abs(orderedCorr$value))*geom.size))
+  orderedCorr <- cbind(orderedCorr, 
+                       ordx = c(1:nrow(corr)), 
+                       ordy = yo, 
+                       psize = c(exp(abs(orderedCorr$value)) * geom.size))
   # diagonal circles should be hidden, set their point size to 0
-  orderedCorr$psize[which(orderedCorr$value>=0.999)] <- 0
+  orderedCorr$psize[which(orderedCorr$value >= 0.999)] <- 0
   # remove lower trianglwe of geoms
-  orderedCorr$psize[which(orderedCorr$ordx>orderedCorr$ordy)]  <- NA
+  orderedCorr$psize[which(orderedCorr$ordx > orderedCorr$ordy)]  <- NA
 
   orderedCorr$ordx <- as.factor(orderedCorr$ordx)
   orderedCorr$ordy <- as.factor(orderedCorr$ordy)
@@ -279,13 +281,14 @@ sjp.corr <- function(data,
         else if (cva >= 0.001 && cva < 0.01) cpv <- c(cpv, "**")
         else if (cva < 0.001) cpv <- c(cpv, "***")
       }
-    }
-    else {
+    } else {
       cpv <- cpvalues$value
-      cpv <- sapply(cpv, function (x) if (x < 0.001) x <- sprintf("\n(< %s.001)", p_zero) else x <- sub("0", p_zero, sprintf("\n(%.*f)", decimals, x)))
+      cpv <- sapply(cpv, function(x) if (x < 0.001) 
+                                       x <- sprintf("\n(< %s.001)", p_zero) 
+                                     else 
+                                       x <- sub("0", p_zero, sprintf("\n(%.*f)", decimals, x)))
     }
-  }
-  else {
+  } else {
     cpv <- c("")
   }
   orderedCorr$ps <- cpv
@@ -295,13 +298,11 @@ sjp.corr <- function(data,
   if (!showCorrelationValueLabels) {
     correlationValueLabels <- c("")
     correlationPValues <- c("")
-  }
-  else {
-    correlationValueLabels <- ifelse (is.na(orderedCorr$psize), sprintf("%.*f", decimals, orderedCorr$value), "")
+  } else {
+    correlationValueLabels <- ifelse(is.na(orderedCorr$psize), sprintf("%.*f", decimals, orderedCorr$value), "")
     if (showCorrelationPValues) {
-      correlationPValues <- ifelse (is.na(orderedCorr$psize), orderedCorr$ps, "")
-    }
-    else {
+      correlationPValues <- ifelse(is.na(orderedCorr$psize), orderedCorr$ps, "")
+    } else {
       correlationPValues <- c("")
     }
   }
@@ -309,40 +310,36 @@ sjp.corr <- function(data,
   # --------------------------------------------------------
   # start with base plot object here
   # --------------------------------------------------------
-  corrPlot <- ggplot(data=orderedCorr, aes(x=ordx, y=ordy, fill=value, colour = value))
+  corrPlot <- ggplot(data = orderedCorr, aes(x = ordx, y = ordy, fill = value, colour = value))
   # corrPlot <- ggplot(data=orderedCorr, aes(x=ordx, y=ordy, fill=value))
   # --------------------------------------------------------
   # determine the geom type, either points when "type" is "circles"
   # --------------------------------------------------------
-  if (type=="circle") {
+  if (type == "circle") {
     corrPlot <- corrPlot +
-      geom_point(shape=21, size=orderedCorr$psize, color = "black")
+      geom_point(shape = 21, size = orderedCorr$psize, color = "black")
   }
   # --------------------------------------------------------
   # or boxes / tiles when "type" is "tile"
   # --------------------------------------------------------
   else {
-    corrPlot <- corrPlot +
-      geom_tile()
+    corrPlot <- corrPlot + geom_tile()
   }
   # fill gradient colour from distinct color brewer palette. negative correlations are dark
   # red, positive corr. are dark blue, and they become lighter the closer they are to a
   # correlation coefficient of zero
   corrPlot <- corrPlot +
-    scale_x_discrete(labels=axisLabels) +
-    scale_y_discrete(labels=axisLabels) +
+    scale_x_discrete(labels = axisLabels) +
+    scale_y_discrete(labels = axisLabels) +
     # set limits to (-1,1) to make sure the whole color palette is used
     scale_fill_gradientn(colours = geom.colors, limits = c(-1,1)) +
     scale_colour_gradient2(low = "#ca0020", mid = "grey40", high = "#0571b0", limits = c(-1,1)) +
-    geom_text(label=sprintf("%s%s", correlationValueLabels, correlationPValues)) +
-    labs(title=title, x=NULL, y=NULL, fill=legendTitle)
+    geom_text(label = sprintf("%s%s", correlationValueLabels, correlationPValues)) +
+    labs(title = title, x = NULL, y = NULL, fill = legendTitle)
   if (hideLegend) {
-    corrPlot <- corrPlot +
-      guides(fill = FALSE, colour = FALSE)
-  }
-  else {
-    corrPlot <- corrPlot +
-      guides(colour = FALSE)
+    corrPlot <- corrPlot + guides(fill = FALSE, colour = FALSE)
+  } else {
+    corrPlot <- corrPlot + guides(colour = FALSE)
   }
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
@@ -351,8 +348,8 @@ sjp.corr <- function(data,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = "sjpcorr",
-                       list(plot = corrPlot,
-                            df = orderedCorr,
-                            corr.matrix = oricor)))
+  invisible(structure(class = "sjpcorr",
+                      list(plot = corrPlot,
+                           df = orderedCorr,
+                           corr.matrix = oricor)))
 }

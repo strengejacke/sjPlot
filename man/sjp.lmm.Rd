@@ -21,7 +21,7 @@ sjp.lmm(..., title = NULL, labelDependentVariables = NULL,
 fitted models, instead of separating each model with comma. See examples.}
 
 \item{title}{Diagram's title as string.
-Example: \code{title=c("my title")}}
+Example: \code{title = "my title"}}
 
 \item{labelDependentVariables}{Labels of the dependent variables of all fitted models
 which have been used as first parameter(s), provided as char vector.}
@@ -38,8 +38,8 @@ Default is \code{"Model"}.}
 
 \item{axisLabels.y}{Labels of the predictor variables (independent vars, betas) that are used for labelling the
 axis. Passed as vector of strings.
-Example: \code{axisLabels.y=c("Label1", "Label2", "Label3")}
-Note: If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
+Example: \code{axisLabels.y = c("Label1", "Label2", "Label3")} \cr
+\strong{Note:} If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
 \code{list} object with label strings. The labels may also be passed as list object. They will be coerced
 to character vector automatically.}
 
@@ -75,8 +75,8 @@ You can use:
   \item If not specified, the qualitative \code{"Dark2"} color brewer palette will be used.
   \item If \code{"gs"}, a greyscale will be used.
   \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
-  }
-Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000", "#00ff00", "#0080ff")}).}
+  \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00", "#0080ff")}).
+  }}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 

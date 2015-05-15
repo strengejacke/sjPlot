@@ -177,7 +177,7 @@ sjt.pca <- function (data,
     # if yes, iterate each variable
     for (i in 1:ncol(data)) {
       # retrieve variable name attribute
-      vn <- sjmisc:::autoSetVariableLabels(data[, i])
+      vn <- sjmisc:::autoSetVariableLabels(data[[i]])
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         varlabels <- c(varlabels, vn)

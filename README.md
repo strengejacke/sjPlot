@@ -34,7 +34,7 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of current development snapshot 1.8-7
+### Changelog of current development snapshot 1.8-8
 
 #### General
 * Deprecated function `sjp.emm.int` was removed. Use `sjp.int` with parameter `type = 'emm'` to plot estimated marginal means.

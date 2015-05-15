@@ -28,8 +28,8 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("p.level"))
 #'            \item If not specified, the qualitative \code{"Paired"} color brewer palette will be used.
 #'            \item If \code{"gs"}, a greyscale will be used.
 #'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
+#'            \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
 #'          }
-#'          Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000", "#00ff00")}).
 #' @param geom.alpha specified the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.
 #' 
 #' @examples
@@ -155,8 +155,8 @@ dist_norm <- function(norm = NULL,
 #'            \item If not specified, the qualitative \code{"Paired"} color brewer palette will be used.
 #'            \item If \code{"gs"}, a greyscale will be used.
 #'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
+#'            \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
 #'          }
-#'          Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000", "#00ff00")}).
 #' @param geom.alpha specified the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.
 #' 
 #' @examples
@@ -301,8 +301,8 @@ dist_chisq <- function(chi2 = NULL,
 #'            \item If not specified, the qualitative \code{"Paired"} color brewer palette will be used.
 #'            \item If \code{"gs"}, a greyscale will be used.
 #'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
+#'            \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
 #'          }
-#'          Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000", "#00ff00")}).
 #' @param geom.alpha specified the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.
 #' 
 #' @examples
@@ -433,8 +433,8 @@ dist_f <- function(f = NULL,
 #'            \item If not specified, the qualitative \code{"Paired"} color brewer palette will be used.
 #'            \item If \code{"gs"}, a greyscale will be used.
 #'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
+#'            \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
 #'          }
-#'          Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000", "#00ff00")}).
 #' @param geom.alpha specified the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.
 #' 
 #' @examples

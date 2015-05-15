@@ -24,25 +24,26 @@ Using an SE.factor f, the "f S.E."-rule is used, more generally.}
 k^, is computed from the gap statistics (and their standard deviations),
 or more generally how the location k^ of the maximum of f[k] should be
 determined. Default is \code{"Tibs2001SEmax"}. Possible value are:
-\describe{
-  \item{"globalmax"}{simply corresponds to the global maximum, i.e., is which.max(f).}
-  \item{"firstmax"}{gives the location of the first local maximum.}
-  \item{"Tibs2001SEmax"}{uses the criterion, Tibshirani et al(2001) proposed: "the smallest k such that f(k) >= f(k+1) - s_{k+1}". Note that this chooses k = 1 when all standard deviations are larger than the differences f(k+1) - f(k).}
-  \item{"firstSEmax"}{is the location of the first f() value which is not larger than the first local maximum minus SE.factor * SE.f[], i.e, within an "f S.E." range of that maximum (see also SE.factor).}
-  \item{"globalSEmax"}{(used in Dudoit and Fridlyand (2002), supposedly following Tibshirani's proposition) is the location of the first f() value which is not larger than the global maximum minus SE.factor * SE.f[], i.e, within an "f S.E." range of that maximum (see also SE.factor).}
+\itemize{
+  \item \code{"globalmax"} simply corresponds to the global maximum, i.e., is which.max(f).
+  \item \code{"firstmax"} gives the location of the first local maximum.
+  \item \code{"Tibs2001SEmax"} uses the criterion, Tibshirani et al(2001) proposed: "the smallest k such that f(k) >= f(k+1) - s_{k+1}". Note that this chooses k = 1 when all standard deviations are larger than the differences f(k+1) - f(k).
+  \item \code{"firstSEmax"} is the location of the first f() value which is not larger than the first local maximum minus SE.factor * SE.f[], i.e, within an "f S.E." range of that maximum (see also SE.factor).
+  \item \code{"globalSEmax"} (used in Dudoit and Fridlyand (2002), supposedly following Tibshirani's proposition) is the location of the first f() value which is not larger than the global maximum minus SE.factor * SE.f[], i.e, within an "f S.E." range of that maximum (see also SE.factor).
   }}
 
-\item{plotResults}{If \code{TRUE} (default), a graph visualizing the gap statistic will
+\item{plotResults}{If \code{TRUE} (default), a graph visualiting the gap statistic will
          be plotted. Use \code{FALSE} to omit the plot.}
 }
 \value{
-An object containing the data frame used for plotting, the ggplot object
-          and the number of clusters.
+An object containing the used data frame for plotting, the ggplot object
+          and the number of found cluster.
 }
 \description{
 An implementation of the gap statistic algorithm from Tibshirani, Walther, and Hastie's
                "Estimating the number of clusters in a data set via the gap statistic".
-               This function calls the \code{\link[cluster]{clusGap}} function
+               This function calls the \code{clusGap} function of the
+               \href{http://cran.r-project.org/web/packages/cluster/index.html}{cluster-package}
                to calculate the data for the plot.
 }
 \examples{
@@ -52,7 +53,7 @@ An implementation of the gap statistic algorithm from Tibshirani, Walther, and H
 sjc.kgap(mtcars)
 
 # and in iris dataset
-sjc.kgap(iris[, 1:4])}
+sjc.kgap(iris[,1:4])}
 }
 \references{
 \itemize{

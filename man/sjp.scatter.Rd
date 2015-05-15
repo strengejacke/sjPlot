@@ -116,19 +116,21 @@ library(sjmisc)
 data(efc)
 
 # simple scatter plot, auto-jittering
-sjp.scatter(efc$e16sex,efc$neg_c_7)
+sjp.scatter(efc$e16sex, efc$neg_c_7)
 
 # simple scatter plot, no jittering needed
-sjp.scatter(efc$c160age,efc$e17age)
+sjp.scatter(efc$c160age, efc$e17age)
 
 # grouped scatter plot
-sjp.scatter(efc$c160age,efc$e17age, efc$e42dep)
+sjp.scatter(efc$c160age, efc$e17age, efc$e42dep)
 
 # grouped and jittered scatter plot with marginal rug plot
-sjp.scatter(efc$e16sex,efc$neg_c_7, efc$c172code, showRug=TRUE)
+sjp.scatter(efc$e16sex,efc$neg_c_7, efc$c172code, showRug = TRUE)
 
-# grouped and labelled scatter plot
-sjp.scatter(efc$c160age,efc$e17age, efc$e42dep, title="Scatter Plot",
+# grouped and labelled scatter plot, not using the auto-detection
+# of labels, but instead pass labels as parameters
+sjp.scatter(efc$c160age, efc$e17age, efc$e42dep,
+            title = "Scatter Plot",
             legendTitle = get_var_labels(efc)['e42dep'],
             legendLabels = get_val_labels(efc)[['e42dep']],
             axisTitle.x = get_var_labels(efc)['c160age'],
@@ -136,28 +138,18 @@ sjp.scatter(efc$c160age,efc$e17age, efc$e42dep, title="Scatter Plot",
             showGroupFitLine = TRUE)
 
 # grouped and labelled scatter plot as facets
-sjp.scatter(efc$c160age,efc$e17age, efc$e42dep, title="Scatter Plot",
-            legendTitle = get_var_labels(efc)['e42dep'],
-            legendLabels = get_val_labels(efc)[['e42dep']],
-            axisTitle.x = get_var_labels(efc)['c160age'],
-            axisTitle.y = get_var_labels(efc)['e17age'],
-            showGroupFitLine = TRUE, facet.grid = TRUE, showSE = TRUE)
+sjp.scatter(efc$c160age,efc$e17age, efc$e42dep,
+            showGroupFitLine = TRUE,
+            facet.grid = TRUE,
+            showSE = TRUE)
 
 # plot residuals of fitted models
 fit <- lm(neg_c_7 ~ quol_5, data = efc)
 sjp.scatter(y = fit$residuals, showTotalFitLine = TRUE)
 
-# -------------------------------
-# auto-detection of labels
-# -------------------------------
-efc <- set_var_labels(efc, get_var_labels(efc))
-
-# show axis titles
-sjp.scatter(efc$c160age,efc$e17age, efc$e42dep)
-
-# hide axis titles
-sjp.scatter(efc$c160age,efc$e17age, efc$e42dep,
-            title="", axisTitle.x="", axisTitle.y="")
+# "hide" axis titles
+sjp.scatter(efc$c160age, efc$e17age, efc$e42dep,
+            title = "", axisTitle.x = "", axisTitle.y = "")
 }
 \seealso{
 \href{http://www.strengejacke.de/sjPlot/sjp.scatter}{sjPlot manual: sjp.scatter}

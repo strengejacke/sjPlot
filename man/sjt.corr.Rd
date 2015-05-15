@@ -132,17 +132,16 @@ start <- which(colnames(efc) == "c83cop2")
 end <- which(colnames(efc) == "c88cop7")
 
 # create data frame with COPE-index scale
-df <- as.data.frame(efc[, c(start:end)])
-colnames(df) <- varlabs[c(start:end)]
+mydf <- data.frame(efc[, c(start:end)])
+colnames(mydf) <- varlabs[c(start:end)]
 
 # we have high correlations here, because all items
 # belong to one factor. See example from "sjp.pca".
-sjt.corr(df, pvaluesAsNumbers = TRUE)
+sjt.corr(mydf, pvaluesAsNumbers = TRUE)
 
 # -------------------------------
 # auto-detection of labels, only lower triangle
 # -------------------------------
-efc <- set_var_labels(efc, varlabs)
 sjt.corr(efc[, c(start:end)], triangle = "lower")
 
 # -------------------------------
@@ -150,7 +149,6 @@ sjt.corr(efc[, c(start:end)], triangle = "lower")
 # all correlation values smaller than 0.3 are not
 # shown in the table
 # -------------------------------
-efc <- set_var_labels(efc, varlabs)
 sjt.corr(efc[, c(start:end)],
          triangle = "lower",
          val.rm = 0.3)
@@ -160,7 +158,6 @@ sjt.corr(efc[, c(start:end)],
 # all correlation values smaller than 0.3 are printed
 # in blue
 # -------------------------------
-efc <- set_var_labels(efc, varlabs)
 sjt.corr(efc[, c(start:end)],
          triangle = "lower",
          val.rm = 0.3,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/sjPlotOdds.R
 \name{sjp.glm}
 \alias{sjp.glm}
-\title{Plot odds ratios (forest plots)}
+\title{Plot odds ratios or predicted probabilities of generalized linear models}
 \usage{
 sjp.glm(fit, type = "dots", sortOdds = TRUE, title = NULL,
   axisLabels.y = NULL, axisTitle.x = "Odds Ratios", axisLimits = NULL,
@@ -19,23 +19,23 @@ sjp.glm(fit, type = "dots", sortOdds = TRUE, title = NULL,
 
 \item{type}{type of plot. Use one of following:
 \describe{
-  \item{"dots"}{(or \code{"glm"} or \code{"or"} (default)) for odds ratios (forest plot)}
-  \item{"bars"}{for odds ratios as bar plot}
-  \item{"prob"}{(or \code{"pc"}) to plot predicted probabilities for each model terms, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
-  \item{"probc"}{(or \code{"pcc"}) to plot centered predicted probabilities for each model term (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
-  \item{"y.pc"}{(or \code{"y.prob"}) to plot predicted probabilities for the response.}
-  \item{"ma"}{to check model assumptions. Note that only two parameters are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other parameters are ignored.}
-  \item{"vif"}{to plot Variance Inflation Factors. See details.}
+  \item{\code{"dots"}}{(or \code{"glm"} or \code{"or"} (default)) for odds ratios (forest plot)}
+  \item{\code{"bars"}}{for odds ratios as bar plot}
+  \item{\code{"prob"}}{(or \code{"pc"}) to plot predicted probabilities for each model terms, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
+  \item{\code{"probc"}}{(or \code{"pcc"}) to plot centered predicted probabilities for each model term (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
+  \item{\code{"y.pc"}}{(or \code{"y.prob"}) to plot predicted probabilities for the response.}
+  \item{\code{"ma"}}{to check model assumptions. Note that only two parameters are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other parameters are ignored.}
+  \item{\code{"vif"}}{to plot Variance Inflation Factors. See details.}
 }}
 
 \item{sortOdds}{If \code{TRUE} (default), the odds ratios are ordered according their values from highest first
 to lowest last. Use \code{FALSE} if you don't want to change the order of the predictors.}
 
-\item{title}{Diagram's title as string. Example: \code{title = c("my title")}}
+\item{title}{Diagram's title as string. Example: \code{title = "my title"}}
 
 \item{axisLabels.y}{labels of the predictor variables (independent vars) that are used for labelling the
-axis. Must be a character vector of same length as independent variables.
-Note: If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
+axis. Must be a character vector of same length as independent variables. \cr
+\strong{Note:} If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
 \code{list} object with label string. The labels may also be passed as list object. They will be coerced
 to character vector automatically.}
 
@@ -130,14 +130,14 @@ Plot odds ratios (exponentiated coefficients) with confidence intervalls as bar 
 }
 \details{
 \describe{
-           \item{type = "prob"}{(or \code{"pc"}), the predicted probabilities
+           \item{\code{type = "prob"}}{(or \code{"pc"}), the predicted probabilities
            are based on the intercept's estimate and each specific term's estimate.
            All other co-variates are set to zero (i.e. ignored).}
-           \item{type = "probc"}{(or \code{"pcc"}), the predicted probabilities
+           \item{\code{type = "probc"}}{(or \code{"pcc"}), the predicted probabilities
            are based on the \code{\link{predict.glm}} method, where predicted values
            are "centered"
            (see \href{http://stats.stackexchange.com/questions/35682/contribution-of-each-covariate-to-a-single-prediction-in-a-logistic-regression-m#comment71993_35802}{CrossValidated}).}
-           \item{type = "y.pc"}{(or \code{type = "y.prob"}), the predicted values
+           \item{\code{type = "y.pc"}}{(or \code{type = "y.prob"}), the predicted values
            of the response are computed, based on the \code{\link{predict.glm}}
            method.}
          }

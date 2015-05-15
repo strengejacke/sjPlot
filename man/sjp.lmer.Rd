@@ -2,7 +2,7 @@
 % Please edit documentation in R/sjPlotGLME.R
 \name{sjp.lmer}
 \alias{sjp.lmer}
-\title{Plot estimates (forest plots) of linear mixed effects models}
+\title{Plot estimates or predicted values of linear mixed effects models}
 \usage{
 sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   title = NULL, geom.size = 3, geom.colors = "Set1",
@@ -17,15 +17,15 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
 \item{fit}{a fitted \code{lmer} object.}
 
 \item{type}{type of plot. Use one of following:
-\itemize{
-  \item \code{"re"} (default) for estimates of random effects
-  \item \code{"fe"} for estimates of fixed effects
-  \item \code{"fe.std"} for standardized estimates of fixed effects
-  \item \code{"fe.pred"} for regression lines (slopes) with confidence intervals for each single fixed effect are plotted, i.e. all fixed effects are extracted and each is plotted against the response variable.
-  \item \code{"fe.cor"} for correlation matrix of fixed effects
-  \item \code{"re.qq"} for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)
-  \item \code{"fe.ri"} for fixed effects slopes depending on the random intercept.
-  \item \code{"resp"} to plot predicted values for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot.
+\describe{
+  \item{\code{"re"}}{(default) for estimates of random effects}
+  \item{\code{"fe"}}{for estimates of fixed effects}
+  \item{\code{"fe.std"}}{for standardized estimates of fixed effects}
+  \item{\code{"fe.pred"}}{for regression lines (slopes) with confidence intervals for each single fixed effect are plotted, i.e. all fixed effects are extracted and each is plotted against the response variable.}
+  \item{\code{"fe.cor"}}{for correlation matrix of fixed effects}
+  \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
+  \item{\code{"fe.ri"}}{for fixed effects slopes depending on the random intercept.}
+  \item{\code{"resp"}}{to plot predicted values for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot.}
 }}
 
 \item{vars}{a numeric vector with column indices of selected variables or a character vector with

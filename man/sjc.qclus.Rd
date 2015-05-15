@@ -63,11 +63,11 @@ which computes a linear discriminant analysis on the classified cluster groups a
 bar graph indicating the goodness of classification for each group.}
 
 \item{title}{Title of diagram as string.
-Example: \code{title=c("my title")}}
+Example: \code{title = "my title"}}
 
 \item{axisLabels.x}{Labels for the x-axis breaks.
-Example: \code{axisLabels.x=c("Label1", "Label2", "Label3")}.
-Note: If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
+Example: \code{axisLabels.x = c("Label1", "Label2", "Label3")}. \cr
+\strong{Note:} If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
 list object with label string. The labels may also be passed as list object. They will be coerced
 to character vector automatically.}
 

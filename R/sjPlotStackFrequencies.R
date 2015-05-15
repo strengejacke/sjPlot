@@ -39,8 +39,8 @@
 #'            \item If not specified, the sequential \code{"Blues"} color brewer palette will be used.
 #'            \item If \code{"gs"}, a greyscale will be used.
 #'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
+#'            \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00", "#8000f0")}).
 #'          }
-#'          Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000", "#00ff00", "#0080ff")}).
 #' @param geom.size size resp. width of the geoms (bar width)
 #' @param axisLabels.y Labels for the y-axis (the labels of the \code{items}). These parameters must
 #'          be passed as list! Example: \code{axisLabels.y=list(c("Q1", "Q2", "Q3"))}
@@ -209,13 +209,13 @@ sjp.stackfrq <- function(items,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(legendLabels)) legendLabels <- sjmisc:::autoSetValueLabels(items[, 1])
+  if (is.null(legendLabels)) legendLabels <- sjmisc:::autoSetValueLabels(items[[1]])
   if (is.null(axisLabels.y)) {
     axisLabels.y <- c()
     # if yes, iterate each variable
     for (i in 1:ncol(items)) {
       # retrieve variable name attribute
-      vn <- sjmisc:::autoSetVariableLabels(items[, i])
+      vn <- sjmisc:::autoSetVariableLabels(items[[i]])
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         axisLabels.y <- c(axisLabels.y, vn)
@@ -235,7 +235,7 @@ sjp.stackfrq <- function(items,
   # --------------------------------------------------------
   if (!is.null(axisLabels.y) && is.list(axisLabels.y)) axisLabels.y <- unlistlabels(axisLabels.y)
   if (!is.null(legendLabels) && is.list(legendLabels)) legendLabels <- unlistlabels(legendLabels)
-  if (is.null(legendLabels)) legendLabels <- as.character(sort(unique(items[, 1])))
+  if (is.null(legendLabels)) legendLabels <- as.character(sort(unique(items[[1]])))
   # --------------------------------------------------------
   # Check whether N of each item should be included into
   # axis labels

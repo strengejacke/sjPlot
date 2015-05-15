@@ -78,8 +78,8 @@ of same length as groups defined in \code{legendLabels}, or a specific color pal
   \item If not specified, the sequential \code{"Blues"} color brewer palette will be used.
   \item If \code{"gs"}, a greyscale will be used.
   \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
-}
-Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000", "#00ff00", "#0080ff")}).}
+  \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00", "#8000f0")}).
+}}
 
 \item{axisTitle.x}{A label for the x axis. Useful when plotting histograms with metric scales where no category labels
 are assigned to the x axis.}

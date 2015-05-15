@@ -32,17 +32,17 @@ or as \code{"bars"}.}
 shown. Only applies if parameter \code{type} is \code{"bars"}. Default value is \code{FALSE}.}
 
 \item{title}{Diagram's title as string.
-Example: \code{title=c("my title")}
+Example: \code{title = "my title"}
 Use \code{"NULL"} to automatically detect variable names that will be used as title
 (see \code{\link[sjmisc]{set_var_labels}}) for details). Use \code{title=""} for a blank title.}
 
 \item{axisLabels.y}{Value labels of the grouping variable \code{grpVar} that are used for labelling the
 grouping variable axis. Passed as vector of strings.
 Example: \code{axisLabels.y=c("Label1", "Label2", "Label3")}. \cr
-Note: If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
+\strong{Note:} If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
 list object with label string. The labels may also be passed as list object. They will be coerced
 to character vector automatically. See examples below. \cr
-Note: In case \code{type} is \code{"bars"}, the \code{grpVar} will be plotted along
+\strong{Note:} In case \code{type = "bars"}, \code{grpVar} will be plotted along
 the x-axis.}
 
 \item{reverseOrder}{If \code{TRUE}, the order of the factor categories (groups) is reversed.

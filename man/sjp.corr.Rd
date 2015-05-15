@@ -105,16 +105,15 @@ varlabs <- get_var_labels(efc)
 
 # create data frame
 vars.index <- c(1, 4, 15, 19, 20, 21, 22, 24, 25)
-df <- as.data.frame(efc[, vars.index])
+df <- data.frame(efc[, vars.index])
 colnames(df) <- varlabs[vars.index]
 
 # show legend
-sjp.corr(df, type="tile", hideLegend=FALSE)
+sjp.corr(df, type = "tile", hideLegend = FALSE)
 
 # -------------------------------
 # auto-detection of labels
 # -------------------------------
-efc <- set_var_labels(efc, varlabs)
 # blank theme
 sjp.setTheme(theme = "blank", axis.angle.x = 90)
 sjp.corr(efc[, vars.index])

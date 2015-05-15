@@ -154,7 +154,7 @@ start <- which(colnames(efc) == "c82cop1")
 end <- which(colnames(efc) == "c90cop9")
 
 # create data frame with COPE-index scale
-mydf <- as.data.frame(efc[, c(start:end)])
+mydf <- data.frame(efc[, c(start:end)])
 colnames(mydf) <- varlabs[c(start:end)]
 
 sjp.pca(mydf)
