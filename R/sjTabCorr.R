@@ -39,7 +39,7 @@
 #'          is \code{"both"}. You can specifiy the inital letter only.
 #' @param val.rm Specify a number between 0 and 1 to suppress the output of correlation values 
 #'          that are smaller than \code{val.rm}. The absolute correlation values are used, so
-#'          a correlation value of -.5 would be greater that \code{"val.rm=.4"} and thus not be
+#'          a correlation value of -.5 would be greater than \code{"val.rm=.4"} and thus not be
 #'          omitted. By default, this parameter is \code{NULL}, hence all values are shown in the table.
 #'          If a correlation value is below the specified value of \code{val.rm}, it is still printed to
 #'          the HTML table, but made "invisible" with white foreground color. You can use the \code{CSS}
