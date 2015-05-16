@@ -14,12 +14,14 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
 #'
 #' @seealso \code{\link{sjt.corr}}
 #'
-#' @param data a \code{\link{cor}}-object, or a data frame of variables that
+#' @param data a matrix with correlation coefficients as returned by the 
+#'          \code{\link{cor}}-function, or a \code{\link{data.frame}} of variables that
 #'          should be correlated.
 #' @param title plot title as string.
 #' @param axisLabels Labels for the x- andy y-axis.
-#'          axisLabels are detected automatically if \code{data} is a data frame where each variable has
-#'          a variable label attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).
+#'          axisLabels are detected automatically if \code{data} is a \code{\link{data.frame}}
+#'          where each variable has a variable label attribute (see \code{\link[sjmisc]{set_var_labels}}) 
+#'          for details).
 #' @param type Indicates whether the geoms of correlation values should be plotted
 #'          as \code{"circle"} (default) or as \code{"tile"}.
 #' @param sortCorrelations If \code{TRUE} (default), the axis labels are sorted
@@ -28,7 +30,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
 #'          data frame.
 #' @param decimals Indicates how many decimal values after comma are printed when
 #'          the values labels are shown. Default is 3. Only applies when
-#'          \code{showCorrelationValueLabels} is \code{TRUE}.
+#'          \code{showValueLabels} is \code{TRUE}.
 #' @param missingDeletion Indicates how missing values are treated. May be either
 #'          \code{"listwise"} (default) or \code{"pairwise"}.
 #' @param corMethod Indicates the correlation computation method. May be one of
@@ -43,11 +45,11 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
 #'          by gradient colour fill. Default is \code{TRUE}, hence the legend is hidden.
 #' @param legendTitle The legend title, provided as string, e.g. \code{legendTitle=c("Strength of correlation")}.
 #'          Default is \code{NULL}, hence no legend title is used.
-#' @param showCorrelationValueLabels Whether correlation values should be plotted to each geom
-#' @param showCorrelationPValues Whether significance levels (p-values) of correlations should
+#' @param showValueLabels Whether correlation values should be plotted to each geom
+#' @param showPValues Whether significance levels (p-values) of correlations should
 #'          be plotted to each geom. See 'Note'.
 #' @param pvaluesAsNumbers If \code{TRUE}, the significance levels (p-values) are printed as numbers.
-#'          if \code{FALSE} (default), asterisks are used.
+#'          if \code{FALSE} (default), asterisks are used. See 'Note'.
 #' @param geom.colors A color palette for fillng the geoms. If not specified, the 5th diverging color palette
 #'          from the color brewer palettes (RdBu) is used, resulting in red colors for negative and blue colors
 #'          for positive correlations, that become lighter the weaker the correlations are. Use any
@@ -58,8 +60,8 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
 #'           was used for setting up the ggplot-object (\code{df}) and the original correlation matrix
 #'           (\code{corr.matrix}).
 #'
-#' @note If \code{data} is a \code{\link{cor}} object, p-values can't be computed.
-#'       Thus, \code{showCorrelationPValues} only has an effect if \code{data} is a data frame.
+#' @note If \code{data} is a \code{\link{cor}}-object, p-values can't be computed.
+#'       Thus, \code{showPValues} only has an effect if \code{data} is a \code{\link{data.frame}}.
 #'
 #' @examples
 #' # create data frame with 5 random variables
@@ -116,8 +118,8 @@ sjp.corr <- function(data,
                      breakLabelsAt=20,
                      hideLegend=TRUE,
                      legendTitle=NULL,
-                     showCorrelationValueLabels=TRUE,
-                     showCorrelationPValues=TRUE,
+                     showValueLabels=TRUE,
+                     showPValues=TRUE,
                      pvaluesAsNumbers=FALSE,
                      printPlot=TRUE) {
   # --------------------------------------------------------
@@ -298,12 +300,12 @@ sjp.corr <- function(data,
   # --------------------------------------------------------
   # set visibility of labels
   # --------------------------------------------------------
-  if (!showCorrelationValueLabels) {
+  if (!showValueLabels) {
     correlationValueLabels <- c("")
     correlationPValues <- c("")
   } else {
     correlationValueLabels <- ifelse(is.na(orderedCorr$psize), sprintf("%.*f", decimals, orderedCorr$value), "")
-    if (showCorrelationPValues) {
+    if (showPValues) {
       correlationPValues <- ifelse(is.na(orderedCorr$psize), orderedCorr$ps, "")
     } else {
       correlationPValues <- c("")

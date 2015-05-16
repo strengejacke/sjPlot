@@ -8,19 +8,20 @@ sjp.corr(data, title = NULL, axisLabels = NULL, type = "circle",
   sortCorrelations = TRUE, decimals = 3, missingDeletion = "listwise",
   corMethod = "spearman", geom.colors = "RdBu", geom.size = 15,
   breakTitleAt = 50, breakLabelsAt = 20, hideLegend = TRUE,
-  legendTitle = NULL, showCorrelationValueLabels = TRUE,
-  showCorrelationPValues = TRUE, pvaluesAsNumbers = FALSE,
-  printPlot = TRUE)
+  legendTitle = NULL, showValueLabels = TRUE, showPValues = TRUE,
+  pvaluesAsNumbers = FALSE, printPlot = TRUE)
 }
 \arguments{
-\item{data}{a \code{\link{cor}}-object, or a data frame of variables that
+\item{data}{a matrix with correlation coefficients as returned by the
+\code{\link{cor}}-function, or a \code{\link{data.frame}} of variables that
 should be correlated.}
 
 \item{title}{plot title as string.}
 
 \item{axisLabels}{Labels for the x- andy y-axis.
-axisLabels are detected automatically if \code{data} is a data frame where each variable has
-a variable label attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).}
+axisLabels are detected automatically if \code{data} is a \code{\link{data.frame}}
+where each variable has a variable label attribute (see \code{\link[sjmisc]{set_var_labels}})
+for details).}
 
 \item{type}{Indicates whether the geoms of correlation values should be plotted
 as \code{"circle"} (default) or as \code{"tile"}.}
@@ -32,7 +33,7 @@ data frame.}
 
 \item{decimals}{Indicates how many decimal values after comma are printed when
 the values labels are shown. Default is 3. Only applies when
-\code{showCorrelationValueLabels} is \code{TRUE}.}
+\code{showValueLabels} is \code{TRUE}.}
 
 \item{missingDeletion}{Indicates how missing values are treated. May be either
 \code{"listwise"} (default) or \code{"pairwise"}.}
@@ -60,13 +61,13 @@ by gradient colour fill. Default is \code{TRUE}, hence the legend is hidden.}
 \item{legendTitle}{The legend title, provided as string, e.g. \code{legendTitle=c("Strength of correlation")}.
 Default is \code{NULL}, hence no legend title is used.}
 
-\item{showCorrelationValueLabels}{Whether correlation values should be plotted to each geom}
+\item{showValueLabels}{Whether correlation values should be plotted to each geom}
 
-\item{showCorrelationPValues}{Whether significance levels (p-values) of correlations should
+\item{showPValues}{Whether significance levels (p-values) of correlations should
 be plotted to each geom. See 'Note'.}
 
 \item{pvaluesAsNumbers}{If \code{TRUE}, the significance levels (p-values) are printed as numbers.
-if \code{FALSE} (default), asterisks are used.}
+if \code{FALSE} (default), asterisks are used. See 'Note'.}
 
 \item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
@@ -84,8 +85,8 @@ Plot correlation matrix as ellipses or tiles. Required parameter is either
                stronger correlations are darker.
 }
 \note{
-If \code{data} is a \code{\link{cor}} object, p-values can't be computed.
-      Thus, \code{showCorrelationPValues} only has an effect if \code{data} is a data frame.
+If \code{data} is a \code{\link{cor}}-object, p-values can't be computed.
+      Thus, \code{showPValues} only has an effect if \code{data} is a \code{\link{data.frame}}.
 }
 \examples{
 # create data frame with 5 random variables
