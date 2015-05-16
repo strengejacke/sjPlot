@@ -7,7 +7,8 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
 #' @name sjp.corr
 #'
 #' @description Plot correlation matrix as ellipses or tiles. Required parameter is either
-#'                a data frame or a computed \code{\link{cor}}-object. In case of ellipses, the
+#'                a \code{\link{data.frame}} or a matrix with correlation coefficients 
+#'                as returned by the \code{\link{cor}}-function. In case of ellipses, the
 #'                ellipses size indicates the strength of the correlation. Furthermore,
 #'                blue and red colors indicate positive or negative correlations, where
 #'                stronger correlations are darker.

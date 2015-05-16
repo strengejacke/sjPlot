@@ -7,7 +7,8 @@
 #'          }
 #' 
 #' @description Shows the results of a computed correlation as HTML table. Requires either 
-#'                a data frame or a computed \code{\link{cor}}-object.
+#'                a \code{\link{data.frame}} or a matrix with correlation coefficients 
+#'                as returned by the \code{\link{cor}}-function.
 #'                
 #' @param data a matrix with correlation coefficients as returned by the 
 #'          \code{\link{cor}}-function, or a \code{\link{data.frame}} of variables that
