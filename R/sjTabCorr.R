@@ -17,7 +17,7 @@
 #'          \code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.
 #' @param title A table caption. By default, \code{title} is \code{NULL}, hence no title will be used.
 #' @param showPValues Whether significance levels (p-values) of correlations should 
-#'          be printed or not.
+#'          be printed or not. See 'Note'.
 #' @param pvaluesAsNumbers If \code{TRUE}, the significance levels (p-values) are printed as numbers.
 #'          if \code{FALSE} (default), asterisks are used.
 #' @param fadeNS If \code{TRUE} (default), non-significant correlation-values appear faded (by using
@@ -72,7 +72,10 @@
 #'            }
 #'            for further use.
 #'
-#' @note See 'Notes' in \code{\link{sjt.frq}}.
+#' @note If \code{data} is a \code{\link{cor}} object, p-values can't be computed.
+#'       Thus, \code{showPValues} only has an effect if \code{data} is a data frame.
+#'       \cr \cr
+#'       Additionally, see 'Notes' in \code{\link{sjt.frq}}.
 #'  
 #' @details See 'Details' in \code{\link{sjt.frq}}.
 #' 

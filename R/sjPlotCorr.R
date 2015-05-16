@@ -45,7 +45,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
 #'          Default is \code{NULL}, hence no legend title is used.
 #' @param showCorrelationValueLabels Whether correlation values should be plotted to each geom
 #' @param showCorrelationPValues Whether significance levels (p-values) of correlations should
-#'          be plotted to each geom.
+#'          be plotted to each geom. See 'Note'.
 #' @param pvaluesAsNumbers If \code{TRUE}, the significance levels (p-values) are printed as numbers.
 #'          if \code{FALSE} (default), asterisks are used.
 #' @param geom.colors A color palette for fillng the geoms. If not specified, the 5th diverging color palette
@@ -58,15 +58,18 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
 #'           was used for setting up the ggplot-object (\code{df}) and the original correlation matrix
 #'           (\code{corr.matrix}).
 #'
+#' @note If \code{data} is a \code{\link{cor}} object, p-values can't be computed.
+#'       Thus, \code{showCorrelationPValues} only has an effect if \code{data} is a data frame.
+#'
 #' @examples
 #' # create data frame with 5 random variables
-#' df <- as.data.frame(cbind(rnorm(10), rnorm(10), rnorm(10), rnorm(10), rnorm(10)))
+#' df <- data.frame(cbind(rnorm(10), rnorm(10), rnorm(10), rnorm(10), rnorm(10)))
 #'
 #' # plot correlation matrix using circles
 #' sjp.corr(df)
 #'
 #' # plot correlation matrix using square tiles without diagram background
-#' sjp.corr(df, type="tile")
+#' sjp.corr(df, type = "tile")
 #'
 #'
 #' # -------------------------------

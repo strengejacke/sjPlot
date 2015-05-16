@@ -24,7 +24,7 @@ which correlations should be calculated.}
 \item{title}{A table caption. By default, \code{title} is \code{NULL}, hence no title will be used.}
 
 \item{showPValues}{Whether significance levels (p-values) of correlations should
-be printed or not.}
+be printed or not. See 'Note'.}
 
 \item{pvaluesAsNumbers}{If \code{TRUE}, the significance levels (p-values) are printed as numbers.
 if \code{FALSE} (default), asterisks are used.}
@@ -103,7 +103,10 @@ Shows the results of a computed correlation as HTML table. Requires either
 See 'Details' in \code{\link{sjt.frq}}.
 }
 \note{
-See 'Notes' in \code{\link{sjt.frq}}.
+If \code{data} is a \code{\link{cor}} object, p-values can't be computed.
+      Thus, \code{showPValues} only has an effect if \code{data} is a data frame.
+      \cr \cr
+      Additionally, see 'Notes' in \code{\link{sjt.frq}}.
 }
 \examples{
 \dontrun{

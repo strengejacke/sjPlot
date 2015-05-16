@@ -63,7 +63,7 @@ Default is \code{NULL}, hence no legend title is used.}
 \item{showCorrelationValueLabels}{Whether correlation values should be plotted to each geom}
 
 \item{showCorrelationPValues}{Whether significance levels (p-values) of correlations should
-be plotted to each geom.}
+be plotted to each geom. See 'Note'.}
 
 \item{pvaluesAsNumbers}{If \code{TRUE}, the significance levels (p-values) are printed as numbers.
 if \code{FALSE} (default), asterisks are used.}
@@ -83,15 +83,19 @@ Plot correlation matrix as ellipses or tiles. Required parameter is either
                blue and red colors indicate positive or negative correlations, where
                stronger correlations are darker.
 }
+\note{
+If \code{data} is a \code{\link{cor}} object, p-values can't be computed.
+      Thus, \code{showCorrelationPValues} only has an effect if \code{data} is a data frame.
+}
 \examples{
 # create data frame with 5 random variables
-df <- as.data.frame(cbind(rnorm(10), rnorm(10), rnorm(10), rnorm(10), rnorm(10)))
+df <- data.frame(cbind(rnorm(10), rnorm(10), rnorm(10), rnorm(10), rnorm(10)))
 
 # plot correlation matrix using circles
 sjp.corr(df)
 
 # plot correlation matrix using square tiles without diagram background
-sjp.corr(df, type="tile")
+sjp.corr(df, type = "tile")
 
 
 # -------------------------------
