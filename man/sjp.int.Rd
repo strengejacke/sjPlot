@@ -32,10 +32,10 @@ classes are
 }}
 
 \item{type}{interaction plot type. Use one of following values:
-\itemize{
-  \item \code{type = "cond"} plots the mere change of the moderating effect on the response value (conditional effect). See details.
-  \item \code{type = "eff"} (default) plots the overall moderation effect on the response value. See details.
-  \item \code{type = "emm"} plots the estimated marginal means (least square means). If this type is chosen, not all parameters are applicable. See details.
+\describe{
+  \item{\code{type = "cond"}}{(default) plots the mere change of the moderating effect on the response value (conditional effect). See 'Details'.}
+  \item{\code{type = "eff"}}{plots the overall moderation effect on the response value. See 'Details'.}
+  \item{\code{type = "emm"}}{plots the estimated marginal means (least square means). If this type is chosen, not all function parameters are applicable. See 'Details'.}
 }}
 
 \item{int.plot.index}{A numeric vector with index numbers that indicate which
@@ -49,11 +49,11 @@ is shown (single line). Only applies to \code{type = "cond"}.}
 
 \item{moderatorValues}{indicates which values of the moderator variable should be used when plotting the effects of the
 independent variable on the dependent variable.
-\itemize{
-  \item By default, \code{"minmax"} is used, i.e. the minimum and maximum values (lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator.
-  \item Use \code{"meansd"} to use the mean value of the moderator as well as one standard deviation below and above mean value to plot the effect of the moderator on the independent variable (following the convention suggested by Cohen and Cohen and popularized by Aiken and West, i.e. using the mean, the value one standard deviation above, and the value one standard deviation below the mean as values of the moderator, see \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}).
-  \item The \code{"zeromax"} is similar to the \code{"minmax"} option, however, \code{0} is always used as minimum value for the moderator. This may be useful for predictors that don't have an empirical zero-value, but absence of moderation should be simulated by using 0 as minimum.
-  \item \code{"quart"} calculates and uses the quartiles (lower, median and upper) of the moderator value.
+\describe{
+  \item{\code{"minmax"}}{(default) minimum and maximum values (lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator.}
+  \item{\code{"meansd"}}{uses the mean value of the moderator as well as one standard deviation below and above mean value to plot the effect of the moderator on the independent variable (following the convention suggested by Cohen and Cohen and popularized by Aiken and West, i.e. using the mean, the value one standard deviation above, and the value one standard deviation below the mean as values of the moderator, see \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}).}
+  \item{\code{"zeromax"}}{is similar to the \code{"minmax"} option, however, \code{0} is always used as minimum value for the moderator. This may be useful for predictors that don't have an empirical zero-value, but absence of moderation should be simulated by using 0 as minimum.}
+  \item{\code{"quart"}}{calculates and uses the quartiles (lower, median and upper) of the moderator value.}
 }}
 
 \item{swapPredictors}{if \code{TRUE}, the predictor on the x-axis and the moderator value in an interaction are
