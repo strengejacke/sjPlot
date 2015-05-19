@@ -419,15 +419,17 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
       if (!any.found) break
     }
   }
-  return (list(group.pred.rows,
-               group.pred.span,
-               group.pred.labs))
+  return(list(group.pred.rows,
+              group.pred.span,
+              group.pred.labs))
 }
 
 
 # automatically retrieve predictor labels
 # of fitted (g)lm
 retrieveModelLabels <- function(models) {
+  # check parameter. No labels supported for plm-objects
+  if (any(class(fit) == "plm")) return(NULL)
   # do we have global options?
   opt <- getOption("autoSetVariableLabels")
   if (is.null(opt) || opt == TRUE) {
@@ -470,9 +472,9 @@ retrieveModelLabels <- function(models) {
         }
       }
     }
-    return (fit.labels)
+    return(fit.labels)
   }
-  return (NULL)
+  return(NULL)
 }
 
 

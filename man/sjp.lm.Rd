@@ -219,6 +219,8 @@ sjp.lm(fit,
 # plotting regression lines of each single predictor
 # of a fitted model
 # --------------------------------------------------
+library(sjmisc)
+data(efc)
 # fit model
 fit <- lm(tot_sc_e ~ c12hour + e17age + e42dep, data=efc)
 

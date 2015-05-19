@@ -15,6 +15,9 @@
 #'          in the default web browser.
 #' @param weightBy A weight factor that will be applied to weight all cases from \code{data}.
 #'          Must be a vector of same length as \code{nrow(data)}. Default is \code{NULL}, so no weights are used.
+#' @param weightByTitleString If a weight factor is supplied via the parameter \code{weightBy}, the table caption
+#'          may indicate this with a remark. Default is \code{" (weightBy)"}, so table captions
+#'          of weighted data will have an additional title suffix.
 #' @param variableLabels A single character vector or a list of character vectors that indicate
 #'          the variable names of those variables from \code{data} and will be used as variable labels
 #'          in the output. Note that if multiple variables
@@ -144,78 +147,87 @@
 #' 
 #' # plot and show frequency table of "e42dep" with labels
 #' sjt.frq(efc$e42dep,
-#'         variableLabels=variables['e42dep'],
-#'         valueLabels=values[['e42dep']])
+#'         variableLabels = variables['e42dep'],
+#'         valueLabels = values[['e42dep']])
 #' 
 #' # plot frequencies of e42dep, e16sex and c172code in one HTML file
 #' # and show table in RStudio Viewer Pane or default web browser
-#' sjt.frq(as.data.frame(cbind(efc$e42dep, efc$e16sex, efc$c172code)),
-#'         variableLabels=list(variables['e42dep'], variables['e16sex'], variables['c172code']),
-#'         valueLabels=list(values[['e42dep']], values[['e16sex']], values[['c172code']]))
+#' # Note that valueLabels of multiple variables have to be
+#' # list-objects
+#' sjt.frq(data.frame(efc$e42dep, efc$e16sex, efc$c172code),
+#'         variableLabels = c(variables['e42dep'], 
+#'                            variables['e16sex'], 
+#'                            variables['c172code']),
+#'         valueLabels = list(values[['e42dep']], 
+#'                            values[['e16sex']], 
+#'                            values[['c172code']]))
+#' 
+#' 
+#' # -------------------------------
+#' # auto-detection of labels
+#' # due to auto-detection of labels, this works as well
+#' # -------------------------------
+#' sjt.frq(data.frame(efc$e42dep, efc$e16sex, efc$c172code))
+#' 
 #' 
 #' # plot larger scale including zero-counts
 #' # indicating median and quartiles
 #' sjt.frq(efc$neg_c_7,
-#'         variableLabels=variables['neg_c_7'],
-#'         valueLabels=values[['neg_c_7']],
-#'         highlightMedian=TRUE,
-#'         highlightQuartiles=TRUE)
-#' 
-#' # -------------------------------
-#' # auto-detection of labels
-#' # -------------------------------
-#' efc <- set_var_labels(efc, variables)
-#' sjt.frq(data.frame(efc$e42dep, efc$e16sex, efc$c172code))
+#'         variableLabels = variables['neg_c_7'],
+#'         valueLabels = values[['neg_c_7']],
+#'         highlightMedian = TRUE,
+#'         highlightQuartiles = TRUE)
 #' 
 #' # -------------------------------
 #' # sort frequencies
 #' # -------------------------------
-#' sjt.frq(efc$e42dep, sort.frq="desc")
+#' sjt.frq(efc$e42dep, sort.frq = "desc")
 #' 
 #' # -------------------------------- 
 #' # User defined style sheet
 #' # -------------------------------- 
 #' sjt.frq(efc$e42dep,
-#'         variableLabels=variables['e42dep'],
-#'         valueLabels=values[['e42dep']],
-#'         CSS=list(css.table="border: 2px solid;",
-#'                  css.tdata="border: 1px solid;",
-#'                  css.firsttablecol="color:#003399; font-weight:bold;"))}
+#'         variableLabels = variables['e42dep'],
+#'         valueLabels = values[['e42dep']],
+#'         CSS = list(css.table = "border: 2px solid;",
+#'                    css.tdata = "border: 1px solid;",
+#'                    css.firsttablecol = "color:#003399; font-weight:bold;"))}
 #' 
 #' @importFrom psych describe
 #' @import sjmisc
 #' @export
-sjt.frq <- function (data,
-                     file=NULL,
-                     weightBy=NULL,
-                     variableLabels=NULL,
-                     valueLabels=NULL,
-                     autoGroupAt=NULL,
-                     sort.frq=NULL,
-                     alternateRowColors=FALSE,
-                     stringValue="value",
-                     stringCount="N",
-                     stringPerc="raw %",
-                     stringValidPerc="valid %",
-                     stringCumPerc="cumulative %",
-                     stringMissingValue="missings",
-                     highlightMedian=FALSE,
-                     highlightQuartiles=FALSE,
-                     skipZeroRows="auto",
-                     showSummary=TRUE,
-                     showSkew=FALSE,
-                     showKurtosis=FALSE,
-                     skewString="&gamma;",
-                     kurtosisString="&omega;",
-                     digits=2,
-                     removeStringVectors=TRUE,
-                     autoGroupStrings=TRUE,
-                     maxStringDist=3,
-                     encoding=NULL,
-                     CSS=NULL,
-                     useViewer=TRUE,
-                     no.output=FALSE,
-                     remove.spaces=TRUE) {
+sjt.frq <- function(data,
+                    file=NULL,
+                    weightBy=NULL,
+                    weightByTitleString=" (weighted)",
+                    variableLabels=NULL,
+                    valueLabels=NULL,
+                    autoGroupAt=NULL,
+                    sort.frq=NULL,
+                    alternateRowColors=FALSE,
+                    stringValue="value",
+                    stringCount="N",
+                    stringPerc="raw %",
+                    stringValidPerc="valid %",
+                    stringCumPerc="cumulative %",
+                    stringMissingValue="missings",
+                    highlightMedian=FALSE,
+                    highlightQuartiles=FALSE,
+                    skipZeroRows="auto",
+                    showSummary=TRUE,
+                    showSkew=FALSE,
+                    showKurtosis=FALSE,
+                    skewString="&gamma;",
+                    kurtosisString="&omega;",
+                    digits=2,
+                    removeStringVectors=TRUE,
+                    autoGroupStrings=TRUE,
+                    maxStringDist=3,
+                    encoding=NULL,
+                    CSS=NULL,
+                    useViewer=TRUE,
+                    no.output=FALSE,
+                    remove.spaces=TRUE) {
   # -------------------------------------
   # check encoding
   # -------------------------------------
@@ -267,20 +279,20 @@ sjt.frq <- function (data,
   # check user defined style sheets
   # ------------------------
   if (!is.null(CSS)) {
-    if (!is.null(CSS[['css.table']])) css.table <- ifelse(substring(CSS[['css.table']],1,1)=='+', paste0(css.table, substring(CSS[['css.table']],2)), CSS[['css.table']])
-    if (!is.null(CSS[['css.thead']])) css.thead <- ifelse(substring(CSS[['css.thead']],1,1)=='+', paste0(css.thead, substring(CSS[['css.thead']],2)), CSS[['css.thead']])
-    if (!is.null(CSS[['css.tdata']])) css.tdata <- ifelse(substring(CSS[['css.tdata']],1,1)=='+', paste0(css.tdata, substring(CSS[['css.tdata']],2)), CSS[['css.tdata']])
-    if (!is.null(CSS[['css.caption']])) css.caption <- ifelse(substring(CSS[['css.caption']],1,1)=='+', paste0(css.caption, substring(CSS[['css.caption']],2)), CSS[['css.caption']])
-    if (!is.null(CSS[['css.summary']])) css.summary <- ifelse(substring(CSS[['css.summary']],1,1)=='+', paste0(css.summary, substring(CSS[['css.summary']],2)), CSS[['css.summary']])
-    if (!is.null(CSS[['css.arc']])) css.arc <- ifelse(substring(CSS[['css.arc']],1,1)=='+', paste0(css.arc, substring(CSS[['css.arc']],2)), CSS[['css.arc']])
-    if (!is.null(CSS[['css.qrow']])) css.qrow <- ifelse(substring(CSS[['css.qrow']],1,1)=='+', paste0(css.qrow, substring(CSS[['css.qrow']],2)), CSS[['css.qrow']])
-    if (!is.null(CSS[['css.mdrow']])) css.mdrow <- ifelse(substring(CSS[['css.mdrow']],1,1)=='+', paste0(css.mdrow, substring(CSS[['css.mdrow']],2)), CSS[['css.mdrow']])
-    if (!is.null(CSS[['css.abstand']])) css.abstand <- ifelse(substring(CSS[['css.abstand']],1,1)=='+', paste0(css.abstand, substring(CSS[['css.abstand']],2)), CSS[['css.abstand']])
-    if (!is.null(CSS[['css.lasttablerow']])) css.lasttablerow <- ifelse(substring(CSS[['css.lasttablerow']],1,1)=='+', paste0(css.lasttablerow, substring(CSS[['css.lasttablerow']],2)), CSS[['css.lasttablerow']])
-    if (!is.null(CSS[['css.firsttablerow']])) css.firsttablerow <- ifelse(substring(CSS[['css.firsttablerow']],1,1)=='+', paste0(css.firsttablerow, substring(CSS[['css.firsttablerow']],2)), CSS[['css.firsttablerow']])
-    if (!is.null(CSS[['css.leftalign']])) css.leftalign <- ifelse(substring(CSS[['css.leftalign']],1,1)=='+', paste0(css.leftalign, substring(CSS[['css.leftalign']],2)), CSS[['css.leftalign']])
-    if (!is.null(CSS[['css.centeralign']])) css.centeralign <- ifelse(substring(CSS[['css.centeralign']],1,1)=='+', paste0(css.centeralign, substring(CSS[['css.centeralign']],2)), CSS[['css.centeralign']])
-    if (!is.null(CSS[['css.firsttablecol']])) css.firsttablecol <- ifelse(substring(CSS[['css.firsttablecol']],1,1)=='+', paste0(css.firsttablecol, substring(CSS[['css.firsttablecol']],2)), CSS[['css.firsttablecol']])
+    if (!is.null(CSS[['css.table']])) css.table <- ifelse(substring(CSS[['css.table']], 1, 1) == '+', paste0(css.table, substring(CSS[['css.table']], 2)), CSS[['css.table']])
+    if (!is.null(CSS[['css.thead']])) css.thead <- ifelse(substring(CSS[['css.thead']], 1, 1) == '+', paste0(css.thead, substring(CSS[['css.thead']], 2)), CSS[['css.thead']])
+    if (!is.null(CSS[['css.tdata']])) css.tdata <- ifelse(substring(CSS[['css.tdata']], 1, 1) == '+', paste0(css.tdata, substring(CSS[['css.tdata']], 2)), CSS[['css.tdata']])
+    if (!is.null(CSS[['css.caption']])) css.caption <- ifelse(substring(CSS[['css.caption']], 1, 1) == '+', paste0(css.caption, substring(CSS[['css.caption']], 2)), CSS[['css.caption']])
+    if (!is.null(CSS[['css.summary']])) css.summary <- ifelse(substring(CSS[['css.summary']], 1, 1) == '+', paste0(css.summary, substring(CSS[['css.summary']], 2)), CSS[['css.summary']])
+    if (!is.null(CSS[['css.arc']])) css.arc <- ifelse(substring(CSS[['css.arc']], 1, 1) == '+', paste0(css.arc, substring(CSS[['css.arc']], 2)), CSS[['css.arc']])
+    if (!is.null(CSS[['css.qrow']])) css.qrow <- ifelse(substring(CSS[['css.qrow']], 1, 1) == '+', paste0(css.qrow, substring(CSS[['css.qrow']], 2)), CSS[['css.qrow']])
+    if (!is.null(CSS[['css.mdrow']])) css.mdrow <- ifelse(substring(CSS[['css.mdrow']], 1, 1) == '+', paste0(css.mdrow, substring(CSS[['css.mdrow']], 2)), CSS[['css.mdrow']])
+    if (!is.null(CSS[['css.abstand']])) css.abstand <- ifelse(substring(CSS[['css.abstand']], 1, 1) == '+', paste0(css.abstand, substring(CSS[['css.abstand']], 2)), CSS[['css.abstand']])
+    if (!is.null(CSS[['css.lasttablerow']])) css.lasttablerow <- ifelse(substring(CSS[['css.lasttablerow']], 1, 1) == '+', paste0(css.lasttablerow, substring(CSS[['css.lasttablerow']], 2)), CSS[['css.lasttablerow']])
+    if (!is.null(CSS[['css.firsttablerow']])) css.firsttablerow <- ifelse(substring(CSS[['css.firsttablerow']], 1, 1) == '+', paste0(css.firsttablerow, substring(CSS[['css.firsttablerow']], 2)), CSS[['css.firsttablerow']])
+    if (!is.null(CSS[['css.leftalign']])) css.leftalign <- ifelse(substring(CSS[['css.leftalign']], 1, 1) == '+', paste0(css.leftalign, substring(CSS[['css.leftalign']], 2)), CSS[['css.leftalign']])
+    if (!is.null(CSS[['css.centeralign']])) css.centeralign <- ifelse(substring(CSS[['css.centeralign']], 1, 1) == '+', paste0(css.centeralign, substring(CSS[['css.centeralign']], 2)), CSS[['css.centeralign']])
+    if (!is.null(CSS[['css.firsttablecol']])) css.firsttablecol <- ifelse(substring(CSS[['css.firsttablecol']], 1, 1) == '+', paste0(css.firsttablecol, substring(CSS[['css.firsttablecol']], 2)), CSS[['css.firsttablecol']])
   }
   # -------------------------------------
   # set style sheet
@@ -347,7 +359,7 @@ sjt.frq <- function (data,
       # if yes, iterate each variable
       for (i in 1:ncol(data)) {
         # retrieve variable name attribute
-        vn <- sjmisc:::autoSetVariableLabels(data[,i])
+        vn <- sjmisc:::autoSetVariableLabels(data[[i]])
         # if variable has attribute, add to variableLabel list
         if (!is.null(vn)) {
           variableLabels <- c(variableLabels, vn)
@@ -426,7 +438,7 @@ sjt.frq <- function (data,
     # iterate all variables
     for (i in 1:nvar) {
       # retrieve variable
-      dummy <- data[, i]
+      dummy <- data[[i]]
       # usually, value labels are NULL if we have string vector. if so
       # set value labels according to values
       if (is.character(dummy)) {
@@ -460,12 +472,12 @@ sjt.frq <- function (data,
     # if requested. put data into a data frame
     #---------------------------------------------------
     # check if we have a string-vector
-    if (is.character(data[,cnt])) {
+    if (is.character(data[[cnt]])) {
       # convert string to numeric
-      orivar <- var <- as.numeric(as.factor(data[,cnt]))
+      orivar <- var <- as.numeric(as.factor(data[[cnt]]))
     # here we have numeric or factor variables
     } else {
-      orivar <- var <- as.numeric(data[,cnt])
+      orivar <- var <- as.numeric(data[[cnt]])
     }
     # -----------------------------------------------
     # check for length of unique values and skip if too long
@@ -529,6 +541,10 @@ sjt.frq <- function (data,
     # retrieve variable label
     # -------------------------------------
     varlab <- variableLabels[[cnt]]
+    # if we have weighted values, say that in diagram's title
+    if (!is.null(weightBy)) {
+      varlab <- paste(varlab, weightByTitleString, sep = "")
+    }
     # -------------------------------------
     # table caption, variable label
     # -------------------------------------
@@ -611,16 +627,23 @@ sjt.frq <- function (data,
     # add info for mean, standard deviation
     # -------------------------------------
     if (showSummary) {
-      vartot <- length(var)
-      varvalid <- vartot - length(var[which(is.na(var))])
+      # sum of frequencies is total N. Use these numbers
+      # instead of "length(var)", because weighted data
+      # has different N
+      vartot <- sum(df$frq, na.rm = T)
+      # last element in df$frq is amount of missings,
+      # so substract from total to get valid N
+      varvalid <- vartot - df$frq[nrow(df)]
       if (is.null(weightBy)) {
         mw <- mean(orivar, na.rm = TRUE)
+        sum_var <- orivar
       } else {
         mw <- weighted.mean(orivar, weightBy, na.rm = TRUE)
+        sum_var <- sjmisc::weight(orivar, weightBy)
       }
       descr <- ""
       if (showSkew || showKurtosis) {
-        pstat <- psych::describe(data.frame(orivar))
+        pstat <- psych::describe(data.frame(sum_var))
         if (showSkew) descr <- sprintf(" &middot; %s=%.*f", 
                                        skewString, 
                                        digits,
@@ -637,7 +660,7 @@ sjt.frq <- function (data,
                                                   digits,
                                                   mw, 
                                                   digits,
-                                                  sd(orivar, na.rm = TRUE), 
+                                                  sd(sum_var, na.rm = TRUE), 
                                                   descr))
     }
     # -------------------------------------

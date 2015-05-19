@@ -4,7 +4,8 @@
 \alias{sjt.frq}
 \title{Show frequencies as HTML table}
 \usage{
-sjt.frq(data, file = NULL, weightBy = NULL, variableLabels = NULL,
+sjt.frq(data, file = NULL, weightBy = NULL,
+  weightByTitleString = " (weighted)", variableLabels = NULL,
   valueLabels = NULL, autoGroupAt = NULL, sort.frq = NULL,
   alternateRowColors = FALSE, stringValue = "value", stringCount = "N",
   stringPerc = "raw \%", stringValidPerc = "valid \%",
@@ -26,6 +27,10 @@ in the default web browser.}
 
 \item{weightBy}{A weight factor that will be applied to weight all cases from \code{data}.
 Must be a vector of same length as \code{nrow(data)}. Default is \code{NULL}, so no weights are used.}
+
+\item{weightByTitleString}{If a weight factor is supplied via the parameter \code{weightBy}, the table caption
+may indicate this with a remark. Default is \code{" (weightBy)"}, so table captions
+of weighted data will have an additional title suffix.}
 
 \item{variableLabels}{A single character vector or a list of character vectors that indicate
 the variable names of those variables from \code{data} and will be used as variable labels
@@ -190,43 +195,51 @@ sjt.frq(efc$e42dep)
 
 # plot and show frequency table of "e42dep" with labels
 sjt.frq(efc$e42dep,
-        variableLabels=variables['e42dep'],
-        valueLabels=values[['e42dep']])
+        variableLabels = variables['e42dep'],
+        valueLabels = values[['e42dep']])
 
 # plot frequencies of e42dep, e16sex and c172code in one HTML file
 # and show table in RStudio Viewer Pane or default web browser
-sjt.frq(as.data.frame(cbind(efc$e42dep, efc$e16sex, efc$c172code)),
-        variableLabels=list(variables['e42dep'], variables['e16sex'], variables['c172code']),
-        valueLabels=list(values[['e42dep']], values[['e16sex']], values[['c172code']]))
+# Note that valueLabels of multiple variables have to be
+# list-objects
+sjt.frq(data.frame(efc$e42dep, efc$e16sex, efc$c172code),
+        variableLabels = c(variables['e42dep'],
+                           variables['e16sex'],
+                           variables['c172code']),
+        valueLabels = list(values[['e42dep']],
+                           values[['e16sex']],
+                           values[['c172code']]))
+
+
+# -------------------------------
+# auto-detection of labels
+# due to auto-detection of labels, this works as well
+# -------------------------------
+sjt.frq(data.frame(efc$e42dep, efc$e16sex, efc$c172code))
+
 
 # plot larger scale including zero-counts
 # indicating median and quartiles
 sjt.frq(efc$neg_c_7,
-        variableLabels=variables['neg_c_7'],
-        valueLabels=values[['neg_c_7']],
-        highlightMedian=TRUE,
-        highlightQuartiles=TRUE)
-
-# -------------------------------
-# auto-detection of labels
-# -------------------------------
-efc <- set_var_labels(efc, variables)
-sjt.frq(data.frame(efc$e42dep, efc$e16sex, efc$c172code))
+        variableLabels = variables['neg_c_7'],
+        valueLabels = values[['neg_c_7']],
+        highlightMedian = TRUE,
+        highlightQuartiles = TRUE)
 
 # -------------------------------
 # sort frequencies
 # -------------------------------
-sjt.frq(efc$e42dep, sort.frq="desc")
+sjt.frq(efc$e42dep, sort.frq = "desc")
 
 # --------------------------------
 # User defined style sheet
 # --------------------------------
 sjt.frq(efc$e42dep,
-        variableLabels=variables['e42dep'],
-        valueLabels=values[['e42dep']],
-        CSS=list(css.table="border: 2px solid;",
-                 css.tdata="border: 1px solid;",
-                 css.firsttablecol="color:#003399; font-weight:bold;"))}
+        variableLabels = variables['e42dep'],
+        valueLabels = values[['e42dep']],
+        CSS = list(css.table = "border: 2px solid;",
+                   css.tdata = "border: 1px solid;",
+                   css.firsttablecol = "color:#003399; font-weight:bold;"))}
 }
 \seealso{
 \itemize{

@@ -387,6 +387,17 @@ sjt.lm <- function (...,
   } else {
     p_zero <- "0"
   }
+  # -----------------------------------------------------------
+  # check parameter. No model-summary supported for plm-objects
+  # -----------------------------------------------------------
+  if (any(class(fit) == "plm")) {
+    # -----------------------------------------------------------
+    # check package availability if fit is plm-object
+    # -----------------------------------------------------------
+    if (!"package:plm" %in% search()) {
+      stop("Package 'plm' needs to be loaded for this function to work... Use 'library(plm)' and call this function again.", call. = FALSE)
+    }
+  }
   # -------------------------------------
   # check parameter
   # -------------------------------------
@@ -1186,7 +1197,16 @@ sjt.lm <- function (...,
     # insert "separator column"
     # -------------------------
     page.content <- paste0(page.content, "<td class=\"separatorcol firstsumrow\">&nbsp;</td>")
-    page.content <- paste(page.content, sprintf("   %s%i</td>\n", colspanstringfirstrow, nobs(input_list[[i]])))
+    # -------------------------------------
+    # get number of observations
+    # -------------------------------------
+    if (any(class(fit) == "plm")) {
+      # "plm" seems not to offer a "nobs" function
+      n_of_obs <- nrow(input_list[[i]]$model)
+    } else {
+      n_of_obs <- nobs(input_list[[i]])
+    }
+    page.content <- paste(page.content, sprintf("   %s%i</td>\n", colspanstringfirstrow, n_of_obs))
   }
   page.content <- paste0(page.content, "  </tr>\n")
   # -------------------------------------

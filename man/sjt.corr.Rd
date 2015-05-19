@@ -98,28 +98,31 @@ Invisibly returns
 }
 \description{
 Shows the results of a computed correlation as HTML table. Requires either
-               a data frame or a computed \code{\link{cor}}-object.
+               a \code{\link{data.frame}} or a matrix with correlation coefficients
+               as returned by the \code{\link{cor}}-function.
 }
 \details{
 See 'Details' in \code{\link{sjt.frq}}.
 }
 \note{
-If \code{data} is a \code{\link{cor}}-object, p-values can't be computed.
-      Thus, \code{showPValues} only has an effect if \code{data} is a \code{\link{data.frame}}.
+If \code{data} is a matrix with correlation coefficients as returned by
+      the \code{\link{cor}}-function, p-values can't be computed.
+      Thus, \code{showPValues}, \code{pvaluesAsNumbers} and \code{fadeNS}
+      only have an effect if \code{data} is a \code{\link{data.frame}}.
       \cr \cr
       Additionally, see 'Note' in \code{\link{sjt.frq}}.
 }
 \examples{
 \dontrun{
 # create data frame with 5 random variables
-df <- as.data.frame(cbind(rnorm(10),
-                          rnorm(10),
-                          rnorm(10),
-                          rnorm(10),
-                          rnorm(10)))
+mydf <- data.frame(cbind(runif(10),
+                         runif(10),
+                         runif(10),
+                         runif(10),
+                         runif(10)))
 
 # plot correlation matrix using circles
-sjt.corr(df)
+sjt.corr(mydf)
 
 # -------------------------------
 # Data from the EUROFAMCARE sample dataset

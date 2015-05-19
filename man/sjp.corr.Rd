@@ -79,24 +79,31 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 }
 \description{
 Plot correlation matrix as ellipses or tiles. Required parameter is either
-               a data frame or a computed \code{\link{cor}}-object. In case of ellipses, the
+               a \code{\link{data.frame}} or a matrix with correlation coefficients
+               as returned by the \code{\link{cor}}-function. In case of ellipses, the
                ellipses size indicates the strength of the correlation. Furthermore,
                blue and red colors indicate positive or negative correlations, where
                stronger correlations are darker.
 }
 \note{
-If \code{data} is a \code{\link{cor}}-object, p-values can't be computed.
-      Thus, \code{showPValues} only has an effect if \code{data} is a \code{\link{data.frame}}.
+If \code{data} is a matrix with correlation coefficients as returned by
+      the \code{\link{cor}}-function, p-values can't be computed.
+      Thus, \code{showPValues} and \code{pvaluesAsNumbers}
+      only have an effect if \code{data} is a \code{\link{data.frame}}.
 }
 \examples{
 # create data frame with 5 random variables
-df <- data.frame(cbind(rnorm(10), rnorm(10), rnorm(10), rnorm(10), rnorm(10)))
+mydf <- data.frame(cbind(runif(10),
+                         runif(10),
+                         runif(10),
+                         runif(10),
+                         runif(10)))
 
 # plot correlation matrix using circles
-sjp.corr(df)
+sjp.corr(mydf)
 
 # plot correlation matrix using square tiles without diagram background
-sjp.corr(df, type = "tile")
+sjp.corr(mydf, type = "tile")
 
 
 # -------------------------------
@@ -110,11 +117,11 @@ varlabs <- get_var_labels(efc)
 
 # create data frame
 vars.index <- c(1, 4, 15, 19, 20, 21, 22, 24, 25)
-df <- data.frame(efc[, vars.index])
-colnames(df) <- varlabs[vars.index]
+mydf <- data.frame(efc[, vars.index])
+colnames(mydf) <- varlabs[vars.index]
 
 # show legend
-sjp.corr(df, type = "tile", hideLegend = FALSE)
+sjp.corr(mydf, type = "tile", hideLegend = FALSE)
 
 # -------------------------------
 # auto-detection of labels
