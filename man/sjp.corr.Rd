@@ -85,7 +85,7 @@ Plot correlation matrix as ellipses or tiles. Required parameter is either
                stronger correlations are darker.
 }
 \note{
-If \code{data} is a \code{\link{cor}}-object, p-values can't be computed.
+If \code{data} is a matrix with correlation coefficients as returned by the \code{\link{cor}}-function, p-values can't be computed.
       Thus, \code{showPValues} only has an effect if \code{data} is a \code{\link{data.frame}}.
 }
 \examples{
