@@ -17,7 +17,7 @@
 #'          \code{"listwise"} or \code{"pairwise"} (default).
 #' @param corMethod Indicates the correlation computation method. May be one of
 #'          \code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.
-#' @param title A table caption. By default, \code{title} is \code{NULL}, hence no title will be used.
+#' @param title A table caption as character. By default, \code{title} is \code{NULL}, hence no title will be used.
 #' @param showPValues Whether significance levels (p-values) of correlations should 
 #'          be printed or not. See 'Note'.
 #' @param pvaluesAsNumbers If \code{TRUE}, the significance levels (p-values) are printed as numbers.
