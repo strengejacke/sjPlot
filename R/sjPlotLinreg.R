@@ -28,7 +28,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "l
 #'            \item{\code{"pred"}}{to plot regression lines for each single predictor of the fitted model.}
 #'            \item{\code{"resp"}}{to plot predicted values for the response. Use \code{showCI} parameter to plot standard errors as well.}
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only three parameters are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.}
-#'            \item{\code{"vif"}}{to plot Variance Inflation Factors. See details.}
+#'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
 #' @param title Diagram's title as string. Example: \code{title = c("my title")}
 #' @param sort.est Logical, determines whether estimates should be sorted by their values.

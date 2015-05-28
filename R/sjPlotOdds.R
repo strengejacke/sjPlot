@@ -24,7 +24,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", 
 #'            \item{\code{"probc"}}{(or \code{"pcc"}) to plot centered predicted probabilities for each model term (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
 #'            \item{\code{"y.pc"}}{(or \code{"y.prob"}) to plot predicted probabilities for the response.}
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only two parameters are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other parameters are ignored.}
-#'            \item{\code{"vif"}}{to plot Variance Inflation Factors. See details.}
+#'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
 #' @param sortOdds If \code{TRUE} (default), the odds ratios are ordered according their values from highest first
 #'          to lowest last. Use \code{FALSE} if you don't want to change the order of the predictors.
@@ -86,12 +86,40 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", 
 #'          are automatically excluded are also plotted.
 #' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
-#' @return (Invisibly) returns a structure with following elements:
-#'         \itemize{
-#'          \item \code{plot}: ggplot-object with the complete plot
-#'          \item \code{mydf}: data frame that was used for setting up the ggplot-object
-#'          \item \code{mydf.mp}: a list of data frames with the data for metric predictors (terms of type \code{numeric}), which will be plotted if \code{showContPredPlots} is \code{TRUE}
-#'          \item \code{plot.mp}: a list of ggplot-objects with plots of metric predictors (terms of type \code{numeric}), which will be plotted if \code{showContPredPlots} is \code{TRUE}
+#' @return (Invisibly) returns various objects, depending on 
+#'           the \code{type}-parameter:
+#'         \describe{
+#'          \item{\code{type = "dots" or "bars"}}{
+#'            \itemize{
+#'              \item \code{mydf} - data frame used for the plot
+#'              \item \code{plot} - plot as ggplot-object
+#'            }
+#'          }
+#'          \item{\code{type = "prob" or "probc"}}{
+#'            \itemize{
+#'              \item \code{mydf.mp} - data frame used for predicted probability plots
+#'              \item \code{plot.mp} - predicted probability plots as ggplot-objects
+#'              \item \code{mydf.facet} - data frame used for faceted predicted probability plots
+#'              \item \code{plot.facet} - facted predicted probability plots as ggplot-objects
+#'            }
+#'          }
+#'          \item{\code{type = "y.pc"}}{
+#'            \itemize{
+#'              \item \code{mydf} - data frame used for the plot
+#'              \item \code{plot} - plot as ggplot-object
+#'              \item \code{mean.pp} - mean value of the predicted probabilities for the response
+#'            }
+#'          }
+#'          \item{\code{type = "ma"}}{
+#'            \itemize{
+#'              \item \code{model} - updated model-fit with removed outliers
+#'            }
+#'          }
+#'          \item{\code{type = "vif"}}{
+#'            \itemize{
+#'              \item \code{vifval} - a vector with vif-values
+#'            }
+#'          }
 #'         }
 #'
 #' @details \describe{
@@ -533,9 +561,9 @@ sjp.glm <- function(fit,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = "sjpglm",
-                       list(plot = plotHeader,
-                            mydf = odds)))
+  invisible(structure(class = "sjpglm",
+                      list(plot = plotHeader,
+                           mydf = odds)))
 }
 
 
@@ -688,8 +716,7 @@ sjp.glm.response.probcurv <- function(fit,
                                       show.se,
                                       printPlot) {
   # ----------------------------
-  # get predicted values for response with and
-  # without random effects
+  # get predicted values for response
   # ----------------------------
   pp <- plogis(predict(fit, type = "response"))
   # ----------------------------
@@ -736,7 +763,7 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   removedcases <- 0
   loop <- TRUE
   # start loop
-  while(loop == TRUE) {
+  while (loop == TRUE) {
     # get outliers of model
     ol <- outlierTest(model)
     # retrieve variable numbers of outliers
@@ -750,7 +777,7 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
     # check whether AIC-value of updated model is larger
     # than previous AIC-value or if we have already all loop-steps done,
     # stop loop
-    if(dummyaic >= aic || maxcnt < 1) {
+    if (dummyaic >= aic || maxcnt < 1) {
       loop <- FALSE
     } else {
       # else copy new model, which is the better one (according to AIC-value)
@@ -772,12 +799,6 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   
   modelOptmized <- ifelse(removedcases > 0, TRUE, FALSE)
   if (showOriginalModelOnly) modelOptmized <- FALSE
-  # ---------------------------------
-  # show VIF-Values
-  # ---------------------------------
-  sjp.setTheme(theme ="539")
-  sjp.vif(logreg)
-  if (modelOptmized) sjp.vif(model)
   # ------------------------------------------------------
   # Overdispersion
   # Sometimes we can get a deviance that is much larger than expected
@@ -785,7 +806,7 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   # sparse data or clustering of data. A half-normal plot of the residuals
   # can help checking for outliers:
   # ------------------------------------------------------
-  halfnorm <- function (x, nlab = 2, labs = as.character(1:length(x)), ylab = "Sorted Data", ...) {
+  halfnorm <- function(x, nlab = 2, labs = as.character(1:length(x)), ylab = "Sorted Data", ...) {
     x <- abs(x)
     labord <- order(x)
     x <- sort(x)
@@ -797,9 +818,9 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
          xlab = "Half-normal quantiles", 
          ylab = ylab, 
          ylim = c(0, max(x)), 
-         type="n",
+         type = "n",
          ...)
-    if(nlab < n) points(ui[1:(n - nlab)], x[i][1:(n - nlab)])
+    if (nlab < n) points(ui[1:(n - nlab)], x[i][1:(n - nlab)])
     text(ui[(n - nlab + 1):n], 
          x[i][(n - nlab + 1):n], 
          labs[labord][(n - nlab + 1):n])
@@ -820,7 +841,7 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   # ------------------------------------------------------
   res <- residuals(logreg, type = "deviance")
   plot(log(abs(predict(logreg))), 
-       res, main="Residual plot (original model)", 
+       res, main = "Residual plot (original model)", 
        xlab = "Log-predicted values", 
        ylab = "Deviance residuals")
   abline(h = 0, lty = 2)
@@ -842,15 +863,15 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   # We can see that all terms were highly significant when they were
   # introduced into the model.
   # -------------------------------------
-  message(paste("--------------------\nCheck significance of terms when they entered the model..."))
-  message(paste("Anova original model:"))
+  message("--------------------\nCheck significance of terms when they entered the model...")
+  message("Anova original model:")
   print(anova(logreg, test = "Chisq"))
   if (!showOriginalModelOnly) {
     message(paste("\n\nAnova updated model:\n"))
     print(anova(model, test = "Chisq"))
   }
   # -------------------------------------
-  sjp.setTheme(theme ="forestgrey")
+  sjp.setTheme(theme = "forestgrey")
   sjp.glm(logreg, title = "Original model")
   if (!showOriginalModelOnly) sjp.glm(model, title = "Updated model")
   # return updated model

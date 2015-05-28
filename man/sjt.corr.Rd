@@ -22,7 +22,7 @@ should be correlated.}
 \item{corMethod}{Indicates the correlation computation method. May be one of
 \code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.}
 
-\item{title}{A table caption. By default, \code{title} is \code{NULL}, hence no title will be used.}
+\item{title}{A table caption as character. By default, \code{title} is \code{NULL}, hence no title will be used.}
 
 \item{showPValues}{Whether significance levels (p-values) of correlations should
 be printed or not. See 'Note'.}

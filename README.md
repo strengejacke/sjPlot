@@ -34,7 +34,7 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of current development snapshot 1.8-9
+### Changelog of stable release 1.8.1
 
 #### General
 * Deprecated function `sjp.emm.int` was removed. Use `sjp.int` with parameter `type = 'emm'` to plot estimated marginal means.
@@ -45,7 +45,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * `sjt.glmer` to print summary tables of generalized linear mixed models.
 
 #### Changes to functions
-* Added `type = "probc"` to `sjp.glm` as alternative to `type = "prob"`. `type = "probc"` calculated predicted probabilities based on the `predict` function.
+* Added `type = "probc"` to `sjp.glm` as alternative to `type = "prob"`. `type = "probc"` calculates predicted probabilities based on the `predict` function.
 * Added `type = "y.prob"` to `sjp.glm` and `sjp.glmer` to plot predicted probabilities of the response.
 * Added `type = "resp"` to `sjp.lm` and `sjp.lmer` to plot predicted values of the response.
 * `sjt.grpmean` gets a `weightBy` parameter to compute weighted group-means.
@@ -60,3 +60,4 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * Fixed bug in `sjp.likert` when data frame had only one column.
 * Fixed bug in `sjt.frq` when a data frame contained variables with only NA values.
 * Fixed bugs in `sjt.frq` with weighted variables.
+* Fixed wrong warning message, saying that package `lme4` is missing (should be package `arm` instead).

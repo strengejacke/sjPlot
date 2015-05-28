@@ -25,7 +25,7 @@ sjp.glm(fit, type = "dots", sortOdds = TRUE, title = NULL,
   \item{\code{"probc"}}{(or \code{"pcc"}) to plot centered predicted probabilities for each model term (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
   \item{\code{"y.pc"}}{(or \code{"y.prob"}) to plot predicted probabilities for the response.}
   \item{\code{"ma"}}{to check model assumptions. Note that only two parameters are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other parameters are ignored.}
-  \item{\code{"vif"}}{to plot Variance Inflation Factors. See details.}
+  \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 }}
 
 \item{sortOdds}{If \code{TRUE} (default), the odds ratios are ordered according their values from highest first
@@ -114,12 +114,40 @@ are automatically excluded are also plotted.}
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
-(Invisibly) returns a structure with following elements:
-        \itemize{
-         \item \code{plot}: ggplot-object with the complete plot
-         \item \code{mydf}: data frame that was used for setting up the ggplot-object
-         \item \code{mydf.mp}: a list of data frames with the data for metric predictors (terms of type \code{numeric}), which will be plotted if \code{showContPredPlots} is \code{TRUE}
-         \item \code{plot.mp}: a list of ggplot-objects with plots of metric predictors (terms of type \code{numeric}), which will be plotted if \code{showContPredPlots} is \code{TRUE}
+(Invisibly) returns various objects, depending on
+          the \code{type}-parameter:
+        \describe{
+         \item{\code{type = "dots" or "bars"}}{
+           \itemize{
+             \item \code{mydf} - data frame used for the plot
+             \item \code{plot} - plot as ggplot-object
+           }
+         }
+         \item{\code{type = "prob" or "probc"}}{
+           \itemize{
+             \item \code{mydf.mp} - data frame used for predicted probability plots
+             \item \code{plot.mp} - predicted probability plots as ggplot-objects
+             \item \code{mydf.facet} - data frame used for faceted predicted probability plots
+             \item \code{plot.facet} - facted predicted probability plots as ggplot-objects
+           }
+         }
+         \item{\code{type = "y.pc"}}{
+           \itemize{
+             \item \code{mydf} - data frame used for the plot
+             \item \code{plot} - plot as ggplot-object
+             \item \code{mean.pp} - mean value of the predicted probabilities for the response
+           }
+         }
+         \item{\code{type = "ma"}}{
+           \itemize{
+             \item \code{model} - updated model-fit with removed outliers
+           }
+         }
+         \item{\code{type = "vif"}}{
+           \itemize{
+             \item \code{vifval} - a vector with vif-values
+           }
+         }
         }
 }
 \description{

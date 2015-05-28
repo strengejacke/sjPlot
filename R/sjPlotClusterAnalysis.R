@@ -593,8 +593,6 @@ sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect=TRUE, printPl
   # listwise deletion of missing
   data <- na.omit(data)
   groups <- na.omit(groups)
-  xval <- cbind(1:groupcount) - 0.25
-  xplotval <- cbind(1:groupcount)
   # ---------------------------------------------------------------
   # compute discriminant analysis of groups on original data frame
   # ---------------------------------------------------------------
@@ -610,7 +608,6 @@ sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect=TRUE, printPl
   # ---------------------------------------------------------------
   perc <- round(100 * dg, 2)
   percrest <- round(100 - perc, 2)
-  counts <- rbind(perc, percrest)
   # total correct percentage
   totalcorrect <- sum(diag(prop.table(ct)))
   # round total percentages and transform to percent value
@@ -651,32 +648,45 @@ sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect=TRUE, printPl
   # plot bar charts, stacked proportional
   # this works, because we always have two "values" (variables)
   # for the X-axis in the $grp-columns indicating a group
-  classplot <- ggplot(mydat, aes(x=grp, y=prc, fill=fg)) +
+  classplot <- ggplot(mydat, aes(x = grp, y = prc, fill = fg)) +
     # use stat identity to show value, not count of $prc-variable
     # draw no legend!
-    geom_bar(stat="identity", colour="black", show_guide=FALSE) +
+    geom_bar(stat = "identity", colour = "black", show_guide = FALSE) +
     # fill bars
-    scale_fill_manual(values=c("#235a80", "#80acc8")) +
+    scale_fill_manual(values = c("#235a80", "#80acc8")) +
     # give chart and X-axis a title
-    labs(title="Accuracy of cluster group classification (in %)", x="cluster groups", y=NULL) +
+    labs(title = "Accuracy of cluster group classification (in %)", 
+         x = "cluster groups", 
+         y = NULL) +
     # print value labels into bar chart
-    geom_text(aes(label=cprc, y=cprc), vjust=1.2, colour="white") +
+    geom_text(aes(label = cprc, y = cprc), 
+              vjust = 1.2, 
+              colour = "white") +
     # larger font size for axes
-    theme(axis.line = element_line(colour="gray"), 
-          axis.text = element_text(size=rel(1.2)), 
-          axis.title = element_text(size=rel(1.2))) +
+    theme(axis.line = element_line(colour = "gray"), 
+          axis.text = element_text(size = rel(1.2)), 
+          axis.title = element_text(size = rel(1.2))) +
     # set ticks
     scale_y_continuous(breaks = seq(0, 100, 10)) +
     # change range on x-axis, so the text annotation is visible and
     # beside the bars and not printed into them
-    coord_cartesian(ylim=c(0,100), xlim=c(-0.5,groupcount+1))
+    coord_cartesian(ylim = c(0, 100), 
+                    xlim = c(-0.5, groupcount + 1))
   if (showTotalCorrect) {
     classplot <- classplot +
     # set line across all bars which indicates the total percentage of
     # correct assigned cases
-    geom_hline(yintercept=totalcorrect, linetype=2, colour="#333333") +
+    geom_hline(yintercept = totalcorrect, 
+               linetype = 2, 
+               colour = "#333333") +
       # print text annotation
-      annotate("text", x=0, y=totalcorrect, vjust=1.2, label=paste("overall", c(totalcorrect), sep="\n"), size=5, colour="#333333")
+      annotate("text", 
+               x = 0, 
+               y = totalcorrect, 
+               vjust = 1.2, 
+               label = paste("overall", c(totalcorrect), sep = "\n"), 
+               size = 5, 
+               colour = "#333333")
   }
   # --------------------------------------------------------
   # plot
@@ -685,11 +695,11 @@ sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect=TRUE, printPl
   # --------------------------------------------------------
   # return values
   # --------------------------------------------------------
-  invisible (structure(class = "sjcgrpdisc",
-                       list(data = mydat,
-                            accuracy = as.vector(dg),
-                            total.accuracy=totalcorrect,
-                            plot = classplot)))
+  invisible(structure(class = "sjcgrpdisc",
+                      list(data = mydat,
+                           accuracy = as.vector(dg),
+                           total.accuracy = totalcorrect,
+                           plot = classplot)))
 }
 
 
@@ -717,44 +727,48 @@ sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect=TRUE, printPl
 #' @import tidyr
 #' @import ggplot2
 #' @export
-sjc.elbow <- function (data, steps=15, showDiff=FALSE) {
+sjc.elbow <- function(data, steps=15, showDiff=FALSE) {
   # Prepare Data
   # listwise deletion of missing
   data <- na.omit(data) 
   # define line linecolor
-  lcol <- rgb(128,172,200, maxColorValue=255)
+  lcol <- rgb(128, 172, 200, maxColorValue = 255)
   # calculate elbow values (sum of squares)
-  wss <- (nrow(data)-1)*sum(apply(data,2,var))
-  for (i in 2:steps) wss[i] <- sum(kmeans(data,centers=i)$withinss)
+  wss <- (nrow(data) - 1) * sum(apply(data, 2, var))
+  for (i in 2:steps) wss[i] <- sum(kmeans(data, centers = i)$withinss)
   # round and print elbow values
-  wssround <- round(wss,0)
+  wssround <- round(wss, 0)
   dfElbowValues <- as.data.frame(wssround)
-  dfElbowValues <- cbind(dfElbowValues, xpos=1:nrow(dfElbowValues))
+  dfElbowValues <- cbind(dfElbowValues, xpos = 1:nrow(dfElbowValues))
   # calculate differences between each step
   diff <- c()
-  for (i in 2:steps) diff <- cbind(diff,wssround[i-1]-wssround[i])
+  for (i in 2:steps) diff <- cbind(diff,wssround[i - 1] - wssround[i])
   dfElbowDiff <- tidyr::gather(as.data.frame(diff), "Var2", "value", 1:ncol(diff))
   # --------------------------------------------------
   # Plot diagram with sum of squares
   # all pointes are connected with a line
   # a bend the in curve progression might indicate elbow
   # --------------------------------------------------
-  plot(ggplot(dfElbowValues, aes(x=xpos, y=wssround, label=wssround)) + 
-    geom_line(colour=lcol) + 
-    geom_point(colour=lcol, size=3) +
-    geom_text(hjust=-0.3) +
-    labs(title="Elbow criterion (sum of squares)", x="Number of clusters", y="elbow value"))
+  plot(ggplot(dfElbowValues, aes(x = xpos, y = wssround, label = wssround)) + 
+    geom_line(colour = lcol) + 
+    geom_point(colour = lcol, size = 3) +
+    geom_text(hjust = -0.3) +
+    labs(title = "Elbow criterion (sum of squares)", 
+         x = "Number of clusters", 
+         y = "elbow value"))
   # --------------------------------------------------
   # Plot diagram with differences between each step
   # increasing y-value on x-axis (compared to former y-values)
   # might indicate elbow
   # --------------------------------------------------
   if (showDiff) {
-    plot(ggplot(dfElbowDiff, aes(x=Var2, y=value, label=value)) + 
-           geom_line(colour=lcol) + 
-           geom_point(colour=lcol, size=3) +
-           geom_text(hjust=-0.3) +
-           labs(title="Elbow criterion (differences between sum of squares)", x="difference to previews cluster", y="delta"))
+    plot(ggplot(dfElbowDiff, aes(x = Var2, y = value, label = value)) + 
+           geom_line(colour = lcol) + 
+           geom_point(colour = lcol, size = 3) +
+           geom_text(hjust = -0.3) +
+           labs(title = "Elbow criterion (differences between sum of squares)", 
+                x = "difference to previews cluster", 
+                y = "delta"))
   }
 }
 
@@ -823,12 +837,15 @@ sjc.kgap <- function(x, max=10, B=100, SE.factor=1, method="Tibs2001SEmax", plot
   
   gap <- cluster::clusGap(x, kmeans, max, B)
 
-  stopifnot((K <- nrow(T <-gap$Tab)) >= 1, SE.factor >= 0)
-  message("Clustering Gap statistic [\"clusGap\"].\n", sprintf("B=%d simulated reference sets, k = 1..%d\n",gap$B, K), sep="")
-  nc <- cluster::maxSE(f = T[,"gap"], SE.f = T[,"SE.sim"], method=method, SE.factor=SE.factor)
+  stopifnot((K <- nrow(T <- gap$Tab)) >= 1, SE.factor >= 0)
+  message("Clustering Gap statistic [\"clusGap\"].\n", sprintf("B=%d simulated reference sets, k = 1..%d\n",gap$B, K), sep = "")
+  nc <- cluster::maxSE(f = T[, "gap"], 
+                       SE.f = T[, "SE.sim"], 
+                       method = method, 
+                       SE.factor = SE.factor)
   message(sprintf(" --> Number of clusters (method '%s'%s): %d\n",
               method,
-              if(grepl("SE", method, fixed = T)) sprintf(", SE.factor=%g",SE.factor) else "", nc))
+              if (grepl("SE", method, fixed = T)) sprintf(", SE.factor=%g", SE.factor) else "", nc))
   # point size for cluster solution
   nclus <- rep(2, max)
   nclus[nc] <- 4
@@ -836,18 +853,25 @@ sjc.kgap <- function(x, max=10, B=100, SE.factor=1, method="Tibs2001SEmax", plot
   cclus <- rep("black", max)
   cclus[nc] <- "#cc3366"
   # create data frame
-  df <- data.frame(x=1:max, y=gap$Tab[,'gap'], se=gap$Tab[,'SE.sim'], psize=nclus, pcol=cclus)
+  df <- data.frame(x = 1:max, 
+                   y = gap$Tab[, 'gap'], 
+                   se = gap$Tab[, 'SE.sim'], 
+                   psize = nclus, 
+                   pcol = cclus)
   # plot cluster solution
-  gp <- ggplot(df, aes(x=x, y=y)) + 
-    geom_errorbar(aes(ymin=y-se, ymax=y+se), width=0, size=0.5, colour="#3366cc") +
-    geom_line(colour="gray50") +
-    geom_point(colour=df$pcol, size=df$psize) +
-    scale_x_discrete(breaks=c(1:nrow(df))) +
-    labs(x="Number of clusters", y="Gap", title=sprintf("Estimation of clusters (gap statistics)\n%i-cluster solution found",nc)) +
+  gp <- ggplot(df, aes(x = x, y = y)) + 
+    geom_errorbar(aes(ymin = y - se, ymax = y + se), 
+                  width = 0, 
+                  size = 0.5, 
+                  colour = "#3366cc") +
+    geom_line(colour = "gray50") +
+    geom_point(colour = df$pcol, size = df$psize) +
+    scale_x_discrete(breaks = c(1:nrow(df))) +
+    labs(x = "Number of clusters", 
+         y = "Gap", 
+         title = sprintf("Estimation of clusters (gap statistics)\n%i-cluster solution found",nc)) +
     theme_classic()
-  if (plotResults) {
-    plot(gp)
-  }
+  if (plotResults) plot(gp)
   # return value
   invisible(structure(class = "sjckgap",
                       list(data = df,

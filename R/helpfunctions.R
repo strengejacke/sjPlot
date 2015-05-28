@@ -429,7 +429,7 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
 # of fitted (g)lm
 retrieveModelLabels <- function(models) {
   # check parameter. No labels supported for plm-objects
-  if (any(class(fit) == "plm")) return(NULL)
+  if (any(class(models) == "plm")) return(NULL)
   # do we have global options?
   opt <- getOption("autoSetVariableLabels")
   if (is.null(opt) || opt == TRUE) {
@@ -632,26 +632,28 @@ sjp.vif <- function(fit) {
     # grafik ausgeben, dabei die variablen der X-Achse nach aufsteigenden
     # VIF-Werten ordnen
     plot(ggplot(mydat, aes(x = reorder(vars, vif), y = vif)) +
-           # Balken zeichnen. Stat=identity heißt, dass nicht die counts, sondern
-           # die tatsächlichen Zahlenwerte (VIF-Werte) abgebildet werden sollen
-           geom_bar(stat="identity", width=0.7, fill="#80acc8") +
-           # grüne Linie zeichnen, die den guten Bereich anzeigt (VIF < 5)
-           geom_hline(yintercept=5, linetype=2, colour="darkgreen", alpha=0.7) +
-           # rote  Linie zeichnen, die den tolerablen Bereich anzeigt (VIF < 10)
-           geom_hline(yintercept=10, linetype=2, colour="darkred", alpha=0.7) +
-           # grüne und rote Line beschriften
-           annotate("text", x=1, y=4.7, label="good", size=4, colour="darkgreen") +
-           annotate("text", x=1, y=9.7, label="tolerable", size=4, colour="darkred") +
-           # als X-Achsenbeschriftung die Variablennamen setzen
-           scale_x_discrete(labels=mydat$label) +
-           # Keine weiteren Titel an X- und Y-Achse angeben
-           labs(title="Variance Inflation Factors (multicollinearity)", x=NULL, y=NULL) +
-           # maximale Obergrenze der Y-Achse setzen
-           scale_y_continuous(limits=c(0, upperLimit), expand=c(0,0)) +
-           # Beschriftung der X-Achse (Variablenlabel) in 45-Grad-Winkel setzen
-           theme(axis.text.x=element_text(angle=45, vjust=0.5, size=rel(1.2))))
+      # Balken zeichnen. Stat=identity heißt, dass nicht die counts, sondern
+      # die tatsächlichen Zahlenwerte (VIF-Werte) abgebildet werden sollen
+      geom_bar(stat = "identity", width = 0.7, fill = "#80acc8") +
+      # grüne Linie zeichnen, die den guten Bereich anzeigt (VIF < 5)
+      geom_hline(yintercept = 5, linetype = 2, colour = "darkgreen", alpha = 0.7) +
+      # rote  Linie zeichnen, die den tolerablen Bereich anzeigt (VIF < 10)
+      geom_hline(yintercept = 10, linetype = 2, colour = "darkred", alpha = 0.7) +
+      # grüne und rote Line beschriften
+      annotate("text", x = 1, y = 4.7, label = "good", size = 4, colour = "darkgreen") +
+      annotate("text", x = 1, y = 9.7, label = "tolerable", size = 4, colour = "darkred") +
+      # als X-Achsenbeschriftung die Variablennamen setzen
+      scale_x_discrete(labels = mydat$label) +
+      # Keine weiteren Titel an X- und Y-Achse angeben
+      labs(title = "Variance Inflation Factors (multicollinearity)", 
+           x = NULL, 
+           y = NULL) +
+      # maximale Obergrenze der Y-Achse setzen
+      scale_y_continuous(limits = c(0, upperLimit), expand = c(0, 0)) +
+      # Beschriftung der X-Achse (Variablenlabel) in 45-Grad-Winkel setzen
+      theme(axis.text.x = element_text(angle = 45, vjust = 0.5, size = rel(1.2))))
   }
-  invisible(vifval)
+  invisible(vifval)  
 }
 
 

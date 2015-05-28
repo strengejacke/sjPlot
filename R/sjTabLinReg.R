@@ -387,17 +387,6 @@ sjt.lm <- function (...,
   } else {
     p_zero <- "0"
   }
-  # -----------------------------------------------------------
-  # check parameter. No model-summary supported for plm-objects
-  # -----------------------------------------------------------
-  if (any(class(fit) == "plm")) {
-    # -----------------------------------------------------------
-    # check package availability if fit is plm-object
-    # -----------------------------------------------------------
-    if (!"package:plm" %in% search()) {
-      stop("Package 'plm' needs to be loaded for this function to work... Use 'library(plm)' and call this function again.", call. = FALSE)
-    }
-  }
   # -------------------------------------
   # check parameter
   # -------------------------------------
@@ -543,6 +532,17 @@ sjt.lm <- function (...,
   # we need to "unlist" them
   # --------------------------------------------------------
   if (class(input_list[[1]]) == "list") input_list <- lapply(input_list[[1]], function(x) x)
+  # -----------------------------------------------------------
+  # check parameter. No model-summary supported for plm-objects
+  # -----------------------------------------------------------
+  if (any(class(input_list[[1]]) == "plm")) {
+    # -----------------------------------------------------------
+    # check package availability if fit is plm-object
+    # -----------------------------------------------------------
+    if (!"package:plm" %in% search()) {
+      stop("Package 'plm' needs to be loaded for this function to work... Use 'library(plm)' and call this function again.", call. = FALSE)
+    }
+  }
   # ------------------------
   # do we have mixed models?
   # ------------------------
@@ -1071,13 +1071,16 @@ sjt.lm <- function (...,
                                                                                             ci.sep.string, 
                                                                                             ci.hi))
           # if p-values are not shown as numbers, insert them after beta-value
-          if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[i + 1, (j - 1) * 8 + 5]))
+          if (!pvaluesAsNumbers) page.content <- paste0(page.content, 
+                                                        sprintf("&nbsp;%s", 
+                                                                joined.df[i + 1, (j - 1) * 8 + 5]))
           page.content <- paste0(page.content, "</td>")
         }
       }
       # show std. error
-      if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign modelcolumn3\">%s</td>", 
-                                                                     joined.df[i + 1, (j - 1) * 8 + 6]))
+      if (showStdError) page.content <- paste0(page.content, 
+                                               sprintf("<td class=\"tdata centeralign modelcolumn3\">%s</td>", 
+                                                       joined.df[i + 1, (j - 1) * 8 + 6]))
       # show std. beta
       if (showStdBeta) {
         # retieve lower and upper ci
@@ -1151,7 +1154,9 @@ sjt.lm <- function (...,
         # does model have enough random intercepts?
         # if yes, print
         if (length(sub.mmgrps) >= gl) {
-          page.content <- paste(page.content, sprintf("   %s%i</td>\n", colspanstring, length(levels(sub.mmgrps[[gl]]))))
+          page.content <- paste(page.content, sprintf("   %s%i</td>\n", 
+                                                      colspanstring, 
+                                                      length(levels(sub.mmgrps[[gl]]))))
         } else {
           page.content <- paste(page.content, sprintf("   %s&nbsp;</td>\n", colspanstring))
         }
@@ -1200,7 +1205,7 @@ sjt.lm <- function (...,
     # -------------------------------------
     # get number of observations
     # -------------------------------------
-    if (any(class(fit) == "plm")) {
+    if (any(class(input_list[[i]]) == "plm")) {
       # "plm" seems not to offer a "nobs" function
       n_of_obs <- nrow(input_list[[i]]$model)
     } else {
@@ -1471,32 +1476,9 @@ sjt.lm <- function (...,
 #'            }
 #'            for further use.
 #'
-#' @note The HTML tables can either be saved as file and manually opened (specify parameter \code{file}) or
-#'         they can be saved as temporary files and will be displayed in the RStudio Viewer pane (if working with RStudio)
-#'         or opened with the default web browser. Displaying resp. opening a temporary file is the
-#'         default behaviour (i.e. \code{file=NULL}).
-#' 
-#' @details \bold{How does the \code{CSS}-parameter work?}
-#'            \cr \cr
-#'            With the \code{CSS}-paramater, the visual appearance of the tables
-#'            can be modified. To get an overview of all style-sheet-classnames 
-#'            that are used in this function, see return value \code{page.style} for details. 
-#'            Parameters for this list have following syntax:
-#'          \enumerate{
-#'            \item the class-names with \code{"css."}-prefix as parameter name and
-#'            \item each style-definition must end with a semicolon
-#'          } 
-#'          You can add style information to the default styles by using a + (plus-sign) as
-#'          initial character for the parameter attributes. Examples:
-#'          \itemize{
-#'            \item \code{css.table='border:2px solid red;'} for a solid 2-pixel table border in red.
-#'            \item \code{css.summary='font-weight:bold;'} for a bold fontweight in the summary row.
-#'            \item \code{css.lasttablerow='border-bottom: 1px dotted blue;'} for a blue dotted border of the last table row.
-#'            \item \code{css.colnames='+color:green'} to add green color formatting to column names.
-#'            \item \code{css.arc='color:blue;'} for a blue text color each 2nd row.
-#'            \item \code{css.caption='+color:red;'} to add red font-color to the default table caption style.
-#'          }
-#'          See further examples at \href{http://www.strengejacke.de/sjPlot/sjtbasics}{sjPlot manual: sjt-basics}.
+#' @note See 'Notes' in \code{\link{sjt.frq}}.
+#'  
+#' @details See 'Details' in \code{\link{sjt.frq}}.
 #' 
 #' @examples
 #' \dontrun{
