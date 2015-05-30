@@ -1183,7 +1183,7 @@ sjt.lm <- function (...,
           # does model have enough icc values?
           # if yes, print
           if (length(sub.summary.icc) >= si) {
-            sum.icc.str <- paste0(sprintf("    %.*f", digits.summary, sub.summary.icc[si]), collapse = "")
+            sum.icc.str <- paste0(sprintf("%.*f", digits.summary, sub.summary.icc[si]), collapse = "")
             page.content <- paste0(page.content, colspanstring, sum.icc.str, "</td>\n")
           } else {
             page.content <- paste0(page.content, colspanstring, "&nbsp;</td>\n")

@@ -1054,11 +1054,17 @@ sjp.eff.int <- function(fit,
   eff <- effects::allEffects(fit)
   # ------------------------
   # check if fitted model contains any interaction terms
+  # allEffects returns a list, with all interaction effects 
+  # (or higher order terms) as separate list element. each list
+  # element contains the higher-order-term of the fitted model,
+  # where the 'term' attribute of interaction terms have a "*". 
+  # So we just need to look at each 'term' attribute of each
+  # list element and see if there is a "*"...
   # ------------------------
   int <- unlist(lapply(eff, function(x) grep("*", x['term'], fixed = T)))
   if (length(int) == 0) {
     warning("No interaction term found in fitted model...", call. = FALSE)
-    return (invisible (NULL))
+    return(invisible(NULL))
   }
   # ------------------------
   # retrieve position of interaction terms in effects-object
