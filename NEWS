@@ -1,3 +1,8 @@
+Version 1.8.1-1
+------------------------------------------------------------------------------
+Bug fixes:
+* "sjp.int" sometimes crashed with mixed models, due to slow Kenward-Roger-computation of standard errors, provided by the "effects"-package. Fixed, "KR"-parameter, when calling "allEffects", now defaults to "FALSE".
+
 Version 1.8.1
 ------------------------------------------------------------------------------
 General:

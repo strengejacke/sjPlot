@@ -34,30 +34,7 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since this package makes heavy use of the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of stable release 1.8.1
-
-#### General
-* Deprecated function `sjp.emm.int` was removed. Use `sjp.int` with parameter `type = 'emm'` to plot estimated marginal means.
-* Minor improvements for `sjt.lm` and `sjt.glm`.
-
-#### New functions
-* `sjt.lmer` to print summary tables of linear mixed models.
-* `sjt.glmer` to print summary tables of generalized linear mixed models.
-
-#### Changes to functions
-* Added `type = "probc"` to `sjp.glm` as alternative to `type = "prob"`. `type = "probc"` calculates predicted probabilities based on the `predict` function.
-* Added `type = "y.prob"` to `sjp.glm` and `sjp.glmer` to plot predicted probabilities of the response.
-* Added `type = "resp"` to `sjp.lm` and `sjp.lmer` to plot predicted values of the response.
-* `sjt.grpmean` gets a `weightBy` parameter to compute weighted group-means.
-* `sjt.glm` gets a `showHosLem` parameter to print results of the Hosmer-Lemeshow-Goodness-of-fit-Test for generalized linear models.
-* Added white-background-alternative-themes of 538, 539 and scatter to `sjp.setTheme`.
-* `sjt.frq` now warns when a variable has less labels than unique values.
-* `sjp.int` for `type = 'emm'` now warns if interaction terms are not factors.
+### Changelog of stable release 1.8.1-1
 
 #### Bug fixes
-* Fixed bug with `options(p_zero = TRUE)`, where leading zero was inserted after, instead of before decimal point.
-* Fixed formatting bug for pseudo-R2 in `sjt.glm`.
-* Fixed bug in `sjp.likert` when data frame had only one column.
-* Fixed bug in `sjt.frq` when a data frame contained variables with only NA values.
-* Fixed bugs in `sjt.frq` with weighted variables.
-* Fixed wrong warning message, saying that package `lme4` is missing (should be package `arm` instead).
+* `sjp.int` sometimes crashed with mixed models, due to slow Kenward-Roger-computation of standard errors, provided by the `effects`-package. Fixed, `KR`-parameter, when calling `allEffects`, now defaults to `FALSE`.

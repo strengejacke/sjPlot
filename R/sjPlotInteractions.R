@@ -1051,7 +1051,7 @@ sjp.eff.int <- function(fit,
   # ------------------------
   # calculate effects of higher order terms
   # ------------------------
-  eff <- effects::allEffects(fit)
+  eff <- effects::allEffects(fit, KR = F)
   # ------------------------
   # check if fitted model contains any interaction terms
   # allEffects returns a list, with all interaction effects 
@@ -1134,7 +1134,7 @@ sjp.eff.int <- function(fit,
       # change list name to moderator value name
       names(xl) <- moderator.name
       # re-compute effects
-      eff.tmp <- effects::allEffects(fit, xlevels = xl)
+      eff.tmp <- effects::allEffects(fit, xlevels = xl, KR = F)
       # reset data frame
       intdf <- data.frame(eff.tmp[[intpos[i]]])
     }
