@@ -83,7 +83,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Perc", "Sum", "Count", "
 #' @param stringTotal The string for the legend label when a total-column is added. Only applies
 #'          if \code{showTotalColumn} is \code{TRUE}. Default is \code{"Total"}.
 #' @param showCategoryLabels Whether x axis text (category names) should be shown or not.
-#' @param showTableSummary If \code{TRUE} (default), a summary of the cross tabulation with N, Chi-square (see \code{\link{chisq.test}}),
+#' @param showTableSummary If \code{TRUE}, a summary of the cross tabulation with N, Chi-square (see \code{\link{chisq.test}}),
 #'          df, Cramer's V or Phi-value and p-value is printed to the upper right corner of the diagram. If a cell contains expected 
 #'          values lower than five (or lower than 10 if df is 1),
 #'          the Fisher's excact test (see \code{\link{fisher.test}}) is computed instead of Chi-square test. 
@@ -124,6 +124,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Perc", "Sum", "Count", "
 #' sjp.xtab(var, grp, 
 #'          tableIndex = "row", 
 #'          barPosition = "stack", 
+#'          showTableSummary = TRUE,
 #'          coord.flip = TRUE)
 #' 
 #' # example with vertical labels
@@ -135,7 +136,6 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Perc", "Sum", "Count", "
 #' update_geom_defaults('text', list(hjust = -0.1))
 #' sjp.xtab(efc$e42dep, 
 #'          efc$e16sex,
-#'          showTableSummary = FALSE,
 #'          labelPos = "center")
 #' 
 #' # grouped bars with EUROFAMCARE sample dataset
@@ -210,7 +210,7 @@ sjp.xtab <- function(var,
                     showCountValues=TRUE,
                     showPercentageValues=TRUE,
                     showCategoryLabels=TRUE,
-                    showTableSummary=TRUE,
+                    showTableSummary=FALSE,
                     tableSummaryPos="r",
                     showTotalColumn=TRUE,
                     hideLegend=FALSE,

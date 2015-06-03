@@ -19,9 +19,9 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "f
 #'            \item{\code{"fe"}}{for odds ratios of fixed effects}
 #'            \item{\code{"fe.cor"}}{for correlation matrix of fixed effects}
 #'            \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
-#'            \item{\code{"fe.pc"}}{or \code{"fe.prob"} to plot probability curves (predicted probabilities) of all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
-#'            \item{\code{"ri.pc"}}{or \code{"ri.prob"} to plot probability curves (predicted probabilities) of random intercept variances for all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
-#'            \item{\code{"y.pc"}}{or \code{"y.prob"} to plot predicted probabilities for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot.}
+#'            \item{\code{"fe.pc"}}{or \code{"fe.prob"} to plot probability curves (predicted probabilities) of all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
+#'            \item{\code{"ri.pc"}}{or \code{"ri.prob"} to plot probability curves (predicted probabilities) of random intercept variances for all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
+#'            \item{\code{"y.pc"}}{or \code{"y.prob"} to plot predicted probabilities for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot. See 'Details'.}
 #'          }
 #' @param vars a numeric vector with column indices of selected variables or a character vector with
 #'          variable names of selected variables from the fitted model, which should be used to plot probability
@@ -94,6 +94,24 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "f
 #' @note Thanks go to Robert Reijntjes from Leiden University Medical Center for sharing
 #'         R code that is used to compute fixed effects correlation matrices and
 #'         qq-plots of random effects.
+#'
+#' @details \describe{
+#'            \item{\code{type = "fe.pc"}}{(or \code{"fe.prob"}), the predicted probabilities
+#'            are based on the fixed effects intercept's estimate and each specific 
+#'            fixed term's estimate. All other fixed effects are set to zero (i.e. ignored), 
+#'            which corresponds to \code{\link{plogis}(b0 + bx * x)} (where \code{x} 
+#'            is the logit-estimate of fixed effects and \code{b0} is the intercept of
+#'            the fixed effects).}
+#'            \item{\code{type = "ri.pc"}}{(or \code{"ri.prob"}), the predicted probabilities
+#'            are based on the fixed effects intercept, plus each random intercept and 
+#'            each specific  fixed term's estimate. All other fixed effects are set to zero (i.e. ignored), 
+#'            which corresponds to \code{\link{plogis}(b0 + b0[r1-rn] + bx * x)} (where \code{x} 
+#'            is the logit-estimate of fixed effects, \code{b0} is the intercept of
+#'            the fixed effects and \code{b0[r1-rn]} are all random intercepts).}
+#'            \item{\code{type = "y.pc"}}{(or \code{type = "y.prob"}), the predicted values
+#'            of the response are computed, based on the \code{predict.merMod}
+#'            method. Corresponds to \code{\link{plogis}(predict(fit, type = "response"))}.}
+#'          }
 #'
 #' @examples
 #' \dontrun{
@@ -745,7 +763,7 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------
       # show intercept?
       # ---------------------------------------
-      startAt <- ifelse (showIntercept == TRUE, 1, 2)
+      startAt <- ifelse(showIntercept == TRUE, 1, 2)
       # ---------------------------------------
       # retrieve standard errors, for ci
       # ---------------------------------------
@@ -967,7 +985,7 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------
       # ggplot-objekt
       # ---------------------------------------
-      interc <- ifelse (fun == "glm", 1, 0)
+      interc <- ifelse(fun == "glm", 1, 0)
       mydf$interc <- interc
       gp <- ggplot(mydf, aes(x = x,
                              y = OR,
@@ -1024,14 +1042,14 @@ sjp.lme4  <- function(fit,
         gp <- gp + labs(x = axisTitle.x, y = axisTitle.y)
         # check if user wants free scale for each facet
         if (free.scale)
-          gp  <- gp + facet_wrap( ~ grp, scales = "free_y")
+          gp  <- gp + facet_wrap(~grp, scales = "free_y")
         else
-          gp  <- gp + facet_grid( ~ grp)
+          gp  <- gp + facet_grid(~grp)
       } else {
         gp <- gp +
           labs(x = axisTitle.x, y = axisTitle.y, title = title)
       }
-      return (gp)
+      return(gp)
     }
     # ---------------------------------------
     # facet grid means, just one plot
@@ -1055,7 +1073,7 @@ sjp.lme4  <- function(fit,
       # set geom colors
       # ---------------------------------------------------------
       me.plot <- sj.setGeomColors(me.plot, geom.colors, 2, FALSE, NULL)
-      me.plot.list[[length(me.plot.list)+1]]  <- me.plot
+      me.plot.list[[length(me.plot.list) + 1]]  <- me.plot
       # ---------------------------------------------------------
       # Check whether ggplot object should be returned or plotted
       # ---------------------------------------------------------
@@ -1088,7 +1106,7 @@ sjp.lme4  <- function(fit,
         # set geom colors
         # ---------------------------------------------------------
         me.plot <- sj.setGeomColors(me.plot, geom.colors, 2, FALSE, NULL)
-        me.plot.list[[length(me.plot.list)+1]]  <- me.plot
+        me.plot.list[[length(me.plot.list) + 1]]  <- me.plot
         # ---------------------------------------------------------
         # Check whether ggplot object should be returned or plotted
         # ---------------------------------------------------------
@@ -1102,10 +1120,10 @@ sjp.lme4  <- function(fit,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = ifelse (fun == "glm", "sjpglmer", "sjplmer"),
-                       list(plot = me.plot,
-                            plot.list = me.plot.list,
-                            mydf = mydf)))
+  invisible(structure(class = ifelse(fun == "glm", "sjpglmer", "sjplmer"),
+                      list(plot = me.plot,
+                           plot.list = me.plot.list,
+                           mydf = mydf)))
 }
 
 
@@ -1135,7 +1153,6 @@ sjp.lme.feprobcurv <- function(fit,
   # ----------------------------
   fit.term.length <- length(names(lme4::fixef(fit))[-1])
   fit.term.names <- na.omit(attr(attr(fit.df, "terms"), "term.labels")[1:fit.term.length])
-  response.name <- attr(attr(attr(fit.df, "terms"), "dataClasses"), "names")[1]
   fi <- unname(lme4::fixef(fit))[1]
   # ----------------------------
   # filter vars?
@@ -1229,7 +1246,7 @@ sjp.lme.feprobcurv <- function(fit,
         # cartesian coord still plots range of se, even
         # when se exceeds plot range.
         coord_cartesian(ylim = c(0, 1)) +
-        facet_wrap(~ grp,
+        facet_wrap(~grp,
                    ncol = round(sqrt(length(mydf.metricpred))),
                    scales = "free_x") +
         guides(colour = FALSE)
@@ -1251,11 +1268,11 @@ sjp.lme.feprobcurv <- function(fit,
       }
     }
   }
-  return (structure(class = "sjpglmer.fecc",
-          list(mydf.mp = mydf.metricpred,
-               plot.mp = plot.metricpred,
-               mydf.facet = mydf.facet,
-               plot.facet = plot.facet)))
+  return(structure(class = "sjpglmer.fecc",
+                   list(mydf.mp = mydf.metricpred,
+                        plot.mp = plot.metricpred,
+                        mydf.facet = mydf.facet,
+                        plot.facet = plot.facet)))
 }
 
 
@@ -1628,7 +1645,7 @@ sjp.lme.reqq <- function(fit,
   pv   <- attr(re, "postVar")
   cols <- 1:(dim(pv)[1])
   se   <- unlist(lapply(cols, function(i) sqrt(pv[i, i, ])))
-  ord  <- unlist(lapply(re, order)) + rep((0:(ncol(re) - 1)) * nrow(re), each=nrow(re))
+  ord  <- unlist(lapply(re, order)) + rep((0:(ncol(re) - 1)) * nrow(re), each = nrow(re))
   pDf  <- data.frame(y = unlist(re)[ord],
                      ci = 1.96 * se[ord],
                      nQQ = rep(qnorm(ppoints(nrow(re))), ncol(re)),
@@ -1636,7 +1653,7 @@ sjp.lme.reqq <- function(fit,
                      ind = gl(ncol(re), nrow(re), labels = names(re)),
                      grp = "1")
   gp <- ggplot(pDf, aes(nQQ, y, colour = grp)) +
-    facet_wrap(~ ind, scales = "free") +
+    facet_wrap(~ind, scales = "free") +
     xlab("Standard normal quantiles") +
     ylab("Random effect quantiles") +
     # Intercept-line
@@ -1670,9 +1687,9 @@ sjp.lme.reqq <- function(fit,
   # -------------------------------------
   # return results
   # -------------------------------------
-  return (invisible(structure(class = ifelse (fun == "glm", "sjpglmer.qq", "sjplmer.qq"),
-                              list(plot = gp,
-                                   mydf = pDf))))
+  return(invisible(structure(class = ifelse(fun == "glm", "sjpglmer.qq", "sjplmer.qq"),
+                             list(plot = gp,
+                                  mydf = pDf))))
 }
 
 
@@ -1725,10 +1742,10 @@ sjp.lme.fecor <- function(fit,
                        useViewer = useViewer,
                        no.output = no.output)
   }
-  return (invisible(structure(class = ifelse (fun == "glm", "sjpglmer.cor", "sjplmer.cor"),
-                              list(plot = corret$plot,
-                                   mydf = corret$df,
-                                   corr.matrix = corret$corr.matrix))))
+  return(invisible(structure(class = ifelse(fun == "glm", "sjpglmer.cor", "sjplmer.cor"),
+                             list(plot = corret$plot,
+                                  mydf = corret$df,
+                                  corr.matrix = corret$corr.matrix))))
 }
 
 
@@ -1780,7 +1797,7 @@ sjp.lme.fecondpred.onlynumeric <- function(fit,
       # retrieve names of coefficients
       coef.names <- names(lme4::fixef(fit))
       # find coef-position
-      coef.pos <- which(coef.names==fit.term.names[i])
+      coef.pos <- which(coef.names == fit.term.names[i])
       # calculate x-beta by multiplying original values with estimate of that term
       mydf.vals$xbeta <- mydf.vals$value * (lme4::fixef(fit)[coef.pos])
       # calculate probability (y) via cdf-function
@@ -1797,7 +1814,7 @@ sjp.lme.fecondpred.onlynumeric <- function(fit,
   # ---------------------------------------------------------
   # Prepare metric plots
   # ---------------------------------------------------------
-  if (length(mydf.metricpred)>0) {
+  if (length(mydf.metricpred) > 0) {
     # create mydf for integrated plot
     mydf.ges <- data.frame()
     for (i in 1:length(mydf.metricpred)) {
@@ -1812,7 +1829,7 @@ sjp.lme.fecondpred.onlynumeric <- function(fit,
         # when se exceeds plot range.
         coord_cartesian(ylim = c(0, 1))
       # add plot to list
-      plot.metricpred[[length(plot.metricpred)+1]] <- mp
+      plot.metricpred[[length(plot.metricpred) + 1]] <- mp
     }
     # -------------------------------------
     # if we have more than one numeric var, also create integrated plot
@@ -1831,9 +1848,9 @@ sjp.lme.fecondpred.onlynumeric <- function(fit,
         # cartesian coord still plots range of se, even
         # when se exceeds plot range.
         coord_cartesian(ylim = c(0, 1)) +
-        facet_wrap( ~ grp,
-                    ncol = round(sqrt(length(mydf.metricpred))),
-                    scales = "free_x") +
+        facet_wrap(~grp,
+                   ncol = round(sqrt(length(mydf.metricpred))),
+                   scales = "free_x") +
         guides(colour = FALSE)
       # add integrated plot to plot list
       plot.facet <- mp
@@ -1854,11 +1871,11 @@ sjp.lme.fecondpred.onlynumeric <- function(fit,
       }
     }
   }
-  return (structure(class = "sjpglmer.fecc",
-                    list(mydf.mp = mydf.metricpred,
-                         plot.mp = plot.metricpred,
-                         mydf.facet = mydf.facet,
-                         plot.facet = plot.facet)))
+  return(structure(class = "sjpglmer.fecc",
+                   list(mydf.mp = mydf.metricpred,
+                        plot.mp = plot.metricpred,
+                        mydf.facet = mydf.facet,
+                        plot.facet = plot.facet)))
 }
 
 get_lmerMod_pvalues <- function(fitmod) {
@@ -1891,5 +1908,5 @@ get_lmerMod_pvalues <- function(fitmod) {
     # i.e. times to repeat, is indicated by the Df.
     pv <- c(pv, rep(pia$`Pr(>Chisq)`, pia$Df))
   }
-  return (pv)
+  return(pv)
 }

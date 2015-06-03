@@ -75,7 +75,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "l
 #'          Default is 2, i.e. estimates have 2 digits after decimal point.
 #' @param showPValueLabels Whether the significance levels of each coefficient should be appended
 #'          to values or not
-#' @param showModelSummary If \code{TRUE} (default), a summary of the regression model with
+#' @param showModelSummary If \code{TRUE}, a summary of the regression model with
 #'          Intercept, R-square, F-Test and AIC-value is printed to the lower right corner
 #'          of the diagram.
 #' @param lineColor The color of the regression line. Default is \code{"blue"}.
@@ -212,7 +212,7 @@ sjp.lm <- function(fit,
                    showValueLabels=TRUE,
                    labelDigits=2,
                    showPValueLabels=TRUE,
-                   showModelSummary=TRUE,
+                   showModelSummary=FALSE,
                    lineColor="blue",
                    showCI=TRUE,
                    ciLevel=0.95,

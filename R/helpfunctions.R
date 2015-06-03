@@ -73,6 +73,7 @@ out.html.table <- function(no.output, file, knitr, toWrite, useViewer) {
 # for sjp and sjt frq functions
 create.frq.df <- function(varCount,
                           labels,
+                          labelvalues,
                           breakLabelsAt,
                           order.frq = "none",
                           round.prz = 4,
@@ -89,76 +90,106 @@ create.frq.df <- function(varCount,
   df <- as.data.frame(table(varCount))
   # name columns
   names(df) <- c("y", "Freq")
-  # --------------------------------------------------------
-  # Define amount of category, include zero counts
-  # --------------------------------------------------------
-  # Zero counts of categories are not plotted by default just becaus
-  # these categories don't appear in the data. If we assume a
-  # "quasi-continuous" scale (categories from 1 to 4 etc.), we now
-  # identify the zero counts and add / insert them into the data frame.
-  # This enables us to plot zero counts as well.
-  # We guess the maximum amount of categories either by the amount
-  # of supplied category labels. If no category labels were passed
-  # as parameter, we assume that the maximum value found in the category
-  # columns represents the highest category number
-  catcount <- 0
-  catmin <- minval <- min(varCount, na.rm = TRUE)
-  # ----------------------------------------------
-  # check for axis start, depending on lowest value
-  # ----------------------------------------------
-  if (startAxisAt == "auto") {
-    startAxisAt <- as.numeric(catmin)
-    if (startAxisAt == 0) startAxisAt <- 1
-  }
-  # Factors have to be transformed into numeric values
-  # for continiuos x-axis-scale
-  df$y <- sjmisc::to_value(df$y, keep.labels = F)
-  # if categories start with zero, fix this here
-  if (min(df$y) == 0 && startAxisAt > 0) df$y <- df$y + 1
-  # get the highest answer category of "y", so we know where the
-  # range of the x-axis ends
-  if (!is.null(labels)) {
-    # check if we have much less labels than values
-    # so there might be a labelling mistake with
-    # the variable
-    if (length(labels) < length(unique(na.omit(varCount)))) {
-      warning("Variable has less labels than unique values. Output might be incorrect. Please check value labels.", call. = F)
+  #---------------------------------------------------
+  # do we have label values associated with value labels?
+  # if yes, we assume that these values are the range
+  # of valid values for varCount...
+  #---------------------------------------------------
+  if (!is.null(labelvalues)) {
+    # create column of label values
+    df.lv <- data.frame(labelvalues)
+    # find matching values in varCount for label values
+    df.lv$frq <- df$Freq[match(df.lv$labelvalues, df$y)]
+    # copy df
+    mydat <- df.lv
+    # name columns
+    names(mydat) <- c("var", "frq")
+    # replace NA with zero
+    mydat$frq[is.na(mydat$frq)] <- 0
+    # create dummy-catcout, for missings. see below
+    catcount <- max(mydat$var, na.rm = T) + 1
+    # define minimum value
+    catmin <- minval <- min(varCount, na.rm = TRUE)
+    # wrap labels
+    if (!is.null(labels)) {
+      labels <- sjmisc::word_wrap(labels, breakLabelsAt)
+    } else {
+      # If axisLabels.x were not defined, simply set numbers from 1 to
+      # amount of categories (=number of rows) in dataframe instead
+      labels <- as.character(mydat$var)
     }
-    catcount <- startAxisAt + length(labels) - 1
   } else {
-    # determine maximum values
-    # first, check the total amount of different factor levels
-    catcount_1 <- length(unique(na.omit(varCount)))
-    # second, check the maximum factor level
-    catcount_2 <- max(varCount, na.rm = TRUE)
+    # --------------------------------------------------------
+    # Define amount of category, include zero counts
+    # --------------------------------------------------------
+    # Zero counts of categories are not plotted by default just becaus
+    # these categories don't appear in the data. If we assume a
+    # "quasi-continuous" scale (categories from 1 to 4 etc.), we now
+    # identify the zero counts and add / insert them into the data frame.
+    # This enables us to plot zero counts as well.
+    # We guess the maximum amount of categories either by the amount
+    # of supplied category labels. If no category labels were passed
+    # as parameter, we assume that the maximum value found in the category
+    # columns represents the highest category number
+    catcount <- 0
+    catmin <- minval <- min(varCount, na.rm = TRUE)
+    # ----------------------------------------------
+    # check for axis start, depending on lowest value
+    # ----------------------------------------------
+    if (startAxisAt == "auto") {
+      startAxisAt <- as.numeric(catmin)
+      if (startAxisAt == 0) startAxisAt <- 1
+    }
+    # Factors have to be transformed into numeric values
+    # for continuous x-axis-scale
+    df$y <- sjmisc::to_value(df$y, keep.labels = F)
     # if categories start with zero, fix this here
-    if (min(varCount, na.rm = TRUE) == 0) catcount_2 <- catcount_2 + 1
-    # catcount should contain the higher values, i.e. the maximum count of
-    # categories (factor levels) corresponds either to the highest factor level
-    # value or to the amount of different factor levels, depending on which one
-    # is larger
-    catcount <- ifelse(catcount_1 > catcount_2, catcount_1, catcount_2)
+    if (min(df$y) == 0 && startAxisAt > 0) df$y <- df$y + 1
+    # get the highest answer category of "y", so we know where the
+    # range of the x-axis ends
+    if (!is.null(labels)) {
+      # check if we have much less labels than values
+      # so there might be a labelling mistake with
+      # the variable
+      if (length(labels) < length(unique(na.omit(varCount)))) {
+        warning("Variable has less labels than unique values. Output might be incorrect. Please check value labels.", call. = F)
+      }
+      catcount <- startAxisAt + length(labels) - 1
+    } else {
+      # determine maximum values
+      # first, check the total amount of different factor levels
+      catcount_1 <- length(unique(na.omit(varCount)))
+      # second, check the maximum factor level
+      catcount_2 <- max(varCount, na.rm = TRUE)
+      # if categories start with zero, fix this here
+      if (min(varCount, na.rm = TRUE) == 0) catcount_2 <- catcount_2 + 1
+      # catcount should contain the higher values, i.e. the maximum count of
+      # categories (factor levels) corresponds either to the highest factor level
+      # value or to the amount of different factor levels, depending on which one
+      # is larger
+      catcount <- ifelse(catcount_1 > catcount_2, catcount_1, catcount_2)
+    }
+    # Create a vector of zeros
+    frq <- rep(0, catcount)
+    # Replace the values in freq for those indices which equal dummyf$xa
+    # by dummyf$ya so that remaining indices are ones which you
+    # intended to insert
+    frq[df$y] <- df$Freq
+    # create new data frame. We now have a data frame with all
+    # variable categories abd their related counts, including
+    # zero counts, but no(!) missings!
+    mydat <- as.data.frame(cbind(var = startAxisAt:catcount,
+                                 frq = frq[startAxisAt:catcount]))
+    if (!is.null(labels)) {
+      labels <- sjmisc::word_wrap(labels, breakLabelsAt)
+    } else {
+      # If axisLabels.x were not defined, simply set numbers from 1 to
+      # amount of categories (=number of rows) in dataframe instead
+      labels <- c(startAxisAt:(nrow(mydat) + startAxisAt - 1))
+    }
   }
-  # Create a vector of zeros
-  frq <- rep(0, catcount)
-  # Replace the values in freq for those indices which equal dummyf$xa
-  # by dummyf$ya so that remaining indices are ones which you
-  # intended to insert
-  frq[df$y] <- df$Freq
-  # create new data frame. We now have a data frame with all
-  # variable categories abd their related counts, including
-  # zero counts, but no(!) missings!
-  mydat <- as.data.frame(cbind(var = startAxisAt:catcount,
-                               frq = frq[startAxisAt:catcount]))
   # caculate missings here
   missingcount <- length(which(is.na(varCount)))
-  if (!is.null(labels)) {
-    labels <- sjmisc::word_wrap(labels, breakLabelsAt)
-  } else {
-    # If axisLabels.x were not defined, simply set numbers from 1 to
-    # amount of categories (=number of rows) in dataframe instead
-    if (is.null(labels)) labels <- c(startAxisAt:(nrow(mydat) + startAxisAt - 1))
-  }
   # --------------------------------------------------------
   # Handle missings
   # --------------------------------------------------------
@@ -193,19 +224,21 @@ create.frq.df <- function(varCount,
   # more value labels than data frame rows (i.e. more categories are expected
   # than appear in the data frame)
   # --------------------------------------------------------
-  dfc <- 1
-  while (length(labels) > nrow(mydat) && as.numeric(mydat$var[dfc]) > dfc) {
-    # insert "first" row which seems to be missing
-    mydat <- rbind(rep(0, ncol(mydat)), mydat)
-    # increase counter
-    dfc <- dfc + 1
-  }
-  # check if we modified mydat
-  if (dfc > 1) {
-    # set var
-    mydat$var <- c(1:nrow(mydat))
-    if (catmin != min(as.numeric(mydat$var), na.rm = T)) {
-      catmin <- min(as.numeric(mydat$var), na.rm = T)
+  if (!is.null(labelvalues)) {
+    dfc <- 1
+    while (length(labels) > nrow(mydat) && as.numeric(mydat$var[dfc]) > dfc) {
+      # insert "first" row which seems to be missing
+      mydat <- rbind(rep(0, ncol(mydat)), mydat)
+      # increase counter
+      dfc <- dfc + 1
+    }
+    # check if we modified mydat
+    if (dfc > 1) {
+      # set var
+      mydat$var <- c(1:nrow(mydat))
+      if (catmin != min(as.numeric(mydat$var), na.rm = T)) {
+        catmin <- min(as.numeric(mydat$var), na.rm = T)
+      }
     }
   }
   # -------------------------------------

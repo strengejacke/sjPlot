@@ -4,8 +4,8 @@
 \alias{sjp.frq}
 \title{Plot frequencies of (count) variables}
 \usage{
-sjp.frq(varCount, type = "bars", title = "", weightBy = NULL,
-  weightByTitleString = NULL, interactionVar = NULL, sort.frq = "none",
+sjp.frq(varCount, title = "", weightBy = NULL, weightByTitleString = NULL,
+  interactionVar = NULL, sort.frq = "none", type = "bars",
   geom.size = 0.7, geom.colors = NULL, axisLabels.x = NULL,
   interactionVarLabels = NULL, axisLimits.y = NULL, breakTitleAt = 50,
   breakLabelsAt = 20, gridBreaksAt = NULL, innerBoxPlotWidth = 0.15,
@@ -25,17 +25,6 @@ sjp.frq(varCount, type = "bars", title = "", weightBy = NULL,
 \arguments{
 \item{varCount}{The variable which frequencies should be plotted.}
 
-\item{type}{Specifies the type of distribution plot that will be plotted.
-\describe{
-  \item{\code{"bar"}}{or \code{"bars"} or \code{"b"} for simple bars (the default setting)}
-  \item{\code{"dots"}}{or \code{"dot"} for a dot plot}
-  \item{\code{"h"}}{or \code{"hist"} or \code{"histogram"} for a histogram}
-  \item{\code{"line"}}{or \code{"lines"} or \code{"l"} for a histogram with filled area with line}
-  \item{\code{"dens"}}{or \code{"d"} or \code{"density"} for a density plot}
-  \item{\code{"box"}}{or \code{"boxplot"} or \code{"boxplots"} for box plots}
-  \item{\code{"v"}}{or \code{"violin"} for violin plots}
-  }}
-
 \item{title}{Title of diagram as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
 (see \code{\link[sjmisc]{set_var_labels}}) for details).}
@@ -54,6 +43,17 @@ is \code{"box"} or \code{"violin"} (resp. their alternative strings like \code{"
 \item{sort.frq}{Determines whether categories on x-axis should be sorted according to the frequencies or not.
 Default is \code{"none"}, so categories are not sorted by frequency. Use \code{"asc"} or
 \code{"desc"} for sorting categories ascending or descending in relation to the frequencies.}
+
+\item{type}{Specifies the type of distribution plot that will be plotted.
+\describe{
+  \item{\code{"bar"}}{or \code{"bars"} or \code{"b"} for simple bars (the default setting)}
+  \item{\code{"dots"}}{or \code{"dot"} for a dot plot}
+  \item{\code{"h"}}{or \code{"hist"} or \code{"histogram"} for a histogram}
+  \item{\code{"line"}}{or \code{"lines"} or \code{"l"} for a histogram with filled area with line}
+  \item{\code{"dens"}}{or \code{"d"} or \code{"density"} for a density plot}
+  \item{\code{"box"}}{or \code{"boxplot"} or \code{"boxplots"} for box plots}
+  \item{\code{"v"}}{or \code{"violin"} for violin plots}
+  }}
 
 \item{geom.size}{size of geoms, depending on the plot \code{type}. Note that
 bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).}

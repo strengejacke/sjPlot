@@ -23,6 +23,7 @@
 #'                  \item generalized linear models (\code{\link{glm}})
 #'                  \item linear mixed effects models (\code{\link[lme4]{lmer}})
 #'                  \item generalized linear mixed effects models (\code{\link[lme4]{glmer}})
+#'                  \item non-linear mixed effects models (\code{\link[lme4]{nlmer}})
 #'                  \item linear mixed effects models (\code{\link[nlme]{lme}}, but only for \code{type = "eff"})
 #'                  \item generalized least squares models (\code{\link[nlme]{gls}}, but only for \code{type = "eff"})
 #'                  \item panel data estimators (\code{plm})
@@ -38,6 +39,7 @@
 #'            \item generalized linear models (\code{\link{glm}})
 #'            \item linear mixed effects models (\code{\link[lme4]{lmer}})
 #'            \item generalized linear mixed effects models (\code{\link[lme4]{glmer}})
+#'            \item non-linear mixed effects models (\code{\link[lme4]{nlmer}})
 #'            \item linear mixed effects models (\code{\link[nlme]{lme}}, but only for \code{type = "eff"})
 #'            \item generalized least squares models (\code{\link[nlme]{gls}}, but only for \code{type = "eff"})
 #'            \item panel data estimators (\code{plm})
@@ -48,6 +50,9 @@
 #'            \item{\code{type = "eff"}}{plots the overall moderation effect on the response value. See 'Details'.}
 #'            \item{\code{type = "emm"}}{plots the estimated marginal means (least square means). If this type is chosen, not all function parameters are applicable. See 'Details'.}
 #'          }
+#' @param int.term select interaction term of \code{fit} (as character), which should be plotted
+#'          when using \code{type = "eff"}. By default, this parameter can be ignored
+#'          (i.e. \code{int.term = NULL}). See 'Details'.
 #' @param int.plot.index A numeric vector with index numbers that indicate which 
 #'          interaction terms should be plotted in case the \code{fit} has more than
 #'          one interaction. By default, this values is \code{NULL}, hence all interactions
@@ -166,10 +171,17 @@
 #'              to plot differences in interventions between control and treatment groups over multiple time points.
 #'              \itemize{
 #'                \item Following paramters apply to this plot type: \code{showCI}, \code{valueLabel.digits} and \code{axisLabels.x}.
-#'                \item Following parameters \emph{do not} apply to this function: \code{int.plot.index}, \code{diff}, \code{moderatorValues}, \code{fillColor}, \code{fillAlpha}, \code{interceptLineColor}, \code{estLineColor}, \code{lineLabelSize}, \code{lineLabelColor} and \code{lineLabelString}.
+#'                \item Following parameters \emph{do not} apply to this function: \code{int.term}, \code{int.plot.index}, \code{diff}, \code{moderatorValues}, \code{fillColor}, \code{fillAlpha}, \code{interceptLineColor}, \code{estLineColor}, \code{lineLabelSize}, \code{lineLabelColor} and \code{lineLabelString}.
 #'              }
 #'            }
 #'          }
+#'          The parameter \code{int.term} only applies to \code{type = "eff"} and can be used
+#'          to select a specific interaction term of the model that should be plotted. The function
+#'          then calls \code{effect(int.term, fit)} to compute effects for this specific interaction
+#'          term only. This approach is recommended, when the fitted model contains many observations
+#'          and/or variables, which may slow down the effect-computation dramatically. In such cases,
+#'          consider computing effects for selected interaction terms only with \code{int.terms}.
+#'          See 'Examples'.
 #'
 #' @note Note that beside interaction terms, also the single predictors of each interaction (main effects)
 #'        must be included in the fitted model as well. Thus, \code{lm(dep ~ pred1 * pred2)} will work, 
@@ -221,6 +233,10 @@
 #' # interactions by default. use "plevel" to adjust p-level
 #' # sensivity
 #' sjp.int(fit, type = "cond")
+#' 
+#' # plot only selected interaction term for
+#' # type = "eff"
+#' sjp.int(fit, type = "eff", int.term = "sex*education")
 #'
 #' # plot interactions, using mean and sd as moderator
 #' # values to calculate interaction effect
@@ -327,6 +343,7 @@
 #' @export
 sjp.int <- function(fit,
                     type = "cond",
+                    int.term = NULL,
                     int.plot.index=NULL,
                     diff=FALSE,
                     moderatorValues="minmax",
@@ -377,6 +394,9 @@ sjp.int <- function(fit,
   } else if (any(c.f == "glmerMod")) {
     fun <- "glmer"
     stat.fun <- "glm"
+  } else if (any(c.f == "nlmerMod")) {
+    fun <- "nlmer"
+    stat.fun <- "nlm"
   } else if (any(c.f == "lmerMod") || any(c.f == "merModLmerTest")) {
     fun <- "lmer"
     stat.fun <- "lm"
@@ -398,7 +418,7 @@ sjp.int <- function(fit,
   # ------------------------
   # check if suggested package is available
   # ------------------------
-  if ((fun == "lmer" || fun == "glmer") && !requireNamespace("lme4", quietly = TRUE)) {
+  if ((fun == "lmer" || fun == "glmer" || fun == "nlmer") && !requireNamespace("lme4", quietly = TRUE)) {
     stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
   }
   if (fun == "plm" && !"package:plm" %in% search()) {
@@ -427,11 +447,11 @@ sjp.int <- function(fit,
   # plot estimated marginal means?
   # --------------------------------------------------------
   if (type == "emm") {
-    return (sjp.emm(fit, swapPredictors, plevel, title, geom.colors,
-                    axisTitle.x, axisTitle.y, axisLabels.x, legendTitle, legendLabels,
-                    showValueLabels, valueLabel.digits, showCI, breakTitleAt,
-                    breakLegendTitleAt, breakLegendLabelsAt, axisLimits.y, 
-                    gridBreaksAt, facet.grid, printPlot))
+    return(sjp.emm(fit, swapPredictors, plevel, title, geom.colors,
+                   axisTitle.x, axisTitle.y, axisLabels.x, legendTitle, legendLabels,
+                   showValueLabels, valueLabel.digits, showCI, breakTitleAt,
+                   breakLegendTitleAt, breakLegendLabelsAt, axisLimits.y, 
+                   gridBreaksAt, facet.grid, printPlot))
   }
   # --------------------------------------------------------
   # list labels
@@ -442,137 +462,35 @@ sjp.int <- function(fit,
   # plot moderation effeczs?
   # --------------------------------------------------------
   if (type == "eff") {
-    return (sjp.eff.int(fit, int.plot.index, moderatorValues, swapPredictors, plevel,
-                        title, fillAlpha, geom.colors, axisTitle.x,
-                        axisTitle.y, legendTitle, legendLabels,
-                        showValueLabels, breakTitleAt, breakLegendLabelsAt, 
-                        breakLegendTitleAt, breakAnnotationLabelsAt, axisLimits.y,
-                        gridBreaksAt, showCI, facet.grid, printPlot, fun))
+    return(sjp.eff.int(fit, int.term, int.plot.index, moderatorValues, swapPredictors, plevel,
+                       title, fillAlpha, geom.colors, axisTitle.x,
+                       axisTitle.y, legendTitle, legendLabels,
+                       showValueLabels, breakTitleAt, breakLegendLabelsAt, 
+                       breakLegendTitleAt, breakAnnotationLabelsAt, axisLimits.y,
+                       gridBreaksAt, showCI, facet.grid, printPlot, fun))
   }
   # -----------------------------------------------------------
   # set axis title
   # -----------------------------------------------------------
   if ((fun == "glm" || fun == "glmer") && is.null(axisTitle.y)) axisTitle.y <- "Change in Predicted Probability"
   # -----------------------------------------------------------
-  # retrieve coefficients
+  # get all (significant) interaction terms from model
+  # the function "getInteractionTerms" checks if a fitted
+  # model contains any interaction terms that are significant
+  # at the level specified by "plevel". returns NULL, if model
+  # contains no interaction terms or no significant interaction term.
+  # else, information on model and interaction terms is returned
   # -----------------------------------------------------------
-  coef.tab <- summary(fit)$coefficients
-  pval <- rep(0, times = nrow(coef.tab) - 1)
+  git <- getInteractionTerms(fit, fun, plevel)
+  # check return value
+  if (is.null(git)) return(invisible(NULL))
   # -----------------------------------------------------------
-  # Help-function that removes AsIS I from formulas.
-  # If someone know regular expressions better than me,
-  # please provide a one-liner solution for the 3 sub commands.
+  # init variables from return values
   # -----------------------------------------------------------
-  remove_I <- function(xnames) {
-    fpos <- grep("I(", xnames, fixed = T)
-    if (length(fpos) > 0 && fpos > 0) {
-      xnames <- sub("I(", "", xnames, fixed = T)
-      xnames <- sub(")", "", xnames, fixed = T)
-      xnames <- sub(" * ", ":", xnames, fixed = T)
-    }
-    return (xnames)
-  }
-  # -----------------------------------------------------------
-  # prepare values for (generalized) linear models
-  # -----------------------------------------------------------
-  if (fun == "lm" || fun == "glm" || fun == "plm" || fun == "lme" || fun == "gls") {
-    # -----------------------------------------------------------
-    # retrieve amount and names of predictor variables and
-    # of dependent variable
-    # -----------------------------------------------------------
-    if (fun == "plm") {
-      # plm objects have different structure than (g)lm
-      predvars <- attr(attr(attr(fit$model, "terms"), "dataClasses"), "names")[-1]
-      depvar.label <- attr(attr(attr(fit$model, "terms"), "dataClasses"), "names")[1]
-      # retrieve model matrix
-      fitdat <- data.frame(cbind(as.vector(fit$model[, 1]), model.matrix(fit)))
-    } else {
-      predvars <- attr(attr(fit$terms, "dataClasses"), "names")[-1]
-      depvar.label <- attr(attr(fit$terms, "dataClasses"), "names")[1]
-      # retrieve model matrix
-      fitdat <- data.frame(model.matrix(fit))
-    }
-    # remember length of predictor variables
-    predvars.length <- length(predvars)
-    # -----------------------------------------------------------
-    # retrieve p-values, without intercept
-    # -----------------------------------------------------------
-    if (ncol(coef.tab) > 3) pval <- coef.tab[-1, 4]
-    # -----------------------------------------------------------
-    # retrieve estimates, without intercept
-    # -----------------------------------------------------------
-    estimates <- coef.tab[-1, 1]
-    # -----------------------------------------------------------
-    # need to remove "I(...)"?
-    # -----------------------------------------------------------
-    predvars <- remove_I(predvars)
-    estimates.names <- names(estimates)
-    estimates.names <- remove_I(estimates.names)
-    it <- estimates.names
-    # -----------------------------------------------------------
-    # retrieve estimate of intercept
-    # -----------------------------------------------------------
-    b0 <- estimates.intercept <- coef.tab[1, 1]
-  # -----------------------------------------------------------
-  # prepare values for (generalized) linear mixed effecrs models
-  # -----------------------------------------------------------
-  } else {
-    # -----------------------------------------------------------
-    # retrieve amount and names of predictor variables and
-    # of dependent variable
-    # -----------------------------------------------------------
-    predvars <- colnames(fit@frame)[-1]
-    depvar.label <- colnames(fit@frame)[1]
-    # remember length of predictor variables
-    predvars.length <- length(predvars)
-    # -----------------------------------------------------------
-    # retrieve p-values, without intercept
-    # -----------------------------------------------------------
-    pval <- get_lmerMod_pvalues(fit)[-1]
-    # -----------------------------------------------------------
-    # retrieve estimates, without intercept
-    # -----------------------------------------------------------
-    estimates <- unname(lme4::fixef(fit)[-1])
-    estimates.names <- names(lme4::fixef(fit)[-1])
-    # -----------------------------------------------------------
-    # retrieve model matrix with all relevant predictors
-    # -----------------------------------------------------------
-    fitdat <- model.matrix(fit)
-    # -----------------------------------------------------------
-    # need to remove "I(...)"?
-    # -----------------------------------------------------------
-    predvars <- remove_I(predvars)
-    estimates.names <- remove_I(estimates.names)
-    it <- estimates.names
-    # -----------------------------------------------------------
-    # retrieve estimate of intercept
-    # -----------------------------------------------------------
-    b0 <- estimates.intercept <- unname(lme4::fixef(fit)[1])
-  }
-  # -----------------------------------------------------------
-  # find all significant interactions
-  # we start looking for significant p-values beginning
-  # with the first interaction, not the first single term!
-  # thus, the starting point is first position after all single
-  # predictor variables
-  # -----------------------------------------------------------
-  # find interaction terms, which contains a colon, in row names
-  firstit <- grep(":", it, fixed = TRUE)[1]
-  # check whether we have any interaction terms included at all
-  if(is.null(firstit) || is.na(firstit) || firstit == 0) {
-    warning("No interaction term found in fitted model...", call. = FALSE)
-    return (invisible (NULL))
-  }
-  # save names of interaction predictor variables into this object
-  intnames <- c()
-  for (i in firstit:length(pval)) {
-    if (pval[i] < plevel) intnames <- c(intnames, it[i])
-  }
-  # check for any signigicant interactions, stop if nothing found
-  if (is.null(intnames)) {
-    warning("No significant interactions found...", call. = FALSE)
-    return (invisible (NULL))
-  }
+  b0 <- git[["b0"]]
+  estimates.names <- git[["estimates.names"]]
+  estimates <- git[["estimates"]]
+  fitdat <- git[["fitdat"]]
   # init vector that saves ggplot objects
   plotlist <- list()
   dflist <- list()
@@ -581,7 +499,7 @@ sjp.int <- function(fit,
   # terms are factors, we may have the same interaction term names
   # multiples times - thus, remove redundant duplicates
   # -----------------------------------------------------------
-  intnames <- unique(intnames)
+  intnames <- unique(git[["intnames"]])
   # check if we have selected plots only, and remove any plots
   # that should not be plotted. but be careful for out of bound index!
   if (!is.null(int.plot.index) && !any(int.plot.index > length(intnames))) intnames <- intnames[int.plot.index]
@@ -599,7 +517,7 @@ sjp.int <- function(fit,
     interactionterms <- unlist(strsplit(intnames[cnt], ":"))
     labx <- c()
     # Label on y-axis is name of dependent variable
-    laby <- paste0("Change in ", depvar.label)
+    laby <- paste0("Change in ", git[["depvar.label"]])
     # -----------------------------------------------------------
     # find estimates (beta values) for each single predictor of
     # the interaction as well as of the interaction term
@@ -611,7 +529,7 @@ sjp.int <- function(fit,
     # check whether each predictor was included in the model
     # as single term as well
     # -----------------------------------------------------------
-    if(is.na(b1) || is.na(b2) || is.na(b3)) {
+    if (is.na(b1) || is.na(b2) || is.na(b3)) {
       stop("Predictors of interaction terms (main effects) must be included as single term as well. See Note in ?sjp.int", call. = FALSE)
     }
     # -----------------------------------------------------------
@@ -698,7 +616,7 @@ sjp.int <- function(fit,
       ymax <- qu[4]
     }
     # intercept of predictor's reference category
-    est_b <- b2 + b0
+    est_b <- b.pred + b0
     # -----------------------------------------------------------
     # Create data frame for plotting the interactions by
     # manually calculating the linear regression by inserting
@@ -719,18 +637,18 @@ sjp.int <- function(fit,
     # ------------------------------
     maxy <- (b0 + (b.pred * pred.value) + (b3 * pred.value * ymax))
     # store in df
-    tmp <- as.data.frame(cbind(x = pred.value, 
-                               y = miny, 
-                               ymin = miny, 
-                               ymax = maxy, 
-                               grp = "min"))
+    tmp <- data.frame(x = pred.value, 
+                      y = miny, 
+                      ymin = miny, 
+                      ymax = maxy, 
+                      grp = "min")
     intdf <- as.data.frame(rbind(intdf, tmp))
     # store in df
-    tmp <- as.data.frame(cbind(x = pred.value, 
-                               y = maxy, 
-                               ymin = miny, 
-                               ymax = maxy, 
-                               grp = "max"))
+    tmp <- data.frame(x = pred.value, 
+                      y = maxy, 
+                      ymin = miny, 
+                      ymax = maxy, 
+                      grp = "max")
     intdf <- as.data.frame(rbind(intdf, tmp))
     # store in df
     if (moderatorValues == "meansd" || moderatorValues == "quart") {
@@ -740,11 +658,11 @@ sjp.int <- function(fit,
       # predictor 2 only is not needed. see references above
       # ------------------------------
       mittelwert <- (b0 + (b.pred * pred.value) + (b3 * pred.value * mw))
-      tmp <- as.data.frame(cbind(x = pred.value, 
-                                 y = mittelwert, 
-                                 ymin = miny, 
-                                 ymax = maxy, 
-                                 grp = "mean"))
+      tmp <- data.frame(x = pred.value, 
+                        y = mittelwert, 
+                        ymin = miny, 
+                        ymax = maxy, 
+                        grp = "mean")
       intdf <- as.data.frame(rbind(intdf, tmp))
     }
     # -----------------------------------------------------------
@@ -811,8 +729,8 @@ sjp.int <- function(fit,
     # check whether user defined grid breaks / tick marks are used
     # -----------------------------------------------------------
     if (!is.null(gridBreaksAt)) {
-      gridbreaks.x <- c(seq(lowerLim.x, upperLim.x, by=gridBreaksAt))
-      gridbreaks.y <- c(seq(lowerLim.y, upperLim.y, by=gridBreaksAt))
+      gridbreaks.x <- c(seq(lowerLim.x, upperLim.x, by = gridBreaksAt))
+      gridbreaks.y <- c(seq(lowerLim.y, upperLim.y, by = gridBreaksAt))
     }
     # -----------------------------------------------------------
     # prepare plot title and axis titles
@@ -822,7 +740,7 @@ sjp.int <- function(fit,
                          interactionterms[ifelse(useFirstPredOnY == TRUE, 1, 2)],
                          " (by ",
                          interactionterms[ifelse(useFirstPredOnY == TRUE, 2, 1)],
-                         ") on ", depvar.label)
+                         ") on ", git[["depvar.label"]])
     } else {
       # copy plot counter 
       l_nr <- cnt
@@ -995,7 +913,7 @@ sjp.int <- function(fit,
     # ---------------------------------------------------------
     # facet grids?
     # ---------------------------------------------------------
-    if (facet.grid && !diff) baseplot <- baseplot + facet_grid( ~ grp)
+    if (facet.grid && !diff) baseplot <- baseplot + facet_grid(~grp)
     # ---------------------------------------------------------
     # set geom colors
     # ---------------------------------------------------------
@@ -1011,13 +929,14 @@ sjp.int <- function(fit,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = "sjpint",
-                       list(plot.list = plotlist,
-                            df.list = dflist)))
+  invisible(structure(class = "sjpint",
+                      list(plot.list = plotlist,
+                           df.list = dflist)))
 }
 
 
 sjp.eff.int <- function(fit,
+                        int.term = NULL,
                         int.plot.index=NULL,
                         moderatorValues="minmax",
                         swapPredictors=FALSE,
@@ -1049,10 +968,7 @@ sjp.eff.int <- function(fit,
   # gridbreaks
   if (is.null(gridBreaksAt)) gridbreaks.x <- gridbreaks.y <- waiver()
   # ------------------------
-  # calculate effects of higher order terms
-  # ------------------------
-  eff <- effects::allEffects(fit, KR = F)
-  # ------------------------
+  # calculate effects of higher order terms and
   # check if fitted model contains any interaction terms
   # allEffects returns a list, with all interaction effects 
   # (or higher order terms) as separate list element. each list
@@ -1061,7 +977,13 @@ sjp.eff.int <- function(fit,
   # So we just need to look at each 'term' attribute of each
   # list element and see if there is a "*"...
   # ------------------------
-  int <- unlist(lapply(eff, function(x) grep("*", x['term'], fixed = T)))
+  if (is.null(int.term)) {
+    eff <- effects::allEffects(fit, KR = F)
+    int <- unlist(lapply(eff, function(x) grep("*", x['term'], fixed = T)))
+  } else {
+    eff <- effects::effect(int.term, fit, KR = F)
+    int <- grep("*", eff$term, fixed = T)
+  }
   if (length(int) == 0) {
     warning("No interaction term found in fitted model...", call. = FALSE)
     return(invisible(NULL))
@@ -1069,7 +991,11 @@ sjp.eff.int <- function(fit,
   # ------------------------
   # retrieve position of interaction terms in effects-object
   # ------------------------
-  intpos <- which(as.vector(sapply(eff, function(x) length(grep("*", x['term'], fixed = T)) > 0)) == T)
+  if (is.null(int.term)) {
+    intpos <- which(as.vector(sapply(eff, function(x) length(grep("*", x['term'], fixed = T)) > 0)) == T)
+  } else {
+    intpos <- 1
+  }
   # select only specific plots
   if (!is.null(int.plot.index) && !any(int.plot.index > length(intpos))) intpos <- intpos[int.plot.index]  
   # init vector that saves ggplot objects
@@ -1080,26 +1006,38 @@ sjp.eff.int <- function(fit,
   # -----------------------------------------------------------
   for (i in 1:length(intpos)) {
     # -----------------------------------------------------------
+    # copy "eff" object, so we don't confuse with effect-return-
+    # value from single term and multiple terms
+    # -----------------------------------------------------------
+    if (is.null(int.term)) {
+      dummy.eff <- eff[[intpos[i]]]
+    } else {
+      dummy.eff <- eff
+    }
+    # -----------------------------------------------------------
     # retrieve data frame
     # -----------------------------------------------------------
-    intdf <- data.frame(eff[[intpos[i]]])
+    intdf <- data.frame(dummy.eff)
     # -----------------------------------------------------------
     # save response, predictor and moderator names
     # -----------------------------------------------------------
     pred_x.name <- colnames(intdf)[ifelse(swapPredictors == TRUE, 1, 2)]
     moderator.name <- colnames(intdf)[ifelse(swapPredictors == TRUE, 2, 1)]
-    response.name <- eff[[i]]$response
+    response.name <- dummy.eff$response
     # prepare axis titles
     labx <- pred_x.name
     # check whether x-axis-predictor is a factor or not
     x_is_factor <- is.factor(intdf[[pred_x.name]])
     # -----------------------------------------------------------
     # check for moderator values, but only, if moderator 
-    # is no factor value
+    # is no factor value. In this case, we can choose
+    # the values for continuous moderator intentionally,
+    # e.g. only min/max, or mean and sd. We don't need these
+    # values for categorical moderator values.
     # -----------------------------------------------------------
     if (!is.factor(intdf[[moderator.name]])) {
       # retrieve moderator value
-      modval <- eff[[intpos[i]]]$data[[moderator.name]]
+      modval <- dummy.eff$data[[moderator.name]]
       # -----------------------------------------------------------
       # Check whether moderator value has enough unique values
       # for quartiles
@@ -1133,10 +1071,17 @@ sjp.eff.int <- function(fit,
       }
       # change list name to moderator value name
       names(xl) <- moderator.name
-      # re-compute effects
-      eff.tmp <- effects::allEffects(fit, xlevels = xl, KR = F)
-      # reset data frame
-      intdf <- data.frame(eff.tmp[[intpos[i]]])
+      if (is.null(int.term)) {
+        # re-compute effects
+        eff.tmp <- effects::allEffects(fit, xlevels = xl, KR = F)
+        # reset data frame
+        intdf <- data.frame(eff.tmp[[intpos[i]]])
+      } else {
+        # re-compute effects
+        eff.tmp <- effects::effect(int.term, fit, xlevels = xl, KR = F)
+        # reset data frame
+        intdf <- data.frame(eff.tmp)
+      }
     }
     # -----------------------------------------------------------
     # change column names
@@ -1207,8 +1152,8 @@ sjp.eff.int <- function(fit,
     # check whether user defined grid breaks / tick marks are used
     # -----------------------------------------------------------
     if (!is.null(gridBreaksAt)) {
-      gridbreaks.x <- c(seq(lowerLim.x, upperLim.x, by=gridBreaksAt))
-      gridbreaks.y <- c(seq(lowerLim.y, upperLim.y, by=gridBreaksAt))
+      gridbreaks.x <- c(seq(lowerLim.x, upperLim.x, by = gridBreaksAt))
+      gridbreaks.y <- c(seq(lowerLim.y, upperLim.y, by = gridBreaksAt))
     }
     # -----------------------------------------------------------
     # prepare plot title and axis titles
@@ -1329,7 +1274,7 @@ sjp.eff.int <- function(fit,
     # ---------------------------------------------------------
     # facet grids?
     # ---------------------------------------------------------
-    if (facet.grid) baseplot <- baseplot + facet_grid( ~ grp)
+    if (facet.grid) baseplot <- baseplot + facet_grid(~grp)
     # ---------------------------------------------------------
     # set geom colors
     # ---------------------------------------------------------
@@ -1349,9 +1294,9 @@ sjp.eff.int <- function(fit,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = "sjpint",
-                       list(plot.list = plotlist,
-                            df.list = dflist)))
+  invisible(structure(class = "sjpint",
+                      list(plot.list = plotlist,
+                           df.list = dflist)))
 }
 
 
@@ -1362,5 +1307,134 @@ mv_check <- function(moderatorValues, x) {
     message("Could not compute quartiles, too small range of moderator variable. Defaulting 'moderatorValues' to 'minmax'.")
     moderatorValues <- "minmax"
   }
-  return (moderatorValues)
+  return(moderatorValues)
+}
+
+
+# get all (significant) interaction terms from model
+# the function "getInteractionTerms" checks if a fitted
+# model contains any interaction terms that are significant
+# at the level specified by "plevel". returns NULL, if model
+# contains no interaction terms or no significant interaction term.
+# else, information on model and interaction terms is returned
+getInteractionTerms <- function(fit, fun, plevel) {
+  # -----------------------------------------------------------
+  # retrieve coefficients
+  # -----------------------------------------------------------
+  coef.tab <- summary(fit)$coefficients
+  pval <- rep(0, times = nrow(coef.tab) - 1)
+  # -----------------------------------------------------------
+  # Help-function that removes AsIS I from formulas.
+  # If someone know regular expressions better than me,
+  # please provide a one-liner solution for the 3 sub commands.
+  # -----------------------------------------------------------
+  remove_I <- function(xnames) {
+    fpos <- grep("I(", xnames, fixed = T)
+    if (length(fpos) > 0 && fpos > 0) {
+      xnames <- sub("I(", "", xnames, fixed = T)
+      xnames <- sub(")", "", xnames, fixed = T)
+      xnames <- sub(" * ", ":", xnames, fixed = T)
+    }
+    return(xnames)
+  }
+  # -----------------------------------------------------------
+  # prepare values for (generalized) linear models
+  # -----------------------------------------------------------
+  if (fun == "lm" || fun == "glm" || fun == "plm" || fun == "lme" || fun == "gls") {
+    # -----------------------------------------------------------
+    # retrieve amount and names of predictor variables and
+    # of dependent variable
+    # -----------------------------------------------------------
+    if (fun == "plm") {
+      # plm objects have different structure than (g)lm
+      depvar.label <- attr(attr(attr(fit$model, "terms"), "dataClasses"), "names")[1]
+      # retrieve model matrix
+      fitdat <- data.frame(cbind(as.vector(fit$model[, 1]), model.matrix(fit)))
+    } else {
+      depvar.label <- attr(attr(fit$terms, "dataClasses"), "names")[1]
+      # retrieve model matrix
+      fitdat <- data.frame(model.matrix(fit))
+    }
+    # -----------------------------------------------------------
+    # retrieve p-values, without intercept
+    # -----------------------------------------------------------
+    if (ncol(coef.tab) > 3) pval <- coef.tab[-1, 4]
+    # -----------------------------------------------------------
+    # retrieve estimates, without intercept
+    # -----------------------------------------------------------
+    estimates <- coef.tab[-1, 1]
+    # -----------------------------------------------------------
+    # need to remove "I(...)"?
+    # -----------------------------------------------------------
+    estimates.names <- names(estimates)
+    estimates.names <- remove_I(estimates.names)
+    it <- estimates.names
+    # -----------------------------------------------------------
+    # retrieve estimate of intercept
+    # -----------------------------------------------------------
+    b0 <- coef.tab[1, 1]
+    # -----------------------------------------------------------
+    # prepare values for (generalized) linear mixed effecrs models
+    # -----------------------------------------------------------
+  } else if (fun == "lmer" || fun == "glmer" || fun == "nlmer") {
+    # -----------------------------------------------------------
+    # retrieve amount and names of predictor variables and
+    # of dependent variable
+    # -----------------------------------------------------------
+    depvar.label <- colnames(fit@frame)[1]
+    # -----------------------------------------------------------
+    # retrieve p-values, without intercept
+    # -----------------------------------------------------------
+    pval <- get_lmerMod_pvalues(fit)[-1]
+    # -----------------------------------------------------------
+    # retrieve estimates, without intercept
+    # -----------------------------------------------------------
+    estimates <- unname(lme4::fixef(fit)[-1])
+    estimates.names <- names(lme4::fixef(fit)[-1])
+    # -----------------------------------------------------------
+    # retrieve model matrix with all relevant predictors
+    # -----------------------------------------------------------
+    fitdat <- model.matrix(fit)
+    # -----------------------------------------------------------
+    # need to remove "I(...)"?
+    # -----------------------------------------------------------
+    estimates.names <- remove_I(estimates.names)
+    it <- estimates.names
+    # -----------------------------------------------------------
+    # retrieve estimate of intercept
+    # -----------------------------------------------------------
+    b0 <- unname(lme4::fixef(fit)[1])
+  } else {
+    stop("Unsupported model-class. This type of regression is not yet supported by 'sjp.int'.", call. = F)
+  }
+  # -----------------------------------------------------------
+  # find all significant interactions
+  # we start looking for significant p-values beginning
+  # with the first interaction, not the first single term!
+  # thus, the starting point is first position after all single
+  # predictor variables
+  # -----------------------------------------------------------
+  # find interaction terms, which contains a colon, in row names
+  firstit <- grep(":", it, fixed = TRUE)[1]
+  # check whether we have any interaction terms included at all
+  if (is.null(firstit) || is.na(firstit) || firstit == 0) {
+    warning("No interaction term found in fitted model...", call. = FALSE)
+    return(invisible(NULL))
+  }
+  # save names of interaction predictor variables into this object
+  intnames <- c()
+  for (i in firstit:length(pval)) {
+    if (pval[i] < plevel) intnames <- c(intnames, it[i])
+  }
+  # check for any signigicant interactions, stop if nothing found
+  if (is.null(intnames)) {
+    warning("No significant interactions found... Try to adjust 'plevel'-parameter.", call. = FALSE)
+    return(invisible(NULL))
+  }
+  return(list(intnames = intnames,
+              estimates = estimates,
+              estimates.names = estimates.names,
+              b0 = b0,
+              fitdat = fitdat,
+              depvar.label = depvar.label))
 }

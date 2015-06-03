@@ -10,7 +10,7 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   geom.size = 3, interceptLineType = 2, interceptLineColor = "grey70",
   breakTitleAt = 50, breakLabelsAt = 25, gridBreaksAt = NULL,
   coord.flip = TRUE, showValueLabels = TRUE, labelDigits = 2,
-  showPValueLabels = TRUE, showModelSummary = TRUE, lineColor = "blue",
+  showPValueLabels = TRUE, showModelSummary = FALSE, lineColor = "blue",
   showCI = TRUE, ciLevel = 0.95, pointAlpha = 0.2, pointColor = "black",
   showScatterPlot = TRUE, showLoess = FALSE, loessLineColor = "red",
   showLoessCI = FALSE, loessCiLevel = 0.95, useResiduals = FALSE,
@@ -93,7 +93,7 @@ Default is 2, i.e. estimates have 2 digits after decimal point.}
 \item{showPValueLabels}{Whether the significance levels of each coefficient should be appended
 to values or not}
 
-\item{showModelSummary}{If \code{TRUE} (default), a summary of the regression model with
+\item{showModelSummary}{If \code{TRUE}, a summary of the regression model with
 Intercept, R-square, F-Test and AIC-value is printed to the lower right corner
 of the diagram.}
 

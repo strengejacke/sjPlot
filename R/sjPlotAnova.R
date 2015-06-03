@@ -72,7 +72,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("pv"))
 #'          Default is 2, i.e. estimators have 2 digits after decimal point.
 #' @param showPValueLabels Whether the significance levels of each category/group should be appended
 #'          to values or not.
-#' @param showModelSummary If \code{TRUE} (default), a summary of the anova model with 
+#' @param showModelSummary If \code{TRUE}, a summary of the anova model with 
 #'          Sum of Squares between groups (ssb), Sum of Squares within groups (ssw), multiple and adjusted 
 #'          R-square and F-Test is printed to the lower right corner
 #'          of the diagram. Default is \code{TRUE}.
@@ -95,7 +95,8 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("pv"))
 #' sjp.aov1(efc$c12hour,
 #'          as.factor(efc$e42dep),
 #'          axisLabels.y = efc.val['e42dep'],
-#'          axisTitle.x = efc.var[['c12hour']])
+#'          axisTitle.x = efc.var[['c12hour']],
+#'          showModelSummary = TRUE)
 #'          
 #' # -------------------------------------------------
 #' # auto-detection of value labels and variable names
@@ -112,8 +113,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("pv"))
 #'          axisLabels.y = efc.val['c172code'],
 #'          title = efc.var[['c12hour']],
 #'          type = "bars",
-#'          geom.size = 0.5,
-#'          showModelSummary = FALSE)
+#'          geom.size = 0.5)
 #'
 #' @import ggplot2
 #' @import sjmisc
@@ -140,7 +140,7 @@ sjp.aov1 <- function(depVar,
                     showValueLabels=TRUE, 
                     labelDigits=2,
                     showPValueLabels=TRUE,
-                    showModelSummary=TRUE,
+                    showModelSummary=FALSE,
                     printPlot=TRUE) {
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter

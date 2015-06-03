@@ -73,7 +73,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", 
 #'          Default is 2, i.e. estimators have 2 digits after decimal point.
 #' @param showPValueLabels Whether the significance levels of each coefficient should be appended
 #'          to values or not.
-#' @param showModelSummary If \code{TRUE} (default), a summary of the regression model with
+#' @param showModelSummary If \code{TRUE}, a summary of the regression model with
 #'          Intercept, R-square, F-Test and AIC-value is printed to the lower right corner
 #'          of the diagram.
 #' @param show.se Use \code{TRUE} to plot (depending on \code{type}) the standard
@@ -125,14 +125,16 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", 
 #' @details \describe{
 #'            \item{\code{type = "prob"}}{(or \code{"pc"}), the predicted probabilities
 #'            are based on the intercept's estimate and each specific term's estimate.
-#'            All other co-variates are set to zero (i.e. ignored).}
+#'            All other co-variates are set to zero (i.e. ignored), which corresponds
+#'            to \code{\link{plogis}(b0 + bx * x)} (where \code{x} is the logit-estimate).}
 #'            \item{\code{type = "probc"}}{(or \code{"pcc"}), the predicted probabilities
 #'            are based on the \code{\link{predict.glm}} method, where predicted values 
 #'            are "centered"
-#'            (see \href{http://stats.stackexchange.com/questions/35682/contribution-of-each-covariate-to-a-single-prediction-in-a-logistic-regression-m#comment71993_35802}{CrossValidated}).}
+#'            (see \href{http://stats.stackexchange.com/questions/35682/contribution-of-each-covariate-to-a-single-prediction-in-a-logistic-regression-m#comment71993_35802}{CrossValidated}).
+#'            Corresponds to \code{\link{plogis}(\link{predict}(fit, type = "terms"))}.}
 #'            \item{\code{type = "y.pc"}}{(or \code{type = "y.prob"}), the predicted values
 #'            of the response are computed, based on the \code{\link{predict.glm}}
-#'            method.}
+#'            method. Corresponds to \code{\link{plogis}(\link{predict}(fit, type = "response"))}.}
 #'          }
 #'
 #' @examples
@@ -218,7 +220,7 @@ sjp.glm <- function(fit,
                     showValueLabels=TRUE,
                     labelDigits=2,
                     showPValueLabels=TRUE,
-                    showModelSummary=TRUE,
+                    showModelSummary=FALSE,
                     facet.grid = TRUE,
                     show.se = FALSE,
                     showOriginalModelOnly=TRUE,
@@ -228,7 +230,7 @@ sjp.glm <- function(fit,
   # --------------------------------------------------------
   if (any(class(fit) == "logistf")) {
     # no model summary currently supported for logistf class
-    showModelSummary = FALSE
+    showModelSummary <- FALSE
     # create "dummy" variable, to avoid errors
     fit$model <- fit$data
     # no probability curves currently supported

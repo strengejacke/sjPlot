@@ -23,9 +23,9 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   \item{\code{"fe"}}{for odds ratios of fixed effects}
   \item{\code{"fe.cor"}}{for correlation matrix of fixed effects}
   \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
-  \item{\code{"fe.pc"}}{or \code{"fe.prob"} to plot probability curves (predicted probabilities) of all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
-  \item{\code{"ri.pc"}}{or \code{"ri.prob"} to plot probability curves (predicted probabilities) of random intercept variances for all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
-  \item{\code{"y.pc"}}{or \code{"y.prob"} to plot predicted probabilities for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot.}
+  \item{\code{"fe.pc"}}{or \code{"fe.prob"} to plot probability curves (predicted probabilities) of all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
+  \item{\code{"ri.pc"}}{or \code{"ri.prob"} to plot probability curves (predicted probabilities) of random intercept variances for all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
+  \item{\code{"y.pc"}}{or \code{"y.prob"} to plot predicted probabilities for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot. See 'Details'.}
 }}
 
 \item{vars}{a numeric vector with column indices of selected variables or a character vector with
@@ -125,6 +125,25 @@ Plot odds ratios (exponentiated coefficients) with confidence intervalls of eith
                fixed effects or random effects of generalized linear mixed effects models
                (that have been fitted with \code{glmer} of the
                \code{lme4} package.
+}
+\details{
+\describe{
+           \item{\code{type = "fe.pc"}}{(or \code{"fe.prob"}), the predicted probabilities
+           are based on the fixed effects intercept's estimate and each specific
+           fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),
+           which corresponds to \code{\link{plogis}(b0 + bx * x)} (where \code{x}
+           is the logit-estimate of fixed effects and \code{b0} is the intercept of
+           the fixed effects).}
+           \item{\code{type = "ri.pc"}}{(or \code{"ri.prob"}), the predicted probabilities
+           are based on the fixed effects intercept, plus each random intercept and
+           each specific  fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),
+           which corresponds to \code{\link{plogis}(b0 + b0[r1-rn] + bx * x)} (where \code{x}
+           is the logit-estimate of fixed effects, \code{b0} is the intercept of
+           the fixed effects and \code{b0[r1-rn]} are all random intercepts).}
+           \item{\code{type = "y.pc"}}{(or \code{type = "y.prob"}), the predicted values
+           of the response are computed, based on the \code{predict.merMod}
+           method. Corresponds to \code{\link{plogis}(predict(fit, type = "response"))}.}
+         }
 }
 \note{
 Thanks go to Robert Reijntjes from Leiden University Medical Center for sharing

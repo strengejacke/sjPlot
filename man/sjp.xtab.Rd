@@ -14,7 +14,7 @@ sjp.xtab(var, grp, title = "", legendTitle = NULL, weightBy = NULL,
   lineDotSize = 3, smoothLines = FALSE, expand.grid = FALSE,
   showValueLabels = TRUE, jitterValueLabels = FALSE,
   showCountValues = TRUE, showPercentageValues = TRUE,
-  showCategoryLabels = TRUE, showTableSummary = TRUE,
+  showCategoryLabels = TRUE, showTableSummary = FALSE,
   tableSummaryPos = "r", showTotalColumn = TRUE, hideLegend = FALSE,
   axisTitle.x = NULL, axisTitle.y = NULL, coord.flip = FALSE,
   printPlot = TRUE)
@@ -121,7 +121,7 @@ percentage-values are removed.}
 
 \item{showCategoryLabels}{Whether x axis text (category names) should be shown or not.}
 
-\item{showTableSummary}{If \code{TRUE} (default), a summary of the cross tabulation with N, Chi-square (see \code{\link{chisq.test}}),
+\item{showTableSummary}{If \code{TRUE}, a summary of the cross tabulation with N, Chi-square (see \code{\link{chisq.test}}),
 df, Cramer's V or Phi-value and p-value is printed to the upper right corner of the diagram. If a cell contains expected
 values lower than five (or lower than 10 if df is 1),
 the Fisher's excact test (see \code{\link{fisher.test}}) is computed instead of Chi-square test.
@@ -176,6 +176,7 @@ sjp.xtab(var, grp,
 sjp.xtab(var, grp,
          tableIndex = "row",
          barPosition = "stack",
+         showTableSummary = TRUE,
          coord.flip = TRUE)
 
 # example with vertical labels
@@ -187,7 +188,6 @@ library(ggplot2)
 update_geom_defaults('text', list(hjust = -0.1))
 sjp.xtab(efc$e42dep,
          efc$e16sex,
-         showTableSummary = FALSE,
          labelPos = "center")
 
 # grouped bars with EUROFAMCARE sample dataset

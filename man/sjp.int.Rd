@@ -4,9 +4,9 @@
 \alias{sjp.int}
 \title{Plot interaction effects of (generalized) linear (mixed) models}
 \usage{
-sjp.int(fit, type = "cond", int.plot.index = NULL, diff = FALSE,
-  moderatorValues = "minmax", swapPredictors = FALSE, plevel = 0.05,
-  title = NULL, fillColor = "grey", fillAlpha = 0.3,
+sjp.int(fit, type = "cond", int.term = NULL, int.plot.index = NULL,
+  diff = FALSE, moderatorValues = "minmax", swapPredictors = FALSE,
+  plevel = 0.05, title = NULL, fillColor = "grey", fillAlpha = 0.3,
   geom.colors = "Set1", axisTitle.x = NULL, axisTitle.y = NULL,
   axisLabels.x = NULL, legendTitle = NULL, legendLabels = NULL,
   showValueLabels = FALSE, breakTitleAt = 50, breakLegendLabelsAt = 20,
@@ -26,6 +26,7 @@ classes are
   \item generalized linear models (\code{\link{glm}})
   \item linear mixed effects models (\code{\link[lme4]{lmer}})
   \item generalized linear mixed effects models (\code{\link[lme4]{glmer}})
+  \item non-linear mixed effects models (\code{\link[lme4]{nlmer}})
   \item linear mixed effects models (\code{\link[nlme]{lme}}, but only for \code{type = "eff"})
   \item generalized least squares models (\code{\link[nlme]{gls}}, but only for \code{type = "eff"})
   \item panel data estimators (\code{plm})
@@ -37,6 +38,10 @@ classes are
   \item{\code{type = "eff"}}{plots the overall moderation effect on the response value. See 'Details'.}
   \item{\code{type = "emm"}}{plots the estimated marginal means (least square means). If this type is chosen, not all function parameters are applicable. See 'Details'.}
 }}
+
+\item{int.term}{select interaction term of \code{fit} (as character), which should be plotted
+when using \code{type = "eff"}. By default, this parameter can be ignored
+(i.e. \code{int.term = NULL}). See 'Details'.}
 
 \item{int.plot.index}{A numeric vector with index numbers that indicate which
 interaction terms should be plotted in case the \code{fit} has more than
@@ -170,6 +175,7 @@ Plot regression (predicted values) or probability lines (predicted probabilities
                  \item generalized linear models (\code{\link{glm}})
                  \item linear mixed effects models (\code{\link[lme4]{lmer}})
                  \item generalized linear mixed effects models (\code{\link[lme4]{glmer}})
+                 \item non-linear mixed effects models (\code{\link[lme4]{nlmer}})
                  \item linear mixed effects models (\code{\link[nlme]{lme}}, but only for \code{type = "eff"})
                  \item generalized least squares models (\code{\link[nlme]{gls}}, but only for \code{type = "eff"})
                  \item panel data estimators (\code{plm})
@@ -207,10 +213,17 @@ Plot regression (predicted values) or probability lines (predicted probabilities
              to plot differences in interventions between control and treatment groups over multiple time points.
              \itemize{
                \item Following paramters apply to this plot type: \code{showCI}, \code{valueLabel.digits} and \code{axisLabels.x}.
-               \item Following parameters \emph{do not} apply to this function: \code{int.plot.index}, \code{diff}, \code{moderatorValues}, \code{fillColor}, \code{fillAlpha}, \code{interceptLineColor}, \code{estLineColor}, \code{lineLabelSize}, \code{lineLabelColor} and \code{lineLabelString}.
+               \item Following parameters \emph{do not} apply to this function: \code{int.term}, \code{int.plot.index}, \code{diff}, \code{moderatorValues}, \code{fillColor}, \code{fillAlpha}, \code{interceptLineColor}, \code{estLineColor}, \code{lineLabelSize}, \code{lineLabelColor} and \code{lineLabelString}.
              }
            }
          }
+         The parameter \code{int.term} only applies to \code{type = "eff"} and can be used
+         to select a specific interaction term of the model that should be plotted. The function
+         then calls \code{effect(int.term, fit)} to compute effects for this specific interaction
+         term only. This approach is recommended, when the fitted model contains many observations
+         and/or variables, which may slow down the effect-computation dramatically. In such cases,
+         consider computing effects for selected interaction terms only with \code{int.terms}.
+         See 'Examples'.
 }
 \note{
 Note that beside interaction terms, also the single predictors of each interaction (main effects)
@@ -263,6 +276,10 @@ sjp.int(fit, type = "eff")
 # interactions by default. use "plevel" to adjust p-level
 # sensivity
 sjp.int(fit, type = "cond")
+
+# plot only selected interaction term for
+# type = "eff"
+sjp.int(fit, type = "eff", int.term = "sex*education")
 
 # plot interactions, using mean and sd as moderator
 # values to calculate interaction effect

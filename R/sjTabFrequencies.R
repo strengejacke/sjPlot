@@ -510,6 +510,7 @@ sjt.frq <- function(data,
     #---------------------------------------------------
     df.frq <- create.frq.df(var, 
                             valueLabels[[cnt]], 
+                            sjmisc::get_values(data[[cnt]]),
                             -1, 
                             sort.frq, 
                             weightBy = weightBy)

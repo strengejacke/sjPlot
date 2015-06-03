@@ -106,7 +106,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ypos", "wb", "ia", "mw",
 #' @param showStandardDeviation If \code{TRUE}, the standard deviation is annotated as shaded rectangle around the mean intercept
 #'          line. Only applies to histogram-charts. The shaded rectangles have borders in the group colors, so it's easier to see
 #'          which shaded area belongs to which mean value resp. group
-#' @param showTableSummary If \code{TRUE} (default), a summary of the cross tabulation with N, Chi-square (see \code{\link{chisq.test}}),
+#' @param showTableSummary If \code{TRUE}, a summary of the cross tabulation with N, Chi-square (see \code{\link{chisq.test}}),
 #'          df, Cramer's V or Phi-value and p-value is printed to the upper right corner of the diagram. If a cell contains expected 
 #'          values lower than five (or lower than 10 if df is 1),
 #'          the Fisher's excact test (see \code{\link{fisher.test}}) is computed instead of Chi-square test. 
@@ -243,7 +243,7 @@ sjp.grpfrq <- function(varCount,
                        showMeanIntercept=FALSE,
                        showMeanValue=TRUE,
                        showStandardDeviation=FALSE,
-                       showTableSummary=TRUE,
+                       showTableSummary=FALSE,
                        showGroupCount=FALSE,
                        tableSummaryPos="r",
                        meanInterceptLineType=2,

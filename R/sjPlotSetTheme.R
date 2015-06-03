@@ -143,9 +143,7 @@
 #' # legends of all plots inside
 #' sjp.setTheme(legend.pos = "top left", 
 #'              legend.inside = TRUE)
-#' sjp.xtab(efc$e42dep, 
-#'          efc$e16sex,
-#'          showTableSummary = FALSE)
+#' sjp.xtab(efc$e42dep, efc$e16sex)
 #' 
 #' # Use classic-theme. you may need to
 #' # load the ggplot2-library.
@@ -161,7 +159,6 @@
 #' update_geom_defaults('text', list(hjust = -0.1))
 #' sjp.xtab(efc$e42dep, 
 #'          efc$e16sex,
-#'          showTableSummary = FALSE,
 #'          labelPos = "center")
 #' 
 #' # Create own theme based on classic-theme

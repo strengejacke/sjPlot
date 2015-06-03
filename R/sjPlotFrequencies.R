@@ -18,16 +18,6 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "upper.ci"
 #'         with decimales may result in unexpected behaviour.
 #' 
 #' @param varCount The variable which frequencies should be plotted.
-#' @param type Specifies the type of distribution plot that will be plotted.
-#'          \describe{
-#'            \item{\code{"bar"}}{or \code{"bars"} or \code{"b"} for simple bars (the default setting)}
-#'            \item{\code{"dots"}}{or \code{"dot"} for a dot plot}
-#'            \item{\code{"h"}}{or \code{"hist"} or \code{"histogram"} for a histogram}
-#'            \item{\code{"line"}}{or \code{"lines"} or \code{"l"} for a histogram with filled area with line}
-#'            \item{\code{"dens"}}{or \code{"d"} or \code{"density"} for a density plot}
-#'            \item{\code{"box"}}{or \code{"boxplot"} or \code{"boxplots"} for box plots}
-#'            \item{\code{"v"}}{or \code{"violin"} for violin plots}
-#'            }
 #' @param title Title of diagram as string. Example: \code{title = "my title"}.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
 #'          (see \code{\link[sjmisc]{set_var_labels}}) for details).
@@ -42,6 +32,16 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "upper.ci"
 #' @param sort.frq Determines whether categories on x-axis should be sorted according to the frequencies or not. 
 #'          Default is \code{"none"}, so categories are not sorted by frequency. Use \code{"asc"} or
 #'          \code{"desc"} for sorting categories ascending or descending in relation to the frequencies.
+#' @param type Specifies the type of distribution plot that will be plotted.
+#'          \describe{
+#'            \item{\code{"bar"}}{or \code{"bars"} or \code{"b"} for simple bars (the default setting)}
+#'            \item{\code{"dots"}}{or \code{"dot"} for a dot plot}
+#'            \item{\code{"h"}}{or \code{"hist"} or \code{"histogram"} for a histogram}
+#'            \item{\code{"line"}}{or \code{"lines"} or \code{"l"} for a histogram with filled area with line}
+#'            \item{\code{"dens"}}{or \code{"d"} or \code{"density"} for a density plot}
+#'            \item{\code{"box"}}{or \code{"boxplot"} or \code{"boxplots"} for box plots}
+#'            \item{\code{"v"}}{or \code{"violin"} for violin plots}
+#'            }
 #' @param geom.colors user defined color for geoms, e.g. \code{geom.colors = "#0080ff"}.
 #' @param geom.size size of geoms, depending on the plot \code{type}. Note that 
 #'          bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
@@ -239,12 +239,12 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "upper.ci"
 #' @import sjmisc
 #' @export
 sjp.frq <- function(varCount, 
-                    type="bars",
                     title="",
                     weightBy=NULL,
                     weightByTitleString=NULL,
                     interactionVar=NULL,
                     sort.frq="none",
+                    type="bars",
                     geom.size=0.7,
                     geom.colors=NULL,
                     axisLabels.x=NULL, 
@@ -305,6 +305,11 @@ sjp.frq <- function(varCount,
     geom.colors <- geom.colors[1]
   }
   # --------------------------------------------------------
+  # save label values. needed later to determine correct
+  # amount of categories
+  # --------------------------------------------------------
+  labelvalues <- sjmisc::get_values(varCount)
+  # --------------------------------------------------------
   # count variable may not be a factor!
   # --------------------------------------------------------
   if (is.factor(varCount)) varCount <- as.numeric(varCount)
@@ -358,6 +363,7 @@ sjp.frq <- function(varCount,
   #---------------------------------------------------
   df.frq <- create.frq.df(varCount, 
                           axisLabels.x, 
+                          labelvalues,
                           breakLabelsAt, 
                           sort.frq, 
                           2, 
