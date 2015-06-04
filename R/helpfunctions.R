@@ -72,7 +72,7 @@ out.html.table <- function(no.output, file, knitr, toWrite, useViewer) {
 # Create frequency data frame of a variable
 # for sjp and sjt frq functions
 create.frq.df <- function(varCount,
-                          labels,
+                          llabels,
                           labelvalues,
                           breakLabelsAt,
                           order.frq = "none",
@@ -111,12 +111,12 @@ create.frq.df <- function(varCount,
     # define minimum value
     catmin <- minval <- min(varCount, na.rm = TRUE)
     # wrap labels
-    if (!is.null(labels)) {
-      labels <- sjmisc::word_wrap(labels, breakLabelsAt)
+    if (!is.null(llabels)) {
+      llabels <- sjmisc::word_wrap(llabels, breakLabelsAt)
     } else {
       # If axisLabels.x were not defined, simply set numbers from 1 to
       # amount of categories (=number of rows) in dataframe instead
-      labels <- as.character(mydat$var)
+      llabels <- as.character(mydat$var)
     }
   } else {
     # --------------------------------------------------------
@@ -147,14 +147,14 @@ create.frq.df <- function(varCount,
     if (min(df$y) == 0 && startAxisAt > 0) df$y <- df$y + 1
     # get the highest answer category of "y", so we know where the
     # range of the x-axis ends
-    if (!is.null(labels)) {
+    if (!is.null(llabels)) {
       # check if we have much less labels than values
       # so there might be a labelling mistake with
       # the variable
-      if (length(labels) < length(unique(na.omit(varCount)))) {
+      if (length(llabels) < length(unique(na.omit(varCount)))) {
         warning("Variable has less labels than unique values. Output might be incorrect. Please check value labels.", call. = F)
       }
-      catcount <- startAxisAt + length(labels) - 1
+      catcount <- startAxisAt + length(llabels) - 1
     } else {
       # determine maximum values
       # first, check the total amount of different factor levels
@@ -180,12 +180,12 @@ create.frq.df <- function(varCount,
     # zero counts, but no(!) missings!
     mydat <- as.data.frame(cbind(var = startAxisAt:catcount,
                                  frq = frq[startAxisAt:catcount]))
-    if (!is.null(labels)) {
-      labels <- sjmisc::word_wrap(labels, breakLabelsAt)
+    if (!is.null(llabels)) {
+      llabels <- sjmisc::word_wrap(llabels, breakLabelsAt)
     } else {
       # If axisLabels.x were not defined, simply set numbers from 1 to
       # amount of categories (=number of rows) in dataframe instead
-      labels <- c(startAxisAt:(nrow(mydat) + startAxisAt - 1))
+      llabels <- c(startAxisAt:(nrow(mydat) + startAxisAt - 1))
     }
   }
   # caculate missings here
@@ -196,7 +196,7 @@ create.frq.df <- function(varCount,
   # If missings are not removed, add an
   # "NA" to labels and a new row to data frame which contains the missings
   if (!na.rm) {
-    labels  <- c(labels, "NA")
+    llabels  <- c(llabels, "NA")
     mydat <- rbind(mydat, c(catcount + 1, missingcount))
     # also add a columns with percentage values of count distribution
     mydat <- data.frame(cbind(mydat, prz = c(round(100 * mydat$frq / length(varCount), round.prz))))
@@ -211,7 +211,7 @@ create.frq.df <- function(varCount,
     ord <- order(mydat$frq, decreasing = (order.frq == "desc"))
     mydat$frq <- mydat$frq[ord]
     mydat$prz <- mydat$prz[ord]
-    labels <- labels[ord]
+    llabels <- llabels[ord]
   }
   # --------------------------------------------------------
   # add valid and cumulative percentages
@@ -224,9 +224,9 @@ create.frq.df <- function(varCount,
   # more value labels than data frame rows (i.e. more categories are expected
   # than appear in the data frame)
   # --------------------------------------------------------
-  if (!is.null(labelvalues)) {
+  if (is.null(labelvalues)) {
     dfc <- 1
-    while (length(labels) > nrow(mydat) && as.numeric(mydat$var[dfc]) > dfc) {
+    while (length(llabels) > nrow(mydat) && as.numeric(mydat$var[dfc]) > dfc) {
       # insert "first" row which seems to be missing
       mydat <- rbind(rep(0, ncol(mydat)), mydat)
       # increase counter
@@ -245,7 +245,7 @@ create.frq.df <- function(varCount,
   # return results
   # -------------------------------------
   invisible(structure(list(mydat = mydat,
-                           labels = labels,
+                           labels = llabels,
                            catmin = catmin,
                            minval = minval)))
 }

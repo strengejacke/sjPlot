@@ -325,10 +325,8 @@ sjt.frq <- function(data,
       # check if any strings found
       # remove string variables
       if (length(stringcolumns) > 0) data <- data[, -stringcolumns]
-    } else {
-      if (is.character(data)) {
-        stop("Parameter 'data' is a single string vector, where string vectors should be removed. No data to compute frequency table left. See parameter 'removeStringVectors' for details.", call. = FALSE)
-      }
+    } else if (is.character(data)) {
+      stop("Parameter 'data' is a single string vector, where string vectors should be removed. No data to compute frequency table left. See parameter 'removeStringVectors' for details.", call. = FALSE)
     }
   }
   # -------------------------------------
@@ -344,7 +342,10 @@ sjt.frq <- function(data,
     }
     # check if any NA-only variables found
     if (length(NAcolumns) > 0) {
-      message(sprintf("%i variables have been removed from output, because they contained only NA's: %s", length(NAcolumns), paste(colnames(data)[NAcolumns], collapse = "; ")))
+      message(sprintf("%i variables have been removed from output, because they contained only NA's: %s", 
+                      length(NAcolumns), 
+                      paste(colnames(data)[NAcolumns], 
+                            collapse = "; ")))
       data <- data[, -NAcolumns]
     }
   }

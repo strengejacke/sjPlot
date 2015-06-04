@@ -312,7 +312,7 @@ sjp.frq <- function(varCount,
   # --------------------------------------------------------
   # count variable may not be a factor!
   # --------------------------------------------------------
-  if (is.factor(varCount)) varCount <- as.numeric(varCount)
+  if (is.factor(varCount)) varCount <- sjmisc::to_value(varCount)
   # --------------------------------------------------------
   # We have several options to name the histrogram type
   # Here we will reduce it to a unique value
