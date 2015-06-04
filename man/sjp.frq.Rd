@@ -7,20 +7,20 @@
 sjp.frq(varCount, title = "", weightBy = NULL, weightByTitleString = NULL,
   interactionVar = NULL, sort.frq = "none", type = "bars",
   geom.size = 0.7, geom.colors = NULL, axisLabels.x = NULL,
-  interactionVarLabels = NULL, axisLimits.y = NULL, breakTitleAt = 50,
-  breakLabelsAt = 20, gridBreaksAt = NULL, innerBoxPlotWidth = 0.15,
-  innerBoxPlotDotSize = 3, expand.grid = FALSE, showValueLabels = TRUE,
-  showCountValues = TRUE, showPercentageValues = TRUE,
-  showAxisLabels.x = TRUE, showAxisLabels.y = TRUE, showCI = FALSE,
-  error.bar.color = "darkred", showMeanIntercept = FALSE,
-  showMeanValue = TRUE, showStandardDeviation = TRUE,
-  showNormalCurve = FALSE, showStandardNormalCurve = FALSE,
-  adjustNormalCurve.x = FALSE, meanInterceptLineType = 2,
-  meanInterceptLineSize = 0.5, normalCurveColor = "red",
-  normalCurveSize = 0.8, normalCurveAlpha = 0.4, axisTitle.x = NULL,
-  axisTitle.y = NULL, startAxisAt = "auto", hist.skipZeros = FALSE,
-  autoGroupAt = NULL, coord.flip = FALSE, labelPos = "outside",
-  na.rm = TRUE, printPlot = TRUE)
+  interactionVarLabels = NULL, axisLimits.x = NULL, axisLimits.y = NULL,
+  breakTitleAt = 50, breakLabelsAt = 20, gridBreaksAt = NULL,
+  innerBoxPlotWidth = 0.15, innerBoxPlotDotSize = 3, expand.grid = FALSE,
+  showValueLabels = TRUE, showCountValues = TRUE,
+  showPercentageValues = TRUE, showAxisLabels.x = TRUE,
+  showAxisLabels.y = TRUE, showCI = FALSE, error.bar.color = "darkred",
+  showMeanIntercept = FALSE, showMeanValue = TRUE,
+  showStandardDeviation = TRUE, showNormalCurve = FALSE,
+  showStandardNormalCurve = FALSE, adjustNormalCurve.x = FALSE,
+  meanInterceptLineType = 2, meanInterceptLineSize = 0.5,
+  normalCurveColor = "red", normalCurveSize = 0.8, normalCurveAlpha = 0.4,
+  axisTitle.x = NULL, axisTitle.y = NULL, startAxisAt = "auto",
+  hist.skipZeros = FALSE, autoGroupAt = NULL, coord.flip = FALSE,
+  labelPos = "outside", na.rm = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{varCount}{The variable which frequencies should be plotted.}
@@ -71,7 +71,13 @@ These labels replace the \code{axisLabels.x}. Only applies, when using box or vi
 (i.e. \code{type} is \code{"box"} or \code{"violin"}) and \code{interactionVar} is not \code{NULL}.
 Example: See \code{axisLabels.x}.}
 
-\item{axisLimits.y}{A numeric vector of length two, defining lower and upper axis limits
+\item{axisLimits.x}{numeric vector of length two, defining lower and upper axis limits
+of the x scale. By default, this parameter is set to \code{NULL}, i.e. the
+x-axis fits to the range of \code{varCount}. \strong{Note} that limiting
+the x-axis-range may result in warnings from \code{ggplot} due to values
+outside this range that could not be plotted.}
+
+\item{axisLimits.y}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this parameter is set to \code{NULL}, i.e. the
 y-axis ranges from 0 to required maximum.}
 

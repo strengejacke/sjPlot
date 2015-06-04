@@ -1,5 +1,5 @@
 # bind global variables
-if(getRversion() >= "2.15.1") utils::globalVariables(c("ypos", "wb", "ia", "mw", "stddev", "count"))
+if (getRversion() >= "2.15.1") utils::globalVariables(c("ypos", "wb", "ia", "mw", "stddev", "count"))
 
 
 #' @title Plot grouped or stacked frequencies
@@ -39,6 +39,11 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("ypos", "wb", "ia", "mw",
 #'            \item \code{"v"}, \code{"violin"} for violin box plots
 #'            }
 #' @param hideLegend Indicates whether legend (guide) should be shown or not.
+#' @param axisLimits.x numeric vector of length two, defining lower and upper axis limits
+#'          of the x scale. By default, this parameter is set to \code{NULL}, i.e. the 
+#'          x-axis fits to the range of \code{varCount}. \strong{Note} that limiting
+#'          the x-axis-range may result in warnings from \code{ggplot} due to values
+#'          outside this range that could not be plotted.
 #' @param axisLimits.y A numeric vector of length two, defining lower and upper axis limits
 #'          of the y scale. By default, this parameter is set to \code{NULL}, i.e. the 
 #'          y-axis ranges from 0 to required maximum.
@@ -223,6 +228,7 @@ sjp.grpfrq <- function(varCount,
                        axisLabels.x=NULL, 
                        interactionVarLabels=NULL,
                        legendLabels=NULL,
+                       axisLimits.x = NULL,
                        axisLimits.y = NULL,
                        breakTitleAt=50, 
                        breakLabelsAt=15, 
@@ -318,9 +324,10 @@ sjp.grpfrq <- function(varCount,
   # check whether variable should be auto-grouped
   #---------------------------------------------------
   if (!is.null(autoGroupAt) && length(unique(varCount)) >= autoGroupAt) {
-    message(sprintf("Variable has %i unique values and was grouped...", length(unique(varCount))))
+    message(sprintf("Variable has %i unique values and was grouped...", 
+                    length(unique(varCount))))
     # check for default auto-group-size or user-defined groups
-    agcnt <- ifelse (autoGroupAt < 30, autoGroupAt, 30)
+    agcnt <- ifelse(autoGroupAt < 30, autoGroupAt, 30)
     # group axis labels
     axisLabels.x <- sjmisc::group_labels(varCount, 
                                          groupsize = "auto", 
@@ -367,7 +374,7 @@ sjp.grpfrq <- function(varCount,
   # categories (factor levels) corresponds either to the highest factor level
   # value or to the amount of different factor levels, depending on which one
   # is larger
-  catcount <- ifelse (catcount_1 > catcount_2, catcount_1, catcount_2)
+  catcount <- ifelse(catcount_1 > catcount_2, catcount_1, catcount_2)
   catmin <- min(varCount, na.rm = TRUE)
   # ----------------------------------------------
   # check for axis start, depending on lowest value
@@ -387,6 +394,10 @@ sjp.grpfrq <- function(varCount,
     grpcount <- length(legendLabels)
   }
   # -----------------------------------------------
+  # define x-axis limits
+  # -----------------------------------------------
+  if (is.null(axisLimits.x)) axisLimits.x <- c(catmin, catcount)
+  # -----------------------------------------------
   # create cross table for stats, summary etc.
   # and weight variable
   #---------------------------------------------------
@@ -404,7 +415,7 @@ sjp.grpfrq <- function(varCount,
   # for continiuos x-axis-scale
   df$varCount <- sjmisc::to_value(df$varCount, keep.labels = F)
   # if categories start with zero, fix this here
-  if (min(df$varCount) == 0) df$varCount<- df$varCount + 1
+  if (min(df$varCount) == 0) df$varCount <- df$varCount + 1
   # convcert group variables to chars
   df$varGroup <- as.character(df$varGroup)
   dfgrp$Var1 <- as.character(dfgrp$Var1)
@@ -495,7 +506,7 @@ sjp.grpfrq <- function(varCount,
   # init empty vector, with length of data frame's rows
   prz <- rep(0, nrow(mydat))
   # iterate all data frame rows
-  for (k in 1: length(prz)) {
+  for (k in 1:length(prz)) {
     # if we have facet grids, calculate percentage
     # within each group
     if (facet.grid) {
@@ -571,7 +582,7 @@ sjp.grpfrq <- function(varCount,
         }
       }
     }
-    return (paste("\"Mann-Whitney-U:\" ~ ~ ", substring(completeString, 12), sep=""))
+    return(paste("\"Mann-Whitney-U:\" ~ ~ ", substring(completeString, 12), sep=""))
     # return (paste("Mann-Whitney-U", completeString, sep=""))
     # return (substring(completeString, 12))
   }
@@ -671,9 +682,9 @@ sjp.grpfrq <- function(varCount,
       # retrieve group counts by converting data column
       # into table
       if (is.null(weightBy)) {
-        gc <- table(varGroup, interactionVar, useNA=nas)
+        gc <- table(varGroup, interactionVar, useNA = nas)
       } else {
-        gc <- table(sjmisc::weight2(varGroup, weightBy), interactionVar, useNA=nas)
+        gc <- table(sjmisc::weight2(varGroup, weightBy), interactionVar, useNA = nas)
       }
       # determinte loop-steps
       lst <- length(interactionVarLabels)
@@ -688,10 +699,10 @@ sjp.grpfrq <- function(varCount,
     } else {
       sums <- unname(rowSums(ftab))
       # add group count to each cat. label
-      axisLabels.x <- paste(axisLabels.x, " (n=", sums, ")", sep="")
+      axisLabels.x <- paste(axisLabels.x, " (n=", sums, ")", sep = "")
       sums <- unname(colSums(ftab))
       # add group count to each cat. label
-      legendLabels <- paste(legendLabels, " (n=", sums, ")", sep="")
+      legendLabels <- paste(legendLabels, " (n=", sums, ")", sep = "")
     }
   }
   # --------------------------------------------------------
@@ -911,7 +922,7 @@ sjp.grpfrq <- function(varCount,
       # lines need colour aes
       baseplot <- ggplot(mydat, aes(x = count, y = frq, colour = group)) + geob
     }
-    scalex <- scale_x_continuous(limits = c(catmin, catcount))
+    scalex <- scale_x_continuous(limits = axisLimits.x)
     # -----------------------------------------
     # show mean line for histograms
     # -----------------------------------------
@@ -954,7 +965,7 @@ sjp.grpfrq <- function(varCount,
           # -----------------------------------------
           annotate("rect", 
                    xmin = vldat$mw - vldat$stddev, 
-                   xmax = vldat$mw+vldat$stddev, 
+                   xmax = vldat$mw + vldat$stddev, 
                    fill = "grey50", 
                    ymin = 0, 
                    ymax = upper_lim, 
@@ -1113,7 +1124,7 @@ sjp.grpfrq <- function(varCount,
     baseplot <- baseplot + 
       # set font size for axes.
       theme(strip.text = element_text(face = "bold",size = rel(1.2))) +
-      facet_wrap( ~ group)
+      facet_wrap(~group)
   }
   # ---------------------------------------------------------
   # set geom colors
@@ -1126,9 +1137,9 @@ sjp.grpfrq <- function(varCount,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = "sjpgrpfrq",
-                       list(plot = baseplot,
-                            df = mydat)))
+  invisible(structure(class = "sjpgrpfrq",
+                      list(plot = baseplot,
+                           df = mydat)))
 }
 
 
@@ -1142,17 +1153,17 @@ sjp.grpfrq <- function(varCount,
 # - len: die Anzahl an max. möglichen Fällen
 grpBasisYlim <- function(len) {
   anzahl <- 1
-  while (len>=(10*anzahl)) {
+  while (len >= (10 * anzahl)) {
     anzahl <- anzahl * 10
   }
   
-  while(len>=anzahl) {
-    anzahl <- anzahl + round(anzahl/10,0)
+  while (len >= anzahl) {
+    anzahl <- anzahl + round(anzahl / 10, 0)
   }
   
   #  retval <- (ceiling(len/anzahl)*anzahl)
   #  return (retval)
-  return (anzahl)
+  return(anzahl)
 }
 
 # Berechnet die aufgerundete Obergrenze der y-Achse anhand
@@ -1169,10 +1180,10 @@ grpFreqYlim <- function(var) {
   len <- max(var, na.rm = T)
   
   anzahl <- 5
-  while (len>=(10*anzahl)) {
+  while (len >= (10 * anzahl)) {
     anzahl <- anzahl + 5
   }
-  return (10*anzahl)
+  return(10 * anzahl)
 }
 
 grpFreqBaseYlim <- function(var) {
@@ -1181,8 +1192,8 @@ grpFreqBaseYlim <- function(var) {
   len <- min(var, na.rm = T)
   
   anzahl <- max(var, na.rm = T)
-  while (len>=(10*anzahl)) {
+  while (len >= (10 * anzahl)) {
     anzahl <- anzahl - 5
   }
-  return (10*anzahl)
+  return(10 * anzahl)
 }

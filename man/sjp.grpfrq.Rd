@@ -9,9 +9,9 @@ sjp.grpfrq(varCount, varGroup, weightBy = NULL, weightByTitleString = NULL,
   geom.spacing = 0.4, geom.colors = "Paired", hideLegend = FALSE,
   facet.grid = FALSE, title = "", legendTitle = NULL,
   axisLabels.x = NULL, interactionVarLabels = NULL, legendLabels = NULL,
-  axisLimits.y = NULL, breakTitleAt = 50, breakLabelsAt = 15,
-  breakLegendTitleAt = 20, breakLegendLabelsAt = 20, gridBreaksAt = NULL,
-  barPosition = "dodge", innerBoxPlotWidth = 0.15,
+  axisLimits.x = NULL, axisLimits.y = NULL, breakTitleAt = 50,
+  breakLabelsAt = 15, breakLegendTitleAt = 20, breakLegendLabelsAt = 20,
+  gridBreaksAt = NULL, barPosition = "dodge", innerBoxPlotWidth = 0.15,
   innerBoxPlotDotSize = 3, smoothLines = FALSE, expand.grid = FALSE,
   showValueLabels = TRUE, showCountValues = TRUE,
   showPercentageValues = TRUE, showAxisLabels.x = TRUE,
@@ -93,6 +93,12 @@ Example: See \code{axisLabels.x}.}
 
 \item{legendLabels}{Labels for the guide/legend.
 Example: See \code{axisLabels.x}.}
+
+\item{axisLimits.x}{numeric vector of length two, defining lower and upper axis limits
+of the x scale. By default, this parameter is set to \code{NULL}, i.e. the
+x-axis fits to the range of \code{varCount}. \strong{Note} that limiting
+the x-axis-range may result in warnings from \code{ggplot} due to values
+outside this range that could not be plotted.}
 
 \item{axisLimits.y}{A numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this parameter is set to \code{NULL}, i.e. the

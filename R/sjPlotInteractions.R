@@ -115,7 +115,12 @@
 #' @param breakAnnotationLabelsAt Wordwrap for diagram annotation labels. Determines how many chars of the legend labels are
 #'          displayed in one line and when a line break is inserted. Default is \code{50}.
 #'          Only applies if \code{showInterceptLine} is \code{TRUE}.
-#' @param axisLimits.y A vector with two values, defining the lower and upper limit from the y-axis.
+#' @param axisLimits.x numeric vector of length two, defining lower and upper axis limits
+#'          of the x scale. By default, this parameter is set to \code{NULL}, i.e. the 
+#'          x-axis fits to the range of the interaction term. \strong{Note} that limiting
+#'          the x-axis-range may result in warnings from \code{ggplot} due to values
+#'          outside this range that could not be plotted.
+#' @param axisLimits.y numeric vector with two values, defining the lower and upper limit from the y-axis.
 #'          By default, this value is \code{NULL}, i.e. axis limits will be calculated upon the
 #'          range of y-values.
 #' @param gridBreaksAt Sets the breaks on the y axis, i.e. at every n'th position a major
@@ -363,6 +368,7 @@ sjp.int <- function(fit,
                     breakLegendLabelsAt=20,
                     breakLegendTitleAt=20, 
                     breakAnnotationLabelsAt=50,
+                    axisLimits.x = NULL,
                     axisLimits.y=NULL,
                     gridBreaksAt=NULL,
                     showInterceptLines=FALSE,
@@ -466,8 +472,8 @@ sjp.int <- function(fit,
                        title, fillAlpha, geom.colors, axisTitle.x,
                        axisTitle.y, legendTitle, legendLabels,
                        showValueLabels, breakTitleAt, breakLegendLabelsAt, 
-                       breakLegendTitleAt, breakAnnotationLabelsAt, axisLimits.y,
-                       gridBreaksAt, showCI, facet.grid, printPlot, fun))
+                       breakLegendTitleAt, breakAnnotationLabelsAt, axisLimits.x,
+                       axisLimits.y, gridBreaksAt, showCI, facet.grid, printPlot, fun))
   }
   # -----------------------------------------------------------
   # set axis title
@@ -732,6 +738,8 @@ sjp.int <- function(fit,
       gridbreaks.x <- c(seq(lowerLim.x, upperLim.x, by = gridBreaksAt))
       gridbreaks.y <- c(seq(lowerLim.y, upperLim.y, by = gridBreaksAt))
     }
+    # check range of x-axis
+    if (is.null(axisLimits.x)) axisLimits.x <- c(lowerLim.x, upperLim.x)
     # -----------------------------------------------------------
     # prepare plot title and axis titles
     # -----------------------------------------------------------
@@ -908,7 +916,7 @@ sjp.int <- function(fit,
       # set plot and axis titles
       labs(title = labtitle, x = labx, y = laby, colour = lTitle) +
       # set axis scale breaks
-      scale_x_continuous(limits = c(lowerLim.x, upperLim.x), breaks = gridbreaks.x) +
+      scale_x_continuous(limits = axisLimits.x, breaks = gridbreaks.x) +
       scale_y_continuous(limits = c(lowerLim.y, upperLim.y), breaks = gridbreaks.y)
     # ---------------------------------------------------------
     # facet grids?
@@ -953,6 +961,7 @@ sjp.eff.int <- function(fit,
                         breakLegendLabelsAt=20,
                         breakLegendTitleAt=20, 
                         breakAnnotationLabelsAt=50,
+                        axisLimits.x = NULL,
                         axisLimits.y=NULL,
                         gridBreaksAt=NULL,
                         showCI = FALSE,
@@ -1155,6 +1164,8 @@ sjp.eff.int <- function(fit,
       gridbreaks.x <- c(seq(lowerLim.x, upperLim.x, by = gridBreaksAt))
       gridbreaks.y <- c(seq(lowerLim.y, upperLim.y, by = gridBreaksAt))
     }
+    # check range of x-axis
+    if (is.null(axisLimits.x)) axisLimits.x <- c(lowerLim.x, upperLim.x)
     # -----------------------------------------------------------
     # prepare plot title and axis titles
     # -----------------------------------------------------------
@@ -1269,7 +1280,7 @@ sjp.eff.int <- function(fit,
       # set plot and axis titles
       labs(title = labtitle, x = labx, y = laby, colour = lTitle) +
       # set axis scale breaks
-      scale_x_continuous(limits = c(lowerLim.x, upperLim.x), breaks = gridbreaks.x) +
+      scale_x_continuous(limits = axisLimits.x, breaks = gridbreaks.x) +
       scale_y_continuous(limits = c(lowerLim.y, upperLim.y), breaks = gridbreaks.y)
     # ---------------------------------------------------------
     # facet grids?

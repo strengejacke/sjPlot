@@ -54,7 +54,12 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "upper.ci"
 #'          These labels replace the \code{axisLabels.x}. Only applies, when using box or violin plots
 #'          (i.e. \code{type} is \code{"box"} or \code{"violin"}) and \code{interactionVar} is not \code{NULL}.
 #'          Example: See \code{axisLabels.x}.
-#' @param axisLimits.y A numeric vector of length two, defining lower and upper axis limits
+#' @param axisLimits.x numeric vector of length two, defining lower and upper axis limits
+#'          of the x scale. By default, this parameter is set to \code{NULL}, i.e. the 
+#'          x-axis fits to the range of \code{varCount}. \strong{Note} that limiting
+#'          the x-axis-range may result in warnings from \code{ggplot} due to values
+#'          outside this range that could not be plotted.
+#' @param axisLimits.y numeric vector of length two, defining lower and upper axis limits
 #'          of the y scale. By default, this parameter is set to \code{NULL}, i.e. the 
 #'          y-axis ranges from 0 to required maximum.
 #' @param breakTitleAt Determines how many chars of the title are displayed in 
@@ -249,6 +254,7 @@ sjp.frq <- function(varCount,
                     geom.colors=NULL,
                     axisLabels.x=NULL, 
                     interactionVarLabels=NULL,
+                    axisLimits.x = NULL,
                     axisLimits.y = NULL,
                     breakTitleAt=50, 
                     breakLabelsAt=20, 
@@ -305,14 +311,14 @@ sjp.frq <- function(varCount,
     geom.colors <- geom.colors[1]
   }
   # --------------------------------------------------------
+  # count variable may not be a factor!
+  # --------------------------------------------------------
+  if (is.factor(varCount)) varCount <- sjmisc::to_value(varCount)
+  # --------------------------------------------------------
   # save label values. needed later to determine correct
   # amount of categories
   # --------------------------------------------------------
   labelvalues <- sjmisc::get_values(varCount)
-  # --------------------------------------------------------
-  # count variable may not be a factor!
-  # --------------------------------------------------------
-  if (is.factor(varCount)) varCount <- sjmisc::to_value(varCount)
   # --------------------------------------------------------
   # We have several options to name the histrogram type
   # Here we will reduce it to a unique value
@@ -374,22 +380,21 @@ sjp.frq <- function(varCount,
   axisLabels.x <- df.frq$labels
   catmin <- df.frq$catmin
   # --------------------------------------------------------
-  # add confidence intervals. first, retrieve conf int
+  # add confidence intervals. first,  check whether 
+  # we have removed NA's. If so, replace NA's, so
+  # we get confidence intervals for CI as well
   # --------------------------------------------------------
-  df.frqci <- sjs.frqci(varCount)$mydat.frq
-  # init variables
-  mydat$lower.ci <- 0
-  mydat$upper.ci <- 0
-  # add conf. to related frequencies
-  for (ici in 1:length(mydat$frq)) {
-    # find frq-pos
-    fpos <- which(df.frqci$frq == mydat$frq[ici])
-    # found anything?
-    if (!is.null(fpos) && length(fpos) > 0) {
-      mydat$lower.ci[ici] <- round(df.frqci$lower.ci[fpos][1])
-      mydat$upper.ci[ici] <- round(df.frqci$upper.ci[fpos][1])
-    }
-  }
+  if (!na.rm) 
+    varCount.ci <- sjmisc::replace_na(varCount, max(varCount, na.rm = T) + 1)
+  else
+    varCount.ci <- varCount
+  # get frequencies with upper/lower CI
+  df.frqci <- sjs.frqci(varCount.ci)$mydat.frq
+  # find matching confidence intervals
+  ci.match <- match(mydat$var, df.frqci$var)
+  # copy ci
+  mydat$lower.ci <- round(df.frqci$lower.ci[ci.match])
+  mydat$upper.ci <- round(df.frqci$upper.ci[ci.match])
   # --------------------------------------------------------
   # Trim labels and title to appropriate size
   # --------------------------------------------------------
@@ -591,6 +596,10 @@ sjp.frq <- function(varCount,
     histgridbreaks <- c(seq(lower_lim, maxx, by = gridBreaksAt))
   }
   # ----------------------------------
+  # set x-axis limits
+  # ----------------------------------
+  if (is.null(axisLimits.x)) axisLimits.x <- c(catmin, maxx)
+  # ----------------------------------
   # set y scaling and label texts
   # ----------------------------------
   # set Y-axis, depending on the calculated upper y-range.
@@ -700,7 +709,9 @@ sjp.frq <- function(varCount,
                      fill = "cornsilk", 
                      alpha = 0.3) +
         # remove margins from left and right diagram side
-        scale_x_continuous(expand = expand.grid, breaks = histgridbreaks)
+        scale_x_continuous(expand = expand.grid, 
+                           breaks = histgridbreaks,
+                           limits = axisLimits.x)
       # check whether user wants to overlay the histogram
       # with a normal curve
       if (showNormalCurve) {
@@ -828,7 +839,7 @@ sjp.frq <- function(varCount,
       }
       baseplot <- baseplot +
         # remove margins from left and right diagram side
-        scale_x_continuous(limits = c(catmin, maxx), 
+        scale_x_continuous(limits = axisLimits.x, 
                            expand = expand.grid, 
                            breaks = histgridbreaks) +
         yscale

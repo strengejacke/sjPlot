@@ -107,7 +107,7 @@ create.frq.df <- function(varCount,
     # replace NA with zero
     mydat$frq[is.na(mydat$frq)] <- 0
     # create dummy-catcout, for missings. see below
-    catcount <- max(mydat$var, na.rm = T) + 1
+    catcount <- max(mydat$var, na.rm = T)
     # define minimum value
     catmin <- minval <- min(varCount, na.rm = TRUE)
     # wrap labels
@@ -260,7 +260,7 @@ get.encoding <- function(encoding) {
     else
       encoding <- "Windows-1252"
   }
-  return (encoding)
+  return(encoding)
 }
 
 
@@ -694,6 +694,7 @@ sjp.vif <- function(fit) {
 # confidence intervals
 sjs.frqci <- function(x) {
   ft <- as.numeric(unname(table(x)))
+  ind <- as.numeric(names(table(x)))
   n <- sum(ft, na.rm = T)
   rel_frq <- as.numeric(ft/n)
   ci <- 1.96 * sqrt(rel_frq * (1 - rel_frq)/n)
@@ -701,16 +702,18 @@ sjs.frqci <- function(x) {
   ci.l <- n * (rel_frq - ci)
   rel.ci.u <- rel_frq + ci
   rel.ci.l <- rel_frq - ci
-  mydat.frq <- data.frame(frq = ft,
+  mydat.frq <- data.frame(var = ind,
+                          frq = ft,
                           lower.ci = ci.l,
                           upper.ci = ci.u)
-  mydat.rel <- data.frame(rel.frq = rel_frq,
+  mydat.rel <- data.frame(var = ind,
+                          rel.frq = rel_frq,
                           rel.lower.ci = rel.ci.l,
                           rel.upper.ci = rel.ci.u)
 
-  invisible (structure(class = "sjs.frqci",
-                       list(mydat.frq = mydat.frq,
-                            mydat.rel = mydat.rel)))
+  invisible(structure(class = "sjs.frqci",
+                      list(mydat.frq = mydat.frq,
+                           mydat.rel = mydat.rel)))
 }
 
 
@@ -718,5 +721,5 @@ sju.rmspc <- function(html.table) {
   cleaned <- gsub("      <", "<", html.table, fixed = TRUE)
   cleaned <- gsub("    <", "<", cleaned, fixed = TRUE)
   cleaned <- gsub("  <", "<", cleaned, fixed = TRUE)
-  return (cleaned)
+  return(cleaned)
 }

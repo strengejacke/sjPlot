@@ -11,12 +11,12 @@ sjp.int(fit, type = "cond", int.term = NULL, int.plot.index = NULL,
   axisLabels.x = NULL, legendTitle = NULL, legendLabels = NULL,
   showValueLabels = FALSE, breakTitleAt = 50, breakLegendLabelsAt = 20,
   breakLegendTitleAt = 20, breakAnnotationLabelsAt = 50,
-  axisLimits.y = NULL, gridBreaksAt = NULL, showInterceptLines = FALSE,
-  showInterceptLabels = TRUE, showCI = FALSE, valueLabel.digits = 2,
-  interceptLineColor = "darkseagreen4", estLineColor = "darkslategray4",
-  lineLabelSize = 3.7, lineLabelColor = "black",
-  lineLabelString = "(no interaction)", facet.grid = FALSE,
-  printPlot = TRUE)
+  axisLimits.x = NULL, axisLimits.y = NULL, gridBreaksAt = NULL,
+  showInterceptLines = FALSE, showInterceptLabels = TRUE, showCI = FALSE,
+  valueLabel.digits = 2, interceptLineColor = "darkseagreen4",
+  estLineColor = "darkslategray4", lineLabelSize = 3.7,
+  lineLabelColor = "black", lineLabelString = "(no interaction)",
+  facet.grid = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{the fitted (generalized) linear (mixed) model object, including interaction terms. Accepted model
@@ -124,7 +124,13 @@ are displayed in one line and when a line break is inserted.}
 displayed in one line and when a line break is inserted. Default is \code{50}.
 Only applies if \code{showInterceptLine} is \code{TRUE}.}
 
-\item{axisLimits.y}{A vector with two values, defining the lower and upper limit from the y-axis.
+\item{axisLimits.x}{numeric vector of length two, defining lower and upper axis limits
+of the x scale. By default, this parameter is set to \code{NULL}, i.e. the
+x-axis fits to the range of the interaction term. \strong{Note} that limiting
+the x-axis-range may result in warnings from \code{ggplot} due to values
+outside this range that could not be plotted.}
+
+\item{axisLimits.y}{numeric vector with two values, defining the lower and upper limit from the y-axis.
 By default, this value is \code{NULL}, i.e. axis limits will be calculated upon the
 range of y-values.}
 
