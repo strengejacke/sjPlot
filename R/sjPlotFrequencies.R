@@ -358,6 +358,11 @@ sjp.frq <- function(varCount,
                                   groupsize = "auto", 
                                   asNumeric = TRUE, 
                                   autoGroupCount = agcnt)
+    # set label attributes
+    varCount <- sjmisc::set_val_labels(varCount, axisLabels.x)
+    # save label values. needed later to determine correct
+    # amount of categories
+    labelvalues <- sjmisc::get_values(varCount)
   }
   # --------------------------------------------------------
   # unlist labels

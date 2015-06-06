@@ -37,7 +37,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
           was used for setting up the ggplot-object (\code{mydf}).
 }
 \description{
-Plot p-values of Pearson's Chi2-tests for multiple contingency tables as ellipses or tiles.
+Plot Pearson's Chi2-Test of multiple contingency tables as ellipses or tiles.
                Requires a data frame with dichotomous (dummy) variables.
                Calculation of Chi2-matrix taken from
                \href{http://talesofr.wordpress.com/2013/05/05/ridiculously-photogenic-factors-heatmap-with-p-values/}{Tales of R}.

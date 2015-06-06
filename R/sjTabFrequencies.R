@@ -478,7 +478,7 @@ sjt.frq <- function(data,
       orivar <- var <- as.numeric(as.factor(data[[cnt]]))
     # here we have numeric or factor variables
     } else {
-      orivar <- var <- as.numeric(data[[cnt]])
+      orivar <- var <- sjmisc::to_value(data[[cnt]])
     }
     # -----------------------------------------------
     # check for length of unique values and skip if too long
@@ -498,6 +498,8 @@ sjt.frq <- function(data,
                                groupsize = "auto", 
                                asNumeric = TRUE, 
                                autoGroupCount = agcnt)
+      # set labels
+      var <- sjmisc::set_val_labels(var, valueLabels[[cnt]])
     }
     # retrieve summary
     varsummary <- summary(var)
@@ -511,7 +513,7 @@ sjt.frq <- function(data,
     #---------------------------------------------------
     df.frq <- create.frq.df(var, 
                             valueLabels[[cnt]], 
-                            sjmisc::get_values(data[[cnt]]),
+                            sjmisc::get_values(var),
                             -1, 
                             sort.frq, 
                             weightBy = weightBy)
