@@ -86,7 +86,7 @@
 #' @param legend.backgroundcol Fill color of the legend's background. Default is \code{"white"}, so no visible background is drawn.
 #' @param legend.item.bordercol Color of the legend's item-border. Default is \code{"white"}.
 #' @param legend.item.backcol Fill color of the legend's item-background. Default is \code{"grey90"}.
-#' @param theme Specify pre-set themes (see 'Details'). Valid parameter for ggplot default-themes are:
+#' @param theme Specify pre-set themes (see 'Details'). Valid parameter for ggplot default-themes are for instance:
 #'        \itemize{
 #'          \item \code{theme_bw}
 #'          \item \code{theme_classic}

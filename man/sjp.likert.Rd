@@ -25,9 +25,7 @@ Note that this parameter only applies to "valid" answers, i.e. if you
 have an additional neutral category (see \code{cat.neutral}) like \emph{"don't know"},
 this won't count for \code{catcount} (e.g. "strongly disagree",
 "disagree", "agree", "strongly agree" and neutral category "don't know"
-would still mean that \code{catcount=4}). \cr
-\strong{Note:} Normally, this parameter can be ignored because the amount of valid categories
-is retrieved automatically.}
+would still mean that \code{catcount=4}). See 'Note'.}
 
 \item{cat.neutral}{If there's a neutral category (like "don't know" etc.), specify
 the index number for this category. Else, set \code{cat.neutral=NULL} (default).
@@ -146,7 +144,13 @@ Plot likert scales as centered stacked bars.
 \note{
 Note that only even numbers of categories are possible to plot, so the "positive"
        and "negative" values can be splitted into two halfs. A neutral category (like "don't know")
-       can be used, but must be indicated by \code{cat.neutral}.
+       can be used, but must be indicated by \code{cat.neutral}. \cr \cr
+       The \code{catcount}-parameter indicates how many item categories are in the
+       Likert scale. Normally, this parameter can be ignored because the amount of
+       valid categories is retrieved automatically. However, sometimes (for instance,
+       if a certain category is missing in all items), auto-detection of the amount
+       of categories fails. In such cases, specify the amount of categories
+       with the \code{catcount}-parameter.
 }
 \examples{
 # prepare data for dichotomous likert scale, 5 items

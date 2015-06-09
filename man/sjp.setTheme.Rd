@@ -169,7 +169,7 @@ legend justification is set according to legend position.}
 
 \item{legend.item.bordercol}{Color of the legend's item-border. Default is \code{"white"}.}
 
-\item{theme}{Specify pre-set themes (see 'Details'). Valid parameter for ggplot default-themes are:
+\item{theme}{Specify pre-set themes (see 'Details'). Valid parameter for ggplot default-themes are for instance:
 \itemize{
   \item \code{theme_bw}
   \item \code{theme_classic}

@@ -10,7 +10,13 @@
 #' 
 #' @note Note that only even numbers of categories are possible to plot, so the "positive" 
 #'        and "negative" values can be splitted into two halfs. A neutral category (like "don't know")
-#'        can be used, but must be indicated by \code{cat.neutral}.
+#'        can be used, but must be indicated by \code{cat.neutral}. \cr \cr
+#'        The \code{catcount}-parameter indicates how many item categories are in the
+#'        Likert scale. Normally, this parameter can be ignored because the amount of 
+#'        valid categories is retrieved automatically. However, sometimes (for instance,
+#'        if a certain category is missing in all items), auto-detection of the amount
+#'        of categories fails. In such cases, specify the amount of categories
+#'        with the \code{catcount}-parameter.
 #' 
 #' @param items A data frame with each column representing one likert-item.
 #' @param catcount optional, the amount of categories of the items (e.g. \emph{"strongly disagree", 
@@ -19,9 +25,7 @@
 #'          have an additional neutral category (see \code{cat.neutral}) like \emph{"don't know"},
 #'          this won't count for \code{catcount} (e.g. "strongly disagree", 
 #'          "disagree", "agree", "strongly agree" and neutral category "don't know"
-#'          would still mean that \code{catcount=4}). \cr
-#'          \strong{Note:} Normally, this parameter can be ignored because the amount of valid categories
-#'          is retrieved automatically.
+#'          would still mean that \code{catcount=4}). See 'Note'.
 #' @param cat.neutral If there's a neutral category (like "don't know" etc.), specify
 #'          the index number for this category. Else, set \code{cat.neutral=NULL} (default).
 #'          The frequencies of neutral categories are plotted as grey bars on the left side of
@@ -282,10 +286,17 @@ sjp.likert <- function(items,
       # finally contains all unique values of items
       catcount <- unique(c(catcount, unique(na.omit(items[, i]))))
     }
-    # length of catcount
-    catcount <- length(catcount)
-    # if catcount odd or even? make catcount even
-    if ((catcount %% 2) == 1) catcount <- catcount - 1
+    # remove neutral category
+    if (!is.null(cat.neutral)) catcount <- catcount[-which(catcount == cat.neutral)]
+    # detect range of valid categories, which
+    # then equals catcount
+    catcount <- max(catcount) - min(catcount) + 1
+    # is catcount odd or even? make catcount even
+    if (sjmisc::is_odd(catcount)) {
+      # warn user about uneven category count
+      warning("Detected uneven category count in items. Dropping last category.", call. = F)
+      catcount <- catcount - 1
+    }
   }
   # --------------------------------------------------------
   # set legend labels, if we have none yet
@@ -353,8 +364,17 @@ sjp.likert <- function(items,
     # --------------------------------------------------------
     if (ncol(freq.df) == 0) 
       freq.df <- as.data.frame(freq)
-    else
-      freq.df <- as.data.frame(cbind(freq.df, freq))
+    else {
+      # check for valid rows. if we hav missing categories
+      # in all items, parameter "catcount" must be set, because
+      # automatic detection of amount of categories does not
+      # work then.
+      if (length(freq) != nrow(freq.df))
+        stop("Could not determine amount of item categories. Please use parameter 'catcount'.", call. = F)
+      else
+        freq.df <- as.data.frame(cbind(freq.df, freq))
+    }
+      
   }
   # --------------------------------------------------------
   # Check whether N of each item should be included into
@@ -512,7 +532,7 @@ sjp.likert <- function(items,
   # Set up grid breaks
   # --------------------------------------------------------
   gridbreaks <- round(c(seq(-gridRange, gridRange, by = gridBreaksAt)), 2)
-  gridlabs <- ifelse (abs(gridbreaks) > 1, "", paste0(c(abs(round(100 * gridbreaks))), "%"))
+  gridlabs <- ifelse(abs(gridbreaks) > 1, "", paste0(c(abs(round(100 * gridbreaks))), "%"))
   # --------------------------------------------------------
   # start plot here
   # --------------------------------------------------------
@@ -548,15 +568,15 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   # should percentage value labels be printed?
   # --------------------------------------------------------
-  percsign <- mydat.pos$percsign <- mydat.neg$percsign <- ifelse (showPercentageSign == TRUE, "%", "")
+  percsign <- mydat.pos$percsign <- mydat.neg$percsign <- ifelse(showPercentageSign == TRUE, "%", "")
   if (nrow(mydat.dk) > 0) mydat.dk$percsign <- percsign
   # --------------------------------------------------------
   # creating value labels for cumulative percentages, so
   # zero-percentages are not printed
   # --------------------------------------------------------
-  ypos.sum.pos.lab  <- ifelse (ypos.sum.pos > 0, sprintf("%.*f%s", labelDigits, 100 * ypos.sum.pos, percsign), "")
-  ypos.sum.neg.lab  <- ifelse (ypos.sum.neg < 0, sprintf("%.*f%s", labelDigits, 100 * abs(ypos.sum.neg), percsign), "")
-  ypos.sum.dk.lab  <- ifelse (ypos.sum.dk > -1, sprintf("%.*f%s", labelDigits, 100 * (1 + ypos.sum.dk), percsign), "")
+  ypos.sum.pos.lab  <- ifelse(ypos.sum.pos > 0, sprintf("%.*f%s", labelDigits, 100 * ypos.sum.pos, percsign), "")
+  ypos.sum.neg.lab  <- ifelse(ypos.sum.neg < 0, sprintf("%.*f%s", labelDigits, 100 * abs(ypos.sum.neg), percsign), "")
+  ypos.sum.dk.lab  <- ifelse(ypos.sum.dk > -1, sprintf("%.*f%s", labelDigits, 100 * (1 + ypos.sum.dk), percsign), "")
   
   if (value.labels == "show") {
     # show them in middle of bar
@@ -586,7 +606,7 @@ sjp.likert <- function(items,
       annotate("text", x = xpos.sum.neg, y = ypos.sum.neg, hjust = hort.neg, label = ypos.sum.neg.lab)
     if (!is.null(cat.neutral)) {
       gp <- gp +
-        annotate("text", x = xpos.sum.dk, y = ypos.sum.dk + 1 -gridRange, hjust = hort.dk, label = ypos.sum.dk.lab)
+        annotate("text", x = xpos.sum.dk, y = ypos.sum.dk + 1 - gridRange, hjust = hort.dk, label = ypos.sum.dk.lab)
     }
   }
   # ---------------------------------------------------------
@@ -622,9 +642,9 @@ sjp.likert <- function(items,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = "sjplikert",
-                       list(plot = gp,
-                            df.neg = mydat.neg,
-                            df.pos = mydat.pos,
-                            df.neutral = mydat.dk)))
+  invisible(structure(class = "sjplikert",
+                      list(plot = gp,
+                           df.neg = mydat.neg,
+                           df.pos = mydat.pos,
+                           df.neutral = mydat.dk)))
 }
