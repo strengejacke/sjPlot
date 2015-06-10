@@ -448,7 +448,7 @@ sjp.pca <- function(data,
     message("Following items have been removed:")
     if (!is.null(removableItems)) {
       message(colnames(data)[removableItems])
-      remdf <- data[,c(-removableItems)]
+      remdf <- data[, c(-removableItems)]
     } else {
       message("none.")
     }

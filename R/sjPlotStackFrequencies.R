@@ -235,7 +235,17 @@ sjp.stackfrq <- function(items,
   # --------------------------------------------------------
   if (!is.null(axisLabels.y) && is.list(axisLabels.y)) axisLabels.y <- unlistlabels(axisLabels.y)
   if (!is.null(legendLabels) && is.list(legendLabels)) legendLabels <- unlistlabels(legendLabels)
-  if (is.null(legendLabels)) legendLabels <- as.character(sort(unique(items[[1]])))
+  if (is.null(legendLabels)) {
+    # if we have no legend labels, we iterate all data frame's
+    # columns to find all unique items of the data frame.
+    # In case one item has missing categories, this may be
+    # "compensated" by looking at all items, so we have the
+    # actual values of all items.
+    legendLabels <- as.character(sort(unique(unlist(
+      apply(items,
+            2,
+            function(x) unique(na.omit(x)))))))
+  }
   # --------------------------------------------------------
   # Check whether N of each item should be included into
   # axis labels
@@ -243,7 +253,7 @@ sjp.stackfrq <- function(items,
   if (includeN && !is.null(axisLabels.y)) {
     for (i in 1:length(axisLabels.y)) {
       axisLabels.y[i] <- paste(axisLabels.y[i], 
-                               sprintf(" (n=%i)", length(na.omit(items[, i]))), 
+                               sprintf(" (n=%i)", length(na.omit(items[[i]]))), 
                                sep = "")
     }
   }
@@ -270,7 +280,7 @@ sjp.stackfrq <- function(items,
   # iterate item-list
   for (i in 1:ncol(items)) {
     # get each single items
-    variable <- items[ ,i]
+    variable <- items[[i]]
     # -----------------------------------------------
     # create proportional table so we have the percentage
     # values that should be used as y-value for the bar charts

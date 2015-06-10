@@ -11,7 +11,7 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   axisTitle.x = NULL, axisTitle.y = NULL, interceptLineType = 2,
   interceptLineColor = "grey70", showValueLabels = TRUE, labelDigits = 2,
   showPValueLabels = TRUE, facet.grid = TRUE, free.scale = FALSE,
-  fade.ns = FALSE, show.se = TRUE, printPlot = TRUE)
+  fade.ns = FALSE, show.se = TRUE, printPlot = TRUE, ...)
 }
 \arguments{
 \item{fit}{a fitted \code{lmer} object.}

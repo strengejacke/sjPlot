@@ -284,13 +284,29 @@ sjp.likert <- function(items,
     for (i in 1:ncol(items)) {
       # add new unique item values to catcount, so catcount
       # finally contains all unique values of items
-      catcount <- unique(c(catcount, unique(na.omit(items[, i]))))
+      catcount <- unique(c(catcount, unique(na.omit(items[[i]]))))
     }
     # remove neutral category
     if (!is.null(cat.neutral)) catcount <- catcount[-which(catcount == cat.neutral)]
     # detect range of valid categories, which
     # then equals catcount
     catcount <- max(catcount) - min(catcount) + 1
+    # check if category count matches category label count
+    if (!is.null(legendLabels)) {
+      # how many labels do we have?
+      # substract 1, if we have neutral category
+      lll <- length(legendLabels) - adding
+      # catcount and legend label count equal?
+      if (catcount < lll) {
+        # warn user that detected amount of categories and supplied legend labels
+        # are different.
+        warning("Length of labels for item categories 'legendLabels' differs from detected amount of categories. Use 'catcount' parameter to define amount of item categories, if plotting does not work.", call. = F)
+        # adjust catcount to length of legend labels, because
+        # we assume that labels represent the valid range of 
+        # item categories
+        catcount <- lll
+      }
+    }
     # is catcount odd or even? make catcount even
     if (sjmisc::is_odd(catcount)) {
       # warn user about uneven category count
@@ -329,7 +345,7 @@ sjp.likert <- function(items,
     # category, recode neutral category to last category
     # --------------------------------------------------------
     if (!is.null(cat.neutral) && cat.neutral <= catcount) {
-      items[, i] <- car::recode(items[, i], sprintf("%i=%i;%i=%i", 
+      items[[i]] <- car::recode(items[[i]], sprintf("%i=%i;%i=%i", 
                                                     cat.neutral, 
                                                     catcount + 1, 
                                                     catcount + 1,
@@ -339,15 +355,15 @@ sjp.likert <- function(items,
     # If we don't plot neutral category, but item still contains
     # that category, replace it with NA
     # --------------------------------------------------------
-    if (is.null(cat.neutral) && max(items[, i], na.rm = T) > catcount)
+    if (is.null(cat.neutral) && max(items[[i]], na.rm = T) > catcount)
       items[[i]] <- sjmisc::set_na(items[[i]], catcount + 1)
     # --------------------------------------------------------
     # create proportional frequency table
     # --------------------------------------------------------
     if (is.null(weightBy)) {
-      tab <- round(prop.table(table(items[, i])), 3)
+      tab <- round(prop.table(table(items[[i]])), 3)
     } else {
-      tab <- round(prop.table(xtabs(weightBy ~ items[, i])), 3)
+      tab <- round(prop.table(xtabs(weightBy ~ items[[i]])), 3)
     }
     # --------------------------------------------------------
     # retrieve category number and related frequencies
@@ -383,7 +399,7 @@ sjp.likert <- function(items,
   if (includeN && !is.null(axisLabels.y)) {
     for (i in 1:length(axisLabels.y)) {
       axisLabels.y[i] <- paste(axisLabels.y[i], 
-                               sprintf(" (n=%i)", length(na.omit(items[, i]))), 
+                               sprintf(" (n=%i)", length(na.omit(items[[i]]))), 
                                sep = "")
     }
   }
