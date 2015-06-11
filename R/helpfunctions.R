@@ -270,12 +270,12 @@ is.brewer.pal <- function(pal) {
   bp.seq <- c("BuGn", "BuPu", "GnBu", "OrRd", "PuBu", "PuBuGn", "PuRd", "RdPu",
               "YlGn", "YlGnBu", "YlOrBr", "YlOrRd", "Blues", "Greens", "Greys",
               "Oranges", "Purples", "Reds")
-  bp.div <- c("BrBG", "PiYg", "PRGn", "PuOr", "RdBu", "RdGy", "RdYlBu",
+  bp.div <- c("BrBG", "PiYG", "PRGn", "PuOr", "RdBu", "RdGy", "RdYlBu",
               "RdYlGn", "Spectral")
   bp.qul <- c("Accent", "Dark2", "Paired", "Pastel1", "Pastel2", "Set1",
               "Set2", "Set3")
   bp <- c(bp.seq, bp.div, bp.qul)
-  return (any(bp == pal))
+  return(any(bp == pal))
 }
 
 
@@ -299,7 +299,7 @@ crosstabsum <- function(ftab) {
   # the contingency coefficient
   if (nrow(ftab) > 2 || ncol(ftab) > 2) {
     # if minimum expected values below 5, compute fisher's exact test
-    if(min(tab$expected) < 5 || (min(tab$expected) < 10 && chsq$parameter == 1)) fish <- fisher.test(ftab, simulate.p.value = TRUE)
+    if (min(tab$expected) < 5 || (min(tab$expected) < 10 && chsq$parameter == 1)) fish <- fisher.test(ftab, simulate.p.value = TRUE)
     # check whether fisher's test or chi-squared should be printed
     if (is.null(fish)) {
       if (chsq$p.value < 0.001) {
@@ -340,7 +340,7 @@ crosstabsum <- function(ftab) {
   # the degree of association
   } else {
     # if minimum expected values below 5, compute fisher's exact test
-    if(min(tab$expected) < 5 || (min(tab$expected) < 10 && chsq$parameter == 1)) fish <- fisher.test(ftab)
+    if (min(tab$expected) < 5 || (min(tab$expected) < 10 && chsq$parameter == 1)) fish <- fisher.test(ftab)
     # check whether fisher's test or chi-squared should be printed
     if (is.null(fish)) {
       modsum <- as.character(as.expression(
