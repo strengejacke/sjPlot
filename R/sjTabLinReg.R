@@ -1355,30 +1355,6 @@ sjt.lm <- function (...,
 }
 
 
-
-# @title Show linear regression with mediator variable as HTML table
-# @name sjt.mlm
-# 
-# @description Shows fitted linear models with mediator effects
-#                as HTML table, or saves them as file.
-#                
-# @seealso \code{\link{sjt.glm}} \cr
-#          \code{\link{sjp.lm}} \cr
-#          \code{\link{sjp.lm1}} \cr
-#          \code{\link{sjt.lm}}
-#        
-# @export
-# sjt.mlm <- function(iv, dv, mv, controls=NULL, data) {
-#   col.iv <- which(colnames(data)==iv)
-#   col.dv <- which(colnames(data)==dv)
-#   col.mv <- which(colnames(data)==mv)
-#   fit <- lm(data[,col.iv]~data[,col.dv]+data[,col.mv], data, na.action="na.omit")
-#   fit
-# }
-
-# sjt.mlm("sgb_all", "sf12_ps", "fab3er_1r", data=kn)
-
-
 #' @title Show linear mixed effects models as HTML table
 #' @name sjt.lmer
 #' 

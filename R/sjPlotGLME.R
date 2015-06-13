@@ -252,7 +252,11 @@ sjp.glmer <- function(fit,
            fade.ns,
            show.se,
            printPlot,
-           fun = "glm")
+           fun = "glm",
+           0.2,
+           TRUE,
+           FALSE,
+           FALSE)
 }
 
 
@@ -272,7 +276,8 @@ sjp.glmer <- function(fit,
 #'            \item{\code{"re"}}{(default) for estimates of random effects}
 #'            \item{\code{"fe"}}{for estimates of fixed effects}
 #'            \item{\code{"fe.std"}}{for standardized estimates of fixed effects}
-#'            \item{\code{"fe.pred"}}{for regression lines (slopes) with confidence intervals for each single fixed effect are plotted, i.e. all fixed effects are extracted and each is plotted against the response variable.}
+#'            \item{\code{"fe.pred"}}{to plot regression lines (slopes) with confidence intervals for each single fixed effect, i.e. all fixed effect terms are extracted and each is plotted against the response variable.}
+#'            \item{\code{"fe.resid"}}{to plot regression lines (slopes) with confidence intervals for each single fixed effect (against residuals), i.e. all fixed effect terms are extracted and each is plotted against the model residuals.}
 #'            \item{\code{"fe.cor"}}{for correlation matrix of fixed effects}
 #'            \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
 #'            \item{\code{"fe.ri"}}{for fixed effects slopes depending on the random intercept.}
@@ -305,7 +310,7 @@ sjp.glmer <- function(fit,
 #' @param hideErrorBars If \code{TRUE}, the error bars that indicate the confidence intervals of the estimates are not
 #'          shown.
 #' @param show.se Use \code{TRUE} to plot (depending on \code{type}) the standard
-#'          error for predicted values.
+#'          error for predicted values or confidence intervals for slope lines.
 #' @param showIntercept if \code{TRUE}, the intercept is included when plotting random or fixed effects.
 #' @param stringIntercept string of intercept estimate on the y axis. Only applies, if \code{showIntercept}
 #'          is \code{TRUE} and \code{pred.labels} is not \code{NULL}.
@@ -333,6 +338,16 @@ sjp.glmer <- function(fit,
 #'          Default is 2, i.e. estimators have 2 digits after decimal point.
 #' @param showPValueLabels Whether the significance levels of each coefficient should be appended
 #'          to values or not
+#' @param pointAlpha The alpha values of the scatter plot's point-geoms.
+#'          Default is 0.2. Only applies if \code{type = "fe.pred"} or \code{type = "fe.resid"}.
+#' @param showScatterPlot If \code{TRUE} (default), a scatter plot of response and predictor values
+#'          for each predictor of the fitted model \code{fit} is plotted.
+#'          Only applies if \code{type = "fe.pred"} or \code{type = "fe.resid"}.
+#' @param showLoess If \code{TRUE}, an additional loess-smoothed line is plotted.
+#'          Only applies \code{type = "fe.pred"} or \code{type = "fe.resid"}.
+#' @param showLoessCI If \code{TRUE}, a confidence region for the loess-smoothed line
+#'          will be plotted. Default is \code{FALSE}. Only applies, if \code{showLoess}
+#'          is \code{TRUE} and only applies if if \code{type = "fe.pred"} or \code{type = "fe.resid"}.
 #' @param facet.grid \code{TRUE} when each plot should be plotted separately instead of
 #'          an integrated (faceted) single graph.
 #' @param free.scale If \code{TRUE} and \code{facet.grid=TRUE}, each facet grid gets its own fitted scale. If
@@ -449,6 +464,10 @@ sjp.lmer <- function(fit,
                      free.scale = FALSE,
                      fade.ns = FALSE,
                      show.se = TRUE,
+                     pointAlpha=0.2,
+                     showScatterPlot=TRUE,
+                     showLoess=FALSE,
+                     showLoessCI=FALSE,
                      printPlot = TRUE) {
 
   if (type == "fe.prob") type <- "fe.pc"
@@ -480,7 +499,11 @@ sjp.lmer <- function(fit,
            fade.ns,
            show.se,
            printPlot,
-           fun = "lm")
+           fun = "lm",
+           pointAlpha,
+           showScatterPlot,
+           showLoess,
+           showLoessCI)
 }
 
 sjp.lme4  <- function(fit,
@@ -508,7 +531,11 @@ sjp.lme4  <- function(fit,
                       fade.ns,
                       show.se,
                       printPlot,
-                      fun) {
+                      fun,
+                      pointAlpha = 0.2,
+                      showScatterPlot = TRUE,
+                      showLoess = FALSE,
+                      showLoessCI = FALSE) {
   # ------------------------
   # check if suggested package is available
   # ------------------------
@@ -523,8 +550,9 @@ sjp.lme4  <- function(fit,
   # -------------------------------------
   if (type != "re" && type != "fe" && type != "fe.std" && type != "fe.cor" &&
       type != "re.qq" && type != "fe.pc" && type != "ri.pc" && type != "fe.pred" &&
-      type != "fe.prob" && type != "ri.prob" && type != "fe.ri" && type != "y.pc") {
-    warning("'type' must be one of 're', 'fe', 'fe.cor', 're.qq', 'fe.ri', 'fe.pc', 'fe.pred', 'y.pred', 'ri.pc', 'y.pc', 'y.prob', 'fe.std', 'fe.prob' or 'ri.prob'. Defaulting to 'fe' now.")
+      type != "fe.prob" && type != "ri.prob" && type != "fe.ri" && type != "y.pc" && 
+      type != "fe.resid") {
+    warning("'type' must be one of 're', 'fe', 'fe.cor', 're.qq', 'fe.ri', 'fe.pc', 'fe.pred', 'fe.resid', 'y.pred', 'ri.pc', 'y.pc', 'y.prob', 'fe.std', 'fe.prob' or 'ri.prob'. Defaulting to 'fe' now.")
     type  <- "fe"
   }
   # ---------------------------------------
@@ -639,14 +667,22 @@ sjp.lme4  <- function(fit,
                                    sort.coef,
                                    fun,
                                    printPlot)))
-  } else if (type == "fe.pred") {
+  } else if (type == "fe.pred" || type == "fe.resid") {
     # ---------------------------------------
     # plot slopes for each fixed coefficient
     # ---------------------------------------
     if (fun == "lm") {
+      # reset default color setting, does not look that good.
+      if (geom.colors == "Set1") geom.colors <- NULL
       return(invisible(sjp.reglin(fit = fit, 
                                   title = title, 
+                                  geom.colors = geom.colors,
                                   showCI = show.se,
+                                  pointAlpha = pointAlpha,
+                                  showScatterPlot = showScatterPlot,
+                                  showLoess = showLoess,
+                                  showLoessCI = showLoessCI,
+                                  useResiduals = ifelse(type == "fe.pred", FALSE, TRUE),
                                   printPlot = printPlot)))
     } else {
       warning("Plotting slopes of fixed effects only works for function 'sjp.lmer'.", call. = FALSE)
@@ -1453,14 +1489,14 @@ sjp.lme.response.probcurv <- function(fit,
   # get predicted probabilities for 
   # response, including random effects
   # ----------------------------
-  mydf <- data.frame(x = length(pp.fe),
+  mydf <- data.frame(x = 1:length(pp.re),
                      y = sort(pp.re),
                      grp = "Including random effects")
   # ----------------------------
   # get predicted probabilities for 
   # response, only fixed effects
   # ----------------------------
-  tmp <- data.frame(x = length(pp.fe),
+  tmp <- data.frame(x = 1:length(pp.fe),
                     y = sort(pp.fe),
                     grp = "Including fixed effects only")
   # bind rows

@@ -10,12 +10,10 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   geom.size = 3, interceptLineType = 2, interceptLineColor = "grey70",
   breakTitleAt = 50, breakLabelsAt = 25, gridBreaksAt = NULL,
   coord.flip = TRUE, showValueLabels = TRUE, labelDigits = 2,
-  showPValueLabels = TRUE, showModelSummary = FALSE, lineColor = "blue",
-  showCI = TRUE, ciLevel = 0.95, pointAlpha = 0.2, pointColor = "black",
-  showScatterPlot = TRUE, showLoess = FALSE, loessLineColor = "red",
-  showLoessCI = FALSE, loessCiLevel = 0.95, useResiduals = FALSE,
-  showOriginalModelOnly = TRUE, completeDiagnostic = FALSE,
-  printPlot = TRUE)
+  showPValueLabels = TRUE, showModelSummary = FALSE, showCI = TRUE,
+  pointAlpha = 0.2, showScatterPlot = TRUE, showLoess = FALSE,
+  showLoessCI = FALSE, showOriginalModelOnly = TRUE,
+  completeDiagnostic = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{fitted linear regression model (\code{\link{lm}}- or \code{plm}-object).}
@@ -24,7 +22,8 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
 \describe{
   \item{\code{"lm"}}{(default) for forest-plot like plot of estimates. If the fitted model only contains one predictor, intercept and slope are plotted.}
   \item{\code{"std"}}{for forest-plot like plot of standardized beta values. If the fitted model only contains one predictor, intercept and slope are plotted.}
-  \item{\code{"pred"}}{to plot regression lines for each single predictor of the fitted model.}
+  \item{\code{"pred"}}{to plot regression lines for each single predictor of the fitted model, against the response.}
+  \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals. May be used for model diagnostics (see \url{https://www.otexts.org/fpp/5/4}).}
   \item{\code{"resp"}}{to plot predicted values for the response. Use \code{showCI} parameter to plot standard errors as well.}
   \item{\code{"ma"}}{to check model assumptions. Note that only three parameters are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.}
   \item{\code{"vif"}}{to plot Variance Inflation Factors.}
@@ -32,7 +31,7 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
 
 \item{sort.est}{Logical, determines whether estimates should be sorted by their values.}
 
-\item{title}{Diagram's title as string. Example: \code{title = c("my title")}}
+\item{title}{Diagram's title as string. Example: \code{title = "my title"}}
 
 \item{axisLabels.x}{predictor label (independent variable) that is used for labelling the
 axis. Passed as string.
@@ -97,60 +96,29 @@ to values or not}
 Intercept, R-square, F-Test and AIC-value is printed to the lower right corner
 of the diagram.}
 
-\item{lineColor}{The color of the regression line. Default is \code{"blue"}.
-Only applies if \code{type = "lm"} and fitted model has only one predictor,
-or if \code{type = "pred"}.}
-
 \item{showCI}{If \code{TRUE} (default), a confidence region for the regression line
-will be plotted. Use \code{ciLevel} to specifiy the confidence level.
-Only applies if \code{type = "lm"} and fitted model has only one predictor,
-or if \code{type = "pred"}.}
-
-\item{ciLevel}{The confidence level of the confidence region. Only applies when
-\code{showCI} is \code{TRUE}. Default is 0.95.
-Only applies if \code{type = "lm"} and fitted model has only one predictor,
-or if \code{type = "pred"}.}
+will be plotted. Only applies if \code{type = "lm"} and fitted model has
+only one predictor, or if \code{type = "pred"} or \code{type = "resid"}.}
 
 \item{pointAlpha}{The alpha values of the scatter plot's point-geoms.
 Default is 0.2.
 Only applies if \code{type = "lm"} and fitted model has only one predictor,
-or if \code{type = "pred"}.}
-
-\item{pointColor}{The color of the scatter plot's point-geoms. Only applies when \code{showScatterPlot}
-is \code{TRUE}. Default is \code{"black"}.
-Only applies if \code{type = "lm"} and fitted model has only one predictor,
-or if \code{type = "pred"}.}
+or if \code{type = "pred"} or \code{type = "resid"}.}
 
 \item{showScatterPlot}{If \code{TRUE} (default), a scatter plot of response and predictor values
 for each predictor of the fitted model \code{fit} is plotted.
 Only applies if \code{type = "lm"} and fitted model has only one predictor,
-or if \code{type = "pred"}.}
+or if \code{type = "pred"} or \code{type = "resid"}.}
 
 \item{showLoess}{If \code{TRUE}, an additional loess-smoothed line is plotted.
 Only applies if \code{type = "lm"} and fitted model has only one predictor,
-or if \code{type = "pred"} or \code{type = "resp"}.}
-
-\item{loessLineColor}{The color of the loess-smoothed line. Default is \code{"red"}. Only applies, if
-\code{showLoess} is \code{TRUE}.
-Only applies if \code{type = "lm"} and fitted model has only one predictor,
-or if \code{type = "pred"} or \code{type = "resp"}.}
+or if \code{type = "pred"}, \code{type = "resid"} or \code{type = "resp"}.}
 
 \item{showLoessCI}{If \code{TRUE}, a confidence region for the loess-smoothed line
-will be plotted. Default is \code{FALSE}. Use \code{loessCiLevel} to specifiy the confidence level.
-Only applies, if \code{showLoess} is \code{TRUE}.
-Only applies if \code{type = "lm"} and fitted model has only one predictor,
-or if \code{type = "pred"} or \code{type = "resp"}.}
-
-\item{loessCiLevel}{The confidence level of the loess-line's confidence region.
-Only applies, if \code{showLoessCI} is \code{TRUE}. Default is 0.95.
-Only applies if \code{type = "lm"} and fitted model has only one predictor,
-or if \code{type = "pred"}.}
-
-\item{useResiduals}{If \code{TRUE}, the residuals (instead of response) are plotted
-against the predictor. May be used for model diagnostics
-(see \url{https://www.otexts.org/fpp/5/4}).
-Only applies if \code{type = "lm"} and fitted model has only one predictor,
-or if \code{type = "pred"}.}
+will be plotted. Default is \code{FALSE}. Only applies, if \code{showLoess}
+is \code{TRUE} and only applies if \code{type = "lm"} and fitted model
+has only one predictor, or if \code{type = "pred"}, \code{type = "resid"}
+or \code{type = "resp"}.}
 
 \item{showOriginalModelOnly}{if \code{TRUE} (default), only the model assumptions of the fitted model
 \code{fit} are plotted. if \code{FALSE}, the model assumptions of an updated model where outliers
@@ -181,6 +149,7 @@ Depending on the \code{type}, this function plots beta coefficients (estimates)
 \itemize{
            \item If \code{type = "lm"} and fitted model only has one predictor, no forest plot is shown. Instead, a regression line with confidence interval (in blue) is plotted by default, and a loess-smoothed line without confidence interval (in red) can be added if parameter \code{showLoess} is \code{TRUE}.
            \item If \code{type = "pred"}, regression lines (slopes) with confidence intervals for each single predictor of the fitted model are plotted, i.e. all predictors of the fitted model are extracted and each of them is plotted against the response variable.
+           \item \code{type = "resid"} is similar to the \code{type = "pred"} option, however, each predictor is plotted against the residuals (instead of response).
            \item If \code{type = "ma"} (i.e. checking model assumptions), please note that only three parameters are relevant: \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.
            \item If \code{type = "vif"}, the Variance Inflation Factors (check for multicollinearity) are plotted. As a rule of thumb, values below 5 are considered as good and indicate no multicollinearity, values between 5 and 10 may be tolerable. Values greater than 10 are not acceptable and indicate multicollinearity between model's predictors.
            }

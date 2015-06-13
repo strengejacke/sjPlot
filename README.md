@@ -40,15 +40,20 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of development build 1.8.1-4
+### Changelog of development build 1.8.1-5
 
-#### Changes to functions:
+#### New functions
+* `sjp.poly` to plot polynomial curves for linear regressions.
+
+#### Changes to functions
 * Model and table summaries in plotting functions (like `sjp.lm` or `sjp.grpfrq`) are no longer printed by default. Use `showTableSummary = TRUE` or `showModelSummary = TRUE` to print summaries in plots.
 * Added parameter `int.term` to `sjp.int`, to plot selected interaction terms for `type = "eff"` only. May be used in cases where effect computation takes too long or even crashes due to out-of-memory-problems.
 * Added parameter `axisLimits.x` to `sjp.int`, `sjp.frq` and `sjp.grpfrq`.
+* Added more plotting type options (see `type` parameter) to `sjp.lm` and `sjp.lmer`.
 * Minor improvement to `sjp.likert`.
 
 #### Bug fixes
 * `sjp.int` sometimes crashed with mixed models, due to slow Kenward-Roger-computation of standard errors, provided by the `effects`-package. Fixed, `KR`-parameter, when calling `allEffects`, now defaults to `FALSE`.
 * Fixed bug in `sjp.frq` and `sjt.frq`, where non-incremental levels in some cases were not displayed correctly.
 * Fixed bug in `sjp.frq` and `sjt.frq`, where categories of ordered factors were messed up.
+* Some minor bug fixes.

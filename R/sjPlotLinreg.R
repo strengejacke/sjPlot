@@ -16,6 +16,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "l
 #' @details \itemize{
 #'            \item If \code{type = "lm"} and fitted model only has one predictor, no forest plot is shown. Instead, a regression line with confidence interval (in blue) is plotted by default, and a loess-smoothed line without confidence interval (in red) can be added if parameter \code{showLoess} is \code{TRUE}.
 #'            \item If \code{type = "pred"}, regression lines (slopes) with confidence intervals for each single predictor of the fitted model are plotted, i.e. all predictors of the fitted model are extracted and each of them is plotted against the response variable.
+#'            \item \code{type = "resid"} is similar to the \code{type = "pred"} option, however, each predictor is plotted against the residuals (instead of response).
 #'            \item If \code{type = "ma"} (i.e. checking model assumptions), please note that only three parameters are relevant: \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.
 #'            \item If \code{type = "vif"}, the Variance Inflation Factors (check for multicollinearity) are plotted. As a rule of thumb, values below 5 are considered as good and indicate no multicollinearity, values between 5 and 10 may be tolerable. Values greater than 10 are not acceptable and indicate multicollinearity between model's predictors.
 #'            }
@@ -25,12 +26,13 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "l
 #'          \describe{
 #'            \item{\code{"lm"}}{(default) for forest-plot like plot of estimates. If the fitted model only contains one predictor, intercept and slope are plotted.}
 #'            \item{\code{"std"}}{for forest-plot like plot of standardized beta values. If the fitted model only contains one predictor, intercept and slope are plotted.}
-#'            \item{\code{"pred"}}{to plot regression lines for each single predictor of the fitted model.}
+#'            \item{\code{"pred"}}{to plot regression lines for each single predictor of the fitted model, against the response.}
+#'            \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals. May be used for model diagnostics (see \url{https://www.otexts.org/fpp/5/4}).}
 #'            \item{\code{"resp"}}{to plot predicted values for the response. Use \code{showCI} parameter to plot standard errors as well.}
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only three parameters are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
-#' @param title Diagram's title as string. Example: \code{title = c("my title")}
+#' @param title Diagram's title as string. Example: \code{title = "my title"}
 #' @param sort.est Logical, determines whether estimates should be sorted by their values.
 #' @param axisLabels.x predictor label (independent variable) that is used for labelling the
 #'          axis. Passed as string.
@@ -78,50 +80,25 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "l
 #' @param showModelSummary If \code{TRUE}, a summary of the regression model with
 #'          Intercept, R-square, F-Test and AIC-value is printed to the lower right corner
 #'          of the diagram.
-#' @param lineColor The color of the regression line. Default is \code{"blue"}.
-#'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
-#'          or if \code{type = "pred"}.
 #' @param showCI If \code{TRUE} (default), a confidence region for the regression line
-#'          will be plotted. Use \code{ciLevel} to specifiy the confidence level.
-#'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
-#'          or if \code{type = "pred"}.
-#' @param ciLevel The confidence level of the confidence region. Only applies when
-#'          \code{showCI} is \code{TRUE}. Default is 0.95.
-#'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
-#'          or if \code{type = "pred"}.
+#'          will be plotted. Only applies if \code{type = "lm"} and fitted model has 
+#'          only one predictor, or if \code{type = "pred"} or \code{type = "resid"}.
 #' @param pointAlpha The alpha values of the scatter plot's point-geoms.
 #'          Default is 0.2.
 #'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
-#'          or if \code{type = "pred"}.
-#' @param pointColor The color of the scatter plot's point-geoms. Only applies when \code{showScatterPlot}
-#'          is \code{TRUE}. Default is \code{"black"}.
-#'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
-#'          or if \code{type = "pred"}.
+#'          or if \code{type = "pred"} or \code{type = "resid"}.
 #' @param showScatterPlot If \code{TRUE} (default), a scatter plot of response and predictor values
 #'          for each predictor of the fitted model \code{fit} is plotted.
 #'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
-#'          or if \code{type = "pred"}.
+#'          or if \code{type = "pred"} or \code{type = "resid"}.
 #' @param showLoess If \code{TRUE}, an additional loess-smoothed line is plotted.
 #'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
-#'          or if \code{type = "pred"} or \code{type = "resp"}.
-#' @param loessLineColor The color of the loess-smoothed line. Default is \code{"red"}. Only applies, if
-#'          \code{showLoess} is \code{TRUE}.
-#'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
-#'          or if \code{type = "pred"} or \code{type = "resp"}.
+#'          or if \code{type = "pred"}, \code{type = "resid"} or \code{type = "resp"}.
 #' @param showLoessCI If \code{TRUE}, a confidence region for the loess-smoothed line
-#'          will be plotted. Default is \code{FALSE}. Use \code{loessCiLevel} to specifiy the confidence level.
-#'          Only applies, if \code{showLoess} is \code{TRUE}.
-#'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
-#'          or if \code{type = "pred"} or \code{type = "resp"}.
-#' @param loessCiLevel The confidence level of the loess-line's confidence region.
-#'          Only applies, if \code{showLoessCI} is \code{TRUE}. Default is 0.95.
-#'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
-#'          or if \code{type = "pred"}.
-#' @param useResiduals If \code{TRUE}, the residuals (instead of response) are plotted
-#'          against the predictor. May be used for model diagnostics
-#'          (see \url{https://www.otexts.org/fpp/5/4}).
-#'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
-#'          or if \code{type = "pred"}.
+#'          will be plotted. Default is \code{FALSE}. Only applies, if \code{showLoess}
+#'          is \code{TRUE} and only applies if \code{type = "lm"} and fitted model 
+#'          has only one predictor, or if \code{type = "pred"}, \code{type = "resid"} 
+#'          or \code{type = "resp"}.
 #' @param showOriginalModelOnly if \code{TRUE} (default), only the model assumptions of the fitted model
 #'          \code{fit} are plotted. if \code{FALSE}, the model assumptions of an updated model where outliers
 #'          are automatically excluded are also plotted.
@@ -213,17 +190,11 @@ sjp.lm <- function(fit,
                    labelDigits=2,
                    showPValueLabels=TRUE,
                    showModelSummary=FALSE,
-                   lineColor="blue",
                    showCI=TRUE,
-                   ciLevel=0.95,
                    pointAlpha=0.2,
-                   pointColor="black",
                    showScatterPlot=TRUE,
                    showLoess=FALSE,
-                   loessLineColor="red",
                    showLoessCI=FALSE,
-                   loessCiLevel=0.95,
-                   useResiduals=FALSE,
                    showOriginalModelOnly=TRUE,
                    completeDiagnostic=FALSE,
                    printPlot=TRUE) {
@@ -247,51 +218,46 @@ sjp.lm <- function(fit,
   # this function requires a fitted model with only one predictor,
   # so check whether only one predictor was used
   # -----------------------------------------------------------
-  if (type == "lm" && predvars.length <= 2) {
+  if ((type == "lm" || type == "resid") && predvars.length <= 2) {
+    # reset default color setting, does not look that good.
+    if (geom.colors == "Set1") geom.colors <- NULL
     return(invisible(sjp.lm1(fit,
                              title,
                              breakTitleAt,
                              axisLabels.x,
                              axisLabels.y,
                              breakLabelsAt,
-                             lineColor,
+                             geom.colors,
                              showCI,
-                             ciLevel,
                              pointAlpha,
-                             pointColor,
                              showScatterPlot,
                              showLoess,
-                             loessLineColor,
                              showLoessCI,
-                             loessCiLevel,
                              showModelSummary,
-                             useResiduals,
+                             useResiduals = ifelse(type == "lm", FALSE, TRUE),
                              printPlot)))
   }
-  if (type == "pred") {
+  if (type == "pred" || type == "resid") {
+    # reset default color setting, does not look that good.
+    if (geom.colors == "Set1") geom.colors <- NULL
     return(invisible(sjp.reglin(fit,
                                 title,
                                 breakTitleAt,
-                                lineColor,
+                                geom.colors,
                                 showCI,
-                                ciLevel,
                                 pointAlpha,
-                                pointColor,
                                 showScatterPlot,
                                 showLoess,
-                                loessLineColor,
                                 showLoessCI,
-                                loessCiLevel,
-                                useResiduals,
+                                useResiduals = ifelse(type == "pred", FALSE, TRUE),
                                 printPlot)))
   }
   if (type == "resp") {
     return(invisible(sjp.lm.response.pred(fit,
+                                          geom.colors,
                                           showCI, 
                                           showLoess,
-                                          loessLineColor,
                                           showLoessCI,
-                                          loessCiLevel,
                                           printPlot)))
   }
   if (type == "ma") {
@@ -501,12 +467,20 @@ sjp.lm <- function(fit,
 
 
 sjp.lm.response.pred <- function(fit,
+                                 geom.colors,
                                  show.se,
                                  showLoess,
-                                 loessLineColor,
                                  showLoessCI,
-                                 loessCiLevel,
                                  printPlot) {
+  # -----------------------------------------------------------
+  # check parameter
+  # -----------------------------------------------------------
+  geom.colors <- col_check(geom.colors, showLoess)
+  # -----------------------------------------------------------
+  # set color defaults
+  # -----------------------------------------------------------
+  lineColor <- geom.colors[1]
+  loessLineColor <- geom.colors[2]
   # ----------------------------
   # get predicted values for response
   # ----------------------------
@@ -524,13 +498,13 @@ sjp.lm.response.pred <- function(fit,
          y = "Predicted values",
          title = "Predicted value for model-response") +
     stat_smooth(method = "lm",
-                se = show.se)
+                se = show.se,
+                colour = lineColor)
   # ---------------------------------------------------------
   # Add Loess-Line
   # ---------------------------------------------------------
   if (showLoess) mp <- mp + stat_smooth(method = "loess",
                                         se = showLoessCI,
-                                        level = loessCiLevel,
                                         colour = loessLineColor)
   # --------------------------
   # plot plots
@@ -546,18 +520,29 @@ sjp.lm.response.pred <- function(fit,
 sjp.reglin <- function(fit,
                        title=NULL,
                        breakTitleAt=50,
-                       lineColor="blue",
+                       geom.colors = NULL,
                        showCI=TRUE,
-                       ciLevel=0.95,
                        pointAlpha=0.2,
-                       pointColor="black",
                        showScatterPlot=TRUE,
                        showLoess=TRUE,
-                       loessLineColor="red",
                        showLoessCI=FALSE,
-                       loessCiLevel=0.95,
                        useResiduals=FALSE,
                        printPlot=TRUE) {
+  # -----------------------------------------------------------
+  # check parameter
+  # -----------------------------------------------------------
+  geom.colors <- col_check(geom.colors, showLoess)
+  # -----------------------------------------------------------
+  # set color defaults
+  # -----------------------------------------------------------
+  if (showLoess) {
+    lineColor <- geom.colors[1]
+    loessLineColor <- geom.colors[2]
+    pointColor <- geom.colors[3]
+  } else {
+    lineColor <- geom.colors[1]
+    pointColor <- geom.colors[2]
+  }
   # -----------------------------------------------------------
   # retrieve amount of predictor variables and
   # retrieve column names of dataset so we can identify in which
@@ -619,7 +604,6 @@ sjp.reglin <- function(fit,
     reglinplot <- ggplot(mydat, aes(x = x, y = y)) +
       stat_smooth(method = "lm",
                   se = showCI,
-                  level = ciLevel,
                   colour = lineColor)
     # -----------------------------------------------------------
     # plot jittered values if requested
@@ -633,7 +617,6 @@ sjp.reglin <- function(fit,
       reglinplot <- reglinplot +
         stat_smooth(method = "loess",
                     se = showLoessCI,
-                    level = loessCiLevel,
                     colour = loessLineColor)
     }
     # -----------------------------------------------------------
@@ -658,6 +641,34 @@ sjp.reglin <- function(fit,
   invisible(structure(class = "sjpreglin",
                       list(plot.list = plotlist,
                            df.list = dflist)))
+}
+
+
+col_check <- function(geom.colors, showLoess) {
+  # define required length of color palette
+  collen <- ifelse(showLoess == TRUE, 3, 2)
+  if (is.null(geom.colors)) {
+    if (collen == 2)
+      geom.colors <- c("#1f78b4", "#404040")
+    else
+      geom.colors <- c("#1f78b4", "#e41a1c", "#404040")
+  } else if (is.brewer.pal(geom.colors[1])) {
+    geom.colors <- scales::brewer_pal(palette = geom.colors[1])(collen)
+  } else if (geom.colors[1] == "gs") {
+    geom.colors <- scales::grey_pal()(collen)
+  } else {
+    # do we have correct amount of colours?
+    if (length(geom.colors) != collen) {
+      # warn user abount wrong color palette
+      warning(sprintf("Insufficient length of color palette provided. %i color values needed.", collen), call. = F)
+      # set default
+      if (collen == 2)
+        geom.colors <- c("#1f78b4", "#404040")
+      else
+        geom.colors <- c("#1f78b4", "#e41a1c", "#404040")
+    }
+  }
+  return(geom.colors)
 }
 
 
@@ -812,8 +823,14 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FAL
     # Plot residuals against predictors
     # ---------------------------------
     sjp.setTheme(theme = "scatter")
-    sjp.reglin(linreg, title = "Relationship of residuals against predictors (original model) (if scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly", breakTitleAt=60, useResiduals = T)
-    if (modelOptmized) sjp.reglin(model, title = "Relationship of residuals against predictors (updated model) (if scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly", breakTitleAt=60, useResiduals = T)
+    sjp.reglin(linreg, 
+               title = "Relationship of residuals against predictors (original model) (if scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly", 
+               breakTitleAt = 60, 
+               useResiduals = T)
+    if (modelOptmized) sjp.reglin(model, 
+                                  title = "Relationship of residuals against predictors (updated model) (if scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly", 
+                                  breakTitleAt = 60, 
+                                  useResiduals = T)
     # ---------------------------------
     # Non-linearity
     # ---------------------------------
@@ -844,19 +861,30 @@ sjp.lm1 <- function(fit,
                    axisLabel.x=NULL,
                    axisLabel.y=NULL,
                    breakLabelsAt=20,
-                   lineColor="blue",
+                   geom.colors = NULL,
                    showCI=TRUE,
-                   ciLevel=0.95,
                    pointAlpha=0.2,
-                   pointColor="black",
                    showScatterPlot=TRUE,
                    showLoess=FALSE,
-                   loessLineColor="red",
                    showLoessCI=FALSE,
-                   loessCiLevel=0.95,
                    showModelSummary=TRUE,
                    useResiduals=FALSE,
                    printPlot=TRUE) {
+  # -----------------------------------------------------------
+  # check parameter
+  # -----------------------------------------------------------
+  geom.colors <- col_check(geom.colors, showLoess)
+  # -----------------------------------------------------------
+  # set color defaults
+  # -----------------------------------------------------------
+  if (showLoess) {
+    lineColor <- geom.colors[1]
+    loessLineColor <- geom.colors[2]
+    pointColor <- geom.colors[3]
+  } else {
+    lineColor <- geom.colors[1]
+    pointColor <- geom.colors[2]
+  }
   # -----------------------------------------------------------
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
@@ -871,7 +899,7 @@ sjp.lm1 <- function(fit,
   # so check whether only one predictor was used
   # -----------------------------------------------------------
   if (predvars.length > 2) {
-    stop("Only one predictor is allowed in fitted model. Formula y=b*x is plotted.", call.=FALSE)
+    stop("Only one predictor is allowed in fitted model. Formula y=b*x is plotted.", call. = FALSE)
   }
   # -----------------------------------------------------------
   # retrieve column names of dataset so we can identify in which
@@ -920,7 +948,6 @@ sjp.lm1 <- function(fit,
                        aes(x = x, y = y)) +
     stat_smooth(method = "lm",
                 se = showCI,
-                level = ciLevel,
                 colour = lineColor)
   # -----------------------------------------------------------
   # plot jittered values if requested
@@ -936,7 +963,6 @@ sjp.lm1 <- function(fit,
     reglinplot <- reglinplot +
       stat_smooth(method = "loess",
                   se = showLoessCI,
-                  level = loessCiLevel,
                   colour = loessLineColor)
   }
   # -----------------------------------------------------------
