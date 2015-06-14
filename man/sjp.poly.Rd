@@ -75,7 +75,7 @@ This function plots a scatter plot of a term \code{poly.term}
 }
 \details{
 This function evaluates raw polynomials, \emph{not orthogonal} polynomials.
-           Polynomials are computes using the \code{\link{polynomial}} function,
+           Polynomials are computed using the \code{\link{poly}} function,
            with parameter \code{raw = TRUE}. \cr \cr
            To find out which polynomial degree fits best to the data, a loess-smoothed
            line can be added (with \code{showLoess = TRUE}). The polynomial curves

@@ -42,6 +42,9 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 
 ### Changelog of development build 1.8.1-5
 
+#### General
+* `view_spss` is now deprecated. Use `view_df` instead.
+
 #### New functions
 * `sjp.poly` to plot polynomial curves for linear regressions.
 
@@ -54,6 +57,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 
 #### Bug fixes
 * `sjp.int` sometimes crashed with mixed models, due to slow Kenward-Roger-computation of standard errors, provided by the `effects`-package. Fixed, `KR`-parameter, when calling `allEffects`, now defaults to `FALSE`.
+* Fixed bug in `view_spss`, where frequencies were not displayed correctly when a category value had zero counts.
 * Fixed bug in `sjp.frq` and `sjt.frq`, where non-incremental levels in some cases were not displayed correctly.
 * Fixed bug in `sjp.frq` and `sjt.frq`, where categories of ordered factors were messed up.
 * Some minor bug fixes.

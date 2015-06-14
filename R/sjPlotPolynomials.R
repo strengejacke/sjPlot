@@ -49,7 +49,7 @@
 #'           ggplot-object (\code{df}).
 #' 
 #' @details This function evaluates raw polynomials, \emph{not orthogonal} polynomials.
-#'            Polynomials are computes using the \code{\link{polynomial}} function,
+#'            Polynomials are computed using the \code{\link{poly}} function,
 #'            with parameter \code{raw = TRUE}. \cr \cr
 #'            To find out which polynomial degree fits best to the data, a loess-smoothed
 #'            line can be added (with \code{showLoess = TRUE}). The polynomial curves
@@ -182,8 +182,7 @@ sjp.poly <- function(x,
   # add curves for polynomials
   polyplot <- polyplot + geom_line(aes(y = pred), size = geom.size) + 
     scale_color_manual(values = geom.colors,
-                       labels = setNames(lapply(poly.degree, function(j) bquote(x^.(j))), 
-                                         paste0("x^", poly.degree))) +
+                       labels = lapply(poly.degree, function(j) bquote(x^.(j)))) +
     labs(x = axisTitle.x, y = axisTitle.y, colour = "Polynomial\ndegrees")
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
