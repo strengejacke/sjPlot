@@ -3,7 +3,7 @@
 #' 
 #' @import sjmisc 
 #' @export
-view_spss <- function(df,
+view_spss <- function(x,
                       file = NULL,
                       alternateRowColors = TRUE,
                       showID = TRUE,
@@ -21,7 +21,7 @@ view_spss <- function(df,
                       no.output = FALSE,
                       remove.spaces = TRUE) {
   .Deprecated("view_df")
-  view_df(df, file, alternateRowColors, showID, showType, showValues,
+  view_df(x, file, alternateRowColors, showID, showType, showValues,
           showValueLabels, showFreq, showPerc, sortByName, breakVariableNamesAt,
           encoding, hideProgressBar, CSS, useViewer, no.output, remove.spaces)
 }
@@ -42,7 +42,7 @@ view_spss <- function(df,
 #'            \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
 #'          }
 #' 
-#' @param df An imported data frame, imported by \code{\link[sjmisc]{read_spss}},
+#' @param x An imported data frame, imported by \code{\link[sjmisc]{read_spss}},
 #'          \code{\link[sjmisc]{read_sas}} or \code{\link[sjmisc]{read_stata}} function,
 #'          or any similar labelled data frame (see \code{\link[sjmisc]{set_var_labels}}
 #'          and \code{\link[sjmisc]{set_val_labels}}).
@@ -119,23 +119,23 @@ view_spss <- function(df,
 #'
 #' @import sjmisc 
 #' @export
-view_df <- function(df,
-                      file = NULL,
-                      alternateRowColors = TRUE,
-                      showID = TRUE,
-                      showType = FALSE,
-                      showValues = TRUE,
-                      showValueLabels = TRUE,
-                      showFreq = FALSE,
-                      showPerc = FALSE,
-                      sortByName = FALSE,
-                      breakVariableNamesAt = 50,
-                      encoding = NULL,
-                      hideProgressBar = FALSE,
-                      CSS = NULL,
-                      useViewer = TRUE,
-                      no.output = FALSE,
-                      remove.spaces = TRUE) {
+view_df <- function(x,
+                    file = NULL,
+                    alternateRowColors = TRUE,
+                    showID = TRUE,
+                    showType = FALSE,
+                    showValues = TRUE,
+                    showValueLabels = TRUE,
+                    showFreq = FALSE,
+                    showPerc = FALSE,
+                    sortByName = FALSE,
+                    breakVariableNamesAt = 50,
+                    encoding = NULL,
+                    hideProgressBar = FALSE,
+                    CSS = NULL,
+                    useViewer = TRUE,
+                    no.output = FALSE,
+                    remove.spaces = TRUE) {
 # -------------------------------------
   # check encoding
   # -------------------------------------
@@ -144,21 +144,21 @@ view_df <- function(df,
   # make data frame of single variable, so we have
   # unique handling for the data
   # -------------------------------------
-  if (!is.data.frame(df)) stop("Parameter needs to be a data frame!", call. = FALSE)
+  if (!is.data.frame(x)) stop("Parameter needs to be a data frame!", call. = FALSE)
   # -------------------------------------
   # retrieve value and variable labels
   # -------------------------------------
-  df.var <- sjmisc::get_var_labels(df)
-  df.val <- sjmisc::get_val_labels(df)
+  df.var <- sjmisc::get_var_labels(x)
+  df.val <- sjmisc::get_val_labels(x)
   # -------------------------------------
   # get row count and ID's
   # -------------------------------------
-  rowcnt <- ncol(df)
+  rowcnt <- ncol(x)
   id <- 1:rowcnt
   # -------------------------------------
   # Order data set if requested
   # -------------------------------------
-  if (sortByName) id <- id[order(colnames(df))]
+  if (sortByName) id <- id[order(colnames(x))]
   # -------------------------------------
   # init style sheet and tags used for css-definitions
   # we can use these variables for string-replacement
@@ -225,14 +225,14 @@ view_df <- function(df,
     # ID
     if (showID) page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%i</td>\n", arcstring, index))
     # name
-    page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, colnames(df)[index]))
+    page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, colnames(x)[index]))
     # type
     if (showType) {
       vartype <- c("unknown type")
-      if (is.character(df[[index]])) vartype <- c("character")
-      else if (is.factor(df[[index]])) vartype <- c("factor")
-      else if (is.numeric(df[[index]])) vartype <- c("numeric")
-      else if (is.atomic(df[[index]])) vartype <- c("atomic")
+      if (is.character(x[[index]])) vartype <- c("character")
+      else if (is.factor(x[[index]])) vartype <- c("factor")
+      else if (is.numeric(x[[index]])) vartype <- c("numeric")
+      else if (is.atomic(x[[index]])) vartype <- c("atomic")
       page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, vartype))
     }
     # label
@@ -252,9 +252,9 @@ view_df <- function(df,
     if (showValues) {
       valstring <- c("")
       # do we have valid index?
-      if (index <= ncol(df)) {
+      if (index <= ncol(x)) {
         # if yes, get variable values
-        vals <- sjmisc::get_values(df[[index]])
+        vals <- sjmisc::get_values(x[[index]])
         # check if we have any values...
         if (!is.null(vals)) {
           # if we have values, put all values into a string
@@ -298,14 +298,14 @@ view_df <- function(df,
     if (showFreq) {
       valstring <- c("")
       # check if we have a valid index
-      if (index <= ncol(df) && !is.null(df.val[[index]])) {
+      if (index <= ncol(x) && !is.null(df.val[[index]])) {
         # create frequency table. same function as for
         # sjt.frq and sjp.frq
-        ftab <- create.frq.df(df[[index]],
+        ftab <- create.frq.df(x[[index]],
                               df.val[[index]], 
-                              sjmisc::get_values(df[[index]]),
+                              sjmisc::get_values(x[[index]]),
                               20)$mydat$frq
-        # ftab <- as.numeric(table(df[[index]]))
+        # ftab <- as.numeric(table(x[[index]]))
         # remove last value, which is N for NA
         for (i in 1:(length(ftab) - 1)) {
           valstring <- paste0(valstring, ftab[i])
@@ -322,11 +322,11 @@ view_df <- function(df,
     if (showPerc) {
       valstring <- c("")
       # check for valid indices
-      if (index <= ncol(df) && !is.null(df.val[[index]])) {
+      if (index <= ncol(x) && !is.null(df.val[[index]])) {
         # create frequency table, but only get valid percentages
-        ftab <- create.frq.df(df[[index]],
+        ftab <- create.frq.df(x[[index]],
                               df.val[[index]], 
-                              sjmisc::get_values(df[[index]]),
+                              sjmisc::get_values(x[[index]]),
                               20)$mydat$valid
         # remove last value, which is a NA dummy
         for (i in 1:(length(ftab) - 1)) {

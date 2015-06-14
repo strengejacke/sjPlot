@@ -5,20 +5,20 @@
 \alias{view_spss}
 \title{View structure of labelled data frames}
 \usage{
-view_spss(df, file = NULL, alternateRowColors = TRUE, showID = TRUE,
+view_spss(x, file = NULL, alternateRowColors = TRUE, showID = TRUE,
   showType = FALSE, showValues = TRUE, showValueLabels = TRUE,
   showFreq = FALSE, showPerc = FALSE, sortByName = FALSE,
   breakVariableNamesAt = 50, encoding = NULL, hideProgressBar = FALSE,
   CSS = NULL, useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 
-view_df(df, file = NULL, alternateRowColors = TRUE, showID = TRUE,
+view_df(x, file = NULL, alternateRowColors = TRUE, showID = TRUE,
   showType = FALSE, showValues = TRUE, showValueLabels = TRUE,
   showFreq = FALSE, showPerc = FALSE, sortByName = FALSE,
   breakVariableNamesAt = 50, encoding = NULL, hideProgressBar = FALSE,
   CSS = NULL, useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
-\item{df}{An imported data frame, imported by \code{\link[sjmisc]{read_spss}},
+\item{x}{An imported data frame, imported by \code{\link[sjmisc]{read_spss}},
 \code{\link[sjmisc]{read_sas}} or \code{\link[sjmisc]{read_stata}} function,
 or any similar labelled data frame (see \code{\link[sjmisc]{set_var_labels}}
 and \code{\link[sjmisc]{set_val_labels}}).}
