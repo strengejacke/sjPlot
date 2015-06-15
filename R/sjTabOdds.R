@@ -67,6 +67,8 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("starts_with"))
 #'          in the model summary. Default is \code{FALSE}.
 #' @param showAIC If \code{TRUE}, the \code{\link{AIC}} value for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
+#' @param showAICc If \code{TRUE}, the second-order AIC value for each model 
+#'          is printed in the model summary. Default is \code{FALSE}.
 #' @param showChi2 If \code{TRUE}, the p-value of the chi-squared value for each 
 #'          model's residual deviance against the null deviance is printed
 #'          in the model summary. Default is \code{FALSE}. A well-fitting model
@@ -261,48 +263,50 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("starts_with"))
 #' 
 #' @import dplyr
 #' @export
-sjt.glm <- function(..., 
-                    file=NULL, 
-                    labelPredictors=NULL, 
-                    labelDependentVariables=NULL, 
-                    stringPredictors="Predictors", 
-                    stringDependentVariables="Dependent Variables", 
-                    showHeaderStrings=FALSE,
-                    stringModel="Model",
-                    stringIntercept="(Intercept)",
-                    stringObservations="Observations",
-                    stringOR="OR",
-                    stringCI="CI",
-                    stringSE="std. Error",
-                    stringP="p",
-                    digits.est=2,
-                    digits.p=3,
-                    digits.ci=2,
-                    digits.se=2,
-                    digits.summary=3,
-                    exp.coef=TRUE,
-                    pvaluesAsNumbers=TRUE,
-                    boldpvalues=TRUE,
-                    showConfInt=TRUE,
-                    showStdError=FALSE,
-                    separateConfColumn=TRUE,
-                    newLineConf=TRUE,
-                    group.pred=TRUE,
-                    showAbbrHeadline=TRUE,
-                    showPseudoR=FALSE,
-                    showLogLik=FALSE,
-                    showAIC=FALSE,
-                    showChi2=FALSE,
+sjt.glm <- function(...,
+                    file = NULL,
+                    labelPredictors = NULL,
+                    labelDependentVariables = NULL,
+                    stringPredictors = "Predictors",
+                    stringDependentVariables = "Dependent Variables",
+                    showHeaderStrings = FALSE,
+                    stringModel = "Model",
+                    stringIntercept = "(Intercept)",
+                    stringObservations = "Observations",
+                    stringOR = "OR",
+                    stringCI = "CI",
+                    stringSE = "std. Error",
+                    stringP = "p",
+                    digits.est = 2,
+                    digits.p = 3,
+                    digits.ci = 2,
+                    digits.se = 2,
+                    digits.summary = 3,
+                    exp.coef = TRUE,
+                    pvaluesAsNumbers = TRUE,
+                    boldpvalues = TRUE,
+                    showConfInt = TRUE,
+                    showStdError = FALSE,
+                    separateConfColumn = TRUE,
+                    newLineConf = TRUE,
+                    group.pred = TRUE,
+                    showAbbrHeadline = TRUE,
+                    showPseudoR = FALSE,
+                    showLogLik = FALSE,
+                    showAIC = FALSE,
+                    showAICc = FALSE,
+                    showChi2 = FALSE,
                     showHosLem = FALSE,
-                    showFamily=FALSE,
-                    remove.estimates=NULL,
-                    cellSpacing=0.2,
-                    cellGroupIndent=0.6,
-                    encoding=NULL,
-                    CSS=NULL,
-                    useViewer=TRUE,
-                    no.output=FALSE,
-                    remove.spaces=TRUE) {
+                    showFamily = FALSE,
+                    remove.estimates = NULL,
+                    cellSpacing = 0.2,
+                    cellGroupIndent = 0.6,
+                    encoding = NULL,
+                    CSS = NULL,
+                    useViewer = TRUE,
+                    no.output = FALSE,
+                    remove.spaces = TRUE) {
+  
   # --------------------------------------------------------
   # check p-value-style option
   # --------------------------------------------------------
@@ -448,6 +452,13 @@ sjt.glm <- function(...,
   lmerob <- any(class(input_list[[1]]) == "glmerMod")
   if (lmerob && !requireNamespace("lme4", quietly = TRUE)) {
     stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
+  }
+  # ------------------------
+  # should AICc be computed? Check for package
+  # ------------------------
+  if (showAICc && !requireNamespace("AICcmodavg", quietly = TRUE)) {
+    warning("Package 'AICcmodavg' needed to show AICc. Parameter 'showAICc' will be ignored.", call. = FALSE)
+    showAICc <- FALSE
   }
   # ------------------------
   # check for stepwise models, when fitted models
@@ -1084,6 +1095,20 @@ sjt.glm <- function(...,
     page.content <- paste0(page.content, "\n  </tr>\n")
   }
   # -------------------------------------
+  # Model-Summary: AICc
+  # -------------------------------------
+  if (showAICc) {
+    page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">AICc</td>")
+    for (i in 1:length(input_list)) {
+      # -------------------------
+      # insert "separator column"
+      # -------------------------
+      page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
+      page.content <- paste0(page.content, sprintf("%s%.*f</td>", colspanstring, digits.summary, AICcmodavg::AICc(input_list[[i]])))
+    }
+    page.content <- paste0(page.content, "\n  </tr>\n")
+  }
+  # -------------------------------------
   # Model-Summary: Chi2
   # -------------------------------------
   if (showChi2) {
@@ -1325,6 +1350,8 @@ sjt.glm <- function(...,
 #'          in the model summary.
 #' @param showAIC If \code{TRUE}, the \code{\link{AIC}} value for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
+#' @param showAICc If \code{TRUE}, the second-order AIC value for each model 
+#'          is printed in the model summary. Default is \code{FALSE}.
 #' @param showHosLem If \code{TRUE}, a Hosmer-Lemeshow-Goodness-of-fit-test is
 #'          performed. A well-fitting model shows no significant difference between 
 #'          the model and the observed data, i.e. the reported p-values should be
@@ -1408,45 +1435,47 @@ sjt.glm <- function(...,
 #'           pvaluesAsNumbers = FALSE)}
 #' 
 #' @export
-sjt.glmer <- function(..., 
-                     file=NULL, 
-                     labelPredictors=NULL, 
-                     labelDependentVariables=NULL, 
-                     stringPredictors="Predictors", 
-                     stringDependentVariables="Dependent Variables", 
-                     showHeaderStrings=FALSE,
-                     stringModel="Model",
-                     stringIntercept="(Intercept)",
-                     stringObservations="Observations",
-                     stringOR="OR",
-                     stringCI="CI",
-                     stringSE="std. Error",
-                     stringP="p",
-                     digits.est=2,
-                     digits.p=3,
-                     digits.ci=2,
-                     digits.se=2,
-                     digits.summary=3,
-                     exp.coef=TRUE,
-                     pvaluesAsNumbers=TRUE,
-                     boldpvalues=TRUE,
-                     showConfInt=TRUE,
-                     showStdError=FALSE,
-                     separateConfColumn=TRUE,
-                     newLineConf=TRUE,
-                     showAbbrHeadline=TRUE,
-                     showICC=TRUE,
-                     showLogLik=FALSE,
-                     showAIC=FALSE,
-                     showHosLem = FALSE,
-                     showFamily=FALSE,
-                     remove.estimates=NULL,
-                     cellSpacing=0.2,
-                     encoding=NULL,
-                     CSS=NULL,
-                     useViewer=TRUE,
-                     no.output=FALSE,
-                     remove.spaces=TRUE) {
+sjt.glmer <- function(...,
+                      file = NULL,
+                      labelPredictors = NULL,
+                      labelDependentVariables = NULL,
+                      stringPredictors = "Predictors",
+                      stringDependentVariables = "Dependent Variables",
+                      showHeaderStrings = FALSE,
+                      stringModel = "Model",
+                      stringIntercept = "(Intercept)",
+                      stringObservations = "Observations",
+                      stringOR = "OR",
+                      stringCI = "CI",
+                      stringSE = "std. Error",
+                      stringP = "p",
+                      digits.est = 2,
+                      digits.p = 3,
+                      digits.ci = 2,
+                      digits.se = 2,
+                      digits.summary = 3,
+                      exp.coef = TRUE,
+                      pvaluesAsNumbers = TRUE,
+                      boldpvalues = TRUE,
+                      showConfInt = TRUE,
+                      showStdError = FALSE,
+                      separateConfColumn = TRUE,
+                      newLineConf = TRUE,
+                      showAbbrHeadline = TRUE,
+                      showICC = TRUE,
+                      showLogLik = FALSE,
+                      showAIC = FALSE,
+                      showAICc = FALSE,
+                      showHosLem = FALSE,
+                      showFamily = FALSE,
+                      remove.estimates = NULL,
+                      cellSpacing = 0.2,
+                      encoding = NULL,
+                      CSS = NULL,
+                      useViewer = TRUE,
+                      no.output = FALSE,
+                      remove.spaces = TRUE) {
+  
   input_list <- list(...)
   return(sjt.glm(input_list, file = file, labelPredictors = labelPredictors, 
                  labelDependentVariables = labelDependentVariables, stringPredictors = stringPredictors, 
@@ -1460,8 +1489,8 @@ sjt.glmer <- function(...,
                  showConfInt = showConfInt, showStdError = showStdError, 
                  separateConfColumn = separateConfColumn, newLineConf = newLineConf, 
                  group.pred = FALSE, showAbbrHeadline = showAbbrHeadline, showPseudoR = showICC, 
-                 showLogLik = showLogLik, showAIC = showAIC, showChi2 = FALSE, showHosLem = showHosLem,
-                 showFamily = showFamily, remove.estimates = remove.estimates, 
+                 showLogLik = showLogLik, showAIC = showAIC, showAICc = showAICc, showChi2 = FALSE, 
+                 showHosLem = showHosLem, showFamily = showFamily, remove.estimates = remove.estimates, 
                  cellSpacing = cellSpacing, cellGroupIndent = 0, encoding = encoding, 
                  CSS = CSS, useViewer = useViewer, no.output = no.output, remove.spaces = remove.spaces))
 }

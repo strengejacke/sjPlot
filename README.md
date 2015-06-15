@@ -53,6 +53,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * Added parameter `int.term` to `sjp.int`, to plot selected interaction terms for `type = "eff"` only. May be used in cases where effect computation takes too long or even crashes due to out-of-memory-problems.
 * Added parameter `axisLimits.x` to `sjp.int`, `sjp.frq` and `sjp.grpfrq`.
 * Added more plotting type options (see `type` parameter) to `sjp.lm` and `sjp.lmer`.
+* Added parameter `showAICc` to `sjt.lm`, `sjt.glm`, `sjt.lme` and `sjt.glmer` to print second-order AIC.
 * Minor improvement to `sjp.likert`.
 
 #### Bug fixes

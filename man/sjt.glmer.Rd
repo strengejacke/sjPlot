@@ -15,9 +15,10 @@ sjt.glmer(..., file = NULL, labelPredictors = NULL,
   pvaluesAsNumbers = TRUE, boldpvalues = TRUE, showConfInt = TRUE,
   showStdError = FALSE, separateConfColumn = TRUE, newLineConf = TRUE,
   showAbbrHeadline = TRUE, showICC = TRUE, showLogLik = FALSE,
-  showAIC = FALSE, showHosLem = FALSE, showFamily = FALSE,
-  remove.estimates = NULL, cellSpacing = 0.2, encoding = NULL,
-  CSS = NULL, useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
+  showAIC = FALSE, showAICc = FALSE, showHosLem = FALSE,
+  showFamily = FALSE, remove.estimates = NULL, cellSpacing = 0.2,
+  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
+  remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{One or more mixed models fitted with \code{\link[lme4]{glmer}}.}
@@ -101,6 +102,9 @@ in the model summary. Default is \code{FALSE}.}
 
 \item{showAIC}{If \code{TRUE}, the \code{\link{AIC}} value for each model is printed
 in the model summary. Default is \code{FALSE}.}
+
+\item{showAICc}{If \code{TRUE}, the second-order AIC value for each model
+is printed in the model summary. Default is \code{FALSE}.}
 
 \item{showHosLem}{If \code{TRUE}, a Hosmer-Lemeshow-Goodness-of-fit-test is
 performed. A well-fitting model shows no significant difference between

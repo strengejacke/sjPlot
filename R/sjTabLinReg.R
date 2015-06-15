@@ -69,6 +69,8 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("starts_with"))
 #'          in the model summary. Default is \code{FALSE}.
 #' @param showAIC If \code{TRUE}, the AIC value for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
+#' @param showAICc If \code{TRUE}, the second-order AIC value for each model 
+#'          is printed in the model summary. Default is \code{FALSE}.
 #' @param remove.estimates numeric vector with indices (order equals to row index of \code{coef(fit)}) 
 #'          or character vector with coefficient names that indicate which estimates should be removed
 #'          from the table output. The first estimate is the intercept, followed by the model predictors.
@@ -336,48 +338,49 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("starts_with"))
 #'                   
 #' @import dplyr
 #' @export
-sjt.lm <- function (..., 
-                    file=NULL, 
-                    labelPredictors=NULL, 
-                    labelDependentVariables=NULL, 
-                    stringPredictors="Predictors", 
-                    stringDependentVariables="Dependent Variables", 
-                    stringModel="Model",
-                    showHeaderStrings=FALSE,
-                    stringIntercept="(Intercept)",
-                    stringObservations="Observations",
-                    stringB="B",
-                    stringSB="std. Beta",
-                    stringCI="CI",
-                    stringSE="std. Error",
-                    stringP="p",
-                    showEst=TRUE,
-                    showConfInt=TRUE,
-                    showStdBeta=FALSE,
-                    showStdError=FALSE,
-                    digits.est=2,
-                    digits.p=3,
-                    digits.ci=2,
-                    digits.se=2,
-                    digits.sb=2,
-                    digits.summary=3,
-                    pvaluesAsNumbers=TRUE,
-                    boldpvalues=TRUE,
-                    separateConfColumn=TRUE,
-                    newLineConf=TRUE,
-                    group.pred=TRUE,
-                    showAbbrHeadline=TRUE,
-                    showR2=TRUE,
-                    showFStat=FALSE,
-                    showAIC=FALSE,
-                    remove.estimates=NULL,
-                    cellSpacing=0.2,
-                    cellGroupIndent=0.6,
-                    encoding=NULL,
-                    CSS=NULL,
-                    useViewer=TRUE,
-                    no.output=FALSE,
-                    remove.spaces=TRUE) {
+sjt.lm <- function(...,
+                   file = NULL,
+                   labelPredictors = NULL,
+                   labelDependentVariables = NULL,
+                   stringPredictors = "Predictors",
+                   stringDependentVariables = "Dependent Variables",
+                   stringModel = "Model",
+                   showHeaderStrings = FALSE,
+                   stringIntercept = "(Intercept)",
+                   stringObservations = "Observations",
+                   stringB = "B",
+                   stringSB = "std. Beta",
+                   stringCI = "CI",
+                   stringSE = "std. Error",
+                   stringP = "p",
+                   showEst = TRUE,
+                   showConfInt = TRUE,
+                   showStdBeta = FALSE,
+                   showStdError = FALSE,
+                   digits.est = 2,
+                   digits.p = 3,
+                   digits.ci = 2,
+                   digits.se = 2,
+                   digits.sb = 2,
+                   digits.summary = 3,
+                   pvaluesAsNumbers = TRUE,
+                   boldpvalues = TRUE,
+                   separateConfColumn = TRUE,
+                   newLineConf = TRUE,
+                   group.pred = TRUE,
+                   showAbbrHeadline = TRUE,
+                   showR2 = TRUE,
+                   showFStat = FALSE,
+                   showAIC = FALSE,
+                   showAICc = FALSE,
+                   remove.estimates = NULL,
+                   cellSpacing = 0.2,
+                   cellGroupIndent = 0.6,
+                   encoding = NULL,
+                   CSS = NULL,
+                   useViewer = TRUE,
+                   no.output = FALSE,
+                   remove.spaces = TRUE) {
   # --------------------------------------------------------
   # check p-value-style option
   # --------------------------------------------------------
@@ -550,6 +553,15 @@ sjt.lm <- function (...,
   if (lmerob && !requireNamespace("lme4", quietly = TRUE)) {
     stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
   }
+  # ------------------------
+  # should AICc be computed? Check for package
+  # ------------------------
+  if (showAICc && !requireNamespace("AICcmodavg", quietly = TRUE)) {
+    warning("Package 'AICcmodavg' needed to show AICc. Parameter 'showAICc' will be ignored.", call. = FALSE)
+    showAICc <- FALSE
+  }
+  
+  
   # ------------------------
   # check for stepwise models, when fitted models
   # are mixed effects models
@@ -1277,6 +1289,20 @@ sjt.lm <- function (...,
     page.content <- paste0(page.content, "  </tr>\n")
   }
   # -------------------------------------
+  # Model-Summary: AICc
+  # -------------------------------------
+  if (showAICc) {
+    page.content <- paste(page.content, "  <tr>\n     <td class=\"tdata leftalign summary\">AICc</td>\n")
+    for (i in 1:length(input_list)) {
+      # -------------------------
+      # insert "separator column"
+      # -------------------------
+      page.content <- paste0(page.content, "\n    <td class=\"separatorcol\">&nbsp;</td>")
+      page.content <- paste(page.content, sprintf("    %s%.*f</td>\n", colspanstring, digits.summary, AICcmodavg::AICc(input_list[[i]])))
+    }
+    page.content <- paste0(page.content, "  </tr>\n")
+  }
+  # -------------------------------------
   # table footnote
   # -------------------------------------
   if (!pvaluesAsNumbers) page.content <- paste(page.content, sprintf("  <tr class=\"tdata annorow\">\n    <td class=\"tdata\">Notes</td><td class=\"tdata annostyle\" colspan=\"%i\"><em>* p&lt;%s.05&nbsp;&nbsp;&nbsp;** p&lt;%s.01&nbsp;&nbsp;&nbsp;*** p&lt;%s.001</em></td>\n  </tr>\n", headerColSpan, p_zero, p_zero, p_zero), sep = "")
@@ -1418,6 +1444,8 @@ sjt.lm <- function (...,
 #'          in the model summary.
 #' @param showAIC If \code{TRUE}, the AIC value for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
+#' @param showAICc If \code{TRUE}, the second-order AIC value for each model 
+#'          is printed in the model summary. Default is \code{FALSE}.
 #' @param remove.estimates numeric vector with indices (order equals to row index of \code{coef(fit)}) 
 #'          or character vector with coefficient names that indicate which estimates should be removed
 #'          from the table output. The first estimate is the intercept, followed by the model predictors.
@@ -1499,45 +1527,46 @@ sjt.lm <- function (...,
 #'          newLineConf = FALSE)}
 #'                   
 #' @export
-sjt.lmer <- function(..., 
-                    file=NULL, 
-                    labelPredictors=NULL, 
-                    labelDependentVariables=NULL, 
-                    stringPredictors="Predictors", 
-                    stringDependentVariables="Dependent Variables", 
-                    stringModel="Model",
-                    showHeaderStrings=FALSE,
-                    stringIntercept="(Intercept)",
-                    stringObservations="Observations",
-                    stringB="B",
-                    stringSB="std. Beta",
-                    stringCI="CI",
-                    stringSE="std. Error",
-                    stringP="p",
-                    showEst=TRUE,
-                    showConfInt=TRUE,
-                    showStdBeta=FALSE,
-                    showStdError=FALSE,
-                    digits.est=2,
-                    digits.p=3,
-                    digits.ci=2,
-                    digits.se=2,
-                    digits.sb=2,
-                    digits.summary=3,
-                    pvaluesAsNumbers=TRUE,
-                    boldpvalues=TRUE,
-                    separateConfColumn=TRUE,
-                    newLineConf=TRUE,
-                    showAbbrHeadline=TRUE,
-                    showICC=TRUE,
-                    showAIC=FALSE,
-                    remove.estimates=NULL,
-                    cellSpacing=0.2,
-                    encoding=NULL,
-                    CSS=NULL,
-                    useViewer=TRUE,
-                    no.output=FALSE,
-                    remove.spaces=TRUE) {
+sjt.lmer <- function(...,
+                     file = NULL,
+                     labelPredictors = NULL,
+                     labelDependentVariables = NULL,
+                     stringPredictors = "Predictors",
+                     stringDependentVariables = "Dependent Variables",
+                     stringModel = "Model",
+                     showHeaderStrings = FALSE,
+                     stringIntercept = "(Intercept)",
+                     stringObservations = "Observations",
+                     stringB = "B",
+                     stringSB = "std. Beta",
+                     stringCI = "CI",
+                     stringSE = "std. Error",
+                     stringP = "p",
+                     showEst = TRUE,
+                     showConfInt = TRUE,
+                     showStdBeta = FALSE,
+                     showStdError = FALSE,
+                     digits.est = 2,
+                     digits.p = 3,
+                     digits.ci = 2,
+                     digits.se = 2,
+                     digits.sb = 2,
+                     digits.summary = 3,
+                     pvaluesAsNumbers = TRUE,
+                     boldpvalues = TRUE,
+                     separateConfColumn = TRUE,
+                     newLineConf = TRUE,
+                     showAbbrHeadline = TRUE,
+                     showICC = TRUE,
+                     showAIC = FALSE,
+                     showAICc = FALSE,
+                     remove.estimates = NULL,
+                     cellSpacing = 0.2,
+                     encoding = NULL,
+                     CSS = NULL,
+                     useViewer = TRUE,
+                     no.output = FALSE,
+                     remove.spaces = TRUE) {
   input_list <- list(...)
   return(sjt.lm(input_list, file = file, labelPredictors = labelPredictors, 
                 labelDependentVariables = labelDependentVariables, stringPredictors = stringPredictors, 
@@ -1551,7 +1580,7 @@ sjt.lmer <- function(...,
                 pvaluesAsNumbers = pvaluesAsNumbers, boldpvalues = boldpvalues, 
                 separateConfColumn = separateConfColumn, newLineConf = newLineConf, 
                 group.pred = FALSE, showAbbrHeadline = showAbbrHeadline, showR2 = showICC, 
-                showFStat = FALSE, showAIC = showAIC, remove.estimates = remove.estimates, 
+                showFStat = FALSE, showAIC = showAIC, showAICc = showAICc, remove.estimates = remove.estimates, 
                 cellSpacing = cellSpacing, cellGroupIndent = 0, encoding = encoding, 
                 CSS = CSS, useViewer = useViewer, no.output = no.output, remove.spaces = remove.spaces))
 }

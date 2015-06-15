@@ -15,10 +15,11 @@ sjt.glm(..., file = NULL, labelPredictors = NULL,
   pvaluesAsNumbers = TRUE, boldpvalues = TRUE, showConfInt = TRUE,
   showStdError = FALSE, separateConfColumn = TRUE, newLineConf = TRUE,
   group.pred = TRUE, showAbbrHeadline = TRUE, showPseudoR = FALSE,
-  showLogLik = FALSE, showAIC = FALSE, showChi2 = FALSE,
-  showHosLem = FALSE, showFamily = FALSE, remove.estimates = NULL,
-  cellSpacing = 0.2, cellGroupIndent = 0.6, encoding = NULL, CSS = NULL,
-  useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
+  showLogLik = FALSE, showAIC = FALSE, showAICc = FALSE,
+  showChi2 = FALSE, showHosLem = FALSE, showFamily = FALSE,
+  remove.estimates = NULL, cellSpacing = 0.2, cellGroupIndent = 0.6,
+  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
+  remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{One or more fitted \code{\link{glm}}-objects.}
@@ -109,6 +110,9 @@ in the model summary. Default is \code{FALSE}.}
 
 \item{showAIC}{If \code{TRUE}, the \code{\link{AIC}} value for each model is printed
 in the model summary. Default is \code{FALSE}.}
+
+\item{showAICc}{If \code{TRUE}, the second-order AIC value for each model
+is printed in the model summary. Default is \code{FALSE}.}
 
 \item{showChi2}{If \code{TRUE}, the p-value of the chi-squared value for each
 model's residual deviance against the null deviance is printed

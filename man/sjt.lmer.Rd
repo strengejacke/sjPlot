@@ -15,9 +15,9 @@ sjt.lmer(..., file = NULL, labelPredictors = NULL,
   digits.p = 3, digits.ci = 2, digits.se = 2, digits.sb = 2,
   digits.summary = 3, pvaluesAsNumbers = TRUE, boldpvalues = TRUE,
   separateConfColumn = TRUE, newLineConf = TRUE, showAbbrHeadline = TRUE,
-  showICC = TRUE, showAIC = FALSE, remove.estimates = NULL,
-  cellSpacing = 0.2, encoding = NULL, CSS = NULL, useViewer = TRUE,
-  no.output = FALSE, remove.spaces = TRUE)
+  showICC = TRUE, showAIC = FALSE, showAICc = FALSE,
+  remove.estimates = NULL, cellSpacing = 0.2, encoding = NULL,
+  CSS = NULL, useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{One or more mixed models fitted with \code{\link[lme4]{lmer}} or \code{\link[lmerTest]{lmer}}.}
@@ -103,6 +103,9 @@ in the model summary.}
 
 \item{showAIC}{If \code{TRUE}, the AIC value for each model is printed
 in the model summary. Default is \code{FALSE}.}
+
+\item{showAICc}{If \code{TRUE}, the second-order AIC value for each model
+is printed in the model summary. Default is \code{FALSE}.}
 
 \item{remove.estimates}{numeric vector with indices (order equals to row index of \code{coef(fit)})
 or character vector with coefficient names that indicate which estimates should be removed

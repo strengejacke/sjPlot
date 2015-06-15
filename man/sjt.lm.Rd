@@ -16,9 +16,9 @@ sjt.lm(..., file = NULL, labelPredictors = NULL,
   digits.summary = 3, pvaluesAsNumbers = TRUE, boldpvalues = TRUE,
   separateConfColumn = TRUE, newLineConf = TRUE, group.pred = TRUE,
   showAbbrHeadline = TRUE, showR2 = TRUE, showFStat = FALSE,
-  showAIC = FALSE, remove.estimates = NULL, cellSpacing = 0.2,
-  cellGroupIndent = 0.6, encoding = NULL, CSS = NULL, useViewer = TRUE,
-  no.output = FALSE, remove.spaces = TRUE)
+  showAIC = FALSE, showAICc = FALSE, remove.estimates = NULL,
+  cellSpacing = 0.2, cellGroupIndent = 0.6, encoding = NULL, CSS = NULL,
+  useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{One or more fitted lm-objects.}
@@ -112,6 +112,9 @@ in the model summary. Default is \code{FALSE}.}
 
 \item{showAIC}{If \code{TRUE}, the AIC value for each model is printed
 in the model summary. Default is \code{FALSE}.}
+
+\item{showAICc}{If \code{TRUE}, the second-order AIC value for each model
+is printed in the model summary. Default is \code{FALSE}.}
 
 \item{remove.estimates}{numeric vector with indices (order equals to row index of \code{coef(fit)})
 or character vector with coefficient names that indicate which estimates should be removed
