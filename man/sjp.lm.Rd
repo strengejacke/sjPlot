@@ -12,7 +12,7 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   coord.flip = TRUE, showValueLabels = TRUE, labelDigits = 2,
   showPValueLabels = TRUE, showModelSummary = FALSE, showCI = TRUE,
   pointAlpha = 0.2, showScatterPlot = TRUE, showLoess = FALSE,
-  showLoessCI = FALSE, showOriginalModelOnly = TRUE,
+  showLoessCI = FALSE, poly.term = NULL, showOriginalModelOnly = TRUE,
   completeDiagnostic = FALSE, printPlot = TRUE)
 }
 \arguments{
@@ -25,6 +25,7 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   \item{\code{"pred"}}{to plot regression lines for each single predictor of the fitted model, against the response.}
   \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals. May be used for model diagnostics (see \url{https://www.otexts.org/fpp/5/4}).}
   \item{\code{"resp"}}{to plot predicted values for the response. Use \code{showCI} parameter to plot standard errors as well.}
+  \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples').}
   \item{\code{"ma"}}{to check model assumptions. Note that only three parameters are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.}
   \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 }}
@@ -119,6 +120,10 @@ will be plotted. Default is \code{FALSE}. Only applies, if \code{showLoess}
 is \code{TRUE} and only applies if \code{type = "lm"} and fitted model
 has only one predictor, or if \code{type = "pred"}, \code{type = "resid"}
 or \code{type = "resp"}.}
+
+\item{poly.term}{name of a polynomial term in \code{fit} as string. Needs to be
+specified, if \code{type = "poly"}, in order to plot marginal effects
+for polynomial terms. See 'Examples'.}
 
 \item{showOriginalModelOnly}{if \code{TRUE} (default), only the model assumptions of the fitted model
 \code{fit} are plotted. if \code{FALSE}, the model assumptions of an updated model where outliers

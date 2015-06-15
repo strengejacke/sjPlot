@@ -38,10 +38,7 @@
 #' @param geom.size size resp. width of plotted lines.
 #' @param loessLineColor color of the loess-smoothed line. Only applies, if \code{showLoess = TRUE}.
 #' @param pointColor color of the scatter plot's point. Only applies, if \code{showScatterPlot = TRUE}.
-#' @param pointAlpha The alpha values of the scatter plot's point-geoms.
-#'          Default is 0.2.
-#'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
-#'          or if \code{type = "pred"} or \code{type = "resid"}.
+#' @param pointAlpha The alpha values of the scatter plot's point-geoms. Default is 0.2.
 #' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #' @return (insisibily) returns the ggplot-object with the complete plot (\code{plot})
@@ -83,6 +80,13 @@
 #' # try to find appropiate polynomial. Grey line (loess smoothed)
 #' # indicates best fit. Looks like x^4 has the best fit.
 #' sjp.poly(fit, "e17age", 2:4, showScatterPlot = FALSE)
+#' 
+#' # fit new model
+#' fit <- lm(tot_sc_e ~ c12hour + e42dep +
+#'           e17age + I(e17age^2) + I(e17age^3) + I(e17age^4),
+#'           data = efc)
+#' # plot marginal effects of polynomial term
+#' sjp.lm(fit, type = "poly", poly.term = "e17age", geom.size = .8)
 #' 
 #' @import ggplot2
 #' @importFrom scales grey_pal brewer_pal

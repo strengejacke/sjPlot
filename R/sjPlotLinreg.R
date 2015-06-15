@@ -29,6 +29,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "l
 #'            \item{\code{"pred"}}{to plot regression lines for each single predictor of the fitted model, against the response.}
 #'            \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals. May be used for model diagnostics (see \url{https://www.otexts.org/fpp/5/4}).}
 #'            \item{\code{"resp"}}{to plot predicted values for the response. Use \code{showCI} parameter to plot standard errors as well.}
+#'            \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples').}
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only three parameters are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
@@ -99,6 +100,9 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "l
 #'          is \code{TRUE} and only applies if \code{type = "lm"} and fitted model 
 #'          has only one predictor, or if \code{type = "pred"}, \code{type = "resid"} 
 #'          or \code{type = "resp"}.
+#' @param poly.term name of a polynomial term in \code{fit} as string. Needs to be
+#'          specified, if \code{type = "poly"}, in order to plot marginal effects
+#'          for polynomial terms. See 'Examples'.
 #' @param showOriginalModelOnly if \code{TRUE} (default), only the model assumptions of the fitted model
 #'          \code{fit} are plotted. if \code{FALSE}, the model assumptions of an updated model where outliers
 #'          are automatically excluded are also plotted.
@@ -165,39 +169,56 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "l
 #' # --------------------------
 #' sjp.lm(fit, type = "ma")
 #'
+#' # --------------------------
+#' # plotting polynomial terms
+#' # --------------------------
+#' # fit sample model
+#' fit <- lm(tot_sc_e ~ c12hour + e17age + e42dep, data = efc)
+#' # "e17age" does not seem to be linear correlated to response
+#' # try to find appropiate polynomial. Grey line (loess smoothed)
+#' # indicates best fit. Looks like x^4 has the best fit.
+#' sjp.poly(fit, "e17age", 2:4, showScatterPlot = FALSE)
+#' # fit new model
+#' fit <- lm(tot_sc_e ~ c12hour + e42dep +
+#'           e17age + I(e17age^2) + I(e17age^3) + I(e17age^4),
+#'           data = efc)
+#' # plot marginal effects of polynomial term
+#' sjp.lm(fit, type = "poly", poly.term = "e17age", geom.size = .8)
+#'
 #' @import ggplot2
 #' @import sjmisc
 #' @importFrom car outlierTest crPlots durbinWatsonTest leveragePlots ncvTest spreadLevelPlot vif
 #' @export
 sjp.lm <- function(fit,
-                   type="lm",
-                   sort.est=TRUE,
-                   title=NULL,
-                   axisLabels.x=NULL,
-                   axisLabels.y=NULL,
-                   showAxisLabels.y=TRUE,
-                   axisTitle.x="Estimates",
-                   axisLimits=NULL,
-                   geom.colors="Set1",
-                   geom.size=3,
-                   interceptLineType=2,
-                   interceptLineColor="grey70",
-                   breakTitleAt=50,
-                   breakLabelsAt=25,
-                   gridBreaksAt=NULL,
-                   coord.flip=TRUE,
-                   showValueLabels=TRUE,
-                   labelDigits=2,
-                   showPValueLabels=TRUE,
-                   showModelSummary=FALSE,
-                   showCI=TRUE,
-                   pointAlpha=0.2,
-                   showScatterPlot=TRUE,
-                   showLoess=FALSE,
-                   showLoessCI=FALSE,
-                   showOriginalModelOnly=TRUE,
-                   completeDiagnostic=FALSE,
-                   printPlot=TRUE) {
+                   type = "lm",
+                   sort.est = TRUE,
+                   title = NULL,
+                   axisLabels.x = NULL,
+                   axisLabels.y = NULL,
+                   showAxisLabels.y = TRUE,
+                   axisTitle.x = "Estimates",
+                   axisLimits = NULL,
+                   geom.colors = "Set1",
+                   geom.size = 3,
+                   interceptLineType = 2,
+                   interceptLineColor = "grey70",
+                   breakTitleAt = 50,
+                   breakLabelsAt = 25,
+                   gridBreaksAt = NULL,
+                   coord.flip = TRUE,
+                   showValueLabels = TRUE,
+                   labelDigits = 2,
+                   showPValueLabels = TRUE,
+                   showModelSummary = FALSE,
+                   showCI = TRUE,
+                   pointAlpha = 0.2,
+                   showScatterPlot = TRUE,
+                   showLoess = FALSE,
+                   showLoessCI = FALSE,
+                   poly.term = NULL,
+                   showOriginalModelOnly = TRUE,
+                   completeDiagnostic = FALSE,
+                   printPlot = TRUE) {
   # -----------------------------------------------------------
   # remember length of predictor variables
   # -----------------------------------------------------------
@@ -259,6 +280,17 @@ sjp.lm <- function(fit,
                                           showLoess,
                                           showLoessCI,
                                           printPlot)))
+  }
+  if (type == "poly") {
+    return(invisible(sjp.lm.poly(fit,
+                                 poly.term,
+                                 geom.colors,
+                                 geom.size,
+                                 axisTitle.x,
+                                 showCI, 
+                                 showLoess,
+                                 showLoessCI,
+                                 printPlot)))
   }
   if (type == "ma") {
     return(invisible(sjp.lm.ma(fit,
@@ -982,7 +1014,83 @@ sjp.lm1 <- function(fit,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = "sjplm1",
-                       list(plot = reglinplot,
-                            df = mydat)))
+  invisible(structure(class = "sjplm1",
+                      list(plot = reglinplot,
+                           df = mydat)))
+}
+
+
+sjp.lm.poly <- function(fit,
+                        poly.term,
+                        geom.colors,
+                        geom.size,
+                        axisTitle.x,
+                        showCI, 
+                        showLoess,
+                        showLoessCI,
+                        printPlot) {
+  # -------------------------------------
+  # retrieve model matrix
+  # -------------------------------------
+  mm <- model.matrix(fit)
+  # -------------------------------------
+  # parameter check: poly.term required and
+  # polynomial must be found in model
+  # -------------------------------------
+  if (is.null(poly.term) || length(which(colnames(mm) == poly.term)) == 0) {
+    stop("'poly.term' not given, or not found in model. Please check name of polynomial term.", call. = FALSE)
+  }
+  # ------------------------
+  # check for color brewer palette
+  # ------------------------
+  if (is.brewer.pal(geom.colors[1])) {
+    geom.colors <- scales::brewer_pal(palette = geom.colors[1])(2)
+  } else if (geom.colors[1] == "gs") {
+    geom.colors <- scales::grey_pal()(2)
+  }
+  # ------------------------
+  # check if suggested package is available
+  # ------------------------
+  if (!requireNamespace("effects", quietly = TRUE)) {
+    stop("Package 'effects' needed for this function to work. Please install it.", call. = FALSE)
+  }
+  # --------------------------------------------
+  # retrieve labels
+  # --------------------------------------------
+  if (is.null(axisTitle.x) || axisTitle.x == "Estimates") axisTitle.x <- "Polynomial term"
+  # ------------------------
+  # compute marginal effects of polynomial
+  # ------------------------
+  xl <- list(x = sort(unique(na.omit(mm[, poly.term]))))
+  names(xl) <- poly.term
+  eff <- effects::effect(poly.term, fit, xlevels = xl, KR = FALSE)
+  # ------------------------
+  # build data frame, with raw values
+  # from polynomial term, predicted response
+  # and lower/upper ci
+  # ------------------------
+  mydat <- data.frame(x = eff$x[[poly.term]], 
+                      y = eff$fit, 
+                      lower = eff$lower, 
+                      upper = eff$upper)
+  # base plot
+  polyplot <- ggplot(mydat, aes(x = x, y = y))
+  # show confidence region?
+  if (showCI) polyplot <- polyplot + geom_ribbon(aes(ymin = lower, ymax = upper), alpha = .15)
+  # plot predicted effect of polynomial term
+  polyplot <- polyplot + geom_line(colour = geom.colors[1],
+                                   size = geom.size) +
+    labs(x = axisTitle.x, y = "Response")
+  # show loess curve? this curve indicates the 
+  # "perfect" curve through the data
+  if (showLoess) polyplot <- polyplot + stat_smooth(method = "loess", 
+                                                    color = geom.colors[2],
+                                                    se = showLoessCI,
+                                                    size = geom.size)
+  # print plot
+  if (printPlot) print(polyplot)
+  # return result
+  invisible(structure(class = "sjplmpoly",
+                      list(plot = polyplot,
+                           df = mydat)))
 }
