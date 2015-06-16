@@ -210,8 +210,26 @@ sjp.lm(fit,
 # plotting model assumptions
 # --------------------------
 sjp.lm(fit, type = "ma")
+
+# --------------------------
+# plotting polynomial terms
+# --------------------------
+# fit sample model
+fit <- lm(tot_sc_e ~ c12hour + e17age + e42dep, data = efc)
+# "e17age" does not seem to be linear correlated to response
+# try to find appropiate polynomial. Grey line (loess smoothed)
+# indicates best fit. Looks like x^4 has the best fit.
+sjp.poly(fit, "e17age", 2:4, showScatterPlot = FALSE)
+# fit new model
+fit <- lm(tot_sc_e ~ c12hour + e42dep +
+          e17age + I(e17age^2) + I(e17age^3) + I(e17age^4),
+          data = efc)
+# plot marginal effects of polynomial term
+sjp.lm(fit, type = "poly", poly.term = "e17age", geom.size = .8)
 }
 \seealso{
-\href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm}
+\href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm} for
+           more details and examples of this function; use \code{\link{sjp.poly}}
+           to see which polynomial degree fits best for possible polynomial terms.
 }
 

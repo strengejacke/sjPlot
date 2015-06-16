@@ -112,6 +112,10 @@ fit <- lm(tot_sc_e ~ c12hour + e42dep +
           e17age + I(e17age^2) + I(e17age^3) + I(e17age^4),
           data = efc)
 # plot marginal effects of polynomial term
-sjp.lm(fit, type = "poly", poly.term = "e17age")
+sjp.lm(fit, type = "poly", poly.term = "e17age", geom.size = .8)
+}
+\seealso{
+To plot marginal effects of polynomial terms, call \code{\link{sjp.lm}} with \code{type = "poly"},
+           or \code{\link{sjp.lmer}} respectively for linear mixed models.
 }
 

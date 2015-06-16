@@ -15,7 +15,7 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   printPlot = TRUE)
 }
 \arguments{
-\item{fit}{a fitted \code{glmer} object.}
+\item{fit}{a fitted model as returned by the \code{\link[lme4]{glmer}}-function.}
 
 \item{type}{type of plot. Use one of following:
 \describe{
@@ -151,7 +151,6 @@ Thanks go to Robert Reijntjes from Leiden University Medical Center for sharing
         qq-plots of random effects.
 }
 \examples{
-\dontrun{
 library(lme4)
 library(sjmisc)
 # create binary response
@@ -230,7 +229,7 @@ sjp.glmer(fit,
 # of fixed effect, only for coefficient "neg_c_7"
 sjp.glmer(fit,
           type = "fe.pc",
-          vars = "neg_c_7")}
+          vars = "neg_c_7")
 }
 \seealso{
 \href{http://www.strengejacke.de/sjPlot/sjp.glmer/}{sjPlot manual: sjp.glmer}

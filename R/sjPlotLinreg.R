@@ -5,7 +5,9 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "l
 #' @title Plot estimates or predicted values of linear models
 #' @name sjp.lm
 #'
-#' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm}
+#' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm} for 
+#'            more details and examples of this function; use \code{\link{sjp.poly}}
+#'            to see which polynomial degree fits best for possible polynomial terms.
 #'
 #' @description Depending on the \code{type}, this function plots beta coefficients (estimates)
 #'                of linear regressions (including panel models fitted with the \code{plm} function
@@ -288,8 +290,6 @@ sjp.lm <- function(fit,
                                  geom.size,
                                  axisTitle.x,
                                  showCI, 
-                                 showLoess,
-                                 showLoessCI,
                                  printPlot)))
   }
   if (type == "ma") {
@@ -1026,8 +1026,6 @@ sjp.lm.poly <- function(fit,
                         geom.size,
                         axisTitle.x,
                         showCI, 
-                        showLoess,
-                        showLoessCI,
                         printPlot) {
   # -------------------------------------
   # retrieve model matrix
@@ -1081,12 +1079,6 @@ sjp.lm.poly <- function(fit,
   polyplot <- polyplot + geom_line(colour = geom.colors[1],
                                    size = geom.size) +
     labs(x = axisTitle.x, y = "Response")
-  # show loess curve? this curve indicates the 
-  # "perfect" curve through the data
-  if (showLoess) polyplot <- polyplot + stat_smooth(method = "loess", 
-                                                    color = geom.colors[2],
-                                                    se = showLoessCI,
-                                                    size = geom.size)
   # print plot
   if (printPlot) print(polyplot)
   # return result

@@ -13,10 +13,10 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   showPValueLabels = TRUE, facet.grid = TRUE, free.scale = FALSE,
   fade.ns = FALSE, show.se = TRUE, pointAlpha = 0.2,
   showScatterPlot = TRUE, showLoess = FALSE, showLoessCI = FALSE,
-  printPlot = TRUE)
+  poly.term = NULL, printPlot = TRUE)
 }
 \arguments{
-\item{fit}{a fitted \code{lmer} object.}
+\item{fit}{a fitted model as returned by the \code{\link[lme4]{lmer}}-function.}
 
 \item{type}{type of plot. Use one of following:
 \describe{
@@ -29,6 +29,7 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
   \item{\code{"fe.ri"}}{for fixed effects slopes depending on the random intercept.}
   \item{\code{"resp"}}{to plot predicted values for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot.}
+  \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples').}
 }}
 
 \item{vars}{a numeric vector with column indices of selected variables or a character vector with
@@ -126,6 +127,10 @@ Only applies \code{type = "fe.pred"} or \code{type = "fe.resid"}.}
 will be plotted. Default is \code{FALSE}. Only applies, if \code{showLoess}
 is \code{TRUE} and only applies if if \code{type = "fe.pred"} or \code{type = "fe.resid"}.}
 
+\item{poly.term}{name of a polynomial term in \code{fit} as string. Needs to be
+specified, if \code{type = "poly"}, in order to plot marginal effects
+for polynomial terms. See 'Examples'.}
+
 \item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
@@ -144,7 +149,6 @@ Plot estimates (coefficients) with confidence intervalls of either
                \code{lme4} package.
 }
 \examples{
-\dontrun{
 # fit model
 library(lme4)
 library(sjmisc)
@@ -183,7 +187,7 @@ mydf <- data.frame(neg_c_7 = as.numeric(efc$neg_c_7),
                    c12hour = as.numeric(efc$c12hour),
                    barthel = as.numeric(efc$barthtot),
                    grp = efc$grp)
-# fit glmer
+# fit lmer
 fit <- lmer(neg_c_7 ~ sex + c12hour + barthel + (1|grp),
             data = mydf)
 
@@ -216,7 +220,23 @@ sjp.lmer(fit,
 sjp.lmer(fit, type = "fe.cor")
 
 # qq-plot of random effects
-sjp.lmer(fit, type = "re.qq")}
+sjp.lmer(fit, type = "re.qq")
+
+# --------------------------
+# plotting polynomial terms
+# --------------------------
+# check linear relation between predictors and response
+sjp.lmer(fit, type = "fe.pred")
+# "barthel" does not seem to be linear correlated to response
+# try to find appropiate polynomial. Grey line (loess smoothed)
+# indicates best fit. Looks like x^4 has the best fit.
+sjp.poly(fit, "barthel", 2:4, showScatterPlot = FALSE)
+# fit new model
+fit <- lmer(neg_c_7 ~ sex + c12hour + barthel +
+            I(barthel^2) + I(barthel^3) + I(barthel^4) + (1|grp),
+            data = mydf)
+# plot marginal effects of polynomial term
+sjp.lmer(fit, type = "poly", poly.term = "barthel", geom.size = .8)
 }
 \seealso{
 \href{http://www.strengejacke.de/sjPlot/sjp.lmer/}{sjPlot manual: sjp.lmer}

@@ -12,7 +12,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "f
 #'                (that have been fitted with \code{glmer} of the
 #'                \code{lme4} package.
 #'
-#' @param fit a fitted \code{glmer} object.
+#' @param fit a fitted model as returned by the \code{\link[lme4]{glmer}}-function.
 #' @param type type of plot. Use one of following:
 #'          \describe{
 #'            \item{\code{"re"}}{(default) for odds ratios of random effects}
@@ -114,7 +114,6 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "f
 #'          }
 #'
 #' @examples
-#' \dontrun{
 #' library(lme4)
 #' library(sjmisc)
 #' # create binary response
@@ -193,7 +192,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "f
 #' # of fixed effect, only for coefficient "neg_c_7"
 #' sjp.glmer(fit,
 #'           type = "fe.pc",
-#'           vars = "neg_c_7")}
+#'           vars = "neg_c_7")
 #'
 #' @import ggplot2
 #' @export
@@ -256,7 +255,8 @@ sjp.glmer <- function(fit,
            0.2,
            TRUE,
            FALSE,
-           FALSE)
+           FALSE,
+           NULL)
 }
 
 
@@ -270,7 +270,7 @@ sjp.glmer <- function(fit,
 #'                (that have been fitted with \code{lmer} of the
 #'                \code{lme4} package.
 #'
-#' @param fit a fitted \code{lmer} object.
+#' @param fit a fitted model as returned by the \code{\link[lme4]{lmer}}-function.
 #' @param type type of plot. Use one of following:
 #'          \describe{
 #'            \item{\code{"re"}}{(default) for estimates of random effects as forest plot}
@@ -282,6 +282,7 @@ sjp.glmer <- function(fit,
 #'            \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
 #'            \item{\code{"fe.ri"}}{for fixed effects slopes depending on the random intercept.}
 #'            \item{\code{"resp"}}{to plot predicted values for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot.}
+#'            \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples').}
 #'          }
 #' @param vars a numeric vector with column indices of selected variables or a character vector with
 #'          variable names of selected variables from the fitted model, which should be used to plot
@@ -352,6 +353,9 @@ sjp.glmer <- function(fit,
 #'          an integrated (faceted) single graph.
 #' @param free.scale If \code{TRUE} and \code{facet.grid=TRUE}, each facet grid gets its own fitted scale. If
 #'          \code{free.scale = FALSE}, each facet in the grid has the same scale range.
+#' @param poly.term name of a polynomial term in \code{fit} as string. Needs to be
+#'          specified, if \code{type = "poly"}, in order to plot marginal effects
+#'          for polynomial terms. See 'Examples'.
 #' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #' @return (Insisibily) returns
@@ -362,7 +366,6 @@ sjp.glmer <- function(fit,
 #'            }
 #'
 #' @examples
-#' \dontrun{
 #' # fit model
 #' library(lme4)
 #' library(sjmisc)
@@ -401,7 +404,7 @@ sjp.glmer <- function(fit,
 #'                    c12hour = as.numeric(efc$c12hour),
 #'                    barthel = as.numeric(efc$barthtot),
 #'                    grp = efc$grp)
-#' # fit glmer
+#' # fit lmer
 #' fit <- lmer(neg_c_7 ~ sex + c12hour + barthel + (1|grp),
 #'             data = mydf)
 #'
@@ -411,7 +414,7 @@ sjp.glmer <- function(fit,
 #' # plot fixed effects
 #' sjp.lmer(fit, type = "fe")
 #'
-# plot and sort standardized fixed effects
+#  # plot and sort standardized fixed effects
 #' sjp.lmer(fit,
 #'          type = "fe.std",
 #'          sort.coef = TRUE)
@@ -435,7 +438,23 @@ sjp.glmer <- function(fit,
 #' sjp.lmer(fit, type = "fe.cor")
 #'
 #' # qq-plot of random effects
-#' sjp.lmer(fit, type = "re.qq")}
+#' sjp.lmer(fit, type = "re.qq")
+#'
+#' # --------------------------
+#' # plotting polynomial terms
+#' # --------------------------
+#' # check linear relation between predictors and response
+#' sjp.lmer(fit, type = "fe.pred")
+#' # "barthel" does not seem to be linear correlated to response
+#' # try to find appropiate polynomial. Grey line (loess smoothed)
+#' # indicates best fit. Looks like x^4 has the best fit.
+#' sjp.poly(fit, "barthel", 2:4, showScatterPlot = FALSE)
+#' # fit new model
+#' fit <- lmer(neg_c_7 ~ sex + c12hour + barthel + 
+#'             I(barthel^2) + I(barthel^3) + I(barthel^4) + (1|grp),
+#'             data = mydf)
+#' # plot marginal effects of polynomial term
+#' sjp.lmer(fit, type = "poly", poly.term = "barthel", geom.size = .8)
 #'
 #' @import ggplot2
 #' @importFrom car Anova
@@ -468,6 +487,7 @@ sjp.lmer <- function(fit,
                      showScatterPlot=TRUE,
                      showLoess=FALSE,
                      showLoessCI=FALSE,
+                     poly.term = NULL,
                      printPlot = TRUE) {
 
   if (type == "fe.prob") type <- "fe.pc"
@@ -503,7 +523,8 @@ sjp.lmer <- function(fit,
            pointAlpha,
            showScatterPlot,
            showLoess,
-           showLoessCI)
+           showLoessCI,
+           poly.term)
 }
 
 sjp.lme4  <- function(fit,
@@ -535,7 +556,8 @@ sjp.lme4  <- function(fit,
                       pointAlpha = 0.2,
                       showScatterPlot = TRUE,
                       showLoess = FALSE,
-                      showLoessCI = FALSE) {
+                      showLoessCI = FALSE,
+                      poly.term = NULL) {
   # ------------------------
   # check if suggested package is available
   # ------------------------
@@ -551,8 +573,8 @@ sjp.lme4  <- function(fit,
   if (type != "re" && type != "fe" && type != "fe.std" && type != "fe.cor" &&
       type != "re.qq" && type != "fe.pc" && type != "ri.pc" && type != "fe.pred" &&
       type != "fe.prob" && type != "ri.prob" && type != "fe.ri" && type != "y.pc" && 
-      type != "fe.resid") {
-    warning("'type' must be one of 're', 'fe', 'fe.cor', 're.qq', 'fe.ri', 'fe.pc', 'fe.pred', 'fe.resid', 'y.pred', 'ri.pc', 'y.pc', 'y.prob', 'fe.std', 'fe.prob' or 'ri.prob'. Defaulting to 'fe' now.")
+      type != "fe.resid" && type != "poly") {
+    warning("'type' must be one of 're', 'fe', 'fe.cor', 're.qq', 'fe.ri', 'fe.pc', 'fe.pred', 'fe.resid', 'poly', 'y.pred', 'ri.pc', 'y.pc', 'y.prob', 'fe.std', 'fe.prob' or 'ri.prob'. Defaulting to 'fe' now.")
     type  <- "fe"
   }
   # ---------------------------------------
@@ -686,6 +708,19 @@ sjp.lme4  <- function(fit,
                                   printPlot = printPlot)))
     } else {
       warning("Plotting slopes of fixed effects only works for function 'sjp.lmer'.", call. = FALSE)
+      return(invisible(NULL))
+    }
+  } else if (type == "poly") {
+    if (fun == "lm") {
+      return(invisible(sjp.lm.poly(fit,
+                                   poly.term,
+                                   geom.colors,
+                                   geom.size,
+                                   axisTitle.x,
+                                   showCI = show.se, 
+                                   printPlot)))
+    } else {
+      warning("Plotting polynomial terms only works for function 'sjp.lmer'.", call. = FALSE)
       return(invisible(NULL))
     }
   } else if (type == "fe.ri") {

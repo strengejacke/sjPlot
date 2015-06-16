@@ -53,6 +53,9 @@
 #'            that comes closest to the loess-smoothed line should be the best
 #'            fit to the data.
 #'   
+#' @seealso To plot marginal effects of polynomial terms, call \code{\link{sjp.lm}} with \code{type = "poly"},
+#'            or \code{\link{sjp.lmer}} respectively for linear mixed models.
+#'   
 #' @examples 
 #' library(sjmisc)
 #' data(efc)
