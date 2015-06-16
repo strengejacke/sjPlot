@@ -4,11 +4,11 @@
 \alias{sjp.poly}
 \title{Plot polynomials for linear regression}
 \usage{
-sjp.poly(x, poly.term, poly.degree, axisTitle.x = NULL, axisTitle.y = NULL,
-  showScatterPlot = TRUE, showLoess = TRUE, showLoessCI = TRUE,
-  geom.colors = NULL, geom.size = 0.8, loessLineColor = "#808080",
-  pointColor = "#404040", pointAlpha = 0.2, showPValues = TRUE,
-  printPlot = TRUE)
+sjp.poly(x, poly.term, poly.degree, poly.scale = FALSE, axisTitle.x = NULL,
+  axisTitle.y = NULL, showScatterPlot = TRUE, showLoess = TRUE,
+  showLoessCI = TRUE, showPValues = TRUE, geom.colors = NULL,
+  geom.size = 0.8, loessLineColor = "#808080", pointColor = "#404040",
+  pointAlpha = 0.2, printPlot = TRUE)
 }
 \arguments{
 \item{x}{a vector, representing the response variable of a linear (mixed) model; or
@@ -22,6 +22,10 @@ See 'Examples'.}
 \item{poly.degree}{numeric, or numeric vector, indicating the degree of the polynomial.
 If \code{poly.degree} is a numeric vector, multiple polynomial curves for
 each degree are plotted. See 'Examples'.}
+
+\item{poly.scale}{logical, if \code{TRUE}, \code{poly.term} will be scaled before
+linear regression is computed. Default is \code{FALSE}. Scaling the polynomial
+term may have an impact on the resulting p-values.}
 
 \item{axisTitle.x}{A label for the x axis. Use \code{NULL} to automatically detect
 variable names that will be used as title (see \code{\link[sjmisc]{set_var_labels}}) for details).}
@@ -39,6 +43,9 @@ or if \code{type = "pred"} or \code{type = "resid"}.}
 \item{showLoessCI}{If \code{TRUE}, a confidence region for the loess-smoothed line
 will be plotted.}
 
+\item{showPValues}{logical, if \code{TRUE} (default), p-values for polynomial terms are
+printed to the console.}
+
 \item{geom.colors}{User defined color palette for geoms. Must either be vector with two color values
 or a specific color palette code (see below).
 \itemize{
@@ -55,9 +62,6 @@ or a specific color palette code (see below).
 \item{pointColor}{color of the scatter plot's point. Only applies, if \code{showScatterPlot = TRUE}.}
 
 \item{pointAlpha}{The alpha values of the scatter plot's point-geoms. Default is 0.2.}
-
-\item{showPValues}{logical, if \code{TRUE} (default), p-values for polynomial terms are
-printed to the console.}
 
 \item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
@@ -118,13 +122,13 @@ sjp.lm(fit, type = "pred",
        showLoess = TRUE, showScatterPlot = FALSE)
 # "e17age" does not seem to be linear correlated to response
 # try to find appropiate polynomial. Grey line (loess smoothed)
-# indicates best fit. Looks like x^4 has the best fit
-# (not checked for significance yet).
+# indicates best fit. Looks like x^4 has the best fit,
+# however, only x^3 has significant p-values.
 sjp.poly(fit, "e17age", 2:4, showScatterPlot = FALSE)
 
 # fit new model
 fit <- lm(tot_sc_e ~ c12hour + e42dep +
-          e17age + I(e17age^2) + I(e17age^3) + I(e17age^4),
+          e17age + I(e17age^2) + I(e17age^3),
           data = efc)
 # plot marginal effects of polynomial term
 sjp.lm(fit, type = "poly", poly.term = "e17age", geom.size = .8)

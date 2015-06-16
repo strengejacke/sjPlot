@@ -448,18 +448,36 @@ sjp.glmer <- function(fit,
 #' # --------------------------
 #' # check linear relation between predictors and response
 #' sjp.lmer(fit, type = "fe.pred")
+#' 
 #' # "barthel" does not seem to be linear correlated to response
 #' # try to find appropiate polynomial. Grey line (loess smoothed)
-#' # indicates best fit. Looks like x^4 has the best fit.
-#' # (not checked for significance yet).
+#' # indicates best fit. Looks like x^4 has the best fit,
+#' # however, x^2 seems to be suitable according to p-values.
 #' sjp.poly(fit, "barthel", 2:4, showScatterPlot = FALSE)
+#' 
 #' # fit new model
 #' fit <- lmer(neg_c_7 ~ sex + c12hour + barthel + 
-#'             I(barthel^2) + I(barthel^3) + I(barthel^4) + (1|grp),
-#'             data = mydf)
+#'             I(barthel^2) + (1|grp), data = mydf)
+#'             
 #' # plot marginal effects of polynomial term
 #' sjp.lmer(fit, type = "poly", poly.term = "barthel", geom.size = .8)
-#'
+#' 
+#' 
+#' # lme4 complaints about scale of polynomial term, so
+#' # try centering this predictor
+#' mydf$barthel_s <- scale(mydf$barthel, center = TRUE, scale = TRUE)
+#' 
+#' # re-fit model
+#' fit_s <- lmer(neg_c_7 ~ sex + c12hour + barthel_s + 
+#'               I(barthel_s^2) + (1|grp), data = mydf)
+#'               
+#' # plot marginal effects of centered, scaled polynomial term
+#' sjp.lmer(fit_s, type = "poly", poly.term = "barthel_s", geom.size = .8)
+#' 
+#' \dontrun{
+#' # scaling also improved p-values
+#' sjt.lmer(fit, fit_s)}
+#' 
 #' @import ggplot2
 #' @importFrom car Anova
 #' @export

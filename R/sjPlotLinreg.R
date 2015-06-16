@@ -1079,8 +1079,8 @@ sjp.lm.poly <- function(fit,
   # show confidence region?
   if (showCI) polyplot <- polyplot + geom_ribbon(aes(ymin = lower, ymax = upper), alpha = .15)
   # plot predicted effect of polynomial term
-  polyplot <- polyplot + geom_line(colour = geom.colors[1],
-                                   size = geom.size) +
+  polyplot <- polyplot + 
+    geom_line(colour = geom.colors[1], size = geom.size) +
     labs(x = axisTitle.x, y = "Response")
   # print plot
   if (printPlot) print(polyplot)
