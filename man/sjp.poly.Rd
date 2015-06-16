@@ -73,12 +73,12 @@ This function plots a scatter plot of a term \code{poly.term}
 \details{
 For each polynomial degree, a simple linear regression on \code{x} (resp.
            the extracted response, if \code{x} is a fitted model) is performed,
-           where only the polynomial term is included as independent variable.
+           where only the polynomial term \code{poly.term} is included as independent variable.
            Thus, \code{lm(y ~ x + I(x^2) + ... + I(x^i))} is repeatedly computed
            for all values in \code{poly.degree}, and the predicted values of
            the reponse are plotted against the raw values of \code{poly.term}.
-           If \code{x} is a fitted model with multiple covariates, these are
-           ignores when searching for the best fitting polynomial. \cr \cr
+           If \code{x} is a fitted model, other covariates are ignored when
+           finding the best fitting polynomial. \cr \cr
            This function evaluates raw polynomials, \emph{not orthogonal} polynomials.
            Polynomials are computed using the \code{\link{poly}} function,
            with parameter \code{raw = TRUE}. \cr \cr
