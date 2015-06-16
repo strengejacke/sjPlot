@@ -7,7 +7,8 @@
 sjp.poly(x, poly.term, poly.degree, axisTitle.x = NULL, axisTitle.y = NULL,
   showScatterPlot = TRUE, showLoess = TRUE, showLoessCI = TRUE,
   geom.colors = NULL, geom.size = 0.8, loessLineColor = "#808080",
-  pointColor = "#404040", pointAlpha = 0.2, printPlot = TRUE)
+  pointColor = "#404040", pointAlpha = 0.2, showPValues = TRUE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{x}{a vector, representing the response variable of a linear (mixed) model; or
@@ -54,6 +55,9 @@ or a specific color palette code (see below).
 \item{pointColor}{color of the scatter plot's point. Only applies, if \code{showScatterPlot = TRUE}.}
 
 \item{pointAlpha}{The alpha values of the scatter plot's point-geoms. Default is 0.2.}
+
+\item{showPValues}{logical, if \code{TRUE} (default), p-values for polynomial terms are
+printed to the console.}
 
 \item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}

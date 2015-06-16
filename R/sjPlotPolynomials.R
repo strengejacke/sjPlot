@@ -39,6 +39,8 @@
 #' @param loessLineColor color of the loess-smoothed line. Only applies, if \code{showLoess = TRUE}.
 #' @param pointColor color of the scatter plot's point. Only applies, if \code{showScatterPlot = TRUE}.
 #' @param pointAlpha The alpha values of the scatter plot's point-geoms. Default is 0.2.
+#' @param showPValues logical, if \code{TRUE} (default), p-values for polynomial terms are
+#'          printed to the console.
 #' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #' @return (insisibily) returns the ggplot-object with the complete plot (\code{plot})
@@ -118,6 +120,7 @@ sjp.poly <- function(x,
                      loessLineColor = "#808080",
                      pointColor = "#404040",
                      pointAlpha = .2,
+                     showPValues = TRUE,
                      printPlot = TRUE) {
   # --------------------------------------------
   # check color parameter
@@ -184,6 +187,19 @@ sjp.poly <- function(x,
     fit <- lm(mydat$y ~ poly(mydat$x, i, raw = TRUE))
     # create data frame with raw data and the fitted poly-curve
     plot.df <- rbind(plot.df, cbind(mydat, predict(fit), sprintf("x^%i", i)))
+    # print p-values?
+    if (showPValues) {
+      # get p-values
+      pvals <- summary(fit)$coefficients[-1, 4]
+      # prepare output string
+      p.out <- sprintf("Polynomial degrees: %i\n---------------------\n", i)
+      # iterate polynomial terms and print p-value for each polynom
+      for (j in 1:i) p.out <- paste0(p.out, sprintf("p(x^%i): %.3f\n", j, unname(pvals[j])))
+      # add separator line after each model
+      p.out <- paste0(p.out, "\n")
+      # print p-values for fitted model
+      cat(p.out)
+    }
   }
   # name df
   colnames(plot.df) <- c("x","y", "pred", "grp")
