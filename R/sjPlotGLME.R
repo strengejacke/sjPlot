@@ -7,10 +7,12 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "f
 #'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.glmer/}{sjPlot manual: sjp.glmer}
 #'
-#' @description Plot odds ratios (exponentiated coefficients) with confidence intervalls of either
-#'                fixed effects or random effects of generalized linear mixed effects models
-#'                (that have been fitted with \code{glmer} of the
-#'                \code{lme4} package.
+#' @description By default, this function plots odds ratios (exponentiated coefficients) 
+#'                with confidence intervalls of either fixed effects or random effects of 
+#'                generalized linear mixed effects models (that have been fitted with the 
+#'                \code{\link[lme4]{glmer}}-function of the \code{lme4} package).
+#'                Furthermore, this function also plots predicted probabilities or 
+#'                diagnostic plots.
 #'
 #' @param fit a fitted model as returned by the \code{\link[lme4]{glmer}}-function.
 #' @param type type of plot. Use one of following:
@@ -265,10 +267,11 @@ sjp.glmer <- function(fit,
 #'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.lmer/}{sjPlot manual: sjp.lmer}
 #'
-#' @description Plot estimates (coefficients) with confidence intervalls of either
-#'                fixed effects or random effects of linear mixed effects models
-#'                (that have been fitted with \code{lmer} of the
-#'                \code{lme4} package.
+#' @description By default, this function plots estimates (coefficients) with confidence
+#'                intervalls of either fixed effects or random effects of linear mixed 
+#'                effects models (that have been fitted with the \code{\link[lme4]{lmer}}-function
+#'                of the \code{lme4} package). Furhermore, this function also plot 
+#'                predicted values or diagnostic plots.
 #'
 #' @param fit a fitted model as returned by the \code{\link[lme4]{lmer}}-function.
 #' @param type type of plot. Use one of following:
@@ -448,6 +451,7 @@ sjp.glmer <- function(fit,
 #' # "barthel" does not seem to be linear correlated to response
 #' # try to find appropiate polynomial. Grey line (loess smoothed)
 #' # indicates best fit. Looks like x^4 has the best fit.
+#' # (not checked for significance yet).
 #' sjp.poly(fit, "barthel", 2:4, showScatterPlot = FALSE)
 #' # fit new model
 #' fit <- lmer(neg_c_7 ~ sex + c12hour + barthel + 

@@ -143,10 +143,11 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
            }
 }
 \description{
-Plot estimates (coefficients) with confidence intervalls of either
-               fixed effects or random effects of linear mixed effects models
-               (that have been fitted with \code{lmer} of the
-               \code{lme4} package.
+By default, this function plots estimates (coefficients) with confidence
+               intervalls of either fixed effects or random effects of linear mixed
+               effects models (that have been fitted with the \code{\link[lme4]{lmer}}-function
+               of the \code{lme4} package). Furhermore, this function also plot
+               predicted values or diagnostic plots.
 }
 \examples{
 # fit model
@@ -230,6 +231,7 @@ sjp.lmer(fit, type = "fe.pred")
 # "barthel" does not seem to be linear correlated to response
 # try to find appropiate polynomial. Grey line (loess smoothed)
 # indicates best fit. Looks like x^4 has the best fit.
+# (not checked for significance yet).
 sjp.poly(fit, "barthel", 2:4, showScatterPlot = FALSE)
 # fit new model
 fit <- lmer(neg_c_7 ~ sex + c12hour + barthel +

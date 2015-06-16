@@ -767,7 +767,7 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   # start loop
   while (loop == TRUE) {
     # get outliers of model
-    ol <- outlierTest(model)
+    ol <- car::outlierTest(model)
     # retrieve variable numbers of outliers
     vars <- as.numeric(attr(ol$p, "names"))
     # update model by removing outliers
@@ -836,8 +836,8 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   # ------------------------------------------------------
   # Influential and leverage points
   # ------------------------------------------------------
-  influencePlot(logreg)
-  if (!showOriginalModelOnly) influencePlot(model)
+  car::influencePlot(logreg)
+  if (!showOriginalModelOnly) car::influencePlot(model)
   # ------------------------------------------------------
   # Residual plot
   # ------------------------------------------------------

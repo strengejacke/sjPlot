@@ -634,11 +634,13 @@ adjust_plot_range <- function(gp, upperMargin=1.05) {
 
 sjp.vif <- function(fit) {
   vifval <- NULL
+  vifplot <- NULL
+  mydat <- NULL
   # check if we have more than 1 term
   if (length(coef(fit)) > 2) {
     # variance inflation factor
     # claculate VIF
-    vifval <- vif(fit)
+    vifval <- car::vif(fit)
     if (is.matrix(vifval)) {
       val <- vifval[, 1]
     } else {
@@ -651,7 +653,7 @@ sjp.vif <- function(fit) {
     # check whether maxval exceeds the critical VIF-Limit
     # of 10. If so, set upper limit to max. value
     if (maxval >= upperLimit) upperLimit <- ceiling(maxval)
-    mydat <- data.frame(cbind(round(val, 2)))
+    mydat <- data.frame(vif = round(val, 2))
     # Neue Variable erstellen, damit die Ergebnisse sortiert werden
     # können (siehe reorder in ggplot-Funktion)
     mydat$vars <- row.names(mydat)
@@ -664,7 +666,7 @@ sjp.vif <- function(fit) {
     names(mydat) <- c("vif", "vars", "label")
     # grafik ausgeben, dabei die variablen der X-Achse nach aufsteigenden
     # VIF-Werten ordnen
-    plot(ggplot(mydat, aes(x = reorder(vars, vif), y = vif)) +
+    vifplot <- ggplot(mydat, aes(x = reorder(vars, vif), y = vif)) +
       # Balken zeichnen. Stat=identity heißt, dass nicht die counts, sondern
       # die tatsächlichen Zahlenwerte (VIF-Werte) abgebildet werden sollen
       geom_bar(stat = "identity", width = 0.7, fill = "#80acc8") +
@@ -684,9 +686,13 @@ sjp.vif <- function(fit) {
       # maximale Obergrenze der Y-Achse setzen
       scale_y_continuous(limits = c(0, upperLimit), expand = c(0, 0)) +
       # Beschriftung der X-Achse (Variablenlabel) in 45-Grad-Winkel setzen
-      theme(axis.text.x = element_text(angle = 45, vjust = 0.5, size = rel(1.2))))
+      theme(axis.text.x = element_text(angle = 45, vjust = 0.5, size = rel(1.2)))
+    print(vifplot)
   }
-  invisible(vifval)  
+  invisible(structure(class = "sjpvif",
+                      list(plot = vifplot,
+                           df = mydat,
+                           vifval = vifval)))
 }
 
 

@@ -4,7 +4,7 @@
 \alias{sjp.setTheme}
 \title{Set global theme options for sjp-functions}
 \usage{
-sjp.setTheme(title.color = "black", title.size = 1.3,
+sjp.setTheme(theme = NULL, title.color = "black", title.size = 1.3,
   title.align = "left", geom.outline.color = NULL,
   geom.outline.size = 0.1, geom.boxoutline.size = 0.5,
   geom.boxoutline.color = "black", geom.alpha = 1, geom.linetype = 1,
@@ -27,9 +27,31 @@ sjp.setTheme(title.color = "black", title.size = 1.3,
   legend.title.color = "black", legend.title.face = "bold",
   legend.backgroundcol = "white", legend.bordercol = "white",
   legend.item.backcol = "grey90", legend.item.bordercol = "white",
-  theme = NULL, base = theme_grey())
+  base = theme_grey())
 }
 \arguments{
+\item{theme}{Specify pre-set themes (see 'Details'). Valid parameter for ggplot default-themes are for instance:
+\itemize{
+  \item \code{theme_bw}
+  \item \code{theme_classic}
+  \item \code{theme_grey}
+  \item \code{theme_light}
+  \item \code{theme_linedraw}
+  \item \code{theme_minimal}
+}
+Furthermore, there are some theme-presets, which can be used:
+\describe{
+  \item{\code{"blank"}}{a theme with no grids and axes.}
+  \item{\code{"forest"}}{a theme for forest plots, with no grids.}
+  \item{\code{"forestgrey"}}{a theme for forest plots, with no grids, in "539" style.}
+  \item{\code{"538"}}{a grey-scaled theme inspired by \href{http://fivethirtyeight.com}{538-charts}, adapted from \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{minimaxir.com}.}
+  \item{\code{"539"}}{a slight modification of the 538-theme.}
+  \item{\code{"scatter"}}{a theme for scatter plots in 539-theme-style.}
+  \item{\code{"538w"}, \code{"539w"}, \code{"scatterw"} and \code{"forestw"}}{for themes as described above, however all with white backgrounds.}
+  \item{\code{"blues"}}{a blue-colored scheme based on the Blues color-brewer-palette.}
+  \item{\code{"greens"}}{a green-colored scheme.}
+}}
+
 \item{title.color}{Color of the plot title. Default is \code{"black"}.}
 
 \item{title.size}{Size of the plot title. Default is 1.3.}
@@ -169,28 +191,6 @@ legend justification is set according to legend position.}
 
 \item{legend.item.bordercol}{Color of the legend's item-border. Default is \code{"white"}.}
 
-\item{theme}{Specify pre-set themes (see 'Details'). Valid parameter for ggplot default-themes are for instance:
-\itemize{
-  \item \code{theme_bw}
-  \item \code{theme_classic}
-  \item \code{theme_grey}
-  \item \code{theme_light}
-  \item \code{theme_linedraw}
-  \item \code{theme_minimal}
-}
-Furthermore, there are some theme-presets, which can be used:
-\itemize{
-  \item \code{"blank"}: a theme with no grids and axes.
-  \item \code{"forest"}: a theme for forest plots, with no grids.
-  \item \code{"forestgrey"}: a theme for forest plots, with no grids, in "539" style.
-  \item \code{"538"}: a grey-scaled theme inspired by \href{http://fivethirtyeight.com}{538-charts}, adapted from \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{minimaxir.com}.
-  \item \code{"539"}: a slight modification of the 538-theme.
-  \item \code{"scatter"}: a theme for scatter plots in 539-theme-style.
-  \item \code{"538w"}, \code{"539w"} and \code{"scatterw"} for themes as described above, however all with white backgrounds.
-  \item \code{"blues"}: a blue-colored scheme based on the Blues color-brewer-palette.
-  \item \code{"greens"}: a green-colored scheme.
-}}
-
 \item{base}{Base theme where theme is built on. By default, all
          metrics from \code{theme_gray()} are used. See 'Details'}
 }
@@ -204,7 +204,7 @@ Set global theme options for sjp-functions.
 \details{
 If the \code{theme} parameter is one of the valid ggplot-themes, this theme
            will be used and all further parameters will be ignored. If you want to modify
-           a ggplot-theme, use \code{base = "theme_xy"} and then further parameters to
+           a ggplot-theme, use \code{base = "theme_xy"}, then further parameters to
            this function will be applied to the theme as well.
            \cr \cr
            If the \code{theme} parameter is one of sjPlot-pre-set-themes, you

@@ -45,7 +45,15 @@
 #'           as well as the data frame that was used for setting up the
 #'           ggplot-object (\code{df}).
 #' 
-#' @details This function evaluates raw polynomials, \emph{not orthogonal} polynomials.
+#' @details For each polynomial degree, a simple linear regression on \code{x} (resp.
+#'            the extracted response, if \code{x} is a fitted model) is performed,
+#'            where only the polynomial term is included as independent variable.
+#'            Thus, \code{lm(y ~ x + I(x^2) + ... + I(x^i))} is repeatedly computed 
+#'            for all values in \code{poly.degree}, and the predicted values of
+#'            the reponse are plotted against the raw values of \code{poly.term}.
+#'            If \code{x} is a fitted model with multiple covariates, these are
+#'            ignores when searching for the best fitting polynomial. \cr \cr
+#'            This function evaluates raw polynomials, \emph{not orthogonal} polynomials.
 #'            Polynomials are computed using the \code{\link{poly}} function,
 #'            with parameter \code{raw = TRUE}. \cr \cr
 #'            To find out which polynomial degree fits best to the data, a loess-smoothed
@@ -74,14 +82,17 @@
 #'          1:4, showScatterPlot = FALSE)
 #' 
 #' 
+#' library(sjmisc)
+#' data(efc)
 #' # fit sample model
 #' fit <- lm(tot_sc_e ~ c12hour + e17age + e42dep, data = efc)
 #' # inspect relationship between predictors and response
 #' sjp.lm(fit, type = "pred", 
 #'        showLoess = TRUE, showScatterPlot = FALSE)
-#' # "e17age" not seems to be linear correlated to response
+#' # "e17age" does not seem to be linear correlated to response
 #' # try to find appropiate polynomial. Grey line (loess smoothed)
-#' # indicates best fit. Looks like x^4 has the best fit.
+#' # indicates best fit. Looks like x^4 has the best fit
+#' # (not checked for significance yet).
 #' sjp.poly(fit, "e17age", 2:4, showScatterPlot = FALSE)
 #' 
 #' # fit new model

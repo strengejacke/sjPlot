@@ -214,11 +214,14 @@ sjp.lm(fit, type = "ma")
 # --------------------------
 # plotting polynomial terms
 # --------------------------
+library(sjmisc)
+data(efc)
 # fit sample model
 fit <- lm(tot_sc_e ~ c12hour + e17age + e42dep, data = efc)
 # "e17age" does not seem to be linear correlated to response
 # try to find appropiate polynomial. Grey line (loess smoothed)
 # indicates best fit. Looks like x^4 has the best fit.
+# (not checked for significance yet).
 sjp.poly(fit, "e17age", 2:4, showScatterPlot = FALSE)
 # fit new model
 fit <- lm(tot_sc_e ~ c12hour + e42dep +

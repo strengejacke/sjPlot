@@ -121,10 +121,12 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
            }
 }
 \description{
-Plot odds ratios (exponentiated coefficients) with confidence intervalls of either
-               fixed effects or random effects of generalized linear mixed effects models
-               (that have been fitted with \code{glmer} of the
-               \code{lme4} package.
+By default, this function plots odds ratios (exponentiated coefficients)
+               with confidence intervalls of either fixed effects or random effects of
+               generalized linear mixed effects models (that have been fitted with the
+               \code{\link[lme4]{glmer}}-function of the \code{lme4} package).
+               Furthermore, this function also plots predicted probabilities or
+               diagnostic plots.
 }
 \details{
 \describe{
