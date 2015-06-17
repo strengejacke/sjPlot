@@ -40,7 +40,7 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
 
-### Changelog of development build 1.8.1-5
+### Changelog of development build 1.8.1-6
 
 #### General
 * `view_spss` is now deprecated. Use `view_df` instead.
@@ -50,7 +50,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 
 #### Changes to functions
 * Model and table summaries in plotting functions (like `sjp.lm` or `sjp.grpfrq`) are no longer printed by default. Use `showTableSummary = TRUE` or `showModelSummary = TRUE` to print summaries in plots.
-* Added more plotting type options (see `type` parameter) to `sjp.lm` and `sjp.lmer`.
+* Added more plotting type options (see `type` parameter) to `sjp.glm`, `sjp.glmer`, `sjp.lm` and `sjp.lmer`.
 * Added parameter `int.term` to `sjp.int`, to plot selected interaction terms for `type = "eff"` only. May be used in cases where effect computation takes too long or even crashes due to out-of-memory-problems.
 * Added parameter `axisLimits.x` to `sjp.int`, `sjp.frq` and `sjp.grpfrq`.
 * Added parameter `showAICc` to `sjt.lm`, `sjt.glm`, `sjt.lme` and `sjt.glmer` to print second-order AIC.

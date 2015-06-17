@@ -21,8 +21,8 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", 
 #'            \item{\code{"dots"}}{(or \code{"glm"} or \code{"or"} (default)) for odds ratios (forest plot)}
 #'            \item{\code{"bars"}}{for odds ratios as bar plot}
 #'            \item{\code{"prob"}}{(or \code{"pc"}) to plot predicted probabilities for each model terms, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
-#'            \item{\code{"probc"}}{(or \code{"pcc"}) to plot centered predicted probabilities for each model term (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
-#'            \item{\code{"y.pc"}}{(or \code{"y.prob"}) to plot predicted probabilities for the response.}
+#'            \item{\code{"eff"}}{to plot marginal effects of predicted probabilities for each model term, where all remaining co-variates are set to the mean (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
+#'            \item{\code{"y.pc"}}{(or \code{"y.prob"}) to plot predicted probabilities for the response. See 'Details'.}
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only two parameters are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other parameters are ignored.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
@@ -95,7 +95,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", 
 #'              \item \code{plot} - plot as ggplot-object
 #'            }
 #'          }
-#'          \item{\code{type = "prob" or "probc"}}{
+#'          \item{\code{type = "prob" or "eff"}}{
 #'            \itemize{
 #'              \item \code{mydf.mp} - data frame used for predicted probability plots
 #'              \item \code{plot.mp} - predicted probability plots as ggplot-objects
@@ -127,11 +127,11 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", 
 #'            are based on the intercept's estimate and each specific term's estimate.
 #'            All other co-variates are set to zero (i.e. ignored), which corresponds
 #'            to \code{\link{plogis}(b0 + bx * x)} (where \code{x} is the logit-estimate).}
-#'            \item{\code{type = "probc"}}{(or \code{"pcc"}), the predicted probabilities
+#'            \item{\code{type = "eff"}}{the predicted probabilities
 #'            are based on the \code{\link{predict.glm}} method, where predicted values 
-#'            are "centered"
+#'            are "centered", i.e. remaining co-variates are set to the mean.
 #'            (see \href{http://stats.stackexchange.com/questions/35682/contribution-of-each-covariate-to-a-single-prediction-in-a-logistic-regression-m#comment71993_35802}{CrossValidated}).
-#'            Corresponds to \code{\link{plogis}(\link{predict}(fit, type = "terms"))}.}
+#'            Corresponds to \code{\link{plogis}(\link{predict}(fit, type = "terms") + attr(predict, "costant"))}.}
 #'            \item{\code{type = "y.pc"}}{(or \code{type = "y.prob"}), the predicted values
 #'            of the response are computed, based on the \code{\link{predict.glm}}
 #'            method. Corresponds to \code{\link{plogis}(\link{predict}(fit, type = "response"))}.}
@@ -199,32 +199,32 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", 
 #' @importFrom car outlierTest influencePlot crPlots durbinWatsonTest leveragePlots ncvTest spreadLevelPlot vif
 #' @export
 sjp.glm <- function(fit,
-                    type="dots",
-                    sortOdds=TRUE,
-                    title=NULL,
-                    axisLabels.y=NULL,
-                    axisTitle.x="Odds Ratios",
-                    axisLimits=NULL,
-                    breakTitleAt=50,
-                    breakLabelsAt=25,
-                    gridBreaksAt=0.5,
-                    transformTicks=TRUE,
-                    geom.size=3,
-                    geom.colors="Set1",
-                    hideErrorBars=FALSE,
-                    interceptLineType=2,
-                    interceptLineColor="grey70",
-                    coord.flip=TRUE,
-                    showIntercept=FALSE,
-                    showAxisLabels.y=TRUE,
-                    showValueLabels=TRUE,
-                    labelDigits=2,
-                    showPValueLabels=TRUE,
-                    showModelSummary=FALSE,
+                    type = "dots",
+                    sortOdds = TRUE,
+                    title = NULL,
+                    axisLabels.y = NULL,
+                    axisTitle.x = "Odds Ratios",
+                    axisLimits = NULL,
+                    breakTitleAt = 50,
+                    breakLabelsAt = 25,
+                    gridBreaksAt = 0.5,
+                    transformTicks = TRUE,
+                    geom.size = 3,
+                    geom.colors = "Set1",
+                    hideErrorBars = FALSE,
+                    interceptLineType = 2,
+                    interceptLineColor = "grey70",
+                    coord.flip = TRUE,
+                    showIntercept = FALSE,
+                    showAxisLabels.y = TRUE,
+                    showValueLabels = TRUE,
+                    labelDigits = 2,
+                    showPValueLabels = TRUE,
+                    showModelSummary = FALSE,
                     facet.grid = TRUE,
                     show.se = FALSE,
-                    showOriginalModelOnly=TRUE,
-                    printPlot=TRUE) {
+                    showOriginalModelOnly = TRUE,
+                    printPlot = TRUE) {
   # --------------------------------------------------------
   # check param
   # --------------------------------------------------------
@@ -249,10 +249,10 @@ sjp.glm <- function(fit,
                                 facet.grid,
                                 printPlot)))
   }
-  if (type == "probc" || type == "pcc") {
+  if (type == "eff") {
     return(invisible(sjp.glm.pc(fit,
                                 show.se,
-                                type = "probc",
+                                type = "eff",
                                 facet.grid,
                                 printPlot)))
   }
@@ -634,10 +634,13 @@ sjp.glm.pc <- function(fit,
         # get predicted values. Note that the returned matrix
         # does not contain response value
         pred.vals <- predict(fit, type = "terms")
+        # do we have a constant?
+        cons <- attr(pred.vals, "constant")
+        if (is.null(cons)) cons <- 0
         # retrieve predicted prob. of term. coef.column -1
         # because coef.column relates to fit$model, which has one
         # more column (response)
-        mydf.vals$y <- plogis(pred.vals[, coef.column - 1])
+        mydf.vals$y <- plogis(pred.vals[, coef.column - 1] + cons)
         # add title prefix for predicted values
       }
       # assign group

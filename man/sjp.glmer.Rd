@@ -5,7 +5,7 @@
 \title{Plot odds ratios or predicted probabilities of generalized linear mixed effects models}
 \usage{
 sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
-  title = NULL, geom.size = 3, geom.colors = "Set1",
+  title = NULL, geom.size = NULL, geom.colors = "Set1",
   hideErrorBars = FALSE, showIntercept = TRUE,
   stringIntercept = "(Intercept)", sort.coef = NULL, pred.labels = NULL,
   axisTitle.x = NULL, axisTitle.y = NULL, facet.grid = TRUE,
@@ -25,6 +25,7 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
   \item{\code{"fe.pc"}}{or \code{"fe.prob"} to plot probability curves (predicted probabilities) of all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
   \item{\code{"ri.pc"}}{or \code{"ri.prob"} to plot probability curves (predicted probabilities) of random intercept variances for all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
+  \item{\code{"eff"}}{to plot marginal effects of predicted probabilities for each fixed term, where remaining co-variates are set to the mean. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
   \item{\code{"y.pc"}}{or \code{"y.prob"} to plot predicted probabilities for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot. See 'Details'.}
 }}
 
@@ -48,7 +49,7 @@ See examples for details.}
 \item{title}{a character vector with one or more labels that are used as plot title. If
 \code{type = "re"}, use the predictors' variable labels as titles.}
 
-\item{geom.size}{size of geoms (point size).}
+\item{geom.size}{size of geoms (point size or line size, depending on \code{type}-parameter).}
 
 \item{geom.colors}{User defined color palette for geoms. Must either be vector with two color values
 or a specific color palette code (see below).
@@ -136,6 +137,9 @@ By default, this function plots odds ratios (exponentiated coefficients)
            which corresponds to \code{\link{plogis}(b0 + bx * x)} (where \code{x}
            is the logit-estimate of fixed effects and \code{b0} is the intercept of
            the fixed effects).}
+           \item{\code{type = "eff"}}{unlike \code{type = "fe.pc"}, the predicted
+           probabilities computed by \code{type = "eff"} have all co-variates
+           set to the mean, as returned by the \code{\link[effects]{allEffects}} function.}
            \item{\code{type = "ri.pc"}}{(or \code{"ri.prob"}), the predicted probabilities
            are based on the fixed effects intercept, plus each random intercept and
            each specific  fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),

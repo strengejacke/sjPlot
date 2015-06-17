@@ -105,7 +105,7 @@
 #'           e17age + I(e17age^2) + I(e17age^3),
 #'           data = efc)
 #' # plot marginal effects of polynomial term
-#' sjp.lm(fit, type = "poly", poly.term = "e17age", geom.size = .8)
+#' sjp.lm(fit, type = "poly", poly.term = "e17age")
 #' 
 #' @import ggplot2
 #' @importFrom scales grey_pal brewer_pal
@@ -129,26 +129,7 @@ sjp.poly <- function(x,
   # --------------------------------------------
   # check color parameter
   # --------------------------------------------
-  # define required length of color palette
-  collen <- length(poly.degree)
-  # check for corrct color parameter
-  if (!is.null(geom.colors)) {
-    # do we have correct amount of colours?
-    if (length(geom.colors) != collen) {
-      # warn user abount wrong color palette
-      warning(sprintf("Insufficient length of color palette provided. %i color values needed.", collen), call. = F)
-      # set default palette
-      geom.colors <- "Set1"
-    }
-  } else {
-    geom.colors <- "Set1"
-  }
-  # check for color brewer palette
-  if (is.brewer.pal(geom.colors[1])) {
-    geom.colors <- scales::brewer_pal(palette = geom.colors[1])(collen)
-  } else if (geom.colors[1] == "gs") {
-    geom.colors <- scales::grey_pal()(collen)
-  }
+  geom.colors <- col_check2(geom.colors, length(poly.degree))
   # --------------------------------------------
   # parameter check: fitted model or variables?
   # --------------------------------------------

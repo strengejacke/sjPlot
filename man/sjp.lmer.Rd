@@ -5,7 +5,7 @@
 \title{Plot estimates or predicted values of linear mixed effects models}
 \usage{
 sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
-  title = NULL, geom.size = 3, geom.colors = "Set1",
+  title = NULL, geom.size = NULL, geom.colors = "Set1",
   hideErrorBars = FALSE, showIntercept = TRUE,
   stringIntercept = "(Intercept)", sort.coef = NULL, pred.labels = NULL,
   axisTitle.x = NULL, axisTitle.y = NULL, interceptLineType = 2,
@@ -29,7 +29,8 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
   \item{\code{"fe.ri"}}{for fixed effects slopes depending on the random intercept.}
   \item{\code{"resp"}}{to plot predicted values for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot.}
-  \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples').}
+  \item{\code{"eff"}}{to plot marginal effects of all fixed terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms. See also 'Details' of \code{\link{sjp.lm}}.}
+  \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples' here and 'Details' of \code{\link{sjp.lm}}).}
 }}
 
 \item{vars}{a numeric vector with column indices of selected variables or a character vector with
@@ -51,7 +52,7 @@ See examples for details.}
 \item{title}{a character vector with one or more labels that are used as plot title. If
 \code{type = "re"}, use the predictors' variable labels as titles.}
 
-\item{geom.size}{size of geoms (point size).}
+\item{geom.size}{size of geoms (point size or line size, depending on \code{type}-parameter).}
 
 \item{geom.colors}{User defined color palette for geoms. Must either be vector with two color values
 or a specific color palette code (see below).
@@ -240,7 +241,7 @@ fit <- lmer(neg_c_7 ~ sex + c12hour + barthel +
             I(barthel^2) + (1|grp), data = mydf)
 
 # plot marginal effects of polynomial term
-sjp.lmer(fit, type = "poly", poly.term = "barthel", geom.size = .8)
+sjp.lmer(fit, type = "poly", poly.term = "barthel")
 
 
 # lme4 complaints about scale of polynomial term, so
@@ -252,7 +253,7 @@ fit_s <- lmer(neg_c_7 ~ sex + c12hour + barthel_s +
               I(barthel_s^2) + (1|grp), data = mydf)
 
 # plot marginal effects of centered, scaled polynomial term
-sjp.lmer(fit_s, type = "poly", poly.term = "barthel_s", geom.size = .8)
+sjp.lmer(fit_s, type = "poly", poly.term = "barthel_s")
 
 \dontrun{
 # scaling also improved p-values

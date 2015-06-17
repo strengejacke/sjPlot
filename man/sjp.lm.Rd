@@ -7,7 +7,7 @@
 sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   axisLabels.x = NULL, axisLabels.y = NULL, showAxisLabels.y = TRUE,
   axisTitle.x = "Estimates", axisLimits = NULL, geom.colors = "Set1",
-  geom.size = 3, interceptLineType = 2, interceptLineColor = "grey70",
+  geom.size = NULL, interceptLineType = 2, interceptLineColor = "grey70",
   breakTitleAt = 50, breakLabelsAt = 25, gridBreaksAt = NULL,
   coord.flip = TRUE, showValueLabels = TRUE, labelDigits = 2,
   showPValueLabels = TRUE, showModelSummary = FALSE, showCI = TRUE,
@@ -25,6 +25,7 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   \item{\code{"pred"}}{to plot regression lines for each single predictor of the fitted model, against the response.}
   \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals. May be used for model diagnostics (see \url{https://www.otexts.org/fpp/5/4}).}
   \item{\code{"resp"}}{to plot predicted values for the response. Use \code{showCI} parameter to plot standard errors as well.}
+  \item{\code{"eff"}}{to plot marginal effects of all terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms.}
   \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples').}
   \item{\code{"ma"}}{to check model assumptions. Note that only three parameters are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.}
   \item{\code{"vif"}}{to plot Variance Inflation Factors.}
@@ -155,6 +156,9 @@ Depending on the \code{type}, this function plots beta coefficients (estimates)
            \item If \code{type = "lm"} and fitted model only has one predictor, no forest plot is shown. Instead, a regression line with confidence interval (in blue) is plotted by default, and a loess-smoothed line without confidence interval (in red) can be added if parameter \code{showLoess} is \code{TRUE}.
            \item If \code{type = "pred"}, regression lines (slopes) with confidence intervals for each single predictor of the fitted model are plotted, i.e. all predictors of the fitted model are extracted and each of them is plotted against the response variable.
            \item \code{type = "resid"} is similar to the \code{type = "pred"} option, however, each predictor is plotted against the residuals (instead of response).
+           \item If \code{type = "resp"}, the predicted values of the response for each observation is plotted, which mostly results in a signle linear line.
+           \item \code{type = "eff"} computes the marginal effects for all predictors, using the \code{\link[effects]{allEffects}} function. I.e. for each predictor, the predicted values towards the response are plotted, with all remaining co-variates set to the mean. Due to possible different scales of predictors, a facted plot is printed. This function accepts following parameter: \code{fit}, \code{title}, \code{geom.size}, \code{showCI} and \code{printPlot}.
+           \item \code{type = "poly"} plots the marginal effects of polynomial terms in \code{fit}, using the \code{\link[effects]{effect}} function, but only for a selected polynomial term, which is specified with \code{poly.term}. This function helps undertanding the effect of polynomial terms by plotting the curvilinear relationships of response and quadratic, cubic etc. terms. This function accepts following parameter: \code{fit}, \code{poly.term}, \code{geom.colors}, \code{geom.size}, \code{axisTitle.x}, \code{showCI} and \code{printPlot}.
            \item If \code{type = "ma"} (i.e. checking model assumptions), please note that only three parameters are relevant: \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.
            \item If \code{type = "vif"}, the Variance Inflation Factors (check for multicollinearity) are plotted. As a rule of thumb, values below 5 are considered as good and indicate no multicollinearity, values between 5 and 10 may be tolerable. Values greater than 10 are not acceptable and indicate multicollinearity between model's predictors.
            }
@@ -228,7 +232,7 @@ fit <- lm(tot_sc_e ~ c12hour + e42dep +
           e17age + I(e17age^2) + I(e17age^3) + I(e17age^4),
           data = efc)
 # plot marginal effects of polynomial term
-sjp.lm(fit, type = "poly", poly.term = "e17age", geom.size = .8)
+sjp.lm(fit, type = "poly", poly.term = "e17age")
 }
 \seealso{
 \href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm} for

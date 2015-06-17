@@ -19,6 +19,9 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "l
 #'            \item If \code{type = "lm"} and fitted model only has one predictor, no forest plot is shown. Instead, a regression line with confidence interval (in blue) is plotted by default, and a loess-smoothed line without confidence interval (in red) can be added if parameter \code{showLoess} is \code{TRUE}.
 #'            \item If \code{type = "pred"}, regression lines (slopes) with confidence intervals for each single predictor of the fitted model are plotted, i.e. all predictors of the fitted model are extracted and each of them is plotted against the response variable.
 #'            \item \code{type = "resid"} is similar to the \code{type = "pred"} option, however, each predictor is plotted against the residuals (instead of response).
+#'            \item If \code{type = "resp"}, the predicted values of the response for each observation is plotted, which mostly results in a signle linear line.
+#'            \item \code{type = "eff"} computes the marginal effects for all predictors, using the \code{\link[effects]{allEffects}} function. I.e. for each predictor, the predicted values towards the response are plotted, with all remaining co-variates set to the mean. Due to possible different scales of predictors, a facted plot is printed. This function accepts following parameter: \code{fit}, \code{title}, \code{geom.size}, \code{showCI} and \code{printPlot}.
+#'            \item \code{type = "poly"} plots the marginal effects of polynomial terms in \code{fit}, using the \code{\link[effects]{effect}} function, but only for a selected polynomial term, which is specified with \code{poly.term}. This function helps undertanding the effect of polynomial terms by plotting the curvilinear relationships of response and quadratic, cubic etc. terms. This function accepts following parameter: \code{fit}, \code{poly.term}, \code{geom.colors}, \code{geom.size}, \code{axisTitle.x}, \code{showCI} and \code{printPlot}.
 #'            \item If \code{type = "ma"} (i.e. checking model assumptions), please note that only three parameters are relevant: \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.
 #'            \item If \code{type = "vif"}, the Variance Inflation Factors (check for multicollinearity) are plotted. As a rule of thumb, values below 5 are considered as good and indicate no multicollinearity, values between 5 and 10 may be tolerable. Values greater than 10 are not acceptable and indicate multicollinearity between model's predictors.
 #'            }
@@ -31,6 +34,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "l
 #'            \item{\code{"pred"}}{to plot regression lines for each single predictor of the fitted model, against the response.}
 #'            \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals. May be used for model diagnostics (see \url{https://www.otexts.org/fpp/5/4}).}
 #'            \item{\code{"resp"}}{to plot predicted values for the response. Use \code{showCI} parameter to plot standard errors as well.}
+#'            \item{\code{"eff"}}{to plot marginal effects of all terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms.}
 #'            \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples').}
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only three parameters are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
@@ -188,7 +192,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "l
 #'           e17age + I(e17age^2) + I(e17age^3) + I(e17age^4),
 #'           data = efc)
 #' # plot marginal effects of polynomial term
-#' sjp.lm(fit, type = "poly", poly.term = "e17age", geom.size = .8)
+#' sjp.lm(fit, type = "poly", poly.term = "e17age")
 #'
 #' @import ggplot2
 #' @import sjmisc
@@ -204,7 +208,7 @@ sjp.lm <- function(fit,
                    axisTitle.x = "Estimates",
                    axisLimits = NULL,
                    geom.colors = "Set1",
-                   geom.size = 3,
+                   geom.size = NULL,
                    interceptLineType = 2,
                    interceptLineColor = "grey70",
                    breakTitleAt = 50,
@@ -295,6 +299,13 @@ sjp.lm <- function(fit,
                                  showCI, 
                                  printPlot)))
   }
+  if (type == "eff") {
+    return(invisible(sjp.lm.eff(fit,
+                                title,
+                                geom.size,
+                                showCI,
+                                printPlot)))
+  }
   if (type == "ma") {
     return(invisible(sjp.lm.ma(fit,
                                showOriginalModelOnly,
@@ -303,6 +314,8 @@ sjp.lm <- function(fit,
   if (type == "vif") {
     return(invisible(sjp.vif(fit)))
   }
+  # check size parameter
+  if (is.null(geom.size)) geom.size <- 3
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
@@ -707,6 +720,31 @@ col_check <- function(geom.colors, showLoess) {
 }
 
 
+col_check2 <- function(geom.colors, collen) {
+  # --------------------------------------------
+  # check color parameter
+  # --------------------------------------------
+  # check for corrct color parameter
+  if (!is.null(geom.colors)) {
+    # check for color brewer palette
+    if (is.brewer.pal(geom.colors[1])) {
+      geom.colors <- scales::brewer_pal(palette = geom.colors[1])(collen)
+    } else if (geom.colors[1] == "gs") {
+      geom.colors <- scales::grey_pal()(collen)
+      # do we have correct amount of colours?
+    } else if (length(geom.colors) != collen) {
+      # warn user abount wrong color palette
+      warning(sprintf("Insufficient length of color palette provided. %i color values needed.", collen), call. = F)
+      # set default palette
+      geom.colors <- scales::brewer_pal(palette = "Set1")(collen)
+    }
+  } else {
+    geom.colors <- scales::brewer_pal(palette = "Set1")(collen)
+  }
+  return(geom.colors)
+}
+
+
 sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FALSE) {
   # ------------------------
   # check if suggested package is available
@@ -1030,6 +1068,8 @@ sjp.lm.poly <- function(fit,
                         axisTitle.x,
                         showCI, 
                         printPlot) {
+  # check size parameter
+  if (is.null(geom.size)) geom.size <- .8
   # -------------------------------------
   # retrieve model matrix
   # -------------------------------------
@@ -1087,5 +1127,130 @@ sjp.lm.poly <- function(fit,
   # return result
   invisible(structure(class = "sjplmpoly",
                       list(plot = polyplot,
+                           df = mydat)))
+}
+
+
+sjp.lm.eff <- function(fit,
+                       title,
+                       geom.size,
+                       showCI,
+                       printPlot) {
+  # ------------------------
+  # check if suggested package is available
+  # ------------------------
+  if (!requireNamespace("effects", quietly = TRUE)) {
+    stop("Package 'effects' needed for this function to work. Please install it.", call. = FALSE)
+  }
+  if ((any(class(fit) == "lmerMod" || any(class(fit) == "merModLmerTest"))) && !requireNamespace("lme4", quietly = TRUE)) {
+    stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
+  }
+  # ------------------------
+  # Retrieve response for automatic title
+  # ------------------------
+  if (any(class(fit) == "lmerMod") || any(class(fit) == "merModLmerTest")) {
+    # retrieve response vector
+    resp <- lme4::getME(fit, "y")
+    resp.col <- colnames(fit@frame)[1]
+  } else if (any(class(fit) == "lm")) {
+    # retrieve response vector
+    resp <- fit$model[[1]]
+    resp.col <- colnames(fit$model)[1]
+  }
+  # --------------------------------------------
+  # retrieve labels
+  # --------------------------------------------
+  axisTitle.y <- sjmisc:::autoSetVariableLabels(resp)
+  # no labels found? set default then
+  if (is.null(axisTitle.y)) axisTitle.y <- resp.col
+  # which title?
+  if (is.null(title)) title <- "Marginal effects of model predictors"
+  # ------------------------
+  # retrieve model matrix and all terms, 
+  # excluding intercept
+  # ------------------------
+  mm <- model.matrix(fit)
+  all.terms <- colnames(model.matrix(fit))[-1]
+  # ------------------------
+  # prepare getting unique values of predictors,
+  # which are passed to the allEffects-function
+  # ------------------------
+  xl <- list()
+  for (t in all.terms) {
+    # get unique values
+    dummy <- list(x = sort(unique(na.omit(mm[, t]))))
+    # name list, needed for effect-function
+    names(dummy) <- t
+    # create list for "xlevels" parameter of allEffects fucntion
+    xl <- c(xl, dummy)
+  }
+  # ------------------------
+  # compute marginal effects for each model term
+  # ------------------------
+  eff <- effects::allEffects(fit, xlevels = xl, KR = FALSE)
+  # init final df
+  mydat <- data.frame()
+  # interaction term found?
+  int.found <- FALSE
+  # iterate all effects
+  for (i in 1:length(eff)) {
+    # get term, for which effects were calculated
+    t <- eff[[i]]$term
+    # check if we have interaction term
+    # these are ignored in this case.
+    if (length(grep(":", t, fixed = T)) == 0 && length(grep("*", t, fixed = T)) == 0) {
+      # ------------------------
+      # build data frame, with raw values
+      # from polynomial term, predicted response
+      # and lower/upper ci
+      # ------------------------
+      tmp <- data.frame(x = eff[[i]]$x[[t]], 
+                        y = eff[[i]]$fit, 
+                        lower = eff[[i]]$lower, 
+                        upper = eff[[i]]$upper,
+                        grp = t)
+      # make sure x is numeric
+      tmp$x <- sjmisc::to_value(tmp$x, keep.labels = F)
+      # do we already have data?
+      if (nrow(mydat) > 0) 
+        mydat <- rbind(mydat, tmp)
+      else
+        # else init data frame
+        mydat <- tmp
+    } else {
+      int.found <- TRUE
+    }
+  }
+  # continuous numbering of row names
+  rownames(mydat) <- c(1:nrow(mydat))
+  # ------------------------
+  # tell user that interaction terms are ignored
+  # ------------------------
+  if (int.found) {
+    message("Interaction terms in model have been ignored. Call 'sjp.int' to plot effects of interaction terms.")
+  }
+  # ------------------------
+  # how many different groups?
+  # ------------------------
+  grp.cnt <- length(unique(mydat$grp))
+  # check size parameter
+  if (is.null(geom.size)) geom.size <- .8
+  # ------------------------
+  # create plot
+  # ------------------------
+  eff.plot <- ggplot(mydat, aes(x = x, y = y))
+  # show confidence region?
+  if (showCI) eff.plot <- eff.plot + geom_ribbon(aes(ymin = lower, ymax = upper), alpha = .15)
+  eff.plot <- eff.plot +
+    geom_line(size = geom.size) +
+    facet_wrap(~grp, ncol = round(sqrt(grp.cnt)), scales = "free_x") +
+    labs(x = NULL, y = axisTitle.y, title = title)
+  # ------------------------
+  # print plot?
+  # ------------------------
+  if (printPlot) print(eff.plot)
+  # return result
+  invisible(structure(class = "sjplmeff",
+                      list(plot = eff.plot,
                            df = mydat)))
 }
