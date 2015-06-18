@@ -5,7 +5,7 @@
 \title{Plot grouped or stacked frequencies}
 \usage{
 sjp.grpfrq(varCount, varGroup, weightBy = NULL, weightByTitleString = NULL,
-  interactionVar = NULL, type = "bars", geom.size = 0.6,
+  interactionVar = NULL, type = "bars", geom.size = NULL,
   geom.spacing = 0.4, geom.colors = "Paired", hideLegend = FALSE,
   facet.grid = FALSE, title = "", legendTitle = NULL,
   axisLabels.x = NULL, interactionVarLabels = NULL, legendLabels = NULL,
@@ -53,7 +53,10 @@ is \code{box} or \code{violin} (resp. their alternative strings like \code{"boxp
   \item \code{"v"}, \code{"violin"} for violin box plots
   }}
 
-\item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} parameter).}
+\item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} parameter).
+Note that  bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
+By default, \code{geom.size = NULL}, which means that this parameter is automatically
+adjusted depending on the plot type.}
 
 \item{geom.spacing}{the spacing between geoms (i.e. bar spacing)}
 

@@ -90,6 +90,9 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("ypos", "wb", "ia", "mw"
 #'            \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
 #'          }
 #' @param geom.size size resp. width of the geoms (bar width or point size, depending on \code{type} parameter).
+#'          Note that  bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
+#'          By default, \code{geom.size = NULL}, which means that this parameter is automatically
+#'          adjusted depending on the plot type.
 #' @param geom.spacing the spacing between geoms (i.e. bar spacing)
 #' @param smoothLines Prints a smooth line curve. Only applies, when parameter \code{type}
 #'          is set to \code{"lines"}.
@@ -214,54 +217,54 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("ypos", "wb", "ia", "mw"
 #' @export
 sjp.grpfrq <- function(varCount,
                        varGroup,
-                       weightBy=NULL,
-                       weightByTitleString=NULL,
-                       interactionVar=NULL,
-                       type="bars",
-                       geom.size=0.6,
-                       geom.spacing=0.4,
-                       geom.colors="Paired",
-                       hideLegend=FALSE,
-                       facet.grid=FALSE,
-                       title="", 
-                       legendTitle=NULL,
-                       axisLabels.x=NULL, 
-                       interactionVarLabels=NULL,
-                       legendLabels=NULL,
+                       weightBy = NULL,
+                       weightByTitleString = NULL,
+                       interactionVar = NULL,
+                       type = "bars",
+                       geom.size = NULL,
+                       geom.spacing = 0.4,
+                       geom.colors = "Paired",
+                       hideLegend = FALSE,
+                       facet.grid = FALSE,
+                       title = "",
+                       legendTitle = NULL,
+                       axisLabels.x = NULL,
+                       interactionVarLabels = NULL,
+                       legendLabels = NULL,
                        axisLimits.x = NULL,
                        axisLimits.y = NULL,
-                       breakTitleAt=50, 
-                       breakLabelsAt=15, 
-                       breakLegendTitleAt=20, 
-                       breakLegendLabelsAt=20,
-                       gridBreaksAt=NULL,
-                       barPosition="dodge",
-                       innerBoxPlotWidth=0.15,
-                       innerBoxPlotDotSize=3,
-                       smoothLines=FALSE,
-                       expand.grid=FALSE,
-                       showValueLabels=TRUE,
-                       showCountValues=TRUE,
-                       showPercentageValues=TRUE,
-                       showAxisLabels.x=TRUE,
-                       showAxisLabels.y=TRUE,
-                       showPlotAnnotation=TRUE,
-                       showMeanIntercept=FALSE,
-                       showMeanValue=TRUE,
-                       showStandardDeviation=FALSE,
-                       showTableSummary=FALSE,
-                       showGroupCount=FALSE,
-                       tableSummaryPos="r",
-                       meanInterceptLineType=2,
-                       meanInterceptLineSize=0.5,
-                       axisTitle.x="",
-                       axisTitle.y="",
-                       autoGroupAt=NULL,
-                       startAxisAt="auto",
-                       coord.flip=FALSE,
-                       labelPos="outside",
-                       na.rm=TRUE,
-                       printPlot=TRUE) {
+                       breakTitleAt = 50,
+                       breakLabelsAt = 15,
+                       breakLegendTitleAt = 20,
+                       breakLegendLabelsAt = 20,
+                       gridBreaksAt = NULL,
+                       barPosition = "dodge",
+                       innerBoxPlotWidth = 0.15,
+                       innerBoxPlotDotSize = 3,
+                       smoothLines = FALSE,
+                       expand.grid = FALSE,
+                       showValueLabels = TRUE,
+                       showCountValues = TRUE,
+                       showPercentageValues = TRUE,
+                       showAxisLabels.x = TRUE,
+                       showAxisLabels.y = TRUE,
+                       showPlotAnnotation = TRUE,
+                       showMeanIntercept = FALSE,
+                       showMeanValue = TRUE,
+                       showStandardDeviation = FALSE,
+                       showTableSummary = FALSE,
+                       showGroupCount = FALSE,
+                       tableSummaryPos = "r",
+                       meanInterceptLineType = 2,
+                       meanInterceptLineSize = 0.5,
+                       axisTitle.x = "",
+                       axisTitle.y = "",
+                       autoGroupAt = NULL,
+                       startAxisAt = "auto",
+                       coord.flip = FALSE,
+                       labelPos = "outside",
+                       na.rm = TRUE,
+                       printPlot = TRUE) {
   # --------------------------------------------------------
   # We have several options to name the diagram type
   # Here we will reduce it to a unique value
@@ -282,6 +285,23 @@ sjp.grpfrq <- function(varCount,
     expand.grid <- waiver()
   } else {
     expand.grid <- c(0, 0)
+  }
+  # --------------------------------------------------------
+  # check default geom.size
+  # --------------------------------------------------------
+  if (is.null(geom.size)) {
+    if (type == "bars") 
+      geom.size <- .6
+    else if (type == "dots") 
+      geom.size <- 3
+    else if (type == "histogram") 
+      geom.size <- .6
+    else if (type == "lines") 
+      geom.size <- .8
+    else if (type == "boxplots") 
+      geom.size <- .5
+    else if (type == "violin") 
+      geom.size <- .5
   }
   #---------------------------------------------------
   # check whether variable should be auto-grouped
@@ -582,7 +602,7 @@ sjp.grpfrq <- function(varCount,
         }
       }
     }
-    return(paste("\"Mann-Whitney-U:\" ~ ~ ", substring(completeString, 12), sep=""))
+    return(paste("\"Mann-Whitney-U:\" ~ ~ ", substring(completeString, 12), sep = ""))
     # return (paste("Mann-Whitney-U", completeString, sep=""))
     # return (substring(completeString, 12))
   }
@@ -830,21 +850,24 @@ sjp.grpfrq <- function(varCount,
                                         y = frq, 
                                         label = sprintf("%i\n(%.01f%%)", frq, prz), 
                                         group = group),
-                                    vjust = vert)
+                                    vjust = vert,
+                                    show_guide = FALSE)
       } else if (showCountValues) {
         ggvaluelabels <-  geom_text(aes(x = count, 
                                         y = frq, 
                                         label = sprintf("%i", frq), 
                                         group = group),
-                                    vjust = vert)
+                                    vjust = vert,
+                                    show_guide = FALSE)
       } else if (showPercentageValues) {
         ggvaluelabels <-  geom_text(aes(x = count, 
                                         y = frq, 
                                         label = sprintf("%.01f%%", prz), 
                                         group = group),
-                                    vjust = vert)
+                                    vjust = vert,
+                                    show_guide = FALSE)
       } else {
-        ggvaluelabels <-  geom_text(label = "")
+        ggvaluelabels <-  geom_text(label = "", show_guide = FALSE)
       }
     } else {
       # ---------------------------------------------------------
@@ -854,15 +877,18 @@ sjp.grpfrq <- function(varCount,
       if (barPosition == "stack") {
         if (showPercentageValues && showCountValues) {
           ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%i\n(%.01f%%)", frq, prz)),
-                                      vjust = vert)
+                                      vjust = vert,
+                                      show_guide = FALSE)
         } else if (showCountValues) {
           ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%i", frq)),
-                                      vjust = vert)
+                                      vjust = vert,
+                                      show_guide = FALSE)
         } else if (showPercentageValues) {
           ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%.01f%%", prz)),
-                                      vjust = vert)
+                                      vjust = vert,
+                                      show_guide = FALSE)
         } else {
-          ggvaluelabels <-  geom_text(label = "")
+          ggvaluelabels <-  geom_text(label = "", show_guide = FALSE)
         }
       } else {
         # ---------------------------------------------------------
@@ -875,30 +901,34 @@ sjp.grpfrq <- function(varCount,
             ggvaluelabels <-  geom_text(aes(y = frq, label = sprintf("%i (%.01f%%)", frq, prz)),
                                         position = position_dodge(posdodge),
                                         vjust = vert,
-                                        hjust = hort)
+                                        hjust = hort,
+                                        show_guide = FALSE)
           } else {
             ggvaluelabels <-  geom_text(aes(y = frq, label = sprintf("%i\n(%.01f%%)", frq, prz)),
                                         position = position_dodge(posdodge),
                                         vjust = vert,
-                                        hjust = hort)
+                                        hjust = hort,
+                                        show_guide = FALSE)
           }
         } else if (showCountValues) {
           ggvaluelabels <-  geom_text(aes(y = frq, label = sprintf("%i", frq)),
                                       position = position_dodge(posdodge),
                                       hjust = hort,
-                                      vjust = vert)
+                                      vjust = vert,
+                                      show_guide = FALSE)
         } else if (showPercentageValues) {
           ggvaluelabels <-  geom_text(aes(y = frq, label = sprintf("%.01f%%", prz)),
                                       position = position_dodge(posdodge),
                                       hjust = hort,
-                                      vjust = vert)
+                                      vjust = vert,
+                                      show_guide = FALSE)
         } else {
-          ggvaluelabels <-  geom_text(label = "")
+          ggvaluelabels <-  geom_text(label = "", show_guide = FALSE)
         }
       }
     }
   } else {
-    ggvaluelabels <-  geom_text(label = "")
+    ggvaluelabels <-  geom_text(label = "", show_guide = FALSE)
   }
   # --------------------------------------------------------
   # Set up grid breaks
@@ -1103,7 +1133,8 @@ sjp.grpfrq <- function(varCount,
     labs(title = title, 
          x = axisTitle.x, 
          y = axisTitle.y, 
-         fill = legendTitle) +
+         fill = legendTitle,
+         colour = legendTitle) +
     # print value labels to the x-axis.
     # If parameter "axisLabels.x" is NULL, the category numbers (1 to ...) 
     # appear on the x-axis

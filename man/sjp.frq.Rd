@@ -6,7 +6,7 @@
 \usage{
 sjp.frq(varCount, title = "", weightBy = NULL, weightByTitleString = NULL,
   interactionVar = NULL, sort.frq = "none", type = "bars",
-  geom.size = 0.7, geom.colors = NULL, axisLabels.x = NULL,
+  geom.size = NULL, geom.colors = NULL, axisLabels.x = NULL,
   interactionVarLabels = NULL, axisLimits.x = NULL, axisLimits.y = NULL,
   breakTitleAt = 50, breakLabelsAt = 20, gridBreaksAt = NULL,
   innerBoxPlotWidth = 0.15, innerBoxPlotDotSize = 3, expand.grid = FALSE,
@@ -56,7 +56,9 @@ Default is \code{"none"}, so categories are not sorted by frequency. Use \code{"
   }}
 
 \item{geom.size}{size of geoms, depending on the plot \code{type}. Note that
-bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).}
+bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
+By default, \code{geom.size = NULL}, which means that this parameter is automatically
+adjusted depending on the plot type.}
 
 \item{geom.colors}{user defined color for geoms, e.g. \code{geom.colors = "#0080ff"}.}
 
@@ -288,7 +290,6 @@ sjp.frq(efc$e15relat,
         type = "dots",
         showCI = TRUE,
         sort.frq = "desc",
-        geom.size = 3,
         coord.flip = TRUE)
 
 # -------------------------------------------------

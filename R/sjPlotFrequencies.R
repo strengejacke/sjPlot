@@ -45,6 +45,8 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "upper.ci"
 #' @param geom.colors user defined color for geoms, e.g. \code{geom.colors = "#0080ff"}.
 #' @param geom.size size of geoms, depending on the plot \code{type}. Note that 
 #'          bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
+#'          By default, \code{geom.size = NULL}, which means that this parameter is automatically
+#'          adjusted depending on the plot type.
 #' @param axisLabels.x Labels for the x-axis breaks.
 #'          Example: \code{axisLabels.x = c("Label1", "Label2", "Label3")}. \cr
 #'          \strong{Note:} If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
@@ -227,7 +229,6 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "upper.ci"
 #'         type = "dots",
 #'         showCI = TRUE,
 #'         sort.frq = "desc",
-#'         geom.size = 3,
 #'         coord.flip = TRUE)
 #' 
 #' # -------------------------------------------------
@@ -243,52 +244,52 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("frq", "grp", "upper.ci"
 #' @import ggplot2
 #' @import sjmisc
 #' @export
-sjp.frq <- function(varCount, 
-                    title="",
-                    weightBy=NULL,
-                    weightByTitleString=NULL,
-                    interactionVar=NULL,
-                    sort.frq="none",
-                    type="bars",
-                    geom.size=0.7,
-                    geom.colors=NULL,
-                    axisLabels.x=NULL, 
-                    interactionVarLabels=NULL,
+sjp.frq <- function(varCount,
+                    title = "",
+                    weightBy = NULL,
+                    weightByTitleString = NULL,
+                    interactionVar = NULL,
+                    sort.frq = "none",
+                    type = "bars",
+                    geom.size = NULL,
+                    geom.colors = NULL,
+                    axisLabels.x = NULL,
+                    interactionVarLabels = NULL,
                     axisLimits.x = NULL,
                     axisLimits.y = NULL,
-                    breakTitleAt=50, 
-                    breakLabelsAt=20, 
-                    gridBreaksAt=NULL,
-                    innerBoxPlotWidth=0.15,
-                    innerBoxPlotDotSize=3,
-                    expand.grid=FALSE,
-                    showValueLabels=TRUE,
-                    showCountValues=TRUE,
-                    showPercentageValues=TRUE,
-                    showAxisLabels.x=TRUE,
-                    showAxisLabels.y=TRUE,
-                    showCI=FALSE,
-                    error.bar.color="darkred",
-                    showMeanIntercept=FALSE,
-                    showMeanValue=TRUE,
-                    showStandardDeviation=TRUE,
-                    showNormalCurve=FALSE,
-                    showStandardNormalCurve=FALSE,
-                    adjustNormalCurve.x=FALSE,
-                    meanInterceptLineType=2,
-                    meanInterceptLineSize=0.5,
-                    normalCurveColor="red",
-                    normalCurveSize=0.8,
-                    normalCurveAlpha=0.4,
-                    axisTitle.x=NULL,
-                    axisTitle.y=NULL,
-                    startAxisAt="auto",
-                    hist.skipZeros=FALSE,
-                    autoGroupAt=NULL,
-                    coord.flip=FALSE,
-                    labelPos="outside",
-                    na.rm=TRUE,
-                    printPlot=TRUE) {
+                    breakTitleAt = 50,
+                    breakLabelsAt = 20,
+                    gridBreaksAt = NULL,
+                    innerBoxPlotWidth = 0.15,
+                    innerBoxPlotDotSize = 3,
+                    expand.grid = FALSE,
+                    showValueLabels = TRUE,
+                    showCountValues = TRUE,
+                    showPercentageValues = TRUE,
+                    showAxisLabels.x = TRUE,
+                    showAxisLabels.y = TRUE,
+                    showCI = FALSE,
+                    error.bar.color = "darkred",
+                    showMeanIntercept = FALSE,
+                    showMeanValue = TRUE,
+                    showStandardDeviation = TRUE,
+                    showNormalCurve = FALSE,
+                    showStandardNormalCurve = FALSE,
+                    adjustNormalCurve.x = FALSE,
+                    meanInterceptLineType = 2,
+                    meanInterceptLineSize = 0.5,
+                    normalCurveColor = "red",
+                    normalCurveSize = 0.8,
+                    normalCurveAlpha = 0.4,
+                    axisTitle.x = NULL,
+                    axisTitle.y = NULL,
+                    startAxisAt = "auto",
+                    hist.skipZeros = FALSE,
+                    autoGroupAt = NULL,
+                    coord.flip = FALSE,
+                    labelPos = "outside",
+                    na.rm = TRUE,
+                    printPlot = TRUE) {
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
@@ -320,7 +321,7 @@ sjp.frq <- function(varCount,
   # --------------------------------------------------------
   labelvalues <- sjmisc::get_values(varCount)
   # --------------------------------------------------------
-  # We have several options to name the histrogram type
+  # We have several options to name the plot type
   # Here we will reduce it to a unique value
   # --------------------------------------------------------
   if (type == "b" || type == "bar") type <- c("bars")
@@ -334,6 +335,23 @@ sjp.frq <- function(varCount,
     expand.grid <- waiver()
   } else {
     expand.grid <- c(0, 0)
+  }
+  # --------------------------------------------------------
+  # check default geom.size
+  # --------------------------------------------------------
+  if (is.null(geom.size)) {
+    if (type == "bars") 
+      geom.size <- 0.7
+    else if (type == "dots") 
+      geom.size <- 3
+    else if (type == "hist") 
+      geom.size <- .7
+    else if (type == "line") 
+      geom.size <- .8
+    else if (type == "box") 
+      geom.size <- .3
+    else if (type == "violin") 
+      geom.size <- .3
   }
   #---------------------------------------------------
   # check whether variable should be auto-grouped

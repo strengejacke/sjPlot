@@ -781,11 +781,12 @@ sj.setGeomColors <- function(plot,
       plot <- plot + 
         scale_fill_manual(values = geom.colors, guide = FALSE) +
         scale_colour_manual(values = geom.colors, guide = FALSE) +
-        guides(fill = FALSE)
+        guides(fill = FALSE, colour = FALSE, text = FALSE)
     } else {
       plot <- plot + 
         scale_fill_manual(values = geom.colors, labels = labels) +
-        scale_colour_manual(values = geom.colors, labels = labels)
+        scale_colour_manual(values = geom.colors, labels = labels) +
+        guides(text = FALSE)
     }
     return(plot)
   }
@@ -798,11 +799,12 @@ sj.setGeomColors <- function(plot,
       plot <- plot + 
         scale_fill_discrete(guide = FALSE) +
         scale_colour_discrete(guide = FALSE) +
-        guides(fill = FALSE)
+        guides(fill = FALSE, colour = FALSE, text = FALSE)
     } else {
       plot <- plot + 
         scale_fill_discrete(labels = labels) +
-        scale_colour_discrete(labels = labels)
+        scale_colour_discrete(labels = labels) +
+        guides(text = FALSE)
     }
     return(plot)
   }
