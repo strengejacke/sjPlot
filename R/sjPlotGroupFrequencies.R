@@ -301,7 +301,7 @@ sjp.grpfrq <- function(varCount,
     else if (type == "boxplots") 
       geom.size <- .5
     else if (type == "violin") 
-      geom.size <- .5
+      geom.size <- .6
   }
   #---------------------------------------------------
   # check whether variable should be auto-grouped

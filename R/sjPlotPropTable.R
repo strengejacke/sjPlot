@@ -180,44 +180,44 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Perc", "Sum", "Count", "
 #' @importFrom scales percent
 #' @export
 sjp.xtab <- function(var,
-                    grp,
-                    title="", 
-                    legendTitle=NULL,
-                    weightBy=NULL,
-                    weightByTitleString=NULL,
-                    type="bars",
-                    tableIndex="col",
-                    reverseOrder=FALSE,
-                    axisLimits.y = NULL,
-                    axisLabels.x=NULL, 
-                    legendLabels=NULL,
-                    labelPos="outside",
-                    stringTotal="Total",
-                    breakTitleAt=50, 
-                    breakLabelsAt=15, 
-                    breakLegendTitleAt=20, 
-                    breakLegendLabelsAt=20,
-                    gridBreaksAt=0.2,
-                    geom.size=0.7,
-                    geom.spacing=0.1,
-                    geom.colors="Paired",
-                    barPosition="dodge",
-                    lineDotSize=3,
-                    smoothLines=FALSE,
-                    expand.grid=FALSE,
-                    showValueLabels=TRUE,
-                    jitterValueLabels=FALSE,
-                    showCountValues=TRUE,
-                    showPercentageValues=TRUE,
-                    showCategoryLabels=TRUE,
-                    showTableSummary=FALSE,
-                    tableSummaryPos="r",
-                    showTotalColumn=TRUE,
-                    hideLegend=FALSE,
-                    axisTitle.x=NULL,
-                    axisTitle.y=NULL,
-                    coord.flip=FALSE,
-                    printPlot=TRUE) {
+                     grp,
+                     title = "",
+                     legendTitle = NULL,
+                     weightBy = NULL,
+                     weightByTitleString = NULL,
+                     type = "bars",
+                     tableIndex = "col",
+                     reverseOrder = FALSE,
+                     axisLimits.y = NULL,
+                     axisLabels.x = NULL,
+                     legendLabels = NULL,
+                     labelPos = "outside",
+                     stringTotal = "Total",
+                     breakTitleAt = 50,
+                     breakLabelsAt = 15,
+                     breakLegendTitleAt = 20,
+                     breakLegendLabelsAt = 20,
+                     gridBreaksAt = 0.2,
+                     geom.size = 0.7,
+                     geom.spacing = 0.1,
+                     geom.colors = "Paired",
+                     barPosition = "dodge",
+                     lineDotSize = 3,
+                     smoothLines = FALSE,
+                     expand.grid = FALSE,
+                     showValueLabels = TRUE,
+                     jitterValueLabels = FALSE,
+                     showCountValues = TRUE,
+                     showPercentageValues = TRUE,
+                     showCategoryLabels = TRUE,
+                     showTableSummary = FALSE,
+                     tableSummaryPos = "r",
+                     showTotalColumn = TRUE,
+                     hideLegend = FALSE,
+                     axisTitle.x = NULL,
+                     axisTitle.y = NULL,
+                     coord.flip = FALSE,
+                     printPlot = TRUE) {
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
@@ -239,7 +239,7 @@ sjp.xtab <- function(var,
   if (!is.null(title) && title == "") title <- NULL    
   # determine table index, i.e. if row-percentages, column-percentages
   # or cell-percentages should be displayed
-  tindex <- ifelse (tableIndex == "row", 1, 2)
+  tindex <- ifelse(tableIndex == "row", 1, 2)
   # --------------------------------------------------------
   # convert factor to numeric
   # --------------------------------------------------------
@@ -431,7 +431,7 @@ sjp.xtab <- function(var,
     dplyr::arrange(Count)
   # add line-break char
   if (showPercentageValues && showCountValues) {
-    mydf$line.break <- ifelse (coord.flip == TRUE, ' ', '\n')
+    mydf$line.break <- ifelse(coord.flip == TRUE, ' ', '\n')
   } else {
     mydf$line.break <- ""
   }
@@ -533,7 +533,7 @@ sjp.xtab <- function(var,
       hpos = 1.2
     else
       hpos <- waiver()
-    hort <- ifelse (barPosition == "dodge", hpos, waiver())
+    hort <- ifelse(barPosition == "dodge", hpos, waiver())
   } else {
     hort <- waiver()
     if (labelPos == "outside" || labelPos == "o")
@@ -542,7 +542,7 @@ sjp.xtab <- function(var,
       vpos = 1.2
     else
       vpos <- waiver()
-    vert <- ifelse (barPosition == "dodge", vpos, waiver())
+    vert <- ifelse(barPosition == "dodge", vpos, waiver())
   }
   # check for jitter value labels
   if (jitterValueLabels) vert <- jvert
@@ -582,7 +582,7 @@ sjp.xtab <- function(var,
                                    vjust = vert,
                                    hjust = hort)
       } else if (showCountValues) {
-        ggvaluelabels <- geom_text(aes(y = ypos, label=sprintf("n=%i", Sum)),
+        ggvaluelabels <- geom_text(aes(y = ypos, label = sprintf("n=%i", Sum)),
                                    vjust = vert,
                                    hjust = hort)
       }
@@ -687,7 +687,7 @@ sjp.xtab <- function(var,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = "sjpxtab",
-                       list(plot = baseplot,
-                            mydf = mydf)))
+  invisible(structure(class = "sjpxtab",
+                      list(plot = baseplot,
+                           mydf = mydf)))
 }
