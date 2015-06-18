@@ -349,39 +349,39 @@
 sjp.int <- function(fit,
                     type = "cond",
                     int.term = NULL,
-                    int.plot.index=NULL,
-                    diff=FALSE,
-                    moderatorValues="minmax",
-                    swapPredictors=FALSE,
-                    plevel=0.05,
-                    title=NULL,
-                    fillColor="grey",
-                    fillAlpha=0.3,
-                    geom.colors="Set1",
-                    axisTitle.x=NULL,
-                    axisTitle.y=NULL,
-                    axisLabels.x=NULL,
-                    legendTitle=NULL,
-                    legendLabels=NULL,
-                    showValueLabels=FALSE,
-                    breakTitleAt=50,
-                    breakLegendLabelsAt=20,
-                    breakLegendTitleAt=20, 
-                    breakAnnotationLabelsAt=50,
+                    int.plot.index = NULL,
+                    diff = FALSE,
+                    moderatorValues = "minmax",
+                    swapPredictors = FALSE,
+                    plevel = 0.05,
+                    title = NULL,
+                    fillColor = "grey",
+                    fillAlpha = 0.3,
+                    geom.colors = "Set1",
+                    axisTitle.x = NULL,
+                    axisTitle.y = NULL,
+                    axisLabels.x = NULL,
+                    legendTitle = NULL,
+                    legendLabels = NULL,
+                    showValueLabels = FALSE,
+                    breakTitleAt = 50,
+                    breakLegendLabelsAt = 20,
+                    breakLegendTitleAt = 20,
+                    breakAnnotationLabelsAt = 50,
                     axisLimits.x = NULL,
-                    axisLimits.y=NULL,
-                    gridBreaksAt=NULL,
-                    showInterceptLines=FALSE,
-                    showInterceptLabels=TRUE,
+                    axisLimits.y = NULL,
+                    gridBreaksAt = NULL,
+                    showInterceptLines = FALSE,
+                    showInterceptLabels = TRUE,
                     showCI = FALSE,
-                    valueLabel.digits=2,
-                    interceptLineColor="darkseagreen4",
-                    estLineColor="darkslategray4",
-                    lineLabelSize=3.7,
-                    lineLabelColor="black",
-                    lineLabelString="(no interaction)",
+                    valueLabel.digits = 2,
+                    interceptLineColor = "darkseagreen4",
+                    estLineColor = "darkslategray4",
+                    lineLabelSize = 3.7,
+                    lineLabelColor = "black",
+                    lineLabelString = "(no interaction)",
                     facet.grid = FALSE,
-                    printPlot=TRUE) {
+                    printPlot = TRUE) {
   # -----------------------------------------------------------
   # check class of fitted model
   # -----------------------------------------------------------
@@ -945,28 +945,28 @@ sjp.int <- function(fit,
 
 sjp.eff.int <- function(fit,
                         int.term = NULL,
-                        int.plot.index=NULL,
-                        moderatorValues="minmax",
-                        swapPredictors=FALSE,
-                        plevel=0.05,
-                        title=NULL,
-                        fillAlpha=0.3,
-                        geom.colors="Set1",
-                        axisTitle.x=NULL,
-                        axisTitle.y=NULL,
-                        legendTitle=NULL,
-                        legendLabels=NULL,
-                        showValueLabels=FALSE,
-                        breakTitleAt=50,
-                        breakLegendLabelsAt=20,
-                        breakLegendTitleAt=20, 
-                        breakAnnotationLabelsAt=50,
+                        int.plot.index = NULL,
+                        moderatorValues = "minmax",
+                        swapPredictors = FALSE,
+                        plevel = 0.05,
+                        title = NULL,
+                        fillAlpha = 0.3,
+                        geom.colors = "Set1",
+                        axisTitle.x = NULL,
+                        axisTitle.y = NULL,
+                        legendTitle = NULL,
+                        legendLabels = NULL,
+                        showValueLabels = FALSE,
+                        breakTitleAt = 50,
+                        breakLegendLabelsAt = 20,
+                        breakLegendTitleAt = 20,
+                        breakAnnotationLabelsAt = 50,
                         axisLimits.x = NULL,
-                        axisLimits.y=NULL,
-                        gridBreaksAt=NULL,
+                        axisLimits.y = NULL,
+                        gridBreaksAt = NULL,
                         showCI = FALSE,
                         facet.grid = FALSE,
-                        printPlot=TRUE,
+                        printPlot = TRUE,
                         fun) {
   # ------------------------
   # check if suggested package is available
@@ -1047,6 +1047,8 @@ sjp.eff.int <- function(fit,
     if (!is.factor(intdf[[moderator.name]])) {
       # retrieve moderator value
       modval <- dummy.eff$data[[moderator.name]]
+      # retrieve predictor value
+      predval <- dummy.eff$data[[pred_x.name]]
       # -----------------------------------------------------------
       # Check whether moderator value has enough unique values
       # for quartiles
@@ -1059,27 +1061,62 @@ sjp.eff.int <- function(fit,
         mv.min <- min(modval, na.rm = T)
         mv.max <- max(modval, na.rm = T)
         # re-compute effects, prepare xlevels
-        xl <- list(x = c(mv.min, mv.max))
+        xl1 <- list(x = c(mv.min, mv.max))
       # we have more than two values, so re-calculate effects, just using
       # 0 and max value of moderator.
       } else if (moderatorValues == "zeromax" && length(unique(intdf[[moderator.name]])) > 2) {
         # retrieve max values
         mv.max <- max(modval, na.rm = T)
         # re-compute effects, prepare xlevels
-        xl <- list(x = c(0, mv.max))
+        xl1 <- list(x = c(0, mv.max))
       # compute mean +/- sd
       } else if (moderatorValues == "meansd") {
         # retrieve mean and sd
         mv.mean <- round(mean(modval, na.rm = T), 2)
         mv.sd <- round(sd(modval, na.rm = T), 2)
         # re-compute effects, prepare xlevels
-        xl <- list(x = c(mv.mean - mv.sd, mv.mean, mv.mean + mv.sd))
+        xl1 <- list(x = c(mv.mean - mv.sd, mv.mean, mv.mean + mv.sd))
       } else if (moderatorValues == "quart") {
         # re-compute effects, prepare xlevels
-        xl <- list(x = as.vector(quantile(modval, na.rm = T)))
+        xl1 <- list(x = as.vector(quantile(modval, na.rm = T)))
       }
       # change list name to moderator value name
-      names(xl) <- moderator.name
+      names(xl1) <- moderator.name
+      # add values of interaction term
+      # first, get all unqiue values
+      prvl <- sort(unique(na.omit(predval)))
+      # add them to list as well
+      xl2 <- list(y = prvl)
+      # change list name
+      names(xl2) <- pred_x.name
+      # combine lists
+      if (is.null(int.term)) {
+        # re-compute effects
+        eff.tmp <- effects::allEffects(fit, xlevels = c(xl1, xl2), KR = F)
+        # reset data frame
+        intdf <- data.frame(eff.tmp[[intpos[i]]])
+      } else {
+        # re-compute effects
+        eff.tmp <- effects::effect(int.term, fit, xlevels = c(xl1, xl2), KR = F)
+        # reset data frame
+        intdf <- data.frame(eff.tmp)
+      }
+      # -----------------------------------------------------------
+      # check for predictor values on x-axis. if it 
+      # is no factor, select whole range of possible
+      # values.
+      # -----------------------------------------------------------
+    } else if (!is.factor(intdf[[pred_x.name]])) {
+      # retrieve predictor value
+      predval <- dummy.eff$data[[pred_x.name]]
+      # add values of interaction term
+      # first, get all unqiue values
+      prvl <- sort(unique(na.omit(predval)))
+      # add them to list as well
+      xl <- list(x = prvl)
+      # change list name
+      names(xl) <- pred_x.name
+      # combine lists
       if (is.null(int.term)) {
         # re-compute effects
         eff.tmp <- effects::allEffects(fit, xlevels = xl, KR = F)
