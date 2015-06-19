@@ -1,5 +1,5 @@
 # bind global variables
-if(getRversion() >= "2.15.1") utils::globalVariables(c("Row", "Column", "p.value"))
+if (getRversion() >= "2.15.1") utils::globalVariables(c("Row", "Column", "p.value"))
 
 
 #' @title Plot Pearson's Chi2-Test of multiple contingency tables
@@ -10,7 +10,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Row", "Column", "p.value
 #' @description Plot p-values of Pearson's Chi2-tests for multiple contingency tables as ellipses or tiles. 
 #'                Requires a data frame with dichotomous (dummy) variables.
 #'                Calculation of Chi2-matrix taken from 
-#'                \href{http://talesofr.wordpress.com/2013/05/05/ridiculously-photogenic-factors-heatmap-with-p-values/}{Tales of R}.
+#'                \href{https://talesofr.wordpress.com/2013/05/05/ridiculously-photogenic-factors-heatmap-with-p-values/}{Tales of R}.
 #' 
 #' @param df a data frame of (dichotomous) factor variables.
 #' @param title Title of the diagram, plotted above the whole diagram panel
@@ -48,13 +48,13 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Row", "Column", "p.value
 #' @import sjmisc
 #' @export
 sjp.chi2 <- function(df,
-                     title="Pearson's Chi2-Test of Independence",
-                     axisLabels=NULL,
-                     breakTitleAt=50, 
-                     breakLabelsAt=20, 
-                     hideLegend=TRUE,
-                     legendTitle=NULL,
-                     printPlot=TRUE) {
+                     title = "Pearson's Chi2-Test of Independence",
+                     axisLabels = NULL,
+                     breakTitleAt = 50,
+                     breakLabelsAt = 20,
+                     hideLegend = TRUE,
+                     legendTitle = NULL,
+                     printPlot = TRUE) {
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
@@ -78,7 +78,7 @@ sjp.chi2 <- function(df,
   # Calculation of Chi2-matrix taken from following blog-posting:
   # http://talesofr.wordpress.com/2013/05/05/ridiculously-photogenic-factors-heatmap-with-p-values/
   # ----------------------------------------------------------------
-  combos <- expand.grid(rep(list(1:ncol(df)), 2 )) # combinations with repetitions
+  combos <- expand.grid(rep(list(1:ncol(df)), 2)) # combinations with repetitions
   combos <- as.matrix(combos)
   combos <- t(combos) # transpose matrix
   # ----------------------------------------------------------------
@@ -119,9 +119,9 @@ sjp.chi2 <- function(df,
     geom_tile() +
     scale_x_discrete(labels = axisLabels) +
     scale_y_discrete(labels = axisLabels) +
-    scale_fill_gradient2(low = rgb(128,205,193, maxColorValue = 255), 
+    scale_fill_gradient2(low = rgb(128, 205, 193, maxColorValue = 255), 
                          mid = "white", 
-                         high = rgb(5,113,176, maxColorValue = 255), 
+                         high = rgb(5, 113, 176, maxColorValue = 255), 
                          midpoint = 0.05) +
     geom_text(label = sprintf("%.3f", m$p.value)) +
     labs(title = title, 

@@ -40,7 +40,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 Plot p-values of Pearson's Chi2-tests for multiple contingency tables as ellipses or tiles.
                Requires a data frame with dichotomous (dummy) variables.
                Calculation of Chi2-matrix taken from
-               \href{http://talesofr.wordpress.com/2013/05/05/ridiculously-photogenic-factors-heatmap-with-p-values/}{Tales of R}.
+               \href{https://talesofr.wordpress.com/2013/05/05/ridiculously-photogenic-factors-heatmap-with-p-values/}{Tales of R}.
 }
 \examples{
 # create data frame with 5 dichotomous (dummy) variables

@@ -57,7 +57,9 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", 
 #'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
 #'            \item Else specify your own color values as vector, e.g. \code{geom.colors=c("#f00000", "#00ff00")}.
 #'          }
-#' @param geom.size size resp. width of the geoms (bar width or point size, depending on \code{type} parameter).
+#' @param geom.size size resp. width of the geoms (bar width, point size, or line thickness,
+#'          depending on \code{type} parameter). By default, \code{geom.size = NULL}, 
+#'          which means that this parameter is automatically adjusted depending on the plot type.
 #' @param hideErrorBars If \code{TRUE}, the error bars that indicate the confidence intervals of the odds ratios are not
 #'          shown. Only applies if parameter \code{type = "bars"}. Default value is \code{FALSE}.
 #' @param interceptLineType The linetype of the intercept line (zero point). Default is \code{2} (dashed line).
@@ -209,7 +211,7 @@ sjp.glm <- function(fit,
                     breakLabelsAt = 25,
                     gridBreaksAt = 0.5,
                     transformTicks = TRUE,
-                    geom.size = 3,
+                    geom.size = NULL,
                     geom.colors = "Set1",
                     hideErrorBars = FALSE,
                     interceptLineType = 2,
@@ -246,6 +248,7 @@ sjp.glm <- function(fit,
     return(invisible(sjp.glm.pc(fit,
                                 show.se,
                                 type = "prob",
+                                geom.size,
                                 facet.grid,
                                 printPlot)))
   }
@@ -253,12 +256,14 @@ sjp.glm <- function(fit,
     return(invisible(sjp.glm.pc(fit,
                                 show.se,
                                 type = "eff",
+                                geom.size,
                                 facet.grid,
                                 printPlot)))
   }
   if (type == "y.pc" || type == "y.prob") {
     return(invisible(sjp.glm.response.probcurv(fit,
                                                show.se,
+                                               geom.size,
                                                printPlot)))
   }
   if (type == "ma") {
@@ -267,7 +272,23 @@ sjp.glm <- function(fit,
   if (type == "vif") {
     return(invisible(sjp.vif(fit)))
   }
+  # ----------------------------
+  # check type param
+  # ----------------------------
   if (type == "or" || type == "glm") type <- "dots"
+  if (type != "dots" && type != "bars") {
+    warning("Invalid 'type' parameter. Defaulting to 'dots'.", call. = F)
+    type <- "dots"
+  }
+  # ----------------------------
+  # check size param
+  # ----------------------------
+  if (is.null(geom.size)) {
+    if (type == "dots") 
+      geom.size <- 3
+    else if (type == "bars") 
+      geom.size <- .6
+  }
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
@@ -571,9 +592,12 @@ sjp.glm <- function(fit,
 
 sjp.glm.pc <- function(fit,
                        show.se,
-                       facet.grid,
                        type,
+                       geom.size,
+                       facet.grid,
                        printPlot) {
+  # check size parameter
+  if (is.null(geom.size)) geom.size <- .8
   # ----------------------------
   # prepare additional plots, when metric
   # predictors should also be plotted
@@ -666,7 +690,8 @@ sjp.glm.pc <- function(fit,
              y = "Predicted Probability") +
         stat_smooth(method = "glm", 
                     family = "binomial", 
-                    se = show.se) +
+                    se = show.se,
+                    size = geom.size) +
         coord_cartesian(ylim = c(0, 1))
       # add plot to list
       plot.metricpred[[length(plot.metricpred) + 1]] <- mp
@@ -684,7 +709,8 @@ sjp.glm.pc <- function(fit,
                             labels = axisLabels.mp) +
         stat_smooth(method = "glm", 
                     family = "binomial", 
-                    se = show.se) +
+                    se = show.se,
+                    size = geom.size) +
         coord_cartesian(ylim = c(0, 1)) +
         facet_wrap(~grp,
                    ncol = round(sqrt(length(mydf.metricpred))),
@@ -719,7 +745,10 @@ sjp.glm.pc <- function(fit,
 
 sjp.glm.response.probcurv <- function(fit,
                                       show.se,
+                                      geom.size,
                                       printPlot) {
+  # check size parameter
+  if (is.null(geom.size)) geom.size <- .8
   # ----------------------------
   # get predicted values for response
   # ----------------------------
@@ -738,7 +767,8 @@ sjp.glm.response.probcurv <- function(fit,
          title = "Predicted Probabilities for model-response") +
     stat_smooth(method = "glm", 
                 family = "binomial", 
-                se = show.se) +
+                se = show.se,
+                size = geom.size) +
     # cartesian coord still plots range of se, even
     # when se exceeds plot range.
     coord_cartesian(ylim = c(0, 1))
