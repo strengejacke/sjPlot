@@ -21,7 +21,7 @@ devtools::install_github("sjPlot/sjmisc")
 ```
 
 #### Officiale, stable release
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/sjPlot)](http://cran.r-project.org/web/packages/sjPlot) 
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/sjPlot)](http://cran.r-project.org/package=sjPlot) 
 &#160;&#160;
 [![downloads](http://cranlogs.r-pkg.org/badges/sjPlot)](http://cranlogs.r-pkg.org/)
 
@@ -38,9 +38,9 @@ install.packages("sjPlot")
 
 ### Citation
 
-In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](http://cran.r-project.org/web/packages/ggplot2/index.html), consider citing this package as well.
+In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](http://cran.r-project.org/package=ggplot2), consider citing this package as well.
 
-### Changelog of development build 1.8.1-6
+### Changelog of development build 1.8.1-7
 
 #### General
 * `view_spss` is now deprecated. Use `view_df` instead.

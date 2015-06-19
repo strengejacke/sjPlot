@@ -43,7 +43,7 @@ An object containing the used data frame for plotting, the ggplot object
 An implementation of the gap statistic algorithm from Tibshirani, Walther, and Hastie's
                "Estimating the number of clusters in a data set via the gap statistic".
                This function calls the \code{clusGap} function of the
-               \href{http://cran.r-project.org/web/packages/cluster/index.html}{cluster-package}
+               \href{http://cran.r-project.org/package=cluster}{cluster-package}
                to calculate the data for the plot.
 }
 \examples{
@@ -58,7 +58,7 @@ sjc.kgap(iris[,1:4])}
 \references{
 \itemize{
              \item Tibshirani R, Walther G, Hastie T (2001) Estimating the number of clusters in a data set via gap statistic. J. R. Statist. Soc. B, 63, Part 2, pp. 411-423
-             \item Maechler, M., Rousseeuw, P., Struyf, A., Hubert, M., Hornik, K.(2013). cluster: Cluster Analysis Basics and Extensions. R package version 1.14.4. (\href{http://cran.r-project.org/web/packages/cluster/index.html}{web})
+             \item Maechler, M., Rousseeuw, P., Struyf, A., Hubert, M., Hornik, K.(2013). cluster: Cluster Analysis Basics and Extensions. R package version 1.14.4. (\href{http://cran.r-project.org/package=cluster}{web})
             }
 }
 \seealso{

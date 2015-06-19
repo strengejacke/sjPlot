@@ -7,7 +7,7 @@
 sjp.glm(fit, type = "dots", sortOdds = TRUE, title = NULL,
   axisLabels.y = NULL, axisTitle.x = "Odds Ratios", axisLimits = NULL,
   breakTitleAt = 50, breakLabelsAt = 25, gridBreaksAt = 0.5,
-  transformTicks = TRUE, geom.size = 3, geom.colors = "Set1",
+  transformTicks = TRUE, geom.size = NULL, geom.colors = "Set1",
   hideErrorBars = FALSE, interceptLineType = 2,
   interceptLineColor = "grey70", coord.flip = TRUE, showIntercept = FALSE,
   showAxisLabels.y = TRUE, showValueLabels = TRUE, labelDigits = 2,
@@ -59,7 +59,9 @@ visually have the same distance from one panel grid to the next. If \code{FALSE}
 plotted on every \code{gridBreaksAt}'s position, thus the grid bars become narrower with
 higher odds ratio values.}
 
-\item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} parameter).}
+\item{geom.size}{size resp. width of the geoms (bar width, point size, or line thickness,
+depending on \code{type} parameter). By default, \code{geom.size = NULL},
+which means that this parameter is automatically adjusted depending on the plot type.}
 
 \item{geom.colors}{User defined color palette for geoms. Must either be vector with two color values
 or a specific color palette code (see below).
