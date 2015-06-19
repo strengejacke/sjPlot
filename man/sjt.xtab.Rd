@@ -154,7 +154,8 @@ efc.labels <- get_val_labels(efc)
 \dontrun{
 sjt.xtab(efc$e16sex, efc$e42dep)
 
-# print cross table with labels and expected values
+# print cross table with manually set
+# labels and expected values
 sjt.xtab(efc$e16sex,
          efc$e42dep,
          variableLabels = c("Elder's gender",
@@ -174,7 +175,6 @@ sjt.xtab(efc$e16sex, efc$e42dep,
 # -------------------------------
 # auto-detection of labels
 # -------------------------------
-efc <- set_var_labels(efc, get_var_labels(efc))
 # print cross table with labels and all percentages
 sjt.xtab(efc$e16sex, efc$e42dep,
          showRowPerc = TRUE,

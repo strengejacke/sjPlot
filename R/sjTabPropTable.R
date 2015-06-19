@@ -102,7 +102,8 @@
 #' \dontrun{
 #' sjt.xtab(efc$e16sex, efc$e42dep)
 #'          
-#' # print cross table with labels and expected values
+#' # print cross table with manually set
+#' # labels and expected values
 #' sjt.xtab(efc$e16sex, 
 #'          efc$e42dep, 
 #'          variableLabels = c("Elder's gender", 
@@ -122,7 +123,6 @@
 #' # -------------------------------
 #' # auto-detection of labels
 #' # -------------------------------
-#' efc <- set_var_labels(efc, get_var_labels(efc))
 #' # print cross table with labels and all percentages
 #' sjt.xtab(efc$e16sex, efc$e42dep,
 #'          showRowPerc = TRUE, 
@@ -153,42 +153,42 @@
 #'
 #' @import sjmisc
 #' @export
-sjt.xtab <- function (var.row,
-                      var.col,
-                      var.grp=NULL,
-                      weightBy=NULL,
-                      digits=1,
-                      file=NULL,
-                      variableLabels=NULL,
-                      valueLabels=NULL,
-                      breakVariableLabelsAt=40,
-                      breakValueLabelsAt=20,
-                      stringTotal="Total",
-                      showObserved=TRUE,
-                      showCellPerc=FALSE,
-                      showRowPerc=FALSE,
-                      showColPerc=FALSE,
-                      showExpected=FALSE,
-                      showTotalN=FALSE,
-                      showHorizontalLine=FALSE,
-                      showSummary=TRUE,
-                      showLegend=TRUE,
-                      showNA=FALSE,
-                      labelNA="NA",
-                      tdcol.n="black",
-                      tdcol.expected="#339999",
-                      tdcol.cell="#993333",
-                      tdcol.row="#333399",
-                      tdcol.col="#339933",
-                      highlightTotal=FALSE,
-                      highlightColor="#f8f8f8",
-                      percSign="&nbsp;&#37;",
-                      hundret="100.0",
-                      encoding=NULL,
-                      CSS=NULL,
-                      useViewer=TRUE,
-                      no.output=FALSE,
-                      remove.spaces=TRUE) {
+sjt.xtab <- function(var.row,
+                     var.col,
+                     var.grp = NULL,
+                     weightBy = NULL,
+                     digits = 1,
+                     file = NULL,
+                     variableLabels = NULL,
+                     valueLabels = NULL,
+                     breakVariableLabelsAt = 40,
+                     breakValueLabelsAt = 20,
+                     stringTotal = "Total",
+                     showObserved = TRUE,
+                     showCellPerc = FALSE,
+                     showRowPerc = FALSE,
+                     showColPerc = FALSE,
+                     showExpected = FALSE,
+                     showTotalN = FALSE,
+                     showHorizontalLine = FALSE,
+                     showSummary = TRUE,
+                     showLegend = TRUE,
+                     showNA = FALSE,
+                     labelNA = "NA",
+                     tdcol.n = "black",
+                     tdcol.expected = "#339999",
+                     tdcol.cell = "#993333",
+                     tdcol.row = "#333399",
+                     tdcol.col = "#339933",
+                     highlightTotal = FALSE,
+                     highlightColor = "#f8f8f8",
+                     percSign = "&nbsp;&#37;",
+                     hundret = "100.0",
+                     encoding = NULL,
+                     CSS = NULL,
+                     useViewer = TRUE,
+                     no.output = FALSE,
+                     remove.spaces = TRUE) {
   # --------------------------------------------------------
   # check p-value-style option
   # --------------------------------------------------------
@@ -252,7 +252,7 @@ sjt.xtab <- function (var.row,
   # init variable labels
   # -------------------------------------
   s.var.row <- s.var.col <- s.var.grp <- NULL
-  if(!is.null(variableLabels)) {
+  if (!is.null(variableLabels)) {
     s.var.row <- ifelse(length(variableLabels) > 0, variableLabels[1], "var.row")
     s.var.col <- ifelse(length(variableLabels) > 1, variableLabels[2], "var.col")
     s.var.grp <- ifelse(length(variableLabels) > 2, variableLabels[3], "var.grp")
@@ -417,18 +417,18 @@ sjt.xtab <- function (var.row,
   # check user defined style sheets
   # ------------------------
   if (!is.null(CSS)) {
-    if (!is.null(CSS[['css.table']])) css.table <- ifelse(substring(CSS[['css.table']],1,1)=='+', paste0(css.table, substring(CSS[['css.table']],2)), CSS[['css.table']])
-    if (!is.null(CSS[['css.thead']])) css.thead <- ifelse(substring(CSS[['css.thead']],1,1)=='+', paste0(css.thead, substring(CSS[['css.thead']],2)), CSS[['css.thead']])
-    if (!is.null(CSS[['css.tdata']])) css.tdata <- ifelse(substring(CSS[['css.tdata']],1,1)=='+', paste0(css.tdata, substring(CSS[['css.tdata']],2)), CSS[['css.tdata']])
-    if (!is.null(CSS[['css.summary']])) css.summary <- ifelse(substring(CSS[['css.summary']],1,1)=='+', paste0(css.summary, substring(CSS[['css.summary']],2)), CSS[['css.summary']])
-    if (!is.null(CSS[['css.leftalign']])) css.leftalign <- ifelse(substring(CSS[['css.leftalign']],1,1)=='+', paste0(css.leftalign, substring(CSS[['css.leftalign']],2)), CSS[['css.leftalign']])
-    if (!is.null(CSS[['css.centeralign']])) css.centeralign <- ifelse(substring(CSS[['css.centeralign']],1,1)=='+', paste0(css.centeralign, substring(CSS[['css.centeralign']],2)), CSS[['css.centeralign']])
-    if (!is.null(CSS[['css.lasttablerow']])) css.lasttablerow <- ifelse(substring(CSS[['css.lasttablerow']],1,1)=='+', paste0(css.lasttablerow, substring(CSS[['css.lasttablerow']],2)), CSS[['css.lasttablerow']])
-    if (!is.null(CSS[['css.firstcolborder']])) css.firstcolborder <- ifelse(substring(CSS[['css.firstcolborder']],1,1)=='+', paste0(css.firstcolborder, substring(CSS[['css.firstcolborder']],2)), CSS[['css.firstcolborder']])
-    if (!is.null(CSS[['css.secondtablerow']])) css.secondtablerow <- ifelse(substring(CSS[['css.secondtablerow']],1,1)=='+', paste0(css.secondtablerow, substring(CSS[['css.secondtablerow']],2)), CSS[['css.secondtablerow']])
-    if (!is.null(CSS[['css.totcol']])) css.totcol <- ifelse(substring(CSS[['css.totcol']],1,1)=='+', paste0(css.totcol, substring(CSS[['css.totcol']],2)), CSS[['css.totcol']])
-    if (!is.null(CSS[['css.tothi']])) css.tothi <- ifelse(substring(CSS[['css.tothi']],1,1)=='+', paste0(css.tothi, substring(CSS[['css.tothi']],2)), CSS[['css.tothi']])
-    if (!is.null(CSS[['css.horline']])) css.horline <- ifelse(substring(CSS[['css.horline']],1,1)=='+', paste0(css.horline, substring(CSS[['css.horline']],2)), CSS[['css.horline']])
+    if (!is.null(CSS[['css.table']])) css.table <- ifelse(substring(CSS[['css.table']], 1, 1) == '+', paste0(css.table, substring(CSS[['css.table']], 2)), CSS[['css.table']])
+    if (!is.null(CSS[['css.thead']])) css.thead <- ifelse(substring(CSS[['css.thead']], 1, 1) == '+', paste0(css.thead, substring(CSS[['css.thead']], 2)), CSS[['css.thead']])
+    if (!is.null(CSS[['css.tdata']])) css.tdata <- ifelse(substring(CSS[['css.tdata']], 1, 1) == '+', paste0(css.tdata, substring(CSS[['css.tdata']], 2)), CSS[['css.tdata']])
+    if (!is.null(CSS[['css.summary']])) css.summary <- ifelse(substring(CSS[['css.summary']], 1, 1) == '+', paste0(css.summary, substring(CSS[['css.summary']], 2)), CSS[['css.summary']])
+    if (!is.null(CSS[['css.leftalign']])) css.leftalign <- ifelse(substring(CSS[['css.leftalign']], 1, 1) == '+', paste0(css.leftalign, substring(CSS[['css.leftalign']], 2)), CSS[['css.leftalign']])
+    if (!is.null(CSS[['css.centeralign']])) css.centeralign <- ifelse(substring(CSS[['css.centeralign']], 1, 1) == '+', paste0(css.centeralign, substring(CSS[['css.centeralign']], 2)), CSS[['css.centeralign']])
+    if (!is.null(CSS[['css.lasttablerow']])) css.lasttablerow <- ifelse(substring(CSS[['css.lasttablerow']], 1, 1) == '+', paste0(css.lasttablerow, substring(CSS[['css.lasttablerow']], 2)), CSS[['css.lasttablerow']])
+    if (!is.null(CSS[['css.firstcolborder']])) css.firstcolborder <- ifelse(substring(CSS[['css.firstcolborder']], 1, 1) == '+', paste0(css.firstcolborder, substring(CSS[['css.firstcolborder']], 2)), CSS[['css.firstcolborder']])
+    if (!is.null(CSS[['css.secondtablerow']])) css.secondtablerow <- ifelse(substring(CSS[['css.secondtablerow']], 1, 1) == '+', paste0(css.secondtablerow, substring(CSS[['css.secondtablerow']], 2)), CSS[['css.secondtablerow']])
+    if (!is.null(CSS[['css.totcol']])) css.totcol <- ifelse(substring(CSS[['css.totcol']], 1, 1) == '+', paste0(css.totcol, substring(CSS[['css.totcol']], 2)), CSS[['css.totcol']])
+    if (!is.null(CSS[['css.tothi']])) css.tothi <- ifelse(substring(CSS[['css.tothi']], 1, 1) == '+', paste0(css.tothi, substring(CSS[['css.tothi']], 2)), CSS[['css.tothi']])
+    if (!is.null(CSS[['css.horline']])) css.horline <- ifelse(substring(CSS[['css.horline']], 1, 1) == '+', paste0(css.horline, substring(CSS[['css.horline']], 2)), CSS[['css.horline']])
   }
   # -------------------------------------
   # set style sheet
@@ -511,8 +511,11 @@ sjt.xtab <- function (var.row,
     # check for group var label, resp. if group var
     # starts with current row
     # -------------------------------------
-    if (any(group.var.rows==irow)) {
-      page.content <- paste(page.content, sprintf("\n    <td class=\"tdata leftalign\" rowspan=\"%i\">%s</td>", length(labels.var.row), labels.var.grp[which(group.var.rows==irow)]))
+    if (any(group.var.rows == irow)) {
+      page.content <- paste(page.content, 
+                            sprintf("\n    <td class=\"tdata leftalign\" rowspan=\"%i\">%s</td>",
+                                    length(labels.var.row), 
+                                    labels.var.grp[which(group.var.rows == irow)]))
     }
     # -------------------------------------
     # set row variable label
@@ -531,28 +534,28 @@ sjt.xtab <- function (var.row,
       # if we have expected values, add them to table cell
       # -------------------------------------
       if (showExpected) {
-        if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+        if (!sjmisc::is_empty(cellstring)) cellstring <- paste0(cellstring, "<br>")
         cellstring <- paste(cellstring, sprintf("<span class=\"td_ex\">%s</span>", tab.expected[irow, icol]), sep = "")
       }
       # -------------------------------------
       # if we have row-percentage, add percentage value to table cell
       # -------------------------------------
       if (showRowPerc) {
-        if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+        if (!sjmisc::is_empty(cellstring)) cellstring <- paste0(cellstring, "<br>")
         cellstring <- paste(cellstring, sprintf("<span class=\"td_rw\">%s%s</span>", tab.row[irow, icol],percSign), sep = "")
       }
       # -------------------------------------
       # if we have col-percentage, add percentage value to table cell
       # -------------------------------------
       if (showColPerc) {
-        if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+        if (!sjmisc::is_empty(cellstring)) cellstring <- paste0(cellstring, "<br>")
         cellstring <- paste(cellstring, sprintf("<span class=\"td_cl\">%s%s</span>", tab.col[irow, icol], percSign), sep = "")
       }
       # -------------------------------------
       # if we have cell-percentage, add percentage value to table cell
       # -------------------------------------
       if (showCellPerc) {
-        if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+        if (!sjmisc::is_empty(cellstring)) cellstring <- paste0(cellstring, "<br>")
         cellstring <- paste(cellstring, sprintf("<span class=\"td_c\">%s%s</span>", tab.cell[irow, icol], percSign), sep = "")
       }
       # -------------------------------------
@@ -573,22 +576,22 @@ sjt.xtab <- function (var.row,
     }
     # if we have expected values, add them to table cell
     if (showExpected) {
-      if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+      if (!sjmisc::is_empty(cellstring)) cellstring <- paste0(cellstring, "<br>")
       cellstring <- paste(cellstring, sprintf("<span class=\"td_ex\">%s</span>", rowSums(tab.expected)[irow]), sep = "")
     }
     # if we have row-percentage, add percentage value to table cell
     if (showRowPerc) {
-      if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+      if (!sjmisc::is_empty(cellstring)) cellstring <- paste0(cellstring, "<br>")
       cellstring <- paste(cellstring, sprintf("<span class=\"td_rw\">%s%s</span>", hundret, percSign), sep = "")
     }
     # if we have col-percentage, add percentage value to table cell
     if (showColPerc) {
-      if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+      if (!sjmisc::is_empty(cellstring)) cellstring <- paste0(cellstring, "<br>")
       cellstring <- paste(cellstring, sprintf("<span class=\"td_cl\">%s%s</span>", rowSums(tab.cell)[irow], percSign), sep = "")
     }
     # if we have cell-percentage, add percentage value to table cell
     if (showCellPerc) {
-      if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+      if (!sjmisc::is_empty(cellstring)) cellstring <- paste0(cellstring, "<br>")
       cellstring <- paste(cellstring, sprintf("<span class=\"td_c\">%s%s</span>", rowSums(tab.cell)[irow], percSign), sep = "")
     }
     # write table cell data
@@ -620,22 +623,22 @@ sjt.xtab <- function (var.row,
     cellpercval <- round(100 * colSums(tab)[icol] / sum(tab), digits)
     # if we have expected values, add them to table cell
     if (showExpected) {
-      if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+      if (!sjmisc::is_empty(cellstring)) cellstring <- paste0(cellstring, "<br>")
       cellstring <- paste(cellstring, sprintf("<span class=\"td_ex\">%s</span>", colSums(tab.expected)[icol]), sep = "")
     }
     # if we have row-percentage, add percentage value to table cell
     if (showRowPerc) {
-      if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+      if (!sjmisc::is_empty(cellstring)) cellstring <- paste0(cellstring, "<br>")
       cellstring <- paste(cellstring, sprintf("<span class=\"td_rw\">%s%s</span>", cellpercval, percSign), sep = "")
     }
     # if we have col-percentage, add percentage value to table cell
     if (showColPerc) {
-      if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+      if (!sjmisc::is_empty(cellstring)) cellstring <- paste0(cellstring, "<br>")
       cellstring <- paste(cellstring, sprintf("<span class=\"td_cl\">%s%s</span>", hundret, percSign), sep = "")
     }
     # if we have cell-percentage, add percentage value to table cell
     if (showCellPerc) {
-      if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+      if (!sjmisc::is_empty(cellstring)) cellstring <- paste0(cellstring, "<br>")
       cellstring <- paste(cellstring, sprintf("<span class=\"td_c\">%s%s</span>", cellpercval, percSign), sep = "")
     }
     page.content <- paste(page.content, sprintf("\n    <td class=\"tdata lasttablerow centeralign\">%s</td>", cellstring), sep = "")
@@ -650,19 +653,19 @@ sjt.xtab <- function (var.row,
   # -------------------------------------
   if (showObserved || showTotalN) cellstring <- sprintf("%s", sum(tab))
   if (showExpected) {
-    if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+    if (!sjmisc::is_empty(cellstring)) cellstring <- paste0(cellstring, "<br>")
     cellstring <- paste(cellstring, sprintf("%s", sum(tab.expected)), sep = "")
   }
   if (showColPerc) {
-    if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+    if (!sjmisc::is_empty(cellstring)) cellstring <- paste0(cellstring, "<br>")
     cellstring <- paste(cellstring, sprintf("%s%s", hundret, percSign), sep = "")
   }
   if (showRowPerc) {
-    if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+    if (!sjmisc::is_empty(cellstring)) cellstring <- paste0(cellstring, "<br>")
     cellstring <- paste(cellstring, sprintf("%s%s", hundret, percSign), sep = "")
   }
   if (showCellPerc) {
-    if (nchar(cellstring) > 0) cellstring <- paste0(cellstring, "<br>")
+    if (!sjmisc::is_empty(cellstring)) cellstring <- paste0(cellstring, "<br>")
     cellstring <- paste(cellstring, sprintf("%s%s", hundret, percSign), sep = "")
   }
   # write table cell data
@@ -773,9 +776,9 @@ sjt.xtab <- function (var.row,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = "sjtxtab",
-                       list(page.style = page.style,
-                            page.content = page.content,
-                            output.complete = toWrite,
-                            knitr = knitr)))
+  invisible(structure(class = "sjtxtab",
+                      list(page.style = page.style,
+                           page.content = page.content,
+                           output.complete = toWrite,
+                           knitr = knitr)))
 }

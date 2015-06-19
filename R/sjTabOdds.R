@@ -887,10 +887,6 @@ sjt.glm <- function(...,
     }
     page.content <- paste0(page.content, "\n  <tr>\n", sprintf("    <td class=\"%s leftalign\">%s</td>", indent.tag, labelPredictors[i]))
     # ---------------------------------------
-    # helper function, checks if string is empty
-    # ---------------------------------------
-    is_empty <- function(x) return(is.null(x) || nchar(x) == 0)
-    # ---------------------------------------
     # go through fitted model's statistics
     # ---------------------------------------
     for (j in 1:length(input_list)) {
@@ -900,11 +896,11 @@ sjt.glm <- function(...,
       # if we have empry cells (due to different predictors in models)
       # we don't print CI-separator strings and we don't print any esitmate
       # values - however, for proper display, we fill these values with "&nbsp;"
-      ci.sep.string <- ifelse(is_empty(ci.lo), "&nbsp;", "&nbsp;-&nbsp;")
+      ci.sep.string <- ifelse(sjmisc::is_empty(ci.lo), "&nbsp;", "&nbsp;-&nbsp;")
       # replace empty beta, se and p-values with &nbsp;
-      if (is_empty(joined.df[i + 1, (j - 1) * 5 + 2])) joined.df[i + 1, (j - 1) * 5 + 2] <- "&nbsp;"
-      if (is_empty(joined.df[i + 1, (j - 1) * 5 + 5])) joined.df[i + 1, (j - 1) * 5 + 5] <- "&nbsp;"
-      if (is_empty(joined.df[i + 1, (j - 1) * 5 + 6])) joined.df[i + 1, (j - 1) * 5 + 6] <- "&nbsp;"
+      if (sjmisc::is_empty(joined.df[i + 1, (j - 1) * 5 + 2])) joined.df[i + 1, (j - 1) * 5 + 2] <- "&nbsp;"
+      if (sjmisc::is_empty(joined.df[i + 1, (j - 1) * 5 + 5])) joined.df[i + 1, (j - 1) * 5 + 5] <- "&nbsp;"
+      if (sjmisc::is_empty(joined.df[i + 1, (j - 1) * 5 + 6])) joined.df[i + 1, (j - 1) * 5 + 6] <- "&nbsp;"
       # -------------------------
       # insert "separator column"
       # -------------------------
@@ -931,11 +927,12 @@ sjt.glm <- function(...,
         page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumn1\">%s", 
                                                      joined.df[i + 1, (j - 1) * 5 + 2]))
         # confidence interval in Beta-column
-        if (showConfInt && !is_empty(ci.lo)) page.content <- paste0(page.content, sprintf("%s(%s%s%s)", 
-                                                                                          linebreakstring, 
-                                                                                          ci.lo, 
-                                                                                          ci.sep.string, 
-                                                                                          ci.hi))
+        if (showConfInt && !sjmisc::is_empty(ci.lo)) page.content <- paste0(page.content, 
+                                                                            sprintf("%s(%s%s%s)", 
+                                                                                    linebreakstring, 
+                                                                                    ci.lo, 
+                                                                                    ci.sep.string, 
+                                                                                    ci.hi))
         # if p-values are not shown as numbers, insert them after beta-value
         if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", 
                                                                             joined.df[i + 1, (j - 1) * 5 + 5]))
