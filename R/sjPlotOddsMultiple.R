@@ -119,36 +119,36 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("OR", "lower", "upper", "
 #' @import ggplot2
 #' @import sjmisc
 #' @export
-sjp.glmm <- function(..., 
-                    title=NULL,
-                    labelDependentVariables=NULL, 
-                    legendDepVarTitle="Dependent Variables",
-                    legendPValTitle="p-level",
-                    stringModel="Model",
-                    axisLabels.y=NULL, 
-                    axisTitle.x="Odds Ratios",
-                    axisLimits=NULL,
-                    breakTitleAt=50, 
-                    breakLabelsAt=25,
-                    breakLegendAt=20,
-                    gridBreaksAt=0.5,
-                    transformTicks=TRUE,
-                    geom.size=3,
-                    geom.spacing=0.4,
-                    geom.colors="Set1",
-                    fade.ns=TRUE,
-                    usePShapes=FALSE,
-                    interceptLineType=2,
-                    interceptLineColor="grey70",
-                    coord.flip=TRUE,
-                    showIntercept=FALSE,
-                    showAxisLabels.y=TRUE,
-                    showValueLabels=TRUE, 
-                    labelDigits=2,
-                    showPValueLabels=TRUE,
-                    hideLegend=FALSE,
-                    facet.grid=FALSE,
-                    printPlot=TRUE) {
+sjp.glmm <- function(...,
+                     title = NULL,
+                     labelDependentVariables = NULL,
+                     legendDepVarTitle = "Dependent Variables",
+                     legendPValTitle = "p-level",
+                     stringModel = "Model",
+                     axisLabels.y = NULL,
+                     axisTitle.x = "Odds Ratios",
+                     axisLimits = NULL,
+                     breakTitleAt = 50,
+                     breakLabelsAt = 25,
+                     breakLegendAt = 20,
+                     gridBreaksAt = 0.5,
+                     transformTicks = TRUE,
+                     geom.size = 3,
+                     geom.spacing = 0.4,
+                     geom.colors = "Set1",
+                     fade.ns = TRUE,
+                     usePShapes = FALSE,
+                     interceptLineType = 2,
+                     interceptLineColor = "grey70",
+                     coord.flip = TRUE,
+                     showIntercept = FALSE,
+                     showAxisLabels.y = TRUE,
+                     showValueLabels = TRUE,
+                     labelDigits = 2,
+                     showPValueLabels = TRUE,
+                     hideLegend = FALSE,
+                     facet.grid = FALSE,
+                     printPlot = TRUE) {
   # --------------------------------------------------------
   # retrieve list of fitted models
   # --------------------------------------------------------
@@ -365,7 +365,8 @@ sjp.glmm <- function(...,
     # print value labels and p-values
     geom_text(aes(label = p, y = upper), 
               position = position_dodge(width = -geom.spacing), 
-              hjust = -0.1) +
+              hjust = -0.1,
+              show_guide = FALSE) +
     # Intercept-line
     geom_hline(yintercept = 1, 
                linetype = interceptLineType, 
@@ -403,7 +404,7 @@ sjp.glmm <- function(...,
   # flip coordinates?
   # --------------------------------------------------------
   if (coord.flip)  plotHeader <- plotHeader + coord_flip()
-  if (facet.grid) plotHeader <- plotHeader + facet_grid(. ~ grp)
+  if (facet.grid) plotHeader <- plotHeader + facet_grid(~grp)
   # ---------------------------------------------------------
   # set geom colors
   # ---------------------------------------------------------
@@ -419,7 +420,7 @@ sjp.glmm <- function(...,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = "sjpglmm",
-                       list(plot = plotHeader,
-                            df = finalodds)))
+  invisible(structure(class = "sjpglmm",
+                      list(plot = plotHeader,
+                           df = finalodds)))
 }
