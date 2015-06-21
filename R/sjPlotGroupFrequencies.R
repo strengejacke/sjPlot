@@ -22,7 +22,7 @@ utils::globalVariables(c("ypos", "wb", "ia", "mw", "stddev", "count"))
 #'          by \code{varGroup} into the factors of \code{interactionVar}, so that each category of \code{varGroup}
 #'          is subgrouped into \code{interactionVar}'s categories. Only applies when parameter \code{type}
 #'          is \code{box} or \code{violin} (resp. their alternative strings like \code{"boxplot"}, \code{"boxplots"} or \code{"v"}).
-#' @param barPosition Indicates whether bars should be positioned side-by-side (default, or use \code{"dodge"} as
+#' @param barPosition indicates whether bars should be positioned side-by-side (default, or use \code{"dodge"} as
 #'          parameter) or stacked (use \code{"stack"} as parameter).
 #'          If \code{type = "histogram"}, you can use either \code{"dodge"} (default value), 
 #'          which displays the bars side-by-side, or \code{"identity"}, which results in 
@@ -45,7 +45,7 @@ utils::globalVariables(c("ypos", "wb", "ia", "mw", "stddev", "count"))
 #'          x-axis fits to the range of \code{varCount}. \strong{Note} that limiting
 #'          the x-axis-range may result in warnings from \code{ggplot} due to values
 #'          outside this range that could not be plotted.
-#' @param axisLimits.y A numeric vector of length two, defining lower and upper axis limits
+#' @param axisLimits.y numeric vector of length two, defining lower and upper axis limits
 #'          of the y scale. By default, this parameter is set to \code{NULL}, i.e. the 
 #'          y-axis ranges from 0 to required maximum.
 #' @param facet.grid \code{TRUE} when bar charts should be plotted as facet grids instead of integrated single
@@ -62,26 +62,27 @@ utils::globalVariables(c("ypos", "wb", "ia", "mw", "stddev", "count"))
 #'          \code{axisLabels.x = c("Label1", "Label2", "Label3")}.
 #'          The labels may also be passed as \code{\link{list}} object. They will be coerced
 #'          to character vector automatically.
-#' @param interactionVarLabels labels for the x-axis breaks when having interaction variables included.
+#' @param interactionVarLabels a character vector with labels for the x-axis breaks
+#'          when having interaction variables included.
 #'          These labels replace the \code{axisLabels.x}. Only applies, when using box or violin plots
-#'          (i.e. \code{type} is \code{"box"} or \code{"violin"}) and \code{interactionVar} is not \code{NULL}.
+#'          (i.e. \code{type = "boxplots"} or \code{"violins"}) and \code{interactionVar} is not \code{NULL}.
 #'          Example: See \code{axisLabels.x}.
-#' @param legendLabels Labels for the guide/legend.
+#' @param legendLabels a character vector with labels for the guide/legend.
 #'          Example: See \code{axisLabels.x}.
-#' @param breakTitleAt Wordwrap for diagram title. Determines how many chars of the title are displayed in
+#' @param breakTitleAt determines how many chars of the plot title are displayed in
 #'          one line and when a line break is inserted into the title.
-#' @param breakLabelsAt Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in 
+#' @param breakLabelsAt determines how many chars of the category labels are displayed in 
 #'          one line and when a line break is inserted.
-#' @param breakLegendTitleAt Wordwrap for diagram legend title. Determines how many chars of the legend's title 
+#' @param breakLegendTitleAt determines how many chars of the legend's title 
 #'          are displayed in one line and when a line break is inserted.
-#' @param breakLegendLabelsAt Wordwrap for diagram legend labels. Determines how many chars of the legend labels are 
+#' @param breakLegendLabelsAt determines how many chars of the legend labels are 
 #'          displayed in one line and when a line break is inserted.
-#' @param gridBreaksAt Sets the breaks on the y axis, i.e. at every n'th position a major
-#'          grid is being printed.
-#' @param innerBoxPlotWidth The width of the inner box plot that is plotted inside of violin plots. Only applies 
-#'          if \code{type} is \code{"violin"}. Default value is 0.15
-#' @param innerBoxPlotDotSize Size of mean dot insie a violin or box plot. Applies only when \code{type} is set to 
-#'          \code{"violin"} or \code{"box"}.
+#' @param gridBreaksAt set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th 
+#'          position a major grid is being printed.
+#' @param innerBoxPlotWidth width of the inner box plot that is plotted inside of violin plots. Only applies 
+#'          if \code{type = "violins"}. Default value is 0.15
+#' @param innerBoxPlotDotSize size of mean dot insie a violin or box plot. Applies only 
+#'          when \code{type = "violins"} or \code{"boxplots"}.
 #' @param geom.colors User defined color palette for geoms. If specified, must either be vector with color values 
 #'          of same length as groups defined in \code{varGroup}, or a specific color brewer palette code (see 'Note').
 #' @param geom.size size resp. width of the geoms (bar width or point size, depending on \code{type} parameter).
@@ -89,68 +90,71 @@ utils::globalVariables(c("ypos", "wb", "ia", "mw", "stddev", "count"))
 #'          By default, \code{geom.size = NULL}, which means that this parameter is automatically
 #'          adjusted depending on the plot type.
 #' @param geom.spacing the spacing between geoms (i.e. bar spacing)
-#' @param smoothLines Prints a smooth line curve. Only applies, when parameter \code{type}
-#'          is set to \code{"lines"}.
-#' @param expand.grid If \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
+#' @param smoothLines prints a smooth line curve. Only applies, when parameter \code{type = "lines"}.
+#' @param expand.grid logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 #'          axes and plotting region. Default is \code{FALSE}.
-#' @param showValueLabels Whether counts and percentage values should be plotted to each bar. Default
+#' @param showValueLabels logical, whether count and percentage values should be plotted to each bar. Default
 #'          is \code{TRUE}.
-#' @param showCountValues If \code{TRUE} (default), count values are be plotted to each bar. If \code{FALSE},
-#'          count values are removed.
-#' @param showPercentageValues If \code{TRUE} (default), percentage values are be plotted to each bar, if \code{FALSE},
-#'          percentage-values are removed.
-#' @param showAxisLabels.x Whether x axis labels (category names) should be shown or not.
-#' @param showAxisLabels.y Whether y axis labels (count values) should be shown or not.
-#' @param showPlotAnnotation If \code{TRUE}, the groups of dots in a dot-plot are highlighted with a shaded rectangle.
-#' @param showMeanIntercept if \code{TRUE}, a vertical line in histograms is drawn to indicate the mean value of the count
-#'          variables. Only applies to histogram-charts.
-#' @param showMeanValue If \code{TRUE} (default value), the mean value is printed to the vertical line that indicates the mean value
+#' @param showCountValues logical, if \code{TRUE} (default), count values are plotted to each bar. 
+#'          If \code{FALSE}, count values are removed.
+#' @param showPercentageValues logical, if \code{TRUE} (default), percentage values are plotted to each bar
+#'          If \code{FALSE}, percentage values are removed.
+#' @param showAxisLabels.x logical, whether x-axis labels (category names) should be shown or not.
+#' @param showAxisLabels.y logical, whether y-axis labels (count values) should be shown or not.
+#' @param showPlotAnnotation logical, if \code{TRUE}, the groups of dots in a dot-plot are highlighted 
+#'          with a shaded rectangle.
+#' @param showMeanIntercept logical, if \code{TRUE}, a vertical line in histograms is drawn 
+#'          to indicate the mean value of the count variables. Only applies to histogram-charts.
+#' @param showMeanValue logical, if \code{TRUE} (default value), the mean value is printed 
+#'          to the vertical line that indicates the mean value
 #'          of the count variables. Only applies to histogram-charts.
-#' @param showStandardDeviation If \code{TRUE}, the standard deviation is annotated as shaded rectangle around the mean intercept
-#'          line. Only applies to histogram-charts. The shaded rectangles have borders in the group colors, so it's easier to see
-#'          which shaded area belongs to which mean value resp. group
-#' @param showTableSummary If \code{TRUE}, a summary of the cross tabulation with N, Chi-square (see \code{\link{chisq.test}}),
-#'          df, Cramer's V or Phi-value and p-value is printed to the upper right corner of the diagram. If a cell contains expected 
-#'          values lower than five (or lower than 10 if df is 1),
-#'          the Fisher's excact test (see \code{\link{fisher.test}}) is computed instead of Chi-square test. 
-#'          If the table's matrix is larger than 2x2, Fisher's excact test with Monte Carlo simulation is computed.
-#'          Only applies to bar-charts or dot-plots, i.e. when parameter \code{type} is either \code{"bars"} or \code{"dots"}.
-#' @param showGroupCount if \code{TRUE}, the count within each group is added to the category labels (e.g. \code{"Cat 1 (n=87)"}).
-#'          Default value is \code{FALSE}.
-#' @param tableSummaryPos Position of the model summary which is printed when \code{showTableSummary} is \code{TRUE}. Default is
-#'          \code{"r"}, i.e. it's printed to the upper right corner. Use \code{"l"} for upper left corner.
-#' @param meanInterceptLineType The linetype of the mean intercept line. Only applies to histogram-charts and when
-#'          \code{showMeanIntercept} is \code{TRUE}.
-#' @param meanInterceptLineSize The size of the mean intercept line. Only applies to histogram-charts and when
-#'          \code{showMeanIntercept} is \code{TRUE}.
-#' @param axisTitle.x A label for the x axis. Useful when plotting histograms with metric scales where no category labels
-#'          are assigned to the x axis. By default, \code{""} is used, i.e. no title
-#'          is printed.
-#'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link[sjmisc]{set_var_labels}}) for details).
-#' @param axisTitle.y A label for the y axis. Useful when plotting histograms with metric scales where no category labels
-#'          are assigned to the y axis. By default, \code{""} is used, i.e. no title
-#'          is printed.
-#'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link[sjmisc]{set_var_labels}}) for details).
-#' @param autoGroupAt A value indicating at which length of unique values of \code{varCount} the variable
-#'          is automatically grouped into smaller units (see \code{group_var}). If \code{varCount} has large 
-#'          numbers of unique values, too many bars for the graph have to be plotted. Hence it's recommended 
-#'          to group such variables. For example, if \code{autoGroupAt} is 50, i.e. if \code{varCount} has 50 and more unique values 
-#'          it will be grouped using \code{group_var} with \code{groupsize="auto"} parameter. By default, 
-#'          the maximum group count is 30. However, if \code{autoGroupAt} is less than 30, \code{autoGroupAt} 
-#'          groups are built. Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.
-#' @param startAxisAt Determines the first value on the x-axis. By default, this value is set
-#'          to \code{"auto"}, i.e. the value range on the x axis starts with the lowest value of \code{varCount}.
-#'          If you set \code{startAxisAt} to 1, you may have zero counts if the lowest value of \code{varCount}
+#' @param showStandardDeviation logical, if \code{TRUE}, the standard deviation is annotated 
+#'          as shaded rectangle around the mean intercept line. Only applies to histogram-charts. 
+#'          The shaded rectangles have borders in the group colors, so it's easier to see
+#'          which shaded area belongs to which mean value resp. group.
+#' @param showTableSummary logical, if \code{TRUE}, a summary of the cross tabulation with N, 
+#'          chi-squared, df, Cramer's V or Phi-value and p-value is printed to the upper 
+#'          right corner of the plot (see \code{tableSummaryPos}. If a cell contains expected
+#'          values lower than five(or lower than 10 if df is 1), the Fisher's excact test 
+#'          (see \code{\link{fisher.test}}) is computed instead of Chi-squared test. 
+#'          If the table's matrix is larger than 2x2, Fisher's excact test with Monte Carlo 
+#'          simulation is computed. Only applies to barcharts or dotplots, i.e. 
+#'          when parameter \code{type = "bars"} or \code{"dots"}.
+#' @param showGroupCount logical, if \code{TRUE}, the count within each group is added 
+#'          to the category labels (e.g. \code{"Cat 1 (n=87)"}). Default value is \code{FALSE}.
+#' @param tableSummaryPos position of the model summary which is printed when \code{showTableSummary} 
+#'          is \code{TRUE}. Default is \code{"r"}, i.e. it's printed to the upper right corner. 
+#'          Use \code{"l"} for upper left corner.
+#' @param meanInterceptLineType linetype of the mean intercept line. Only applies to histogram-charts and when
+#'          \code{showMeanIntercept = TRUE}.
+#' @param meanInterceptLineSize size of the mean intercept line. Only applies to histogram-charts and when
+#'          \code{showMeanIntercept = TRUE}.
+#' @param axisTitle.x title for the x-axis. By default, \code{""} is used, i.e. no title
+#'          is printed. If \code{axisTitle.x = NULL}, the variable name will be 
+#'          automatically detected and used as title (see \code{\link[sjmisc]{set_var_labels}}) 
+#'          for details).
+#' @param axisTitle.y title for the-y axis. By default, \code{""} is used, i.e. no title
+#'          is printed. If \code{axisTitle.y = NULL}, variable name will be automatically 
+#'          detected and used as title (see \code{\link[sjmisc]{set_var_labels}}) for details).
+#' @param autoGroupAt numeric value, indicating at which length of unique values of \code{varCount}, 
+#'          automatic grouping into smaller units is done (see \code{\link[sjmisc]{group_var}}).
+#'          If \code{varCount} has large numbers of unique values, there may be too many bars 
+#'          for the plot. Hence it's practical to group such variables. For example, 
+#'          if \code{autoGroupAt = 50} and \code{varCount} has more than 50 unique values,
+#'          it will be grouped (using the \code{\link[sjmisc]{group_var}} function). 
+#'          Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.
+#'          See \code{\link[sjmisc]{group_var}} for examples on grouping.
+#' @param startAxisAt numeric, determines the lower limit of the x-axis. By default, this value is set
+#'          to \code{"auto"}, i.e. the value range on the x-axis starts with the lowest value of \code{varCount}.
+#'          If \code{startAxisAt = 1}, plot may have zero counts if the lowest value of \code{varCount}
 #'          is larger than 1 and hence no bars plotted for these values in such cases.
-#' @param coord.flip If \code{TRUE}, the x and y axis are swapped.
-#' @param labelPos Positioning of value labels. If \code{coord.flip} is \code{TRUE}, use 
-#'          either \code{"inside"} or \code{"outside"} (default) to place labels inside or
-#'          outside of bars. You may specify initial letter only. If \code{coord.flip} is \code{FALSE}, 
-#'          use \code{"center"} to center labels (useful if label angle is changes via \code{\link{sjp.setTheme}}).
-#' @param na.rm If \code{TRUE}, missings are not included in the frequency calculation and diagram plot.
-#' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+#' @param coord.flip logical, if \code{TRUE}, the x and y axis are swapped.
+#' @param labelPos string, indicating the position of value labels, when \code{coord.flip = TRUE}.
+#'          Can be either \code{"inside"} or \code{"outside"} (default). You may specify
+#'          initial letter only. If \code{coord.flip = FALSE}, use \code{"center"} 
+#'          to center labels (useful if label angle is changes via \code{\link{sjp.setTheme}}).
+#' @param na.rm logical, if \code{TRUE}, missings are not included in the frequency plot.
+#' @param printPlot logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}).
@@ -755,10 +759,10 @@ sjp.grpfrq <- function(varCount,
     # else calculate upper y-axis-range depending
     # on the amount of cases...
     } else if (barPosition == "stack") {
-      upper_lim <- grpBasisYlim(length(varCount))
+      upper_lim <- max(pretty(table(varCount)))
     } else {
       # ... or the amount of max. answers per category
-      upper_lim <- grpFreqYlim(mydat$frq)
+      upper_lim <- max(pretty(table(varCount, varGroup)))
     }
   }
   # --------------------------------------------------------
@@ -1176,60 +1180,4 @@ sjp.grpfrq <- function(varCount,
   invisible(structure(class = "sjpgrpfrq",
                       list(plot = baseplot,
                            df = mydat)))
-}
-
-
-# Berechnet die aufgerundete Obergrenze der y-Achse anhand
-# der maximal möglichen Fallzahl einer Antwortmöglichkeit
-# Dadurch werden Balkendiagramme eines Datensatzes immer im
-# gleichen Vergältnis dargestellt, da die y-Achse nie variiert,
-# sondern immer von 0 bis (Anzahl der Fälle) geht.
-#
-# Parameter:
-# - len: die Anzahl an max. möglichen Fällen
-grpBasisYlim <- function(len) {
-  anzahl <- 1
-  while (len >= (10 * anzahl)) {
-    anzahl <- anzahl * 10
-  }
-  
-  while (len >= anzahl) {
-    anzahl <- anzahl + round(anzahl / 10, 0)
-  }
-  
-  #  retval <- (ceiling(len/anzahl)*anzahl)
-  #  return (retval)
-  return(anzahl)
-}
-
-# Berechnet die aufgerundete Obergrenze der y-Achse anhand
-# des höchsten Datenwertes einer Antwortmöglichkeit.
-# Dadurch werden Balkendiagramme eines Datensatzes immer unterschiedlich
-# dargestellt, je nach Anzahl der häufigsten Antworten. Die y-Achse
-# geht immer von 0 bis (maximale Antworthäufigkeit einer Variable)
-#
-# Parameter:
-# - var: die Variable mit den Antwortmöglichkeiten
-grpFreqYlim <- function(var) {
-  # suche die Antwort mit den häufigsten Antworten,
-  # also den höchsten Wert einer Variablenausprägung
-  len <- max(var, na.rm = T)
-  
-  anzahl <- 5
-  while (len >= (10 * anzahl)) {
-    anzahl <- anzahl + 5
-  }
-  return(10 * anzahl)
-}
-
-grpFreqBaseYlim <- function(var) {
-  # suche die Antwort mit den häufigsten Antworten,
-  # also den höchsten Wert einer Variablenausprägung
-  len <- min(var, na.rm = T)
-  
-  anzahl <- max(var, na.rm = T)
-  while (len >= (10 * anzahl)) {
-    anzahl <- anzahl - 5
-  }
-  return(10 * anzahl)
 }

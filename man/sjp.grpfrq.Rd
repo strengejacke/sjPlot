@@ -25,33 +25,34 @@ sjp.grpfrq(varCount, varGroup, weightBy = NULL, weightByTitleString = NULL,
   na.rm = TRUE, printPlot = TRUE)
 }
 \arguments{
-\item{varCount}{The variable which frequencies should be plotted. The counts of this variable are along the
-y-axis, the variable's categories on the x-axis.}
+\item{varCount}{a vector of values (variable) describing the bars which make up the plot.}
 
-\item{varGroup}{the grouping variable, where each value represents a single bar chart within each category of
-the \code{varCount} variable.}
+\item{varGroup}{grouping variable of same length as \code{varCount}, where \code{varCount}
+is grouped into the categories represented by \code{varGrp}.}
 
-\item{weightBy}{A weight factor that will be applied to weight all cases from \code{varCount}.
+\item{weightBy}{weight factor that will be applied to weight all cases from \code{varCount}.
 Must be a vector of same length as \code{varCount}. Default is \code{NULL}, so no weights are used.}
 
-\item{weightByTitleString}{If a weight factor is supplied via the parameter \code{weightBy}, the diagram's title
-may indicate this with a remark. Default is \code{NULL}, so the diagram's title will not be modified when
-cases are weighted. Use a string as parameter, e.g.: \code{weightByTitleString=" (weighted)"}.}
+\item{weightByTitleString}{suffix (as string) for the plot's title, if \code{weightBy} is specified,
+e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's
+title will not have a suffix when cases are weighted.}
 
-\item{interactionVar}{An interaction variable which can be used for box plots. Divides each category indicated
+\item{interactionVar}{an interaction variable which can be used for box plots. Divides each category indicated
 by \code{varGroup} into the factors of \code{interactionVar}, so that each category of \code{varGroup}
 is subgrouped into \code{interactionVar}'s categories. Only applies when parameter \code{type}
 is \code{box} or \code{violin} (resp. their alternative strings like \code{"boxplot"}, \code{"boxplots"} or \code{"v"}).}
 
 \item{type}{The plot type. May be one of the following:
-\itemize{
-  \item \code{"b"}, \code{"bar"}, \code{"bars"} (default) for bar charts
-  \item \code{"d"}, \code{"dot"}, \code{"dots"} for dot plots
-  \item \code{"h"}, \code{"hist"}, \code{"histogram"} for grouped histograms
-  \item \code{"l"}, \code{"line"}, \code{"lines"} for line-styled histogram
-  \item \code{"box"}, \code{"boxplot"}, \code{"boxplots"} for box plots
-  \item \code{"v"}, \code{"violin"} for violin box plots
-  }}
+\describe{
+  \item{\code{"bars"}}{for simple bars (the default setting)}
+  \item{\code{"dots"}}{for dot plots}
+  \item{\code{"histogram"}}{for grouped histograms}
+  \item{\code{"lines"}}{for grouped line-styled histogram with filled area}
+  \item{\code{"boxplots"}}{for grouped box plots}
+  \item{\code{"violins"}}{for grouped violin plots}
+  }
+  You may use initial letter for \code{type} options, except for
+  \code{type = "boxplots"}, which may be abbreviated \code{type = "box"}}
 
 \item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} parameter).
 Note that  bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
@@ -63,32 +64,33 @@ adjusted depending on the plot type.}
 \item{geom.colors}{User defined color palette for geoms. If specified, must either be vector with color values
 of same length as groups defined in \code{varGroup}, or a specific color brewer palette code (see 'Note').}
 
-\item{hideLegend}{Indicates whether legend (guide) should be shown or not.}
+\item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
 
 \item{facet.grid}{\code{TRUE} when bar charts should be plotted as facet grids instead of integrated single
 bar charts. Ideal for larger amount of groups. This parameter wraps a single panel into
 \code{varGroup} amount of panels, i.e. each group is represented within a new panel.}
 
-\item{title}{Title of the diagram, plotted above the whole diagram panel.
+\item{title}{plot title as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
 (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
-\item{legendTitle}{Title of the diagram's legend.}
+\item{legendTitle}{title of the plot legend, as string.}
 
-\item{axisLabels.x}{Labels for the x-axis breaks. Passed as vector of strings. \strong{Note:} This parameter
-is not necessary when data was either imported with \code{\link[sjmisc]{read_spss}} or has named factor levels
-(see examples below). Else, specifiy parameter like this:
-\code{axisLabels.x=c("Label1", "Label2", "Label3")}. \cr
-\strong{Note:} If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
-list object with label string. The labels may also be passed as list object. They will be coerced
+\item{axisLabels.x}{a character vector with labels for the x-axis breaks. \strong{Note:}
+Axis labels will be automatically detected, when data was either imported
+with \code{\link[sjmisc]{read_spss}} or has named factor levels
+(see 'Examples'). Else, specifiy parameter like this:
+\code{axisLabels.x = c("Label1", "Label2", "Label3")}.
+The labels may also be passed as \code{\link{list}} object. They will be coerced
 to character vector automatically.}
 
-\item{interactionVarLabels}{Labels for the x-axis breaks when having interaction variables included.
+\item{interactionVarLabels}{a character vector with labels for the x-axis breaks
+when having interaction variables included.
 These labels replace the \code{axisLabels.x}. Only applies, when using box or violin plots
-(i.e. \code{type} is \code{"box"} or \code{"violin"}) and \code{interactionVar} is not \code{NULL}.
+(i.e. \code{type = "boxplots"} or \code{"violins"}) and \code{interactionVar} is not \code{NULL}.
 Example: See \code{axisLabels.x}.}
 
-\item{legendLabels}{Labels for the guide/legend.
+\item{legendLabels}{a character vector with labels for the guide/legend.
 Example: See \code{axisLabels.x}.}
 
 \item{axisLimits.x}{numeric vector of length two, defining lower and upper axis limits
@@ -97,7 +99,7 @@ x-axis fits to the range of \code{varCount}. \strong{Note} that limiting
 the x-axis-range may result in warnings from \code{ggplot} due to values
 outside this range that could not be plotted.}
 
-\item{axisLimits.y}{A numeric vector of length two, defining lower and upper axis limits
+\item{axisLimits.y}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this parameter is set to \code{NULL}, i.e. the
 y-axis ranges from 0 to required maximum.}
 
@@ -116,10 +118,11 @@ displayed in one line and when a line break is inserted.}
 \item{gridBreaksAt}{Sets the breaks on the y axis, i.e. at every n'th position a major
 grid is being printed.}
 
-\item{barPosition}{Indicates whether bars should be positioned side-by-side (default, or use \code{"dodge"} as
+\item{barPosition}{indicates whether bars should be positioned side-by-side (default, or use \code{"dodge"} as
 parameter) or stacked (use \code{"stack"} as parameter).
-If \code{type} is \code{"histogram"}, you can use either \code{"dodge"} (default value), which displays the bars side-by-side,
-or \code{"identity"}, which results in overlaying bars. In the latter case, it's recommended to adjust the
+If \code{type = "histogram"}, you can use either \code{"dodge"} (default value),
+which displays the bars side-by-side, or \code{"identity"}, which results in
+overlaying bars. In the latter case, it's recommended to adjust the
 alpha value (see \code{\link{sjp.setTheme}}).}
 
 \item{innerBoxPlotWidth}{The width of the inner box plot that is plotted inside of violin plots. Only applies
@@ -222,7 +225,6 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 \description{
 Plot grouped or stacked frequencies of variables
                as bar/dor graphs, box or violin plots, histograms etc.
-               using ggplot.
 }
 \note{
 \code{geom.colors} may be a acharacter vector of color values

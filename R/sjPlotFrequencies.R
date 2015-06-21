@@ -124,10 +124,9 @@ utils::globalVariables(c("frq", "grp", "upper.ci", "lower.ci", "ia", "..density.
 #'          applies if \code{showNormalCurve = TRUE}.
 #' @param normalCurveAlpha transparancy level (alpha value) of the normal curve. Only
 #'          applies if \code{showNormalCurve = TRUE}.
-#' @param axisTitle.x title for the x-axis. Useful when plotting histograms 
-#'          with metric scales where no category labels are assigned to the x-axis. 
-#'          By default, the variable name will be automatically detected and used as title
-#'          (see \code{\link[sjmisc]{set_var_labels}}) for details).
+#' @param axisTitle.x title for the x-axis. By default, the variable name will be 
+#'          automatically detected and used as title (see \code{\link[sjmisc]{set_var_labels}}) 
+#'          for details).
 #' @param axisTitle.y title for the y-axis. By default, this value is \code{NULL},
 #'          i.e. no title is printed.
 #' @param hist.skipZeros logical, if \code{TRUE}, zero counts (categories with no answer) 
@@ -139,7 +138,7 @@ utils::globalVariables(c("frq", "grp", "upper.ci", "lower.ci", "ia", "..density.
 #'          (which, by ggplot-default, is 1/30 of the x-axis-range).
 #' @param startAxisAt numeric, determines the lower limit of the x-axis. By default, this value is set
 #'          to \code{"auto"}, i.e. the value range on the x axis starts with the lowest value of \code{varCount}.
-#'          If you set \code{startAxisAt} to 1, you may have zero counts if the lowest value of \code{varCount}
+#'          If \code{startAxisAt = 1}, plot may have zero counts if the lowest value of \code{varCount}
 #'          is larger than 1 and hence no bars plotted for these values in such cases.
 #' @param autoGroupAt numeric value, indicating at which length of unique values of \code{varCount}, 
 #'          automatic grouping into smaller units is done (see \code{\link[sjmisc]{group_var}}).
@@ -497,28 +496,20 @@ sjp.frq <- function(varCount,
     lower_lim <- axisLimits.y[1]
     upper_lim <- axisLimits.y[2]
   } else {
-    # in case we have a histrogram, calculate
-    # max. y lim depending on highest value
-    if (type != "bars" && type != "dots") {
-      # if we have boxplots, we have different ranges, so we can adjust
-      # the y axis
-      if (type == "boxplots" || type == "violin") {
-        # use an extra standard-deviation as limits for the y-axis when we have boxplots
-        lower_lim <- min(varCount, na.rm = TRUE) - floor(sd(varCount, na.rm = TRUE))
-        upper_lim <- max(varCount, na.rm = TRUE) + ceiling(sd(varCount, na.rm = TRUE))
-        # make sure that the y-axis is not below zero
-        if (lower_lim < 0) {
-          lower_lim <- 0
-          trimViolin <- TRUE
-        }
-      } else {
-        # ... or the amount of max. answers per category
-        upper_lim <- histYlim(varCount)
+    # if we have boxplots, we have different ranges, so we can adjust
+    # the y axis
+    if (type == "boxplots" || type == "violin") {
+      # use an extra standard-deviation as limits for the y-axis when we have boxplots
+      lower_lim <- min(varCount, na.rm = TRUE) - floor(sd(varCount, na.rm = TRUE))
+      upper_lim <- max(varCount, na.rm = TRUE) + ceiling(sd(varCount, na.rm = TRUE))
+      # make sure that the y-axis is not below zero
+      if (lower_lim < 0) {
+        lower_lim <- 0
+        trimViolin <- TRUE
       }
     } else {
-      # else calculate upper y-axis-range depending
-      # the amount of max. answers per category
-      upper_lim <- freqYlim(mydat$frq)
+      # ... or the amount of max. answers per category
+      upper_lim <- max(pretty(table(varCount)))
     }
   }
   # --------------------------------------------------------
@@ -890,45 +881,6 @@ sjp.frq <- function(varCount,
                            mydf = mydat)))
 }
 
-
-
-# Berechnet die aufgerundete Obergrenze der y-Achse anhand
-# des höchsten Datenwertes einer Antwortmöglichkeit.
-# Dadurch werden Balkendiagramme eines Datensatzes immer unterschiedlich
-# dargestellt, je nach Anzahl der häufigsten Antworten. Die y-Achse
-# geht immer von 0 bis (maximale Antworthäufigkeit einer Variable)
-#
-# Parameter:
-# - var: die Variable mit den Antwortmöglichkeiten
-freqYlim <- function(var) {
-  # suche die Antwort mit den häufigsten Antworten,
-  # also den höchsten Wert einer Variablenausprägung
-  len <- max(var)
-  
-  anzahl <- 5
-  while (len >= (10 * anzahl)) {
-    anzahl <- anzahl + 5
-  }
-  correct <- 10 + (floor(log10(len)) - 1)
-  return(correct * anzahl)  
-}
-
-histYlim <- function(var) {
-  # suche die Antwort mit den häufigsten Antworten,
-  # also den höchsten Wert einer Variablenausprägung
-  len <- max(table(var))
-  
-  if (len < 100) {
-    anzahl <- 10
-  } else {
-    anzahl <- 100
-  }
-  
-  li <- ceiling(len/anzahl)
-  if ((li %% 2) == 1) li <- li + 1
-
-  return(li * anzahl)
-}
 
 # usage:
 # df<-insertRowToDF(df,5,c(16,0)); # inserting the values (16,0) after the 5th row
