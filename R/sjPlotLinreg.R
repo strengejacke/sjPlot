@@ -17,7 +17,7 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #'
 #' @details \itemize{
 #'            \item If \code{type = "lm"} and fitted model only has one predictor, no forest plot is shown. Instead, a regression line with confidence interval (in blue) is plotted by default, and a loess-smoothed line without confidence interval (in red) can be added if parameter \code{showLoess} is \code{TRUE}.
-#'            \item If \code{type = "pred"}, regression lines (slopes) with confidence intervals for each single predictor of the fitted model are plotted, i.e. all predictors of the fitted model are extracted and each of them is plotted against the response variable.
+#'            \item If \code{type = "pred"}, regression lines (slopes) with confidence intervals for each single predictor of the fitted model are plotted, i.e. all predictors of the fitted model are extracted and for each of them, the linear relationship is plotted against the response variable.
 #'            \item \code{type = "resid"} is similar to the \code{type = "pred"} option, however, each predictor is plotted against the residuals (instead of response).
 #'            \item If \code{type = "resp"}, the predicted values of the response for each observation is plotted, which mostly results in a single linear line.
 #'            \item \code{type = "eff"} computes the marginal effects for all predictors, using the \code{\link[effects]{allEffects}} function. I.e. for each predictor, the predicted values towards the response are plotted, with all remaining co-variates set to the mean. Due to possible different scales of predictors, a facted plot is printed (instead of plotting all lines in one plot). This function accepts following parameter: \code{fit}, \code{title}, \code{geom.size}, \code{showCI} and \code{printPlot}.
@@ -31,85 +31,81 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #'          \describe{
 #'            \item{\code{"lm"}}{(default) for forest-plot like plot of estimates. If the fitted model only contains one predictor, intercept and slope are plotted.}
 #'            \item{\code{"std"}}{for forest-plot like plot of standardized beta values. If the fitted model only contains one predictor, intercept and slope are plotted.}
-#'            \item{\code{"pred"}}{to plot regression lines for each single predictor of the fitted model, against the response.}
-#'            \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals. May be used for model diagnostics (see \url{https://www.otexts.org/fpp/5/4}).}
+#'            \item{\code{"pred"}}{to plot regression lines for each single predictor of the fitted model, against the response (linear relationship between each model term and response).}
+#'            \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals (linear relationship between each model term and residuals). May be used for model diagnostics (see \url{https://www.otexts.org/fpp/5/4}).}
 #'            \item{\code{"resp"}}{to plot predicted values for the response. Use \code{showCI} parameter to plot standard errors as well.}
 #'            \item{\code{"eff"}}{to plot marginal effects of all terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms.}
 #'            \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples').}
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only three parameters are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
-#' @param title Diagram's title as string. Example: \code{title = "my title"}
-#' @param sort.est Logical, determines whether estimates should be sorted by their values.
-#' @param axisLabels.x predictor label (independent variable) that is used for labelling the
-#'          axis. Passed as string.
-#'          Two things to consider:
+#' @param title plot's title as string. Example: \code{title = "my title"}
+#' @param sort.est logical, determines whether estimates should be sorted according to their values.
+#' @param axisLabels.x name of predictor (independent variable) as string. Two things to consider:
 #'          \itemize{
-#'            \item Only used if fitted model has one predictor and \code{type = "lm"}.
-#'            \item If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_var_labels}} function, you receive a character vector with variable label strings. You can use it like this: \code{axisLabel.x = get_var_labels(efc)['quol_5']}
+#'            \item Only used if fitted model has only one predictor and \code{type = "lm"}.
+#'            \item If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_var_labels}} function, you receive a character vector with variable label strings. You can use it like this: \code{axisLabels.x = get_var_labels(efc)['quol_5']}
 #'          }
-#' @param axisLabels.y Labels of the predictor variables (independent vars) that are used for labelling the
-#'          axis. Passed as vector of strings.
+#' @param axisLabels.y character vector with labels (names) of the predictor variables (independent vars).
 #'          Example: \code{axisLabels.y = c("Label1", "Label2", "Label3")}.
 #'          \strong{Note:} If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
 #'          list object with label string. The labels may also be passed as list object. They will be coerced
 #'          to character vector automatically.
-#' @param showAxisLabels.y Whether x axis text (category names, predictor labels) should be shown (use \code{TRUE})
-#'          or not. Default is \code{TRUE}
-#' @param axisTitle.x A label for the x axis. Default is \code{"Estimates"}.
-#' @param axisLimits Defines the range of the axis where the beta coefficients and their confidence intervalls
+#' @param showAxisLabels.y logical, whether predictor labels should be shown or not. Default is \code{TRUE}
+#' @param axisTitle.x title for the x-axis. Default is \code{"Estimates"}.
+#' @param axisLimits defines the range of the axis where the beta coefficients and their confidence intervalls
 #'          are drawn. By default, the limits range from the lowest confidence interval to the highest one, so
-#'          the diagram has maximum zoom. Use your own values as 2-value-vector, for instance: \code{limits = c(-0.8, 0.8)}.
-#' @param geom.colors User defined color palette for geoms. Must either be vector with two color values
+#'          the diagram has maximum zoom. Use your own values as vector of length two, indicating
+#'          lower and upper limit for the axis (for instance: \code{limits = c(-0.8, 0.8)}).
+#' @param geom.colors user defined color palette for geoms. Must either be vector with two color values
 #'          or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.
 #' @param geom.size size resp. width of the geoms (bar width or point size, depending on \code{type} parameter).
-#' @param interceptLineType The linetype of the intercept line (zero point). Default is \code{2} (dashed line).
-#' @param interceptLineColor The color of the intercept line. Default value is \code{"grey70"}.
-#' @param breakTitleAt Wordwrap for diagram title. Determines how many chars of the title are displayed in
+#' @param interceptLineType linetype of the intercept line (zero point). Default is \code{2} (dashed line).
+#' @param interceptLineColor color of the intercept line. Default value is \code{"grey70"}.
+#' @param breakTitleAt determines how many chars of the title are displayed in
 #'          one line and when a line break is inserted into the title
-#' @param breakLabelsAt Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in
+#' @param breakLabelsAt determines how many chars of the category labels are displayed in
 #'          one line and when a line break is inserted
-#' @param gridBreaksAt Sets the breaks on the y axis, i.e. at every n'th position a major
-#'          grid is being printed. Default is \code{NULL}, so \code{\link{pretty}} gridbeaks will be used.
-#' @param coord.flip If \code{TRUE} (default), predictors are plotted along the y-axis and estimate
+#' @param gridBreaksAt set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
+#'          position a major grid is being printed. Default is \code{NULL}, so 
+#'          \code{\link{pretty}} gridbeaks will be used.
+#' @param coord.flip logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
 #'          values are plotted on the x-axis.
-#' @param showValueLabels Whether value labels should be plotted to each dot or not.
-#' @param labelDigits The amount of digits for rounding the estimations (see \code{showValueLabels}).
+#' @param showValueLabels logical, whether value labels should be plotted to each dot or not.
+#' @param labelDigits amount of digits for rounding the estimations (see \code{showValueLabels}).
 #'          Default is 2, i.e. estimates have 2 digits after decimal point.
-#' @param showPValueLabels Whether the significance levels of each coefficient should be appended
-#'          to values or not
-#' @param showModelSummary If \code{TRUE}, a summary of the regression model with
-#'          Intercept, R-square, F-Test and AIC-value is printed to the lower right corner
-#'          of the diagram.
-#' @param showCI If \code{TRUE} (default), a confidence region for the regression line
+#' @param showPValueLabels logical, whether the significance level of each coefficient 
+#'          should be appended to values or not.
+#' @param showModelSummary logical, if \code{TRUE}, a summary of the regression model with
+#'          Intercept, R-squared, F-Test and AIC-value is printed to the lower right corner
+#'          of the plot.
+#' @param showCI logical, if \code{TRUE} (default), a confidence region for the regression line
 #'          will be plotted. Only applies if \code{type = "lm"} and fitted model has 
 #'          only one predictor, or if \code{type = "pred"} or \code{type = "resid"}.
-#' @param pointAlpha The alpha values of the scatter plot's point-geoms.
+#' @param pointAlpha alpha level of the scatter plot's point-geoms.
 #'          Default is 0.2.
 #'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
 #'          or if \code{type = "pred"} or \code{type = "resid"}.
-#' @param showScatterPlot If \code{TRUE} (default), a scatter plot of response and predictor values
-#'          for each predictor of the fitted model \code{fit} is plotted.
+#' @param showScatterPlot logical, if \code{TRUE} (default), a scatter plot of 
+#'          response and predictor values for each predictor of \code{fit} is plotted.
 #'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
 #'          or if \code{type = "pred"} or \code{type = "resid"}.
-#' @param showLoess If \code{TRUE}, an additional loess-smoothed line is plotted.
+#' @param showLoess logical, if \code{TRUE}, an additional loess-smoothed line is plotted.
 #'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
 #'          or if \code{type = "pred"}, \code{type = "resid"} or \code{type = "resp"}.
-#' @param showLoessCI If \code{TRUE}, a confidence region for the loess-smoothed line
+#' @param showLoessCI logical, if \code{TRUE}, a confidence region for the loess-smoothed line
 #'          will be plotted. Default is \code{FALSE}. Only applies, if \code{showLoess}
-#'          is \code{TRUE} and only applies if \code{type = "lm"} and fitted model 
-#'          has only one predictor, or if \code{type = "pred"}, \code{type = "resid"} 
-#'          or \code{type = "resp"}.
-#' @param poly.term name of a polynomial term in \code{fit} as string. Needs to be
+#'          is \code{TRUE}.
+#' @param poly.term name of polynomial term in \code{fit} as string. Needs to be
 #'          specified, if \code{type = "poly"}, in order to plot marginal effects
 #'          for polynomial terms. See 'Examples'.
-#' @param showOriginalModelOnly if \code{TRUE} (default), only the model assumptions of the fitted model
-#'          \code{fit} are plotted. if \code{FALSE}, the model assumptions of an updated model where outliers
-#'          are automatically excluded are also plotted.
+#' @param showOriginalModelOnly logical, if \code{TRUE} (default), only model assumptions of
+#'          \code{fit} are plotted. if \code{FALSE}, model assumptions of an updated 
+#'          model where outliers are automatically excluded are also plotted.
 #'          Only applies if \code{type = "ma"}.
-#' @param completeDiagnostic if \code{TRUE}, additional tests are performed. Default is \code{FALSE}
+#' @param completeDiagnostic logical, if \code{TRUE}, additional tests are performed. Default is \code{FALSE}
 #'          Only applies if \code{type = "ma"}.
-#' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+#' @param printPlot logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #' @return Depending on the \code{type}, in most cases (insisibily)
 #'           returns the ggplot-object with the complete plot (\code{plot})

@@ -15,24 +15,26 @@
 #'        of categories fails. In such cases, specify the amount of categories
 #'        with the \code{catcount}-parameter.
 #' 
-#' @param items A data frame with each column representing one likert-item.
-#' @param catcount optional, the amount of categories of the items (e.g. \emph{"strongly disagree", 
-#'          "disagree", "agree" and "strongly agree"} would be \code{catcount=4}).
+#' @param items \code{\link{data.frame}} with each column representing one likert-item.
+#' @param catcount optional, amount of categories of \code{items} (e.g. \emph{"strongly disagree", 
+#'          "disagree", "agree"} and \emph{"strongly agree"} would be \code{catcount = 4}).
 #'          Note that this parameter only applies to "valid" answers, i.e. if you
 #'          have an additional neutral category (see \code{cat.neutral}) like \emph{"don't know"},
 #'          this won't count for \code{catcount} (e.g. "strongly disagree", 
 #'          "disagree", "agree", "strongly agree" and neutral category "don't know"
-#'          would still mean that \code{catcount=4}). See 'Note'.
-#' @param cat.neutral If there's a neutral category (like "don't know" etc.), specify
-#'          the index number for this category. Else, set \code{cat.neutral=NULL} (default).
-#'          The frequencies of neutral categories are plotted as grey bars on the left side of
+#'          would still mean that \code{catcount = 4}). See 'Note'.
+#' @param cat.neutral if there's a neutral category (like "don't know" etc.), specify
+#'          the index number (value) for this category. Else, set \code{cat.neutral = NULL} (default).
+#'          The proportions of neutral category answers are plotted as grey bars on the left side of
 #'          the figure.
-#' @param weightBy A weight factor that will be applied to weight all cases from \code{items}.
-#'          Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, so no weights are used.
-#' @param weightByTitleString If a weight factor is supplied via the parameter \code{weightBy}, the diagram's title
-#'          may indicate this with a remark. Default is \code{NULL}, so the diagram's title will not be modified when
-#'          cases are weighted. Use a string as parameter, e.g.: \code{weightByTitleString=" (weighted)"}
-#' @param sort.frq Indicates whether the items of \code{items} should be ordered by total sum of positive or negative answers.
+#' @param weightBy weight factor that will be applied to weight all cases of \code{items}.
+#'          Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, 
+#'          so no weights are used.
+#' @param weightByTitleString suffix (as string) for the plot's title, if \code{weightBy} is specified,
+#'          e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's 
+#'          title will not have a suffix when cases are weighted.
+#' @param sort.frq indicates whether the items of \code{items} should be ordered by 
+#'          total sum of positive or negative answers.
 #'          \describe{
 #'            \item{\code{"pos.asc"}}{to order ascending by sum of positive answers}
 #'            \item{\code{"pos.desc"}}{to order descending by sum of positive answers}
@@ -40,20 +42,20 @@
 #'            \item{\code{"neg.desc"}}{for sorting descending negative answers}
 #'            \item{\code{NULL}}{(default) for no sorting}
 #'          }
-#' @param geom.colors User defined color palette for geoms. If specified, must either be vector with color values 
+#' @param geom.colors user defined color palette for geoms. If specified, must either be vector with color values 
 #'          of same length as groups defined in \code{legendLabels}, or a specific color palette code.
 #'          See 'Note' in \code{\link{sjp.grpfrq}}.
-#' @param reverse.colors If \code{TRUE}, the color scale from \code{geom.colors} will be reversed,
-#'          so positive and negative value switch colors.
-#' @param geom.size Width of bars. Recommended values for this parameter are from 0.4 to 1.5
-#' @param cat.neutral.color Color of the neutral category, if plotted (see \code{cat.neutral}).
-#' @param intercept.line.color Color of the vertical intercept line that divides positive and negative values.
-#' @param legendLabels A list or vector of strings that indicate the likert-scale-categories and which
-#'          appear as legend text.
-#' @param hideLegend Indicates whether legend (guide) should be shown or not.
-#' @param title Title of the diagram, plotted above the whole diagram panel.
-#' @param legendTitle Title of the diagram's legend.
-#' @param includeN If \code{TRUE} (default), the N of each item is included into axis labels.
+#' @param reverse.colors logical, if \code{TRUE}, the color scale from \code{geom.colors} will be reversed,
+#'          so positive and negative values switch colors.
+#' @param geom.size width of bars. Recommended values for this parameter are from 0.4 to 1.5
+#' @param cat.neutral.color color of the neutral category, if plotted (see \code{cat.neutral}).
+#' @param intercept.line.color color of the vertical intercept line that divides positive and negative values.
+#' @param legendLabels list or character vector that indicate the names of the 
+#'          likert-scale-categories and which appear as legend text.
+#' @param hideLegend logical, indicates whether legend (guide) should be shown or not.
+#' @param title plot's title.
+#' @param legendTitle title of the plot's legend.
+#' @param includeN logical, if \code{TRUE} (default), the N of each item will be included in axis labels.
 #' @param value.labels determines style and position of percentage value labels on the bars:
 #'          \describe{
 #'            \item{\code{"show"}}{(default) shows percentage value labels in the middle of each category bar}
@@ -100,11 +102,13 @@
 #' 
 #' @examples
 #' # prepare data for dichotomous likert scale, 5 items
-#' likert_2 <- data.frame(as.factor(sample(1:2, 500, replace=TRUE, prob=c(0.3,0.7))),
-#'                        as.factor(sample(1:2, 500, replace=TRUE, prob=c(0.6,0.4))),
-#'                        as.factor(sample(1:2, 500, replace=TRUE, prob=c(0.25,0.75))),
-#'                        as.factor(sample(1:2, 500, replace=TRUE, prob=c(0.9,0.1))),
-#'                        as.factor(sample(1:2, 500, replace=TRUE, prob=c(0.35,0.65))))
+#' likert_2 <- data.frame(
+#'   as.factor(sample(1:2, 500, replace = TRUE, prob = c(0.3,0.7))),
+#'   as.factor(sample(1:2, 500, replace = TRUE, prob = c(0.6,0.4))),
+#'   as.factor(sample(1:2, 500, replace = TRUE, prob = c(0.25,0.75))),
+#'   as.factor(sample(1:2, 500, replace = TRUE, prob = c(0.9,0.1))),
+#'   as.factor(sample(1:2, 500, replace = TRUE, prob = c(0.35,0.65))))
+#'   
 #' # create labels
 #' levels_2 <- c("Agree", "Disagree")
 #'                        
@@ -127,11 +131,11 @@
 #' # prepare data for 6-category likert scale, 5 items
 #' likert_6 <- data.frame()
 #' 
-#' Q1 <- as.factor(sample(1:6, 500, replace=TRUE, prob=c(0.2,0.1,0.1,0.3,0.2,0.1)))
-#' Q2 <- as.factor(sample(1:6, 500, replace=TRUE, prob=c(0.15,0.15,0.3,0.1,0.1,0.2)))
-#' Q3 <- as.factor(sample(1:6, 500, replace=TRUE, prob=c(0.2,0.25,0.05,0.2,0.2,0.2)))
-#' Q4 <- as.factor(sample(1:6, 500, replace=TRUE, prob=c(0.2,0.1,0.1,0.4,0.1,0.1)))
-#' Q5 <- as.factor(sample(1:6, 500, replace=TRUE, prob=c(0.1,0.4,0.1,0.3,0.05,0.15)))
+#' Q1 <- as.factor(sample(1:6, 500, replace = TRUE, prob = c(0.2,0.1,0.1,0.3,0.2,0.1)))
+#' Q2 <- as.factor(sample(1:6, 500, replace = TRUE, prob = c(0.15,0.15,0.3,0.1,0.1,0.2)))
+#' Q3 <- as.factor(sample(1:6, 500, replace = TRUE, prob = c(0.2,0.25,0.05,0.2,0.2,0.2)))
+#' Q4 <- as.factor(sample(1:6, 500, replace = TRUE, prob = c(0.2,0.1,0.1,0.4,0.1,0.1)))
+#' Q5 <- as.factor(sample(1:6, 500, replace = TRUE, prob = c(0.1,0.4,0.1,0.3,0.05,0.15)))
 #' 
 #' likert_6 <- data.frame(Q1, Q2, Q3, Q4, Q5)
 #'

@@ -2,7 +2,6 @@
 utils::globalVariables(c("OR", "lower", "upper", "p"))
 
 
-
 #' @title Plot odds ratios or predicted probabilities of generalized linear models
 #' @name sjp.glm
 #'
@@ -12,8 +11,6 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'                Depending on the \code{type} parameter, this function may also plot model
 #'                assumptions for generalized linear models, or predicted probabilities
 #'                of coefficients.
-#'
-#' @note Based on the script from \href{http://www.surefoss.org/dataanalysis/plotting-odds-ratios-aka-a-forrestplot-with-ggplot2/}{surefoss}
 #'
 #' @param fit fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).
 #' @param type type of plot. Use one of following:
@@ -26,61 +23,62 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only two parameters are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other parameters are ignored.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
-#' @param sortOdds If \code{TRUE} (default), the odds ratios are ordered according their values from highest first
+#' @param sortOdds logical, if \code{TRUE} (default), odds ratios are ordered according their values from highest first
 #'          to lowest last. Use \code{FALSE} if you don't want to change the order of the predictors.
-#' @param title Diagram's title as string. Example: \code{title = "my title"}
-#' @param axisLabels.y labels of the predictor variables (independent vars) that are used for labelling the
-#'          axis. Must be a character vector of same length as independent variables. \cr
-#'          \strong{Note:} If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
-#'          \code{list} object with label string. The labels may also be passed as list object. They will be coerced
-#'          to character vector automatically.
-#' @param showAxisLabels.y Whether labels of independent variables should be shown or not.
-#' @param axisTitle.x string; title for the x axis.
-#' @param axisLimits Defines the range of the axis where the odds ratios and their confidence intervalls
+#' @param title plot's title as string. Example: \code{title = "my title"}
+#' @param axisLabels.y labels or names of the predictor variables (independent vars). Must 
+#'          be a character vector of same length as independent variables. The labels 
+#'          may also be passed as list object; they will be coerced to character vector automatically.
+#' @param showAxisLabels.y logical, whether labels of independent variables should be shown or not.
+#' @param axisTitle.x string; title for the x-axis.
+#' @param axisLimits defines the range of the axis where odds ratios and their confidence intervalls
 #'          are drawn. By default, the limits range from the lowest confidence interval to the highest one, so
-#'          the diagram has maximum zoom. Use your own values as 2-value-vector, for instance: \code{limits = c(-0.8, 0.8)}.
-#' @param breakTitleAt Wordwrap for diagram title. Determines how many chars of the title are displayed in
+#'          the diagram has maximum zoom. Use your own values as vector of length two, indicating
+#'          lower and upper limit for the axis (for instance: \code{limits = c(-0.8, 0.8)}).
+#' @param breakTitleAt determines how many chars of the title are displayed in
 #'          one line and when a line break is inserted into the title
-#' @param breakLabelsAt Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in
+#' @param breakLabelsAt determines how many chars of the category labels are displayed in
 #'          one line and when a line break is inserted
-#' @param gridBreaksAt Sets the breaks on the y axis, i.e. at every n'th position a major
-#'          grid is being printed. Default is 0.5
-#' @param transformTicks if \code{TRUE}, the grid bars have exponential distances (equidistant), i.e. they
-#'          visually have the same distance from one panel grid to the next. If \code{FALSE}, grids are 
-#'          plotted on every \code{gridBreaksAt}'s position, thus the grid bars become narrower with 
+#' @param gridBreaksAt set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th 
+#'          position a major grid is being printed.
+#' @param transformTicks logical, if \code{TRUE}, the grid lines have exponential 
+#'          distances (equidistant), i.e. they visually have the same distance from 
+#'          one panel grid to the next. If \code{FALSE}, grids are 
+#'          plotted on every \code{gridBreaksAt}'s position, thus the grid lines become narrower with 
 #'          higher odds ratio values.
-#' @param geom.colors User defined color palette for geoms. Must either be vector with two color values
+#' @param geom.colors color palette for geoms. Must either be vector with two color values
 #'          or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.
 #' @param geom.size size resp. width of the geoms (bar width, point size, or line thickness,
 #'          depending on \code{type} parameter). By default, \code{geom.size = NULL}, 
 #'          which means that this parameter is automatically adjusted depending on the plot type.
-#' @param hideErrorBars If \code{TRUE}, the error bars that indicate the confidence intervals of the odds ratios are not
-#'          shown. Only applies if parameter \code{type = "bars"}. Default value is \code{FALSE}.
-#' @param interceptLineType The linetype of the intercept line (zero point). Default is \code{2} (dashed line).
-#' @param interceptLineColor The color of the intercept line. Default value is \code{"grey70"}.
-#' @param coord.flip If \code{TRUE} (default), predictors are plotted on the left y-axis and estimate
+#' @param hideErrorBars logical, if \code{TRUE}, the error bars that indicate the 
+#'          confidence intervals of the odds ratios are not shown. Only applies 
+#'          if parameter \code{type = "bars"}. Default value is \code{FALSE}.
+#' @param interceptLineType linetype of the intercept line (zero point). Default is \code{2} (dashed line).
+#' @param interceptLineColor color of the intercept line. Default value is \code{"grey70"}.
+#' @param coord.flip logical, if \code{TRUE} (default), predictors are plotted on the left y-axis and estimate
 #'          values are plotted on the x-axis.
-#' @param showIntercept If \code{TRUE}, the intercept of the fitted model is also plotted.
+#' @param showIntercept logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
 #'          Default is \code{FALSE}. Please note that due to exponential transformation of
 #'          estimates, the intercept in some cases can not be calculated, thus the
 #'          function call is interrupted and no plot printed.
-#' @param showValueLabels Whether odds ratio values should be plotted to each dot or not.
-#' @param labelDigits The amount of digits for rounding the estimations (see \code{showValueLabels}).
+#' @param showValueLabels logical, whether odds ratio values should be plotted to each dot or not.
+#' @param labelDigits numeric, amount of digits for rounding the estimations (see \code{showValueLabels}).
 #'          Default is 2, i.e. estimators have 2 digits after decimal point.
-#' @param showPValueLabels Whether the significance levels of each coefficient should be appended
-#'          to values or not.
-#' @param showModelSummary If \code{TRUE}, a summary of the regression model with
-#'          Intercept, R-square, F-Test and AIC-value is printed to the lower right corner
-#'          of the diagram.
-#' @param show.se Use \code{TRUE} to plot (depending on \code{type}) the standard
+#' @param showPValueLabels logical, whether the significance level of each coefficient 
+#'          should be appended to values or not.
+#' @param showModelSummary logical, if \code{TRUE}, a summary of the regression model with
+#'          Intercept, R-squared, F-Test and AIC-value is printed to the lower right corner
+#'          of the plot.
+#' @param show.se logical, use \code{TRUE} to plot (depending on \code{type}) the standard
 #'          error for probability curves (predicted probabilities).
-#' @param facet.grid \code{TRUE} when each plot should be plotted separately instead of
+#' @param facet.grid logical, \code{TRUE} when each plot should be plotted separately instead of
 #'          an integrated (faceted) single graph. Only applies, if \code{type = "prob"}.
-#' @param showOriginalModelOnly if \code{TRUE} (default) and \code{type = "ma"}, 
-#'          only the model assumptions of the fitted model \code{fit} are plotted.
+#' @param showOriginalModelOnly logical, if \code{TRUE} (default) and \code{type = "ma"}, 
+#'          only the model assumptions of \code{fit} are plotted.
 #'          If \code{FALSE}, the model assumptions of an updated model where outliers
 #'          are automatically excluded are also plotted.
-#' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+#' @param printPlot logical, if \code{TRUE} (default), a plot is produced. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #' @return (Invisibly) returns various objects, depending on 
 #'           the \code{type}-parameter:

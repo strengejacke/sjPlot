@@ -23,8 +23,8 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   \item{\code{"re"}}{(default) for estimates of random effects as forest plot}
   \item{\code{"fe"}}{for estimates of fixed effects as forest plot}
   \item{\code{"fe.std"}}{for standardized estimates of fixed effects as forest plot}
-  \item{\code{"fe.pred"}}{to plot regression lines (slopes) with confidence intervals for each single fixed effect, i.e. all fixed effect terms are extracted and each is plotted against the response variable}
-  \item{\code{"fe.resid"}}{to plot regression lines (slopes) with confidence intervals for each single fixed effect (against residuals), i.e. all fixed effect terms are extracted and each is plotted against the model residuals}
+  \item{\code{"fe.pred"}}{to plot regression lines (slopes) with confidence intervals for each single fixed effect, i.e. all fixed terms are extracted and each is plotted against the response variable (linear relationship between each fixed term and response)}
+  \item{\code{"fe.resid"}}{to plot regression lines (slopes) with confidence intervals for each single fixed effect (against residuals), i.e. all fixed terms are extracted and each is plotted against the model residuals (linear relationship between each fixed term and residuals)}
   \item{\code{"fe.cor"}}{for correlation matrix of fixed effects}
   \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
   \item{\code{"fe.ri"}}{for fixed effects slopes depending on the random intercept.}
