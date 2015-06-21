@@ -1,5 +1,5 @@
 # bind global variables
-if (getRversion() >= "2.15.1") utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "se", "group"))
+utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "se", "group"))
 
 
 #' @title Compute quick cluster analysis
@@ -7,7 +7,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("xpos", "value", "Var2",
 #' @description Compute a quick kmeans or hierarchical cluster analysis and displays "cluster characteristics"
 #'                as graph.
 #'                \enumerate{
-#'                \item If \code{method} is \code{kmeans}, this function first determines the optimal group count via gap statistics (unless parameter \code{groupcount} is specified), using the \code{\link{sjc.kgap}} function.
+#'                \item If \code{method = "kmeans"}, this function first determines the optimal group count via gap statistics (unless parameter \code{groupcount} is specified), using the \code{\link{sjc.kgap}} function.
 #'                \item A cluster analysis is performed by running the \code{\link{sjc.cluster}} function to determine the cluster groups.
 #'                \item Then, all variables in \code{data} are scaled and centered. The mean value of these z-scores within each cluster group is calculated to see how certain characteristics (variables) in a cluster group differ in relation to other cluster groups.
 #'                \item These results are plotted as graph.
@@ -20,14 +20,14 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("xpos", "value", "Var2",
 #' @param data The data frame containing all variables that should be used for the
 #'          cluster analysis.
 #' @param groupcount The amount of groups (clusters) that should be retrieved. May also be
-#'          a set of initial (distinct) cluster centres, in case \code{method} is \code{"kmeans"}
+#'          a set of initial (distinct) cluster centres, in case \code{method = "kmeans"}
 #'          (see \code{\link{kmeans}} for details on \code{centers} parameter). By default
 #'          (\code{NULL}), the optimal amount of clusters is calculated using the gap statistics
-#'          (see \code{\link{sjc.kgap}}. However, this works only with kmeans as \code{method}. If
-#'          \code{method} is \code{"hclust"}, you have to specify a groupcount. Use the \code{\link{sjc.elbow}}-function 
-#'          to determine the group-count depending on the elbow-criterion. Use \code{\link{sjc.grpdisc}}-function 
-#'          to inspect the goodness of grouping.
-#' @param groups By default, this parameter is \code{NULL} and will be ignored. However, if you just want to plot
+#'          (see \code{\link{sjc.kgap}}. However, this works only with \code{method = "kmeans"}. If
+#'          \code{method = "hclust"}, you have to specify \code{groupcount}. Use \code{\link{sjc.elbow}} 
+#'          to determine the groupcount depending on the elbow-criterion. Use \code{\link{sjc.grpdisc}} 
+#'          to inspect the accuracy of grouping.
+#' @param groups By default, this parameter is \code{NULL} and will be ignored. However, if you want to plot
 #'          an already existing cluster solution without computing a new cluster analysis, specify \code{groupcount}
 #'          and \code{groups}. \code{groups} is a vector of same length as \code{nrow(data)} and indicates the group
 #'          classification of the cluster analysis. The group classification can be computed with the
@@ -35,21 +35,20 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("xpos", "value", "Var2",
 #' @param method The method for computing the cluster analysis. By default (\code{"kmeans"}), a
 #'          kmeans cluster analysis will be computed. Use \code{"hclust"} to compute a hierarchical
 #'          cluster analysis. You can specify the initial letters only.
-#' @param distance The distance measure to be used when \code{"method"} is \code{"hclust"} (for hierarchical
+#' @param distance The distance measure to be used when \code{method = "hclust"} (for hierarchical
 #'          clustering). This must be one of \code{"euclidean"}, \code{"maximum"}, \code{"manhattan"}, 
 #'          \code{"canberra"}, \code{"binary"} or \code{"minkowski"}. See \code{\link{dist}}.
 #'          By default, method is \code{"kmeans"} and this parameter will be ignored.
-#' @param agglomeration The agglomeration method to be used when \code{"method"} is \code{"hclust"} (for hierarchical
+#' @param agglomeration The agglomeration method to be used when \code{method = "hclust"} (for hierarchical
 #'          clustering). This should be one of \code{"ward"}, \code{"single"}, \code{"complete"}, \code{"average"}, 
 #'          \code{"mcquitty"}, \code{"median"} or \code{"centroid"}. Default is \code{"ward"} (see \code{\link{hclust}}).
-#'          Note that since R version > 3.0.3, the \code{"ward"} option has been replaced by either \code{"ward.D"}
-#'          or \code{"ward.D2"}. In such case, you may also use these values.
-#'          By default, method is \code{"kmeans"} and this parameter will be ignored.
-#' @param iter.max the maximum number of iterations allowed. Only applies, if \code{method}
-#'          is \code{"kmeans"}. See \code{\link{kmeans}} for details on this parameter.
-#' @param algorithm algorithm used for calculating kmeans cluster. Only applies, if \code{method}
-#'          is \code{"kmeans"}. May be one of \code{"Hartigan-Wong"} (default), \code{"Lloyd"} (used by SPSS),
-#'          or \code{"MacQueen"}. See \code{\link{kmeans}} for details on this parameter.
+#'          By default, \code{method = "kmeans"} and this parameter will be ignored. See 'Note'.
+#' @param iter.max the maximum number of iterations allowed. Only applies, if 
+#'          \code{method = "kmeans"}. See \code{\link{kmeans}} for details on this parameter.
+#' @param algorithm algorithm used for calculating kmeans cluster. Only applies, if 
+#'          \code{method = "kmeans"}. May be one of \code{"Hartigan-Wong"} (default), 
+#'          \code{"Lloyd"} (used by SPSS), or \code{"MacQueen"}. See \code{\link{kmeans}} 
+#'          for details on this parameter.
 #' @param showAccuracy If \code{TRUE}, the \code{\link{sjc.grpdisc}} function will be called,
 #'          which computes a linear discriminant analysis on the classified cluster groups and plots a 
 #'          bar graph indicating the goodness of classification for each group.
@@ -60,10 +59,8 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("xpos", "value", "Var2",
 #'          \strong{Note:} If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
 #'          list object with label string. The labels may also be passed as list object. They will be coerced
 #'          to character vector automatically.
-#' @param axisTitle.x A label for the x axis. useful when plotting histograms with metric scales where no category labels
-#'          are assigned to the x axis.
-#' @param axisTitle.y A label for the y axis. useful when plotting histograms with metric scales where no category labels
-#'          are assigned to the y axis.
+#' @param axisTitle.x title for the x-axis.
+#' @param axisTitle.y title for the y-axis.
 #' @param breakTitleAt Determines how many chars of the title are displayed in 
 #'          one line and when a line break is inserted into the title.
 #' @param breakLabelsAt Determines how many chars of the labels are displayed in 
@@ -74,7 +71,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("xpos", "value", "Var2",
 #'          one line and when a line break is inserted into the axis labels.
 #' @param facetCluster If \code{TRUE}, each cluster group will be represented by an own panel.
 #'          Default is \code{FALSE}, thus all cluster groups are plotted in a single graph.
-#' @param geom.colors User defined color for bars.
+#' @param geom.colors User defined color for bars. See 'Note' in \code{\link{sjp.grpfrq}}.
 #' @param geom.size Width of bars. Recommended values for this parameter are from 0.4 to 1.5
 #' @param geom.spacing Spacing between bars. Default value is 0.1. If 0 is used, the grouped bars are sticked together and have no space
 #'          in between. Recommended values for this parameter are from 0 to 0.5
@@ -130,36 +127,36 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("xpos", "value", "Var2",
 #' @import sjmisc
 #' @export
 sjc.qclus <- function(data,
-                      groupcount=NULL,
-                      groups=NULL,
-                      method="k",
-                      distance="euclidean", 
-                      agglomeration="ward",
-                      iter.max=20,
-                      algorithm="Hartigan-Wong",
-                      showAccuracy=FALSE,
-                      title=NULL,
-                      axisLabels.x=NULL,
-                      axisTitle.x="Cluster group characteristics",
-                      axisTitle.y="Mean of z-scores",
-                      breakTitleAt=40,
-                      breakLabelsAt=20,
-                      breakLegendTitleAt=20, 
-                      breakLegendLabelsAt=20,
-                      facetCluster=FALSE,
-                      geom.colors="Paired",
-                      geom.size=0.5,
-                      geom.spacing=0.1,
-                      hideLegend=FALSE,
-                      showAxisLabels.x=TRUE,
-                      showAxisLabels.y=TRUE,
-                      showGroupCount=TRUE,
-                      showAccuracyLabels=FALSE,
-                      legendTitle=NULL,
-                      legendLabels=NULL,
-                      coord.flip=FALSE,
-                      reverseAxis.x=FALSE,
-                      printPlot=TRUE) {
+                      groupcount = NULL,
+                      groups = NULL,
+                      method = "k",
+                      distance = "euclidean",
+                      agglomeration = "ward",
+                      iter.max = 20,
+                      algorithm = "Hartigan-Wong",
+                      showAccuracy = FALSE,
+                      title = NULL,
+                      axisLabels.x = NULL,
+                      axisTitle.x = "Cluster group characteristics",
+                      axisTitle.y = "Mean of z-scores",
+                      breakTitleAt = 40,
+                      breakLabelsAt = 20,
+                      breakLegendTitleAt = 20,
+                      breakLegendLabelsAt = 20,
+                      facetCluster = FALSE,
+                      geom.colors = "Paired",
+                      geom.size = 0.5,
+                      geom.spacing = 0.1,
+                      hideLegend = FALSE,
+                      showAxisLabels.x = TRUE,
+                      showAxisLabels.y = TRUE,
+                      showGroupCount = TRUE,
+                      showAccuracyLabels = FALSE,
+                      legendTitle = NULL,
+                      legendLabels = NULL,
+                      coord.flip = FALSE,
+                      reverseAxis.x = FALSE,
+                      printPlot = TRUE) {
   # --------------------------------------------------------
   # check for abbreviations
   # --------------------------------------------------------
@@ -218,7 +215,7 @@ sjc.qclus <- function(data,
   # ---------------------------------------------
   if (is.null(groups)) {
     # check for parameter and R version
-    if (!getRversion() <= "3.0.3" && agglomeration == "ward") agglomeration <- "ward.D2"
+    if (agglomeration == "ward") agglomeration <- "ward.D2"
     grp.class <- grp <- sjc.cluster(data.origin, groupcount, method, distance, agglomeration, iter.max, algorithm)
   } else {
     grp.class <- grp <- groups
@@ -342,42 +339,41 @@ sjc.qclus <- function(data,
                            classification = grp.class,
                            accuracy = grp.accuracy$accuracy,
                            plot = gp)))
-                      }
+}
 
 
 #' @title Compute hierarchical or kmeans cluster analysis
 #' @name sjc.cluster
-#' @description Compute hierarchical or kmeans cluster analysis and returns the group
+#' @description Compute hierarchical or kmeans cluster analysis and return the group
 #'                association for each observation as vector.
 #'                
 #' @references Maechler M, Rousseeuw P, Struyf A, Hubert M, Hornik K (2014) cluster: Cluster Analysis Basics and Extensions. R package.
 #'
-#' @param data The data frame containing all variables that should be used for the
+#' @param data A data frame containing all variables that should be used for the
 #'          cluster analysis.
 #' @param groupcount The amount of groups (clusters) that should be retrieved. May also be
-#'          a set of initial (distinct) cluster centres, in case \code{method} is \code{"kmeans"}
+#'          a set of initial (distinct) cluster centres, in case \code{method = "kmeans"}
 #'          (see \code{\link{kmeans}} for details on \code{centers} parameter). If \code{groupcount}
 #'          indicates a number of clusters, following functions may be helpful for estimating the 
 #'          amount of clusters:
 #'          \itemize{
-#'            \item Use \code{\link{sjc.elbow}}-function to determine the group-count depending on the elbow-criterion.
-#'            \item If using kmeans as \code{method}, use \code{\link{sjc.kgap}}-function to determine the group-count according to the gap-statistic.
-#'            \item If using hierarchical as \code{method} (default), use  \code{\link{sjc.dend}}-function to inspect different cluster group solutions.
-#'            \item Use \code{\link{sjc.grpdisc}}-function to inspect the goodness of grouping (accuracy of classification).
+#'            \item Use \code{\link{sjc.elbow}} to determine the group-count depending on the elbow-criterion.
+#'            \item If \code{method = "kmeans"}, use \code{\link{sjc.kgap}} to determine the group-count according to the gap-statistic.
+#'            \item If \code{method = "hclust"} (hierarchical clustering, default), use \code{\link{sjc.dend}} to inspect different cluster group solutions.
+#'            \item Use \code{\link{sjc.grpdisc}} to inspect the goodness of grouping (accuracy of classification).
 #'            }
 #' @param method Indicates the clustering method. If \code{"hclust"} (default), a hierachical 
 #'          clustering using the ward method is computed. Use \code{"kmeans"} to compute a k-means clustering.
 #'          You can specifiy inital letters only.
-#' @param distance The distance measure to be used when \code{"method"} is \code{"hclust"} (for hierarchical
+#' @param distance The distance measure to be used when \code{method = "hclust"} (for hierarchical
 #'          clustering). This must be one of \code{"euclidean"} (default), \code{"maximum"}, \code{"manhattan"}, 
 #'          \code{"canberra"}, \code{"binary"} or \code{"minkowski"}. See \code{\link{dist}}.
-#' @param agglomeration The agglomeration method to be used when \code{"method"} is \code{"hclust"} (for hierarchical
+#' @param agglomeration The agglomeration method to be used when \code{method = "hclust"} (for hierarchical
 #'          clustering). This should be one of \code{"ward"}, \code{"single"}, \code{"complete"}, \code{"average"}, 
 #'          \code{"mcquitty"}, \code{"median"} or \code{"centroid"}. Default is \code{"ward"} (see \code{\link{hclust}}).
-#'          Note that since R version > 3.0.3, the \code{"ward"} option has been replaced by either \code{"ward.D"}
-#'          or \code{"ward.D2"}. In such case, you may also use these values.
-#' @param iter.max the maximum number of iterations allowed. Only applies, if \code{method}
-#'          is \code{"kmeans"}. See \code{\link{kmeans}} for details on this parameter.
+#'          See 'Note'.
+#' @param iter.max the maximum number of iterations allowed. Only applies, if \code{method = "kmeans"}.
+#'          See \code{\link{kmeans}} for details on this parameter.
 #' @param algorithm algorithm used for calculating kmeans cluster. Only applies, if \code{method}
 #'          is \code{"kmeans"}. May be one of \code{"Hartigan-Wong"} (default), \code{"Lloyd"} (used by SPSS),
 #'          or \code{"MacQueen"}. See \code{\link{kmeans}} for details on this parameter.
@@ -387,7 +383,11 @@ sjc.qclus <- function(data,
 #'           The returned vector includes missing values, so it can be appended 
 #'           to the original data frame \code{data}.
 #' 
-#' @note To get similar results as in SPSS Quick Cluster function, following points
+#' @note Since R version > 3.0.3, the \code{"ward"} option has been replaced by 
+#'        either \code{"ward.D"} or \code{"ward.D2"}, so you may use one of 
+#'        these values. When using \code{"ward"}, it will be replaced by \code{"ward.D2"}.
+#'        \cr \cr
+#'        To get similar results as in SPSS Quick Cluster function, following points
 #'        have to be considered:
 #'        \enumerate{
 #'          \item Use the \code{/PRINT INITIAL} option for SPSS Quick Cluster to get a table with initial cluster centers.
@@ -397,7 +397,7 @@ sjc.qclus <- function(data,
 #'        }
 #'        This ensures a fixed initial set of cluster centers (as in SPSS), while \code{\link{kmeans}} in R
 #'        always selects initial cluster sets randomly.
-#' 
+#'        
 #' @examples
 #' # Hierarchical clustering of mtcars-dataset
 #' groups <- sjc.cluster(mtcars, 5)
@@ -409,11 +409,11 @@ sjc.qclus <- function(data,
 #' @export
 sjc.cluster <- function(data,
                         groupcount,
-                        method="h",
-                        distance="euclidean",
-                        agglomeration="ward",
-                        iter.max=20,
-                        algorithm="Hartigan-Wong") {
+                        method = "h",
+                        distance = "euclidean",
+                        agglomeration = "ward",
+                        iter.max = 20,
+                        algorithm = "Hartigan-Wong") {
   # --------------------------------------------------------
   # check for abbreviations
   # --------------------------------------------------------
@@ -437,7 +437,7 @@ sjc.cluster <- function(data,
   # --------------------------------------------------
   if (method == "h") {
     # check for parameter and R version
-    if (!getRversion() <= "3.0.3" && agglomeration == "ward") agglomeration <- "ward.D2"
+    if (agglomeration == "ward") agglomeration <- "ward.D2"
     # distance matrix
     d <- dist(data, method = distance)
     # hierarchical clustering, using ward
@@ -466,7 +466,7 @@ sjc.cluster <- function(data,
 #' @title Compute hierarchical cluster analysis and visualize group classification
 #' @name sjc.dend
 #' @description Computes a hierarchical cluster analysis and plots a hierarchical
-#'                dendrogram with highlighting rectangles around the classified groups.
+#'                dendrogram with highlighted rectangles around the classified groups.
 #'                Can be used, for instance, as visual tool to verify the elbow-criterion
 #'                (see \code{\link{sjc.elbow}}).
 #'                
@@ -478,16 +478,20 @@ sjc.cluster <- function(data,
 #'            \item If using kmeans as \code{method}, use \code{\link{sjc.kgap}}-function to determine the group-count according to the gap-statistic.
 #'            \item Use \code{\link{sjc.grpdisc}}-function to inspect the goodness of grouping (accuracy of classification).
 #'          }
-#'          Solutions for multiple cluster groups can be plotted, for instance with \code{"groupcount=c(3:6)"}.
+#'          Solutions for multiple cluster groups can be plotted, for instance with \code{"groupcount = c(3:6)"}.
 #' @param distance The distance measure to be used. This must be one of \code{"euclidean"} (default), 
 #'          \code{"maximum"}, \code{"manhattan"}, \code{"canberra"}, \code{"binary"} or 
 #'          \code{"minkowski"}. See \code{\link{dist}}.
 #' @param agglomeration The agglomeration method to be used. This should be one of
 #'          \code{"ward"}, \code{"single"}, \code{"complete"}, \code{"average"}, 
 #'          \code{"mcquitty"}, \code{"median"} or \code{"centroid"}. Default is 
-#'          \code{"ward"} (see \code{\link{hclust}}).
-#'          Note that since R version > 3.0.3, the \code{"ward"} option has been replaced by either \code{"ward.D"}
-#'          or \code{"ward.D2"}. In such case, you may also use these values.
+#'          \code{"ward"} (see \code{\link{hclust}}). See 'Note'.
+#'          
+#' @note Since R version > 3.0.3, the \code{"ward"} option has 
+#'          been replaced by either \code{"ward.D"} or \code{"ward.D2"},
+#'          so you may use one of these values. When using \code{"ward"}, 
+#'          it will be replaced by \code{"ward.D2"}.
+
 #'          
 #' @importFrom scales brewer_pal
 #' @examples
@@ -500,7 +504,7 @@ sjc.cluster <- function(data,
 #' sjc.dend(mtcars, 2:4)
 #' 
 #' @export
-sjc.dend <- function(data, groupcount, distance="euclidean", agglomeration="ward") {
+sjc.dend <- function(data, groupcount, distance = "euclidean", agglomeration = "ward") {
   # Prepare Data
   # listwise deletion of missing
   data <- na.omit(data) 
@@ -510,7 +514,7 @@ sjc.dend <- function(data, groupcount, distance="euclidean", agglomeration="ward
   # distance matrix
   d <- dist(data, method = distance)
   # check for parameter and R version
-  if (!getRversion() <= "3.0.3" && agglomeration == "ward") agglomeration <- "ward.D2"
+  if (agglomeration == "ward") agglomeration <- "ward.D2"
   # hierarchical clustering, using ward
   hc <- hclust(d, method = agglomeration) 
   # display simple dendrogram
@@ -556,12 +560,12 @@ sjc.dend <- function(data, groupcount, distance="euclidean", agglomeration="ward
 #'                This function plots a bar graph indicating the goodness of classification
 #'                for each group.
 #'                
-#' @param data The data frame containing all variables that should be used for the
+#' @param data A data frame containing all variables that should be used for the
 #'          check for goodness of classification of a cluster analysis.
 #' @param groups The group classification of the cluster analysis that was returned
 #'          from the \code{\link{sjc.cluster}}-function.
 #' @param groupcount The amount of groups (clusters) that should be used. Use
-#'          the \code{\link{sjc.elbow}}-function to determine the group-count depending
+#'          \code{\link{sjc.elbow}} to determine the group-count depending
 #'          on the elbow-criterion.
 #' @param showTotalCorrect If \code{TRUE} (default), a vertical line indicating the
 #'          overall goodness of classification is added to the plot, so one can see
@@ -588,7 +592,7 @@ sjc.dend <- function(data, groupcount, distance="euclidean", agglomeration="ward
 #' @importFrom MASS lda
 #' @import ggplot2
 #' @export
-sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect=TRUE, printPlot=TRUE) {
+sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect = TRUE, printPlot = TRUE) {
   # Prepare Data
   # listwise deletion of missing
   data <- na.omit(data)
@@ -727,7 +731,7 @@ sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect=TRUE, printPl
 #' @import tidyr
 #' @import ggplot2
 #' @export
-sjc.elbow <- function(data, steps=15, showDiff=FALSE) {
+sjc.elbow <- function(data, steps = 15, showDiff = FALSE) {
   # Prepare Data
   # listwise deletion of missing
   data <- na.omit(data) 
@@ -824,7 +828,12 @@ sjc.elbow <- function(data, steps=15, showDiff=FALSE) {
 #' 
 #' @import ggplot2
 #' @export
-sjc.kgap <- function(x, max=10, B=100, SE.factor=1, method="Tibs2001SEmax", plotResults=TRUE) {
+sjc.kgap <- function(x, 
+                     max = 10, 
+                     B = 100, 
+                     SE.factor = 1, 
+                     method = "Tibs2001SEmax", 
+                     plotResults = TRUE) {
   # ------------------------
   # check if suggested package is available
   # ------------------------
@@ -834,18 +843,22 @@ sjc.kgap <- function(x, max=10, B=100, SE.factor=1, method="Tibs2001SEmax", plot
   # Prepare Data
   # listwise deletion of missing
   x <- na.omit(x) 
-  
+  # Gap Statistic for Estimating the Number of Clusters
   gap <- cluster::clusGap(x, kmeans, max, B)
 
   stopifnot((K <- nrow(T <- gap$Tab)) >= 1, SE.factor >= 0)
-  message("Clustering Gap statistic [\"clusGap\"].\n", sprintf("B=%d simulated reference sets, k = 1..%d\n",gap$B, K), sep = "")
+  message("Clustering Gap statistic [\"clusGap\"].\n", 
+          sprintf("B=%d simulated reference sets, k = 1..%d\n", gap$B, K), 
+          sep = "")
+  # Gap Statistic for Estimating the Number of Clusters
   nc <- cluster::maxSE(f = T[, "gap"], 
                        SE.f = T[, "SE.sim"], 
                        method = method, 
                        SE.factor = SE.factor)
   message(sprintf(" --> Number of clusters (method '%s'%s): %d\n",
-              method,
-              if (grepl("SE", method, fixed = T)) sprintf(", SE.factor=%g", SE.factor) else "", nc))
+                  method,
+                  if (grepl("SE", method, fixed = T)) sprintf(", SE.factor=%g", SE.factor) else "", 
+                  nc))
   # point size for cluster solution
   nclus <- rep(2, max)
   nclus[nc] <- 4
@@ -869,12 +882,12 @@ sjc.kgap <- function(x, max=10, B=100, SE.factor=1, method="Tibs2001SEmax", plot
     scale_x_discrete(breaks = c(1:nrow(df))) +
     labs(x = "Number of clusters", 
          y = "Gap", 
-         title = sprintf("Estimation of clusters (gap statistics)\n%i-cluster solution found",nc)) +
+         title = sprintf("Estimation of clusters (gap statistics)\n%i-cluster solution found", nc)) +
     theme_classic()
   if (plotResults) plot(gp)
   # return value
   invisible(structure(class = "sjckgap",
                       list(data = df,
-                      plot = gp,
-                      solution = nc)))
+                           plot = gp,
+                           solution = nc)))
 }

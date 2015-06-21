@@ -1,5 +1,5 @@
 # bind global variables
-if (getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "pred", "prob", "p", "CSS", "useViewer", "no.output"))
+utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "pred", "prob", "p", "CSS", "useViewer", "no.output"))
 
 
 #' @title Plot odds ratios or predicted probabilities of generalized linear mixed effects models
@@ -45,13 +45,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("nQQ", "ci", "fixef", "f
 #' @param title a character vector with one or more labels that are used as plot title. If
 #'          \code{type = "re"}, use the predictors' variable labels as titles.
 #' @param geom.colors User defined color palette for geoms. Must either be vector with two color values
-#'          or a specific color palette code (see below).
-#'          \itemize{
-#'            \item If not specified, the diverging \code{"Set1"} color brewer palette will be used.
-#'            \item If \code{"gs"}, a greyscale will be used.
-#'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
-#'            \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
-#'          }
+#'          or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.
 #' @param geom.size size of geoms (point size or line size, depending on \code{type}-parameter).
 #' @param hideErrorBars If \code{TRUE}, the error bars that indicate the confidence intervals of the odds ratios are not
 #'          shown.
@@ -308,13 +302,7 @@ sjp.glmer <- function(fit,
 #' @param title a character vector with one or more labels that are used as plot title. If
 #'          \code{type = "re"}, use the predictors' variable labels as titles.
 #' @param geom.colors User defined color palette for geoms. Must either be vector with two color values
-#'          or a specific color palette code (see below).
-#'          \itemize{
-#'            \item If not specified, the diverging \code{"Set1"} color brewer palette will be used.
-#'            \item If \code{"gs"}, a greyscale will be used.
-#'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
-#'            \item Else specify your own color values as vector (e.g. \code{geom.colors=c("#f00000", "#00ff00")}).
-#'          }
+#'          or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.
 #' @param geom.size size of geoms (point size or line size, depending on \code{type}-parameter).
 #' @param hideErrorBars If \code{TRUE}, the error bars that indicate the confidence intervals of the estimates are not
 #'          shown.

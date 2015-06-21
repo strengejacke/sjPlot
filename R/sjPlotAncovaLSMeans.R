@@ -1,5 +1,5 @@
 # bind global variables
-if (getRversion() >= "2.15.1") utils::globalVariables(c("xn", "vld", "l.ci", "u.ci"))
+utils::globalVariables(c("xn", "vld", "l.ci", "u.ci"))
 
 sjp.emm <- function(fit,
                     swapPredictors=FALSE,

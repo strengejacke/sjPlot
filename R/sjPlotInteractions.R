@@ -87,9 +87,9 @@
 #' @param geom.colors A vector of color values. First value is the color of the line indicating the lower bound of
 #'          the interaction term (moderator value). Second value is the color of the line indicating the upper bound of
 #'          the interaction term (moderator value). Third value, if applicable, is the color of the line indicating the
-#'          mean value of the interaction term (moderator value). Third value is only used when \code{moderatorValues}
-#'          is \code{"meansd"}. Or, if \code{diff} is \code{TRUE}, only one color value for the line indicating the
-#'          upper difference between lower and upper bound of interaction terms.
+#'          mean value of the interaction term (moderator value). Third value is only used when 
+#'          \code{moderatorValues = "meansd"}. Or, if \code{diff = TRUE}, only one color value for the 
+#'          line indicating the upper difference between lower and upper bound of interaction terms.
 #' @param axisTitle.x a default title used for the x-axis. Should be a character vector
 #'          of same length as interaction plots to be plotted. Default value is \code{NULL},
 #'          which means that each plot's x-axis uses the predictor's name as title.
@@ -168,10 +168,10 @@
 #'              \code{interceptLineColor}, \code{estLineColor}, \code{lineLabelSize}, \code{lineLabelColor} 
 #'              and \code{lineLabelString}.
 #'            }
-#'            \item{\code{type = "emm"}}{plots the estimated marginal means of Two-Way Repeated Measures AN(C)OVA,
-#'              which was the former \code{sjp.emm.int} function. This plot type plots estimated marginal means 
-#'              (also called \emph{least square means} or \emph{marginal means}) of (significant) interaction terms 
-#'              in two-way repeated measure ANOVA or ANCOVA. The fitted models may be linear (mixed effects) 
+#'            \item{\code{type = "emm"}}{plots the estimated marginal means of repeated measures designs,
+#'              like two-way repeated measures AN(C)OVA. In detail, this type plots estimated marginal means 
+#'              (also called \emph{least square means} or \emph{marginal means}) of (significant) interaction terms.
+#'              The fitted models may be linear (mixed effects) 
 #'              models of class \code{\link{lm}} or \code{\link[lme4]{merMod}}. This function may be used, for example,
 #'              to plot differences in interventions between control and treatment groups over multiple time points.
 #'              \itemize{

@@ -1,5 +1,5 @@
 # bind global variables
-if (getRversion() >= "2.15.1") utils::globalVariables(c("Row", "Column", "p.value"))
+utils::globalVariables(c("Row", "Column", "p.value"))
 
 
 #' @title Plot Pearson's Chi2-Test of multiple contingency tables

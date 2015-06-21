@@ -1,7 +1,5 @@
 # bind global variables
-if (getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
-
-
+utils::globalVariables(c("ordx", "ordy"))
 
 #' @title Plot correlation matrix
 #' @name sjp.corr
@@ -51,7 +49,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("ordx", "ordy"))
 #'          be plotted to each geom. See 'Note'.
 #' @param pvaluesAsNumbers If \code{TRUE}, the significance levels (p-values) are printed as numbers.
 #'          if \code{FALSE} (default), asterisks are used. See 'Note'.
-#' @param geom.colors A color palette for fillng the geoms. If not specified, the 5th diverging color palette
+#' @param geom.colors A color palette for fillng the geoms. If not specified, the diverging color palette
 #'          from the color brewer palettes (RdBu) is used, resulting in red colors for negative and blue colors
 #'          for positive correlations, that become lighter the weaker the correlations are. Use any
 #'          color palette that is suitbale for the \code{scale_fill_gradientn} parameter of ggplot2.

@@ -1,5 +1,5 @@
 # bind global variables
-if (getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p", "x", "ydiff", "y", "grp", ".stdresid", ".resid", ".fitted", "V1", "V2"))
+utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p", "x", "ydiff", "y", "grp", ".stdresid", ".resid", ".fitted", "V1", "V2"))
 
 
 #' @title Plot estimates or predicted values of linear models
@@ -61,13 +61,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("vars", "Beta", "xv", "l
 #'          are drawn. By default, the limits range from the lowest confidence interval to the highest one, so
 #'          the diagram has maximum zoom. Use your own values as 2-value-vector, for instance: \code{limits = c(-0.8, 0.8)}.
 #' @param geom.colors User defined color palette for geoms. Must either be vector with two color values
-#'          or a specific color palette code (see below).
-#'          \itemize{
-#'            \item If not specified, the \code{"Set1"} color brewer palette will be used.
-#'            \item If \code{"gs"}, a greyscale will be used.
-#'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
-#'            \item Else specify your own color values as vector, e.g. \code{geom.colors = c("#f00000", "#00ff00")}.
-#'          }
+#'          or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.
 #' @param geom.size size resp. width of the geoms (bar width or point size, depending on \code{type} parameter).
 #' @param interceptLineType The linetype of the intercept line (zero point). Default is \code{2} (dashed line).
 #' @param interceptLineColor The color of the intercept line. Default value is \code{"grey70"}.

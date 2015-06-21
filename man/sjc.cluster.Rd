@@ -8,37 +8,36 @@ sjc.cluster(data, groupcount, method = "h", distance = "euclidean",
   agglomeration = "ward", iter.max = 20, algorithm = "Hartigan-Wong")
 }
 \arguments{
-\item{data}{The data frame containing all variables that should be used for the
+\item{data}{A data frame containing all variables that should be used for the
 cluster analysis.}
 
 \item{groupcount}{The amount of groups (clusters) that should be retrieved. May also be
-a set of initial (distinct) cluster centres, in case \code{method} is \code{"kmeans"}
+a set of initial (distinct) cluster centres, in case \code{method = "kmeans"}
 (see \code{\link{kmeans}} for details on \code{centers} parameter). If \code{groupcount}
 indicates a number of clusters, following functions may be helpful for estimating the
 amount of clusters:
 \itemize{
-  \item Use \code{\link{sjc.elbow}}-function to determine the group-count depending on the elbow-criterion.
-  \item If using kmeans as \code{method}, use \code{\link{sjc.kgap}}-function to determine the group-count according to the gap-statistic.
-  \item If using hierarchical as \code{method} (default), use  \code{\link{sjc.dend}}-function to inspect different cluster group solutions.
-  \item Use \code{\link{sjc.grpdisc}}-function to inspect the goodness of grouping (accuracy of classification).
+  \item Use \code{\link{sjc.elbow}} to determine the group-count depending on the elbow-criterion.
+  \item If \code{method = "kmeans"}, use \code{\link{sjc.kgap}} to determine the group-count according to the gap-statistic.
+  \item If \code{method = "hclust"} (hierarchical clustering, default), use \code{\link{sjc.dend}} to inspect different cluster group solutions.
+  \item Use \code{\link{sjc.grpdisc}} to inspect the goodness of grouping (accuracy of classification).
   }}
 
 \item{method}{Indicates the clustering method. If \code{"hclust"} (default), a hierachical
 clustering using the ward method is computed. Use \code{"kmeans"} to compute a k-means clustering.
 You can specifiy inital letters only.}
 
-\item{distance}{The distance measure to be used when \code{"method"} is \code{"hclust"} (for hierarchical
+\item{distance}{The distance measure to be used when \code{method = "hclust"} (for hierarchical
 clustering). This must be one of \code{"euclidean"} (default), \code{"maximum"}, \code{"manhattan"},
 \code{"canberra"}, \code{"binary"} or \code{"minkowski"}. See \code{\link{dist}}.}
 
-\item{agglomeration}{The agglomeration method to be used when \code{"method"} is \code{"hclust"} (for hierarchical
+\item{agglomeration}{The agglomeration method to be used when \code{method = "hclust"} (for hierarchical
 clustering). This should be one of \code{"ward"}, \code{"single"}, \code{"complete"}, \code{"average"},
 \code{"mcquitty"}, \code{"median"} or \code{"centroid"}. Default is \code{"ward"} (see \code{\link{hclust}}).
-Note that since R version > 3.0.3, the \code{"ward"} option has been replaced by either \code{"ward.D"}
-or \code{"ward.D2"}. In such case, you may also use these values.}
+See 'Note'.}
 
-\item{iter.max}{the maximum number of iterations allowed. Only applies, if \code{method}
-is \code{"kmeans"}. See \code{\link{kmeans}} for details on this parameter.}
+\item{iter.max}{the maximum number of iterations allowed. Only applies, if \code{method = "kmeans"}.
+See \code{\link{kmeans}} for details on this parameter.}
 
 \item{algorithm}{algorithm used for calculating kmeans cluster. Only applies, if \code{method}
 is \code{"kmeans"}. May be one of \code{"Hartigan-Wong"} (default), \code{"Lloyd"} (used by SPSS),
@@ -52,11 +51,15 @@ The group classification for each observation as vector. This group
           to the original data frame \code{data}.
 }
 \description{
-Compute hierarchical or kmeans cluster analysis and returns the group
+Compute hierarchical or kmeans cluster analysis and return the group
                association for each observation as vector.
 }
 \note{
-To get similar results as in SPSS Quick Cluster function, following points
+Since R version > 3.0.3, the \code{"ward"} option has been replaced by
+       either \code{"ward.D"} or \code{"ward.D2"}, so you may use one of
+       these values. When using \code{"ward"}, it will be replaced by \code{"ward.D2"}.
+       \cr \cr
+       To get similar results as in SPSS Quick Cluster function, following points
        have to be considered:
        \enumerate{
          \item Use the \code{/PRINT INITIAL} option for SPSS Quick Cluster to get a table with initial cluster centers.

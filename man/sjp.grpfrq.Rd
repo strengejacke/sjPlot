@@ -61,13 +61,7 @@ adjusted depending on the plot type.}
 \item{geom.spacing}{the spacing between geoms (i.e. bar spacing)}
 
 \item{geom.colors}{User defined color palette for geoms. If specified, must either be vector with color values
-of same length as groups defined in \code{varGroup}, or a specific color palette code (see below).
-\itemize{
-  \item If not specified, the diverging \code{"Paired"} color brewer palette will be used.
-  \item If \code{"gs"}, a greyscale will be used.
-  \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
-  \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
-}}
+of same length as groups defined in \code{varGroup}, or a specific color brewer palette code (see 'Note').}
 
 \item{hideLegend}{Indicates whether legend (guide) should be shown or not.}
 
@@ -229,6 +223,17 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 Plot grouped or stacked frequencies of variables
                as bar/dor graphs, box or violin plots, histograms etc.
                using ggplot.
+}
+\note{
+\code{geom.colors} may be a acharacter vector of color values
+        in hex-format, or a name of a \href{http://colorbrewer2.org}{color brewer} palette.
+        Following options are valid for the \code{geom.colors} parameter:
+        \itemize{
+           \item If not specified, a default color brewer palette will be used, which is suitable for the plot style (i.e. diverging for likert scales, qualitative for grouped bars etc.).
+           \item If \code{"gs"}, a greyscale will be used.
+           \item If \code{geom.colors} is any valid color brewer palette name, the related palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view all available palette names.
+           \item Else specify own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
+         }
 }
 \examples{
 # histrogram with EUROFAMCARE sample dataset

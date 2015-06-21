@@ -1,5 +1,5 @@
 # bind global variables
-if (getRversion() >= "2.15.1") utils::globalVariables(c("pv"))
+utils::globalVariables(c("pv"))
 
 
 #' @title Plot One-Way-Anova tables
@@ -52,8 +52,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("pv"))
 #'          the \code{pointColor} value will be used as error bar color. In case \code{type} is \code{"bars"},
 #'          \code{"black"} will be used as error bar color.
 #' @param geom.colors The colors of the points resp. bars (depending on \code{type}) that indicate the mean-value. 
-#'          \code{geom.colors} is a 
-#'          vector with two values: the first indicating groups with positive means and the second 
+#'          Should be a vector with two values: the first indicating groups with positive means and the second 
 #'          indicating negative means. Default is \code{c("#3366a0", "#aa6633")}.
 #' @param geom.size The size of the points resp. bars (depending on \code{type}) that indicate the 
 #'          mean-value. Default is 3, which is suitable for \code{type="dots"}. Use something like

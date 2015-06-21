@@ -585,20 +585,21 @@ unlistlabels <- function(lab) {
 #' @name adjust_plot_range
 #'
 #' @description This method adjusts the y-range of a ggplot-object, which is useful when
-#'                value labels are outside of the plot region. A modified ggplot-object will
+#'                value labels are outside the plot region. A modified ggplot-object will
 #'                be returned with adjusted y-range so everything should be visible.
 #'                Note that this function only works on \code{scale_y_continuous}.
 #'
-#' @note Note that this function only works on \code{scale_y_continuous}.
+#' @note This function only works on \code{scale_y_continuous}.
 #'
-#' @references \href{http://www.r-bloggers.com/setting-axis-limits-on-ggplot-charts/}{r-bloggers.com}
+#' @references \href{http://blog.ouseful.info/2013/12/03/setting-axis-limits-on-ggplot-charts/}{OUseful.Info (2013)}
 #'
 #' @param gp A ggplot-object. Usually, this will be returned by most of this
 #'          package's plotting functions.
-#' @param upperMargin Defines the margin of the upper y bound of the plot. This value will
-#'          be multiplied with the total y range. Default is 1.05, which means that the upper
-#'          margin of the plot is about 5 percent of the "visible" plot area (i.e. the y-range
-#'          is 105 percent of the actual needed range to make all object visible).
+#' @param upperMargin Defines the new margin of the upper y-bound of the plot. This value will
+#'          be multiplied with \code{gp}'s current total y-range. Default is 1.05, which means
+#'          that the upper margin of the new plot's "visible" plot area will be increased
+#'          by 5 percent. (i.e. the y-range is 105 percent of the original range, 
+#'          in order to make all object visible).
 #' @return The same ggplot-object, with adjusted y-range, so all graphics and labels
 #'          should be visible.
 #'

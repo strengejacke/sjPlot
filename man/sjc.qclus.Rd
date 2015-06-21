@@ -21,15 +21,15 @@ sjc.qclus(data, groupcount = NULL, groups = NULL, method = "k",
 cluster analysis.}
 
 \item{groupcount}{The amount of groups (clusters) that should be retrieved. May also be
-a set of initial (distinct) cluster centres, in case \code{method} is \code{"kmeans"}
+a set of initial (distinct) cluster centres, in case \code{method = "kmeans"}
 (see \code{\link{kmeans}} for details on \code{centers} parameter). By default
 (\code{NULL}), the optimal amount of clusters is calculated using the gap statistics
-(see \code{\link{sjc.kgap}}. However, this works only with kmeans as \code{method}. If
-\code{method} is \code{"hclust"}, you have to specify a groupcount. Use the \code{\link{sjc.elbow}}-function
-to determine the group-count depending on the elbow-criterion. Use \code{\link{sjc.grpdisc}}-function
-to inspect the goodness of grouping.}
+(see \code{\link{sjc.kgap}}. However, this works only with \code{method = "kmeans"}. If
+\code{method = "hclust"}, you have to specify \code{groupcount}. Use \code{\link{sjc.elbow}}
+to determine the groupcount depending on the elbow-criterion. Use \code{\link{sjc.grpdisc}}
+to inspect the accuracy of grouping.}
 
-\item{groups}{By default, this parameter is \code{NULL} and will be ignored. However, if you just want to plot
+\item{groups}{By default, this parameter is \code{NULL} and will be ignored. However, if you want to plot
 an already existing cluster solution without computing a new cluster analysis, specify \code{groupcount}
 and \code{groups}. \code{groups} is a vector of same length as \code{nrow(data)} and indicates the group
 classification of the cluster analysis. The group classification can be computed with the
@@ -39,24 +39,23 @@ classification of the cluster analysis. The group classification can be computed
 kmeans cluster analysis will be computed. Use \code{"hclust"} to compute a hierarchical
 cluster analysis. You can specify the initial letters only.}
 
-\item{distance}{The distance measure to be used when \code{"method"} is \code{"hclust"} (for hierarchical
+\item{distance}{The distance measure to be used when \code{method = "hclust"} (for hierarchical
 clustering). This must be one of \code{"euclidean"}, \code{"maximum"}, \code{"manhattan"},
 \code{"canberra"}, \code{"binary"} or \code{"minkowski"}. See \code{\link{dist}}.
 By default, method is \code{"kmeans"} and this parameter will be ignored.}
 
-\item{agglomeration}{The agglomeration method to be used when \code{"method"} is \code{"hclust"} (for hierarchical
+\item{agglomeration}{The agglomeration method to be used when \code{method = "hclust"} (for hierarchical
 clustering). This should be one of \code{"ward"}, \code{"single"}, \code{"complete"}, \code{"average"},
 \code{"mcquitty"}, \code{"median"} or \code{"centroid"}. Default is \code{"ward"} (see \code{\link{hclust}}).
-Note that since R version > 3.0.3, the \code{"ward"} option has been replaced by either \code{"ward.D"}
-or \code{"ward.D2"}. In such case, you may also use these values.
-By default, method is \code{"kmeans"} and this parameter will be ignored.}
+By default, \code{method = "kmeans"} and this parameter will be ignored. See 'Note'.}
 
-\item{iter.max}{the maximum number of iterations allowed. Only applies, if \code{method}
-is \code{"kmeans"}. See \code{\link{kmeans}} for details on this parameter.}
+\item{iter.max}{the maximum number of iterations allowed. Only applies, if
+\code{method = "kmeans"}. See \code{\link{kmeans}} for details on this parameter.}
 
-\item{algorithm}{algorithm used for calculating kmeans cluster. Only applies, if \code{method}
-is \code{"kmeans"}. May be one of \code{"Hartigan-Wong"} (default), \code{"Lloyd"} (used by SPSS),
-or \code{"MacQueen"}. See \code{\link{kmeans}} for details on this parameter.}
+\item{algorithm}{algorithm used for calculating kmeans cluster. Only applies, if
+\code{method = "kmeans"}. May be one of \code{"Hartigan-Wong"} (default),
+\code{"Lloyd"} (used by SPSS), or \code{"MacQueen"}. See \code{\link{kmeans}}
+for details on this parameter.}
 
 \item{showAccuracy}{If \code{TRUE}, the \code{\link{sjc.grpdisc}} function will be called,
 which computes a linear discriminant analysis on the classified cluster groups and plots a
@@ -71,11 +70,9 @@ Example: \code{axisLabels.x = c("Label1", "Label2", "Label3")}. \cr
 list object with label string. The labels may also be passed as list object. They will be coerced
 to character vector automatically.}
 
-\item{axisTitle.x}{A label for the x axis. useful when plotting histograms with metric scales where no category labels
-are assigned to the x axis.}
+\item{axisTitle.x}{title for the x-axis.}
 
-\item{axisTitle.y}{A label for the y axis. useful when plotting histograms with metric scales where no category labels
-are assigned to the y axis.}
+\item{axisTitle.y}{title for the y-axis.}
 
 \item{breakTitleAt}{Determines how many chars of the title are displayed in
 one line and when a line break is inserted into the title.}
@@ -92,7 +89,7 @@ one line and when a line break is inserted into the axis labels.}
 \item{facetCluster}{If \code{TRUE}, each cluster group will be represented by an own panel.
 Default is \code{FALSE}, thus all cluster groups are plotted in a single graph.}
 
-\item{geom.colors}{User defined color for bars.}
+\item{geom.colors}{User defined color for bars. See 'Note' in \code{\link{sjp.grpfrq}}.}
 
 \item{geom.size}{Width of bars. Recommended values for this parameter are from 0.4 to 1.5}
 
@@ -137,7 +134,7 @@ is \code{NULL} (default), the standard string \code{"Group <nr>"} will be used.}
 Compute a quick kmeans or hierarchical cluster analysis and displays "cluster characteristics"
                as graph.
                \enumerate{
-               \item If \code{method} is \code{kmeans}, this function first determines the optimal group count via gap statistics (unless parameter \code{groupcount} is specified), using the \code{\link{sjc.kgap}} function.
+               \item If \code{method = "kmeans"}, this function first determines the optimal group count via gap statistics (unless parameter \code{groupcount} is specified), using the \code{\link{sjc.kgap}} function.
                \item A cluster analysis is performed by running the \code{\link{sjc.cluster}} function to determine the cluster groups.
                \item Then, all variables in \code{data} are scaled and centered. The mean value of these z-scores within each cluster group is calculated to see how certain characteristics (variables) in a cluster group differ in relation to other cluster groups.
                \item These results are plotted as graph.

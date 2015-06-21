@@ -60,13 +60,7 @@ are drawn. By default, the limits range from the lowest confidence interval to t
 the diagram has maximum zoom. Use your own values as 2-value-vector, for instance: \code{limits = c(-0.8, 0.8)}.}
 
 \item{geom.colors}{User defined color palette for geoms. Must either be vector with two color values
-or a specific color palette code (see below).
-\itemize{
-  \item If not specified, the \code{"Set1"} color brewer palette will be used.
-  \item If \code{"gs"}, a greyscale will be used.
-  \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
-  \item Else specify your own color values as vector, e.g. \code{geom.colors = c("#f00000", "#00ff00")}.
-}}
+or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.}
 
 \item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} parameter).}
 

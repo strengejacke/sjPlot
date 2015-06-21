@@ -1,5 +1,5 @@
 # bind global variables
-if (getRversion() >= "2.15.1") utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
+utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 
 #' @title Plot beta coefficients of multiple fitted lm's
 #' @name sjp.lmm
@@ -46,13 +46,7 @@ if (getRversion() >= "2.15.1") utils::globalVariables(c("beta", "lower", "upper"
 #' @param geom.colors A vector with colors for representing the estimates (i.e. points and error bars)
 #'          of the different fitted models. Thus, the length of this vector must be equal to
 #'          the length of supplied fitted models, so each model is represented by its own color.
-#'          You can use:
-#'          \itemize{
-#'            \item If not specified, the qualitative \code{"Dark2"} color brewer palette will be used.
-#'            \item If \code{"gs"}, a greyscale will be used.
-#'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
-#'            \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00", "#0080ff")}).
-#'            }
+#'          See 'Note' in \code{\link{sjp.grpfrq}}.
 #' @param fade.ns if \code{TRUE}, non significant estimates will be printed in slightly faded colors.
 #' @param usePShapes If \code{TRUE}, significant levels are distinguished by different point shapes and a related
 #'          legend is plotted. Default is \code{FALSE}.

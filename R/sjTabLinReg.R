@@ -1,5 +1,5 @@
 # bind global variables
-if (getRversion() >= "2.15.1") utils::globalVariables(c("starts_with"))
+utils::globalVariables(c("starts_with"))
 
 
 #' @title Show linear regression as HTML table

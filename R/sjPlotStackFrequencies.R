@@ -34,13 +34,8 @@
 #' @param legendTitle Title of the diagram's legend.
 #' @param includeN If \code{TRUE} (default), the N of each item is included into axis labels.
 #' @param geom.colors User defined color palette for geoms. If specified, must either be vector with color values 
-#'          of same length as groups defined in \code{legendLabels}, or a specific color palette code (see below).
-#'          \itemize{
-#'            \item If not specified, the sequential \code{"Blues"} color brewer palette will be used.
-#'            \item If \code{"gs"}, a greyscale will be used.
-#'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
-#'            \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00", "#8000f0")}).
-#'          }
+#'          of same length as groups defined in \code{legendLabels}, or a specific color palette code.
+#'          See 'Note' in \code{\link{sjp.grpfrq}}.
 #' @param geom.size size resp. width of the geoms (bar width)
 #' @param axisLabels.y Labels for the y-axis (the labels of the \code{items}). These parameters must
 #'          be passed as list! Example: \code{axisLabels.y=list(c("Q1", "Q2", "Q3"))}
@@ -149,35 +144,35 @@
 #' @importFrom scales percent
 #' @export
 sjp.stackfrq <- function(items,
-                        legendLabels=NULL,
-                        sort.frq=NULL,
-                        weightBy=NULL,
-                        weightByTitleString=NULL,
-                        hideLegend=FALSE,
-                        title=NULL,
-                        legendTitle=NULL,
-                        includeN=TRUE,
-                        axisLabels.y=NULL,
-                        breakTitleAt=50, 
-                        breakLabelsAt=30, 
-                        breakLegendTitleAt=30, 
-                        breakLegendLabelsAt=28,
-                        gridBreaksAt=0.2,
-                        expand.grid=FALSE,
-                        geom.size=0.5, 
-                        geom.colors="Blues",
-                        axisTitle.x=NULL,
-                        axisTitle.y=NULL,
-                        showValueLabels=TRUE,
-                        labelDigits = 1,
-                        showPercentageAxis=TRUE,
-                        jitterValueLabels=FALSE,
-                        showItemLabels=TRUE,
-                        showSeparatorLine=FALSE,
-                        separatorLineColor="grey80",
-                        separatorLineSize=0.3,
-                        coord.flip=TRUE,
-                        printPlot=TRUE) {
+                         legendLabels = NULL,
+                         sort.frq = NULL,
+                         weightBy = NULL,
+                         weightByTitleString = NULL,
+                         hideLegend = FALSE,
+                         title = NULL,
+                         legendTitle = NULL,
+                         includeN = TRUE,
+                         axisLabels.y = NULL,
+                         breakTitleAt = 50,
+                         breakLabelsAt = 30,
+                         breakLegendTitleAt = 30,
+                         breakLegendLabelsAt = 28,
+                         gridBreaksAt = 0.2,
+                         expand.grid = FALSE,
+                         geom.size = 0.5,
+                         geom.colors = "Blues",
+                         axisTitle.x = NULL,
+                         axisTitle.y = NULL,
+                         showValueLabels = TRUE,
+                         labelDigits = 1,
+                         showPercentageAxis = TRUE,
+                         jitterValueLabels = FALSE,
+                         showItemLabels = TRUE,
+                         showSeparatorLine = FALSE,
+                         separatorLineColor = "grey80",
+                         separatorLineSize = 0.3,
+                         coord.flip = TRUE,
+                         printPlot = TRUE) {
   # --------------------------------------------------------
   # check param. if we have a single vector instead of
   # a data frame with several items, convert vector to data frame

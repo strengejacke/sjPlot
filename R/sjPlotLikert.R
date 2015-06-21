@@ -1,6 +1,3 @@
-# bind global variables
-# if(getRversion() >= "2.15.1") utils::globalVariables(c("Freq", "ypos", "Question", "Response"))
-
 #' @title Plot likert scales as centered stacked bars
 #' @name sjp.likert
 #'             
@@ -44,13 +41,8 @@
 #'            \item{\code{NULL}}{(default) for no sorting}
 #'          }
 #' @param geom.colors User defined color palette for geoms. If specified, must either be vector with color values 
-#'          of same length as groups defined in \code{legendLabels}, or a specific color palette code (see below).
-#'          \itemize{
-#'            \item If not specified, the diverging \code{"BrBG"} color brewer palette will be used.
-#'            \item If \code{"gs"}, a greyscale will be used.
-#'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
-#'            \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00", "#0080ff")}).
-#'          }
+#'          of same length as groups defined in \code{legendLabels}, or a specific color palette code.
+#'          See 'Note' in \code{\link{sjp.grpfrq}}.
 #' @param reverse.colors If \code{TRUE}, the color scale from \code{geom.colors} will be reversed,
 #'          so positive and negative value switch colors.
 #' @param geom.size Width of bars. Recommended values for this parameter are from 0.4 to 1.5

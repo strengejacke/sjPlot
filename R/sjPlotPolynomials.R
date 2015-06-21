@@ -33,13 +33,7 @@
 #' @param showPValues logical, if \code{TRUE} (default), p-values for polynomial terms are
 #'          printed to the console.
 #' @param geom.colors User defined color palette for geoms. Must either be vector with two color values
-#'          or a specific color palette code (see below).
-#'          \itemize{
-#'            \item If not specified, the \code{"Set1"} color brewer palette will be used.
-#'            \item If \code{"gs"}, a greyscale will be used.
-#'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
-#'            \item Else specify your own color values as vector, e.g. \code{geom.colors = c("#f00000", "#00ff00")}.
-#'          }
+#'          or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.
 #' @param geom.size size resp. width of plotted lines.
 #' @param loessLineColor color of the loess-smoothed line. Only applies, if \code{showLoess = TRUE}.
 #' @param pointColor color of the scatter plot's point. Only applies, if \code{showScatterPlot = TRUE}.

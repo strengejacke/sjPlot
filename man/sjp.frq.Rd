@@ -23,37 +23,41 @@ sjp.frq(varCount, title = "", weightBy = NULL, weightByTitleString = NULL,
   labelPos = "outside", na.rm = TRUE, printPlot = TRUE)
 }
 \arguments{
-\item{varCount}{The variable which frequencies should be plotted.}
+\item{varCount}{a vector of values (variable) describing the bars which make up the plot.}
 
-\item{title}{Title of diagram as string. Example: \code{title = "my title"}.
+\item{title}{plot title as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
 (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
-\item{weightBy}{A weight factor that will be applied to weight all cases from \code{varCount}.
+\item{weightBy}{weight factor that will be applied to weight all cases of \code{varCount}.
 Must be a vector of same length as \code{varCount}. Default is \code{NULL}, so no weights are used.}
 
-\item{weightByTitleString}{If a weight factor is supplied via the parameter \code{weightBy}, the diagram's title
-may indicate this with a remark. Default is \code{NULL}, so the diagram's title will not be modified when
-cases are weighted. Use a string as parameter, e.g.: \code{weightByTitleString=" (weighted)"}.}
+\item{weightByTitleString}{suffix (as string) for the plot's title, if \code{weightBy} is specified,
+e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's
+title will not have a suffix when cases are weighted.}
 
-\item{interactionVar}{An interaction variable which can be used for box plots. Divides the observations in
-\code{varCount} into the factors (sub groups) of \code{interactionVar}. Only applies when parameter \code{"type"}
-is \code{"box"} or \code{"violin"} (resp. their alternative strings like \code{"boxplot"}, \code{"boxplots"} or \code{"v"}).}
+\item{interactionVar}{an interaction variable which can be used for box plots. Divides the observations in
+\code{varCount} into sub groups indicated by \code{interactionVar}. Only
+applies when \code{type = "boxplots"} or \code{"violins"}.}
 
-\item{sort.frq}{Determines whether categories on x-axis should be sorted according to the frequencies or not.
-Default is \code{"none"}, so categories are not sorted by frequency. Use \code{"asc"} or
-\code{"desc"} for sorting categories ascending or descending in relation to the frequencies.}
+\item{sort.frq}{Determines whether categories (bars) on x-axis should be sorted
+according to the frequencies or not.  Default is \code{"none"}, so
+categories are not sorted by frequency. Use \code{"asc"} or
+\code{"desc"} for sorting categories ascending or descending order.}
 
 \item{type}{Specifies the type of distribution plot that will be plotted.
 \describe{
-  \item{\code{"bar"}}{or \code{"bars"} or \code{"b"} for simple bars (the default setting)}
-  \item{\code{"dots"}}{or \code{"dot"} for a dot plot}
-  \item{\code{"h"}}{or \code{"hist"} or \code{"histogram"} for a histogram}
-  \item{\code{"line"}}{or \code{"lines"} or \code{"l"} for a histogram with filled area with line}
-  \item{\code{"dens"}}{or \code{"d"} or \code{"density"} for a density plot}
-  \item{\code{"box"}}{or \code{"boxplot"} or \code{"boxplots"} for box plots}
-  \item{\code{"v"}}{or \code{"violin"} for violin plots}
-  }}
+  \item{\code{"bars"}}{for simple bars (the default setting)}
+  \item{\code{"dots"}}{for a dot plot}
+  \item{\code{"histogram"}}{for a histogram}
+  \item{\code{"lines"}}{for a line-styled histogram with filled area}
+  \item{\code{"density"}}{for a density plot}
+  \item{\code{"boxplots"}}{for box plots}
+  \item{\code{"violins"}}{for violin plots}
+  }
+  You may use initial letter for \code{type} options, except for
+  \code{type = "dots"} and \code{type = "boxplots"}, which may be abbreviated
+  with \code{type = "dot"} and \code{type = "box"}}
 
 \item{geom.size}{size of geoms, depending on the plot \code{type}. Note that
 bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
@@ -62,16 +66,16 @@ adjusted depending on the plot type.}
 
 \item{geom.colors}{user defined color for geoms, e.g. \code{geom.colors = "#0080ff"}.}
 
-\item{axisLabels.x}{Labels for the x-axis breaks.
-Example: \code{axisLabels.x = c("Label1", "Label2", "Label3")}. \cr
-\strong{Note:} If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
-list object with label string. The labels may also be passed as list object. They will be coerced
+\item{axisLabels.x}{a character vector with labels for the x-axis breaks.
+Example: \code{axisLabels.x = c("Label1", "Label2", "Label3")}.
+The labels may also be passed as \code{\link{list}} object. They will be coerced
 to character vector automatically.}
 
-\item{interactionVarLabels}{Labels for the x-axis breaks when having interaction variables included.
-These labels replace the \code{axisLabels.x}. Only applies, when using box or violin plots
-(i.e. \code{type} is \code{"box"} or \code{"violin"}) and \code{interactionVar} is not \code{NULL}.
-Example: See \code{axisLabels.x}.}
+\item{interactionVarLabels}{a character vector with labels for the x-axis breaks
+when having interaction variables included. These labels replace the
+\code{axisLabels.x}. Only applies, when using box or violin plots
+(i.e. \code{type = "boxplots"} or \code{"violins"}) and \code{interactionVar}
+is not \code{NULL}.}
 
 \item{axisLimits.x}{numeric vector of length two, defining lower and upper axis limits
 of the x scale. By default, this parameter is set to \code{NULL}, i.e. the
@@ -83,121 +87,126 @@ outside this range that could not be plotted.}
 of the y scale. By default, this parameter is set to \code{NULL}, i.e. the
 y-axis ranges from 0 to required maximum.}
 
-\item{breakTitleAt}{Determines how many chars of the title are displayed in
-one line and when a line break is inserted into the title.}
+\item{breakTitleAt}{determines how many chars of the plot title are displayed in
+one line and when a line break is inserted into \code{title}'s value.}
 
-\item{breakLabelsAt}{Determines how many chars of the labels are displayed in
+\item{breakLabelsAt}{determines how many chars of the labels are displayed in
 one line and when a line break is inserted into the axis labels.}
 
-\item{gridBreaksAt}{Sets the breaks on the y axis, i.e. at every n'th position a major
-grid is being printed.}
+\item{gridBreaksAt}{set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th
+position a major grid is being printed.}
 
-\item{innerBoxPlotWidth}{The width of the inner box plot that is plotted inside of violin plots. Only applies
-if \code{type = "violin"}. Default value is 0.15}
+\item{innerBoxPlotWidth}{width of the inner box plot that is plotted inside of
+violin plots. Only applies if \code{type = "violins"}. Default value is 0.15}
 
-\item{innerBoxPlotDotSize}{Size of mean dot insie a violin plot. Applies only when \code{type} is set to \code{"violin"} or \code{"box"}.}
+\item{innerBoxPlotDotSize}{size of mean dot insie a violin plot. Applies only
+when \code{type = "violins"} or \code{"boxplots"}.}
 
-\item{expand.grid}{If \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
-axes and plotting region. Default is \code{FALSE}.}
+\item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e.
+there is a small margin between axes and plotting region. Default is \code{FALSE}.}
 
-\item{showValueLabels}{Whether counts and percentage values should be plotted to each bar. Default
-is \code{TRUE}.}
+\item{showValueLabels}{logical, whether count and percentage values should be
+plotted to each bar. Default is \code{TRUE}.}
 
-\item{showCountValues}{If \code{TRUE} (default), count values are be plotted to each bar. If \code{FALSE},
-count values are removed.}
+\item{showCountValues}{logical, if \code{TRUE} (default), count values are
+plotted to each bar. If \code{FALSE}, count values are removed.}
 
-\item{showPercentageValues}{If \code{TRUE} (default), percentage values are be plotted to each bar, if \code{FALSE},
-percentage-values are removed.}
+\item{showPercentageValues}{logical, if \code{TRUE} (default), percentage values
+are plotted to each bar, if \code{FALSE}, percentage-values are removed.}
 
-\item{showAxisLabels.x}{Whether x-axis labels (category names) should be shown or not.}
+\item{showAxisLabels.x}{logical, whether x-axis labels (category names) should be shown or not.}
 
-\item{showAxisLabels.y}{Whether y-axis labels (count values) should be shown or not.}
+\item{showAxisLabels.y}{logical, whether y-axis labels (count values) should be shown or not.}
 
-\item{showCI}{logical, whether or not confidence intervals should be plotted. Only applies to \code{type = "dots"}
-or \code{type = "bars"}.}
+\item{showCI}{logical, whether or not confidence intervals should be plotted.
+Only applies to \code{type = "dots"} or \code{type = "bars"}.}
 
-\item{error.bar.color}{Color of confidence interval bars (error bars). Only applies to \code{type = "bars"}. In case
-of dot plots, error bars will have same colors as dots (see \code{geom.colors}).}
+\item{error.bar.color}{color of confidence interval bars (error bars).
+Only applies to \code{type = "bars"}. In case of dot plots, error bars
+will have same colors as dots (see \code{geom.colors}).}
 
-\item{showMeanIntercept}{If \code{TRUE}, a vertical line in histograms is drawn to indicate the mean value of the count
-variables. Only applies to histogram-charts.}
+\item{showMeanIntercept}{logical, if \code{TRUE}, a vertical line in histograms
+is drawn to indicate the mean value of the count variables. Only
+applies to histogram-charts.}
 
-\item{showMeanValue}{If \code{TRUE} (default value), the mean value is printed to the vertical line that indicates the mean value
+\item{showMeanValue}{logical, if \code{TRUE} (default), the mean value
+is printed to the vertical line that indicates the mean value
 of the count variables. Only applies to histogram-charts.}
 
-\item{showStandardDeviation}{If \code{TRUE}, the standard deviation is annotated as shaded rectangle around the mean intercept
+\item{showStandardDeviation}{logical, if \code{TRUE}, the standard deviation
+is annotated as shaded rectangle around the mean intercept
 line. Only applies to histogram-charts.}
 
-\item{showNormalCurve}{If \code{TRUE}, a normal curve, which is adjusted to the data,
+\item{showNormalCurve}{logical, if \code{TRUE}, a normal curve, which is adjusted to the data,
 is plotted over the histogram or density plot. Default is
 \code{FALSE}. Only applies when histograms or density plots are plotted (see \code{type}).}
 
-\item{showStandardNormalCurve}{If \code{TRUE}, a normal curve, which is not adjusted to the data (thus
-representing a "true" standard normal curve, which is, however, still an approximation),
-is plotted over the histogram or density plot. Default is \code{FALSE}. Only applies when
+\item{showStandardNormalCurve}{logical, if \code{TRUE}, a normal curve, which is not
+adjusted to the data (thus representing a "true" standard normal curve,
+which is, however, still an approximation), is plotted over the histogram
+or density plot. Default is \code{FALSE}. Only applies when
 histograms or density plots are plotted (see \code{type}).}
 
-\item{adjustNormalCurve.x}{If \code{TRUE} and \code{showStandardNormalCurve} is also \code{TRUE}, the
+\item{adjustNormalCurve.x}{logical, if \code{TRUE} and \code{showStandardNormalCurve} is also \code{TRUE}, the
 x-axis-start of the standard normal curve starts with the x-axis limits of the graph. This
 is only necessary, if minimum value of \code{varCount} is larger than 0 or 1.}
 
-\item{meanInterceptLineType}{The linetype of the mean intercept line. Only applies to histogram-charts and
-when \code{showMeanIntercept} is \code{TRUE}.}
+\item{meanInterceptLineType}{numeric value, indicating the linetype of the mean
+intercept line. Only applies to histogram-charts and
+when \code{showMeanIntercept = TRUE}.}
 
-\item{meanInterceptLineSize}{The size of the mean intercept line. Only applies to histogram-charts and when
-\code{showMeanIntercept} is \code{TRUE}.}
+\item{meanInterceptLineSize}{numeric, size of the mean intercept line. Only
+applies to histogram-charts and when \code{showMeanIntercept = TRUE}.}
 
-\item{normalCurveColor}{Specify the color of the normal curve line. Only
-applies if \code{showNormalCurve} is \code{TRUE}.}
+\item{normalCurveColor}{color of the normal curve line. Only
+applies if \code{showNormalCurve = TRUE}.}
 
-\item{normalCurveSize}{Specifiy the size of the normal curve line. Only
-applies if \code{showNormalCurve} is \code{TRUE}.}
+\item{normalCurveSize}{numeric, size of the normal curve line. Only
+applies if \code{showNormalCurve = TRUE}.}
 
-\item{normalCurveAlpha}{Specify the transparancy (alpha value) of the normal curve. Only
-applies if \code{showNormalCurve} is \code{TRUE}.}
+\item{normalCurveAlpha}{transparancy level (alpha value) of the normal curve. Only
+applies if \code{showNormalCurve = TRUE}.}
 
-\item{axisTitle.x}{label for the x-axis. useful when plotting histograms with metric scales where no category labels
-are assigned to the x-axis. By default, \code{""} is used, i.e. no title
-is printed.
-Use \code{NULL} to automatically detect variable names that will be used as title
+\item{axisTitle.x}{title for the x-axis. Useful when plotting histograms
+with metric scales where no category labels are assigned to the x-axis.
+By default, the variable name will be automatically detected and used as title
 (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
-\item{axisTitle.y}{label for the y-axis. useful when plotting histograms with metric scales where no category labels
-are assigned to the y-axis. By default, \code{""} is used, i.e. no title
-is printed.
-Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details).}
+\item{axisTitle.y}{title for the y-axis. By default, this value is \code{NULL},
+i.e. no title is printed.}
 
-\item{startAxisAt}{Determines the first value on the x-axis. By default, this value is set
+\item{startAxisAt}{numeric, determines the lower limit of the x-axis. By default, this value is set
 to \code{"auto"}, i.e. the value range on the x axis starts with the lowest value of \code{varCount}.
 If you set \code{startAxisAt} to 1, you may have zero counts if the lowest value of \code{varCount}
 is larger than 1 and hence no bars plotted for these values in such cases.}
 
-\item{hist.skipZeros}{If \code{TRUE}, zero counts (categories with no answer) in \code{varCount} are omitted
-when drawing histrograms, and the mapping is changed to \code{\link[ggplot2]{stat_bin}}. Only applies to
-histograms (see \code{type}). Use this parameter to get identical results to the default
-\code{\link[ggplot2]{qplot}} or \code{\link[ggplot2]{geom_histogram}} histogram plots of ggplot. You may need
-to adjust the \code{geom.size} parameter for better visual results (which, by ggplot-default, is
-1/30 of the x-axis-range).}
+\item{hist.skipZeros}{logical, if \code{TRUE}, zero counts (categories with no answer)
+in \code{varCount} are omitted when drawing histrograms, and the mapping
+is changed to \code{\link[ggplot2]{stat_bin}}. Only applies to  histograms.
+Use this parameter to get similar results to the default \code{\link[ggplot2]{qplot}}
+or \code{\link[ggplot2]{geom_histogram}} histogram plots of ggplot. You may need
+to adjust the \code{geom.size} parameter for better visual results
+(which, by ggplot-default, is 1/30 of the x-axis-range).}
 
-\item{autoGroupAt}{A value indicating at which length of unique values of \code{varCount} the variable
-is automatically grouped into smaller units (see \code{\link[sjmisc]{group_var}}). If \code{varCount} has large
-numbers of unique values, too many bars for the graph have to be plotted. Hence it's recommended
-to group such variables. For example, if \code{autoGroupAt} is 50, i.e. if \code{varCount} has 50 and more unique values
-it will be grouped using \code{group_var} with \code{groupsize = "auto"} parameter. By default,
-the maximum group count is 30. However, if \code{autoGroupAt} is less than 30, \code{autoGroupAt}
-groups are built. Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.}
+\item{autoGroupAt}{numeric value, indicating at which length of unique values of \code{varCount},
+automatic grouping into smaller units is done (see \code{\link[sjmisc]{group_var}}).
+If \code{varCount} has large numbers of unique values, there may be too many bars
+for the plot. Hence it's practical to group such variables. For example,
+if \code{autoGroupAt = 50} and \code{varCount} has more than 50 unique values,
+it will be grouped (using the \code{\link[sjmisc]{group_var}} function).
+Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.
+See \code{\link[sjmisc]{group_var}} for examples on grouping.}
 
-\item{coord.flip}{If \code{TRUE}, the x and y axis are swapped. Default is \code{FALSE}.}
+\item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped. Default is \code{FALSE}.}
 
-\item{labelPos}{If \code{coord.flip} is \code{TRUE}, use this parameter to specify value label position.
+\item{labelPos}{string, indicating the position of value labels, when \code{coord.flip = TRUE}.
 Can be either \code{"inside"} or \code{"outside"} (default). You may specify
-initial letter only. If \code{coord.flip} is \code{FALSE}, this parameter will
+initial letter only. If \code{coord.flip = FALSE}, this parameter will
 be ignored.}
 
-\item{na.rm}{If \code{TRUE}, missings are not included in the frequency calculation and diagram plot.}
+\item{na.rm}{logical, if \code{TRUE}, missings are not included in the frequency plot.}
 
-\item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
@@ -206,7 +215,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 }
 \description{
 Plot frequencies of a (count) variable as bar graph, histogram,
-               box plot etc. using ggplot.
+               box plot etc.
 }
 \note{
 This function only works with variables with integer values, i.e. scales / centred variables

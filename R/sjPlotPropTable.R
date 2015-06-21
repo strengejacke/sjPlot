@@ -1,5 +1,5 @@
 # bind global variables
-if(getRversion() >= "2.15.1") utils::globalVariables(c("Perc", "Sum", "Count", "Group", "line.break"))
+utils::globalVariables(c("Perc", "Sum", "Count", "Group", "line.break"))
 
 #' @title Plot contingency tables
 #' @name sjp.xtab
@@ -43,13 +43,8 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("Perc", "Sum", "Count", "
 #' @param axisLabels.x Labels for the x-axis breaks.
 #' @param legendLabels Labels for the guide/legend.
 #' @param geom.colors User defined color palette for geoms. If specified, must either be vector with color values 
-#'          of same length as groups defined in \code{x}, or a specific color palette code (see below).
-#'          \itemize{
-#'            \item If not specified, the qualitative \code{"Paired"} color brewer palette will be used.
-#'            \item If \code{"gs"}, a greyscale will be used.
-#'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
-#'            \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
-#'          }
+#'          of same length as groups defined in \code{x}, or a specific color palette code.
+#'          See 'Note' in \code{\link{sjp.grpfrq}}.
 #' @param geom.size size resp. width of the geoms (bar width).
 #' @param geom.spacing the spacing between geoms (i.e. bar spacing)
 #' @param breakTitleAt Wordwrap for diagram title. Determines how many chars of the title are displayed in

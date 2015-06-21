@@ -87,13 +87,8 @@ grid is being printed. Valid values range from 0 to 1.}
 \item{geom.spacing}{the spacing between geoms (i.e. bar spacing)}
 
 \item{geom.colors}{User defined color palette for geoms. If specified, must either be vector with color values
-of same length as groups defined in \code{x}, or a specific color palette code (see below).
-\itemize{
-  \item If not specified, the qualitative \code{"Paired"} color brewer palette will be used.
-  \item If \code{"gs"}, a greyscale will be used.
-  \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
-  \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
-}}
+of same length as groups defined in \code{x}, or a specific color palette code.
+See 'Note' in \code{\link{sjp.grpfrq}}.}
 
 \item{barPosition}{Indicates whether bars should be positioned side-by-side (default, or use \code{"dodge"} as
 parameter) or stacked (use \code{"stack"} as parameter).}

@@ -41,7 +41,7 @@ the values labels are shown. Default is 3. Only applies when
 \item{corMethod}{Indicates the correlation computation method. May be one of
 \code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.}
 
-\item{geom.colors}{A color palette for fillng the geoms. If not specified, the 5th diverging color palette
+\item{geom.colors}{A color palette for fillng the geoms. If not specified, the diverging color palette
 from the color brewer palettes (RdBu) is used, resulting in red colors for negative and blue colors
 for positive correlations, that become lighter the weaker the correlations are. Use any
 color palette that is suitbale for the \code{scale_fill_gradientn} parameter of ggplot2.}

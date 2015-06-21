@@ -52,13 +52,7 @@ See examples for details.}
 \item{geom.size}{size of geoms (point size or line size, depending on \code{type}-parameter).}
 
 \item{geom.colors}{User defined color palette for geoms. Must either be vector with two color values
-or a specific color palette code (see below).
-\itemize{
-  \item If not specified, the diverging \code{"Set1"} color brewer palette will be used.
-  \item If \code{"gs"}, a greyscale will be used.
-  \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
-  \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
-}}
+or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.}
 
 \item{hideErrorBars}{If \code{TRUE}, the error bars that indicate the confidence intervals of the odds ratios are not
 shown.}

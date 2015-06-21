@@ -44,13 +44,7 @@
 #'          fit method of the fitted line.
 #' @param showSE If \code{TRUE}, a shaded region indicating the standard error of the fitted lines will be added.
 #' @param fitmethod By default, a linear method (\code{"lm"}) is used for fitting the fit lines. Possible values are
-#'          for instance:
-#'          \itemize{
-#'            \item \code{"lm"}
-#'            \item \code{"glm"}
-#'            \item \code{"loess"}
-#'            \item \code{"auto"}
-#'          }
+#'          for instance \code{"lm"}, \code{"glm"}, \code{"loess"} or \code{"auto"}
 #'          (see \href{http://docs.ggplot2.org/current/stat_smooth.html}{ggplot-docs} for more details).
 #' @param useJitter If \code{TRUE}, points will be jittered (to avoid overplotting).
 #' @param autojitter If \code{TRUE}, points will be jittered according to an overlap-estimation. A matrix of \code{x}

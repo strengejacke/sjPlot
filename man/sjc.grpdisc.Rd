@@ -8,14 +8,14 @@ sjc.grpdisc(data, groups, groupcount, showTotalCorrect = TRUE,
   printPlot = TRUE)
 }
 \arguments{
-\item{data}{The data frame containing all variables that should be used for the
+\item{data}{A data frame containing all variables that should be used for the
 check for goodness of classification of a cluster analysis.}
 
 \item{groups}{The group classification of the cluster analysis that was returned
 from the \code{\link{sjc.cluster}}-function.}
 
 \item{groupcount}{The amount of groups (clusters) that should be used. Use
-the \code{\link{sjc.elbow}}-function to determine the group-count depending
+\code{\link{sjc.elbow}} to determine the group-count depending
 on the elbow-criterion.}
 
 \item{showTotalCorrect}{If \code{TRUE} (default), a vertical line indicating the
