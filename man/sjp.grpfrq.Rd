@@ -103,20 +103,20 @@ outside this range that could not be plotted.}
 of the y scale. By default, this parameter is set to \code{NULL}, i.e. the
 y-axis ranges from 0 to required maximum.}
 
-\item{breakTitleAt}{Wordwrap for diagram title. Determines how many chars of the title are displayed in
+\item{breakTitleAt}{determines how many chars of the plot title are displayed in
 one line and when a line break is inserted into the title.}
 
-\item{breakLabelsAt}{Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in
+\item{breakLabelsAt}{determines how many chars of the category labels are displayed in
 one line and when a line break is inserted.}
 
-\item{breakLegendTitleAt}{Wordwrap for diagram legend title. Determines how many chars of the legend's title
+\item{breakLegendTitleAt}{determines how many chars of the legend's title
 are displayed in one line and when a line break is inserted.}
 
-\item{breakLegendLabelsAt}{Wordwrap for diagram legend labels. Determines how many chars of the legend labels are
+\item{breakLegendLabelsAt}{determines how many chars of the legend labels are
 displayed in one line and when a line break is inserted.}
 
-\item{gridBreaksAt}{Sets the breaks on the y axis, i.e. at every n'th position a major
-grid is being printed.}
+\item{gridBreaksAt}{set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th
+position a major grid is being printed.}
 
 \item{barPosition}{indicates whether bars should be positioned side-by-side (default, or use \code{"dodge"} as
 parameter) or stacked (use \code{"stack"} as parameter).
@@ -125,97 +125,100 @@ which displays the bars side-by-side, or \code{"identity"}, which results in
 overlaying bars. In the latter case, it's recommended to adjust the
 alpha value (see \code{\link{sjp.setTheme}}).}
 
-\item{innerBoxPlotWidth}{The width of the inner box plot that is plotted inside of violin plots. Only applies
-if \code{type} is \code{"violin"}. Default value is 0.15}
+\item{innerBoxPlotWidth}{width of the inner box plot that is plotted inside of violin plots. Only applies
+if \code{type = "violins"}. Default value is 0.15}
 
-\item{innerBoxPlotDotSize}{Size of mean dot insie a violin or box plot. Applies only when \code{type} is set to
-\code{"violin"} or \code{"box"}.}
+\item{innerBoxPlotDotSize}{size of mean dot insie a violin or box plot. Applies only
+when \code{type = "violins"} or \code{"boxplots"}.}
 
-\item{smoothLines}{Prints a smooth line curve. Only applies, when parameter \code{type}
-is set to \code{"lines"}.}
+\item{smoothLines}{prints a smooth line curve. Only applies, when parameter \code{type = "lines"}.}
 
-\item{expand.grid}{If \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
+\item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 axes and plotting region. Default is \code{FALSE}.}
 
-\item{showValueLabels}{Whether counts and percentage values should be plotted to each bar. Default
+\item{showValueLabels}{logical, whether count and percentage values should be plotted to each bar. Default
 is \code{TRUE}.}
 
-\item{showCountValues}{If \code{TRUE} (default), count values are be plotted to each bar. If \code{FALSE},
-count values are removed.}
+\item{showCountValues}{logical, if \code{TRUE} (default), count values are plotted to each bar.
+If \code{FALSE}, count values are removed.}
 
-\item{showPercentageValues}{If \code{TRUE} (default), percentage values are be plotted to each bar, if \code{FALSE},
-percentage-values are removed.}
+\item{showPercentageValues}{logical, if \code{TRUE} (default), percentage values are plotted to each bar
+If \code{FALSE}, percentage values are removed.}
 
-\item{showAxisLabels.x}{Whether x axis labels (category names) should be shown or not.}
+\item{showAxisLabels.x}{logical, whether x-axis labels (category names) should be shown or not.}
 
-\item{showAxisLabels.y}{Whether y axis labels (count values) should be shown or not.}
+\item{showAxisLabels.y}{logical, whether y-axis labels (count values) should be shown or not.}
 
-\item{showPlotAnnotation}{If \code{TRUE}, the groups of dots in a dot-plot are highlighted with a shaded rectangle.}
+\item{showPlotAnnotation}{logical, if \code{TRUE}, the groups of dots in a dot-plot are highlighted
+with a shaded rectangle.}
 
-\item{showMeanIntercept}{if \code{TRUE}, a vertical line in histograms is drawn to indicate the mean value of the count
-variables. Only applies to histogram-charts.}
+\item{showMeanIntercept}{logical, if \code{TRUE}, a vertical line in histograms is drawn
+to indicate the mean value of the count variables. Only applies to histogram-charts.}
 
-\item{showMeanValue}{If \code{TRUE} (default value), the mean value is printed to the vertical line that indicates the mean value
+\item{showMeanValue}{logical, if \code{TRUE} (default value), the mean value is printed
+to the vertical line that indicates the mean value
 of the count variables. Only applies to histogram-charts.}
 
-\item{showStandardDeviation}{If \code{TRUE}, the standard deviation is annotated as shaded rectangle around the mean intercept
-line. Only applies to histogram-charts. The shaded rectangles have borders in the group colors, so it's easier to see
-which shaded area belongs to which mean value resp. group}
+\item{showStandardDeviation}{logical, if \code{TRUE}, the standard deviation is annotated
+as shaded rectangle around the mean intercept line. Only applies to histogram-charts.
+The shaded rectangles have borders in the group colors, so it's easier to see
+which shaded area belongs to which mean value resp. group.}
 
-\item{showTableSummary}{If \code{TRUE}, a summary of the cross tabulation with N, Chi-square (see \code{\link{chisq.test}}),
-df, Cramer's V or Phi-value and p-value is printed to the upper right corner of the diagram. If a cell contains expected
-values lower than five (or lower than 10 if df is 1),
-the Fisher's excact test (see \code{\link{fisher.test}}) is computed instead of Chi-square test.
-If the table's matrix is larger than 2x2, Fisher's excact test with Monte Carlo simulation is computed.
-Only applies to bar-charts or dot-plots, i.e. when parameter \code{type} is either \code{"bars"} or \code{"dots"}.}
+\item{showTableSummary}{logical, if \code{TRUE}, a summary of the cross tabulation with N,
+chi-squared, df, Cramer's V or Phi-value and p-value is printed to the upper
+right corner of the plot (see \code{tableSummaryPos}. If a cell contains expected
+values lower than five(or lower than 10 if df is 1), the Fisher's excact test
+(see \code{\link{fisher.test}}) is computed instead of Chi-squared test.
+If the table's matrix is larger than 2x2, Fisher's excact test with Monte Carlo
+simulation is computed. Only applies to barcharts or dotplots, i.e.
+when parameter \code{type = "bars"} or \code{"dots"}.}
 
-\item{showGroupCount}{if \code{TRUE}, the count within each group is added to the category labels (e.g. \code{"Cat 1 (n=87)"}).
-Default value is \code{FALSE}.}
+\item{showGroupCount}{logical, if \code{TRUE}, the count within each group is added
+to the category labels (e.g. \code{"Cat 1 (n=87)"}). Default value is \code{FALSE}.}
 
-\item{tableSummaryPos}{Position of the model summary which is printed when \code{showTableSummary} is \code{TRUE}. Default is
-\code{"r"}, i.e. it's printed to the upper right corner. Use \code{"l"} for upper left corner.}
+\item{tableSummaryPos}{position of the model summary which is printed when \code{showTableSummary}
+is \code{TRUE}. Default is \code{"r"}, i.e. it's printed to the upper right corner.
+Use \code{"l"} for upper left corner.}
 
-\item{meanInterceptLineType}{The linetype of the mean intercept line. Only applies to histogram-charts and when
-\code{showMeanIntercept} is \code{TRUE}.}
+\item{meanInterceptLineType}{linetype of the mean intercept line. Only applies to histogram-charts and when
+\code{showMeanIntercept = TRUE}.}
 
-\item{meanInterceptLineSize}{The size of the mean intercept line. Only applies to histogram-charts and when
-\code{showMeanIntercept} is \code{TRUE}.}
+\item{meanInterceptLineSize}{size of the mean intercept line. Only applies to histogram-charts and when
+\code{showMeanIntercept = TRUE}.}
 
-\item{axisTitle.x}{A label for the x axis. Useful when plotting histograms with metric scales where no category labels
-are assigned to the x axis. By default, \code{""} is used, i.e. no title
-is printed.
-Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details).}
+\item{axisTitle.x}{title for the x-axis. By default, \code{""} is used, i.e. no title
+is printed. If \code{axisTitle.x = NULL}, the variable name will be
+automatically detected and used as title (see \code{\link[sjmisc]{set_var_labels}})
+for details).}
 
-\item{axisTitle.y}{A label for the y axis. Useful when plotting histograms with metric scales where no category labels
-are assigned to the y axis. By default, \code{""} is used, i.e. no title
-is printed.
-Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details).}
+\item{axisTitle.y}{title for the-y axis. By default, \code{""} is used, i.e. no title
+is printed. If \code{axisTitle.y = NULL}, variable name will be automatically
+detected and used as title (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
-\item{autoGroupAt}{A value indicating at which length of unique values of \code{varCount} the variable
-is automatically grouped into smaller units (see \code{group_var}). If \code{varCount} has large
-numbers of unique values, too many bars for the graph have to be plotted. Hence it's recommended
-to group such variables. For example, if \code{autoGroupAt} is 50, i.e. if \code{varCount} has 50 and more unique values
-it will be grouped using \code{group_var} with \code{groupsize="auto"} parameter. By default,
-the maximum group count is 30. However, if \code{autoGroupAt} is less than 30, \code{autoGroupAt}
-groups are built. Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.}
+\item{autoGroupAt}{numeric value, indicating at which length of unique values of \code{varCount},
+automatic grouping into smaller units is done (see \code{\link[sjmisc]{group_var}}).
+If \code{varCount} has large numbers of unique values, there may be too many bars
+for the plot. Hence it's practical to group such variables. For example,
+if \code{autoGroupAt = 50} and \code{varCount} has more than 50 unique values,
+it will be grouped (using the \code{\link[sjmisc]{group_var}} function).
+Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.
+See \code{\link[sjmisc]{group_var}} for examples on grouping.}
 
-\item{startAxisAt}{Determines the first value on the x-axis. By default, this value is set
-to \code{"auto"}, i.e. the value range on the x axis starts with the lowest value of \code{varCount}.
-If you set \code{startAxisAt} to 1, you may have zero counts if the lowest value of \code{varCount}
+\item{startAxisAt}{numeric, determines the lower limit of the x-axis. By default, this value is set
+to \code{"auto"}, i.e. the value range on the x-axis starts with the lowest value of \code{varCount}.
+If \code{startAxisAt = 1}, plot may have zero counts if the lowest value of \code{varCount}
 is larger than 1 and hence no bars plotted for these values in such cases.}
 
-\item{coord.flip}{If \code{TRUE}, the x and y axis are swapped.}
+\item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
-\item{labelPos}{Positioning of value labels. If \code{coord.flip} is \code{TRUE}, use
-either \code{"inside"} or \code{"outside"} (default) to place labels inside or
-outside of bars. You may specify initial letter only. If \code{coord.flip} is \code{FALSE},
-use \code{"center"} to center labels (useful if label angle is changes via \code{\link{sjp.setTheme}}).}
+\item{labelPos}{string, indicating the position of value labels, when \code{coord.flip = TRUE}.
+Can be either \code{"inside"} or \code{"outside"} (default). You may specify
+initial letter only. If \code{coord.flip = FALSE}, use \code{"center"}
+to center labels (useful if label angle is changes via \code{\link{sjp.setTheme}}).}
 
-\item{na.rm}{If \code{TRUE}, missings are not included in the frequency calculation and diagram plot.}
+\item{na.rm}{logical, if \code{TRUE}, missings are not included in the frequency plot.}
 
-\item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{

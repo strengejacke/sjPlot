@@ -167,17 +167,16 @@ applies if \code{showNormalCurve = TRUE}.}
 \item{normalCurveAlpha}{transparancy level (alpha value) of the normal curve. Only
 applies if \code{showNormalCurve = TRUE}.}
 
-\item{axisTitle.x}{title for the x-axis. Useful when plotting histograms
-with metric scales where no category labels are assigned to the x-axis.
-By default, the variable name will be automatically detected and used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details).}
+\item{axisTitle.x}{title for the x-axis. By default, the variable name will be
+automatically detected and used as title (see \code{\link[sjmisc]{set_var_labels}})
+for details).}
 
 \item{axisTitle.y}{title for the y-axis. By default, this value is \code{NULL},
 i.e. no title is printed.}
 
 \item{startAxisAt}{numeric, determines the lower limit of the x-axis. By default, this value is set
 to \code{"auto"}, i.e. the value range on the x axis starts with the lowest value of \code{varCount}.
-If you set \code{startAxisAt} to 1, you may have zero counts if the lowest value of \code{varCount}
+If \code{startAxisAt = 1}, plot may have zero counts if the lowest value of \code{varCount}
 is larger than 1 and hence no bars plotted for these values in such cases.}
 
 \item{hist.skipZeros}{logical, if \code{TRUE}, zero counts (categories with no answer)
