@@ -20,129 +20,128 @@ sjp.xtab(var, grp, title = "", legendTitle = NULL, weightBy = NULL,
   printPlot = TRUE)
 }
 \arguments{
-\item{var}{The variable which proportions (percentage values) should be plotted. The percentage proportions
-(within table row, table column or complete table, see parameter \code{tableIndex} of this variable)
-are plotted along the y-axis, the variable's categories on the x-axis.}
+\item{var}{a vector of values (variable) describing the bars which make up the plot.}
 
-\item{grp}{The grouping variable, where each value represents a single bar chart
-within each category of \code{var}.}
+\item{grp}{grouping variable of same length as \code{var}, where \code{var}
+is grouped into the categories represented by \code{grp}.}
 
-\item{title}{Title of the diagram, plotted above the whole diagram panel.
-Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details).}
+\item{title}{plot title. Use \code{NULL} to automatically detect variable names that will be used as title
+(see \code{\link[sjmisc]{set_var_labels}}) for details). Default is \code{""}, hence
+no title is printed.}
 
-\item{legendTitle}{Title of the diagram's legend.}
+\item{legendTitle}{title of plot's legend.}
 
-\item{weightBy}{A weight factor that will be applied to weight all cases from \code{var}.
+\item{weightBy}{weight factor that will be applied to weight all cases from \code{var}.
 Must be a vector of same length as \code{var}. Default is \code{NULL}, so no weights are used.}
 
-\item{weightByTitleString}{If a weight factor is supplied via the parameter \code{weightBy}, the diagram's title
-may indicate this with a remark. Default is \code{NULL}, so the diagram's title will not be modified when
-cases are weighted. Use a string as parameter, e.g.: \code{weightByTitleString=" (weighted)"}.}
+\item{weightByTitleString}{suffix (as string) for the tabel caption, if \code{weightBy} is specified,
+e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so
+the table caption will not have a suffix when cases are weighted.}
 
-\item{type}{The plot type. may be either \code{"b"}, \code{"bar"}, \code{"bars"} (default) for bar charts,
+\item{type}{plot type. may be either \code{"b"}, \code{"bar"}, \code{"bars"} (default) for bar charts,
 or \code{"l"}, \code{"line"}, \code{"lines"} for line diagram.}
 
-\item{tableIndex}{Indicates which data from the proportional table should be plotted. Use \code{"row"} for
+\item{tableIndex}{indicates which data of the proportional table should be plotted. Use \code{"row"} for
 calculating row percentages, \code{"col"} for column percentages and \code{"cell"} for cell percentages.
-Only when \code{tableIndex} is \code{"col"}, an additional bar chart with the total sum of each column (i.e.
-of each category on the x-axis) can be added with the parameter \code{showTotalColumn}.}
+If \code{tableIndex = "col"}, an additional bar with the total sum of each column
+can be added to the plot (see \code{showTotalColumn}).}
 
-\item{reverseOrder}{Whether the categories along the x-axis should apper in reversed order or not.}
+\item{reverseOrder}{logical, whether categories along the x-axis should apper in reversed order or not.}
 
-\item{axisLimits.y}{A numeric vector of length two, defining lower and upper axis limits
+\item{axisLimits.y}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this parameter is set to \code{NULL}, i.e. the
 y-axis ranges from 0 to required maximum. Note that the values are percentages, so valid
 range is between 0 and 1.}
 
-\item{axisLabels.x}{Labels for the x-axis breaks.}
+\item{axisLabels.x}{labels for the x-axis breaks.}
 
-\item{legendLabels}{Labels for the guide/legend.}
+\item{legendLabels}{labels for the guide/legend.}
 
-\item{labelPos}{Positioning of value labels. If \code{barPosition} is \code{"dodge"}
+\item{labelPos}{positioning of value labels. If \code{barPosition = "dodge"}
 (default), use either \code{"inside"} or \code{"outside"} (default) to put labels in-
 or outside the bars. You may specify initial letter only. Use \code{"center"}
 to center labels (useful if label angle is changes via \code{\link{sjp.setTheme}}).}
 
-\item{stringTotal}{The string for the legend label when a total-column is added. Only applies
-if \code{showTotalColumn} is \code{TRUE}. Default is \code{"Total"}.}
+\item{stringTotal}{string for the legend label when a total-column is added. Only applies
+if \code{showTotalColumn = TRUE}. Default is \code{"Total"}.}
 
-\item{breakTitleAt}{Wordwrap for diagram title. Determines how many chars of the title are displayed in
+\item{breakTitleAt}{determines how many chars of the title are displayed in
 one line and when a line break is inserted into the title.}
 
-\item{breakLabelsAt}{Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in
+\item{breakLabelsAt}{determines how many chars of the category labels are displayed in
 one line and when a line break is inserted.}
 
-\item{breakLegendTitleAt}{Wordwrap for diagram legend title. Determines how many chars of the legend's title
+\item{breakLegendTitleAt}{determines how many chars of the legend's title
 are displayed in one line and when a line break is inserted.}
 
-\item{breakLegendLabelsAt}{Wordwrap for diagram legend labels. Determines how many chars of the legend labels are
+\item{breakLegendLabelsAt}{determines how many chars of the legend labels are
 displayed in one line and when a line break is inserted.}
 
-\item{gridBreaksAt}{Sets the breaks on the y axis, i.e. at every n'th position a major
-grid is being printed. Valid values range from 0 to 1.}
+\item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th
+position a major grid is being printed. Valid values range from 0 to 1.}
 
 \item{geom.size}{size resp. width of the geoms (bar width).}
 
-\item{geom.spacing}{the spacing between geoms (i.e. bar spacing)}
+\item{geom.spacing}{spacing between geoms (i.e. bar spacing)}
 
-\item{geom.colors}{User defined color palette for geoms. If specified, must either be vector with color values
+\item{geom.colors}{user defined color palette for geoms. If specified, must either be vector with color values
 of same length as groups defined in \code{x}, or a specific color palette code.
 See 'Note' in \code{\link{sjp.grpfrq}}.}
 
-\item{barPosition}{Indicates whether bars should be positioned side-by-side (default, or use \code{"dodge"} as
-parameter) or stacked (use \code{"stack"} as parameter).}
+\item{barPosition}{indicates whether bars should be positioned side-by-side (default)
+or stacked (use \code{"stack"} as parameter).}
 
-\item{lineDotSize}{Size of dots. Only applies, when parameter \code{type}
-is set to \code{"lines"}.}
+\item{lineDotSize}{dot size, only applies, when parameter \code{type = "lines"}.}
 
-\item{smoothLines}{Prints a smooth line curve. Only applies, when parameter \code{type}
-is set to \code{"lines"}.}
+\item{smoothLines}{prints a smooth line curve. Only applies, when parameter \code{type = "lines"}.}
 
-\item{expand.grid}{If \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
+\item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 axes and plotting region. Default is \code{FALSE}.}
 
-\item{showValueLabels}{Whether counts and percentage values should be plotted to each bar}
+\item{showValueLabels}{logical, whether counts and percentage values should be plotted to each bar}
 
-\item{jitterValueLabels}{If \code{TRUE}, the value labels on the bars will be "jittered", i.e. they have
-alternating vertical positions to avoid overlapping of labels in case bars are
+\item{jitterValueLabels}{logical, if \code{TRUE}, the value labels on the bars will be "jittered",
+i.e. they have alternating vertical positions to avoid overlapping of labels in case bars are
 very short. Default is \code{FALSE}.}
 
-\item{showCountValues}{If \code{TRUE} (default), count values are be plotted to each bar. If \code{FALSE},
+\item{showCountValues}{logical, if \code{TRUE} (default), count values are be plotted to each bar. If \code{FALSE},
 count values are removed.}
 
-\item{showPercentageValues}{If \code{TRUE} (default), percentage values are be plotted to each bar, if \code{FALSE},
+\item{showPercentageValues}{logical, if \code{TRUE} (default), percentage values are be plotted to each bar, if \code{FALSE},
 percentage-values are removed.}
 
-\item{showCategoryLabels}{Whether x axis text (category names) should be shown or not.}
+\item{showCategoryLabels}{whether x-axis text (category names) should be shown or not.}
 
-\item{showTableSummary}{If \code{TRUE}, a summary of the cross tabulation with N, Chi-square (see \code{\link{chisq.test}}),
-df, Cramer's V or Phi-value and p-value is printed to the upper right corner of the diagram. If a cell contains expected
-values lower than five (or lower than 10 if df is 1),
-the Fisher's excact test (see \code{\link{fisher.test}}) is computed instead of Chi-square test.
-If the table's matrix is larger than 2x2, Fisher's excact test with Monte Carlo simulation is computed.
-Only applies to bar-charts or dot-plots, i.e. when parameter \code{type} is either \code{"bars"} or \code{"dots"}.}
+\item{showTableSummary}{logical, if \code{TRUE}, a summary of the cross tabulation with N,
+chi-squared, df, Cramer's V or Phi-value and p-value is printed to the upper
+right corner of the plot (see \code{tableSummaryPos}. If a cell contains expected
+values lower than five(or lower than 10 if df is 1), the Fisher's excact test
+(see \code{\link{fisher.test}}) is computed instead of Chi-squared test.
+If the table's matrix is larger than 2x2, Fisher's excact test with Monte Carlo
+simulation is computed.}
 
-\item{tableSummaryPos}{Position of the model summary which is printed when \code{showTableSummary} is \code{TRUE}. Default is
-\code{"r"}, i.e. it's printed to the upper right corner. Use \code{"l"} for upper left corner.}
+\item{tableSummaryPos}{position of the table summary. Only applies when
+\code{showTableSummary = TRUE}. Default is \code{"r"}, i.e. summary
+printed to the upper right corner. Use \code{"l"} for upper left corner.}
 
-\item{showTotalColumn}{if \code{tableIndex} is \code{"col"}, an additional bar chart with the sum within each category and
-it's percentages will be added to each category.}
+\item{showTotalColumn}{when \code{tableIndex = "col"}, an additional bar
+with the sum within each category and it's percentages will be added
+to each category.}
 
-\item{hideLegend}{Indicates whether legend (guide) should be shown or not. Default is \code{FALSE}, thus
+\item{hideLegend}{logical, whether legend (guide) should be shown or not. Default is \code{FALSE}, thus
 the legend is shown.}
 
-\item{axisTitle.x}{A label for the x axis. useful when plotting histograms with metric scales where no category labels
-are assigned to the x axis.
-Use \code{NULL} to automatically detect variable names that will be used as title
+\item{axisTitle.x}{title for the x-axis. Default is \code{NULL}, so variable name
+of \code{var} will automatically be detected and used as axis title
 (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
-\item{axisTitle.y}{A label for the y axis. useful when plotting histograms with metric scales where no category labels
-are assigned to the y axis.}
+\item{axisTitle.y}{title for the y-axis. Default is \code{NULL}, so variable name
+of \code{grp} will automatically be detected and used as axis title
+(see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
-\item{coord.flip}{If \code{TRUE}, the x and y axis are swapped.}
+\item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
-\item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
@@ -154,9 +153,9 @@ Plot proportional crosstables (contingency tables) of two variables as ggplot di
 }
 \examples{
 # create 4-category-items
-grp <- sample(1:4, 100, replace=TRUE)
+grp <- sample(1:4, 100, replace = TRUE)
 # create 3-category-items
-var <- sample(1:3, 100, replace=TRUE)
+var <- sample(1:3, 100, replace = TRUE)
 
 # plot "cross tablulation" of var and grp
 sjp.xtab(var, grp)

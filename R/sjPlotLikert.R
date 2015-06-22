@@ -63,38 +63,37 @@
 #'            \item{\code{"sum.inside"}}{shows the sums of percentage values for both negative and positive values and prints them inside the end of each bar}
 #'            \item{\code{"sum.outide"}}{shows the sums of percentage values for both negative and positive values and prints them outside the end of each bar}
 #'          }
-#' @param showPercentageSign If \code{TRUE}, percentage signs on value labels are shown.
-#' @param labelDigits The amount of digits for rounding \code{value.labels}. Default is 1, 
+#' @param showPercentageSign logical, if \code{TRUE}, \%-signs for value labels are shown.
+#' @param labelDigits amount of digits for rounding \code{value.labels}. Default is 1, 
 #'          i.e. value labels have 1 digit after decimal point.
-#' @param showItemLabels Whether x axis text (category names) should be shown or not
-#' @param axisLabels.y a character vector with labels for the y-axis (the names of the 
+#' @param showItemLabels logical, whether x-axis text (category names) should be shown or not
+#' @param axisLabels.y character vector with labels for the y-axis (names of the 
 #'          \code{items}). Example: \code{axisLabels.y = c("Q1", "Q2", "Q3")}.
 #'          Axis labels will automatically be detected, when they have
-#'          a variable label attribute (see \code{\link[sjmisc]{set_var_labels}} for details).
-#' @param breakTitleAt Wordwrap for diagram title. Determines how many chars of the title are displayed in
+#'          label attributes (see \code{\link[sjmisc]{set_var_labels}} for details).
+#' @param breakTitleAt determines how many chars of the title are displayed in
 #'          one line and when a line break is inserted into the title.
-#' @param breakLabelsAt Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in 
+#' @param breakLabelsAt determines how many chars of the category labels are displayed in 
 #'          one line and when a line break is inserted.
-#' @param breakLegendTitleAt Wordwrap for diagram legend title. Determines how many chars of the legend's title 
+#' @param breakLegendTitleAt determines how many chars of the legend's title 
 #'          are displayed in one line and when a line break is inserted.
-#' @param breakLegendLabelsAt Wordwrap for diagram legend labels. Determines how many chars of the legend labels are 
+#' @param breakLegendLabelsAt determines how many chars of the legend labels are 
 #'          displayed in one line and when a line break is inserted.
-#' @param gridRange Sets the limit of the x-axis-range. Default is 1, so the x-scale ranges
-#'          from zero to 100 percent on both sides from the center. You can use values beyond 1
-#'          (100 percent) in case bar labels are not printed because they exceed the axis range.
-#'          E.g. \code{gridRange=1.4} will set the axis from -140 to +140 percent, however, only
-#'          (valid) axis labels from -100 to +100 percent are printed. Neutral categories are
+#' @param gridRange numeric, limits of the x-axis-range, as proportion of 100. 
+#'          Default is 1, so the x-scale ranges from zero to 100\% on 
+#'          both sides from the center. You can use values beyond 1
+#'          (100\%) in case bar labels are not printed because they exceed the axis range.
+#'          E.g. \code{gridRange = 1.4} will set the axis from -140 to +140\%, however, only
+#'          (valid) axis labels from -100 to +100\% are printed. Neutral categories are
 #'          adjusted to the most left limit.
-#' @param gridBreaksAt Sets the breaks on the y axis, i.e. at every n'th position a major
-#'          grid is being printed. Valid values range from 0 to 1.
-#' @param expand.grid If \code{TRUE} (default), the diagram has margins, i.e. the y-axis is not exceeded
-#'          to the diagram's boundaries.
-#' @param axisTitle.x label for the x-axis. Useful when plotting histograms with metric scales where no category labels
-#'          are assigned to the x-axis.
-#' @param axisTitle.y label for the y-axis. Useful when plotting histograms with metric scales where no category labels
-#'          are assigned to the y-axis.
-#' @param coord.flip If \code{TRUE}, the x and y axis are swapped.
-#' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+#' @param gridBreaksAt set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
+#'          position a major grid is being printed. Valid values range from 0 to 1.
+#' @param expand.grid logical, if \code{TRUE}, the plot grid is expanded, i.e. 
+#'          there is a small margin between axes and plotting region.
+#' @param axisTitle.x title for the x-axis. Default is \code{NULL} (no title).
+#' @param axisTitle.y title for the y-axis. Default is \code{NULL} (no title).
+#' @param coord.flip logical, if \code{TRUE}, the x and y axis are swapped.
+#' @param printPlot logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df.neg} for the negative values,
@@ -175,7 +174,6 @@
 #' 
 #' @import ggplot2
 #' @import sjmisc
-#' @importFrom car recode
 #' @export
 sjp.likert <- function(items,
                        catcount = NULL, 
@@ -207,8 +205,8 @@ sjp.likert <- function(items,
                        expand.grid = TRUE,
                        axisTitle.x = NULL,
                        axisTitle.y = NULL,
-                       coord.flip=TRUE,
-                       printPlot=TRUE) {
+                       coord.flip = TRUE,
+                       printPlot = TRUE) {
   # --------------------------------------------------------
   # check param. if we have a single vector instead of
   # a data frame with several items, convert vector to data frame
@@ -330,18 +328,18 @@ sjp.likert <- function(items,
     # --------------------------------------------------------
     # convert to numeric values
     # --------------------------------------------------------
-    if (!is.numeric(items[ ,i])) {
+    if (!is.numeric(items[[i]])) {
       # --------------------------------------------------------
       # convert non-numeric factors to numeric values
       # --------------------------------------------------------
-      items[ ,i] <- sjmisc::to_value(items[ ,i], keep.labels = F)
+      items[[i]] <- sjmisc::to_value(items[[i]], keep.labels = F)
     }
     # --------------------------------------------------------
     # If we have neutral category in between and not as last
     # category, recode neutral category to last category
     # --------------------------------------------------------
     if (!is.null(cat.neutral) && cat.neutral <= catcount) {
-      items[[i]] <- car::recode(items[[i]], sprintf("%i=%i;%i=%i", 
+      items[[i]] <- sjmisc::rec(items[[i]], sprintf("%i=%i;%i=%i;else=copy", 
                                                     cat.neutral, 
                                                     catcount + 1, 
                                                     catcount + 1,

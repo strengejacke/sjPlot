@@ -118,8 +118,8 @@ displayed in one line and when a line break is inserted.}
 \item{gridBreaksAt}{set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th
 position a major grid is being printed.}
 
-\item{barPosition}{indicates whether bars should be positioned side-by-side (default, or use \code{"dodge"} as
-parameter) or stacked (use \code{"stack"} as parameter).
+\item{barPosition}{indicates whether bars should be positioned side-by-side (default)
+or stacked (use \code{"stack"} as parameter).
 If \code{type = "histogram"}, you can use either \code{"dodge"} (default value),
 which displays the bars side-by-side, or \code{"identity"}, which results in
 overlaying bars. In the latter case, it's recommended to adjust the

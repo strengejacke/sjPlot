@@ -19,9 +19,9 @@ sjt.df(mydf, describe = TRUE, file = NULL, alternateRowColors = FALSE,
 The description is retrieved from the \code{\link[psych]{describe}} function of the \code{psych}
 package. If this parameter is \code{FALSE}, the data frame's content (values) is shown.}
 
-\item{file}{The destination file, which will be in html-format. If no filepath is specified,
-the file will be saved as temporary file and openend either in the RStudio View pane or
-in the default web browser.}
+\item{file}{destination file, if the output should be saved as file.
+If \code{NULL} (default), the output will be saved as temporary file and
+openend either in the IDE's viewer pane or the default web browser.}
 
 \item{alternateRowColors}{If \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}

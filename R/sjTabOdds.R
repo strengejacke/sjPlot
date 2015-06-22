@@ -9,7 +9,7 @@ utils::globalVariables(c("starts_with"))
 #'                as HTML table, or saves them as file. The fitted models may have different predictors,
 #'                e.g. when comparing different stepwise fitted models.
 #' 
-#' @param ... One or more fitted \code{\link{glm}}-objects.
+#' @param ... one or more fitted \code{\link{glm}}-objects.
 #' @param file The destination file, which will be in html-format. If no filepath is specified,
 #'          the file will be saved as temporary file and openend either in the RStudio View pane or
 #'          in the default web browser.

@@ -18,35 +18,35 @@ sjt.xtab(var.row, var.col, var.grp = NULL, weightBy = NULL, digits = 1,
   remove.spaces = TRUE)
 }
 \arguments{
-\item{var.row}{Variable that should be displayed in the table rows.}
+\item{var.row}{variable that should be displayed in the table rows.}
 
-\item{var.col}{Variable that should be displayed in the table columns.}
+\item{var.col}{variable that should be displayed in the table columns.}
 
-\item{var.grp}{An optional grouping variable that splits the data into several groups,
-depending on the amount of categories. See examples for details.}
+\item{var.grp}{optional grouping variable that splits the data into several groups,
+depending on the amount of categories. See 'Examples'.}
 
-\item{weightBy}{A weight factor that will be applied to weight all cases.
+\item{weightBy}{weight factor that will be applied to weight all cases.
 Must be a vector of same length as \code{var.row}. Default is \code{NULL}, so no weights are used.}
 
-\item{digits}{The amount of digits used for the percentage values inside table cells.
+\item{digits}{amount of digits used for the percentage values inside table cells.
 Default is 1.}
 
-\item{file}{The destination file, which will be in html-format. If no filepath is specified,
-the file will be saved as temporary file and openend either in the RStudio View pane or
-in the default web browser.}
+\item{file}{destination file, if the output should be saved as file.
+If \code{NULL} (default), the output will be saved as temporary file and
+openend either in the IDE's viewer pane or the default web browser.}
 
-\item{variableLabels}{A character vector of same length as supplied variables, with
+\item{variableLabels}{character vector of same length as supplied variables, with
 the associated variable names. Following order is needed: name of \code{var.row},
 name of \code{var.col}, and - if \code{var.grp} is not \code{NULL} - name of \code{var.grp}.
-See examples for more details.
-variableLabels are detected automatically, if \code{var.row} or \code{var.col}
-have a variable label attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).}
+See 'Examples'.
+Variable labels are detected automatically, if \code{var.row} or \code{var.col}
+have label attributes (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
-\item{valueLabels}{A list of character vectors that indicate the value labels of the supplied
+\item{valueLabels}{list of character vectors that indicate the value labels of the supplied
 variables. Following order is needed: value labels of \code{var.row},
 value labels  of \code{var.col}, and - if \code{var.grp} is not \code{NULL} -
 value labels  of \code{var.grp}. \code{valueLabels} needs to be a \code{\link{list}} object.
-See examples for more details.}
+See 'Examples'.}
 
 \item{breakVariableLabelsAt}{Wordwrap for variable labels. Determines how many chars of the variable labels are displayed in
 one line and when a line break is inserted. Default is 40.}

@@ -71,9 +71,9 @@ so positive and negative values switch colors.}
   \item{\code{"sum.outide"}}{shows the sums of percentage values for both negative and positive values and prints them outside the end of each bar}
 }}
 
-\item{showPercentageSign}{If \code{TRUE}, percentage signs on value labels are shown.}
+\item{showPercentageSign}{logical, if \code{TRUE}, \%-signs for value labels are shown.}
 
-\item{labelDigits}{The amount of digits for rounding \code{value.labels}. Default is 1,
+\item{labelDigits}{amount of digits for rounding \code{value.labels}. Default is 1,
 i.e. value labels have 1 digit after decimal point.}
 
 \item{legendLabels}{list or character vector that indicate the names of the
@@ -87,47 +87,46 @@ likert-scale-categories and which appear as legend text.}
 
 \item{includeN}{logical, if \code{TRUE} (default), the N of each item will be included in axis labels.}
 
-\item{showItemLabels}{Whether x axis text (category names) should be shown or not}
+\item{showItemLabels}{logical, whether x-axis text (category names) should be shown or not}
 
-\item{axisLabels.y}{a character vector with labels for the y-axis (the names of the
+\item{axisLabels.y}{character vector with labels for the y-axis (names of the
 \code{items}). Example: \code{axisLabels.y = c("Q1", "Q2", "Q3")}.
 Axis labels will automatically be detected, when they have
-a variable label attribute (see \code{\link[sjmisc]{set_var_labels}} for details).}
+label attributes (see \code{\link[sjmisc]{set_var_labels}} for details).}
 
-\item{breakTitleAt}{Wordwrap for diagram title. Determines how many chars of the title are displayed in
+\item{breakTitleAt}{determines how many chars of the title are displayed in
 one line and when a line break is inserted into the title.}
 
-\item{breakLabelsAt}{Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in
+\item{breakLabelsAt}{determines how many chars of the category labels are displayed in
 one line and when a line break is inserted.}
 
-\item{breakLegendTitleAt}{Wordwrap for diagram legend title. Determines how many chars of the legend's title
+\item{breakLegendTitleAt}{determines how many chars of the legend's title
 are displayed in one line and when a line break is inserted.}
 
-\item{breakLegendLabelsAt}{Wordwrap for diagram legend labels. Determines how many chars of the legend labels are
+\item{breakLegendLabelsAt}{determines how many chars of the legend labels are
 displayed in one line and when a line break is inserted.}
 
-\item{gridRange}{Sets the limit of the x-axis-range. Default is 1, so the x-scale ranges
-from zero to 100 percent on both sides from the center. You can use values beyond 1
-(100 percent) in case bar labels are not printed because they exceed the axis range.
-E.g. \code{gridRange=1.4} will set the axis from -140 to +140 percent, however, only
-(valid) axis labels from -100 to +100 percent are printed. Neutral categories are
+\item{gridRange}{numeric, limits of the x-axis-range, as proportion of 100.
+Default is 1, so the x-scale ranges from zero to 100\% on
+both sides from the center. You can use values beyond 1
+(100\%) in case bar labels are not printed because they exceed the axis range.
+E.g. \code{gridRange = 1.4} will set the axis from -140 to +140\%, however, only
+(valid) axis labels from -100 to +100\% are printed. Neutral categories are
 adjusted to the most left limit.}
 
-\item{gridBreaksAt}{Sets the breaks on the y axis, i.e. at every n'th position a major
-grid is being printed. Valid values range from 0 to 1.}
+\item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th
+position a major grid is being printed. Valid values range from 0 to 1.}
 
-\item{expand.grid}{If \code{TRUE} (default), the diagram has margins, i.e. the y-axis is not exceeded
-to the diagram's boundaries.}
+\item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e.
+there is a small margin between axes and plotting region.}
 
-\item{axisTitle.x}{label for the x-axis. Useful when plotting histograms with metric scales where no category labels
-are assigned to the x-axis.}
+\item{axisTitle.x}{title for the x-axis. Default is \code{NULL} (no title).}
 
-\item{axisTitle.y}{label for the y-axis. Useful when plotting histograms with metric scales where no category labels
-are assigned to the y-axis.}
+\item{axisTitle.y}{title for the y-axis. Default is \code{NULL} (no title).}
 
-\item{coord.flip}{If \code{TRUE}, the x and y axis are swapped.}
+\item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
-\item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{

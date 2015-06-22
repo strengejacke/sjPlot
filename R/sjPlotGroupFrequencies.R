@@ -22,8 +22,8 @@ utils::globalVariables(c("ypos", "wb", "ia", "mw", "stddev", "count"))
 #'          by \code{varGroup} into the factors of \code{interactionVar}, so that each category of \code{varGroup}
 #'          is subgrouped into \code{interactionVar}'s categories. Only applies when parameter \code{type}
 #'          is \code{box} or \code{violin} (resp. their alternative strings like \code{"boxplot"}, \code{"boxplots"} or \code{"v"}).
-#' @param barPosition indicates whether bars should be positioned side-by-side (default, or use \code{"dodge"} as
-#'          parameter) or stacked (use \code{"stack"} as parameter).
+#' @param barPosition indicates whether bars should be positioned side-by-side (default)
+#'          or stacked (use \code{"stack"} as parameter).
 #'          If \code{type = "histogram"}, you can use either \code{"dodge"} (default value), 
 #'          which displays the bars side-by-side, or \code{"identity"}, which results in 
 #'          overlaying bars. In the latter case, it's recommended to adjust the 
@@ -278,9 +278,9 @@ sjp.grpfrq <- function(varCount,
   # We have several options to name the diagram type
   # Here we will reduce it to a unique value
   # --------------------------------------------------------
-  if (type == "b" || type == "bar") type <- c("bars")
-  if (type == "l" || type == "line") type <- c("lines")
-  if (type == "d" || type == "dot") type <- c("dots")
+  if (type == "b" || type == "bar") type <- "bars"
+  if (type == "l" || type == "line") type <- "lines"
+  if (type == "d" || type == "dot") type <- "dots"
   if (type == "h" || type == "hist") {
     type <- c("histogram")
     # no table summary and no group count for
@@ -288,8 +288,8 @@ sjp.grpfrq <- function(varCount,
     showTableSummary <- FALSE
     showGroupCount <- FALSE
   }
-  if (type == "box" || type == "boxplot") type <- c("boxplots")
-  if (type == "v" || type == "violins") type <- c("violin")
+  if (type == "box" || type == "boxplot") type <- "boxplots"
+  if (type == "v" || type == "violins") type <- "violin"
   if (expand.grid == TRUE) {
     expand.grid <- waiver()
   } else {

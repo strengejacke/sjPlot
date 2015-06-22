@@ -18,54 +18,54 @@ sjt.frq(data, file = NULL, weightBy = NULL,
   CSS = NULL, useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
-\item{data}{The variables which frequencies should be printed as table. Either use a single variable
-(vector) or a data frame where each column represents a variable (see examples).}
+\item{data}{variables which frequencies should be printed as table. Either use a single variable
+(vector) or a data frame where each column represents a variable (see 'Examples').}
 
-\item{file}{The destination file, which will be in html-format. If no filepath is specified,
-the file will be saved as temporary file and openend either in the RStudio View pane or
-in the default web browser.}
+\item{file}{destination file, if the output should be saved as file.
+If \code{NULL} (default), the output will be saved as temporary file and
+openend either in the IDE's viewer pane or the default web browser.}
 
-\item{weightBy}{A weight factor that will be applied to weight all cases from \code{data}.
+\item{weightBy}{weight factor that will be applied to weight all cases from \code{data}.
 Must be a vector of same length as \code{nrow(data)}. Default is \code{NULL}, so no weights are used.}
 
-\item{weightByTitleString}{If a weight factor is supplied via the parameter \code{weightBy}, the table caption
-may indicate this with a remark. Default is \code{" (weightBy)"}, so table captions
-of weighted data will have an additional title suffix.}
+\item{weightByTitleString}{suffix (as string) for the tabel caption, if \code{weightBy} is specified,
+e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so
+the table caption will not have a suffix when cases are weighted.}
 
-\item{variableLabels}{A single character vector or a list of character vectors that indicate
-the variable names of those variables from \code{data} and will be used as variable labels
+\item{variableLabels}{character vector or a list of character vectors that indicate
+the variable names of \code{data} and will be used as variable labels
 in the output. Note that if multiple variables
-are supplied (as data frame), the variable labels must be supplied as \code{list} object
-(see examples).}
+are supplied (if \code{data} is a \code{\link{data.frame}}), the variable
+labels must be supplied as \code{list} object (see 'Examples').}
 
-\item{valueLabels}{A list of character vectors that indicate the value labels of those variables
-from \code{data}. Note that if multiple variables are supplied (as data frame), the
-value labels must be supplied as nested \code{list} object (see examples).}
+\item{valueLabels}{list of character vectors that indicate the value labels of
+\code{data}. Note that if multiple variables are supplied (if \code{data} is a \code{\link{data.frame}}),
+the value labels must be supplied as nested \code{list} object (see 'Examples').}
 
-\item{autoGroupAt}{A value indicating at which length of unique values a variable from \code{data}
-is automatically grouped into smaller units (see \code{group_var}). Variables with large
-numbers of unique values may be too time consuming when a HTML table is created and R would
-not respond any longer. Hence it's recommended to group such variables. Default value is 50,
-i.e. variables with 50 and more unique values will be grouped using \code{group_var} with
-\code{groupsize="auto"} parameter. By default, the maximum group count is 30. However, if
-\code{autoGroupAt} is less than 30, \code{autoGroupAt} groups are built. Default value is \code{NULL},
-i.e. auto-grouping is turned off.}
+\item{autoGroupAt}{numeric value, indicating at which length of unique values of \code{data},
+automatic grouping into smaller units is done (see \code{\link[sjmisc]{group_var}}).
+Variables with large numbers of unique values may be too time consuming when
+a HTML table is created and R would not respond any longer, or the resulting table
+would be to too long and confusing. Hence it's recommended to group such variables.
+If \code{autoGroupAt = 50} and \code{varCount} has more than 50 unique values,
+it will be grouped (using the \code{\link[sjmisc]{group_var}} function).
+Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.
+See \code{\link[sjmisc]{group_var}} for examples on grouping.}
 
-\item{sort.frq}{Whether frequencies should be sorted or not. Use \code{"asc"} or \code{"ascending"}
-to sort frequencies ascending, or \code{"decsc"} or \code{"desscending"} to sort
+\item{sort.frq}{whether frequencies should be sorted or not. Use \code{"asc"} or \code{"ascending"}
+to sort frequencies ascending, or \code{"desc"} or \code{"descending"} to sort
 frequencies in descending order. By default, \code{sort.frq} is \code{NULL}, i.e.
 frequencies are ordered by values.}
 
-\item{alternateRowColors}{If \code{TRUE}, alternating rows are highlighted with a light gray
+\item{alternateRowColors}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
 
-\item{stringValue}{String label for the very first table column containing the values (see
+\item{stringValue}{label for the very first table column containing the values (see
 \code{valueLabels}).}
 
-\item{stringCount}{String label for the first table data column containing the counts. Default is \code{"N"}.}
+\item{stringCount}{label for the first table data column containing the counts. Default is \code{"N"}.}
 
-\item{stringPerc}{String label for the second table data column containing the percentages, where the
-count percentages include missing values.}
+\item{stringPerc}{label for the second table data column containing the raw percentages. Default is \code{"raw \%"}.}
 
 \item{stringValidPerc}{String label for the third data table column containing the valid percentages, i.e. the
 count percentage value exluding possible missing values.}
@@ -164,12 +164,12 @@ Shows (multiple) frequency tables as HTML file, or saves them as file.
          You can add style information to the default styles by using a + (plus-sign) as
          initial character for the parameter attributes. Examples:
          \itemize{
-           \item \code{css.table='border:2px solid red;'} for a solid 2-pixel table border in red.
-           \item \code{css.summary='font-weight:bold;'} for a bold fontweight in the summary row.
-           \item \code{css.lasttablerow='border-bottom: 1px dotted blue;'} for a blue dotted border of the last table row.
-           \item \code{css.colnames='+color:green'} to add green color formatting to column names.
-           \item \code{css.arc='color:blue;'} for a blue text color each 2nd row.
-           \item \code{css.caption='+color:red;'} to add red font-color to the default table caption style.
+           \item \code{css.table = 'border:2px solid red;'} for a solid 2-pixel table border in red.
+           \item \code{css.summary = 'font-weight:bold;'} for a bold fontweight in the summary row.
+           \item \code{css.lasttablerow = 'border-bottom: 1px dotted blue;'} for a blue dotted border of the last table row.
+           \item \code{css.colnames = '+color:green'} to add green color formatting to column names.
+           \item \code{css.arc = 'color:blue;'} for a blue text color each 2nd row.
+           \item \code{css.caption = '+color:red;'} to add red font-color to the default table caption style.
          }
          See further examples at \href{http://www.strengejacke.de/sjPlot/sjtbasics}{sjPlot manual: sjt-basics}.
 }
@@ -185,31 +185,32 @@ The HTML tables can either be saved as file and manually opened (specify paramet
 library(sjmisc)
 data(efc)
 
-# retrieve value and variable labels
-variables <- get_var_labels(efc)
-values <- get_val_labels(efc)
-
 # show frequencies of "e42dep" in RStudio Viewer Pane
 # or default web browser
 sjt.frq(efc$e42dep)
 
 # plot and show frequency table of "e42dep" with labels
 sjt.frq(efc$e42dep,
-        variableLabels = variables['e42dep'],
-        valueLabels = values[['e42dep']])
+        variableLabels = "Dependency",
+        valueLabels = c("independent",
+                        "slightly dependent",
+                        "moderately dependent",
+                        "severely dependent"))
 
 # plot frequencies of e42dep, e16sex and c172code in one HTML file
 # and show table in RStudio Viewer Pane or default web browser
 # Note that valueLabels of multiple variables have to be
 # list-objects
 sjt.frq(data.frame(efc$e42dep, efc$e16sex, efc$c172code),
-        variableLabels = c(variables['e42dep'],
-                           variables['e16sex'],
-                           variables['c172code']),
-        valueLabels = list(values[['e42dep']],
-                           values[['e16sex']],
-                           values[['c172code']]))
-
+        variableLabels = c("Dependency",
+                           "Gender",
+                           "Education"),
+        valueLabels = list(c("independent",
+                             "slightly dependent",
+                             "moderately dependent",
+                             "severely dependent"),
+                           c("male", "female"),
+                           c("low", "mid", "high")))
 
 # -------------------------------
 # auto-detection of labels
@@ -221,8 +222,6 @@ sjt.frq(data.frame(efc$e42dep, efc$e16sex, efc$c172code))
 # plot larger scale including zero-counts
 # indicating median and quartiles
 sjt.frq(efc$neg_c_7,
-        variableLabels = variables['neg_c_7'],
-        valueLabels = values[['neg_c_7']],
         highlightMedian = TRUE,
         highlightQuartiles = TRUE)
 
@@ -235,8 +234,6 @@ sjt.frq(efc$e42dep, sort.frq = "desc")
 # User defined style sheet
 # --------------------------------
 sjt.frq(efc$e42dep,
-        variableLabels = variables['e42dep'],
-        valueLabels = values[['e42dep']],
         CSS = list(css.table = "border: 2px solid;",
                    css.tdata = "border: 1px solid;",
                    css.firsttablecol = "color:#003399; font-weight:bold;"))}

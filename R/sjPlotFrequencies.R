@@ -331,13 +331,13 @@ sjp.frq <- function(varCount,
   # We have several options to name the plot type
   # Here we will reduce it to a unique value
   # --------------------------------------------------------
-  if (type == "b" || type == "bar") type <- c("bars")
-  if (type == "dot") type <- c("dots")
-  if (type == "h" || type == "hist") type <- c("histogram")
-  if (type == "d" || type == "density") type <- c("dens")
-  if (type == "l" || type == "lines") type <- c("line")
-  if (type == "box" || type == "boxplot") type <- c("boxplots")
-  if (type == "v" || type == "violins") type <- c("violin")
+  if (type == "b" || type == "bar") type <- "bars"
+  if (type == "dot") type <- "dots"
+  if (type == "h" || type == "hist") type <- "histogram"
+  if (type == "d" || type == "density") type <- "dens"
+  if (type == "l" || type == "lines") type <- "line"
+  if (type == "box" || type == "boxplot") type <- "boxplots"
+  if (type == "v" || type == "violins") type <- "violin"
   if (expand.grid == TRUE) {
     expand.grid <- waiver()
   } else {

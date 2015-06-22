@@ -24,9 +24,9 @@
 #'          if \code{FALSE} (default), asterisks are used. See 'Note'.
 #' @param fadeNS If \code{TRUE} (default), non-significant correlation-values appear faded (by using
 #'          a lighter grey text color). See 'Note'.
-#' @param file The destination file, which will be in html-format. If no filepath is specified,
-#'          the file will be saved as temporary file and openend either in the RStudio View pane or
-#'          in the default web browser.
+#' @param file destination file, if the output should be saved as file.
+#'          If \code{NULL} (default), the output will be saved as temporary file and 
+#'          openend either in the IDE's viewer pane or the default web browser.
 #' @param varlabels The item labels that are printed along the first column/row. If no item labels are
 #'          provided (default), the data frame's column names are used. Item labels must
 #'          be a string vector, e.g.: \code{varlabels=c("Var 1", "Var 2", "Var 3")}.

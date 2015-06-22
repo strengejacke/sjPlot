@@ -12,28 +12,28 @@
 #' 
 #' @note Thanks to \href{http://www.clas.ufl.edu/users/forrest/}{Forrest Stevens} for bug fixes.
 #' 
-#' @param items A data frame with each column representing one likert-item.
-#' @param legendLabels A list or vector of strings that indicate the likert-scale-categories and which
-#'          appear as legend text.
-#' @param sort.frq Indicates whether the \code{items} should be ordered by
+#' @param items \code{\link{data.frame}} with each column representing one item.
+#' @param legendLabels list or vector of strings that indicate the items' categories.
+#'          WIll also appear as legend text.
+#' @param sort.frq indicates whether the \code{items} should be ordered by
 #'          by highest count of first or last category of \code{items}.
-#'          \itemize{
-#'            \item Use \code{"first.asc"} to order ascending by lowest count of first category,
-#'            \item \code{"first.desc"} to order descending by lowest count of first category,
-#'            \item \code{"last.asc"} to order ascending by lowest count of last category,
-#'            \item \code{"last.desc"} to order descending by lowest count of last category,
-#'            \item or \code{NULL} (default) for no sorting.
+#'          \describe{
+#'            \item{\code{"first.asc"}}{to order ascending by lowest count of first category,}
+#'            \item{\code{"first.desc"}}{to order descending by lowest count of first category,}
+#'            \item{\code{"last.asc"}}{to order ascending by lowest count of last category,}
+#'            \item{\code{"last.desc"}}{to order descending by lowest count of last category,}
+#'            \item{\code{NULL}}{(default) for no sorting.}
 #'          }
-#' @param weightBy A weight factor that will be applied to weight all cases from \code{items}.
+#' @param weightBy weight factor that will be applied to weight all cases from \code{items}.
 #'          Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, so no weights are used.
-#' @param weightByTitleString If a weight factor is supplied via the parameter \code{weightBy}, the diagram's title
-#'          may indicate this with a remark. Default is \code{NULL}, so the diagram's title will not be modified when
-#'          cases are weighted. Use a string as parameter, e.g.: \code{weightByTitleString=" (weighted)"}.
-#' @param hideLegend Indicates whether legend (guide) should be shown or not.
-#' @param title Title of the diagram, plotted above the whole diagram panel.
-#' @param legendTitle Title of the diagram's legend.
-#' @param includeN If \code{TRUE} (default), the N of each item is included into axis labels.
-#' @param geom.colors User defined color palette for geoms. If specified, must either be vector with color values 
+#' @param weightByTitleString suffix (as string) for the plot's title, if \code{weightBy} is specified,
+#'          e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's 
+#'          title will not have a suffix when cases are weighted.
+#' @param hideLegend logical, indicates whether legend (guide) should be shown or not.
+#' @param title plot's title
+#' @param legendTitle title of plot's legend
+#' @param includeN logical, if \code{TRUE} (default), the N of each item is included into axis labels.
+#' @param geom.colors user defined color palette for geoms. If specified, must either be vector with color values 
 #'          of same length as groups defined in \code{legendLabels}, or a specific color palette code.
 #'          See 'Note' in \code{\link{sjp.grpfrq}}.
 #' @param geom.size size resp. width of the geoms (bar width)

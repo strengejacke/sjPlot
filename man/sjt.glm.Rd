@@ -22,7 +22,7 @@ sjt.glm(..., file = NULL, labelPredictors = NULL,
   remove.spaces = TRUE)
 }
 \arguments{
-\item{...}{One or more fitted \code{\link{glm}}-objects.}
+\item{...}{one or more fitted \code{\link{glm}}-objects.}
 
 \item{file}{The destination file, which will be in html-format. If no filepath is specified,
 the file will be saved as temporary file and openend either in the RStudio View pane or
