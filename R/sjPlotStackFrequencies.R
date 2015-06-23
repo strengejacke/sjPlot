@@ -37,26 +37,24 @@
 #'          of same length as groups defined in \code{legendLabels}, or a specific color palette code.
 #'          See 'Note' in \code{\link{sjp.grpfrq}}.
 #' @param geom.size size resp. width of the geoms (bar width)
-#' @param axisLabels.y Labels for the y-axis (the labels of the \code{items}). These parameters must
-#'          be passed as list! Example: \code{axisLabels.y=list(c("Q1", "Q2", "Q3"))}
+#' @param axisLabels.y character vector with labels for the y-axis (variable names 
+#'          of \code{items}). Example: \code{axisLabels.y = c("Q1", "Q2", "Q3")}
 #'          Axis labels will automatically be detected, when they have
-#'          a variable label attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).
-#' @param breakTitleAt Wordwrap for diagram title. Determines how many chars of the title are displayed in
+#'          label attributes (see \code{\link[sjmisc]{set_var_labels}}) for details).
+#' @param breakTitleAt determines how many chars of the title are displayed in
 #'          one line and when a line break is inserted into the title.
-#' @param breakLabelsAt Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in 
+#' @param breakLabelsAt determines how many chars of the category labels are displayed in 
 #'          one line and when a line break is inserted.
-#' @param breakLegendTitleAt Wordwrap for diagram legend title. Determines how many chars of the legend's title 
+#' @param breakLegendTitleAt determines how many chars of the legend's title 
 #'          are displayed in one line and when a line break is inserted.
-#' @param breakLegendLabelsAt Wordwrap for diagram legend labels. Determines how many chars of the legend labels are 
+#' @param breakLegendLabelsAt determines how many chars of the legend labels are 
 #'          displayed in one line and when a line break is inserted.
-#' @param gridBreaksAt Sets the breaks on the y axis, i.e. at every n'th position a major
-#'          grid is being printed. Valid values range from 0 to 1.
-#' @param expand.grid If \code{TRUE} (default), the diagram has margins, i.e. the y-axis is not exceeded
-#'          to the diagram's boundaries.
-#' @param axisTitle.x A label for the x axis. Useful when plotting histograms with metric scales where no category labels
-#'          are assigned to the x axis.
-#' @param axisTitle.y A label for the y axis. Useful when plotting histograms with metric scales where no category labels
-#'          are assigned to the y axis.
+#' @param gridBreaksAt set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
+#'          position a major grid is being printed. Valid values range from 0 to 1.
+#' @param expand.grid logical, if \code{TRUE} (default), the diagram has margins, 
+#'          i.e. the y-axis is not exceeded to the diagram's boundaries.
+#' @param axisTitle.x title for the x-axis. Default is \code{NULL} (no title).
+#' @param axisTitle.y title for the y-axis. Default is \code{NULL} (no title).
 #' @param showValueLabels Whether counts and percentage values should be plotted to each bar.
 #' @param labelDigits The amount of digits for rounding \code{value.labels}. Default is 1, 
 #'          i.e. value labels have 1 digit after decimal point.
@@ -93,10 +91,10 @@
 #' likert_4 <- data.frame(Q1, Q2, Q3, Q4, Q5)
 #' 
 #' # create labels
-#' levels_4 <- list(c("Independent", 
-#'                    "Slightly dependent", 
-#'                    "Dependent", 
-#'                    "Severely dependent"))
+#' levels_4 <- c("Independent", 
+#'               "Slightly dependent", 
+#'               "Dependent", 
+#'               "Severely dependent")
 #' 
 #' # plot stacked frequencies of 5 (ordered) item-scales
 #' sjp.stackfrq(likert_4, legendLabels = levels_4)
@@ -120,11 +118,11 @@
 #' 
 #' # create value labels. We need just one variable of
 #' # the COPE-index scale because they have all the same
-#' # level / categorie / value labels
+#' # level / category / value labels
 #' levels <- vallabs['c82cop1']
 #' 
 #' # create item labels
-#' items <- list(varlabs[c(start:end)])
+#' items <- varlabs[c(start:end)]
 #' 
 #' sjp.stackfrq(efc[, c(start:end)], 
 #'              legendLabels = levels,
@@ -226,10 +224,27 @@ sjp.stackfrq <- function(items,
   # --------------------------------------------------------
   if (is.null(axisLabels.y)) axisLabels.y <- colnames(items)
   # --------------------------------------------------------
-  # unlist labels
+  # unlist/ unname axis labels
   # --------------------------------------------------------
-  if (!is.null(axisLabels.y) && is.list(axisLabels.y)) axisLabels.y <- unlistlabels(axisLabels.y)
-  if (!is.null(legendLabels) && is.list(legendLabels)) legendLabels <- unlistlabels(legendLabels)
+  if (!is.null(axisLabels.y)) {
+    # unlist labels, if necessary, so we have a simple
+    # character vector
+    if (is.list(axisLabels.y)) axisLabels.y <- unlistlabels(axisLabels.y)
+    # unname labels, if necessary, so we have a simple
+    # character vector
+    if (!is.null(names(axisLabels.y))) axisLabels.y <- as.vector(axisLabels.y)
+  } 
+  # --------------------------------------------------------
+  # unlist/ unname axis labels
+  # --------------------------------------------------------
+  if (!is.null(legendLabels)) {
+    # unlist labels, if necessary, so we have a simple
+    # character vector
+    if (is.list(legendLabels)) legendLabels <- unlistlabels(legendLabels)
+    # unname labels, if necessary, so we have a simple
+    # character vector
+    if (!is.null(names(legendLabels))) legendLabels <- as.vector(legendLabels)
+  } 
   if (is.null(legendLabels)) {
     # if we have no legend labels, we iterate all data frame's
     # columns to find all unique items of the data frame.

@@ -45,7 +45,16 @@
 #'
 #' @note See 'Notes' in \code{\link{sjt.frq}}.
 #'  
-#' @details See 'Details' in \code{\link{sjt.frq}}.
+#' @details This function performs a One-Way-Anova with \code{varCount} as dependent
+#'            and \code{varGrp} as independent variable, by calling
+#'            \code{lm(varCount ~ as.factor(varGrp))}, to get p-values for each
+#'            sub-group and the complete "model". Thus, p-values indicate whether
+#'            each group-mean is significantly different from the reference 
+#'            group (reference level of \code{varGrp}). Statistics like mean values are
+#'            based on subsetted groups (i.e. \code{varCount} is divided into sub-groups
+#'            indicated by \code{varGrp}).
+#'            \cr \cr
+#'            Furthermore, see 'Details' in \code{\link{sjt.frq}}.
 #'
 #' @examples
 #' \dontrun{

@@ -260,14 +260,27 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   if (is.null(axisLabels.y)) axisLabels.y <- colnames(items)
   # --------------------------------------------------------
-  # unlist labels
+  # unlist/ unname axis labels
   # --------------------------------------------------------
-  if (!is.null(axisLabels.y) && is.list(axisLabels.y)) {
-    axisLabels.y <- unlistlabels(axisLabels.y)
-  }
-  if (!is.null(legendLabels) && is.list(legendLabels)) {
-    legendLabels <- unlistlabels(legendLabels)
-  }
+  if (!is.null(axisLabels.y)) {
+    # unlist labels, if necessary, so we have a simple
+    # character vector
+    if (is.list(axisLabels.y)) axisLabels.y <- unlistlabels(axisLabels.y)
+    # unname labels, if necessary, so we have a simple
+    # character vector
+    if (!is.null(names(axisLabels.y))) axisLabels.y <- as.vector(axisLabels.y)
+  } 
+  # --------------------------------------------------------
+  # unlist/ unname axis labels
+  # --------------------------------------------------------
+  if (!is.null(legendLabels)) {
+    # unlist labels, if necessary, so we have a simple
+    # character vector
+    if (is.list(legendLabels)) legendLabels <- unlistlabels(legendLabels)
+    # unname labels, if necessary, so we have a simple
+    # character vector
+    if (!is.null(names(legendLabels))) legendLabels <- as.vector(legendLabels)
+  } 
   # --------------------------------------------------------
   # determine catcount
   # --------------------------------------------------------

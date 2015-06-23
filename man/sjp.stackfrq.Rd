@@ -17,70 +17,68 @@ sjp.stackfrq(items, legendLabels = NULL, sort.frq = NULL, weightBy = NULL,
   coord.flip = TRUE, printPlot = TRUE)
 }
 \arguments{
-\item{items}{A data frame with each column representing one likert-item.}
+\item{items}{\code{\link{data.frame}} with each column representing one item.}
 
-\item{legendLabels}{A list or vector of strings that indicate the likert-scale-categories and which
-appear as legend text.}
+\item{legendLabels}{list or vector of strings that indicate the items' categories.
+WIll also appear as legend text.}
 
-\item{sort.frq}{Indicates whether the \code{items} should be ordered by
+\item{sort.frq}{indicates whether the \code{items} should be ordered by
 by highest count of first or last category of \code{items}.
-\itemize{
-  \item Use \code{"first.asc"} to order ascending by lowest count of first category,
-  \item \code{"first.desc"} to order descending by lowest count of first category,
-  \item \code{"last.asc"} to order ascending by lowest count of last category,
-  \item \code{"last.desc"} to order descending by lowest count of last category,
-  \item or \code{NULL} (default) for no sorting.
+\describe{
+  \item{\code{"first.asc"}}{to order ascending by lowest count of first category,}
+  \item{\code{"first.desc"}}{to order descending by lowest count of first category,}
+  \item{\code{"last.asc"}}{to order ascending by lowest count of last category,}
+  \item{\code{"last.desc"}}{to order descending by lowest count of last category,}
+  \item{\code{NULL}}{(default) for no sorting.}
 }}
 
-\item{weightBy}{A weight factor that will be applied to weight all cases from \code{items}.
+\item{weightBy}{weight factor that will be applied to weight all cases from \code{items}.
 Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, so no weights are used.}
 
-\item{weightByTitleString}{If a weight factor is supplied via the parameter \code{weightBy}, the diagram's title
-may indicate this with a remark. Default is \code{NULL}, so the diagram's title will not be modified when
-cases are weighted. Use a string as parameter, e.g.: \code{weightByTitleString=" (weighted)"}.}
+\item{weightByTitleString}{suffix (as string) for the plot's title, if \code{weightBy} is specified,
+e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's
+title will not have a suffix when cases are weighted.}
 
-\item{hideLegend}{Indicates whether legend (guide) should be shown or not.}
+\item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
 
-\item{title}{Title of the diagram, plotted above the whole diagram panel.}
+\item{title}{plot's title}
 
-\item{legendTitle}{Title of the diagram's legend.}
+\item{legendTitle}{title of plot's legend}
 
-\item{includeN}{If \code{TRUE} (default), the N of each item is included into axis labels.}
+\item{includeN}{logical, if \code{TRUE} (default), the N of each item is included into axis labels.}
 
-\item{axisLabels.y}{Labels for the y-axis (the labels of the \code{items}). These parameters must
-be passed as list! Example: \code{axisLabels.y=list(c("Q1", "Q2", "Q3"))}
+\item{axisLabels.y}{character vector with labels for the y-axis (variable names
+of \code{items}). Example: \code{axisLabels.y = c("Q1", "Q2", "Q3")}
 Axis labels will automatically be detected, when they have
-a variable label attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).}
+label attributes (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
-\item{breakTitleAt}{Wordwrap for diagram title. Determines how many chars of the title are displayed in
+\item{breakTitleAt}{determines how many chars of the title are displayed in
 one line and when a line break is inserted into the title.}
 
-\item{breakLabelsAt}{Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in
+\item{breakLabelsAt}{determines how many chars of the category labels are displayed in
 one line and when a line break is inserted.}
 
-\item{breakLegendTitleAt}{Wordwrap for diagram legend title. Determines how many chars of the legend's title
+\item{breakLegendTitleAt}{determines how many chars of the legend's title
 are displayed in one line and when a line break is inserted.}
 
-\item{breakLegendLabelsAt}{Wordwrap for diagram legend labels. Determines how many chars of the legend labels are
+\item{breakLegendLabelsAt}{determines how many chars of the legend labels are
 displayed in one line and when a line break is inserted.}
 
-\item{gridBreaksAt}{Sets the breaks on the y axis, i.e. at every n'th position a major
-grid is being printed. Valid values range from 0 to 1.}
+\item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th
+position a major grid is being printed. Valid values range from 0 to 1.}
 
-\item{expand.grid}{If \code{TRUE} (default), the diagram has margins, i.e. the y-axis is not exceeded
-to the diagram's boundaries.}
+\item{expand.grid}{logical, if \code{TRUE} (default), the diagram has margins,
+i.e. the y-axis is not exceeded to the diagram's boundaries.}
 
 \item{geom.size}{size resp. width of the geoms (bar width)}
 
-\item{geom.colors}{User defined color palette for geoms. If specified, must either be vector with color values
+\item{geom.colors}{user defined color palette for geoms. If specified, must either be vector with color values
 of same length as groups defined in \code{legendLabels}, or a specific color palette code.
 See 'Note' in \code{\link{sjp.grpfrq}}.}
 
-\item{axisTitle.x}{A label for the x axis. Useful when plotting histograms with metric scales where no category labels
-are assigned to the x axis.}
+\item{axisTitle.x}{title for the x-axis. Default is \code{NULL} (no title).}
 
-\item{axisTitle.y}{A label for the y axis. Useful when plotting histograms with metric scales where no category labels
-are assigned to the y axis.}
+\item{axisTitle.y}{title for the y-axis. Default is \code{NULL} (no title).}
 
 \item{showValueLabels}{Whether counts and percentage values should be plotted to each bar.}
 
@@ -137,10 +135,10 @@ Q5 <- as.factor(sample(1:4, 500, replace = TRUE,
 likert_4 <- data.frame(Q1, Q2, Q3, Q4, Q5)
 
 # create labels
-levels_4 <- list(c("Independent",
-                   "Slightly dependent",
-                   "Dependent",
-                   "Severely dependent"))
+levels_4 <- c("Independent",
+              "Slightly dependent",
+              "Dependent",
+              "Severely dependent")
 
 # plot stacked frequencies of 5 (ordered) item-scales
 sjp.stackfrq(likert_4, legendLabels = levels_4)
@@ -164,11 +162,11 @@ vallabs <- get_val_labels(efc)
 
 # create value labels. We need just one variable of
 # the COPE-index scale because they have all the same
-# level / categorie / value labels
+# level / category / value labels
 levels <- vallabs['c82cop1']
 
 # create item labels
-items <- list(varlabs[c(start:end)])
+items <- varlabs[c(start:end)]
 
 sjp.stackfrq(efc[, c(start:end)],
              legendLabels = levels,
