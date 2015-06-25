@@ -2146,9 +2146,7 @@ get_cleaned_ciMerMod <- function(fit, ci.only = FALSE) {
   # get odds ratios of fixed effects
   OR <- lme4::fixef(fit)
   # get condifence intervals, cleaned (variance CI removed via NA)
-  CI <- na.omit(lme4::confint.merMod(fit, method = "Wald"))
-  # check if no of CI match no of terms
-  if (length(OR) < nrow(CI)) CI <- CI[-seq_len(nrow(CI) - length(OR)), ]
+  CI <- lme4::confint.merMod(fit, method = "Wald", parm = "beta_")
   # create data frame
   mydf <- data.frame(exp(cbind(OR, CI)))
   # only return ci?
