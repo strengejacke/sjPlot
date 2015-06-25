@@ -1059,7 +1059,7 @@ sjp.lm.poly <- function(fit,
                         showCI, 
                         printPlot) {
   # check size parameter
-  if (is.null(geom.size)) geom.size <- .8
+  if (is.null(geom.size)) geom.size <- .7
   # -------------------------------------
   # retrieve model matrix
   # -------------------------------------
@@ -1224,7 +1224,7 @@ sjp.lm.eff <- function(fit,
   # ------------------------
   grp.cnt <- length(unique(mydat$grp))
   # check size parameter
-  if (is.null(geom.size)) geom.size <- .8
+  if (is.null(geom.size)) geom.size <- .7
   # ------------------------
   # create plot
   # ------------------------

@@ -589,7 +589,7 @@ sjp.glm.pc <- function(fit,
                        facet.grid,
                        printPlot) {
   # check size parameter
-  if (is.null(geom.size)) geom.size <- .8
+  if (is.null(geom.size)) geom.size <- .7
   # ----------------------------
   # prepare additional plots, when metric
   # predictors should also be plotted
@@ -740,7 +740,7 @@ sjp.glm.response.probcurv <- function(fit,
                                       geom.size,
                                       printPlot) {
   # check size parameter
-  if (is.null(geom.size)) geom.size <- .8
+  if (is.null(geom.size)) geom.size <- .7
   # ----------------------------
   # get predicted values for response
   # ----------------------------

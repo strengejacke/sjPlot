@@ -515,7 +515,7 @@ sjt.glm <- function(...,
     # retrieve ci for model
     # -------------------------------------
     if (lmerob) {
-      confis <- lme4::confint.merMod(fit, method = "Wald")
+      confis <- na.omit(lme4::confint.merMod(fit, method = "Wald"))
       coef.fit <- lme4::fixef(fit)
     } else {
       confis <- confint(fit)

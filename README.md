@@ -43,6 +43,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 ### Changelog of development build 1.8.1-7
 
 #### General
+* Package documentation got major revisions.
 * `view_spss` is now deprecated. Use `view_df` instead.
 
 #### New functions
@@ -51,7 +52,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 #### Changes to functions
 * Model and table summaries in plotting functions (like `sjp.lm` or `sjp.grpfrq`) are no longer printed by default. Use `showTableSummary = TRUE` or `showModelSummary = TRUE` to print summaries in plots.
 * Added more plotting type options (see `type` parameter) to `sjp.glm`, `sjp.glmer`, `sjp.lm` and `sjp.lmer`: `eff` for plotting marginal effects of model terms, and `poly` to plot predicted values of polynomial terms (only for linear (mixed) models).
-* Added parameter `int.term` to `sjp.int`, to plot selected interaction terms for `type = "eff"` only. May be used in cases where effect computation takes too long or even crashes due to out-of-memory-problems.
+* Added parameter `int.term` to `sjp.int`, to plot selected interaction terms for `type = "eff"`. May be used in cases where effect computation takes too long or even crashes due to out-of-memory-problems.
 * Added parameter `axisLimits.x` to `sjp.int`, `sjp.frq` and `sjp.grpfrq`.
 * Added parameter `showAICc` to `sjt.lm`, `sjt.glm`, `sjt.lme` and `sjt.glmer` to print second-order AIC.
 * Improved automatic y-axis-limit detection in `sjp.frq` and `sjp.grpfrq`.

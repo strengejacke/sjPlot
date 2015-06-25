@@ -971,7 +971,7 @@ sjp.lme4  <- function(fit,
           warning("'type = fe.std' only works for linear models.", call. = F)
         }
         mydf <- data.frame(exp(cbind(OR = lme4::fixef(fit),
-                                     lme4::confint.merMod(fit, method = "Wald"))))
+                                     na.omit(lme4::confint.merMod(fit, method = "Wald")))))
       } else {
         if (type == "fe.std") {
           tmpdf <- sjmisc::std_beta(fit)
@@ -982,7 +982,7 @@ sjp.lme4  <- function(fit,
           rownames(mydf) <- names(lme4::fixef(fit))
         } else {
           mydf <- data.frame(OR = lme4::fixef(fit),
-                             lme4::confint.merMod(fit, method = "Wald"))
+                             na.omit(lme4::confint.merMod(fit, method = "Wald")))
         }
       }
       # ----------------------------
@@ -1246,7 +1246,7 @@ sjp.lme.feprobcurv <- function(fit,
                                geom.size,
                                printPlot) {
   # check size parameter
-  if (is.null(geom.size)) geom.size <- .8
+  if (is.null(geom.size)) geom.size <- .7
   # ----------------------------
   # prepare additional plots, when metric
   # predictors should also be plotted
@@ -1628,7 +1628,7 @@ sjp.lme.feri <- function(fit,
                          geom.size,
                          printPlot) {
   # check size parameter
-  if (is.null(geom.size)) geom.size <- .8
+  if (is.null(geom.size)) geom.size <- .7
   # ----------------------------
   # retrieve term names, so we find the estimates in the
   # coefficients list
@@ -2119,7 +2119,7 @@ sjp.glm.eff <- function(fit,
   # ------------------------
   grp.cnt <- length(unique(mydat$grp))
   # check size parameter
-  if (is.null(geom.size)) geom.size <- .8
+  if (is.null(geom.size)) geom.size <- .7
   # ------------------------
   # create plot
   # ------------------------
