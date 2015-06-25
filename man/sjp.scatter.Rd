@@ -5,14 +5,15 @@
 \title{Plot (grouped) scatter plots}
 \usage{
 sjp.scatter(x = NULL, y = NULL, grp = NULL, title = "",
-  legendTitle = NULL, legendLabels = NULL, axisTitle.x = NULL,
-  axisTitle.y = NULL, breakTitleAt = 50, breakLegendTitleAt = 20,
-  breakLegendLabelsAt = 20, geom.size = 3, geom.colors = NULL,
-  showTickMarkLabels.x = TRUE, showTickMarkLabels.y = TRUE,
-  showGroupFitLine = FALSE, showTotalFitLine = FALSE, showSE = FALSE,
-  fitmethod = "lm", useJitter = FALSE, autojitter = TRUE,
-  jitterRatio = 0.15, showRug = FALSE, hideLegend = FALSE,
-  facet.grid = FALSE, printPlot = TRUE)
+  legendTitle = NULL, legendLabels = NULL, pointLabels = NULL,
+  axisTitle.x = NULL, axisTitle.y = NULL, breakTitleAt = 50,
+  breakLegendTitleAt = 20, breakLegendLabelsAt = 20, geom.size = 3,
+  geom.colors = NULL, showTickMarkLabels.x = TRUE,
+  showTickMarkLabels.y = TRUE, showGroupFitLine = FALSE,
+  showTotalFitLine = FALSE, showSE = FALSE, fitmethod = "lm",
+  useJitter = FALSE, autojitter = TRUE, jitterRatio = 0.15,
+  showRug = FALSE, hideLegend = FALSE, facet.grid = FALSE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{x}{A vector (variable) indicating the x positions. If not specified (i.e. if
@@ -33,6 +34,13 @@ Use \code{NULL} to automatically detect variable names that will be used as titl
 \item{legendTitle}{Title of the diagram's legend.}
 
 \item{legendLabels}{Labels for the guide/legend.}
+
+\item{pointLabels}{character vector with names for each coordinate pair given
+by \code{x} and \code{y}, so instead of dots, text labels are
+printed to the plot. Must be of same length as \code{x} and \code{y}.
+If \code{pointLabels} has a different length, data points will be trimmed
+to match \code{pointLabels}. If \code{pointLabels = NULL} (default),
+dots instead of labels are printed.}
 
 \item{axisTitle.x}{A label (title) for the x axis.
 Use \code{NULL} to automatically detect variable names that will be used as title
@@ -144,6 +152,13 @@ sjp.scatter(y = fit$residuals, showTotalFitLine = TRUE)
 # "hide" axis titles
 sjp.scatter(efc$c160age, efc$e17age, efc$e42dep,
             title = "", axisTitle.x = "", axisTitle.y = "")
+
+# plot text labels
+pl <- c(1:10)
+for (i in 1:10) pl[i] <- paste(sample(c(0:9, letters, LETTERS),
+                                      8, replace = TRUE),
+                               collapse = "")
+sjp.scatter(runif(10), runif(10), pointLabels = pl)
 }
 \seealso{
 \href{http://www.strengejacke.de/sjPlot/sjp.scatter}{sjPlot manual: sjp.scatter}

@@ -617,7 +617,8 @@ sjt.lm <- function(...,
     # retrieve ci for model
     # -------------------------------------
     if (lmerob) {
-      confis <- na.omit(lme4::confint.merMod(fit, method = "Wald"))
+      # get cleaned CI
+      confis <- get_cleaned_ciMerMod(fit, T)
       sbmer <- suppressWarnings(sjmisc::std_beta(fit)[-1, ])
       sbvals <- data.frame(beta = sbmer[, 1], 
                            ci.low = sbmer[, 1] - 1.96 * sbmer[, 2],

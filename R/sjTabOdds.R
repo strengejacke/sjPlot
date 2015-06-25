@@ -515,7 +515,8 @@ sjt.glm <- function(...,
     # retrieve ci for model
     # -------------------------------------
     if (lmerob) {
-      confis <- na.omit(lme4::confint.merMod(fit, method = "Wald"))
+      # get cleaned CI
+      confis <- get_cleaned_ciMerMod(fit, T)
       coef.fit <- lme4::fixef(fit)
     } else {
       confis <- confint(fit)

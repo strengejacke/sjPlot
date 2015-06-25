@@ -970,8 +970,8 @@ sjp.lme4  <- function(fit,
         if (type == "fe.std") {
           warning("'type = fe.std' only works for linear models.", call. = F)
         }
-        mydf <- data.frame(exp(cbind(OR = lme4::fixef(fit),
-                                     na.omit(lme4::confint.merMod(fit, method = "Wald")))))
+        # get odds ratios and cleaned CI
+        mydf <- get_cleaned_ciMerMod(fit)
       } else {
         if (type == "fe.std") {
           tmpdf <- sjmisc::std_beta(fit)
@@ -981,8 +981,8 @@ sjp.lme4  <- function(fit,
           # set default row names
           rownames(mydf) <- names(lme4::fixef(fit))
         } else {
-          mydf <- data.frame(OR = lme4::fixef(fit),
-                             na.omit(lme4::confint.merMod(fit, method = "Wald")))
+          # get odds ratios and cleaned CI
+          mydf <- get_cleaned_ciMerMod(fit)
         }
       }
       # ----------------------------
@@ -2139,4 +2139,22 @@ sjp.glm.eff <- function(fit,
   invisible(structure(class = "sjpglmerff",
                       list(plot = eff.plot,
                            df = mydat)))
+}
+
+
+get_cleaned_ciMerMod <- function(fit, ci.only = FALSE) {
+  # get odds ratios of fixed effects
+  OR <- lme4::fixef(fit)
+  # get condifence intervals, cleaned (variance CI removed via NA)
+  CI <- na.omit(lme4::confint.merMod(fit, method = "Wald"))
+  # check if no of CI match no of terms
+  if (length(OR) < nrow(CI)) CI <- CI[-seq_len(nrow(CI) - length(OR)), ]
+  # create data frame
+  mydf <- data.frame(exp(cbind(OR, CI)))
+  # only return ci?
+  if (ci.only)
+    return(as.data.frame(CI))
+  else
+    # return df
+    return(mydf)
 }

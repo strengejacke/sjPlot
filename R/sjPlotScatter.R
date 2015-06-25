@@ -20,6 +20,12 @@
 #'          (see \code{\link[sjmisc]{set_var_labels}}) for details).
 #' @param legendTitle Title of the diagram's legend.
 #' @param legendLabels Labels for the guide/legend.
+#' @param pointLabels character vector with names for each coordinate pair given
+#'          by \code{x} and \code{y}, so instead of dots, text labels are
+#'          printed to the plot. Must be of same length as \code{x} and \code{y}.
+#'          If \code{pointLabels} has a different length, data points will be trimmed
+#'          to match \code{pointLabels}. If \code{pointLabels = NULL} (default),
+#'          dots instead of labels are printed.
 #' @param axisTitle.x A label (title) for the x axis.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
 #'          (see \code{\link[sjmisc]{set_var_labels}}) for details).
@@ -105,36 +111,43 @@
 #' sjp.scatter(efc$c160age, efc$e17age, efc$e42dep,
 #'             title = "", axisTitle.x = "", axisTitle.y = "")
 #' 
+#' # plot text labels
+#' pl <- c(1:10)
+#' for (i in 1:10) pl[i] <- paste(sample(c(0:9, letters, LETTERS), 
+#'                                       8, replace = TRUE), 
+#'                                collapse = "")
+#' sjp.scatter(runif(10), runif(10), pointLabels = pl)
 #'   
 #' @importFrom scales brewer_pal
 #' @import ggplot2
 #' @export
-sjp.scatter <- function(x=NULL,
-                        y=NULL,
-                        grp=NULL,
-                        title="", 
-                        legendTitle=NULL,
-                        legendLabels=NULL,
-                        axisTitle.x=NULL,
-                        axisTitle.y=NULL,
-                        breakTitleAt=50, 
-                        breakLegendTitleAt=20, 
-                        breakLegendLabelsAt=20,
-                        geom.size=3,
-                        geom.colors=NULL,
-                        showTickMarkLabels.x=TRUE,
-                        showTickMarkLabels.y=TRUE,
-                        showGroupFitLine=FALSE,
-                        showTotalFitLine=FALSE,
-                        showSE=FALSE,
-                        fitmethod="lm",
-                        useJitter=FALSE,
-                        autojitter=TRUE,
-                        jitterRatio=0.15,
-                        showRug=FALSE,
-                        hideLegend=FALSE,
-                        facet.grid=FALSE,
-                        printPlot=TRUE) {
+sjp.scatter <- function(x = NULL,
+                        y = NULL,
+                        grp = NULL,
+                        title = "",
+                        legendTitle = NULL,
+                        legendLabels = NULL,
+                        pointLabels = NULL,
+                        axisTitle.x = NULL,
+                        axisTitle.y = NULL,
+                        breakTitleAt = 50,
+                        breakLegendTitleAt = 20,
+                        breakLegendLabelsAt = 20,
+                        geom.size = 3,
+                        geom.colors = NULL,
+                        showTickMarkLabels.x = TRUE,
+                        showTickMarkLabels.y = TRUE,
+                        showGroupFitLine = FALSE,
+                        showTotalFitLine = FALSE,
+                        showSE = FALSE,
+                        fitmethod = "lm",
+                        useJitter = FALSE,
+                        autojitter = TRUE,
+                        jitterRatio = 0.15,
+                        showRug = FALSE,
+                        hideLegend = FALSE,
+                        facet.grid = FALSE,
+                        printPlot = TRUE) {
   # --------------------------------------------------------
   # check parameters
   # --------------------------------------------------------
@@ -206,6 +219,23 @@ sjp.scatter <- function(x=NULL,
   df <- na.omit(data.frame(cbind(x = x, y = y, grp = grp)))
   # group as factor
   df$grp <- as.factor(df$grp)
+  # do we have point labels?
+  if (!is.null(pointLabels)) {
+    # check length
+    if (length(pointLabels) > nrow(df)) {
+      # Tell user that we have too many point labels
+      warning("More point labels than data points. Omitting remaining point labels", call. = F)
+      # shorten vector
+      pointLabels <- pointLabels[1:nrow(df)]
+    } else if (length(pointLabels) < nrow(df)) {
+      # Tell user that we have too less point labels
+      warning("Less point labels than data points. Omitting remaining data point", call. = F)
+      # shorten data frame
+      df <- df[1:length(pointLabels), ]
+    }
+    # append labels
+    df$pointLabels <- as.character(pointLabels)
+  }
   # --------------------------------------------------------
   # Prepare and trim legend labels to appropriate size
   # --------------------------------------------------------
@@ -244,9 +274,22 @@ sjp.scatter <- function(x=NULL,
   # Use Jitter/Points
   # --------------------------------------------------------
   if (useJitter) {
-    scatter <- scatter + geom_jitter(size = geom.size)
+    # do we have text?
+    if (!is.null(pointLabels))
+      scatter <- scatter + geom_text(aes(label = pointLabels), 
+                                     size = geom.size,
+                                     position = "jitter")
+    else
+      # else plot dots
+      scatter <- scatter + geom_jitter(size = geom.size)
   } else {
-    scatter <- scatter + geom_point(size = geom.size)
+    # do we have text?
+    if (!is.null(pointLabels))
+      scatter <- scatter + geom_text(aes(label = pointLabels), 
+                                     size = geom.size)
+    else
+      # else plot dots
+      scatter <- scatter + geom_point(size = geom.size)
   }
   # --------------------------------------------------------
   # Show fitted lines
@@ -301,8 +344,8 @@ sjp.scatter <- function(x=NULL,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = "sjpscatter",
-                       list(plot = scatter,
-                            df = df)))
+  invisible(structure(class = "sjpscatter",
+                      list(plot = scatter,
+                           df = df)))
 }
                        
