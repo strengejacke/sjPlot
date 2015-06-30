@@ -147,22 +147,23 @@
 #' @import ggplot2
 #' @import tidyr
 #' @importFrom scales brewer_pal grey_pal
+#' @importFrom stats na.omit
 #' @export
 sjp.pca <- function(data,
-                    numberOfFactors=NULL,
-                    factorLoadingTolerance=0.1,
-                    plotEigenvalues=FALSE,
-                    digits=2,
-                    title=NULL,
-                    axisLabels.y=NULL,
-                    type="b",
-                    geom.size=.6,
-                    geom.colors="RdBu",                    
-                    breakTitleAt=50, 
-                    breakLabelsAt=30, 
-                    showValueLabels=TRUE,
-                    showCronbachsAlpha=TRUE,
-                    printPlot=TRUE) {
+                    numberOfFactors = NULL,
+                    factorLoadingTolerance = 0.1,
+                    plotEigenvalues = FALSE,
+                    digits = 2,
+                    title = NULL,
+                    axisLabels.y = NULL,
+                    type = "b",
+                    geom.size = .6,
+                    geom.colors = "RdBu",
+                    breakTitleAt = 50,
+                    breakLabelsAt = 30,
+                    showValueLabels = TRUE,
+                    showCronbachsAlpha = TRUE,
+                    printPlot = TRUE) {
   # --------------------------------------------------------
   # check parameters
   # --------------------------------------------------------
@@ -203,7 +204,7 @@ sjp.pca <- function(data,
     pcadata <- data
     dataframeparam <- FALSE
   } else {
-    pcadata <- prcomp(na.omit(data), retx = TRUE, center = TRUE, scale. = TRUE)
+    pcadata <- prcomp(stats::na.omit(data), retx = TRUE, center = TRUE, scale. = TRUE)
     dataframeparam <- TRUE
   }
   # --------------------------------------------------------
@@ -323,7 +324,7 @@ sjp.pca <- function(data,
     for (n in 1:length(unique(itemloadings))) {
       # calculate cronbach's alpha for those cases that all have the
       # highest loading on the same factor
-      cbv <- as.data.frame(rbind(cbv, cbind(nr = n, sjmisc::cronb(na.omit(dataframe[, which(itemloadings == n)])))))
+      cbv <- as.data.frame(rbind(cbv, cbind(nr = n, sjmisc::cronb(stats::na.omit(dataframe[, which(itemloadings == n)])))))
     }
     # just for vertical position adjustment when we print the alpha values
     vpos <- rep(c(-0.25, -1), nrow(cbv))

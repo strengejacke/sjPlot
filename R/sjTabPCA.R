@@ -24,9 +24,6 @@
 #'          on 3 possible factors can not be clearly assigned to just one factor and thus would be removed
 #'          from the principal component analysis. By default, the minimum difference of loading values
 #'          between the highest and 2nd highest factor should be 0.1
-#' @param file The destination file, which will be in html-format. If no filepath is specified,
-#'          the file will be saved as temporary file and openend either in the RStudio View pane or
-#'          in the default web browser.
 #' @param varlabels The item labels that are printed in the first column. If no item labels are
 #'          provided (default), the data frame's column names are used. Item labels must
 #'          be a string vector, e.g.: \code{varlabels=c("Var 1", "Var 2", "Var 3")}.
@@ -50,20 +47,9 @@
 #'          \emph{"Proportion of Variance"} will be used.
 #' @param stringCpov The string for the table row that contains the cumulative variances. By default, 
 #'          \emph{"Cumulative Proportion"} will be used.
-#' @param encoding The charset encoding used for variable and value labels. Default is \code{NULL}, so encoding
-#'          will be auto-detected depending on your platform (\code{"UTF-8"} for Unix and \code{"Windows-1252"} for
-#'          Windows OS). Change encoding if specific chars are not properly displayed (e.g.) German umlauts).
-#' @param CSS A \code{\link{list}} with user-defined style-sheet-definitions, according to the 
-#'          \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.
-#' @param useViewer If \code{TRUE}, the function tries to show the HTML table in the IDE's viewer pane. If
-#'          \code{FALSE} or no viewer available, the HTML table is opened in a web browser.
-#' @param no.output If \code{TRUE}, the html-output is neither opened in a browser nor shown in
-#'          the viewer pane and not even saved to file. This option is useful when the html output
-#'          should be used in \code{knitr} documents. The html output can be accessed via the return
-#'          value.
-#' @param remove.spaces logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
-#'          that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
-#'          may look less pretty, but it may help when exporting html-tables to office tools.
+#'          
+#' @inheritParams sjt.frq
+#'          
 #' @return Invisibly returns
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
@@ -197,7 +183,7 @@ sjt.pca <- function (data,
     dataframeparam <- FALSE
     showMSA <- FALSE
   } else {
-    pcadata <- prcomp(na.omit(data), 
+    pcadata <- prcomp(stats::na.omit(data), 
                       retx = TRUE, 
                       center = TRUE, 
                       scale. = TRUE)
@@ -374,7 +360,7 @@ sjt.pca <- function (data,
     for (n in 1:length(unique(itemloadings))) {
       # calculate cronbach's alpha for those cases that all have the
       # highest loading on the same factor
-      cbv <- c(cbv, sjmisc::cronb(na.omit(dataframe[, which(itemloadings == n)])))
+      cbv <- c(cbv, sjmisc::cronb(stats::na.omit(dataframe[, which(itemloadings == n)])))
     }
     # cbv now contains the factor numbers and the related alpha values
     # for each "factor dimension scale"

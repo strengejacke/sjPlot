@@ -24,9 +24,6 @@
 #'          if \code{FALSE} (default), asterisks are used. See 'Note'.
 #' @param fadeNS If \code{TRUE} (default), non-significant correlation-values appear faded (by using
 #'          a lighter grey text color). See 'Note'.
-#' @param file destination file, if the output should be saved as file.
-#'          If \code{NULL} (default), the output will be saved as temporary file and 
-#'          openend either in the IDE's viewer pane or the default web browser.
 #' @param varlabels The item labels that are printed along the first column/row. If no item labels are
 #'          provided (default), the data frame's column names are used. Item labels must
 #'          be a string vector, e.g.: \code{varlabels=c("Var 1", "Var 2", "Var 3")}.
@@ -51,20 +48,9 @@
 #'          correlated items) that can be used to display content in the diagonal cells
 #'          where row and column item are identical (i.e. the "self-correlation"). By defauilt,
 #'          this parameter is \code{NULL} and the diagnal cells are empty.
-#' @param encoding The charset encoding used for variable and value labels. Default is \code{NULL}, so encoding
-#'          will be auto-detected depending on your platform (\code{"UTF-8"} for Unix and \code{"Windows-1252"} for
-#'          Windows OS). Change encoding if specific chars are not properly displayed (e.g.) German umlauts).
-#' @param CSS A \code{\link{list}} with user-defined style-sheet-definitions, according to the 
-#'          \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.
-#' @param useViewer If \code{TRUE}, the function tries to show the HTML table in the IDE's viewer pane. If
-#'          \code{FALSE} or no viewer available, the HTML table is opened in a web browser.
-#' @param no.output If \code{TRUE}, the html-output is neither opened in a browser nor shown in
-#'          the viewer pane and not even saved to file. This option is useful when the html output
-#'          should be used in \code{knitr} documents. The html output can be accessed via the return
-#'          value.
-#' @param remove.spaces logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
-#'          that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
-#'          may look less pretty, but it may help when exporting html-tables to office tools.
+#'          
+#' @inheritParams sjt.frq
+#'          
 #' @return Invisibly returns
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
@@ -141,6 +127,7 @@
 #'          val.rm = 0.3, 
 #'          CSS = list(css.valueremove = 'color:blue;'))}
 #' 
+#' @importFrom stats na.omit
 #' @export
 sjt.corr <- function(data,
                      missingDeletion = "pairwise",
@@ -220,7 +207,7 @@ sjt.corr <- function(data,
     # missing deletion corresponds to
     # SPSS listwise
     if (missingDeletion == "listwise") {
-      data <- na.omit(data)
+      data <- stats::na.omit(data)
       corr <- cor(data, method = corMethod)
     } else {
       # missing deletion corresponds to

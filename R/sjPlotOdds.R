@@ -191,6 +191,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' @import ggplot2
 #' @import sjmisc
 #' @importFrom car outlierTest influencePlot crPlots durbinWatsonTest leveragePlots ncvTest spreadLevelPlot vif
+#' @importFrom stats na.omit
 #' @export
 sjp.glm <- function(fit,
                     type = "dots",
@@ -421,7 +422,7 @@ sjp.glm <- function(fit,
     upper_lim <- ceiling(10 * maxval) / 10
     lower_lim <- floor(10 * minval) / 10
     # avoid zero or NA axis limit!
-    if (is.na(upper_lim)) upper_lim <- ceiling(10 * max(na.omit(maxval))) / 10
+    if (is.na(upper_lim)) upper_lim <- ceiling(10 * max(stats::na.omit(maxval))) / 10
     if (lower_lim == 0 || is.na(lower_lim)) lower_lim <- 0.01
     # give warnings when auto-limits are very low/high
     if ((minval < 0.1) || (maxval > 100)) {

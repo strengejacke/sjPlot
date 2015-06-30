@@ -54,28 +54,29 @@ See \code{\link{shapiro.test}} for details.}
 and \code{\link[psych]{describe}} in the \code{psych}-package for more details.}
 
 \item{showCompCorrMat}{If \code{TRUE} (default), a correlation matrix of each component's
-index score is shown. Only applies if \code{factor.groups} is not \code{NULL} and \code{df} has
-more than one group. First, for each case (df's row), the sum of all variables (df's columns) is
-scaled (using the \code{\link{scale}}-function) and represents a "total score" for
-each component (a component is represented by each group of \code{factor.groups}).
-After that, each case (df's row) has a scales sum score for each component.
-Finally, a correlation of these "scale sum scores" is computed.}
+         index score is shown. Only applies if \code{factor.groups} is not \code{NULL} and \code{df} has
+         more than one group. First, for each case (df's row), the sum of all variables (df's columns) is
+         scaled (using the \code{\link{scale}}-function) and represents a "total score" for
+         each component (a component is represented by each group of \code{factor.groups}).
+         After that, each case (df's row) has a scales sum score for each component.
+         Finally, a correlation of these "scale sum scores" is computed.}
 
-\item{file}{The destination file, which will be in html-format. If no filepath is specified (default),
-the file will be saved as temporary file and openend either in the RStudio View pane or
-in the default web browser.}
+\item{file}{destination file, if the output should be saved as file.
+If \code{NULL} (default), the output will be saved as temporary file and
+openend either in the IDE's viewer pane or the default web browser.}
 
-\item{encoding}{The charset encoding used for variable and value labels. Default is \code{NULL}, so encoding
-will be auto-detected depending on your platform (\code{"UTF-8"} for Unix and \code{"Windows-1252"} for
-Windows OS). Change encoding if specific chars are not properly displayed (e.g.) German umlauts).}
+\item{encoding}{string, indicating the charset encoding used for variable and
+value labels. Default is \code{NULL}, so encoding will be auto-detected
+depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
+Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
 
-\item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
+\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
 
 \item{useViewer}{If \code{TRUE}, the function tries to show the HTML table in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
 
-\item{no.output}{If \code{TRUE}, the html-output is neither opened in a browser nor shown in
+\item{no.output}{logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
 the viewer pane and not even saved to file. This option is useful when the html output
 should be used in \code{knitr} documents. The html output can be accessed via the return
 value.}

@@ -63,21 +63,22 @@ parameter (\code{"css.valueremove"}) to change color and appearance of those cor
 the limit specified by \code{val.rm}.}
 
 \item{stringDiagonal}{a vector with string values of the same length as \code{ncol(data)} (number of
-correlated items) that can be used to display content in the diagonal cells
-where row and column item are identical (i.e. the "self-correlation"). By defauilt,
-this parameter is \code{NULL} and the diagnal cells are empty.}
+         correlated items) that can be used to display content in the diagonal cells
+         where row and column item are identical (i.e. the "self-correlation"). By defauilt,
+         this parameter is \code{NULL} and the diagnal cells are empty.}
 
-\item{encoding}{The charset encoding used for variable and value labels. Default is \code{NULL}, so encoding
-will be auto-detected depending on your platform (\code{"UTF-8"} for Unix and \code{"Windows-1252"} for
-Windows OS). Change encoding if specific chars are not properly displayed (e.g.) German umlauts).}
+\item{encoding}{string, indicating the charset encoding used for variable and
+value labels. Default is \code{NULL}, so encoding will be auto-detected
+depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
+Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
 
-\item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
+\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
 
 \item{useViewer}{If \code{TRUE}, the function tries to show the HTML table in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
 
-\item{no.output}{If \code{TRUE}, the html-output is neither opened in a browser nor shown in
+\item{no.output}{logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
 the viewer pane and not even saved to file. This option is useful when the html output
 should be used in \code{knitr} documents. The html output can be accessed via the return
 value.}

@@ -3,9 +3,10 @@
 
 # function to create pretty breaks
 # for log-scales
+#' @importFrom grDevices axisTicks
 base_breaks <- function(n = 10) {
   function(x) {
-    axisTicks(log10(range(x, na.rm = TRUE)), log = TRUE, nint = n)
+    grDevices::axisTicks(log10(range(x, na.rm = TRUE)), log = TRUE, nint = n)
   }
 }
 
@@ -71,6 +72,7 @@ out.html.table <- function(no.output, file, knitr, toWrite, useViewer) {
 
 # Create frequency data frame of a variable
 # for sjp and sjt frq functions
+#' @importFrom stats na.omit
 create.frq.df <- function(varCount,
                           llabels,
                           labelvalues,
@@ -151,14 +153,14 @@ create.frq.df <- function(varCount,
       # check if we have much less labels than values
       # so there might be a labelling mistake with
       # the variable
-      if (length(llabels) < length(unique(na.omit(varCount)))) {
+      if (length(llabels) < length(unique(stats::na.omit(varCount)))) {
         warning("Variable has less labels than unique values. Output might be incorrect. Please check value labels.", call. = F)
       }
       catcount <- startAxisAt + length(llabels) - 1
     } else {
       # determine maximum values
       # first, check the total amount of different factor levels
-      catcount_1 <- length(unique(na.omit(varCount)))
+      catcount_1 <- length(unique(stats::na.omit(varCount)))
       # second, check the maximum factor level
       catcount_2 <- max(varCount, na.rm = TRUE)
       # if categories start with zero, fix this here
@@ -202,7 +204,7 @@ create.frq.df <- function(varCount,
     mydat <- data.frame(cbind(mydat, prz = c(round(100 * mydat$frq / length(varCount), round.prz))))
   } else {
     # also add a columns with percentage values of count distribution
-    mydat <- data.frame(cbind(mydat, prz = c(round(100 * mydat$frq / length(na.omit(varCount)), round.prz))))
+    mydat <- data.frame(cbind(mydat, prz = c(round(100 * mydat$frq / length(stats::na.omit(varCount)), round.prz))))
   }
   # --------------------------------------------------------
   # Order categories ascending or descending
@@ -216,7 +218,7 @@ create.frq.df <- function(varCount,
   # --------------------------------------------------------
   # add valid and cumulative percentages
   # --------------------------------------------------------
-  mydat$valid <- c(round(100 * mydat$frq / length(na.omit(varCount)), round.prz))
+  mydat$valid <- c(round(100 * mydat$frq / length(stats::na.omit(varCount)), round.prz))
   mydat$cumperc <- cumsum(mydat$valid)
   # --------------------------------------------------------
   # check if all categories are in table. if first category does not
@@ -280,6 +282,7 @@ is.brewer.pal <- function(pal) {
 
 
 # Calculate statistics of cross tabs
+#' @importFrom stats chisq.test fisher.test
 crosstabsum <- function(ftab) {
   # --------------------------------------------------------
   # check p-value-style option
@@ -291,7 +294,7 @@ crosstabsum <- function(ftab) {
     p_zero <- "0"
   }
   # calculate chi square value
-  chsq <- chisq.test(ftab)
+  chsq <- stats::chisq.test(ftab)
   tab <- sjmisc::table_values(ftab)
   fish <- NULL
   # check whether variables are dichotome or if they have more
@@ -299,7 +302,7 @@ crosstabsum <- function(ftab) {
   # the contingency coefficient
   if (nrow(ftab) > 2 || ncol(ftab) > 2) {
     # if minimum expected values below 5, compute fisher's exact test
-    if (min(tab$expected) < 5 || (min(tab$expected) < 10 && chsq$parameter == 1)) fish <- fisher.test(ftab, simulate.p.value = TRUE)
+    if (min(tab$expected) < 5 || (min(tab$expected) < 10 && chsq$parameter == 1)) fish <- stats::fisher.test(ftab, simulate.p.value = TRUE)
     # check whether fisher's test or chi-squared should be printed
     if (is.null(fish)) {
       if (chsq$p.value < 0.001) {
@@ -340,7 +343,7 @@ crosstabsum <- function(ftab) {
   # the degree of association
   } else {
     # if minimum expected values below 5, compute fisher's exact test
-    if (min(tab$expected) < 5 || (min(tab$expected) < 10 && chsq$parameter == 1)) fish <- fisher.test(ftab)
+    if (min(tab$expected) < 5 || (min(tab$expected) < 10 && chsq$parameter == 1)) fish <- stats::fisher.test(ftab)
     # check whether fisher's test or chi-squared should be printed
     if (is.null(fish)) {
       modsum <- as.character(as.expression(

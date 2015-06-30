@@ -308,7 +308,7 @@ sjp.int(fit,
 library(sjmisc)
 data(efc)
 # create binary response
-y <- ifelse(efc$neg_c_7 < median(na.omit(efc$neg_c_7)), 0, 1)
+y <- ifelse(efc$neg_c_7 < median(stats::na.omit(efc$neg_c_7)), 0, 1)
 # create data frame for fitted model
 mydf <- data.frame(y = as.factor(y),
                    sex = as.factor(efc$c161sex),

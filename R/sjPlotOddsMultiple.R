@@ -112,6 +112,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 #' 
 #' @import ggplot2
 #' @import sjmisc
+#' @importFrom stats na.omit
 #' @export
 sjp.glmm <- function(...,
                      title = NULL,
@@ -292,7 +293,7 @@ sjp.glmm <- function(...,
     upper_lim <- ceiling(10 * max(finalodds$upper)) / 10
     lower_lim <- floor(10 * min(finalodds$lower)) / 10
     # avoid zero or NA axis limit!
-    if (is.na(upper_lim)) upper_lim <- ceiling(10 * max(na.omit(finalodds$upper))) / 10
+    if (is.na(upper_lim)) upper_lim <- ceiling(10 * max(stats::na.omit(finalodds$upper))) / 10
     if (lower_lim == 0 || is.na(lower_lim)) lower_lim <- 0.01
     # if we show p value labels, increase upper
     # limit of x axis, so labels are plotted inside

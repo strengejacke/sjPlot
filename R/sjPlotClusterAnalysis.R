@@ -1,5 +1,5 @@
 # bind global variables
-utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "se", "group"))
+utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "se", "group", "var", "kmeans"))
 
 
 #' @title Compute quick cluster analysis
@@ -125,6 +125,7 @@ utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "s
 #' 
 #' @import ggplot2
 #' @import sjmisc
+#' @importFrom stats na.omit
 #' @export
 sjc.qclus <- function(data,
                       groupcount = NULL,
@@ -168,7 +169,7 @@ sjc.qclus <- function(data,
   rownames(data) <- c(1:nrow(data))
   data.origin <- data
   # remove missings
-  data <- na.omit(data)
+  data <- stats::na.omit(data)
   if (!is.null(axisLabels.x) && is.list(axisLabels.x)) axisLabels.x <- unlistlabels(axisLabels.x)
   if (!is.null(legendLabels) && is.list(legendLabels)) legendLabels <- unlistlabels(legendLabels)
   # check for valid parameter
@@ -221,7 +222,7 @@ sjc.qclus <- function(data,
     grp.class <- grp <- groups
   }
   # remove missings
-  grp <- na.omit(grp)
+  grp <- stats::na.omit(grp)
   # ---------------------------------------------
   # check whether groupcount was matrix or not
   # ---------------------------------------------
@@ -429,9 +430,9 @@ sjc.cluster <- function(data,
   complete.groups <- rep(NA, times = nrow(data.origin))
   # Prepare Data
   # listwise deletion of missing
-  data <- na.omit(data) 
+  data <- stats::na.omit(data) 
   # remove missings
-  data.origin <- na.omit(data.origin)
+  data.origin <- stats::na.omit(data.origin)
   # --------------------------------------------------
   # Ward Hierarchical Clustering
   # --------------------------------------------------
@@ -507,7 +508,7 @@ sjc.cluster <- function(data,
 sjc.dend <- function(data, groupcount, distance = "euclidean", agglomeration = "ward") {
   # Prepare Data
   # listwise deletion of missing
-  data <- na.omit(data) 
+  data <- stats::na.omit(data) 
   # --------------------------------------------------
   # Ward Hierarchical Clustering
   # --------------------------------------------------
@@ -595,8 +596,8 @@ sjc.dend <- function(data, groupcount, distance = "euclidean", agglomeration = "
 sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect = TRUE, printPlot = TRUE) {
   # Prepare Data
   # listwise deletion of missing
-  data <- na.omit(data)
-  groups <- na.omit(groups)
+  data <- stats::na.omit(data)
+  groups <- stats::na.omit(groups)
   # ---------------------------------------------------------------
   # compute discriminant analysis of groups on original data frame
   # ---------------------------------------------------------------
@@ -734,7 +735,7 @@ sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect = TRUE, print
 sjc.elbow <- function(data, steps = 15, showDiff = FALSE) {
   # Prepare Data
   # listwise deletion of missing
-  data <- na.omit(data) 
+  data <- stats::na.omit(data) 
   # define line linecolor
   lcol <- rgb(128, 172, 200, maxColorValue = 255)
   # calculate elbow values (sum of squares)
@@ -842,7 +843,7 @@ sjc.kgap <- function(x,
   }
   # Prepare Data
   # listwise deletion of missing
-  x <- na.omit(x) 
+  x <- stats::na.omit(x) 
   # Gap Statistic for Estimating the Number of Clusters
   gap <- cluster::clusGap(x, kmeans, max, B)
 

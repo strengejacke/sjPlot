@@ -187,6 +187,7 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #' @import ggplot2
 #' @import sjmisc
 #' @importFrom car outlierTest crPlots durbinWatsonTest leveragePlots ncvTest spreadLevelPlot vif
+#' @importFrom stats model.matrix
 #' @export
 sjp.lm <- function(fit,
                    type = "lm",
@@ -588,17 +589,17 @@ sjp.reglin <- function(fit,
   # -----------------------------------------------------------
   if (any(class(fit) == "plm")) {
     # plm objects have different structure than (g)lm
-    fit_x <- data.frame(cbind(as.vector(fit$model[, 1]), model.matrix(fit)))
+    fit_x <- data.frame(cbind(as.vector(fit$model[, 1]), stats::model.matrix(fit)))
     depvar.label <- attr(attr(attr(fit$model, "terms"), "dataClasses"), "names")[1]
     # retrieve response vector
     resp <- as.vector(fit$model[, 1])
   } else if (any(class(fit) == "lmerMod") || any(class(fit) == "merModLmerTest")) {
-    fit_x <- data.frame(model.matrix(fit))
+    fit_x <- data.frame(stats::model.matrix(fit))
     # retrieve response vector
     resp <- lme4::getME(fit, "y")
     depvar.label <- attr(attr(attr(fit@frame, "terms"), "dataClasses"), "names")[1]
   } else {
-    fit_x <- data.frame(model.matrix(fit))
+    fit_x <- data.frame(stats::model.matrix(fit))
     depvar.label <- attr(attr(fit$terms, "dataClasses"), "names")[1]
     # retrieve response vector
     resp <- as.vector(fit$model[, 1])
@@ -1059,11 +1060,11 @@ sjp.lm.poly <- function(fit,
                         showCI, 
                         printPlot) {
   # check size parameter
-  if (is.null(geom.size)) geom.size <- .7
+  if (is.null(geom.size)) geom.size <- .8
   # -------------------------------------
   # retrieve model matrix
   # -------------------------------------
-  mm <- model.matrix(fit)
+  mm <- stats::model.matrix(fit)
   # -------------------------------------
   # parameter check: poly.term required and
   # polynomial must be found in model
@@ -1092,7 +1093,7 @@ sjp.lm.poly <- function(fit,
   # ------------------------
   # compute marginal effects of polynomial
   # ------------------------
-  xl <- list(x = sort(unique(na.omit(mm[, poly.term]))))
+  xl <- list(x = sort(unique(stats::na.omit(mm[, poly.term]))))
   names(xl) <- poly.term
   eff <- effects::effect(poly.term, fit, xlevels = xl, KR = FALSE)
   # ------------------------
@@ -1159,8 +1160,8 @@ sjp.lm.eff <- function(fit,
   # retrieve model matrix and all terms, 
   # excluding intercept
   # ------------------------
-  mm <- model.matrix(fit)
-  all.terms <- colnames(model.matrix(fit))[-1]
+  mm <- stats::model.matrix(fit)
+  all.terms <- colnames(stats::model.matrix(fit))[-1]
   # ------------------------
   # prepare getting unique values of predictors,
   # which are passed to the allEffects-function
@@ -1168,7 +1169,7 @@ sjp.lm.eff <- function(fit,
   xl <- list()
   for (t in all.terms) {
     # get unique values
-    dummy <- list(x = sort(unique(na.omit(mm[, t]))))
+    dummy <- list(x = sort(unique(stats::na.omit(mm[, t]))))
     # name list, needed for effect-function
     names(dummy) <- t
     # create list for "xlevels" parameter of allEffects fucntion
@@ -1224,7 +1225,7 @@ sjp.lm.eff <- function(fit,
   # ------------------------
   grp.cnt <- length(unique(mydat$grp))
   # check size parameter
-  if (is.null(geom.size)) geom.size <- .7
+  if (is.null(geom.size)) geom.size <- .8
   # ------------------------
   # create plot
   # ------------------------

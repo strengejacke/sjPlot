@@ -443,8 +443,7 @@ sjp.setTheme <- function(# base theme
   # ----------------------------------------  
   if (!is.null(axis.angle)) {
     axis.angle.x <- axis.angle.y <- axis.angle 
-  }
-  else {
+  } else {
     axis.angle <- axis.angle.x
   }
   # ----------------------------------------
@@ -452,8 +451,7 @@ sjp.setTheme <- function(# base theme
   # ----------------------------------------  
   if (!is.null(axis.textcolor)) {
     axis.textcolor.x <- axis.textcolor.y <- axis.textcolor
-  }
-  else {
+  } else {
     if (is.null(axis.textcolor.x)) 
       axis.textcolor <- axis.textcolor.y 
     else 
@@ -464,8 +462,7 @@ sjp.setTheme <- function(# base theme
   # ----------------------------------------  
   if (!is.null(axis.linecolor)) {
     axis.linecolor.x <- axis.linecolor.y <- axis.linecolor
-  }
-  else {
+  } else {
     if (is.null(axis.linecolor.x)) 
       axis.linecolor <- axis.linecolor.y 
     else 
@@ -476,8 +473,7 @@ sjp.setTheme <- function(# base theme
   # ----------------------------------------
   if (!is.null(axis.textsize)) {
     axis.textsize.x <- axis.textsize.y <- axis.textsize
-  }
-  else {
+  } else {
     if (is.null(axis.textsize.x)) 
       axis.textsize <- axis.textsize.y 
     else 
@@ -488,8 +484,7 @@ sjp.setTheme <- function(# base theme
   # ----------------------------------------
   if (!is.null(panel.gridcol)) {
     panel.major.gridcol <- panel.minor.gridcol <- panel.gridcol
-  }
-  else {
+  } else {
     if (is.null(panel.major.gridcol)) 
       panel.gridcol <- panel.minor.gridcol 
     else 
@@ -500,8 +495,7 @@ sjp.setTheme <- function(# base theme
   # ----------------------------------------
   if (!is.null(panel.col)) {
     panel.backcol <- panel.bordercol <- panel.col
-  }
-  else {
+  } else {
     if (is.null(panel.backcol)) 
       panel.col <- panel.bordercol 
     else 
@@ -514,8 +508,7 @@ sjp.setTheme <- function(# base theme
     if (title.align == "left" || title.align == "l") title.align <- 0
     if (title.align == "right" || title.align == "r") title.align <- 1
     if (title.align == "center" || title.align == "c") title.align <- 0.5
-  }
-  else {
+  } else {
     title.align <- 0
   }
   # ----------------------------------------
@@ -523,8 +516,7 @@ sjp.setTheme <- function(# base theme
   # ----------------------------------------
   if (!is.null(plot.col)) {
     plot.backcol <- plot.bordercol <- plot.col
-  }
-  else {
+  } else {
     if (is.null(plot.backcol)) 
       plot.col <- plot.bordercol 
     else 

@@ -21,78 +21,80 @@ sjt.lm(..., file = NULL, labelPredictors = NULL,
   useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
-\item{...}{One or more fitted lm-objects.}
+\item{...}{one or more fitted linear (mixed) models.}
 
-\item{file}{The destination file, which will be in html-format. If no filepath is specified,
-the file will be saved as temporary file and openend either in the RStudio View pane or
-in the default web browser.}
+\item{file}{destination file, if the output should be saved as file.
+If \code{NULL} (default), the output will be saved as temporary file and
+openend either in the IDE's viewer pane or the default web browser.}
 
-\item{labelPredictors}{Labels of the predictor variables, provided as char vector.}
+\item{labelPredictors}{character vector with labels of predictor variables.
+If not \code{NULL}, \code{labelPredictors} will be used in the first
+table column with the predictors' names. See 'Examples'.}
 
-\item{labelDependentVariables}{Labels of the dependent variables of all fitted models
-which have been used as first parameter(s), provided as char vector.}
+\item{labelDependentVariables}{character vector with labels of dependent
+variables of all fitted models. See 'Examples'.}
 
-\item{stringPredictors}{String constant used as headline for the predictor column.
+\item{stringPredictors}{string constant used as headline for the predictor column.
 Default is \code{"Predictors"}.}
 
-\item{stringDependentVariables}{String constant used as headline for the
+\item{stringDependentVariables}{string constant used as headline for the
 dependent variable columns. Default is \code{"Dependent Variables"}.}
 
-\item{stringModel}{String constant used as headline for the model names in case no
+\item{stringModel}{string constant used as headline for the model names in case no
 labels for the dependent variables are provided (see labelDependentVariables).
 Default is \code{"Model"}.}
 
-\item{showHeaderStrings}{If \code{TRUE}, the header strings \code{stringPredictors}
+\item{showHeaderStrings}{logical, if \code{TRUE}, the header strings \code{stringPredictors}
 and \code{stringDependentVariables} are shown. By default, they're hidden.}
 
-\item{stringIntercept}{String constant used as headline for the Intercept row
-default is \code{"Intercept"}.}
+\item{stringIntercept}{string constant used as headline for the Intercept row.
+Default is \code{"Intercept"}.}
 
-\item{stringObservations}{String constant used in the summary row for the count of observation
+\item{stringObservations}{string constant used in the summary row for the count of observation
 (cases). Default is \code{"Observations"}.}
 
-\item{stringB}{String used for the column heading of beta coefficients. Default is \code{"B"}.}
+\item{stringB}{string used for the column heading of beta coefficients. Default is \code{"B"}.}
 
-\item{stringSB}{String used for the column heading of standardized beta coefficients. Default is \code{"std. Beta"}.}
+\item{stringSB}{string used for the column heading of standardized beta coefficients. Default is \code{"std. Beta"}.}
 
-\item{stringCI}{String used for the column heading of confidence interval values. Default is \code{"CI"}.}
+\item{stringCI}{string used for the column heading of confidence interval values. Default is \code{"CI"}.}
 
-\item{stringSE}{String used for the column heading of standard error values. Default is \code{"std. Error"}.}
+\item{stringSE}{string used for the column heading of standard error values. Default is \code{"std. Error"}.}
 
-\item{stringP}{String used for the column heading of p values. Default is \code{"p"}.}
+\item{stringP}{string used for the column heading of p values. Default is \code{"p"}.}
 
-\item{showEst}{If \code{TRUE} (default), the estimates are printed.}
+\item{showEst}{logical, if \code{TRUE} (default), the estimates are printed.}
 
-\item{showConfInt}{If \code{TRUE} (default), the confidence intervall is also printed to the table. Use
+\item{showConfInt}{logical, if \code{TRUE} (default), the confidence intervall is also printed to the table. Use
 \code{FALSE} to omit the CI in the table.}
 
-\item{showStdBeta}{If \code{TRUE}, the standardized beta-coefficients are also printed.
+\item{showStdBeta}{logical, if \code{TRUE}, the standardized beta-coefficients are also printed.
 Default is \code{FALSE}.}
 
-\item{showStdError}{If \code{TRUE}, the standard errors are also printed.
+\item{showStdError}{logical, if \code{TRUE}, the standard errors are also printed.
 Default is \code{FALSE}.}
 
-\item{digits.est}{Amount of decimals for estimators.}
+\item{digits.est}{amount of decimals for estimators}
 
-\item{digits.p}{Amount of decimals for p-values.}
+\item{digits.p}{amount of decimals for p-values}
 
-\item{digits.ci}{Amount of decimals for confidence intervals.}
+\item{digits.ci}{amount of decimals for confidence intervals}
 
-\item{digits.se}{Amount of decimals for standard error.}
+\item{digits.se}{amount of decimals for standard error}
 
-\item{digits.sb}{Amount of decimals for standardized beta.}
+\item{digits.sb}{amount of decimals for standardized beta}
 
-\item{digits.summary}{Amount of decimals for values in model summary.}
+\item{digits.summary}{amount of decimals for values in model summary}
 
-\item{pvaluesAsNumbers}{If \code{TRUE}, p-values are shown as numbers. If \code{FALSE} (default),
+\item{pvaluesAsNumbers}{logical, if \code{TRUE}, p-values are shown as numbers. If \code{FALSE} (default),
 p-values are indicated by asterisks.}
 
-\item{boldpvalues}{If \code{TRUE} (default), significant p-values are shown bold faced.}
+\item{boldpvalues}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
 
 \item{separateConfColumn}{if \code{TRUE}, the CI values are shown in a separate table column.
 Default is \code{FALSE}.}
 
-\item{newLineConf}{If \code{TRUE} and \code{separateConfColumn} is \code{FALSE}, inserts a line break
+\item{newLineConf}{logica, if \code{TRUE} and \code{separateConfColumn = FALSE}, inserts a line break
 between B and CI values. If \code{FALSE}, CI values are printed in the same
 line with B values.}
 
@@ -101,10 +103,10 @@ factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
 be grouped, if the factor has more than two levels. Grouping means that a separate headline
 row is inserted to the table just before the predictor values.}
 
-\item{showAbbrHeadline}{If \code{TRUE} (default), the table data columns have a headline with
+\item{showAbbrHeadline}{logical, if \code{TRUE} (default), the table data columns have a headline with
 abbreviations for beta- and std. beta-values, confidence interval and p-values.}
 
-\item{showR2}{If \code{TRUE} (default), the R2 and adjusted R2 values for each model are printed
+\item{showR2}{logical, if \code{TRUE} (default), the R2 and adjusted R2 values for each model are printed
 in the model summary.}
 
 \item{showFStat}{If \code{TRUE}, the F-statistics for each model is printed
@@ -124,25 +126,26 @@ would remove the 2nd to the 4th estimate (1st to 3d predictor after intercept) f
 \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 is \code{NULL}, i.e. all estimates are printed.}
 
-\item{cellSpacing}{The inner padding of table cells. By default, this value is 0.2 (unit is cm), which is
+\item{cellSpacing}{numeric, inner padding of table cells. By default, this value is 0.2 (unit is cm), which is
 suitable for viewing the table. Decrease this value (0.05 to 0.1) if you want to import the table
 into Office documents. This is a convenient parameter for the \code{CSS} parameter for changing
-cell spacing, which would be: \code{CSS=list(css.thead="padding:0.2cm;", css.tzdata="padding:0.2cm;")}.}
+cell spacing, which would be: \code{CSS = list(css.thead = "padding:0.2cm;", css.tdata = "padding:0.2cm;")}.}
 
 \item{cellGroupIndent}{Indent for table rows with grouped factor predictors. Only applies
-if \code{group.pred} is \code{TRUE}.}
+         if \code{group.pred} is \code{TRUE}.}
 
-\item{encoding}{The charset encoding used for variable and value labels. Default is \code{NULL}, so encoding
-will be auto-detected depending on your platform (\code{"UTF-8"} for Unix and \code{"Windows-1252"} for
-Windows OS). Change encoding if specific chars are not properly displayed (e.g.) German umlauts).}
+\item{encoding}{string, indicating the charset encoding used for variable and
+value labels. Default is \code{NULL}, so encoding will be auto-detected
+depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
+Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
 
-\item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
+\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
 
 \item{useViewer}{If \code{TRUE}, the function tries to show the HTML table in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
 
-\item{no.output}{If \code{TRUE}, the html-output is neither opened in a browser nor shown in
+\item{no.output}{logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
 the viewer pane and not even saved to file. This option is useful when the html output
 should be used in \code{knitr} documents. The html output can be accessed via the return
 value.}

@@ -65,23 +65,9 @@
 #'          each component (a component is represented by each group of \code{factor.groups}).
 #'          After that, each case (df's row) has a scales sum score for each component.
 #'          Finally, a correlation of these "scale sum scores" is computed.
-#' @param file The destination file, which will be in html-format. If no filepath is specified (default),
-#'          the file will be saved as temporary file and openend either in the RStudio View pane or
-#'          in the default web browser.
-#' @param encoding The charset encoding used for variable and value labels. Default is \code{NULL}, so encoding
-#'          will be auto-detected depending on your platform (\code{"UTF-8"} for Unix and \code{"Windows-1252"} for
-#'          Windows OS). Change encoding if specific chars are not properly displayed (e.g.) German umlauts).
-#' @param CSS A \code{\link{list}} with user-defined style-sheet-definitions, according to the 
-#'          \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.
-#' @param useViewer If \code{TRUE}, the function tries to show the HTML table in the IDE's viewer pane. If
-#'          \code{FALSE} or no viewer available, the HTML table is opened in a web browser.
-#' @param no.output If \code{TRUE}, the html-output is neither opened in a browser nor shown in
-#'          the viewer pane and not even saved to file. This option is useful when the html output
-#'          should be used in \code{knitr} documents. The html output can be accessed via the return
-#'          value.
-#' @param remove.spaces logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
-#'          that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
-#'          may look less pretty, but it may help when exporting html-tables to office tools.
+#'          
+#' @inheritParams sjt.frq
+#'          
 #' @return Invisibly returns
 #'         \itemize{
 #'          \item \code{df.list}: List of data frames with the item analysis for each sub.group (or complete, if \code{factor.groups} was \code{NULL})
@@ -253,7 +239,7 @@ sjt.itemanalysis <- function(df,
     # -----------------------------------
     # remove missings
     # -----------------------------------
-    df.sub <- na.omit(df.sub)
+    df.sub <- stats::na.omit(df.sub)
     # -----------------------------------
     # item difficulty
     # -----------------------------------

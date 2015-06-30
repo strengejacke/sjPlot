@@ -172,6 +172,7 @@ utils::globalVariables(c("Perc", "Sum", "Count", "Group", "line.break"))
 #' @import dplyr
 #' @import sjmisc
 #' @importFrom scales percent
+#' @importFrom stats na.omit
 #' @export
 sjp.xtab <- function(var,
                      grp,
@@ -263,8 +264,8 @@ sjp.xtab <- function(var,
   # handle zero-counts
   # -----------------------------------------------
   # Determine length of count and group var
-  grplen <- length(unique(na.omit(grp)))
-  countlen <- length(unique(na.omit(var)))
+  grplen <- length(unique(stats::na.omit(grp)))
+  countlen <- length(unique(stats::na.omit(var)))
   # if we have legend labels, we know the exact
   # amount of groups
   if (is.null(legendLabels)) {

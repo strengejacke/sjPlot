@@ -251,6 +251,7 @@ utils::globalVariables(c("frq", "grp", "upper.ci", "lower.ci", "ia", "..density.
 #'   
 #' @import ggplot2
 #' @import sjmisc
+#' @importFrom stats na.omit sd
 #' @export
 sjp.frq <- function(varCount,
                     title = "",
@@ -455,7 +456,7 @@ sjp.frq <- function(varCount,
     # If interaction-variable-labels were not defined, simply set numbers from 1 to
     # amount of categories instead
     } else {
-      iavarLabLength <- length(unique(na.omit(interactionVar)))
+      iavarLabLength <- length(unique(stats::na.omit(interactionVar)))
       interactionVarLabels <- c(1:iavarLabLength)
     }
   }
@@ -473,14 +474,14 @@ sjp.frq <- function(varCount,
   # --------------------------------------------------------
   if (type == "boxplots" || type == "violin") {
     if (is.null(interactionVar)) {
-      mydat <- na.omit(data.frame(cbind(grp = 1, 
-                                        frq = varCount, 
-                                        var = varCount)))
+      mydat <- stats::na.omit(data.frame(cbind(grp = 1, 
+                                               frq = varCount, 
+                                               var = varCount)))
     } else {
-      mydat <- na.omit(data.frame(cbind(grp = 1, 
-                                        ia = interactionVar, 
-                                        frq = varCount, 
-                                        var = varCount)))
+      mydat <- stats::na.omit(data.frame(cbind(grp = 1, 
+                                               ia = interactionVar, 
+                                               frq = varCount, 
+                                               var = varCount)))
       mydat$ia <- as.factor(mydat$ia)
     }
     mydat$grp <- as.factor(mydat$grp)
@@ -500,8 +501,8 @@ sjp.frq <- function(varCount,
     # the y axis
     if (type == "boxplots" || type == "violin") {
       # use an extra standard-deviation as limits for the y-axis when we have boxplots
-      lower_lim <- min(varCount, na.rm = TRUE) - floor(sd(varCount, na.rm = TRUE))
-      upper_lim <- max(varCount, na.rm = TRUE) + ceiling(sd(varCount, na.rm = TRUE))
+      lower_lim <- min(varCount, na.rm = TRUE) - floor(stats::sd(varCount, na.rm = TRUE))
+      upper_lim <- max(varCount, na.rm = TRUE) + ceiling(stats::sd(varCount, na.rm = TRUE))
       # make sure that the y-axis is not below zero
       if (lower_lim < 0) {
         lower_lim <- 0
@@ -644,7 +645,7 @@ sjp.frq <- function(varCount,
   stdmean <- diff(range(varCount, na.rm = TRUE)) / 2
   stdadjust <- min(varCount, na.rm = TRUE)
   stdsd <- stdmean / 4
-  stdlen <- length(na.omit(varCount))
+  stdlen <- length(stats::na.omit(varCount))
   # ----------------------------------
   # Check how many categories we have on the x-axis.
   # If it exceeds the user defined limits, plot
@@ -721,7 +722,7 @@ sjp.frq <- function(varCount,
     # Start density plot here
     # --------------------------------------------------
     } else if (type == "dens") {
-      x <- na.omit(varCount)
+      x <- stats::na.omit(varCount)
       densityDat <- data.frame(x)
       # First, plot histogram with density curve
       baseplot <- ggplot(densityDat, aes(x = x)) +
@@ -740,7 +741,7 @@ sjp.frq <- function(varCount,
         baseplot <- baseplot +
           stat_function(fun = dnorm,
                         args = list(mean = mean(densityDat$x),
-                                    sd = sd(densityDat$x)),
+                                    sd = stats::sd(densityDat$x)),
                         colour = normalCurveColor,
                         size = normalCurveSize,
                         alpha = normalCurveAlpha)
@@ -761,7 +762,7 @@ sjp.frq <- function(varCount,
       # -----------------------------------------------------------------
       # base constructor
       if (hist.skipZeros) {
-        x <- na.omit(varCount)
+        x <- stats::na.omit(varCount)
         if (geom.size < round(diff(range(x)) / 50)) message("Using very small binwidth. Consider adjusting \"geom.size\"-parameter.")
         hist.dat <- data.frame(x)
         baseplot <- ggplot(mydat)

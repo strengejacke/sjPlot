@@ -118,17 +118,18 @@ applies if \code{removeStringVectors} is \code{FALSE}.}
 \item{maxStringDist}{the allowed distance of string values in a character vector, which indicates
 when two string values are merged because they are considered as close enough.}
 
-\item{encoding}{The charset encoding used for variable and value labels. Default is \code{NULL}, so encoding
-will be auto-detected depending on your platform (\code{"UTF-8"} for Unix and \code{"Windows-1252"} for
-Windows OS). Change encoding if specific chars are not properly displayed (e.g.) German umlauts).}
+\item{encoding}{string, indicating the charset encoding used for variable and
+value labels. Default is \code{NULL}, so encoding will be auto-detected
+depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
+Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
 
-\item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
+\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
 
 \item{useViewer}{If \code{TRUE}, the function tries to show the HTML table in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
 
-\item{no.output}{If \code{TRUE}, the html-output is neither opened in a browser nor shown in
+\item{no.output}{logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
 the viewer pane and not even saved to file. This option is useful when the html output
 should be used in \code{knitr} documents. The html output can be accessed via the return
 value.}
@@ -177,7 +178,7 @@ Shows (multiple) frequency tables as HTML file, or saves them as file.
 The HTML tables can either be saved as file and manually opened (specify parameter \code{file}) or
         they can be saved as temporary files and will be displayed in the RStudio Viewer pane (if working with RStudio)
         or opened with the default web browser. Displaying resp. opening a temporary file is the
-        default behaviour (i.e. \code{file=NULL}).
+        default behaviour (i.e. \code{file = NULL}).
 }
 \examples{
 \dontrun{

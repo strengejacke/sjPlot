@@ -48,6 +48,7 @@ utils::globalVariables(c("p.level"))
 #' dist_norm(p = 0.2)
 #' 
 #' @import ggplot2
+#' @importFrom stats qchisq pchisq dchisq qf pf df qnorm pnorm dnorm qt pt dt
 #' @export
 dist_norm <- function(norm = NULL,
                      mean = 0,
@@ -61,7 +62,7 @@ dist_norm <- function(norm = NULL,
   # --------------------------------------
   if (is.null(xmax)) {
     if (is.null(norm)) {
-      n.max <- qnorm(0.00001, mean, sd, lower.tail = F)
+      n.max <- stats::qnorm(0.00001, mean, sd, lower.tail = F)
     }
     # --------------------------------------
     # else, if we have a x-value, take into
@@ -70,7 +71,7 @@ dist_norm <- function(norm = NULL,
     # --------------------------------------
     else {
       n.max <- norm
-      while (pnorm(n.max, mean, sd, lower.tail = F) > 0.00001) {
+      while (stats::pnorm(n.max, mean, sd, lower.tail = F) > 0.00001) {
         n.max <- n.max +1
       }
     }
@@ -83,21 +84,21 @@ dist_norm <- function(norm = NULL,
   # --------------------------------------
   mydat <- data.frame(x = seq(-n.max, n.max, length.out = 20 * n.max))
   # density normal distribution
-  mydat$y <- dnorm(mydat$x, mean, sd)
+  mydat$y <- stats::dnorm(mydat$x, mean, sd)
   # base plot with normal-distribution
   gp <- ggplot(mydat, aes(x, y)) + geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated x-value...
-    sub.df <- mydat[mydat$x > qnorm(p, mean, sd, lower.tail=F), ]
+    sub.df <- mydat[mydat$x > stats::qnorm(p, mean, sd, lower.tail=F), ]
   }
   else if (!is.null(norm)) {
     # resp. for p-value...
     sub.df <- mydat[mydat$x > norm, ]
   }
   if (!is.null(sub.df)) {
-    sub.df$p.level  <- ifelse(sub.df$x > qnorm(0.05, mean, sd, lower.tail=F), "sig", "non-sig")
-    cs <- qnorm(0.05, mean, sd, lower.tail=F)
+    sub.df$p.level  <- ifelse(sub.df$x > stats::qnorm(0.05, mean, sd, lower.tail=F), "sig", "non-sig")
+    cs <- stats::qnorm(0.05, mean, sd, lower.tail=F)
     gp <- gp +
       geom_ribbon(data = sub.df,
                   aes(ymax = y, fill = p.level),
@@ -110,7 +111,7 @@ dist_norm <- function(norm = NULL,
                vjust = 1.3)
     # add limit of p-value
     if (!is.null(norm)) {
-      pv <- pnorm(norm, mean, sd, lower.tail = F)
+      pv <- stats::pnorm(norm, mean, sd, lower.tail = F)
       if (pv >= 0.05) {
         gp <- gp +
           annotate("text", 
@@ -204,7 +205,7 @@ dist_chisq <- function(chi2 = NULL,
   # --------------------------------------
   if (is.null(xmax)) {
     if (is.null(chi2)) {
-      chisq.max <- qchisq(0.00001, deg.f, lower.tail = F)
+      chisq.max <- stats::qchisq(0.00001, deg.f, lower.tail = F)
     }
     # --------------------------------------
     # else, if we have a chi2-value, take into
@@ -213,7 +214,7 @@ dist_chisq <- function(chi2 = NULL,
     # --------------------------------------
     else {
       chisq.max <- chi2
-      while (pchisq(chisq.max, deg.f, lower.tail = F) > 0.00001) {
+      while (stats::pchisq(chisq.max, deg.f, lower.tail = F) > 0.00001) {
         chisq.max <- chisq.max +1
       }
     }
@@ -226,21 +227,21 @@ dist_chisq <- function(chi2 = NULL,
   # --------------------------------------
   mydat <- data.frame(x = seq(0, chisq.max, length.out = 10 * chisq.max))
   # density distribution of chi2
-  mydat$y <- dchisq(mydat$x, deg.f)
+  mydat$y <- stats::dchisq(mydat$x, deg.f)
   # base plot with chi2-distribution
   gp <- ggplot(mydat, aes(x, y)) + geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated chi2-value...
-    sub.df <- mydat[mydat$x > qchisq(p, deg.f, lower.tail=F), ]
+    sub.df <- mydat[mydat$x > stats::qchisq(p, deg.f, lower.tail=F), ]
   }
   else if (!is.null(chi2)) {
     # resp. for p-value...
     sub.df <- mydat[mydat$x > chi2, ]
   }
   if (!is.null(sub.df)) {
-    sub.df$p.level  <- ifelse(sub.df$x > qchisq(0.05, deg.f, lower.tail=F), "sig", "non-sig")
-    cs <- qchisq(0.05, deg.f, lower.tail=F)
+    sub.df$p.level  <- ifelse(sub.df$x > stats::qchisq(0.05, deg.f, lower.tail=F), "sig", "non-sig")
+    cs <- stats::qchisq(0.05, deg.f, lower.tail=F)
     gp <- gp +
       geom_ribbon(data = sub.df,
                   aes(ymax = y, fill = p.level),
@@ -254,7 +255,7 @@ dist_chisq <- function(chi2 = NULL,
                vjust = 1.2)
     # add limit of p-value
     if (!is.null(chi2)) {
-      pv <- pchisq(chi2, deg.f, lower.tail = F)
+      pv <- stats::pchisq(chi2, deg.f, lower.tail = F)
       if (pv >= 0.05) {
         gp <- gp +
           annotate("text", 
@@ -343,7 +344,7 @@ dist_f <- function(f = NULL,
   # --------------------------------------
   if (is.null(xmax)) {
     if (is.null(f)) {
-      f.max <- qf(0.00001, deg.f1, deg.f2, lower.tail = F)
+      f.max <- stats::qf(0.00001, deg.f1, deg.f2, lower.tail = F)
     # --------------------------------------
     # else, if we have a f-value, take into
     # account all possible f-values that would lead
@@ -351,7 +352,7 @@ dist_f <- function(f = NULL,
     # --------------------------------------
     } else {
       f.max <- f
-      while (pf(f.max, deg.f1, deg.f2, lower.tail = F) > 0.00001) f.max <- f.max +1
+      while (stats::pf(f.max, deg.f1, deg.f2, lower.tail = F) > 0.00001) f.max <- f.max +1
     }
   } else {
     f.max <- xmax
@@ -361,20 +362,20 @@ dist_f <- function(f = NULL,
   # --------------------------------------
   mydat <- data.frame(x = seq(0, f.max, length.out = 30 * f.max))
   # density distribution of f
-  mydat$y <- df(mydat$x, deg.f1, deg.f2)
+  mydat$y <- stats::df(mydat$x, deg.f1, deg.f2)
   # base plot with f-distribution
   gp <- ggplot(mydat, aes(x, y)) + geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated f-value...
-    sub.df <- mydat[mydat$x > qf(p, deg.f1, deg.f2, lower.tail = F), ]
+    sub.df <- mydat[mydat$x > stats::qf(p, deg.f1, deg.f2, lower.tail = F), ]
   } else if (!is.null(f)) {
     # resp. for p-value...
     sub.df <- mydat[mydat$x > f, ]
   }
   if (!is.null(sub.df)) {
-    sub.df$p.level  <- ifelse(sub.df$x > qf(0.05, deg.f1, deg.f2, lower.tail = F), "sig", "non-sig")
-    fv <- qf(0.05, deg.f1, deg.f2, lower.tail = F)
+    sub.df$p.level  <- ifelse(sub.df$x > stats::qf(0.05, deg.f1, deg.f2, lower.tail = F), "sig", "non-sig")
+    fv <- stats::qf(0.05, deg.f1, deg.f2, lower.tail = F)
     gp <- gp +
       geom_ribbon(data = sub.df,
                   aes(ymax = y, fill = p.level),
@@ -387,7 +388,7 @@ dist_f <- function(f = NULL,
                vjust = 1.3)
     # add limit of p-value
     if (!is.null(f)) {
-      pv <- pf(f, deg.f1, deg.f2, lower.tail = F)
+      pv <- stats::pf(f, deg.f1, deg.f2, lower.tail = F)
       if (pv >= 0.05) {
         gp <- gp +
           annotate("text", 
@@ -475,7 +476,7 @@ dist_t <- function(t = NULL,
   # --------------------------------------
   if (is.null(xmax)) {
     if (is.null(t)) {
-      t.max <- qt(0.00001, deg.f, lower.tail = F)
+      t.max <- stats::qt(0.00001, deg.f, lower.tail = F)
     }
     # --------------------------------------
     # else, if we have a t-value, take into
@@ -484,7 +485,7 @@ dist_t <- function(t = NULL,
     # --------------------------------------
     else {
       t.max <- t
-      while (pt(t.max, deg.f, lower.tail = F) > 0.00001) {
+      while (stats::pt(t.max, deg.f, lower.tail = F) > 0.00001) {
         t.max <- t.max +1
       }
     }
@@ -497,21 +498,21 @@ dist_t <- function(t = NULL,
   # --------------------------------------
   mydat <- data.frame(x = seq(-t.max, t.max, length.out = 20 * t.max))
   # density distribution of t
-  mydat$y <- dt(mydat$x, deg.f)
+  mydat$y <- stats::dt(mydat$x, deg.f)
   # base plot with t-distribution
   gp <- ggplot(mydat, aes(x, y)) + geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated t-value...
-    sub.df <- mydat[mydat$x > qt(p, deg.f, lower.tail=F), ]
+    sub.df <- mydat[mydat$x > stats::qt(p, deg.f, lower.tail=F), ]
   }
   else if (!is.null(t)) {
     # resp. for p-value...
     sub.df <- mydat[mydat$x > t, ]
   }
   if (!is.null(sub.df)) {
-    sub.df$p.level  <- ifelse(sub.df$x > qt(0.05, deg.f, lower.tail=F), "sig", "non-sig")
-    tv <- qt(0.05, deg.f, lower.tail=F)
+    sub.df$p.level  <- ifelse(sub.df$x > stats::qt(0.05, deg.f, lower.tail=F), "sig", "non-sig")
+    tv <- stats::qt(0.05, deg.f, lower.tail=F)
     gp <- gp +
       geom_ribbon(data = sub.df,
                   aes(ymax = y, fill = p.level),
@@ -524,7 +525,7 @@ dist_t <- function(t = NULL,
                vjust = 1.3)
     # add limit of p-value
     if (!is.null(t)) {
-      pv <- pt(t, deg.f, lower.tail = F)
+      pv <- stats::pt(t, deg.f, lower.tail = F)
       if (pv >= 0.05) {
         gp <- gp +
           annotate("text", 

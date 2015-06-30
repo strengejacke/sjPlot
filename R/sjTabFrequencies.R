@@ -81,14 +81,15 @@
 #'          applies if \code{removeStringVectors} is \code{FALSE}.
 #' @param maxStringDist the allowed distance of string values in a character vector, which indicates
 #'          when two string values are merged because they are considered as close enough.
-#' @param encoding The charset encoding used for variable and value labels. Default is \code{NULL}, so encoding
-#'          will be auto-detected depending on your platform (\code{"UTF-8"} for Unix and \code{"Windows-1252"} for
-#'          Windows OS). Change encoding if specific chars are not properly displayed (e.g.) German umlauts).
-#' @param CSS A \code{\link{list}} with user-defined style-sheet-definitions, according to the 
+#' @param encoding string, indicating the charset encoding used for variable and 
+#'          value labels. Default is \code{NULL}, so encoding will be auto-detected 
+#'          depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
+#'          Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).
+#' @param CSS \code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
 #'          \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.
 #' @param useViewer If \code{TRUE}, the function tries to show the HTML table in the IDE's viewer pane. If
 #'          \code{FALSE} or no viewer available, the HTML table is opened in a web browser.
-#' @param no.output If \code{TRUE}, the html-output is neither opened in a browser nor shown in
+#' @param no.output logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
 #'          the viewer pane and not even saved to file. This option is useful when the html output
 #'          should be used in \code{knitr} documents. The html output can be accessed via the return
 #'          value.
@@ -107,7 +108,7 @@
 #' @note The HTML tables can either be saved as file and manually opened (specify parameter \code{file}) or
 #'         they can be saved as temporary files and will be displayed in the RStudio Viewer pane (if working with RStudio)
 #'         or opened with the default web browser. Displaying resp. opening a temporary file is the
-#'         default behaviour (i.e. \code{file=NULL}).
+#'         default behaviour (i.e. \code{file = NULL}).
 #' 
 #' @details \bold{How does the \code{CSS}-parameter work?}
 #'            \cr \cr
@@ -191,6 +192,7 @@
 #'                    css.firsttablecol = "color:#003399; font-weight:bold;"))}
 #' 
 #' @importFrom psych describe
+#' @importFrom stats na.omit
 #' @import sjmisc
 #' @export
 sjt.frq <- function(data,
@@ -335,7 +337,7 @@ sjt.frq <- function(data,
     # iterate all columns
     for (i in 1:ncol(data)) {
       # check type
-      if (length(na.omit(data[[i]])) == 0) NAcolumns <- c(NAcolumns, i)
+      if (length(stats::na.omit(data[[i]])) == 0) NAcolumns <- c(NAcolumns, i)
     }
     # check if any NA-only variables found
     if (length(NAcolumns) > 0) {
@@ -522,7 +524,7 @@ sjt.frq <- function(data,
       # retrieve range of values
       vonbis <- max(var, na.rm = T) - min(var, na.rm = T)
       # retrieve count of unique values
-      anzval <- na.omit(unique(var))
+      anzval <- stats::na.omit(unique(var))
       # check proportion of possible values and actual values
       # if we have more than 25% of zero-values, or if we have
       # in general a large variable range, skip zero-rows.

@@ -291,7 +291,7 @@ sjp.likert <- function(items,
     for (i in 1:ncol(items)) {
       # add new unique item values to catcount, so catcount
       # finally contains all unique values of items
-      catcount <- unique(c(catcount, unique(na.omit(items[[i]]))))
+      catcount <- unique(c(catcount, unique(stats::na.omit(items[[i]]))))
     }
     # remove neutral category
     if (!is.null(cat.neutral)) catcount <- catcount[-which(catcount == cat.neutral)]
@@ -406,7 +406,7 @@ sjp.likert <- function(items,
   if (includeN && !is.null(axisLabels.y)) {
     for (i in 1:length(axisLabels.y)) {
       axisLabels.y[i] <- paste(axisLabels.y[i], 
-                               sprintf(" (n=%i)", length(na.omit(items[[i]]))), 
+                               sprintf(" (n=%i)", length(stats::na.omit(items[[i]]))), 
                                sep = "")
     }
   }

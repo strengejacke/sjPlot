@@ -264,7 +264,7 @@
 #' library(sjmisc)
 #' data(efc)
 #' # create binary response
-#' y <- ifelse(efc$neg_c_7 < median(na.omit(efc$neg_c_7)), 0, 1)
+#' y <- ifelse(efc$neg_c_7 < median(stats::na.omit(efc$neg_c_7)), 0, 1)
 #' # create data frame for fitted model
 #' mydf <- data.frame(y = as.factor(y),
 #'                    sex = as.factor(efc$c161sex),
@@ -545,8 +545,8 @@ sjp.int <- function(fit,
     # number of unique values on the x-axis.
     # -----------------------------------------------------------
     # retrieve values as data frame
-    df_pred1uniquevals <- unique(na.omit(fitdat[, interactionterms[1]]))
-    df_pred2uniquevals <- unique(na.omit(fitdat[, interactionterms[2]]))
+    df_pred1uniquevals <- unique(stats::na.omit(fitdat[, interactionterms[1]]))
+    df_pred2uniquevals <- unique(stats::na.omit(fitdat[, interactionterms[2]]))
     # convert data frame to numeric vector
     pred1uniquevals <- pred2uniquevals <- as.numeric(c())
     pred1uniquevals <- sort(as.numeric(sapply(df_pred1uniquevals, as.numeric)))
@@ -1084,7 +1084,7 @@ sjp.eff.int <- function(fit,
       names(xl1) <- moderator.name
       # add values of interaction term
       # first, get all unqiue values
-      prvl <- sort(unique(na.omit(predval)))
+      prvl <- sort(unique(stats::na.omit(predval)))
       # add them to list as well
       xl2 <- list(y = prvl)
       # change list name
@@ -1111,7 +1111,7 @@ sjp.eff.int <- function(fit,
       predval <- dummy.eff$data[[pred_x.name]]
       # add values of interaction term
       # first, get all unqiue values
-      prvl <- sort(unique(na.omit(predval)))
+      prvl <- sort(unique(stats::na.omit(predval)))
       # add them to list as well
       xl <- list(x = prvl)
       # change list name
@@ -1328,7 +1328,7 @@ sjp.eff.int <- function(fit,
     # ---------------------------------------------------------
     baseplot <- sj.setGeomColors(baseplot, 
                                  geom.colors, 
-                                 length(unique(na.omit(intdf$grp))), 
+                                 length(unique(stats::na.omit(intdf$grp))), 
                                  !is.null(lLabels), 
                                  lLabels)
     # ---------------------------------------------------------
@@ -1365,6 +1365,7 @@ mv_check <- function(moderatorValues, x) {
 # at the level specified by "plevel". returns NULL, if model
 # contains no interaction terms or no significant interaction term.
 # else, information on model and interaction terms is returned
+#' @importFrom stats model.matrix
 getInteractionTerms <- function(fit, fun, plevel) {
   # -----------------------------------------------------------
   # retrieve coefficients
@@ -1397,11 +1398,11 @@ getInteractionTerms <- function(fit, fun, plevel) {
       # plm objects have different structure than (g)lm
       depvar.label <- attr(attr(attr(fit$model, "terms"), "dataClasses"), "names")[1]
       # retrieve model matrix
-      fitdat <- data.frame(cbind(as.vector(fit$model[, 1]), model.matrix(fit)))
+      fitdat <- data.frame(cbind(as.vector(fit$model[, 1]), stats::model.matrix(fit)))
     } else {
       depvar.label <- attr(attr(fit$terms, "dataClasses"), "names")[1]
       # retrieve model matrix
-      fitdat <- data.frame(model.matrix(fit))
+      fitdat <- data.frame(stats::model.matrix(fit))
     }
     # -----------------------------------------------------------
     # retrieve p-values, without intercept
@@ -1442,7 +1443,7 @@ getInteractionTerms <- function(fit, fun, plevel) {
     # -----------------------------------------------------------
     # retrieve model matrix with all relevant predictors
     # -----------------------------------------------------------
-    fitdat <- model.matrix(fit)
+    fitdat <- stats::model.matrix(fit)
     # -----------------------------------------------------------
     # need to remove "I(...)"?
     # -----------------------------------------------------------

@@ -223,6 +223,7 @@ utils::globalVariables(c("ypos", "wb", "ia", "mw", "stddev", "count"))
 #' @import ggplot2
 #' @import sjmisc
 #' @import dplyr
+#' @importFrom stats na.omit
 #' @export
 sjp.grpfrq <- function(varCount,
                        varGroup,
@@ -389,10 +390,10 @@ sjp.grpfrq <- function(varCount,
   # handle zero-counts
   # -----------------------------------------------
   # Determine length of count and group var
-  grplen <- length(unique(na.omit(varGroup)))
+  grplen <- length(unique(stats::na.omit(varGroup)))
   # determine maximum values
   # first, check the total amount of different factor levels
-  catcount_1 <- length(unique(na.omit(varCount)))
+  catcount_1 <- length(unique(stats::na.omit(varCount)))
   # second, check the maximum factor level
   catcount_2 <- max(varCount, na.rm = TRUE)
   # if categories start with zero, fix this here
@@ -566,14 +567,14 @@ sjp.grpfrq <- function(varCount,
   if (type == "boxplots" || type == "violin") {
     w <- ifelse(is.null(weightBy), 1, weightBy)
     if (is.null(interactionVar)) {
-      mydat <- na.omit(data.frame(cbind(group = varGroup, 
-                                        frq = varCount, 
-                                        wb = w)))
+      mydat <- stats::na.omit(data.frame(cbind(group = varGroup, 
+                                               frq = varCount, 
+                                               wb = w)))
     } else {
-      mydat <- na.omit(data.frame(cbind(group = varGroup, 
-                                        frq = varCount, 
-                                        ia = interactionVar, 
-                                        wb = w)))
+      mydat <- stats::na.omit(data.frame(cbind(group = varGroup, 
+                                               frq = varCount, 
+                                               ia = interactionVar, 
+                                               wb = w)))
       mydat$ia <- as.factor(mydat$ia)
     }
     mydat$group <- as.factor(mydat$group)
@@ -585,15 +586,15 @@ sjp.grpfrq <- function(varCount,
   mannwhitneyu <- function(count, grp) {
     if (min(grp, na.rm = TRUE) == 0) grp <- grp + 1
     completeString <- c("")
-    cnt <- length(unique(na.omit(grp)))
+    cnt <- length(unique(stats::na.omit(grp)))
     for (i in 1:cnt) {
       for (j in i:cnt) {
         if (i != j) {
           xsub <- count[which(grp == i | grp == j)]
           ysub <- grp[which(grp == i | grp == j)]
           ysub <- ysub[which(!is.na(xsub))]
-          xsub <- as.numeric(na.omit(xsub))
-          ysub <- as.numeric(na.omit(ysub))
+          xsub <- as.numeric(stats::na.omit(xsub))
+          ysub <- as.numeric(stats::na.omit(ysub))
           wt <- wilcox.test(xsub ~ ysub)
           
           if (wt$p.value < 0.001) {
@@ -631,7 +632,7 @@ sjp.grpfrq <- function(varCount,
   # --------------------------------------------------------
   if (type == "histogram") {
     # retrieve all unique factor levels
-    faclvl <- unique(na.omit(varGroup))
+    faclvl <- unique(stats::na.omit(varGroup))
     # order factors
     faclvl <- faclvl[order(faclvl)]
     # create new data frame for the geom object that prints the
@@ -647,7 +648,7 @@ sjp.grpfrq <- function(varCount,
       # get mean from each group
       m <- sum(ftabdf[, f] * ftabdf$fac) / sum(ftabdf[, f])
       # get standard deviation from each group
-      stdv <- sd(na.omit(varCount[which(varGroup == faclvl[f])]))
+      stdv <- sd(stats::na.omit(varCount[which(varGroup == faclvl[f])]))
       # add new row with group and associated mean
       vldat <- data.frame(rbind(vldat, c(faclvl[f], m, stdv, yfactor = f)))
     }
@@ -694,7 +695,7 @@ sjp.grpfrq <- function(varCount,
     # If interaction-variable-labels were not defined, simply set numbers from 1 to
     # amount of categories instead
     else  {
-      iavarLabLength <- length(unique(na.omit(interactionVar)))
+      iavarLabLength <- length(unique(stats::na.omit(interactionVar)))
       interactionVarLabels <- c(1:iavarLabLength)
     }
   }

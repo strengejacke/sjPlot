@@ -9,23 +9,7 @@
 #' @param alternateRowColors If \code{TRUE}, alternating rows are highlighted with a light gray
 #'          background color.
 #' @param title A table caption. By default, \code{title} is \code{NULL}, hence no title will be used.
-#' @param file The destination file, which will be in html-format. If no filepath is specified,
-#'          the file will be saved as temporary file and openend either in the RStudio View pane or
-#'          in the default web browser.
-#' @param encoding The charset encoding used for variable and value labels. Default is \code{NULL}, so encoding
-#'          will be auto-detected depending on your platform (\code{"UTF-8"} for Unix and \code{"Windows-1252"} for
-#'          Windows OS). Change encoding if specific chars are not properly displayed (e.g.) German umlauts).
-#' @param CSS A \code{\link{list}} with user-defined style-sheet-definitions, according to the 
-#'          \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.
-#' @param useViewer If \code{TRUE}, the function tries to show the HTML table in the IDE's viewer pane. If
-#'          \code{FALSE} or no viewer available, the HTML table is opened in a web browser.
-#' @param no.output If \code{TRUE}, the html-output is neither opened in a browser nor shown in
-#'          the viewer pane and not even saved to file. This option is useful when the html output
-#'          should be used in \code{knitr} documents. The html output can be accessed via the return
-#'          value.
-#' @param remove.spaces logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
-#'          that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
-#'          may look less pretty, but it may help when exporting html-tables to office tools.
+#' @inheritParams sjt.frq
 #' @return Invisibly returns a \code{\link{list}} with
 #'          \itemize{
 #'            \item the data frame with the description information (\code{data}),
@@ -93,10 +77,10 @@ sjt.mwu <- function(x,
   # check if html-content should be printed
   # -------------------------------------
   out.html.table(no.output, file, html$knitr, html$output.complete, useViewer)  
-  invisible (list(class = "sjtmwu",
-                  df = x$tab.df, 
-                  page.style = html$page.style,
-                  page.content = html$page.content,
-                  knitr = html$knitr,
-                  output.complete = html$output.complete))
+  invisible(list(class = "sjtmwu",
+                 df = x$tab.df, 
+                 page.style = html$page.style,
+                 page.content = html$page.content,
+                 knitr = html$knitr,
+                 output.complete = html$output.complete))
 }

@@ -140,6 +140,7 @@
 #' @import dplyr
 #' @import sjmisc
 #' @importFrom scales percent
+#' @importFrom stats na.omit
 #' @export
 sjp.stackfrq <- function(items,
                          legendLabels = NULL,
@@ -252,9 +253,7 @@ sjp.stackfrq <- function(items,
     # "compensated" by looking at all items, so we have the
     # actual values of all items.
     legendLabels <- as.character(sort(unique(unlist(
-      apply(items,
-            2,
-            function(x) unique(na.omit(x)))))))
+      apply(items, 2, function(x) unique(stats::na.omit(x)))))))
   }
   # --------------------------------------------------------
   # Check whether N of each item should be included into
@@ -263,7 +262,7 @@ sjp.stackfrq <- function(items,
   if (includeN && !is.null(axisLabels.y)) {
     for (i in 1:length(axisLabels.y)) {
       axisLabels.y[i] <- paste(axisLabels.y[i], 
-                               sprintf(" (n=%i)", length(na.omit(items[[i]]))), 
+                               sprintf(" (n=%i)", length(stats::na.omit(items[[i]]))), 
                                sep = "")
     }
   }

@@ -1267,7 +1267,7 @@ sjp.lme.feprobcurv <- function(fit,
   # coefficients list
   # ----------------------------
   fit.term.length <- length(names(lme4::fixef(fit))[-1])
-  fit.term.names <- na.omit(attr(attr(fit.df, "terms"), "term.labels")[1:fit.term.length])
+  fit.term.names <- stats::na.omit(attr(attr(fit.df, "terms"), "term.labels")[1:fit.term.length])
   fi <- unname(lme4::fixef(fit))[1]
   # ----------------------------
   # filter vars?
@@ -1410,7 +1410,7 @@ sjp.lme.reprobcurve <- function(fit,
   plot.prob <- list()
   mydf.prob <- list()
   fit.term.length <- length(names(lme4::fixef(fit))[-1])
-  fit.term.names <- na.omit(attr(attr(fit.df, "terms"), "term.labels")[1:fit.term.length])
+  fit.term.names <- stats::na.omit(attr(attr(fit.df, "terms"), "term.labels")[1:fit.term.length])
   response.name <- attr(attr(attr(fit.df, "terms"), "dataClasses"), "names")[1]
   fi <- unname(lme4::fixef(fit))[1]
   # ----------------------------
@@ -1825,7 +1825,9 @@ sjp.lme.fecor <- function(fit,
                           fun,
                           printPlot,
                           fcall = "sjp",
-                          ...) {
+                          CSS = NULL,
+                          useViewer = TRUE,
+                          no.output = TRUE) {
   # ---------------------------------------
   # copy rownames as axis labels, if not set
   # ---------------------------------------
@@ -1998,12 +2000,14 @@ sjp.lme.fecondpred.onlynumeric <- function(fit,
                         plot.facet = plot.facet)))
 }
 
+
+#' @importFrom stats coef
 get_lmerMod_pvalues <- function(fitmod) {
   # retrieve sigificance level of independent variables (p-values)
   if (any(class(fitmod) == "merModLmerTest")) {
-    cs <- coef(lmerTest::summary(fitmod))
+    cs <- suppressWarnings(stats::coef(lmerTest::summary(fitmod)))
   } else {
-    cs <- coef(summary(fitmod))
+    cs <- stats::coef(summary(fitmod))
   }
   # check if we have p-values in summary
   if (ncol(cs) >= 4) {
@@ -2054,8 +2058,8 @@ sjp.glm.eff <- function(fit,
   # retrieve model matrix and all terms, 
   # excluding intercept
   # ------------------------
-  mm <- model.matrix(fit)
-  all.terms <- colnames(model.matrix(fit))[-1]
+  mm <- stats::model.matrix(fit)
+  all.terms <- colnames(stats::model.matrix(fit))[-1]
   # ------------------------
   # prepare getting unique values of predictors,
   # which are passed to the allEffects-function
@@ -2063,7 +2067,7 @@ sjp.glm.eff <- function(fit,
   xl <- list()
   for (t in all.terms) {
     # get unique values
-    dummy <- list(x = sort(unique(na.omit(mm[, t]))))
+    dummy <- list(x = sort(unique(stats::na.omit(mm[, t]))))
     # name list, needed for effect-function
     names(dummy) <- t
     # create list for "xlevels" parameter of allEffects fucntion

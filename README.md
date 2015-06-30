@@ -40,7 +40,7 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](http://cran.r-project.org/package=ggplot2), consider citing this package as well.
 
-### Changelog of development build 1.8.1-8
+### Changelog of development build 1.8.1-10
 
 #### General
 * Package documentation got major revisions.
@@ -57,6 +57,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * Added parameter `axisLimits.x` to `sjp.int`, `sjp.frq` and `sjp.grpfrq`.
 * Added parameter `showAICc` to `sjt.lm`, `sjt.glm`, `sjt.lme` and `sjt.glmer` to print second-order AIC.
 * Improved automatic y-axis-limit detection in `sjp.frq` and `sjp.grpfrq`.
+* For `sjt.lm` and `sjt.glm`, if `digits.p` is greater than 3, p-values less than 0.001 will no longer be abbreviated to **<0.001**. Instead, the exact value (rounded to digits.p) will be printed.
 * Minor improvements to `sjp.likert`, `sjp.int`, `sjp.glm`, `sjp.frq` and `sjp.grpfrq`.
 
 #### Bug fixes

@@ -181,7 +181,7 @@ sjp.corr <- function(data,
     # missing deletion corresponds to
     # SPSS listwise
     if (missingDeletion == "listwise") {
-      data <- na.omit(data)
+      data <- stats::na.omit(data)
       corr <- cor(data, method = corMethod)
     }
     # missing deletion corresponds to

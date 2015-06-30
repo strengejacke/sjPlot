@@ -119,6 +119,7 @@
 #' sjp.scatter(runif(10), runif(10), pointLabels = pl)
 #'   
 #' @importFrom scales brewer_pal
+#' @importFrom stats na.omit
 #' @import ggplot2
 #' @export
 sjp.scatter <- function(x = NULL,
@@ -216,7 +217,7 @@ sjp.scatter <- function(x = NULL,
     hideLegend <- TRUE
   }
   # simple data frame
-  df <- na.omit(data.frame(cbind(x = x, y = y, grp = grp)))
+  df <- stats::na.omit(data.frame(cbind(x = x, y = y, grp = grp)))
   # group as factor
   df$grp <- as.factor(df$grp)
   # do we have point labels?
