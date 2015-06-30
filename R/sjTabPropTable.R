@@ -138,6 +138,7 @@
 #'                     css.horline = "border-bottom: double blue;"))}
 #'
 #' @import sjmisc
+#' @importFrom stats xtabs ftable
 #' @export
 sjt.xtab <- function(var.row,
                      var.col,
@@ -261,19 +262,19 @@ sjt.xtab <- function(var.row,
     if (is.null(weightBy)) {
       # check if we have groupings or not
       if (is.null(var.grp)) {
-        tab <- ftable(xtabs(~ addNA(as.factor(var.row)) + addNA(as.factor(var.col))))
+        tab <- stats::ftable(stats::xtabs(~ addNA(as.factor(var.row)) + addNA(as.factor(var.col))))
         coladd <- 3
       } else {
-        tab <- ftable(xtabs(~ addNA(var.grp) + addNA(as.factor(var.row)) + addNA(as.factor(var.col))))
+        tab <- stats::ftable(stats::xtabs(~ addNA(var.grp) + addNA(as.factor(var.row)) + addNA(as.factor(var.col))))
         coladd <- 4
       }
     } else {
       # check if we have groupings or not
       if (is.null(var.grp)) {
-        tab <- ftable(xtabs(weightBy ~ addNA(as.factor(var.row)) + addNA(as.factor(var.col))))
+        tab <- stats::ftable(stats::xtabs(weightBy ~ addNA(as.factor(var.row)) + addNA(as.factor(var.col))))
         coladd <- 3
       } else {
-        tab <- ftable(xtabs(weightBy ~ addNA(var.grp) + addNA(as.factor(var.row)) + addNA(as.factor(var.col))))
+        tab <- stats::ftable(stats::xtabs(weightBy ~ addNA(var.grp) + addNA(as.factor(var.row)) + addNA(as.factor(var.col))))
         coladd <- 4
       }
       # round integer
@@ -287,19 +288,19 @@ sjt.xtab <- function(var.row,
     if (is.null(weightBy)) {
       # check if we have groupings or not
       if (is.null(var.grp)) {
-        tab <- ftable(xtabs(~ as.factor(var.row) + as.factor(var.col)))
+        tab <- stats::ftable(stats::xtabs(~ as.factor(var.row) + as.factor(var.col)))
         coladd <- 2
       } else {
-        tab <- ftable(xtabs(~ var.grp + as.factor(var.row) + as.factor(var.col)))
+        tab <- stats::ftable(stats::xtabs(~ var.grp + as.factor(var.row) + as.factor(var.col)))
         coladd <- 3
       }
     } else {
       # check if we have groupings or not
       if (is.null(var.grp)) {
-        tab <- ftable(xtabs(weightBy ~ as.factor(var.row) + as.factor(var.col)))
+        tab <- stats::ftable(stats::xtabs(weightBy ~ as.factor(var.row) + as.factor(var.col)))
         coladd <- 2
       } else {
-        tab <- ftable(xtabs(weightBy ~ var.grp + as.factor(var.row) + as.factor(var.col)))
+        tab <- stats::ftable(stats::xtabs(weightBy ~ var.grp + as.factor(var.row) + as.factor(var.col)))
         coladd <- 3
       }
       # round integer

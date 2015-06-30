@@ -4,7 +4,7 @@
 \alias{sjp.xtab}
 \title{Plot contingency tables}
 \usage{
-sjp.xtab(var, grp, title = "", legendTitle = NULL, weightBy = NULL,
+sjp.xtab(x, grp, title = "", legendTitle = NULL, weightBy = NULL,
   weightByTitleString = NULL, type = "bars", tableIndex = "col",
   reverseOrder = FALSE, axisLimits.y = NULL, axisLabels.x = NULL,
   legendLabels = NULL, labelPos = "outside", stringTotal = "Total",
@@ -20,23 +20,24 @@ sjp.xtab(var, grp, title = "", legendTitle = NULL, weightBy = NULL,
   printPlot = TRUE)
 }
 \arguments{
-\item{var}{a vector of values (variable) describing the bars which make up the plot.}
+\item{x}{a vector of values (variable) describing the bars which make up the plot.}
 
-\item{grp}{grouping variable of same length as \code{var}, where \code{var}
+\item{grp}{grouping variable of same length as \code{x}, where \code{x}
 is grouped into the categories represented by \code{grp}.}
 
-\item{title}{plot title. Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details). Default is \code{""}, hence
+\item{title}{plot title as string. Example: \code{title = "my title"}.
+Use \code{NULL} to automatically detect variable names that will be used as title
+(see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
 no title is printed.}
 
-\item{legendTitle}{title of plot's legend.}
+\item{legendTitle}{title of the plot legend, as string.}
 
-\item{weightBy}{weight factor that will be applied to weight all cases from \code{var}.
-Must be a vector of same length as \code{var}. Default is \code{NULL}, so no weights are used.}
+\item{weightBy}{weight factor that will be applied to weight all cases from \code{x}.
+Must be a vector of same length as \code{x}. Default is \code{NULL}, so no weights are used.}
 
-\item{weightByTitleString}{suffix (as string) for the tabel caption, if \code{weightBy} is specified,
-e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so
-the table caption will not have a suffix when cases are weighted.}
+\item{weightByTitleString}{suffix (as string) for the plot's title, if \code{weightBy} is specified,
+e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's
+title will not have a suffix when cases are weighted.}
 
 \item{type}{plot type. may be either \code{"b"}, \code{"bar"}, \code{"bars"} (default) for bar charts,
 or \code{"l"}, \code{"line"}, \code{"lines"} for line diagram.}
@@ -50,12 +51,18 @@ can be added to the plot (see \code{showTotalColumn}).}
 
 \item{axisLimits.y}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this parameter is set to \code{NULL}, i.e. the
-y-axis ranges from 0 to required maximum. Note that the values are percentages, so valid
-range is between 0 and 1.}
+y-axis ranges from 0 to required maximum.}
 
-\item{axisLabels.x}{labels for the x-axis breaks.}
+\item{axisLabels.x}{a character vector with labels for the x-axis breaks. \strong{Note:}
+Axis labels will be automatically detected, when data was either imported
+with \code{\link[sjmisc]{read_spss}} or has named factor levels
+(see 'Examples'). Else, specifiy parameter like this:
+\code{axisLabels.x = c("Label1", "Label2", "Label3")}.
+The labels may also be passed as \code{\link{list}} object. They will be coerced
+to character vector automatically.}
 
-\item{legendLabels}{labels for the guide/legend.}
+\item{legendLabels}{a character vector with labels for the guide/legend.
+Example: See \code{axisLabels.x}.}
 
 \item{labelPos}{positioning of value labels. If \code{barPosition = "dodge"}
 (default), use either \code{"inside"} or \code{"outside"} (default) to put labels in-
@@ -65,7 +72,7 @@ to center labels (useful if label angle is changes via \code{\link{sjp.setTheme}
 \item{stringTotal}{string for the legend label when a total-column is added. Only applies
 if \code{showTotalColumn = TRUE}. Default is \code{"Total"}.}
 
-\item{breakTitleAt}{determines how many chars of the title are displayed in
+\item{breakTitleAt}{determines how many chars of the plot title are displayed in
 one line and when a line break is inserted into the title.}
 
 \item{breakLabelsAt}{determines how many chars of the category labels are displayed in
@@ -77,12 +84,12 @@ are displayed in one line and when a line break is inserted.}
 \item{breakLegendLabelsAt}{determines how many chars of the legend labels are
 displayed in one line and when a line break is inserted.}
 
-\item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th
-position a major grid is being printed. Valid values range from 0 to 1.}
+\item{gridBreaksAt}{set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th
+position a major grid is being printed.}
 
 \item{geom.size}{size resp. width of the geoms (bar width).}
 
-\item{geom.spacing}{spacing between geoms (i.e. bar spacing)}
+\item{geom.spacing}{the spacing between geoms (i.e. bar spacing)}
 
 \item{geom.colors}{user defined color palette for geoms. If specified, must either be vector with color values
 of same length as groups defined in \code{x}, or a specific color palette code.
@@ -98,17 +105,18 @@ or stacked (use \code{"stack"} as parameter).}
 \item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 axes and plotting region. Default is \code{FALSE}.}
 
-\item{showValueLabels}{logical, whether counts and percentage values should be plotted to each bar}
+\item{showValueLabels}{logical, whether count and percentage values should be plotted to each bar. Default
+is \code{TRUE}.}
 
 \item{jitterValueLabels}{logical, if \code{TRUE}, the value labels on the bars will be "jittered",
 i.e. they have alternating vertical positions to avoid overlapping of labels in case bars are
 very short. Default is \code{FALSE}.}
 
-\item{showCountValues}{logical, if \code{TRUE} (default), count values are be plotted to each bar. If \code{FALSE},
-count values are removed.}
+\item{showCountValues}{logical, if \code{TRUE} (default), count values are plotted to each bar.
+If \code{FALSE}, count values are removed.}
 
-\item{showPercentageValues}{logical, if \code{TRUE} (default), percentage values are be plotted to each bar, if \code{FALSE},
-percentage-values are removed.}
+\item{showPercentageValues}{logical, if \code{TRUE} (default), percentage values are plotted to each bar
+If \code{FALSE}, percentage values are removed.}
 
 \item{showCategoryLabels}{whether x-axis text (category names) should be shown or not.}
 
@@ -118,26 +126,26 @@ right corner of the plot (see \code{tableSummaryPos}. If a cell contains expecte
 values lower than five(or lower than 10 if df is 1), the Fisher's excact test
 (see \code{\link{fisher.test}}) is computed instead of Chi-squared test.
 If the table's matrix is larger than 2x2, Fisher's excact test with Monte Carlo
-simulation is computed.}
+simulation is computed. Only applies to barcharts or dotplots, i.e.
+when parameter \code{type = "bars"} or \code{"dots"}.}
 
-\item{tableSummaryPos}{position of the table summary. Only applies when
-\code{showTableSummary = TRUE}. Default is \code{"r"}, i.e. summary
-printed to the upper right corner. Use \code{"l"} for upper left corner.}
+\item{tableSummaryPos}{position of the model summary which is printed when \code{showTableSummary}
+is \code{TRUE}. Default is \code{"r"}, i.e. it's printed to the upper right corner.
+Use \code{"l"} for upper left corner.}
 
 \item{showTotalColumn}{when \code{tableIndex = "col"}, an additional bar
 with the sum within each category and it's percentages will be added
 to each category.}
 
-\item{hideLegend}{logical, whether legend (guide) should be shown or not. Default is \code{FALSE}, thus
-the legend is shown.}
+\item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
 
 \item{axisTitle.x}{title for the x-axis. Default is \code{NULL}, so variable name
-of \code{var} will automatically be detected and used as axis title
+of \code{x} will automatically be detected and used as axis title
 (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
 \item{axisTitle.y}{title for the y-axis. Default is \code{NULL}, so variable name
-of \code{grp} will automatically be detected and used as axis title
-(see \code{\link[sjmisc]{set_var_labels}}) for details).}
+         of \code{grp} will automatically be detected and used as axis title
+         (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
@@ -155,19 +163,19 @@ Plot proportional crosstables (contingency tables) of two variables as ggplot di
 # create 4-category-items
 grp <- sample(1:4, 100, replace = TRUE)
 # create 3-category-items
-var <- sample(1:3, 100, replace = TRUE)
+x <- sample(1:3, 100, replace = TRUE)
 
-# plot "cross tablulation" of var and grp
-sjp.xtab(var, grp)
+# plot "cross tablulation" of x and grp
+sjp.xtab(x, grp)
 
 # plot "cross tablulation" of x and y, including labels
-sjp.xtab(var, grp,
+sjp.xtab(x, grp,
          axisLabels.x = c("low", "mid", "high"),
          legendLabels = c("Grp 1", "Grp 2", "Grp 3", "Grp 4"))
 
-# plot "cross tablulation" of var and grp
+# plot "cross tablulation" of x and grp
 # as stacked proportional bars
-sjp.xtab(var, grp,
+sjp.xtab(x, grp,
          tableIndex = "row",
          barPosition = "stack",
          showTableSummary = TRUE,

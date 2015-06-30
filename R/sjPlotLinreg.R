@@ -39,19 +39,16 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only three parameters are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
-#' @param title plot's title as string. Example: \code{title = "my title"}
 #' @param sort.est logical, determines whether estimates should be sorted according to their values.
 #' @param axisLabels.x name of predictor (independent variable) as string. Two things to consider:
 #'          \itemize{
 #'            \item Only used if fitted model has only one predictor and \code{type = "lm"}.
 #'            \item If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_var_labels}} function, you receive a character vector with variable label strings. You can use it like this: \code{axisLabels.x = get_var_labels(efc)['quol_5']}
 #'          }
-#' @param axisLabels.y character vector with labels (names) of the predictor variables (independent vars).
-#'          Example: \code{axisLabels.y = c("Label1", "Label2", "Label3")}.
-#'          \strong{Note:} If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
-#'          list object with label string. The labels may also be passed as list object. They will be coerced
-#'          to character vector automatically.
-#' @param showAxisLabels.y logical, whether predictor labels should be shown or not. Default is \code{TRUE}
+#' @param axisLabels.y labels or names of the predictor variables (independent vars). Must 
+#'          be a character vector of same length as independent variables. The labels 
+#'          may also be passed as list object; they will be coerced to character vector automatically.
+#' @param showAxisLabels.y logical, whether labels of independent variables should be shown or not.
 #' @param axisTitle.x title for the x-axis. Default is \code{"Estimates"}.
 #' @param axisLimits defines the range of the axis where the beta coefficients and their confidence intervalls
 #'          are drawn. By default, the limits range from the lowest confidence interval to the highest one, so
@@ -62,13 +59,6 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #' @param geom.size size resp. width of the geoms (bar width or point size, depending on \code{type} parameter).
 #' @param interceptLineType linetype of the intercept line (zero point). Default is \code{2} (dashed line).
 #' @param interceptLineColor color of the intercept line. Default value is \code{"grey70"}.
-#' @param breakTitleAt determines how many chars of the title are displayed in
-#'          one line and when a line break is inserted into the title
-#' @param breakLabelsAt determines how many chars of the category labels are displayed in
-#'          one line and when a line break is inserted
-#' @param gridBreaksAt set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
-#'          position a major grid is being printed. Default is \code{NULL}, so 
-#'          \code{\link{pretty}} gridbeaks will be used.
 #' @param coord.flip logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
 #'          values are plotted on the x-axis.
 #' @param showValueLabels logical, whether value labels should be plotted to each dot or not.
@@ -105,8 +95,9 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #'          Only applies if \code{type = "ma"}.
 #' @param completeDiagnostic logical, if \code{TRUE}, additional tests are performed. Default is \code{FALSE}
 #'          Only applies if \code{type = "ma"}.
-#' @param printPlot logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-#'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
+#'          
+#' @inheritParams sjp.grpfrq
+#'          
 #' @return Depending on the \code{type}, in most cases (insisibily)
 #'           returns the ggplot-object with the complete plot (\code{plot})
 #'           as well as the data frame that was used for setting up the
@@ -187,7 +178,7 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #' @import ggplot2
 #' @import sjmisc
 #' @importFrom car outlierTest crPlots durbinWatsonTest leveragePlots ncvTest spreadLevelPlot vif
-#' @importFrom stats model.matrix
+#' @importFrom stats model.matrix confint coef
 #' @export
 sjp.lm <- function(fit,
                    type = "lm",
@@ -384,21 +375,21 @@ sjp.lm <- function(fit,
     tmp <- stdbv
     ps <- pstdbv
   } else {
-    if (1 == length(coefficients(fit)[-1])) {
+    if (1 == length(stats::coef(fit)[-1])) {
       tmp <- data.frame(
         # Append beta coefficients, [-1] means that the first
         # row (Intercept) will be removed / ignored
-        coefficients(fit)[-1],
+        stats::coef(fit)[-1],
         # append CI
-        confint(fit, level = 0.95)[-1, 1],
-        confint(fit, level = 0.95)[-1, 2])
+        stats::confint(fit, level = 0.95)[-1, 1],
+        stats::confint(fit, level = 0.95)[-1, 2])
     } else {
       tmp <- data.frame(cbind(
         # Append beta coefficients, [-1] means that the first
         # row (Intercept) will be removed / ignored
-        coefficients(fit)[-1],
+        stats::coef(fit)[-1],
         # append CI
-        confint(fit, level = 0.95)[-1, ]))
+        stats::confint(fit, level = 0.95)[-1, ]))
     }
   }
   # append p-values and standardized beta coefficients
@@ -736,6 +727,7 @@ col_check2 <- function(geom.colors, collen) {
 }
 
 
+#' @importFrom stats fitted rstudent
 sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FALSE) {
   # ------------------------
   # check if suggested package is available
@@ -806,8 +798,8 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FAL
   # ---------------------------------
   ggqqp <- function(fit, title.suffix = " (original model)") {
     sjp.setTheme(theme = "scatter")
-    mydf <- data.frame(x = sort(fitted(fit)),
-                       y = sort(rstudent(fit)))
+    mydf <- data.frame(x = sort(stats::fitted(fit)),
+                       y = sort(stats::rstudent(fit)))
     print(ggplot(mydf, aes(x = x, y = y)) +
             geom_point() +
             stat_smooth(method = "lm", se = FALSE) +

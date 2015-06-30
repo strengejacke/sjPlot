@@ -11,14 +11,11 @@ utils::globalVariables(c("Perc", "Sum", "Count", "Group", "line.break"))
 #' 
 #' @description Plot proportional crosstables (contingency tables) of two variables as ggplot diagram.
 #' 
-#' @param var a vector of values (variable) describing the bars which make up the plot.
-#' @param grp grouping variable of same length as \code{var}, where \code{var} 
+#' @param x a vector of values (variable) describing the bars which make up the plot.
+#' @param grp grouping variable of same length as \code{x}, where \code{x} 
 #'          is grouped into the categories represented by \code{grp}.
-#' @param weightBy weight factor that will be applied to weight all cases from \code{var}.
-#'          Must be a vector of same length as \code{var}. Default is \code{NULL}, so no weights are used.
-#' @param weightByTitleString suffix (as string) for the tabel caption, if \code{weightBy} is specified,
-#'          e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so
-#'          the table caption will not have a suffix when cases are weighted.
+#' @param weightBy weight factor that will be applied to weight all cases from \code{x}.
+#'          Must be a vector of same length as \code{x}. Default is \code{NULL}, so no weights are used.
 #' @param type plot type. may be either \code{"b"}, \code{"bar"}, \code{"bars"} (default) for bar charts,
 #'          or \code{"l"}, \code{"line"}, \code{"lines"} for line diagram.
 #' @param tableIndex indicates which data of the proportional table should be plotted. Use \code{"row"} for
@@ -27,43 +24,13 @@ utils::globalVariables(c("Perc", "Sum", "Count", "Group", "line.break"))
 #'          can be added to the plot (see \code{showTotalColumn}).
 #' @param barPosition indicates whether bars should be positioned side-by-side (default)
 #'          or stacked (use \code{"stack"} as parameter).
-#' @param hideLegend logical, whether legend (guide) should be shown or not. Default is \code{FALSE}, thus
-#'          the legend is shown.
 #' @param reverseOrder logical, whether categories along the x-axis should apper in reversed order or not.
-#' @param axisLimits.y numeric vector of length two, defining lower and upper axis limits
-#'          of the y scale. By default, this parameter is set to \code{NULL}, i.e. the 
-#'          y-axis ranges from 0 to required maximum. Note that the values are percentages, so valid
-#'          range is between 0 and 1.
-#' @param title plot title. Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link[sjmisc]{set_var_labels}}) for details). Default is \code{""}, hence
-#'          no title is printed.
-#' @param legendTitle title of plot's legend.
-#' @param axisLabels.x labels for the x-axis breaks.
-#' @param legendLabels labels for the guide/legend.
 #' @param geom.colors user defined color palette for geoms. If specified, must either be vector with color values 
 #'          of same length as groups defined in \code{x}, or a specific color palette code.
 #'          See 'Note' in \code{\link{sjp.grpfrq}}.
 #' @param geom.size size resp. width of the geoms (bar width).
-#' @param geom.spacing spacing between geoms (i.e. bar spacing)
-#' @param breakTitleAt determines how many chars of the title are displayed in
-#'          one line and when a line break is inserted into the title.
-#' @param breakLabelsAt determines how many chars of the category labels are displayed in 
-#'          one line and when a line break is inserted.
-#' @param breakLegendTitleAt determines how many chars of the legend's title 
-#'          are displayed in one line and when a line break is inserted.
-#' @param breakLegendLabelsAt determines how many chars of the legend labels are 
-#'          displayed in one line and when a line break is inserted.
-#' @param gridBreaksAt set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
-#'          position a major grid is being printed. Valid values range from 0 to 1.
 #' @param lineDotSize dot size, only applies, when parameter \code{type = "lines"}.
 #' @param smoothLines prints a smooth line curve. Only applies, when parameter \code{type = "lines"}.
-#' @param expand.grid logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
-#'          axes and plotting region. Default is \code{FALSE}.
-#' @param showValueLabels logical, whether counts and percentage values should be plotted to each bar
-#' @param showCountValues logical, if \code{TRUE} (default), count values are be plotted to each bar. If \code{FALSE},
-#'          count values are removed.
-#' @param showPercentageValues logical, if \code{TRUE} (default), percentage values are be plotted to each bar, if \code{FALSE},
-#'          percentage-values are removed.
 #' @param jitterValueLabels logical, if \code{TRUE}, the value labels on the bars will be "jittered", 
 #'          i.e. they have alternating vertical positions to avoid overlapping of labels in case bars are
 #'          very short. Default is \code{FALSE}.
@@ -74,28 +41,18 @@ utils::globalVariables(c("Perc", "Sum", "Count", "Group", "line.break"))
 #' @param stringTotal string for the legend label when a total-column is added. Only applies
 #'          if \code{showTotalColumn = TRUE}. Default is \code{"Total"}.
 #' @param showCategoryLabels whether x-axis text (category names) should be shown or not.
-#' @param showTableSummary logical, if \code{TRUE}, a summary of the cross tabulation with N, 
-#'          chi-squared, df, Cramer's V or Phi-value and p-value is printed to the upper 
-#'          right corner of the plot (see \code{tableSummaryPos}. If a cell contains expected
-#'          values lower than five(or lower than 10 if df is 1), the Fisher's excact test 
-#'          (see \code{\link{fisher.test}}) is computed instead of Chi-squared test. 
-#'          If the table's matrix is larger than 2x2, Fisher's excact test with Monte Carlo 
-#'          simulation is computed.
-#' @param tableSummaryPos position of the table summary. Only applies when 
-#'          \code{showTableSummary = TRUE}. Default is \code{"r"}, i.e. summary
-#'          printed to the upper right corner. Use \code{"l"} for upper left corner.
 #' @param showTotalColumn when \code{tableIndex = "col"}, an additional bar 
 #'          with the sum within each category and it's percentages will be added 
 #'          to each category.
 #' @param axisTitle.x title for the x-axis. Default is \code{NULL}, so variable name
-#'          of \code{var} will automatically be detected and used as axis title
+#'          of \code{x} will automatically be detected and used as axis title
 #'          (see \code{\link[sjmisc]{set_var_labels}}) for details).
 #' @param axisTitle.y title for the y-axis. Default is \code{NULL}, so variable name
 #'          of \code{grp} will automatically be detected and used as axis title
 #'          (see \code{\link[sjmisc]{set_var_labels}}) for details).
-#' @param coord.flip logical, if \code{TRUE}, the x and y axis are swapped.
-#' @param printPlot logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-#'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
+#'          
+#' @inheritParams sjp.grpfrq
+#' 
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{mydf}).
 #' 
@@ -103,19 +60,19 @@ utils::globalVariables(c("Perc", "Sum", "Count", "Group", "line.break"))
 #' # create 4-category-items
 #' grp <- sample(1:4, 100, replace = TRUE)
 #' # create 3-category-items
-#' var <- sample(1:3, 100, replace = TRUE)
+#' x <- sample(1:3, 100, replace = TRUE)
 #' 
-#' # plot "cross tablulation" of var and grp
-#' sjp.xtab(var, grp)
+#' # plot "cross tablulation" of x and grp
+#' sjp.xtab(x, grp)
 #' 
 #' # plot "cross tablulation" of x and y, including labels
-#' sjp.xtab(var, grp, 
+#' sjp.xtab(x, grp, 
 #'          axisLabels.x = c("low", "mid", "high"),
 #'          legendLabels = c("Grp 1", "Grp 2", "Grp 3", "Grp 4"))
 #' 
-#' # plot "cross tablulation" of var and grp
+#' # plot "cross tablulation" of x and grp
 #' # as stacked proportional bars
-#' sjp.xtab(var, grp, 
+#' sjp.xtab(x, grp, 
 #'          tableIndex = "row", 
 #'          barPosition = "stack", 
 #'          showTableSummary = TRUE,
@@ -174,7 +131,7 @@ utils::globalVariables(c("Perc", "Sum", "Count", "Group", "line.break"))
 #' @importFrom scales percent
 #' @importFrom stats na.omit
 #' @export
-sjp.xtab <- function(var,
+sjp.xtab <- function(x,
                      grp,
                      title = "",
                      legendTitle = NULL,
@@ -216,12 +173,12 @@ sjp.xtab <- function(var,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(axisLabels.x)) axisLabels.x <- sjmisc:::autoSetValueLabels(var)
+  if (is.null(axisLabels.x)) axisLabels.x <- sjmisc:::autoSetValueLabels(x)
   if (is.null(legendLabels)) legendLabels <- sjmisc:::autoSetValueLabels(grp)
-  if (is.null(axisTitle.x)) axisTitle.x <- sjmisc:::autoSetVariableLabels(var)
+  if (is.null(axisTitle.x)) axisTitle.x <- sjmisc:::autoSetVariableLabels(x)
   if (is.null(legendTitle)) legendTitle <- sjmisc:::autoSetVariableLabels(grp)  
   if (is.null(title)) {
-    t1 <- sjmisc:::autoSetVariableLabels(var)
+    t1 <- sjmisc:::autoSetVariableLabels(x)
     t2 <- sjmisc:::autoSetVariableLabels(grp)
     if (!is.null(t1) && !is.null(t2)) title <- paste0(t1, " by ", t2)
   }
@@ -239,7 +196,7 @@ sjp.xtab <- function(var,
   # convert factor to numeric
   # --------------------------------------------------------
   if (is.factor(grp)) grp <- sjmisc::to_value(grp, keep.labels = F)
-  if (is.factor(var)) var <- sjmisc::to_value(var, keep.labels = F)
+  if (is.factor(x)) x <- sjmisc::to_value(x, keep.labels = F)
   # --------------------------------------------------------
   # We have several options to name the diagram type
   # Here we will reduce it to a unique value
@@ -265,7 +222,7 @@ sjp.xtab <- function(var,
   # -----------------------------------------------
   # Determine length of count and group var
   grplen <- length(unique(stats::na.omit(grp)))
-  countlen <- length(unique(stats::na.omit(var)))
+  countlen <- length(unique(stats::na.omit(x)))
   # if we have legend labels, we know the exact
   # amount of groups
   if (is.null(legendLabels)) {
@@ -285,9 +242,9 @@ sjp.xtab <- function(var,
   # and weight variable
   #---------------------------------------------------
   if (is.null(weightBy)) {
-    ftab <- table(var, grp)
+    ftab <- table(x, grp)
   } else {
-    ftab <- round(xtabs(weightBy ~ var + grp), 0)
+    ftab <- round(xtabs(weightBy ~ x + grp), 0)
   }
   # -----------------------------------------------
   # create proportional table so we have the percentage
@@ -316,11 +273,11 @@ sjp.xtab <- function(var,
   # -----------------------------------------------
   if (showTotalColumn) {
     # retrieve category counts / percentages, exclude missings of both category and count variable
-    dummy <- as.data.frame(prop.table(table(var[which(!is.na(grp))])))
+    dummy <- as.data.frame(prop.table(table(x[which(!is.na(grp))])))
     # "insert" dummy column
     dummy <- dummy[, c(1, 1, 2)]
     # bind sum score
-    dummy <- cbind(dummy, c(apply(ftab, 1, function(x) sum(x))))
+    dummy <- cbind(dummy, c(apply(ftab, 1, function(y) sum(y))))
     names(dummy) <- c("Count", "Group", "Perc", "Sum")
     # "modify" resp. correct the Group-column
     dummy$Group <- as.factor(rep(max(grp, na.rm = TRUE) + 1))
@@ -355,10 +312,10 @@ sjp.xtab <- function(var,
     miss <- sjmisc::to_value(allgroups[!allgroups %in% mydf$Group], keep.labels = F)
     # retrieve subset of all rows where group is from lowest group-value to 
     # missing group. Column 2 is the group-column
-    dummy1 <- mydf[apply(mydf, 1, function(x) all(x[2] < miss)), ]
+    dummy1 <- mydf[apply(mydf, 1, function(y) all(y[2] < miss)), ]
     # retrieve subset of all rows where group is from missing group to
     # highest group-value. Column 2 is the group-column
-    dummy2 <- mydf[apply(mydf, 1, function(x) all(x[2] > miss)), ]
+    dummy2 <- mydf[apply(mydf, 1, function(y) all(y[2] > miss)), ]
     # create dummy-data frame that contains the missing row with zero-values
     emptyrows <- data.frame(Count = c(1:countlen), 
                             Group = miss, 

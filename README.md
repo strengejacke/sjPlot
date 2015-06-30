@@ -43,8 +43,9 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 ### Changelog of development build 1.8.1-10
 
 #### General
-* Package documentation got major revisions.
 * `view_spss` is now deprecated. Use `view_df` instead.
+* Package documentation got major revisions.
+* Updated namespaces to meet new CRAN namespace requirements.
 
 #### New functions
 * `sjp.poly` to plot polynomial curves for linear regressions.

@@ -27,7 +27,8 @@ sjp.frq(varCount, title = "", weightBy = NULL, weightByTitleString = NULL,
 
 \item{title}{plot title as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details).}
+(see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+no title is printed.}
 
 \item{weightBy}{weight factor that will be applied to weight all cases of \code{varCount}.
 Must be a vector of same length as \code{varCount}. Default is \code{NULL}, so no weights are used.}
@@ -59,15 +60,18 @@ categories are not sorted by frequency. Use \code{"asc"} or
   \code{type = "dots"} and \code{type = "boxplots"}, which may be abbreviated
   with \code{type = "dot"} and \code{type = "box"}}
 
-\item{geom.size}{size of geoms, depending on the plot \code{type}. Note that
-bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
+\item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} parameter).
+Note that  bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
 By default, \code{geom.size = NULL}, which means that this parameter is automatically
 adjusted depending on the plot type.}
 
 \item{geom.colors}{user defined color for geoms, e.g. \code{geom.colors = "#0080ff"}.}
 
-\item{axisLabels.x}{a character vector with labels for the x-axis breaks.
-Example: \code{axisLabels.x = c("Label1", "Label2", "Label3")}.
+\item{axisLabels.x}{a character vector with labels for the x-axis breaks. \strong{Note:}
+Axis labels will be automatically detected, when data was either imported
+with \code{\link[sjmisc]{read_spss}} or has named factor levels
+(see 'Examples'). Else, specifiy parameter like this:
+\code{axisLabels.x = c("Label1", "Label2", "Label3")}.
 The labels may also be passed as \code{\link{list}} object. They will be coerced
 to character vector automatically.}
 
@@ -88,31 +92,31 @@ of the y scale. By default, this parameter is set to \code{NULL}, i.e. the
 y-axis ranges from 0 to required maximum.}
 
 \item{breakTitleAt}{determines how many chars of the plot title are displayed in
-one line and when a line break is inserted into \code{title}'s value.}
+one line and when a line break is inserted into the title.}
 
-\item{breakLabelsAt}{determines how many chars of the labels are displayed in
-one line and when a line break is inserted into the axis labels.}
+\item{breakLabelsAt}{determines how many chars of the category labels are displayed in
+one line and when a line break is inserted.}
 
 \item{gridBreaksAt}{set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th
 position a major grid is being printed.}
 
-\item{innerBoxPlotWidth}{width of the inner box plot that is plotted inside of
-violin plots. Only applies if \code{type = "violins"}. Default value is 0.15}
+\item{innerBoxPlotWidth}{width of the inner box plot that is plotted inside of violin plots. Only applies
+if \code{type = "violins"}. Default value is 0.15}
 
-\item{innerBoxPlotDotSize}{size of mean dot insie a violin plot. Applies only
+\item{innerBoxPlotDotSize}{size of mean dot insie a violin or box plot. Applies only
 when \code{type = "violins"} or \code{"boxplots"}.}
 
-\item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e.
-there is a small margin between axes and plotting region. Default is \code{FALSE}.}
+\item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
+axes and plotting region. Default is \code{FALSE}.}
 
-\item{showValueLabels}{logical, whether count and percentage values should be
-plotted to each bar. Default is \code{TRUE}.}
+\item{showValueLabels}{logical, whether count and percentage values should be plotted to each bar. Default
+is \code{TRUE}.}
 
-\item{showCountValues}{logical, if \code{TRUE} (default), count values are
-plotted to each bar. If \code{FALSE}, count values are removed.}
+\item{showCountValues}{logical, if \code{TRUE} (default), count values are plotted to each bar.
+If \code{FALSE}, count values are removed.}
 
-\item{showPercentageValues}{logical, if \code{TRUE} (default), percentage values
-are plotted to each bar, if \code{FALSE}, percentage-values are removed.}
+\item{showPercentageValues}{logical, if \code{TRUE} (default), percentage values are plotted to each bar
+If \code{FALSE}, percentage values are removed.}
 
 \item{showAxisLabels.x}{logical, whether x-axis labels (category names) should be shown or not.}
 
@@ -175,7 +179,7 @@ for details).}
 i.e. no title is printed.}
 
 \item{startAxisAt}{numeric, determines the lower limit of the x-axis. By default, this value is set
-to \code{"auto"}, i.e. the value range on the x axis starts with the lowest value of \code{varCount}.
+to \code{"auto"}, i.e. the value range on the x-axis starts with the lowest value of \code{varCount}.
 If \code{startAxisAt = 1}, plot may have zero counts if the lowest value of \code{varCount}
 is larger than 1 and hence no bars plotted for these values in such cases.}
 
@@ -196,12 +200,12 @@ it will be grouped (using the \code{\link[sjmisc]{group_var}} function).
 Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.
 See \code{\link[sjmisc]{group_var}} for examples on grouping.}
 
-\item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped. Default is \code{FALSE}.}
+\item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
 \item{labelPos}{string, indicating the position of value labels, when \code{coord.flip = TRUE}.
-Can be either \code{"inside"} or \code{"outside"} (default). You may specify
-initial letter only. If \code{coord.flip = FALSE}, this parameter will
-be ignored.}
+         Can be either \code{"inside"} or \code{"outside"} (default). You may specify
+         initial letter only. If \code{coord.flip = FALSE}, this parameter will
+         be ignored.}
 
 \item{na.rm}{logical, if \code{TRUE}, missings are not included in the frequency plot.}
 

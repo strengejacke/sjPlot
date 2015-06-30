@@ -140,7 +140,7 @@
 #' @import dplyr
 #' @import sjmisc
 #' @importFrom scales percent
-#' @importFrom stats na.omit
+#' @importFrom stats na.omit xtabs
 #' @export
 sjp.stackfrq <- function(items,
                          legendLabels = NULL,
@@ -301,7 +301,7 @@ sjp.stackfrq <- function(items,
     if (is.null(weightBy)) {
       df <- as.data.frame(prop.table(table(variable)))
     } else {
-      df <- as.data.frame(prop.table(round(xtabs(weightBy ~ variable), 0)))
+      df <- as.data.frame(prop.table(round(stats::xtabs(weightBy ~ variable), 0)))
     }
     # give columns names
     names(df) <- c("var", "prc")

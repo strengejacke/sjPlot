@@ -108,25 +108,26 @@ utils::globalVariables(c("ordx", "ordy"))
 #' @import tidyr
 #' @import sjmisc
 #' @importFrom scales brewer_pal grey_pal
+#' @importFrom stats cor cor.test na.omit
 #' @export
 sjp.corr <- function(data,
-                     title=NULL,
-                     axisLabels=NULL,
-                     type="circle",
-                     sortCorrelations=TRUE,
-                     decimals=3,
-                     missingDeletion="listwise",
-                     corMethod="spearman",
-                     geom.colors="RdBu",
-                     geom.size=15,
-                     breakTitleAt=50,
-                     breakLabelsAt=20,
-                     hideLegend=TRUE,
-                     legendTitle=NULL,
-                     showValueLabels=TRUE,
-                     showPValues=TRUE,
-                     pvaluesAsNumbers=FALSE,
-                     printPlot=TRUE) {
+                     title = NULL,
+                     axisLabels = NULL,
+                     type = "circle",
+                     sortCorrelations = TRUE,
+                     decimals = 3,
+                     missingDeletion = "listwise",
+                     corMethod = "spearman",
+                     geom.colors = "RdBu",
+                     geom.size = 15,
+                     breakTitleAt = 50,
+                     breakLabelsAt = 20,
+                     hideLegend = TRUE,
+                     legendTitle = NULL,
+                     showValueLabels = TRUE,
+                     showPValues = TRUE,
+                     pvaluesAsNumbers = FALSE,
+                     printPlot = TRUE) {
   # --------------------------------------------------------
   # check p-value-style option
   # --------------------------------------------------------
@@ -182,12 +183,12 @@ sjp.corr <- function(data,
     # SPSS listwise
     if (missingDeletion == "listwise") {
       data <- stats::na.omit(data)
-      corr <- cor(data, method = corMethod)
+      corr <- stats::cor(data, method = corMethod)
     }
     # missing deletion corresponds to
     # SPSS pairwise
     else {
-      corr <- cor(data, method = corMethod, use = "pairwise.complete.obs")
+      corr <- stats::cor(data, method = corMethod, use = "pairwise.complete.obs")
     }
     #---------------------------------------
     # if we have a data frame as parameter,
@@ -198,10 +199,10 @@ sjp.corr <- function(data,
       for (i in 1:ncol(df)) {
         pv <- c()
         for (j in 1:ncol(df)) {
-          test <- cor.test(df[[i]], 
-                           df[[j]], 
-                           alternative = "two.sided", 
-                           method = corMethod)
+          test <- stats::cor.test(df[[i]], 
+                                  df[[j]], 
+                                  alternative = "two.sided", 
+                                  method = corMethod)
           pv <- cbind(pv, round(test$p.value, 4))
         }
         cp <- rbind(cp, pv)

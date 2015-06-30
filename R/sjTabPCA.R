@@ -132,26 +132,27 @@
 #' sjt.pca(efc[, c(start:end)])}
 #' 
 #' @importFrom psych KMO
+#' @importFrom stats prcomp
 #' @export
-sjt.pca <- function (data,
-                     numberOfFactors=NULL,
-                     factorLoadingTolerance=0.1,
-                     file=NULL, 
-                     varlabels=NULL,
-                     title="Principal Component Analysis (with varimax rotation)",
-                     breakLabelsAt=40,
-                     digits=2,
-                     showCronbachsAlpha=TRUE,
-                     showMSA=FALSE,
-                     showVariance=FALSE,
-                     alternateRowColors=FALSE,
-                     stringPov="Proportion of Variance",
-                     stringCpov="Cumulative Proportion",
-                     encoding=NULL,
-                     CSS=NULL,
-                     useViewer=TRUE,
-                     no.output=FALSE,
-                     remove.spaces=TRUE) {
+sjt.pca <- function(data,
+                    numberOfFactors = NULL,
+                    factorLoadingTolerance = 0.1,
+                    file = NULL,
+                    varlabels = NULL,
+                    title = "Principal Component Analysis (with varimax rotation)",
+                    breakLabelsAt = 40,
+                    digits = 2,
+                    showCronbachsAlpha = TRUE,
+                    showMSA = FALSE,
+                    showVariance = FALSE,
+                    alternateRowColors = FALSE,
+                    stringPov = "Proportion of Variance",
+                    stringCpov = "Cumulative Proportion",
+                    encoding = NULL,
+                    CSS = NULL,
+                    useViewer = TRUE,
+                    no.output = FALSE,
+                    remove.spaces = TRUE) {
   # -------------------------------------
   # check encoding
   # -------------------------------------
@@ -183,10 +184,10 @@ sjt.pca <- function (data,
     dataframeparam <- FALSE
     showMSA <- FALSE
   } else {
-    pcadata <- prcomp(stats::na.omit(data), 
-                      retx = TRUE, 
-                      center = TRUE, 
-                      scale. = TRUE)
+    pcadata <- stats::prcomp(stats::na.omit(data), 
+                             retx = TRUE, 
+                             center = TRUE, 
+                             scale. = TRUE)
     dataframeparam <- TRUE
   }
   # -------------------------------------
@@ -237,21 +238,21 @@ sjt.pca <- function (data,
   # check user defined style sheets
   # ------------------------
   if (!is.null(CSS)) {
-    if (!is.null(CSS[['css.table']])) css.table <- ifelse(substring(CSS[['css.table']],1,1)=='+', paste0(css.table, substring(CSS[['css.table']],2)), CSS[['css.table']])
-    if (!is.null(CSS[['css.thead']])) css.thead <- ifelse(substring(CSS[['css.thead']],1,1)=='+', paste0(css.thead, substring(CSS[['css.thead']],2)), CSS[['css.thead']])
-    if (!is.null(CSS[['css.tdata']])) css.tdata <- ifelse(substring(CSS[['css.tdata']],1,1)=='+', paste0(css.tdata, substring(CSS[['css.tdata']],2)), CSS[['css.tdata']])
-    if (!is.null(CSS[['css.caption']])) css.caption <- ifelse(substring(CSS[['css.caption']],1,1)=='+', paste0(css.caption, substring(CSS[['css.caption']],2)), CSS[['css.caption']])
-    if (!is.null(CSS[['css.centeralign']])) css.centeralign <- ifelse(substring(CSS[['css.centeralign']],1,1)=='+', paste0(css.centeralign, substring(CSS[['css.centeralign']],2)), CSS[['css.centeralign']])
-    if (!is.null(CSS[['css.arc']])) css.arc <- ifelse(substring(CSS[['css.arc']],1,1)=='+', paste0(css.arc, substring(CSS[['css.arc']],2)), CSS[['css.arc']])
-    if (!is.null(CSS[['css.firsttablerow']])) css.firsttablerow <- ifelse(substring(CSS[['css.firsttablerow']],1,1)=='+', paste0(css.firsttablerow, substring(CSS[['css.firsttablerow']],2)), CSS[['css.firsttablerow']])
-    if (!is.null(CSS[['css.firsttablecol']])) css.firsttablecol <- ifelse(substring(CSS[['css.firsttablecol']],1,1)=='+', paste0(css.firsttablecol, substring(CSS[['css.firsttablecol']],2)), CSS[['css.firsttablecol']])
-    if (!is.null(CSS[['css.cronbach']])) css.cronbach <- ifelse(substring(CSS[['css.cronbach']],1,1)=='+', paste0(css.cronbach, substring(CSS[['css.cronbach']],2)), CSS[['css.cronbach']])
-    if (!is.null(CSS[['css.msa']])) css.msa <- ifelse(substring(CSS[['css.msa']],1,1)=='+', paste0(css.msa, substring(CSS[['css.msa']],2)), CSS[['css.msa']])
-    if (!is.null(CSS[['css.kmo']])) css.kmo <- ifelse(substring(CSS[['css.kmo']],1,1)=='+', paste0(css.kmo, substring(CSS[['css.kmo']],2)), CSS[['css.kmo']])
-    if (!is.null(CSS[['css.pov']])) css.pov <- ifelse(substring(CSS[['css.pov']],1,1)=='+', paste0(css.pov, substring(CSS[['css.pov']],2)), CSS[['css.pov']])
-    if (!is.null(CSS[['css.cpov']])) css.cpov <- ifelse(substring(CSS[['css.cpov']],1,1)=='+', paste0(css.cpov, substring(CSS[['css.cpov']],2)), CSS[['css.cpov']])
-    if (!is.null(CSS[['css.minval']])) css.minval <- ifelse(substring(CSS[['css.minval']],1,1)=='+', paste0(css.minval, substring(CSS[['css.minval']],2)), CSS[['css.minval']])
-    if (!is.null(CSS[['css.removable']])) css.removable <- ifelse(substring(CSS[['css.removable']],1,1)=='+', paste0(css.removable, substring(CSS[['css.removable']],2)), CSS[['css.removable']])
+    if (!is.null(CSS[['css.table']])) css.table <- ifelse(substring(CSS[['css.table']], 1, 1) == '+', paste0(css.table, substring(CSS[['css.table']], 2)), CSS[['css.table']])
+    if (!is.null(CSS[['css.thead']])) css.thead <- ifelse(substring(CSS[['css.thead']], 1, 1) == '+', paste0(css.thead, substring(CSS[['css.thead']], 2)), CSS[['css.thead']])
+    if (!is.null(CSS[['css.tdata']])) css.tdata <- ifelse(substring(CSS[['css.tdata']], 1, 1) == '+', paste0(css.tdata, substring(CSS[['css.tdata']], 2)), CSS[['css.tdata']])
+    if (!is.null(CSS[['css.caption']])) css.caption <- ifelse(substring(CSS[['css.caption']], 1, 1) == '+', paste0(css.caption, substring(CSS[['css.caption']], 2)), CSS[['css.caption']])
+    if (!is.null(CSS[['css.centeralign']])) css.centeralign <- ifelse(substring(CSS[['css.centeralign']], 1, 1) == '+', paste0(css.centeralign, substring(CSS[['css.centeralign']], 2)), CSS[['css.centeralign']])
+    if (!is.null(CSS[['css.arc']])) css.arc <- ifelse(substring(CSS[['css.arc']], 1, 1) == '+', paste0(css.arc, substring(CSS[['css.arc']], 2)), CSS[['css.arc']])
+    if (!is.null(CSS[['css.firsttablerow']])) css.firsttablerow <- ifelse(substring(CSS[['css.firsttablerow']], 1, 1) == '+', paste0(css.firsttablerow, substring(CSS[['css.firsttablerow']], 2)), CSS[['css.firsttablerow']])
+    if (!is.null(CSS[['css.firsttablecol']])) css.firsttablecol <- ifelse(substring(CSS[['css.firsttablecol']], 1, 1) == '+', paste0(css.firsttablecol, substring(CSS[['css.firsttablecol']], 2)), CSS[['css.firsttablecol']])
+    if (!is.null(CSS[['css.cronbach']])) css.cronbach <- ifelse(substring(CSS[['css.cronbach']], 1, 1) == '+', paste0(css.cronbach, substring(CSS[['css.cronbach']], 2)), CSS[['css.cronbach']])
+    if (!is.null(CSS[['css.msa']])) css.msa <- ifelse(substring(CSS[['css.msa']], 1, 1) == '+', paste0(css.msa, substring(CSS[['css.msa']], 2)), CSS[['css.msa']])
+    if (!is.null(CSS[['css.kmo']])) css.kmo <- ifelse(substring(CSS[['css.kmo']], 1, 1) == '+', paste0(css.kmo, substring(CSS[['css.kmo']], 2)), CSS[['css.kmo']])
+    if (!is.null(CSS[['css.pov']])) css.pov <- ifelse(substring(CSS[['css.pov']], 1, 1) == '+', paste0(css.pov, substring(CSS[['css.pov']], 2)), CSS[['css.pov']])
+    if (!is.null(CSS[['css.cpov']])) css.cpov <- ifelse(substring(CSS[['css.cpov']], 1, 1) == '+', paste0(css.cpov, substring(CSS[['css.cpov']], 2)), CSS[['css.cpov']])
+    if (!is.null(CSS[['css.minval']])) css.minval <- ifelse(substring(CSS[['css.minval']], 1, 1) == '+', paste0(css.minval, substring(CSS[['css.minval']], 2)), CSS[['css.minval']])
+    if (!is.null(CSS[['css.removable']])) css.removable <- ifelse(substring(CSS[['css.removable']], 1, 1) == '+', paste0(css.removable, substring(CSS[['css.removable']], 2)), CSS[['css.removable']])
   }
   # ------------------------
   # set page style
@@ -315,7 +316,7 @@ sjt.pca <- function (data,
       # retrieve 2. highest loading
       max2load <- sort(rowval, TRUE)[2]
       # check difference between both
-      if (abs(maxload-max2load) < factorLoadingTolerance) {
+      if (abs(maxload - max2load) < factorLoadingTolerance) {
         # if difference is below the tolerance,
         # remeber row-ID so we can remove that items
         # for further PCA with updated data frame
@@ -324,7 +325,7 @@ sjt.pca <- function (data,
     }
     # return a vector with index numbers indicating which items
     # have unclear loadings
-    return (removers)
+    return(removers)
   }
   # --------------------------------------------------------
   # this function retrieves a list with the column index ("factor" index)
@@ -345,7 +346,7 @@ sjt.pca <- function (data,
     }
     # return a vector with index numbers indicating which items
     # loads the highest on which factor
-    return (itemloading)
+    return(itemloading)
   }
   # --------------------------------------------------------
   # this function calculates the cronbach's alpha value for
@@ -442,7 +443,7 @@ sjt.pca <- function (data,
     # default row string for alternative row colors
     arcstring <- ""
     # if we have alternating row colors, set css
-    if (alternateRowColors) arcstring <- ifelse(i %% 2 == 0, " arc", "")
+    if (alternateRowColors) arcstring <- ifelse(sjmisc::is_even(i), " arc", "")
     # write tr-tag with class-attributes
     page.content <- paste0(page.content, "  <tr>\n")
     # print first table cell

@@ -27,21 +27,24 @@ utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "
 #'            \item{\code{"y.pc"}}{or \code{"y.prob"} to plot predicted probabilities for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot. See 'Details'.}
 #'          }
 #' @param vars a numeric vector with column indices of selected variables or a character vector with
-#'          variable names of selected variables from the fitted model, which should be used to plot probability
-#'          curves. This parameter only applies if \code{type} is either \code{"fe.pc"} (resp. \code{"fe.prob"})
-#'          or \code{"ri.pc"} (resp. \code{"ri.prob"}). In this case, only probability curves (predicted probabilities) for the selected
-#'          variables specified in \code{"vars"} will be plotted.
-#' @param ri.nr Numeric vector. If \code{type = "re"} or \code{type = "ri.pc"}, and fitted model has more than one random
-#'          intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
-#'          which list elements of \code{lme4::ranef}) will be plotted. Default is \code{NULL},
+#'          variable names of selected variables from the fitted model, which should be used to plot 
+#'          fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability curves 
+#'          (for \code{\link[lme4]{glmer}}) of random intercepts. This parameter only 
+#'          applies if \code{type} is \code{"fe.pc"}, \code{"ri.pc"} or \code{"fe.ri"}.
+#'          In this case, only those terms specified in \code{"vars"} will be plotted.
+#' @param ri.nr Numeric vector. If \code{type = "re"}, \code{type = "ri.pc"} or \code{type = "fe.ri"},
+#'          and fitted model has more than one random intercept, \code{ri.nr} indicates 
+#'          which random effects of which random intercept (or: which list elements 
+#'          of \code{\link[lme4]{ranef}}) will be plotted. Default is \code{NULL},
 #'          so all random effects will be plotted.
 #' @param emph.grp numeric vector with index numbers of grouping levels (from random effect).
-#'          If \code{type = "ri.pc"} and \code{facet.grid = FALSE}, an integrated plot of predicted 
-#'          probabilities of all fixed coefficients for each grouping level is plotted. To better find
+#'          If \code{type = "ri.pc"} or \code{type = "fe.ri"}, and \code{facet.grid = FALSE}, 
+#'          an integrated plot of predicted probabilities of fixed effects resp. fixed 
+#'          effects slopes for each grouping level is plotted. To better find
 #'          certain groups, use this parameter to emphasize these groups in the plot.
-#'          See examples for details.
+#'          See 'Examples'.
 #' @param show.se Use \code{TRUE} to plot (depending on \code{type}) the standard
-#'          error for probability curves (predicted probabilities).
+#'          error for predicted values or confidence intervals for slope lines.
 #' @param title a character vector with one or more labels that are used as plot title. If
 #'          \code{type = "re"}, use the predictors' variable labels as titles.
 #' @param geom.colors User defined color palette for geoms. Must either be vector with two color values
@@ -56,13 +59,13 @@ utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "
 #'          \itemize{
 #'            \item If \code{NULL} (default), no sorting is done and odds ratios are sorted in order of model coefficients.
 #'            \item If \code{sort.coef = "sort.all"}, odds ratios are re-sorted for each coefficient (only applies if \code{type = "re"} and \code{facet.grid = FALSE}), i.e. the odds ratios of the random effects for each predictor are sorted and plotted to an own plot.
-#'            \item If \code{type = "fe"}, \code{TRUE} value will sort the odds ratios
+#'            \item If \code{type = "fe"} or \code{type = "fe.std"}, \code{TRUE} will sort estimates
 #'            \item Else, specify a predictor's / coefficient's name to sort odds ratios according to this coefficient.
 #'            }
-#'            See examples for details.
-#' @param fade.ns if \code{TRUE}, non significant odds ratios will be printed in slightly faded colors.
+#'            See 'Examples'.
+#' @param fade.ns if \code{TRUE}, non significant estimates will be printed in slightly faded colors.
 #' @param pred.labels a character vector with labels for the predictors / covariates / groups. Should either be vector
-#'          of fixed effects variable labels (if \code{type = "fe"}) or a vector of group (value)
+#'          of fixed effects variable labels (if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
 #'          labels from the random intercept's categories (if \code{type = "re"}).
 #' @param axisTitle.x A label (title) for the x axis. If not specified, a default labelling depending
 #'          on the plot type is chosen.
@@ -286,55 +289,6 @@ sjp.glmer <- function(fit,
 #'            \item{\code{"eff"}}{to plot marginal effects of all fixed terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms. See also 'Details' of \code{\link{sjp.lm}}.}
 #'            \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples' here and 'Details' of \code{\link{sjp.lm}}).}
 #'          }
-#' @param vars a numeric vector with column indices of selected variables or a character vector with
-#'          variable names of selected variables from the fitted model, which should be used to plot
-#'          fixed effects slopes for random intercept. This parameter only applies if \code{type = "fe.ri"}.
-#'          In this case, only slopes for the selected variables specified in \code{"vars"} will be plotted.
-#' @param ri.nr Numeric vector. If \code{type = "re"} or \code{type = "fe.ri"}, and fitted model has more than one random
-#'          intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
-#'          which list elements of \code{\link[lme4]{ranef}}) will be plotted. Default is \code{NULL},
-#'          so all random effects will be plotted.
-#' @param emph.grp numeric vector with index numbers of grouping levels (from random effect).
-#'          If \code{type = "fe.ri"} and \code{facet.grid = FALSE}, an integrated plot of fixed 
-#'          effects slopes for each grouping level is plotted. To better find
-#'          certain groups, use this parameter to emphasize these groups in the plot.
-#'          See examples for details.
-#' @param title a character vector with one or more labels that are used as plot title. If
-#'          \code{type = "re"}, use the predictors' variable labels as titles.
-#' @param geom.colors User defined color palette for geoms. Must either be vector with two color values
-#'          or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.
-#' @param geom.size size of geoms (point size or line size, depending on \code{type}-parameter).
-#' @param hideErrorBars If \code{TRUE}, the error bars that indicate the confidence intervals of the estimates are not
-#'          shown.
-#' @param show.se Use \code{TRUE} to plot (depending on \code{type}) the standard
-#'          error for predicted values or confidence intervals for slope lines.
-#' @param showIntercept if \code{TRUE}, the intercept is included when plotting random or fixed effects.
-#' @param stringIntercept string of intercept estimate on the y axis. Only applies, if \code{showIntercept}
-#'          is \code{TRUE} and \code{pred.labels} is not \code{NULL}.
-#' @param sort.coef indicates which coefficient should be used for sorting estimates.
-#'          \itemize{
-#'            \item If \code{NULL} (default), no sorting is done and estimates are sorted in order of model coefficients.
-#'            \item If \code{sort.coef = "sort.all"}, estimates are re-sorted for each coefficient (only applies if \code{type = "re"} and \code{facet.grid = FALSE}), i.e. the estimates of the random effects for each predictor are sorted and plotted to an own plot.
-#'            \item If \code{type = "fe"} or \code{type = "fe.std"}, \code{TRUE} value will sort the estimates.
-#'            \item Else, specify a predictor's / coefficient's name to sort estimators according to this coefficient.
-#'            }
-#'            See examples for details.
-#' @param fade.ns if \code{TRUE}, non significant estimates will be printed in slightly fading colors.
-#' @param pred.labels a character vector with labels for the predictors / covariates / groups. Should either be vector
-#'          of fixed effects variable labels (if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
-#'          labels from the random intercept's categories (if \code{type = "re"}).
-#' @param axisTitle.x A label (title) for the x axis. If not specified, a default labelling depending
-#'          on the plot type is chosen.
-#' @param axisTitle.y A label (title) for the y axis. If not specified, a default labelling depending
-#'          on the plot type is chosen.
-#' @param interceptLineType The linetype of the intercept line (zero point). Default is \code{2} (dashed line).
-#' @param interceptLineColor The color of the intercept line. Default value is \code{"grey70"}.
-#' @param showValueLabels Whether the beta and standardized beta values should be plotted
-#'          to each dot or not.
-#' @param labelDigits The amount of digits for rounding the estimations (see \code{showValueLabels}).
-#'          Default is 2, i.e. estimators have 2 digits after decimal point.
-#' @param showPValueLabels Whether the significance levels of each coefficient should be appended
-#'          to values or not
 #' @param pointAlpha The alpha values of the scatter plot's point-geoms.
 #'          Default is 0.2. Only applies if \code{type = "fe.pred"} or \code{type = "fe.resid"}.
 #' @param showScatterPlot If \code{TRUE} (default), a scatter plot of response and predictor values
@@ -345,15 +299,12 @@ sjp.glmer <- function(fit,
 #' @param showLoessCI If \code{TRUE}, a confidence region for the loess-smoothed line
 #'          will be plotted. Default is \code{FALSE}. Only applies, if \code{showLoess}
 #'          is \code{TRUE} and only applies if if \code{type = "fe.pred"} or \code{type = "fe.resid"}.
-#' @param facet.grid \code{TRUE} when each plot should be plotted separately instead of
-#'          an integrated (faceted) single graph.
-#' @param free.scale If \code{TRUE} and \code{facet.grid=TRUE}, each facet grid gets its own fitted scale. If
-#'          \code{free.scale = FALSE}, each facet in the grid has the same scale range.
 #' @param poly.term name of a polynomial term in \code{fit} as string. Needs to be
 #'          specified, if \code{type = "poly"}, in order to plot marginal effects
 #'          for polynomial terms. See 'Examples'.
-#' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-#'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
+#'          
+#' @inheritParams sjp.glmer
+#' 
 #' @return (Insisibily) returns
 #'          \itemize{
 #'            \item the ggplot-object (\code{plot}), if \code{type = "fe"} or if \code{type = "re"} and \code{facet.grid = TRUE}). Multiple plots (\code{type = "re"} and if \code{facet.grid = FALSE}) are returned in the object \code{plot.list}.
@@ -1751,6 +1702,7 @@ sjp.lme.feri <- function(fit,
 # for providing the core code snipptes,
 # which are used in this function
 # ---------------------------------------
+#' @importFrom stats ppoints qnorm
 sjp.lme.reqq <- function(fit,
                          geom.colors,
                          geom.size,
@@ -1766,7 +1718,7 @@ sjp.lme.reqq <- function(fit,
   ord  <- unlist(lapply(re, order)) + rep((0:(ncol(re) - 1)) * nrow(re), each = nrow(re))
   pDf  <- data.frame(y = unlist(re)[ord],
                      ci = 1.96 * se[ord],
-                     nQQ = rep(qnorm(ppoints(nrow(re))), ncol(re)),
+                     nQQ = rep(stats::qnorm(stats::ppoints(nrow(re))), ncol(re)),
                      ID = factor(rep(rownames(re), ncol(re))[ord], levels = rownames(re)[ord]),
                      ind = gl(ncol(re), nrow(re), labels = names(re)),
                      grp = "1")
@@ -1785,7 +1737,9 @@ sjp.lme.reqq <- function(fit,
   # ---------------------------------------
   if (!hideErrorBars) {
     gp <- gp +
-      geom_errorbar(aes(ymin = y - ci, ymax = y + ci), width = 0, colour = "black")
+      geom_errorbar(aes(ymin = y - ci, ymax = y + ci),
+                    width = 0, 
+                    colour = "black")
   }
   # ---------------------------------------
   # plot points and interceot
@@ -1819,6 +1773,7 @@ sjp.lme.reqq <- function(fit,
 # for providing the core code snipptes,
 # which are used in this function
 # ---------------------------------------
+#' @importFrom stats cov2cor vcov
 sjp.lme.fecor <- function(fit,
                           pred.labels,
                           sort.coef,
@@ -1839,7 +1794,7 @@ sjp.lme.fecor <- function(fit,
   # ---------------------------------------
   so <- summary(fit)
   mydf <- tryCatch(
-    mydf <- as.matrix(cov2cor(as.matrix(vcov(fit)))),
+    mydf <- as.matrix(stats::cov2cor(as.matrix(stats::vcov(fit)))),
     error = function(cond) { mydf <- as.matrix(so$vcov@factors$correlation) }
   )
   rownames(mydf) <- pred.labels

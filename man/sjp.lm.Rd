@@ -33,7 +33,10 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
 
 \item{sort.est}{logical, determines whether estimates should be sorted according to their values.}
 
-\item{title}{plot's title as string. Example: \code{title = "my title"}}
+\item{title}{plot title as string. Example: \code{title = "my title"}.
+Use \code{NULL} to automatically detect variable names that will be used as title
+(see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+no title is printed.}
 
 \item{axisLabels.x}{name of predictor (independent variable) as string. Two things to consider:
 \itemize{
@@ -41,13 +44,11 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   \item If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_var_labels}} function, you receive a character vector with variable label strings. You can use it like this: \code{axisLabels.x = get_var_labels(efc)['quol_5']}
 }}
 
-\item{axisLabels.y}{character vector with labels (names) of the predictor variables (independent vars).
-Example: \code{axisLabels.y = c("Label1", "Label2", "Label3")}.
-\strong{Note:} If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
-list object with label string. The labels may also be passed as list object. They will be coerced
-to character vector automatically.}
+\item{axisLabels.y}{labels or names of the predictor variables (independent vars). Must
+be a character vector of same length as independent variables. The labels
+may also be passed as list object; they will be coerced to character vector automatically.}
 
-\item{showAxisLabels.y}{logical, whether predictor labels should be shown or not. Default is \code{TRUE}}
+\item{showAxisLabels.y}{logical, whether labels of independent variables should be shown or not.}
 
 \item{axisTitle.x}{title for the x-axis. Default is \code{"Estimates"}.}
 
@@ -65,15 +66,14 @@ or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.}
 
 \item{interceptLineColor}{color of the intercept line. Default value is \code{"grey70"}.}
 
-\item{breakTitleAt}{determines how many chars of the title are displayed in
-one line and when a line break is inserted into the title}
+\item{breakTitleAt}{determines how many chars of the plot title are displayed in
+one line and when a line break is inserted into the title.}
 
 \item{breakLabelsAt}{determines how many chars of the category labels are displayed in
-one line and when a line break is inserted}
+one line and when a line break is inserted.}
 
-\item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th
-position a major grid is being printed. Default is \code{NULL}, so
-\code{\link{pretty}} gridbeaks will be used.}
+\item{gridBreaksAt}{set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th
+position a major grid is being printed.}
 
 \item{coord.flip}{logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
 values are plotted on the x-axis.}
@@ -122,7 +122,7 @@ model where outliers are automatically excluded are also plotted.
 Only applies if \code{type = "ma"}.}
 
 \item{completeDiagnostic}{logical, if \code{TRUE}, additional tests are performed. Default is \code{FALSE}
-Only applies if \code{type = "ma"}.}
+         Only applies if \code{type = "ma"}.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}

@@ -50,7 +50,7 @@
 #'             efc$e42dep)}
 #'             
 #' @import sjmisc
-#' @importFrom stats na.omit
+#' @importFrom stats na.omit lm
 #' @export
 sjt.grpmean <- function(varCount, 
                         varGrp, 
@@ -94,9 +94,9 @@ sjt.grpmean <- function(varCount,
   # see below
   # --------------------------------------
   if (!is.null(weightBy)) {
-    fit <- lm(varCount ~ as.factor(varGrp), weights = weightBy)
+    fit <- stats::lm(varCount ~ as.factor(varGrp), weights = weightBy)
   } else {
-    fit <- lm(varCount ~ as.factor(varGrp))
+    fit <- stats::lm(varCount ~ as.factor(varGrp))
   }
   # get model summary
   sum.fit <- summary(fit)

@@ -107,6 +107,7 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #' 
 #' @import ggplot2
 #' @import sjmisc
+#' @importFrom stats coef confint
 #' @export
 sjp.lmm <- function(...,
                     title = NULL,
@@ -187,18 +188,18 @@ sjp.lmm <- function(...,
     # ----------------------------
     # retrieve beta's (lm)
     # ----------------------------
-    betas <- data.frame(coef(fit), confint(fit))
+    betas <- data.frame(stats::coef(fit), stats::confint(fit))
     # ----------------------------
     # print p-values in bar charts
     # ----------------------------
     # retrieve sigificance level of independent variables (p-values)
-    pv <- coef(summary(fit))[, 4]
+    pv <- stats::coef(summary(fit))[, 4]
     # for better readability, convert p-values to asterisks
     # with:
     # p < 0.001 = ***
     # p < 0.01 = **
     # p < 0.05 = *
-    ov <- coef(fit)
+    ov <- stats::coef(fit)
     # "ps" holds the p-value of the coefficients, including asterisks, as
     # string vector
     ps <- NULL

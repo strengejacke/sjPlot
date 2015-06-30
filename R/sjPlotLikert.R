@@ -1,3 +1,6 @@
+# bind global variables
+utils::globalVariables(c("offset"))
+
 #' @title Plot likert scales as centered stacked bars
 #' @name sjp.likert
 #'             
@@ -30,9 +33,6 @@
 #' @param weightBy weight factor that will be applied to weight all cases of \code{items}.
 #'          Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, 
 #'          so no weights are used.
-#' @param weightByTitleString suffix (as string) for the plot's title, if \code{weightBy} is specified,
-#'          e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's 
-#'          title will not have a suffix when cases are weighted.
 #' @param sort.frq indicates whether the items of \code{items} should be ordered by 
 #'          total sum of positive or negative answers.
 #'          \describe{
@@ -52,9 +52,6 @@
 #' @param intercept.line.color color of the vertical intercept line that divides positive and negative values.
 #' @param legendLabels list or character vector that indicate the names of the 
 #'          likert-scale-categories and which appear as legend text.
-#' @param hideLegend logical, indicates whether legend (guide) should be shown or not.
-#' @param title plot's title.
-#' @param legendTitle title of the plot's legend.
 #' @param includeN logical, if \code{TRUE} (default), the N of each item will be included in axis labels.
 #' @param value.labels determines style and position of percentage value labels on the bars:
 #'          \describe{
@@ -71,14 +68,6 @@
 #'          \code{items}). Example: \code{axisLabels.y = c("Q1", "Q2", "Q3")}.
 #'          Axis labels will automatically be detected, when they have
 #'          label attributes (see \code{\link[sjmisc]{set_var_labels}} for details).
-#' @param breakTitleAt determines how many chars of the title are displayed in
-#'          one line and when a line break is inserted into the title.
-#' @param breakLabelsAt determines how many chars of the category labels are displayed in 
-#'          one line and when a line break is inserted.
-#' @param breakLegendTitleAt determines how many chars of the legend's title 
-#'          are displayed in one line and when a line break is inserted.
-#' @param breakLegendLabelsAt determines how many chars of the legend labels are 
-#'          displayed in one line and when a line break is inserted.
 #' @param gridRange numeric, limits of the x-axis-range, as proportion of 100. 
 #'          Default is 1, so the x-scale ranges from zero to 100\% on 
 #'          both sides from the center. You can use values beyond 1
@@ -88,13 +77,11 @@
 #'          adjusted to the most left limit.
 #' @param gridBreaksAt set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
 #'          position a major grid is being printed. Valid values range from 0 to 1.
-#' @param expand.grid logical, if \code{TRUE}, the plot grid is expanded, i.e. 
-#'          there is a small margin between axes and plotting region.
 #' @param axisTitle.x title for the x-axis. Default is \code{NULL} (no title).
 #' @param axisTitle.y title for the y-axis. Default is \code{NULL} (no title).
-#' @param coord.flip logical, if \code{TRUE}, the x and y axis are swapped.
-#' @param printPlot logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-#'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
+#' 
+#' @inheritParams sjp.grpfrq
+#' 
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df.neg} for the negative values,
 #'           \code{df.pos} for the positive values and \code{df.neutral} for the neutral category values).
@@ -174,6 +161,7 @@
 #' 
 #' @import ggplot2
 #' @import sjmisc
+#' @importFrom stats na.omit xtabs
 #' @export
 sjp.likert <- function(items,
                        catcount = NULL, 
@@ -370,7 +358,7 @@ sjp.likert <- function(items,
     if (is.null(weightBy)) {
       tab <- round(prop.table(table(items[[i]])), 3)
     } else {
-      tab <- round(prop.table(xtabs(weightBy ~ items[[i]])), 3)
+      tab <- round(prop.table(stats::xtabs(weightBy ~ items[[i]])), 3)
     }
     # --------------------------------------------------------
     # retrieve category number and related frequencies

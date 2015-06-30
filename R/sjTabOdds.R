@@ -251,6 +251,7 @@ utils::globalVariables(c("starts_with"))
 #' sjt.glm(fit, fit2, fit3, group.pred = FALSE)}
 #' 
 #' @import dplyr
+#' @importFrom stats nobs AIC confint coef logLik family
 #' @export
 sjt.glm <- function(...,
                     file = NULL,
@@ -478,12 +479,12 @@ sjt.glm <- function(...,
     showICC <- FALSE
     # check if we have different amount of coefficients
     # in fitted models - if yes, we have e.g. stepwise models
-    sw.fit <- length(unique(sapply(input_list, function(x) length(coef(x))))) > 1
+    sw.fit <- length(unique(sapply(input_list, function(x) length(stats::coef(x))))) > 1
     # if all fitted models have same amount of coefficients, check
     # whether all coefficients have same name. if not, we have models
     # with different predictors (e.g. stepwise comparison)
     if (sw.fit == FALSE) {
-      all.coefs <- sapply(input_list, function(x) sort(names(coef(x))))
+      all.coefs <- sapply(input_list, function(x) sort(names(stats::coef(x))))
       sw.fit <- any(apply(all.coefs, 1, function(x) length(unique(x))) > 1)
     }
   }
@@ -508,8 +509,8 @@ sjt.glm <- function(...,
       confis <- get_cleaned_ciMerMod(fit, T)
       coef.fit <- lme4::fixef(fit)
     } else {
-      confis <- confint(fit)
-      coef.fit <- coef(fit)
+      confis <- stats::confint(fit)
+      coef.fit <- stats::coef(fit)
     }
     # -------------------------------------
     # write data to data frame. we need names of
@@ -534,7 +535,7 @@ sjt.glm <- function(...,
       # p-values
       fit.df$pv <- round(get_lmerMod_pvalues(fit), digits.p)
       # standard error
-      fit.df$se <- sprintf("%.*f", digits.se, coef(summary(fit))[, "Std. Error"])
+      fit.df$se <- sprintf("%.*f", digits.se, stats::coef(summary(fit))[, "Std. Error"])
     } else {
       # p-values
       fit.df$pv <- round(summary(fit)$coefficients[, 4], digits.p)
@@ -1024,7 +1025,7 @@ sjt.glm <- function(...,
     # insert "separator column"
     # -------------------------
     page.content <- paste0(page.content, "<td class=\"separatorcol firstsumrow\">&nbsp;</td>")
-    page.content <- paste(page.content, sprintf("%s%i</td>", colspanstringfirstrow, nobs(input_list[[i]])))
+    page.content <- paste(page.content, sprintf("%s%i</td>", colspanstringfirstrow, stats::nobs(input_list[[i]])))
   }
   page.content <- paste0(page.content, "\n  </tr>\n")
   # -------------------------------------
@@ -1063,7 +1064,7 @@ sjt.glm <- function(...,
       # insert "separator column"
       # -------------------------
       page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
-      page.content <- paste0(page.content, sprintf("%s%.*f</td>", colspanstring, digits.summary, -2 * as.vector(logLik(input_list[[i]]))))
+      page.content <- paste0(page.content, sprintf("%s%.*f</td>", colspanstring, digits.summary, -2 * as.vector(stats::logLik(input_list[[i]]))))
     }
     page.content <- paste0(page.content, "\n  </tr>\n")
   }
@@ -1077,7 +1078,7 @@ sjt.glm <- function(...,
       # insert "separator column"
       # -------------------------
       page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
-      page.content <- paste0(page.content, sprintf("%s%.*f</td>", colspanstring, digits.summary, AIC(input_list[[i]])))
+      page.content <- paste0(page.content, sprintf("%s%.*f</td>", colspanstring, digits.summary, stats::AIC(input_list[[i]])))
     }
     page.content <- paste0(page.content, "\n  </tr>\n")
   }
@@ -1193,7 +1194,7 @@ sjt.glm <- function(...,
       # -------------------------
       page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
       if (lmerob) {
-        fam <- family(input_list[[i]])
+        fam <- stats::family(input_list[[i]])
       } else {
         fam <- input_list[[i]]$family
       }

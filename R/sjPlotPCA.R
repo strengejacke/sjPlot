@@ -147,7 +147,7 @@
 #' @import ggplot2
 #' @import tidyr
 #' @importFrom scales brewer_pal grey_pal
-#' @importFrom stats na.omit
+#' @importFrom stats na.omit prcomp
 #' @export
 sjp.pca <- function(data,
                     numberOfFactors = NULL,
@@ -204,7 +204,7 @@ sjp.pca <- function(data,
     pcadata <- data
     dataframeparam <- FALSE
   } else {
-    pcadata <- prcomp(stats::na.omit(data), retx = TRUE, center = TRUE, scale. = TRUE)
+    pcadata <- stats::prcomp(stats::na.omit(data), retx = TRUE, center = TRUE, scale. = TRUE)
     dataframeparam <- TRUE
   }
   # --------------------------------------------------------

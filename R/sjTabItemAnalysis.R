@@ -137,25 +137,26 @@
 #' sjt.itemanalysis(mydf, factor.groups)}
 #'  
 #' @importFrom psych describe
+#' @importFrom stats shapiro.test
 #' @import sjmisc
 #' @export
 sjt.itemanalysis <- function(df,
-                             factor.groups=NULL,
-                             factor.groups.titles="auto",
-                             scaleItems=FALSE,
-                             minValidRowMeanValue=2,
-                             alternateRowColors=TRUE,
-                             orderColumn=NULL,
-                             orderAscending=TRUE,
-                             showShapiro=FALSE,
-                             showKurtosis=FALSE,
-                             showCompCorrMat=TRUE,
-                             file=NULL,
-                             encoding=NULL,
-                             CSS=NULL,
-                             useViewer=TRUE,
-                             no.output=FALSE,
-                             remove.spaces=TRUE) {
+                             factor.groups = NULL,
+                             factor.groups.titles = "auto",
+                             scaleItems = FALSE,
+                             minValidRowMeanValue = 2,
+                             alternateRowColors = TRUE,
+                             orderColumn = NULL,
+                             orderAscending = TRUE,
+                             showShapiro = FALSE,
+                             showKurtosis = FALSE,
+                             showCompCorrMat = TRUE,
+                             file = NULL,
+                             encoding = NULL,
+                             CSS = NULL,
+                             useViewer = TRUE,
+                             no.output = FALSE,
+                             remove.spaces = TRUE) {
   # -------------------------------------
   # check encoding
   # -------------------------------------
@@ -297,8 +298,8 @@ sjt.itemanalysis <- function(df,
     # include shapiro-wilk normality test
     # -----------------------------------
     if (showShapiro) {
-      shaptest.w <- apply(df.sub, 2, function(x) shapiro.test(x)$statistic)
-      shaptest.p <- apply(df.sub, 2, function(x) shapiro.test(x)$p.value)
+      shaptest.w <- apply(df.sub, 2, function(x) stats::shapiro.test(x)$statistic)
+      shaptest.p <- apply(df.sub, 2, function(x) stats::shapiro.test(x)$p.value)
       df.dummy <- data.frame(cbind(df.dummy, sprintf("%.2f (%.3f)", shaptest.w, shaptest.p)))
       df.colnames <- c(df.colnames, "W(p)")
     }

@@ -2,7 +2,6 @@
 utils::globalVariables(c("frq", "grp", "upper.ci", "lower.ci", "ia", "..density.."))
 
 
-
 #' @title Plot frequencies of (count) variables
 #' @name sjp.frq
 #' 
@@ -18,14 +17,8 @@ utils::globalVariables(c("frq", "grp", "upper.ci", "lower.ci", "ia", "..density.
 #'         with decimales may result in unexpected behaviour.
 #' 
 #' @param varCount a vector of values (variable) describing the bars which make up the plot.
-#' @param title plot title as string. Example: \code{title = "my title"}.
-#'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link[sjmisc]{set_var_labels}}) for details).
 #' @param weightBy weight factor that will be applied to weight all cases of \code{varCount}.
 #'          Must be a vector of same length as \code{varCount}. Default is \code{NULL}, so no weights are used.
-#' @param weightByTitleString suffix (as string) for the plot's title, if \code{weightBy} is specified,
-#'          e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's 
-#'          title will not have a suffix when cases are weighted.
 #' @param interactionVar an interaction variable which can be used for box plots. Divides the observations in 
 #'          \code{varCount} into sub groups indicated by \code{interactionVar}. Only 
 #'          applies when \code{type = "boxplots"} or \code{"violins"}.
@@ -47,47 +40,11 @@ utils::globalVariables(c("frq", "grp", "upper.ci", "lower.ci", "ia", "..density.
 #'            \code{type = "dots"} and \code{type = "boxplots"}, which may be abbreviated
 #'            with \code{type = "dot"} and \code{type = "box"}
 #' @param geom.colors user defined color for geoms, e.g. \code{geom.colors = "#0080ff"}.
-#' @param geom.size size of geoms, depending on the plot \code{type}. Note that 
-#'          bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
-#'          By default, \code{geom.size = NULL}, which means that this parameter is automatically
-#'          adjusted depending on the plot type.
-#' @param axisLabels.x a character vector with labels for the x-axis breaks.
-#'          Example: \code{axisLabels.x = c("Label1", "Label2", "Label3")}.
-#'          The labels may also be passed as \code{\link{list}} object. They will be coerced
-#'          to character vector automatically.
 #' @param interactionVarLabels a character vector with labels for the x-axis breaks 
 #'          when having interaction variables included. These labels replace the 
 #'          \code{axisLabels.x}. Only applies, when using box or violin plots
 #'          (i.e. \code{type = "boxplots"} or \code{"violins"}) and \code{interactionVar} 
 #'          is not \code{NULL}.
-#' @param axisLimits.x numeric vector of length two, defining lower and upper axis limits
-#'          of the x scale. By default, this parameter is set to \code{NULL}, i.e. the 
-#'          x-axis fits to the range of \code{varCount}. \strong{Note} that limiting
-#'          the x-axis-range may result in warnings from \code{ggplot} due to values
-#'          outside this range that could not be plotted.
-#' @param axisLimits.y numeric vector of length two, defining lower and upper axis limits
-#'          of the y scale. By default, this parameter is set to \code{NULL}, i.e. the 
-#'          y-axis ranges from 0 to required maximum.
-#' @param breakTitleAt determines how many chars of the plot title are displayed in 
-#'          one line and when a line break is inserted into \code{title}'s value.
-#' @param breakLabelsAt determines how many chars of the labels are displayed in 
-#'          one line and when a line break is inserted into the axis labels.
-#' @param gridBreaksAt set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th 
-#'          position a major grid is being printed.
-#' @param innerBoxPlotWidth width of the inner box plot that is plotted inside of 
-#'          violin plots. Only applies if \code{type = "violins"}. Default value is 0.15
-#' @param innerBoxPlotDotSize size of mean dot insie a violin plot. Applies only 
-#'          when \code{type = "violins"} or \code{"boxplots"}.
-#' @param expand.grid logical, if \code{TRUE}, the plot grid is expanded, i.e. 
-#'          there is a small margin between axes and plotting region. Default is \code{FALSE}.
-#' @param showValueLabels logical, whether count and percentage values should be 
-#'          plotted to each bar. Default is \code{TRUE}.
-#' @param showCountValues logical, if \code{TRUE} (default), count values are 
-#'          plotted to each bar. If \code{FALSE}, count values are removed.
-#' @param showPercentageValues logical, if \code{TRUE} (default), percentage values 
-#'          are plotted to each bar, if \code{FALSE}, percentage-values are removed.
-#' @param showAxisLabels.x logical, whether x-axis labels (category names) should be shown or not.
-#' @param showAxisLabels.y logical, whether y-axis labels (count values) should be shown or not.
 #' @param showCI logical, whether or not confidence intervals should be plotted. 
 #'          Only applies to \code{type = "dots"} or \code{type = "bars"}.
 #' @param error.bar.color color of confidence interval bars (error bars). 
@@ -136,10 +93,6 @@ utils::globalVariables(c("frq", "grp", "upper.ci", "lower.ci", "ia", "..density.
 #'          or \code{\link[ggplot2]{geom_histogram}} histogram plots of ggplot. You may need
 #'          to adjust the \code{geom.size} parameter for better visual results 
 #'          (which, by ggplot-default, is 1/30 of the x-axis-range).
-#' @param startAxisAt numeric, determines the lower limit of the x-axis. By default, this value is set
-#'          to \code{"auto"}, i.e. the value range on the x axis starts with the lowest value of \code{varCount}.
-#'          If \code{startAxisAt = 1}, plot may have zero counts if the lowest value of \code{varCount}
-#'          is larger than 1 and hence no bars plotted for these values in such cases.
 #' @param autoGroupAt numeric value, indicating at which length of unique values of \code{varCount}, 
 #'          automatic grouping into smaller units is done (see \code{\link[sjmisc]{group_var}}).
 #'          If \code{varCount} has large numbers of unique values, there may be too many bars 
@@ -148,14 +101,13 @@ utils::globalVariables(c("frq", "grp", "upper.ci", "lower.ci", "ia", "..density.
 #'          it will be grouped (using the \code{\link[sjmisc]{group_var}} function). 
 #'          Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.
 #'          See \code{\link[sjmisc]{group_var}} for examples on grouping.
-#' @param coord.flip logical, if \code{TRUE}, the x and y axis are swapped. Default is \code{FALSE}.
 #' @param labelPos string, indicating the position of value labels, when \code{coord.flip = TRUE}.
 #'          Can be either \code{"inside"} or \code{"outside"} (default). You may specify
 #'          initial letter only. If \code{coord.flip = FALSE}, this parameter will
 #'          be ignored.
-#' @param na.rm logical, if \code{TRUE}, missings are not included in the frequency plot.
-#' @param printPlot logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-#'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
+#'          
+#' @inheritParams sjp.grpfrq
+#' 
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{mydf}).
 #' 
@@ -251,7 +203,7 @@ utils::globalVariables(c("frq", "grp", "upper.ci", "lower.ci", "ia", "..density.
 #'   
 #' @import ggplot2
 #' @import sjmisc
-#' @importFrom stats na.omit sd
+#' @importFrom stats na.omit sd weighted.mean
 #' @export
 sjp.frq <- function(varCount,
                     title = "",
@@ -466,7 +418,7 @@ sjp.frq <- function(varCount,
   if (is.null(weightBy)) {
     mittelwert <- mean(varCount, na.rm = TRUE)
   } else {
-    mittelwert <- weighted.mean(varCount, weightBy, na.rm = TRUE)
+    mittelwert <- stats::weighted.mean(varCount, weightBy, na.rm = TRUE)
   }
   stddev <- sd(varCount, na.rm = TRUE)
   # --------------------------------------------------------

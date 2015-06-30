@@ -31,7 +31,10 @@ sjp.glm(fit, type = "dots", sortOdds = TRUE, title = NULL,
 \item{sortOdds}{logical, if \code{TRUE} (default), odds ratios are ordered according their values from highest first
 to lowest last. Use \code{FALSE} if you don't want to change the order of the predictors.}
 
-\item{title}{plot's title as string. Example: \code{title = "my title"}}
+\item{title}{plot title as string. Example: \code{title = "my title"}.
+Use \code{NULL} to automatically detect variable names that will be used as title
+(see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+no title is printed.}
 
 \item{axisLabels.y}{labels or names of the predictor variables (independent vars). Must
 be a character vector of same length as independent variables. The labels
@@ -44,11 +47,11 @@ are drawn. By default, the limits range from the lowest confidence interval to t
 the diagram has maximum zoom. Use your own values as vector of length two, indicating
 lower and upper limit for the axis (for instance: \code{limits = c(-0.8, 0.8)}).}
 
-\item{breakTitleAt}{determines how many chars of the title are displayed in
-one line and when a line break is inserted into the title}
+\item{breakTitleAt}{determines how many chars of the plot title are displayed in
+one line and when a line break is inserted into the title.}
 
 \item{breakLabelsAt}{determines how many chars of the category labels are displayed in
-one line and when a line break is inserted}
+one line and when a line break is inserted.}
 
 \item{gridBreaksAt}{set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th
 position a major grid is being printed.}
@@ -59,9 +62,7 @@ one panel grid to the next. If \code{FALSE}, grids are
 plotted on every \code{gridBreaksAt}'s position, thus the grid lines become narrower with
 higher odds ratio values.}
 
-\item{geom.size}{size resp. width of the geoms (bar width, point size, or line thickness,
-depending on \code{type} parameter). By default, \code{geom.size = NULL},
-which means that this parameter is automatically adjusted depending on the plot type.}
+\item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} parameter).}
 
 \item{geom.colors}{color palette for geoms. Must either be vector with two color values
 or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.}
@@ -74,7 +75,7 @@ if parameter \code{type = "bars"}. Default value is \code{FALSE}.}
 
 \item{interceptLineColor}{color of the intercept line. Default value is \code{"grey70"}.}
 
-\item{coord.flip}{logical, if \code{TRUE} (default), predictors are plotted on the left y-axis and estimate
+\item{coord.flip}{logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
 values are plotted on the x-axis.}
 
 \item{showIntercept}{logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
@@ -84,10 +85,10 @@ function call is interrupted and no plot printed.}
 
 \item{showAxisLabels.y}{logical, whether labels of independent variables should be shown or not.}
 
-\item{showValueLabels}{logical, whether odds ratio values should be plotted to each dot or not.}
+\item{showValueLabels}{logical, whether value labels should be plotted to each dot or not.}
 
-\item{labelDigits}{numeric, amount of digits for rounding the estimations (see \code{showValueLabels}).
-Default is 2, i.e. estimators have 2 digits after decimal point.}
+\item{labelDigits}{amount of digits for rounding the estimations (see \code{showValueLabels}).
+Default is 2, i.e. estimates have 2 digits after decimal point.}
 
 \item{showPValueLabels}{logical, whether the significance level of each coefficient
 should be appended to values or not.}
@@ -103,11 +104,11 @@ an integrated (faceted) single graph. Only applies, if \code{type = "prob"}.}
 error for probability curves (predicted probabilities).}
 
 \item{showOriginalModelOnly}{logical, if \code{TRUE} (default) and \code{type = "ma"},
-only the model assumptions of \code{fit} are plotted.
-If \code{FALSE}, the model assumptions of an updated model where outliers
-are automatically excluded are also plotted.}
+         only the model assumptions of \code{fit} are plotted.
+         If \code{FALSE}, the model assumptions of an updated model where outliers
+         are automatically excluded are also plotted.}
 
-\item{printPlot}{logical, if \code{TRUE} (default), a plot is produced. Use \code{FALSE} if you don't
+\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{

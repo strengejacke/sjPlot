@@ -81,9 +81,12 @@ likert-scale-categories and which appear as legend text.}
 
 \item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
 
-\item{title}{plot's title.}
+\item{title}{plot title as string. Example: \code{title = "my title"}.
+Use \code{NULL} to automatically detect variable names that will be used as title
+(see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+no title is printed.}
 
-\item{legendTitle}{title of the plot's legend.}
+\item{legendTitle}{title of the plot legend, as string.}
 
 \item{includeN}{logical, if \code{TRUE} (default), the N of each item will be included in axis labels.}
 
@@ -94,7 +97,7 @@ likert-scale-categories and which appear as legend text.}
 Axis labels will automatically be detected, when they have
 label attributes (see \code{\link[sjmisc]{set_var_labels}} for details).}
 
-\item{breakTitleAt}{determines how many chars of the title are displayed in
+\item{breakTitleAt}{determines how many chars of the plot title are displayed in
 one line and when a line break is inserted into the title.}
 
 \item{breakLabelsAt}{determines how many chars of the category labels are displayed in
@@ -117,8 +120,8 @@ adjusted to the most left limit.}
 \item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th
 position a major grid is being printed. Valid values range from 0 to 1.}
 
-\item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e.
-there is a small margin between axes and plotting region.}
+\item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
+axes and plotting region. Default is \code{FALSE}.}
 
 \item{axisTitle.x}{title for the x-axis. Default is \code{NULL} (no title).}
 

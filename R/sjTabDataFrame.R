@@ -280,7 +280,7 @@ sjt.df <- function(mydf,
     # default row string
     arcstring <- ""
     # if we have alternating row colors, set css
-    if (alternateRowColors) arcstring <- ifelse(rcnt %% 2 == 0, " arc", "")
+    if (alternateRowColors) arcstring <- ifelse(sjmisc::is_even(rcnt), " arc", "")
     page.content <- paste0(page.content, "  <tr>\n")
     # first table cell is rowname
     if (showRowNames) page.content <- paste0(page.content, sprintf("    <td class=\"tdata leftalign firsttablecol%s\">%s</td>\n", arcstring, rnames[rcnt]))

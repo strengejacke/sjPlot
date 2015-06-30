@@ -521,11 +521,12 @@ Chisquare.glm <- function(rr, digits=3) {
 
 
 # compute model statistics for lm
+#' @importFrom stats pf AIC
 sju.modsum.lm <- function(fit) {
   # get F-statistics
   fstat <- summary(fit)$fstatistic
   # Calculate p-value for F-test
-  pval <- pf(fstat[1], fstat[2], fstat[3], lower.tail = FALSE)
+  pval <- stats::pf(fstat[1], fstat[2], fstat[3], lower.tail = FALSE)
   # indicate significance level by stars
   pan <- c("")
   if (pval < 0.001) {
@@ -543,7 +544,7 @@ sju.modsum.lm <- function(fit) {
                     ar2 = format(summary(fit)$adj.r.squared, digits = 3),
                     f = sprintf("%.2f", fstat[1]),
                     panval = pan,
-                    aic = sprintf("%.2f", AIC(fit))))))
+                    aic = sprintf("%.2f", stats::AIC(fit))))))
   return(modsum)
 }
 
@@ -557,6 +558,7 @@ sju.modsum.lm <- function(fit) {
 #         (prcomp(myData...))
 # - factors: the amount of factors. can be calculated from the
 #            below function "factorcount"
+#' @importFrom stats varimax
 varimaxrota <- function(data, factors) {
   # Faktorladungen berechnen
   # Die Faktorladungen erhält man durch Multiplikation der Eigenvektoren
@@ -569,7 +571,7 @@ varimaxrota <- function(data, factors) {
     ladb <- cbind(ladb, ladungen[, i])
   }
   # Varimax Rotation durchführen
-  varib <- varimax(ladb)
+  varib <- stats::varimax(ladb)
   return(varib)
 }
 
@@ -636,6 +638,7 @@ adjust_plot_range <- function(gp, upperMargin=1.05) {
 }
 
 
+#' @importFrom stats reorder
 sjp.vif <- function(fit) {
   vifval <- NULL
   vifplot <- NULL
@@ -670,7 +673,7 @@ sjp.vif <- function(fit) {
     names(mydat) <- c("vif", "vars", "label")
     # grafik ausgeben, dabei die variablen der X-Achse nach aufsteigenden
     # VIF-Werten ordnen
-    vifplot <- ggplot(mydat, aes(x = reorder(vars, vif), y = vif)) +
+    vifplot <- ggplot(mydat, aes(x = stats::reorder(vars, vif), y = vif)) +
       # Balken zeichnen. Stat=identity heißt, dass nicht die counts, sondern
       # die tatsächlichen Zahlenwerte (VIF-Werte) abgebildet werden sollen
       geom_bar(stat = "identity", width = 0.7, fill = "#80acc8") +

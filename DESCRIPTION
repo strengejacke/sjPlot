@@ -13,7 +13,7 @@ Description: Collection of plotting and table output functions for data visualiz
              correlation matrices, cluster analyses, scatter plots, Likert scales, 
              effects plots of regression models (including interaction terms) and much more.
 License: GPL-3
-Depends: R (>= 3.1), stats, grDevices
+Depends: R (>= 3.1), graphics, grDevices, stats, utils
 Imports: car, dplyr (>= 0.4.1), ggplot2, grid, MASS, psych, scales, sjmisc (>= 1.0.3), tidyr (>= 0.2.0)
 Suggests: AICcmodavg, arm, cluster, effects, lme4, lmerTest, lmtest, lsmeans
 URL: https://github.com/sjPlot/devel

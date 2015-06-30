@@ -126,6 +126,7 @@ utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "s
 #' @import ggplot2
 #' @import sjmisc
 #' @importFrom stats na.omit
+#' @importFrom graphics plot
 #' @export
 sjc.qclus <- function(data,
                       groupcount = NULL,
@@ -330,7 +331,7 @@ sjc.qclus <- function(data,
   # --------------------------------------------------------
   # plot
   # --------------------------------------------------------
-  if (printPlot) plot(gp)
+  if (printPlot) graphics::plot(gp)
   # --------------------------------------------------------
   # return values
   # --------------------------------------------------------
@@ -407,6 +408,7 @@ sjc.qclus <- function(data,
 #' groups <- sjc.cluster(mtcars, 5, method="k")
 #' 
 #' @import ggplot2
+#' @importFrom stats dist na.omit hclust kmeans cutree
 #' @export
 sjc.cluster <- function(data,
                         groupcount,
@@ -440,16 +442,16 @@ sjc.cluster <- function(data,
     # check for parameter and R version
     if (agglomeration == "ward") agglomeration <- "ward.D2"
     # distance matrix
-    d <- dist(data, method = distance)
+    d <- stats::dist(data, method = distance)
     # hierarchical clustering, using ward
-    hc <- hclust(d, method = agglomeration) 
+    hc <- stats::hclust(d, method = agglomeration) 
     # cut tree into x clusters
-    groups <- cutree(hc, k = groupcount)
+    groups <- stats::cutree(hc, k = groupcount)
   } else {
-    km <- kmeans(data, 
-                 centers = groupcount, 
-                 iter.max = iter.max, 
-                 algorithm = algorithm)
+    km <- stats::kmeans(data, 
+                        centers = groupcount, 
+                        iter.max = iter.max, 
+                        algorithm = algorithm)
     # return cluster assignment
     groups <- km$cluster
   }
@@ -492,9 +494,7 @@ sjc.cluster <- function(data,
 #'          been replaced by either \code{"ward.D"} or \code{"ward.D2"},
 #'          so you may use one of these values. When using \code{"ward"}, 
 #'          it will be replaced by \code{"ward.D2"}.
-
 #'          
-#' @importFrom scales brewer_pal
 #' @examples
 #' # Plot dendrogram of hierarchical clustering of mtcars-dataset
 #' # and show group classification
@@ -504,6 +504,9 @@ sjc.cluster <- function(data,
 #' # and show group classification for 2 to 4 groups
 #' sjc.dend(mtcars, 2:4)
 #' 
+#' @importFrom stats dist hclust cutree na.omit rect.hclust
+#' @importFrom scales brewer_pal
+#' @importFrom graphics plot rect par
 #' @export
 sjc.dend <- function(data, groupcount, distance = "euclidean", agglomeration = "ward") {
   # Prepare Data
@@ -513,16 +516,16 @@ sjc.dend <- function(data, groupcount, distance = "euclidean", agglomeration = "
   # Ward Hierarchical Clustering
   # --------------------------------------------------
   # distance matrix
-  d <- dist(data, method = distance)
+  d <- stats::dist(data, method = distance)
   # check for parameter and R version
   if (agglomeration == "ward") agglomeration <- "ward.D2"
   # hierarchical clustering, using ward
-  hc <- hclust(d, method = agglomeration) 
+  hc <- stats::hclust(d, method = agglomeration) 
   # display simple dendrogram
-  plot(hc, 
-       main = "Cluster Dendrogramm", 
-       xlab = sprintf("Hierarchical Cluster Analysis, %s-Method", 
-                      agglomeration))
+  graphics::plot(hc, 
+                 main = "Cluster Dendrogramm", 
+                 xlab = sprintf("Hierarchical Cluster Analysis, %s-Method", 
+                                agglomeration))
   # now plot overlaying rectangles, depending on the amount of groupcounts
   gl <- length(groupcount)
   if (gl > 1) {
@@ -532,7 +535,7 @@ sjc.dend <- function(data, groupcount, distance = "euclidean", agglomeration = "
     for (cnt in 1:gl) {
       k <- groupcount[cnt]
       # retrieve cluster
-      cluster <- cutree(hc, k = k)
+      cluster <- stats::cutree(hc, k = k)
       # create table with cluster groups
       clustab <- table(cluster)[unique(cluster[hc$order])]
       m <- c(0, cumsum(clustab))
@@ -540,17 +543,17 @@ sjc.dend <- function(data, groupcount, distance = "euclidean", agglomeration = "
       # draw dendrogram with red borders around the clusters 
       # source code taken from "rect.hclust" from base-package
       for (n in seq_along(which)) {
-        rect(m[which[n]] + 0.46 + (cnt * 0.2), 
-             par("usr")[3L], 
-             m[which[n] + 1] + 0.53 - (cnt * 0.2), 
-             mean(rev(hc$height)[(k - 1):k]), 
-             border = color[cnt],
-             lwd = 2)
+        graphics::rect(m[which[n]] + 0.46 + (cnt * 0.2), 
+                       graphics::par("usr")[3L], 
+                       m[which[n] + 1] + 0.53 - (cnt * 0.2), 
+                       mean(rev(hc$height)[(k - 1):k]), 
+                       border = color[cnt],
+                       lwd = 2)
       }
     }
   } else {
     # draw dendrogram with red borders around the clusters 
-    rect.hclust(hc, k = groupcount, border = "red")
+    stats::rect.hclust(hc, k = groupcount, border = "red")
   }
 }
 
@@ -561,17 +564,17 @@ sjc.dend <- function(data, groupcount, distance = "euclidean", agglomeration = "
 #'                This function plots a bar graph indicating the goodness of classification
 #'                for each group.
 #'                
-#' @param data A data frame containing all variables that should be used for the
-#'          check for goodness of classification of a cluster analysis.
-#' @param groups The group classification of the cluster analysis that was returned
-#'          from the \code{\link{sjc.cluster}}-function.
-#' @param groupcount The amount of groups (clusters) that should be used. Use
+#' @param data data frame containing all variables that should be used for the
+#'          check for goodness of classification of a cluster analysis
+#' @param groups group classification of the cluster analysis that was returned
+#'          from the \code{\link{sjc.cluster}}-function
+#' @param groupcount amount of groups (clusters) that should be used. Use
 #'          \code{\link{sjc.elbow}} to determine the group-count depending
 #'          on the elbow-criterion.
-#' @param showTotalCorrect If \code{TRUE} (default), a vertical line indicating the
+#' @param showTotalCorrect logical, if \code{TRUE} (default), a vertical line indicating the
 #'          overall goodness of classification is added to the plot, so one can see
 #'          whether a certain group is below or above the average classification goodness.
-#' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+#' @param printPlot logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #'
 #' @return (Invisibly) returns an object with
@@ -591,6 +594,8 @@ sjc.dend <- function(data, groupcount, distance = "euclidean", agglomeration = "
 #' sjc.grpdisc(mtcars, groups, 5)
 #' 
 #' @importFrom MASS lda
+#' @importFrom stats na.omit
+#' @importFrom graphics plot
 #' @import ggplot2
 #' @export
 sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect = TRUE, printPlot = TRUE) {
@@ -696,7 +701,7 @@ sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect = TRUE, print
   # --------------------------------------------------------
   # plot
   # --------------------------------------------------------
-  if (printPlot) plot(classplot)
+  if (printPlot) graphics::plot(classplot)
   # --------------------------------------------------------
   # return values
   # --------------------------------------------------------
@@ -717,11 +722,11 @@ sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect = TRUE, print
 #'                "step" (i.e. between elbow values) on the y-axis. An
 #'                increase in the second plot may indicate the elbow criterion.
 #' 
-#' @param data The data frame containing all variables that should be used for 
-#'          determining the elbow criteria.
-#' @param steps The maximum group-count for the k-means cluster analysis for
+#' @param data data frame containing all variables that should be used for 
+#'          determining the elbow criteria
+#' @param steps maximum group-count for the k-means cluster analysis for
 #'          which the elbow-criterion should be displayed. Default is \code{15}.
-#' @param showDiff If \code{TRUE}, an additional plot with the differences between 
+#' @param showDiff logical, if \code{TRUE}, an additional plot with the differences between 
 #'          each fusion step of the Elbow criterion calculation is shown. This plot
 #'          may help identifying the "elbow". Default for this parameter is \code{FALSE}.
 #'          
@@ -731,13 +736,16 @@ sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect = TRUE, print
 #' 
 #' @import tidyr
 #' @import ggplot2
+#' @importFrom grDevices rgb
+#' @importFrom stats na.omit
+#' @importFrom graphics plot
 #' @export
 sjc.elbow <- function(data, steps = 15, showDiff = FALSE) {
   # Prepare Data
   # listwise deletion of missing
   data <- stats::na.omit(data) 
   # define line linecolor
-  lcol <- rgb(128, 172, 200, maxColorValue = 255)
+  lcol <- grDevices::rgb(128, 172, 200, maxColorValue = 255)
   # calculate elbow values (sum of squares)
   wss <- (nrow(data) - 1) * sum(apply(data, 2, var))
   for (i in 2:steps) wss[i] <- sum(kmeans(data, centers = i)$withinss)
@@ -754,26 +762,26 @@ sjc.elbow <- function(data, steps = 15, showDiff = FALSE) {
   # all pointes are connected with a line
   # a bend the in curve progression might indicate elbow
   # --------------------------------------------------
-  plot(ggplot(dfElbowValues, aes(x = xpos, y = wssround, label = wssround)) + 
-    geom_line(colour = lcol) + 
-    geom_point(colour = lcol, size = 3) +
-    geom_text(hjust = -0.3) +
-    labs(title = "Elbow criterion (sum of squares)", 
-         x = "Number of clusters", 
-         y = "elbow value"))
+  graphics::plot(ggplot(dfElbowValues, aes(x = xpos, y = wssround, label = wssround)) + 
+                   geom_line(colour = lcol) + 
+                   geom_point(colour = lcol, size = 3) +
+                   geom_text(hjust = -0.3) +
+                   labs(title = "Elbow criterion (sum of squares)", 
+                        x = "Number of clusters", 
+                        y = "elbow value"))
   # --------------------------------------------------
   # Plot diagram with differences between each step
   # increasing y-value on x-axis (compared to former y-values)
   # might indicate elbow
   # --------------------------------------------------
   if (showDiff) {
-    plot(ggplot(dfElbowDiff, aes(x = Var2, y = value, label = value)) + 
-           geom_line(colour = lcol) + 
-           geom_point(colour = lcol, size = 3) +
-           geom_text(hjust = -0.3) +
-           labs(title = "Elbow criterion (differences between sum of squares)", 
-                x = "difference to previews cluster", 
-                y = "delta"))
+    graphics::plot(ggplot(dfElbowDiff, aes(x = Var2, y = value, label = value)) + 
+                     geom_line(colour = lcol) + 
+                     geom_point(colour = lcol, size = 3) +
+                     geom_text(hjust = -0.3) +
+                     labs(title = "Elbow criterion (differences between sum of squares)", 
+                          x = "difference to previews cluster", 
+                          y = "delta"))
   }
 }
 

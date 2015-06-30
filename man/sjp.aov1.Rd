@@ -15,93 +15,87 @@ sjp.aov1(depVar, grpVar, meansums = FALSE, type = "dots",
   printPlot = TRUE)
 }
 \arguments{
-\item{depVar}{The dependent variable. Will be used with following formular:
+\item{depVar}{dependent variable. Will be used with following formula:
 \code{aov(depVar ~ grpVar)}}
 
-\item{grpVar}{The grouping variable, as unordered factor. Will be used with following formular:
+\item{grpVar}{grouping variable, as unordered factor. Will be used with following formula:
 \code{aov(depVar ~ grpVar)}}
 
-\item{meansums}{If \code{TRUE}, the values reported are the true group mean values (see also \code{\link{sjt.grpmean}}).
+\item{meansums}{logical, if \code{TRUE}, the values reported are the true group mean values (see also \code{\link{sjt.grpmean}}).
 If \code{FALSE} (default), the values are reported in the standard way, i.e. the values indicate the difference of
 the group mean in relation to the intercept (reference group).}
 
-\item{type}{Indicates Whether the group means should be plotted as \code{"dots"} (aka forest plots, default)
-or as \code{"bars"}.}
+\item{type}{plot type, whether group means should be plotted as \code{"dots"} (aka forest plots, default)
+or as \code{"bars"}}
 
-\item{hideErrorBars}{If \code{TRUE}, the error bars that indicate the confidence intervals of the group means are not
+\item{hideErrorBars}{logical, if \code{TRUE}, the error bars that indicate the confidence intervals of the group means are not
 shown. Only applies if parameter \code{type} is \code{"bars"}. Default value is \code{FALSE}.}
 
-\item{title}{Diagram's title as string.
-Example: \code{title = "my title"}
-Use \code{"NULL"} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details). Use \code{title=""} for a blank title.}
+\item{title}{plot title as string. Example: \code{title = "my title"}.
+Use \code{NULL} to automatically detect variable names that will be used as title
+(see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+no title is printed.}
 
-\item{axisLabels.y}{Value labels of the grouping variable \code{grpVar} that are used for labelling the
-grouping variable axis. Passed as vector of strings.
-Example: \code{axisLabels.y=c("Label1", "Label2", "Label3")}. \cr
-\strong{Note:} If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
-list object with label string. The labels may also be passed as list object. They will be coerced
-to character vector automatically. See examples below. \cr
-\strong{Note:} In case \code{type = "bars"}, \code{grpVar} will be plotted along
-the x-axis.}
+\item{axisLabels.y}{character vector, indicating the value labels of \code{grpVar} that
+are used for labelling the axis. See 'Examples'.}
 
-\item{reverseOrder}{If \code{TRUE}, the order of the factor categories (groups) is reversed.
+\item{reverseOrder}{logical, if \code{TRUE}, the order of categories (groups) is reversed.
 Default is \code{FALSE}.}
 
-\item{stringIntercept}{A string that indicates the reference group (intercept), that is appended to
+\item{stringIntercept}{string that indicates the reference group (intercept), that is appended to
 the value label of the grouping variable. Default is \code{"(Intercept)"}.}
 
-\item{showAxisLabels.y}{Whether y axis text (category value) should be shown (use \code{TRUE})
-or not. Default is \code{TRUE}.}
+\item{showAxisLabels.y}{logical, whether y-axis labels (count values) should be shown or not.}
 
-\item{axisTitle.x}{A label for the x axis. Default is \code{""}, which means no x-axis title.
-Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details).}
+\item{axisTitle.x}{title for the x-axis. By default, \code{""} is used, i.e. no title
+is printed. If \code{axisTitle.x = NULL}, the variable name will be
+automatically detected and used as title (see \code{\link[sjmisc]{set_var_labels}})
+for details).}
 
-\item{axisLimits}{Defines the range of the axis where the beta coefficients and their confidence intervalls
-are drawn. By default, the limits range from the lowest confidence interval to the highest one, so
-the diagram has maximum zoom. Use your own values as 2-value-vector, for instance: \code{limits=c(-0.8,0.8)}.}
+\item{axisLimits}{numeric vector of length 2, defining the range of the plot axis.
+By default, the limits range from the lowest confidence interval to the
+highest, so plot has maximum zoom.}
 
 \item{errorBarColor}{The color of the error bars that indicate the confidence intervalls
-of the group means. Default is \code{NULL}, which means that if \code{type} is \code{"dots"},
-the \code{pointColor} value will be used as error bar color. In case \code{type} is \code{"bars"},
-\code{"black"} will be used as error bar color.}
+of the group means. Default is \code{NULL}, which means that if \code{type = "dots"},
+the \code{pointColor} value will be used as errorbar color. In case \code{type = "bars"},
+\code{"black"} will be used as errorbar color.}
 
-\item{geom.colors}{The colors of the points resp. bars (depending on \code{type}) that indicate the mean-value.
-Should be a vector with two values: the first indicating groups with positive means and the second
-indicating negative means. Default is \code{c("#3366a0", "#aa6633")}.}
+\item{geom.colors}{vector of length two, indicating the colors of the points resp.
+bars (depending on \code{type}); first value is for groups with positive
+means and the second for negative means.}
 
-\item{geom.size}{The size of the points resp. bars (depending on \code{type}) that indicate the
-mean-value. Default is 3, which is suitable for \code{type="dots"}. Use something like
-0.5 is \code{type="bars"}.}
+\item{geom.size}{size of the points resp. bars (depending on \code{type}) that indicate the
+mean-value. Default is 3, which is suitable for \code{type = "dots"}. Use something like
+0.5 is \code{type = "bars"}.}
 
-\item{breakTitleAt}{Wordwrap for diagram title. Determines how many chars of the title are displayed in
-one line and when a line break is inserted into the title}
+\item{breakTitleAt}{determines how many chars of the plot title are displayed in
+one line and when a line break is inserted into the title.}
 
-\item{breakLabelsAt}{Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in
-one line and when a line break is inserted}
+\item{breakLabelsAt}{determines how many chars of the category labels are displayed in
+one line and when a line break is inserted.}
 
-\item{gridBreaksAt}{Sets the breaks on the y axis, i.e. at every n'th position a major
-grid is being printed. Default is \code{NULL}, so \code{\link{pretty}} gridbeaks will be used.}
+\item{gridBreaksAt}{set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th
+position a major grid is being printed.}
 
-\item{expand.grid}{If \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
+\item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 axes and plotting region. Default is \code{FALSE}.}
 
-\item{showValueLabels}{Whether the value labels (mean differences) should be plotted
+\item{showValueLabels}{logical, whether the value labels (mean differences) should be plotted
 to each dot or not.}
 
-\item{labelDigits}{The amount of digits for rounding the estimations (see \code{showValueLabels}).
+\item{labelDigits}{amount of digits for rounding the estimations (see \code{showValueLabels}).
 Default is 2, i.e. estimators have 2 digits after decimal point.}
 
-\item{showPValueLabels}{Whether the significance levels of each category/group should be appended
+\item{showPValueLabels}{logical, whether the significance levels of each category/group should be appended
 to values or not.}
 
-\item{showModelSummary}{If \code{TRUE}, a summary of the anova model with
-Sum of Squares between groups (ssb), Sum of Squares within groups (ssw), multiple and adjusted
-R-square and F-Test is printed to the lower right corner
-of the diagram. Default is \code{TRUE}.}
+\item{showModelSummary}{logical, if \code{TRUE}, a summary of the anova model with
+         Sum of Squares between groups (ssb), Sum of Squares within groups (ssw), multiple and adjusted
+         R-square and F-Test is printed to the lower right corner
+         of the diagram. Default is \code{TRUE}.}
 
-\item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{

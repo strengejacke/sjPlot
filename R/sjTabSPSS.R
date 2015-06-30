@@ -104,6 +104,7 @@ view_spss <- function(x,
 #'                    css.arc = "color:blue;"))}
 #'
 #' @import sjmisc 
+#' @importFrom utils txtProgressBar setTxtProgressBar
 #' @export
 view_df <- function(x,
                     file = NULL,
@@ -196,7 +197,9 @@ view_df <- function(x,
   # -------------------------------------
   # create progress bar
   # -------------------------------------
-  if (!hideProgressBar) pb <- txtProgressBar(min = 0, max = rowcnt, style = 3)
+  if (!hideProgressBar) pb <- utils::txtProgressBar(min = 0, 
+                                                    max = rowcnt, 
+                                                    style = 3)
   # -------------------------------------
   # subsequent rows
   # -------------------------------------
@@ -206,7 +209,7 @@ view_df <- function(x,
     # default row string
     arcstring <- ""
     # if we have alternating row colors, set css
-    if (alternateRowColors) arcstring <- ifelse(rcnt %% 2 == 0, " arc", "")
+    if (alternateRowColors) arcstring <- ifelse(sjmisc::is_even(rcnt), " arc", "")
     page.content <- paste0(page.content, "  <tr>\n")
     # ID
     if (showID) page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%i</td>\n", arcstring, index))
@@ -325,7 +328,7 @@ view_df <- function(x,
       page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, valstring))
     }
     # update progress bar
-    if (!hideProgressBar) setTxtProgressBar(pb, rcnt)
+    if (!hideProgressBar) utils::setTxtProgressBar(pb, rcnt)
     # close row tag
     page.content <- paste0(page.content, "  </tr>\n")
   }

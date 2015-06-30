@@ -72,7 +72,8 @@ bar charts. Ideal for larger amount of groups. This parameter wraps a single pan
 
 \item{title}{plot title as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details).}
+(see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+no title is printed.}
 
 \item{legendTitle}{title of the plot legend, as string.}
 

@@ -141,6 +141,7 @@
 #'                         css.summary = "font-style:italic;"))}
 #'              
 #' @importFrom psych describe
+#' @importFrom stats xtabs
 #' @export
 sjt.stackfrq <- function(items,
                          weightBy = NULL,
@@ -276,7 +277,7 @@ sjt.stackfrq <- function(items,
         dummy <- table(addNA(items[[i]]))
       } else {
         # else weight with xtabs
-        dummy <- round(xtabs(weightBy ~ addNA(items[[i]])), 0)
+        dummy <- round(stats::xtabs(weightBy ~ addNA(items[[i]])), 0)
       }
     # ----------------------------
     # exclude missing
@@ -286,7 +287,7 @@ sjt.stackfrq <- function(items,
         dummy <- table(items[[i]])
       } else {
         # else weight with xtabs
-        dummy <- round(xtabs(weightBy ~ items[[i]]), 0)
+        dummy <- round(stats::xtabs(weightBy ~ items[[i]]), 0)
       }
     }
     # ----------------------------
@@ -440,7 +441,7 @@ sjt.stackfrq <- function(items,
     # default row string for alternative row colors
     arcstring <- ""
     # if we have alternating row colors, set css
-    if (alternateRowColors) arcstring <- ifelse(i %% 2 ==0, " arc", "")
+    if (alternateRowColors) arcstring <- ifelse(sjmisc::is_even(i), " arc", "")
     # write tr-tag
     page.content <- paste0(page.content, "  <tr>\n")
     # print first table cell

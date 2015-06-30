@@ -53,7 +53,8 @@ utils::globalVariables(c("ypos", "wb", "ia", "mw", "stddev", "count"))
 #'          \code{varGroup} amount of panels, i.e. each group is represented within a new panel.
 #' @param title plot title as string. Example: \code{title = "my title"}.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link[sjmisc]{set_var_labels}}) for details).
+#'          (see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+#'          no title is printed.
 #' @param legendTitle title of the plot legend, as string.
 #' @param axisLabels.x a character vector with labels for the x-axis breaks. \strong{Note:} 
 #'          Axis labels will be automatically detected, when data was either imported 
@@ -223,7 +224,7 @@ utils::globalVariables(c("ypos", "wb", "ia", "mw", "stddev", "count"))
 #' @import ggplot2
 #' @import sjmisc
 #' @import dplyr
-#' @importFrom stats na.omit
+#' @importFrom stats na.omit xtabs wilcox.test
 #' @export
 sjp.grpfrq <- function(varCount,
                        varGroup,
@@ -434,7 +435,7 @@ sjp.grpfrq <- function(varCount,
   if (is.null(weightBy)) {
     ftab <- table(varCount, varGroup)
   } else {
-    ftab <- round(xtabs(weightBy ~ varCount + varGroup), 0)
+    ftab <- round(stats::xtabs(weightBy ~ varCount + varGroup), 0)
   }
   # new data frame from variables
   df <- as.data.frame(ftab)
@@ -595,7 +596,7 @@ sjp.grpfrq <- function(varCount,
           ysub <- ysub[which(!is.na(xsub))]
           xsub <- as.numeric(stats::na.omit(xsub))
           ysub <- as.numeric(stats::na.omit(ysub))
-          wt <- wilcox.test(xsub ~ ysub)
+          wt <- stats::wilcox.test(xsub ~ ysub)
           
           if (wt$p.value < 0.001) {
             modsum <- as.character(as.expression(

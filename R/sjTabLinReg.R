@@ -325,6 +325,7 @@ utils::globalVariables(c("starts_with"))
 #'                   css.modelcolumn5 = 'padding-right:50px;'))}
 #'                   
 #' @import dplyr
+#' @importFrom stats nobs AIC confint coef
 #' @export
 sjt.lm <- function(...,
                    file = NULL,
@@ -614,9 +615,9 @@ sjt.lm <- function(...,
                            se = sbmer[, 2])
       coef.fit <- lme4::fixef(fit)
     } else {
-      confis <- confint(fit)
+      confis <- stats::confint(fit)
       sbvals <- suppressWarnings(sjmisc::std_beta(fit, include.ci = T))
-      coef.fit <- coef(fit)
+      coef.fit <- stats::coef(fit)
     }
     # -------------------------------------
     # write data to data frame. we need names of
@@ -1207,7 +1208,7 @@ sjt.lm <- function(...,
       # "plm" seems not to offer a "nobs" function
       n_of_obs <- nrow(input_list[[i]]$model)
     } else {
-      n_of_obs <- nobs(input_list[[i]])
+      n_of_obs <- stats::nobs(input_list[[i]])
     }
     page.content <- paste(page.content, sprintf("   %s%i</td>\n", colspanstringfirstrow, n_of_obs))
   }
@@ -1270,7 +1271,7 @@ sjt.lm <- function(...,
       # insert "separator column"
       # -------------------------
       page.content <- paste0(page.content, "\n    <td class=\"separatorcol\">&nbsp;</td>")
-      page.content <- paste(page.content, sprintf("    %s%.*f</td>\n", colspanstring, digits.summary, AIC(input_list[[i]])))
+      page.content <- paste(page.content, sprintf("    %s%.*f</td>\n", colspanstring, digits.summary, stats::AIC(input_list[[i]])))
     }
     page.content <- paste0(page.content, "  </tr>\n")
   }

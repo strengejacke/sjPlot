@@ -30,21 +30,24 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
 }}
 
 \item{vars}{a numeric vector with column indices of selected variables or a character vector with
-variable names of selected variables from the fitted model, which should be used to plot probability
-curves. This parameter only applies if \code{type} is either \code{"fe.pc"} (resp. \code{"fe.prob"})
-or \code{"ri.pc"} (resp. \code{"ri.prob"}). In this case, only probability curves (predicted probabilities) for the selected
-variables specified in \code{"vars"} will be plotted.}
+variable names of selected variables from the fitted model, which should be used to plot
+fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability curves
+(for \code{\link[lme4]{glmer}}) of random intercepts. This parameter only
+applies if \code{type} is \code{"fe.pc"}, \code{"ri.pc"} or \code{"fe.ri"}.
+In this case, only those terms specified in \code{"vars"} will be plotted.}
 
-\item{ri.nr}{Numeric vector. If \code{type = "re"} or \code{type = "ri.pc"}, and fitted model has more than one random
-intercept, \code{ri.nr} indicates which random effects of which random intercept (or:
-which list elements of \code{lme4::ranef}) will be plotted. Default is \code{NULL},
+\item{ri.nr}{Numeric vector. If \code{type = "re"}, \code{type = "ri.pc"} or \code{type = "fe.ri"},
+and fitted model has more than one random intercept, \code{ri.nr} indicates
+which random effects of which random intercept (or: which list elements
+of \code{\link[lme4]{ranef}}) will be plotted. Default is \code{NULL},
 so all random effects will be plotted.}
 
 \item{emph.grp}{numeric vector with index numbers of grouping levels (from random effect).
-If \code{type = "ri.pc"} and \code{facet.grid = FALSE}, an integrated plot of predicted
-probabilities of all fixed coefficients for each grouping level is plotted. To better find
+If \code{type = "ri.pc"} or \code{type = "fe.ri"}, and \code{facet.grid = FALSE},
+an integrated plot of predicted probabilities of fixed effects resp. fixed
+effects slopes for each grouping level is plotted. To better find
 certain groups, use this parameter to emphasize these groups in the plot.
-See examples for details.}
+See 'Examples'.}
 
 \item{title}{a character vector with one or more labels that are used as plot title. If
 \code{type = "re"}, use the predictors' variable labels as titles.}
@@ -66,13 +69,13 @@ is \code{TRUE} and \code{pred.labels} is not \code{NULL}.}
 \itemize{
   \item If \code{NULL} (default), no sorting is done and odds ratios are sorted in order of model coefficients.
   \item If \code{sort.coef = "sort.all"}, odds ratios are re-sorted for each coefficient (only applies if \code{type = "re"} and \code{facet.grid = FALSE}), i.e. the odds ratios of the random effects for each predictor are sorted and plotted to an own plot.
-  \item If \code{type = "fe"}, \code{TRUE} value will sort the odds ratios
+  \item If \code{type = "fe"} or \code{type = "fe.std"}, \code{TRUE} will sort estimates
   \item Else, specify a predictor's / coefficient's name to sort odds ratios according to this coefficient.
   }
-  See examples for details.}
+  See 'Examples'.}
 
 \item{pred.labels}{a character vector with labels for the predictors / covariates / groups. Should either be vector
-of fixed effects variable labels (if \code{type = "fe"}) or a vector of group (value)
+of fixed effects variable labels (if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
 labels from the random intercept's categories (if \code{type = "re"}).}
 
 \item{axisTitle.x}{A label (title) for the x axis. If not specified, a default labelling depending
@@ -99,10 +102,10 @@ Default is 2, i.e. estimators have 2 digits after decimal point.}
 \item{showPValueLabels}{Whether the significance levels of each coefficient should be appended
 to values or not.}
 
-\item{fade.ns}{if \code{TRUE}, non significant odds ratios will be printed in slightly faded colors.}
+\item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 
 \item{show.se}{Use \code{TRUE} to plot (depending on \code{type}) the standard
-error for probability curves (predicted probabilities).}
+error for predicted values or confidence intervals for slope lines.}
 
 \item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}

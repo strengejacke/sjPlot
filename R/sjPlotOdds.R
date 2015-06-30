@@ -25,22 +25,11 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'          }
 #' @param sortOdds logical, if \code{TRUE} (default), odds ratios are ordered according their values from highest first
 #'          to lowest last. Use \code{FALSE} if you don't want to change the order of the predictors.
-#' @param title plot's title as string. Example: \code{title = "my title"}
-#' @param axisLabels.y labels or names of the predictor variables (independent vars). Must 
-#'          be a character vector of same length as independent variables. The labels 
-#'          may also be passed as list object; they will be coerced to character vector automatically.
-#' @param showAxisLabels.y logical, whether labels of independent variables should be shown or not.
 #' @param axisTitle.x string; title for the x-axis.
 #' @param axisLimits defines the range of the axis where odds ratios and their confidence intervalls
 #'          are drawn. By default, the limits range from the lowest confidence interval to the highest one, so
 #'          the diagram has maximum zoom. Use your own values as vector of length two, indicating
 #'          lower and upper limit for the axis (for instance: \code{limits = c(-0.8, 0.8)}).
-#' @param breakTitleAt determines how many chars of the title are displayed in
-#'          one line and when a line break is inserted into the title
-#' @param breakLabelsAt determines how many chars of the category labels are displayed in
-#'          one line and when a line break is inserted
-#' @param gridBreaksAt set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th 
-#'          position a major grid is being printed.
 #' @param transformTicks logical, if \code{TRUE}, the grid lines have exponential 
 #'          distances (equidistant), i.e. they visually have the same distance from 
 #'          one panel grid to the next. If \code{FALSE}, grids are 
@@ -48,25 +37,13 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'          higher odds ratio values.
 #' @param geom.colors color palette for geoms. Must either be vector with two color values
 #'          or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.
-#' @param geom.size size resp. width of the geoms (bar width, point size, or line thickness,
-#'          depending on \code{type} parameter). By default, \code{geom.size = NULL}, 
-#'          which means that this parameter is automatically adjusted depending on the plot type.
 #' @param hideErrorBars logical, if \code{TRUE}, the error bars that indicate the 
 #'          confidence intervals of the odds ratios are not shown. Only applies 
 #'          if parameter \code{type = "bars"}. Default value is \code{FALSE}.
-#' @param interceptLineType linetype of the intercept line (zero point). Default is \code{2} (dashed line).
-#' @param interceptLineColor color of the intercept line. Default value is \code{"grey70"}.
-#' @param coord.flip logical, if \code{TRUE} (default), predictors are plotted on the left y-axis and estimate
-#'          values are plotted on the x-axis.
 #' @param showIntercept logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
 #'          Default is \code{FALSE}. Please note that due to exponential transformation of
 #'          estimates, the intercept in some cases can not be calculated, thus the
 #'          function call is interrupted and no plot printed.
-#' @param showValueLabels logical, whether odds ratio values should be plotted to each dot or not.
-#' @param labelDigits numeric, amount of digits for rounding the estimations (see \code{showValueLabels}).
-#'          Default is 2, i.e. estimators have 2 digits after decimal point.
-#' @param showPValueLabels logical, whether the significance level of each coefficient 
-#'          should be appended to values or not.
 #' @param showModelSummary logical, if \code{TRUE}, a summary of the regression model with
 #'          Intercept, R-squared, F-Test and AIC-value is printed to the lower right corner
 #'          of the plot.
@@ -78,8 +55,10 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'          only the model assumptions of \code{fit} are plotted.
 #'          If \code{FALSE}, the model assumptions of an updated model where outliers
 #'          are automatically excluded are also plotted.
-#' @param printPlot logical, if \code{TRUE} (default), a plot is produced. Use \code{FALSE} if you don't
-#'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
+#'          
+#' @inheritParams sjp.lm
+#' @inheritParams sjp.grpfrq
+#' 
 #' @return (Invisibly) returns various objects, depending on 
 #'           the \code{type}-parameter:
 #'         \describe{
@@ -191,7 +170,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' @import ggplot2
 #' @import sjmisc
 #' @importFrom car outlierTest influencePlot crPlots durbinWatsonTest leveragePlots ncvTest spreadLevelPlot vif
-#' @importFrom stats na.omit
+#' @importFrom stats na.omit coef confint plogis logLik
 #' @export
 sjp.glm <- function(fit,
                     type = "dots",
@@ -305,7 +284,7 @@ sjp.glm <- function(fit,
   # check length of x-axis-labels and split longer strings at into new lines
   if (!is.null(axisLabels.y)) axisLabels.y <- sjmisc::word_wrap(axisLabels.y, breakLabelsAt)
   # create data frame for ggplot
-  tmp <- data.frame(cbind(exp(coef(fit)), exp(confint(fit))))
+  tmp <- data.frame(cbind(exp(stats::coef(fit)), exp(stats::confint(fit))))
   # ----------------------------
   # print p-values in bar charts
   # ----------------------------
@@ -313,7 +292,7 @@ sjp.glm <- function(fit,
   if (any(class(fit) == "logistf")) {
     pv <- fit$prob
   } else {
-    pv <- coef(summary(fit))[,4]
+    pv <- stats::coef(summary(fit))[,4]
   }
   # for better readability, convert p-values to asterisks
   # with:
@@ -321,7 +300,7 @@ sjp.glm <- function(fit,
   # p < 0.01 = **
   # p < 0.05 = *
   # retrieve odds ratios
-  ov <- exp(coef(fit))
+  ov <- exp(stats::coef(fit))
   # ----------------------------
   # copy OR-values into data column
   # ----------------------------
@@ -350,7 +329,7 @@ sjp.glm <- function(fit,
   # the predictors according to their OR value, while the intercept
   # is always shown on top
   # ----------------------------
-  ov <- exp(coef(fit))[-1]
+  ov <- exp(stats::coef(fit))[-1]
   # ----------------------------
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
@@ -446,17 +425,17 @@ sjp.glm <- function(fit,
     psr <- sjmisc::pseudo_r2(fit)
     modsum <- as.character(as.expression(
       substitute("(Intercept)" == ic * "," ~~ italic(R)[CS]^2 == r2cs * "," ~~ italic(R)[N]^2 == r2n * "," ~~ -2 * lambda == la * "," ~~ chi^2 == c2 * "," ~~ "AIC" == aic,
-                 list(ic = sprintf("%.2f", exp(coef(fit)[1])),
+                 list(ic = sprintf("%.2f", exp(stats::coef(fit)[1])),
                       r2cs = sprintf("%.3f", psr$CoxSnell),
                       r2n = sprintf("%.3f", psr$Nagelkerke),
-                      la = sprintf("%.2f", -2 * logLik(fit)),
+                      la = sprintf("%.2f", -2 * stats::logLik(fit)),
                       c2 = sprintf("%.2f", Chisquare.glm(fit)),
                       aic = sprintf("%.2f", fit$aic)))))
     cat(sprintf("Intercept = %.2f\nR2[cs] = %.3f\nR2[n] = %.3f\nLambda = %.2f\nChi2 = %.2f\nAIC = %.2f\n",
-                exp(coef(fit)[1]),
+                exp(stats::coef(fit)[1]),
                 psr$CoxSnell,
                 psr$Nagelkerke,
-                -2 * logLik(fit),
+                -2 * stats::logLik(fit),
                 Chisquare.glm(fit),
                 fit$aic))
   } else {
@@ -583,6 +562,7 @@ sjp.glm <- function(fit,
 }
 
 
+#' @importFrom stats plogis predict coef
 sjp.glm.pc <- function(fit,
                        show.se,
                        type,
@@ -619,7 +599,7 @@ sjp.glm.pc <- function(fit,
       # convert factor to numeric
       if (is.factor(mydf.vals$values)) mydf.vals$values <- sjmisc::to_value(mydf.vals$values, 0, keep.labels = F)
       # retrieve names of coefficients
-      coef.names <- names(coef(fit))
+      coef.names <- names(stats::coef(fit))
       # check if we have a factor, then we may have reference levels
       if (is.factor(values)) {
         # add reference level to coefficient name
@@ -638,9 +618,9 @@ sjp.glm.pc <- function(fit,
       # ---------------------------------------------
       if (type == "prob") {
         # calculate x-beta by multiplying original values with estimate of that term
-        mydf.vals$xbeta <- mydf.vals$values * coef(fit)[coef.pos]
+        mydf.vals$xbeta <- mydf.vals$values * stats::coef(fit)[coef.pos]
         # calculate probability (y) via cdf-function
-        mydf.vals$y <- plogis(coef(fit)[1] + mydf.vals$xbeta)
+        mydf.vals$y <- stats::plogis(stats::coef(fit)[1] + mydf.vals$xbeta)
       # ---------------------------------------------
       # Here we go with predicted probabilities,
       # with all remaining co-variates set to zero or mean
@@ -650,14 +630,14 @@ sjp.glm.pc <- function(fit,
       } else {
         # get predicted values. Note that the returned matrix
         # does not contain response value
-        pred.vals <- predict(fit, type = "terms")
+        pred.vals <- stats::predict(fit, type = "terms")
         # do we have a constant?
         cons <- attr(pred.vals, "constant")
         if (is.null(cons)) cons <- 0
         # retrieve predicted prob. of term. coef.column -1
         # because coef.column relates to fit$model, which has one
         # more column (response)
-        mydf.vals$y <- plogis(pred.vals[, coef.column - 1] + cons)
+        mydf.vals$y <- stats::plogis(pred.vals[, coef.column - 1] + cons)
         # add title prefix for predicted values
       }
       # assign group
@@ -745,7 +725,7 @@ sjp.glm.response.probcurv <- function(fit,
   # ----------------------------
   # get predicted values for response
   # ----------------------------
-  pp <- plogis(predict(fit, type = "response"))
+  pp <- stats::plogis(stats::predict(fit, type = "response"))
   # ----------------------------
   # get predicted probabilities for 
   # response, including random effects
@@ -776,6 +756,8 @@ sjp.glm.response.probcurv <- function(fit,
 }
 
 
+#' @importFrom stats update qqnorm qqline residuals anova
+#' @importFrom graphics points text abline
 sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   # ---------------------------------
   # remove outliers
@@ -797,7 +779,7 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
     # retrieve variable numbers of outliers
     vars <- as.numeric(attr(ol$p, "names"))
     # update model by removing outliers
-    dummymodel <- update(model, subset = -c(vars))
+    dummymodel <- stats::update(model, subset = -c(vars))
     # retrieve new AIC-value
     dummyaic <- dummymodel$aic
     # decrease maximum loops
@@ -848,16 +830,16 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
          ylim = c(0, max(x)), 
          type = "n",
          ...)
-    if (nlab < n) points(ui[1:(n - nlab)], x[i][1:(n - nlab)])
-    text(ui[(n - nlab + 1):n], 
-         x[i][(n - nlab + 1):n], 
-         labs[labord][(n - nlab + 1):n])
+    if (nlab < n) graphics::points(ui[1:(n - nlab)], x[i][1:(n - nlab)])
+    graphics::text(ui[(n - nlab + 1):n], 
+                   x[i][(n - nlab + 1):n], 
+                   labs[labord][(n - nlab + 1):n])
   }
   # show half-normal quantiles for original model
-  halfnorm(residuals(logreg), main = "Original model (over-/underdispersion)")
+  halfnorm(stats::residuals(logreg), main = "Original model (over-/underdispersion)")
   if (!showOriginalModelOnly) {
     # show half-normal quantiles for updated model
-    halfnorm(residuals(model), main = "Updated model (over-/underdispersion)")
+    halfnorm(stats::residuals(model), main = "Updated model (over-/underdispersion)")
   }
   # ------------------------------------------------------
   # Influential and leverage points
@@ -867,24 +849,24 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   # ------------------------------------------------------
   # Residual plot
   # ------------------------------------------------------
-  res <- residuals(logreg, type = "deviance")
-  plot(log(abs(predict(logreg))), 
+  res <- stats::residuals(logreg, type = "deviance")
+  plot(log(abs(stats::predict(logreg))), 
        res, main = "Residual plot (original model)", 
        xlab = "Log-predicted values", 
        ylab = "Deviance residuals")
-  abline(h = 0, lty = 2)
-  qqnorm(res)
-  qqline(res)
+  graphics::abline(h = 0, lty = 2)
+  stats::qqnorm(res)
+  stats::qqline(res)
   if (!showOriginalModelOnly) {
-    res <- residuals(model, type = "deviance")
-    plot(log(abs(predict(model))), 
+    res <- stats::residuals(model, type = "deviance")
+    plot(log(abs(stats::predict(model))), 
          res, 
          main = "Residual plot (updated model)", 
          xlab = "Log-predicted values", 
          ylab = "Deviance residuals")
-    abline(h = 0, lty = 2)
-    qqnorm(res)
-    qqline(res)
+    graphics::abline(h = 0, lty = 2)
+    stats::qqnorm(res)
+    stats::qqline(res)
   }
   # -------------------------------------
   # Anova-Test
@@ -893,10 +875,10 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   # -------------------------------------
   message("--------------------\nCheck significance of terms when they entered the model...")
   message("Anova original model:")
-  print(anova(logreg, test = "Chisq"))
+  print(stats::anova(logreg, test = "Chisq"))
   if (!showOriginalModelOnly) {
     message(paste("\n\nAnova updated model:\n"))
-    print(anova(model, test = "Chisq"))
+    print(stats::anova(model, test = "Chisq"))
   }
   # -------------------------------------
   sjp.setTheme(theme = "forestgrey")

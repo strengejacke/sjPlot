@@ -943,6 +943,7 @@ sjp.int <- function(fit,
 }
 
 
+#' @importFrom stats plogis na.omit
 sjp.eff.int <- function(fit,
                         int.term = NULL,
                         int.plot.index = NULL,
@@ -1176,10 +1177,10 @@ sjp.eff.int <- function(fit,
       # make sure x is numeric
       intdf$x <- sjmisc::to_value(intdf$x, keep.labels = F)
       # convert log-odds to probabilities
-      intdf$y <- plogis(intdf$y)
-      intdf$lower <- plogis(intdf$lower)
-      intdf$upper <- plogis(intdf$upper)
-      intdf$se <- plogis(intdf$se)
+      intdf$y <- stats::plogis(intdf$y)
+      intdf$lower <- stats::plogis(intdf$lower)
+      intdf$upper <- stats::plogis(intdf$upper)
+      intdf$se <- stats::plogis(intdf$se)
       # -----------------------------------------------------------
       # retrieve lowest and highest x and y position to determine
       # the scale limits
@@ -1348,8 +1349,9 @@ sjp.eff.int <- function(fit,
 }
 
 
+#' @importFrom stats quantile
 mv_check <- function(moderatorValues, x) {
-  mvc <- length(unique(as.vector(quantile(x, na.rm = T))))
+  mvc <- length(unique(as.vector(stats::quantile(x, na.rm = T))))
   if (moderatorValues == "quart" && mvc < 3) {
     # tell user that quart won't work
     message("Could not compute quartiles, too small range of moderator variable. Defaulting 'moderatorValues' to 'minmax'.")

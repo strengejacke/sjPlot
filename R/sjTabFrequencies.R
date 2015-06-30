@@ -576,7 +576,7 @@ sjt.frq <- function(data,
         # init default values
         rowstring <- ""
         # init default value for alternating colors
-        if (alternateRowColors) rowstring <- ifelse(j %% 2 == 0, " arc", "")
+        if (alternateRowColors) rowstring <- ifelse(sjmisc::is_even(j), " arc", "")
         rowcss <- rowstring
         # check whether we have median row and whether it should be highlighted
         if (highlightMedian && ((j + df.frq$minval) == (var.median + 1))) {
