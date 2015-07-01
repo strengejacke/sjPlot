@@ -1,4 +1,4 @@
-#' @title Show Mann-Whitney-Test as HTML table
+#' @title Summary of Mann-Whitney-Test as HTML table
 #' @name sjt.mwu
 #' 
 #' @description Shows the results of a Mann-Whitney-U-test as HTML table. The results
@@ -6,10 +6,10 @@
 #'                function from the \code{sjmisc} package.
 #'
 #' @param x Results of a Mann-Whitney-U test, provided by \code{\link[sjmisc]{mwu}}. See examples.
-#' @param alternateRowColors If \code{TRUE}, alternating rows are highlighted with a light gray
-#'          background color.
-#' @param title A table caption. By default, \code{title} is \code{NULL}, hence no title will be used.
+#'          
 #' @inheritParams sjt.frq
+#' @inheritParams sjt.df
+#'  
 #' @return Invisibly returns a \code{\link{list}} with
 #'          \itemize{
 #'            \item the data frame with the description information (\code{data}),

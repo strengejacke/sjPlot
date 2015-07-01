@@ -91,12 +91,11 @@ These labels replace the \code{axisLabels.x}. Only applies, when using box or vi
 (i.e. \code{type = "boxplots"} or \code{"violins"}) and \code{interactionVar} is not \code{NULL}.
 Example: See \code{axisLabels.x}.}
 
-\item{legendLabels}{a character vector with labels for the guide/legend.
-Example: See \code{axisLabels.x}.}
+\item{legendLabels}{a character vector with labels for the guide/legend.}
 
 \item{axisLimits.x}{numeric vector of length two, defining lower and upper axis limits
 of the x scale. By default, this parameter is set to \code{NULL}, i.e. the
-x-axis fits to the range of \code{varCount}. \strong{Note} that limiting
+x-axis fits to the required range to plot all data. \strong{Note} that limiting
 the x-axis-range may result in warnings from \code{ggplot} due to values
 outside this range that could not be plotted.}
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/sjTabPCA.R
 \name{sjt.pca}
 \alias{sjt.pca}
-\title{Show principal component analysis as HTML table}
+\title{Summary of principal component analysis as HTML table}
 \usage{
 sjt.pca(data, numberOfFactors = NULL, factorLoadingTolerance = 0.1,
   file = NULL, varlabels = NULL,
@@ -14,14 +14,14 @@ sjt.pca(data, numberOfFactors = NULL, factorLoadingTolerance = 0.1,
   useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
-\item{data}{A data frame with factors (each columns one variable) that should be used
+\item{data}{data frame with factors (each columns one variable) that should be used
 to compute a PCA, or a \code{\link{prcomp}} object.}
 
-\item{numberOfFactors}{A predefined number of factors to use for the calculating the varimax
+\item{numberOfFactors}{number of factors used for calculating the varimax
 rotation. By default, this value is \code{NULL} and the amount of factors is
 calculated according to the Kaiser-criteria. See paramater \code{plotEigenvalues}.}
 
-\item{factorLoadingTolerance}{Specifies the minimum difference a variable needs to have between
+\item{factorLoadingTolerance}{specifies the minimum difference a variable needs to have between
 factor loadings (components) in order to indicate a clear loading on just one factor and not
 diffusing over all factors. For instance, a variable with 0.8, 0.82 and 0.84 factor loading
 on 3 possible factors can not be clearly assigned to just one factor and thus would be removed
@@ -32,37 +32,37 @@ between the highest and 2nd highest factor should be 0.1}
 If \code{NULL} (default), the output will be saved as temporary file and
 openend either in the IDE's viewer pane or the default web browser.}
 
-\item{varlabels}{The item labels that are printed in the first column. If no item labels are
-provided (default), the data frame's column names are used. Item labels must
-be a string vector, e.g.: \code{varlabels=c("Var 1", "Var 2", "Var 3")}.}
+\item{varlabels}{character vector with item labels that are printed in the first column. If no item labels are
+provided (default), the data frame's column names are used.}
 
-\item{title}{A table caption. By default, \emph{"Principal Component Analysis (with varimax rotation)"}
-is used as the table's title.}
+\item{title}{plot title as string. Example: \code{title = "my title"}.
+Use \code{NULL} to automatically detect variable names that will be used as title
+(see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+no title is printed.}
 
-\item{breakLabelsAt}{Wordwrap for diagram labels. Determines how many chars of the variable labels are displayed in
-one line and when a line break is inserted. Default is 20.}
+\item{breakLabelsAt}{determines how many chars of the category labels are displayed in
+one line and when a line break is inserted.}
 
-\item{digits}{The amount of digits used the values inside table cells.
-Default is 2.}
+\item{digits}{amount of digits used for table values. Default is 2.}
 
-\item{showCronbachsAlpha}{If \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
+\item{showCronbachsAlpha}{logical, if \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
 i.e. all variables with the highest loading for a factor are taken for the
 reliability test. The result is an alpha value for each factor dimension.
 Only applies when \code{data} is a data frame and no \code{\link{prcomp}} object.}
 
-\item{showMSA}{If \code{TRUE}, shows an additional column with the measure of sampling adequacy according
+\item{showMSA}{logical, if \code{TRUE}, shows an additional column with the measure of sampling adequacy according
 dor each component.}
 
-\item{showVariance}{If \code{TRUE}, the proportions of variances for each component as well as cumulative
+\item{showVariance}{logical, if \code{TRUE}, the proportions of variances for each component as well as cumulative
 variance are shown in the table footer.}
 
-\item{alternateRowColors}{If \code{TRUE}, alternating rows are highlighted with a light gray
+\item{alternateRowColors}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
 
-\item{stringPov}{The string for the table row that contains the proportions of variances. By default,
+\item{stringPov}{string for the table row that contains the proportions of variances. By default,
 \emph{"Proportion of Variance"} will be used.}
 
-\item{stringCpov}{The string for the table row that contains the cumulative variances. By default,
+\item{stringCpov}{string for the table row that contains the cumulative variances. By default,
          \emph{"Cumulative Proportion"} will be used.}
 
 \item{encoding}{string, indicating the charset encoding used for variable and

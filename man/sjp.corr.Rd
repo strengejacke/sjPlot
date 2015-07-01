@@ -12,64 +12,65 @@ sjp.corr(data, title = NULL, axisLabels = NULL, type = "circle",
   pvaluesAsNumbers = FALSE, printPlot = TRUE)
 }
 \arguments{
-\item{data}{a matrix with correlation coefficients as returned by the
+\item{data}{matrix with correlation coefficients as returned by the
 \code{\link{cor}}-function, or a \code{\link{data.frame}} of variables that
 should be correlated.}
 
-\item{title}{plot title as string.}
+\item{title}{plot title as string. Example: \code{title = "my title"}.
+Use \code{NULL} to automatically detect variable names that will be used as title
+(see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+no title is printed.}
 
-\item{axisLabels}{Labels for the x- andy y-axis.
-axisLabels are detected automatically if \code{data} is a \code{\link{data.frame}}
-where each variable has a variable label attribute (see \code{\link[sjmisc]{set_var_labels}})
+\item{axisLabels}{labels for the x- andy y-axis. AxisLabels are detected automatically
+if \code{data} is a \code{\link{data.frame}} where variables have
+label attributes (see \code{\link[sjmisc]{set_var_labels}})
 for details).}
 
-\item{type}{Indicates whether the geoms of correlation values should be plotted
+\item{type}{indicates whether the geoms of correlation values should be plotted
 as \code{"circle"} (default) or as \code{"tile"}.}
 
-\item{sortCorrelations}{If \code{TRUE} (default), the axis labels are sorted
+\item{sortCorrelations}{logical, if \code{TRUE} (default), the axis labels are sorted
 according to the correlation strength. If \code{FALSE}, axis labels
 appear in order of how variables were included in the cor-computation or
 data frame.}
 
-\item{decimals}{Indicates how many decimal values after comma are printed when
+\item{decimals}{indicates how many decimal values after comma are printed when
 the values labels are shown. Default is 3. Only applies when
-\code{showValueLabels} is \code{TRUE}.}
+\code{showValueLabels = TRUE}.}
 
-\item{missingDeletion}{Indicates how missing values are treated. May be either
+\item{missingDeletion}{indicates how missing values are treated. May be either
 \code{"listwise"} (default) or \code{"pairwise"}.}
 
-\item{corMethod}{Indicates the correlation computation method. May be one of
+\item{corMethod}{indicates the correlation computation method. May be one of
 \code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.}
 
-\item{geom.colors}{A color palette for fillng the geoms. If not specified, the diverging color palette
-from the color brewer palettes (RdBu) is used, resulting in red colors for negative and blue colors
-for positive correlations, that become lighter the weaker the correlations are. Use any
-color palette that is suitbale for the \code{scale_fill_gradientn} parameter of ggplot2.}
+\item{geom.colors}{color palette for fillng the geoms. If not specified, the diverging color palette
+         from the color brewer palettes (RdBu) is used, resulting in red colors for negative and blue colors
+         for positive correlations, that become lighter the weaker the correlations are. Use any
+         color palette that is suitbale for the \code{scale_fill_gradientn} parameter of ggplot2.}
 
-\item{geom.size}{Specifies the circle size factor. The circle size depends on the correlation
+\item{geom.size}{specifies the circle size factor. The circle size depends on the correlation
 value multiplicated with this factor. Default is 15.}
 
-\item{breakTitleAt}{Wordwrap for diagram title. Determines how many chars of the title are displayed in
-one line and when a line break is inserted into the title. Default is 50.}
+\item{breakTitleAt}{determines how many chars of the plot title are displayed in
+one line and when a line break is inserted into the title.}
 
-\item{breakLabelsAt}{Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in
-one line and when a line break is inserted. Default is 12.}
+\item{breakLabelsAt}{determines how many chars of the category labels are displayed in
+one line and when a line break is inserted.}
 
-\item{hideLegend}{Show or hide the legend. The legend indicates the strength of correlations
-by gradient colour fill. Default is \code{TRUE}, hence the legend is hidden.}
+\item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
 
-\item{legendTitle}{The legend title, provided as string, e.g. \code{legendTitle=c("Strength of correlation")}.
-Default is \code{NULL}, hence no legend title is used.}
+\item{legendTitle}{title of the plot legend, as string.}
 
-\item{showValueLabels}{Whether correlation values should be plotted to each geom}
+\item{showValueLabels}{logical, whether correlation values should be plotted to each geom}
 
-\item{showPValues}{Whether significance levels (p-values) of correlations should
+\item{showPValues}{logical, whether significance levels (p-values) of correlations should
 be plotted to each geom. See 'Note'.}
 
-\item{pvaluesAsNumbers}{If \code{TRUE}, the significance levels (p-values) are printed as numbers.
+\item{pvaluesAsNumbers}{logical, if \code{TRUE}, the significance levels (p-values) are printed as numbers.
 if \code{FALSE} (default), asterisks are used. See 'Note'.}
 
-\item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{

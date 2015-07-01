@@ -84,11 +84,11 @@ axes and plotting region. Default is \code{FALSE}.}
 \item{showValueLabels}{logical, whether the value labels (mean differences) should be plotted
 to each dot or not.}
 
-\item{labelDigits}{amount of digits for rounding the estimations (see \code{showValueLabels}).
-Default is 2, i.e. estimators have 2 digits after decimal point.}
+\item{labelDigits}{amount of digits for rounding the estimates (see \code{showValueLabels}).
+Default is 2, i.e. estimates have 2 digits after decimal point.}
 
-\item{showPValueLabels}{logical, whether the significance levels of each category/group should be appended
-to values or not.}
+\item{showPValueLabels}{logical, whether the significance level of each coefficient
+should be appended to values or not.}
 
 \item{showModelSummary}{logical, if \code{TRUE}, a summary of the anova model with
          Sum of Squares between groups (ssb), Sum of Squares within groups (ssw), multiple and adjusted

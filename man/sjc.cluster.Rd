@@ -4,18 +4,21 @@
 \alias{sjc.cluster}
 \title{Compute hierarchical or kmeans cluster analysis}
 \usage{
-sjc.cluster(data, groupcount, method = "h", distance = "euclidean",
+sjc.cluster(data, groupcount = NULL, method = "h", distance = "euclidean",
   agglomeration = "ward", iter.max = 20, algorithm = "Hartigan-Wong")
 }
 \arguments{
-\item{data}{A data frame containing all variables that should be used for the
+\item{data}{data frame containing all variables that should be used for the
 cluster analysis.}
 
-\item{groupcount}{The amount of groups (clusters) that should be retrieved. May also be
+\item{groupcount}{amount of groups (clusters) that should be retrieved. May also be
 a set of initial (distinct) cluster centres, in case \code{method = "kmeans"}
-(see \code{\link{kmeans}} for details on \code{centers} parameter). If \code{groupcount}
-indicates a number of clusters, following functions may be helpful for estimating the
-amount of clusters:
+(see \code{\link{kmeans}} for details on \code{centers} parameter).
+If \code{groupcount = NULL}, the optimal amount of clusters is calculated using the
+gap statistics (see \code{\link{sjc.kgap}}. However, this works only
+with \code{method = "kmeans"}. If \code{method = "hclust"}, you have
+to specify \code{groupcount}. Following functions
+may be helpful for estimating the amount of clusters:
 \itemize{
   \item Use \code{\link{sjc.elbow}} to determine the group-count depending on the elbow-criterion.
   \item If \code{method = "kmeans"}, use \code{\link{sjc.kgap}} to determine the group-count according to the gap-statistic.
@@ -24,24 +27,26 @@ amount of clusters:
   }}
 
 \item{method}{Indicates the clustering method. If \code{"hclust"} (default), a hierachical
-clustering using the ward method is computed. Use \code{"kmeans"} to compute a k-means clustering.
-You can specifiy inital letters only.}
+         clustering using the ward method is computed. Use \code{"kmeans"} to compute a k-means clustering.
+         You can specifiy inital letters only.}
 
-\item{distance}{The distance measure to be used when \code{method = "hclust"} (for hierarchical
-clustering). This must be one of \code{"euclidean"} (default), \code{"maximum"}, \code{"manhattan"},
-\code{"canberra"}, \code{"binary"} or \code{"minkowski"}. See \code{\link{dist}}.}
+\item{distance}{distance measure to be used when \code{method = "hclust"} (for hierarchical
+clustering). Must be one of \code{"euclidean"}, \code{"maximum"}, \code{"manhattan"},
+\code{"canberra"}, \code{"binary"} or \code{"minkowski"}. See \code{\link{dist}}.
+If is \code{method = "kmeans"} this parameter will be ignored.}
 
-\item{agglomeration}{The agglomeration method to be used when \code{method = "hclust"} (for hierarchical
+\item{agglomeration}{agglomeration method to be used when \code{method = "hclust"} (for hierarchical
 clustering). This should be one of \code{"ward"}, \code{"single"}, \code{"complete"}, \code{"average"},
 \code{"mcquitty"}, \code{"median"} or \code{"centroid"}. Default is \code{"ward"} (see \code{\link{hclust}}).
-See 'Note'.}
+If \code{method = "kmeans"} this parameter will be ignored. See 'Note'.}
 
-\item{iter.max}{the maximum number of iterations allowed. Only applies, if \code{method = "kmeans"}.
-See \code{\link{kmeans}} for details on this parameter.}
+\item{iter.max}{maximum number of iterations allowed. Only applies, if
+\code{method = "kmeans"}. See \code{\link{kmeans}} for details on this parameter.}
 
-\item{algorithm}{algorithm used for calculating kmeans cluster. Only applies, if \code{method}
-is \code{"kmeans"}. May be one of \code{"Hartigan-Wong"} (default), \code{"Lloyd"} (used by SPSS),
-or \code{"MacQueen"}. See \code{\link{kmeans}} for details on this parameter.}
+\item{algorithm}{algorithm used for calculating kmeans cluster. Only applies, if
+\code{method = "kmeans"}. May be one of \code{"Hartigan-Wong"} (default),
+\code{"Lloyd"} (used by SPSS), or \code{"MacQueen"}. See \code{\link{kmeans}}
+for details on this parameter.}
 }
 \value{
 The group classification for each observation as vector. This group

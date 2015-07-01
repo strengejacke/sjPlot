@@ -40,7 +40,7 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](http://cran.r-project.org/package=ggplot2), consider citing this package as well.
 
-### Changelog of development build 1.8.1-10
+### Changelog of development build 1.8.2
 
 #### General
 * `view_spss` is now deprecated. Use `view_df` instead.
@@ -48,7 +48,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * Updated namespaces to meet new CRAN namespace requirements.
 
 #### New functions
-* `sjp.poly` to plot polynomial curves for linear regressions.
+* `sjp.poly` to plot polynomial curves for (generalized) linear regressions.
 
 #### Changes to functions
 * Model and table summaries in plotting functions (like `sjp.lm` or `sjp.grpfrq`) are no longer printed by default. Use `showTableSummary = TRUE` or `showModelSummary = TRUE` to print summaries in plots.

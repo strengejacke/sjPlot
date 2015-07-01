@@ -10,30 +10,31 @@ sjp.scatter(x = NULL, y = NULL, grp = NULL, title = "",
   breakLegendTitleAt = 20, breakLegendLabelsAt = 20, geom.size = 3,
   geom.colors = NULL, showTickMarkLabels.x = TRUE,
   showTickMarkLabels.y = TRUE, showGroupFitLine = FALSE,
-  showTotalFitLine = FALSE, showSE = FALSE, fitmethod = "lm",
+  showTotalFitLine = FALSE, show.se = FALSE, fitmethod = "lm",
   useJitter = FALSE, autojitter = TRUE, jitterRatio = 0.15,
   showRug = FALSE, hideLegend = FALSE, facet.grid = FALSE,
   printPlot = TRUE)
 }
 \arguments{
-\item{x}{A vector (variable) indicating the x positions. If not specified (i.e. if
+\item{x}{vector indicating the x positions. If not specified (i.e. if
 \code{NULL}), a range from 1 to length of \code{y} is used to spread the
 dots along the x axis.}
 
-\item{y}{A vector (variable) indicating the y positions. If not specified (i.e. if
+\item{y}{vector indicating the y positions. If not specified (i.e. if
 \code{NULL}), a range from 1 to length of \code{x} is used to spread the
 dots along the y axis.}
 
-\item{grp}{A grouping variable. If not \code{NULL}, the scatter plot will be grouped. See
-examples below. Default is \code{NULL}, i.e. not grouping is done.}
+\item{grp}{grouping variable. If not \code{NULL}, the scatter plot will be grouped. See
+'Examples'. Default is \code{NULL}, i.e. not grouping is done.}
 
-\item{title}{Title of the diagram, plotted above the whole diagram panel.
+\item{title}{plot title as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details).}
+(see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+no title is printed.}
 
-\item{legendTitle}{Title of the diagram's legend.}
+\item{legendTitle}{title of the plot legend, as string.}
 
-\item{legendLabels}{Labels for the guide/legend.}
+\item{legendLabels}{a character vector with labels for the guide/legend.}
 
 \item{pointLabels}{character vector with names for each coordinate pair given
 by \code{x} and \code{y}, so instead of dots, text labels are
@@ -42,65 +43,73 @@ If \code{pointLabels} has a different length, data points will be trimmed
 to match \code{pointLabels}. If \code{pointLabels = NULL} (default),
 dots instead of labels are printed.}
 
-\item{axisTitle.x}{A label (title) for the x axis.
+\item{axisTitle.x}{title for the x axis. Use \code{NULL} to automatically
+detect variable names that will be used as title
+(see \code{\link[sjmisc]{set_var_labels}}) for details).}
+
+\item{axisTitle.y}{title for the y axis.
 Use \code{NULL} to automatically detect variable names that will be used as title
 (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
-\item{axisTitle.y}{A label (title) for the y axis.
-Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details).}
-
-\item{breakTitleAt}{Wordwrap for diagram title. Determines how many chars of the title are displayed in
+\item{breakTitleAt}{determines how many chars of the plot title are displayed in
 one line and when a line break is inserted into the title.}
 
-\item{breakLegendTitleAt}{Wordwrap for diagram legend title. Determines how many chars of the legend's title
+\item{breakLegendTitleAt}{determines how many chars of the legend's title
 are displayed in one line and when a line break is inserted.}
 
-\item{breakLegendLabelsAt}{Wordwrap for diagram legend labels. Determines how many chars of the legend labels are
+\item{breakLegendLabelsAt}{determines how many chars of the legend labels are
 displayed in one line and when a line break is inserted.}
 
-\item{geom.size}{The size of scattered points.}
+\item{geom.size}{size of point geoms.}
 
-\item{geom.colors}{The color(s) of scattered points. If \code{grp} is not \code{NULL}, groups are indicated
-by different colors, thus a vector with multiple color values has to be supplied. By default,
-the \code{Set1} palette of diverging palette type is chosen (see \url{http://colorbrewer2.org}).}
+\item{geom.colors}{color(s) of point geoms. If \code{grp} is not \code{NULL},
+groups are indicated by different colors, thus a vector with multiple
+color values has to be supplied.}
 
-\item{showTickMarkLabels.x}{Whether x axis tick mark labels should be shown or not.}
+\item{showTickMarkLabels.x}{logica, whether x axis tick mark labels should be shown or not.}
 
-\item{showTickMarkLabels.y}{Whether y axis tick mark labels  should be shown or not.}
+\item{showTickMarkLabels.y}{logical, hether y axis tick mark labels  should be shown or not.}
 
-\item{showGroupFitLine}{If \code{TRUE}, a fitted line for each group is drawn. See \code{fitmethod} to change the
-fit method of the fitted lines.}
+\item{showGroupFitLine}{logical, if \code{TRUE}, a fitted line for each group
+is drawn. See \code{fitmethod} to change the fit method of the fitted lines.}
 
-\item{showTotalFitLine}{If \code{TRUE}, a fitted line for the overall scatterplot is drawn. See \code{fitmethod} to change the
-fit method of the fitted line.}
+\item{showTotalFitLine}{logical, if \code{TRUE}, a fitted line for the overall
+scatterplot is drawn. See \code{fitmethod} to change the fit method
+of the fitted line.}
 
-\item{showSE}{If \code{TRUE}, a shaded region indicating the standard error of the fitted lines will be added.}
+\item{show.se}{logical, if \code{TRUE}, a shaded region indicating the standard error of the fitted lines will be added.}
 
-\item{fitmethod}{By default, a linear method (\code{"lm"}) is used for fitting the fit lines. Possible values are
-for instance \code{"lm"}, \code{"glm"}, \code{"loess"} or \code{"auto"}
-(see \href{http://docs.ggplot2.org/current/stat_smooth.html}{ggplot-docs} for more details).}
+\item{fitmethod}{By default, a linear method (\code{"lm"}) is used for fitting
+the fit lines. Possible values are for instance \code{"lm"}, \code{"glm"},
+\code{"loess"} or \code{"auto"}
+(see \href{http://docs.ggplot2.org/current/stat_smooth.html}{ggplot-docs}
+for more details).}
 
-\item{useJitter}{If \code{TRUE}, points will be jittered (to avoid overplotting).}
+\item{useJitter}{logical, if \code{TRUE}, points will be jittered (to avoid overplotting).}
 
-\item{autojitter}{If \code{TRUE}, points will be jittered according to an overlap-estimation. A matrix of \code{x}
-and \code{y} values is created and the amount of cells (indicating a unique point position) is calculated.
-If more than 15\% (see \code{jitterRatio}) of the approximated amount of unique point coordinates seem to
+\item{autojitter}{logical, if \code{TRUE}, points will be jittered according
+to an overlap-estimation. A matrix of \code{x} and \code{y} values
+is created and the amount of cells (indicating a unique point position)
+is calculated. If more than 15\% (see \code{jitterRatio}) of the
+approximated amount of unique point coordinates seem to
 overlap, they are automatically jittered.}
 
-\item{jitterRatio}{The ratio of tolerated overlapping (see \code{autojitter}). If approximated amount of overlapping
-points exceed this ration, they are automatically jittered. Default is 0.15. Valid values range between 0 and 1.}
+\item{jitterRatio}{ratio of tolerated overlapping (see \code{autojitter}).
+If approximated amount of overlapping  points exceed this ratio,
+they are automatically jittered. Default is 0.15. Valid values range
+between 0 and 1.}
 
-\item{showRug}{If \code{TRUE}, a marginal rug plot is displayed in the graph (see \href{http://docs.ggplot2.org/current/geom_rug.html}{ggplot-docs}
-for more details).)}
+\item{showRug}{logical, if \code{TRUE}, a marginal rug plot is displayed
+in the graph (see \href{http://docs.ggplot2.org/current/geom_rug.html}{ggplot-docs}
+for more details).}
 
-\item{hideLegend}{Indicates whether legend (guide) should be shown or not.}
+\item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
 
 \item{facet.grid}{\code{TRUE} when each scatter plot group should be plotted as single facet instead of
 an integrated single graph. Only applies if \code{grp} is not \code{NULL}. Each category of
 \code{grp} will be plotted in an own facet.}
 
-\item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
@@ -143,7 +152,7 @@ sjp.scatter(efc$c160age, efc$e17age, efc$e42dep,
 sjp.scatter(efc$c160age,efc$e17age, efc$e42dep,
             showGroupFitLine = TRUE,
             facet.grid = TRUE,
-            showSE = TRUE)
+            show.se = TRUE)
 
 # plot residuals of fitted models
 fit <- lm(neg_c_7 ~ quol_5, data = efc)

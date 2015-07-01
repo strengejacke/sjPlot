@@ -2,7 +2,7 @@
 % Please edit documentation in R/sjTabGrpmean.R
 \name{sjt.grpmean}
 \alias{sjt.grpmean}
-\title{Show grouped means as HTML table}
+\title{Summary of grouped means as HTML table}
 \usage{
 sjt.grpmean(varCount, varGrp, weightBy = NULL, rowLabels = NULL,
   digits = 2, digits.summary = 3, file = NULL, encoding = NULL,

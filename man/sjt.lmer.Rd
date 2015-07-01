@@ -2,7 +2,7 @@
 % Please edit documentation in R/sjTabLinReg.R
 \name{sjt.lmer}
 \alias{sjt.lmer}
-\title{Show linear mixed effects models as HTML table}
+\title{Summary of linear mixed effects models as HTML table}
 \usage{
 sjt.lmer(..., file = NULL, labelPredictors = NULL,
   labelDependentVariables = NULL, stringPredictors = "Predictors",

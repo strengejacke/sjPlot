@@ -13,48 +13,40 @@ utils::globalVariables(c("ordx", "ordy"))
 #'
 #' @seealso \code{\link{sjt.corr}}
 #'
-#' @param data a matrix with correlation coefficients as returned by the 
+#' @param data matrix with correlation coefficients as returned by the 
 #'          \code{\link{cor}}-function, or a \code{\link{data.frame}} of variables that
 #'          should be correlated.
-#' @param title plot title as string.
-#' @param axisLabels Labels for the x- andy y-axis.
-#'          axisLabels are detected automatically if \code{data} is a \code{\link{data.frame}}
-#'          where each variable has a variable label attribute (see \code{\link[sjmisc]{set_var_labels}}) 
+#' @param axisLabels labels for the x- andy y-axis. AxisLabels are detected automatically
+#'          if \code{data} is a \code{\link{data.frame}} where variables have 
+#'          label attributes (see \code{\link[sjmisc]{set_var_labels}}) 
 #'          for details).
-#' @param type Indicates whether the geoms of correlation values should be plotted
+#' @param type indicates whether the geoms of correlation values should be plotted
 #'          as \code{"circle"} (default) or as \code{"tile"}.
-#' @param sortCorrelations If \code{TRUE} (default), the axis labels are sorted
+#' @param sortCorrelations logical, if \code{TRUE} (default), the axis labels are sorted
 #'          according to the correlation strength. If \code{FALSE}, axis labels
 #'          appear in order of how variables were included in the cor-computation or
 #'          data frame.
-#' @param decimals Indicates how many decimal values after comma are printed when
+#' @param decimals indicates how many decimal values after comma are printed when
 #'          the values labels are shown. Default is 3. Only applies when
-#'          \code{showValueLabels} is \code{TRUE}.
-#' @param missingDeletion Indicates how missing values are treated. May be either
+#'          \code{showValueLabels = TRUE}.
+#' @param missingDeletion indicates how missing values are treated. May be either
 #'          \code{"listwise"} (default) or \code{"pairwise"}.
-#' @param corMethod Indicates the correlation computation method. May be one of
+#' @param corMethod indicates the correlation computation method. May be one of
 #'          \code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.
-#' @param geom.size Specifies the circle size factor. The circle size depends on the correlation
+#' @param geom.size specifies the circle size factor. The circle size depends on the correlation
 #'          value multiplicated with this factor. Default is 15.
-#' @param breakTitleAt Wordwrap for diagram title. Determines how many chars of the title are displayed in
-#'          one line and when a line break is inserted into the title. Default is 50.
-#' @param breakLabelsAt Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in
-#'          one line and when a line break is inserted. Default is 12.
-#' @param hideLegend Show or hide the legend. The legend indicates the strength of correlations
-#'          by gradient colour fill. Default is \code{TRUE}, hence the legend is hidden.
-#' @param legendTitle The legend title, provided as string, e.g. \code{legendTitle=c("Strength of correlation")}.
-#'          Default is \code{NULL}, hence no legend title is used.
-#' @param showValueLabels Whether correlation values should be plotted to each geom
-#' @param showPValues Whether significance levels (p-values) of correlations should
+#' @param showValueLabels logical, whether correlation values should be plotted to each geom
+#' @param showPValues logical, whether significance levels (p-values) of correlations should
 #'          be plotted to each geom. See 'Note'.
-#' @param pvaluesAsNumbers If \code{TRUE}, the significance levels (p-values) are printed as numbers.
+#' @param pvaluesAsNumbers logical, if \code{TRUE}, the significance levels (p-values) are printed as numbers.
 #'          if \code{FALSE} (default), asterisks are used. See 'Note'.
-#' @param geom.colors A color palette for fillng the geoms. If not specified, the diverging color palette
+#' @param geom.colors color palette for fillng the geoms. If not specified, the diverging color palette
 #'          from the color brewer palettes (RdBu) is used, resulting in red colors for negative and blue colors
 #'          for positive correlations, that become lighter the weaker the correlations are. Use any
 #'          color palette that is suitbale for the \code{scale_fill_gradientn} parameter of ggplot2.
-#' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-#'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
+#'          
+#' @inheritParams sjp.grpfrq
+#' 
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}) and the original correlation matrix
 #'           (\code{corr.matrix}).

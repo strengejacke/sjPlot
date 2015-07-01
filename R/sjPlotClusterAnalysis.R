@@ -17,78 +17,68 @@ utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "s
 #'                
 #' @references Maechler M, Rousseeuw P, Struyf A, Hubert M, Hornik K (2014) cluster: Cluster Analysis Basics and Extensions. R package.
 #' 
-#' @param data The data frame containing all variables that should be used for the
+#' @param data data frame containing all variables that should be used for the
 #'          cluster analysis.
-#' @param groupcount The amount of groups (clusters) that should be retrieved. May also be
+#' @param groupcount amount of groups (clusters) that should be retrieved. May also be
 #'          a set of initial (distinct) cluster centres, in case \code{method = "kmeans"}
-#'          (see \code{\link{kmeans}} for details on \code{centers} parameter). By default
-#'          (\code{NULL}), the optimal amount of clusters is calculated using the gap statistics
-#'          (see \code{\link{sjc.kgap}}. However, this works only with \code{method = "kmeans"}. If
-#'          \code{method = "hclust"}, you have to specify \code{groupcount}. Use \code{\link{sjc.elbow}} 
-#'          to determine the groupcount depending on the elbow-criterion. Use \code{\link{sjc.grpdisc}} 
-#'          to inspect the accuracy of grouping.
-#' @param groups By default, this parameter is \code{NULL} and will be ignored. However, if you want to plot
-#'          an already existing cluster solution without computing a new cluster analysis, specify \code{groupcount}
-#'          and \code{groups}. \code{groups} is a vector of same length as \code{nrow(data)} and indicates the group
-#'          classification of the cluster analysis. The group classification can be computed with the
-#'          \code{\link{sjc.cluster}} function.
-#' @param method The method for computing the cluster analysis. By default (\code{"kmeans"}), a
-#'          kmeans cluster analysis will be computed. Use \code{"hclust"} to compute a hierarchical
-#'          cluster analysis. You can specify the initial letters only.
-#' @param distance The distance measure to be used when \code{method = "hclust"} (for hierarchical
-#'          clustering). This must be one of \code{"euclidean"}, \code{"maximum"}, \code{"manhattan"}, 
+#'          (see \code{\link{kmeans}} for details on \code{centers} parameter). 
+#'          If \code{groupcount = NULL}, the optimal amount of clusters is calculated using the 
+#'          gap statistics (see \code{\link{sjc.kgap}}. However, this works only 
+#'          with \code{method = "kmeans"}. If \code{method = "hclust"}, you have 
+#'          to specify \code{groupcount}. Following functions 
+#'          may be helpful for estimating the amount of clusters:
+#'          \itemize{
+#'            \item Use \code{\link{sjc.elbow}} to determine the group-count depending on the elbow-criterion.
+#'            \item If \code{method = "kmeans"}, use \code{\link{sjc.kgap}} to determine the group-count according to the gap-statistic.
+#'            \item If \code{method = "hclust"} (hierarchical clustering, default), use \code{\link{sjc.dend}} to inspect different cluster group solutions.
+#'            \item Use \code{\link{sjc.grpdisc}} to inspect the goodness of grouping (accuracy of classification).
+#'            }
+#' @param groups optional, by default, this parameter is \code{NULL} and will be 
+#'          ignored. However, to plot existing cluster groups, specify \code{groupcount}
+#'          and \code{groups}. \code{groups} is a vector of same length as 
+#'          \code{nrow(data)} and indicates the group classification of the cluster 
+#'          analysis. The group classification can be computed with the
+#'          \code{\link{sjc.cluster}} function. See 'Examples'.
+#' @param method method for computing the cluster analysis. By default (\code{"kmeans"}), a
+#'          kmeans cluster analysis will be computed. Use \code{"hclust"} to 
+#'          compute a hierarchical cluster analysis. You can specify the 
+#'          initial letters only.
+#' @param distance distance measure to be used when \code{method = "hclust"} (for hierarchical
+#'          clustering). Must be one of \code{"euclidean"}, \code{"maximum"}, \code{"manhattan"}, 
 #'          \code{"canberra"}, \code{"binary"} or \code{"minkowski"}. See \code{\link{dist}}.
-#'          By default, method is \code{"kmeans"} and this parameter will be ignored.
-#' @param agglomeration The agglomeration method to be used when \code{method = "hclust"} (for hierarchical
+#'          If is \code{method = "kmeans"} this parameter will be ignored.
+#' @param agglomeration agglomeration method to be used when \code{method = "hclust"} (for hierarchical
 #'          clustering). This should be one of \code{"ward"}, \code{"single"}, \code{"complete"}, \code{"average"}, 
 #'          \code{"mcquitty"}, \code{"median"} or \code{"centroid"}. Default is \code{"ward"} (see \code{\link{hclust}}).
-#'          By default, \code{method = "kmeans"} and this parameter will be ignored. See 'Note'.
-#' @param iter.max the maximum number of iterations allowed. Only applies, if 
+#'          If \code{method = "kmeans"} this parameter will be ignored. See 'Note'.
+#' @param iter.max maximum number of iterations allowed. Only applies, if 
 #'          \code{method = "kmeans"}. See \code{\link{kmeans}} for details on this parameter.
 #' @param algorithm algorithm used for calculating kmeans cluster. Only applies, if 
 #'          \code{method = "kmeans"}. May be one of \code{"Hartigan-Wong"} (default), 
 #'          \code{"Lloyd"} (used by SPSS), or \code{"MacQueen"}. See \code{\link{kmeans}} 
 #'          for details on this parameter.
-#' @param showAccuracy If \code{TRUE}, the \code{\link{sjc.grpdisc}} function will be called,
+#' @param showAccuracy logical, if \code{TRUE}, the \code{\link{sjc.grpdisc}} function will be called,
 #'          which computes a linear discriminant analysis on the classified cluster groups and plots a 
 #'          bar graph indicating the goodness of classification for each group.
-#' @param title Title of diagram as string.
-#'          Example: \code{title = "my title"}
-#' @param axisLabels.x Labels for the x-axis breaks.
-#'          Example: \code{axisLabels.x = c("Label1", "Label2", "Label3")}. \cr
-#'          \strong{Note:} If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
-#'          list object with label string. The labels may also be passed as list object. They will be coerced
-#'          to character vector automatically.
 #' @param axisTitle.x title for the x-axis.
 #' @param axisTitle.y title for the y-axis.
 #' @param breakTitleAt Determines how many chars of the title are displayed in 
 #'          one line and when a line break is inserted into the title.
-#' @param breakLabelsAt Determines how many chars of the labels are displayed in 
-#'          one line and when a line break is inserted into the axis labels.
-#' @param breakLegendTitleAt Determines how many chars of the legend title are displayed in 
-#'          one line and when a line break is inserted into the legend title.
-#' @param breakLegendLabelsAt Determines how many chars of the legend labels are displayed in 
-#'          one line and when a line break is inserted into the axis labels.
 #' @param facetCluster If \code{TRUE}, each cluster group will be represented by an own panel.
 #'          Default is \code{FALSE}, thus all cluster groups are plotted in a single graph.
-#' @param geom.colors User defined color for bars. See 'Note' in \code{\link{sjp.grpfrq}}.
-#' @param geom.size Width of bars. Recommended values for this parameter are from 0.4 to 1.5
-#' @param geom.spacing Spacing between bars. Default value is 0.1. If 0 is used, the grouped bars are sticked together and have no space
-#'          in between. Recommended values for this parameter are from 0 to 0.5
-#' @param hideLegend Indicates whether legend (guide) should be shown or not.
-#' @param showAxisLabels.x Whether x axis labels (cluster variables) should be shown or not.
-#' @param showAxisLabels.y Whether y axis labels (z scores) should be shown or not.
+#' @param geom.colors user defined color for bars. See 'Note' in \code{\link{sjp.grpfrq}}.
+#' @param geom.size width of bars. Recommended values for this parameter are from 0.4 to 1.5
+#' @param showAxisLabels.x whether x axis labels (cluster variables) should be shown or not.
+#' @param showAxisLabels.y whether y axis labels (z scores) should be shown or not.
 #' @param showGroupCount if \code{TRUE} (default), the count within each cluster group is added to the 
 #'          legend labels (e.g. \code{"Group 1 (n=87)"}).
 #' @param showAccuracyLabels if \code{TRUE}, the accuracy-values for each cluster group is added to the 
 #'          legend labels (e.g. \code{"Group 1 (n=87, accuracy=95.3)"}). Accuracy is calculated by \code{\link{sjc.grpdisc}}.
-#' @param legendTitle Title of the diagram's legend.
-#' @param legendLabels Labels for the guide/legend. Example: See \code{axisLabels.x}. If \code{legendLabels}
-#'          is \code{NULL} (default), the standard string \code{"Group <nr>"} will be used.
-#' @param coord.flip If \code{TRUE}, the x and y axis are swapped.
+#' @param legendLabels labels for the guide/legend. If \code{legendLabels = NULL}
+#'          (default), the standard string \code{"Group <nr>"} will be used.
 #' @param reverseAxis.x if \code{TRUE}, the values on the x-axis are reversed.
-#' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-#'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
+#'
+#' @inheritParams sjp.grpfrq
 #'
 #' @return (Invisibly) returns an object with
 #'           \itemize{
@@ -351,34 +341,12 @@ sjc.qclus <- function(data,
 #'                
 #' @references Maechler M, Rousseeuw P, Struyf A, Hubert M, Hornik K (2014) cluster: Cluster Analysis Basics and Extensions. R package.
 #'
-#' @param data A data frame containing all variables that should be used for the
-#'          cluster analysis.
-#' @param groupcount The amount of groups (clusters) that should be retrieved. May also be
-#'          a set of initial (distinct) cluster centres, in case \code{method = "kmeans"}
-#'          (see \code{\link{kmeans}} for details on \code{centers} parameter). If \code{groupcount}
-#'          indicates a number of clusters, following functions may be helpful for estimating the 
-#'          amount of clusters:
-#'          \itemize{
-#'            \item Use \code{\link{sjc.elbow}} to determine the group-count depending on the elbow-criterion.
-#'            \item If \code{method = "kmeans"}, use \code{\link{sjc.kgap}} to determine the group-count according to the gap-statistic.
-#'            \item If \code{method = "hclust"} (hierarchical clustering, default), use \code{\link{sjc.dend}} to inspect different cluster group solutions.
-#'            \item Use \code{\link{sjc.grpdisc}} to inspect the goodness of grouping (accuracy of classification).
-#'            }
 #' @param method Indicates the clustering method. If \code{"hclust"} (default), a hierachical 
 #'          clustering using the ward method is computed. Use \code{"kmeans"} to compute a k-means clustering.
 #'          You can specifiy inital letters only.
-#' @param distance The distance measure to be used when \code{method = "hclust"} (for hierarchical
-#'          clustering). This must be one of \code{"euclidean"} (default), \code{"maximum"}, \code{"manhattan"}, 
-#'          \code{"canberra"}, \code{"binary"} or \code{"minkowski"}. See \code{\link{dist}}.
-#' @param agglomeration The agglomeration method to be used when \code{method = "hclust"} (for hierarchical
-#'          clustering). This should be one of \code{"ward"}, \code{"single"}, \code{"complete"}, \code{"average"}, 
-#'          \code{"mcquitty"}, \code{"median"} or \code{"centroid"}. Default is \code{"ward"} (see \code{\link{hclust}}).
-#'          See 'Note'.
-#' @param iter.max the maximum number of iterations allowed. Only applies, if \code{method = "kmeans"}.
-#'          See \code{\link{kmeans}} for details on this parameter.
-#' @param algorithm algorithm used for calculating kmeans cluster. Only applies, if \code{method}
-#'          is \code{"kmeans"}. May be one of \code{"Hartigan-Wong"} (default), \code{"Lloyd"} (used by SPSS),
-#'          or \code{"MacQueen"}. See \code{\link{kmeans}} for details on this parameter.
+#'          
+#' @inheritParams sjc.qclus
+#'          
 #' @return The group classification for each observation as vector. This group
 #'           classification can be used for \code{\link{sjc.grpdisc}}-function to
 #'           check the goodness of classification.
@@ -411,7 +379,7 @@ sjc.qclus <- function(data,
 #' @importFrom stats dist na.omit hclust kmeans cutree
 #' @export
 sjc.cluster <- function(data,
-                        groupcount,
+                        groupcount = NULL,
                         method = "h",
                         distance = "euclidean",
                         agglomeration = "ward",
@@ -435,6 +403,27 @@ sjc.cluster <- function(data,
   data <- stats::na.omit(data) 
   # remove missings
   data.origin <- stats::na.omit(data.origin)
+  # ---------------------------------------------
+  # check for auto-groupcount
+  # ---------------------------------------------
+  if (is.null(groupcount)) {
+    # ------------------------
+    # check if suggested package is available
+    # ------------------------
+    if (!requireNamespace("cluster", quietly = TRUE)) {
+      stop("Package 'cluster' needed for this function to work. Please install it.", call. = FALSE)
+    }
+    # check whether method is kmeans. hierarchical clustering
+    # requires a specified groupcount
+    if (method != "k") {
+      message("Cannot compute hierarchical cluster analysis when 'groupcount' is NULL. Using kmeans clustering instead.")
+      method <- "k"
+    }
+    # retrieve optimal group count via gap statistics
+    kgap <- sjc.kgap(data, plotResults = F)
+    # save group counts
+    groupcount <- kgap$solution
+  }
   # --------------------------------------------------
   # Ward Hierarchical Clustering
   # --------------------------------------------------
@@ -473,22 +462,16 @@ sjc.cluster <- function(data,
 #'                Can be used, for instance, as visual tool to verify the elbow-criterion
 #'                (see \code{\link{sjc.elbow}}).
 #'                
-#' @param data The data frame containing all variables that should be used for the
+#' @param data data frame containing all variables that should be used for the
 #'          cluster analysis.
 #' @param groupcount The amount of groups (clusters) that should be used.
 #'          \itemize{
 #'            \item Use \code{\link{sjc.elbow}}-function to determine the group-count depending on the elbow-criterion.
-#'            \item If using kmeans as \code{method}, use \code{\link{sjc.kgap}}-function to determine the group-count according to the gap-statistic.
 #'            \item Use \code{\link{sjc.grpdisc}}-function to inspect the goodness of grouping (accuracy of classification).
 #'          }
 #'          Solutions for multiple cluster groups can be plotted, for instance with \code{"groupcount = c(3:6)"}.
-#' @param distance The distance measure to be used. This must be one of \code{"euclidean"} (default), 
-#'          \code{"maximum"}, \code{"manhattan"}, \code{"canberra"}, \code{"binary"} or 
-#'          \code{"minkowski"}. See \code{\link{dist}}.
-#' @param agglomeration The agglomeration method to be used. This should be one of
-#'          \code{"ward"}, \code{"single"}, \code{"complete"}, \code{"average"}, 
-#'          \code{"mcquitty"}, \code{"median"} or \code{"centroid"}. Default is 
-#'          \code{"ward"} (see \code{\link{hclust}}). See 'Note'.
+#'          
+#' @inheritParams sjc.qclus
 #'          
 #' @note Since R version > 3.0.3, the \code{"ward"} option has 
 #'          been replaced by either \code{"ward.D"} or \code{"ward.D2"},
@@ -796,15 +779,15 @@ sjc.elbow <- function(data, steps = 15, showDiff = FALSE) {
 #'                
 #' @seealso \code{\link{sjc.elbow}}
 #' 
-#' @param x A matrix, where rows are observations and columns are individual dimensions, 
+#' @param x matrix, where rows are observations and columns are individual dimensions, 
 #'          to compute and plot the gap statistic (according to a uniform reference distribution).
-#' @param max The maximum number of clusters to consider, must be at least two. Default
+#' @param max maximum number of clusters to consider, must be at least two. Default
 #'          is 10.
 #' @param B integer, number of Monte Carlo ("bootstrap") samples. Default is 100.
 #' @param SE.factor [When \code{method} contains "SE"] Determining the optimal 
 #'          number of clusters, Tibshirani et al. proposed the "1 S.E."-rule. 
 #'          Using an SE.factor f, the "f S.E."-rule is used, more generally.
-#' @param method A character string indicating how the "optimal" number of clusters, 
+#' @param method character string indicating how the "optimal" number of clusters, 
 #'          k^, is computed from the gap statistics (and their standard deviations), 
 #'          or more generally how the location k^ of the maximum of f[k] should be 
 #'          determined. Default is \code{"Tibs2001SEmax"}. Possible value are:
@@ -815,7 +798,7 @@ sjc.elbow <- function(data, steps = 15, showDiff = FALSE) {
 #'            \item \code{"firstSEmax"} is the location of the first f() value which is not larger than the first local maximum minus SE.factor * SE.f[], i.e, within an "f S.E." range of that maximum (see also SE.factor).
 #'            \item \code{"globalSEmax"} (used in Dudoit and Fridlyand (2002), supposedly following Tibshirani's proposition) is the location of the first f() value which is not larger than the global maximum minus SE.factor * SE.f[], i.e, within an "f S.E." range of that maximum (see also SE.factor).
 #'            }
-#' @param plotResults If \code{TRUE} (default), a graph visualiting the gap statistic will
+#' @param plotResults logical, if \code{TRUE} (default), a graph visualiting the gap statistic will
 #'          be plotted. Use \code{FALSE} to omit the plot.
 #' 
 #' @return An object containing the used data frame for plotting, the ggplot object

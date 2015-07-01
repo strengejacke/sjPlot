@@ -50,7 +50,7 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #'          may also be passed as list object; they will be coerced to character vector automatically.
 #' @param showAxisLabels.y logical, whether labels of independent variables should be shown or not.
 #' @param axisTitle.x title for the x-axis. Default is \code{"Estimates"}.
-#' @param axisLimits defines the range of the axis where the beta coefficients and their confidence intervalls
+#' @param axisLimits defines the range of the axis where coefficients and their confidence intervalls
 #'          are drawn. By default, the limits range from the lowest confidence interval to the highest one, so
 #'          the diagram has maximum zoom. Use your own values as vector of length two, indicating
 #'          lower and upper limit for the axis (for instance: \code{limits = c(-0.8, 0.8)}).
@@ -62,7 +62,7 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #' @param coord.flip logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
 #'          values are plotted on the x-axis.
 #' @param showValueLabels logical, whether value labels should be plotted to each dot or not.
-#' @param labelDigits amount of digits for rounding the estimations (see \code{showValueLabels}).
+#' @param labelDigits amount of digits for rounding the estimates (see \code{showValueLabels}).
 #'          Default is 2, i.e. estimates have 2 digits after decimal point.
 #' @param showPValueLabels logical, whether the significance level of each coefficient 
 #'          should be appended to values or not.
@@ -72,23 +72,10 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #' @param showCI logical, if \code{TRUE} (default), a confidence region for the regression line
 #'          will be plotted. Only applies if \code{type = "lm"} and fitted model has 
 #'          only one predictor, or if \code{type = "pred"} or \code{type = "resid"}.
-#' @param pointAlpha alpha level of the scatter plot's point-geoms.
-#'          Default is 0.2.
-#'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
-#'          or if \code{type = "pred"} or \code{type = "resid"}.
 #' @param showScatterPlot logical, if \code{TRUE} (default), a scatter plot of 
 #'          response and predictor values for each predictor of \code{fit} is plotted.
 #'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
 #'          or if \code{type = "pred"} or \code{type = "resid"}.
-#' @param showLoess logical, if \code{TRUE}, an additional loess-smoothed line is plotted.
-#'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
-#'          or if \code{type = "pred"}, \code{type = "resid"} or \code{type = "resp"}.
-#' @param showLoessCI logical, if \code{TRUE}, a confidence region for the loess-smoothed line
-#'          will be plotted. Default is \code{FALSE}. Only applies, if \code{showLoess}
-#'          is \code{TRUE}.
-#' @param poly.term name of polynomial term in \code{fit} as string. Needs to be
-#'          specified, if \code{type = "poly"}, in order to plot marginal effects
-#'          for polynomial terms. See 'Examples'.
 #' @param showOriginalModelOnly logical, if \code{TRUE} (default), only model assumptions of
 #'          \code{fit} are plotted. if \code{FALSE}, model assumptions of an updated 
 #'          model where outliers are automatically excluded are also plotted.
@@ -97,6 +84,7 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #'          Only applies if \code{type = "ma"}.
 #'          
 #' @inheritParams sjp.grpfrq
+#' @inheritParams sjp.lmer
 #'          
 #' @return Depending on the \code{type}, in most cases (insisibily)
 #'           returns the ggplot-object with the complete plot (\code{plot})
@@ -126,8 +114,6 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #' data(efc)
 #' # fit model
 #' fit <- lm(neg_c_7 ~ quol_5, data=efc)
-#' # plot regression line
-#' sjp.lm(fit)
 #' # plot regression line with label strings
 #' sjp.lm(fit,
 #'        axisLabels.x = "Quality of life",
@@ -156,6 +142,7 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #' # --------------------------
 #' sjp.lm(fit, type = "ma")
 #'
+#' \dontrun{
 #' # --------------------------
 #' # plotting polynomial terms
 #' # --------------------------
@@ -173,7 +160,7 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #'           e17age + I(e17age^2) + I(e17age^3) + I(e17age^4),
 #'           data = efc)
 #' # plot marginal effects of polynomial term
-#' sjp.lm(fit, type = "poly", poly.term = "e17age")
+#' sjp.lm(fit, type = "poly", poly.term = "e17age")}
 #'
 #' @import ggplot2
 #' @import sjmisc

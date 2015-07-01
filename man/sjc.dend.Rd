@@ -7,25 +7,25 @@
 sjc.dend(data, groupcount, distance = "euclidean", agglomeration = "ward")
 }
 \arguments{
-\item{data}{The data frame containing all variables that should be used for the
+\item{data}{data frame containing all variables that should be used for the
 cluster analysis.}
 
 \item{groupcount}{The amount of groups (clusters) that should be used.
-\itemize{
-  \item Use \code{\link{sjc.elbow}}-function to determine the group-count depending on the elbow-criterion.
-  \item If using kmeans as \code{method}, use \code{\link{sjc.kgap}}-function to determine the group-count according to the gap-statistic.
-  \item Use \code{\link{sjc.grpdisc}}-function to inspect the goodness of grouping (accuracy of classification).
-}
-Solutions for multiple cluster groups can be plotted, for instance with \code{"groupcount = c(3:6)"}.}
+         \itemize{
+           \item Use \code{\link{sjc.elbow}}-function to determine the group-count depending on the elbow-criterion.
+           \item Use \code{\link{sjc.grpdisc}}-function to inspect the goodness of grouping (accuracy of classification).
+         }
+         Solutions for multiple cluster groups can be plotted, for instance with \code{"groupcount = c(3:6)"}.}
 
-\item{distance}{The distance measure to be used. This must be one of \code{"euclidean"} (default),
-\code{"maximum"}, \code{"manhattan"}, \code{"canberra"}, \code{"binary"} or
-\code{"minkowski"}. See \code{\link{dist}}.}
+\item{distance}{distance measure to be used when \code{method = "hclust"} (for hierarchical
+clustering). Must be one of \code{"euclidean"}, \code{"maximum"}, \code{"manhattan"},
+\code{"canberra"}, \code{"binary"} or \code{"minkowski"}. See \code{\link{dist}}.
+If is \code{method = "kmeans"} this parameter will be ignored.}
 
-\item{agglomeration}{The agglomeration method to be used. This should be one of
-         \code{"ward"}, \code{"single"}, \code{"complete"}, \code{"average"},
-         \code{"mcquitty"}, \code{"median"} or \code{"centroid"}. Default is
-         \code{"ward"} (see \code{\link{hclust}}). See 'Note'.}
+\item{agglomeration}{agglomeration method to be used when \code{method = "hclust"} (for hierarchical
+clustering). This should be one of \code{"ward"}, \code{"single"}, \code{"complete"}, \code{"average"},
+\code{"mcquitty"}, \code{"median"} or \code{"centroid"}. Default is \code{"ward"} (see \code{\link{hclust}}).
+If \code{method = "kmeans"} this parameter will be ignored. See 'Note'.}
 }
 \description{
 Computes a hierarchical cluster analysis and plots a hierarchical

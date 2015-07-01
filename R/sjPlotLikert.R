@@ -75,8 +75,6 @@ utils::globalVariables(c("offset"))
 #'          E.g. \code{gridRange = 1.4} will set the axis from -140 to +140\%, however, only
 #'          (valid) axis labels from -100 to +100\% are printed. Neutral categories are
 #'          adjusted to the most left limit.
-#' @param gridBreaksAt set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
-#'          position a major grid is being printed. Valid values range from 0 to 1.
 #' @param axisTitle.x title for the x-axis. Default is \code{NULL} (no title).
 #' @param axisTitle.y title for the y-axis. Default is \code{NULL} (no title).
 #' 

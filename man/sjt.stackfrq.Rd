@@ -2,7 +2,7 @@
 % Please edit documentation in R/sjTabStackFrq.R
 \name{sjt.stackfrq}
 \alias{sjt.stackfrq}
-\title{Show stacked frequencies as HTML table}
+\title{Summary of stacked frequencies as HTML table}
 \usage{
 sjt.stackfrq(items, weightBy = NULL, title = NULL, varlabels = NULL,
   breakLabelsAt = 40, valuelabels = NULL, breakValueLabelsAt = 20,
@@ -14,27 +14,27 @@ sjt.stackfrq(items, weightBy = NULL, title = NULL, varlabels = NULL,
   remove.spaces = TRUE)
 }
 \arguments{
-\item{items}{A \code{\link{data.frame}} with each column representing one (likert- or scale-)item.}
+\item{items}{\code{\link{data.frame}} with each column representing one (likert- or scale-)item.}
 
-\item{weightBy}{A weight factor that will be applied to weight all cases from \code{items}.
+\item{weightBy}{weight factor that will be applied to weight all cases from \code{items}.
 Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, so no weights are used.}
 
-\item{title}{A table caption.}
+\item{title}{table caption.}
 
-\item{varlabels}{A list or vector of strings with variable names. If not specified, row names of \code{items}
+\item{varlabels}{list or vector of strings with variable names. If not specified, row names of \code{items}
 will be used, resp. variable labels will automatically be detected, when they have
 a variable label attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
-\item{breakLabelsAt}{Wordwrap for variable labels. Determines how many chars of the variable labels are displayed in
+\item{breakLabelsAt}{determines how many chars of the variable labels are displayed in
 one line and when a line break is inserted. Default is 40.}
 
-\item{valuelabels}{A list or vector of strings that category/value labels, which
+\item{valuelabels}{list or vector of strings that category/value labels, which
 appear in the header row.}
 
-\item{breakValueLabelsAt}{Wordwrap for value labels. Determines how many chars of the value labels are displayed in
+\item{breakValueLabelsAt}{determines how many chars of the value labels are displayed in
 one line and when a line break is inserted. Default is 20.}
 
-\item{sort.frq}{Indicates whether the \code{items} should be ordered by
+\item{sort.frq}{logical, indicates whether the \code{items} should be ordered by
 by highest count of first or last category of \code{items}.
 \itemize{
   \item Use \code{"first.asc"} to order ascending by lowest count of first category,
@@ -44,36 +44,36 @@ by highest count of first or last category of \code{items}.
   \item or \code{NULL} (default) for no sorting.
 }}
 
-\item{alternateRowColors}{If \code{TRUE}, alternating rows are highlighted with a light gray
-         background color.}
+\item{alternateRowColors}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
+background color.}
 
-\item{digits}{The amount of digits for rounding the percentage values.
+\item{digits}{amount of digits for rounding the percentage values.
 Default is 2, i.e. percentage values have 2 digits after decimal point.}
 
-\item{showN}{If \code{TRUE}, each item's category N is printed in the table cells.}
+\item{showN}{logical, if \code{TRUE}, each item's category N is printed in the table cells.}
 
-\item{showTotalN}{If \code{TRUE}, an additional column with each item's total N is printed.}
+\item{showTotalN}{logical, if \code{TRUE}, an additional column with each item's total N is printed.}
 
-\item{showNA}{If \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.}
+\item{showNA}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.}
 
 \item{labelNA}{The label for the missing column/row.}
 
-\item{showSkew}{If \code{TRUE}, an additional column with each item's skewness is printed.
+\item{showSkew}{logical, if \code{TRUE}, an additional column with each item's skewness is printed.
 The skewness is retrieved from the \code{\link[psych]{describe}} function of the \code{psych}
 package.}
 
-\item{showKurtosis}{If \code{TRUE}, an additional column with each item's kurtosis is printed.
+\item{showKurtosis}{logical, if \code{TRUE}, an additional column with each item's kurtosis is printed.
 The kurtosis is retrieved from the \code{\link[psych]{describe}} function of the \code{psych}
 package.}
 
-\item{digits.stats}{The amount of digits for rounding the skewness and kurtosis valuess.
+\item{digits.stats}{amount of digits for rounding the skewness and kurtosis valuess.
 Default is 2, i.e. skewness and kurtosis values have 2 digits after decimal point.}
 
-\item{skewString}{A character string, which is used as header for the skew column (see \code{showSkew})).
+\item{skewString}{string, which is used as header for the skew column (see \code{showSkew})).
 Default is \code{"Skew"}.}
 
-\item{kurtosisString}{A character string, which is used as header for the kurtosis column (see \code{showKurtosis})).
-Default is \code{"Kurtosis"}.}
+\item{kurtosisString}{string, which is used as header for the kurtosis column (see \code{showKurtosis})).
+         Default is \code{"Kurtosis"}.}
 
 \item{file}{destination file, if the output should be saved as file.
 If \code{NULL} (default), the output will be saved as temporary file and

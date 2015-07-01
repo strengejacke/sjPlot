@@ -2,60 +2,60 @@
 % Please edit documentation in R/sjTabCorr.R
 \name{sjt.corr}
 \alias{sjt.corr}
-\title{Show correlations as HTML table}
+\title{Summary of correlations as HTML table}
 \usage{
 sjt.corr(data, missingDeletion = "pairwise", corMethod = "spearman",
   title = NULL, showPValues = TRUE, pvaluesAsNumbers = FALSE,
-  fadeNS = TRUE, file = NULL, varlabels = NULL, breakLabelsAt = 40,
+  fade.ns = TRUE, file = NULL, varlabels = NULL, breakLabelsAt = 40,
   digits = 3, triangle = "both", val.rm = NULL, stringDiagonal = NULL,
   encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
   remove.spaces = TRUE)
 }
 \arguments{
-\item{data}{a matrix with correlation coefficients as returned by the
+\item{data}{matrix with correlation coefficients as returned by the
 \code{\link{cor}}-function, or a \code{\link{data.frame}} of variables that
 should be correlated.}
 
-\item{missingDeletion}{Indicates how missing values are treated. May be either
+\item{missingDeletion}{indicates how missing values are treated. May be either
 \code{"listwise"} or \code{"pairwise"} (default).}
 
-\item{corMethod}{Indicates the correlation computation method. May be one of
+\item{corMethod}{indicates the correlation computation method. May be one of
 \code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.}
 
-\item{title}{A table caption as character. By default, \code{title} is \code{NULL}, hence no title will be used.}
+\item{title}{table caption. By default, \code{title = NULL}, hence no title will be used.}
 
-\item{showPValues}{Whether significance levels (p-values) of correlations should
+\item{showPValues}{logical, whether significance levels (p-values) of correlations should
 be printed or not. See 'Note'.}
 
-\item{pvaluesAsNumbers}{If \code{TRUE}, the significance levels (p-values) are printed as numbers.
+\item{pvaluesAsNumbers}{logical, if \code{TRUE}, the significance levels (p-values) are printed as numbers.
 if \code{FALSE} (default), asterisks are used. See 'Note'.}
 
-\item{fadeNS}{If \code{TRUE} (default), non-significant correlation-values appear faded (by using
+\item{fade.ns}{logical, if \code{TRUE} (default), non-significant correlation-values appear faded (by using
 a lighter grey text color). See 'Note'.}
 
 \item{file}{destination file, if the output should be saved as file.
 If \code{NULL} (default), the output will be saved as temporary file and
 openend either in the IDE's viewer pane or the default web browser.}
 
-\item{varlabels}{The item labels that are printed along the first column/row. If no item labels are
-provided (default), the data frame's column names are used. Item labels must
-be a string vector, e.g.: \code{varlabels=c("Var 1", "Var 2", "Var 3")}.
-varlabels are detected automatically if \code{data} is a \code{\link{data.frame}} where each variable has
-a variable label attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).}
+\item{varlabels}{character vector with item labels that are printed along the
+first column/row. If no item labels are provided (default), the
+data frame's column names are used. Item labels are detected automatically
+if \code{data} is a \code{\link{data.frame}} where variables have
+label attributes (see \code{\link[sjmisc]{set_var_labels}}) for details).}
 
-\item{breakLabelsAt}{Wordwrap for diagram labels. Determines how many chars of the variable labels are displayed in
-one line and when a line break is inserted. Default is 40.}
+\item{breakLabelsAt}{determines how many chars of the category labels are displayed in
+one line and when a line break is inserted.}
 
-\item{digits}{The amount of digits used the values inside table cells.
+\item{digits}{amount of digits used the values inside table cells.
 Default is 2.}
 
-\item{triangle}{Indicates whether only the upper right (use \code{"upper"}), lower left (use \code{"lower"})
+\item{triangle}{indicates whether only the upper right (use \code{"upper"}), lower left (use \code{"lower"})
 or both (use \code{"both"}) triangles of the correlation table is filled with values. Default
 is \code{"both"}. You can specifiy the inital letter only.}
 
-\item{val.rm}{Specify a number between 0 and 1 to suppress the output of correlation values
+\item{val.rm}{specify a number between 0 and 1 to suppress the output of correlation values
 that are smaller than \code{val.rm}. The absolute correlation values are used, so
-a correlation value of -.5 would be greater than \code{"val.rm=.4"} and thus not be
+a correlation value of \code{-.5} would be greater than \code{val.rm = .4} and thus not be
 omitted. By default, this parameter is \code{NULL}, hence all values are shown in the table.
 If a correlation value is below the specified value of \code{val.rm}, it is still printed to
 the HTML table, but made "invisible" with white foreground color. You can use the \code{CSS}
@@ -108,7 +108,7 @@ See 'Details' in \code{\link{sjt.frq}}.
 \note{
 If \code{data} is a matrix with correlation coefficients as returned by
       the \code{\link{cor}}-function, p-values can't be computed.
-      Thus, \code{showPValues}, \code{pvaluesAsNumbers} and \code{fadeNS}
+      Thus, \code{showPValues}, \code{pvaluesAsNumbers} and \code{fade.ns}
       only have an effect if \code{data} is a \code{\link{data.frame}}.
       \cr \cr
       Additionally, see 'Note' in \code{\link{sjt.frq}}.

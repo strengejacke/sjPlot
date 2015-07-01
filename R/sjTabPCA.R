@@ -1,4 +1,4 @@
-#' @title Show principal component analysis as HTML table
+#' @title Summary of principal component analysis as HTML table
 #' @name sjt.pca
 #' 
 #' @description Performes a principle component analysis on a data frame or matrix 
@@ -13,42 +13,36 @@
 #'            \item \code{\link{sjp.pca}}
 #'          }
 #' 
-#' @param data A data frame with factors (each columns one variable) that should be used 
+#' @param data data frame with factors (each columns one variable) that should be used 
 #'          to compute a PCA, or a \code{\link{prcomp}} object.
-#' @param numberOfFactors A predefined number of factors to use for the calculating the varimax
+#' @param numberOfFactors number of factors used for calculating the varimax
 #'          rotation. By default, this value is \code{NULL} and the amount of factors is
 #'          calculated according to the Kaiser-criteria. See paramater \code{plotEigenvalues}.
-#' @param factorLoadingTolerance Specifies the minimum difference a variable needs to have between
+#' @param factorLoadingTolerance specifies the minimum difference a variable needs to have between
 #'          factor loadings (components) in order to indicate a clear loading on just one factor and not
 #'          diffusing over all factors. For instance, a variable with 0.8, 0.82 and 0.84 factor loading 
 #'          on 3 possible factors can not be clearly assigned to just one factor and thus would be removed
 #'          from the principal component analysis. By default, the minimum difference of loading values
 #'          between the highest and 2nd highest factor should be 0.1
-#' @param varlabels The item labels that are printed in the first column. If no item labels are
-#'          provided (default), the data frame's column names are used. Item labels must
-#'          be a string vector, e.g.: \code{varlabels=c("Var 1", "Var 2", "Var 3")}.
-#' @param title A table caption. By default, \emph{"Principal Component Analysis (with varimax rotation)"}
-#'          is used as the table's title.
-#' @param breakLabelsAt Wordwrap for diagram labels. Determines how many chars of the variable labels are displayed in 
-#'          one line and when a line break is inserted. Default is 20.
-#' @param digits The amount of digits used the values inside table cells.
-#'          Default is 2.
-#' @param showCronbachsAlpha If \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
+#' @param varlabels character vector with item labels that are printed in the first column. If no item labels are
+#'          provided (default), the data frame's column names are used.
+#' @param showCronbachsAlpha logical, if \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
 #'          i.e. all variables with the highest loading for a factor are taken for the
 #'          reliability test. The result is an alpha value for each factor dimension.
 #'          Only applies when \code{data} is a data frame and no \code{\link{prcomp}} object.
-#' @param showMSA If \code{TRUE}, shows an additional column with the measure of sampling adequacy according
+#' @param showMSA logical, if \code{TRUE}, shows an additional column with the measure of sampling adequacy according
 #'          dor each component.
-#' @param showVariance If \code{TRUE}, the proportions of variances for each component as well as cumulative
+#' @param showVariance logical, if \code{TRUE}, the proportions of variances for each component as well as cumulative
 #'          variance are shown in the table footer.
-#' @param alternateRowColors If \code{TRUE}, alternating rows are highlighted with a light gray
-#'          background color.
-#' @param stringPov The string for the table row that contains the proportions of variances. By default, 
+#' @param stringPov string for the table row that contains the proportions of variances. By default, 
 #'          \emph{"Proportion of Variance"} will be used.
-#' @param stringCpov The string for the table row that contains the cumulative variances. By default, 
+#' @param stringCpov string for the table row that contains the cumulative variances. By default, 
 #'          \emph{"Cumulative Proportion"} will be used.
 #'          
 #' @inheritParams sjt.frq
+#' @inheritParams sjp.grpfrq
+#' @inheritParams sjt.df
+#' @inheritParams sjt.corr
 #'          
 #' @return Invisibly returns
 #'          \itemize{

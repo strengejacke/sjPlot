@@ -2,13 +2,13 @@
 % Please edit documentation in R/sjPlotPolynomials.R
 \name{sjp.poly}
 \alias{sjp.poly}
-\title{Plot polynomials for linear regression}
+\title{Plot polynomials for (generalized) linear regression}
 \usage{
-sjp.poly(x, poly.term, poly.degree, poly.scale = FALSE, axisTitle.x = NULL,
-  axisTitle.y = NULL, showScatterPlot = TRUE, showLoess = TRUE,
-  showLoessCI = TRUE, showPValues = TRUE, geom.colors = NULL,
-  geom.size = 0.8, loessLineColor = "#808080", pointColor = "#404040",
-  pointAlpha = 0.2, printPlot = TRUE)
+sjp.poly(x, poly.term, poly.degree, poly.scale = FALSE, fun = NULL,
+  axisTitle.x = NULL, axisTitle.y = NULL, showScatterPlot = TRUE,
+  showLoess = TRUE, showLoessCI = TRUE, showPValues = TRUE,
+  geom.colors = NULL, geom.size = 0.8, loessLineColor = "#808080",
+  pointColor = "#404040", pointAlpha = 0.2, printPlot = TRUE)
 }
 \arguments{
 \item{x}{a vector, representing the response variable of a linear (mixed) model; or
@@ -26,6 +26,12 @@ each degree are plotted. See 'Examples'.}
 \item{poly.scale}{logical, if \code{TRUE}, \code{poly.term} will be scaled before
 linear regression is computed. Default is \code{FALSE}. Scaling the polynomial
 term may have an impact on the resulting p-values.}
+
+\item{fun}{linear function when modelling polynomial terms. Use \code{fun = "lm"}
+for linear models, or \code{fun = "glm"} for generalized linear models.
+When \code{x} is not a vector, but a fitted model object, the function
+is detected automatically. If \code{x} is a vector, \code{fun} defaults
+to \code{"lm"}.}
 
 \item{axisTitle.x}{A label for the x axis. Use \code{NULL} to automatically detect
 variable names that will be used as title (see \code{\link[sjmisc]{set_var_labels}}) for details).}
@@ -99,9 +105,6 @@ sjp.poly(efc$c160age, efc$quol_5, 1)
 # quadratic fit
 sjp.poly(efc$c160age, efc$quol_5, 2)
 
-# cubic fit
-sjp.poly(efc$c160age, efc$quol_5, 3)
-
 # linear to cubic fit
 sjp.poly(efc$c160age, efc$quol_5,
          1:4, showScatterPlot = FALSE)
@@ -120,12 +123,13 @@ sjp.lm(fit, type = "pred",
 # however, only x^3 has significant p-values.
 sjp.poly(fit, "e17age", 2:4, showScatterPlot = FALSE)
 
+\dontrun{
 # fit new model
 fit <- lm(tot_sc_e ~ c12hour + e42dep +
           e17age + I(e17age^2) + I(e17age^3),
           data = efc)
 # plot marginal effects of polynomial term
-sjp.lm(fit, type = "poly", poly.term = "e17age")
+sjp.lm(fit, type = "poly", poly.term = "e17age")}
 }
 \seealso{
 To plot marginal effects of polynomial terms, call \code{\link{sjp.lm}} with \code{type = "poly"},

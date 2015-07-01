@@ -42,12 +42,10 @@ view_spss <- function(x,
 #'            \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
 #'          }
 #' 
-#' @param x An imported data frame, imported by \code{\link[sjmisc]{read_spss}},
+#' @param x \code{data.frame}, imported by \code{\link[sjmisc]{read_spss}},
 #'          \code{\link[sjmisc]{read_sas}} or \code{\link[sjmisc]{read_stata}} function,
 #'          or any similar labelled data frame (see \code{\link[sjmisc]{set_var_labels}}
 #'          and \code{\link[sjmisc]{set_val_labels}}).
-#' @param alternateRowColors logical, if \code{TRUE}, alternating rows are highlighted with a light gray
-#'          background color.
 #' @param showID logical, if \code{TRUE} (default), the variable ID is shown in the first column.
 #' @param showType logical, if \code{TRUE}, the variable type is shown in a separate column. Since
 #'          SPSS variable types are mostly \code{\link{numeric}} after import, this column
@@ -66,6 +64,7 @@ view_spss <- function(x,
 #'          table is hidden. Default in \code{FALSE}, hence the bar is visible.
 #'          
 #' @inheritParams sjt.frq
+#' @inheritParams sjt.df
 #'          
 #' @return Invisibly returns
 #'          \itemize{

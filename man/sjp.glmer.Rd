@@ -29,14 +29,14 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   \item{\code{"y.pc"}}{or \code{"y.prob"} to plot predicted probabilities for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot. See 'Details'.}
 }}
 
-\item{vars}{a numeric vector with column indices of selected variables or a character vector with
+\item{vars}{numeric vector with column indices of selected variables or a character vector with
 variable names of selected variables from the fitted model, which should be used to plot
 fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability curves
 (for \code{\link[lme4]{glmer}}) of random intercepts. This parameter only
 applies if \code{type} is \code{"fe.pc"}, \code{"ri.pc"} or \code{"fe.ri"}.
 In this case, only those terms specified in \code{"vars"} will be plotted.}
 
-\item{ri.nr}{Numeric vector. If \code{type = "re"}, \code{type = "ri.pc"} or \code{type = "fe.ri"},
+\item{ri.nr}{numeric vector. If \code{type = "re"}, \code{type = "ri.pc"} or \code{type = "fe.ri"},
 and fitted model has more than one random intercept, \code{ri.nr} indicates
 which random effects of which random intercept (or: which list elements
 of \code{\link[lme4]{ranef}}) will be plotted. Default is \code{NULL},
@@ -49,20 +49,20 @@ effects slopes for each grouping level is plotted. To better find
 certain groups, use this parameter to emphasize these groups in the plot.
 See 'Examples'.}
 
-\item{title}{a character vector with one or more labels that are used as plot title. If
+\item{title}{character vector with one or more labels that are used as plot title. If
 \code{type = "re"}, use the predictors' variable labels as titles.}
 
 \item{geom.size}{size of geoms (point size or line size, depending on \code{type}-parameter).}
 
-\item{geom.colors}{User defined color palette for geoms. Must either be vector with two color values
+\item{geom.colors}{user defined color palette for geoms. Must either be vector with two color values
 or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.}
 
-\item{hideErrorBars}{If \code{TRUE}, the error bars that indicate the confidence intervals of the odds ratios are not
+\item{hideErrorBars}{logical, if \code{TRUE}, the error bars that indicate the confidence intervals of the odds ratios are not
 shown.}
 
-\item{showIntercept}{if \code{TRUE}, the intercept is included when plotting random or fixed effects.}
+\item{showIntercept}{logical, if \code{TRUE}, the intercept is included when plotting random or fixed effects.}
 
-\item{stringIntercept}{string of intercept estimate on the y axis. Only applies, if \code{showIntercept}
+\item{stringIntercept}{string, label of intercept estimate on the y axis. Only applies, if \code{showIntercept}
 is \code{TRUE} and \code{pred.labels} is not \code{NULL}.}
 
 \item{sort.coef}{indicates which coefficient should be used for sorting odds ratios
@@ -74,40 +74,41 @@ is \code{TRUE} and \code{pred.labels} is not \code{NULL}.}
   }
   See 'Examples'.}
 
-\item{pred.labels}{a character vector with labels for the predictors / covariates / groups. Should either be vector
+\item{pred.labels}{character vector with labels for the predictors / covariates / groups. Should either be vector
 of fixed effects variable labels (if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
 labels from the random intercept's categories (if \code{type = "re"}).}
 
-\item{axisTitle.x}{A label (title) for the x axis. If not specified, a default labelling depending
+\item{axisTitle.x}{title for the x axis. If not specified, a default labelling depending
 on the plot type is chosen.}
 
-\item{axisTitle.y}{A label (title) for the y axis. If not specified, a default labelling depending
+\item{axisTitle.y}{title for the y axis. If not specified, a default labelling depending
 on the plot type is chosen.}
 
 \item{facet.grid}{\code{TRUE} when each plot should be plotted separately instead of
 an integrated (faceted) single graph.}
 
-\item{free.scale}{If \code{TRUE} and \code{facet.grid=TRUE}, each facet grid gets its own fitted scale. If
-\code{free.scale=FALSE}, each facet in the grid has the same scale range.}
+\item{free.scale}{if \code{TRUE} and \code{facet.grid = TRUE}, each facet grid
+         gets its own fitted scale. If \code{free.scale = FALSE}, each facet in
+         the grid has the same scale range.}
 
-\item{interceptLineType}{The linetype of the intercept line (zero point). Default is \code{2} (dashed line).}
+\item{interceptLineType}{linetype of the intercept line (zero point). Default is \code{2} (dashed line).}
 
-\item{interceptLineColor}{The color of the intercept line. Default value is \code{"grey70"}.}
+\item{interceptLineColor}{color of the intercept line. Default value is \code{"grey70"}.}
 
-\item{showValueLabels}{Whether odds ratio values should be plotted to each dot or not.}
+\item{showValueLabels}{logical, whether estimate values should be plotted to each dot or not.}
 
-\item{labelDigits}{The amount of digits for rounding the estimations (see \code{showValueLabels}).
-Default is 2, i.e. estimators have 2 digits after decimal point.}
+\item{labelDigits}{numeric, amount of digits for rounding the estimates (see \code{showValueLabels}).
+Default is 2, i.e. estimates have 2 digits after decimal point.}
 
-\item{showPValueLabels}{Whether the significance levels of each coefficient should be appended
+\item{showPValueLabels}{logical, whether the significance levels of each coefficient should be appended
 to values or not.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 
-\item{show.se}{Use \code{TRUE} to plot (depending on \code{type}) the standard
+\item{show.se}{logical, use \code{TRUE} to plot (depending on \code{type}) the standard
 error for predicted values or confidence intervals for slope lines.}
 
-\item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
@@ -169,13 +170,6 @@ sjp.glmer(fit)
 # sort by predictor Days
 sjp.glmer(fit, sort.coef = "Days")
 
-# plot each predictor as own plot and sort them
-sjp.glmer(fit,
-          facet.grid = FALSE,
-          sort.coef = "sort.all")
-
-library(lme4)
-library(sjmisc)
 data(efc)
 # create binary response
 efc$hi_qol <- dicho(efc$quol_5)
@@ -193,36 +187,14 @@ fit <- glmer(hi_qol ~ sex + c12hour + neg_c_7 + (1|grp),
              data = mydf,
              family = binomial("logit"))
 
-# plot random effects
-sjp.glmer(fit)
-
-# plot fixed effects
-sjp.glmer(fit, type = "fe")
-
 # plot and sort fixed effects
 sjp.glmer(fit,
           type = "fe",
           sort.coef = TRUE)
 
-# plot fixed effects correlations
-sjp.glmer(fit, type = "fe.cor")
-
-# qq-plot of random effects
-sjp.glmer(fit, type = "re.qq")
-
 # plot probability curves (predicted probabilities)
 # for each covariate, grouped by random intercepts
-sjp.glmer(fit,
-          type = "ri.pc",
-          show.se = TRUE)
-
-# plot probability curves (predicted probabilities)
-# for each covariate, grouped by random intercepts
-# in integrated plots
-sjp.glmer(fit,
-          type = "ri.pc",
-          facet.grid = FALSE)
-
+# in integrated plots, emphasizing groups 1 and 4
 sjp.glmer(fit,
           type = "ri.pc",
           emph.grp = c(1, 4),

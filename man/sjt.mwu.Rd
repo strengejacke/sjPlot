@@ -2,7 +2,7 @@
 % Please edit documentation in R/sjTabMannWhitney.R
 \name{sjt.mwu}
 \alias{sjt.mwu}
-\title{Show Mann-Whitney-Test as HTML table}
+\title{Summary of Mann-Whitney-Test as HTML table}
 \usage{
 sjt.mwu(x, title = NULL, alternateRowColors = TRUE, file = NULL,
   encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
@@ -11,9 +11,9 @@ sjt.mwu(x, title = NULL, alternateRowColors = TRUE, file = NULL,
 \arguments{
 \item{x}{Results of a Mann-Whitney-U test, provided by \code{\link[sjmisc]{mwu}}. See examples.}
 
-\item{title}{A table caption. By default, \code{title} is \code{NULL}, hence no title will be used.}
+\item{title}{table caption. By default, \code{title = NULL}, hence no title will be used.}
 
-\item{alternateRowColors}{If \code{TRUE}, alternating rows are highlighted with a light gray
+\item{alternateRowColors}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
 
 \item{file}{destination file, if the output should be saved as file.

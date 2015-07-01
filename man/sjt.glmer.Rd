@@ -2,7 +2,7 @@
 % Please edit documentation in R/sjTabOdds.R
 \name{sjt.glmer}
 \alias{sjt.glmer}
-\title{Show (and compare) generalized linear mixed models as HTML table}
+\title{Summary of generalized linear mixed models as HTML table}
 \usage{
 sjt.glmer(..., file = NULL, labelPredictors = NULL,
   labelDependentVariables = NULL, stringPredictors = "Predictors",
@@ -76,45 +76,45 @@ confidence intervals are exponentiated. Use \code{FALSE} for
 non-exponentiated coefficients (log-odds) as provided by
 the \code{\link{summary}} function.}
 
-\item{pvaluesAsNumbers}{If \code{TRUE}, p-values are shown as numbers. If \code{FALSE} (default),
+\item{pvaluesAsNumbers}{logical, if \code{TRUE}, p-values are shown as numbers. If \code{FALSE} (default),
 p-values are indicated by asterisks.}
 
-\item{boldpvalues}{If \code{TRUE} (default), significant p-values are shown bold faced.}
+\item{boldpvalues}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
 
-\item{showConfInt}{If \code{TRUE} (default), the confidence intervall is also printed to the table. Use
+\item{showConfInt}{logical, if \code{TRUE} (default), the confidence intervall is also printed to the table. Use
 \code{FALSE} to omit the CI in the table.}
 
-\item{showStdError}{If \code{TRUE}, the standard errors are also printed.
+\item{showStdError}{logical, if \code{TRUE}, the standard errors are also printed.
 Default is \code{FALSE}.}
 
-\item{separateConfColumn}{if \code{TRUE}, the CI values are shown in a separate table column.
+\item{separateConfColumn}{logical, if \code{TRUE}, the CI values are shown in a separate table column.
 Default is \code{FALSE}.}
 
-\item{newLineConf}{If \code{TRUE} and \code{separateConfColumn = FALSE}, inserts a line break
+\item{newLineConf}{logical, if \code{TRUE} and \code{separateConfColumn = FALSE}, inserts a line break
 between OR and CI values. If \code{FALSE}, CI values are printed in the same
 line with OR values.}
 
-\item{showAbbrHeadline}{If \code{TRUE} (default), the table data columns have a headline with
+\item{showAbbrHeadline}{logical, if \code{TRUE} (default), the table data columns have a headline with
 abbreviations for odds ratios, confidence interval and p-values.}
 
 \item{showICC}{logical, if \code{TRUE}, the intra-class-correlation for each
 model is printed in the model summary.}
 
-\item{showLogLik}{If \code{TRUE}, the Log-Likelihood for each model is printed
+\item{showLogLik}{logical, if \code{TRUE}, the Log-Likelihood for each model is printed
 in the model summary. Default is \code{FALSE}.}
 
-\item{showAIC}{If \code{TRUE}, the \code{\link{AIC}} value for each model is printed
+\item{showAIC}{logical, if \code{TRUE}, the \code{\link{AIC}} value for each model is printed
 in the model summary. Default is \code{FALSE}.}
 
-\item{showAICc}{If \code{TRUE}, the second-order AIC value for each model
+\item{showAICc}{logical, if \code{TRUE}, the second-order AIC value for each model
 is printed in the model summary. Default is \code{FALSE}.}
 
-\item{showHosLem}{If \code{TRUE}, a Hosmer-Lemeshow-Goodness-of-fit-test is
+\item{showHosLem}{logical, if \code{TRUE}, a Hosmer-Lemeshow-Goodness-of-fit-test is
 performed. A well-fitting model shows no significant difference between
 the model and the observed data, i.e. the reported p-values should be
 greater than 0.05.}
 
-\item{showFamily}{If \code{TRUE}, the family object and link function for each fitted model
+\item{showFamily}{logical, if \code{TRUE}, the family object and link function for each fitted model
 are printed. Can be used in case you want to compare models with different link functions
 and same predictors and response, to decide which model fits best. See \code{\link{family}}
 for more details. It is recommended to inspect the model \code{\link{AIC}} (see \code{showAIC}) to get a

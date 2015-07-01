@@ -18,7 +18,7 @@ view_df(x, file = NULL, alternateRowColors = TRUE, showID = TRUE,
   CSS = NULL, useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
-\item{x}{An imported data frame, imported by \code{\link[sjmisc]{read_spss}},
+\item{x}{\code{data.frame}, imported by \code{\link[sjmisc]{read_spss}},
 \code{\link[sjmisc]{read_sas}} or \code{\link[sjmisc]{read_stata}} function,
 or any similar labelled data frame (see \code{\link[sjmisc]{set_var_labels}}
 and \code{\link[sjmisc]{set_val_labels}}).}

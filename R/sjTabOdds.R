@@ -2,7 +2,7 @@
 utils::globalVariables(c("starts_with"))
 
 
-#' @title Show (and compare) generalized linear models as HTML table
+#' @title Summary of generalized linear models as HTML table
 #' @name sjt.glm
 #' 
 #' @description Summarizes (multiple) fitted generalized linear models (odds ratios, ci, p-values...)
@@ -41,45 +41,45 @@ utils::globalVariables(c("starts_with"))
 #'          confidence intervals are exponentiated. Use \code{FALSE} for 
 #'          non-exponentiated coefficients (log-odds) as provided by 
 #'          the \code{\link{summary}} function.
-#' @param pvaluesAsNumbers If \code{TRUE}, p-values are shown as numbers. If \code{FALSE} (default),
+#' @param pvaluesAsNumbers logical, if \code{TRUE}, p-values are shown as numbers. If \code{FALSE} (default),
 #'          p-values are indicated by asterisks.
-#' @param boldpvalues If \code{TRUE} (default), significant p-values are shown bold faced.
-#' @param showConfInt If \code{TRUE} (default), the confidence intervall is also printed to the table. Use
+#' @param boldpvalues logical, if \code{TRUE} (default), significant p-values are shown bold faced.
+#' @param showConfInt logical, if \code{TRUE} (default), the confidence intervall is also printed to the table. Use
 #'          \code{FALSE} to omit the CI in the table.
-#' @param showStdError If \code{TRUE}, the standard errors are also printed.
+#' @param showStdError logical, if \code{TRUE}, the standard errors are also printed.
 #'          Default is \code{FALSE}.
-#' @param separateConfColumn if \code{TRUE}, the CI values are shown in a separate table column.
+#' @param separateConfColumn logical, if \code{TRUE}, the CI values are shown in a separate table column.
 #'          Default is \code{FALSE}.
-#' @param newLineConf If \code{TRUE} and \code{separateConfColumn = FALSE}, inserts a line break
+#' @param newLineConf logical, if \code{TRUE} and \code{separateConfColumn = FALSE}, inserts a line break
 #'          between OR and CI values. If \code{FALSE}, CI values are printed in the same
 #'          line with OR values.
 #' @param group.pred logical, if \code{TRUE} (default), automatically groups table rows with 
 #'          factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
 #'          be grouped, if the factor has more than two levels. Grouping means that a separate headline
 #'          row is inserted to the table just before the predictor values.
-#' @param showAbbrHeadline If \code{TRUE} (default), the table data columns have a headline with 
+#' @param showAbbrHeadline logical, if \code{TRUE} (default), the table data columns have a headline with 
 #'          abbreviations for odds ratios, confidence interval and p-values.
-#' @param showPseudoR If \code{TRUE} (default), the pseudo R2 values for each model are printed
+#' @param showPseudoR logical, if \code{TRUE} (default), the pseudo R2 values for each model are printed
 #'          in the model summary. R2cs is the Cox-Snell-pseudo R-square value, R2n is Nagelkerke's 
 #'          pseudo R-square value and \code{D} is Tjur's Coefficient of Discrimination
 #'          (see \code{\link[sjmisc]{cod}}).
-#' @param showLogLik If \code{TRUE}, the Log-Likelihood for each model is printed
+#' @param showLogLik logical, if \code{TRUE}, the Log-Likelihood for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
-#' @param showAIC If \code{TRUE}, the \code{\link{AIC}} value for each model is printed
+#' @param showAIC logical, if \code{TRUE}, the \code{\link{AIC}} value for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
-#' @param showAICc If \code{TRUE}, the second-order AIC value for each model 
+#' @param showAICc logical, if \code{TRUE}, the second-order AIC value for each model 
 #'          is printed in the model summary. Default is \code{FALSE}.
-#' @param showChi2 If \code{TRUE}, the p-value of the chi-squared value for each 
+#' @param showChi2 logical, if \code{TRUE}, the p-value of the chi-squared value for each 
 #'          model's residual deviance against the null deviance is printed
 #'          in the model summary. Default is \code{FALSE}. A well-fitting model
 #'          with predictors should significantly differ from the null-model
 #'          (without predictors), thus, a p-value less than 0.05 indicates a
 #'          good model-fit.
-#' @param showHosLem If \code{TRUE}, a Hosmer-Lemeshow-Goodness-of-fit-test is
+#' @param showHosLem logical, if \code{TRUE}, a Hosmer-Lemeshow-Goodness-of-fit-test is
 #'          performed. A well-fitting model shows no significant difference between 
 #'          the model and the observed data, i.e. the reported p-values should be
 #'          greater than 0.05.
-#' @param showFamily If \code{TRUE}, the family object and link function for each fitted model
+#' @param showFamily logical, if \code{TRUE}, the family object and link function for each fitted model
 #'          are printed. Can be used in case you want to compare models with different link functions
 #'          and same predictors and response, to decide which model fits best. See \code{\link{family}}
 #'          for more details. It is recommended to inspect the model \code{\link{AIC}} (see \code{showAIC}) to get a
@@ -1279,7 +1279,7 @@ sjt.glm <- function(...,
 }
 
 
-#' @title Show (and compare) generalized linear mixed models as HTML table
+#' @title Summary of generalized linear mixed models as HTML table
 #' @name sjt.glmer
 #' 
 #' @description Summarizes (multiple) fitted generalized linear mixed models (odds ratios, ci, p-values...)

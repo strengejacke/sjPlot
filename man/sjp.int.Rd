@@ -43,7 +43,7 @@ classes are
 when using \code{type = "eff"}. By default, this parameter can be ignored
 (i.e. \code{int.term = NULL}). See 'Details'.}
 
-\item{int.plot.index}{A numeric vector with index numbers that indicate which
+\item{int.plot.index}{numeric vector with index numbers that indicate which
 interaction terms should be plotted in case the \code{fit} has more than
 one interaction. By default, this values is \code{NULL}, hence all interactions
 are plotted.}
@@ -67,7 +67,7 @@ is plotted at the x-axis. For \code{type = "cond"}, the interaction's predictor 
 printed along the x-axis. Default is \code{FALSE}, so the second predictor in an interaction, respectively
 the predictor with more unique values is printed along the x-axis.}
 
-\item{plevel}{Indicates at which p-value an interaction term is considered as \emph{significant},
+\item{plevel}{indicates at which p-value an interaction term is considered as \emph{significant},
 i.e. at which p-level an interaction term will be considered for plotting. Default is
 0.05 (5 percent), hence, non-significant interactions are excluded by default. This
 parameter does not apply to \code{type = "eff"}.}
@@ -82,7 +82,7 @@ Either set \code{fillColor} to \code{NULL} or use 0 for \code{fillAlpha} if you 
 \item{fillAlpha}{alpha value (transparancy) of the shaded area between the minimum and maximum lines. Default is 0.4.
 Use either 0 or set \code{fillColor} to \code{NULL} if you want to hide the shaded area.}
 
-\item{geom.colors}{A vector of color values. First value is the color of the line indicating the lower bound of
+\item{geom.colors}{vector of color values. First value is the color of the line indicating the lower bound of
 the interaction term (moderator value). Second value is the color of the line indicating the upper bound of
 the interaction term (moderator value). Third value, if applicable, is the color of the line indicating the
 mean value of the interaction term (moderator value). Third value is only used when
@@ -96,14 +96,14 @@ which means that each plot's x-axis uses the predictor's name as title.}
 \item{axisTitle.y}{a default title used for the y-axis. Default value is \code{NULL},
 which means that each plot's y-axis uses the dependent variable's name as title.}
 
-\item{axisLabels.x}{Character vector with value labels of the repeated measure variable
+\item{axisLabels.x}{character vector with value labels of the repeated measure variable
 that are used for labelling the x-axis.}
 
-\item{legendTitle}{Title of the diagram's legend. A character vector of same length as
+\item{legendTitle}{title of the diagram's legend. A character vector of same length as
 amount of interaction plots to be plotted (i.e. one vector element for each
 plot's legend title).}
 
-\item{legendLabels}{Labels for the guide/legend. Either a character vector of same length as
+\item{legendLabels}{labels for the guide/legend. Either a character vector of same length as
 amount of legend labels of the plot, or a \code{list} of character vectors, if more than one
 interaction plot is plotted (i.e. one vector of legend labels for each interaction plot).
 Default is \code{NULL}, so the name of the predictor with min/max-effect is used
@@ -111,13 +111,13 @@ as legend label.}
 
 \item{showValueLabels}{if \code{TRUE}, value labels are plotted along the lines. Default is \code{FALSE}.}
 
-\item{breakTitleAt}{Wordwrap for diagram's title. Determines how many chars of the title are
-displayed in one line and when a line break is inserted. Default is \code{50}.}
+\item{breakTitleAt}{determines how many chars of the plot title are displayed in
+one line and when a line break is inserted into the title.}
 
-\item{breakLegendLabelsAt}{Wordwrap for diagram legend labels. Determines how many chars of the legend labels are
-displayed in one line and when a line break is inserted. Default is \code{20}.}
+\item{breakLegendLabelsAt}{determines how many chars of the legend labels are
+displayed in one line and when a line break is inserted.}
 
-\item{breakLegendTitleAt}{Wordwrap for diagram legend title. Determines how many chars of the legend's title
+\item{breakLegendTitleAt}{determines how many chars of the legend's title
 are displayed in one line and when a line break is inserted.}
 
 \item{breakAnnotationLabelsAt}{Wordwrap for diagram annotation labels. Determines how many chars of the legend labels are
@@ -126,16 +126,16 @@ Only applies if \code{showInterceptLine} is \code{TRUE}.}
 
 \item{axisLimits.x}{numeric vector of length two, defining lower and upper axis limits
 of the x scale. By default, this parameter is set to \code{NULL}, i.e. the
-x-axis fits to the range of the interaction term. \strong{Note} that limiting
+x-axis fits to the required range to plot all data. \strong{Note} that limiting
 the x-axis-range may result in warnings from \code{ggplot} due to values
 outside this range that could not be plotted.}
 
-\item{axisLimits.y}{numeric vector with two values, defining the lower and upper limit from the y-axis.
-By default, this value is \code{NULL}, i.e. axis limits will be calculated upon the
-range of y-values.}
+\item{axisLimits.y}{numeric vector of length two, defining lower and upper axis limits
+of the y scale. By default, this parameter is set to \code{NULL}, i.e. the
+y-axis ranges from 0 to required maximum.}
 
-\item{gridBreaksAt}{Sets the breaks on the y axis, i.e. at every n'th position a major
-grid is being printed. Default is \code{NULL}.}
+\item{gridBreaksAt}{set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th
+position a major grid is being printed.}
 
 \item{showInterceptLines}{If \code{TRUE}, the intercept and the estimate of the predictor
 (reference category of predictor in case interaction is not present) are plotted.}
@@ -148,24 +148,24 @@ to \code{type = "emm"} or \code{type = "eff"}.}
 
 \item{valueLabel.digits}{the amount of digits of the displayed value labels. Defaults to 2.}
 
-\item{interceptLineColor}{The line color of the model's intercept line. Only applies, if
+\item{interceptLineColor}{color of the model's intercept line. Only applies, if
 \code{showInterceptLines} is \code{TRUE}.}
 
-\item{estLineColor}{The line color of the model's predictor's estimate line. Only applies, if
+\item{estLineColor}{color of the model's predictor's estimate line. Only applies, if
 \code{showInterceptLines} is \code{TRUE}.}
 
-\item{lineLabelSize}{The size of the intercept line annotations inside the plot. Only applies
+\item{lineLabelSize}{size of the intercept line annotations inside the plot. Only applies
 if \code{showInterceptLines} is \code{TRUE}. Default is 3.7.}
 
-\item{lineLabelColor}{The color of the intercept line annotations inside the plot. Only applies
+\item{lineLabelColor}{color of the intercept line annotations inside the plot. Only applies
 if \code{showInterceptLines} is \code{TRUE}. Default is \code{"black"}.}
 
-\item{lineLabelString}{Default string for the intercept lines that is appended to the predictor
+\item{lineLabelString}{string for the intercept lines that is appended to the predictor
 variable name. By default, this string is \code{"(no interaction)"}.}
 
 \item{facet.grid}{\code{TRUE} for faceted plots instead of an integrated single plot.}
 
-\item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
@@ -253,9 +253,6 @@ fit <- lm(weight ~ Diet * Time, data = ChickWeight)
 # show summary to see significant interactions
 summary(fit)
 
-# plot interaction effects
-sjp.int(fit, type = "eff")
-
 # plot regression line of interaction terms, including value labels
 sjp.int(fit, type = "eff", showValueLabels = TRUE)
 
@@ -276,11 +273,9 @@ mydf$sex <- relevel(factor(mydf$sex), ref = "2")
 fit <- lm(usage ~ .*., data = mydf)
 summary(fit)
 
-# plot interactions
-sjp.int(fit, type = "eff")
-# note that type = "cond" only considers significant
-# interactions by default. use "plevel" to adjust p-level
-# sensivity
+# plot interactions. note that type = "cond" only considers
+# significant interactions by default. use "plevel" to
+# adjust p-level sensivity
 sjp.int(fit, type = "cond")
 
 # plot only selected interaction term for
@@ -291,9 +286,6 @@ sjp.int(fit, type = "eff", int.term = "sex*education")
 # values to calculate interaction effect
 sjp.int(fit, type = "eff", moderatorValues = "meansd")
 sjp.int(fit, type = "cond", moderatorValues = "meansd")
-
-# use zero and maximum value of moderation effect
-sjp.int(fit, type = "eff", moderatorValues = "zeromax")
 
 # plot interactions, including those with p-value up to 0.1
 sjp.int(fit,
@@ -328,14 +320,7 @@ sjp.int(fit,
         legendLabels = get_val_labels(efc$c161sex),
         plevel = 0.1)
 
-# compare results to boxplots
-sjp.grpfrq(mydf$barthel,
-           mydf$y,
-           interactionVar = mydf$sex,
-           interactionVarLabels = get_val_labels(efc$c161sex),
-           legendLabels = c("low burden", "high burden"),
-           type = "box")
-
+\dontrun{
 # -------------------------------
 # Plot estimated marginal means
 # -------------------------------
@@ -358,9 +343,8 @@ mydf$burden <- set_var_labels(mydf$burden, "care burden")
 fit <- lm(burden ~ .*., data = mydf)
 summary(fit)
 
-\dontrun{
 # plot marginal means of interactions, no interaction found
-sjp.int(fit, type = "emm")}
+sjp.int(fit, type = "emm")
 # plot marginal means of interactions, including those with p-value up to 1
 sjp.int(fit, type = "emm", plevel = 1)
 # swap predictors
@@ -385,7 +369,7 @@ sjp.int(fit,
         type = "eff",
         int.plot.index = 3,
         showCI = TRUE,
-        facet.grid = TRUE)
+        facet.grid = TRUE)}
 }
 \references{
 \itemize{

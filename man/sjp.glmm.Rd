@@ -8,7 +8,7 @@ sjp.glmm(..., title = NULL, labelDependentVariables = NULL,
   legendDepVarTitle = "Dependent Variables", legendPValTitle = "p-level",
   stringModel = "Model", axisLabels.y = NULL, axisTitle.x = "Odds Ratios",
   axisLimits = NULL, breakTitleAt = 50, breakLabelsAt = 25,
-  breakLegendAt = 20, gridBreaksAt = 0.5, transformTicks = TRUE,
+  breakLegendTitleAt = 20, gridBreaksAt = 0.5, transformTicks = TRUE,
   geom.size = 3, geom.spacing = 0.4, geom.colors = "Set1",
   fade.ns = TRUE, usePShapes = FALSE, interceptLineType = 2,
   interceptLineColor = "grey70", coord.flip = TRUE, showIntercept = FALSE,
@@ -17,62 +17,59 @@ sjp.glmm(..., title = NULL, labelDependentVariables = NULL,
   printPlot = TRUE)
 }
 \arguments{
-\item{...}{One or more fitted glm-objects. May also be a \code{\link{list}}-object with
-fitted models, instead of separating each model with comma. See examples.}
+\item{...}{one or more fitted glm-objects. May also be a \code{\link{list}}-object with
+         fitted models, instead of separating each model with comma. See 'Examples'.}
 
-\item{title}{Diagram's title as string.
-Example: \code{title = "my title"}}
+\item{title}{diagram's title as string.}
 
-\item{labelDependentVariables}{Labels of the dependent variables of all fitted models
-which have been used as first parameter(s), provided as char vector.}
+\item{labelDependentVariables}{character vector with labels of dependent
+variables of all fitted models. See 'Examples'.}
 
-\item{legendDepVarTitle}{A character vector used for the title of the dependent variable's legend.
+\item{legendDepVarTitle}{character vector used for the legend title.
 Default is \code{"Dependent Variables"}.}
 
-\item{legendPValTitle}{A character vector used for the title of the significance level's legend.
-Default is \code{"p-level"}. Only applies if \code{usePShapes} is \code{TRUE}.}
+\item{legendPValTitle}{character vector used for the title of the significance level's legend.
+Default is \code{"p-level"}. Only applies if \code{usePShapes = TRUE}.}
 
-\item{stringModel}{String constant used as legend text for the model names in case no
+\item{stringModel}{string, legend text for the model names in case no
 labels for the dependent variables are provided (see \code{labelDependentVariables}).
 Default is \code{"Model"}.}
 
-\item{axisLabels.y}{Labels of the predictor variables (independent vars, odds) that are used for labelling the
-axis. Passed as vector of strings.
-Example: \code{axisLabels.y = c("Label1", "Label2", "Label3")} \cr
-\strong{Note:} If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
-\code{list} object with label strings. The labels may also be passed as list object. They will be coerced
-to character vector automatically.}
+\item{axisLabels.y}{labels or names of the predictor variables (independent vars). Must
+be a character vector of same length as independent variables. The labels
+may also be passed as list object; they will be coerced to character vector automatically.}
 
-\item{axisTitle.x}{A label ("title") for the x axis.}
+\item{axisTitle.x}{string, title for the x axis.}
 
-\item{axisLimits}{Defines the range of the axis where the beta coefficients and their confidence intervalls
+\item{axisLimits}{defines the range of the axis where coefficients and their confidence intervalls
 are drawn. By default, the limits range from the lowest confidence interval to the highest one, so
-the diagram has maximum zoom. Use your own values as 2-value-vector, for instance: \code{limits = c(-0.8, 0.8)}.}
+the diagram has maximum zoom. Use your own values as vector of length two, indicating
+lower and upper limit for the axis (for instance: \code{limits = c(-0.8, 0.8)}).}
 
-\item{breakTitleAt}{Wordwrap for diagram title. Determines how many chars of the title are displayed in
-one line and when a line break is inserted into the title}
+\item{breakTitleAt}{determines how many chars of the plot title are displayed in
+one line and when a line break is inserted into the title.}
 
-\item{breakLabelsAt}{Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in
-one line and when a line break is inserted}
+\item{breakLabelsAt}{determines how many chars of the category labels are displayed in
+one line and when a line break is inserted.}
 
-\item{breakLegendAt}{Wordwrap for legend, i.e. names of the dependent variables of each fitted model.
-See parameter \code{labelDependentVariables}. Determines how many chars of each dependent variable name
-is displayed in one line in the legend and when a line break is inserted}
+\item{breakLegendTitleAt}{determines how many chars of the legend's title
+are displayed in one line and when a line break is inserted.}
 
-\item{gridBreaksAt}{Sets the breaks on the y axis, i.e. at every n'th position a major
-grid is being printed. Default is 0.5}
+\item{gridBreaksAt}{set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th
+position a major grid is being printed.}
 
-\item{transformTicks}{if \code{TRUE}, the grid bars have exponential distances, i.e. they
-visually have the same distance from one grid bar to the next. Default is \code{FALSE} which
-means that grids are plotted on every \code{gridBreaksAt}'s position, thus the grid bars
-become narrower with higher odds ratio values.}
+\item{transformTicks}{logical, if \code{TRUE}, the grid lines have exponential
+distances (equidistant), i.e. they visually have the same distance from
+one panel grid to the next. If \code{FALSE}, grids are
+plotted on every \code{gridBreaksAt}'s position, thus the grid lines become narrower with
+higher odds ratio values.}
 
-\item{geom.size}{The size of the points that indicate the odds ratios. Default is 3.}
+\item{geom.size}{size of the points that indicate the estimates. Default is 3.}
 
-\item{geom.spacing}{Defines the space between the dots and error bars of the plotted fitted models. Default
+\item{geom.spacing}{spacing between the dots and error bars of the plotted fitted models. Default
 is 0.3.}
 
-\item{geom.colors}{A vector with colors for representing the odds ratio values (i.e. points and error bars)
+\item{geom.colors}{colors for representing the estimates (i.e. points and error bars)
 of the different fitted models. Thus, the length of this vector must be equal to
 the length of supplied fitted models, so each model is represented by its own color.
 See 'Note' in \code{\link{sjp.grpfrq}}.}
@@ -82,35 +79,32 @@ See 'Note' in \code{\link{sjp.grpfrq}}.}
 \item{usePShapes}{If \code{TRUE}, significant levels are distinguished by different point shapes and a related
 legend is plotted. Default is \code{FALSE}.}
 
-\item{interceptLineType}{The linetype of the intercept line (zero point). Default is \code{2} (dashed line).}
+\item{interceptLineType}{linetype of the intercept line (zero point). Default is \code{2} (dashed line).}
 
-\item{interceptLineColor}{The color of the intercept line. Default value is \code{"grey70"}.}
+\item{interceptLineColor}{color of the intercept line. Default value is \code{"grey70"}.}
 
-\item{coord.flip}{If \code{TRUE} (default), predictors are plotted on the left y-axis and estimate
+\item{coord.flip}{logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
 values are plotted on the x-axis.}
 
 \item{showIntercept}{If \code{TRUE}, the intercept of the fitted model is also plotted.
-Default is \code{FALSE}. Please note that due to exp-transformation of
-estimates, the intercept in some cases can not be calculated, thus the
-function call is interrupted and no plot printed.}
+Default is \code{FALSE}.}
 
-\item{showAxisLabels.y}{Whether odds names (predictor labels) should be shown or not.}
+\item{showAxisLabels.y}{Whether term names (predictor labels) should be shown or not.}
 
-\item{showValueLabels}{Whether the beta and standardized beta values should be plotted
-to each dot or not.}
+\item{showValueLabels}{logical, whether value labels should be plotted to each dot or not.}
 
-\item{labelDigits}{The amount of digits for rounding the estimations (see \code{showValueLabels}).
-Default is 2, i.e. estimators have 2 digits after decimal point.}
+\item{labelDigits}{amount of digits for rounding the estimates (see \code{showValueLabels}).
+Default is 2, i.e. estimates have 2 digits after decimal point.}
 
 \item{showPValueLabels}{Whether the significance levels of each coefficient should be appended
 to values or not.}
 
-\item{hideLegend}{Indicates whether legend (guide) should be shown or not.}
+\item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
 
 \item{facet.grid}{\code{TRUE} when each model should be plotted as single facet instead of
-an integrated single graph.}
+         an integrated single graph.}
 
-\item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{

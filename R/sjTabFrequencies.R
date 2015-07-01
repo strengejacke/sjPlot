@@ -1,4 +1,4 @@
-#' @title Show frequencies as HTML table
+#' @title Summary of frequencies as HTML table
 #' @name sjt.frq
 #' 
 #' @description Shows (multiple) frequency tables as HTML file, or saves them as file.

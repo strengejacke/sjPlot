@@ -83,7 +83,7 @@ is not \code{NULL}.}
 
 \item{axisLimits.x}{numeric vector of length two, defining lower and upper axis limits
 of the x scale. By default, this parameter is set to \code{NULL}, i.e. the
-x-axis fits to the range of \code{varCount}. \strong{Note} that limiting
+x-axis fits to the required range to plot all data. \strong{Note} that limiting
 the x-axis-range may result in warnings from \code{ggplot} due to values
 outside this range that could not be plotted.}
 

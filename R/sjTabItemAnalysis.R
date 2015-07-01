@@ -1,4 +1,4 @@
-#' @title Show item analysis of an item scale as HTML table
+#' @title Summary of item analysis of an item scale as HTML table
 #' @name sjt.itemanalysis
 #' 
 #' @description This function performs an item analysis with certain statistics that are
@@ -27,38 +27,29 @@
 #'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjt.itemanalysis/}{sjPlot manual: sjt.itemanalysis}
 #'
-#' @param df A data frame with items (from a scale)
-#' @param factor.groups If not \code{NULL}, the data frame \code{df} will be splitted into sub-groups,
+#' @param df data frame with items
+#' @param factor.groups if not \code{NULL}, \code{df} will be splitted into sub-groups,
 #'          where the item analysis is carried out for each of these groups. Must be a vector of same 
 #'          length as \code{ncol(df)}, where each item in this vector represents the group number of
-#'          the related columns of \code{df}. See examples for more details.
-#' @param factor.groups.titles Titles for each factor group that will be used as table caption for each
+#'          the related columns of \code{df}. See 'Examples'.
+#' @param factor.groups.titles titles for each factor group that will be used as table caption for each
 #'          component-table. Must be a character vector of same length as \code{length(unique(factor.groups))}.
 #'          Default is \code{"auto"}, which means that each table has a standard caption \emph{Component x}.
 #'          Use \code{NULL} to suppress table captions.
-#' @param scaleItems If \code{TRUE}, the data frame's vectors will be scaled when calculating the
+#' @param scaleItems logical, if \code{TRUE}, the data frame's vectors will be scaled when calculating the
 #'          Cronbach's Alpha value (see \code{\link[sjmisc]{reliab_test}}). Recommended, when 
 #'          the variables have different measures / scales.
-#' @param minValidRowMeanValue the minimum amount of valid values to compute row means for index scores.
+#' @param minValidRowMeanValue minimum amount of valid values to compute row means for index scores.
 #'          Default is 2, i.e. the return values \code{index.scores} and \code{df.index.scores} are
 #'          computed for those items that have at least \code{minValidRowMeanValue} per case (observation, or
 #'          technically, row). See \code{mean_n} for details.
-#' @param alternateRowColors If \code{TRUE}, alternating rows are highlighted with a light gray
+#' @param alternateRowColors logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 #'          background color.
-#' @param orderColumn Indicates a column, either by column name or by column index number,
-#'          that should be orderd. Default order is ascending, which can be changed with
-#'          \code{orderAscending} parameter. Default is \code{NULL}, hence the results of
-#'          the item analysis are  printed with no specific order. See examples in
-#'          \code{\link{sjt.df}} for further details.
-#' @param orderAscending If \code{TRUE} (default) and \code{orderColumn} is not \code{NULL},
-#'          data frame is ordered according to the specified column in an ascending order.
-#'          Use \code{FALSE} to apply descending order. See examples in \code{\link{sjt.df}} 
-#'          for further details.
-#' @param showShapiro If \code{TRUE}, a Shapiro-Wilk normality test is computed for each item.
+#' @param showShapiro logical, if \code{TRUE}, a Shapiro-Wilk normality test is computed for each item.
 #'          See \code{\link{shapiro.test}} for details.
-#' @param showKurtosis If \code{TRUE}, the kurtosis for each item will also be shown (see \code{\link[psych]{kurtosi}}
+#' @param showKurtosis logical, if \code{TRUE}, the kurtosis for each item will also be shown (see \code{\link[psych]{kurtosi}}
 #'          and \code{\link[psych]{describe}} in the \code{psych}-package for more details.
-#' @param showCompCorrMat If \code{TRUE} (default), a correlation matrix of each component's
+#' @param showCompCorrMat logical, if \code{TRUE} (default), a correlation matrix of each component's
 #'          index score is shown. Only applies if \code{factor.groups} is not \code{NULL} and \code{df} has
 #'          more than one group. First, for each case (df's row), the sum of all variables (df's columns) is
 #'          scaled (using the \code{\link{scale}}-function) and represents a "total score" for
@@ -67,6 +58,7 @@
 #'          Finally, a correlation of these "scale sum scores" is computed.
 #'          
 #' @inheritParams sjt.frq
+#' @inheritParams sjt.df
 #'          
 #' @return Invisibly returns
 #'         \itemize{

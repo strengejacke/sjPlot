@@ -52,7 +52,7 @@ may also be passed as list object; they will be coerced to character vector auto
 
 \item{axisTitle.x}{title for the x-axis. Default is \code{"Estimates"}.}
 
-\item{axisLimits}{defines the range of the axis where the beta coefficients and their confidence intervalls
+\item{axisLimits}{defines the range of the axis where coefficients and their confidence intervalls
 are drawn. By default, the limits range from the lowest confidence interval to the highest one, so
 the diagram has maximum zoom. Use your own values as vector of length two, indicating
 lower and upper limit for the axis (for instance: \code{limits = c(-0.8, 0.8)}).}
@@ -80,7 +80,7 @@ values are plotted on the x-axis.}
 
 \item{showValueLabels}{logical, whether value labels should be plotted to each dot or not.}
 
-\item{labelDigits}{amount of digits for rounding the estimations (see \code{showValueLabels}).
+\item{labelDigits}{amount of digits for rounding the estimates (see \code{showValueLabels}).
 Default is 2, i.e. estimates have 2 digits after decimal point.}
 
 \item{showPValueLabels}{logical, whether the significance level of each coefficient
@@ -94,10 +94,8 @@ of the plot.}
 will be plotted. Only applies if \code{type = "lm"} and fitted model has
 only one predictor, or if \code{type = "pred"} or \code{type = "resid"}.}
 
-\item{pointAlpha}{alpha level of the scatter plot's point-geoms.
-Default is 0.2.
-Only applies if \code{type = "lm"} and fitted model has only one predictor,
-or if \code{type = "pred"} or \code{type = "resid"}.}
+\item{pointAlpha}{alpha value of point-geoms in the scatter plots.
+Default is 0.2.}
 
 \item{showScatterPlot}{logical, if \code{TRUE} (default), a scatter plot of
 response and predictor values for each predictor of \code{fit} is plotted.
@@ -105,16 +103,17 @@ Only applies if \code{type = "lm"} and fitted model has only one predictor,
 or if \code{type = "pred"} or \code{type = "resid"}.}
 
 \item{showLoess}{logical, if \code{TRUE}, an additional loess-smoothed line is plotted.
-Only applies if \code{type = "lm"} and fitted model has only one predictor,
-or if \code{type = "pred"}, \code{type = "resid"} or \code{type = "resp"}.}
+For \code{\link{sjp.lmer}}, only applies \code{type = "fe.pred"} or
+\code{type = "fe.resid"}.}
 
 \item{showLoessCI}{logical, if \code{TRUE}, a confidence region for the loess-smoothed line
-will be plotted. Default is \code{FALSE}. Only applies, if \code{showLoess}
-is \code{TRUE}.}
+will be plotted. Default is \code{FALSE}. Only applies, if \code{showLoess = TRUE}
+(and for \code{\link{sjp.lmer}}, only applies if \code{type = "fe.pred"}
+or \code{type = "fe.resid"}).}
 
-\item{poly.term}{name of polynomial term in \code{fit} as string. Needs to be
-specified, if \code{type = "poly"}, in order to plot marginal effects
-for polynomial terms. See 'Examples'.}
+\item{poly.term}{name of a polynomial term in \code{fit} as string. Needs to be
+         specified, if \code{type = "poly"}, in order to plot marginal effects
+         for polynomial terms. See 'Examples'.}
 
 \item{showOriginalModelOnly}{logical, if \code{TRUE} (default), only model assumptions of
 \code{fit} are plotted. if \code{FALSE}, model assumptions of an updated
@@ -175,8 +174,6 @@ library(sjmisc)
 data(efc)
 # fit model
 fit <- lm(neg_c_7 ~ quol_5, data=efc)
-# plot regression line
-sjp.lm(fit)
 # plot regression line with label strings
 sjp.lm(fit,
        axisLabels.x = "Quality of life",
@@ -205,6 +202,7 @@ sjp.lm(fit,
 # --------------------------
 sjp.lm(fit, type = "ma")
 
+\dontrun{
 # --------------------------
 # plotting polynomial terms
 # --------------------------
@@ -222,7 +220,7 @@ fit <- lm(tot_sc_e ~ c12hour + e42dep +
           e17age + I(e17age^2) + I(e17age^3) + I(e17age^4),
           data = efc)
 # plot marginal effects of polynomial term
-sjp.lm(fit, type = "poly", poly.term = "e17age")
+sjp.lm(fit, type = "poly", poly.term = "e17age")}
 }
 \seealso{
 \href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm} for

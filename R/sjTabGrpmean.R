@@ -1,4 +1,4 @@
-#' @title Show grouped means as HTML table
+#' @title Summary of grouped means as HTML table
 #' @name sjt.grpmean
 #' 
 #' @description Computes mean, sd and se for each sub-group (indicated by \code{varGrp})

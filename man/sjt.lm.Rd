@@ -2,7 +2,7 @@
 % Please edit documentation in R/sjTabLinReg.R
 \name{sjt.lm}
 \alias{sjt.lm}
-\title{Show linear regression as HTML table}
+\title{Summary of linear regression as HTML table}
 \usage{
 sjt.lm(..., file = NULL, labelPredictors = NULL,
   labelDependentVariables = NULL, stringPredictors = "Predictors",

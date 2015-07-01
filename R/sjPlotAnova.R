@@ -44,16 +44,13 @@ utils::globalVariables(c("pv"))
 #'          0.5 is \code{type = "bars"}.
 #' @param showValueLabels logical, whether the value labels (mean differences) should be plotted 
 #'          to each dot or not.
-#' @param labelDigits amount of digits for rounding the estimations (see \code{showValueLabels}).
-#'          Default is 2, i.e. estimators have 2 digits after decimal point.
-#' @param showPValueLabels logical, whether the significance levels of each category/group should be appended
-#'          to values or not.
 #' @param showModelSummary logical, if \code{TRUE}, a summary of the anova model with 
 #'          Sum of Squares between groups (ssb), Sum of Squares within groups (ssw), multiple and adjusted 
 #'          R-square and F-Test is printed to the lower right corner
 #'          of the diagram. Default is \code{TRUE}.
 #'          
 #' @inheritParams sjp.grpfrq
+#' @inheritParams sjp.lm
 #'          
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}).

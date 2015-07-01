@@ -13,48 +13,49 @@ sjt.df(mydf, describe = TRUE, file = NULL, alternateRowColors = FALSE,
   remove.spaces = TRUE)
 }
 \arguments{
-\item{mydf}{A data frame that should be printed.}
+\item{mydf}{data frame that should be printed as table}
 
-\item{describe}{If \code{TRUE} (default), a description of the data frame's variables is given.
-The description is retrieved from the \code{\link[psych]{describe}} function of the \code{psych}
-package. If this parameter is \code{FALSE}, the data frame's content (values) is shown.}
+\item{describe}{logical, if \code{TRUE} (default), a description of the data frame's variables is given.
+The description is retrieved from the \code{\link[psych]{describe}} function.
+If \code{describe = FALSE}, the data frame's content (values) is shown.}
 
 \item{file}{destination file, if the output should be saved as file.
 If \code{NULL} (default), the output will be saved as temporary file and
 openend either in the IDE's viewer pane or the default web browser.}
 
-\item{alternateRowColors}{If \code{TRUE}, alternating rows are highlighted with a light gray
+\item{alternateRowColors}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
 
-\item{orderColumn}{Indicates a column, either by column name or by column index number,
+\item{orderColumn}{indicates a column, either by column name or by column index number,
 that should be sorted. Default order is ascending, which can be changed with
 \code{orderAscending} parameter. Default is \code{NULL}, hence the data frame
-is printed with no specific order. See examples for further details.}
+is printed with no specific order. See 'Examples'.}
 
-\item{orderAscending}{If \code{TRUE} (default) and \code{orderColumn} is not \code{NULL},
+\item{orderAscending}{logical, if \code{TRUE} (default) and \code{orderColumn} is not \code{NULL},
 data frame is ordered according to the specified column in an ascending order.
-Use \code{FALSE} to apply descending order. See examples for further details.}
+Use \code{FALSE} to apply descending order. See 'Examples'.}
 
-\item{title}{A table caption. By default, \code{title} is \code{NULL}, hence no title will be used.}
+\item{title}{table caption. By default, \code{title = NULL}, hence no title will be used.}
 
-\item{repeatHeader}{If \code{TRUE}, the header row will also be added at the bottom at the table. This might
+\item{repeatHeader}{logical, if \code{TRUE}, the header row will also be added at the bottom at the table. This might
 be helpful, if you have longer tables and want to see the column names at the end of the table as well.}
 
-\item{stringVariable}{A string used for the first column name. Default is \code{"Variable"}.}
+\item{stringVariable}{string, label used for the first column name. Default is \code{"Variable"}.}
 
-\item{showType}{If \code{TRUE}, the variable type is shown in a separate row below the column
+\item{showType}{logical, if \code{TRUE}, the variable type is shown in a separate row below the column
 names.}
 
-\item{showRowNames}{If \code{TRUE} and \code{describe} is \code{false}, first table column contains row names
-of data frame. Use \code{showRowNames=FALSE} to omit first table column with row names.}
+\item{showRowNames}{logical, if \code{TRUE} and \code{describe = FALSE},
+first table column contains row names of data frame. Use
+\code{showRowNames = FALSE} to omit first table column with row names.}
 
-\item{showCommentRow}{If \code{TRUE}, an optional comment line can be added to the end / below
+\item{showCommentRow}{logical, if \code{TRUE}, an optional comment line can be added to the end / below
 the table. Use \code{commentString} to specify the comment.}
 
-\item{commentString}{A string that will be added to the end / below the table. Only
-applies, if \code{showCommentRow} is \code{TRUE}.}
+\item{commentString}{string that will be added to the end / below the table. Only
+applies, if \code{showCommentRow = TRUE}.}
 
-\item{hideProgressBar}{If \code{TRUE}, the progress bar that is displayed when creating the
+\item{hideProgressBar}{logical, if \code{TRUE}, the progress bar that is displayed when creating the
          table is hidden. Default in \code{FALSE}, hence the bar is visible.}
 
 \item{encoding}{string, indicating the charset encoding used for variable and

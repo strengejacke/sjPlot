@@ -2,7 +2,7 @@
 utils::globalVariables(c("starts_with"))
 
 
-#' @title Show linear regression as HTML table
+#' @title Summary of linear regression as HTML table
 #' @name sjt.lm
 #' 
 #' @description Summarizes (multiple) fitted linear models (beta coefficients, std. beta values etc.)
@@ -1368,7 +1368,7 @@ sjt.lm <- function(...,
 }
 
 
-#' @title Show linear mixed effects models as HTML table
+#' @title Summary of linear mixed effects models as HTML table
 #' @name sjt.lmer
 #' 
 #' @description Summarizes (multiple) fitted linear mixed effects models 

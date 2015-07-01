@@ -1,4 +1,4 @@
-#' @title Show stacked frequencies as HTML table
+#' @title Summary of stacked frequencies as HTML table
 #' @name sjt.stackfrq
 #' 
 #' @seealso \itemize{
@@ -12,20 +12,20 @@
 #'                should be printed as table to compare their distributions (e.g.
 #'                when plotting scales like SF, Barthel-Index, Quality-of-Life-scales etc.).
 #'                
-#' @param items A \code{\link{data.frame}} with each column representing one (likert- or scale-)item.
-#' @param weightBy A weight factor that will be applied to weight all cases from \code{items}.
+#' @param items \code{\link{data.frame}} with each column representing one (likert- or scale-)item.
+#' @param weightBy weight factor that will be applied to weight all cases from \code{items}.
 #'          Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, so no weights are used.
-#' @param title A table caption.
-#' @param varlabels A list or vector of strings with variable names. If not specified, row names of \code{items}
+#' @param title table caption.
+#' @param varlabels list or vector of strings with variable names. If not specified, row names of \code{items}
 #'          will be used, resp. variable labels will automatically be detected, when they have
 #'          a variable label attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).
-#' @param breakLabelsAt Wordwrap for variable labels. Determines how many chars of the variable labels are displayed in 
+#' @param breakLabelsAt determines how many chars of the variable labels are displayed in 
 #'          one line and when a line break is inserted. Default is 40.
-#' @param valuelabels A list or vector of strings that category/value labels, which
+#' @param valuelabels list or vector of strings that category/value labels, which
 #'          appear in the header row.
-#' @param breakValueLabelsAt Wordwrap for value labels. Determines how many chars of the value labels are displayed in 
+#' @param breakValueLabelsAt determines how many chars of the value labels are displayed in 
 #'          one line and when a line break is inserted. Default is 20.
-#' @param sort.frq Indicates whether the \code{items} should be ordered by
+#' @param sort.frq logical, indicates whether the \code{items} should be ordered by
 #'          by highest count of first or last category of \code{items}.
 #'          \itemize{
 #'            \item Use \code{"first.asc"} to order ascending by lowest count of first category,
@@ -34,28 +34,27 @@
 #'            \item \code{"last.desc"} to order descending by lowest count of last category,
 #'            \item or \code{NULL} (default) for no sorting.
 #'          }
-#' @param digits The amount of digits for rounding the percentage values.
+#' @param digits amount of digits for rounding the percentage values.
 #'          Default is 2, i.e. percentage values have 2 digits after decimal point.
-#' @param showN If \code{TRUE}, each item's category N is printed in the table cells.
-#' @param showTotalN If \code{TRUE}, an additional column with each item's total N is printed.
-#' @param showNA If \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.
+#' @param showN logical, if \code{TRUE}, each item's category N is printed in the table cells.
+#' @param showTotalN logical, if \code{TRUE}, an additional column with each item's total N is printed.
+#' @param showNA logical, if \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.
 #' @param labelNA The label for the missing column/row.
-#' @param showSkew If \code{TRUE}, an additional column with each item's skewness is printed.
+#' @param showSkew logical, if \code{TRUE}, an additional column with each item's skewness is printed.
 #'          The skewness is retrieved from the \code{\link[psych]{describe}} function of the \code{psych}
 #'          package.
-#' @param showKurtosis If \code{TRUE}, an additional column with each item's kurtosis is printed.
+#' @param showKurtosis logical, if \code{TRUE}, an additional column with each item's kurtosis is printed.
 #'          The kurtosis is retrieved from the \code{\link[psych]{describe}} function of the \code{psych}
 #'          package.
-#' @param digits.stats The amount of digits for rounding the skewness and kurtosis valuess.
+#' @param digits.stats amount of digits for rounding the skewness and kurtosis valuess.
 #'          Default is 2, i.e. skewness and kurtosis values have 2 digits after decimal point.
-#' @param skewString A character string, which is used as header for the skew column (see \code{showSkew})).
+#' @param skewString string, which is used as header for the skew column (see \code{showSkew})).
 #'          Default is \code{"Skew"}.
-#' @param kurtosisString A character string, which is used as header for the kurtosis column (see \code{showKurtosis})).
+#' @param kurtosisString string, which is used as header for the kurtosis column (see \code{showKurtosis})).
 #'          Default is \code{"Kurtosis"}.
-#' @param alternateRowColors If \code{TRUE}, alternating rows are highlighted with a light gray
-#'          background color.
 #'          
 #' @inheritParams sjt.frq
+#' @inheritParams sjt.df
 #'          
 #' @return Invisibly returns
 #'          \itemize{

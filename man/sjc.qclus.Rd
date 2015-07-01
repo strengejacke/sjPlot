@@ -17,39 +17,47 @@ sjc.qclus(data, groupcount = NULL, groups = NULL, method = "k",
   printPlot = TRUE)
 }
 \arguments{
-\item{data}{The data frame containing all variables that should be used for the
+\item{data}{data frame containing all variables that should be used for the
 cluster analysis.}
 
-\item{groupcount}{The amount of groups (clusters) that should be retrieved. May also be
+\item{groupcount}{amount of groups (clusters) that should be retrieved. May also be
 a set of initial (distinct) cluster centres, in case \code{method = "kmeans"}
-(see \code{\link{kmeans}} for details on \code{centers} parameter). By default
-(\code{NULL}), the optimal amount of clusters is calculated using the gap statistics
-(see \code{\link{sjc.kgap}}. However, this works only with \code{method = "kmeans"}. If
-\code{method = "hclust"}, you have to specify \code{groupcount}. Use \code{\link{sjc.elbow}}
-to determine the groupcount depending on the elbow-criterion. Use \code{\link{sjc.grpdisc}}
-to inspect the accuracy of grouping.}
+(see \code{\link{kmeans}} for details on \code{centers} parameter).
+If \code{groupcount = NULL}, the optimal amount of clusters is calculated using the
+gap statistics (see \code{\link{sjc.kgap}}. However, this works only
+with \code{method = "kmeans"}. If \code{method = "hclust"}, you have
+to specify \code{groupcount}. Following functions
+may be helpful for estimating the amount of clusters:
+\itemize{
+  \item Use \code{\link{sjc.elbow}} to determine the group-count depending on the elbow-criterion.
+  \item If \code{method = "kmeans"}, use \code{\link{sjc.kgap}} to determine the group-count according to the gap-statistic.
+  \item If \code{method = "hclust"} (hierarchical clustering, default), use \code{\link{sjc.dend}} to inspect different cluster group solutions.
+  \item Use \code{\link{sjc.grpdisc}} to inspect the goodness of grouping (accuracy of classification).
+  }}
 
-\item{groups}{By default, this parameter is \code{NULL} and will be ignored. However, if you want to plot
-an already existing cluster solution without computing a new cluster analysis, specify \code{groupcount}
-and \code{groups}. \code{groups} is a vector of same length as \code{nrow(data)} and indicates the group
-classification of the cluster analysis. The group classification can be computed with the
-\code{\link{sjc.cluster}} function.}
+\item{groups}{optional, by default, this parameter is \code{NULL} and will be
+ignored. However, to plot existing cluster groups, specify \code{groupcount}
+and \code{groups}. \code{groups} is a vector of same length as
+\code{nrow(data)} and indicates the group classification of the cluster
+analysis. The group classification can be computed with the
+\code{\link{sjc.cluster}} function. See 'Examples'.}
 
-\item{method}{The method for computing the cluster analysis. By default (\code{"kmeans"}), a
-kmeans cluster analysis will be computed. Use \code{"hclust"} to compute a hierarchical
-cluster analysis. You can specify the initial letters only.}
+\item{method}{method for computing the cluster analysis. By default (\code{"kmeans"}), a
+kmeans cluster analysis will be computed. Use \code{"hclust"} to
+compute a hierarchical cluster analysis. You can specify the
+initial letters only.}
 
-\item{distance}{The distance measure to be used when \code{method = "hclust"} (for hierarchical
-clustering). This must be one of \code{"euclidean"}, \code{"maximum"}, \code{"manhattan"},
+\item{distance}{distance measure to be used when \code{method = "hclust"} (for hierarchical
+clustering). Must be one of \code{"euclidean"}, \code{"maximum"}, \code{"manhattan"},
 \code{"canberra"}, \code{"binary"} or \code{"minkowski"}. See \code{\link{dist}}.
-By default, method is \code{"kmeans"} and this parameter will be ignored.}
+If is \code{method = "kmeans"} this parameter will be ignored.}
 
-\item{agglomeration}{The agglomeration method to be used when \code{method = "hclust"} (for hierarchical
+\item{agglomeration}{agglomeration method to be used when \code{method = "hclust"} (for hierarchical
 clustering). This should be one of \code{"ward"}, \code{"single"}, \code{"complete"}, \code{"average"},
 \code{"mcquitty"}, \code{"median"} or \code{"centroid"}. Default is \code{"ward"} (see \code{\link{hclust}}).
-By default, \code{method = "kmeans"} and this parameter will be ignored. See 'Note'.}
+If \code{method = "kmeans"} this parameter will be ignored. See 'Note'.}
 
-\item{iter.max}{the maximum number of iterations allowed. Only applies, if
+\item{iter.max}{maximum number of iterations allowed. Only applies, if
 \code{method = "kmeans"}. See \code{\link{kmeans}} for details on this parameter.}
 
 \item{algorithm}{algorithm used for calculating kmeans cluster. Only applies, if
@@ -57,17 +65,21 @@ By default, \code{method = "kmeans"} and this parameter will be ignored. See 'No
 \code{"Lloyd"} (used by SPSS), or \code{"MacQueen"}. See \code{\link{kmeans}}
 for details on this parameter.}
 
-\item{showAccuracy}{If \code{TRUE}, the \code{\link{sjc.grpdisc}} function will be called,
+\item{showAccuracy}{logical, if \code{TRUE}, the \code{\link{sjc.grpdisc}} function will be called,
 which computes a linear discriminant analysis on the classified cluster groups and plots a
 bar graph indicating the goodness of classification for each group.}
 
-\item{title}{Title of diagram as string.
-Example: \code{title = "my title"}}
+\item{title}{plot title as string. Example: \code{title = "my title"}.
+Use \code{NULL} to automatically detect variable names that will be used as title
+(see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+no title is printed.}
 
-\item{axisLabels.x}{Labels for the x-axis breaks.
-Example: \code{axisLabels.x = c("Label1", "Label2", "Label3")}. \cr
-\strong{Note:} If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
-list object with label string. The labels may also be passed as list object. They will be coerced
+\item{axisLabels.x}{a character vector with labels for the x-axis breaks. \strong{Note:}
+Axis labels will be automatically detected, when data was either imported
+with \code{\link[sjmisc]{read_spss}} or has named factor levels
+(see 'Examples'). Else, specifiy parameter like this:
+\code{axisLabels.x = c("Label1", "Label2", "Label3")}.
+The labels may also be passed as \code{\link{list}} object. They will be coerced
 to character vector automatically.}
 
 \item{axisTitle.x}{title for the x-axis.}
@@ -77,30 +89,29 @@ to character vector automatically.}
 \item{breakTitleAt}{Determines how many chars of the title are displayed in
 one line and when a line break is inserted into the title.}
 
-\item{breakLabelsAt}{Determines how many chars of the labels are displayed in
-one line and when a line break is inserted into the axis labels.}
+\item{breakLabelsAt}{determines how many chars of the category labels are displayed in
+one line and when a line break is inserted.}
 
-\item{breakLegendTitleAt}{Determines how many chars of the legend title are displayed in
-one line and when a line break is inserted into the legend title.}
+\item{breakLegendTitleAt}{determines how many chars of the legend's title
+are displayed in one line and when a line break is inserted.}
 
-\item{breakLegendLabelsAt}{Determines how many chars of the legend labels are displayed in
-one line and when a line break is inserted into the axis labels.}
+\item{breakLegendLabelsAt}{determines how many chars of the legend labels are
+displayed in one line and when a line break is inserted.}
 
 \item{facetCluster}{If \code{TRUE}, each cluster group will be represented by an own panel.
 Default is \code{FALSE}, thus all cluster groups are plotted in a single graph.}
 
-\item{geom.colors}{User defined color for bars. See 'Note' in \code{\link{sjp.grpfrq}}.}
+\item{geom.colors}{user defined color for bars. See 'Note' in \code{\link{sjp.grpfrq}}.}
 
-\item{geom.size}{Width of bars. Recommended values for this parameter are from 0.4 to 1.5}
+\item{geom.size}{width of bars. Recommended values for this parameter are from 0.4 to 1.5}
 
-\item{geom.spacing}{Spacing between bars. Default value is 0.1. If 0 is used, the grouped bars are sticked together and have no space
-in between. Recommended values for this parameter are from 0 to 0.5}
+\item{geom.spacing}{the spacing between geoms (i.e. bar spacing)}
 
-\item{hideLegend}{Indicates whether legend (guide) should be shown or not.}
+\item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
 
-\item{showAxisLabels.x}{Whether x axis labels (cluster variables) should be shown or not.}
+\item{showAxisLabels.x}{whether x axis labels (cluster variables) should be shown or not.}
 
-\item{showAxisLabels.y}{Whether y axis labels (z scores) should be shown or not.}
+\item{showAxisLabels.y}{whether y axis labels (z scores) should be shown or not.}
 
 \item{showGroupCount}{if \code{TRUE} (default), the count within each cluster group is added to the
 legend labels (e.g. \code{"Group 1 (n=87)"}).}
@@ -108,17 +119,17 @@ legend labels (e.g. \code{"Group 1 (n=87)"}).}
 \item{showAccuracyLabels}{if \code{TRUE}, the accuracy-values for each cluster group is added to the
 legend labels (e.g. \code{"Group 1 (n=87, accuracy=95.3)"}). Accuracy is calculated by \code{\link{sjc.grpdisc}}.}
 
-\item{legendTitle}{Title of the diagram's legend.}
+\item{legendTitle}{title of the plot legend, as string.}
 
-\item{legendLabels}{Labels for the guide/legend. Example: See \code{axisLabels.x}. If \code{legendLabels}
-is \code{NULL} (default), the standard string \code{"Group <nr>"} will be used.}
+\item{legendLabels}{labels for the guide/legend. If \code{legendLabels = NULL}
+(default), the standard string \code{"Group <nr>"} will be used.}
 
-\item{coord.flip}{If \code{TRUE}, the x and y axis are swapped.}
+\item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
 \item{reverseAxis.x}{if \code{TRUE}, the values on the x-axis are reversed.}
 
-\item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-         want to plot any graphs. In either case, the ggplot-object will be returned as value.}
+\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
 (Invisibly) returns an object with

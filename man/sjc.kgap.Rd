@@ -8,10 +8,10 @@ sjc.kgap(x, max = 10, B = 100, SE.factor = 1, method = "Tibs2001SEmax",
   plotResults = TRUE)
 }
 \arguments{
-\item{x}{A matrix, where rows are observations and columns are individual dimensions,
+\item{x}{matrix, where rows are observations and columns are individual dimensions,
 to compute and plot the gap statistic (according to a uniform reference distribution).}
 
-\item{max}{The maximum number of clusters to consider, must be at least two. Default
+\item{max}{maximum number of clusters to consider, must be at least two. Default
 is 10.}
 
 \item{B}{integer, number of Monte Carlo ("bootstrap") samples. Default is 100.}
@@ -20,7 +20,7 @@ is 10.}
 number of clusters, Tibshirani et al. proposed the "1 S.E."-rule.
 Using an SE.factor f, the "f S.E."-rule is used, more generally.}
 
-\item{method}{A character string indicating how the "optimal" number of clusters,
+\item{method}{character string indicating how the "optimal" number of clusters,
 k^, is computed from the gap statistics (and their standard deviations),
 or more generally how the location k^ of the maximum of f[k] should be
 determined. Default is \code{"Tibs2001SEmax"}. Possible value are:
@@ -32,7 +32,7 @@ determined. Default is \code{"Tibs2001SEmax"}. Possible value are:
   \item \code{"globalSEmax"} (used in Dudoit and Fridlyand (2002), supposedly following Tibshirani's proposition) is the location of the first f() value which is not larger than the global maximum minus SE.factor * SE.f[], i.e, within an "f S.E." range of that maximum (see also SE.factor).
   }}
 
-\item{plotResults}{If \code{TRUE} (default), a graph visualiting the gap statistic will
+\item{plotResults}{logical, if \code{TRUE} (default), a graph visualiting the gap statistic will
          be plotted. Use \code{FALSE} to omit the plot.}
 }
 \value{

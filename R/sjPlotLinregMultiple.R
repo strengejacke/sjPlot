@@ -7,65 +7,39 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #' @description Plot beta coefficients (estimates) with confidence intervalls of multiple fitted linear models
 #'                in one plot.
 #'                
-#' @param ... One or more fitted lm-objects. May also be a \code{\link{list}}-object with 
-#'          fitted models, instead of separating each model with comma. See examples.
-#' @param title Diagram's title as string.
-#'          Example: \code{title = "my title"}
-#' @param labelDependentVariables Labels of the dependent variables of all fitted models
-#'          which have been used as first parameter(s), provided as char vector.
-#' @param legendDepVarTitle A character vector used for the title of the dependent variable's legend.
+#' @param ... one or more fitted lm-objects. May also be a \code{\link{list}}-object with 
+#'          fitted models, instead of separating each model with comma. See 'Examples'.
+#' @param title diagram's title as string.
+#' @param legendDepVarTitle character vector used for the legend title.
 #'          Default is \code{"Dependent Variables"}.
-#' @param legendPValTitle A character vector used for the title of the significance level's legend.
-#'          Default is \code{"p-level"}. Only applies if \code{usePShapes} is \code{TRUE}.
-#' @param stringModel String constant used as legend text for the model names in case no 
+#' @param legendPValTitle character vector used for the title of the significance level's legend.
+#'          Default is \code{"p-level"}. Only applies if \code{usePShapes = TRUE}.
+#' @param stringModel string, legend text for the model names in case no 
 #'          labels for the dependent variables are provided (see \code{labelDependentVariables}).
 #'          Default is \code{"Model"}.
-#' @param axisLabels.y Labels of the predictor variables (independent vars, betas) that are used for labelling the
-#'          axis. Passed as vector of strings.
-#'          Example: \code{axisLabels.y = c("Label1", "Label2", "Label3")} \cr
-#'          \strong{Note:} If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_val_labels}} function, you receive a
-#'          \code{list} object with label strings. The labels may also be passed as list object. They will be coerced
-#'          to character vector automatically.
-#' @param showAxisLabels.y Whether beta names (predictor labels) should be shown or not.
-#' @param axisTitle.x A label ("title") for the x axis.
-#' @param axisLimits Defines the range of the axis where the beta coefficients and their confidence intervalls
-#'          are drawn. By default, the limits range from the lowest confidence interval to the highest one, so
-#'          the diagram has maximum zoom. Use your own values as 2-value-vector, for instance: \code{limits=c(-0.8,0.8)}.
-#' @param breakTitleAt Wordwrap for diagram title. Determines how many chars of the title are displayed in
-#'          one line and when a line break is inserted into the title
-#' @param breakLabelsAt Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in 
-#'          one line and when a line break is inserted
-#' @param breakLegendAt Wordwrap for legend, i.e. names of the dependent variables of each fitted model.
-#'          See parameter \code{labelDependentVariables}. Determines how many chars of each dependent variable name
-#'          is displayed in one line in the legend and when a line break is inserted
-#' @param gridBreaksAt Sets the breaks on the y axis, i.e. at every n'th position a major
-#'          grid is being printed. Default is \code{NULL}, so \code{\link{pretty}} gridbeaks will be used.
-#' @param geom.size The size of the points that indicate the estimates. Default is 3.
-#' @param geom.spacing Defines the space between the dots and error bars of the plotted fitted models. Default
+#' @param showAxisLabels.y Whether term names (predictor labels) should be shown or not.
+#' @param axisTitle.x string, title for the x axis.
+#' @param geom.size size of the points that indicate the estimates. Default is 3.
+#' @param geom.spacing spacing between the dots and error bars of the plotted fitted models. Default
 #'          is 0.3.
-#' @param geom.colors A vector with colors for representing the estimates (i.e. points and error bars)
+#' @param geom.colors colors for representing the estimates (i.e. points and error bars)
 #'          of the different fitted models. Thus, the length of this vector must be equal to
 #'          the length of supplied fitted models, so each model is represented by its own color.
 #'          See 'Note' in \code{\link{sjp.grpfrq}}.
 #' @param fade.ns if \code{TRUE}, non significant estimates will be printed in slightly faded colors.
 #' @param usePShapes If \code{TRUE}, significant levels are distinguished by different point shapes and a related
 #'          legend is plotted. Default is \code{FALSE}.
-#' @param interceptLineType The linetype of the intercept line (zero point). Default is \code{2} (dashed line).
-#' @param interceptLineColor The color of the intercept line. Default value is \code{"grey70"}.
-#' @param hideLegend Indicates whether legend (guide) should be shown or not.
-#' @param coord.flip If \code{TRUE} (default), predictors are plotted on the left y-axis and estimate
-#'          values are plotted on the x-axis.
 #' @param showIntercept If \code{TRUE}, the intercept of the fitted model is also plotted.
 #'          Default is \code{FALSE}.
-#' @param showValueLabels Whether the beta value labels should be plotted.
-#' @param labelDigits The amount of digits for rounding the estimations (see \code{showValueLabels}).
-#'          Default is 2, i.e. estimators have 2 digits after decimal point.
 #' @param showPValueLabels Whether the significance levels of each coefficient should be appended
 #'          to values or not.
 #' @param facet.grid \code{TRUE} when each model should be plotted as single facet instead of 
 #'          an integrated single graph.
-#' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-#'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
+#'          
+#' @inheritParams sjp.lm
+#' @inheritParams sjt.lm
+#' @inheritParams sjp.grpfrq
+#'           
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}).
 #'          
@@ -120,7 +94,7 @@ sjp.lmm <- function(...,
                     axisLimits = NULL,
                     breakTitleAt = 50,
                     breakLabelsAt = 25,
-                    breakLegendAt = 20,
+                    breakLegendTitleAt = 20,
                     gridBreaksAt = NULL,
                     geom.size = 3,
                     geom.spacing = 0.4,
@@ -171,7 +145,7 @@ sjp.lmm <- function(...,
   if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
   # check length of dependent variables
   if (!is.null(labelDependentVariables)) {
-    labelDependentVariables <- sjmisc::word_wrap(labelDependentVariables, breakLegendAt)
+    labelDependentVariables <- sjmisc::word_wrap(labelDependentVariables, breakLegendTitleAt)
   } else {
     # else if we have no labels of dependent variables supplied, use a 
     # default string (Model) for legend

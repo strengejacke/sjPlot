@@ -1,4 +1,4 @@
-#' @title Plot polynomials for linear regression
+#' @title Plot polynomials for (generalized) linear regression
 #' @name sjp.poly
 #'
 #' @description This function plots a scatter plot of a term \code{poly.term}
@@ -19,6 +19,11 @@
 #' @param poly.scale logical, if \code{TRUE}, \code{poly.term} will be scaled before
 #'          linear regression is computed. Default is \code{FALSE}. Scaling the polynomial
 #'          term may have an impact on the resulting p-values.
+#' @param fun linear function when modelling polynomial terms. Use \code{fun = "lm"}
+#'          for linear models, or \code{fun = "glm"} for generalized linear models.
+#'          When \code{x} is not a vector, but a fitted model object, the function
+#'          is detected automatically. If \code{x} is a vector, \code{fun} defaults
+#'          to \code{"lm"}.
 #' @param axisTitle.x A label for the x axis. Use \code{NULL} to automatically detect 
 #'          variable names that will be used as title (see \code{\link[sjmisc]{set_var_labels}}) for details).
 #' @param axisTitle.y A label for the y axis. Use \code{NULL} to automatically detect 
@@ -73,9 +78,6 @@
 #' # quadratic fit
 #' sjp.poly(efc$c160age, efc$quol_5, 2)
 #' 
-#' # cubic fit
-#' sjp.poly(efc$c160age, efc$quol_5, 3)
-#' 
 #' # linear to cubic fit
 #' sjp.poly(efc$c160age, efc$quol_5, 
 #'          1:4, showScatterPlot = FALSE)
@@ -94,20 +96,23 @@
 #' # however, only x^3 has significant p-values.
 #' sjp.poly(fit, "e17age", 2:4, showScatterPlot = FALSE)
 #' 
+#' \dontrun{
 #' # fit new model
 #' fit <- lm(tot_sc_e ~ c12hour + e42dep +
 #'           e17age + I(e17age^2) + I(e17age^3),
 #'           data = efc)
 #' # plot marginal effects of polynomial term
-#' sjp.lm(fit, type = "poly", poly.term = "e17age")
+#' sjp.lm(fit, type = "poly", poly.term = "e17age")}
 #' 
 #' @import ggplot2
 #' @importFrom scales grey_pal brewer_pal
+#' @importFrom stats lm glm binomial
 #' @export
 sjp.poly <- function(x, 
                      poly.term, 
                      poly.degree,
                      poly.scale = FALSE,
+                     fun = NULL,
                      axisTitle.x = NULL,
                      axisTitle.y = NULL,
                      showScatterPlot = TRUE,
@@ -127,21 +132,31 @@ sjp.poly <- function(x,
   # --------------------------------------------
   # parameter check: fitted model or variables?
   # --------------------------------------------
-  if ((any(class(x) == "lmerMod" || any(class(x) == "merModLmerTest"))) && !requireNamespace("lme4", quietly = TRUE)) {
+  if ((any(class(x) == "glmerMod") || any(class(x) == "lmerMod" || any(class(x) == "merModLmerTest"))) && !requireNamespace("lme4", quietly = TRUE)) {
     stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
   }
-  if (any(class(x) == "lmerMod") || any(class(x) == "merModLmerTest")) {
+  if (any(class(x) == "glmerMod") || any(class(x) == "lmerMod") || any(class(x) == "merModLmerTest")) {
     # retrieve response vector
     resp <- lme4::getME(x, "y")
     # retrieve polynomial term
     poly.term <- x@frame[[which(colnames(x@frame) == poly.term)]]
-  } else if (any(class(x) == "lm")) {
+  } else if (any(class(x) == "lm") || any(class(x) == "glm")) {
     # retrieve response vector
     resp <- x$model[[1]]
     # retrieve polynomial term
     poly.term <- x$model[[which(colnames(x$model) == poly.term)]]
   } else {
     resp <- x
+  }
+  # --------------------------------------------
+  # check for glm or lm
+  # --------------------------------------------
+  if (is.null(fun)) {
+    if (any(class(x) == "glmerMod") || any(class(x) == "glm")) {
+      fun <- "glm"
+    } else {
+      fun <- "lm"
+    }
   }
   # --------------------------------------------
   # retrieve labels
@@ -165,15 +180,22 @@ sjp.poly <- function(x,
     # poly-function can't cope with missings, so remove them here
     mydat <- na.omit(data.frame(x = poly.term, y = resp))
     # fit model with polynomials
-    fit <- lm(mydat$y ~ poly(mydat$x, i, raw = TRUE))
+    if (fun == "lm")
+      fit <- stats::lm(mydat$y ~ poly(mydat$x, i, raw = TRUE))
+    else
+      fit <- stats::glm(mydat$y ~ poly(mydat$x, i, raw = TRUE), 
+                        family = stats::binomial(link = "logit"))
+    # check whether we have an integer poly.degree
+    # or a float value
+    poly.digit <- ifelse(i %% 1 == 0, 0, 1)
     # create data frame with raw data and the fitted poly-curve
-    plot.df <- rbind(plot.df, cbind(mydat, predict(fit), sprintf("x^%i", i)))
+    plot.df <- rbind(plot.df, cbind(mydat, predict(fit), sprintf("x^%.*f", poly.digit, i)))
     # print p-values?
     if (showPValues) {
       # get p-values
       pvals <- summary(fit)$coefficients[-1, 4]
       # prepare output string
-      p.out <- sprintf("Polynomial degrees: %i\n---------------------\n", i)
+      p.out <- sprintf("Polynomial degrees: %.*f\n---------------------\n", poly.digit, i)
       # iterate polynomial terms and print p-value for each polynom
       for (j in 1:i) p.out <- paste0(p.out, sprintf("p(x^%i): %.3f\n", j, unname(pvals[j])))
       # add separator line after each model

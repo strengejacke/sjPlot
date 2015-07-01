@@ -2,7 +2,7 @@
 % Please edit documentation in R/sjTabFrequencies.R
 \name{sjt.frq}
 \alias{sjt.frq}
-\title{Show frequencies as HTML table}
+\title{Summary of frequencies as HTML table}
 \usage{
 sjt.frq(data, file = NULL, weightBy = NULL,
   weightByTitleString = " (weighted)", variableLabels = NULL,

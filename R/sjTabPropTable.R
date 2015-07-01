@@ -1,4 +1,4 @@
-#' @title Show contingency tables as HTML table
+#' @title Summary of contingency tables as HTML table
 #' @name sjt.xtab
 #' 
 #' @description Shows contingency tables as HTML file in browser or viewer pane, or saves them as file.
@@ -27,35 +27,35 @@
 #'          value labels  of \code{var.col}, and - if \code{var.grp} is not \code{NULL} - 
 #'          value labels  of \code{var.grp}. \code{valueLabels} needs to be a \code{\link{list}} object.
 #'          See 'Examples'.
-#' @param breakVariableLabelsAt Wordwrap for variable labels. Determines how many chars of the variable labels are displayed in 
+#' @param breakVariableLabelsAt determines how many chars of the variable labels are displayed in 
 #'          one line and when a line break is inserted. Default is 40.
-#' @param breakValueLabelsAt Wordwrap for value labels. Determines how many chars of the value labels are displayed in 
+#' @param breakValueLabelsAt determines how many chars of the value labels are displayed in 
 #'          one line and when a line break is inserted. Default is 20.
-#' @param stringTotal String label for the total column / row header.
-#' @param showCellPerc If \code{TRUE}, cell percentage values are shown.
-#' @param showRowPerc If \code{TRUE}, row percentage values are shown.
-#' @param showColPerc If \code{TRUE}, column percentage values are shown.
-#' @param showObserved If \code{TRUE}, observed values are shown.
-#' @param showExpected If \code{TRUE}, expected values are also shown.
-#' @param showTotalN If \code{TRUE}, column and row sums are also shown, even if \code{showObserved} is \code{FALSE}.
-#' @param showHorizontalLine If \code{TRUE}, data rows are separated with a horizontal line.
-#' @param showSummary If \code{TRUE} (default), a summary row with Chi-square statistics (see \code{\link{chisq.test}}),
+#' @param stringTotal label for the total column / row header
+#' @param showCellPerc logical, if \code{TRUE}, cell percentage values are shown
+#' @param showRowPerc logical, if \code{TRUE}, row percentage values are shown
+#' @param showColPerc logical, if \code{TRUE}, column percentage values are shown
+#' @param showObserved logical, if \code{TRUE}, observed values are shown
+#' @param showExpected logical, if \code{TRUE}, expected values are also shown
+#' @param showTotalN logical, if \code{TRUE}, column and row sums are also shown, even if \code{showObserved} is \code{FALSE}
+#' @param showHorizontalLine logical, if \code{TRUE}, data rows are separated with a horizontal line
+#' @param showSummary logical, if \code{TRUE} (default), a summary row with Chi-square statistics (see \code{\link{chisq.test}}),
 #'          Cramer's V or Phi-value etc. is shown. If a cell contains expected values lower than five (or lower than 10 
 #'          if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is computed instead of Chi-square test. 
 #'          If the table's matrix is larger than 2x2, Fisher's excact test with Monte Carlo simulation is computed.
-#' @param showLegend If \code{TRUE} (default), the color legend for coloring observed and expected
+#' @param showLegend logical, if \code{TRUE} (default), the color legend for coloring observed and expected
 #'          values as well as cell, row and column percentages is shown. See \code{tdcol.n},
 #'          \code{tdcol.expected}, \code{tdcol.cell}, \code{tdcol.row} and \code{tdcol.col}.
-#' @param showNA If \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.
+#' @param showNA logical, if \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.
 #' @param labelNA The label for the missing column/row.
 #' @param tdcol.n Color for highlighting count (observed) values in table cells. Default is black.
 #' @param tdcol.expected Color for highlighting expected values in table cells. Default is cyan.
 #' @param tdcol.cell Color for highlighting cell percentage values in table cells. Default is red.
 #' @param tdcol.row Color for highlighting row percentage values in table cells. Default is blue.
 #' @param tdcol.col Color for highlighting column percentage values in table cells. Default is green.
-#' @param highlightTotal If \code{TRUE}, the total column and row will be highlighted with a
+#' @param highlightTotal logical, if \code{TRUE}, the total column and row will be highlighted with a
 #'          different background color. See \code{highlightColor}.
-#' @param highlightColor If \code{highlightTotal} is \code{TRUE}, this color value will be used
+#' @param highlightColor logical, if \code{highlightTotal = TRUE}, this color value will be used
 #'          for painting the background of the total column and row. Default is a light grey.
 #' @param percSign The percentage sign that is printed in the table cells, in HTML-format.
 #'          Default is \code{"&nbsp;\%"}, hence the percentage sign has a non-breaking-space after

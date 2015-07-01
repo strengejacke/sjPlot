@@ -1,4 +1,4 @@
-Version 1.8.1-10
+Version 1.8.2
 ------------------------------------------------------------------------------
 General:
 * "view_spss" is now deprecated. Use "view_df" instead.
@@ -6,7 +6,7 @@ General:
 * Updated namespaces to meet new CRAN namespace requirements.
 
 New functions:
-* "sjp.poly" to plot polynomial curves for linear regressions.
+* "sjp.poly" to plot polynomial curves for (generalized) linear regressions.
 
 Changes to functions:
 * Model and table summaries in plotting functions (like "sjp.lm" or "sjp.grpfrq") are no longer printed by default. Use "showTableSummary = TRUE" or "showModelSummary = TRUE" to print summaries in plots.

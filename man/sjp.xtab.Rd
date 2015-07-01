@@ -61,8 +61,7 @@ with \code{\link[sjmisc]{read_spss}} or has named factor levels
 The labels may also be passed as \code{\link{list}} object. They will be coerced
 to character vector automatically.}
 
-\item{legendLabels}{a character vector with labels for the guide/legend.
-Example: See \code{axisLabels.x}.}
+\item{legendLabels}{a character vector with labels for the guide/legend.}
 
 \item{labelPos}{positioning of value labels. If \code{barPosition = "dodge"}
 (default), use either \code{"inside"} or \code{"outside"} (default) to put labels in-
