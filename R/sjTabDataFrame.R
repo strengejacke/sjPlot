@@ -38,6 +38,8 @@
 #'          the table. Use \code{commentString} to specify the comment.
 #' @param commentString string that will be added to the end / below the table. Only
 #'          applies, if \code{showCommentRow = TRUE}.
+#' @param big.mark character; if not \code{NULL}, used as mark between every 
+#'          thousands decimals before (hence big) the decimal point
 #' @param hideProgressBar logical, if \code{TRUE}, the progress bar that is displayed when creating the
 #'          table is hidden. Default in \code{FALSE}, hence the bar is visible.
 #'          
@@ -90,6 +92,10 @@
 #'        orderAscending = FALSE, 
 #'        describe = FALSE)
 #' 
+#' # add big mark to thousands
+#' library(datasets)
+#' sjt.df(as.data.frame(WorldPhones), big.mark = ",")
+#' 
 #' # ---------------------------------------------------------------- 
 #' # User defined style sheet
 #' # ---------------------------------------------------------------- 
@@ -113,6 +119,7 @@ sjt.df <- function(mydf,
                    showRowNames = TRUE,
                    showCommentRow = FALSE,
                    commentString = "No comment...",
+                   big.mark = NULL,
                    hideProgressBar = FALSE,
                    encoding = NULL,
                    CSS = NULL,
@@ -145,6 +152,15 @@ sjt.df <- function(mydf,
                        mydf[, 3:ncol(mydf)])
     # proper column name
     colnames(mydf)[4] <- "missings (percentage)"
+    # want to insert a thousands big mark?
+    if (!is.null(big.mark)) {
+      mydf <- as.data.frame(apply(mydf, 2,
+                                  function(x)
+                                    if (max(x, na.rm = T) > 999)
+                                      prettyNum(x, big.mark = ",")
+                                  else
+                                    x))
+    }
   }
   # -------------------------------------
   # Order data set if requested

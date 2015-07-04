@@ -212,14 +212,21 @@ data(efc)
 fit <- lm(tot_sc_e ~ c12hour + e17age + e42dep, data = efc)
 # "e17age" does not seem to be linear correlated to response
 # try to find appropiate polynomial. Grey line (loess smoothed)
-# indicates best fit. Looks like x^4 has the best fit.
+# indicates best fit. Looks like x^3 has a good fit.
 # (not checked for significance yet).
 sjp.poly(fit, "e17age", 2:4, showScatterPlot = FALSE)
 # fit new model
 fit <- lm(tot_sc_e ~ c12hour + e42dep +
-          e17age + I(e17age^2) + I(e17age^3) + I(e17age^4),
+          e17age + I(e17age^2) + I(e17age^3),
           data = efc)
 # plot marginal effects of polynomial term
+sjp.lm(fit, type = "poly", poly.term = "e17age")
+
+
+library(splines)
+# fit new model with "splines"-package, "bs"
+fit <- lm(tot_sc_e ~ c12hour + e42dep + bs(e17age, 3), data = efc)
+# plot marginal effects of polynomial term, same call as above
 sjp.lm(fit, type = "poly", poly.term = "e17age")}
 }
 \seealso{

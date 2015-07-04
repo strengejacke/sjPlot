@@ -152,14 +152,21 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #' fit <- lm(tot_sc_e ~ c12hour + e17age + e42dep, data = efc)
 #' # "e17age" does not seem to be linear correlated to response
 #' # try to find appropiate polynomial. Grey line (loess smoothed)
-#' # indicates best fit. Looks like x^4 has the best fit.
+#' # indicates best fit. Looks like x^3 has a good fit.
 #' # (not checked for significance yet).
 #' sjp.poly(fit, "e17age", 2:4, showScatterPlot = FALSE)
 #' # fit new model
 #' fit <- lm(tot_sc_e ~ c12hour + e42dep +
-#'           e17age + I(e17age^2) + I(e17age^3) + I(e17age^4),
+#'           e17age + I(e17age^2) + I(e17age^3),
 #'           data = efc)
 #' # plot marginal effects of polynomial term
+#' sjp.lm(fit, type = "poly", poly.term = "e17age")
+#' 
+#' 
+#' library(splines)
+#' # fit new model with "splines"-package, "bs"
+#' fit <- lm(tot_sc_e ~ c12hour + e42dep + bs(e17age, 3), data = efc)
+#' # plot marginal effects of polynomial term, same call as above
 #' sjp.lm(fit, type = "poly", poly.term = "e17age")}
 #'
 #' @import ggplot2
@@ -1040,16 +1047,59 @@ sjp.lm.poly <- function(fit,
                         printPlot) {
   # check size parameter
   if (is.null(geom.size)) geom.size <- .8
+  # ------------------------
+  # check if suggested package is available
+  # ------------------------
+  if (!requireNamespace("effects", quietly = TRUE)) {
+    stop("Package 'effects' needed for this function to work. Please install it.", call. = FALSE)
+  }
   # -------------------------------------
   # retrieve model matrix
   # -------------------------------------
   mm <- stats::model.matrix(fit)
+  # get model data column names
+  cn <- colnames(mm)
+  xl <- NULL
   # -------------------------------------
   # parameter check: poly.term required and
   # polynomial must be found in model
   # -------------------------------------
-  if (is.null(poly.term) || length(which(colnames(mm) == poly.term)) == 0) {
-    stop("'poly.term' not given, or not found in model. Please check name of polynomial term.", call. = FALSE)
+  if (!is.null(poly.term)) {
+    # check for simple poly term, using I(x^2) + I(x^3) etc.
+    poly.found <- any(colnames(mm) == poly.term)
+    # found poly? If yes, get range
+    if (poly.found) {
+      xl <- list(x = sort(unique(stats::na.omit(mm[, poly.term]))))
+    } else {
+      # not found? than check for poly term, using poly(x, degree = 3)
+      if (!poly.found) {
+        # find term names
+        pt <- unique(sub("^poly\\(([^,)]*).*", "\\1", cn))
+        # found poly-term?
+        poly.found <- any(pt == poly.term)
+      }
+      # not found? last try, looking for splines
+      if (!poly.found) {
+        # find term names
+        pt <- unique(sub("^bs\\(([^,)]*).*", "\\1", cn))
+        # found poly-term?
+        poly.found <- any(pt == poly.term)
+      }
+    }
+    # no polynomial term found...
+    if (!poly.found) {
+      stop("'poly.term' not given, or not found in model. Please check name of polynomial term.", call. = FALSE)
+      # xl already defined? If not, do it now!
+    } else if (is.null(xl)) {
+      # "dummy computation" of effects to get range of poly term
+      eff <- suppressMessages(effects::effect(poly.term, fit, KR = FALSE))
+      # get range
+      pora <- range(eff$x[[poly.term]])
+      # create levels paramater for effect method
+      xl <- list(x = seq(pora[1], pora[2]))
+    }
+  } else {
+    stop("'poly.term' must be specified.", call. = FALSE)
   }
   # ------------------------
   # check for color brewer palette
@@ -1059,12 +1109,6 @@ sjp.lm.poly <- function(fit,
   } else if (geom.colors[1] == "gs") {
     geom.colors <- scales::grey_pal()(2)
   }
-  # ------------------------
-  # check if suggested package is available
-  # ------------------------
-  if (!requireNamespace("effects", quietly = TRUE)) {
-    stop("Package 'effects' needed for this function to work. Please install it.", call. = FALSE)
-  }
   # --------------------------------------------
   # retrieve labels
   # --------------------------------------------
@@ -1072,7 +1116,6 @@ sjp.lm.poly <- function(fit,
   # ------------------------
   # compute marginal effects of polynomial
   # ------------------------
-  xl <- list(x = sort(unique(stats::na.omit(mm[, poly.term]))))
   names(xl) <- poly.term
   eff <- effects::effect(poly.term, fit, xlevels = xl, KR = FALSE)
   # ------------------------

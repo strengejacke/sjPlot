@@ -1,3 +1,6 @@
+---
+output: pdf_document
+---
 sjPlot - Data Visualization for Statistics in Social Science
 ------------------------------------------------------------------------------
 Collection of plotting and table output functions for data visualization. Results of various statistical analyses (that are commonly used in social sciences) can be visualized using this package, including simple and cross tabulated frequencies, histograms, box plots, (generalized) linear models, mixed effects models, PCA and correlation matrices, cluster analyses, scatter plots, Likert scales, effects plots of interaction terms in regression models, constructing index or score variables and much more.
@@ -40,30 +43,9 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](http://cran.r-project.org/package=ggplot2), consider citing this package as well.
 
-### Changelog of development build 1.8.2
-
-#### General
-* `view_spss` is now deprecated. Use `view_df` instead.
-* Package documentation got major revisions.
-* Updated namespaces to meet new CRAN namespace requirements.
-
-#### New functions
-* `sjp.poly` to plot polynomial curves for (generalized) linear regressions.
+### Changelog of development build 1.8.2-1
 
 #### Changes to functions
-* Model and table summaries in plotting functions (like `sjp.lm` or `sjp.grpfrq`) are no longer printed by default. Use `showTableSummary = TRUE` or `showModelSummary = TRUE` to print summaries in plots.
-* Added more plotting type options (see `type` parameter) to `sjp.glm`, `sjp.glmer`, `sjp.lm` and `sjp.lmer`: `eff` for plotting marginal effects of model terms, and `poly` to plot predicted values of polynomial terms (only for linear (mixed) models).
-* Added parameter `int.term` to `sjp.int`, to plot selected interaction terms for `type = "eff"`. May be used in cases where effect computation takes too long or even crashes due to out-of-memory-problems.
-* Added parameter `pointLabels` to `sjp.scatter` to plot scattered text labels.
-* Added parameter `axisLimits.x` to `sjp.int`, `sjp.frq` and `sjp.grpfrq`.
-* Added parameter `showAICc` to `sjt.lm`, `sjt.glm`, `sjt.lme` and `sjt.glmer` to print second-order AIC.
-* Improved automatic y-axis-limit detection in `sjp.frq` and `sjp.grpfrq`.
-* For `sjt.lm` and `sjt.glm`, if `digits.p` is greater than 3, p-values less than 0.001 will no longer be abbreviated to **<0.001**. Instead, the exact value (rounded to digits.p) will be printed.
-* Minor improvements to `sjp.likert`, `sjp.int`, `sjp.glm`, `sjp.frq` and `sjp.grpfrq`.
+* `type = "poly"` in `sjp.lm` can now deal with fitted models that either use polynomials with `poly` or splines with `bs` (see examples).
+* `sjt.df` gets a `big.mark` parameter to add thousands-separators if parameter `describe = TRUE`.
 
-#### Bug fixes
-* `sjp.int` sometimes crashed with mixed models, due to slow Kenward-Roger-computation of standard errors, provided by the `effects`-package. Fixed, `KR`-parameter, when calling `allEffects`, now defaults to `FALSE`.
-* Fixed bug in `view_spss`, where frequencies were not displayed correctly when a category value had zero counts.
-* Fixed bug in `sjp.frq` and `sjt.frq`, where non-incremental levels in some cases were not displayed correctly.
-* Fixed bug in `sjp.frq` and `sjt.frq`, where categories of ordered factors were messed up.
-* Some minor bug fixes.
