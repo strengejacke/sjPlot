@@ -1,6 +1,3 @@
----
-output: pdf_document
----
 sjPlot - Data Visualization for Statistics in Social Science
 ------------------------------------------------------------------------------
 Collection of plotting and table output functions for data visualization. Results of various statistical analyses (that are commonly used in social sciences) can be visualized using this package, including simple and cross tabulated frequencies, histograms, box plots, (generalized) linear models, mixed effects models, PCA and correlation matrices, cluster analyses, scatter plots, Likert scales, effects plots of interaction terms in regression models, constructing index or score variables and much more.
