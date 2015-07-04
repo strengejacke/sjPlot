@@ -105,6 +105,7 @@
 #'                   css.tdata = "border-top: 1px solid;",
 #'                   css.arc = "color:blue;"))}
 #'
+#' @importFrom utils txtProgressBar setTxtProgressBar
 #' @export
 sjt.df <- function(mydf,
                    describe = TRUE,
@@ -175,7 +176,7 @@ sjt.df <- function(mydf,
     # check for correct range
     if (is.numeric(orderColumn) && orderColumn > 0 && orderColumn <= ncol(mydf)) {
       # retrieve order
-      rfolge <- order(mydf[, orderColumn])
+      rfolge <- order(mydf[[orderColumn]])
       # reverse order?
       if (!orderAscending) rfolge <- rev(rfolge)
       # sort dataframe
@@ -260,13 +261,28 @@ sjt.df <- function(mydf,
   # -------------------------------------
   get.vartype <- function(x) {
     vt <- c("unknown type")
-    if (is.character(x)) vt <- c("character")
-    else if (is.ordered(x)) vt <- c("ordinal")
-    else if (is.factor(x)) vt <- c("categorical")
-    else if (is.integer(x)) vt <- c("numeric")
-    else if (is.double(x)) vt <- c("numeric-double")
-    else if (is.numeric(x)) vt <- c("numeric")
-    else if (is.atomic(x)) vt <- c("atomic")
+    if (is(x, "Date"))
+      vt <- c("date")
+    else if (inherits(x, "POSIXct"))
+      vt <- c("POSIXct")
+    else if (inherits(x, "POSIXlt"))
+      vt <- c("POSIXlt")
+    else if (inherits(x, "POSIXt"))
+      vt <- c("POSIXt")
+    else if (is.character(x))
+      vt <- c("character")
+    else if (is.ordered(x))
+      vt <- c("ordinal")
+    else if (is.factor(x))
+      vt <- c("categorical")
+    else if (is.integer(x))
+      vt <- c("numeric")
+    else if (is.double(x))
+      vt <- c("numeric-double")
+    else if (is.numeric(x))
+      vt <- c("numeric")
+    else if (is.atomic(x))
+      vt <- c("atomic")
     return(vt)
   }
   # -------------------------------------
@@ -287,9 +303,9 @@ sjt.df <- function(mydf,
   # -------------------------------------
   # create progress bar
   # -------------------------------------
-  if (!hideProgressBar) pb <- txtProgressBar(min = 0, 
-                                             max = rowcnt, 
-                                             style = 3)
+  if (!hideProgressBar) pb <- utils::txtProgressBar(min = 0, 
+                                                    max = rowcnt, 
+                                                    style = 3)
   # -------------------------------------
   # subsequent rows
   # -------------------------------------
@@ -306,7 +322,7 @@ sjt.df <- function(mydf,
       page.content <- paste0(page.content, sprintf("    <td class=\"tdata centertalign%s\">%s</td>\n", arcstring, mydf[rcnt, ccnt]))
     }
     # update progress bar
-    if (!hideProgressBar) setTxtProgressBar(pb, rcnt)
+    if (!hideProgressBar) utils::setTxtProgressBar(pb, rcnt)
     # close row tag
     page.content <- paste0(page.content, "</tr>\n")
   }
@@ -382,11 +398,11 @@ sjt.df <- function(mydf,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = "sjtdf",
-                       list(data = mydf,
-                            page.style = page.style,
-                            page.content = page.content,
-                            output.complete = toWrite,
-                            knitr = knitr)))
+  invisible(structure(class = "sjtdf",
+                      list(data = mydf,
+                           page.style = page.style,
+                           page.content = page.content,
+                           output.complete = toWrite,
+                           knitr = knitr)))
 }
                      

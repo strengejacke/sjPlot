@@ -1,8 +1,9 @@
-Version 1.8.2-1
+Version 1.8.2-2
 -----------------------------------------------------------------------------
 Changes to functions:
 * "type = 'poly'" in "sjp.lm" can now deal with fitted models that either use polynomials with "poly" or splines with "bs".
 * "sjt.df" gets a "big.mark" parameter to add thousands-separators if parameter "describe = TRUE".
+* "sjt.df" now recognizes Date and POSIX-classes, if "showType = TRUE".
 
 Version 1.8.2
 ------------------------------------------------------------------------------
