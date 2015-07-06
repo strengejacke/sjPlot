@@ -256,36 +256,6 @@ sjt.df <- function(mydf,
   # -------------------------------------
   if (!is.null(title)) page.content <- paste0(page.content, sprintf("  <caption>%s</caption>\n", title))
   # -------------------------------------
-  # helper function to retrieve type
-  # of variables
-  # -------------------------------------
-  get.vartype <- function(x) {
-    vt <- c("unknown type")
-    if (is(x, "Date"))
-      vt <- c("date")
-    else if (inherits(x, "POSIXct"))
-      vt <- c("POSIXct")
-    else if (inherits(x, "POSIXlt"))
-      vt <- c("POSIXlt")
-    else if (inherits(x, "POSIXt"))
-      vt <- c("POSIXt")
-    else if (is.character(x))
-      vt <- c("character")
-    else if (is.ordered(x))
-      vt <- c("ordinal")
-    else if (is.factor(x))
-      vt <- c("categorical")
-    else if (is.integer(x))
-      vt <- c("numeric")
-    else if (is.double(x))
-      vt <- c("numeric-double")
-    else if (is.numeric(x))
-      vt <- c("numeric")
-    else if (is.atomic(x))
-      vt <- c("atomic")
-    return(vt)
-  }
-  # -------------------------------------
   # header row
   # -------------------------------------
   page.content <- paste0(page.content, "  <tr>\n")
@@ -405,4 +375,35 @@ sjt.df <- function(mydf,
                            output.complete = toWrite,
                            knitr = knitr)))
 }
-                     
+
+
+# -------------------------------------
+# helper function to retrieve type
+# of variables
+# -------------------------------------
+get.vartype <- function(x) {
+  vt <- c("unknown type")
+  if (is(x, "Date"))
+    vt <- c("date")
+  else if (inherits(x, "POSIXct"))
+    vt <- c("POSIXct")
+  else if (inherits(x, "POSIXlt"))
+    vt <- c("POSIXlt")
+  else if (inherits(x, "POSIXt"))
+    vt <- c("POSIXt")
+  else if (is.character(x))
+    vt <- c("character")
+  else if (is.ordered(x))
+    vt <- c("ordinal")
+  else if (is.factor(x))
+    vt <- c("categorical")
+  else if (is.integer(x))
+    vt <- c("numeric")
+  else if (is.double(x))
+    vt <- c("numeric-double")
+  else if (is.numeric(x))
+    vt <- c("numeric")
+  else if (is.atomic(x))
+    vt <- c("atomic")
+  return(vt)
+}

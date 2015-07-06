@@ -45,9 +45,12 @@
 #' @param pointAlpha The alpha values of the scatter plot's point-geoms. Default is 0.2.
 #' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
-#' @return (insisibily) returns the ggplot-object with the complete plot (\code{plot})
-#'           as well as the data frame that was used for setting up the
-#'           ggplot-object (\code{df}).
+#' @return (insisibily) returns 
+#'           \describe{
+#'            \item{\code{plot}}{the ggplot-object with the complete plot}
+#'            \item{\code{df}}{the data frame that was used for setting up the ggplot-object}
+#'            \item{\code{cutpoints}}{a data frame that indicates x-values and predicted y-values of each direction change in the loess curvature}
+#'           }
 #' 
 #' @details For each polynomial degree, a simple linear regression on \code{x} (resp.
 #'            the extracted response, if \code{x} is a fitted model) is performed,
@@ -173,6 +176,10 @@ sjp.poly <- function(x,
   # scale polynomial term?
   if (poly.scale) poly.term <- scale(poly.term)
   # --------------------------------------------
+  # get cutpoints for loess curve
+  # --------------------------------------------
+  cutpoints <- get_loess_cutpoints(na.omit(data.frame(x = poly.term, y = resp)))
+  # --------------------------------------------
   # if user wants to plot multiple curves for
   # polynomials, create data frame for each curve here
   # --------------------------------------------
@@ -230,5 +237,44 @@ sjp.poly <- function(x,
   # -------------------------------------
   invisible(structure(class = "sjppoly",
                       list(plot = polyplot,
-                           df = plot.df)))
+                           df = plot.df,
+                           cutpoints = cutpoints)))
+}
+
+
+#' @importFrom stats loess predict
+get_loess_cutpoints <- function(mydat) {
+  # sort data frame by x-values
+  mydat <- mydat[order(mydat$x), ]
+  # fit loess
+  fit <- stats::loess(y ~ x, mydat)
+  # get predicted values
+  preds <- unique(stats::predict(fit))
+  xuni <- unique(mydat$x)
+  # define counter
+  cnt <- 1
+  cutpoints <- c()
+  xvals <- c()
+  # initial direction for finding first cutpoint?
+  direction <- ifelse(preds[cnt + 1] > preds[cnt], "up", "down")
+  # "follow" path of loess line until cutpoint
+  # then save value and change direction
+  while (cnt < length(preds)) {
+    if (direction == "up") {
+      if (preds[cnt + 1] < preds[cnt]) {
+        direction <- "down"
+        cutpoints <- c(cutpoints, preds[cnt])
+        xvals <- c(xvals, xuni[cnt])
+      }
+    } else {
+      if (preds[cnt + 1] > preds[cnt]) {
+        direction <- "up"
+        cutpoints <- c(cutpoints, preds[cnt])
+        xvals <- c(xvals, xuni[cnt])
+      }
+    }
+    cnt <- cnt + 1
+  }
+  
+  return(data.frame(cutpoint.x = xvals, cutpoint.y = cutpoints))
 }

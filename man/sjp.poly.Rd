@@ -67,9 +67,12 @@ or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.}
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
-(insisibily) returns the ggplot-object with the complete plot (\code{plot})
-          as well as the data frame that was used for setting up the
-          ggplot-object (\code{df}).
+(insisibily) returns
+          \describe{
+           \item{\code{plot}}{the ggplot-object with the complete plot}
+           \item{\code{df}}{the data frame that was used for setting up the ggplot-object}
+           \item{\code{cutpoints}}{a data frame that indicates x-values and predicted y-values of each direction change in the loess curvature}
+          }
 }
 \description{
 This function plots a scatter plot of a term \code{poly.term}

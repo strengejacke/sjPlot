@@ -216,12 +216,11 @@ view_df <- function(x,
     page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, colnames(x)[index]))
     # type
     if (showType) {
-      vartype <- c("unknown type")
-      if (is.character(x[[index]])) vartype <- c("character")
-      else if (is.factor(x[[index]])) vartype <- c("factor")
-      else if (is.numeric(x[[index]])) vartype <- c("numeric")
-      else if (is.atomic(x[[index]])) vartype <- c("atomic")
-      page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, vartype))
+      vartype <- get.vartype(x[[index]])
+      page.content <- paste0(page.content, 
+                             sprintf("    <td class=\"tdata%s\">%s</td>\n", 
+                                     arcstring, 
+                                     vartype))
     }
     # label
     if (index <= length(df.var)) {
