@@ -191,7 +191,7 @@ create.frq.df <- function(varCount,
     }
   }
   # caculate missings here
-  missingcount <- length(which(is.na(varCount)))
+  missingcount <- sum(is.na(varCount))
   # --------------------------------------------------------
   # Handle missings
   # --------------------------------------------------------

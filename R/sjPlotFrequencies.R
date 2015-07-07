@@ -276,11 +276,6 @@ sjp.frq <- function(varCount,
   # --------------------------------------------------------
   if (is.factor(varCount)) varCount <- sjmisc::to_value(varCount)
   # --------------------------------------------------------
-  # save label values. needed later to determine correct
-  # amount of categories
-  # --------------------------------------------------------
-  labelvalues <- sjmisc::get_values(varCount)
-  # --------------------------------------------------------
   # We have several options to name the plot type
   # Here we will reduce it to a unique value
   # --------------------------------------------------------
@@ -338,10 +333,12 @@ sjp.frq <- function(varCount,
                                   autoGroupCount = agcnt)
     # set label attributes
     varCount <- sjmisc::set_val_labels(varCount, axisLabels.x)
-    # save label values. needed later to determine correct
-    # amount of categories
-    labelvalues <- sjmisc::get_values(varCount)
   }
+  # --------------------------------------------------------
+  # save label values. needed later to determine correct
+  # amount of categories
+  # --------------------------------------------------------
+  labelvalues <- sjmisc::get_values(varCount)
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
