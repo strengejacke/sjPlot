@@ -479,7 +479,7 @@ sjp.grpfrq <- function(varCount,
     # --------------------------------------------------------
     if (!na.rm) {
       # get amount of missings
-      frq <- length(which(is.na(varCount[which(varGroup == i)])))
+      frq <- sum(is.na(varCount[which(varGroup == as.numeric(dfgrp$Var1[i]))]))
       # create data frame
       tmpdf <- data.frame(cbind(count = catcount + 1, 
                                 group, 
