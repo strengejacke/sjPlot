@@ -38,7 +38,7 @@ be a string vector, e.g.: \code{axisLabels.y = c("Var 1", "Var 2", "Var 3")}.}
 
 \item{type}{Plot type resp. geom type. May be one of following: \code{"circle"} or \code{"tile"}
 circular or tiled geoms, or \code{"bar"} for a bar plot. You may use initial letter only
-for this parameter.}
+for this argument.}
 
 \item{geom.size}{Specifies the circle size factor. The circle size depends on the correlation
 value multiplicated with this factor. Default is 10.}
@@ -46,7 +46,7 @@ value multiplicated with this factor. Default is 10.}
 \item{geom.colors}{A color palette for fillng the geoms. If not specified, the diverging \code{"RdBl"} color palette
 from the color brewer palettes is used, resulting in red colors for negative and blue colors
 for positive factor loadings, that become lighter the weaker the loadings are. Use any
-color palette that is suitbale for the \code{scale_fill_gradientn} parameter of ggplot2.}
+color palette that is suitbale for the \code{scale_fill_gradientn} argument of ggplot2.}
 
 \item{breakTitleAt}{Wordwrap for diagram title. Determines how many chars of the title are displayed in
 one line and when a line break is inserted into the title. Default is 50.}
@@ -70,7 +70,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
          \itemize{
            \item the varimax-rotated factor loading matrix (\code{varim})
            \item the column indices of removed variables (for more details see next list item) (\code{removed.colindex})
-           \item an updated data frame containing all factors that have a clear loading on a specific scale in case \code{data} was a data frame (See parameter \code{factorLoadingTolerance} for more details) (\code{removed.df})
+           \item an updated data frame containing all factors that have a clear loading on a specific scale in case \code{data} was a data frame (See argument \code{factorLoadingTolerance} for more details) (\code{removed.df})
            \item the \code{factor.index}, i.e. the column index of each variable with the highest factor loading for each factor,
            \item the ggplot-object (\code{plot}),
            \item the data frame that was used for setting up the ggplot-object (\code{df}).
@@ -79,7 +79,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 \description{
 Performes a principle component analysis on a data frame or matrix (with
                varimax rotation) and plots the factor solution as ellipses or tiles. \cr \cr
-               In case a data frame is used as parameter, the cronbach's alpha value for
+               In case a data frame is used as argument, the cronbach's alpha value for
                each factor scale will be calculated, i.e. all variables with the highest
                loading for a factor are taken for the reliability test. The result is
                an alpha value for each factor dimension.

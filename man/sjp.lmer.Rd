@@ -36,7 +36,7 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
 \item{vars}{numeric vector with column indices of selected variables or a character vector with
 variable names of selected variables from the fitted model, which should be used to plot
 fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability curves
-(for \code{\link[lme4]{glmer}}) of random intercepts. This parameter only
+(for \code{\link[lme4]{glmer}}) of random intercepts. This argument only
 applies if \code{type} is \code{"fe.pc"}, \code{"ri.pc"} or \code{"fe.ri"}.
 In this case, only those terms specified in \code{"vars"} will be plotted.}
 
@@ -50,13 +50,13 @@ so all random effects will be plotted.}
 If \code{type = "ri.pc"} or \code{type = "fe.ri"}, and \code{facet.grid = FALSE},
 an integrated plot of predicted probabilities of fixed effects resp. fixed
 effects slopes for each grouping level is plotted. To better find
-certain groups, use this parameter to emphasize these groups in the plot.
+certain groups, use this argument to emphasize these groups in the plot.
 See 'Examples'.}
 
 \item{title}{character vector with one or more labels that are used as plot title. If
 \code{type = "re"}, use the predictors' variable labels as titles.}
 
-\item{geom.size}{size of geoms (point size or line size, depending on \code{type}-parameter).}
+\item{geom.size}{size of geoms (point size or line size, depending on \code{type}-argument).}
 
 \item{geom.colors}{user defined color palette for geoms. Must either be vector with two color values
 or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.}

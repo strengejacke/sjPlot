@@ -20,12 +20,12 @@ cluster analysis.}
 \item{distance}{distance measure to be used when \code{method = "hclust"} (for hierarchical
 clustering). Must be one of \code{"euclidean"}, \code{"maximum"}, \code{"manhattan"},
 \code{"canberra"}, \code{"binary"} or \code{"minkowski"}. See \code{\link{dist}}.
-If is \code{method = "kmeans"} this parameter will be ignored.}
+If is \code{method = "kmeans"} this argument will be ignored.}
 
 \item{agglomeration}{agglomeration method to be used when \code{method = "hclust"} (for hierarchical
 clustering). This should be one of \code{"ward"}, \code{"single"}, \code{"complete"}, \code{"average"},
 \code{"mcquitty"}, \code{"median"} or \code{"centroid"}. Default is \code{"ward"} (see \code{\link{hclust}}).
-If \code{method = "kmeans"} this parameter will be ignored. See 'Note'.}
+If \code{method = "kmeans"} this argument will be ignored. See 'Note'.}
 }
 \description{
 Computes a hierarchical cluster analysis and plots a hierarchical

@@ -84,7 +84,7 @@
 #' sjp.scatter(efc$e16sex,efc$neg_c_7, efc$c172code, showRug = TRUE)
 #' 
 #' # grouped and labelled scatter plot, not using the auto-detection 
-#' # of labels, but instead pass labels as parameters
+#' # of labels, but instead pass labels as arguments
 #' sjp.scatter(efc$c160age, efc$e17age, efc$e42dep, 
 #'             title = "Scatter Plot",
 #'             legendTitle = get_var_labels(efc)['e42dep'],

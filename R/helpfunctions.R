@@ -131,7 +131,7 @@ create.frq.df <- function(varCount,
     # This enables us to plot zero counts as well.
     # We guess the maximum amount of categories either by the amount
     # of supplied category labels. If no category labels were passed
-    # as parameter, we assume that the maximum value found in the category
+    # as argument, we assume that the maximum value found in the category
     # columns represents the highest category number
     catcount <- 0
     catmin <- minval <- min(varCount, na.rm = TRUE)

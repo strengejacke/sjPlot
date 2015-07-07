@@ -24,10 +24,10 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   \item{\code{"std"}}{for forest-plot like plot of standardized beta values. If the fitted model only contains one predictor, intercept and slope are plotted.}
   \item{\code{"pred"}}{to plot regression lines for each single predictor of the fitted model, against the response (linear relationship between each model term and response).}
   \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals (linear relationship between each model term and residuals). May be used for model diagnostics (see \url{https://www.otexts.org/fpp/5/4}).}
-  \item{\code{"resp"}}{to plot predicted values for the response. Use \code{showCI} parameter to plot standard errors as well.}
+  \item{\code{"resp"}}{to plot predicted values for the response. Use \code{showCI} argument to plot standard errors as well.}
   \item{\code{"eff"}}{to plot marginal effects of all terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms.}
   \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples').}
-  \item{\code{"ma"}}{to check model assumptions. Note that only three parameters are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.}
+  \item{\code{"ma"}}{to check model assumptions. Note that only three arguments are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other arguments are ignored.}
   \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 }}
 
@@ -60,7 +60,7 @@ lower and upper limit for the axis (for instance: \code{limits = c(-0.8, 0.8)}).
 \item{geom.colors}{user defined color palette for geoms. Must either be vector with two color values
 or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.}
 
-\item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} parameter).}
+\item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} argument).}
 
 \item{interceptLineType}{linetype of the intercept line (zero point). Default is \code{2} (dashed line).}
 
@@ -142,13 +142,13 @@ Depending on the \code{type}, this function plots beta coefficients (estimates)
 }
 \details{
 \itemize{
-           \item If \code{type = "lm"} and fitted model only has one predictor, no forest plot is shown. Instead, a regression line with confidence interval (in blue) is plotted by default, and a loess-smoothed line without confidence interval (in red) can be added if parameter \code{showLoess} is \code{TRUE}.
+           \item If \code{type = "lm"} and fitted model only has one predictor, no forest plot is shown. Instead, a regression line with confidence interval (in blue) is plotted by default, and a loess-smoothed line without confidence interval (in red) can be added if argument \code{showLoess} is \code{TRUE}.
            \item If \code{type = "pred"}, regression lines (slopes) with confidence intervals for each single predictor of the fitted model are plotted, i.e. all predictors of the fitted model are extracted and for each of them, the linear relationship is plotted against the response variable.
            \item \code{type = "resid"} is similar to the \code{type = "pred"} option, however, each predictor is plotted against the residuals (instead of response).
            \item If \code{type = "resp"}, the predicted values of the response for each observation is plotted, which mostly results in a single linear line.
-           \item \code{type = "eff"} computes the marginal effects for all predictors, using the \code{\link[effects]{allEffects}} function. I.e. for each predictor, the predicted values towards the response are plotted, with all remaining co-variates set to the mean. Due to possible different scales of predictors, a facted plot is printed (instead of plotting all lines in one plot). This function accepts following parameter: \code{fit}, \code{title}, \code{geom.size}, \code{showCI} and \code{printPlot}.
-           \item \code{type = "poly"} plots the marginal effects of polynomial terms in \code{fit}, using the \code{\link[effects]{effect}} function, but only for a selected polynomial term, which is specified with \code{poly.term}. This function helps undertanding the effect of polynomial terms by plotting the curvilinear relationships of response and quadratic, cubic etc. terms. This function accepts following parameter: \code{fit}, \code{poly.term}, \code{geom.colors}, \code{geom.size}, \code{axisTitle.x}, \code{showCI} and \code{printPlot}.
-           \item If \code{type = "ma"} (i.e. checking model assumptions), please note that only three parameters are relevant: \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other parameters are ignored.
+           \item \code{type = "eff"} computes the marginal effects for all predictors, using the \code{\link[effects]{allEffects}} function. I.e. for each predictor, the predicted values towards the response are plotted, with all remaining co-variates set to the mean. Due to possible different scales of predictors, a facted plot is printed (instead of plotting all lines in one plot). This function accepts following argument: \code{fit}, \code{title}, \code{geom.size}, \code{showCI} and \code{printPlot}.
+           \item \code{type = "poly"} plots the marginal effects of polynomial terms in \code{fit}, using the \code{\link[effects]{effect}} function, but only for a selected polynomial term, which is specified with \code{poly.term}. This function helps undertanding the effect of polynomial terms by plotting the curvilinear relationships of response and quadratic, cubic etc. terms. This function accepts following argument: \code{fit}, \code{poly.term}, \code{geom.colors}, \code{geom.size}, \code{axisTitle.x}, \code{showCI} and \code{printPlot}.
+           \item If \code{type = "ma"} (i.e. checking model assumptions), please note that only three arguments are relevant: \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other arguments are ignored.
            \item If \code{type = "vif"}, the Variance Inflation Factors (check for multicollinearity) are plotted. As a rule of thumb, values below 5 are considered as good and indicate no multicollinearity, values between 5 and 10 may be tolerable. Values greater than 10 are not acceptable and indicate multicollinearity between model's predictors.
            }
 }

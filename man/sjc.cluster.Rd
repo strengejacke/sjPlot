@@ -13,7 +13,7 @@ cluster analysis.}
 
 \item{groupcount}{amount of groups (clusters) that should be retrieved. May also be
 a set of initial (distinct) cluster centres, in case \code{method = "kmeans"}
-(see \code{\link{kmeans}} for details on \code{centers} parameter).
+(see \code{\link{kmeans}} for details on \code{centers} argument).
 If \code{groupcount = NULL}, the optimal amount of clusters is calculated using the
 gap statistics (see \code{\link{sjc.kgap}}. However, this works only
 with \code{method = "kmeans"}. If \code{method = "hclust"}, you have
@@ -33,20 +33,20 @@ may be helpful for estimating the amount of clusters:
 \item{distance}{distance measure to be used when \code{method = "hclust"} (for hierarchical
 clustering). Must be one of \code{"euclidean"}, \code{"maximum"}, \code{"manhattan"},
 \code{"canberra"}, \code{"binary"} or \code{"minkowski"}. See \code{\link{dist}}.
-If is \code{method = "kmeans"} this parameter will be ignored.}
+If is \code{method = "kmeans"} this argument will be ignored.}
 
 \item{agglomeration}{agglomeration method to be used when \code{method = "hclust"} (for hierarchical
 clustering). This should be one of \code{"ward"}, \code{"single"}, \code{"complete"}, \code{"average"},
 \code{"mcquitty"}, \code{"median"} or \code{"centroid"}. Default is \code{"ward"} (see \code{\link{hclust}}).
-If \code{method = "kmeans"} this parameter will be ignored. See 'Note'.}
+If \code{method = "kmeans"} this argument will be ignored. See 'Note'.}
 
 \item{iter.max}{maximum number of iterations allowed. Only applies, if
-\code{method = "kmeans"}. See \code{\link{kmeans}} for details on this parameter.}
+\code{method = "kmeans"}. See \code{\link{kmeans}} for details on this argument.}
 
 \item{algorithm}{algorithm used for calculating kmeans cluster. Only applies, if
 \code{method = "kmeans"}. May be one of \code{"Hartigan-Wong"} (default),
 \code{"Lloyd"} (used by SPSS), or \code{"MacQueen"}. See \code{\link{kmeans}}
-for details on this parameter.}
+for details on this argument.}
 }
 \value{
 The group classification for each observation as vector. This group
@@ -68,7 +68,7 @@ Since R version > 3.0.3, the \code{"ward"} option has been replaced by
        have to be considered:
        \enumerate{
          \item Use the \code{/PRINT INITIAL} option for SPSS Quick Cluster to get a table with initial cluster centers.
-         \item Create a \code{\link{matrix}} of this table, by consecutively copying the values, one row after another, from the SPSS output into a matrix and specifying \code{nrow} and \code{ncol} parameters.
+         \item Create a \code{\link{matrix}} of this table, by consecutively copying the values, one row after another, from the SPSS output into a matrix and specifying \code{nrow} and \code{ncol} arguments.
          \item Use \code{algorithm="Lloyd"}.
          \item Use the same amount of \code{iter.max} both in SPSS and this \code{sjc.qclus}.
        }

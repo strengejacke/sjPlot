@@ -62,7 +62,7 @@
 #'            finding the best fitting polynomial. \cr \cr
 #'            This function evaluates raw polynomials, \emph{not orthogonal} polynomials.
 #'            Polynomials are computed using the \code{\link{poly}} function,
-#'            with parameter \code{raw = TRUE}. \cr \cr
+#'            with argument \code{raw = TRUE}. \cr \cr
 #'            To find out which polynomial degree fits best to the data, a loess-smoothed
 #'            line can be added (with \code{showLoess = TRUE}). The polynomial curves
 #'            that comes closest to the loess-smoothed line should be the best

@@ -3,7 +3,7 @@
 #' 
 #' @description Set global theme options for sjp-functions.
 #' 
-#' @param theme specify pre-set themes (see 'Details'). Valid parameter for ggplot default-themes are for instance:
+#' @param theme specify pre-set themes (see 'Details'). Valid argument for ggplot default-themes are for instance:
 #'        \itemize{
 #'          \item \code{theme_bw}
 #'          \item \code{theme_classic}
@@ -117,17 +117,17 @@
 #' 
 #' @return The customized theme object, or \code{NULL}, if a ggplot-theme was used.
 #' 
-#' @details If the \code{theme} parameter is one of the valid ggplot-themes, this theme
-#'            will be used and all further parameters will be ignored. If you want to modify
-#'            a ggplot-theme, use \code{base = "theme_xy"}, then further parameters to
+#' @details If the \code{theme} argument is one of the valid ggplot-themes, this theme
+#'            will be used and all further arguments will be ignored. If you want to modify
+#'            a ggplot-theme, use \code{base = "theme_xy"}, then further arguments to
 #'            this function will be applied to the theme as well.
 #'            \cr \cr
-#'            If the \code{theme} parameter is one of sjPlot-pre-set-themes, you
-#'            can use further parameters for specific customization of the theme.
-#'            \emph{sjPlot-pre-set-themes won't work with the \code{base} parameter!}
-#'            The \code{base} parameter is only intended to select a ggplot-theme
+#'            If the \code{theme} argument is one of sjPlot-pre-set-themes, you
+#'            can use further arguments for specific customization of the theme.
+#'            \emph{sjPlot-pre-set-themes won't work with the \code{base} argument!}
+#'            The \code{base} argument is only intended to select a ggplot-theme
 #'            as base for further modifications (which can be triggered via the
-#'            various function parameters).
+#'            various function arguments).
 #' 
 #' @seealso \href{http://www.strengejacke.de/sjPlot/custplot/}{sjPlot manual: customize plot appearance}
 #' 
@@ -312,7 +312,7 @@ sjp.setTheme <- function(# base theme
     axis.title.y.vjust <- 1.5
     title.vjust <- 1.75
     plot.margins <- unit(c(1, .5, 1, 0.5), "cm")
-    message("Theme '538' looks better with panel margins. You may want to use parameter 'expand.grid = TRUE' in sjp-functions.")
+    message("Theme '538' looks better with panel margins. You may want to use argument 'expand.grid = TRUE' in sjp-functions.")
   }  
   # ----------------------------------------  
   # check for grey-scaled 539 theme, which are

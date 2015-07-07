@@ -22,7 +22,7 @@ utils::globalVariables(c("pv"))
 #' @param type plot type, whether group means should be plotted as \code{"dots"} (aka forest plots, default)
 #'          or as \code{"bars"}
 #' @param hideErrorBars logical, if \code{TRUE}, the error bars that indicate the confidence intervals of the group means are not
-#'          shown. Only applies if parameter \code{type} is \code{"bars"}. Default value is \code{FALSE}.
+#'          shown. Only applies if argument \code{type} is \code{"bars"}. Default value is \code{FALSE}.
 #' @param axisLabels.y character vector, indicating the value labels of \code{grpVar} that 
 #'          are used for labelling the axis. See 'Examples'.
 #' @param reverseOrder logical, if \code{TRUE}, the order of categories (groups) is reversed.

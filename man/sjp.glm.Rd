@@ -24,7 +24,7 @@ sjp.glm(fit, type = "dots", sortOdds = TRUE, title = NULL,
   \item{\code{"prob"}}{(or \code{"pc"}) to plot predicted probabilities for each model term, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
   \item{\code{"eff"}}{to plot marginal effects of predicted probabilities for each model term, where all remaining co-variates are set to the mean (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
   \item{\code{"y.pc"}}{(or \code{"y.prob"}) to plot predicted probabilities for the response. See 'Details'.}
-  \item{\code{"ma"}}{to check model assumptions. Note that only two parameters are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other parameters are ignored.}
+  \item{\code{"ma"}}{to check model assumptions. Note that only two arguments are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other arguments are ignored.}
   \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 }}
 
@@ -62,14 +62,14 @@ one panel grid to the next. If \code{FALSE}, grids are
 plotted on every \code{gridBreaksAt}'s position, thus the grid lines become narrower with
 higher odds ratio values.}
 
-\item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} parameter).}
+\item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} argument).}
 
 \item{geom.colors}{color palette for geoms. Must either be vector with two color values
 or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.}
 
 \item{hideErrorBars}{logical, if \code{TRUE}, the error bars that indicate the
 confidence intervals of the odds ratios are not shown. Only applies
-if parameter \code{type = "bars"}. Default value is \code{FALSE}.}
+if argument \code{type = "bars"}. Default value is \code{FALSE}.}
 
 \item{interceptLineType}{linetype of the intercept line (zero point). Default is \code{2} (dashed line).}
 
@@ -113,7 +113,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 }
 \value{
 (Invisibly) returns various objects, depending on
-          the \code{type}-parameter:
+          the \code{type}-argument:
         \describe{
          \item{\code{type = "dots" or "bars"}}{
            \itemize{
@@ -150,7 +150,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 }
 \description{
 Plot odds ratios (exponentiated coefficients) with confidence intervalls as bar chart or dot plot.
-               Depending on the \code{type} parameter, this function may also plot model
+               Depending on the \code{type} argument, this function may also plot model
                assumptions for generalized linear models, or predicted probabilities
                of coefficients.
 }

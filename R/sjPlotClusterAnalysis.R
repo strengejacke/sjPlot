@@ -7,13 +7,13 @@ utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "s
 #' @description Compute a quick kmeans or hierarchical cluster analysis and displays "cluster characteristics"
 #'                as graph.
 #'                \enumerate{
-#'                \item If \code{method = "kmeans"}, this function first determines the optimal group count via gap statistics (unless parameter \code{groupcount} is specified), using the \code{\link{sjc.kgap}} function.
+#'                \item If \code{method = "kmeans"}, this function first determines the optimal group count via gap statistics (unless argument \code{groupcount} is specified), using the \code{\link{sjc.kgap}} function.
 #'                \item A cluster analysis is performed by running the \code{\link{sjc.cluster}} function to determine the cluster groups.
 #'                \item Then, all variables in \code{data} are scaled and centered. The mean value of these z-scores within each cluster group is calculated to see how certain characteristics (variables) in a cluster group differ in relation to other cluster groups.
 #'                \item These results are plotted as graph.
 #'                }
 #'                This method can also be used to plot existing cluster solution as graph witouth computing
-#'                a new cluster analysis. See parameter \code{groups} for more details.
+#'                a new cluster analysis. See argument \code{groups} for more details.
 #'                
 #' @references Maechler M, Rousseeuw P, Struyf A, Hubert M, Hornik K (2014) cluster: Cluster Analysis Basics and Extensions. R package.
 #' 
@@ -21,7 +21,7 @@ utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "s
 #'          cluster analysis.
 #' @param groupcount amount of groups (clusters) that should be retrieved. May also be
 #'          a set of initial (distinct) cluster centres, in case \code{method = "kmeans"}
-#'          (see \code{\link{kmeans}} for details on \code{centers} parameter). 
+#'          (see \code{\link{kmeans}} for details on \code{centers} argument). 
 #'          If \code{groupcount = NULL}, the optimal amount of clusters is calculated using the 
 #'          gap statistics (see \code{\link{sjc.kgap}}. However, this works only 
 #'          with \code{method = "kmeans"}. If \code{method = "hclust"}, you have 
@@ -33,7 +33,7 @@ utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "s
 #'            \item If \code{method = "hclust"} (hierarchical clustering, default), use \code{\link{sjc.dend}} to inspect different cluster group solutions.
 #'            \item Use \code{\link{sjc.grpdisc}} to inspect the goodness of grouping (accuracy of classification).
 #'            }
-#' @param groups optional, by default, this parameter is \code{NULL} and will be 
+#' @param groups optional, by default, this argument is \code{NULL} and will be 
 #'          ignored. However, to plot existing cluster groups, specify \code{groupcount}
 #'          and \code{groups}. \code{groups} is a vector of same length as 
 #'          \code{nrow(data)} and indicates the group classification of the cluster 
@@ -46,17 +46,17 @@ utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "s
 #' @param distance distance measure to be used when \code{method = "hclust"} (for hierarchical
 #'          clustering). Must be one of \code{"euclidean"}, \code{"maximum"}, \code{"manhattan"}, 
 #'          \code{"canberra"}, \code{"binary"} or \code{"minkowski"}. See \code{\link{dist}}.
-#'          If is \code{method = "kmeans"} this parameter will be ignored.
+#'          If is \code{method = "kmeans"} this argument will be ignored.
 #' @param agglomeration agglomeration method to be used when \code{method = "hclust"} (for hierarchical
 #'          clustering). This should be one of \code{"ward"}, \code{"single"}, \code{"complete"}, \code{"average"}, 
 #'          \code{"mcquitty"}, \code{"median"} or \code{"centroid"}. Default is \code{"ward"} (see \code{\link{hclust}}).
-#'          If \code{method = "kmeans"} this parameter will be ignored. See 'Note'.
+#'          If \code{method = "kmeans"} this argument will be ignored. See 'Note'.
 #' @param iter.max maximum number of iterations allowed. Only applies, if 
-#'          \code{method = "kmeans"}. See \code{\link{kmeans}} for details on this parameter.
+#'          \code{method = "kmeans"}. See \code{\link{kmeans}} for details on this argument.
 #' @param algorithm algorithm used for calculating kmeans cluster. Only applies, if 
 #'          \code{method = "kmeans"}. May be one of \code{"Hartigan-Wong"} (default), 
 #'          \code{"Lloyd"} (used by SPSS), or \code{"MacQueen"}. See \code{\link{kmeans}} 
-#'          for details on this parameter.
+#'          for details on this argument.
 #' @param showAccuracy logical, if \code{TRUE}, the \code{\link{sjc.grpdisc}} function will be called,
 #'          which computes a linear discriminant analysis on the classified cluster groups and plots a 
 #'          bar graph indicating the goodness of classification for each group.
@@ -67,7 +67,7 @@ utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "s
 #' @param facetCluster If \code{TRUE}, each cluster group will be represented by an own panel.
 #'          Default is \code{FALSE}, thus all cluster groups are plotted in a single graph.
 #' @param geom.colors user defined color for bars. See 'Note' in \code{\link{sjp.grpfrq}}.
-#' @param geom.size width of bars. Recommended values for this parameter are from 0.4 to 1.5
+#' @param geom.size width of bars. Recommended values for this argument are from 0.4 to 1.5
 #' @param showAxisLabels.x whether x axis labels (cluster variables) should be shown or not.
 #' @param showAxisLabels.y whether y axis labels (z scores) should be shown or not.
 #' @param showGroupCount if \code{TRUE} (default), the count within each cluster group is added to the 
@@ -163,7 +163,7 @@ sjc.qclus <- function(data,
   data <- stats::na.omit(data)
   if (!is.null(axisLabels.x) && is.list(axisLabels.x)) axisLabels.x <- unlistlabels(axisLabels.x)
   if (!is.null(legendLabels) && is.list(legendLabels)) legendLabels <- unlistlabels(legendLabels)
-  # check for valid parameter
+  # check for valid argument
   if (is.null(axisLabels.x)) axisLabels.x <- colnames(data)
   # --------------------------------------------------------
   # Trim labels and title to appropriate size
@@ -206,7 +206,7 @@ sjc.qclus <- function(data,
   # run cluster analysis with claculated group count
   # ---------------------------------------------
   if (is.null(groups)) {
-    # check for parameter and R version
+    # check for argument and R version
     if (agglomeration == "ward") agglomeration <- "ward.D2"
     grp.class <- grp <- sjc.cluster(data.origin, groupcount, method, distance, agglomeration, iter.max, algorithm)
   } else {
@@ -361,7 +361,7 @@ sjc.qclus <- function(data,
 #'        have to be considered:
 #'        \enumerate{
 #'          \item Use the \code{/PRINT INITIAL} option for SPSS Quick Cluster to get a table with initial cluster centers.
-#'          \item Create a \code{\link{matrix}} of this table, by consecutively copying the values, one row after another, from the SPSS output into a matrix and specifying \code{nrow} and \code{ncol} parameters.
+#'          \item Create a \code{\link{matrix}} of this table, by consecutively copying the values, one row after another, from the SPSS output into a matrix and specifying \code{nrow} and \code{ncol} arguments.
 #'          \item Use \code{algorithm="Lloyd"}.
 #'          \item Use the same amount of \code{iter.max} both in SPSS and this \code{sjc.qclus}.
 #'        }
@@ -428,7 +428,7 @@ sjc.cluster <- function(data,
   # Ward Hierarchical Clustering
   # --------------------------------------------------
   if (method == "h") {
-    # check for parameter and R version
+    # check for argument and R version
     if (agglomeration == "ward") agglomeration <- "ward.D2"
     # distance matrix
     d <- stats::dist(data, method = distance)
@@ -500,7 +500,7 @@ sjc.dend <- function(data, groupcount, distance = "euclidean", agglomeration = "
   # --------------------------------------------------
   # distance matrix
   d <- stats::dist(data, method = distance)
-  # check for parameter and R version
+  # check for argument and R version
   if (agglomeration == "ward") agglomeration <- "ward.D2"
   # hierarchical clustering, using ward
   hc <- stats::hclust(d, method = agglomeration) 
@@ -711,7 +711,7 @@ sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect = TRUE, print
 #'          which the elbow-criterion should be displayed. Default is \code{15}.
 #' @param showDiff logical, if \code{TRUE}, an additional plot with the differences between 
 #'          each fusion step of the Elbow criterion calculation is shown. This plot
-#'          may help identifying the "elbow". Default for this parameter is \code{FALSE}.
+#'          may help identifying the "elbow". Default for this argument is \code{FALSE}.
 #'          
 #' @examples
 #' # plot elbow values of mtcars dataset

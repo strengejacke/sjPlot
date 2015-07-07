@@ -43,7 +43,7 @@
 #'          Cramer's V or Phi-value etc. is shown. If a cell contains expected values lower than five (or lower than 10 
 #'          if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is computed instead of Chi-square test. 
 #'          If the table's matrix is larger than 2x2, Fisher's excact test with Monte Carlo simulation is computed.
-#' @param showLegend logical, if \code{TRUE} (default), the color legend for coloring observed and expected
+#' @param showLegend logical, if \code{TRUE}, the color legend for coloring observed and expected
 #'          values as well as cell, row and column percentages is shown. See \code{tdcol.n},
 #'          \code{tdcol.expected}, \code{tdcol.cell}, \code{tdcol.row} and \code{tdcol.col}.
 #' @param showNA logical, if \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.
@@ -159,7 +159,7 @@ sjt.xtab <- function(var.row,
                      showTotalN = FALSE,
                      showHorizontalLine = FALSE,
                      showSummary = TRUE,
-                     showLegend = TRUE,
+                     showLegend = FALSE,
                      showNA = FALSE,
                      labelNA = "NA",
                      tdcol.n = "black",
@@ -700,11 +700,46 @@ sjt.xtab <- function(var.row,
   # -------------------------------------
   # print legend
   # -------------------------------------
-  if (showLegend) page.content <- paste(page.content, 
-                                        sprintf("<p>\n  <span class=\"td_n\">observed values</span> &middot; \n  <span class=\"td_ex\">expected values</span> &middot; \n  <span class=\"td_rw\">&#37; within %s</span> &middot; \n  <span class=\"td_cl\">&#37; within %s</span> &middot; \n  <span class=\"td_c\">&#37; of total</span>\n</p>", 
-                                                gsub("<br>", " ", s.var.row, fixed = TRUE), 
-                                                gsub("<br>", " ", s.var.col, fixed = TRUE)), 
-                                        "\n")
+  if (showLegend) {
+    # add new paragraph
+    page.content <- paste(page.content, "<p>\n  ")
+    # -----------------
+    # show observed?
+    # -----------------
+    if (showObserved) {
+      page.content <- paste(page.content, "<span class=\"td_n\">observed values</span><br>\n")
+    }
+    # -----------------
+    # show expected?
+    # -----------------
+    if (showExpected) {
+      page.content <- paste(page.content, "<span class=\"td_ex\">expected values</span><br>\n")
+    }
+    # -----------------
+    # show row percentage?
+    # -----------------
+    if (showRowPerc) {
+      page.content <- paste(page.content, 
+                            sprintf("<span class=\"td_rw\">&#37; within %s</span><br>\n", 
+                                    gsub("<br>", " ", s.var.row, fixed = TRUE)))
+    }
+    # -----------------
+    # show row percentage?
+    # -----------------
+    if (showColPerc) {
+      page.content <- paste(page.content, 
+                            sprintf("<span class=\"td_cl\">&#37; within %s</span><br>\n", 
+                                    gsub("<br>", " ", s.var.col, fixed = TRUE)))
+    }
+    # -----------------
+    # show row percentage?
+    # -----------------
+    if (showCellPerc) {
+      page.content <- paste(page.content, "<span class=\"td_c\">&#37; of total</span>\n")
+    }
+    # close paragraph
+    page.content <- paste(page.content, "</p>\n")
+  }
   # -------------------------------------
   # add table to return value list, so user can access each
   # single frequency table

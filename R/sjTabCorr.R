@@ -36,15 +36,15 @@
 #' @param val.rm specify a number between 0 and 1 to suppress the output of correlation values 
 #'          that are smaller than \code{val.rm}. The absolute correlation values are used, so
 #'          a correlation value of \code{-.5} would be greater than \code{val.rm = .4} and thus not be
-#'          omitted. By default, this parameter is \code{NULL}, hence all values are shown in the table.
+#'          omitted. By default, this argument is \code{NULL}, hence all values are shown in the table.
 #'          If a correlation value is below the specified value of \code{val.rm}, it is still printed to
 #'          the HTML table, but made "invisible" with white foreground color. You can use the \code{CSS}
-#'          parameter (\code{"css.valueremove"}) to change color and appearance of those correlation value that are smaller than
+#'          argument (\code{"css.valueremove"}) to change color and appearance of those correlation value that are smaller than
 #'          the limit specified by \code{val.rm}. 
 #' @param stringDiagonal a vector with string values of the same length as \code{ncol(data)} (number of
 #'          correlated items) that can be used to display content in the diagonal cells
 #'          where row and column item are identical (i.e. the "self-correlation"). By defauilt,
-#'          this parameter is \code{NULL} and the diagnal cells are empty.
+#'          this argument is \code{NULL} and the diagnal cells are empty.
 #'          
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.df
@@ -161,7 +161,7 @@ sjt.corr <- function(data,
   # --------------------------------------------------------
   encoding <- get.encoding(encoding)
   # --------------------------------------------------------
-  # parameter check
+  # argument check
   # --------------------------------------------------------
   if (is.null(triangle)) {
     triangle <- "both"
@@ -171,7 +171,7 @@ sjt.corr <- function(data,
     triangle <- "lower"
   } else triangle <- "both"
   # --------------------------------------------------------
-  # try to automatically set labels is not passed as parameter
+  # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
   if (is.null(varlabels) && is.data.frame(data)) {
     varlabels <- c()
@@ -190,10 +190,10 @@ sjt.corr <- function(data,
     }
   }
   # ----------------------------
-  # check for valid parameter
+  # check for valid argument
   # ----------------------------
   if (corMethod != "pearson" && corMethod != "spearman" && corMethod != "kendall") {
-    stop("Parameter 'corMethod' must be one of: pearson, spearman or kendall")
+    stop("argument 'corMethod' must be one of: pearson, spearman or kendall")
   }
   # ----------------------------
   # check if user has passed a data frame
@@ -216,7 +216,7 @@ sjt.corr <- function(data,
                   use = "pairwise.complete.obs")
     }
     #---------------------------------------
-    # if we have a data frame as parameter,
+    # if we have a data frame as argument,
     # compute p-values of significances
     #---------------------------------------
     computePValues <- function(df) {

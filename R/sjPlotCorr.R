@@ -4,7 +4,7 @@ utils::globalVariables(c("ordx", "ordy"))
 #' @title Plot correlation matrix
 #' @name sjp.corr
 #'
-#' @description Plot correlation matrix as ellipses or tiles. Required parameter is either
+#' @description Plot correlation matrix as ellipses or tiles. Required argument is either
 #'                a \code{\link{data.frame}} or a matrix with correlation coefficients 
 #'                as returned by the \code{\link{cor}}-function. In case of ellipses, the
 #'                ellipses size indicates the strength of the correlation. Furthermore,
@@ -43,7 +43,7 @@ utils::globalVariables(c("ordx", "ordy"))
 #' @param geom.colors color palette for fillng the geoms. If not specified, the diverging color palette
 #'          from the color brewer palettes (RdBu) is used, resulting in red colors for negative and blue colors
 #'          for positive correlations, that become lighter the weaker the correlations are. Use any
-#'          color palette that is suitbale for the \code{scale_fill_gradientn} parameter of ggplot2.
+#'          color palette that is suitbale for the \code{scale_fill_gradientn} argument of ggplot2.
 #'          
 #' @inheritParams sjp.grpfrq
 #' 
@@ -130,7 +130,7 @@ sjp.corr <- function(data,
     p_zero <- "0"
   }
   # --------------------------------------------------------
-  # try to automatically set labels is not passed as parameter
+  # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
   if (is.null(axisLabels) && is.data.frame(data)) {
     axisLabels <- c()
@@ -157,10 +157,10 @@ sjp.corr <- function(data,
     geom.colors <- scales::grey_pal()(5)
   }
   # ----------------------------
-  # check for valid parameter
+  # check for valid argument
   # ----------------------------
   if (corMethod != "pearson" && corMethod != "spearman" && corMethod != "kendall") {
-    warning("Parameter 'corMethod' must be one of: pearson, spearman or kendall.", call. = F)
+    warning("argument 'corMethod' must be one of: pearson, spearman or kendall.", call. = F)
     return(invisible(NULL))
   }
   # ----------------------------
@@ -183,7 +183,7 @@ sjp.corr <- function(data,
       corr <- stats::cor(data, method = corMethod, use = "pairwise.complete.obs")
     }
     #---------------------------------------
-    # if we have a data frame as parameter,
+    # if we have a data frame as argument,
     # compute p-values of significances
     #---------------------------------------
     computePValues <- function(df) {

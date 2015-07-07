@@ -77,7 +77,7 @@
 #'          \code{data} before frequency tables are computed.
 #' @param autoGroupStrings if \code{TRUE} (default), string values in character vectors (string variables) are automatically
 #'          grouped based on their similarity. The similarity is estimated with the \code{stringdist} package.
-#'          You can specify a distance-measure via \code{maxStringDist} parameter. This parameter only
+#'          You can specify a distance-measure via \code{maxStringDist} argument. This argument only
 #'          applies if \code{removeStringVectors} is \code{FALSE}.
 #' @param maxStringDist the allowed distance of string values in a character vector, which indicates
 #'          when two string values are merged because they are considered as close enough.
@@ -105,23 +105,23 @@
 #'            }
 #'            for further use.
 #'          
-#' @note The HTML tables can either be saved as file and manually opened (specify parameter \code{file}) or
+#' @note The HTML tables can either be saved as file and manually opened (specify argument \code{file}) or
 #'         they can be saved as temporary files and will be displayed in the RStudio Viewer pane (if working with RStudio)
 #'         or opened with the default web browser. Displaying resp. opening a temporary file is the
 #'         default behaviour (i.e. \code{file = NULL}).
 #' 
-#' @details \bold{How does the \code{CSS}-parameter work?}
+#' @details \bold{How does the \code{CSS}-argument work?}
 #'            \cr \cr
 #'            With the \code{CSS}-paramater, the visual appearance of the tables
 #'            can be modified. To get an overview of all style-sheet-classnames 
 #'            that are used in this function, see return value \code{page.style} for details. 
-#'            Parameters for this list have following syntax:
+#'            Arguments for this list have following syntax:
 #'          \enumerate{
-#'            \item the class-names with \code{"css."}-prefix as parameter name and
+#'            \item the class-names with \code{"css."}-prefix as argument name and
 #'            \item each style-definition must end with a semicolon
 #'          } 
 #'          You can add style information to the default styles by using a + (plus-sign) as
-#'          initial character for the parameter attributes. Examples:
+#'          initial character for the argument attributes. Examples:
 #'          \itemize{
 #'            \item \code{css.table = 'border:2px solid red;'} for a solid 2-pixel table border in red.
 #'            \item \code{css.summary = 'font-weight:bold;'} for a bold fontweight in the summary row.
@@ -325,7 +325,7 @@ sjt.frq <- function(data,
       # remove string variables
       if (length(stringcolumns) > 0) data <- data[, -stringcolumns]
     } else if (is.character(data)) {
-      stop("Parameter 'data' is a single string vector, where string vectors should be removed. No data to compute frequency table left. See parameter 'removeStringVectors' for details.", call. = FALSE)
+      stop("argument 'data' is a single string vector, where string vectors should be removed. No data to compute frequency table left. See argument 'removeStringVectors' for details.", call. = FALSE)
     }
   }
   # -------------------------------------

@@ -11,17 +11,17 @@ utils::globalVariables(c("offset"))
 #' @note Note that only even numbers of categories are possible to plot, so the "positive" 
 #'        and "negative" values can be splitted into two halfs. A neutral category (like "don't know")
 #'        can be used, but must be indicated by \code{cat.neutral}. \cr \cr
-#'        The \code{catcount}-parameter indicates how many item categories are in the
-#'        Likert scale. Normally, this parameter can be ignored because the amount of 
+#'        The \code{catcount}-argument indicates how many item categories are in the
+#'        Likert scale. Normally, this argument can be ignored because the amount of 
 #'        valid categories is retrieved automatically. However, sometimes (for instance,
 #'        if a certain category is missing in all items), auto-detection of the amount
 #'        of categories fails. In such cases, specify the amount of categories
-#'        with the \code{catcount}-parameter.
+#'        with the \code{catcount}-argument.
 #' 
 #' @param items \code{\link{data.frame}} with each column representing one likert-item.
 #' @param catcount optional, amount of categories of \code{items} (e.g. \emph{"strongly disagree", 
 #'          "disagree", "agree"} and \emph{"strongly agree"} would be \code{catcount = 4}).
-#'          Note that this parameter only applies to "valid" answers, i.e. if you
+#'          Note that this argument only applies to "valid" answers, i.e. if you
 #'          have an additional neutral category (see \code{cat.neutral}) like \emph{"don't know"},
 #'          this won't count for \code{catcount} (e.g. "strongly disagree", 
 #'          "disagree", "agree", "strongly agree" and neutral category "don't know"
@@ -47,7 +47,7 @@ utils::globalVariables(c("offset"))
 #'          See 'Note' in \code{\link{sjp.grpfrq}}.
 #' @param reverse.colors logical, if \code{TRUE}, the color scale from \code{geom.colors} will be reversed,
 #'          so positive and negative values switch colors.
-#' @param geom.size width of bars. Recommended values for this parameter are from 0.4 to 1.5
+#' @param geom.size width of bars. Recommended values for this argument are from 0.4 to 1.5
 #' @param cat.neutral.color color of the neutral category, if plotted (see \code{cat.neutral}).
 #' @param intercept.line.color color of the vertical intercept line that divides positive and negative values.
 #' @param legendLabels list or character vector that indicate the names of the 
@@ -222,7 +222,7 @@ sjp.likert <- function(items,
     reverseOrder <- FALSE
   }
   # --------------------------------------------------------
-  # try to automatically set labels is not passed as parameter
+  # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
   if (is.null(legendLabels)) legendLabels <- sjmisc:::autoSetValueLabels(items[[1]])
   if (is.null(axisLabels.y)) {
@@ -293,7 +293,7 @@ sjp.likert <- function(items,
       if (catcount < lll) {
         # warn user that detected amount of categories and supplied legend labels
         # are different.
-        warning("Length of labels for item categories 'legendLabels' differs from detected amount of categories. Use 'catcount' parameter to define amount of item categories, if plotting does not work.", call. = F)
+        warning("Length of labels for item categories 'legendLabels' differs from detected amount of categories. Use 'catcount' argument to define amount of item categories, if plotting does not work.", call. = F)
         # adjust catcount to length of legend labels, because
         # we assume that labels represent the valid range of 
         # item categories
@@ -375,11 +375,11 @@ sjp.likert <- function(items,
       freq.df <- as.data.frame(freq)
     else {
       # check for valid rows. if we hav missing categories
-      # in all items, parameter "catcount" must be set, because
+      # in all items, argument "catcount" must be set, because
       # automatic detection of amount of categories does not
       # work then.
       if (length(freq) != nrow(freq.df))
-        stop("Could not determine amount of item categories. Please use parameter 'catcount'.", call. = F)
+        stop("Could not determine amount of item categories. Please use argument 'catcount'.", call. = F)
       else
         freq.df <- as.data.frame(cbind(freq.df, freq))
     }

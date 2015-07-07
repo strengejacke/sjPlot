@@ -38,7 +38,7 @@ background color.}
 
 \item{orderColumn}{indicates a column, either by column name or by column index number,
 that should be sorted. Default order is ascending, which can be changed with
-\code{orderAscending} parameter. Default is \code{NULL}, hence the data frame
+\code{orderAscending} argument. Default is \code{NULL}, hence the data frame
 is printed with no specific order. See 'Examples'.}
 
 \item{orderAscending}{logical, if \code{TRUE} (default) and \code{orderColumn} is not \code{NULL},

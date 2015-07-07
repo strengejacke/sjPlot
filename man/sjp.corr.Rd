@@ -47,7 +47,7 @@ the values labels are shown. Default is 3. Only applies when
 \item{geom.colors}{color palette for fillng the geoms. If not specified, the diverging color palette
          from the color brewer palettes (RdBu) is used, resulting in red colors for negative and blue colors
          for positive correlations, that become lighter the weaker the correlations are. Use any
-         color palette that is suitbale for the \code{scale_fill_gradientn} parameter of ggplot2.}
+         color palette that is suitbale for the \code{scale_fill_gradientn} argument of ggplot2.}
 
 \item{geom.size}{specifies the circle size factor. The circle size depends on the correlation
 value multiplicated with this factor. Default is 15.}
@@ -79,7 +79,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
           (\code{corr.matrix}).
 }
 \description{
-Plot correlation matrix as ellipses or tiles. Required parameter is either
+Plot correlation matrix as ellipses or tiles. Required argument is either
                a \code{\link{data.frame}} or a matrix with correlation coefficients
                as returned by the \code{\link{cor}}-function. In case of ellipses, the
                ellipses size indicates the strength of the correlation. Furthermore,

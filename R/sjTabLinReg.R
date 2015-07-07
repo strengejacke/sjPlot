@@ -24,7 +24,7 @@ utils::globalVariables(c("starts_with"))
 #' @param showHeaderStrings logical, if \code{TRUE}, the header strings \code{stringPredictors}
 #'          and \code{stringDependentVariables} are shown. By default, they're hidden.
 #' @param stringModel string constant used as headline for the model names in case no 
-#'          labels for the dependent variables are provided (see labelDependentVariables).
+#'          labels for the dependent variables are provided (see \code{labelDependentVariables}).
 #'          Default is \code{"Model"}.
 #' @param stringIntercept string constant used as headline for the Intercept row.
 #'          Default is \code{"Intercept"}.
@@ -42,7 +42,7 @@ utils::globalVariables(c("starts_with"))
 #'          Default is \code{FALSE}.
 #' @param showStdError logical, if \code{TRUE}, the standard errors are also printed.
 #'          Default is \code{FALSE}.
-#' @param digits.est amount of decimals for estimators
+#' @param digits.est amount of decimals for estimates
 #' @param digits.p amount of decimals for p-values
 #' @param digits.ci amount of decimals for confidence intervals
 #' @param digits.se amount of decimals for standard error
@@ -53,9 +53,9 @@ utils::globalVariables(c("starts_with"))
 #' @param boldpvalues logical, if \code{TRUE} (default), significant p-values are shown bold faced.
 #' @param separateConfColumn if \code{TRUE}, the CI values are shown in a separate table column.
 #'          Default is \code{FALSE}.
-#' @param newLineConf logica, if \code{TRUE} and \code{separateConfColumn = FALSE}, inserts a line break
+#' @param newLineConf logical, if \code{TRUE} and \code{separateConfColumn = FALSE}, inserts a line break
 #'          between B and CI values. If \code{FALSE}, CI values are printed in the same
-#'          line with B values.
+#'          line as B values.
 #' @param group.pred logical, if \code{TRUE} (default), automatically groups table rows with 
 #'          factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
 #'          be grouped, if the factor has more than two levels. Grouping means that a separate headline
@@ -66,23 +66,23 @@ utils::globalVariables(c("starts_with"))
 #'          in the model summary.
 #' @param showFStat If \code{TRUE}, the F-statistics for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
-#' @param showAIC If \code{TRUE}, the AIC value for each model is printed
+#' @param showAIC logical, if \code{TRUE}, the AIC value for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
-#' @param showAICc If \code{TRUE}, the second-order AIC value for each model 
+#' @param showAICc logical, if \code{TRUE}, the second-order AIC value for each model 
 #'          is printed in the model summary. Default is \code{FALSE}.
 #' @param remove.estimates numeric vector with indices (order equals to row index of \code{coef(fit)}) 
 #'          or character vector with coefficient names that indicate which estimates should be removed
 #'          from the table output. The first estimate is the intercept, followed by the model predictors.
 #'          \emph{The intercept cannot be removed from the table output!} \code{remove.estimates = c(2:4)} 
-#'          would remove the 2nd to the 4th estimate (1st to 3d predictor after intercept) from the output. 
+#'          would remove the 2nd to the 4th estimate (1st to 3rd predictor after intercept) from the output. 
 #'          \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default 
 #'          is \code{NULL}, i.e. all estimates are printed.
 #' @param cellSpacing numeric, inner padding of table cells. By default, this value is 0.2 (unit is cm), which is
 #'          suitable for viewing the table. Decrease this value (0.05 to 0.1) if you want to import the table
-#'          into Office documents. This is a convenient parameter for the \code{CSS} parameter for changing
+#'          into Office documents. This is a convenient argument for the \code{CSS} argument for changing
 #'          cell spacing, which would be: \code{CSS = list(css.thead = "padding:0.2cm;", css.tdata = "padding:0.2cm;")}.
-#' @param cellGroupIndent Indent for table rows with grouped factor predictors. Only applies
-#'          if \code{group.pred} is \code{TRUE}.
+#' @param cellGroupIndent indent for table rows with grouped factor predictors. Only applies
+#'          if \code{group.pred = TRUE}.
 #'          
 #' @inheritParams sjt.frq
 #'          
@@ -122,7 +122,7 @@ utils::globalVariables(c("starts_with"))
 #' sjt.lm(fit1, fit2)
 #' 
 #' # create and open HTML-table in RStudio Viewer Pane or web browser
-#' # in the following examples, we set labels via parameter
+#' # in the following examples, we set labels via argument
 #' sjt.lm(fit1, 
 #'        fit2, 
 #'        labelDependentVariables = c("Barthel-Index",
@@ -380,7 +380,7 @@ sjt.lm <- function(...,
     p_zero <- "0"
   }
   # -------------------------------------
-  # check parameter
+  # check argument
   # -------------------------------------
   if (!showEst && !showStdBeta) {
     warning("Either estimates ('showEst') or standardized betas ('showStdBeta') must be 'TRUE' to show table. Setting 'showEst' to 'TRUE'.", call. = F)
@@ -525,7 +525,7 @@ sjt.lm <- function(...,
   # --------------------------------------------------------
   if (class(input_list[[1]]) == "list") input_list <- lapply(input_list[[1]], function(x) x)
   # -----------------------------------------------------------
-  # check parameter. No model-summary supported for plm-objects
+  # check argument. No model-summary supported for plm-objects
   # -----------------------------------------------------------
   if (any(class(input_list[[1]]) == "plm")) {
     # -----------------------------------------------------------
@@ -546,7 +546,7 @@ sjt.lm <- function(...,
   # should AICc be computed? Check for package
   # ------------------------
   if (showAICc && !requireNamespace("AICcmodavg", quietly = TRUE)) {
-    warning("Package 'AICcmodavg' needed to show AICc. Parameter 'showAICc' will be ignored.", call. = FALSE)
+    warning("Package 'AICcmodavg' needed to show AICc. Argument 'showAICc' will be ignored.", call. = FALSE)
     showAICc <- FALSE
   }
   

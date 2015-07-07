@@ -8,7 +8,7 @@
 #'              
 #' @description Shows description or the content of data frame (rows and columns) as HTML table,
 #'                or saves it as file. Helpful if you want a quick overview of a data frame's 
-#'                content. See parameter \code{describe} for details. By default, \code{describe} 
+#'                content. See argument \code{describe} for details. By default, \code{describe} 
 #'                is \code{TRUE} and a description of the data frame is given,
 #'                using the \code{\link[psych]{describe}} function of the \code{psych} package.
 #'
@@ -20,7 +20,7 @@
 #'          background color.
 #' @param orderColumn indicates a column, either by column name or by column index number,
 #'          that should be sorted. Default order is ascending, which can be changed with
-#'          \code{orderAscending} parameter. Default is \code{NULL}, hence the data frame
+#'          \code{orderAscending} argument. Default is \code{NULL}, hence the data frame
 #'          is printed with no specific order. See 'Examples'.
 #' @param orderAscending logical, if \code{TRUE} (default) and \code{orderColumn} is not \code{NULL},
 #'          data frame is ordered according to the specified column in an ascending order.
@@ -135,7 +135,7 @@ sjt.df <- function(mydf,
   # -------------------------------------
   encoding <- get.encoding(encoding)
   if (!is.data.frame(mydf)) {
-    stop("Parameter needs to be a data frame!", call. = FALSE)
+    stop("argument needs to be a data frame!", call. = FALSE)
   }
   # -------------------------------------
   # Description?

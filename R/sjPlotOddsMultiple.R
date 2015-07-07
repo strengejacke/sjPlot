@@ -44,7 +44,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 #'          showPValueLabels = FALSE,
 #'          usePShapes = TRUE)
 #' 
-#' # plot multiple models from nested lists parameter
+#' # plot multiple models from nested lists argument
 #' all.models <- list()
 #' all.models[[1]] <- fitOR1
 #' all.models[[2]] <- fitOR2
@@ -243,7 +243,7 @@ sjp.glmm <- function(...,
     if (showValueLabels || showPValueLabels) upper_lim <- upper_lim + 0.1
     # give warnings when auto-limits are very low/high
     if ((lower_lim < 0.1) || (upper_lim > 100)) {
-      warning("Exp. coefficients and/or exp. confidence intervals may be out of printable bounds. Consider using \"axisLimits\" parameter!")
+      warning("Exp. coefficients and/or exp. confidence intervals may be out of printable bounds. Consider using \"axisLimits\" argument!")
     }
   } else {
     # Here we have user defind axis range

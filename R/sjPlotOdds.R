@@ -8,7 +8,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.glm/}{sjPlot manual: sjp.glm}
 #'
 #' @description Plot odds ratios (exponentiated coefficients) with confidence intervalls as bar chart or dot plot.
-#'                Depending on the \code{type} parameter, this function may also plot model
+#'                Depending on the \code{type} argument, this function may also plot model
 #'                assumptions for generalized linear models, or predicted probabilities
 #'                of coefficients.
 #'
@@ -20,7 +20,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'            \item{\code{"prob"}}{(or \code{"pc"}) to plot predicted probabilities for each model term, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
 #'            \item{\code{"eff"}}{to plot marginal effects of predicted probabilities for each model term, where all remaining co-variates are set to the mean (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
 #'            \item{\code{"y.pc"}}{(or \code{"y.prob"}) to plot predicted probabilities for the response. See 'Details'.}
-#'            \item{\code{"ma"}}{to check model assumptions. Note that only two parameters are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other parameters are ignored.}
+#'            \item{\code{"ma"}}{to check model assumptions. Note that only two arguments are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other arguments are ignored.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
 #' @param sortOdds logical, if \code{TRUE} (default), odds ratios are ordered according their values from highest first
@@ -39,7 +39,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'          or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.
 #' @param hideErrorBars logical, if \code{TRUE}, the error bars that indicate the 
 #'          confidence intervals of the odds ratios are not shown. Only applies 
-#'          if parameter \code{type = "bars"}. Default value is \code{FALSE}.
+#'          if argument \code{type = "bars"}. Default value is \code{FALSE}.
 #' @param showIntercept logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
 #'          Default is \code{FALSE}. Please note that due to exponential transformation of
 #'          estimates, the intercept in some cases can not be calculated, thus the
@@ -60,7 +60,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' @inheritParams sjp.grpfrq
 #' 
 #' @return (Invisibly) returns various objects, depending on 
-#'           the \code{type}-parameter:
+#'           the \code{type}-argument:
 #'         \describe{
 #'          \item{\code{type = "dots" or "bars"}}{
 #'            \itemize{
@@ -249,7 +249,7 @@ sjp.glm <- function(fit,
   # ----------------------------
   if (type == "or" || type == "glm") type <- "dots"
   if (type != "dots" && type != "bars") {
-    warning("Invalid 'type' parameter. Defaulting to 'dots'.", call. = F)
+    warning("Invalid 'type' argument. Defaulting to 'dots'.", call. = F)
     type <- "dots"
   }
   # ----------------------------
@@ -405,7 +405,7 @@ sjp.glm <- function(fit,
     if (lower_lim == 0 || is.na(lower_lim)) lower_lim <- 0.01
     # give warnings when auto-limits are very low/high
     if ((minval < 0.1) || (maxval > 100)) {
-      warning("Exp. coefficients and/or exp. confidence intervals may be out of printable bounds. Consider using \"axisLimits\" parameter!")
+      warning("Exp. coefficients and/or exp. confidence intervals may be out of printable bounds. Consider using \"axisLimits\" argument!")
     }
   } else {
     # Here we have user defind axis range
@@ -486,7 +486,7 @@ sjp.glm <- function(fit,
     # Order odds according to beta-coefficients, colour points and lines according to
     # OR-value greater / lower than 1
     plotHeader <- plotHeader +
-      # stat-parameter indicates statistics
+      # stat-argument indicates statistics
       # stat="bin": y-axis relates to count of variable
       # stat="identity": y-axis relates to value of variable
       geom_bar(aes(fill = (OR > 1)), 
@@ -569,7 +569,7 @@ sjp.glm.pc <- function(fit,
                        geom.size,
                        facet.grid,
                        printPlot) {
-  # check size parameter
+  # check size argument
   if (is.null(geom.size)) geom.size <- .7
   # ----------------------------
   # prepare additional plots, when metric
@@ -720,7 +720,7 @@ sjp.glm.response.probcurv <- function(fit,
                                       show.se,
                                       geom.size,
                                       printPlot) {
-  # check size parameter
+  # check size argument
   if (is.null(geom.size)) geom.size <- .7
   # ----------------------------
   # get predicted values for response

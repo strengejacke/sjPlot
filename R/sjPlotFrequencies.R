@@ -89,9 +89,9 @@ utils::globalVariables(c("frq", "grp", "upper.ci", "lower.ci", "ia", "..density.
 #' @param hist.skipZeros logical, if \code{TRUE}, zero counts (categories with no answer) 
 #'          in \code{varCount} are omitted when drawing histrograms, and the mapping 
 #'          is changed to \code{\link[ggplot2]{stat_bin}}. Only applies to  histograms. 
-#'          Use this parameter to get similar results to the default \code{\link[ggplot2]{qplot}} 
+#'          Use this argument to get similar results to the default \code{\link[ggplot2]{qplot}} 
 #'          or \code{\link[ggplot2]{geom_histogram}} histogram plots of ggplot. You may need
-#'          to adjust the \code{geom.size} parameter for better visual results 
+#'          to adjust the \code{geom.size} argument for better visual results 
 #'          (which, by ggplot-default, is 1/30 of the x-axis-range).
 #' @param autoGroupAt numeric value, indicating at which length of unique values of \code{varCount}, 
 #'          automatic grouping into smaller units is done (see \code{\link[sjmisc]{group_var}}).
@@ -103,7 +103,7 @@ utils::globalVariables(c("frq", "grp", "upper.ci", "lower.ci", "ia", "..density.
 #'          See \code{\link[sjmisc]{group_var}} for examples on grouping.
 #' @param labelPos string, indicating the position of value labels, when \code{coord.flip = TRUE}.
 #'          Can be either \code{"inside"} or \code{"outside"} (default). You may specify
-#'          initial letter only. If \code{coord.flip = FALSE}, this parameter will
+#'          initial letter only. If \code{coord.flip = FALSE}, this argument will
 #'          be ignored.
 #'          
 #' @inheritParams sjp.grpfrq
@@ -252,7 +252,7 @@ sjp.frq <- function(varCount,
                     na.rm = TRUE,
                     printPlot = TRUE) {
   # --------------------------------------------------------
-  # try to automatically set labels is not passed as parameter
+  # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
   if (is.null(axisLabels.x)) axisLabels.x <- sjmisc:::autoSetValueLabels(varCount)
   if (is.null(interactionVarLabels) && !is.null(interactionVar)) interactionVarLabels <- sjmisc:::autoSetValueLabels(interactionVar)
@@ -264,7 +264,7 @@ sjp.frq <- function(varCount,
   if (!is.null(axisTitle.x) && axisTitle.x == "") axisTitle.x <- NULL
   if (!is.null(title) && title == "") title <- NULL    
   # --------------------------------------------------------
-  # check color parameter
+  # check color argument
   # --------------------------------------------------------
   if (is.null(geom.colors)) {
     geom.colors <- waiver()
@@ -612,7 +612,7 @@ sjp.frq <- function(varCount,
       # show absolute and percentage value of each bar.
       ggvaluelabels +
       # print value labels to the x-axis.
-      # If parameter "axisLabels.x" is NULL, the category numbers (1 to ...) 
+      # If argument "axisLabels.x" is NULL, the category numbers (1 to ...) 
       # appear on the x-axis
       scale_x_discrete(labels = axisLabels.x)
     if (showCI) {
@@ -712,7 +712,7 @@ sjp.frq <- function(varCount,
       # base constructor
       if (hist.skipZeros) {
         x <- stats::na.omit(varCount)
-        if (geom.size < round(diff(range(x)) / 50)) message("Using very small binwidth. Consider adjusting \"geom.size\"-parameter.")
+        if (geom.size < round(diff(range(x)) / 50)) message("Using very small binwidth. Consider adjusting \"geom.size\" argument.")
         hist.dat <- data.frame(x)
         baseplot <- ggplot(mydat)
         basehist <- geom_histogram(data = hist.dat, 

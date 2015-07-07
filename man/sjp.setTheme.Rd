@@ -30,7 +30,7 @@ sjp.setTheme(theme = NULL, title.color = "black", title.size = 1.3,
   base = theme_grey())
 }
 \arguments{
-\item{theme}{specify pre-set themes (see 'Details'). Valid parameter for ggplot default-themes are for instance:
+\item{theme}{specify pre-set themes (see 'Details'). Valid argument for ggplot default-themes are for instance:
 \itemize{
   \item \code{theme_bw}
   \item \code{theme_classic}
@@ -206,17 +206,17 @@ The customized theme object, or \code{NULL}, if a ggplot-theme was used.
 Set global theme options for sjp-functions.
 }
 \details{
-If the \code{theme} parameter is one of the valid ggplot-themes, this theme
-           will be used and all further parameters will be ignored. If you want to modify
-           a ggplot-theme, use \code{base = "theme_xy"}, then further parameters to
+If the \code{theme} argument is one of the valid ggplot-themes, this theme
+           will be used and all further arguments will be ignored. If you want to modify
+           a ggplot-theme, use \code{base = "theme_xy"}, then further arguments to
            this function will be applied to the theme as well.
            \cr \cr
-           If the \code{theme} parameter is one of sjPlot-pre-set-themes, you
-           can use further parameters for specific customization of the theme.
-           \emph{sjPlot-pre-set-themes won't work with the \code{base} parameter!}
-           The \code{base} parameter is only intended to select a ggplot-theme
+           If the \code{theme} argument is one of sjPlot-pre-set-themes, you
+           can use further arguments for specific customization of the theme.
+           \emph{sjPlot-pre-set-themes won't work with the \code{base} argument!}
+           The \code{base} argument is only intended to select a ggplot-theme
            as base for further modifications (which can be triggered via the
-           various function parameters).
+           various function arguments).
 }
 \examples{
 \dontrun{

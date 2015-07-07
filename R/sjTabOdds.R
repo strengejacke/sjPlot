@@ -10,53 +10,14 @@ utils::globalVariables(c("starts_with"))
 #'                e.g. when comparing different stepwise fitted models.
 #' 
 #' @param ... one or more fitted generalized linear (mixed) models.
-#' @param labelPredictors character vector with labels of predictor variables.
-#'          If not \code{NULL}, \code{labelPredictors} will be used in the first
-#'          table column with the predictors' names. See 'Examples'.
-#' @param labelDependentVariables character vector with labels of dependent 
-#'          variables of all fitted models. See 'Examples'.
-#' @param stringPredictors string constant used as headline for the predictor column.
-#'          Default is \code{"Predictors"}.
-#' @param stringDependentVariables string constant used as headline for the 
-#'          dependent variable columns. Default is \code{"Dependent Variables"}.
-#' @param showHeaderStrings logical, if \code{TRUE}, the header strings \code{stringPredictors}
-#'          and \code{stringDependentVariables} are shown. By default, they're hidden.
-#' @param stringModel string constant used as headline for the model names in case no 
-#'          labels for the dependent variables are provided (see \code{labelDependentVariables}).
-#'          Default is \code{"Model"}.
-#' @param stringIntercept String constant used as headline for the Intercept row.
-#'          Default is \code{"Intercept"}.
-#' @param stringObservations string constant used in the summary row for the count of observation
-#'          (cases). Default is \code{"Observations"}.
 #' @param stringOR string used for the column heading of odds ratio values. Default is \code{"OR"}.
-#' @param stringCI string used for the column heading of confidence interval values. Default is \code{"CI"}.
-#' @param stringSE string used for the column heading of standard error values. Default is \code{"std. Error"}.
-#' @param stringP string used for the column heading of p values. Default is \code{"p"}.
-#' @param digits.est amount of decimals for estimators
-#' @param digits.p amount of decimals for p-values
-#' @param digits.ci amount of decimals for confidence intervals
-#' @param digits.se amount of decimals for standard error
-#' @param digits.summary amount of decimals for values in model summary
 #' @param exp.coef logical, if \code{TRUE} (default), regression coefficients and 
 #'          confidence intervals are exponentiated. Use \code{FALSE} for 
 #'          non-exponentiated coefficients (log-odds) as provided by 
 #'          the \code{\link{summary}} function.
-#' @param pvaluesAsNumbers logical, if \code{TRUE}, p-values are shown as numbers. If \code{FALSE} (default),
-#'          p-values are indicated by asterisks.
-#' @param boldpvalues logical, if \code{TRUE} (default), significant p-values are shown bold faced.
-#' @param showConfInt logical, if \code{TRUE} (default), the confidence intervall is also printed to the table. Use
-#'          \code{FALSE} to omit the CI in the table.
-#' @param showStdError logical, if \code{TRUE}, the standard errors are also printed.
-#'          Default is \code{FALSE}.
-#' @param separateConfColumn logical, if \code{TRUE}, the CI values are shown in a separate table column.
-#'          Default is \code{FALSE}.
 #' @param newLineConf logical, if \code{TRUE} and \code{separateConfColumn = FALSE}, inserts a line break
 #'          between OR and CI values. If \code{FALSE}, CI values are printed in the same
 #'          line with OR values.
-#' @param group.pred logical, if \code{TRUE} (default), automatically groups table rows with 
-#'          factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
-#'          be grouped, if the factor has more than two levels. Grouping means that a separate headline
-#'          row is inserted to the table just before the predictor values.
 #' @param showAbbrHeadline logical, if \code{TRUE} (default), the table data columns have a headline with 
 #'          abbreviations for odds ratios, confidence interval and p-values.
 #' @param showPseudoR logical, if \code{TRUE} (default), the pseudo R2 values for each model are printed
@@ -65,10 +26,6 @@ utils::globalVariables(c("starts_with"))
 #'          (see \code{\link[sjmisc]{cod}}).
 #' @param showLogLik logical, if \code{TRUE}, the Log-Likelihood for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
-#' @param showAIC logical, if \code{TRUE}, the \code{\link{AIC}} value for each model is printed
-#'          in the model summary. Default is \code{FALSE}.
-#' @param showAICc logical, if \code{TRUE}, the second-order AIC value for each model 
-#'          is printed in the model summary. Default is \code{FALSE}.
 #' @param showChi2 logical, if \code{TRUE}, the p-value of the chi-squared value for each 
 #'          model's residual deviance against the null deviance is printed
 #'          in the model summary. Default is \code{FALSE}. A well-fitting model
@@ -84,21 +41,9 @@ utils::globalVariables(c("starts_with"))
 #'          and same predictors and response, to decide which model fits best. See \code{\link{family}}
 #'          for more details. It is recommended to inspect the model \code{\link{AIC}} (see \code{showAIC}) to get a
 #'          decision help for which model to choose.
-#' @param remove.estimates numeric vector with indices (order equals to row index of \code{coef(fit)}) 
-#'          or character vector with coefficient names that indicate which estimates should be removed
-#'          from the table output. The first estimate is the intercept, followed by the model predictors.
-#'          \emph{The intercept cannot be removed from the table output!} \code{remove.estimates = c(2:4)} 
-#'          would remove the 2nd to the 4th estimate (1st to 3d predictor after intercept) from the output. 
-#'          \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default 
-#'          is \code{NULL}, i.e. all estimates are printed.
-#' @param cellSpacing numeric, inner padding of table cells. By default, this value is 0.2 (unit is cm), which is
-#'          suitable for viewing the table. Decrease this value (0.05 to 0.1) if you want to import the table
-#'          into Office documents. This is a convenient parameter for the \code{CSS} parameter for changing
-#'          cell spacing, which would be: \code{CSS = list(css.thead = "padding:0.2cm;", css.tdata = "padding:0.2cm;")}.
-#' @param cellGroupIndent Indent for table rows with grouped factor predictors. Only applies
-#'          if \code{group.pred} is \code{TRUE}.
 #'          
 #' @inheritParams sjt.frq
+#' @inheritParams sjt.lm
 #' 
 #' @return Invisibly returns
 #'          \itemize{
@@ -447,7 +392,7 @@ sjt.glm <- function(...,
   # should AICc be computed? Check for package
   # ------------------------
   if (showAICc && !requireNamespace("AICcmodavg", quietly = TRUE)) {
-    warning("Package 'AICcmodavg' needed to show AICc. Parameter 'showAICc' will be ignored.", call. = FALSE)
+    warning("Package 'AICcmodavg' needed to show AICc. Argument 'showAICc' will be ignored.", call. = FALSE)
     showAICc <- FALSE
   }
   # ------------------------

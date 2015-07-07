@@ -141,7 +141,7 @@ sjp.glmm(fitOR1, fitOR2, fitOR3,
          showPValueLabels = FALSE,
          usePShapes = TRUE)
 
-# plot multiple models from nested lists parameter
+# plot multiple models from nested lists argument
 all.models <- list()
 all.models[[1]] <- fitOR1
 all.models[[2]] <- fitOR2

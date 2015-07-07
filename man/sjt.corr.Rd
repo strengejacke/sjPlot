@@ -56,16 +56,16 @@ is \code{"both"}. You can specifiy the inital letter only.}
 \item{val.rm}{specify a number between 0 and 1 to suppress the output of correlation values
 that are smaller than \code{val.rm}. The absolute correlation values are used, so
 a correlation value of \code{-.5} would be greater than \code{val.rm = .4} and thus not be
-omitted. By default, this parameter is \code{NULL}, hence all values are shown in the table.
+omitted. By default, this argument is \code{NULL}, hence all values are shown in the table.
 If a correlation value is below the specified value of \code{val.rm}, it is still printed to
 the HTML table, but made "invisible" with white foreground color. You can use the \code{CSS}
-parameter (\code{"css.valueremove"}) to change color and appearance of those correlation value that are smaller than
+argument (\code{"css.valueremove"}) to change color and appearance of those correlation value that are smaller than
 the limit specified by \code{val.rm}.}
 
 \item{stringDiagonal}{a vector with string values of the same length as \code{ncol(data)} (number of
          correlated items) that can be used to display content in the diagonal cells
          where row and column item are identical (i.e. the "self-correlation"). By defauilt,
-         this parameter is \code{NULL} and the diagnal cells are empty.}
+         this argument is \code{NULL} and the diagnal cells are empty.}
 
 \item{encoding}{string, indicating the charset encoding used for variable and
 value labels. Default is \code{NULL}, so encoding will be auto-detected

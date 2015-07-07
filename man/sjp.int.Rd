@@ -36,11 +36,11 @@ classes are
 \describe{
   \item{\code{type = "cond"}}{(default) plots the mere change of the moderating effect on the response value (conditional effect). See 'Details'.}
   \item{\code{type = "eff"}}{plots the overall moderation effect on the response value. See 'Details'.}
-  \item{\code{type = "emm"}}{plots the estimated marginal means (least square means). If this type is chosen, not all function parameters are applicable. See 'Details'.}
+  \item{\code{type = "emm"}}{plots the estimated marginal means (least square means). If this type is chosen, not all function arguments are applicable. See 'Details'.}
 }}
 
 \item{int.term}{select interaction term of \code{fit} (as character), which should be plotted
-when using \code{type = "eff"}. By default, this parameter can be ignored
+when using \code{type = "eff"}. By default, this argument can be ignored
 (i.e. \code{int.term = NULL}). See 'Details'.}
 
 \item{int.plot.index}{numeric vector with index numbers that indicate which
@@ -70,7 +70,7 @@ the predictor with more unique values is printed along the x-axis.}
 \item{plevel}{indicates at which p-value an interaction term is considered as \emph{significant},
 i.e. at which p-level an interaction term will be considered for plotting. Default is
 0.05 (5 percent), hence, non-significant interactions are excluded by default. This
-parameter does not apply to \code{type = "eff"}.}
+argument does not apply to \code{type = "eff"}.}
 
 \item{title}{a default title used for the plots. Should be a character vector
 of same length as interaction plots to be plotted. Default value is \code{NULL}, which means that each plot's title
@@ -125,13 +125,13 @@ displayed in one line and when a line break is inserted. Default is \code{50}.
 Only applies if \code{showInterceptLine} is \code{TRUE}.}
 
 \item{axisLimits.x}{numeric vector of length two, defining lower and upper axis limits
-of the x scale. By default, this parameter is set to \code{NULL}, i.e. the
+of the x scale. By default, this argument is set to \code{NULL}, i.e. the
 x-axis fits to the required range to plot all data. \strong{Note} that limiting
 the x-axis-range may result in warnings from \code{ggplot} due to values
 outside this range that could not be plotted.}
 
 \item{axisLimits.y}{numeric vector of length two, defining lower and upper axis limits
-of the y scale. By default, this parameter is set to \code{NULL}, i.e. the
+of the y scale. By default, this argument is set to \code{NULL}, i.e. the
 y-axis ranges from 0 to required maximum.}
 
 \item{gridBreaksAt}{set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th
@@ -207,7 +207,7 @@ Plot regression (predicted values) or probability lines (predicted probabilities
            \item{\code{type = "eff"}}{plots the overall effects of the interaction, with all remaining
              covariates set to the mean. Effects are calculated using the \code{\link[effects]{effect}}-
              function from the \code{effects}-package. \cr \cr
-             Following parameters \emph{do not} apply to this function: \code{diff}, \code{axisLabels.x}
+             Following arguments \emph{do not} apply to this function: \code{diff}, \code{axisLabels.x}
              \code{interceptLineColor}, \code{estLineColor}, \code{lineLabelSize}, \code{lineLabelColor}
              and \code{lineLabelString}.
            }
@@ -219,11 +219,11 @@ Plot regression (predicted values) or probability lines (predicted probabilities
              to plot differences in interventions between control and treatment groups over multiple time points.
              \itemize{
                \item Following paramters apply to this plot type: \code{showCI}, \code{valueLabel.digits} and \code{axisLabels.x}.
-               \item Following parameters \emph{do not} apply to this function: \code{int.term}, \code{int.plot.index}, \code{diff}, \code{moderatorValues}, \code{fillColor}, \code{fillAlpha}, \code{interceptLineColor}, \code{estLineColor}, \code{lineLabelSize}, \code{lineLabelColor} and \code{lineLabelString}.
+               \item Following arguments \emph{do not} apply to this function: \code{int.term}, \code{int.plot.index}, \code{diff}, \code{moderatorValues}, \code{fillColor}, \code{fillAlpha}, \code{interceptLineColor}, \code{estLineColor}, \code{lineLabelSize}, \code{lineLabelColor} and \code{lineLabelString}.
              }
            }
          }
-         The parameter \code{int.term} only applies to \code{type = "eff"} and can be used
+         The argument \code{int.term} only applies to \code{type = "eff"} and can be used
          to select a specific interaction term of the model that should be plotted. The function
          then calls \code{effect(int.term, fit)} to compute effects for this specific interaction
          term only. This approach is recommended, when the fitted model contains many observations
@@ -246,7 +246,7 @@ Note that beside interaction terms, also the single predictors of each interacti
 
 # fit "dummy" model. Note that moderator should enter
 # first the model, followed by predictor. Else, use
-# parameter "swapPredictors" to change predictor on
+# argument "swapPredictors" to change predictor on
 # x-axis with moderator
 fit <- lm(weight ~ Diet * Time, data = ChickWeight)
 

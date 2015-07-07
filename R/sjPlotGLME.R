@@ -29,7 +29,7 @@ utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "
 #' @param vars numeric vector with column indices of selected variables or a character vector with
 #'          variable names of selected variables from the fitted model, which should be used to plot 
 #'          fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability curves 
-#'          (for \code{\link[lme4]{glmer}}) of random intercepts. This parameter only 
+#'          (for \code{\link[lme4]{glmer}}) of random intercepts. This argument only 
 #'          applies if \code{type} is \code{"fe.pc"}, \code{"ri.pc"} or \code{"fe.ri"}.
 #'          In this case, only those terms specified in \code{"vars"} will be plotted.
 #' @param ri.nr numeric vector. If \code{type = "re"}, \code{type = "ri.pc"} or \code{type = "fe.ri"},
@@ -41,7 +41,7 @@ utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "
 #'          If \code{type = "ri.pc"} or \code{type = "fe.ri"}, and \code{facet.grid = FALSE}, 
 #'          an integrated plot of predicted probabilities of fixed effects resp. fixed 
 #'          effects slopes for each grouping level is plotted. To better find
-#'          certain groups, use this parameter to emphasize these groups in the plot.
+#'          certain groups, use this argument to emphasize these groups in the plot.
 #'          See 'Examples'.
 #' @param show.se logical, use \code{TRUE} to plot (depending on \code{type}) the standard
 #'          error for predicted values or confidence intervals for slope lines.
@@ -49,7 +49,7 @@ utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "
 #'          \code{type = "re"}, use the predictors' variable labels as titles.
 #' @param geom.colors user defined color palette for geoms. Must either be vector with two color values
 #'          or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.
-#' @param geom.size size of geoms (point size or line size, depending on \code{type}-parameter).
+#' @param geom.size size of geoms (point size or line size, depending on \code{type}-argument).
 #' @param hideErrorBars logical, if \code{TRUE}, the error bars that indicate the confidence intervals of the odds ratios are not
 #'          shown.
 #' @param showIntercept logical, if \code{TRUE}, the intercept is included when plotting random or fixed effects.
@@ -1157,7 +1157,7 @@ sjp.lme.feprobcurv <- function(fit,
                                vars,
                                geom.size,
                                printPlot) {
-  # check size parameter
+  # check size argument
   if (is.null(geom.size)) geom.size <- .7
   # ----------------------------
   # prepare additional plots, when metric
@@ -1539,7 +1539,7 @@ sjp.lme.feri <- function(fit,
                          emph.grp,
                          geom.size,
                          printPlot) {
-  # check size parameter
+  # check size argument
   if (is.null(geom.size)) geom.size <- .7
   # ----------------------------
   # retrieve term names, so we find the estimates in the
@@ -1683,7 +1683,7 @@ sjp.lme.reqq <- function(fit,
                      ID = factor(rep(rownames(re), ncol(re))[ord], levels = rownames(re)[ord]),
                      ind = gl(ncol(re), nrow(re), labels = names(re)),
                      grp = "1")
-  # check size parameter
+  # check size argument
   if (is.null(geom.size)) geom.size <- 3
   gp <- ggplot(pDf, aes(nQQ, y, colour = grp)) +
     facet_wrap(~ind, scales = "free") +
@@ -1760,7 +1760,7 @@ sjp.lme.fecor <- function(fit,
   )
   rownames(mydf) <- pred.labels
   colnames(mydf) <- pred.labels
-  # fix sort-parameter
+  # fix sort-argument
   if (!is.null(sort.coef) && sort.coef != TRUE)
     sort.coef <- FALSE
   else
@@ -1986,7 +1986,7 @@ sjp.glm.eff <- function(fit,
     dummy <- list(x = sort(unique(stats::na.omit(mm[, t]))))
     # name list, needed for effect-function
     names(dummy) <- t
-    # create list for "xlevels" parameter of allEffects fucntion
+    # create list for "xlevels" argument of allEffects fucntion
     xl <- c(xl, dummy)
   }
   # ------------------------
@@ -2038,7 +2038,7 @@ sjp.glm.eff <- function(fit,
   # how many different groups?
   # ------------------------
   grp.cnt <- length(unique(mydat$grp))
-  # check size parameter
+  # check size argument
   if (is.null(geom.size)) geom.size <- .7
   # ------------------------
   # create plot

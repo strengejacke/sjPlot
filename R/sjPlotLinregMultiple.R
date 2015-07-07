@@ -71,7 +71,7 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #'          showPValueLabels = FALSE,
 #'          usePShapes = TRUE)
 #' 
-#' # plot multiple models from nested lists parameter
+#' # plot multiple models from nested lists argument
 #' all.models <- list()
 #' all.models[[1]] <- fit1
 #' all.models[[2]] <- fit2

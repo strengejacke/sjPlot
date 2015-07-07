@@ -6,6 +6,10 @@ Changes to functions:
 * "sjt.df" and "view_df" now recognize Date and POSIX-classes, if "showType = TRUE".
 * "sjp.poly" now also returns cutpoints of loess curvature, to get maximum / minimum values of loess curvature.
 
+Bug fixes:
+* "sjp.grpfrq" did not show correct number of missings (argument "na.rm = FALSE"), if grouping variable startet with zero.
+
+
 Version 1.8.2
 ------------------------------------------------------------------------------
 General:

@@ -21,7 +21,7 @@ sjp.likert(items, catcount = NULL, cat.neutral = NULL, weightBy = NULL,
 
 \item{catcount}{optional, amount of categories of \code{items} (e.g. \emph{"strongly disagree",
 "disagree", "agree"} and \emph{"strongly agree"} would be \code{catcount = 4}).
-Note that this parameter only applies to "valid" answers, i.e. if you
+Note that this argument only applies to "valid" answers, i.e. if you
 have an additional neutral category (see \code{cat.neutral}) like \emph{"don't know"},
 this won't count for \code{catcount} (e.g. "strongly disagree",
 "disagree", "agree", "strongly agree" and neutral category "don't know"
@@ -50,7 +50,7 @@ total sum of positive or negative answers.
   \item{\code{NULL}}{(default) for no sorting}
 }}
 
-\item{geom.size}{width of bars. Recommended values for this parameter are from 0.4 to 1.5}
+\item{geom.size}{width of bars. Recommended values for this argument are from 0.4 to 1.5}
 
 \item{geom.colors}{user defined color palette for geoms. If specified, must either be vector with color values
 of same length as groups defined in \code{legendLabels}, or a specific color palette code.
@@ -144,12 +144,12 @@ Plot likert scales as centered stacked bars.
 Note that only even numbers of categories are possible to plot, so the "positive"
        and "negative" values can be splitted into two halfs. A neutral category (like "don't know")
        can be used, but must be indicated by \code{cat.neutral}. \cr \cr
-       The \code{catcount}-parameter indicates how many item categories are in the
-       Likert scale. Normally, this parameter can be ignored because the amount of
+       The \code{catcount}-argument indicates how many item categories are in the
+       Likert scale. Normally, this argument can be ignored because the amount of
        valid categories is retrieved automatically. However, sometimes (for instance,
        if a certain category is missing in all items), auto-detection of the amount
        of categories fails. In such cases, specify the amount of categories
-       with the \code{catcount}-parameter.
+       with the \code{catcount}-argument.
 }
 \examples{
 # prepare data for dichotomous likert scale, 5 items

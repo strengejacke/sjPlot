@@ -29,7 +29,7 @@ the group mean in relation to the intercept (reference group).}
 or as \code{"bars"}}
 
 \item{hideErrorBars}{logical, if \code{TRUE}, the error bars that indicate the confidence intervals of the group means are not
-shown. Only applies if parameter \code{type} is \code{"bars"}. Default value is \code{FALSE}.}
+shown. Only applies if argument \code{type} is \code{"bars"}. Default value is \code{FALSE}.}
 
 \item{title}{plot title as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title

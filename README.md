@@ -47,3 +47,6 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * `sjt.df` gets a `big.mark` parameter to add thousands-separators if parameter `describe = TRUE`.
 * `sjt.df` and `view_df` now recognize Date and POSIX-classes, if `showType = TRUE`.
 * `sjp.poly` now also returns cutpoints of loess curvature, to get maximum / minimum values of loess curvature.
+
+#### Bug fixes
+* `sjp.grpfrq` did not show correct number of missings (argument `na.rm = FALSE`), if grouping variable startet with zero.

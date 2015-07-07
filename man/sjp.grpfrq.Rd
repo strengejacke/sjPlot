@@ -39,7 +39,7 @@ title will not have a suffix when cases are weighted.}
 
 \item{interactionVar}{an interaction variable which can be used for box plots. Divides each category indicated
 by \code{varGroup} into the factors of \code{interactionVar}, so that each category of \code{varGroup}
-is subgrouped into \code{interactionVar}'s categories. Only applies when parameter \code{type}
+is subgrouped into \code{interactionVar}'s categories. Only applies when argument \code{type}
 is \code{box} or \code{violin} (resp. their alternative strings like \code{"boxplot"}, \code{"boxplots"} or \code{"v"}).}
 
 \item{type}{The plot type. May be one of the following:
@@ -54,9 +54,9 @@ is \code{box} or \code{violin} (resp. their alternative strings like \code{"boxp
   You may use initial letter for \code{type} options, except for
   \code{type = "boxplots"}, which may be abbreviated \code{type = "box"}}
 
-\item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} parameter).
+\item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} argument).
 Note that  bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
-By default, \code{geom.size = NULL}, which means that this parameter is automatically
+By default, \code{geom.size = NULL}, which means that this argument is automatically
 adjusted depending on the plot type.}
 
 \item{geom.spacing}{the spacing between geoms (i.e. bar spacing)}
@@ -67,7 +67,7 @@ of same length as groups defined in \code{varGroup}, or a specific color brewer 
 \item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
 
 \item{facet.grid}{\code{TRUE} when bar charts should be plotted as facet grids instead of integrated single
-bar charts. Ideal for larger amount of groups. This parameter wraps a single panel into
+bar charts. Ideal for larger amount of groups. This argument wraps a single panel into
 \code{varGroup} amount of panels, i.e. each group is represented within a new panel.}
 
 \item{title}{plot title as string. Example: \code{title = "my title"}.
@@ -80,7 +80,7 @@ no title is printed.}
 \item{axisLabels.x}{a character vector with labels for the x-axis breaks. \strong{Note:}
 Axis labels will be automatically detected, when data was either imported
 with \code{\link[sjmisc]{read_spss}} or has named factor levels
-(see 'Examples'). Else, specifiy parameter like this:
+(see 'Examples'). Else, specifiy argument like this:
 \code{axisLabels.x = c("Label1", "Label2", "Label3")}.
 The labels may also be passed as \code{\link{list}} object. They will be coerced
 to character vector automatically.}
@@ -94,13 +94,13 @@ Example: See \code{axisLabels.x}.}
 \item{legendLabels}{a character vector with labels for the guide/legend.}
 
 \item{axisLimits.x}{numeric vector of length two, defining lower and upper axis limits
-of the x scale. By default, this parameter is set to \code{NULL}, i.e. the
+of the x scale. By default, this argument is set to \code{NULL}, i.e. the
 x-axis fits to the required range to plot all data. \strong{Note} that limiting
 the x-axis-range may result in warnings from \code{ggplot} due to values
 outside this range that could not be plotted.}
 
 \item{axisLimits.y}{numeric vector of length two, defining lower and upper axis limits
-of the y scale. By default, this parameter is set to \code{NULL}, i.e. the
+of the y scale. By default, this argument is set to \code{NULL}, i.e. the
 y-axis ranges from 0 to required maximum.}
 
 \item{breakTitleAt}{determines how many chars of the plot title are displayed in
@@ -119,7 +119,7 @@ displayed in one line and when a line break is inserted.}
 position a major grid is being printed.}
 
 \item{barPosition}{indicates whether bars should be positioned side-by-side (default)
-or stacked (use \code{"stack"} as parameter).
+or stacked (use \code{"stack"} as argument).
 If \code{type = "histogram"}, you can use either \code{"dodge"} (default value),
 which displays the bars side-by-side, or \code{"identity"}, which results in
 overlaying bars. In the latter case, it's recommended to adjust the
@@ -131,7 +131,7 @@ if \code{type = "violins"}. Default value is 0.15}
 \item{innerBoxPlotDotSize}{size of mean dot insie a violin or box plot. Applies only
 when \code{type = "violins"} or \code{"boxplots"}.}
 
-\item{smoothLines}{prints a smooth line curve. Only applies, when parameter \code{type = "lines"}.}
+\item{smoothLines}{prints a smooth line curve. Only applies, when argument \code{type = "lines"}.}
 
 \item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 axes and plotting region. Default is \code{FALSE}.}
@@ -171,7 +171,7 @@ values lower than five(or lower than 10 if df is 1), the Fisher's excact test
 (see \code{\link{fisher.test}}) is computed instead of Chi-squared test.
 If the table's matrix is larger than 2x2, Fisher's excact test with Monte Carlo
 simulation is computed. Only applies to barcharts or dotplots, i.e.
-when parameter \code{type = "bars"} or \code{"dots"}.}
+when argument \code{type = "bars"} or \code{"dots"}.}
 
 \item{showGroupCount}{logical, if \code{TRUE}, the count within each group is added
 to the category labels (e.g. \code{"Cat 1 (n=87)"}). Default value is \code{FALSE}.}
@@ -232,7 +232,7 @@ Plot grouped or stacked frequencies of variables
 \note{
 \code{geom.colors} may be a acharacter vector of color values
         in hex-format, or a name of a \href{http://colorbrewer2.org}{color brewer} palette.
-        Following options are valid for the \code{geom.colors} parameter:
+        Following options are valid for the \code{geom.colors} argument:
         \itemize{
            \item If not specified, a default color brewer palette will be used, which is suitable for the plot style (i.e. diverging for likert scales, qualitative for grouped bars etc.).
            \item If \code{"gs"}, a greyscale will be used.

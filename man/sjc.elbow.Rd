@@ -15,7 +15,7 @@ which the elbow-criterion should be displayed. Default is \code{15}.}
 
 \item{showDiff}{logical, if \code{TRUE}, an additional plot with the differences between
          each fusion step of the Elbow criterion calculation is shown. This plot
-         may help identifying the "elbow". Default for this parameter is \code{FALSE}.}
+         may help identifying the "elbow". Default for this argument is \code{FALSE}.}
 }
 \description{
 Plot elbow values of a k-means cluster analysis. This function
