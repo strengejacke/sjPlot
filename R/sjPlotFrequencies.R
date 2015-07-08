@@ -267,14 +267,19 @@ sjp.frq <- function(varCount,
   # check color argument
   # --------------------------------------------------------
   if (is.null(geom.colors)) {
-    geom.colors <- waiver()
+    geom.colors <- ggplot2::waiver()
   } else if (length(geom.colors) > 1) {
     geom.colors <- geom.colors[1]
   }
   # --------------------------------------------------------
+  # save label values. needed later to determine correct
+  # amount of categories
+  # --------------------------------------------------------
+  labelvalues <- sjmisc::get_values(varCount)
+  # --------------------------------------------------------
   # count variable may not be a factor!
   # --------------------------------------------------------
-  if (is.factor(varCount)) varCount <- sjmisc::to_value(varCount)
+  if (is.factor(varCount)) varCount <- sjmisc::to_value(varCount, keep.labels = F)
   # --------------------------------------------------------
   # We have several options to name the plot type
   # Here we will reduce it to a unique value
@@ -287,7 +292,7 @@ sjp.frq <- function(varCount,
   if (type == "box" || type == "boxplot") type <- "boxplots"
   if (type == "v" || type == "violins") type <- "violin"
   if (expand.grid == TRUE) {
-    expand.grid <- waiver()
+    expand.grid <- ggplot2::waiver()
   } else {
     expand.grid <- c(0, 0)
   }
@@ -333,12 +338,12 @@ sjp.frq <- function(varCount,
                                   autoGroupCount = agcnt)
     # set label attributes
     varCount <- sjmisc::set_val_labels(varCount, axisLabels.x)
+    # --------------------------------------------------------
+    # save label values. needed later to determine correct
+    # amount of categories
+    # --------------------------------------------------------
+    labelvalues <- sjmisc::get_values(varCount)
   }
-  # --------------------------------------------------------
-  # save label values. needed later to determine correct
-  # amount of categories
-  # --------------------------------------------------------
-  labelvalues <- sjmisc::get_values(varCount)
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------

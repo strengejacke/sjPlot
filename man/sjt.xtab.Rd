@@ -10,7 +10,7 @@ sjt.xtab(var.row, var.col, var.grp = NULL, weightBy = NULL, digits = 1,
   stringTotal = "Total", showObserved = TRUE, showCellPerc = FALSE,
   showRowPerc = FALSE, showColPerc = FALSE, showExpected = FALSE,
   showTotalN = FALSE, showHorizontalLine = FALSE, showSummary = TRUE,
-  showLegend = TRUE, showNA = FALSE, labelNA = "NA", tdcol.n = "black",
+  showLegend = FALSE, showNA = FALSE, labelNA = "NA", tdcol.n = "black",
   tdcol.expected = "#339999", tdcol.cell = "#993333",
   tdcol.row = "#333399", tdcol.col = "#339933", highlightTotal = FALSE,
   highlightColor = "#f8f8f8", percSign = "&nbsp;&#37;", hundret = "100.0",
@@ -75,7 +75,7 @@ Cramer's V or Phi-value etc. is shown. If a cell contains expected values lower 
 if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is computed instead of Chi-square test.
 If the table's matrix is larger than 2x2, Fisher's excact test with Monte Carlo simulation is computed.}
 
-\item{showLegend}{logical, if \code{TRUE} (default), the color legend for coloring observed and expected
+\item{showLegend}{logical, if \code{TRUE}, the color legend for coloring observed and expected
 values as well as cell, row and column percentages is shown. See \code{tdcol.n},
 \code{tdcol.expected}, \code{tdcol.cell}, \code{tdcol.row} and \code{tdcol.col}.}
 
