@@ -468,6 +468,11 @@ sjt.frq <- function(data,
   # -------------------------------------
   for (cnt in 1:nvar) {
     # -----------------------------------------------
+    # save variable values. these values may change when converting
+    # factors to numeric, so save these values before
+    # -----------------------------------------------
+    var.values <- sjmisc::get_values(data[[cnt]])
+    # -----------------------------------------------
     # prepare data: create frequencies and weight them,
     # if requested. put data into a data frame
     #---------------------------------------------------
@@ -477,9 +482,6 @@ sjt.frq <- function(data,
       orivar <- var <- as.numeric(as.factor(data[[cnt]]))
     # here we have numeric or factor variables
     } else {
-      # save variable values. these values may change when converting
-      # factors to numeric, so save these values before
-      var.values <- sjmisc::get_values(data[[cnt]])
       # convert to numeric
       orivar <- var <- sjmisc::to_value(data[[cnt]], 
                                         keep.labels = F)
@@ -504,6 +506,7 @@ sjt.frq <- function(data,
                                autoGroupCount = agcnt)
       # set labels
       var <- sjmisc::set_val_labels(var, valueLabels[[cnt]])
+      # need to get new values again
       var.values <- sjmisc::get_values(var)
     }
     # retrieve summary
