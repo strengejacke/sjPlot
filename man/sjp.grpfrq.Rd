@@ -72,7 +72,7 @@ bar charts. Ideal for larger amount of groups. This argument wraps a single pane
 
 \item{title}{plot title as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
 no title is printed.}
 
 \item{legendTitle}{title of the plot legend, as string.}
@@ -188,12 +188,12 @@ Use \code{"l"} for upper left corner.}
 
 \item{axisTitle.x}{title for the x-axis. By default, \code{""} is used, i.e. no title
 is printed. If \code{axisTitle.x = NULL}, the variable name will be
-automatically detected and used as title (see \code{\link[sjmisc]{set_var_labels}})
+automatically detected and used as title (see \code{\link[sjmisc]{set_label}})
 for details).}
 
 \item{axisTitle.y}{title for the-y axis. By default, \code{""} is used, i.e. no title
 is printed. If \code{axisTitle.y = NULL}, variable name will be automatically
-detected and used as title (see \code{\link[sjmisc]{set_var_labels}}) for details).}
+detected and used as title (see \code{\link[sjmisc]{set_label}}) for details).}
 
 \item{autoGroupAt}{numeric value, indicating at which length of unique values of \code{varCount},
 automatic grouping into smaller units is done (see \code{\link[sjmisc]{group_var}}).
@@ -244,8 +244,8 @@ Plot grouped or stacked frequencies of variables
 # histrogram with EUROFAMCARE sample dataset
 library(sjmisc)
 data(efc)
-efc.val <- get_val_labels(efc)
-efc.var <- get_var_labels(efc)
+efc.val <- get_labels(efc)
+efc.var <- get_label(efc)
 sjp.grpfrq(efc$e17age,
            efc$e16sex,
            title = efc.var['e17age'],

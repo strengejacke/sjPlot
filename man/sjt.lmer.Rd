@@ -172,7 +172,7 @@ data(efc)
 
 # prepare group variable
 efc$grp = as.factor(efc$e15relat)
-levels(x = efc$grp) <- get_val_labels(efc$e15relat)
+levels(x = efc$grp) <- get_labels(efc$e15relat)
 efc$care.level <- as.factor(sjmisc::rec(efc$n4pstu, "0=0;1=1;2=2;3:4=4"))
 levels(x = efc$care.level) <- c("none", "I", "II", "III")
 

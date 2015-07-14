@@ -18,7 +18,7 @@
 #' @param title table caption.
 #' @param varlabels list or vector of strings with variable names. If not specified, row names of \code{items}
 #'          will be used, resp. variable labels will automatically be detected, when they have
-#'          a variable label attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).
+#'          a variable label attribute (see \code{\link[sjmisc]{set_label}}) for details).
 #' @param breakLabelsAt determines how many chars of the variable labels are displayed in 
 #'          one line and when a line break is inserted. Default is 40.
 #' @param valuelabels list or vector of strings that category/value labels, which

@@ -67,7 +67,7 @@ utils::globalVariables(c("offset"))
 #' @param axisLabels.y character vector with labels for the y-axis (names of the 
 #'          \code{items}). Example: \code{axisLabels.y = c("Q1", "Q2", "Q3")}.
 #'          Axis labels will automatically be detected, when they have
-#'          label attributes (see \code{\link[sjmisc]{set_var_labels}} for details).
+#'          label attributes (see \code{\link[sjmisc]{set_label}} for details).
 #' @param gridRange numeric, limits of the x-axis-range, as proportion of 100. 
 #'          Default is 1, so the x-scale ranges from zero to 100\% on 
 #'          both sides from the center. You can use values beyond 1

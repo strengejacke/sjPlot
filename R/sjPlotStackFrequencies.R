@@ -40,7 +40,7 @@
 #' @param axisLabels.y character vector with labels for the y-axis (variable names 
 #'          of \code{items}). Example: \code{axisLabels.y = c("Q1", "Q2", "Q3")}
 #'          Axis labels will automatically be detected, when they have
-#'          label attributes (see \code{\link[sjmisc]{set_var_labels}}) for details).
+#'          label attributes (see \code{\link[sjmisc]{set_label}}) for details).
 #' @param breakTitleAt determines how many chars of the title are displayed in
 #'          one line and when a line break is inserted into the title.
 #' @param breakLabelsAt determines how many chars of the category labels are displayed in 
@@ -113,8 +113,8 @@
 #' end <- which(colnames(efc) == "c90cop9")
 #' 
 #' # retrieve variable and value labels
-#' varlabs <- get_var_labels(efc)
-#' vallabs <- get_val_labels(efc)
+#' varlabs <- get_label(efc)
+#' vallabs <- get_labels(efc)
 #' 
 #' # create value labels. We need just one variable of
 #' # the COPE-index scale because they have all the same
@@ -132,7 +132,6 @@
 #' # -------------------------------
 #' # auto-detection of labels
 #' # -------------------------------
-#' efc <- set_var_labels(efc, varlabs)
 #' sjp.stackfrq(efc[, c(start:end)])
 #' 
 #' 

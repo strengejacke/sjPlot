@@ -23,10 +23,10 @@
 #'          dots instead of labels are printed.
 #' @param axisTitle.x title for the x axis. Use \code{NULL} to automatically 
 #'          detect variable names that will be used as title
-#'          (see \code{\link[sjmisc]{set_var_labels}}) for details).
+#'          (see \code{\link[sjmisc]{set_label}}) for details).
 #' @param axisTitle.y title for the y axis.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link[sjmisc]{set_var_labels}}) for details).
+#'          (see \code{\link[sjmisc]{set_label}}) for details).
 #' @param geom.size size of point geoms.
 #' @param geom.colors color(s) of point geoms. If \code{grp} is not \code{NULL}, 
 #'          groups are indicated by different colors, thus a vector with multiple
@@ -87,10 +87,10 @@
 #' # of labels, but instead pass labels as arguments
 #' sjp.scatter(efc$c160age, efc$e17age, efc$e42dep, 
 #'             title = "Scatter Plot",
-#'             legendTitle = get_var_labels(efc)['e42dep'],
-#'             legendLabels = get_val_labels(efc)[['e42dep']],
-#'             axisTitle.x = get_var_labels(efc)['c160age'],
-#'             axisTitle.y = get_var_labels(efc)['e17age'],
+#'             legendTitle = get_label(efc)['e42dep'],
+#'             legendLabels = get_labels(efc)[['e42dep']],
+#'             axisTitle.x = get_label(efc)['c160age'],
+#'             axisTitle.y = get_label(efc)['e17age'],
 #'             showGroupFitLine = TRUE)
 #' 
 #' # grouped and labelled scatter plot as facets

@@ -146,7 +146,7 @@ library(sjmisc)
 data(efc)
 
 # retrieve variable and value labels
-varlabs <- get_var_labels(efc)
+varlabs <- get_label(efc)
 
 # recveive first item of COPE-index scale
 start <- which(colnames(efc) == "c82cop1")
@@ -163,7 +163,6 @@ sjp.pca(mydf, type = "tile")
 # -------------------------------
 # auto-detection of labels
 # -------------------------------
-efc <- set_var_labels(efc, varlabs)
 sjp.pca(efc[, c(start:end)], type = "circle", geom.size = 10)
 }
 \seealso{

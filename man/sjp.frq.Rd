@@ -27,7 +27,7 @@ sjp.frq(varCount, title = "", weightBy = NULL, weightByTitleString = NULL,
 
 \item{title}{plot title as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
 no title is printed.}
 
 \item{weightBy}{weight factor that will be applied to weight all cases of \code{varCount}.
@@ -172,7 +172,7 @@ applies if \code{showNormalCurve = TRUE}.}
 applies if \code{showNormalCurve = TRUE}.}
 
 \item{axisTitle.x}{title for the x-axis. By default, the variable name will be
-automatically detected and used as title (see \code{\link[sjmisc]{set_var_labels}})
+automatically detected and used as title (see \code{\link[sjmisc]{set_label}})
 for details).}
 
 \item{axisTitle.y}{title for the y-axis. By default, this value is \code{NULL},
@@ -256,8 +256,8 @@ sjp.frq(ChickWeight$Diet)
 # ---------------
 library(sjmisc)
 data(efc)
-efc.val <- get_val_labels(efc)
-efc.var <- get_var_labels(efc)
+efc.val <- get_labels(efc)
+efc.var <- get_label(efc)
 # you may use sjp.setTheme here to change axis textangle
 sjp.frq(as.factor(efc$e15relat),
         title = efc.var[['e15relat']],

@@ -27,7 +27,7 @@
 #'          first column/row. If no item labels are provided (default), the 
 #'          data frame's column names are used. Item labels are detected automatically 
 #'          if \code{data} is a \code{\link{data.frame}} where variables have
-#'          label attributes (see \code{\link[sjmisc]{set_var_labels}}) for details).
+#'          label attributes (see \code{\link[sjmisc]{set_label}}) for details).
 #' @param digits amount of digits used the values inside table cells.
 #'          Default is 2.
 #' @param triangle indicates whether only the upper right (use \code{"upper"}), lower left (use \code{"lower"})
@@ -87,7 +87,7 @@
 #' data(efc)
 #' 
 #' # retrieve variable and value labels
-#' varlabs <- get_var_labels(efc)
+#' varlabs <- get_label(efc)
 #' 
 #' # recveive first item of COPE-index scale
 #' start <- which(colnames(efc) == "c83cop2")

@@ -34,10 +34,10 @@ is detected automatically. If \code{x} is a vector, \code{fun} defaults
 to \code{"lm"}.}
 
 \item{axisTitle.x}{A label for the x axis. Use \code{NULL} to automatically detect
-variable names that will be used as title (see \code{\link[sjmisc]{set_var_labels}}) for details).}
+variable names that will be used as title (see \code{\link[sjmisc]{set_label}}) for details).}
 
 \item{axisTitle.y}{A label for the y axis. Use \code{NULL} to automatically detect
-variable names that will be used as title (see \code{\link[sjmisc]{set_var_labels}}) for details).}
+variable names that will be used as title (see \code{\link[sjmisc]{set_label}}) for details).}
 
 \item{showScatterPlot}{If \code{TRUE} (default), a scatter plot of response and predictor values
 for each predictor of the fitted model \code{fit} is plotted.

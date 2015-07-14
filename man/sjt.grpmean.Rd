@@ -19,7 +19,7 @@ so no weights are used.}
 
 \item{rowLabels}{a character vector of same length as \code{varGrp} unqiue values. In short: the
 value labels of \code{varGrp}. Used to name table rows. By default, row labels
-are automatically detected if set by \code{\link[sjmisc]{set_val_labels}}.}
+are automatically detected if set by \code{\link[sjmisc]{set_labels}}.}
 
 \item{digits}{amount of digits for table values.}
 

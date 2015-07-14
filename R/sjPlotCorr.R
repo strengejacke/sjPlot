@@ -18,7 +18,7 @@ utils::globalVariables(c("ordx", "ordy"))
 #'          should be correlated.
 #' @param axisLabels labels for the x- andy y-axis. AxisLabels are detected automatically
 #'          if \code{data} is a \code{\link{data.frame}} where variables have 
-#'          label attributes (see \code{\link[sjmisc]{set_var_labels}}) 
+#'          label attributes (see \code{\link[sjmisc]{set_label}}) 
 #'          for details).
 #' @param type indicates whether the geoms of correlation values should be plotted
 #'          as \code{"circle"} (default) or as \code{"tile"}.
@@ -78,7 +78,7 @@ utils::globalVariables(c("ordx", "ordy"))
 #' data(efc)
 #'
 #' # retrieve variable and value labels
-#' varlabs <- get_var_labels(efc)
+#' varlabs <- get_label(efc)
 #'
 #' # create data frame
 #' vars.index <- c(1, 4, 15, 19, 20, 21, 22, 24, 25)

@@ -23,7 +23,7 @@ Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, s
 
 \item{varlabels}{list or vector of strings with variable names. If not specified, row names of \code{items}
 will be used, resp. variable labels will automatically be detected, when they have
-a variable label attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).}
+a variable label attribute (see \code{\link[sjmisc]{set_label}}) for details).}
 
 \item{breakLabelsAt}{determines how many chars of the variable labels are displayed in
 one line and when a line break is inserted. Default is 40.}

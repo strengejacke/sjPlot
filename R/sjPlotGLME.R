@@ -139,7 +139,7 @@ utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "
 #' efc$hi_qol <- dicho(efc$quol_5)
 #' # prepare group variable
 #' efc$grp = as.factor(efc$e15relat)
-#' levels(x = efc$grp) <- get_val_labels(efc$e15relat)
+#' levels(x = efc$grp) <- get_labels(efc$e15relat)
 #' # data frame for fitted model
 #' mydf <- data.frame(hi_qol = as.factor(efc$hi_qol),
 #'                    sex = as.factor(efc$c161sex),
@@ -314,7 +314,7 @@ sjp.glmer <- function(fit,
 #' data(efc)
 #' # prepare group variable
 #' efc$grp = as.factor(efc$e15relat)
-#' levels(x = efc$grp) <- get_val_labels(efc$e15relat)
+#' levels(x = efc$grp) <- get_labels(efc$e15relat)
 #' # data frame for fitted model
 #' mydf <- data.frame(neg_c_7 = as.numeric(efc$neg_c_7),
 #'                    sex = as.factor(efc$c161sex),

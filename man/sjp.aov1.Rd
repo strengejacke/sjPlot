@@ -33,7 +33,7 @@ shown. Only applies if argument \code{type} is \code{"bars"}. Default value is \
 
 \item{title}{plot title as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
 no title is printed.}
 
 \item{axisLabels.y}{character vector, indicating the value labels of \code{grpVar} that
@@ -49,7 +49,7 @@ the value label of the grouping variable. Default is \code{"(Intercept)"}.}
 
 \item{axisTitle.x}{title for the x-axis. By default, \code{""} is used, i.e. no title
 is printed. If \code{axisTitle.x = NULL}, the variable name will be
-automatically detected and used as title (see \code{\link[sjmisc]{set_var_labels}})
+automatically detected and used as title (see \code{\link[sjmisc]{set_label}})
 for details).}
 
 \item{axisLimits}{numeric vector of length 2, defining the range of the plot axis.
@@ -117,8 +117,8 @@ sjp.aov1(efc$c12hour, efc$e42dep)
 
 
 data(efc)
-efc.val <- get_val_labels(efc)
-efc.var <- get_var_labels(efc)
+efc.val <- get_labels(efc)
+efc.var <- get_label(efc)
 sjp.aov1(efc$c12hour,
          as.factor(efc$e42dep),
          axisLabels.y = efc.val['e42dep'],
@@ -128,7 +128,6 @@ sjp.aov1(efc$c12hour,
 # -------------------------------------------------
 # auto-detection of value labels and variable names
 # -------------------------------------------------
-efc <- set_var_labels(efc, efc.var)
 sjp.aov1(efc$c12hour,
          efc$e42dep)
 
@@ -136,7 +135,7 @@ sjp.aov1(efc$c12hour,
 # however, if you dare to, adjust
 # 'geom.size'...
 sjp.aov1(efc$c12hour,
-         as.factor(efc$c172code),
+         efc$c172code,
          axisLabels.y = efc.val['c172code'],
          title = efc.var[['c12hour']],
          type = "bars",

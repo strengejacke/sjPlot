@@ -37,7 +37,7 @@ provided (default), the data frame's column names are used.}
 
 \item{title}{plot title as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
 no title is printed.}
 
 \item{breakLabelsAt}{determines how many chars of the category labels are displayed in
@@ -157,7 +157,7 @@ library(sjmisc)
 data(efc)
 
 # retrieve variable and value labels
-varlabs <- get_var_labels(efc)
+varlabs <- get_label(efc)
 
 # recveive first item of COPE-index scale
 start <- which(colnames(efc) == "c82cop1")
@@ -173,7 +173,6 @@ sjt.pca(mydf)
 # -------------------------------
 # auto-detection of labels
 # -------------------------------
-efc <- set_var_labels(efc, varlabs)
 sjt.pca(efc[, c(start:end)])}
 }
 \seealso{

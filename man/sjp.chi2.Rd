@@ -15,7 +15,7 @@ sjp.chi2(df, title = "Pearson's Chi2-Test of Independence",
 
 \item{axisLabels}{Labels for the x- andy y-axis
 axisLabels are detected automatically if each variable has
-a label attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).}
+a label attribute (see \code{\link[sjmisc]{set_label}}) for details).}
 
 \item{breakTitleAt}{Wordwrap for diagram title. Determines how many chars of the title are displayed in
 one line and when a line break is inserted into the title}

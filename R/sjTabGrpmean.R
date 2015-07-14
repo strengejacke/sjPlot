@@ -13,7 +13,7 @@
 #'          so no weights are used.
 #' @param rowLabels a character vector of same length as \code{varGrp} unqiue values. In short: the
 #'          value labels of \code{varGrp}. Used to name table rows. By default, row labels
-#'          are automatically detected if set by \code{\link[sjmisc]{set_val_labels}}.
+#'          are automatically detected if set by \code{\link[sjmisc]{set_labels}}.
 #' @param digits amount of digits for table values.
 #' @param digits.summary amount of digits for summary statistics (Anova).
 #' 
@@ -52,18 +52,18 @@
 #' @import sjmisc
 #' @importFrom stats na.omit lm
 #' @export
-sjt.grpmean <- function(varCount, 
-                        varGrp, 
+sjt.grpmean <- function(varCount,
+                        varGrp,
                         weightBy = NULL,
-                        rowLabels=NULL, 
-                        digits=2,
+                        rowLabels = NULL,
+                        digits = 2,
                         digits.summary = 3,
-                        file=NULL,
-                        encoding=NULL,
-                        CSS=NULL,
-                        useViewer=TRUE,
-                        no.output=FALSE,
-                        remove.spaces=TRUE) {
+                        file = NULL,
+                        encoding = NULL,
+                        CSS = NULL,
+                        useViewer = TRUE,
+                        no.output = FALSE,
+                        remove.spaces = TRUE) {
   # --------------------------------------------------------
   # check p-value-style option
   # --------------------------------------------------------

@@ -505,7 +505,7 @@ sjt.frq <- function(data,
                                asNumeric = TRUE, 
                                autoGroupCount = agcnt)
       # set labels
-      var <- sjmisc::set_val_labels(var, valueLabels[[cnt]])
+      var <- sjmisc::set_labels(var, valueLabels[[cnt]])
       # need to get new values again
       var.values <- sjmisc::get_values(var)
     }

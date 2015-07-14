@@ -27,7 +27,7 @@ is grouped into the categories represented by \code{grp}.}
 
 \item{title}{plot title as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
 no title is printed.}
 
 \item{legendTitle}{title of the plot legend, as string.}
@@ -140,11 +140,11 @@ to each category.}
 
 \item{axisTitle.x}{title for the x-axis. Default is \code{NULL}, so variable name
 of \code{x} will automatically be detected and used as axis title
-(see \code{\link[sjmisc]{set_var_labels}}) for details).}
+(see \code{\link[sjmisc]{set_label}}) for details).}
 
 \item{axisTitle.y}{title for the y-axis. Default is \code{NULL}, so variable name
          of \code{grp} will automatically be detected and used as axis title
-         (see \code{\link[sjmisc]{set_var_labels}}) for details).}
+         (see \code{\link[sjmisc]{set_label}}) for details).}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
@@ -195,8 +195,8 @@ sjp.xtab(efc$e42dep,
 # dataset was importet from an SPSS-file,
 # see ?sjmisc::read_spss
 data(efc)
-efc.val <- get_val_labels(efc)
-efc.var <- get_var_labels(efc)
+efc.val <- get_labels(efc)
+efc.var <- get_label(efc)
 
 sjp.xtab(efc$e42dep,
          efc$e16sex,

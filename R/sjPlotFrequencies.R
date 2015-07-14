@@ -82,7 +82,7 @@ utils::globalVariables(c("frq", "grp", "upper.ci", "lower.ci", "ia", "..density.
 #' @param normalCurveAlpha transparancy level (alpha value) of the normal curve. Only
 #'          applies if \code{showNormalCurve = TRUE}.
 #' @param axisTitle.x title for the x-axis. By default, the variable name will be 
-#'          automatically detected and used as title (see \code{\link[sjmisc]{set_var_labels}}) 
+#'          automatically detected and used as title (see \code{\link[sjmisc]{set_label}}) 
 #'          for details).
 #' @param axisTitle.y title for the y-axis. By default, this value is \code{NULL},
 #'          i.e. no title is printed.
@@ -143,8 +143,8 @@ utils::globalVariables(c("frq", "grp", "upper.ci", "lower.ci", "ia", "..density.
 #' # ---------------
 #' library(sjmisc)
 #' data(efc)
-#' efc.val <- get_val_labels(efc)
-#' efc.var <- get_var_labels(efc)
+#' efc.val <- get_labels(efc)
+#' efc.var <- get_label(efc)
 #' # you may use sjp.setTheme here to change axis textangle
 #' sjp.frq(as.factor(efc$e15relat), 
 #'         title = efc.var[['e15relat']],
@@ -337,7 +337,7 @@ sjp.frq <- function(varCount,
                                   asNumeric = TRUE, 
                                   autoGroupCount = agcnt)
     # set label attributes
-    varCount <- sjmisc::set_val_labels(varCount, axisLabels.x)
+    varCount <- sjmisc::set_labels(varCount, axisLabels.x)
     # --------------------------------------------------------
     # save label values. needed later to determine correct
     # amount of categories

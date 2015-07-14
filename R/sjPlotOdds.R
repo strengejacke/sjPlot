@@ -133,7 +133,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' library(sjmisc)
 #' data(efc)
 #' # retrieve predictor variable labels
-#' labs <- get_var_labels(efc)
+#' labs <- get_label(efc)
 #' predlab <- c(labs[['c161sex']],
 #'              paste0(labs[['e42dep']], " (slightly)"),
 #'              paste0(labs[['e42dep']], " (moderate)"),

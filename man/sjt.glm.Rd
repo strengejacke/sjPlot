@@ -300,8 +300,6 @@ sjt.glm(fit1, fit2, fit3,
 library(sjmisc)
 # load efc sample data
 data(efc)
-# set variable labels
-efc <- set_var_labels(efc, get_var_labels(efc))
 # dichtomozize service usage by "service usage yes/no"
 efc$services <- sjmisc::dicho(efc$tot_sc_e, "v", 0, asNum = TRUE)
 # make dependency categorical

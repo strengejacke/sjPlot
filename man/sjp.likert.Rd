@@ -83,7 +83,7 @@ likert-scale-categories and which appear as legend text.}
 
 \item{title}{plot title as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
 no title is printed.}
 
 \item{legendTitle}{title of the plot legend, as string.}
@@ -95,7 +95,7 @@ no title is printed.}
 \item{axisLabels.y}{character vector with labels for the y-axis (names of the
 \code{items}). Example: \code{axisLabels.y = c("Q1", "Q2", "Q3")}.
 Axis labels will automatically be detected, when they have
-label attributes (see \code{\link[sjmisc]{set_var_labels}} for details).}
+label attributes (see \code{\link[sjmisc]{set_label}} for details).}
 
 \item{breakTitleAt}{determines how many chars of the plot title are displayed in
 one line and when a line break is inserted into the title.}

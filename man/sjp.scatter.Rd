@@ -29,7 +29,7 @@ dots along the y axis.}
 
 \item{title}{plot title as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
 no title is printed.}
 
 \item{legendTitle}{title of the plot legend, as string.}
@@ -45,11 +45,11 @@ dots instead of labels are printed.}
 
 \item{axisTitle.x}{title for the x axis. Use \code{NULL} to automatically
 detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details).}
+(see \code{\link[sjmisc]{set_label}}) for details).}
 
 \item{axisTitle.y}{title for the y axis.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details).}
+(see \code{\link[sjmisc]{set_label}}) for details).}
 
 \item{breakTitleAt}{determines how many chars of the plot title are displayed in
 one line and when a line break is inserted into the title.}
@@ -142,10 +142,10 @@ sjp.scatter(efc$e16sex,efc$neg_c_7, efc$c172code, showRug = TRUE)
 # of labels, but instead pass labels as arguments
 sjp.scatter(efc$c160age, efc$e17age, efc$e42dep,
             title = "Scatter Plot",
-            legendTitle = get_var_labels(efc)['e42dep'],
-            legendLabels = get_val_labels(efc)[['e42dep']],
-            axisTitle.x = get_var_labels(efc)['c160age'],
-            axisTitle.y = get_var_labels(efc)['e17age'],
+            legendTitle = get_label(efc)['e42dep'],
+            legendLabels = get_labels(efc)[['e42dep']],
+            axisTitle.x = get_label(efc)['c160age'],
+            axisTitle.y = get_label(efc)['e17age'],
             showGroupFitLine = TRUE)
 
 # grouped and labelled scatter plot as facets

@@ -101,7 +101,7 @@
 #' data(efc)
 #' 
 #' # retrieve variable and value labels
-#' varlabs <- get_var_labels(efc)
+#' varlabs <- get_label(efc)
 #' 
 #' # recveive first item of COPE-index scale
 #' start <- which(colnames(efc) == "c82cop1")
@@ -118,7 +118,6 @@
 #' # -------------------------------
 #' # auto-detection of labels
 #' # -------------------------------
-#' efc <- set_var_labels(efc, varlabs)
 #' sjt.itemanalysis(efc[, c(start:end)])
 #'   
 #' # ---------------------------------------
@@ -249,7 +248,7 @@ sjt.itemanalysis <- function(df,
     # get statistics
     # -----------------------------------
     dstat <- psych::describe(df.sub)
-    reli <- sjmisc::reliab_test(df.sub, scaleItems = scaleItems)
+    reli <- sjmisc::reliab_test(df.sub, scale.items = scaleItems)
     # -----------------------------------
     # get index score value, by retrieving the row mean
     # -----------------------------------

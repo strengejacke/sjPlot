@@ -107,14 +107,10 @@ utils::globalVariables(c("starts_with"))
 #' library(sjmisc)
 #' data(efc)
 #' 
-#' # attach variable labels to each variable of the data
-#' # frame - useful for automatic label detection
-#' efc <- set_var_labels(efc, get_var_labels(efc))
-#' 
 #' # fit first model
-#' fit1 <- lm(barthtot ~ c160age + c12hour + c161sex + c172code, data=efc)
+#' fit1 <- lm(barthtot ~ c160age + c12hour + c161sex + c172code, data = efc)
 #' # fit second model
-#' fit2 <- lm(neg_c_7 ~ c160age + c12hour + c161sex + c172code, data=efc)
+#' fit2 <- lm(neg_c_7 ~ c160age + c12hour + c161sex + c172code, data = efc)
 #' 
 #' # create and open HTML-table in RStudio Viewer Pane or web browser
 #' # note that we don't need to specify labels for the predictors,
@@ -237,12 +233,8 @@ utils::globalVariables(c("starts_with"))
 #' library(sjmisc)
 #' data(efc)
 #' 
-#' # attach variable labels to each variable of the data
-#' # frame - useful for automatic label detection
-#' efc <- set_var_labels(efc, get_var_labels(efc))
-#' 
 #' # make education categorical
-#' efc$c172code <- to_fac(efc$c172code)
+#' efc$c172code <- to_factor(efc$c172code)
 #'     
 #' # fit first model again (with c172code as factor)
 #' fit1 <- lm(barthtot ~ c160age + c12hour + c172code + c161sex, data=efc)
@@ -260,21 +252,17 @@ utils::globalVariables(c("starts_with"))
 #' library(sjmisc)
 #' data(efc)
 #' 
-#' # attach variable labels to each variable of the data
-#' # frame - useful for automatic label detection
-#' efc <- set_var_labels(efc, get_var_labels(efc))
-#' 
 #' # make education categorical
-#' efc$c172code <- to_fac(efc$c172code)
+#' efc$c172code <- to_factor(efc$c172code)
 #' # make education categorical
-#' efc$e42dep <- to_fac(efc$e42dep)
+#' efc$e42dep <- to_factor(efc$e42dep)
 #' 
 #' # fit first model
-#' fit1 <- lm(neg_c_7 ~ c160age + c172code + c161sex, data=efc)
+#' fit1 <- lm(neg_c_7 ~ c160age + c172code + c161sex, data = efc)
 #' # fit second model
-#' fit2 <- lm(neg_c_7 ~ c160age + c172code + c161sex + c12hour, data=efc)
+#' fit2 <- lm(neg_c_7 ~ c160age + c172code + c161sex + c12hour, data = efc)
 #' # fit second model
-#' fit3 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e, data=efc)
+#' fit3 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e, data = efc)
 #'
 #' sjt.lm(fit1, fit2, fit3)
 #'
@@ -287,7 +275,8 @@ utils::globalVariables(c("starts_with"))
 #' # make cope-index categorical
 #' efc$c82cop1 <- to_fac(efc$c82cop1)
 #' # fit another model
-#' fit4 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e + c82cop1, data=efc)
+#' fit4 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e + c82cop1, 
+#'            data = efc)
 #'
 #' sjt.lm(fit1, fit2, fit4, fit3)
 #' 
@@ -1405,7 +1394,7 @@ sjt.lm <- function(...,
 #' 
 #' # prepare group variable
 #' efc$grp = as.factor(efc$e15relat)
-#' levels(x = efc$grp) <- get_val_labels(efc$e15relat)
+#' levels(x = efc$grp) <- get_labels(efc$e15relat)
 #' efc$care.level <- as.factor(sjmisc::rec(efc$n4pstu, "0=0;1=1;2=2;3:4=4"))
 #' levels(x = efc$care.level) <- c("none", "I", "II", "III")
 #' 

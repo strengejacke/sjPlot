@@ -183,14 +183,10 @@ See 'Note' in \code{\link{sjt.frq}}.
 library(sjmisc)
 data(efc)
 
-# attach variable labels to each variable of the data
-# frame - useful for automatic label detection
-efc <- set_var_labels(efc, get_var_labels(efc))
-
 # fit first model
-fit1 <- lm(barthtot ~ c160age + c12hour + c161sex + c172code, data=efc)
+fit1 <- lm(barthtot ~ c160age + c12hour + c161sex + c172code, data = efc)
 # fit second model
-fit2 <- lm(neg_c_7 ~ c160age + c12hour + c161sex + c172code, data=efc)
+fit2 <- lm(neg_c_7 ~ c160age + c12hour + c161sex + c172code, data = efc)
 
 # create and open HTML-table in RStudio Viewer Pane or web browser
 # note that we don't need to specify labels for the predictors,
@@ -313,12 +309,8 @@ sjt.lm(fit1,
 library(sjmisc)
 data(efc)
 
-# attach variable labels to each variable of the data
-# frame - useful for automatic label detection
-efc <- set_var_labels(efc, get_var_labels(efc))
-
 # make education categorical
-efc$c172code <- to_fac(efc$c172code)
+efc$c172code <- to_factor(efc$c172code)
 
 # fit first model again (with c172code as factor)
 fit1 <- lm(barthtot ~ c160age + c12hour + c172code + c161sex, data=efc)
@@ -336,21 +328,17 @@ sjt.lm(fit1,
 library(sjmisc)
 data(efc)
 
-# attach variable labels to each variable of the data
-# frame - useful for automatic label detection
-efc <- set_var_labels(efc, get_var_labels(efc))
-
 # make education categorical
-efc$c172code <- to_fac(efc$c172code)
+efc$c172code <- to_factor(efc$c172code)
 # make education categorical
-efc$e42dep <- to_fac(efc$e42dep)
+efc$e42dep <- to_factor(efc$e42dep)
 
 # fit first model
-fit1 <- lm(neg_c_7 ~ c160age + c172code + c161sex, data=efc)
+fit1 <- lm(neg_c_7 ~ c160age + c172code + c161sex, data = efc)
 # fit second model
-fit2 <- lm(neg_c_7 ~ c160age + c172code + c161sex + c12hour, data=efc)
+fit2 <- lm(neg_c_7 ~ c160age + c172code + c161sex + c12hour, data = efc)
 # fit second model
-fit3 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e, data=efc)
+fit3 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e, data = efc)
 
 sjt.lm(fit1, fit2, fit3)
 
@@ -363,7 +351,8 @@ sjt.lm(fit1, fit2, fit3)
 # make cope-index categorical
 efc$c82cop1 <- to_fac(efc$c82cop1)
 # fit another model
-fit4 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e + c82cop1, data=efc)
+fit4 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e + c82cop1,
+           data = efc)
 
 sjt.lm(fit1, fit2, fit4, fit3)
 

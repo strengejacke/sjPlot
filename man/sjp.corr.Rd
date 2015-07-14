@@ -18,12 +18,12 @@ should be correlated.}
 
 \item{title}{plot title as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
 no title is printed.}
 
 \item{axisLabels}{labels for the x- andy y-axis. AxisLabels are detected automatically
 if \code{data} is a \code{\link{data.frame}} where variables have
-label attributes (see \code{\link[sjmisc]{set_var_labels}})
+label attributes (see \code{\link[sjmisc]{set_label}})
 for details).}
 
 \item{type}{indicates whether the geoms of correlation values should be plotted
@@ -114,7 +114,7 @@ library(sjmisc)
 data(efc)
 
 # retrieve variable and value labels
-varlabs <- get_var_labels(efc)
+varlabs <- get_label(efc)
 
 # create data frame
 vars.index <- c(1, 4, 15, 19, 20, 21, 22, 24, 25)

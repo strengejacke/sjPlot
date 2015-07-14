@@ -64,8 +64,8 @@ utils::globalVariables(c("pv"))
 #' 
 #' 
 #' data(efc)
-#' efc.val <- get_val_labels(efc)
-#' efc.var <- get_var_labels(efc)
+#' efc.val <- get_labels(efc)
+#' efc.var <- get_label(efc)
 #' sjp.aov1(efc$c12hour,
 #'          as.factor(efc$e42dep),
 #'          axisLabels.y = efc.val['e42dep'],
@@ -75,7 +75,6 @@ utils::globalVariables(c("pv"))
 #' # -------------------------------------------------
 #' # auto-detection of value labels and variable names
 #' # -------------------------------------------------
-#' efc <- set_var_labels(efc, efc.var)
 #' sjp.aov1(efc$c12hour,
 #'          efc$e42dep)
 #' 
@@ -83,7 +82,7 @@ utils::globalVariables(c("pv"))
 #' # however, if you dare to, adjust
 #' # 'geom.size'...
 #' sjp.aov1(efc$c12hour,
-#'          as.factor(efc$c172code),
+#'          efc$c172code,
 #'          axisLabels.y = efc.val['c172code'],
 #'          title = efc.var[['c12hour']],
 #'          type = "bars",

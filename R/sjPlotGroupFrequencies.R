@@ -53,7 +53,7 @@ utils::globalVariables(c("ypos", "wb", "ia", "mw", "stddev", "count"))
 #'          \code{varGroup} amount of panels, i.e. each group is represented within a new panel.
 #' @param title plot title as string. Example: \code{title = "my title"}.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+#'          (see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
 #'          no title is printed.
 #' @param legendTitle title of the plot legend, as string.
 #' @param axisLabels.x a character vector with labels for the x-axis breaks. \strong{Note:} 
@@ -131,11 +131,11 @@ utils::globalVariables(c("ypos", "wb", "ia", "mw", "stddev", "count"))
 #'          \code{showMeanIntercept = TRUE}.
 #' @param axisTitle.x title for the x-axis. By default, \code{""} is used, i.e. no title
 #'          is printed. If \code{axisTitle.x = NULL}, the variable name will be 
-#'          automatically detected and used as title (see \code{\link[sjmisc]{set_var_labels}}) 
+#'          automatically detected and used as title (see \code{\link[sjmisc]{set_label}}) 
 #'          for details).
 #' @param axisTitle.y title for the-y axis. By default, \code{""} is used, i.e. no title
 #'          is printed. If \code{axisTitle.y = NULL}, variable name will be automatically 
-#'          detected and used as title (see \code{\link[sjmisc]{set_var_labels}}) for details).
+#'          detected and used as title (see \code{\link[sjmisc]{set_label}}) for details).
 #' @param autoGroupAt numeric value, indicating at which length of unique values of \code{varCount}, 
 #'          automatic grouping into smaller units is done (see \code{\link[sjmisc]{group_var}}).
 #'          If \code{varCount} has large numbers of unique values, there may be too many bars 
@@ -173,8 +173,8 @@ utils::globalVariables(c("ypos", "wb", "ia", "mw", "stddev", "count"))
 #' # histrogram with EUROFAMCARE sample dataset
 #' library(sjmisc)
 #' data(efc)
-#' efc.val <- get_val_labels(efc)
-#' efc.var <- get_var_labels(efc)
+#' efc.val <- get_labels(efc)
+#' efc.var <- get_label(efc)
 #' sjp.grpfrq(efc$e17age,
 #'            efc$e16sex,
 #'            title = efc.var['e17age'],

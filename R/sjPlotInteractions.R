@@ -253,12 +253,12 @@
 #' # plot interaction, increase p-level sensivity
 #' sjp.int(fit,
 #'         type = "eff",
-#'         legendLabels = get_val_labels(efc$c161sex),
+#'         legendLabels = get_labels(efc$c161sex),
 #'         plevel = 0.1)
 #'
 #' sjp.int(fit,
 #'         type = "cond",
-#'         legendLabels = get_val_labels(efc$c161sex),
+#'         legendLabels = get_labels(efc$c161sex),
 #'         plevel = 0.1)
 #'         
 #' \dontrun{
@@ -279,7 +279,7 @@
 #' # name factor levels and dependent variable
 #' levels(mydf$sex) <- c("female", "male")
 #' levels(mydf$education) <- c("low", "mid", "high")
-#' mydf$burden <- set_var_labels(mydf$burden, "care burden")
+#' mydf$burden <- set_label(mydf$burden, "care burden")
 #' # fit "dummy" model
 #' fit <- lm(burden ~ .*., data = mydf)
 #' summary(fit)

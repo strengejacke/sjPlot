@@ -175,7 +175,7 @@ data(efc)
 efc$hi_qol <- dicho(efc$quol_5)
 # prepare group variable
 efc$grp = as.factor(efc$e15relat)
-levels(x = efc$grp) <- get_val_labels(efc$e15relat)
+levels(x = efc$grp) <- get_labels(efc$e15relat)
 # data frame for fitted model
 mydf <- data.frame(hi_qol = as.factor(efc$hi_qol),
                    sex = as.factor(efc$c161sex),

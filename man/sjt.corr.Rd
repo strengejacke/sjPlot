@@ -41,7 +41,7 @@ openend either in the IDE's viewer pane or the default web browser.}
 first column/row. If no item labels are provided (default), the
 data frame's column names are used. Item labels are detected automatically
 if \code{data} is a \code{\link{data.frame}} where variables have
-label attributes (see \code{\link[sjmisc]{set_var_labels}}) for details).}
+label attributes (see \code{\link[sjmisc]{set_label}}) for details).}
 
 \item{breakLabelsAt}{determines how many chars of the category labels are displayed in
 one line and when a line break is inserted.}
@@ -132,7 +132,7 @@ library(sjmisc)
 data(efc)
 
 # retrieve variable and value labels
-varlabs <- get_var_labels(efc)
+varlabs <- get_label(efc)
 
 # recveive first item of COPE-index scale
 start <- which(colnames(efc) == "c83cop2")

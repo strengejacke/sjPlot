@@ -33,7 +33,7 @@ to lowest last. Use \code{FALSE} if you don't want to change the order of the pr
 
 \item{title}{plot title as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
 no title is printed.}
 
 \item{axisLabels.y}{labels or names of the predictor variables (independent vars). Must
@@ -193,7 +193,7 @@ sjp.glm(fitOR, type = "bars", geom.size = .3)
 library(sjmisc)
 data(efc)
 # retrieve predictor variable labels
-labs <- get_var_labels(efc)
+labs <- get_label(efc)
 predlab <- c(labs[['c161sex']],
              paste0(labs[['e42dep']], " (slightly)"),
              paste0(labs[['e42dep']], " (moderate)"),

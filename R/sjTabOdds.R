@@ -166,8 +166,6 @@ utils::globalVariables(c("starts_with"))
 #' library(sjmisc)
 #' # load efc sample data
 #' data(efc)
-#' # set variable labels
-#' efc <- set_var_labels(efc, get_var_labels(efc))
 #' # dichtomozize service usage by "service usage yes/no"
 #' efc$services <- sjmisc::dicho(efc$tot_sc_e, "v", 0, asNum = TRUE)
 #' # make dependency categorical
@@ -1259,7 +1257,7 @@ sjt.glm <- function(...,
 #' efc$hi_qol <- dicho(efc$quol_5)
 #' # prepare group variable
 #' efc$grp = as.factor(efc$e15relat)
-#' levels(x = efc$grp) <- get_val_labels(efc$e15relat)
+#' levels(x = efc$grp) <- get_labels(efc$e15relat)
 #' # data frame for fitted model
 #' mydf <- data.frame(hi_qol = as.factor(efc$hi_qol),
 #'                    sex = as.factor(efc$c161sex),

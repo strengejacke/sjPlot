@@ -43,7 +43,7 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #' @param axisLabels.x name of predictor (independent variable) as string. Two things to consider:
 #'          \itemize{
 #'            \item Only used if fitted model has only one predictor and \code{type = "lm"}.
-#'            \item If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_var_labels}} function, you receive a character vector with variable label strings. You can use it like this: \code{axisLabels.x = get_var_labels(efc)['quol_5']}
+#'            \item If you use the \code{\link[sjmisc]{read_spss}} and \code{\link[sjmisc]{get_label}} functions, you receive a character vector with variable label strings. You can use it like this: \code{axisLabels.x = get_label(efc)['quol_5']}
 #'          }
 #' @param axisLabels.y labels or names of the predictor variables (independent vars). Must 
 #'          be a character vector of same length as independent variables. The labels 

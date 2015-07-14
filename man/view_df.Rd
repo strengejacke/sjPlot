@@ -20,8 +20,8 @@ view_df(x, file = NULL, alternateRowColors = TRUE, showID = TRUE,
 \arguments{
 \item{x}{\code{data.frame}, imported by \code{\link[sjmisc]{read_spss}},
 \code{\link[sjmisc]{read_sas}} or \code{\link[sjmisc]{read_stata}} function,
-or any similar labelled data frame (see \code{\link[sjmisc]{set_var_labels}}
-and \code{\link[sjmisc]{set_val_labels}}).}
+or any similar labelled data frame (see \code{\link[sjmisc]{set_label}}
+and \code{\link[sjmisc]{set_labels}}).}
 
 \item{file}{destination file, if the output should be saved as file.
 If \code{NULL} (default), the output will be saved as temporary file and

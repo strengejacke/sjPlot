@@ -397,7 +397,7 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
           # if not, save found factor variable name
           found.factors <- c(found.factors, fac.name)
           # save factor name
-          lab <- unname(sjmisc::get_var_labels(fit.var))
+          lab <- unname(sjmisc::get_label(fit.var))
           # any label?
           if (is.null(lab)) lab <- colnames(fit$model)[grp.cnt]
           # determins startindex
@@ -483,7 +483,7 @@ retrieveModelLabels <- function(models) {
           # get amount of levels
           pvar.len <- length(levels(pvar))
           # get value labels, if any
-          pvar.lab <- sjmisc::get_val_labels(pvar)
+          pvar.lab <- sjmisc::get_labels(pvar)
           # have any labels, and have we same amount of labels
           # as factor levels?
           if (!is.null(pvar.lab) && length(pvar.lab) == pvar.len) {

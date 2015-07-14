@@ -35,13 +35,13 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
 
 \item{title}{plot title as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_var_labels}}) for details). If \code{title = ""},
+(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
 no title is printed.}
 
 \item{axisLabels.x}{name of predictor (independent variable) as string. Two things to consider:
 \itemize{
   \item Only used if fitted model has only one predictor and \code{type = "lm"}.
-  \item If you use the \code{\link[sjmisc]{read_spss}} function and the \code{\link[sjmisc]{get_var_labels}} function, you receive a character vector with variable label strings. You can use it like this: \code{axisLabels.x = get_var_labels(efc)['quol_5']}
+  \item If you use the \code{\link[sjmisc]{read_spss}} and \code{\link[sjmisc]{get_label}} functions, you receive a character vector with variable label strings. You can use it like this: \code{axisLabels.x = get_label(efc)['quol_5']}
 }}
 
 \item{axisLabels.y}{labels or names of the predictor variables (independent vars). Must

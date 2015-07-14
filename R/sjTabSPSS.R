@@ -44,8 +44,8 @@ view_spss <- function(x,
 #' 
 #' @param x \code{data.frame}, imported by \code{\link[sjmisc]{read_spss}},
 #'          \code{\link[sjmisc]{read_sas}} or \code{\link[sjmisc]{read_stata}} function,
-#'          or any similar labelled data frame (see \code{\link[sjmisc]{set_var_labels}}
-#'          and \code{\link[sjmisc]{set_val_labels}}).
+#'          or any similar labelled data frame (see \code{\link[sjmisc]{set_label}}
+#'          and \code{\link[sjmisc]{set_labels}}).
 #' @param showID logical, if \code{TRUE} (default), the variable ID is shown in the first column.
 #' @param showType logical, if \code{TRUE}, the variable type is shown in a separate column. Since
 #'          SPSS variable types are mostly \code{\link{numeric}} after import, this column
@@ -134,8 +134,8 @@ view_df <- function(x,
   # -------------------------------------
   # retrieve value and variable labels
   # -------------------------------------
-  df.var <- sjmisc::get_var_labels(x)
-  df.val <- sjmisc::get_val_labels(x)
+  df.var <- sjmisc::get_label(x)
+  df.val <- sjmisc::get_labels(x)
   # -------------------------------------
   # get row count and ID's
   # -------------------------------------

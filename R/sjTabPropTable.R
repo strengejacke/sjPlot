@@ -21,7 +21,7 @@
 #'          name of \code{var.col}, and - if \code{var.grp} is not \code{NULL} - name of \code{var.grp}.
 #'          See 'Examples'.
 #'          Variable labels are detected automatically, if \code{var.row} or \code{var.col}
-#'          have label attributes (see \code{\link[sjmisc]{set_var_labels}}) for details).
+#'          have label attributes (see \code{\link[sjmisc]{set_label}}) for details).
 #' @param valueLabels list of character vectors that indicate the value labels of the supplied
 #'          variables. Following order is needed: value labels of \code{var.row},
 #'          value labels  of \code{var.col}, and - if \code{var.grp} is not \code{NULL} - 
@@ -82,7 +82,7 @@
 #' # prepare sample data set
 #' library(sjmisc)
 #' data(efc)
-#' efc.labels <- get_val_labels(efc)
+#' efc.labels <- get_labels(efc)
 #' 
 #' # print simple cross table w/o labels
 #' \dontrun{

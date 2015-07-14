@@ -145,7 +145,7 @@ library(sjmisc)
 data(efc)
 
 # retrieve variable and value labels
-varlabs <- get_var_labels(efc)
+varlabs <- get_label(efc)
 
 # recveive first item of COPE-index scale
 start <- which(colnames(efc) == "c82cop1")
@@ -162,7 +162,6 @@ sjt.itemanalysis(mydf)
 # -------------------------------
 # auto-detection of labels
 # -------------------------------
-efc <- set_var_labels(efc, varlabs)
 sjt.itemanalysis(efc[, c(start:end)])
 
 # ---------------------------------------

@@ -16,7 +16,7 @@ utils::globalVariables(c("Row", "Column", "p.value"))
 #' @param title Title of the diagram, plotted above the whole diagram panel
 #' @param axisLabels Labels for the x- andy y-axis
 #'          axisLabels are detected automatically if each variable has
-#'          a label attribute (see \code{\link[sjmisc]{set_var_labels}}) for details).
+#'          a label attribute (see \code{\link[sjmisc]{set_label}}) for details).
 #' @param breakTitleAt Wordwrap for diagram title. Determines how many chars of the title are displayed in
 #'          one line and when a line break is inserted into the title
 #' @param breakLabelsAt Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in 
