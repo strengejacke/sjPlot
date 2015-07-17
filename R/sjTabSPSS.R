@@ -283,7 +283,7 @@ view_df <- function(x,
     # frequencies
     # ----------------------------
     if (showFreq) {
-      valstring <- c("")
+      valstring <- ""
       # check if we have a valid index
       if (index <= ncol(x) && !is.null(df.val[[index]])) {
         # create frequency table. same function as for
@@ -292,11 +292,14 @@ view_df <- function(x,
                               df.val[[index]], 
                               sjmisc::get_values(x[[index]]),
                               20)$mydat$frq
-        # ftab <- as.numeric(table(x[[index]]))
         # remove last value, which is N for NA
-        for (i in 1:(length(ftab) - 1)) {
-          valstring <- paste0(valstring, ftab[i])
-          if (i < length(ftab)) valstring <- paste0(valstring, "<br>")
+        if (is.na(ftab)) {
+          valstring <- "<NA>"
+        } else {
+          for (i in 1:(length(ftab) - 1)) {
+            valstring <- paste0(valstring, ftab[i])
+            if (i < length(ftab)) valstring <- paste0(valstring, "<br>")
+          }
         }
       } else {
         valstring <- ""
@@ -307,7 +310,7 @@ view_df <- function(x,
     # percentage of frequencies
     # ----------------------------
     if (showPerc) {
-      valstring <- c("")
+      valstring <- ""
       # check for valid indices
       if (index <= ncol(x) && !is.null(df.val[[index]])) {
         # create frequency table, but only get valid percentages
@@ -316,9 +319,13 @@ view_df <- function(x,
                               sjmisc::get_values(x[[index]]),
                               20)$mydat$valid
         # remove last value, which is a NA dummy
-        for (i in 1:(length(ftab) - 1)) {
-          valstring <- paste0(valstring, sprintf("%.2f", ftab[i]))
-          if (i < length(ftab)) valstring <- paste0(valstring, "<br>")
+        if (is.na(ftab)) {
+          valstring <- "<NA>"
+        } else {
+          for (i in 1:(length(ftab) - 1)) {
+            valstring <- paste0(valstring, sprintf("%.2f", ftab[i]))
+            if (i < length(ftab)) valstring <- paste0(valstring, "<br>")
+          }
         }
       } else {
         valstring <- ""

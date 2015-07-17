@@ -51,3 +51,4 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 #### Bug fixes
 * `sjp.grpfrq` did not show correct number of missings (argument `na.rm = FALSE`), if grouping variable startet with zero.
 * Fixed bug with `sjp.frq` and `sjt.frq`, when variable was a labelled factor with lowest factor level smaller than 1.
+* Fixed bug in `view_df` with parameter `showFreq = TRUE`, when variable was a character vector.

@@ -83,6 +83,17 @@ create.frq.df <- function(varCount,
                           startAxisAt = "auto",
                           weightBy = NULL) {
   #---------------------------------------------------
+  # variable with only mising?
+  #---------------------------------------------------
+  if (length(stats::na.omit(varCount)) == 0) {
+    mydat <- data.frame(var = NA,
+                        frq = NA,
+                        prz = NA,
+                        valid = NA,
+                        cumperc = NA)
+    return(invisible(structure(list(mydat = mydat))))
+  }
+  #---------------------------------------------------
   # weight variable
   #---------------------------------------------------
   if (!is.null(weightBy)) varCount <- sjmisc::weight(varCount, weightBy)
@@ -91,7 +102,7 @@ create.frq.df <- function(varCount,
   #---------------------------------------------------
   df <- as.data.frame(table(varCount))
   # name columns
-  names(df) <- c("y", "Freq")
+  colnames(df) <- c("y", "Freq")
   #---------------------------------------------------
   # do we have label values associated with value labels?
   # if yes, we assume that these values are the range
@@ -120,7 +131,7 @@ create.frq.df <- function(varCount,
       # amount of categories (=number of rows) in dataframe instead
       llabels <- as.character(mydat$var)
     }
-  } else {
+  } else if (!is.character(varCount)) {
     # --------------------------------------------------------
     # Define amount of category, include zero counts
     # --------------------------------------------------------
@@ -189,6 +200,11 @@ create.frq.df <- function(varCount,
       # amount of categories (=number of rows) in dataframe instead
       llabels <- c(startAxisAt:(nrow(mydat) + startAxisAt - 1))
     }
+  } else {
+    mydat <- df
+    colnames(mydat) <- c("var", "frq")
+    catmin <- minval <- min(varCount, na.rm = TRUE)
+    catcount <- length(unique(stats::na.omit(varCount)))
   }
   # caculate missings here
   missingcount <- sum(is.na(varCount))
