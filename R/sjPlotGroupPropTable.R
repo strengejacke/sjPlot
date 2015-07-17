@@ -1,7 +1,9 @@
 #' @title Plot grouped proportional tables
 #' @name sjp.gpt
 #' 
-#' @description Plot proportional crosstables (contingency tables) of two variables as ggplot diagram.
+#' @description Plot grouped proportional crosstables, where the proportion of
+#'                each level of \code{x} for the highest category in \code{y}
+#'                is plotted, for each subgroup pf \code{groups}.
 #' 
 #' @param x
 #' @param y
@@ -18,6 +20,14 @@
 #'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.xtab
+#'
+#' @examples 
+#' library(sjmisc)
+#' data(efc)
+#' 
+#' sjp.gpt(efc$e42dep, efc$e16sex, efc$15relat)
+#' 
+#' sjp.gpt(efc$c172code, efc$e42dep, efc$n4pstu)
 #'
 #' @import ggplot2
 #' @import dplyr
@@ -72,8 +82,9 @@ sjp.gpt <- function(x,
   mydf <- data.frame(grp = sjmisc::to_value(groups, keep.labels = F),
                      x = sjmisc::to_factor(x),
                      dep = sjmisc::to_value(y, keep.labels = F))
-  len.x <- length(unique(na.omit(x)))
-  len.y <- length(unique(na.omit(y)))
+
+  len.x <- length(unique(stats::na.omit(x)))
+  len.y <- length(unique(stats::na.omit(y)))
   # ------------------------------------
   # create grouping variable
   # ------------------------------------
@@ -91,23 +102,29 @@ sjp.gpt <- function(x,
     # for this subgroup, retrieve proportion
     # of upper category
     # ------------------------------------
-    y <- prop.table(table(dummy$x, dummy$dep), margin = 1)[, len.y]
+    ptab <- table(dummy$x, dummy$dep)
+    y <- prop.table(ptab, margin = 1)
+    if (len.y > ncol(y))
+      y <- rep(0, nrow(y))
+    else
+      y <- y[, len.y]
     # -----------------
     # p-values
     #---------------------
-    ptab <- table(dummy$x, dummy$dep)
 #     if (any(apply(ptab, c(1,2), function(x) x < 5)))
 #       pval <- suppressWarnings(stats::fisher.test(ptab)$p.value)
 #     else
 #       pval <- suppressWarnings(stats::chisq.test(ptab)$p.value)
     pval <- suppressWarnings(stats::chisq.test(ptab)$p.value)
     stern <- c("")
-    if (pval < 0.001) {
-      stern <- c("***")
-    } else if (pval < 0.01) {
-      stern <- c("**")
-    } else if (pval < 0.05) {
-      stern <- c("*")
+    if (!is.na(pval)) {
+      if (pval < 0.001) {
+        stern <- c("***")
+      } else if (pval < 0.01) {
+        stern <- c("**")
+      } else if (pval < 0.05) {
+        stern <- c("*")
+      }
     }
     # add p-values for eacg group
     group.p <- c(group.p, stern)
@@ -126,8 +143,12 @@ sjp.gpt <- function(x,
   # complete data frame
   # --------------------------------
   if (showTotal) {
-    y <- prop.table(table(mydf$x, mydf$dep), margin = 1)[, len.y]
-    
+    y <- prop.table(table(mydf$x, mydf$dep), margin = 1)
+    if (len.y > ncol(y))
+      y <- rep(0, nrow(y))
+    else
+      y <- y[, len.y]
+
     newdf <- data.frame(rbind(newdf,
                               cbind(grp = "Total",
                                     x = 1:len.x,
@@ -135,12 +156,14 @@ sjp.gpt <- function(x,
     
     pval <- suppressWarnings(stats::chisq.test(table(mydf$x, mydf$dep))$p.value)
     stern <- c("")
-    if (pval < 0.001) {
-      stern <- c("***")
-    } else if (pval < 0.01) {
-      stern <- c("**")
-    } else if (pval < 0.05) {
-      stern <- c("*")
+    if (!is.na(pval)) {
+      if (pval < 0.001) {
+        stern <- c("***")
+      } else if (pval < 0.01) {
+        stern <- c("**")
+      } else if (pval < 0.05) {
+        stern <- c("*")
+      }
     }
     group.p <- c(group.p, stern)
     group.n <- c(group.n, prettyNum(sum(table(mydf$x, mydf$dep)),

@@ -66,6 +66,16 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
           was used for setting up the ggplot-object (\code{mydf}).
 }
 \description{
-Plot proportional crosstables (contingency tables) of two variables as ggplot diagram.
+Plot grouped proportional crosstables, where the proportion of
+               each level of \code{x} for the highest category in \code{y}
+               is plotted, for each subgroup pf \code{groups}.
+}
+\examples{
+library(sjmisc)
+data(efc)
+
+sjp.gpt(efc$e42dep, efc$e16sex, efc$15relat)
+
+sjp.gpt(efc$c172code, efc$e42dep, efc$n4pstu)
 }
 
