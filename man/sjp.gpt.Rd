@@ -4,7 +4,62 @@
 \alias{sjp.gpt}
 \title{Plot grouped proportional tables}
 \usage{
-sjp.gpt(x, y, groups, legendTitle, legendLabels)
+sjp.gpt(x, y, groups, geom.colors = "Set1", geom.size = 4,
+  shape.fill.color = "#f0f0f0", shapes = c(15, 16, 17, 18, 21, 22, 23, 24,
+  25, 7, 8, 9, 10, 12), axisLabels = NULL, axisTitle.x = NULL,
+  axisTitle.y = NULL, legendTitle = NULL, legendLabels = NULL,
+  title = NULL, showTotal = TRUE, annotateTotal = TRUE, showP = TRUE,
+  showN = TRUE, hideLegend = FALSE, printPlot = TRUE)
+}
+\arguments{
+\item{x}{}
+
+\item{y}{}
+
+\item{groups}{}
+
+\item{geom.colors}{User defined color palette for geoms. If specified, must either be vector with color values
+of same length as groups defined in \code{varGroup}, or a specific color brewer palette code (see 'Note').}
+
+\item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} argument).
+Note that  bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
+By default, \code{geom.size = NULL}, which means that this argument is automatically
+adjusted depending on the plot type.}
+
+\item{shape.fill.color}{}
+
+\item{shapes}{}
+
+\item{axisLabels}{}
+
+\item{axisTitle.x}{title for the x-axis. By default, \code{""} is used, i.e. no title
+is printed. If \code{axisTitle.x = NULL}, the variable name will be
+automatically detected and used as title (see \code{\link[sjmisc]{set_label}})
+for details).}
+
+\item{axisTitle.y}{title for the-y axis. By default, \code{""} is used, i.e. no title
+is printed. If \code{axisTitle.y = NULL}, variable name will be automatically
+detected and used as title (see \code{\link[sjmisc]{set_label}}) for details).}
+
+\item{legendTitle}{title of the plot legend, as string.}
+
+\item{legendLabels}{a character vector with labels for the guide/legend.}
+
+\item{title}{plot title as string. Example: \code{title = "my title"}.
+Use \code{NULL} to automatically detect variable names that will be used as title
+(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
+no title is printed.}
+
+\item{showTotal}{}
+
+\item{showP}{}
+
+\item{showN}{}
+
+\item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
+
+\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
 (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that

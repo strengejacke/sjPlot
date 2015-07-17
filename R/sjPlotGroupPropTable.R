@@ -3,18 +3,63 @@
 #' 
 #' @description Plot proportional crosstables (contingency tables) of two variables as ggplot diagram.
 #' 
+#' @param x
+#' @param y
+#' @param groups
+#' @param shape.fill.color
+#' @param shapes
+#' @param axisLabels
+#' @param showTotal
+#' @param showP
+#' @param showN
 #' 
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{mydf}).
 #'
+#' @inheritParams sjp.grpfrq
+#' @inheritParams sjp.xtab
 #'
 #' @import ggplot2
 #' @import dplyr
 #' @import sjmisc
 #' @importFrom scales percent
-#' @importFrom stats na.omit
+#' @importFrom stats na.omit chisq.test fisher.test
 #' @export
-sjp.gpt <- function(x, y, groups, legendTitle, legendLabels) {
+sjp.gpt <- function(x, 
+                    y, 
+                    groups, 
+                    geom.colors = "Set1",
+                    geom.size = 4,
+                    shape.fill.color = "#f0f0f0",
+                    shapes = c(15, 16, 17, 18, 21, 22, 23, 24, 25, 7, 8, 9, 10, 12),
+                    axisLabels = NULL, 
+                    axisTitle.x = NULL,
+                    axisTitle.y = NULL,
+                    legendTitle = NULL, 
+                    legendLabels = NULL, 
+                    title = NULL, 
+                    showTotal = TRUE,
+                    annotateTotal = TRUE,
+                    showP = TRUE,
+                    showN = TRUE,
+                    hideLegend = FALSE,
+                    printPlot = TRUE) {
+  # --------------------------------------------------------
+  # try to automatically set labels is not passed as argument
+  # --------------------------------------------------------
+  ylabels <- sjmisc::get_labels(y)
+  if (is.null(ylabels)) {
+    ylabels <- sjmisc:::autoSetVariableLabels(y)
+  } else {
+    ylabels <- ylabels[length(ylabels)]
+  }
+  if (is.null(axisLabels)) axisLabels <- sjmisc:::autoSetValueLabels(groups)
+  if (is.null(axisTitle.y)) axisTitle.y <- paste0("Proportion of ", 
+                                                  sjmisc:::autoSetVariableLabels(x), 
+                                                  " in ",
+                                                  ylabels)
+  if (is.null(legendTitle)) legendTitle <- sjmisc:::autoSetVariableLabels(x)
+  if (is.null(legendLabels)) legendLabels <- sjmisc:::autoSetValueLabels(x)
   # ------------------------------------
   # final data frae for plot
   # ------------------------------------
@@ -28,26 +73,67 @@ sjp.gpt <- function(x, y, groups, legendTitle, legendLabels) {
                      x = sjmisc::to_factor(x),
                      dep = sjmisc::to_value(y, keep.labels = F))
   len.x <- length(unique(na.omit(x)))
+  len.y <- length(unique(na.omit(y)))
   # ------------------------------------
   # create grouping variable
   # ------------------------------------
-  groups <- sort(unique(na.omit(sjmisc::to_value(groups))))
+  groups <- sort(unique(stats::na.omit(sjmisc::to_value(groups))))
   # ------------------------------------
   # iterate all groups
   # ------------------------------------
   for (cnt in groups) {
     # ------------------------------------
-    # select cases from groups
+    # select cases from groups (subset)
     # ------------------------------------
     dummy <- dplyr::filter(mydf, grp == cnt)
     # ------------------------------------
-    # 
+    # create proportional table of x and y
+    # for this subgroup, retrieve proportion
+    # of upper category
     # ------------------------------------
-    y <- prop.table(table(dummy$x, dummy$dep), margin = 1)[, 2]
+    y <- prop.table(table(dummy$x, dummy$dep), margin = 1)[, len.y]
     # -----------------
-    # p-Werte f?r Gruppenunterschiede lo/hi income
+    # p-values
     #---------------------
-    pval <- chisq.test(table(dummy$x, dummy$dep))$p.value
+    ptab <- table(dummy$x, dummy$dep)
+#     if (any(apply(ptab, c(1,2), function(x) x < 5)))
+#       pval <- suppressWarnings(stats::fisher.test(ptab)$p.value)
+#     else
+#       pval <- suppressWarnings(stats::chisq.test(ptab)$p.value)
+    pval <- suppressWarnings(stats::chisq.test(ptab)$p.value)
+    stern <- c("")
+    if (pval < 0.001) {
+      stern <- c("***")
+    } else if (pval < 0.01) {
+      stern <- c("**")
+    } else if (pval < 0.05) {
+      stern <- c("*")
+    }
+    # add p-values for eacg group
+    group.p <- c(group.p, stern)
+    # create n for each group
+    group.n <- c(group.n, prettyNum(sum(table(dummy$x, dummy$dep)),
+                                    big.mark = ",",
+                                    scientific = F))
+    # add data for this subgroup to final data frame
+    newdf <- data.frame(rbind(newdf,
+                              cbind(grp = cnt,
+                                    x = 1:len.x,
+                                    y = y)))
+  }
+  # --------------------------------
+  # if we want total line, repeat all for 
+  # complete data frame
+  # --------------------------------
+  if (showTotal) {
+    y <- prop.table(table(mydf$x, mydf$dep), margin = 1)[, len.y]
+    
+    newdf <- data.frame(rbind(newdf,
+                              cbind(grp = "Total",
+                                    x = 1:len.x,
+                                    y = y)))
+    
+    pval <- suppressWarnings(stats::chisq.test(table(mydf$x, mydf$dep))$p.value)
     stern <- c("")
     if (pval < 0.001) {
       stern <- c("***")
@@ -57,84 +143,57 @@ sjp.gpt <- function(x, y, groups, legendTitle, legendLabels) {
       stern <- c("*")
     }
     group.p <- c(group.p, stern)
-    group.n <- c(group.n, prettyNum(sum(table(dummy$x, dummy$dep)),
+    group.n <- c(group.n, prettyNum(sum(table(mydf$x, mydf$dep)),
                                     big.mark = ",",
                                     scientific = F))
-    newdf <- data.frame(rbind(newdf,
-                              cbind(grp = cnt,
-                                    x = 1:len.x,
-                                    y = y)))
+    
+    axisLabels <- c(axisLabels, "Total")
   }
-  y <- prop.table(table(mydf$x, mydf$dep), margin = 1)[, 2]
+  # ------------------------------------
+  # make group variables categorical
+  # ------------------------------------
+  newdf$grp <- sjmisc::to_factor(newdf$grp)
+  newdf$x <- sjmisc::to_factor(newdf$x)
+  # ------------------------------------
+  # proportion needs to be numeric
+  # ------------------------------------
+  newdf$y <- sjmisc::to_value(newdf$y, keep.labels = F)
+  # ------------------------------------
+  # ------------------------------------
+  if (showN)
+    axisLabels <- paste0(axisLabels, " (n=", group.n, ")")
+  if (showP)
+    axisLabels <- paste0(axisLabels, " ", group.p)
   
-  newdf <- data.frame(rbind(newdf,
-                            cbind(grp = "Total",
-                                  x = 1:len.x,
-                                  y = y)))
-
-  pval <- chisq.test(table(mydf$x, mydf$dep))$p.value
-  stern <- c("")
-  if (pval < 0.001) {
-    stern <- c("***")
-  } else if (pval < 0.01) {
-    stern <- c("**")
-  } else if (pval < 0.05) {
-    stern <- c("*")
+  pal.len <- length(legendLabels)
+  
+  if (is.brewer.pal(geom.colors[1])) {
+    geom.colors <- scales::brewer_pal(palette = geom.colors[1])(pal.len)
+  } else if (geom.colors[1] == "gs") {
+    geom.colors <- scales::grey_pal()(pal.len)
+  } else if (length(geom.colors) > pal.len) {
+    warning("More colors provided than needed. Shortening color palette.")
+    geom.colors <- geom.colors[1:pal.len]
   }
-  group.p <- c(group.p, stern)
-  group.n <- c(group.n, prettyNum(sum(table(mydf$x, mydf$dep)),
-                                  big.mark = ",",
-                                  scientific = F))
   
-  # ------------------------------------
-  # country und inc sind kategoriale daten. wichtig
-  # für die Achsendarstellung beim Plot
-  # ------------------------------------
-  newdf$grp <- sjmisc::to_factor(newdf$country)
-  newdf$x <- sjmisc::to_facto(newdf$x)
-  
-  #Einf?gen anderer Labels f?r Legende??!!###############
-  levels(newdf$x) <- legendLabels
-  newdf$x <- set_label(newdf$x, legendTitle)
-  # ------------------------------------
-  # Hier die Größen für den Plot einstellen!!!
-  # ------------------------------------
-  symbolgroesse <- 4
-  # ------------------------------------
-  # plot starten. mit "aes" geben wir allgemeine
-  # Merkmale für den Plot an, und welche Variablen
-  # in unserem Datensatz diese Merkmale beschreiben.
-  # der x-Achsenabschnitt soll durch die Ländergruppen
-  # dargestellt werden. Auf der Y-Achse werden die Forgone-Anteile
-  # gezeichnet. "Colour" und "shape" bedeutet, dass die gemalten
-  # "geoms" (Objekte wie Punkte, Linien, was auch immer) sich
-  # in ihrer Farbe (colour) und Form (shape) unterscheiden sollen.
-  # Das Unterscheidungsmerkmal ist "inc", also die Einkommensgruppen.
-  # Würde man shape und colour nicht definieren, wären alle
-  # geoms einfarbig.
-  # ------------------------------------
-  sternnamen <- paste0(axisLabels, " (n=", group.n, ") ",  group.p)
-  p <- ggplot(newdf, aes(x = rev(grp),     # country auf der x-achse abtragen
-                         y = y,     # forgone ist metrisch (prozenanteil), kommt auf die y-achse
-                         colour = x,    # "inc" ist gruppierungsvariable. Farben und
-                         shape = x)) +  # Punkt-Form sollen sich nach inc-gruppen unterscheiden
-    # Punkte malen
-    geom_point(size = symbolgroesse, fill = "#f0f0f0") +
-    # die Y-Achse soll keine Zahlen-, sondern Prozent
-    # Werte als Labels haben
-    scale_y_continuous(labels = percent, breaks = seq(0,0.35, 0.05)) +
-    # Bei X-Achse Länder-ID durch Namen ersetzen
-    scale_x_discrete(labels = rev(sternnamen)) +
-    # farben für die Punkte
-    scale_color_manual(values = c("#000000","#555555","#999999"), name = "Income tertiles") +
-    scale_shape_manual(name = "Income tertiles", values = c(21, 22, 24)) +
-    # Achsenbeschriftungen
+  p <- ggplot(newdf, aes(x = rev(grp),
+                         y = y,
+                         colour = x,
+                         shape = x)) +
+    geom_point(size = geom.size, fill = shape.fill.color) +
+    scale_y_continuous(labels = scales::percent) +
+    scale_x_discrete(labels = rev(axisLabels)) +
     labs(x = axisTitle.x,
          y = axisTitle.y,
          title = title) +
-    # Plot "drehen", sodass Länder links stehen
     coord_flip() +
-    annotate("rect", xmin = 0.5,  xmax = 1.5, ymin = -Inf, ymax = Inf, alpha = 0.15)
+    scale_shape_manual(name = legendTitle, labels = legendLabels, values = shapes[1:pal.len]) +
+    scale_colour_manual(name = legendTitle, labels = legendLabels, values = geom.colors)
+
+  if (showTotal && annotateTotal)
+    p <- p + annotate("rect", xmin = 0.5,  xmax = 1.5, ymin = -Inf, ymax = Inf, alpha = 0.15)
   
-  print(p)
+  if (printPlot) print(p)
+  invisible(structure(list(plot = p,
+                           df = mydf)))
 }
