@@ -33,7 +33,7 @@
 #' @import dplyr
 #' @import sjmisc
 #' @importFrom scales percent
-#' @importFrom stats na.omit chisq.test fisher.test
+#' @importFrom stats na.omit chisq.test
 #' @export
 sjp.gpt <- function(x, 
                     y, 

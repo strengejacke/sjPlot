@@ -544,14 +544,7 @@ sju.modsum.lm <- function(fit) {
   # Calculate p-value for F-test
   pval <- stats::pf(fstat[1], fstat[2], fstat[3], lower.tail = FALSE)
   # indicate significance level by stars
-  pan <- c("")
-  if (pval < 0.001) {
-    pan <- c("***")
-  } else  if (pval < 0.01) {
-    pan <- c("**")
-  } else  if (pval < 0.05) {
-    pan <- c("*")
-  }
+  pan <- get_p_stars(pval)
   # create mathematical term
   modsum <- as.character(as.expression(
     substitute(beta[0] == a * "," ~~ R^2 == r2 * "," ~~ "adj. " * R^2 == ar2 * "," ~~ "F" == f*panval * "," ~~ "AIC" == aic,

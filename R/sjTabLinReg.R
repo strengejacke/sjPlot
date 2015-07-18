@@ -640,12 +640,7 @@ sjt.lm <- function(...,
     # prepare p-values, either as * or as numbers
     # -------------------------------------
     if (!pvaluesAsNumbers) {
-      fit.df$pv <- sapply(fit.df$pv, function(x) {
-        if (x >= 0.05) x <- c("")
-        else if (x >= 0.01 && x < 0.05) x <- c("*")
-        else if (x >= 0.001 && x < 0.01) x <- c("**")
-        else if (x < 0.001) x <- c("***")
-      })
+      fit.df$pv <- sapply(fit.df$pv, function(x) x <- get_p_stars(x))
     } else {
       if (boldpvalues) {
         sb1 <- "<b>"
@@ -1238,14 +1233,7 @@ sjt.lm <- function(...,
                  fstat[3],
                  lower.tail = FALSE)
       # indicate significance level by stars
-      pan <- c("")
-      if (pval < 0.001) {
-        pan <- c("***")
-      } else  if (pval < 0.01) {
-        pan <- c("**")
-      } else  if (pval < 0.05) {
-        pan <- c("*")
-      }
+      pan <- get_p_stars(pval)
       page.content <- paste(page.content, sprintf("    %s%.*f%s</td>\n", colspanstring, digits.summary, fstat[1], pan))
     }
     page.content <- paste(page.content, "  </tr>\n")

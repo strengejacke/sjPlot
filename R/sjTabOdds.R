@@ -489,12 +489,7 @@ sjt.glm <- function(...,
     # prepare p-values, either as * or as numbers
     # -------------------------------------
     if (!pvaluesAsNumbers) {
-      fit.df$pv <- sapply(fit.df$pv, function(x) {
-        if (x >= 0.05) x <- c("")
-        else if (x >= 0.01 && x < 0.05) x <- c("*")
-        else if (x >= 0.001 && x < 0.01) x <- c("**")
-        else if (x < 0.001) x <- c("***")
-      })
+      fit.df$pv <- sapply(fit.df$pv, function(x) x <- get_p_stars(x))
     } else {
       if (boldpvalues) {
         sb1 <- "<b>"
