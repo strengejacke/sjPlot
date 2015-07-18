@@ -930,15 +930,7 @@ sjp.lme4  <- function(fit,
       # ----------------------------
       if (showPValueLabels) {
         for (i in 1:length(pv)) {
-          if (is.na(pv[i])) {
-            ps[i] <- ""
-          } else if (pv[i] >= 0.01 && pv[i] < 0.05) {
-            ps[i] <- paste(ps[i], "*")
-          } else if (pv[i] >= 0.001 && pv[i] < 0.01) {
-            ps[i] <- paste(ps[i], "**")
-          } else if (pv[i] < 0.001) {
-            ps[i] <- paste(ps[i], "***")
-          }
+          ps[i] <- get_p_stars(pv[i])
         }
       }
       # bind p-values

@@ -346,16 +346,8 @@ sjp.lm <- function(fit,
   # --------------------------------------------------------
   if (showPValueLabels) {
     for (i in 1:length(pv)) {
-      if (pv[i] >= 0.01 && pv[i] < 0.05) {
-        ps[i] <- paste(ps[i], "*")
-        pstdbv[i] <- paste(pstdbv[i], "*")
-      } else if (pv[i] >= 0.001 && pv[i] < 0.01) {
-        ps[i] <- paste(ps[i], "**")
-        pstdbv[i] <- paste(pstdbv[i], "**")
-      } else if (pv[i] < 0.001) {
-        ps[i] <- paste(ps[i], "***")
-        pstdbv[i] <- paste(pstdbv[i], "***")
-      }
+      ps[i] <- sjmisc::trim(paste(ps[i], get_p_stars(pv[i])))
+      pstdbv[i] <- sjmisc::trim(paste(pstdbv[i], get_p_stars(pv[i])))
     }
   }
   # --------------------------------------------------------

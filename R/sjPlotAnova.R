@@ -222,14 +222,7 @@ sjp.aov1 <- function(depVar,
     # p-value for F-test
     pval <- summary(fit)[[1]]['Pr(>F)'][1, 1]
     # indicate significance level by stars
-    pan <- c("")
-    if (pval < 0.001) {
-      pan <- c("***")
-    } else if (pval < 0.01) {
-      pan <- c("**")
-    } else if (pval < 0.05) {
-      pan <- c("*")
-    }
+    pan <- get_p_stars(pval)
     # create mathematical term
     modsum <- as.character(as.expression(
       substitute(italic(SS[B]) == ssb * "," ~~ italic(SS[W]) == ssw * "," ~~ R^2 == mr2 * "," ~~ "adj." * R^2 == ar2 * "," ~~ "F" == f * panval,
@@ -253,13 +246,7 @@ sjp.aov1 <- function(depVar,
   # --------------------------------------------------------
   if (showPValueLabels) {
     for (i in 1:length(means.p)) {
-      if (means.p[i] < 0.001) {
-        ps[i] <- paste(ps[i], "***")
-      } else if (means.p[i] >= 0.001 && means.p[i] < 0.01) {
-        ps[i] <- paste(ps[i], "**")
-      } else if (means.p[i] >= 0.01 && means.p[i] < 0.05) {
-        ps[i] <- paste(ps[i], "*")
-      }
+      ps[i] <- get_p_stars(means.ps[i])
     }  
   }
   # --------------------------------------------------------

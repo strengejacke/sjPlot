@@ -6,10 +6,12 @@
 \usage{
 sjp.gpt(x, y, groups, geom.colors = "Set1", geom.size = 4,
   shape.fill.color = "#f0f0f0", shapes = c(15, 16, 17, 18, 21, 22, 23, 24,
-  25, 7, 8, 9, 10, 12), axisLabels = NULL, axisTitle.x = NULL,
-  axisTitle.y = NULL, legendTitle = NULL, legendLabels = NULL,
-  title = NULL, showTotal = TRUE, annotateTotal = TRUE, showP = TRUE,
-  showN = TRUE, hideLegend = FALSE, printPlot = TRUE)
+  25, 7, 8, 9, 10, 12), title = NULL, axisLabels = NULL,
+  axisTitle.x = NULL, axisTitle.y = NULL, legendTitle = NULL,
+  legendLabels = NULL, breakTitleAt = 50, breakLabelsAt = 15,
+  breakLegendTitleAt = 20, breakLegendLabelsAt = 20, axisLimits = NULL,
+  gridBreaksAt = NULL, showTotal = TRUE, annotateTotal = TRUE,
+  showP = TRUE, showN = TRUE, hideLegend = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{x}{}
@@ -30,6 +32,11 @@ adjusted depending on the plot type.}
 
 \item{shapes}{}
 
+\item{title}{plot title as string. Example: \code{title = "my title"}.
+Use \code{NULL} to automatically detect variable names that will be used as title
+(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
+no title is printed.}
+
 \item{axisLabels}{}
 
 \item{axisTitle.x}{title for the x-axis. By default, \code{""} is used, i.e. no title
@@ -45,10 +52,20 @@ detected and used as title (see \code{\link[sjmisc]{set_label}}) for details).}
 
 \item{legendLabels}{a character vector with labels for the guide/legend.}
 
-\item{title}{plot title as string. Example: \code{title = "my title"}.
-Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
-no title is printed.}
+\item{breakTitleAt}{determines how many chars of the plot title are displayed in
+one line and when a line break is inserted into the title.}
+
+\item{breakLabelsAt}{determines how many chars of the category labels are displayed in
+one line and when a line break is inserted.}
+
+\item{breakLegendTitleAt}{determines how many chars of the legend's title
+are displayed in one line and when a line break is inserted.}
+
+\item{breakLegendLabelsAt}{determines how many chars of the legend labels are
+displayed in one line and when a line break is inserted.}
+
+\item{gridBreaksAt}{set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th
+position a major grid is being printed.}
 
 \item{showTotal}{}
 
@@ -74,7 +91,7 @@ Plot grouped proportional crosstables, where the proportion of
 library(sjmisc)
 data(efc)
 
-sjp.gpt(efc$e42dep, efc$e16sex, efc$15relat)
+sjp.gpt(efc$e42dep, efc$e16sex, efc$e15relat)
 
 sjp.gpt(efc$c172code, efc$e42dep, efc$n4pstu)
 }

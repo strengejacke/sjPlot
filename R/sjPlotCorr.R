@@ -278,11 +278,7 @@ sjp.corr <- function(data,
   if (!is.null(cpvalues)) {
     if (!pvaluesAsNumbers) {
       for (cpi in 1:nrow(cpvalues)) {
-        cva <- cpvalues$value[cpi]
-        if (cva >= 0.05) cpv <- c(cpv, "")
-        else if (cva >= 0.01 && cva < 0.05) cpv <- c(cpv, "*")
-        else if (cva >= 0.001 && cva < 0.01) cpv <- c(cpv, "**")
-        else if (cva < 0.001) cpv <- c(cpv, "***")
+        cpv <- c(cpv, get_p_stars(cpvalues$value[cpi]))
       }
     } else {
       cpv <- cpvalues$value
