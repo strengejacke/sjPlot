@@ -14,11 +14,14 @@ sjp.gpt(x, y, groups, geom.colors = "Set1", geom.size = 4,
   showP = TRUE, showN = TRUE, hideLegend = FALSE, printPlot = TRUE)
 }
 \arguments{
-\item{x}{}
+\item{x}{categorical variable, where the proportion of each categorie in the
+highest category of \code{y} will be printed along the x-axis.}
 
-\item{y}{}
+\item{y}{categorical or numeric variable. If not a binary variable, \code{y}
+will be recoded into a binary variable, dichtomized at the highest
+category and all remaining categories.}
 
-\item{groups}{}
+\item{groups}{grouping variable, which will define the y-axis}
 
 \item{geom.colors}{User defined color palette for geoms. If specified, must either be vector with color values
 of same length as groups defined in \code{varGroup}, or a specific color brewer palette code (see 'Note').}
@@ -28,16 +31,17 @@ Note that  bar and bin widths mostly need smaller values than dot sizes (i.e. if
 By default, \code{geom.size = NULL}, which means that this argument is automatically
 adjusted depending on the plot type.}
 
-\item{shape.fill.color}{}
+\item{shape.fill.color}{optional color vector, fill-color for non-filled shapes}
 
-\item{shapes}{}
+\item{shapes}{numeric vector with shape styles, used to map the different
+categories of \code{x}.}
 
 \item{title}{plot title as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
 (see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
 no title is printed.}
 
-\item{axisLabels}{}
+\item{axisLabels}{character vector with \code{groups} labels for the y-axis.}
 
 \item{axisTitle.x}{title for the x-axis. By default, \code{""} is used, i.e. no title
 is printed. If \code{axisTitle.x = NULL}, the variable name will be
@@ -67,11 +71,15 @@ displayed in one line and when a line break is inserted.}
 \item{gridBreaksAt}{set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th
 position a major grid is being printed.}
 
-\item{showTotal}{}
+\item{showTotal}{logical, if \code{TRUE}, a total summary line for all aggregated
+\code{groups} is added.}
 
-\item{showP}{}
+\item{showP}{logical, if \code{TRUE}, axis labels for groups will also contain
+the results of the \code{\link[stats]{chisq.test}} of \code{x} and
+\code{y} for each \code{groups}.}
 
-\item{showN}{}
+\item{showN}{logical, if \code{TRUE}, axis labels for groups will also contain
+         the total number of cases in each \code{groups}.}
 
 \item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
 
@@ -79,20 +87,27 @@ position a major grid is being printed.}
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
-(Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-          was used for setting up the ggplot-object (\code{mydf}).
+(Insisibily) returns the ggplot-object with the complete plot
+          (\code{plot}) as well as the data frame that
+          was used for setting up the ggplot-object (\code{df}).
 }
 \description{
 Plot grouped proportional crosstables, where the proportion of
                each level of \code{x} for the highest category in \code{y}
-               is plotted, for each subgroup pf \code{groups}.
+               is plotted, for each subgroup of \code{groups}.
 }
 \examples{
 library(sjmisc)
 data(efc)
 
+# the proportion of dependency levels in female
+# elderly, for each family carer's relationship
+# to elderly
 sjp.gpt(efc$e42dep, efc$e16sex, efc$e15relat)
 
+# proportion of educational levels in highest
+# dependency category of elderly, for different
+# care levels
 sjp.gpt(efc$c172code, efc$e42dep, efc$n4pstu)
 }
 
