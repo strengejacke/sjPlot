@@ -299,12 +299,12 @@ sjp.setTheme <- function(# base theme
     axis.linecolor.x  <- axis.linecolor.y <- axis.linecolor <- g.palette[col.ind]
     legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[col.ind]
     panel.major.gridcol <- g.palette[4]
-    title.color <- g.palette[9]
-    axis.textcolor <- g.palette[6]
-    axis.title.color <- g.palette[7]
-    if (is.null(geom.label.color)) geom.label.color <- g.palette[6]
-    legend.title.color <- g.palette[7]
-    legend.color <- g.palette[6]
+    if (missing(title.color)) title.color <- g.palette[9]
+    if (missing(axis.textcolor)) axis.textcolor <- g.palette[6]
+    if (missing(axis.title.color)) axis.title.color <- g.palette[7]
+    if (missing(geom.label.color) || is.null(geom.label.color)) geom.label.color <- g.palette[6]
+    if (missing(legend.title.color)) legend.title.color <- g.palette[7]
+    if (missing(legend.color)) legend.color <- g.palette[6]
     axis.tickslen <- 0
     # custom modifications
     title.align <- "center"
@@ -332,15 +332,15 @@ sjp.setTheme <- function(# base theme
       panel.major.gridcol <- panel.minor.gridcol <- g.palette[col.ind]
     }
     axis.linecolor <- NULL
-    if (is.null(axis.linecolor.y)) axis.linecolor.y <- g.palette[col.ind]
-    if (is.null(axis.linecolor.x)) axis.linecolor.x <- g.palette[9]
+    if (missing(axis.linecolor.y) || is.null(axis.linecolor.y)) axis.linecolor.y <- g.palette[col.ind]
+    if (missing(axis.linecolor.x) || is.null(axis.linecolor.x)) axis.linecolor.x <- g.palette[9]
     legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[col.ind]
-    title.color <- g.palette[9]
-    axis.textcolor <- g.palette[6]
-    axis.title.color <- g.palette[7]
-    if (is.null(geom.label.color)) geom.label.color <- g.palette[6]
-    legend.title.color <- g.palette[7]
-    legend.color <- g.palette[6]
+    if (missing(title.color)) title.color <- g.palette[9]
+    if (missing(axis.textcolor)) axis.textcolor <- g.palette[6]
+    if (missing(axis.title.color)) axis.title.color <- g.palette[7]
+    if (missing(geom.label.color) || is.null(geom.label.color)) geom.label.color <- g.palette[6]
+    if (missing(legend.title.color)) legend.title.color <- g.palette[7]
+    if (missing(legend.color)) legend.color <- g.palette[6]
     axis.tickslen <- 0
     # custom modifications
     title.align <- "center"
@@ -361,15 +361,15 @@ sjp.setTheme <- function(# base theme
     plot.backcol <- plot.bordercol <- plot.col <- g.palette[col.ind]
     panel.major.gridcol <- panel.minor.gridcol <- g.palette[4]
     axis.linecolor <- g.palette[5]
-    if (is.null(axis.linecolor.y)) axis.linecolor.y <- g.palette[col.ind]
-    if (is.null(axis.linecolor.x)) axis.linecolor.x <- g.palette[col.ind]
+    if (missing(axis.linecolor.y) || is.null(axis.linecolor.y)) axis.linecolor.y <- g.palette[col.ind]
+    if (missing(axis.linecolor.x) || is.null(axis.linecolor.x)) axis.linecolor.x <- g.palette[col.ind]
     legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[col.ind]
-    title.color <- g.palette[9]
-    axis.textcolor <- g.palette[6]
-    axis.title.color <- g.palette[7]
-    if (is.null(geom.label.color)) geom.label.color <- g.palette[6]
-    legend.title.color <- g.palette[7]
-    legend.color <- g.palette[6]
+    if (missing(title.color)) title.color <- g.palette[9]
+    if (missing(axis.textcolor)) axis.textcolor <- g.palette[6]
+    if (missing(axis.title.color)) axis.title.color <- g.palette[7]
+    if (missing(geom.label.color) || is.null(geom.label.color)) geom.label.color <- g.palette[6]
+    if (missing(legend.title.color)) legend.title.color <- g.palette[7]
+    if (missing(legend.color)) legend.color <- g.palette[6]
     axis.tickslen <- 0
     # custom modifications
     panel.major.linetype <- panel.minor.linetype <- 2

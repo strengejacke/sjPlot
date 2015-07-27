@@ -232,7 +232,7 @@ sjp.grpfrq <- function(varCount,
                        interactionVar = NULL,
                        type = "bars",
                        geom.size = NULL,
-                       geom.spacing = 0.4,
+                       geom.spacing = 0.15,
                        geom.colors = "Paired",
                        hideLegend = FALSE,
                        facet.grid = FALSE,
@@ -301,7 +301,7 @@ sjp.grpfrq <- function(varCount,
   # --------------------------------------------------------
   if (is.null(geom.size)) {
     if (type == "bars") 
-      geom.size <- .6
+      geom.size <- .7
     else if (type == "dots") 
       geom.size <- 3
     else if (type == "histogram") 

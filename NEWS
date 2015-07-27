@@ -10,6 +10,7 @@ Changes to functions:
 * "sjt.df" and "view_df" now recognize Date and POSIX-classes, if "showType = TRUE".
 * "sjp.poly" now also returns cutpoints of loess curvature, to get maximum / minimum values of loess curvature.
 * "sjp.lm" with "type = 'ma'" now also returns all plots as list of ggplot-objects.
+* "sjp.setTheme" now allows for custom label and title colors when using pre-set-themes.
 
 Bug fixes:
 * "sjp.grpfrq" did not show correct number of missings (argument "na.rm = FALSE"), if grouping variable startet with zero.

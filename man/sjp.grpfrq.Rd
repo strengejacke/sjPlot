@@ -6,7 +6,7 @@
 \usage{
 sjp.grpfrq(varCount, varGroup, weightBy = NULL, weightByTitleString = NULL,
   interactionVar = NULL, type = "bars", geom.size = NULL,
-  geom.spacing = 0.4, geom.colors = "Paired", hideLegend = FALSE,
+  geom.spacing = 0.15, geom.colors = "Paired", hideLegend = FALSE,
   facet.grid = FALSE, title = "", legendTitle = NULL,
   axisLabels.x = NULL, interactionVarLabels = NULL, legendLabels = NULL,
   axisLimits.x = NULL, axisLimits.y = NULL, breakTitleAt = 50,
