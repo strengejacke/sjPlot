@@ -139,7 +139,7 @@ sjt.grpmean <- function(varCount,
                 cbind(mean = sprintf("%.*f", digits, mw),
                       N = length(stats::na.omit(varCount[varGrp == indices[i]])),
                       sd = sprintf("%.*f", digits, sd(varCount[varGrp == indices[i]], na.rm = TRUE)),
-                      se = sprintf("%.*f", digits, sjmisc::std_e(varCount[varGrp == indices[i]])),
+                      se = sprintf("%.*f", digits, sjmisc::se(varCount[varGrp == indices[i]])),
                       p = pval[i]))
   }
   # --------------------------------------
@@ -159,7 +159,7 @@ sjt.grpmean <- function(varCount,
               cbind(mean = sprintf("%.*f", digits, mw),
                     N = length(stats::na.omit(varCount)),
                     sd = sprintf("%.*f", digits, sd(varCount, na.rm = TRUE)),
-                    se = sprintf("%.*f", digits, sjmisc::std_e(varCount)),
+                    se = sprintf("%.*f", digits, sjmisc::se(varCount)),
                     p = ""))
   # --------------------------------------
   # fix row labels, if empty or NULL

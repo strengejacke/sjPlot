@@ -40,13 +40,18 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](http://cran.r-project.org/package=ggplot2), consider citing this package as well.
 
-### Changelog of development build 1.8.2-3
+### Changelog of development build 1.8.2-4
+
+#### New functions
+* `sjp.gpt` to plot grouped proportional tables.
 
 #### Changes to functions
+* Added `type = "coeff"` to `sjp.lmer` to plot joint random and fixed effects coefficients.
 * `type = "poly"` in `sjp.lm` can now deal with fitted models that either use polynomials with `poly` or splines with `bs` (see examples).
 * `sjt.df` gets a `big.mark` parameter to add thousands-separators if parameter `describe = TRUE`.
 * `sjt.df` and `view_df` now recognize Date and POSIX-classes, if `showType = TRUE`.
 * `sjp.poly` now also returns cutpoints of loess curvature, to get maximum / minimum values of loess curvature.
+* `sjp.lm` with `type = "ma"` now also returns all plots as list of ggplot-objects.
 
 #### Bug fixes
 * `sjp.grpfrq` did not show correct number of missings (argument `na.rm = FALSE`), if grouping variable startet with zero.

@@ -258,6 +258,7 @@ sjp.glmer <- function(fit,
 #'            \item{\code{"fe.cor"}}{for correlation matrix of fixed effects}
 #'            \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
 #'            \item{\code{"fe.ri"}}{for fixed effects slopes depending on the random intercept.}
+#'            \item{\code{"coef"}}{for joint (sum of) random and fixed effects coefficients for each explanatory variable for each level of each grouping factor as forst plot.}
 #'            \item{\code{"resp"}}{to plot predicted values for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot.}
 #'            \item{\code{"eff"}}{to plot marginal effects of all fixed terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms. See also 'Details' of \code{\link{sjp.lm}}.}
 #'            \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples' here and 'Details' of \code{\link{sjp.lm}}).}
@@ -500,8 +501,8 @@ sjp.lme4  <- function(fit,
   if (type != "re" && type != "fe" && type != "fe.std" && type != "fe.cor" &&
       type != "re.qq" && type != "fe.pc" && type != "ri.pc" && type != "fe.pred" &&
       type != "fe.prob" && type != "ri.prob" && type != "fe.ri" && type != "y.pc" && 
-      type != "fe.resid" && type != "poly" && type != "eff") {
-    warning("'type' must be one of 're', 'fe', 'fe.cor', 're.qq', 'fe.ri', 'fe.pc', 'fe.pred', 'fe.resid', 'poly', 'eff', 'y.pred', 'ri.pc', 'y.pc', 'y.prob', 'fe.std', 'fe.prob' or 'ri.prob'. Defaulting to 'fe' now.")
+      type != "fe.resid" && type != "poly" && type != "eff" && type != "coef") {
+    warning("'type' must be one of 're', 'fe', 'fe.cor', 're.qq', 'fe.ri', 'fe.pc', 'fe.pred', 'fe.resid', 'poly', 'eff', 'y.pred', 'ri.pc', 'y.pc', 'y.prob', 'coef', 'fe.std', 'fe.prob' or 'ri.prob'. Defaulting to 'fe' now.")
     type  <- "fe"
   }
   # ---------------------------------------
@@ -520,7 +521,7 @@ sjp.lme4  <- function(fit,
   # all effects
   # ---------------------------------------
   loops <- 1
-  if (type == "re" || type == "fe.ri" || type == "ri.pc") {
+  if (type == "re" || type == "fe.ri" || type == "ri.pc" || type == "coef") {
     # ---------------------------------------
     # get amount of random intercepts
     # ---------------------------------------
@@ -766,11 +767,15 @@ sjp.lme4  <- function(fit,
     # check whether random or fixed effects
     # should be plotted
     # ---------------------------------------
-    if (type == "re") {
+    if (type == "re" || type == "coef") {
       # ---------------------------------------
       # copy estimates of random effects
       # ---------------------------------------
-      mydf.ef <- as.data.frame(lme4::ranef(fit)[[lcnt]])
+      if (type == "coef") {
+        mydf.ef <- as.data.frame(coef(fit)[[lcnt]])
+      } else {
+        mydf.ef <- as.data.frame(lme4::ranef(fit)[[lcnt]])
+      }
       # ---------------------------------------
       # copy rownames as axis labels, if not set
       # ---------------------------------------
@@ -791,7 +796,11 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------
       # retrieve standard errors, for ci
       # ---------------------------------------
-      se.fit <- arm::se.ranef(fit)[[lcnt]]
+      if (type == "coef") {
+        se.fit <- data.frame(t(sjmisc::se(fit)[[lcnt]]))
+      } else {
+        se.fit <- arm::se.ranef(fit)[[lcnt]]
+      }
       # ---------------------------------------
       # select random effects for each coefficient
       # ---------------------------------------
