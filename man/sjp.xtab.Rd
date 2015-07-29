@@ -83,7 +83,7 @@ are displayed in one line and when a line break is inserted.}
 \item{breakLegendLabelsAt}{determines how many chars of the legend labels are
 displayed in one line and when a line break is inserted.}
 
-\item{gridBreaksAt}{set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th
+\item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th
 position a major grid is being printed.}
 
 \item{geom.size}{size resp. width of the geoms (bar width).}

@@ -117,7 +117,7 @@ E.g. \code{gridRange = 1.4} will set the axis from -140 to +140\%, however, only
 (valid) axis labels from -100 to +100\% are printed. Neutral categories are
 adjusted to the most left limit.}
 
-\item{gridBreaksAt}{set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th
+\item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th
 position a major grid is being printed.}
 
 \item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between

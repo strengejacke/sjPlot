@@ -97,7 +97,7 @@ one line and when a line break is inserted into the title.}
 \item{breakLabelsAt}{determines how many chars of the category labels are displayed in
 one line and when a line break is inserted.}
 
-\item{gridBreaksAt}{set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th
+\item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th
 position a major grid is being printed.}
 
 \item{innerBoxPlotWidth}{width of the inner box plot that is plotted inside of violin plots. Only applies

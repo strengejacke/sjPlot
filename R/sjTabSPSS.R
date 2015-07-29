@@ -353,14 +353,14 @@ view_df <- function(x,
   # -------------------------------------
   # set style attributes for main table tags
   # -------------------------------------
-  knitr <- gsub("class=", "style=", knitr, fixed = TRUE)
-  knitr <- gsub("<table", sprintf("<table style=\"%s\"", css.table), knitr, fixed = TRUE)
+  knitr <- gsub("class=", "style=", knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub("<table", sprintf("<table style=\"%s\"", css.table), knitr, fixed = TRUE, useBytes = TRUE)
   # -------------------------------------
   # replace class-attributes with inline-style-definitions
   # -------------------------------------
-  knitr <- gsub(tag.tdata, css.tdata, knitr, fixed = TRUE)
-  knitr <- gsub(tag.thead, css.thead, knitr, fixed = TRUE)
-  knitr <- gsub(tag.arc, css.arc, knitr, fixed = TRUE)
+  knitr <- gsub(tag.tdata, css.tdata, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.thead, css.thead, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.arc, css.arc, knitr, fixed = TRUE, useBytes = TRUE)
   # -------------------------------------
   # remove spaces?
   # -------------------------------------

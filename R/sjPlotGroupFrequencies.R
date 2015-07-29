@@ -77,7 +77,7 @@ utils::globalVariables(c("ypos", "wb", "ia", "mw", "stddev", "count"))
 #'          are displayed in one line and when a line break is inserted.
 #' @param breakLegendLabelsAt determines how many chars of the legend labels are 
 #'          displayed in one line and when a line break is inserted.
-#' @param gridBreaksAt set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th 
+#' @param gridBreaksAt set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
 #'          position a major grid is being printed.
 #' @param innerBoxPlotWidth width of the inner box plot that is plotted inside of violin plots. Only applies 
 #'          if \code{type = "violins"}. Default value is 0.15

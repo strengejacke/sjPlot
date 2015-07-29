@@ -134,7 +134,7 @@ outside this range that could not be plotted.}
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the
 y-axis ranges from 0 to required maximum.}
 
-\item{gridBreaksAt}{set breaks for the y-axis, i.e. at every \code{gridBreaksAt}'th
+\item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th
 position a major grid is being printed.}
 
 \item{showInterceptLines}{If \code{TRUE}, the intercept and the estimate of the predictor

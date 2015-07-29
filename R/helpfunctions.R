@@ -740,9 +740,9 @@ sjs.frqci <- function(x) {
 
 
 sju.rmspc <- function(html.table) {
-  cleaned <- gsub("      <", "<", html.table, fixed = TRUE)
-  cleaned <- gsub("    <", "<", cleaned, fixed = TRUE)
-  cleaned <- gsub("  <", "<", cleaned, fixed = TRUE)
+  cleaned <- gsub("      <", "<", html.table, fixed = TRUE, useBytes = TRUE)
+  cleaned <- gsub("    <", "<", cleaned, fixed = TRUE, useBytes = TRUE)
+  cleaned <- gsub("  <", "<", cleaned, fixed = TRUE, useBytes = TRUE)
   return(cleaned)
 }
 
