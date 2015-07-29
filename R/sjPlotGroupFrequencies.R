@@ -292,7 +292,7 @@ sjp.grpfrq <- function(varCount,
   if (type == "box" || type == "boxplot") type <- "boxplots"
   if (type == "v" || type == "violins") type <- "violin"
   if (expand.grid == TRUE) {
-    expand.grid <- waiver()
+    expand.grid <- ggplot2::waiver()
   } else {
     expand.grid <- c(0, 0)
   }
@@ -780,11 +780,11 @@ sjp.grpfrq <- function(varCount,
       hort <- -0.1
     }
   } else {
-    hort <- waiver()
+    hort <- ggplot2::waiver()
     if (labelPos == "inside" || labelPos == "i") {
       vert <- 1.1
     } else if (barPosition == "stack" || labelPos == "center" || labelPos == "c") {
-      vert <- waiver()
+      vert <- ggplot2::waiver()
     } else if (showPercentageValues && showCountValues) {
       # value labels need a different vertical adjustement, depending on
       # whether we plot dots or bars
@@ -944,7 +944,7 @@ sjp.grpfrq <- function(varCount,
   # Set up grid breaks
   # --------------------------------------------------------
   if (is.null(gridBreaksAt)) {
-    gridbreaks <- waiver()
+    gridbreaks <- ggplot2::waiver()
   } else {
     gridbreaks <- c(seq(lower_lim, upper_lim, by = gridBreaksAt))
   }

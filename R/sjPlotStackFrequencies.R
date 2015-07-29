@@ -404,13 +404,13 @@ sjp.stackfrq <- function(items,
     # than for the default layout
     vert <- 0.35
   } else {
-    vert <- waiver()
+    vert <- ggplot2::waiver()
   }
   # --------------------------------------------------------
   # set diagram margins
   # --------------------------------------------------------
   if (expand.grid) {
-    expgrid <- waiver()
+    expgrid <- ggplot2::waiver()
   } else {
     expgrid <- c(0, 0)
   }
@@ -433,7 +433,7 @@ sjp.stackfrq <- function(items,
   # Set up grid breaks
   # --------------------------------------------------------
   if (is.null(gridBreaksAt)) {
-    gridbreaks <- waiver()
+    gridbreaks <- ggplot2::waiver()
   } else {
     gridbreaks <- c(seq(0, 1, by = gridBreaksAt))
   }

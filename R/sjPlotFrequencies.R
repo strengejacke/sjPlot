@@ -484,7 +484,7 @@ sjp.frq <- function(varCount,
   if (coord.flip) {
     # adjust vertical position for labels, based on whether percentage values
     # are shown or not
-    vert <- waiver() # ifelse((showPercentageValues == TRUE && showCountValues == TRUE), 0.5, 0.1)
+    vert <- ggplot2::waiver() # ifelse((showPercentageValues == TRUE && showCountValues == TRUE), 0.5, 0.1)
     if (labelPos == "inside" || labelPos == "i") {
       hort <- 1.1
     } else {
@@ -494,7 +494,7 @@ sjp.frq <- function(varCount,
     # adjust vertical position for labels, based on whether percentage values
     # are shown or not
     vert <- ifelse((showPercentageValues == TRUE && showCountValues == TRUE), -0.2, -0.6)
-    hort <- waiver()
+    hort <- ggplot2::waiver()
   }
   # --------------------------------------------------------
   # Set value labels
@@ -566,8 +566,8 @@ sjp.frq <- function(varCount,
   # --------------------------------------------------------
   maxx <- max(mydat$var) + 1
   if (is.null(gridBreaksAt)) {
-    gridbreaks <- waiver()
-    histgridbreaks <- waiver()
+    gridbreaks <- ggplot2::waiver()
+    histgridbreaks <- ggplot2::waiver()
   } else {
     gridbreaks <- c(seq(lower_lim, upper_lim, by = gridBreaksAt))
     histgridbreaks <- c(seq(lower_lim, maxx, by = gridBreaksAt))

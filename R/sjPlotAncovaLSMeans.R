@@ -46,7 +46,7 @@ sjp.emm <- function(fit,
   # -----------------------------------------------------------
   # parameter check
   # -----------------------------------------------------------
-  if (is.null(gridBreaksAt)) gridbreaks.y <- waiver()
+  if (is.null(gridBreaksAt)) gridbreaks.y <- ggplot2::waiver()
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
@@ -345,7 +345,7 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, axisTi
   # -----------------------------------------------------------
   # parameter check
   # -----------------------------------------------------------
-  if (is.null(gridBreaksAt)) gridbreaks.y <- waiver()
+  if (is.null(gridBreaksAt)) gridbreaks.y <- ggplot2::waiver()
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------

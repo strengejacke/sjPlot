@@ -407,7 +407,7 @@ sjp.int <- function(fit,
     fillAlpha <- 0
   }
   # gridbreaks
-  if (is.null(gridBreaksAt)) gridbreaks.x <- gridbreaks.y <- waiver()
+  if (is.null(gridBreaksAt)) gridbreaks.x <- gridbreaks.y <- ggplot2::waiver()
   # moderator value
   if (moderatorValues != "minmax" && moderatorValues != "zeromax" && moderatorValues != "meansd" && moderatorValues != "quart") {
     message("'moderatorValues' has to be one of 'minmax', 'zeromax', 'quart' or 'meansd'. Defaulting to 'minmax'...")
@@ -949,7 +949,7 @@ sjp.eff.int <- function(fit,
     stop("Package 'effects' needed for this function to work. Please install it.", call. = FALSE)
   }
   # gridbreaks
-  if (is.null(gridBreaksAt)) gridbreaks.x <- gridbreaks.y <- waiver()
+  if (is.null(gridBreaksAt)) gridbreaks.x <- gridbreaks.y <- ggplot2::waiver()
   # ------------------------
   # calculate effects of higher order terms and
   # check if fitted model contains any interaction terms

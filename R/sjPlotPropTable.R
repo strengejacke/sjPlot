@@ -204,7 +204,7 @@ sjp.xtab <- function(x,
   if (type == "b" || type == "bar") type <- c("bars")
   if (type == "l" || type == "line") type <- c("lines")
   if (expand.grid == TRUE) {
-    expand.grid <- waiver()
+    expand.grid <- ggplot2::waiver()
   } else {
     expand.grid <- c(0, 0)
   }
@@ -484,17 +484,17 @@ sjp.xtab <- function(x,
     else if (labelPos == "inside" || labelPos == "i")
       hpos = 1.2
     else
-      hpos <- waiver()
-    hort <- ifelse(barPosition == "dodge", hpos, waiver())
+      hpos <- ggplot2::waiver()
+    hort <- ifelse(barPosition == "dodge", hpos, ggplot2::waiver())
   } else {
-    hort <- waiver()
+    hort <- ggplot2::waiver()
     if (labelPos == "outside" || labelPos == "o")
       vpos = -0.4
     else if (labelPos == "inside" || labelPos == "i")
       vpos = 1.2
     else
-      vpos <- waiver()
-    vert <- ifelse(barPosition == "dodge", vpos, waiver())
+      vpos <- ggplot2::waiver()
+    vert <- ifelse(barPosition == "dodge", vpos, ggplot2::waiver())
   }
   # check for jitter value labels
   if (jitterValueLabels) vert <- jvert
@@ -546,7 +546,7 @@ sjp.xtab <- function(x,
   # Set up grid breaks
   # --------------------------------------------------------
   if (is.null(gridBreaksAt)) {
-    gridbreaks <- waiver()
+    gridbreaks <- ggplot2::waiver()
   } else {
     gridbreaks <- c(seq(0, upper_lim, by = gridBreaksAt))
   }

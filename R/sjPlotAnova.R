@@ -151,7 +151,7 @@ sjp.aov1 <- function(depVar,
   if (type == "dot" || type == "d") type <- "dots"
   if (type == "bar" || type == "b") type <- "bars"
   if (expand.grid == TRUE) 
-    expand.grid <- waiver()
+    expand.grid <- ggplot2::waiver()
   else
     expand.grid <- c(0, 0)
   # --------------------------------------------------------

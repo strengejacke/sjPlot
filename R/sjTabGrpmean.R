@@ -180,6 +180,7 @@ sjt.grpmean <- function(varCount,
   pvalstring <- ifelse(pval < 0.001, 
                        sprintf("p&lt;%s.001", p_zero), 
                        sub("0", p_zero, sprintf("p=%.*f", digits.summary, pval)))
+  eta <- sub("0", p_zero, sprintf("&eta;=%.*f", digits.summary, sqrt(r2)))
   # --------------------------------------
   # print data frame to html table
   # --------------------------------------
@@ -195,8 +196,8 @@ sjt.grpmean <- function(varCount,
                  hideProgressBar = TRUE,
                  commentString = gsub("=0.", 
                                       paste0("=", p_zero, "."), 
-                                      sprintf("<strong>Anova:</strong> R<sup>2</sup>=%.*f &middot; adj. R<sup>2</sup>=%.*f &middot; F=%.*f &middot; %s",
-                                              digits.summary, r2, digits.summary, r2.adj, digits.summary, fstat, pvalstring),
+                                      sprintf("<strong>Anova:</strong> R<sup>2</sup>=%.*f &middot; adj. R<sup>2</sup>=%.*f &middot; %s &middot; F=%.*f &middot; %s",
+                                              digits.summary, r2, digits.summary, r2.adj, eta, digits.summary, fstat, pvalstring),
                                       fixed = TRUE),
                  remove.spaces = remove.spaces)
   # -------------------------------------

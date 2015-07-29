@@ -525,7 +525,7 @@ sjp.likert <- function(items,
   # set diagram margins
   # --------------------------------------------------------
   if (expand.grid) {
-    expgrid <- waiver()
+    expgrid <- ggplot2::waiver()
   } else {
     expgrid <- c(0, 0)
   }
