@@ -56,9 +56,9 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #' fit3 <- lm(tot_sc_e ~ c160age + c12hour + c161sex + c172code, data = efc)
 #' 
 #' # plot multiple models
-#' sjp.lmm(fit1, fit2, fit3, facet.grid = TRUE, fade.ns = FALSE)
+#' sjp.lmm(fit1, fit2, fit3, facet.grid = TRUE)
 #' 
-#' # plot multiple models with legend labels and point shapes instead of value  labels
+#' # plot multiple models with legend labels and point shapes instead of value labels
 #' sjp.lmm(fit1, fit2, fit3,
 #'          axisLabels.y = c("Carer's Age",
 #'                           "Hours of Care", 
@@ -69,6 +69,7 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #'                                      "Services used"),
 #'          showValueLabels = FALSE,
 #'          showPValueLabels = FALSE,
+#'          fade.ns = TRUE,
 #'          usePShapes = TRUE)
 #' 
 #' # plot multiple models from nested lists argument
@@ -99,7 +100,7 @@ sjp.lmm <- function(...,
                     geom.size = 3,
                     geom.spacing = 0.4,
                     geom.colors = "Set1",
-                    fade.ns = TRUE,
+                    fade.ns = FALSE,
                     usePShapes = FALSE,
                     interceptLineType = 2,
                     interceptLineColor = "grey70",

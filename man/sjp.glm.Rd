@@ -167,7 +167,7 @@ Plot odds ratios (exponentiated coefficients) with confidence intervalls as bar 
            Corresponds to \code{\link{plogis}(\link{predict}(fit, type = "terms") + attr(predict, "constant"))}.}
            \item{\code{type = "y.pc"}}{(or \code{type = "y.prob"}), the predicted values
            of the response are computed, based on the \code{\link{predict.glm}}
-           method. Corresponds to \code{\link{plogis}(\link{predict}(fit, type = "response"))}.}
+           method. Corresponds to \code{\link{predict}(fit, type = "response")}.}
          }
 }
 \examples{

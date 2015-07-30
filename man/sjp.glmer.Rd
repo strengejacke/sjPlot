@@ -158,7 +158,7 @@ Thanks go to Robert Reijntjes from Leiden University Medical Center for sharing
 library(lme4)
 library(sjmisc)
 # create binary response
-sleepstudy$Reaction.dicho <- dicho(sleepstudy$Reaction, dichBy = "md")
+sleepstudy$Reaction.dicho <- dicho(sleepstudy$Reaction, dich.by = "md")
 # fit model
 fit <- glmer(Reaction.dicho ~ Days + (Days | Subject),
              sleepstudy,

@@ -109,7 +109,7 @@
 #' 
 #' @import ggplot2
 #' @importFrom scales grey_pal brewer_pal
-#' @importFrom stats lm glm binomial
+#' @importFrom stats lm glm binomial predict
 #' @export
 sjp.poly <- function(x, 
                      poly.term, 
@@ -196,7 +196,9 @@ sjp.poly <- function(x,
     # or a float value
     poly.digit <- ifelse(i %% 1 == 0, 0, 1)
     # create data frame with raw data and the fitted poly-curve
-    plot.df <- rbind(plot.df, cbind(mydat, predict(fit), sprintf("x^%.*f", poly.digit, i)))
+    plot.df <- rbind(plot.df, cbind(mydat, 
+                                    stats::predict(fit), 
+                                    sprintf("x^%.*f", poly.digit, i)))
     # print p-values?
     if (showPValues) {
       # get p-values

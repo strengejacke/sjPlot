@@ -107,7 +107,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'            Corresponds to \code{\link{plogis}(\link{predict}(fit, type = "terms") + attr(predict, "constant"))}.}
 #'            \item{\code{type = "y.pc"}}{(or \code{type = "y.prob"}), the predicted values
 #'            of the response are computed, based on the \code{\link{predict.glm}}
-#'            method. Corresponds to \code{\link{plogis}(\link{predict}(fit, type = "response"))}.}
+#'            method. Corresponds to \code{\link{predict}(fit, type = "response")}.}
 #'          }
 #'
 #' @examples
@@ -719,7 +719,7 @@ sjp.glm.response.probcurv <- function(fit,
   # ----------------------------
   # get predicted values for response
   # ----------------------------
-  pp <- stats::plogis(stats::predict(fit, type = "response"))
+  pp <- stats::predict.glm(fit, type = "response")
   # ----------------------------
   # get predicted probabilities for 
   # response, including random effects

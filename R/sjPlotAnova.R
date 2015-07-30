@@ -237,7 +237,7 @@ sjp.aov1 <- function(depVar,
   # print coefficients and p-values in plot
   # ----------------------------
   # init data column for p-values
-  ps <- c(round(means,labelDigits))
+  ps <- c(round(means, labelDigits))
   # if no values should be shown, clear
   # vector now
   if (!showValueLabels) ps <- rep(c(""), length(ps))
@@ -246,7 +246,7 @@ sjp.aov1 <- function(depVar,
   # --------------------------------------------------------
   if (showPValueLabels) {
     for (i in 1:length(means.p)) {
-      ps[i] <- get_p_stars(means.ps[i])
+      ps[i] <- get_p_stars(means.p[i])
     }  
   }
   # --------------------------------------------------------

@@ -122,7 +122,7 @@ utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "
 #' library(lme4)
 #' library(sjmisc)
 #' # create binary response
-#' sleepstudy$Reaction.dicho <- dicho(sleepstudy$Reaction, dichBy = "md")
+#' sleepstudy$Reaction.dicho <- dicho(sleepstudy$Reaction, dich.by = "md")
 #' # fit model
 #' fit <- glmer(Reaction.dicho ~ Days + (Days | Subject),
 #'              sleepstudy,
@@ -1468,15 +1468,15 @@ sjp.lme.response.probcurv <- function(fit,
   # get predicted values for response with and
   # without random effects
   # ----------------------------
-  pp.fe <- predict(fit, type = "response", re.form = NA)
-  pp.re <- predict(fit, type = "response", re.form = NULL)
+  pp.fe <- stats::predict(fit, type = "response", re.form = NA)
+  pp.re <- stats::predict(fit, type = "response", re.form = NULL)
   # ----------------------------
   # for glm, get probabilities
   # ----------------------------
-  if (fun == "glm") {
-    pp.fe <- plogis(pp.fe)
-    pp.re <- plogis(pp.re)
-  }
+  #   if (fun == "glm") {
+  #     pp.fe <- plogis(pp.fe)
+  #     pp.re <- plogis(pp.re)
+  #   }
   # ----------------------------
   # get predicted probabilities for 
   # response, including random effects

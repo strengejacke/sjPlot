@@ -486,6 +486,7 @@ sjp.lm <- function(fit,
 }
 
 
+#' @importFrom stats predict
 sjp.lm.response.pred <- function(fit,
                                  geom.colors,
                                  show.se,
@@ -504,7 +505,7 @@ sjp.lm.response.pred <- function(fit,
   # ----------------------------
   # get predicted values for response
   # ----------------------------
-  pp <- predict(fit, type = "response")
+  pp <- stats::predict(fit, type = "response")
   # ----------------------------
   # get predicted probabilities for
   # response, including random effects
