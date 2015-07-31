@@ -67,8 +67,9 @@ Default is \code{"Intercept"}.}
 \item{showConfInt}{logical, if \code{TRUE} (default), the confidence intervall is also printed to the table. Use
 \code{FALSE} to omit the CI in the table.}
 
-\item{showStdBeta}{logical, if \code{TRUE}, the standardized beta-coefficients are also printed.
-Default is \code{FALSE}.}
+\item{showStdBeta}{indicates whether standardized beta-coefficients should
+also printed, and if yes, which type of standardization is done.
+See 'Details'.}
 
 \item{showStdError}{logical, if \code{TRUE}, the standard errors are also printed.
 Default is \code{FALSE}.}

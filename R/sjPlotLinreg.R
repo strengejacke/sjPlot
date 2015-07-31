@@ -15,15 +15,16 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #'                model assumptions for linear models or slopes and scatter plots for each single
 #'                coefficient. See \code{type} for details.
 #'
-#' @details \itemize{
-#'            \item If \code{type = "lm"} and fitted model only has one predictor, no forest plot is shown. Instead, a regression line with confidence interval (in blue) is plotted by default, and a loess-smoothed line without confidence interval (in red) can be added if argument \code{showLoess} is \code{TRUE}.
-#'            \item If \code{type = "pred"}, regression lines (slopes) with confidence intervals for each single predictor of the fitted model are plotted, i.e. all predictors of the fitted model are extracted and for each of them, the linear relationship is plotted against the response variable.
-#'            \item \code{type = "resid"} is similar to the \code{type = "pred"} option, however, each predictor is plotted against the residuals (instead of response).
-#'            \item If \code{type = "resp"}, the predicted values of the response for each observation is plotted, which mostly results in a single linear line.
-#'            \item \code{type = "eff"} computes the marginal effects for all predictors, using the \code{\link[effects]{allEffects}} function. I.e. for each predictor, the predicted values towards the response are plotted, with all remaining co-variates set to the mean. Due to possible different scales of predictors, a facted plot is printed (instead of plotting all lines in one plot). This function accepts following argument: \code{fit}, \code{title}, \code{geom.size}, \code{showCI} and \code{printPlot}.
-#'            \item \code{type = "poly"} plots the marginal effects of polynomial terms in \code{fit}, using the \code{\link[effects]{effect}} function, but only for a selected polynomial term, which is specified with \code{poly.term}. This function helps undertanding the effect of polynomial terms by plotting the curvilinear relationships of response and quadratic, cubic etc. terms. This function accepts following argument: \code{fit}, \code{poly.term}, \code{geom.colors}, \code{geom.size}, \code{axisTitle.x}, \code{showCI} and \code{printPlot}.
-#'            \item If \code{type = "ma"} (i.e. checking model assumptions), please note that only three arguments are relevant: \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other arguments are ignored.
-#'            \item If \code{type = "vif"}, the Variance Inflation Factors (check for multicollinearity) are plotted. As a rule of thumb, values below 5 are considered as good and indicate no multicollinearity, values between 5 and 10 may be tolerable. Values greater than 10 are not acceptable and indicate multicollinearity between model's predictors.
+#' @details \describe{
+#'            \item{\code{type = "lm"}}{if fitted model only has one predictor, no forest plot is shown. Instead, a regression line with confidence interval (in blue) is plotted by default, and a loess-smoothed line without confidence interval (in red) can be added if argument \code{showLoess} is \code{TRUE}.}
+#'            \item{\code{type = "std2"}}{plots standardized beta values, however, standardization follows \href{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}{Gelman's (2008)} suggestion, rescaling the estimates by dividing them by two standard deviations instead of just one. Resulting coefficients are then directly comparable for untransformed binary predictors. This standardization uses the \code{\link[arm]{standardize}}-function.}
+#'            \item{\code{type = "pred"}}{regression lines (slopes) with confidence intervals for each single predictor of the fitted model are plotted, i.e. all predictors of the fitted model are extracted and for each of them, the linear relationship is plotted against the response variable.}
+#'            \item{\code{type = "resid"}}{is similar to the \code{type = "pred"} option, however, each predictor is plotted against the residuals (instead of response).}
+#'            \item{\code{type = "resp"}}{the predicted values of the response for each observation is plotted, which mostly results in a single linear line.}
+#'            \item{\code{type = "eff"}}{computes the marginal effects for all predictors, using the \code{\link[effects]{allEffects}} function. I.e. for each predictor, the predicted values towards the response are plotted, with all remaining co-variates set to the mean. Due to possible different scales of predictors, a facted plot is printed (instead of plotting all lines in one plot). This function accepts following argument: \code{fit}, \code{title}, \code{geom.size}, \code{showCI} and \code{printPlot}.}
+#'            \item{\code{type = "poly"}}{plots the marginal effects of polynomial terms in \code{fit}, using the \code{\link[effects]{effect}} function, but only for a selected polynomial term, which is specified with \code{poly.term}. This function helps undertanding the effect of polynomial terms by plotting the curvilinear relationships of response and quadratic, cubic etc. terms. This function accepts following argument: \code{fit}, \code{poly.term}, \code{geom.colors}, \code{geom.size}, \code{axisTitle.x}, \code{showCI} and \code{printPlot}.}
+#'            \item{\code{type = "ma"}}{checks model assumptions. Please note that only three arguments are relevant: \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other arguments are ignored.}
+#'            \item{\code{type = "vif"}}{Variance Inflation Factors (check for multicollinearity) are plotted. As a rule of thumb, values below 5 are considered as good and indicate no multicollinearity, values between 5 and 10 may be tolerable. Values greater than 10 are not acceptable and indicate multicollinearity between model's predictors.}
 #'            }
 #'
 #' @param fit fitted linear regression model (\code{\link{lm}}- or \code{plm}-object).
@@ -31,6 +32,7 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #'          \describe{
 #'            \item{\code{"lm"}}{(default) for forest-plot like plot of estimates. If the fitted model only contains one predictor, intercept and slope are plotted.}
 #'            \item{\code{"std"}}{for forest-plot like plot of standardized beta values. If the fitted model only contains one predictor, intercept and slope are plotted.}
+#'            \item{\code{"std2"}}{for forest-plot like plot of standardized beta values, however, standardization is done by dividing by two sd (see 'Details'). If the fitted model only contains one predictor, intercept and slope are plotted.}
 #'            \item{\code{"pred"}}{to plot regression lines for each single predictor of the fitted model, against the response (linear relationship between each model term and response).}
 #'            \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals (linear relationship between each model term and residuals). May be used for model diagnostics (see \url{https://www.otexts.org/fpp/5/4}).}
 #'            \item{\code{"resp"}}{to plot predicted values for the response. Use \code{showCI} argument to plot standard errors as well.}
@@ -85,6 +87,8 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #'          
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lmer
+#'          
+#' @references Gelman A (2008) "Scaling regression inputs by dividing by two standard deviations." \emph{Statistics in Medicine 27: 2865–2873.} \url{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}
 #'          
 #' @return Depending on the \code{type}, in most cases (insisibily)
 #'           returns the ggplot-object with the complete plot (\code{plot})
@@ -327,67 +331,61 @@ sjp.lm <- function(fit,
   } else {
     pv <- stats::coef(summary(fit))[-1, 4]
   }
+  # -------------------------------------------------
   # for better readability, convert p-values to asterisks
   # with:
   # p < 0.001 = ***
   # p < 0.01 = **
   # p < 0.05 = *
+  # -------------------------------------------------
   # retrieve betas, leave out intercept ([-1])
-  bv <- stats::coef(fit)[-1]
-  # retrieve standardized betas
-  stdbv <- suppressWarnings(sjmisc::std_beta(fit, include.ci = TRUE))
+  # -------------------------------------------------
+  if (type == "std") {
+    # retrieve standardized betas
+    tmp <- suppressWarnings(sjmisc::std_beta(fit, include.ci = TRUE))
+  } else if (type == "std2") {
+    tmp <- sjmisc::std_beta(fit, include.ci = TRUE, type = "std2")
+  } else {
+    bv <- stats::coef(fit)[-1]
+    if (1 == length(bv)) {
+      # --------------------------------------------------------
+      # if we have only one independent variable, cbind does not
+      # work, since it duplicates the coefficients. so we simply
+      # concatenate here
+      # --------------------------------------------------------
+      tmp <- data.frame(
+        bv,
+        stats::confint(fit, level = 0.95)[-1, 1],
+        stats::confint(fit, level = 0.95)[-1, 2])
+    } else {
+      tmp <- data.frame(cbind(
+        bv,
+        stats::confint(fit, level = 0.95)[-1, ]))
+    }
+  }
+  colnames(tmp) <- c("beta", "low.ci", "hi.ci")
+  # -------------------------------------------------
   # init data column for p-values
-  ps <- sprintf("%.*f", labelDigits, bv)
-  pstdbv <- sprintf("%.*f", labelDigits, stdbv$beta)
+  # -------------------------------------------------
+  ps <- sprintf("%.*f", labelDigits, tmp$beta)
   # if no values should be shown, clear
   # vector now
-  if (!showValueLabels) {
-    ps <- rep("", length(ps))
-    pstdbv <- rep("", length(pstdbv))
-  }
+  if (!showValueLabels) ps <- rep("", length(ps))
   # --------------------------------------------------------
   # copy p-values into data column
   # --------------------------------------------------------
   if (showPValueLabels) {
     for (i in 1:length(pv)) {
       ps[i] <- sjmisc::trim(paste(ps[i], get_p_stars(pv[i])))
-      pstdbv[i] <- sjmisc::trim(paste(pstdbv[i], get_p_stars(pv[i])))
     }
   }
   # --------------------------------------------------------
-  # create new data.frame, since ggplot requires data.frame as argument
-  # The data frame contains betas, CI and p-values
-  # --------------------------------------------------------
-  # if we have only one independent variable, cbind does not
-  # work, since it duplicates the coefficients. so we simply
-  # concatenate here
-  if (type == "std") {
-    tmp <- stdbv
-    ps <- pstdbv
-  } else {
-    if (1 == length(stats::coef(fit)[-1])) {
-      tmp <- data.frame(
-        # Append beta coefficients, [-1] means that the first
-        # row (Intercept) will be removed / ignored
-        stats::coef(fit)[-1],
-        # append CI
-        stats::confint(fit, level = 0.95)[-1, 1],
-        stats::confint(fit, level = 0.95)[-1, 2])
-    } else {
-      tmp <- data.frame(cbind(
-        # Append beta coefficients, [-1] means that the first
-        # row (Intercept) will be removed / ignored
-        stats::coef(fit)[-1],
-        # append CI
-        stats::confint(fit, level = 0.95)[-1, ]))
-    }
-  }
   # append p-values and standardized beta coefficients
   # further more, we take the stand. beta as string, because in
   # case no values are drawn, we simply use an empty string.
   # finally, we need the p-values of the coefficients, because the value
   # labels may have different colours according to their significance level
-  betas <- cbind(tmp, c(ps), pv)
+  betas <- cbind(tmp, ps, pv)
   # --------------------------------------------------------
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
@@ -406,17 +404,12 @@ sjp.lm <- function(fit,
   # sort rows of data frame descending in order of (std.) beta values
   # --------------------------------------------------------
   if (sort.est) {
-    if (type == "lm") {
-      axisLabels.y <- axisLabels.y[order(bv)]
-      betas <- betas[order(bv), ]
-    } else if (type == "std") {
-      axisLabels.y <- axisLabels.y[order(stdbv$beta)]
-      betas <- betas[order(stdbv$beta), ]
-    }
+    axisLabels.y <- axisLabels.y[order(tmp$beta)]
+    betas <- betas[order(tmp$beta), ]
   }
   betas <- cbind(c(seq(1:nrow(betas))), betas)
   # give columns names
-  names(betas) <- c("xv", "Beta", "lower", "upper", "p", "pv")
+  colnames(betas) <- c("xv", "Beta", "lower", "upper", "p", "pv")
   betas$p <- as.character(betas$p)
   # --------------------------------------------------------
   # Calculate axis limits. The range is from lowest lower-CI

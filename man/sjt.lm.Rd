@@ -10,15 +10,15 @@ sjt.lm(..., file = NULL, labelPredictors = NULL,
   showHeaderStrings = FALSE, stringIntercept = "(Intercept)",
   stringObservations = "Observations", stringB = "B",
   stringSB = "std. Beta", stringCI = "CI", stringSE = "std. Error",
-  stringP = "p", showEst = TRUE, showConfInt = TRUE,
-  showStdBeta = FALSE, showStdError = FALSE, digits.est = 2,
-  digits.p = 3, digits.ci = 2, digits.se = 2, digits.sb = 2,
-  digits.summary = 3, pvaluesAsNumbers = TRUE, boldpvalues = TRUE,
-  separateConfColumn = TRUE, newLineConf = TRUE, group.pred = TRUE,
-  showAbbrHeadline = TRUE, showR2 = TRUE, showFStat = FALSE,
-  showAIC = FALSE, showAICc = FALSE, remove.estimates = NULL,
-  cellSpacing = 0.2, cellGroupIndent = 0.6, encoding = NULL, CSS = NULL,
-  useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
+  stringP = "p", showEst = TRUE, showConfInt = TRUE, showStdBeta = NULL,
+  showStdError = FALSE, digits.est = 2, digits.p = 3, digits.ci = 2,
+  digits.se = 2, digits.sb = 2, digits.summary = 3,
+  pvaluesAsNumbers = TRUE, boldpvalues = TRUE, separateConfColumn = TRUE,
+  newLineConf = TRUE, group.pred = TRUE, showAbbrHeadline = TRUE,
+  showR2 = TRUE, showFStat = FALSE, showAIC = FALSE, showAICc = FALSE,
+  remove.estimates = NULL, cellSpacing = 0.2, cellGroupIndent = 0.6,
+  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
+  remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{one or more fitted linear (mixed) models.}
@@ -68,8 +68,9 @@ Default is \code{"Intercept"}.}
 \item{showConfInt}{logical, if \code{TRUE} (default), the confidence intervall is also printed to the table. Use
 \code{FALSE} to omit the CI in the table.}
 
-\item{showStdBeta}{logical, if \code{TRUE}, the standardized beta-coefficients are also printed.
-Default is \code{FALSE}.}
+\item{showStdBeta}{indicates whether standardized beta-coefficients should
+also printed, and if yes, which type of standardization is done.
+See 'Details'.}
 
 \item{showStdError}{logical, if \code{TRUE}, the standard errors are also printed.
 Default is \code{FALSE}.}
@@ -170,7 +171,21 @@ Summarizes (multiple) fitted linear models (beta coefficients, std. beta values 
                e.g. when comparing different stepwise fitted models.
 }
 \details{
-See 'Details' in \code{\link{sjt.frq}}.
+Concerning the \code{showStdBeta} argument, \code{showStdBeta = "std"}
+           will print normal standardized estimates. \code{showStdBeta = "std2"},
+           however, standardization of estimates follows
+           \href{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}{Gelman's (2008)}
+           suggestion, rescaling the estimates by dividing them by two standard
+           deviations instead of just one. Resulting coefficients are then
+           directly comparable for untransformed binary predictors. This type
+           of standardization uses the \code{\link[arm]{standardize}}-function.
+           For backward compatibility reasons, \code{showStdBeta} also may be
+           a logical value; if \code{TRUE}, normal standardized estimates are
+           printed (same effect as \code{showStdBeta = "std"}). Use
+           \code{showStdBeta = NULL} (default) or \code{showStdBeta = FALSE},
+           if standardized estimats should not be printed.
+           \cr \cr
+           Furthermore, see 'Details' in \code{\link{sjt.frq}}.
 }
 \note{
 See 'Note' in \code{\link{sjt.frq}}.

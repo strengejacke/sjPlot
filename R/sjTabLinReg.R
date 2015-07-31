@@ -38,8 +38,9 @@ utils::globalVariables(c("starts_with"))
 #' @param showEst logical, if \code{TRUE} (default), the estimates are printed.
 #' @param showConfInt logical, if \code{TRUE} (default), the confidence intervall is also printed to the table. Use
 #'          \code{FALSE} to omit the CI in the table.
-#' @param showStdBeta logical, if \code{TRUE}, the standardized beta-coefficients are also printed.
-#'          Default is \code{FALSE}.
+#' @param showStdBeta indicates whether standardized beta-coefficients should 
+#'          also printed, and if yes, which type of standardization is done.
+#'          See 'Details'.
 #' @param showStdError logical, if \code{TRUE}, the standard errors are also printed.
 #'          Default is \code{FALSE}.
 #' @param digits.est amount of decimals for estimates
@@ -97,7 +98,21 @@ utils::globalVariables(c("starts_with"))
 #'
 #' @note See 'Note' in \code{\link{sjt.frq}}.
 #'  
-#' @details See 'Details' in \code{\link{sjt.frq}}.
+#' @details Concerning the \code{showStdBeta} argument, \code{showStdBeta = "std"}
+#'            will print normal standardized estimates. \code{showStdBeta = "std2"},
+#'            however, standardization of estimates follows 
+#'            \href{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}{Gelman's (2008)}
+#'            suggestion, rescaling the estimates by dividing them by two standard 
+#'            deviations instead of just one. Resulting coefficients are then 
+#'            directly comparable for untransformed binary predictors. This type 
+#'            of standardization uses the \code{\link[arm]{standardize}}-function.
+#'            For backward compatibility reasons, \code{showStdBeta} also may be 
+#'            a logical value; if \code{TRUE}, normal standardized estimates are 
+#'            printed (same effect as \code{showStdBeta = "std"}). Use 
+#'            \code{showStdBeta = NULL} (default) or \code{showStdBeta = FALSE},
+#'            if standardized estimats should not be printed.
+#'            \cr \cr
+#'            Furthermore, see 'Details' in \code{\link{sjt.frq}}.
 #' 
 #' @examples
 #' \dontrun{
@@ -333,7 +348,7 @@ sjt.lm <- function(...,
                    stringP = "p",
                    showEst = TRUE,
                    showConfInt = TRUE,
-                   showStdBeta = FALSE,
+                   showStdBeta = NULL,
                    showStdError = FALSE,
                    digits.est = 2,
                    digits.p = 3,
@@ -368,10 +383,17 @@ sjt.lm <- function(...,
   } else {
     p_zero <- "0"
   }
+  
   # -------------------------------------
-  # check argument
+  # check arguments
   # -------------------------------------
-  if (!showEst && !showStdBeta) {
+  # check default for standardized beta valies
+  if (is.null(showStdBeta) || showStdBeta == FALSE) 
+    showStdBetaValues <- FALSE
+  else
+    showStdBetaValues <- TRUE
+  # check if any estimates should be plotted?
+  if (!showEst && !showStdBetaValues) {
     warning("Either estimates ('showEst') or standardized betas ('showStdBeta') must be 'TRUE' to show table. Setting 'showEst' to 'TRUE'.", call. = F)
     showEst <- TRUE
   }
@@ -605,7 +627,10 @@ sjt.lm <- function(...,
       coef.fit <- lme4::fixef(fit)
     } else {
       confis <- stats::confint(fit)
-      sbvals <- suppressWarnings(sjmisc::std_beta(fit, include.ci = T))
+      if (!is.null(showStdBeta) && showStdBeta == "std2") 
+        sbvals <- suppressWarnings(sjmisc::std_beta(fit, include.ci = T, type = "std2"))
+      else
+        sbvals <- suppressWarnings(sjmisc::std_beta(fit, include.ci = T))
       coef.fit <- stats::coef(fit)
     }
     # -------------------------------------
@@ -757,8 +782,8 @@ sjt.lm <- function(...,
   if (!showEst && separateConfColumn) headerColSpanFactor <- -1
   if (pvaluesAsNumbers) headerColSpanFactor <- headerColSpanFactor + 1
   if (separateConfColumn) headerColSpanFactor <- headerColSpanFactor + 1
-  if (showStdBeta) headerColSpanFactor <- headerColSpanFactor + 1
-  if (showStdBeta && separateConfColumn) headerColSpanFactor <- headerColSpanFactor + 1
+  if (showStdBetaValues) headerColSpanFactor <- headerColSpanFactor + 1
+  if (showStdBetaValues && separateConfColumn) headerColSpanFactor <- headerColSpanFactor + 1
   if (showStdError) headerColSpanFactor <- headerColSpanFactor + 1
   # now that we know how many columns each model needs,
   # we multiply columns per model with count of models, so we have
@@ -860,7 +885,7 @@ sjt.lm <- function(...,
       # show std. error
       if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames modelcolumn3\">%s</td>", stringSE))
       # show std. beta
-      if (showStdBeta) {
+      if (showStdBetaValues) {
         # confidence interval in separate column
         if (separateConfColumn) {
           page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames modelcolumn4\">%s</td>", stringSB))
@@ -972,11 +997,11 @@ sjt.lm <- function(...,
                                                                    tcb_class, 
                                                                    joined.df[1, (i - 1) * 8 + 6]))
     # show std. beta
-    if (showStdBeta) page.content <- paste0(page.content, 
+    if (showStdBetaValues) page.content <- paste0(page.content, 
                                             sprintf("<td class=\"tdata centeralign %smodelcolumn4\">&nbsp;</td>", 
                                                     tcb_class))
     # show std. beta
-    if (showStdBeta && showConfInt && separateConfColumn) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign %smodelcolumn5\">&nbsp;</td>", 
+    if (showStdBetaValues && showConfInt && separateConfColumn) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign %smodelcolumn5\">&nbsp;</td>", 
                                                                                                        tcb_class))
     # show p-values as numbers in separate column
     if (pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign %smodelcolumn6\">%s</td>", 
@@ -1065,7 +1090,7 @@ sjt.lm <- function(...,
                                                sprintf("<td class=\"tdata centeralign modelcolumn3\">%s</td>", 
                                                        joined.df[i + 1, (j - 1) * 8 + 6]))
       # show std. beta
-      if (showStdBeta) {
+      if (showStdBetaValues) {
         # retieve lower and upper ci
         ci.lo <- joined.df[i + 1, (j - 1) * 8 + 8]
         ci.hi <- joined.df[i + 1, (j - 1) * 8 + 9]

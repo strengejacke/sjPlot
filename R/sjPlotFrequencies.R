@@ -464,7 +464,8 @@ sjp.frq <- function(varCount,
       }
     } else {
       # ... or the amount of max. answers per category
-      upper_lim <- max(pretty(table(varCount)))
+      # add 5% margin to upper limit
+      upper_lim <- max(pretty(table(varCount) * 1.05))
     }
   }
   # --------------------------------------------------------

@@ -760,10 +760,10 @@ sjp.grpfrq <- function(varCount,
     # else calculate upper y-axis-range depending
     # on the amount of cases...
     } else if (barPosition == "stack") {
-      upper_lim <- max(pretty(table(varCount)))
+      upper_lim <- max(pretty(table(varCount) * 1.05))
     } else {
       # ... or the amount of max. answers per category
-      upper_lim <- max(pretty(table(varCount, varGroup)))
+      upper_lim <- max(pretty(table(varCount, varGroup) * 1.05))
     }
   }
   # --------------------------------------------------------

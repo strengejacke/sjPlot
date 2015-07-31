@@ -1,9 +1,11 @@
-Version 1.8.2-5
+Version 1.8.2-6
 -----------------------------------------------------------------------------
 New functions:
 * "sjp.gpt" to plot grouped proportional tables.
 
 Changes to functions:
+* "sjp.lmm" can now also plot standardized estimates.
+* "sjp.lm", "sjp.lmm" and "sjt.lm" can now plot standardized estimates, where standardization is computed following Gelman's approach by dividing estimates by two standard deviations.
 * Added "type = 'coeff'" to "sjp.lmer" to plot joint random and fixed effects coefficients.
 * "type = 'poly'" in "sjp.lm" can now deal with fitted models that either use polynomials with "poly" or splines with "bs".
 * "sjt.df" gets a "big.mark" parameter to add thousands-separators if parameter "describe = TRUE".
@@ -11,6 +13,7 @@ Changes to functions:
 * "sjp.poly" now also returns cutpoints of loess curvature, to get maximum / minimum values of loess curvature.
 * "sjp.lm" with "type = 'ma'" now also returns all plots as list of ggplot-objects.
 * "sjp.setTheme" now allows for custom label and title colors when using pre-set-themes.
+* Improved automatic y-axis-limit detection in "sjp.frq" and "sjp.grpfrq".
 
 Bug fixes:
 * Fixed bug with computation of predicted probabilities in "sjp.glm" and "sjp.glmer", both only for "type = 'y.pc'".

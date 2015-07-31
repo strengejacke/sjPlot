@@ -33,7 +33,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 #'               family = binomial(link = "logit"))
 #' 
 #' # plot multiple models
-#' sjp.glmm(fitOR1, fitOR2, fitOR3, facet.grid = TRUE, fade.ns = FALSE)
+#' sjp.glmm(fitOR1, fitOR2, fitOR3, facet.grid = TRUE)
 #' 
 #' # plot multiple models with legend labels and point shapes instead of value  labels
 #' sjp.glmm(fitOR1, fitOR2, fitOR3,
@@ -42,6 +42,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 #'                                      "Agriculture"),
 #'          showValueLabels = FALSE,
 #'          showPValueLabels = FALSE,
+#'          fade.ns = TRUE,
 #'          usePShapes = TRUE)
 #' 
 #' # plot multiple models from nested lists argument
@@ -73,7 +74,7 @@ sjp.glmm <- function(...,
                      geom.size = 3,
                      geom.spacing = 0.4,
                      geom.colors = "Set1",
-                     fade.ns = TRUE,
+                     fade.ns = FALSE,
                      usePShapes = FALSE,
                      interceptLineType = 2,
                      interceptLineColor = "grey70",
@@ -194,30 +195,28 @@ sjp.glmm <- function(...,
       }
     }  
     # ----------------------------
-    # check if user defined labels have been supplied
-    # if not, use variable names from data frame
-    # ----------------------------
-    if (is.null(axisLabels.y)) {
-      axisLabels.y <- row.names(odds)
-      #remove intercept from labels
-      if (!showIntercept) axisLabels.y <- axisLabels.y[-1]
-    }
-    # ----------------------------
     # bind p-values to data frame
     # ----------------------------
     odds <- data.frame(odds, ps, palpha, pointshapes, fitcnt)
     # set column names
     colnames(odds) <- c("OR", "lower", "upper", "p", "pa", "shape", "grp")
     # set x-position
-    odds$xpos <- c(nrow(odds):1)
+    odds$xpos <- c(1:nrow(odds))
     odds$xpos <- as.factor(odds$xpos)
+    # add rownames
+    odds$term <- row.names(odds)
     #remove intercept from df
     if (!showIntercept) odds <- odds[-1, ]
     # add data frame to final data frame
     finalodds <- rbind(finalodds, odds)
   }
-  # convert to factor
-  finalodds$xpos <- as.factor(finalodds$xpos)
+  # ----------------------------
+  # check if user defined labels have been supplied
+  # if not, use variable names from data frame
+  # ----------------------------
+  if (is.null(axisLabels.y)) axisLabels.y <- unique(finalodds$term)
+  # reverse x-pos, convert to factor
+  finalodds$xpos <- sjmisc::rec(finalodds$xpos, "rev", as.fac = TRUE)
   finalodds$grp <- as.factor(finalodds$grp)
   # convert to character
   finalodds$shape <- as.character(finalodds$shape)

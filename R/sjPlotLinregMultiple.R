@@ -9,6 +9,12 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #'                
 #' @param ... one or more fitted lm-objects. May also be a \code{\link{list}}-object with 
 #'          fitted models, instead of separating each model with comma. See 'Examples'.
+#' @param type type of plot. Use one of following:
+#'          \describe{
+#'            \item{\code{"lm"}}{(default) for forest-plot like plot of estimates.}
+#'            \item{\code{"std"}}{for forest-plot like plot of standardized beta values.}
+#'            \item{\code{"std2"}}{for forest-plot like plot of standardized beta values, however, standardization is done by rescaling estimates by dividing them by two sd (see 'Details' in \code{\link{sjp.lm}}).}
+#'          }
 #' @param title diagram's title as string.
 #' @param legendDepVarTitle character vector used for the legend title.
 #'          Default is \code{"Dependent Variables"}.
@@ -58,7 +64,8 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #' # plot multiple models
 #' sjp.lmm(fit1, fit2, fit3, facet.grid = TRUE)
 #' 
-#' # plot multiple models with legend labels and point shapes instead of value labels
+#' # plot multiple models with legend labels and 
+#' # point shapes instead of value labels
 #' sjp.lmm(fit1, fit2, fit3,
 #'          axisLabels.y = c("Carer's Age",
 #'                           "Hours of Care", 
@@ -72,7 +79,9 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #'          fade.ns = TRUE,
 #'          usePShapes = TRUE)
 #' 
+#' # ------------------------------
 #' # plot multiple models from nested lists argument
+#' # ------------------------------
 #' all.models <- list()
 #' all.models[[1]] <- fit1
 #' all.models[[2]] <- fit2
@@ -80,11 +89,23 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #' 
 #' sjp.lmm(all.models)
 #' 
+#' # ------------------------------
+#' # plot multiple models with different
+#' # predictors (stepwise inclusion),
+#' # standardi estimates
+#' # ------------------------------
+#' fit1 <- lm(mpg ~ wt + cyl + disp + gear, data = mtcars)
+#' fit2 <- update(fit1, . ~ . + hp)
+#' fit3 <- update(fit2, . ~ . + am)
+#' 
+#' sjp.lmm(fit1, fit2, fit3, type = "std2")
+#' 
 #' @import ggplot2
 #' @import sjmisc
 #' @importFrom stats coef confint
 #' @export
 sjp.lmm <- function(...,
+                    type = "lm",
                     title = NULL,
                     labelDependentVariables = NULL,
                     legendDepVarTitle = "Dependent Variables",
@@ -163,7 +184,26 @@ sjp.lmm <- function(...,
     # ----------------------------
     # retrieve beta's (lm)
     # ----------------------------
-    betas <- data.frame(stats::coef(fit), stats::confint(fit))
+    if (type == "std") {
+      # retrieve standardized betas
+      betas <- data.frame(rbind(data.frame(beta = 0, ci.low = 0, ci.hi = 0),
+                                suppressWarnings(sjmisc::std_beta(fit, include.ci = TRUE))))
+      # no intercept for std
+      showIntercept <- FALSE
+    } else if (type == "std2") {
+      # retrieve standardized betas
+      betas <- data.frame(rbind(data.frame(beta = 0, ci.low = 0, ci.hi = 0),
+                                sjmisc::std_beta(fit, include.ci = TRUE, type = "std2")))
+      # no intercept for std
+      showIntercept <- FALSE
+    } else {
+      # copy estimates to data frame
+      betas <- data.frame(stats::coef(fit), stats::confint(fit))
+    }
+    # ----------------------------
+    # give proper column names
+    # ----------------------------
+    colnames(betas) <- c("beta", "ci.low", "ci.hi")
     # ----------------------------
     # print p-values in bar charts
     # ----------------------------
@@ -174,7 +214,7 @@ sjp.lmm <- function(...,
     # p < 0.001 = ***
     # p < 0.01 = **
     # p < 0.05 = *
-    ov <- stats::coef(fit)
+    ov <- betas[, 1]
     # "ps" holds the p-value of the coefficients, including asterisks, as
     # string vector
     ps <- NULL
@@ -214,36 +254,33 @@ sjp.lmm <- function(...,
       }
     }  
     # ----------------------------
-    # check if user defined labels have been supplied
-    # if not, use variable names from data frame
-    # ----------------------------
-    if (is.null(axisLabels.y)) {
-      axisLabels.y <- row.names(betas)
-      #remove intercept from labels
-      if (!showIntercept) axisLabels.y <- axisLabels.y[-1]
-    }
-    # ----------------------------
     # bind p-values to data frame
     # ----------------------------
     betas <- data.frame(betas, ps, palpha, pointshapes, fitcnt)
     # set column names
     colnames(betas) <- c("beta", "lower", "upper", "p", "pa", "shape", "grp")
     # set x-position
-    betas$xpos <- c(nrow(betas):1)
+    betas$xpos <- c(1:nrow(betas))
     betas$xpos <- as.factor(betas$xpos)
     #remove intercept from df
     if (!showIntercept) betas <- betas[-1, ]
+    # add rownames
+    betas$term <- row.names(betas)
     # add data frame to final data frame
     finalbetas <- rbind(finalbetas, betas)
   }
-  # convert to factor
-  finalbetas$xpos <- as.factor(finalbetas$xpos)
+  # ----------------------------
+  # check if user defined labels have been supplied
+  # if not, use variable names from data frame
+  # ----------------------------
+  if (is.null(axisLabels.y)) axisLabels.y <- unique(finalbetas$term)
+  # reverse x-pos, convert to factor
+  finalbetas$xpos <- sjmisc::rec(finalbetas$xpos, "rev", as.fac = TRUE)
+  # reverse labels as well
+  axisLabels.y <- rev(axisLabels.y)
   finalbetas$grp <- as.factor(finalbetas$grp)
   # convert to character
   finalbetas$shape <- as.character(finalbetas$shape)
-  # reverse axislabel order, so predictors appear from top to bottom
-  # as they appear in the console when typing "summary(fit)"
-  axisLabels.y <- rev(axisLabels.y)
   # --------------------------------------------------------
   # Calculate axis limits. The range is from lowest lower-CI
   # to highest upper-CI, or a user defined range

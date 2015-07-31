@@ -4,12 +4,12 @@
 \alias{sjp.lmm}
 \title{Plot beta coefficients of multiple fitted lm's}
 \usage{
-sjp.lmm(..., title = NULL, labelDependentVariables = NULL,
+sjp.lmm(..., type = "lm", title = NULL, labelDependentVariables = NULL,
   legendDepVarTitle = "Dependent Variables", legendPValTitle = "p-level",
   stringModel = "Model", axisLabels.y = NULL, axisTitle.x = "Estimates",
   axisLimits = NULL, breakTitleAt = 50, breakLabelsAt = 25,
   breakLegendTitleAt = 20, gridBreaksAt = NULL, geom.size = 3,
-  geom.spacing = 0.4, geom.colors = "Set1", fade.ns = TRUE,
+  geom.spacing = 0.4, geom.colors = "Set1", fade.ns = FALSE,
   usePShapes = FALSE, interceptLineType = 2,
   interceptLineColor = "grey70", coord.flip = TRUE, showIntercept = FALSE,
   showAxisLabels.y = TRUE, showValueLabels = TRUE, labelDigits = 2,
@@ -19,6 +19,13 @@ sjp.lmm(..., title = NULL, labelDependentVariables = NULL,
 \arguments{
 \item{...}{one or more fitted lm-objects. May also be a \code{\link{list}}-object with
 fitted models, instead of separating each model with comma. See 'Examples'.}
+
+\item{type}{type of plot. Use one of following:
+\describe{
+  \item{\code{"lm"}}{(default) for forest-plot like plot of estimates.}
+  \item{\code{"std"}}{for forest-plot like plot of standardized beta values.}
+  \item{\code{"std2"}}{for forest-plot like plot of standardized beta values, however, standardization is done by rescaling estimates by dividing them by two sd (see 'Details' in \code{\link{sjp.lm}}).}
+}}
 
 \item{title}{diagram's title as string.}
 
@@ -122,9 +129,10 @@ fit2 <- lm(neg_c_7 ~ c160age + c12hour + c161sex + c172code, data = efc)
 fit3 <- lm(tot_sc_e ~ c160age + c12hour + c161sex + c172code, data = efc)
 
 # plot multiple models
-sjp.lmm(fit1, fit2, fit3, facet.grid = TRUE, fade.ns = FALSE)
+sjp.lmm(fit1, fit2, fit3, facet.grid = TRUE)
 
-# plot multiple models with legend labels and point shapes instead of value  labels
+# plot multiple models with legend labels and
+# point shapes instead of value labels
 sjp.lmm(fit1, fit2, fit3,
          axisLabels.y = c("Carer's Age",
                           "Hours of Care",
@@ -135,14 +143,28 @@ sjp.lmm(fit1, fit2, fit3,
                                      "Services used"),
          showValueLabels = FALSE,
          showPValueLabels = FALSE,
+         fade.ns = TRUE,
          usePShapes = TRUE)
 
+# ------------------------------
 # plot multiple models from nested lists argument
+# ------------------------------
 all.models <- list()
 all.models[[1]] <- fit1
 all.models[[2]] <- fit2
 all.models[[3]] <- fit3
 
 sjp.lmm(all.models)
+
+# ------------------------------
+# plot multiple models with different
+# predictors (stepwise inclusion),
+# standardi estimates
+# ------------------------------
+fit1 <- lm(mpg ~ wt + cyl + disp + gear, data = mtcars)
+fit2 <- update(fit1, . ~ . + hp)
+fit3 <- update(fit2, . ~ . + am)
+
+sjp.lmm(fit1, fit2, fit3, type = "std2")
 }
 
