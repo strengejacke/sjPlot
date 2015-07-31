@@ -22,12 +22,11 @@ utils::globalVariables(c("p.level"))
 #'          without shaded area is plotted.
 #' @param xmax numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
 #'          ranges to a value where a p-level of 0.00001 is reached.
-#' @param geom.colors User defined color palette for shaded areas. If specified, must either be vector with color values 
-#'          of same length as groups defined in \code{x}, or a specific color palette code (see below).
+#' @param geom.colors User defined color palette for shaded areas.
 #'          \itemize{
 #'            \item If not specified, the qualitative \code{"Paired"} color brewer palette will be used.
 #'            \item If \code{"gs"}, a greyscale will be used.
-#'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
+#'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all()}} from the \pkg{RColorBrewer}-package to view all available palette names.
 #'            \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
 #'          }
 #' @param geom.alpha specified the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.
@@ -72,7 +71,7 @@ dist_norm <- function(norm = NULL,
     else {
       n.max <- norm
       while (stats::pnorm(n.max, mean, sd, lower.tail = F) > 0.00001) {
-        n.max <- n.max +1
+        n.max <- n.max + 1
       }
     }
   }
@@ -90,15 +89,15 @@ dist_norm <- function(norm = NULL,
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated x-value...
-    sub.df <- mydat[mydat$x > stats::qnorm(p, mean, sd, lower.tail=F), ]
+    sub.df <- mydat[mydat$x > stats::qnorm(p, mean, sd, lower.tail = F), ]
   }
   else if (!is.null(norm)) {
     # resp. for p-value...
     sub.df <- mydat[mydat$x > norm, ]
   }
   if (!is.null(sub.df)) {
-    sub.df$p.level  <- ifelse(sub.df$x > stats::qnorm(0.05, mean, sd, lower.tail=F), "sig", "non-sig")
-    cs <- stats::qnorm(0.05, mean, sd, lower.tail=F)
+    sub.df$p.level  <- ifelse(sub.df$x > stats::qnorm(0.05, mean, sd, lower.tail = F), "sig", "non-sig")
+    cs <- stats::qnorm(0.05, mean, sd, lower.tail = F)
     gp <- gp +
       geom_ribbon(data = sub.df,
                   aes(ymax = y, fill = p.level),
@@ -150,15 +149,8 @@ dist_norm <- function(norm = NULL,
 #'          without shaded area is plotted.
 #' @param xmax numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
 #'          ranges to a value where a p-level of 0.00001 is reached.
-#' @param geom.colors User defined color palette for shaded areas. If specified, must either be vector with color values 
-#'          of same length as groups defined in \code{x}, or a specific color palette code (see below).
-#'          \itemize{
-#'            \item If not specified, the qualitative \code{"Paired"} color brewer palette will be used.
-#'            \item If \code{"gs"}, a greyscale will be used.
-#'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
-#'            \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
-#'          }
-#' @param geom.alpha specified the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.
+#' 
+#' @inheritParams dist_norm
 #' 
 #' @examples
 #' # a simple chi-squared distribution
@@ -195,7 +187,7 @@ dist_chisq <- function(chi2 = NULL,
   # --------------------------------------
   if (is.null(deg.f)) {
     warning("Degrees of freedom ('deg.f') needs to be specified.", call. = F)
-    return (invisible (NULL))
+    return(invisible(NULL))
   }
   # --------------------------------------
   # determine maximum range of x-axis. if we have
@@ -215,7 +207,7 @@ dist_chisq <- function(chi2 = NULL,
     else {
       chisq.max <- chi2
       while (stats::pchisq(chisq.max, deg.f, lower.tail = F) > 0.00001) {
-        chisq.max <- chisq.max +1
+        chisq.max <- chisq.max + 1
       }
     }
   }
@@ -233,22 +225,22 @@ dist_chisq <- function(chi2 = NULL,
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated chi2-value...
-    sub.df <- mydat[mydat$x > stats::qchisq(p, deg.f, lower.tail=F), ]
+    sub.df <- mydat[mydat$x > stats::qchisq(p, deg.f, lower.tail = F), ]
   }
   else if (!is.null(chi2)) {
     # resp. for p-value...
     sub.df <- mydat[mydat$x > chi2, ]
   }
   if (!is.null(sub.df)) {
-    sub.df$p.level  <- ifelse(sub.df$x > stats::qchisq(0.05, deg.f, lower.tail=F), "sig", "non-sig")
-    cs <- stats::qchisq(0.05, deg.f, lower.tail=F)
+    sub.df$p.level  <- ifelse(sub.df$x > stats::qchisq(0.05, deg.f, lower.tail = F), "sig", "non-sig")
+    cs <- stats::qchisq(0.05, deg.f, lower.tail = F)
     gp <- gp +
       geom_ribbon(data = sub.df,
                   aes(ymax = y, fill = p.level),
                   ymin = 0,
                   alpha = geom.alpha) +
       annotate("text", 
-               label = as.character(as.expression(substitute(chi^2 == c2, list(c2=sprintf("%.2f", cs))))), 
+               label = as.character(as.expression(substitute(chi^2 == c2, list(c2 = sprintf("%.2f", cs))))), 
                parse = TRUE, 
                x = cs, 
                y = 0,
@@ -296,15 +288,8 @@ dist_chisq <- function(chi2 = NULL,
 #'          without shaded area is plotted.
 #' @param xmax numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
 #'          ranges to a value where a p-level of 0.00001 is reached.
-#' @param geom.colors User defined color palette for shaded areas. If specified, must either be vector with color values 
-#'          of same length as groups defined in \code{x}, or a specific color palette code (see below).
-#'          \itemize{
-#'            \item If not specified, the qualitative \code{"Paired"} color brewer palette will be used.
-#'            \item If \code{"gs"}, a greyscale will be used.
-#'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
-#'            \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
-#'          }
-#' @param geom.alpha specified the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.
+#' 
+#' @inheritParams dist_norm
 #' 
 #' @examples
 #' # a simple F distribution for 6 and 45 degrees of freedom
@@ -334,7 +319,7 @@ dist_f <- function(f = NULL,
   # --------------------------------------
   if (is.null(deg.f1) || is.null(deg.f2)) {
     warning("Both degrees of freedom ('deg.f1' and 'deg.f2') needs to be specified.", call. = F)
-    return (invisible (NULL))
+    return(invisible(NULL))
   }
   # --------------------------------------
   # determine maximum range of x-axis. if we have
@@ -352,7 +337,7 @@ dist_f <- function(f = NULL,
     # --------------------------------------
     } else {
       f.max <- f
-      while (stats::pf(f.max, deg.f1, deg.f2, lower.tail = F) > 0.00001) f.max <- f.max +1
+      while (stats::pf(f.max, deg.f1, deg.f2, lower.tail = F) > 0.00001) f.max <- f.max + 1
     }
   } else {
     f.max <- xmax
@@ -428,15 +413,8 @@ dist_f <- function(f = NULL,
 #'          without shaded area is plotted.
 #' @param xmax numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
 #'          ranges to a value where a p-level of 0.00001 is reached.
-#' @param geom.colors User defined color palette for shaded areas. If specified, must either be vector with color values 
-#'          of same length as groups defined in \code{x}, or a specific color palette code (see below).
-#'          \itemize{
-#'            \item If not specified, the qualitative \code{"Paired"} color brewer palette will be used.
-#'            \item If \code{"gs"}, a greyscale will be used.
-#'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
-#'            \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
-#'          }
-#' @param geom.alpha specified the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.
+#' 
+#' @inheritParams dist_norm
 #' 
 #' @examples
 #' # a simple t-distribution
@@ -466,7 +444,7 @@ dist_t <- function(t = NULL,
   # --------------------------------------
   if (is.null(deg.f)) {
     warning("Degrees of freedom ('deg.f') needs to be specified.", call. = F)
-    return (invisible (NULL))
+    return(invisible(NULL))
   }
   # --------------------------------------
   # determine maximum range of x-axis. if we have
@@ -486,7 +464,7 @@ dist_t <- function(t = NULL,
     else {
       t.max <- t
       while (stats::pt(t.max, deg.f, lower.tail = F) > 0.00001) {
-        t.max <- t.max +1
+        t.max <- t.max + 1
       }
     }
   }
@@ -504,15 +482,15 @@ dist_t <- function(t = NULL,
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated t-value...
-    sub.df <- mydat[mydat$x > stats::qt(p, deg.f, lower.tail=F), ]
+    sub.df <- mydat[mydat$x > stats::qt(p, deg.f, lower.tail = F), ]
   }
   else if (!is.null(t)) {
     # resp. for p-value...
     sub.df <- mydat[mydat$x > t, ]
   }
   if (!is.null(sub.df)) {
-    sub.df$p.level  <- ifelse(sub.df$x > stats::qt(0.05, deg.f, lower.tail=F), "sig", "non-sig")
-    tv <- stats::qt(0.05, deg.f, lower.tail=F)
+    sub.df$p.level  <- ifelse(sub.df$x > stats::qt(0.05, deg.f, lower.tail = F), "sig", "non-sig")
+    tv <- stats::qt(0.05, deg.f, lower.tail = F)
     gp <- gp +
       geom_ribbon(data = sub.df,
                   aes(ymax = y, fill = p.level),

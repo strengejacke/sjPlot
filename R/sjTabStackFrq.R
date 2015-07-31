@@ -41,11 +41,8 @@
 #' @param showNA logical, if \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.
 #' @param labelNA The label for the missing column/row.
 #' @param showSkew logical, if \code{TRUE}, an additional column with each item's skewness is printed.
-#'          The skewness is retrieved from the \code{\link[psych]{describe}} function of the \code{psych}
-#'          package.
-#' @param showKurtosis logical, if \code{TRUE}, an additional column with each item's kurtosis is printed.
-#'          The kurtosis is retrieved from the \code{\link[psych]{describe}} function of the \code{psych}
-#'          package.
+#'          The skewness is retrieved from the \code{\link[psych]{describe}}-function 
+#'          of the \pkg{psych}-package.
 #' @param digits.stats amount of digits for rounding the skewness and kurtosis valuess.
 #'          Default is 2, i.e. skewness and kurtosis values have 2 digits after decimal point.
 #' @param skewString string, which is used as header for the skew column (see \code{showSkew})).
@@ -55,6 +52,7 @@
 #'          
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.df
+#' @inheritParams sjt.itemanalysis
 #'          
 #' @return Invisibly returns
 #'          \itemize{

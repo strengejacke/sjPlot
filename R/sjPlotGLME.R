@@ -10,7 +10,7 @@ utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "
 #' @description By default, this function plots odds ratios (exponentiated coefficients) 
 #'                with confidence intervalls of either fixed effects or random effects of 
 #'                generalized linear mixed effects models (that have been fitted with the 
-#'                \code{\link[lme4]{glmer}}-function of the \code{lme4} package).
+#'                \code{\link[lme4]{glmer}}-function of the \pkg{lme4}-package).
 #'                Furthermore, this function also plots predicted probabilities or 
 #'                diagnostic plots.
 #'
@@ -244,7 +244,7 @@ sjp.glmer <- function(fit,
 #' @description By default, this function plots estimates (coefficients) with confidence
 #'                intervalls of either fixed effects or random effects of linear mixed 
 #'                effects models (that have been fitted with the \code{\link[lme4]{lmer}}-function
-#'                of the \code{lme4} package). Furhermore, this function also plot 
+#'                of the \pkg{lme4}-package). Furhermore, this function also plot 
 #'                predicted values or diagnostic plots.
 #'
 #' @param fit a fitted model as returned by the \code{\link[lme4]{lmer}}-function.

@@ -23,14 +23,13 @@ starts is plotted. If both \code{t} and \code{p} are not specified, a distributi
 without shaded area is plotted.}
 
 \item{xmax}{numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
-ranges to a value where a p-level of 0.00001 is reached.}
+         ranges to a value where a p-level of 0.00001 is reached.}
 
-\item{geom.colors}{User defined color palette for shaded areas. If specified, must either be vector with color values
-of same length as groups defined in \code{x}, or a specific color palette code (see below).
+\item{geom.colors}{User defined color palette for shaded areas.
 \itemize{
   \item If not specified, the qualitative \code{"Paired"} color brewer palette will be used.
   \item If \code{"gs"}, a greyscale will be used.
-  \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{display.brewer.all()} from the \code{RColorBrewer} package to view all available palette names.
+  \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all()}} from the \pkg{RColorBrewer}-package to view all available palette names.
   \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
 }}
 

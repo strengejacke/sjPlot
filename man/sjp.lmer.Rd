@@ -149,7 +149,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 By default, this function plots estimates (coefficients) with confidence
                intervalls of either fixed effects or random effects of linear mixed
                effects models (that have been fitted with the \code{\link[lme4]{lmer}}-function
-               of the \code{lme4} package). Furhermore, this function also plot
+               of the \pkg{lme4}-package). Furhermore, this function also plot
                predicted values or diagnostic plots.
 }
 \examples{

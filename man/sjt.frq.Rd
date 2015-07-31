@@ -92,26 +92,28 @@ counts, zero-values would be skipped automatically).}
 standard deviation is shown.}
 
 \item{showSkew}{If \code{TRUE}, the variable's skewness is added to the summary.
-The skewness is retrieved from the \code{\link[psych]{describe}} function of the \code{psych}
-package.}
+The skewness is retrieved from the \code{\link[psych]{describe}}-function
+of the \pkg{psych}-package.}
 
 \item{showKurtosis}{If \code{TRUE}, the variable's kurtosis is added to the summary.
-The kurtosis is retrieved from the \code{\link[psych]{describe}} function of the \code{psych}
-package.}
+The kurtosis is retrieved from the \code{\link[psych]{describe}}-function
+of the \pkg{psych}-package.}
 
-\item{skewString}{A character string, which is used as header for the skew column (see \code{showSkew})).
-Default is lower case Greek gamma.}
+\item{skewString}{A character string, which is used as header for the skew
+column (see \code{showSkew})). Default is lower case Greek gamma.}
 
-\item{kurtosisString}{A character string, which is used as header for the kurtosis column (see \code{showKurtosis})).
-Default is lower case Greek omega.}
+\item{kurtosisString}{A character string, which is used as header for the
+kurtosis column (see \code{showKurtosis})). Default is lower case
+Greek omega.}
 
 \item{digits}{amount of digits used for table values. Default is 2.}
 
 \item{removeStringVectors}{If \code{TRUE} (default), character vectors / string variables will be removed from
 \code{data} before frequency tables are computed.}
 
-\item{autoGroupStrings}{if \code{TRUE} (default), string values in character vectors (string variables) are automatically
-grouped based on their similarity. The similarity is estimated with the \code{stringdist} package.
+\item{autoGroupStrings}{if \code{TRUE} (default), string values in character
+vectors (string variables) are automatically grouped based on their
+similarity. The similarity is estimated with the \pkg{stringdist}-package.
 You can specify a distance-measure via \code{maxStringDist} argument. This argument only
 applies if \code{removeStringVectors} is \code{FALSE}.}
 

@@ -63,20 +63,22 @@
 #' @param showSummary If \code{TRUE} (default), a summary row with total and valid N as well as mean and
 #'          standard deviation is shown.
 #' @param showSkew If \code{TRUE}, the variable's skewness is added to the summary.
-#'          The skewness is retrieved from the \code{\link[psych]{describe}} function of the \code{psych}
-#'          package.
+#'          The skewness is retrieved from the \code{\link[psych]{describe}}-function 
+#'          of the \pkg{psych}-package.
 #' @param showKurtosis If \code{TRUE}, the variable's kurtosis is added to the summary.
-#'          The kurtosis is retrieved from the \code{\link[psych]{describe}} function of the \code{psych}
-#'          package.
-#' @param skewString A character string, which is used as header for the skew column (see \code{showSkew})).
-#'          Default is lower case Greek gamma.
-#' @param kurtosisString A character string, which is used as header for the kurtosis column (see \code{showKurtosis})).
-#'          Default is lower case Greek omega.
+#'          The kurtosis is retrieved from the \code{\link[psych]{describe}}-function 
+#'          of the \pkg{psych}-package.
+#' @param skewString A character string, which is used as header for the skew 
+#'          column (see \code{showSkew})). Default is lower case Greek gamma.
+#' @param kurtosisString A character string, which is used as header for the 
+#'          kurtosis column (see \code{showKurtosis})). Default is lower case 
+#'          Greek omega.
 #' @param digits amount of digits used for table values. Default is 2.
 #' @param removeStringVectors If \code{TRUE} (default), character vectors / string variables will be removed from
 #'          \code{data} before frequency tables are computed.
-#' @param autoGroupStrings if \code{TRUE} (default), string values in character vectors (string variables) are automatically
-#'          grouped based on their similarity. The similarity is estimated with the \code{stringdist} package.
+#' @param autoGroupStrings if \code{TRUE} (default), string values in character 
+#'          vectors (string variables) are automatically grouped based on their 
+#'          similarity. The similarity is estimated with the \pkg{stringdist}-package.
 #'          You can specify a distance-measure via \code{maxStringDist} argument. This argument only
 #'          applies if \code{removeStringVectors} is \code{FALSE}.
 #' @param maxStringDist the allowed distance of string values in a character vector, which indicates

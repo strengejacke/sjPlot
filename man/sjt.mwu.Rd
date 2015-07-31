@@ -54,7 +54,7 @@ Invisibly returns a \code{\link{list}} with
 \description{
 Shows the results of a Mann-Whitney-U-test as HTML table. The results
                from the Mann-Whitney-test are obtained by the \code{\link[sjmisc]{mwu}}
-               function from the \code{sjmisc} package.
+               function from the \pkg{sjmisc}-package.
 }
 \details{
 See 'Details' in \code{\link{sjt.frq}}.

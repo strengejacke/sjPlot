@@ -143,12 +143,12 @@
 #'              Hence, this plot type may be used especially for \emph{binary or dummy coded} 
 #'              moderator values (see also \href{http://jee3.web.rice.edu/interaction-overconfidence.pdf}{Esarey and Summer 2015}).
 #'              This type \emph{does not} show the overall effect of interactions on the result of Y. Use 
-#'              \code{type = "eff"} for effect displays similar to the \code{\link[effects]{effect}} function 
-#'              from the effects-package.
+#'              \code{type = "eff"} for effect displays similar to the \code{\link[effects]{effect}}-function 
+#'              from the \pkg{effects}-package.
 #'            }
-#'            \item{\code{type = "eff"}}{plots the overall effects of the interaction, with all remaining
+#'            \item{\code{type = "eff"}}{plots the overall effects (marginal effects) of the interaction, with all remaining
 #'              covariates set to the mean. Effects are calculated using the \code{\link[effects]{effect}}-
-#'              function from the \code{effects}-package. \cr \cr
+#'              function from the \pkg{effects}-package. \cr \cr
 #'              Following arguments \emph{do not} apply to this function: \code{diff}, \code{axisLabels.x}
 #'              \code{interceptLineColor}, \code{estLineColor}, \code{lineLabelSize}, \code{lineLabelColor} 
 #'              and \code{lineLabelString}.

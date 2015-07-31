@@ -773,9 +773,8 @@ sjc.elbow <- function(data, steps = 15, showDiff = FALSE) {
 #' @name sjc.kgap
 #' @description An implementation of the gap statistic algorithm from Tibshirani, Walther, and Hastie's
 #'                "Estimating the number of clusters in a data set via the gap statistic".
-#'                This function calls the \code{clusGap} function of the
-#'                \href{http://cran.r-project.org/package=cluster}{cluster-package}
-#'                to calculate the data for the plot.
+#'                This function calls the \code{\link[cluster]{clusGap}}-function of the
+#'                \pkg{cluster}-package to calculate the data for the plot.
 #'                
 #' @seealso \code{\link{sjc.elbow}}
 #' 
@@ -791,12 +790,12 @@ sjc.elbow <- function(data, steps = 15, showDiff = FALSE) {
 #'          k^, is computed from the gap statistics (and their standard deviations), 
 #'          or more generally how the location k^ of the maximum of f[k] should be 
 #'          determined. Default is \code{"Tibs2001SEmax"}. Possible value are:
-#'          \itemize{
-#'            \item \code{"globalmax"} simply corresponds to the global maximum, i.e., is which.max(f).
-#'            \item \code{"firstmax"} gives the location of the first local maximum.
-#'            \item \code{"Tibs2001SEmax"} uses the criterion, Tibshirani et al(2001) proposed: "the smallest k such that f(k) >= f(k+1) - s_{k+1}". Note that this chooses k = 1 when all standard deviations are larger than the differences f(k+1) - f(k).
-#'            \item \code{"firstSEmax"} is the location of the first f() value which is not larger than the first local maximum minus SE.factor * SE.f[], i.e, within an "f S.E." range of that maximum (see also SE.factor).
-#'            \item \code{"globalSEmax"} (used in Dudoit and Fridlyand (2002), supposedly following Tibshirani's proposition) is the location of the first f() value which is not larger than the global maximum minus SE.factor * SE.f[], i.e, within an "f S.E." range of that maximum (see also SE.factor).
+#'          \describe{
+#'            \item{\code{"globalmax"}}{simply corresponds to the global maximum, i.e., is which.max(f).}
+#'            \item{\code{"firstmax"}}{gives the location of the first local maximum.}
+#'            \item{\code{"Tibs2001SEmax"}}{uses the criterion, Tibshirani et al(2001) proposed: "the smallest k such that f(k) >= f(k+1) - s_{k+1}". Note that this chooses k = 1 when all standard deviations are larger than the differences f(k+1) - f(k).}
+#'            \item{\code{"firstSEmax"}}{is the location of the first f() value which is not larger than the first local maximum minus SE.factor * SE.f[], i.e, within an "f S.E." range of that maximum (see also SE.factor).}
+#'            \item{\code{"globalSEmax"}}{(used in Dudoit and Fridlyand (2002), supposedly following Tibshirani's proposition) is the location of the first f() value which is not larger than the global maximum minus SE.factor * SE.f[], i.e, within an "f S.E." range of that maximum (see also SE.factor).}
 #'            }
 #' @param plotResults logical, if \code{TRUE} (default), a graph visualiting the gap statistic will
 #'          be plotted. Use \code{FALSE} to omit the plot.
