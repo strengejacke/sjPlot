@@ -52,7 +52,7 @@ Default is \code{"Intercept"}.}
 \item{stringObservations}{string constant used in the summary row for the count of observation
 (cases). Default is \code{"Observations"}.}
 
-\item{stringB}{string used for the column heading of beta coefficients. Default is \code{"B"}.}
+\item{stringB}{string used for the column heading of estimates. Default is \code{"B"}.}
 
 \item{stringSB}{string used for the column heading of standardized beta coefficients. Default is \code{"std. Beta"}.}
 
@@ -99,7 +99,7 @@ between B and CI values. If \code{FALSE}, CI values are printed in the same
 line as B values.}
 
 \item{showAbbrHeadline}{logical, if \code{TRUE} (default), the table data columns have a headline with
-abbreviations for beta- and std. beta-values, confidence interval and p-values.}
+abbreviations for estimates and std. beta-values, confidence interval and p-values.}
 
 \item{showICC}{logical, if \code{TRUE}, the intra-class-correlation for each
 model is printed in the model summary.}
@@ -155,7 +155,7 @@ Invisibly returns
 }
 \description{
 Summarizes (multiple) fitted linear mixed effects models
-               (beta coefficients, std. beta values etc.)  as HTML table,
+               (estimates, std. beta values etc.)  as HTML table,
                or saves them as file. The fitted models may have different
                predictors, e.g. when comparing different stepwise fitted models.
 }

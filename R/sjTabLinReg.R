@@ -5,7 +5,7 @@ utils::globalVariables(c("starts_with"))
 #' @title Summary of linear regression as HTML table
 #' @name sjt.lm
 #' 
-#' @description Summarizes (multiple) fitted linear models (beta coefficients, std. beta values etc.)
+#' @description Summarizes (multiple) fitted linear models (coefficients, std. beta values etc.)
 #'                as HTML table, or saves them as file. The fitted models may have different predictors,
 #'                e.g. when comparing different stepwise fitted models.
 #'                
@@ -30,7 +30,7 @@ utils::globalVariables(c("starts_with"))
 #'          Default is \code{"Intercept"}.
 #' @param stringObservations string constant used in the summary row for the count of observation
 #'          (cases). Default is \code{"Observations"}.
-#' @param stringB string used for the column heading of beta coefficients. Default is \code{"B"}.
+#' @param stringB string used for the column heading of estimates. Default is \code{"B"}.
 #' @param stringSB string used for the column heading of standardized beta coefficients. Default is \code{"std. Beta"}.
 #' @param stringCI string used for the column heading of confidence interval values. Default is \code{"CI"}.
 #' @param stringSE string used for the column heading of standard error values. Default is \code{"std. Error"}.
@@ -62,7 +62,7 @@ utils::globalVariables(c("starts_with"))
 #'          be grouped, if the factor has more than two levels. Grouping means that a separate headline
 #'          row is inserted to the table just before the predictor values.
 #' @param showAbbrHeadline logical, if \code{TRUE} (default), the table data columns have a headline with 
-#'          abbreviations for beta- and std. beta-values, confidence interval and p-values.
+#'          abbreviations for estimates and std. beta-values, confidence interval and p-values.
 #' @param showR2 logical, if \code{TRUE} (default), the R2 and adjusted R2 values for each model are printed
 #'          in the model summary.
 #' @param showFStat If \code{TRUE}, the F-statistics for each model is printed
@@ -1374,7 +1374,7 @@ sjt.lm <- function(...,
 #' @name sjt.lmer
 #' 
 #' @description Summarizes (multiple) fitted linear mixed effects models 
-#'                (beta coefficients, std. beta values etc.)  as HTML table, 
+#'                (estimates, std. beta values etc.)  as HTML table, 
 #'                or saves them as file. The fitted models may have different 
 #'                predictors, e.g. when comparing different stepwise fitted models.
 #'                

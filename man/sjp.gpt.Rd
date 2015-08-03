@@ -68,18 +68,24 @@ are displayed in one line and when a line break is inserted.}
 \item{breakLegendLabelsAt}{determines how many chars of the legend labels are
 displayed in one line and when a line break is inserted.}
 
+\item{axisLimits}{numeric vector of length 2, defining the range of the plot axis.}
+
 \item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th
 position a major grid is being printed.}
 
 \item{showTotal}{logical, if \code{TRUE}, a total summary line for all aggregated
 \code{groups} is added.}
 
+\item{annotateTotal}{logical, if \code{TRUE} and \code{showTotal = TRUE},
+the total-row in the figure will be highlighted with a slightly
+shaded background.}
+
 \item{showP}{logical, if \code{TRUE}, axis labels for groups will also contain
 the results of the \code{\link[stats]{chisq.test}} of \code{x} and
 \code{y} for each \code{groups}.}
 
 \item{showN}{logical, if \code{TRUE}, axis labels for groups will also contain
-         the total number of cases in each \code{groups}.}
+the total number of cases in each \code{groups}.}
 
 \item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
 

@@ -715,24 +715,24 @@ sjt.frq <- function(data,
   # -------------------------------------
   # set style attributes for main table tags
   # -------------------------------------
-  knitr <- gsub("class=", "style=", knitr, fixed = TRUE)
-  knitr <- gsub("<table", sprintf("<table style=\"%s\"", css.table), knitr, fixed = TRUE)
-  knitr <- gsub("<caption", sprintf("<caption style=\"%s\"", css.caption), knitr, fixed = TRUE)
+  knitr <- gsub("class=", "style=", knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub("<table", sprintf("<table style=\"%s\"", css.table), knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub("<caption", sprintf("<caption style=\"%s\"", css.caption), knitr, fixed = TRUE, useBytes = TRUE)
   # -------------------------------------
   # replace class-attributes with inline-style-definitions
   # -------------------------------------
-  knitr <- gsub(tag.tdata, css.tdata, knitr, fixed = TRUE)
-  knitr <- gsub(tag.thead, css.thead, knitr, fixed = TRUE)
-  knitr <- gsub(tag.firsttablerow, css.firsttablerow, knitr, fixed = TRUE)
-  knitr <- gsub(tag.firsttablecol, css.firsttablecol, knitr, fixed = TRUE)
-  knitr <- gsub(tag.leftalign, css.leftalign, knitr, fixed = TRUE)  
-  knitr <- gsub(tag.centeralign, css.centeralign, knitr, fixed = TRUE)  
-  knitr <- gsub(tag.lasttablerow, css.lasttablerow, knitr, fixed = TRUE)  
-  knitr <- gsub(tag.summary, css.summary, knitr, fixed = TRUE)  
-  knitr <- gsub(tag.arc, css.arc, knitr, fixed = TRUE)  
-  knitr <- gsub(tag.qrow, css.qrow, knitr, fixed = TRUE)  
-  knitr <- gsub(tag.mdrow, css.mdrow, knitr, fixed = TRUE)  
-  knitr <- gsub(tag.abstand, css.abstand, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.tdata, css.tdata, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.thead, css.thead, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.firsttablerow, css.firsttablerow, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.firsttablecol, css.firsttablecol, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.leftalign, css.leftalign, knitr, fixed = TRUE, useBytes = TRUE)  
+  knitr <- gsub(tag.centeralign, css.centeralign, knitr, fixed = TRUE, useBytes = TRUE)  
+  knitr <- gsub(tag.lasttablerow, css.lasttablerow, knitr, fixed = TRUE, useBytes = TRUE)  
+  knitr <- gsub(tag.summary, css.summary, knitr, fixed = TRUE, useBytes = TRUE)  
+  knitr <- gsub(tag.arc, css.arc, knitr, fixed = TRUE, useBytes = TRUE)  
+  knitr <- gsub(tag.qrow, css.qrow, knitr, fixed = TRUE, useBytes = TRUE)  
+  knitr <- gsub(tag.mdrow, css.mdrow, knitr, fixed = TRUE, useBytes = TRUE)  
+  knitr <- gsub(tag.abstand, css.abstand, knitr, fixed = TRUE, useBytes = TRUE)  
   # -------------------------------------
   # remove spaces?
   # -------------------------------------

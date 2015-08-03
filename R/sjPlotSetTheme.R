@@ -110,6 +110,7 @@
 #' @param legend.title.face font face of the legend title. By default, \code{"bold"} face is used.
 #' @param legend.bordercol color of the legend's border. Default is \code{"white"}, so no visible border is drawn.
 #' @param legend.backgroundcol fill color of the legend's background. Default is \code{"white"}, so no visible background is drawn.
+#' @param legend.item.size size of legend's item (legend key), in centimetres.
 #' @param legend.item.bordercol color of the legend's item-border. Default is \code{"white"}.
 #' @param legend.item.backcol fill color of the legend's item-background. Default is \code{"grey90"}.
 #' @param base base theme where theme is built on. By default, all 
@@ -256,6 +257,7 @@ sjp.setTheme <- function(# base theme
                          legend.title.face = "bold",
                          legend.backgroundcol = "white",
                          legend.bordercol = "white",
+                         legend.item.size = NULL,
                          legend.item.backcol = "grey90",
                          legend.item.bordercol = "white",
                          base = theme_grey()) {
@@ -311,7 +313,7 @@ sjp.setTheme <- function(# base theme
     axis.title.x.vjust <- -1
     axis.title.y.vjust <- 1.5
     title.vjust <- 1.75
-    plot.margins <- unit(c(1, .5, 1, 0.5), "cm")
+    plot.margins <- grid::unit(c(1, .5, 1, 0.5), "cm")
     message("Theme '538' looks better with panel margins. You may want to use argument 'expand.grid = TRUE' in sjp-functions.")
   }  
   # ----------------------------------------  
@@ -347,7 +349,7 @@ sjp.setTheme <- function(# base theme
     axis.title.x.vjust <- -1
     axis.title.y.vjust <- 1.5
     title.vjust <- 1.75
-    plot.margins <- unit(c(1, .5, 1, 0.5), "cm")
+    plot.margins <- grid::unit(c(1, .5, 1, 0.5), "cm")
   }  
   # ----------------------------------------  
   # check for scatter, a theme with crossed
@@ -377,7 +379,7 @@ sjp.setTheme <- function(# base theme
     axis.title.x.vjust <- -1
     axis.title.y.vjust <- 1.5
     title.vjust <- 1.75
-    plot.margins <- unit(c(1, .5, 1, 0.5), "cm")
+    plot.margins <- grid::unit(c(1, .5, 1, 0.5), "cm")
   }  
   if (!is.null(theme) && theme == "blues") {
     base <- theme_bw()
@@ -403,7 +405,7 @@ sjp.setTheme <- function(# base theme
     axis.title.x.vjust <- -1
     axis.title.y.vjust <- 1.5
     title.vjust <- 1.75
-    plot.margins <- unit(c(1, .5, 1, 0.5), "cm")
+    plot.margins <- grid::unit(c(1, .5, 1, 0.5), "cm")
   }  
   if (!is.null(theme) && theme == "greens") {
     base <- theme_bw()
@@ -430,7 +432,7 @@ sjp.setTheme <- function(# base theme
     axis.title.x.vjust <- -1
     axis.title.y.vjust <- 1.5
     title.vjust <- 1.75
-    plot.margins <- unit(c(1, .5, 1, 0.5), "cm")
+    plot.margins <- grid::unit(c(1, .5, 1, 0.5), "cm")
   }  
   # ----------------------------------------  
   # set defaults for geom label colors
@@ -584,6 +586,13 @@ sjp.setTheme <- function(# base theme
                                         fill = legend.item.backcol))
     }
     # ----------------------------------------
+    # set legend item size
+    # ----------------------------------------
+    if (!is.null(legend.item.size)) {
+      sjtheme <- sjtheme +
+        theme(legend.key.size = grid::unit(legend.item.size, "cm"))
+    }
+    # ----------------------------------------
     # set axis line colors, if defined
     # ----------------------------------------
     if (!is.null(axis.linecolor)) {
@@ -602,11 +611,11 @@ sjp.setTheme <- function(# base theme
     }
     if (!is.null(axis.tickslen)) {
       sjtheme <- sjtheme +
-        theme(axis.ticks.length = unit(axis.tickslen, "cm"))
+        theme(axis.ticks.length = grid::unit(axis.tickslen, "cm"))
     }
     if (!is.null(axis.ticksmar)) {
       sjtheme <- sjtheme +
-        theme(axis.ticks.margin = unit(axis.ticksmar, "cm"))
+        theme(axis.ticks.margin = grid::unit(axis.ticksmar, "cm"))
     }
     # ----------------------------------------
     # set plot colors, if defined
@@ -837,4 +846,108 @@ sj.setGeomColors <- function(plot,
     plot <- uselegendscale(plot, labels)
   }
   return(plot)
+}
+
+
+#' @title Save ggplot-figure for print publication
+#' @name save_plot
+#' 
+#' @description Convenient function to save the last ggplot-figure in
+#'                high quality for publication.
+#' 
+#' @param filename the name of the output file; filename must end with one
+#'          of the following acceptes file types: ".png", ".jpg" or ".tif".
+#' @param fig the plot that should be saved. By default, the last plot is saved.
+#' @param width the width of the figure, in centimetres
+#' @param height the height of the figure, in centimetres
+#' @param dpi resolution in dpi (dots per inch)
+#' @param label.size fontsize of value labels inside plot area
+#' @param axis.textsize fontsize of axis labels
+#' @param axis.titlesize fontsize of axis titles
+#' @param legend.textsize fontsize of legend labels
+#' @param legend.titlesize fontsize of legend title
+#' 
+#' @inheritParams sjp.setTheme
+#' 
+#' @note This is a convenient function with some default settings that should
+#'         come close to most of the needs for fontsize and scaling in figures
+#'         when saving them for printing or publishing. It uses cairographics
+#'         anti-aliasing (see \code{\link[grDevices]{png}}).
+#' 
+#' @import ggplot2
+#' @importFrom grDevices png jpeg tiff
+#' 
+#' @export
+save_plot <- function(filename,
+                      fig = ggplot2::last_plot(),
+                      width = 12,
+                      height = 9,
+                      dpi = 300,
+                      theme = "forestw",
+                      label.size = 2.4,
+                      axis.textsize = .8,
+                      axis.titlesize = .75,
+                      legend.textsize = .5,
+                      legend.titlesize = .6) {
+  # -------------------------
+  # get file extension
+  # -------------------------
+  ext <- tolower(substring(filename, 
+                           regexpr("\\.[^\\.]*$", filename) + 1, 
+                           nchar(filename)))
+  # -------------------------
+  # valid file ytpe?
+  # -------------------------
+  if (!ext %in% c("png", "jpg", "tif")) {
+    stop("filetype must be one of `.png`, `.jpg` or `.tif`.", call. = F)
+  }
+  # -------------------------
+  # set printable theme, adjust font sizes.
+  # this is the most critical point...
+  # -------------------------
+  # catch old theme
+  curtheme = ggplot2::theme_get()
+  sjp.setTheme(theme = theme, 
+               geom.label.color = "black",
+               axis.title.color = "black",
+               axis.textcolor = "black",
+               legend.title.color = "black",
+               legend.color = "black",
+               geom.label.size = label.size,
+               axis.textsize = axis.textsize,
+               axis.title.size = axis.titlesize,
+               legend.size = legend.textsize,
+               legend.title.size = legend.titlesize,
+               legend.item.size = .35)
+  # -------------------------
+  # prapare save
+  # -------------------------
+  if (ext == "png")
+    grDevices::png(filename = filename,
+        width = width,
+        height = height,
+        units = "cm",
+        res = dpi,
+        type = "cairo")
+  else if (ext == "jpg")
+    grDevices::jpeg(filename = filename,
+         width = width,
+         height = height,
+         units = "cm",
+         res = dpi,
+         type = "cairo")
+  else if (ext == "tif")
+    grDevices::tiff(filename = filename,
+                    width = width,
+                    height = height,
+                    units = "cm",
+                    res = dpi,
+                    type = "cairo")
+  
+  # print plot to device
+  print(fig)
+  # close device
+  dev.off()  
+  # set back theme
+  ggplot2::theme_set(curtheme)
 }

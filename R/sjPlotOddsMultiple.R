@@ -4,7 +4,8 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 #' @title Plot odds ratios (forest plots) of multiple fitted glm's
 #' @name sjp.glmm
 #' 
-#' @description Plot odds ratios (forest plots) of multiple fitted glm's with confidence intervalls in one plot.
+#' @description Plot and compare odds ratios (forest plots) of multiple fitted 
+#'                glm's with confidence intervals in one plot.
 #' 
 #' @param ... one or more fitted glm-objects. May also be a \code{\link{list}}-object with 
 #'          fitted models, instead of separating each model with comma. See 'Examples'.
@@ -13,6 +14,11 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 #' @inheritParams sjp.glm
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.grpfrq
+#'          
+#' @note The fitted models may have differing predictors, but only in a 
+#'         "stepwise" sense; i.e., models should share a common set of predictors,
+#'         while some models may have additional predictors (e.g. added via
+#'         the \code{\link[stats]{update}} function). See 'Examples'.
 #'          
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}).
@@ -52,6 +58,36 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 #' all.models[[3]] <- fitOR3
 #' 
 #' sjp.glmm(all.models)
+#' 
+#' 
+#' # -------------------------------
+#' # Predictors for negative impact
+#' # of care. Data from the EUROFAMCARE
+#' # sample dataset
+#' # -------------------------------
+#' library(sjmisc)
+#' data(efc)
+#' 
+#' # create binary response
+#' y <- ifelse(efc$neg_c_7 < median(na.omit(efc$neg_c_7)), 0, 1)
+#' # create dummy variables for educational status
+#' edu.mid <- ifelse(efc$c172code == 2, 1, 0)
+#' edu.high <- ifelse(efc$c172code == 3, 1, 0)
+#' # create data frame for fitted model
+#' mydat <- data.frame(y = as.factor(y),
+#'                     sex = as.factor(efc$c161sex),
+#'                     dep = as.factor(efc$e42dep),
+#'                     barthel = as.numeric(efc$barthtot),
+#'                     edu.mid = as.factor(edu.mid),
+#'                     edu.hi = as.factor(edu.high))
+#' 
+#' fit1 <- glm(y ~ sex + edu.mid + edu.hi, 
+#'             data = mydat, 
+#'             family = binomial(link = "logit"))
+#' fit2 <- update(fit1, . ~ . + barthel)
+#' fit3 <- update(fit2, . ~ . + dep)
+#' 
+#' sjp.glmm(fit1, fit2, fit3)
 #' 
 #' @import ggplot2
 #' @import sjmisc
@@ -201,8 +237,7 @@ sjp.glmm <- function(...,
     # set column names
     colnames(odds) <- c("OR", "lower", "upper", "p", "pa", "shape", "grp")
     # set x-position
-    odds$xpos <- c(1:nrow(odds))
-    odds$xpos <- as.factor(odds$xpos)
+    odds$xpos <- as.factor(c(1:nrow(odds)))
     # add rownames
     odds$term <- row.names(odds)
     #remove intercept from df
@@ -256,12 +291,26 @@ sjp.glmm <- function(...,
   ticks <- c(seq(lower_lim, upper_lim, by = gridBreaksAt))
   if (!showAxisLabels.y) axisLabels.y <- c("")
   # --------------------------------------------------------
+  # prepare star and shape values. we just copy those values
+  # that are actually needed, so legend shapes are always 
+  # identical, independent whether model have only two 
+  # different p-levels or four.
+  # --------------------------------------------------------
+  shape.values <- c(1, 16, 17, 15)
+  star.values <- c("n.s.", "*", "**", "***")
+  shape.values <- shape.values[sort(as.numeric(unique(finalodds$shape)))]
+  star.values <- star.values[sort(as.numeric(unique(finalodds$shape)))]
+  # --------------------------------------------------------
   # body of plot
   # --------------------------------------------------------
   # The order of aesthetics matters in terms of ordering the error bars!
   # Using alpha-aes before colour would order error-bars according to
   # alpha-level instead of colour-aes.
-  plotHeader <- ggplot(finalodds, aes(y = OR, x = xpos, colour = grp, alpha = pa))
+  plotHeader <- ggplot(finalodds, aes(y = OR, 
+                                      x = xpos, 
+                                      group = grp,
+                                      colour = grp, 
+                                      alpha = pa))
   # --------------------------------------------------------
   # start with dot-plotting here
   # first check, whether user wants different shapes for
@@ -279,8 +328,8 @@ sjp.glmm <- function(...,
                  size = geom.size, 
                  position = position_dodge(-geom.spacing)) +
       # and use a shape scale, in order to have a legend
-      scale_shape_manual(values = c(1, 16, 17, 15), 
-                         labels = c("n.s.", "*", "**", "***"))
+      scale_shape_manual(values = shape.values, 
+                         labels = star.values)
   } else {
     plotHeader <- plotHeader +
       geom_point(size = geom.size, 
@@ -339,7 +388,7 @@ sjp.glmm <- function(...,
   # --------------------------------------------------------
   # flip coordinates?
   # --------------------------------------------------------
-  if (coord.flip)  plotHeader <- plotHeader + coord_flip()
+  if (coord.flip) plotHeader <- plotHeader + coord_flip()
   if (facet.grid) plotHeader <- plotHeader + facet_grid(~grp)
   # ---------------------------------------------------------
   # set geom colors

@@ -1,11 +1,13 @@
 # bind global variables
 utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 
-#' @title Plot beta coefficients of multiple fitted lm's
+#' @title Plot coefficients of multiple fitted lm's
 #' @name sjp.lmm
 #' 
-#' @description Plot beta coefficients (estimates) with confidence intervalls of multiple fitted linear models
-#'                in one plot.
+#' @description Plot and compare coefficients (estimates) with confidence 
+#'                intervals of  multiple fitted linear models in one plot. 
+#'                Fitted models may have differing predictors, but only
+#'                in a "stepwise" sense.
 #'                
 #' @param ... one or more fitted lm-objects. May also be a \code{\link{list}}-object with 
 #'          fitted models, instead of separating each model with comma. See 'Examples'.
@@ -45,7 +47,12 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #' @inheritParams sjp.lm
 #' @inheritParams sjt.lm
 #' @inheritParams sjp.grpfrq
-#'           
+#'          
+#' @note The fitted models may have differing predictors, but only in a 
+#'         "stepwise" sense; i.e., models should share a common set of predictors,
+#'         while some models may have additional predictors (e.g. added via
+#'         the \code{\link[stats]{update}} function). See 'Examples'.
+#'             
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}).
 #'          
@@ -260,8 +267,7 @@ sjp.lmm <- function(...,
     # set column names
     colnames(betas) <- c("beta", "lower", "upper", "p", "pa", "shape", "grp")
     # set x-position
-    betas$xpos <- c(1:nrow(betas))
-    betas$xpos <- as.factor(betas$xpos)
+    betas$xpos <- as.factor(c(1:nrow(betas)))
     #remove intercept from df
     if (!showIntercept) betas <- betas[-1, ]
     # add rownames
@@ -312,12 +318,26 @@ sjp.lmm <- function(...,
   }
   if (!showAxisLabels.y) axisLabels.y <- c("")
   # --------------------------------------------------------
+  # prepare star and shape values. we just copy those values
+  # that are actually needed, so legend shapes are always 
+  # identical, independent whether model have only two 
+  # different p-levels or four.
+  # --------------------------------------------------------
+  shape.values <- c(1, 16, 17, 15)
+  star.values <- c("n.s.", "*", "**", "***")
+  shape.values <- shape.values[sort(as.numeric(unique(finalbetas$shape)))]
+  star.values <- star.values[sort(as.numeric(unique(finalbetas$shape)))]
+  # --------------------------------------------------------
   # body of plot
   # --------------------------------------------------------
   # The order of aesthetics matters in terms of ordering the error bars!
   # Using alpha-aes before colour would order error-bars according to
   # alpha-level instead of colour-aes.
-  plotHeader <- ggplot(finalbetas, aes(y = beta, x = xpos, colour = grp, alpha = pa))
+  plotHeader <- ggplot(finalbetas, aes(y = beta, 
+                                       x = xpos, 
+                                       group = grp, 
+                                       colour = grp, 
+                                       alpha = pa))
   # --------------------------------------------------------
   # start with dot-plotting here
   # first check, whether user wants different shapes for
@@ -335,8 +355,8 @@ sjp.lmm <- function(...,
                  size = geom.size, 
                  position = position_dodge(-geom.spacing)) +
       # and use a shape scale, in order to have a legend
-      scale_shape_manual(values = c(1, 16, 17, 15), 
-                         labels = c("n.s.", "*", "**", "***"))
+      scale_shape_manual(values = shape.values, 
+                         labels = star.values)
   } else {
     plotHeader <- plotHeader +
       geom_point(size = geom.size, position = position_dodge(-geom.spacing))

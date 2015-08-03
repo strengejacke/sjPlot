@@ -26,10 +26,6 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' @param sortOdds logical, if \code{TRUE} (default), odds ratios are ordered according their values from highest first
 #'          to lowest last. Use \code{FALSE} if you don't want to change the order of the predictors.
 #' @param axisTitle.x string; title for the x-axis.
-#' @param axisLimits defines the range of the axis where odds ratios and their confidence intervalls
-#'          are drawn. By default, the limits range from the lowest confidence interval to the highest one, so
-#'          the diagram has maximum zoom. Use your own values as vector of length two, indicating
-#'          lower and upper limit for the axis (for instance: \code{limits = c(-0.8, 0.8)}).
 #' @param transformTicks logical, if \code{TRUE}, the grid lines have exponential 
 #'          distances (equidistant), i.e. they visually have the same distance from 
 #'          one panel grid to the next. If \code{FALSE}, grids are 
@@ -58,6 +54,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'          
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.grpfrq
+#' @inheritParams sjp.aov1
 #' 
 #' @return (Invisibly) returns various objects, depending on 
 #'           the \code{type}-argument:
@@ -440,7 +437,7 @@ sjp.glm <- function(fit,
   # --------------------------------------------------------
   if (!showAxisLabels.y) axisLabels.y <- c("")
   # --------------------------------------------------------
-  # Order odds according to beta-coefficients
+  # Order odds according to b-coefficients
   # --------------------------------------------------------
   if (sortOdds) odds <- odds[order(ov), ]
   odds$vars <- cbind(c(1:nrow(odds)))

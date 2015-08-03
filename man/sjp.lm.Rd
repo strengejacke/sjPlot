@@ -53,10 +53,9 @@ may also be passed as list object; they will be coerced to character vector auto
 
 \item{axisTitle.x}{title for the x-axis. Default is \code{"Estimates"}.}
 
-\item{axisLimits}{defines the range of the axis where coefficients and their confidence intervalls
-are drawn. By default, the limits range from the lowest confidence interval to the highest one, so
-the diagram has maximum zoom. Use your own values as vector of length two, indicating
-lower and upper limit for the axis (for instance: \code{limits = c(-0.8, 0.8)}).}
+\item{axisLimits}{numeric vector of length 2, defining the range of the plot axis.
+By default, the limits range from the lowest confidence interval to the
+highest, so plot has maximum zoom.}
 
 \item{geom.colors}{user defined color palette for geoms. Must either be vector with two color values
 or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.}
@@ -135,9 +134,9 @@ Depending on the \code{type}, in most cases (insisibily)
           with removed outliers is returned.
 }
 \description{
-Depending on the \code{type}, this function plots beta coefficients (estimates)
+Depending on the \code{type}, this function plots coefficients (estimates)
                of linear regressions (including panel models fitted with the \code{plm}-function
-               from the \pkg{plm}-package) with confidence intervalls as dot plot (forest plot),
+               from the \pkg{plm}-package) with confidence intervals as dot plot (forest plot),
                model assumptions for linear models or slopes and scatter plots for each single
                coefficient. See \code{type} for details.
 }
@@ -164,8 +163,9 @@ fit <- lm(airquality$Ozone ~ airquality$Wind + airquality$Temp + airquality$Sola
 # plot estimates with CI
 sjp.lm(fit, gridBreaksAt = 2)
 
-# plot estimates with CI without standardized beta-values
-# and with narrower tick marks (because "gridBreaksAt" was not specified)
+# plot estimates with CI
+# and with narrower tick marks
+# (because "gridBreaksAt" was not specified)
 sjp.lm(fit)
 
 # ---------------------------------------------------

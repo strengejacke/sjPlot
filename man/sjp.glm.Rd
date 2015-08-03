@@ -42,10 +42,9 @@ may also be passed as list object; they will be coerced to character vector auto
 
 \item{axisTitle.x}{string; title for the x-axis.}
 
-\item{axisLimits}{defines the range of the axis where odds ratios and their confidence intervalls
-are drawn. By default, the limits range from the lowest confidence interval to the highest one, so
-the diagram has maximum zoom. Use your own values as vector of length two, indicating
-lower and upper limit for the axis (for instance: \code{limits = c(-0.8, 0.8)}).}
+\item{axisLimits}{numeric vector of length 2, defining the range of the plot axis.
+By default, the limits range from the lowest confidence interval to the
+highest, so plot has maximum zoom.}
 
 \item{breakTitleAt}{determines how many chars of the plot title are displayed in
 one line and when a line break is inserted into the title.}

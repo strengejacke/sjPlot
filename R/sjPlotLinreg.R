@@ -9,9 +9,9 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #'            more details and examples of this function; use \code{\link{sjp.poly}}
 #'            to see which polynomial degree fits best for possible polynomial terms.
 #'
-#' @description Depending on the \code{type}, this function plots beta coefficients (estimates)
+#' @description Depending on the \code{type}, this function plots coefficients (estimates)
 #'                of linear regressions (including panel models fitted with the \code{plm}-function
-#'                from the \pkg{plm}-package) with confidence intervalls as dot plot (forest plot),
+#'                from the \pkg{plm}-package) with confidence intervals as dot plot (forest plot),
 #'                model assumptions for linear models or slopes and scatter plots for each single
 #'                coefficient. See \code{type} for details.
 #'
@@ -52,10 +52,6 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #'          may also be passed as list object; they will be coerced to character vector automatically.
 #' @param showAxisLabels.y logical, whether labels of independent variables should be shown or not.
 #' @param axisTitle.x title for the x-axis. Default is \code{"Estimates"}.
-#' @param axisLimits defines the range of the axis where coefficients and their confidence intervalls
-#'          are drawn. By default, the limits range from the lowest confidence interval to the highest one, so
-#'          the diagram has maximum zoom. Use your own values as vector of length two, indicating
-#'          lower and upper limit for the axis (for instance: \code{limits = c(-0.8, 0.8)}).
 #' @param geom.colors user defined color palette for geoms. Must either be vector with two color values
 #'          or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.
 #' @param geom.size size resp. width of the geoms (bar width or point size, depending on \code{type} argument).
@@ -87,6 +83,7 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #'          
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lmer
+#' @inheritParams sjp.aov1
 #'          
 #' @references Gelman A (2008) "Scaling regression inputs by dividing by two standard deviations." \emph{Statistics in Medicine 27: 2865–2873.} \url{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}
 #'          
@@ -106,8 +103,9 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #' # plot estimates with CI
 #' sjp.lm(fit, gridBreaksAt = 2)
 #'
-#' # plot estimates with CI without standardized beta-values
-#' # and with narrower tick marks (because "gridBreaksAt" was not specified)
+#' # plot estimates with CI
+#' # and with narrower tick marks 
+#' # (because "gridBreaksAt" was not specified)
 #' sjp.lm(fit)
 #'
 #' # ---------------------------------------------------

@@ -2,7 +2,7 @@
 % Please edit documentation in R/sjPlotLinregMultiple.R
 \name{sjp.lmm}
 \alias{sjp.lmm}
-\title{Plot beta coefficients of multiple fitted lm's}
+\title{Plot coefficients of multiple fitted lm's}
 \usage{
 sjp.lmm(..., type = "lm", title = NULL, labelDependentVariables = NULL,
   legendDepVarTitle = "Dependent Variables", legendPValTitle = "p-level",
@@ -48,10 +48,9 @@ may also be passed as list object; they will be coerced to character vector auto
 
 \item{axisTitle.x}{string, title for the x axis.}
 
-\item{axisLimits}{defines the range of the axis where coefficients and their confidence intervalls
-are drawn. By default, the limits range from the lowest confidence interval to the highest one, so
-the diagram has maximum zoom. Use your own values as vector of length two, indicating
-lower and upper limit for the axis (for instance: \code{limits = c(-0.8, 0.8)}).}
+\item{axisLimits}{numeric vector of length 2, defining the range of the plot axis.
+By default, the limits range from the lowest confidence interval to the
+highest, so plot has maximum zoom.}
 
 \item{breakTitleAt}{determines how many chars of the plot title are displayed in
 one line and when a line break is inserted into the title.}
@@ -113,8 +112,16 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
           was used for setting up the ggplot-object (\code{df}).
 }
 \description{
-Plot beta coefficients (estimates) with confidence intervalls of multiple fitted linear models
-               in one plot.
+Plot and compare coefficients (estimates) with confidence
+               intervals of  multiple fitted linear models in one plot.
+               Fitted models may have differing predictors, but only
+               in a "stepwise" sense.
+}
+\note{
+The fitted models may have differing predictors, but only in a
+        "stepwise" sense; i.e., models should share a common set of predictors,
+        while some models may have additional predictors (e.g. added via
+        the \code{\link[stats]{update}} function). See 'Examples'.
 }
 \examples{
 # prepare dummy variables for binary logistic regression

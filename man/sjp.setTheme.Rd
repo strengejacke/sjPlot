@@ -26,8 +26,8 @@ sjp.setTheme(theme = NULL, title.color = "black", title.size = 1.3,
   legend.color = "black", legend.title.size = 1,
   legend.title.color = "black", legend.title.face = "bold",
   legend.backgroundcol = "white", legend.bordercol = "white",
-  legend.item.backcol = "grey90", legend.item.bordercol = "white",
-  base = theme_grey())
+  legend.item.size = NULL, legend.item.backcol = "grey90",
+  legend.item.bordercol = "white", base = theme_grey())
 }
 \arguments{
 \item{theme}{specify pre-set themes (see 'Details'). Valid argument for ggplot default-themes are for instance:
@@ -191,6 +191,8 @@ recommended values are from 0.3 to 2.5}
 \item{legend.backgroundcol}{fill color of the legend's background. Default is \code{"white"}, so no visible background is drawn.}
 
 \item{legend.bordercol}{color of the legend's border. Default is \code{"white"}, so no visible border is drawn.}
+
+\item{legend.item.size}{size of legend's item (legend key), in centimetres.}
 
 \item{legend.item.backcol}{fill color of the legend's item-background. Default is \code{"grey90"}.}
 

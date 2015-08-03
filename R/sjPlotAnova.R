@@ -1,5 +1,5 @@
 # bind global variables
-utils::globalVariables(c("pv"))
+utils::globalVariables("pv")
 
 
 #' @title Plot One-Way-Anova tables

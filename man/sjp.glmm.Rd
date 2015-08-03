@@ -41,10 +41,9 @@ may also be passed as list object; they will be coerced to character vector auto
 
 \item{axisTitle.x}{string, title for the x axis.}
 
-\item{axisLimits}{defines the range of the axis where coefficients and their confidence intervalls
-are drawn. By default, the limits range from the lowest confidence interval to the highest one, so
-the diagram has maximum zoom. Use your own values as vector of length two, indicating
-lower and upper limit for the axis (for instance: \code{limits = c(-0.8, 0.8)}).}
+\item{axisLimits}{numeric vector of length 2, defining the range of the plot axis.
+By default, the limits range from the lowest confidence interval to the
+highest, so plot has maximum zoom.}
 
 \item{breakTitleAt}{determines how many chars of the plot title are displayed in
 one line and when a line break is inserted into the title.}
@@ -112,7 +111,14 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
           was used for setting up the ggplot-object (\code{df}).
 }
 \description{
-Plot odds ratios (forest plots) of multiple fitted glm's with confidence intervalls in one plot.
+Plot and compare odds ratios (forest plots) of multiple fitted
+               glm's with confidence intervals in one plot.
+}
+\note{
+The fitted models may have differing predictors, but only in a
+        "stepwise" sense; i.e., models should share a common set of predictors,
+        while some models may have additional predictors (e.g. added via
+        the \code{\link[stats]{update}} function). See 'Examples'.
 }
 \examples{
 # prepare dummy variables for binary logistic regression
@@ -149,5 +155,35 @@ all.models[[2]] <- fitOR2
 all.models[[3]] <- fitOR3
 
 sjp.glmm(all.models)
+
+
+# -------------------------------
+# Predictors for negative impact
+# of care. Data from the EUROFAMCARE
+# sample dataset
+# -------------------------------
+library(sjmisc)
+data(efc)
+
+# create binary response
+y <- ifelse(efc$neg_c_7 < median(na.omit(efc$neg_c_7)), 0, 1)
+# create dummy variables for educational status
+edu.mid <- ifelse(efc$c172code == 2, 1, 0)
+edu.high <- ifelse(efc$c172code == 3, 1, 0)
+# create data frame for fitted model
+mydat <- data.frame(y = as.factor(y),
+                    sex = as.factor(efc$c161sex),
+                    dep = as.factor(efc$e42dep),
+                    barthel = as.numeric(efc$barthtot),
+                    edu.mid = as.factor(edu.mid),
+                    edu.hi = as.factor(edu.high))
+
+fit1 <- glm(y ~ sex + edu.mid + edu.hi,
+            data = mydat,
+            family = binomial(link = "logit"))
+fit2 <- update(fit1, . ~ . + barthel)
+fit3 <- update(fit2, . ~ . + dep)
+
+sjp.glmm(fit1, fit2, fit3)
 }
 

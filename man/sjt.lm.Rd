@@ -53,7 +53,7 @@ Default is \code{"Intercept"}.}
 \item{stringObservations}{string constant used in the summary row for the count of observation
 (cases). Default is \code{"Observations"}.}
 
-\item{stringB}{string used for the column heading of beta coefficients. Default is \code{"B"}.}
+\item{stringB}{string used for the column heading of estimates. Default is \code{"B"}.}
 
 \item{stringSB}{string used for the column heading of standardized beta coefficients. Default is \code{"std. Beta"}.}
 
@@ -105,7 +105,7 @@ be grouped, if the factor has more than two levels. Grouping means that a separa
 row is inserted to the table just before the predictor values.}
 
 \item{showAbbrHeadline}{logical, if \code{TRUE} (default), the table data columns have a headline with
-abbreviations for beta- and std. beta-values, confidence interval and p-values.}
+abbreviations for estimates and std. beta-values, confidence interval and p-values.}
 
 \item{showR2}{logical, if \code{TRUE} (default), the R2 and adjusted R2 values for each model are printed
 in the model summary.}
@@ -166,7 +166,7 @@ Invisibly returns
            for further use.
 }
 \description{
-Summarizes (multiple) fitted linear models (beta coefficients, std. beta values etc.)
+Summarizes (multiple) fitted linear models (coefficients, std. beta values etc.)
                as HTML table, or saves them as file. The fitted models may have different predictors,
                e.g. when comparing different stepwise fitted models.
 }

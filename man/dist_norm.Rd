@@ -30,7 +30,7 @@ ranges to a value where a p-level of 0.00001 is reached.}
 \itemize{
   \item If not specified, the qualitative \code{"Paired"} color brewer palette will be used.
   \item If \code{"gs"}, a greyscale will be used.
-  \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all()}} from the \pkg{RColorBrewer}-package to view all available palette names.
+  \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} from the \pkg{RColorBrewer}-package to view all available palette names.
   \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
 }}
 

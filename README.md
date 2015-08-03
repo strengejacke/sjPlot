@@ -55,9 +55,12 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * `sjp.poly` now also returns cutpoints of loess curvature, to get maximum / minimum values of loess curvature.
 * `sjp.lm` with `type = "ma"` now also returns all plots as list of ggplot-objects.
 * `sjp.setTheme` now allows for custom label and title colors when using pre-set-themes.
+* Improved automatic y-axis-limit detection in `sjp.frq` and `sjp.grpfrq`.
+* Minor improvements to `sjp.lmm` and `sjp.glmm`.
 
 #### Bug fixes
 * Fixed bug with computation of predicted probabilities in `sjp.glm` and `sjp.glmer` (only occured when `type = "y.pc"`).
 * `sjp.grpfrq` did not show correct number of missings (argument `na.rm = FALSE`), if grouping variable startet with zero.
 * Fixed bug with `sjp.frq` and `sjt.frq`, when variable was a labelled factor with lowest factor level smaller than 1.
 * Fixed bug in `view_df` with parameter `showFreq = TRUE`, when variable was a character vector.
+* Minor bug fixes with p-shapes in `sjp.lmm` and `sjp.glmm`.

@@ -1,3 +1,5 @@
+utils::globalVariables(c("pv", "dep"))
+
 #' @title Plot grouped proportional tables
 #' @name sjp.gpt
 #'
@@ -22,6 +24,10 @@
 #'          \code{y} for each \code{groups}.
 #' @param showN logical, if \code{TRUE}, axis labels for groups will also contain
 #'          the total number of cases in each \code{groups}.
+#' @param annotateTotal logical, if \code{TRUE} and \code{showTotal = TRUE},
+#'          the total-row in the figure will be highlighted with a slightly
+#'          shaded background.
+#' @param axisLimits numeric vector of length 2, defining the range of the plot axis.
 #'
 #' @return (Insisibily) returns the ggplot-object with the complete plot
 #'           (\code{plot}) as well as the data frame that
