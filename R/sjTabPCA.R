@@ -550,25 +550,25 @@ sjt.pca <- function(data,
   # -------------------------------------
   # set style attributes for main table tags
   # -------------------------------------
-  knitr <- gsub("class=", "style=", knitr, fixed = TRUE)
-  knitr <- gsub("<table", sprintf("<table style=\"%s\"", css.table), knitr, fixed = TRUE)
-  knitr <- gsub("<caption", sprintf("<caption style=\"%s\"", css.caption), knitr, fixed = TRUE)
+  knitr <- gsub("class=", "style=", knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub("<table", sprintf("<table style=\"%s\"", css.table), knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub("<caption", sprintf("<caption style=\"%s\"", css.caption), knitr, fixed = TRUE, useBytes = TRUE)
   # -------------------------------------
   # replace class-attributes with inline-style-definitions
   # -------------------------------------
-  knitr <- gsub(tag.tdata, css.tdata, knitr, fixed = TRUE)
-  knitr <- gsub(tag.thead, css.thead, knitr, fixed = TRUE)
-  knitr <- gsub(tag.centeralign, css.centeralign, knitr, fixed = TRUE)
-  knitr <- gsub(tag.cronbach, css.cronbach, knitr, fixed = TRUE)
-  knitr <- gsub(tag.msa, css.msa, knitr, fixed = TRUE)
-  knitr <- gsub(tag.pov, css.pov, knitr, fixed = TRUE)
-  knitr <- gsub(tag.arc, css.arc, knitr, fixed = TRUE)
-  knitr <- gsub(tag.cpov, css.cpov, knitr, fixed = TRUE)
-  knitr <- gsub(tag.kmo, css.kmo, knitr, fixed = TRUE)
-  knitr <- gsub(tag.minval, css.minval, knitr, fixed = TRUE)  
-  knitr <- gsub(tag.removable, css.removable, knitr, fixed = TRUE)  
-  knitr <- gsub(tag.firsttablerow, css.firsttablerow, knitr, fixed = TRUE)  
-  knitr <- gsub(tag.firsttablecol, css.firsttablecol, knitr, fixed = TRUE)  
+  knitr <- gsub(tag.tdata, css.tdata, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.thead, css.thead, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.centeralign, css.centeralign, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.cronbach, css.cronbach, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.msa, css.msa, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.pov, css.pov, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.arc, css.arc, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.cpov, css.cpov, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.kmo, css.kmo, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.minval, css.minval, knitr, fixed = TRUE, useBytes = TRUE)  
+  knitr <- gsub(tag.removable, css.removable, knitr, fixed = TRUE, useBytes = TRUE)  
+  knitr <- gsub(tag.firsttablerow, css.firsttablerow, knitr, fixed = TRUE, useBytes = TRUE)  
+  knitr <- gsub(tag.firsttablecol, css.firsttablecol, knitr, fixed = TRUE, useBytes = TRUE)  
   # -------------------------------------
   # remove spaces?
   # -------------------------------------
