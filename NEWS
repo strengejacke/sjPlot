@@ -1,12 +1,14 @@
-Version 1.8.2-6
+Version 1.8.2-7
 -----------------------------------------------------------------------------
 New functions:
 * `sjp.gpt` to plot grouped proportional tables.
+* `save_plot` as convenient function to save the last ggplot-figure in high quality for publication.
 
 Changes to functions:
 * `sjp.lmm` can now also plot standardized estimates.
 * `sjp.lm`, `sjp.lmm` and `sjt.lm` can now plot standardized estimates, where standardization is computed following Gelman's approach by dividing estimates by two standard deviations.
 * Added `type = 'coeff'` to `sjp.lmer` to plot joint random and fixed effects coefficients.
+* `sjp.lm`, `sjp.glm`, `sjp.lmm`, `sjp.glmm`, `sjp.lmer` and `sjp.glmer` get a `remove.estimates` argument to remove specific estimates from the plot output.
 * `type = 'poly'` in `sjp.lm` can now deal with fitted models that either use polynomials with `poly` or splines with `bs`.
 * `sjt.df` gets a `big.mark` parameter to add thousands-separators if parameter `describe = TRUE`.
 * `sjt.df` and `view_df` now recognize Date and POSIX-classes, if `showType = TRUE`.

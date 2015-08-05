@@ -9,10 +9,11 @@ sjp.glm(fit, type = "dots", sortOdds = TRUE, title = NULL,
   breakTitleAt = 50, breakLabelsAt = 25, gridBreaksAt = 0.5,
   transformTicks = TRUE, geom.size = NULL, geom.colors = "Set1",
   hideErrorBars = FALSE, interceptLineType = 2,
-  interceptLineColor = "grey70", coord.flip = TRUE, showIntercept = FALSE,
-  showAxisLabels.y = TRUE, showValueLabels = TRUE, labelDigits = 2,
-  showPValueLabels = TRUE, showModelSummary = FALSE, facet.grid = TRUE,
-  show.se = FALSE, showOriginalModelOnly = TRUE, printPlot = TRUE)
+  interceptLineColor = "grey70", remove.estimates = NULL,
+  coord.flip = TRUE, showIntercept = FALSE, showAxisLabels.y = TRUE,
+  showValueLabels = TRUE, labelDigits = 2, showPValueLabels = TRUE,
+  showModelSummary = FALSE, facet.grid = TRUE, show.se = FALSE,
+  showOriginalModelOnly = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).}
@@ -74,6 +75,11 @@ if argument \code{type = "bars"}. Default value is \code{FALSE}.}
 
 \item{interceptLineColor}{color of the intercept line. Default value is \code{"grey70"}.}
 
+\item{remove.estimates}{character vector with coefficient names that indicate
+which estimates should be removed from the plot.
+\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
+is \code{NULL}, i.e. all estimates are printed.}
+
 \item{coord.flip}{logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
 values are plotted on the x-axis.}
 
@@ -116,21 +122,21 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
         \describe{
          \item{\code{type = "dots" or "bars"}}{
            \itemize{
-             \item \code{mydf} - data frame used for the plot
+             \item \code{df} - data frame used for the plot
              \item \code{plot} - plot as ggplot-object
            }
          }
          \item{\code{type = "prob" or "eff"}}{
            \itemize{
-             \item \code{mydf.mp} - data frame used for predicted probability plots
+             \item \code{df.mp} - data frame used for predicted probability plots
              \item \code{plot.mp} - predicted probability plots as ggplot-objects
-             \item \code{mydf.facet} - data frame used for faceted predicted probability plots
+             \item \code{df.facet} - data frame used for faceted predicted probability plots
              \item \code{plot.facet} - facted predicted probability plots as ggplot-objects
            }
          }
          \item{\code{type = "y.pc"}}{
            \itemize{
-             \item \code{mydf} - data frame used for the plot
+             \item \code{df} - data frame used for the plot
              \item \code{plot} - plot as ggplot-object
              \item \code{mean.pp} - mean value of the predicted probabilities for the response
            }

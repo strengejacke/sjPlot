@@ -11,10 +11,10 @@ sjp.glmm(..., title = NULL, labelDependentVariables = NULL,
   breakLegendTitleAt = 20, gridBreaksAt = 0.5, transformTicks = TRUE,
   geom.size = 3, geom.spacing = 0.4, geom.colors = "Set1",
   fade.ns = FALSE, usePShapes = FALSE, interceptLineType = 2,
-  interceptLineColor = "grey70", coord.flip = TRUE, showIntercept = FALSE,
-  showAxisLabels.y = TRUE, showValueLabels = TRUE, labelDigits = 2,
-  showPValueLabels = TRUE, hideLegend = FALSE, facet.grid = FALSE,
-  printPlot = TRUE)
+  interceptLineColor = "grey70", remove.estimates = NULL,
+  coord.flip = TRUE, showIntercept = FALSE, showAxisLabels.y = TRUE,
+  showValueLabels = TRUE, labelDigits = 2, showPValueLabels = TRUE,
+  hideLegend = FALSE, facet.grid = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{...}{one or more fitted glm-objects. May also be a \code{\link{list}}-object with
@@ -81,6 +81,11 @@ legend is plotted. Default is \code{FALSE}.}
 \item{interceptLineType}{linetype of the intercept line (zero point). Default is \code{2} (dashed line).}
 
 \item{interceptLineColor}{color of the intercept line. Default value is \code{"grey70"}.}
+
+\item{remove.estimates}{character vector with coefficient names that indicate
+which estimates should be removed from the plot.
+\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
+is \code{NULL}, i.e. all estimates are printed.}
 
 \item{coord.flip}{logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
 values are plotted on the x-axis.}

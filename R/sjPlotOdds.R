@@ -61,21 +61,21 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'         \describe{
 #'          \item{\code{type = "dots" or "bars"}}{
 #'            \itemize{
-#'              \item \code{mydf} - data frame used for the plot
+#'              \item \code{df} - data frame used for the plot
 #'              \item \code{plot} - plot as ggplot-object
 #'            }
 #'          }
 #'          \item{\code{type = "prob" or "eff"}}{
 #'            \itemize{
-#'              \item \code{mydf.mp} - data frame used for predicted probability plots
+#'              \item \code{df.mp} - data frame used for predicted probability plots
 #'              \item \code{plot.mp} - predicted probability plots as ggplot-objects
-#'              \item \code{mydf.facet} - data frame used for faceted predicted probability plots
+#'              \item \code{df.facet} - data frame used for faceted predicted probability plots
 #'              \item \code{plot.facet} - facted predicted probability plots as ggplot-objects
 #'            }
 #'          }
 #'          \item{\code{type = "y.pc"}}{
 #'            \itemize{
-#'              \item \code{mydf} - data frame used for the plot
+#'              \item \code{df} - data frame used for the plot
 #'              \item \code{plot} - plot as ggplot-object
 #'              \item \code{mean.pp} - mean value of the predicted probabilities for the response
 #'            }
@@ -185,6 +185,7 @@ sjp.glm <- function(fit,
                     hideErrorBars = FALSE,
                     interceptLineType = 2,
                     interceptLineColor = "grey70",
+                    remove.estimates = NULL,
                     coord.flip = TRUE,
                     showIntercept = FALSE,
                     showAxisLabels.y = TRUE,
@@ -333,13 +334,6 @@ sjp.glm <- function(fit,
     axisLabels.y <- row.names(odds)
   }
   # ----------------------------
-  # sort labels descending in order of
-  # odds ratio values
-  # This is necessary because the OR-values are reorderd by size
-  # in the ggplot function below
-  # ----------------------------
-  if (sortOdds) axisLabels.y <- axisLabels.y[order(ov)]
-  # ----------------------------
   # bind p-values to data frame
   # ----------------------------
   odds <- cbind(odds, ps[-1])
@@ -357,11 +351,29 @@ sjp.glm <- function(fit,
   odds <- cbind(odds, labhjust = lhj)
   lhj <- ifelse(tmp$OR > 1, 1.3, -0.3)
   tmp <- cbind(tmp, labhjust = lhj)
+  # -------------------------------------------------
+  # remove any estimates from the output?
+  # -------------------------------------------------
+  if (!is.null(remove.estimates)) {
+    # get row indices of rows that should be removed
+    remrows <- match(remove.estimates, row.names(odds))
+    # remember old rownames
+    keepnames <- row.names(odds)[-remrows]
+    # remove rows
+    odds <- dplyr::slice(odds, c(1:nrow(odds))[-remrows])
+    # set back rownames
+    row.names(odds) <- keepnames
+    # remove labels?
+    if (!is.null(axisLabels.y) && length(axisLabels.y) > nrow(odds))
+      axisLabels.y <- axisLabels.y[-remrows]
+    # remove p-values
+    ov <- ov[-remrows]
+  }
   # ----------------------------
   # Create new variable. Needed for sorting the variables / OR
   # in the graph (see reorder in ggplot-function)
   # ----------------------------
-  tmp$vars <- as.factor(c(nrow(tmp)))
+  tmp$vars <- as.factor(nrow(tmp))
   # --------------------------------------------------------
   # Calculate axis limits. The range is from lowest lower-CI
   # to highest upper-CI, or a user defined range
@@ -407,7 +419,7 @@ sjp.glm <- function(fit,
   # Define axis ticks, i.e. at which position we have grid
   # bars.
   # --------------------------------------------------------
-  ticks <- c(seq(lower_lim, upper_lim, by = gridBreaksAt))
+  ticks <- seq(lower_lim, upper_lim, by = gridBreaksAt)
   # ----------------------------
   # create expression with model summarys. used
   # for plotting in the diagram later
@@ -437,10 +449,15 @@ sjp.glm <- function(fit,
   # --------------------------------------------------------
   if (!showAxisLabels.y) axisLabels.y <- c("")
   # --------------------------------------------------------
-  # Order odds according to b-coefficients
+  # Order odds and labels according to b-coefficients
   # --------------------------------------------------------
-  if (sortOdds) odds <- odds[order(ov), ]
-  odds$vars <- cbind(c(1:nrow(odds)))
+  if (sortOdds) {
+    odds <- odds[order(ov), ]
+    # sort labels descending in order of
+    # odds ratio values
+    axisLabels.y <- axisLabels.y[order(ov)]
+  }
+  odds$vars <- cbind(1:nrow(odds))
   odds$vars <- as.factor(odds$vars)
   # --------------------------------------------------------
   # check whether intercept should be shown
@@ -549,7 +566,7 @@ sjp.glm <- function(fit,
   # -------------------------------------
   invisible(structure(class = "sjpglm",
                       list(plot = plotHeader,
-                           mydf = odds)))
+                           df = odds)))
 }
 
 
@@ -700,9 +717,9 @@ sjp.glm.pc <- function(fit,
   }
 
   invisible(structure(class = "sjpglm.pc",
-                      list(mydf.mp = mydf.metricpred,
+                      list(df.mp = mydf.metricpred,
                            plot.mp = plot.metricpred,
-                           mydf.facet = mydf.facet,
+                           df.facet = mydf.facet,
                            plot.facet = plot.facet)))
 }
 
@@ -741,7 +758,7 @@ sjp.glm.response.probcurv <- function(fit,
   # --------------------------
   if (printPlot) print(mp)
   return(structure(class = "sjpglm.ppresp",
-                   list(mydf = mydf,
+                   list(df = mydf,
                         plot = mp,
                         mean.pp = mean(pp))))
 }

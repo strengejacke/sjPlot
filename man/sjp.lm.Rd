@@ -8,12 +8,13 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   axisLabels.x = NULL, axisLabels.y = NULL, showAxisLabels.y = TRUE,
   axisTitle.x = "Estimates", axisLimits = NULL, geom.colors = "Set1",
   geom.size = NULL, interceptLineType = 2, interceptLineColor = "grey70",
-  breakTitleAt = 50, breakLabelsAt = 25, gridBreaksAt = NULL,
-  coord.flip = TRUE, showValueLabels = TRUE, labelDigits = 2,
-  showPValueLabels = TRUE, showModelSummary = FALSE, showCI = TRUE,
-  pointAlpha = 0.2, showScatterPlot = TRUE, showLoess = FALSE,
-  showLoessCI = FALSE, poly.term = NULL, showOriginalModelOnly = TRUE,
-  completeDiagnostic = FALSE, printPlot = TRUE)
+  remove.estimates = NULL, breakTitleAt = 50, breakLabelsAt = 25,
+  gridBreaksAt = NULL, coord.flip = TRUE, showValueLabels = TRUE,
+  labelDigits = 2, showPValueLabels = TRUE, showModelSummary = FALSE,
+  showCI = TRUE, pointAlpha = 0.2, showScatterPlot = TRUE,
+  showLoess = FALSE, showLoessCI = FALSE, poly.term = NULL,
+  showOriginalModelOnly = TRUE, completeDiagnostic = FALSE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{fit}{fitted linear regression model (\code{\link{lm}}- or \code{plm}-object).}
@@ -65,6 +66,11 @@ or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.}
 \item{interceptLineType}{linetype of the intercept line (zero point). Default is \code{2} (dashed line).}
 
 \item{interceptLineColor}{color of the intercept line. Default value is \code{"grey70"}.}
+
+\item{remove.estimates}{character vector with coefficient names that indicate
+which estimates should be removed from the plot.
+\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
+is \code{NULL}, i.e. all estimates are printed.}
 
 \item{breakTitleAt}{determines how many chars of the plot title are displayed in
 one line and when a line break is inserted into the title.}

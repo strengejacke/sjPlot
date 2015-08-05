@@ -114,6 +114,7 @@ sjp.glmm <- function(...,
                      usePShapes = FALSE,
                      interceptLineType = 2,
                      interceptLineColor = "grey70",
+                     remove.estimates = NULL,
                      coord.flip = TRUE,
                      showIntercept = FALSE,
                      showAxisLabels.y = TRUE,
@@ -249,12 +250,31 @@ sjp.glmm <- function(...,
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
   # ----------------------------
-  if (is.null(axisLabels.y)) axisLabels.y <- unique(finalodds$term)
   # reverse x-pos, convert to factor
   finalodds$xpos <- sjmisc::rec(finalodds$xpos, "rev", as.fac = TRUE)
   finalodds$grp <- as.factor(finalodds$grp)
   # convert to character
   finalodds$shape <- as.character(finalodds$shape)
+  # -------------------------------------------------
+  # remove any estimates from the output?
+  # -------------------------------------------------
+  if (!is.null(remove.estimates)) {
+    # get row indices of rows that should be removed
+    remrows <- c()
+    for (re in 1:length(remove.estimates)) {
+      remrows <- c(remrows, which(substr(row.names(finalodds), 
+                                         start = 1, 
+                                         stop = nchar(remove.estimates[re])) == remove.estimates[re]))
+    }
+    # remember old rownames
+    keepnames <- row.names(finalodds)[-remrows]
+    # remove rows
+    finalodds <- dplyr::slice(finalodds, c(1:nrow(finalodds))[-remrows])
+    # set back rownames
+    row.names(finalodds) <- keepnames
+  }
+  # set axis labels
+  if (is.null(axisLabels.y)) axisLabels.y <- unique(finalodds$term)
   # reverse axislabel order, so predictors appear from top to bottom
   # as they appear in the console when typing "summary(fit)"
   axisLabels.y <- rev(axisLabels.y)

@@ -9,11 +9,12 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   hideErrorBars = FALSE, showIntercept = TRUE,
   stringIntercept = "(Intercept)", sort.coef = NULL, pred.labels = NULL,
   axisTitle.x = NULL, axisTitle.y = NULL, interceptLineType = 2,
-  interceptLineColor = "grey70", showValueLabels = TRUE, labelDigits = 2,
-  showPValueLabels = TRUE, facet.grid = TRUE, free.scale = FALSE,
-  fade.ns = FALSE, show.se = TRUE, pointAlpha = 0.2,
-  showScatterPlot = TRUE, showLoess = FALSE, showLoessCI = FALSE,
-  poly.term = NULL, printPlot = TRUE)
+  interceptLineColor = "grey70", remove.estimates = NULL,
+  showValueLabels = TRUE, labelDigits = 2, showPValueLabels = TRUE,
+  facet.grid = TRUE, free.scale = FALSE, fade.ns = FALSE,
+  show.se = TRUE, pointAlpha = 0.2, showScatterPlot = TRUE,
+  showLoess = FALSE, showLoessCI = FALSE, poly.term = NULL,
+  printPlot = TRUE)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{lmer}}-function.}
@@ -92,6 +93,11 @@ on the plot type is chosen.}
 \item{interceptLineType}{linetype of the intercept line (zero point). Default is \code{2} (dashed line).}
 
 \item{interceptLineColor}{color of the intercept line. Default value is \code{"grey70"}.}
+
+\item{remove.estimates}{character vector with coefficient names that indicate
+which estimates should be removed from the plot.
+\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
+is \code{NULL}, i.e. all estimates are printed.}
 
 \item{showValueLabels}{logical, whether estimate values should be plotted to each dot or not.}
 

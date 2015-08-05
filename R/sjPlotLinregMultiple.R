@@ -132,6 +132,7 @@ sjp.lmm <- function(...,
                     usePShapes = FALSE,
                     interceptLineType = 2,
                     interceptLineColor = "grey70",
+                    remove.estimates = NULL,
                     coord.flip = TRUE,
                     showIntercept = FALSE,
                     showAxisLabels.y = TRUE,
@@ -279,14 +280,33 @@ sjp.lmm <- function(...,
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
   # ----------------------------
-  if (is.null(axisLabels.y)) axisLabels.y <- unique(finalbetas$term)
   # reverse x-pos, convert to factor
   finalbetas$xpos <- sjmisc::rec(finalbetas$xpos, "rev", as.fac = TRUE)
-  # reverse labels as well
-  axisLabels.y <- rev(axisLabels.y)
   finalbetas$grp <- as.factor(finalbetas$grp)
   # convert to character
   finalbetas$shape <- as.character(finalbetas$shape)
+  # -------------------------------------------------
+  # remove any estimates from the output?
+  # -------------------------------------------------
+  if (!is.null(remove.estimates)) {
+    # get row indices of rows that should be removed
+    remrows <- c()
+    for (re in 1:length(remove.estimates)) {
+      remrows <- c(remrows, which(substr(row.names(finalbetas), 
+                                         start = 1, 
+                                         stop = nchar(remove.estimates[re])) == remove.estimates[re]))
+    }
+    # remember old rownames
+    keepnames <- row.names(finalbetas)[-remrows]
+    # remove rows
+    finalbetas <- dplyr::slice(finalbetas, c(1:nrow(finalbetas))[-remrows])
+    # set back rownames
+    row.names(finalbetas) <- keepnames
+  }
+  # set axis labels
+  if (is.null(axisLabels.y)) axisLabels.y <- unique(finalbetas$term)
+  # reverse labels as well
+  axisLabels.y <- rev(axisLabels.y)
   # --------------------------------------------------------
   # Calculate axis limits. The range is from lowest lower-CI
   # to highest upper-CI, or a user defined range

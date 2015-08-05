@@ -85,6 +85,7 @@ utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "
 #'          the grid has the same scale range.
 #'          
 #' @inheritParams sjp.grpfrq
+#' @inheritParams sjp.lm
 #' 
 #' @return (Insisibily) returns
 #'          \itemize{
@@ -191,6 +192,7 @@ sjp.glmer <- function(fit,
                       free.scale = FALSE,
                       interceptLineType = 2,
                       interceptLineColor = "grey70",
+                      remove.estimates = NULL,
                       showValueLabels = TRUE,
                       labelDigits = 2,
                       showPValueLabels = TRUE,
@@ -219,6 +221,7 @@ sjp.glmer <- function(fit,
            axisTitle.y,
            interceptLineType,
            interceptLineColor,
+           remove.estimates,
            showValueLabels,
            labelDigits,
            showPValueLabels,
@@ -282,6 +285,7 @@ sjp.glmer <- function(fit,
 #'          
 #' @inheritParams sjp.glmer
 #' @inheritParams sjp.grpfrq
+#' @inheritParams sjp.lm
 #' 
 #' @return (Insisibily) returns
 #'          \itemize{
@@ -404,16 +408,17 @@ sjp.lmer <- function(fit,
                      axisTitle.y = NULL,
                      interceptLineType = 2,
                      interceptLineColor = "grey70",
-                     showValueLabels=TRUE,
-                     labelDigits=2,
-                     showPValueLabels=TRUE,
+                     remove.estimates = NULL,
+                     showValueLabels = TRUE,
+                     labelDigits = 2,
+                     showPValueLabels = TRUE,
                      facet.grid = TRUE,
                      free.scale = FALSE,
                      fade.ns = FALSE,
                      show.se = TRUE,
-                     pointAlpha=0.2,
-                     showScatterPlot=TRUE,
-                     showLoess=FALSE,
+                     pointAlpha = 0.2,
+                     showScatterPlot = TRUE,
+                     showLoess = FALSE,
                      showLoessCI=FALSE,
                      poly.term = NULL,
                      printPlot = TRUE) {
@@ -439,6 +444,7 @@ sjp.lmer <- function(fit,
            axisTitle.y,
            interceptLineType,
            interceptLineColor,
+           remove.estimates,
            showValueLabels,
            labelDigits,
            showPValueLabels,
@@ -472,6 +478,7 @@ sjp.lme4  <- function(fit,
                       axisTitle.y,
                       interceptLineType,
                       interceptLineColor,
+                      remove.estimates,
                       showValueLabels,
                       labelDigits,
                       showPValueLabels,
@@ -958,6 +965,22 @@ sjp.lme4  <- function(fit,
       # show intercept?
       # ---------------------------------------
       if (!showIntercept) mydf <- mydf[-1, ]
+      # -------------------------------------------------
+      # remove any estimates from the output?
+      # -------------------------------------------------
+      if (!is.null(remove.estimates)) {
+        # get row indices of rows that should be removed
+        remrows <- match(remove.estimates, row.names(mydf))
+        # remember old rownames
+        keepnames <- row.names(mydf)[-remrows]
+        # remove rows
+        mydf <- dplyr::slice(mydf, c(1:nrow(mydf))[-remrows])
+        # set back rownames
+        row.names(mydf) <- keepnames
+        # remove labels?
+        if (!empty.pred.labels && length(pred.labels) > nrow(mydf))
+          pred.labels <- pred.labels[-remrows]
+      }
       # ---------------------------------------
       # copy rownames as axis labels, if not set
       # ---------------------------------------
@@ -977,7 +1000,7 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------
       if (!is.null(sort.coef)) {
         reihe <- order(mydf$OR)
-        mydf <- mydf[reihe,]
+        mydf <- mydf[reihe, ]
       }
       mydf$sorting <- reihe
     }

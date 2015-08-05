@@ -57,6 +57,10 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #' @param geom.size size resp. width of the geoms (bar width or point size, depending on \code{type} argument).
 #' @param interceptLineType linetype of the intercept line (zero point). Default is \code{2} (dashed line).
 #' @param interceptLineColor color of the intercept line. Default value is \code{"grey70"}.
+#' @param remove.estimates character vector with coefficient names that indicate 
+#'          which estimates should be removed from the plot. 
+#'          \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default 
+#'          is \code{NULL}, i.e. all estimates are printed.
 #' @param coord.flip logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
 #'          values are plotted on the x-axis.
 #' @param showValueLabels logical, whether value labels should be plotted to each dot or not.
@@ -189,6 +193,7 @@ sjp.lm <- function(fit,
                    geom.size = NULL,
                    interceptLineType = 2,
                    interceptLineColor = "grey70",
+                   remove.estimates = NULL,
                    breakTitleAt = 50,
                    breakLabelsAt = 25,
                    gridBreaksAt = NULL,
@@ -363,6 +368,24 @@ sjp.lm <- function(fit,
   }
   colnames(tmp) <- c("beta", "low.ci", "hi.ci")
   # -------------------------------------------------
+  # remove any estimates from the output?
+  # -------------------------------------------------
+  if (!is.null(remove.estimates)) {
+    # get row indices of rows that should be removed
+    remrows <- match(remove.estimates, row.names(tmp))
+    # remember old rownames
+    keepnames <- row.names(tmp)[-remrows]
+    # remove rows
+    tmp <- dplyr::slice(tmp, c(1:nrow(tmp))[-remrows])
+    # set back rownames
+    row.names(tmp) <- keepnames
+    # remove labels?
+    if (!is.null(axisLabels.y) && length(axisLabels.y) > nrow(tmp))
+      axisLabels.y <- axisLabels.y[-remrows]
+    # remove p-values
+    pv <- pv[remrows]
+  }
+  # -------------------------------------------------
   # init data column for p-values
   # -------------------------------------------------
   ps <- sprintf("%.*f", labelDigits, tmp$beta)
@@ -392,7 +415,8 @@ sjp.lm <- function(fit,
   # have factors with different levels, which appear as
   # "multiple predictors", but are only one variable
   # --------------------------------------------------------
-  if (is.null(axisLabels.y) || length(axisLabels.y) < length(row.names(betas))) axisLabels.y <- row.names(betas)
+  if (is.null(axisLabels.y) || length(axisLabels.y) < length(row.names(betas))) 
+    axisLabels.y <- row.names(betas)
   # --------------------------------------------------------
   # define sorting criteria. the values on the x-axis are being sorted
   # either by beta-values (sort="beta") or by standardized
@@ -405,7 +429,7 @@ sjp.lm <- function(fit,
     axisLabels.y <- axisLabels.y[order(tmp$beta)]
     betas <- betas[order(tmp$beta), ]
   }
-  betas <- cbind(c(seq(1:nrow(betas))), betas)
+  betas <- cbind(c(1:nrow(betas)), betas)
   # give columns names
   colnames(betas) <- c("xv", "Beta", "lower", "upper", "p", "pv")
   betas$p <- as.character(betas$p)
@@ -523,23 +547,23 @@ sjp.lm.response.pred <- function(fit,
   # --------------------------
   if (printPlot) print(mp)
   return(structure(class = "sjplm.pvresp",
-                   list(mydf = mydf,
+                   list(df = mydf,
                         plot = mp,
                         mean.pp = mean(pp))))
 }
 
 
 sjp.reglin <- function(fit,
-                       title=NULL,
-                       breakTitleAt=50,
+                       title = NULL,
+                       breakTitleAt = 50,
                        geom.colors = NULL,
-                       showCI=TRUE,
-                       pointAlpha=0.2,
-                       showScatterPlot=TRUE,
-                       showLoess=TRUE,
-                       showLoessCI=FALSE,
-                       useResiduals=FALSE,
-                       printPlot=TRUE) {
+                       showCI = TRUE,
+                       pointAlpha = 0.2,
+                       showScatterPlot = TRUE,
+                       showLoess = TRUE,
+                       showLoessCI = FALSE,
+                       useResiduals = FALSE,
+                       printPlot = TRUE) {
   # -----------------------------------------------------------
   # check argument
   # -----------------------------------------------------------
