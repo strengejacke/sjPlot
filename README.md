@@ -64,3 +64,4 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * Fixed bug with `sjp.frq` and `sjt.frq`, when variable was a labelled factor with lowest factor level smaller than 1.
 * Fixed bug in `view_df` with parameter `showFreq = TRUE`, when variable was a character vector.
 * Minor bug fixes with p-shapes in `sjp.lmm` and `sjp.glmm`.
+* Fixed bug in `sjt`-table functions that occured with invalid multibyte strings.
