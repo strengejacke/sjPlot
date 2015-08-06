@@ -267,8 +267,6 @@ sjp.lmm <- function(...,
     betas <- data.frame(betas, ps, palpha, pointshapes, fitcnt)
     # set column names
     colnames(betas) <- c("beta", "lower", "upper", "p", "pa", "shape", "grp")
-    # set x-position
-    betas$xpos <- as.factor(c(1:nrow(betas)))
     #remove intercept from df
     if (!showIntercept) betas <- betas[-1, ]
     # add rownames
@@ -281,7 +279,8 @@ sjp.lmm <- function(...,
   # if not, use variable names from data frame
   # ----------------------------
   # reverse x-pos, convert to factor
-  finalbetas$xpos <- sjmisc::rec(finalbetas$xpos, "rev", as.fac = TRUE)
+  finalbetas$xpos <- sjmisc::to_value(as.factor(finalbetas$term), keep.labels = F)
+  finalbetas$xpos <- as.factor(finalbetas$xpos)
   finalbetas$grp <- as.factor(finalbetas$grp)
   # convert to character
   finalbetas$shape <- as.character(finalbetas$shape)
@@ -304,9 +303,10 @@ sjp.lmm <- function(...,
     row.names(finalbetas) <- keepnames
   }
   # set axis labels
-  if (is.null(axisLabels.y)) axisLabels.y <- unique(finalbetas$term)
-  # reverse labels as well
-  axisLabels.y <- rev(axisLabels.y)
+  if (is.null(axisLabels.y)) {
+    axisLabels.y <- unique(finalbetas$term)
+    axisLabels.y <- axisLabels.y[order(unique(finalbetas$xpos))]
+  }
   # --------------------------------------------------------
   # Calculate axis limits. The range is from lowest lower-CI
   # to highest upper-CI, or a user defined range

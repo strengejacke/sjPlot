@@ -237,8 +237,6 @@ sjp.glmm <- function(...,
     odds <- data.frame(odds, ps, palpha, pointshapes, fitcnt)
     # set column names
     colnames(odds) <- c("OR", "lower", "upper", "p", "pa", "shape", "grp")
-    # set x-position
-    odds$xpos <- as.factor(c(1:nrow(odds)))
     # add rownames
     odds$term <- row.names(odds)
     #remove intercept from df
@@ -251,7 +249,8 @@ sjp.glmm <- function(...,
   # if not, use variable names from data frame
   # ----------------------------
   # reverse x-pos, convert to factor
-  finalodds$xpos <- sjmisc::rec(finalodds$xpos, "rev", as.fac = TRUE)
+  finalodds$xpos <- sjmisc::to_value(as.factor(finalodds$term), keep.labels = F)
+  finalodds$xpos <- as.factor(finalodds$xpos)
   finalodds$grp <- as.factor(finalodds$grp)
   # convert to character
   finalodds$shape <- as.character(finalodds$shape)
@@ -274,10 +273,10 @@ sjp.glmm <- function(...,
     row.names(finalodds) <- keepnames
   }
   # set axis labels
-  if (is.null(axisLabels.y)) axisLabels.y <- unique(finalodds$term)
-  # reverse axislabel order, so predictors appear from top to bottom
-  # as they appear in the console when typing "summary(fit)"
-  axisLabels.y <- rev(axisLabels.y)
+  if (is.null(axisLabels.y)) {
+    axisLabels.y <- unique(finalodds$term)
+    axisLabels.y <- axisLabels.y[order(unique(finalodds$xpos))]
+  }
   # --------------------------------------------------------
   # Calculate axis limits. The range is from lowest lower-CI
   # to highest upper-CI, or a user defined range
