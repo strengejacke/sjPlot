@@ -81,7 +81,9 @@ utils::globalVariables(c("starts_with"))
 #'                                     "Infant Mortality"),
 #'         labelPredictors = c("Education", 
 #'                             "Examination", 
-#'                             "Catholic"))
+#'                             "Catholic"),
+#'          ci.hypen = " to ",
+#'          minus.sign = "&minus;")
 #' 
 #' # open HTML-table in RStudio Viewer Pane or web browser,
 #' # integrate CI in OR column
@@ -220,6 +222,8 @@ sjt.glm <- function(...,
                     boldpvalues = TRUE,
                     showConfInt = TRUE,
                     showStdError = FALSE,
+                    ci.hyphen = "&nbsp;&ndash;&nbsp;",
+                    minus.sign = "&#45;",
                     separateConfColumn = TRUE,
                     newLineConf = TRUE,
                     group.pred = TRUE,
@@ -249,6 +253,10 @@ sjt.glm <- function(...,
   } else {
     p_zero <- "0"
   }
+  # check hyphen for ci-range
+  if (is.null(ci.hyphen)) ci.hyphen <- "&nbsp;&ndash;&nbsp;"
+  # replace space with protected space in ci-hyphen
+  ci.hyphen <- gsub(" ", "&nbsp;", ci.hyphen, fixed = TRUE)
   # -------------------------------------
   # check encoding
   # -------------------------------------
@@ -763,9 +771,10 @@ sjt.glm <- function(...,
       if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[1, (i - 1) * 5 + 5]))
       # if we have CI, start new table cell (CI in separate column)
       if (showConfInt) {
-        page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign %smodelcolumn2\">%s&nbsp;-&nbsp;%s</td>", 
+        page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign %smodelcolumn2\">%s%s%s</td>", 
                                                      tcb_class, 
                                                      joined.df[1, (i - 1) * 5 + 3], 
+                                                     ci.hyphen,
                                                      joined.df[1, (i - 1) * 5 + 4]))
       } else {
         page.content <- paste0(page.content, "</td>")
@@ -776,9 +785,10 @@ sjt.glm <- function(...,
                                                    tcb_class, 
                                                    joined.df[1, (i - 1) * 5 + 2]))
       # confidence interval in Beta-column
-      if (showConfInt) page.content <- paste0(page.content, sprintf("%s(%s&nbsp;-&nbsp;%s)", 
+      if (showConfInt) page.content <- paste0(page.content, sprintf("%s(%s%s%s)", 
                                                                     linebreakstring, 
                                                                     joined.df[1, (i - 1) * 5 + 3], 
+                                                                    ci.hyphen,
                                                                     joined.df[1, (i - 1) * 5 + 4]))
       # if p-values are not shown as numbers, insert them after beta-value
       if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[1, (i - 1) * 5 + 5]))
@@ -825,7 +835,7 @@ sjt.glm <- function(...,
       # if we have empry cells (due to different predictors in models)
       # we don't print CI-separator strings and we don't print any esitmate
       # values - however, for proper display, we fill these values with "&nbsp;"
-      ci.sep.string <- ifelse(sjmisc::is_empty(ci.lo), "&nbsp;", "&nbsp;-&nbsp;")
+      ci.sep.string <- ifelse(sjmisc::is_empty(ci.lo), "&nbsp;", ci.hyphen)
       # replace empty beta, se and p-values with &nbsp;
       if (sjmisc::is_empty(joined.df[i + 1, (j - 1) * 5 + 2])) joined.df[i + 1, (j - 1) * 5 + 2] <- "&nbsp;"
       if (sjmisc::is_empty(joined.df[i + 1, (j - 1) * 5 + 5])) joined.df[i + 1, (j - 1) * 5 + 5] <- "&nbsp;"
@@ -1146,6 +1156,11 @@ sjt.glm <- function(...,
   if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata annorow\">Notes</td><td class=\"tdata annorow annostyle\" colspan=\"%i\"><em>* p&lt;%s.05&nbsp;&nbsp;&nbsp;** p&lt;%s.01&nbsp;&nbsp;&nbsp;*** p&lt;%s.001</em></td>\n  </tr>\n", headerColSpan, p_zero, p_zero, p_zero))
   page.content <- paste0(page.content, "</table>\n")
   # -------------------------------------
+  # proper HTML-minus-signs
+  # -------------------------------------
+  page.content <- gsub("-", minus.sign, page.content, fixed = TRUE, useBytes = TRUE)
+  # -------------------------------------
+  # -------------------------------------
   # finish table
   # -------------------------------------
   toWrite <- paste0(toWrite, page.content)
@@ -1270,7 +1285,9 @@ sjt.glm <- function(...,
 #'               family = binomial("logit"))
 #'               
 #' # print summary table
-#' sjt.glmer(fit1, fit2)
+#' sjt.glmer(fit1, fit2,
+#'           ci.hypen = " to ",
+#'           minus.sign = "&minus;")
 #' 
 #' # print summary table, using different table layout
 #' sjt.glmer(fit1, fit2,
@@ -1312,6 +1329,8 @@ sjt.glmer <- function(...,
                       boldpvalues = TRUE,
                       showConfInt = TRUE,
                       showStdError = FALSE,
+                      ci.hyphen = "&nbsp;&ndash;&nbsp;",
+                      minus.sign = "&#45;",
                       separateConfColumn = TRUE,
                       newLineConf = TRUE,
                       showAbbrHeadline = TRUE,
@@ -1340,6 +1359,7 @@ sjt.glmer <- function(...,
                  digits.se = digits.se, digits.summary = digits.summary, exp.coef = exp.coef,
                  pvaluesAsNumbers = pvaluesAsNumbers, boldpvalues = boldpvalues, 
                  showConfInt = showConfInt, showStdError = showStdError, 
+                 ci.hyphen = ci.hyphen, minus.sign = minus.sign,
                  separateConfColumn = separateConfColumn, newLineConf = newLineConf, 
                  group.pred = FALSE, showAbbrHeadline = showAbbrHeadline, showPseudoR = showICC, 
                  showLogLik = showLogLik, showAIC = showAIC, showAICc = showAICc, showChi2 = FALSE, 

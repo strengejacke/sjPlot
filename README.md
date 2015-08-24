@@ -40,7 +40,7 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](http://cran.r-project.org/package=ggplot2), consider citing this package as well.
 
-### Changelog of development build 1.8.2-7
+### Changelog of development build 1.8.2-8
 
 #### New functions
 * `sjp.gpt` to plot grouped proportional tables.
@@ -50,6 +50,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * `sjp.lmm` can now also plot standardized estimates.
 * `sjp.lm`, `sjp.lmm` and `sjt.lm` can now plot standardized estimates, where standardization is computed following Gelman's approach by dividing estimates by two standard deviations.
 * `sjp.lm`, `sjp.glm`, `sjp.lmm`, `sjp.glmm`, `sjp.lmer` and `sjp.glmer` get a `remove.estimates` argument to remove specific estimates from the plot output.
+* Added parameters `ci.hyphen` and `minus.sign` to `sjt.lm`, `sjt.glm`, `sjt.lmer` and `sjt.glmer` to set specific symbols or HTML entitities for hyphens and minus signs of negative numbers.
 * Added `type = "coeff"` to `sjp.lmer` to plot joint random and fixed effects coefficients.
 * `type = "poly"` in `sjp.lm` can now deal with fitted models that either use polynomials with `poly` or splines with `bs` (see examples).
 * `sjt.df` gets a `big.mark` parameter to add thousands-separators if parameter `describe = TRUE`.

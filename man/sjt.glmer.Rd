@@ -13,7 +13,8 @@ sjt.glmer(..., file = NULL, labelPredictors = NULL,
   stringP = "p", digits.est = 2, digits.p = 3, digits.ci = 2,
   digits.se = 2, digits.summary = 3, exp.coef = TRUE,
   pvaluesAsNumbers = TRUE, boldpvalues = TRUE, showConfInt = TRUE,
-  showStdError = FALSE, separateConfColumn = TRUE, newLineConf = TRUE,
+  showStdError = FALSE, ci.hyphen = "&nbsp;&ndash;&nbsp;",
+  minus.sign = "&#45;", separateConfColumn = TRUE, newLineConf = TRUE,
   showAbbrHeadline = TRUE, showICC = TRUE, showLogLik = FALSE,
   showAIC = FALSE, showAICc = FALSE, showHosLem = FALSE,
   showFamily = FALSE, remove.estimates = NULL, cellSpacing = 0.2,
@@ -86,6 +87,12 @@ p-values are indicated by asterisks.}
 
 \item{showStdError}{logical, if \code{TRUE}, the standard errors are also printed.
 Default is \code{FALSE}.}
+
+\item{ci.hyphen}{string, indicating the hyphen for confidence interval range.
+May be an HTML entity. See 'Examples'.}
+
+\item{minus.sign}{string, indicating the minus sign for negative numbers.
+May be an HTML entity. See 'Examples'.}
 
 \item{separateConfColumn}{if \code{TRUE}, the CI values are shown in a separate table column.
 Default is \code{FALSE}.}
@@ -202,7 +209,9 @@ fit2 <- glmer(hi_qol ~ sex + c12hour + neg_c_7 + education + (1|grp),
               family = binomial("logit"))
 
 # print summary table
-sjt.glmer(fit1, fit2)
+sjt.glmer(fit1, fit2,
+          ci.hypen = " to ",
+          minus.sign = "&minus;")
 
 # print summary table, using different table layout
 sjt.glmer(fit1, fit2,

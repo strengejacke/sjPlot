@@ -11,7 +11,8 @@ sjt.lm(..., file = NULL, labelPredictors = NULL,
   stringObservations = "Observations", stringB = "B",
   stringSB = "std. Beta", stringCI = "CI", stringSE = "std. Error",
   stringP = "p", showEst = TRUE, showConfInt = TRUE, showStdBeta = NULL,
-  showStdError = FALSE, digits.est = 2, digits.p = 3, digits.ci = 2,
+  showStdError = FALSE, ci.hyphen = "&nbsp;&ndash;&nbsp;",
+  minus.sign = "&#45;", digits.est = 2, digits.p = 3, digits.ci = 2,
   digits.se = 2, digits.sb = 2, digits.summary = 3,
   pvaluesAsNumbers = TRUE, boldpvalues = TRUE, separateConfColumn = TRUE,
   newLineConf = TRUE, group.pred = TRUE, showAbbrHeadline = TRUE,
@@ -74,6 +75,12 @@ See 'Details'.}
 
 \item{showStdError}{logical, if \code{TRUE}, the standard errors are also printed.
 Default is \code{FALSE}.}
+
+\item{ci.hyphen}{string, indicating the hyphen for confidence interval range.
+May be an HTML entity. See 'Examples'.}
+
+\item{minus.sign}{string, indicating the minus sign for negative numbers.
+May be an HTML entity. See 'Examples'.}
 
 \item{digits.est}{amount of decimals for estimates}
 
@@ -266,6 +273,8 @@ sjt.lm(fit1,
                            "Carer's Sex",
                            "Educational Status"),
        showStdBeta = TRUE,
+       ci.hypen = " to ",
+       minus.sign = "&minus;",
        pvaluesAsNumbers = FALSE,
        separateConfColumn = FALSE)
 

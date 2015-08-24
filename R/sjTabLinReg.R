@@ -43,6 +43,10 @@ utils::globalVariables(c("starts_with"))
 #'          See 'Details'.
 #' @param showStdError logical, if \code{TRUE}, the standard errors are also printed.
 #'          Default is \code{FALSE}.
+#' @param ci.hyphen string, indicating the hyphen for confidence interval range.
+#'          May be an HTML entity. See 'Examples'.
+#' @param minus.sign string, indicating the minus sign for negative numbers.
+#'          May be an HTML entity. See 'Examples'.
 #' @param digits.est amount of decimals for estimates
 #' @param digits.p amount of decimals for p-values
 #' @param digits.ci amount of decimals for confidence intervals
@@ -190,6 +194,8 @@ utils::globalVariables(c("starts_with"))
 #'                            "Carer's Sex", 
 #'                            "Educational Status"),
 #'        showStdBeta = TRUE, 
+#'        ci.hypen = " to ",
+#'        minus.sign = "&minus;",
 #'        pvaluesAsNumbers = FALSE, 
 #'        separateConfColumn = FALSE)
 #' 
@@ -350,6 +356,8 @@ sjt.lm <- function(...,
                    showConfInt = TRUE,
                    showStdBeta = NULL,
                    showStdError = FALSE,
+                   ci.hyphen = "&nbsp;&ndash;&nbsp;",
+                   minus.sign = "&#45;",
                    digits.est = 2,
                    digits.p = 3,
                    digits.ci = 2,
@@ -397,6 +405,10 @@ sjt.lm <- function(...,
     warning("Either estimates ('showEst') or standardized betas ('showStdBeta') must be 'TRUE' to show table. Setting 'showEst' to 'TRUE'.", call. = F)
     showEst <- TRUE
   }
+  # check hyphen for ci-range
+  if (is.null(ci.hyphen)) ci.hyphen <- "&nbsp;&ndash;&nbsp;"
+  # replace space with protected space in ci-hyphen
+  ci.hyphen <- gsub(" ", "&nbsp;", ci.hyphen, fixed = TRUE)
   # -------------------------------------
   # check encoding
   # -------------------------------------
@@ -969,9 +981,10 @@ sjt.lm <- function(...,
                                                                             joined.df[1, (i - 1) * 8 + 5]))
         # if we have CI, start new table cell (CI in separate column)
         if (showConfInt) {
-          page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign %smodelcolumn2\">%s&nbsp;-&nbsp;%s</td>", 
+          page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign %smodelcolumn2\">%s%s%s</td>", 
                                                        tcb_class, 
                                                        joined.df[1, (i - 1) * 8 + 3], 
+                                                       ci.hyphen,
                                                        joined.df[1, (i - 1) * 8 + 4]))
         } else {
           page.content <- paste0(page.content, "</td>")
@@ -982,9 +995,10 @@ sjt.lm <- function(...,
                                                      tcb_class, 
                                                      joined.df[1, (i - 1) * 8 + 2]))
         # confidence interval in Beta-column
-        if (showConfInt) page.content <- paste0(page.content, sprintf("%s(%s&nbsp;-&nbsp;%s)", 
+        if (showConfInt) page.content <- paste0(page.content, sprintf("%s(%s%s%s)", 
                                                                       linebreakstring, 
                                                                       joined.df[1, (i - 1) * 8 + 3], 
+                                                                      ci.hyphen,
                                                                       joined.df[1, (i - 1) * 8 + 4]))
         # if p-values are not shown as numbers, insert them after beta-value
         if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", 
@@ -1043,10 +1057,10 @@ sjt.lm <- function(...,
         # retieve lower and upper ci
         ci.lo <- joined.df[i + 1, (j - 1) * 8 + 3]
         ci.hi <- joined.df[i + 1, (j - 1) * 8 + 4]
-        # if we have empry cells (due to different predictors in models)
+        # if we have empty cells (due to different predictors in models)
         # we don't print CI-separator strings and we don't print any esitmate
         # values - however, for proper display, we fill these values with "&nbsp;"
-        ci.sep.string <- ifelse(sjmisc::is_empty(ci.lo), "&nbsp;", "&nbsp;-&nbsp;")
+        ci.sep.string <- ifelse(sjmisc::is_empty(ci.lo), "&nbsp;", ci.hyphen)
         # replace empty beta, se and p-values with &nbsp;
         if (sjmisc::is_empty(joined.df[i + 1, (j - 1) * 8 + 2])) joined.df[i + 1, (j - 1) * 8 + 2] <- "&nbsp;"
         if (sjmisc::is_empty(joined.df[i + 1, (j - 1) * 8 + 5])) joined.df[i + 1, (j - 1) * 8 + 5] <- "&nbsp;"
@@ -1297,6 +1311,10 @@ sjt.lm <- function(...,
   if (!pvaluesAsNumbers) page.content <- paste(page.content, sprintf("  <tr class=\"tdata annorow\">\n    <td class=\"tdata\">Notes</td><td class=\"tdata annostyle\" colspan=\"%i\"><em>* p&lt;%s.05&nbsp;&nbsp;&nbsp;** p&lt;%s.01&nbsp;&nbsp;&nbsp;*** p&lt;%s.001</em></td>\n  </tr>\n", headerColSpan, p_zero, p_zero, p_zero), sep = "")
   page.content <- paste0(page.content, "</table>\n")
   # -------------------------------------
+  # proper HTML-minus-signs
+  # -------------------------------------
+  page.content <- gsub("-", minus.sign, page.content, fixed = TRUE, useBytes = TRUE)
+  # -------------------------------------
   # finish table
   # -------------------------------------
   toWrite <- paste0(toWrite, page.content)
@@ -1428,7 +1446,9 @@ sjt.lm <- function(...,
 #'               (1|carelevel), data = mydf)
 #' 
 #' # print summary table
-#' sjt.lmer(fit1, fit2)
+#' sjt.lmer(fit1, fit2,
+#'          ci.hypen = " to ",
+#'          minus.sign = "&minus;")
 #' 
 #' sjt.lmer(fit1, fit2,
 #'          showAIC = TRUE,
@@ -1468,6 +1488,8 @@ sjt.lmer <- function(...,
                      showConfInt = TRUE,
                      showStdBeta = FALSE,
                      showStdError = FALSE,
+                     ci.hyphen = "&nbsp;&ndash;&nbsp;",
+                     minus.sign = "&#45;",
                      digits.est = 2,
                      digits.p = 3,
                      digits.ci = 2,
@@ -1497,6 +1519,7 @@ sjt.lmer <- function(...,
                 stringObservations = stringObservations, stringB = stringB, stringSB = stringSB, 
                 stringCI = stringCI, stringSE = stringSE, stringP = stringP, showEst = showEst,
                 showConfInt = showConfInt, showStdBeta = showStdBeta, showStdError = showStdError, 
+                ci.hyphen = ci.hyphen, minus.sign = minus.sign,
                 digits.est = digits.est, digits.p = digits.p, digits.ci = digits.ci,
                 digits.se = digits.se, digits.sb = digits.sb, digits.summary = digits.summary, 
                 pvaluesAsNumbers = pvaluesAsNumbers, boldpvalues = boldpvalues, 
