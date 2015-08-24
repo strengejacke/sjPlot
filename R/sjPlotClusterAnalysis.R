@@ -717,8 +717,8 @@ sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect = TRUE, print
 #' # plot elbow values of mtcars dataset
 #' sjc.elbow(mtcars)
 #' 
-#' @import tidyr
 #' @import ggplot2
+#' @importFrom tidyr gather
 #' @importFrom grDevices rgb
 #' @importFrom stats na.omit
 #' @importFrom graphics plot

@@ -875,7 +875,7 @@ sj.setGeomColors <- function(plot,
 #'         anti-aliasing (see \code{\link[grDevices]{png}}).
 #' 
 #' @import ggplot2
-#' @importFrom grDevices png jpeg tiff
+#' @importFrom grDevices png jpeg tiff dev.off
 #' 
 #' @export
 save_plot <- function(filename,
@@ -947,7 +947,7 @@ save_plot <- function(filename,
   # print plot to device
   print(fig)
   # close device
-  dev.off()  
+  grDevices::dev.off()  
   # set back theme
   ggplot2::theme_set(curtheme)
 }

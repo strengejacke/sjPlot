@@ -97,8 +97,8 @@ utils::globalVariables(c("ordx", "ordy"))
 #'
 #'
 #' @import ggplot2
-#' @import tidyr
 #' @import sjmisc
+#' @importFrom tidyr gather
 #' @importFrom scales brewer_pal grey_pal
 #' @importFrom stats cor cor.test na.omit
 #' @export
