@@ -202,7 +202,7 @@ fit3 <- lmer(neg_c_7 ~ sex + c12hour + education + barthel +
 
 # print summary table
 sjt.lmer(fit1, fit2,
-         ci.hypen = " to ",
+         ci.hyphen = " to ",
          minus.sign = "&minus;")
 
 sjt.lmer(fit1, fit2,

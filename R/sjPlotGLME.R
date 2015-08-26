@@ -172,6 +172,7 @@ utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "
 #'           vars = "neg_c_7")
 #'
 #' @import ggplot2
+#' @importFrom dplyr slice
 #' @export
 sjp.glmer <- function(fit,
                       type = "re",
@@ -899,7 +900,7 @@ sjp.lme4  <- function(fit,
           warning("'type = fe.std' only works for linear models.", call. = F)
         }
         # get odds ratios and cleaned CI
-        mydf <- get_cleaned_ciMerMod(fit)
+        mydf <- get_cleaned_ciMerMod(fit, fun)
       } else {
         if (type == "fe.std") {
           tmpdf <- sjmisc::std_beta(fit)
@@ -910,7 +911,7 @@ sjp.lme4  <- function(fit,
           rownames(mydf) <- names(lme4::fixef(fit))
         } else {
           # get odds ratios and cleaned CI
-          mydf <- get_cleaned_ciMerMod(fit)
+          mydf <- get_cleaned_ciMerMod(fit, fun)
         }
       }
       # ----------------------------
@@ -946,7 +947,7 @@ sjp.lme4  <- function(fit,
       # ----------------------------
       if (showPValueLabels) {
         for (i in 1:length(pv)) {
-          ps[i] <- get_p_stars(pv[i])
+          ps[i] <- sjmisc::trim(paste(ps[i], get_p_stars(pv[i])))
         }
       }
       # bind p-values
@@ -2086,13 +2087,16 @@ sjp.glm.eff <- function(fit,
 }
 
 
-get_cleaned_ciMerMod <- function(fit, ci.only = FALSE) {
+get_cleaned_ciMerMod <- function(fit, fun, ci.only = FALSE) {
   # get odds ratios of fixed effects
   OR <- lme4::fixef(fit)
   # get condifence intervals, cleaned (variance CI removed via NA)
   CI <- lme4::confint.merMod(fit, method = "Wald", parm = "beta_")
   # create data frame
-  mydf <- data.frame(exp(cbind(OR, CI)))
+  if (fun == "lm")
+    mydf <- data.frame(cbind(OR, CI))
+  else
+    mydf <- data.frame(exp(cbind(OR, CI)))
   # only return ci?
   if (ci.only)
     return(as.data.frame(CI))

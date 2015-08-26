@@ -14,12 +14,11 @@ sjt.glmer(..., file = NULL, labelPredictors = NULL,
   digits.se = 2, digits.summary = 3, exp.coef = TRUE,
   pvaluesAsNumbers = TRUE, boldpvalues = TRUE, showConfInt = TRUE,
   showStdError = FALSE, ci.hyphen = "&nbsp;&ndash;&nbsp;",
-  minus.sign = "&#45;", separateConfColumn = TRUE, newLineConf = TRUE,
-  showAbbrHeadline = TRUE, showICC = TRUE, showLogLik = FALSE,
-  showAIC = FALSE, showAICc = FALSE, showHosLem = FALSE,
-  showFamily = FALSE, remove.estimates = NULL, cellSpacing = 0.2,
-  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
-  remove.spaces = TRUE)
+  separateConfColumn = TRUE, newLineConf = TRUE, showAbbrHeadline = TRUE,
+  showICC = TRUE, showLogLik = FALSE, showAIC = FALSE, showAICc = FALSE,
+  showHosLem = FALSE, showFamily = FALSE, remove.estimates = NULL,
+  cellSpacing = 0.2, encoding = NULL, CSS = NULL, useViewer = TRUE,
+  no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{one or more fitted generalized linear (mixed) models.}
@@ -89,9 +88,6 @@ p-values are indicated by asterisks.}
 Default is \code{FALSE}.}
 
 \item{ci.hyphen}{string, indicating the hyphen for confidence interval range.
-May be an HTML entity. See 'Examples'.}
-
-\item{minus.sign}{string, indicating the minus sign for negative numbers.
 May be an HTML entity. See 'Examples'.}
 
 \item{separateConfColumn}{if \code{TRUE}, the CI values are shown in a separate table column.
@@ -210,8 +206,7 @@ fit2 <- glmer(hi_qol ~ sex + c12hour + neg_c_7 + education + (1|grp),
 
 # print summary table
 sjt.glmer(fit1, fit2,
-          ci.hypen = " to ",
-          minus.sign = "&minus;")
+          ci.hyphen = " to ")
 
 # print summary table, using different table layout
 sjt.glmer(fit1, fit2,

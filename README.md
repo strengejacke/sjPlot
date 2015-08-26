@@ -40,7 +40,7 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](http://cran.r-project.org/package=ggplot2), consider citing this package as well.
 
-### Changelog of development build 1.8.2-8
+### Changelog of stable release 1.8.3
 
 #### New functions
 * `sjp.gpt` to plot grouped proportional tables.
@@ -62,6 +62,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * Minor improvements to `sjp.lmm` and `sjp.glmm`.
 
 #### Bug fixes
+* Fixed bug in `sjp.lmer`, which misleadingly printed wrong beta coefficients (they were exponentiated as for odds ratios).
 * Fixed bug with computation of predicted probabilities in `sjp.glm` and `sjp.glmer` (only occured when `type = "y.pc"`).
 * `sjp.grpfrq` did not show correct number of missings (argument `na.rm = FALSE`), if grouping variable startet with zero.
 * Fixed bug with `sjp.frq` and `sjt.frq`, when variable was a labelled factor with lowest factor level smaller than 1.

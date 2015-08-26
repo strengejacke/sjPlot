@@ -330,12 +330,12 @@ sjp.frq <- function(varCount,
     # group axis labels
     axisLabels.x <- sjmisc::group_labels(varCount, 
                                          groupsize = "auto", 
-                                         autoGroupCount = agcnt)
+                                         groupcount = agcnt)
     # group variable
     varCount <- sjmisc::group_var(varCount, 
                                   groupsize = "auto", 
-                                  asNumeric = TRUE, 
-                                  autoGroupCount = agcnt)
+                                  as.num = TRUE, 
+                                  groupcount = agcnt)
     # set label attributes
     varCount <- sjmisc::set_labels(varCount, axisLabels.x)
     # --------------------------------------------------------

@@ -273,7 +273,7 @@ sjt.lm(fit1,
                            "Carer's Sex",
                            "Educational Status"),
        showStdBeta = TRUE,
-       ci.hypen = " to ",
+       ci.hyphen = " to ",
        minus.sign = "&minus;",
        pvaluesAsNumbers = FALSE,
        separateConfColumn = FALSE)

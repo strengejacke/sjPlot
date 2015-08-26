@@ -179,6 +179,7 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #' @import sjmisc
 #' @importFrom car outlierTest crPlots durbinWatsonTest leveragePlots ncvTest spreadLevelPlot vif
 #' @importFrom stats model.matrix confint coef
+#' @importFrom dplyr slice
 #' @export
 sjp.lm <- function(fit,
                    type = "lm",

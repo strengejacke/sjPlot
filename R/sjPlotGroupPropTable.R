@@ -1,4 +1,4 @@
-utils::globalVariables(c("pv", "dep"))
+utils::globalVariables(c("pv", "dep", "n"))
 
 #' @title Plot grouped proportional tables
 #' @name sjp.gpt
@@ -51,8 +51,9 @@ utils::globalVariables(c("pv", "dep"))
 #' sjp.gpt(efc$c172code, efc$e42dep, efc$n4pstu)
 #'
 #' @import ggplot2
-#' @import dplyr
 #' @import sjmisc
+#' @importFrom magrittr "%>%"
+#' @importFrom dplyr group_by summarise bind_rows
 #' @importFrom scales percent
 #' @importFrom stats na.omit chisq.test
 #' @export

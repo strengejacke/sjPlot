@@ -194,7 +194,7 @@ utils::globalVariables(c("starts_with"))
 #'                            "Carer's Sex", 
 #'                            "Educational Status"),
 #'        showStdBeta = TRUE, 
-#'        ci.hypen = " to ",
+#'        ci.hyphen = " to ",
 #'        minus.sign = "&minus;",
 #'        pvaluesAsNumbers = FALSE, 
 #'        separateConfColumn = FALSE)
@@ -334,7 +334,7 @@ utils::globalVariables(c("starts_with"))
 #'        CSS = list(css.modelcolumn4 = 'border-left:1px solid black;',
 #'                   css.modelcolumn5 = 'padding-right:50px;'))}
 #'                   
-#' @import dplyr
+#' @importFrom dplyr full_join slice
 #' @importFrom stats nobs AIC confint coef
 #' @export
 sjt.lm <- function(...,
@@ -630,7 +630,7 @@ sjt.lm <- function(...,
     # -------------------------------------
     if (lmerob) {
       # get cleaned CI
-      confis <- get_cleaned_ciMerMod(fit, T)
+      confis <- get_cleaned_ciMerMod(fit, "lm", T)
       sbmer <- suppressWarnings(sjmisc::std_beta(fit)[-1, ])
       sbvals <- data.frame(beta = sbmer[, 1], 
                            ci.low = sbmer[, 1] - 1.96 * sbmer[, 2],
@@ -1447,7 +1447,7 @@ sjt.lm <- function(...,
 #' 
 #' # print summary table
 #' sjt.lmer(fit1, fit2,
-#'          ci.hypen = " to ",
+#'          ci.hyphen = " to ",
 #'          minus.sign = "&minus;")
 #' 
 #' sjt.lmer(fit1, fit2,

@@ -126,7 +126,7 @@ utils::globalVariables(c("Perc", "Sum", "Count", "Group", "line.break"))
 #'
 #'
 #' @import ggplot2
-#' @import dplyr
+#' @importFrom dplyr group_by mutate arrange
 #' @import sjmisc
 #' @importFrom scales percent
 #' @importFrom stats na.omit

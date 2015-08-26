@@ -1,6 +1,7 @@
 # bind global variables
 utils::globalVariables(c("xn", "vld", "l.ci", "u.ci"))
 
+#' @importFrom dplyr filter
 sjp.emm <- function(fit,
                     swapPredictors = FALSE,
                     plevel = 0.05,

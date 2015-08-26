@@ -1,4 +1,4 @@
-Version 1.8.2-8
+Version 1.8.3
 -----------------------------------------------------------------------------
 New functions:
 * `sjp.gpt` to plot grouped proportional tables.
@@ -20,6 +20,7 @@ Changes to functions:
 * Minor improvements to `sjp.lmm` and `sjp.glmm`.
 
 Bug fixes:
+* Fixed bug in `sjp.lmer`, which misleadingly printed wrong beta coefficients (they were exponentiated as for odds ratios).
 * Fixed bug with computation of predicted probabilities in `sjp.glm` and `sjp.glmer` (only occured when `type = 'y.pc'`).
 * `sjp.grpfrq` did not show correct number of missings (argument `na.rm = FALSE`), if grouping variable startet with zero.
 * Fixed bug with `sjp.frq` and `sjt.frq`, when variable was a labelled factor with lowest factor level smaller than 1.

@@ -82,8 +82,7 @@ utils::globalVariables(c("starts_with"))
 #'         labelPredictors = c("Education", 
 #'                             "Examination", 
 #'                             "Catholic"),
-#'          ci.hypen = " to ",
-#'          minus.sign = "&minus;")
+#'          ci.hyphen = " to ")
 #' 
 #' # open HTML-table in RStudio Viewer Pane or web browser,
 #' # integrate CI in OR column
@@ -125,7 +124,7 @@ utils::globalVariables(c("starts_with"))
 #' # load efc sample data
 #' data(efc)
 #' # dichtomozize service usage by "service usage yes/no"
-#' efc$services <- sjmisc::dicho(efc$tot_sc_e, "v", 0, asNum = TRUE)
+#' efc$services <- sjmisc::dicho(efc$tot_sc_e, "v", 0, as.num = TRUE)
 #' # fit 3 models with different link-functions
 #' fit1 <- glm(services ~ neg_c_7 + c161sex + e42dep, 
 #'             data=efc, 
@@ -169,11 +168,11 @@ utils::globalVariables(c("starts_with"))
 #' # load efc sample data
 #' data(efc)
 #' # dichtomozize service usage by "service usage yes/no"
-#' efc$services <- sjmisc::dicho(efc$tot_sc_e, "v", 0, asNum = TRUE)
+#' efc$services <- sjmisc::dicho(efc$tot_sc_e, "v", 0, as.num = TRUE)
 #' # make dependency categorical
 #' efc$e42dep <- to_fac(efc$e42dep)
 #' # fit model with "grouped" predictor
-#' fit <- glm(services ~ neg_c_7 + c161sex + e42dep, data=efc)
+#' fit <- glm(services ~ neg_c_7 + c161sex + e42dep, data = efc)
 #' 
 #' # automatic grouping of categorical predictors
 #' sjt.glm(fit)
@@ -182,20 +181,21 @@ utils::globalVariables(c("starts_with"))
 #' # ---------------------------------- 
 #' # compare models with different predictors
 #' # ---------------------------------- 
-#' fit2 <- glm(services ~ neg_c_7 + c161sex + e42dep + c12hour, data=efc)
-#' fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep + c12hour + c172code, data=efc)
+#' fit2 <- glm(services ~ neg_c_7 + c161sex + e42dep + c12hour, data = efc)
+#' fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep + c12hour + c172code, 
+#'             data = efc)
 #' 
 #' # print models with different predictors
 #' sjt.glm(fit, fit2, fit3)
 #' 
 #' efc$c172code <- to_fac(efc$c172code)
-#' fit2 <- glm(services ~ neg_c_7 + c161sex + c12hour, data=efc)
-#' fit3 <- glm(services ~ neg_c_7 + c161sex + c172code, data=efc)
+#' fit2 <- glm(services ~ neg_c_7 + c161sex + c12hour, data = efc)
+#' fit3 <- glm(services ~ neg_c_7 + c161sex + c172code, data = efc)
 #' 
 #' # print models with different predictors
 #' sjt.glm(fit, fit2, fit3, group.pred = FALSE)}
 #' 
-#' @import dplyr
+#' @importFrom dplyr full_join slice
 #' @importFrom stats nobs AIC confint coef logLik family
 #' @export
 sjt.glm <- function(...,
@@ -223,7 +223,6 @@ sjt.glm <- function(...,
                     showConfInt = TRUE,
                     showStdError = FALSE,
                     ci.hyphen = "&nbsp;&ndash;&nbsp;",
-                    minus.sign = "&#45;",
                     separateConfColumn = TRUE,
                     newLineConf = TRUE,
                     group.pred = TRUE,
@@ -457,7 +456,7 @@ sjt.glm <- function(...,
     # -------------------------------------
     if (lmerob) {
       # get cleaned CI
-      confis <- get_cleaned_ciMerMod(fit, T)
+      confis <- get_cleaned_ciMerMod(fit, "glm", T)
       coef.fit <- lme4::fixef(fit)
     } else {
       confis <- stats::confint(fit)
@@ -1156,11 +1155,6 @@ sjt.glm <- function(...,
   if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata annorow\">Notes</td><td class=\"tdata annorow annostyle\" colspan=\"%i\"><em>* p&lt;%s.05&nbsp;&nbsp;&nbsp;** p&lt;%s.01&nbsp;&nbsp;&nbsp;*** p&lt;%s.001</em></td>\n  </tr>\n", headerColSpan, p_zero, p_zero, p_zero))
   page.content <- paste0(page.content, "</table>\n")
   # -------------------------------------
-  # proper HTML-minus-signs
-  # -------------------------------------
-  page.content <- gsub("-", minus.sign, page.content, fixed = TRUE, useBytes = TRUE)
-  # -------------------------------------
-  # -------------------------------------
   # finish table
   # -------------------------------------
   toWrite <- paste0(toWrite, page.content)
@@ -1286,8 +1280,7 @@ sjt.glm <- function(...,
 #'               
 #' # print summary table
 #' sjt.glmer(fit1, fit2,
-#'           ci.hypen = " to ",
-#'           minus.sign = "&minus;")
+#'           ci.hyphen = " to ")
 #' 
 #' # print summary table, using different table layout
 #' sjt.glmer(fit1, fit2,
@@ -1330,7 +1323,6 @@ sjt.glmer <- function(...,
                       showConfInt = TRUE,
                       showStdError = FALSE,
                       ci.hyphen = "&nbsp;&ndash;&nbsp;",
-                      minus.sign = "&#45;",
                       separateConfColumn = TRUE,
                       newLineConf = TRUE,
                       showAbbrHeadline = TRUE,
@@ -1359,8 +1351,7 @@ sjt.glmer <- function(...,
                  digits.se = digits.se, digits.summary = digits.summary, exp.coef = exp.coef,
                  pvaluesAsNumbers = pvaluesAsNumbers, boldpvalues = boldpvalues, 
                  showConfInt = showConfInt, showStdError = showStdError, 
-                 ci.hyphen = ci.hyphen, minus.sign = minus.sign,
-                 separateConfColumn = separateConfColumn, newLineConf = newLineConf, 
+                 ci.hyphen = ci.hyphen, separateConfColumn = separateConfColumn, newLineConf = newLineConf, 
                  group.pred = FALSE, showAbbrHeadline = showAbbrHeadline, showPseudoR = showICC, 
                  showLogLik = showLogLik, showAIC = showAIC, showAICc = showAICc, showChi2 = FALSE, 
                  showHosLem = showHosLem, showFamily = showFamily, remove.estimates = remove.estimates, 

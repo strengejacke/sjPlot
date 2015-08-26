@@ -4,18 +4,18 @@
 \alias{sjp.setTheme}
 \title{Set global theme options for sjp-functions}
 \usage{
-sjp.setTheme(theme = NULL, title.color = "black", title.size = 1.3,
+sjp.setTheme(theme = NULL, title.color = "black", title.size = 1.2,
   title.align = "left", geom.outline.color = NULL,
   geom.outline.size = 0.1, geom.boxoutline.size = 0.5,
   geom.boxoutline.color = "black", geom.alpha = 1, geom.linetype = 1,
   geom.errorbar.size = 0.7, geom.errorbar.linetype = 1,
-  geom.label.color = NULL, geom.label.size = 4.5, geom.label.alpha = 1,
+  geom.label.color = NULL, geom.label.size = 4, geom.label.alpha = 1,
   geom.label.angle = 0, axis.title.color = "grey30",
-  axis.title.size = 1.2, axis.angle.x = 0, axis.angle.y = 0,
+  axis.title.size = 1.1, axis.angle.x = 0, axis.angle.y = 0,
   axis.angle = NULL, axis.textcolor.x = "grey30",
   axis.textcolor.y = "grey30", axis.textcolor = NULL,
   axis.linecolor.x = NULL, axis.linecolor.y = NULL, axis.linecolor = NULL,
-  axis.line.size = 0.5, axis.textsize.x = 1.1, axis.textsize.y = 1.1,
+  axis.line.size = 0.5, axis.textsize.x = 1, axis.textsize.y = 1,
   axis.textsize = NULL, axis.tickslen = NULL, axis.ticksol = NULL,
   axis.ticksmar = NULL, panel.backcol = NULL, panel.bordercol = NULL,
   panel.col = NULL, panel.major.gridcol = NULL,

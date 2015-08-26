@@ -222,7 +222,7 @@ utils::globalVariables(c("ypos", "wb", "ia", "mw", "stddev", "count"))
 #' 
 #' @import ggplot2
 #' @import sjmisc
-#' @import dplyr
+#' @importFrom dplyr group_by mutate arrange
 #' @importFrom stats na.omit xtabs wilcox.test
 #' @export
 sjp.grpfrq <- function(varCount,
@@ -361,12 +361,12 @@ sjp.grpfrq <- function(varCount,
     # group axis labels
     axisLabels.x <- sjmisc::group_labels(varCount, 
                                          groupsize = "auto", 
-                                         autoGroupCount = agcnt)
+                                         groupcount = agcnt)
     # group variable
     varCount <- sjmisc::group_var(varCount, 
                                   groupsize = "auto", 
-                                  asNumeric = TRUE, 
-                                  autoGroupCount = agcnt)
+                                  as.num = TRUE, 
+                                  groupcount = agcnt)
   }
   # --------------------------------------------------------
   # unlist labels

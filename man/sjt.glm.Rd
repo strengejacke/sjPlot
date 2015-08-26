@@ -14,13 +14,12 @@ sjt.glm(..., file = NULL, labelPredictors = NULL,
   digits.se = 2, digits.summary = 3, exp.coef = TRUE,
   pvaluesAsNumbers = TRUE, boldpvalues = TRUE, showConfInt = TRUE,
   showStdError = FALSE, ci.hyphen = "&nbsp;&ndash;&nbsp;",
-  minus.sign = "&#45;", separateConfColumn = TRUE, newLineConf = TRUE,
-  group.pred = TRUE, showAbbrHeadline = TRUE, showPseudoR = FALSE,
-  showLogLik = FALSE, showAIC = FALSE, showAICc = FALSE,
-  showChi2 = FALSE, showHosLem = FALSE, showFamily = FALSE,
-  remove.estimates = NULL, cellSpacing = 0.2, cellGroupIndent = 0.6,
-  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
-  remove.spaces = TRUE)
+  separateConfColumn = TRUE, newLineConf = TRUE, group.pred = TRUE,
+  showAbbrHeadline = TRUE, showPseudoR = FALSE, showLogLik = FALSE,
+  showAIC = FALSE, showAICc = FALSE, showChi2 = FALSE,
+  showHosLem = FALSE, showFamily = FALSE, remove.estimates = NULL,
+  cellSpacing = 0.2, cellGroupIndent = 0.6, encoding = NULL, CSS = NULL,
+  useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{one or more fitted generalized linear (mixed) models.}
@@ -90,9 +89,6 @@ p-values are indicated by asterisks.}
 Default is \code{FALSE}.}
 
 \item{ci.hyphen}{string, indicating the hyphen for confidence interval range.
-May be an HTML entity. See 'Examples'.}
-
-\item{minus.sign}{string, indicating the minus sign for negative numbers.
 May be an HTML entity. See 'Examples'.}
 
 \item{separateConfColumn}{if \code{TRUE}, the CI values are shown in a separate table column.
@@ -223,8 +219,7 @@ sjt.glm(fitOR1,
         labelPredictors = c("Education",
                             "Examination",
                             "Catholic"),
-         ci.hypen = " to ",
-         minus.sign = "&minus;")
+         ci.hyphen = " to ")
 
 # open HTML-table in RStudio Viewer Pane or web browser,
 # integrate CI in OR column
@@ -266,7 +261,7 @@ library(sjmisc)
 # load efc sample data
 data(efc)
 # dichtomozize service usage by "service usage yes/no"
-efc$services <- sjmisc::dicho(efc$tot_sc_e, "v", 0, asNum = TRUE)
+efc$services <- sjmisc::dicho(efc$tot_sc_e, "v", 0, as.num = TRUE)
 # fit 3 models with different link-functions
 fit1 <- glm(services ~ neg_c_7 + c161sex + e42dep,
             data=efc,
@@ -310,11 +305,11 @@ library(sjmisc)
 # load efc sample data
 data(efc)
 # dichtomozize service usage by "service usage yes/no"
-efc$services <- sjmisc::dicho(efc$tot_sc_e, "v", 0, asNum = TRUE)
+efc$services <- sjmisc::dicho(efc$tot_sc_e, "v", 0, as.num = TRUE)
 # make dependency categorical
 efc$e42dep <- to_fac(efc$e42dep)
 # fit model with "grouped" predictor
-fit <- glm(services ~ neg_c_7 + c161sex + e42dep, data=efc)
+fit <- glm(services ~ neg_c_7 + c161sex + e42dep, data = efc)
 
 # automatic grouping of categorical predictors
 sjt.glm(fit)
@@ -323,15 +318,16 @@ sjt.glm(fit)
 # ----------------------------------
 # compare models with different predictors
 # ----------------------------------
-fit2 <- glm(services ~ neg_c_7 + c161sex + e42dep + c12hour, data=efc)
-fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep + c12hour + c172code, data=efc)
+fit2 <- glm(services ~ neg_c_7 + c161sex + e42dep + c12hour, data = efc)
+fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep + c12hour + c172code,
+            data = efc)
 
 # print models with different predictors
 sjt.glm(fit, fit2, fit3)
 
 efc$c172code <- to_fac(efc$c172code)
-fit2 <- glm(services ~ neg_c_7 + c161sex + c12hour, data=efc)
-fit3 <- glm(services ~ neg_c_7 + c161sex + c172code, data=efc)
+fit2 <- glm(services ~ neg_c_7 + c161sex + c12hour, data = efc)
+fit3 <- glm(services ~ neg_c_7 + c161sex + c172code, data = efc)
 
 # print models with different predictors
 sjt.glm(fit, fit2, fit3, group.pred = FALSE)}

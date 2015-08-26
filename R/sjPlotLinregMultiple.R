@@ -110,6 +110,7 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #' @import ggplot2
 #' @import sjmisc
 #' @importFrom stats coef confint
+#' @importFrom dplyr slice
 #' @export
 sjp.lmm <- function(...,
                     type = "lm",

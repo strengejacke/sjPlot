@@ -192,7 +192,7 @@ sjp.setTheme <- function(# base theme
                          theme = NULL,
                          # title defaults
                          title.color = "black",
-                         title.size = 1.3,
+                         title.size = 1.2,
                          title.align = "left",
                          # geom defaults
                          # geom.colors=NULL,
@@ -206,12 +206,12 @@ sjp.setTheme <- function(# base theme
                          geom.errorbar.linetype = 1,
                          # value labels
                          geom.label.color = NULL,
-                         geom.label.size = 4.5,
+                         geom.label.size = 4,
                          geom.label.alpha = 1,
                          geom.label.angle = 0,
                          # axis titles
                          axis.title.color = "grey30",
-                         axis.title.size = 1.2,
+                         axis.title.size = 1.1,
                          # axis text angle
                          axis.angle.x = 0,
                          axis.angle.y = 0,
@@ -226,8 +226,8 @@ sjp.setTheme <- function(# base theme
                          axis.linecolor = NULL,
                          axis.line.size = 0.5,
                          # axis text size
-                         axis.textsize.x = 1.1,
-                         axis.textsize.y = 1.1,
+                         axis.textsize.x = 1,
+                         axis.textsize.y = 1,
                          axis.textsize = NULL,
                          # axis ticks
                          axis.tickslen = NULL,

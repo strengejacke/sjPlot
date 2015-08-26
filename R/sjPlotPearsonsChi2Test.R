@@ -44,7 +44,7 @@ utils::globalVariables(c("Row", "Column", "p.value"))
 #' sjp.chi2(mydf, axisLabels = items)
 #' 
 #' @import ggplot2
-#' @import dplyr
+#' @importFrom dplyr bind_rows
 #' @import sjmisc
 #' @export
 sjp.chi2 <- function(df,
