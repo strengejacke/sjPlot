@@ -199,12 +199,18 @@ sjp.lmm <- function(...,
                                 suppressWarnings(sjmisc::std_beta(fit, include.ci = TRUE))))
       # no intercept for std
       showIntercept <- FALSE
+      # add "std." to title?
+      if (axisTitle.x == "Estimates")
+        axisTitle.x <- "Std. Estimates"
     } else if (type == "std2") {
       # retrieve standardized betas
       betas <- data.frame(rbind(data.frame(beta = 0, ci.low = 0, ci.hi = 0),
                                 sjmisc::std_beta(fit, include.ci = TRUE, type = "std2")))
       # no intercept for std
       showIntercept <- FALSE
+      # add "std." to title?
+      if (axisTitle.x == "Estimates")
+        axisTitle.x <- "Std. Estimates"
     } else {
       # copy estimates to data frame
       betas <- data.frame(stats::coef(fit), stats::confint(fit))

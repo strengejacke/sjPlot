@@ -40,32 +40,8 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](http://cran.r-project.org/package=ggplot2), consider citing this package as well.
 
-### Changelog of stable release 1.8.3
-
-#### New functions
-* `sjp.gpt` to plot grouped proportional tables.
-* `save_plot` as convenient function to save the last ggplot-figure in high quality for publication.
+### Changelog of development build 1.8.3-2
 
 #### Changes to functions
-* `sjp.lmm` can now also plot standardized estimates.
-* `sjp.lm`, `sjp.lmm` and `sjt.lm` can now plot standardized estimates, where standardization is computed following Gelman's approach by dividing estimates by two standard deviations.
-* `sjp.lm`, `sjp.glm`, `sjp.lmm`, `sjp.glmm`, `sjp.lmer` and `sjp.glmer` get a `remove.estimates` argument to remove specific estimates from the plot output.
-* Added parameters `ci.hyphen` and `minus.sign` to `sjt.lm`, `sjt.glm`, `sjt.lmer` and `sjt.glmer` to set specific symbols or HTML entitities for hyphens and minus signs of negative numbers.
-* Added `type = "coeff"` to `sjp.lmer` to plot joint random and fixed effects coefficients.
-* `type = "poly"` in `sjp.lm` can now deal with fitted models that either use polynomials with `poly` or splines with `bs` (see examples).
-* `sjt.df` gets a `big.mark` parameter to add thousands-separators if parameter `describe = TRUE`.
-* `sjt.df` and `view_df` now recognize Date and POSIX-classes, if `showType = TRUE`.
-* `sjp.poly` now also returns cutpoints of loess curvature, to get maximum / minimum values of loess curvature.
-* `sjp.lm` with `type = "ma"` now also returns all plots as list of ggplot-objects.
-* `sjp.setTheme` now allows for custom label and title colors when using pre-set-themes.
-* Improved automatic y-axis-limit detection in `sjp.frq` and `sjp.grpfrq`.
-* Minor improvements to `sjp.lmm` and `sjp.glmm`.
-
-#### Bug fixes
-* Fixed bug in `sjp.lmer`, which misleadingly printed wrong beta coefficients (they were exponentiated as for odds ratios).
-* Fixed bug with computation of predicted probabilities in `sjp.glm` and `sjp.glmer` (only occured when `type = "y.pc"`).
-* `sjp.grpfrq` did not show correct number of missings (argument `na.rm = FALSE`), if grouping variable startet with zero.
-* Fixed bug with `sjp.frq` and `sjt.frq`, when variable was a labelled factor with lowest factor level smaller than 1.
-* Fixed bug in `view_df` with parameter `showFreq = TRUE`, when variable was a character vector.
-* Minor bug fixes with p-shapes in `sjp.lmm` and `sjp.glmm`.
-* Fixed bug in `sjt`-table functions that occured with invalid multibyte strings.
+* Predictor grouping with argument `group.pred` now also works for `sjt.lmer` and `sjt.glmer` (in certain cases may be buggy, so `group.pred` defaults to `FALSE`).
+* Minor improvements to `view_df`, `sjp.lm` and `sjp.lmm`.

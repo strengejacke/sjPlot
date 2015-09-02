@@ -344,11 +344,12 @@ sjp.lm <- function(fit,
   # -------------------------------------------------
   # retrieve betas, leave out intercept ([-1])
   # -------------------------------------------------
-  if (type == "std") {
+  if (type == "std" || type == "std2") {
     # retrieve standardized betas
-    tmp <- suppressWarnings(sjmisc::std_beta(fit, include.ci = TRUE))
-  } else if (type == "std2") {
-    tmp <- sjmisc::std_beta(fit, include.ci = TRUE, type = "std2")
+    tmp <- suppressWarnings(sjmisc::std_beta(fit, include.ci = TRUE, type = type))
+    # add "std." to title?
+    if (axisTitle.x == "Estimates")
+      axisTitle.x <- "Std. Estimates"
   } else {
     bv <- stats::coef(fit)[-1]
     if (1 == length(bv)) {

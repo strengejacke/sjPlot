@@ -293,7 +293,7 @@ view_df <- function(x,
                               sjmisc::get_values(x[[index]]),
                               20)$mydat$frq
         # remove last value, which is N for NA
-        if (is.na(ftab)) {
+        if (length(ftab) == 1 && is.na(ftab)) {
           valstring <- "<NA>"
         } else {
           for (i in 1:(length(ftab) - 1)) {
@@ -319,7 +319,7 @@ view_df <- function(x,
                               sjmisc::get_values(x[[index]]),
                               20)$mydat$valid
         # remove last value, which is a NA dummy
-        if (is.na(ftab)) {
+        if (length(ftab) == 1 && is.na(ftab)) {
           valstring <- "<NA>"
         } else {
           for (i in 1:(length(ftab) - 1)) {

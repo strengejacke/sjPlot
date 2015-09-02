@@ -697,7 +697,7 @@ sjt.glm <- function(...,
   # -------------------------------------
   # should factor predictors be grouped?
   # -------------------------------------
-  if (group.pred && !lmerob) {
+  if (group.pred) {
     # get indices
     group.pred.list <- retrieveModelGroupIndices(input_list, remove.estimates)
     group.pred.rows <- group.pred.list[[1]]
@@ -1325,6 +1325,7 @@ sjt.glmer <- function(...,
                       ci.hyphen = "&nbsp;&ndash;&nbsp;",
                       separateConfColumn = TRUE,
                       newLineConf = TRUE,
+                      group.pred = FALSE,
                       showAbbrHeadline = TRUE,
                       showICC = TRUE,
                       showLogLik = FALSE,
@@ -1334,6 +1335,7 @@ sjt.glmer <- function(...,
                       showFamily = FALSE,
                       remove.estimates = NULL,
                       cellSpacing = 0.2,
+                      cellGroupIndent = 0.6,
                       encoding = NULL,
                       CSS = NULL,
                       useViewer = TRUE,
@@ -1352,9 +1354,9 @@ sjt.glmer <- function(...,
                  pvaluesAsNumbers = pvaluesAsNumbers, boldpvalues = boldpvalues, 
                  showConfInt = showConfInt, showStdError = showStdError, 
                  ci.hyphen = ci.hyphen, separateConfColumn = separateConfColumn, newLineConf = newLineConf, 
-                 group.pred = FALSE, showAbbrHeadline = showAbbrHeadline, showPseudoR = showICC, 
+                 group.pred = group.pred, showAbbrHeadline = showAbbrHeadline, showPseudoR = showICC, 
                  showLogLik = showLogLik, showAIC = showAIC, showAICc = showAICc, showChi2 = FALSE, 
                  showHosLem = showHosLem, showFamily = showFamily, remove.estimates = remove.estimates, 
-                 cellSpacing = cellSpacing, cellGroupIndent = 0, encoding = encoding, 
+                 cellSpacing = cellSpacing, cellGroupIndent = cellGroupIndent, encoding = encoding, 
                  CSS = CSS, useViewer = useViewer, no.output = no.output, remove.spaces = remove.spaces))
 }

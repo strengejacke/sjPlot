@@ -301,17 +301,19 @@ sjp.frq <- function(varCount,
   # --------------------------------------------------------
   if (is.null(geom.size)) {
     if (type == "bars") 
-      geom.size <- 0.7
+      geom.size <- .7
     else if (type == "dots") 
       geom.size <- 3
-    else if (type == "hist") 
+    else if (type == "histogram") 
       geom.size <- .7
     else if (type == "line") 
       geom.size <- .8
-    else if (type == "box") 
+    else if (type == "boxplots") 
       geom.size <- .3
     else if (type == "violin") 
       geom.size <- .3
+    else
+      geom.size <- .7
   }
   #---------------------------------------------------
   # check whether variable should be auto-grouped

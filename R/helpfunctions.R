@@ -398,16 +398,28 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
   for (k in 1:length(models)) {
     # get model
     fit <- models[[k]]
+    # ------------------------
+    # do we have a merMod object?
+    # ------------------------
+    if (length(grep("merMod", class(fit), fixed = T)) > 0) {
+      # if yes, get number of fixed effects
+      no_fixef <- length(attr(attr(fit@frame, "terms"), "predvars.fixed")) - 1
+      # then copy only fixed effects columns
+      fmodel <- fit@frame[, 1:no_fixef]
+    } else {
+      # else copy model matrix
+      fmodel <- fit$model
+    }
     # retrieve all factors from model
-    for (grp.cnt in 1:ncol(fit$model)) {
+    for (grp.cnt in 1:ncol(fmodel)) {
       # get variable
-      fit.var <- fit$model[, grp.cnt]
+      fit.var <- fmodel[, grp.cnt]
       # is factor? and has more than two levels?
       # (otherwise, only one category would appear in
       # coefficients, so no grouping needed anyway)
       if (is.factor(fit.var) && length(levels(fit.var)) > 2) {
         # get factor name
-        fac.name <- colnames(fit$model)[grp.cnt]
+        fac.name <- colnames(fmodel)[grp.cnt]
         # check whether we already have this factor
         if (!any(found.factors == fac.name)) {
           # if not, save found factor variable name
@@ -415,7 +427,7 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
           # save factor name
           lab <- unname(sjmisc::get_label(fit.var))
           # any label?
-          if (is.null(lab)) lab <- colnames(fit$model)[grp.cnt]
+          if (is.null(lab)) lab <- colnames(fmodel)[grp.cnt]
           # determins startindex
           index <- grp.cnt + add.index - 1
           index.add <- length(levels(fit.var)) - 2

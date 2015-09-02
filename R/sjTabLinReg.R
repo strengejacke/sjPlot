@@ -929,7 +929,7 @@ sjt.lm <- function(...,
   # -------------------------------------
   # should factor predictors be grouped?
   # -------------------------------------
-  if (group.pred && !lmerob) {
+  if (group.pred) {
     # get indices
     group.pred.list <- retrieveModelGroupIndices(input_list, remove.estimates)
     # append indices
@@ -1500,12 +1500,14 @@ sjt.lmer <- function(...,
                      boldpvalues = TRUE,
                      separateConfColumn = TRUE,
                      newLineConf = TRUE,
+                     group.pred = FALSE,
                      showAbbrHeadline = TRUE,
                      showICC = TRUE,
                      showAIC = FALSE,
                      showAICc = FALSE,
                      remove.estimates = NULL,
                      cellSpacing = 0.2,
+                     cellGroupIndent = 0.6,
                      encoding = NULL,
                      CSS = NULL,
                      useViewer = TRUE,
@@ -1524,8 +1526,8 @@ sjt.lmer <- function(...,
                 digits.se = digits.se, digits.sb = digits.sb, digits.summary = digits.summary, 
                 pvaluesAsNumbers = pvaluesAsNumbers, boldpvalues = boldpvalues, 
                 separateConfColumn = separateConfColumn, newLineConf = newLineConf, 
-                group.pred = FALSE, showAbbrHeadline = showAbbrHeadline, showR2 = showICC, 
+                group.pred = group.pred, showAbbrHeadline = showAbbrHeadline, showR2 = showICC, 
                 showFStat = FALSE, showAIC = showAIC, showAICc = showAICc, remove.estimates = remove.estimates, 
-                cellSpacing = cellSpacing, cellGroupIndent = 0, encoding = encoding, 
+                cellSpacing = cellSpacing, cellGroupIndent = cellGroupIndent, encoding = encoding, 
                 CSS = CSS, useViewer = useViewer, no.output = no.output, remove.spaces = remove.spaces))
 }
