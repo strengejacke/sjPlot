@@ -1,8 +1,11 @@
-Version 1.8.3-2
+Version 1.8.3-4
 -----------------------------------------------------------------------------
 Changes to functions:
 * Predictor grouping with argument `group.pred` now also works for `sjt.lmer` and `sjt.glmer` (in certain cases may be buggy, so `group.pred` defaults to `FALSE`).
 * Minor improvements to `view_df`, `sjp.lm` and `sjp.lmm`.
+
+Bug fixes:
+* Fixed bug where in certain cases, ordered factors were not labelled correctly in `sjp.frq`.
 
 Version 1.8.3
 -----------------------------------------------------------------------------

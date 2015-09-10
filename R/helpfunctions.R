@@ -200,6 +200,12 @@ create.frq.df <- function(varCount,
       # amount of categories (=number of rows) in dataframe instead
       llabels <- c(startAxisAt:(nrow(mydat) + startAxisAt - 1))
     }
+    # check if we have more labels than values?
+    if (length(llabels) > length(unique(stats::na.omit(varCount)))) {
+      # if yes, copy only those labels that are assumed to
+      # appear in the final data frame
+      llabels <- llabels[startAxisAt:catcount]
+    }
   } else {
     mydat <- df
     colnames(mydat) <- c("var", "frq")

@@ -40,8 +40,11 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](http://cran.r-project.org/package=ggplot2), consider citing this package as well.
 
-### Changelog of development build 1.8.3-2
+### Changelog of development build 1.8.3-4
 
 #### Changes to functions
 * Predictor grouping with argument `group.pred` now also works for `sjt.lmer` and `sjt.glmer` (in certain cases may be buggy, so `group.pred` defaults to `FALSE`).
 * Minor improvements to `view_df`, `sjp.lm` and `sjp.lmm`.
+
+#### Bug fixes
+* Fixed bug where in certain cases, ordered factors were not labelled correctly in `sjp.frq`.
