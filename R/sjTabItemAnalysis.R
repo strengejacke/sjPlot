@@ -229,18 +229,17 @@ sjt.itemanalysis <- function(df,
     # -----------------------------------
     missings.prz <- apply(df.sub, 2, function(x) round(100 * sum(is.na(x)) / length(x), 2))
     # -----------------------------------
-    # remove missings
-    # -----------------------------------
-    df.sub <- stats::na.omit(df.sub)
-    # -----------------------------------
     # item difficulty
     # -----------------------------------
-    difficulty <- apply(df.sub, 2, function(x) round(sum(x) / (max(x) * length(x)), 2))
+    difficulty <- apply(df.sub, 2, function(x) {
+      x <- stats::na.omit(x)
+      round(sum(x) / (max(x) * length(x)), 2)
+      })
     # -----------------------------------
     # ideal item difficulty
     # -----------------------------------
     fun.diff.ideal <- function(x) {
-      p <- 1 / max(x)
+      p <- 1 / max(x, na.rm = T)
       return(round(p + (1 - p) / 2, 2))
     }
     diff.ideal <- apply(df.sub, 2, fun.diff.ideal)

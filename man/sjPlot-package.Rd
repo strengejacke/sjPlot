@@ -34,8 +34,8 @@
 \tabular{rl}{
 Package: \tab sjPlot\cr
 Type: \tab Package\cr
-Version: \tab 1.8.3-4\cr
-Date: \tab 2015-09-09\cr
+Version: \tab 1.8.3-5\cr
+Date: \tab 2015-09-25\cr
 License: \tab GPL-3\cr
 }
 }

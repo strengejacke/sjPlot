@@ -15,10 +15,11 @@ sjt.lmer(..., file = NULL, labelPredictors = NULL,
   ci.hyphen = "&nbsp;&ndash;&nbsp;", minus.sign = "&#45;", digits.est = 2,
   digits.p = 3, digits.ci = 2, digits.se = 2, digits.sb = 2,
   digits.summary = 3, pvaluesAsNumbers = TRUE, boldpvalues = TRUE,
-  separateConfColumn = TRUE, newLineConf = TRUE, showAbbrHeadline = TRUE,
-  showICC = TRUE, showAIC = FALSE, showAICc = FALSE,
-  remove.estimates = NULL, cellSpacing = 0.2, encoding = NULL,
-  CSS = NULL, useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
+  separateConfColumn = TRUE, newLineConf = TRUE, group.pred = FALSE,
+  showAbbrHeadline = TRUE, showICC = TRUE, showAIC = FALSE,
+  showAICc = FALSE, remove.estimates = NULL, cellSpacing = 0.2,
+  cellGroupIndent = 0.6, encoding = NULL, CSS = NULL, useViewer = TRUE,
+  no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{one or more fitted linear (mixed) models.}
@@ -105,6 +106,11 @@ Default is \code{FALSE}.}
 between B and CI values. If \code{FALSE}, CI values are printed in the same
 line as B values.}
 
+\item{group.pred}{logical, if \code{TRUE} (default), automatically groups table rows with
+factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
+be grouped, if the factor has more than two levels. Grouping means that a separate headline
+row is inserted to the table just before the predictor values.}
+
 \item{showAbbrHeadline}{logical, if \code{TRUE} (default), the table data columns have a headline with
 abbreviations for estimates and std. beta-values, confidence interval and p-values.}
 
@@ -129,6 +135,9 @@ is \code{NULL}, i.e. all estimates are printed.}
 suitable for viewing the table. Decrease this value (0.05 to 0.1) if you want to import the table
 into Office documents. This is a convenient argument for the \code{CSS} argument for changing
 cell spacing, which would be: \code{CSS = list(css.thead = "padding:0.2cm;", css.tdata = "padding:0.2cm;")}.}
+
+\item{cellGroupIndent}{indent for table rows with grouped factor predictors. Only applies
+         if \code{group.pred = TRUE}.}
 
 \item{encoding}{string, indicating the charset encoding used for variable and
 value labels. Default is \code{NULL}, so encoding will be auto-detected

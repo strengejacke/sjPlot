@@ -104,6 +104,12 @@ create.frq.df <- function(varCount,
   # name columns
   colnames(df) <- c("y", "Freq")
   #---------------------------------------------------
+  # non-numeric factors need to be converted
+  #---------------------------------------------------
+  if (is.factor(varCount) && !sjmisc::is_num_fac(varCount)) {
+    varCount <- as.character(varCount)
+  }
+  #---------------------------------------------------
   # do we have label values associated with value labels?
   # if yes, we assume that these values are the range
   # of valid values for varCount...

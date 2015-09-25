@@ -14,10 +14,11 @@ sjt.glmer(..., file = NULL, labelPredictors = NULL,
   digits.se = 2, digits.summary = 3, exp.coef = TRUE,
   pvaluesAsNumbers = TRUE, boldpvalues = TRUE, showConfInt = TRUE,
   showStdError = FALSE, ci.hyphen = "&nbsp;&ndash;&nbsp;",
-  separateConfColumn = TRUE, newLineConf = TRUE, showAbbrHeadline = TRUE,
-  showICC = TRUE, showLogLik = FALSE, showAIC = FALSE, showAICc = FALSE,
-  showHosLem = FALSE, showFamily = FALSE, remove.estimates = NULL,
-  cellSpacing = 0.2, encoding = NULL, CSS = NULL, useViewer = TRUE,
+  separateConfColumn = TRUE, newLineConf = TRUE, group.pred = FALSE,
+  showAbbrHeadline = TRUE, showICC = TRUE, showLogLik = FALSE,
+  showAIC = FALSE, showAICc = FALSE, showHosLem = FALSE,
+  showFamily = FALSE, remove.estimates = NULL, cellSpacing = 0.2,
+  cellGroupIndent = 0.6, encoding = NULL, CSS = NULL, useViewer = TRUE,
   no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
@@ -97,6 +98,11 @@ Default is \code{FALSE}.}
 between OR and CI values. If \code{FALSE}, CI values are printed in the same
 line with OR values.}
 
+\item{group.pred}{logical, if \code{TRUE} (default), automatically groups table rows with
+factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
+be grouped, if the factor has more than two levels. Grouping means that a separate headline
+row is inserted to the table just before the predictor values.}
+
 \item{showAbbrHeadline}{logical, if \code{TRUE} (default), the table data columns have a headline with
 abbreviations for odds ratios, confidence interval and p-values.}
 
@@ -135,6 +141,9 @@ is \code{NULL}, i.e. all estimates are printed.}
 suitable for viewing the table. Decrease this value (0.05 to 0.1) if you want to import the table
 into Office documents. This is a convenient argument for the \code{CSS} argument for changing
 cell spacing, which would be: \code{CSS = list(css.thead = "padding:0.2cm;", css.tdata = "padding:0.2cm;")}.}
+
+\item{cellGroupIndent}{indent for table rows with grouped factor predictors. Only applies
+         if \code{group.pred = TRUE}.}
 
 \item{encoding}{string, indicating the charset encoding used for variable and
 value labels. Default is \code{NULL}, so encoding will be auto-detected

@@ -44,7 +44,9 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 
 #### Changes to functions
 * Predictor grouping with argument `group.pred` now also works for `sjt.lmer` and `sjt.glmer` (in certain cases may be buggy, so `group.pred` defaults to `FALSE`).
+* Argument `vars` in `sjp.lmer` and `sjp.glmer` now also applies when plotting estimates (`type = "fe"` or `type = "re"`).
 * Minor improvements to `view_df`, `sjp.lm` and `sjp.lmm`.
+* Improved accuracy of computation of skewness value in `sjt.itemanalysis`.
 
 #### Bug fixes
 * Fixed bug where in certain cases, ordered factors were not labelled correctly in `sjp.frq`.
