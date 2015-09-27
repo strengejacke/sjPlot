@@ -31,9 +31,10 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
 
 \item{vars}{numeric vector with column indices of selected variables or a character vector with
 variable names of selected variables from the fitted model, which should be used to plot
-fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability curves
-(for \code{\link[lme4]{glmer}}) of random intercepts. This argument only
-applies if \code{type} is \code{"fe.pc"}, \code{"ri.pc"} or \code{"fe.ri"}.
+estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability curves
+(for \code{\link[lme4]{glmer}}) of random intercepts. This argument
+applies if \code{type} is \code{"fe"}, \code{"fe.std"}, \code{"re"},
+\code{"fe.pc"}, \code{"ri.pc"} or \code{"fe.ri"}.
 In this case, only those terms specified in \code{"vars"} will be plotted.}
 
 \item{ri.nr}{numeric vector. If \code{type = "re"}, \code{type = "ri.pc"} or \code{type = "fe.ri"},

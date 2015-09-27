@@ -410,7 +410,7 @@ sjp.pca <- function(data,
   # --------------------------------------------------------
   if (type == "b") {
     heatmap <- heatmap + 
-      scale_x_discrete(labels = axisLabels.y) +
+      scale_x_discrete(labels = rev(axisLabels.y)) +
       scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .2)) +
       facet_grid(~xpos) +
       coord_flip()

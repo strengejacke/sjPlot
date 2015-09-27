@@ -8,6 +8,7 @@ Changes to functions:
 
 Bug fixes:
 * Fixed bug where in certain cases, ordered factors were not labelled correctly in `sjp.frq`.
+* Axis labels were reversed in `sjp.pca` for `type = "bar"`.
 
 Version 1.8.3
 -----------------------------------------------------------------------------

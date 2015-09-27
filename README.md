@@ -50,3 +50,4 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 
 #### Bug fixes
 * Fixed bug where in certain cases, ordered factors were not labelled correctly in `sjp.frq`.
+* Axis labels were reversed in `sjp.pca` for `type = "bar"`.
