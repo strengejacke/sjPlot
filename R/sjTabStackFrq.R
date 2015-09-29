@@ -191,7 +191,7 @@ sjt.stackfrq <- function(items,
   # --------------------------------------------------------
   # check encoding
   # --------------------------------------------------------
-  encoding <- get.encoding(encoding)
+  encoding <- get.encoding(encoding, items)
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------

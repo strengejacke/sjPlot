@@ -151,7 +151,7 @@ sjt.itemanalysis <- function(df,
   # -------------------------------------
   # check encoding
   # -------------------------------------
-  encoding <- get.encoding(encoding)
+  encoding <- get.encoding(encoding, df)
   # -----------------------------------
   # auto-detect variable labels
   # -----------------------------------

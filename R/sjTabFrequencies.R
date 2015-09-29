@@ -232,7 +232,7 @@ sjt.frq <- function(data,
   # -------------------------------------
   # check encoding
   # -------------------------------------
-  encoding <- get.encoding(encoding)
+  encoding <- get.encoding(encoding, data)
   # save original value
   o.skipZeroRows <- skipZeroRows
   # -------------------------------------

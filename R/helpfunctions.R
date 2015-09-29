@@ -283,9 +283,12 @@ create.frq.df <- function(varCount,
 
 # check character encoding for HTML-tables
 # (sjt-functions)
-get.encoding <- function(encoding) {
+get.encoding <- function(encoding, data = NULL) {
   if (is.null(encoding)) {
-    if (.Platform$OS.type == "unix")
+    if (!is.null(data) && is.data.frame(data)) {
+      encoding <- Encoding(sjmisc::get_label(data[[1]]))
+      if (encoding == "unknown") encoding <- "UTF-8"
+    } else if (.Platform$OS.type == "unix")
       encoding <- "UTF-8"
     else
       encoding <- "Windows-1252"

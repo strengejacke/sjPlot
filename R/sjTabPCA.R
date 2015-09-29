@@ -149,7 +149,7 @@ sjt.pca <- function(data,
   # -------------------------------------
   # check encoding
   # -------------------------------------
-  encoding <- get.encoding(encoding)
+  encoding <- get.encoding(encoding, data)
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------

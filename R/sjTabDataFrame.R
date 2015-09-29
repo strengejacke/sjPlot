@@ -128,12 +128,11 @@ sjt.df <- function(mydf,
                    no.output = FALSE,
                    remove.spaces = TRUE) {
   # check encoding
-  encoding <- get.encoding(encoding)
+  encoding <- get.encoding(encoding, mydf)
   # -------------------------------------
   # make data frame of single variable, so we have
   # unique handling for the data
   # -------------------------------------
-  encoding <- get.encoding(encoding)
   if (!is.data.frame(mydf)) {
     stop("argument needs to be a data frame!", call. = FALSE)
   }

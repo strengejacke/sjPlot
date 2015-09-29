@@ -1,32 +1,3 @@
-#' @name view_spss
-#' @rdname view_df
-#' 
-#' @import sjmisc 
-#' @export
-view_spss <- function(x,
-                      file = NULL,
-                      alternateRowColors = TRUE,
-                      showID = TRUE,
-                      showType = FALSE,
-                      showValues = TRUE,
-                      showValueLabels = TRUE,
-                      showFreq = FALSE,
-                      showPerc = FALSE,
-                      sortByName = FALSE,
-                      breakVariableNamesAt = 50,
-                      encoding = NULL,
-                      hideProgressBar = FALSE,
-                      CSS = NULL,
-                      useViewer = TRUE,
-                      no.output = FALSE,
-                      remove.spaces = TRUE) {
-  .Deprecated("view_df")
-  view_df(x, file, alternateRowColors, showID, showType, showValues,
-          showValueLabels, showFreq, showPerc, sortByName, breakVariableNamesAt,
-          encoding, hideProgressBar, CSS, useViewer, no.output, remove.spaces)
-}
-
-
 #' @title View structure of labelled data frames
 #' @name view_df
 #' 
@@ -54,6 +25,11 @@ view_spss <- function(x,
 #' @param showValueLabels logical, if \code{TRUE} (default), the value labels are shown as additional column.
 #' @param showFreq logical, if \code{TRUE}, an additional column with frequencies for each variable is shown.
 #' @param showPerc logical, if \code{TRUE}, an additional column with percentage of frequencies for each variable is shown.
+#' @param showWtdFreq logical, if \code{TRUE}, an additional column with weighted
+#'          frequencies for each variable is shown. Weights strem from \code{weightBy}.
+#' @param showWtdPerc logical, if \code{TRUE}, an additional column with weighted
+#'          percentage of frequencies for each variable is shown.
+#'          Weights strem from \code{weightBy}.
 #' @param sortByName logical, if \code{TRUE}, rows are sorted according to the variable
 #'          names. By default, rows (variables) are ordered according to their
 #'          order in the data frame.
@@ -106,6 +82,7 @@ view_spss <- function(x,
 #' @importFrom utils txtProgressBar setTxtProgressBar
 #' @export
 view_df <- function(x,
+                    weightBy = NULL,
                     file = NULL,
                     alternateRowColors = TRUE,
                     showID = TRUE,
@@ -114,6 +91,8 @@ view_df <- function(x,
                     showValueLabels = TRUE,
                     showFreq = FALSE,
                     showPerc = FALSE,
+                    showWtdFreq = FALSE,
+                    showWtdPerc = FALSE,
                     sortByName = FALSE,
                     breakVariableNamesAt = 50,
                     encoding = NULL,
@@ -125,7 +104,7 @@ view_df <- function(x,
 # -------------------------------------
   # check encoding
   # -------------------------------------
-  encoding <- get.encoding(encoding)
+  encoding <- get.encoding(encoding, x)
   # -------------------------------------
   # make data frame of single variable, so we have
   # unique handling for the data
@@ -192,6 +171,8 @@ view_df <- function(x,
   if (showValueLabels) page.content <- paste0(page.content, "<th class=\"thead\">Value Labels</th>")
   if (showFreq) page.content <- paste0(page.content, "<th class=\"thead\">Freq.</th>")
   if (showPerc) page.content <- paste0(page.content, "<th class=\"thead\">%</th>")
+  if (showWtdFreq) page.content <- paste0(page.content, "<th class=\"thead\">weighted Freq.</th>")
+  if (showWtdPerc) page.content <- paste0(page.content, "<th class=\"thead\">weighted %</th>")
   page.content <- paste0(page.content, "\n  </tr>\n")
   # -------------------------------------
   # create progress bar
@@ -283,54 +264,37 @@ view_df <- function(x,
     # frequencies
     # ----------------------------
     if (showFreq) {
-      valstring <- ""
-      # check if we have a valid index
-      if (index <= ncol(x) && !is.null(df.val[[index]])) {
-        # create frequency table. same function as for
-        # sjt.frq and sjp.frq
-        ftab <- create.frq.df(x[[index]],
-                              df.val[[index]], 
-                              sjmisc::get_values(x[[index]]),
-                              20)$mydat$frq
-        # remove last value, which is N for NA
-        if (length(ftab) == 1 && is.na(ftab)) {
-          valstring <- "<NA>"
-        } else {
-          for (i in 1:(length(ftab) - 1)) {
-            valstring <- paste0(valstring, ftab[i])
-            if (i < length(ftab)) valstring <- paste0(valstring, "<br>")
-          }
-        }
-      } else {
-        valstring <- ""
-      }
-      page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, valstring))
+      page.content <- paste0(page.content, 
+                             sprintf("    <td class=\"tdata%s\">%s</td>\n", 
+                                     arcstring, 
+                                     frq.value(index, x, df.val)))
     }
     # ----------------------------
     # percentage of frequencies
     # ----------------------------
     if (showPerc) {
-      valstring <- ""
-      # check for valid indices
-      if (index <= ncol(x) && !is.null(df.val[[index]])) {
-        # create frequency table, but only get valid percentages
-        ftab <- create.frq.df(x[[index]],
-                              df.val[[index]], 
-                              sjmisc::get_values(x[[index]]),
-                              20)$mydat$valid
-        # remove last value, which is a NA dummy
-        if (length(ftab) == 1 && is.na(ftab)) {
-          valstring <- "<NA>"
-        } else {
-          for (i in 1:(length(ftab) - 1)) {
-            valstring <- paste0(valstring, sprintf("%.2f", ftab[i]))
-            if (i < length(ftab)) valstring <- paste0(valstring, "<br>")
-          }
-        }
-      } else {
-        valstring <- ""
-      }
-      page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, valstring))
+      page.content <- paste0(page.content, 
+                             sprintf("    <td class=\"tdata%s\">%s</td>\n", 
+                                     arcstring, 
+                                     prc.value(index, x, df.val)))
+    }
+    # ----------------------------
+    # frequencies
+    # ----------------------------
+    if (showWtdFreq && !is.null(weightBy)) {
+      page.content <- paste0(page.content, 
+                             sprintf("    <td class=\"tdata%s\">%s</td>\n", 
+                                     arcstring, 
+                                     frq.value(index, x, df.val, weightBy)))
+    }
+    # ----------------------------
+    # percentage of frequencies
+    # ----------------------------
+    if (showPerc && !is.null(weightBy)) {
+      page.content <- paste0(page.content, 
+                             sprintf("    <td class=\"tdata%s\">%s</td>\n", 
+                                     arcstring, 
+                                     prc.value(index, x, df.val, weightBy)))
     }
     # update progress bar
     if (!hideProgressBar) utils::setTxtProgressBar(pb, rcnt)
@@ -381,4 +345,64 @@ view_df <- function(x,
                            page.content = page.content,
                            output.complete = toWrite,
                            knitr = knitr)))
+}
+
+
+frq.value <- function(index, x, df.val, weights = NULL) {
+  valstring <- ""
+  # check if we have a valid index
+  if (index <= ncol(x) && !is.null(df.val[[index]])) {
+    # do we have weights?
+    if (!is.null(weights)) 
+      variab <- sjmisc::weight(x[[index]], weights)
+    else
+      variab <- x[[index]]
+    # create frequency table. same function as for
+    # sjt.frq and sjp.frq
+    ftab <- create.frq.df(variab,
+                          df.val[[index]], 
+                          sjmisc::get_values(x[[index]]),
+                          20)$mydat$frq
+    # remove last value, which is N for NA
+    if (length(ftab) == 1 && is.na(ftab)) {
+      valstring <- "<NA>"
+    } else {
+      for (i in 1:(length(ftab) - 1)) {
+        valstring <- paste0(valstring, ftab[i])
+        if (i < length(ftab)) valstring <- paste0(valstring, "<br>")
+      }
+    }
+  } else {
+    valstring <- ""
+  }
+  return(valstring)
+}
+
+prc.value <- function(index, x, df.val, weights = NULL) {
+  valstring <- ""
+  # check for valid indices
+  if (index <= ncol(x) && !is.null(df.val[[index]])) {
+    # do we have weights?
+    if (!is.null(weights)) 
+      variab <- sjmisc::weight(x[[index]], weights)
+    else
+      variab <- x[[index]]
+    # create frequency table, but only get valid percentages
+    ftab <- create.frq.df(variab,
+                          df.val[[index]], 
+                          sjmisc::get_values(x[[index]]),
+                          20)$mydat$valid
+    # remove last value, which is a NA dummy
+    if (length(ftab) == 1 && is.na(ftab)) {
+      valstring <- "<NA>"
+    } else {
+      for (i in 1:(length(ftab) - 1)) {
+        valstring <- paste0(valstring, sprintf("%.2f", ftab[i]))
+        if (i < length(ftab)) valstring <- paste0(valstring, "<br>")
+      }
+    }
+  } else {
+    valstring <- ""
+  }
+  return(valstring)  
 }
