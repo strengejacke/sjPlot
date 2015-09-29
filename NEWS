@@ -6,7 +6,7 @@ General:
 Changes to functions:
 * Predictor grouping with argument `group.pred` now also works for `sjt.lmer` and `sjt.glmer` (in certain cases may be buggy, so `group.pred` defaults to `FALSE`).
 * Argument `vars` in `sjp.lmer` and `sjp.glmer` now also applies when plotting estimates (`type = "fe"` or `type = "re"`).
-* `view_df_` gets a `weight_by` argument.
+* `view_df_` gets a `weightBy` argument.
 * Minor improvements to `view_df`, `sjp.lm` and `sjp.lmm`.
 * Improved accuracy of computation of skewness value in `sjt.itemanalysis`.
 
