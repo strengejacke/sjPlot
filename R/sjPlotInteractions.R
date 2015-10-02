@@ -113,8 +113,11 @@
 #'          (reference category of predictor in case interaction is not present) are plotted.
 #' @param showInterceptLabels If \code{TRUE} (default), the intercept lines are labelled. Only
 #'          applies if \code{showInterceptLines} is \code{TRUE}.
-#' @param showCI If \code{TRUE}, a confidence region will be plotted. Onyl applies
-#'          to \code{type = "emm"} or \code{type = "eff"}.
+#' @param showCI may be a numeric or logical value. If \code{showCI} is logical and 
+#'          \code{TRUE}, a 95\% confidence region will be plotted. If \code{showCI}
+#'          if numeric, must be a number between 0 and 1, indicating the proportion
+#'          for the confidence regeion (e.g. \code{showCI = 0.9} plots a 90\% CI).
+#'          Only applies to \code{type = "emm"} or \code{type = "eff"}.
 #' @param valueLabel.digits the amount of digits of the displayed value labels. Defaults to 2.
 #' @param interceptLineColor color of the model's intercept line. Only applies, if
 #'          \code{showInterceptLines} is \code{TRUE}.
@@ -422,6 +425,15 @@ sjp.int <- function(fit,
   # plot estimated marginal means?
   # --------------------------------------------------------
   if (type == "emm") {
+    # ------------------------
+    # multiple purpose of showCI parameter. if logical,
+    # sets default CI to 0.95, else showCI also may be
+    # numeric
+    # ------------------------
+    if (!is.null(showCI) && !is.logical(showCI)) {
+      showCI = TRUE
+      warning("argument `showCI` must be logical for `type = 'emm'`.", call. = F)
+    }
     return(sjp.emm(fit, swapPredictors, plevel, title, geom.colors,
                    axisTitle.x, axisTitle.y, axisLabels.x, legendTitle, legendLabels,
                    showValueLabels, valueLabel.digits, showCI, breakTitleAt,
@@ -951,6 +963,17 @@ sjp.eff.int <- function(fit,
   # gridbreaks
   if (is.null(gridBreaksAt)) gridbreaks.x <- gridbreaks.y <- ggplot2::waiver()
   # ------------------------
+  # multiple purpose of showCI parameter. if logical,
+  # sets default CI to 0.95, else showCI also may be
+  # numeric
+  # ------------------------
+  if (!is.null(showCI) && !is.logical(showCI)) {
+    eci <- showCI
+    showCI = TRUE
+  } else {
+    eci <- 0.95
+  }
+  # ------------------------
   # calculate effects of higher order terms and
   # check if fitted model contains any interaction terms
   # allEffects returns a list, with all interaction effects 
@@ -1066,12 +1089,19 @@ sjp.eff.int <- function(fit,
       # combine lists
       if (is.null(int.term)) {
         # re-compute effects
-        eff.tmp <- effects::allEffects(fit, xlevels = c(xl1, xl2), KR = F)
+        eff.tmp <- effects::allEffects(fit, 
+                                       xlevels = c(xl1, xl2), 
+                                       KR = F, 
+                                       confidence.level = eci)
         # reset data frame
         intdf <- data.frame(eff.tmp[[intpos[i]]])
       } else {
         # re-compute effects
-        eff.tmp <- effects::effect(int.term, fit, xlevels = c(xl1, xl2), KR = F)
+        eff.tmp <- effects::effect(int.term, 
+                                   fit, 
+                                   xlevels = c(xl1, xl2), 
+                                   KR = F,
+                                   confidence.level = eci)
         # reset data frame
         intdf <- data.frame(eff.tmp)
       }
@@ -1093,12 +1123,19 @@ sjp.eff.int <- function(fit,
       # combine lists
       if (is.null(int.term)) {
         # re-compute effects
-        eff.tmp <- effects::allEffects(fit, xlevels = xl, KR = F)
+        eff.tmp <- effects::allEffects(fit,
+                                       xlevels = xl, 
+                                       KR = F,
+                                       confidence.level = eci)
         # reset data frame
         intdf <- data.frame(eff.tmp[[intpos[i]]])
       } else {
         # re-compute effects
-        eff.tmp <- effects::effect(int.term, fit, xlevels = xl, KR = F)
+        eff.tmp <- effects::effect(int.term, 
+                                   fit, 
+                                   xlevels = xl, 
+                                   KR = F,
+                                   confidence.level = eci)
         # reset data frame
         intdf <- data.frame(eff.tmp)
       }

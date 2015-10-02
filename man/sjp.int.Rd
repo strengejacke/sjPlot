@@ -143,8 +143,11 @@ position a major grid is being printed.}
 \item{showInterceptLabels}{If \code{TRUE} (default), the intercept lines are labelled. Only
 applies if \code{showInterceptLines} is \code{TRUE}.}
 
-\item{showCI}{If \code{TRUE}, a confidence region will be plotted. Onyl applies
-to \code{type = "emm"} or \code{type = "eff"}.}
+\item{showCI}{may be a numeric or logical value. If \code{showCI} is logical and
+\code{TRUE}, a 95\% confidence region will be plotted. If \code{showCI}
+if numeric, must be a number between 0 and 1, indicating the proportion
+for the confidence regeion (e.g. \code{showCI = 0.9} plots a 90\% CI).
+Only applies to \code{type = "emm"} or \code{type = "eff"}.}
 
 \item{valueLabel.digits}{the amount of digits of the displayed value labels. Defaults to 2.}
 
