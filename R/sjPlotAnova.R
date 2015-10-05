@@ -246,7 +246,7 @@ sjp.aov1 <- function(depVar,
   # --------------------------------------------------------
   if (showPValueLabels) {
     for (i in 1:length(means.p)) {
-      ps[i] <- get_p_stars(means.p[i])
+      ps[i] <- sjmisc::trim(paste(ps[i], get_p_stars(means.p[i])))
     }  
   }
   # --------------------------------------------------------

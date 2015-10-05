@@ -40,7 +40,7 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](http://cran.r-project.org/package=ggplot2), consider citing this package as well.
 
-### Changelog of development build 1.8.3-6
+### Changelog of development build 1.8.3-7
 
 #### General
 * Improved encoding detection for `sjt`-functions.
@@ -55,4 +55,5 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 
 #### Bug fixes
 * Fixed bug where in certain cases, ordered factors were not labelled correctly in `sjp.frq`.
+* Value labels were not shown in `sjp.aov1`.
 * Axis labels were reversed in `sjp.pca` for `type = "bar"`.

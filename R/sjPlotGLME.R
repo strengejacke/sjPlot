@@ -525,16 +525,16 @@ sjp.lme4  <- function(fit,
   # ---------------------------------------
   if (type == "fe.std") showIntercept <- FALSE
   # ---------------------------------------
+  # get amount of random intercepts
+  # ---------------------------------------
+  ri.cnt <- length(lme4::ranef(fit))
+  # ---------------------------------------
   # how many plots? if we have random effects plots,
   # determine number of random effects and iterate
   # all effects
   # ---------------------------------------
   loops <- 1
   if (type == "re" || type == "fe.ri" || type == "ri.pc" || type == "coef") {
-    # ---------------------------------------
-    # get amount of random intercepts
-    # ---------------------------------------
-    ri.cnt <- length(lme4::ranef(fit))
     # ---------------------------------------
     # do we have a specific random intercept
     # specified? If yes, check valid index
@@ -777,6 +777,11 @@ sjp.lme4  <- function(fit,
     # should be plotted
     # ---------------------------------------
     if (type == "re" || type == "coef") {
+      # ---------------------------------------
+      # if we have only one random intercept, and facet.grid
+      # not specified, default it to false
+      # ---------------------------------------
+      if (1 == ri.cnt && missing(facet.grid)) facet.grid <- FALSE
       # ---------------------------------------
       # copy estimates of random effects
       # ---------------------------------------
@@ -1377,9 +1382,9 @@ sjp.lme.reprobcurve <- function(fit,
   # ---------------------------------------
   # iterate all random effects
   # ---------------------------------------
-  for (ri.cnt in ri.nr) {
+  for (ri.count in ri.nr) {
     # retrieve random effects
-    rand.ef <- lme4::ranef(fit)[[ri.cnt]]
+    rand.ef <- lme4::ranef(fit)[[ri.count]]
     # ------------------------------
     # set geom highlight colors
     # to highlight specific grouping levels
@@ -1594,11 +1599,11 @@ sjp.lme.feri <- function(fit,
   # ---------------------------------------
   # iterate all random intercept
   # ---------------------------------------
-  for (ri.cnt in ri.nr) {
+  for (ri.count in ri.nr) {
     # retrieve random effects
-    rand.ef <- lme4::ranef(fit)[[ri.cnt]]
+    rand.ef <- lme4::ranef(fit)[[ri.count]]
     # and list name
-    ri.name <- names(lme4::ranef(fit)[ri.cnt])
+    ri.name <- names(lme4::ranef(fit)[ri.count])
     # ------------------------------
     # set geom highlight colors
     # to highlight specific grouping levels

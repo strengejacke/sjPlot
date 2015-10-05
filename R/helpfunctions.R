@@ -286,7 +286,15 @@ create.frq.df <- function(varCount,
 get.encoding <- function(encoding, data = NULL) {
   if (is.null(encoding)) {
     if (!is.null(data) && is.data.frame(data)) {
-      encoding <- Encoding(sjmisc::get_label(data[[1]]))
+      # get variable label
+      labs <- sjmisc::get_label(data[[1]])
+      # check if vectors of data frame have 
+      # any valid label. else, default to utf-8
+      if (!is.null(labs) && is.character(labs))
+        encoding <- Encoding(sjmisc::get_label(data[[1]]))
+      else
+        encoding <- "UTF-8"
+      # unknown encoding? default to utf-8
       if (encoding == "unknown") encoding <- "UTF-8"
     } else if (.Platform$OS.type == "unix")
       encoding <- "UTF-8"
@@ -639,7 +647,7 @@ unlistlabels <- function(lab) {
 #' @param upperMargin Defines the new margin of the upper y-bound of the plot. This value will
 #'          be multiplied with \code{gp}'s current total y-range. Default is 1.05, which means
 #'          that the upper margin of the new plot's "visible" plot area will be increased
-#'          by 5 percent. (i.e. the y-range is 105 percent of the original range, 
+#'          by 5 percent. (i.e. the y-range is 105 percent of the original range,
 #'          in order to make all object visible).
 #' @return The same ggplot-object, with adjusted y-range, so all graphics and labels
 #'          should be visible.
@@ -723,8 +731,8 @@ sjp.vif <- function(fit) {
       # als X-Achsenbeschriftung die Variablennamen setzen
       scale_x_discrete(labels = mydat$label) +
       # Keine weiteren Titel an X- und Y-Achse angeben
-      labs(title = "Variance Inflation Factors (multicollinearity)", 
-           x = NULL, 
+      labs(title = "Variance Inflation Factors (multicollinearity)",
+           x = NULL,
            y = NULL) +
       # maximale Obergrenze der Y-Achse setzen
       scale_y_continuous(limits = c(0, upperLimit), expand = c(0, 0)) +
