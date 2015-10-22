@@ -2,7 +2,7 @@
 % Please edit documentation in R/sjPlotFrequencies.R
 \name{sjp.frq}
 \alias{sjp.frq}
-\title{Plot frequencies of (count) variables}
+\title{Plot frequencies of variables}
 \usage{
 sjp.frq(varCount, title = "", weightBy = NULL, weightByTitleString = NULL,
   interactionVar = NULL, sort.frq = "none", type = "bars",
@@ -130,12 +130,12 @@ Only applies to \code{type = "bars"}. In case of dot plots, error bars
 will have same colors as dots (see \code{geom.colors}).}
 
 \item{showMeanIntercept}{logical, if \code{TRUE}, a vertical line in histograms
-is drawn to indicate the mean value of the count variables. Only
+is drawn to indicate the mean value of the variables. Only
 applies to histogram-charts.}
 
 \item{showMeanValue}{logical, if \code{TRUE} (default), the mean value
 is printed to the vertical line that indicates the mean value
-of the count variables. Only applies to histogram-charts.}
+of the variables. Only applies to histogram-charts.}
 
 \item{showStandardDeviation}{logical, if \code{TRUE}, the standard deviation
 is annotated as shaded rectangle around the mean intercept
@@ -217,11 +217,12 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
           was used for setting up the ggplot-object (\code{mydf}).
 }
 \description{
-Plot frequencies of a (count) variable as bar graph, histogram,
+Plot frequencies of a variable as bar graph, histogram,
                box plot etc.
 }
 \note{
-This function only works with variables with integer values, i.e. scales / centred variables
+This function only works with variables with integer values (or numeric
+        factor levels), i.e. scales / centred variables
         with decimales may result in unexpected behaviour.
 }
 \examples{

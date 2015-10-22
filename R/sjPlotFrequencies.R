@@ -2,7 +2,7 @@
 utils::globalVariables(c("frq", "grp", "upper.ci", "lower.ci", "ia", "..density.."))
 
 
-#' @title Plot frequencies of (count) variables
+#' @title Plot frequencies of variables
 #' @name sjp.frq
 #' 
 #' @seealso \itemize{
@@ -10,10 +10,11 @@ utils::globalVariables(c("frq", "grp", "upper.ci", "lower.ci", "ia", "..density.
 #'            \item \code{\link{sjt.frq}}
 #'          }
 #' 
-#' @description Plot frequencies of a (count) variable as bar graph, histogram,
+#' @description Plot frequencies of a variable as bar graph, histogram,
 #'                box plot etc.
 #' 
-#' @note This function only works with variables with integer values, i.e. scales / centred variables
+#' @note This function only works with variables with integer values (or numeric
+#'         factor levels), i.e. scales / centred variables
 #'         with decimales may result in unexpected behaviour.
 #' 
 #' @param varCount a vector of values (variable) describing the bars which make up the plot.
@@ -51,11 +52,11 @@ utils::globalVariables(c("frq", "grp", "upper.ci", "lower.ci", "ia", "..density.
 #'          Only applies to \code{type = "bars"}. In case of dot plots, error bars 
 #'          will have same colors as dots (see \code{geom.colors}).
 #' @param showMeanIntercept logical, if \code{TRUE}, a vertical line in histograms 
-#'          is drawn to indicate the mean value of the count variables. Only 
+#'          is drawn to indicate the mean value of the variables. Only 
 #'          applies to histogram-charts.
 #' @param showMeanValue logical, if \code{TRUE} (default), the mean value 
 #'          is printed to the vertical line that indicates the mean value
-#'          of the count variables. Only applies to histogram-charts.
+#'          of the variables. Only applies to histogram-charts.
 #' @param showStandardDeviation logical, if \code{TRUE}, the standard deviation 
 #'          is annotated as shaded rectangle around the mean intercept
 #'          line. Only applies to histogram-charts.
@@ -683,10 +684,10 @@ sjp.frq <- function(varCount,
     # Start density plot here
     # --------------------------------------------------
     } else if (type == "dens") {
-      x <- stats::na.omit(varCount)
-      densityDat <- data.frame(x)
+      xv <- stats::na.omit(varCount)
+      densityDat <- data.frame(xv)
       # First, plot histogram with density curve
-      baseplot <- ggplot(densityDat, aes(x = x)) +
+      baseplot <- ggplot(densityDat, aes(x = xv)) +
         geom_histogram(aes(y = ..density..), fill = geom.colors) +
         # transparent density curve above bars
         geom_density(aes(y = ..density..), 
@@ -701,8 +702,8 @@ sjp.frq <- function(varCount,
       if (showNormalCurve) {
         baseplot <- baseplot +
           stat_function(fun = dnorm,
-                        args = list(mean = mean(densityDat$x),
-                                    sd = stats::sd(densityDat$x)),
+                        args = list(mean = mean(densityDat$xv),
+                                    sd = stats::sd(densityDat$xv)),
                         colour = normalCurveColor,
                         size = normalCurveSize,
                         alpha = normalCurveAlpha)
@@ -723,12 +724,12 @@ sjp.frq <- function(varCount,
       # -----------------------------------------------------------------
       # base constructor
       if (hist.skipZeros) {
-        x <- stats::na.omit(varCount)
-        if (geom.size < round(diff(range(x)) / 50)) message("Using very small binwidth. Consider adjusting \"geom.size\" argument.")
-        hist.dat <- data.frame(x)
+        xv <- stats::na.omit(varCount)
+        if (geom.size < round(diff(range(xv)) / 50)) message("Using very small binwidth. Consider adjusting \"geom.size\" argument.")
+        hist.dat <- data.frame(xv)
         baseplot <- ggplot(mydat)
         basehist <- geom_histogram(data = hist.dat, 
-                                   aes(x = x),
+                                   aes(x = xv),
                                    binwidth = geom.size, 
                                    fill = geom.colors)
       } else {

@@ -40,7 +40,7 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](http://cran.r-project.org/package=ggplot2), consider citing this package as well.
 
-### Changelog of development build 1.8.3-7
+### Changelog of development build 1.8.4
 
 #### General
 * Improved encoding detection for `sjt`-functions.
@@ -48,7 +48,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 #### Changes to functions
 * Predictor grouping with argument `group.pred` now also works for `sjt.lmer` and `sjt.glmer` (in certain cases may be buggy, so `group.pred` defaults to `FALSE`).
 * Argument `vars` in `sjp.lmer` and `sjp.glmer` now also applies when plotting estimates (`type = "fe"` or `type = "re"`).
-* `view_df_` gets a `weightBy` argument.
+* `view_df` gets a `weightBy` argument.
 * Argument `showCI` in `sjp.int` accepts numeric values for `type = "eff"`,  indicating the confidence interval value.
 * Minor improvements to `view_df`, `sjp.lm` and `sjp.lmm`.
 * Improved accuracy of computation of skewness value in `sjt.itemanalysis`.
