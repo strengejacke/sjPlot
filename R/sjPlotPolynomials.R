@@ -64,7 +64,7 @@
 #'            Polynomials are computed using the \code{\link{poly}} function,
 #'            with argument \code{raw = TRUE}. \cr \cr
 #'            To find out which polynomial degree fits best to the data, a loess-smoothed
-#'            line can be added (with \code{showLoess = TRUE}). The polynomial curves
+#'            line (in dark grey) can be added (with \code{showLoess = TRUE}). The polynomial curves
 #'            that comes closest to the loess-smoothed line should be the best
 #'            fit to the data.
 #'   

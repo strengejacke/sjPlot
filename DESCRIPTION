@@ -2,14 +2,45 @@ Package: sjPlot
 Type: Package
 Encoding: UTF-8
 Title: Data Visualization for Statistics in Social Science
-Version: 1.8.4
-Date: 2015-10-12
+Version: 1.8.4-1
+Date: 2015-11-05
 Author: Daniel Lüdecke <d.luedecke@uke.de>
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
-Description: Collection of plotting and table output functions for data visualization. Results of various statistical analyses (that are commonly used in social sciences) can be visualized using this package, including simple and cross tabulated frequencies, histograms, box plots, (generalized) linear models, mixed effects models, PCA and correlation matrices, cluster analyses, scatter plots, Likert scales, effects plots of regression models (including interaction terms) and much more.
+Description: Collection of plotting and table output functions for data
+    visualization. Results of various statistical analyses (that are commonly used
+    in social sciences) can be visualized using this package, including simple and
+    cross tabulated frequencies, histograms, box plots, (generalized) linear models,
+    mixed effects models, PCA and correlation matrices, cluster analyses, scatter
+    plots, Likert scales, effects plots of regression models (including interaction
+    terms) and much more.
 License: GPL-3
-Depends: R (>= 3.1), graphics, grDevices, methods, stats, utils
-Imports: car, dplyr (>= 0.4.1), ggplot2, grid, MASS, magrittr, psych, scales, sjmisc (>= 1.1), tidyr (>= 0.2.0)
-Suggests: AICcmodavg, arm, cluster, effects, lme4, lmerTest, lmtest, lsmeans
+Depends:
+    R (>= 3.1),
+    graphics,
+    grDevices,
+    methods,
+    stats,
+    utils
+Imports:
+    car,
+    dplyr (>= 0.4.3),
+    ggplot2,
+    grid,
+    MASS,
+    magrittr,
+    psych,
+    scales,
+    sjmisc (>= 1.2),
+    tidyr (>= 0.3.1)
+Suggests:
+    AICcmodavg,
+    arm,
+    cluster,
+    effects,
+    lme4,
+    lmerTest,
+    lmtest,
+    lsmeans
 URL: https://github.com/sjPlot/devel
 BugReports: https://github.com/sjPlot/devel/issues
+RoxygenNote: 5.0.0

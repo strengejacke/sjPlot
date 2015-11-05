@@ -1,3 +1,8 @@
+Version 1.8.4-1
+-----------------------------------------------------------------------------
+Changes to functions:
+* `sjp.lmer` and `sjp.glmer` can now plot random effect parts of random slope-intercept models (with `type = "rs.ri"`), where regression lines or predicted probabilities of random intercept and slopes are plotted.
+
 Version 1.8.4
 -----------------------------------------------------------------------------
 General:

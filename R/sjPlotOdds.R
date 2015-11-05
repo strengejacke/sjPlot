@@ -70,7 +70,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'              \item \code{df.mp} - data frame used for predicted probability plots
 #'              \item \code{plot.mp} - predicted probability plots as ggplot-objects
 #'              \item \code{df.facet} - data frame used for faceted predicted probability plots
-#'              \item \code{plot.facet} - facted predicted probability plots as ggplot-objects
+#'              \item \code{plot.facet} - faceted predicted probability plots as ggplot-objects
 #'            }
 #'          }
 #'          \item{\code{type = "y.pc"}}{
