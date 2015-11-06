@@ -89,6 +89,8 @@ utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "
 #'          (grouping levels), overplotting of regression lines may occur. In this
 #'          case, consider random sampling of grouping levels. \code{sample.n} indicates,
 #'          how many random cases are sampled for plotting.
+#' @param show.legend logical, if \code{TRUE} and \code{type = "rs.ri"}, a legend
+#'          showing the group levels of the random intercept is shown.
 #'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lm
@@ -120,9 +122,26 @@ utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "
 #'            which corresponds to \code{\link{plogis}(b0 + b0[r1-rn] + bx * x)} (where \code{x}
 #'            is the logit-estimate of fixed effects, \code{b0} is the intercept of
 #'            the fixed effects and \code{b0[r1-rn]} are all random intercepts).}
+#'            \item{\code{type = "rs.ri"}}{the predicted probabilities are based 
+#'            on the fixed effects intercept, plus each random intercept and
+#'            random slope. This plot type is intended to plot the random part, i.e.
+#'            the predicted probabilities of each random slope for each random intercept.
+#'            Since the random intercept specifies the deviance from the gloabl
+#'            intercept, the global intercept is always included. In case of overplotting,
+#'            use the \code{sample.n} argument to randomly sample a limited amount
+#'            of groups.}
 #'            \item{\code{type = "y.pc"}}{(or \code{type = "y.prob"}), the predicted values
 #'            of the response are computed, based on the \code{predict.merMod}
 #'            method. Corresponds to \code{\link{plogis}(predict(fit, type = "response"))}.}
+#'            \item{\code{type = "coef"}}{forest plot of joint fixed and random
+#'            effect coefficients, as retrieved by \code{\link[lme4]{coef.merMod}},
+#'            it's simply \code{\link[lme4]{ranef} + \link[lme4]{fixef}}.}
+#'            \item{\code{type = "y.pc"}}{(or \code{"y.prob"}) predicted probabilities
+#'            against response, only fixed effects and 
+#'            conditional on random intercept. It's calling
+#'            \code{predict(fit, type = "response", re.form = NA)} resp.
+#'            \code{predict(fit, type = "response", re.form = NULL)} to
+#'            compute the values.}
 #'          }
 #'
 #' @examples
@@ -206,6 +225,7 @@ sjp.glmer <- function(fit,
                       fade.ns = FALSE,
                       show.se = FALSE,
                       sample.n = NULL,
+                      show.legend = FALSE,
                       printPlot = TRUE) {
 
   if (type == "fe.prob") type <- "fe.pc"
@@ -244,7 +264,8 @@ sjp.glmer <- function(fit,
            FALSE,
            FALSE,
            NULL,
-           sample.n)
+           sample.n,
+           show.legend)
 }
 
 
@@ -259,6 +280,44 @@ sjp.glmer <- function(fit,
 #'                of the \pkg{lme4}-package). Furhermore, this function also plot
 #'                predicted values or diagnostic plots.
 #'
+#' @details \describe{
+#'            \item{\code{type = "fe.pred"}}{plots the linear relationship between
+#'            each fixed effect and the response. The regression lines are \emph{not}
+#'            based on the fitted model's fixed effects estimates (though they may
+#'            be similar). This plot type just computes a simple linear model for
+#'            each fixed effect and response. Hence, it's intended for checking
+#'            model assumptions, i.e. if predictor and respone are in a linear relationship.
+#'            You may use the \code{showLoess} argument to see whether the linear
+#'            line differs from the best fitting line.}
+#'            \item{\code{type = "fe.resid"}}{Similar to \code{type = "fe.pred"},
+#'            this this type is intended for checking model assumptions. However,
+#'            fitted values are plotted against the residuals instead of response.}
+#'            \item{\code{type = "eff"}}{plots the adjusted (marginal) effects
+#'            for each fixed effect, with all co-variates set to the mean, as 
+#'            returned by the \code{\link[effects]{allEffects}} function.}
+#'            \item{\code{type = "rs.ri"}}{plots regression lines for the random
+#'            parts of the model, i.e. all random slopes for each random intercept.
+#'            As the random intercepts describe the deviation from the global intercept,
+#'            the regression lines are computed as global intercept + random intercept +
+#'            random slope. In case of overplotting,
+#'            use the \code{sample.n} argument to randomly sample a limited amount
+#'            of groups.}
+#'            \item{\code{type = "fe.ri"}}{plots regression lines for each fixed
+#'            effect (slopes) within each random intercept. The lines in these plots
+#'            have random intercept values as intercept. For each fixed effect,
+#'            a new figure is plotted, where the same slope (of the fixed effect)
+#'            is used for each plot.}
+#'            \item{\code{type = "coef"}}{forest plot of joint fixed and random
+#'            effect coefficients, as retrieved by \code{\link[lme4]{coef.merMod}},
+#'            it's simply \code{\link[lme4]{ranef} + \link[lme4]{fixef}}.}
+#'            \item{\code{type = "resp"}}{regression line for
+#'            predicted values against response, only fixed effects and 
+#'            conditional on random intercept. It's calling
+#'            \code{stats::predict(fit, type = "response", re.form = NA)} resp.
+#'            \code{stats::predict(fit, type = "response", re.form = NULL)} to
+#'            compute the values.}
+#'          }
+#'
 #' @param fit a fitted model as returned by the \code{\link[lme4]{lmer}}-function.
 #' @param type type of plot. Use one of following:
 #'          \describe{
@@ -271,7 +330,7 @@ sjp.glmer <- function(fit,
 #'            \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
 #'            \item{\code{"fe.ri"}}{for fixed effects slopes depending on the random intercept.}
 #'            \item{\code{"rs.ri"}}{for fitted regression lines indicating the random slope-intercept pairs. Use this to visualize the random parts of random slope-intercept (or repeated measure) models. When having too many groups, use \code{sample.n} argument.}
-#'            \item{\code{"coef"}}{for joint (sum of) random and fixed effects coefficients for each explanatory variable for each level of each grouping factor as forst plot.}
+#'            \item{\code{"coef"}}{for joint (sum of) random and fixed effects coefficients for each explanatory variable for each level of each grouping factor as forest plot.}
 #'            \item{\code{"resp"}}{to plot predicted values for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot.}
 #'            \item{\code{"eff"}}{to plot marginal effects of all fixed terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms. See also 'Details' of \code{\link{sjp.lm}}.}
 #'            \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples' here and 'Details' of \code{\link{sjp.lm}}).}
@@ -433,6 +492,7 @@ sjp.lmer <- function(fit,
                      showLoessCI=FALSE,
                      poly.term = NULL,
                      sample.n = NULL,
+                     show.legend = FALSE,
                      printPlot = TRUE) {
 
   if (type == "fe.prob") type <- "fe.pc"
@@ -471,7 +531,8 @@ sjp.lmer <- function(fit,
            showLoess,
            showLoessCI,
            poly.term,
-           sample.n)
+           sample.n,
+           show.legend)
 }
 
 sjp.lme4  <- function(fit,
@@ -506,7 +567,8 @@ sjp.lme4  <- function(fit,
                       showLoess = FALSE,
                       showLoessCI = FALSE,
                       poly.term = NULL,
-                      sample.n = NULL) {
+                      sample.n = NULL,
+                      show.legend = FALSE) {
   # ------------------------
   # check if suggested package is available
   # ------------------------
@@ -710,10 +772,15 @@ sjp.lme4  <- function(fit,
     }
   } else if (type == "rs.ri") {
     return(invisible(sjp.lme.reri(fit,
+                                  title,
+                                  axisTitle.x,
+                                  axisTitle.y,
                                   ri.nr,
                                   emph.grp,
+                                  geom.colors,
                                   geom.size,
                                   sample.n,
+                                  show.legend,
                                   printPlot,
                                   fun)))
   } else if (type == "re.qq") {
@@ -1722,10 +1789,15 @@ sjp.lme.feri <- function(fit,
 
 
 sjp.lme.reri <- function(fit,
+                         title,
+                         axisTitle.x,
+                         axisTitle.y,
                          ri.nr,
                          emph.grp,
+                         geom.colors,
                          geom.size,
                          sample.n,
+                         show.legend,
                          printPlot,
                          fun) {
   # check size argument
@@ -1778,13 +1850,16 @@ sjp.lme.reri <- function(fit,
     # set geom highlight colors
     # to highlight specific grouping levels
     # ------------------------------
-    geom.colors <- NULL
     if (!is.null(emph.grp)) {
       # create color palette
-      grp.col <- scales::brewer_pal(palette = "Set1")(length(emph.grp))
+      grp.col <- col_check2(geom.colors, length(emph.grp))
       # now set only colors for highlighted groups
       geom.colors <- rep("#999999", length(row.names(rand.ef)))
       geom.colors[emph.grp] <- grp.col
+    } else if (!is.null(geom.colors) && (geom.colors[1] == "gs" || nrow(rand.ef) < 10)) {
+      geom.colors <- col_check2(geom.colors, nrow(rand.ef))
+    } else {
+      geom.colors <- NULL
     }
     # we may have multiple random slope values, e.g.
     # if random slope is a factor
@@ -1811,23 +1886,26 @@ sjp.lme.reri <- function(fit,
       # logistic regression?
       if (fun == "glm") final.df$y <- plogis(final.df$y)
       # ------------------------------
+      # title and axis title
+      # ------------------------------
+      if (is.null(title)) title <- sprintf("Random slopes within \"%s\"", ri.name)
+      if (is.null(axisTitle.x)) axisTitle.x <- rnd.slope.name
+      # ------------------------------
       # prepare base plot
       # ------------------------------
       if (fun == "lm") {
+        if (is.null(axisTitle.y)) axisTitle.y <- colnames(fit@frame)[1]
         gp <- ggplot(final.df, aes(x = x, y = y, colour = grp)) +
           geom_line(size = geom.size) +
-          labs(title = sprintf("Random slopes within \"%s\"", ri.name),
-               y = colnames(fit@frame)[1],
-               x = rnd.slope.name)
+          labs(title = title, y = axisTitle.y, x = axisTitle.x)
       } else {
+        if (is.null(axisTitle.y)) axisTitle.y <- sprintf("Predicted Probability of %s", colnames(fit@frame)[1])
         gp <- ggplot(final.df, aes(x = x, y = y, colour = grp)) +
           stat_smooth(method = "glm", family = "binomial") +
           # cartesian coord still plots range of se, even
           # when se exceeds plot range.
           coord_cartesian(ylim = c(0, 1)) +
-          labs(x = rnd.slope.name,
-               y = sprintf("Predicted Probability of %s", colnames(fit@frame)[1]),
-               title = sprintf("Random slope within \"%s\"", ri.name))
+          labs(x = axisTitle.x, y = axisTitle.y, title = title)
       }
       # ------------------------------
       # highlight specific groups?
@@ -1839,8 +1917,10 @@ sjp.lme.reri <- function(fit,
         gp <- sj.setGeomColors(gp,
                                geom.colors,
                                length(geom.colors),
-                               T,
+                               show.legend,
                                legendLabels)
+      } else if (!show.legend) {
+        gp <- gp + guides(colour = FALSE)
       }
       # -------------------------------------
       # add to plot and df list

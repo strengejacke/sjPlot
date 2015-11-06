@@ -12,7 +12,8 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   free.scale = FALSE, interceptLineType = 2,
   interceptLineColor = "grey70", remove.estimates = NULL,
   showValueLabels = TRUE, labelDigits = 2, showPValueLabels = TRUE,
-  fade.ns = FALSE, show.se = FALSE, sample.n = NULL, printPlot = TRUE)
+  fade.ns = FALSE, show.se = FALSE, sample.n = NULL,
+  show.legend = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{glmer}}-function.}
@@ -120,6 +121,9 @@ error for predicted values or confidence intervals for slope lines.}
 case, consider random sampling of grouping levels. \code{sample.n} indicates,
 how many random cases are sampled for plotting.}
 
+\item{show.legend}{logical, if \code{TRUE} and \code{type = "rs.ri"}, a legend
+showing the group levels of the random intercept is shown.}
+
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
@@ -156,9 +160,26 @@ By default, this function plots odds ratios (exponentiated coefficients)
            which corresponds to \code{\link{plogis}(b0 + b0[r1-rn] + bx * x)} (where \code{x}
            is the logit-estimate of fixed effects, \code{b0} is the intercept of
            the fixed effects and \code{b0[r1-rn]} are all random intercepts).}
+           \item{\code{type = "rs.ri"}}{the predicted probabilities are based 
+           on the fixed effects intercept, plus each random intercept and
+           random slope. This plot type is intended to plot the random part, i.e.
+           the predicted probabilities of each random slope for each random intercept.
+           Since the random intercept specifies the deviance from the gloabl
+           intercept, the global intercept is always included. In case of overplotting,
+           use the \code{sample.n} argument to randomly sample a limited amount
+           of groups.}
            \item{\code{type = "y.pc"}}{(or \code{type = "y.prob"}), the predicted values
            of the response are computed, based on the \code{predict.merMod}
            method. Corresponds to \code{\link{plogis}(predict(fit, type = "response"))}.}
+           \item{\code{type = "coef"}}{forest plot of joint fixed and random
+           effect coefficients, as retrieved by \code{\link[lme4]{coef.merMod}},
+           it's simply \code{\link[lme4]{ranef} + \link[lme4]{fixef}}.}
+           \item{\code{type = "y.pc"}}{(or \code{"y.prob"}) predicted probabilities
+           against response, only fixed effects and 
+           conditional on random intercept. It's calling
+           \code{predict(fit, type = "response", re.form = NA)} resp.
+           \code{predict(fit, type = "response", re.form = NULL)} to
+           compute the values.}
          }
 }
 \note{

@@ -14,7 +14,7 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   facet.grid = TRUE, free.scale = FALSE, fade.ns = FALSE,
   show.se = TRUE, pointAlpha = 0.2, showScatterPlot = TRUE,
   showLoess = FALSE, showLoessCI = FALSE, poly.term = NULL,
-  sample.n = NULL, printPlot = TRUE)
+  sample.n = NULL, show.legend = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{lmer}}-function.}
@@ -30,7 +30,7 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
   \item{\code{"fe.ri"}}{for fixed effects slopes depending on the random intercept.}
   \item{\code{"rs.ri"}}{for fitted regression lines indicating the random slope-intercept pairs. Use this to visualize the random parts of random slope-intercept (or repeated measure) models. When having too many groups, use \code{sample.n} argument.}
-  \item{\code{"coef"}}{for joint (sum of) random and fixed effects coefficients for each explanatory variable for each level of each grouping factor as forst plot.}
+  \item{\code{"coef"}}{for joint (sum of) random and fixed effects coefficients for each explanatory variable for each level of each grouping factor as forest plot.}
   \item{\code{"resp"}}{to plot predicted values for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot.}
   \item{\code{"eff"}}{to plot marginal effects of all fixed terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms. See also 'Details' of \code{\link{sjp.lm}}.}
   \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples' here and 'Details' of \code{\link{sjp.lm}}).}
@@ -147,6 +147,9 @@ for polynomial terms. See 'Examples'.}
 case, consider random sampling of grouping levels. \code{sample.n} indicates,
 how many random cases are sampled for plotting.}
 
+\item{show.legend}{logical, if \code{TRUE} and \code{type = "rs.ri"}, a legend
+showing the group levels of the random intercept is shown.}
+
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
@@ -164,6 +167,45 @@ By default, this function plots estimates (coefficients) with confidence
                effects models (that have been fitted with the \code{\link[lme4]{lmer}}-function
                of the \pkg{lme4}-package). Furhermore, this function also plot
                predicted values or diagnostic plots.
+}
+\details{
+\describe{
+           \item{\code{type = "fe.pred"}}{plots the linear relationship between
+           each fixed effect and the response. The regression lines are \emph{not}
+           based on the fitted model's fixed effects estimates (though they may
+           be similar). This plot type just computes a simple linear model for
+           each fixed effect and response. Hence, it's intended for checking
+           model assumptions, i.e. if predictor and respone are in a linear relationship.
+           You may use the \code{showLoess} argument to see whether the linear
+           line differs from the best fitting line.}
+           \item{\code{type = "fe.resid"}}{Similar to \code{type = "fe.pred"},
+           this this type is intended for checking model assumptions. However,
+           fitted values are plotted against the residuals instead of response.}
+           \item{\code{type = "eff"}}{plots the adjusted (marginal) effects
+           for each fixed effect, with all co-variates set to the mean, as 
+           returned by the \code{\link[effects]{allEffects}} function.}
+           \item{\code{type = "rs.ri"}}{plots regression lines for the random
+           parts of the model, i.e. all random slopes for each random intercept.
+           As the random intercepts describe the deviation from the global intercept,
+           the regression lines are computed as global intercept + random intercept +
+           random slope. In case of overplotting,
+           use the \code{sample.n} argument to randomly sample a limited amount
+           of groups.}
+           \item{\code{type = "fe.ri"}}{plots regression lines for each fixed
+           effect (slopes) within each random intercept. The lines in these plots
+           have random intercept values as intercept. For each fixed effect,
+           a new figure is plotted, where the same slope (of the fixed effect)
+           is used for each plot.}
+           \item{\code{type = "coef"}}{forest plot of joint fixed and random
+           effect coefficients, as retrieved by \code{\link[lme4]{coef.merMod}},
+           it's simply \code{\link[lme4]{ranef} + \link[lme4]{fixef}}.}
+           \item{\code{type = "resp"}}{regression line for
+           predicted values against response, only fixed effects and 
+           conditional on random intercept. It's calling
+           \code{stats::predict(fit, type = "response", re.form = NA)} resp.
+           \code{stats::predict(fit, type = "response", re.form = NULL)} to
+           compute the values.}
+         }
 }
 \examples{
 # fit model
