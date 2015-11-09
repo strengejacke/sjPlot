@@ -40,7 +40,10 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](http://cran.r-project.org/package=ggplot2), consider citing this package as well.
 
-### Changelog of development build 1.8.4-1
+### Changelog of development build 1.8.4-2
 
 #### Changes to functions
 * `sjp.lmer` and `sjp.glmer` can now plot random effect parts of random slope-intercept models (with `type = "rs.ri"`), where regression lines or predicted probabilities of random intercept and slopes are plotted.
+
+#### Bug fixes
+* Argument `ci.hyphen` in function `sjt.lm` and `sjt.lmer` was not correctly applied to confidence intervals of standardized beta values.

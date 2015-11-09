@@ -1108,7 +1108,7 @@ sjt.lm <- function(...,
         # retieve lower and upper ci
         ci.lo <- joined.df[i + 1, (j - 1) * 8 + 8]
         ci.hi <- joined.df[i + 1, (j - 1) * 8 + 9]
-        ci.sep.string <- ifelse(sjmisc::is_empty(ci.lo), "", "&nbsp;-&nbsp;")
+        ci.sep.string <- ifelse(sjmisc::is_empty(ci.lo), "&nbsp;", ci.hyphen)
         if (separateConfColumn) {
           # open table cell for Beta-coefficient
           page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign modelcolumn4\">%s", joined.df[i + 1, (j - 1) * 8 + 7]))
@@ -1116,7 +1116,10 @@ sjt.lm <- function(...,
           if (!pvaluesAsNumbers && !showEst) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[1, (i - 1) * 8 + 5]))
           # if we have CI, start new table cell (CI in separate column)
           if (showConfInt) {
-            page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign modelcolumn5\">%s%s%s</td>", ci.lo, ci.sep.string, ci.hi))
+            page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign modelcolumn5\">%s%s%s</td>",
+                                                         ci.lo, 
+                                                         ci.sep.string,
+                                                         ci.hi))
           } else {
             page.content <- paste0(page.content, "</td>")
           }
@@ -1126,7 +1129,11 @@ sjt.lm <- function(...,
           # show pvalue stars, if no estimates are shown
           if (!pvaluesAsNumbers && !showEst) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[1, (i - 1) * 8 + 5]))
           # confidence interval in Beta-column
-          if (showConfInt && !sjmisc::is_empty(ci.lo)) page.content <- paste0(page.content, sprintf("%s(%s%s%s)", linebreakstring, ci.lo, ci.sep.string, ci.hi))
+          if (showConfInt && !sjmisc::is_empty(ci.lo)) page.content <- paste0(page.content, sprintf("%s(%s%s%s)",
+                                                                                                    linebreakstring, 
+                                                                                                    ci.lo, 
+                                                                                                    ci.sep.string, 
+                                                                                                    ci.hi))
           # if p-values are not shown as numbers, insert them after beta-value
           page.content <- paste0(page.content, "</td>")
         }
