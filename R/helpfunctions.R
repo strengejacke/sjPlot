@@ -82,6 +82,39 @@ create.frq.df <- function(varCount,
                           na.rm = FALSE,
                           startAxisAt = "auto",
                           weightBy = NULL) {
+  
+  # x <- c(2,4,6,2,2,4,6,6,6,6, 10, 10, NA)
+  # set_labels(x) <- c(a = 2, b = 4, c = 6, d = 8)
+  # 
+  # labels <- get_labels(x,
+  #                      attr.only = T,
+  #                      include.values = "n",
+  #                      include.non.labelled = T)
+  # 
+  # if (!is.null(labels)) {
+  #   dat <- dplyr::add_rownames(data.frame(v = labels))
+  #   colnames(dat) <- c("val", "label")
+  #   dat$val <- to_value(dat$val, keep.labels = F)
+  #   
+  #   dat2 <- data.frame(table(x, exclude = NULL))
+  #   colnames(dat2) <- c("val", "frq")
+  #   dat2$val <- to_value(dat2$val, keep.labels = F)
+  #   
+  #   dummy <- dplyr::full_join(dat, dat2)
+  #   replace_na(dummy$frq) <- 0
+  # } else {
+  #   dummy <- data.frame(table(x, exclude = NULL))
+  #   colnames(dummy) <- c("val", "frq")
+  # }
+  # 
+  # dummy$raw.prc <- dummy$frq / sum(dummy$frq)
+  # dummy$cum.prc <- cumsum(dummy$raw.prc)
+  # 
+  # dummy$raw.prc <- 100 * round(dummy$raw.prc, 4)
+  # dummy$cum.prc <- 100 * round(dummy$cum.prc, 4)
+  # 
+  # dummy  
+  
   #---------------------------------------------------
   # variable with only mising?
   #---------------------------------------------------

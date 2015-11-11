@@ -12,8 +12,8 @@ sjp.glm(fit, type = "dots", sortOdds = TRUE, title = NULL,
   interceptLineColor = "grey70", remove.estimates = NULL,
   coord.flip = TRUE, showIntercept = FALSE, showAxisLabels.y = TRUE,
   showValueLabels = TRUE, labelDigits = 2, showPValueLabels = TRUE,
-  showModelSummary = FALSE, facet.grid = TRUE, show.se = FALSE,
-  showOriginalModelOnly = TRUE, printPlot = TRUE)
+  showModelSummary = FALSE, facet.grid = TRUE, show.ci = FALSE,
+  showOriginalModelOnly = TRUE, printPlot = TRUE, show.se = FALSE)
 }
 \arguments{
 \item{fit}{fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).}
@@ -105,8 +105,8 @@ of the plot.}
 \item{facet.grid}{logical, \code{TRUE} when each plot should be plotted separately instead of
 an integrated (faceted) single graph. Only applies, if \code{type = "prob"}.}
 
-\item{show.se}{logical, use \code{TRUE} to plot (depending on \code{type}) the standard
-error for probability curves (predicted probabilities).}
+\item{show.ci}{logical, use \code{TRUE} to plot (depending on \code{type}) 
+the confidence interval for probability curves (predicted probabilities).}
 
 \item{showOriginalModelOnly}{logical, if \code{TRUE} (default) and \code{type = "ma"}, 
 only the model assumptions of \code{fit} are plotted.
@@ -115,6 +115,8 @@ are automatically excluded are also plotted.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
+
+\item{show.se}{Deprecated; use \code{show.ci} instead.}
 }
 \value{
 (Invisibly) returns various objects, depending on 
@@ -164,7 +166,7 @@ Plot odds ratios (exponentiated coefficients) with confidence intervalls as bar 
            \item{\code{type = "prob"}}{(or \code{"pc"}), the predicted probabilities
            are based on the intercept's estimate and each specific term's estimate.
            All other co-variates are set to zero (i.e. ignored), which corresponds
-           to \code{\link{plogis}(b0 + bx * x)} (where \code{x} is the logit-estimate).}
+           to \code{\link{plogis}(b0 + bi * xi)} (where \code{xi} is the logit-estimate).}
            \item{\code{type = "eff"}}{the predicted probabilities
            are based on the \code{\link{predict.glm}} method, where predicted values 
            are "centered", i.e. remaining co-variates are set to the mean.

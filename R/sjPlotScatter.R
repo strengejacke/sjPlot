@@ -1,12 +1,12 @@
 #' @title Plot (grouped) scatter plots
 #' @name sjp.scatter
-#'             
+#'
 #' @description Display scatter plot of two variables. Adding a grouping variable to
 #'                the scatter plot is possible. Furthermore, fitted lines can be added
 #'                for each group as well as for the overall plot.
 #'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.scatter}{sjPlot manual: sjp.scatter}
-#'              
+#'
 #' @param x vector indicating the x positions. If not specified (i.e. if
 #'          \code{NULL}), a range from 1 to length of \code{y} is used to spread the
 #'          dots along the x axis.
@@ -21,46 +21,49 @@
 #'          If \code{pointLabels} has a different length, data points will be trimmed
 #'          to match \code{pointLabels}. If \code{pointLabels = NULL} (default),
 #'          dots instead of labels are printed.
-#' @param axisTitle.x title for the x axis. Use \code{NULL} to automatically 
+#' @param axisTitle.x title for the x axis. Use \code{NULL} to automatically
 #'          detect variable names that will be used as title
 #'          (see \code{\link[sjmisc]{set_label}}) for details).
 #' @param axisTitle.y title for the y axis.
 #'          Use \code{NULL} to automatically detect variable names that will be used as title
 #'          (see \code{\link[sjmisc]{set_label}}) for details).
 #' @param geom.size size of point geoms.
-#' @param geom.colors color(s) of point geoms. If \code{grp} is not \code{NULL}, 
+#' @param geom.colors color(s) of point geoms. If \code{grp} is not \code{NULL},
 #'          groups are indicated by different colors, thus a vector with multiple
 #'          color values has to be supplied.
 #' @param showTickMarkLabels.x logica, whether x axis tick mark labels should be shown or not.
 #' @param showTickMarkLabels.y logical, hether y axis tick mark labels  should be shown or not.
-#' @param showGroupFitLine logical, if \code{TRUE}, a fitted line for each group 
+#' @param showGroupFitLine logical, if \code{TRUE}, a fitted line for each group
 #'          is drawn. See \code{fitmethod} to change the fit method of the fitted lines.
-#' @param showTotalFitLine logical, if \code{TRUE}, a fitted line for the overall 
-#'          scatterplot is drawn. See \code{fitmethod} to change the fit method 
+#' @param showTotalFitLine logical, if \code{TRUE}, a fitted line for the overall
+#'          scatterplot is drawn. See \code{fitmethod} to change the fit method
 #'          of the fitted line.
-#' @param show.se logical, if \code{TRUE}, a shaded region indicating the standard error of the fitted lines will be added.
-#' @param fitmethod By default, a linear method (\code{"lm"}) is used for fitting 
+#' @param show.ci logical, if \code{TRUE}, a shaded region indicating the
+#'          confidence interval of the fitted lines will be added.
+#' @param fitmethod By default, a linear method (\code{"lm"}) is used for fitting
 #'          the fit lines. Possible values are for instance \code{"lm"}, \code{"glm"},
 #'          \code{"loess"} or \code{"auto"}
-#'          (see \href{http://docs.ggplot2.org/current/stat_smooth.html}{ggplot-docs} 
+#'          (see \href{http://docs.ggplot2.org/current/stat_smooth.html}{ggplot-docs}
 #'          for more details).
 #' @param useJitter logical, if \code{TRUE}, points will be jittered (to avoid overplotting).
-#' @param autojitter logical, if \code{TRUE}, points will be jittered according 
-#'          to an overlap-estimation. A matrix of \code{x} and \code{y} values 
-#'          is created and the amount of cells (indicating a unique point position) 
-#'          is calculated. If more than 15\% (see \code{jitterRatio}) of the 
+#' @param autojitter logical, if \code{TRUE}, points will be jittered according
+#'          to an overlap-estimation. A matrix of \code{x} and \code{y} values
+#'          is created and the amount of cells (indicating a unique point position)
+#'          is calculated. If more than 15\% (see \code{jitterRatio}) of the
 #'          approximated amount of unique point coordinates seem to
 #'          overlap, they are automatically jittered.
-#' @param jitterRatio ratio of tolerated overlapping (see \code{autojitter}). 
+#' @param jitterRatio ratio of tolerated overlapping (see \code{autojitter}).
 #'          If approximated amount of overlapping  points exceed this ratio,
 #'          they are automatically jittered. Default is 0.15. Valid values range
 #'          between 0 and 1.
 #' @param showRug logical, if \code{TRUE}, a marginal rug plot is displayed
 #'          in the graph (see \href{http://docs.ggplot2.org/current/geom_rug.html}{ggplot-docs}
 #'          for more details).
-#' @param facet.grid \code{TRUE} when each scatter plot group should be plotted as single facet instead of 
+#' @param facet.grid \code{TRUE} when each scatter plot group should be plotted as single facet instead of
 #'          an integrated single graph. Only applies if \code{grp} is not \code{NULL}. Each category of
 #'          \code{grp} will be plotted in an own facet.
+#' @param show.se Deprecated; use \code{show.ci} instead.
+#'
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}).
 #'
@@ -70,7 +73,7 @@
 #' # load sample date
 #' library(sjmisc)
 #' data(efc)
-#' 
+#'
 #' # simple scatter plot, auto-jittering
 #' sjp.scatter(efc$e16sex, efc$neg_c_7)
 #'
@@ -82,38 +85,38 @@
 #'
 #' # grouped and jittered scatter plot with marginal rug plot
 #' sjp.scatter(efc$e16sex,efc$neg_c_7, efc$c172code, showRug = TRUE)
-#' 
-#' # grouped and labelled scatter plot, not using the auto-detection 
+#'
+#' # grouped and labelled scatter plot, not using the auto-detection
 #' # of labels, but instead pass labels as arguments
-#' sjp.scatter(efc$c160age, efc$e17age, efc$e42dep, 
+#' sjp.scatter(efc$c160age, efc$e17age, efc$e42dep,
 #'             title = "Scatter Plot",
 #'             legendTitle = get_label(efc)['e42dep'],
 #'             legendLabels = get_labels(efc)[['e42dep']],
 #'             axisTitle.x = get_label(efc)['c160age'],
 #'             axisTitle.y = get_label(efc)['e17age'],
 #'             showGroupFitLine = TRUE)
-#' 
+#'
 #' # grouped and labelled scatter plot as facets
 #' sjp.scatter(efc$c160age,efc$e17age, efc$e42dep,
-#'             showGroupFitLine = TRUE, 
-#'             facet.grid = TRUE, 
-#'             show.se = TRUE)
-#' 
+#'             showGroupFitLine = TRUE,
+#'             facet.grid = TRUE,
+#'             show.ci = TRUE)
+#'
 #' # plot residuals of fitted models
 #' fit <- lm(neg_c_7 ~ quol_5, data = efc)
 #' sjp.scatter(y = fit$residuals, showTotalFitLine = TRUE)
-#' 
+#'
 #' # "hide" axis titles
 #' sjp.scatter(efc$c160age, efc$e17age, efc$e42dep,
 #'             title = "", axisTitle.x = "", axisTitle.y = "")
-#' 
+#'
 #' # plot text labels
 #' pl <- c(1:10)
-#' for (i in 1:10) pl[i] <- paste(sample(c(0:9, letters, LETTERS), 
-#'                                       8, replace = TRUE), 
+#' for (i in 1:10) pl[i] <- paste(sample(c(0:9, letters, LETTERS),
+#'                                       8, replace = TRUE),
 #'                                collapse = "")
 #' sjp.scatter(runif(10), runif(10), pointLabels = pl)
-#'   
+#'
 #' @importFrom scales brewer_pal
 #' @importFrom stats na.omit
 #' @import ggplot2
@@ -136,7 +139,7 @@ sjp.scatter <- function(x = NULL,
                         showTickMarkLabels.y = TRUE,
                         showGroupFitLine = FALSE,
                         showTotalFitLine = FALSE,
-                        show.se = FALSE,
+                        show.ci = FALSE,
                         fitmethod = "lm",
                         useJitter = FALSE,
                         autojitter = TRUE,
@@ -144,7 +147,15 @@ sjp.scatter <- function(x = NULL,
                         showRug = FALSE,
                         hideLegend = FALSE,
                         facet.grid = FALSE,
-                        printPlot = TRUE) {
+                        printPlot = TRUE,
+                        show.se = FALSE) {
+  # -----------------------------------
+  # warn, if deprecated param is used
+  # -----------------------------------
+  if (!missing(show.se)) {
+    warning("argument 'show.se' is deprecated; please use 'show.ci' instead.")
+    show.ci <- show.se
+  }
   # --------------------------------------------------------
   # check parameters
   # --------------------------------------------------------
@@ -176,8 +187,8 @@ sjp.scatter <- function(x = NULL,
   # --------------------------------------------------------
   if (!is.null(legendTitle) && legendTitle == "") legendTitle <- NULL
   if (!is.null(axisTitle.x) && axisTitle.x == "") axisTitle.x <- NULL
-  if (!is.null(axisTitle.y) && axisTitle.y == "") axisTitle.y <- NULL  
-  if (!is.null(title) && title == "") title <- NULL  
+  if (!is.null(axisTitle.y) && axisTitle.y == "") axisTitle.y <- NULL
+  if (!is.null(title) && title == "") title <- NULL
   # ------------------------------------------
   # check for auto-jittering
   # ------------------------------------------
@@ -273,7 +284,7 @@ sjp.scatter <- function(x = NULL,
   if (useJitter) {
     # do we have text?
     if (!is.null(pointLabels))
-      scatter <- scatter + geom_text(aes(label = pointLabels), 
+      scatter <- scatter + geom_text(aes(label = pointLabels),
                                      size = geom.size,
                                      position = "jitter")
     else
@@ -282,7 +293,7 @@ sjp.scatter <- function(x = NULL,
   } else {
     # do we have text?
     if (!is.null(pointLabels))
-      scatter <- scatter + geom_text(aes(label = pointLabels), 
+      scatter <- scatter + geom_text(aes(label = pointLabels),
                                      size = geom.size)
     else
       # else plot dots
@@ -291,18 +302,18 @@ sjp.scatter <- function(x = NULL,
   # --------------------------------------------------------
   # Show fitted lines
   # --------------------------------------------------------
-  if (showGroupFitLine) scatter <- scatter + stat_smooth(data = df, 
-                                                         aes(colour = grp), 
-                                                         method = fitmethod, 
-                                                         se = show.se)
-  if (showTotalFitLine) scatter <- scatter + stat_smooth(method = fitmethod, 
-                                                         se = show.se, 
+  if (showGroupFitLine) scatter <- scatter + stat_smooth(data = df,
+                                                         aes(colour = grp),
+                                                         method = fitmethod,
+                                                         se = show.ci)
+  if (showTotalFitLine) scatter <- scatter + stat_smooth(method = fitmethod,
+                                                         se = show.ci,
                                                          colour = "black")
   # --------------------------------------------------------
   # set font size for axes.
   # --------------------------------------------------------
-  scatter <- scatter + 
-    labs(title = title, 
+  scatter <- scatter +
+    labs(title = title,
          x = axisTitle.x,
          y = axisTitle.y,
          colour = legendTitle)
@@ -329,10 +340,10 @@ sjp.scatter <- function(x = NULL,
   # ---------------------------------------------------------
   # set geom colors
   # ---------------------------------------------------------
-  scatter <- sj.setGeomColors(scatter, 
-                              geom.colors, 
-                              length(legendLabels), 
-                              ifelse(hideLegend == TRUE, FALSE, TRUE), 
+  scatter <- sj.setGeomColors(scatter,
+                              geom.colors,
+                              length(legendLabels),
+                              ifelse(hideLegend == TRUE, FALSE, TRUE),
                               legendLabels)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
@@ -345,4 +356,3 @@ sjp.scatter <- function(x = NULL,
                       list(plot = scatter,
                            df = df)))
 }
-                       

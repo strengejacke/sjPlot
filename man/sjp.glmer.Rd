@@ -12,8 +12,8 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   free.scale = FALSE, interceptLineType = 2,
   interceptLineColor = "grey70", remove.estimates = NULL,
   showValueLabels = TRUE, labelDigits = 2, showPValueLabels = TRUE,
-  fade.ns = FALSE, show.se = FALSE, sample.n = NULL,
-  show.legend = FALSE, printPlot = TRUE)
+  fade.ns = FALSE, show.ci = FALSE, sample.n = NULL,
+  show.legend = FALSE, printPlot = TRUE, show.se = FALSE)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{glmer}}-function.}
@@ -113,8 +113,8 @@ to values or not.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 
-\item{show.se}{logical, use \code{TRUE} to plot (depending on \code{type}) the standard
-error for predicted values or confidence intervals for slope lines.}
+\item{show.ci}{logical, use \code{TRUE} to plot confidence intervals for 
+predicted values or for slope lines.}
 
 \item{sample.n}{only applies, if \code{type = "rs.ri"}. If plot has many random intercepts
 (grouping levels), overplotting of regression lines may occur. In this
@@ -126,6 +126,8 @@ showing the group levels of the random intercept is shown.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
+
+\item{show.se}{Deprecated; use \code{show.ci} instead.}
 }
 \value{
 (Insisibily) returns
@@ -148,7 +150,7 @@ By default, this function plots odds ratios (exponentiated coefficients)
            \item{\code{type = "fe.pc"}}{(or \code{"fe.prob"}), the predicted probabilities
            are based on the fixed effects intercept's estimate and each specific
            fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),
-           which corresponds to \code{\link{plogis}(b0 + bx * x)} (where \code{x}
+           which corresponds to \code{\link{plogis}(b0 + bi * xi)} (where \code{xi}
            is the logit-estimate of fixed effects and \code{b0} is the intercept of
            the fixed effects).}
            \item{\code{type = "eff"}}{unlike \code{type = "fe.pc"}, the predicted
@@ -157,7 +159,7 @@ By default, this function plots odds ratios (exponentiated coefficients)
            \item{\code{type = "ri.pc"}}{(or \code{"ri.prob"}), the predicted probabilities
            are based on the fixed effects intercept, plus each random intercept and
            each specific  fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),
-           which corresponds to \code{\link{plogis}(b0 + b0[r1-rn] + bx * x)} (where \code{x}
+           which corresponds to \code{\link{plogis}(b0 + b0[r1-rn] + bi * xi)} (where \code{xi}
            is the logit-estimate of fixed effects, \code{b0} is the intercept of
            the fixed effects and \code{b0[r1-rn]} are all random intercepts).}
            \item{\code{type = "rs.ri"}}{the predicted probabilities are based 

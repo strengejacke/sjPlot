@@ -45,8 +45,8 @@ utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "
 #'          effects slopes for each grouping level is plotted. To better find
 #'          certain groups, use this argument to emphasize these groups in the plot.
 #'          See 'Examples'.
-#' @param show.se logical, use \code{TRUE} to plot (depending on \code{type}) the standard
-#'          error for predicted values or confidence intervals for slope lines.
+#' @param show.ci logical, use \code{TRUE} to plot confidence intervals for 
+#'          predicted values or for slope lines.
 #' @param title character vector with one or more labels that are used as plot title. If
 #'          \code{type = "re"}, use the predictors' variable labels as titles.
 #' @param geom.colors user defined color palette for geoms. Must either be vector with two color values
@@ -91,6 +91,7 @@ utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "
 #'          how many random cases are sampled for plotting.
 #' @param show.legend logical, if \code{TRUE} and \code{type = "rs.ri"}, a legend
 #'          showing the group levels of the random intercept is shown.
+#' @param show.se Deprecated; use \code{show.ci} instead.
 #'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lm
@@ -110,7 +111,7 @@ utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "
 #'            \item{\code{type = "fe.pc"}}{(or \code{"fe.prob"}), the predicted probabilities
 #'            are based on the fixed effects intercept's estimate and each specific
 #'            fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),
-#'            which corresponds to \code{\link{plogis}(b0 + bx * x)} (where \code{x}
+#'            which corresponds to \code{\link{plogis}(b0 + bi * xi)} (where \code{xi}
 #'            is the logit-estimate of fixed effects and \code{b0} is the intercept of
 #'            the fixed effects).}
 #'            \item{\code{type = "eff"}}{unlike \code{type = "fe.pc"}, the predicted
@@ -119,7 +120,7 @@ utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "
 #'            \item{\code{type = "ri.pc"}}{(or \code{"ri.prob"}), the predicted probabilities
 #'            are based on the fixed effects intercept, plus each random intercept and
 #'            each specific  fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),
-#'            which corresponds to \code{\link{plogis}(b0 + b0[r1-rn] + bx * x)} (where \code{x}
+#'            which corresponds to \code{\link{plogis}(b0 + b0[r1-rn] + bi * xi)} (where \code{xi}
 #'            is the logit-estimate of fixed effects, \code{b0} is the intercept of
 #'            the fixed effects and \code{b0[r1-rn]} are all random intercepts).}
 #'            \item{\code{type = "rs.ri"}}{the predicted probabilities are based 
@@ -223,11 +224,19 @@ sjp.glmer <- function(fit,
                       labelDigits = 2,
                       showPValueLabels = TRUE,
                       fade.ns = FALSE,
-                      show.se = FALSE,
+                      show.ci = FALSE,
                       sample.n = NULL,
                       show.legend = FALSE,
-                      printPlot = TRUE) {
-
+                      printPlot = TRUE,
+                      show.se = FALSE) {
+  # -----------------------------------
+  # warn, if deprecated param is used
+  # -----------------------------------
+  if (!missing(show.se)) {
+    warning("argument 'show.se' is deprecated; please use 'show.ci' instead.")
+    show.ci <- show.se
+  }
+  
   if (type == "fe.prob") type <- "fe.pc"
   if (type == "ri.prob") type <- "ri.pc"
   if (type == "y.prob") type <- "y.pc"
@@ -256,7 +265,7 @@ sjp.glmer <- function(fit,
            facet.grid,
            free.scale,
            fade.ns,
-           show.se,
+           show.ci,
            printPlot,
            fun = "glm",
            0.2,
@@ -313,8 +322,8 @@ sjp.glmer <- function(fit,
 #'            \item{\code{type = "resp"}}{regression line for
 #'            predicted values against response, only fixed effects and 
 #'            conditional on random intercept. It's calling
-#'            \code{stats::predict(fit, type = "response", re.form = NA)} resp.
-#'            \code{stats::predict(fit, type = "response", re.form = NULL)} to
+#'            \code{predict(fit, type = "response", re.form = NA)} resp.
+#'            \code{predict(fit, type = "response", re.form = NULL)} to
 #'            compute the values.}
 #'          }
 #'
@@ -485,7 +494,7 @@ sjp.lmer <- function(fit,
                      facet.grid = TRUE,
                      free.scale = FALSE,
                      fade.ns = FALSE,
-                     show.se = TRUE,
+                     show.ci = TRUE,
                      pointAlpha = 0.2,
                      showScatterPlot = TRUE,
                      showLoess = FALSE,
@@ -493,8 +502,16 @@ sjp.lmer <- function(fit,
                      poly.term = NULL,
                      sample.n = NULL,
                      show.legend = FALSE,
-                     printPlot = TRUE) {
-
+                     printPlot = TRUE,
+                     show.se = TRUE) {
+  # -----------------------------------
+  # warn, if deprecated param is used
+  # -----------------------------------
+  if (!missing(show.se)) {
+    warning("argument 'show.se' is deprecated; please use 'show.ci' instead.")
+    show.ci <- show.se
+  }
+  
   if (type == "fe.prob") type <- "fe.pc"
   if (type == "ri.prob") type <- "ri.pc"
   if (type == "resp") type <- "y.pc"
@@ -523,7 +540,7 @@ sjp.lmer <- function(fit,
            facet.grid,
            free.scale,
            fade.ns,
-           show.se,
+           show.ci,
            printPlot,
            fun = "lm",
            pointAlpha,
@@ -559,7 +576,7 @@ sjp.lme4  <- function(fit,
                       facet.grid,
                       free.scale,
                       fade.ns,
-                      show.se,
+                      show.ci,
                       printPlot,
                       fun,
                       pointAlpha = 0.2,
@@ -710,7 +727,7 @@ sjp.lme4  <- function(fit,
       return(invisible(sjp.reglin(fit = fit,
                                   title = title,
                                   geom.colors = geom.colors,
-                                  showCI = show.se,
+                                  showCI = show.ci,
                                   pointAlpha = pointAlpha,
                                   showScatterPlot = showScatterPlot,
                                   showLoess = showLoess,
@@ -731,7 +748,7 @@ sjp.lme4  <- function(fit,
                                    geom.colors,
                                    geom.size,
                                    axisTitle.x,
-                                   showCI = show.se,
+                                   showCI = show.ci,
                                    printPlot)))
     } else {
       warning("Plotting polynomial terms only works for function 'sjp.lmer'.", call. = FALSE)
@@ -745,13 +762,13 @@ sjp.lme4  <- function(fit,
       return(invisible(sjp.lm.eff(fit,
                                   title,
                                   geom.size,
-                                  showCI = show.se,
+                                  showCI = show.ci,
                                   printPlot)))
     } else {
       return(invisible(sjp.glm.eff(fit,
                                    title,
                                    geom.size,
-                                   showCI = show.se,
+                                   showCI = show.ci,
                                    printPlot)))
     }
   } else if (type == "fe.ri") {
@@ -803,7 +820,7 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     if (fun == "glm") {
       return(invisible(sjp.lme.feprobcurv(fit,
-                                          show.se,
+                                          show.ci,
                                           facet.grid,
                                           vars,
                                           geom.size,
@@ -819,7 +836,7 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     if (fun == "glm") {
       return(invisible(sjp.lme.reprobcurve(fit,
-                                            show.se,
+                                            show.ci,
                                             facet.grid,
                                             ri.nr,
                                             vars,
@@ -835,7 +852,7 @@ sjp.lme4  <- function(fit,
     # response value
     # ---------------------------------------
     return(invisible(sjp.lme.response.probcurv(fit,
-                                               show.se,
+                                               show.ci,
                                                facet.grid,
                                                fun,
                                                printPlot)))
@@ -1283,7 +1300,7 @@ sjp.lme4  <- function(fit,
 
 
 sjp.lme.feprobcurv <- function(fit,
-                               show.se,
+                               show.ci,
                                facet.grid,
                                vars,
                                geom.size,
@@ -1381,7 +1398,7 @@ sjp.lme.feprobcurv <- function(fit,
              y = "Predicted Probability") +
         stat_smooth(method = "glm",
                     family = "binomial",
-                    se = show.se) +
+                    se = show.ci) +
         # cartesian coord still plots range of se, even
         # when se exceeds plot range.
         coord_cartesian(ylim = c(0, 1))
@@ -1400,7 +1417,7 @@ sjp.lme.feprobcurv <- function(fit,
              title = "Predicted Probabilities of coefficients") +
         stat_smooth(method = "glm",
                     family = "binomial",
-                    se = show.se) +
+                    se = show.ci) +
         # cartesian coord still plots range of se, even
         # when se exceeds plot range.
         coord_cartesian(ylim = c(0, 1)) +
@@ -1435,7 +1452,7 @@ sjp.lme.feprobcurv <- function(fit,
 
 
 sjp.lme.reprobcurve <- function(fit,
-                                show.se,
+                                show.ci,
                                 facet.grid,
                                 ri.nr,
                                 vars,
@@ -1541,7 +1558,7 @@ sjp.lme.reprobcurve <- function(fit,
                        aes(x = pred, y = prob, colour = grp)) +
             stat_smooth(method = "glm",
                         family = "binomial",
-                        se = show.se) +
+                        se = show.ci) +
             # cartesian coord still plots range of se, even
             # when se exceeds plot range.
             coord_cartesian(ylim = c(0, 1)) +
@@ -1590,7 +1607,7 @@ sjp.lme.reprobcurve <- function(fit,
 
 
 sjp.lme.response.probcurv <- function(fit,
-                                      show.se,
+                                      show.ci,
                                       facet.grid,
                                       fun,
                                       printPlot) {
@@ -1635,7 +1652,7 @@ sjp.lme.response.probcurv <- function(fit,
            title = "Predicted Probabilities for model, conditioned on random and fixed effects only") +
       stat_smooth(method = "glm",
                   family = "binomial",
-                  se = show.se) +
+                  se = show.ci) +
       # cartesian coord still plots range of se, even
       # when se exceeds plot range.
       coord_cartesian(ylim = c(0, 1))
@@ -1645,7 +1662,7 @@ sjp.lme.response.probcurv <- function(fit,
            y = "Predicted values",
            title = "Predicted values for model, conditioned on random and fixed effects only") +
       stat_smooth(method = "lm",
-                  se = show.se)
+                  se = show.ci)
   }
   if (facet.grid) {
     mp <- mp +
@@ -2070,7 +2087,7 @@ sjp.lme.fecor <- function(fit,
 
 
 sjp.lme.fecondpred.onlynumeric <- function(fit,
-                                           show.se,
+                                           show.ci,
                                            facet.grid,
                                            printPlot) {
   # ----------------------------
@@ -2144,7 +2161,7 @@ sjp.lme.fecondpred.onlynumeric <- function(fit,
       mp <- ggplot(mydf.metricpred[[i]], aes(x = value, y = y)) +
         geom_point() +
         labs(x = axisLabels.mp[i], y = "Probability") +
-        stat_smooth(method = "glm", family = "binomial", se = show.se) +
+        stat_smooth(method = "glm", family = "binomial", se = show.ci) +
         # cartesian coord still plots range of se, even
         # when se exceeds plot range.
         coord_cartesian(ylim = c(0, 1))
@@ -2164,7 +2181,7 @@ sjp.lme.fecondpred.onlynumeric <- function(fit,
              title = "Probability of coefficients") +
         #         scale_colour_manual(values = brewer_pal(palette = "Set1")(length(axisLabels.mp)),
         #                             labels = axisLabels.mp) +
-        stat_smooth(method = "glm", family = "binomial", se = show.se) +
+        stat_smooth(method = "glm", family = "binomial", se = show.ci) +
         # cartesian coord still plots range of se, even
         # when se exceeds plot range.
         coord_cartesian(ylim = c(0, 1)) +

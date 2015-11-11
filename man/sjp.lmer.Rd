@@ -12,9 +12,10 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   interceptLineColor = "grey70", remove.estimates = NULL,
   showValueLabels = TRUE, labelDigits = 2, showPValueLabels = TRUE,
   facet.grid = TRUE, free.scale = FALSE, fade.ns = FALSE,
-  show.se = TRUE, pointAlpha = 0.2, showScatterPlot = TRUE,
+  show.ci = TRUE, pointAlpha = 0.2, showScatterPlot = TRUE,
   showLoess = FALSE, showLoessCI = FALSE, poly.term = NULL,
-  sample.n = NULL, show.legend = FALSE, printPlot = TRUE)
+  sample.n = NULL, show.legend = FALSE, printPlot = TRUE,
+  show.se = TRUE)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{lmer}}-function.}
@@ -118,8 +119,8 @@ the grid has the same scale range.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 
-\item{show.se}{logical, use \code{TRUE} to plot (depending on \code{type}) the standard
-error for predicted values or confidence intervals for slope lines.}
+\item{show.ci}{logical, use \code{TRUE} to plot confidence intervals for 
+predicted values or for slope lines.}
 
 \item{pointAlpha}{alpha value of point-geoms in the scatter plots.
 Default is 0.2.}
@@ -152,6 +153,8 @@ showing the group levels of the random intercept is shown.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
+
+\item{show.se}{Deprecated; use \code{show.ci} instead.}
 }
 \value{
 (Insisibily) returns
@@ -202,8 +205,8 @@ By default, this function plots estimates (coefficients) with confidence
            \item{\code{type = "resp"}}{regression line for
            predicted values against response, only fixed effects and 
            conditional on random intercept. It's calling
-           \code{stats::predict(fit, type = "response", re.form = NA)} resp.
-           \code{stats::predict(fit, type = "response", re.form = NULL)} to
+           \code{predict(fit, type = "response", re.form = NA)} resp.
+           \code{predict(fit, type = "response", re.form = NULL)} to
            compute the values.}
          }
 }

@@ -10,10 +10,10 @@ sjp.scatter(x = NULL, y = NULL, grp = NULL, title = "",
   breakLegendTitleAt = 20, breakLegendLabelsAt = 20, geom.size = 3,
   geom.colors = NULL, showTickMarkLabels.x = TRUE,
   showTickMarkLabels.y = TRUE, showGroupFitLine = FALSE,
-  showTotalFitLine = FALSE, show.se = FALSE, fitmethod = "lm",
+  showTotalFitLine = FALSE, show.ci = FALSE, fitmethod = "lm",
   useJitter = FALSE, autojitter = TRUE, jitterRatio = 0.15,
   showRug = FALSE, hideLegend = FALSE, facet.grid = FALSE,
-  printPlot = TRUE)
+  printPlot = TRUE, show.se = FALSE)
 }
 \arguments{
 \item{x}{vector indicating the x positions. If not specified (i.e. if
@@ -43,7 +43,7 @@ If \code{pointLabels} has a different length, data points will be trimmed
 to match \code{pointLabels}. If \code{pointLabels = NULL} (default),
 dots instead of labels are printed.}
 
-\item{axisTitle.x}{title for the x axis. Use \code{NULL} to automatically 
+\item{axisTitle.x}{title for the x axis. Use \code{NULL} to automatically
 detect variable names that will be used as title
 (see \code{\link[sjmisc]{set_label}}) for details).}
 
@@ -62,7 +62,7 @@ displayed in one line and when a line break is inserted.}
 
 \item{geom.size}{size of point geoms.}
 
-\item{geom.colors}{color(s) of point geoms. If \code{grp} is not \code{NULL}, 
+\item{geom.colors}{color(s) of point geoms. If \code{grp} is not \code{NULL},
 groups are indicated by different colors, thus a vector with multiple
 color values has to be supplied.}
 
@@ -70,31 +70,32 @@ color values has to be supplied.}
 
 \item{showTickMarkLabels.y}{logical, hether y axis tick mark labels  should be shown or not.}
 
-\item{showGroupFitLine}{logical, if \code{TRUE}, a fitted line for each group 
+\item{showGroupFitLine}{logical, if \code{TRUE}, a fitted line for each group
 is drawn. See \code{fitmethod} to change the fit method of the fitted lines.}
 
-\item{showTotalFitLine}{logical, if \code{TRUE}, a fitted line for the overall 
-scatterplot is drawn. See \code{fitmethod} to change the fit method 
+\item{showTotalFitLine}{logical, if \code{TRUE}, a fitted line for the overall
+scatterplot is drawn. See \code{fitmethod} to change the fit method
 of the fitted line.}
 
-\item{show.se}{logical, if \code{TRUE}, a shaded region indicating the standard error of the fitted lines will be added.}
+\item{show.ci}{logical, if \code{TRUE}, a shaded region indicating the
+confidence interval of the fitted lines will be added.}
 
-\item{fitmethod}{By default, a linear method (\code{"lm"}) is used for fitting 
+\item{fitmethod}{By default, a linear method (\code{"lm"}) is used for fitting
 the fit lines. Possible values are for instance \code{"lm"}, \code{"glm"},
 \code{"loess"} or \code{"auto"}
-(see \href{http://docs.ggplot2.org/current/stat_smooth.html}{ggplot-docs} 
+(see \href{http://docs.ggplot2.org/current/stat_smooth.html}{ggplot-docs}
 for more details).}
 
 \item{useJitter}{logical, if \code{TRUE}, points will be jittered (to avoid overplotting).}
 
-\item{autojitter}{logical, if \code{TRUE}, points will be jittered according 
-to an overlap-estimation. A matrix of \code{x} and \code{y} values 
-is created and the amount of cells (indicating a unique point position) 
-is calculated. If more than 15\% (see \code{jitterRatio}) of the 
+\item{autojitter}{logical, if \code{TRUE}, points will be jittered according
+to an overlap-estimation. A matrix of \code{x} and \code{y} values
+is created and the amount of cells (indicating a unique point position)
+is calculated. If more than 15\% (see \code{jitterRatio}) of the
 approximated amount of unique point coordinates seem to
 overlap, they are automatically jittered.}
 
-\item{jitterRatio}{ratio of tolerated overlapping (see \code{autojitter}). 
+\item{jitterRatio}{ratio of tolerated overlapping (see \code{autojitter}).
 If approximated amount of overlapping  points exceed this ratio,
 they are automatically jittered. Default is 0.15. Valid values range
 between 0 and 1.}
@@ -105,12 +106,14 @@ for more details).}
 
 \item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
 
-\item{facet.grid}{\code{TRUE} when each scatter plot group should be plotted as single facet instead of 
+\item{facet.grid}{\code{TRUE} when each scatter plot group should be plotted as single facet instead of
 an integrated single graph. Only applies if \code{grp} is not \code{NULL}. Each category of
 \code{grp} will be plotted in an own facet.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
+
+\item{show.se}{Deprecated; use \code{show.ci} instead.}
 }
 \value{
 (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
@@ -138,9 +141,9 @@ sjp.scatter(efc$c160age, efc$e17age, efc$e42dep)
 # grouped and jittered scatter plot with marginal rug plot
 sjp.scatter(efc$e16sex,efc$neg_c_7, efc$c172code, showRug = TRUE)
 
-# grouped and labelled scatter plot, not using the auto-detection 
+# grouped and labelled scatter plot, not using the auto-detection
 # of labels, but instead pass labels as arguments
-sjp.scatter(efc$c160age, efc$e17age, efc$e42dep, 
+sjp.scatter(efc$c160age, efc$e17age, efc$e42dep,
             title = "Scatter Plot",
             legendTitle = get_label(efc)['e42dep'],
             legendLabels = get_labels(efc)[['e42dep']],
@@ -150,9 +153,9 @@ sjp.scatter(efc$c160age, efc$e17age, efc$e42dep,
 
 # grouped and labelled scatter plot as facets
 sjp.scatter(efc$c160age,efc$e17age, efc$e42dep,
-            showGroupFitLine = TRUE, 
-            facet.grid = TRUE, 
-            show.se = TRUE)
+            showGroupFitLine = TRUE,
+            facet.grid = TRUE,
+            show.ci = TRUE)
 
 # plot residuals of fitted models
 fit <- lm(neg_c_7 ~ quol_5, data = efc)
@@ -164,11 +167,11 @@ sjp.scatter(efc$c160age, efc$e17age, efc$e42dep,
 
 # plot text labels
 pl <- c(1:10)
-for (i in 1:10) pl[i] <- paste(sample(c(0:9, letters, LETTERS), 
-                                      8, replace = TRUE), 
+for (i in 1:10) pl[i] <- paste(sample(c(0:9, letters, LETTERS),
+                                      8, replace = TRUE),
                                collapse = "")
 sjp.scatter(runif(10), runif(10), pointLabels = pl)
-  
+
 }
 \seealso{
 \href{http://www.strengejacke.de/sjPlot/sjp.scatter}{sjPlot manual: sjp.scatter}

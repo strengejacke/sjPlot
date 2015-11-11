@@ -10,12 +10,8 @@ sjp.int(fit, type = "cond", int.term = NULL, int.plot.index = NULL,
   geom.colors = "Set1", axisTitle.x = NULL, axisTitle.y = NULL,
   axisLabels.x = NULL, legendTitle = NULL, legendLabels = NULL,
   showValueLabels = FALSE, breakTitleAt = 50, breakLegendLabelsAt = 20,
-  breakLegendTitleAt = 20, breakAnnotationLabelsAt = 50,
-  axisLimits.x = NULL, axisLimits.y = NULL, gridBreaksAt = NULL,
-  showInterceptLines = FALSE, showInterceptLabels = TRUE, showCI = FALSE,
-  valueLabel.digits = 2, interceptLineColor = "darkseagreen4",
-  estLineColor = "darkslategray4", lineLabelSize = 3.7,
-  lineLabelColor = "black", lineLabelString = "(no interaction)",
+  breakLegendTitleAt = 20, axisLimits.x = NULL, axisLimits.y = NULL,
+  gridBreaksAt = NULL, showCI = FALSE, valueLabel.digits = 2,
   facet.grid = FALSE, printPlot = TRUE)
 }
 \arguments{
@@ -34,7 +30,7 @@ classes are
 
 \item{type}{interaction plot type. Use one of following values:
 \describe{
-  \item{\code{type = "cond"}}{(default) plots the mere change of the moderating effect on the response value (conditional effect). See 'Details'.}
+  \item{\code{type = "cond"}}{(default) plots the mere \emph{change} of the moderating effect on the response value (conditional effect). See 'Details'.}
   \item{\code{type = "eff"}}{plots the overall moderation effect on the response value. See 'Details'.}
   \item{\code{type = "emm"}}{plots the estimated marginal means (least square means). If this type is chosen, not all function arguments are applicable. See 'Details'.}
 }}
@@ -120,10 +116,6 @@ displayed in one line and when a line break is inserted.}
 \item{breakLegendTitleAt}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}
 
-\item{breakAnnotationLabelsAt}{Wordwrap for diagram annotation labels. Determines how many chars of the legend labels are
-displayed in one line and when a line break is inserted. Default is \code{50}.
-Only applies if \code{showInterceptLine} is \code{TRUE}.}
-
 \item{axisLimits.x}{numeric vector of length two, defining lower and upper axis limits
 of the x scale. By default, this argument is set to \code{NULL}, i.e. the 
 x-axis fits to the required range to plot all data. \strong{Note} that limiting
@@ -137,12 +129,6 @@ y-axis ranges from 0 to required maximum.}
 \item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
 position a major grid is being printed.}
 
-\item{showInterceptLines}{If \code{TRUE}, the intercept and the estimate of the predictor
-(reference category of predictor in case interaction is not present) are plotted.}
-
-\item{showInterceptLabels}{If \code{TRUE} (default), the intercept lines are labelled. Only
-applies if \code{showInterceptLines} is \code{TRUE}.}
-
 \item{showCI}{may be a numeric or logical value. If \code{showCI} is logical and 
 \code{TRUE}, a 95\% confidence region will be plotted. If \code{showCI}
 if numeric, must be a number between 0 and 1, indicating the proportion
@@ -150,21 +136,6 @@ for the confidence regeion (e.g. \code{showCI = 0.9} plots a 90\% CI).
 Only applies to \code{type = "emm"} or \code{type = "eff"}.}
 
 \item{valueLabel.digits}{the amount of digits of the displayed value labels. Defaults to 2.}
-
-\item{interceptLineColor}{color of the model's intercept line. Only applies, if
-\code{showInterceptLines} is \code{TRUE}.}
-
-\item{estLineColor}{color of the model's predictor's estimate line. Only applies, if
-\code{showInterceptLines} is \code{TRUE}.}
-
-\item{lineLabelSize}{size of the intercept line annotations inside the plot. Only applies
-if \code{showInterceptLines} is \code{TRUE}. Default is 3.7.}
-
-\item{lineLabelColor}{color of the intercept line annotations inside the plot. Only applies
-if \code{showInterceptLines} is \code{TRUE}. Default is \code{"black"}.}
-
-\item{lineLabelString}{string for the intercept lines that is appended to the predictor
-variable name. By default, this string is \code{"(no interaction)"}.}
 
 \item{facet.grid}{\code{TRUE} for faceted plots instead of an integrated single plot.}
 
@@ -210,9 +181,7 @@ Plot regression (predicted values) or probability lines (predicted probabilities
            \item{\code{type = "eff"}}{plots the overall effects (marginal effects) of the interaction, with all remaining
              covariates set to the mean. Effects are calculated using the \code{\link[effects]{effect}}-
              function from the \pkg{effects}-package. \cr \cr
-             Following arguments \emph{do not} apply to this function: \code{diff}, \code{axisLabels.x}
-             \code{interceptLineColor}, \code{estLineColor}, \code{lineLabelSize}, \code{lineLabelColor} 
-             and \code{lineLabelString}.
+             Following arguments \emph{do not} apply to this function: \code{diff}, \code{axisLabels.x}.
            }
            \item{\code{type = "emm"}}{plots the estimated marginal means of repeated measures designs,
              like two-way repeated measures AN(C)OVA. In detail, this type plots estimated marginal means 
@@ -222,7 +191,7 @@ Plot regression (predicted values) or probability lines (predicted probabilities
              to plot differences in interventions between control and treatment groups over multiple time points.
              \itemize{
                \item Following paramters apply to this plot type: \code{showCI}, \code{valueLabel.digits} and \code{axisLabels.x}.
-               \item Following arguments \emph{do not} apply to this function: \code{int.term}, \code{int.plot.index}, \code{diff}, \code{moderatorValues}, \code{fillColor}, \code{fillAlpha}, \code{interceptLineColor}, \code{estLineColor}, \code{lineLabelSize}, \code{lineLabelColor} and \code{lineLabelString}.
+               \item Following arguments \emph{do not} apply to this function: \code{int.term}, \code{int.plot.index}, \code{diff}, \code{moderatorValues}, \code{fillColor}, \code{fillAlpha}.
              }
            }
          }
@@ -293,8 +262,7 @@ sjp.int(fit, type = "cond", moderatorValues = "meansd")
 # plot interactions, including those with p-value up to 0.1
 sjp.int(fit,
         type = "cond",
-        plevel = 0.1,
-        showInterceptLines = TRUE)
+        plevel = 0.1)
 
 # -------------------------------
 # Predictors for negative impact of care.

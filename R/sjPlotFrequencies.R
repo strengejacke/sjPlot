@@ -374,7 +374,7 @@ sjp.frq <- function(varCount,
   # --------------------------------------------------------
   # add confidence intervals. first,  check whether 
   # we have removed NA's. If so, replace NA's, so
-  # we get confidence intervals for CI as well
+  # we get confidence intervals for NA as well
   # --------------------------------------------------------
   if (!na.rm) 
     varCount.ci <- sjmisc::replace_na(varCount, max(varCount, na.rm = T) + 1)
