@@ -40,12 +40,13 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](http://cran.r-project.org/package=ggplot2), consider citing this package as well.
 
-### Changelog of development build 1.8.4-4
+### Changelog of development build 1.8.4-5
 
 #### General
 * Argument `show.se` is now deprecated. Use `show.ci` instead.
 
 #### Changes to functions
+* `sjp.lm` gets a `group.estimates` argument to group estimates in forest plots and colour them according to group assignment. Use arguments `show.legend` and `legendTitle` to modify group legend.
 * `sjp.lmer` and `sjp.glmer` can now plot random effect parts of random slope-intercept models (with `type = "rs.ri"`), where regression lines or predicted probabilities of random intercept and slopes are plotted.
 * Intercept line plotting in `sjp.int` for `type = "cond"` was removed.
 * Line geoms for `type = "cond"` in `sjp.int` now always start at y-position zero, to better indicate the effective change of interaction effect compared to base reference. Now, the y-position indicates the change in the reponse due to the interaction effect.

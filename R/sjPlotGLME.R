@@ -89,8 +89,10 @@ utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "
 #'          (grouping levels), overplotting of regression lines may occur. In this
 #'          case, consider random sampling of grouping levels. \code{sample.n} indicates,
 #'          how many random cases are sampled for plotting.
-#' @param show.legend logical, if \code{TRUE} and \code{type = "rs.ri"}, a legend
-#'          showing the group levels of the random intercept is shown.
+#' @param show.legend logical, if \code{TRUE}, for mixed models 
+#'          \code{type = "rs.ri"}, a legend for group levels of 
+#'          the random intercept is shown. For \code{lm} and \code{glm}, 
+#'          a legend for grouped estimates is shown.
 #' @param show.se Deprecated; use \code{show.ci} instead.
 #'
 #' @inheritParams sjp.grpfrq

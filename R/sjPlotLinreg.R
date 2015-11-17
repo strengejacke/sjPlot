@@ -1,5 +1,5 @@
 # bind global variables
-utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p", "x", "ydiff", "y", "grp", ".stdresid", ".resid", ".fitted", "V1", "V2"))
+utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p", "x", "ydiff", "y", "grp", ".stdresid", ".resid", ".fitted", "V1", "V2", "grp.est"))
 
 
 #' @title Plot estimates or predicted values of linear models
@@ -42,6 +42,8 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
 #' @param sort.est logical, determines whether estimates should be sorted according to their values.
+#'          If \code{group.estimates} is \emph{not} \code{NULL}, estimates are sorted
+#'          according to their group assignment.
 #' @param axisLabels.x name of predictor (independent variable) as string. Two things to consider:
 #'          \itemize{
 #'            \item Only used if fitted model has only one predictor and \code{type = "lm"}.
@@ -52,11 +54,17 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #'          may also be passed as list object; they will be coerced to character vector automatically.
 #' @param showAxisLabels.y logical, whether labels of independent variables should be shown or not.
 #' @param axisTitle.x title for the x-axis. Default is \code{"Estimates"}.
-#' @param geom.colors user defined color palette for geoms. Must either be vector with two color values
-#'          or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.
+#' @param geom.colors user defined color palette for geoms. If \code{group.estimates}
+#'          is \emph{not} specified, must either be vector with two color values or a specific 
+#'          color palette code (see 'Note' in \code{\link{sjp.grpfrq}}). Else, if
+#'          \code{group.estimates} is specified, \code{geom.colors} must be a vector
+#'          of same length as groups. See 'Examples'.
 #' @param geom.size size resp. width of the geoms (bar width or point size, depending on \code{type} argument).
 #' @param interceptLineType linetype of the intercept line (zero point). Default is \code{2} (dashed line).
 #' @param interceptLineColor color of the intercept line. Default value is \code{"grey70"}.
+#' @param group.estimates numeric or character vector, indicating a group identifier for
+#'          each estimate. Dots and confidence intervals of estimates are coloured
+#'          according to their group association. See 'Examples'.
 #' @param remove.estimates character vector with coefficient names that indicate 
 #'          which estimates should be removed from the plot. 
 #'          \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default 
@@ -150,6 +158,30 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #'
 #' \dontrun{
 #' # --------------------------
+#' # grouping estimates
+#' # --------------------------
+#' library(sjmisc)
+#' data(efc)
+#' fit <- lm(barthtot ~ c160age + e17age + c12hour + e16sex + c161sex + c172code, 
+#'           data = efc)
+#'
+#' # order estimates according to coefficient's order
+#' sjp.lm(fit, 
+#'        group.estimates = c(1, 1, 2, 3, 3, 4), 
+#'        geom.colors = c("green", "red", "blue", "grey"),
+#'        sort.est = FALSE)
+#'           
+#' fit <- lm(barthtot ~ c160age + c12hour + e17age+ c161sex + c172code + e16sex, 
+#'           data = efc)
+#'
+#' # force order of estimates according to group assignment
+#' sjp.lm(fit, 
+#'        group.estimates = c(1, 2, 1, 3, 4, 3), 
+#'        geom.colors = c("green", "red", "blue", "grey"),
+#'        sort.est = TRUE)
+#' 
+#' 
+#' # --------------------------
 #' # plotting polynomial terms
 #' # --------------------------
 #' library(sjmisc)
@@ -187,6 +219,7 @@ sjp.lm <- function(fit,
                    title = NULL,
                    axisLabels.x = NULL,
                    axisLabels.y = NULL,
+                   legendTitle = NULL,
                    showAxisLabels.y = TRUE,
                    axisTitle.x = "Estimates",
                    axisLimits = NULL,
@@ -194,6 +227,7 @@ sjp.lm <- function(fit,
                    geom.size = NULL,
                    interceptLineType = 2,
                    interceptLineColor = "grey70",
+                   group.estimates = NULL,
                    remove.estimates = NULL,
                    breakTitleAt = 50,
                    breakLabelsAt = 25,
@@ -208,6 +242,7 @@ sjp.lm <- function(fit,
                    showScatterPlot = TRUE,
                    showLoess = FALSE,
                    showLoessCI = FALSE,
+                   show.legend = FALSE,
                    poly.term = NULL,
                    showOriginalModelOnly = TRUE,
                    completeDiagnostic = FALSE,
@@ -369,6 +404,24 @@ sjp.lm <- function(fit,
     }
   }
   colnames(tmp) <- c("beta", "low.ci", "hi.ci")
+  tmp$grp.est <- NA
+  # -------------------------------------------------
+  # group estimates?
+  # -------------------------------------------------
+  if (!is.null(group.estimates)) {
+    # check for correct length
+    if (length(group.estimates) != nrow(tmp)) {
+      warning("Length of `group.estimates` does not equal number of model coefficients. Ignoring this argument.", call. = F)
+      group.estimates = NULL
+      show.legend <- FALSE
+      legendTitle <- NULL
+    } else {
+      tmp$grp.est <- as.character(group.estimates)
+    }
+  } else {
+    show.legend <- FALSE
+    legendTitle <- NULL
+  }
   # -------------------------------------------------
   # remove any estimates from the output?
   # -------------------------------------------------
@@ -408,7 +461,7 @@ sjp.lm <- function(fit,
   # case no values are drawn, we simply use an empty string.
   # finally, we need the p-values of the coefficients, because the value
   # labels may have different colours according to their significance level
-  betas <- cbind(tmp, ps, pv)
+  betas <- cbind(tmp[, !colnames(tmp) == "grp.est"], ps, pv, tmp$grp.est)
   # --------------------------------------------------------
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
@@ -428,12 +481,21 @@ sjp.lm <- function(fit,
   # sort rows of data frame descending in order of (std.) beta values
   # --------------------------------------------------------
   if (sort.est) {
-    axisLabels.y <- axisLabels.y[order(tmp$beta)]
-    betas <- betas[order(tmp$beta), ]
+    # order according to group assignment?
+    if (!is.null(group.estimates)) {
+      axisLabels.y <- rev(axisLabels.y[order(tmp$grp.est, tmp$beta)])
+      betas <- betas[rev(order(tmp$grp.est, tmp$beta)), ]
+    } else {
+      axisLabels.y <- axisLabels.y[order(tmp$beta)]
+      betas <- betas[order(tmp$beta), ]
+    }
+  } else {
+    axisLabels.y <- rev(axisLabels.y)
+    betas <- betas[nrow(betas):1, ]
   }
   betas <- cbind(c(1:nrow(betas)), betas)
   # give columns names
-  colnames(betas) <- c("xv", "Beta", "lower", "upper", "p", "pv")
+  colnames(betas) <- c("xv", "Beta", "lower", "upper", "p", "pv", "grp.est")
   betas$p <- as.character(betas$p)
   # --------------------------------------------------------
   # Calculate axis limits. The range is from lowest lower-CI
@@ -455,9 +517,22 @@ sjp.lm <- function(fit,
   }
   if (!showAxisLabels.y) axisLabels.y <- c("")
   # --------------------------------------------------------
-  # Start plot here!
+  # Start plot here! First check how to colour geoms
+  # (whether grouped or not)
   # --------------------------------------------------------
-  betaplot <- ggplot(betas, aes(y = Beta, x = xv, colour = (Beta >= 0))) +
+  if (!is.null(group.estimates)) {
+    betaplot <- ggplot(betas, aes(y = Beta, x = xv, colour = grp.est))
+    pal.len <- length(unique(group.estimates))
+    legend.labels <- unique(betas$grp.est)
+  } else {
+    betaplot <- ggplot(betas, aes(y = Beta, x = xv, colour = (Beta >= 0)))
+    pal.len <- 2
+    legend.labels <- NULL
+  }
+  # --------------------------------------------------------
+  # Continue with plot
+  # --------------------------------------------------------
+  betaplot <- betaplot +
     # and error bar
     geom_errorbar(aes(ymin = lower, ymax = upper), width = 0) +
     # Print p-values. With vertical adjustment, so they don't overlap with the errorbars
@@ -477,7 +552,7 @@ sjp.lm <- function(fit,
     # set value labels to x-axis
     scale_x_discrete(labels = axisLabels.y,
                      limits = c(1:nrow(betas))) +
-    labs(title = title, x = NULL, y = axisTitle.x)
+    labs(title = title, x = NULL, y = axisTitle.x, colour = legendTitle)
   # --------------------------------------------------------
   # flip coordinates?
   # --------------------------------------------------------
@@ -489,7 +564,7 @@ sjp.lm <- function(fit,
   # ---------------------------------------------------------
   # set geom colors
   # ---------------------------------------------------------
-  betaplot <- sj.setGeomColors(betaplot, geom.colors, 2, FALSE)
+  betaplot <- sj.setGeomColors(betaplot, geom.colors, pal.len, show.legend, legend.labels)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
@@ -761,17 +836,19 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FAL
   # get r2
   rs <- summary(model)$r.squared
   # maximum loops
-  maxloops <- 10
+  maxloops <- 5
   maxcnt <- maxloops
   # remember how many cases have been removed
   removedcases <- 0
+  outlier <- c()
   loop <- TRUE
   # start loop
   while (loop == TRUE) {
     # get outliers of model
-    ol <- car::outlierTest(model)
+    # ol <- car::outlierTest(model)
+    # vars <- as.numeric(names(ol$p))
+    vars <- as.numeric(names(which(car::outlierTest(model, cutoff = Inf, n.max = Inf)$bonf.p < 1)))
     # retrieve variable numbers of outliers
-    vars <- as.numeric(names(ol$p))
     # update model by removing outliers
     dummymodel <- update(model, subset = -c(vars))
     # retrieve new r2
@@ -790,18 +867,22 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FAL
       rs <- dummyrs
       # count removed cases
       removedcases <- removedcases + length(vars)
+      # add outliers to final return value
+      outlier <- c(outlier, vars)
     }
   }
   # ---------------------------------
   # print steps from original to updated model
   # ---------------------------------
-  message(sprintf(("Removed %i cases during %i step(s).\nR^2 / adj. R^2 of original model: %f / %f\nR^2 / adj. R^2 of updated model: %f / %f\n"),
+  message(sprintf("Removed %i cases during %i step(s).\nR^2 / adj. R^2 of original model: %f / %f\nR^2 / adj. R^2 of updated model:  %f / %f\nAIC of original model: %f \nAIC of updated model:  %f\n",
               removedcases,
               maxloops - (maxcnt + 1),
               summary(linreg)$r.squared,
               summary(linreg)$adj.r.squared,
               summary(model)$r.squared,
-              summary(model)$adj.r.squared))
+              summary(model)$adj.r.squared,
+              AIC(linreg),
+              AIC(model)))
   modelOptmized <- ifelse(removedcases > 0, TRUE, FALSE)
   if (showOriginalModelOnly) modelOptmized <- FALSE
   # ---------------------------------
@@ -920,13 +1001,13 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FAL
   # summarize old and new model
   # ---------------------------------
   sjp.setTheme(theme = "forestw")
-  p1 <- sjp.lm(linreg, title = "Original model")$plot
+  p1 <- sjp.lm(linreg, title = "Original model", printPlot = FALSE)$plot
   # save plot
   plot.list[[length(plot.list) + 1]] <- p1
   # print plot
   print(p1)
   if (modelOptmized) {
-    p1 <- sjp.lm(model, title = "Updated model")$plot
+    p1 <- sjp.lm(model, title = "Updated model", printPlot = FALSE)$plot
     # save plot
     plot.list[[length(plot.list) + 1]] <- p1
     # print plot
@@ -975,7 +1056,8 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FAL
   # return updated model
   invisible(structure(list(class = "sjp.lm.ma",
                            model = model,
-                           plot.list = plot.list)))
+                           plot.list = plot.list,
+                           outlier = outlier)))
 }
 
 

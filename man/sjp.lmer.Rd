@@ -148,8 +148,10 @@ for polynomial terms. See 'Examples'.}
 case, consider random sampling of grouping levels. \code{sample.n} indicates,
 how many random cases are sampled for plotting.}
 
-\item{show.legend}{logical, if \code{TRUE} and \code{type = "rs.ri"}, a legend
-showing the group levels of the random intercept is shown.}
+\item{show.legend}{logical, if \code{TRUE}, for mixed models 
+\code{type = "rs.ri"}, a legend for group levels of 
+the random intercept is shown. For \code{lm} and \code{glm}, 
+a legend for grouped estimates is shown.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}

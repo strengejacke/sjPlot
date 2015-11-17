@@ -5,16 +5,17 @@
 \title{Plot estimates or predicted values of linear models}
 \usage{
 sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
-  axisLabels.x = NULL, axisLabels.y = NULL, showAxisLabels.y = TRUE,
-  axisTitle.x = "Estimates", axisLimits = NULL, geom.colors = "Set1",
-  geom.size = NULL, interceptLineType = 2, interceptLineColor = "grey70",
+  axisLabels.x = NULL, axisLabels.y = NULL, legendTitle = NULL,
+  showAxisLabels.y = TRUE, axisTitle.x = "Estimates", axisLimits = NULL,
+  geom.colors = "Set1", geom.size = NULL, interceptLineType = 2,
+  interceptLineColor = "grey70", group.estimates = NULL,
   remove.estimates = NULL, breakTitleAt = 50, breakLabelsAt = 25,
   gridBreaksAt = NULL, coord.flip = TRUE, showValueLabels = TRUE,
   labelDigits = 2, showPValueLabels = TRUE, showModelSummary = FALSE,
   showCI = TRUE, pointAlpha = 0.2, showScatterPlot = TRUE,
-  showLoess = FALSE, showLoessCI = FALSE, poly.term = NULL,
-  showOriginalModelOnly = TRUE, completeDiagnostic = FALSE,
-  printPlot = TRUE)
+  showLoess = FALSE, showLoessCI = FALSE, show.legend = FALSE,
+  poly.term = NULL, showOriginalModelOnly = TRUE,
+  completeDiagnostic = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{fitted linear regression model (\code{\link{lm}}- or \code{plm}-object).}
@@ -33,7 +34,9 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 }}
 
-\item{sort.est}{logical, determines whether estimates should be sorted according to their values.}
+\item{sort.est}{logical, determines whether estimates should be sorted according to their values.
+If \code{group.estimates} is \emph{not} \code{NULL}, estimates are sorted
+according to their group assignment.}
 
 \item{title}{plot title as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
@@ -50,6 +53,8 @@ no title is printed.}
 be a character vector of same length as independent variables. The labels 
 may also be passed as list object; they will be coerced to character vector automatically.}
 
+\item{legendTitle}{title of the plot legend, as string.}
+
 \item{showAxisLabels.y}{logical, whether labels of independent variables should be shown or not.}
 
 \item{axisTitle.x}{title for the x-axis. Default is \code{"Estimates"}.}
@@ -58,14 +63,21 @@ may also be passed as list object; they will be coerced to character vector auto
 By default, the limits range from the lowest confidence interval to the 
 highest, so plot has maximum zoom.}
 
-\item{geom.colors}{user defined color palette for geoms. Must either be vector with two color values
-or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.}
+\item{geom.colors}{user defined color palette for geoms. If \code{group.estimates}
+is \emph{not} specified, must either be vector with two color values or a specific 
+color palette code (see 'Note' in \code{\link{sjp.grpfrq}}). Else, if
+\code{group.estimates} is specified, \code{geom.colors} must be a vector
+of same length as groups. See 'Examples'.}
 
 \item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} argument).}
 
 \item{interceptLineType}{linetype of the intercept line (zero point). Default is \code{2} (dashed line).}
 
 \item{interceptLineColor}{color of the intercept line. Default value is \code{"grey70"}.}
+
+\item{group.estimates}{numeric or character vector, indicating a group identifier for
+each estimate. Dots and confidence intervals of estimates are coloured
+according to their group association. See 'Examples'.}
 
 \item{remove.estimates}{character vector with coefficient names that indicate 
 which estimates should be removed from the plot. 
@@ -116,6 +128,11 @@ For \code{\link{sjp.lmer}}, only applies \code{type = "fe.pred"} or
 will be plotted. Default is \code{FALSE}. Only applies, if \code{showLoess = TRUE}
 (and for \code{\link{sjp.lmer}}, only applies if \code{type = "fe.pred"}
 or \code{type = "fe.resid"}).}
+
+\item{show.legend}{logical, if \code{TRUE}, for mixed models 
+\code{type = "rs.ri"}, a legend for group levels of 
+the random intercept is shown. For \code{lm} and \code{glm}, 
+a legend for grouped estimates is shown.}
 
 \item{poly.term}{name of a polynomial term in \code{fit} as string. Needs to be
 specified, if \code{type = "poly"}, in order to plot marginal effects
@@ -211,6 +228,30 @@ sjp.lm(fit,
 sjp.lm(fit, type = "ma")
 
 \dontrun{
+# --------------------------
+# grouping estimates
+# --------------------------
+library(sjmisc)
+data(efc)
+fit <- lm(barthtot ~ c160age + e17age + c12hour + e16sex + c161sex + c172code, 
+          data = efc)
+
+# order estimates according to coefficient's order
+sjp.lm(fit, 
+       group.estimates = c(1, 1, 2, 3, 3, 4), 
+       geom.colors = c("green", "red", "blue", "grey"),
+       sort.est = FALSE)
+          
+fit <- lm(barthtot ~ c160age + c12hour + e17age+ c161sex + c172code + e16sex, 
+          data = efc)
+
+# force order of estimates according to group assignment
+sjp.lm(fit, 
+       group.estimates = c(1, 2, 1, 3, 4, 3), 
+       geom.colors = c("green", "red", "blue", "grey"),
+       sort.est = TRUE)
+
+
 # --------------------------
 # plotting polynomial terms
 # --------------------------

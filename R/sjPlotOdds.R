@@ -784,18 +784,19 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   # get AIC-Value
   aic <- logreg$aic
   # maximum loops
-  maxloops <- 10
+  maxloops <- 5
   maxcnt <- maxloops
   # remember how many cases have been removed
   removedcases <- 0
+  outlier <- c()
   loop <- TRUE
   # start loop
   while (loop == TRUE) {
     # get outliers of model
-    ol <- car::outlierTest(model)
+    # ol <- car::outlierTest(model)
     # retrieve variable numbers of outliers
-    vars <- as.numeric(attr(ol$p, "names"))
-    # update model by removing outliers
+    # vars <- as.numeric(attr(ol$p, "names"))
+    vars <- as.numeric(names(which(car::outlierTest(model, cutoff = Inf, n.max = Inf)$bonf.p < 1)))    # update model by removing outliers
     dummymodel <- stats::update(model, subset = -c(vars))
     # retrieve new AIC-value
     dummyaic <- dummymodel$aic
@@ -813,12 +814,14 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
       aic <- dummyaic
       # count removed cases
       removedcases <- removedcases + length(vars)
+      # add outliers to final return value
+      outlier <- c(outlier, vars)
     }
   }
   # ---------------------------------
   # print steps from original to updated model
   # ---------------------------------
-  message(sprintf(("Removed %i cases during %i step(s).\nAIC-value of original model: %.2f\nAIC-value of updated model: %.2f\n"),
+  message(sprintf(("Removed %i cases during %i step(s).\nAIC-value of original model: %.2f\nAIC-value of updated model:  %.2f\n"),
                   removedcases,
                   maxloops - (maxcnt + 1),
                   logreg$aic,
@@ -902,5 +905,8 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   sjp.glm(logreg, title = "Original model")
   if (!showOriginalModelOnly) sjp.glm(model, title = "Updated model")
   # return updated model
-  return(model)
+  # return updated model
+  invisible(structure(list(class = "sjp.glm.ma",
+                           model = model,
+                           outlier = outlier)))
 }
