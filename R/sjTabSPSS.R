@@ -359,10 +359,7 @@ frq.value <- function(index, x, df.val, weights = NULL) {
       variab <- x[[index]]
     # create frequency table. same function as for
     # sjt.frq and sjp.frq
-    ftab <- create.frq.df(variab,
-                          df.val[[index]], 
-                          sjmisc::get_values(x[[index]]),
-                          20)$mydat$frq
+    ftab <- create.frq.df(variab, 20)$mydat$frq
     # remove last value, which is N for NA
     if (length(ftab) == 1 && is.na(ftab)) {
       valstring <- "<NA>"
@@ -388,10 +385,7 @@ prc.value <- function(index, x, df.val, weights = NULL) {
     else
       variab <- x[[index]]
     # create frequency table, but only get valid percentages
-    ftab <- create.frq.df(variab,
-                          df.val[[index]], 
-                          sjmisc::get_values(x[[index]]),
-                          20)$mydat$valid
+    ftab <- create.frq.df(variab, 20)$mydat$valid.prc
     # remove last value, which is a NA dummy
     if (length(ftab) == 1 && is.na(ftab)) {
       valstring <- "<NA>"

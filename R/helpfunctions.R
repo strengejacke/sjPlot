@@ -73,244 +73,119 @@ out.html.table <- function(no.output, file, knitr, toWrite, useViewer) {
 # Create frequency data frame of a variable
 # for sjp and sjt frq functions
 #' @importFrom stats na.omit
-create.frq.df <- function(varCount,
-                          llabels,
-                          labelvalues,
-                          breakLabelsAt,
+#' @importFrom dplyr add_rownames full_join
+create.frq.df <- function(x,
+                          breakLabelsAt = Inf,
                           order.frq = "none",
-                          round.prz = 4,
+                          round.prz = 2,
                           na.rm = FALSE,
-                          startAxisAt = "auto",
                           weightBy = NULL) {
-  
-  # x <- c(2,4,6,2,2,4,6,6,6,6, 10, 10, NA)
-  # set_labels(x) <- c(a = 2, b = 4, c = 6, d = 8)
-  # 
-  # labels <- get_labels(x,
-  #                      attr.only = T,
-  #                      include.values = "n",
-  #                      include.non.labelled = T)
-  # 
-  # if (!is.null(labels)) {
-  #   dat <- dplyr::add_rownames(data.frame(v = labels))
-  #   colnames(dat) <- c("val", "label")
-  #   dat$val <- to_value(dat$val, keep.labels = F)
-  #   
-  #   dat2 <- data.frame(table(x, exclude = NULL))
-  #   colnames(dat2) <- c("val", "frq")
-  #   dat2$val <- to_value(dat2$val, keep.labels = F)
-  #   
-  #   dummy <- dplyr::full_join(dat, dat2)
-  #   replace_na(dummy$frq) <- 0
-  # } else {
-  #   dummy <- data.frame(table(x, exclude = NULL))
-  #   colnames(dummy) <- c("val", "frq")
-  # }
-  # 
-  # dummy$raw.prc <- dummy$frq / sum(dummy$frq)
-  # dummy$cum.prc <- cumsum(dummy$raw.prc)
-  # 
-  # dummy$raw.prc <- 100 * round(dummy$raw.prc, 4)
-  # dummy$cum.prc <- 100 * round(dummy$cum.prc, 4)
-  # 
-  # dummy  
-  
   #---------------------------------------------------
   # variable with only mising?
   #---------------------------------------------------
-  if (length(stats::na.omit(varCount)) == 0) {
-    mydat <- data.frame(var = NA,
+  if (length(stats::na.omit(x)) == 0) {
+    mydat <- data.frame(val = NA,
+                        label = NA,
                         frq = NA,
-                        prz = NA,
-                        valid = NA,
-                        cumperc = NA)
+                        raw.prc = NA,
+                        valid.prc = NA,
+                        cum.perc = NA,
+                        upper.ci = NA,
+                        lower.ci = NA)
     return(invisible(structure(list(mydat = mydat))))
   }
   #---------------------------------------------------
+  # get value labels (if any)
+  #---------------------------------------------------
+  labels <- sjmisc::get_labels(
+    x,
+    attr.only = T,
+    include.values = "n",
+    include.non.labelled = T
+  )
+  #---------------------------------------------------
   # weight variable
   #---------------------------------------------------
-  if (!is.null(weightBy)) varCount <- sjmisc::weight(varCount, weightBy)
+  if (!is.null(weightBy)) x <- sjmisc::weight(x, weightBy)
   #---------------------------------------------------
-  # create frequency data frame
+  # do we have a labelled vector?
   #---------------------------------------------------
-  df <- as.data.frame(table(varCount))
-  # name columns
-  colnames(df) <- c("y", "Freq")
-  #---------------------------------------------------
-  # non-numeric factors need to be converted
-  #---------------------------------------------------
-  if (is.factor(varCount) && !sjmisc::is_num_fac(varCount)) {
-    varCount <- as.character(varCount)
-  }
-  #---------------------------------------------------
-  # do we have label values associated with value labels?
-  # if yes, we assume that these values are the range
-  # of valid values for varCount...
-  #---------------------------------------------------
-  if (!is.null(labelvalues)) {
-    # create column of label values
-    df.lv <- data.frame(labelvalues)
-    # find matching values in varCount for label values
-    df.lv$frq <- df$Freq[match(df.lv$labelvalues, df$y)]
-    # copy df
-    mydat <- df.lv
-    # name columns
-    names(mydat) <- c("var", "frq")
-    # replace NA with zero
-    mydat$frq[is.na(mydat$frq)] <- 0
-    # create dummy-catcout, for missings. see below
-    catcount <- max(mydat$var, na.rm = T)
-    # define minimum value
-    catmin <- minval <- min(varCount, na.rm = TRUE)
-    # wrap labels
-    if (!is.null(llabels)) {
-      llabels <- sjmisc::word_wrap(llabels, breakLabelsAt)
-    } else {
-      # If axisLabels.x were not defined, simply set numbers from 1 to
-      # amount of categories (=number of rows) in dataframe instead
-      llabels <- as.character(mydat$var)
-    }
-  } else if (!is.character(varCount)) {
-    # --------------------------------------------------------
-    # Define amount of category, include zero counts
-    # --------------------------------------------------------
-    # Zero counts of categories are not plotted by default just becaus
-    # these categories don't appear in the data. If we assume a
-    # "quasi-continuous" scale (categories from 1 to 4 etc.), we now
-    # identify the zero counts and add / insert them into the data frame.
-    # This enables us to plot zero counts as well.
-    # We guess the maximum amount of categories either by the amount
-    # of supplied category labels. If no category labels were passed
-    # as argument, we assume that the maximum value found in the category
-    # columns represents the highest category number
-    catcount <- 0
-    catmin <- minval <- min(varCount, na.rm = TRUE)
-    # ----------------------------------------------
-    # check for axis start, depending on lowest value
-    # ----------------------------------------------
-    if (startAxisAt == "auto") {
-      startAxisAt <- as.numeric(catmin)
-      if (startAxisAt == 0) startAxisAt <- 1
-    }
-    # Factors have to be transformed into numeric values
-    # for continuous x-axis-scale
-    df$y <- sjmisc::to_value(df$y, keep.labels = F)
-    # if categories start with zero, fix this here
-    if (min(df$y) == 0 && startAxisAt > 0) df$y <- df$y + 1
-    # get the highest answer category of "y", so we know where the
-    # range of the x-axis ends
-    if (!is.null(llabels)) {
-      # check if we have much less labels than values
-      # so there might be a labelling mistake with
-      # the variable
-      if (length(llabels) < length(unique(stats::na.omit(varCount)))) {
-        warning("Variable has less labels than unique values. Output might be incorrect. Please check value labels.", call. = F)
-      }
-      catcount <- startAxisAt + length(llabels) - 1
-    } else {
-      # determine maximum values
-      # first, check the total amount of different factor levels
-      catcount_1 <- length(unique(stats::na.omit(varCount)))
-      # second, check the maximum factor level
-      catcount_2 <- max(varCount, na.rm = TRUE)
-      # if categories start with zero, fix this here
-      if (min(varCount, na.rm = TRUE) == 0) catcount_2 <- catcount_2 + 1
-      # catcount should contain the higher values, i.e. the maximum count of
-      # categories (factor levels) corresponds either to the highest factor level
-      # value or to the amount of different factor levels, depending on which one
-      # is larger
-      catcount <- ifelse(catcount_1 > catcount_2, catcount_1, catcount_2)
-    }
-    # Create a vector of zeros
-    frq <- rep(0, catcount)
-    # Replace the values in freq for those indices which equal dummyf$xa
-    # by dummyf$ya so that remaining indices are ones which you
-    # intended to insert
-    frq[df$y] <- df$Freq
-    # create new data frame. We now have a data frame with all
-    # variable categories abd their related counts, including
-    # zero counts, but no(!) missings!
-    mydat <- as.data.frame(cbind(var = startAxisAt:catcount,
-                                 frq = frq[startAxisAt:catcount]))
-    if (!is.null(llabels)) {
-      llabels <- sjmisc::word_wrap(llabels, breakLabelsAt)
-    } else {
-      # If axisLabels.x were not defined, simply set numbers from 1 to
-      # amount of categories (=number of rows) in dataframe instead
-      llabels <- c(startAxisAt:(nrow(mydat) + startAxisAt - 1))
-    }
-    # check if we have more labels than values?
-    if (length(llabels) > length(unique(stats::na.omit(varCount)))) {
-      # if yes, copy only those labels that are assumed to
-      # appear in the final data frame
-      llabels <- llabels[startAxisAt:catcount]
-    }
+  if (!is.null(labels)) {
+    # add rownames and values as columns
+    dat <- dplyr::add_rownames(data.frame(v = as.character(labels), stringsAsFactors = FALSE))
+    colnames(dat) <- c("val", "label")
+    dat$val <- sjmisc::to_value(dat$val, keep.labels = F)
+    # create frequency table
+    dat2 <- data.frame(table(x, exclude = NULL))
+    colnames(dat2) <- c("val", "frq")
+    dat2$val <- sjmisc::to_value(dat2$val, keep.labels = F)
+    # joun frq table and label columns
+    mydat <- suppressMessages(dplyr::full_join(dat, dat2))
+    # replace NA with 0, for proper percentages, i.e.
+    # missing values don't appear (zero counts)
+    suppressMessages(sjmisc::replace_na(mydat$frq) <- 0)
   } else {
-    mydat <- df
-    colnames(mydat) <- c("var", "frq")
-    catmin <- minval <- min(varCount, na.rm = TRUE)
-    catcount <- length(unique(stats::na.omit(varCount)))
+    # if we have no labels, do simple frq table
+    mydat <- data.frame(table(x, exclude = NULL))
+    colnames(mydat) <- c("val", "frq")
+    # add values as label
+    mydat$label <- labels <- as.character(mydat$val)
   }
-  # caculate missings here
-  missingcount <- sum(is.na(varCount))
-  # --------------------------------------------------------
-  # Handle missings
-  # --------------------------------------------------------
-  # If missings are not removed, add an
-  # "NA" to labels and a new row to data frame which contains the missings
-  if (!na.rm) {
-    llabels  <- c(llabels, "NA")
-    mydat <- rbind(mydat, c(catcount + 1, missingcount))
-    # also add a columns with percentage values of count distribution
-    mydat <- data.frame(cbind(mydat, prz = c(round(100 * mydat$frq / length(varCount), round.prz))))
-  } else {
-    # also add a columns with percentage values of count distribution
-    mydat <- data.frame(cbind(mydat, prz = c(round(100 * mydat$frq / length(stats::na.omit(varCount)), round.prz))))
+  #---------------------------------------------------
+  # need numeric
+  #---------------------------------------------------
+  if (is.factor(x)) {
+    x <- sjmisc::to_value(x, keep.labels = F)
   }
+  # valid values are one row less, because last row is NA row
+  valid.vals <- nrow(mydat) - 1
+  # total sum of variable, for confindence intervals
+  total_sum = sum(x, na.rm = T)
+  rel_frq <- as.numeric(mydat$frq / total_sum)
+  ci <- 1.96 * sqrt(rel_frq * (1 - rel_frq) / total_sum)
+  mydat$upper.ci <- total_sum * (rel_frq + ci)
+  mydat$lower.ci <- total_sum * (rel_frq - ci)
+  mydat$rel.upper.ci <- rel_frq + ci
+  mydat$rel.lower.ci <- rel_frq - ci  
   # --------------------------------------------------------
   # Order categories ascending or descending
   # --------------------------------------------------------
   if (!is.null(order.frq) && (order.frq == "asc" || order.frq == "desc")) {
-    ord <- order(mydat$frq, decreasing = (order.frq == "desc"))
-    mydat$frq <- mydat$frq[ord]
-    mydat$prz <- mydat$prz[ord]
-    llabels <- llabels[ord]
+    ord <- order(mydat$frq[1:valid.vals], decreasing = (order.frq == "desc"))
+    mydat <- mydat[c(ord, valid.vals + 1), ]
   }
-  # --------------------------------------------------------
-  # add valid and cumulative percentages
-  # --------------------------------------------------------
-  mydat$valid <- c(round(100 * mydat$frq / length(stats::na.omit(varCount)), round.prz))
-  mydat$cumperc <- cumsum(mydat$valid)
-  # --------------------------------------------------------
-  # check if all categories are in table. if first category does not
-  # start with 1, insert a row at beginning. but only do this, if we have
-  # more value labels than data frame rows (i.e. more categories are expected
-  # than appear in the data frame)
-  # --------------------------------------------------------
-  if (is.null(labelvalues)) {
-    dfc <- 1
-    while (length(llabels) > nrow(mydat) && as.numeric(mydat$var[dfc]) > dfc) {
-      # insert "first" row which seems to be missing
-      mydat <- rbind(rep(0, ncol(mydat)), mydat)
-      # increase counter
-      dfc <- dfc + 1
-    }
-    # check if we modified mydat
-    if (dfc > 1) {
-      # set var
-      mydat$var <- c(1:nrow(mydat))
-      if (catmin != min(as.numeric(mydat$var), na.rm = T)) {
-        catmin <- min(as.numeric(mydat$var), na.rm = T)
-      }
-    }
+  # raw percentages
+  mydat$raw.prc <- mydat$frq / sum(mydat$frq)
+  # compute valud and cumulative percentages
+  mydat$valid.prc <- c(mydat$frq[1:valid.vals] / length(stats::na.omit(x)), NA)
+  mydat$cum.prc <- c(cumsum(mydat$valid.prc[1:valid.vals]), NA)
+  # proper rounding
+  mydat$raw.prc <- 100 * round(mydat$raw.prc, round.prz + 2)
+  mydat$cum.prc <- 100 * round(mydat$cum.prc, round.prz + 2)
+  mydat$valid.prc <- 100 * round(mydat$valid.prc, round.prz + 2)
+  # -------------------------------------
+  # remove na?
+  # -------------------------------------
+  if (na.rm) {
+    mydat <- mydat[1:valid.vals, ]
   }
+  # -------------------------------------
+  # "rename" NA values
+  # -------------------------------------
+  if (!is.null(mydat$label)) mydat$label[is.na(mydat$label)] <- "NA"
+  suppressMessages(sjmisc::replace_na(mydat$val) <- nrow(mydat))
+  mydat$val <- sjmisc::to_value(mydat$val, keep.labels = F)
+  # -------------------------------------
+  # wrap labels?
+  # -------------------------------------
+  if (!is.infinite(breakLabelsAt) && !is.null(labels)) labels <- sjmisc::word_wrap(labels, breakLabelsAt)
   # -------------------------------------
   # return results
   # -------------------------------------
+  class(mydat) <- "data.frame"
   invisible(structure(list(mydat = mydat,
-                           labels = llabels,
-                           catmin = catmin,
-                           minval = minval)))
+                           labels = labels,
+                           minval = min(sjmisc::to_value(mydat$val, keep.labels = FALSE), na.rm = TRUE))))
 }
 
 
@@ -434,7 +309,7 @@ crosstabsum <- function(ftab) {
                         pva = sub("0", p_zero, sprintf("%.3f", fish$p.value))))))
     }
   }
-  return (modsum)
+  return(modsum)
 }
 
 
@@ -777,33 +652,6 @@ sjp.vif <- function(fit) {
                       list(plot = vifplot,
                            df = mydat,
                            vifval = vifval)))
-}
-
-
-# helper function to compute absolute and relative
-# confidence intervals
-sjs.frqci <- function(x) {
-  ft <- as.numeric(unname(table(x)))
-  ind <- as.numeric(names(table(x)))
-  n <- sum(ft, na.rm = T)
-  rel_frq <- as.numeric(ft/n)
-  ci <- 1.96 * sqrt(rel_frq * (1 - rel_frq)/n)
-  ci.u <- n * (rel_frq + ci)
-  ci.l <- n * (rel_frq - ci)
-  rel.ci.u <- rel_frq + ci
-  rel.ci.l <- rel_frq - ci
-  mydat.frq <- data.frame(var = ind,
-                          frq = ft,
-                          lower.ci = ci.l,
-                          upper.ci = ci.u)
-  mydat.rel <- data.frame(var = ind,
-                          rel.frq = rel_frq,
-                          rel.lower.ci = rel.ci.l,
-                          rel.upper.ci = rel.ci.u)
-
-  invisible(structure(class = "sjs.frqci",
-                      list(mydat.frq = mydat.frq,
-                           mydat.rel = mydat.rel)))
 }
 
 

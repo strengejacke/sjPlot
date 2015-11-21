@@ -253,12 +253,16 @@ sjp.frq <- function(varCount,
                     na.rm = TRUE,
                     printPlot = TRUE) {
   # --------------------------------------------------------
+  # get variable name
+  # --------------------------------------------------------
+  var.name <- deparse(substitute(varCount))
+  # --------------------------------------------------------
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
-  if (is.null(axisLabels.x)) axisLabels.x <- sjmisc:::autoSetValueLabels(varCount)
-  if (is.null(interactionVarLabels) && !is.null(interactionVar)) interactionVarLabels <- sjmisc:::autoSetValueLabels(interactionVar)
-  if (is.null(axisTitle.x)) axisTitle.x <- sjmisc:::autoSetVariableLabels(varCount)
-  if (is.null(title)) title <- sjmisc:::autoSetVariableLabels(varCount)
+  if (is.null(axisLabels.x)) axisLabels.x <- sjmisc::get_labels(varCount, attr.only = F, include.values = F, include.non.labelled = T)
+  if (is.null(interactionVarLabels) && !is.null(interactionVar)) interactionVarLabels <- sjmisc::get_labels(interactionVar, attr.only = F, include.values = F, include.non.labelled = T)
+  if (is.null(axisTitle.x)) axisTitle.x <- sjmisc::get_label(varCount, def.value = var.name)
+  if (is.null(title)) title <- sjmisc::get_label(varCount, def.value = var.name)
   # --------------------------------------------------------
   # remove titles if empty
   # --------------------------------------------------------
@@ -271,19 +275,6 @@ sjp.frq <- function(varCount,
     geom.colors <- ggplot2::waiver()
   } else if (length(geom.colors) > 1) {
     geom.colors <- geom.colors[1]
-  }
-  # --------------------------------------------------------
-  # save label values. needed later to determine correct
-  # amount of categories
-  # --------------------------------------------------------
-  labelvalues <- sjmisc::get_values(varCount)
-  # --------------------------------------------------------
-  # count variable may not be a factor!
-  # --------------------------------------------------------
-  if (is.factor(varCount)) {
-    if (is.null(labelvalues) && is.ordered(varCount)) 
-      labelvalues <- sjmisc::get_values(sjmisc::to_value(varCount))
-    varCount <- sjmisc::to_value(varCount, keep.labels = F)
   }
   # --------------------------------------------------------
   # We have several options to name the plot type
@@ -331,25 +322,22 @@ sjp.frq <- function(varCount,
   # check whether variable should be auto-grouped
   #---------------------------------------------------
   if (!is.null(autoGroupAt) && length(unique(varCount)) >= autoGroupAt) {
-    message(sprintf("Variable has %i unique values and was grouped...", length(unique(varCount))))
+    message(sprintf("`%s` has %i unique values and was grouped...", 
+                    var.name, 
+                    length(unique(varCount))))
     # check for default auto-group-size or user-defined groups
     agcnt <- ifelse(autoGroupAt < 30, autoGroupAt, 30)
     # group axis labels
-    axisLabels.x <- sjmisc::group_labels(varCount, 
+    axisLabels.x <- sjmisc::group_labels(sjmisc::to_value(varCount, keep.labels = F),
                                          groupsize = "auto", 
                                          groupcount = agcnt)
     # group variable
-    varCount <- sjmisc::group_var(varCount, 
+    varCount <- sjmisc::group_var(sjmisc::to_value(varCount, keep.labels = F), 
                                   groupsize = "auto", 
                                   as.num = TRUE, 
                                   groupcount = agcnt)
     # set label attributes
     varCount <- sjmisc::set_labels(varCount, axisLabels.x)
-    # --------------------------------------------------------
-    # save label values. needed later to determine correct
-    # amount of categories
-    # --------------------------------------------------------
-    labelvalues <- sjmisc::get_values(varCount)
   }
   # --------------------------------------------------------
   # unlist labels
@@ -360,33 +348,14 @@ sjp.frq <- function(varCount,
   # create frequency data frame
   #---------------------------------------------------
   df.frq <- create.frq.df(varCount, 
-                          axisLabels.x, 
-                          labelvalues,
-                          breakLabelsAt, 
-                          sort.frq, 
-                          2, 
-                          na.rm, 
-                          startAxisAt, 
-                          weightBy)
+                          breakLabelsAt = breakLabelsAt, 
+                          order.frq = sort.frq, 
+                          round.prz = 2,
+                          na.rm = na.rm, 
+                          weightBy = weightBy)
   mydat <- df.frq$mydat
-  axisLabels.x <- df.frq$labels
-  catmin <- df.frq$catmin
-  # --------------------------------------------------------
-  # add confidence intervals. first,  check whether 
-  # we have removed NA's. If so, replace NA's, so
-  # we get confidence intervals for NA as well
-  # --------------------------------------------------------
-  if (!na.rm) 
-    varCount.ci <- sjmisc::replace_na(varCount, max(varCount, na.rm = T) + 1)
-  else
-    varCount.ci <- varCount
-  # get frequencies with upper/lower CI
-  df.frqci <- sjs.frqci(varCount.ci)$mydat.frq
-  # find matching confidence intervals
-  ci.match <- match(mydat$var, df.frqci$var)
-  # copy ci
-  mydat$lower.ci <- round(df.frqci$lower.ci[ci.match])
-  mydat$upper.ci <- round(df.frqci$upper.ci[ci.match])
+  if (!is.null(df.frq$labels)) axisLabels.x <- df.frq$labels
+  catmin <- df.frq$minval
   # --------------------------------------------------------
   # Trim labels and title to appropriate size
   # --------------------------------------------------------
@@ -422,6 +391,12 @@ sjp.frq <- function(varCount,
     }
   }
   # --------------------------------------------------------
+  # count variable may not be a factor!
+  # --------------------------------------------------------
+  if (is.factor(varCount)) {
+    varCount <- sjmisc::to_value(varCount, keep.labels = F)
+  }
+  # --------------------------------------------------------
   # If we have a histogram, caluclate means of groups
   # --------------------------------------------------------
   if (is.null(weightBy)) {
@@ -437,12 +412,12 @@ sjp.frq <- function(varCount,
     if (is.null(interactionVar)) {
       mydat <- stats::na.omit(data.frame(cbind(grp = 1, 
                                                frq = varCount, 
-                                               var = varCount)))
+                                               val = varCount)))
     } else {
       mydat <- stats::na.omit(data.frame(cbind(grp = 1, 
                                                ia = interactionVar, 
                                                frq = varCount, 
-                                               var = varCount)))
+                                               val = varCount)))
       mydat$ia <- as.factor(mydat$ia)
     }
     mydat$grp <- as.factor(mydat$grp)
@@ -514,23 +489,23 @@ sjp.frq <- function(varCount,
     if (showPercentageValues && showCountValues) {
       if (coord.flip) {
         if (showCI) {
-          ggvaluelabels <-  geom_text(label = sprintf("%i (%.01f%%)", mydat$frq, mydat$prz),
+          ggvaluelabels <-  geom_text(label = sprintf("%i (%.01f%%)", mydat$frq, mydat$valid.prc),
                                       hjust = hort,
                                       vjust = vert,
                                       aes(y = upper.ci))
         } else {
-          ggvaluelabels <-  geom_text(label = sprintf("%i (%.01f%%)", mydat$frq, mydat$prz),
+          ggvaluelabels <-  geom_text(label = sprintf("%i (%.01f%%)", mydat$frq, mydat$valid.prc),
                                       hjust = hort,
                                       vjust = vert)
         }
       } else {
         if (showCI) {
-          ggvaluelabels <-  geom_text(label = sprintf("%i\n(%.01f%%)", mydat$frq, mydat$prz),
+          ggvaluelabels <-  geom_text(label = sprintf("%i\n(%.01f%%)", mydat$frq, mydat$valid.prc),
                                       hjust = hort,
                                       vjust = vert,
                                       aes(y = upper.ci))
         } else {
-          ggvaluelabels <-  geom_text(label = sprintf("%i\n(%.01f%%)", mydat$frq, mydat$prz),
+          ggvaluelabels <-  geom_text(label = sprintf("%i\n(%.01f%%)", mydat$frq, mydat$valid.prc),
                                       hjust = hort,
                                       vjust = vert)
         }
@@ -551,13 +526,13 @@ sjp.frq <- function(varCount,
     } else if (showPercentageValues) {
       if (showCI) {
         # here we have counts, without percentages
-        ggvaluelabels <-  geom_text(label = sprintf("%.01f%%", mydat$prz),
+        ggvaluelabels <-  geom_text(label = sprintf("%.01f%%", mydat$valid.prc),
                                     hjust = hort,
                                     vjust = vert,
                                     aes(y = upper.ci))
       } else {
         # here we have counts, without percentages
-        ggvaluelabels <-  geom_text(label = sprintf("%.01f%%", mydat$prz),
+        ggvaluelabels <-  geom_text(label = sprintf("%.01f%%", mydat$valid.prc),
                                     hjust = hort,
                                     vjust = vert)
       }
@@ -572,7 +547,7 @@ sjp.frq <- function(varCount,
   # --------------------------------------------------------
   # Set up grid breaks
   # --------------------------------------------------------
-  maxx <- max(mydat$var) + 1
+  maxx <- max(mydat$val) + 1
   if (is.null(gridBreaksAt)) {
     gridbreaks <- ggplot2::waiver()
     histgridbreaks <- ggplot2::waiver()
@@ -617,7 +592,7 @@ sjp.frq <- function(varCount,
     # mydat is a data frame that only contains one variable (var).
     # Must be declared as factor, so the bars are central aligned to
     # each x-axis-break. 
-    baseplot <- ggplot(mydat, aes(x = factor(var), y = frq)) + 
+    baseplot <- ggplot(mydat, aes(x = factor(val), y = frq)) + 
       geob +
       yscale + 
       # remove guide / legend
@@ -733,7 +708,7 @@ sjp.frq <- function(varCount,
                                    binwidth = geom.size, 
                                    fill = geom.colors)
       } else {
-        baseplot <- ggplot(mydat, aes(x = var, y = frq))
+        baseplot <- ggplot(mydat, aes(x = val, y = frq))
         basehist <- geom_histogram(stat = "identity", 
                                    binwidth = geom.size, 
                                    fill = geom.colors)

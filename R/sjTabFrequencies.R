@@ -510,6 +510,8 @@ sjt.frq <- function(data,
       var <- sjmisc::set_labels(var, valueLabels[[cnt]])
       # need to get new values again
       var.values <- sjmisc::get_values(var)
+      # set back to data frame
+      data[[cnt]] <- var
     }
     # retrieve summary
     varsummary <- summary(var)
@@ -521,11 +523,11 @@ sjt.frq <- function(data,
     #---------------------------------------------------
     # create frequency data frame
     #---------------------------------------------------
-    df.frq <- create.frq.df(var, 
-                            valueLabels[[cnt]], 
-                            var.values,
-                            -1, 
-                            sort.frq, 
+    df.frq <- create.frq.df(data[[cnt]],
+                            breakLabelsAt = Inf,
+                            sort.frq,
+                            2,
+                            na.rm = F, 
                             weightBy = weightBy)
     df <- df.frq$mydat
     #---------------------------------------------------
@@ -571,7 +573,7 @@ sjt.frq <- function(data,
     for (j in 1:(nrow(df) - 1)) {
       # retrieve data row
       datarow <- df[j, ]
-      zerorow <- (datarow[3] == 0)
+      zerorow <- (datarow$frq == 0)
       # -------------------------------------
       # check if to skip zero rows
       # -------------------------------------
@@ -610,14 +612,14 @@ sjt.frq <- function(data,
         page.content <- paste(page.content, 
                               sprintf("    <td class=\"tdata centeralign%s\">%i</td>\n", 
                                       rowcss, 
-                                      as.integer(datarow[2][[1]])))
-        for (i in 3:5) {
+                                      as.integer(datarow$frq)))
+        for (i in 8:10) {
           # following values are float
           page.content <- paste(page.content, 
                                 sprintf("    <td class=\"tdata centeralign%s\">%.*f</td>\n", 
                                         rowcss, 
                                         digits,
-                                        datarow[i][[1]]))
+                                        datarow[i]))
         }
         # close row-tag
         page.content <- paste(page.content, "  </tr>\n", "\n")
@@ -634,9 +636,9 @@ sjt.frq <- function(data,
     # value label
     page.content <- paste(page.content, sprintf("  <tr>\n     <td class=\"tdata leftalign lasttablerow firsttablecol\">%s</td>\n", stringMissingValue))
     # cell values, first value is integer
-    page.content <- paste(page.content, sprintf("    <td class=\"tdata centeralign lasttablerow\">%i</td>\n", as.integer(datarow[2][[1]])))
+    page.content <- paste(page.content, sprintf("    <td class=\"tdata centeralign lasttablerow\">%i</td>\n", as.integer(datarow$frq)))
     # 2nd value is float. we don't need 3rd and 4th value as they are always 0 and 100
-    page.content <- paste(page.content, sprintf("    <td class=\"tdata centeralign lasttablerow\">%.*f</td>\n     <td class=\"tdata lasttablerow\"></td>\n     <td class=\"tdata lasttablerow\"></td>\n", digits, datarow[3][[1]]))
+    page.content <- paste(page.content, sprintf("    <td class=\"tdata centeralign lasttablerow\">%.*f</td>\n     <td class=\"tdata lasttablerow\"></td>\n     <td class=\"tdata lasttablerow\"></td>\n", digits, datarow$raw.prc))
     # -------------------------------------
     # add info for mean, standard deviation
     # -------------------------------------

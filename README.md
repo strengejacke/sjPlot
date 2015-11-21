@@ -40,10 +40,12 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](http://cran.r-project.org/package=ggplot2), consider citing this package as well.
 
-### Changelog of development build 1.8.4-5
+### Changelog of development build 1.8.4-9
 
 #### General
 * Argument `show.se` is now deprecated. Use `show.ci` instead.
+* Redesign of computation of frequency tables for `sjp.frq` and `sjt.frq`, being more robust and generally working with labelled, non-labelled, numeric, character vectors and factors.
+* Better automatic handling of variable and value labels that are used for labelling plot axes and titles or table columns.
 
 #### Changes to functions
 * `sjp.lm` gets a `group.estimates` argument to group estimates in forest plots and colour them according to group assignment. Use arguments `show.legend` and `legendTitle` to modify group legend.
