@@ -276,6 +276,11 @@ sjp.grpfrq <- function(varCount,
                        na.rm = TRUE,
                        printPlot = TRUE) {
   # --------------------------------------------------------
+  # get variable name
+  # --------------------------------------------------------
+  var.name.cnt <- deparse(substitute(varCount))
+  var.name.grp <- deparse(substitute(varGroup))
+  # --------------------------------------------------------
   # We have several options to name the diagram type
   # Here we will reduce it to a unique value
   # --------------------------------------------------------
@@ -323,19 +328,19 @@ sjp.grpfrq <- function(varCount,
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
   if (is.null(axisLabels.x)) {
-    axisLabels.x <- sjmisc:::autoSetValueLabels(varCount)
+    axisLabels.x <- sjmisc::get_labels(varCount, attr.only = F, include.values = F, include.non.labelled = T)
     # if we have box or violin plots, but no axis labels on x axis (NULL),
     # we need to hide x-axis, because automatically retrieved labels are
     # equal to unique values of varCount, and not varGroup.
     if (type == "boxplots" || type == "violin") showAxisLabels.x <- FALSE
   }
-  if (is.null(legendLabels)) legendLabels <- sjmisc:::autoSetValueLabels(varGroup)
-  if (is.null(interactionVarLabels) && !is.null(interactionVar)) interactionVarLabels <- sjmisc:::autoSetValueLabels(interactionVar)
-  if (is.null(axisTitle.x)) axisTitle.x <- sjmisc:::autoSetVariableLabels(varCount)
-  if (is.null(legendTitle)) legendTitle <- sjmisc:::autoSetVariableLabels(varGroup)  
+  if (is.null(legendLabels)) legendLabels <- sjmisc::get_labels(varGroup, attr.only = F, include.values = F, include.non.labelled = T)
+  if (is.null(interactionVarLabels) && !is.null(interactionVar)) interactionVarLabels <- sjmisc::get_labels(interactionVar, attr.only = F, include.values = F, include.non.labelled = T)
+  if (is.null(axisTitle.x)) axisTitle.x <- sjmisc::get_label(varCount, def.value = var.name.cnt)
+  if (is.null(legendTitle)) legendTitle <- sjmisc::get_label(varGroup, def.value = var.name.grp)
   if (is.null(title)) {
-    t1 <- sjmisc:::autoSetVariableLabels(varCount)
-    t2 <- sjmisc:::autoSetVariableLabels(varGroup)
+    t1 <- sjmisc::get_label(varCount, def.value = var.name.cnt)
+    t2 <- sjmisc::get_label(varGroup, def.value = var.name.grp)
     if (!is.null(t1) && !is.null(t2)) title <- paste0(t1, " by ", t2)
   }
   # --------------------------------------------------------

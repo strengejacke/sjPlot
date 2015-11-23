@@ -316,16 +316,8 @@ sjt.frq <- function(data,
     # check if we have data frame with several variables
     # ---------------------------------------
     if (is.data.frame(data)) {
-      # store column indices of string variables
-      stringcolumns <- c()
-      # if yes, iterate each variable
-      for (i in 1:ncol(data)) {
-        # check type
-        if (is.character(data[[i]])) stringcolumns <- c(stringcolumns, i)
-      }
-      # check if any strings found
       # remove string variables
-      if (length(stringcolumns) > 0) data <- data[, -stringcolumns]
+      data <- data[, !sapply(data, is.character)]
     } else if (is.character(data)) {
       stop("argument 'data' is a single string vector, where string vectors should be removed. No data to compute frequency table left. See argument 'removeStringVectors' for details.", call. = FALSE)
     }
@@ -361,27 +353,14 @@ sjt.frq <- function(data,
       # if yes, iterate each variable
       for (i in 1:ncol(data)) {
         # retrieve variable name attribute
-        vn <- sjmisc:::autoSetVariableLabels(data[[i]])
-        # if variable has attribute, add to variableLabel list
-        if (!is.null(vn)) {
-          variableLabels <- c(variableLabels, vn)
-        } else {
-          # else break out of loop
-          variableLabels <- NULL
-          break
-        }
+        variableLabels <-
+          c(variableLabels, sjmisc::get_label(data[[i]], def.value = deparse(substitute(data[[i]]))))
       }
     # we have a single variable only
     } else {
       # retrieve variable name attribute
-      vn <- sjmisc:::autoSetVariableLabels(data)
-      # if variable has attribute, add to variableLabel list
-      if (!is.null(vn)) {
-        variableLabels <- c(variableLabels, vn)
-      } else {
-        # else reset variableLabels
-        variableLabels <- NULL
-      }
+      variableLabels <-
+        c(variableLabels, sjmisc::get_label(data, def.value = deparse(substitute(data))))
     }
   }
   # -------------------------------------
@@ -392,7 +371,15 @@ sjt.frq <- function(data,
     isString <- is.character(data)
     # check for auto-detection of labels, but only for non-character-vectors
     # characters will be handled later
-    if (is.null(valueLabels) && !isString) valueLabels <- sjmisc:::autoSetValueLabels(data)
+    if (is.null(valueLabels) &&
+        !isString)
+      valueLabels <-
+        sjmisc::get_labels(
+          data,
+          attr.only = F,
+          include.values = NULL,
+          include.non.labelled = T
+        )
     # copy variable to data frame for unuqie handling
     data <- as.data.frame(data)
     if (isString) {
@@ -447,7 +434,13 @@ sjt.frq <- function(data,
         valueLabels <- c(valueLabels, list(names(table(dummy))))
       } else {
         # check for auto-detection of labels
-        avl <- sjmisc:::autoSetValueLabels(dummy)
+        avl <-
+          sjmisc::get_labels(
+            dummy,
+            attr.only = F,
+            include.values = NULL,
+            include.non.labelled = T
+          )
         if (!is.null(avl)) {
           valueLabels <- c(valueLabels, list(avl))
         } else {
@@ -456,8 +449,9 @@ sjt.frq <- function(data,
         }
       }
       # and add label range to value labels list
-      if (is.null(valueLabels)) valueLabels <- c(valueLabels, 
-                                                 list(min(dummy, na.rm = TRUE):max(dummy, na.rm = TRUE)))
+      if (is.null(valueLabels))
+        valueLabels <-
+          c(valueLabels, list(min(dummy, na.rm = TRUE):max(dummy, na.rm = TRUE)))
     }
   }
   # -------------------------------------
@@ -475,6 +469,39 @@ sjt.frq <- function(data,
     # -----------------------------------------------
     var.values <- sjmisc::get_values(data[[cnt]])
     # -----------------------------------------------
+    # check for length of unique values and skip if too long
+    # -----------------------------------------------
+    if (!is.null(autoGroupAt) &&
+        !is.character(data[[cnt]]) &&
+        length(unique(data[[cnt]])) >= autoGroupAt) {
+      message(sprintf(
+        "Variable %s with %i unique values was grouped...",
+        colnames(data)[cnt],
+        length(unique(data[[cnt]]))
+      ))
+      # check for default auto-group-size or user-defined groups
+      agcnt <- ifelse(autoGroupAt < 30, autoGroupAt, 30)
+      # group labels
+      valueLabels[[cnt]] <-
+        sjmisc::group_labels(
+          sjmisc::to_value(data[[cnt]], keep.labels = F),
+          groupsize = "auto",
+          groupcount = agcnt
+        )
+      # group variable
+      data[[cnt]] <-
+        sjmisc::group_var(
+          sjmisc::to_value(data[[cnt]], keep.labels = F),
+          groupsize = "auto",
+          as.num = TRUE,
+          groupcount = agcnt
+        )
+      # set labels
+      data[[cnt]] <- sjmisc::set_labels(data[[cnt]], valueLabels[[cnt]])
+      # need to get new values again
+      var.values <- sjmisc::get_values(data[[cnt]])
+    }
+    # -----------------------------------------------
     # prepare data: create frequencies and weight them,
     # if requested. put data into a data frame
     #---------------------------------------------------
@@ -482,36 +509,11 @@ sjt.frq <- function(data,
     if (is.character(data[[cnt]])) {
       # convert string to numeric
       orivar <- var <- as.numeric(as.factor(data[[cnt]]))
-    # here we have numeric or factor variables
+      # here we have numeric or factor variables
     } else {
       # convert to numeric
       orivar <- var <- sjmisc::to_value(data[[cnt]], 
                                         keep.labels = F)
-    }
-    # -----------------------------------------------
-    # check for length of unique values and skip if too long
-    # -----------------------------------------------
-    if (!is.null(autoGroupAt) && length(unique(var)) >= autoGroupAt) {
-      message(sprintf("Variable %s with %i unique values was grouped...", 
-                      colnames(data)[cnt], 
-                      length(unique(var))))
-      # check for default auto-group-size or user-defined groups
-      agcnt <- ifelse(autoGroupAt < 30, autoGroupAt, 30)
-      # group labels
-      valueLabels[[cnt]] <- sjmisc::group_labels(var, 
-                                                 groupsize = "auto", 
-                                                 groupcount = agcnt)
-      # group variable
-      var <- sjmisc::group_var(var, 
-                               groupsize = "auto", 
-                               as.num = TRUE, 
-                               groupcount = agcnt)
-      # set labels
-      var <- sjmisc::set_labels(var, valueLabels[[cnt]])
-      # need to get new values again
-      var.values <- sjmisc::get_values(var)
-      # set back to data frame
-      data[[cnt]] <- var
     }
     # retrieve summary
     varsummary <- summary(var)
@@ -525,7 +527,7 @@ sjt.frq <- function(data,
     #---------------------------------------------------
     df.frq <- create.frq.df(data[[cnt]],
                             breakLabelsAt = Inf,
-                            sort.frq,
+                            order.frq = sort.frq,
                             2,
                             na.rm = F, 
                             weightBy = weightBy)
@@ -750,7 +752,7 @@ sjt.frq <- function(data,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible(structure(class = "sjtfrq",
+  invisible(structure(class = c("sjTable", "sjtfrq"),
                       list(page.style = page.style,
                            page.content.list = page.content.list,
                            output.complete = toWrite,

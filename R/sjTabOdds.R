@@ -1217,7 +1217,7 @@ sjt.glm <- function(...,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible(structure(class = "sjtglm",
+  invisible(structure(class = c("sjTable", "sjtglm"),
                       list(page.style = page.style,
                            page.content = page.content,
                            output.complete = toWrite,

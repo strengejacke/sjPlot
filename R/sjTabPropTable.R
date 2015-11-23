@@ -798,7 +798,7 @@ sjt.xtab <- function(var.row,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible(structure(class = "sjtxtab",
+  invisible(structure(class = c("sjTable", "sjtxtab"),
                       list(page.style = page.style,
                            page.content = page.content,
                            output.complete = toWrite,

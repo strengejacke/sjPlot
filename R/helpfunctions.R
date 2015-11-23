@@ -153,6 +153,7 @@ create.frq.df <- function(x,
   if (!is.null(order.frq) && (order.frq == "asc" || order.frq == "desc")) {
     ord <- order(mydat$frq[1:valid.vals], decreasing = (order.frq == "desc"))
     mydat <- mydat[c(ord, valid.vals + 1), ]
+    labels <- labels[ord]
   }
   # raw percentages
   mydat$raw.prc <- mydat$frq / sum(mydat$frq)
@@ -186,6 +187,36 @@ create.frq.df <- function(x,
   invisible(structure(list(mydat = mydat,
                            labels = labels,
                            minval = min(sjmisc::to_value(mydat$val, keep.labels = FALSE), na.rm = TRUE))))
+}
+
+
+# Create frequency data frame of a variable
+# for sjp and sjt frq functions
+#' @importFrom stats na.omit
+#' @importFrom dplyr add_rownames full_join
+create.xtab.df <- function(x,
+                           grp,
+                           breakLabelsAt = Inf,
+                           order.frq = "none",
+                           round.prz = 2,
+                           na.rm = FALSE,
+                           weightBy = NULL) {
+  # ------------------------------
+  # create frequency crosstable. we need to convert
+  # vector to labelled factor first.
+  # ------------------------------
+  if (is.null(weightBy)) {
+    mydat <-
+      ftable(table(
+        suppressWarnings(sjmisc::to_label(x, add.non.labelled = T)),
+        suppressWarnings(sjmisc::to_label(grp, add.non.labelled = T)),
+        exclude = NULL
+      ))
+  } else {
+    x <- suppressWarnings(sjmisc::to_value(x, keep.labels = T))
+    grp <- suppressWarnings(sjmisc::to_value(grp, keep.labels = T))
+    mydat <- ftable(round(xtabs(weightBy ~ x + grp)), 0)
+  }
 }
 
 

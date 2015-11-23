@@ -259,8 +259,8 @@ sjp.frq <- function(varCount,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
-  if (is.null(axisLabels.x)) axisLabels.x <- sjmisc::get_labels(varCount, attr.only = F, include.values = F, include.non.labelled = T)
-  if (is.null(interactionVarLabels) && !is.null(interactionVar)) interactionVarLabels <- sjmisc::get_labels(interactionVar, attr.only = F, include.values = F, include.non.labelled = T)
+  if (is.null(axisLabels.x)) axisLabels.x <- sjmisc::get_labels(varCount, attr.only = F, include.values = NULL, include.non.labelled = T)
+  if (is.null(interactionVarLabels) && !is.null(interactionVar)) interactionVarLabels <- sjmisc::get_labels(interactionVar, attr.only = F, include.values = NULL, include.non.labelled = T)
   if (is.null(axisTitle.x)) axisTitle.x <- sjmisc::get_label(varCount, def.value = var.name)
   if (is.null(title)) title <- sjmisc::get_label(varCount, def.value = var.name)
   # --------------------------------------------------------
