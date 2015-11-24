@@ -7,12 +7,12 @@
 sjp.int(fit, type = "cond", int.term = NULL, int.plot.index = NULL,
   diff = FALSE, moderatorValues = "minmax", swapPredictors = FALSE,
   plevel = 0.05, title = NULL, fillColor = "grey", fillAlpha = 0.3,
-  geom.colors = "Set1", axisTitle.x = NULL, axisTitle.y = NULL,
-  axisLabels.x = NULL, legendTitle = NULL, legendLabels = NULL,
-  showValueLabels = FALSE, breakTitleAt = 50, breakLegendLabelsAt = 20,
-  breakLegendTitleAt = 20, axisLimits.x = NULL, axisLimits.y = NULL,
-  gridBreaksAt = NULL, showCI = FALSE, valueLabel.digits = 2,
-  facet.grid = FALSE, printPlot = TRUE)
+  geom.colors = "Set1", geom.size = NULL, axisTitle.x = NULL,
+  axisTitle.y = NULL, axisLabels.x = NULL, legendTitle = NULL,
+  legendLabels = NULL, showValueLabels = FALSE, breakTitleAt = 50,
+  breakLegendLabelsAt = 20, breakLegendTitleAt = 20, axisLimits.x = NULL,
+  axisLimits.y = NULL, gridBreaksAt = NULL, showCI = FALSE,
+  valueLabel.digits = 2, facet.grid = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{the fitted (generalized) linear (mixed) model object, including interaction terms. Accepted model
@@ -84,6 +84,11 @@ the interaction term (moderator value). Third value, if applicable, is the color
 mean value of the interaction term (moderator value). Third value is only used when 
 \code{moderatorValues = "meansd"}. Or, if \code{diff = TRUE}, only one color value for the 
 line indicating the upper difference between lower and upper bound of interaction terms.}
+
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, depending on \code{type} argument).
+Note that bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
+By default, \code{geom.size = NULL}, which means that this argument is automatically
+adjusted depending on the plot type.}
 
 \item{axisTitle.x}{a default title used for the x-axis. Should be a character vector
 of same length as interaction plots to be plotted. Default value is \code{NULL},

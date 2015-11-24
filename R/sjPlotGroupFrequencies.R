@@ -85,8 +85,8 @@ utils::globalVariables(c("ypos", "wb", "ia", "mw", "stddev", "count"))
 #'          when \code{type = "violins"} or \code{"boxplots"}.
 #' @param geom.colors User defined color palette for geoms. If specified, must either be vector with color values 
 #'          of same length as groups defined in \code{varGroup}, or a specific color brewer palette code (see 'Note').
-#' @param geom.size size resp. width of the geoms (bar width or point size, depending on \code{type} argument).
-#'          Note that  bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
+#' @param geom.size size resp. width of the geoms (bar width, line thickness or point size, depending on \code{type} argument).
+#'          Note that bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
 #'          By default, \code{geom.size = NULL}, which means that this argument is automatically
 #'          adjusted depending on the plot type.
 #' @param geom.spacing the spacing between geoms (i.e. bar spacing)
@@ -296,7 +296,7 @@ sjp.grpfrq <- function(varCount,
   }
   if (type == "box" || type == "boxplot") type <- "boxplots"
   if (type == "v" || type == "violins") type <- "violin"
-  if (expand.grid == TRUE) {
+  if (expand.grid == TRUE || (missing(expand.grid) && type == "histogram")) {
     expand.grid <- ggplot2::waiver()
   } else {
     expand.grid <- c(0, 0)
@@ -431,7 +431,12 @@ sjp.grpfrq <- function(varCount,
   # -----------------------------------------------
   # define x-axis limits
   # -----------------------------------------------
-  if (is.null(axisLimits.x)) axisLimits.x <- c(catmin, catcount)
+  if (is.null(axisLimits.x)) {
+    if (type == "histogram")
+      axisLimits.x <- c(catmin - 1, catcount + 1)
+    else
+      axisLimits.x <- c(catmin, catcount)
+  }
   # -----------------------------------------------
   # create cross table for stats, summary etc.
   # and weight variable

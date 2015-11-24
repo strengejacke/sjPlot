@@ -7,6 +7,7 @@ sjp.emm <- function(fit,
                     plevel = 0.05,
                     title = NULL,
                     geom.colors = "Set1",
+                    geom.size = 0.7,
                     axisTitle.x = NULL,
                     axisTitle.y = NULL,
                     axisLabels.x = NULL,
@@ -22,6 +23,10 @@ sjp.emm <- function(fit,
                     gridBreaksAt = NULL,
                     facet.grid = FALSE,
                     printPlot = TRUE) {
+  # --------------------------------------------------------
+  # check default geom.size
+  # --------------------------------------------------------
+  if (is.null(geom.size)) geom.size = .7
   # ------------------------
   # check if suggested packages are available
   # ------------------------
@@ -35,7 +40,7 @@ sjp.emm <- function(fit,
   # go to sub-function if class = lmerMod
   # -----------------------------------------------------------
   if (any(class(fit) == "lmerMod") || any(class(fit) == "merModLmerTest")) {
-    return(sjp.emm.lmer(fit, swapPredictors, plevel, title, geom.colors,
+    return(sjp.emm.lmer(fit, swapPredictors, plevel, title, geom.colors, geom.size,
                         axisTitle.x, axisTitle.y, axisLabels.x, legendLabels,
                         showValueLabels, valueLabel.digits, showCI, breakTitleAt,
                         breakLegendLabelsAt, axisLimits.y, gridBreaksAt, 
@@ -285,7 +290,7 @@ sjp.emm <- function(fit,
       # -----------------------------------------------------------
       baseplot <- baseplot +
         geom_point(aes(x = x, y = y, colour = grp)) +
-        geom_line(aes(x = xn, y = y, colour = grp)) +
+        geom_line(aes(x = xn, y = y, colour = grp), size = geom.size) +
         scale_x_discrete(labels = axisLabels.x)
       # ------------------------------------------------------------
       # plot value labels
@@ -333,13 +338,17 @@ sjp.emm <- function(fit,
 }
 
 
-sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, axisTitle.x,
+sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.size, axisTitle.x,
                          axisTitle.y, axisLabels.x, legendLabels, showValueLabels,
                          valueLabel.digits, showCI, breakTitleAt, breakLegendLabelsAt,
                          axisLimits.y, gridBreaksAt, facet.grid, printPlot) {
   if ((any(class(fit) == "lmerMod") || any(class(fit) == "merModLmerTest")) && !requireNamespace("lmerTest", quietly = TRUE)) {
     stop("Package 'lmerTest' needed for this function to work. Please install it.", call. = FALSE)
   }
+  # --------------------------------------------------------
+  # check default geom.size
+  # --------------------------------------------------------
+  if (is.null(geom.size)) geom.size = .7
   # init vector that saves ggplot objects
   plotlist <- list()
   dflist <- list()
@@ -557,7 +566,7 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, axisTi
       # -----------------------------------------------------------
       baseplot <- baseplot +
         geom_point(aes(x = x, y = y, colour = grp)) +
-        geom_line(aes(x = xn, y = y, colour = grp)) +
+        geom_line(aes(x = xn, y = y, colour = grp), size = geom.size) +
         scale_x_discrete(labels = axisLabels.x)
       # ------------------------------------------------------------
       # plot value labels

@@ -60,8 +60,8 @@ categories are not sorted by frequency. Use \code{"asc"} or
   \code{type = "dots"} and \code{type = "boxplots"}, which may be abbreviated
   with \code{type = "dot"} and \code{type = "box"}}
 
-\item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} argument).
-Note that  bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, depending on \code{type} argument).
+Note that bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
 By default, \code{geom.size = NULL}, which means that this argument is automatically
 adjusted depending on the plot type.}
 

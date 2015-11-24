@@ -52,6 +52,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * `sjp.lmer` and `sjp.glmer` can now plot random effect parts of random slope-intercept models (with `type = "rs.ri"`), where regression lines or predicted probabilities of random intercept and slopes are plotted.
 * Intercept line plotting in `sjp.int` for `type = "cond"` was removed.
 * Line geoms for `type = "cond"` in `sjp.int` now always start at y-position zero, to better indicate the effective change of interaction effect compared to base reference. Now, the y-position indicates the change in the reponse due to the interaction effect.
+* `sjp.int` gets a `geom.size` argument to specify line width.
 
 #### Bug fixes
 * Argument `ci.hyphen` in function `sjt.lm` and `sjt.lmer` was not correctly applied to confidence intervals of standardized beta values.

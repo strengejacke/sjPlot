@@ -310,6 +310,7 @@ sjp.int <- function(fit,
                     fillColor = "grey",
                     fillAlpha = 0.3,
                     geom.colors = "Set1",
+                    geom.size = NULL,
                     axisTitle.x = NULL,
                     axisTitle.y = NULL,
                     axisLabels.x = NULL,
@@ -365,6 +366,10 @@ sjp.int <- function(fit,
       type <- "eff"
     }
   }
+  # --------------------------------------------------------
+  # check default geom.size
+  # --------------------------------------------------------
+  if (is.null(geom.size)) geom.size = .7
   # ------------------------
   # check if suggested package is available
   # ------------------------
@@ -406,7 +411,7 @@ sjp.int <- function(fit,
       showCI = TRUE
       warning("argument `showCI` must be logical for `type = 'emm'`.", call. = F)
     }
-    return(sjp.emm(fit, swapPredictors, plevel, title, geom.colors,
+    return(sjp.emm(fit, swapPredictors, plevel, title, geom.colors, geom.size,
                    axisTitle.x, axisTitle.y, axisLabels.x, legendTitle, legendLabels,
                    showValueLabels, valueLabel.digits, showCI, breakTitleAt,
                    breakLegendTitleAt, breakLegendLabelsAt, axisLimits.y, 
@@ -422,7 +427,7 @@ sjp.int <- function(fit,
   # --------------------------------------------------------
   if (type == "eff") {
     return(sjp.eff.int(fit, int.term, int.plot.index, moderatorValues, swapPredictors, plevel,
-                       title, fillAlpha, geom.colors, axisTitle.x,
+                       title, fillAlpha, geom.colors, geom.size, axisTitle.x,
                        axisTitle.y, legendTitle, legendLabels,
                        showValueLabels, breakTitleAt, breakLegendLabelsAt, 
                        breakLegendTitleAt, axisLimits.x,
@@ -768,7 +773,7 @@ sjp.int <- function(fit,
         geom_ribbon(aes(ymin = 0, ymax = ydiff),
                     fill = fillColor,
                     alpha = fillAlpha) +
-        geom_line()
+        geom_line(size = geom.size)
       # -----------------------------------------------------------
       # show value labels
       # -----------------------------------------------------------
@@ -861,6 +866,7 @@ sjp.eff.int <- function(fit,
                         title = NULL,
                         fillAlpha = 0.3,
                         geom.colors = "Set1",
+                        geom.size = 0.7,
                         axisTitle.x = NULL,
                         axisTitle.y = NULL,
                         legendTitle = NULL,
@@ -876,6 +882,10 @@ sjp.eff.int <- function(fit,
                         facet.grid = FALSE,
                         printPlot = TRUE,
                         fun) {
+  # --------------------------------------------------------
+  # check default geom.size
+  # --------------------------------------------------------
+  if (is.null(geom.size)) geom.size = .7
   # ------------------------
   # check if suggested package is available
   # ------------------------
@@ -955,7 +965,7 @@ sjp.eff.int <- function(fit,
     # prepare axis titles
     labx <- pred_x.name
     # check whether x-axis-predictor is a factor or not
-    x_is_factor <- is.factor(intdf[[pred_x.name]])
+    x_is_factor <- is.factor(intdf[[pred_x.name]]) || (length(unique(na.omit(intdf[[pred_x.name]]))) < 3)
     # -----------------------------------------------------------
     # check for moderator values, but only, if moderator 
     # is no factor value. In this case, we can choose
@@ -1231,7 +1241,7 @@ sjp.eff.int <- function(fit,
                       show_guide = FALSE)
       }
     }
-    baseplot <- baseplot + geom_line()
+    baseplot <- baseplot + geom_line(size = geom.size)
     # ------------------------------------------------------------
     # plot value labels
     # ------------------------------------------------------------

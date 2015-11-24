@@ -287,7 +287,7 @@ sjp.frq <- function(varCount,
   if (type == "l" || type == "lines") type <- "line"
   if (type == "box" || type == "boxplot") type <- "boxplots"
   if (type == "v" || type == "violins") type <- "violin"
-  if (expand.grid == TRUE) {
+  if (expand.grid == TRUE || (missing(expand.grid) && type == "histogram")) {
     expand.grid <- ggplot2::waiver()
   } else {
     expand.grid <- c(0, 0)
@@ -558,7 +558,12 @@ sjp.frq <- function(varCount,
   # ----------------------------------
   # set x-axis limits
   # ----------------------------------
-  if (is.null(axisLimits.x)) axisLimits.x <- c(catmin, maxx)
+  if (is.null(axisLimits.x)) {
+    if (type == "histogram")
+      axisLimits.x <- c(catmin - 1, maxx + 1)
+    else
+      axisLimits.x <- c(catmin, maxx)
+  }
   # ----------------------------------
   # set y scaling and label texts
   # ----------------------------------

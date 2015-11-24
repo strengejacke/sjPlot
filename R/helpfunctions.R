@@ -112,9 +112,9 @@ create.frq.df <- function(x,
   #---------------------------------------------------
   if (!is.null(labels)) {
     # add rownames and values as columns
-    dat <- dplyr::add_rownames(data.frame(v = as.character(labels), stringsAsFactors = FALSE))
+    dat <- data.frame(n = names(labels), v = as.character(labels), stringsAsFactors = FALSE)
     colnames(dat) <- c("val", "label")
-    dat$val <- sjmisc::to_value(dat$val, keep.labels = F)
+    dat$val <- as.numeric(dat$val)
     # create frequency table
     dat2 <- data.frame(table(x, exclude = NULL))
     colnames(dat2) <- c("val", "frq")

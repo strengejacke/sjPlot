@@ -26,8 +26,8 @@ category and all remaining categories.}
 \item{geom.colors}{User defined color palette for geoms. If specified, must either be vector with color values 
 of same length as groups defined in \code{varGroup}, or a specific color brewer palette code (see 'Note').}
 
-\item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} argument).
-Note that  bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, depending on \code{type} argument).
+Note that bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
 By default, \code{geom.size = NULL}, which means that this argument is automatically
 adjusted depending on the plot type.}
 
