@@ -299,7 +299,7 @@ sjp.emm <- function(fit,
         baseplot <- baseplot +
           geom_text(aes(label = round(y, vld), x = x, y = y),
                     vjust = 1.5,
-                    show_guide = FALSE)
+                    show.legend = FALSE)
       }
       # ------------------------------------------------------------------------------------
       # build plot object with theme and labels
@@ -575,7 +575,7 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.s
         baseplot <- baseplot +
           geom_text(aes(label = round(y, vld), x = x, y = y),
                     vjust = 1.5,
-                    show_guide = FALSE)
+                    show.legend = FALSE)
       }
       # ------------------------------------------------------------------------------------
       # build plot object with theme and labels

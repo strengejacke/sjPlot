@@ -87,7 +87,7 @@ to each dot or not.}
 \item{labelDigits}{amount of digits for rounding the estimates (see \code{showValueLabels}).
 Default is 2, i.e. estimates have 2 digits after decimal point.}
 
-\item{showPValueLabels}{logical, whether the significance level of each coefficient 
+\item{showPValueLabels}{logical, whether the significance level of each coefficient
 should be appended to values or not.}
 
 \item{showModelSummary}{logical, if \code{TRUE}, a summary of the anova model with 

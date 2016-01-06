@@ -228,6 +228,7 @@ sjp.glm <- function(fit,
                                 show.ci,
                                 type = "prob",
                                 geom.size,
+                                remove.estimates,
                                 facet.grid,
                                 printPlot)))
   }
@@ -236,6 +237,7 @@ sjp.glm <- function(fit,
                                 show.ci,
                                 type = "eff",
                                 geom.size,
+                                remove.estimates,
                                 facet.grid,
                                 printPlot)))
   }
@@ -584,6 +586,7 @@ sjp.glm.pc <- function(fit,
                        show.ci,
                        type,
                        geom.size,
+                       remove.estimates,
                        facet.grid,
                        printPlot) {
   # check size argument
@@ -601,6 +604,15 @@ sjp.glm.pc <- function(fit,
   # retrieve term names, so we find the estimates in the
   # coefficients list
   fit.term.names <- names(attr(fit$terms, "dataClasses"))[-1]
+  # ------------------------
+  # remove estimates?
+  # ------------------------
+  if (!is.null(remove.estimates)) {
+    remcols <- match(remove.estimates, fit.term.names)
+    # remember old rownames
+    if (!sjmisc::is_empty(remcols))
+      fit.term.names <- fit.term.names[-remcols]
+  }
   # ----------------------------
   # loop through all coefficients
   # ----------------------------

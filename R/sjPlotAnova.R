@@ -364,7 +364,7 @@ sjp.aov1 <- function(depVar,
       # they don't overlap with the errorbars
       geom_text(aes(label = pv, y = means), 
                 vjust = -0.8, 
-                show_guide = FALSE)
+                show.legend = FALSE)
   # --------------------------------------------------------
   # start with bar plots here
   # --------------------------------------------------------
@@ -384,7 +384,7 @@ sjp.aov1 <- function(depVar,
       geom_text(aes(label = pv, y = means), 
                 vjust = ifelse(df$means >= 0, -1, 1), 
                 hjust = hlabj, 
-                show_guide = FALSE)
+                show.legend = FALSE)
     if (hideErrorBars == FALSE) {
       anovaplot <- anovaplot +
         # print confidence intervalls (error bars)

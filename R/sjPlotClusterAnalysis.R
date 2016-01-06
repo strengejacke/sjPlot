@@ -644,7 +644,7 @@ sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect = TRUE, print
   classplot <- ggplot(mydat, aes(x = grp, y = prc, fill = fg)) +
     # use stat identity to show value, not count of $prc-variable
     # draw no legend!
-    geom_bar(stat = "identity", colour = "black", show_guide = FALSE) +
+    geom_bar(stat = "identity", colour = "black", show.legend = FALSE) +
     # fill bars
     scale_fill_manual(values = c("#235a80", "#80acc8")) +
     # give chart and X-axis a title

@@ -370,7 +370,7 @@ sjp.glmm <- function(...,
     geom_text(aes(label = p, y = upper), 
               position = position_dodge(width = -geom.spacing), 
               hjust = -0.1,
-              show_guide = FALSE) +
+              show.legend = FALSE) +
     # Intercept-line
     geom_hline(yintercept = 1, 
                linetype = interceptLineType, 

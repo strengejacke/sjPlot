@@ -764,12 +764,14 @@ sjp.lme4  <- function(fit,
       return(invisible(sjp.lm.eff(fit,
                                   title,
                                   geom.size,
+                                  remove.estimates,
                                   showCI = show.ci,
                                   printPlot)))
     } else {
       return(invisible(sjp.glm.eff(fit,
                                    title,
                                    geom.size,
+                                   remove.estimates,
                                    showCI = show.ci,
                                    printPlot)))
     }
@@ -2256,6 +2258,7 @@ get_lmerMod_pvalues <- function(fitmod) {
 sjp.glm.eff <- function(fit,
                         title,
                         geom.size,
+                        remove.estimates,
                         showCI,
                         printPlot) {
   # ------------------------
@@ -2265,10 +2268,17 @@ sjp.glm.eff <- function(fit,
     stop("Package 'effects' needed for this function to work. Please install it.", call. = FALSE)
   }
   # ------------------------
+  # Get link family
+  # ------------------------
+  fitfam <- family(fit)$family
+  # ------------------------
   # Retrieve response for automatic title
   # ------------------------
   # retrieve response vector
-  axisTitle.y <- paste("Predicted probabilities of", colnames(fit@frame)[1])
+  if (fitfam %in% c("binomial", "quasibinomial"))
+    axisTitle.y <- paste("Predicted probabilities of", colnames(fit@frame)[1])
+  else if (fitfam %in% c("poisson", "quasipoisson"))
+    axisTitle.y <- paste("Predicted incidents of", colnames(fit@frame)[1])
   # which title?
   if (is.null(title)) title <- "Marginal effects of model predictors"
   # ------------------------
@@ -2277,6 +2287,15 @@ sjp.glm.eff <- function(fit,
   # ------------------------
   mm <- stats::model.matrix(fit)
   all.terms <- colnames(stats::model.matrix(fit))[-1]
+  # ------------------------
+  # remove setimates?
+  # ------------------------
+  if (!is.null(remove.estimates)) {
+    remcols <- match(remove.estimates, all.terms)
+    # remember old rownames
+    if (!sjmisc::is_empty(remcols))
+      all.terms <- all.terms[-remcols]
+  }
   # ------------------------
   # prepare getting unique values of predictors,
   # which are passed to the allEffects-function
@@ -2307,14 +2326,21 @@ sjp.glm.eff <- function(fit,
     if (length(grep(":", t, fixed = T)) == 0 && length(grep("*", t, fixed = T)) == 0) {
       # ------------------------
       # build data frame, with raw values
-      # from polynomial term, predicted response
-      # and lower/upper ci
+      # predicted response and lower/upper ci
       # ------------------------
-      tmp <- data.frame(x = eff[[i]]$x[[t]],
-                        y = plogis(eff[[i]]$fit),
-                        lower = plogis(eff[[i]]$lower),
-                        upper = plogis(eff[[i]]$upper),
-                        grp = t)
+      if (fitfam %in% c("binomial", "quasibinomial")) {
+        tmp <- data.frame(x = eff[[i]]$x[[t]],
+                          y = plogis(eff[[i]]$fit),
+                          lower = plogis(eff[[i]]$lower),
+                          upper = plogis(eff[[i]]$upper),
+                          grp = t)
+      } else {
+        tmp <- data.frame(x = eff[[i]]$x[[t]],
+                          y = exp(eff[[i]]$fit),
+                          lower = exp(eff[[i]]$lower),
+                          upper = exp(eff[[i]]$upper),
+                          grp = t)
+      }
       # make sure x is numeric
       tmp$x <- sjmisc::to_value(tmp$x, keep.labels = F)
       # do we already have data?
@@ -2350,8 +2376,10 @@ sjp.glm.eff <- function(fit,
   eff.plot <- eff.plot +
     geom_line(size = geom.size) +
     facet_wrap(~grp, ncol = round(sqrt(grp.cnt)), scales = "free_x") +
-    labs(x = NULL, y = axisTitle.y, title = title) +
-    coord_cartesian(ylim = c(0, 1))
+    labs(x = NULL, y = axisTitle.y, title = title)
+  # for logistic regression, use 0 to 1 scale limits
+  if (fitfam %in% c("binomial", "quasibinomial"))
+    eff.plot <- eff.plot + coord_cartesian(ylim = c(0, 1))
   # ------------------------
   # print plot?
   # ------------------------

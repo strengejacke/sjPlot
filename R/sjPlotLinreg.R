@@ -5,7 +5,7 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #' @title Plot estimates or predicted values of linear models
 #' @name sjp.lm
 #'
-#' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm} for 
+#' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm} for
 #'            more details and examples of this function; use \code{\link{sjp.poly}}
 #'            to see which polynomial degree fits best for possible polynomial terms.
 #'
@@ -21,7 +21,7 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #'            \item{\code{type = "pred"}}{regression lines (slopes) with confidence intervals for each single predictor of the fitted model are plotted, i.e. all predictors of the fitted model are extracted and for each of them, the linear relationship is plotted against the response variable.}
 #'            \item{\code{type = "resid"}}{is similar to the \code{type = "pred"} option, however, each predictor is plotted against the residuals (instead of response).}
 #'            \item{\code{type = "resp"}}{the predicted values of the response for each observation is plotted, which mostly results in a single linear line.}
-#'            \item{\code{type = "eff"}}{computes the marginal effects for all predictors, using the \code{\link[effects]{allEffects}} function. I.e. for each predictor, the predicted values towards the response are plotted, with all remaining co-variates set to the mean. Due to possible different scales of predictors, a faceted plot is printed (instead of plotting all lines in one plot). This function accepts following argument: \code{fit}, \code{title}, \code{geom.size}, \code{showCI} and \code{printPlot}.}
+#'            \item{\code{type = "eff"}}{computes the marginal effects for all predictors, using the \code{\link[effects]{allEffects}} function. I.e. for each predictor, the predicted values towards the response are plotted, with all remaining co-variates set to the mean. Due to possible different scales of predictors, a faceted plot is printed (instead of plotting all lines in one plot). This function accepts following argument: \code{fit}, \code{title}, \code{geom.size}, \code{remove.estimates}, \code{showCI} and \code{printPlot}.}
 #'            \item{\code{type = "poly"}}{plots the marginal effects of polynomial terms in \code{fit}, using the \code{\link[effects]{effect}} function, but only for a selected polynomial term, which is specified with \code{poly.term}. This function helps undertanding the effect of polynomial terms by plotting the curvilinear relationships of response and quadratic, cubic etc. terms. This function accepts following argument: \code{fit}, \code{poly.term}, \code{geom.colors}, \code{geom.size}, \code{axisTitle.x}, \code{showCI} and \code{printPlot}.}
 #'            \item{\code{type = "ma"}}{checks model assumptions. Please note that only three arguments are relevant: \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other arguments are ignored.}
 #'            \item{\code{type = "vif"}}{Variance Inflation Factors (check for multicollinearity) are plotted. As a rule of thumb, values below 5 are considered as good and indicate no multicollinearity, values between 5 and 10 may be tolerable. Values greater than 10 are not acceptable and indicate multicollinearity between model's predictors.}
@@ -49,13 +49,13 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #'            \item Only used if fitted model has only one predictor and \code{type = "lm"}.
 #'            \item If you use the \code{\link[sjmisc]{read_spss}} and \code{\link[sjmisc]{get_label}} functions, you receive a character vector with variable label strings. You can use it like this: \code{axisLabels.x = get_label(efc)['quol_5']}
 #'          }
-#' @param axisLabels.y labels or names of the predictor variables (independent vars). Must 
-#'          be a character vector of same length as independent variables. The labels 
+#' @param axisLabels.y labels or names of the predictor variables (independent vars). Must
+#'          be a character vector of same length as independent variables. The labels
 #'          may also be passed as list object; they will be coerced to character vector automatically.
 #' @param showAxisLabels.y logical, whether labels of independent variables should be shown or not.
 #' @param axisTitle.x title for the x-axis. Default is \code{"Estimates"}.
 #' @param geom.colors user defined color palette for geoms. If \code{group.estimates}
-#'          is \emph{not} specified, must either be vector with two color values or a specific 
+#'          is \emph{not} specified, must either be vector with two color values or a specific
 #'          color palette code (see 'Note' in \code{\link{sjp.grpfrq}}). Else, if
 #'          \code{group.estimates} is specified, \code{geom.colors} must be a vector
 #'          of same length as groups. See 'Examples'.
@@ -65,40 +65,40 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #' @param group.estimates numeric or character vector, indicating a group identifier for
 #'          each estimate. Dots and confidence intervals of estimates are coloured
 #'          according to their group association. See 'Examples'.
-#' @param remove.estimates character vector with coefficient names that indicate 
-#'          which estimates should be removed from the plot. 
-#'          \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default 
+#' @param remove.estimates character vector with coefficient names that indicate
+#'          which estimates should be removed from the plot.
+#'          \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 #'          is \code{NULL}, i.e. all estimates are printed.
 #' @param coord.flip logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
 #'          values are plotted on the x-axis.
 #' @param showValueLabels logical, whether value labels should be plotted to each dot or not.
 #' @param labelDigits amount of digits for rounding the estimates (see \code{showValueLabels}).
 #'          Default is 2, i.e. estimates have 2 digits after decimal point.
-#' @param showPValueLabels logical, whether the significance level of each coefficient 
+#' @param showPValueLabels logical, whether the significance level of each coefficient
 #'          should be appended to values or not.
 #' @param showModelSummary logical, if \code{TRUE}, a summary of the regression model with
 #'          Intercept, R-squared, F-Test and AIC-value is printed to the lower right corner
 #'          of the plot.
 #' @param showCI logical, if \code{TRUE} (default), a confidence region for the regression line
-#'          will be plotted. Only applies if \code{type = "lm"} and fitted model has 
+#'          will be plotted. Only applies if \code{type = "lm"} and fitted model has
 #'          only one predictor, or if \code{type = "pred"} or \code{type = "resid"}.
-#' @param showScatterPlot logical, if \code{TRUE} (default), a scatter plot of 
+#' @param showScatterPlot logical, if \code{TRUE} (default), a scatter plot of
 #'          response and predictor values for each predictor of \code{fit} is plotted.
 #'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
 #'          or if \code{type = "pred"} or \code{type = "resid"}.
 #' @param showOriginalModelOnly logical, if \code{TRUE} (default), only model assumptions of
-#'          \code{fit} are plotted. if \code{FALSE}, model assumptions of an updated 
+#'          \code{fit} are plotted. if \code{FALSE}, model assumptions of an updated
 #'          model where outliers are automatically excluded are also plotted.
 #'          Only applies if \code{type = "ma"}.
 #' @param completeDiagnostic logical, if \code{TRUE}, additional tests are performed. Default is \code{FALSE}
 #'          Only applies if \code{type = "ma"}.
-#'          
+#'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lmer
 #' @inheritParams sjp.aov1
-#'          
+#'
 #' @references Gelman A (2008) "Scaling regression inputs by dividing by two standard deviations." \emph{Statistics in Medicine 27: 2865–2873.} \url{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}
-#'          
+#'
 #' @return Depending on the \code{type}, in most cases (insisibily)
 #'           returns the ggplot-object with the complete plot (\code{plot})
 #'           as well as the data frame that was used for setting up the
@@ -116,7 +116,7 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #' sjp.lm(fit, gridBreaksAt = 2)
 #'
 #' # plot estimates with CI
-#' # and with narrower tick marks 
+#' # and with narrower tick marks
 #' # (because "gridBreaksAt" was not specified)
 #' sjp.lm(fit)
 #'
@@ -162,25 +162,25 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #' # --------------------------
 #' library(sjmisc)
 #' data(efc)
-#' fit <- lm(barthtot ~ c160age + e17age + c12hour + e16sex + c161sex + c172code, 
+#' fit <- lm(barthtot ~ c160age + e17age + c12hour + e16sex + c161sex + c172code,
 #'           data = efc)
 #'
 #' # order estimates according to coefficient's order
-#' sjp.lm(fit, 
-#'        group.estimates = c(1, 1, 2, 3, 3, 4), 
+#' sjp.lm(fit,
+#'        group.estimates = c(1, 1, 2, 3, 3, 4),
 #'        geom.colors = c("green", "red", "blue", "grey"),
 #'        sort.est = FALSE)
-#'           
-#' fit <- lm(barthtot ~ c160age + c12hour + e17age+ c161sex + c172code + e16sex, 
+#'
+#' fit <- lm(barthtot ~ c160age + c12hour + e17age+ c161sex + c172code + e16sex,
 #'           data = efc)
 #'
 #' # force order of estimates according to group assignment
-#' sjp.lm(fit, 
-#'        group.estimates = c(1, 2, 1, 3, 4, 3), 
+#' sjp.lm(fit,
+#'        group.estimates = c(1, 2, 1, 3, 4, 3),
 #'        geom.colors = c("green", "red", "blue", "grey"),
 #'        sort.est = TRUE)
-#' 
-#' 
+#'
+#'
 #' # --------------------------
 #' # plotting polynomial terms
 #' # --------------------------
@@ -199,8 +199,8 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #'           data = efc)
 #' # plot marginal effects of polynomial term
 #' sjp.lm(fit, type = "poly", poly.term = "e17age")
-#' 
-#' 
+#'
+#'
 #' library(splines)
 #' # fit new model with "splines"-package, "bs"
 #' fit <- lm(tot_sc_e ~ c12hour + e42dep + bs(e17age, 3), data = efc)
@@ -304,7 +304,7 @@ sjp.lm <- function(fit,
   if (type == "resp") {
     return(invisible(sjp.lm.response.pred(fit,
                                           geom.colors,
-                                          showCI, 
+                                          showCI,
                                           showLoess,
                                           showLoessCI,
                                           printPlot)))
@@ -315,13 +315,14 @@ sjp.lm <- function(fit,
                                  geom.colors,
                                  geom.size,
                                  axisTitle.x,
-                                 showCI, 
+                                 showCI,
                                  printPlot)))
   }
   if (type == "eff") {
     return(invisible(sjp.lm.eff(fit,
                                 title,
                                 geom.size,
+                                remove.estimates,
                                 showCI,
                                 printPlot)))
   }
@@ -470,7 +471,7 @@ sjp.lm <- function(fit,
   # have factors with different levels, which appear as
   # "multiple predictors", but are only one variable
   # --------------------------------------------------------
-  if (is.null(axisLabels.y) || length(axisLabels.y) < length(row.names(betas))) 
+  if (is.null(axisLabels.y) || length(axisLabels.y) < length(row.names(betas)))
     axisLabels.y <- row.names(betas)
   # --------------------------------------------------------
   # define sorting criteria. the values on the x-axis are being sorted
@@ -538,7 +539,7 @@ sjp.lm <- function(fit,
     # Print p-values. With vertical adjustment, so they don't overlap with the errorbars
     geom_text(aes(label = p, y = Beta),
               vjust = -0.8,
-              show_guide = FALSE) +
+              show.legend = FALSE) +
     # print point
     geom_point(size = geom.size) +
     # Intercept-line
@@ -848,27 +849,32 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FAL
     # ol <- car::outlierTest(model)
     # vars <- as.numeric(names(ol$p))
     vars <- as.numeric(names(which(car::outlierTest(model, cutoff = Inf, n.max = Inf)$bonf.p < 1)))
-    # retrieve variable numbers of outliers
-    # update model by removing outliers
-    dummymodel <- update(model, subset = -c(vars))
-    # retrieve new r2
-    dummyrs <- summary(dummymodel)$r.squared
-    # decrease maximum loops
-    maxcnt <- maxcnt - 1
-    # check whether r2 of updated model is lower
-    # than previous r2 or if we have already all loop-steps done,
-    # stop loop
-    if (dummyrs < rs || maxcnt < 1) {
+    # do we have any outliers?
+    if (sjmisc::is_empty(vars)) {
       loop <- FALSE
     } else {
-      # else copy new model, which is the better one (according to r2)
-      model <- dummymodel
-      # and get new r2
-      rs <- dummyrs
-      # count removed cases
-      removedcases <- removedcases + length(vars)
-      # add outliers to final return value
-      outlier <- c(outlier, vars)
+      # retrieve variable numbers of outliers
+      # update model by removing outliers
+      dummymodel <- update(model, subset = -c(vars))
+      # retrieve new r2
+      dummyrs <- summary(dummymodel)$r.squared
+      # decrease maximum loops
+      maxcnt <- maxcnt - 1
+      # check whether r2 of updated model is lower
+      # than previous r2 or if we have already all loop-steps done,
+      # stop loop
+      if (dummyrs < rs || maxcnt < 1) {
+        loop <- FALSE
+      } else {
+        # else copy new model, which is the better one (according to r2)
+        model <- dummymodel
+        # and get new r2
+        rs <- dummyrs
+        # count removed cases
+        removedcases <- removedcases + length(vars)
+        # add outliers to final return value
+        outlier <- c(outlier, vars)
+      }
     }
   }
   # ---------------------------------
@@ -919,7 +925,7 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FAL
     plot.list[[length(plot.list) + 1]] <- p1
     # print plot
     print(p1)
-  } 
+  }
   # ---------------------------------
   # Print non-normality of residuals both of original and updated model
   # Distribution should look like normal curve
@@ -1018,16 +1024,16 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FAL
     # Plot residuals against predictors
     # ---------------------------------
     sjp.setTheme(theme = "scatterw")
-    p1 <- sjp.reglin(linreg, 
-                     title = "Relationship of residuals against predictors (original model) (if scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly", 
-                     breakTitleAt = 60, 
+    p1 <- sjp.reglin(linreg,
+                     title = "Relationship of residuals against predictors (original model) (if scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly",
+                     breakTitleAt = 60,
                      useResiduals = T)$plot.list
     # save plot
     plot.list <- c(plot.list, p1)
     if (modelOptmized) {
-      p1 <- sjp.reglin(model, 
-                       title = "Relationship of residuals against predictors (updated model) (if scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly", 
-                       breakTitleAt = 60, 
+      p1 <- sjp.reglin(model,
+                       title = "Relationship of residuals against predictors (updated model) (if scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly",
+                       breakTitleAt = 60,
                        useResiduals = T)
       # save plot
       plot.list <- c(plot.list, p1)
@@ -1199,7 +1205,7 @@ sjp.lm.poly <- function(fit,
                         geom.colors,
                         geom.size,
                         axisTitle.x,
-                        showCI, 
+                        showCI,
                         printPlot) {
   # check size argument
   if (is.null(geom.size)) geom.size <- .8
@@ -1279,16 +1285,16 @@ sjp.lm.poly <- function(fit,
   # from polynomial term, predicted response
   # and lower/upper ci
   # ------------------------
-  mydat <- data.frame(x = eff$x[[poly.term]], 
-                      y = eff$fit, 
-                      lower = eff$lower, 
+  mydat <- data.frame(x = eff$x[[poly.term]],
+                      y = eff$fit,
+                      lower = eff$lower,
                       upper = eff$upper)
   # base plot
   polyplot <- ggplot(mydat, aes(x = x, y = y))
   # show confidence region?
   if (showCI) polyplot <- polyplot + geom_ribbon(aes(ymin = lower, ymax = upper), alpha = .15)
   # plot predicted effect of polynomial term
-  polyplot <- polyplot + 
+  polyplot <- polyplot +
     geom_line(colour = geom.colors[1], size = geom.size) +
     labs(x = axisTitle.x, y = "Response")
   # print plot
@@ -1303,6 +1309,7 @@ sjp.lm.poly <- function(fit,
 sjp.lm.eff <- function(fit,
                        title,
                        geom.size,
+                       remove.estimates,
                        showCI,
                        printPlot) {
   # ------------------------
@@ -1335,11 +1342,20 @@ sjp.lm.eff <- function(fit,
   # which title?
   if (is.null(title)) title <- "Marginal effects of model predictors"
   # ------------------------
-  # retrieve model matrix and all terms, 
+  # retrieve model matrix and all terms,
   # excluding intercept
   # ------------------------
   mm <- stats::model.matrix(fit)
   all.terms <- colnames(stats::model.matrix(fit))[-1]
+  # ------------------------
+  # remove setimates?
+  # ------------------------
+  if (!is.null(remove.estimates)) {
+    remcols <- match(remove.estimates, all.terms)
+    # remember old rownames
+    if (!sjmisc::is_empty(remcols))
+      all.terms <- all.terms[-remcols]
+  }
   # ------------------------
   # prepare getting unique values of predictors,
   # which are passed to the allEffects-function
@@ -1373,15 +1389,15 @@ sjp.lm.eff <- function(fit,
       # from polynomial term, predicted response
       # and lower/upper ci
       # ------------------------
-      tmp <- data.frame(x = eff[[i]]$x[[t]], 
-                        y = eff[[i]]$fit, 
-                        lower = eff[[i]]$lower, 
+      tmp <- data.frame(x = eff[[i]]$x[[t]],
+                        y = eff[[i]]$fit,
+                        lower = eff[[i]]$lower,
                         upper = eff[[i]]$upper,
                         grp = t)
       # make sure x is numeric
       tmp$x <- sjmisc::to_value(tmp$x, keep.labels = F)
       # do we already have data?
-      if (nrow(mydat) > 0) 
+      if (nrow(mydat) > 0)
         mydat <- rbind(mydat, tmp)
       else
         # else init data frame

@@ -49,8 +49,8 @@ no title is printed.}
   \item If you use the \code{\link[sjmisc]{read_spss}} and \code{\link[sjmisc]{get_label}} functions, you receive a character vector with variable label strings. You can use it like this: \code{axisLabels.x = get_label(efc)['quol_5']}
 }}
 
-\item{axisLabels.y}{labels or names of the predictor variables (independent vars). Must 
-be a character vector of same length as independent variables. The labels 
+\item{axisLabels.y}{labels or names of the predictor variables (independent vars). Must
+be a character vector of same length as independent variables. The labels
 may also be passed as list object; they will be coerced to character vector automatically.}
 
 \item{legendTitle}{title of the plot legend, as string.}
@@ -64,7 +64,7 @@ By default, the limits range from the lowest confidence interval to the
 highest, so plot has maximum zoom.}
 
 \item{geom.colors}{user defined color palette for geoms. If \code{group.estimates}
-is \emph{not} specified, must either be vector with two color values or a specific 
+is \emph{not} specified, must either be vector with two color values or a specific
 color palette code (see 'Note' in \code{\link{sjp.grpfrq}}). Else, if
 \code{group.estimates} is specified, \code{geom.colors} must be a vector
 of same length as groups. See 'Examples'.}
@@ -79,9 +79,9 @@ of same length as groups. See 'Examples'.}
 each estimate. Dots and confidence intervals of estimates are coloured
 according to their group association. See 'Examples'.}
 
-\item{remove.estimates}{character vector with coefficient names that indicate 
-which estimates should be removed from the plot. 
-\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default 
+\item{remove.estimates}{character vector with coefficient names that indicate
+which estimates should be removed from the plot.
+\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 is \code{NULL}, i.e. all estimates are printed.}
 
 \item{breakTitleAt}{determines how many chars of the plot title are displayed in
@@ -101,7 +101,7 @@ values are plotted on the x-axis.}
 \item{labelDigits}{amount of digits for rounding the estimates (see \code{showValueLabels}).
 Default is 2, i.e. estimates have 2 digits after decimal point.}
 
-\item{showPValueLabels}{logical, whether the significance level of each coefficient 
+\item{showPValueLabels}{logical, whether the significance level of each coefficient
 should be appended to values or not.}
 
 \item{showModelSummary}{logical, if \code{TRUE}, a summary of the regression model with
@@ -109,13 +109,13 @@ Intercept, R-squared, F-Test and AIC-value is printed to the lower right corner
 of the plot.}
 
 \item{showCI}{logical, if \code{TRUE} (default), a confidence region for the regression line
-will be plotted. Only applies if \code{type = "lm"} and fitted model has 
+will be plotted. Only applies if \code{type = "lm"} and fitted model has
 only one predictor, or if \code{type = "pred"} or \code{type = "resid"}.}
 
 \item{pointAlpha}{alpha value of point-geoms in the scatter plots.
 Default is 0.2.}
 
-\item{showScatterPlot}{logical, if \code{TRUE} (default), a scatter plot of 
+\item{showScatterPlot}{logical, if \code{TRUE} (default), a scatter plot of
 response and predictor values for each predictor of \code{fit} is plotted.
 Only applies if \code{type = "lm"} and fitted model has only one predictor,
 or if \code{type = "pred"} or \code{type = "resid"}.}
@@ -139,7 +139,7 @@ specified, if \code{type = "poly"}, in order to plot marginal effects
 for polynomial terms. See 'Examples'.}
 
 \item{showOriginalModelOnly}{logical, if \code{TRUE} (default), only model assumptions of
-\code{fit} are plotted. if \code{FALSE}, model assumptions of an updated 
+\code{fit} are plotted. if \code{FALSE}, model assumptions of an updated
 model where outliers are automatically excluded are also plotted.
 Only applies if \code{type = "ma"}.}
 
@@ -170,7 +170,7 @@ Depending on the \code{type}, this function plots coefficients (estimates)
            \item{\code{type = "pred"}}{regression lines (slopes) with confidence intervals for each single predictor of the fitted model are plotted, i.e. all predictors of the fitted model are extracted and for each of them, the linear relationship is plotted against the response variable.}
            \item{\code{type = "resid"}}{is similar to the \code{type = "pred"} option, however, each predictor is plotted against the residuals (instead of response).}
            \item{\code{type = "resp"}}{the predicted values of the response for each observation is plotted, which mostly results in a single linear line.}
-           \item{\code{type = "eff"}}{computes the marginal effects for all predictors, using the \code{\link[effects]{allEffects}} function. I.e. for each predictor, the predicted values towards the response are plotted, with all remaining co-variates set to the mean. Due to possible different scales of predictors, a faceted plot is printed (instead of plotting all lines in one plot). This function accepts following argument: \code{fit}, \code{title}, \code{geom.size}, \code{showCI} and \code{printPlot}.}
+           \item{\code{type = "eff"}}{computes the marginal effects for all predictors, using the \code{\link[effects]{allEffects}} function. I.e. for each predictor, the predicted values towards the response are plotted, with all remaining co-variates set to the mean. Due to possible different scales of predictors, a faceted plot is printed (instead of plotting all lines in one plot). This function accepts following argument: \code{fit}, \code{title}, \code{geom.size}, \code{remove.estimates}, \code{showCI} and \code{printPlot}.}
            \item{\code{type = "poly"}}{plots the marginal effects of polynomial terms in \code{fit}, using the \code{\link[effects]{effect}} function, but only for a selected polynomial term, which is specified with \code{poly.term}. This function helps undertanding the effect of polynomial terms by plotting the curvilinear relationships of response and quadratic, cubic etc. terms. This function accepts following argument: \code{fit}, \code{poly.term}, \code{geom.colors}, \code{geom.size}, \code{axisTitle.x}, \code{showCI} and \code{printPlot}.}
            \item{\code{type = "ma"}}{checks model assumptions. Please note that only three arguments are relevant: \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other arguments are ignored.}
            \item{\code{type = "vif"}}{Variance Inflation Factors (check for multicollinearity) are plotted. As a rule of thumb, values below 5 are considered as good and indicate no multicollinearity, values between 5 and 10 may be tolerable. Values greater than 10 are not acceptable and indicate multicollinearity between model's predictors.}
@@ -187,7 +187,7 @@ fit <- lm(airquality$Ozone ~ airquality$Wind + airquality$Temp + airquality$Sola
 sjp.lm(fit, gridBreaksAt = 2)
 
 # plot estimates with CI
-# and with narrower tick marks 
+# and with narrower tick marks
 # (because "gridBreaksAt" was not specified)
 sjp.lm(fit)
 
@@ -233,21 +233,21 @@ sjp.lm(fit, type = "ma")
 # --------------------------
 library(sjmisc)
 data(efc)
-fit <- lm(barthtot ~ c160age + e17age + c12hour + e16sex + c161sex + c172code, 
+fit <- lm(barthtot ~ c160age + e17age + c12hour + e16sex + c161sex + c172code,
           data = efc)
 
 # order estimates according to coefficient's order
-sjp.lm(fit, 
-       group.estimates = c(1, 1, 2, 3, 3, 4), 
+sjp.lm(fit,
+       group.estimates = c(1, 1, 2, 3, 3, 4),
        geom.colors = c("green", "red", "blue", "grey"),
        sort.est = FALSE)
-          
-fit <- lm(barthtot ~ c160age + c12hour + e17age+ c161sex + c172code + e16sex, 
+
+fit <- lm(barthtot ~ c160age + c12hour + e17age+ c161sex + c172code + e16sex,
           data = efc)
 
 # force order of estimates according to group assignment
-sjp.lm(fit, 
-       group.estimates = c(1, 2, 1, 3, 4, 3), 
+sjp.lm(fit,
+       group.estimates = c(1, 2, 1, 3, 4, 3),
        geom.colors = c("green", "red", "blue", "grey"),
        sort.est = TRUE)
 
@@ -283,7 +283,7 @@ sjp.lm(fit, type = "poly", poly.term = "e17age")}
 Gelman A (2008) "Scaling regression inputs by dividing by two standard deviations." \emph{Statistics in Medicine 27: 2865–2873.} \url{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}
 }
 \seealso{
-\href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm} for 
+\href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm} for
            more details and examples of this function; use \code{\link{sjp.poly}}
            to see which polynomial degree fits best for possible polynomial terms.
 }

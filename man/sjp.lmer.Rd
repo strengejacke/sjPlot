@@ -97,9 +97,9 @@ on the plot type is chosen.}
 
 \item{interceptLineColor}{color of the intercept line. Default value is \code{"grey70"}.}
 
-\item{remove.estimates}{character vector with coefficient names that indicate 
-which estimates should be removed from the plot. 
-\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default 
+\item{remove.estimates}{character vector with coefficient names that indicate
+which estimates should be removed from the plot.
+\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 is \code{NULL}, i.e. all estimates are printed.}
 
 \item{showValueLabels}{logical, whether estimate values should be plotted to each dot or not.}

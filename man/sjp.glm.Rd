@@ -37,8 +37,8 @@ Use \code{NULL} to automatically detect variable names that will be used as titl
 (see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
 no title is printed.}
 
-\item{axisLabels.y}{labels or names of the predictor variables (independent vars). Must 
-be a character vector of same length as independent variables. The labels 
+\item{axisLabels.y}{labels or names of the predictor variables (independent vars). Must
+be a character vector of same length as independent variables. The labels
 may also be passed as list object; they will be coerced to character vector automatically.}
 
 \item{axisTitle.x}{string; title for the x-axis.}
@@ -75,9 +75,9 @@ if argument \code{type = "bars"}. Default value is \code{FALSE}.}
 
 \item{interceptLineColor}{color of the intercept line. Default value is \code{"grey70"}.}
 
-\item{remove.estimates}{character vector with coefficient names that indicate 
-which estimates should be removed from the plot. 
-\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default 
+\item{remove.estimates}{character vector with coefficient names that indicate
+which estimates should be removed from the plot.
+\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 is \code{NULL}, i.e. all estimates are printed.}
 
 \item{coord.flip}{logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
@@ -95,7 +95,7 @@ function call is interrupted and no plot printed.}
 \item{labelDigits}{amount of digits for rounding the estimates (see \code{showValueLabels}).
 Default is 2, i.e. estimates have 2 digits after decimal point.}
 
-\item{showPValueLabels}{logical, whether the significance level of each coefficient 
+\item{showPValueLabels}{logical, whether the significance level of each coefficient
 should be appended to values or not.}
 
 \item{showModelSummary}{logical, if \code{TRUE}, a summary of the regression model with

@@ -78,9 +78,7 @@ no title is printed.}
 Axis labels will be automatically detected, when data was either imported 
 with \code{\link[sjmisc]{read_spss}} or has named factor levels 
 (see 'Examples'). Else, specifiy argument like this:
-\code{axisLabels.x = c("Label1", "Label2", "Label3")}.
-The labels may also be passed as \code{\link{list}} object. They will be coerced
-to character vector automatically.}
+\code{axisLabels.x = c("Label1", "Label2", "Label3")}.}
 
 \item{axisTitle.x}{title for the x-axis.}
 

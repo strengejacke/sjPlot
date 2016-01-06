@@ -24,7 +24,7 @@ Depends:
 Imports:
     car,
     dplyr (>= 0.4.3),
-    ggplot2,
+    ggplot2 (>= 2.0.0),
     grid,
     MASS,
     magrittr,

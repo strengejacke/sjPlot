@@ -114,12 +114,17 @@ create.frq.df <- function(x,
     # add rownames and values as columns
     dat <- data.frame(n = names(labels), v = as.character(labels), stringsAsFactors = FALSE)
     colnames(dat) <- c("val", "label")
-    dat$val <- as.numeric(dat$val)
+    # character vectors need to be converted with to_value
+    # to avoid NAs
+    if (is.character(dat$val))
+      dat$val <- sjmisc::to_value(dat$val, keep.labels = F)
+    else
+      dat$val <- as.numeric(dat$val)
     # create frequency table
     dat2 <- data.frame(table(x, exclude = NULL))
     colnames(dat2) <- c("val", "frq")
     dat2$val <- sjmisc::to_value(dat2$val, keep.labels = F)
-    # joun frq table and label columns
+    # join frq table and label columns
     mydat <- suppressMessages(dplyr::full_join(dat, dat2))
     # replace NA with 0, for proper percentages, i.e.
     # missing values don't appear (zero counts)
@@ -192,12 +197,10 @@ create.frq.df <- function(x,
 
 # Create frequency data frame of a variable
 # for sjp and sjt frq functions
-#' @importFrom stats na.omit
-#' @importFrom dplyr add_rownames full_join
+#' @importFrom stats na.omit ftable
+#' @importFrom tidyr spread
 create.xtab.df <- function(x,
                            grp,
-                           breakLabelsAt = Inf,
-                           order.frq = "none",
                            round.prz = 2,
                            na.rm = FALSE,
                            weightBy = NULL) {
@@ -206,17 +209,53 @@ create.xtab.df <- function(x,
   # vector to labelled factor first.
   # ------------------------------
   if (is.null(weightBy)) {
-    mydat <-
-      ftable(table(
-        suppressWarnings(sjmisc::to_label(x, add.non.labelled = T)),
-        suppressWarnings(sjmisc::to_label(grp, add.non.labelled = T)),
-        exclude = NULL
-      ))
+    if (na.rm) {
+      mydat <-
+        stats::ftable(table(
+          suppressWarnings(sjmisc::to_label(x, add.non.labelled = T)),
+          suppressWarnings(sjmisc::to_label(grp, add.non.labelled = T))
+        ))
+    } else {
+      mydat <-
+        stats::ftable(table(
+          suppressWarnings(sjmisc::to_label(x, add.non.labelled = T)),
+          suppressWarnings(sjmisc::to_label(grp, add.non.labelled = T)),
+          exclude = NULL
+        ))
+    }
   } else {
     x <- suppressWarnings(sjmisc::to_value(x, keep.labels = T))
     grp <- suppressWarnings(sjmisc::to_value(grp, keep.labels = T))
-    mydat <- ftable(round(xtabs(weightBy ~ x + grp)), 0)
+    if (na.rm)
+      mydat <- stats::ftable(round(stats::xtabs(weightBy ~ x + grp)), 0)
+    else
+      mydat <- stats::ftable(round(stats::xtabs(weightBy ~ x + grp, exclude = NULL, na.action = na.pass)), 0)
   }
+  # create proportional tables
+  proptab.cell <- round(100 * prop.table(mydat), 2)
+  proptab.row <- round(100 * prop.table(mydat, 1), 2)
+  proptab.col <- round(100 * prop.table(mydat, 2), 2)
+  # convert to data frame
+  mydat <- data.frame(mydat)
+  colnames(mydat)[2] <- "Var2"
+  # spread variables back, so we have a table again
+  mydat <- tidyr::spread(mydat, Var2, Freq)
+  # rename column names
+  colnames(mydat)[1] <- "label"
+  colnames(mydat)[is.na(colnames(mydat))] <- "NA"
+  # label must be character
+  mydat$label <- as.character(mydat$label)
+  mydat$label[is.na(mydat$label)] <- "NA"
+  # save labels to extra vector
+  labels.cnt <- mydat$label
+  labels.grp <- colnames(mydat)[-1]
+  # return result
+  invisible(structure(list(mydat = mydat,
+                           proptab.cell = proptab.cell,
+                           proptab.col = proptab.col,
+                           proptab.row = proptab.row,
+                           labels.cnt = labels.cnt,
+                           labels.grp = labels.grp)))
 }
 
 
@@ -260,8 +299,8 @@ is.brewer.pal <- function(pal) {
 
 
 # Calculate statistics of cross tabs
-#' @importFrom stats chisq.test fisher.test
-crosstabsum <- function(ftab) {
+#' @importFrom stats chisq.test fisher.test xtabs
+crosstabsum <- function(x, grp, weightBy) {
   # --------------------------------------------------------
   # check p-value-style option
   # --------------------------------------------------------
@@ -270,6 +309,11 @@ crosstabsum <- function(ftab) {
     p_zero <- ""
   } else {
     p_zero <- "0"
+  }
+  if (is.null(weightBy)) {
+    ftab <- table(x, grp)
+  } else {
+    ftab <- round(stats::xtabs(weightBy ~ x + grp), 0)
   }
   # calculate chi square value
   chsq <- stats::chisq.test(ftab)

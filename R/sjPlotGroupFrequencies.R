@@ -61,8 +61,6 @@ utils::globalVariables(c("ypos", "wb", "ia", "mw", "stddev", "count"))
 #'          with \code{\link[sjmisc]{read_spss}} or has named factor levels 
 #'          (see 'Examples'). Else, specifiy argument like this:
 #'          \code{axisLabels.x = c("Label1", "Label2", "Label3")}.
-#'          The labels may also be passed as \code{\link{list}} object. They will be coerced
-#'          to character vector automatically.
 #' @param interactionVarLabels a character vector with labels for the x-axis breaks
 #'          when having interaction variables included.
 #'          These labels replace the \code{axisLabels.x}. Only applies, when using box or violin plots
@@ -173,11 +171,8 @@ utils::globalVariables(c("ypos", "wb", "ia", "mw", "stddev", "count"))
 #' # histrogram with EUROFAMCARE sample dataset
 #' library(sjmisc)
 #' data(efc)
-#' efc.val <- get_labels(efc)
-#' efc.var <- get_label(efc)
 #' sjp.grpfrq(efc$e17age,
 #'            efc$e16sex,
-#'            title = efc.var['e17age'],
 #'            type = "hist",
 #'            showValueLabels = FALSE,
 #'            showMeanIntercept = TRUE)
@@ -199,15 +194,6 @@ utils::globalVariables(c("ypos", "wb", "ia", "mw", "stddev", "count"))
 #' sjp.grpfrq(efc$e17age,
 #'            efc$e42dep,
 #'            interactionVar = efc$e16sex,
-#'            title = paste(efc.var['e17age'], 
-#'                          "by", 
-#'                          efc.var['e42dep'], 
-#'                          "and", 
-#'                          efc.var['e16sex']),
-#'            axisLabels.x = efc.val[['e17age']],
-#'            interactionVarLabels = efc.val[['e16sex']],
-#'            legendTitle = efc.var['e42dep'],
-#'            legendLabels = efc.val[['e42dep']],
 #'            type = "box")
 #' 
 #' # Grouped bar plot ranging from 1 to 28 (though scale starts with 7)
@@ -284,18 +270,26 @@ sjp.grpfrq <- function(varCount,
   # We have several options to name the diagram type
   # Here we will reduce it to a unique value
   # --------------------------------------------------------
-  if (type == "b" || type == "bar") type <- "bars"
-  if (type == "l" || type == "line") type <- "lines"
-  if (type == "d" || type == "dot") type <- "dots"
+  if (type == "b" || type == "bar")
+    type <- "bars"
+  if (type == "l" || type == "line")
+    type <- "lines"
+  if (type == "d" || type == "dot")
+    type <- "dots"
   if (type == "h" || type == "hist") {
-    type <- c("histogram")
+    type <- "histogram"
     # no table summary and no group count for
     # ctageory labels (to avoid overlapping)
     showTableSummary <- FALSE
     showGroupCount <- FALSE
   }
-  if (type == "box" || type == "boxplot") type <- "boxplots"
-  if (type == "v" || type == "violins") type <- "violin"
+  if (type == "box" || type == "boxplot")
+    type <- "boxplots"
+  if (type == "v" || type == "violins")
+    type <- "violin"
+  # --------------------------------------------------------
+  # Plot margins
+  # --------------------------------------------------------
   if (expand.grid == TRUE || (missing(expand.grid) && type == "histogram")) {
     expand.grid <- ggplot2::waiver()
   } else {
@@ -305,51 +299,75 @@ sjp.grpfrq <- function(varCount,
   # check default geom.size
   # --------------------------------------------------------
   if (is.null(geom.size)) {
-    if (type == "bars") 
+    if (type == "bars")
       geom.size <- .7
-    else if (type == "dots") 
+    else if (type == "dots")
       geom.size <- 3
-    else if (type == "histogram") 
+    else if (type == "histogram")
       geom.size <- .6
-    else if (type == "lines") 
+    else if (type == "lines")
       geom.size <- .8
-    else if (type == "boxplots") 
+    else if (type == "boxplots")
       geom.size <- .5
-    else if (type == "violin") 
+    else if (type == "violin")
       geom.size <- .6
+    else
+      geom.size <- .7
   }
   #---------------------------------------------------
-  # check whether variable should be auto-grouped
+  # Interaction variable defined for invalid plot type?
   #---------------------------------------------------
   if (!is.null(interactionVar) && type != "boxplots" && type != "violin") {
     warning("'interactionVar' only applies to boxplots and violinplots (see 'type') and will be ignored.", call. = F)
   }
+  #---------------------------------------------------
+  # auto-set plot title for box plots?
+  #---------------------------------------------------
+  if (missing(title) && (type == "boxplots" || type == "violin" || histogram))
+    title <- NULL
+  # --------------------------------------------------------
+  # create xtab
+  # --------------------------------------------------------
+  mydat <- create.xtab.df(varCount,
+                          varGroup,
+                          round.prz = 2,
+                          na.rm = na.rm,
+                          weightBy = weightBy)
   # --------------------------------------------------------
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
-  if (is.null(axisLabels.x)) {
-    axisLabels.x <- sjmisc::get_labels(varCount, attr.only = F, include.values = F, include.non.labelled = T)
-    # if we have box or violin plots, but no axis labels on x axis (NULL),
-    # we need to hide x-axis, because automatically retrieved labels are
-    # equal to unique values of varCount, and not varGroup.
-    if (type == "boxplots" || type == "violin") showAxisLabels.x <- FALSE
+  if (missing(axisLabels.x) && (type == "boxplots" || type == "violin")) {
+    axisLabels.x <- mydat$labels.grp
+    if (missing(hideLegend)) hideLegend <- TRUE
   }
-  if (is.null(legendLabels)) legendLabels <- sjmisc::get_labels(varGroup, attr.only = F, include.values = F, include.non.labelled = T)
-  if (is.null(interactionVarLabels) && !is.null(interactionVar)) interactionVarLabels <- sjmisc::get_labels(interactionVar, attr.only = F, include.values = F, include.non.labelled = T)
-  if (is.null(axisTitle.x)) axisTitle.x <- sjmisc::get_label(varCount, def.value = var.name.cnt)
-  if (is.null(legendTitle)) legendTitle <- sjmisc::get_label(varGroup, def.value = var.name.grp)
+  if (is.null(axisLabels.x)) axisLabels.x <- mydat$labels.cnt
+  if (is.null(legendLabels)) legendLabels <- mydat$labels.grp
+  if (is.null(interactionVarLabels) && !is.null(interactionVar))
+    interactionVarLabels <- sjmisc::get_labels(interactionVar,
+                                               attr.only = F,
+                                               include.values = F,
+                                               include.non.labelled = T)
+  if (is.null(axisTitle.x))
+    axisTitle.x <- sjmisc::get_label(varCount, def.value = var.name.cnt)
+  if (is.null(legendTitle))
+    legendTitle <- sjmisc::get_label(varGroup, def.value = var.name.grp)
   if (is.null(title)) {
     t1 <- sjmisc::get_label(varCount, def.value = var.name.cnt)
     t2 <- sjmisc::get_label(varGroup, def.value = var.name.grp)
-    if (!is.null(t1) && !is.null(t2)) title <- paste0(t1, " by ", t2)
+    if (!is.null(t1) && !is.null(t2))
+      title <- paste0(t1, " by ", t2)
   }
   # --------------------------------------------------------
   # remove titles if empty
   # --------------------------------------------------------
-  if (!is.null(legendTitle) && legendTitle == "") legendTitle <- NULL
-  if (!is.null(axisTitle.x) && axisTitle.x == "") axisTitle.x <- NULL
-  if (!is.null(axisTitle.y) && axisTitle.y == "") axisTitle.y <- NULL  
-  if (!is.null(title) && title == "") title <- NULL    
+  if (!is.null(legendTitle) && legendTitle == "")
+    legendTitle <- NULL
+  if (!is.null(axisTitle.x) && axisTitle.x == "")
+    axisTitle.x <- NULL
+  if (!is.null(axisTitle.y) && axisTitle.y == "")
+    axisTitle.y <- NULL
+  if (!is.null(title) && title == "")
+    title <- NULL
   # --------------------------------------------------------
   # count variable may not be a factor!
   # --------------------------------------------------------
@@ -359,75 +377,30 @@ sjp.grpfrq <- function(varCount,
   # check whether variable should be auto-grouped
   #---------------------------------------------------
   if (!is.null(autoGroupAt) && length(unique(varCount)) >= autoGroupAt) {
-    message(sprintf("Variable has %i unique values and was grouped...", 
+    message(sprintf("Variable has %i unique values and was grouped...",
                     length(unique(varCount))))
     # check for default auto-group-size or user-defined groups
     agcnt <- ifelse(autoGroupAt < 30, autoGroupAt, 30)
     # group axis labels
-    axisLabels.x <- sjmisc::group_labels(varCount, 
-                                         groupsize = "auto", 
+    axisLabels.x <- sjmisc::group_labels(varCount,
+                                         groupsize = "auto",
                                          groupcount = agcnt)
     # group variable
-    varCount <- sjmisc::group_var(varCount, 
-                                  groupsize = "auto", 
-                                  as.num = TRUE, 
+    varCount <- sjmisc::group_var(varCount,
+                                  groupsize = "auto",
+                                  as.num = TRUE,
                                   groupcount = agcnt)
   }
   # --------------------------------------------------------
-  # unlist labels
-  # --------------------------------------------------------
-  if (!is.null(legendLabels) && is.list(legendLabels)) legendLabels <- unlistlabels(legendLabels)
-  if (!is.null(axisLabels.x) && is.list(axisLabels.x)) axisLabels.x <- unlistlabels(axisLabels.x)
-  if (!is.null(interactionVarLabels) && is.list(interactionVarLabels)) interactionVarLabels <- unlistlabels(interactionVarLabels)
-  # --------------------------------------------------------
-  # Define amount of categories, include zero counts
-  # --------------------------------------------------------
-  # Zero counts of categories are not plotted by default because
-  # these categories don't appear in the data. If we assume a
-  # "quasi-continuous" scale (categories from 1 to 4 etc.), we now
-  # identify the zero counts and add / insert them into the data frame.
-  # This enables us to plot zero counts as well.
-  # We guess the maximum amount of categories either by the amount
-  # of supplied category labels. If no category labels were passed
-  # as argument, we assume that the maximum value found in the category
-  # columns represents the highest category number
-  # -----------------------------------------------
-  # handle zero-counts
-  # -----------------------------------------------
-  # Determine length of count and group var
-  grplen <- length(unique(stats::na.omit(varGroup)))
-  # determine maximum values
-  # first, check the total amount of different factor levels
-  catcount_1 <- length(unique(stats::na.omit(varCount)))
-  # second, check the maximum factor level
-  catcount_2 <- max(varCount, na.rm = TRUE)
-  # if categories start with zero, fix this here
-  if (min(varCount, na.rm = TRUE) == 0) {
-    catcount_2 <- catcount_2 + 1
-  }
-  # catcount should contain the higher values, i.e. the maximum count of
-  # categories (factor levels) corresponds either to the highest factor level
-  # value or to the amount of different factor levels, depending on which one
-  # is larger
-  catcount <- ifelse(catcount_1 > catcount_2, catcount_1, catcount_2)
+  # Define amount of categories
+  catcount <- length(axisLabels.x)
   catmin <- min(varCount, na.rm = TRUE)
+  grpcount <- length(legendLabels)
   # ----------------------------------------------
   # check for axis start, depending on lowest value
   # ----------------------------------------------
-  if (startAxisAt == "auto") {
+  if (startAxisAt == "auto")
     startAxisAt <- as.numeric(catmin)
-    if (startAxisAt == 0) startAxisAt <- 1
-  }
-  # get the highest answer category of "variable", so we know where the
-  # range of the x-axis ends
-  if (!is.null(axisLabels.x)) catcount <- length(axisLabels.x)
-  # if we have legend labels, we know the exact
-  # amount of groups
-  if (is.null(legendLabels)) {
-    grpcount <- grplen
-  } else {
-    grpcount <- length(legendLabels)
-  }
   # -----------------------------------------------
   # define x-axis limits
   # -----------------------------------------------
@@ -441,160 +414,43 @@ sjp.grpfrq <- function(varCount,
   # create cross table for stats, summary etc.
   # and weight variable
   #---------------------------------------------------
-  if (is.null(weightBy)) {
-    ftab <- table(varCount, varGroup)
-  } else {
-    ftab <- round(stats::xtabs(weightBy ~ varCount + varGroup), 0)
-  }
-  # new data frame from variables
-  df <- as.data.frame(ftab)
-  # separate data frame for grouping variable. we need this to
-  # determine the number of groups
-  dfgrp <- as.data.frame(table(df$varGroup))
-  # Factors have to be transformed into numeric values
-  # for continiuos x-axis-scale
-  df$varCount <- sjmisc::to_value(df$varCount, keep.labels = F)
-  # if categories start with zero, fix this here
-  if (min(df$varCount) == 0) df$varCount <- df$varCount + 1
-  # convcert group variables to chars
-  df$varGroup <- as.character(df$varGroup)
-  dfgrp$Var1 <- as.character(dfgrp$Var1)
-  # determine the number of groups
-  grpcnt <- nrow(dfgrp)
-  # init data frame. this data frame will contain the final variables
-  # needed for plotting with ggplot
-  mydat <- NULL
-  # fill in possible zero counts in each group
-  for (i in 1:grpcnt) {
-    # get subset of data frame with each group
-    subdf <- df[df$varGroup == dfgrp$Var1[i], ]
-    # Create a vector of zeros 
-    frq <- rep(0, catcount)
-    # Replace the values in freq for those indices which equal dummyf$xa
-    # by dummyf$ya so that remaining indices are ones which you 
-    # intended to insert 
-    frq[subdf$varCount] <- subdf$Freq
-    # retrieve group variable as character. grouping might be indicated by
-    # "A" or "B", not just 1 or 2.
-    group <- as.character(dfgrp$Var1[i])
-    # create new data frame. We now have a data frame with all
-    # variable categories abd their related counts, including
-    # zero counts, but no(!) missings!
-    dummydat <- data.frame(cbind(count = 1:catcount, 
-                                 group, 
-                                 frq, 
-                                 layer = 1:catcount))
-    # --------------------------------------------------------
-    # Handle missings
-    # --------------------------------------------------------
-    if (!na.rm) {
-      # get amount of missings
-      frq <- sum(is.na(varCount[which(varGroup == as.numeric(dfgrp$Var1[i]))]))
-      # create data frame
-      tmpdf <- data.frame(cbind(count = catcount + 1, 
-                                group, 
-                                frq, 
-                                layer = catcount + 1))
-      # append dummy data frame to final data frame
-      dummydat <- data.frame(rbind(dummydat, tmpdf))
-    }
-    # append dummy data frame to final data frame
-    mydat <- data.frame(rbind(mydat, dummydat))
-  }
-  # convert grouping variable to character
-  mydat$count <- sjmisc::to_value(mydat$count, keep.labels = F)
-  # convert grouping variable to character
-  mydat$group <- sjmisc::to_value(mydat$group, keep.labels = F)
-  # convert frequencies to numeric
-  mydat$frq <- sjmisc::to_value(mydat$frq, keep.labels = F)
-  # convert layer to numeric
-  mydat$layer <- sjmisc::to_value(mydat$layer, keep.labels = F)
-  # -----------------------------------------------
-  # Handle zero-counts in group-variable
-  # only possible if we know the exact number of groups,
-  # by passing legend labels
-  # -----------------------------------------------
-  if (grplen != grpcount) {
-    # if the maximum value of the group variable differs from the estimated
-    # group length we probably have missing categoriesm, i.e. one group has no
-    # cases. Then, we insert an empty row here
-    # range of groups from lowest to highest group value
-    allgroups <- factor(c(min(mydat$group):max(mydat$group)))
-    # retrieve zero-counts, i.e. which group is missing in the data frame
-    miss <- sjmisc::to_value(allgroups[!allgroups %in% mydat$group], keep.labels = F)
-    # retrieve subset of all rows where group is from lowest group-value to 
-    # missing group
-    dummy1 <- mydat[apply(mydat, MARGIN = 1, function(xy) all(xy[2] < miss)), ]
-    # retrieve subset of all rows where group is from missing group to
-    # highest group-value
-    dummy2 <- mydat[apply(mydat, MARGIN = 1, function(xy) all(xy[2] > miss)), ]
-    # create dummy-data frame that contains the missing row with zero-values
-    emptyrows <- data.frame(cbind(count = c(1:catcount), 
-                                  group = miss, 
-                                  frq = 0, 
-                                  layer = 1:catcount))
-    emptyrows$count <- as.factor(as.character(emptyrows$count))
-    emptyrows$group <- as.factor(as.character(emptyrows$group))
-    # bind all three subsets together to a complete data frame
-    mydat <- rbind(dummy1, emptyrows, dummy2)
-  }
-  # set group-variable as factor
-  mydat$group <- as.factor(mydat$group)
-  # --------------------------------------------------------
-  # calculate percentages
-  # --------------------------------------------------------
-  # init empty vector, with length of data frame's rows
-  prz <- rep(0, nrow(mydat))
-  # iterate all data frame rows
-  for (k in 1:length(prz)) {
-    # if we have facet grids, calculate percentage
-    # within each group
-    if (facet.grid) {
-      # get frequency value of each row and divide it by the sum of frequencies of
-      # all frequencies of the current row's group
-      prz[k] <- c(round(100 * mydat[k, 3] / sum(mydat$frq[mydat$group == mydat[k, 2]]), 2))
-    # if we have dodged/stacked bars or plots, calculate percentage
-    # within each category
-    } else {
-      # get frequency value of each row and divide it by the sum of frequencies of
-      # all frequencies of the current row's category
-      prz[k] <- c(round(100 * mydat[k, 3] / sum(mydat$frq[mydat$count == mydat[k, 1]]), 2))
-    } 
-  }
-  # bind percentage as final column
-  mydat <- as.data.frame(cbind(mydat, prz))
-  # convert prz to numeric
-  mydat$texty <- sjmisc::to_value(mydat$prz, keep.labels = F)
+  mydf <- tidyr::gather(mydat$mydat, "group", "frq", 2:(grpcount + 1))
+  mydf$xpos <- sjmisc::to_value(as.factor(mydf$label),
+                                start.at = catmin,
+                                keep.labels = F)
   # add half of Percentage values as new y-position for stacked bars
   # mydat <- ddply(mydat, "count", transform, ypos = cumsum(frq) - 0.5*frq)
-  mydat <- mydat %>%
-    dplyr::group_by(count) %>%
+  mydf <- mydf %>%
+    dplyr::group_by(label) %>%
     dplyr::mutate(ypos = cumsum(frq) - 0.5 * frq) %>%
-    dplyr::arrange(count)
+    dplyr::arrange(label)
+  # add percentages
+  mydf$prz <- round(100 * mydf$frq / sum(mydf$frq), 2)
   # --------------------------------------------------------
   # If we have boxplots, use different data frame structure
   # --------------------------------------------------------
   if (type == "boxplots" || type == "violin") {
     w <- ifelse(is.null(weightBy), 1, weightBy)
     if (is.null(interactionVar)) {
-      mydat <- stats::na.omit(data.frame(cbind(group = varGroup, 
-                                               frq = varCount, 
-                                               wb = w)))
+      mydf <- stats::na.omit(data.frame(cbind(group = varGroup,
+                                              frq = varCount,
+                                              wb = w)))
     } else {
-      mydat <- stats::na.omit(data.frame(cbind(group = varGroup, 
-                                               frq = varCount, 
-                                               ia = interactionVar, 
-                                               wb = w)))
-      mydat$ia <- as.factor(mydat$ia)
+      mydf <- stats::na.omit(data.frame(cbind(group = varGroup,
+                                              frq = varCount,
+                                              ia = interactionVar,
+                                              wb = w)))
+      mydf$ia <- as.factor(mydf$ia)
     }
-    mydat$group <- as.factor(mydat$group)
+    mydf$group <- as.factor(mydf$group)
   }
   # ----------------------------
   # create expression with model summarys. used
   # for plotting in the diagram later
   # ----------------------------
   mannwhitneyu <- function(count, grp) {
-    if (min(grp, na.rm = TRUE) == 0) grp <- grp + 1
+    if (min(grp, na.rm = TRUE) == 0)
+      grp <- grp + 1
     completeString <- c("")
     cnt <- length(unique(stats::na.omit(grp)))
     for (i in 1:cnt) {
@@ -608,110 +464,76 @@ sjp.grpfrq <- function(varCount,
           wt <- stats::wilcox.test(xsub ~ ysub)
           
           if (wt$p.value < 0.001) {
-            modsum <- as.character(as.expression(
-              substitute(p[pgrp] < pval, list(pgrp = sprintf("(%i|%i)", i, j),
-                                              pval = 0.001))))
+            modsum <- as.character(as.expression(substitute(
+              p[pgrp] < pval, list(pgrp = sprintf("(%i|%i)", i, j),
+                                   pval = 0.001)
+            )))
           } else {
-            modsum <- as.character(as.expression(
-              substitute(p[pgrp] == pval, list(pgrp = sprintf("(%i|%i)", i, j),
-                                               pval = sprintf("%.3f", wt$p.value)))))
+            modsum <- as.character(as.expression(substitute(
+              p[pgrp] == pval, 
+              list(pgrp = sprintf("(%i|%i)", i, j),
+                   pval = sprintf("%.3f", wt$p.value)))))
           }
-          completeString <- sprintf("%s * \",\" ~ ~ %s", 
-                                    completeString, 
+          completeString <- sprintf("%s * \",\" ~ ~ %s",
+                                    completeString,
                                     modsum)
         }
       }
     }
-    return(paste("\"Mann-Whitney-U:\" ~ ~ ", substring(completeString, 12), sep = ""))
-    # return (paste("Mann-Whitney-U", completeString, sep=""))
-    # return (substring(completeString, 12))
+    return(paste("\"Mann-Whitney-U:\" ~ ~ ",
+                 substring(completeString, 12),
+                 sep = ""))
   }
   # -----------------------------------------------------------
   # Check whether table summary should be printed
   # -----------------------------------------------------------
   modsum <- NULL
   if (showTableSummary) {
-    if (type == "boxplots" || type == "violin") {
+    if (type == "boxplots" || type == "violin")
       modsum <- mannwhitneyu(varCount, varGroup)
-    } else {
-      modsum <- crosstabsum(ftab)
-    }
-  }  
+    else
+      modsum <- crosstabsum(varCount, varGroup, weightBy)
+  }
   # --------------------------------------------------------
   # If we have a histogram, caluclate means of groups
   # --------------------------------------------------------
   if (type == "histogram") {
-    # retrieve all unique factor levels
-    faclvl <- unique(stats::na.omit(varGroup))
-    # order factors
-    faclvl <- faclvl[order(faclvl)]
-    # create new data frame for the geom object that prints the
-    # vertical line
-    vldat <- NULL
-    # convert table to df
-    ftabdf <- as.data.frame(apply(ftab, MARGIN = 2, function(x) cbind(x)))
-    colvalues <- as.numeric(attr(ftab, "dimnames")[[1]])
-    ftabdf$fac <- colvalues
-    # iterate all unique categories, so we can calculate
-    # mean of "varCount" in each group
-    for (f in 1:length(faclvl)) {
-      # get mean from each group
-      m <- sum(ftabdf[, f] * ftabdf$fac) / sum(ftabdf[, f])
-      # get standard deviation from each group
-      stdv <- sd(stats::na.omit(varCount[which(varGroup == faclvl[f])]))
-      # add new row with group and associated mean
-      vldat <- data.frame(rbind(vldat, c(faclvl[f], m, stdv, yfactor = f)))
-    }
-    # add row names
-    names(vldat) <- c("group", "mw", "stddev", "yfactor")
-    # convert group to factor
-    vldat$group <- as.factor(vldat$group)
+    vldat <- mydf %>%
+      group_by(group) %>%
+      summarise(mw = mean(frq, na.rm = T),
+                stddev = sd(frq, na.rm = T)) %>%
+      mutate(yfactor = 1:nrow(.))
   }
   # --------------------------------------------------------
   # Prepare and trim legend labels to appropriate size
   # --------------------------------------------------------
-  # Check whether we have any labels passed as argument
-  # if not, use category text of group variable as legend text
-  if (is.null(legendLabels)) legendLabels <- c(dfgrp$Var1)
-  # wrap legend text lines
-  legendLabels <- sjmisc::word_wrap(legendLabels, breakLegendLabelsAt)
-  # check whether we have a title for the legend
-  if (!is.null(legendTitle)) legendTitle <- sjmisc::word_wrap(legendTitle, breakLegendTitleAt)
-  # check length of diagram title and split longer string at into new lines
-  # every 50 chars
+  if (!is.null(legendLabels))
+    legendLabels <- sjmisc::word_wrap(legendLabels, breakLegendLabelsAt)
+  if (!is.null(legendTitle))
+    legendTitle <- sjmisc::word_wrap(legendTitle, breakLegendTitleAt)
   if (!is.null(title)) {
     # if we have weighted values, say that in diagram's title
-    if (!is.null(weightByTitleString)) title <- paste(title, weightByTitleString, sep = "")
+    if (!is.null(weightByTitleString))
+      title <- paste(title, weightByTitleString, sep = "")
     title <- sjmisc::word_wrap(title, breakTitleAt)
   }
-  # check length of x-axis title and split longer string at into new lines
-  # every 50 chars
-  if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
-  # check length of x-axis title and split longer string at into new lines
-  # every 50 chars
-  if (!is.null(axisTitle.y)) axisTitle.y <- sjmisc::word_wrap(axisTitle.y, breakTitleAt)
-  # check length of x-axis-labels and split longer strings at into new lines
-  # every 10 chars, so labels don't overlap
-  if (!is.null(axisLabels.x)) axisLabels.x <- sjmisc::word_wrap(axisLabels.x, breakLabelsAt)
-  # If axisLabels.x were not defined, simply set numbers from 1 to
-  # amount of categories (=number of rows) in dataframe instead
-  else axisLabels.x <- c(startAxisAt:catcount)
-  # check length of x-axis-labels of interaction variable and split 
-  # longer strings into new lines
+  if (!is.null(axisTitle.x))
+    axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
+  if (!is.null(axisTitle.y))
+    axisTitle.y <- sjmisc::word_wrap(axisTitle.y, breakTitleAt)
+  if (!is.null(axisLabels.x))
+    axisLabels.x <- sjmisc::word_wrap(axisLabels.x, breakLabelsAt)
   if (!is.null(interactionVar)) {
     if (!is.null(interactionVarLabels)) {
       interactionVarLabels <- sjmisc::word_wrap(interactionVarLabels, breakLabelsAt)
     }
     # If interaction-variable-labels were not defined, simply set numbers from 1 to
     # amount of categories instead
-    else  {
+    else {
       iavarLabLength <- length(unique(stats::na.omit(interactionVar)))
       interactionVarLabels <- c(1:iavarLabLength)
     }
   }
-  # If missings are not removed, add an
-  # "NA" to labels and a new row to data frame which contains the missings
-  if (!na.rm) axisLabels.x = c(axisLabels.x, "NA")
   # --------------------------------------------------------
   # add group counts to category labels
   # --------------------------------------------------------
@@ -724,7 +546,10 @@ sjp.grpfrq <- function(varCount,
       if (is.null(weightBy)) {
         gc <- table(varGroup, interactionVar, useNA = nas)
       } else {
-        gc <- table(sjmisc::weight2(varGroup, weightBy), interactionVar, useNA = nas)
+        gc <-
+          table(sjmisc::weight2(varGroup, weightBy),
+                interactionVar,
+                useNA = nas)
       }
       # determinte loop-steps
       lst <- length(interactionVarLabels)
@@ -737,10 +562,10 @@ sjp.grpfrq <- function(varCount,
         interactionVarLabels[i + lst] <- paste(ial, " (n=", gc[2, i], ")", sep = "")
       }
     } else {
-      sums <- unname(rowSums(ftab))
+      sums <- unname(rowSums(mydat$mydat[, -1]))
       # add group count to each cat. label
       axisLabels.x <- paste(axisLabels.x, " (n=", sums, ")", sep = "")
-      sums <- unname(colSums(ftab))
+      sums <- unname(colSums(mydat$mydat[, -1]))
       # add group count to each cat. label
       legendLabels <- paste(legendLabels, " (n=", sums, ")", sep = "")
     }
@@ -767,8 +592,8 @@ sjp.grpfrq <- function(varCount,
         lower_lim <- 0
         trimViolin <- TRUE
       }
-    # else calculate upper y-axis-range depending
-    # on the amount of cases...
+      # else calculate upper y-axis-range depending
+      # on the amount of cases...
     } else if (barPosition == "stack") {
       upper_lim <- max(pretty(table(varCount) * 1.05))
     } else {
@@ -812,31 +637,33 @@ sjp.grpfrq <- function(varCount,
     # position_dodge displays dots in a dodged position so we avoid overlay here. This may lead
     # to a more difficult distinction of group belongings, since the dots are "horizontally spread"
     # over the digram. For a better overview, we can add a "PlotAnnotation" (see "showPlotAnnotation) here.
-    geob <- geom_point(position = position_dodge(0.8), size = geom.size, shape = 16)
+    geob <- geom_point(position = position_dodge(0.8),
+                       size = geom.size,
+                       shape = 16)
     # create shaded rectangle, so we know which dots belong to the same category
     if (showPlotAnnotation) {
-      ganno <- annotate("rect", 
-                        xmin = mydat$layer - 0.4, 
-                        xmax = mydat$layer + 0.4, 
-                        ymin = lower_lim, 
-                        ymax = upper_lim, 
-                        fill = "grey80", 
+      ganno <- annotate("rect",
+                        xmin = mydf$xpos - 0.4,
+                        xmax = mydf$xpos + 0.4,
+                        ymin = lower_lim,
+                        ymax = upper_lim,
+                        fill = "grey80",
                         alpha = 0.1)
     }
   } else if (type == "bars") {
     if (barPosition == "dodge") {
-      geob <- geom_bar(stat = "identity", 
-                       width = geom.size, 
+      geob <- geom_bar(stat = "identity",
+                       width = geom.size,
                        position = position_dodge(geom.size + geom.spacing))
     } else {
-      geob <- geom_bar(stat = "identity", 
-                       width = geom.size, 
+      geob <- geom_bar(stat = "identity",
+                       width = geom.size,
                        position = "stack")
     }
   } else if (type == "lines") {
     if (smoothLines) {
-      geob <- geom_line(size = geom.size, 
-                        stat = "smooth", 
+      geob <- geom_line(size = geom.size,
+                        stat = "smooth",
                         method = "loess")
     } else {
       geob <- geom_line(size = geom.size)
@@ -846,16 +673,18 @@ sjp.grpfrq <- function(varCount,
   } else if (type == "violin") {
     geob <- geom_violin(trim = trimViolin, width = geom.size)
   } else {
-    geob <- geom_histogram(stat = "identity", 
-                           position = barPosition, 
+    geob <- geom_histogram(stat = "identity",
+                           position = barPosition,
                            binwidth = geom.size)
   }
-  if (!showAxisLabels.x) axisLabels.x <- c("")
+  if (!showAxisLabels.x)
+    axisLabels.x <- c("")
   # --------------------------------------------------------
   # Set value labels
   # --------------------------------------------------------
   # don't display value labels when we have boxplots or violin plots
-  if (type == "boxplots" || type == "violin") showValueLabels <- FALSE
+  if (type == "boxplots" || type == "violin")
+    showValueLabels <- FALSE
   if (showValueLabels) {
     # ---------------------------------------------------------
     # if we have facet grids, we have different x and y positions for the value labels
@@ -866,89 +695,97 @@ sjp.grpfrq <- function(varCount,
       # if we want percentage values, we have different sprintf-arguments
       # ---------------------------------------------------------
       if (showPercentageValues && showCountValues) {
-        ggvaluelabels <-  geom_text(aes(x = count, 
-                                        y = frq, 
-                                        label = sprintf("%i\n(%.01f%%)", frq, prz), 
+        ggvaluelabels <-  geom_text(aes(x = xpos, 
+                                        y = frq,
+                                        label = sprintf("%i\n(%.01f%%)", frq, prz),
                                         group = group),
                                     vjust = vert,
-                                    show_guide = FALSE)
+                                    show.legend = FALSE)
       } else if (showCountValues) {
-        ggvaluelabels <-  geom_text(aes(x = count, 
-                                        y = frq, 
-                                        label = sprintf("%i", frq), 
+        ggvaluelabels <-  geom_text(aes(x = xpos,
+                                        y = frq,
+                                        label = sprintf("%i", frq),
                                         group = group),
                                     vjust = vert,
-                                    show_guide = FALSE)
+                                    show.legend = FALSE)
       } else if (showPercentageValues) {
-        ggvaluelabels <-  geom_text(aes(x = count, 
-                                        y = frq, 
-                                        label = sprintf("%.01f%%", prz), 
+        ggvaluelabels <-  geom_text(aes(x = xpos,
+                                        y = frq,
+                                        label = sprintf("%.01f%%", prz),
                                         group = group),
                                     vjust = vert,
-                                    show_guide = FALSE)
+                                    show.legend = FALSE)
       } else {
-        ggvaluelabels <-  geom_text(label = "", show_guide = FALSE)
+        ggvaluelabels <-  geom_text(label = "", show.legend = FALSE)
       }
     } else {
       # ---------------------------------------------------------
-      # if we have stacked bars, we need to apply 
+      # if we have stacked bars, we need to apply
       # this stacked y-position to the labels as well
       # ---------------------------------------------------------
       if (barPosition == "stack") {
         if (showPercentageValues && showCountValues) {
-          ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%i\n(%.01f%%)", frq, prz)),
-                                      vjust = vert,
-                                      show_guide = FALSE)
+          ggvaluelabels <-
+            geom_text(aes(y = ypos, 
+                          label = sprintf("%i\n(%.01f%%)", frq, prz)),
+                      vjust = vert,
+                      show.legend = FALSE)
         } else if (showCountValues) {
-          ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%i", frq)),
-                                      vjust = vert,
-                                      show_guide = FALSE)
+          ggvaluelabels <-
+            geom_text(aes(y = ypos, label = sprintf("%i", frq)),
+                      vjust = vert,
+                      show.legend = FALSE)
         } else if (showPercentageValues) {
-          ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%.01f%%", prz)),
-                                      vjust = vert,
-                                      show_guide = FALSE)
+          ggvaluelabels <-
+            geom_text(aes(y = ypos, label = sprintf("%.01f%%", prz)),
+                      vjust = vert,
+                      show.legend = FALSE)
         } else {
-          ggvaluelabels <-  geom_text(label = "", show_guide = FALSE)
+          ggvaluelabels <-  geom_text(label = "", show.legend = FALSE)
         }
       } else {
         # ---------------------------------------------------------
-        # if we have dodged bars or dots, we have to use a slightly 
+        # if we have dodged bars or dots, we have to use a slightly
         # dodged position for labels
         # as well, sofor better reading
         # ---------------------------------------------------------
         if (showPercentageValues && showCountValues) {
           if (coord.flip) {
-            ggvaluelabels <-  geom_text(aes(y = frq, label = sprintf("%i (%.01f%%)", frq, prz)),
-                                        position = position_dodge(posdodge),
-                                        vjust = vert,
-                                        hjust = hort,
-                                        show_guide = FALSE)
+            ggvaluelabels <-
+              geom_text(aes(y = frq, label = sprintf("%i (%.01f%%)", frq, prz)),
+                        position = position_dodge(posdodge),
+                        vjust = vert,
+                        hjust = hort,
+                        show.legend = FALSE)
           } else {
-            ggvaluelabels <-  geom_text(aes(y = frq, label = sprintf("%i\n(%.01f%%)", frq, prz)),
-                                        position = position_dodge(posdodge),
-                                        vjust = vert,
-                                        hjust = hort,
-                                        show_guide = FALSE)
+            ggvaluelabels <-
+              geom_text(aes(y = frq, label = sprintf("%i\n(%.01f%%)", frq, prz)),
+                        position = position_dodge(posdodge),
+                        vjust = vert,
+                        hjust = hort,
+                        show.legend = FALSE)
           }
         } else if (showCountValues) {
-          ggvaluelabels <-  geom_text(aes(y = frq, label = sprintf("%i", frq)),
-                                      position = position_dodge(posdodge),
-                                      hjust = hort,
-                                      vjust = vert,
-                                      show_guide = FALSE)
+          ggvaluelabels <-
+            geom_text(aes(y = frq, label = sprintf("%i", frq)),
+                      position = position_dodge(posdodge),
+                      hjust = hort,
+                      vjust = vert,
+                      show.legend = FALSE)
         } else if (showPercentageValues) {
-          ggvaluelabels <-  geom_text(aes(y = frq, label = sprintf("%.01f%%", prz)),
-                                      position = position_dodge(posdodge),
-                                      hjust = hort,
-                                      vjust = vert,
-                                      show_guide = FALSE)
+          ggvaluelabels <-
+            geom_text(aes(y = frq, label = sprintf("%.01f%%", prz)),
+                      position = position_dodge(posdodge),
+                      hjust = hort,
+                      vjust = vert,
+                      show.legend = FALSE)
         } else {
-          ggvaluelabels <-  geom_text(label = "", show_guide = FALSE)
+          ggvaluelabels <-  geom_text(label = "", show.legend = FALSE)
         }
       }
     }
   } else {
-    ggvaluelabels <-  geom_text(label = "", show_guide = FALSE)
+    ggvaluelabels <-  geom_text(label = "", show.legend = FALSE)
   }
   # --------------------------------------------------------
   # Set up grid breaks
@@ -964,13 +801,15 @@ sjp.grpfrq <- function(varCount,
   # plot object for histogram style
   # ----------------------------------
   if (type == "histogram" || type == "lines") {
-    mydat$count <- sjmisc::to_value(mydat$count, keep.labels = F)
+    mydf$xpos <- sjmisc::to_value(mydf$xpos, keep.labels = F)
     if (type == "histogram") {
       # histrogram need fill aes
-      baseplot <- ggplot(mydat, aes(x = count, y = frq, fill = group)) + geob
+      baseplot <-
+        ggplot(mydf, aes(x = xpos, y = frq, fill = group)) + geob
     } else {
       # lines need colour aes
-      baseplot <- ggplot(mydat, aes(x = count, y = frq, colour = group)) + geob
+      baseplot <-
+        ggplot(mydf, aes(x = xpos, y = frq, colour = group)) + geob
     }
     scalex <- scale_x_continuous(limits = axisLimits.x)
     # -----------------------------------------
@@ -980,28 +819,28 @@ sjp.grpfrq <- function(varCount,
       # -----------------------------------------
       # vertical lines indicating the mean
       # -----------------------------------------
-      baseplot <- baseplot + 
-        geom_vline(data = vldat, 
-                   aes(xintercept = mw, colour = group), 
-                   linetype = meanInterceptLineType, 
+      baseplot <- baseplot +
+        geom_vline(data = vldat,
+                   aes(xintercept = mw, colour = group),
+                   linetype = meanInterceptLineType,
                    size = meanInterceptLineSize)
       # -----------------------------------------
       # check whether meanvalue should be shown.
       # -----------------------------------------
       if (showMeanValue) {
         # -----------------------------------------
-        # use annotation instead of geomtext, because we 
+        # use annotation instead of geomtext, because we
         # need mean value only printed once
         # -----------------------------------------
-        baseplot <- baseplot + 
+        baseplot <- baseplot +
           annotate("text", 
                    x = vldat$mw, 
-                   y = upper_lim, 
-                   parse = TRUE, 
-                   label = sprintf("italic(bar(x)[%i]) == %.2f", 
-                                   vldat$yfactor, 
-                                   vldat$mw), 
-                   hjust = 1.05, 
+                   y = upper_lim,
+                   parse = TRUE,
+                   label = sprintf("italic(bar(x)[%i]) == %.2f",
+                                   vldat$yfactor,
+                                   vldat$mw),
+                   hjust = 1.05,
                    vjust = vldat$yfactor * 2)
       }
       # -----------------------------------------
@@ -1010,74 +849,71 @@ sjp.grpfrq <- function(varCount,
       if (showStandardDeviation) {
         baseplot <- baseplot +
           # -----------------------------------------
-          # first draw shaded rectangle. these are by default 
+          # first draw shaded rectangle. these are by default
           # in grey colour with very high transparancy
           # -----------------------------------------
-          annotate("rect", 
-                   xmin = vldat$mw - vldat$stddev, 
-                   xmax = vldat$mw + vldat$stddev, 
-                   fill = "grey50", 
-                   ymin = 0, 
-                   ymax = upper_lim, 
-                   alpha = 0.1) +
+          annotate("rect",
+                   xmin = vldat$mw - vldat$stddev,
+                   xmax = vldat$mw + vldat$stddev,
+                   fill = "grey50",
+                   ymin = 0,
+                  ymax = upper_lim,alpha = 0.1) +
           # -----------------------------------------
-          # draw border-lines for shaded rectangles 
+          # draw border-lines for shaded rectangles
           # in the related group colours.
           # -----------------------------------------
-          geom_vline(data = vldat, 
-                     aes(xintercept = mw - stddev, colour = group), 
-                     linetype = 3, 
-                     size = meanInterceptLineSize, 
+          geom_vline(data = vldat,
+                     aes(xintercept = mw - stddev, colour = group),
+                     linetype = 3,
+                     size = meanInterceptLineSize,
                      alpha = 0.7) +
-          geom_vline(data = vldat, 
-                     aes(xintercept = mw + stddev, colour = group), 
-                     linetype = 3, 
-                     size = meanInterceptLineSize, 
+          geom_vline(data = vldat,
+                     aes(xintercept = mw + stddev, colour = group),
+                     linetype = 3,
+                     size = meanInterceptLineSize,
                      alpha = 0.7)
         # -----------------------------------------
-        # if mean values are plotted, plot standard 
+        # if mean values are plotted, plot standard
         # deviation values as well
         # -----------------------------------------
         if (showMeanValue) {
-          baseplot <- baseplot + 
+          baseplot <- baseplot +
             # -----------------------------------------
-            # use annotation instead of geomtext, because we 
+            # use annotation instead of geomtext, because we
             # need standard deviations only printed once
             # -----------------------------------------
-            annotate("text", 
-                     x = vldat$mw + vldat$stddev, 
-                     y = upper_lim, 
-                     parse = TRUE, 
-                     label = sprintf("italic(s[%i]) == %.2f", 
-                                     vldat$yfactor, 
-                                     round(vldat$stddev, 1)), 
-                     hjust = 1.1, 
+            annotate("text",
+                     x = vldat$mw + vldat$stddev,
+                     y = upper_lim,
+                     parse = TRUE,
+                     label = sprintf("italic(s[%i]) == %.2f",
+                                     vldat$yfactor,
+                                     round(vldat$stddev, 1)),
+                     hjust = 1.1,
                      vjust = vldat$yfactor * 2)
         }
       }
     }
   } else if (type == "boxplots" || type == "violin") {
     if (is.null(interactionVar)) {
-      baseplot <- ggplot(mydat, 
-                         aes(x = group, 
-                             y = frq, 
-                             fill = group, 
-                             weight = wb)) + geob
+      baseplot <- ggplot(mydf,aes(x = group,
+                                  y = frq,
+                                  fill = group,
+                                  weight = wb)) + geob
       scalex <- scale_x_discrete(labels = axisLabels.x)
     } else {
-      baseplot <- ggplot(mydat, 
-                         aes(x = interaction(ia, group), 
-                             y = frq, 
-                             fill = group, 
-                             weight = wb)) + geob
+      baseplot <- ggplot(mydf, aes(x = interaction(ia, group),
+                                   y = frq,
+                                   fill = group,
+                                   weight = wb)) + geob
       scalex <- scale_x_discrete(labels = interactionVarLabels)
     }
     # if we have a violin plot, add an additional boxplot inside to show
     # more information
     if (type == "violin") {
       baseplot <- baseplot +
-        geom_boxplot(width = innerBoxPlotWidth, 
-                     fill = "white", 
+        geom_boxplot(width = innerBoxPlotWidth,
+                     fill = "white",
                      outlier.colour = NA)
     }
     # ---------------------------------------------------------
@@ -1087,22 +923,20 @@ sjp.grpfrq <- function(varCount,
     # ---------------------------------------------------------
     fcsp <- ifelse(type == "boxplots", "white", "black")
     baseplot <- baseplot +
-      stat_summary(fun.y = "mean", 
-                   geom = "point", 
-                   shape = 21, 
-                   size = innerBoxPlotDotSize, 
+      stat_summary(fun.y = "mean",
+                   geom = "point",
+                   shape = 21,
+                   size = innerBoxPlotDotSize,
                    fill = fcsp)
   } else {
     if (type == "dots") {
-      baseplot <- ggplot(mydat, 
-                         aes(x = factor(count), 
-                             y = frq, 
-                             colour = group))
+      baseplot <- ggplot(mydf, aes(x = factor(xpos),
+                                   y = frq,
+                                   colour = group))
     } else {
-      baseplot <- ggplot(mydat, 
-                         aes(x = factor(count), 
-                             y = frq, 
-                             fill = group))
+      baseplot <- ggplot(mydf, aes(x = factor(xpos),
+                                   y = frq,
+                                   fill = group))
     }
     # ---------------------------------------------------------
     # check whether we have dots plotted, and if so, use annotation
@@ -1110,11 +944,12 @@ sjp.grpfrq <- function(varCount,
     # in the order as they're passed to the ggplot-command. Since we don't want the
     # shaded rectangles to overlay the dots, we add them first
     # ---------------------------------------------------------
-    if (!is.null(ganno) && !facet.grid) baseplot <- baseplot + ganno
+    if (!is.null(ganno) && !facet.grid)
+      baseplot <- baseplot + ganno
     # add geom
     baseplot <- baseplot + geob
     if (startAxisAt > 1) {
-      scalex <- scale_x_discrete(labels = axisLabels.x, 
+      scalex <- scale_x_discrete(labels = axisLabels.x,
                                  limits = as.factor(seq(from = startAxisAt,
                                                         to = catcount,
                                                         by = 1)))
@@ -1123,7 +958,7 @@ sjp.grpfrq <- function(varCount,
     }
   }
   # ------------------------------------------
-  # If we have bars or dot plots, we show 
+  # If we have bars or dot plots, we show
   # Pearson's chi-square test results
   # ------------------------------------------
   baseplot <- print.table.summary(baseplot,
@@ -1134,13 +969,13 @@ sjp.grpfrq <- function(varCount,
   # show or hide y-axis-labels
   # ------------------------------
   if (showAxisLabels.y) {
-    y_scale <- scale_y_continuous(breaks = gridbreaks, 
-                                  limits = c(lower_lim, upper_lim), 
+    y_scale <- scale_y_continuous(breaks = gridbreaks,
+                                  limits = c(lower_lim, upper_lim),
                                   expand = expand.grid)
   } else {
-    y_scale <- scale_y_continuous(breaks = gridbreaks, 
-                                  limits = c(lower_lim, upper_lim), 
-                                  expand = expand.grid, 
+    y_scale <- scale_y_continuous(breaks = gridbreaks,
+                                  limits = c(lower_lim, upper_lim),
+                                  expand = expand.grid,
                                   labels = NULL)
   }
   # ------------------------------
@@ -1150,13 +985,13 @@ sjp.grpfrq <- function(varCount,
     # show absolute and percentage value of each bar.
     ggvaluelabels +
     # no additional labels for the x- and y-axis, only diagram title
-    labs(title = title, 
-         x = axisTitle.x, 
-         y = axisTitle.y, 
+    labs(title = title,
+         x = axisTitle.x,
+         y = axisTitle.y,
          fill = legendTitle,
          colour = legendTitle) +
     # print value labels to the x-axis.
-    # If argument "axisLabels.x" is NULL, the category numbers (1 to ...) 
+    # If argument "axisLabels.x" is NULL, the category numbers (1 to ...)
     # appear on the x-axis
     scalex +
     # set Y-axis, depending on the calculated upper y-range.
@@ -1166,25 +1001,32 @@ sjp.grpfrq <- function(varCount,
     y_scale
   # check whether coordinates should be flipped, i.e.
   # swap x and y axis
-  if (coord.flip) baseplot <- baseplot + coord_flip()
+  if (coord.flip)
+    baseplot <- baseplot + coord_flip()
   # --------------------------------------------------
   # Here we start when we have a faces grid instead of
   # a grouped bar plot.
   # --------------------------------------------------
   if (facet.grid) {
-    baseplot <- baseplot + 
+    baseplot <- baseplot +
       # set font size for axes.
-      theme(strip.text = element_text(face = "bold",size = rel(1.2))) +
+      theme(strip.text = element_text(face = "bold", size = rel(1.2))) +
       facet_wrap(~group)
   }
   # ---------------------------------------------------------
   # set geom colors
   # ---------------------------------------------------------
-  baseplot <- sj.setGeomColors(baseplot, geom.colors, length(legendLabels), ifelse(hideLegend == TRUE, FALSE, TRUE), legendLabels)
+  baseplot <-
+    sj.setGeomColors(baseplot,
+                     geom.colors,
+                     length(legendLabels),
+                     ifelse(hideLegend == TRUE, FALSE, TRUE),
+                     legendLabels)
   # ----------------------------------
   # Plot integrated bar chart here
   # ----------------------------------
-  if (printPlot) plot(baseplot)
+  if (printPlot)
+    plot(baseplot)
   # -------------------------------------
   # return results
   # -------------------------------------

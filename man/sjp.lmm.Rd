@@ -42,8 +42,8 @@ Default is \code{"p-level"}. Only applies if \code{usePShapes = TRUE}.}
 labels for the dependent variables are provided (see \code{labelDependentVariables}).
 Default is \code{"Model"}.}
 
-\item{axisLabels.y}{labels or names of the predictor variables (independent vars). Must 
-be a character vector of same length as independent variables. The labels 
+\item{axisLabels.y}{labels or names of the predictor variables (independent vars). Must
+be a character vector of same length as independent variables. The labels
 may also be passed as list object; they will be coerced to character vector automatically.}
 
 \item{axisTitle.x}{string, title for the x axis.}
@@ -83,9 +83,9 @@ legend is plotted. Default is \code{FALSE}.}
 
 \item{interceptLineColor}{color of the intercept line. Default value is \code{"grey70"}.}
 
-\item{remove.estimates}{character vector with coefficient names that indicate 
-which estimates should be removed from the plot. 
-\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default 
+\item{remove.estimates}{character vector with coefficient names that indicate
+which estimates should be removed from the plot.
+\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 is \code{NULL}, i.e. all estimates are printed.}
 
 \item{coord.flip}{logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate

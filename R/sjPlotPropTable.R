@@ -241,11 +241,7 @@ sjp.xtab <- function(x,
   # create cross table for stats, summary etc.
   # and weight variable
   #---------------------------------------------------
-  if (is.null(weightBy)) {
-    ftab <- table(x, grp)
-  } else {
-    ftab <- round(xtabs(weightBy ~ x + grp), 0)
-  }
+  ftab <- crosstabsum(x, grp, weightBy)
   # -----------------------------------------------
   # create proportional table so we have the percentage
   # values that should be used as y-value for the bar charts
@@ -594,7 +590,7 @@ sjp.xtab <- function(x,
     baseplot <- baseplot + 
       geom_point(size = lineDotSize, 
                  shape = 21, 
-                 show_guide = FALSE)
+                 show.legend = FALSE)
   }
   # ------------------------------------------
   # check whether table summary should be printed
