@@ -1,5 +1,5 @@
 # bind global variables
-utils::globalVariables(c("ypos", "wb", "ia", "mw", "stddev", "count"))
+utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "stddev", "count"))
 
 
 #' @title Plot grouped or stacked frequencies
@@ -208,8 +208,8 @@ utils::globalVariables(c("ypos", "wb", "ia", "mw", "stddev", "count"))
 #' 
 #' @import ggplot2
 #' @import sjmisc
-#' @importFrom dplyr group_by mutate arrange
-#' @importFrom stats na.omit xtabs wilcox.test
+#' @importFrom dplyr group_by mutate arrange summarise
+#' @importFrom stats na.omit xtabs wilcox.test sd
 #' @export
 sjp.grpfrq <- function(varCount,
                        varGroup,
@@ -323,7 +323,7 @@ sjp.grpfrq <- function(varCount,
   #---------------------------------------------------
   # auto-set plot title for box plots?
   #---------------------------------------------------
-  if (missing(title) && (type == "boxplots" || type == "violin" || histogram))
+  if (missing(title) && (type == "boxplots" || type == "violin" || type == "histogram"))
     title <- NULL
   # --------------------------------------------------------
   # create xtab
@@ -499,10 +499,10 @@ sjp.grpfrq <- function(varCount,
   # --------------------------------------------------------
   if (type == "histogram") {
     vldat <- mydf %>%
-      group_by(group) %>%
-      summarise(mw = mean(frq, na.rm = T),
-                stddev = sd(frq, na.rm = T)) %>%
-      mutate(yfactor = 1:nrow(.))
+      dplyr::group_by(group) %>%
+      dplyr::summarise(mw = mean(frq, na.rm = T),
+                       stddev = stats::sd(frq, na.rm = T)) %>%
+      dplyr::mutate(yfactor = 1:nrow(.))
   }
   # --------------------------------------------------------
   # Prepare and trim legend labels to appropriate size
@@ -585,8 +585,8 @@ sjp.grpfrq <- function(varCount,
     # the y axis
     if (type == "boxplots" || type == "violin") {
       # use an extra standard-deviation as limits for the y-axis when we have boxplots
-      lower_lim <- min(varCount, na.rm = TRUE) - floor(sd(varCount, na.rm = TRUE))
-      upper_lim <- max(varCount, na.rm = TRUE) + ceiling(sd(varCount, na.rm = TRUE))
+      lower_lim <- min(varCount, na.rm = TRUE) - floor(stats::sd(varCount, na.rm = TRUE))
+      upper_lim <- max(varCount, na.rm = TRUE) + ceiling(stats::sd(varCount, na.rm = TRUE))
       # make sure that the y-axis is not below zero
       if (lower_lim < 0) {
         lower_lim <- 0
@@ -780,12 +780,12 @@ sjp.grpfrq <- function(varCount,
                       vjust = vert,
                       show.legend = FALSE)
         } else {
-          ggvaluelabels <-  geom_text(label = "", show.legend = FALSE)
+          ggvaluelabels <- geom_text(label = "", show.legend = FALSE)
         }
       }
     }
   } else {
-    ggvaluelabels <-  geom_text(label = "", show.legend = FALSE)
+    ggvaluelabels <- geom_text(label = "", show.legend = FALSE)
   }
   # --------------------------------------------------------
   # Set up grid breaks

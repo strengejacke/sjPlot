@@ -1,5 +1,7 @@
-# Help-functions
+# bind global variables
+utils::globalVariables(c("Freq"))
 
+# Help-functions
 
 # function to create pretty breaks
 # for log-scales
@@ -115,8 +117,8 @@ create.frq.df <- function(x,
     dat <- data.frame(n = names(labels), v = as.character(labels), stringsAsFactors = FALSE)
     colnames(dat) <- c("val", "label")
     # character vectors need to be converted with to_value
-    # to avoid NAs
-    if (is.character(dat$val))
+    # to avoid NAs, but only if character is non-numeric
+    if (is.character(dat$val) && anyNA(suppressWarnings(as.numeric(dat$val))))
       dat$val <- sjmisc::to_value(dat$val, keep.labels = F)
     else
       dat$val <- as.numeric(dat$val)
@@ -151,7 +153,7 @@ create.frq.df <- function(x,
   mydat$upper.ci <- total_sum * (rel_frq + ci)
   mydat$lower.ci <- total_sum * (rel_frq - ci)
   mydat$rel.upper.ci <- rel_frq + ci
-  mydat$rel.lower.ci <- rel_frq - ci  
+  mydat$rel.lower.ci <- rel_frq - ci
   # --------------------------------------------------------
   # Order categories ascending or descending
   # --------------------------------------------------------
@@ -266,7 +268,7 @@ get.encoding <- function(encoding, data = NULL) {
     if (!is.null(data) && is.data.frame(data)) {
       # get variable label
       labs <- sjmisc::get_label(data[[1]])
-      # check if vectors of data frame have 
+      # check if vectors of data frame have
       # any valid label. else, default to utf-8
       if (!is.null(labs) && is.character(labs))
         encoding <- Encoding(sjmisc::get_label(data[[1]]))

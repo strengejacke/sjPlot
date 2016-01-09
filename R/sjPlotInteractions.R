@@ -665,7 +665,7 @@ sjp.int <- function(fit,
         upperLim.y <- axisLimits.y[2]
       }
     } else {
-      if (fitfam %ini% c("binomial", "quasibinomial")) {
+      if (fitfam %in% c("binomial", "quasibinomial")) {
         intdf$x <- sjmisc::to_value(intdf$x, keep.labels = F)
         intdf$y <- plogis(sjmisc::to_value(intdf$y, keep.labels = F))
         intdf$ymin <- plogis(sjmisc::to_value(intdf$ymin, keep.labels = F))
@@ -684,7 +684,7 @@ sjp.int <- function(fit,
     # the scale limits
     # -----------------------------------------------------------
     if (is.null(axisLimits.y)) {
-      if (fitfam %ini% c("binomial", "quasibinomial")) {
+      if (fitfam %in% c("binomial", "quasibinomial")) {
         lowerLim.y <- 0
         upperLim.y <- 1
       } else {
@@ -1150,7 +1150,7 @@ sjp.int <- function(fit,
           # for logistic reg.
           if (fitfam %in% c("binomial", "quasibinomial"))
             axisTitle.y <- "Predicted Probability"
-          else if (fitfam %ini% c("poisson", "quasipoisson"))
+          else if (fitfam %in% c("poisson", "quasipoisson"))
             axisTitle.y <- "Predicted Incidents"
         }
         # -----------------------------------------------------------
