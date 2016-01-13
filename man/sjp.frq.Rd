@@ -79,12 +79,6 @@ when having interaction variables included. These labels replace the
 (i.e. \code{type = "boxplots"} or \code{"violins"}) and \code{interactionVar} 
 is not \code{NULL}.}
 
-\item{axisLimits.x}{numeric vector of length two, defining lower and upper axis limits
-of the x scale. By default, this argument is set to \code{NULL}, i.e. the 
-x-axis fits to the required range to plot all data. \strong{Note} that limiting
-the x-axis-range may result in warnings from \code{ggplot} due to values
-outside this range that could not be plotted.}
-
 \item{axisLimits.y}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
 y-axis ranges from 0 to required maximum.}
@@ -175,11 +169,6 @@ for details).}
 
 \item{axisTitle.y}{title for the y-axis. By default, this value is \code{NULL},
 i.e. no title is printed.}
-
-\item{startAxisAt}{numeric, determines the lower limit of the x-axis. By default, this value is set
-to \code{"auto"}, i.e. the value range on the x-axis starts with the lowest value of \code{varCount}.
-If \code{startAxisAt = 1}, plot may have zero counts if the lowest value of \code{varCount}
-is larger than 1 and hence no bars plotted for these values in such cases.}
 
 \item{hist.skipZeros}{logical, if \code{TRUE}, zero counts (categories with no answer) 
 in \code{varCount} are omitted when drawing histrograms, and the mapping 

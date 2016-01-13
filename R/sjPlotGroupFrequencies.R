@@ -7,8 +7,8 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #' 
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.grpfrq/}{sjPlot manual: sjp.grpfrq}
 #'             
-#' @description Plot grouped or stacked frequencies of variables 
-#'                as bar/dor graphs, box or violin plots, histograms etc.
+#' @description Plot grouped or stacked frequencies of variables as bar/dot, 
+#'                box or violin plots, or line plot.
 #' 
 #' @param varCount a vector of values (variable) describing the bars which make up the plot.
 #' @param varGroup grouping variable of same length as \code{varCount}, where \code{varCount} 
@@ -28,19 +28,13 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'          \describe{
 #'            \item{\code{"bars"}}{for simple bars (the default setting)}
 #'            \item{\code{"dots"}}{for dot plots}
-#'            \item{\code{"histogram"}}{for grouped histograms}
-#'            \item{\code{"lines"}}{for grouped line-styled histogram with filled area}
+#'            \item{\code{"lines"}}{for grouped line-styled plot}
 #'            \item{\code{"boxplots"}}{for grouped box plots}
 #'            \item{\code{"violins"}}{for grouped violin plots}
 #'            }
 #'            You may use initial letter for \code{type} options, except for
 #'            \code{type = "boxplots"}, which may be abbreviated \code{type = "box"}
 #' @param hideLegend logical, indicates whether legend (guide) should be shown or not.
-#' @param axisLimits.x numeric vector of length two, defining lower and upper axis limits
-#'          of the x scale. By default, this argument is set to \code{NULL}, i.e. the 
-#'          x-axis fits to the required range to plot all data. \strong{Note} that limiting
-#'          the x-axis-range may result in warnings from \code{ggplot} due to values
-#'          outside this range that could not be plotted.
 #' @param axisLimits.y numeric vector of length two, defining lower and upper axis limits
 #'          of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
 #'          y-axis ranges from 0 to required maximum.
@@ -158,7 +152,6 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #' data(efc)
 #' sjp.grpfrq(efc$e17age,
 #'            efc$e16sex,
-#'            type = "hist",
 #'            showValueLabels = FALSE)
 #' 
 #' # boxplot
@@ -185,6 +178,11 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'            efc$e42dep, 
 #'            showValueLabels = FALSE)
 #' 
+#' # same data as line plot
+#' sjp.grpfrq(efc$neg_c_7, 
+#'            efc$e42dep, 
+#'            type = "lines")
+#'            
 #' @import ggplot2
 #' @import sjmisc
 #' @importFrom dplyr group_by mutate arrange summarise add_rownames
@@ -206,7 +204,6 @@ sjp.grpfrq <- function(varCount,
                        axisLabels.x = NULL,
                        interactionVarLabels = NULL,
                        legendLabels = NULL,
-                       axisLimits.x = NULL,
                        axisLimits.y = NULL,
                        breakTitleAt = 50,
                        breakLabelsAt = 15,
@@ -250,13 +247,6 @@ sjp.grpfrq <- function(varCount,
     type <- "lines"
   if (type == "d" || type == "dot")
     type <- "dots"
-  if (type == "h" || type == "hist") {
-    type <- "histogram"
-    # no table summary and no group count for
-    # ctageory labels (to avoid overlapping)
-    showTableSummary <- FALSE
-    showGroupCount <- FALSE
-  }
   if (type == "box" || type == "boxplot")
     type <- "boxplots"
   if (type == "v" || type == "violins")
@@ -264,11 +254,10 @@ sjp.grpfrq <- function(varCount,
   # --------------------------------------------------------
   # Plot margins
   # --------------------------------------------------------
-  if (expand.grid == TRUE || (missing(expand.grid) && type == "histogram")) {
+  if (expand.grid == TRUE)
     expand.grid <- ggplot2::waiver()
-  } else {
+  else
     expand.grid <- c(0, 0)
-  }
   # --------------------------------------------------------
   # check default geom.size
   # --------------------------------------------------------
@@ -277,8 +266,6 @@ sjp.grpfrq <- function(varCount,
       geom.size <- .7
     else if (type == "dots")
       geom.size <- 3
-    else if (type == "histogram")
-      geom.size <- .6
     else if (type == "lines")
       geom.size <- .8
     else if (type == "boxplots")
@@ -297,7 +284,7 @@ sjp.grpfrq <- function(varCount,
   #---------------------------------------------------
   # auto-set plot title for box plots?
   #---------------------------------------------------
-  if (missing(title) && (type == "boxplots" || type == "violin" || type == "histogram"))
+  if (missing(title) && (type == "boxplots" || type == "violin"))
     title <- NULL
   # --------------------------------------------------------
   # create cross table of frequencies and percentages
@@ -307,22 +294,34 @@ sjp.grpfrq <- function(varCount,
                           round.prz = 2,
                           na.rm = na.rm,
                           weightBy = weightBy)
-  # add rownames as x-position to data frame
-  bars.xpos <- dplyr::add_rownames(mydat$mydat, var = "xpos")$xpos
+  # add rownames or label as x-position to data frame,
+  # depending on plot type. for lines, we assume continuous
+  # scale.
+  if (type == "lines")
+    bars.xpos <- as.numeric(mydat$mydat$label)
+  else
+    bars.xpos <- dplyr::add_rownames(mydat$mydat, var = "xpos")$xpos
   # --------------------------------------------------------
   # try to automatically set labels if not passed as argument
   # --------------------------------------------------------
   if (missing(axisLabels.x) && (type == "boxplots" || type == "violin")) {
     axisLabels.x <- mydat$labels.grp
-    if (missing(hideLegend)) hideLegend <- TRUE
+    if (missing(hideLegend)) hideLegend <- is.null(interactionVar)
   }
   if (is.null(axisLabels.x)) axisLabels.x <- mydat$labels.cnt
   if (is.null(legendLabels)) legendLabels <- mydat$labels.grp
-  if (is.null(interactionVarLabels) && !is.null(interactionVar))
+  if (is.null(interactionVarLabels) && !is.null(interactionVar)) {
     interactionVarLabels <- sjmisc::get_labels(interactionVar,
                                                attr.only = F,
                                                include.values = F,
                                                include.non.labelled = T)
+    # create repeating label for x-axis
+    interactionVarLabels <- rep(interactionVarLabels, 
+                                length.out = length(axisLabels.x) * length(interactionVarLabels))
+    # we need a legend, cause x axis is labelled with interaction var value
+    hideLegend <- FALSE
+    legendLabels <- axisLabels.x
+  }
   if (is.null(axisTitle.x))
     axisTitle.x <- sjmisc::get_label(varCount, def.value = var.name.cnt)
   if (is.null(legendTitle))
@@ -368,13 +367,8 @@ sjp.grpfrq <- function(varCount,
   }
   # --------------------------------------------------------
   # Define amount of categories
-  catcount <- length(axisLabels.x)
-  catmin <- min(varCount, na.rm = TRUE)
+  # --------------------------------------------------------
   grpcount <- length(legendLabels)
-  # -----------------------------------------------
-  # define x-axis limits
-  # -----------------------------------------------
-  if (is.null(axisLimits.x)) axisLimits.x <- c(catmin, catcount)
   # -----------------------------------------------
   # create cross table for stats, summary etc.
   # and weight variable
@@ -718,11 +712,11 @@ sjp.grpfrq <- function(varCount,
   # ----------------------------------
   if (type == "lines") {
     # line plot need numeric x-scale
-    mydf$xpos <- as.numeric(mydf$xpos)
+    mydf$xpos <- sjmisc::to_value(mydf$xpos, keep.labels = FALSE)
     # lines need colour aes
     baseplot <-
       ggplot(mydf, aes(x = xpos, y = frq, colour = group)) + geob
-    scalex <- scale_x_continuous(limits = axisLimits.x)
+    scalex <- scale_x_continuous()
   } else if (type == "boxplots" || type == "violin") {
     if (is.null(interactionVar)) {
       baseplot <- ggplot(mydf,aes(x = group,

@@ -9,20 +9,17 @@ sjp.grpfrq(varCount, varGroup, weightBy = NULL, weightByTitleString = NULL,
   geom.spacing = 0.15, geom.colors = "Paired", hideLegend = FALSE,
   facet.grid = FALSE, title = "", legendTitle = NULL,
   axisLabels.x = NULL, interactionVarLabels = NULL, legendLabels = NULL,
-  axisLimits.x = NULL, axisLimits.y = NULL, breakTitleAt = 50,
-  breakLabelsAt = 15, breakLegendTitleAt = 20, breakLegendLabelsAt = 20,
-  gridBreaksAt = NULL, barPosition = "dodge", innerBoxPlotWidth = 0.15,
+  axisLimits.y = NULL, breakTitleAt = 50, breakLabelsAt = 15,
+  breakLegendTitleAt = 20, breakLegendLabelsAt = 20, gridBreaksAt = NULL,
+  barPosition = "dodge", innerBoxPlotWidth = 0.15,
   innerBoxPlotDotSize = 3, smoothLines = FALSE, expand.grid = FALSE,
   showValueLabels = TRUE, showCountValues = TRUE,
   showPercentageValues = TRUE, showAxisLabels.x = TRUE,
   showAxisLabels.y = TRUE, showPlotAnnotation = TRUE,
-  showMeanIntercept = FALSE, showMeanValue = TRUE,
-  showStandardDeviation = FALSE, showTableSummary = FALSE,
-  showGroupCount = FALSE, tableSummaryPos = "r",
-  meanInterceptLineType = 2, meanInterceptLineSize = 0.5,
+  showTableSummary = FALSE, showGroupCount = FALSE, tableSummaryPos = "r",
   axisTitle.x = "", axisTitle.y = "", autoGroupAt = NULL,
-  startAxisAt = "auto", coord.flip = FALSE, labelPos = "outside",
-  na.rm = TRUE, printPlot = TRUE)
+  coord.flip = FALSE, vjust = "bottom", hjust = "center", na.rm = TRUE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{varCount}{a vector of values (variable) describing the bars which make up the plot.}
@@ -46,8 +43,7 @@ is \code{box} or \code{violin} (resp. their alternative strings like \code{"boxp
 \describe{
   \item{\code{"bars"}}{for simple bars (the default setting)}
   \item{\code{"dots"}}{for dot plots}
-  \item{\code{"histogram"}}{for grouped histograms}
-  \item{\code{"lines"}}{for grouped line-styled histogram with filled area}
+  \item{\code{"lines"}}{for grouped line-styled plot}
   \item{\code{"boxplots"}}{for grouped box plots}
   \item{\code{"violins"}}{for grouped violin plots}
   }
@@ -91,12 +87,6 @@ Example: See \code{axisLabels.x}.}
 
 \item{legendLabels}{a character vector with labels for the guide/legend.}
 
-\item{axisLimits.x}{numeric vector of length two, defining lower and upper axis limits
-of the x scale. By default, this argument is set to \code{NULL}, i.e. the 
-x-axis fits to the required range to plot all data. \strong{Note} that limiting
-the x-axis-range may result in warnings from \code{ggplot} due to values
-outside this range that could not be plotted.}
-
 \item{axisLimits.y}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
 y-axis ranges from 0 to required maximum.}
@@ -117,11 +107,7 @@ displayed in one line and when a line break is inserted.}
 position a major grid is being printed.}
 
 \item{barPosition}{indicates whether bars should be positioned side-by-side (default)
-or stacked (use \code{"stack"} as argument).
-If \code{type = "histogram"}, you can use either \code{"dodge"} (default value), 
-which displays the bars side-by-side, or \code{"identity"}, which results in 
-overlaying bars. In the latter case, it's recommended to adjust the 
-alpha value (see \code{\link{sjp.setTheme}}).}
+or stacked (use \code{"stack"} as argument).}
 
 \item{innerBoxPlotWidth}{width of the inner box plot that is plotted inside of violin plots. Only applies 
 if \code{type = "violins"}. Default value is 0.15}
@@ -150,18 +136,6 @@ If \code{FALSE}, percentage values are removed.}
 \item{showPlotAnnotation}{logical, if \code{TRUE}, the groups of dots in a dot-plot are highlighted 
 with a shaded rectangle.}
 
-\item{showMeanIntercept}{logical, if \code{TRUE}, a vertical line in histograms is drawn 
-to indicate the mean value of the count variables. Only applies to histogram-charts.}
-
-\item{showMeanValue}{logical, if \code{TRUE} (default value), the mean value is printed 
-to the vertical line that indicates the mean value
-of the count variables. Only applies to histogram-charts.}
-
-\item{showStandardDeviation}{logical, if \code{TRUE}, the standard deviation is annotated 
-as shaded rectangle around the mean intercept line. Only applies to histogram-charts. 
-The shaded rectangles have borders in the group colors, so it's easier to see
-which shaded area belongs to which mean value resp. group.}
-
 \item{showTableSummary}{logical, if \code{TRUE}, a summary of the cross tabulation with N, 
 chi-squared, df, Cramer's V or Phi-value and p-value is printed to the upper 
 right corner of the plot (see \code{tableSummaryPos}. If a cell contains expected
@@ -177,12 +151,6 @@ to the category labels (e.g. \code{"Cat 1 (n=87)"}). Default value is \code{FALS
 \item{tableSummaryPos}{position of the model summary which is printed when \code{showTableSummary} 
 is \code{TRUE}. Default is \code{"r"}, i.e. it's printed to the upper right corner. 
 Use \code{"l"} for upper left corner.}
-
-\item{meanInterceptLineType}{linetype of the mean intercept line. Only applies to histogram-charts and when
-\code{showMeanIntercept = TRUE}.}
-
-\item{meanInterceptLineSize}{size of the mean intercept line. Only applies to histogram-charts and when
-\code{showMeanIntercept = TRUE}.}
 
 \item{axisTitle.x}{title for the x-axis. By default, \code{""} is used, i.e. no title
 is printed. If \code{axisTitle.x = NULL}, the variable name will be 
@@ -202,17 +170,19 @@ it will be grouped (using the \code{\link[sjmisc]{group_var}} function).
 Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.
 See \code{\link[sjmisc]{group_var}} for examples on grouping.}
 
-\item{startAxisAt}{numeric, determines the lower limit of the x-axis. By default, this value is set
-to \code{"auto"}, i.e. the value range on the x-axis starts with the lowest value of \code{varCount}.
-If \code{startAxisAt = 1}, plot may have zero counts if the lowest value of \code{varCount}
-is larger than 1 and hence no bars plotted for these values in such cases.}
-
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
-\item{labelPos}{string, indicating the position of value labels, when \code{coord.flip = TRUE}.
-Can be either \code{"inside"} or \code{"outside"} (default). You may specify
-initial letter only. If \code{coord.flip = FALSE}, use \code{"center"} 
-to center labels (useful if label angle is changes via \code{\link{sjp.setTheme}}).}
+\item{vjust}{character vector, indicating the vertical position of value 
+labels. Allowed are same values as for \code{vjust} aesthetics from 
+\code{ggplot2}: "left", "center", "right", "bottom", "middle", "top" and
+new options like "inward" and "outward", which align text towards and 
+away from the center of the plot respectively.}
+
+\item{hjust}{character vector, indicating the horizontal position of value 
+labels. Allowed are same values as for \code{vjust} aesthetics from 
+\code{ggplot2}: "left", "center", "right", "bottom", "middle", "top" and
+new options like "inward" and "outward", which align text towards and 
+away from the center of the plot respectively.}
 
 \item{na.rm}{logical, if \code{TRUE}, missings are not included in the frequency plot.}
 
@@ -224,8 +194,8 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
           was used for setting up the ggplot-object (\code{df}).
 }
 \description{
-Plot grouped or stacked frequencies of variables 
-               as bar/dor graphs, box or violin plots, histograms etc.
+Plot grouped or stacked frequencies of variables as bar/dot, 
+               box or violin plots, or line plot.
 }
 \note{
 \code{geom.colors} may be a acharacter vector of color values 
@@ -244,9 +214,7 @@ library(sjmisc)
 data(efc)
 sjp.grpfrq(efc$e17age,
            efc$e16sex,
-           type = "hist",
-           showValueLabels = FALSE,
-           showMeanIntercept = TRUE)
+           showValueLabels = FALSE)
 
 # boxplot
 sjp.grpfrq(efc$e17age, 
@@ -267,16 +235,17 @@ sjp.grpfrq(efc$e17age,
            interactionVar = efc$e16sex,
            type = "box")
 
-# Grouped bar plot ranging from 1 to 28 (though scale starts with 7)
-sjp.grpfrq(efc$neg_c_7, 
-           efc$e42dep, 
-           showValueLabels = FALSE, 
-           startAxisAt = 1)
-# Same grouped bar plot ranging from 7 to 28
+# Grouped bar plot ranging from 7 to 28
 sjp.grpfrq(efc$neg_c_7, 
            efc$e42dep, 
            showValueLabels = FALSE)
 
+# line plot
+sjp.grpfrq(efc$neg_c_7, 
+           efc$e42dep, 
+           type = "lines",
+           showValueLabels = FALSE)
+           
 }
 \seealso{
 \href{http://www.strengejacke.de/sjPlot/sjp.grpfrq/}{sjPlot manual: sjp.grpfrq}

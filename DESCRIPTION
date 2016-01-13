@@ -29,7 +29,7 @@ Imports:
     magrittr,
     psych,
     scales,
-    sjmisc (>= 1.3),
+    sjmisc (>= 1.4),
     tidyr (>= 0.3.1)
 Suggests:
     AICcmodavg,
