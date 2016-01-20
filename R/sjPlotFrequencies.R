@@ -87,13 +87,6 @@ utils::globalVariables(c("val", "frq", "grp", "upper.ci", "lower.ci", "ia", "..d
 #'          for details).
 #' @param axisTitle.y title for the y-axis. By default, this value is \code{NULL},
 #'          i.e. no title is printed.
-#' @param hist.skipZeros logical, if \code{TRUE}, zero counts (categories with no answer) 
-#'          in \code{varCount} are omitted when drawing histrograms, and the mapping 
-#'          is changed to \code{\link[ggplot2]{stat_bin}}. Only applies to  histograms. 
-#'          Use this argument to get similar results to the default \code{\link[ggplot2]{qplot}} 
-#'          or \code{\link[ggplot2]{geom_histogram}} histogram plots of ggplot. You may need
-#'          to adjust the \code{geom.size} argument for better visual results 
-#'          (which, by ggplot-default, is 1/30 of the x-axis-range).
 #' @param autoGroupAt numeric value, indicating at which length of unique values of \code{varCount}, 
 #'          automatic grouping into smaller units is done (see \code{\link[sjmisc]{group_var}}).
 #'          If \code{varCount} has large numbers of unique values, there may be too many bars 
@@ -102,10 +95,6 @@ utils::globalVariables(c("val", "frq", "grp", "upper.ci", "lower.ci", "ia", "..d
 #'          it will be grouped (using the \code{\link[sjmisc]{group_var}} function). 
 #'          Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.
 #'          See \code{\link[sjmisc]{group_var}} for examples on grouping.
-#' @param labelPos string, indicating the position of value labels, when \code{coord.flip = TRUE}.
-#'          Can be either \code{"inside"} or \code{"outside"} (default). You may specify
-#'          initial letter only. If \code{coord.flip = FALSE}, this argument will
-#'          be ignored.
 #'          
 #' @inheritParams sjp.grpfrq
 #' 
@@ -175,12 +164,7 @@ utils::globalVariables(c("val", "frq", "grp", "upper.ci", "lower.ci", "ia", "..d
 #' # -------------------------------------------------
 #' # auto-detection of value labels and variable names
 #' # -------------------------------------------------
-#' # negative impact scale, ranging from 7-28, assuming that
-#' # variable scale (lowest value) starts with 1
-#' sjp.frq(efc$neg_c_7, startAxisAt = 1)
-#' 
-#' # negative impact scale, ranging from 7-28, using
-#' # automatic detection of start index of x-axis
+#' # negative impact scale, ranging from 7-28
 #' sjp.frq(efc$neg_c_7)
 #' 
 #' # -------------------------------------------------
@@ -190,16 +174,17 @@ utils::globalVariables(c("val", "frq", "grp", "upper.ci", "lower.ci", "ia", "..d
 #'         type = "dots",
 #'         showCI = TRUE,
 #'         sort.frq = "desc",
-#'         coord.flip = TRUE)
+#'         coord.flip = TRUE,
+#'         expand.grid = TRUE, # for text labels
+#'         vjust = "bottom",   # for text labels
+#'         hjust = "left")     # for text labels
 #' 
 #' # -------------------------------------------------
-#' # Simulate ggplot-default histogram, using "hist.skipZeros"
-#' # and adjusted "geom.size".
+#' # Simulate ggplot-default histogram
 #' # -------------------------------------------------
 #' sjp.frq(efc$c160age, 
 #'         type = "h", 
-#'         hist.skipZeros = TRUE, 
-#'         geom.size = 1)
+#'         geom.size = 3)
 #' 
 #'   
 #' @import ggplot2
@@ -214,7 +199,7 @@ sjp.frq <- function(varCount,
                     sort.frq = "none",
                     type = "bars",
                     geom.size = NULL,
-                    geom.colors = NULL,
+                    geom.colors = "#336699",
                     axisLabels.x = NULL,
                     interactionVarLabels = NULL,
                     axisLimits.x = NULL,
@@ -245,17 +230,16 @@ sjp.frq <- function(varCount,
                     normalCurveAlpha = 0.4,
                     axisTitle.x = NULL,
                     axisTitle.y = NULL,
-                    startAxisAt = "auto",
-                    hist.skipZeros = FALSE,
                     autoGroupAt = NULL,
                     coord.flip = FALSE,
-                    labelPos = "outside",
+                    vjust = "bottom",
+                    hjust = "center",
                     na.rm = TRUE,
                     printPlot = TRUE) {
   # --------------------------------------------------------
   # get variable name
   # --------------------------------------------------------
-  var.name <- deparse(substitute(varCount))
+  var.name <- get_var_name(deparse(substitute(varCount)))
   # --------------------------------------------------------
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
@@ -271,9 +255,7 @@ sjp.frq <- function(varCount,
   # --------------------------------------------------------
   # check color argument
   # --------------------------------------------------------
-  if (is.null(geom.colors)) {
-    geom.colors <- ggplot2::waiver()
-  } else if (length(geom.colors) > 1) {
+  if (length(geom.colors) > 1) {
     geom.colors <- geom.colors[1]
   }
   # --------------------------------------------------------
@@ -355,7 +337,6 @@ sjp.frq <- function(varCount,
                           weightBy = weightBy)
   mydat <- df.frq$mydat
   if (!is.null(df.frq$labels)) axisLabels.x <- df.frq$labels
-  catmin <- df.frq$minval
   # --------------------------------------------------------
   # Trim labels and title to appropriate size
   # --------------------------------------------------------
@@ -444,41 +425,22 @@ sjp.frq <- function(varCount,
         lower_lim <- 0
         trimViolin <- TRUE
       }
-    } else {
+    } else if (type == "histogram") {
+      # what is the maximum values after binning for histograms?
+      hist.grp.cnt <- ceiling(diff(range(varCount, na.rm = T)) / geom.size)
       # ... or the amount of max. answers per category
       # add 5% margin to upper limit
-      upper_lim <- max(pretty(table(varCount) * 1.05))
+      upper_lim <- max(pretty(table(sjmisc::group_var(varCount, 
+                                                      groupsize = "auto", 
+                                                      groupcount = hist.grp.cnt)) * 1.05))
+    } else {
+      if (showCI)
+        upper_lim <- max(pretty(mydat$upper.ci * 1.05))
+      else
+        upper_lim <- max(pretty(table(varCount) * 1.05))
     }
-  }
-  # --------------------------------------------------------
-  # define geom
-  # --------------------------------------------------------
-  if (type == "bars") {
-    geob <- geom_bar(stat = "identity", 
-                     width = geom.size, 
-                     fill = geom.colors)
-  } else if (type == "dots") {
-    geob <- geom_point(size = geom.size, fill = geom.colors)
   }
   if (!showAxisLabels.x) axisLabels.x <- c("")
-  # --------------------------------------------------------
-  # Set value labels
-  # --------------------------------------------------------
-  if (coord.flip) {
-    # adjust vertical position for labels, based on whether percentage values
-    # are shown or not
-    vert <- ggplot2::waiver() # ifelse((showPercentageValues == TRUE && showCountValues == TRUE), 0.5, 0.1)
-    if (labelPos == "inside" || labelPos == "i") {
-      hort <- 1.1
-    } else {
-      hort <- -0.1
-    }
-  } else {
-    # adjust vertical position for labels, based on whether percentage values
-    # are shown or not
-    vert <- ifelse((showPercentageValues == TRUE && showCountValues == TRUE), -0.2, -0.6)
-    hort <- ggplot2::waiver()
-  }
   # --------------------------------------------------------
   # Set value labels
   # --------------------------------------------------------
@@ -490,59 +452,63 @@ sjp.frq <- function(varCount,
       if (coord.flip) {
         if (showCI) {
           ggvaluelabels <-  geom_text(label = sprintf("%i (%.01f%%)", mydat$frq, mydat$valid.prc),
-                                      hjust = hort,
-                                      vjust = vert,
+                                      hjust = hjust,
+                                      vjust = vjust,
                                       aes(y = upper.ci))
         } else {
           ggvaluelabels <-  geom_text(label = sprintf("%i (%.01f%%)", mydat$frq, mydat$valid.prc),
-                                      hjust = hort,
-                                      vjust = vert)
+                                      hjust = hjust,
+                                      vjust = vjust,
+                                      aes(y = frq))
         }
       } else {
         if (showCI) {
           ggvaluelabels <-  geom_text(label = sprintf("%i\n(%.01f%%)", mydat$frq, mydat$valid.prc),
-                                      hjust = hort,
-                                      vjust = vert,
+                                      hjust = hjust,
+                                      vjust = vjust,
                                       aes(y = upper.ci))
         } else {
           ggvaluelabels <-  geom_text(label = sprintf("%i\n(%.01f%%)", mydat$frq, mydat$valid.prc),
-                                      hjust = hort,
-                                      vjust = vert)
+                                      hjust = hjust,
+                                      vjust = vjust,
+                                      aes(y = frq))
         }
       }
     } else if (showCountValues) {
       if (showCI) {
         # here we have counts, without percentages
         ggvaluelabels <-  geom_text(label = sprintf("%i", mydat$frq),
-                                    hjust = hort,
-                                    vjust = vert,
+                                    hjust = hjust,
+                                    vjust = vjust,
                                     aes(y = upper.ci))
       } else {
         # here we have counts, without percentages
         ggvaluelabels <-  geom_text(label = sprintf("%i", mydat$frq),
-                                    hjust = hort,
-                                    vjust = vert)
+                                    hjust = hjust,
+                                    vjust = vjust,
+                                    aes(y = frq))
       }
     } else if (showPercentageValues) {
       if (showCI) {
         # here we have counts, without percentages
         ggvaluelabels <-  geom_text(label = sprintf("%.01f%%", mydat$valid.prc),
-                                    hjust = hort,
-                                    vjust = vert,
+                                    hjust = hjust,
+                                    vjust = vjust,
                                     aes(y = upper.ci))
       } else {
         # here we have counts, without percentages
         ggvaluelabels <-  geom_text(label = sprintf("%.01f%%", mydat$valid.prc),
-                                    hjust = hort,
-                                    vjust = vert)
+                                    hjust = hjust,
+                                    vjust = vjust,
+                                    aes(y = frq))
       }
     } else {
       # no labels
-      ggvaluelabels <-  geom_text(label = "")
+      ggvaluelabels <-  geom_text(aes(y = frq), label = "")
     }
   } else {
     # no labels
-    ggvaluelabels <-  geom_text(label = "")
+    ggvaluelabels <-  geom_text(aes(y = frq), label = "")
   }
   # --------------------------------------------------------
   # Set up grid breaks
@@ -558,12 +524,7 @@ sjp.frq <- function(varCount,
   # ----------------------------------
   # set x-axis limits
   # ----------------------------------
-  if (is.null(axisLimits.x)) {
-    if (type == "histogram")
-      axisLimits.x <- c(catmin - 1, maxx + 1)
-    else
-      axisLimits.x <- c(catmin, maxx)
-  }
+  # if (is.null(axisLimits.x)) axisLimits.x <- c(catmin, maxx)
   # ----------------------------------
   # set y scaling and label texts
   # ----------------------------------
@@ -589,14 +550,24 @@ sjp.frq <- function(varCount,
   stdsd <- stdmean / 4
   stdlen <- length(stats::na.omit(varCount))
   # ----------------------------------
-  # Check how many categories we have on the x-axis.
-  # If it exceeds the user defined limits, plot
-  # histrogram instead of bar chart
+  # bar and dot plot start here!
   # ----------------------------------
   if (type == "bars" || type == "dots") {
+    # -----------------------------------
+    # define geom
+    # -----------------------------------
+    if (type == "bars") {
+      geob <- geom_bar(stat = "identity", 
+                       width = geom.size, 
+                       fill = geom.colors)
+    } else if (type == "dots") {
+      geob <- geom_point(size = geom.size, fill = geom.colors)
+    }
+    # -----------------------------------
     # mydat is a data frame that only contains one variable (var).
     # Must be declared as factor, so the bars are central aligned to
     # each x-axis-break. 
+    # -----------------------------------
     baseplot <- ggplot(mydat, aes(x = factor(val), y = frq)) + 
       geob +
       yscale + 
@@ -618,197 +589,182 @@ sjp.frq <- function(varCount,
     # check whether coordinates should be flipped, i.e.
     # swap x and y axis
     if (coord.flip) baseplot <- baseplot + coord_flip()
-  } else {
-    # --------------------------------------------------
-    # Here we start when we have a histogram instead of
-    # bar plot.
-    # --------------------------------------------------
-    # Start density plot here
-    # --------------------------------------------------
-    if (type == "boxplots" || type == "violin") {
-      if (is.null(interactionVar)) {
-        baseplot <- ggplot(mydat, aes(x = grp, y = frq))
-        scalex <- scale_x_discrete(labels = "")
-      } else {
-        baseplot <- ggplot(mydat, aes(x = interaction(ia, grp), y = frq))
-        scalex <- scale_x_discrete(labels = interactionVarLabels)
-      }
-      if (type == "boxplots") {
-        baseplot <- baseplot + 
-          geom_boxplot(width = geom.size, fill = geom.colors)
-      } else {
-        baseplot <- baseplot + 
-          geom_violin(trim = trimViolin, 
-                      width = geom.size, 
-                      fill = geom.colors) +
-          # if we have a violin plot, add an additional boxplot inside to show
-          # more information
-          geom_boxplot(width = innerBoxPlotWidth, 
-                       fill = "white")
-      }
-      # if we have boxplots or violon plots, also add a point that indicates
-      # the mean value
-      # different fill colours, because violin boxplots have white background
-      fcsp <- ifelse(type == "boxplots", "white", "black")
-      baseplot <- baseplot +
-        stat_summary(fun.y = "mean", 
-                     geom = "point", 
-                     shape = 21, 
-                     size = innerBoxPlotDotSize, 
-                     fill = fcsp)
-      # no additional labels for the x- and y-axis, only diagram title
-      baseplot <- baseplot + 
-        yscale +
-        scalex
-    # --------------------------------------------------
-    # Start density plot here
-    # --------------------------------------------------
-    } else if (type == "dens") {
-      xv <- stats::na.omit(varCount)
-      densityDat <- data.frame(xv)
-      # First, plot histogram with density curve
-      baseplot <- ggplot(densityDat, aes(x = xv)) +
-        geom_histogram(aes(y = ..density..), fill = geom.colors) +
-        # transparent density curve above bars
-        geom_density(aes(y = ..density..), 
-                     fill = "cornsilk", 
-                     alpha = 0.3) +
-        # remove margins from left and right diagram side
-        scale_x_continuous(expand = expand.grid, 
-                           breaks = histgridbreaks,
-                           limits = axisLimits.x)
-      # check whether user wants to overlay the histogram
-      # with a normal curve
-      if (showNormalCurve) {
-        baseplot <- baseplot +
-          stat_function(fun = dnorm,
-                        args = list(mean = mean(densityDat$xv),
-                                    sd = stats::sd(densityDat$xv)),
-                        colour = normalCurveColor,
-                        size = normalCurveSize,
-                        alpha = normalCurveAlpha)
-      }
-      if (showStandardNormalCurve) {
-        baseplot <- baseplot +
-          stat_function(fun = dnorm,
-                        args = list(mean = stdmean, sd = stdsd),
-                        colour = normalCurveColor,
-                        size = normalCurveSize,
-                        alpha = normalCurveAlpha)
-      }
+  # --------------------------------------------------
+  # Start box plot here
+  # --------------------------------------------------
+  } else if (type == "boxplots" || type == "violin") {
+    if (is.null(interactionVar)) {
+      baseplot <- ggplot(mydat, aes(x = grp, y = frq))
+      scalex <- scale_x_discrete(labels = "")
     } else {
-      # -----------------------------------------------------------------
-      # Since the density curve shows no absolute numbers (counts) on the
-      # y-axis, have also the opportunity to plot "real" histrograms with 
-      # counts on the y-axis
-      # -----------------------------------------------------------------
-      # base constructor
-      if (hist.skipZeros) {
-        xv <- stats::na.omit(varCount)
-        if (geom.size < round(diff(range(xv)) / 50)) message("Using very small binwidth. Consider adjusting \"geom.size\" argument.")
-        hist.dat <- data.frame(xv)
-        baseplot <- ggplot(mydat)
-        basehist <- geom_histogram(data = hist.dat, 
-                                   aes(x = xv),
-                                   binwidth = geom.size, 
-                                   fill = geom.colors)
-      } else {
-        baseplot <- ggplot(mydat, aes(x = val, y = frq))
-        basehist <- geom_histogram(stat = "identity", 
-                                   binwidth = geom.size, 
-                                   fill = geom.colors)
-      }
-      basehistline <- geom_area(alpha = 0.3)
-      # check whether user wants line or bar histogram
-      if (type == "line") {
-        baseplot <- baseplot + basehistline + geom_line(colour = geom.colors)
-      } else {
-        baseplot <- baseplot + basehist
-      }
-      # check whether user wants to overlay the histogram
-      # with a normal curve
-      if (showNormalCurve) {
-        baseplot <- baseplot +
-          stat_function(fun = function(x, mean, sd, n) { n * dnorm(x = x, mean = mean, sd = sd) },
-                        args = with(mydat, c(mean = mittelwert, sd = stddev, n = length(varCount))),
-                        colour = normalCurveColor,
-                        size = normalCurveSize,
-                        alpha = normalCurveAlpha)
-      }
-      if (showStandardNormalCurve) {
-        baseplot <- baseplot +
-          stat_function(fun = function(x, mean, sd, n) { 
-            if (adjustNormalCurve.x) x <- x - stdadjust
-            n * dnorm(x = x, mean = mean, sd = sd)},
-            args = with(mydat, c(mean = stdmean, sd = stdsd, n = stdlen)),
-            colour = normalCurveColor,
-            size = normalCurveSize,
-            alpha = normalCurveAlpha)
-      }
-      # if we have a histogram, add mean-lines
-      if (showMeanIntercept) {
+      baseplot <- ggplot(mydat, aes(x = interaction(ia, grp), y = frq))
+      scalex <- scale_x_discrete(labels = interactionVarLabels)
+    }
+    if (type == "boxplots") {
+      baseplot <- baseplot + 
+        geom_boxplot(width = geom.size, fill = geom.colors)
+    } else {
+      baseplot <- baseplot + 
+        geom_violin(trim = trimViolin, 
+                    width = geom.size, 
+                    fill = geom.colors) +
+        # if we have a violin plot, add an additional boxplot inside to show
+        # more information
+        geom_boxplot(width = innerBoxPlotWidth, 
+                     fill = "white")
+    }
+    # if we have boxplots or violon plots, also add a point that indicates
+    # the mean value
+    # different fill colours, because violin boxplots have white background
+    fcsp <- ifelse(type == "boxplots", "white", "black")
+    baseplot <- baseplot +
+      stat_summary(fun.y = "mean", 
+                   geom = "point", 
+                   shape = 21, 
+                   size = innerBoxPlotDotSize, 
+                   fill = fcsp)
+    # no additional labels for the x- and y-axis, only diagram title
+    baseplot <- baseplot + 
+      yscale +
+      scalex
+  # --------------------------------------------------
+  # Start density plot here
+  # --------------------------------------------------
+  } else if (type == "dens") {
+    xv <- stats::na.omit(varCount)
+    densityDat <- data.frame(xv)
+    # First, plot histogram with density curve
+    baseplot <- ggplot(densityDat, aes(x = xv)) +
+      geom_histogram(aes(y = ..density..), fill = geom.colors) +
+      # transparent density curve above bars
+      geom_density(aes(y = ..density..), 
+                   fill = "cornsilk", 
+                   alpha = 0.3) +
+      # remove margins from left and right diagram side
+      scale_x_continuous(expand = expand.grid, 
+                         breaks = histgridbreaks,
+                         limits = axisLimits.x)
+    # check whether user wants to overlay the histogram
+    # with a normal curve
+    if (showNormalCurve) {
+      baseplot <- baseplot +
+        stat_function(fun = dnorm,
+                      args = list(mean = mean(densityDat$xv),
+                                  sd = stats::sd(densityDat$xv)),
+                      colour = normalCurveColor,
+                      size = normalCurveSize,
+                      alpha = normalCurveAlpha)
+    }
+    if (showStandardNormalCurve) {
+      baseplot <- baseplot +
+        stat_function(fun = dnorm,
+                      args = list(mean = stdmean, sd = stdsd),
+                      colour = normalCurveColor,
+                      size = normalCurveSize,
+                      alpha = normalCurveAlpha)
+    }
+  } else {
+    # -----------------------------------------------------------------
+    # Since the density curve shows no absolute numbers (counts) on the
+    # y-axis, have also the opportunity to plot "real" histrograms with 
+    # counts on the y-axis
+    # -----------------------------------------------------------------
+    if (type == "histogram") {
+      xv <- stats::na.omit(varCount)
+      if (geom.size < round(diff(range(xv)) / 50)) message("Using very small binwidth. Consider adjusting \"geom.size\" argument.")
+      hist.dat <- data.frame(xv)
+      baseplot <- ggplot(mydat) +
+        geom_histogram(data = hist.dat,
+                       aes(x = xv),
+                       binwidth = geom.size, 
+                       fill = geom.colors)        
+      
+    } else {
+      baseplot <- ggplot(mydat, aes(x = val, y = frq)) +
+        geom_area(alpha = 0.3) +
+        geom_line(size = geom.size, colour = geom.colors) +
+        ggvaluelabels
+    }
+    # check whether user wants to overlay the histogram
+    # with a normal curve
+    if (showNormalCurve) {
+      baseplot <- baseplot +
+        stat_function(fun = function(x, mean, sd, n) { n * dnorm(x = x, mean = mean, sd = sd) },
+                      args = with(mydat, c(mean = mittelwert, sd = stddev, n = length(varCount))),
+                      colour = normalCurveColor,
+                      size = normalCurveSize,
+                      alpha = normalCurveAlpha)
+    }
+    if (showStandardNormalCurve) {
+      baseplot <- baseplot +
+        stat_function(fun = function(x, mean, sd, n) { 
+          if (adjustNormalCurve.x) x <- x - stdadjust
+          n * dnorm(x = x, mean = mean, sd = sd)},
+          args = with(mydat, c(mean = stdmean, sd = stdsd, n = stdlen)),
+          colour = normalCurveColor,
+          size = normalCurveSize,
+          alpha = normalCurveAlpha)
+    }
+    # if we have a histogram, add mean-lines
+    if (showMeanIntercept) {
+      baseplot <- baseplot + 
+        # vertical lines indicating the mean
+        geom_vline(xintercept = mittelwert, 
+                   linetype = meanInterceptLineType, 
+                   size = meanInterceptLineSize)
+      # check whether meanvalue should be shown.
+      if (showMeanValue) {
         baseplot <- baseplot + 
-          # vertical lines indicating the mean
-          geom_vline(xintercept = mittelwert, 
-                     linetype = meanInterceptLineType, 
-                     size = meanInterceptLineSize)
-        # check whether meanvalue should be shown.
+          # use annotation instead of geomtext, because we need mean value only printed once
+          annotate("text", 
+                   x = mittelwert, 
+                   y = upper_lim, 
+                   parse = TRUE, 
+                   label = paste("italic(bar(x)) == ", "'", c(round(mittelwert, 1)), "'"), 
+                   hjust = 1.1, 
+                   vjust = 2.2)
+      }
+      # check whether the user wants to plot standard deviation area
+      if (showStandardDeviation) {
+        baseplot <- baseplot +
+          # first draw shaded rectangle. these are by default in grey colour with very high transparancy
+          annotate("rect", 
+                   xmin = mittelwert - stddev, 
+                   xmax = mittelwert + stddev, 
+                   ymin = 0, 
+                   ymax = c(upper_lim), 
+                   fill = "grey70", 
+                   alpha = 0.2) +
+          # draw border-lines for shaded rectangle
+          geom_vline(xintercept = mittelwert - stddev, 
+                     linetype = 3, 
+                     size = meanInterceptLineSize, 
+                     alpha = 0.7) +
+          geom_vline(xintercept = mittelwert + stddev, 
+                     linetype = 3, 
+                     size = meanInterceptLineSize, 
+                     alpha = 0.7)
+        # if mean values are plotted, plot standard deviation values as well
         if (showMeanValue) {
           baseplot <- baseplot + 
             # use annotation instead of geomtext, because we need mean value only printed once
             annotate("text", 
                      x = mittelwert, 
                      y = upper_lim, 
+                     label = sprintf("italic(s) == %.2f", round(stddev, 1)), 
                      parse = TRUE, 
-                     label = paste("italic(bar(x)) == ", "'", c(round(mittelwert, 1)), "'"), 
-                     hjust = 1.1, 
-                     vjust = 2.2)
-        }
-        # check whether the user wants to plot standard deviation area
-        if (showStandardDeviation) {
-          baseplot <- baseplot +
-            # first draw shaded rectangle. these are by default in grey colour with very high transparancy
-            annotate("rect", 
-                     xmin = mittelwert - stddev, 
-                     xmax = mittelwert + stddev, 
-                     ymin = 0, 
-                     ymax = c(upper_lim), 
-                     fill = "grey70", 
-                     alpha = 0.2) +
-            # draw border-lines for shaded rectangle
-            geom_vline(xintercept = mittelwert - stddev, 
-                       linetype = 3, 
-                       size = meanInterceptLineSize, 
-                       alpha = 0.7) +
-            geom_vline(xintercept = mittelwert + stddev, 
-                       linetype = 3, 
-                       size = meanInterceptLineSize, 
-                       alpha = 0.7)
-          # if mean values are plotted, plot standard deviation values as well
-          if (showMeanValue) {
-            baseplot <- baseplot + 
-              # use annotation instead of geomtext, because we need mean value only printed once
-              annotate("text", 
-                       x = mittelwert, 
-                       y = upper_lim, 
-                       label = sprintf("italic(s) == %.2f", round(stddev, 1)), 
-                       parse = TRUE, 
-                       hjust = 1.15, 
-                       vjust = 4.2)
-          }
+                     hjust = 1.15, 
+                     vjust = 4.2)
         }
       }
-      if (!hist.skipZeros) {
-        # show absolute and percentage value of each bar.
-        baseplot <- baseplot + ggvaluelabels
-      }
-      baseplot <- baseplot +
-        # remove margins from left and right diagram side
-        scale_x_continuous(limits = axisLimits.x, 
-                           expand = expand.grid, 
-                           breaks = histgridbreaks) +
-        yscale
     }
+    # show absolute and percentage value of each bar.
+    baseplot <- baseplot + 
+      # remove margins from left and right diagram side
+      scale_x_continuous(limits = axisLimits.x, 
+                         expand = expand.grid, 
+                         breaks = histgridbreaks) +
+      yscale
   }
   # set axes text and 
   baseplot <- baseplot + labs(title = title, x = axisTitle.x, y = axisTitle.y)

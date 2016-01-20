@@ -7,6 +7,10 @@ General:
 * Redesign of computation of frequency tables for `sjp.grpfrq` and `sjt.xtab`, being more robust and generally working with labelled, non-labelled, numeric, character vectors and factors.
 * Better automatic handling of variable and value labels that are used for labelling plot axes and titles or table columns.
 
+Changes to functions due to new ggplot2-version:
+* `sjp.grpfrq` no longer has plot type `type = "histogram"`. Maybe re-implemented in a later update. Due to this change, arguments like `showMeanIntercept` and similar were removed.
+* Plotting functions no longer have argument `labelPosition`. Instead, use arguments `vjust` and `hjust`, which correspond to the same ggplot2-aesthetics according to their possible values.
+
 Changes to functions:
 * `sjp.lm` gets a `group.estimates` argument to group estimates in forest plots and colour them according to group assignment. Use arguments `show.legend` and `legendTitle` to modify group legend.
 * `sjp.lmer` and `sjp.glmer` can now plot random effect parts of random slope-intercept models (with `type = "rs.ri"`), where regression lines or predicted probabilities of random intercept and slopes are plotted.

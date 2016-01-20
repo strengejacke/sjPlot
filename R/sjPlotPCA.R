@@ -358,7 +358,11 @@ sjp.pca <- function(data,
   # rename columns, so we have numbers on x axis
   names(df) <- c(1:ncol(df))
   # convert to long data
-  df <- tidyr::gather(df, "xpos", "value", 1:ncol(df))  
+  df <- tidyr::gather(df, 
+                      "xpos", 
+                      "value", 
+                      1:ncol(df), 
+                      factor_key = TRUE)  
   # we need new columns for y-positions and point sizes
   df <- cbind(df, ypos = 1:nrow(pcadata.varim$loadings), psize = exp(abs(df$value)) * geom.size)
   if (!showValueLabels) {

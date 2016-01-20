@@ -185,6 +185,7 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'            
 #' @import ggplot2
 #' @import sjmisc
+#' @importFrom tidyr gather
 #' @importFrom dplyr group_by mutate arrange summarise add_rownames
 #' @importFrom stats na.omit xtabs wilcox.test sd
 #' @export
@@ -235,8 +236,8 @@ sjp.grpfrq <- function(varCount,
   # --------------------------------------------------------
   # get variable name
   # --------------------------------------------------------
-  var.name.cnt <- deparse(substitute(varCount))
-  var.name.grp <- deparse(substitute(varGroup))
+  var.name.cnt <- get_var_name(deparse(substitute(varCount)))
+  var.name.grp <- get_var_name(deparse(substitute(varGroup)))
   # --------------------------------------------------------
   # We have several options to name the diagram type
   # Here we will reduce it to a unique value
@@ -322,10 +323,8 @@ sjp.grpfrq <- function(varCount,
     hideLegend <- FALSE
     legendLabels <- axisLabels.x
   }
-  if (is.null(axisTitle.x))
-    axisTitle.x <- sjmisc::get_label(varCount, def.value = var.name.cnt)
-  if (is.null(legendTitle))
-    legendTitle <- sjmisc::get_label(varGroup, def.value = var.name.grp)
+  if (is.null(axisTitle.x)) axisTitle.x <- sjmisc::get_label(varCount, def.value = var.name.cnt)
+  if (is.null(legendTitle)) legendTitle <- sjmisc::get_label(varGroup, def.value = var.name.grp)
   if (is.null(title)) {
     t1 <- sjmisc::get_label(varCount, def.value = var.name.cnt)
     t2 <- sjmisc::get_label(varGroup, def.value = var.name.grp)
@@ -334,14 +333,10 @@ sjp.grpfrq <- function(varCount,
   # --------------------------------------------------------
   # remove titles if empty
   # --------------------------------------------------------
-  if (!is.null(legendTitle) && legendTitle == "")
-    legendTitle <- NULL
-  if (!is.null(axisTitle.x) && axisTitle.x == "")
-    axisTitle.x <- NULL
-  if (!is.null(axisTitle.y) && axisTitle.y == "")
-    axisTitle.y <- NULL
-  if (!is.null(title) && title == "")
-    title <- NULL
+  if (!is.null(legendTitle) && legendTitle == "") legendTitle <- NULL
+  if (!is.null(axisTitle.x) && axisTitle.x == "") axisTitle.x <- NULL
+  if (!is.null(axisTitle.y) && axisTitle.y == "") axisTitle.y <- NULL
+  if (!is.null(title) && title == "") title <- NULL
   # --------------------------------------------------------
   # count variable may not be a factor!
   # --------------------------------------------------------
@@ -373,7 +368,11 @@ sjp.grpfrq <- function(varCount,
   # create cross table for stats, summary etc.
   # and weight variable
   #---------------------------------------------------
-  mydf <- tidyr::gather(mydat$mydat, "group", "frq", 2:(grpcount + 1))
+  mydf <- tidyr::gather(mydat$mydat, 
+                        "group", 
+                        "frq", 
+                        2:(grpcount + 1), 
+                        factor_key = TRUE)
   # -----------------------------------------------
   # xpos should be numeric factor
   #---------------------------------------------------

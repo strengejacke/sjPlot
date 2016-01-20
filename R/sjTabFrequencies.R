@@ -528,7 +528,7 @@ sjt.frq <- function(data,
     df.frq <- create.frq.df(data[[cnt]],
                             breakLabelsAt = Inf,
                             order.frq = sort.frq,
-                            2,
+                            round.prz = digits,
                             na.rm = F, 
                             weightBy = weightBy)
     df <- df.frq$mydat

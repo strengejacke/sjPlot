@@ -37,7 +37,7 @@ print.table.summary <- function(baseplot,
                vjust = 1.1,
                hjust = t.hjust)
   }
-  return (baseplot)
+  return(baseplot)
 }
 
 
@@ -69,6 +69,16 @@ out.html.table <- function(no.output, file, knitr, toWrite, useViewer) {
       # unlink(htmlFile)
     }
   }
+}
+
+
+get_var_name <- function(x) {
+  # remove "data frame name"
+  dollar_pos <- regexpr("$", x, fixed = T)[1]
+  if (dollar_pos != -1)
+    x <-
+    substr(x, start = dollar_pos + 1, stop = nchar(x))
+  return(x)
 }
 
 
@@ -211,19 +221,12 @@ create.xtab.df <- function(x,
   # vector to labelled factor first.
   # ------------------------------
   if (is.null(weightBy)) {
+    x_full <- suppressWarnings(sjmisc::to_label(x, add.non.labelled = T))
+    grp_full <- suppressWarnings(sjmisc::to_label(grp, add.non.labelled = T))
     if (na.rm) {
-      mydat <-
-        stats::ftable(table(
-          suppressWarnings(sjmisc::to_label(x, add.non.labelled = T)),
-          suppressWarnings(sjmisc::to_label(grp, add.non.labelled = T))
-        ))
+      mydat <- stats::ftable(table(x_full, grp_full))
     } else {
-      mydat <-
-        stats::ftable(table(
-          suppressWarnings(sjmisc::to_label(x, add.non.labelled = T)),
-          suppressWarnings(sjmisc::to_label(grp, add.non.labelled = T)),
-          exclude = NULL
-        ))
+      mydat <- stats::ftable(table(x_full, grp_full), exclude = NULL)
     }
   } else {
     x <- suppressWarnings(sjmisc::to_value(x, keep.labels = T))
@@ -233,10 +236,21 @@ create.xtab.df <- function(x,
     else
       mydat <- stats::ftable(round(stats::xtabs(weightBy ~ x + grp, exclude = NULL, na.action = na.pass)), 0)
   }
-  # create proportional tables
-  proptab.cell <- round(100 * prop.table(mydat), 2)
-  proptab.row <- round(100 * prop.table(mydat, 1), 2)
-  proptab.col <- round(100 * prop.table(mydat, 2), 2)
+  # create proportional tables, cell values
+  proptab.cell <- round(100 * prop.table(mydat), round.prz)
+  # create proportional tables, row percentages, including total row
+  proptab.row <- rbind(as.data.frame(as.matrix(round(100 * prop.table(mydat, 1), round.prz))), 
+                       colSums(proptab.cell))
+  rownames(proptab.row)[nrow(proptab.row)] <- "total"
+  # create proportional tables, column  percentages, including total row
+  proptab.col <- cbind(as.data.frame(as.matrix(round(100 * prop.table(mydat, 2), round.prz))), 
+                       rowSums(proptab.cell))
+  colnames(proptab.col)[ncol(proptab.col)] <- "total"
+  # add total row and column to cell percentages afterwards
+  proptab.cell <- rbind(as.data.frame(as.matrix(proptab.cell)), colSums(proptab.cell))
+  proptab.cell <- cbind(as.data.frame(as.matrix(proptab.cell)), rowSums(proptab.cell))
+  colnames(proptab.cell)[ncol(proptab.cell)] <- "total"
+  rownames(proptab.cell)[nrow(proptab.cell)] <- "total"
   # convert to data frame
   mydat <- data.frame(mydat)
   colnames(mydat)[2] <- "Var2"
