@@ -1336,7 +1336,8 @@ sjp.lm.eff <- function(fit,
   # --------------------------------------------
   # retrieve labels
   # --------------------------------------------
-  axisTitle.y <- sjmisc:::autoSetVariableLabels(resp)
+  axisTitle.y <- sjmisc::get_label(resp,
+                                   def.value = get_var_name(deparse(substitute(resp))))
   # no labels found? set default then
   if (is.null(axisTitle.y)) axisTitle.y <- resp.col
   # which title?

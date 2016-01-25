@@ -240,11 +240,10 @@ sjp.grpfrq(efc$neg_c_7,
            efc$e42dep, 
            showValueLabels = FALSE)
 
-# line plot
+# same data as line plot
 sjp.grpfrq(efc$neg_c_7, 
            efc$e42dep, 
-           type = "lines",
-           showValueLabels = FALSE)
+           type = "lines")
            
 }
 \seealso{

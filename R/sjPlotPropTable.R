@@ -1,5 +1,5 @@
 # bind global variables
-utils::globalVariables(c("prc", "n", "Count", "Group", "line.break"))
+utils::globalVariables(c("rowname", "total", "prc", "n", "Count", "Group", "line.break"))
 
 #' @title Plot contingency tables
 #' @name sjp.xtab

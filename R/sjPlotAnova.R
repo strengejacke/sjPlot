@@ -63,28 +63,11 @@ utils::globalVariables("pv")
 #' sjp.aov1(efc$c12hour, efc$e42dep)
 #' 
 #' 
-#' data(efc)
-#' efc.val <- get_labels(efc)
-#' efc.var <- get_label(efc)
-#' sjp.aov1(efc$c12hour,
-#'          as.factor(efc$e42dep),
-#'          axisLabels.y = efc.val['e42dep'],
-#'          axisTitle.x = efc.var[['c12hour']],
-#'          showModelSummary = TRUE)
-#'          
-#' # -------------------------------------------------
-#' # auto-detection of value labels and variable names
-#' # -------------------------------------------------
-#' sjp.aov1(efc$c12hour,
-#'          efc$e42dep)
-#' 
 #' # bar-plot, don't use this!
 #' # however, if you dare to, adjust
 #' # 'geom.size'...
 #' sjp.aov1(efc$c12hour,
 #'          efc$c172code,
-#'          axisLabels.y = efc.val['c172code'],
-#'          title = efc.var[['c12hour']],
 #'          type = "bars",
 #'          geom.size = 0.5)
 #'
@@ -117,13 +100,21 @@ sjp.aov1 <- function(depVar,
                      showModelSummary = FALSE,
                      printPlot = TRUE) {
   # --------------------------------------------------------
+  # get variable name
+  # --------------------------------------------------------
+  grpVar.name <- get_var_name(deparse(substitute(grpVar)))
+  depVar.name <- get_var_name(deparse(substitute(depVar)))
+  # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(axisLabels.y)) axisLabels.y <- sjmisc:::autoSetValueLabels(grpVar)
-  if (is.null(axisTitle.x)) axisTitle.x <- sjmisc:::autoSetVariableLabels(depVar)
+  if (is.null(axisLabels.y)) axisLabels.y <- sjmisc::get_labels(grpVar, 
+                                                                attr.only = F,
+                                                                include.values = NULL,
+                                                                include.non.labelled = T)
+  if (is.null(axisTitle.x)) axisTitle.x <- sjmisc::get_label(depVar, def.value = depVar.name)
   if (is.null(title)) {
-    t1 <- sjmisc:::autoSetVariableLabels(depVar)
-    t2 <- sjmisc:::autoSetVariableLabels(grpVar)
+    t1 <- sjmisc::get_label(grpVar, def.value = grpVar.name)
+    t2 <- sjmisc::get_label(depVar, def.value = depVar.name)
     if (!is.null(t1) && !is.null(t2)) title <- paste0(t1, " by ", t2)
   }
   # --------------------------------------------------------

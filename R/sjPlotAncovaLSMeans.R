@@ -219,14 +219,17 @@ sjp.emm <- function(fit,
       # get response name, which is variable name
       response.name <- colnames(fit$model)[1]
       # get variable label attribute
-      response.label <- sjmisc:::autoSetVariableLabels(fit$model[[1]])
+      response.label <- sjmisc::get_label(fit$model[[1]], 
+                                          def.value = response.name)
       # check if we have any
       if (is.null(response.label)) response.label <- response.name
       # -----------------------------------------------------------
       # prepare label for x-axix
       # -----------------------------------------------------------
-      # get value label attribute
-      alx <- sjmisc:::autoSetValueLabels(fit$model[[term.pairs[2]]])
+      alx <- sjmisc::get_labels(fit$model[[term.pairs[2]]], 
+                                attr.only = F, 
+                                include.values = NULL, 
+                                include.non.labelled = T)
       # check if we have any
       if (is.null(alx)) alx <- term.pairs[2]
       # -----------------------------------------------------------
@@ -507,14 +510,18 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.s
       # get response name, which is variable name
       response.name <- colnames(fit@frame)[1]
       # get variable label attribute
-      response.label <- sjmisc:::autoSetVariableLabels(fit@frame[[1]])
+      response.label <- sjmisc::get_label(fit@frame[[1]], 
+                                          def.value = response.name)
       # check if we have any
       if (is.null(response.label)) response.label <- response.name
       # -----------------------------------------------------------
       # prepare label for x-axix
       # -----------------------------------------------------------
       # get value label attribute
-      alx <- sjmisc:::autoSetValueLabels(fit@frame[[term.pairs[2]]])
+      alx <- sjmisc::get_labels(fit@frame[[term.pairs[2]]], 
+                                attr.only = F, 
+                                include.values = NULL, 
+                                include.non.labelled = T)
       # check if we have any
       if (is.null(alx)) alx <- term.pairs[2]
       # -----------------------------------------------------------

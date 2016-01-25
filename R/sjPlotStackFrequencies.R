@@ -59,18 +59,16 @@
 #' @param labelDigits The amount of digits for rounding \code{value.labels}. Default is 1, 
 #'          i.e. value labels have 1 digit after decimal point.
 #' @param showPercentageAxis If \code{TRUE} (default), the percentage values at the x-axis are shown.
-#' @param jitterValueLabels If \code{TRUE}, the value labels on the bars will be "jittered", i.e. they have
-#'          alternating vertical positions to avoid overlapping of labels in case bars are
-#'          very short. Default is \code{FALSE}.
 #' @param showItemLabels Whether x axis text (category names) should be shown or not.
 #' @param showSeparatorLine If \code{TRUE}, a line is drawn to visually "separate" each bar in the diagram.
 #' @param separatorLineColor The color of the separator line. only applies, if \code{showSeparatorLine} is \code{TRUE}.
 #' @param separatorLineSize The size of the separator line. only applies, if \code{showSeparatorLine} is \code{TRUE}.
 #' @param coord.flip If \code{TRUE}, the x and y axis are swapped.
-#' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-#'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}).
+#' 
+#' @inheritParams sjp.grpfrq
+#' @inheritParams sjp.frq
 #' 
 #' @examples
 #' # -------------------------------
@@ -105,33 +103,7 @@
 #' # -------------------------------
 #' library(sjmisc)
 #' data(efc)
-#' 
-#' # recveive first item of COPE-index scale
-#' start <- which(colnames(efc) == "c82cop1")
-#' 
-#' # recveive first item of COPE-index scale
-#' end <- which(colnames(efc) == "c90cop9")
-#' 
-#' # retrieve variable and value labels
-#' varlabs <- get_label(efc)
-#' vallabs <- get_labels(efc)
-#' 
-#' # create value labels. We need just one variable of
-#' # the COPE-index scale because they have all the same
-#' # level / category / value labels
-#' levels <- vallabs['c82cop1']
-#' 
-#' # create item labels
-#' items <- varlabs[c(start:end)]
-#' 
-#' sjp.stackfrq(efc[, c(start:end)], 
-#'              legendLabels = levels,
-#'              axisLabels.y = items, 
-#'              jitterValueLabels = TRUE)
-#' 
-#' # -------------------------------
 #' # auto-detection of labels
-#' # -------------------------------
 #' sjp.stackfrq(efc[, c(start:end)])
 #' 
 #' 
@@ -163,8 +135,8 @@ sjp.stackfrq <- function(items,
                          axisTitle.y = NULL,
                          showValueLabels = TRUE,
                          labelDigits = 1,
+                         vjust = "center",
                          showPercentageAxis = TRUE,
-                         jitterValueLabels = FALSE,
                          showItemLabels = TRUE,
                          showSeparatorLine = FALSE,
                          separatorLineColor = "grey80",
@@ -208,7 +180,8 @@ sjp.stackfrq <- function(items,
     # if yes, iterate each variable
     for (i in 1:ncol(items)) {
       # retrieve variable name attribute
-      vn <- sjmisc:::autoSetVariableLabels(items[[i]])
+      vn <- sjmisc::get_label(items[[i]],
+                              def.value = get_var_name(deparse(substitute(items[[i]]))))
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         axisLabels.y <- c(axisLabels.y, vn)
@@ -332,11 +305,6 @@ sjp.stackfrq <- function(items,
     dplyr::mutate(ypos = cumsum(prc) - 0.5 * prc) %>% 
     dplyr::arrange(grp)
   # --------------------------------------------------------
-  # Caculate vertical adjustment to avoid overlapping labels
-  # --------------------------------------------------------
-  jvert <- rep(c(1.1, -0.1), length.out = length(unique(mydat$cat)))
-  jvert <- rep(jvert, length.out = nrow(mydat))
-  # --------------------------------------------------------
   # Prepare and trim legend labels to appropriate size
   # --------------------------------------------------------
   # wrap legend text lines
@@ -397,16 +365,6 @@ sjp.stackfrq <- function(items,
   # --------------------------------------------------------
   if (reverseOrder && is.null(sort.frq)) axisLabels.y <- rev(axisLabels.y)
   # --------------------------------------------------------
-  # define vertical position for labels
-  # --------------------------------------------------------
-  if (coord.flip) {
-    # if we flip coordinates, we have to use other parameters
-    # than for the default layout
-    vert <- 0.35
-  } else {
-    vert <- ggplot2::waiver()
-  }
-  # --------------------------------------------------------
   # set diagram margins
   # --------------------------------------------------------
   if (expand.grid) {
@@ -419,15 +377,10 @@ sjp.stackfrq <- function(items,
   # --------------------------------------------------------
   mydat$labelDigits <- labelDigits
   if (showValueLabels) {
-    if (jitterValueLabels) {
-      ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%.*f%%", labelDigits, 100 * prc)),
-                                  vjust = jvert)
-    } else {
-      ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%.*f%%", labelDigits, 100 * prc)),
-                                  vjust = vert)
-    }
+    ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%.*f%%", labelDigits, 100 * prc)),
+                                vjust = vjust)
   } else {
-    ggvaluelabels <-  geom_text(label = "")
+    ggvaluelabels <-  geom_text(aes(y = ypos), label = "")
   }
   # --------------------------------------------------------
   # Set up grid breaks

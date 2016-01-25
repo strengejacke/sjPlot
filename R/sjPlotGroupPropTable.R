@@ -83,21 +83,34 @@ sjp.gpt <- function(x,
                     hideLegend = FALSE,
                     printPlot = TRUE) {
   # --------------------------------------------------------
+  # get variable name
+  # --------------------------------------------------------
+  var.name.x <- get_var_name(deparse(substitute(x)))
+  var.name.y <- get_var_name(deparse(substitute(y)))
+  # --------------------------------------------------------
   # try to automatically set labels if not passed as argument
   # --------------------------------------------------------
-  ylabels <- sjmisc::get_labels(y)
-  if (is.null(ylabels)) {
-    ylabels <- sjmisc:::autoSetVariableLabels(y)
-  } else {
-    ylabels <- ylabels[length(ylabels)]
-  }
-  if (is.null(axisLabels)) axisLabels <- sjmisc:::autoSetValueLabels(groups)
+  ylabels <- sjmisc::get_labels(y,
+                                attr.only = F,
+                                include.values = NULL,
+                                include.non.labelled = T)
+  ylabels <- ylabels[length(ylabels)]
+  if (is.null(axisLabels)) axisLabels <- sjmisc::get_labels(groups,
+                                                            attr.only = F,
+                                                            include.values = NULL,
+                                                            include.non.labelled = T)
   if (is.null(axisTitle.y)) axisTitle.y <- paste0("Proportion of ",
-                                                  sjmisc:::autoSetVariableLabels(x),
+                                                  sjmisc::get_label(x, def.value = var.name.x),
                                                   " in ",
-                                                  ylabels)
-  if (is.null(legendTitle)) legendTitle <- sjmisc:::autoSetVariableLabels(x)
-  if (is.null(legendLabels)) legendLabels <- sjmisc:::autoSetValueLabels(x)
+                                                  sjmisc::get_label(y, def.value = var.name.y),
+                                                  " (",
+                                                  ylabels,
+                                                  ")")
+  if (is.null(legendTitle)) legendTitle <- sjmisc::get_label(x, def.value = var.name.x)
+  if (is.null(legendLabels)) legendLabels <- sjmisc::get_labels(x,
+                                                                attr.only = F,
+                                                                include.values = NULL,
+                                                                include.non.labelled = T)
   # ---------------------------------------------
   # set labels that are still missing, but which need values
   # ---------------------------------------------
@@ -179,8 +192,8 @@ sjp.gpt <- function(x,
   # ------------------------------------
   # make group variables categorical
   # ------------------------------------
-  newdf$grp <- sjmisc::to_factor(newdf$grp)
-  newdf$x <- sjmisc::to_factor(newdf$x)
+  newdf$grp <- suppressMessages(sjmisc::to_factor(newdf$grp))
+  newdf$x <- suppressMessages(sjmisc::to_factor(newdf$x))
   # ------------------------------------
   # proportion needs to be numeric
   # ------------------------------------

@@ -4,12 +4,11 @@
 \alias{sjt.xtab}
 \title{Summary of contingency tables as HTML table}
 \usage{
-sjt.xtab(var.row, var.col, var.grp = NULL, weightBy = NULL, digits = 1,
-  file = NULL, variableLabels = NULL, valueLabels = NULL,
-  breakVariableLabelsAt = 40, breakValueLabelsAt = 20,
-  stringTotal = "Total", showObserved = TRUE, showCellPerc = FALSE,
-  showRowPerc = FALSE, showColPerc = FALSE, showExpected = FALSE,
-  showTotalN = FALSE, showHorizontalLine = FALSE, showSummary = TRUE,
+sjt.xtab(var.row, var.col, weightBy = NULL, digits = 1, file = NULL,
+  variableLabels = NULL, valueLabels = NULL, breakVariableLabelsAt = 40,
+  breakValueLabelsAt = 20, stringTotal = "Total", showObserved = TRUE,
+  showCellPerc = FALSE, showRowPerc = FALSE, showColPerc = FALSE,
+  showExpected = FALSE, showHorizontalLine = FALSE, showSummary = TRUE,
   showLegend = FALSE, showNA = FALSE, labelNA = "NA", tdcol.n = "black",
   tdcol.expected = "#339999", tdcol.cell = "#993333",
   tdcol.row = "#333399", tdcol.col = "#339933", highlightTotal = FALSE,
@@ -21,9 +20,6 @@ sjt.xtab(var.row, var.col, var.grp = NULL, weightBy = NULL, digits = 1,
 \item{var.row}{variable that should be displayed in the table rows.}
 
 \item{var.col}{variable that should be displayed in the table columns.}
-
-\item{var.grp}{optional grouping variable that splits the data into several groups,
-depending on the amount of categories. See 'Examples'.}
 
 \item{weightBy}{weight factor that will be applied to weight all cases.
 Must be a vector of same length as \code{var.row}. Default is \code{NULL}, so no weights are used.}
@@ -65,8 +61,6 @@ one line and when a line break is inserted. Default is 20.}
 \item{showColPerc}{logical, if \code{TRUE}, column percentage values are shown}
 
 \item{showExpected}{logical, if \code{TRUE}, expected values are also shown}
-
-\item{showTotalN}{logical, if \code{TRUE}, column and row sums are also shown, even if \code{showObserved} is \code{FALSE}}
 
 \item{showHorizontalLine}{logical, if \code{TRUE}, data rows are separated with a horizontal line}
 
@@ -151,7 +145,7 @@ library(sjmisc)
 data(efc)
 efc.labels <- get_labels(efc)
 
-# print simple cross table w/o labels
+# print simple cross table with labels
 \dontrun{
 sjt.xtab(efc$e16sex, efc$e42dep)
          
@@ -167,39 +161,14 @@ sjt.xtab(efc$e16sex,
 
 # print minimal cross table with labels, total col/row highlighted
 sjt.xtab(efc$e16sex, efc$e42dep, 
-         variableLabels = c("Elder's gender", "Elder's dependency"),
-         valueLabels = list(efc.labels[['e16sex']], efc.labels[['e42dep']]),
          showHorizontalLine = FALSE,
          showCellPerc = FALSE,
          highlightTotal = TRUE)
-
-# -------------------------------
-# auto-detection of labels
-# -------------------------------
-# print cross table with labels and all percentages
-sjt.xtab(efc$e16sex, efc$e42dep,
-         showRowPerc = TRUE, 
-         showColPerc = TRUE)
-
-# print cross table with labels and all percentages, including
-# grouping variable
-sjt.xtab(efc$e16sex, efc$e42dep, efc$c161sex, 
-         variableLabels=c("Elder's gender", 
-                          "Elder's dependency",
-                          "Carer's gender"), 
-         valueLabels=list(efc.labels[['e16sex']],
-                          efc.labels[['e42dep']],
-                          efc.labels[['c161sex']]),
-         showRowPerc = TRUE, 
-         showColPerc = TRUE)
 
 # ---------------------------------------------------------------- 
 # User defined style sheet
 # ---------------------------------------------------------------- 
 sjt.xtab(efc$e16sex, efc$e42dep, 
-         variableLabels = c("Elder's gender", "Elder's dependency"),
-         valueLabels = list(efc.labels[['e16sex']], 
-                            efc.labels[['e42dep']]),
          CSS = list(css.table = "border: 2px solid;",
                     css.tdata = "border: 1px solid;",
                     css.horline = "border-bottom: double blue;"))}

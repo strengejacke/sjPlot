@@ -40,13 +40,13 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](http://cran.r-project.org/package=ggplot2), consider citing this package as well.
 
-### Changelog of development build 1.8.4-9
+### Changelog of latest stable build 1.9
 
 #### General
 * Fixed many issues related to the latest update of [ggplot2](https://cran.r-project.org/package=ggplot2).
 * Argument `show.se` is now deprecated. Use `show.ci` instead.
 * Redesign of computation of frequency tables for `sjp.frq` and `sjt.frq`, being more robust and generally working with labelled, non-labelled, numeric, character vectors and factors.
-* Redesign of computation of frequency tables for `sjp.grpfrq` and `sjt.xtab`, being more robust and generally working with labelled, non-labelled, numeric, character vectors and factors.
+* Redesign of computation of frequency tables for `sjp.grpfrq`, `sjp.xtab` and `sjt.xtab`, being more robust and generally working with labelled, non-labelled, numeric, character vectors and factors.
 * Better automatic handling of variable and value labels that are used for labelling plot axes and titles or table columns.
 
 #### Changes to functions due to new ggplot2-version

@@ -200,7 +200,8 @@ sjt.stackfrq <- function(items,
     # if yes, iterate each variable
     for (i in 1:ncol(items)) {
       # retrieve variable name attribute
-      vn <- sjmisc:::autoSetVariableLabels(items[[i]])
+      vn <- sjmisc::get_label(items[[i]],
+                              def.value = get_var_name(deparse(substitute(items[[i]]))))
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         varlabels <- c(varlabels, vn)

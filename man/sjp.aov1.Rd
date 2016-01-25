@@ -116,28 +116,11 @@ data(efc)
 sjp.aov1(efc$c12hour, efc$e42dep)
 
 
-data(efc)
-efc.val <- get_labels(efc)
-efc.var <- get_label(efc)
-sjp.aov1(efc$c12hour,
-         as.factor(efc$e42dep),
-         axisLabels.y = efc.val['e42dep'],
-         axisTitle.x = efc.var[['c12hour']],
-         showModelSummary = TRUE)
-         
-# -------------------------------------------------
-# auto-detection of value labels and variable names
-# -------------------------------------------------
-sjp.aov1(efc$c12hour,
-         efc$e42dep)
-
 # bar-plot, don't use this!
 # however, if you dare to, adjust
 # 'geom.size'...
 sjp.aov1(efc$c12hour,
          efc$c172code,
-         axisLabels.y = efc.val['c172code'],
-         title = efc.var[['c12hour']],
          type = "bars",
          geom.size = 0.5)
 

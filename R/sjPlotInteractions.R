@@ -115,6 +115,7 @@
 #' @param facet.grid \code{TRUE} for faceted plots instead of an integrated single plot.
 #' 
 #' @inheritParams sjp.grpfrq
+#' @inheritParams sjp.frq
 #' 
 #' @return (Insisibily) returns the ggplot-objects with the complete plot-list (\code{plot.list})
 #'           as well as the data frame that were used for setting up the ggplot-objects (\code{df.list}).

@@ -121,6 +121,8 @@ displayed in one line and when a line break is inserted.}
 \item{breakLegendTitleAt}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}
 
+\item{axisLimits.x}{numeric vector of length two, defining lower and upper axis limits}
+
 \item{axisLimits.y}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
 y-axis ranges from 0 to required maximum.}

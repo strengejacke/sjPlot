@@ -7,17 +7,16 @@
 sjp.xtab(x, grp, title = "", legendTitle = NULL, weightBy = NULL,
   weightByTitleString = NULL, type = "bars", tableIndex = "col",
   reverseOrder = FALSE, axisLimits.y = NULL, axisLabels.x = NULL,
-  legendLabels = NULL, labelPos = "outside", stringTotal = "Total",
-  breakTitleAt = 50, breakLabelsAt = 15, breakLegendTitleAt = 20,
-  breakLegendLabelsAt = 20, gridBreaksAt = 0.2, geom.size = 0.7,
-  geom.spacing = 0.1, geom.colors = "Paired", barPosition = "dodge",
-  lineDotSize = 3, smoothLines = FALSE, expand.grid = FALSE,
-  showValueLabels = TRUE, jitterValueLabels = FALSE,
-  showCountValues = TRUE, showPercentageValues = TRUE,
-  showCategoryLabels = TRUE, showTableSummary = FALSE,
-  tableSummaryPos = "r", showTotalColumn = TRUE, hideLegend = FALSE,
-  axisTitle.x = NULL, axisTitle.y = NULL, coord.flip = FALSE,
-  printPlot = TRUE)
+  legendLabels = NULL, vjust = "bottom", hjust = "center",
+  stringTotal = "Total", breakTitleAt = 50, breakLabelsAt = 15,
+  breakLegendTitleAt = 20, breakLegendLabelsAt = 20, gridBreaksAt = 0.2,
+  geom.size = 0.7, geom.spacing = 0.1, geom.colors = "Paired",
+  barPosition = "dodge", lineDotSize = 3, smoothLines = FALSE,
+  expand.grid = FALSE, showValueLabels = TRUE, showCountValues = TRUE,
+  showPercentageValues = TRUE, showCategoryLabels = TRUE,
+  showTableSummary = FALSE, tableSummaryPos = "r", showTotalColumn = TRUE,
+  hideLegend = FALSE, axisTitle.x = NULL, axisTitle.y = NULL,
+  coord.flip = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{x}{a vector of values (variable) describing the bars which make up the plot.}
@@ -61,10 +60,17 @@ with \code{\link[sjmisc]{read_spss}} or has named factor levels
 
 \item{legendLabels}{a character vector with labels for the guide/legend.}
 
-\item{labelPos}{positioning of value labels. If \code{barPosition = "dodge"} 
-(default), use either \code{"inside"} or \code{"outside"} (default) to put labels in-
-or outside the bars. You may specify initial letter only. Use \code{"center"} 
-to center labels (useful if label angle is changes via \code{\link{sjp.setTheme}}).}
+\item{vjust}{character vector, indicating the vertical position of value 
+labels. Allowed are same values as for \code{vjust} aesthetics from 
+\code{ggplot2}: "left", "center", "right", "bottom", "middle", "top" and
+new options like "inward" and "outward", which align text towards and 
+away from the center of the plot respectively.}
+
+\item{hjust}{character vector, indicating the horizontal position of value 
+labels. Allowed are same values as for \code{vjust} aesthetics from 
+\code{ggplot2}: "left", "center", "right", "bottom", "middle", "top" and
+new options like "inward" and "outward", which align text towards and 
+away from the center of the plot respectively.}
 
 \item{stringTotal}{string for the legend label when a total-column is added. Only applies
 if \code{showTotalColumn = TRUE}. Default is \code{"Total"}.}
@@ -104,10 +110,6 @@ axes and plotting region. Default is \code{FALSE}.}
 
 \item{showValueLabels}{logical, whether count and percentage values should be plotted to each bar. Default
 is \code{TRUE}.}
-
-\item{jitterValueLabels}{logical, if \code{TRUE}, the value labels on the bars will be "jittered", 
-i.e. they have alternating vertical positions to avoid overlapping of labels in case bars are
-very short. Default is \code{FALSE}.}
 
 \item{showCountValues}{logical, if \code{TRUE} (default), count values are plotted to each bar. 
 If \code{FALSE}, count values are removed.}

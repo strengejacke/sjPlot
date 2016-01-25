@@ -82,6 +82,7 @@ utils::globalVariables(c("val", "frq", "grp", "upper.ci", "lower.ci", "ia", "..d
 #'          applies if \code{showNormalCurve = TRUE}.
 #' @param normalCurveAlpha transparancy level (alpha value) of the normal curve. Only
 #'          applies if \code{showNormalCurve = TRUE}.
+#' @param axisLimits.x numeric vector of length two, defining lower and upper axis limits
 #' @param axisTitle.x title for the x-axis. By default, the variable name will be 
 #'          automatically detected and used as title (see \code{\link[sjmisc]{set_label}}) 
 #'          for details).
@@ -102,74 +103,53 @@ utils::globalVariables(c("val", "frq", "grp", "upper.ci", "lower.ci", "ia", "..d
 #'           was used for setting up the ggplot-object (\code{mydf}).
 #' 
 #' @examples
-#' # ---------------
 #' # boxplot
-#' # ---------------
 #' sjp.frq(ChickWeight$weight, type = "box")
 #' 
-#' # ---------------
 #' # histogram
-#' # ---------------
 #' sjp.frq(discoveries, type = "hist", showMeanIntercept = TRUE)
-#' # histogram with minimal theme and w/o labels
-#' sjp.frq(discoveries, type = "hist",
-#'         showMeanIntercept = TRUE,
-#'         showValueLabels = FALSE)
 #'         
-#' # ---------------
 #' # violin plot
-#' # ---------------
 #' sjp.frq(ChickWeight$weight, type = "v")
 #' 
-#' # ---------------
 #' # bar plot
-#' # ---------------
 #' sjp.frq(ChickWeight$Diet)
 #' 
-#' # ---------------
+#' 
 #' # bar plot with EUROFAMCARE sample dataset
 #' # dataset was importet from an SPSS-file, using:
 #' # efc <- sjmisc::read_spss("efc.sav", enc = "UTF-8")
-#' # ---------------
 #' library(sjmisc)
 #' data(efc)
-#' efc.val <- get_labels(efc)
-#' efc.var <- get_label(efc)
 #' # you may use sjp.setTheme here to change axis textangle
-#' sjp.frq(as.factor(efc$e15relat), 
-#'         title = efc.var[['e15relat']],
-#'         axisLabels.x = efc.val['e15relat'])
+#' sjp.frq(efc$e15relat)
 #' 
 #' # bar plot with EUROFAMCARE sample dataset
 #' # grouped variable
 #' ageGrp <- group_var(efc$e17age)
 #' ageGrpLab <- group_labels(efc$e17age)
 #' sjp.frq(ageGrp,
-#'         title = efc.var[['e17age']],
+#'         title = get_label(efc$e17age),
 #'         axisLabels.x = ageGrpLab)
 #' 
-#' # ---------------
+#' 
 #' # box plots with interaction variable
 #' # the following example is equal to the function call
 #' # sjp.grpfrq(efc$e17age, efc$e16sex, type = "box")
-#' # ---------------
 #' sjp.frq(efc$e17age,
-#'         title = paste(efc.var[['e17age']], 
+#'         title = paste(get_label(efc$e17age), 
 #'                       "by", 
-#'                       efc.var[['e16sex']]),
+#'                       get_label(efc$e16sex),
 #'         interactionVar = efc$e16sex,
-#'         interactionVarLabels = efc.val['e16sex'],
-#'         type = "box")
+#'         interactionVarLabels = get_labels(efc$e16sex),
+#'         type = "box"))
 #' 
-#' # -------------------------------------------------
-#' # auto-detection of value labels and variable names
-#' # -------------------------------------------------
+#' 
 #' # negative impact scale, ranging from 7-28
 #' sjp.frq(efc$neg_c_7)
 #' 
-#' # -------------------------------------------------
+#' 
 #' # plotting confidence intervals
-#' # -------------------------------------------------
 #' sjp.frq(efc$e15relat,
 #'         type = "dots",
 #'         showCI = TRUE,
@@ -179,14 +159,24 @@ utils::globalVariables(c("val", "frq", "grp", "upper.ci", "lower.ci", "ia", "..d
 #'         vjust = "bottom",   # for text labels
 #'         hjust = "left")     # for text labels
 #' 
-#' # -------------------------------------------------
+#' 
 #' # Simulate ggplot-default histogram
-#' # -------------------------------------------------
 #' sjp.frq(efc$c160age, 
 #'         type = "h", 
 #'         geom.size = 3)
 #' 
-#'   
+#' # histogram with overlayed normal curves
+#' sjp.frq(efc$c160age,
+#'         type = "h",
+#'         showMeanIntercept = TRUE,
+#'         showMeanValue = TRUE,
+#'         showNormalCurve = TRUE,
+#'         showStandardDeviation = TRUE,
+#'         showStandardNormalCurve = TRUE,
+#'         normalCurveColor = "blue",
+#'         normalCurveSize = 3,
+#'         axisLimits.y = c(0,50))
+#' 
 #' @import ggplot2
 #' @import sjmisc
 #' @importFrom stats na.omit sd weighted.mean
@@ -321,11 +311,6 @@ sjp.frq <- function(varCount,
     # set label attributes
     varCount <- sjmisc::set_labels(varCount, axisLabels.x)
   }
-  # --------------------------------------------------------
-  # unlist labels
-  # --------------------------------------------------------
-  if (!is.null(axisLabels.x) && is.list(axisLabels.x)) axisLabels.x <- unlistlabels(axisLabels.x)
-  if (!is.null(interactionVarLabels) && is.list(interactionVarLabels)) interactionVarLabels <- unlistlabels(interactionVarLabels)
   #---------------------------------------------------
   # create frequency data frame
   #---------------------------------------------------
@@ -336,7 +321,7 @@ sjp.frq <- function(varCount,
                           na.rm = na.rm, 
                           weightBy = weightBy)
   mydat <- df.frq$mydat
-  if (!is.null(df.frq$labels)) axisLabels.x <- df.frq$labels
+  if (!is.null(df.frq$labels) && is.null(axisLabels.x)) axisLabels.x <- df.frq$labels
   # --------------------------------------------------------
   # Trim labels and title to appropriate size
   # --------------------------------------------------------

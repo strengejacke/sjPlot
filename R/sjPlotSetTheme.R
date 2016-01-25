@@ -164,7 +164,8 @@
 #' update_geom_defaults('text', list(hjust = -0.1))
 #' sjp.xtab(efc$e42dep, 
 #'          efc$e16sex,
-#'          labelPos = "center")
+#'          vjust = "center",
+#'          hjust = "center")
 #' 
 #' # Create own theme based on classic-theme
 #' sjp.setTheme(base = theme_classic(),
@@ -733,19 +734,16 @@ sj.theme_geoms <- function(geom.alpha,
   
   # Geoms that only require a default colour.
   updateGeoms(c('abline', 
-                'jitter', 
                 'point', 
                 'density', 
                 'errorbar', 
                 'errorbarh', 
-                'freqpoly', 
                 'hline', 
                 'line', 
                 'area', 
                 'tile', 
                 'dotplot', 
-                'bar', 
-                'histogram'), list(alpha = geom.alpha))
+                'bar'), list(alpha = geom.alpha))
   
   update_geom_defaults('text', list(size = geom.label.size, 
                                     colour = geom.label.color,
@@ -753,14 +751,9 @@ sj.theme_geoms <- function(geom.alpha,
                                     angle = geom.label.angle))
   
   # Special geoms.
-  update_geom_defaults('boxplot', list(size = geom.boxoutline.size, colour = geom.boxoutline.color, alpha = geom.alpha, outlier.colour = NA))
+  update_geom_defaults('boxplot', list(size = geom.boxoutline.size, colour = geom.boxoutline.color, alpha = geom.alpha))
   update_geom_defaults('line', list(linetype = geom.linetype))
   updateGeoms(c('errorbar', 'errorbarh'), list(size = geom.errorbar.size, linetype = geom.errorbar.linetype))
-  
-  if (!is.null(geom.outline.color)) 
-    updateGeoms(c('histogram', 'bar', 'dotplot', 'area', 'tile'), list(size = geom.outline.size, colour = geom.outline.color))
-  else
-    updateGeoms(c('histogram', 'bar', 'dotplot', 'area', 'tile'), list(size = 0, colour = NA))  
 }
 
 

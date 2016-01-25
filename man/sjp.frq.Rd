@@ -6,7 +6,7 @@
 \usage{
 sjp.frq(varCount, title = "", weightBy = NULL, weightByTitleString = NULL,
   interactionVar = NULL, sort.frq = "none", type = "bars",
-  geom.size = NULL, geom.colors = NULL, axisLabels.x = NULL,
+  geom.size = NULL, geom.colors = "#336699", axisLabels.x = NULL,
   interactionVarLabels = NULL, axisLimits.x = NULL, axisLimits.y = NULL,
   breakTitleAt = 50, breakLabelsAt = 20, gridBreaksAt = NULL,
   innerBoxPlotWidth = 0.15, innerBoxPlotDotSize = 3, expand.grid = FALSE,
@@ -18,9 +18,9 @@ sjp.frq(varCount, title = "", weightBy = NULL, weightByTitleString = NULL,
   showStandardNormalCurve = FALSE, adjustNormalCurve.x = FALSE,
   meanInterceptLineType = 2, meanInterceptLineSize = 0.5,
   normalCurveColor = "red", normalCurveSize = 0.8, normalCurveAlpha = 0.4,
-  axisTitle.x = NULL, axisTitle.y = NULL, startAxisAt = "auto",
-  hist.skipZeros = FALSE, autoGroupAt = NULL, coord.flip = FALSE,
-  labelPos = "outside", na.rm = TRUE, printPlot = TRUE)
+  axisTitle.x = NULL, axisTitle.y = NULL, autoGroupAt = NULL,
+  coord.flip = FALSE, vjust = "bottom", hjust = "center", na.rm = TRUE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{varCount}{a vector of values (variable) describing the bars which make up the plot.}
@@ -78,6 +78,8 @@ when having interaction variables included. These labels replace the
 \code{axisLabels.x}. Only applies, when using box or violin plots
 (i.e. \code{type = "boxplots"} or \code{"violins"}) and \code{interactionVar} 
 is not \code{NULL}.}
+
+\item{axisLimits.x}{numeric vector of length two, defining lower and upper axis limits}
 
 \item{axisLimits.y}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
@@ -170,14 +172,6 @@ for details).}
 \item{axisTitle.y}{title for the y-axis. By default, this value is \code{NULL},
 i.e. no title is printed.}
 
-\item{hist.skipZeros}{logical, if \code{TRUE}, zero counts (categories with no answer) 
-in \code{varCount} are omitted when drawing histrograms, and the mapping 
-is changed to \code{\link[ggplot2]{stat_bin}}. Only applies to  histograms. 
-Use this argument to get similar results to the default \code{\link[ggplot2]{qplot}} 
-or \code{\link[ggplot2]{geom_histogram}} histogram plots of ggplot. You may need
-to adjust the \code{geom.size} argument for better visual results 
-(which, by ggplot-default, is 1/30 of the x-axis-range).}
-
 \item{autoGroupAt}{numeric value, indicating at which length of unique values of \code{varCount}, 
 automatic grouping into smaller units is done (see \code{\link[sjmisc]{group_var}}).
 If \code{varCount} has large numbers of unique values, there may be too many bars 
@@ -189,10 +183,17 @@ See \code{\link[sjmisc]{group_var}} for examples on grouping.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
-\item{labelPos}{string, indicating the position of value labels, when \code{coord.flip = TRUE}.
-Can be either \code{"inside"} or \code{"outside"} (default). You may specify
-initial letter only. If \code{coord.flip = FALSE}, this argument will
-be ignored.}
+\item{vjust}{character vector, indicating the vertical position of value 
+labels. Allowed are same values as for \code{vjust} aesthetics from 
+\code{ggplot2}: "left", "center", "right", "bottom", "middle", "top" and
+new options like "inward" and "outward", which align text towards and 
+away from the center of the plot respectively.}
+
+\item{hjust}{character vector, indicating the horizontal position of value 
+labels. Allowed are same values as for \code{vjust} aesthetics from 
+\code{ggplot2}: "left", "center", "right", "bottom", "middle", "top" and
+new options like "inward" and "outward", which align text towards and 
+away from the center of the plot respectively.}
 
 \item{na.rm}{logical, if \code{TRUE}, missings are not included in the frequency plot.}
 
@@ -213,95 +214,80 @@ This function only works with variables with integer values (or numeric
         with decimales may result in unexpected behaviour.
 }
 \examples{
-# ---------------
 # boxplot
-# ---------------
 sjp.frq(ChickWeight$weight, type = "box")
 
-# ---------------
 # histogram
-# ---------------
 sjp.frq(discoveries, type = "hist", showMeanIntercept = TRUE)
-# histogram with minimal theme and w/o labels
-sjp.frq(discoveries, type = "hist",
-        showMeanIntercept = TRUE,
-        showValueLabels = FALSE)
         
-# ---------------
 # violin plot
-# ---------------
 sjp.frq(ChickWeight$weight, type = "v")
 
-# ---------------
 # bar plot
-# ---------------
 sjp.frq(ChickWeight$Diet)
 
-# ---------------
+
 # bar plot with EUROFAMCARE sample dataset
 # dataset was importet from an SPSS-file, using:
 # efc <- sjmisc::read_spss("efc.sav", enc = "UTF-8")
-# ---------------
 library(sjmisc)
 data(efc)
-efc.val <- get_labels(efc)
-efc.var <- get_label(efc)
 # you may use sjp.setTheme here to change axis textangle
-sjp.frq(as.factor(efc$e15relat), 
-        title = efc.var[['e15relat']],
-        axisLabels.x = efc.val['e15relat'])
+sjp.frq(efc$e15relat)
 
 # bar plot with EUROFAMCARE sample dataset
 # grouped variable
 ageGrp <- group_var(efc$e17age)
 ageGrpLab <- group_labels(efc$e17age)
 sjp.frq(ageGrp,
-        title = efc.var[['e17age']],
+        title = get_label(efc$e17age),
         axisLabels.x = ageGrpLab)
 
-# ---------------
+
 # box plots with interaction variable
 # the following example is equal to the function call
 # sjp.grpfrq(efc$e17age, efc$e16sex, type = "box")
-# ---------------
 sjp.frq(efc$e17age,
-        title = paste(efc.var[['e17age']], 
+        title = paste(get_label(efc$e17age), 
                       "by", 
-                      efc.var[['e16sex']]),
+                      get_label(efc$e16sex),
         interactionVar = efc$e16sex,
-        interactionVarLabels = efc.val['e16sex'],
-        type = "box")
+        interactionVarLabels = get_labels(efc$e16sex),
+        type = "box"))
 
-# -------------------------------------------------
-# auto-detection of value labels and variable names
-# -------------------------------------------------
-# negative impact scale, ranging from 7-28, assuming that
-# variable scale (lowest value) starts with 1
-sjp.frq(efc$neg_c_7, startAxisAt = 1)
 
-# negative impact scale, ranging from 7-28, using
-# automatic detection of start index of x-axis
+# negative impact scale, ranging from 7-28
 sjp.frq(efc$neg_c_7)
 
-# -------------------------------------------------
+
 # plotting confidence intervals
-# -------------------------------------------------
 sjp.frq(efc$e15relat,
         type = "dots",
         showCI = TRUE,
         sort.frq = "desc",
-        coord.flip = TRUE)
+        coord.flip = TRUE,
+        expand.grid = TRUE, # for text labels
+        vjust = "bottom",   # for text labels
+        hjust = "left")     # for text labels
 
-# -------------------------------------------------
-# Simulate ggplot-default histogram, using "hist.skipZeros"
-# and adjusted "geom.size".
-# -------------------------------------------------
+
+# Simulate ggplot-default histogram
 sjp.frq(efc$c160age, 
         type = "h", 
-        hist.skipZeros = TRUE, 
-        geom.size = 1)
+        geom.size = 3)
 
-  
+# histogram with overlayed normal curves
+sjp.frq(efc$c160age,
+        type = "h",
+        showMeanIntercept = TRUE,
+        showMeanValue = TRUE,
+        showNormalCurve = TRUE,
+        showStandardDeviation = TRUE,
+        showStandardNormalCurve = TRUE,
+        normalCurveColor = "blue",
+        normalCurveSize = 3,
+        axisLimits.y = c(0,50))
+
 }
 \seealso{
 \itemize{

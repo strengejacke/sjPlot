@@ -11,10 +11,9 @@ sjp.stackfrq(items, legendLabels = NULL, sort.frq = NULL, weightBy = NULL,
   breakLegendLabelsAt = 28, gridBreaksAt = 0.2, expand.grid = FALSE,
   geom.size = 0.5, geom.colors = "Blues", axisTitle.x = NULL,
   axisTitle.y = NULL, showValueLabels = TRUE, labelDigits = 1,
-  showPercentageAxis = TRUE, jitterValueLabels = FALSE,
-  showItemLabels = TRUE, showSeparatorLine = FALSE,
-  separatorLineColor = "grey80", separatorLineSize = 0.3,
-  coord.flip = TRUE, printPlot = TRUE)
+  vjust = "center", showPercentageAxis = TRUE, showItemLabels = TRUE,
+  showSeparatorLine = FALSE, separatorLineColor = "grey80",
+  separatorLineSize = 0.3, coord.flip = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{items}{\code{\link{data.frame}} with each column representing one item.}
@@ -85,11 +84,13 @@ See 'Note' in \code{\link{sjp.grpfrq}}.}
 \item{labelDigits}{The amount of digits for rounding \code{value.labels}. Default is 1, 
 i.e. value labels have 1 digit after decimal point.}
 
-\item{showPercentageAxis}{If \code{TRUE} (default), the percentage values at the x-axis are shown.}
+\item{vjust}{character vector, indicating the vertical position of value 
+labels. Allowed are same values as for \code{vjust} aesthetics from 
+\code{ggplot2}: "left", "center", "right", "bottom", "middle", "top" and
+new options like "inward" and "outward", which align text towards and 
+away from the center of the plot respectively.}
 
-\item{jitterValueLabels}{If \code{TRUE}, the value labels on the bars will be "jittered", i.e. they have
-alternating vertical positions to avoid overlapping of labels in case bars are
-very short. Default is \code{FALSE}.}
+\item{showPercentageAxis}{If \code{TRUE} (default), the percentage values at the x-axis are shown.}
 
 \item{showItemLabels}{Whether x axis text (category names) should be shown or not.}
 
@@ -101,7 +102,7 @@ very short. Default is \code{FALSE}.}
 
 \item{coord.flip}{If \code{TRUE}, the x and y axis are swapped.}
 
-\item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
@@ -149,33 +150,7 @@ sjp.stackfrq(likert_4, legendLabels = levels_4)
 # -------------------------------
 library(sjmisc)
 data(efc)
-
-# recveive first item of COPE-index scale
-start <- which(colnames(efc) == "c82cop1")
-
-# recveive first item of COPE-index scale
-end <- which(colnames(efc) == "c90cop9")
-
-# retrieve variable and value labels
-varlabs <- get_label(efc)
-vallabs <- get_labels(efc)
-
-# create value labels. We need just one variable of
-# the COPE-index scale because they have all the same
-# level / category / value labels
-levels <- vallabs['c82cop1']
-
-# create item labels
-items <- varlabs[c(start:end)]
-
-sjp.stackfrq(efc[, c(start:end)], 
-             legendLabels = levels,
-             axisLabels.y = items, 
-             jitterValueLabels = TRUE)
-
-# -------------------------------
 # auto-detection of labels
-# -------------------------------
 sjp.stackfrq(efc[, c(start:end)])
 
 

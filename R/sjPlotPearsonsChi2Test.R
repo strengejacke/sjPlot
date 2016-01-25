@@ -63,7 +63,8 @@ sjp.chi2 <- function(df,
     # if yes, iterate each variable
     for (i in 1:ncol(df)) {
       # retrieve variable name attribute
-      vn <- sjmisc:::autoSetVariableLabels(df[[i]])
+      vn <- sjmisc::get_label(df[[i]],
+                        def.value = get_var_name(deparse(substitute(df[[i]]))))
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
         axisLabels <- c(axisLabels, vn)

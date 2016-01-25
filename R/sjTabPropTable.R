@@ -35,7 +35,6 @@
 #' @param showColPerc logical, if \code{TRUE}, column percentage values are shown
 #' @param showObserved logical, if \code{TRUE}, observed values are shown
 #' @param showExpected logical, if \code{TRUE}, expected values are also shown
-#' @param showTotalN logical, if \code{TRUE}, column and row sums are also shown, even if \code{showObserved} is \code{FALSE}
 #' @param showHorizontalLine logical, if \code{TRUE}, data rows are separated with a horizontal line
 #' @param showSummary logical, if \code{TRUE} (default), a summary row with Chi-square statistics (see \code{\link{chisq.test}}),
 #'          Cramer's V or Phi-value etc. is shown. If a cell contains expected values lower than five (or lower than 10 
@@ -82,7 +81,7 @@
 #' data(efc)
 #' efc.labels <- get_labels(efc)
 #' 
-#' # print simple cross table w/o labels
+#' # print simple cross table with labels
 #' \dontrun{
 #' sjt.xtab(efc$e16sex, efc$e42dep)
 #'          
@@ -98,39 +97,14 @@
 #' 
 #' # print minimal cross table with labels, total col/row highlighted
 #' sjt.xtab(efc$e16sex, efc$e42dep, 
-#'          variableLabels = c("Elder's gender", "Elder's dependency"),
-#'          valueLabels = list(efc.labels[['e16sex']], efc.labels[['e42dep']]),
 #'          showHorizontalLine = FALSE,
 #'          showCellPerc = FALSE,
 #'          highlightTotal = TRUE)
 #' 
-#' # -------------------------------
-#' # auto-detection of labels
-#' # -------------------------------
-#' # print cross table with labels and all percentages
-#' sjt.xtab(efc$e16sex, efc$e42dep,
-#'          showRowPerc = TRUE, 
-#'          showColPerc = TRUE)
-#' 
-#' # print cross table with labels and all percentages, including
-#' # grouping variable
-#' sjt.xtab(efc$e16sex, efc$e42dep, efc$c161sex, 
-#'          variableLabels=c("Elder's gender", 
-#'                           "Elder's dependency",
-#'                           "Carer's gender"), 
-#'          valueLabels=list(efc.labels[['e16sex']],
-#'                           efc.labels[['e42dep']],
-#'                           efc.labels[['c161sex']]),
-#'          showRowPerc = TRUE, 
-#'          showColPerc = TRUE)
-#'
 #' # ---------------------------------------------------------------- 
 #' # User defined style sheet
 #' # ---------------------------------------------------------------- 
 #' sjt.xtab(efc$e16sex, efc$e42dep, 
-#'          variableLabels = c("Elder's gender", "Elder's dependency"),
-#'          valueLabels = list(efc.labels[['e16sex']], 
-#'                             efc.labels[['e42dep']]),
 #'          CSS = list(css.table = "border: 2px solid;",
 #'                     css.tdata = "border: 1px solid;",
 #'                     css.horline = "border-bottom: double blue;"))}
@@ -153,7 +127,6 @@ sjt.xtab <- function(var.row,
                      showRowPerc = FALSE,
                      showColPerc = FALSE,
                      showExpected = FALSE,
-                     showTotalN = FALSE,
                      showHorizontalLine = FALSE,
                      showSummary = TRUE,
                      showLegend = FALSE,
@@ -213,11 +186,9 @@ sjt.xtab <- function(var.row,
   # -------------------------------------
   labels.var.row <- sjmisc::word_wrap(mydat$labels.cnt, breakVariableLabelsAt, "<br>")
   labels.var.col <- sjmisc::word_wrap(mydat$labels.grp, breakVariableLabelsAt, "<br>")
-  # add "total?
-  if (showTotalN) {
-    labels.var.row <- c(labels.var.row, stringTotal)
-    labels.var.col <- c(labels.var.col, stringTotal)
-  }
+  # add "total"
+  labels.var.row <- c(labels.var.row, stringTotal)
+  labels.var.col <- c(labels.var.col)
   # -------------------------------------
   # compute table counts and percentages
   # -------------------------------------
@@ -234,9 +205,7 @@ sjt.xtab <- function(var.row,
   # determine total number of columns and rows
   # -------------------------------------
   totalncol <- ncol(tab)
-  if (!showTotalN) totalncol <- totalncol - 1
   totalnrow <- nrow(tab)
-  if (!showTotalN) totalnrow <- totalnrow - 1
   # -------------------------------------
   # table init
   # -------------------------------------
@@ -269,7 +238,7 @@ sjt.xtab <- function(var.row,
   css.tdata <- "padding:0.2cm;"
   css.firstcolborder <- "border-bottom:1px solid;"
   css.secondtablerow <- "border-bottom:1px solid; text-align:center;"
-  css.leftalign <- ifelse(showObserved & showTotalN, "text-align:left; vertical-align:top;", "text-align:left; vertical-align:middle;")
+  css.leftalign <- "text-align:left; vertical-align:middle;"
   css.centeralign <- "text-align:center;"
   css.lasttablerow <- ifelse(highlightTotal == TRUE, sprintf(" border-bottom:double; background-color:%s;", highlightColor), " border-bottom:double;")
   css.totcol <- ifelse(highlightTotal == TRUE, sprintf(" background-color:%s;", highlightColor), "")
@@ -430,7 +399,7 @@ sjt.xtab <- function(var.row,
     # create summary row
     if (is.null(fish)) {
       pvalstring <- ifelse(chsq$p.value < 0.001, sprintf("p&lt;%s.001", p_zero), sub("0", p_zero, sprintf("p=%.3f", chsq$p.value)))
-      page.content <- paste(page.content, sprintf("    <td class=\"summary tdata\" colspan=\"%i\">&Chi;<sup>2</sup>=%.3f &middot; df=%i &middot; %s &middot; %s</td>", totalncol, chsq$statistic, chsq$parameter, kook, pvalstring), sep = "")
+      page.content <- paste(page.content, sprintf("    <td class=\"summary tdata\" colspan=\"%i\">&Chi;<sup>2</sup>=%.3f &middot; df=%i &middot; %s &middot; %s</td>", totalncol + 1, chsq$statistic, chsq$parameter, kook, pvalstring), sep = "")
     } else {
       pvalstring <- ifelse(fish$p.value < 0.001, sprintf("p&lt;%s.001", p_zero), sub("0", p_zero, sprintf("p=%.3f", fish$p.value)))
       page.content <- paste(page.content, sprintf("    <td class=\"summary tdata\" colspan=\"%i\">Fisher's %s &middot; df=%i &middot; %s</td>", totalncol, pvalstring, chsq$parameter, kook), sep = "")

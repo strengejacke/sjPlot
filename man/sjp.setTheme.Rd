@@ -247,7 +247,8 @@ sjp.setTheme(geom.label.size = 3.5,
 update_geom_defaults('text', list(hjust = -0.1))
 sjp.xtab(efc$e42dep, 
          efc$e16sex,
-         labelPos = "center")
+         vjust = "center",
+         hjust = "center")
 
 # Create own theme based on classic-theme
 sjp.setTheme(base = theme_classic(),

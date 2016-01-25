@@ -691,7 +691,7 @@ sjp.glm.pc <- function(fit,
         labs(x = axisLabels.mp[i], 
              y = "Predicted Probability") +
         stat_smooth(method = "glm", 
-                    family = "binomial", 
+                    method.args = list(family = "binomial"), 
                     se = show.ci,
                     size = geom.size) +
         coord_cartesian(ylim = c(0, 1))
@@ -710,7 +710,7 @@ sjp.glm.pc <- function(fit,
         scale_colour_manual(values = brewer_pal(palette = "Set1")(length(axisLabels.mp)),
                             labels = axisLabels.mp) +
         stat_smooth(method = "glm", 
-                    family = "binomial", 
+                    method.args = list(family = "binomial"), 
                     se = show.ci,
                     size = geom.size) +
         coord_cartesian(ylim = c(0, 1)) +
@@ -768,7 +768,7 @@ sjp.glm.response.probcurv <- function(fit,
          y = "Predicted Probability",
          title = "Predicted Probabilities for model-response") +
     stat_smooth(method = "glm", 
-                family = "binomial", 
+                method.args = list(family = "binomial"), 
                 se = show.ci,
                 size = geom.size) +
     # cartesian coord still plots range of se, even

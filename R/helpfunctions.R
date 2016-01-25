@@ -549,7 +549,8 @@ retrieveModelLabels <- function(models) {
           }
         } else {
           # check if we hav label
-          lab <- sjmisc:::autoSetVariableLabels(fit$model[, i])
+          lab <- sjmisc::get_label(fit$model[, i], 
+                                   def.value = get_var_name(deparse(substitute(fit$model[, i]))))
           # if not, use coefficient name
           if (is.null(lab)) {
             lab <- attr(fit$coefficients[i], "names")
