@@ -103,6 +103,10 @@
 #' # -------------------------------
 #' library(sjmisc)
 #' data(efc)
+#' # recveive first item of COPE-index scale
+#' start <- which(colnames(efc) == "c82cop1")
+#' # recveive first item of COPE-index scale
+#' end <- which(colnames(efc) == "c90cop9")
 #' # auto-detection of labels
 #' sjp.stackfrq(efc[, c(start:end)])
 #' 

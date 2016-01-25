@@ -196,7 +196,10 @@ create.frq.df <- function(x,
   # -------------------------------------
   # wrap labels?
   # -------------------------------------
-  if (!is.infinite(breakLabelsAt) && !is.null(labels)) labels <- sjmisc::word_wrap(labels, breakLabelsAt)
+  if (!is.infinite(breakLabelsAt) && !is.null(labels)) {
+    if (anyNA(labels)) labels <- na.omit(labels)
+    labels <- sjmisc::word_wrap(labels, breakLabelsAt)
+  }
   # -------------------------------------
   # return results
   # -------------------------------------
@@ -209,7 +212,7 @@ create.frq.df <- function(x,
 
 # Create frequency data frame of a variable
 # for sjp and sjt frq functions
-#' @importFrom stats na.omit ftable
+#' @importFrom stats na.omit ftable na.pass
 #' @importFrom tidyr spread
 create.xtab.df <- function(x,
                            grp,
@@ -234,7 +237,7 @@ create.xtab.df <- function(x,
     if (na.rm)
       mydat <- stats::ftable(round(stats::xtabs(weightBy ~ x + grp)), 0)
     else
-      mydat <- stats::ftable(round(stats::xtabs(weightBy ~ x + grp, exclude = NULL, na.action = na.pass)), 0)
+      mydat <- stats::ftable(round(stats::xtabs(weightBy ~ x + grp, exclude = NULL, na.action = stats::na.pass)), 0)
   }
   # create proportional tables, cell values
   proptab.cell <- round(100 * prop.table(mydat), round.prz)

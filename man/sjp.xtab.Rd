@@ -189,7 +189,8 @@ library(ggplot2)
 update_geom_defaults('text', list(hjust = -0.1))
 sjp.xtab(efc$e42dep, 
          efc$e16sex,
-         labelPos = "center")
+         vjust = "center",
+         hjust = "center")
 
 # grouped bars with EUROFAMCARE sample dataset
 # dataset was importet from an SPSS-file,
@@ -223,8 +224,7 @@ sjp.xtab(efc$e16sex,
          efc$e42dep,
          tableIndex = "row",
          barPosition = "stack",
-         coord.flip = TRUE,
-         jitterValueLabels = TRUE)
+         coord.flip = TRUE)
 
 
 }

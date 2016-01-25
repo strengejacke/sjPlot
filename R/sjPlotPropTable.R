@@ -80,7 +80,8 @@ utils::globalVariables(c("rowname", "total", "prc", "n", "Count", "Group", "line
 #' update_geom_defaults('text', list(hjust = -0.1))
 #' sjp.xtab(efc$e42dep, 
 #'          efc$e16sex,
-#'          labelPos = "center")
+#'          vjust = "center",
+#'          hjust = "center")
 #' 
 #' # grouped bars with EUROFAMCARE sample dataset
 #' # dataset was importet from an SPSS-file,
@@ -114,8 +115,7 @@ utils::globalVariables(c("rowname", "total", "prc", "n", "Count", "Group", "line
 #'          efc$e42dep,
 #'          tableIndex = "row",
 #'          barPosition = "stack",
-#'          coord.flip = TRUE,
-#'          jitterValueLabels = TRUE)
+#'          coord.flip = TRUE)
 #'
 #'
 #' @import ggplot2
@@ -258,7 +258,7 @@ sjp.xtab <- function(x,
                            "n",
                            2:(grpcount + 1),
                            factor_key = TRUE)
-  mydf$n <- dummydf$n
+  mydf$n <- as.numeric(dummydf$n)
   # -----------------------------------------------
   # remove total for row and column index
   #---------------------------------------------------
