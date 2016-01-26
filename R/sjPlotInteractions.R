@@ -686,8 +686,8 @@ sjp.int <- function(fit,
     # -----------------------------------------------------------
     if (is.null(axisLimits.y)) {
       if (fitfam %in% c("binomial", "quasibinomial")) {
-        lowerLim.y <- 0
-        upperLim.y <- 1
+        lowerLim.y <- as.integer(10 * min(intdf$y, na.rm = T) * .9) / 10
+        upperLim.y <- as.integer(10 * max(intdf$y, na.rm = T) * 1.1) / 10
       } else {
         if (diff) {
           lowerLim.y <- floor(min(intdf$ydiff, na.rm = T))
@@ -1160,8 +1160,8 @@ sjp.int <- function(fit,
         # -----------------------------------------------------------
         if (is.null(axisLimits.y)) {
           if (fitfam %in% c("binomial", "quasibinomial")) {
-            lowerLim.y <- 0
-            upperLim.y <- 1
+            lowerLim.y <- as.integer(10 * min(intdf$y, na.rm = T) * .9) / 10
+            upperLim.y <- as.integer(10 * max(intdf$y, na.rm = T) * 1.1) / 10
           } else {
             if (showCI) {
               lowerLim.y <- floor(min(intdf$lower, na.rm = T))

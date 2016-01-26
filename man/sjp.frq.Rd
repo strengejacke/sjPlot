@@ -83,7 +83,7 @@ is not \code{NULL}.}
 
 \item{axisLimits.y}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
-y-axis ranges from 0 to required maximum.}
+y-axis fits to the required range of the data.}
 
 \item{breakTitleAt}{determines how many chars of the plot title are displayed in
 one line and when a line break is inserted into the title.}

@@ -37,7 +37,7 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #' @param hideLegend logical, indicates whether legend (guide) should be shown or not.
 #' @param axisLimits.y numeric vector of length two, defining lower and upper axis limits
 #'          of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
-#'          y-axis ranges from 0 to required maximum.
+#'          y-axis fits to the required range of the data.
 #' @param facet.grid \code{TRUE} when bar charts should be plotted as facet grids instead of integrated single
 #'          bar charts. Ideal for larger amount of groups. This argument wraps a single panel into 
 #'          \code{varGroup} amount of panels, i.e. each group is represented within a new panel.

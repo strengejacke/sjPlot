@@ -50,7 +50,7 @@ can be added to the plot (see \code{showTotalColumn}).}
 
 \item{axisLimits.y}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
-y-axis ranges from 0 to required maximum.}
+y-axis fits to the required range of the data.}
 
 \item{axisLabels.x}{a character vector with labels for the x-axis breaks. \strong{Note:} 
 Axis labels will be automatically detected, when data was either imported 

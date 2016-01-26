@@ -1,3 +1,9 @@
+Version 1.9.0-1
+-----------------------------------------------------------------------------
+Changes to functions:
+* `sjp.int` now fits the y-axis to the required range for predicted probabilities for logistic regressions instead of always using a range from 0 to 1, even for smaller effects.
+
+
 Version 1.9
 -----------------------------------------------------------------------------
 General:

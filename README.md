@@ -40,6 +40,13 @@ install.packages("sjPlot")
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](http://cran.r-project.org/package=ggplot2), consider citing this package as well.
 
+
+### Changelog of current development build 1.9.0-1
+
+#### Changes to functions:
+* `sjp.int` now fits the y-axis to the required range for predicted probabilities for logistic regressions instead of always using a range from 0 to 1, even for smaller effects ([#86](https://github.com/sjPlot/devel/issues/86)).
+
+
 ### Changelog of latest stable build 1.9
 
 #### General

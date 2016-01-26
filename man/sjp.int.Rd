@@ -125,7 +125,7 @@ are displayed in one line and when a line break is inserted.}
 
 \item{axisLimits.y}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
-y-axis ranges from 0 to required maximum.}
+y-axis fits to the required range of the data.}
 
 \item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
 position a major grid is being printed.}
