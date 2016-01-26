@@ -164,8 +164,12 @@ sjp.poly <- function(x,
   # --------------------------------------------
   # retrieve labels
   # --------------------------------------------
-  if (is.null(axisTitle.x)) axisTitle.x <- sjmisc:::autoSetVariableLabels(poly.term)
-  if (is.null(axisTitle.y)) axisTitle.y <- sjmisc:::autoSetVariableLabels(resp)
+  if (is.null(axisTitle.x))
+    axisTitle.x <- sjmisc::get_label(poly.term,
+                                     def.value = get_var_name(deparse(substitute(poly.term))))
+  if (is.null(axisTitle.y)) 
+    axisTitle.y <- sjmisc::get_label(resp,
+                                     def.value = get_var_name(deparse(substitute(resp))))
   # no labels found? set default then
   if (is.null(axisTitle.x)) axisTitle.x <- "Polynomial term"
   if (is.null(axisTitle.y)) axisTitle.y <- "Response"

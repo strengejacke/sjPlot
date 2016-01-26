@@ -224,7 +224,10 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
-  if (is.null(legendLabels)) legendLabels <- sjmisc:::autoSetValueLabels(items[[1]])
+  if (is.null(legendLabels)) legendLabels <- sjmisc::get_labels(items[[1]],
+                                                                attr.only = F,
+                                                                include.values = NULL,
+                                                                include.non.labelled = T)
   if (is.null(axisLabels.y)) {
     axisLabels.y <- c()
     # if yes, iterate each variable

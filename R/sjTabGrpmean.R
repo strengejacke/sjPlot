@@ -76,9 +76,12 @@ sjt.grpmean <- function(varCount,
   # --------------------------------------
   # set value and row labels
   # --------------------------------------
-  if (is.null(rowLabels)) rowLabels <- sjmisc:::autoSetValueLabels(varGrp)
-  varGrpLabel <- sjmisc:::autoSetVariableLabels(varGrp)
-  varCountLabel <- sjmisc:::autoSetVariableLabels(varCount)
+  if (is.null(rowLabels)) rowLabels <- sjmisc::get_labels(varGrp,
+                                                          attr.only = F,
+                                                          include.values = NULL,
+                                                          include.non.labelled = T)
+  varGrpLabel <- sjmisc::get_label(varGrp, def.value = get_var_name(deparse(substitute(varGrp))))
+  varCountLabel <- sjmisc::get_label(varCount, def.value = get_var_name(deparse(substitute(varCount))))
   # --------------------------------------
   # handle NULL parameter
   # --------------------------------------

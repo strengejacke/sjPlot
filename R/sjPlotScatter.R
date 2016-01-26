@@ -154,6 +154,12 @@ sjp.scatter <- function(x = NULL,
     show.ci <- show.se
   }
   # --------------------------------------------------------
+  # get variable name
+  # --------------------------------------------------------
+  name.x <- get_var_name(deparse(substitute(x)))
+  name.y <- get_var_name(deparse(substitute(y)))
+  name.grp <- get_var_name(deparse(substitute(grp)))
+  # --------------------------------------------------------
   # check parameters
   # --------------------------------------------------------
   if (is.null(x) && is.null(y)) {
@@ -164,17 +170,20 @@ sjp.scatter <- function(x = NULL,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(legendLabels) && !is.null(grp)) legendLabels <- sjmisc:::autoSetValueLabels(grp)
-  if (is.null(legendTitle) && !is.null(grp)) legendTitle <- sjmisc:::autoSetVariableLabels(grp)
-  if (is.null(axisTitle.x)) axisTitle.x <- sjmisc:::autoSetVariableLabels(x)
-  if (is.null(axisTitle.y)) axisTitle.y <- sjmisc:::autoSetVariableLabels(y)
+  if (is.null(legendLabels) && !is.null(grp)) legendLabels <- sjmisc::get_labels(grp,
+                                                                                 attr.only = F,
+                                                                                 include.values = NULL,
+                                                                                 include.non.labelled = T)
+  if (is.null(legendTitle) && !is.null(grp)) legendTitle <- sjmisc::get_label(grp, def.value = name.grp)
+  if (is.null(axisTitle.x)) axisTitle.x <- sjmisc::get_label(x, def.value = name.x)
+  if (is.null(axisTitle.y)) axisTitle.y <- sjmisc::get_label(y, def.value = name.y)
   if (is.null(title)) {
-    t1 <- sjmisc:::autoSetVariableLabels(x)
-    t2 <- sjmisc:::autoSetVariableLabels(y)
+    t1 <- sjmisc::get_label(x, def.value = name.x)
+    t2 <- sjmisc::get_label(y, def.value = name.y)
     if (!is.null(t1) && !is.null(t2)) {
       title <- paste0(t1, " by ", t2)
       if (!is.null(grp)) {
-        t3 <- sjmisc:::autoSetVariableLabels(grp)
+        t3 <- sjmisc::get_label(grp, def.value = name.grp)
         if (!is.null(t3)) title <- paste0(title, " (grouped by ", t3, ")")
       }
     }
