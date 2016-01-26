@@ -243,6 +243,7 @@ sjp.lm <- function(fit,
                    showLoess = FALSE,
                    showLoessCI = FALSE,
                    show.legend = FALSE,
+                   y.offset = .1,
                    poly.term = NULL,
                    showOriginalModelOnly = TRUE,
                    completeDiagnostic = FALSE,
@@ -538,7 +539,7 @@ sjp.lm <- function(fit,
     geom_errorbar(aes(ymin = lower, ymax = upper), width = 0) +
     # Print p-values. With vertical adjustment, so they don't overlap with the errorbars
     geom_text(aes(label = p, y = Beta),
-              vjust = -0.8,
+              nudge_x = y.offset,
               show.legend = FALSE) +
     # print point
     geom_point(size = geom.size) +

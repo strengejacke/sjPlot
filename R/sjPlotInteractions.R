@@ -298,6 +298,7 @@
 #'
 #' @import ggplot2
 #' @import sjmisc
+#' @importFrom stats family
 #' @export
 sjp.int <- function(fit,
                     type = "cond",
@@ -400,10 +401,13 @@ sjp.int <- function(fit,
     type <- "cond"
   }
   # ------------------------
-  # do we have glm? if so, 
-  # get link family
+  # do we have glm? if so, get link family. make exceptions
+  # for specific models that don't have family function
   # ------------------------
-  fitfam <- family(fit)$family
+  if (any(c.f == "lme")) 
+    fitfam <- ""
+  else
+    fitfam <- stats::family(fit)$family
   # --------------------------------------------------------
   # plot estimated marginal means?
   # --------------------------------------------------------
@@ -1142,10 +1146,13 @@ sjp.int <- function(fit,
         }
       } else {
         # ------------------------
-        # do we have glm? if so, 
-        # get link family
+        # do we have glm? if so, get link family. make exceptions
+        # for specific models that don't have family function
         # ------------------------
-        fitfam <- family(fit)$family
+        if (any(c.f == "lme")) 
+          fitfam <- ""
+        else
+          fitfam <- stats::family(fit)$family
         # Label on y-axis is fixed
         if (is.null(axisTitle.y)) {
           # for logistic reg.

@@ -43,8 +43,13 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 
 ### Changelog of current development build 1.9.0-1
 
-#### Changes to functions:
+#### Changes to functions
+* Improved text label positioning for plotting functions.
+* Plotting functions now get an argument `y.offset` to specify an offset for text labels from geoms.
 * `sjp.int` now fits the y-axis to the required range for predicted probabilities for logistic regressions instead of always using a range from 0 to 1, even for smaller effects ([#86](https://github.com/sjPlot/devel/issues/86)).
+
+#### Bug fixes
+* `sjp.int` did not work with fitted models from class `lme`.
 
 
 ### Changelog of latest stable build 1.9

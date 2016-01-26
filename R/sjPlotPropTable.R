@@ -139,6 +139,7 @@ sjp.xtab <- function(x,
                      legendLabels = NULL,
                      vjust = "bottom",
                      hjust = "center",
+                     y.offset = NULL,
                      stringTotal = "Total",
                      breakTitleAt = 50,
                      breakLabelsAt = 15,
@@ -179,6 +180,32 @@ sjp.xtab <- function(x,
     expand.grid <- ggplot2::waiver()
   } else {
     expand.grid <- c(0, 0)
+  }
+  # --------------------------------------------------------
+  # set text label offset
+  # --------------------------------------------------------
+  if (is.null(y.offset)) {
+    # get maximum y-pos
+    y.offset <- ceiling(max(table(x, grp)) / 100)
+    if (coord.flip) {
+      if (missing(vjust)) vjust <- "center"
+      if (missing(hjust)) hjust <- "bottom"
+      if (hjust == "bottom")
+        y_offset <- y.offset
+      else if (hjust == "top")
+        y_offset <- -y.offset
+      else
+        y_offset <- 0
+    } else {
+      if (vjust == "bottom")
+        y_offset <- y.offset
+      else if (vjust == "top")
+        y_offset <- -y.offset
+      else
+        y_offset <- 0
+    }
+  } else {
+    y_offset <- y.offset
   }
   # --------------------------------------------------------
   # total column only applies to column percentages
@@ -355,17 +382,17 @@ sjp.xtab <- function(x,
     # as well, sofor better reading
     if (barPosition == "dodge") {
       if (showPercentageValues && showCountValues) {
-        ggvaluelabels <- geom_text(aes(y = ypos, label = sprintf("%.01f%%%s(n=%i)", 100 * prc, line.break, n)),
+        ggvaluelabels <- geom_text(aes(y = ypos + y_offset, label = sprintf("%.01f%%%s(n=%i)", 100 * prc, line.break, n)),
                                    position = position_dodge(posdodge),
                                    vjust = vjust,
                                    hjust = hjust)
       } else if (showPercentageValues) {
-        ggvaluelabels <- geom_text(aes(y = ypos, label = sprintf("%.01f%%", 100 * prc)),
+        ggvaluelabels <- geom_text(aes(y = ypos + y_offset, label = sprintf("%.01f%%", 100 * prc)),
                                    position = position_dodge(posdodge),
                                    vjust = vjust,
                                    hjust = hjust)
       } else if (showCountValues) {
-        ggvaluelabels <- geom_text(aes(y = ypos, label = sprintf("n=%i", n)),
+        ggvaluelabels <- geom_text(aes(y = ypos + y_offset, label = sprintf("n=%i", n)),
                                    position = position_dodge(posdodge),
                                    vjust = vjust,
                                    hjust = hjust)
@@ -407,7 +434,7 @@ sjp.xtab <- function(x,
   if (type == "bars") {
     if (barPosition == "dodge") {
       geob <- geom_bar(stat = "identity", 
-                       position = position_dodge(geom.size + geom.spacing), 
+                       position = position_dodge(posdodge), 
                        width = geom.size)
     } else {
       geob <- geom_bar(stat = "identity",

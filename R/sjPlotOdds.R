@@ -16,7 +16,6 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' @param type type of plot. Use one of following:
 #'          \describe{
 #'            \item{\code{"dots"}}{(or \code{"glm"} or \code{"or"} (default)) for odds ratios (forest plot)}
-#'            \item{\code{"bars"}}{for odds ratios as bar plot}
 #'            \item{\code{"prob"}}{(or \code{"pc"}) to plot predicted probabilities for each model term, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
 #'            \item{\code{"eff"}}{to plot marginal effects of predicted probabilities for each model term, where all remaining co-variates are set to the mean (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
 #'            \item{\code{"y.pc"}}{(or \code{"y.prob"}) to plot predicted probabilities for the response. See 'Details'.}
@@ -33,9 +32,6 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'          higher odds ratio values.
 #' @param geom.colors color palette for geoms. Must either be vector with two color values
 #'          or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.
-#' @param hideErrorBars logical, if \code{TRUE}, the error bars that indicate the 
-#'          confidence intervals of the odds ratios are not shown. Only applies 
-#'          if argument \code{type = "bars"}. Default value is \code{FALSE}.
 #' @param showIntercept logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
 #'          Default is \code{FALSE}. Please note that due to exponential transformation of
 #'          estimates, the intercept in some cases can not be calculated, thus the
@@ -60,7 +56,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' @return (Invisibly) returns various objects, depending on 
 #'           the \code{type}-argument:
 #'         \describe{
-#'          \item{\code{type = "dots" or "bars"}}{
+#'          \item{\code{type = "dots"}}{
 #'            \itemize{
 #'              \item \code{df} - data frame used for the plot
 #'              \item \code{plot} - plot as ggplot-object
@@ -118,9 +114,6 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'
 #' # print Odds Ratios as dots
 #' sjp.glm(fitOR)
-#'
-#' # print Odds Ratios as bars
-#' sjp.glm(fitOR, type = "bars", geom.size = .3)
 #'
 #'
 #' # -------------------------------
@@ -183,11 +176,11 @@ sjp.glm <- function(fit,
                     transformTicks = TRUE,
                     geom.size = NULL,
                     geom.colors = "Set1",
-                    hideErrorBars = FALSE,
                     interceptLineType = 2,
                     interceptLineColor = "grey70",
                     remove.estimates = NULL,
                     coord.flip = TRUE,
+                    y.offset = .1,
                     showIntercept = FALSE,
                     showAxisLabels.y = TRUE,
                     showValueLabels = TRUE,
@@ -257,19 +250,14 @@ sjp.glm <- function(fit,
   # check type param
   # ----------------------------
   if (type == "or" || type == "glm") type <- "dots"
-  if (type != "dots" && type != "bars") {
+  if (type != "dots") {
     warning("Invalid 'type' argument. Defaulting to 'dots'.", call. = F)
     type <- "dots"
   }
   # ----------------------------
   # check size param
   # ----------------------------
-  if (is.null(geom.size)) {
-    if (type == "dots") 
-      geom.size <- 3
-    else if (type == "bars") 
-      geom.size <- .6
-  }
+  if (is.null(geom.size)) geom.size <- 3
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
@@ -399,19 +387,10 @@ sjp.glm <- function(fit,
       # values just of odds ratios
       rdf <- odds
     }
-    # check whether we have bar chart and error bars hidden
-    # in this case, the upper limit does not correspond to the
-    # upper CI, but to the highest OR value
-    if (type == "bars" && hideErrorBars) {
-      maxval <- max(rdf$OR)
-      minval <- min(rdf$OR)
-    } else {
-      # else we have confindence intervals displayed, so
-      # the range corresponds to the boundaries given by
-      # the CI's
-      maxval <- max(rdf$upper)
-      minval <- min(rdf$lower)
-    }
+    # the range corresponds to the boundaries given by
+    # the CI's
+    maxval <- max(rdf$upper)
+    minval <- min(rdf$lower)
     upper_lim <- ceiling(10 * maxval) / 10
     lower_lim <- floor(10 * minval) / 10
     # avoid zero or NA axis limit!
@@ -486,45 +465,17 @@ sjp.glm <- function(fit,
   # --------------------------------------------------------
   # start with dot-plotting here
   # --------------------------------------------------------
-  if (type == "dots") {
-    plotHeader <- plotHeader +
-      # Order odds according to beta-coefficients, colour points and lines according to
-      # OR-value greater / lower than 1
-      geom_point(size = geom.size, aes(colour = (OR > 1))) +
-      # print confidence intervalls (error bars)
-      geom_errorbar(aes(ymin = lower, 
-                        ymax = upper, 
-                        colour = (OR > 1)), 
-                    width = 0) +
-      # print value labels and p-values
-      geom_text(aes(label = p, y = OR), vjust = -0.7)
-  # --------------------------------------------------------
-  # start with bar plots here
-  # --------------------------------------------------------
-  } else if (type == "bars") {
+  plotHeader <- plotHeader +
     # Order odds according to beta-coefficients, colour points and lines according to
     # OR-value greater / lower than 1
-    plotHeader <- plotHeader +
-      # stat-argument indicates statistics
-      # stat="bin": y-axis relates to count of variable
-      # stat="identity": y-axis relates to value of variable
-      geom_bar(aes(fill = (OR > 1)), 
-               stat = "identity", 
-               position = "identity", 
-               width = geom.size) +
-      # print value labels and p-values
-      geom_text(aes(label = p, y = 1), 
-                vjust = -1, 
-                hjust = odds$labhjust)
-    if (hideErrorBars == FALSE) {
-      plotHeader <- plotHeader +
-        # print confidence intervalls (error bars)
-      geom_errorbar(aes(ymin = lower, 
-                        ymax = upper), 
-                    colour = "black", 
-                    width = 0)
-    }
-  }
+    geom_point(size = geom.size, aes(colour = (OR > 1))) +
+    # print confidence intervalls (error bars)
+    geom_errorbar(aes(ymin = lower, 
+                      ymax = upper, 
+                      colour = (OR > 1)), 
+                  width = 0) +
+    # print value labels and p-values
+    geom_text(aes(label = p, y = OR), nudge_x = y.offset)
   # ------------------------------------------
   # add annotations with model summary
   # here we print out the log-lik-ratio "lambda" and the chi-square significance of the model

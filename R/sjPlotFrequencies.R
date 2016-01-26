@@ -1,5 +1,5 @@
 # bind global variables
-utils::globalVariables(c("val", "frq", "grp", "upper.ci", "lower.ci", "ia", "..density.."))
+utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci", "ia", "..density.."))
 
 
 #' @title Plot frequencies of variables
@@ -224,12 +224,39 @@ sjp.frq <- function(varCount,
                     coord.flip = FALSE,
                     vjust = "bottom",
                     hjust = "center",
+                    y.offset = NULL,
                     na.rm = TRUE,
                     printPlot = TRUE) {
   # --------------------------------------------------------
   # get variable name
   # --------------------------------------------------------
   var.name <- get_var_name(deparse(substitute(varCount)))
+  # --------------------------------------------------------
+  # set text label offset
+  # --------------------------------------------------------
+  if (is.null(y.offset)) {
+    # get maximum y-pos
+    y.offset <- ceiling(max(table(varCount)) / 100)
+    if (coord.flip) {
+      if (missing(vjust)) vjust <- "center"
+      if (missing(hjust)) hjust <- "bottom"
+      if (hjust == "bottom")
+        y_offset <- y.offset
+      else if (hjust == "top")
+        y_offset <- -y.offset
+      else
+        y_offset <- 0
+    } else {
+      if (vjust == "bottom")
+        y_offset <- y.offset
+      else if (vjust == "top")
+        y_offset <- -y.offset
+      else
+        y_offset <- 0
+    }
+  } else {
+    y_offset <- y.offset
+  }
   # --------------------------------------------------------
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
@@ -322,6 +349,13 @@ sjp.frq <- function(varCount,
                           weightBy = weightBy)
   mydat <- df.frq$mydat
   if (!is.null(df.frq$labels) && is.null(axisLabels.x)) axisLabels.x <- df.frq$labels
+  # --------------------------------------------------------
+  # define text label position
+  # --------------------------------------------------------
+  if (showCI)
+    mydat$label.pos <- mydat$upper.ci
+  else
+    mydat$label.pos <- mydat$frq
   # --------------------------------------------------------
   # Trim labels and title to appropriate size
   # --------------------------------------------------------
@@ -435,58 +469,28 @@ sjp.frq <- function(varCount,
     # here we have counts and percentages
     if (showPercentageValues && showCountValues) {
       if (coord.flip) {
-        if (showCI) {
-          ggvaluelabels <-  geom_text(label = sprintf("%i (%.01f%%)", mydat$frq, mydat$valid.prc),
-                                      hjust = hjust,
-                                      vjust = vjust,
-                                      aes(y = upper.ci))
-        } else {
-          ggvaluelabels <-  geom_text(label = sprintf("%i (%.01f%%)", mydat$frq, mydat$valid.prc),
-                                      hjust = hjust,
-                                      vjust = vjust,
-                                      aes(y = frq))
-        }
+        ggvaluelabels <-  geom_text(label = sprintf("%i (%.01f%%)", mydat$frq, mydat$valid.prc),
+                                    hjust = hjust,
+                                    vjust = vjust,
+                                    aes(y = label.pos + y_offset))
       } else {
-        if (showCI) {
-          ggvaluelabels <-  geom_text(label = sprintf("%i\n(%.01f%%)", mydat$frq, mydat$valid.prc),
-                                      hjust = hjust,
-                                      vjust = vjust,
-                                      aes(y = upper.ci))
-        } else {
-          ggvaluelabels <-  geom_text(label = sprintf("%i\n(%.01f%%)", mydat$frq, mydat$valid.prc),
-                                      hjust = hjust,
-                                      vjust = vjust,
-                                      aes(y = frq))
-        }
+        ggvaluelabels <-  geom_text(label = sprintf("%i\n(%.01f%%)", mydat$frq, mydat$valid.prc),
+                                    hjust = hjust,
+                                    vjust = vjust,
+                                    aes(y = label.pos + y_offset))
       }
     } else if (showCountValues) {
-      if (showCI) {
-        # here we have counts, without percentages
-        ggvaluelabels <-  geom_text(label = sprintf("%i", mydat$frq),
-                                    hjust = hjust,
-                                    vjust = vjust,
-                                    aes(y = upper.ci))
-      } else {
-        # here we have counts, without percentages
-        ggvaluelabels <-  geom_text(label = sprintf("%i", mydat$frq),
-                                    hjust = hjust,
-                                    vjust = vjust,
-                                    aes(y = frq))
-      }
+      # here we have counts, without percentages
+      ggvaluelabels <-  geom_text(label = sprintf("%i", mydat$frq),
+                                  hjust = hjust,
+                                  vjust = vjust,
+                                  aes(y = label.pos + y_offset))
     } else if (showPercentageValues) {
-      if (showCI) {
-        # here we have counts, without percentages
-        ggvaluelabels <-  geom_text(label = sprintf("%.01f%%", mydat$valid.prc),
-                                    hjust = hjust,
-                                    vjust = vjust,
-                                    aes(y = upper.ci))
-      } else {
-        # here we have counts, without percentages
-        ggvaluelabels <-  geom_text(label = sprintf("%.01f%%", mydat$valid.prc),
-                                    hjust = hjust,
-                                    vjust = vjust,
-                                    aes(y = frq))
-      }
+      # here we have counts, without percentages
+      ggvaluelabels <-  geom_text(label = sprintf("%.01f%%", mydat$valid.prc),
+                                  hjust = hjust,
+                                  vjust = vjust,
+                                  aes(y = label.pos + y_offset))
     } else {
       # no labels
       ggvaluelabels <-  geom_text(aes(y = frq), label = "")
