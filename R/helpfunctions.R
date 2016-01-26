@@ -519,52 +519,47 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
 retrieveModelLabels <- function(models) {
   # check parameter. No labels supported for plm-objects
   if (any(class(models) == "plm")) return(NULL)
-  # do we have global options?
-  opt <- getOption("autoSetVariableLabels")
-  if (is.null(opt) || opt == TRUE) {
-    fit.labels <- c()
-    for (k in 1:length(models)) {
-      # get model
-      fit <- models[[k]]
-      # iterate coefficients (1 is intercept or response)
-      for (i in 2:ncol(fit$model)) {
-        # is predictor a factor?
-        pvar <- fit$model[, i]
-        # if yes, we have this variable multiple
-        # times, so manually set value labels
-        if (is.factor(pvar)) {
-          # get amount of levels
-          pvar.len <- length(levels(pvar))
-          # get value labels, if any
-          pvar.lab <- sjmisc::get_labels(pvar)
-          # have any labels, and have we same amount of labels
-          # as factor levels?
-          if (!is.null(pvar.lab) && length(pvar.lab) == pvar.len) {
-            # add labels
-            if (!any(fit.labels == pvar.lab[2:pvar.len])) {
-              fit.labels <- c(fit.labels, pvar.lab[2:pvar.len])
-            }
-          } else {
-            # add labels
-            if (!any(fit.labels == attr(fit$coefficients[i], "names"))) {
-              fit.labels <- c(fit.labels, attr(fit$coefficients[i], "names"))
-            }
+  fit.labels <- c()
+  for (k in 1:length(models)) {
+    # get model
+    fit <- models[[k]]
+    # iterate coefficients (1 is intercept or response)
+    for (i in 2:ncol(fit$model)) {
+      # is predictor a factor?
+      pvar <- fit$model[, i]
+      # if yes, we have this variable multiple
+      # times, so manually set value labels
+      if (is.factor(pvar)) {
+        # get amount of levels
+        pvar.len <- length(levels(pvar))
+        # get value labels, if any
+        pvar.lab <- sjmisc::get_labels(pvar)
+        # have any labels, and have we same amount of labels
+        # as factor levels?
+        if (!is.null(pvar.lab) && length(pvar.lab) == pvar.len) {
+          # add labels
+          if (!any(fit.labels == pvar.lab[2:pvar.len])) {
+            fit.labels <- c(fit.labels, pvar.lab[2:pvar.len])
           }
         } else {
-          # check if we hav label
-          lab <- sjmisc::get_label(fit$model[, i], 
-                                   def.value = get_var_name(deparse(substitute(fit$model[, i]))))
-          # if not, use coefficient name
-          if (is.null(lab)) {
-            lab <- attr(fit$coefficients[i], "names")
+          # add labels
+          if (!any(fit.labels == attr(fit$coefficients[i], "names"))) {
+            fit.labels <- c(fit.labels, attr(fit$coefficients[i], "names"))
           }
-          if (!any(fit.labels == lab)) fit.labels <- c(fit.labels, lab)
         }
+      } else {
+        # check if we hav label
+        lab <- sjmisc::get_label(fit$model[, i], 
+                                 def.value = get_var_name(deparse(substitute(fit$model[, i]))))
+        # if not, use coefficient name
+        if (is.null(lab)) {
+          lab <- attr(fit$coefficients[i], "names")
+        }
+        if (!any(fit.labels == lab)) fit.labels <- c(fit.labels, lab)
       }
     }
-    return(fit.labels)
   }
-  return(NULL)
+  return(fit.labels)
 }
 
 
