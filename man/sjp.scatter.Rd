@@ -82,9 +82,7 @@ confidence interval of the fitted lines will be added.}
 
 \item{fitmethod}{By default, a linear method (\code{"lm"}) is used for fitting
 the fit lines. Possible values are for instance \code{"lm"}, \code{"glm"},
-\code{"loess"} or \code{"auto"}
-(see \href{http://docs.ggplot2.org/current/stat_smooth.html}{ggplot-docs}
-for more details).}
+\code{"loess"} or \code{"auto"}.}
 
 \item{useJitter}{logical, if \code{TRUE}, points will be jittered (to avoid overplotting).}
 
@@ -101,8 +99,7 @@ they are automatically jittered. Default is 0.15. Valid values range
 between 0 and 1.}
 
 \item{showRug}{logical, if \code{TRUE}, a marginal rug plot is displayed
-in the graph (see \href{http://docs.ggplot2.org/current/geom_rug.html}{ggplot-docs}
-for more details).}
+in the graph.}
 
 \item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
 

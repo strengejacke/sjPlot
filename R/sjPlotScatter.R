@@ -42,9 +42,7 @@
 #'          confidence interval of the fitted lines will be added.
 #' @param fitmethod By default, a linear method (\code{"lm"}) is used for fitting
 #'          the fit lines. Possible values are for instance \code{"lm"}, \code{"glm"},
-#'          \code{"loess"} or \code{"auto"}
-#'          (see \href{http://docs.ggplot2.org/current/stat_smooth.html}{ggplot-docs}
-#'          for more details).
+#'          \code{"loess"} or \code{"auto"}.
 #' @param useJitter logical, if \code{TRUE}, points will be jittered (to avoid overplotting).
 #' @param autojitter logical, if \code{TRUE}, points will be jittered according
 #'          to an overlap-estimation. A matrix of \code{x} and \code{y} values
@@ -57,8 +55,7 @@
 #'          they are automatically jittered. Default is 0.15. Valid values range
 #'          between 0 and 1.
 #' @param showRug logical, if \code{TRUE}, a marginal rug plot is displayed
-#'          in the graph (see \href{http://docs.ggplot2.org/current/geom_rug.html}{ggplot-docs}
-#'          for more details).
+#'          in the graph.
 #' @param facet.grid \code{TRUE} when each scatter plot group should be plotted as single facet instead of
 #'          an integrated single graph. Only applies if \code{grp} is not \code{NULL}. Each category of
 #'          \code{grp} will be plotted in an own facet.
