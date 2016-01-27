@@ -11,8 +11,9 @@ sjp.int(fit, type = "cond", int.term = NULL, int.plot.index = NULL,
   axisTitle.y = NULL, axisLabels.x = NULL, legendTitle = NULL,
   legendLabels = NULL, showValueLabels = FALSE, breakTitleAt = 50,
   breakLegendLabelsAt = 20, breakLegendTitleAt = 20, axisLimits.x = NULL,
-  axisLimits.y = NULL, gridBreaksAt = NULL, showCI = FALSE,
-  valueLabel.digits = 2, facet.grid = FALSE, printPlot = TRUE)
+  axisLimits.y = NULL, y.offset = 0.07, gridBreaksAt = NULL,
+  showCI = FALSE, valueLabel.digits = 2, facet.grid = FALSE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{fit}{the fitted (generalized) linear (mixed) model object, including interaction terms. Accepted model
@@ -126,6 +127,9 @@ are displayed in one line and when a line break is inserted.}
 \item{axisLimits.y}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
 y-axis fits to the required range of the data.}
+
+\item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
+to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
 \item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
 position a major grid is being printed.}

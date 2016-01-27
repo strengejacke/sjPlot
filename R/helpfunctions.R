@@ -22,10 +22,10 @@ print.table.summary <- function(baseplot,
     # add annotations with table summary
     # here we print out total N of cases, chi-square and significance of the table
     if (tableSummaryPos == "r") {
-      t.hjust <- 1.05
+      t.hjust <- "top"
       x.x <- Inf
     } else {
-      t.hjust <- -0.05
+      t.hjust <- "bottom"
       x.x <- -Inf
     }
     baseplot <- baseplot +
@@ -34,7 +34,7 @@ print.table.summary <- function(baseplot,
                parse = TRUE,
                x = x.x,
                y = Inf,
-               vjust = 1.1,
+               vjust = "top",
                hjust = t.hjust)
   }
   return(baseplot)

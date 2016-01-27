@@ -19,6 +19,7 @@ sjp.emm <- function(fit,
                     breakTitleAt = 50,
                     breakLegendTitleAt = 20,
                     breakLegendLabelsAt = 20,
+                    y.offset = 0.07,
                     axisLimits.y = NULL,
                     gridBreaksAt = NULL,
                     facet.grid = FALSE,
@@ -43,7 +44,7 @@ sjp.emm <- function(fit,
     return(sjp.emm.lmer(fit, swapPredictors, plevel, title, geom.colors, geom.size,
                         axisTitle.x, axisTitle.y, axisLabels.x, legendLabels,
                         showValueLabels, valueLabel.digits, showCI, breakTitleAt,
-                        breakLegendLabelsAt, axisLimits.y, gridBreaksAt, 
+                        breakLegendLabelsAt, y.offset, axisLimits.y, gridBreaksAt, 
                         facet.grid, printPlot))
   }
   # init vector that saves ggplot objects
@@ -301,7 +302,7 @@ sjp.emm <- function(fit,
       if (showValueLabels) {
         baseplot <- baseplot +
           geom_text(aes(label = round(y, vld), x = x, y = y),
-                    vjust = 1.5,
+                    nudge_y = y.offset,
                     show.legend = FALSE)
       }
       # ------------------------------------------------------------------------------------
@@ -344,7 +345,7 @@ sjp.emm <- function(fit,
 sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.size, axisTitle.x,
                          axisTitle.y, axisLabels.x, legendLabels, showValueLabels,
                          valueLabel.digits, showCI, breakTitleAt, breakLegendLabelsAt,
-                         axisLimits.y, gridBreaksAt, facet.grid, printPlot) {
+                         y.offset, axisLimits.y, gridBreaksAt, facet.grid, printPlot) {
   if ((any(class(fit) == "lmerMod") || any(class(fit) == "merModLmerTest")) && !requireNamespace("lmerTest", quietly = TRUE)) {
     stop("Package 'lmerTest' needed for this function to work. Please install it.", call. = FALSE)
   }
@@ -581,7 +582,7 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.s
       if (showValueLabels) {
         baseplot <- baseplot +
           geom_text(aes(label = round(y, vld), x = x, y = y),
-                    vjust = 1.5,
+                    nudge_y = y.offset,
                     show.legend = FALSE)
       }
       # ------------------------------------------------------------------------------------

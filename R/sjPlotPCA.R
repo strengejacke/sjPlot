@@ -237,8 +237,8 @@ sjp.pca <- function(data,
                  label = sprintf("Factors: %i", pcadata.kaiser), 
                  x = Inf, 
                  y = Inf, 
-                 vjust = 2, 
-                 hjust = 1.2) +
+                 vjust = "top", 
+                 hjust = "top") +
         scale_x_continuous(breaks = c(seq(1, nrow(mydat), by = 2))) +
         labs(title = NULL, y = "Eigenvalue", x = "Number of factors")
     plot(eigenplot)
@@ -450,7 +450,7 @@ sjp.pca <- function(data,
   # --------------------------------------------------------
   remdf <- NULL
   if (class(data) == "data.frame") {
-    message("Following items have been removed:")
+    message("Following items have no clear factor loading:")
     if (!is.null(removableItems)) {
       message(colnames(data)[removableItems])
       remdf <- data[, c(-removableItems)]

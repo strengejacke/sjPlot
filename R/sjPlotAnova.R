@@ -19,10 +19,6 @@ utils::globalVariables("pv")
 #' @param meansums logical, if \code{TRUE}, the values reported are the true group mean values (see also \code{\link{sjt.grpmean}}).
 #'          If \code{FALSE} (default), the values are reported in the standard way, i.e. the values indicate the difference of
 #'          the group mean in relation to the intercept (reference group).
-#' @param type plot type, whether group means should be plotted as \code{"dots"} (aka forest plots, default)
-#'          or as \code{"bars"}
-#' @param hideErrorBars logical, if \code{TRUE}, the error bars that indicate the confidence intervals of the group means are not
-#'          shown. Only applies if argument \code{type} is \code{"bars"}. Default value is \code{FALSE}.
 #' @param axisLabels.y character vector, indicating the value labels of \code{grpVar} that 
 #'          are used for labelling the axis. See 'Examples'.
 #' @param reverseOrder logical, if \code{TRUE}, the order of categories (groups) is reversed.
@@ -32,10 +28,6 @@ utils::globalVariables("pv")
 #' @param axisLimits numeric vector of length 2, defining the range of the plot axis.
 #'          By default, the limits range from the lowest confidence interval to the 
 #'          highest, so plot has maximum zoom.
-#' @param errorBarColor The color of the error bars that indicate the confidence intervalls
-#'          of the group means. Default is \code{NULL}, which means that if \code{type = "dots"},
-#'          the \code{pointColor} value will be used as errorbar color. In case \code{type = "bars"},
-#'          \code{"black"} will be used as errorbar color.
 #' @param geom.colors vector of length two, indicating the colors of the points resp. 
 #'          bars (depending on \code{type}); first value is for groups with positive 
 #'          means and the second for negative means.
@@ -63,14 +55,6 @@ utils::globalVariables("pv")
 #' sjp.aov1(efc$c12hour, efc$e42dep)
 #' 
 #' 
-#' # bar-plot, don't use this!
-#' # however, if you dare to, adjust
-#' # 'geom.size'...
-#' sjp.aov1(efc$c12hour,
-#'          efc$c172code,
-#'          type = "bars",
-#'          geom.size = 0.5)
-#'
 #' @import ggplot2
 #' @import sjmisc
 #' @importFrom stats confint aov summary.lm
@@ -78,8 +62,6 @@ utils::globalVariables("pv")
 sjp.aov1 <- function(depVar,
                      grpVar,
                      meansums = FALSE,
-                     type = "dots",
-                     hideErrorBars = FALSE,
                      title = NULL,
                      axisLabels.y = NULL,
                      reverseOrder = FALSE,
@@ -87,7 +69,6 @@ sjp.aov1 <- function(depVar,
                      showAxisLabels.y = TRUE,
                      axisTitle.x = "",
                      axisLimits = NULL,
-                     errorBarColor = NULL,
                      geom.colors = c("#3366a0", "#aa3333"),
                      geom.size = 3,
                      breakTitleAt = 50,
@@ -96,6 +77,7 @@ sjp.aov1 <- function(depVar,
                      expand.grid = FALSE,
                      showValueLabels = TRUE,
                      labelDigits = 2,
+                     y.offset = .1,
                      showPValueLabels = TRUE,
                      showModelSummary = FALSE,
                      printPlot = TRUE) {
@@ -139,24 +121,10 @@ sjp.aov1 <- function(depVar,
   # --------------------------------------------------------
   # Check spelling of type-param
   # --------------------------------------------------------
-  if (type == "dot" || type == "d") type <- "dots"
-  if (type == "bar" || type == "b") type <- "bars"
   if (expand.grid == TRUE) 
     expand.grid <- ggplot2::waiver()
   else
     expand.grid <- c(0, 0)
-  # --------------------------------------------------------
-  # check whether we colors for error bars. if not, use point color
-  # in case of dots or "black" in case of bars.
-  # --------------------------------------------------------
-  if (is.null(errorBarColor)) {
-    if (type == "dots")
-      errorBarColors <- geom.colors
-    else
-      errorBarColors <- c("black", "black")
-  } else {
-    errorBarColors <- c(errorBarColor, errorBarColor)
-  }
   # --------------------------------------------------------
   # check whether we have x-axis title. if not, use standard
   # value
@@ -274,42 +242,18 @@ sjp.aov1 <- function(depVar,
   df$pv <- as.character(df$pv)
   # bind color values to data frame, because we cannot use several
   # different color aesthetics in ggplot
-  df <- cbind(df,
-              geocol = ifelse(df$means >= 0, geom.colors[1], geom.colors[2]), 
-              errcol = ifelse(df$means >= 0, errorBarColors[1], errorBarColors[2]))
+  df <- cbind(df, geocol = ifelse(df$means >= 0, geom.colors[1], geom.colors[2]))
   # --------------------------------------------------------
   # Calculate axis limits. The range is from lowest lower-CI
   # to highest upper-CI, or a user-defined range (if "axisLimits"
   # is not NULL)
   # --------------------------------------------------------
   if (is.null(axisLimits)) {
-    # check whether we have bar chart and error bars hidden
-    # in this case, the upper limit does not correspond to the
-    # upper CI, but to the highest OR value
-    if (type == "bars") {
-      # if errorbars are hidden, the axis range is defined
-      # by the mean values
-      if (hideErrorBars) {
-        maxval <- max(df$means) + 10
-        minval <- min(df$means)
-      }
-      # if errorbars are shown, axis range is defined
-      # by confidence interval
-      else {
-        maxval <- max(df$upper)
-        minval <- min(df$lower)
-      }
-      # if minval is > 0, set it to zero, so we have a proper baseline
-      if (minval > 0) minval <- 0
-      # if maxval is < 0, set it to zero, so we have a proper baseline
-      if (maxval < 0) maxval <- 0
-    } else {
-      # else we have confindence intervals displayed, so
-      # the range corresponds to the boundaries given by
-      # the CI's
-      maxval <- max(df$upper)
-      minval <- min(df$lower)
-    }
+    # we have confindence intervals displayed, so
+    # the range corresponds to the boundaries given by
+    # the CI's
+    maxval <- max(df$upper)
+    minval <- min(df$lower)
     if (maxval > 0)
       limfac <- ifelse(abs(maxval) < 5, 5, 10)
     else 
@@ -330,95 +274,38 @@ sjp.aov1 <- function(depVar,
   # Set up plot padding (margins inside diagram). In case of
   # bars, we don't want margins.
   # --------------------------------------------------------
-  if (type == "bars") {
-    scaley <- scale_y_continuous(limits = c(lower_lim, upper_lim), 
-                                 expand = expand.grid, 
-                                 breaks = ticks, 
-                                 labels = ticks)    
-  } else {
-    scaley <- scale_y_continuous(limits = c(lower_lim, upper_lim), 
-                                 breaks = ticks, 
-                                 labels = ticks)    
-  }
+  scaley <- scale_y_continuous(limits = c(lower_lim, upper_lim), 
+                               breaks = ticks, 
+                               labels = ticks)    
   # --------------------------------------------------------
   # Start plot here!
   # --------------------------------------------------------
-  if (type == "dots") {
-    anovaplot <- ggplot(df, aes(y = means, x = xv)) +
-      # print point
-      geom_point(size = geom.size, colour = df$geocol) +
-      # and error bar
-      geom_errorbar(aes(ymin = lower, ymax = upper), 
-                    colour = df$errcol, 
-                    width = 0) +
-      # Print p-values. With vertical adjustment, so 
-      # they don't overlap with the errorbars
-      geom_text(aes(label = pv, y = means), 
-                vjust = -0.8, 
-                show.legend = FALSE)
-  # --------------------------------------------------------
-  # start with bar plots here
-  # --------------------------------------------------------
-  } else if (type == "bars") {
-    # check whether we have error bars. if yes, adjust horizontal
-    # posizion of labels
-    hlabj <- ifelse(hideErrorBars == FALSE, 1.3, 0.5)
-    anovaplot <- ggplot(df, aes(y = means, x = xv)) +
-      # stat-parameter indicates statistics
-      # stat="bin": y-axis relates to count of variable
-      # stat="identity": y-axis relates to value of variable
-      geom_bar(fill = df$geocol, 
-               stat = "identity", 
-               position = "identity", 
-               width = geom.size) +
-      # print value labels and p-values
-      geom_text(aes(label = pv, y = means), 
-                vjust = ifelse(df$means >= 0, -1, 1), 
-                hjust = hlabj, 
-                show.legend = FALSE)
-    if (hideErrorBars == FALSE) {
-      anovaplot <- anovaplot +
-        # print confidence intervalls (error bars)
-        geom_errorbar(aes(ymin = lower, ymax = upper), 
-                      colour = df$errcol, 
-                      width = 0)
-    }
-  }
-  # --------------------------------------------------------
-  # continue with other plot elements
-  # --------------------------------------------------------
-  anovaplot <- anovaplot +
+  anovaplot <- ggplot(df, aes(y = means, x = xv)) +
+    # print point
+    geom_point(size = geom.size, colour = df$geocol) +
+    # and error bar
+    geom_errorbar(aes(ymin = lower, ymax = upper), width = 0) +
+    # Print p-values. With vertical adjustment, so 
+    # they don't overlap with the errorbars
+    geom_text(aes(label = pv, y = means), 
+              nudge_x = y.offset, 
+              show.legend = FALSE) +
     # set y-scale-limits, breaks and tick labels
     scaley +
     # set value labels to x-axis
     scale_x_discrete(labels = axisLabels.y, limits = c(1:nrow(df))) +
     # flip coordinates
-    labs(title = title, x = NULL, y = axisTitle.x)
-  # --------------------------------------------------------
-  # Flip coordinates when we have dots
-  # --------------------------------------------------------
-  if (type == "dots") anovaplot <- anovaplot + coord_flip()
+    labs(title = title, x = NULL, y = axisTitle.x) +
+    coord_flip()
   # check whether modelsummary should be printed
   if (showModelSummary) {
     # add annotations with model summary
     # annotations include intercept-value and model's r-square
-    if (type == "dots") {
-      anovaplot <- anovaplot + annotate("text", 
-                                        label = modsum, 
-                                        parse = TRUE, 
-                                        x = -Inf, 
-                                        y = Inf, 
-                                        vjust = -0.5, 
-                                        hjust = 1.1)
-    } else {
-      anovaplot <- anovaplot + annotate("text", 
-                                        label = modsum, 
-                                        parse = TRUE, 
-                                        x = -Inf, 
-                                        y = Inf, 
-                                        vjust = 1.2, 
-                                        hjust = -0.02)
-    }
+    anovaplot <- anovaplot + annotate("text", 
+                                      label = modsum, 
+                                      parse = TRUE, 
+                                      x = -Inf, 
+                                      y = Inf)
   }
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted

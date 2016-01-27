@@ -4,15 +4,14 @@
 \alias{sjp.aov1}
 \title{Plot One-Way-Anova tables}
 \usage{
-sjp.aov1(depVar, grpVar, meansums = FALSE, type = "dots",
-  hideErrorBars = FALSE, title = NULL, axisLabels.y = NULL,
-  reverseOrder = FALSE, stringIntercept = "(Intercept)",
-  showAxisLabels.y = TRUE, axisTitle.x = "", axisLimits = NULL,
-  errorBarColor = NULL, geom.colors = c("#3366a0", "#aa3333"),
-  geom.size = 3, breakTitleAt = 50, breakLabelsAt = 25,
+sjp.aov1(depVar, grpVar, meansums = FALSE, title = NULL,
+  axisLabels.y = NULL, reverseOrder = FALSE,
+  stringIntercept = "(Intercept)", showAxisLabels.y = TRUE,
+  axisTitle.x = "", axisLimits = NULL, geom.colors = c("#3366a0",
+  "#aa3333"), geom.size = 3, breakTitleAt = 50, breakLabelsAt = 25,
   gridBreaksAt = NULL, expand.grid = FALSE, showValueLabels = TRUE,
-  labelDigits = 2, showPValueLabels = TRUE, showModelSummary = FALSE,
-  printPlot = TRUE)
+  labelDigits = 2, y.offset = 0.1, showPValueLabels = TRUE,
+  showModelSummary = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{depVar}{dependent variable. Will be used with following formula:
@@ -24,12 +23,6 @@ sjp.aov1(depVar, grpVar, meansums = FALSE, type = "dots",
 \item{meansums}{logical, if \code{TRUE}, the values reported are the true group mean values (see also \code{\link{sjt.grpmean}}).
 If \code{FALSE} (default), the values are reported in the standard way, i.e. the values indicate the difference of
 the group mean in relation to the intercept (reference group).}
-
-\item{type}{plot type, whether group means should be plotted as \code{"dots"} (aka forest plots, default)
-or as \code{"bars"}}
-
-\item{hideErrorBars}{logical, if \code{TRUE}, the error bars that indicate the confidence intervals of the group means are not
-shown. Only applies if argument \code{type} is \code{"bars"}. Default value is \code{FALSE}.}
 
 \item{title}{plot title as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
@@ -56,11 +49,6 @@ for details).}
 By default, the limits range from the lowest confidence interval to the 
 highest, so plot has maximum zoom.}
 
-\item{errorBarColor}{The color of the error bars that indicate the confidence intervalls
-of the group means. Default is \code{NULL}, which means that if \code{type = "dots"},
-the \code{pointColor} value will be used as errorbar color. In case \code{type = "bars"},
-\code{"black"} will be used as errorbar color.}
-
 \item{geom.colors}{vector of length two, indicating the colors of the points resp. 
 bars (depending on \code{type}); first value is for groups with positive 
 means and the second for negative means.}
@@ -86,6 +74,9 @@ to each dot or not.}
 
 \item{labelDigits}{amount of digits for rounding the estimates (see \code{showValueLabels}).
 Default is 2, i.e. estimates have 2 digits after decimal point.}
+
+\item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
+to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
 \item{showPValueLabels}{logical, whether the significance level of each coefficient
 should be appended to values or not.}
@@ -115,14 +106,6 @@ data(efc)
 # coercion to factor is done by the function
 sjp.aov1(efc$c12hour, efc$e42dep)
 
-
-# bar-plot, don't use this!
-# however, if you dare to, adjust
-# 'geom.size'...
-sjp.aov1(efc$c12hour,
-         efc$c172code,
-         type = "bars",
-         geom.size = 0.5)
 
 }
 \seealso{

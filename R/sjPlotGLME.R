@@ -97,6 +97,7 @@ utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "
 #'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lm
+#' @inheritParams sjp.glm
 #'
 #' @return (Insisibily) returns
 #'          \itemize{
@@ -217,6 +218,7 @@ sjp.glmer <- function(fit,
                       pred.labels = NULL,
                       axisTitle.x = NULL,
                       axisTitle.y = NULL,
+                      axisLimits.y = NULL,
                       facet.grid = TRUE,
                       free.scale = FALSE,
                       interceptLineType = 2,
@@ -224,6 +226,7 @@ sjp.glmer <- function(fit,
                       remove.estimates = NULL,
                       showValueLabels = TRUE,
                       labelDigits = 2,
+                      y.offset = .1,
                       showPValueLabels = TRUE,
                       fade.ns = FALSE,
                       show.ci = FALSE,
@@ -258,11 +261,13 @@ sjp.glmer <- function(fit,
            pred.labels,
            axisTitle.x,
            axisTitle.y,
+           axisLimits.y,
            interceptLineType,
            interceptLineColor,
            remove.estimates,
            showValueLabels,
            labelDigits,
+           y.offset,
            showPValueLabels,
            facet.grid,
            free.scale,
@@ -487,11 +492,13 @@ sjp.lmer <- function(fit,
                      pred.labels = NULL,
                      axisTitle.x = NULL,
                      axisTitle.y = NULL,
+                     axisLimits.y = NULL,
                      interceptLineType = 2,
                      interceptLineColor = "grey70",
                      remove.estimates = NULL,
                      showValueLabels = TRUE,
                      labelDigits = 2,
+                     y.offset = .1,
                      showPValueLabels = TRUE,
                      facet.grid = TRUE,
                      free.scale = FALSE,
@@ -533,11 +540,13 @@ sjp.lmer <- function(fit,
            pred.labels,
            axisTitle.x,
            axisTitle.y,
+           axisLimits.y,
            interceptLineType,
            interceptLineColor,
            remove.estimates,
            showValueLabels,
            labelDigits,
+           y.offset,
            showPValueLabels,
            facet.grid,
            free.scale,
@@ -569,11 +578,13 @@ sjp.lme4  <- function(fit,
                       pred.labels,
                       axisTitle.x,
                       axisTitle.y,
+                      axisLimits.y,
                       interceptLineType,
                       interceptLineColor,
                       remove.estimates,
                       showValueLabels,
                       labelDigits,
+                      y.offset,
                       showPValueLabels,
                       facet.grid,
                       free.scale,
@@ -773,6 +784,7 @@ sjp.lme4  <- function(fit,
                                    geom.size,
                                    remove.estimates,
                                    showCI = show.ci,
+                                   axisLimits.y,
                                    printPlot)))
     }
   } else if (type == "fe.ri") {
@@ -802,6 +814,7 @@ sjp.lme4  <- function(fit,
                                   geom.size,
                                   sample.n,
                                   show.legend,
+                                  axisLimits.y,
                                   printPlot,
                                   fun)))
   } else if (type == "re.qq") {
@@ -828,6 +841,7 @@ sjp.lme4  <- function(fit,
                                           facet.grid,
                                           vars,
                                           geom.size,
+                                          axisLimits.y,
                                           printPlot)))
     } else {
       warning("Probability plots of fixed effects only works for function 'sjp.glmer'.", call. = FALSE)
@@ -840,12 +854,13 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     if (fun == "glm") {
       return(invisible(sjp.lme.reprobcurve(fit,
-                                            show.ci,
-                                            facet.grid,
-                                            ri.nr,
-                                            vars,
-                                            emph.grp,
-                                            printPlot)))
+                                           show.ci,
+                                           facet.grid,
+                                           ri.nr,
+                                           vars,
+                                           emph.grp,
+                                           axisLimits.y,
+                                           printPlot)))
     } else {
       warning("Probability plots of random intercept effects only works for function 'sjp.glmer'.", call. = FALSE)
       return(invisible(NULL))
@@ -858,6 +873,7 @@ sjp.lme4  <- function(fit,
     return(invisible(sjp.lme.response.probcurv(fit,
                                                show.ci,
                                                facet.grid,
+                                               axisLimits.y,
                                                fun,
                                                printPlot)))
   }
@@ -1173,7 +1189,7 @@ sjp.lme4  <- function(fit,
                    color = interceptLineColor) +
         geom_point(size = geom.size) +
         # print value labels and p-values
-        geom_text(aes(label = p, y = OR), vjust = -0.7) +
+        geom_text(aes(label = p, y = OR), nudge_x = y.offset) +
         # ---------------------------------------
       # labels in sorted order
       # ---------------------------------------
@@ -1308,9 +1324,12 @@ sjp.lme.feprobcurv <- function(fit,
                                facet.grid,
                                vars,
                                geom.size,
+                               axisLimits.y,
                                printPlot) {
   # check size argument
   if (is.null(geom.size)) geom.size <- .7
+  # check axis limits
+  if (is.null(axisLimits.y)) axisLimits.y <- c(0, 1)
   # ----------------------------
   # prepare additional plots, when metric
   # predictors should also be plotted
@@ -1405,7 +1424,7 @@ sjp.lme.feprobcurv <- function(fit,
                     se = show.ci) +
         # cartesian coord still plots range of se, even
         # when se exceeds plot range.
-        coord_cartesian(ylim = c(0, 1))
+        coord_cartesian(ylim = axisLimits.y)
       # add plot to list
       plot.metricpred[[length(plot.metricpred) + 1]] <- mp
     }
@@ -1424,7 +1443,7 @@ sjp.lme.feprobcurv <- function(fit,
                     se = show.ci) +
         # cartesian coord still plots range of se, even
         # when se exceeds plot range.
-        coord_cartesian(ylim = c(0, 1)) +
+        coord_cartesian(ylim = axisLimits.y) +
         facet_wrap(~grp,
                    ncol = round(sqrt(length(mydf.metricpred))),
                    scales = "free_x") +
@@ -1461,7 +1480,12 @@ sjp.lme.reprobcurve <- function(fit,
                                 ri.nr,
                                 vars,
                                 emph.grp,
+                                axisLimits.y,
                                 printPlot) {
+  # ----------------------------
+  # check axis limits
+  # ----------------------------
+  if (is.null(axisLimits.y)) axisLimits.y <- c(0, 1)
   # ----------------------------
   # retrieve data frame of model to check whether
   # we have any numeric terms in fitted model
@@ -1565,7 +1589,7 @@ sjp.lme.reprobcurve <- function(fit,
                         se = show.ci) +
             # cartesian coord still plots range of se, even
             # when se exceeds plot range.
-            coord_cartesian(ylim = c(0, 1)) +
+            coord_cartesian(ylim = axisLimits.y) +
             labs(x = NULL,
                  y = "Predicted Probability",
                  title = sprintf("Predicted Probability of %s on %s", pred.name, response.name))
@@ -1613,8 +1637,13 @@ sjp.lme.reprobcurve <- function(fit,
 sjp.lme.response.probcurv <- function(fit,
                                       show.ci,
                                       facet.grid,
+                                      axisLimits.y,
                                       fun,
                                       printPlot) {
+  # ----------------------------
+  # check axis limits
+  # ----------------------------
+  if (is.null(axisLimits.y)) axisLimits.y <- c(0, 1)
   # ----------------------------
   # get predicted values for response with and
   # without random effects
@@ -1659,7 +1688,7 @@ sjp.lme.response.probcurv <- function(fit,
                   se = show.ci) +
       # cartesian coord still plots range of se, even
       # when se exceeds plot range.
-      coord_cartesian(ylim = c(0, 1))
+      coord_cartesian(ylim = axisLimits.y)
   } else {
     mp <- mp +
       labs(x = NULL,
@@ -1819,10 +1848,13 @@ sjp.lme.reri <- function(fit,
                          geom.size,
                          sample.n,
                          show.legend,
+                         axisLimits.y,
                          printPlot,
                          fun) {
   # check size argument
   if (is.null(geom.size)) geom.size <- .7
+  # check axis limits
+  if (is.null(axisLimits.y)) axisLimits.y <- c(0, 1)
   # ----------------------------
   # retrieve term names, so we find the estimates in the
   # coefficients list
@@ -1925,7 +1957,7 @@ sjp.lme.reri <- function(fit,
           stat_smooth(method = "glm", method.args = list(family = "binomial")) +
           # cartesian coord still plots range of se, even
           # when se exceeds plot range.
-          coord_cartesian(ylim = c(0, 1)) +
+          coord_cartesian(ylim = axisLimits.y) +
           labs(x = axisTitle.x, y = axisTitle.y, title = title)
       }
       # ------------------------------
@@ -2260,7 +2292,10 @@ sjp.glm.eff <- function(fit,
                         geom.size,
                         remove.estimates,
                         showCI,
+                        axisLimits.y,
                         printPlot) {
+  # check axis range
+  if (is.null(axisLimits.y)) axisLimits.y <- c(0, 1)
   # ------------------------
   # check if suggested package is available
   # ------------------------
@@ -2379,7 +2414,7 @@ sjp.glm.eff <- function(fit,
     labs(x = NULL, y = axisTitle.y, title = title)
   # for logistic regression, use 0 to 1 scale limits
   if (fitfam %in% c("binomial", "quasibinomial"))
-    eff.plot <- eff.plot + coord_cartesian(ylim = c(0, 1))
+    eff.plot <- eff.plot + coord_cartesian(ylim = axisLimits.y)
   # ------------------------
   # print plot?
   # ------------------------

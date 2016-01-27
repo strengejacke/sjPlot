@@ -260,8 +260,22 @@ sjp.frq <- function(varCount,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
-  if (is.null(axisLabels.x)) axisLabels.x <- sjmisc::get_labels(varCount, attr.only = F, include.values = NULL, include.non.labelled = T)
-  if (is.null(interactionVarLabels) && !is.null(interactionVar)) interactionVarLabels <- sjmisc::get_labels(interactionVar, attr.only = F, include.values = NULL, include.non.labelled = T)
+  if (is.null(axisLabels.x)) {
+    axisLabels.x <- sjmisc::get_labels(
+      varCount,
+      attr.only = F,
+      include.values = NULL,
+      include.non.labelled = T
+    )
+  }
+  if (is.null(interactionVarLabels) && !is.null(interactionVar)) {
+    interactionVarLabels <- sjmisc::get_labels(
+      interactionVar,
+      attr.only = F,
+      include.values = NULL,
+      include.non.labelled = T
+    )
+  }
   if (is.null(axisTitle.x)) axisTitle.x <- sjmisc::get_label(varCount, def.value = var.name)
   if (is.null(title)) title <- sjmisc::get_label(varCount, def.value = var.name)
   # --------------------------------------------------------
@@ -272,9 +286,7 @@ sjp.frq <- function(varCount,
   # --------------------------------------------------------
   # check color argument
   # --------------------------------------------------------
-  if (length(geom.colors) > 1) {
-    geom.colors <- geom.colors[1]
-  }
+  if (length(geom.colors) > 1) geom.colors <- geom.colors[1]
   # --------------------------------------------------------
   # We have several options to name the plot type
   # Here we will reduce it to a unique value
@@ -314,7 +326,7 @@ sjp.frq <- function(varCount,
   # check whether variable should be auto-grouped
   #---------------------------------------------------
   if (!is.null(interactionVar) && type != "boxplots" && type != "violin") {
-    warning("'interactionVar' only applies to boxplots and violinplots (see 'type') and will be ignored.", call. = F)
+    warning("`interactionVar` only applies to boxplots and violinplots (see `type`) and will be ignored.", call. = F)
     interactionVar <- NULL
   }
   #---------------------------------------------------
@@ -660,7 +672,7 @@ sjp.frq <- function(varCount,
     # -----------------------------------------------------------------
     if (type == "histogram") {
       xv <- stats::na.omit(varCount)
-      if (geom.size < round(diff(range(xv)) / 50)) message("Using very small binwidth. Consider adjusting \"geom.size\" argument.")
+      if (geom.size < round(diff(range(xv)) / 50)) message("Using very small binwidth. Consider adjusting `geom.size` argument.")
       hist.dat <- data.frame(xv)
       baseplot <- ggplot(mydat) +
         geom_histogram(data = hist.dat,
@@ -709,9 +721,10 @@ sjp.frq <- function(varCount,
                    x = mittelwert, 
                    y = upper_lim, 
                    parse = TRUE, 
-                   label = paste("italic(bar(x)) == ", "'", c(round(mittelwert, 1)), "'"), 
-                   hjust = 1.1, 
-                   vjust = 2.2)
+                   label = paste("italic(bar(x)) == ", round(mittelwert, 1),
+                                 "~~italic(s) == ", round(stddev, 1)),
+                   vjust = "top",
+                   hjust = "top")
       }
       # check whether the user wants to plot standard deviation area
       if (showStandardDeviation) {
@@ -733,18 +746,6 @@ sjp.frq <- function(varCount,
                      linetype = 3, 
                      size = meanInterceptLineSize, 
                      alpha = 0.7)
-        # if mean values are plotted, plot standard deviation values as well
-        if (showMeanValue) {
-          baseplot <- baseplot + 
-            # use annotation instead of geomtext, because we need mean value only printed once
-            annotate("text", 
-                     x = mittelwert, 
-                     y = upper_lim, 
-                     label = sprintf("italic(s) == %.2f", round(stddev, 1)), 
-                     parse = TRUE, 
-                     hjust = 1.15, 
-                     vjust = 4.2)
-        }
       }
     }
     # show absolute and percentage value of each bar.

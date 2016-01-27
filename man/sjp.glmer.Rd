@@ -8,12 +8,13 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   title = NULL, geom.size = NULL, geom.colors = "Set1",
   hideErrorBars = FALSE, showIntercept = TRUE,
   stringIntercept = "(Intercept)", sort.coef = NULL, pred.labels = NULL,
-  axisTitle.x = NULL, axisTitle.y = NULL, facet.grid = TRUE,
-  free.scale = FALSE, interceptLineType = 2,
+  axisTitle.x = NULL, axisTitle.y = NULL, axisLimits.y = NULL,
+  facet.grid = TRUE, free.scale = FALSE, interceptLineType = 2,
   interceptLineColor = "grey70", remove.estimates = NULL,
-  showValueLabels = TRUE, labelDigits = 2, showPValueLabels = TRUE,
-  fade.ns = FALSE, show.ci = FALSE, sample.n = NULL,
-  show.legend = FALSE, printPlot = TRUE, show.se = FALSE)
+  showValueLabels = TRUE, labelDigits = 2, y.offset = 0.1,
+  showPValueLabels = TRUE, fade.ns = FALSE, show.ci = FALSE,
+  sample.n = NULL, show.legend = FALSE, printPlot = TRUE,
+  show.se = FALSE)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{glmer}}-function.}
@@ -87,6 +88,10 @@ on the plot type is chosen.}
 \item{axisTitle.y}{title for the y axis. If not specified, a default labelling depending
 on the plot type is chosen.}
 
+\item{axisLimits.y}{numeric vector of length two, defining lower and upper axis limits
+of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
+y-axis fits to the required range of the data.}
+
 \item{facet.grid}{\code{TRUE} when each plot should be plotted separately instead of
 an integrated (faceted) single graph.}
 
@@ -107,6 +112,9 @@ is \code{NULL}, i.e. all estimates are printed.}
 
 \item{labelDigits}{numeric, amount of digits for rounding the estimates (see \code{showValueLabels}).
 Default is 2, i.e. estimates have 2 digits after decimal point.}
+
+\item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
+to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
 \item{showPValueLabels}{logical, whether the significance levels of each coefficient should be appended
 to values or not.}
