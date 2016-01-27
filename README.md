@@ -50,7 +50,9 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 
 #### Bug fixes
 * `sjp.int` did not work with fitted models from class `lme`.
-
+* `sjt.xtab` did not show `NA` values for `showNA = TRUE`.
+* Due to rounding, total percentage in `sjt.xtab` could differ from 100%.
+* Minor fixes.
 
 ### Changelog of latest stable build 1.9
 

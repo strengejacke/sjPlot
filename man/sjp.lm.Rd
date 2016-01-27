@@ -14,7 +14,7 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   labelDigits = 2, showPValueLabels = TRUE, showModelSummary = FALSE,
   showCI = TRUE, pointAlpha = 0.2, showScatterPlot = TRUE,
   showLoess = FALSE, showLoessCI = FALSE, show.legend = FALSE,
-  poly.term = NULL, showOriginalModelOnly = TRUE,
+  y.offset = 0.1, poly.term = NULL, showOriginalModelOnly = TRUE,
   completeDiagnostic = FALSE, printPlot = TRUE)
 }
 \arguments{
@@ -133,6 +133,9 @@ or \code{type = "fe.resid"}).}
 \code{type = "rs.ri"}, a legend for group levels of 
 the random intercept is shown. For \code{lm} and \code{glm}, 
 a legend for grouped estimates is shown.}
+
+\item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
+to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
 \item{poly.term}{name of a polynomial term in \code{fit} as string. Needs to be
 specified, if \code{type = "poly"}, in order to plot marginal effects

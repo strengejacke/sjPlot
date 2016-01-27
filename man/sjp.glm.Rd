@@ -8,12 +8,12 @@ sjp.glm(fit, type = "dots", sortOdds = TRUE, title = NULL,
   axisLabels.y = NULL, axisTitle.x = "Odds Ratios", axisLimits = NULL,
   breakTitleAt = 50, breakLabelsAt = 25, gridBreaksAt = 0.5,
   transformTicks = TRUE, geom.size = NULL, geom.colors = "Set1",
-  hideErrorBars = FALSE, interceptLineType = 2,
-  interceptLineColor = "grey70", remove.estimates = NULL,
-  coord.flip = TRUE, showIntercept = FALSE, showAxisLabels.y = TRUE,
-  showValueLabels = TRUE, labelDigits = 2, showPValueLabels = TRUE,
-  showModelSummary = FALSE, facet.grid = TRUE, show.ci = FALSE,
-  showOriginalModelOnly = TRUE, printPlot = TRUE, show.se = FALSE)
+  interceptLineType = 2, interceptLineColor = "grey70",
+  remove.estimates = NULL, coord.flip = TRUE, y.offset = 0.1,
+  showIntercept = FALSE, showAxisLabels.y = TRUE, showValueLabels = TRUE,
+  labelDigits = 2, showPValueLabels = TRUE, showModelSummary = FALSE,
+  facet.grid = TRUE, show.ci = FALSE, showOriginalModelOnly = TRUE,
+  printPlot = TRUE, show.se = FALSE)
 }
 \arguments{
 \item{fit}{fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).}
@@ -21,7 +21,6 @@ sjp.glm(fit, type = "dots", sortOdds = TRUE, title = NULL,
 \item{type}{type of plot. Use one of following:
 \describe{
   \item{\code{"dots"}}{(or \code{"glm"} or \code{"or"} (default)) for odds ratios (forest plot)}
-  \item{\code{"bars"}}{for odds ratios as bar plot}
   \item{\code{"prob"}}{(or \code{"pc"}) to plot predicted probabilities for each model term, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
   \item{\code{"eff"}}{to plot marginal effects of predicted probabilities for each model term, where all remaining co-variates are set to the mean (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
   \item{\code{"y.pc"}}{(or \code{"y.prob"}) to plot predicted probabilities for the response. See 'Details'.}
@@ -67,10 +66,6 @@ higher odds ratio values.}
 \item{geom.colors}{color palette for geoms. Must either be vector with two color values
 or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.}
 
-\item{hideErrorBars}{logical, if \code{TRUE}, the error bars that indicate the 
-confidence intervals of the odds ratios are not shown. Only applies 
-if argument \code{type = "bars"}. Default value is \code{FALSE}.}
-
 \item{interceptLineType}{linetype of the intercept line (zero point). Default is \code{2} (dashed line).}
 
 \item{interceptLineColor}{color of the intercept line. Default value is \code{"grey70"}.}
@@ -82,6 +77,9 @@ is \code{NULL}, i.e. all estimates are printed.}
 
 \item{coord.flip}{logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
 values are plotted on the x-axis.}
+
+\item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
+to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
 \item{showIntercept}{logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
 Default is \code{FALSE}. Please note that due to exponential transformation of
@@ -122,7 +120,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 (Invisibly) returns various objects, depending on 
           the \code{type}-argument:
         \describe{
-         \item{\code{type = "dots" or "bars"}}{
+         \item{\code{type = "dots"}}{
            \itemize{
              \item \code{df} - data frame used for the plot
              \item \code{plot} - plot as ggplot-object
@@ -187,9 +185,6 @@ fitOR <- glm(y ~ swiss$Education + swiss$Examination + swiss$Infant.Mortality + 
 
 # print Odds Ratios as dots
 sjp.glm(fitOR)
-
-# print Odds Ratios as bars
-sjp.glm(fitOR, type = "bars", geom.size = .3)
 
 
 # -------------------------------

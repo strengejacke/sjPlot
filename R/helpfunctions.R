@@ -229,7 +229,7 @@ create.xtab.df <- function(x,
     if (na.rm) {
       mydat <- stats::ftable(table(x_full, grp_full))
     } else {
-      mydat <- stats::ftable(table(x_full, grp_full), exclude = NULL)
+      mydat <- stats::ftable(table(x_full, grp_full, exclude = NULL))
     }
   } else {
     x <- suppressWarnings(sjmisc::to_value(x, keep.labels = T))
@@ -237,7 +237,9 @@ create.xtab.df <- function(x,
     if (na.rm)
       mydat <- stats::ftable(round(stats::xtabs(weightBy ~ x + grp)), 0)
     else
-      mydat <- stats::ftable(round(stats::xtabs(weightBy ~ x + grp, exclude = NULL, na.action = stats::na.pass)), 0)
+      mydat <- stats::ftable(round(stats::xtabs(weightBy ~ x + grp, 
+                                                exclude = NULL, 
+                                                na.action = stats::na.pass)), 0)
   }
   # create proportional tables, cell values
   proptab.cell <- round(100 * prop.table(mydat), round.prz)
@@ -252,6 +254,8 @@ create.xtab.df <- function(x,
   # add total row and column to cell percentages afterwards
   proptab.cell <- rbind(as.data.frame(as.matrix(proptab.cell)), colSums(proptab.cell))
   proptab.cell <- cbind(as.data.frame(as.matrix(proptab.cell)), rowSums(proptab.cell))
+  # due to roundings, total might differ from 100%, so clean this here
+  proptab.cell[nrow(proptab.cell), ncol(proptab.cell)] <- 100
   colnames(proptab.cell)[ncol(proptab.cell)] <- "total"
   rownames(proptab.cell)[nrow(proptab.cell)] <- "total"
   # convert to data frame

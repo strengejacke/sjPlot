@@ -8,15 +8,16 @@ sjp.xtab(x, grp, title = "", legendTitle = NULL, weightBy = NULL,
   weightByTitleString = NULL, type = "bars", tableIndex = "col",
   reverseOrder = FALSE, axisLimits.y = NULL, axisLabels.x = NULL,
   legendLabels = NULL, vjust = "bottom", hjust = "center",
-  stringTotal = "Total", breakTitleAt = 50, breakLabelsAt = 15,
-  breakLegendTitleAt = 20, breakLegendLabelsAt = 20, gridBreaksAt = 0.2,
-  geom.size = 0.7, geom.spacing = 0.1, geom.colors = "Paired",
-  barPosition = "dodge", lineDotSize = 3, smoothLines = FALSE,
-  expand.grid = FALSE, showValueLabels = TRUE, showCountValues = TRUE,
-  showPercentageValues = TRUE, showCategoryLabels = TRUE,
-  showTableSummary = FALSE, tableSummaryPos = "r", showTotalColumn = TRUE,
-  hideLegend = FALSE, axisTitle.x = NULL, axisTitle.y = NULL,
-  coord.flip = FALSE, printPlot = TRUE)
+  y.offset = NULL, stringTotal = "Total", breakTitleAt = 50,
+  breakLabelsAt = 15, breakLegendTitleAt = 20, breakLegendLabelsAt = 20,
+  gridBreaksAt = 0.2, geom.size = 0.7, geom.spacing = 0.1,
+  geom.colors = "Paired", barPosition = "dodge", lineDotSize = 3,
+  smoothLines = FALSE, expand.grid = FALSE, showValueLabels = TRUE,
+  showCountValues = TRUE, showPercentageValues = TRUE,
+  showCategoryLabels = TRUE, showTableSummary = FALSE,
+  tableSummaryPos = "r", showTotalColumn = TRUE, hideLegend = FALSE,
+  axisTitle.x = NULL, axisTitle.y = NULL, coord.flip = FALSE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{x}{a vector of values (variable) describing the bars which make up the plot.}
@@ -71,6 +72,9 @@ labels. Allowed are same values as for \code{vjust} aesthetics from
 \code{ggplot2}: "left", "center", "right", "bottom", "middle", "top" and
 new options like "inward" and "outward", which align text towards and 
 away from the center of the plot respectively.}
+
+\item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
+to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
 \item{stringTotal}{string for the legend label when a total-column is added. Only applies
 if \code{showTotalColumn = TRUE}. Default is \code{"Total"}.}

@@ -18,8 +18,8 @@ sjp.grpfrq(varCount, varGroup, weightBy = NULL, weightByTitleString = NULL,
   showAxisLabels.y = TRUE, showPlotAnnotation = TRUE,
   showTableSummary = FALSE, showGroupCount = FALSE, tableSummaryPos = "r",
   axisTitle.x = "", axisTitle.y = "", autoGroupAt = NULL,
-  coord.flip = FALSE, vjust = "bottom", hjust = "center", na.rm = TRUE,
-  printPlot = TRUE)
+  coord.flip = FALSE, vjust = "bottom", hjust = "center",
+  y.offset = NULL, na.rm = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{varCount}{a vector of values (variable) describing the bars which make up the plot.}
@@ -183,6 +183,9 @@ labels. Allowed are same values as for \code{vjust} aesthetics from
 \code{ggplot2}: "left", "center", "right", "bottom", "middle", "top" and
 new options like "inward" and "outward", which align text towards and 
 away from the center of the plot respectively.}
+
+\item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
+to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
 \item{na.rm}{logical, if \code{TRUE}, missings are not included in the frequency plot.}
 

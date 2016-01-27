@@ -7,6 +7,10 @@ Changes to functions:
 
 Bug fixes:
 * `sjp.int` did not work with fitted models from class `lme`.
+* `sjt.xtab` did not show `NA` values for `showNA = TRUE`.
+* Due to rounding, total percentage in `sjt.xtab` could differ from 100%.
+* Minor fixes.
+
 
 Version 1.9
 -----------------------------------------------------------------------------
