@@ -28,12 +28,10 @@ utils::globalVariables("pv")
 #' @param axisLimits numeric vector of length 2, defining the range of the plot axis.
 #'          By default, the limits range from the lowest confidence interval to the 
 #'          highest, so plot has maximum zoom.
-#' @param geom.colors vector of length two, indicating the colors of the points resp. 
-#'          bars (depending on \code{type}); first value is for groups with positive 
-#'          means and the second for negative means.
-#' @param geom.size size of the points resp. bars (depending on \code{type}) that indicate the 
-#'          mean-value. Default is 3, which is suitable for \code{type = "dots"}. Use something like
-#'          0.5 is \code{type = "bars"}.
+#' @param geom.colors vector of length two, indicating the colors of the points; 
+#'          first value is for groups with positive means and the second for 
+#'          negative means.
+#' @param geom.size size of the points. Default is 3.
 #' @param showValueLabels logical, whether the value labels (mean differences) should be plotted 
 #'          to each dot or not.
 #' @param showModelSummary logical, if \code{TRUE}, a summary of the anova model with 
@@ -271,8 +269,7 @@ sjp.aov1 <- function(depVar,
     ticks <- c(seq(lower_lim, upper_lim, by = gridBreaksAt))
   if (!showAxisLabels.y) axisLabels.y <- c("")
   # --------------------------------------------------------
-  # Set up plot padding (margins inside diagram). In case of
-  # bars, we don't want margins.
+  # Set up plot padding (margins inside diagram)
   # --------------------------------------------------------
   scaley <- scale_y_continuous(limits = c(lower_lim, upper_lim), 
                                breaks = ticks, 

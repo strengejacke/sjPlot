@@ -49,13 +49,11 @@ for details).}
 By default, the limits range from the lowest confidence interval to the 
 highest, so plot has maximum zoom.}
 
-\item{geom.colors}{vector of length two, indicating the colors of the points resp. 
-bars (depending on \code{type}); first value is for groups with positive 
-means and the second for negative means.}
+\item{geom.colors}{vector of length two, indicating the colors of the points; 
+first value is for groups with positive means and the second for 
+negative means.}
 
-\item{geom.size}{size of the points resp. bars (depending on \code{type}) that indicate the 
-mean-value. Default is 3, which is suitable for \code{type = "dots"}. Use something like
-0.5 is \code{type = "bars"}.}
+\item{geom.size}{size of the points. Default is 3.}
 
 \item{breakTitleAt}{determines how many chars of the plot title are displayed in
 one line and when a line break is inserted into the title.}

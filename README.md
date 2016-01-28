@@ -51,6 +51,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 
 
 #### Bug fixes
+* Automatic label detection did not choose column names when no variable labels were present for functions that accepted data frames as data argument ([#96](https://github.com/sjPlot/devel/issues/96)).
 * `sjp.int` did not work with fitted models from class `lme`.
 * `sjt.xtab` did not show `NA` values for `showNA = TRUE`.
 * Due to rounding, total percentage in `sjt.xtab` could differ from 100%.

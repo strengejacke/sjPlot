@@ -354,7 +354,7 @@ sjt.frq <- function(data,
       for (i in 1:ncol(data)) {
         # retrieve variable name attribute
         variableLabels <-
-          c(variableLabels, sjmisc::get_label(data[[i]], def.value = deparse(substitute(data[[i]]))))
+          c(variableLabels, sjmisc::get_label(data[[i]], def.value = colnames(data)[i]))
       }
     # we have a single variable only
     } else {
