@@ -77,7 +77,7 @@ sjt.mwu <- function(x,
   # check if html-content should be printed
   # -------------------------------------
   out.html.table(no.output, file, html$knitr, html$output.complete, useViewer)  
-  invisible(list(class = "sjtmwu",
+  invisible(list(class = c("sjTable", "sjtmwu"),
                  df = x$tab.df, 
                  page.style = html$page.style,
                  page.content = html$page.content,

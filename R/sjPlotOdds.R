@@ -180,7 +180,7 @@ sjp.glm <- function(fit,
                     interceptLineColor = "grey70",
                     remove.estimates = NULL,
                     coord.flip = TRUE,
-                    y.offset = .1,
+                    y.offset = .15,
                     showIntercept = FALSE,
                     showAxisLabels.y = TRUE,
                     showValueLabels = TRUE,
@@ -335,21 +335,17 @@ sjp.glm <- function(fit,
   # ----------------------------
   # bind p-values to data frame
   # ----------------------------
-  odds <- cbind(odds, ps[-1])
+  odds <- cbind(odds, ps[-1], pv[-1])
   # we repeat the whole procedure for our
   # tmp-data frame as well, since this data frame
   # contains the intercepts. We than later just copy the
   # intercept row to our odds-data frame, if needed. The intercept
   # is not included from the beginning, because when sorting the OR values,
   # the intercept should not be sorted, but alway placed on top
-  tmp <- cbind(tmp, ps)
+  tmp <- cbind(tmp, ps, pv)
   # set column names
-  names(odds) <- c("OR", "lower", "upper", "p")
-  names(tmp) <- c("OR", "lower", "upper", "p")
-  lhj <- ifelse(odds$OR > 1, 1.3, -0.3)
-  odds <- cbind(odds, labhjust = lhj)
-  lhj <- ifelse(tmp$OR > 1, 1.3, -0.3)
-  tmp <- cbind(tmp, labhjust = lhj)
+  names(odds) <- c("OR", "lower", "upper", "p", "pvalue")
+  names(tmp) <- c("OR", "lower", "upper", "p", "pvalue")
   # -------------------------------------------------
   # remove any estimates from the output?
   # -------------------------------------------------
@@ -524,11 +520,17 @@ sjp.glm <- function(fit,
   # ---------------------------------------------------------
   if (printPlot) print(plotHeader)
   # -------------------------------------
+  # set proper column names
+  # -------------------------------------
+  odds <- dplyr::add_rownames(odds)
+  colnames(odds) <- c("term", "estimate", "conf.low", "conf.high", 
+                      "p.string", "p.value", "xpos")
+  # -------------------------------------
   # return results
   # -------------------------------------
-  invisible(structure(class = "sjpglm",
+  invisible(structure(class = c("sjPlot", "sjpglm"),
                       list(plot = plotHeader,
-                           df = odds)))
+                           data = odds)))
 }
 
 

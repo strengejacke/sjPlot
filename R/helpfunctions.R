@@ -159,7 +159,7 @@ create.frq.df <- function(x,
   # total sum of variable, for confindence intervals
   total_sum = sum(x, na.rm = T)
   rel_frq <- as.numeric(mydat$frq / total_sum)
-  ci <- 1.96 * sqrt(rel_frq * (1 - rel_frq) / total_sum)
+  ci <- 1.96 * suppressWarnings(sqrt(rel_frq * (1 - rel_frq) / total_sum))
   mydat$upper.ci <- total_sum * (rel_frq + ci)
   mydat$lower.ci <- total_sum * (rel_frq - ci)
   mydat$rel.upper.ci <- rel_frq + ci

@@ -207,7 +207,7 @@ sjt.grpmean <- function(varCount,
   # check if html-content should be printed
   # -------------------------------------
   out.html.table(no.output, file, html$knitr, html$output.complete, useViewer)  
-  invisible(list(class = "sjtgrpmean",
+  invisible(list(class = c("sjTable", "sjtgrpmean"),
                  df = df, 
                  page.style = html$page.style,
                  page.content = html$page.content,

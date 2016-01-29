@@ -93,6 +93,7 @@ view_df <- function(x,
                     showPerc = FALSE,
                     showWtdFreq = FALSE,
                     showWtdPerc = FALSE,
+                    showNA = FALSE,
                     sortByName = FALSE,
                     breakVariableNamesAt = 50,
                     encoding = NULL,
@@ -118,8 +119,8 @@ view_df <- function(x,
   # -------------------------------------
   # get row count and ID's
   # -------------------------------------
-  rowcnt <- ncol(x)
-  id <- 1:rowcnt
+  colcnt <- ncol(x)
+  id <- 1:colcnt
   # -------------------------------------
   # Order data set if requested
   # -------------------------------------
@@ -167,6 +168,7 @@ view_df <- function(x,
   page.content <- paste0(page.content, "<th class=\"thead\">Name</th>")
   if (showType) page.content <- paste0(page.content, "<th class=\"thead\">Type</th>")
   page.content <- paste0(page.content, "<th class=\"thead\">Label</th>")
+  if (showNA) page.content <- paste0(page.content, "<th class=\"thead\">missings</th>")
   if (showValues) page.content <- paste0(page.content, "<th class=\"thead\">Values</th>")
   if (showValueLabels) page.content <- paste0(page.content, "<th class=\"thead\">Value Labels</th>")
   if (showFreq) page.content <- paste0(page.content, "<th class=\"thead\">Freq.</th>")
@@ -178,18 +180,18 @@ view_df <- function(x,
   # create progress bar
   # -------------------------------------
   if (!hideProgressBar) pb <- utils::txtProgressBar(min = 0, 
-                                                    max = rowcnt, 
+                                                    max = colcnt, 
                                                     style = 3)
   # -------------------------------------
   # subsequent rows
   # -------------------------------------
-  for (rcnt in 1:rowcnt) {
+  for (ccnt in 1:colcnt) {
     # get index number, depending on sorting
-    index <- id[rcnt]
+    index <- id[ccnt]
     # default row string
     arcstring <- ""
     # if we have alternating row colors, set css
-    if (alternateRowColors) arcstring <- ifelse(sjmisc::is_even(rcnt), " arc", "")
+    if (alternateRowColors) arcstring <- ifelse(sjmisc::is_even(ccnt), " arc", "")
     page.content <- paste0(page.content, "  <tr>\n")
     # ID
     if (showID) page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%i</td>\n", arcstring, index))
@@ -214,6 +216,16 @@ view_df <- function(x,
       varlab <- "<NA>"
     }
     page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, varlab))
+    # ----------------------------
+    # missings and missing percentage
+    # ----------------------------
+    if (showNA) {
+      page.content <- paste0(page.content, 
+                             sprintf("    <td class=\"tdata%s\">%i (%.2f%%)</td>\n", 
+                                     arcstring, 
+                                     sum(is.na(x[[index]]), na.rm = T),
+                                     100 * sum(is.na(x[[index]]), na.rm = T) / nrow(x)))
+    }
     # ----------------------------
     # values
     # ----------------------------
@@ -297,7 +309,7 @@ view_df <- function(x,
                                      prc.value(index, x, df.val, weightBy)))
     }
     # update progress bar
-    if (!hideProgressBar) utils::setTxtProgressBar(pb, rcnt)
+    if (!hideProgressBar) utils::setTxtProgressBar(pb, ccnt)
     # close row tag
     page.content <- paste0(page.content, "  </tr>\n")
   }
@@ -340,7 +352,7 @@ view_df <- function(x,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible(structure(class = "sjiviewspss",
+  invisible(structure(class = c("sjTable", "view_df"),
                       list(page.style = page.style,
                            page.content = page.content,
                            output.complete = toWrite,

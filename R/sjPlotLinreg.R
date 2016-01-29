@@ -572,11 +572,17 @@ sjp.lm <- function(fit,
   # ---------------------------------------------------------
   if (printPlot) print(betaplot)
   # -------------------------------------
+  # set proper column names
+  # -------------------------------------
+  betas <- dplyr::add_rownames(betas)
+  colnames(betas) <- c("term", "xpos", "estimate", "conf.low", 
+                       "conf.high", "p.string", "p.value", "group")
+  # -------------------------------------
   # return results
   # -------------------------------------
-  invisible(structure(class = "sjplm",
+  invisible(structure(class = c("sjplot", "sjplm"),
                       list(plot = betaplot,
-                           df = betas)))
+                           data = betas)))
 }
 
 
@@ -1436,8 +1442,12 @@ sjp.lm.eff <- function(fit,
   # print plot?
   # ------------------------
   if (printPlot) print(eff.plot)
+  # -------------------------------------
+  # set proper column names
+  # -------------------------------------
+  colnames(mydat) <- c("x", "y", "conf.low", "conf.high", "term")
   # return result
-  invisible(structure(class = "sjplmeff",
+  invisible(structure(class = c("sjPlot", "sjplmeff"),
                       list(plot = eff.plot,
-                           df = mydat)))
+                           data = mydat)))
 }

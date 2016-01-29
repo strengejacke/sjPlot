@@ -729,7 +729,7 @@ sjp.grpfrq <- function(varCount,
   if (is.null(gridBreaksAt)) {
     gridbreaks <- ggplot2::waiver()
   } else {
-    gridbreaks <- c(seq(lower_lim, upper_lim, by = gridBreaksAt))
+    gridbreaks <- seq(lower_lim, upper_lim, by = gridBreaksAt)
   }
   # ----------------------------------
   # Print plot
@@ -823,9 +823,9 @@ sjp.grpfrq <- function(varCount,
   # continue with plot objects...
   # ------------------------------
   baseplot <- baseplot +
-    # show absolute and percentage value of each bar.
+    # show absolute and percentage values for each bar
     ggvaluelabels +
-    # no additional labels for the x- and y-axis, only diagram title
+    # add labels to x- and y-axis, and diagram title
     labs(title = title,
          x = axisTitle.x,
          y = axisTitle.y,
@@ -840,10 +840,8 @@ sjp.grpfrq <- function(varCount,
     # (length of var) or to the highest count of var's categories.
     # coord_cartesian(ylim=c(0, upper_lim)) +
     y_scale
-  # check whether coordinates should be flipped, i.e.
-  # swap x and y axis
-  if (coord.flip)
-    baseplot <- baseplot + coord_flip()
+  # check whether coordinates should be flipped
+  if (coord.flip) baseplot <- baseplot + coord_flip()
   # --------------------------------------------------
   # Here we start when we have a faces grid instead of
   # a grouped bar plot.

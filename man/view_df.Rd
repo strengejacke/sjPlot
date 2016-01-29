@@ -7,9 +7,10 @@
 view_df(x, weightBy = NULL, file = NULL, alternateRowColors = TRUE,
   showID = TRUE, showType = FALSE, showValues = TRUE,
   showValueLabels = TRUE, showFreq = FALSE, showPerc = FALSE,
-  showWtdFreq = FALSE, showWtdPerc = FALSE, sortByName = FALSE,
-  breakVariableNamesAt = 50, encoding = NULL, hideProgressBar = FALSE,
-  CSS = NULL, useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
+  showWtdFreq = FALSE, showWtdPerc = FALSE, showNA = FALSE,
+  sortByName = FALSE, breakVariableNamesAt = 50, encoding = NULL,
+  hideProgressBar = FALSE, CSS = NULL, useViewer = TRUE,
+  no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{x}{\code{data.frame}, imported by \code{\link[sjmisc]{read_spss}},

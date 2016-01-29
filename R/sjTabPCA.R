@@ -584,7 +584,7 @@ sjt.pca <- function(data,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible(structure(class = "sjtpca",
+  invisible(structure(class = c("sjTable", "sjtpca"),
                       list(page.style = page.style,
                            page.content = page.content,
                            output.complete = toWrite,

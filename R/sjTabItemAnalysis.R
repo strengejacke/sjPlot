@@ -392,7 +392,7 @@ sjt.itemanalysis <- function(df,
   # check if html-content should be printed
   # -------------------------------------
   out.html.table(no.output, file, knitr, complete.page, useViewer)  
-  invisible(list(class = "sjtitemanalysis",
+  invisible(list(class = c("sjTable", "sjtitemanalysis"),
                  df.list = df.ia,
                  index.scores = index.scores,
                  df.index.scores = df.index.scores,
