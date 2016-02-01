@@ -21,7 +21,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 #'         the \code{\link[stats]{update}} function). See 'Examples'.
 #'          
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-#'           was used for setting up the ggplot-object (\code{df}).
+#'           was used for setting up the ggplot-object (\code{data}).
 #'          
 #' @examples
 #' # prepare dummy variables for binary logistic regression
@@ -91,7 +91,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 #' 
 #' @import ggplot2
 #' @import sjmisc
-#' @importFrom stats na.omit
+#' @importFrom stats na.omit coef confint
 #' @export
 sjp.glmm <- function(...,
                      title = NULL,
@@ -177,12 +177,13 @@ sjp.glmm <- function(...,
     # retrieve odds ratios (glm) 
     # ----------------------------
     # create data frame for ggplot
-    odds <- data.frame(exp(coef(fit)), exp(confint(fit)))
+    odds <- data.frame(exp(stats::coef(fit)), 
+                       exp(stats::confint(fit)))
     # ----------------------------
     # print p-values in bar charts
     # ----------------------------
     # retrieve sigificance level of independent variables (p-values)
-    pv <- unname(coef(summary(fit))[, 4])
+    pv <- unname(stats::coef(summary(fit))[, 4])
     # for better readability, convert p-values to asterisks
     # with:
     # p < 0.001 = ***
@@ -234,9 +235,9 @@ sjp.glmm <- function(...,
     # ----------------------------
     # bind p-values to data frame
     # ----------------------------
-    odds <- data.frame(odds, ps, palpha, pointshapes, fitcnt)
+    odds <- data.frame(odds, ps, palpha, pointshapes, fitcnt, pv)
     # set column names
-    colnames(odds) <- c("OR", "lower", "upper", "p", "pa", "shape", "grp")
+    colnames(odds) <- c("OR", "lower", "upper", "p", "pa", "shape", "grp", "p.value")
     # add rownames
     odds$term <- row.names(odds)
     #remove intercept from df
@@ -422,9 +423,14 @@ sjp.glmm <- function(...,
   # ---------------------------------------------------------
   if (printPlot) print(plotHeader)
   # -------------------------------------
+  # set proper column names
+  # -------------------------------------
+  colnames(finalodds) <- c("estimate", "conf.low", "conf.high", "p.string", 
+                           "p.alpha", "shape", "grp", "p.value", "term", "xpos")
+  # -------------------------------------
   # return results
   # -------------------------------------
-  invisible(structure(class = "sjpglmm",
+  invisible(structure(class = c("sjPlot", "sjpglmm"),
                       list(plot = plotHeader,
-                           df = finalodds)))
+                           data = finalodds)))
 }

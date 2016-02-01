@@ -1,5 +1,5 @@
 # bind global variables
-utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "pred", "prob", "p", "CSS", "useViewer", "no.output"))
+utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "conf.high", "pred", "prob", "p.string", "CSS", "useViewer", "no.output"))
 
 
 #' @title Plot odds ratios or predicted probabilities of generalized linear mixed effects models
@@ -103,7 +103,7 @@ utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "
 #'          \itemize{
 #'            \item the ggplot-object (\code{plot}), if \code{type = "fe"} or if \code{type = "re"} and \code{facet.grid = TRUE}). Multiple plots (\code{type = "re"} and if \code{facet.grid = FALSE}) are returned in the object \code{plot.list}.
 #'            \item a list of ggplot-objects (\code{plot.list}). See \code{plot} for details.
-#'            \item a data frame \code{mydf} with the data used to build the ggplot-object(s).
+#'            \item a data frame \code{data} with the data used to build the ggplot-object(s).
 #'            }
 #'
 #' @note Thanks go to Robert Reijntjes from Leiden University Medical Center for sharing
@@ -201,7 +201,7 @@ utils::globalVariables(c("nQQ", "ci", "fixef", "fade", "lower.CI", "upper.CI", "
 #'           vars = "neg_c_7")
 #'
 #' @import ggplot2
-#' @importFrom dplyr slice
+#' @importFrom dplyr slice add_rownames
 #' @export
 sjp.glmer <- function(fit,
                       type = "re",
@@ -376,7 +376,7 @@ sjp.glmer <- function(fit,
 #'          \itemize{
 #'            \item the ggplot-object (\code{plot}), if \code{type = "fe"} or if \code{type = "re"} and \code{facet.grid = TRUE}). Multiple plots (\code{type = "re"} and if \code{facet.grid = FALSE}) are returned in the object \code{plot.list}.
 #'            \item a list of ggplot-objects (\code{plot.list}). see \code{plot} for details.
-#'            \item a data frame \code{mydf} with the data used to build the ggplot-object(s).
+#'            \item a data frame \code{data} with the data used to build the ggplot-object(s).
 #'            }
 #'
 #' @examples
@@ -950,13 +950,13 @@ sjp.lme4  <- function(fit,
         # 3. col: upper conf int
         # ---------------------------------------
         if (fun == "glm") {
-          tmp <- data.frame(OR = exp(mydf.ef[, i]),
-                            lower.CI = exp(mydf.ef[, i] - (1.96 * se.fit[, i])),
-                            upper.CI = exp(mydf.ef[, i] + (1.96 * se.fit[, i])))
+          tmp <- data.frame(estimate = exp(mydf.ef[, i]),
+                            conf.low = exp(mydf.ef[, i] - (1.96 * se.fit[, i])),
+                            conf.high = exp(mydf.ef[, i] + (1.96 * se.fit[, i])))
         } else {
-          tmp <- data.frame(OR = mydf.ef[, i],
-                            lower.CI = mydf.ef[, i] - (1.96 * se.fit[, i]),
-                            upper.CI = mydf.ef[, i] + (1.96 * se.fit[, i]))
+          tmp <- data.frame(estimate = mydf.ef[, i],
+                            conf.low = mydf.ef[, i] - (1.96 * se.fit[, i]),
+                            conf.high = mydf.ef[, i] + (1.96 * se.fit[, i]))
         }
         # ---------------------------------------
         # set column names (variable / coefficient name)
@@ -1010,8 +1010,9 @@ sjp.lme4  <- function(fit,
         # no p-values for random effects,
         # but value labels
         ps <- rep("", nrow(tmp))
-        if (showValueLabels) ps <- sprintf("%.*f", labelDigits, tmp$OR)
-        tmp$p <- ps
+        if (showValueLabels) ps <- sprintf("%.*f", labelDigits, tmp$estimate)
+        tmp$p.string <- ps
+        tmp$p.value <- NA
         # ---------------------------------------
         # add to final data frame
         # ---------------------------------------
@@ -1034,9 +1035,9 @@ sjp.lme4  <- function(fit,
       } else {
         if (type == "fe.std") {
           tmpdf <- sjmisc::std_beta(fit)
-          mydf <- data.frame(OR = tmpdf$stdcoef,
-                             lower.CI = tmpdf$stdcoef - (1.96 * tmpdf$stdse),
-                             upper.CI = tmpdf$stdcoef + (1.96 * tmpdf$stdse))
+          mydf <- data.frame(estimate = tmpdf$stdcoef,
+                             conf.low = tmpdf$stdcoef - (1.96 * tmpdf$stdse),
+                             conf.high = tmpdf$stdcoef + (1.96 * tmpdf$stdse))
           # set default row names
           rownames(mydf) <- names(lme4::fixef(fit))
         } else {
@@ -1064,7 +1065,7 @@ sjp.lme4  <- function(fit,
       # init data column for p-values
       ps <- rep("", length(ov))
       # ----------------------------
-      # copy OR-values into data column
+      # copy estimate-values into data column
       # ----------------------------
       if (showValueLabels) ps <- sprintf("%.*f", labelDigits, ov)
       # ----------------------------
@@ -1081,11 +1082,12 @@ sjp.lme4  <- function(fit,
         }
       }
       # bind p-values
-      mydf$p <- ps
+      mydf$p.string <- ps
+      mydf$p.value <- pv
       # ---------------------------------------
       # set proper column names
       # ---------------------------------------
-      colnames(mydf) <- c("OR", "lower.CI", "upper.CI", "p")
+      colnames(mydf) <- c("estimate", "conf.low", "conf.high", "p.string", "p.value")
       # ---------------------------------------
       # just one group, so no faceting needed
       # ---------------------------------------
@@ -1130,7 +1132,7 @@ sjp.lme4  <- function(fit,
       # just one sorting option, simply sort odds ratios
       # ---------------------------------------
       if (!is.null(sort.coef)) {
-        reihe <- order(mydf$OR)
+        reihe <- order(mydf$estimate)
         mydf <- mydf[reihe, ]
       }
       mydf$sorting <- reihe
@@ -1158,7 +1160,7 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     if (fade.ns == TRUE) {
       interc <- ifelse(fun == "glm", 1, 0)
-      mydf$fade <- (mydf$lower.CI < interc & mydf$upper.CI > interc)
+      mydf$fade <- (mydf$conf.low < interc & mydf$conf.high > interc)
     } else {
       mydf$fade <- FALSE
     }
@@ -1180,8 +1182,8 @@ sjp.lme4  <- function(fit,
       interc <- ifelse(fun == "glm", 1, 0)
       mydf$interc <- interc
       gp <- ggplot(mydf, aes(x = x,
-                             y = OR,
-                             colour = (OR > interc),
+                             y = estimate,
+                             colour = (estimate > interc),
                              alpha = fade)) +
         # Intercept-line
         geom_hline(yintercept = interc,
@@ -1189,13 +1191,13 @@ sjp.lme4  <- function(fit,
                    color = interceptLineColor) +
         geom_point(size = geom.size) +
         # print value labels and p-values
-        geom_text(aes(label = p, y = OR), nudge_x = y.offset) +
+        geom_text(aes(label = p.string, y = estimate), nudge_x = y.offset) +
         # ---------------------------------------
       # labels in sorted order
       # ---------------------------------------
       scale_x_discrete(labels = pred.labels[mydf$sorting]) +
         # ---------------------------------------
-      # fade non significant OR
+      # fade non significant estimate
       # ---------------------------------------
       scale_alpha_manual(values = c(1, .3), guide = FALSE)
       # ---------------------------------------
@@ -1208,14 +1210,14 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------
       if (fun == "glm") {
         gp <- gp + scale_y_continuous(trans = "log10",
-                                      breaks = base_breaks(ceiling(max(mydf$upper.CI, na.rm = T))),
+                                      breaks = base_breaks(ceiling(max(mydf$conf.high, na.rm = T))),
                                       labels = prettyNum)
       }
       # ---------------------------------------
       # hide error bars (conf int)?
       # ---------------------------------------
       if (!hideErrorBars)  gp <- gp +
-          geom_errorbar(aes(ymin = lower.CI, ymax = upper.CI), width = 0)
+          geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0)
       # ---------------------------------------
       # axis titles
       # ---------------------------------------
@@ -1310,12 +1312,18 @@ sjp.lme4  <- function(fit,
   # me plot contains first of all plots...
   me.plot <- me.plot.list[[1]]
   # -------------------------------------
+  # add term names
+  # -------------------------------------
+  if (type == "fe" || type == "fe.std") {
+    mydf <- dplyr::add_rownames(mydf, var = "term")
+  }
+  # -------------------------------------
   # return results
   # -------------------------------------
-  invisible(structure(class = ifelse(fun == "glm", "sjpglmer", "sjplmer"),
+  invisible(structure(class = ifelse(fun == "glm", c("sjPlot", "sjpglmer"), c("sjPlot", "sjplmer")),
                       list(plot = me.plot,
                            plot.list = me.plot.list,
-                           mydf = mydf)))
+                           data = mydf)))
 }
 
 
@@ -1629,7 +1637,7 @@ sjp.lme.reprobcurve <- function(fit,
     }
   }
   invisible(structure(class = "sjpglmer.ripc",
-                      list(mydf = mydf.prob,
+                      list(data = mydf.prob,
                            plot = plot.prob)))
 }
 
@@ -1707,7 +1715,7 @@ sjp.lme.response.probcurv <- function(fit,
   # --------------------------
   if (printPlot) print(mp)
   return(structure(class = "sjpglmer.ppall",
-                    list(mydf = mydf,
+                    list(data = mydf,
                          plot = mp,
                          mean.re = mean(pp.re),
                          mean.fe = mean(pp.fe))))
@@ -1833,7 +1841,7 @@ sjp.lme.feri <- function(fit,
     }
   }
   invisible(structure(class = "sjplmer.feri",
-                      list(mydf = mydf.fe,
+                      list(data = mydf.fe,
                            plot = plot.fe)))
 }
 
@@ -1987,7 +1995,7 @@ sjp.lme.reri <- function(fit,
     }
   }
   invisible(structure(class = "sjplmer.reri",
-                      list(mydf = mydf.fe,
+                      list(data = mydf.fe,
                            plot = plot.fe)))
 }
 
@@ -2059,7 +2067,7 @@ sjp.lme.reqq <- function(fit,
   # -------------------------------------
   return(invisible(structure(class = ifelse(fun == "glm", "sjpglmer.qq", "sjplmer.qq"),
                              list(plot = gp,
-                                  mydf = pDf))))
+                                  data = pDf))))
 }
 
 
@@ -2117,7 +2125,7 @@ sjp.lme.fecor <- function(fit,
   }
   return(invisible(structure(class = ifelse(fun == "glm", "sjpglmer.cor", "sjplmer.cor"),
                              list(plot = corret$plot,
-                                  mydf = corret$df,
+                                  data = corret$df,
                                   corr.matrix = corret$corr.matrix))))
 }
 
@@ -2422,20 +2430,20 @@ sjp.glm.eff <- function(fit,
   # return result
   invisible(structure(class = "sjpglmerff",
                       list(plot = eff.plot,
-                           df = mydat)))
+                           data = mydat)))
 }
 
 
 get_cleaned_ciMerMod <- function(fit, fun, ci.only = FALSE) {
   # get odds ratios of fixed effects
-  OR <- lme4::fixef(fit)
+  estimate <- lme4::fixef(fit)
   # get condifence intervals, cleaned (variance CI removed via NA)
   CI <- lme4::confint.merMod(fit, method = "Wald", parm = "beta_")
   # create data frame
   if (fun == "lm")
-    mydf <- data.frame(cbind(OR, CI))
+    mydf <- data.frame(cbind(estimate, CI))
   else
-    mydf <- data.frame(exp(cbind(OR, CI)))
+    mydf <- data.frame(exp(cbind(estimate, CI)))
   # only return ci?
   if (ci.only)
     return(as.data.frame(CI))

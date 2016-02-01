@@ -522,7 +522,7 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
 # of fitted (g)lm
 retrieveModelLabels <- function(models) {
   # check parameter. No labels supported for plm-objects
-  if (any(class(models) == "plm")) return(NULL)
+  if (any(unlist(lapply(list(models), function(x) class(x) == "gls" || class(x) == "plm")))) return(NULL)
   fit.labels <- c()
   for (k in 1:length(models)) {
     # get model

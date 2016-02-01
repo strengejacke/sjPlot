@@ -118,7 +118,7 @@
 #' @inheritParams sjp.frq
 #' 
 #' @return (Insisibily) returns the ggplot-objects with the complete plot-list (\code{plot.list})
-#'           as well as the data frame that were used for setting up the ggplot-objects (\code{df.list}).
+#'           as well as the data frames that were used for setting up the ggplot-objects (\code{data.list}).
 #'
 #' @details \describe{
 #'            \item{\code{type = "cond"}}{plots the effective \emph{change} or \emph{impact} 
@@ -884,7 +884,7 @@ sjp.int <- function(fit,
   # -------------------------------------
   invisible(structure(class = "sjpint",
                       list(plot.list = plotlist,
-                           df.list = dflist)))
+                           data.list = dflist)))
 }
   
   
@@ -1109,9 +1109,9 @@ sjp.eff.int <- function(fit,
     # change column names
     # -----------------------------------------------------------
     if (swapPredictors) {
-      colnames(intdf) <- c("x", "grp", "y", "se", "lower", "upper")
+      colnames(intdf) <- c("x", "grp", "y", "se", "conf.low", "conf.high")
     } else {
-      colnames(intdf) <- c("grp", "x", "y", "se", "lower", "upper")
+      colnames(intdf) <- c("grp", "x", "y", "se", "conf.low", "conf.high")
     }
     # -----------------------------------------------------------
     # effects-package creates "NA" factor levels, which
@@ -1134,8 +1134,8 @@ sjp.eff.int <- function(fit,
       # -----------------------------------------------------------
       if (is.null(axisLimits.y)) {
         if (showCI) {
-          lowerLim.y <- floor(min(intdf$lower, na.rm = T))
-          upperLim.y <- ceiling(max(intdf$upper, na.rm = T))
+          lowerLim.y <- floor(min(intdf$conf.low, na.rm = T))
+          upperLim.y <- ceiling(max(intdf$conf.high, na.rm = T))
         } else {
           lowerLim.y <- floor(min(intdf$y, na.rm = T))
           upperLim.y <- ceiling(max(intdf$y, na.rm = T))
@@ -1149,7 +1149,7 @@ sjp.eff.int <- function(fit,
       # do we have glm? if so, get link family. make exceptions
       # for specific models that don't have family function
       # ------------------------
-      if (any(c.f == "lme")) 
+      if (any(class(fit) == "lme")) 
         fitfam <- ""
       else
         fitfam <- stats::family(fit)$family
@@ -1171,8 +1171,8 @@ sjp.eff.int <- function(fit,
           upperLim.y <- as.integer(10 * max(intdf$y, na.rm = T) * 1.1) / 10
         } else {
           if (showCI) {
-            lowerLim.y <- floor(min(intdf$lower, na.rm = T))
-            upperLim.y <- ceiling(max(intdf$upper, na.rm = T))
+            lowerLim.y <- floor(min(intdf$conf.low, na.rm = T))
+            upperLim.y <- ceiling(max(intdf$conf.high, na.rm = T))
           } else {
             lowerLim.y <- floor(min(intdf$y, na.rm = T))
             upperLim.y <- ceiling(max(intdf$y, na.rm = T))
@@ -1278,7 +1278,7 @@ sjp.eff.int <- function(fit,
         # continuous confidence region
         # -------------------------------------------------
         baseplot <- baseplot +
-          geom_errorbar(aes(ymin = lower, ymax = upper, colour = grp),
+          geom_errorbar(aes(ymin = conf.low, ymax = conf.high, colour = grp),
                         width = 0,
                         show.legend = FALSE) +
           geom_point()
@@ -1288,7 +1288,7 @@ sjp.eff.int <- function(fit,
         # confidence region instead of error bars 
         # -------------------------------------------------
         baseplot <- baseplot +
-          geom_ribbon(aes(ymin = lower, ymax = upper, colour = NULL, fill = grp),
+          geom_ribbon(aes(ymin = conf.low, ymax = conf.high, colour = NULL, fill = grp),
                       alpha = fillAlpha,
                       show.legend = FALSE)
       }
@@ -1339,9 +1339,9 @@ sjp.eff.int <- function(fit,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible(structure(class = "sjpint",
+  invisible(structure(class = c("sjPlot", "sjpint"),
                       list(plot.list = plotlist,
-                           df.list = dflist)))
+                           data.list = dflist)))
 }
 
 

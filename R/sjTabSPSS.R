@@ -41,6 +41,7 @@
 #'          
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.df
+#' @inheritParams sjt.xtab
 #'          
 #' @return Invisibly returns
 #'          \itemize{

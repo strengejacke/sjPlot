@@ -14,11 +14,11 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   labelDigits = 2, showPValueLabels = TRUE, showModelSummary = FALSE,
   showCI = TRUE, pointAlpha = 0.2, showScatterPlot = TRUE,
   showLoess = FALSE, showLoessCI = FALSE, show.legend = FALSE,
-  y.offset = 0.1, poly.term = NULL, showOriginalModelOnly = TRUE,
+  y.offset = 0.15, poly.term = NULL, showOriginalModelOnly = TRUE,
   completeDiagnostic = FALSE, printPlot = TRUE)
 }
 \arguments{
-\item{fit}{fitted linear regression model (\code{\link{lm}}- or \code{plm}-object).}
+\item{fit}{fitted linear regression model (of class \code{\link{lm}}, \code{\link[nlme]{gls}} or \code{plm}).}
 
 \item{type}{type of plot. Use one of following:
 \describe{
@@ -162,7 +162,9 @@ Depending on the \code{type}, in most cases (insisibily)
 \description{
 Depending on the \code{type}, this function plots coefficients (estimates)
                of linear regressions (including panel models fitted with the \code{plm}-function
-               from the \pkg{plm}-package) with confidence intervals as dot plot (forest plot),
+               from the \pkg{plm}-package and generalized least squares models fitted with
+               the \code{gls}-function from the \pkg{nlme}-package) with confidence 
+               intervals as dot plot (forest plot),
                model assumptions for linear models or slopes and scatter plots for each single
                coefficient. See \code{type} for details.
 }

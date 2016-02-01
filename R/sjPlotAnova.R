@@ -56,6 +56,7 @@ utils::globalVariables("pv")
 #' @import ggplot2
 #' @import sjmisc
 #' @importFrom stats confint aov summary.lm
+#' @importFrom dplyr add_rownames
 #' @export
 sjp.aov1 <- function(depVar,
                      grpVar,
@@ -281,7 +282,9 @@ sjp.aov1 <- function(depVar,
     # print point
     geom_point(size = geom.size, colour = df$geocol) +
     # and error bar
-    geom_errorbar(aes(ymin = lower, ymax = upper), width = 0) +
+    geom_errorbar(aes(ymin = lower, ymax = upper), 
+                  colour = df$geocol, 
+                  width = 0) +
     # Print p-values. With vertical adjustment, so 
     # they don't overlap with the errorbars
     geom_text(aes(label = pv, y = means), 
@@ -309,9 +312,15 @@ sjp.aov1 <- function(depVar,
   # ---------------------------------------------------------
   if (printPlot) print(anovaplot)
   # -------------------------------------
+  # set proper column names
+  # -------------------------------------
+  df <- dplyr::add_rownames(df)
+  colnames(df) <- c("term", "estimate", "conf.low", "conf.high", 
+                    "p.value", "p.string", "xpos", "geom.color")
+  # -------------------------------------
   # return results
   # -------------------------------------
   invisible(structure(class = "sjpaov1",
                       list(plot = anovaplot,
-                           df = df)))
+                           data = df)))
 }

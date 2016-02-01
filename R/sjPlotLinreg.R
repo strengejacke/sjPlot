@@ -11,7 +11,9 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #'
 #' @description Depending on the \code{type}, this function plots coefficients (estimates)
 #'                of linear regressions (including panel models fitted with the \code{plm}-function
-#'                from the \pkg{plm}-package) with confidence intervals as dot plot (forest plot),
+#'                from the \pkg{plm}-package and generalized least squares models fitted with
+#'                the \code{gls}-function from the \pkg{nlme}-package) with confidence 
+#'                intervals as dot plot (forest plot),
 #'                model assumptions for linear models or slopes and scatter plots for each single
 #'                coefficient. See \code{type} for details.
 #'
@@ -27,7 +29,7 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #'            \item{\code{type = "vif"}}{Variance Inflation Factors (check for multicollinearity) are plotted. As a rule of thumb, values below 5 are considered as good and indicate no multicollinearity, values between 5 and 10 may be tolerable. Values greater than 10 are not acceptable and indicate multicollinearity between model's predictors.}
 #'            }
 #'
-#' @param fit fitted linear regression model (\code{\link{lm}}- or \code{plm}-object).
+#' @param fit fitted linear regression model (of class \code{\link{lm}}, \code{\link[nlme]{gls}} or \code{plm}).
 #' @param type type of plot. Use one of following:
 #'          \describe{
 #'            \item{\code{"lm"}}{(default) for forest-plot like plot of estimates. If the fitted model only contains one predictor, intercept and slope are plotted.}
@@ -210,8 +212,9 @@ utils::globalVariables(c("vars", "Beta", "xv", "lower", "upper", "stdbeta", "p",
 #' @import ggplot2
 #' @import sjmisc
 #' @importFrom car outlierTest crPlots durbinWatsonTest leveragePlots ncvTest spreadLevelPlot vif
-#' @importFrom stats model.matrix confint coef
+#' @importFrom stats model.matrix confint coef residuals sd
 #' @importFrom dplyr slice
+#' @importFrom nlme getData getResponse getCovariateFormula
 #' @export
 sjp.lm <- function(fit,
                    type = "lm",
@@ -243,7 +246,7 @@ sjp.lm <- function(fit,
                    showLoess = FALSE,
                    showLoessCI = FALSE,
                    show.legend = FALSE,
-                   y.offset = .1,
+                   y.offset = .15,
                    poly.term = NULL,
                    showOriginalModelOnly = TRUE,
                    completeDiagnostic = FALSE,
@@ -263,6 +266,11 @@ sjp.lm <- function(fit,
     if (!"package:plm" %in% search()) {
       stop("Package 'plm' needs to be loaded for this function to work... Use 'library(plm)' and call this function again.", call. = FALSE)
     }
+  }
+  if (any(class(fit) == "gls")) {
+    if (!requireNamespace("nlme", quietly = TRUE))
+      stop("Package `nlme` needed for this function to work. Please install it.", call. = FALSE)
+    showModelSummary <- FALSE
   }
   # -----------------------------------------------------------
   # this function requires a fitted model with only one predictor,
@@ -344,7 +352,11 @@ sjp.lm <- function(fit,
   # --------------------------------------------------------
   # auto-retrieve value labels
   # --------------------------------------------------------
-  if (is.null(axisLabels.y)) axisLabels.y <- suppressWarnings(retrieveModelLabels(list(fit)))
+  if (is.null(axisLabels.y) &&
+      all(class(fit) != "plm") && 
+      all(class(fit) != "gls")) {
+    axisLabels.y <- suppressWarnings(retrieveModelLabels(list(fit)))
+  }
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
   if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
@@ -369,6 +381,8 @@ sjp.lm <- function(fit,
   # retrieve sigificance level of independent variables (p-values)
   if (any(class(fit) == "pggls")) {
     pv <- summary(fit)$CoefTable[-1, 4]
+  } else if (any(class(fit) == "gls")) {
+    pv <- summary(fit)$tTable[-1, 4]
   } else {
     pv <- stats::coef(summary(fit))[-1, 4]
   }
@@ -686,13 +700,20 @@ sjp.reglin <- function(fit,
     # retrieve response vector
     resp <- lme4::getME(fit, "y")
     depvar.label <- attr(attr(attr(fit@frame, "terms"), "dataClasses"), "names")[1]
+  } else if (any(class(fit) == "gls")) {
+    fit_x <- nlme::getData(fit)
+    resp <- nlme::getResponse(fit)
+    depvar.label <- attr(resp, "label")
   } else {
     fit_x <- data.frame(stats::model.matrix(fit))
     depvar.label <- attr(attr(fit$terms, "dataClasses"), "names")[1]
     # retrieve response vector
     resp <- as.vector(fit$model[, 1])
   }
-  predvars <- colnames(fit_x)[-1]
+  if (any(class(fit) == "gls"))
+    predvars <- all.vars(nlme::getCovariateFormula(fit))
+  else
+    predvars <- colnames(fit_x)[-1]
   cn <- predvars
   # remember length of predictor variables
   predvars.length <- length(predvars)
@@ -721,7 +742,7 @@ sjp.reglin <- function(fit,
     # as data columns, used for the ggplot
     # -----------------------------------------------------------
     if (useResiduals) {
-      mydat <- data.frame(x = fit_x[, which(cn == xval) + 1], y = residuals(fit))
+      mydat <- data.frame(x = fit_x[, which(cn == xval) + 1], y = stats::residuals(fit))
     } else {
       mydat <- data.frame(x = fit_x[, which(cn == xval) + 1], y = resp)
     }
@@ -947,8 +968,8 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly=TRUE, completeDiagnostic=FAL
                           fill = "#4080cc",
                           alpha = 0.2) +
              stat_function(fun = dnorm,
-                           args = list(mean = mean(unname(residuals(fit)), na.rm = TRUE),
-                                       sd = sd(unname(residuals(fit)), na.rm = TRUE)),
+                           args = list(mean = mean(unname(stats::residuals(fit)), na.rm = TRUE),
+                                       sd = stats::sd(unname(stats::residuals(fit)), na.rm = TRUE)),
                            colour = "FireBrick",
                            size = 0.8) +
              labs(x = "Residuals",
@@ -1225,7 +1246,10 @@ sjp.lm.poly <- function(fit,
   # -------------------------------------
   # retrieve model matrix
   # -------------------------------------
-  mm <- stats::model.matrix(fit)
+  if (any(class(fit) == "gls"))
+    mm <- nlme::getData(fit)
+  else
+    mm <- stats::model.matrix(fit)
   # get model data column names
   cn <- colnames(mm)
   xl <- NULL
@@ -1235,7 +1259,7 @@ sjp.lm.poly <- function(fit,
   # -------------------------------------
   if (!is.null(poly.term)) {
     # check for simple poly term, using I(x^2) + I(x^3) etc.
-    poly.found <- any(colnames(mm) == poly.term)
+    poly.found <- any(cn == poly.term)
     # found poly? If yes, get range
     if (poly.found) {
       xl <- list(x = sort(unique(stats::na.omit(mm[, poly.term]))))
@@ -1309,7 +1333,7 @@ sjp.lm.poly <- function(fit,
   # return result
   invisible(structure(class = "sjplmpoly",
                       list(plot = polyplot,
-                           df = mydat)))
+                           data = mydat)))
 }
 
 
@@ -1339,22 +1363,28 @@ sjp.lm.eff <- function(fit,
     # retrieve response vector
     resp <- fit$model[[1]]
     resp.col <- colnames(fit$model)[1]
+  } else if (any(class(fit) == "gls")) {
+    # retrieve response vector
+    resp <- nlme::getResponse(fit)
+    resp.col <- attr(resp, "label", exact = TRUE)
   }
   # --------------------------------------------
   # retrieve labels
   # --------------------------------------------
-  axisTitle.y <- sjmisc::get_label(resp,
-                                   def.value = get_var_name(deparse(substitute(resp))))
-  # no labels found? set default then
-  if (is.null(axisTitle.y)) axisTitle.y <- resp.col
+  axisTitle.y <- sjmisc::get_label(resp, def.value = resp.col)
   # which title?
   if (is.null(title)) title <- "Marginal effects of model predictors"
   # ------------------------
   # retrieve model matrix and all terms,
   # excluding intercept
   # ------------------------
-  mm <- stats::model.matrix(fit)
-  all.terms <- colnames(stats::model.matrix(fit))[-1]
+  if (any(class(fit) == "gls")) {
+    mm <- nlme::getData(fit)
+    all.terms <- all.vars(nlme::getCovariateFormula(fit))
+  } else {
+    mm <- stats::model.matrix(fit)
+    all.terms <- colnames(stats::model.matrix(fit))[-1]
+  }
   # ------------------------
   # remove setimates?
   # ------------------------

@@ -170,7 +170,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
          \itemize{
            \item the ggplot-object (\code{plot}), if \code{type = "fe"} or if \code{type = "re"} and \code{facet.grid = TRUE}). Multiple plots (\code{type = "re"} and if \code{facet.grid = FALSE}) are returned in the object \code{plot.list}.
            \item a list of ggplot-objects (\code{plot.list}). see \code{plot} for details.
-           \item a data frame \code{mydf} with the data used to build the ggplot-object(s).
+           \item a data frame \code{data} with the data used to build the ggplot-object(s).
            }
 }
 \description{

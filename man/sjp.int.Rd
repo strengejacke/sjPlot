@@ -149,7 +149,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 }
 \value{
 (Insisibily) returns the ggplot-objects with the complete plot-list (\code{plot.list})
-          as well as the data frame that were used for setting up the ggplot-objects (\code{df.list}).
+          as well as the data frames that were used for setting up the ggplot-objects (\code{data.list}).
 }
 \description{
 Plot regression (predicted values) or probability lines (predicted probabilities) of 

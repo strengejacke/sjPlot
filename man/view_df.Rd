@@ -49,6 +49,8 @@ frequencies for each variable is shown. Weights strem from \code{weightBy}.}
 percentage of frequencies for each variable is shown.
 Weights strem from \code{weightBy}.}
 
+\item{showNA}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.}
+
 \item{sortByName}{logical, if \code{TRUE}, rows are sorted according to the variable
 names. By default, rows (variables) are ordered according to their
 order in the data frame.}

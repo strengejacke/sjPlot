@@ -54,7 +54,7 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #'         the \code{\link[stats]{update}} function). See 'Examples'.
 #'             
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-#'           was used for setting up the ggplot-object (\code{df}).
+#'           was used for setting up the ggplot-object (\code{data}).
 #'          
 #' @examples
 #' # prepare dummy variables for binary logistic regression
@@ -271,9 +271,9 @@ sjp.lmm <- function(...,
     # ----------------------------
     # bind p-values to data frame
     # ----------------------------
-    betas <- data.frame(betas, ps, palpha, pointshapes, fitcnt)
+    betas <- data.frame(betas, ps, palpha, pointshapes, fitcnt, pv)
     # set column names
-    colnames(betas) <- c("beta", "lower", "upper", "p", "pa", "shape", "grp")
+    colnames(betas) <- c("beta", "lower", "upper", "p", "pa", "shape", "grp", "p.value")
     #remove intercept from df
     if (!showIntercept) betas <- betas[-1, ]
     # add rownames
@@ -446,9 +446,14 @@ sjp.lmm <- function(...,
   # ---------------------------------------------------------
   if (printPlot) plot(plotHeader)
   # -------------------------------------
+  # set proper column names
+  # -------------------------------------
+  colnames(finalbetas) <- c("estimate", "conf.low", "conf.high", "p.string", 
+                            "p.alpha", "shape", "grp", "p.value", "term", "xpos")
+  # -------------------------------------
   # return results
   # -------------------------------------
-  invisible(structure(class = "sjplmm",
+  invisible(structure(class = c("sjPlot", "sjplmm"),
                       list(plot = plotHeader,
-                           df = finalbetas)))
+                           data = finalbetas)))
 }
