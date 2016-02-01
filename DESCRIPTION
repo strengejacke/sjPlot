@@ -39,7 +39,8 @@ Suggests:
     lme4,
     lmerTest,
     lmtest,
-    lsmeans
+    lsmeans,
+    nlme
 URL: https://github.com/sjPlot/devel
 BugReports: https://github.com/sjPlot/devel/issues
 RoxygenNote: 5.0.1

@@ -701,7 +701,7 @@ sjp.reglin <- function(fit,
     resp <- lme4::getME(fit, "y")
     depvar.label <- attr(attr(attr(fit@frame, "terms"), "dataClasses"), "names")[1]
   } else if (any(class(fit) == "gls")) {
-    fit_x <- nlme::getData(fit)
+    fit_x <- data.frame(stats::model.matrix(fit))
     resp <- nlme::getResponse(fit)
     depvar.label <- attr(resp, "label")
   } else {
@@ -710,7 +710,7 @@ sjp.reglin <- function(fit,
     # retrieve response vector
     resp <- as.vector(fit$model[, 1])
   }
-  if (any(class(fit) == "gls"))
+  if (any(class(fit) == "gls")) 
     predvars <- all.vars(nlme::getCovariateFormula(fit))
   else
     predvars <- colnames(fit_x)[-1]
@@ -1246,10 +1246,7 @@ sjp.lm.poly <- function(fit,
   # -------------------------------------
   # retrieve model matrix
   # -------------------------------------
-  if (any(class(fit) == "gls"))
-    mm <- nlme::getData(fit)
-  else
-    mm <- stats::model.matrix(fit)
+  mm <- stats::model.matrix(fit)
   # get model data column names
   cn <- colnames(mm)
   xl <- NULL
@@ -1378,13 +1375,8 @@ sjp.lm.eff <- function(fit,
   # retrieve model matrix and all terms,
   # excluding intercept
   # ------------------------
-  if (any(class(fit) == "gls")) {
-    mm <- nlme::getData(fit)
-    all.terms <- all.vars(nlme::getCovariateFormula(fit))
-  } else {
-    mm <- stats::model.matrix(fit)
-    all.terms <- colnames(stats::model.matrix(fit))[-1]
-  }
+  mm <- stats::model.matrix(fit)
+  all.terms <- colnames(mm)[-1]
   # ------------------------
   # remove setimates?
   # ------------------------
