@@ -8,6 +8,9 @@ utils::globalVariables(c("starts_with"))
 #' @description Summarizes (multiple) fitted linear models (coefficients, std. beta values etc.)
 #'                as HTML table, or saves them as file. The fitted models may have different predictors,
 #'                e.g. when comparing different stepwise fitted models.
+#'                This function also supports panel models fitted with the \code{plm}-function
+#'                from the \pkg{plm}-package and generalized least squares models fitted with
+#'                the \code{gls}-function from the \pkg{nlme}-package.
 #'                
 #' @seealso \href{http://strengejacke.de/sjPlot/sjt.lm/}{sjPlot manual: sjt.lm}
 #' 
@@ -603,12 +606,12 @@ sjt.lm <- function(...,
     showICC <- FALSE
     # check if we have different amount of coefficients
     # in fitted models - if yes, we have e.g. stepwise models
-    sw.fit <- length(unique(sapply(input_list, function(x) length(coef(x))))) > 1
+    sw.fit <- length(unique(sapply(input_list, function(x) length(stats::coef(x))))) > 1
     # if all fitted models have same amount of coefficients, check
     # whether all coefficients have same name. if not, we have models
     # with different predictors (e.g. stepwise comparison)
     if (sw.fit == FALSE) {
-      all.coefs <- sapply(input_list, function(x) sort(names(coef(x))))
+      all.coefs <- sapply(input_list, function(x) sort(names(stats::coef(x))))
       sw.fit <- any(apply(all.coefs, 1, function(x) length(unique(x))) > 1)
     }
   }
@@ -662,12 +665,17 @@ sjt.lm <- function(...,
       # p-values
       fit.df$pv <- round(get_lmerMod_pvalues(fit), digits.p)
       # standard error
-      fit.df$se <- sprintf("%.*f", digits.se, coef(summary(fit))[, "Std. Error"])
+      fit.df$se <- sprintf("%.*f", digits.se, stats::coef(summary(fit))[, "Std. Error"])
     } else {
+      # get model summary, depending on model class
+      if (any(class(fit) == "gls"))
+        model.summary <- summary(fit)$tTable
+      else
+        model.summary <- summary(fit)$coefficients
       # p-values
-      fit.df$pv <- round(summary(fit)$coefficients[, 4], digits.p)
+      fit.df$pv <- round(model.summary[, 4], digits.p)
       # standard error
-      fit.df$se <- sprintf("%.*f", digits.se, summary(fit)$coefficients[, 2])
+      fit.df$se <- sprintf("%.*f", digits.se, model.summary[, 2])
     }
     # retrieve standardized betas and CI
     fit.df$stdbv <- c("", sprintf("%.*f", digits.sb, sbvals[, 1]))
@@ -1253,12 +1261,19 @@ sjt.lm <- function(...,
       # insert "separator column"
       # -------------------------
       page.content <- paste0(page.content, "\n    <td class=\"separatorcol\">&nbsp;</td>")
-      rsqu <- summary(input_list[[i]])$r.squared
-      adjrsqu <- summary(input_list[[i]])$adj.r.squared
-      page.content <- paste0(page.content, gsub("0.", 
-                                                paste0(p_zero, "."), 
-                                                sprintf("    %s%.*f / %.*f</td>\n", colspanstring, digits.summary, rsqu, digits.summary, adjrsqu),
-                                                fixed = TRUE))
+      # -------------------------
+      # no R2 for GLS
+      # -------------------------
+      if (any(class(input_list[[i]]) == "gls")) {
+        page.content <- paste0(page.content, sprintf("    %sNA / NA</td>\n", colspanstring))
+      } else {
+        rsqu <- summary(input_list[[i]])$r.squared
+        adjrsqu <- summary(input_list[[i]])$adj.r.squared
+        page.content <- paste0(page.content, gsub("0.", 
+                                                  paste0(p_zero, "."), 
+                                                  sprintf("    %s%.*f / %.*f</td>\n", colspanstring, digits.summary, rsqu, digits.summary, adjrsqu),
+                                                  fixed = TRUE))
+      }
     }
     page.content <- paste(page.content, "  </tr>\n")
   }
@@ -1272,15 +1287,26 @@ sjt.lm <- function(...,
       # insert "separator column"
       # -------------------------
       page.content <- paste0(page.content, "\n    <td class=\"separatorcol\">&nbsp;</td>")
-      fstat <- summary(input_list[[i]])$fstatistic
-      # Calculate p-value for F-test
-      pval <- pf(fstat[1], 
-                 fstat[2], 
-                 fstat[3],
-                 lower.tail = FALSE)
-      # indicate significance level by stars
-      pan <- get_p_stars(pval)
-      page.content <- paste(page.content, sprintf("    %s%.*f%s</td>\n", colspanstring, digits.summary, fstat[1], pan))
+      # -------------------------
+      # no R2 for GLS
+      # -------------------------
+      if (any(class(input_list[[i]]) == "gls")) {
+        page.content <- paste0(page.content, sprintf("    %sNA</td>\n", colspanstring))
+      } else {
+        fstat <- summary(input_list[[i]])$fstatistic
+        # Calculate p-value for F-test
+        pval <- pf(fstat[1], 
+                   fstat[2], 
+                   fstat[3],
+                   lower.tail = FALSE)
+        # indicate significance level by stars
+        pan <- get_p_stars(pval)
+        page.content <- paste(page.content, sprintf("    %s%.*f%s</td>\n", 
+                                                    colspanstring, 
+                                                    digits.summary, 
+                                                    fstat[1], 
+                                                    pan))
+      }
     }
     page.content <- paste(page.content, "  </tr>\n")
   }

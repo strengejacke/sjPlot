@@ -299,6 +299,7 @@
 #' @import ggplot2
 #' @import sjmisc
 #' @importFrom stats family
+#' @importFrom effects allEffects effect
 #' @export
 sjp.int <- function(fit,
                     type = "cond",

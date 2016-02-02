@@ -202,6 +202,7 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'
 #' @import ggplot2
 #' @importFrom dplyr slice add_rownames
+#' @importFrom lme4 fixef ranef confint.merMod getME
 #' @export
 sjp.glmer <- function(fit,
                       type = "re",

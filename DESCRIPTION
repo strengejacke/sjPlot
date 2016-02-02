@@ -24,9 +24,12 @@ Depends:
 Imports:
     car,
     dplyr (>= 0.4.3),
+    effects,
     ggplot2 (>= 2.0.0),
+    lme4,
     MASS,
     magrittr,
+    nlme,
     psych,
     scales,
     sjmisc (>= 1.4),
@@ -35,12 +38,9 @@ Suggests:
     AICcmodavg,
     arm,
     cluster,
-    effects,
-    lme4,
     lmerTest,
     lmtest,
-    lsmeans,
-    nlme
+    lsmeans
 URL: https://github.com/sjPlot/devel
 BugReports: https://github.com/sjPlot/devel/issues
 RoxygenNote: 5.0.1

@@ -413,6 +413,7 @@ crosstabsum <- function(x, grp, weightBy) {
 
 # checks at which position in fitted models factors with
 # more than two levels are located.
+#' @importFrom nlme getResponse getData
 retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
   # init group-row-indices
   group.pred.rows <- c()
@@ -435,8 +436,10 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
       no_fixef <- length(attr(attr(fit@frame, "terms"), "predvars.fixed")) - 1
       # then copy only fixed effects columns
       fmodel <- fit@frame[, 1:no_fixef]
+    } else if (any(class(fit) == "gls")) {
+      fmodel <- cbind(`y` = nlme::getResponse(fit), nlme::getData(fit))
     } else {
-      # else copy model matrix
+      # copy model matrix
       fmodel <- fit$model
     }
     # retrieve all factors from model
@@ -521,12 +524,15 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
 # automatically retrieve predictor labels
 # of fitted (g)lm
 retrieveModelLabels <- function(models) {
-  # check parameter. No labels supported for plm-objects
-  if (any(unlist(lapply(list(models), function(x) class(x) == "gls" || class(x) == "plm")))) return(NULL)
   fit.labels <- c()
   for (k in 1:length(models)) {
     # get model
     fit <- models[[k]]
+    # any valid model?
+    if (any(class(fit) == "gls") ||
+        any(class(fit) == "plm") || 
+        any(class(fit) == "ppgls"))
+      return(NULL)
     # iterate coefficients (1 is intercept or response)
     for (i in 2:ncol(fit$model)) {
       # is predictor a factor?

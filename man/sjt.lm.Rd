@@ -176,6 +176,9 @@ Invisibly returns
 Summarizes (multiple) fitted linear models (coefficients, std. beta values etc.)
                as HTML table, or saves them as file. The fitted models may have different predictors,
                e.g. when comparing different stepwise fitted models.
+               This function also supports panel models fitted with the \code{plm}-function
+               from the \pkg{plm}-package and generalized least squares models fitted with
+               the \code{gls}-function from the \pkg{nlme}-package.
 }
 \details{
 Concerning the \code{showStdBeta} argument, \code{showStdBeta = "std"}

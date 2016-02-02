@@ -46,7 +46,7 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 #### Changes to functions
 * Improved text label positioning for plotting functions.
 * Plotting functions now get an argument `y.offset` to specify an offset for text labels from geoms.
-* `sjp.lm` now supports `gls` models fitted with `nlme::gls`.
+* `sjp.lm` and `sjt.lm` now support `gls` models fitted with `nlme::gls`.
 * `sjp.int` now fits the y-axis to the required range for predicted probabilities for logistic regressions instead of always using a range from 0 to 1, even for smaller effects ([#86](https://github.com/sjPlot/devel/issues/86)).
 * `sjp.glmer` and `sjp.lmer` get a `axisLimits.y` argument to specify y-axis limits specifically for predicted probability or effect plots.
 * `view_df` now supports showing missings and missing percentages ([#76](https://github.com/sjPlot/devel/issues/76)).
