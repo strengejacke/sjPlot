@@ -16,11 +16,12 @@
 #' @param grp grouping variable. If not \code{NULL}, the scatter plot will be grouped. See
 #'          'Examples'. Default is \code{NULL}, i.e. not grouping is done.
 #' @param pointLabels character vector with names for each coordinate pair given
-#'          by \code{x} and \code{y}, so instead of dots, text labels are
-#'          printed to the plot. Must be of same length as \code{x} and \code{y}.
+#'          by \code{x} and \code{y}, so text labels are added to the plot. 
+#'          Must be of same length as \code{x} and \code{y}.
 #'          If \code{pointLabels} has a different length, data points will be trimmed
 #'          to match \code{pointLabels}. If \code{pointLabels = NULL} (default),
-#'          dots instead of labels are printed.
+#'          no labels are printed.
+#' @param label.size Size of text labels if argument \code{pointLabels} is used.
 #' @param axisTitle.x title for the x axis. Use \code{NULL} to automatically
 #'          detect variable names that will be used as title
 #'          (see \code{\link[sjmisc]{set_label}}) for details).
@@ -44,6 +45,8 @@
 #'          the fit lines. Possible values are for instance \code{"lm"}, \code{"glm"},
 #'          \code{"loess"} or \code{"auto"}.
 #' @param useJitter logical, if \code{TRUE}, points will be jittered (to avoid overplotting).
+#' @param useCount logical, if \code{TRUE}, overlapping points at same coordinates
+#'          will be becomme larger, so point size indicates amount of overlapping.
 #' @param autojitter logical, if \code{TRUE}, points will be jittered according
 #'          to an overlap-estimation. A matrix of \code{x} and \code{y} values
 #'          is created and the amount of cells (indicating a unique point position)
@@ -130,7 +133,8 @@ sjp.scatter <- function(x = NULL,
                         breakTitleAt = 50,
                         breakLegendTitleAt = 20,
                         breakLegendLabelsAt = 20,
-                        geom.size = 3,
+                        geom.size = 2,
+                        label.size = 3,
                         geom.colors = NULL,
                         showTickMarkLabels.x = TRUE,
                         showTickMarkLabels.y = TRUE,
@@ -139,6 +143,7 @@ sjp.scatter <- function(x = NULL,
                         show.ci = FALSE,
                         fitmethod = "lm",
                         useJitter = FALSE,
+                        useCount = FALSE,
                         autojitter = TRUE,
                         jitterRatio = 0.15,
                         showRug = FALSE,
@@ -153,6 +158,13 @@ sjp.scatter <- function(x = NULL,
     warning("argument 'show.se' is deprecated; please use 'show.ci' instead.")
     show.ci <- show.se
   }
+  # ------------------------
+  # check if suggested packages are available
+  # ------------------------
+  if (!is.null(pointLabels) && !requireNamespace("ggrepel", quietly = TRUE)) {
+    stop("Package `ggrepel` needed to plot labels. Please install it.", call. = FALSE)
+  }
+  
   # --------------------------------------------------------
   # get variable name
   # --------------------------------------------------------
@@ -165,8 +177,14 @@ sjp.scatter <- function(x = NULL,
   if (is.null(x) && is.null(y)) {
     stop("At least either 'x' or 'y' must be specified.", call. = FALSE)
   }
+  if (useJitter && useCount) {
+    warning("Only one of `useJitter` and `useCount` may be `TRUE`. Defaulting `useJitter` to `FALSE`.")
+    useJitter <- FALSE
+  }
   if (is.null(x)) x <- c(1:length(y))
   if (is.null(y)) y <- c(1:length(x))
+  # disable auto-jitter?
+  if (useCount) autojitter <- FALSE
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
@@ -202,7 +220,7 @@ sjp.scatter <- function(x = NULL,
     # check for valid range of jitter ratio
     if (jitterRatio <= 0 || jitterRatio >= 1) {
       # inform user
-      warning("jitterRatio out of valid bounds. Using 0.15 for jitterRatio...")
+      warning("`jitterRatio` out of valid bounds. Using 0.15 for `jitterRatio`...")
       jitterRatio <- 0.15
     }
     # retrieve the highest amount of points lying
@@ -288,22 +306,28 @@ sjp.scatter <- function(x = NULL,
   # Use Jitter/Points
   # --------------------------------------------------------
   if (useJitter) {
+    # else plot dots
+    scatter <- scatter + geom_jitter(size = geom.size)
     # do we have text?
     if (!is.null(pointLabels))
-      scatter <- scatter + geom_text(aes(label = pointLabels),
-                                     size = geom.size,
-                                     position = "jitter")
-    else
-      # else plot dots
-      scatter <- scatter + geom_jitter(size = geom.size)
+      scatter <- scatter + ggrepel::geom_text_repel(aes(label = pointLabels),
+                                           size = label.size,
+                                           position = "jitter")
   } else {
-    # do we have text?
-    if (!is.null(pointLabels))
-      scatter <- scatter + geom_text(aes(label = pointLabels),
-                                     size = geom.size)
-    else
+    if (useCount) {
+      # indicate overlapping dots by point size
+      scatter <- scatter + geom_count(show.legend = F)
+    } else {
       # else plot dots
       scatter <- scatter + geom_point(size = geom.size)
+    }
+    # do we have text?
+    if (!is.null(pointLabels)) {
+      scatter <- scatter + 
+        ggrepel::geom_text_repel(aes(label = pointLabels),
+                                 size = label.size)
+      
+    }
   }
   # --------------------------------------------------------
   # Show fitted lines
@@ -331,7 +355,7 @@ sjp.scatter <- function(x = NULL,
   # --------------------------------------
   # facet plot
   # --------------------------------------
-  if (facet.grid) scatter <- scatter + facet_wrap(~ grp)
+  if (facet.grid) scatter <- scatter + facet_wrap(~grp)
   # --------------------------------------------------------
   # Prepare fill colors
   # --------------------------------------------------------

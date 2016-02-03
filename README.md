@@ -41,7 +41,7 @@ install.packages("sjPlot")
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](http://cran.r-project.org/package=ggplot2), consider citing this package as well.
 
 
-### Changelog of current development build 1.9.0-1
+### Changelog of current development build 1.9.0-3
 
 #### Changes to functions
 * Improved text label positioning for plotting functions.
@@ -52,6 +52,8 @@ In case you want / have to cite my package, please use `citation('sjPlot')` for 
 * `view_df` now supports showing missings and missing percentages ([#76](https://github.com/sjPlot/devel/issues/76)).
 * Harmonized column names of returned data frames to match [broom's naming convention](https://github.com/dgrtwo/broom#tidy-functions) for `sjp.lm`, `sjp.glm`, `sjp.lmer`, `sjp.glmer`, `sjp.lmm`, `sjp.glmm`, `sjp.aov1` and `sjp.int` ([#94](https://github.com/sjPlot/devel/issues/94)).
 * Functions with harmonized data as return value now also gain the class attribute `sjPlot`, and all returned data frame values are names `data`.
+* `sjp.scatter` gets a `useCount` argument to indicate overplotting by point size.
+* `sjp.scatter` now also plots data points when using argument `pointLabels`, so exact position of labelled data points is visible. `geom_text_repel` is used to avoid overlapping of points and labels.
 
 #### Bug fixes
 * Automatic label detection did not choose column names when no variable labels were present for functions that accepted data frames as data argument ([#96](https://github.com/sjPlot/devel/issues/96)).

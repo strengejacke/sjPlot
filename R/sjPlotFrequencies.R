@@ -310,7 +310,7 @@ sjp.frq <- function(varCount,
     if (type == "bars") 
       geom.size <- .7
     else if (type == "dots") 
-      geom.size <- 3
+      geom.size <- 2.5
     else if (type == "histogram") 
       geom.size <- .7
     else if (type == "line") 
@@ -562,7 +562,7 @@ sjp.frq <- function(varCount,
                        width = geom.size, 
                        fill = geom.colors)
     } else if (type == "dots") {
-      geob <- geom_point(size = geom.size, fill = geom.colors)
+      geob <- geom_point(size = geom.size, colour = geom.colors)
     }
     # -----------------------------------
     # mydat is a data frame that only contains one variable (var).

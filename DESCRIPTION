@@ -2,8 +2,8 @@ Package: sjPlot
 Type: Package
 Encoding: UTF-8
 Title: Data Visualization for Statistics in Social Science
-Version: 1.9.0-2
-Date: 2016-02-01
+Version: 1.9.0-3
+Date: 2016-02-03
 Author: Daniel Lüdecke <d.luedecke@uke.de>
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
 Description: Collection of plotting and table output functions for data
@@ -38,6 +38,7 @@ Suggests:
     AICcmodavg,
     arm,
     cluster,
+    ggrepel,
     lmerTest,
     lmtest,
     lsmeans

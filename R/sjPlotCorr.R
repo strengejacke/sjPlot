@@ -318,7 +318,7 @@ sjp.corr <- function(data,
   # --------------------------------------------------------
   if (type == "circle") {
     corrPlot <- corrPlot +
-      geom_point(shape = 21, size = orderedCorr$psize, color = "black")
+      geom_point(shape = 21, size = orderedCorr$psize, colour = "black")
   }
   # --------------------------------------------------------
   # or boxes / tiles when "type" is "tile"

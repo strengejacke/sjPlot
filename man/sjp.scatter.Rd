@@ -7,13 +7,13 @@
 sjp.scatter(x = NULL, y = NULL, grp = NULL, title = "",
   legendTitle = NULL, legendLabels = NULL, pointLabels = NULL,
   axisTitle.x = NULL, axisTitle.y = NULL, breakTitleAt = 50,
-  breakLegendTitleAt = 20, breakLegendLabelsAt = 20, geom.size = 3,
-  geom.colors = NULL, showTickMarkLabels.x = TRUE,
+  breakLegendTitleAt = 20, breakLegendLabelsAt = 20, geom.size = 2,
+  label.size = 3, geom.colors = NULL, showTickMarkLabels.x = TRUE,
   showTickMarkLabels.y = TRUE, showGroupFitLine = FALSE,
   showTotalFitLine = FALSE, show.ci = FALSE, fitmethod = "lm",
-  useJitter = FALSE, autojitter = TRUE, jitterRatio = 0.15,
-  showRug = FALSE, hideLegend = FALSE, facet.grid = FALSE,
-  printPlot = TRUE, show.se = FALSE)
+  useJitter = FALSE, useCount = FALSE, autojitter = TRUE,
+  jitterRatio = 0.15, showRug = FALSE, hideLegend = FALSE,
+  facet.grid = FALSE, printPlot = TRUE, show.se = FALSE)
 }
 \arguments{
 \item{x}{vector indicating the x positions. If not specified (i.e. if
@@ -37,11 +37,11 @@ no title is printed.}
 \item{legendLabels}{a character vector with labels for the guide/legend.}
 
 \item{pointLabels}{character vector with names for each coordinate pair given
-by \code{x} and \code{y}, so instead of dots, text labels are
-printed to the plot. Must be of same length as \code{x} and \code{y}.
+by \code{x} and \code{y}, so text labels are added to the plot. 
+Must be of same length as \code{x} and \code{y}.
 If \code{pointLabels} has a different length, data points will be trimmed
 to match \code{pointLabels}. If \code{pointLabels = NULL} (default),
-dots instead of labels are printed.}
+no labels are printed.}
 
 \item{axisTitle.x}{title for the x axis. Use \code{NULL} to automatically
 detect variable names that will be used as title
@@ -61,6 +61,8 @@ are displayed in one line and when a line break is inserted.}
 displayed in one line and when a line break is inserted.}
 
 \item{geom.size}{size of point geoms.}
+
+\item{label.size}{Size of text labels if argument \code{pointLabels} is used.}
 
 \item{geom.colors}{color(s) of point geoms. If \code{grp} is not \code{NULL},
 groups are indicated by different colors, thus a vector with multiple
@@ -85,6 +87,9 @@ the fit lines. Possible values are for instance \code{"lm"}, \code{"glm"},
 \code{"loess"} or \code{"auto"}.}
 
 \item{useJitter}{logical, if \code{TRUE}, points will be jittered (to avoid overplotting).}
+
+\item{useCount}{logical, if \code{TRUE}, overlapping points at same coordinates
+will be becomme larger, so point size indicates amount of overlapping.}
 
 \item{autojitter}{logical, if \code{TRUE}, points will be jittered according
 to an overlap-estimation. A matrix of \code{x} and \code{y} values
