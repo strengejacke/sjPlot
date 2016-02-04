@@ -5,11 +5,12 @@
 \title{Summary of contingency tables as HTML table}
 \usage{
 sjt.xtab(var.row, var.col, weightBy = NULL, digits = 1, file = NULL,
-  variableLabels = NULL, valueLabels = NULL, breakVariableLabelsAt = 40,
-  breakValueLabelsAt = 20, stringTotal = "Total", showObserved = TRUE,
-  showCellPerc = FALSE, showRowPerc = FALSE, showColPerc = FALSE,
-  showExpected = FALSE, showHorizontalLine = FALSE, showSummary = TRUE,
-  showLegend = FALSE, showNA = FALSE, labelNA = "NA", tdcol.n = "black",
+  variableLabels = NULL, valueLabels = NULL, title = NULL,
+  breakVariableLabelsAt = 40, breakValueLabelsAt = 20,
+  stringTotal = "Total", showObserved = TRUE, showCellPerc = FALSE,
+  showRowPerc = FALSE, showColPerc = FALSE, showExpected = FALSE,
+  showHorizontalLine = FALSE, showSummary = TRUE, showLegend = FALSE,
+  showNA = FALSE, labelNA = "NA", tdcol.n = "black",
   tdcol.expected = "#339999", tdcol.cell = "#993333",
   tdcol.row = "#333399", tdcol.col = "#339933", highlightTotal = FALSE,
   highlightColor = "#f8f8f8", percSign = "&nbsp;&#37;", hundret = "100.0",

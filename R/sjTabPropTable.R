@@ -119,6 +119,7 @@ sjt.xtab <- function(var.row,
                      file = NULL,
                      variableLabels = NULL,
                      valueLabels = NULL,
+                     title = NULL,
                      breakVariableLabelsAt = 40,
                      breakValueLabelsAt = 20,
                      stringTotal = "Total",
@@ -217,6 +218,7 @@ sjt.xtab <- function(var.row,
   # later for return value
   # -------------------------------------
   tag.table <- "table"
+  tag.caption <- "caption"
   tag.thead <- "thead"
   tag.tdata <- "tdata"
   tag.firstcolborder <- "firstcolborder"
@@ -234,6 +236,7 @@ sjt.xtab <- function(var.row,
   tag.td_c <- "td_c"
   tag.td_n <- "td_n"
   css.table <- "border-collapse:collapse; border:none;"
+  css.caption <- "font-weight: bold; text-align:left;"
   css.thead <- "border-top:double; text-align:center; font-style:italic; font-weight:normal;"
   css.tdata <- "padding:0.2cm;"
   css.firstcolborder <- "border-bottom:1px solid;"
@@ -250,6 +253,7 @@ sjt.xtab <- function(var.row,
   # ------------------------
   if (!is.null(CSS)) {
     if (!is.null(CSS[['css.table']])) css.table <- ifelse(substring(CSS[['css.table']], 1, 1) == '+', paste0(css.table, substring(CSS[['css.table']], 2)), CSS[['css.table']])
+    if (!is.null(CSS[['css.caption']])) css.caption <- ifelse(substring(CSS[['css.caption']], 1, 1) == '+', paste0(css.caption, substring(CSS[['css.caption']], 2)), CSS[['css.caption']])
     if (!is.null(CSS[['css.thead']])) css.thead <- ifelse(substring(CSS[['css.thead']], 1, 1) == '+', paste0(css.thead, substring(CSS[['css.thead']], 2)), CSS[['css.thead']])
     if (!is.null(CSS[['css.tdata']])) css.tdata <- ifelse(substring(CSS[['css.tdata']], 1, 1) == '+', paste0(css.tdata, substring(CSS[['css.tdata']], 2)), CSS[['css.tdata']])
     if (!is.null(CSS[['css.summary']])) css.summary <- ifelse(substring(CSS[['css.summary']], 1, 1) == '+', paste0(css.summary, substring(CSS[['css.summary']], 2)), CSS[['css.summary']])
@@ -265,8 +269,8 @@ sjt.xtab <- function(var.row,
   # -------------------------------------
   # set style sheet
   # -------------------------------------
-  page.style <- sprintf("<style>\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { color:%s }\n.%s { color:%s }\n.%s { color:%s }\n.%s { color:%s }\n.%s { color:%s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>", 
-                        tag.table, css.table, tag.thead, css.thead, tag.tdata, css.tdata, tag.secondtablerow, css.secondtablerow, 
+  page.style <- sprintf("<style>\n%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { color:%s }\n.%s { color:%s }\n.%s { color:%s }\n.%s { color:%s }\n.%s { color:%s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>", 
+                        tag.table, css.table, tag.caption, css.caption, tag.thead, css.thead, tag.tdata, css.tdata, tag.secondtablerow, css.secondtablerow, 
                         tag.leftalign, css.leftalign, tag.centeralign, css.centeralign, tag.lasttablerow, css.lasttablerow, 
                         tag.totcol, css.totcol, tag.tothi, css.tothi,
                         tag.td_n, tdcol.n, tag.td_c, tdcol.cell, tag.td_rw, tdcol.row,
@@ -280,6 +284,10 @@ sjt.xtab <- function(var.row,
   # init first table row
   # -------------------------------------
   page.content <- "<table>\n"
+  # -------------------------------------
+  # table caption, variable label
+  # -------------------------------------
+  if (!is.null(title)) page.content <- paste0(page.content, sprintf("  <caption>%s</caption>\n", title))
   page.content <- paste(page.content, "  <tr>\n")
   # -------------------------------------
   # column with row-variable-name
@@ -501,6 +509,7 @@ sjt.xtab <- function(var.row,
   # -------------------------------------
   knitr <- gsub("class=", "style=", knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub("<table", sprintf("<table style=\"%s\"", css.table), knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub("<caption", sprintf("<caption style=\"%s\"", css.caption), knitr, fixed = TRUE, useBytes = TRUE)
   # -------------------------------------
   # replace class-attributes with inline-style-definitions
   # -------------------------------------
