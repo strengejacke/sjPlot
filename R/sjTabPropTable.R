@@ -200,7 +200,7 @@ sjt.xtab <- function(var.row,
   tab.row$total <- tab.cell$total
   tab.col <- mydat$proptab.col
   tab.col <- rbind(tab.col, tab.cell[nrow(tab.cell), ])
-  tab.expected <- sjmisc::table_values(ftable(as.matrix(tab)))$expected
+  tab.expected <- sjmisc::table_values(stats::ftable(as.matrix(tab)))$expected
   # -------------------------------------
   # determine total number of columns and rows
   # -------------------------------------
@@ -320,13 +320,16 @@ sjt.xtab <- function(var.row,
     # -------------------------------------
     # set row variable label
     # -------------------------------------
-    if (irow == totalnrow) 
-      css_last_row <- "lasttablerow tothi "
-    else
-      css_last_row <- " "
+    if (irow == totalnrow) {
+      css_last_row_th <- "lasttablerow tothi "
+      css_last_row <- " lasttablerow"
+    } else {
+      css_last_row_th <- " "
+      css_last_row <- ""
+    }
     page.content <- paste(page.content, 
                           sprintf("\n    <td class=\"tdata %sleftalign\">%s</td>", 
-                                  css_last_row,
+                                  css_last_row_th,
                                   labels.var.row[rowlabelcnt[irow]]))
     # -------------------------------------
     # iterate all data columns
@@ -368,7 +371,9 @@ sjt.xtab <- function(var.row,
       # -------------------------------------
       # write table cell data
       # -------------------------------------
-      page.content <- paste(page.content, sprintf("\n    <td class=\"tdata centeralign horline\">%s</td>", cellstring), sep = "")
+      page.content <- paste(page.content, sprintf("\n    <td class=\"tdata centeralign horline%s\">%s</td>", 
+                                                  css_last_row,
+                                                  cellstring), sep = "")
     }
     # close table row
     page.content <- paste(page.content, "\n  </tr>\n")
@@ -377,24 +382,26 @@ sjt.xtab <- function(var.row,
   # table summary
   # -------------------------------------
   if (showSummary) {
+    # re-compute simple table
+    ftab <- stats::ftable(stats::xtabs(~var.row + var.col))
     # start new table row
     page.content <- paste(page.content, "\n  <tr>\n    ", sep = "")
     # calculate chi square value
-    chsq <- chisq.test(tab)
+    chsq <- chisq.test(ftab)
     fish <- NULL
     # check whether variables are dichotome or if they have more
     # than two categories. if they have more, use Cramer's V to calculate
     # the contingency coefficient
-    if (nrow(tab) > 2 || ncol(tab) > 2) {
-      kook <- sprintf("&Phi;<sub>c</sub>=%.3f", sjmisc::cramer(tab))
+    if (nrow(ftab) > 2 || ncol(ftab) > 2) {
+      kook <- sprintf("&Phi;<sub>c</sub>=%.3f", sjmisc::cramer(ftab))
       # if minimum expected values below 5, compute fisher's exact test
       if (min(tab.expected) < 5 || (min(tab.expected) < 10 && chsq$parameter == 1)) 
-        fish <- fisher.test(tab, simulate.p.value = TRUE)
+        fish <- fisher.test(ftab, simulate.p.value = TRUE)
     } else {
-      kook <- sprintf("&Phi;=%.3f", sjmisc::phi(tab))
+      kook <- sprintf("&Phi;=%.3f", sjmisc::phi(ftab))
       # if minimum expected values below 5 and df=1, compute fisher's exact test
       if (min(tab.expected) < 5 || (min(tab.expected) < 10 && chsq$parameter == 1)) 
-        fish <- fisher.test(tab)
+        fish <- fisher.test(ftab)
     }
     # make phi-value apa style
     kook <- gsub("0.", paste0(p_zero, "."), kook, fixed = TRUE)
