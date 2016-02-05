@@ -340,55 +340,44 @@ crosstabsum <- function(x, grp, weightBy) {
   }
   # calculate chi square value
   chsq <- stats::chisq.test(ftab)
+  p.value <- chsq$p.value
   tab <- sjmisc::table_values(ftab)
-  fish <- NULL
+  # do we have cells with less than 5 observations?
+  if (min(tab$expected) < 5 || (min(tab$expected) < 10 && chsq$parameter == 1)) {
+    fish <- stats::fisher.test(ftab, simulate.p.value = (nrow(ftab) > 2 || ncol(ftab) > 2))
+    p.value <- fish$p.value
+  } else {
+    fish <- NULL
+  }
+  # pvalue in string
+  if (p.value < 0.001)
+    pvas <- sprintf("%s.001", p_zero)
+  else
+    pvas <- sub("0", p_zero, sprintf("%.3f", p.value))
   # check whether variables are dichotome or if they have more
   # than two categories. if they have more, use Cramer's V to calculate
   # the contingency coefficient
   if (nrow(ftab) > 2 || ncol(ftab) > 2) {
-    # if minimum expected values below 5, compute fisher's exact test
-    if (min(tab$expected) < 5 || (min(tab$expected) < 10 && chsq$parameter == 1)) fish <- stats::fisher.test(ftab, simulate.p.value = TRUE)
     # check whether fisher's test or chi-squared should be printed
     if (is.null(fish)) {
-      if (chsq$p.value < 0.001) {
-        modsum <- as.character(as.expression(
-          substitute("N" == tn * "," ~~ chi^2 == c2 * "," ~~ "df" == dft * "," ~~ phi[c] == kook * "," ~~ "p" < pva,
-                     list(tn = summary(ftab)$n.cases,
-                          c2 = sprintf("%.2f", chsq$statistic),
-                          dft = c(chsq$parameter),
-                          kook = sprintf("%.2f", sjmisc::cramer(ftab)),
-                          pva = sprintf("%s.001", p_zero)))))
-      } else {
-        modsum <- as.character(as.expression(
-          substitute("N" == tn * "," ~~ chi^2 == c2 * "," ~~ "df" == dft * "," ~~ phi[c] == kook * "," ~~ "p" == pva,
-                     list(tn = summary(ftab)$n.cases,
-                          c2 = sprintf("%.2f", chsq$statistic),
-                          dft = c(chsq$parameter),
-                          kook = sprintf("%.2f", sjmisc::cramer(ftab)),
-                          pva = sub("0", p_zero, sprintf("%.3f", chsq$p.value))))))
-      }
+      modsum <- as.character(as.expression(
+        substitute("N" == tn * "," ~~ chi^2 == c2 * "," ~~ "df" == dft * "," ~~ phi[c] == kook * "," ~~ "p" < pva,
+                   list(tn = summary(ftab)$n.cases,
+                        c2 = sprintf("%.2f", chsq$statistic),
+                        dft = c(chsq$parameter),
+                        kook = sprintf("%.2f", sjmisc::cramer(ftab)),
+                        pva = pvas))))
     } else {
-      if (fish$p.value < 0.001) {
-        modsum <- as.character(as.expression(
-          substitute("N" == tn * "," ~~ "df" == dft * "," ~~ phi[c] == kook * "," ~~ "Fisher's p" < pva,
-                     list(tn = summary(ftab)$n.cases,
-                          dft = c(chsq$parameter),
-                          kook = sprintf("%.2f", sjmisc::cramer(ftab)),
-                          pva = sprintf("%s.001", p_zero)))))
-      } else {
-        modsum <- as.character(as.expression(
-          substitute("N" == tn * "," ~~ "df" == dft * "," ~~ phi[c] == kook * "," ~~ "Fisher's p" == pva,
-                     list(tn = summary(ftab)$n.cases,
-                          dft = c(chsq$parameter),
-                          kook = sprintf("%.2f", sjmisc::cramer(ftab)),
-                          pva = sub("0", p_zero, sprintf("%.3f", fish$p.value))))))
-      }
+      modsum <- as.character(as.expression(
+        substitute("N" == tn * "," ~~ "df" == dft * "," ~~ phi[c] == kook * "," ~~ "Fisher's p" < pva,
+                   list(tn = summary(ftab)$n.cases,
+                        dft = c(chsq$parameter),
+                        kook = sprintf("%.2f", sjmisc::cramer(ftab)),
+                        pva = pvas))))
     }
   # if variables have two categories (2x2 table), use phi to calculate
   # the degree of association
   } else {
-    # if minimum expected values below 5, compute fisher's exact test
-    if (min(tab$expected) < 5 || (min(tab$expected) < 10 && chsq$parameter == 1)) fish <- stats::fisher.test(ftab)
     # check whether fisher's test or chi-squared should be printed
     if (is.null(fish)) {
       modsum <- as.character(as.expression(
@@ -397,14 +386,14 @@ crosstabsum <- function(x, grp, weightBy) {
                         c2 = sprintf("%.2f", chsq$statistic),
                         dft = c(chsq$parameter),
                         kook = sprintf("%.2f", sjmisc::phi(ftab)),
-                        pva = sub("0", p_zero, sprintf("%.3f", chsq$p.value))))))
+                        pva = pvas))))
     } else {
       modsum <- as.character(as.expression(
         substitute("N" == tn * "," ~~ "df" == dft * "," ~~ phi == kook * "," ~~ "Fisher's p" == pva,
                    list(tn = summary(ftab)$n.cases,
                         dft = c(chsq$parameter),
                         kook = sprintf("%.2f", sjmisc::phi(ftab)),
-                        pva = sub("0", p_zero, sprintf("%.3f", fish$p.value))))))
+                        pva = pvas))))
     }
   }
   return(modsum)

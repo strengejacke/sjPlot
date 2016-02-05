@@ -20,11 +20,9 @@
 #'          See 'Examples'.
 #'          Variable labels are detected automatically, if \code{var.row} or \code{var.col}
 #'          have label attributes (see \code{\link[sjmisc]{set_label}}) for details).
-#' @param valueLabels list of character vectors that indicate the value labels of the supplied
-#'          variables. Following order is needed: value labels of \code{var.row},
-#'          value labels  of \code{var.col}, and - if \code{var.grp} is not \code{NULL} - 
-#'          value labels  of \code{var.grp}. \code{valueLabels} needs to be a \code{\link{list}} object.
-#'          See 'Examples'.
+#' @param valueLabels \code{\link{list}} of two character vectors that indicate the value labels of the supplied
+#'          variables. Following order is needed: value labels of \code{var.row}
+#'          and value labels of \code{var.col}. See 'Examples'.
 #' @param breakVariableLabelsAt determines how many chars of the variable labels are displayed in 
 #'          one line and when a line break is inserted. Default is 40.
 #' @param breakValueLabelsAt determines how many chars of the value labels are displayed in 
@@ -61,6 +59,7 @@
 #'          may lead to non-exact results). Default is \code{"100.0"}.
 #'          
 #' @inheritParams sjt.frq
+#' @inheritParams sjt.df
 #'          
 #' @return Invisibly returns
 #'          \itemize{
@@ -180,13 +179,38 @@ sjt.xtab <- function(var.row,
     variableLabels <- c(sjmisc::get_label(var.row, def.value = var.name.row),
                         sjmisc::get_label(var.col, def.value = var.name.col))
   }
+  # wrap long labels
+  variableLabels <- sjmisc::word_wrap(variableLabels, breakVariableLabelsAt, "<br>")
   s.var.row <- variableLabels[1]
   s.var.col <- variableLabels[2]
   # -------------------------------------
   # init variable labels
   # -------------------------------------
-  labels.var.row <- sjmisc::word_wrap(mydat$labels.cnt, breakVariableLabelsAt, "<br>")
-  labels.var.col <- sjmisc::word_wrap(mydat$labels.grp, breakVariableLabelsAt, "<br>")
+  labels.var.row <- mydat$labels.cnt
+  labels.var.col <- mydat$labels.grp
+  # do we have labels?
+  if (!is.null(valueLabels)) {
+    # need to be a list
+    if (!is.list(valueLabels)) {
+      warning("`valueLables` needs to be a `list`-object.", call. = F)
+    } else {
+      labels.var.row <- valueLabels[[1]]
+      labels.var.col <- valueLabels[[2]]
+    }
+    # correct length of labels?
+    if (length(labels.var.row) != length(mydat$labels.cnt)) {
+      warning("Length of `valueLabels` does not match length of category values of `var.row`.", call. = F)
+      labels.var.row <- mydat$labels.cnt
+    }
+    # correct length of labels?
+    if (length(labels.var.col) != length(mydat$labels.grp)) {
+      warning("Length of `valueLabels` does not match length of category values of `var.grp`.", call. = F)
+      labels.var.col <- mydat$labels.grp
+    }
+  }
+  # wrap labels
+  labels.var.row <- sjmisc::word_wrap(labels.var.row, breakValueLabelsAt, "<br>")
+  labels.var.col <- sjmisc::word_wrap(labels.var.col, breakValueLabelsAt, "<br>")
   # add "total"
   labels.var.row <- c(labels.var.row, stringTotal)
   labels.var.col <- c(labels.var.col)
