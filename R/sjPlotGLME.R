@@ -921,17 +921,7 @@ sjp.lme4  <- function(fit,
       if (empty.pred.labels) {
         # use rownames, if pred.labels not available
         pred.labels <- rownames(mydf.ef)
-        # check if intercept should be removed?
-        if (!showIntercept) pred.labels <- pred.labels[-1]
-      } else {
-        # check if intercept should be added, in case
-        # pred.labels are passed
-        if (showIntercept) pred.labels <- c(stringIntercept, pred.labels)
       }
-      # ---------------------------------------
-      # show intercept?
-      # ---------------------------------------
-      startAt <- ifelse(showIntercept == TRUE, 1, 2)
       # ---------------------------------------
       # retrieve standard errors, for ci
       # ---------------------------------------
@@ -943,7 +933,7 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------
       # select random effects for each coefficient
       # ---------------------------------------
-      for (i in startAt:ncol(mydf.ef)) {
+      for (i in 1:ncol(mydf.ef)) {
         # ---------------------------------------
         # create data frame
         # 1. col: odds ratios /estimates of re-estimates
@@ -1150,6 +1140,13 @@ sjp.lme4  <- function(fit,
       pred.labels <- pred.labels[remes]
       # re-arrange sorting
       mydf$sorting <- order(mydf$sorting)
+    }
+    # ---------------------------------------
+    # check length labels
+    # ---------------------------------------
+    if (length(pred.labels) != nrow(mydf)) {
+      warning("`pred.labels` has insufficient length. Using row names.", call. = F)
+      pred.labels <- row.names(mydf)
     }
     # ---------------------------------------
     # discrete x position, needed for ggplot
