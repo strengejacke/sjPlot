@@ -1,3 +1,5 @@
+context("lme4")
+
 library(lme4)
 # create binary response
 sleepstudy$Reaction.dicho <- dicho(sleepstudy$Reaction, dich.by = "md")
@@ -24,7 +26,7 @@ data(efc)
 efc$hi_qol <- dicho(efc$quol_5)
 # prepare group variable
 efc$grp = as.factor(efc$e15relat)
-levels(x = efc$grp) <- get_val_labels(efc$e15relat)
+levels(x = efc$grp) <- get_labels(efc$e15relat)
 # data frame for fitted model
 mydf <- na.omit(data.frame(hi_qol = as.factor(efc$hi_qol),
                            sex = as.factor(efc$c161sex),
@@ -76,11 +78,13 @@ sjp.glmer(fit,
           emph.grp = c("child", "cousin"),
           facet.grid = FALSE)
 
-# expect warning
-sjp.glmer(fit,
-          type = "ri.pc",
-          emph.grp = c(1, 4),
-          facet.grid = T)
+test_that("warn about groups", {
+  # expect warning
+  expect_warning(sjp.glmer(fit,
+    type = "ri.pc",
+    emph.grp = c(1, 4),
+    facet.grid = T))
+})
 
 sjp.glmer(fit,
           type = "ri.pc",
