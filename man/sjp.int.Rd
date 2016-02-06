@@ -179,7 +179,8 @@ Plot regression (predicted values) or probability lines (predicted probabilities
              \emph{conditional effect}, see \href{http://imaging.mrc-cbu.cam.ac.uk/statswiki/FAQ/SobelTest?action=AttachFile&do=get&target=process.pdf}{Hayes 2012}).
              Hence, this plot type may be used especially for \emph{binary or dummy coded} 
              moderator values (see also \href{http://jee3.web.rice.edu/interaction-overconfidence.pdf}{Esarey and Summer 2015}).
-             This type \emph{does not} show the overall effect of interactions on the result of Y. Use 
+             This type \emph{does not} show the overall effect (marginal mean, i.e. adjusted
+             for all other predictors and covariates) of interactions on the result of Y. Use 
              \code{type = "eff"} for effect displays similar to the \code{\link[effects]{effect}}-function 
              from the \pkg{effects}-package.
            }

@@ -447,7 +447,7 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.s
   # check if we have any valid interaction terms
   # for lsmeans function
   # -----------------------------------------------------------
-  if (nrow(interactionterms) > 0) {
+  if (!sjmisc::is_empty(interactionterms) && nrow(interactionterms) > 0) {
     for (cnt in 1:nrow(interactionterms)) {
       # -----------------------------------------------------------
       # retrieve each pair of interaction terms
