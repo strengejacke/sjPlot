@@ -1,4 +1,4 @@
-library(sjPlot)
+context("sjt.glm")
 
 CSS = list(css.table = '+border-collapse:separate;',
            css.tdata = 'border: 1px solid red;',
@@ -13,67 +13,68 @@ y3 <- ifelse(swiss$Agriculture < median(swiss$Agriculture), 0, 1)
 
 # Now fit the models. Note that both models share the same predictors
 # and only differ in their dependent variable (y1, y2 and y3)
-fitOR1 <- glm(y1 ~ swiss$Education + swiss$Examination+swiss$Catholic,
+fitOR1 <- glm(y1 ~ swiss$Education + swiss$Examination + swiss$Catholic,
               family = binomial(link = "logit"))
-fitOR2 <- glm(y2 ~ swiss$Education + swiss$Examination+swiss$Catholic,
+fitOR2 <- glm(y2 ~ swiss$Education + swiss$Examination + swiss$Catholic,
               family = binomial(link = "logit"))
-fitOR3 <- glm(y3 ~ swiss$Education + swiss$Examination+swiss$Catholic,
+fitOR3 <- glm(y3 ~ swiss$Education + swiss$Examination + swiss$Catholic,
               family = binomial(link = "logit"))
 
-# open HTML-table in RStudio Viewer Pane or web browser
-## Not run: 
-sjt.glm(fitOR1,
-        fitOR2,
-        CSS = CSS,
-        useViewer = F,
-        labelDependentVariables = c("Fertility",
-                                    "Infant Mortality"),
-        labelPredictors = c("Education",
-                            "Examination",
-                            "Catholic"))
+test_that("sjt.glm", {
+  skip_on_cran()
+  sjt.glm(fitOR1,
+          fitOR2,
+          CSS = CSS,
+          useViewer = F,
+          labelDependentVariables = c("Fertility",
+                                      "Infant Mortality"),
+          labelPredictors = c("Education",
+                              "Examination",
+                              "Catholic"))
+})
 
-# open HTML-table in RStudio Viewer Pane or web browser,
-# integrate CI in OR column
-sjt.glm(fitOR1, fitOR2, fitOR3,
-        useViewer = F,
-        CSS = CSS,
-        labelDependentVariables = c("Fertility",
-                                    "Infant Mortality",
-                                    "Agriculture"),
-        labelPredictors = c("Education", "Examination", "Catholic"),
-        separateConfColumn = FALSE)
+test_that("sjt.glm", {
+  skip_on_cran()
+  sjt.glm(fitOR1, fitOR2, fitOR3,
+          useViewer = F,
+          CSS = CSS,
+          labelDependentVariables = c("Fertility",
+                                      "Infant Mortality",
+                                      "Agriculture"),
+          labelPredictors = c("Education", "Examination", "Catholic"),
+          separateConfColumn = FALSE)
+})
 
-# open HTML-table in RStudio Viewer Pane or web browser,
-# indicating p-values as numbers and printing CI in a separate column
-sjt.glm(fitOR1, fitOR2, fitOR3,
-        CSS = CSS,
-        useViewer = F,
-        labelDependentVariables = c("Fertility",
-                                    "Infant Mortality",
-                                    "Agriculture"),
-        labelPredictors = c("Education", "Examination", "Catholic"))
+test_that("sjt.glm", {
+  skip_on_cran()
+  sjt.glm(fitOR1, fitOR2, fitOR3,
+          CSS = CSS,
+          useViewer = F,
+          labelDependentVariables = c("Fertility",
+                                      "Infant Mortality",
+                                      "Agriculture"),
+          labelPredictors = c("Education", "Examination", "Catholic"))
+})
 
 
 # --------------------------------------------
 # User defined style sheet
 # --------------------------------------------
-sjt.glm(fitOR1, fitOR2, fitOR3,
-        labelDependentVariables = c("Fertility",
-                                    "Infant Mortality",
-                                    "Agriculture"),
-        labelPredictors = c("Education", "Examination", "Catholic"),
-        showHeaderStrings = TRUE,
-        useViewer = F,
-        CSS = list(css.table = "border: 2px solid;",
-                   css.tdata = "border: 1px solid;",
-                   css.depvarhead = "color:#003399;"))
+test_that("sjt.glm", {
+  skip_on_cran()
+  sjt.glm(fitOR1, fitOR2, fitOR3,
+          labelDependentVariables = c("Fertility",
+                                      "Infant Mortality",
+                                      "Agriculture"),
+          labelPredictors = c("Education", "Examination", "Catholic"),
+          showHeaderStrings = TRUE,
+          useViewer = F,
+          CSS = list(css.table = "border: 2px solid;",
+                     css.tdata = "border: 1px solid;",
+                     css.depvarhead = "color:#003399;"))
+})
 
 
-# --------------------------------------------
-# Compare models with different link functions,
-# but same predictors and response
-# --------------------------------------------
-library(sjmisc)
 # load efc sample data
 data(efc)
 # dichtomozize service usage by "service usage yes/no"
@@ -90,12 +91,15 @@ fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep,
             family = poisson(link = "log"))
 
 # compare models
-sjt.glm(fit1, fit2, fit3,
+test_that("sjt.glm", {
+  skip_on_cran()
+  sjt.glm(fit1, fit2, fit3,
         CSS = CSS,
         useViewer = F,
         showAIC = TRUE,
         showFamily = TRUE,
         showPseudoR = FALSE)
+})
 
 
 # --------------------------------------------
@@ -103,17 +107,22 @@ sjt.glm(fit1, fit2, fit3,
 # --------------------------------------------
 # open HTML-table in RStudio Viewer Pane or web browser,
 # table indicating p-values as stars
-sjt.glm(fit1, fit2, fit3,
+test_that("sjt.glm", {
+  skip_on_cran()
+  sjt.glm(fit1, fit2, fit3,
         CSS = CSS,
         useViewer = F,
         pvaluesAsNumbers = FALSE,
         showAIC = TRUE,
         showFamily = TRUE,
         showPseudoR = FALSE)
+})
 
 # open HTML-table in RStudio Viewer Pane or web browser,
 # indicating p-values as stars and integrate CI in OR column
-sjt.glm(fit1, fit2, fit3,
+test_that("sjt.glm", {
+  skip_on_cran()
+  sjt.glm(fit1, fit2, fit3,
         CSS = CSS,
         useViewer = F,
         pvaluesAsNumbers = FALSE,
@@ -121,14 +130,13 @@ sjt.glm(fit1, fit2, fit3,
         showAIC = TRUE,
         showFamily = TRUE,
         showPseudoR = FALSE)
+})
 
 # ----------------------------------
 # automatic grouping of predictors
 # ----------------------------------
 # load efc sample data
 data(efc)
-# set variable labels
-efc <- set_label(efc, get_label(efc))
 # dichtomozize service usage by "service usage yes/no"
 efc$services <- sjmisc::dicho(efc$tot_sc_e, "v", 0, as.num = TRUE)
 # make dependency categorical
@@ -137,10 +145,12 @@ efc$e42dep <- to_factor(efc$e42dep)
 fit <- glm(services ~ neg_c_7 + c161sex + e42dep, data = efc)
 
 # automatic grouping of categorical predictors
-sjt.glm(fit,
+test_that("sjt.glm", {
+  skip_on_cran()
+  sjt.glm(fit,
         CSS = CSS,
         useViewer = F)
-
+})
 
 # ----------------------------------
 # compare models with different predictors
@@ -149,15 +159,21 @@ fit2 <- glm(services ~ neg_c_7 + c161sex + e42dep + c12hour, data = efc)
 fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep + c12hour + c172code, data = efc)
 
 # print models with different predictors
-sjt.glm(fit, fit2, fit3,
+test_that("sjt.glm", {
+  skip_on_cran()
+  sjt.glm(fit, fit2, fit3,
         CSS = CSS,
         useViewer = F)
+})
 
 efc$c172code <- to_factor(efc$c172code)
 fit2 <- glm(services ~ neg_c_7 + c161sex + c12hour, data = efc)
 fit3 <- glm(services ~ neg_c_7 + c161sex + c172code, data = efc)
 
 # print models with different predictors
-sjt.glm(fit, fit2, fit3, group.pred = FALSE,
+test_that("sjt.glm", {
+  skip_on_cran()
+  sjt.glm(fit, fit2, fit3, group.pred = FALSE,
         CSS = CSS,
         useViewer = F)
+})
