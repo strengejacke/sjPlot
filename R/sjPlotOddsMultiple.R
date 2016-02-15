@@ -1,13 +1,15 @@
 # bind global variables
 utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 
-#' @title Plot odds ratios (forest plots) of multiple fitted glm's
+#' @title Plot odds ratios (forest plots) of multiple fitted glm(er)'s
 #' @name sjp.glmm
 #' 
 #' @description Plot and compare odds ratios (forest plots) of multiple fitted 
-#'                glm's with confidence intervals in one plot.
+#'                generalized linear (mixed effects) models with confidence 
+#'                intervals in one plot.
 #' 
-#' @param ... one or more fitted glm-objects. May also be a \code{\link{list}}-object with 
+#' @param ... one or more fitted \code{glm}- or \code{glmerMod}-objects. May 
+#'          also be a \code{\link{list}}-object with 
 #'          fitted models, instead of separating each model with comma. See 'Examples'.
 #'          
 #' @inheritParams sjp.lmm
@@ -163,7 +165,7 @@ sjp.glmm <- function(...,
   } else {
     # else if we have no labels of dependent variables supplied, use a 
     # default string (Model) for legend
-    labelDependentVariables <- c(sprintf("%s %i", stringModel, 1:fitlength))
+    labelDependentVariables <- sprintf("%s %i", stringModel, 1:fitlength)
   }
   # check length of x-axis-labels and split longer strings at into new lines
   if (!is.null(axisLabels.y)) axisLabels.y <- sjmisc::word_wrap(axisLabels.y, breakLabelsAt)
@@ -177,20 +179,26 @@ sjp.glmm <- function(...,
     # retrieve odds ratios (glm) 
     # ----------------------------
     # create data frame for ggplot
-    odds <- data.frame(exp(stats::coef(fit)), 
+    if (!sjmisc::is_empty(grep("merMod", class(fit), fixed = T)))
+      odds <- get_cleaned_ciMerMod(fit, "glm")
+    else
+      odds <- data.frame(exp(stats::coef(fit)), 
                        exp(stats::confint(fit)))
     # ----------------------------
     # print p-values in bar charts
     # ----------------------------
     # retrieve sigificance level of independent variables (p-values)
-    pv <- unname(stats::coef(summary(fit))[, 4])
+    if (!sjmisc::is_empty(grep("merMod", class(fit), fixed = T)))
+      pv <- get_lmerMod_pvalues(fit)
+    else
+      pv <- unname(stats::coef(summary(fit))[, 4])
     # for better readability, convert p-values to asterisks
     # with:
     # p < 0.001 = ***
     # p < 0.01 = **
     # p < 0.05 = *
     # retrieve odds ratios
-    ov <- exp(coef(fit))
+    ov <- odds[, 1]
     # "ps" holds the p-value of the coefficients, including asterisks, as
     # string vector
     ps <- NULL
@@ -308,7 +316,7 @@ sjp.glmm <- function(...,
   # Define axis ticks, i.e. at which position we have grid
   # bars.
   # --------------------------------------------------------
-  ticks <- c(seq(lower_lim, upper_lim, by = gridBreaksAt))
+  ticks <- seq(lower_lim, upper_lim, by = gridBreaksAt)
   if (!showAxisLabels.y) axisLabels.y <- c("")
   # --------------------------------------------------------
   # prepare star and shape values. we just copy those values

@@ -2,7 +2,7 @@
 
 ## Changes to functions
 
-* `sjp.lmm` now also supports linear mixed effects models (of class `merMod`).
+* `sjp.lmm`  and `sjp.glmm` now also support linear mixed effects models (of class `merMod`).
 * `sjp.int` now uses proper x-axis-tick-labels for `type = "eff"`, when predictor on x-axis is a factor with non-numeric factor-levels (or has label attributes).
 
 

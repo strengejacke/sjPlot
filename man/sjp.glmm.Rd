@@ -2,7 +2,7 @@
 % Please edit documentation in R/sjPlotOddsMultiple.R
 \name{sjp.glmm}
 \alias{sjp.glmm}
-\title{Plot odds ratios (forest plots) of multiple fitted glm's}
+\title{Plot odds ratios (forest plots) of multiple fitted glm(er)'s}
 \usage{
 sjp.glmm(..., title = NULL, labelDependentVariables = NULL,
   legendDepVarTitle = "Dependent Variables", legendPValTitle = "p-level",
@@ -17,7 +17,8 @@ sjp.glmm(..., title = NULL, labelDependentVariables = NULL,
   hideLegend = FALSE, facet.grid = FALSE, printPlot = TRUE)
 }
 \arguments{
-\item{...}{one or more fitted glm-objects. May also be a \code{\link{list}}-object with 
+\item{...}{one or more fitted \code{glm}- or \code{glmerMod}-objects. May 
+also be a \code{\link{list}}-object with 
 fitted models, instead of separating each model with comma. See 'Examples'.}
 
 \item{title}{diagram's title as string.}
@@ -117,7 +118,8 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 }
 \description{
 Plot and compare odds ratios (forest plots) of multiple fitted 
-               glm's with confidence intervals in one plot.
+               generalized linear (mixed effects) models with confidence 
+               intervals in one plot.
 }
 \note{
 The fitted models may have differing predictors, but only in a 
