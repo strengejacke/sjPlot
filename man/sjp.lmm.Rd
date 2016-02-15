@@ -2,7 +2,7 @@
 % Please edit documentation in R/sjPlotLinregMultiple.R
 \name{sjp.lmm}
 \alias{sjp.lmm}
-\title{Plot coefficients of multiple fitted lm's}
+\title{Plot coefficients of multiple fitted lm(er)'s}
 \usage{
 sjp.lmm(..., type = "lm", title = NULL, labelDependentVariables = NULL,
   legendDepVarTitle = "Dependent Variables", legendPValTitle = "p-level",
@@ -17,8 +17,9 @@ sjp.lmm(..., type = "lm", title = NULL, labelDependentVariables = NULL,
   hideLegend = FALSE, facet.grid = FALSE, printPlot = TRUE)
 }
 \arguments{
-\item{...}{one or more fitted lm-objects. May also be a \code{\link{list}}-object with 
-fitted models, instead of separating each model with comma. See 'Examples'.}
+\item{...}{one or more fitted \code{lm} or \code{lmerMod}-objects. May also 
+be a \code{\link{list}}-object with  fitted models, instead of separating 
+each model with comma. See 'Examples'.}
 
 \item{type}{type of plot. Use one of following:
 \describe{
@@ -118,7 +119,8 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 }
 \description{
 Plot and compare coefficients (estimates) with confidence 
-               intervals of  multiple fitted linear models in one plot. 
+               intervals of  multiple fitted linear (mixed effects) models 
+               in one plot. 
                Fitted models may have differing predictors, but only
                in a "stepwise" sense.
 }

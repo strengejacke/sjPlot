@@ -33,20 +33,20 @@ fit <- lm(usage ~ .*., data = mydf)
 test_that("cond. effect-plot", {
   skip_on_cran()
   # plot interactions
-  sjp.int(fit, type = "cond")
+  expect_message(sjp.int(fit, type = "cond"))
 })
 
 test_that("cond. effect-plot, mean-sd", {
   skip_on_cran()
   # plot interactions, using mean and sd as moderator
   # values to calculate interaction effect
-  sjp.int(fit, type = "cond", moderatorValues = "meansd")
+  expect_message(sjp.int(fit, type = "cond", moderatorValues = "meansd"))
 })
 
 test_that("cond. effect-plot, zeromax", {
   skip_on_cran()
   # use zero and maximum value of moderation effect
-  sjp.int(fit, type = "cond", moderatorValues = "zeromax")
+  expect_message(sjp.int(fit, type = "cond", moderatorValues = "zeromax"))
 })
 
 
@@ -304,7 +304,7 @@ test_that("emm, lmer", {
 
 test_that("emm, lmer", {
   skip_on_cran()
-  sjp.int(fit, type = "emm", plevel = 1)
+  expect_warning(sjp.int(fit, type = "emm", plevel = 1))
 })
 
 library(lmerTest)

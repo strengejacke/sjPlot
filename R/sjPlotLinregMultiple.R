@@ -1,16 +1,18 @@
 # bind global variables
 utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 
-#' @title Plot coefficients of multiple fitted lm's
+#' @title Plot coefficients of multiple fitted lm(er)'s
 #' @name sjp.lmm
 #' 
 #' @description Plot and compare coefficients (estimates) with confidence 
-#'                intervals of  multiple fitted linear models in one plot. 
+#'                intervals of  multiple fitted linear (mixed effects) models 
+#'                in one plot. 
 #'                Fitted models may have differing predictors, but only
 #'                in a "stepwise" sense.
 #'                
-#' @param ... one or more fitted lm-objects. May also be a \code{\link{list}}-object with 
-#'          fitted models, instead of separating each model with comma. See 'Examples'.
+#' @param ... one or more fitted \code{lm} or \code{lmerMod}-objects. May also 
+#'          be a \code{\link{list}}-object with  fitted models, instead of separating 
+#'          each model with comma. See 'Examples'.
 #' @param type type of plot. Use one of following:
 #'          \describe{
 #'            \item{\code{"lm"}}{(default) for forest-plot like plot of estimates.}
@@ -180,7 +182,7 @@ sjp.lmm <- function(...,
   } else {
     # else if we have no labels of dependent variables supplied, use a 
     # default string (Model) for legend
-    labelDependentVariables <- c(sprintf("%s %i", stringModel, 1:fitlength))
+    labelDependentVariables <- sprintf("%s %i", stringModel, 1:fitlength)
   }
   # check length of x-axis-labels and split longer strings at into new lines
   if (!is.null(axisLabels.y)) axisLabels.y <- sjmisc::word_wrap(axisLabels.y, breakLabelsAt)
@@ -212,8 +214,12 @@ sjp.lmm <- function(...,
       if (axisTitle.x == "Estimates")
         axisTitle.x <- "Std. Estimates"
     } else {
-      # copy estimates to data frame
-      betas <- data.frame(stats::coef(fit), stats::confint(fit))
+      # do we have mermod object?
+      if (!sjmisc::is_empty(grep("merMod", class(fit), fixed = T)))
+        betas <- get_cleaned_ciMerMod(fit, "lm")
+      else
+        # copy estimates to data frame
+        betas <- data.frame(stats::coef(fit), stats::confint(fit))
     }
     # ----------------------------
     # give proper column names
@@ -223,7 +229,10 @@ sjp.lmm <- function(...,
     # print p-values in bar charts
     # ----------------------------
     # retrieve sigificance level of independent variables (p-values)
-    pv <- stats::coef(summary(fit))[, 4]
+    if (!sjmisc::is_empty(grep("merMod", class(fit), fixed = T)))
+      pv <- get_lmerMod_pvalues(fit)
+    else
+      pv <- stats::coef(summary(fit))[, 4]
     # for better readability, convert p-values to asterisks
     # with:
     # p < 0.001 = ***
