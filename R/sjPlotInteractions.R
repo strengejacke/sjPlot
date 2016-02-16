@@ -299,7 +299,7 @@
 #'
 #' @import ggplot2
 #' @import sjmisc
-#' @importFrom stats family
+#' @importFrom stats family quantile
 #' @importFrom effects allEffects effect
 #' @export
 sjp.int <- function(fit,
@@ -592,7 +592,7 @@ sjp.int <- function(fit,
       ymin <- 0
       ymax <- max(mod.value, na.rm = T)
     } else if (moderatorValues == "quart") {
-      qu <- as.vector(quantile(mod.value, na.rm = T))
+      qu <- as.vector(stats::quantile(mod.value, na.rm = T))
       mw <- qu[3]
       ymin <- qu[2]
       ymax <- qu[4]
@@ -1042,7 +1042,7 @@ sjp.eff.int <- function(fit,
         xl1 <- list(x = c(mv.mean - mv.sd, mv.mean, mv.mean + mv.sd))
       } else if (moderatorValues == "quart") {
         # re-compute effects, prepare xlevels
-        xl1 <- list(x = as.vector(quantile(modval, na.rm = T)))
+        xl1 <- list(x = as.vector(stats::quantile(modval, na.rm = T)))
       }
       # change list name to moderator value name
       names(xl1) <- moderator.name

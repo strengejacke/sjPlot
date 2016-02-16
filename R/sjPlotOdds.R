@@ -22,16 +22,12 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only two arguments are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other arguments are ignored.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
-#' @param sortOdds logical, if \code{TRUE} (default), odds ratios are ordered according their values from highest first
-#'          to lowest last. Use \code{FALSE} if you don't want to change the order of the predictors.
 #' @param axisTitle.x string; title for the x-axis.
 #' @param transformTicks logical, if \code{TRUE}, the grid lines have exponential 
 #'          distances (equidistant), i.e. they visually have the same distance from 
 #'          one panel grid to the next. If \code{FALSE}, grids are 
 #'          plotted on every \code{gridBreaksAt}'s position, thus the grid lines become narrower with 
 #'          higher odds ratio values.
-#' @param geom.colors color palette for geoms. Must either be vector with two color values
-#'          or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.
 #' @param showIntercept logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
 #'          Default is \code{FALSE}. Please note that due to exponential transformation of
 #'          estimates, the intercept in some cases can not be calculated, thus the
@@ -148,15 +144,23 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' fit <- glm(y ~., data = mydf, family = binomial(link = "logit"))
 #' # plot odds
 #' sjp.glm(fit,
-#'         title = labs[['neg_c_7']],
+#'         title = get_label(efc$neg_c_7),
 #'         axisLabels.y = predlab)
 #'
 #' # plot probability curves (predicted probabilities)
 #' # of coefficients
 #' sjp.glm(fit,
-#'         title = labs[['neg_c_7']],
+#'         title = get_label(efc$neg_c_7),
 #'         axisLabels.y = predlab,
 #'         type = "prob")
+#'
+#' # --------------------------
+#' # grouping estimates
+#' # --------------------------
+#' sjp.glm(fit, 
+#'         group.estimates = c(1, 2, 2, 2, 3, 4, 4),
+#'         axisLabels.y = predlab)
+#'
 #'
 #' @import ggplot2
 #' @import sjmisc
@@ -165,10 +169,11 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' @export
 sjp.glm <- function(fit,
                     type = "dots",
-                    sortOdds = TRUE,
+                    sort.est = TRUE,
                     title = NULL,
                     axisLabels.y = NULL,
                     axisTitle.x = "Odds Ratios",
+                    legendTitle = NULL,
                     axisLimits = NULL,
                     breakTitleAt = 50,
                     breakLabelsAt = 25,
@@ -178,6 +183,7 @@ sjp.glm <- function(fit,
                     geom.colors = "Set1",
                     interceptLineType = 2,
                     interceptLineColor = "grey70",
+                    group.estimates = NULL,
                     remove.estimates = NULL,
                     coord.flip = TRUE,
                     y.offset = .15,
@@ -189,6 +195,7 @@ sjp.glm <- function(fit,
                     showModelSummary = FALSE,
                     facet.grid = TRUE,
                     show.ci = FALSE,
+                    show.legend = FALSE,
                     showOriginalModelOnly = TRUE,
                     printPlot = TRUE,
                     show.se = FALSE) {
@@ -314,7 +321,7 @@ sjp.glm <- function(fit,
   # ----------------------------
   # remove intercept
   # ----------------------------
-  odds <- cbind(tmp[-1, ])
+  odds <- tmp[-1, ]
   # ----------------------------
   # retrieve odds ratios, without intercept. now we can order
   # the predictors according to their OR value, while the intercept
@@ -346,6 +353,26 @@ sjp.glm <- function(fit,
   # set column names
   names(odds) <- c("OR", "lower", "upper", "p", "pvalue")
   names(tmp) <- c("OR", "lower", "upper", "p", "pvalue")
+  # init grouping variable
+  odds$grp.est <- NA
+  tmp$grp.est <- NA
+  # -------------------------------------------------
+  # group estimates?
+  # -------------------------------------------------
+  if (!is.null(group.estimates)) {
+    # check for correct length
+    if (length(group.estimates) != nrow(odds)) {
+      warning("Length of `group.estimates` does not equal number of model coefficients. Ignoring this argument.", call. = F)
+      group.estimates = NULL
+      show.legend <- FALSE
+      legendTitle <- NULL
+    } else {
+      odds$grp.est <- as.character(group.estimates)
+    }
+  } else {
+    show.legend <- FALSE
+    legendTitle <- NULL
+  }
   # -------------------------------------------------
   # remove any estimates from the output?
   # -------------------------------------------------
@@ -364,11 +391,6 @@ sjp.glm <- function(fit,
     # remove p-values
     ov <- ov[-remrows]
   }
-  # ----------------------------
-  # Create new variable. Needed for sorting the variables / OR
-  # in the graph (see reorder in ggplot-function)
-  # ----------------------------
-  tmp$vars <- as.factor(nrow(tmp))
   # --------------------------------------------------------
   # Calculate axis limits. The range is from lowest lower-CI
   # to highest upper-CI, or a user defined range
@@ -435,16 +457,17 @@ sjp.glm <- function(fit,
   # --------------------------------------------------------
   if (!showAxisLabels.y) axisLabels.y <- c("")
   # --------------------------------------------------------
-  # Order odds and labels according to b-coefficients
+  # Sort odds and labels according to b-coefficients
   # --------------------------------------------------------
-  if (sortOdds) {
-    odds <- odds[order(ov), ]
-    # sort labels descending in order of
-    # odds ratio values
-    axisLabels.y <- axisLabels.y[order(ov)]
+  if (sort.est) {
+    if (!is.null(group.estimates)) {
+      axisLabels.y <- rev(axisLabels.y[order(odds$grp.est, odds$OR)])
+      odds <- odds[rev(order(odds$grp.est, odds$OR)), ]
+    } else {
+      axisLabels.y <- axisLabels.y[order(odds$OR)]
+      odds <- odds[order(odds$OR), ]
+    }
   }
-  odds$vars <- cbind(1:nrow(odds))
-  odds$vars <- as.factor(odds$vars)
   # --------------------------------------------------------
   # check whether intercept should be shown
   # --------------------------------------------------------
@@ -452,23 +475,30 @@ sjp.glm <- function(fit,
     odds <- data.frame(rbind(tmp[1, ], odds))
     axisLabels.y <- c("Intercept", axisLabels.y)
   }
+  odds$vars <- as.factor(1:nrow(odds))
   # --------------------------------------------------------
-  # body of plot, i.e. this is the same in both bar and dot plots
+  # Start plot here! First check how to colour geoms
+  # (whether grouped or not)
   # --------------------------------------------------------
-  # plot as bars, fill bars according to
-  # OR-value greater / lower than 1
-  plotHeader <- ggplot(odds, aes(y = OR, x = vars))
+  if (!is.null(group.estimates)) {
+    plotHeader <- ggplot(odds, aes(y = OR, x = vars, colour = grp.est))
+    pal.len <- length(unique(group.estimates))
+    legend.labels <- unique(odds$grp.est)
+  } else {
+    plotHeader <- ggplot(odds, aes(y = OR, x = vars, colour = (OR > 1)))
+    pal.len <- 2
+    legend.labels <- NULL
+  }
   # --------------------------------------------------------
   # start with dot-plotting here
   # --------------------------------------------------------
   plotHeader <- plotHeader +
     # Order odds according to beta-coefficients, colour points and lines according to
     # OR-value greater / lower than 1
-    geom_point(size = geom.size, aes(colour = (OR > 1))) +
+    geom_point(size = geom.size) +
     # print confidence intervalls (error bars)
     geom_errorbar(aes(ymin = lower, 
-                      ymax = upper, 
-                      colour = (OR > 1)), 
+                      ymax = upper), 
                   width = 0) +
     # print value labels and p-values
     geom_text(aes(label = p, y = OR), nudge_x = y.offset)
@@ -485,7 +515,8 @@ sjp.glm <- function(fit,
                color = interceptLineColor) +
     labs(title = title,
          x = NULL,
-         y = axisTitle.x) +
+         y = axisTitle.x,
+         colour = legendTitle) +
     scale_x_discrete(labels = axisLabels.y)
   # --------------------------------------------------------
   # create pretty breaks for log-scale
@@ -514,7 +545,7 @@ sjp.glm <- function(fit,
   # ---------------------------------------------------------
   # set geom colors
   # ---------------------------------------------------------
-  plotHeader <- sj.setGeomColors(plotHeader, geom.colors, 2, FALSE)
+  plotHeader <- sj.setGeomColors(plotHeader, geom.colors, pal.len, show.legend, legend.labels)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------

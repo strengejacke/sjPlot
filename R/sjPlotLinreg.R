@@ -482,10 +482,6 @@ sjp.lm <- function(fit,
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
   # --------------------------------------------------------
-  # auto-retrieving variable labels does not work when we
-  # have factors with different levels, which appear as
-  # "multiple predictors", but are only one variable
-  # --------------------------------------------------------
   if (is.null(axisLabels.y) || length(axisLabels.y) < length(row.names(betas)))
     axisLabels.y <- row.names(betas)
   # --------------------------------------------------------
@@ -509,7 +505,7 @@ sjp.lm <- function(fit,
     axisLabels.y <- rev(axisLabels.y)
     betas <- betas[nrow(betas):1, ]
   }
-  betas <- cbind(c(1:nrow(betas)), betas)
+  betas <- cbind(1:nrow(betas), betas)
   # give columns names
   colnames(betas) <- c("xv", "Beta", "lower", "upper", "p", "pv", "grp.est")
   betas$p <- as.character(betas$p)
@@ -529,9 +525,9 @@ sjp.lm <- function(fit,
   if (is.null(gridBreaksAt)) {
     ticks <- pretty(c(lower_lim, upper_lim))
   } else {
-    ticks <- c(seq(lower_lim, upper_lim, by = gridBreaksAt))
+    ticks <- seq(lower_lim, upper_lim, by = gridBreaksAt)
   }
-  if (!showAxisLabels.y) axisLabels.y <- c("")
+  if (!showAxisLabels.y) axisLabels.y <- ""
   # --------------------------------------------------------
   # Start plot here! First check how to colour geoms
   # (whether grouped or not)
@@ -567,7 +563,7 @@ sjp.lm <- function(fit,
                        labels = ticks) +
     # set value labels to x-axis
     scale_x_discrete(labels = axisLabels.y,
-                     limits = c(1:nrow(betas))) +
+                     limits = 1:nrow(betas)) +
     labs(title = title, x = NULL, y = axisTitle.x, colour = legendTitle)
   # --------------------------------------------------------
   # flip coordinates?

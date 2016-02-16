@@ -4,16 +4,17 @@
 \alias{sjp.glm}
 \title{Plot odds ratios or predicted probabilities of generalized linear models}
 \usage{
-sjp.glm(fit, type = "dots", sortOdds = TRUE, title = NULL,
-  axisLabels.y = NULL, axisTitle.x = "Odds Ratios", axisLimits = NULL,
-  breakTitleAt = 50, breakLabelsAt = 25, gridBreaksAt = 0.5,
-  transformTicks = TRUE, geom.size = NULL, geom.colors = "Set1",
-  interceptLineType = 2, interceptLineColor = "grey70",
+sjp.glm(fit, type = "dots", sort.est = TRUE, title = NULL,
+  axisLabels.y = NULL, axisTitle.x = "Odds Ratios", legendTitle = NULL,
+  axisLimits = NULL, breakTitleAt = 50, breakLabelsAt = 25,
+  gridBreaksAt = 0.5, transformTicks = TRUE, geom.size = NULL,
+  geom.colors = "Set1", interceptLineType = 2,
+  interceptLineColor = "grey70", group.estimates = NULL,
   remove.estimates = NULL, coord.flip = TRUE, y.offset = 0.15,
   showIntercept = FALSE, showAxisLabels.y = TRUE, showValueLabels = TRUE,
   labelDigits = 2, showPValueLabels = TRUE, showModelSummary = FALSE,
-  facet.grid = TRUE, show.ci = FALSE, showOriginalModelOnly = TRUE,
-  printPlot = TRUE, show.se = FALSE)
+  facet.grid = TRUE, show.ci = FALSE, show.legend = FALSE,
+  showOriginalModelOnly = TRUE, printPlot = TRUE, show.se = FALSE)
 }
 \arguments{
 \item{fit}{fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).}
@@ -28,8 +29,9 @@ sjp.glm(fit, type = "dots", sortOdds = TRUE, title = NULL,
   \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 }}
 
-\item{sortOdds}{logical, if \code{TRUE} (default), odds ratios are ordered according their values from highest first
-to lowest last. Use \code{FALSE} if you don't want to change the order of the predictors.}
+\item{sort.est}{logical, determines whether estimates should be sorted according to their values.
+If \code{group.estimates} is \emph{not} \code{NULL}, estimates are sorted
+according to their group assignment.}
 
 \item{title}{plot title as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
@@ -41,6 +43,8 @@ be a character vector of same length as independent variables. The labels
 may also be passed as list object; they will be coerced to character vector automatically.}
 
 \item{axisTitle.x}{string; title for the x-axis.}
+
+\item{legendTitle}{title of the plot legend, as string.}
 
 \item{axisLimits}{numeric vector of length 2, defining the range of the plot axis.
 By default, the limits range from the lowest confidence interval to the 
@@ -63,12 +67,19 @@ higher odds ratio values.}
 
 \item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} argument).}
 
-\item{geom.colors}{color palette for geoms. Must either be vector with two color values
-or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.}
+\item{geom.colors}{user defined color palette for geoms. If \code{group.estimates}
+is \emph{not} specified, must either be vector with two color values or a specific
+color palette code (see 'Note' in \code{\link{sjp.grpfrq}}). Else, if
+\code{group.estimates} is specified, \code{geom.colors} must be a vector
+of same length as groups. See 'Examples'.}
 
 \item{interceptLineType}{linetype of the intercept line (zero point). Default is \code{2} (dashed line).}
 
 \item{interceptLineColor}{color of the intercept line. Default value is \code{"grey70"}.}
+
+\item{group.estimates}{numeric or character vector, indicating a group identifier for
+each estimate. Dots and confidence intervals of estimates are coloured
+according to their group association. See 'Examples'.}
 
 \item{remove.estimates}{character vector with coefficient names that indicate
 which estimates should be removed from the plot.
@@ -105,6 +116,11 @@ an integrated (faceted) single graph. Only applies, if \code{type = "prob"}.}
 
 \item{show.ci}{logical, use \code{TRUE} to plot (depending on \code{type}) 
 the confidence interval for probability curves (predicted probabilities).}
+
+\item{show.legend}{logical, if \code{TRUE}, for mixed models 
+\code{type = "rs.ri"}, a legend for group levels of 
+the random intercept is shown. For \code{lm} and \code{glm}, 
+a legend for grouped estimates is shown.}
 
 \item{showOriginalModelOnly}{logical, if \code{TRUE} (default) and \code{type = "ma"}, 
 only the model assumptions of \code{fit} are plotted.
@@ -219,15 +235,23 @@ mydf <- data.frame(y = as.factor(y),
 fit <- glm(y ~., data = mydf, family = binomial(link = "logit"))
 # plot odds
 sjp.glm(fit,
-        title = labs[['neg_c_7']],
+        title = get_label(efc$neg_c_7),
         axisLabels.y = predlab)
 
 # plot probability curves (predicted probabilities)
 # of coefficients
 sjp.glm(fit,
-        title = labs[['neg_c_7']],
+        title = get_label(efc$neg_c_7),
         axisLabels.y = predlab,
         type = "prob")
+
+# --------------------------
+# grouping estimates
+# --------------------------
+sjp.glm(fit, 
+        group.estimates = c(1, 2, 2, 2, 3, 4, 4),
+        axisLabels.y = predlab)
+
 
 }
 \seealso{
