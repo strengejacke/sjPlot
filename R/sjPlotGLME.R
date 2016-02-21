@@ -1144,7 +1144,8 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     # check length labels
     # ---------------------------------------
-    if (length(pred.labels) != nrow(mydf)) {
+    if (length(pred.labels) != nrow(mydf) && 
+        (length(pred.labels) != (nrow(mydf) / length(unique(mydf$grp))))) {
       warning("`pred.labels` has insufficient length. Using row names.", call. = F)
       pred.labels <- row.names(mydf)
     }

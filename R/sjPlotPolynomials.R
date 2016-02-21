@@ -133,6 +133,13 @@ sjp.poly <- function(x,
   # --------------------------------------------
   geom.colors <- col_check2(geom.colors, length(poly.degree))
   # --------------------------------------------
+  # check poly.term parameter
+  # --------------------------------------------
+  if (is.character(poly.term))
+    defv <- poly.term
+  else
+    defv <- get_var_name(deparse(substitute(poly.term)))
+  # --------------------------------------------
   # parameter check: fitted model or variables?
   # --------------------------------------------
   if ((any(class(x) == "glmerMod") || any(class(x) == "lmerMod" || any(class(x) == "merModLmerTest"))) && !requireNamespace("lme4", quietly = TRUE)) {
@@ -165,8 +172,7 @@ sjp.poly <- function(x,
   # retrieve labels
   # --------------------------------------------
   if (is.null(axisTitle.x))
-    axisTitle.x <- sjmisc::get_label(poly.term,
-                                     def.value = get_var_name(deparse(substitute(poly.term))))
+    axisTitle.x <- sjmisc::get_label(poly.term, def.value = defv)
   if (is.null(axisTitle.y)) 
     axisTitle.y <- sjmisc::get_label(resp, def.value = "Response")
   # no labels found? set default then
