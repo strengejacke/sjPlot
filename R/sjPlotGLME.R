@@ -1648,10 +1648,6 @@ sjp.lme.response.probcurv <- function(fit,
                                       fun,
                                       printPlot) {
   # ----------------------------
-  # check axis limits
-  # ----------------------------
-  if (is.null(axisLimits.y)) axisLimits.y <- c(0, 1)
-  # ----------------------------
   # get predicted values for response with and
   # without random effects
   # ----------------------------
@@ -1680,6 +1676,13 @@ sjp.lme.response.probcurv <- function(fit,
                     grp = "Including fixed effects only")
   # bind rows
   mydf <- rbind(mydf, tmp)
+  # ------------------------------
+  # check axis limits
+  # ------------------------------
+  if (is.null(axisLimits.y)) {
+    axisLimits.y <- c(as.integer(floor(10 * min(mydf$y, na.rm = T) * .9)) / 10,
+                      as.integer(ceiling(10 * max(mydf$y, na.rm = T) * 1.1)) / 10)
+  }
   # ---------------------------------------------------------
   # Prepare plot
   # ---------------------------------------------------------
@@ -1860,8 +1863,6 @@ sjp.lme.reri <- function(fit,
                          fun) {
   # check size argument
   if (is.null(geom.size)) geom.size <- .7
-  # check axis limits
-  if (is.null(axisLimits.y)) axisLimits.y <- c(0, 1)
   # ----------------------------
   # retrieve term names, so we find the estimates in the
   # coefficients list
@@ -1941,10 +1942,17 @@ sjp.lme.reri <- function(fit,
       }
       # convert grouping level to factor
       final.df$grp <- as.factor(final.df$grp)
-      final.df$x <- sjmisc::to_value(final.df$x)
-      final.df$y <- sjmisc::to_value(final.df$y)
+      final.df$x <- sjmisc::to_value(final.df$x, keep.labels = F)
+      final.df$y <- sjmisc::to_value(final.df$y, keep.labels = F)
       # logistic regression?
       if (fun == "glm") final.df$y <- plogis(final.df$y)
+      # ------------------------------
+      # check axis limits
+      # ------------------------------
+      if (is.null(axisLimits.y)) {
+        axisLimits.y <- c(as.integer(floor(10 * min(final.df$y, na.rm = T) * .9)) / 10,
+                          as.integer(ceiling(10 * max(final.df$y, na.rm = T) * 1.1)) / 10)
+      }
       # ------------------------------
       # title and axis title
       # ------------------------------
@@ -1956,17 +1964,16 @@ sjp.lme.reri <- function(fit,
       if (fun == "lm") {
         if (is.null(axisTitle.y)) axisTitle.y <- colnames(fit@frame)[1]
         gp <- ggplot(final.df, aes(x = x, y = y, colour = grp)) +
-          geom_line(size = geom.size) +
-          labs(title = title, y = axisTitle.y, x = axisTitle.x)
+          geom_line(size = geom.size)
       } else {
         if (is.null(axisTitle.y)) axisTitle.y <- sprintf("Predicted Probability of %s", colnames(fit@frame)[1])
         gp <- ggplot(final.df, aes(x = x, y = y, colour = grp)) +
-          stat_smooth(method = "glm", method.args = list(family = "binomial")) +
-          # cartesian coord still plots range of se, even
-          # when se exceeds plot range.
-          coord_cartesian(ylim = axisLimits.y) +
-          labs(x = axisTitle.x, y = axisTitle.y, title = title)
+          stat_smooth(method = "glm", se = F,
+                      method.args = list(family = "binomial"))
       }
+      gp <- gp +
+        scale_y_continuous(limits = axisLimits.y) +
+        labs(title = title, y = axisTitle.y, x = axisTitle.x)
       # ------------------------------
       # highlight specific groups?
       # ------------------------------
