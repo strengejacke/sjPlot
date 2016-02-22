@@ -351,6 +351,7 @@ sjp.glmer <- function(fit,
 #'            \item{\code{"resp"}}{to plot predicted values for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot.}
 #'            \item{\code{"eff"}}{to plot marginal effects of all fixed terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms. See also 'Details' of \code{\link{sjp.lm}}.}
 #'            \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples' here and 'Details' of \code{\link{sjp.lm}}).}
+#'            \item{\code{"ma"}}{to check model assumptions. Note that no further arguments except \code{fit} are relevant for this option. All other arguments are ignored.}
 #'          }
 #' @param pointAlpha alpha value of point-geoms in the scatter plots.
 #'          Default is 0.2.
@@ -615,8 +616,9 @@ sjp.lme4  <- function(fit,
   if (type != "re" && type != "fe" && type != "fe.std" && type != "fe.cor" &&
       type != "re.qq" && type != "fe.pc" && type != "ri.pc" && type != "fe.pred" &&
       type != "fe.prob" && type != "ri.prob" && type != "fe.ri" && type != "y.pc" &&
-      type != "fe.resid" && type != "poly" && type != "eff" && type != "coef" && type != "rs.ri") {
-    warning("'type' must be one of 're', 'fe', 'fe.cor', 're.qq', 'fe.ri', 'rs.ri', 'fe.pc', 'fe.pred', 'fe.resid', 'poly', 'eff', 'y.pred', 'ri.pc', 'y.pc', 'y.prob', 'coef', 'fe.std', 'fe.prob' or 'ri.prob'. Defaulting to 'fe' now.")
+      type != "fe.resid" && type != "poly" && type != "eff" && type != "coef" && 
+      type != "rs.ri" && type != "ma") {
+    warning("Invalid option for `type` argument. Defaulting to `type = \"fe\"` now.")
     type  <- "fe"
   }
   # ---------------------------------------
@@ -725,7 +727,13 @@ sjp.lme4  <- function(fit,
   # plot correlation matrix of fixed effects,
   # to inspect multicollinearity
   # ---------------------------------------
-  if (type == "fe.cor") {
+  if (type == "ma") {
+    return(invisible(sjp.lm.ma(fit)))
+  } else if (type == "fe.cor") {
+    # ---------------------------------------
+    # plot correlation matrix of fixed effects,
+    # to inspect multicollinearity
+    # ---------------------------------------
     return(invisible(sjp.lme.fecor(fit,
                                    pred.labels,
                                    sort.coef,

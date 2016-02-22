@@ -1,4 +1,4 @@
-# sjPlot 1.9.1-1
+# sjPlot 1.9.1-2
 
 ## Changes to functions
 
@@ -6,6 +6,7 @@
 * `sjp.int` now uses proper x-axis-tick-labels for `type = "eff"`, when predictor on x-axis is a factor with non-numeric factor-levels (or has label attributes).
 * `sjp.glm` gets a `group.estimates` argument to group estimates in forest plots and colour them according to group assignment. Use arguments `show.legend` and `legendTitle` to modify group legend.
 * `sjp.poly` now has better variable label detection for automatic axis labelling.
+* `sjp.lmer` now supports model diagnostics with `type = "ma"`.
 
 
 ## Bug fixes
