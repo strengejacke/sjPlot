@@ -2,7 +2,7 @@
 % Please edit documentation in R/sjPlotOdds.R
 \name{sjp.glm}
 \alias{sjp.glm}
-\title{Plot odds ratios or predicted probabilities of generalized linear models}
+\title{Forest plot or predicted probabilities of generalized linear models}
 \usage{
 sjp.glm(fit, type = "dots", sort.est = TRUE, title = NULL,
   axisLabels.y = NULL, axisTitle.x = "Odds Ratios", legendTitle = NULL,
@@ -14,14 +14,14 @@ sjp.glm(fit, type = "dots", sort.est = TRUE, title = NULL,
   showIntercept = FALSE, showAxisLabels.y = TRUE, showValueLabels = TRUE,
   labelDigits = 2, showPValueLabels = TRUE, showModelSummary = FALSE,
   facet.grid = TRUE, show.ci = FALSE, show.legend = FALSE,
-  showOriginalModelOnly = TRUE, printPlot = TRUE, show.se = FALSE)
+  showOriginalModelOnly = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).}
 
 \item{type}{type of plot. Use one of following:
 \describe{
-  \item{\code{"dots"}}{(or \code{"glm"} or \code{"or"} (default)) for odds ratios (forest plot)}
+  \item{\code{"dots"}}{(or \code{"glm"} or \code{"or"} (default)) for odds or incident rate ratios (forest plot). Note that this type is only appropriate for log- or logit-link-functions.}
   \item{\code{"prob"}}{(or \code{"pc"}) to plot predicted probabilities for each model term, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
   \item{\code{"eff"}}{to plot marginal effects of predicted probabilities for each model term, where all remaining co-variates are set to the mean (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
   \item{\code{"y.pc"}}{(or \code{"y.prob"}) to plot predicted probabilities for the response. See 'Details'.}
@@ -129,8 +129,6 @@ are automatically excluded are also plotted.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
-
-\item{show.se}{Deprecated; use \code{show.ci} instead.}
 }
 \value{
 (Invisibly) returns various objects, depending on 
@@ -170,10 +168,10 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
         }
 }
 \description{
-Plot odds ratios (exponentiated coefficients) with confidence intervalls as bar chart or dot plot.
+Plot odds or incident rate ratios with confidence intervalls as dot plot.
                Depending on the \code{type} argument, this function may also plot model
-               assumptions for generalized linear models, or predicted probabilities
-               of coefficients.
+               assumptions for generalized linear models, or predicted probabilities 
+               (or events) of coefficients.
 }
 \details{
 \describe{
@@ -181,7 +179,7 @@ Plot odds ratios (exponentiated coefficients) with confidence intervalls as bar 
            are based on the intercept's estimate and each specific term's estimate.
            All other co-variates are set to zero (i.e. ignored), which corresponds
            to \code{\link{plogis}(b0 + bi * xi)} (where \code{xi} is the logit-estimate).}
-           \item{\code{type = "eff"}}{the predicted probabilities
+           \item{\code{type = "eff"}}{for binomial model families, the predicted probabilities
            are based on the \code{\link{predict.glm}} method, where predicted values 
            are "centered", i.e. remaining co-variates are set to the mean.
            (see \href{http://stats.stackexchange.com/questions/35682/contribution-of-each-covariate-to-a-single-prediction-in-a-logistic-regression-m#comment71993_35802}{CrossValidated}).

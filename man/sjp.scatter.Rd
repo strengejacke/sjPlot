@@ -13,7 +13,7 @@ sjp.scatter(x = NULL, y = NULL, grp = NULL, title = "",
   showTotalFitLine = FALSE, show.ci = FALSE, fitmethod = "lm",
   useJitter = FALSE, useCount = FALSE, autojitter = TRUE,
   jitterRatio = 0.15, showRug = FALSE, hideLegend = FALSE,
-  facet.grid = FALSE, printPlot = TRUE, show.se = FALSE)
+  facet.grid = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{x}{vector indicating the x positions. If not specified (i.e. if
@@ -114,8 +114,6 @@ an integrated single graph. Only applies if \code{grp} is not \code{NULL}. Each 
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
-
-\item{show.se}{Deprecated; use \code{show.ci} instead.}
 }
 \value{
 (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that

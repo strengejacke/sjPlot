@@ -13,8 +13,7 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   interceptLineColor = "grey70", remove.estimates = NULL,
   showValueLabels = TRUE, labelDigits = 2, y.offset = 0.1,
   showPValueLabels = TRUE, fade.ns = FALSE, show.ci = FALSE,
-  sample.n = NULL, show.legend = FALSE, printPlot = TRUE,
-  show.se = FALSE)
+  sample.n = NULL, show.legend = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{glmer}}-function.}
@@ -30,6 +29,7 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   \item{\code{"rs.ri"}}{for fitted probability curves (predicted probabilities) indicating the random slope-intercept pairs. Use this to visualize the random parts of random slope-intercept (or repeated measure) models. When having too many groups, use \code{sample.n} argument.}
   \item{\code{"eff"}}{to plot marginal effects of predicted probabilities for each fixed term, where remaining co-variates are set to the mean. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
   \item{\code{"y.pc"}}{or \code{"y.prob"} to plot predicted probabilities for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot. See 'Details'.}
+  \item{\code{"ma"}}{to check model assumptions. Note that only argument \code{fit} applies to this plot type. All other arguments are ignored.}
 }}
 
 \item{vars}{numeric vector with column indices of selected variables or a character vector with
@@ -136,8 +136,6 @@ a legend for grouped estimates is shown.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
-
-\item{show.se}{Deprecated; use \code{show.ci} instead.}
 }
 \value{
 (Insisibily) returns

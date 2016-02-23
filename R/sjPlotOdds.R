@@ -2,20 +2,20 @@
 utils::globalVariables(c("OR", "lower", "upper", "p"))
 
 
-#' @title Plot odds ratios or predicted probabilities of generalized linear models
+#' @title Forest plot or predicted probabilities of generalized linear models
 #' @name sjp.glm
 #'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.glm/}{sjPlot manual: sjp.glm}
 #'
-#' @description Plot odds ratios (exponentiated coefficients) with confidence intervalls as bar chart or dot plot.
+#' @description Plot odds or incident rate ratios with confidence intervalls as dot plot.
 #'                Depending on the \code{type} argument, this function may also plot model
-#'                assumptions for generalized linear models, or predicted probabilities
-#'                of coefficients.
+#'                assumptions for generalized linear models, or predicted probabilities 
+#'                (or events) of coefficients.
 #'
 #' @param fit fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).
 #' @param type type of plot. Use one of following:
 #'          \describe{
-#'            \item{\code{"dots"}}{(or \code{"glm"} or \code{"or"} (default)) for odds ratios (forest plot)}
+#'            \item{\code{"dots"}}{(or \code{"glm"} or \code{"or"} (default)) for odds or incident rate ratios (forest plot). Note that this type is only appropriate for log- or logit-link-functions.}
 #'            \item{\code{"prob"}}{(or \code{"pc"}) to plot predicted probabilities for each model term, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
 #'            \item{\code{"eff"}}{to plot marginal effects of predicted probabilities for each model term, where all remaining co-variates are set to the mean (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
 #'            \item{\code{"y.pc"}}{(or \code{"y.prob"}) to plot predicted probabilities for the response. See 'Details'.}
@@ -43,7 +43,6 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'          only the model assumptions of \code{fit} are plotted.
 #'          If \code{FALSE}, the model assumptions of an updated model where outliers
 #'          are automatically excluded are also plotted.
-#' @param show.se Deprecated; use \code{show.ci} instead.
 #'          
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.grpfrq
@@ -90,7 +89,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'            are based on the intercept's estimate and each specific term's estimate.
 #'            All other co-variates are set to zero (i.e. ignored), which corresponds
 #'            to \code{\link{plogis}(b0 + bi * xi)} (where \code{xi} is the logit-estimate).}
-#'            \item{\code{type = "eff"}}{the predicted probabilities
+#'            \item{\code{type = "eff"}}{for binomial model families, the predicted probabilities
 #'            are based on the \code{\link{predict.glm}} method, where predicted values 
 #'            are "centered", i.e. remaining co-variates are set to the mean.
 #'            (see \href{http://stats.stackexchange.com/questions/35682/contribution-of-each-covariate-to-a-single-prediction-in-a-logistic-regression-m#comment71993_35802}{CrossValidated}).
@@ -197,15 +196,7 @@ sjp.glm <- function(fit,
                     show.ci = FALSE,
                     show.legend = FALSE,
                     showOriginalModelOnly = TRUE,
-                    printPlot = TRUE,
-                    show.se = FALSE) {
-  # -----------------------------------
-  # warn, if deprecated param is used
-  # -----------------------------------
-  if (!missing(show.se)) {
-    warning("argument 'show.se' is deprecated; please use 'show.ci' instead.")
-    show.ci <- show.se
-  }
+                    printPlot = TRUE) {
   # --------------------------------------------------------
   # check param
   # --------------------------------------------------------
@@ -216,7 +207,7 @@ sjp.glm <- function(fit,
     fit$model <- fit$data
     # no probability curves currently supported
     if (type == "prob" || type == "pc") {
-      warning("Predicted probability plots currently not supported for 'logistf' objects.", call. = F)
+      warning("Predicted probability plots currently not supported for `logistf` objects.", call. = F)
       type <- "dots"
     }
   }
@@ -280,6 +271,11 @@ sjp.glm <- function(fit,
   # ----------------------------
   # Prepare length of title and labels
   # ----------------------------
+  # check default label and fit family
+  if (stats::family(fit)$family == "poisson" && 
+      !is.null(axisTitle.x) &&
+      axisTitle.x == "Odds Ratios")
+    axisTitle.x <- "Incident Rate Ratios"
   # check length of diagram title and split longer string at into new lines
   if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
   # check length of x-axis title and split longer string at into new lines
@@ -598,114 +594,187 @@ sjp.glm.pc <- function(fit,
       fit.term.names <- fit.term.names[-remcols]
   }
   # ----------------------------
-  # loop through all coefficients
+  # retrieve names of coefficients
   # ----------------------------
-  for (i in 1:length(fit.term.names)) {
-    # get values from coefficient
-    coef.column <- which(colnames(fit$model) == fit.term.names[i])
-    # check if we have found the coefficient
-    if (length(coef.column) > 0) {
+  coef.names <- names(stats::coef(fit))
+  # ----------------------------
+  # check model family. for poisson, we use
+  # effects-package
+  # ----------------------------
+  if (stats::family(fit)$family %in% c("poisson", "quasipoisson", "gaussian")) {
+    # ----------------------------
+    # loop through all coefficients
+    # ----------------------------
+    for (i in 1:length(fit.term.names)) {
       # get values from numeric term
-      values <- fit$model[, coef.column]
-      # melt variable
-      mydf.vals <- data.frame(values = values)
-      # convert factor to numeric
-      if (is.factor(mydf.vals$values)) mydf.vals$values <- sjmisc::to_value(mydf.vals$values, 0, keep.labels = F)
-      # retrieve names of coefficients
-      coef.names <- names(stats::coef(fit))
-      # check if we have a factor, then we may have reference levels
-      if (is.factor(values)) {
-        # add reference level to coefficient name
-        ll <- levels(values)
-        fit.fac.name <- paste0(fit.term.names[i], ll[length(ll)])
-      } else {
-        fit.fac.name <- fit.term.names[i]
-      }
-      # find coef-position
-      coef.pos <- which(coef.names == fit.fac.name)
-      # ---------------------------------------------
-      # Here we go with predicted probabilities
-      # for each single term, w/o including remaining
-      # co-variates to predict the values. This can be
-      # used to investigate a term "isolated"
-      # ---------------------------------------------
-      if (type == "prob") {
-        # calculate x-beta by multiplying original values with estimate of that term
-        mydf.vals$xbeta <- mydf.vals$values * stats::coef(fit)[coef.pos]
-        # calculate probability (y) via cdf-function
-        mydf.vals$y <- stats::plogis(stats::coef(fit)[1] + mydf.vals$xbeta)
-      # ---------------------------------------------
-      # Here we go with predicted probabilities,
-      # with all remaining co-variates set to zero or mean
-      # i.e. we are using the 'predict' function to predict
-      # fitted values of terms
-      # ---------------------------------------------
-      } else {
-        # get predicted values. Note that the returned matrix
-        # does not contain response value
-        pred.vals <- stats::predict(fit, type = "terms")
-        # do we have a constant?
-        cons <- attr(pred.vals, "constant")
-        if (is.null(cons)) cons <- 0
-        # retrieve predicted prob. of term. coef.column -1
-        # because coef.column relates to fit$model, which has one
-        # more column (response)
-        mydf.vals$y <- stats::plogis(pred.vals[, coef.column - 1] + cons)
-        # add title prefix for predicted values
-      }
-      # assign group
-      mydf.vals$grp = coef.names[coef.pos]
+      values <- fit$model[[fit.term.names[i]]]
+      # check for unique values
+      if (length(unique(values)) > 5) 
+        schritt <- .1
+      else
+        schritt <- .2
+      # get effects for predictor
+      effs <- summary(effects::Effect(focal.predictors = fit.term.names[i], 
+                                      mod = fit,
+                                      quantiles = seq(.2, .8, by = schritt)))
+      mydf.vals <- data.frame(x = as.numeric(names(effs$effect)),
+                              y = effs$effect,
+                              grp = fit.term.names[i],
+                              lower = effs$lower,
+                              upper = effs$upper)
       # add mydf to list
       mydf.metricpred[[length(mydf.metricpred) + 1]] <- mydf.vals
       # save predictor name
       axisLabels.mp <- c(axisLabels.mp, fit.term.names[i])
     }
-  }
-  # ---------------------------------------------------------
-  # Prepare metric plots
-  # ---------------------------------------------------------
-  if (length(mydf.metricpred) > 0) {
-    # create mydf for integrated plot
-    mydf.ges <- data.frame()
-    for (i in 1:length(mydf.metricpred)) {
-      # "melt" all single mydf's to one
-      mydf.ges <- rbind(mydf.ges, mydf.metricpred[[i]])
-      # create single plots for each numeric predictor
-      mp <- ggplot(mydf.metricpred[[i]], aes(x = values, y = y)) +
-        labs(x = axisLabels.mp[i], 
-             y = "Predicted Probability") +
-        stat_smooth(method = "glm", 
-                    method.args = list(family = "binomial"), 
-                    se = show.ci,
-                    size = geom.size) +
-        coord_cartesian(ylim = c(0, 1))
-      # add plot to list
-      plot.metricpred[[length(plot.metricpred) + 1]] <- mp
+    # ---------------------------------------------------------
+    # Prepare metric plots
+    # ---------------------------------------------------------
+    if (length(mydf.metricpred) > 0) {
+      # create mydf for integrated plot
+      mydf.ges <- data.frame()
+      for (i in 1:length(mydf.metricpred)) {
+        # "melt" all single mydf's to one
+        mydf.ges <- rbind(mydf.ges, mydf.metricpred[[i]])
+        # create single plots for each numeric predictor
+        mp <- ggplot(mydf.metricpred[[i]], aes(x = x, y = y, group = grp)) +
+          labs(x = axisLabels.mp[i], y = "Predicted Incidents") +
+          geom_line(size = geom.size)
+        if (show.ci) {
+          mp <- mp +
+            geom_ribbon(aes(ymin = lower, ymax = upper), alpha = .3)
+        }
+        # add plot to list
+        plot.metricpred[[length(plot.metricpred) + 1]] <- mp
+      }
+      # if we have more than one numeric var, also create integrated plot
+      if (length(mydf.metricpred) > 1) {
+        mp <- ggplot(mydf.ges, aes(x = x,
+                                   y = y)) +
+          labs(x = NULL,
+               y = "Predicted Incidents",
+               title = "Effect plot") +
+          geom_line(size = geom.size) +
+          facet_wrap(~grp,
+                     ncol = round(sqrt(length(mydf.metricpred))),
+                     scales = "free_x")
+        if (show.ci) {
+          mp <- mp +
+            geom_ribbon(aes(ymin = lower, ymax = upper), alpha = .3)
+        }
+        # add integrated plot to plot list
+        plot.facet <- mp
+        # add integrated data frame to plot list
+        mydf.facet <- mydf.ges
+      }
     }
-    # if we have more than one numeric var, also create integrated plot
-    if (length(mydf.metricpred) > 1) {
-      mp <- ggplot(mydf.ges, aes(x = values,
-                                 y = y,
-                                 colour = grp)) +
-        labs(x = NULL,
-             y = "Predicted Probability",
-             colour = "Term",
-             title = "Predicted probabilities of coefficients") +
-        scale_colour_manual(values = brewer_pal(palette = "Set1")(length(axisLabels.mp)),
-                            labels = axisLabels.mp) +
-        stat_smooth(method = "glm", 
-                    method.args = list(family = "binomial"), 
-                    se = show.ci,
-                    size = geom.size) +
-        coord_cartesian(ylim = c(0, 1)) +
-        facet_wrap(~grp,
-                   ncol = round(sqrt(length(mydf.metricpred))),
-                   scales = "free_x") +
-        guides(colour = FALSE)
-      # add integrated plot to plot list
-      plot.facet <- mp
-      # add integrated data frame to plot list
-      mydf.facet <- mydf.ges
+    # family (quasi-)binomial
+  } else {
+    # ----------------------------
+    # loop through all coefficients
+    # ----------------------------
+    for (i in 1:length(fit.term.names)) {
+      # get values from coefficient
+      coef.column <- which(colnames(fit$model) == fit.term.names[i])
+      # check if we have found the coefficient
+      if (length(coef.column) > 0) {
+        # get values from numeric term
+        values <- fit$model[, coef.column]
+        # melt variable
+        mydf.vals <- data.frame(values = values)
+        # convert factor to numeric
+        if (is.factor(mydf.vals$values)) mydf.vals$values <- sjmisc::to_value(mydf.vals$values, 0, keep.labels = F)
+        # check if we have a factor, then we may have reference levels
+        if (is.factor(values)) {
+          # add reference level to coefficient name
+          ll <- levels(values)
+          fit.fac.name <- paste0(fit.term.names[i], ll[length(ll)])
+        } else {
+          fit.fac.name <- fit.term.names[i]
+        }
+        # find coef-position
+        coef.pos <- which(coef.names == fit.fac.name)
+        # ---------------------------------------------
+        # Here we go with predicted probabilities
+        # for each single term, w/o including remaining
+        # co-variates to predict the values. This can be
+        # used to investigate a term "isolated"
+        # ---------------------------------------------
+        if (type == "prob") {
+          # calculate x-beta by multiplying original values with estimate of that term
+          mydf.vals$xbeta <- mydf.vals$values * stats::coef(fit)[coef.pos]
+          # calculate probability (y) via cdf-function
+          mydf.vals$y <- stats::plogis(stats::coef(fit)[1] + mydf.vals$xbeta)
+        # ---------------------------------------------
+        # Here we go with predicted probabilities,
+        # with all remaining co-variates set to zero or mean
+        # i.e. we are using the 'predict' function to predict
+        # fitted values of terms
+        # ---------------------------------------------
+        } else {
+          # get predicted values. Note that the returned matrix
+          # does not contain response value
+          pred.vals <- stats::predict(fit, type = "terms")
+          # do we have a constant?
+          cons <- attr(pred.vals, "constant")
+          if (is.null(cons)) cons <- 0
+          # retrieve predicted prob. of term. coef.column -1
+          # because coef.column relates to fit$model, which has one
+          # more column (response)
+          mydf.vals$y <- stats::plogis(pred.vals[, coef.column - 1] + cons)
+          # add title prefix for predicted values
+        }
+        # assign group
+        mydf.vals$grp = coef.names[coef.pos]
+        # add mydf to list
+        mydf.metricpred[[length(mydf.metricpred) + 1]] <- mydf.vals
+        # save predictor name
+        axisLabels.mp <- c(axisLabels.mp, fit.term.names[i])
+      }
+    }
+    # ---------------------------------------------------------
+    # Prepare metric plots
+    # ---------------------------------------------------------
+    if (length(mydf.metricpred) > 0) {
+      # create mydf for integrated plot
+      mydf.ges <- data.frame()
+      for (i in 1:length(mydf.metricpred)) {
+        # "melt" all single mydf's to one
+        mydf.ges <- rbind(mydf.ges, mydf.metricpred[[i]])
+        # create single plots for each numeric predictor
+        mp <- ggplot(mydf.metricpred[[i]], aes(x = values, y = y)) +
+          labs(x = axisLabels.mp[i], 
+               y = "Predicted Probability") +
+          stat_smooth(method = "glm", 
+                      method.args = list(family = "binomial"), 
+                      se = show.ci,
+                      size = geom.size,
+                      colour = "black") +
+          coord_cartesian(ylim = c(0, 1))
+        # add plot to list
+        plot.metricpred[[length(plot.metricpred) + 1]] <- mp
+      }
+      # if we have more than one numeric var, also create integrated plot
+      if (length(mydf.metricpred) > 1) {
+        mp <- ggplot(mydf.ges, aes(x = values,
+                                   y = y)) +
+          labs(x = NULL,
+               y = "Predicted Probability",
+               title = "Predicted probabilities of coefficients") +
+          stat_smooth(method = "glm", 
+                      method.args = list(family = "binomial"), 
+                      se = show.ci,
+                      size = geom.size,
+                      colour = "black") +
+          coord_cartesian(ylim = c(0, 1)) +
+          facet_wrap(~grp,
+                     ncol = round(sqrt(length(mydf.metricpred))),
+                     scales = "free_x")
+        # add integrated plot to plot list
+        plot.facet <- mp
+        # add integrated data frame to plot list
+        mydf.facet <- mydf.ges
+      }
     }
   }
   # --------------------------
@@ -793,25 +862,29 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
     # retrieve variable numbers of outliers
     # vars <- as.numeric(attr(ol$p, "names"))
     vars <- as.numeric(names(which(car::outlierTest(model, cutoff = Inf, n.max = Inf)$bonf.p < 1)))    # update model by removing outliers
-    dummymodel <- stats::update(model, subset = -c(vars))
-    # retrieve new AIC-value
-    dummyaic <- dummymodel$aic
-    # decrease maximum loops
-    maxcnt <- maxcnt - 1
-    # check whether AIC-value of updated model is larger
-    # than previous AIC-value or if we have already all loop-steps done,
-    # stop loop
-    if (dummyaic >= aic || maxcnt < 1) {
+    if (sjmisc::is_empty(vars)) {
       loop <- FALSE
     } else {
-      # else copy new model, which is the better one (according to AIC-value)
-      model <- dummymodel
-      # and get new AIC-value
-      aic <- dummyaic
-      # count removed cases
-      removedcases <- removedcases + length(vars)
-      # add outliers to final return value
-      outlier <- c(outlier, vars)
+      dummymodel <- stats::update(model, subset = -c(vars))
+      # retrieve new AIC-value
+      dummyaic <- dummymodel$aic
+      # decrease maximum loops
+      maxcnt <- maxcnt - 1
+      # check whether AIC-value of updated model is larger
+      # than previous AIC-value or if we have already all loop-steps done,
+      # stop loop
+      if (dummyaic >= aic || maxcnt < 1) {
+        loop <- FALSE
+      } else {
+        # else copy new model, which is the better one (according to AIC-value)
+        model <- dummymodel
+        # and get new AIC-value
+        aic <- dummyaic
+        # count removed cases
+        removedcases <- removedcases + length(vars)
+        # add outliers to final return value
+        outlier <- c(outlier, vars)
+      }
     }
   }
   # ---------------------------------
@@ -883,6 +956,52 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
     graphics::abline(h = 0, lty = 2)
     stats::qqnorm(res)
     stats::qqline(res)
+  }
+  # ------------------------------------------------------
+  # Residual plot two
+  # ------------------------------------------------------
+  sjp.setTheme("scatterw")
+  gp <- ggplot(data.frame(x = predict(logreg), 
+                          y = residuals(logreg),
+                          grp = logreg$model$y),
+               aes(x, y)) + 
+    geom_point(aes(colour = grp), show.legend = F) + 
+    geom_hline(yintercept = 0) +
+    stat_smooth(method = "loess", se = T) +
+    labs(title = "Residual plot (original model)",
+         x = "Log-predicted values",
+         y = "Deviance residuals")
+  plot(gp)
+  if (!showOriginalModelOnly) {
+    gp <- ggplot(data.frame(x = predict(model), 
+                            y = residuals(model),
+                            grp = model$model$y), 
+                 aes(x, y)) + 
+      geom_point(aes(colour = grp), show.legend = F) + 
+      geom_hline(yintercept = 0) +
+      stat_smooth(method = "loess", se = T) +
+      labs(title = "Residual plot (updated model)",
+           x = "Log-predicted values",
+           y = "Deviance residuals")
+    plot(gp)
+  }
+  # ------------------------------------------------------
+  # Check "linearity"
+  # ------------------------------------------------------
+  preds <- colnames(logreg$model)[-1]
+  for (pr in preds) {
+    if (length(unique(logreg$model[[pr]])) > 4) {
+      mydat <- data.frame(x = logreg$model[[pr]], 
+                          y = residuals(logreg),
+                          grp = as.factor(logreg$model$y))
+      gp <- ggplot(mydat, aes(x, y)) + 
+        geom_point(aes(colour = grp), show.legend = F) + 
+        geom_hline(yintercept = 0) +
+        stat_smooth(method = "loess", se = T) +
+        labs(x = pr, y = "Residuals",
+             title = "Linear relationship between predictor and residuals")
+      plot(gp)
+    }
   }
   # -------------------------------------
   # Anova-Test

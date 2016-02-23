@@ -15,7 +15,7 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   free.scale = FALSE, fade.ns = FALSE, show.ci = TRUE, pointAlpha = 0.2,
   showScatterPlot = TRUE, showLoess = FALSE, showLoessCI = FALSE,
   poly.term = NULL, sample.n = NULL, show.legend = FALSE,
-  printPlot = TRUE, show.se = TRUE)
+  printPlot = TRUE)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{lmer}}-function.}
@@ -163,8 +163,6 @@ a legend for grouped estimates is shown.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
-
-\item{show.se}{Deprecated; use \code{show.ci} instead.}
 }
 \value{
 (Insisibily) returns

@@ -62,7 +62,6 @@
 #' @param facet.grid \code{TRUE} when each scatter plot group should be plotted as single facet instead of
 #'          an integrated single graph. Only applies if \code{grp} is not \code{NULL}. Each category of
 #'          \code{grp} will be plotted in an own facet.
-#' @param show.se Deprecated; use \code{show.ci} instead.
 #'
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}).
@@ -149,15 +148,7 @@ sjp.scatter <- function(x = NULL,
                         showRug = FALSE,
                         hideLegend = FALSE,
                         facet.grid = FALSE,
-                        printPlot = TRUE,
-                        show.se = FALSE) {
-  # -----------------------------------
-  # warn, if deprecated param is used
-  # -----------------------------------
-  if (!missing(show.se)) {
-    warning("argument 'show.se' is deprecated; please use 'show.ci' instead.")
-    show.ci <- show.se
-  }
+                        printPlot = TRUE) {
   # ------------------------
   # check if suggested packages are available
   # ------------------------
