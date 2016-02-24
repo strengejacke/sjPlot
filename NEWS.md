@@ -14,3 +14,4 @@
 
 * Fixed bug in `sjp.int`, where automatic y-axis-scaling for binary outcomes cut off parts of confidence region in some cases.
 * Fixed bug in `sjp.lmer` and `sjp.glmer` with doubled y-axis for faceted random effect plots.
+* `sjt.xtab` ignored value labels when weighting data.

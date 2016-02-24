@@ -220,24 +220,25 @@ create.xtab.df <- function(x,
                            na.rm = FALSE,
                            weightBy = NULL) {
   # ------------------------------
+  # convert to labels
+  # ------------------------------
+  x_full <- suppressWarnings(sjmisc::to_label(x, add.non.labelled = T))
+  grp_full <- suppressWarnings(sjmisc::to_label(grp, add.non.labelled = T))
+  # ------------------------------
   # create frequency crosstable. we need to convert
   # vector to labelled factor first.
   # ------------------------------
   if (is.null(weightBy)) {
-    x_full <- suppressWarnings(sjmisc::to_label(x, add.non.labelled = T))
-    grp_full <- suppressWarnings(sjmisc::to_label(grp, add.non.labelled = T))
     if (na.rm) {
       mydat <- stats::ftable(table(x_full, grp_full))
     } else {
       mydat <- stats::ftable(table(x_full, grp_full, exclude = NULL))
     }
   } else {
-    x <- suppressWarnings(sjmisc::to_value(x, keep.labels = T))
-    grp <- suppressWarnings(sjmisc::to_value(grp, keep.labels = T))
     if (na.rm)
-      mydat <- stats::ftable(round(stats::xtabs(weightBy ~ x + grp)), 0)
+      mydat <- stats::ftable(round(stats::xtabs(weightBy ~ x_full + grp_full)), 0)
     else
-      mydat <- stats::ftable(round(stats::xtabs(weightBy ~ x + grp, 
+      mydat <- stats::ftable(round(stats::xtabs(weightBy ~ x_full + grp_full, 
                                                 exclude = NULL, 
                                                 na.action = stats::na.pass)), 0)
   }
