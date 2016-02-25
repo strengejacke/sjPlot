@@ -75,13 +75,10 @@ utils::globalVariables(c("rowname", "total", "prc", "n", "Count", "Group", "line
 #' library(sjmisc)
 #' data(efc)
 #' sjp.setTheme(geom.label.angle = 90)
-#' # hjust-aes needs adjustment for this
-#' library(ggplot2)
-#' update_geom_defaults('text', list(hjust = -0.1))
 #' sjp.xtab(efc$e42dep, 
 #'          efc$e16sex,
 #'          vjust = "center",
-#'          hjust = "center")
+#'          hjust = "bottom")
 #' 
 #' # grouped bars with EUROFAMCARE sample dataset
 #' # dataset was importet from an SPSS-file,
@@ -120,7 +117,7 @@ utils::globalVariables(c("rowname", "total", "prc", "n", "Count", "Group", "line
 #'
 #' @import ggplot2
 #' @import sjmisc
-#' @importFrom dplyr group_by mutate arrange add_rownames filter select
+#' @importFrom dplyr group_by mutate arrange add_rownames filter select summarize
 #' @importFrom tidyr gather
 #' @importFrom scales percent
 #' @importFrom stats na.omit
@@ -185,24 +182,28 @@ sjp.xtab <- function(x,
   # set text label offset
   # --------------------------------------------------------
   if (is.null(y.offset)) {
-    # get maximum y-pos
-    y.offset <- ceiling(max(table(x, grp)) / 100)
-    if (coord.flip) {
-      if (missing(vjust)) vjust <- "center"
-      if (missing(hjust)) hjust <- "bottom"
-      if (hjust == "bottom")
-        y_offset <- y.offset
-      else if (hjust == "top")
-        y_offset <- -y.offset
-      else
-        y_offset <- 0
+    # stacked bars?
+    if (barPosition == "stack") {
+      y_offset <- 0
     } else {
-      if (vjust == "bottom")
-        y_offset <- y.offset
-      else if (vjust == "top")
-        y_offset <- -y.offset
-      else
-        y_offset <- 0
+      y.offset <- .005
+      if (coord.flip) {
+        if (missing(vjust)) vjust <- "center"
+        if (missing(hjust)) hjust <- "bottom"
+        if (hjust == "bottom")
+          y_offset <- y.offset
+        else if (hjust == "top")
+          y_offset <- -y.offset
+        else
+          y_offset <- 0
+      } else {
+        if (vjust == "bottom")
+          y_offset <- y.offset
+        else if (vjust == "top")
+          y_offset <- -y.offset
+        else
+          y_offset <- 0
+      }
     }
   } else {
     y_offset <- y.offset
@@ -302,10 +303,12 @@ sjp.xtab <- function(x,
   # add half of Percentage values as new y-position for stacked bars
   # --------------------------------------------------------
   mydf <- mydf %>%
-    dplyr::group_by(group) %>%
+    dplyr::group_by(xpos) %>%
     dplyr::mutate(ypos = cumsum(prc) - 0.5 * prc) %>%
     dplyr::arrange(group)
+  # --------------------------------------------------------
   # add line-break char
+  # --------------------------------------------------------
   if (showPercentageValues && showCountValues) {
     mydf$line.break <- ifelse(coord.flip == TRUE, ' ', '\n')
   } else {
@@ -354,12 +357,20 @@ sjp.xtab <- function(x,
     lower_lim <- axisLimits.y[1]
     upper_lim <- axisLimits.y[2]
   } else if (barPosition == "stack") {
-    upper_lim <- 1
+    # check upper limits. we may have rounding errors, so values
+    # sum up to more than 100%
+    ul <- max(mydf %>% 
+                dplyr::group_by(rowname) %>% 
+                dplyr::summarize(ges = sum(prc)) %>% 
+                dplyr::select(ges), na.rm = T)
+    if (ul > 1L)
+      upper_lim <- ul
+    else
+      upper_lim <- 1
   } else {
     # else calculate upper y-axis-range depending
     # on the amount of max. answers per category
     upper_lim <- max(mydf$prc) * 1.1
-    if (upper_lim > 1) upper_lim <- 1
   }
   # --------------------------------------------------------
   # check if category-oder on x-axis should be reversed

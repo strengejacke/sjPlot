@@ -188,13 +188,10 @@ sjp.xtab(x, grp,
 library(sjmisc)
 data(efc)
 sjp.setTheme(geom.label.angle = 90)
-# hjust-aes needs adjustment for this
-library(ggplot2)
-update_geom_defaults('text', list(hjust = -0.1))
 sjp.xtab(efc$e42dep, 
          efc$e16sex,
          vjust = "center",
-         hjust = "center")
+         hjust = "bottom")
 
 # grouped bars with EUROFAMCARE sample dataset
 # dataset was importet from an SPSS-file,
