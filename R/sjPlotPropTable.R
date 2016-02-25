@@ -220,13 +220,11 @@ sjp.xtab <- function(x,
                           round.prz = 2,
                           na.rm = T,
                           weightBy = weightBy)
-  # add rownames or label as x-position to data frame,
-  # depending on plot type. for lines, we assume continuous
-  # scale.
-  if (type == "lines")
-    bars.xpos <- as.numeric(mydat$mydat$label)
-  else
-    bars.xpos <- dplyr::add_rownames(mydat$mydat, var = "xpos")$xpos
+  # --------------------------------------------------------
+  # x-position as numeric factor, added later after
+  # tidying
+  # --------------------------------------------------------
+  bars.xpos <- 1:nrow(mydat$mydat)
   # --------------------------------------------------------
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
@@ -292,13 +290,10 @@ sjp.xtab <- function(x,
   #---------------------------------------------------
   if (tableIndex != "col") mydf <- dplyr::filter(mydf, rowname != "total")
   if (tableIndex == "cell") mydf <- dplyr::select(mydf, -total)
-  # -----------------------------------------------
-  # xpos should be numeric factor
-  #---------------------------------------------------
-  if (suppressWarnings(anyNA(as.numeric(bars.xpos))))
-    mydf$xpos <- as.factor(bars.xpos)
-  else
-    mydf$xpos <- as.factor(as.numeric(bars.xpos))
+  # --------------------------------------------------------
+  # add xpos now
+  # --------------------------------------------------------
+  mydf$xpos <- as.factor(as.numeric(bars.xpos))
   # --------------------------------------------------------
   # add half of Percentage values as new y-position for stacked bars
   # --------------------------------------------------------
@@ -368,9 +363,14 @@ sjp.xtab <- function(x,
     else
       upper_lim <- 1
   } else {
+    # factor depends on labels
+    if (showValueLabels == TRUE)
+      mlp <- 1.2
+    else
+      mlp <- 1.1
     # else calculate upper y-axis-range depending
     # on the amount of max. answers per category
-    upper_lim <- max(mydf$prc) * 1.1
+    upper_lim <- max(mydf$prc) * mlp
   }
   # --------------------------------------------------------
   # check if category-oder on x-axis should be reversed
@@ -454,20 +454,17 @@ sjp.xtab <- function(x,
     }
   # check if we have lines
   } else if (type == "lines") {
+    # for lines, numeric scale
+    mydf$xpos <- sjmisc::to_value(mydf$xpos, keep.labels = F)
     line.stat <- ifelse(smoothLines == TRUE, "smooth", "identity")
-    geob <- geom_line(aes(x = as.numeric(xpos),
-                          y = prc,
-                          colour = group),
-                      data = mydf,
+    geob <- geom_line(aes(colour = group),
                       size = geom.size, 
                       stat = line.stat)
   }
   # --------------------------------------------------------
   # start plot here
   # --------------------------------------------------------
-  baseplot <- ggplot(mydf, aes(x = xpos, 
-                               y = prc, 
-                               fill = group)) + geob
+  baseplot <- ggplot(mydf, aes(x = xpos, y = prc, fill = group)) + geob
   # if we have line diagram, print lines here
   if (type == "lines") {
     baseplot <- baseplot + 
