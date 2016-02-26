@@ -367,11 +367,11 @@ sjp.grpfrq <- function(varCount,
   # --------------------------------------------------------
   # count variable may not be a factor!
   # --------------------------------------------------------
-  if (anyNA(as.numeric(varCount)))
+  if (anyNA(as.numeric(na.omit(varCount))))
     varCount <- sjmisc::to_value(varCount, keep.labels = F)
   else
     varCount <- as.numeric(varCount)
-  if (anyNA(as.numeric(varGroup)))
+  if (anyNA(as.numeric(na.omit(varGroup))))
     varGroup <- sjmisc::to_value(varGroup, keep.labels = F)
   else
     varGroup <- as.numeric(varGroup)
