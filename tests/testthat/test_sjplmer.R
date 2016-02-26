@@ -232,17 +232,17 @@ fit <- lme4::lmer(extro ~ open + agree + social + (1 + open | school/class),
 
 test_that("lmer", {
   skip_on_cran()
-  expect_warning(sjp.lmer(fit))
+  sjp.lmer(fit)
 })
 
 test_that("lmer", {
   skip_on_cran()
-  expect_warning(sjp.lmer(fit, ri.nr = 2))
+  sjp.lmer(fit, ri.nr = 2)
 })
 
 test_that("lmer", {
   skip_on_cran()
-  expect_warning(sjp.lmer(fit, ri.nr = c(1,5)))
+  sjp.lmer(fit, ri.nr = c(1,5))
 })
 
 test_that("lmer", {

@@ -151,7 +151,7 @@ create.frq.df <- function(x,
   #---------------------------------------------------
   # need numeric
   #---------------------------------------------------
-  if (is.factor(x)) {
+  if (is.factor(x) || is.character(x)) {
     x <- sjmisc::to_value(x, keep.labels = F)
   }
   # valid values are one row less, because last row is NA row

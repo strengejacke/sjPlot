@@ -405,7 +405,7 @@ sjp.frq <- function(varCount,
   # --------------------------------------------------------
   # count variable may not be a factor!
   # --------------------------------------------------------
-  if (is.factor(varCount)) {
+  if (is.factor(varCount) || is.character(varCount)) {
     varCount <- sjmisc::to_value(varCount, keep.labels = F)
   }
   # --------------------------------------------------------

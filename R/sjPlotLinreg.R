@@ -857,7 +857,7 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly = TRUE, completeDiagnostic =
   # ---------------------------------
   # remove outliers, only non-mixed models
   # ---------------------------------
-  if (any(class(fit) == "lm")) {
+  if (any(class(linreg) == "lm")) {
     # copy current model
     model <- linreg
     # get r2

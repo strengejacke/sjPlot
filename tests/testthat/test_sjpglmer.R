@@ -92,7 +92,7 @@ test_that("glmer, ri.pc", {
   # for each covariate, grouped by random intercepts
   sjp.glmer(fit,
             type = "ri.pc",
-            show.se = TRUE)
+            show.ci = TRUE)
 })
 
 test_that("glmer, ri.pc, facet", {

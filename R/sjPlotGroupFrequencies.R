@@ -324,13 +324,11 @@ sjp.grpfrq <- function(varCount,
                           round.prz = 2,
                           na.rm = na.rm,
                           weightBy = weightBy)
-  # add rownames or label as x-position to data frame,
-  # depending on plot type. for lines, we assume continuous
-  # scale.
-  if (type == "lines")
-    bars.xpos <- as.numeric(mydat$mydat$label)
-  else
-    bars.xpos <- dplyr::add_rownames(mydat$mydat, var = "xpos")$xpos
+  # --------------------------------------------------------
+  # x-position as numeric factor, added later after
+  # tidying
+  # --------------------------------------------------------
+  bars.xpos <- 1:nrow(mydat$mydat)
   # --------------------------------------------------------
   # try to automatically set labels if not passed as argument
   # --------------------------------------------------------
@@ -369,8 +367,14 @@ sjp.grpfrq <- function(varCount,
   # --------------------------------------------------------
   # count variable may not be a factor!
   # --------------------------------------------------------
-  varCount <- as.numeric(varCount)
-  varGroup <- as.numeric(varGroup)
+  if (anyNA(as.numeric(varCount)))
+    varCount <- sjmisc::to_value(varCount, keep.labels = F)
+  else
+    varCount <- as.numeric(varCount)
+  if (anyNA(as.numeric(varGroup)))
+    varGroup <- sjmisc::to_value(varGroup, keep.labels = F)
+  else
+    varGroup <- as.numeric(varGroup)
   #---------------------------------------------------
   # check whether variable should be auto-grouped
   #---------------------------------------------------
@@ -402,13 +406,10 @@ sjp.grpfrq <- function(varCount,
                         "frq", 
                         2:(grpcount + 1), 
                         factor_key = TRUE)
-  # -----------------------------------------------
-  # xpos should be numeric factor
-  #---------------------------------------------------
-  if (suppressWarnings(anyNA(as.numeric(bars.xpos))))
-    mydf$xpos <- as.factor(bars.xpos)
-  else
-    mydf$xpos <- as.factor(as.numeric(bars.xpos))
+  # --------------------------------------------------------
+  # add xpos now
+  # --------------------------------------------------------
+  mydf$xpos <- as.factor(as.numeric(bars.xpos))
   # --------------------------------------------------------
   # add half of Percentage values as new y-position for stacked bars
   # mydat <- ddply(mydat, "count", transform, ypos = cumsum(frq) - 0.5*frq)
