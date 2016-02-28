@@ -895,9 +895,6 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
                   maxloops - (maxcnt + 1),
                   logreg$aic,
                   model$aic))
-  
-  modelOptmized <- ifelse(removedcases > 0, TRUE, FALSE)
-  if (showOriginalModelOnly) modelOptmized <- FALSE
   # ------------------------------------------------------
   # Overdispersion
   # Sometimes we can get a deviance that is much larger than expected

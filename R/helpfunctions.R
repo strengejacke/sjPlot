@@ -563,8 +563,10 @@ retrieveModelLabels <- function(models) {
 
 
 # compute chi-square for glm
-Chisquare.glm <- function(rr, digits=3) {
-  return(with(rr, pchisq(null.deviance - deviance, df.null - df.residual, lower.tail = FALSE), digits = digits))
+Chisquare.glm <- function(rr, digits = 3) {
+  return(with(rr, pchisq(null.deviance - deviance, 
+                         df.null - df.residual, 
+                         lower.tail = FALSE), digits = digits))
 }
 
 

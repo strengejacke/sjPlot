@@ -337,35 +337,26 @@ sjp.int <- function(fit,
   # -----------------------------------------------------------
   c.f <- class(fit)
   fun <- "lm"
-  stat.fun <- "lm"
   if (any(c.f == "glm")) {
     fun <- "glm"
-    stat.fun <- "glm"
   } else if (any(c.f == "lm")) {
     fun <- "lm"
-    stat.fun <- "lm"
   } else if (any(c.f == "plm")) {
     fun <- "plm"
-    stat.fun <- "lm"
   } else if (any(c.f == "glmerMod")) {
     fun <- "glmer"
-    stat.fun <- "glm"
   } else if (any(c.f == "nlmerMod")) {
     fun <- "nlmer"
-    stat.fun <- "nlm"
   } else if (any(c.f == "lmerMod") || any(c.f == "merModLmerTest")) {
     fun <- "lmer"
-    stat.fun <- "lm"
   } else if (any(c.f == "lme")) {
     fun <- "lme"
-    stat.fun <- "lm"
     if (type != "eff") {
       message("Only 'type = \"eff\"' supports objects of class 'nlme::lme'. Defaulting type to \"eff\".")
       type <- "eff"
     }
   } else if (any(c.f == "gls")) {
     fun <- "gls"
-    stat.fun <- "lm"
     if (type != "eff") {
       message("Only 'type = \"eff\"' supports objects of class 'nlme::gls'. Defaulting type to \"eff\".")
       type <- "eff"

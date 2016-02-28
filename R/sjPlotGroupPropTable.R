@@ -1,4 +1,4 @@
-utils::globalVariables(c("pv", "dep", "n"))
+utils::globalVariables(c("dep", "n"))
 
 #' @title Plot grouped proportional tables
 #' @name sjp.gpt
