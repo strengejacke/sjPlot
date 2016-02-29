@@ -14,5 +14,6 @@
 
 * Fixed bug in `sjp.int`, where automatic y-axis-scaling for binary outcomes cut off parts of confidence region in some cases.
 * Fixed bug in `sjp.lmer` and `sjp.glmer` with doubled y-axis for faceted random effect plots.
-* `sjt.xtab` ignored value labels when weighting data.
-* Fixed bug with position of value labels in `sjp.xtab`.
+* `sjt.xtab` ignored value labels when weighting data ([#106](https://github.com/sjPlot/devel/issues/106)).
+* Fixed bug with position of value labels in `sjp.xtab` ([#107](https://github.com/sjPlot/devel/issues/107)).
+* Fixed bug in `sjp.likert` that plotted categories in wrong order when neutral category was lower than amount of categories ([#109](https://github.com/sjPlot/devel/issues/109)).

@@ -341,11 +341,18 @@ sjp.likert <- function(items,
     # category, recode neutral category to last category
     # --------------------------------------------------------
     if (!is.null(cat.neutral) && cat.neutral <= catcount) {
-      items[[i]] <- sjmisc::rec(items[[i]], sprintf("%i=%i;%i=%i;else=copy", 
-                                                    cat.neutral, 
-                                                    catcount + 1, 
-                                                    catcount + 1,
-                                                    cat.neutral))
+      # first, each other category has to be moved down one position
+      # therefore, we create a pattern with values from neutral
+      # category to category count
+      downvote <- seq(cat.neutral, catcount + 1, by = 1)
+      # now we "shift" this value pattern and make a
+      # string out of it
+      recode.pattern <- paste0(paste0(sprintf("%i=%i",
+                                              c(downvote[-1], downvote[1]),
+                                              downvote),
+                                      collapse = ";"), ";else=copy")
+      # finally, recode data
+      items[[i]] <- sjmisc::rec(items[[i]], recodes = recode.pattern)
     }
     # --------------------------------------------------------
     # If we don't plot neutral category, but item still contains
