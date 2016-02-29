@@ -17,3 +17,4 @@
 * `sjt.xtab` ignored value labels when weighting data ([#106](https://github.com/sjPlot/devel/issues/106)).
 * Fixed bug with position of value labels in `sjp.xtab` ([#107](https://github.com/sjPlot/devel/issues/107)).
 * Fixed bug in `sjp.likert` that plotted categories in wrong order when neutral category was lower than amount of categories ([#109](https://github.com/sjPlot/devel/issues/109)).
+* Fixed bug in `sjp.grpfrq` with argument `autoGroupAt`.

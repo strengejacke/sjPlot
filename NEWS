@@ -14,6 +14,8 @@ Bug fixes:
 * `sjt.xtab` ignored value labels when weighting data.
 * Fixed bug with position of value labels in `sjp.xtab`.
 * Fixed bug in `sjp.likert` that plotted categories in wrong order when neutral category was lower than amount of categories.
+* Fixed bug in `sjp.grpfrq` with argument `autoGroupAt`.
+
 
 Version 1.9.1
 -----------------------------------------------------------------------------

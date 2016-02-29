@@ -454,7 +454,7 @@ sjp.lm <- function(fit,
     if (!is.null(axisLabels.y) && length(axisLabels.y) > nrow(tmp))
       axisLabels.y <- axisLabels.y[-remrows]
     # remove p-values
-    pv <- pv[remrows]
+    pv <- pv[-remrows]
   }
   # -------------------------------------------------
   # init data column for p-values
@@ -509,6 +509,7 @@ sjp.lm <- function(fit,
   # give columns names
   colnames(betas) <- c("xv", "Beta", "lower", "upper", "p", "pv", "grp.est")
   betas$p <- as.character(betas$p)
+  betas$xv <- as.factor(betas$xv)
   # --------------------------------------------------------
   # Calculate axis limits. The range is from lowest lower-CI
   # to highest upper-CI, or a user-defined range (if "axisLimits"
@@ -533,11 +534,11 @@ sjp.lm <- function(fit,
   # (whether grouped or not)
   # --------------------------------------------------------
   if (!is.null(group.estimates)) {
-    betaplot <- ggplot(betas, aes(y = Beta, x = xv, colour = grp.est))
+    betaplot <- ggplot(betas, aes(x = xv, y = Beta, colour = grp.est))
     pal.len <- length(unique(group.estimates))
     legend.labels <- unique(betas$grp.est)
   } else {
-    betaplot <- ggplot(betas, aes(y = Beta, x = xv, colour = (Beta >= 0)))
+    betaplot <- ggplot(betas, aes(x = xv, y = Beta, colour = (Beta >= 0)))
     pal.len <- 2
     legend.labels <- NULL
   }
@@ -548,7 +549,7 @@ sjp.lm <- function(fit,
     # and error bar
     geom_errorbar(aes(ymin = lower, ymax = upper), width = 0) +
     # Print p-values. With vertical adjustment, so they don't overlap with the errorbars
-    geom_text(aes(label = p, y = Beta),
+    geom_text(aes(label = p),
               nudge_x = y.offset,
               show.legend = FALSE) +
     # print point
@@ -563,7 +564,7 @@ sjp.lm <- function(fit,
                        labels = ticks) +
     # set value labels to x-axis
     scale_x_discrete(labels = axisLabels.y,
-                     limits = 1:nrow(betas)) +
+                     limits = 1:length(axisLabels.y)) +
     labs(title = title, x = NULL, y = axisTitle.x, colour = legendTitle)
   # --------------------------------------------------------
   # flip coordinates?

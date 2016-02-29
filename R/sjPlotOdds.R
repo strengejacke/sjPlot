@@ -760,7 +760,9 @@ sjp.glm.pc <- function(fit,
                                    y = y)) +
           labs(x = NULL,
                y = "Predicted Probability",
-               title = "Predicted probabilities of coefficients") +
+               title = ifelse(type == "prob", 
+                              "Predicted probabilities of coefficients",
+                              "Predicted marginal probabilities of coefficients")) +
           stat_smooth(method = "glm", 
                       method.args = list(family = "binomial"), 
                       se = show.ci,
