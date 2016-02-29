@@ -8,6 +8,7 @@
 * `sjp.poly` now has better variable label detection for automatic axis labelling.
 * `sjp.lmer` and `sjp.glmer` now support model diagnostics with `type = "ma"`.
 * Better support for different model families in `sjp.glm`.
+* Better axis labelling for `type = "poly"` in `sjp.lm` and `sjp.lmer` ([#110](https://github.com/sjPlot/devel/issues/110)).
 
 
 ## Bug fixes

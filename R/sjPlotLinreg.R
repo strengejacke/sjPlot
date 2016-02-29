@@ -324,6 +324,7 @@ sjp.lm <- function(fit,
                                  geom.colors,
                                  geom.size,
                                  axisTitle.x,
+                                 NULL,
                                  showCI,
                                  printPlot)))
   }
@@ -1274,6 +1275,7 @@ sjp.lm.poly <- function(fit,
                         geom.colors,
                         geom.size,
                         axisTitle.x,
+                        axisTitle.y,
                         showCI,
                         printPlot) {
   # check size argument
@@ -1291,6 +1293,18 @@ sjp.lm.poly <- function(fit,
   # get model data column names
   cn <- colnames(mm)
   xl <- NULL
+  # any axis title?
+  if (is.null(axisTitle.y)) {
+    # find response name
+    resp.name <- "Response"
+    # check if we have mixed model
+    if (!sjmisc::is_empty(grep("merMod", class(fit), fixed = T)))
+      resp.name <- get_var_name(colnames(fit@frame)[1])
+    else
+      resp.name <- get_var_name(colnames(fit$model)[1])
+  } else {
+    resp.name <- axisTitle.y
+  }
   # -------------------------------------
   # argument check: poly.term required and
   # polynomial must be found in model
@@ -1343,7 +1357,7 @@ sjp.lm.poly <- function(fit,
   # --------------------------------------------
   # retrieve labels
   # --------------------------------------------
-  if (is.null(axisTitle.x) || axisTitle.x == "Estimates") axisTitle.x <- "Polynomial term"
+  if (is.null(axisTitle.x) || axisTitle.x == "Estimates") axisTitle.x <- poly.term
   # ------------------------
   # compute marginal effects of polynomial
   # ------------------------
@@ -1365,7 +1379,7 @@ sjp.lm.poly <- function(fit,
   # plot predicted effect of polynomial term
   polyplot <- polyplot +
     geom_line(colour = geom.colors[1], size = geom.size) +
-    labs(x = axisTitle.x, y = "Response")
+    labs(x = axisTitle.x, y = resp.name)
   # print plot
   if (printPlot) print(polyplot)
   # return result

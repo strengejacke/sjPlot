@@ -755,6 +755,7 @@ sjp.lme4  <- function(fit,
                                    geom.colors,
                                    geom.size,
                                    axisTitle.x,
+                                   axisTitle.y,
                                    showCI = show.ci,
                                    printPlot)))
     } else {
