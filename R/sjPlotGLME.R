@@ -2261,9 +2261,10 @@ sjp.lme.fecondpred.onlynumeric <- function(fit,
 
 
 #' @importFrom stats coef
+#' @importFrom car Anova
 get_lmerMod_pvalues <- function(fitmod) {
   # retrieve sigificance level of independent variables (p-values)
-  if (any(class(fitmod) == "merModLmerTest")) {
+  if (any(class(fitmod) == "merModLmerTest") && requireNamespace("lmerTest", quietly = TRUE)) {
     cs <- suppressWarnings(stats::coef(lmerTest::summary(fitmod)))
   } else {
     cs <- stats::coef(summary(fitmod))
@@ -2467,6 +2468,7 @@ sjp.glmer.ma <- function(fit) {
 }
 
 
+#' @importFrom lme4 fixef confint.merMod 
 get_cleaned_ciMerMod <- function(fit, fun, ci.only = FALSE) {
   # get odds ratios of fixed effects
   estimate <- lme4::fixef(fit)

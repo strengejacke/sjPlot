@@ -20,3 +20,4 @@
 * Fixed bug in `sjp.likert` that plotted categories in wrong order when neutral category was lower than amount of categories ([#109](https://github.com/sjPlot/devel/issues/109)).
 * Fixed bug in `sjp.grpfrq` with argument `autoGroupAt`.
 * Fixed minor bugs in `sjp.lm` with axis range for forest plots.
+* Fixed bug in `sjp.stackfrq`, where the use of argument `showSeparatorLine` caused an error.

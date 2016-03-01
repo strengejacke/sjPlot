@@ -414,7 +414,7 @@ sjp.stackfrq <- function(items,
   # --------------------------------------------------------
   if (showSeparatorLine) {
     baseplot <- baseplot +
-      geom_vline(x = c(seq(1.5, length(items), by = 1)), 
+      geom_vline(xintercept = c(seq(1.5, length(items), by = 1)), 
                  size = separatorLineSize, 
                  colour = separatorLineColor)
   }
