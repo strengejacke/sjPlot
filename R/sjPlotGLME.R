@@ -2,29 +2,29 @@
 utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "conf.high", "pred", "prob", "p.string", "CSS", "useViewer", "no.output"))
 
 
-#' @title Plot odds ratios or predicted probabilities of generalized linear mixed effects models
+#' @title Plot estimates or effects of generalized linear mixed effects models
 #' @name sjp.glmer
 #'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.glmer/}{sjPlot manual: sjp.glmer}
 #'
-#' @description By default, this function plots odds ratios (exponentiated coefficients)
+#' @description By default, this function plots odds or incidents ratios (exponentiated coefficients)
 #'                with confidence intervalls of either fixed effects or random effects of
 #'                generalized linear mixed effects models (that have been fitted with the
 #'                \code{\link[lme4]{glmer}}-function of the \pkg{lme4}-package).
-#'                Furthermore, this function also plots predicted probabilities or
-#'                diagnostic plots.
+#'                Furthermore, this function also plots predicted probabilities /
+#'                incidents or diagnostic plots.
 #'
 #' @param fit a fitted model as returned by the \code{\link[lme4]{glmer}}-function.
 #' @param type type of plot. Use one of following:
 #'          \describe{
-#'            \item{\code{"re"}}{(default) for odds ratios of random effects}
-#'            \item{\code{"fe"}}{for odds ratios of fixed effects}
+#'            \item{\code{"re"}}{(default) for odds or incidents ratios of random effects}
+#'            \item{\code{"fe"}}{for odds or incidents ratios of fixed effects}
 #'            \item{\code{"fe.cor"}}{for correlation matrix of fixed effects}
 #'            \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
 #'            \item{\code{"fe.pc"}}{or \code{"fe.prob"} to plot probability curves (predicted probabilities) of all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
 #'            \item{\code{"ri.pc"}}{or \code{"ri.prob"} to plot probability curves (predicted probabilities) of random intercept variances for all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
 #'            \item{\code{"rs.ri"}}{for fitted probability curves (predicted probabilities) indicating the random slope-intercept pairs. Use this to visualize the random parts of random slope-intercept (or repeated measure) models. When having too many groups, use \code{sample.n} argument.}
-#'            \item{\code{"eff"}}{to plot marginal effects of predicted probabilities for each fixed term, where remaining co-variates are set to the mean. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
+#'            \item{\code{"eff"}}{to plot marginal effects of predicted probabilities or incidents for each fixed term, where remaining co-variates are set to the mean. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
 #'            \item{\code{"y.pc"}}{or \code{"y.prob"} to plot predicted probabilities for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot. See 'Details'.}
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only argument \code{fit} applies to this plot type. All other arguments are ignored.}
 #'          }
@@ -118,7 +118,7 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'            is the logit-estimate of fixed effects and \code{b0} is the intercept of
 #'            the fixed effects).}
 #'            \item{\code{type = "eff"}}{unlike \code{type = "fe.pc"}, the predicted
-#'            probabilities computed by \code{type = "eff"} have all co-variates
+#'            probabilities or incidents computed by \code{type = "eff"} have all co-variates
 #'            set to the mean, as returned by the \code{\link[effects]{allEffects}} function.}
 #'            \item{\code{type = "ri.pc"}}{(or \code{"ri.prob"}), the predicted probabilities
 #'            are based on the fixed effects intercept, plus each random intercept and
@@ -2322,7 +2322,8 @@ sjp.glm.eff <- function(fit,
   # retrieve response vector
   if (fitfam %in% c("binomial", "quasibinomial"))
     axisTitle.y <- paste("Predicted probabilities of", colnames(fit@frame)[1])
-  else if (fitfam %in% c("poisson", "quasipoisson"))
+  else if (fitfam %in% c("poisson", "quasipoisson") ||
+           sjmisc::str_contains(fitfam, "negative binomial", ignore.case = T))
     axisTitle.y <- paste("Predicted incidents of", colnames(fit@frame)[1])
   # which title?
   if (is.null(title)) title <- "Marginal effects of model predictors"

@@ -17,7 +17,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'          \describe{
 #'            \item{\code{"dots"}}{(or \code{"glm"} or \code{"or"} (default)) for odds or incident rate ratios (forest plot). Note that this type is only appropriate for log- or logit-link-functions.}
 #'            \item{\code{"prob"}}{(or \code{"pc"}) to plot predicted probabilities for each model term, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
-#'            \item{\code{"eff"}}{to plot marginal effects of predicted probabilities for each model term, where all remaining co-variates are set to the mean (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
+#'            \item{\code{"eff"}}{to plot marginal effects of predicted probabilities or incidents for each model term, where all remaining co-variates are set to the mean (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
 #'            \item{\code{"y.pc"}}{(or \code{"y.prob"}) to plot predicted probabilities for the response. See 'Details'.}
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only two arguments are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other arguments are ignored.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
@@ -89,11 +89,13 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'            are based on the intercept's estimate and each specific term's estimate.
 #'            All other co-variates are set to zero (i.e. ignored), which corresponds
 #'            to \code{\link{plogis}(b0 + bi * xi)} (where \code{xi} is the logit-estimate).}
-#'            \item{\code{type = "eff"}}{for binomial model families, the predicted probabilities
+#'            \item{\code{type = "eff"}}{for binomial models, the predicted probabilities
 #'            are based on the \code{\link{predict.glm}} method, where predicted values 
 #'            are "centered", i.e. remaining co-variates are set to the mean.
 #'            (see \href{http://stats.stackexchange.com/questions/35682/contribution-of-each-covariate-to-a-single-prediction-in-a-logistic-regression-m#comment71993_35802}{CrossValidated}).
-#'            Corresponds to \code{\link{plogis}(\link{predict}(fit, type = "terms") + attr(predict, "constant"))}.}
+#'            Corresponds to \code{\link{plogis}(\link{predict}(fit, type = "terms") + attr(predict, "constant"))}.
+#'            Effect plots for other families (like poisson or negative binomial) are
+#'            based on the \pkg{effects}-package.}
 #'            \item{\code{type = "y.pc"}}{(or \code{type = "y.prob"}), the predicted values
 #'            of the response are computed, based on the \code{\link{predict.glm}}
 #'            method. Corresponds to \code{\link{predict}(fit, type = "response")}.}
@@ -272,7 +274,8 @@ sjp.glm <- function(fit,
   # Prepare length of title and labels
   # ----------------------------
   # check default label and fit family
-  if (stats::family(fit)$family == "poisson" && 
+  if ((stats::family(fit)$family == "poisson" || 
+       sjmisc::str_contains(stats::family(fit)$family, "negative binomial", ignore.case = T)) && 
       !is.null(axisTitle.x) &&
       axisTitle.x == "Odds Ratios")
     axisTitle.x <- "Incident Rate Ratios"
@@ -283,8 +286,12 @@ sjp.glm <- function(fit,
   if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
   # check length of x-axis-labels and split longer strings at into new lines
   if (!is.null(axisLabels.y)) axisLabels.y <- sjmisc::word_wrap(axisLabels.y, breakLabelsAt)
+  # ----------------------------
+  # get model coefficients
+  # ----------------------------
+  model_coef <- exp(stats::coef(fit))
   # create data frame for ggplot
-  tmp <- data.frame(cbind(exp(stats::coef(fit)), exp(stats::confint(fit))))
+  tmp <- data.frame(cbind(model_coef, exp(stats::confint(fit))))
   # ----------------------------
   # print p-values in bar charts
   # ----------------------------
@@ -300,7 +307,7 @@ sjp.glm <- function(fit,
   # p < 0.01 = **
   # p < 0.05 = *
   # retrieve odds ratios
-  ov <- exp(stats::coef(fit))
+  ov <- model_coef
   # ----------------------------
   # copy OR-values into data column
   # ----------------------------
@@ -323,7 +330,7 @@ sjp.glm <- function(fit,
   # the predictors according to their OR value, while the intercept
   # is always shown on top
   # ----------------------------
-  ov <- exp(stats::coef(fit))[-1]
+  ov <- model_coef[-1]
   # ----------------------------
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
@@ -598,10 +605,10 @@ sjp.glm.pc <- function(fit,
   # ----------------------------
   coef.names <- names(stats::coef(fit))
   # ----------------------------
-  # check model family. for poisson, we use
-  # effects-package
+  # check model family. for poisson etc., we use effects-package
   # ----------------------------
-  if (stats::family(fit)$family %in% c("poisson", "quasipoisson", "gaussian")) {
+  if ((stats::family(fit)$family %in% c("poisson", "quasipoisson", "gaussian")) ||
+      sjmisc::str_contains(stats::family(fit)$family, "negative binomial", ignore.case = T)) {
     # ----------------------------
     # loop through all coefficients
     # ----------------------------

@@ -1,10 +1,10 @@
 # bind global variables
 utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 
-#' @title Plot odds ratios (forest plots) of multiple fitted glm(er)'s
+#' @title Plot odds or incidents ratios (forest plots) of multiple fitted glm(er)'s
 #' @name sjp.glmm
 #' 
-#' @description Plot and compare odds ratios (forest plots) of multiple fitted 
+#' @description Plot and compare odds or incidents ratios (forest plots) of multiple fitted 
 #'                generalized linear (mixed effects) models with confidence 
 #'                intervals in one plot.
 #' 
@@ -179,7 +179,7 @@ sjp.glmm <- function(...,
     # retrieve odds ratios (glm) 
     # ----------------------------
     # create data frame for ggplot
-    if (!sjmisc::is_empty(grep("merMod", class(fit), fixed = T)))
+    if (sjmisc::str_contains(class(fit), "merMod", ignore.case = T))
       odds <- get_cleaned_ciMerMod(fit, "glm")
     else
       odds <- data.frame(exp(stats::coef(fit)), 
@@ -188,7 +188,7 @@ sjp.glmm <- function(...,
     # print p-values in bar charts
     # ----------------------------
     # retrieve sigificance level of independent variables (p-values)
-    if (!sjmisc::is_empty(grep("merMod", class(fit), fixed = T)))
+    if (sjmisc::str_contains(class(fit), "merMod", ignore.case = T))
       pv <- get_lmerMod_pvalues(fit)
     else
       pv <- unname(stats::coef(summary(fit))[, 4])

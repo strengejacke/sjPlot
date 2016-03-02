@@ -215,7 +215,7 @@ sjp.lmm <- function(...,
         axisTitle.x <- "Std. Estimates"
     } else {
       # do we have mermod object?
-      if (!sjmisc::is_empty(grep("merMod", class(fit), fixed = T)))
+      if (sjmisc::str_contains(class(fit), "merMod", ignore.case = T))
         betas <- get_cleaned_ciMerMod(fit, "lm")
       else
         # copy estimates to data frame
@@ -229,7 +229,7 @@ sjp.lmm <- function(...,
     # print p-values in bar charts
     # ----------------------------
     # retrieve sigificance level of independent variables (p-values)
-    if (!sjmisc::is_empty(grep("merMod", class(fit), fixed = T)))
+    if (sjmisc::str_contains(class(fit), "merMod", ignore.case = T))
       pv <- get_lmerMod_pvalues(fit)
     else
       pv <- stats::coef(summary(fit))[, 4]

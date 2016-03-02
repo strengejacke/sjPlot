@@ -23,7 +23,7 @@ sjp.glm(fit, type = "dots", sort.est = TRUE, title = NULL,
 \describe{
   \item{\code{"dots"}}{(or \code{"glm"} or \code{"or"} (default)) for odds or incident rate ratios (forest plot). Note that this type is only appropriate for log- or logit-link-functions.}
   \item{\code{"prob"}}{(or \code{"pc"}) to plot predicted probabilities for each model term, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
-  \item{\code{"eff"}}{to plot marginal effects of predicted probabilities for each model term, where all remaining co-variates are set to the mean (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
+  \item{\code{"eff"}}{to plot marginal effects of predicted probabilities or incidents for each model term, where all remaining co-variates are set to the mean (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
   \item{\code{"y.pc"}}{(or \code{"y.prob"}) to plot predicted probabilities for the response. See 'Details'.}
   \item{\code{"ma"}}{to check model assumptions. Note that only two arguments are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other arguments are ignored.}
   \item{\code{"vif"}}{to plot Variance Inflation Factors.}
@@ -179,11 +179,13 @@ Plot odds or incident rate ratios with confidence intervalls as dot plot.
            are based on the intercept's estimate and each specific term's estimate.
            All other co-variates are set to zero (i.e. ignored), which corresponds
            to \code{\link{plogis}(b0 + bi * xi)} (where \code{xi} is the logit-estimate).}
-           \item{\code{type = "eff"}}{for binomial model families, the predicted probabilities
+           \item{\code{type = "eff"}}{for binomial models, the predicted probabilities
            are based on the \code{\link{predict.glm}} method, where predicted values 
            are "centered", i.e. remaining co-variates are set to the mean.
            (see \href{http://stats.stackexchange.com/questions/35682/contribution-of-each-covariate-to-a-single-prediction-in-a-logistic-regression-m#comment71993_35802}{CrossValidated}).
-           Corresponds to \code{\link{plogis}(\link{predict}(fit, type = "terms") + attr(predict, "constant"))}.}
+           Corresponds to \code{\link{plogis}(\link{predict}(fit, type = "terms") + attr(predict, "constant"))}.
+           Effect plots for other families (like poisson or negative binomial) are
+           based on the \pkg{effects}-package.}
            \item{\code{type = "y.pc"}}{(or \code{type = "y.prob"}), the predicted values
            of the response are computed, based on the \code{\link{predict.glm}}
            method. Corresponds to \code{\link{predict}(fit, type = "response")}.}

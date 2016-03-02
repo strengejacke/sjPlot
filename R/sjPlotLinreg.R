@@ -1298,7 +1298,7 @@ sjp.lm.poly <- function(fit,
     # find response name
     resp.name <- "Response"
     # check if we have mixed model
-    if (!sjmisc::is_empty(grep("merMod", class(fit), fixed = T)))
+    if (sjmisc::str_contains(class(fit), "merMod", ignore.case = T))
       resp.name <- get_var_name(colnames(fit@frame)[1])
     else
       resp.name <- get_var_name(colnames(fit$model)[1])

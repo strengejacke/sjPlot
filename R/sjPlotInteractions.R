@@ -1125,7 +1125,7 @@ sjp.eff.int <- function(fit,
         x_labels <- sjmisc::get_labels(fit$model[[pred_x.name]],
                                        attr.only = F)
         # for mermod object, we have a frame-attribute
-      } else if (!sjmisc::is_empty(grep("merMod", class(fit), fixed = T))) {
+      } else if (sjmisc::str_contains(class(fit), "merMod", ignore.case = T)) {
         x_labels <- sjmisc::get_labels(fit@frame[[pred_x.name]],
                                        attr.only = F)
       }
@@ -1168,7 +1168,8 @@ sjp.eff.int <- function(fit,
         # for logistic reg.
         if (fitfam %in% c("binomial", "quasibinomial"))
           axisTitle.y <- "Predicted Probability"
-        else if (fitfam %in% c("poisson", "quasipoisson"))
+        else if (fitfam %in% c("poisson", "quasipoisson") ||
+                 sjmisc::str_contains(fitfam, "negative binomial", ignore.case = T))
           axisTitle.y <- "Predicted Incidents"
       }
       # -----------------------------------------------------------
