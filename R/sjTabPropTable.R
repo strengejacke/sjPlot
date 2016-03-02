@@ -324,7 +324,7 @@ sjt.xtab <- function(var.row,
   # -------------------------------------
   # total-column
   # -------------------------------------
-  page.content <- paste(page.content, sprintf("    <th class=\"thead tothi firstcolborder\" rowspan=\"2\">%s</th>\n", stringTotal))
+  page.content <- paste(page.content, sprintf("    <th class=\"thead tothi firstcolborder totcol\" rowspan=\"2\">%s</th>\n", stringTotal))
   page.content <- paste(page.content, "  </tr>\n")
   # -------------------------------------
   # init second table row
@@ -401,10 +401,14 @@ sjt.xtab <- function(var.row,
         cellstring <- paste(cellstring, sprintf("<span class=\"td_c\">%s%s</span>", tab.cell[irow, icol], percSign), sep = "")
       }
       # -------------------------------------
+      # set column variable label
+      # -------------------------------------
+      css_tot_col <- ifelse(icol == totalncol, " totcol", "")
+      # -------------------------------------
       # write table cell data
       # -------------------------------------
       page.content <- paste(page.content, sprintf("\n    <td class=\"tdata centeralign horline%s\">%s</td>", 
-                                                  css_last_row,
+                                                  ifelse(css_last_row == "", css_tot_col, css_last_row),
                                                   cellstring), sep = "")
     }
     # close table row
