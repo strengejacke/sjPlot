@@ -1,5 +1,8 @@
-Version 1.9.1-3
+Version 1.9.2
 -----------------------------------------------------------------------------
+General:
+* Updates package vignettes (http://strengejacke.de/sjPlot/) to work with the latest package versions.
+
 Changes to functions:
 * `sjp.lmm` and `sjp.glmm` now also support linear mixed effects models (of class `merMod`).
 * `sjp.int` now uses proper x-axis-tick-labels for `type = "eff"`, when predictor on x-axis is a factor with non-numeric factor-levels (or has label attributes).

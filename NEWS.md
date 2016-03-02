@@ -1,4 +1,9 @@
-# sjPlot 1.9.1-2
+# sjPlot 1.9.2
+
+## General
+
+* Updates [package vignettes](http://strengejacke.de/sjPlot/) to work with the latest package versions.
+
 
 ## Changes to functions
 
