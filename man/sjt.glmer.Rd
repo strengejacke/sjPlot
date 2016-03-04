@@ -16,10 +16,10 @@ sjt.glmer(..., file = NULL, labelPredictors = NULL,
   showStdError = FALSE, ci.hyphen = "&nbsp;&ndash;&nbsp;",
   separateConfColumn = TRUE, newLineConf = TRUE, group.pred = FALSE,
   showAbbrHeadline = TRUE, showICC = TRUE, showLogLik = FALSE,
-  showAIC = FALSE, showAICc = FALSE, showHosLem = FALSE,
-  showFamily = FALSE, remove.estimates = NULL, cellSpacing = 0.2,
-  cellGroupIndent = 0.6, encoding = NULL, CSS = NULL, useViewer = TRUE,
-  no.output = FALSE, remove.spaces = TRUE)
+  showAIC = FALSE, showAICc = FALSE, showDeviance = TRUE,
+  showHosLem = FALSE, showFamily = FALSE, remove.estimates = NULL,
+  cellSpacing = 0.2, cellGroupIndent = 0.6, encoding = NULL, CSS = NULL,
+  useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{one or more fitted generalized linear (mixed) models.}
@@ -118,6 +118,9 @@ in the model summary. Default is \code{FALSE}.}
 \item{showAICc}{logical, if \code{TRUE}, the second-order AIC value for each model 
 is printed in the model summary. Default is \code{FALSE}.}
 
+\item{showDeviance}{logical, if \code{TRUE}, the deviance for each model 
+is printed in the model summary.}
+
 \item{showHosLem}{logical, if \code{TRUE}, a Hosmer-Lemeshow-Goodness-of-fit-test is
 performed. A well-fitting model shows no significant difference between 
 the model and the observed data, i.e. the reported p-values should be
@@ -184,7 +187,10 @@ Summarizes (multiple) fitted generalized linear mixed models (odds ratios, ci, p
 See 'Details' in \code{\link{sjt.frq}}.
 }
 \note{
-See 'Notes' in \code{\link{sjt.frq}}.
+Computation of p-values (if necessary) are based on Wald chi-square 
+        tests from the \code{Anova}-function of the \pkg{car}-package.
+        \cr \cr
+        Furthermore. see 'Notes' in \code{\link{sjt.frq}}.
 }
 \examples{
 \dontrun{

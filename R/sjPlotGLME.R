@@ -106,7 +106,11 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'            \item a data frame \code{data} with the data used to build the ggplot-object(s).
 #'            }
 #'
-#' @note Thanks go to Robert Reijntjes from Leiden University Medical Center for sharing
+#' @note Computation of p-values (if necessary) are based on the Kenward-Roger approximation
+#'         using the \pkg{pbkrtest}-package or on Wald chi-square tests from the
+#'         \code{Anova}-function of the \pkg{car}-package.
+#'         \cr \cr
+#'         Thanks go to Robert Reijntjes from Leiden University Medical Center for sharing
 #'         R code that is used to compute fixed effects correlation matrices and
 #'         qq-plots of random effects.
 #'
@@ -2276,10 +2280,20 @@ get_lmerMod_pvalues <- function(fitmod) {
     # if not, default to 4
     if (length(pvcn) == 0) pvcn <- 4
     pv <- cs[, pvcn]
+  } else if (any(class(fitmod) == "lmerMod") && requireNamespace("pbkrtest", quietly = TRUE)) {
+    # compute Kenward-Roger-DF for p-statistic. Code snippet taken from
+    # http://mindingthebrain.blogspot.de/2014/02/three-ways-to-get-parameter-specific-p.html
+    message("Computing p-values via Kenward-Roger approximation...")
+    #first coefficients need to be data frame
+    cs <- as.data.frame(cs)
+    # get KR DF
+    df.kr <- pbkrtest::get_ddf_Lb(fitmod, lme4::fixef(fitmod))
+    # compute p-values, assuming an approximate t-dist
+    pv <- 2 * (1 - pt(abs(cs$`t value`), df.kr))
   } else {
     # if we don't have p-values in summary, try to get them via anova
     # we use type 3 here to include intercept
-    message("Computing approximate p-values via Wald chi-squared test...")
+    message("Computing approximate p-values via Wald chi-square test...")
     pia <- suppressMessages(car::Anova(fitmod, type = "III"))
     # factors may have multiple levels, however, p-value
     # is not calculated for each factor level. Drop these p-values.

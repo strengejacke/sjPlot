@@ -17,9 +17,9 @@ sjt.lmer(..., file = NULL, labelPredictors = NULL,
   digits.summary = 3, pvaluesAsNumbers = TRUE, boldpvalues = TRUE,
   separateConfColumn = TRUE, newLineConf = TRUE, group.pred = FALSE,
   showAbbrHeadline = TRUE, showICC = TRUE, showAIC = FALSE,
-  showAICc = FALSE, remove.estimates = NULL, cellSpacing = 0.2,
-  cellGroupIndent = 0.6, encoding = NULL, CSS = NULL, useViewer = TRUE,
-  no.output = FALSE, remove.spaces = TRUE)
+  showAICc = FALSE, showDeviance = TRUE, remove.estimates = NULL,
+  cellSpacing = 0.2, cellGroupIndent = 0.6, encoding = NULL, CSS = NULL,
+  useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{one or more fitted linear (mixed) models.}
@@ -123,6 +123,9 @@ in the model summary. Default is \code{FALSE}.}
 \item{showAICc}{logical, if \code{TRUE}, the second-order AIC value for each model 
 is printed in the model summary. Default is \code{FALSE}.}
 
+\item{showDeviance}{logical, if \code{TRUE}, the deviance for each model 
+is printed in the model summary.}
+
 \item{remove.estimates}{numeric vector with indices (order equals to row index of \code{coef(fit)}) 
 or character vector with coefficient names that indicate which estimates should be removed
 from the table output. The first estimate is the intercept, followed by the model predictors.
@@ -179,7 +182,11 @@ Summarizes (multiple) fitted linear mixed effects models
 See 'Details' in \code{\link{sjt.frq}}.
 }
 \note{
-See 'Notes' in \code{\link{sjt.frq}}.
+Computation of p-values (if necessary) are based on the Kenward-Roger approximation
+        using the \pkg{pbkrtest}-package or on Wald-Chi-Squared tests from the
+        \code{Anova}-function of the \pkg{car}-package.
+        \cr \cr
+        Furthermore, see 'Notes' in \code{\link{sjt.frq}}.
 }
 \examples{
 \dontrun{

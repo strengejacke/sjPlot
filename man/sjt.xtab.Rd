@@ -65,9 +65,9 @@ one line and when a line break is inserted. Default is 20.}
 
 \item{showHorizontalLine}{logical, if \code{TRUE}, data rows are separated with a horizontal line}
 
-\item{showSummary}{logical, if \code{TRUE} (default), a summary row with Chi-square statistics (see \code{\link{chisq.test}}),
+\item{showSummary}{logical, if \code{TRUE} (default), a summary row with chi-square statistics (see \code{\link{chisq.test}}),
 Cramer's V or Phi-value etc. is shown. If a cell contains expected values lower than five (or lower than 10 
-if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is computed instead of Chi-square test. 
+if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is computed instead of chi-square test. 
 If the table's matrix is larger than 2x2, Fisher's excact test with Monte Carlo simulation is computed.}
 
 \item{showLegend}{logical, if \code{TRUE}, the color legend for coloring observed and expected

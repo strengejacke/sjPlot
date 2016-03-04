@@ -271,13 +271,16 @@ sjp.glm <- function(fit,
     axisLabels.y <- suppressWarnings(retrieveModelLabels(list(fit)))
   }
   # ----------------------------
+  # check model family, do we have count model?
+  # ----------------------------
+  fitfam <- stats::family(fit)$family
+  ic_count_model <- fitfam %in% c("poisson", "quasipoisson") | 
+    sjmisc::str_contains(fitfam, "negative binomial", ignore.case = T)
+  # ----------------------------
   # Prepare length of title and labels
   # ----------------------------
   # check default label and fit family
-  if ((stats::family(fit)$family == "poisson" || 
-       sjmisc::str_contains(stats::family(fit)$family, "negative binomial", ignore.case = T)) && 
-      !is.null(axisTitle.x) &&
-      axisTitle.x == "Odds Ratios")
+  if (ic_count_model && !is.null(axisTitle.x) && axisTitle.x == "Odds Ratios")
     axisTitle.x <- "Incident Rate Ratios"
   # check length of diagram title and split longer string at into new lines
   if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)

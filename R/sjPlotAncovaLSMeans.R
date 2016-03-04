@@ -32,10 +32,10 @@ sjp.emm <- function(fit,
   # check if suggested packages are available
   # ------------------------
   if (!requireNamespace("lsmeans", quietly = TRUE)) {
-    stop("Package 'lsmeans' needed for this function to work. Please install it.", call. = FALSE)
+    stop("Package `lsmeans` needed for this function to work. Please install it.", call. = FALSE)
   }
   if ((any(class(fit) == "lmerMod" || any(class(fit) == "merModLmerTest"))) && !requireNamespace("lmerTest", quietly = TRUE)) {
-    stop("Package 'lmerTest' needed for this function to work. Please install it.", call. = FALSE)
+    stop("Package `lmerTest` needed for this function to work. Please install it.", call. = FALSE)
   }
   # -----------------------------------------------------------
   # go to sub-function if class = lmerMod

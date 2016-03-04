@@ -193,7 +193,11 @@ By default, this function plots odds or incidents ratios (exponentiated coeffici
          }
 }
 \note{
-Thanks go to Robert Reijntjes from Leiden University Medical Center for sharing
+Computation of p-values (if necessary) are based on the Kenward-Roger approximation
+        using the \pkg{pbkrtest}-package or on Wald chi-square tests from the
+        \code{Anova}-function of the \pkg{car}-package.
+        \cr \cr
+        Thanks go to Robert Reijntjes from Leiden University Medical Center for sharing
         R code that is used to compute fixed effects correlation matrices and
         qq-plots of random effects.
 }

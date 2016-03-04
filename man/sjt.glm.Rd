@@ -16,10 +16,11 @@ sjt.glm(..., file = NULL, labelPredictors = NULL,
   showStdError = FALSE, ci.hyphen = "&nbsp;&ndash;&nbsp;",
   separateConfColumn = TRUE, newLineConf = TRUE, group.pred = TRUE,
   showAbbrHeadline = TRUE, showPseudoR = FALSE, showLogLik = FALSE,
-  showAIC = FALSE, showAICc = FALSE, showChi2 = FALSE,
-  showHosLem = FALSE, showFamily = FALSE, remove.estimates = NULL,
-  cellSpacing = 0.2, cellGroupIndent = 0.6, encoding = NULL, CSS = NULL,
-  useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
+  showAIC = FALSE, showAICc = FALSE, showDeviance = FALSE,
+  showChi2 = FALSE, showHosLem = FALSE, showFamily = FALSE,
+  remove.estimates = NULL, cellSpacing = 0.2, cellGroupIndent = 0.6,
+  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
+  remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{one or more fitted generalized linear (mixed) models.}
@@ -119,6 +120,9 @@ in the model summary. Default is \code{FALSE}.}
 
 \item{showAICc}{logical, if \code{TRUE}, the second-order AIC value for each model 
 is printed in the model summary. Default is \code{FALSE}.}
+
+\item{showDeviance}{logical, if \code{TRUE}, the deviance for each model 
+is printed in the model summary.}
 
 \item{showChi2}{logical, if \code{TRUE}, the p-value of the chi-squared value for each 
 model's residual deviance against the null deviance is printed

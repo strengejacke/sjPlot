@@ -78,6 +78,8 @@ utils::globalVariables(c("starts_with"))
 #'          in the model summary. Default is \code{FALSE}.
 #' @param showAICc logical, if \code{TRUE}, the second-order AIC value for each model 
 #'          is printed in the model summary. Default is \code{FALSE}.
+#' @param showDeviance logical, if \code{TRUE}, the deviance for each model 
+#'          is printed in the model summary.
 #' @param remove.estimates numeric vector with indices (order equals to row index of \code{coef(fit)}) 
 #'          or character vector with coefficient names that indicate which estimates should be removed
 #'          from the table output. The first estimate is the intercept, followed by the model predictors.
@@ -338,7 +340,7 @@ utils::globalVariables(c("starts_with"))
 #'                   css.modelcolumn5 = 'padding-right:50px;'))}
 #'                   
 #' @importFrom dplyr full_join slice
-#' @importFrom stats nobs AIC confint coef
+#' @importFrom stats nobs AIC confint coef deviance
 #' @export
 sjt.lm <- function(...,
                    file = NULL,
@@ -377,6 +379,7 @@ sjt.lm <- function(...,
                    showFStat = FALSE,
                    showAIC = FALSE,
                    showAICc = FALSE,
+                   showDeviance = FALSE,
                    remove.estimates = NULL,
                    cellSpacing = 0.2,
                    cellGroupIndent = 0.6,
@@ -1339,6 +1342,20 @@ sjt.lm <- function(...,
     page.content <- paste0(page.content, "  </tr>\n")
   }
   # -------------------------------------
+  # Model-Summary: deviance
+  # -------------------------------------
+  if (showDeviance) {
+    page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">Deviance</td>")
+    for (i in 1:length(input_list)) {
+      # -------------------------
+      # insert "separator column"
+      # -------------------------
+      page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
+      page.content <- paste0(page.content, sprintf("%s%.*f</td>", colspanstring, digits.summary, stats::deviance(input_list[[i]], REML = FALSE)))
+    }
+    page.content <- paste0(page.content, "\n  </tr>\n")
+  }
+  # -------------------------------------
   # table footnote
   # -------------------------------------
   if (!pvaluesAsNumbers) page.content <- paste(page.content, sprintf("  <tr class=\"tdata annorow\">\n    <td class=\"tdata\">Notes</td><td class=\"tdata annostyle\" colspan=\"%i\"><em>* p&lt;%s.05&nbsp;&nbsp;&nbsp;** p&lt;%s.01&nbsp;&nbsp;&nbsp;*** p&lt;%s.001</em></td>\n  </tr>\n", headerColSpan, p_zero, p_zero, p_zero), sep = "")
@@ -1446,7 +1463,11 @@ sjt.lm <- function(...,
 #'            }
 #'            for further use.
 #'
-#' @note See 'Notes' in \code{\link{sjt.frq}}.
+#' @note Computation of p-values (if necessary) are based on the Kenward-Roger approximation
+#'         using the \pkg{pbkrtest}-package or on Wald-Chi-Squared tests from the
+#'         \code{Anova}-function of the \pkg{car}-package.
+#'         \cr \cr
+#'         Furthermore, see 'Notes' in \code{\link{sjt.frq}}.
 #'  
 #' @details See 'Details' in \code{\link{sjt.frq}}.
 #' 
@@ -1538,6 +1559,7 @@ sjt.lmer <- function(...,
                      showICC = TRUE,
                      showAIC = FALSE,
                      showAICc = FALSE,
+                     showDeviance = TRUE,
                      remove.estimates = NULL,
                      cellSpacing = 0.2,
                      cellGroupIndent = 0.6,
@@ -1560,7 +1582,7 @@ sjt.lmer <- function(...,
                 pvaluesAsNumbers = pvaluesAsNumbers, boldpvalues = boldpvalues, 
                 separateConfColumn = separateConfColumn, newLineConf = newLineConf, 
                 group.pred = group.pred, showAbbrHeadline = showAbbrHeadline, showR2 = showICC, 
-                showFStat = FALSE, showAIC = showAIC, showAICc = showAICc, remove.estimates = remove.estimates, 
-                cellSpacing = cellSpacing, cellGroupIndent = cellGroupIndent, encoding = encoding, 
+                showFStat = FALSE, showAIC = showAIC, showAICc = showAICc, showDeviance = showDeviance,
+                remove.estimates = remove.estimates, cellSpacing = cellSpacing, cellGroupIndent = cellGroupIndent, encoding = encoding, 
                 CSS = CSS, useViewer = useViewer, no.output = no.output, remove.spaces = remove.spaces))
 }

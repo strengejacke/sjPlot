@@ -196,7 +196,7 @@ utils::globalVariables(c("starts_with"))
 #' sjt.glm(fit, fit2, fit3, group.pred = FALSE)}
 #' 
 #' @importFrom dplyr full_join slice
-#' @importFrom stats nobs AIC confint coef logLik family
+#' @importFrom stats nobs AIC confint coef logLik family deviance
 #' @export
 sjt.glm <- function(...,
                     file = NULL,
@@ -231,6 +231,7 @@ sjt.glm <- function(...,
                     showLogLik = FALSE,
                     showAIC = FALSE,
                     showAICc = FALSE,
+                    showDeviance = FALSE,
                     showChi2 = FALSE,
                     showHosLem = FALSE,
                     showFamily = FALSE,
@@ -1002,20 +1003,6 @@ sjt.glm <- function(...,
     page.content <- paste(page.content, "\n  </tr>\n")
   }
   # -------------------------------------
-  # Model-Summary: log likelihood
-  # -------------------------------------
-  if (showLogLik) {
-    page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">-2 Log-Likelihood</td>")
-    for (i in 1:length(input_list)) {
-      # -------------------------
-      # insert "separator column"
-      # -------------------------
-      page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
-      page.content <- paste0(page.content, sprintf("%s%.*f</td>", colspanstring, digits.summary, -2 * as.vector(stats::logLik(input_list[[i]]))))
-    }
-    page.content <- paste0(page.content, "\n  </tr>\n")
-  }
-  # -------------------------------------
   # Model-Summary: AIC
   # -------------------------------------
   if (showAIC) {
@@ -1044,6 +1031,34 @@ sjt.glm <- function(...,
     page.content <- paste0(page.content, "\n  </tr>\n")
   }
   # -------------------------------------
+  # Model-Summary: log likelihood
+  # -------------------------------------
+  if (showLogLik) {
+    page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">-2 Log-Likelihood</td>")
+    for (i in 1:length(input_list)) {
+      # -------------------------
+      # insert "separator column"
+      # -------------------------
+      page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
+      page.content <- paste0(page.content, sprintf("%s%.*f</td>", colspanstring, digits.summary, -2 * as.vector(stats::logLik(input_list[[i]]))))
+    }
+    page.content <- paste0(page.content, "\n  </tr>\n")
+  }
+  # -------------------------------------
+  # Model-Summary: deviance
+  # -------------------------------------
+  if (showDeviance) {
+    page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">Deviance</td>")
+    for (i in 1:length(input_list)) {
+      # -------------------------
+      # insert "separator column"
+      # -------------------------
+      page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
+      page.content <- paste0(page.content, sprintf("%s%.*f</td>", colspanstring, digits.summary, stats::deviance(input_list[[i]], REML = FALSE)))
+    }
+    page.content <- paste0(page.content, "\n  </tr>\n")
+  }
+  # -------------------------------------
   # Model-Summary: Chi2
   # -------------------------------------
   if (showChi2) {
@@ -1064,14 +1079,14 @@ sjt.glm <- function(...,
     page.content <- paste0(page.content, "\n  </tr>\n")
   }
   # -------------------------------------
-  # Model-Summary: Chi-squared-GOF
+  # Model-Summary: chi-square-GOF
   # -------------------------------------
   #   if (showGoF) {
   #     # -------------------------
   #     # not working for glmer
   #     # -------------------------
   #     if (lmerob) {
-  #       warning("Chi-squared Goodness-of-Fit-test does not work for 'merMod'-objects.", call. = F)
+  #       warning("Chi-square Goodness-of-Fit-test does not work for 'merMod'-objects.", call. = F)
   #     } else {
   #       page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">Pearson's &Chi;<sup>2</sup></td>")
   #       for (i in 1:length(input_list)) {
@@ -1140,12 +1155,11 @@ sjt.glm <- function(...,
       # insert "separator column"
       # -------------------------
       page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
-      if (lmerob) {
-        fam <- stats::family(input_list[[i]])
-      } else {
-        fam <- input_list[[i]]$family
-      }
-      page.content <- paste0(page.content, sprintf("%s%s (%s)</td>", colspanstring, fam$family, fam$link))
+      fam <- stats::family(input_list[[i]])
+      page.content <- paste0(page.content, sprintf("%s%s (%s)</td>", 
+                                                   colspanstring, 
+                                                   fam$family, 
+                                                   fam$link))
     }
     page.content <- paste0(page.content, "\n  </tr>\n")
   }
@@ -1247,7 +1261,10 @@ sjt.glm <- function(...,
 #'            }
 #'            for further use.
 #'
-#' @note See 'Notes' in \code{\link{sjt.frq}}.
+#' @note Computation of p-values (if necessary) are based on Wald chi-square 
+#'         tests from the \code{Anova}-function of the \pkg{car}-package.
+#'         \cr \cr
+#'         Furthermore. see 'Notes' in \code{\link{sjt.frq}}.
 #'  
 #' @details See 'Details' in \code{\link{sjt.frq}}.
 #'
@@ -1331,6 +1348,7 @@ sjt.glmer <- function(...,
                       showLogLik = FALSE,
                       showAIC = FALSE,
                       showAICc = FALSE,
+                      showDeviance = TRUE,
                       showHosLem = FALSE,
                       showFamily = FALSE,
                       remove.estimates = NULL,
@@ -1355,8 +1373,8 @@ sjt.glmer <- function(...,
                  showConfInt = showConfInt, showStdError = showStdError, 
                  ci.hyphen = ci.hyphen, separateConfColumn = separateConfColumn, newLineConf = newLineConf, 
                  group.pred = group.pred, showAbbrHeadline = showAbbrHeadline, showPseudoR = showICC, 
-                 showLogLik = showLogLik, showAIC = showAIC, showAICc = showAICc, showChi2 = FALSE, 
-                 showHosLem = showHosLem, showFamily = showFamily, remove.estimates = remove.estimates, 
+                 showLogLik = showLogLik, showAIC = showAIC, showAICc = showAICc, showDeviance = showDeviance,
+                 showChi2 = FALSE, showHosLem = showHosLem, showFamily = showFamily, remove.estimates = remove.estimates, 
                  cellSpacing = cellSpacing, cellGroupIndent = cellGroupIndent, encoding = encoding, 
                  CSS = CSS, useViewer = useViewer, no.output = no.output, remove.spaces = remove.spaces))
 }

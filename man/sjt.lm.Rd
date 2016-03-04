@@ -17,9 +17,9 @@ sjt.lm(..., file = NULL, labelPredictors = NULL,
   pvaluesAsNumbers = TRUE, boldpvalues = TRUE, separateConfColumn = TRUE,
   newLineConf = TRUE, group.pred = TRUE, showAbbrHeadline = TRUE,
   showR2 = TRUE, showFStat = FALSE, showAIC = FALSE, showAICc = FALSE,
-  remove.estimates = NULL, cellSpacing = 0.2, cellGroupIndent = 0.6,
-  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
-  remove.spaces = TRUE)
+  showDeviance = FALSE, remove.estimates = NULL, cellSpacing = 0.2,
+  cellGroupIndent = 0.6, encoding = NULL, CSS = NULL, useViewer = TRUE,
+  no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{one or more fitted linear (mixed) models.}
@@ -125,6 +125,9 @@ in the model summary. Default is \code{FALSE}.}
 
 \item{showAICc}{logical, if \code{TRUE}, the second-order AIC value for each model 
 is printed in the model summary. Default is \code{FALSE}.}
+
+\item{showDeviance}{logical, if \code{TRUE}, the deviance for each model 
+is printed in the model summary.}
 
 \item{remove.estimates}{numeric vector with indices (order equals to row index of \code{coef(fit)}) 
 or character vector with coefficient names that indicate which estimates should be removed

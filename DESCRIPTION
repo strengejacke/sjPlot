@@ -42,6 +42,7 @@ Suggests:
     lmerTest,
     lmtest,
     lsmeans,
+    pbkrtest,
     testthat
 URL: https://github.com/sjPlot/devel
 BugReports: https://github.com/sjPlot/devel/issues
