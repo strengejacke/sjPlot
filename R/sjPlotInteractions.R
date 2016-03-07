@@ -719,9 +719,9 @@ sjp.int <- function(fit,
     # -----------------------------------------------------------
     if (is.null(title)) {
       labtitle <- paste0("Conditional effect of ",
-                         interactionterms[ifelse(useFirstPredOnY == TRUE, 1, 2)],
+                         interactionterms[ifelse(isTRUE(useFirstPredOnY), 1, 2)],
                          " (by ",
-                         interactionterms[ifelse(useFirstPredOnY == TRUE, 2, 1)],
+                         interactionterms[ifelse(isTRUE(useFirstPredOnY), 2, 1)],
                          ") on ", git[["depvar.label"]])
     } else {
       # copy plot counter 
@@ -956,7 +956,7 @@ sjp.eff.int <- function(fit,
   # retrieve position of interaction terms in effects-object
   # ------------------------
   if (is.null(int.term)) {
-    intpos <- which(as.vector(sapply(eff, function(x) length(grep("*", x['term'], fixed = T)) > 0)) == T)
+    intpos <- which(as.vector(sapply(eff, function(x) sjmisc::str_contains(x['term'], "*"))))
   } else {
     intpos <- 1
   }
@@ -985,8 +985,8 @@ sjp.eff.int <- function(fit,
     # -----------------------------------------------------------
     # save response, predictor and moderator names
     # -----------------------------------------------------------
-    pred_x.name <- colnames(intdf)[ifelse(swapPredictors == TRUE, 1, 2)]
-    moderator.name <- colnames(intdf)[ifelse(swapPredictors == TRUE, 2, 1)]
+    pred_x.name <- colnames(intdf)[ifelse(isTRUE(swapPredictors), 1, 2)]
+    moderator.name <- colnames(intdf)[ifelse(isTRUE(swapPredictors), 2, 1)]
     response.name <- dummy.eff$response
     # prepare axis titles
     labx <- pred_x.name

@@ -258,7 +258,7 @@ sjp.grpfrq <- function(varCount,
   # --------------------------------------------------------
   # Plot margins
   # --------------------------------------------------------
-  if (expand.grid == TRUE)
+  if (isTRUE(expand.grid))
     expand.grid <- ggplot2::waiver()
   else
     expand.grid <- c(0, 0)
@@ -538,7 +538,7 @@ sjp.grpfrq <- function(varCount,
   # add group counts to category labels
   # --------------------------------------------------------
   if (showGroupCount) {
-    nas <- ifelse(na.rm == TRUE, "ifany", "no")
+    nas <- ifelse(isTRUE(na.rm), "ifany", "no")
     # check whether we have interaction variables or not
     if (!is.null(interactionVarLabels)) {
       # retrieve group counts by converting data column
@@ -870,7 +870,7 @@ sjp.grpfrq <- function(varCount,
     sj.setGeomColors(baseplot,
                      geom.colors,
                      length(legendLabels),
-                     ifelse(hideLegend == TRUE, FALSE, TRUE),
+                     ifelse(isTRUE(hideLegend), FALSE, TRUE),
                      legendLabels)
   # ----------------------------------
   # Plot integrated bar chart here

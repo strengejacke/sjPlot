@@ -120,7 +120,7 @@ sjp.aov1 <- function(depVar,
   # --------------------------------------------------------
   # Check spelling of type-param
   # --------------------------------------------------------
-  if (expand.grid == TRUE) 
+  if (isTRUE(expand.grid)) 
     expand.grid <- ggplot2::waiver()
   else
     expand.grid <- c(0, 0)

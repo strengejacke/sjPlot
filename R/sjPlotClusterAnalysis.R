@@ -316,7 +316,7 @@ sjc.qclus <- function(data,
   gp <- sj.setGeomColors(gp, 
                          geom.colors, 
                          length(legendLabels), 
-                         ifelse(hideLegend == TRUE, FALSE, TRUE), 
+                         ifelse(isTRUE(hideLegend), FALSE, TRUE), 
                          legendLabels)  
   # --------------------------------------------------------
   # plot

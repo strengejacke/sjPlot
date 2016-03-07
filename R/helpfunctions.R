@@ -421,7 +421,7 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
     # ------------------------
     # do we have a merMod object?
     # ------------------------
-    if (length(grep("merMod", class(fit), fixed = T)) > 0) {
+    if (sjmisc::str_contains(class(fit), "merMod", ignore.case = T)) {
       # if yes, get number of fixed effects
       no_fixef <- length(attr(attr(fit@frame, "terms"), "predvars.fixed")) - 1
       # then copy only fixed effects columns

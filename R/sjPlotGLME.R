@@ -1155,7 +1155,7 @@ sjp.lme4  <- function(fit,
     # set indicator whether or not non significant
     # odds ratios should be faded.
     # ---------------------------------------
-    if (fade.ns == TRUE) {
+    if (isTRUE(fade.ns)) {
       interc <- ifelse(fun == "glm", 1, 0)
       mydf$fade <- (mydf$conf.low < interc & mydf$conf.high > interc)
     } else {
@@ -2383,7 +2383,7 @@ sjp.glm.eff <- function(fit,
     t <- eff[[i]]$term
     # check if we have interaction term
     # these are ignored in this case.
-    if (length(grep(":", t, fixed = T)) == 0 && length(grep("*", t, fixed = T)) == 0) {
+    if (sjmisc::str_contains(t, pattern = c(":", "*"), logic = "not")) {
       # ------------------------
       # build data frame, with raw values
       # predicted response and lower/upper ci

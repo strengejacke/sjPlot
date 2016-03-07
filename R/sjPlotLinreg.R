@@ -264,7 +264,7 @@ sjp.lm <- function(fit,
     # check package availability if fit is plm-object
     # -----------------------------------------------------------
     if (!"package:plm" %in% search()) {
-      stop("Package 'plm' needs to be loaded for this function to work... Use 'library(plm)' and call this function again.", call. = FALSE)
+      stop("Package `plm` needs to be loaded for this function to work... Use `library(plm)` and call this function again.", call. = FALSE)
     }
   }
   if (any(class(fit) == "gls")) {
@@ -1468,7 +1468,7 @@ sjp.lm.eff <- function(fit,
     t <- eff[[i]]$term
     # check if we have interaction term
     # these are ignored in this case.
-    if (length(grep(":", t, fixed = T)) == 0 && length(grep("*", t, fixed = T)) == 0) {
+    if (sjmisc::str_contains(t, pattern = c(":", "*"), logic = "not")) {
       # ------------------------
       # build data frame, with raw values
       # from polynomial term, predicted response
