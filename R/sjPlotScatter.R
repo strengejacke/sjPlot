@@ -369,7 +369,7 @@ sjp.scatter <- function(x = NULL,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (printPlot) plot(scatter)
+  if (printPlot) graphics::plot(scatter)
   # -------------------------------------
   # return results
   # -------------------------------------

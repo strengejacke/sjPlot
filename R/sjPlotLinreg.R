@@ -1112,7 +1112,7 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly = TRUE, completeDiagnostic =
       # ---------------------------------
       # Non-linearity
       # ---------------------------------
-      plot(car::crPlots(linreg))
+      graphics::plot(car::crPlots(linreg))
       # ---------------------------------
       # non-independence of residuals
       # ---------------------------------
@@ -1120,7 +1120,7 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly = TRUE, completeDiagnostic =
       # ---------------------------------
       # Print leverage plots
       # ---------------------------------
-      plot(car::leveragePlots(linreg))
+      graphics::plot(car::leveragePlots(linreg))
       # ---------------------------------
       # Non-constant residuals
       # ---------------------------------

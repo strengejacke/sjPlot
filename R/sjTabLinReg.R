@@ -71,7 +71,10 @@ utils::globalVariables(c("starts_with"))
 #' @param showAbbrHeadline logical, if \code{TRUE} (default), the table data columns have a headline with 
 #'          abbreviations for estimates and std. beta-values, confidence interval and p-values.
 #' @param showR2 logical, if \code{TRUE} (default), the R2 and adjusted R2 values for each model are printed
-#'          in the model summary.
+#'          in the model summary. For linear mixed models, the R2 and Omega-squared values are printed
+#'          (see \code{\link[sjmisc]{r2}} for details).
+#' @param showICC logical, if \code{TRUE}, the intra-class-correlation for each 
+#'          model is printed in the model summary. Only applies to linear mixed models.
 #' @param showFStat If \code{TRUE}, the F-statistics for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
 #' @param showAIC logical, if \code{TRUE}, the AIC value for each model is printed
@@ -376,6 +379,7 @@ sjt.lm <- function(...,
                    group.pred = TRUE,
                    showAbbrHeadline = TRUE,
                    showR2 = TRUE,
+                   showICC = FALSE,
                    showFStat = FALSE,
                    showAIC = FALSE,
                    showAICc = FALSE,
@@ -585,11 +589,6 @@ sjt.lm <- function(...,
   # are mixed effects models
   # ------------------------
   if (lmerob) {
-    # "showICC" is not used in this function, so we
-    # use "showR2" instead of showICC when calling this function
-    # with mixed models.
-    showICC <- showR2
-    showR2 <- FALSE
     # check if we have different amount of coefficients
     # in fitted models - if yes, we have e.g. stepwise models
     sw.fit <- length(unique(sapply(input_list, function(x) length(lme4::fixef(x))))) > 1
@@ -1258,7 +1257,12 @@ sjt.lm <- function(...,
   # Model-Summary: r2 and sdj. r2
   # -------------------------------------
   if (showR2) {
-    page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">R<sup>2</sup> / adj. R<sup>2</sup></td>\n")
+    # first, we need the correct description for 2nd r2-value
+    if (lmerob)
+      r2string <- "&Omega;<sub>0</sub><sup>2</sup>"
+    else
+      r2string <- "adj. R<sup>2"
+    page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata leftalign summary\">R<sup>2</sup> / %s</sup></td>\n", r2string))
     for (i in 1:length(input_list)) {
       # -------------------------
       # insert "separator column"
@@ -1270,11 +1274,16 @@ sjt.lm <- function(...,
       if (any(class(input_list[[i]]) == "gls")) {
         page.content <- paste0(page.content, sprintf("    %sNA / NA</td>\n", colspanstring))
       } else {
-        rsqu <- summary(input_list[[i]])$r.squared
-        adjrsqu <- summary(input_list[[i]])$adj.r.squared
+        # get r2 values
+        r2vals <- sjmisc::r2(input_list[[i]])
         page.content <- paste0(page.content, gsub("0.", 
                                                   paste0(p_zero, "."), 
-                                                  sprintf("    %s%.*f / %.*f</td>\n", colspanstring, digits.summary, rsqu, digits.summary, adjrsqu),
+                                                  sprintf("    %s%.*f / %.*f</td>\n", 
+                                                          colspanstring, 
+                                                          digits.summary, 
+                                                          r2vals[[1]], 
+                                                          digits.summary, 
+                                                          r2vals[[2]]),
                                                   fixed = TRUE))
       }
     }
@@ -1452,8 +1461,6 @@ sjt.lm <- function(...,
 #' @inheritParams sjt.lm
 #' @inheritParams sjt.frq
 #' 
-#' @param showICC logical, if \code{TRUE}, the intra-class-correlation for each 
-#'          model is printed in the model summary.
 #' @return Invisibly returns
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
@@ -1556,6 +1563,7 @@ sjt.lmer <- function(...,
                      newLineConf = TRUE,
                      group.pred = FALSE,
                      showAbbrHeadline = TRUE,
+                     showR2 = TRUE,
                      showICC = TRUE,
                      showAIC = FALSE,
                      showAICc = FALSE,
@@ -1581,7 +1589,7 @@ sjt.lmer <- function(...,
                 digits.se = digits.se, digits.sb = digits.sb, digits.summary = digits.summary, 
                 pvaluesAsNumbers = pvaluesAsNumbers, boldpvalues = boldpvalues, 
                 separateConfColumn = separateConfColumn, newLineConf = newLineConf, 
-                group.pred = group.pred, showAbbrHeadline = showAbbrHeadline, showR2 = showICC, 
+                group.pred = group.pred, showAbbrHeadline = showAbbrHeadline, showR2 = showR2, showICC = showICC, 
                 showFStat = FALSE, showAIC = showAIC, showAICc = showAICc, showDeviance = showDeviance,
                 remove.estimates = remove.estimates, cellSpacing = cellSpacing, cellGroupIndent = cellGroupIndent, encoding = encoding, 
                 CSS = CSS, useViewer = useViewer, no.output = no.output, remove.spaces = remove.spaces))

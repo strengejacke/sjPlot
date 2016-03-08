@@ -921,7 +921,7 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
     i <- order(x)
     n <- length(x)
     ui <- qnorm((n + 1:n) / (2 * n + 1))
-    plot(ui, 
+    graphics::plot(ui, 
          x[i], 
          xlab = "Half-normal quantiles", 
          ylab = ylab, 
@@ -948,7 +948,7 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   # Residual plot
   # ------------------------------------------------------
   res <- stats::residuals(logreg, type = "deviance")
-  plot(log(abs(stats::predict(logreg))), 
+  graphics::plot(log(abs(stats::predict(logreg))), 
        res, main = "Residual plot (original model)", 
        xlab = "Log-predicted values", 
        ylab = "Deviance residuals")
@@ -957,7 +957,7 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   stats::qqline(res)
   if (!showOriginalModelOnly) {
     res <- stats::residuals(model, type = "deviance")
-    plot(log(abs(stats::predict(model))), 
+    graphics::plot(log(abs(stats::predict(model))), 
          res, 
          main = "Residual plot (updated model)", 
          xlab = "Log-predicted values", 
@@ -980,7 +980,7 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
     labs(title = "Residual plot (original model)",
          x = "Log-predicted values",
          y = "Deviance residuals")
-  plot(gp)
+  graphics::plot(gp)
   if (!showOriginalModelOnly) {
     gp <- ggplot(data.frame(x = predict(model), 
                             y = residuals(model),
@@ -992,7 +992,7 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
       labs(title = "Residual plot (updated model)",
            x = "Log-predicted values",
            y = "Deviance residuals")
-    plot(gp)
+    graphics::plot(gp)
   }
   # ------------------------------------------------------
   # Check "linearity"
@@ -1009,7 +1009,7 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
         stat_smooth(method = "loess", se = T) +
         labs(x = pr, y = "Residuals",
              title = "Linear relationship between predictor and residuals")
-      plot(gp)
+      graphics::plot(gp)
     }
   }
   # -------------------------------------

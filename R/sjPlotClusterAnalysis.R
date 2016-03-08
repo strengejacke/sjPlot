@@ -830,6 +830,8 @@ sjc.elbow <- function(data, steps = 15, show.diff = FALSE, showDiff = FALSE) {
 #' sjc.kgap(iris[,1:4])}
 #' 
 #' @import ggplot2
+#' @importFrom stats na.omit
+#' @importFrom graphics plot
 #' @export
 sjc.kgap <- function(x, 
                      max = 10, 
@@ -887,7 +889,7 @@ sjc.kgap <- function(x,
          y = "Gap", 
          title = sprintf("Estimation of clusters (gap statistics)\n%i-cluster solution found", nc)) +
     theme_classic()
-  if (plotResults) plot(gp)
+  if (plotResults) graphics::plot(gp)
   # return value
   invisible(structure(class = "sjckgap",
                       list(data = df,

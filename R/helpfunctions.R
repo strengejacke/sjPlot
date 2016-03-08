@@ -403,7 +403,7 @@ crosstabsum <- function(x, grp, weightBy) {
 
 # checks at which position in fitted models factors with
 # more than two levels are located.
-#' @importFrom nlme getResponse getData
+#' @importFrom stats model.matrix
 retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
   # init group-row-indices
   group.pred.rows <- c()
@@ -418,20 +418,8 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
   for (k in 1:length(models)) {
     # get model
     fit <- models[[k]]
-    # ------------------------
-    # do we have a merMod object?
-    # ------------------------
-    if (sjmisc::str_contains(class(fit), "merMod", ignore.case = T)) {
-      # if yes, get number of fixed effects
-      no_fixef <- length(attr(attr(fit@frame, "terms"), "predvars.fixed")) - 1
-      # then copy only fixed effects columns
-      fmodel <- fit@frame[, 1:no_fixef]
-    } else if (any(class(fit) == "gls")) {
-      fmodel <- cbind(`y` = nlme::getResponse(fit), nlme::getData(fit))
-    } else {
-      # copy model matrix
-      fmodel <- fit$model
-    }
+    # copy model matrix
+    fmodel <- stats::model.matrix(fit)
     # retrieve all factors from model
     for (grp.cnt in 1:ncol(fmodel)) {
       # get variable
@@ -538,13 +526,13 @@ retrieveModelLabels <- function(models) {
         # as factor levels?
         if (!is.null(pvar.lab) && length(pvar.lab) == pvar.len) {
           # add labels
-          if (!any(fit.labels == pvar.lab[2:pvar.len])) {
+          if (sjmisc::str_contains(fit.labels, pattern = pvar.lab[2:pvar.len], logic = "NOT")) {
             fit.labels <- c(fit.labels, pvar.lab[2:pvar.len])
           }
         } else {
           # add labels
-          if (!any(fit.labels == attr(fit$coefficients[i], "names"))) {
-            fit.labels <- c(fit.labels, attr(fit$coefficients[i], "names"))
+          if (sjmisc::str_contains(fit.labels, pattern = names(stats::coef(fit)[i]), logic = "NOT")) {
+            fit.labels <- c(fit.labels, names(stats::coef(fit)[i]))
           }
         }
       } else {
@@ -552,7 +540,7 @@ retrieveModelLabels <- function(models) {
         lab <- sjmisc::get_label(fit$model[, i])
         # if not, use coefficient name
         if (is.null(lab)) {
-          lab <- attr(fit$coefficients[i], "names")
+          lab <- colnames(stats::model.frame(fit))[i]
         }
         if (!any(fit.labels == lab)) fit.labels <- c(fit.labels, lab)
       }

@@ -439,7 +439,7 @@ sjp.pca <- function(data,
   # --------------------------------------------------------
   # print plot
   # --------------------------------------------------------
-  if (printPlot) plot(heatmap)
+  if (printPlot) graphics::plot(heatmap)
   # --------------------------------------------------------
   # if we have a data frame, all factors which do not clearly
   # load on a specific dimension (see patameter "factorLoadingTolerance")

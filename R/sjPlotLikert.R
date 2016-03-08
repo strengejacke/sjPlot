@@ -657,7 +657,7 @@ sjp.likert <- function(items,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (printPlot) plot(gp)
+  if (printPlot) graphics::plot(gp)
   # -------------------------------------
   # return results
   # -------------------------------------

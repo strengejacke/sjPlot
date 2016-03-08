@@ -135,7 +135,7 @@ sjp.chi2 <- function(df,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (printPlot) plot(chiPlot)
+  if (printPlot) graphics::plot(chiPlot)
   # -------------------------------------
   # return results
   # -------------------------------------

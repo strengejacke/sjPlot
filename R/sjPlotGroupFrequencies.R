@@ -875,8 +875,7 @@ sjp.grpfrq <- function(varCount,
   # ----------------------------------
   # Plot integrated bar chart here
   # ----------------------------------
-  if (printPlot)
-    plot(baseplot)
+  if (printPlot) graphics::plot(baseplot)
   # -------------------------------------
   # return results
   # -------------------------------------

@@ -453,7 +453,7 @@ sjp.lmm <- function(...,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (printPlot) plot(plotHeader)
+  if (printPlot) graphics::plot(plotHeader)
   # -------------------------------------
   # set proper column names
   # -------------------------------------

@@ -452,7 +452,7 @@ sjp.stackfrq <- function(items,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (printPlot) plot(baseplot)
+  if (printPlot) graphics::plot(baseplot)
   # -------------------------------------
   # return results
   # -------------------------------------

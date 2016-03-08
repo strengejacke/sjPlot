@@ -1349,7 +1349,7 @@ sjp.lme.feprobcurv <- function(fit,
   # retrieve data frame of model to check whether
   # we have any numeric terms in fitted model
   # ----------------------------
-  fit.df <- fit@frame
+  fit.df <- stats::model.frame(fit)
   # ----------------------------
   # retrieve term names, so we find the estimates in the
   # coefficients list
@@ -1479,6 +1479,7 @@ sjp.lme.feprobcurv <- function(fit,
 }
 
 
+#' @importFrom stats model.frame
 sjp.lme.reprobcurve <- function(fit,
                                 show.ci,
                                 facet.grid,
@@ -1495,7 +1496,7 @@ sjp.lme.reprobcurve <- function(fit,
   # retrieve data frame of model to check whether
   # we have any numeric terms in fitted model
   # ----------------------------
-  fit.df <- fit@frame
+  fit.df <- stats::model.frame(fit)
   # ----------------------------
   # retrieve term names, so we find the estimates in the
   # coefficients list
@@ -1730,13 +1731,17 @@ sjp.lme.feri <- function(fit,
                          printPlot) {
   # check size argument
   if (is.null(geom.size)) geom.size <- .7
+  # -----------------------------------------------------------
+  # get model frame
+  # -----------------------------------------------------------
+  m_f <- stats::model.frame(fit)
   # ----------------------------
   # retrieve term names, so we find the estimates in the
   # coefficients list
   # ----------------------------
   plot.fe <- list()
   mydf.fe <- list()
-  all.term.names <- colnames(fit@frame)
+  all.term.names <- colnames(m_f)
   response.name <- all.term.names[1]
   fit.term.names <- names(lme4::fixef(fit))[-1]
   estimates <- unname(lme4::fixef(fit))[-1]
@@ -1792,7 +1797,7 @@ sjp.lme.feri <- function(fit,
           pos <- grep(all.term.names[k], fit.term.names[j], fixed = T)
           # found?
           if (length(pos) > 0) {
-            xpos <- sort(unique(fit@frame[, k]))
+            xpos <- sort(unique(m_f[, k]))
             break
           }
         }
@@ -1861,6 +1866,10 @@ sjp.lme.reri <- function(fit,
                          fun) {
   # check size argument
   if (is.null(geom.size)) geom.size <- .7
+  # -----------------------------------------------------------
+  # get model frame
+  # -----------------------------------------------------------
+  m_f <- stats::model.frame(fit)
   # ----------------------------
   # retrieve term names, so we find the estimates in the
   # coefficients list
@@ -1873,7 +1882,7 @@ sjp.lme.reri <- function(fit,
   global.intercept <- as.vector(lme4::fixef(fit))[1]
   rnd.slope.name <- colnames(lme4::ranef(fit)[[1]][2])
   # get predictor names
-  pred.values <- colnames(fit@frame)
+  pred.values <- colnames(m_f)
   # do predictor name and rnd. slope name equal?
   # if not, might be a factor, so no exact matching possible
   if (!any(pred.values == rnd.slope.name)) {
@@ -1887,7 +1896,7 @@ sjp.lme.reri <- function(fit,
     }
   }
   # get all values of predictor that was used as random slope
-  eff.range <- unique(sort(fit@frame[[rnd.slope.name]], na.last = NA))
+  eff.range <- unique(sort(m_f[[rnd.slope.name]], na.last = NA))
   # if it a factor?
   if (is.factor(eff.range)) eff.range <- sjmisc::to_value(eff.range)
   # ---------------------------------------
@@ -1960,11 +1969,11 @@ sjp.lme.reri <- function(fit,
       # prepare base plot
       # ------------------------------
       if (fun == "lm") {
-        if (is.null(axisTitle.y)) axisTitle.y <- colnames(fit@frame)[1]
+        if (is.null(axisTitle.y)) axisTitle.y <- colnames(m_f)[1]
         gp <- ggplot(final.df, aes(x = x, y = y, colour = grp)) +
           geom_line(size = geom.size)
       } else {
-        if (is.null(axisTitle.y)) axisTitle.y <- sprintf("Predicted Probability of %s", colnames(fit@frame)[1])
+        if (is.null(axisTitle.y)) axisTitle.y <- sprintf("Predicted Probability of %s", colnames(m_f)[1])
         gp <- ggplot(final.df, aes(x = x, y = y, colour = grp)) +
           stat_smooth(method = "glm", se = F,
                       method.args = list(family = "binomial"))
@@ -2134,6 +2143,7 @@ sjp.lme.fecor <- function(fit,
 }
 
 
+#' @importFrom stats model.frame
 sjp.lme.fecondpred.onlynumeric <- function(fit,
                                            show.ci,
                                            facet.grid,
@@ -2152,7 +2162,7 @@ sjp.lme.fecondpred.onlynumeric <- function(fit,
   # retrieve data frame of model to check whether
   # we have any numeric terms in fitted model
   # ----------------------------
-  fit.df <- fit@frame
+  fit.df <- stats::model.frame(fit)
   # ----------------------------
   # retrieve term names, so we find the estimates in the
   # coefficients list
@@ -2310,7 +2320,7 @@ get_lmerMod_pvalues <- function(fitmod) {
 }
 
 
-#' @importFrom stats family
+#' @importFrom stats family model.frame model.matrix na.omit
 sjp.glm.eff <- function(fit,
                         title,
                         geom.size,
@@ -2327,18 +2337,19 @@ sjp.glm.eff <- function(fit,
     stop("Package 'effects' needed for this function to work. Please install it.", call. = FALSE)
   }
   # ------------------------
-  # Get link family
+  # Get link family and model frame
   # ------------------------
   fitfam <- stats::family(fit)$family
+  fitfram <- stats::model.frame(fit)
   # ------------------------
   # Retrieve response for automatic title
   # ------------------------
   # retrieve response vector
   if (fitfam %in% c("binomial", "quasibinomial"))
-    axisTitle.y <- paste("Predicted probabilities of", colnames(fit@frame)[1])
+    axisTitle.y <- paste("Predicted probabilities of", colnames(fitfram)[1])
   else if (fitfam %in% c("poisson", "quasipoisson") ||
            sjmisc::str_contains(fitfam, "negative binomial", ignore.case = T))
-    axisTitle.y <- paste("Predicted incidents of", colnames(fit@frame)[1])
+    axisTitle.y <- paste("Predicted incidents of", colnames(fitfram)[1])
   # which title?
   if (is.null(title)) title <- "Marginal effects of model predictors"
   # ------------------------
@@ -2450,11 +2461,13 @@ sjp.glm.eff <- function(fit,
                            data = mydat)))
 }
 
-
+#' @importFrom stats residuals model.frame predict
+#' @importFrom graphics plot
 sjp.glmer.ma <- function(fit) {
+  m_f <- stats::model.frame(fit)
   sjp.setTheme("scatterw")
-  gp <- ggplot(data.frame(x = predict(fit), 
-                          y = residuals(fit),
+  gp <- ggplot(data.frame(x = stats::predict(fit), 
+                          y = stats::residuals(fit),
                           grp = as.factor(lme4::getME(fit, "y"))),
                aes(x, y)) + 
     geom_point(aes(colour = grp), show.legend = F) + 
@@ -2463,13 +2476,13 @@ sjp.glmer.ma <- function(fit) {
     labs(title = "Residual plot (original model)",
          x = "Log-predicted values",
          y = "Deviance residuals")
-  plot(gp)
+  graphics::plot(gp)
   
-  preds <- colnames(fit@frame)[-1]
+  preds <- colnames(m_f)[-1]
   for (pr in preds) {
-    if (length(unique(fit@frame[[pr]])) > 4) {
-      mydat <- data.frame(x = fit@frame[[pr]], 
-                          y = residuals(fit),
+    if (length(unique(m_f[[pr]])) > 4) {
+      mydat <- data.frame(x = m_f[[pr]], 
+                          y = stats::residuals(fit),
                           grp = as.factor(lme4::getME(fit, "y")))
       gp <- ggplot(mydat, aes(x, y)) + 
         geom_point(aes(colour = grp), show.legend = F) + 
@@ -2477,7 +2490,7 @@ sjp.glmer.ma <- function(fit) {
         stat_smooth(method = "loess", se = T) +
         labs(x = pr, y = "Residuals",
              title = "Linear relationship between predictor and residuals")
-      plot(gp)
+      graphics::plot(gp)
     }
   }
 }

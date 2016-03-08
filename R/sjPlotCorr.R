@@ -345,7 +345,7 @@ sjp.corr <- function(data,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (printPlot) plot(corrPlot)
+  if (printPlot) graphics::plot(corrPlot)
   # -------------------------------------
   # return results
   # -------------------------------------
