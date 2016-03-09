@@ -74,7 +74,7 @@ utils::globalVariables(c("starts_with"))
 #'          in the model summary. For linear mixed models, the R2 and Omega-squared values are printed
 #'          (see \code{\link[sjmisc]{r2}} for details).
 #' @param showICC logical, if \code{TRUE}, the intra-class-correlation for each 
-#'          model is printed in the model summary. Only applies to linear mixed models.
+#'          model is printed in the model summary. Only applies to mixed models.
 #' @param showFStat If \code{TRUE}, the F-statistics for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
 #' @param showAIC logical, if \code{TRUE}, the AIC value for each model is printed
@@ -1261,8 +1261,9 @@ sjt.lm <- function(...,
     if (lmerob)
       r2string <- "&Omega;<sub>0</sub><sup>2</sup>"
     else
-      r2string <- "adj. R<sup>2"
-    page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata leftalign summary\">R<sup>2</sup> / %s</sup></td>\n", r2string))
+      r2string <- "adj. R<sup>2</sup>"
+    
+    page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata leftalign summary\">R<sup>2</sup> / %s</td>\n", r2string))
     for (i in 1:length(input_list)) {
       # -------------------------
       # insert "separator column"

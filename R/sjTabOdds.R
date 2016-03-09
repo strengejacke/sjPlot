@@ -21,8 +21,8 @@ utils::globalVariables(c("starts_with"))
 #' @param showAbbrHeadline logical, if \code{TRUE} (default), the table data columns have a headline with 
 #'          abbreviations for odds ratios, confidence interval and p-values.
 #' @param showPseudoR logical, if \code{TRUE} (default), the pseudo R2 values for each model are printed
-#'          in the model summary. R2cs is the Cox-Snell-pseudo R-square value, R2n is Nagelkerke's 
-#'          pseudo R-square value and \code{D} is Tjur's Coefficient of Discrimination
+#'          in the model summary. R2cs is the Cox-Snell-pseudo R-squared value, R2n is Nagelkerke's 
+#'          pseudo R-squared value and \code{D} is Tjur's Coefficient of Discrimination
 #'          (see \code{\link[sjmisc]{cod}}).
 #' @param showLogLik logical, if \code{TRUE}, the Log-Likelihood for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
@@ -228,6 +228,7 @@ sjt.glm <- function(...,
                     group.pred = TRUE,
                     showAbbrHeadline = TRUE,
                     showPseudoR = FALSE,
+                    showICC = FALSE,
                     showLogLik = FALSE,
                     showAIC = FALSE,
                     showAICc = FALSE,
@@ -406,11 +407,6 @@ sjt.glm <- function(...,
   # are mixed effects models
   # ------------------------
   if (lmerob) {
-    # "showICC" is not used in this function, so we
-    # use "showR2" instead of showICC when calling this function
-    # with mixed models.
-    showICC <- showPseudoR
-    showPseudoR <- FALSE
     # check if we have different amount of coefficients
     # in fitted models - if yes, we have e.g. stepwise models
     sw.fit <- length(unique(sapply(input_list, function(x) length(lme4::fixef(x))))) > 1
@@ -980,25 +976,41 @@ sjt.glm <- function(...,
   # Model-Summary: pseudo r2
   # -------------------------------------
   if (showPseudoR) {
-    page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">Pseudo-R<sup>2</sup></td>")
+    # first, we need the correct description for 2nd r2-value
+    if (lmerob)
+      r2string <- "Tjur's D"
+    else
+      r2string <- "Pseudo-R<sup>2</sup>"
+    
+    page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata leftalign summary\">%s</td>", r2string))
     for (i in 1:length(input_list)) {
       # -------------------------
       # insert "separator column"
       # -------------------------
       page.content <- paste0(page.content, "\n    <td class=\"separatorcol\">&nbsp;</td>")
-      psr <- sjmisc::pseudo_r2(input_list[[i]])
+      psr <- sjmisc::r2(input_list[[i]])
       tjur <- sjmisc::cod(input_list[[i]])
-      page.content <- paste0(page.content, gsub("0.", 
-                                                paste0(p_zero, "."),
-                                                sprintf("%sR<sup>2</sup><sub>CS</sub> = %.*f<br>R<sup>2</sup><sub>N</sub> = %.*f<br>D = %.*f</td>", 
-                                                        colspanstring, 
-                                                        digits.summary, 
-                                                        psr$CoxSnell,
-                                                        digits.summary, 
-                                                        psr$Nagelkerke,
-                                                        digits.summary, 
-                                                        tjur),
-                                                fixed = TRUE))
+      if (lmerob) {
+        page.content <- paste0(page.content, gsub("0.", 
+                                                  paste0(p_zero, "."),
+                                                  sprintf("%s%.*f", 
+                                                          colspanstring, 
+                                                          digits.summary, 
+                                                          tjur),
+                                                  fixed = TRUE))
+      } else {
+        page.content <- paste0(page.content, gsub("0.", 
+                                                  paste0(p_zero, "."),
+                                                  sprintf("%sR<sup>2</sup><sub>CS</sub> = %.*f<br>R<sup>2</sup><sub>N</sub> = %.*f<br>D = %.*f</td>", 
+                                                          colspanstring, 
+                                                          digits.summary, 
+                                                          psr$CoxSnell,
+                                                          digits.summary, 
+                                                          psr$Nagelkerke,
+                                                          digits.summary, 
+                                                          tjur),
+                                                  fixed = TRUE))
+      }
     }
     page.content <- paste(page.content, "\n  </tr>\n")
   }
@@ -1250,8 +1262,6 @@ sjt.glm <- function(...,
 #' @inheritParams sjt.glm
 #' @inheritParams sjt.frq
 #' 
-#' @param showICC logical, if \code{TRUE}, the intra-class-correlation for each 
-#'          model is printed in the model summary.
 #' @return Invisibly returns
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
@@ -1344,6 +1354,7 @@ sjt.glmer <- function(...,
                       newLineConf = TRUE,
                       group.pred = FALSE,
                       showAbbrHeadline = TRUE,
+                      showPseudoR = FALSE,
                       showICC = TRUE,
                       showLogLik = FALSE,
                       showAIC = FALSE,
@@ -1372,7 +1383,7 @@ sjt.glmer <- function(...,
                  pvaluesAsNumbers = pvaluesAsNumbers, boldpvalues = boldpvalues, 
                  showConfInt = showConfInt, showStdError = showStdError, 
                  ci.hyphen = ci.hyphen, separateConfColumn = separateConfColumn, newLineConf = newLineConf, 
-                 group.pred = group.pred, showAbbrHeadline = showAbbrHeadline, showPseudoR = showICC, 
+                 group.pred = group.pred, showAbbrHeadline = showAbbrHeadline, showPseudoR = showPseudoR, showICC = showICC, 
                  showLogLik = showLogLik, showAIC = showAIC, showAICc = showAICc, showDeviance = showDeviance,
                  showChi2 = FALSE, showHosLem = showHosLem, showFamily = showFamily, remove.estimates = remove.estimates, 
                  cellSpacing = cellSpacing, cellGroupIndent = cellGroupIndent, encoding = encoding, 
