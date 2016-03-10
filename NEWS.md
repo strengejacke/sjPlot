@@ -8,7 +8,7 @@
 
 * Better support for different model families in `sjp.glm` and `sjp.glmer`.
 * `sjt.lm`, `sjt.lmer`, `sjt.glm` and `sjt.glmer` get a `showDeviance` argument to display model's deviance in the table summary.
-* `sjt.lmer` now shows R2-values (based on `sjmisc::r2` function).
+* `sjt.lmer` and `sjt.glmer` now show R2-values (based on `sjmisc::r2` function).
 
 ## Bug fixes
 

@@ -120,7 +120,7 @@ in the model summary. For linear mixed models, the R2 and Omega-squared values a
 (see \code{\link[sjmisc]{r2}} for details).}
 
 \item{showICC}{logical, if \code{TRUE}, the intra-class-correlation for each 
-model is printed in the model summary. Only applies to linear mixed models.}
+model is printed in the model summary. Only applies to mixed models.}
 
 \item{showAIC}{logical, if \code{TRUE}, the AIC value for each model is printed
 in the model summary. Default is \code{FALSE}.}
