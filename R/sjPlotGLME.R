@@ -138,9 +138,6 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'            intercept, the global intercept is always included. In case of overplotting,
 #'            use the \code{sample.n} argument to randomly sample a limited amount
 #'            of groups.}
-#'            \item{\code{type = "y.pc"}}{(or \code{type = "y.prob"}), the predicted values
-#'            of the response are computed, based on the \code{predict.merMod}
-#'            method. Corresponds to \code{\link{plogis}(predict(fit, type = "response"))}.}
 #'            \item{\code{type = "coef"}}{forest plot of joint fixed and random
 #'            effect coefficients, as retrieved by \code{\link[lme4]{coef.merMod}},
 #'            it's simply \code{\link[lme4]{ranef} + \link[lme4]{fixef}}.}

@@ -881,7 +881,7 @@ sjp.int <- function(fit,
 }
   
   
-#' @importFrom stats plogis na.omit
+#' @importFrom stats plogis na.omit model.frame
 sjp.eff.int <- function(fit,
                         int.term = NULL,
                         int.plot.index = NULL,
@@ -1121,13 +1121,8 @@ sjp.eff.int <- function(fit,
       # if yes, use these as labels
       if (!sjmisc::is_num_fac(intdf$x)) {
         x_labels <- levels(intdf$x)
-      } else if (is.list(fit) && ("model" %in% names(fit))) {
-        x_labels <- sjmisc::get_labels(fit$model[[pred_x.name]],
-                                       attr.only = F)
-        # for mermod object, we have a frame-attribute
-      } else if (sjmisc::str_contains(class(fit), "merMod", ignore.case = T)) {
-        x_labels <- sjmisc::get_labels(fit@frame[[pred_x.name]],
-                                       attr.only = F)
+      } else {
+        x_labels <- sjmisc::get_labels(stats::model.frame(fit)[[pred_x.name]], attr.only = F)
       }
     }
     # make sure x is numeric
@@ -1395,7 +1390,7 @@ mv_check <- function(moderatorValues, x) {
 # at the level specified by "plevel". returns NULL, if model
 # contains no interaction terms or no significant interaction term.
 # else, information on model and interaction terms is returned
-#' @importFrom stats model.matrix
+#' @importFrom stats model.matrix model.frame
 getInteractionTerms <- function(fit, fun, plevel) {
   # -----------------------------------------------------------
   # retrieve coefficients
@@ -1460,7 +1455,7 @@ getInteractionTerms <- function(fit, fun, plevel) {
     # retrieve amount and names of predictor variables and
     # of dependent variable
     # -----------------------------------------------------------
-    depvar.label <- colnames(fit@frame)[1]
+    depvar.label <- colnames(stats::model.frame(fit))[1]
     # -----------------------------------------------------------
     # retrieve p-values, without intercept
     # -----------------------------------------------------------

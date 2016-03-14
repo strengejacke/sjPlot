@@ -32,7 +32,7 @@ Imports:
     nlme,
     psych,
     scales,
-    sjmisc (>= 1.5),
+    sjmisc (>= 1.6),
     tidyr (>= 0.4.1)
 Suggests:
     AICcmodavg,

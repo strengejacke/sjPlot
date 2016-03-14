@@ -697,7 +697,7 @@ sjp.reglin <- function(fit,
     fit_x <- data.frame(stats::model.matrix(fit))
     # retrieve response vector
     resp <- lme4::getME(fit, "y")
-    depvar.label <- attr(attr(attr(fit@frame, "terms"), "dataClasses"), "names")[1]
+    depvar.label <- colnames(stats::model.frame(fit))[1]
   } else if (any(class(fit) == "gls")) {
     fit_x <- data.frame(stats::model.matrix(fit))
     resp <- nlme::getResponse(fit)
