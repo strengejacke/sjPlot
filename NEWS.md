@@ -1,4 +1,4 @@
-# sjPlot 1.9.2-2
+# sjPlot 1.9.2-3
 
 ## General
 
@@ -9,7 +9,8 @@
 * Better support for different model families in `sjp.glm` and `sjp.glmer`.
 * `sjt.lm`, `sjt.lmer`, `sjt.glm` and `sjt.glmer` get a `showDeviance` argument to display model's deviance in the table summary.
 * `sjt.lmer` and `sjt.glmer` now show R2-values (based on `sjmisc::r2` function).
-* Minor improvments to `sjp.int` according to plot labels (legend, axis).
+* Plot-type of `sjp.int` now defaults to `type = "eff"`.
+* Minor improvements to `sjp.int` according to plot labels (legend, axis).
 
 ## Bug fixes
 

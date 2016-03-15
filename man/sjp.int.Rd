@@ -4,7 +4,7 @@
 \alias{sjp.int}
 \title{Plot interaction effects of (generalized) linear (mixed) models}
 \usage{
-sjp.int(fit, type = "cond", int.term = NULL, int.plot.index = NULL,
+sjp.int(fit, type = "eff", int.term = NULL, int.plot.index = NULL,
   diff = FALSE, moderatorValues = "minmax", swapPredictors = FALSE,
   plevel = 0.05, title = NULL, fillColor = "grey", fillAlpha = 0.3,
   geom.colors = "Set1", geom.size = NULL, axisTitle.x = NULL,
@@ -26,13 +26,13 @@ classes are
   \item non-linear mixed effects models (\code{\link[lme4]{nlmer}})
   \item linear mixed effects models (\code{\link[nlme]{lme}}, but only for \code{type = "eff"})
   \item generalized least squares models (\code{\link[nlme]{gls}}, but only for \code{type = "eff"})
-  \item panel data estimators (\code{plm})
+  \item panel data estimators (\code{\link[plm]{plm}})
 }}
 
 \item{type}{interaction plot type. Use one of following values:
 \describe{
-  \item{\code{type = "cond"}}{(default) plots the mere \emph{change} of the moderating effect on the response value (conditional effect). See 'Details'.}
-  \item{\code{type = "eff"}}{plots the overall moderation effect on the response value. See 'Details'.}
+  \item{\code{type = "eff"}}{(default) plots the overall moderation effect on the response value. See 'Details'.}
+  \item{\code{type = "cond"}}{plots the mere \emph{change} of the moderating effect on the response value (conditional effect). See 'Details'.}
   \item{\code{type = "emm"}}{plots the estimated marginal means (least square means). If this type is chosen, not all function arguments are applicable. See 'Details'.}
 }}
 
@@ -56,7 +56,7 @@ independent variable on the dependent variable.
   \item{\code{"meansd"}}{uses the mean value of the moderator as well as one standard deviation below and above mean value to plot the effect of the moderator on the independent variable (following the convention suggested by Cohen and Cohen and popularized by Aiken and West, i.e. using the mean, the value one standard deviation above, and the value one standard deviation below the mean as values of the moderator, see \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}).}
   \item{\code{"zeromax"}}{is similar to the \code{"minmax"} option, however, \code{0} is always used as minimum value for the moderator. This may be useful for predictors that don't have an empirical zero-value, but absence of moderation should be simulated by using 0 as minimum.}
   \item{\code{"quart"}}{calculates and uses the quartiles (lower, median and upper) of the moderator value.}
-  \item{\code{"all"}}{uses all values of the moderator variable. Note that this option only applies to \code{type = "eff"}.}
+  \item{\code{"all"}}{uses all values of the moderator variable. Note that this option only applies to \code{type = "eff"}, for numeric moderator values.}
 }}
 
 \item{swapPredictors}{if \code{TRUE}, the predictor on the x-axis and the moderator value in an interaction are
@@ -164,7 +164,7 @@ Plot regression (predicted values) or probability lines (predicted probabilities
                  \item non-linear mixed effects models (\code{\link[lme4]{nlmer}})
                  \item linear mixed effects models (\code{\link[nlme]{lme}}, but only for \code{type = "eff"})
                  \item generalized least squares models (\code{\link[nlme]{gls}}, but only for \code{type = "eff"})
-                 \item panel data estimators (\code{plm})
+                 \item panel data estimators (\code{\link[plm]{plm}})
                }
                Note that beside interaction terms, also the single predictors of each interaction (main effects)
                must be included in the fitted model as well. Thus, \code{lm(dep ~ pred1 * pred2)} will work, 
@@ -172,6 +172,11 @@ Plot regression (predicted values) or probability lines (predicted probabilities
 }
 \details{
 \describe{
+           \item{\code{type = "eff"}}{plots the overall effects (marginal effects) of the interaction, with all remaining
+             covariates set to the mean. Effects are calculated using the \code{\link[effects]{effect}}-
+             function from the \pkg{effects}-package. \cr \cr
+             Following arguments \emph{do not} apply to this function: \code{diff}, \code{axisLabels.x}.
+           }
            \item{\code{type = "cond"}}{plots the effective \emph{change} or \emph{impact} 
              (conditional effect) on a dependent variable of a moderation effect, as 
              described in \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin},
@@ -184,11 +189,6 @@ Plot regression (predicted values) or probability lines (predicted probabilities
              for all other predictors and covariates) of interactions on the result of Y. Use 
              \code{type = "eff"} for effect displays similar to the \code{\link[effects]{effect}}-function 
              from the \pkg{effects}-package.
-           }
-           \item{\code{type = "eff"}}{plots the overall effects (marginal effects) of the interaction, with all remaining
-             covariates set to the mean. Effects are calculated using the \code{\link[effects]{effect}}-
-             function from the \pkg{effects}-package. \cr \cr
-             Following arguments \emph{do not} apply to this function: \code{diff}, \code{axisLabels.x}.
            }
            \item{\code{type = "emm"}}{plots the estimated marginal means of repeated measures designs,
              like two-way repeated measures AN(C)OVA. In detail, this type plots estimated marginal means 

@@ -46,8 +46,8 @@
 #'          }
 #' @param type interaction plot type. Use one of following values:
 #'          \describe{
-#'            \item{\code{type = "cond"}}{(default) plots the mere \emph{change} of the moderating effect on the response value (conditional effect). See 'Details'.}
-#'            \item{\code{type = "eff"}}{plots the overall moderation effect on the response value. See 'Details'.}
+#'            \item{\code{type = "eff"}}{(default) plots the overall moderation effect on the response value. See 'Details'.}
+#'            \item{\code{type = "cond"}}{plots the mere \emph{change} of the moderating effect on the response value (conditional effect). See 'Details'.}
 #'            \item{\code{type = "emm"}}{plots the estimated marginal means (least square means). If this type is chosen, not all function arguments are applicable. See 'Details'.}
 #'          }
 #' @param int.term select interaction term of \code{fit} (as character), which should be plotted
@@ -67,7 +67,7 @@
 #'            \item{\code{"meansd"}}{uses the mean value of the moderator as well as one standard deviation below and above mean value to plot the effect of the moderator on the independent variable (following the convention suggested by Cohen and Cohen and popularized by Aiken and West, i.e. using the mean, the value one standard deviation above, and the value one standard deviation below the mean as values of the moderator, see \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}).}
 #'            \item{\code{"zeromax"}}{is similar to the \code{"minmax"} option, however, \code{0} is always used as minimum value for the moderator. This may be useful for predictors that don't have an empirical zero-value, but absence of moderation should be simulated by using 0 as minimum.}
 #'            \item{\code{"quart"}}{calculates and uses the quartiles (lower, median and upper) of the moderator value.}
-#'            \item{\code{"all"}}{uses all values of the moderator variable. Note that this option only applies to \code{type = "eff"}.}
+#'            \item{\code{"all"}}{uses all values of the moderator variable. Note that this option only applies to \code{type = "eff"}, for numeric moderator values.}
 #'          }
 #' @param swapPredictors if \code{TRUE}, the predictor on the x-axis and the moderator value in an interaction are
 #'          swapped. For \code{type = "eff"}, the first interaction term is used as moderator and the second term
@@ -122,6 +122,11 @@
 #'           as well as the data frames that were used for setting up the ggplot-objects (\code{data.list}).
 #'
 #' @details \describe{
+#'            \item{\code{type = "eff"}}{plots the overall effects (marginal effects) of the interaction, with all remaining
+#'              covariates set to the mean. Effects are calculated using the \code{\link[effects]{effect}}-
+#'              function from the \pkg{effects}-package. \cr \cr
+#'              Following arguments \emph{do not} apply to this function: \code{diff}, \code{axisLabels.x}.
+#'            }
 #'            \item{\code{type = "cond"}}{plots the effective \emph{change} or \emph{impact} 
 #'              (conditional effect) on a dependent variable of a moderation effect, as 
 #'              described in \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin},
@@ -134,11 +139,6 @@
 #'              for all other predictors and covariates) of interactions on the result of Y. Use 
 #'              \code{type = "eff"} for effect displays similar to the \code{\link[effects]{effect}}-function 
 #'              from the \pkg{effects}-package.
-#'            }
-#'            \item{\code{type = "eff"}}{plots the overall effects (marginal effects) of the interaction, with all remaining
-#'              covariates set to the mean. Effects are calculated using the \code{\link[effects]{effect}}-
-#'              function from the \pkg{effects}-package. \cr \cr
-#'              Following arguments \emph{do not} apply to this function: \code{diff}, \code{axisLabels.x}.
 #'            }
 #'            \item{\code{type = "emm"}}{plots the estimated marginal means of repeated measures designs,
 #'              like two-way repeated measures AN(C)OVA. In detail, this type plots estimated marginal means 
@@ -304,7 +304,7 @@
 #' @importFrom effects allEffects effect
 #' @export
 sjp.int <- function(fit,
-                    type = "cond",
+                    type = "eff",
                     int.term = NULL,
                     int.plot.index = NULL,
                     diff = FALSE,
@@ -1123,7 +1123,7 @@ sjp.eff.int <- function(fit,
     # -----------------------------------------------------------
     intdf <- droplevels(intdf)
     # group as factor
-    intdf$grp <- as.factor(intdf$grp)
+    intdf$grp <- factor(intdf$grp, levels = unique(as.character(intdf$grp)))
     x_labels <- NULL
     # does model have labels? we want these if x is a factor.
     # first we need to know whether we have a model-data-frame
@@ -1256,7 +1256,7 @@ sjp.eff.int <- function(fit,
       # try to get labels
       lLabels <- sjmisc::get_labels(stats::model.frame(fit)[[moderator.name]], attr.only = F)
       # if we still have no labels, get values from group
-      if (is.null(lLabels)) lLabels <- as.character(unique(intdf$grp))
+      if (is.null(lLabels)) lLabels <- unique(as.character(intdf$grp))
     } else {
       # copy plot counter 
       l_nr <- i
@@ -1264,6 +1264,12 @@ sjp.eff.int <- function(fit,
       if (l_nr > length(legendLabels)) l_nr <- length(legendLabels)
       # set legend labels for plot
       lLabels <- legendLabels[[l_nr]]
+    }
+    # -----------------------------------------------------------
+    # prepare facet-labels
+    # -----------------------------------------------------------
+    if (length(unique(intdf$grp)) == length(lLabels) && isTRUE(facet.grid)) {
+      intdf$grp <- lLabels
     }
     # -----------------------------------------------------------
     # legend titles
@@ -1371,8 +1377,8 @@ sjp.eff.int <- function(fit,
     # ---------------------------------------------------------
     baseplot <- sj.setGeomColors(baseplot, 
                                  geom.colors, 
-                                 length(unique(stats::na.omit(intdf$grp))), 
-                                 !is.null(lLabels), 
+                                 pal.len = length(unique(stats::na.omit(intdf$grp))), 
+                                 show.legend = !is.null(lLabels) & !isTRUE(facet.grid), 
                                  lLabels)
     # ---------------------------------------------------------
     # Check whether ggplot object should be returned or plotted
