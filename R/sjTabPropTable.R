@@ -267,11 +267,11 @@ sjt.xtab <- function(var.row,
   css.secondtablerow <- "border-bottom:1px solid; text-align:center;"
   css.leftalign <- "text-align:left; vertical-align:middle;"
   css.centeralign <- "text-align:center;"
-  css.lasttablerow <- ifelse(highlightTotal == TRUE, sprintf(" border-bottom:double; background-color:%s;", highlightColor), " border-bottom:double;")
-  css.totcol <- ifelse(highlightTotal == TRUE, sprintf(" background-color:%s;", highlightColor), "")
+  css.lasttablerow <- ifelse(isTRUE(highlightTotal), sprintf(" border-bottom:double; background-color:%s;", highlightColor), " border-bottom:double;")
+  css.totcol <- ifelse(isTRUE(highlightTotal), sprintf(" background-color:%s;", highlightColor), "")
   css.tothi <- "font-weight:bolder; font-style:italic;"
   css.summary <- "text-align:right; font-size:0.9em; font-style:italic;"
-  css.horline <- ifelse(showHorizontalLine == TRUE, "border-bottom:1px solid;", "")
+  css.horline <- ifelse(isTRUE(showHorizontalLine), "border-bottom:1px solid;", "")
   # ------------------------
   # check user defined style sheets
   # ------------------------

@@ -67,6 +67,7 @@
 #'            \item{\code{"meansd"}}{uses the mean value of the moderator as well as one standard deviation below and above mean value to plot the effect of the moderator on the independent variable (following the convention suggested by Cohen and Cohen and popularized by Aiken and West, i.e. using the mean, the value one standard deviation above, and the value one standard deviation below the mean as values of the moderator, see \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}).}
 #'            \item{\code{"zeromax"}}{is similar to the \code{"minmax"} option, however, \code{0} is always used as minimum value for the moderator. This may be useful for predictors that don't have an empirical zero-value, but absence of moderation should be simulated by using 0 as minimum.}
 #'            \item{\code{"quart"}}{calculates and uses the quartiles (lower, median and upper) of the moderator value.}
+#'            \item{\code{"all"}}{uses all values of the moderator variable. Note that this option only applies to \code{type = "eff"}.}
 #'          }
 #' @param swapPredictors if \code{TRUE}, the predictor on the x-axis and the moderator value in an interaction are
 #'          swapped. For \code{type = "eff"}, the first interaction term is used as moderator and the second term
@@ -385,23 +386,30 @@ sjp.int <- function(fit,
   # gridbreaks
   if (is.null(gridBreaksAt)) gridbreaks.x <- gridbreaks.y <- ggplot2::waiver()
   # moderator value
-  if (moderatorValues != "minmax" && moderatorValues != "zeromax" && moderatorValues != "meansd" && moderatorValues != "quart") {
-    message("'moderatorValues' has to be one of 'minmax', 'zeromax', 'quart' or 'meansd'. Defaulting to 'minmax'...")
+  if (moderatorValues != "minmax" && moderatorValues != "zeromax" && 
+      moderatorValues != "meansd" && moderatorValues != "quart" &&
+      moderatorValues != "all") {
+    message("`moderatorValues` has to be one of `minmax`, `zeromax`, `quart`, `meansd` or `all`. Defaulting to `minmax`.")
     moderatorValues <- "minmax"
   }
   # check plot type
   if (type != "cond" && type != "emm" && type != "eff") {
-    message("'type' has to be one of 'cond', 'eff' or 'emm'. Defaulting to 'cond'...")
+    message("`type` has to be one of `cond`, `eff` or `emm`. Defaulting to `cond`.")
     type <- "cond"
+  }
+  if (type == "cond" && moderatorValues == "all") {
+    message("`moderatorValues = \"all\"` only applies to `type = \"cond\". Defaulting `moderatorValues` to `minmax`.")
+    moderatorValues <- "minmax"
   }
   # ------------------------
   # do we have glm? if so, get link family. make exceptions
   # for specific models that don't have family function
   # ------------------------
-  if (any(c.f == "lme")) 
-    fitfam <- ""
-  else
-    fitfam <- stats::family(fit)$family
+  fitfam <- get_glm_family(fit)
+  # --------------------------------------------------------
+  # create logical for family
+  # --------------------------------------------------------
+  binom_fam <- fitfam$is_bin
   # --------------------------------------------------------
   # plot estimated marginal means?
   # --------------------------------------------------------
@@ -441,7 +449,7 @@ sjp.int <- function(fit,
   # set axis title
   # -----------------------------------------------------------
   if ((fun == "glm" || fun == "glmer") && is.null(axisTitle.y)) {
-    if (fitfam %in% c("binomial", "quasibinomial"))
+    if (isTRUE(binom_fam))
       axisTitle.y <- "Change in Predicted Probability"
     else 
       axisTitle.y <- "Change in Incidents Rates"
@@ -639,7 +647,7 @@ sjp.int <- function(fit,
     # -----------------------------------------------------------
     # convert df-values to numeric
     # -----------------------------------------------------------
-    if (fun == "lm" || fun == "lmer") {
+    if (fun == "lm" || fun == "lmer" || fun == "lme") {
       intdf$x <- sjmisc::to_value(intdf$x, keep.labels = F)
       intdf$y <- sjmisc::to_value(intdf$y, keep.labels = F)
       intdf$ymin <- sjmisc::to_value(intdf$ymin, keep.labels = F)
@@ -662,7 +670,7 @@ sjp.int <- function(fit,
         upperLim.y <- axisLimits.y[2]
       }
     } else {
-      if (fitfam %in% c("binomial", "quasibinomial")) {
+      if (isTRUE(binom_fam)) {
         intdf$x <- sjmisc::to_value(intdf$x, keep.labels = F)
         intdf$y <- plogis(sjmisc::to_value(intdf$y, keep.labels = F))
         intdf$ymin <- plogis(sjmisc::to_value(intdf$ymin, keep.labels = F))
@@ -681,7 +689,7 @@ sjp.int <- function(fit,
     # the scale limits
     # -----------------------------------------------------------
     if (is.null(axisLimits.y)) {
-      if (fitfam %in% c("binomial", "quasibinomial")) {
+      if (isTRUE(binom_fam)) {
         lowerLim.y <- as.integer(floor(10 * min(intdf$y, na.rm = T) * .9)) / 10
         upperLim.y <- as.integer(ceiling(10 * max(intdf$y, na.rm = T) * 1.1)) / 10
       } else {
@@ -989,7 +997,7 @@ sjp.eff.int <- function(fit,
     moderator.name <- colnames(intdf)[ifelse(isTRUE(swapPredictors), 2, 1)]
     response.name <- dummy.eff$response
     # prepare axis titles
-    labx <- pred_x.name
+    labx <- sjmisc::get_label(stats::model.frame(fit)[[pred_x.name]], def.value = pred_x.name)
     # check whether x-axis-predictor is a factor or not
     x_is_factor <- is.factor(intdf[[pred_x.name]]) || (length(unique(na.omit(intdf[[pred_x.name]]))) < 3)
     # -----------------------------------------------------------
@@ -1031,6 +1039,9 @@ sjp.eff.int <- function(fit,
         mv.sd <- round(sd(modval, na.rm = T), 2)
         # re-compute effects, prepare xlevels
         xl1 <- list(x = c(mv.mean - mv.sd, mv.mean, mv.mean + mv.sd))
+      } else if (moderatorValues == "all") {
+        # re-compute effects, prepare xlevels
+        xl1 <- list(x = as.vector((unique(sort(modval, na.last = NA)))))
       } else if (moderatorValues == "quart") {
         # re-compute effects, prepare xlevels
         xl1 <- list(x = as.vector(stats::quantile(modval, na.rm = T)))
@@ -1132,7 +1143,7 @@ sjp.eff.int <- function(fit,
     # -----------------------------------------------------------
     if (fun == "lm" || fun == "lmer" || fun == "lme" || fun == "gls") {
       # Label on y-axis is name of dependent variable
-      laby <- response.name
+      laby <- sjmisc::get_label(stats::model.frame(fit)[[response.name]], def.value = response.name)
       # -----------------------------------------------------------
       # retrieve lowest and highest x and y position to determine
       # the scale limits
@@ -1154,17 +1165,20 @@ sjp.eff.int <- function(fit,
       # do we have glm? if so, get link family. make exceptions
       # for specific models that don't have family function
       # ------------------------
-      if (any(class(fit) == "lme")) 
-        fitfam <- ""
-      else
-        fitfam <- stats::family(fit)$family
+      fitfam <- get_glm_family(fit)
+      # --------------------------------------------------------
+      # create logical for family
+      # --------------------------------------------------------
+      binom_fam <- fitfam$is_bin
+      poisson_fam <- fitfam$is_pois
+      # --------------------------------------------------------
       # Label on y-axis is fixed
+      # --------------------------------------------------------
       if (is.null(axisTitle.y)) {
         # for logistic reg.
-        if (fitfam %in% c("binomial", "quasibinomial"))
+        if (isTRUE(binom_fam))
           axisTitle.y <- "Predicted Probability"
-        else if (fitfam %in% c("poisson", "quasipoisson") ||
-                 sjmisc::str_contains(fitfam, "negative binomial", ignore.case = T))
+        else if (isTRUE(poisson_fam))
           axisTitle.y <- "Predicted Incidents"
       }
       # -----------------------------------------------------------
@@ -1172,7 +1186,7 @@ sjp.eff.int <- function(fit,
       # the scale limits
       # -----------------------------------------------------------
       if (is.null(axisLimits.y)) {
-        if (fitfam %in% c("binomial", "quasibinomial")) {
+        if (isTRUE(binom_fam)) {
           if (showCI) {
             lowerLim.y <- as.integer(floor(10 * min(intdf$conf.low, na.rm = T) * .9)) / 10
             upperLim.y <- as.integer(ceiling(10 * max(intdf$conf.high, na.rm = T) * 1.1)) / 10
@@ -1237,7 +1251,10 @@ sjp.eff.int <- function(fit,
     # legend labels
     # -----------------------------------------------------------
     if (is.null(legendLabels)) {
-      lLabels <- levels(intdf$grp)
+      # try to get labels
+      lLabels <- sjmisc::get_labels(stats::model.frame(fit)[[moderator.name]], attr.only = F)
+      # if we still have no labels, get values from group
+      if (is.null(lLabels)) lLabels <- as.character(unique(intdf$grp))
     } else {
       # copy plot counter 
       l_nr <- i
@@ -1250,7 +1267,7 @@ sjp.eff.int <- function(fit,
     # legend titles
     # -----------------------------------------------------------
     if (is.null(legendTitle)) {
-      lTitle <- moderator.name
+      lTitle <- sjmisc::get_label(stats::model.frame(fit)[[moderator.name]], def.value = moderator.name)
     } else {
       # copy plot counter 
       l_nr <- i

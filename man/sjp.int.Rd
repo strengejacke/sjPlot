@@ -56,6 +56,7 @@ independent variable on the dependent variable.
   \item{\code{"meansd"}}{uses the mean value of the moderator as well as one standard deviation below and above mean value to plot the effect of the moderator on the independent variable (following the convention suggested by Cohen and Cohen and popularized by Aiken and West, i.e. using the mean, the value one standard deviation above, and the value one standard deviation below the mean as values of the moderator, see \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}).}
   \item{\code{"zeromax"}}{is similar to the \code{"minmax"} option, however, \code{0} is always used as minimum value for the moderator. This may be useful for predictors that don't have an empirical zero-value, but absence of moderation should be simulated by using 0 as minimum.}
   \item{\code{"quart"}}{calculates and uses the quartiles (lower, median and upper) of the moderator value.}
+  \item{\code{"all"}}{uses all values of the moderator variable. Note that this option only applies to \code{type = "eff"}.}
 }}
 
 \item{swapPredictors}{if \code{TRUE}, the predictor on the x-axis and the moderator value in an interaction are

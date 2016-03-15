@@ -232,7 +232,7 @@ sjp.lmm <- function(...,
     if (sjmisc::str_contains(class(fit), "merMod", ignore.case = T))
       pv <- get_lmerMod_pvalues(fit)
     else
-      pv <- stats::coef(summary(fit))[, 4]
+      pv <- get_lm_pvalues(fit)$p
     # for better readability, convert p-values to asterisks
     # with:
     # p < 0.001 = ***
@@ -400,7 +400,7 @@ sjp.lmm <- function(...,
   # --------------------------------------------------------
   # fade non-significant estimates?
   # --------------------------------------------------------
-  nsAlpha <- ifelse(fade.ns == TRUE, 0.3, 1.0)
+  nsAlpha <- ifelse(isTRUE(fade.ns), 0.3, 1.0)
   # --------------------------------------------------------
   # continue with errorbars, p-value-label and intercept line
   # --------------------------------------------------------
@@ -448,7 +448,7 @@ sjp.lmm <- function(...,
   plotHeader <- sj.setGeomColors(plotHeader, 
                                  geom.colors, 
                                  length(labelDependentVariables), 
-                                 ifelse(hideLegend == TRUE, FALSE, TRUE), 
+                                 ifelse(isTRUE(hideLegend), FALSE, TRUE), 
                                  labelDependentVariables)  
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted

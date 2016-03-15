@@ -173,7 +173,7 @@ sjp.xtab <- function(x,
   # --------------------------------------------------------
   if (type == "b" || type == "bar") type <- "bars"
   if (type == "l" || type == "line") type <- "lines"
-  if (expand.grid == TRUE) {
+  if (isTRUE(expand.grid)) {
     expand.grid <- ggplot2::waiver()
   } else {
     expand.grid <- c(0, 0)
@@ -305,7 +305,7 @@ sjp.xtab <- function(x,
   # add line-break char
   # --------------------------------------------------------
   if (showPercentageValues && showCountValues) {
-    mydf$line.break <- ifelse(coord.flip == TRUE, ' ', '\n')
+    mydf$line.break <- ifelse(isTRUE(coord.flip), ' ', '\n')
   } else {
     mydf$line.break <- ""
   }
@@ -364,7 +364,7 @@ sjp.xtab <- function(x,
       upper_lim <- 1
   } else {
     # factor depends on labels
-    if (showValueLabels == TRUE)
+    if (isTRUE(showValueLabels))
       mlp <- 1.2
     else
       mlp <- 1.1
@@ -456,7 +456,7 @@ sjp.xtab <- function(x,
   } else if (type == "lines") {
     # for lines, numeric scale
     mydf$xpos <- sjmisc::to_value(mydf$xpos, keep.labels = F)
-    line.stat <- ifelse(smoothLines == TRUE, "smooth", "identity")
+    line.stat <- ifelse(isTRUE(smoothLines), "smooth", "identity")
     geob <- geom_line(aes(colour = group),
                       size = geom.size, 
                       stat = line.stat)
@@ -506,7 +506,7 @@ sjp.xtab <- function(x,
   baseplot <- sj.setGeomColors(baseplot, 
                                geom.colors, 
                                length(legendLabels), 
-                               ifelse(hideLegend == TRUE, FALSE, TRUE), 
+                               ifelse(isTRUE(hideLegend), FALSE, TRUE), 
                                legendLabels)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted

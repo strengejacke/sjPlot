@@ -190,13 +190,17 @@ By default, this function plots odds or incidents ratios (exponentiated coeffici
          }
 }
 \note{
-Computation of p-values (if necessary) are based on the Kenward-Roger approximation
-        using the \pkg{pbkrtest}-package or on Wald chi-square tests from the
-        \code{Anova}-function of the \pkg{car}-package.
-        \cr \cr
-        Thanks go to Robert Reijntjes from Leiden University Medical Center for sharing
-        R code that is used to compute fixed effects correlation matrices and
-        qq-plots of random effects.
+\itemize{
+         \item{Computation of p-values (if necessary) are based on 
+               Wald chi-square tests from the \code{Anova}-function of the \pkg{car}-package.}
+         \item{Most plot types work for binomial outcomes only (see 'Details'),
+               however, some plot types like \code{type = "fe"} or \code{type = "eff"} also
+               work for count reponses.}
+         \item{Thanks go to Robert Reijntjes from 
+               Leiden University Medical Center for sharing R code that is used 
+               to compute fixed effects correlation matrices and qq-plots of 
+               random effects.}
+       }
 }
 \examples{
 library(lme4)

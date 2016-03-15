@@ -106,13 +106,17 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'            \item a data frame \code{data} with the data used to build the ggplot-object(s).
 #'            }
 #'
-#' @note Computation of p-values (if necessary) are based on the Kenward-Roger approximation
-#'         using the \pkg{pbkrtest}-package or on Wald chi-square tests from the
-#'         \code{Anova}-function of the \pkg{car}-package.
-#'         \cr \cr
-#'         Thanks go to Robert Reijntjes from Leiden University Medical Center for sharing
-#'         R code that is used to compute fixed effects correlation matrices and
-#'         qq-plots of random effects.
+#' @note \itemize{
+#'          \item{Computation of p-values (if necessary) are based on 
+#'                Wald chi-square tests from the \code{Anova}-function of the \pkg{car}-package.}
+#'          \item{Most plot types work for binomial outcomes only (see 'Details'),
+#'                however, some plot types like \code{type = "fe"} or \code{type = "eff"} also
+#'                work for count reponses.}
+#'          \item{Thanks go to Robert Reijntjes from 
+#'                Leiden University Medical Center for sharing R code that is used 
+#'                to compute fixed effects correlation matrices and qq-plots of 
+#'                random effects.}
+#'        }
 #'
 #' @details \describe{
 #'            \item{\code{type = "fe.pc"}}{(or \code{"fe.prob"}), the predicted probabilities
@@ -373,6 +377,11 @@ sjp.glmer <- function(fit,
 #'            \item a data frame \code{data} with the data used to build the ggplot-object(s).
 #'            }
 #'
+#' @note Computation of p-values (if necessary) are based on conditional F-Tests
+#'         with the Kenward-Roger approximation for the df, using the \pkg{pbkrtest}-package.
+#'         If \pkg{pbkrtest} is not available, Wald chi-squared tests from the 
+#'         \code{Anova}-function of the \pkg{car}-package are computed.
+#'
 #' @examples
 #' # fit model
 #' library(lme4)
@@ -588,10 +597,10 @@ sjp.lme4  <- function(fit,
   # check if suggested package is available
   # ------------------------
   if (!requireNamespace("lme4", quietly = TRUE)) {
-    stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
+    stop("Package `lme4` needed for this function to work. Please install it.", call. = FALSE)
   }
   if (!requireNamespace("arm", quietly = TRUE)) {
-    stop("Package 'arm' needed for this function to work. Please install it.", call. = FALSE)
+    stop("Package `arm` needed for this function to work. Please install it.", call. = FALSE)
   }
   # -------------------------------------
   # check type
@@ -643,10 +652,10 @@ sjp.lme4  <- function(fit,
         # any valid indices left?
         # ---------------------------------------
         if (length(ri.nr) == 0) {
-          warning("All indices specified in 'ri.nr' were greater than amount of random intercepts in model. Please use valid range for 'ri.nr'.", call. = F)
+          warning("All indices specified in `ri.nr` were greater than amount of random intercepts in model. Please use valid range for `ri.nr`.", call. = F)
           return(invisible(NULL))
         } else {
-          message("One or more indices specified in 'ri.nr' were greater than amount of random intercepts in model. These indices have been removed from 'ri.nr'.")
+          message("One or more indices specified in `ri.nr` were greater than amount of random intercepts in model. These indices have been removed from `ri.nr`.")
         }
       }
       # ---------------------------------------
@@ -671,7 +680,7 @@ sjp.lme4  <- function(fit,
       # plot is not faceted!
       # ---------------------------------------
       if (facet.grid) {
-        message("Emphasizing groups only works in non-faceted plots. Use 'facet.grid = FALSE' to enable group emphasizing. 'emph.grp' was set to NULL.")
+        message("Emphasizing groups only works in non-faceted plots. Use `facet.grid = FALSE` to enable group emphasizing. `emph.grp` will now be ignored.")
         emph.grp <- NULL
       } else {
         # ---------------------------------------
@@ -699,7 +708,7 @@ sjp.lme4  <- function(fit,
           # any valid indices left?
           # ---------------------------------------
           if (length(emph.grp) == 0) {
-            warning("No index value in 'emph.grp' matches any grouping level. Please use valid values for 'emph.grp'.", call. = F)
+            warning("No index value in `emph.grp` matches any grouping level. Please use valid values for `emph.grp`.", call. = F)
             return(invisible(NULL))
           }
         }
@@ -743,7 +752,7 @@ sjp.lme4  <- function(fit,
                                   useResiduals = ifelse(type == "fe.pred", FALSE, TRUE),
                                   printPlot = printPlot)))
     } else {
-      warning("Plotting slopes of fixed effects only works for function 'sjp.lmer'.", call. = FALSE)
+      warning("Plotting slopes of fixed effects only works for function `sjp.lmer`.", call. = FALSE)
       return(invisible(NULL))
     }
   } else if (type == "poly") {
@@ -760,7 +769,7 @@ sjp.lme4  <- function(fit,
                                    showCI = show.ci,
                                    printPlot)))
     } else {
-      warning("Plotting polynomial terms only works for function 'sjp.lmer'.", call. = FALSE)
+      warning("Plotting polynomial terms only works for function `sjp.lmer`.", call. = FALSE)
       return(invisible(NULL))
     }
   } else if (type == "eff") {
@@ -780,7 +789,7 @@ sjp.lme4  <- function(fit,
                                    geom.size,
                                    remove.estimates,
                                    showCI = show.ci,
-                                   axisLimits.y,
+                                   axisLimits.y = axisLimits.y,
                                    printPlot)))
     }
   } else if (type == "fe.ri") {
@@ -796,7 +805,7 @@ sjp.lme4  <- function(fit,
                                     geom.size,
                                     printPlot)))
     } else {
-      warning("Fixed effects plots by random intercept effects (grouping levels) only works for function 'sjp.lmer'.", call. = FALSE)
+      warning("Fixed effects plots by random intercept effects (grouping levels) only works for function `sjp.lmer`.", call. = FALSE)
       return(invisible(NULL))
     }
   } else if (type == "rs.ri") {
@@ -840,7 +849,7 @@ sjp.lme4  <- function(fit,
                                           axisLimits.y,
                                           printPlot)))
     } else {
-      warning("Probability plots of fixed effects only works for function 'sjp.glmer'.", call. = FALSE)
+      warning("Probability plots of fixed effects only works for function `sjp.glmer`.", call. = FALSE)
       return(invisible(NULL))
     }
   } else if (type == "ri.pc") {
@@ -858,7 +867,7 @@ sjp.lme4  <- function(fit,
                                            axisLimits.y,
                                            printPlot)))
     } else {
-      warning("Probability plots of random intercept effects only works for function 'sjp.glmer'.", call. = FALSE)
+      warning("Probability plots of random intercept effects only works for function `sjp.glmer`.", call. = FALSE)
       return(invisible(NULL))
     }
   } else if (type == "y.pc") {
@@ -2336,16 +2345,20 @@ sjp.glm.eff <- function(fit,
   # ------------------------
   # Get link family and model frame
   # ------------------------
-  fitfam <- stats::family(fit)$family
   fitfram <- stats::model.frame(fit)
+  fitfam <- get_glm_family(fit)
+  # --------------------------------------------------------
+  # create logical for family
+  # --------------------------------------------------------
+  poisson_fam <- fitfam$is_pois
+  binom_fam <- fitfam$is_bin
   # ------------------------
   # Retrieve response for automatic title
   # ------------------------
   # retrieve response vector
-  if (fitfam %in% c("binomial", "quasibinomial"))
+  if (isTRUE(binom_fam))
     axisTitle.y <- paste("Predicted probabilities of", colnames(fitfram)[1])
-  else if (fitfam %in% c("poisson", "quasipoisson") ||
-           sjmisc::str_contains(fitfam, "negative binomial", ignore.case = T))
+  else if (isTRUE(poisson_fam))
     axisTitle.y <- paste("Predicted incidents of", colnames(fitfram)[1])
   # which title?
   if (is.null(title)) title <- "Marginal effects of model predictors"
@@ -2396,7 +2409,7 @@ sjp.glm.eff <- function(fit,
       # build data frame, with raw values
       # predicted response and lower/upper ci
       # ------------------------
-      if (fitfam %in% c("binomial", "quasibinomial")) {
+      if (isTRUE(binom_fam)) {
         tmp <- data.frame(x = eff[[i]]$x[[t]],
                           y = plogis(eff[[i]]$fit),
                           lower = plogis(eff[[i]]$lower),
@@ -2427,7 +2440,7 @@ sjp.glm.eff <- function(fit,
   # tell user that interaction terms are ignored
   # ------------------------
   if (int.found) {
-    message("Interaction terms in model have been ignored. Call 'sjp.int' to plot effects of interaction terms.")
+    message("Interaction terms in model have been ignored. Call `sjp.int` to plot effects of interaction terms.")
   }
   # ------------------------
   # how many different groups?
@@ -2446,7 +2459,7 @@ sjp.glm.eff <- function(fit,
     facet_wrap(~grp, ncol = round(sqrt(grp.cnt)), scales = "free_x") +
     labs(x = NULL, y = axisTitle.y, title = title)
   # for logistic regression, use 0 to 1 scale limits
-  if (fitfam %in% c("binomial", "quasibinomial"))
+  if (isTRUE(binom_fam))
     eff.plot <- eff.plot + coord_cartesian(ylim = axisLimits.y)
   # ------------------------
   # print plot?

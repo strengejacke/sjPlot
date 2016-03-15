@@ -380,13 +380,7 @@ sjp.lm <- function(fit,
   # print beta- and p-values in bar charts
   # ----------------------------
   # retrieve sigificance level of independent variables (p-values)
-  if (any(class(fit) == "pggls")) {
-    pv <- summary(fit)$CoefTable[-1, 4]
-  } else if (any(class(fit) == "gls")) {
-    pv <- summary(fit)$tTable[-1, 4]
-  } else {
-    pv <- stats::coef(summary(fit))[-1, 4]
-  }
+  pv <- get_lm_pvalues(fit)$p
   # -------------------------------------------------
   # for better readability, convert p-values to asterisks
   # with:
@@ -718,7 +712,7 @@ sjp.reglin <- function(fit,
   # -----------------------------------------------------------
   # retrieve name of dependent variable
   # -----------------------------------------------------------
-  response <- ifelse(useResiduals == TRUE, "residuals", depvar.label)
+  response <- ifelse(isTRUE(useResiduals), "residuals", depvar.label)
   # init return var
   plotlist <- list()
   dflist <- list()
@@ -792,7 +786,7 @@ sjp.reglin <- function(fit,
 
 col_check <- function(geom.colors, showLoess) {
   # define required length of color palette
-  collen <- ifelse(showLoess == TRUE, 3, 2)
+  collen <- ifelse(isTRUE(showLoess), 3, 2)
   if (is.null(geom.colors)) {
     if (collen == 2)
       geom.colors <- c("#1f78b4", "#404040")
@@ -872,7 +866,7 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly = TRUE, completeDiagnostic =
     outlier <- c()
     loop <- TRUE
     # start loop
-    while (loop == TRUE) {
+    while (isTRUE(loop)) {
       # get outliers of model
       # ol <- car::outlierTest(model)
       # vars <- as.numeric(names(ol$p))
@@ -1191,7 +1185,7 @@ sjp.lm1 <- function(fit,
   # -----------------------------------------------------------
   # retrieve name of predictor and response
   # -----------------------------------------------------------
-  response <- ifelse(useResiduals == TRUE, "residuals", cn[1])
+  response <- ifelse(isTRUE(useResiduals), "residuals", cn[1])
   xval <- cn[2]
   # -----------------------------------------------------------
   # create dummy-data frame with response and predictor
@@ -1527,4 +1521,20 @@ sjp.lm.eff <- function(fit,
   invisible(structure(class = c("sjPlot", "sjplmeff"),
                       list(plot = eff.plot,
                            data = mydat)))
+}
+
+
+get_lm_pvalues <- function(fit) {
+  # retrieve sigificance level of independent variables (p-values)
+  if (any(class(fit) == "pggls")) {
+    p <- summary(fit)$CoefTable[-1, 4]
+    se <- summary(fit)$CoefTable[-1, 2]
+  } else if (any(class(fit) == "gls")) {
+    p <- summary(fit)$tTable[-1, 4]
+    se <- summary(fit)$tTable[-1, 2]
+  } else {
+    p <- stats::coef(summary(fit))[-1, 4]
+    se <- stats::coef(summary(fit))[-1, 2]
+  }
+  return(list(p = p, se = se))
 }

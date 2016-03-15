@@ -273,14 +273,16 @@ sjp.glm <- function(fit,
   # ----------------------------
   # check model family, do we have count model?
   # ----------------------------
-  fitfam <- stats::family(fit)$family
-  ic_count_model <- fitfam %in% c("poisson", "quasipoisson") | 
-    sjmisc::str_contains(fitfam, "negative binomial", ignore.case = T)
+  fitfam <- get_glm_family(fit)
+  # --------------------------------------------------------
+  # create logical for family
+  # --------------------------------------------------------
+  poisson_fam <- fitfam$is_pois
   # ----------------------------
   # Prepare length of title and labels
   # ----------------------------
   # check default label and fit family
-  if (ic_count_model && !is.null(axisTitle.x) && axisTitle.x == "Odds Ratios")
+  if (isTRUE(poisson_fam) && !is.null(axisTitle.x) && axisTitle.x == "Odds Ratios")
     axisTitle.x <- "Incident Rate Ratios"
   # check length of diagram title and split longer string at into new lines
   if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
@@ -868,7 +870,7 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   outlier <- c()
   loop <- TRUE
   # start loop
-  while (loop == TRUE) {
+  while (isTRUE(loop)) {
     # get outliers of model
     # ol <- car::outlierTest(model)
     # retrieve variable numbers of outliers

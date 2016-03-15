@@ -669,15 +669,12 @@ sjt.lm <- function(...,
       # standard error
       fit.df$se <- sprintf("%.*f", digits.se, stats::coef(summary(fit))[, "Std. Error"])
     } else {
-      # get model summary, depending on model class
-      if (any(class(fit) == "gls"))
-        model.summary <- summary(fit)$tTable
-      else
-        model.summary <- summary(fit)$coefficients
+      # get p and se, depending on model class
+      p_se <- get_lm_pvalues(fit)
       # p-values
-      fit.df$pv <- round(model.summary[, 4], digits.p)
+      fit.df$pv <- round(p_se$p, digits.p)
       # standard error
-      fit.df$se <- sprintf("%.*f", digits.se, model.summary[, 2])
+      fit.df$se <- sprintf("%.*f", digits.se, p_se$se)
     }
     # retrieve standardized betas and CI
     fit.df$stdbv <- c("", sprintf("%.*f", digits.sb, sbvals[, 1]))
@@ -1471,9 +1468,10 @@ sjt.lm <- function(...,
 #'            }
 #'            for further use.
 #'
-#' @note Computation of p-values (if necessary) are based on the Kenward-Roger approximation
-#'         using the \pkg{pbkrtest}-package or on Wald-Chi-Squared tests from the
-#'         \code{Anova}-function of the \pkg{car}-package.
+#' @note Computation of p-values (if necessary) are based on conditional F-Tests
+#'         with the Kenward-Roger approximation for the df, using the \pkg{pbkrtest}-package.
+#'         If \pkg{pbkrtest} is not available, Wald chi-squared tests from the 
+#'         \code{Anova}-function of the \pkg{car}-package are computed.
 #'         \cr \cr
 #'         Furthermore, see 'Notes' in \code{\link{sjt.frq}}.
 #'  

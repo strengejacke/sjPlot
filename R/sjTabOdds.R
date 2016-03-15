@@ -1271,8 +1271,8 @@ sjt.glm <- function(...,
 #'            }
 #'            for further use.
 #'
-#' @note Computation of p-values (if necessary) are based on Wald chi-square 
-#'         tests from the \code{Anova}-function of the \pkg{car}-package.
+#' @note Computation of p-values (if necessary) are based on Wald chi-squared tests from the 
+#'         \code{Anova}-function of the \pkg{car}-package.
 #'         \cr \cr
 #'         Furthermore. see 'Notes' in \code{\link{sjt.frq}}.
 #'  

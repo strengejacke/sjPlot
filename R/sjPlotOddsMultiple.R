@@ -366,7 +366,7 @@ sjp.glmm <- function(...,
   # --------------------------------------------------------
   # fade non-significant estimates?
   # --------------------------------------------------------
-  nsAlpha <- ifelse(fade.ns == TRUE, 0.3, 1.0)
+  nsAlpha <- ifelse(isTRUE(fade.ns), 0.3, 1.0)
   # --------------------------------------------------------
   # continue with errorbars, p-value-label and intercept line
   # --------------------------------------------------------
@@ -424,7 +424,7 @@ sjp.glmm <- function(...,
   plotHeader <- sj.setGeomColors(plotHeader, 
                                  geom.colors, 
                                  length(labelDependentVariables), 
-                                 ifelse(hideLegend == TRUE, FALSE, TRUE), 
+                                 ifelse(isTRUE(hideLegend), FALSE, TRUE), 
                                  labelDependentVariables)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted

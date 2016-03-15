@@ -587,7 +587,7 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   # should percentage value labels be printed?
   # --------------------------------------------------------
-  percsign <- mydat.pos$percsign <- mydat.neg$percsign <- ifelse(showPercentageSign == TRUE, "%", "")
+  percsign <- mydat.pos$percsign <- mydat.neg$percsign <- ifelse(isTRUE(showPercentageSign), "%", "")
   if (nrow(mydat.dk) > 0) mydat.dk$percsign <- percsign
   # --------------------------------------------------------
   # creating value labels for cumulative percentages, so
@@ -651,7 +651,7 @@ sjp.likert <- function(items,
   gp <- sj.setGeomColors(gp, 
                          geom.colors, 
                          (catcount + adding), 
-                         ifelse(hideLegend == TRUE, FALSE, TRUE), 
+                         ifelse(isTRUE(hideLegend), FALSE, TRUE), 
                          legendLabels,
                          reverse.colors)
   # ---------------------------------------------------------

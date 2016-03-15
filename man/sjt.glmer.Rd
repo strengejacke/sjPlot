@@ -193,8 +193,8 @@ Summarizes (multiple) fitted generalized linear mixed models (odds ratios, ci, p
 See 'Details' in \code{\link{sjt.frq}}.
 }
 \note{
-Computation of p-values (if necessary) are based on Wald chi-square 
-        tests from the \code{Anova}-function of the \pkg{car}-package.
+Computation of p-values (if necessary) are based on Wald chi-squared tests from the 
+        \code{Anova}-function of the \pkg{car}-package.
         \cr \cr
         Furthermore. see 'Notes' in \code{\link{sjt.frq}}.
 }

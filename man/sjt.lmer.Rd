@@ -187,9 +187,10 @@ Summarizes (multiple) fitted linear mixed effects models
 See 'Details' in \code{\link{sjt.frq}}.
 }
 \note{
-Computation of p-values (if necessary) are based on the Kenward-Roger approximation
-        using the \pkg{pbkrtest}-package or on Wald-Chi-Squared tests from the
-        \code{Anova}-function of the \pkg{car}-package.
+Computation of p-values (if necessary) are based on conditional F-Tests
+        with the Kenward-Roger approximation for the df, using the \pkg{pbkrtest}-package.
+        If \pkg{pbkrtest} is not available, Wald chi-squared tests from the 
+        \code{Anova}-function of the \pkg{car}-package are computed.
         \cr \cr
         Furthermore, see 'Notes' in \code{\link{sjt.frq}}.
 }

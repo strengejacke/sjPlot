@@ -298,7 +298,7 @@ sjp.frq <- function(varCount,
   if (type == "l" || type == "lines") type <- "line"
   if (type == "box" || type == "boxplot") type <- "boxplots"
   if (type == "v" || type == "violins") type <- "violin"
-  if (expand.grid == TRUE || (missing(expand.grid) && type == "histogram")) {
+  if (isTRUE(expand.grid) || (missing(expand.grid) && type == "histogram")) {
     expand.grid <- ggplot2::waiver()
   } else {
     expand.grid <- c(0, 0)

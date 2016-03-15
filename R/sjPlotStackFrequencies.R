@@ -447,7 +447,7 @@ sjp.stackfrq <- function(items,
   baseplot <- sj.setGeomColors(baseplot, 
                                geom.colors, 
                                length(legendLabels), 
-                               ifelse(hideLegend == TRUE, FALSE, TRUE), 
+                               ifelse(isTRUE(hideLegend), FALSE, TRUE), 
                                legendLabels)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
