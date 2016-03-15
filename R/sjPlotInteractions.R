@@ -26,7 +26,7 @@
 #'                  \item non-linear mixed effects models (\code{\link[lme4]{nlmer}})
 #'                  \item linear mixed effects models (\code{\link[nlme]{lme}}, but only for \code{type = "eff"})
 #'                  \item generalized least squares models (\code{\link[nlme]{gls}}, but only for \code{type = "eff"})
-#'                  \item panel data estimators (\code{plm})
+#'                  \item panel data estimators (\code{\link[plm]{plm}})
 #'                }
 #'                Note that beside interaction terms, also the single predictors of each interaction (main effects)
 #'                must be included in the fitted model as well. Thus, \code{lm(dep ~ pred1 * pred2)} will work, 
@@ -42,7 +42,7 @@
 #'            \item non-linear mixed effects models (\code{\link[lme4]{nlmer}})
 #'            \item linear mixed effects models (\code{\link[nlme]{lme}}, but only for \code{type = "eff"})
 #'            \item generalized least squares models (\code{\link[nlme]{gls}}, but only for \code{type = "eff"})
-#'            \item panel data estimators (\code{plm})
+#'            \item panel data estimators (\code{\link[plm]{plm}})
 #'          }
 #' @param type interaction plot type. Use one of following values:
 #'          \describe{
