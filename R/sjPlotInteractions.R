@@ -1285,7 +1285,7 @@ sjp.eff.int <- function(fit,
     # prepare facet-labels
     # -----------------------------------------------------------
     if (length(unique(intdf$grp)) == length(lLabels) && isTRUE(facet.grid)) {
-      intdf$grp <- lLabels
+      levels(intdf$grp) <- lLabels
     }
     # -----------------------------------------------------------
     # legend titles
