@@ -1143,7 +1143,9 @@ sjp.eff.int <- function(fit,
     # -----------------------------------------------------------
     if (fun == "lm" || fun == "lmer" || fun == "lme" || fun == "gls") {
       # Label on y-axis is name of dependent variable
-      laby <- sjmisc::get_label(stats::model.frame(fit)[[response.name]], def.value = response.name)
+      if (is.null(axisTitle.y)) 
+        axisTitle.y <- sjmisc::get_label(stats::model.frame(fit)[[response.name]], 
+                                         def.value = response.name)
       # -----------------------------------------------------------
       # retrieve lowest and highest x and y position to determine
       # the scale limits
