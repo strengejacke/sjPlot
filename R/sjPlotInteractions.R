@@ -743,6 +743,21 @@ sjp.int <- function(fit,
     # legend labels
     # -----------------------------------------------------------
     if (is.null(legendLabels)) {
+      # lLabels <- NULL
+      # # ---------------------------------
+      # # find moderator variable in data
+      # # ---------------------------------
+      # modfram <- stats::model.frame(fit)
+      # modfound <- sapply(colnames(modfram), 
+      #                    function(x) grepl(pattern = x, x = predy, fixed = T))
+      # # anything found?
+      # if (any(modfound)) {
+      #   # if it's a factor, we may use labels here
+      #   if (is.factor(modfram[[names(which(modfound))]]))
+      #     lLabels <- sjmisc::get_labels(modfram[[names(which(modfound))]], attr.only = F)
+      # }
+      # if we still have no labels, prepare generic labels
+      # if (is.null(lLabels)) {
       if (moderatorValues == "minmax") {
         lLabels <- c(paste0("lower bound of ", predy), paste0("upper bound of ", predy))
       } else if (moderatorValues == "meansd") {
@@ -752,6 +767,7 @@ sjp.int <- function(fit,
       } else {
         lLabels <- c(paste0("0 for ", predy), paste0("upper bound of ", predy))
       }
+      # }
     } else {
       # copy plot counter 
       l_nr <- cnt
