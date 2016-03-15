@@ -40,7 +40,7 @@
 #'            \item generalized linear mixed effects models (\code{\link[lme4]{glmer}})
 #'            \item linear mixed effects models (\code{\link[nlme]{lme}}, but only for \code{type = "eff"})
 #'            \item generalized least squares models (\code{\link[nlme]{gls}}, but only for \code{type = "eff"})
-#'            \item panel data estimators \code{\link[plm]{plm}})
+#'            \item panel data estimators (\code{\link[plm]{plm}})
 #'          }
 #' @param type interaction plot type. Use one of following values:
 #'          \itemize{
