@@ -2,7 +2,7 @@
 
 ## General
 
-* P-values for linear mixed models are now computed using conditional F tests with Kenward-Roger approximation for the df from the _pbkrtest_ package, if available.
+* P-values for linear mixed models are now computed using conditional F-tests with Kenward-Roger approximation for the df from the _pbkrtest_ package, if available.
 
 ## Changes to functions
 

@@ -219,8 +219,8 @@ By default, this function plots estimates (coefficients) with confidence
          }
 }
 \note{
-Computation of p-values (if necessary) are based on conditional F-Tests
-        with the Kenward-Roger approximation for the df, using the \pkg{pbkrtest}-package.
+Computation of p-values (if necessary) are based on conditional F-tests
+        with Kenward-Roger approximation for the df, using the \pkg{pbkrtest}-package.
         If \pkg{pbkrtest} is not available, Wald chi-squared tests from the 
         \code{Anova}-function of the \pkg{car}-package are computed.
 }
