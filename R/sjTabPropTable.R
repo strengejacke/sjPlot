@@ -222,9 +222,9 @@ sjt.xtab <- function(var.row,
   tab <- rbind(tab, unname(colSums(tab)))
   tab.cell <- mydat$proptab.cell
   tab.row <- mydat$proptab.row
-  tab.row$total <- tab.cell$total
+  tab.row$total <- 100
   tab.col <- mydat$proptab.col
-  tab.col <- rbind(tab.col, tab.cell[nrow(tab.cell), ])
+  tab.col <- rbind(tab.col, rep(100, times = ncol(tab.col)))
   tab.expected <- sjmisc::table_values(stats::ftable(as.matrix(tab)))$expected
   # -------------------------------------
   # determine total number of columns and rows
