@@ -380,7 +380,7 @@ sjp.lm <- function(fit,
   # print beta- and p-values in bar charts
   # ----------------------------
   # retrieve sigificance level of independent variables (p-values)
-  pv <- get_lm_pvalues(fit)$p
+  pv <- get_lm_pvalues(fit, include.intercept = F)$p
   # -------------------------------------------------
   # for better readability, convert p-values to asterisks
   # with:
@@ -1524,17 +1524,22 @@ sjp.lm.eff <- function(fit,
 }
 
 
-get_lm_pvalues <- function(fit) {
+get_lm_pvalues <- function(fit, include.intercept = TRUE) {
   # retrieve sigificance level of independent variables (p-values)
   if (any(class(fit) == "pggls")) {
-    p <- summary(fit)$CoefTable[-1, 4]
-    se <- summary(fit)$CoefTable[-1, 2]
+    p <- summary(fit)$CoefTable[, 4]
+    se <- summary(fit)$CoefTable[, 2]
   } else if (any(class(fit) == "gls")) {
-    p <- summary(fit)$tTable[-1, 4]
-    se <- summary(fit)$tTable[-1, 2]
+    p <- summary(fit)$tTable[, 4]
+    se <- summary(fit)$tTable[, 2]
   } else {
-    p <- stats::coef(summary(fit))[-1, 4]
-    se <- stats::coef(summary(fit))[-1, 2]
+    p <- stats::coef(summary(fit))[, 4]
+    se <- stats::coef(summary(fit))[, 2]
+  }
+  # remove intercept?
+  if (!include.intercept) {
+    p <- p[-1]
+    se <- se[-1]
   }
   return(list(p = p, se = se))
 }

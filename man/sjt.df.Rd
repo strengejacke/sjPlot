@@ -10,7 +10,7 @@ sjt.df(mydf, describe = TRUE, file = NULL, alternateRowColors = FALSE,
   showRowNames = TRUE, showCommentRow = FALSE,
   commentString = "No comment...", big.mark = NULL,
   hideProgressBar = FALSE, encoding = NULL, CSS = NULL,
-  useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
+  useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE, ...)
 }
 \arguments{
 \item{mydf}{data frame that should be printed as table}
@@ -80,6 +80,8 @@ value.}
 \item{remove.spaces}{logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
 that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
 may look less pretty, but it may help when exporting html-tables to office tools.}
+
+\item{...}{other arguments passed down to the \code{\link[psych]{describe}} function.}
 }
 \value{
 Invisibly returns

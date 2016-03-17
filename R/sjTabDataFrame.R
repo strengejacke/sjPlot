@@ -42,6 +42,7 @@
 #'          thousands decimals before (hence big) the decimal point
 #' @param hideProgressBar logical, if \code{TRUE}, the progress bar that is displayed when creating the
 #'          table is hidden. Default in \code{FALSE}, hence the bar is visible.
+#' @param ... other arguments passed down to the \code{\link[psych]{describe}} function.
 #'          
 #' @inheritParams sjt.frq
 #'          
@@ -127,7 +128,8 @@ sjt.df <- function(mydf,
                    CSS = NULL,
                    useViewer = TRUE,
                    no.output = FALSE,
-                   remove.spaces = TRUE) {
+                   remove.spaces = TRUE,
+                   ...) {
   # check encoding
   encoding <- get.encoding(encoding, mydf)
   # -------------------------------------
@@ -145,7 +147,7 @@ sjt.df <- function(mydf,
     missings <- apply(mydf, 2, function(x) sum(is.na(x)))
     # and proportion of missings
     missings.percentage <- round(100 * missings / nrow(mydf), 2)
-    mydf <- round(psych::describe(mydf), 2)
+    mydf <- round(psych::describe(mydf, ...), 2)
     # insert missing variables in data frame
     mydf <- data.frame(mydf[, 1:2], 
                        missings, 

@@ -2297,19 +2297,19 @@ get_lmerMod_pvalues <- function(fitmod) {
     if (length(pvcn) == 0) pvcn <- 4
     pv <- cs[, pvcn]
   } else if (any(class(fitmod) == "lmerMod") && requireNamespace("pbkrtest", quietly = TRUE)) {
-    # compute Kenward-Roger-DF for p-statistic. Code snippet taken from
+    # compute Kenward-Roger-DF for p-statistic. Code snippet adapted from
     # http://mindingthebrain.blogspot.de/2014/02/three-ways-to-get-parameter-specific-p.html
     message("Computing p-values via Kenward-Roger approximation...")
     #first coefficients need to be data frame
     cs <- as.data.frame(cs)
     # get KR DF
-    df.kr <- pbkrtest::get_ddf_Lb(fitmod, lme4::fixef(fitmod))
+    df.kr <- pbkrtest::get_Lb_ddf(fitmod, lme4::fixef(fitmod))
     # compute p-values, assuming an approximate t-dist
     pv <- 2 * (1 - pt(abs(cs$`t value`), df.kr))
   } else {
     # if we don't have p-values in summary, try to get them via anova
     # we use type 3 here to include intercept
-    message("Computing approximate p-values via Wald chi-square test...")
+    message("Computing approximate p-values via Wald chi-squared test...")
     pia <- suppressMessages(car::Anova(fitmod, type = "III"))
     # factors may have multiple levels, however, p-value
     # is not calculated for each factor level. Drop these p-values.
