@@ -972,9 +972,9 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   # Residual plot two
   # ------------------------------------------------------
   sjp.setTheme("scatterw")
-  gp <- ggplot(data.frame(x = predict(logreg), 
-                          y = residuals(logreg),
-                          grp = logreg$model$y),
+  gp <- ggplot(data.frame(x = stats::predict(logreg), 
+                          y = stats::residuals(logreg),
+                          grp = stats::model.frame(logreg)[[1]]),
                aes(x, y)) + 
     geom_point(aes(colour = grp), show.legend = F) + 
     geom_hline(yintercept = 0) +
@@ -984,9 +984,9 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
          y = "Deviance residuals")
   graphics::plot(gp)
   if (!showOriginalModelOnly) {
-    gp <- ggplot(data.frame(x = predict(model), 
-                            y = residuals(model),
-                            grp = model$model$y), 
+    gp <- ggplot(data.frame(x = stats::predict(model), 
+                            y = stats::residuals(model),
+                            grp = stats::model.frame(model)[[1]]), 
                  aes(x, y)) + 
       geom_point(aes(colour = grp), show.legend = F) + 
       geom_hline(yintercept = 0) +
@@ -1003,8 +1003,8 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   for (pr in preds) {
     if (length(unique(logreg$model[[pr]])) > 4) {
       mydat <- data.frame(x = logreg$model[[pr]], 
-                          y = residuals(logreg),
-                          grp = as.factor(logreg$model$y))
+                          y = stats::residuals(logreg),
+                          grp = as.factor(stats::model.frame(logreg)[[1]]))
       gp <- ggplot(mydat, aes(x, y)) + 
         geom_point(aes(colour = grp), show.legend = F) + 
         geom_hline(yintercept = 0) +
