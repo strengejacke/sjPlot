@@ -194,7 +194,7 @@
 #'                    css.firsttablecol = "color:#003399; font-weight:bold;"))}
 #' 
 #' @importFrom psych describe
-#' @importFrom stats na.omit
+#' @importFrom stats na.omit weighted.mean
 #' @import sjmisc
 #' @export
 sjt.frq <- function(data,
@@ -649,7 +649,7 @@ sjt.frq <- function(data,
         mw <- mean(orivar, na.rm = TRUE)
         sum_var <- orivar
       } else {
-        mw <- weighted.mean(orivar, weightBy, na.rm = TRUE)
+        mw <- stats::weighted.mean(orivar, weightBy, na.rm = TRUE)
         sum_var <- sjmisc::weight(orivar, weightBy)
       }
       descr <- ""

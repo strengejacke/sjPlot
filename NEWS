@@ -1,4 +1,4 @@
-Version 1.9.2-3
+Version 1.9.2-4
 -----------------------------------------------------------------------------
 General:
 * P-values for linear mixed models are now computed using conditional F-tests with Kenward-Roger approximation for the df from the _pbkrtest_ package, if available.

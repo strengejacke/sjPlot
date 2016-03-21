@@ -220,10 +220,7 @@ sjp.emm <- function(fit,
       # get response name, which is variable name
       response.name <- colnames(fit$model)[1]
       # get variable label attribute
-      response.label <- sjmisc::get_label(fit$model[[1]], 
-                                          def.value = response.name)
-      # check if we have any
-      if (is.null(response.label)) response.label <- response.name
+      response.label <- sjmisc::get_label(fit$model[[1]], def.value = response.name)
       # -----------------------------------------------------------
       # prepare label for x-axix
       # -----------------------------------------------------------
@@ -247,7 +244,10 @@ sjp.emm <- function(fit,
       # legend labels
       # -----------------------------------------------------------
       if (is.null(legendLabels)) {
-        lLabels <- levels(fit$model[term.pairs[1]][, 1])
+        # try to get labels
+        lLabels <- sjmisc::get_labels(fit$model[term.pairs[1]][, 1], attr.only = F)
+        # if we still have no labels, get factor levels
+        if (is.null(lLabels)) levels(fit$model[term.pairs[1]][, 1])
       } else {
         lLabels <- legendLabels
       }
@@ -452,7 +452,8 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.s
   # check if we have any valid interaction terms
   # for lsmeans function
   # -----------------------------------------------------------
-  if (!sjmisc::is_empty(interactionterms) && nrow(interactionterms) > 0) {
+  is.em <- suppressWarnings(sjmisc::is_empty(interactionterms));
+  if (!is.em && nrow(interactionterms) > 0) {
     for (cnt in 1:nrow(interactionterms)) {
       # -----------------------------------------------------------
       # retrieve each pair of interaction terms
@@ -516,10 +517,7 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.s
       # get response name, which is variable name
       response.name <- colnames(m_f)[1]
       # get variable label attribute
-      response.label <- sjmisc::get_label(m_f[[1]], 
-                                          def.value = response.name)
-      # check if we have any
-      if (is.null(response.label)) response.label <- response.name
+      response.label <- sjmisc::get_label(m_f[[1]], def.value = response.name)
       # -----------------------------------------------------------
       # prepare label for x-axix
       # -----------------------------------------------------------
@@ -541,7 +539,10 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.s
         labtitle <- title
       }
       if (is.null(legendLabels)) {
-        lLabels <- levels(m_f[[term.pairs[1]]])
+        # try to get labels
+        lLabels <- sjmisc::get_labels(m_f[[term.pairs[1]]], attr.only = F)
+        # if we still have no labels, get factor levels
+        if (is.null(lLabels)) levels(m_f[[term.pairs[1]]])
       } else {
         lLabels <- legendLabels
       }

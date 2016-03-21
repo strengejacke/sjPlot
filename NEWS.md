@@ -1,4 +1,4 @@
-# sjPlot 1.9.2-3
+# sjPlot 1.9.2-4
 
 ## General
 
