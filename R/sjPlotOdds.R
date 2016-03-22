@@ -213,11 +213,16 @@ sjp.glm <- function(fit,
       type <- "dots"
     }
   }
+  # -----------------------------------------------------------
+  # set default title
+  # -----------------------------------------------------------
+  if (is.null(title) && (type != "eff" && type != "prob")) title <- get_model_response_label(fit)
   # --------------------------------------------------------
   # check type
   # --------------------------------------------------------
   if (type == "prob" || type == "pc") {
     return(invisible(sjp.glm.pc(fit,
+                                title,
                                 show.ci,
                                 type = "prob",
                                 geom.size,
@@ -227,6 +232,7 @@ sjp.glm <- function(fit,
   }
   if (type == "eff") {
     return(invisible(sjp.glm.pc(fit,
+                                title,
                                 show.ci,
                                 type = "eff",
                                 geom.size,
@@ -569,6 +575,7 @@ sjp.glm <- function(fit,
 
 #' @importFrom stats plogis predict coef
 sjp.glm.pc <- function(fit,
+                       title,
                        show.ci,
                        type,
                        geom.size,
@@ -634,6 +641,10 @@ sjp.glm.pc <- function(fit,
       axisLabels.mp <- c(axisLabels.mp, fit.term.names[i])
     }
     # ---------------------------------------------------------
+    # default plot title
+    # ---------------------------------------------------------
+    if (is.null(title)) title <- sprintf("Effect plot of %s", get_model_response_label(fit))
+    # ---------------------------------------------------------
     # Prepare metric plots
     # ---------------------------------------------------------
     if (length(mydf.metricpred) > 0) {
@@ -659,7 +670,7 @@ sjp.glm.pc <- function(fit,
                                    y = y)) +
           labs(x = NULL,
                y = "Predicted Incidents",
-               title = "Effect plot") +
+               title = title) +
           geom_line(size = geom.size) +
           facet_wrap(~grp,
                      ncol = round(sqrt(length(mydf.metricpred))),
@@ -739,6 +750,12 @@ sjp.glm.pc <- function(fit,
       }
     }
     # ---------------------------------------------------------
+    # default plot title
+    # ---------------------------------------------------------
+    if (is.null(title)) title <- sprintf("Predicted %sprobabilities for %s", 
+                                         ifelse(type == "prob", "", "marginal "),
+                                         get_model_response_label(fit))
+    # ---------------------------------------------------------
     # Prepare metric plots
     # ---------------------------------------------------------
     if (length(mydf.metricpred) > 0) {
@@ -750,7 +767,8 @@ sjp.glm.pc <- function(fit,
         # create single plots for each numeric predictor
         mp <- ggplot(mydf.metricpred[[i]], aes(x = values, y = y)) +
           labs(x = axisLabels.mp[i], 
-               y = "Predicted Probability") +
+               y = "Predicted Probability",
+               title = title) +
           stat_smooth(method = "glm", 
                       method.args = list(family = "binomial"), 
                       se = show.ci,
@@ -762,13 +780,10 @@ sjp.glm.pc <- function(fit,
       }
       # if we have more than one numeric var, also create integrated plot
       if (length(mydf.metricpred) > 1) {
-        mp <- ggplot(mydf.ges, aes(x = values,
-                                   y = y)) +
+        mp <- ggplot(mydf.ges, aes(x = values, y = y)) +
           labs(x = NULL,
                y = "Predicted Probability",
-               title = ifelse(type == "prob", 
-                              "Predicted probabilities of coefficients",
-                              "Predicted marginal probabilities of coefficients")) +
+               title = title) +
           stat_smooth(method = "glm", 
                       method.args = list(family = "binomial"), 
                       se = show.ci,

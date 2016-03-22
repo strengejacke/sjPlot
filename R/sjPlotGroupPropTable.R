@@ -90,6 +90,7 @@ sjp.gpt <- function(x,
   # --------------------------------------------------------
   # try to automatically set labels if not passed as argument
   # --------------------------------------------------------
+  x <- suppressMessages(sjmisc::to_factor(x))
   ylabels <- sjmisc::get_labels(y,
                                 attr.only = F,
                                 include.values = NULL,
@@ -134,7 +135,7 @@ sjp.gpt <- function(x,
   # create data frame, for dplyr-chain
   # ------------------------------------
   mydf <- stats::na.omit(data.frame(grp = sjmisc::to_value(groups, keep.labels = F),
-                                    x = sjmisc::to_factor(x),
+                                    xpos = x,
                                     dep = sjmisc::to_value(y, keep.labels = F)))
   # ------------------------------------
   # recode dependent variable's categorues
@@ -147,8 +148,8 @@ sjp.gpt <- function(x,
   # groups, group the x-variable
   # ------------------------------------
   newdf <- mydf %>%
-    dplyr::group_by(grp, x) %>%
-    dplyr::summarise(y = mean(dep))
+    dplyr::group_by(grp, xpos) %>%
+    dplyr::summarise(ypos = mean(dep))
   # ------------------------------------
   # group data by grouping variable,
   # and summarize N per group and chisq.test
@@ -157,7 +158,7 @@ sjp.gpt <- function(x,
   pvals <- mydf %>%
     dplyr::group_by(grp) %>%
     dplyr::summarise(N = n(),
-                     p = suppressWarnings(stats::chisq.test(table(x, dep))$p.value))
+                     p = suppressWarnings(stats::chisq.test(table(xpos, dep))$p.value))
   # ------------------------------------
   # copy p values
   # ------------------------------------
@@ -174,12 +175,12 @@ sjp.gpt <- function(x,
   # --------------------------------
   if (showTotal) {
     tmp <- mydf %>%
-      dplyr::group_by(x) %>%
-      dplyr::summarise(y = mean(dep))
+      dplyr::group_by(xpos) %>%
+      dplyr::summarise(ypos = mean(dep))
     # pvalues and N
     pvals <- mydf %>%
       dplyr::summarise(N = n(),
-                       p = suppressWarnings(stats::chisq.test(table(x, dep))$p.value))
+                       p = suppressWarnings(stats::chisq.test(table(xpos, dep))$p.value))
     # bind total row to final df
     newdf <- dplyr::bind_rows(newdf, tmp)
     # copy p values
@@ -193,11 +194,11 @@ sjp.gpt <- function(x,
   # make group variables categorical
   # ------------------------------------
   newdf$grp <- suppressMessages(sjmisc::to_factor(newdf$grp))
-  newdf$x <- suppressMessages(sjmisc::to_factor(newdf$x))
+  newdf$xpos <- suppressMessages(sjmisc::to_factor(newdf$xpos))
   # ------------------------------------
   # proportion needs to be numeric
   # ------------------------------------
-  newdf$y <- sjmisc::to_value(newdf$y, keep.labels = F)
+  newdf$ypos <- sjmisc::to_value(newdf$ypos, keep.labels = F)
   # ------------------------------------
   # add N and p-values to axis labels?
   # ------------------------------------
@@ -206,7 +207,7 @@ sjp.gpt <- function(x,
   # --------------------------------------------------------
   # Set up axis limits
   # --------------------------------------------------------
-  if (is.null(axisLimits)) axisLimits <- c(0, max(pretty(max(newdf$y, na.rm = TRUE), 10)))
+  if (is.null(axisLimits)) axisLimits <- c(0, max(pretty(max(newdf$ypos, na.rm = TRUE), 10)))
   # --------------------------------------------------------
   # Set up grid breaks
   # --------------------------------------------------------
@@ -230,9 +231,9 @@ sjp.gpt <- function(x,
   # Set up plot
   # --------------------------------------------------------
   p <- ggplot(newdf, aes(x = rev(grp),
-                         y = y,
-                         colour = x,
-                         shape = x)) +
+                         y = ypos,
+                         colour = xpos,
+                         shape = xpos)) +
     geom_point(size = geom.size, fill = shape.fill.color) +
     scale_y_continuous(labels = scales::percent,
                        breaks = gridbreaks,
