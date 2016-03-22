@@ -14,6 +14,7 @@ Changes to functions:
 Bug fixes:
 * `sjt.xtab` did not apply `highlightTotal` to total column.
 * `sjt.xtab` showed wrong total percentages for row and column percentages.
+* `geom.outline.color` and `geom.outline.size` did not apply to bar geoms after ggplot-update.
 
 
 Version 1.9.2

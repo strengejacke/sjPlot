@@ -17,3 +17,4 @@
 
 * `sjt.xtab` did not apply `highlightTotal` to total column ([#111](https://github.com/sjPlot/devel/issues/111)).
 * `sjt.xtab` showed wrong total percentages for row and column percentages.
+* `geom.outline.color` and `geom.outline.size` did not apply to bar geoms after ggplot-update.

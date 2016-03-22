@@ -752,6 +752,7 @@ sj.theme_geoms <- function(geom.alpha,
   
   # Special geoms.
   update_geom_defaults('boxplot', list(size = geom.boxoutline.size, colour = geom.boxoutline.color, alpha = geom.alpha))
+  update_geom_defaults('bar', list(colour = geom.outline.color, size = geom.outline.size))
   update_geom_defaults('line', list(linetype = geom.linetype))
   updateGeoms(c('errorbar', 'errorbarh'), list(size = geom.errorbar.size, linetype = geom.errorbar.linetype))
 }
