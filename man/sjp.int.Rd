@@ -6,7 +6,7 @@
 \usage{
 sjp.int(fit, type = "eff", int.term = NULL, int.plot.index = NULL,
   diff = FALSE, moderatorValues = "minmax", swapPredictors = FALSE,
-  plevel = 0.05, title = NULL, fillColor = "grey", fillAlpha = 0.3,
+  plevel = 0.1, title = NULL, fillColor = "grey", fillAlpha = 0.3,
   geom.colors = "Set1", geom.size = NULL, axisTitle.x = NULL,
   axisTitle.y = NULL, axisLabels.x = NULL, legendTitle = NULL,
   legendLabels = NULL, showValueLabels = FALSE, breakTitleAt = 50,
@@ -67,7 +67,7 @@ the predictor with more unique values is printed along the x-axis.}
 
 \item{plevel}{indicates at which p-value an interaction term is considered as \emph{significant},
 i.e. at which p-level an interaction term will be considered for plotting. Default is
-0.05 (5 percent), hence, non-significant interactions are excluded by default. This
+0.1 (10 percent), hence, non-significant interactions are excluded by default. This
 argument does not apply to \code{type = "eff"}.}
 
 \item{title}{a default title used for the plots. Should be a character vector

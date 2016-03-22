@@ -52,8 +52,7 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'            \item If you use the \code{\link[sjmisc]{read_spss}} and \code{\link[sjmisc]{get_label}} functions, you receive a character vector with variable label strings. You can use it like this: \code{axisLabels.x = get_label(efc)['quol_5']}
 #'          }
 #' @param axisLabels.y labels or names of the predictor variables (independent vars). Must
-#'          be a character vector of same length as independent variables. The labels
-#'          may also be passed as list object; they will be coerced to character vector automatically.
+#'          be a character vector of same length as independent variables.
 #' @param showAxisLabels.y logical, whether labels of independent variables should be shown or not.
 #' @param axisTitle.x title for the x-axis. Default is \code{"Estimates"}.
 #' @param geom.colors user defined color palette for geoms. If \code{group.estimates}
@@ -273,6 +272,10 @@ sjp.lm <- function(fit,
     showModelSummary <- FALSE
   }
   # -----------------------------------------------------------
+  # set default title
+  # -----------------------------------------------------------
+  if (is.null(title) && type != "eff") title <- get_model_response_label(fit)
+  # -----------------------------------------------------------
   # this function requires a fitted model with only one predictor,
   # so check whether only one predictor was used
   # -----------------------------------------------------------
@@ -346,10 +349,6 @@ sjp.lm <- function(fit,
   }
   # check size argument
   if (is.null(geom.size)) geom.size <- 3
-  # --------------------------------------------------------
-  # unlist labels
-  # --------------------------------------------------------
-  if (!is.null(axisLabels.y) && is.list(axisLabels.y)) axisLabels.y <- unlistlabels(axisLabels.y)
   # --------------------------------------------------------
   # auto-retrieve value labels
   # --------------------------------------------------------

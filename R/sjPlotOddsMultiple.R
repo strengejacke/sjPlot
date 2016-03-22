@@ -100,7 +100,6 @@ sjp.glmm <- function(...,
                      labelDependentVariables = NULL,
                      legendDepVarTitle = "Dependent Variables",
                      legendPValTitle = "p-level",
-                     stringModel = "Model",
                      axisLabels.y = NULL,
                      axisTitle.x = "Odds Ratios",
                      axisLimits = NULL,
@@ -135,17 +134,6 @@ sjp.glmm <- function(...,
   # we need to "unlist" them
   # --------------------------------------------------------
   if (length(input_list) == 1 && class(input_list[[1]]) == "list") input_list <- lapply(input_list[[1]], function(x) x)
-  # --------------------------------------------------------
-  # unlist labels
-  # --------------------------------------------------------
-  # unlist axis labels (predictors)
-  if (!is.null(axisLabels.y) && is.list(axisLabels.y)) {
-    axisLabels.y <- unlistlabels(axisLabels.y)
-  }
-  # unlist labels of dependent variables (legend)
-  if (!is.null(labelDependentVariables) && is.list(labelDependentVariables)) {
-    labelDependentVariables <- unlistlabels(labelDependentVariables)
-  }
   # ----------------------------
   # init final data frame
   # ----------------------------
@@ -154,19 +142,22 @@ sjp.glmm <- function(...,
   # ----------------------------
   # Prepare length of title and labels
   # ----------------------------
+  # if we have no labels of dependent variables supplied, use a 
+  # default string (Model) for legend
+  if (is.null(labelDependentVariables)) {
+    labelDependentVariables <- c()
+    for (i in seq_len(fitlength)) {
+      labelDependentVariables <- c(labelDependentVariables, 
+                                   get_model_response_label(input_list[[i]]))
+    }
+  }
   # check length of diagram title and split longer string at into new lines
   if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
   if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
   # check length of dependent variables
-  if (!is.null(labelDependentVariables)) {
-    labelDependentVariables <- sjmisc::word_wrap(labelDependentVariables, breakLegendTitleAt)
-  } else {
-    # else if we have no labels of dependent variables supplied, use a 
-    # default string (Model) for legend
-    labelDependentVariables <- sprintf("%s %i", stringModel, 1:fitlength)
-  }
+  if (!is.null(labelDependentVariables)) labelDependentVariables <- sjmisc::word_wrap(labelDependentVariables, breakLegendTitleAt)
   # check length of x-axis-labels and split longer strings at into new lines
   if (!is.null(axisLabels.y)) axisLabels.y <- sjmisc::word_wrap(axisLabels.y, breakLabelsAt)
   # ----------------------------
@@ -183,7 +174,7 @@ sjp.glmm <- function(...,
       odds <- get_cleaned_ciMerMod(fit, "glm")
     else
       odds <- data.frame(exp(stats::coef(fit)), 
-                       exp(stats::confint(fit)))
+                         exp(stats::confint(fit)))
     # ----------------------------
     # print p-values in bar charts
     # ----------------------------

@@ -21,14 +21,14 @@ Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, s
 
 \item{title}{table caption.}
 
-\item{varlabels}{list or vector of strings with variable names. If not specified, row names of \code{items}
+\item{varlabels}{character vector with variable names. If not specified, row names of \code{items}
 will be used, resp. variable labels will automatically be detected, when they have
 a variable label attribute (see \code{\link[sjmisc]{set_label}}) for details).}
 
 \item{breakLabelsAt}{determines how many chars of the variable labels are displayed in 
 one line and when a line break is inserted. Default is 40.}
 
-\item{valuelabels}{list or vector of strings that category/value labels, which
+\item{valuelabels}{character vector with category/value labels, which
 appear in the header row.}
 
 \item{breakValueLabelsAt}{determines how many chars of the value labels are displayed in 

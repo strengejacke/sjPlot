@@ -187,15 +187,7 @@ sjp.stackfrq <- function(items,
     # if yes, iterate each variable
     for (i in 1:ncol(items)) {
       # retrieve variable name attribute
-      vn <- sjmisc::get_label(items[[i]], def.value = colnames(items)[i])
-      # if variable has attribute, add to variableLabel list
-      if (!is.null(vn)) {
-        axisLabels.y <- c(axisLabels.y, vn)
-      } else {
-        # else break out of loop
-        axisLabels.y <- NULL
-        break
-      }
+      axisLabels.y <- c(axisLabels.y, sjmisc::get_label(items[[i]], def.value = colnames(items)[i]))
     }
   }
   # --------------------------------------------------------
@@ -206,9 +198,6 @@ sjp.stackfrq <- function(items,
   # unlist/ unname axis labels
   # --------------------------------------------------------
   if (!is.null(axisLabels.y)) {
-    # unlist labels, if necessary, so we have a simple
-    # character vector
-    if (is.list(axisLabels.y)) axisLabels.y <- unlistlabels(axisLabels.y)
     # unname labels, if necessary, so we have a simple
     # character vector
     if (!is.null(names(axisLabels.y))) axisLabels.y <- as.vector(axisLabels.y)
@@ -217,9 +206,6 @@ sjp.stackfrq <- function(items,
   # unlist/ unname axis labels
   # --------------------------------------------------------
   if (!is.null(legendLabels)) {
-    # unlist labels, if necessary, so we have a simple
-    # character vector
-    if (is.list(legendLabels)) legendLabels <- unlistlabels(legendLabels)
     # unname labels, if necessary, so we have a simple
     # character vector
     if (!is.null(names(legendLabels))) legendLabels <- as.vector(legendLabels)

@@ -6,11 +6,11 @@
 \usage{
 sjp.glmm(..., title = NULL, labelDependentVariables = NULL,
   legendDepVarTitle = "Dependent Variables", legendPValTitle = "p-level",
-  stringModel = "Model", axisLabels.y = NULL, axisTitle.x = "Odds Ratios",
-  axisLimits = NULL, breakTitleAt = 50, breakLabelsAt = 25,
-  breakLegendTitleAt = 20, gridBreaksAt = 0.5, transformTicks = TRUE,
-  geom.size = 3, geom.spacing = 0.4, geom.colors = "Set1",
-  fade.ns = FALSE, usePShapes = FALSE, interceptLineType = 2,
+  axisLabels.y = NULL, axisTitle.x = "Odds Ratios", axisLimits = NULL,
+  breakTitleAt = 50, breakLabelsAt = 25, breakLegendTitleAt = 20,
+  gridBreaksAt = 0.5, transformTicks = TRUE, geom.size = 3,
+  geom.spacing = 0.4, geom.colors = "Set1", fade.ns = FALSE,
+  usePShapes = FALSE, interceptLineType = 2,
   interceptLineColor = "grey70", remove.estimates = NULL,
   coord.flip = TRUE, showIntercept = FALSE, showAxisLabels.y = TRUE,
   showValueLabels = TRUE, labelDigits = 2, showPValueLabels = TRUE,
@@ -32,13 +32,8 @@ Default is \code{"Dependent Variables"}.}
 \item{legendPValTitle}{character vector used for the title of the significance level's legend.
 Default is \code{"p-level"}. Only applies if \code{usePShapes = TRUE}.}
 
-\item{stringModel}{string, legend text for the model names in case no 
-labels for the dependent variables are provided (see \code{labelDependentVariables}).
-Default is \code{"Model"}.}
-
 \item{axisLabels.y}{labels or names of the predictor variables (independent vars). Must
-be a character vector of same length as independent variables. The labels
-may also be passed as list object; they will be coerced to character vector automatically.}
+be a character vector of same length as independent variables.}
 
 \item{axisTitle.x}{string, title for the x axis.}
 

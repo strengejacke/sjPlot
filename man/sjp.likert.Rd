@@ -76,8 +76,8 @@ so positive and negative values switch colors.}
 \item{labelDigits}{amount of digits for rounding \code{value.labels}. Default is 1, 
 i.e. value labels have 1 digit after decimal point.}
 
-\item{legendLabels}{list or character vector that indicate the names of the 
-likert-scale-categories and which appear as legend text.}
+\item{legendLabels}{character vector with names of the 
+likert-scale-categories that appear as legend text.}
 
 \item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
 

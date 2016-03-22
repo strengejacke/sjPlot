@@ -161,8 +161,6 @@ sjc.qclus <- function(data,
   data.origin <- data
   # remove missings
   data <- stats::na.omit(data)
-  if (!is.null(axisLabels.x) && is.list(axisLabels.x)) axisLabels.x <- unlistlabels(axisLabels.x)
-  if (!is.null(legendLabels) && is.list(legendLabels)) legendLabels <- unlistlabels(legendLabels)
   # check for valid argument
   if (is.null(axisLabels.x)) axisLabels.x <- colnames(data)
   # --------------------------------------------------------

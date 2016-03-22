@@ -76,7 +76,7 @@
 #'          the predictor with more unique values is printed along the x-axis.
 #' @param plevel indicates at which p-value an interaction term is considered as \emph{significant},
 #'          i.e. at which p-level an interaction term will be considered for plotting. Default is
-#'          0.05 (5 percent), hence, non-significant interactions are excluded by default. This
+#'          0.1 (10 percent), hence, non-significant interactions are excluded by default. This
 #'          argument does not apply to \code{type = "eff"}.
 #' @param title a default title used for the plots. Should be a character vector
 #'          of same length as interaction plots to be plotted. Default value is \code{NULL}, which means that each plot's title
@@ -310,7 +310,7 @@ sjp.int <- function(fit,
                     diff = FALSE,
                     moderatorValues = "minmax",
                     swapPredictors = FALSE,
-                    plevel = 0.05,
+                    plevel = 0.1,
                     title = NULL,
                     fillColor = "grey",
                     fillAlpha = 0.3,

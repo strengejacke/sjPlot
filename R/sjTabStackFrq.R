@@ -16,12 +16,12 @@
 #' @param weightBy weight factor that will be applied to weight all cases from \code{items}.
 #'          Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, so no weights are used.
 #' @param title table caption.
-#' @param varlabels list or vector of strings with variable names. If not specified, row names of \code{items}
+#' @param varlabels character vector with variable names. If not specified, row names of \code{items}
 #'          will be used, resp. variable labels will automatically be detected, when they have
 #'          a variable label attribute (see \code{\link[sjmisc]{set_label}}) for details).
 #' @param breakLabelsAt determines how many chars of the variable labels are displayed in 
 #'          one line and when a line break is inserted. Default is 40.
-#' @param valuelabels list or vector of strings that category/value labels, which
+#' @param valuelabels character vector with category/value labels, which
 #'          appear in the header row.
 #' @param breakValueLabelsAt determines how many chars of the value labels are displayed in 
 #'          one line and when a line break is inserted. Default is 20.
@@ -200,25 +200,13 @@ sjt.stackfrq <- function(items,
                                                               include.values = NULL,
                                                               include.non.labelled = T)
   if (is.null(varlabels)) {
+    varlabels <- c()
     # if yes, iterate each variable
     for (i in 1:ncol(items)) {
       # retrieve variable name attribute
-      vn <- sjmisc::get_label(items[[i]], def.value = colnames(items)[i])
-      # if variable has attribute, add to variableLabel list
-      if (!is.null(vn)) {
-        varlabels <- c(varlabels, vn)
-      } else {
-        # else break out of loop
-        varlabels <- NULL
-        break
-      }
+      varlabels <- c(varlabels, sjmisc::get_label(items[[i]], def.value = colnames(items)[i]))
     }
   }
-  # --------------------------------------------------------
-  # unlist labels
-  # --------------------------------------------------------
-  if (!is.null(varlabels) && is.list(varlabels)) varlabels <- unlistlabels(varlabels)
-  if (!is.null(valuelabels) && is.list(valuelabels)) valuelabels <- unlistlabels(valuelabels)
   # ----------------------------
   # retrieve min and max values
   # ----------------------------

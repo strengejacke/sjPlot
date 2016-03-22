@@ -224,10 +224,6 @@ sjp.scatter <- function(x = NULL,
       message("auto-jittering values...")
     }
   }
-  # --------------------------------------------------------
-  # unlist labels
-  # --------------------------------------------------------
-  if (!is.null(legendLabels) && is.list(legendLabels)) legendLabels <- unlistlabels(legendLabels)
   # ------------------------------------------
   # create data frame
   # ------------------------------------------

@@ -6,19 +6,19 @@
 \usage{
 sjp.lmm(..., type = "lm", title = NULL, labelDependentVariables = NULL,
   legendDepVarTitle = "Dependent Variables", legendPValTitle = "p-level",
-  stringModel = "Model", axisLabels.y = NULL, axisTitle.x = "Estimates",
-  axisLimits = NULL, breakTitleAt = 50, breakLabelsAt = 25,
-  breakLegendTitleAt = 20, gridBreaksAt = NULL, geom.size = 3,
-  geom.spacing = 0.4, geom.colors = "Set1", fade.ns = FALSE,
-  usePShapes = FALSE, interceptLineType = 2,
-  interceptLineColor = "grey70", remove.estimates = NULL,
-  coord.flip = TRUE, showIntercept = FALSE, showAxisLabels.y = TRUE,
-  showValueLabels = TRUE, labelDigits = 2, showPValueLabels = TRUE,
-  hideLegend = FALSE, facet.grid = FALSE, printPlot = TRUE)
+  axisLabels.y = NULL, axisTitle.x = "Estimates", axisLimits = NULL,
+  breakTitleAt = 50, breakLabelsAt = 25, breakLegendTitleAt = 20,
+  gridBreaksAt = NULL, geom.size = 3, geom.spacing = 0.4,
+  geom.colors = "Set1", fade.ns = FALSE, usePShapes = FALSE,
+  interceptLineType = 2, interceptLineColor = "grey70",
+  remove.estimates = NULL, coord.flip = TRUE, showIntercept = FALSE,
+  showAxisLabels.y = TRUE, showValueLabels = TRUE, labelDigits = 2,
+  showPValueLabels = TRUE, hideLegend = FALSE, facet.grid = FALSE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{...}{one or more fitted \code{lm} or \code{lmerMod}-objects. May also 
-be a \code{\link{list}}-object with  fitted models, instead of separating 
+be a \code{\link{list}}-object with fitted models, instead of separating 
 each model with comma. See 'Examples'.}
 
 \item{type}{type of plot. Use one of following:
@@ -39,13 +39,8 @@ Default is \code{"Dependent Variables"}.}
 \item{legendPValTitle}{character vector used for the title of the significance level's legend.
 Default is \code{"p-level"}. Only applies if \code{usePShapes = TRUE}.}
 
-\item{stringModel}{string, legend text for the model names in case no 
-labels for the dependent variables are provided (see \code{labelDependentVariables}).
-Default is \code{"Model"}.}
-
 \item{axisLabels.y}{labels or names of the predictor variables (independent vars). Must
-be a character vector of same length as independent variables. The labels
-may also be passed as list object; they will be coerced to character vector automatically.}
+be a character vector of same length as independent variables.}
 
 \item{axisTitle.x}{string, title for the x axis.}
 
@@ -173,7 +168,7 @@ sjp.lmm(all.models)
 # ------------------------------
 # plot multiple models with different
 # predictors (stepwise inclusion),
-# standardi estimates
+# standardized estimates
 # ------------------------------
 fit1 <- lm(mpg ~ wt + cyl + disp + gear, data = mtcars)
 fit2 <- update(fit1, . ~ . + hp)

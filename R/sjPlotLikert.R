@@ -50,8 +50,8 @@ utils::globalVariables(c("offset"))
 #' @param geom.size width of bars. Recommended values for this argument are from 0.4 to 1.5
 #' @param cat.neutral.color color of the neutral category, if plotted (see \code{cat.neutral}).
 #' @param intercept.line.color color of the vertical intercept line that divides positive and negative values.
-#' @param legendLabels list or character vector that indicate the names of the 
-#'          likert-scale-categories and which appear as legend text.
+#' @param legendLabels character vector with names of the 
+#'          likert-scale-categories that appear as legend text.
 #' @param includeN logical, if \code{TRUE} (default), the N of each item will be included in axis labels.
 #' @param value.labels determines style and position of percentage value labels on the bars:
 #'          \describe{
@@ -233,15 +233,7 @@ sjp.likert <- function(items,
     # if yes, iterate each variable
     for (i in 1:ncol(items)) {
       # retrieve variable name attribute
-      vn <- sjmisc::get_label(items[[i]], def.value = colnames(items)[i])
-      # if variable has attribute, add to variableLabel list
-      if (!is.null(vn)) {
-        axisLabels.y <- c(axisLabels.y, vn)
-      } else {
-        # else break out of loop
-        axisLabels.y <- NULL
-        break
-      }
+      axisLabels.y <- c(axisLabels.y, sjmisc::get_label(items[[i]], def.value = colnames(items)[i]))
     }
   }  
   # --------------------------------------------------------
@@ -252,22 +244,14 @@ sjp.likert <- function(items,
   # unlist/ unname axis labels
   # --------------------------------------------------------
   if (!is.null(axisLabels.y)) {
-    # unlist labels, if necessary, so we have a simple
-    # character vector
-    if (is.list(axisLabels.y)) axisLabels.y <- unlistlabels(axisLabels.y)
-    # unname labels, if necessary, so we have a simple
-    # character vector
+    # unname labels, if necessary, so we have a simple character vector
     if (!is.null(names(axisLabels.y))) axisLabels.y <- as.vector(axisLabels.y)
   } 
   # --------------------------------------------------------
   # unlist/ unname axis labels
   # --------------------------------------------------------
   if (!is.null(legendLabels)) {
-    # unlist labels, if necessary, so we have a simple
-    # character vector
-    if (is.list(legendLabels)) legendLabels <- unlistlabels(legendLabels)
-    # unname labels, if necessary, so we have a simple
-    # character vector
+    # unname labels, if necessary, so we have a simple character vector
     if (!is.null(names(legendLabels))) legendLabels <- as.vector(legendLabels)
   } 
   # --------------------------------------------------------

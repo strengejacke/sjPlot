@@ -259,12 +259,6 @@ sjp.glm <- function(fit,
   # ----------------------------
   if (is.null(geom.size)) geom.size <- 3
   # --------------------------------------------------------
-  # unlist labels
-  # --------------------------------------------------------
-  if (!is.null(axisLabels.y) && is.list(axisLabels.y)) {
-    axisLabels.y <- unlistlabels(axisLabels.y)
-  }
-  # --------------------------------------------------------
   # auto-retrieve value labels
   # --------------------------------------------------------
   if (is.null(axisLabels.y)) {

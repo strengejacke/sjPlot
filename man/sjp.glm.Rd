@@ -39,8 +39,7 @@ Use \code{NULL} to automatically detect variable names that will be used as titl
 no title is printed.}
 
 \item{axisLabels.y}{labels or names of the predictor variables (independent vars). Must
-be a character vector of same length as independent variables. The labels
-may also be passed as list object; they will be coerced to character vector automatically.}
+be a character vector of same length as independent variables.}
 
 \item{axisTitle.x}{string; title for the x-axis.}
 

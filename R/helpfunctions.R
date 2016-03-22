@@ -637,6 +637,12 @@ unlistlabels <- function(lab) {
 }
 
 
+get_model_response_label <- function(fit) {
+  m_f <- stats::model.frame(fit)
+  sjmisc::get_label(m_f[[1]], def.value = colnames(m_f)[1])
+}
+
+
 #' @title Adjust y range of ggplot-objects
 #' @name adjust_plot_range
 #'

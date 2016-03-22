@@ -11,7 +11,7 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #'                in a "stepwise" sense.
 #'                
 #' @param ... one or more fitted \code{lm} or \code{lmerMod}-objects. May also 
-#'          be a \code{\link{list}}-object with  fitted models, instead of separating 
+#'          be a \code{\link{list}}-object with fitted models, instead of separating 
 #'          each model with comma. See 'Examples'.
 #' @param type type of plot. Use one of following:
 #'          \describe{
@@ -24,9 +24,6 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #'          Default is \code{"Dependent Variables"}.
 #' @param legendPValTitle character vector used for the title of the significance level's legend.
 #'          Default is \code{"p-level"}. Only applies if \code{usePShapes = TRUE}.
-#' @param stringModel string, legend text for the model names in case no 
-#'          labels for the dependent variables are provided (see \code{labelDependentVariables}).
-#'          Default is \code{"Model"}.
 #' @param showAxisLabels.y Whether term names (predictor labels) should be shown or not.
 #' @param axisTitle.x string, title for the x axis.
 #' @param geom.size size of the points that indicate the estimates. Default is 3.
@@ -101,7 +98,7 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #' # ------------------------------
 #' # plot multiple models with different
 #' # predictors (stepwise inclusion),
-#' # standardi estimates
+#' # standardized estimates
 #' # ------------------------------
 #' fit1 <- lm(mpg ~ wt + cyl + disp + gear, data = mtcars)
 #' fit2 <- update(fit1, . ~ . + hp)
@@ -120,7 +117,6 @@ sjp.lmm <- function(...,
                     labelDependentVariables = NULL,
                     legendDepVarTitle = "Dependent Variables",
                     legendPValTitle = "p-level",
-                    stringModel = "Model",
                     axisLabels.y = NULL,
                     axisTitle.x = "Estimates",
                     axisLimits = NULL,
@@ -153,16 +149,8 @@ sjp.lmm <- function(...,
   # check length. if we have a list of fitted model, 
   # we need to "unlist" them
   # --------------------------------------------------------
-  if (length(input_list) == 1 && class(input_list[[1]]) == "list") input_list <- lapply(input_list[[1]], function(x) x)
-  # --------------------------------------------------------
-  # unlist labels
-  # --------------------------------------------------------
-  # unlist axis labels (predictors)
-  if (!is.null(axisLabels.y) && is.list(axisLabels.y)) axisLabels.y <- unlistlabels(axisLabels.y)
-  # unlist labels of dependent variables (legend)
-  if (!is.null(labelDependentVariables) && is.list(labelDependentVariables)) {
-    labelDependentVariables <- unlistlabels(labelDependentVariables)
-  }
+  if (length(input_list) == 1 && class(input_list[[1]]) == "list")
+    input_list <- lapply(input_list[[1]], function(x) x)
   # ----------------------------
   # init final data frame
   # ----------------------------
@@ -171,19 +159,22 @@ sjp.lmm <- function(...,
   # ----------------------------
   # Prepare length of title and labels
   # ----------------------------
+  # if we have no labels of dependent variables supplied, use a 
+  # default string (Model) for legend
+  if (is.null(labelDependentVariables)) {
+    labelDependentVariables <- c()
+    for (i in seq_len(fitlength)) {
+      labelDependentVariables <- c(labelDependentVariables, 
+                                   get_model_response_label(input_list[[i]]))
+    }
+  }
   # check length of diagram title and split longer string at into new lines
   if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
   if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
   # check length of dependent variables
-  if (!is.null(labelDependentVariables)) {
-    labelDependentVariables <- sjmisc::word_wrap(labelDependentVariables, breakLegendTitleAt)
-  } else {
-    # else if we have no labels of dependent variables supplied, use a 
-    # default string (Model) for legend
-    labelDependentVariables <- sprintf("%s %i", stringModel, 1:fitlength)
-  }
+  if (!is.null(labelDependentVariables)) labelDependentVariables <- sjmisc::word_wrap(labelDependentVariables, breakLegendTitleAt)
   # check length of x-axis-labels and split longer strings at into new lines
   if (!is.null(axisLabels.y)) axisLabels.y <- sjmisc::word_wrap(axisLabels.y, breakLabelsAt)
   # ----------------------------

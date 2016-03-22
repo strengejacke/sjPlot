@@ -38,9 +38,10 @@ in the output. Note that if multiple variables
 are supplied (if \code{data} is a \code{\link{data.frame}}), the variable 
 labels must be supplied as \code{list} object (see 'Examples').}
 
-\item{valueLabels}{list of character vectors that indicate the value labels of
-\code{data}. Note that if multiple variables are supplied (if \code{data} is a \code{\link{data.frame}}), 
-the value labels must be supplied as nested \code{list} object (see 'Examples').}
+\item{valueLabels}{character vector that indicate the value labels of
+\code{data}. Note that if multiple variables are supplied (if \code{data} 
+is a \code{\link{data.frame}}), the value labels must be supplied as 
+\code{list} object (see 'Examples').}
 
 \item{autoGroupAt}{numeric value, indicating at which length of unique values of \code{data}, 
 automatic grouping into smaller units is done (see \code{\link[sjmisc]{group_var}}).
