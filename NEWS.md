@@ -1,4 +1,4 @@
-# sjPlot 1.9.2-4
+# sjPlot 1.9.2-5
 
 ## General
 
@@ -9,6 +9,7 @@
 * Better support for different model families in `sjp.glm` and `sjp.glmer`.
 * `sjt.lm`, `sjt.lmer`, `sjt.glm` and `sjt.glmer` get a `showDeviance` argument to display model's deviance in the table summary.
 * `sjt.lmer` and `sjt.glmer` now show R2-values (based on `sjmisc::r2` function).
+* `sjt.lmer` and `sjt.glmer` get argument `showREvar` to show random effect variances.
 * `sjt.df` gets a `...` argument to pass down other arguments to `psych::describe` ([#118](https://github.com/sjPlot/devel/issues/118)).
 * Plot-type of `sjp.int` now defaults to `type = "eff"`.
 * Minor improvements to `sjp.int` according to plot labels (legend, axis).

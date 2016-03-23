@@ -1,12 +1,13 @@
-Version 1.9.2-4
+Version 1.9.2-5
 -----------------------------------------------------------------------------
 General:
-* P-values for linear mixed models are now computed using conditional F-tests with Kenward-Roger approximation for the df from the _pbkrtest_ package, if available.
+* P-values for linear mixed models are now computed using conditional F-tests with Kenward-Roger approximation for the df from the 'pbkrtest' package, if available.
 
 Changes to functions:
 * Better support for different model families in `sjp.glm` and `sjp.glmer`.
 * `sjt.lm`, `sjt.lmer`, `sjt.glm` and `sjt.glmer` get a `showDeviance` argument to display model's deviance in the table summary.
 * `sjt.lmer` and `sjt.glmer` now show R2-values (based on sjmisc::r2 function).
+* `sjt.lmer` and `sjt.glmer` get argument `showREvar` to show random effect variances.
 * `sjt.df` gets a `...` argument to pass down other arguments to `psych::describe`.
 * Plot-type of `sjp.int` now defaults to `type = "eff"`.
 * Minor improvements to `sjp.int` according to plot labels (legend, axis).

@@ -16,11 +16,11 @@ sjt.glm(..., file = NULL, labelPredictors = NULL,
   showStdError = FALSE, ci.hyphen = "&nbsp;&ndash;&nbsp;",
   separateConfColumn = TRUE, newLineConf = TRUE, group.pred = TRUE,
   showAbbrHeadline = TRUE, showPseudoR = FALSE, showICC = FALSE,
-  showLogLik = FALSE, showAIC = FALSE, showAICc = FALSE,
-  showDeviance = FALSE, showChi2 = FALSE, showHosLem = FALSE,
-  showFamily = FALSE, remove.estimates = NULL, cellSpacing = 0.2,
-  cellGroupIndent = 0.6, encoding = NULL, CSS = NULL, useViewer = TRUE,
-  no.output = FALSE, remove.spaces = TRUE)
+  showREvar = FALSE, showLogLik = FALSE, showAIC = FALSE,
+  showAICc = FALSE, showDeviance = FALSE, showChi2 = FALSE,
+  showHosLem = FALSE, showFamily = FALSE, remove.estimates = NULL,
+  cellSpacing = 0.2, cellGroupIndent = 0.6, encoding = NULL, CSS = NULL,
+  useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{one or more fitted generalized linear (mixed) models.}
@@ -114,6 +114,9 @@ pseudo R-squared value and \code{D} is Tjur's Coefficient of Discrimination
 
 \item{showICC}{logical, if \code{TRUE}, the intra-class-correlation for each 
 model is printed in the model summary. Only applies to mixed models.}
+
+\item{showREvar}{logical, if \code{TRUE}, the variance parameters for the random
+effects for each model are printed in the model summary. Only applies to mixed models.}
 
 \item{showLogLik}{logical, if \code{TRUE}, the Log-Likelihood for each model is printed
 in the model summary. Default is \code{FALSE}.}

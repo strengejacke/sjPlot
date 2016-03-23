@@ -16,10 +16,11 @@ sjt.lm(..., file = NULL, labelPredictors = NULL,
   digits.se = 2, digits.sb = 2, digits.summary = 3,
   pvaluesAsNumbers = TRUE, boldpvalues = TRUE, separateConfColumn = TRUE,
   newLineConf = TRUE, group.pred = TRUE, showAbbrHeadline = TRUE,
-  showR2 = TRUE, showICC = FALSE, showFStat = FALSE, showAIC = FALSE,
-  showAICc = FALSE, showDeviance = FALSE, remove.estimates = NULL,
-  cellSpacing = 0.2, cellGroupIndent = 0.6, encoding = NULL, CSS = NULL,
-  useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
+  showR2 = TRUE, showICC = FALSE, showREvar = FALSE, showFStat = FALSE,
+  showAIC = FALSE, showAICc = FALSE, showDeviance = FALSE,
+  remove.estimates = NULL, cellSpacing = 0.2, cellGroupIndent = 0.6,
+  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
+  remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{one or more fitted linear (mixed) models.}
@@ -120,6 +121,9 @@ in the model summary. For linear mixed models, the R2 and Omega-squared values a
 
 \item{showICC}{logical, if \code{TRUE}, the intra-class-correlation for each 
 model is printed in the model summary. Only applies to mixed models.}
+
+\item{showREvar}{logical, if \code{TRUE}, the variance parameters for the random
+effects for each model are printed in the model summary. Only applies to mixed models.}
 
 \item{showFStat}{If \code{TRUE}, the F-statistics for each model is printed
 in the model summary. Default is \code{FALSE}.}
