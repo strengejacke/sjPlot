@@ -11,6 +11,7 @@
 * `sjt.lmer` and `sjt.glmer` now show R2-values (based on `sjmisc::r2` function).
 * `sjt.lmer` and `sjt.glmer` get argument `showREvar` to show random effect variances.
 * `sjt.df` gets a `...` argument to pass down other arguments to `psych::describe` ([#118](https://github.com/sjPlot/devel/issues/118)).
+* Argument `sample.n` in `sjp.lmer` and `sjp.glmer` may now also be a numeric vector of length > 1, indicating speficic random effects to select for plotting.
 * Plot-type of `sjp.int` now defaults to `type = "eff"`.
 * Minor improvements to `sjp.int` according to plot labels (legend, axis).
 

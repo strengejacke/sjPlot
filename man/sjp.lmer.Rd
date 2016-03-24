@@ -151,10 +151,15 @@ or \code{type = "fe.resid"}).}
 specified, if \code{type = "poly"}, in order to plot marginal effects
 for polynomial terms. See 'Examples'.}
 
-\item{sample.n}{only applies, if \code{type = "rs.ri"}. If plot has many random intercepts
-(grouping levels), overplotting of regression lines may occur. In this
-case, consider random sampling of grouping levels. \code{sample.n} indicates,
-how many random cases are sampled for plotting.}
+\item{sample.n}{numeric vector. only applies, if \code{type = "rs.ri"}. If 
+plot has many random intercepts (grouping levels), overplotting of 
+regression lines may occur. In this case, consider random sampling of 
+grouping levels. If \code{sample.n} is of length 1, a random sample
+of \code{sample.n} observation is selected to plot random intercepts.
+If \code{sample.n} is of length > 1, random effects indicated by
+the values in \code{sample.n} are selected to plot random effects.
+Use the latter option to always select a fixed, identical set of
+random effects for plotting (useful when ecomparing multiple models).}
 
 \item{show.legend}{logical, if \code{TRUE}, for mixed models 
 \code{type = "rs.ri"}, a legend for group levels of 

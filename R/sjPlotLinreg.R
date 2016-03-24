@@ -1484,6 +1484,12 @@ sjp.lm.eff <- function(fit,
       int.found <- TRUE
     }
   }
+  # check if we have only moderation and no single
+  # higher order terms
+  if (sjmisc::is_empty(mydat)) {
+    warning("Model has no higher order terms (except for possible interaction terms). There are no effects that can be plotted. Consider using `sjp.int` if model has interaction terms.", call. = F)
+    return(list(p = NULL, se = NULL))
+  }
   # continuous numbering of row names
   rownames(mydat) <- c(1:nrow(mydat))
   # ------------------------

@@ -944,6 +944,8 @@ sjp.eff.int <- function(fit,
   }
   # gridbreaks
   if (is.null(gridBreaksAt)) gridbreaks.x <- gridbreaks.y <- ggplot2::waiver()
+  # init default
+  binom_fam <- FALSE
   # ------------------------
   # multiple purpose of showCI parameter. if logical,
   # sets default CI to 0.95, else showCI also may be
@@ -1368,9 +1370,7 @@ sjp.eff.int <- function(fit,
     # ------------------------------------------------------------------------------------
     baseplot <- baseplot +
       # set plot and axis titles
-      labs(title = labtitle, x = labx, y = laby, colour = lTitle) +
-      # set axis scale breaks
-      scale_y_continuous(limits = c(lowerLim.y, upperLim.y), breaks = gridbreaks.y)
+      labs(title = labtitle, x = labx, y = laby, colour = lTitle)
     # we have specified labels for factors on x-axis only...
     if (x_is_factor && !is.null(x_labels)) {
       baseplot <- baseplot +
@@ -1383,6 +1383,21 @@ sjp.eff.int <- function(fit,
       baseplot <- baseplot +
         scale_x_continuous(limits = c(lowerLim.x, upperLim.x), 
                            breaks = gridbreaks.x)
+    }
+    # ------------------------
+    # for logistic regression, use 
+    # 0 to 1 scale limits and percentage scale
+    # ------------------------
+    if (isTRUE(binom_fam)) {
+      baseplot <- baseplot +
+        scale_y_continuous(limits = c(lowerLim.y, upperLim.y), 
+                           breaks = gridbreaks.y,
+                           labels = scales::percent)
+    } else {
+      baseplot <- baseplot +
+        # set axis scale breaks
+        scale_y_continuous(limits = c(lowerLim.y, upperLim.y), 
+                           breaks = gridbreaks.y)
     }
     # ---------------------------------------------------------
     # facet grids?

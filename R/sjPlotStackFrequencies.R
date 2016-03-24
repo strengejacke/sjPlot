@@ -407,7 +407,13 @@ sjp.stackfrq <- function(items,
   # -----------------
   # show/hide percentage values on x axis
   # ----------------------------
-  if (!showPercentageAxis) percent <- NULL
+  if (isTRUE(showPercentageAxis))
+    perc.val <- scales::percent
+  else
+    perc.val <- NULL
+  # -----------------
+  # start plot here
+  # ----------------------------
   baseplot <- baseplot +
     # show absolute and percentage value of each bar.
     ggvaluelabels +
@@ -423,7 +429,7 @@ sjp.stackfrq <- function(items,
     scale_y_continuous(breaks = gridbreaks, 
                        limits = c(0, 1), 
                        expand = expgrid, 
-                       labels = percent)
+                       labels = perc.val)
   # check whether coordinates should be flipped, i.e.
   # swap x and y axis
   if (coord.flip) baseplot <- baseplot + coord_flip()

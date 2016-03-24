@@ -496,7 +496,7 @@ sjp.xtab <- function(x,
     scale_y_continuous(breaks = gridbreaks, 
                        limits = c(lower_lim, upper_lim), 
                        expand = expand.grid, 
-                       labels = percent)
+                       labels = scales::percent)
   # check whether coordinates should be flipped, i.e.
   # swap x and y axis
   if (coord.flip) baseplot <- baseplot + coord_flip()

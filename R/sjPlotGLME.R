@@ -86,10 +86,15 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #' @param free.scale if \code{TRUE} and \code{facet.grid = TRUE}, each facet grid
 #'          gets its own fitted scale. If \code{free.scale = FALSE}, each facet in
 #'          the grid has the same scale range.
-#' @param sample.n only applies, if \code{type = "rs.ri"}. If plot has many random intercepts
-#'          (grouping levels), overplotting of regression lines may occur. In this
-#'          case, consider random sampling of grouping levels. \code{sample.n} indicates,
-#'          how many random cases are sampled for plotting.
+#' @param sample.n numeric vector. only applies, if \code{type = "rs.ri"}. If 
+#'          plot has many random intercepts (grouping levels), overplotting of 
+#'          regression lines may occur. In this case, consider random sampling of 
+#'          grouping levels. If \code{sample.n} is of length 1, a random sample
+#'          of \code{sample.n} observation is selected to plot random intercepts.
+#'          If \code{sample.n} is of length > 1, random effects indicated by
+#'          the values in \code{sample.n} are selected to plot random effects.
+#'          Use the latter option to always select a fixed, identical set of
+#'          random effects for plotting (useful when ecomparing multiple models).
 #' @param show.legend logical, if \code{TRUE}, for mixed models 
 #'          \code{type = "rs.ri"}, a legend for group levels of 
 #'          the random intercept is shown. For \code{lm} and \code{glm}, 
@@ -206,7 +211,7 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'           vars = "neg_c_7")
 #'
 #' @import ggplot2
-#' @importFrom dplyr slice add_rownames
+#' @importFrom dplyr slice add_rownames sample_n
 #' @importFrom lme4 fixef ranef confint.merMod getME
 #' @export
 sjp.glmer <- function(fit,
@@ -478,7 +483,7 @@ sjp.glmer <- function(fit,
 #'
 #' @import ggplot2
 #' @importFrom car Anova
-#' @importFrom dplyr sample_n add_rownames
+#' @importFrom dplyr sample_n add_rownames slice
 #' @export
 sjp.lmer <- function(fit,
                      type = "re",
@@ -1916,7 +1921,10 @@ sjp.lme.reri <- function(fit,
     # good to have when we have many random intercepts
     # ------------------------------
     if (!is.null(sample.n) && is.numeric(sample.n)) {
-      rand.ef <- dplyr::sample_n(rand.ef, sample.n)
+      if (length(sample.n) == 1)
+        rand.ef <- dplyr::sample_n(rand.ef, sample.n)
+      else
+        rand.ef <- dplyr::slice(rand.ef, sample.n)
     }
     # and list name
     ri.name <- names(lme4::ranef(fit)[ri.count])
@@ -2458,9 +2466,15 @@ sjp.glm.eff <- function(fit,
     geom_line(size = geom.size) +
     facet_wrap(~grp, ncol = round(sqrt(grp.cnt)), scales = "free_x") +
     labs(x = NULL, y = axisTitle.y, title = title)
-  # for logistic regression, use 0 to 1 scale limits
-  if (isTRUE(binom_fam))
-    eff.plot <- eff.plot + coord_cartesian(ylim = axisLimits.y)
+  # ------------------------
+  # for logistic regression, use 
+  # 0 to 1 scale limits and percentage scale
+  # ------------------------
+  if (isTRUE(binom_fam)) {
+    eff.plot <- eff.plot + 
+      coord_cartesian(ylim = axisLimits.y) +
+      scale_y_continuous(labels = scales::percent)
+  }
   # ------------------------
   # print plot?
   # ------------------------
