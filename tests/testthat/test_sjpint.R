@@ -304,7 +304,7 @@ test_that("emm, lmer", {
 
 test_that("emm, lmer", {
   skip_on_cran()
-  expect_warning(sjp.int(fit, type = "emm", plevel = 1))
+  sjp.int(fit, type = "emm", plevel = 1)
 })
 
 library(lmerTest)
@@ -312,15 +312,15 @@ fit <- lmerTest::lmer(burden ~ sex + education + sex:education + (1 | groups), d
 
 test_that("emm, lmer", {
   skip_on_cran()
-  expect_warning(sjp.int(fit, type = "emm", plevel = 1))
+  sjp.int(fit, type = "emm", plevel = 1)
 })
 
 test_that("emm, lmer", {
   skip_on_cran()
-  expect_warning(sjp.int(fit, type = "emm", plevel = 1, showCI = T))
+  sjp.int(fit, type = "emm", plevel = 1, showCI = T)
 })
 
 test_that("emm, lmer", {
   skip_on_cran()
-  expect_warning(sjp.int(fit, type = "emm", plevel = 1, showCI = T, facet.grid = T))
+  sjp.int(fit, type = "emm", plevel = 1, showCI = T, facet.grid = T)
 })
