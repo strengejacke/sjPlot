@@ -1881,6 +1881,8 @@ sjp.lme.reri <- function(fit,
   # get model frame
   # -----------------------------------------------------------
   m_f <- stats::model.frame(fit)
+  # get predictor names
+  pred.values <- colnames(m_f)
   # ----------------------------
   # retrieve term names, so we find the estimates in the
   # coefficients list
@@ -1891,31 +1893,53 @@ sjp.lme.reri <- function(fit,
   # global intercept and values from random slope predictor
   # ---------------------------------------
   global.intercept <- as.vector(lme4::fixef(fit))[1]
-  rnd.slope.name <- colnames(lme4::ranef(fit)[[1]][2])
-  # get predictor names
-  pred.values <- colnames(m_f)
-  # do predictor name and rnd. slope name equal?
-  # if not, might be a factor, so no exact matching possible
-  if (!any(pred.values == rnd.slope.name)) {
-    # try to find predictor name in random slope name
-    for (ef in pred.values) {
-      pos <- grep(ef, rnd.slope.name, fixed = T)
-      if (length(pos) > 0 && 1 == pos) {
-        rnd.slope.name <- ef
-        break
-      }
-    }
+  # we need to check bounds
+  remove_ri <- c()
+  for (h in seq_len(length(ri.nr))) {
+    # get each random part
+    re_tmp <- lme4::ranef(fit)[[ri.nr[h]]]
+    # has slopes?
+    if (ncol(re_tmp) < 2) 
+      remove_ri <- c(remove_ri, h)
   }
-  # get all values of predictor that was used as random slope
-  eff.range <- unique(sort(m_f[[rnd.slope.name]], na.last = NA))
-  # if it a factor?
-  if (is.factor(eff.range)) eff.range <- sjmisc::to_value(eff.range)
+  # found any random parts withou slopes? if yes, remove them from index
+  if (!sjmisc::is_empty(remove_ri)) {
+    ri.nr <- ri.nr[-remove_ri]
+  }
+  # nothing found?
+  if (sjmisc::is_empty(ri.nr)) {
+    warning("No random parts with random-slope-intercept parameters found.", call. = F)
+    return(NULL)
+  }
   # ---------------------------------------
   # iterate all random intercept
   # ---------------------------------------
   for (ri.count in ri.nr) {
+    # ------------------------------
+    # find random slopes
+    # ------------------------------
+    rnd.part <- lme4::ranef(fit)[[ri.count]]
+    rnd.slope.name <- colnames(rnd.part[2])
+    # do predictor name and rnd. slope name equal?
+    # if not, might be a factor, so no exact matching possible
+    if (!any(pred.values == rnd.slope.name)) {
+      # try to find predictor name in random slope name
+      for (ef in pred.values) {
+        pos <- grep(ef, rnd.slope.name, fixed = T)
+        if (length(pos) > 0 && 1 == pos) {
+          rnd.slope.name <- ef
+          break
+        }
+      }
+    }
+    # get all values of predictor that was used as random slope
+    eff.range <- unique(sort(m_f[[rnd.slope.name]], na.last = NA))
+    # if it a factor?
+    if (is.factor(eff.range)) eff.range <- sjmisc::to_value(eff.range)
+    # ------------------------------
     # retrieve random effects
-    rand.ef <- dplyr::add_rownames(lme4::ranef(fit)[[ri.count]])
+    # ------------------------------
+    rand.ef <- dplyr::add_rownames(rnd.part)
     # ------------------------------
     # sample random rows?
     # good to have when we have many random intercepts
@@ -1926,8 +1950,6 @@ sjp.lme.reri <- function(fit,
       else
         rand.ef <- dplyr::slice(rand.ef, sample.n)
     }
-    # and list name
-    ri.name <- names(lme4::ranef(fit)[ri.count])
     # ------------------------------
     # set geom highlight colors
     # to highlight specific grouping levels
@@ -1974,27 +1996,41 @@ sjp.lme.reri <- function(fit,
         axisLimits.y <- c(as.integer(floor(10 * min(final.df$y, na.rm = T) * .9)) / 10,
                           as.integer(ceiling(10 * max(final.df$y, na.rm = T) * 1.1)) / 10)
       }
+      # get random intercept name
+      ri.name <- names(lme4::ranef(fit)[ri.count])
       # ------------------------------
       # title and axis title
       # ------------------------------
-      if (is.null(title)) title <- sprintf("Random slopes within \"%s\"", ri.name)
-      if (is.null(axisTitle.x)) axisTitle.x <- rnd.slope.name
+      if (is.null(title)) 
+        p_title <- sprintf("Random slopes within \"%s\"", ri.name)
+      else
+        p_title <- title
+      if (is.null(axisTitle.x)) 
+        p_axisTitle.x <- rnd.slope.name
+      else
+        p_axisTitle.x <- axisTitle.x
       # ------------------------------
       # prepare base plot
       # ------------------------------
       if (fun == "lm") {
-        if (is.null(axisTitle.y)) axisTitle.y <- colnames(m_f)[1]
+        if (is.null(axisTitle.y)) 
+          p_axisTitle.y <- colnames(m_f)[1]
+        else
+          p_axisTitle.y <- axisTitle.y
         gp <- ggplot(final.df, aes(x = x, y = y, colour = grp)) +
           geom_line(size = geom.size)
       } else {
-        if (is.null(axisTitle.y)) axisTitle.y <- sprintf("Predicted Probability of %s", colnames(m_f)[1])
+        if (is.null(axisTitle.y)) 
+          p_axisTitle.y <- sprintf("Predicted Probability of %s", colnames(m_f)[1])
+        else
+          p_axisTitle.y <- axisTitle.y
         gp <- ggplot(final.df, aes(x = x, y = y, colour = grp)) +
           stat_smooth(method = "glm", se = F,
                       method.args = list(family = "binomial"))
       }
       gp <- gp +
         scale_y_continuous(limits = axisLimits.y) +
-        labs(title = title, y = axisTitle.y, x = axisTitle.x)
+        labs(title = p_title, y = p_axisTitle.y, x = p_axisTitle.x)
       # ------------------------------
       # highlight specific groups?
       # ------------------------------

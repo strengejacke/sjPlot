@@ -14,7 +14,7 @@
 #' 
 #' @param items \code{\link{data.frame}} with each column representing one item.
 #' @param legendLabels list or vector of strings that indicate the items' categories.
-#'          WIll also appear as legend text.
+#'          Will also appear as legend text.
 #' @param sort.frq indicates whether the \code{items} should be ordered by
 #'          by highest count of first or last category of \code{items}.
 #'          \describe{

@@ -1,3 +1,9 @@
+Version 1.9.3-1
+-----------------------------------------------------------------------------
+Bug fixes:
+* `type = "rs.ri"` for `sjp.lmer` and `sjp.glmer` did not work with three-level (or more) mixed models or with mixed models with more than one random part.
+
+
 Version 1.9.3
 -----------------------------------------------------------------------------
 General:
