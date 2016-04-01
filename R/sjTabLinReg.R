@@ -925,7 +925,7 @@ sjt.lm <- function(...,
   # set default predictor labels
   # -------------------------------------
   if (is.null(labelPredictors) && !lmerob) {
-    labelPredictors <- suppressWarnings(retrieveModelLabels(input_list))
+    labelPredictors <- suppressWarnings(retrieveModelLabels(input_list, group.pred = group.pred))
   }
   # --------------------------------------------------------
   # auto-retrieving variable labels does not work when we

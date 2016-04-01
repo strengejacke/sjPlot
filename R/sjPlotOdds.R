@@ -268,7 +268,7 @@ sjp.glm <- function(fit,
   # auto-retrieve value labels
   # --------------------------------------------------------
   if (is.null(axisLabels.y)) {
-    axisLabels.y <- suppressWarnings(retrieveModelLabels(list(fit)))
+    axisLabels.y <- suppressWarnings(retrieveModelLabels(list(fit), group.pred = FALSE))
   }
   # ----------------------------
   # check model family, do we have count model?

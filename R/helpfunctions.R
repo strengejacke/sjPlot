@@ -521,7 +521,7 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
 
 # automatically retrieve predictor labels
 # of fitted (g)lm
-retrieveModelLabels <- function(models) {
+retrieveModelLabels <- function(models, group.pred) {
   fit.labels <- c()
   for (k in 1:length(models)) {
     # get model
@@ -532,10 +532,17 @@ retrieveModelLabels <- function(models) {
       return(NULL)
     # get model frame
     m_f <- stats::model.frame(fit)
+    # get model coefficients' names
+    coef_names <- names(stats::coef(fit))
     # iterate coefficients (1 is intercept or response)
     for (i in 2:ncol(m_f)) {
-      # is predictor a factor?
+      # get predictor
       pvar <- m_f[, i]
+      # check if we have a variable label
+      lab <- sjmisc::get_label(pvar, def.value = colnames(m_f)[i])
+      # get model coefficients' names
+      coef_name <- coef_names[i]
+      # is predictor a factor?
       # if yes, we have this variable multiple
       # times, so manually set value labels
       if (is.factor(pvar)) {
@@ -548,21 +555,25 @@ retrieveModelLabels <- function(models) {
         if (!is.null(pvar.lab) && length(pvar.lab) == pvar.len) {
           # add labels
           if (sjmisc::str_contains(fit.labels, pattern = pvar.lab[2:pvar.len], logic = "NOT")) {
-            fit.labels <- c(fit.labels, pvar.lab[2:pvar.len])
+            # create labels
+            if (isTRUE(group.pred) && pvar.len > 2) {
+              # if predictor grouping is enabled, don't use variable labels again
+              labels.to.add <- pvar.lab[2:pvar.len]
+            } else {
+              # else, if we have not grouped predictors, we have no headin
+              # with variable label, hence, factor levels may not be intuitiv.
+              # thus, add variable label so values have a meaning
+              labels.to.add <- sprintf("%s (%s)", lab, pvar.lab[2:pvar.len])
+            }
+            fit.labels <- c(fit.labels, labels.to.add)
           }
         } else {
           # add labels
-          if (sjmisc::str_contains(fit.labels, pattern = names(stats::coef(fit)[i]), logic = "NOT")) {
-            fit.labels <- c(fit.labels, names(stats::coef(fit)[i]))
+          if (sjmisc::str_contains(fit.labels, pattern = coef_name, logic = "NOT")) {
+            fit.labels <- c(fit.labels, coef_name)
           }
         }
       } else {
-        # check if we have label
-        lab <- sjmisc::get_label(m_f[, i])
-        # if not, use coefficient name
-        if (is.null(lab)) {
-          lab <- colnames(m_f)[i]
-        }
         if (!any(fit.labels == lab)) fit.labels <- c(fit.labels, lab)
       }
     }
