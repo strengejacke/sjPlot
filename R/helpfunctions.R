@@ -527,14 +527,15 @@ retrieveModelLabels <- function(models) {
     # get model
     fit <- models[[k]]
     # any valid model?
-    if (any(class(fit) == "gls") ||
-        any(class(fit) == "plm") || 
+    if (any(class(fit) == "plm") || 
         any(class(fit) == "ppgls"))
       return(NULL)
+    # get model frame
+    m_f <- stats::model.frame(fit)
     # iterate coefficients (1 is intercept or response)
-    for (i in 2:ncol(fit$model)) {
+    for (i in 2:ncol(m_f)) {
       # is predictor a factor?
-      pvar <- fit$model[, i]
+      pvar <- m_f[, i]
       # if yes, we have this variable multiple
       # times, so manually set value labels
       if (is.factor(pvar)) {
@@ -557,10 +558,10 @@ retrieveModelLabels <- function(models) {
         }
       } else {
         # check if we have label
-        lab <- sjmisc::get_label(fit$model[, i])
+        lab <- sjmisc::get_label(m_f[, i])
         # if not, use coefficient name
         if (is.null(lab)) {
-          lab <- colnames(stats::model.frame(fit))[i]
+          lab <- colnames(m_f)[i]
         }
         if (!any(fit.labels == lab)) fit.labels <- c(fit.labels, lab)
       }

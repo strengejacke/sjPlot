@@ -924,7 +924,7 @@ sjt.lm <- function(...,
   # -------------------------------------
   # set default predictor labels
   # -------------------------------------
-  if (is.null(labelPredictors) && !sw.fit && !lmerob) {
+  if (is.null(labelPredictors) && !lmerob) {
     labelPredictors <- suppressWarnings(retrieveModelLabels(input_list))
   }
   # --------------------------------------------------------
@@ -1384,7 +1384,7 @@ sjt.lm <- function(...,
       # -------------------------
       page.content <- paste0(page.content, "\n    <td class=\"separatorcol\">&nbsp;</td>")
       # -------------------------
-      # no R2 for GLS
+      # no F-Statistics for GLS
       # -------------------------
       if (any(class(input_list[[i]]) == "gls")) {
         page.content <- paste0(page.content, sprintf("    %sNA</td>\n", colspanstring))

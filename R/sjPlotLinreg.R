@@ -352,9 +352,7 @@ sjp.lm <- function(fit,
   # --------------------------------------------------------
   # auto-retrieve value labels
   # --------------------------------------------------------
-  if (is.null(axisLabels.y) &&
-      all(class(fit) != "plm") && 
-      all(class(fit) != "gls")) {
+  if (is.null(axisLabels.y) && all(class(fit) != "plm")) {
     axisLabels.y <- suppressWarnings(retrieveModelLabels(list(fit)))
   }
   # check length of diagram title and split longer string at into new lines
@@ -1394,33 +1392,22 @@ sjp.lm.eff <- function(fit,
     stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
   }
   # ------------------------
+  # retrieve model matrix and all terms,
+  # excluding intercept
+  # ------------------------
+  mm <- stats::model.frame(fit)
+  all.terms <- colnames(mm)[-1]
+  # ------------------------
   # Retrieve response for automatic title
   # ------------------------
-  if (any(class(fit) == "lmerMod") || any(class(fit) == "merModLmerTest")) {
-    # retrieve response vector
-    resp <- lme4::getME(fit, "y")
-    resp.col <- colnames(fit@frame)[1]
-  } else if (any(class(fit) == "lm")) {
-    # retrieve response vector
-    resp <- fit$model[[1]]
-    resp.col <- colnames(fit$model)[1]
-  } else if (any(class(fit) == "gls")) {
-    # retrieve response vector
-    resp <- nlme::getResponse(fit)
-    resp.col <- attr(resp, "label", exact = TRUE)
-  }
+  resp <- mm[[1]]
+  resp.col <- colnames(mm)[1]
   # --------------------------------------------
   # retrieve labels
   # --------------------------------------------
   axisTitle.y <- sjmisc::get_label(resp, def.value = resp.col)
   # which title?
   if (is.null(title)) title <- "Marginal effects of model predictors"
-  # ------------------------
-  # retrieve model matrix and all terms,
-  # excluding intercept
-  # ------------------------
-  mm <- stats::model.frame(fit)
-  all.terms <- colnames(mm)[-1]
   # ------------------------
   # remove setimates?
   # ------------------------
@@ -1492,7 +1479,7 @@ sjp.lm.eff <- function(fit,
   # tell user that interaction terms are ignored
   # ------------------------
   if (int.found) {
-    message("Interaction terms in model have been ignored. Call 'sjp.int' to plot effects of interaction terms.")
+    message("Interaction terms in model have been ignored. Use `sjp.int` to plot effects of interaction terms.")
   }
   # ------------------------
   # how many different groups?
