@@ -423,7 +423,7 @@ crosstabsum <- function(x, grp, weightBy) {
 
 # checks at which position in fitted models factors with
 # more than two levels are located.
-#' @importFrom stats model.matrix
+#' @importFrom stats model.frame
 retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
   # init group-row-indices
   group.pred.rows <- c()
@@ -439,7 +439,7 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
     # get model
     fit <- models[[k]]
     # copy model matrix
-    fmodel <- stats::model.matrix(fit)
+    fmodel <- stats::model.frame(fit)
     # retrieve all factors from model
     for (grp.cnt in 1:ncol(fmodel)) {
       # get variable

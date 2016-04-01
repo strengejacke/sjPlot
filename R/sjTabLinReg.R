@@ -586,8 +586,6 @@ sjt.lm <- function(...,
     warning("Package `AICcmodavg` needed to show AICc. Argument `showAICc` will be ignored.", call. = FALSE)
     showAICc <- FALSE
   }
-  
-  
   # ------------------------
   # check for stepwise models, when fitted models
   # are mixed effects models

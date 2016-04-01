@@ -2370,7 +2370,7 @@ get_lmerMod_pvalues <- function(fitmod) {
 }
 
 
-#' @importFrom stats family model.frame model.matrix na.omit
+#' @importFrom stats family model.frame na.omit
 sjp.glm.eff <- function(fit,
                         title,
                         geom.size,
@@ -2407,11 +2407,9 @@ sjp.glm.eff <- function(fit,
   # which title?
   if (is.null(title)) title <- "Marginal effects of model predictors"
   # ------------------------
-  # retrieve model matrix and all terms,
-  # excluding intercept
+  # retrieve all terms excluding intercept
   # ------------------------
-  mm <- stats::model.matrix(fit)
-  all.terms <- colnames(stats::model.matrix(fit))[-1]
+  all.terms <- colnames(fitfram)[-1]
   # ------------------------
   # remove setimates?
   # ------------------------
@@ -2428,7 +2426,7 @@ sjp.glm.eff <- function(fit,
   xl <- list()
   for (t in all.terms) {
     # get unique values
-    dummy <- list(x = sort(unique(stats::na.omit(mm[, t]))))
+    dummy <- list(x = sort(unique(stats::na.omit(fitfram[, t]))))
     # name list, needed for effect-function
     names(dummy) <- t
     # create list for "xlevels" argument of allEffects fucntion

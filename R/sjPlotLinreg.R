@@ -1282,19 +1282,15 @@ sjp.lm.poly <- function(fit,
   # -------------------------------------
   # retrieve model matrix
   # -------------------------------------
-  mm <- stats::model.matrix(fit)
+  mf <- stats::model.frame(fit)
   # get model data column names
-  cn <- colnames(mm)
+  cn <- colnames(mf)
   xl <- NULL
   # any axis title?
   if (is.null(axisTitle.y)) {
     # find response name
     resp.name <- "Response"
-    # check if we have mixed model
-    if (sjmisc::str_contains(class(fit), "merMod", ignore.case = T))
-      resp.name <- get_var_name(colnames(fit@frame)[1])
-    else
-      resp.name <- get_var_name(colnames(fit$model)[1])
+    resp.name <- get_var_name(cn[1])
   } else {
     resp.name <- axisTitle.y
   }
@@ -1307,7 +1303,7 @@ sjp.lm.poly <- function(fit,
     poly.found <- any(cn == poly.term)
     # found poly? If yes, get range
     if (poly.found) {
-      xl <- list(x = sort(unique(stats::na.omit(mm[, poly.term]))))
+      xl <- list(x = sort(unique(stats::na.omit(mf[, poly.term]))))
     } else {
       # not found? than check for poly term, using poly(x, degree = 3)
       if (!poly.found) {
@@ -1423,7 +1419,7 @@ sjp.lm.eff <- function(fit,
   # retrieve model matrix and all terms,
   # excluding intercept
   # ------------------------
-  mm <- stats::model.matrix(fit)
+  mm <- stats::model.frame(fit)
   all.terms <- colnames(mm)[-1]
   # ------------------------
   # remove setimates?
