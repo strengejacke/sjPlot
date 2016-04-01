@@ -2,8 +2,8 @@ Package: sjPlot
 Type: Package
 Encoding: UTF-8
 Title: Data Visualization for Statistics in Social Science
-Version: 1.9.3-1
-Date: 2016-03-27
+Version: 1.9.4
+Date: 2016-03-29
 Author: Daniel Lüdecke <d.luedecke@uke.de>
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
 Description: Collection of plotting and table output functions for data
@@ -15,7 +15,7 @@ Description: Collection of plotting and table output functions for data
     terms) and much more.
 License: GPL-3
 Depends:
-    R (>= 3.1),
+    R (>= 3.2),
     graphics,
     grDevices,
     methods,
@@ -42,7 +42,7 @@ Suggests:
     lmerTest,
     lmtest,
     lsmeans,
-    pbkrtest,
+    pbkrtest (>= 0.4-6),
     testthat
 URL: https://github.com/sjPlot/devel
 BugReports: https://github.com/sjPlot/devel/issues

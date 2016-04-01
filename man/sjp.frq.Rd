@@ -214,7 +214,7 @@ Plot frequencies of a variable as bar graph, histogram,
 \note{
 This function only works with variables with integer values (or numeric
         factor levels), i.e. scales / centred variables
-        with decimales may result in unexpected behaviour.
+        with decimals may result in unexpected behaviour.
 }
 \examples{
 # boxplot

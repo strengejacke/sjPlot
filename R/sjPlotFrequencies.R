@@ -15,7 +15,7 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' 
 #' @note This function only works with variables with integer values (or numeric
 #'         factor levels), i.e. scales / centred variables
-#'         with decimales may result in unexpected behaviour.
+#'         with decimals may result in unexpected behaviour.
 #' 
 #' @param varCount a vector of values (variable) describing the bars which make up the plot.
 #' @param weightBy weight factor that will be applied to weight all cases of \code{varCount}.

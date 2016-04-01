@@ -1,4 +1,8 @@
-# sjPlot 1.9.3-1
+# sjPlot 1.9.4
+
+## General
+
+* Package is now depending on R >= 3.2, because some functions did not work on older R-releases.
 
 ## Bug fixes
 
