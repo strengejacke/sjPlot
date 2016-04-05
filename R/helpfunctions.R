@@ -19,17 +19,20 @@ get_glm_family <- function(fit) {
   # do we have glm? if so, get link family. make exceptions
   # for specific models that don't have family function
   # ------------------------
-  if (any(c.f %in% c("lme", "plm")))
+  if (any(c.f %in% c("lme", "plm"))) {
     fitfam <- ""
-  else
+    logit_link <- FALSE
+  } else {
     fitfam <- stats::family(fit)$family
+    logit_link <- stats::family(fit)$link == "logit"
+  }
   # --------------------------------------------------------
   # create logical for family
   # --------------------------------------------------------
   binom_fam <- fitfam %in% c("binomial", "quasibinomial")
   poisson_fam <- fitfam %in% c("poisson", "quasipoisson") ||
     sjmisc::str_contains(fitfam, "negative binomial", ignore.case = T)
-  return(list(is_bin = binom_fam, is_pois = poisson_fam))
+  return(list(is_bin = binom_fam, is_pois = poisson_fam, is_logit = logit_link))
 }
 
 
@@ -455,9 +458,7 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
           # if not, save found factor variable name
           found.factors <- c(found.factors, fac.name)
           # save factor name
-          lab <- unname(sjmisc::get_label(fit.var))
-          # any label?
-          if (is.null(lab)) lab <- colnames(fmodel)[grp.cnt]
+          lab <- unname(sjmisc::get_label(fit.var, def.value = fac.name))
           # determins startindex
           index <- grp.cnt + add.index - 1
           index.add <- length(levels(fit.var)) - 2

@@ -10,7 +10,7 @@ utils::globalVariables(c("starts_with"))
 #'                e.g. when comparing different stepwise fitted models.
 #' 
 #' @param ... one or more fitted generalized linear (mixed) models.
-#' @param stringOR string used for the column heading of odds ratio values. Default is \code{"OR"}.
+#' @param stringOR string used for the column heading of estimates. Default is \code{"OR"}.
 #' @param exp.coef logical, if \code{TRUE} (default), regression coefficients and 
 #'          confidence intervals are exponentiated. Use \code{FALSE} for 
 #'          non-exponentiated coefficients (log-odds) as provided by 

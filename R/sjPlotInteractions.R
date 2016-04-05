@@ -409,7 +409,9 @@ sjp.int <- function(fit,
   # --------------------------------------------------------
   # create logical for family
   # --------------------------------------------------------
+  poisson_fam <- fitfam$is_pois
   binom_fam <- fitfam$is_bin
+  logit_link <- fitfam$is_logit
   # --------------------------------------------------------
   # plot estimated marginal means?
   # --------------------------------------------------------

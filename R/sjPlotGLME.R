@@ -2451,19 +2451,11 @@ sjp.glm.eff <- function(fit,
       # build data frame, with raw values
       # predicted response and lower/upper ci
       # ------------------------
-      if (isTRUE(binom_fam)) {
-        tmp <- data.frame(x = eff[[i]]$x[[t]],
-                          y = plogis(eff[[i]]$fit),
-                          lower = plogis(eff[[i]]$lower),
-                          upper = plogis(eff[[i]]$upper),
-                          grp = t)
-      } else {
-        tmp <- data.frame(x = eff[[i]]$x[[t]],
-                          y = exp(eff[[i]]$fit),
-                          lower = exp(eff[[i]]$lower),
-                          upper = exp(eff[[i]]$upper),
-                          grp = t)
-      }
+      tmp <- data.frame(x = eff[[i]]$x[[t]],
+                        y = eff[[i]]$transformation$inverse(eta = eff[[i]]$fit),
+                        lower = eff[[i]]$transformation$inverse(eta = eff[[i]]$lower),
+                        upper = eff[[i]]$transformation$inverse(eta = eff[[i]]$upper),
+                        grp = t)
       # make sure x is numeric
       tmp$x <- sjmisc::to_value(tmp$x, keep.labels = F)
       # do we already have data?

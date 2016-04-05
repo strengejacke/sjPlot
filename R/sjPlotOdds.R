@@ -278,12 +278,18 @@ sjp.glm <- function(fit,
   # create logical for family
   # --------------------------------------------------------
   poisson_fam <- fitfam$is_pois
+  binom_fam <- fitfam$is_bin
+  logit_link <- fitfam$is_logit
   # ----------------------------
   # Prepare length of title and labels
   # ----------------------------
   # check default label and fit family
-  if (isTRUE(poisson_fam) && !is.null(axisTitle.x) && axisTitle.x == "Odds Ratios")
-    axisTitle.x <- "Incident Rate Ratios"
+  if (!is.null(axisTitle.x) && axisTitle.x == "Odds Ratios") {
+    if (isTRUE(poisson_fam))
+      axisTitle.x <- "Incident Rate Ratios"
+    else if (isTRUE(binom_fam) && !logit_link)
+      axisTitle.x <- "Risk Ratios"
+  }
   # check length of diagram title and split longer string at into new lines
   if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
   # check length of x-axis title and split longer string at into new lines
@@ -611,10 +617,19 @@ sjp.glm.pc <- function(fit,
   # ----------------------------
   coef.names <- names(stats::coef(fit))
   # ----------------------------
+  # check model family, do we have count model?
+  # ----------------------------
+  fitfam <- get_glm_family(fit)
+  # --------------------------------------------------------
+  # create logical for family
+  # --------------------------------------------------------
+  poisson_fam <- fitfam$is_pois
+  binom_fam <- fitfam$is_bin
+  logit_link <- fitfam$is_logit
+  # ----------------------------
   # check model family. for poisson etc., we use effects-package
   # ----------------------------
-  if ((stats::family(fit)$family %in% c("poisson", "quasipoisson", "gaussian")) ||
-      sjmisc::str_contains(stats::family(fit)$family, "negative binomial", ignore.case = T)) {
+  if (isTRUE(poisson_fam) || (isTRUE(binom_fam) & !logit_link)) {
     # ----------------------------
     # loop through all coefficients
     # ----------------------------
@@ -641,9 +656,13 @@ sjp.glm.pc <- function(fit,
       axisLabels.mp <- c(axisLabels.mp, fit.term.names[i])
     }
     # ---------------------------------------------------------
-    # default plot title
+    # default plot and axis titles
     # ---------------------------------------------------------
     if (is.null(title)) title <- sprintf("Effect plot of %s", get_model_response_label(fit))
+    if (isTRUE(poisson_fam)) 
+      y.title <- "Predicted Incidents"
+    else
+      y.title <- "Predicted risk probability"
     # ---------------------------------------------------------
     # Prepare metric plots
     # ---------------------------------------------------------
@@ -655,7 +674,7 @@ sjp.glm.pc <- function(fit,
         mydf.ges <- rbind(mydf.ges, mydf.metricpred[[i]])
         # create single plots for each numeric predictor
         mp <- ggplot(mydf.metricpred[[i]], aes(x = x, y = y, group = grp)) +
-          labs(x = axisLabels.mp[i], y = "Predicted Incidents") +
+          labs(x = axisLabels.mp[i], y = y.title) +
           geom_line(size = geom.size)
         if (show.ci) {
           mp <- mp +
@@ -669,7 +688,7 @@ sjp.glm.pc <- function(fit,
         mp <- ggplot(mydf.ges, aes(x = x,
                                    y = y)) +
           labs(x = NULL,
-               y = "Predicted Incidents",
+               y = y.title,
                title = title) +
           geom_line(size = geom.size) +
           facet_wrap(~grp,
