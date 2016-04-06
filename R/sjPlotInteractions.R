@@ -900,7 +900,7 @@ sjp.int <- function(fit,
 }
   
   
-#' @importFrom stats plogis na.omit model.frame
+#' @importFrom stats na.omit model.frame
 sjp.eff.int <- function(fit,
                         int.term = NULL,
                         int.plot.index = NULL,

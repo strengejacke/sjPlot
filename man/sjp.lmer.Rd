@@ -127,7 +127,7 @@ the grid has the same scale range.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 
-\item{show.ci}{logical, use \code{TRUE} to plot confidence intervals for 
+\item{show.ci}{logical, use \code{TRUE} to plot confidence intervals for
 predicted values or for slope lines.}
 
 \item{pointAlpha}{alpha value of point-geoms in the scatter plots.
@@ -151,9 +151,9 @@ or \code{type = "fe.resid"}).}
 specified, if \code{type = "poly"}, in order to plot marginal effects
 for polynomial terms. See 'Examples'.}
 
-\item{sample.n}{numeric vector. only applies, if \code{type = "rs.ri"}. If 
-plot has many random intercepts (grouping levels), overplotting of 
-regression lines may occur. In this case, consider random sampling of 
+\item{sample.n}{numeric vector. only applies, if \code{type = "rs.ri"}. If
+plot has many random intercepts (grouping levels), overplotting of
+regression lines may occur. In this case, consider random sampling of
 grouping levels. If \code{sample.n} is of length 1, a random sample
 of \code{sample.n} observation is selected to plot random intercepts.
 If \code{sample.n} is of length > 1, random effects indicated by
@@ -161,9 +161,9 @@ the values in \code{sample.n} are selected to plot random effects.
 Use the latter option to always select a fixed, identical set of
 random effects for plotting (useful when ecomparing multiple models).}
 
-\item{show.legend}{logical, if \code{TRUE}, for mixed models 
-\code{type = "rs.ri"}, a legend for group levels of 
-the random intercept is shown. For \code{lm} and \code{glm}, 
+\item{show.legend}{logical, if \code{TRUE}, for mixed models
+\code{type = "rs.ri"}, a legend for group levels of
+the random intercept is shown. For \code{lm} and \code{glm},
 a legend for grouped estimates is shown.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
@@ -198,7 +198,7 @@ By default, this function plots estimates (coefficients) with confidence
            this this type is intended for checking model assumptions. However,
            fitted values are plotted against the residuals instead of response.}
            \item{\code{type = "eff"}}{plots the adjusted (marginal) effects
-           for each fixed effect, with all co-variates set to the mean, as 
+           for each fixed effect, with all co-variates set to the mean, as
            returned by the \code{\link[effects]{allEffects}} function.}
            \item{\code{type = "rs.ri"}}{plots regression lines for the random
            parts of the model, i.e. all random slopes for each random intercept.
@@ -216,7 +216,7 @@ By default, this function plots estimates (coefficients) with confidence
            effect coefficients, as retrieved by \code{\link[lme4]{coef.merMod}},
            it's simply \code{\link[lme4]{ranef} + \link[lme4]{fixef}}.}
            \item{\code{type = "resp"}}{regression line for
-           predicted values against response, only fixed effects and 
+           predicted values against response, only fixed effects and
            conditional on random intercept. It's calling
            \code{predict(fit, type = "response", re.form = NA)} resp.
            \code{predict(fit, type = "response", re.form = NULL)} to
@@ -226,7 +226,7 @@ By default, this function plots estimates (coefficients) with confidence
 \note{
 Computation of p-values (if necessary) are based on conditional F-tests
         with Kenward-Roger approximation for the df, using the \pkg{pbkrtest}-package.
-        If \pkg{pbkrtest} is not available, Wald chi-squared tests from the 
+        If \pkg{pbkrtest} is not available, Wald chi-squared tests from the
         \code{Anova}-function of the \pkg{car}-package are computed.
 }
 \examples{

@@ -121,12 +121,12 @@ to values or not.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 
-\item{show.ci}{logical, use \code{TRUE} to plot confidence intervals for 
+\item{show.ci}{logical, use \code{TRUE} to plot confidence intervals for
 predicted values or for slope lines.}
 
-\item{sample.n}{numeric vector. only applies, if \code{type = "rs.ri"}. If 
-plot has many random intercepts (grouping levels), overplotting of 
-regression lines may occur. In this case, consider random sampling of 
+\item{sample.n}{numeric vector. only applies, if \code{type = "rs.ri"}. If
+plot has many random intercepts (grouping levels), overplotting of
+regression lines may occur. In this case, consider random sampling of
 grouping levels. If \code{sample.n} is of length 1, a random sample
 of \code{sample.n} observation is selected to plot random intercepts.
 If \code{sample.n} is of length > 1, random effects indicated by
@@ -134,9 +134,9 @@ the values in \code{sample.n} are selected to plot random effects.
 Use the latter option to always select a fixed, identical set of
 random effects for plotting (useful when ecomparing multiple models).}
 
-\item{show.legend}{logical, if \code{TRUE}, for mixed models 
-\code{type = "rs.ri"}, a legend for group levels of 
-the random intercept is shown. For \code{lm} and \code{glm}, 
+\item{show.legend}{logical, if \code{TRUE}, for mixed models
+\code{type = "rs.ri"}, a legend for group levels of
+the random intercept is shown. For \code{lm} and \code{glm},
 a legend for grouped estimates is shown.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
@@ -151,7 +151,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
            }
 }
 \description{
-By default, this function plots estimates (odds, risk or incidents 
+By default, this function plots estimates (odds, risk or incidents
                ratios, i.e. exponentiated coefficients, depending on family and
                link function)
                with confidence intervals of either fixed effects or random effects of
@@ -177,10 +177,10 @@ By default, this function plots estimates (odds, risk or incidents
            which corresponds to \code{family(fit)$linkinv(eta = b0 + b0[r1-rn] + bi * xi)}
            (where \code{xi} is the estimate of fixed effects, \code{b0} is the intercept of
            the fixed effects and \code{b0[r1-rn]} are all random intercepts).}
-           \item{\code{type = "rs.ri"}}{the predicted values are based 
+           \item{\code{type = "rs.ri"}}{the predicted values are based
            on the fixed effects intercept, plus each random intercept and
            random slope. This plot type is intended to plot the random part, i.e.
-           the predicted probabilities or incident rates of each random slope 
+           the predicted probabilities or incident rates of each random slope
            for each random intercept.
            Since the random intercept specifies the deviance from the gloabl
            intercept, the global intercept is always included. In case of overplotting,
@@ -190,7 +190,7 @@ By default, this function plots estimates (odds, risk or incidents
            effect coefficients, as retrieved by \code{\link[lme4]{coef.merMod}},
            it's simply \code{\link[lme4]{ranef} + \link[lme4]{fixef}}.}
            \item{\code{type = "y.pc"}}{(or \code{"y.prob"}) predicted probabilities
-           against response, only fixed effects and 
+           against response, only fixed effects and
            conditional on random intercept. It's calling
            \code{predict(fit, type = "response", re.form = NA)} resp.
            \code{predict(fit, type = "response", re.form = NULL)} to
@@ -199,16 +199,16 @@ By default, this function plots estimates (odds, risk or incidents
 }
 \note{
 \itemize{
-         \item{Computation of p-values (if necessary) are based on 
+         \item{Computation of p-values (if necessary) are based on
                Wald chi-square tests from the \code{Anova}-function of the \pkg{car}-package.}
          \item{Plot types use the inverse link-function to calculate predicted
                probabilites or incidents rates. Thus, this function should work
                with different model families and link functions; however, the
                plot or axis title may not use the exact terminology regarding
                model family or link function.}
-         \item{Thanks go to Robert Reijntjes from 
-               Leiden University Medical Center for sharing R code that is used 
-               to compute fixed effects correlation matrices and qq-plots of 
+         \item{Thanks go to Robert Reijntjes from
+               Leiden University Medical Center for sharing R code that is used
+               to compute fixed effects correlation matrices and qq-plots of
                random effects.}
        }
 }

@@ -11,12 +11,12 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   interceptLineColor = "grey70", group.estimates = NULL,
   remove.estimates = NULL, vars = NULL, breakTitleAt = 50,
   breakLabelsAt = 25, gridBreaksAt = NULL, coord.flip = TRUE,
-  showValueLabels = TRUE, labelDigits = 2, showPValueLabels = TRUE,
-  showModelSummary = FALSE, showCI = TRUE, pointAlpha = 0.2,
-  showScatterPlot = TRUE, showLoess = FALSE, showLoessCI = FALSE,
-  show.legend = FALSE, y.offset = 0.15, poly.term = NULL,
-  showOriginalModelOnly = TRUE, completeDiagnostic = FALSE,
-  printPlot = TRUE)
+  facet.grid = TRUE, showValueLabels = TRUE, labelDigits = 2,
+  showPValueLabels = TRUE, showModelSummary = FALSE, showCI = TRUE,
+  pointAlpha = 0.2, showScatterPlot = TRUE, showLoess = FALSE,
+  showLoessCI = FALSE, show.legend = FALSE, y.offset = 0.15,
+  poly.term = NULL, showOriginalModelOnly = TRUE,
+  completeDiagnostic = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{fitted linear regression model (of class \code{\link{lm}}, \code{\link[nlme]{gls}} or \code{plm}).}
@@ -104,6 +104,10 @@ position a major grid is being printed.}
 \item{coord.flip}{logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
 values are plotted on the x-axis.}
 
+\item{facet.grid}{\code{TRUE} when bar charts should be plotted as facet grids instead of integrated single
+bar charts. Ideal for larger amount of groups. This argument wraps a single panel into 
+\code{varGroup} amount of panels, i.e. each group is represented within a new panel.}
+
 \item{showValueLabels}{logical, whether value labels should be plotted to each dot or not.}
 
 \item{labelDigits}{amount of digits for rounding the estimates (see \code{showValueLabels}).
@@ -137,9 +141,9 @@ will be plotted. Default is \code{FALSE}. Only applies, if \code{showLoess = TRU
 (and for \code{\link{sjp.lmer}}, only applies if \code{type = "fe.pred"}
 or \code{type = "fe.resid"}).}
 
-\item{show.legend}{logical, if \code{TRUE}, for mixed models 
-\code{type = "rs.ri"}, a legend for group levels of 
-the random intercept is shown. For \code{lm} and \code{glm}, 
+\item{show.legend}{logical, if \code{TRUE}, for mixed models
+\code{type = "rs.ri"}, a legend for group levels of
+the random intercept is shown. For \code{lm} and \code{glm},
 a legend for grouped estimates is shown.}
 
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted 

@@ -236,6 +236,7 @@ sjp.lm <- function(fit,
                    breakLabelsAt = 25,
                    gridBreaksAt = NULL,
                    coord.flip = TRUE,
+                   facet.grid = TRUE,
                    showValueLabels = TRUE,
                    labelDigits = 2,
                    showPValueLabels = TRUE,
@@ -333,13 +334,16 @@ sjp.lm <- function(fit,
                                  printPlot)))
   }
   if (type == "eff") {
-    return(invisible(sjp.lm.eff(fit,
-                                title,
-                                geom.size,
-                                remove.estimates,
-                                vars,
-                                showCI,
-                                printPlot)))
+    return(invisible(sjp.glm.eff(fit,
+                                 title,
+                                 geom.size,
+                                 remove.estimates,
+                                 vars,
+                                 showCI,
+                                 axisLimits.y = NULL,
+                                 facet.grid,
+                                 fun = "lm",
+                                 printPlot)))
   }
   if (type == "ma") {
     return(invisible(sjp.lm.ma(fit,
@@ -1374,154 +1378,6 @@ sjp.lm.poly <- function(fit,
   # return result
   invisible(structure(class = "sjplmpoly",
                       list(plot = polyplot,
-                           data = mydat)))
-}
-
-
-sjp.lm.eff <- function(fit,
-                       title,
-                       geom.size,
-                       remove.estimates,
-                       vars,
-                       showCI,
-                       printPlot) {
-  # ------------------------
-  # check if suggested package is available
-  # ------------------------
-  if (!requireNamespace("effects", quietly = TRUE)) {
-    stop("Package 'effects' needed for this function to work. Please install it.", call. = FALSE)
-  }
-  if ((any(class(fit) == "lmerMod" || any(class(fit) == "merModLmerTest"))) && !requireNamespace("lme4", quietly = TRUE)) {
-    stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
-  }
-  # ------------------------
-  # retrieve model matrix and all terms,
-  # excluding intercept
-  # ------------------------
-  mm <- stats::model.frame(fit)
-  all.terms <- colnames(mm)[-1]
-  # ------------------------
-  # Retrieve response for automatic title
-  # ------------------------
-  resp <- mm[[1]]
-  resp.col <- colnames(mm)[1]
-  # --------------------------------------------
-  # retrieve labels
-  # --------------------------------------------
-  axisTitle.y <- sjmisc::get_label(resp, def.value = resp.col)
-  # which title?
-  if (is.null(title)) title <- "Marginal effects of model predictors"
-  # ------------------------
-  # remove setimates?
-  # ------------------------
-  if (!is.null(remove.estimates)) {
-    remcols <- match(remove.estimates, all.terms)
-    # remember old rownames
-    if (!sjmisc::is_empty(remcols))
-      all.terms <- all.terms[-remcols]
-  }
-  # ------------------------
-  # select specific setimates?
-  # ------------------------
-  if (!is.null(vars)) {
-    remcols <- match(vars, all.terms)
-    # remember old rownames
-    if (!sjmisc::is_empty(remcols))
-      all.terms <- all.terms[remcols]
-  }
-  # ------------------------
-  # prepare getting unique values of predictors,
-  # which are passed to the allEffects-function
-  # ------------------------
-  xl <- list()
-  for (t in all.terms) {
-    # get unique values
-    dummy <- list(x = sort(unique(stats::na.omit(mm[, t]))))
-    # name list, needed for effect-function
-    names(dummy) <- t
-    # create list for "xlevels" argument of allEffects fucntion
-    xl <- c(xl, dummy)
-  }
-  # ------------------------
-  # compute marginal effects for each model term
-  # ------------------------
-  eff <- effects::allEffects(fit, xlevels = xl, KR = FALSE)
-  # select specific terms only
-  eff <- eff[[which(names(eff) %in% all.terms)]]  
-  # init final df
-  mydat <- data.frame()
-  # interaction term found?
-  int.found <- FALSE
-  # iterate all effects
-  for (i in 1:length(eff)) {
-    # get term, for which effects were calculated
-    t <- eff[[i]]$term
-    # check if we have interaction term
-    # these are ignored in this case.
-    if (sjmisc::str_contains(t, pattern = c(":", "*"), logic = "not")) {
-      # ------------------------
-      # build data frame, with raw values
-      # from polynomial term, predicted response
-      # and lower/upper ci
-      # ------------------------
-      tmp <- data.frame(x = eff[[i]]$x[[t]],
-                        y = eff[[i]]$fit,
-                        lower = eff[[i]]$lower,
-                        upper = eff[[i]]$upper,
-                        grp = t)
-      # make sure x is numeric
-      tmp$x <- sjmisc::to_value(tmp$x, keep.labels = F)
-      # do we already have data?
-      if (nrow(mydat) > 0)
-        mydat <- rbind(mydat, tmp)
-      else
-        # else init data frame
-        mydat <- tmp
-    } else {
-      int.found <- TRUE
-    }
-  }
-  # check if we have only moderation and no single
-  # higher order terms
-  if (sjmisc::is_empty(mydat)) {
-    warning("Model has no higher order terms (except for possible interaction terms). There are no effects that can be plotted. Consider using `sjp.int` if model has interaction terms.", call. = F)
-    return(list(p = NULL, se = NULL))
-  }
-  # continuous numbering of row names
-  rownames(mydat) <- c(1:nrow(mydat))
-  # ------------------------
-  # tell user that interaction terms are ignored
-  # ------------------------
-  if (int.found) {
-    message("Interaction terms in model have been ignored. Use `sjp.int` to plot effects of interaction terms.")
-  }
-  # ------------------------
-  # how many different groups?
-  # ------------------------
-  grp.cnt <- length(unique(mydat$grp))
-  # check size argument
-  if (is.null(geom.size)) geom.size <- .8
-  # ------------------------
-  # create plot
-  # ------------------------
-  eff.plot <- ggplot(mydat, aes(x = x, y = y))
-  # show confidence region?
-  if (showCI) eff.plot <- eff.plot + geom_ribbon(aes(ymin = lower, ymax = upper), alpha = .15)
-  eff.plot <- eff.plot +
-    geom_line(size = geom.size) +
-    facet_wrap(~grp, ncol = round(sqrt(grp.cnt)), scales = "free_x") +
-    labs(x = NULL, y = axisTitle.y, title = title)
-  # ------------------------
-  # print plot?
-  # ------------------------
-  if (printPlot) print(eff.plot)
-  # -------------------------------------
-  # set proper column names
-  # -------------------------------------
-  colnames(mydat) <- c("x", "y", "conf.low", "conf.high", "term")
-  # return result
-  invisible(structure(class = c("sjPlot", "sjplmeff"),
-                      list(plot = eff.plot,
                            data = mydat)))
 }
 

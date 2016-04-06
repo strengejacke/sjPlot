@@ -22,7 +22,7 @@ sjp.glm(fit, type = "dots", sort.est = TRUE, title = NULL,
 \item{type}{type of plot. Use one of following:
 \describe{
   \item{\code{"dots"}}{(or \code{"glm"} or \code{"or"} (default)) for odds or incident rate ratios (forest plot). Note that this type is only appropriate for log- or logit-link-functions.}
-  \item{\code{"prob"}}{(or \code{"pc"}) to plot predicted probabilities for each model term, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
+  \item{\code{"prob"}}{(or \code{"pc"}) to plot predicted values for each model term, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
   \item{\code{"eff"}}{to plot marginal effects of predicted probabilities or incidents for each model term, where all remaining co-variates are set to the mean (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
   \item{\code{"y.pc"}}{(or \code{"y.prob"}) to plot predicted probabilities for the response. See 'Details'.}
   \item{\code{"ma"}}{to check model assumptions. Note that only two arguments are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other arguments are ignored.}
@@ -124,9 +124,9 @@ an integrated (faceted) single graph. Only applies, if \code{type = "prob"}.}
 \item{show.ci}{logical, use \code{TRUE} to plot (depending on \code{type}) 
 the confidence interval for probability curves (predicted probabilities).}
 
-\item{show.legend}{logical, if \code{TRUE}, for mixed models 
-\code{type = "rs.ri"}, a legend for group levels of 
-the random intercept is shown. For \code{lm} and \code{glm}, 
+\item{show.legend}{logical, if \code{TRUE}, for mixed models
+\code{type = "rs.ri"}, a legend for group levels of
+the random intercept is shown. For \code{lm} and \code{glm},
 a legend for grouped estimates is shown.}
 
 \item{showOriginalModelOnly}{logical, if \code{TRUE} (default) and \code{type = "ma"}, 
@@ -182,20 +182,15 @@ Plot odds or incident rate ratios with confidence intervalls as dot plot.
 }
 \details{
 \describe{
-           \item{\code{type = "prob"}}{(or \code{"pc"}), the predicted probabilities
+           \item{\code{type = "prob"}}{(or \code{"pc"}), the predicted values
            are based on the intercept's estimate and each specific term's estimate.
            All other co-variates are set to zero (i.e. ignored), which corresponds
-           to \code{\link{plogis}(b0 + bi * xi)} (where \code{xi} is the logit-estimate).
-           This plot type only applies to logistic regression models (binomial
-           regression with logit-link).}
-           \item{\code{type = "eff"}}{for binomial models with logit link (logistic
-           regression), the predicted probabilities
-           are based on the \code{\link{predict.glm}} method, where predicted values 
-           are "centered", i.e. remaining co-variates are set to the mean.
-           (see \href{http://stats.stackexchange.com/questions/35682/contribution-of-each-covariate-to-a-single-prediction-in-a-logistic-regression-m#comment71993_35802}{CrossValidated}).
-           Corresponds to \code{\link{plogis}(\link{predict}(fit, type = "terms") + attr(predict, "constant"))}.
-           Effect plots for other families (like poisson, negative binomial or log-binomial) are
-           based on the \pkg{effects}-package.}
+           to \code{family(fit)$linkinv(eta = b0 + bi * xi)} (where \code{xi} is the estimate).
+           This plot type can be seen as equivalent to \code{type = "pred"} for \code{\link{sjp.lm}},
+           just for glm objects.}
+           \item{\code{type = "eff"}}{the predicted values
+           computed by \code{type = "eff"} have all co-variates
+           set to the mean, as returned by the \code{\link[effects]{allEffects}} function.}
            \item{\code{type = "y.pc"}}{(or \code{type = "y.prob"}), the predicted values
            of the response are computed, based on the \code{\link{predict.glm}}
            method. Corresponds to \code{\link{predict}(fit, type = "response")}.}
