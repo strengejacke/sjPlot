@@ -2420,8 +2420,12 @@ sjp.glm.eff <- function(fit,
                           upper = eff[[i]]$upper,
                           grp = t)
       }
+      # copy possible labels
+      tmp$label <- suppressWarnings(sjmisc::to_label(tmp$x, add.non.labelled = T))
       # make sure x is numeric
       tmp$x <- sjmisc::to_value(tmp$x, keep.labels = F)
+      # sort rows. we may need to do this if we have factors
+      tmp <- tmp[order(tmp$x), ]
       # do we already have data?
       if (nrow(mydat) > 0)
         mydat <- rbind(mydat, tmp)
@@ -2497,6 +2501,14 @@ sjp.glm.eff <- function(fit,
           scale_y_continuous(labels = scales::percent)
       }
       # ------------------------
+      # continuous or discrete scale?
+      # ------------------------
+      if (anyNA(suppressWarnings(as.numeric(mydat_sub$label)))) {
+        eff.plot <- eff.plot +
+          scale_x_continuous(labels = mydat_sub$label,
+                             breaks = 1:length(mydat_sub$label))
+      }
+      # ------------------------
       # print plot?
       # ------------------------
       if (printPlot) print(eff.plot)
@@ -2507,7 +2519,7 @@ sjp.glm.eff <- function(fit,
   # -------------------------------------
   # set proper column names
   # -------------------------------------
-  colnames(mydat) <- c("x", "y", "conf.low", "conf.high", "term")
+  colnames(mydat) <- c("x", "y", "conf.low", "conf.high", "term", "label")
   # return result
   invisible(structure(class = c("sjPlot", "sjpglmeff"),
                       list(plot = eff.plot,

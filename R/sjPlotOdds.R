@@ -643,6 +643,7 @@ sjp.glm.pc <- function(fit,
   # create logical for family
   # --------------------------------------------------------
   poisson_fam <- fam_info$is_pois
+  binom_fam <- fam_info$is_bin
   # ----------------------------
   # loop through all coefficients
   # ----------------------------
