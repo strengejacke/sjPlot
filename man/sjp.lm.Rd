@@ -9,13 +9,14 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   showAxisLabels.y = TRUE, axisTitle.x = "Estimates", axisLimits = NULL,
   geom.colors = "Set1", geom.size = NULL, interceptLineType = 2,
   interceptLineColor = "grey70", group.estimates = NULL,
-  remove.estimates = NULL, breakTitleAt = 50, breakLabelsAt = 25,
-  gridBreaksAt = NULL, coord.flip = TRUE, showValueLabels = TRUE,
-  labelDigits = 2, showPValueLabels = TRUE, showModelSummary = FALSE,
-  showCI = TRUE, pointAlpha = 0.2, showScatterPlot = TRUE,
-  showLoess = FALSE, showLoessCI = FALSE, show.legend = FALSE,
-  y.offset = 0.15, poly.term = NULL, showOriginalModelOnly = TRUE,
-  completeDiagnostic = FALSE, printPlot = TRUE)
+  remove.estimates = NULL, vars = NULL, breakTitleAt = 50,
+  breakLabelsAt = 25, gridBreaksAt = NULL, coord.flip = TRUE,
+  showValueLabels = TRUE, labelDigits = 2, showPValueLabels = TRUE,
+  showModelSummary = FALSE, showCI = TRUE, pointAlpha = 0.2,
+  showScatterPlot = TRUE, showLoess = FALSE, showLoessCI = FALSE,
+  show.legend = FALSE, y.offset = 0.15, poly.term = NULL,
+  showOriginalModelOnly = TRUE, completeDiagnostic = FALSE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{fit}{fitted linear regression model (of class \code{\link{lm}}, \code{\link[nlme]{gls}} or \code{plm}).}
@@ -82,6 +83,14 @@ according to their group association. See 'Examples'.}
 which estimates should be removed from the plot.
 \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 is \code{NULL}, i.e. all estimates are printed.}
+
+\item{vars}{numeric vector with column indices of selected variables or a character vector with
+variable names of selected variables from the fitted model, which should be used to plot
+estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability curves
+(for \code{\link[lme4]{glmer}}) of random intercepts. This argument
+applies if \code{type} is \code{"fe"}, \code{"fe.std"}, \code{"re"},
+\code{"fe.pc"}, \code{"ri.pc"}, \code{"fe.ri"} or \code{"eff"}.
+In this case, only those terms specified in \code{"vars"} will be plotted.}
 
 \item{breakTitleAt}{determines how many chars of the plot title are displayed in
 one line and when a line break is inserted into the title.}

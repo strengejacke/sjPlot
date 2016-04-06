@@ -35,7 +35,7 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'          estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability curves
 #'          (for \code{\link[lme4]{glmer}}) of random intercepts. This argument
 #'          applies if \code{type} is \code{"fe"}, \code{"fe.std"}, \code{"re"},
-#'          \code{"fe.pc"}, \code{"ri.pc"} or \code{"fe.ri"}.
+#'          \code{"fe.pc"}, \code{"ri.pc"}, \code{"fe.ri"} or \code{"eff"}.
 #'          In this case, only those terms specified in \code{"vars"} will be plotted.
 #' @param ri.nr numeric vector. If \code{type = "re"}, \code{type = "ri.pc"} or \code{type = "fe.ri"},
 #'          and fitted model has more than one random intercept, \code{ri.nr} indicates
@@ -791,6 +791,7 @@ sjp.lme4  <- function(fit,
                                   title,
                                   geom.size,
                                   remove.estimates,
+                                  vars,
                                   showCI = show.ci,
                                   printPlot)))
     } else {
@@ -798,6 +799,7 @@ sjp.lme4  <- function(fit,
                                    title,
                                    geom.size,
                                    remove.estimates,
+                                   vars,
                                    showCI = show.ci,
                                    axisLimits.y = axisLimits.y,
                                    printPlot)))
@@ -2292,6 +2294,7 @@ sjp.glm.eff <- function(fit,
                         title,
                         geom.size,
                         remove.estimates,
+                        vars,
                         showCI,
                         axisLimits.y,
                         printPlot) {
@@ -2337,6 +2340,15 @@ sjp.glm.eff <- function(fit,
       all.terms <- all.terms[-remcols]
   }
   # ------------------------
+  # select specific setimates?
+  # ------------------------
+  if (!is.null(vars)) {
+    remcols <- match(vars, all.terms)
+    # remember old rownames
+    if (!sjmisc::is_empty(remcols))
+      all.terms <- all.terms[remcols]
+  }
+  # ------------------------
   # prepare getting unique values of predictors,
   # which are passed to the allEffects-function
   # ------------------------
@@ -2353,6 +2365,8 @@ sjp.glm.eff <- function(fit,
   # compute marginal effects for each model term
   # ------------------------
   eff <- effects::allEffects(fit, xlevels = xl, KR = FALSE)
+  # select specific terms only
+  eff <- eff[[which(names(eff) %in% all.terms)]]  
   # init final df
   mydat <- data.frame()
   # interaction term found?

@@ -10,11 +10,11 @@ sjp.glm(fit, type = "dots", sort.est = TRUE, title = NULL,
   gridBreaksAt = 0.5, transformTicks = TRUE, geom.size = NULL,
   geom.colors = "Set1", interceptLineType = 2,
   interceptLineColor = "grey70", group.estimates = NULL,
-  remove.estimates = NULL, coord.flip = TRUE, y.offset = 0.15,
-  showIntercept = FALSE, showAxisLabels.y = TRUE, showValueLabels = TRUE,
-  labelDigits = 2, showPValueLabels = TRUE, showModelSummary = FALSE,
-  facet.grid = TRUE, show.ci = FALSE, show.legend = FALSE,
-  showOriginalModelOnly = TRUE, printPlot = TRUE)
+  remove.estimates = NULL, vars = NULL, coord.flip = TRUE,
+  y.offset = 0.15, showIntercept = FALSE, showAxisLabels.y = TRUE,
+  showValueLabels = TRUE, labelDigits = 2, showPValueLabels = TRUE,
+  showModelSummary = FALSE, facet.grid = TRUE, show.ci = FALSE,
+  show.legend = FALSE, showOriginalModelOnly = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).}
@@ -84,6 +84,14 @@ according to their group association. See 'Examples'.}
 which estimates should be removed from the plot.
 \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 is \code{NULL}, i.e. all estimates are printed.}
+
+\item{vars}{numeric vector with column indices of selected variables or a character vector with
+variable names of selected variables from the fitted model, which should be used to plot
+estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability curves
+(for \code{\link[lme4]{glmer}}) of random intercepts. This argument
+applies if \code{type} is \code{"fe"}, \code{"fe.std"}, \code{"re"},
+\code{"fe.pc"}, \code{"ri.pc"}, \code{"fe.ri"} or \code{"eff"}.
+In this case, only those terms specified in \code{"vars"} will be plotted.}
 
 \item{coord.flip}{logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
 values are plotted on the x-axis.}

@@ -47,6 +47,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.aov1
+#' @inheritParams sjp.glmer
 #' 
 #' @return (Invisibly) returns various objects, depending on 
 #'           the \code{type}-argument:
@@ -189,6 +190,7 @@ sjp.glm <- function(fit,
                     interceptLineColor = "grey70",
                     group.estimates = NULL,
                     remove.estimates = NULL,
+                    vars = NULL,
                     coord.flip = TRUE,
                     y.offset = .15,
                     showIntercept = FALSE,
@@ -230,6 +232,7 @@ sjp.glm <- function(fit,
                                 type = "prob",
                                 geom.size,
                                 remove.estimates,
+                                vars,
                                 facet.grid,
                                 printPlot)))
   }
@@ -240,6 +243,7 @@ sjp.glm <- function(fit,
                                 type = "eff",
                                 geom.size,
                                 remove.estimates,
+                                vars,
                                 facet.grid,
                                 printPlot)))
   }
@@ -589,6 +593,7 @@ sjp.glm.pc <- function(fit,
                        type,
                        geom.size,
                        remove.estimates,
+                       vars,
                        facet.grid,
                        printPlot) {
   # check size argument
@@ -614,6 +619,15 @@ sjp.glm.pc <- function(fit,
     # remember old rownames
     if (!sjmisc::is_empty(remcols))
       fit.term.names <- fit.term.names[-remcols]
+  }
+  # ------------------------
+  # select specific setimates?
+  # ------------------------
+  if (!is.null(vars)) {
+    remcols <- match(vars, fit.term.names)
+    # remember old rownames
+    if (!sjmisc::is_empty(remcols))
+      fit.term.names <- fit.term.names[remcols]
   }
   # ----------------------------
   # retrieve names of coefficients

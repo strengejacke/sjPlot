@@ -231,6 +231,7 @@ sjp.lm <- function(fit,
                    interceptLineColor = "grey70",
                    group.estimates = NULL,
                    remove.estimates = NULL,
+                   vars = NULL,
                    breakTitleAt = 50,
                    breakLabelsAt = 25,
                    gridBreaksAt = NULL,
@@ -336,6 +337,7 @@ sjp.lm <- function(fit,
                                 title,
                                 geom.size,
                                 remove.estimates,
+                                vars,
                                 showCI,
                                 printPlot)))
   }
@@ -1380,6 +1382,7 @@ sjp.lm.eff <- function(fit,
                        title,
                        geom.size,
                        remove.estimates,
+                       vars,
                        showCI,
                        printPlot) {
   # ------------------------
@@ -1418,6 +1421,15 @@ sjp.lm.eff <- function(fit,
       all.terms <- all.terms[-remcols]
   }
   # ------------------------
+  # select specific setimates?
+  # ------------------------
+  if (!is.null(vars)) {
+    remcols <- match(vars, all.terms)
+    # remember old rownames
+    if (!sjmisc::is_empty(remcols))
+      all.terms <- all.terms[remcols]
+  }
+  # ------------------------
   # prepare getting unique values of predictors,
   # which are passed to the allEffects-function
   # ------------------------
@@ -1434,6 +1446,8 @@ sjp.lm.eff <- function(fit,
   # compute marginal effects for each model term
   # ------------------------
   eff <- effects::allEffects(fit, xlevels = xl, KR = FALSE)
+  # select specific terms only
+  eff <- eff[[which(names(eff) %in% all.terms)]]  
   # init final df
   mydat <- data.frame()
   # interaction term found?
