@@ -255,6 +255,7 @@ sjp.glm <- function(fit,
                                                vars,
                                                show.ci,
                                                geom.size,
+                                               facet.grid,
                                                printPlot)))
   }
   if (type == "ma") {
@@ -779,6 +780,7 @@ sjp.glm.response.probcurv <- function(fit,
                                       vars,
                                       show.ci,
                                       geom.size,
+                                      facet.grid,
                                       printPlot) {
   # check size argument
   if (is.null(geom.size)) geom.size <- .7
@@ -833,6 +835,13 @@ sjp.glm.response.probcurv <- function(fit,
     # when se exceeds plot range.
     mp <- mp + coord_cartesian(ylim = c(0, 1))
   }
+  if (facet.grid && !is.null(vars)) {
+    mp <- mp + 
+      facet_wrap(~grp,
+                 ncol = round(sqrt(length(unique(mydf$grp)))),
+                 scales = "free_x")
+  }
+  
   # --------------------------
   # plot plots
   # --------------------------
