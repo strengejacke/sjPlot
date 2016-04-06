@@ -18,7 +18,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'            \item{\code{"dots"}}{(or \code{"glm"} or \code{"or"} (default)) for odds or incident rate ratios (forest plot). Note that this type is only appropriate for log- or logit-link-functions.}
 #'            \item{\code{"prob"}}{(or \code{"pc"}) to plot predicted values for each model term, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
 #'            \item{\code{"eff"}}{to plot marginal effects of predicted probabilities or incidents for each model term, where all remaining co-variates are set to the mean (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
-#'            \item{\code{"y.pc"}}{(or \code{"y.prob"}) to plot predicted probabilities for the response. See 'Details'.}
+#'            \item{\code{"y.pc"}}{(or \code{"y.prob"}) to plot predicted values for the response. See 'Details'.}
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only two arguments are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other arguments are ignored.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
@@ -97,7 +97,9 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'            set to the mean, as returned by the \code{\link[effects]{allEffects}} function.}
 #'            \item{\code{type = "y.pc"}}{(or \code{type = "y.prob"}), the predicted values
 #'            of the response are computed, based on the \code{\link{predict.glm}}
-#'            method. Corresponds to \code{\link{predict}(fit, type = "response")}.}
+#'            method. Corresponds to \code{\link{predict}(fit, type = "response")}.
+#'            Consider using the \code{vars} argument to select specific terms
+#'            that should be used for the x-axis and as grouping factor. See 'Examples'.}
 #'          }
 #'
 #' @examples
@@ -161,6 +163,10 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'         group.estimates = c(1, 2, 2, 2, 3, 4, 4),
 #'         axisLabels.y = predlab)
 #'
+#' # --------------------------
+#' # model predictions
+#' # --------------------------
+#' sjp.glm(fit, type = "y.pc", vars = c("barthel", "dep"))
 #'
 #' @import ggplot2
 #' @import sjmisc
@@ -186,6 +192,7 @@ sjp.glm <- function(fit,
                     group.estimates = NULL,
                     remove.estimates = NULL,
                     vars = NULL,
+                    group = NULL,
                     coord.flip = TRUE,
                     y.offset = .15,
                     showIntercept = FALSE,
@@ -245,6 +252,7 @@ sjp.glm <- function(fit,
   }
   if (type == "y.pc" || type == "y.prob") {
     return(invisible(sjp.glm.response.probcurv(fit,
+                                               vars,
                                                show.ci,
                                                geom.size,
                                                printPlot)))
@@ -768,6 +776,7 @@ sjp.glm.pc <- function(fit,
 
 
 sjp.glm.response.probcurv <- function(fit,
+                                      vars,
                                       show.ci,
                                       geom.size,
                                       printPlot) {
@@ -776,34 +785,60 @@ sjp.glm.response.probcurv <- function(fit,
   # ----------------------------
   # get predicted values for response
   # ----------------------------
-  pp <- stats::predict.glm(fit, type = "response")
+  fitfram <- stats::model.frame(fit)
+  fitfram$predicted.values <- stats::predict.glm(fit, newdata = fitfram, type = "response")
+  # ----------------------------
+  # check model family, do we have count model?
+  # ----------------------------
+  fitfam <- get_glm_family(fit)
+  # --------------------------------------------------------
+  # create logical for family
+  # --------------------------------------------------------
+  binom_fam <- fitfam$is_bin
+  poisson_fam <- fitfam$is_pois
+  # ----------------------------
+  # check default titles
+  # ----------------------------
+  if (isTRUE(poisson_fam))
+    t.title <- "Predicted incident rates"
+  else if (isTRUE(binom_fam))
+    t.title <- "Predicted probabilties"
+  y.title <- sjmisc::get_label(fitfram[[1]], def.value = colnames(fitfram)[1])
   # ----------------------------
   # get predicted probabilities for 
   # response, including random effects
   # ----------------------------
-  mydf <- data.frame(x = 1:length(pp), y = sort(pp))
+  if (!is.null(vars)) {
+    mydf <- dplyr::select(fitfram, which(colnames(fitfram) %in% c(vars, "predicted.values")))
+    colnames(mydf) <- c("x", "grp", "y")
+    mp <- ggplot(mydf, aes(x = x, y = y, colour = grp, group = grp))
+    x.title <- vars[1]
+  } else {
+    mydf <- data.frame(x = 1:length(fitfram$predicted.values), 
+                       y = sort(fitfram$predicted.values))
+    mp <- ggplot(mydf, aes(x = x, y = y))
+    x.title <- NULL
+  }
   # ---------------------------------------------------------
   # Prepare plot
   # ---------------------------------------------------------
-  mp <- ggplot(mydf, aes(x = x, y = y)) +
-    labs(x = NULL, 
-         y = "Predicted Probability",
-         title = "Predicted Probabilities for model-response") +
+  mp <- mp +
+    labs(x = x.title, y = y.title, title = t.title, colour = vars[2]) +
     stat_smooth(method = "glm", 
-                method.args = list(family = "binomial"), 
+                method.args = list(family = stats::family(fit)$family), 
                 se = show.ci,
-                size = geom.size) +
+                size = geom.size)
+  if (isTRUE(binom_fam)) {
     # cartesian coord still plots range of se, even
     # when se exceeds plot range.
-    coord_cartesian(ylim = c(0, 1))
+    mp <- mp + coord_cartesian(ylim = c(0, 1))
+  }
   # --------------------------
   # plot plots
   # --------------------------
   if (printPlot) print(mp)
   return(structure(class = "sjpglm.ppresp",
-                   list(df = mydf,
-                        plot = mp,
-                        mean.pp = mean(pp))))
+                   list(df = mydf, plot = mp)))
 }
 
 
