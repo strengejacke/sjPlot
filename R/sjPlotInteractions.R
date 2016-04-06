@@ -672,19 +672,12 @@ sjp.int <- function(fit,
         upperLim.y <- axisLimits.y[2]
       }
     } else {
-      if (isTRUE(binom_fam)) {
-        intdf$x <- sjmisc::to_value(intdf$x, keep.labels = F)
-        intdf$y <- plogis(sjmisc::to_value(intdf$y, keep.labels = F))
-        intdf$ymin <- plogis(sjmisc::to_value(intdf$ymin, keep.labels = F))
-        intdf$ymax <- plogis(sjmisc::to_value(intdf$ymax, keep.labels = F))
-        intdf$ydiff <- plogis(intdf$ymax - intdf$ymin)
-      } else {
-        intdf$x <- sjmisc::to_value(intdf$x, keep.labels = F)
-        intdf$y <- exp(sjmisc::to_value(intdf$y, keep.labels = F))
-        intdf$ymin <- exp(sjmisc::to_value(intdf$ymin, keep.labels = F))
-        intdf$ymax <- exp(sjmisc::to_value(intdf$ymax, keep.labels = F))
-        intdf$ydiff <- exp(intdf$ymax - intdf$ymin)
-      }
+      invlink <- stats::family(fit)
+      intdf$x <- sjmisc::to_value(intdf$x, keep.labels = F)
+      intdf$y <- invlink$linkinv(eta = sjmisc::to_value(intdf$y, keep.labels = F))
+      intdf$ymin <- invlink$linkinv(eta = sjmisc::to_value(intdf$ymin, keep.labels = F))
+      intdf$ymax <- invlink$linkinv(eta = sjmisc::to_value(intdf$ymax, keep.labels = F))
+      intdf$ydiff <- invlink$linkinv(eta = intdf$ymax - intdf$ymin)
     }
     # -----------------------------------------------------------
     # retrieve lowest and highest x and y position to determine

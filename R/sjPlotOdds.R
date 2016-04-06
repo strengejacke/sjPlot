@@ -2,15 +2,15 @@
 utils::globalVariables(c("OR", "lower", "upper", "p"))
 
 
-#' @title Forest plot or predicted probabilities of generalized linear models
+#' @title Forest or effect plots for generalized linear models
 #' @name sjp.glm
 #'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.glm/}{sjPlot manual: sjp.glm}
 #'
 #' @description Plot odds or incident rate ratios with confidence intervalls as dot plot.
 #'                Depending on the \code{type} argument, this function may also plot model
-#'                assumptions for generalized linear models, or predicted probabilities 
-#'                (or events) of coefficients.
+#'                assumptions for generalized linear models, or marginal effects
+#'                (predicted probabilities or events).
 #'
 #' @param fit fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).
 #' @param type type of plot. Use one of following:
@@ -88,13 +88,16 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'            \item{\code{type = "prob"}}{(or \code{"pc"}), the predicted probabilities
 #'            are based on the intercept's estimate and each specific term's estimate.
 #'            All other co-variates are set to zero (i.e. ignored), which corresponds
-#'            to \code{\link{plogis}(b0 + bi * xi)} (where \code{xi} is the logit-estimate).}
-#'            \item{\code{type = "eff"}}{for binomial models, the predicted probabilities
+#'            to \code{\link{plogis}(b0 + bi * xi)} (where \code{xi} is the logit-estimate).
+#'            This plot type only applies to logistic regression models (binomial
+#'            regression with logit-link).}
+#'            \item{\code{type = "eff"}}{for binomial models with logit link (logistic
+#'            regression), the predicted probabilities
 #'            are based on the \code{\link{predict.glm}} method, where predicted values 
 #'            are "centered", i.e. remaining co-variates are set to the mean.
 #'            (see \href{http://stats.stackexchange.com/questions/35682/contribution-of-each-covariate-to-a-single-prediction-in-a-logistic-regression-m#comment71993_35802}{CrossValidated}).
 #'            Corresponds to \code{\link{plogis}(\link{predict}(fit, type = "terms") + attr(predict, "constant"))}.
-#'            Effect plots for other families (like poisson or negative binomial) are
+#'            Effect plots for other families (like poisson, negative binomial or log-binomial) are
 #'            based on the \pkg{effects}-package.}
 #'            \item{\code{type = "y.pc"}}{(or \code{type = "y.prob"}), the predicted values
 #'            of the response are computed, based on the \code{\link{predict.glm}}
@@ -624,12 +627,11 @@ sjp.glm.pc <- function(fit,
   # create logical for family
   # --------------------------------------------------------
   poisson_fam <- fitfam$is_pois
-  binom_fam <- fitfam$is_bin
   logit_link <- fitfam$is_logit
   # ----------------------------
   # check model family. for poisson etc., we use effects-package
   # ----------------------------
-  if (isTRUE(poisson_fam) || (isTRUE(binom_fam) & !logit_link)) {
+  if (!logit_link) {
     # ----------------------------
     # loop through all coefficients
     # ----------------------------

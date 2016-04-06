@@ -7,8 +7,10 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.glmer/}{sjPlot manual: sjp.glmer}
 #'
-#' @description By default, this function plots odds or incidents ratios (exponentiated coefficients)
-#'                with confidence intervalls of either fixed effects or random effects of
+#' @description By default, this function plots estimates (odds, risk or incidents 
+#'                ratios, i.e. exponentiated coefficients, depending on family and
+#'                link function)
+#'                with confidence intervals of either fixed effects or random effects of
 #'                generalized linear mixed effects models (that have been fitted with the
 #'                \code{\link[lme4]{glmer}}-function of the \pkg{lme4}-package).
 #'                Furthermore, this function also plots predicted probabilities /
@@ -114,9 +116,11 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #' @note \itemize{
 #'          \item{Computation of p-values (if necessary) are based on 
 #'                Wald chi-square tests from the \code{Anova}-function of the \pkg{car}-package.}
-#'          \item{Most plot types work for binomial outcomes only (see 'Details'),
-#'                however, some plot types like \code{type = "fe"} or \code{type = "eff"} also
-#'                work for count reponses.}
+#'          \item{Plot types use the inverse link-function to calculate predicted
+#'                probabilites or incidents rates. Thus, this function should work
+#'                with different model families and link functions; however, the
+#'                plot or axis title may not use the exact terminology regarding
+#'                model family or link function.}
 #'          \item{Thanks go to Robert Reijntjes from 
 #'                Leiden University Medical Center for sharing R code that is used 
 #'                to compute fixed effects correlation matrices and qq-plots of 
@@ -124,25 +128,26 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'        }
 #'
 #' @details \describe{
-#'            \item{\code{type = "fe.pc"}}{(or \code{"fe.prob"}), the predicted probabilities
+#'            \item{\code{type = "fe.pc"}}{(or \code{"fe.prob"}), the predicted values
 #'            are based on the fixed effects intercept's estimate and each specific
 #'            fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),
-#'            which corresponds to \code{\link{plogis}(b0 + bi * xi)} (where \code{xi}
-#'            is the logit-estimate of fixed effects and \code{b0} is the intercept of
-#'            the fixed effects).}
-#'            \item{\code{type = "eff"}}{unlike \code{type = "fe.pc"}, the predicted
-#'            probabilities or incidents computed by \code{type = "eff"} have all co-variates
+#'            which corresponds to \code{family(fit)$linkinv(eta = b0 + bi * xi)} (where \code{xi}
+#'            is the estimate of fixed effects and \code{b0} is the intercept of
+#'            the fixed effects; the inverse link-function is used).}
+#'            \item{\code{type = "eff"}}{unlike \code{type = "fe.pc"}, the predicted values
+#'            computed by \code{type = "eff"} have all co-variates
 #'            set to the mean, as returned by the \code{\link[effects]{allEffects}} function.}
-#'            \item{\code{type = "ri.pc"}}{(or \code{"ri.prob"}), the predicted probabilities
+#'            \item{\code{type = "ri.pc"}}{(or \code{"ri.prob"}), the predicted values
 #'            are based on the fixed effects intercept, plus each random intercept and
 #'            each specific  fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),
-#'            which corresponds to \code{\link{plogis}(b0 + b0[r1-rn] + bi * xi)} (where \code{xi}
-#'            is the logit-estimate of fixed effects, \code{b0} is the intercept of
+#'            which corresponds to \code{family(fit)$linkinv(eta = b0 + b0[r1-rn] + bi * xi)}
+#'            (where \code{xi} is the estimate of fixed effects, \code{b0} is the intercept of
 #'            the fixed effects and \code{b0[r1-rn]} are all random intercepts).}
-#'            \item{\code{type = "rs.ri"}}{the predicted probabilities are based 
+#'            \item{\code{type = "rs.ri"}}{the predicted values are based 
 #'            on the fixed effects intercept, plus each random intercept and
 #'            random slope. This plot type is intended to plot the random part, i.e.
-#'            the predicted probabilities of each random slope for each random intercept.
+#'            the predicted probabilities or incident rates of each random slope 
+#'            for each random intercept.
 #'            Since the random intercept specifies the deviance from the gloabl
 #'            intercept, the global intercept is always included. In case of overplotting,
 #'            use the \code{sample.n} argument to randomly sample a limited amount
@@ -1359,8 +1364,16 @@ sjp.lme.feprobcurv <- function(fit,
   # ----------------------------
   # retrieve data frame of model to check whether
   # we have any numeric terms in fitted model
+  # and get model family, for link-inverse function
   # ----------------------------
   fit.df <- stats::model.frame(fit)
+  fitfam <- stats::family(fit)
+  faminfo <- get_glm_family(fit)
+  # --------------------------------------------------------
+  # create logical for family
+  # --------------------------------------------------------
+  poisson_fam <- faminfo$is_pois
+  binom_fam <- faminfo$is_bin
   # ----------------------------
   # retrieve term names, so we find the estimates in the
   # coefficients list
@@ -1409,8 +1422,8 @@ sjp.lme.feprobcurv <- function(fit,
       if (length(coef.pos) > 0) {
         # calculate x-beta by multiplying original values with estimate of that term
         mydf.vals$xbeta <- mydf.vals$value * lme4::fixef(fit)[coef.pos]
-        # calculate probability (y) via cdf-function
-        mydf.vals$y <- plogis(fi + mydf.vals$xbeta)
+        # calculate probability (y) via inverse link-function
+        mydf.vals$y <- fitfam$linkinv(eta = (fi + mydf.vals$xbeta))
         # save predictor name
         pred.name <- fit.term.names[i]
         axisLabels.mp <- c(axisLabels.mp, pred.name)
@@ -1422,6 +1435,13 @@ sjp.lme.feprobcurv <- function(fit,
     }
   }
   # ---------------------------------------------------------
+  # axis title, depending on model family
+  # ---------------------------------------------------------
+  if (isTRUE(binom_fam))
+    y.title <- paste("Predicted probabilities")
+  else if (isTRUE(poisson_fam))
+    y.title <- paste("Predicted incidents")
+  # ---------------------------------------------------------
   # Prepare metric plots
   # ---------------------------------------------------------
   if (length(mydf.metricpred) > 0) {
@@ -1431,12 +1451,10 @@ sjp.lme.feprobcurv <- function(fit,
       # "melt" all single mydf's to one
       mydf.ges <- rbind(mydf.ges, mydf.metricpred[[i]])
       # create single plots for each numeric predictor
-      mp <- ggplot(mydf.metricpred[[i]],
-                   aes(x = value, y = y)) +
-        labs(x = axisLabels.mp[i],
-             y = "Predicted Probability") +
+      mp <- ggplot(mydf.metricpred[[i]], aes(x = value, y = y)) +
+        labs(x = axisLabels.mp[i], y = y.title) +
         stat_smooth(method = "glm",
-                    method.args = list(family = "binomial"),
+                    method.args = list(family = fitfam$family),
                     se = show.ci) +
         # cartesian coord still plots range of se, even
         # when se exceeds plot range.
@@ -1452,10 +1470,10 @@ sjp.lme.feprobcurv <- function(fit,
                                  y = y,
                                  colour = grp)) +
         labs(x = NULL,
-             y = "Predicted Probability",
-             title = "Predicted Probabilities of coefficients") +
+             y = y.title,
+             title = sprintf("%s of coefficients", y.title)) +
         stat_smooth(method = "glm",
-                    method.args = list(family = "binomial"),
+                    method.args = list(family = fitfam$family),
                     se = show.ci) +
         # cartesian coord still plots range of se, even
         # when se exceeds plot range.
@@ -1505,9 +1523,17 @@ sjp.lme.reprobcurve <- function(fit,
   if (is.null(axisLimits.y)) axisLimits.y <- c(0, 1)
   # ----------------------------
   # retrieve data frame of model to check whether
-  # we have any numeric terms in fitted model
+  # we have any numeric terms in fitted model; and
+  # get model family, for link-inverse function
   # ----------------------------
   fit.df <- stats::model.frame(fit)
+  fitfam <- stats::family(fit)
+  faminfo <- get_glm_family(fit)
+  # --------------------------------------------------------
+  # create logical for family
+  # --------------------------------------------------------
+  poisson_fam <- faminfo$is_pois
+  binom_fam <- faminfo$is_bin
   # ----------------------------
   # retrieve term names, so we find the estimates in the
   # coefficients list
@@ -1528,6 +1554,13 @@ sjp.lme.reprobcurve <- function(fit,
       fit.term.names <- fit.term.names[vars]
     }
   }
+  # ---------------------------------------------------------
+  # axis title, depending on model family
+  # ---------------------------------------------------------
+  if (isTRUE(binom_fam))
+    y.title <- paste("Predicted probabilities")
+  else if (isTRUE(poisson_fam))
+    y.title <- paste("Predicted incidents")
   # ---------------------------------------
   # iterate all random effects
   # ---------------------------------------
@@ -1585,7 +1618,7 @@ sjp.lme.reprobcurve <- function(fit,
           # do this for each random intercept group
           for (j in 1:nrow(rand.ef)) {
             # calculate probability for each random effect group
-            mydf.vals$y <- plogis(fi + rand.ef[j, 1] + mydf.vals$xbeta)
+            mydf.vals$y <- fitfam$linkinv(eta = (fi + rand.ef[j, 1] + mydf.vals$xbeta))
             # add to final data frame
             final.df <- rbind(final.df,
                               cbind(pred = mydf.vals$value,
@@ -1599,17 +1632,15 @@ sjp.lme.reprobcurve <- function(fit,
           # ---------------------------------------------------------
           # prepare base plot
           # ---------------------------------------------------------
-          mp <- ggplot(final.df,
-                       aes(x = pred, y = prob, colour = grp)) +
+          mp <- ggplot(final.df, aes(x = pred, y = prob, colour = grp)) +
             stat_smooth(method = "glm",
-                        method.args = list(family = "binomial"),
+                        method.args = list(family = fitfam$family),
                         se = show.ci) +
             # cartesian coord still plots range of se, even
             # when se exceeds plot range.
             coord_cartesian(ylim = axisLimits.y) +
-            labs(x = NULL,
-                 y = "Predicted Probability",
-                 title = sprintf("Predicted Probability of %s on %s", pred.name, response.name))
+            labs(x = NULL, y = y.title,
+                 title = sprintf("%s of %s on %s", y.title, pred.name, response.name))
           # ---------------------------------------------------------
           # wrap to facets
           # ---------------------------------------------------------
@@ -1884,6 +1915,17 @@ sjp.lme.reri <- function(fit,
   # get predictor names
   pred.values <- colnames(m_f)
   # ----------------------------
+  # get model family, for link-inverse function
+  # ----------------------------
+  fitfam <- stats::family(fit)
+  faminfo <- get_glm_family(fit)
+  # --------------------------------------------------------
+  # create logical for family
+  # --------------------------------------------------------
+  poisson_fam <- faminfo$is_pois
+  binom_fam <- faminfo$is_bin
+  logit_link <- faminfo$is_logit
+  # ----------------------------
   # retrieve term names, so we find the estimates in the
   # coefficients list
   # ----------------------------
@@ -1988,7 +2030,7 @@ sjp.lme.reri <- function(fit,
       final.df$x <- sjmisc::to_value(final.df$x, keep.labels = F)
       final.df$y <- sjmisc::to_value(final.df$y, keep.labels = F)
       # logistic regression?
-      if (fun == "glm") final.df$y <- plogis(final.df$y)
+      if (fun == "glm") final.df$y <- fitfam$linkinv(eta = final.df$y)
       # ------------------------------
       # check axis limits
       # ------------------------------
@@ -2020,13 +2062,19 @@ sjp.lme.reri <- function(fit,
         gp <- ggplot(final.df, aes(x = x, y = y, colour = grp)) +
           geom_line(size = geom.size)
       } else {
-        if (is.null(axisTitle.y)) 
-          p_axisTitle.y <- sprintf("Predicted Probability of %s", colnames(m_f)[1])
-        else
+        if (is.null(axisTitle.y)) {
+          # ---------------------------------------------------------
+          # axis title, depending on model family
+          # ---------------------------------------------------------
+          if (isTRUE(binom_fam))
+            p_axisTitle.y <- sprintf("Predicted probabilities of %s", colnames(m_f)[1])
+          else if (isTRUE(poisson_fam))
+            p_axisTitle.y <- sprintf("Predicted incidents of %s", colnames(m_f)[1])
+        } else
           p_axisTitle.y <- axisTitle.y
         gp <- ggplot(final.df, aes(x = x, y = y, colour = grp)) +
           stat_smooth(method = "glm", se = F,
-                      method.args = list(family = "binomial"))
+                      method.args = list(family = fitfam$family))
       }
       gp <- gp +
         scale_y_continuous(limits = axisLimits.y) +
@@ -2190,137 +2238,6 @@ sjp.lme.fecor <- function(fit,
                              list(plot = corret$plot,
                                   data = corret$df,
                                   corr.matrix = corret$corr.matrix))))
-}
-
-
-#' @importFrom stats model.frame
-sjp.lme.fecondpred.onlynumeric <- function(fit,
-                                           show.ci,
-                                           facet.grid,
-                                           printPlot) {
-  # ----------------------------
-  # prepare additional plots, when metric
-  # predictors should also be plotted
-  # ----------------------------
-  # init lists with all additional data frames and plots
-  mydf.metricpred <- list()
-  plot.metricpred <- list()
-  mydf.facet <- NULL
-  plot.facet <- NULL
-  axisLabels.mp <- c()
-  # ----------------------------
-  # retrieve data frame of model to check whether
-  # we have any numeric terms in fitted model
-  # ----------------------------
-  fit.df <- stats::model.frame(fit)
-  # ----------------------------
-  # retrieve term names, so we find the estimates in the
-  # coefficients list
-  # ----------------------------
-  fit.term.names <- names(lme4::fixef(fit))[-1]
-  # ----------------------------
-  # find amount of numeric terms
-  # ----------------------------
-  findnumeric <- c()
-  for (i in 1:length(fit.term.names)) {
-    if (class(fit.df[, fit.term.names[i]]) == "numeric")
-      findnumeric <- c(findnumeric, which(colnames(fit.df) == fit.term.names[i]))
-  }
-  # ----------------------------
-  # check if we have any numeric predictors
-  # ----------------------------
-  if (length(findnumeric > 0)) {
-    # loop through all numeric termns
-    for (i in 1:length(findnumeric)) {
-      # get values from numeric term
-      vals <- fit.df[, findnumeric[i]]
-      # find unique values, for x axis
-      vals.unique <- sort(unique(vals))
-      # melt variable
-      mydf.vals <- data.frame(value = vals.unique)
-      mydf.vals$x <- seq(from = 1, to = nrow(mydf.vals), by = 1)
-      # retrieve names of coefficients
-      coef.names <- names(lme4::fixef(fit))
-      # find coef-position
-      coef.pos <- which(coef.names == fit.term.names[i])
-      # calculate x-beta by multiplying original values with estimate of that term
-      mydf.vals$xbeta <- mydf.vals$value * (lme4::fixef(fit)[coef.pos])
-      # calculate probability (y) via cdf-function
-      mydf.vals$y <- plogis(lme4::fixef(fit)[1] + mydf.vals$xbeta)
-      # save predictor name
-      pred.name <- colnames(fit.df)[findnumeric[i]]
-      axisLabels.mp <- c(axisLabels.mp, pred.name)
-      # assign group
-      mydf.vals$grp <- pred.name
-      # add mydf to list
-      mydf.metricpred[[length(mydf.metricpred) + 1]] <- mydf.vals
-    }
-  }
-  # ---------------------------------------------------------
-  # Prepare metric plots
-  # ---------------------------------------------------------
-  if (length(mydf.metricpred) > 0) {
-    # create mydf for integrated plot
-    mydf.ges <- data.frame()
-    for (i in 1:length(mydf.metricpred)) {
-      # "melt" all single mydf's to one
-      mydf.ges <- rbind(mydf.ges, mydf.metricpred[[i]])
-      # create single plots for each numeric predictor
-      mp <- ggplot(mydf.metricpred[[i]], aes(x = value, y = y)) +
-        geom_point() +
-        labs(x = axisLabels.mp[i], y = "Probability") +
-        stat_smooth(method = "glm", method.args = list(family = "binomial"), se = show.ci) +
-        # cartesian coord still plots range of se, even
-        # when se exceeds plot range.
-        coord_cartesian(ylim = c(0, 1))
-      # add plot to list
-      plot.metricpred[[length(plot.metricpred) + 1]] <- mp
-    }
-    # -------------------------------------
-    # if we have more than one numeric var, also create integrated plot
-    # -------------------------------------
-    if (length(mydf.metricpred) > 1) {
-      mp <- ggplot(mydf.ges, aes(x = value,
-                                 y = y,
-                                 colour = grp)) +
-        geom_point() +
-        labs(x = NULL,
-             y = "Probability",
-             title = "Probability of coefficients") +
-        #         scale_colour_manual(values = brewer_pal(palette = "Set1")(length(axisLabels.mp)),
-        #                             labels = axisLabels.mp) +
-        stat_smooth(method = "glm", method.args = list(family = "binomial"), se = show.ci) +
-        # cartesian coord still plots range of se, even
-        # when se exceeds plot range.
-        coord_cartesian(ylim = c(0, 1)) +
-        facet_wrap(~grp,
-                   ncol = round(sqrt(length(mydf.metricpred))),
-                   scales = "free_x") +
-        guides(colour = FALSE)
-      # add integrated plot to plot list
-      plot.facet <- mp
-      # add integrated data frame to plot list
-      mydf.facet <- mydf.ges
-    }
-  }
-  # --------------------------
-  # plot plots
-  # --------------------------
-  if (printPlot) {
-    if (facet.grid && !is.null(plot.facet)) {
-      print(plot.facet)
-    }
-    else {
-      for (i in 1:length(plot.metricpred)) {
-        print(plot.metricpred[[i]])
-      }
-    }
-  }
-  return(structure(class = "sjpglmer.fecc",
-                   list(mydf.mp = mydf.metricpred,
-                        plot.mp = plot.metricpred,
-                        mydf.facet = mydf.facet,
-                        plot.facet = plot.facet)))
 }
 
 
