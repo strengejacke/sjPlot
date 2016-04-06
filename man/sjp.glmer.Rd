@@ -151,8 +151,10 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
            }
 }
 \description{
-By default, this function plots odds or incidents ratios (exponentiated coefficients)
-               with confidence intervalls of either fixed effects or random effects of
+By default, this function plots estimates (odds, risk or incidents 
+               ratios, i.e. exponentiated coefficients, depending on family and
+               link function)
+               with confidence intervals of either fixed effects or random effects of
                generalized linear mixed effects models (that have been fitted with the
                \code{\link[lme4]{glmer}}-function of the \pkg{lme4}-package).
                Furthermore, this function also plots predicted probabilities /
@@ -160,25 +162,26 @@ By default, this function plots odds or incidents ratios (exponentiated coeffici
 }
 \details{
 \describe{
-           \item{\code{type = "fe.pc"}}{(or \code{"fe.prob"}), the predicted probabilities
+           \item{\code{type = "fe.pc"}}{(or \code{"fe.prob"}), the predicted values
            are based on the fixed effects intercept's estimate and each specific
            fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),
-           which corresponds to \code{\link{plogis}(b0 + bi * xi)} (where \code{xi}
-           is the logit-estimate of fixed effects and \code{b0} is the intercept of
-           the fixed effects).}
-           \item{\code{type = "eff"}}{unlike \code{type = "fe.pc"}, the predicted
-           probabilities or incidents computed by \code{type = "eff"} have all co-variates
+           which corresponds to \code{family(fit)$linkinv(eta = b0 + bi * xi)} (where \code{xi}
+           is the estimate of fixed effects and \code{b0} is the intercept of
+           the fixed effects; the inverse link-function is used).}
+           \item{\code{type = "eff"}}{unlike \code{type = "fe.pc"}, the predicted values
+           computed by \code{type = "eff"} have all co-variates
            set to the mean, as returned by the \code{\link[effects]{allEffects}} function.}
-           \item{\code{type = "ri.pc"}}{(or \code{"ri.prob"}), the predicted probabilities
+           \item{\code{type = "ri.pc"}}{(or \code{"ri.prob"}), the predicted values
            are based on the fixed effects intercept, plus each random intercept and
            each specific  fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),
-           which corresponds to \code{\link{plogis}(b0 + b0[r1-rn] + bi * xi)} (where \code{xi}
-           is the logit-estimate of fixed effects, \code{b0} is the intercept of
+           which corresponds to \code{family(fit)$linkinv(eta = b0 + b0[r1-rn] + bi * xi)}
+           (where \code{xi} is the estimate of fixed effects, \code{b0} is the intercept of
            the fixed effects and \code{b0[r1-rn]} are all random intercepts).}
-           \item{\code{type = "rs.ri"}}{the predicted probabilities are based 
+           \item{\code{type = "rs.ri"}}{the predicted values are based 
            on the fixed effects intercept, plus each random intercept and
            random slope. This plot type is intended to plot the random part, i.e.
-           the predicted probabilities of each random slope for each random intercept.
+           the predicted probabilities or incident rates of each random slope 
+           for each random intercept.
            Since the random intercept specifies the deviance from the gloabl
            intercept, the global intercept is always included. In case of overplotting,
            use the \code{sample.n} argument to randomly sample a limited amount
@@ -198,9 +201,11 @@ By default, this function plots odds or incidents ratios (exponentiated coeffici
 \itemize{
          \item{Computation of p-values (if necessary) are based on 
                Wald chi-square tests from the \code{Anova}-function of the \pkg{car}-package.}
-         \item{Most plot types work for binomial outcomes only (see 'Details'),
-               however, some plot types like \code{type = "fe"} or \code{type = "eff"} also
-               work for count reponses.}
+         \item{Plot types use the inverse link-function to calculate predicted
+               probabilites or incidents rates. Thus, this function should work
+               with different model families and link functions; however, the
+               plot or axis title may not use the exact terminology regarding
+               model family or link function.}
          \item{Thanks go to Robert Reijntjes from 
                Leiden University Medical Center for sharing R code that is used 
                to compute fixed effects correlation matrices and qq-plots of 

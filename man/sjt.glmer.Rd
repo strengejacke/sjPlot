@@ -55,7 +55,7 @@ Default is \code{"Intercept"}.}
 \item{stringObservations}{string constant used in the summary row for the count of observation
 (cases). Default is \code{"Observations"}.}
 
-\item{stringOR}{string used for the column heading of odds ratio values. Default is \code{"OR"}.}
+\item{stringOR}{string used for the column heading of estimates. Default is \code{"OR"}.}
 
 \item{stringCI}{string used for the column heading of confidence interval values. Default is \code{"CI"}.}
 
