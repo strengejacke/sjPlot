@@ -22,7 +22,11 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'            \item{\code{type = "std2"}}{plots standardized beta values, however, standardization follows \href{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}{Gelman's (2008)} suggestion, rescaling the estimates by dividing them by two standard deviations instead of just one. Resulting coefficients are then directly comparable for untransformed binary predictors. This standardization uses the \code{\link[arm]{standardize}}-function.}
 #'            \item{\code{type = "pred"}}{regression lines (slopes) with confidence intervals for each single predictor of the fitted model are plotted, i.e. all predictors of the fitted model are extracted and for each of them, the linear relationship is plotted against the response variable.}
 #'            \item{\code{type = "resid"}}{is similar to the \code{type = "pred"} option, however, each predictor is plotted against the residuals (instead of response).}
-#'            \item{\code{type = "resp"}}{the predicted values of the response for each observation is plotted, which mostly results in a single linear line.}
+#'            \item{\code{type = "resp"}}{the predicted values of the response, related to specific model predictors.
+#'            This plot type requires the \code{vars} argument to select specific terms
+#'            that should be used for the x-axis and - optional - as grouping factor. 
+#'            Hence, \code{vars} must be a character vector with the names of
+#'            one or two model predictors. See 'Examples'.}
 #'            \item{\code{type = "eff"}}{computes the marginal effects for all predictors, using the \code{\link[effects]{allEffects}} function. I.e. for each predictor, the predicted values towards the response are plotted, with all remaining co-variates set to the mean. Due to possible different scales of predictors, a faceted plot is printed (instead of plotting all lines in one plot). This function accepts following argument: \code{fit}, \code{title}, \code{geom.size}, \code{remove.estimates}, \code{showCI} and \code{printPlot}.}
 #'            \item{\code{type = "poly"}}{plots the marginal effects of polynomial terms in \code{fit}, using the \code{\link[effects]{effect}} function, but only for a selected polynomial term, which is specified with \code{poly.term}. This function helps undertanding the effect of polynomial terms by plotting the curvilinear relationships of response and quadratic, cubic etc. terms. This function accepts following argument: \code{fit}, \code{poly.term}, \code{geom.colors}, \code{geom.size}, \code{axisTitle.x}, \code{showCI} and \code{printPlot}.}
 #'            \item{\code{type = "ma"}}{checks model assumptions. Please note that only three arguments are relevant: \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other arguments are ignored.}
@@ -37,7 +41,7 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'            \item{\code{"std2"}}{for forest-plot like plot of standardized beta values, however, standardization is done by dividing by two sd (see 'Details'). If the fitted model only contains one predictor, intercept and slope are plotted.}
 #'            \item{\code{"pred"}}{to plot regression lines for each single predictor of the fitted model, against the response (linear relationship between each model term and response).}
 #'            \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals (linear relationship between each model term and residuals). May be used for model diagnostics (see \url{https://www.otexts.org/fpp/5/4}).}
-#'            \item{\code{"resp"}}{to plot predicted values for the response. Use \code{showCI} argument to plot standard errors as well.}
+#'            \item{\code{"resp"}}{to plot predicted values for the response, related to specific predictors. See 'Details'.}
 #'            \item{\code{"eff"}}{to plot marginal effects of all terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms.}
 #'            \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples').}
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only three arguments are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other arguments are ignored.}
@@ -60,7 +64,7 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'          color palette code (see 'Note' in \code{\link{sjp.grpfrq}}). Else, if
 #'          \code{group.estimates} is specified, \code{geom.colors} must be a vector
 #'          of same length as groups. See 'Examples'.
-#' @param geom.size size resp. width of the geoms (bar width or point size, depending on \code{type} argument).
+#' @param geom.size size resp. width of the geoms (bar width, point size or line thickness, depending on \code{type} argument).
 #' @param interceptLineType linetype of the intercept line (zero point). Default is \code{2} (dashed line).
 #' @param interceptLineColor color of the intercept line. Default value is \code{"grey70"}.
 #' @param group.estimates numeric or character vector, indicating a group identifier for
@@ -182,6 +186,27 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'        sort.est = TRUE)
 #'
 #'
+#' # --------------------------
+#' # predicted values for response
+#' # --------------------------
+#' library(sjmisc)
+#' data(efc)
+#' efc$education <- to_label(to_factor(efc$c172code))
+#' fit <- lm(barthtot ~ c160age + c12hour + e17age+ education,
+#'           data = efc)
+#'
+#' sjp.lm(fit, type = "resp", vars = "c160age")
+#'
+#' # with loess
+#' sjp.lm(fit, type = "resp", vars = "e17age", showLoess = TRUE)
+#'
+#' # grouped
+#' sjp.lm(fit, type = "resp", vars = c("c12hour", "education"))
+#' 
+#' # grouped, non-facet
+#' sjp.lm(fit, type = "resp", vars = c("c12hour", "education"),
+#'        facet.grid = FALSE)
+#' 
 #' # --------------------------
 #' # plotting polynomial terms
 #' # --------------------------
@@ -316,12 +341,8 @@ sjp.lm <- function(fit,
                                 printPlot)))
   }
   if (type == "resp") {
-    return(invisible(sjp.lm.response.pred(fit,
-                                          geom.colors,
-                                          showCI,
-                                          showLoess,
-                                          showLoessCI,
-                                          printPlot)))
+    return(invisible(sjp.glm.predy(fit, vars, show.ci = showCI, geom.size, axisLimits.y = axisLimits,
+                                   facet.grid, type = "fe", show.loess = showLoess, printPlot)))
   }
   if (type == "poly") {
     return(invisible(sjp.lm.poly(fit,
@@ -592,58 +613,6 @@ sjp.lm <- function(fit,
   invisible(structure(class = c("sjplot", "sjplm"),
                       list(plot = betaplot,
                            data = betas)))
-}
-
-
-#' @importFrom stats predict
-sjp.lm.response.pred <- function(fit,
-                                 geom.colors,
-                                 show.se,
-                                 showLoess,
-                                 showLoessCI,
-                                 printPlot) {
-  # -----------------------------------------------------------
-  # check argument
-  # -----------------------------------------------------------
-  geom.colors <- col_check(geom.colors, showLoess)
-  # -----------------------------------------------------------
-  # set color defaults
-  # -----------------------------------------------------------
-  lineColor <- geom.colors[1]
-  loessLineColor <- geom.colors[2]
-  # ----------------------------
-  # get predicted values for response
-  # ----------------------------
-  pp <- stats::predict(fit, type = "response")
-  # ----------------------------
-  # get predicted probabilities for
-  # response, including random effects
-  # ----------------------------
-  mydf <- data.frame(x = 1:length(pp), y = sort(pp))
-  # ---------------------------------------------------------
-  # Prepare plot
-  # ---------------------------------------------------------
-  mp <- ggplot(mydf, aes(x = x, y = y)) +
-    labs(x = NULL,
-         y = "Predicted values",
-         title = "Predicted value for model-response") +
-    stat_smooth(method = "lm",
-                se = show.se,
-                colour = lineColor)
-  # ---------------------------------------------------------
-  # Add Loess-Line
-  # ---------------------------------------------------------
-  if (showLoess) mp <- mp + stat_smooth(method = "loess",
-                                        se = showLoessCI,
-                                        colour = loessLineColor)
-  # --------------------------
-  # plot plots
-  # --------------------------
-  if (printPlot) print(mp)
-  return(structure(class = "sjplm.pvresp",
-                   list(df = mydf,
-                        plot = mp,
-                        mean.pp = mean(pp))))
 }
 
 

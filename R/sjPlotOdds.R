@@ -15,10 +15,10 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' @param fit fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).
 #' @param type type of plot. Use one of following:
 #'          \describe{
-#'            \item{\code{"dots"}}{(or \code{"glm"} or \code{"or"} (default)) for odds or incident rate ratios (forest plot). Note that this type is only appropriate for log- or logit-link-functions.}
+#'            \item{\code{"dots"}}{(or \code{"glm"} or \code{"or"} (default)) for odds or incident rate ratios (forest plot). Note that this type plots the exponentiated estimates, thus being appropriate only for specific link-functions.}
 #'            \item{\code{"prob"}}{(or \code{"pc"}) to plot predicted values for each model term, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
 #'            \item{\code{"eff"}}{to plot marginal effects of predicted probabilities or incidents for each model term, where all remaining co-variates are set to the mean (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
-#'            \item{\code{"y.pc"}}{(or \code{"y.prob"}) to plot predicted values for the response. See 'Details'.}
+#'            \item{\code{"y.pc"}}{(or \code{"y.prob"}) to plot predicted values for the response, related to specific model predictors. See 'Details'.}
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only two arguments are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other arguments are ignored.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
@@ -49,41 +49,11 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' @inheritParams sjp.aov1
 #' @inheritParams sjp.glmer
 #' 
-#' @return (Invisibly) returns various objects, depending on 
-#'           the \code{type}-argument:
-#'         \describe{
-#'          \item{\code{type = "dots"}}{
-#'            \itemize{
-#'              \item \code{df} - data frame used for the plot
-#'              \item \code{plot} - plot as ggplot-object
+#' @return (Insisibily) returns, depending on the plot type
+#'          \itemize{
+#'            \item The ggplot-object (\code{plot}). For multiple plots and if \code{facet.grid = FALSE}) a \code{plot.list} is returned.
+#'            \item A data frame \code{data} with the data used to build the ggplot-object(s), or a list of data frames (\code{data.list}).
 #'            }
-#'          }
-#'          \item{\code{type = "prob" or "eff"}}{
-#'            \itemize{
-#'              \item \code{df.mp} - data frame used for predicted probability plots
-#'              \item \code{plot.mp} - predicted probability plots as ggplot-objects
-#'              \item \code{df.facet} - data frame used for faceted predicted probability plots
-#'              \item \code{plot.facet} - faceted predicted probability plots as ggplot-objects
-#'            }
-#'          }
-#'          \item{\code{type = "y.pc"}}{
-#'            \itemize{
-#'              \item \code{df} - data frame used for the plot
-#'              \item \code{plot} - plot as ggplot-object
-#'              \item \code{mean.pp} - mean value of the predicted probabilities for the response
-#'            }
-#'          }
-#'          \item{\code{type = "ma"}}{
-#'            \itemize{
-#'              \item \code{model} - updated model-fit with removed outliers
-#'            }
-#'          }
-#'          \item{\code{type = "vif"}}{
-#'            \itemize{
-#'              \item \code{vifval} - a vector with vif-values
-#'            }
-#'          }
-#'         }
 #'
 #' @details \describe{
 #'            \item{\code{type = "prob"}}{(or \code{"pc"}), the predicted values
@@ -91,24 +61,28 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'            All other co-variates are set to zero (i.e. ignored), which corresponds
 #'            to \code{family(fit)$linkinv(eta = b0 + bi * xi)} (where \code{xi} is the estimate).
 #'            This plot type can be seen as equivalent to \code{type = "pred"} for \code{\link{sjp.lm}},
-#'            just for glm objects.}
+#'            just for glm objects. This plot type may give similar results as 
+#'            \code{type = "y.pc"}, however, \code{type = "prob"} does not adjust
+#'            for other predictors.}
 #'            \item{\code{type = "eff"}}{the predicted values
 #'            computed by \code{type = "eff"} have all co-variates
 #'            set to the mean, as returned by the \code{\link[effects]{allEffects}} function.}
 #'            \item{\code{type = "y.pc"}}{(or \code{type = "y.prob"}), the predicted values
 #'            of the response are computed, based on the \code{\link{predict.glm}}
 #'            method. Corresponds to \code{\link{predict}(fit, type = "response")}.
-#'            Consider using the \code{vars} argument to select specific terms
-#'            that should be used for the x-axis and as grouping factor. See 'Examples'.}
+#'            This plot type requires the \code{vars} argument to select specific terms
+#'            that should be used for the x-axis and - optional - as grouping factor. 
+#'            Hence, \code{vars} must be a character vector with the names of
+#'            one or two model predictors. See 'Examples'.}
 #'          }
 #'
 #' @examples
 #' # prepare dichotomous dependent variable
-#' y <- ifelse(swiss$Fertility < median(swiss$Fertility), 0, 1)
+#' swiss$y <- ifelse(swiss$Fertility < median(swiss$Fertility), 0, 1)
 #'
 #' # fit model
-#' fitOR <- glm(y ~ swiss$Education + swiss$Examination + swiss$Infant.Mortality + swiss$Catholic,
-#'              family = binomial(link = "logit"))
+#' fitOR <- glm(y ~ Education + Examination + Infant.Mortality + Catholic,
+#'              family = binomial(link = "logit"), data = swiss)
 #'
 #' # print Odds Ratios as dots
 #' sjp.glm(fitOR)
@@ -164,10 +138,16 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'         axisLabels.y = predlab)
 #'
 #' # --------------------------
-#' # model predictions
+#' # model predictions, with selected model terms.
+#' # 'vars' needs to be a character vector of length 1 or 2
+#' # with names of model terms for x-axis and grouping factor.
 #' # --------------------------
-#' sjp.glm(fit, type = "y.pc", vars = c("barthel", "dep"))
-#'
+#' sjp.glm(fit, type = "y.pc", vars = "barthel")
+#' # faceted, with ci
+#' sjp.glm(fit, type = "y.pc", vars = c("barthel", "dep"), show.ci = TRUE)
+#' # w/o facets
+#' sjp.glm(fit, type = "y.pc", vars = c("barthel", "dep"), facet.grid = FALSE)
+#' 
 #' @import ggplot2
 #' @import sjmisc
 #' @importFrom car outlierTest influencePlot crPlots durbinWatsonTest leveragePlots ncvTest spreadLevelPlot vif
@@ -228,35 +208,17 @@ sjp.glm <- function(fit,
   # check type
   # --------------------------------------------------------
   if (type == "prob" || type == "pc") {
-    return(invisible(sjp.glm.pc(fit,
-                                title,
-                                show.ci,
-                                type = "prob",
-                                geom.size,
-                                remove.estimates,
-                                vars,
-                                facet.grid,
-                                printPlot)))
+    return(invisible(sjp.glm.pc(fit, title, geom.size, remove.estimates, vars,
+                                axisLimits.y = axisLimits, show.ci, facet.grid, printPlot)))
   }
   if (type == "eff") {
-    return(invisible(sjp.glm.eff(fit,
-                                 title,
-                                 geom.size,
-                                 remove.estimates,
-                                 vars,
-                                 showCI = show.ci,
-                                 axisLimits.y = axisLimits,
-                                 facet.grid,
-                                 fun = "glm",
-                                 printPlot)))
+    return(invisible(sjp.glm.eff(fit, title, geom.size, remove.estimates, vars,
+                                 showCI = show.ci, axisLimits.y = axisLimits,
+                                 facet.grid, fun = "glm", printPlot)))
   }
   if (type == "y.pc" || type == "y.prob") {
-    return(invisible(sjp.glm.response.probcurv(fit,
-                                               vars,
-                                               show.ci,
-                                               geom.size,
-                                               facet.grid,
-                                               printPlot)))
+    return(invisible(sjp.glm.predy(fit, vars, show.ci, geom.size, axisLimits.y = axisLimits,
+                                   facet.grid, type = "fe", show.loess = F, printPlot)))
   }
   if (type == "ma") {
     return(invisible(sjp.glm.ma(fit, showOriginalModelOnly)))
@@ -594,15 +556,19 @@ sjp.glm <- function(fit,
 #' @importFrom stats predict coef formula model.frame
 sjp.glm.pc <- function(fit,
                        title,
-                       show.ci,
-                       type,
                        geom.size,
                        remove.estimates,
                        vars,
+                       axisLimits.y,
+                       show.ci,
                        facet.grid,
                        printPlot) {
   # check size argument
   if (is.null(geom.size)) geom.size <- .7
+  # ----------------------------
+  # do we have mermod object?
+  # ----------------------------
+  isMerMod <- any(class(fit) == "glmerMod")
   # ----------------------------
   # prepare additional plots, when metric
   # predictors should also be plotted
@@ -613,9 +579,37 @@ sjp.glm.pc <- function(fit,
   axisLabels.mp <- c()
   plot.facet <- NULL
   mydf.facet <- NULL
+  # ----------------------------
+  # retrieve data frame of model to check whether
+  # we have any numeric terms in fitted model
+  # and get model family, for link-inverse function
+  # ----------------------------
+  fit.df <- stats::model.frame(fit)
+  fitfam <- stats::family(fit)
+  faminfo <- get_glm_family(fit)
+  # --------------------------------------------------------
+  # create logical for family
+  # --------------------------------------------------------
+  poisson_fam <- faminfo$is_pois
+  binom_fam <- faminfo$is_bin
+  # ----------------------------
   # retrieve term names, so we find the estimates in the
   # coefficients list
-  fit.term.names <- all.vars(stats::formula(fit))[-1]
+  # ----------------------------
+  if (isMerMod) {
+    fit.term.length <- length(names(lme4::fixef(fit))[-1])
+    b0 <- unname(lme4::fixef(fit))[1]
+    estimates <- lme4::fixef(fit)
+    coef.names <- names(lme4::fixef(fit))
+  } else {
+    fit.term.length <- length(coef(fit)) - 1
+    b0 <- unname(stats::coef(fit)[1])
+    estimates <- stats::coef(fit)
+    coef.names <- names(stats::coef(fit))
+  }
+  # retrieve term names, so we find the estimates in the
+  # coefficients list
+  fit.term.names <- all.vars(stats::formula(fit))[-1][seq_len(fit.term.length)]
   # ------------------------
   # remove estimates?
   # ------------------------
@@ -634,37 +628,25 @@ sjp.glm.pc <- function(fit,
     if (!sjmisc::is_empty(remcols))
       fit.term.names <- fit.term.names[remcols]
   }
-  # ----------------------------
-  # retrieve names of coefficients
-  # ----------------------------
-  coef.names <- names(stats::coef(fit))
   # ------------------------
   # Retrieve response for automatic title
   # ------------------------
-  resp <- stats::model.frame(fit)[[1]]
-  resp.col <- colnames(stats::model.frame(fit))[1]
-  # ----------------------------
-  # check model family, do we have count model?
-  # ----------------------------
-  fam_info <- get_glm_family(fit)
-  fitfam <- stats::family(fit)
-  # --------------------------------------------------------
-  # create logical for family
-  # --------------------------------------------------------
-  poisson_fam <- fam_info$is_pois
-  binom_fam <- fam_info$is_bin
+  resp <- fit.df[[1]]
+  resp.col <- colnames(fit.df)[1]
   # ----------------------------
   # loop through all coefficients
   # ----------------------------
   for (i in 1:length(fit.term.names)) {
     # get values from coefficient
-    coef.column <- which(colnames(fit$model) == fit.term.names[i])
+    coef.column <- which(colnames(fit.df) == fit.term.names[i])
     # check if we have found the coefficient
     if (length(coef.column) > 0) {
       # get values from numeric term
-      values <- fit$model[, coef.column]
+      values <- fit.df[, coef.column]
+      # find unique values, for x axis
+      vals.unique <- sort(values)
       # melt variable
-      mydf.vals <- data.frame(values = values)
+      mydf.vals <- data.frame(values = vals.unique)
       # convert factor to numeric
       if (is.factor(mydf.vals$values)) mydf.vals$values <- sjmisc::to_value(mydf.vals$values, 0, keep.labels = F)
       # check if we have a factor, then we may have reference levels
@@ -683,16 +665,19 @@ sjp.glm.pc <- function(fit,
       # co-variates to predict the values. This can be
       # used to investigate a term "isolated"
       # ---------------------------------------------
-      # calculate x-beta by multiplying original values with estimate of that term
-      mydf.vals$xbeta <- mydf.vals$values * stats::coef(fit)[coef.pos]
-      # calculate probability (y) via cdf-function
-      mydf.vals$y <- fitfam$linkinv(eta = stats::coef(fit)[1] + mydf.vals$xbeta)
-      # assign group
-      mydf.vals$grp = coef.names[coef.pos]
-      # add mydf to list
-      mydf.metricpred[[length(mydf.metricpred) + 1]] <- mydf.vals
-      # save predictor name
-      axisLabels.mp <- c(axisLabels.mp, fit.term.names[i])
+      if (length(coef.pos) > 0) {
+        # calculate x-beta by multiplying original values with estimate of that term
+        mydf.vals$xbeta <- mydf.vals$value * estimates[coef.pos]
+        # calculate probability (y) via cdf-function
+        mydf.vals$y <- fitfam$linkinv(eta = b0 + mydf.vals$xbeta)
+        # save predictor name
+        pred.name <- fit.term.names[i]
+        axisLabels.mp <- c(axisLabels.mp, pred.name)
+        # assign group
+        mydf.vals$grp <- pred.name
+        # add mydf to list
+        mydf.metricpred[[length(mydf.metricpred) + 1]] <- mydf.vals
+      }
     }
   }
   # ---------------------------------------------------------
@@ -711,8 +696,7 @@ sjp.glm.pc <- function(fit,
   # ---------------------------------------------------------
   # default plot title
   # ---------------------------------------------------------
-  if (is.null(title)) title <- sprintf("Predicted %s%s for %s", 
-                                       ifelse(type == "prob", "", "marginal "),
+  if (is.null(title)) title <- sprintf("Predicted %s for %s", 
                                        title.fix,
                                        get_model_response_label(fit))
   # ---------------------------------------------------------
@@ -724,6 +708,15 @@ sjp.glm.pc <- function(fit,
     for (i in 1:length(mydf.metricpred)) {
       # "melt" all single mydf's to one
       mydf.ges <- rbind(mydf.ges, mydf.metricpred[[i]])
+      # ------------------------------
+      # check axis limits
+      # ------------------------------
+      if (is.null(axisLimits.y)) {
+        y.limits <- c(as.integer(floor(10 * min(mydf.metricpred[[i]]$y, na.rm = T) * .9)) / 10,
+                      as.integer(ceiling(10 * max(mydf.metricpred[[i]]$y, na.rm = T) * 1.1)) / 10)
+      } else {
+        y.limits <- axisLimits.y
+      }
       # create single plots for each numeric predictor
       mp <- ggplot(mydf.metricpred[[i]], aes(x = values, y = y)) +
         labs(x = axisLabels.mp[i], y = y.title, title = title) +
@@ -731,13 +724,24 @@ sjp.glm.pc <- function(fit,
                     method.args = list(family = fitfam$family), 
                     se = show.ci,
                     size = geom.size,
-                    colour = "black") +
-        coord_cartesian(ylim = c(0, 1))
+                    colour = "black")
+      # y-limits for binomial models
+      if (isTRUE(binom_fam))
+        mp <- mp + coord_cartesian(ylim = y.limits)
       # add plot to list
       plot.metricpred[[length(plot.metricpred) + 1]] <- mp
     }
     # if we have more than one numeric var, also create integrated plot
     if (length(mydf.metricpred) > 1) {
+      # ------------------------------
+      # check axis limits
+      # ------------------------------
+      if (is.null(axisLimits.y)) {
+        y.limits <- c(as.integer(floor(10 * min(mydf.ges$y, na.rm = T) * .9)) / 10,
+                      as.integer(ceiling(10 * max(mydf.ges$y, na.rm = T) * 1.1)) / 10)
+      } else {
+        y.limits <- axisLimits.y
+      }
       mp <- ggplot(mydf.ges, aes(x = values, y = y)) +
         labs(x = NULL, y = y.title, title = title) +
         stat_smooth(method = "glm", 
@@ -745,10 +749,13 @@ sjp.glm.pc <- function(fit,
                     se = show.ci,
                     size = geom.size,
                     colour = "black") +
-        coord_cartesian(ylim = c(0, 1)) +
         facet_wrap(~grp,
                    ncol = round(sqrt(length(mydf.metricpred))),
-                   scales = "free_x")
+                   scales = "free_x") +
+        guides(colour = FALSE)
+      # y-limits for binomial models
+      if (isTRUE(binom_fam))
+        mp <- mp + coord_cartesian(ylim = y.limits)
       # add integrated plot to plot list
       plot.facet <- mp
       # add integrated data frame to plot list
@@ -768,27 +775,70 @@ sjp.glm.pc <- function(fit,
     }
   }
 
-  invisible(structure(class = "sjpglm.pc",
-                      list(df.mp = mydf.metricpred,
-                           plot.mp = plot.metricpred,
-                           df.facet = mydf.facet,
-                           plot.facet = plot.facet)))
+  invisible(structure(class = c("sjPlot", "sjpglm.pc"),
+                      list(data.list = mydf.metricpred,
+                           plot.list = plot.metricpred,
+                           data = mydf.facet,
+                           plot = plot.facet)))
 }
 
 
-sjp.glm.response.probcurv <- function(fit,
-                                      vars,
-                                      show.ci,
-                                      geom.size,
-                                      facet.grid,
-                                      printPlot) {
+sjp.glm.predy <- function(fit,
+                          vars,
+                          show.ci,
+                          geom.size,
+                          axisLimits.y,
+                          facet.grid,
+                          type = "fe",
+                          show.loess = FALSE,
+                          printPlot) {
+  # -----------------------------------------------------------
+  # check class of fitted model
+  # -----------------------------------------------------------
+  c.f <- class(fit)
+  fun <- "glm"
+  fit.m <- "glm"
+  if (any(c.f == "glm")) {
+    fun <- "glm"
+    fit.m <- "glm"
+  } else if (any(c.f == "lm")) {
+    fun <- "lm"
+    fit.m <- "lm"
+  } else if (any(c.f == "glmerMod")) {
+    fun <- "glmer"
+    fit.m <- "glm"
+  } else if (any(c.f == "nlmerMod")) {
+    fun <- "nlmer"
+    fit.m <- "nlm"
+  } else if (any(c.f == "lmerMod") || any(c.f == "merModLmerTest")) {
+    fun <- "lmer"
+    fit.m <- "lm"
+  }
+  # ----------------------------
   # check size argument
+  # ----------------------------
   if (is.null(geom.size)) geom.size <- .7
+  # ----------------------------
+  # check vars argument
+  # ----------------------------
+  if (is.null(vars)) {
+    warning("`vars` needs to be a character vector with one or two predictor names: one term used for the x-axis, another optional term as grouping factor.", call. = F)
+    return(NULL)
+  }
   # ----------------------------
   # get predicted values for response
   # ----------------------------
   fitfram <- stats::model.frame(fit)
-  fitfram$predicted.values <- stats::predict.glm(fit, newdata = fitfram, type = "response")
+  if (fun == "glm") {
+    fitfram$predicted.values <- stats::predict.glm(fit, newdata = fitfram, type = "response")
+  } else if (fun %in% c("glmer", "lmer", "nlmer")) {
+    if (type == "fe")
+      fitfram$predicted.values <- stats::predict(fit, newdata = fitfram, type = "response", re.form = NA)
+    else
+      fitfram$predicted.values <- stats::predict(fit, newdata = fitfram, type = "response", re.form = NULL)
+  } else {
+    fitfram$predicted.values <- stats::predict(fit, newdata = fitfram, type = "response")
+  }
   # ----------------------------
   # check model family, do we have count model?
   # ----------------------------
@@ -805,49 +855,78 @@ sjp.glm.response.probcurv <- function(fit,
     t.title <- "Predicted incident rates"
   else if (isTRUE(binom_fam))
     t.title <- "Predicted probabilties"
+  else
+    t.title <- "Predicted values"
+  x.title <- vars[1]
   y.title <- sjmisc::get_label(fitfram[[1]], def.value = colnames(fitfram)[1])
   # ----------------------------
-  # get predicted probabilities for 
-  # response, including random effects
+  # check for correct length of vector
   # ----------------------------
-  if (!is.null(vars)) {
-    mydf <- dplyr::select(fitfram, which(colnames(fitfram) %in% c(vars, "predicted.values")))
-    colnames(mydf) <- c("x", "grp", "y")
-    mp <- ggplot(mydf, aes(x = x, y = y, colour = grp, group = grp))
-    x.title <- vars[1]
+  if (length(vars) > 2) {
+    message("`vars` must have not more than two values. Using first two values now.")
+    vars <- vars[1:2]
+  } 
+  mydf <- dplyr::select(fitfram, match(c(vars, "predicted.values"), colnames(fitfram)))
+  # ----------------------------
+  # with or w/o grouping factor?
+  # ----------------------------
+  if (length(vars) == 1) {
+    colnames(mydf) <- c("x", "y")
+    mp <- ggplot(mydf, aes(x = x, y = y)) +
+      labs(x = x.title, y = y.title, title = t.title)
   } else {
-    mydf <- data.frame(x = 1:length(fitfram$predicted.values), 
-                       y = sort(fitfram$predicted.values))
-    mp <- ggplot(mydf, aes(x = x, y = y))
-    x.title <- NULL
+    colnames(mydf) <- c("x", "grp", "y")
+    mp <- ggplot(mydf, aes(x = x, y = y, colour = grp, group = grp)) +
+      labs(x = x.title, y = y.title, title = t.title, colour = vars[2])
+  }
+  # ------------------------------
+  # check axis limits
+  # ------------------------------
+  if (is.null(axisLimits.y)) {
+    axisLimits.y <- c(as.integer(floor(10 * min(mydf$y, na.rm = T) * .9)) / 10,
+                      as.integer(ceiling(10 * max(mydf$y, na.rm = T) * 1.1)) / 10)
   }
   # ---------------------------------------------------------
   # Prepare plot
   # ---------------------------------------------------------
-  mp <- mp +
-    labs(x = x.title, y = y.title, title = t.title, colour = vars[2]) +
-    stat_smooth(method = "glm", 
-                method.args = list(family = stats::family(fit)$family), 
-                se = show.ci,
-                size = geom.size)
+  if (fit.m == "lm") {
+    mp <- mp +
+      stat_smooth(method = fit.m, 
+                  se = show.ci,
+                  size = geom.size)
+  } else {
+    mp <- mp +
+      stat_smooth(method = fit.m, 
+                  method.args = list(family = stats::family(fit)$family), 
+                  se = show.ci,
+                  size = geom.size)
+  }
+  # ---------------------------------------------------------
+  # Add Loess-Line
+  # ---------------------------------------------------------
+  if (show.loess) mp <- mp + stat_smooth(method = "loess",
+                                         se = F,
+                                         size = geom.size,
+                                         colour = "darkred")
   if (isTRUE(binom_fam)) {
     # cartesian coord still plots range of se, even
     # when se exceeds plot range.
-    mp <- mp + coord_cartesian(ylim = c(0, 1))
+    mp <- mp + coord_cartesian(ylim = axisLimits.y)
   }
-  if (facet.grid && !is.null(vars)) {
+  if (facet.grid && length(vars) == 2) {
     mp <- mp + 
       facet_wrap(~grp,
                  ncol = round(sqrt(length(unique(mydf$grp)))),
-                 scales = "free_x")
+                 scales = "free_x") +
+      guides(colour = FALSE)
   }
   
   # --------------------------
   # plot plots
   # --------------------------
   if (printPlot) print(mp)
-  return(structure(class = "sjpglm.ppresp",
-                   list(df = mydf, plot = mp)))
+  return(structure(class = c("sjPlot", "sjpglm.ppresp"),
+                   list(data = mydf, plot = mp)))
 }
 
 

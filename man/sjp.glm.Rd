@@ -21,10 +21,10 @@ sjp.glm(fit, type = "dots", sort.est = TRUE, title = NULL,
 
 \item{type}{type of plot. Use one of following:
 \describe{
-  \item{\code{"dots"}}{(or \code{"glm"} or \code{"or"} (default)) for odds or incident rate ratios (forest plot). Note that this type is only appropriate for log- or logit-link-functions.}
+  \item{\code{"dots"}}{(or \code{"glm"} or \code{"or"} (default)) for odds or incident rate ratios (forest plot). Note that this type plots the exponentiated estimates, thus being appropriate only for specific link-functions.}
   \item{\code{"prob"}}{(or \code{"pc"}) to plot predicted values for each model term, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
   \item{\code{"eff"}}{to plot marginal effects of predicted probabilities or incidents for each model term, where all remaining co-variates are set to the mean (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
-  \item{\code{"y.pc"}}{(or \code{"y.prob"}) to plot predicted values for the response. See 'Details'.}
+  \item{\code{"y.pc"}}{(or \code{"y.prob"}) to plot predicted values for the response, related to specific model predictors. See 'Details'.}
   \item{\code{"ma"}}{to check model assumptions. Note that only two arguments are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other arguments are ignored.}
   \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 }}
@@ -64,7 +64,7 @@ one panel grid to the next. If \code{FALSE}, grids are
 plotted on every \code{gridBreaksAt}'s position, thus the grid lines become narrower with 
 higher odds ratio values.}
 
-\item{geom.size}{size resp. width of the geoms (bar width or point size, depending on \code{type} argument).}
+\item{geom.size}{size resp. width of the geoms (bar width, point size or line thickness, depending on \code{type} argument).}
 
 \item{geom.colors}{user defined color palette for geoms. If \code{group.estimates}
 is \emph{not} specified, must either be vector with two color values or a specific
@@ -138,41 +138,11 @@ are automatically excluded are also plotted.}
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
-(Invisibly) returns various objects, depending on 
-          the \code{type}-argument:
-        \describe{
-         \item{\code{type = "dots"}}{
-           \itemize{
-             \item \code{df} - data frame used for the plot
-             \item \code{plot} - plot as ggplot-object
+(Insisibily) returns, depending on the plot type
+         \itemize{
+           \item The ggplot-object (\code{plot}). For multiple plots and if \code{facet.grid = FALSE}) a \code{plot.list} is returned.
+           \item A data frame \code{data} with the data used to build the ggplot-object(s), or a list of data frames (\code{data.list}).
            }
-         }
-         \item{\code{type = "prob" or "eff"}}{
-           \itemize{
-             \item \code{df.mp} - data frame used for predicted probability plots
-             \item \code{plot.mp} - predicted probability plots as ggplot-objects
-             \item \code{df.facet} - data frame used for faceted predicted probability plots
-             \item \code{plot.facet} - faceted predicted probability plots as ggplot-objects
-           }
-         }
-         \item{\code{type = "y.pc"}}{
-           \itemize{
-             \item \code{df} - data frame used for the plot
-             \item \code{plot} - plot as ggplot-object
-             \item \code{mean.pp} - mean value of the predicted probabilities for the response
-           }
-         }
-         \item{\code{type = "ma"}}{
-           \itemize{
-             \item \code{model} - updated model-fit with removed outliers
-           }
-         }
-         \item{\code{type = "vif"}}{
-           \itemize{
-             \item \code{vifval} - a vector with vif-values
-           }
-         }
-        }
 }
 \description{
 Plot odds or incident rate ratios with confidence intervalls as dot plot.
@@ -187,24 +157,28 @@ Plot odds or incident rate ratios with confidence intervalls as dot plot.
            All other co-variates are set to zero (i.e. ignored), which corresponds
            to \code{family(fit)$linkinv(eta = b0 + bi * xi)} (where \code{xi} is the estimate).
            This plot type can be seen as equivalent to \code{type = "pred"} for \code{\link{sjp.lm}},
-           just for glm objects.}
+           just for glm objects. This plot type may give similar results as 
+           \code{type = "y.pc"}, however, \code{type = "prob"} does not adjust
+           for other predictors.}
            \item{\code{type = "eff"}}{the predicted values
            computed by \code{type = "eff"} have all co-variates
            set to the mean, as returned by the \code{\link[effects]{allEffects}} function.}
            \item{\code{type = "y.pc"}}{(or \code{type = "y.prob"}), the predicted values
            of the response are computed, based on the \code{\link{predict.glm}}
            method. Corresponds to \code{\link{predict}(fit, type = "response")}.
-           Consider using the \code{vars} argument to select specific terms
-           that should be used for the x-axis and as grouping factor. See 'Examples'.}
+           This plot type requires the \code{vars} argument to select specific terms
+           that should be used for the x-axis and - optional - as grouping factor. 
+           Hence, \code{vars} must be a character vector with the names of
+           one or two model predictors. See 'Examples'.}
          }
 }
 \examples{
 # prepare dichotomous dependent variable
-y <- ifelse(swiss$Fertility < median(swiss$Fertility), 0, 1)
+swiss$y <- ifelse(swiss$Fertility < median(swiss$Fertility), 0, 1)
 
 # fit model
-fitOR <- glm(y ~ swiss$Education + swiss$Examination + swiss$Infant.Mortality + swiss$Catholic,
-             family = binomial(link = "logit"))
+fitOR <- glm(y ~ Education + Examination + Infant.Mortality + Catholic,
+             family = binomial(link = "logit"), data = swiss)
 
 # print Odds Ratios as dots
 sjp.glm(fitOR)
@@ -260,9 +234,15 @@ sjp.glm(fit,
         axisLabels.y = predlab)
 
 # --------------------------
-# model predictions
+# model predictions, with selected model terms.
+# 'vars' needs to be a character vector of length 1 or 2
+# with names of model terms for x-axis and grouping factor.
 # --------------------------
-sjp.glm(fit, type = "y.pc", vars = c("barthel", "dep"))
+sjp.glm(fit, type = "y.pc", vars = "barthel")
+# faceted, with ci
+sjp.glm(fit, type = "y.pc", vars = c("barthel", "dep"), show.ci = TRUE)
+# w/o facets
+sjp.glm(fit, type = "y.pc", vars = c("barthel", "dep"), facet.grid = FALSE)
 
 }
 \seealso{

@@ -32,7 +32,8 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   \item{\code{"fe.ri"}}{for fixed effects slopes depending on the random intercept.}
   \item{\code{"rs.ri"}}{for fitted regression lines indicating the random slope-intercept pairs. Use this to visualize the random parts of random slope-intercept (or repeated measure) models. When having too many groups, use \code{sample.n} argument.}
   \item{\code{"coef"}}{for joint (sum of) random and fixed effects coefficients for each explanatory variable for each level of each grouping factor as forest plot.}
-  \item{\code{"resp"}}{to plot predicted values for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot.}
+  \item{\code{"resp"}}{to plot predicted values for the response, related to specific model predictors and conditioned on random effects. See 'Details'.}
+  \item{\code{"resp.fe"}}{to plot predicted values for the response, related to specific model predictors and conditioned on fixed effects only. See 'Details'.}
   \item{\code{"eff"}}{to plot marginal effects of all fixed terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms. See also 'Details' of \code{\link{sjp.lm}}.}
   \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples' here and 'Details' of \code{\link{sjp.lm}}).}
   \item{\code{"ma"}}{to check model assumptions. Note that no further arguments except \code{fit} are relevant for this option. All other arguments are ignored.}
@@ -215,12 +216,16 @@ By default, this function plots estimates (coefficients) with confidence
            \item{\code{type = "coef"}}{forest plot of joint fixed and random
            effect coefficients, as retrieved by \code{\link[lme4]{coef.merMod}},
            it's simply \code{\link[lme4]{ranef} + \link[lme4]{fixef}}.}
-           \item{\code{type = "resp"}}{regression line for
-           predicted values against response, only fixed effects and
-           conditional on random intercept. It's calling
+           \item{\code{type = "resp"} or \code{type = "resp.fe"}}{predicted
+           values for response, conditional on fixed effects only or on random 
+           intercept. It's calling
            \code{predict(fit, type = "response", re.form = NA)} resp.
            \code{predict(fit, type = "response", re.form = NULL)} to
-           compute the values.}
+           compute the values.
+           This plot type requires the \code{vars} argument to select specific terms
+           that should be used for the x-axis and - optional - as grouping factor. 
+           Hence, \code{vars} must be a character vector with the names of
+           one or two model predictors. See 'Examples'.}
          }
 }
 \note{
@@ -320,7 +325,21 @@ fit_s <- lmer(neg_c_7 ~ sex + c12hour + barthel_s +
 sjp.lmer(fit_s, type = "poly", poly.term = "barthel_s")
 
 # scaling also improved p-values
-sjt.lmer(fit, fit_s)}
+sjt.lmer(fit, fit_s)
+
+
+# --------------------------
+# plotting predicted values for response
+# --------------------------
+# conditioned on random effects
+sjp.lmer(fit, type = "resp", vars = "c12hour")
+
+# grouped, for fixed effects only
+sjp.lmer(fit, type = "resp.fe", vars = c("c12hour", "sex"))
+
+# grouped, for fixed effects only, non-facted
+sjp.lmer(fit, type = "resp.fe", vars = c("c12hour", "sex"), 
+facet.grid = FALSE, show.ci = FALSE)}
 
 }
 \seealso{

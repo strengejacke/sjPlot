@@ -28,7 +28,8 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   \item{\code{"ri.pc"}}{or \code{"ri.prob"} to plot probability curves (predicted probabilities) of random intercept variances for all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
   \item{\code{"rs.ri"}}{for fitted probability curves (predicted probabilities) indicating the random slope-intercept pairs. Use this to visualize the random parts of random slope-intercept (or repeated measure) models. When having too many groups, use \code{sample.n} argument.}
   \item{\code{"eff"}}{to plot marginal effects of predicted probabilities or incidents for each fixed term, where remaining co-variates are set to the mean. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
-  \item{\code{"y.pc"}}{or \code{"y.prob"} to plot predicted probabilities for the response, with and without random effects. Use \code{facet.grid} to decide whether to plot with and w/o random effect plots as separate plot or as integrated faceted plot. See 'Details'.}
+  \item{\code{"y.pc"}}{or \code{"y.prob"} to plot predicted probabilities or incidents for the response, related to specific model predictors and conditioned on random effects. See 'Details'.}
+  \item{\code{"y.pc.fe"}}{to plot predicted probabilities or incidents for the response, related to specific model predictors, only for fixed effects. See 'Details'.}
   \item{\code{"ma"}}{to check model assumptions. Note that only argument \code{fit} applies to this plot type. All other arguments are ignored.}
 }}
 
@@ -143,11 +144,10 @@ a legend for grouped estimates is shown.}
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
-(Insisibily) returns
+(Insisibily) returns, depending on the plot type
          \itemize{
-           \item the ggplot-object (\code{plot}), if \code{type = "fe"} or if \code{type = "re"} and \code{facet.grid = TRUE}). Multiple plots (\code{type = "re"} and if \code{facet.grid = FALSE}) are returned in the object \code{plot.list}.
-           \item a list of ggplot-objects (\code{plot.list}). See \code{plot} for details.
-           \item a data frame \code{data} with the data used to build the ggplot-object(s).
+           \item The ggplot-object (\code{plot}). For multiple plots and if \code{facet.grid = FALSE}) a \code{plot.list} is returned.
+           \item A data frame \code{data} with the data used to build the ggplot-object(s), or a list of data frames (\code{data.list}).
            }
 }
 \description{
@@ -167,8 +167,11 @@ By default, this function plots estimates (odds, risk or incidents
            fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),
            which corresponds to \code{family(fit)$linkinv(eta = b0 + bi * xi)} (where \code{xi}
            is the estimate of fixed effects and \code{b0} is the intercept of
-           the fixed effects; the inverse link-function is used).}
-           \item{\code{type = "eff"}}{unlike \code{type = "fe.pc"}, the predicted values
+           the fixed effects; the inverse link-function is used). This plot type 
+           may give similar results as \code{type = "y.pc"}, however, \code{type = "fe.pc"} 
+           does not adjust for other predictors.}
+           \item{\code{type = "eff"}}{plots the marginal effects of model predictors.
+           Unlike \code{type = "fe.pc"}, the predicted values
            computed by \code{type = "eff"} have all co-variates
            set to the mean, as returned by the \code{\link[effects]{allEffects}} function.}
            \item{\code{type = "ri.pc"}}{(or \code{"ri.prob"}), the predicted values
@@ -189,12 +192,16 @@ By default, this function plots estimates (odds, risk or incidents
            \item{\code{type = "coef"}}{forest plot of joint fixed and random
            effect coefficients, as retrieved by \code{\link[lme4]{coef.merMod}},
            it's simply \code{\link[lme4]{ranef} + \link[lme4]{fixef}}.}
-           \item{\code{type = "y.pc"}}{(or \code{"y.prob"}) predicted probabilities
-           against response, only fixed effects and
+           \item{\code{type = "y.pc"} or \code{type = "y.pc.fe"}}{predicted 
+           values against response, only fixed effects or
            conditional on random intercept. It's calling
            \code{predict(fit, type = "response", re.form = NA)} resp.
            \code{predict(fit, type = "response", re.form = NULL)} to
-           compute the values.}
+           compute the values.
+           This plot type requires the \code{vars} argument to select specific terms
+           that should be used for the x-axis and - optional - as grouping factor. 
+           Hence, \code{vars} must be a character vector with the names of
+           one or two model predictors. See 'Examples'.}
          }
 }
 \note{
@@ -264,6 +271,23 @@ sjp.glmer(fit,
           type = "fe.pc",
           vars = "neg_c_7")
 
+# plot predicted probabilities for response,
+# related to model predictor, conditioned on random effects
+sjp.glmer(fit,
+          type = "y.pc",
+          vars = "neg_c_7")
+
+# plot predicted probabilities for response,
+# related to model predictor, grouped
+sjp.glmer(fit,
+          type = "y.pc.fe",
+          vars = c("neg_c_7", "sex"))
+          
+# non faceted, with ci           
+sjp.glmer(fit, type = "y.pc.fe", vars = c("neg_c_7", "sex"), 
+          show.ci = TRUE, facet.grid = FALSE)
+
+                     
 }
 \seealso{
 \href{http://www.strengejacke.de/sjPlot/sjp.glmer/}{sjPlot manual: sjp.glmer}
