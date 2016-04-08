@@ -31,7 +31,10 @@ openend either in the IDE's viewer pane or the default web browser.}
 
 \item{labelPredictors}{character vector with labels of predictor variables.
 If not \code{NULL}, \code{labelPredictors} will be used in the first
-table column with the predictors' names. See 'Examples'.}
+table column with the predictors' names. If \code{NULL}, variable
+labels are set based on label attributes (see \code{\link[sjmisc]{get_label}}),
+If \code{labelPredictors = ""}, column names (vector names) are used
+as predictor labels. See 'Examples'.}
 
 \item{labelDependentVariables}{character vector with labels of dependent 
 variables of all fitted models. See 'Examples'.}
@@ -212,11 +215,11 @@ efc$care.level <- as.factor(sjmisc::rec(efc$n4pstu, "0=0;1=1;2=2;3:4=4"))
 levels(x = efc$care.level) <- c("none", "I", "II", "III")
 
 # data frame for fitted model
-mydf <- data.frame(neg_c_7 = as.numeric(efc$neg_c_7),
-                   sex = as.factor(efc$c161sex),
-                   c12hour = as.numeric(efc$c12hour),
-                   barthel = as.numeric(efc$barthtot),
-                   education = as.factor(efc$c172code),
+mydf <- data.frame(neg_c_7 = efc$neg_c_7,
+                   sex = to_factor(efc$c161sex,
+                   c12hour = efc$c12hour,
+                   barthel = efc$barthtot,
+                   education = to_factor(efc$c172code),
                    grp = efc$grp,
                    carelevel = efc$care.level)
                    
@@ -232,6 +235,10 @@ sjt.lmer(fit1, fit2,
          ci.hyphen = " to ",
          minus.sign = "&minus;")
 
+# print table, using vector names as labels
+sjt.lmer(fit1, fit2, fit3, labelPredictors = "")
+
+# show other statistics
 sjt.lmer(fit1, fit2,
          showAIC = TRUE,
          showConfInt = FALSE,
@@ -242,7 +249,8 @@ sjt.lmer(fit1, fit2, fit3,
          showAIC = TRUE,
          separateConfColumn = FALSE,
          newLineConf = FALSE)
-         
+
+# user defined predictor labels
 sjt.lmer(fit1, fit2, fit3,
          labelPredictors = c("Elder's gender (female)",
                              "Hours of care per week",

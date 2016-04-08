@@ -30,7 +30,10 @@ openend either in the IDE's viewer pane or the default web browser.}
 
 \item{labelPredictors}{character vector with labels of predictor variables.
 If not \code{NULL}, \code{labelPredictors} will be used in the first
-table column with the predictors' names. See 'Examples'.}
+table column with the predictors' names. If \code{NULL}, variable
+labels are set based on label attributes (see \code{\link[sjmisc]{get_label}}),
+If \code{labelPredictors = ""}, column names (vector names) are used
+as predictor labels. See 'Examples'.}
 
 \item{labelDependentVariables}{character vector with labels of dependent 
 variables of all fitted models. See 'Examples'.}
@@ -213,11 +216,11 @@ efc$hi_qol <- dicho(efc$quol_5)
 efc$grp = as.factor(efc$e15relat)
 levels(x = efc$grp) <- get_labels(efc$e15relat)
 # data frame for fitted model
-mydf <- data.frame(hi_qol = as.factor(efc$hi_qol),
-                   sex = as.factor(efc$c161sex),
-                   c12hour = as.numeric(efc$c12hour),
-                   neg_c_7 = as.numeric(efc$neg_c_7),
-                   education = as.factor(efc$c172code),
+mydf <- data.frame(hi_qol = to_factor(efc$hi_qol),
+                   sex = to_factor(efc$c161sex),
+                   c12hour = efc$c12hour,
+                   neg_c_7 = efc$neg_c_7,
+                   education = efc$c172code,
                    grp = efc$grp)
                    
 # fit glmer
@@ -245,7 +248,11 @@ sjt.glmer(fit1, fit2,
                               "Hours of care per week",
                               "Negative Impact",
                               "Educational level (mid)",
-                              "Educational level (high)"))}
+                              "Educational level (high)"))
+
+# use vector names as predictor labels
+sjt.glmer(fit1, fit2, labelPredictors = "")}
+
 
 }
 

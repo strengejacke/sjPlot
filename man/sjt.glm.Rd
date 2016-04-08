@@ -30,7 +30,10 @@ openend either in the IDE's viewer pane or the default web browser.}
 
 \item{labelPredictors}{character vector with labels of predictor variables.
 If not \code{NULL}, \code{labelPredictors} will be used in the first
-table column with the predictors' names. See 'Examples'.}
+table column with the predictors' names. If \code{NULL}, variable
+labels are set based on label attributes (see \code{\link[sjmisc]{get_label}}),
+If \code{labelPredictors = ""}, column names (vector names) are used
+as predictor labels. See 'Examples'.}
 
 \item{labelDependentVariables}{character vector with labels of dependent 
 variables of all fitted models. See 'Examples'.}
@@ -202,36 +205,29 @@ See 'Notes' in \code{\link{sjt.frq}}.
 }
 \examples{
 # prepare dummy variables for binary logistic regression
-y1 <- ifelse(swiss$Fertility < median(swiss$Fertility), 0, 1)
-y2 <- ifelse(swiss$Infant.Mortality < median(swiss$Infant.Mortality), 0, 1)
-y3 <- ifelse(swiss$Agriculture < median(swiss$Agriculture), 0, 1)
+swiss$y1 <- ifelse(swiss$Fertility < median(swiss$Fertility), 0, 1)
+swissyy2 <- ifelse(swiss$Infant.Mortality < median(swiss$Infant.Mortality), 0, 1)
+swiss$y3 <- ifelse(swiss$Agriculture < median(swiss$Agriculture), 0, 1)
 
 # Now fit the models. Note that both models share the same predictors
 # and only differ in their dependent variable (y1, y2 and y3)
-fitOR1 <- glm(y1 ~ swiss$Education + swiss$Examination+swiss$Catholic,
+fitOR1 <- glm(y1 ~ Education + Examination + Catholic, data = swiss,
               family = binomial(link = "logit"))
-fitOR2 <- glm(y2 ~ swiss$Education + swiss$Examination+swiss$Catholic,
+fitOR2 <- glm(y2 ~ Education + Examination + Catholic, data = swiss,
               family = binomial(link = "logit"))
-fitOR3 <- glm(y3 ~ swiss$Education + swiss$Examination+swiss$Catholic,
+fitOR3 <- glm(y3 ~ Education + Examination + Catholic, data = swiss,
               family = binomial(link = "logit"))
 
-# open HTML-table in RStudio Viewer Pane or web browser
 \dontrun{
-sjt.glm(fitOR1, 
-        fitOR2, 
-        labelDependentVariables = c("Fertility", 
-                                    "Infant Mortality"),
-        labelPredictors = c("Education", 
-                            "Examination", 
-                            "Catholic"),
-         ci.hyphen = " to ")
+# open HTML-table in RStudio Viewer Pane or web browser
+sjt.glm(fitOR1, fitOR2, 
+        labelDependentVariables = c("Fertility", "Infant Mortality"),
+        labelPredictors = c("Education", "Examination", "Catholic"),
+        ci.hyphen = " to ")
 
 # open HTML-table in RStudio Viewer Pane or web browser,
 # integrate CI in OR column
 sjt.glm(fitOR1, fitOR2, fitOR3,
-        labelDependentVariables = c("Fertility", 
-                                    "Infant Mortality", 
-                                    "Agriculture"),
         labelPredictors = c("Education", "Examination", "Catholic"),
         separateConfColumn = FALSE)
 
@@ -269,14 +265,14 @@ data(efc)
 efc$services <- sjmisc::dicho(efc$tot_sc_e, "v", 0, as.num = TRUE)
 # fit 3 models with different link-functions
 fit1 <- glm(services ~ neg_c_7 + c161sex + e42dep, 
-            data=efc, 
-            family=binomial(link="logit"))
+            data = efc, 
+            family = binomial(link = "logit"))
 fit2 <- glm(services ~ neg_c_7 + c161sex + e42dep, 
-            data=efc, 
-            family=binomial(link="probit"))
+            data = efc, 
+            family = binomial(link = "probit"))
 fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep, 
-            data=efc, 
-            family=poisson(link="log"))
+            data = efc, 
+            family = poisson(link = "log"))
             
 # compare models
 sjt.glm(fit1, fit2, fit3, 

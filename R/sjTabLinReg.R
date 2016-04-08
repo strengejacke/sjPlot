@@ -17,7 +17,10 @@ utils::globalVariables(c("starts_with"))
 #' @param ... one or more fitted linear (mixed) models.
 #' @param labelPredictors character vector with labels of predictor variables.
 #'          If not \code{NULL}, \code{labelPredictors} will be used in the first
-#'          table column with the predictors' names. See 'Examples'.
+#'          table column with the predictors' names. If \code{NULL}, variable
+#'          labels are set based on label attributes (see \code{\link[sjmisc]{get_label}}),
+#'          If \code{labelPredictors = ""}, column names (vector names) are used
+#'          as predictor labels. See 'Examples'.
 #' @param labelDependentVariables character vector with labels of dependent 
 #'          variables of all fitted models. See 'Examples'.
 #' @param stringPredictors string constant used as headline for the predictor column.
@@ -153,6 +156,9 @@ utils::globalVariables(c("starts_with"))
 #'                            "Hours of Care", 
 #'                            "Carer's Sex", 
 #'                            "Educational Status"))
+#' 
+#' # use vector names as labels
+#' sjt.lm(fit1, fit2, labelPredictors = "")
 #' 
 #' # show HTML-table, indicating p-values as asterisks
 #' sjt.lm(fit1, 
@@ -1579,11 +1585,11 @@ sjt.lm <- function(...,
 #' levels(x = efc$care.level) <- c("none", "I", "II", "III")
 #' 
 #' # data frame for fitted model
-#' mydf <- data.frame(neg_c_7 = as.numeric(efc$neg_c_7),
-#'                    sex = as.factor(efc$c161sex),
-#'                    c12hour = as.numeric(efc$c12hour),
-#'                    barthel = as.numeric(efc$barthtot),
-#'                    education = as.factor(efc$c172code),
+#' mydf <- data.frame(neg_c_7 = efc$neg_c_7,
+#'                    sex = to_factor(efc$c161sex,
+#'                    c12hour = efc$c12hour,
+#'                    barthel = efc$barthtot,
+#'                    education = to_factor(efc$c172code),
 #'                    grp = efc$grp,
 #'                    carelevel = efc$care.level)
 #'                    
@@ -1599,6 +1605,10 @@ sjt.lm <- function(...,
 #'          ci.hyphen = " to ",
 #'          minus.sign = "&minus;")
 #' 
+#' # print table, using vector names as labels
+#' sjt.lmer(fit1, fit2, fit3, labelPredictors = "")
+#' 
+#' # show other statistics
 #' sjt.lmer(fit1, fit2,
 #'          showAIC = TRUE,
 #'          showConfInt = FALSE,
@@ -1609,7 +1619,8 @@ sjt.lm <- function(...,
 #'          showAIC = TRUE,
 #'          separateConfColumn = FALSE,
 #'          newLineConf = FALSE)
-#'          
+#'
+#' # user defined predictor labels
 #' sjt.lmer(fit1, fit2, fit3,
 #'          labelPredictors = c("Elder's gender (female)",
 #'                              "Hours of care per week",

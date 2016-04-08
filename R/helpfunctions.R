@@ -475,6 +475,14 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
     fit <- models[[k]]
     # copy model matrix
     fmodel <- stats::model.frame(fit)
+    # get model coefficients' names
+    if (is_merMod(fit)) {
+      # for merMod, remove random parts. Therefor, get random part terms
+      tmp <- stats::terms(stats::formula(fit))
+      rnd.terms <- grep("|", attr(tmp, "term.labels"), fixed = TRUE, value = FALSE) + 1
+      # now remove random parts from model frame
+      fmodel <- fmodel[, -rnd.terms]
+    }
     # retrieve all factors from model
     for (grp.cnt in 1:ncol(fmodel)) {
       # get variable
@@ -559,6 +567,7 @@ is_merMod <- function(fit) {
 
 # automatically retrieve predictor labels
 # of fitted (g)lm
+#' @importFrom stats formula terms
 retrieveModelLabels <- function(models, group.pred) {
   fit.labels <- c()
   for (k in 1:length(models)) {
@@ -571,10 +580,16 @@ retrieveModelLabels <- function(models, group.pred) {
     # get model frame
     m_f <- stats::model.frame(fit)
     # get model coefficients' names
-    if (is_merMod(fit))
+    if (is_merMod(fit)) {
       coef_names <- names(lme4::fixef(fit))
-    else
+      # for merMod, remove random parts. Therefor, get random part terms
+      tmp <- stats::terms(stats::formula(fit))
+      rnd.terms <- grep("|", attr(tmp, "term.labels"), fixed = TRUE, value = FALSE) + 1
+      # now remove random parts from model frame
+      m_f <- m_f[, -rnd.terms]
+    } else {
       coef_names <- names(stats::coef(fit))
+    }
     # iterate coefficients (1 is intercept or response)
     for (i in 2:ncol(m_f)) {
       # check bounds

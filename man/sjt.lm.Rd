@@ -31,7 +31,10 @@ openend either in the IDE's viewer pane or the default web browser.}
 
 \item{labelPredictors}{character vector with labels of predictor variables.
 If not \code{NULL}, \code{labelPredictors} will be used in the first
-table column with the predictors' names. See 'Examples'.}
+table column with the predictors' names. If \code{NULL}, variable
+labels are set based on label attributes (see \code{\link[sjmisc]{get_label}}),
+If \code{labelPredictors = ""}, column names (vector names) are used
+as predictor labels. See 'Examples'.}
 
 \item{labelDependentVariables}{character vector with labels of dependent 
 variables of all fitted models. See 'Examples'.}
@@ -235,6 +238,9 @@ sjt.lm(fit1,
                            "Hours of Care", 
                            "Carer's Sex", 
                            "Educational Status"))
+
+# use vector names as labels
+sjt.lm(fit1, fit2, labelPredictors = "")
 
 # show HTML-table, indicating p-values as asterisks
 sjt.lm(fit1, 
