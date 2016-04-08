@@ -170,7 +170,7 @@ utils::globalVariables(c("starts_with"))
 #' # dichtomozize service usage by "service usage yes/no"
 #' efc$services <- sjmisc::dicho(efc$tot_sc_e, "v", 0, as.num = TRUE)
 #' # make dependency categorical
-#' efc$e42dep <- to_fac(efc$e42dep)
+#' efc$e42dep <- to_factor(efc$e42dep)
 #' # fit model with "grouped" predictor
 #' fit <- glm(services ~ neg_c_7 + c161sex + e42dep, data = efc)
 #' 
@@ -188,7 +188,7 @@ utils::globalVariables(c("starts_with"))
 #' # print models with different predictors
 #' sjt.glm(fit, fit2, fit3)
 #' 
-#' efc$c172code <- to_fac(efc$c172code)
+#' efc$c172code <- to_factor(efc$c172code)
 #' fit2 <- glm(services ~ neg_c_7 + c161sex + c12hour, data = efc)
 #' fit3 <- glm(services ~ neg_c_7 + c161sex + c172code, data = efc)
 #' 
@@ -205,7 +205,6 @@ sjt.glm <- function(...,
                     stringPredictors = "Predictors",
                     stringDependentVariables = "Dependent Variables",
                     showHeaderStrings = FALSE,
-                    stringModel = "Model",
                     stringIntercept = "(Intercept)",
                     stringObservations = "Observations",
                     stringOR = "OR",
@@ -638,50 +637,51 @@ sjt.glm <- function(...,
     tcp <- " topborder"
   }
   # -------------------------------------
+  # set default dependent var label
+  # -------------------------------------
+  if (is.null(labelDependentVariables)) {
+    # here we try to find variable labels for each
+    # response vector. if we found a label for *all*
+    # responses, we use these as labels for the dependent
+    # variables, in the table column headers
+    labelDependentVariables <- c()
+    # iterate models
+    for (i in 1:length(input_list)) {
+      # get model data
+      m_d <- get_lm_data(input_list[[i]])
+      # get model response
+      resp_vec <- m_d$resp
+      resp_name <- m_d$resp.label
+      # get label
+      labelDependentVariables <- c(labelDependentVariables, 
+                                   sjmisc::get_label(resp_vec, def.value = resp_name))
+    }
+  }
+  # -------------------------------------
   # continue with model-labels (dependent variables)
   # which are the heading for each model column
   # -------------------------------------
-  if (!is.null(labelDependentVariables)) {
-    for (i in 1:length(labelDependentVariables)) {
-      # -------------------------
-      # insert "separator column"
-      # -------------------------
-      page.content <- paste0(page.content, sprintf("\n    <td class=\"separatorcol%s\">&nbsp;</td>", tcp))
-      if (headerColSpanFactor > 1) {
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\" colspan=\"%i\">%s</td>", 
-                                                     tcp, 
-                                                     headerColSpanFactor, 
-                                                     labelDependentVariables[i]))
-      } else {
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\">%s</td>", 
-                                                     tcp, 
-                                                     labelDependentVariables[i]))
-      }
+  for (i in 1:length(labelDependentVariables)) {
+    # -------------------------
+    # insert "separator column"
+    # -------------------------
+    page.content <- paste0(page.content, sprintf("\n    <td class=\"separatorcol%s\">&nbsp;</td>", tcp))
+    if (headerColSpanFactor > 1) {
+      page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\" colspan=\"%i\">%s</td>", 
+                                                   tcp, 
+                                                   headerColSpanFactor, 
+                                                   labelDependentVariables[i]))
+    } else {
+      page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\">%s</td>", 
+                                                   tcp, 
+                                                   labelDependentVariables[i]))
     }
-    page.content <- paste0(page.content, "\n  </tr>")
-  } else {
-    for (i in 1:length(input_list)) {
-      # -------------------------
-      # insert "separator column"
-      # -------------------------
-      page.content <- paste0(page.content, sprintf("\n    <td class=\"separatorcol%s\">&nbsp;</td>", tcp))
-      if (headerColSpanFactor > 1) {
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\" colspan=\"%i\">%s %i</td>", 
-                                                     tcp, 
-                                                     headerColSpanFactor, 
-                                                     stringModel, i))
-      } else {
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\">%s %i</td>", 
-                                                     tcp, 
-                                                     stringModel, i))
-      }
-    }
-    page.content <- paste0(page.content, "\n  </tr>")
   }
+  page.content <- paste0(page.content, "\n  </tr>")
   # -------------------------------------
   # set default predictor labels
   # -------------------------------------
-  if (is.null(labelPredictors) && !lmerob) {
+  if (is.null(labelPredictors)) {
     labelPredictors <- suppressWarnings(retrieveModelLabels(input_list, group.pred = group.pred))
   }
   # --------------------------------------------------------
@@ -1406,7 +1406,6 @@ sjt.glmer <- function(...,
                       stringPredictors = "Predictors",
                       stringDependentVariables = "Dependent Variables",
                       showHeaderStrings = FALSE,
-                      stringModel = "Model",
                       stringIntercept = "(Intercept)",
                       stringObservations = "Observations",
                       stringOR = "OR",
@@ -1450,7 +1449,7 @@ sjt.glmer <- function(...,
   return(sjt.glm(input_list, file = file, labelPredictors = labelPredictors, 
                  labelDependentVariables = labelDependentVariables, stringPredictors = stringPredictors, 
                  stringDependentVariables = stringDependentVariables, showHeaderStrings = showHeaderStrings, 
-                 stringModel = stringModel, stringIntercept = stringIntercept,
+                 stringIntercept = stringIntercept,
                  stringObservations = stringObservations, stringOR = stringOR,
                  stringCI = stringCI, stringSE = stringSE, stringP = stringP, 
                  digits.est = digits.est, digits.p = digits.p, digits.ci = digits.ci,

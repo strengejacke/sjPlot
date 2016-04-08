@@ -6,7 +6,7 @@
 \usage{
 sjt.lm(..., file = NULL, labelPredictors = NULL,
   labelDependentVariables = NULL, stringPredictors = "Predictors",
-  stringDependentVariables = "Dependent Variables", stringModel = "Model",
+  stringDependentVariables = "Dependent Variables",
   showHeaderStrings = FALSE, stringIntercept = "(Intercept)",
   stringObservations = "Observations", stringB = "B",
   stringSB = "std. Beta", stringCI = "CI", stringSE = "std. Error",
@@ -41,10 +41,6 @@ Default is \code{"Predictors"}.}
 
 \item{stringDependentVariables}{string constant used as headline for the 
 dependent variable columns. Default is \code{"Dependent Variables"}.}
-
-\item{stringModel}{string constant used as headline for the model names in case no 
-labels for the dependent variables are provided (see \code{labelDependentVariables}).
-Default is \code{"Model"}.}
 
 \item{showHeaderStrings}{logical, if \code{TRUE}, the header strings \code{stringPredictors}
 and \code{stringDependentVariables} are shown. By default, they're hidden.}
@@ -387,7 +383,7 @@ sjt.lm(fit1, fit2, fit3)
 # ---------------------------------------- 
 
 # make cope-index categorical
-efc$c82cop1 <- to_fac(efc$c82cop1)
+efc$c82cop1 <- to_factor(efc$c82cop1)
 # fit another model
 fit4 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e + c82cop1, 
            data = efc)

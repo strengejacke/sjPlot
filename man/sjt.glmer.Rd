@@ -7,11 +7,10 @@
 sjt.glmer(..., file = NULL, labelPredictors = NULL,
   labelDependentVariables = NULL, stringPredictors = "Predictors",
   stringDependentVariables = "Dependent Variables",
-  showHeaderStrings = FALSE, stringModel = "Model",
-  stringIntercept = "(Intercept)", stringObservations = "Observations",
-  stringOR = "OR", stringCI = "CI", stringSE = "std. Error",
-  stringP = "p", digits.est = 2, digits.p = 3, digits.ci = 2,
-  digits.se = 2, digits.summary = 3, exp.coef = TRUE,
+  showHeaderStrings = FALSE, stringIntercept = "(Intercept)",
+  stringObservations = "Observations", stringOR = "OR", stringCI = "CI",
+  stringSE = "std. Error", stringP = "p", digits.est = 2, digits.p = 3,
+  digits.ci = 2, digits.se = 2, digits.summary = 3, exp.coef = TRUE,
   pvaluesAsNumbers = TRUE, boldpvalues = TRUE, showConfInt = TRUE,
   showStdError = FALSE, ci.hyphen = "&nbsp;&ndash;&nbsp;",
   separateConfColumn = TRUE, newLineConf = TRUE, group.pred = FALSE,
@@ -44,10 +43,6 @@ dependent variable columns. Default is \code{"Dependent Variables"}.}
 
 \item{showHeaderStrings}{logical, if \code{TRUE}, the header strings \code{stringPredictors}
 and \code{stringDependentVariables} are shown. By default, they're hidden.}
-
-\item{stringModel}{string constant used as headline for the model names in case no 
-labels for the dependent variables are provided (see \code{labelDependentVariables}).
-Default is \code{"Model"}.}
 
 \item{stringIntercept}{string constant used as headline for the Intercept row.
 Default is \code{"Intercept"}.}

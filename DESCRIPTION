@@ -2,8 +2,8 @@ Package: sjPlot
 Type: Package
 Encoding: UTF-8
 Title: Data Visualization for Statistics in Social Science
-Version: 1.9.4-4
-Date: 2016-04-07
+Version: 1.9.4-5
+Date: 2016-04-08
 Author: Daniel Lüdecke <d.luedecke@uke.de>
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
 Description: Collection of plotting and table output functions for data
@@ -25,14 +25,14 @@ Imports:
     car,
     dplyr (>= 0.4.3),
     effects,
-    ggplot2 (>= 2.0.0),
-    lme4 (>= 1.1-8),
+    ggplot2 (>= 2.1.0),
+    lme4 (>= 1.1-10),
     MASS,
     magrittr,
     nlme,
     psych,
     scales,
-    sjmisc (>= 1.6),
+    sjmisc (>= 1.7),
     tidyr (>= 0.4.1)
 Suggests:
     AICcmodavg,

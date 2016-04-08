@@ -13,6 +13,38 @@ base_breaks <- function(n = 10) {
 }
 
 
+get_lm_data <- function(fit) {
+  if (any(class(fit) == "plm")) {
+    # plm objects have different structure than (g)lm
+    fit_x <- data.frame(cbind(as.vector(fit$model[, 1]), stats::model.matrix(fit)))
+    depvar.label <- attr(attr(attr(fit$model, "terms"), "dataClasses"), "names")[1]
+    # retrieve response vector
+    resp <- as.vector(fit$model[, 1])
+  } else if (any(class(fit) == "pggls")) {
+    # plm objects have different structure than (g)lm
+    fit_x <- data.frame(fit$model)
+    depvar.label <- attr(attr(attr(fit$model, "terms"), "dataClasses"), "names")[1]
+    # retrieve response vector
+    resp <- as.vector(fit$model[, 1])
+  } else if (is_merMod(fit)) {
+    fit_x <- data.frame(stats::model.matrix(fit))
+    # retrieve response vector
+    resp <- stats::model.frame(fit)[[1]]
+    depvar.label <- colnames(stats::model.frame(fit))[1]
+  } else if (any(class(fit) == "gls")) {
+    fit_x <- data.frame(stats::model.matrix(fit))
+    resp <- nlme::getResponse(fit)
+    depvar.label <- attr(resp, "label")
+  } else {
+    fit_x <- data.frame(stats::model.matrix(fit))
+    depvar.label <- colnames(stats::model.frame(fit))[1]
+    # retrieve response vector
+    resp <- stats::model.frame(fit)[[1]]
+  }
+  return(list(matrix = fit_x, resp.label = depvar.label, resp = resp))
+}
+
+
 get_glm_family <- function(fit) {
   c.f <- class(fit)
   # ------------------------
@@ -520,6 +552,11 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
 }
 
 
+is_merMod <- function(fit) {
+  return(any(class(fit) %in% c("lmerMod", "glmerMod", "nlmerMod", "merModLmerTest")))
+}
+
+
 # automatically retrieve predictor labels
 # of fitted (g)lm
 retrieveModelLabels <- function(models, group.pred) {
@@ -534,48 +571,54 @@ retrieveModelLabels <- function(models, group.pred) {
     # get model frame
     m_f <- stats::model.frame(fit)
     # get model coefficients' names
-    coef_names <- names(stats::coef(fit))
+    if (is_merMod(fit))
+      coef_names <- names(lme4::fixef(fit))
+    else
+      coef_names <- names(stats::coef(fit))
     # iterate coefficients (1 is intercept or response)
     for (i in 2:ncol(m_f)) {
-      # get predictor
-      pvar <- m_f[, i]
-      # check if we have a variable label
-      lab <- sjmisc::get_label(pvar, def.value = colnames(m_f)[i])
-      # get model coefficients' names
-      coef_name <- coef_names[i]
-      # is predictor a factor?
-      # if yes, we have this variable multiple
-      # times, so manually set value labels
-      if (is.factor(pvar)) {
-        # get amount of levels
-        pvar.len <- length(levels(pvar))
-        # get value labels, if any
-        pvar.lab <- sjmisc::get_labels(pvar)
-        # have any labels, and have we same amount of labels
-        # as factor levels?
-        if (!is.null(pvar.lab) && length(pvar.lab) == pvar.len) {
-          # add labels
-          if (sjmisc::str_contains(fit.labels, pattern = pvar.lab[2:pvar.len], logic = "NOT")) {
-            # create labels
-            if (isTRUE(group.pred) && pvar.len > 2) {
-              # if predictor grouping is enabled, don't use variable labels again
-              labels.to.add <- pvar.lab[2:pvar.len]
-            } else {
-              # else, if we have not grouped predictors, we have no headin
-              # with variable label, hence, factor levels may not be intuitiv.
-              # thus, add variable label so values have a meaning
-              labels.to.add <- sprintf("%s (%s)", lab, pvar.lab[2:pvar.len])
+      # check bounds
+      if (i <= length(coef_names)) {
+        # get predictor
+        pvar <- m_f[, i]
+        # check if we have a variable label
+        lab <- sjmisc::get_label(pvar, def.value = colnames(m_f)[i])
+        # get model coefficients' names
+        coef_name <- coef_names[i]
+        # is predictor a factor?
+        # if yes, we have this variable multiple
+        # times, so manually set value labels
+        if (is.factor(pvar)) {
+          # get amount of levels
+          pvar.len <- length(levels(pvar))
+          # get value labels, if any
+          pvar.lab <- sjmisc::get_labels(pvar)
+          # have any labels, and have we same amount of labels
+          # as factor levels?
+          if (!is.null(pvar.lab) && length(pvar.lab) == pvar.len) {
+            # add labels
+            if (sjmisc::str_contains(fit.labels, pattern = pvar.lab[2:pvar.len], logic = "NOT")) {
+              # create labels
+              if (isTRUE(group.pred) && pvar.len > 2) {
+                # if predictor grouping is enabled, don't use variable labels again
+                labels.to.add <- pvar.lab[2:pvar.len]
+              } else {
+                # else, if we have not grouped predictors, we have no headin
+                # with variable label, hence, factor levels may not be intuitiv.
+                # thus, add variable label so values have a meaning
+                labels.to.add <- sprintf("%s (%s)", lab, pvar.lab[2:pvar.len])
+              }
+              fit.labels <- c(fit.labels, labels.to.add)
             }
-            fit.labels <- c(fit.labels, labels.to.add)
+          } else {
+            # add labels
+            if (sjmisc::str_contains(fit.labels, pattern = coef_name, logic = "NOT")) {
+              fit.labels <- c(fit.labels, coef_name)
+            }
           }
         } else {
-          # add labels
-          if (sjmisc::str_contains(fit.labels, pattern = coef_name, logic = "NOT")) {
-            fit.labels <- c(fit.labels, coef_name)
-          }
+          if (!any(fit.labels == lab)) fit.labels <- c(fit.labels, lab)
         }
-      } else {
-        if (!any(fit.labels == lab)) fit.labels <- c(fit.labels, lab)
       }
     }
   }

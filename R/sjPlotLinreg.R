@@ -647,33 +647,11 @@ sjp.reglin <- function(fit,
   # retrieve column names of dataset so we can identify in which
   # column the data for each predictor is.
   # -----------------------------------------------------------
-  if (any(class(fit) == "plm")) {
-    # plm objects have different structure than (g)lm
-    fit_x <- data.frame(cbind(as.vector(fit$model[, 1]), stats::model.matrix(fit)))
-    depvar.label <- attr(attr(attr(fit$model, "terms"), "dataClasses"), "names")[1]
-    # retrieve response vector
-    resp <- as.vector(fit$model[, 1])
-  } else if (any(class(fit) == "pggls")) {
-    # plm objects have different structure than (g)lm
-    fit_x <- data.frame(fit$model)
-    depvar.label <- attr(attr(attr(fit$model, "terms"), "dataClasses"), "names")[1]
-    # retrieve response vector
-    resp <- as.vector(fit$model[, 1])
-  } else if (any(class(fit) == "lmerMod") || any(class(fit) == "merModLmerTest")) {
-    fit_x <- data.frame(stats::model.matrix(fit))
-    # retrieve response vector
-    resp <- lme4::getME(fit, "y")
-    depvar.label <- colnames(stats::model.frame(fit))[1]
-  } else if (any(class(fit) == "gls")) {
-    fit_x <- data.frame(stats::model.matrix(fit))
-    resp <- nlme::getResponse(fit)
-    depvar.label <- attr(resp, "label")
-  } else {
-    fit_x <- data.frame(stats::model.matrix(fit))
-    depvar.label <- attr(attr(fit$terms, "dataClasses"), "names")[1]
-    # retrieve response vector
-    resp <- as.vector(fit$model[, 1])
-  }
+  model_data <- get_lm_data(fit)
+  fit_x <- model_data$matrix
+  depvar.label <- model_data$resp.label
+  resp <- model_data$resp
+  # gls needs extra handling
   if (any(class(fit) == "gls")) 
     predvars <- all.vars(nlme::getCovariateFormula(fit))
   else

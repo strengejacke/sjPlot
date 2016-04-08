@@ -7,11 +7,10 @@
 sjt.glm(..., file = NULL, labelPredictors = NULL,
   labelDependentVariables = NULL, stringPredictors = "Predictors",
   stringDependentVariables = "Dependent Variables",
-  showHeaderStrings = FALSE, stringModel = "Model",
-  stringIntercept = "(Intercept)", stringObservations = "Observations",
-  stringOR = "OR", stringCI = "CI", stringSE = "std. Error",
-  stringP = "p", digits.est = 2, digits.p = 3, digits.ci = 2,
-  digits.se = 2, digits.summary = 3, exp.coef = TRUE,
+  showHeaderStrings = FALSE, stringIntercept = "(Intercept)",
+  stringObservations = "Observations", stringOR = "OR", stringCI = "CI",
+  stringSE = "std. Error", stringP = "p", digits.est = 2, digits.p = 3,
+  digits.ci = 2, digits.se = 2, digits.summary = 3, exp.coef = TRUE,
   pvaluesAsNumbers = TRUE, boldpvalues = TRUE, showConfInt = TRUE,
   showStdError = FALSE, ci.hyphen = "&nbsp;&ndash;&nbsp;",
   separateConfColumn = TRUE, newLineConf = TRUE, group.pred = TRUE,
@@ -44,10 +43,6 @@ dependent variable columns. Default is \code{"Dependent Variables"}.}
 
 \item{showHeaderStrings}{logical, if \code{TRUE}, the header strings \code{stringPredictors}
 and \code{stringDependentVariables} are shown. By default, they're hidden.}
-
-\item{stringModel}{string constant used as headline for the model names in case no 
-labels for the dependent variables are provided (see \code{labelDependentVariables}).
-Default is \code{"Model"}.}
 
 \item{stringIntercept}{string constant used as headline for the Intercept row.
 Default is \code{"Intercept"}.}
@@ -317,7 +312,7 @@ data(efc)
 # dichtomozize service usage by "service usage yes/no"
 efc$services <- sjmisc::dicho(efc$tot_sc_e, "v", 0, as.num = TRUE)
 # make dependency categorical
-efc$e42dep <- to_fac(efc$e42dep)
+efc$e42dep <- to_factor(efc$e42dep)
 # fit model with "grouped" predictor
 fit <- glm(services ~ neg_c_7 + c161sex + e42dep, data = efc)
 
@@ -335,7 +330,7 @@ fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep + c12hour + c172code,
 # print models with different predictors
 sjt.glm(fit, fit2, fit3)
 
-efc$c172code <- to_fac(efc$c172code)
+efc$c172code <- to_factor(efc$c172code)
 fit2 <- glm(services ~ neg_c_7 + c161sex + c12hour, data = efc)
 fit3 <- glm(services ~ neg_c_7 + c161sex + c172code, data = efc)
 

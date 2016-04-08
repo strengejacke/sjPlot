@@ -1116,7 +1116,13 @@ sjp.lme4  <- function(fit,
       # copy rownames as axis labels, if not set
       # ---------------------------------------
       if (empty.pred.labels) {
-        pred.labels <- rownames(mydf)
+        # use rownames, if pred.labels not available
+        pred.labels <- suppressWarnings(retrieveModelLabels(list(fit), group.pred = FALSE))
+        if (showIntercept) pred.labels <- c(stringIntercept, pred.labels)
+        # check for correct length
+        if (length(pred.labels) != nrow(mydf)) {
+          pred.labels <- rownames(mydf)
+        }
       } else {
         # check if intercept should be added, in case
         # pred.labels are passed
