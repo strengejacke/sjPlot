@@ -2167,7 +2167,7 @@ sjp.glm.eff <- function(fit,
                           grp = t)
       }
       # copy possible labels
-      tmp$label <- suppressWarnings(sjmisc::to_label(tmp$x, add.non.labelled = T))
+      tmp$label <- as.character(suppressWarnings(sjmisc::to_label(tmp$x, add.non.labelled = T)))
       # make sure x is numeric
       tmp$x <- sjmisc::to_value(tmp$x, keep.labels = F)
       # sort rows. we may need to do this if we have factors

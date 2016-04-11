@@ -280,7 +280,7 @@ sjp.lm <- function(fit,
   # -----------------------------------------------------------
   # remember length of predictor variables
   # -----------------------------------------------------------
-  predvars.length <- length(fit$coefficients)
+  predvars.length <- length(stats::coef(fit))
   # -----------------------------------------------------------
   # check argument. No model-summary supported for plm-objects
   # -----------------------------------------------------------
