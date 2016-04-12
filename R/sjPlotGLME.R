@@ -1724,7 +1724,7 @@ sjp.lme.reri <- function(fit,
     }
     # get all values of predictor that was used as random slope
     eff.range <- unique(sort(m_f[[rnd.slope.name]], na.last = NA))
-    # if it a factor?
+    # is it a factor?
     if (is.factor(eff.range)) eff.range <- sjmisc::to_value(eff.range)
     # ------------------------------
     # retrieve random effects

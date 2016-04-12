@@ -135,10 +135,12 @@ view_df <- function(x,
   tag.thead <- "thead"
   tag.tdata <- "tdata"
   tag.arc <- "arc"
+  tag.caption <- "caption"
   css.table <- "border-collapse:collapse; border:none;"
   css.thead <- "border-bottom:double; font-style:italic; font-weight:normal; padding:0.2cm; text-align:left; vertical-align:top;"
   css.tdata <- "padding:0.2cm; text-align:left; vertical-align:top;"
   css.arc <- "background-color:#eaeaea"
+  css.caption <- "font-weight: bold; text-align:left;"
   # ------------------------
   # check user defined style sheets
   # ------------------------
@@ -147,20 +149,22 @@ view_df <- function(x,
     if (!is.null(CSS[['css.thead']])) css.thead <- ifelse(substring(CSS[['css.thead']], 1, 1) == '+', paste0(css.thead, substring(CSS[['css.thead']], 2)), CSS[['css.thead']])
     if (!is.null(CSS[['css.tdata']])) css.tdata <- ifelse(substring(CSS[['css.tdata']], 1, 1) == '+', paste0(css.tdata, substring(CSS[['css.tdata']], 2)), CSS[['css.tdata']])
     if (!is.null(CSS[['css.arc']])) css.arc <- ifelse(substring(CSS[['css.arc']], 1, 1) == '+', paste0(css.arc, substring(CSS[['css.arc']], 2)), CSS[['css.arc']])
+    if (!is.null(CSS[['css.caption']])) css.caption <- ifelse(substring(CSS[['css.caption']], 1, 1) == '+', paste0(css.caption, substring(CSS[['css.caption']], 2)), CSS[['css.caption']])
   }
   # -------------------------------------
   # set style sheet
   # -------------------------------------
-  page.style <- sprintf("<style>\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
-                        tag.table, css.table, tag.thead, css.thead, tag.tdata, css.tdata, tag.arc, css.arc)
+  page.style <- sprintf("<style>\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n%s { %s }\n</style>",
+                        tag.table, css.table, tag.thead, css.thead, tag.tdata, css.tdata, 
+                        tag.arc, css.arc, tag.caption, css.caption)
   # -------------------------------------
   # table init
   # -------------------------------------
   toWrite <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n%s\n</head>\n<body>\n", encoding, page.style)
   # -------------------------------------
-  # start table tag
+  # table caption, data frame name
   # -------------------------------------
-  page.content <- "<table>"
+  page.content <- sprintf("<table>\n  <caption>Data frame: %s</caption>\n", deparse(substitute(x)))
   # -------------------------------------
   # header row
   # -------------------------------------
