@@ -122,7 +122,8 @@ in the model summary. For linear mixed models, the R2 and Omega-squared values a
 model is printed in the model summary. Only applies to mixed models.}
 
 \item{showREvar}{logical, if \code{TRUE}, the variance parameters for the random
-effects for each model are printed in the model summary. Only applies to mixed models.}
+effects for each model are printed in the model summary. Only applies to mixed models.
+For details output, see 'Note' in \code{\link[sjmisc]{icc}}.}
 
 \item{showAIC}{logical, if \code{TRUE}, the AIC value for each model is printed
 in the model summary. Default is \code{FALSE}.}

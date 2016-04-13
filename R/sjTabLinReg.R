@@ -77,6 +77,7 @@ utils::globalVariables(c("starts_with"))
 #'          model is printed in the model summary. Only applies to mixed models.
 #' @param showREvar logical, if \code{TRUE}, the variance parameters for the random
 #'          effects for each model are printed in the model summary. Only applies to mixed models.
+#'          For details output, see 'Note' in \code{\link[sjmisc]{icc}}.
 #' @param showFStat If \code{TRUE}, the F-statistics for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
 #' @param showAIC logical, if \code{TRUE}, the AIC value for each model is printed

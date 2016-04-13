@@ -114,7 +114,8 @@ pseudo R-squared value and \code{D} is Tjur's Coefficient of Discrimination
 model is printed in the model summary. Only applies to mixed models.}
 
 \item{showREvar}{logical, if \code{TRUE}, the variance parameters for the random
-effects for each model are printed in the model summary. Only applies to mixed models.}
+effects for each model are printed in the model summary. Only applies to mixed models.
+For details output, see 'Note' in \code{\link[sjmisc]{icc}}.}
 
 \item{showLogLik}{logical, if \code{TRUE}, the Log-Likelihood for each model is printed
 in the model summary. Default is \code{FALSE}.}
