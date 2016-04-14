@@ -422,7 +422,7 @@ sjp.int <- function(fit,
     # numeric
     # ------------------------
     if (!is.null(showCI) && !is.logical(showCI)) {
-      showCI = TRUE
+      showCI <- TRUE
       warning("argument `showCI` must be logical for `type = 'emm'`.", call. = F)
     }
     return(sjp.emm(fit, swapPredictors, plevel, title, geom.colors, geom.size,
@@ -451,7 +451,7 @@ sjp.int <- function(fit,
   # set axis title
   # -----------------------------------------------------------
   if ((fun == "glm" || fun == "glmer") && is.null(axisTitle.y)) {
-    if (isTRUE(binom_fam))
+    if (binom_fam)
       axisTitle.y <- "Change in Predicted Probability"
     else 
       axisTitle.y <- "Change in Incidents Rates"
@@ -684,7 +684,7 @@ sjp.int <- function(fit,
     # the scale limits
     # -----------------------------------------------------------
     if (is.null(axisLimits.y)) {
-      if (isTRUE(binom_fam)) {
+      if (binom_fam) {
         lowerLim.y <- as.integer(floor(10 * min(intdf$y, na.rm = T) * .9)) / 10
         upperLim.y <- as.integer(ceiling(10 * max(intdf$y, na.rm = T) * 1.1)) / 10
       } else {
@@ -1191,9 +1191,9 @@ sjp.eff.int <- function(fit,
       # --------------------------------------------------------
       if (is.null(axisTitle.y)) {
         # for logistic reg.
-        if (isTRUE(binom_fam))
+        if (binom_fam)
           axisTitle.y <- "Predicted Probability"
-        else if (isTRUE(poisson_fam))
+        else if (poisson_fam)
           axisTitle.y <- "Predicted Incidents"
       }
       # -----------------------------------------------------------
@@ -1201,7 +1201,7 @@ sjp.eff.int <- function(fit,
       # the scale limits
       # -----------------------------------------------------------
       if (is.null(axisLimits.y)) {
-        if (isTRUE(binom_fam)) {
+        if (binom_fam) {
           if (showCI) {
             lowerLim.y <- as.integer(floor(10 * min(intdf$conf.low, na.rm = T) * .9)) / 10
             upperLim.y <- as.integer(ceiling(10 * max(intdf$conf.high, na.rm = T) * 1.1)) / 10
@@ -1383,7 +1383,7 @@ sjp.eff.int <- function(fit,
     # for logistic regression, use 
     # 0 to 1 scale limits and percentage scale
     # ------------------------
-    if (isTRUE(binom_fam)) {
+    if (binom_fam) {
       baseplot <- baseplot +
         scale_y_continuous(limits = c(lowerLim.y, upperLim.y), 
                            breaks = gridbreaks.y,
@@ -1404,7 +1404,7 @@ sjp.eff.int <- function(fit,
     baseplot <- sj.setGeomColors(baseplot, 
                                  geom.colors, 
                                  pal.len = length(unique(stats::na.omit(intdf$grp))), 
-                                 show.legend = !is.null(lLabels) & !isTRUE(facet.grid), 
+                                 show.legend = !is.null(lLabels) & !facet.grid, 
                                  lLabels)
     # ---------------------------------------------------------
     # Check whether ggplot object should be returned or plotted

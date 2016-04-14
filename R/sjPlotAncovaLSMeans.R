@@ -202,8 +202,8 @@ sjp.emm <- function(fit,
       # the scale limits
       # -----------------------------------------------------------
       if (is.null(axisLimits.y)) {
-        lowerLim.y <- ifelse(isTRUE(showCI), floor(min(intdf$conf.low)), floor(min(intdf$y)))
-        upperLim.y <- ifelse(isTRUE(showCI), ceiling(max(intdf$conf.high)), ceiling(max(intdf$y)))
+        lowerLim.y <- ifelse(showCI, floor(min(intdf$conf.low)), floor(min(intdf$y)))
+        upperLim.y <- ifelse(showCI, ceiling(max(intdf$conf.high)), ceiling(max(intdf$y)))
       } else {
         lowerLim.y <- axisLimits.y[1]
         upperLim.y <- axisLimits.y[2]
@@ -499,8 +499,8 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.s
       # the scale limits
       # -----------------------------------------------------------
       if (is.null(axisLimits.y)) {
-        lowerLim.y <- ifelse(isTRUE(showCI), floor(min(intdf$conf.low)), floor(min(intdf$y)))
-        upperLim.y <- ifelse(isTRUE(showCI), ceiling(max(intdf$conf.high)), ceiling(max(intdf$y)))
+        lowerLim.y <- ifelse(showCI, floor(min(intdf$conf.low)), floor(min(intdf$y)))
+        upperLim.y <- ifelse(showCI, ceiling(max(intdf$conf.high)), ceiling(max(intdf$y)))
       } else {
         lowerLim.y <- axisLimits.y[1]
         upperLim.y <- axisLimits.y[2]

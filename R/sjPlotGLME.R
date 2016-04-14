@@ -1170,7 +1170,7 @@ sjp.lme4  <- function(fit,
     # set indicator whether or not non significant
     # odds ratios should be faded.
     # ---------------------------------------
-    if (isTRUE(fade.ns)) {
+    if (fade.ns) {
       interc <- ifelse(fun == "glm", 1, 0)
       mydf$fade <- (mydf$conf.low < interc & mydf$conf.high > interc)
     } else {
@@ -1388,9 +1388,9 @@ sjp.lme.reprobcurve <- function(fit,
   # ---------------------------------------------------------
   # axis title, depending on model family
   # ---------------------------------------------------------
-  if (isTRUE(binom_fam))
+  if (binom_fam)
     y.title <- paste("Predicted probabilities")
-  else if (isTRUE(poisson_fam))
+  else if (poisson_fam)
     y.title <- paste("Predicted incidents")
   # ---------------------------------------
   # iterate all random effects
@@ -1814,9 +1814,9 @@ sjp.lme.reri <- function(fit,
           # ---------------------------------------------------------
           # axis title, depending on model family
           # ---------------------------------------------------------
-          if (isTRUE(binom_fam))
+          if (binom_fam)
             p_axisTitle.y <- sprintf("Predicted probabilities of %s", colnames(m_f)[1])
-          else if (isTRUE(poisson_fam))
+          else if (poisson_fam)
             p_axisTitle.y <- sprintf("Predicted incidents of %s", colnames(m_f)[1])
         } else
           p_axisTitle.y <- axisTitle.y
@@ -2088,9 +2088,9 @@ sjp.glm.eff <- function(fit,
   # ------------------------
   if (fun == "glm") {
     # retrieve response vector
-    if (isTRUE(binom_fam))
+    if (binom_fam)
       axisTitle.y <- paste("Predicted probabilities of", colnames(fitfram)[1])
-    else if (isTRUE(poisson_fam))
+    else if (poisson_fam)
       axisTitle.y <- paste("Predicted incidents of", colnames(fitfram)[1])
     else
       axisTitle.y <- sjmisc::get_label(resp, def.value = resp.col)
@@ -2217,7 +2217,7 @@ sjp.glm.eff <- function(fit,
     # for logistic regression, use
     # 0 to 1 scale limits and percentage scale
     # ------------------------
-    if (fun == "glm" && isTRUE(binom_fam)) {
+    if (fun == "glm" && binom_fam) {
       eff.plot <- eff.plot +
         coord_cartesian(ylim = axisLimits.y) +
         scale_y_continuous(labels = scales::percent)
@@ -2241,7 +2241,7 @@ sjp.glm.eff <- function(fit,
       # for logistic regression, use
       # 0 to 1 scale limits and percentage scale
       # ------------------------
-      if (fun == "glm" && isTRUE(binom_fam)) {
+      if (fun == "glm" && binom_fam) {
         eff.plot <- eff.plot +
           coord_cartesian(ylim = axisLimits.y) +
           scale_y_continuous(labels = scales::percent)

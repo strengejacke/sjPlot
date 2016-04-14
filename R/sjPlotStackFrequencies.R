@@ -407,7 +407,7 @@ sjp.stackfrq <- function(items,
   # -----------------
   # show/hide percentage values on x axis
   # ----------------------------
-  if (isTRUE(showPercentageAxis))
+  if (showPercentageAxis)
     perc.val <- scales::percent
   else
     perc.val <- NULL

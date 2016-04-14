@@ -1026,7 +1026,7 @@ sjt.lm <- function(...,
     # -------------------------------------
     # show variance components?
     # -------------------------------------
-    if (isTRUE(showREvar)) {
+    if (showREvar) {
       # -------------------------------------
       # lets check which mdoels have random slopes, needed later
       # -------------------------------------

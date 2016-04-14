@@ -207,7 +207,7 @@ See 'Notes' in \code{\link{sjt.frq}}.
 \examples{
 # prepare dummy variables for binary logistic regression
 swiss$y1 <- ifelse(swiss$Fertility < median(swiss$Fertility), 0, 1)
-swissyy2 <- ifelse(swiss$Infant.Mortality < median(swiss$Infant.Mortality), 0, 1)
+swiss$y2 <- ifelse(swiss$Infant.Mortality < median(swiss$Infant.Mortality), 0, 1)
 swiss$y3 <- ifelse(swiss$Agriculture < median(swiss$Agriculture), 0, 1)
 
 # Now fit the models. Note that both models share the same predictors

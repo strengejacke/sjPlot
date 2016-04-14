@@ -258,9 +258,9 @@ sjp.glm <- function(fit,
   # ----------------------------
   # check default label and fit family
   if (!is.null(axisTitle.x) && axisTitle.x == "Odds Ratios") {
-    if (isTRUE(poisson_fam))
+    if (poisson_fam)
       axisTitle.x <- "Incident Rate Ratios"
-    else if (isTRUE(binom_fam) && !logit_link)
+    else if (binom_fam && !logit_link)
       axisTitle.x <- "Risk Ratios"
   }
   # check length of diagram title and split longer string at into new lines
@@ -682,10 +682,10 @@ sjp.glm.pc <- function(fit,
   # ---------------------------------------------------------
   # axis title, depending on model family
   # ---------------------------------------------------------
-  if (isTRUE(binom_fam)) {
+  if (binom_fam) {
     y.title <- "Predicted probabilities"
     title.fix <- "probabilities"
-  } else if (isTRUE(poisson_fam)) {
+  } else if (poisson_fam) {
     y.title <- "Predicted incidents"
     title.fix <- "incidents"
   } else {
@@ -725,7 +725,7 @@ sjp.glm.pc <- function(fit,
                     size = geom.size,
                     colour = "black")
       # y-limits for binomial models
-      if (isTRUE(binom_fam))
+      if (binom_fam)
         mp <- mp + coord_cartesian(ylim = y.limits)
       # add plot to list
       plot.metricpred[[length(plot.metricpred) + 1]] <- mp
@@ -753,7 +753,7 @@ sjp.glm.pc <- function(fit,
                    scales = "free_x") +
         guides(colour = FALSE)
       # y-limits for binomial models
-      if (isTRUE(binom_fam))
+      if (binom_fam)
         mp <- mp + coord_cartesian(ylim = y.limits)
       # add integrated plot to plot list
       plot.facet <- mp
@@ -850,9 +850,9 @@ sjp.glm.predy <- function(fit,
   # ----------------------------
   # check default titles
   # ----------------------------
-  if (isTRUE(poisson_fam))
+  if (poisson_fam)
     t.title <- "Predicted incident rates"
-  else if (isTRUE(binom_fam))
+  else if (binom_fam)
     t.title <- "Predicted probabilties"
   else
     t.title <- "Predicted values"
@@ -907,7 +907,7 @@ sjp.glm.predy <- function(fit,
                                          se = F,
                                          size = geom.size,
                                          colour = "darkred")
-  if (isTRUE(binom_fam)) {
+  if (binom_fam) {
     # cartesian coord still plots range of se, even
     # when se exceeds plot range.
     mp <- mp + coord_cartesian(ylim = axisLimits.y)

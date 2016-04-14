@@ -614,7 +614,7 @@ retrieveModelLabels <- function(models, group.pred) {
             # add labels
             if (sjmisc::str_contains(fit.labels, pattern = pvar.lab[2:pvar.len], logic = "NOT")) {
               # create labels
-              if (isTRUE(group.pred) && pvar.len > 2) {
+              if (group.pred && pvar.len > 2) {
                 # if predictor grouping is enabled, don't use variable labels again
                 labels.to.add <- pvar.lab[2:pvar.len]
               } else {
