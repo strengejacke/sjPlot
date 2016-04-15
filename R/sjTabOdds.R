@@ -837,7 +837,7 @@ sjt.glm <- function(...,
         # does model have enough random intercepts?
         # if yes, print
         if (length(sub.mmgrps) >= gl) {
-          page.content <- paste(page.content, sprintf("%s%i</td>", colspanstring, length(levels(sub.mmgrps[[gl]]))))
+          page.content <- paste(page.content, sprintf("%s%i</td>", colspanstring, nlevels(sub.mmgrps[[gl]])))
         } else {
           page.content <- paste(page.content, sprintf("%s&nbsp;</td>", colspanstring))
         }

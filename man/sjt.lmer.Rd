@@ -15,9 +15,9 @@ sjt.lmer(..., file = NULL, labelPredictors = NULL,
   ci.hyphen = "&nbsp;&ndash;&nbsp;", minus.sign = "&#45;", digits.est = 2,
   digits.p = 3, digits.ci = 2, digits.se = 2, digits.sb = 2,
   digits.summary = 3, pvaluesAsNumbers = TRUE, boldpvalues = TRUE,
-  separateConfColumn = TRUE, newLineConf = TRUE, group.pred = FALSE,
-  showAbbrHeadline = TRUE, showR2 = TRUE, showICC = TRUE,
-  showREvar = TRUE, showAIC = FALSE, showAICc = FALSE,
+  p.kr = TRUE, separateConfColumn = TRUE, newLineConf = TRUE,
+  group.pred = FALSE, showAbbrHeadline = TRUE, showR2 = TRUE,
+  showICC = TRUE, showREvar = TRUE, showAIC = FALSE, showAICc = FALSE,
   showDeviance = TRUE, remove.estimates = NULL, cellSpacing = 0.2,
   cellGroupIndent = 0.6, encoding = NULL, CSS = NULL, useViewer = TRUE,
   no.output = FALSE, remove.spaces = TRUE)
@@ -98,6 +98,10 @@ May be an HTML entity. See 'Examples'.}
 p-values are indicated by asterisks.}
 
 \item{boldpvalues}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
+
+\item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
+F-tests with Kenward-Roger approximation for the df. Caution: This
+may dramatically slow down the CPU!}
 
 \item{separateConfColumn}{if \code{TRUE}, the CI values are shown in a separate table column.
 Default is \code{FALSE}.}
@@ -190,9 +194,10 @@ Summarizes (multiple) fitted linear mixed effects models
 See 'Details' in \code{\link{sjt.frq}}.
 }
 \note{
-Computation of p-values (if necessary) are based on conditional F-tests
-        with Kenward-Roger approximation for the df, using the \pkg{pbkrtest}-package.
-        If \pkg{pbkrtest} is not available, Wald chi-squared tests from the 
+Computation of p-values (if necessary and if \code{p.kr = TRUE}) are based 
+        on conditional F-tests with Kenward-Roger approximation for the df, using 
+        the \pkg{pbkrtest}-package. If \pkg{pbkrtest} is not available or
+        \code{p.kr = FALSE}, Wald chi-squared tests from the
         \code{Anova}-function of the \pkg{car}-package are computed.
         \cr \cr
         The variance components of the random parts (see \code{showREvar}) are

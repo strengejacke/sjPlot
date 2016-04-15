@@ -10,7 +10,7 @@ sjp.lmm(..., type = "lm", title = NULL, labelDependentVariables = NULL,
   breakTitleAt = 50, breakLabelsAt = 25, breakLegendTitleAt = 20,
   gridBreaksAt = NULL, geom.size = 3, geom.spacing = 0.4,
   geom.colors = "Set1", fade.ns = FALSE, usePShapes = FALSE,
-  interceptLineType = 2, interceptLineColor = "grey70",
+  p.kr = TRUE, interceptLineType = 2, interceptLineColor = "grey70",
   remove.estimates = NULL, coord.flip = TRUE, showIntercept = FALSE,
   showAxisLabels.y = TRUE, showValueLabels = TRUE, labelDigits = 2,
   showPValueLabels = TRUE, hideLegend = FALSE, facet.grid = FALSE,
@@ -74,6 +74,10 @@ See 'Note' in \code{\link{sjp.grpfrq}}.}
 
 \item{usePShapes}{If \code{TRUE}, significant levels are distinguished by different point shapes and a related
 legend is plotted. Default is \code{FALSE}.}
+
+\item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
+F-tests with Kenward-Roger approximation for the df. Caution: This
+may dramatically slow down the CPU!}
 
 \item{interceptLineType}{linetype of the intercept line (zero point). Default is \code{2} (dashed line).}
 

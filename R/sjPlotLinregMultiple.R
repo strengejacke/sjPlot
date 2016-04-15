@@ -46,7 +46,8 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #' @inheritParams sjp.lm
 #' @inheritParams sjt.lm
 #' @inheritParams sjp.grpfrq
-#'          
+#' @inheritParams sjp.lmer
+#'           
 #' @note The fitted models may have differing predictors, but only in a 
 #'         "stepwise" sense; i.e., models should share a common set of predictors,
 #'         while some models may have additional predictors (e.g. added via
@@ -129,6 +130,7 @@ sjp.lmm <- function(...,
                     geom.colors = "Set1",
                     fade.ns = FALSE,
                     usePShapes = FALSE,
+                    p.kr = TRUE,
                     interceptLineType = 2,
                     interceptLineColor = "grey70",
                     remove.estimates = NULL,
@@ -221,7 +223,7 @@ sjp.lmm <- function(...,
     # ----------------------------
     # retrieve sigificance level of independent variables (p-values)
     if (sjmisc::str_contains(class(fit), "merMod", ignore.case = T))
-      pv <- get_lmerMod_pvalues(fit)
+      pv <- get_lmerMod_pvalues(fit, p.kr)
     else
       pv <- get_lm_pvalues(fit)$p
     # for better readability, convert p-values to asterisks

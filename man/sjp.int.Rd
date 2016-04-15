@@ -12,8 +12,8 @@ sjp.int(fit, type = "eff", int.term = NULL, int.plot.index = NULL,
   legendLabels = NULL, showValueLabels = FALSE, breakTitleAt = 50,
   breakLegendLabelsAt = 20, breakLegendTitleAt = 20, axisLimits.x = NULL,
   axisLimits.y = NULL, y.offset = 0.07, gridBreaksAt = NULL,
-  showCI = FALSE, valueLabel.digits = 2, facet.grid = FALSE,
-  printPlot = TRUE)
+  showCI = FALSE, p.kr = TRUE, valueLabel.digits = 2,
+  facet.grid = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{the fitted (generalized) linear (mixed) model object, including interaction terms. Accepted model
@@ -140,6 +140,10 @@ position a major grid is being printed.}
 if numeric, must be a number between 0 and 1, indicating the proportion
 for the confidence regeion (e.g. \code{showCI = 0.9} plots a 90\% CI).
 Only applies to \code{type = "emm"} or \code{type = "eff"}.}
+
+\item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
+F-tests with Kenward-Roger approximation for the df. Caution: This
+may dramatically slow down the CPU!}
 
 \item{valueLabel.digits}{the amount of digits of the displayed value labels. Defaults to 2.}
 

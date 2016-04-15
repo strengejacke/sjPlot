@@ -101,6 +101,7 @@ utils::globalVariables(c("starts_with"))
 #'          if \code{group.pred = TRUE}.
 #'          
 #' @inheritParams sjt.frq
+#' @inheritParams sjp.lmer
 #'          
 #' @return Invisibly returns
 #'          \itemize{
@@ -380,6 +381,7 @@ sjt.lm <- function(...,
                    digits.summary = 3,
                    pvaluesAsNumbers = TRUE,
                    boldpvalues = TRUE,
+                   p.kr = TRUE,
                    separateConfColumn = TRUE,
                    newLineConf = TRUE,
                    group.pred = TRUE,
@@ -549,7 +551,7 @@ sjt.lm <- function(...,
     # -------------------------------------
     if (lmerob) {
       # p-values
-      fit.df$pv <- round(get_lmerMod_pvalues(fit), digits.p)
+      fit.df$pv <- round(get_lmerMod_pvalues(fit, p.kr), digits.p)
       # standard error
       fit.df$se <- sprintf("%.*f", digits.se, stats::coef(summary(fit))[, "Std. Error"])
     } else {
@@ -1124,7 +1126,7 @@ sjt.lm <- function(...,
         if (length(sub.mmgrps) >= gl) {
           page.content <- paste(page.content, sprintf("   %s%i</td>\n", 
                                                       colspanstring, 
-                                                      length(levels(sub.mmgrps[[gl]]))))
+                                                      nlevels(sub.mmgrps[[gl]])))
         } else {
           page.content <- paste(page.content, sprintf("   %s&nbsp;</td>\n", colspanstring))
         }
@@ -1366,9 +1368,10 @@ sjt.lm <- function(...,
 #'            }
 #'            for further use.
 #'
-#' @note Computation of p-values (if necessary) are based on conditional F-tests
-#'         with Kenward-Roger approximation for the df, using the \pkg{pbkrtest}-package.
-#'         If \pkg{pbkrtest} is not available, Wald chi-squared tests from the 
+#' @note Computation of p-values (if necessary and if \code{p.kr = TRUE}) are based 
+#'         on conditional F-tests with Kenward-Roger approximation for the df, using 
+#'         the \pkg{pbkrtest}-package. If \pkg{pbkrtest} is not available or
+#'         \code{p.kr = FALSE}, Wald chi-squared tests from the
 #'         \code{Anova}-function of the \pkg{car}-package are computed.
 #'         \cr \cr
 #'         The variance components of the random parts (see \code{showREvar}) are
@@ -1466,6 +1469,7 @@ sjt.lmer <- function(...,
                      digits.summary = 3,
                      pvaluesAsNumbers = TRUE,
                      boldpvalues = TRUE,
+                     p.kr = TRUE,
                      separateConfColumn = TRUE,
                      newLineConf = TRUE,
                      group.pred = FALSE,
@@ -1495,7 +1499,7 @@ sjt.lmer <- function(...,
                 ci.hyphen = ci.hyphen, minus.sign = minus.sign,
                 digits.est = digits.est, digits.p = digits.p, digits.ci = digits.ci,
                 digits.se = digits.se, digits.sb = digits.sb, digits.summary = digits.summary, 
-                pvaluesAsNumbers = pvaluesAsNumbers, boldpvalues = boldpvalues, 
+                pvaluesAsNumbers = pvaluesAsNumbers, boldpvalues = boldpvalues, p.kr = p.kr,
                 separateConfColumn = separateConfColumn, newLineConf = newLineConf, 
                 group.pred = group.pred, showAbbrHeadline = showAbbrHeadline, showR2 = showR2, showICC = showICC, 
                 showREvar = showREvar, showFStat = FALSE, showAIC = showAIC, showAICc = showAICc, showDeviance = showDeviance,

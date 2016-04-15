@@ -490,7 +490,7 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
       # is factor? and has more than two levels?
       # (otherwise, only one category would appear in
       # coefficients, so no grouping needed anyway)
-      if (is.factor(fit.var) && length(levels(fit.var)) > 2) {
+      if (is.factor(fit.var) && nlevels(fit.var) > 2) {
         # get factor name
         fac.name <- colnames(fmodel)[grp.cnt]
         # check whether we already have this factor
@@ -501,7 +501,7 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
           lab <- unname(sjmisc::get_label(fit.var, def.value = fac.name))
           # determins startindex
           index <- grp.cnt + add.index - 1
-          index.add <- length(levels(fit.var)) - 2
+          index.add <- nlevels(fit.var) - 2
           # save row index, so we know where to start group
           group.pred.rows <- c(group.pred.rows, index)
           group.pred.span <- c(group.pred.span, index:(index + index.add))
@@ -509,7 +509,7 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
           # increase add.index by amount of factor levels (minus reference cat.)
           add.index <- add.index + index.add
         } else {
-          add.index <- add.index + length(levels(fit.var)) - 2
+          add.index <- add.index + nlevels(fit.var) - 2
         }
       }
     }
@@ -605,7 +605,7 @@ retrieveModelLabels <- function(models, group.pred) {
         # times, so manually set value labels
         if (is.factor(pvar)) {
           # get amount of levels
-          pvar.len <- length(levels(pvar))
+          pvar.len <- nlevels(pvar)
           # get value labels, if any
           pvar.lab <- sjmisc::get_labels(pvar)
           # have any labels, and have we same amount of labels

@@ -304,6 +304,7 @@ sjp.glmer <- function(fit,
            free.scale,
            fade.ns,
            show.ci,
+           FALSE,
            printPlot,
            fun = "glm",
            0.2,
@@ -404,6 +405,9 @@ sjp.glmer <- function(fit,
 #' @param poly.term name of a polynomial term in \code{fit} as string. Needs to be
 #'          specified, if \code{type = "poly"}, in order to plot marginal effects
 #'          for polynomial terms. See 'Examples'.
+#' @param p.kr logical, if \code{TRUE}, p-value estimation is based on conditional 
+#'          F-tests with Kenward-Roger approximation for the df. Caution: This
+#'          may dramatically slow down the CPU!
 #'
 #' @inheritParams sjp.glmer
 #' @inheritParams sjp.grpfrq
@@ -416,9 +420,10 @@ sjp.glmer <- function(fit,
 #'            \item a data frame \code{data} with the data used to build the ggplot-object(s).
 #'            }
 #'
-#' @note Computation of p-values (if necessary) are based on conditional F-tests
-#'         with Kenward-Roger approximation for the df, using the \pkg{pbkrtest}-package.
-#'         If \pkg{pbkrtest} is not available, Wald chi-squared tests from the
+#' @note Computation of p-values (if necessary and if \code{p.kr = TRUE}) are based 
+#'         on conditional F-tests with Kenward-Roger approximation for the df, using 
+#'         the \pkg{pbkrtest}-package. If \pkg{pbkrtest} is not available or
+#'         \code{p.kr = FALSE}, Wald chi-squared tests from the
 #'         \code{Anova}-function of the \pkg{car}-package are computed.
 #'
 #' @examples
@@ -560,6 +565,7 @@ sjp.lmer <- function(fit,
                      free.scale = FALSE,
                      fade.ns = FALSE,
                      show.ci = TRUE,
+                     p.kr = TRUE,
                      pointAlpha = 0.2,
                      showScatterPlot = TRUE,
                      showLoess = FALSE,
@@ -601,6 +607,7 @@ sjp.lmer <- function(fit,
            free.scale,
            fade.ns,
            show.ci,
+           p.kr,
            printPlot,
            fun = "lm",
            pointAlpha,
@@ -639,6 +646,7 @@ sjp.lme4  <- function(fit,
                       free.scale,
                       fade.ns,
                       show.ci,
+                      p.kr,
                       printPlot,
                       fun,
                       pointAlpha = 0.2,
@@ -1046,7 +1054,7 @@ sjp.lme4  <- function(fit,
       # ----------------------------
       # retrieve sigificance level of independent variables (p-values)
       # ----------------------------
-      pv <- get_lmerMod_pvalues(fit)
+      pv <- get_lmerMod_pvalues(fit, p.kr)
       # ----------------------------
       # retrieve odds ratios resp.
       # betas or standardized betas
@@ -1991,7 +1999,7 @@ sjp.lme.fecor <- function(fit,
 
 #' @importFrom stats coef
 #' @importFrom car Anova
-get_lmerMod_pvalues <- function(fitmod) {
+get_lmerMod_pvalues <- function(fitmod, KR = TRUE) {
   # retrieve sigificance level of independent variables (p-values)
   if (any(class(fitmod) == "merModLmerTest") && requireNamespace("lmerTest", quietly = TRUE)) {
     cs <- suppressWarnings(stats::coef(lmerTest::summary(fitmod)))
@@ -2005,7 +2013,7 @@ get_lmerMod_pvalues <- function(fitmod) {
     # if not, default to 4
     if (length(pvcn) == 0) pvcn <- 4
     pv <- cs[, pvcn]
-  } else if (any(class(fitmod) == "lmerMod") && requireNamespace("pbkrtest", quietly = TRUE)) {
+  } else if (any(class(fitmod) == "lmerMod") && requireNamespace("pbkrtest", quietly = TRUE) && KR) {
     # compute Kenward-Roger-DF for p-statistic. Code snippet adapted from
     # http://mindingthebrain.blogspot.de/2014/02/three-ways-to-get-parameter-specific-p.html
     message("Computing p-values via Kenward-Roger approximation...")

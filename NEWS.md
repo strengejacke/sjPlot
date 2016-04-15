@@ -1,4 +1,4 @@
-# sjPlot 1.9.4-5
+# sjPlot 1.9.4-6
 
 ## General
 
@@ -9,6 +9,7 @@
 
 * Effect plots (`type = "eff"`) for (generalized) linear (mixed) models (`sjp.lm`, `sjp.glm`, `sjp.lmer` and `sjp.glmer`) get a `vars` and `facet.grid` argument.
 * Predicted values for response (`type = "y.pc"` or `type = "resp"`) for `sjp.glm`, `sjp.glmer`, `sjp.lm` and `sjp.lmer` get a `vars` argument to specify x-axis and optional grouping variables. Furthermore, models from other model families and link functions now also work with this plot type.
+* Functions `sjp.lmer`, `sjp.glmer`, `sjt.lmer`, `sjt.glmer`, `sjp.lmm` and `sjp.glmm` get a `p.kr` argument, to decide whether computation of p-values should be based on Kenward-Roger approximation or not (for very large data sets, it's recommended to set this argument to `FALSE` because it is very time 
 
 ## Bug fixes
 

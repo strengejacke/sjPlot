@@ -12,10 +12,10 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   interceptLineType = 2, interceptLineColor = "grey70",
   remove.estimates = NULL, showValueLabels = TRUE, labelDigits = 2,
   y.offset = 0.1, showPValueLabels = TRUE, facet.grid = TRUE,
-  free.scale = FALSE, fade.ns = FALSE, show.ci = TRUE, pointAlpha = 0.2,
-  showScatterPlot = TRUE, showLoess = FALSE, showLoessCI = FALSE,
-  poly.term = NULL, sample.n = NULL, show.legend = FALSE,
-  printPlot = TRUE)
+  free.scale = FALSE, fade.ns = FALSE, show.ci = TRUE, p.kr = TRUE,
+  pointAlpha = 0.2, showScatterPlot = TRUE, showLoess = FALSE,
+  showLoessCI = FALSE, poly.term = NULL, sample.n = NULL,
+  show.legend = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{lmer}}-function.}
@@ -131,6 +131,10 @@ the grid has the same scale range.}
 \item{show.ci}{logical, use \code{TRUE} to plot confidence intervals for
 predicted values or for slope lines.}
 
+\item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
+F-tests with Kenward-Roger approximation for the df. Caution: This
+may dramatically slow down the CPU!}
+
 \item{pointAlpha}{alpha value of point-geoms in the scatter plots.
 Default is 0.2.}
 
@@ -229,9 +233,10 @@ By default, this function plots estimates (coefficients) with confidence
          }
 }
 \note{
-Computation of p-values (if necessary) are based on conditional F-tests
-        with Kenward-Roger approximation for the df, using the \pkg{pbkrtest}-package.
-        If \pkg{pbkrtest} is not available, Wald chi-squared tests from the
+Computation of p-values (if necessary and if \code{p.kr = TRUE}) are based 
+        on conditional F-tests with Kenward-Roger approximation for the df, using 
+        the \pkg{pbkrtest}-package. If \pkg{pbkrtest} is not available or
+        \code{p.kr = FALSE}, Wald chi-squared tests from the
         \code{Anova}-function of the \pkg{car}-package are computed.
 }
 \examples{

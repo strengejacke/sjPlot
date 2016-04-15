@@ -117,6 +117,7 @@
 #' 
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.frq
+#' @inheritParams sjp.lmer
 #' 
 #' @return (Insisibily) returns the ggplot-objects with the complete plot-list (\code{plot.list})
 #'           as well as the data frames that were used for setting up the ggplot-objects (\code{data.list}).
@@ -330,6 +331,7 @@ sjp.int <- function(fit,
                     y.offset = 0.07,
                     gridBreaksAt = NULL,
                     showCI = FALSE,
+                    p.kr = TRUE,
                     valueLabel.digits = 2,
                     facet.grid = FALSE,
                     printPlot = TRUE) {
@@ -409,9 +411,7 @@ sjp.int <- function(fit,
   # --------------------------------------------------------
   # create logical for family
   # --------------------------------------------------------
-  poisson_fam <- fitfam$is_pois
   binom_fam <- fitfam$is_bin
-  logit_link <- fitfam$is_logit
   # --------------------------------------------------------
   # plot estimated marginal means?
   # --------------------------------------------------------
@@ -427,7 +427,7 @@ sjp.int <- function(fit,
     }
     return(sjp.emm(fit, swapPredictors, plevel, title, geom.colors, geom.size,
                    axisTitle.x, axisTitle.y, axisLabels.x, legendTitle, legendLabels,
-                   showValueLabels, valueLabel.digits, showCI, breakTitleAt,
+                   showValueLabels, valueLabel.digits, showCI, p.kr, breakTitleAt,
                    breakLegendTitleAt, breakLegendLabelsAt, y.offset, axisLimits.y, 
                    gridBreaksAt, facet.grid, printPlot))
   }
@@ -464,7 +464,7 @@ sjp.int <- function(fit,
   # contains no interaction terms or no significant interaction term.
   # else, information on model and interaction terms is returned
   # -----------------------------------------------------------
-  git <- getInteractionTerms(fit, fun, plevel)
+  git <- getInteractionTerms(fit, fun, plevel, p.kr)
   # check return value
   if (is.null(git)) return(invisible(NULL))
   # -----------------------------------------------------------
@@ -1442,7 +1442,7 @@ mv_check <- function(moderatorValues, x) {
 # contains no interaction terms or no significant interaction term.
 # else, information on model and interaction terms is returned
 #' @importFrom stats model.matrix model.frame
-getInteractionTerms <- function(fit, fun, plevel) {
+getInteractionTerms <- function(fit, fun, plevel, p.kr) {
   # -----------------------------------------------------------
   # retrieve coefficients
   # -----------------------------------------------------------
@@ -1510,7 +1510,7 @@ getInteractionTerms <- function(fit, fun, plevel) {
     # -----------------------------------------------------------
     # retrieve p-values, without intercept
     # -----------------------------------------------------------
-    pval <- get_lmerMod_pvalues(fit)[-1]
+    pval <- get_lmerMod_pvalues(fit, p.kr)[-1]
     # -----------------------------------------------------------
     # retrieve estimates, without intercept
     # -----------------------------------------------------------

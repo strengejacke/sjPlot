@@ -14,13 +14,13 @@ sjt.lm(..., file = NULL, labelPredictors = NULL,
   showStdError = FALSE, ci.hyphen = "&nbsp;&ndash;&nbsp;",
   minus.sign = "&#45;", digits.est = 2, digits.p = 3, digits.ci = 2,
   digits.se = 2, digits.sb = 2, digits.summary = 3,
-  pvaluesAsNumbers = TRUE, boldpvalues = TRUE, separateConfColumn = TRUE,
-  newLineConf = TRUE, group.pred = TRUE, showAbbrHeadline = TRUE,
-  showR2 = TRUE, showICC = FALSE, showREvar = FALSE, showFStat = FALSE,
-  showAIC = FALSE, showAICc = FALSE, showDeviance = FALSE,
-  remove.estimates = NULL, cellSpacing = 0.2, cellGroupIndent = 0.6,
-  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
-  remove.spaces = TRUE)
+  pvaluesAsNumbers = TRUE, boldpvalues = TRUE, p.kr = TRUE,
+  separateConfColumn = TRUE, newLineConf = TRUE, group.pred = TRUE,
+  showAbbrHeadline = TRUE, showR2 = TRUE, showICC = FALSE,
+  showREvar = FALSE, showFStat = FALSE, showAIC = FALSE,
+  showAICc = FALSE, showDeviance = FALSE, remove.estimates = NULL,
+  cellSpacing = 0.2, cellGroupIndent = 0.6, encoding = NULL, CSS = NULL,
+  useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{one or more fitted linear (mixed) models.}
@@ -98,6 +98,10 @@ May be an HTML entity. See 'Examples'.}
 p-values are indicated by asterisks.}
 
 \item{boldpvalues}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
+
+\item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
+F-tests with Kenward-Roger approximation for the df. Caution: This
+may dramatically slow down the CPU!}
 
 \item{separateConfColumn}{if \code{TRUE}, the CI values are shown in a separate table column.
 Default is \code{FALSE}.}

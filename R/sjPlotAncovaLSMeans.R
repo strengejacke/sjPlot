@@ -16,6 +16,7 @@ sjp.emm <- function(fit,
                     showValueLabels = FALSE,
                     valueLabel.digits = 2,
                     showCI = FALSE,
+                    p.kr = TRUE,
                     breakTitleAt = 50,
                     breakLegendTitleAt = 20,
                     breakLegendLabelsAt = 20,
@@ -43,7 +44,7 @@ sjp.emm <- function(fit,
   if (any(class(fit) == "lmerMod") || any(class(fit) == "merModLmerTest")) {
     return(sjp.emm.lmer(fit, swapPredictors, plevel, title, geom.colors, geom.size,
                         axisTitle.x, axisTitle.y, axisLabels.x, legendLabels,
-                        showValueLabels, valueLabel.digits, showCI, breakTitleAt,
+                        showValueLabels, valueLabel.digits, showCI, p.kr, breakTitleAt,
                         breakLegendLabelsAt, y.offset, axisLimits.y, gridBreaksAt, 
                         facet.grid, printPlot))
   }
@@ -345,7 +346,7 @@ sjp.emm <- function(fit,
 #' @importFrom stats model.frame
 sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.size, axisTitle.x,
                          axisTitle.y, axisLabels.x, legendLabels, showValueLabels,
-                         valueLabel.digits, showCI, breakTitleAt, breakLegendLabelsAt,
+                         valueLabel.digits, showCI, p.kr, breakTitleAt, breakLegendLabelsAt,
                          y.offset, axisLimits.y, gridBreaksAt, facet.grid, printPlot) {
   if ((any(class(fit) == "lmerMod") || any(class(fit) == "merModLmerTest")) && !requireNamespace("lmerTest", quietly = TRUE)) {
     stop("Package 'lmerTest' needed for this function to work. Please install it.", call. = FALSE)
@@ -394,7 +395,7 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.s
   # find first interaction terms
   pos <- grep(":", cf)
   # get all p-values
-  pval <- get_lmerMod_pvalues(fit)[pos]
+  pval <- get_lmerMod_pvalues(fit, KR = p.kr)[pos]
   # get significant interactions
   intnames <- cf[pos[which(pval < plevel)]]
   # check for any signigicant interactions, stop if nothing found
