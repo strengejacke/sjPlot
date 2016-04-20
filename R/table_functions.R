@@ -241,7 +241,7 @@ table_style_worker <- function(page.content, encoding, cellSpacing, cellGroupInd
     knitr <- gsub(tag.modelcolumn6, css.modelcolumn6, knitr, fixed = TRUE, useBytes = TRUE)
     
     return(knitr)
-  } else if (option == 1) {
+  } else if (option == 3) {
     # ------------------------
     # set page style
     # ------------------------
