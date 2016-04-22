@@ -1,4 +1,4 @@
-Version 1.9.4-6
+Version 1.9.4-9
 -----------------------------------------------------------------------------
 General:
 * Improved label detection for `sjp.lm`, `sjp.glm`, `sjt.lm`, `sjt.glm`, `sjt.lmer` and `sjt.glmer`.

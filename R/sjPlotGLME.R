@@ -23,28 +23,29 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'            \item{\code{"fe"}}{for odds or incidents ratios of fixed effects}
 #'            \item{\code{"fe.cor"}}{for correlation matrix of fixed effects}
 #'            \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
-#'            \item{\code{"fe.pc"}}{or \code{"fe.prob"} to plot probability curves (predicted probabilities) of all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
-#'            \item{\code{"ri.pc"}}{or \code{"ri.prob"} to plot probability curves (predicted probabilities) of random intercept variances for all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
+#'            \item{\code{"fe.pred"}}{to plot probability or incidents curves (predicted probabilities or incidents) of all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
+#'            \item{\code{"fe.ri"}}{to plot probability or incidents curves (predicted probabilities or incidents) of random intercept variances for all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
 #'            \item{\code{"rs.ri"}}{for fitted probability curves (predicted probabilities) indicating the random slope-intercept pairs. Use this to visualize the random parts of random slope-intercept (or repeated measure) models. When having too many groups, use \code{sample.n} argument.}
 #'            \item{\code{"eff"}}{to plot marginal effects of predicted probabilities or incidents for each fixed term, where remaining co-variates are set to the mean. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
-#'            \item{\code{"y.pc"}}{or \code{"y.prob"} to plot predicted probabilities or incidents for the response, related to specific model predictors and conditioned on random effects. See 'Details'.}
-#'            \item{\code{"y.pc.fe"}}{to plot predicted probabilities or incidents for the response, related to specific model predictors, only for fixed effects. See 'Details'.}
+#'            \item{\code{"resp"}}{to plot predicted probabilities or incidents for the response, related to specific model predictors and conditioned on random effects. See 'Details'.}
+#'            \item{\code{"resp.fe"}}{to plot predicted probabilities or incidents for the response, related to specific model predictors, only for fixed effects. See 'Details'.}
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only argument \code{fit} applies to this plot type. All other arguments are ignored.}
 #'          }
 #' @param vars numeric vector with column indices of selected variables or a character vector with
 #'          variable names of selected variables from the fitted model, which should be used to plot
-#'          estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability curves
+#'          estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability or
+#'          incidents curves
 #'          (for \code{\link[lme4]{glmer}}) of random intercepts. This argument
 #'          applies if \code{type} is \code{"fe"}, \code{"fe.std"}, \code{"re"},
-#'          \code{"fe.pc"}, \code{"ri.pc"}, \code{"fe.ri"} or \code{"eff"}.
+#'          \code{"fe.pred"}, \code{"fe.ri"} or \code{"eff"}.
 #'          In this case, only those terms specified in \code{"vars"} will be plotted.
-#' @param ri.nr numeric vector. If \code{type = "re"}, \code{type = "ri.pc"} or \code{type = "fe.ri"},
+#' @param ri.nr numeric vector. If \code{type = "re"} or \code{type = "fe.ri"},
 #'          and fitted model has more than one random intercept, \code{ri.nr} indicates
 #'          which random effects of which random intercept (or: which list elements
 #'          of \code{\link[lme4]{ranef}}) will be plotted. Default is \code{NULL},
 #'          so all random effects will be plotted.
 #' @param emph.grp numeric vector with index numbers of grouping levels (from random effect).
-#'          If \code{type = "ri.pc"} or \code{type = "fe.ri"}, and \code{facet.grid = FALSE},
+#'          If \code{type = "fe.ri"} and \code{facet.grid = FALSE},
 #'          an integrated plot of predicted probabilities of fixed effects resp. fixed
 #'          effects slopes for each grouping level is plotted. To better find
 #'          certain groups, use this argument to emphasize these groups in the plot.
@@ -128,19 +129,19 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'        }
 #'
 #' @details \describe{
-#'            \item{\code{type = "fe.pc"}}{(or \code{"fe.prob"}), the predicted values
+#'            \item{\code{type = "fe.pred"}}{the predicted values
 #'            are based on the fixed effects intercept's estimate and each specific
 #'            fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),
 #'            which corresponds to \code{family(fit)$linkinv(eta = b0 + bi * xi)} (where \code{xi}
 #'            is the estimate of fixed effects and \code{b0} is the intercept of
 #'            the fixed effects; the inverse link-function is used). This plot type 
-#'            may give similar results as \code{type = "y.pc"}, however, \code{type = "fe.pc"} 
+#'            may give similar results as \code{type = "resp"}, however, \code{type = "fe.pred"} 
 #'            does not adjust for other predictors.}
 #'            \item{\code{type = "eff"}}{plots the marginal effects of model predictors.
-#'            Unlike \code{type = "fe.pc"}, the predicted values
+#'            Unlike \code{type = "fe.pred"}, the predicted values
 #'            computed by \code{type = "eff"} have all co-variates
 #'            set to the mean, as returned by the \code{\link[effects]{allEffects}} function.}
-#'            \item{\code{type = "ri.pc"}}{(or \code{"ri.prob"}), the predicted values
+#'            \item{\code{type = "fe.ri"}}{the predicted values
 #'            are based on the fixed effects intercept, plus each random intercept and
 #'            each specific  fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),
 #'            which corresponds to \code{family(fit)$linkinv(eta = b0 + b0[r1-rn] + bi * xi)}
@@ -158,7 +159,7 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'            \item{\code{type = "coef"}}{forest plot of joint fixed and random
 #'            effect coefficients, as retrieved by \code{\link[lme4]{coef.merMod}},
 #'            it's simply \code{\link[lme4]{ranef} + \link[lme4]{fixef}}.}
-#'            \item{\code{type = "y.pc"} or \code{type = "y.pc.fe"}}{predicted 
+#'            \item{\code{type = "resp"} or \code{type = "resp.fe"}}{predicted 
 #'            values against response, only fixed effects or
 #'            conditional on random intercept. It's calling
 #'            \code{predict(fit, type = "response", re.form = NA)} resp.
@@ -174,7 +175,7 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #' library(lme4)
 #' library(sjmisc)
 #' # create binary response
-#' sleepstudy$Reaction.dicho <- dicho(sleepstudy$Reaction, dich.by = "md")
+#' sleepstudy$Reaction.dicho <- dicho(sleepstudy$Reaction, dich.by = "median")
 #' # fit model
 #' fit <- glmer(Reaction.dicho ~ Days + (Days | Subject),
 #'              sleepstudy,
@@ -212,30 +213,30 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #' # for each covariate, grouped by random intercepts
 #' # in integrated plots, emphasizing groups 1 and 4
 #' sjp.glmer(fit,
-#'           type = "ri.pc",
+#'           type = "fe.ri",
 #'           emph.grp = c(1, 4),
 #'           facet.grid = FALSE)
 #'
 #' # plot probability curve (predicted probabilities)
 #' # of fixed effect, only for coefficient "neg_c_7"
 #' sjp.glmer(fit,
-#'           type = "fe.pc",
+#'           type = "fe.pred",
 #'           vars = "neg_c_7")
 #'
 #' # plot predicted probabilities for response,
 #' # related to model predictor, conditioned on random effects
 #' sjp.glmer(fit,
-#'           type = "y.pc",
+#'           type = "resp",
 #'           vars = "neg_c_7")
 #'
 #' # plot predicted probabilities for response,
 #' # related to model predictor, grouped
 #' sjp.glmer(fit,
-#'           type = "y.pc.fe",
+#'           type = "resp.fe",
 #'           vars = c("neg_c_7", "sex"))
 #'           
 #' # non faceted, with ci           
-#' sjp.glmer(fit, type = "y.pc.fe", vars = c("neg_c_7", "sex"), 
+#' sjp.glmer(fit, type = "resp.fe", vars = c("neg_c_7", "sex"), 
 #'           show.ci = TRUE, facet.grid = FALSE)
 #'
 #'                      
@@ -273,9 +274,9 @@ sjp.glmer <- function(fit,
                       sample.n = NULL,
                       show.legend = FALSE,
                       printPlot = TRUE) {
-  if (type == "fe.prob") type <- "fe.pc"
-  if (type == "ri.prob") type <- "ri.pc"
-  if (type == "y.prob") type <- "y.pc"
+  if (type == "fe.prob" || type == "fe.pc") type <- "fe.pred"
+  if (type == "ri.prob" || type == "ri.pc") type <- "fe.ri"
+  if (type == "y.prob" || type == "y.pc") type <- "resp"
 
   sjp.lme4(fit,
            type,
@@ -351,10 +352,12 @@ sjp.glmer <- function(fit,
 #'            use the \code{sample.n} argument to randomly sample a limited amount
 #'            of groups.}
 #'            \item{\code{type = "fe.ri"}}{plots regression lines for each fixed
-#'            effect (slopes) within each random intercept. The lines in these plots
-#'            have random intercept values as intercept. For each fixed effect,
-#'            a new figure is plotted, where the same slope (of the fixed effect)
-#'            is used for each plot.}
+#'            effect (slopes) within each random intercept. Lines are based on 
+#'            the fixed effects intercept, plus each random intercept and
+#'            each specific fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),
+#'            which corresponds to \code{b0 + b0[r1-rn] + bi * xi)}
+#'            (where \code{xi} is the estimate of fixed effects, \code{b0} is the intercept of
+#'            the fixed effects and \code{b0[r1-rn]} are all random intercepts).}
 #'            \item{\code{type = "coef"}}{forest plot of joint fixed and random
 #'            effect coefficients, as retrieved by \code{\link[lme4]{coef.merMod}},
 #'            it's simply \code{\link[lme4]{ranef} + \link[lme4]{fixef}}.}
@@ -574,12 +577,8 @@ sjp.lmer <- function(fit,
                      sample.n = NULL,
                      show.legend = FALSE,
                      printPlot = TRUE) {
-  if (type == "fe.prob") type <- "fe.pc"
-  if (type == "ri.prob") type <- "ri.pc"
-  if (type == "resp") type <- "y.pc"
-  if (type == "resp.fe") type <- "y.pc.fe"
-  if (type == "resp.re") type <- "y.pc.re"
-  
+  if (type == "fe.prob") type <- "fe.pred"
+
   sjp.lme4(fit,
            type,
            vars,
@@ -668,9 +667,9 @@ sjp.lme4  <- function(fit,
   # -------------------------------------
   # check type
   # -------------------------------------
-  if (!(type %in% c("re", "fe", "fe.std", "fe.cor", "re.qq", "fe.pc", "ri.pc",
-                    "fe.pred", "fe.prob", "ri.prob", "fe.ri", "y.pc", "fe.resid",
-                    "poly", "eff", "coef", "rs.ri", "ma", "y.pc.re", "y.pc.fe"))) {
+  if (!(type %in% c("re", "fe", "fe.std", "fe.pred", "fe.resid", "fe.cor", "re.qq",
+                    "fe.ri", "rs.ri", "coef", "resp", "resp.re", "resp.fe",
+                    "poly", "eff", "ma"))) {
     warning("Invalid option for `type` argument. Defaulting to `type = \"fe\"` now.")
     type  <- "fe"
   }
@@ -694,7 +693,7 @@ sjp.lme4  <- function(fit,
   # all effects
   # ---------------------------------------
   loops <- 1
-  if (type == "re" || type == "fe.ri" || type == "rs.ri" || type == "ri.pc" || type == "coef") {
+  if (type == "re" || type == "fe.ri" || type == "rs.ri" || type == "coef") {
     # ---------------------------------------
     # do we have a specific random intercept
     # specified? If yes, check valid index
@@ -839,8 +838,8 @@ sjp.lme4  <- function(fit,
     if (fun == "lm") {
       return(invisible(sjp.lme.feri(fit, ri.nr, vars, emph.grp, geom.size, printPlot)))
     } else {
-      warning("Fixed effects plots by random intercept effects (grouping levels) only works for function `sjp.lmer`.", call. = FALSE)
-      return(invisible(NULL))
+      return(invisible(sjp.lme.reprobcurve(fit, show.ci, facet.grid, ri.nr, vars,
+                                           emph.grp, axisLimits.y, printPlot)))
     }
   } else if (type == "rs.ri") {
     return(invisible(sjp.lme.reri(fit, title, axisTitle.x, axisTitle.y, ri.nr,
@@ -854,7 +853,7 @@ sjp.lme4  <- function(fit,
     return(invisible(sjp.lme.reqq(fit, geom.colors, geom.size, hideErrorBars,
                                   interceptLineType, interceptLineColor, fun,
                                   printPlot)))
-  } else if (type == "fe.pc") {
+  } else if (type == "fe.pred") {
     # ---------------------------------------
     # plot predicted probabilities of
     # fixed effects
@@ -866,26 +865,14 @@ sjp.lme4  <- function(fit,
       warning("Probability plots of fixed effects only works for function `sjp.glmer`.", call. = FALSE)
       return(invisible(NULL))
     }
-  } else if (type == "ri.pc") {
-    # ---------------------------------------
-    # plot predicted probabilities of
-    # random intercepts
-    # ---------------------------------------
-    if (fun == "glm") {
-      return(invisible(sjp.lme.reprobcurve(fit, show.ci, facet.grid, ri.nr, vars,
-                                           emph.grp, axisLimits.y, printPlot)))
-    } else {
-      warning("Probability plots of random intercept effects only works for function `sjp.glmer`.", call. = FALSE)
-      return(invisible(NULL))
-    }
-  } else if (type == "y.pc" || type == "y.pc.re") {
+  } else if (type == "resp" || type == "resp.re") {
     # ---------------------------------------
     # plot predicted probabilities / values of
     # response value
     # ---------------------------------------
     return(invisible(sjp.glm.predy(fit, vars, show.ci, geom.size, axisLimits.y,
                                    facet.grid, type = "re", show.loess = F, printPlot)))
-  } else if (type == "y.pc.fe") {
+  } else if (type == "resp.fe") {
     # ---------------------------------------
     # plot predicted probabilities / values of
     # response value

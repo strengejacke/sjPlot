@@ -41,20 +41,21 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
 
 \item{vars}{numeric vector with column indices of selected variables or a character vector with
 variable names of selected variables from the fitted model, which should be used to plot
-estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability curves
+estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability or
+incidents curves
 (for \code{\link[lme4]{glmer}}) of random intercepts. This argument
 applies if \code{type} is \code{"fe"}, \code{"fe.std"}, \code{"re"},
-\code{"fe.pc"}, \code{"ri.pc"}, \code{"fe.ri"} or \code{"eff"}.
+\code{"fe.pred"}, \code{"fe.ri"} or \code{"eff"}.
 In this case, only those terms specified in \code{"vars"} will be plotted.}
 
-\item{ri.nr}{numeric vector. If \code{type = "re"}, \code{type = "ri.pc"} or \code{type = "fe.ri"},
+\item{ri.nr}{numeric vector. If \code{type = "re"} or \code{type = "fe.ri"},
 and fitted model has more than one random intercept, \code{ri.nr} indicates
 which random effects of which random intercept (or: which list elements
 of \code{\link[lme4]{ranef}}) will be plotted. Default is \code{NULL},
 so all random effects will be plotted.}
 
 \item{emph.grp}{numeric vector with index numbers of grouping levels (from random effect).
-If \code{type = "ri.pc"} or \code{type = "fe.ri"}, and \code{facet.grid = FALSE},
+If \code{type = "fe.ri"} and \code{facet.grid = FALSE},
 an integrated plot of predicted probabilities of fixed effects resp. fixed
 effects slopes for each grouping level is plotted. To better find
 certain groups, use this argument to emphasize these groups in the plot.
@@ -213,10 +214,12 @@ By default, this function plots estimates (coefficients) with confidence
            use the \code{sample.n} argument to randomly sample a limited amount
            of groups.}
            \item{\code{type = "fe.ri"}}{plots regression lines for each fixed
-           effect (slopes) within each random intercept. The lines in these plots
-           have random intercept values as intercept. For each fixed effect,
-           a new figure is plotted, where the same slope (of the fixed effect)
-           is used for each plot.}
+           effect (slopes) within each random intercept. Lines are based on 
+           the fixed effects intercept, plus each random intercept and
+           each specific fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),
+           which corresponds to \code{b0 + b0[r1-rn] + bi * xi)}
+           (where \code{xi} is the estimate of fixed effects, \code{b0} is the intercept of
+           the fixed effects and \code{b0[r1-rn]} are all random intercepts).}
            \item{\code{type = "coef"}}{forest plot of joint fixed and random
            effect coefficients, as retrieved by \code{\link[lme4]{coef.merMod}},
            it's simply \code{\link[lme4]{ranef} + \link[lme4]{fixef}}.}

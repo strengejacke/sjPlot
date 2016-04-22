@@ -1018,7 +1018,7 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly = TRUE, completeDiagnostic =
   # ---------------------------------
   # summarize old and new model
   # ---------------------------------
-  if (any(class(fit) == "lm")) {
+  if (any(class(linreg) == "lm")) {
     sjp.setTheme(theme = "forestw")
     p1 <- sjp.lm(linreg, title = "Original model", printPlot = FALSE)$plot
     # save plot

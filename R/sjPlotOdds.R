@@ -18,7 +18,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'            \item{\code{"dots"}}{(or \code{"glm"} or \code{"or"} (default)) for odds or incident rate ratios (forest plot). Note that this type plots the exponentiated estimates, thus being appropriate only for specific link-functions.}
 #'            \item{\code{"prob"}}{(or \code{"pc"}) to plot predicted values for each model term, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
 #'            \item{\code{"eff"}}{to plot marginal effects of predicted probabilities or incidents for each model term, where all remaining co-variates are set to the mean (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
-#'            \item{\code{"y.pc"}}{(or \code{"y.prob"}) to plot predicted values for the response, related to specific model predictors. See 'Details'.}
+#'            \item{\code{"resp"}}{to plot predicted values for the response, related to specific model predictors. See 'Details'.}
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only two arguments are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other arguments are ignored.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
@@ -62,12 +62,12 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'            to \code{family(fit)$linkinv(eta = b0 + bi * xi)} (where \code{xi} is the estimate).
 #'            This plot type can be seen as equivalent to \code{type = "pred"} for \code{\link{sjp.lm}},
 #'            just for glm objects. This plot type may give similar results as 
-#'            \code{type = "y.pc"}, however, \code{type = "prob"} does not adjust
+#'            \code{type = "resp"}, however, \code{type = "prob"} does not adjust
 #'            for other predictors.}
 #'            \item{\code{type = "eff"}}{the predicted values
 #'            computed by \code{type = "eff"} have all co-variates
 #'            set to the mean, as returned by the \code{\link[effects]{allEffects}} function.}
-#'            \item{\code{type = "y.pc"}}{(or \code{type = "y.prob"}), the predicted values
+#'            \item{\code{type = "resp"}}{the predicted values
 #'            of the response are computed, based on the \code{\link{predict.glm}}
 #'            method. Corresponds to \code{\link{predict}(fit, type = "response")}.
 #'            This plot type requires the \code{vars} argument to select specific terms
@@ -142,11 +142,11 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' # 'vars' needs to be a character vector of length 1 or 2
 #' # with names of model terms for x-axis and grouping factor.
 #' # --------------------------
-#' sjp.glm(fit, type = "y.pc", vars = "barthel")
+#' sjp.glm(fit, type = "resp", vars = "barthel")
 #' # faceted, with ci
-#' sjp.glm(fit, type = "y.pc", vars = c("barthel", "dep"), show.ci = TRUE)
+#' sjp.glm(fit, type = "resp", vars = c("barthel", "dep"), show.ci = TRUE)
 #' # w/o facets
-#' sjp.glm(fit, type = "y.pc", vars = c("barthel", "dep"), facet.grid = FALSE)
+#' sjp.glm(fit, type = "resp", vars = c("barthel", "dep"), facet.grid = FALSE)
 #' 
 #' @import ggplot2
 #' @import sjmisc
@@ -215,7 +215,7 @@ sjp.glm <- function(fit,
                                  showCI = show.ci, axisLimits.y = axisLimits,
                                  facet.grid, fun = "glm", printPlot)))
   }
-  if (type == "y.pc" || type == "y.prob") {
+  if (type == "resp") {
     return(invisible(sjp.glm.predy(fit, vars, show.ci, geom.size, axisLimits.y = axisLimits,
                                    facet.grid, type = "fe", show.loess = F, printPlot)))
   }

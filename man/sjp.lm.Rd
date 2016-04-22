@@ -86,10 +86,11 @@ is \code{NULL}, i.e. all estimates are printed.}
 
 \item{vars}{numeric vector with column indices of selected variables or a character vector with
 variable names of selected variables from the fitted model, which should be used to plot
-estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability curves
+estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability or
+incidents curves
 (for \code{\link[lme4]{glmer}}) of random intercepts. This argument
 applies if \code{type} is \code{"fe"}, \code{"fe.std"}, \code{"re"},
-\code{"fe.pc"}, \code{"ri.pc"}, \code{"fe.ri"} or \code{"eff"}.
+\code{"fe.pred"}, \code{"fe.ri"} or \code{"eff"}.
 In this case, only those terms specified in \code{"vars"} will be plotted.}
 
 \item{breakTitleAt}{determines how many chars of the plot title are displayed in
