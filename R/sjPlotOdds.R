@@ -718,12 +718,22 @@ sjp.glm.pc <- function(fit,
       }
       # create single plots for each numeric predictor
       mp <- ggplot(mydf.metricpred[[i]], aes(x = values, y = y)) +
-        labs(x = axisLabels.mp[i], y = y.title, title = title) +
-        stat_smooth(method = "glm", 
-                    method.args = list(family = fitfam$family), 
-                    se = show.ci,
-                    size = geom.size,
-                    colour = "black")
+        labs(x = axisLabels.mp[i], y = y.title, title = title)
+      # special handling for negativ binomial
+      if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
+        mp <- mp +
+          stat_smooth(method = "glm.nb", 
+                      se = show.ci,
+                      size = geom.size,
+                      colour = "black")
+      } else {
+        mp <- mp +
+          stat_smooth(method = "glm", 
+                      method.args = list(family = fitfam$family), 
+                      se = show.ci,
+                      size = geom.size,
+                      colour = "black")
+      }
       # y-limits for binomial models
       if (binom_fam)
         mp <- mp + coord_cartesian(ylim = y.limits)
@@ -742,12 +752,23 @@ sjp.glm.pc <- function(fit,
         y.limits <- axisLimits.y
       }
       mp <- ggplot(mydf.ges, aes(x = values, y = y)) +
-        labs(x = NULL, y = y.title, title = title) +
-        stat_smooth(method = "glm", 
-                    method.args = list(family = fitfam$family), 
-                    se = show.ci,
-                    size = geom.size,
-                    colour = "black") +
+        labs(x = NULL, y = y.title, title = title)
+      # special handling for negativ binomial
+      if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
+        mp <- mp +
+          stat_smooth(method = "glm.nb", 
+                      se = show.ci,
+                      size = geom.size,
+                      colour = "black")
+      } else {
+        mp <- mp +
+          stat_smooth(method = "glm", 
+                      method.args = list(family = fitfam$family), 
+                      se = show.ci,
+                      size = geom.size,
+                      colour = "black")
+      }
+      mp <- mp +
         facet_wrap(~grp,
                    ncol = round(sqrt(length(mydf.metricpred))),
                    scales = "free_x") +

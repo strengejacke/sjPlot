@@ -1815,9 +1815,16 @@ sjp.lme.reri <- function(fit,
             p_axisTitle.y <- sprintf("Predicted incidents of %s", colnames(m_f)[1])
         } else
           p_axisTitle.y <- axisTitle.y
-        gp <- ggplot(final.df, aes(x = x, y = y, colour = grp)) +
-          stat_smooth(method = "glm", se = F,
-                      method.args = list(family = fitfam$family))
+        gp <- ggplot(final.df, aes(x = x, y = y, colour = grp))
+        # special handling for negativ binomial
+        if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
+          gp <- gp +
+            stat_smooth(method = "glm.nb", se = F)
+        } else {
+          gp <- gp +
+            stat_smooth(method = "glm", se = F,
+                        method.args = list(family = fitfam$family))
+        }
       }
       gp <- gp +
         scale_y_continuous(limits = axisLimits.y) +
