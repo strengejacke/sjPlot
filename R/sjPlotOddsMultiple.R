@@ -1,7 +1,7 @@
 # bind global variables
 utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 
-#' @title Plot odds or incidents ratios (forest plots) of multiple fitted glm(er)'s
+#' @title Plot estimates of multiple fitted glm(er)'s
 #' @name sjp.glmm
 #' 
 #' @description Plot and compare odds or incidents ratios (forest plots) of multiple fitted 

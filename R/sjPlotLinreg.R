@@ -2,7 +2,7 @@
 utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta", "p", "x", "ydiff", "y", "grp", ".stdresid", ".resid", ".fitted", "V1", "V2", "grp.est"))
 
 
-#' @title Plot estimates or predicted values of linear models
+#' @title Plot estimates, predictions or effects of linear models
 #' @name sjp.lm
 #'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm} for

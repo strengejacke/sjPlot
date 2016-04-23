@@ -1,7 +1,7 @@
 # bind global variables
 utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 
-#' @title Plot coefficients of multiple fitted lm(er)'s
+#' @title Plot estimates of multiple fitted lm(er)'s
 #' @name sjp.lmm
 #' 
 #' @description Plot and compare coefficients (estimates) with confidence 

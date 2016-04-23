@@ -2,7 +2,7 @@
 utils::globalVariables(c("OR", "lower", "upper", "p"))
 
 
-#' @title Forest or effect plots for generalized linear models
+#' @title Plot estimates, predictions or effects of generalized linear models
 #' @name sjp.glm
 #'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.glm/}{sjPlot manual: sjp.glm}
@@ -915,11 +915,19 @@ sjp.glm.predy <- function(fit,
                   se = show.ci,
                   size = geom.size)
   } else {
-    mp <- mp +
-      stat_smooth(method = fit.m, 
-                  method.args = list(family = stats::family(fit)$family), 
-                  se = show.ci,
-                  size = geom.size)
+    # special handling for negativ binomial
+    if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
+      mp <- mp +
+        stat_smooth(method = "glm.nb", 
+                    se = show.ci,
+                    size = geom.size)
+    } else {
+      mp <- mp +
+        stat_smooth(method = fit.m, 
+                    method.args = list(family = stats::family(fit)$family), 
+                    se = show.ci,
+                    size = geom.size)
+    }
   }
   # ---------------------------------------------------------
   # Add Loess-Line

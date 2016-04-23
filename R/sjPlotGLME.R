@@ -2,7 +2,7 @@
 utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "conf.high", "pred", "prob", "p.string", "CSS", "useViewer", "no.output"))
 
 
-#' @title Plot estimates or effects of generalized linear mixed effects models
+#' @title Plot estimates, predictions or effects of generalized linear mixed effects models
 #' @name sjp.glmer
 #'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.glmer/}{sjPlot manual: sjp.glmer}
@@ -318,7 +318,7 @@ sjp.glmer <- function(fit,
 }
 
 
-#' @title Plot estimates or predicted values of linear mixed effects models
+#' @title Plot estimates, predictions or effects of linear mixed effects models
 #' @name sjp.lmer
 #'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.lmer/}{sjPlot manual: sjp.lmer}
@@ -1458,10 +1458,19 @@ sjp.lme.reprobcurve <- function(fit,
           # ---------------------------------------------------------
           # prepare base plot
           # ---------------------------------------------------------
-          mp <- ggplot(final.df, aes(x = pred, y = prob, colour = grp)) +
-            stat_smooth(method = "glm",
-                        method.args = list(family = fitfam$family),
-                        se = show.ci) +
+          mp <- ggplot(final.df, aes(x = pred, y = prob, colour = grp))
+          # special handling for negativ binomial
+          if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
+            gp <- gp +
+              stat_smooth(method = "glm.nb", se = show.ci)
+          } else {
+            gp <- gp +
+              stat_smooth(method = "glm",
+                          method.args = list(family = fitfam$family),
+                          se = show.ci)
+          }
+          # continue with plot setup
+          gp <- gp +
             # cartesian coord still plots range of se, even
             # when se exceeds plot range.
             coord_cartesian(ylim = axisLimits.y) +
