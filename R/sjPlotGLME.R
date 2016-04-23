@@ -1334,7 +1334,7 @@ sjp.lme4  <- function(fit,
 }
 
 
-#' @importFrom stats model.frame
+#' @importFrom stats model.frame family na.omit
 sjp.lme.reprobcurve <- function(fit,
                                 show.ci,
                                 facet.grid,
@@ -1343,10 +1343,6 @@ sjp.lme.reprobcurve <- function(fit,
                                 emph.grp,
                                 axisLimits.y,
                                 printPlot) {
-  # ----------------------------
-  # check axis limits
-  # ----------------------------
-  if (is.null(axisLimits.y)) axisLimits.y <- c(0, 1)
   # ----------------------------
   # retrieve data frame of model to check whether
   # we have any numeric terms in fitted model; and
@@ -1461,21 +1457,34 @@ sjp.lme.reprobcurve <- function(fit,
           mp <- ggplot(final.df, aes(x = pred, y = prob, colour = grp))
           # special handling for negativ binomial
           if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
-            gp <- gp +
-              stat_smooth(method = "glm.nb", se = show.ci)
+            mp <- mp +
+              stat_smooth(method = "glm",
+                          method.args = list(family = "poisson"),
+                          se = show.ci)
           } else {
-            gp <- gp +
+            mp <- mp +
               stat_smooth(method = "glm",
                           method.args = list(family = fitfam$family),
                           se = show.ci)
           }
           # continue with plot setup
-          gp <- gp +
-            # cartesian coord still plots range of se, even
-            # when se exceeds plot range.
-            coord_cartesian(ylim = axisLimits.y) +
+          mp <- mp +
             labs(x = NULL, y = y.title,
                  title = sprintf("%s of %s on %s", y.title, pred.name, response.name))
+          # ------------------------------
+          # check axis limits
+          # ------------------------------
+          if (is.null(axisLimits.y)) {
+            y.limits <- c(as.integer(floor(10 * min(final.df$prob, na.rm = T) * .9)) / 10,
+                          as.integer(ceiling(10 * max(final.df$prob, na.rm = T) * 1.1)) / 10)
+          } else {
+            y.limits <- axisLimits.y
+          }
+          # cartesian coord still plots range of se, even
+          # when se exceeds plot range.
+          # y-limits for binomial models
+          if (binom_fam)
+            mp <- mp + coord_cartesian(ylim = y.limits)
           # ---------------------------------------------------------
           # wrap to facets
           # ---------------------------------------------------------
@@ -1676,7 +1685,6 @@ sjp.lme.reri <- function(fit,
   # --------------------------------------------------------
   poisson_fam <- faminfo$is_pois
   binom_fam <- faminfo$is_bin
-  logit_link <- faminfo$is_logit
   # ----------------------------
   # retrieve term names, so we find the estimates in the
   # coefficients list
@@ -1828,7 +1836,9 @@ sjp.lme.reri <- function(fit,
         # special handling for negativ binomial
         if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
           gp <- gp +
-            stat_smooth(method = "glm.nb", se = F)
+            stat_smooth(method = "glm",
+                        method.args = list(family = "poisson"),
+                        se = F)
         } else {
           gp <- gp +
             stat_smooth(method = "glm", se = F,

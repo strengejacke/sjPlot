@@ -2,7 +2,7 @@
 % Please edit documentation in R/sjPlotLinreg.R
 \name{sjp.lm}
 \alias{sjp.lm}
-\title{Plot estimates or predicted values of linear models}
+\title{Plot estimates, predictions or effects of linear models}
 \usage{
 sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   axisLabels.x = NULL, axisLabels.y = NULL, legendTitle = NULL,

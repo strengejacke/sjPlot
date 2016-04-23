@@ -2,7 +2,7 @@
 % Please edit documentation in R/sjPlotOddsMultiple.R
 \name{sjp.glmm}
 \alias{sjp.glmm}
-\title{Plot odds or incidents ratios (forest plots) of multiple fitted glm(er)'s}
+\title{Plot estimates of multiple fitted glm(er)'s}
 \usage{
 sjp.glmm(..., title = NULL, labelDependentVariables = NULL,
   legendDepVarTitle = "Dependent Variables", legendPValTitle = "p-level",

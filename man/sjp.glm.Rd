@@ -2,7 +2,7 @@
 % Please edit documentation in R/sjPlotOdds.R
 \name{sjp.glm}
 \alias{sjp.glm}
-\title{Forest or effect plots for generalized linear models}
+\title{Plot estimates, predictions or effects of generalized linear models}
 \usage{
 sjp.glm(fit, type = "dots", sort.est = TRUE, title = NULL,
   axisLabels.y = NULL, axisTitle.x = "Odds Ratios", legendTitle = NULL,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/sjPlotLinregMultiple.R
 \name{sjp.lmm}
 \alias{sjp.lmm}
-\title{Plot coefficients of multiple fitted lm(er)'s}
+\title{Plot estimates of multiple fitted lm(er)'s}
 \usage{
 sjp.lmm(..., type = "lm", title = NULL, labelDependentVariables = NULL,
   legendDepVarTitle = "Dependent Variables", legendPValTitle = "p-level",

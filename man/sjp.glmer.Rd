@@ -2,7 +2,7 @@
 % Please edit documentation in R/sjPlotGLME.R
 \name{sjp.glmer}
 \alias{sjp.glmer}
-\title{Plot estimates or effects of generalized linear mixed effects models}
+\title{Plot estimates, predictions or effects of generalized linear mixed effects models}
 \usage{
 sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   title = NULL, geom.size = NULL, geom.colors = "Set1",

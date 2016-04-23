@@ -722,7 +722,8 @@ sjp.glm.pc <- function(fit,
       # special handling for negativ binomial
       if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
         mp <- mp +
-          stat_smooth(method = "glm.nb", 
+          stat_smooth(method = "glm",
+                      method.args = list(family = "poisson"),
                       se = show.ci,
                       size = geom.size,
                       colour = "black")
@@ -756,7 +757,8 @@ sjp.glm.pc <- function(fit,
       # special handling for negativ binomial
       if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
         mp <- mp +
-          stat_smooth(method = "glm.nb", 
+          stat_smooth(method = "glm", 
+                      method.args = list(family = "poisson"),
                       se = show.ci,
                       size = geom.size,
                       colour = "black")
@@ -862,12 +864,18 @@ sjp.glm.predy <- function(fit,
   # ----------------------------
   # check model family, do we have count model?
   # ----------------------------
-  fitfam <- get_glm_family(fit)
+  faminfo <- get_glm_family(fit)
+  # only for glm
+  if (fit.m == "lm") {
+    fitfam <- ""
+  } else {
+    fitfam <- stats::family(fit)
+  }
   # --------------------------------------------------------
   # create logical for family
   # --------------------------------------------------------
-  binom_fam <- fitfam$is_bin
-  poisson_fam <- fitfam$is_pois
+  binom_fam <- faminfo$is_bin
+  poisson_fam <- faminfo$is_pois
   # ----------------------------
   # check default titles
   # ----------------------------
@@ -890,12 +898,17 @@ sjp.glm.predy <- function(fit,
   # ----------------------------
   # with or w/o grouping factor?
   # ----------------------------
+  legend.labels <- NULL
   if (length(vars) == 1) {
     colnames(mydf) <- c("x", "y")
     mp <- ggplot(mydf, aes(x = x, y = y)) +
       labs(x = x.title, y = y.title, title = t.title)
   } else {
     colnames(mydf) <- c("x", "grp", "y")
+    # check if we have legend labels
+    legend.labels <- sjmisc::get_labels(mydf$grp)
+    # convert to factor for proper legend
+    mydf$grp <- sjmisc::to_factor(mydf$grp)
     mp <- ggplot(mydf, aes(x = x, y = y, colour = grp, group = grp)) +
       labs(x = x.title, y = y.title, title = t.title, colour = vars[2])
   }
@@ -918,13 +931,14 @@ sjp.glm.predy <- function(fit,
     # special handling for negativ binomial
     if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
       mp <- mp +
-        stat_smooth(method = "glm.nb", 
+        stat_smooth(method = "glm",
+                    method.args = list(family = "poisson"),
                     se = show.ci,
                     size = geom.size)
     } else {
       mp <- mp +
         stat_smooth(method = fit.m, 
-                    method.args = list(family = stats::family(fit)$family), 
+                    method.args = list(family = fitfam$family), 
                     se = show.ci,
                     size = geom.size)
     }
@@ -947,6 +961,10 @@ sjp.glm.predy <- function(fit,
                  ncol = round(sqrt(length(unique(mydf$grp)))),
                  scales = "free_x") +
       guides(colour = FALSE)
+  } else if (!is.null(legend.labels)) {
+    mp <- mp +
+      scale_colour_discrete(breaks = c(1:length(legend.labels)),
+                            labels = legend.labels)
   }
   
   # --------------------------
