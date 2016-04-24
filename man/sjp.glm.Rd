@@ -22,9 +22,9 @@ sjp.glm(fit, type = "dots", sort.est = TRUE, title = NULL,
 \item{type}{type of plot. Use one of following:
 \describe{
   \item{\code{"dots"}}{(or \code{"glm"} or \code{"or"} (default)) for odds or incident rate ratios (forest plot). Note that this type plots the exponentiated estimates, thus being appropriate only for specific link-functions.}
-  \item{\code{"prob"}}{(or \code{"pc"}) to plot predicted values for each model term, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
+  \item{\code{"slope"}}{to plot probability or incidents slopes (predicted probabilities or incidents) for each model term, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
   \item{\code{"eff"}}{to plot marginal effects of predicted probabilities or incidents for each model term, where all remaining co-variates are set to the mean (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
-  \item{\code{"resp"}}{to plot predicted values for the response, related to specific model predictors. See 'Details'.}
+  \item{\code{"pred"}}{to plot predicted values for the response, related to specific model predictors. See 'Details'.}
   \item{\code{"ma"}}{to check model assumptions. Note that only two arguments are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other arguments are ignored.}
   \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 }}
@@ -91,7 +91,7 @@ estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability or
 incidents curves
 (for \code{\link[lme4]{glmer}}) of random intercepts. This argument
 applies if \code{type} is \code{"fe"}, \code{"fe.std"}, \code{"re"},
-\code{"fe.pred"}, \code{"fe.ri"} or \code{"eff"}.
+\code{"fe.slope"}, \code{"ri.slope"} or \code{"eff"}.
 In this case, only those terms specified in \code{"vars"} will be plotted.}
 
 \item{coord.flip}{logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
@@ -120,7 +120,7 @@ Intercept, R-squared, F-Test and AIC-value is printed to the lower right corner
 of the plot.}
 
 \item{facet.grid}{logical, \code{TRUE} when each plot should be plotted separately instead of
-an integrated (faceted) single graph. Only applies, if \code{type = "prob"}.}
+an integrated (faceted) single graph. Only applies, if \code{type = "slope"}.}
 
 \item{show.ci}{logical, use \code{TRUE} to plot (depending on \code{type}) 
 the confidence interval for probability curves (predicted probabilities).}
@@ -153,18 +153,18 @@ Plot odds or incident rate ratios with confidence intervalls as dot plot.
 }
 \details{
 \describe{
-           \item{\code{type = "prob"}}{(or \code{"pc"}), the predicted values
+           \item{\code{type = "slope"}}{the predicted values
            are based on the intercept's estimate and each specific term's estimate.
            All other co-variates are set to zero (i.e. ignored), which corresponds
            to \code{family(fit)$linkinv(eta = b0 + bi * xi)} (where \code{xi} is the estimate).
-           This plot type can be seen as equivalent to \code{type = "pred"} for \code{\link{sjp.lm}},
+           This plot type can be seen as equivalent to \code{type = "slope"} for \code{\link{sjp.lm}},
            just for glm objects. This plot type may give similar results as 
-           \code{type = "resp"}, however, \code{type = "prob"} does not adjust
+           \code{type = "pred"}, however, \code{type = "slope"} does not adjust
            for other predictors.}
            \item{\code{type = "eff"}}{the predicted values
            computed by \code{type = "eff"} have all co-variates
            set to the mean, as returned by the \code{\link[effects]{allEffects}} function.}
-           \item{\code{type = "resp"}}{the predicted values
+           \item{\code{type = "pred"}}{the predicted values
            of the response are computed, based on the \code{\link{predict.glm}}
            method. Corresponds to \code{\link{predict}(fit, type = "response")}.
            This plot type requires the \code{vars} argument to select specific terms
@@ -225,7 +225,7 @@ sjp.glm(fit,
 sjp.glm(fit,
         title = get_label(efc$neg_c_7),
         axisLabels.y = predlab,
-        type = "prob")
+        type = "slope")
 
 # --------------------------
 # grouping estimates
@@ -239,11 +239,11 @@ sjp.glm(fit,
 # 'vars' needs to be a character vector of length 1 or 2
 # with names of model terms for x-axis and grouping factor.
 # --------------------------
-sjp.glm(fit, type = "resp", vars = "barthel")
+sjp.glm(fit, type = "pred", vars = "barthel")
 # faceted, with ci
-sjp.glm(fit, type = "resp", vars = c("barthel", "dep"), show.ci = TRUE)
+sjp.glm(fit, type = "pred", vars = c("barthel", "dep"), show.ci = TRUE)
 # w/o facets
-sjp.glm(fit, type = "resp", vars = c("barthel", "dep"), facet.grid = FALSE)
+sjp.glm(fit, type = "pred", vars = c("barthel", "dep"), facet.grid = FALSE)
 
 }
 \seealso{

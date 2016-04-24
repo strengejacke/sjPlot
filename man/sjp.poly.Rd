@@ -40,9 +40,7 @@ variable names that will be used as title (see \code{\link[sjmisc]{set_label}}) 
 variable names that will be used as title (see \code{\link[sjmisc]{set_label}}) for details).}
 
 \item{showScatterPlot}{If \code{TRUE} (default), a scatter plot of response and predictor values
-for each predictor of the fitted model \code{fit} is plotted.
-Only applies if \code{type = "lm"} and fitted model has only one predictor,
-or if \code{type = "pred"} or \code{type = "resid"}.}
+for each predictor of the fitted model \code{fit} is plotted.}
 
 \item{showLoess}{If \code{TRUE}, an additional loess-smoothed line is plotted.}
 
@@ -118,7 +116,7 @@ data(efc)
 # fit sample model
 fit <- lm(tot_sc_e ~ c12hour + e17age + e42dep, data = efc)
 # inspect relationship between predictors and response
-sjp.lm(fit, type = "pred", 
+sjp.lm(fit, type = "slope", 
        showLoess = TRUE, showScatterPlot = FALSE)
 # "e17age" does not seem to be linear correlated to response
 # try to find appropiate polynomial. Grey line (loess smoothed)

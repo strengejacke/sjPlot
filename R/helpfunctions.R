@@ -41,6 +41,8 @@ get_lm_data <- function(fit) {
     # retrieve response vector
     resp <- stats::model.frame(fit)[[1]]
   }
+  # get variable label label
+  depvar.label <- sjmisc::get_label(resp, depvar.label)
   return(list(matrix = fit_x, resp.label = depvar.label, resp = resp))
 }
 

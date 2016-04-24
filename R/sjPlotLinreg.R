@@ -20,9 +20,9 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #' @details \describe{
 #'            \item{\code{type = "lm"}}{if fitted model only has one predictor, no forest plot is shown. Instead, a regression line with confidence interval (in blue) is plotted by default, and a loess-smoothed line without confidence interval (in red) can be added if argument \code{showLoess} is \code{TRUE}.}
 #'            \item{\code{type = "std2"}}{plots standardized beta values, however, standardization follows \href{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}{Gelman's (2008)} suggestion, rescaling the estimates by dividing them by two standard deviations instead of just one. Resulting coefficients are then directly comparable for untransformed binary predictors. This standardization uses the \code{\link[arm]{standardize}}-function.}
-#'            \item{\code{type = "pred"}}{regression lines (slopes) with confidence intervals for each single predictor of the fitted model are plotted, i.e. all predictors of the fitted model are extracted and for each of them, the linear relationship is plotted against the response variable.}
-#'            \item{\code{type = "resid"}}{is similar to the \code{type = "pred"} option, however, each predictor is plotted against the residuals (instead of response).}
-#'            \item{\code{type = "resp"}}{the predicted values of the response, related to specific model predictors.
+#'            \item{\code{type = "slope"}}{regression lines (slopes) with confidence intervals for each single predictor of the fitted model are plotted, i.e. all predictors of the fitted model are extracted and for each of them, the linear relationship is plotted against the response variable.}
+#'            \item{\code{type = "resid"}}{is similar to the \code{type = "slope"} option, however, each predictor is plotted against the residuals (instead of response).}
+#'            \item{\code{type = "pred"}}{the predicted values of the response, related to specific model predictors.
 #'            This plot type requires the \code{vars} argument to select specific terms
 #'            that should be used for the x-axis and - optional - as grouping factor. 
 #'            Hence, \code{vars} must be a character vector with the names of
@@ -39,9 +39,9 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'            \item{\code{"lm"}}{(default) for forest-plot like plot of estimates. If the fitted model only contains one predictor, intercept and slope are plotted.}
 #'            \item{\code{"std"}}{for forest-plot like plot of standardized beta values. If the fitted model only contains one predictor, intercept and slope are plotted.}
 #'            \item{\code{"std2"}}{for forest-plot like plot of standardized beta values, however, standardization is done by dividing by two sd (see 'Details'). If the fitted model only contains one predictor, intercept and slope are plotted.}
-#'            \item{\code{"pred"}}{to plot regression lines for each single predictor of the fitted model, against the response (linear relationship between each model term and response).}
+#'            \item{\code{"slope"}}{to plot regression lines for each single predictor of the fitted model, against the response (linear relationship between each model term and response).}
 #'            \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals (linear relationship between each model term and residuals). May be used for model diagnostics (see \url{https://www.otexts.org/fpp/5/4}).}
-#'            \item{\code{"resp"}}{to plot predicted values for the response, related to specific predictors. See 'Details'.}
+#'            \item{\code{"pred"}}{to plot predicted values for the response, related to specific predictors. See 'Details'.}
 #'            \item{\code{"eff"}}{to plot marginal effects of all terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms.}
 #'            \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples').}
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only three arguments are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other arguments are ignored.}
@@ -50,11 +50,8 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #' @param sort.est logical, determines whether estimates should be sorted according to their values.
 #'          If \code{group.estimates} is \emph{not} \code{NULL}, estimates are sorted
 #'          according to their group assignment.
-#' @param axisLabels.x name of predictor (independent variable) as string. Two things to consider:
-#'          \itemize{
-#'            \item Only used if fitted model has only one predictor and \code{type = "lm"}.
-#'            \item If you use the \code{\link[sjmisc]{read_spss}} and \code{\link[sjmisc]{get_label}} functions, you receive a character vector with variable label strings. You can use it like this: \code{axisLabels.x = get_label(efc)['quol_5']}
-#'          }
+#' @param axisLabels.x name of predictor (independent variable) as string. Only 
+#'          used if fitted model has only one predictor and \code{type = "lm"}.
 #' @param axisLabels.y labels or names of the predictor variables (independent vars). Must
 #'          be a character vector of same length as independent variables.
 #' @param showAxisLabels.y logical, whether labels of independent variables should be shown or not.
@@ -86,11 +83,11 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'          of the plot.
 #' @param showCI logical, if \code{TRUE} (default), a confidence region for the regression line
 #'          will be plotted. Only applies if \code{type = "lm"} and fitted model has
-#'          only one predictor, or if \code{type = "pred"} or \code{type = "resid"}.
+#'          only one predictor, or if \code{type = "slope"} or \code{type = "resid"}.
 #' @param showScatterPlot logical, if \code{TRUE} (default), a scatter plot of
 #'          response and predictor values for each predictor of \code{fit} is plotted.
 #'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
-#'          or if \code{type = "pred"} or \code{type = "resid"}.
+#'          or if \code{type = "slope"} or \code{type = "resid"}.
 #' @param showOriginalModelOnly logical, if \code{TRUE} (default), only model assumptions of
 #'          \code{fit} are plotted. if \code{FALSE}, model assumptions of an updated
 #'          model where outliers are automatically excluded are also plotted.
@@ -149,11 +146,11 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #' fit <- lm(tot_sc_e ~ c12hour + e17age + e42dep, data=efc)
 #'
 #' # reression line and scatter plot
-#' sjp.lm(fit, type = "pred")
+#' sjp.lm(fit, type = "slope")
 #'
 #' # reression line w/o scatter plot
 #' sjp.lm(fit,
-#'        type = "pred",
+#'        type = "slope",
 #'        showScatterPlot = FALSE)
 #'
 #' # --------------------------
@@ -195,16 +192,16 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #' fit <- lm(barthtot ~ c160age + c12hour + e17age+ education,
 #'           data = efc)
 #'
-#' sjp.lm(fit, type = "resp", vars = "c160age")
+#' sjp.lm(fit, type = "pred", vars = "c160age")
 #'
 #' # with loess
-#' sjp.lm(fit, type = "resp", vars = "e17age", showLoess = TRUE)
+#' sjp.lm(fit, type = "pred", vars = "e17age", showLoess = TRUE)
 #'
 #' # grouped
-#' sjp.lm(fit, type = "resp", vars = c("c12hour", "education"))
+#' sjp.lm(fit, type = "pred", vars = c("c12hour", "education"))
 #' 
 #' # grouped, non-facet
-#' sjp.lm(fit, type = "resp", vars = c("c12hour", "education"),
+#' sjp.lm(fit, type = "pred", vars = c("c12hour", "education"),
 #'        facet.grid = FALSE)
 #' 
 #' # --------------------------
@@ -309,67 +306,35 @@ sjp.lm <- function(fit,
   if ((type == "lm" || type == "resid") && predvars.length <= 2) {
     # reset default color setting, does not look that good.
     if (geom.colors == "Set1") geom.colors <- NULL
-    return(invisible(sjp.lm1(fit,
-                             title,
-                             breakTitleAt,
-                             axisLabels.x,
-                             axisLabels.y,
-                             breakLabelsAt,
-                             geom.colors,
-                             showCI,
-                             pointAlpha,
-                             showScatterPlot,
-                             showLoess,
-                             showLoessCI,
-                             showModelSummary,
+    return(invisible(sjp.lm1(fit, title, breakTitleAt, axisLabels.x, axisLabels.y,
+                             breakLabelsAt, geom.colors, showCI, pointAlpha,
+                             showScatterPlot, showLoess, showLoessCI, showModelSummary,
                              useResiduals = ifelse(type == "lm", FALSE, TRUE),
                              printPlot)))
   }
-  if (type == "pred" || type == "resid") {
+  if (type == "slope" || type == "resid") {
     # reset default color setting, does not look that good.
     if (geom.colors == "Set1") geom.colors <- NULL
-    return(invisible(sjp.reglin(fit,
-                                title,
-                                breakTitleAt,
-                                geom.colors,
-                                showCI,
-                                pointAlpha,
-                                showScatterPlot,
-                                showLoess,
-                                showLoessCI,
-                                useResiduals = ifelse(type == "pred", FALSE, TRUE),
+    return(invisible(sjp.reglin(fit, title, breakTitleAt, geom.colors, showCI,
+                                pointAlpha, showScatterPlot, showLoess, showLoessCI,
+                                useResiduals = ifelse(type == "slope", FALSE, TRUE),
                                 printPlot)))
   }
-  if (type == "resp") {
+  if (type == "pred") {
     return(invisible(sjp.glm.predy(fit, vars, show.ci = showCI, geom.size, axisLimits.y = axisLimits,
                                    facet.grid, type = "fe", show.loess = showLoess, printPlot)))
   }
   if (type == "poly") {
-    return(invisible(sjp.lm.poly(fit,
-                                 poly.term,
-                                 geom.colors,
-                                 geom.size,
-                                 axisTitle.x,
-                                 NULL,
-                                 showCI,
-                                 printPlot)))
+    return(invisible(sjp.lm.poly(fit, poly.term, geom.colors, geom.size, axisTitle.x,
+                                 NULL, showCI, printPlot)))
   }
   if (type == "eff") {
-    return(invisible(sjp.glm.eff(fit,
-                                 title,
-                                 geom.size,
-                                 remove.estimates,
-                                 vars,
-                                 showCI,
-                                 axisLimits.y = NULL,
-                                 facet.grid,
-                                 fun = "lm",
-                                 printPlot)))
+    return(invisible(sjp.glm.eff(fit, title, geom.size, remove.estimates, vars,
+                                 showCI, axisLimits.y = NULL, facet.grid,
+                                 fun = "lm", printPlot)))
   }
   if (type == "ma") {
-    return(invisible(sjp.lm.ma(fit,
-                               showOriginalModelOnly,
-                               completeDiagnostic)))
+    return(invisible(sjp.lm.ma(fit, showOriginalModelOnly, completeDiagnostic)))
   }
   if (type == "vif") {
     return(invisible(sjp.vif(fit)))
@@ -616,9 +581,9 @@ sjp.lm <- function(fit,
 }
 
 
-sjp.reglin <- function(fit,
-                       title = NULL,
-                       breakTitleAt = 50,
+sjp.reglin <- function(fit, 
+                       title = NULL, 
+                       breakTitleAt = 50, 
                        geom.colors = NULL,
                        showCI = TRUE,
                        pointAlpha = 0.2,
