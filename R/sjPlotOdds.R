@@ -884,8 +884,11 @@ sjp.glm.predy <- function(fit,
     t.title <- "Predicted probabilties"
   else
     t.title <- "Predicted values"
+  # axis titles
   x.title <- sjmisc::get_label(fitfram[[vars[1]]], def.value = vars[1])
   y.title <- sjmisc::get_label(fitfram[[1]], def.value = colnames(fitfram)[1])
+  # legend title
+  l.title <- sjmisc::get_label(fitfram[[vars[2]]], def.value = vars[2])
   # ----------------------------
   # check for correct length of vector
   # ----------------------------
@@ -909,7 +912,7 @@ sjp.glm.predy <- function(fit,
     # convert to factor for proper legend
     mydf$grp <- sjmisc::to_factor(mydf$grp)
     mp <- ggplot(mydf, aes(x = x, y = y, colour = grp, group = grp)) +
-      labs(x = x.title, y = y.title, title = t.title, colour = vars[2])
+      labs(x = x.title, y = y.title, title = t.title, colour = l.title)
   }
   # ------------------------------
   # check axis limits
