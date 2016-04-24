@@ -852,15 +852,17 @@ sjp.lme4  <- function(fit,
     # plot predicted probabilities / values of
     # response value
     # ---------------------------------------
-    return(invisible(sjp.glm.predy(fit, vars, show.ci, geom.size, axisLimits.y,
-                                   facet.grid, type = "re", show.loess = F, printPlot)))
+    return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = NULL,
+                                   show.ci, geom.size, axisLimits.y, facet.grid, 
+                                   type = "re", show.loess = F, printPlot)))
   } else if (type == "pred.fe") {
     # ---------------------------------------
     # plot predicted probabilities / values of
     # response value
     # ---------------------------------------
-    return(invisible(sjp.glm.predy(fit, vars, show.ci, geom.size, axisLimits.y,
-                                   facet.grid, type = "fe", show.loess = F, printPlot)))
+    return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = NULL,
+                                   show.ci, geom.size, axisLimits.y, facet.grid, 
+                                   type = "fe", show.loess = F, printPlot)))
   }
   # ---------------------------------------
   # check geom size
@@ -1995,7 +1997,7 @@ get_lmerMod_pvalues <- function(fitmod, KR = TRUE) {
   } else if (any(class(fitmod) == "lmerMod") && requireNamespace("pbkrtest", quietly = TRUE) && KR) {
     # compute Kenward-Roger-DF for p-statistic. Code snippet adapted from
     # http://mindingthebrain.blogspot.de/2014/02/three-ways-to-get-parameter-specific-p.html
-    message("Computing p-values via Kenward-Roger approximation...")
+    message("Computing p-values via Kenward-Roger approximation. Use `p.kr = FALSE` if computation takes too long.")
     #first coefficients need to be data frame
     cs <- as.data.frame(cs)
     # get KR DF

@@ -220,7 +220,8 @@ sjp.glm <- function(fit,
                                  facet.grid, fun = "glm", printPlot)))
   }
   if (type == "pred") {
-    return(invisible(sjp.glm.predy(fit, vars, show.ci, geom.size, axisLimits.y = axisLimits,
+    return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legendTitle,
+                                   show.ci, geom.size, axisLimits.y = axisLimits,
                                    facet.grid, type = "fe", show.loess = F, printPlot)))
   }
   if (type == "ma") {
@@ -806,6 +807,8 @@ sjp.glm.slope <- function(fit, title, geom.size, remove.estimates, vars,
 #' @importFrom dplyr select
 sjp.glm.predy <- function(fit,
                           vars,
+                          t.title,
+                          l.title,
                           show.ci,
                           geom.size,
                           axisLimits.y,
@@ -878,17 +881,20 @@ sjp.glm.predy <- function(fit,
   # ----------------------------
   # check default titles
   # ----------------------------
-  if (poisson_fam)
-    t.title <- "Predicted incident rates"
-  else if (binom_fam)
-    t.title <- "Predicted probabilties"
-  else
-    t.title <- "Predicted values"
+  if (is.null(t.title)) {
+    if (poisson_fam)
+      t.title <- "Predicted incident rates"
+    else if (binom_fam)
+      t.title <- "Predicted probabilties"
+    else
+      t.title <- "Predicted values"
+  }
   # axis titles
   x.title <- sjmisc::get_label(fitfram[[vars[1]]], def.value = vars[1])
   y.title <- sjmisc::get_label(fitfram[[1]], def.value = colnames(fitfram)[1])
   # legend title
-  l.title <- sjmisc::get_label(fitfram[[vars[2]]], def.value = vars[2])
+  if (is.null(l.title))
+    l.title <- sjmisc::get_label(fitfram[[vars[2]]], def.value = vars[2])
   # ----------------------------
   # check for correct length of vector
   # ----------------------------
@@ -959,8 +965,7 @@ sjp.glm.predy <- function(fit,
   }
   if (facet.grid && length(vars) == 2) {
     mp <- mp + 
-      facet_wrap(~grp,
-                 ncol = round(sqrt(length(unique(mydf$grp)))),
+      facet_wrap(~grp, ncol = round(sqrt(length(unique(mydf$grp)))), 
                  scales = "free_x") +
       guides(colour = FALSE)
   } else if (!is.null(legend.labels)) {
@@ -979,7 +984,7 @@ sjp.glm.predy <- function(fit,
 
 
 #' @importFrom stats update qqnorm qqline residuals anova
-#' @importFrom graphics points text abline
+#' @importFrom graphics points text abline plot
 sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   # ---------------------------------
   # remove outliers
@@ -1156,7 +1161,6 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   sjp.setTheme(theme = "forestgrey")
   sjp.glm(logreg, title = "Original model")
   if (!showOriginalModelOnly) sjp.glm(model, title = "Updated model")
-  # return updated model
   # return updated model
   invisible(structure(list(class = "sjp.glm.ma",
                            model = model,

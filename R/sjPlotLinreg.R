@@ -321,7 +321,8 @@ sjp.lm <- function(fit,
                                 printPlot)))
   }
   if (type == "pred") {
-    return(invisible(sjp.glm.predy(fit, vars, show.ci = showCI, geom.size, axisLimits.y = axisLimits,
+    return(invisible(sjp.glm.predy(fit, vars, , t.title = title, l.title = legendTitle,
+                                   show.ci = showCI, geom.size, axisLimits.y = axisLimits,
                                    facet.grid, type = "fe", show.loess = showLoess, printPlot)))
   }
   if (type == "poly") {
