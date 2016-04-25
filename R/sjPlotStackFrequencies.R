@@ -55,7 +55,6 @@
 #'          i.e. the y-axis is not exceeded to the diagram's boundaries.
 #' @param axisTitle.x title for the x-axis. Default is \code{NULL} (no title).
 #' @param axisTitle.y title for the y-axis. Default is \code{NULL} (no title).
-#' @param showValueLabels Whether counts and percentage values should be plotted to each bar.
 #' @param labelDigits The amount of digits for rounding \code{value.labels}. Default is 1, 
 #'          i.e. value labels have 1 digit after decimal point.
 #' @param showPercentageAxis If \code{TRUE} (default), the percentage values at the x-axis are shown.
@@ -137,7 +136,7 @@ sjp.stackfrq <- function(items,
                          geom.colors = "Blues",
                          axisTitle.x = NULL,
                          axisTitle.y = NULL,
-                         showValueLabels = TRUE,
+                         show.values = TRUE,
                          labelDigits = 1,
                          vjust = "center",
                          showPercentageAxis = TRUE,
@@ -368,7 +367,7 @@ sjp.stackfrq <- function(items,
   # Set value labels and label digits
   # --------------------------------------------------------
   mydat$labelDigits <- labelDigits
-  if (showValueLabels) {
+  if (show.values) {
     ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%.*f%%", labelDigits, 100 * prc)),
                                 vjust = vjust)
   } else {

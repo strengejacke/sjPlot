@@ -48,7 +48,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 #'          labelDependentVariables = c("Fertility", 
 #'                                      "Infant Mortality", 
 #'                                      "Agriculture"),
-#'          showValueLabels = FALSE,
+#'          show.values = FALSE,
 #'          showPValueLabels = FALSE,
 #'          fade.ns = TRUE,
 #'          usePShapes = TRUE)
@@ -100,7 +100,7 @@ sjp.glmm <- function(...,
                      labelDependentVariables = NULL,
                      legendDepVarTitle = "Dependent Variables",
                      legendPValTitle = "p-level",
-                     axisLabels.y = NULL,
+                     var.labels = NULL,
                      axisTitle.x = "Odds Ratios",
                      axisLimits = NULL,
                      breakTitleAt = 50,
@@ -113,13 +113,12 @@ sjp.glmm <- function(...,
                      geom.colors = "Set1",
                      fade.ns = FALSE,
                      usePShapes = FALSE,
-                     interceptLineType = 2,
-                     interceptLineColor = "grey70",
+                     vline.type = 2,
+                     vline.color = "grey70",
                      remove.estimates = NULL,
                      coord.flip = TRUE,
-                     showIntercept = FALSE,
-                     showAxisLabels.y = TRUE,
-                     showValueLabels = TRUE,
+                     show.intercept = FALSE,
+                     show.values = TRUE,
                      labelDigits = 2,
                      showPValueLabels = TRUE,
                      hideLegend = FALSE,
@@ -159,7 +158,7 @@ sjp.glmm <- function(...,
   # check length of dependent variables
   if (!is.null(labelDependentVariables)) labelDependentVariables <- sjmisc::word_wrap(labelDependentVariables, breakLegendTitleAt)
   # check length of x-axis-labels and split longer strings at into new lines
-  if (!is.null(axisLabels.y)) axisLabels.y <- sjmisc::word_wrap(axisLabels.y, breakLabelsAt)
+  if (!is.null(var.labels)) var.labels <- sjmisc::word_wrap(var.labels, breakLabelsAt)
   # ----------------------------
   # iterate all fitted models
   # ----------------------------
@@ -208,7 +207,7 @@ sjp.glmm <- function(...,
     # ----------------------------
     # copy OR-values into data column
     # ----------------------------
-    if (showValueLabels) {
+    if (show.values) {
       for (i in 1:length(pv)) {
         ps[i] <- sprintf("%.*f", labelDigits, ov[i])
       }
@@ -240,7 +239,7 @@ sjp.glmm <- function(...,
     # add rownames
     odds$term <- row.names(odds)
     #remove intercept from df
-    if (!showIntercept) odds <- odds[-1, ]
+    if (!show.intercept) odds <- odds[-1, ]
     # add data frame to final data frame
     finalodds <- rbind(finalodds, odds)
   }
@@ -273,9 +272,9 @@ sjp.glmm <- function(...,
     row.names(finalodds) <- keepnames
   }
   # set axis labels
-  if (is.null(axisLabels.y)) {
-    axisLabels.y <- unique(finalodds$term)
-    axisLabels.y <- axisLabels.y[order(unique(finalodds$xpos))]
+  if (is.null(var.labels)) {
+    var.labels <- unique(finalodds$term)
+    var.labels <- var.labels[order(unique(finalodds$xpos))]
   }
   # --------------------------------------------------------
   # Calculate axis limits. The range is from lowest lower-CI
@@ -293,7 +292,7 @@ sjp.glmm <- function(...,
     # if we show p value labels, increase upper
     # limit of x axis, so labels are plotted inside
     # diagram range
-    if (showValueLabels || showPValueLabels) upper_lim <- upper_lim + 0.1
+    if (show.values || showPValueLabels) upper_lim <- upper_lim + 0.1
     # give warnings when auto-limits are very low/high
     if ((lower_lim < 0.1) || (upper_lim > 100)) {
       warning("Exp. coefficients and/or exp. confidence intervals may be out of printable bounds. Consider using \"axisLimits\" argument!")
@@ -308,7 +307,6 @@ sjp.glmm <- function(...,
   # bars.
   # --------------------------------------------------------
   ticks <- seq(lower_lim, upper_lim, by = gridBreaksAt)
-  if (!showAxisLabels.y) axisLabels.y <- c("")
   # --------------------------------------------------------
   # prepare star and shape values. we just copy those values
   # that are actually needed, so legend shapes are always 
@@ -373,14 +371,14 @@ sjp.glmm <- function(...,
               show.legend = FALSE) +
     # Intercept-line
     geom_hline(yintercept = 1, 
-               linetype = interceptLineType, 
-               colour = interceptLineColor) +
+               linetype = vline.type, 
+               colour = vline.color) +
     labs(title = title, 
          x = NULL, 
          y = axisTitle.x, 
          shape = legendPValTitle, 
          colour = legendDepVarTitle) +
-    scale_x_discrete(labels = axisLabels.y) +
+    scale_x_discrete(labels = var.labels) +
     # use transparancy if requested, but hide legend
     scale_alpha_manual(values = c(nsAlpha, 1.0), guide = "none")
   # --------------------------------------------------------

@@ -13,9 +13,9 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #' @param varCount a vector of values (variable) describing the bars which make up the plot.
 #' @param varGroup grouping variable of same length as \code{varCount}, where \code{varCount} 
 #'          is grouped into the categories represented by \code{varGrp}.
-#' @param weightBy weight factor that will be applied to weight all cases from \code{varCount}.
+#' @param weight.by weight factor that will be applied to weight all cases from \code{varCount}.
 #'          Must be a vector of same length as \code{varCount}. Default is \code{NULL}, so no weights are used.
-#' @param weightByTitleString suffix (as string) for the plot's title, if \code{weightBy} is specified,
+#' @param weightByTitleString suffix (as string) for the plot's title, if \code{weight.by} is specified,
 #'          e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's 
 #'          title will not have a suffix when cases are weighted.
 #' @param interactionVar an interaction variable which can be used for box plots. Divides each category indicated
@@ -81,14 +81,11 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #' @param smoothLines prints a smooth line curve. Only applies, when argument \code{type = "lines"}.
 #' @param expand.grid logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 #'          axes and plotting region. Default is \code{FALSE}.
-#' @param showValueLabels logical, whether count and percentage values should be plotted to each bar. Default
-#'          is \code{TRUE}.
+#' @param show.values logical, whether values should be plotted or not.
 #' @param showCountValues logical, if \code{TRUE} (default), count values are plotted to each bar. 
 #'          If \code{FALSE}, count values are removed.
 #' @param showPercentageValues logical, if \code{TRUE} (default), percentage values are plotted to each bar
 #'          If \code{FALSE}, percentage values are removed.
-#' @param showAxisLabels.x logical, whether x-axis labels (category names) should be shown or not.
-#' @param showAxisLabels.y logical, whether y-axis labels (count values) should be shown or not.
 #' @param showPlotAnnotation logical, if \code{TRUE}, the groups of dots in a dot-plot are highlighted 
 #'          with a shaded rectangle.
 #' @param showTableSummary logical, if \code{TRUE}, a summary of the cross tabulation with N, 
@@ -154,7 +151,7 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #' data(efc)
 #' sjp.grpfrq(efc$e17age,
 #'            efc$e16sex,
-#'            showValueLabels = FALSE)
+#'            show.values = FALSE)
 #' 
 #' # boxplot
 #' sjp.grpfrq(efc$e17age, 
@@ -178,7 +175,7 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #' # Grouped bar plot ranging from 7 to 28
 #' sjp.grpfrq(efc$neg_c_7, 
 #'            efc$e42dep, 
-#'            showValueLabels = FALSE)
+#'            show.values = FALSE)
 #' 
 #' # same data as line plot
 #' sjp.grpfrq(efc$neg_c_7, 
@@ -193,7 +190,7 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #' @export
 sjp.grpfrq <- function(varCount,
                        varGroup,
-                       weightBy = NULL,
+                       weight.by = NULL,
                        weightByTitleString = NULL,
                        interactionVar = NULL,
                        type = "bars",
@@ -218,11 +215,9 @@ sjp.grpfrq <- function(varCount,
                        innerBoxPlotDotSize = 3,
                        smoothLines = FALSE,
                        expand.grid = FALSE,
-                       showValueLabels = TRUE,
+                       show.values = TRUE,
                        showCountValues = TRUE,
                        showPercentageValues = TRUE,
-                       showAxisLabels.x = TRUE,
-                       showAxisLabels.y = TRUE,
                        showPlotAnnotation = TRUE,
                        showTableSummary = FALSE,
                        showGroupCount = FALSE,
@@ -346,7 +341,7 @@ sjp.grpfrq <- function(varCount,
                           varGroup,
                           round.prz = 2,
                           na.rm = na.rm,
-                          weightBy = weightBy)
+                          weightBy = weight.by)
   # --------------------------------------------------------
   # x-position as numeric factor, added later after
   # tidying
@@ -430,7 +425,7 @@ sjp.grpfrq <- function(varCount,
   # --------------------------------------------------------
   if (type == "boxplots" || type == "violin") {
     # weight variable
-    w <- ifelse(is.null(weightBy), 1, weightBy)
+    w <- ifelse(is.null(weight.by), 1, weight.by)
     # interaction variable
     if (is.null(interactionVar)) 
       iav <- 1
@@ -491,7 +486,7 @@ sjp.grpfrq <- function(varCount,
     if (type == "boxplots" || type == "violin")
       modsum <- mannwhitneyu(varCount, varGroup)
     else
-      modsum <- crosstabsum(varCount, varGroup, weightBy)
+      modsum <- crosstabsum(varCount, varGroup, weight.by)
   }
   # --------------------------------------------------------
   # If we have a histogram, caluclate means of groups
@@ -543,11 +538,11 @@ sjp.grpfrq <- function(varCount,
     if (!is.null(interactionVarLabels)) {
       # retrieve group counts by converting data column
       # into table
-      if (is.null(weightBy)) {
+      if (is.null(weight.by)) {
         gc <- table(varGroup, interactionVar, useNA = nas)
       } else {
         gc <-
-          table(sjmisc::weight2(varGroup, weightBy),
+          table(sjmisc::weight2(varGroup, weight.by),
                 interactionVar,
                 useNA = nas)
       }
@@ -655,13 +650,12 @@ sjp.grpfrq <- function(varCount,
                      position = barPosition,
                      width = geom.size)
   }
-  if (!showAxisLabels.x) axisLabels.x <- c("")
   # --------------------------------------------------------
   # Set value labels
   # --------------------------------------------------------
   # don't display value labels when we have boxplots or violin plots
-  if (type == "boxplots" || type == "violin") showValueLabels <- FALSE
-  if (showValueLabels) {
+  if (type == "boxplots" || type == "violin") show.values <- FALSE
+  if (show.values) {
     # set text positioning
     if (facet.grid)
       text.pos <- "identity"
@@ -820,7 +814,7 @@ sjp.grpfrq <- function(varCount,
   # prepare y-axis and
   # show or hide y-axis-labels
   # ------------------------------
-  if (showAxisLabels.y) {
+  if (show.axis.values) {
     y_scale <- scale_y_continuous(breaks = gridbreaks,
                                   limits = c(lower_lim, upper_lim),
                                   expand = expand.grid)

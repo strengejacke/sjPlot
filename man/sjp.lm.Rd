@@ -5,17 +5,16 @@
 \title{Plot estimates, predictions or effects of linear models}
 \usage{
 sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
-  axisLabels.x = NULL, axisLabels.y = NULL, legendTitle = NULL,
-  showAxisLabels.y = TRUE, axisTitle.x = "Estimates", axisLimits = NULL,
-  geom.colors = "Set1", geom.size = NULL, interceptLineType = 2,
-  interceptLineColor = "grey70", group.estimates = NULL,
-  remove.estimates = NULL, vars = NULL, breakTitleAt = 50,
-  breakLabelsAt = 25, gridBreaksAt = NULL, coord.flip = TRUE,
-  facet.grid = TRUE, showValueLabels = TRUE, labelDigits = 2,
-  showPValueLabels = TRUE, showModelSummary = FALSE, showCI = TRUE,
-  pointAlpha = 0.2, showScatterPlot = TRUE, showLoess = FALSE,
-  showLoessCI = FALSE, show.legend = FALSE, y.offset = 0.15,
-  poly.term = NULL, showOriginalModelOnly = TRUE,
+  resp.label = NULL, var.labels = NULL, legendTitle = NULL,
+  axisTitle.x = "Estimates", axisLimits = NULL, geom.colors = "Set1",
+  geom.size = NULL, vline.type = 2, vline.color = "grey70",
+  group.estimates = NULL, remove.estimates = NULL, vars = NULL,
+  breakTitleAt = 50, breakLabelsAt = 25, gridBreaksAt = NULL,
+  coord.flip = TRUE, facet.grid = TRUE, show.values = TRUE,
+  labelDigits = 2, showPValueLabels = TRUE, showModelSummary = FALSE,
+  show.ci = TRUE, pointAlpha = 0.2, showScatterPlot = TRUE,
+  show.loess = FALSE, show.loess.ci = FALSE, show.legend = FALSE,
+  y.offset = 0.15, poly.term = NULL, showOriginalModelOnly = TRUE,
   completeDiagnostic = FALSE, printPlot = TRUE)
 }
 \arguments{
@@ -44,15 +43,15 @@ Use \code{NULL} to automatically detect variable names that will be used as titl
 (see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
 no title is printed.}
 
-\item{axisLabels.x}{name of predictor (independent variable) as string. Only 
+\item{resp.label}{name of dependent variable, as string. Only 
 used if fitted model has only one predictor and \code{type = "lm"}.}
 
-\item{axisLabels.y}{labels or names of the predictor variables (independent vars). Must
-be a character vector of same length as independent variables.}
+\item{var.labels}{character vector with labels for the model terms, used as axis labels.
+For mixed models, should either be vector of fixed effects variable labels 
+(if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
+labels from the random intercept's categories (if \code{type = "re"}).}
 
 \item{legendTitle}{title of the plot legend, as string.}
-
-\item{showAxisLabels.y}{logical, whether labels of independent variables should be shown or not.}
 
 \item{axisTitle.x}{title for the x-axis. Default is \code{"Estimates"}.}
 
@@ -68,9 +67,9 @@ of same length as groups. See 'Examples'.}
 
 \item{geom.size}{size resp. width of the geoms (bar width, point size or line thickness, depending on \code{type} argument).}
 
-\item{interceptLineType}{linetype of the intercept line (zero point). Default is \code{2} (dashed line).}
+\item{vline.type}{linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
 
-\item{interceptLineColor}{color of the intercept line. Default value is \code{"grey70"}.}
+\item{vline.color}{color of the vertical "zero point" line. Default value is \code{"grey70"}.}
 
 \item{group.estimates}{numeric or character vector, indicating a group identifier for
 each estimate. Dots and confidence intervals of estimates are coloured
@@ -85,10 +84,7 @@ is \code{NULL}, i.e. all estimates are printed.}
 variable names of selected variables from the fitted model, which should be used to plot
 estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability or
 incidents curves
-(for \code{\link[lme4]{glmer}}) of random intercepts. This argument
-applies if \code{type} is \code{"fe"}, \code{"fe.std"}, \code{"re"},
-\code{"fe.slope"}, \code{"ri.slope"} or \code{"eff"}.
-In this case, only those terms specified in \code{"vars"} will be plotted.}
+(for \code{\link[lme4]{glmer}}) of random intercepts.}
 
 \item{breakTitleAt}{determines how many chars of the plot title are displayed in
 one line and when a line break is inserted into the title.}
@@ -106,9 +102,9 @@ values are plotted on the x-axis.}
 bar charts. Ideal for larger amount of groups. This argument wraps a single panel into 
 \code{varGroup} amount of panels, i.e. each group is represented within a new panel.}
 
-\item{showValueLabels}{logical, whether value labels should be plotted to each dot or not.}
+\item{show.values}{logical, whether values should be plotted or not.}
 
-\item{labelDigits}{amount of digits for rounding the estimates (see \code{showValueLabels}).
+\item{labelDigits}{amount of digits for rounding the estimates (see \code{show.values}).
 Default is 2, i.e. estimates have 2 digits after decimal point.}
 
 \item{showPValueLabels}{logical, whether the significance level of each coefficient
@@ -118,9 +114,8 @@ should be appended to values or not.}
 Intercept, R-squared, F-Test and AIC-value is printed to the lower right corner
 of the plot.}
 
-\item{showCI}{logical, if \code{TRUE} (default), a confidence region for the regression line
-will be plotted. Only applies if \code{type = "lm"} and fitted model has
-only one predictor, or if \code{type = "slope"} or \code{type = "resid"}.}
+\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a condifence
+region is added to the plot.}
 
 \item{pointAlpha}{alpha value of point-geoms in the scatter plots.
 Default is 0.2.}
@@ -130,12 +125,11 @@ response and predictor values for each predictor of \code{fit} is plotted.
 Only applies if \code{type = "lm"} and fitted model has only one predictor,
 or if \code{type = "slope"} or \code{type = "resid"}.}
 
-\item{showLoess}{logical, if \code{TRUE}, an additional loess-smoothed line is plotted.
-For \code{\link{sjp.lmer}}, only applies \code{type = "fe.slope"} or
-\code{type = "fe.resid"}.}
+\item{show.loess}{logical, if \code{TRUE}, and depending on \code{type}, an 
+additional loess-smoothed line is plotted.}
 
-\item{showLoessCI}{logical, if \code{TRUE}, a confidence region for the loess-smoothed line
-will be plotted. Default is \code{FALSE}. Only applies, if \code{showLoess = TRUE}
+\item{show.loess.ci}{logical, if \code{TRUE}, a confidence region for the loess-smoothed line
+will be plotted. Default is \code{FALSE}. Only applies, if \code{show.loess = TRUE}
 (and for \code{\link{sjp.lmer}}, only applies if \code{type = "fe.slope"}
 or \code{type = "fe.resid"}).}
 
@@ -180,19 +174,53 @@ Depending on the \code{type}, this function plots coefficients (estimates)
 }
 \details{
 \describe{
-           \item{\code{type = "lm"}}{if fitted model only has one predictor, no forest plot is shown. Instead, a regression line with confidence interval (in blue) is plotted by default, and a loess-smoothed line without confidence interval (in red) can be added if argument \code{showLoess} is \code{TRUE}.}
-           \item{\code{type = "std2"}}{plots standardized beta values, however, standardization follows \href{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}{Gelman's (2008)} suggestion, rescaling the estimates by dividing them by two standard deviations instead of just one. Resulting coefficients are then directly comparable for untransformed binary predictors. This standardization uses the \code{\link[arm]{standardize}}-function.}
-           \item{\code{type = "slope"}}{regression lines (slopes) with confidence intervals for each single predictor of the fitted model are plotted, i.e. all predictors of the fitted model are extracted and for each of them, the linear relationship is plotted against the response variable.}
-           \item{\code{type = "resid"}}{is similar to the \code{type = "slope"} option, however, each predictor is plotted against the residuals (instead of response).}
-           \item{\code{type = "pred"}}{the predicted values of the response, related to specific model predictors.
-           This plot type requires the \code{vars} argument to select specific terms
-           that should be used for the x-axis and - optional - as grouping factor. 
-           Hence, \code{vars} must be a character vector with the names of
-           one or two model predictors. See 'Examples'.}
-           \item{\code{type = "eff"}}{computes the marginal effects for all predictors, using the \code{\link[effects]{allEffects}} function. I.e. for each predictor, the predicted values towards the response are plotted, with all remaining co-variates set to the mean. Due to possible different scales of predictors, a faceted plot is printed (instead of plotting all lines in one plot). This function accepts following argument: \code{fit}, \code{title}, \code{geom.size}, \code{remove.estimates}, \code{showCI} and \code{printPlot}.}
-           \item{\code{type = "poly"}}{plots the marginal effects of polynomial terms in \code{fit}, using the \code{\link[effects]{effect}} function, but only for a selected polynomial term, which is specified with \code{poly.term}. This function helps undertanding the effect of polynomial terms by plotting the curvilinear relationships of response and quadratic, cubic etc. terms. This function accepts following argument: \code{fit}, \code{poly.term}, \code{geom.colors}, \code{geom.size}, \code{axisTitle.x}, \code{showCI} and \code{printPlot}.}
-           \item{\code{type = "ma"}}{checks model assumptions. Please note that only three arguments are relevant: \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other arguments are ignored.}
-           \item{\code{type = "vif"}}{Variance Inflation Factors (check for multicollinearity) are plotted. As a rule of thumb, values below 5 are considered as good and indicate no multicollinearity, values between 5 and 10 may be tolerable. Values greater than 10 are not acceptable and indicate multicollinearity between model's predictors.}
+           \item{\code{type = "lm"}}{if fitted model only has one predictor, no 
+                 forest plot is shown. Instead, a regression line with confidence 
+                 interval (in blue) is plotted by default, and a loess-smoothed 
+                 line without confidence interval (in red) can be added if argument 
+                 \code{show.loess = TRUE}.}
+           \item{\code{type = "std2"}}{plots standardized beta values, however, 
+                 standardization follows Gelman's (2008) suggestion, rescaling the 
+                 estimates by dividing them by two standard deviations instead of 
+                 just one. Resulting coefficients are then directly comparable for 
+                 untransformed binary predictors. This standardization uses the 
+                 \code{\link[arm]{standardize}}-function.}
+           \item{\code{type = "slope"}}{regression lines (slopes) with confidence 
+                 intervals for each single predictor of the fitted model are plotted, 
+                 i.e. all predictors of the fitted model are extracted and for each of
+                 them, the linear relationship is plotted against the response variable.
+                 Other predictors are omitted, so this plot type is intended to check
+                 the linear relationship between a predictor and the response.}
+           \item{\code{type = "resid"}}{is similar to the \code{type = "slope"} option, 
+                 however, each predictor is plotted against the residuals
+                 (instead of response).}
+           \item{\code{type = "pred"}}{plots predicted values of the response, related
+                 to specific model predictors. This plot type calls 
+                 \code{\link[stats]{predict}(fit, newdata = model.frame, type = "response")} 
+                 and requires the \code{vars} argument to select specific terms that should be 
+                 used for the x-axis and - optional - as grouping factor. Hence, 
+                 \code{vars} must be a character vector with the names of one or 
+                 two model predictors. See 'Examples'.}
+           \item{\code{type = "eff"}}{computes the marginal effects for all predictors, 
+                 using the \code{\link[effects]{allEffects}} function. I.e. for each 
+                 predictor, the predicted values towards the response are plotted, with 
+                 all remaining co-variates set to the mean. Due to possible different 
+                 scales of predictors, a faceted plot is printed (instead of plotting 
+                 all lines in one plot).}
+           \item{\code{type = "poly"}}{plots the marginal effects of polynomial terms 
+                 in \code{fit}, using the \code{\link[effects]{effect}} function, but 
+                 only for a selected polynomial term, which is specified with \code{poly.term}.
+                 This function helps undertanding the effect of polynomial terms by 
+                 plotting the curvilinear relationships of response and quadratic, cubic etc. 
+                 terms. This function accepts following argument.}
+           \item{\code{type = "ma"}}{checks model assumptions. Please note that only 
+                 three arguments are relevant: \code{fit}, \code{completeDiagnostic} 
+                 and \code{showOriginalModelOnly}. All other arguments are ignored.}
+           \item{\code{type = "vif"}}{Variance Inflation Factors (check for multicollinearity) 
+                 are plotted. As a rule of thumb, values below 5 are considered as good 
+                 and indicate no multicollinearity, values between 5 and 10 may be tolerable.
+                 Values greater than 10 are not acceptable and indicate multicollinearity
+                 between model's predictors.}
            }
 }
 \examples{
@@ -220,9 +248,9 @@ data(efc)
 fit <- lm(neg_c_7 ~ quol_5, data=efc)
 # plot regression line with label strings
 sjp.lm(fit,
-       axisLabels.x = "Quality of life",
-       axisLabels.y = "Burden of care",
-       showLoess = TRUE)
+       resp.label = "Burden of care",
+       var.labels = "Quality of life",
+       show.loess = TRUE)
 
 # --------------------------------------------------
 # plotting regression lines of each single predictor
@@ -283,7 +311,7 @@ fit <- lm(barthtot ~ c160age + c12hour + e17age+ education,
 sjp.lm(fit, type = "pred", vars = "c160age")
 
 # with loess
-sjp.lm(fit, type = "pred", vars = "e17age", showLoess = TRUE)
+sjp.lm(fit, type = "pred", vars = "e17age", show.loess = TRUE)
 
 # grouped
 sjp.lm(fit, type = "pred", vars = c("c12hour", "education"))

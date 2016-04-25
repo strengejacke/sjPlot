@@ -10,7 +10,7 @@ sjp.stackfrq(items, legendLabels = NULL, sort.frq = NULL, weightBy = NULL,
   breakTitleAt = 50, breakLabelsAt = 30, breakLegendTitleAt = 30,
   breakLegendLabelsAt = 28, gridBreaksAt = 0.2, expand.grid = FALSE,
   geom.size = 0.5, geom.colors = "Blues", axisTitle.x = NULL,
-  axisTitle.y = NULL, showValueLabels = TRUE, labelDigits = 1,
+  axisTitle.y = NULL, show.values = TRUE, labelDigits = 1,
   vjust = "center", showPercentageAxis = TRUE, showItemLabels = TRUE,
   showSeparatorLine = FALSE, separatorLineColor = "grey80",
   separatorLineSize = 0.3, coord.flip = TRUE, printPlot = TRUE)
@@ -79,7 +79,7 @@ See 'Note' in \code{\link{sjp.grpfrq}}.}
 
 \item{axisTitle.y}{title for the y-axis. Default is \code{NULL} (no title).}
 
-\item{showValueLabels}{Whether counts and percentage values should be plotted to each bar.}
+\item{show.values}{logical, whether values should be plotted or not.}
 
 \item{labelDigits}{The amount of digits for rounding \code{value.labels}. Default is 1, 
 i.e. value labels have 1 digit after decimal point.}

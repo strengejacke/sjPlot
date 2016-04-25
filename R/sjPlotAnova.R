@@ -32,8 +32,6 @@ utils::globalVariables("pv")
 #'          first value is for groups with positive means and the second for 
 #'          negative means.
 #' @param geom.size size of the points. Default is 3.
-#' @param showValueLabels logical, whether the value labels (mean differences) should be plotted 
-#'          to each dot or not.
 #' @param showModelSummary logical, if \code{TRUE}, a summary of the anova model with 
 #'          Sum of Squares between groups (ssb), Sum of Squares within groups (ssw), multiple and adjusted 
 #'          R-square and F-Test is printed to the lower right corner
@@ -65,7 +63,6 @@ sjp.aov1 <- function(depVar,
                      axisLabels.y = NULL,
                      reverseOrder = FALSE,
                      stringIntercept = "(Intercept)",
-                     showAxisLabels.y = TRUE,
                      axisTitle.x = "",
                      axisLimits = NULL,
                      geom.colors = c("#3366a0", "#aa3333"),
@@ -74,7 +71,7 @@ sjp.aov1 <- function(depVar,
                      breakLabelsAt = 25,
                      gridBreaksAt = NULL,
                      expand.grid = FALSE,
-                     showValueLabels = TRUE,
+                     show.values = TRUE,
                      labelDigits = 2,
                      y.offset = .1,
                      showPValueLabels = TRUE,
@@ -196,7 +193,7 @@ sjp.aov1 <- function(depVar,
   ps <- c(round(means, labelDigits))
   # if no values should be shown, clear
   # vector now
-  if (!showValueLabels) ps <- rep(c(""), length(ps))
+  if (!show.values) ps <- rep(c(""), length(ps))
   # --------------------------------------------------------
   # copy p-values into data column
   # --------------------------------------------------------
@@ -266,7 +263,6 @@ sjp.aov1 <- function(depVar,
     ticks <- pretty(c(lower_lim, upper_lim))
   else
     ticks <- c(seq(lower_lim, upper_lim, by = gridBreaksAt))
-  if (!showAxisLabels.y) axisLabels.y <- c("")
   # --------------------------------------------------------
   # Set up plot padding (margins inside diagram)
   # --------------------------------------------------------

@@ -6,12 +6,11 @@
 \usage{
 sjp.aov1(depVar, grpVar, meansums = FALSE, title = NULL,
   axisLabels.y = NULL, reverseOrder = FALSE,
-  stringIntercept = "(Intercept)", showAxisLabels.y = TRUE,
-  axisTitle.x = "", axisLimits = NULL, geom.colors = c("#3366a0",
-  "#aa3333"), geom.size = 3, breakTitleAt = 50, breakLabelsAt = 25,
-  gridBreaksAt = NULL, expand.grid = FALSE, showValueLabels = TRUE,
-  labelDigits = 2, y.offset = 0.1, showPValueLabels = TRUE,
-  showModelSummary = FALSE, printPlot = TRUE)
+  stringIntercept = "(Intercept)", axisTitle.x = "", axisLimits = NULL,
+  geom.colors = c("#3366a0", "#aa3333"), geom.size = 3, breakTitleAt = 50,
+  breakLabelsAt = 25, gridBreaksAt = NULL, expand.grid = FALSE,
+  show.values = TRUE, labelDigits = 2, y.offset = 0.1,
+  showPValueLabels = TRUE, showModelSummary = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{depVar}{dependent variable. Will be used with following formula:
@@ -37,8 +36,6 @@ Default is \code{FALSE}.}
 
 \item{stringIntercept}{string that indicates the reference group (intercept), that is appended to
 the value label of the grouping variable. Default is \code{"(Intercept)"}.}
-
-\item{showAxisLabels.y}{logical, whether y-axis labels (count values) should be shown or not.}
 
 \item{axisTitle.x}{title for the x-axis. By default, \code{""} is used, i.e. no title
 is printed. If \code{axisTitle.x = NULL}, the variable name will be 
@@ -67,10 +64,9 @@ position a major grid is being printed.}
 \item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 axes and plotting region. Default is \code{FALSE}.}
 
-\item{showValueLabels}{logical, whether the value labels (mean differences) should be plotted 
-to each dot or not.}
+\item{show.values}{logical, whether values should be plotted or not.}
 
-\item{labelDigits}{amount of digits for rounding the estimates (see \code{showValueLabels}).
+\item{labelDigits}{amount of digits for rounding the estimates (see \code{show.values}).
 Default is 2, i.e. estimates have 2 digits after decimal point.}
 
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted 

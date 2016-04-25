@@ -9,10 +9,10 @@ sjp.int(fit, type = "eff", int.term = NULL, int.plot.index = NULL,
   plevel = 0.1, title = NULL, fillColor = "grey", fillAlpha = 0.3,
   geom.colors = "Set1", geom.size = NULL, axisTitle.x = NULL,
   axisTitle.y = NULL, axisLabels.x = NULL, legendTitle = NULL,
-  legendLabels = NULL, showValueLabels = FALSE, breakTitleAt = 50,
+  legendLabels = NULL, show.values = FALSE, breakTitleAt = 50,
   breakLegendLabelsAt = 20, breakLegendTitleAt = 20, axisLimits.x = NULL,
   axisLimits.y = NULL, y.offset = 0.07, gridBreaksAt = NULL,
-  showCI = FALSE, p.kr = TRUE, valueLabel.digits = 2,
+  show.ci = FALSE, p.kr = TRUE, valueLabel.digits = 2,
   facet.grid = FALSE, printPlot = TRUE)
 }
 \arguments{
@@ -112,7 +112,7 @@ interaction plot is plotted (i.e. one vector of legend labels for each interacti
 Default is \code{NULL}, so the name of the predictor with min/max-effect is used 
 as legend label.}
 
-\item{showValueLabels}{if \code{TRUE}, value labels are plotted along the lines. Default is \code{FALSE}.}
+\item{show.values}{logical, whether values should be plotted or not.}
 
 \item{breakTitleAt}{determines how many chars of the plot title are displayed in
 one line and when a line break is inserted into the title.}
@@ -135,10 +135,10 @@ to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 \item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
 position a major grid is being printed.}
 
-\item{showCI}{may be a numeric or logical value. If \code{showCI} is logical and 
-\code{TRUE}, a 95\% confidence region will be plotted. If \code{showCI}
+\item{show.ci}{may be a numeric or logical value. If \code{show.ci} is logical and 
+\code{TRUE}, a 95\% confidence region will be plotted. If \code{show.ci}
 if numeric, must be a number between 0 and 1, indicating the proportion
-for the confidence regeion (e.g. \code{showCI = 0.9} plots a 90\% CI).
+for the confidence regeion (e.g. \code{show.ci = 0.9} plots a 90\% CI).
 Only applies to \code{type = "emm"} or \code{type = "eff"}.}
 
 \item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
@@ -201,7 +201,7 @@ Plot regression (predicted values) or probability lines (predicted probabilities
              models of class \code{\link{lm}} or \code{\link[lme4]{merMod}}. This function may be used, for example,
              to plot differences in interventions between control and treatment groups over multiple time points.
              \itemize{
-               \item Following paramters apply to this plot type: \code{showCI}, \code{valueLabel.digits} and \code{axisLabels.x}.
+               \item Following paramters apply to this plot type: \code{show.ci}, \code{valueLabel.digits} and \code{axisLabels.x}.
                \item Following arguments \emph{do not} apply to this function: \code{int.term}, \code{int.plot.index}, \code{diff}, \code{moderatorValues}, \code{fillColor}, \code{fillAlpha}.
              }
            }
@@ -237,7 +237,7 @@ fit <- lm(weight ~ Diet * Time, data = ChickWeight)
 summary(fit)
 
 # plot regression line of interaction terms, including value labels
-sjp.int(fit, type = "eff", showValueLabels = TRUE)
+sjp.int(fit, type = "eff", show.values = TRUE)
 
 
 # load sample data set
@@ -344,13 +344,13 @@ mydf$barthel <- efc$barthtot
 fit <- lm(burden ~ .*., data = mydf)
 
 # plot effects
-sjp.int(fit, type = "eff", showCI = TRUE)
+sjp.int(fit, type = "eff", show.ci = TRUE)
 
 # plot effects, faceted
 sjp.int(fit, 
         type = "eff", 
         int.plot.index = 3,
-        showCI = TRUE,
+        show.ci = TRUE,
         facet.grid = TRUE)}
 
 }

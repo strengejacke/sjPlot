@@ -8,7 +8,7 @@ sjp.pca(data, numberOfFactors = NULL, factorLoadingTolerance = 0.1,
   plotEigenvalues = FALSE, digits = 2, title = NULL,
   axisLabels.y = NULL, type = "b", geom.size = 0.6,
   geom.colors = "RdBu", breakTitleAt = 50, breakLabelsAt = 30,
-  showValueLabels = TRUE, showCronbachsAlpha = TRUE, printPlot = TRUE)
+  show.values = TRUE, showCronbachsAlpha = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{data}{A data frame with factors (each columns one variable) that should be used 
@@ -54,8 +54,7 @@ one line and when a line break is inserted into the title. Default is 50.}
 \item{breakLabelsAt}{Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in 
 one line and when a line break is inserted. Default is 12.}
 
-\item{showValueLabels}{Whether factor loading values should be plotted to each geom.
-Default is \code{TRUE}.}
+\item{show.values}{logical, whether values should be plotted or not.}
 
 \item{showCronbachsAlpha}{If \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
 i.e. all variables with the highest loading for a factor are taken for the

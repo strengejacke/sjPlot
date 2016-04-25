@@ -6,16 +6,16 @@
 \usage{
 sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   title = NULL, geom.size = NULL, geom.colors = "Set1",
-  hideErrorBars = FALSE, showIntercept = TRUE,
-  stringIntercept = "(Intercept)", sort.coef = NULL, pred.labels = NULL,
+  hideErrorBars = FALSE, show.intercept = TRUE,
+  stringIntercept = "(Intercept)", sort.est = NULL, var.labels = NULL,
   axisTitle.x = NULL, axisTitle.y = NULL, axisLimits.y = NULL,
-  interceptLineType = 2, interceptLineColor = "grey70",
-  remove.estimates = NULL, showValueLabels = TRUE, labelDigits = 2,
-  y.offset = 0.1, showPValueLabels = TRUE, facet.grid = TRUE,
-  free.scale = FALSE, fade.ns = FALSE, show.ci = TRUE, p.kr = TRUE,
-  pointAlpha = 0.2, showScatterPlot = TRUE, showLoess = FALSE,
-  showLoessCI = FALSE, poly.term = NULL, sample.n = NULL,
-  show.legend = FALSE, printPlot = TRUE)
+  vline.type = 2, vline.color = "grey70", remove.estimates = NULL,
+  show.values = TRUE, labelDigits = 2, y.offset = 0.1,
+  showPValueLabels = TRUE, facet.grid = TRUE, free.scale = FALSE,
+  fade.ns = FALSE, show.ci = TRUE, p.kr = TRUE, pointAlpha = 0.2,
+  showScatterPlot = TRUE, show.loess = FALSE, show.loess.ci = FALSE,
+  poly.term = NULL, sample.n = NULL, show.legend = FALSE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{lmer}}-function.}
@@ -43,10 +43,7 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
 variable names of selected variables from the fitted model, which should be used to plot
 estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability or
 incidents curves
-(for \code{\link[lme4]{glmer}}) of random intercepts. This argument
-applies if \code{type} is \code{"fe"}, \code{"fe.std"}, \code{"re"},
-\code{"fe.slope"}, \code{"ri.slope"} or \code{"eff"}.
-In this case, only those terms specified in \code{"vars"} will be plotted.}
+(for \code{\link[lme4]{glmer}}) of random intercepts.}
 
 \item{ri.nr}{numeric vector. If \code{type = "re"} or \code{type = "ri.slope"},
 and fitted model has more than one random intercept, \code{ri.nr} indicates
@@ -72,22 +69,26 @@ or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.}
 \item{hideErrorBars}{logical, if \code{TRUE}, the error bars that indicate the confidence intervals of the odds ratios are not
 shown.}
 
-\item{showIntercept}{logical, if \code{TRUE}, the intercept is included when plotting random or fixed effects.}
+\item{show.intercept}{logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
+Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential 
+transformation of estimates, the intercept in some cases can not be calculated, thus the
+function call is interrupted and no plot printed.}
 
-\item{stringIntercept}{string, label of intercept estimate on the y axis. Only applies, if \code{showIntercept}
-is \code{TRUE} and \code{pred.labels} is not \code{NULL}.}
+\item{stringIntercept}{string, label of intercept estimate on the y axis. Only applies, if \code{show.intercept}
+is \code{TRUE} and \code{var.labels} is not \code{NULL}.}
 
-\item{sort.coef}{indicates which coefficient should be used for sorting odds ratios
+\item{sort.est}{determines in which way estimates are sorted in the plot:
 \itemize{
-  \item If \code{NULL} (default), no sorting is done and odds ratios are sorted in order of model coefficients.
-  \item If \code{sort.coef = "sort.all"}, odds ratios are re-sorted for each coefficient (only applies if \code{type = "re"} and \code{facet.grid = FALSE}), i.e. the odds ratios of the random effects for each predictor are sorted and plotted to an own plot.
+  \item If \code{NULL} (default), no sorting is done and estimates are sorted in order of model coefficients.
+  \item If \code{sort.est = "sort.all"}, estimates are re-sorted for each coefficient (only applies if \code{type = "re"} and \code{facet.grid = FALSE}), i.e. the estimates of the random effects for each predictor are sorted and plotted to an own plot.
   \item If \code{type = "fe"} or \code{type = "fe.std"}, \code{TRUE} will sort estimates
-  \item Else, specify a predictor's / coefficient's name to sort odds ratios according to this coefficient.
+  \item Else, specify a predictor's / coefficient's name to sort estimates according to this coefficient.
   }
   See 'Examples'.}
 
-\item{pred.labels}{character vector with labels for the predictors / covariates / groups. Should either be vector
-of fixed effects variable labels (if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
+\item{var.labels}{character vector with labels for the model terms, used as axis labels.
+For mixed models, should either be vector of fixed effects variable labels 
+(if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
 labels from the random intercept's categories (if \code{type = "re"}).}
 
 \item{axisTitle.x}{title for the x axis. If not specified, a default labelling depending
@@ -100,18 +101,18 @@ on the plot type is chosen.}
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
 y-axis fits to the required range of the data.}
 
-\item{interceptLineType}{linetype of the intercept line (zero point). Default is \code{2} (dashed line).}
+\item{vline.type}{linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
 
-\item{interceptLineColor}{color of the intercept line. Default value is \code{"grey70"}.}
+\item{vline.color}{color of the vertical "zero point" line. Default value is \code{"grey70"}.}
 
 \item{remove.estimates}{character vector with coefficient names that indicate
 which estimates should be removed from the plot.
 \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 is \code{NULL}, i.e. all estimates are printed.}
 
-\item{showValueLabels}{logical, whether estimate values should be plotted to each dot or not.}
+\item{show.values}{logical, whether values should be plotted or not.}
 
-\item{labelDigits}{numeric, amount of digits for rounding the estimates (see \code{showValueLabels}).
+\item{labelDigits}{numeric, amount of digits for rounding the estimates (see \code{show.values}).
 Default is 2, i.e. estimates have 2 digits after decimal point.}
 
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
@@ -129,8 +130,8 @@ the grid has the same scale range.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 
-\item{show.ci}{logical, use \code{TRUE} to plot confidence intervals for
-predicted values or for slope lines.}
+\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a condifence
+region is added to the plot.}
 
 \item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
 F-tests with Kenward-Roger approximation for the df. Caution: This
@@ -144,12 +145,11 @@ response and predictor values for each predictor of the fitted
 model \code{fit} is plotted. Only applies if \code{type = "fe.slope"}
 or \code{type = "fe.resid"}.}
 
-\item{showLoess}{logical, if \code{TRUE}, an additional loess-smoothed line is plotted.
-For \code{\link{sjp.lmer}}, only applies \code{type = "fe.slope"} or
-\code{type = "fe.resid"}.}
+\item{show.loess}{logical, if \code{TRUE}, and depending on \code{type}, an 
+additional loess-smoothed line is plotted.}
 
-\item{showLoessCI}{logical, if \code{TRUE}, a confidence region for the loess-smoothed line
-will be plotted. Default is \code{FALSE}. Only applies, if \code{showLoess = TRUE}
+\item{show.loess.ci}{logical, if \code{TRUE}, a confidence region for the loess-smoothed line
+will be plotted. Default is \code{FALSE}. Only applies, if \code{show.loess = TRUE}
 (and for \code{\link{sjp.lmer}}, only applies if \code{type = "fe.slope"}
 or \code{type = "fe.resid"}).}
 
@@ -198,7 +198,7 @@ By default, this function plots estimates (coefficients) with confidence
            be similar). This plot type just computes a simple linear model for
            each fixed effect and response. Hence, it's intended for checking
            model assumptions, i.e. if predictor and respone are in a linear relationship.
-           You may use the \code{showLoess} argument to see whether the linear
+           You may use the \code{show.loess} argument to see whether the linear
            line differs from the best fitting line.}
            \item{\code{type = "fe.resid"}}{Similar to \code{type = "fe.slope"},
            this this type is intended for checking model assumptions. However,
@@ -254,13 +254,13 @@ sjp.lmer(fit)
 sjp.lmer(fit, type = "fe")
 
 # sort by predictor Days
-sjp.lmer(fit, sort.coef = "Days")
+sjp.lmer(fit, sort.est = "Days")
 
 # plot each predictor as own plot
 # sort each plot
 sjp.lmer(fit,
          facet.grid = FALSE,
-         sort.coef = "sort.all")
+         sort.est = "sort.all")
 
 
 library(sjmisc)
@@ -283,7 +283,7 @@ sjp.lmer(fit, type = "fe")
 
 sjp.lmer(fit,
          type = "fe.std",
-         sort.coef = TRUE)
+         sort.est = TRUE)
 
 # plot fixed effects slopes for
 # each random intercept, but only for

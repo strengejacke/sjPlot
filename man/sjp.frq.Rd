@@ -4,23 +4,23 @@
 \alias{sjp.frq}
 \title{Plot frequencies of variables}
 \usage{
-sjp.frq(varCount, title = "", weightBy = NULL, weightByTitleString = NULL,
-  interactionVar = NULL, sort.frq = "none", type = "bars",
-  geom.size = NULL, geom.colors = "#336699", axisLabels.x = NULL,
-  interactionVarLabels = NULL, axisLimits.x = NULL, axisLimits.y = NULL,
-  breakTitleAt = 50, breakLabelsAt = 20, gridBreaksAt = NULL,
-  innerBoxPlotWidth = 0.15, innerBoxPlotDotSize = 3, expand.grid = FALSE,
-  showValueLabels = TRUE, showCountValues = TRUE,
-  showPercentageValues = TRUE, showAxisLabels.x = TRUE,
-  showAxisLabels.y = TRUE, showCI = FALSE, error.bar.color = "darkred",
-  showMeanIntercept = FALSE, showMeanValue = TRUE,
-  showStandardDeviation = TRUE, showNormalCurve = FALSE,
-  showStandardNormalCurve = FALSE, adjustNormalCurve.x = FALSE,
-  meanInterceptLineType = 2, meanInterceptLineSize = 0.5,
-  normalCurveColor = "red", normalCurveSize = 0.8, normalCurveAlpha = 0.4,
-  axisTitle.x = NULL, axisTitle.y = NULL, autoGroupAt = NULL,
-  coord.flip = FALSE, vjust = "bottom", hjust = "center",
-  y.offset = NULL, na.rm = TRUE, printPlot = TRUE)
+sjp.frq(varCount, title = "", weight.by = NULL,
+  weightByTitleString = NULL, interactionVar = NULL, sort.frq = "none",
+  type = "bars", geom.size = NULL, geom.colors = "#336699",
+  axisLabels.x = NULL, interactionVarLabels = NULL, axisLimits.x = NULL,
+  axisLimits.y = NULL, breakTitleAt = 50, breakLabelsAt = 20,
+  gridBreaksAt = NULL, innerBoxPlotWidth = 0.15, innerBoxPlotDotSize = 3,
+  expand.grid = FALSE, show.values = TRUE, showCountValues = TRUE,
+  showPercentageValues = TRUE, show.axis.values = TRUE, show.ci = FALSE,
+  errorbar.color = "darkred", showMeanIntercept = FALSE,
+  showMeanValue = TRUE, showStandardDeviation = TRUE,
+  showNormalCurve = FALSE, showStandardNormalCurve = FALSE,
+  adjustNormalCurve.x = FALSE, meanInterceptLineType = 2,
+  meanInterceptLineSize = 0.5, normalCurveColor = "red",
+  normalCurveSize = 0.8, normalCurveAlpha = 0.4, axisTitle.x = NULL,
+  axisTitle.y = NULL, autoGroupAt = NULL, coord.flip = FALSE,
+  vjust = "bottom", hjust = "center", y.offset = NULL, na.rm = TRUE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{varCount}{a vector of values (variable) describing the bars which make up the plot.}
@@ -30,10 +30,10 @@ Use \code{NULL} to automatically detect variable names that will be used as titl
 (see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
 no title is printed.}
 
-\item{weightBy}{weight factor that will be applied to weight all cases of \code{varCount}.
+\item{weight.by}{weight factor that will be applied to weight all cases from \code{varCount}.
 Must be a vector of same length as \code{varCount}. Default is \code{NULL}, so no weights are used.}
 
-\item{weightByTitleString}{suffix (as string) for the plot's title, if \code{weightBy} is specified,
+\item{weightByTitleString}{suffix (as string) for the plot's title, if \code{weight.by} is specified,
 e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's 
 title will not have a suffix when cases are weighted.}
 
@@ -103,8 +103,7 @@ when \code{type = "violins"} or \code{"boxplots"}.}
 \item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 axes and plotting region. Default is \code{FALSE}.}
 
-\item{showValueLabels}{logical, whether count and percentage values should be plotted to each bar. Default
-is \code{TRUE}.}
+\item{show.values}{logical, whether values should be plotted or not.}
 
 \item{showCountValues}{logical, if \code{TRUE} (default), count values are plotted to each bar. 
 If \code{FALSE}, count values are removed.}
@@ -112,14 +111,10 @@ If \code{FALSE}, count values are removed.}
 \item{showPercentageValues}{logical, if \code{TRUE} (default), percentage values are plotted to each bar
 If \code{FALSE}, percentage values are removed.}
 
-\item{showAxisLabels.x}{logical, whether x-axis labels (category names) should be shown or not.}
-
-\item{showAxisLabels.y}{logical, whether y-axis labels (count values) should be shown or not.}
-
-\item{showCI}{logical, whether or not confidence intervals should be plotted. 
+\item{show.ci}{logical, whether or not confidence intervals should be plotted. 
 Only applies to \code{type = "dots"} or \code{type = "bars"}.}
 
-\item{error.bar.color}{color of confidence interval bars (error bars). 
+\item{errorbar.color}{color of confidence interval bars (error bars). 
 Only applies to \code{type = "bars"}. In case of dot plots, error bars 
 will have same colors as dots (see \code{geom.colors}).}
 
@@ -266,7 +261,7 @@ sjp.frq(efc$neg_c_7)
 # plotting confidence intervals
 sjp.frq(efc$e15relat,
         type = "dots",
-        showCI = TRUE,
+        show.ci = TRUE,
         sort.frq = "desc",
         coord.flip = TRUE,
         expand.grid = TRUE, # for text labels

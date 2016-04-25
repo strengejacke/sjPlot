@@ -21,8 +21,8 @@
 #' @param showType logical, if \code{TRUE}, the variable type is shown in a separate column. Since
 #'          SPSS variable types are mostly \code{\link{numeric}} after import, this column
 #'          is hidden by default.
-#' @param showValues logical, if \code{TRUE} (default), the variable values are shown as additional column.
-#' @param showValueLabels logical, if \code{TRUE} (default), the value labels are shown as additional column.
+#' @param show.values logical, if \code{TRUE} (default), the variable values are shown as additional column.
+#' @param show.labels logical, if \code{TRUE} (default), the value labels are shown as additional column.
 #' @param showFreq logical, if \code{TRUE}, an additional column with frequencies for each variable is shown.
 #' @param showPerc logical, if \code{TRUE}, an additional column with percentage of frequencies for each variable is shown.
 #' @param showWtdFreq logical, if \code{TRUE}, an additional column with weighted
@@ -66,7 +66,7 @@
 #' view_df(efc)
 #' 
 #' # view variables w/o values and value labels
-#' view_df(efc, showValues = FALSE, showValueLabels = FALSE)
+#' view_df(efc, show.values = FALSE, show.labels = FALSE)
 #' 
 #' # view variables including variable typed, orderd by name
 #' view_df(efc, sortByName = TRUE, showType = TRUE)
@@ -88,8 +88,8 @@ view_df <- function(x,
                     alternateRowColors = TRUE,
                     showID = TRUE,
                     showType = FALSE,
-                    showValues = TRUE,
-                    showValueLabels = TRUE,
+                    show.values = TRUE,
+                    show.labels = TRUE,
                     showFreq = FALSE,
                     showPerc = FALSE,
                     showWtdFreq = FALSE,
@@ -174,8 +174,8 @@ view_df <- function(x,
   if (showType) page.content <- paste0(page.content, "<th class=\"thead\">Type</th>")
   page.content <- paste0(page.content, "<th class=\"thead\">Label</th>")
   if (showNA) page.content <- paste0(page.content, "<th class=\"thead\">missings</th>")
-  if (showValues) page.content <- paste0(page.content, "<th class=\"thead\">Values</th>")
-  if (showValueLabels) page.content <- paste0(page.content, "<th class=\"thead\">Value Labels</th>")
+  if (show.values) page.content <- paste0(page.content, "<th class=\"thead\">Values</th>")
+  if (show.labels) page.content <- paste0(page.content, "<th class=\"thead\">Value Labels</th>")
   if (showFreq) page.content <- paste0(page.content, "<th class=\"thead\">Freq.</th>")
   if (showPerc) page.content <- paste0(page.content, "<th class=\"thead\">%</th>")
   if (showWtdFreq) page.content <- paste0(page.content, "<th class=\"thead\">weighted Freq.</th>")
@@ -234,7 +234,7 @@ view_df <- function(x,
     # ----------------------------
     # values
     # ----------------------------
-    if (showValues) {
+    if (show.values) {
       valstring <- c("")
       # do we have valid index?
       if (index <= ncol(x)) {
@@ -256,7 +256,7 @@ view_df <- function(x,
     # ----------------------------
     # value labels
     # ----------------------------
-    if (showValueLabels) {
+    if (show.labels) {
       valstring <- c("")
       # do we have valid index?
       if (index <= length(df.val)) {

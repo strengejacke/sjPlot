@@ -18,8 +18,6 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #'         with decimals may result in unexpected behaviour.
 #' 
 #' @param varCount a vector of values (variable) describing the bars which make up the plot.
-#' @param weightBy weight factor that will be applied to weight all cases of \code{varCount}.
-#'          Must be a vector of same length as \code{varCount}. Default is \code{NULL}, so no weights are used.
 #' @param interactionVar an interaction variable which can be used for box plots. Divides the observations in 
 #'          \code{varCount} into sub groups indicated by \code{interactionVar}. Only 
 #'          applies when \code{type = "boxplots"} or \code{"violins"}.
@@ -46,9 +44,9 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #'          \code{axisLabels.x}. Only applies, when using box or violin plots
 #'          (i.e. \code{type = "boxplots"} or \code{"violins"}) and \code{interactionVar} 
 #'          is not \code{NULL}.
-#' @param showCI logical, whether or not confidence intervals should be plotted. 
+#' @param show.ci logical, whether or not confidence intervals should be plotted. 
 #'          Only applies to \code{type = "dots"} or \code{type = "bars"}.
-#' @param error.bar.color color of confidence interval bars (error bars). 
+#' @param errorbar.color color of confidence interval bars (error bars). 
 #'          Only applies to \code{type = "bars"}. In case of dot plots, error bars 
 #'          will have same colors as dots (see \code{geom.colors}).
 #' @param showMeanIntercept logical, if \code{TRUE}, a vertical line in histograms 
@@ -152,7 +150,7 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' # plotting confidence intervals
 #' sjp.frq(efc$e15relat,
 #'         type = "dots",
-#'         showCI = TRUE,
+#'         show.ci = TRUE,
 #'         sort.frq = "desc",
 #'         coord.flip = TRUE,
 #'         expand.grid = TRUE, # for text labels
@@ -183,7 +181,7 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' @export
 sjp.frq <- function(varCount,
                     title = "",
-                    weightBy = NULL,
+                    weight.by = NULL,
                     weightByTitleString = NULL,
                     interactionVar = NULL,
                     sort.frq = "none",
@@ -200,13 +198,12 @@ sjp.frq <- function(varCount,
                     innerBoxPlotWidth = 0.15,
                     innerBoxPlotDotSize = 3,
                     expand.grid = FALSE,
-                    showValueLabels = TRUE,
+                    show.values = TRUE,
                     showCountValues = TRUE,
                     showPercentageValues = TRUE,
-                    showAxisLabels.x = TRUE,
-                    showAxisLabels.y = TRUE,
-                    showCI = FALSE,
-                    error.bar.color = "darkred",
+                    show.axis.values = TRUE,
+                    show.ci = FALSE,
+                    errorbar.color = "darkred",
                     showMeanIntercept = FALSE,
                     showMeanValue = TRUE,
                     showStandardDeviation = TRUE,
@@ -358,13 +355,13 @@ sjp.frq <- function(varCount,
                           order.frq = sort.frq, 
                           round.prz = 2,
                           na.rm = na.rm, 
-                          weightBy = weightBy)
+                          weightBy = weight.by)
   mydat <- df.frq$mydat
   if (!is.null(df.frq$labels) && is.null(axisLabels.x)) axisLabels.x <- df.frq$labels
   # --------------------------------------------------------
   # define text label position
   # --------------------------------------------------------
-  if (showCI)
+  if (show.ci)
     mydat$label.pos <- mydat$upper.ci
   else
     mydat$label.pos <- mydat$frq
@@ -411,10 +408,10 @@ sjp.frq <- function(varCount,
   # --------------------------------------------------------
   # If we have a histogram, caluclate means of groups
   # --------------------------------------------------------
-  if (is.null(weightBy)) {
+  if (is.null(weight.by)) {
     mittelwert <- mean(varCount, na.rm = TRUE)
   } else {
-    mittelwert <- stats::weighted.mean(varCount, weightBy, na.rm = TRUE)
+    mittelwert <- stats::weighted.mean(varCount, weight.by, na.rm = TRUE)
   }
   stddev <- sd(varCount, na.rm = TRUE)
   # --------------------------------------------------------
@@ -465,19 +462,18 @@ sjp.frq <- function(varCount,
                                                       groupsize = "auto", 
                                                       groupcount = hist.grp.cnt)) * 1.05))
     } else {
-      if (showCI)
+      if (show.ci)
         upper_lim <- max(pretty(mydat$upper.ci * 1.05))
       else
         upper_lim <- max(pretty(table(varCount) * 1.05))
     }
   }
-  if (!showAxisLabels.x) axisLabels.x <- c("")
   # --------------------------------------------------------
   # Set value labels
   # --------------------------------------------------------
   # don't display value labels when we have boxplots or violin plots
-  if (type == "boxplots" || type == "violin") showValueLabels <- FALSE
-  if (showValueLabels) {
+  if (type == "boxplots" || type == "violin") show.values <- FALSE
+  if (show.values) {
     # here we have counts and percentages
     if (showPercentageValues && showCountValues) {
       if (coord.flip) {
@@ -532,7 +528,7 @@ sjp.frq <- function(varCount,
   # set Y-axis, depending on the calculated upper y-range.
   # It either corresponds to the maximum amount of cases in the data set
   # (length of var) or to the highest count of var's categories.
-  if (showAxisLabels.y) {
+  if (show.axis.values) {
     yscale <- scale_y_continuous(limits = c(lower_lim, upper_lim), 
                                  expand = expand.grid, 
                                  breaks = gridbreaks)
@@ -580,8 +576,8 @@ sjp.frq <- function(varCount,
       # If argument "axisLabels.x" is NULL, the category numbers (1 to ...) 
       # appear on the x-axis
       scale_x_discrete(labels = axisLabels.x)
-    if (showCI) {
-      ebcol <- ifelse(type == "dots", geom.colors, error.bar.color)
+    if (show.ci) {
+      ebcol <- ifelse(type == "dots", geom.colors, errorbar.color)
       # print confidence intervalls (error bars)
       baseplot <- baseplot + geom_errorbar(aes(ymin = lower.ci, ymax = upper.ci), 
                                            colour = ebcol, 

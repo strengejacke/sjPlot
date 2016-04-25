@@ -106,11 +106,10 @@
 #'          interaction plot is plotted (i.e. one vector of legend labels for each interaction plot).
 #'          Default is \code{NULL}, so the name of the predictor with min/max-effect is used 
 #'          as legend label.
-#' @param showValueLabels if \code{TRUE}, value labels are plotted along the lines. Default is \code{FALSE}.
-#' @param showCI may be a numeric or logical value. If \code{showCI} is logical and 
-#'          \code{TRUE}, a 95\% confidence region will be plotted. If \code{showCI}
+#' @param show.ci may be a numeric or logical value. If \code{show.ci} is logical and 
+#'          \code{TRUE}, a 95\% confidence region will be plotted. If \code{show.ci}
 #'          if numeric, must be a number between 0 and 1, indicating the proportion
-#'          for the confidence regeion (e.g. \code{showCI = 0.9} plots a 90\% CI).
+#'          for the confidence regeion (e.g. \code{show.ci = 0.9} plots a 90\% CI).
 #'          Only applies to \code{type = "emm"} or \code{type = "eff"}.
 #' @param valueLabel.digits the amount of digits of the displayed value labels. Defaults to 2.
 #' @param facet.grid \code{TRUE} for faceted plots instead of an integrated single plot.
@@ -148,7 +147,7 @@
 #'              models of class \code{\link{lm}} or \code{\link[lme4]{merMod}}. This function may be used, for example,
 #'              to plot differences in interventions between control and treatment groups over multiple time points.
 #'              \itemize{
-#'                \item Following paramters apply to this plot type: \code{showCI}, \code{valueLabel.digits} and \code{axisLabels.x}.
+#'                \item Following paramters apply to this plot type: \code{show.ci}, \code{valueLabel.digits} and \code{axisLabels.x}.
 #'                \item Following arguments \emph{do not} apply to this function: \code{int.term}, \code{int.plot.index}, \code{diff}, \code{moderatorValues}, \code{fillColor}, \code{fillAlpha}.
 #'              }
 #'            }
@@ -183,7 +182,7 @@
 #' summary(fit)
 #'
 #' # plot regression line of interaction terms, including value labels
-#' sjp.int(fit, type = "eff", showValueLabels = TRUE)
+#' sjp.int(fit, type = "eff", show.values = TRUE)
 #'
 #'
 #' # load sample data set
@@ -290,13 +289,13 @@
 #' fit <- lm(burden ~ .*., data = mydf)
 #' 
 #' # plot effects
-#' sjp.int(fit, type = "eff", showCI = TRUE)
+#' sjp.int(fit, type = "eff", show.ci = TRUE)
 #'
 #' # plot effects, faceted
 #' sjp.int(fit, 
 #'         type = "eff", 
 #'         int.plot.index = 3,
-#'         showCI = TRUE,
+#'         show.ci = TRUE,
 #'         facet.grid = TRUE)}
 #'
 #' @import ggplot2
@@ -322,7 +321,7 @@ sjp.int <- function(fit,
                     axisLabels.x = NULL,
                     legendTitle = NULL,
                     legendLabels = NULL,
-                    showValueLabels = FALSE,
+                    show.values = FALSE,
                     breakTitleAt = 50,
                     breakLegendLabelsAt = 20,
                     breakLegendTitleAt = 20,
@@ -330,7 +329,7 @@ sjp.int <- function(fit,
                     axisLimits.y = NULL,
                     y.offset = 0.07,
                     gridBreaksAt = NULL,
-                    showCI = FALSE,
+                    show.ci = FALSE,
                     p.kr = TRUE,
                     valueLabel.digits = 2,
                     facet.grid = FALSE,
@@ -417,17 +416,17 @@ sjp.int <- function(fit,
   # --------------------------------------------------------
   if (type == "emm") {
     # ------------------------
-    # multiple purpose of showCI parameter. if logical,
-    # sets default CI to 0.95, else showCI also may be
+    # multiple purpose of show.ci parameter. if logical,
+    # sets default CI to 0.95, else show.ci also may be
     # numeric
     # ------------------------
-    if (!is.null(showCI) && !is.logical(showCI)) {
-      showCI <- TRUE
-      warning("argument `showCI` must be logical for `type = 'emm'`.", call. = F)
+    if (!is.null(show.ci) && !is.logical(show.ci)) {
+      show.ci <- TRUE
+      warning("argument `show.ci` must be logical for `type = 'emm'`.", call. = F)
     }
     return(sjp.emm(fit, swapPredictors, plevel, title, geom.colors, geom.size,
                    axisTitle.x, axisTitle.y, axisLabels.x, legendTitle, legendLabels,
-                   showValueLabels, valueLabel.digits, showCI, p.kr, breakTitleAt,
+                   show.values, valueLabel.digits, show.ci, p.kr, breakTitleAt,
                    breakLegendTitleAt, breakLegendLabelsAt, y.offset, axisLimits.y, 
                    gridBreaksAt, facet.grid, printPlot))
   }
@@ -443,9 +442,9 @@ sjp.int <- function(fit,
     return(sjp.eff.int(fit, int.term, int.plot.index, moderatorValues, swapPredictors, plevel,
                        title, fillAlpha, geom.colors, geom.size, axisTitle.x,
                        axisTitle.y, legendTitle, legendLabels,
-                       showValueLabels, breakTitleAt, breakLegendLabelsAt, 
+                       show.values, breakTitleAt, breakLegendLabelsAt, 
                        breakLegendTitleAt, axisLimits.x, axisLimits.y, 
-                       y.offset, gridBreaksAt, showCI, facet.grid, printPlot, fun))
+                       y.offset, gridBreaksAt, show.ci, facet.grid, printPlot, fun))
   }
   # -----------------------------------------------------------
   # set axis title
@@ -821,7 +820,7 @@ sjp.int <- function(fit,
       # -----------------------------------------------------------
       # show value labels
       # -----------------------------------------------------------
-      if (showValueLabels) {
+      if (show.values) {
         baseplot <- baseplot +
           geom_text(aes(label = round(ydiff, 1)),
                     nudge_y = y.offset,
@@ -843,7 +842,7 @@ sjp.int <- function(fit,
       # ------------------------------------------------------------
       # plot value labels
       # ------------------------------------------------------------
-      if (showValueLabels) {
+      if (show.values) {
         baseplot <- baseplot +
           geom_point() +
           geom_text(aes(label = round(y, 1)),
@@ -915,7 +914,7 @@ sjp.eff.int <- function(fit,
                         axisTitle.y = NULL,
                         legendTitle = NULL,
                         legendLabels = NULL,
-                        showValueLabels = FALSE,
+                        show.values = FALSE,
                         breakTitleAt = 50,
                         breakLegendLabelsAt = 20,
                         breakLegendTitleAt = 20,
@@ -923,7 +922,7 @@ sjp.eff.int <- function(fit,
                         axisLimits.y = NULL,
                         y.offset = 0.07,
                         gridBreaksAt = NULL,
-                        showCI = FALSE,
+                        show.ci = FALSE,
                         facet.grid = FALSE,
                         printPlot = TRUE,
                         fun) {
@@ -942,13 +941,13 @@ sjp.eff.int <- function(fit,
   # init default
   binom_fam <- FALSE
   # ------------------------
-  # multiple purpose of showCI parameter. if logical,
-  # sets default CI to 0.95, else showCI also may be
+  # multiple purpose of show.ci parameter. if logical,
+  # sets default CI to 0.95, else show.ci also may be
   # numeric
   # ------------------------
-  if (!is.null(showCI) && !is.logical(showCI)) {
-    eci <- showCI
-    showCI = TRUE
+  if (!is.null(show.ci) && !is.logical(show.ci)) {
+    eci <- show.ci
+    show.ci = TRUE
   } else {
     eci <- 0.95
   }
@@ -1164,7 +1163,7 @@ sjp.eff.int <- function(fit,
       # the scale limits
       # -----------------------------------------------------------
       if (is.null(axisLimits.y)) {
-        if (showCI) {
+        if (show.ci) {
           lowerLim.y <- floor(min(intdf$conf.low, na.rm = T))
           upperLim.y <- ceiling(max(intdf$conf.high, na.rm = T))
         } else {
@@ -1202,7 +1201,7 @@ sjp.eff.int <- function(fit,
       # -----------------------------------------------------------
       if (is.null(axisLimits.y)) {
         if (binom_fam) {
-          if (showCI) {
+          if (show.ci) {
             lowerLim.y <- as.integer(floor(10 * min(intdf$conf.low, na.rm = T) * .9)) / 10
             upperLim.y <- as.integer(ceiling(10 * max(intdf$conf.high, na.rm = T) * 1.1)) / 10
           } else {
@@ -1210,7 +1209,7 @@ sjp.eff.int <- function(fit,
             upperLim.y <- as.integer(ceiling(10 * max(intdf$y, na.rm = T) * 1.1)) / 10
           }
         } else {
-          if (showCI) {
+          if (show.ci) {
             lowerLim.y <- floor(min(intdf$conf.low, na.rm = T))
             upperLim.y <- ceiling(max(intdf$conf.high, na.rm = T))
           } else {
@@ -1324,7 +1323,7 @@ sjp.eff.int <- function(fit,
     # ------------------------------------------------------------
     # confidence interval?
     # ------------------------------------------------------------
-    if (showCI) {
+    if (show.ci) {
       if (x_is_factor) {
         # -------------------------------------------------
         # for factors, we add error bars instead of
@@ -1350,7 +1349,7 @@ sjp.eff.int <- function(fit,
     # ------------------------------------------------------------
     # plot value labels
     # ------------------------------------------------------------
-    if (showValueLabels) {
+    if (show.values) {
       # don't need geom_point, because point-layer already 
       # added with x_is_factor
       if (!x_is_factor) baseplot <- baseplot + geom_point()

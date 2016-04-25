@@ -28,14 +28,13 @@ utils::globalVariables(c("ordx", "ordy"))
 #'          data frame.
 #' @param decimals indicates how many decimal values after comma are printed when
 #'          the values labels are shown. Default is 3. Only applies when
-#'          \code{showValueLabels = TRUE}.
+#'          \code{show.values = TRUE}.
 #' @param missingDeletion indicates how missing values are treated. May be either
 #'          \code{"listwise"} (default) or \code{"pairwise"}.
 #' @param corMethod indicates the correlation computation method. May be one of
 #'          \code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.
 #' @param geom.size specifies the circle size factor. The circle size depends on the correlation
 #'          value multiplicated with this factor. Default is 15.
-#' @param showValueLabels logical, whether correlation values should be plotted to each geom
 #' @param showPValues logical, whether significance levels (p-values) of correlations should
 #'          be plotted to each geom. See 'Note'.
 #' @param pvaluesAsNumbers logical, if \code{TRUE}, the significance levels (p-values) are printed as numbers.
@@ -116,7 +115,7 @@ sjp.corr <- function(data,
                      breakLabelsAt = 20,
                      hideLegend = TRUE,
                      legendTitle = NULL,
-                     showValueLabels = TRUE,
+                     show.values = TRUE,
                      showPValues = TRUE,
                      pvaluesAsNumbers = FALSE,
                      printPlot = TRUE) {
@@ -296,7 +295,7 @@ sjp.corr <- function(data,
   # --------------------------------------------------------
   # set visibility of labels
   # --------------------------------------------------------
-  if (!showValueLabels) {
+  if (!show.values) {
     correlationValueLabels <- c("")
     correlationPValues <- c("")
   } else {

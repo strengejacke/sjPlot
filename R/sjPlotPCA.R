@@ -44,8 +44,6 @@
 #'          one line and when a line break is inserted into the title. Default is 50.
 #' @param breakLabelsAt Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in 
 #'          one line and when a line break is inserted. Default is 12.
-#' @param showValueLabels Whether factor loading values should be plotted to each geom.
-#'          Default is \code{TRUE}.
 #' @param showCronbachsAlpha If \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
 #'          i.e. all variables with the highest loading for a factor are taken for the
 #'          reliability test. The result is an alpha value for each factor dimension.
@@ -61,6 +59,8 @@
 #'            \item the ggplot-object (\code{plot}),
 #'            \item the data frame that was used for setting up the ggplot-object (\code{df}).
 #'            }
+#' 
+#' @inheritParams sjp.grpfrq
 #' 
 #' @note This PCA uses the \code{\link{prcomp}} function and the \code{\link{varimax}} rotation.
 #' 
@@ -160,7 +160,7 @@ sjp.pca <- function(data,
                     geom.colors = "RdBu",
                     breakTitleAt = 50,
                     breakLabelsAt = 30,
-                    showValueLabels = TRUE,
+                    show.values = TRUE,
                     showCronbachsAlpha = TRUE,
                     printPlot = TRUE) {
   # --------------------------------------------------------
@@ -365,7 +365,7 @@ sjp.pca <- function(data,
                       factor_key = TRUE)  
   # we need new columns for y-positions and point sizes
   df <- cbind(df, ypos = 1:nrow(pcadata.varim$loadings), psize = exp(abs(df$value)) * geom.size)
-  if (!showValueLabels) {
+  if (!show.values) {
     valueLabels <- c("")
   } else {
     valueLabels <- sprintf("%.*f", digits, df$value)

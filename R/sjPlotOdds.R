@@ -28,15 +28,13 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'          one panel grid to the next. If \code{FALSE}, grids are 
 #'          plotted on every \code{gridBreaksAt}'s position, thus the grid lines become narrower with 
 #'          higher odds ratio values.
-#' @param showIntercept logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
-#'          Default is \code{FALSE}. Please note that due to exponential transformation of
-#'          estimates, the intercept in some cases can not be calculated, thus the
+#' @param show.intercept logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
+#'          Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential 
+#'          transformation of estimates, the intercept in some cases can not be calculated, thus the
 #'          function call is interrupted and no plot printed.
 #' @param showModelSummary logical, if \code{TRUE}, a summary of the regression model with
 #'          Intercept, R-squared, F-Test and AIC-value is printed to the lower right corner
 #'          of the plot.
-#' @param show.ci logical, use \code{TRUE} to plot (depending on \code{type}) 
-#'          the confidence interval for probability curves (predicted probabilities).
 #' @param facet.grid logical, \code{TRUE} when each plot should be plotted separately instead of
 #'          an integrated (faceted) single graph. Only applies, if \code{type = "slope"}.
 #' @param showOriginalModelOnly logical, if \code{TRUE} (default) and \code{type = "ma"}, 
@@ -64,9 +62,10 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'            just for glm objects. This plot type may give similar results as 
 #'            \code{type = "pred"}, however, \code{type = "slope"} does not adjust
 #'            for other predictors.}
-#'            \item{\code{type = "eff"}}{the predicted values
-#'            computed by \code{type = "eff"} have all co-variates
-#'            set to the mean, as returned by the \code{\link[effects]{allEffects}} function.}
+#'            \item{\code{type = "eff"}}{computes marginal effects of all higher order
+#'            terms in the model. The predicted values computed by \code{type = "eff"}
+#'            are adjusted for all other co-variates, by setting them to the mean
+#'            (as returned by the \code{\link[effects]{allEffects}} function).}
 #'            \item{\code{type = "pred"}}{the predicted values
 #'            of the response are computed, based on the \code{\link{predict.glm}}
 #'            method. Corresponds to \code{\link{predict}(fit, type = "response")}.
@@ -121,13 +120,13 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' # plot odds
 #' sjp.glm(fit,
 #'         title = get_label(efc$neg_c_7),
-#'         axisLabels.y = predlab)
+#'         var.labels = predlab)
 #'
 #' # plot probability curves (predicted probabilities)
 #' # of coefficients
 #' sjp.glm(fit,
 #'         title = get_label(efc$neg_c_7),
-#'         axisLabels.y = predlab,
+#'         var.labels = predlab,
 #'         type = "slope")
 #'
 #' # --------------------------
@@ -135,7 +134,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' # --------------------------
 #' sjp.glm(fit, 
 #'         group.estimates = c(1, 2, 2, 2, 3, 4, 4),
-#'         axisLabels.y = predlab)
+#'         var.labels = predlab)
 #'
 #' # --------------------------
 #' # model predictions, with selected model terms.
@@ -157,7 +156,7 @@ sjp.glm <- function(fit,
                     type = "dots",
                     sort.est = TRUE,
                     title = NULL,
-                    axisLabels.y = NULL,
+                    var.labels = NULL,
                     axisTitle.x = "Odds Ratios",
                     legendTitle = NULL,
                     axisLimits = NULL,
@@ -167,16 +166,15 @@ sjp.glm <- function(fit,
                     transformTicks = TRUE,
                     geom.size = NULL,
                     geom.colors = "Set1",
-                    interceptLineType = 2,
-                    interceptLineColor = "grey70",
+                    vline.type = 2,
+                    vline.color = "grey70",
                     group.estimates = NULL,
                     remove.estimates = NULL,
                     vars = NULL,
                     coord.flip = TRUE,
                     y.offset = .15,
-                    showIntercept = FALSE,
-                    showAxisLabels.y = TRUE,
-                    showValueLabels = TRUE,
+                    show.intercept = FALSE,
+                    show.values = TRUE,
                     labelDigits = 2,
                     showPValueLabels = TRUE,
                     showModelSummary = FALSE,
@@ -216,7 +214,7 @@ sjp.glm <- function(fit,
   }
   if (type == "eff") {
     return(invisible(sjp.glm.eff(fit, title, geom.size, remove.estimates, vars,
-                                 showCI = show.ci, axisLimits.y = axisLimits,
+                                 show.ci, axisLimits.y = axisLimits,
                                  facet.grid, fun = "glm", printPlot)))
   }
   if (type == "pred") {
@@ -245,8 +243,8 @@ sjp.glm <- function(fit,
   # --------------------------------------------------------
   # auto-retrieve value labels
   # --------------------------------------------------------
-  if (is.null(axisLabels.y)) {
-    axisLabels.y <- suppressWarnings(retrieveModelLabels(list(fit), group.pred = FALSE))
+  if (is.null(var.labels)) {
+    var.labels <- suppressWarnings(retrieveModelLabels(list(fit), group.pred = FALSE))
   }
   # ----------------------------
   # check model family, do we have count model?
@@ -274,7 +272,7 @@ sjp.glm <- function(fit,
   # every 50 chars
   if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
   # check length of x-axis-labels and split longer strings at into new lines
-  if (!is.null(axisLabels.y)) axisLabels.y <- sjmisc::word_wrap(axisLabels.y, breakLabelsAt)
+  if (!is.null(var.labels)) var.labels <- sjmisc::word_wrap(var.labels, breakLabelsAt)
   # ----------------------------
   # get model coefficients
   # ----------------------------
@@ -301,7 +299,7 @@ sjp.glm <- function(fit,
   # copy OR-values into data column
   # ----------------------------
   ps <- rep("", length(ov))
-  if (showValueLabels) ps <- sprintf("%.*f", labelDigits, ov)
+  if (show.values) ps <- sprintf("%.*f", labelDigits, ov)
   # ----------------------------
   # copy p-values into data column
   # ----------------------------
@@ -328,8 +326,8 @@ sjp.glm <- function(fit,
   # have factors with different levels, which appear as
   # "multiple predictors", but are only one variable
   # --------------------------------------------------------
-  if (is.null(axisLabels.y) || length(axisLabels.y) < length(row.names(odds))) {
-    axisLabels.y <- row.names(odds)
+  if (is.null(var.labels) || length(var.labels) < length(row.names(odds))) {
+    var.labels <- row.names(odds)
   }
   # ----------------------------
   # bind p-values to data frame
@@ -378,8 +376,8 @@ sjp.glm <- function(fit,
     # set back rownames
     row.names(odds) <- keepnames
     # remove labels?
-    if (!is.null(axisLabels.y) && length(axisLabels.y) > nrow(odds))
-      axisLabels.y <- axisLabels.y[-remrows]
+    if (!is.null(var.labels) && length(var.labels) > nrow(odds))
+      var.labels <- var.labels[-remrows]
     # remove p-values
     ov <- ov[-remrows]
   }
@@ -390,7 +388,7 @@ sjp.glm <- function(fit,
   if (is.null(axisLimits)) {
     # if intercept is shown, we have to adjuste the axis limits to max/min
     # values of odds ratios AND intercept
-    if (showIntercept) {
+    if (show.intercept) {
       rdf <- tmp
     } else {
       # else, we have to adjuste the axis limits to max/min
@@ -445,27 +443,23 @@ sjp.glm <- function(fit,
     modsum <- NULL
   }
   # --------------------------------------------------------
-  # should axis labels be hidden? if yes, clear labels
-  # --------------------------------------------------------
-  if (!showAxisLabels.y) axisLabels.y <- c("")
-  # --------------------------------------------------------
   # Sort odds and labels according to b-coefficients
   # --------------------------------------------------------
   if (sort.est) {
     if (!is.null(group.estimates)) {
-      axisLabels.y <- rev(axisLabels.y[order(odds$grp.est, odds$OR)])
+      var.labels <- rev(var.labels[order(odds$grp.est, odds$OR)])
       odds <- odds[rev(order(odds$grp.est, odds$OR)), ]
     } else {
-      axisLabels.y <- axisLabels.y[order(odds$OR)]
+      var.labels <- var.labels[order(odds$OR)]
       odds <- odds[order(odds$OR), ]
     }
   }
   # --------------------------------------------------------
   # check whether intercept should be shown
   # --------------------------------------------------------
-  if (showIntercept) {
+  if (show.intercept) {
     odds <- data.frame(rbind(tmp[1, ], odds))
-    axisLabels.y <- c("Intercept", axisLabels.y)
+    var.labels <- c("Intercept", var.labels)
   }
   odds$vars <- as.factor(1:nrow(odds))
   # --------------------------------------------------------
@@ -503,13 +497,13 @@ sjp.glm <- function(fit,
   plotHeader <- plotHeader +
     # Intercept-line
     geom_hline(yintercept = 1,
-               linetype = interceptLineType,
-               color = interceptLineColor) +
+               linetype = vline.type,
+               color = vline.color) +
     labs(title = title,
          x = NULL,
          y = axisTitle.x,
          colour = legendTitle) +
-    scale_x_discrete(labels = axisLabels.y)
+    scale_x_discrete(labels = var.labels)
   # --------------------------------------------------------
   # create pretty breaks for log-scale
   # --------------------------------------------------------

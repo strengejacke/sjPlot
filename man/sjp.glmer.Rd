@@ -6,14 +6,14 @@
 \usage{
 sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   title = NULL, geom.size = NULL, geom.colors = "Set1",
-  hideErrorBars = FALSE, showIntercept = TRUE,
-  stringIntercept = "(Intercept)", sort.coef = NULL, pred.labels = NULL,
+  hideErrorBars = FALSE, show.intercept = TRUE,
+  stringIntercept = "(Intercept)", sort.est = NULL, var.labels = NULL,
   axisTitle.x = NULL, axisTitle.y = NULL, axisLimits.y = NULL,
-  facet.grid = TRUE, free.scale = FALSE, interceptLineType = 2,
-  interceptLineColor = "grey70", remove.estimates = NULL,
-  showValueLabels = TRUE, labelDigits = 2, y.offset = 0.1,
-  showPValueLabels = TRUE, fade.ns = FALSE, show.ci = FALSE,
-  sample.n = NULL, show.legend = FALSE, printPlot = TRUE)
+  facet.grid = TRUE, free.scale = FALSE, vline.type = 2,
+  vline.color = "grey70", remove.estimates = NULL, show.values = TRUE,
+  labelDigits = 2, y.offset = 0.1, showPValueLabels = TRUE,
+  fade.ns = FALSE, show.ci = FALSE, sample.n = NULL,
+  show.legend = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{glmer}}-function.}
@@ -37,10 +37,7 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
 variable names of selected variables from the fitted model, which should be used to plot
 estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability or
 incidents curves
-(for \code{\link[lme4]{glmer}}) of random intercepts. This argument
-applies if \code{type} is \code{"fe"}, \code{"fe.std"}, \code{"re"},
-\code{"fe.slope"}, \code{"ri.slope"} or \code{"eff"}.
-In this case, only those terms specified in \code{"vars"} will be plotted.}
+(for \code{\link[lme4]{glmer}}) of random intercepts.}
 
 \item{ri.nr}{numeric vector. If \code{type = "re"} or \code{type = "ri.slope"},
 and fitted model has more than one random intercept, \code{ri.nr} indicates
@@ -66,22 +63,26 @@ or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.}
 \item{hideErrorBars}{logical, if \code{TRUE}, the error bars that indicate the confidence intervals of the odds ratios are not
 shown.}
 
-\item{showIntercept}{logical, if \code{TRUE}, the intercept is included when plotting random or fixed effects.}
+\item{show.intercept}{logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
+Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential 
+transformation of estimates, the intercept in some cases can not be calculated, thus the
+function call is interrupted and no plot printed.}
 
-\item{stringIntercept}{string, label of intercept estimate on the y axis. Only applies, if \code{showIntercept}
-is \code{TRUE} and \code{pred.labels} is not \code{NULL}.}
+\item{stringIntercept}{string, label of intercept estimate on the y axis. Only applies, if \code{show.intercept}
+is \code{TRUE} and \code{var.labels} is not \code{NULL}.}
 
-\item{sort.coef}{indicates which coefficient should be used for sorting odds ratios
+\item{sort.est}{determines in which way estimates are sorted in the plot:
 \itemize{
-  \item If \code{NULL} (default), no sorting is done and odds ratios are sorted in order of model coefficients.
-  \item If \code{sort.coef = "sort.all"}, odds ratios are re-sorted for each coefficient (only applies if \code{type = "re"} and \code{facet.grid = FALSE}), i.e. the odds ratios of the random effects for each predictor are sorted and plotted to an own plot.
+  \item If \code{NULL} (default), no sorting is done and estimates are sorted in order of model coefficients.
+  \item If \code{sort.est = "sort.all"}, estimates are re-sorted for each coefficient (only applies if \code{type = "re"} and \code{facet.grid = FALSE}), i.e. the estimates of the random effects for each predictor are sorted and plotted to an own plot.
   \item If \code{type = "fe"} or \code{type = "fe.std"}, \code{TRUE} will sort estimates
-  \item Else, specify a predictor's / coefficient's name to sort odds ratios according to this coefficient.
+  \item Else, specify a predictor's / coefficient's name to sort estimates according to this coefficient.
   }
   See 'Examples'.}
 
-\item{pred.labels}{character vector with labels for the predictors / covariates / groups. Should either be vector
-of fixed effects variable labels (if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
+\item{var.labels}{character vector with labels for the model terms, used as axis labels.
+For mixed models, should either be vector of fixed effects variable labels 
+(if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
 labels from the random intercept's categories (if \code{type = "re"}).}
 
 \item{axisTitle.x}{title for the x axis. If not specified, a default labelling depending
@@ -101,18 +102,18 @@ an integrated (faceted) single graph.}
 gets its own fitted scale. If \code{free.scale = FALSE}, each facet in
 the grid has the same scale range.}
 
-\item{interceptLineType}{linetype of the intercept line (zero point). Default is \code{2} (dashed line).}
+\item{vline.type}{linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
 
-\item{interceptLineColor}{color of the intercept line. Default value is \code{"grey70"}.}
+\item{vline.color}{color of the vertical "zero point" line. Default value is \code{"grey70"}.}
 
 \item{remove.estimates}{character vector with coefficient names that indicate
 which estimates should be removed from the plot.
 \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 is \code{NULL}, i.e. all estimates are printed.}
 
-\item{showValueLabels}{logical, whether estimate values should be plotted to each dot or not.}
+\item{show.values}{logical, whether values should be plotted or not.}
 
-\item{labelDigits}{numeric, amount of digits for rounding the estimates (see \code{showValueLabels}).
+\item{labelDigits}{numeric, amount of digits for rounding the estimates (see \code{show.values}).
 Default is 2, i.e. estimates have 2 digits after decimal point.}
 
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
@@ -123,8 +124,8 @@ to values or not.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 
-\item{show.ci}{logical, use \code{TRUE} to plot confidence intervals for
-predicted values or for slope lines.}
+\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a condifence
+region is added to the plot.}
 
 \item{sample.n}{numeric vector. only applies, if \code{type = "rs.ri"}. If
 plot has many random intercepts (grouping levels), overplotting of
@@ -172,8 +173,8 @@ By default, this function plots estimates (odds, risk or incidents
            may give similar results as \code{type = "pred"}, however, \code{type = "fe.slope"} 
            does not adjust for other predictors.}
            \item{\code{type = "eff"}}{plots the marginal effects of model predictors.
-           Unlike \code{type = "fe.slope"}, the predicted values
-           computed by \code{type = "eff"} have all co-variates
+           Unlike \code{type = "fe.slope"}, the predicted values computed by 
+           \code{type = "eff"} are adjusted for all co-variates, which are
            set to the mean, as returned by the \code{\link[effects]{allEffects}} function.}
            \item{\code{type = "ri.slope"}}{the predicted values
            are based on the fixed effects intercept, plus each random intercept and
@@ -234,7 +235,7 @@ fit <- glmer(Reaction.dicho ~ Days + (Days | Subject),
 sjp.glmer(fit)
 
 # sort by predictor Days
-sjp.glmer(fit, sort.coef = "Days")
+sjp.glmer(fit, sort.est = "Days")
 
 data(efc)
 # create binary response
@@ -256,7 +257,7 @@ fit <- glmer(hi_qol ~ sex + c12hour + neg_c_7 + (1|grp),
 # plot and sort fixed effects
 sjp.glmer(fit,
           type = "fe",
-          sort.coef = TRUE)
+          sort.est = TRUE)
 
 # plot probability curves (predicted probabilities)
 # for each covariate, grouped by random intercepts

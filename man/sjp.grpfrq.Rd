@@ -4,7 +4,7 @@
 \alias{sjp.grpfrq}
 \title{Plot grouped or stacked frequencies}
 \usage{
-sjp.grpfrq(varCount, varGroup, weightBy = NULL, weightByTitleString = NULL,
+sjp.grpfrq(varCount, varGroup, weight.by = NULL, weightByTitleString = NULL,
   interactionVar = NULL, type = "bars", geom.size = NULL,
   geom.spacing = 0.15, geom.colors = "Paired", hideLegend = FALSE,
   facet.grid = FALSE, title = "", legendTitle = NULL,
@@ -13,13 +13,12 @@ sjp.grpfrq(varCount, varGroup, weightBy = NULL, weightByTitleString = NULL,
   breakLegendTitleAt = 20, breakLegendLabelsAt = 20, gridBreaksAt = NULL,
   barPosition = "dodge", innerBoxPlotWidth = 0.15,
   innerBoxPlotDotSize = 3, smoothLines = FALSE, expand.grid = FALSE,
-  showValueLabels = TRUE, showCountValues = TRUE,
-  showPercentageValues = TRUE, showAxisLabels.x = TRUE,
-  showAxisLabels.y = TRUE, showPlotAnnotation = TRUE,
-  showTableSummary = FALSE, showGroupCount = FALSE, tableSummaryPos = "r",
-  axisTitle.x = "", axisTitle.y = "", autoGroupAt = NULL,
-  coord.flip = FALSE, vjust = "bottom", hjust = "center",
-  y.offset = NULL, na.rm = TRUE, printPlot = TRUE)
+  show.values = TRUE, showCountValues = TRUE, showPercentageValues = TRUE,
+  showPlotAnnotation = TRUE, showTableSummary = FALSE,
+  showGroupCount = FALSE, tableSummaryPos = "r", axisTitle.x = "",
+  axisTitle.y = "", autoGroupAt = NULL, coord.flip = FALSE,
+  vjust = "bottom", hjust = "center", y.offset = NULL, na.rm = TRUE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{varCount}{a vector of values (variable) describing the bars which make up the plot.}
@@ -27,10 +26,10 @@ sjp.grpfrq(varCount, varGroup, weightBy = NULL, weightByTitleString = NULL,
 \item{varGroup}{grouping variable of same length as \code{varCount}, where \code{varCount} 
 is grouped into the categories represented by \code{varGrp}.}
 
-\item{weightBy}{weight factor that will be applied to weight all cases from \code{varCount}.
+\item{weight.by}{weight factor that will be applied to weight all cases from \code{varCount}.
 Must be a vector of same length as \code{varCount}. Default is \code{NULL}, so no weights are used.}
 
-\item{weightByTitleString}{suffix (as string) for the plot's title, if \code{weightBy} is specified,
+\item{weightByTitleString}{suffix (as string) for the plot's title, if \code{weight.by} is specified,
 e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's 
 title will not have a suffix when cases are weighted.}
 
@@ -120,18 +119,13 @@ when \code{type = "violins"} or \code{"boxplots"}.}
 \item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 axes and plotting region. Default is \code{FALSE}.}
 
-\item{showValueLabels}{logical, whether count and percentage values should be plotted to each bar. Default
-is \code{TRUE}.}
+\item{show.values}{logical, whether values should be plotted or not.}
 
 \item{showCountValues}{logical, if \code{TRUE} (default), count values are plotted to each bar. 
 If \code{FALSE}, count values are removed.}
 
 \item{showPercentageValues}{logical, if \code{TRUE} (default), percentage values are plotted to each bar
 If \code{FALSE}, percentage values are removed.}
-
-\item{showAxisLabels.x}{logical, whether x-axis labels (category names) should be shown or not.}
-
-\item{showAxisLabels.y}{logical, whether y-axis labels (count values) should be shown or not.}
 
 \item{showPlotAnnotation}{logical, if \code{TRUE}, the groups of dots in a dot-plot are highlighted 
 with a shaded rectangle.}
@@ -217,7 +211,7 @@ library(sjmisc)
 data(efc)
 sjp.grpfrq(efc$e17age,
            efc$e16sex,
-           showValueLabels = FALSE)
+           show.values = FALSE)
 
 # boxplot
 sjp.grpfrq(efc$e17age, 
@@ -241,7 +235,7 @@ sjp.grpfrq(efc$e17age,
 # Grouped bar plot ranging from 7 to 28
 sjp.grpfrq(efc$neg_c_7, 
            efc$e42dep, 
-           showValueLabels = FALSE)
+           show.values = FALSE)
 
 # same data as line plot
 sjp.grpfrq(efc$neg_c_7, 

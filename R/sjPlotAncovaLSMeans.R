@@ -13,9 +13,9 @@ sjp.emm <- function(fit,
                     axisLabels.x = NULL,
                     legendTitle = NULL,
                     legendLabels = NULL,
-                    showValueLabels = FALSE,
+                    show.values = FALSE,
                     valueLabel.digits = 2,
-                    showCI = FALSE,
+                    show.ci = FALSE,
                     p.kr = TRUE,
                     breakTitleAt = 50,
                     breakLegendTitleAt = 20,
@@ -44,7 +44,7 @@ sjp.emm <- function(fit,
   if (any(class(fit) == "lmerMod") || any(class(fit) == "merModLmerTest")) {
     return(sjp.emm.lmer(fit, swapPredictors, plevel, title, geom.colors, geom.size,
                         axisTitle.x, axisTitle.y, axisLabels.x, legendLabels,
-                        showValueLabels, valueLabel.digits, showCI, p.kr, breakTitleAt,
+                        show.values, valueLabel.digits, show.ci, p.kr, breakTitleAt,
                         breakLegendLabelsAt, y.offset, axisLimits.y, gridBreaksAt, 
                         facet.grid, printPlot))
   }
@@ -203,8 +203,8 @@ sjp.emm <- function(fit,
       # the scale limits
       # -----------------------------------------------------------
       if (is.null(axisLimits.y)) {
-        lowerLim.y <- ifelse(showCI, floor(min(intdf$conf.low)), floor(min(intdf$y)))
-        upperLim.y <- ifelse(showCI, ceiling(max(intdf$conf.high)), ceiling(max(intdf$y)))
+        lowerLim.y <- ifelse(show.ci, floor(min(intdf$conf.low)), floor(min(intdf$y)))
+        upperLim.y <- ifelse(show.ci, ceiling(max(intdf$conf.high)), ceiling(max(intdf$y)))
       } else {
         lowerLim.y <- axisLimits.y[1]
         upperLim.y <- axisLimits.y[2]
@@ -288,7 +288,7 @@ sjp.emm <- function(fit,
       # -----------------------------------------------------------
       # Confidence intervals?
       # -----------------------------------------------------------
-      if (showCI) baseplot <- baseplot +
+      if (show.ci) baseplot <- baseplot +
           geom_ribbon(aes(x = xn, ymin = conf.low, ymax = conf.high, fill = grp), alpha = .3)
       # -----------------------------------------------------------
       # continue with plot. point and line layers above ribbon
@@ -300,7 +300,7 @@ sjp.emm <- function(fit,
       # ------------------------------------------------------------
       # plot value labels
       # ------------------------------------------------------------
-      if (showValueLabels) {
+      if (show.values) {
         baseplot <- baseplot +
           geom_text(aes(label = round(y, vld), x = x, y = y),
                     nudge_y = y.offset,
@@ -345,8 +345,8 @@ sjp.emm <- function(fit,
 
 #' @importFrom stats model.frame
 sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.size, axisTitle.x,
-                         axisTitle.y, axisLabels.x, legendLabels, showValueLabels,
-                         valueLabel.digits, showCI, p.kr, breakTitleAt, breakLegendLabelsAt,
+                         axisTitle.y, axisLabels.x, legendLabels, show.values,
+                         valueLabel.digits, show.ci, p.kr, breakTitleAt, breakLegendLabelsAt,
                          y.offset, axisLimits.y, gridBreaksAt, facet.grid, printPlot) {
   if ((any(class(fit) == "lmerMod") || any(class(fit) == "merModLmerTest")) && !requireNamespace("lmerTest", quietly = TRUE)) {
     stop("Package 'lmerTest' needed for this function to work. Please install it.", call. = FALSE)
@@ -500,8 +500,8 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.s
       # the scale limits
       # -----------------------------------------------------------
       if (is.null(axisLimits.y)) {
-        lowerLim.y <- ifelse(showCI, floor(min(intdf$conf.low)), floor(min(intdf$y)))
-        upperLim.y <- ifelse(showCI, ceiling(max(intdf$conf.high)), ceiling(max(intdf$y)))
+        lowerLim.y <- ifelse(show.ci, floor(min(intdf$conf.low)), floor(min(intdf$y)))
+        upperLim.y <- ifelse(show.ci, ceiling(max(intdf$conf.high)), ceiling(max(intdf$y)))
       } else {
         lowerLim.y <- axisLimits.y[1]
         upperLim.y <- axisLimits.y[2]
@@ -574,7 +574,7 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.s
       # -----------------------------------------------------------
       # Confidence intervals?
       # -----------------------------------------------------------
-      if (showCI) baseplot <- baseplot +
+      if (show.ci) baseplot <- baseplot +
         geom_ribbon(aes(x = xn, ymin = conf.low, ymax = conf.high, fill = grp), alpha = .3)
       # -----------------------------------------------------------
       # continue with plot. point and line layers above ribbon
@@ -586,7 +586,7 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.s
       # ------------------------------------------------------------
       # plot value labels
       # ------------------------------------------------------------
-      if (showValueLabels) {
+      if (show.values) {
         baseplot <- baseplot +
           geom_text(aes(label = round(y, vld), x = x, y = y),
                     nudge_y = y.offset,

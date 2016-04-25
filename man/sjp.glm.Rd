@@ -5,14 +5,13 @@
 \title{Plot estimates, predictions or effects of generalized linear models}
 \usage{
 sjp.glm(fit, type = "dots", sort.est = TRUE, title = NULL,
-  axisLabels.y = NULL, axisTitle.x = "Odds Ratios", legendTitle = NULL,
+  var.labels = NULL, axisTitle.x = "Odds Ratios", legendTitle = NULL,
   axisLimits = NULL, breakTitleAt = 50, breakLabelsAt = 25,
   gridBreaksAt = 0.5, transformTicks = TRUE, geom.size = NULL,
-  geom.colors = "Set1", interceptLineType = 2,
-  interceptLineColor = "grey70", group.estimates = NULL,
-  remove.estimates = NULL, vars = NULL, coord.flip = TRUE,
-  y.offset = 0.15, showIntercept = FALSE, showAxisLabels.y = TRUE,
-  showValueLabels = TRUE, labelDigits = 2, showPValueLabels = TRUE,
+  geom.colors = "Set1", vline.type = 2, vline.color = "grey70",
+  group.estimates = NULL, remove.estimates = NULL, vars = NULL,
+  coord.flip = TRUE, y.offset = 0.15, show.intercept = FALSE,
+  show.values = TRUE, labelDigits = 2, showPValueLabels = TRUE,
   showModelSummary = FALSE, facet.grid = TRUE, show.ci = FALSE,
   show.legend = FALSE, showOriginalModelOnly = TRUE, printPlot = TRUE)
 }
@@ -38,8 +37,10 @@ Use \code{NULL} to automatically detect variable names that will be used as titl
 (see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
 no title is printed.}
 
-\item{axisLabels.y}{labels or names of the predictor variables (independent vars). Must
-be a character vector of same length as independent variables.}
+\item{var.labels}{character vector with labels for the model terms, used as axis labels.
+For mixed models, should either be vector of fixed effects variable labels 
+(if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
+labels from the random intercept's categories (if \code{type = "re"}).}
 
 \item{axisTitle.x}{string; title for the x-axis.}
 
@@ -72,9 +73,9 @@ color palette code (see 'Note' in \code{\link{sjp.grpfrq}}). Else, if
 \code{group.estimates} is specified, \code{geom.colors} must be a vector
 of same length as groups. See 'Examples'.}
 
-\item{interceptLineType}{linetype of the intercept line (zero point). Default is \code{2} (dashed line).}
+\item{vline.type}{linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
 
-\item{interceptLineColor}{color of the intercept line. Default value is \code{"grey70"}.}
+\item{vline.color}{color of the vertical "zero point" line. Default value is \code{"grey70"}.}
 
 \item{group.estimates}{numeric or character vector, indicating a group identifier for
 each estimate. Dots and confidence intervals of estimates are coloured
@@ -89,10 +90,7 @@ is \code{NULL}, i.e. all estimates are printed.}
 variable names of selected variables from the fitted model, which should be used to plot
 estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability or
 incidents curves
-(for \code{\link[lme4]{glmer}}) of random intercepts. This argument
-applies if \code{type} is \code{"fe"}, \code{"fe.std"}, \code{"re"},
-\code{"fe.slope"}, \code{"ri.slope"} or \code{"eff"}.
-In this case, only those terms specified in \code{"vars"} will be plotted.}
+(for \code{\link[lme4]{glmer}}) of random intercepts.}
 
 \item{coord.flip}{logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
 values are plotted on the x-axis.}
@@ -100,16 +98,14 @@ values are plotted on the x-axis.}
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
-\item{showIntercept}{logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
-Default is \code{FALSE}. Please note that due to exponential transformation of
-estimates, the intercept in some cases can not be calculated, thus the
+\item{show.intercept}{logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
+Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential 
+transformation of estimates, the intercept in some cases can not be calculated, thus the
 function call is interrupted and no plot printed.}
 
-\item{showAxisLabels.y}{logical, whether labels of independent variables should be shown or not.}
+\item{show.values}{logical, whether values should be plotted or not.}
 
-\item{showValueLabels}{logical, whether value labels should be plotted to each dot or not.}
-
-\item{labelDigits}{amount of digits for rounding the estimates (see \code{showValueLabels}).
+\item{labelDigits}{amount of digits for rounding the estimates (see \code{show.values}).
 Default is 2, i.e. estimates have 2 digits after decimal point.}
 
 \item{showPValueLabels}{logical, whether the significance level of each coefficient
@@ -122,8 +118,8 @@ of the plot.}
 \item{facet.grid}{logical, \code{TRUE} when each plot should be plotted separately instead of
 an integrated (faceted) single graph. Only applies, if \code{type = "slope"}.}
 
-\item{show.ci}{logical, use \code{TRUE} to plot (depending on \code{type}) 
-the confidence interval for probability curves (predicted probabilities).}
+\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a condifence
+region is added to the plot.}
 
 \item{show.legend}{logical, if \code{TRUE}, for mixed models
 \code{type = "rs.ri"}, a legend for group levels of
@@ -161,9 +157,10 @@ Plot odds or incident rate ratios with confidence intervalls as dot plot.
            just for glm objects. This plot type may give similar results as 
            \code{type = "pred"}, however, \code{type = "slope"} does not adjust
            for other predictors.}
-           \item{\code{type = "eff"}}{the predicted values
-           computed by \code{type = "eff"} have all co-variates
-           set to the mean, as returned by the \code{\link[effects]{allEffects}} function.}
+           \item{\code{type = "eff"}}{computes marginal effects of all higher order
+           terms in the model. The predicted values computed by \code{type = "eff"}
+           are adjusted for all other co-variates, by setting them to the mean
+           (as returned by the \code{\link[effects]{allEffects}} function).}
            \item{\code{type = "pred"}}{the predicted values
            of the response are computed, based on the \code{\link{predict.glm}}
            method. Corresponds to \code{\link{predict}(fit, type = "response")}.
@@ -218,13 +215,13 @@ fit <- glm(y ~., data = mydf, family = binomial(link = "logit"))
 # plot odds
 sjp.glm(fit,
         title = get_label(efc$neg_c_7),
-        axisLabels.y = predlab)
+        var.labels = predlab)
 
 # plot probability curves (predicted probabilities)
 # of coefficients
 sjp.glm(fit,
         title = get_label(efc$neg_c_7),
-        axisLabels.y = predlab,
+        var.labels = predlab,
         type = "slope")
 
 # --------------------------
@@ -232,7 +229,7 @@ sjp.glm(fit,
 # --------------------------
 sjp.glm(fit, 
         group.estimates = c(1, 2, 2, 2, 3, 4, 4),
-        axisLabels.y = predlab)
+        var.labels = predlab)
 
 # --------------------------
 # model predictions, with selected model terms.

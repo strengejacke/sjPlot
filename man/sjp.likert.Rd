@@ -36,7 +36,7 @@ the figure.}
 Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, 
 so no weights are used.}
 
-\item{weightByTitleString}{suffix (as string) for the plot's title, if \code{weightBy} is specified,
+\item{weightByTitleString}{suffix (as string) for the plot's title, if \code{weight.by} is specified,
 e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's 
 title will not have a suffix when cases are weighted.}
 

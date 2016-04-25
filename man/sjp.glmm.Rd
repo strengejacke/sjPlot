@@ -6,14 +6,13 @@
 \usage{
 sjp.glmm(..., title = NULL, labelDependentVariables = NULL,
   legendDepVarTitle = "Dependent Variables", legendPValTitle = "p-level",
-  axisLabels.y = NULL, axisTitle.x = "Odds Ratios", axisLimits = NULL,
+  var.labels = NULL, axisTitle.x = "Odds Ratios", axisLimits = NULL,
   breakTitleAt = 50, breakLabelsAt = 25, breakLegendTitleAt = 20,
   gridBreaksAt = 0.5, transformTicks = TRUE, geom.size = 3,
   geom.spacing = 0.4, geom.colors = "Set1", fade.ns = FALSE,
-  usePShapes = FALSE, interceptLineType = 2,
-  interceptLineColor = "grey70", remove.estimates = NULL,
-  coord.flip = TRUE, showIntercept = FALSE, showAxisLabels.y = TRUE,
-  showValueLabels = TRUE, labelDigits = 2, showPValueLabels = TRUE,
+  usePShapes = FALSE, vline.type = 2, vline.color = "grey70",
+  remove.estimates = NULL, coord.flip = TRUE, show.intercept = FALSE,
+  show.values = TRUE, labelDigits = 2, showPValueLabels = TRUE,
   hideLegend = FALSE, facet.grid = FALSE, printPlot = TRUE)
 }
 \arguments{
@@ -32,8 +31,10 @@ Default is \code{"Dependent Variables"}.}
 \item{legendPValTitle}{character vector used for the title of the significance level's legend.
 Default is \code{"p-level"}. Only applies if \code{usePShapes = TRUE}.}
 
-\item{axisLabels.y}{labels or names of the predictor variables (independent vars). Must
-be a character vector of same length as independent variables.}
+\item{var.labels}{character vector with labels for the model terms, used as axis labels.
+For mixed models, should either be vector of fixed effects variable labels 
+(if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
+labels from the random intercept's categories (if \code{type = "re"}).}
 
 \item{axisTitle.x}{string, title for the x axis.}
 
@@ -74,9 +75,9 @@ See 'Note' in \code{\link{sjp.grpfrq}}.}
 \item{usePShapes}{If \code{TRUE}, significant levels are distinguished by different point shapes and a related
 legend is plotted. Default is \code{FALSE}.}
 
-\item{interceptLineType}{linetype of the intercept line (zero point). Default is \code{2} (dashed line).}
+\item{vline.type}{linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
 
-\item{interceptLineColor}{color of the intercept line. Default value is \code{"grey70"}.}
+\item{vline.color}{color of the vertical "zero point" line. Default value is \code{"grey70"}.}
 
 \item{remove.estimates}{character vector with coefficient names that indicate
 which estimates should be removed from the plot.
@@ -86,14 +87,14 @@ is \code{NULL}, i.e. all estimates are printed.}
 \item{coord.flip}{logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
 values are plotted on the x-axis.}
 
-\item{showIntercept}{If \code{TRUE}, the intercept of the fitted model is also plotted.
-Default is \code{FALSE}.}
+\item{show.intercept}{logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
+Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential 
+transformation of estimates, the intercept in some cases can not be calculated, thus the
+function call is interrupted and no plot printed.}
 
-\item{showAxisLabels.y}{Whether term names (predictor labels) should be shown or not.}
+\item{show.values}{logical, whether values should be plotted or not.}
 
-\item{showValueLabels}{logical, whether value labels should be plotted to each dot or not.}
-
-\item{labelDigits}{amount of digits for rounding the estimates (see \code{showValueLabels}).
+\item{labelDigits}{amount of digits for rounding the estimates (see \code{show.values}).
 Default is 2, i.e. estimates have 2 digits after decimal point.}
 
 \item{showPValueLabels}{Whether the significance levels of each coefficient should be appended
@@ -145,7 +146,7 @@ sjp.glmm(fitOR1, fitOR2, fitOR3,
          labelDependentVariables = c("Fertility", 
                                      "Infant Mortality", 
                                      "Agriculture"),
-         showValueLabels = FALSE,
+         show.values = FALSE,
          showPValueLabels = FALSE,
          fade.ns = TRUE,
          usePShapes = TRUE)

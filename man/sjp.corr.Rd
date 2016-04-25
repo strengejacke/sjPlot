@@ -8,7 +8,7 @@ sjp.corr(data, title = NULL, axisLabels = NULL, type = "circle",
   sortCorrelations = TRUE, decimals = 3, missingDeletion = "listwise",
   corMethod = "spearman", geom.colors = "RdBu", geom.size = 15,
   breakTitleAt = 50, breakLabelsAt = 20, hideLegend = TRUE,
-  legendTitle = NULL, showValueLabels = TRUE, showPValues = TRUE,
+  legendTitle = NULL, show.values = TRUE, showPValues = TRUE,
   pvaluesAsNumbers = FALSE, printPlot = TRUE)
 }
 \arguments{
@@ -36,7 +36,7 @@ data frame.}
 
 \item{decimals}{indicates how many decimal values after comma are printed when
 the values labels are shown. Default is 3. Only applies when
-\code{showValueLabels = TRUE}.}
+\code{show.values = TRUE}.}
 
 \item{missingDeletion}{indicates how missing values are treated. May be either
 \code{"listwise"} (default) or \code{"pairwise"}.}
@@ -62,7 +62,7 @@ one line and when a line break is inserted.}
 
 \item{legendTitle}{title of the plot legend, as string.}
 
-\item{showValueLabels}{logical, whether correlation values should be plotted to each geom}
+\item{show.values}{logical, whether values should be plotted or not.}
 
 \item{showPValues}{logical, whether significance levels (p-values) of correlations should
 be plotted to each geom. See 'Note'.}

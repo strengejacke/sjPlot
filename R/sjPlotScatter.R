@@ -39,8 +39,6 @@
 #' @param showTotalFitLine logical, if \code{TRUE}, a fitted line for the overall
 #'          scatterplot is drawn. See \code{fitmethod} to change the fit method
 #'          of the fitted line.
-#' @param show.ci logical, if \code{TRUE}, a shaded region indicating the
-#'          confidence interval of the fitted lines will be added.
 #' @param fitmethod By default, a linear method (\code{"lm"}) is used for fitting
 #'          the fit lines. Possible values are for instance \code{"lm"}, \code{"glm"},
 #'          \code{"loess"} or \code{"auto"}.
@@ -67,6 +65,7 @@
 #'           was used for setting up the ggplot-object (\code{df}).
 #'
 #' @inheritParams sjp.grpfrq
+#' @inheritParams sjp.lm
 #'
 #' @examples
 #' # load sample date

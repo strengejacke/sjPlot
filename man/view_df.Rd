@@ -5,8 +5,8 @@
 \title{View structure of labelled data frames}
 \usage{
 view_df(x, weightBy = NULL, file = NULL, alternateRowColors = TRUE,
-  showID = TRUE, showType = FALSE, showValues = TRUE,
-  showValueLabels = TRUE, showFreq = FALSE, showPerc = FALSE,
+  showID = TRUE, showType = FALSE, show.values = TRUE,
+  show.labels = TRUE, showFreq = FALSE, showPerc = FALSE,
   showWtdFreq = FALSE, showWtdPerc = FALSE, showNA = FALSE,
   sortByName = FALSE, breakVariableNamesAt = 50, encoding = NULL,
   hideProgressBar = FALSE, CSS = NULL, useViewer = TRUE,
@@ -34,9 +34,9 @@ background color.}
 SPSS variable types are mostly \code{\link{numeric}} after import, this column
 is hidden by default.}
 
-\item{showValues}{logical, if \code{TRUE} (default), the variable values are shown as additional column.}
+\item{show.values}{logical, if \code{TRUE} (default), the variable values are shown as additional column.}
 
-\item{showValueLabels}{logical, if \code{TRUE} (default), the value labels are shown as additional column.}
+\item{show.labels}{logical, if \code{TRUE} (default), the value labels are shown as additional column.}
 
 \item{showFreq}{logical, if \code{TRUE}, an additional column with frequencies for each variable is shown.}
 
@@ -116,7 +116,7 @@ data(efc)
 view_df(efc)
 
 # view variables w/o values and value labels
-view_df(efc, showValues = FALSE, showValueLabels = FALSE)
+view_df(efc, show.values = FALSE, show.labels = FALSE)
 
 # view variables including variable typed, orderd by name
 view_df(efc, sortByName = TRUE, showType = TRUE)

@@ -12,7 +12,7 @@ sjp.xtab(x, grp, title = "", legendTitle = NULL, weightBy = NULL,
   breakLabelsAt = 15, breakLegendTitleAt = 20, breakLegendLabelsAt = 20,
   gridBreaksAt = 0.2, geom.size = 0.7, geom.spacing = 0.1,
   geom.colors = "Paired", barPosition = "dodge", lineDotSize = 3,
-  smoothLines = FALSE, expand.grid = FALSE, showValueLabels = TRUE,
+  smoothLines = FALSE, expand.grid = FALSE, show.values = TRUE,
   showCountValues = TRUE, showPercentageValues = TRUE,
   showCategoryLabels = TRUE, showTableSummary = FALSE,
   tableSummaryPos = "r", showTotalColumn = TRUE, hideLegend = FALSE,
@@ -35,7 +35,7 @@ no title is printed.}
 \item{weightBy}{weight factor that will be applied to weight all cases from \code{x}.
 Must be a vector of same length as \code{x}. Default is \code{NULL}, so no weights are used.}
 
-\item{weightByTitleString}{suffix (as string) for the plot's title, if \code{weightBy} is specified,
+\item{weightByTitleString}{suffix (as string) for the plot's title, if \code{weight.by} is specified,
 e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's 
 title will not have a suffix when cases are weighted.}
 
@@ -112,8 +112,7 @@ or stacked (use \code{"stack"} as argument).}
 \item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 axes and plotting region. Default is \code{FALSE}.}
 
-\item{showValueLabels}{logical, whether count and percentage values should be plotted to each bar. Default
-is \code{TRUE}.}
+\item{show.values}{logical, whether values should be plotted or not.}
 
 \item{showCountValues}{logical, if \code{TRUE} (default), count values are plotted to each bar. 
 If \code{FALSE}, count values are removed.}

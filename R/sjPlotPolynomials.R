@@ -30,15 +30,15 @@
 #'          variable names that will be used as title (see \code{\link[sjmisc]{set_label}}) for details).
 #' @param showScatterPlot If \code{TRUE} (default), a scatter plot of response and predictor values
 #'          for each predictor of the fitted model \code{fit} is plotted.
-#' @param showLoess If \code{TRUE}, an additional loess-smoothed line is plotted.
-#' @param showLoessCI If \code{TRUE}, a confidence region for the loess-smoothed line
+#' @param show.loess If \code{TRUE}, an additional loess-smoothed line is plotted.
+#' @param show.loess.ci If \code{TRUE}, a confidence region for the loess-smoothed line
 #'          will be plotted.
 #' @param showPValues logical, if \code{TRUE} (default), p-values for polynomial terms are
 #'          printed to the console.
 #' @param geom.colors User defined color palette for geoms. Must either be vector with two color values
 #'          or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.
 #' @param geom.size size resp. width of plotted lines.
-#' @param loessLineColor color of the loess-smoothed line. Only applies, if \code{showLoess = TRUE}.
+#' @param loessLineColor color of the loess-smoothed line. Only applies, if \code{show.loess = TRUE}.
 #' @param pointColor color of the scatter plot's point. Only applies, if \code{showScatterPlot = TRUE}.
 #' @param pointAlpha The alpha values of the scatter plot's point-geoms. Default is 0.2.
 #' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
@@ -62,7 +62,7 @@
 #'            Polynomials are computed using the \code{\link{poly}} function,
 #'            with argument \code{raw = TRUE}. \cr \cr
 #'            To find out which polynomial degree fits best to the data, a loess-smoothed
-#'            line (in dark grey) can be added (with \code{showLoess = TRUE}). The polynomial curves
+#'            line (in dark grey) can be added (with \code{show.loess = TRUE}). The polynomial curves
 #'            that comes closest to the loess-smoothed line should be the best
 #'            fit to the data.
 #'   
@@ -90,7 +90,7 @@
 #' fit <- lm(tot_sc_e ~ c12hour + e17age + e42dep, data = efc)
 #' # inspect relationship between predictors and response
 #' sjp.lm(fit, type = "slope", 
-#'        showLoess = TRUE, showScatterPlot = FALSE)
+#'        show.loess = TRUE, showScatterPlot = FALSE)
 #' # "e17age" does not seem to be linear correlated to response
 #' # try to find appropiate polynomial. Grey line (loess smoothed)
 #' # indicates best fit. Looks like x^4 has the best fit,
@@ -117,8 +117,8 @@ sjp.poly <- function(x,
                      axisTitle.x = NULL,
                      axisTitle.y = NULL,
                      showScatterPlot = TRUE,
-                     showLoess = TRUE,
-                     showLoessCI = TRUE,
+                     show.loess = TRUE,
+                     show.loess.ci = TRUE,
                      showPValues = TRUE,
                      geom.colors = NULL,
                      geom.size = .8,
@@ -228,9 +228,9 @@ sjp.poly <- function(x,
   if (showScatterPlot) polyplot <- polyplot + geom_jitter(colour = pointColor, alpha = pointAlpha)
   # show loess curve? this curve indicates the "perfect" curve through
   # the data
-  if (showLoess) polyplot <- polyplot + stat_smooth(method = "loess", 
+  if (show.loess) polyplot <- polyplot + stat_smooth(method = "loess", 
                                                     color = loessLineColor,
-                                                    se = showLoessCI,
+                                                    se = show.loess.ci,
                                                     size = geom.size)
   # add curves for polynomials
   polyplot <- polyplot + 

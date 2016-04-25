@@ -150,7 +150,7 @@ sjp.xtab <- function(x,
                      lineDotSize = 3,
                      smoothLines = FALSE,
                      expand.grid = FALSE,
-                     showValueLabels = TRUE,
+                     show.values = TRUE,
                      showCountValues = TRUE,
                      showPercentageValues = TRUE,
                      showCategoryLabels = TRUE,
@@ -364,7 +364,7 @@ sjp.xtab <- function(x,
       upper_lim <- 1
   } else {
     # factor depends on labels
-    if (isTRUE(showValueLabels))
+    if (isTRUE(show.values))
       mlp <- 1.2
     else
       mlp <- 1.1
@@ -388,7 +388,7 @@ sjp.xtab <- function(x,
   # --------------------------------------------------------
   # Set value labels
   # --------------------------------------------------------
-  if (showValueLabels) {
+  if (show.values) {
     # if we have dodged bars or dots, we have to use a slightly dodged position for labels
     # as well, sofor better reading
     if (barPosition == "dodge") {
