@@ -14,11 +14,11 @@ sjp.grpfrq(varCount, varGroup, weight.by = NULL, weightByTitleString = NULL,
   barPosition = "dodge", innerBoxPlotWidth = 0.15,
   innerBoxPlotDotSize = 3, smoothLines = FALSE, expand.grid = FALSE,
   show.values = TRUE, showCountValues = TRUE, showPercentageValues = TRUE,
-  showPlotAnnotation = TRUE, showTableSummary = FALSE,
-  showGroupCount = FALSE, tableSummaryPos = "r", axisTitle.x = "",
-  axisTitle.y = "", autoGroupAt = NULL, coord.flip = FALSE,
-  vjust = "bottom", hjust = "center", y.offset = NULL, na.rm = TRUE,
-  printPlot = TRUE)
+  show.axis.values = TRUE, showPlotAnnotation = TRUE,
+  showTableSummary = FALSE, showGroupCount = FALSE, tableSummaryPos = "r",
+  axisTitle.x = "", axisTitle.y = "", autoGroupAt = NULL,
+  coord.flip = FALSE, vjust = "bottom", hjust = "center",
+  y.offset = NULL, na.rm = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{varCount}{a vector of values (variable) describing the bars which make up the plot.}
@@ -126,6 +126,9 @@ If \code{FALSE}, count values are removed.}
 
 \item{showPercentageValues}{logical, if \code{TRUE} (default), percentage values are plotted to each bar
 If \code{FALSE}, percentage values are removed.}
+
+\item{show.axis.values}{logical, whether count or percentage values for the axis
+should be printed or not.}
 
 \item{showPlotAnnotation}{logical, if \code{TRUE}, the groups of dots in a dot-plot are highlighted 
 with a shaded rectangle.}

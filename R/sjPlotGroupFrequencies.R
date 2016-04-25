@@ -82,6 +82,8 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #' @param expand.grid logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 #'          axes and plotting region. Default is \code{FALSE}.
 #' @param show.values logical, whether values should be plotted or not.
+#' @param show.axis.values logical, whether count or percentage values for the axis
+#'          should be printed or not.
 #' @param showCountValues logical, if \code{TRUE} (default), count values are plotted to each bar. 
 #'          If \code{FALSE}, count values are removed.
 #' @param showPercentageValues logical, if \code{TRUE} (default), percentage values are plotted to each bar
@@ -218,6 +220,7 @@ sjp.grpfrq <- function(varCount,
                        show.values = TRUE,
                        showCountValues = TRUE,
                        showPercentageValues = TRUE,
+                       show.axis.values = TRUE,
                        showPlotAnnotation = TRUE,
                        showTableSummary = FALSE,
                        showGroupCount = FALSE,

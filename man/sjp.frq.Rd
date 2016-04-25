@@ -111,6 +111,9 @@ If \code{FALSE}, count values are removed.}
 \item{showPercentageValues}{logical, if \code{TRUE} (default), percentage values are plotted to each bar
 If \code{FALSE}, percentage values are removed.}
 
+\item{show.axis.values}{logical, whether count or percentage values for the axis
+should be printed or not.}
+
 \item{show.ci}{logical, whether or not confidence intervals should be plotted. 
 Only applies to \code{type = "dots"} or \code{type = "bars"}.}
 
