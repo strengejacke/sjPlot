@@ -41,7 +41,7 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' @param geom.colors user defined color for geoms, e.g. \code{geom.colors = "#0080ff"}.
 #' @param interactionVarLabels a character vector with labels for the x-axis breaks 
 #'          when having interaction variables included. These labels replace the 
-#'          \code{axisLabels.x}. Only applies, when using box or violin plots
+#'          \code{axis.labels}. Only applies, when using box or violin plots
 #'          (i.e. \code{type = "boxplots"} or \code{"violins"}) and \code{interactionVar} 
 #'          is not \code{NULL}.
 #' @param show.ci logical, whether or not confidence intervals should be plotted. 
@@ -80,7 +80,7 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #'          applies if \code{showNormalCurve = TRUE}.
 #' @param normalCurveAlpha transparancy level (alpha value) of the normal curve. Only
 #'          applies if \code{showNormalCurve = TRUE}.
-#' @param axisLimits.x numeric vector of length two, defining lower and upper axis limits
+#' @param xlim numeric vector of length two, defining lower and upper axis limits
 #' @param axisTitle.x title for the x-axis. By default, the variable name will be 
 #'          automatically detected and used as title (see \code{\link[sjmisc]{set_label}}) 
 #'          for details).
@@ -128,7 +128,7 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' ageGrpLab <- group_labels(efc$e17age)
 #' sjp.frq(ageGrp,
 #'         title = get_label(efc$e17age),
-#'         axisLabels.x = ageGrpLab)
+#'         axis.labels = ageGrpLab)
 #' 
 #' 
 #' # box plots with interaction variable
@@ -173,7 +173,7 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #'         showStandardNormalCurve = TRUE,
 #'         normalCurveColor = "blue",
 #'         normalCurveSize = 3,
-#'         axisLimits.y = c(0,50))
+#'         ylim = c(0,50))
 #' 
 #' @import ggplot2
 #' @import sjmisc
@@ -188,10 +188,10 @@ sjp.frq <- function(varCount,
                     type = "bars",
                     geom.size = NULL,
                     geom.colors = "#336699",
-                    axisLabels.x = NULL,
+                    axis.labels = NULL,
                     interactionVarLabels = NULL,
-                    axisLimits.x = NULL,
-                    axisLimits.y = NULL,
+                    xlim = NULL,
+                    ylim = NULL,
                     breakTitleAt = 50,
                     breakLabelsAt = 20,
                     gridBreaksAt = NULL,
@@ -257,8 +257,8 @@ sjp.frq <- function(varCount,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
-  if (is.null(axisLabels.x)) {
-    axisLabels.x <- sjmisc::get_labels(
+  if (is.null(axis.labels)) {
+    axis.labels <- sjmisc::get_labels(
       varCount,
       attr.only = F,
       include.values = NULL,
@@ -336,16 +336,16 @@ sjp.frq <- function(varCount,
     # check for default auto-group-size or user-defined groups
     agcnt <- ifelse(autoGroupAt < 30, autoGroupAt, 30)
     # group axis labels
-    axisLabels.x <- sjmisc::group_labels(sjmisc::to_value(varCount, keep.labels = F),
-                                         groupsize = "auto", 
-                                         groupcount = agcnt)
+    axis.labels <- sjmisc::group_labels(sjmisc::to_value(varCount, keep.labels = F),
+                                        groupsize = "auto", 
+                                        groupcount = agcnt)
     # group variable
     varCount <- sjmisc::group_var(sjmisc::to_value(varCount, keep.labels = F), 
                                   groupsize = "auto", 
                                   as.num = TRUE, 
                                   groupcount = agcnt)
     # set label attributes
-    varCount <- sjmisc::set_labels(varCount, axisLabels.x)
+    varCount <- sjmisc::set_labels(varCount, axis.labels)
   }
   #---------------------------------------------------
   # create frequency data frame
@@ -357,7 +357,7 @@ sjp.frq <- function(varCount,
                           na.rm = na.rm, 
                           weightBy = weight.by)
   mydat <- df.frq$mydat
-  if (!is.null(df.frq$labels) && is.null(axisLabels.x)) axisLabels.x <- df.frq$labels
+  if (!is.null(df.frq$labels) && is.null(axis.labels)) axis.labels <- df.frq$labels
   # --------------------------------------------------------
   # define text label position
   # --------------------------------------------------------
@@ -438,9 +438,9 @@ sjp.frq <- function(varCount,
   lower_lim <- 0
   # calculate upper y-axis-range
   # if we have a fixed value, use this one here
-  if (!is.null(axisLimits.y) && length(axisLimits.y) == 2) {
-    lower_lim <- axisLimits.y[1]
-    upper_lim <- axisLimits.y[2]
+  if (!is.null(ylim) && length(ylim) == 2) {
+    lower_lim <- ylim[1]
+    upper_lim <- ylim[2]
   } else {
     # if we have boxplots, we have different ranges, so we can adjust
     # the y axis
@@ -521,7 +521,7 @@ sjp.frq <- function(varCount,
   # ----------------------------------
   # set x-axis limits
   # ----------------------------------
-  # if (is.null(axisLimits.x)) axisLimits.x <- c(catmin, maxx)
+  # if (is.null(xlim)) xlim <- c(catmin, maxx)
   # ----------------------------------
   # set y scaling and label texts
   # ----------------------------------
@@ -573,9 +573,9 @@ sjp.frq <- function(varCount,
       # show absolute and percentage value of each bar.
       ggvaluelabels +
       # print value labels to the x-axis.
-      # If argument "axisLabels.x" is NULL, the category numbers (1 to ...) 
+      # If argument "axis.labels" is NULL, the category numbers (1 to ...) 
       # appear on the x-axis
-      scale_x_discrete(labels = axisLabels.x)
+      scale_x_discrete(labels = axis.labels)
     if (show.ci) {
       ebcol <- ifelse(type == "dots", geom.colors, errorbar.color)
       # print confidence intervalls (error bars)
@@ -640,7 +640,7 @@ sjp.frq <- function(varCount,
       # remove margins from left and right diagram side
       scale_x_continuous(expand = expand.grid, 
                          breaks = histgridbreaks,
-                         limits = axisLimits.x)
+                         limits = xlim)
     # check whether user wants to overlay the histogram
     # with a normal curve
     if (showNormalCurve) {
@@ -747,7 +747,7 @@ sjp.frq <- function(varCount,
     # show absolute and percentage value of each bar.
     baseplot <- baseplot + 
       # remove margins from left and right diagram side
-      scale_x_continuous(limits = axisLimits.x, 
+      scale_x_continuous(limits = xlim, 
                          expand = expand.grid, 
                          breaks = histgridbreaks) +
       yscale

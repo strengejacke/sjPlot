@@ -6,7 +6,7 @@
 \usage{
 sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   resp.label = NULL, var.labels = NULL, legendTitle = NULL,
-  axisTitle.x = "Estimates", axisLimits = NULL, geom.colors = "Set1",
+  axisTitle.x = "Estimates", axis.lim = NULL, geom.colors = "Set1",
   geom.size = NULL, vline.type = 2, vline.color = "grey70",
   group.estimates = NULL, remove.estimates = NULL, vars = NULL,
   breakTitleAt = 50, breakLabelsAt = 25, gridBreaksAt = NULL,
@@ -55,7 +55,7 @@ labels from the random intercept's categories (if \code{type = "re"}).}
 
 \item{axisTitle.x}{title for the x-axis. Default is \code{"Estimates"}.}
 
-\item{axisLimits}{numeric vector of length 2, defining the range of the plot axis.
+\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
 By default, the limits range from the lowest confidence interval to the 
 highest, so plot has maximum zoom.}
 

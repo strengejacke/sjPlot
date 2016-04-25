@@ -8,14 +8,13 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   title = NULL, geom.size = NULL, geom.colors = "Set1",
   hideErrorBars = FALSE, show.intercept = TRUE,
   stringIntercept = "(Intercept)", sort.est = NULL, var.labels = NULL,
-  axisTitle.x = NULL, axisTitle.y = NULL, axisLimits.y = NULL,
-  vline.type = 2, vline.color = "grey70", remove.estimates = NULL,
-  show.values = TRUE, labelDigits = 2, y.offset = 0.1,
-  showPValueLabels = TRUE, facet.grid = TRUE, free.scale = FALSE,
-  fade.ns = FALSE, show.ci = TRUE, p.kr = TRUE, pointAlpha = 0.2,
-  showScatterPlot = TRUE, show.loess = FALSE, show.loess.ci = FALSE,
-  poly.term = NULL, sample.n = NULL, show.legend = FALSE,
-  printPlot = TRUE)
+  axisTitle.x = NULL, axisTitle.y = NULL, ylim = NULL, vline.type = 2,
+  vline.color = "grey70", remove.estimates = NULL, show.values = TRUE,
+  labelDigits = 2, y.offset = 0.1, showPValueLabels = TRUE,
+  facet.grid = TRUE, free.scale = FALSE, fade.ns = FALSE,
+  show.ci = TRUE, p.kr = TRUE, pointAlpha = 0.2, showScatterPlot = TRUE,
+  show.loess = FALSE, show.loess.ci = FALSE, poly.term = NULL,
+  sample.n = NULL, show.legend = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{lmer}}-function.}
@@ -97,7 +96,7 @@ on the plot type is chosen.}
 \item{axisTitle.y}{title for the y axis. If not specified, a default labelling depending
 on the plot type is chosen.}
 
-\item{axisLimits.y}{numeric vector of length two, defining lower and upper axis limits
+\item{ylim}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
 y-axis fits to the required range of the data.}
 

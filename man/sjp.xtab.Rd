@@ -6,7 +6,7 @@
 \usage{
 sjp.xtab(x, grp, title = "", legendTitle = NULL, weightBy = NULL,
   weightByTitleString = NULL, type = "bars", tableIndex = "col",
-  reverseOrder = FALSE, axisLimits.y = NULL, axisLabels.x = NULL,
+  reverseOrder = FALSE, ylim = NULL, axis.labels = NULL,
   legendLabels = NULL, vjust = "bottom", hjust = "center",
   y.offset = NULL, stringTotal = "Total", breakTitleAt = 50,
   breakLabelsAt = 15, breakLegendTitleAt = 20, breakLegendLabelsAt = 20,
@@ -49,15 +49,15 @@ can be added to the plot (see \code{showTotalColumn}).}
 
 \item{reverseOrder}{logical, whether categories along the x-axis should apper in reversed order or not.}
 
-\item{axisLimits.y}{numeric vector of length two, defining lower and upper axis limits
+\item{ylim}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
 y-axis fits to the required range of the data.}
 
-\item{axisLabels.x}{a character vector with labels for the x-axis breaks. \strong{Note:} 
+\item{axis.labels}{a character vector with labels for the x-axis breaks. \strong{Note:} 
 Axis labels will be automatically detected, when data was either imported 
 with \code{\link[sjmisc]{read_spss}} or has named factor levels 
 (see 'Examples'). Else, specifiy argument like this:
-\code{axisLabels.x = c("Label1", "Label2", "Label3")}.}
+\code{axis.labels = c("Label1", "Label2", "Label3")}.}
 
 \item{legendLabels}{a character vector with labels for the guide/legend.}
 
@@ -172,7 +172,7 @@ sjp.xtab(x, grp)
 
 # plot "cross tablulation" of x and y, including labels
 sjp.xtab(x, grp, 
-         axisLabels.x = c("low", "mid", "high"),
+         axis.labels = c("low", "mid", "high"),
          legendLabels = c("Grp 1", "Grp 2", "Grp 3", "Grp 4"))
 
 # plot "cross tablulation" of x and grp
@@ -202,14 +202,14 @@ efc.var <- get_label(efc)
 sjp.xtab(efc$e42dep,
          efc$e16sex,
          title = efc.var['e42dep'],
-         axisLabels.x = efc.val[['e42dep']],
+         axis.labels = efc.val[['e42dep']],
          legendTitle = efc.var['e16sex'],
          legendLabels = efc.val[['e16sex']])
          
 sjp.xtab(efc$e16sex,
          efc$e42dep,
          title = efc.var['e16sex'],
-         axisLabels.x = efc.val[['e16sex']],
+         axis.labels = efc.val[['e16sex']],
          legendTitle = efc.var['e42dep'],
          legendLabels = efc.val[['e42dep']])
          

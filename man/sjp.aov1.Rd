@@ -6,7 +6,7 @@
 \usage{
 sjp.aov1(depVar, grpVar, meansums = FALSE, title = NULL,
   axisLabels.y = NULL, reverseOrder = FALSE,
-  stringIntercept = "(Intercept)", axisTitle.x = "", axisLimits = NULL,
+  stringIntercept = "(Intercept)", axisTitle.x = "", axis.lim = NULL,
   geom.colors = c("#3366a0", "#aa3333"), geom.size = 3, breakTitleAt = 50,
   breakLabelsAt = 25, gridBreaksAt = NULL, expand.grid = FALSE,
   show.values = TRUE, labelDigits = 2, y.offset = 0.1,
@@ -42,7 +42,7 @@ is printed. If \code{axisTitle.x = NULL}, the variable name will be
 automatically detected and used as title (see \code{\link[sjmisc]{set_label}}) 
 for details).}
 
-\item{axisLimits}{numeric vector of length 2, defining the range of the plot axis.
+\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
 By default, the limits range from the lowest confidence interval to the 
 highest, so plot has maximum zoom.}
 

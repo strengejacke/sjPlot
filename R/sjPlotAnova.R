@@ -25,7 +25,7 @@ utils::globalVariables("pv")
 #'          Default is \code{FALSE}.
 #' @param stringIntercept string that indicates the reference group (intercept), that is appended to
 #'          the value label of the grouping variable. Default is \code{"(Intercept)"}.
-#' @param axisLimits numeric vector of length 2, defining the range of the plot axis.
+#' @param axis.lim numeric vector of length 2, defining the range of the plot axis.
 #'          By default, the limits range from the lowest confidence interval to the 
 #'          highest, so plot has maximum zoom.
 #' @param geom.colors vector of length two, indicating the colors of the points; 
@@ -64,7 +64,7 @@ sjp.aov1 <- function(depVar,
                      reverseOrder = FALSE,
                      stringIntercept = "(Intercept)",
                      axisTitle.x = "",
-                     axisLimits = NULL,
+                     axis.lim = NULL,
                      geom.colors = c("#3366a0", "#aa3333"),
                      geom.size = 3,
                      breakTitleAt = 50,
@@ -239,10 +239,10 @@ sjp.aov1 <- function(depVar,
   df <- cbind(df, geocol = ifelse(df$means >= 0, geom.colors[1], geom.colors[2]))
   # --------------------------------------------------------
   # Calculate axis limits. The range is from lowest lower-CI
-  # to highest upper-CI, or a user-defined range (if "axisLimits"
+  # to highest upper-CI, or a user-defined range (if "axis.lim"
   # is not NULL)
   # --------------------------------------------------------
-  if (is.null(axisLimits)) {
+  if (is.null(axis.lim)) {
     # we have confindence intervals displayed, so
     # the range corresponds to the boundaries given by
     # the CI's
@@ -255,8 +255,8 @@ sjp.aov1 <- function(depVar,
     upper_lim <- ifelse(maxval == 0, 0, limfac * ceiling((maxval + 1) / limfac))
     lower_lim <- ifelse(minval == 0, 0, limfac * floor(minval / limfac))
   } else {
-    lower_lim <- axisLimits[1]
-    upper_lim <- axisLimits[2]
+    lower_lim <- axis.lim[1]
+    upper_lim <- axis.lim[2]
   }
   # determine gridbreaks
   if (is.null(gridBreaksAt))

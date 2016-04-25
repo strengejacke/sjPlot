@@ -6,7 +6,7 @@
 \usage{
 sjp.glm(fit, type = "dots", sort.est = TRUE, title = NULL,
   var.labels = NULL, axisTitle.x = "Odds Ratios", legendTitle = NULL,
-  axisLimits = NULL, breakTitleAt = 50, breakLabelsAt = 25,
+  axis.lim = NULL, breakTitleAt = 50, breakLabelsAt = 25,
   gridBreaksAt = 0.5, transformTicks = TRUE, geom.size = NULL,
   geom.colors = "Set1", vline.type = 2, vline.color = "grey70",
   group.estimates = NULL, remove.estimates = NULL, vars = NULL,
@@ -46,7 +46,7 @@ labels from the random intercept's categories (if \code{type = "re"}).}
 
 \item{legendTitle}{title of the plot legend, as string.}
 
-\item{axisLimits}{numeric vector of length 2, defining the range of the plot axis.
+\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
 By default, the limits range from the lowest confidence interval to the 
 highest, so plot has maximum zoom.}
 

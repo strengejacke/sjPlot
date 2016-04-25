@@ -253,7 +253,7 @@ sjp.glmer <- function(fit,
                       var.labels = NULL,
                       axisTitle.x = NULL,
                       axisTitle.y = NULL,
-                      axisLimits.y = NULL,
+                      ylim = NULL,
                       facet.grid = TRUE,
                       free.scale = FALSE,
                       vline.type = 2,
@@ -287,7 +287,7 @@ sjp.glmer <- function(fit,
            var.labels,
            axisTitle.x,
            axisTitle.y,
-           axisLimits.y,
+           ylim,
            vline.type,
            vline.color,
            remove.estimates,
@@ -549,7 +549,7 @@ sjp.lmer <- function(fit,
                      var.labels = NULL,
                      axisTitle.x = NULL,
                      axisTitle.y = NULL,
-                     axisLimits.y = NULL,
+                     ylim = NULL,
                      vline.type = 2,
                      vline.color = "grey70",
                      remove.estimates = NULL,
@@ -588,7 +588,7 @@ sjp.lmer <- function(fit,
            var.labels,
            axisTitle.x,
            axisTitle.y,
-           axisLimits.y,
+           ylim,
            vline.type,
            vline.color,
            remove.estimates,
@@ -627,7 +627,7 @@ sjp.lme4  <- function(fit,
                       var.labels,
                       axisTitle.x,
                       axisTitle.y,
-                      axisLimits.y,
+                      ylim,
                       vline.type,
                       vline.color,
                       remove.estimates,
@@ -796,7 +796,7 @@ sjp.lme4  <- function(fit,
                                   remove.estimates, vars, printPlot)))
     } else {
       return(invisible(sjp.glm.slope(fit, title, geom.size, remove.estimates, vars,
-                                     axisLimits.y, show.ci, facet.grid, printPlot)))
+                                     ylim, show.ci, facet.grid, printPlot)))
     }
   } else if (type == "poly") {
     # ---------------------------------------
@@ -814,7 +814,7 @@ sjp.lme4  <- function(fit,
     # plot marginal effects of fixed terms
     # ---------------------------------------
     return(invisible(sjp.glm.eff(fit, title, geom.size, remove.estimates, vars, 
-                                 show.ci, axisLimits.y = NULL, facet.grid,
+                                 show.ci, ylim = NULL, facet.grid,
                                  fun = fun, printPlot)))
   } else if (type == "ri.slope") {
     # ---------------------------------------
@@ -825,12 +825,12 @@ sjp.lme4  <- function(fit,
       return(invisible(sjp.lmer.ri.slope(fit, ri.nr, vars, emph.grp, geom.size, printPlot)))
     } else {
       return(invisible(sjp.glmer.ri.slope(fit, show.ci, facet.grid, ri.nr, vars,
-                                          emph.grp, axisLimits.y, printPlot)))
+                                          emph.grp, ylim, printPlot)))
     }
   } else if (type == "rs.ri") {
     return(invisible(sjp.lme.rsri(fit, title, axisTitle.x, axisTitle.y, ri.nr,
                                   emph.grp, geom.colors, geom.size, sample.n,
-                                  show.legend, axisLimits.y, printPlot, fun)))
+                                  show.legend, ylim, printPlot, fun)))
   } else if (type == "re.qq") {
     # ---------------------------------------
     # plot qq-plots for random effects to
@@ -845,7 +845,7 @@ sjp.lme4  <- function(fit,
     # response value
     # ---------------------------------------
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = NULL,
-                                   show.ci, geom.size, axisLimits.y, facet.grid, 
+                                   show.ci, geom.size, ylim, facet.grid, 
                                    type = "re", show.loess = F, printPlot)))
   } else if (type == "pred.fe") {
     # ---------------------------------------
@@ -853,7 +853,7 @@ sjp.lme4  <- function(fit,
     # response value
     # ---------------------------------------
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = NULL,
-                                   show.ci, geom.size, axisLimits.y, facet.grid, 
+                                   show.ci, geom.size, ylim, facet.grid, 
                                    type = "fe", show.loess = F, printPlot)))
   }
   # ---------------------------------------
@@ -1312,7 +1312,7 @@ sjp.lme4  <- function(fit,
 
 #' @importFrom stats model.frame family na.omit
 sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
-                                axisLimits.y, printPlot) {
+                               ylim, printPlot) {
   # ----------------------------
   # retrieve data frame of model to check whether
   # we have any numeric terms in fitted model; and
@@ -1444,11 +1444,11 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
           # ------------------------------
           # check axis limits
           # ------------------------------
-          if (is.null(axisLimits.y)) {
+          if (is.null(ylim)) {
             y.limits <- c(as.integer(floor(10 * min(final.df$prob, na.rm = T) * .9)) / 10,
                           as.integer(ceiling(10 * max(final.df$prob, na.rm = T) * 1.1)) / 10)
           } else {
-            y.limits <- axisLimits.y
+            y.limits <- ylim
           }
           # cartesian coord still plots range of se, even
           # when se exceeds plot range.
@@ -1629,7 +1629,7 @@ sjp.lme.rsri <- function(fit,
                          geom.size,
                          sample.n,
                          show.legend,
-                         axisLimits.y,
+                         ylim,
                          printPlot,
                          fun) {
   # check size argument
@@ -1645,11 +1645,6 @@ sjp.lme.rsri <- function(fit,
   # ----------------------------
   fitfam <- stats::family(fit)
   faminfo <- get_glm_family(fit)
-  # --------------------------------------------------------
-  # create logical for family
-  # --------------------------------------------------------
-  poisson_fam <- faminfo$is_pois
-  binom_fam <- faminfo$is_bin
   # ----------------------------
   # retrieve term names, so we find the estimates in the
   # coefficients list
@@ -1759,8 +1754,8 @@ sjp.lme.rsri <- function(fit,
       # ------------------------------
       # check axis limits
       # ------------------------------
-      if (is.null(axisLimits.y)) {
-        axisLimits.y <- c(as.integer(floor(10 * min(final.df$y, na.rm = T) * .9)) / 10,
+      if (is.null(ylim)) {
+        ylim <- c(as.integer(floor(10 * min(final.df$y, na.rm = T) * .9)) / 10,
                           as.integer(ceiling(10 * max(final.df$y, na.rm = T) * 1.1)) / 10)
       }
       # get random intercept name
@@ -1806,7 +1801,7 @@ sjp.lme.rsri <- function(fit,
         }
       }
       gp <- gp +
-        scale_y_continuous(limits = axisLimits.y) +
+        scale_y_continuous(limits = ylim) +
         labs(title = p_title, y = p_axisTitle.y, x = p_axisTitle.x)
       # ------------------------------
       # highlight specific groups?
@@ -2024,14 +2019,14 @@ sjp.glm.eff <- function(fit,
                         remove.estimates,
                         vars,
                         show.ci,
-                        axisLimits.y,
+                        ylim,
                         facet.grid,
                         fun,
                         printPlot) {
   # ---------------------------------------
   # check axis range
   # ---------------------------------------
-  if (is.null(axisLimits.y)) axisLimits.y <- c(0, 1)
+  if (is.null(ylim)) ylim <- c(0, 1)
   # ------------------------
   # check if suggested package is available
   # ------------------------
@@ -2196,13 +2191,14 @@ sjp.glm.eff <- function(fit,
       facet_wrap(~grp, ncol = round(sqrt(grp.cnt)), scales = "free_x") +
       labs(x = NULL, y = axisTitle.y, title = title)
     # ------------------------
-    # for logistic regression, use
-    # 0 to 1 scale limits and percentage scale
+    # for logistic regression, use percentage scale
     # ------------------------
     if (fun == "glm" && binom_fam) {
       eff.plot <- eff.plot +
-        coord_cartesian(ylim = axisLimits.y) +
         scale_y_continuous(labels = scales::percent)
+      # do we have axis limits?
+      if (!is.null(ylim))
+        eff.plot <- eff.plot + coord_cartesian(ylim = ylim)
     }
     # ------------------------
     # print plot?
@@ -2220,13 +2216,14 @@ sjp.glm.eff <- function(fit,
         geom_line(size = geom.size) +
         labs(x = NULL, y = axisTitle.y, title = sprintf("Marginal effects of %s", i))
       # ------------------------
-      # for logistic regression, use
-      # 0 to 1 scale limits and percentage scale
+      # for logistic regression, use percentage scale
       # ------------------------
       if (fun == "glm" && binom_fam) {
         eff.plot <- eff.plot +
-          coord_cartesian(ylim = axisLimits.y) +
           scale_y_continuous(labels = scales::percent)
+        # do we have axis limits?
+        if (!is.null(ylim))
+          eff.plot <- eff.plot + coord_cartesian(ylim = ylim)
       }
       # ------------------------
       # continuous or discrete scale?

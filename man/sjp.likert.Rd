@@ -4,7 +4,7 @@
 \alias{sjp.likert}
 \title{Plot likert scales as centered stacked bars}
 \usage{
-sjp.likert(items, catcount = NULL, cat.neutral = NULL, weightBy = NULL,
+sjp.likert(items, catcount = NULL, cat.neutral = NULL, weight.by = NULL,
   weightByTitleString = NULL, sort.frq = NULL, geom.size = 0.6,
   geom.colors = "BrBG", reverse.colors = FALSE,
   cat.neutral.color = "grey70", intercept.line.color = "grey50",
@@ -32,9 +32,8 @@ the index number (value) for this category. Else, set \code{cat.neutral = NULL} 
 The proportions of neutral category answers are plotted as grey bars on the left side of
 the figure.}
 
-\item{weightBy}{weight factor that will be applied to weight all cases of \code{items}.
-Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, 
-so no weights are used.}
+\item{weight.by}{weight factor that will be applied to weight all cases from \code{varCount}.
+Must be a vector of same length as \code{varCount}. Default is \code{NULL}, so no weights are used.}
 
 \item{weightByTitleString}{suffix (as string) for the plot's title, if \code{weight.by} is specified,
 e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's 

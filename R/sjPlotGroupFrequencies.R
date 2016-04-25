@@ -35,7 +35,7 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'            You may use initial letter for \code{type} options, except for
 #'            \code{type = "boxplots"}, which may be abbreviated \code{type = "box"}
 #' @param hideLegend logical, indicates whether legend (guide) should be shown or not.
-#' @param axisLimits.y numeric vector of length two, defining lower and upper axis limits
+#' @param ylim numeric vector of length two, defining lower and upper axis limits
 #'          of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
 #'          y-axis fits to the required range of the data.
 #' @param facet.grid \code{TRUE} when bar charts should be plotted as facet grids instead of integrated single
@@ -46,16 +46,16 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'          (see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
 #'          no title is printed.
 #' @param legendTitle title of the plot legend, as string.
-#' @param axisLabels.x a character vector with labels for the x-axis breaks. \strong{Note:} 
+#' @param axis.labels a character vector with labels for the x-axis breaks. \strong{Note:} 
 #'          Axis labels will be automatically detected, when data was either imported 
 #'          with \code{\link[sjmisc]{read_spss}} or has named factor levels 
 #'          (see 'Examples'). Else, specifiy argument like this:
-#'          \code{axisLabels.x = c("Label1", "Label2", "Label3")}.
+#'          \code{axis.labels = c("Label1", "Label2", "Label3")}.
 #' @param interactionVarLabels a character vector with labels for the x-axis breaks
 #'          when having interaction variables included.
-#'          These labels replace the \code{axisLabels.x}. Only applies, when using box or violin plots
+#'          These labels replace the \code{axis.labels}. Only applies, when using box or violin plots
 #'          (i.e. \code{type = "boxplots"} or \code{"violins"}) and \code{interactionVar} is not \code{NULL}.
-#'          Example: See \code{axisLabels.x}.
+#'          Example: See \code{axis.labels}.
 #' @param legendLabels a character vector with labels for the guide/legend.
 #' @param breakTitleAt determines how many chars of the plot title are displayed in
 #'          one line and when a line break is inserted into the title.
@@ -201,10 +201,10 @@ sjp.grpfrq <- function(varCount,
                        facet.grid = FALSE,
                        title = "",
                        legendTitle = NULL,
-                       axisLabels.x = NULL,
+                       axis.labels = NULL,
                        interactionVarLabels = NULL,
                        legendLabels = NULL,
-                       axisLimits.y = NULL,
+                       ylim = NULL,
                        breakTitleAt = 50,
                        breakLabelsAt = 15,
                        breakLegendTitleAt = 20,
@@ -321,16 +321,16 @@ sjp.grpfrq <- function(varCount,
     # check for default auto-group-size or user-defined groups
     agcnt <- ifelse(autoGroupAt < 30, autoGroupAt, 30)
     # group axis labels
-    axisLabels.x <- sjmisc::group_labels(sjmisc::to_value(varCount, keep.labels = F),
-                                         groupsize = "auto",
-                                         groupcount = agcnt)
+    axis.labels <- sjmisc::group_labels(sjmisc::to_value(varCount, keep.labels = F),
+                                        groupsize = "auto",
+                                        groupcount = agcnt)
     # group variable
     grp.varCount <- sjmisc::group_var(sjmisc::to_value(varCount, keep.labels = F),
                                       groupsize = "auto",
                                       as.num = TRUE,
                                       groupcount = agcnt)
     # set value labels
-    sjmisc::set_labels(grp.varCount) <- axisLabels.x
+    sjmisc::set_labels(grp.varCount) <- axis.labels
   } else {
     grp.varCount <- varCount
   }
@@ -350,11 +350,11 @@ sjp.grpfrq <- function(varCount,
   # --------------------------------------------------------
   # try to automatically set labels if not passed as argument
   # --------------------------------------------------------
-  if (missing(axisLabels.x) && (type == "boxplots" || type == "violin")) {
-    axisLabels.x <- mydat$labels.grp
+  if (missing(axis.labels) && (type == "boxplots" || type == "violin")) {
+    axis.labels <- mydat$labels.grp
     if (missing(hideLegend)) hideLegend <- is.null(interactionVar)
   }
-  if (is.null(axisLabels.x)) axisLabels.x <- mydat$labels.cnt
+  if (is.null(axis.labels)) axis.labels <- mydat$labels.cnt
   if (is.null(legendLabels)) legendLabels <- mydat$labels.grp
   if (is.null(interactionVarLabels) && !is.null(interactionVar)) {
     interactionVarLabels <- sjmisc::get_labels(interactionVar,
@@ -363,10 +363,10 @@ sjp.grpfrq <- function(varCount,
                                                include.non.labelled = T)
     # create repeating label for x-axis
     interactionVarLabels <- rep(interactionVarLabels, 
-                                length.out = length(axisLabels.x) * length(interactionVarLabels))
+                                length.out = length(axis.labels) * length(interactionVarLabels))
     # we need a legend, cause x axis is labelled with interaction var value
     hideLegend <- FALSE
-    legendLabels <- axisLabels.x
+    legendLabels <- axis.labels
   }
   if (is.null(axisTitle.x)) axisTitle.x <- sjmisc::get_label(varCount, def.value = var.name.cnt)
   if (is.null(legendTitle)) legendTitle <- sjmisc::get_label(varGroup, def.value = var.name.grp)
@@ -516,8 +516,8 @@ sjp.grpfrq <- function(varCount,
     axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
   if (!is.null(axisTitle.y))
     axisTitle.y <- sjmisc::word_wrap(axisTitle.y, breakTitleAt)
-  if (!is.null(axisLabels.x))
-    axisLabels.x <- sjmisc::word_wrap(axisLabels.x, breakLabelsAt)
+  if (!is.null(axis.labels))
+    axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
   if (!is.null(interactionVar)) {
     if (!is.null(interactionVarLabels)) {
       interactionVarLabels <- sjmisc::word_wrap(interactionVarLabels, breakLabelsAt)
@@ -559,7 +559,7 @@ sjp.grpfrq <- function(varCount,
     } else {
       sums <- unname(rowSums(mydat$mydat[, -1]))
       # add group count to each cat. label
-      axisLabels.x <- paste(axisLabels.x, " (n=", sums, ")", sep = "")
+      axis.labels <- paste(axis.labels, " (n=", sums, ")", sep = "")
       sums <- unname(colSums(mydat$mydat[, -1]))
       # add group count to each cat. label
       legendLabels <- paste(legendLabels, " (n=", sums, ")", sep = "")
@@ -572,9 +572,9 @@ sjp.grpfrq <- function(varCount,
   lower_lim <- 0
   # calculate upper y-axis-range
   # if we have a fixed value, use this one here
-  if (!is.null(axisLimits.y) && length(axisLimits.y) == 2) {
-    lower_lim <- axisLimits.y[1]
-    upper_lim <- axisLimits.y[2]
+  if (!is.null(ylim) && length(ylim) == 2) {
+    lower_lim <- ylim[1]
+    upper_lim <- ylim[2]
   } else {
     # if we have boxplots, we have different ranges, so we can adjust
     # the y axis
@@ -752,7 +752,7 @@ sjp.grpfrq <- function(varCount,
                                   y = frq,
                                   fill = group,
                                   weight = wb)) + geob
-      scalex <- scale_x_discrete(labels = axisLabels.x)
+      scalex <- scale_x_discrete(labels = axis.labels)
     } else {
       baseplot <- ggplot(mydf, aes(x = interaction(ia, group),
                                    y = frq,
@@ -801,7 +801,7 @@ sjp.grpfrq <- function(varCount,
     # add geom
     baseplot <- baseplot + geob
     # define x acis
-    scalex <- scale_x_discrete(labels = axisLabels.x)
+    scalex <- scale_x_discrete(labels = axis.labels)
   }
   # ------------------------------------------
   # If we have bars or dot plots, we show
@@ -837,7 +837,7 @@ sjp.grpfrq <- function(varCount,
          fill = legendTitle,
          colour = legendTitle) +
     # print value labels to the x-axis.
-    # If argument "axisLabels.x" is NULL, the category numbers (1 to ...)
+    # If argument "axis.labels" is NULL, the category numbers (1 to ...)
     # appear on the x-axis
     scalex +
     # set Y-axis, depending on the calculated upper y-range.

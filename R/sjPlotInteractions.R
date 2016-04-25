@@ -96,8 +96,8 @@
 #'          which means that each plot's x-axis uses the predictor's name as title.
 #' @param axisTitle.y a default title used for the y-axis. Default value is \code{NULL},
 #'          which means that each plot's y-axis uses the dependent variable's name as title.
-#' @param axisLabels.x character vector with value labels of the repeated measure variable
-#'          that are used for labelling the x-axis.
+#' @param axis.labels character vector with value labels of the interaction, used
+#'          to label the x-axis. Only applies to \code{type = "emm"}.
 #' @param legendTitle title of the diagram's legend. A character vector of same length as 
 #'          amount of interaction plots to be plotted (i.e. one vector element for each
 #'          plot's legend title).
@@ -125,7 +125,7 @@
 #'            \item{\code{type = "eff"}}{plots the overall effects (marginal effects) of the interaction, with all remaining
 #'              covariates set to the mean. Effects are calculated using the \code{\link[effects]{effect}}-
 #'              function from the \pkg{effects}-package. \cr \cr
-#'              Following arguments \emph{do not} apply to this function: \code{diff}, \code{axisLabels.x}.
+#'              Following arguments \emph{do not} apply to this function: \code{diff}, \code{axis.labels}.
 #'            }
 #'            \item{\code{type = "cond"}}{plots the effective \emph{change} or \emph{impact} 
 #'              (conditional effect) on a dependent variable of a moderation effect, as 
@@ -147,7 +147,7 @@
 #'              models of class \code{\link{lm}} or \code{\link[lme4]{merMod}}. This function may be used, for example,
 #'              to plot differences in interventions between control and treatment groups over multiple time points.
 #'              \itemize{
-#'                \item Following paramters apply to this plot type: \code{show.ci}, \code{valueLabel.digits} and \code{axisLabels.x}.
+#'                \item Following paramters apply to this plot type: \code{show.ci}, \code{valueLabel.digits} and \code{axis.labels}.
 #'                \item Following arguments \emph{do not} apply to this function: \code{int.term}, \code{int.plot.index}, \code{diff}, \code{moderatorValues}, \code{fillColor}, \code{fillAlpha}.
 #'              }
 #'            }
@@ -318,15 +318,15 @@ sjp.int <- function(fit,
                     geom.size = NULL,
                     axisTitle.x = NULL,
                     axisTitle.y = NULL,
-                    axisLabels.x = NULL,
+                    axis.labels = NULL,
                     legendTitle = NULL,
                     legendLabels = NULL,
                     show.values = FALSE,
                     breakTitleAt = 50,
                     breakLegendLabelsAt = 20,
                     breakLegendTitleAt = 20,
-                    axisLimits.x = NULL,
-                    axisLimits.y = NULL,
+                    xlim = NULL,
+                    ylim = NULL,
                     y.offset = 0.07,
                     gridBreaksAt = NULL,
                     show.ci = FALSE,
@@ -425,9 +425,9 @@ sjp.int <- function(fit,
       warning("argument `show.ci` must be logical for `type = 'emm'`.", call. = F)
     }
     return(sjp.emm(fit, swapPredictors, plevel, title, geom.colors, geom.size,
-                   axisTitle.x, axisTitle.y, axisLabels.x, legendTitle, legendLabels,
+                   axisTitle.x, axisTitle.y, axis.labels, legendTitle, legendLabels,
                    show.values, valueLabel.digits, show.ci, p.kr, breakTitleAt,
-                   breakLegendTitleAt, breakLegendLabelsAt, y.offset, axisLimits.y, 
+                   breakLegendTitleAt, breakLegendLabelsAt, y.offset, ylim, 
                    gridBreaksAt, facet.grid, printPlot))
   }
   # --------------------------------------------------------
@@ -443,7 +443,7 @@ sjp.int <- function(fit,
                        title, fillAlpha, geom.colors, geom.size, axisTitle.x,
                        axisTitle.y, legendTitle, legendLabels,
                        show.values, breakTitleAt, breakLegendLabelsAt, 
-                       breakLegendTitleAt, axisLimits.x, axisLimits.y, 
+                       breakLegendTitleAt, xlim, ylim, 
                        y.offset, gridBreaksAt, show.ci, facet.grid, printPlot, fun))
   }
   # -----------------------------------------------------------
@@ -658,7 +658,7 @@ sjp.int <- function(fit,
       # retrieve lowest and highest x and y position to determine
       # the scale limits
       # -----------------------------------------------------------
-      if (is.null(axisLimits.y)) {
+      if (is.null(ylim)) {
         if (diff) {
           lowerLim.y <- floor(min(intdf$ydiff, na.rm = T))
           upperLim.y <- ceiling(max(intdf$ydiff, na.rm = T))
@@ -667,8 +667,8 @@ sjp.int <- function(fit,
           upperLim.y <- ceiling(max(intdf$y, na.rm = T))
         }
       } else {
-        lowerLim.y <- axisLimits.y[1]
-        upperLim.y <- axisLimits.y[2]
+        lowerLim.y <- ylim[1]
+        upperLim.y <- ylim[2]
       }
     } else {
       invlink <- stats::family(fit)
@@ -682,7 +682,7 @@ sjp.int <- function(fit,
     # retrieve lowest and highest x and y position to determine
     # the scale limits
     # -----------------------------------------------------------
-    if (is.null(axisLimits.y)) {
+    if (is.null(ylim)) {
       if (binom_fam) {
         lowerLim.y <- as.integer(floor(10 * min(intdf$y, na.rm = T) * .9)) / 10
         upperLim.y <- as.integer(ceiling(10 * max(intdf$y, na.rm = T) * 1.1)) / 10
@@ -696,15 +696,15 @@ sjp.int <- function(fit,
         }
       } 
     } else {
-      lowerLim.y <- axisLimits.y[1]
-      upperLim.y <- axisLimits.y[2]
+      lowerLim.y <- ylim[1]
+      upperLim.y <- ylim[2]
     }
     # -----------------------------------------------------------
     # check x-axis limits
     # -----------------------------------------------------------
-    if (!is.null(axisLimits.x)) {
-      lowerLim.x <- axisLimits.x[1]
-      upperLim.x <- axisLimits.x[2]
+    if (!is.null(xlim)) {
+      lowerLim.x <- xlim[1]
+      upperLim.x <- xlim[2]
     } else {
       lowerLim.x <- floor(min(intdf$x, na.rm = T))
       upperLim.x <- ceiling(max(intdf$x, na.rm = T))
@@ -918,8 +918,8 @@ sjp.eff.int <- function(fit,
                         breakTitleAt = 50,
                         breakLegendLabelsAt = 20,
                         breakLegendTitleAt = 20,
-                        axisLimits.x = NULL,
-                        axisLimits.y = NULL,
+                        xlim = NULL,
+                        ylim = NULL,
                         y.offset = 0.07,
                         gridBreaksAt = NULL,
                         show.ci = FALSE,
@@ -1162,7 +1162,7 @@ sjp.eff.int <- function(fit,
       # retrieve lowest and highest x and y position to determine
       # the scale limits
       # -----------------------------------------------------------
-      if (is.null(axisLimits.y)) {
+      if (is.null(ylim)) {
         if (show.ci) {
           lowerLim.y <- floor(min(intdf$conf.low, na.rm = T))
           upperLim.y <- ceiling(max(intdf$conf.high, na.rm = T))
@@ -1171,8 +1171,8 @@ sjp.eff.int <- function(fit,
           upperLim.y <- ceiling(max(intdf$y, na.rm = T))
         }
       } else {
-        lowerLim.y <- axisLimits.y[1]
-        upperLim.y <- axisLimits.y[2]
+        lowerLim.y <- ylim[1]
+        upperLim.y <- ylim[2]
       }
     } else {
       # ------------------------
@@ -1199,7 +1199,7 @@ sjp.eff.int <- function(fit,
       # retrieve lowest and highest x and y position to determine
       # the scale limits
       # -----------------------------------------------------------
-      if (is.null(axisLimits.y)) {
+      if (is.null(ylim)) {
         if (binom_fam) {
           if (show.ci) {
             lowerLim.y <- as.integer(floor(10 * min(intdf$conf.low, na.rm = T) * .9)) / 10
@@ -1218,16 +1218,16 @@ sjp.eff.int <- function(fit,
           }
         }
       } else {
-        lowerLim.y <- axisLimits.y[1]
-        upperLim.y <- axisLimits.y[2]
+        lowerLim.y <- ylim[1]
+        upperLim.y <- ylim[2]
       }
     }
     # -----------------------------------------------------------
     # check x-axis limits
     # -----------------------------------------------------------
-    if (!is.null(axisLimits.x)) {
-      lowerLim.x <- axisLimits.x[1]
-      upperLim.x <- axisLimits.x[2]
+    if (!is.null(xlim)) {
+      lowerLim.x <- xlim[1]
+      upperLim.x <- xlim[2]
     } else {
       lowerLim.x <- floor(min(intdf$x, na.rm = T))
       upperLim.x <- ceiling(max(intdf$x, na.rm = T))

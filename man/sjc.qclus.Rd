@@ -7,7 +7,7 @@
 sjc.qclus(data, groupcount = NULL, groups = NULL, method = "k",
   distance = "euclidean", agglomeration = "ward", iter.max = 20,
   algorithm = "Hartigan-Wong", showAccuracy = FALSE, title = NULL,
-  axisLabels.x = NULL, axisTitle.x = "Cluster group characteristics",
+  axis.labels = NULL, axisTitle.x = "Cluster group characteristics",
   axisTitle.y = "Mean of z-scores", breakTitleAt = 40, breakLabelsAt = 20,
   breakLegendTitleAt = 20, breakLegendLabelsAt = 20, facetCluster = FALSE,
   geom.colors = "Paired", geom.size = 0.5, geom.spacing = 0.1,
@@ -74,11 +74,11 @@ Use \code{NULL} to automatically detect variable names that will be used as titl
 (see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
 no title is printed.}
 
-\item{axisLabels.x}{a character vector with labels for the x-axis breaks. \strong{Note:} 
+\item{axis.labels}{a character vector with labels for the x-axis breaks. \strong{Note:} 
 Axis labels will be automatically detected, when data was either imported 
 with \code{\link[sjmisc]{read_spss}} or has named factor levels 
 (see 'Examples'). Else, specifiy argument like this:
-\code{axisLabels.x = c("Label1", "Label2", "Label3")}.}
+\code{axis.labels = c("Label1", "Label2", "Label3")}.}
 
 \item{axisTitle.x}{title for the x-axis.}
 

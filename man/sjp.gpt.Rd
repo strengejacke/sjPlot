@@ -9,7 +9,7 @@ sjp.gpt(x, y, groups, geom.colors = "Set1", geom.size = 2.5,
   25, 7, 8, 9, 10, 12), title = NULL, axisLabels = NULL,
   axisTitle.x = NULL, axisTitle.y = NULL, legendTitle = NULL,
   legendLabels = NULL, breakTitleAt = 50, breakLabelsAt = 15,
-  breakLegendTitleAt = 20, breakLegendLabelsAt = 20, axisLimits = NULL,
+  breakLegendTitleAt = 20, breakLegendLabelsAt = 20, axis.lim = NULL,
   gridBreaksAt = NULL, showTotal = TRUE, annotateTotal = TRUE,
   showP = TRUE, showN = TRUE, hideLegend = FALSE, printPlot = TRUE)
 }
@@ -68,7 +68,7 @@ are displayed in one line and when a line break is inserted.}
 \item{breakLegendLabelsAt}{determines how many chars of the legend labels are 
 displayed in one line and when a line break is inserted.}
 
-\item{axisLimits}{numeric vector of length 2, defining the range of the plot axis.}
+\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.}
 
 \item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
 position a major grid is being printed.}

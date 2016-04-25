@@ -159,7 +159,7 @@ sjp.glm <- function(fit,
                     var.labels = NULL,
                     axisTitle.x = "Odds Ratios",
                     legendTitle = NULL,
-                    axisLimits = NULL,
+                    axis.lim = NULL,
                     breakTitleAt = 50,
                     breakLabelsAt = 25,
                     gridBreaksAt = 0.5,
@@ -210,16 +210,16 @@ sjp.glm <- function(fit,
   # --------------------------------------------------------
   if (type == "slope") {
     return(invisible(sjp.glm.slope(fit, title, geom.size, remove.estimates, vars,
-                                   axisLimits.y = axisLimits, show.ci, facet.grid, printPlot)))
+                                   ylim = axis.lim, show.ci, facet.grid, printPlot)))
   }
   if (type == "eff") {
     return(invisible(sjp.glm.eff(fit, title, geom.size, remove.estimates, vars,
-                                 show.ci, axisLimits.y = axisLimits,
+                                 show.ci, ylim = axis.lim,
                                  facet.grid, fun = "glm", printPlot)))
   }
   if (type == "pred") {
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legendTitle,
-                                   show.ci, geom.size, axisLimits.y = axisLimits,
+                                   show.ci, geom.size, ylim = axis.lim,
                                    facet.grid, type = "fe", show.loess = F, printPlot)))
   }
   if (type == "ma") {
@@ -385,7 +385,7 @@ sjp.glm <- function(fit,
   # Calculate axis limits. The range is from lowest lower-CI
   # to highest upper-CI, or a user defined range
   # --------------------------------------------------------
-  if (is.null(axisLimits)) {
+  if (is.null(axis.lim)) {
     # if intercept is shown, we have to adjuste the axis limits to max/min
     # values of odds ratios AND intercept
     if (show.intercept) {
@@ -406,12 +406,12 @@ sjp.glm <- function(fit,
     if (lower_lim == 0 || is.na(lower_lim)) lower_lim <- 0.01
     # give warnings when auto-limits are very low/high
     if ((minval < 0.1) || (maxval > 100)) {
-      warning("Exp. coefficients and/or exp. confidence intervals may be out of printable bounds. Consider using \"axisLimits\" argument!")
+      warning("Exp. coefficients and/or exp. confidence intervals may be out of printable bounds. Consider using `axis.lim` argument!")
     }
   } else {
     # Here we have user defind axis range
-    lower_lim <- axisLimits[1]
-    upper_lim <- axisLimits[2]
+    lower_lim <- axis.lim[1]
+    upper_lim <- axis.lim[2]
   }
   # --------------------------------------------------------
   # Define axis ticks, i.e. at which position we have grid
@@ -553,7 +553,7 @@ sjp.glm <- function(fit,
 
 #' @importFrom stats predict coef formula model.frame
 sjp.glm.slope <- function(fit, title, geom.size, remove.estimates, vars,
-                          axisLimits.y, show.ci, facet.grid, printPlot) {
+                          ylim, show.ci, facet.grid, printPlot) {
   # check size argument
   if (is.null(geom.size)) geom.size <- .7
   # ----------------------------
@@ -702,11 +702,11 @@ sjp.glm.slope <- function(fit, title, geom.size, remove.estimates, vars,
       # ------------------------------
       # check axis limits
       # ------------------------------
-      if (is.null(axisLimits.y)) {
+      if (is.null(ylim)) {
         y.limits <- c(as.integer(floor(10 * min(mydf.metricpred[[i]]$y, na.rm = T) * .9)) / 10,
                       as.integer(ceiling(10 * max(mydf.metricpred[[i]]$y, na.rm = T) * 1.1)) / 10)
       } else {
-        y.limits <- axisLimits.y
+        y.limits <- ylim
       }
       # create single plots for each numeric predictor
       mp <- ggplot(mydf.metricpred[[i]], aes(x = values, y = y)) +
@@ -738,11 +738,11 @@ sjp.glm.slope <- function(fit, title, geom.size, remove.estimates, vars,
       # ------------------------------
       # check axis limits
       # ------------------------------
-      if (is.null(axisLimits.y)) {
+      if (is.null(ylim)) {
         y.limits <- c(as.integer(floor(10 * min(mydf.ges$y, na.rm = T) * .9)) / 10,
                       as.integer(ceiling(10 * max(mydf.ges$y, na.rm = T) * 1.1)) / 10)
       } else {
-        y.limits <- axisLimits.y
+        y.limits <- ylim
       }
       mp <- ggplot(mydf.ges, aes(x = values, y = y)) +
         labs(x = NULL, y = y.title, title = title)
@@ -805,7 +805,7 @@ sjp.glm.predy <- function(fit,
                           l.title,
                           show.ci,
                           geom.size,
-                          axisLimits.y,
+                          ylim,
                           facet.grid,
                           type = "fe",
                           show.loess = FALSE,
@@ -917,9 +917,9 @@ sjp.glm.predy <- function(fit,
   # ------------------------------
   # check axis limits
   # ------------------------------
-  if (is.null(axisLimits.y)) {
-    axisLimits.y <- c(as.integer(floor(10 * min(mydf$y, na.rm = T) * .9)) / 10,
-                      as.integer(ceiling(10 * max(mydf$y, na.rm = T) * 1.1)) / 10)
+  if (is.null(ylim)) {
+    ylim <- c(as.integer(floor(10 * min(mydf$y, na.rm = T) * .9)) / 10,
+              as.integer(ceiling(10 * max(mydf$y, na.rm = T) * 1.1)) / 10)
   }
   # ---------------------------------------------------------
   # Prepare plot
@@ -955,7 +955,7 @@ sjp.glm.predy <- function(fit,
   if (binom_fam) {
     # cartesian coord still plots range of se, even
     # when se exceeds plot range.
-    mp <- mp + coord_cartesian(ylim = axisLimits.y)
+    mp <- mp + coord_cartesian(ylim = ylim)
   }
   if (facet.grid && length(vars) == 2) {
     mp <- mp + 

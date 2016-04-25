@@ -8,8 +8,8 @@ sjp.grpfrq(varCount, varGroup, weight.by = NULL, weightByTitleString = NULL,
   interactionVar = NULL, type = "bars", geom.size = NULL,
   geom.spacing = 0.15, geom.colors = "Paired", hideLegend = FALSE,
   facet.grid = FALSE, title = "", legendTitle = NULL,
-  axisLabels.x = NULL, interactionVarLabels = NULL, legendLabels = NULL,
-  axisLimits.y = NULL, breakTitleAt = 50, breakLabelsAt = 15,
+  axis.labels = NULL, interactionVarLabels = NULL, legendLabels = NULL,
+  ylim = NULL, breakTitleAt = 50, breakLabelsAt = 15,
   breakLegendTitleAt = 20, breakLegendLabelsAt = 20, gridBreaksAt = NULL,
   barPosition = "dodge", innerBoxPlotWidth = 0.15,
   innerBoxPlotDotSize = 3, smoothLines = FALSE, expand.grid = FALSE,
@@ -72,21 +72,21 @@ no title is printed.}
 
 \item{legendTitle}{title of the plot legend, as string.}
 
-\item{axisLabels.x}{a character vector with labels for the x-axis breaks. \strong{Note:} 
+\item{axis.labels}{a character vector with labels for the x-axis breaks. \strong{Note:} 
 Axis labels will be automatically detected, when data was either imported 
 with \code{\link[sjmisc]{read_spss}} or has named factor levels 
 (see 'Examples'). Else, specifiy argument like this:
-\code{axisLabels.x = c("Label1", "Label2", "Label3")}.}
+\code{axis.labels = c("Label1", "Label2", "Label3")}.}
 
 \item{interactionVarLabels}{a character vector with labels for the x-axis breaks
 when having interaction variables included.
-These labels replace the \code{axisLabels.x}. Only applies, when using box or violin plots
+These labels replace the \code{axis.labels}. Only applies, when using box or violin plots
 (i.e. \code{type = "boxplots"} or \code{"violins"}) and \code{interactionVar} is not \code{NULL}.
-Example: See \code{axisLabels.x}.}
+Example: See \code{axis.labels}.}
 
 \item{legendLabels}{a character vector with labels for the guide/legend.}
 
-\item{axisLimits.y}{numeric vector of length two, defining lower and upper axis limits
+\item{ylim}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
 y-axis fits to the required range of the data.}
 

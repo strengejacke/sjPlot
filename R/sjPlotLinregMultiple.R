@@ -117,7 +117,7 @@ sjp.lmm <- function(...,
                     legendPValTitle = "p-level",
                     var.labels = NULL,
                     axisTitle.x = "Estimates",
-                    axisLimits = NULL,
+                    axis.lim = NULL,
                     breakTitleAt = 50,
                     breakLabelsAt = 25,
                     breakLegendTitleAt = 20,
@@ -316,7 +316,7 @@ sjp.lmm <- function(...,
   # Calculate axis limits. The range is from lowest lower-CI
   # to highest upper-CI, or a user defined range
   # --------------------------------------------------------
-  if (is.null(axisLimits)) {
+  if (is.null(axis.lim)) {
     # we have confindence intervals displayed, so
     # the range corresponds to the boundaries given by
     # the CI's
@@ -328,8 +328,8 @@ sjp.lmm <- function(...,
     if (show.values || showPValueLabels) upper_lim <- upper_lim + 0.1
   } else {
     # Here we have user defind axis range
-    lower_lim <- axisLimits[1]
-    upper_lim <- axisLimits[2]
+    lower_lim <- axis.lim[1]
+    upper_lim <- axis.lim[2]
   }
   # --------------------------------------------------------
   # Define axis ticks, i.e. at which position we have grid

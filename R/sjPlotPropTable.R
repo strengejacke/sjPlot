@@ -60,7 +60,7 @@ utils::globalVariables(c("rowname", "total", "ges", "prc", "n", "Count", "Group"
 #' 
 #' # plot "cross tablulation" of x and y, including labels
 #' sjp.xtab(x, grp, 
-#'          axisLabels.x = c("low", "mid", "high"),
+#'          axis.labels = c("low", "mid", "high"),
 #'          legendLabels = c("Grp 1", "Grp 2", "Grp 3", "Grp 4"))
 #' 
 #' # plot "cross tablulation" of x and grp
@@ -90,14 +90,14 @@ utils::globalVariables(c("rowname", "total", "ges", "prc", "n", "Count", "Group"
 #' sjp.xtab(efc$e42dep,
 #'          efc$e16sex,
 #'          title = efc.var['e42dep'],
-#'          axisLabels.x = efc.val[['e42dep']],
+#'          axis.labels = efc.val[['e42dep']],
 #'          legendTitle = efc.var['e16sex'],
 #'          legendLabels = efc.val[['e16sex']])
 #'          
 #' sjp.xtab(efc$e16sex,
 #'          efc$e42dep,
 #'          title = efc.var['e16sex'],
-#'          axisLabels.x = efc.val[['e16sex']],
+#'          axis.labels = efc.val[['e16sex']],
 #'          legendTitle = efc.var['e42dep'],
 #'          legendLabels = efc.val[['e42dep']])
 #'          
@@ -131,8 +131,8 @@ sjp.xtab <- function(x,
                      type = "bars",
                      tableIndex = "col",
                      reverseOrder = FALSE,
-                     axisLimits.y = NULL,
-                     axisLabels.x = NULL,
+                     ylim = NULL,
+                     axis.labels = NULL,
                      legendLabels = NULL,
                      vjust = "bottom",
                      hjust = "center",
@@ -228,7 +228,7 @@ sjp.xtab <- function(x,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
-  if (is.null(axisLabels.x)) axisLabels.x <- mydat$labels.cnt
+  if (is.null(axis.labels)) axis.labels <- mydat$labels.cnt
   if (is.null(legendLabels)) legendLabels <- mydat$labels.grp
   if (is.null(axisTitle.x)) axisTitle.x <- sjmisc::get_label(x, def.value = var.name.cnt)
   if (is.null(legendTitle)) legendTitle <- sjmisc::get_label(grp, def.value = var.name.grp)
@@ -330,7 +330,7 @@ sjp.xtab <- function(x,
   }
   if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
   if (!is.null(axisTitle.y)) axisTitle.y <- sjmisc::word_wrap(axisTitle.y, breakTitleAt)
-  if (!is.null(axisLabels.x)) axisLabels.x <- sjmisc::word_wrap(axisLabels.x, breakLabelsAt)
+  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
   # ----------------------------
   # create expression with model summarys. used
   # for plotting in the diagram later
@@ -348,9 +348,9 @@ sjp.xtab <- function(x,
   lower_lim <- 0
   # calculate upper y-axis-range
   # if we have a fixed value, use this one here
-  if (!is.null(axisLimits.y) && length(axisLimits.y) == 2) {
-    lower_lim <- axisLimits.y[1]
-    upper_lim <- axisLimits.y[2]
+  if (!is.null(ylim) && length(ylim) == 2) {
+    lower_lim <- ylim[1]
+    upper_lim <- ylim[2]
   } else if (barPosition == "stack") {
     # check upper limits. we may have rounding errors, so values
     # sum up to more than 100%
@@ -377,14 +377,14 @@ sjp.xtab <- function(x,
   # change category label order then
   # --------------------------------------------------------
   if (reverseOrder) {
-    axisLabels.x <- rev(axisLabels.x)
+    axis.labels <- rev(axis.labels)
     mydf$xpos <- rev(mydf$xpos)
   }
   # --------------------------------------------------------
   # align dodged position of labels to bar positions
   # --------------------------------------------------------
   posdodge <- ifelse(type == "lines", 0, geom.size + geom.spacing)
-  if (!showCategoryLabels) axisLabels.x <- c("")
+  if (!showCategoryLabels) axis.labels <- c("")
   # --------------------------------------------------------
   # Set value labels
   # --------------------------------------------------------
@@ -438,7 +438,7 @@ sjp.xtab <- function(x,
   # construct final plot, base constructor
   # first, set x scale
   # ----------------------------------
-  scalex <- scale_x_discrete(labels = axisLabels.x)
+  scalex <- scale_x_discrete(labels = axis.labels)
   # ----------------------------------
   # check whether bars or lines should be printed
   # ----------------------------------
@@ -487,7 +487,7 @@ sjp.xtab <- function(x,
          y = axisTitle.y, 
          fill = legendTitle) +
     # print value labels to the x-axis.
-    # If argument "axisLabels.x" is NULL, the category numbers (1 to ...) 
+    # If argument "axis.labels" is NULL, the category numbers (1 to ...) 
     # appear on the x-axis
     scalex +
     # set Y-axis, depending on the calculated upper y-range.

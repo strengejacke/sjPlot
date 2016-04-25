@@ -27,7 +27,7 @@ utils::globalVariables(c("dep", "n"))
 #' @param annotateTotal logical, if \code{TRUE} and \code{showTotal = TRUE},
 #'          the total-row in the figure will be highlighted with a slightly
 #'          shaded background.
-#' @param axisLimits numeric vector of length 2, defining the range of the plot axis.
+#' @param axis.lim numeric vector of length 2, defining the range of the plot axis.
 #'
 #' @return (Insisibily) returns the ggplot-object with the complete plot
 #'           (\code{plot}) as well as the data frame that
@@ -74,7 +74,7 @@ sjp.gpt <- function(x,
                     breakLabelsAt = 15,
                     breakLegendTitleAt = 20,
                     breakLegendLabelsAt = 20,
-                    axisLimits = NULL,
+                    axis.lim = NULL,
                     gridBreaksAt = NULL,
                     showTotal = TRUE,
                     annotateTotal = TRUE,
@@ -207,14 +207,14 @@ sjp.gpt <- function(x,
   # --------------------------------------------------------
   # Set up axis limits
   # --------------------------------------------------------
-  if (is.null(axisLimits)) axisLimits <- c(0, max(pretty(max(newdf$ypos, na.rm = TRUE), 10)))
+  if (is.null(axis.lim)) axis.lim <- c(0, max(pretty(max(newdf$ypos, na.rm = TRUE), 10)))
   # --------------------------------------------------------
   # Set up grid breaks
   # --------------------------------------------------------
   if (is.null(gridBreaksAt))
     gridbreaks <- ggplot2::waiver()
   else
-    gridbreaks <- c(seq(axisLimits[1], axisLimits[2], by = gridBreaksAt))
+    gridbreaks <- c(seq(axis.lim[1], axis.lim[2], by = gridBreaksAt))
   # --------------------------------------------------------
   # Set up geom colors
   # --------------------------------------------------------
@@ -237,7 +237,7 @@ sjp.gpt <- function(x,
     geom_point(size = geom.size, fill = shape.fill.color) +
     scale_y_continuous(labels = scales::percent,
                        breaks = gridbreaks,
-                       limits = axisLimits) +
+                       limits = axis.lim) +
     scale_x_discrete(labels = rev(axisLabels)) +
     scale_shape_manual(name = legendTitle,
                        labels = legendLabels,

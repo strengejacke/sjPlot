@@ -30,9 +30,6 @@ utils::globalVariables(c("offset"))
 #'          the index number (value) for this category. Else, set \code{cat.neutral = NULL} (default).
 #'          The proportions of neutral category answers are plotted as grey bars on the left side of
 #'          the figure.
-#' @param weightBy weight factor that will be applied to weight all cases of \code{items}.
-#'          Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, 
-#'          so no weights are used.
 #' @param sort.frq indicates whether the items of \code{items} should be ordered by 
 #'          total sum of positive or negative answers.
 #'          \describe{
@@ -79,6 +76,7 @@ utils::globalVariables(c("offset"))
 #' @param axisTitle.y title for the y-axis. Default is \code{NULL} (no title).
 #' 
 #' @inheritParams sjp.grpfrq
+#' @inheritParams sjp.stackfrq
 #' 
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df.neg} for the negative values,
@@ -164,7 +162,7 @@ utils::globalVariables(c("offset"))
 sjp.likert <- function(items,
                        catcount = NULL, 
                        cat.neutral = NULL,
-                       weightBy = NULL,
+                       weight.by = NULL,
                        weightByTitleString = NULL,
                        sort.frq = NULL,
                        geom.size = .6,
@@ -347,10 +345,10 @@ sjp.likert <- function(items,
     # --------------------------------------------------------
     # create proportional frequency table
     # --------------------------------------------------------
-    if (is.null(weightBy)) {
+    if (is.null(weight.by)) {
       tab <- round(prop.table(table(items[[i]])), 3)
     } else {
-      tab <- round(prop.table(stats::xtabs(weightBy ~ items[[i]])), 3)
+      tab <- round(prop.table(stats::xtabs(weight.by ~ items[[i]])), 3)
     }
     # --------------------------------------------------------
     # retrieve category number and related frequencies

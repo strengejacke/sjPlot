@@ -8,12 +8,12 @@ sjp.int(fit, type = "eff", int.term = NULL, int.plot.index = NULL,
   diff = FALSE, moderatorValues = "minmax", swapPredictors = FALSE,
   plevel = 0.1, title = NULL, fillColor = "grey", fillAlpha = 0.3,
   geom.colors = "Set1", geom.size = NULL, axisTitle.x = NULL,
-  axisTitle.y = NULL, axisLabels.x = NULL, legendTitle = NULL,
+  axisTitle.y = NULL, axis.labels = NULL, legendTitle = NULL,
   legendLabels = NULL, show.values = FALSE, breakTitleAt = 50,
-  breakLegendLabelsAt = 20, breakLegendTitleAt = 20, axisLimits.x = NULL,
-  axisLimits.y = NULL, y.offset = 0.07, gridBreaksAt = NULL,
-  show.ci = FALSE, p.kr = TRUE, valueLabel.digits = 2,
-  facet.grid = FALSE, printPlot = TRUE)
+  breakLegendLabelsAt = 20, breakLegendTitleAt = 20, xlim = NULL,
+  ylim = NULL, y.offset = 0.07, gridBreaksAt = NULL, show.ci = FALSE,
+  p.kr = TRUE, valueLabel.digits = 2, facet.grid = FALSE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{fit}{the fitted (generalized) linear (mixed) model object, including interaction terms. Accepted model
@@ -99,8 +99,8 @@ which means that each plot's x-axis uses the predictor's name as title.}
 \item{axisTitle.y}{a default title used for the y-axis. Default value is \code{NULL},
 which means that each plot's y-axis uses the dependent variable's name as title.}
 
-\item{axisLabels.x}{character vector with value labels of the repeated measure variable
-that are used for labelling the x-axis.}
+\item{axis.labels}{character vector with value labels of the interaction, used
+to label the x-axis. Only applies to \code{type = "emm"}.}
 
 \item{legendTitle}{title of the diagram's legend. A character vector of same length as 
 amount of interaction plots to be plotted (i.e. one vector element for each
@@ -123,9 +123,9 @@ displayed in one line and when a line break is inserted.}
 \item{breakLegendTitleAt}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}
 
-\item{axisLimits.x}{numeric vector of length two, defining lower and upper axis limits}
+\item{xlim}{numeric vector of length two, defining lower and upper axis limits}
 
-\item{axisLimits.y}{numeric vector of length two, defining lower and upper axis limits
+\item{ylim}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
 y-axis fits to the required range of the data.}
 
@@ -179,7 +179,7 @@ Plot regression (predicted values) or probability lines (predicted probabilities
            \item{\code{type = "eff"}}{plots the overall effects (marginal effects) of the interaction, with all remaining
              covariates set to the mean. Effects are calculated using the \code{\link[effects]{effect}}-
              function from the \pkg{effects}-package. \cr \cr
-             Following arguments \emph{do not} apply to this function: \code{diff}, \code{axisLabels.x}.
+             Following arguments \emph{do not} apply to this function: \code{diff}, \code{axis.labels}.
            }
            \item{\code{type = "cond"}}{plots the effective \emph{change} or \emph{impact} 
              (conditional effect) on a dependent variable of a moderation effect, as 
@@ -201,7 +201,7 @@ Plot regression (predicted values) or probability lines (predicted probabilities
              models of class \code{\link{lm}} or \code{\link[lme4]{merMod}}. This function may be used, for example,
              to plot differences in interventions between control and treatment groups over multiple time points.
              \itemize{
-               \item Following paramters apply to this plot type: \code{show.ci}, \code{valueLabel.digits} and \code{axisLabels.x}.
+               \item Following paramters apply to this plot type: \code{show.ci}, \code{valueLabel.digits} and \code{axis.labels}.
                \item Following arguments \emph{do not} apply to this function: \code{int.term}, \code{int.plot.index}, \code{diff}, \code{moderatorValues}, \code{fillColor}, \code{fillAlpha}.
              }
            }

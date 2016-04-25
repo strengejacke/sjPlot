@@ -10,7 +10,7 @@ sjp.emm <- function(fit,
                     geom.size = 0.7,
                     axisTitle.x = NULL,
                     axisTitle.y = NULL,
-                    axisLabels.x = NULL,
+                    axis.labels = NULL,
                     legendTitle = NULL,
                     legendLabels = NULL,
                     show.values = FALSE,
@@ -21,7 +21,7 @@ sjp.emm <- function(fit,
                     breakLegendTitleAt = 20,
                     breakLegendLabelsAt = 20,
                     y.offset = 0.07,
-                    axisLimits.y = NULL,
+                    ylim = NULL,
                     gridBreaksAt = NULL,
                     facet.grid = FALSE,
                     printPlot = TRUE) {
@@ -43,9 +43,9 @@ sjp.emm <- function(fit,
   # -----------------------------------------------------------
   if (any(class(fit) == "lmerMod") || any(class(fit) == "merModLmerTest")) {
     return(sjp.emm.lmer(fit, swapPredictors, plevel, title, geom.colors, geom.size,
-                        axisTitle.x, axisTitle.y, axisLabels.x, legendLabels,
+                        axisTitle.x, axisTitle.y, axis.labels, legendLabels,
                         show.values, valueLabel.digits, show.ci, p.kr, breakTitleAt,
-                        breakLegendLabelsAt, y.offset, axisLimits.y, gridBreaksAt, 
+                        breakLegendLabelsAt, y.offset, ylim, gridBreaksAt, 
                         facet.grid, printPlot))
   }
   # init vector that saves ggplot objects
@@ -202,12 +202,12 @@ sjp.emm <- function(fit,
       # retrieve lowest and highest x and y position to determine
       # the scale limits
       # -----------------------------------------------------------
-      if (is.null(axisLimits.y)) {
+      if (is.null(ylim)) {
         lowerLim.y <- ifelse(show.ci, floor(min(intdf$conf.low)), floor(min(intdf$y)))
         upperLim.y <- ifelse(show.ci, ceiling(max(intdf$conf.high)), ceiling(max(intdf$y)))
       } else {
-        lowerLim.y <- axisLimits.y[1]
-        upperLim.y <- axisLimits.y[2]
+        lowerLim.y <- ylim[1]
+        upperLim.y <- ylim[2]
       }
       # -----------------------------------------------------------
       # check whether user defined grid breaks / tick marks are used
@@ -261,7 +261,7 @@ sjp.emm <- function(fit,
         # set legend title for plot
         lTitle <- legendTitle
       }
-      if (is.null(axisLabels.x)) axisLabels.x <- alx
+      if (is.null(axis.labels)) axis.labels <- alx
       if (!is.null(axisTitle.x)) {
         labx <- axisTitle.x
       } else {
@@ -296,7 +296,7 @@ sjp.emm <- function(fit,
       baseplot <- baseplot +
         geom_point(aes(x = x, y = y, colour = grp)) +
         geom_line(aes(x = xn, y = y, colour = grp), size = geom.size) +
-        scale_x_discrete(labels = axisLabels.x)
+        scale_x_discrete(labels = axis.labels)
       # ------------------------------------------------------------
       # plot value labels
       # ------------------------------------------------------------
@@ -345,9 +345,9 @@ sjp.emm <- function(fit,
 
 #' @importFrom stats model.frame
 sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.size, axisTitle.x,
-                         axisTitle.y, axisLabels.x, legendLabels, show.values,
+                         axisTitle.y, axis.labels, legendLabels, show.values,
                          valueLabel.digits, show.ci, p.kr, breakTitleAt, breakLegendLabelsAt,
-                         y.offset, axisLimits.y, gridBreaksAt, facet.grid, printPlot) {
+                         y.offset, ylim, gridBreaksAt, facet.grid, printPlot) {
   if ((any(class(fit) == "lmerMod") || any(class(fit) == "merModLmerTest")) && !requireNamespace("lmerTest", quietly = TRUE)) {
     stop("Package 'lmerTest' needed for this function to work. Please install it.", call. = FALSE)
   }
@@ -499,12 +499,12 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.s
       # retrieve lowest and highest x and y position to determine
       # the scale limits
       # -----------------------------------------------------------
-      if (is.null(axisLimits.y)) {
+      if (is.null(ylim)) {
         lowerLim.y <- ifelse(show.ci, floor(min(intdf$conf.low)), floor(min(intdf$y)))
         upperLim.y <- ifelse(show.ci, ceiling(max(intdf$conf.high)), ceiling(max(intdf$y)))
       } else {
-        lowerLim.y <- axisLimits.y[1]
-        upperLim.y <- axisLimits.y[2]
+        lowerLim.y <- ylim[1]
+        upperLim.y <- ylim[2]
       }
       # -----------------------------------------------------------
       # check whether user defined grid breaks / tick marks are used
@@ -547,7 +547,7 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.s
       } else {
         lLabels <- legendLabels
       }
-      if (is.null(axisLabels.x)) axisLabels.x <- alx
+      if (is.null(axis.labels)) axis.labels <- alx
       if (!is.null(axisTitle.x)) {
         labx <- axisTitle.x
       } else {
@@ -582,7 +582,7 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.s
       baseplot <- baseplot +
         geom_point(aes(x = x, y = y, colour = grp)) +
         geom_line(aes(x = xn, y = y, colour = grp), size = geom.size) +
-        scale_x_discrete(labels = axisLabels.x)
+        scale_x_discrete(labels = axis.labels)
       # ------------------------------------------------------------
       # plot value labels
       # ------------------------------------------------------------

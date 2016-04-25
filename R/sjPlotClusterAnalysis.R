@@ -128,7 +128,7 @@ sjc.qclus <- function(data,
                       algorithm = "Hartigan-Wong",
                       showAccuracy = FALSE,
                       title = NULL,
-                      axisLabels.x = NULL,
+                      axis.labels = NULL,
                       axisTitle.x = "Cluster group characteristics",
                       axisTitle.y = "Mean of z-scores",
                       breakTitleAt = 40,
@@ -162,7 +162,7 @@ sjc.qclus <- function(data,
   # remove missings
   data <- stats::na.omit(data)
   # check for valid argument
-  if (is.null(axisLabels.x)) axisLabels.x <- colnames(data)
+  if (is.null(axis.labels)) axis.labels <- colnames(data)
   # --------------------------------------------------------
   # Trim labels and title to appropriate size
   # --------------------------------------------------------
@@ -178,7 +178,7 @@ sjc.qclus <- function(data,
   if (!is.null(legendLabels)) legendLabels <- sjmisc::word_wrap(legendLabels, breakLegendLabelsAt)
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
-  axisLabels.x <- sjmisc::word_wrap(axisLabels.x, breakLabelsAt)
+  axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
   # ---------------------------------------------
   # check for auto-groupcount
   # ---------------------------------------------
@@ -277,13 +277,13 @@ sjc.qclus <- function(data,
   # --------------------------------------------------------
   # Hide or show Axis Labels (x axis text) 
   # --------------------------------------------------------
-  if (!showAxisLabels.x) axisLabels.x <- NULL
+  if (!showAxisLabels.x) axis.labels <- NULL
   # --------------------------------------------------------
   # create plot
   # --------------------------------------------------------
   if (reverseAxis.x) {
     gp <- ggplot(df, aes(x = rev(x), y = y, fill = group))
-    axisLabels.x <- rev(axisLabels.x)
+    axis.labels <- rev(axis.labels)
   } else {
     gp <- ggplot(df, aes(x = x, y = y, fill = group))
   }
@@ -293,7 +293,7 @@ sjc.qclus <- function(data,
              width = geom.size) +
     scale_x_discrete(breaks = c(1:colnr), 
                      limits = c(1:colnr), 
-                     labels = axisLabels.x) +
+                     labels = axis.labels) +
     labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legendTitle)
   # --------------------------------------------------------
   # hide y-axis labels

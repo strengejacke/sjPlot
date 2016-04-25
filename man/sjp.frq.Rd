@@ -7,8 +7,8 @@
 sjp.frq(varCount, title = "", weight.by = NULL,
   weightByTitleString = NULL, interactionVar = NULL, sort.frq = "none",
   type = "bars", geom.size = NULL, geom.colors = "#336699",
-  axisLabels.x = NULL, interactionVarLabels = NULL, axisLimits.x = NULL,
-  axisLimits.y = NULL, breakTitleAt = 50, breakLabelsAt = 20,
+  axis.labels = NULL, interactionVarLabels = NULL, xlim = NULL,
+  ylim = NULL, breakTitleAt = 50, breakLabelsAt = 20,
   gridBreaksAt = NULL, innerBoxPlotWidth = 0.15, innerBoxPlotDotSize = 3,
   expand.grid = FALSE, show.values = TRUE, showCountValues = TRUE,
   showPercentageValues = TRUE, show.axis.values = TRUE, show.ci = FALSE,
@@ -67,21 +67,21 @@ adjusted depending on the plot type.}
 
 \item{geom.colors}{user defined color for geoms, e.g. \code{geom.colors = "#0080ff"}.}
 
-\item{axisLabels.x}{a character vector with labels for the x-axis breaks. \strong{Note:} 
+\item{axis.labels}{a character vector with labels for the x-axis breaks. \strong{Note:} 
 Axis labels will be automatically detected, when data was either imported 
 with \code{\link[sjmisc]{read_spss}} or has named factor levels 
 (see 'Examples'). Else, specifiy argument like this:
-\code{axisLabels.x = c("Label1", "Label2", "Label3")}.}
+\code{axis.labels = c("Label1", "Label2", "Label3")}.}
 
 \item{interactionVarLabels}{a character vector with labels for the x-axis breaks 
 when having interaction variables included. These labels replace the 
-\code{axisLabels.x}. Only applies, when using box or violin plots
+\code{axis.labels}. Only applies, when using box or violin plots
 (i.e. \code{type = "boxplots"} or \code{"violins"}) and \code{interactionVar} 
 is not \code{NULL}.}
 
-\item{axisLimits.x}{numeric vector of length two, defining lower and upper axis limits}
+\item{xlim}{numeric vector of length two, defining lower and upper axis limits}
 
-\item{axisLimits.y}{numeric vector of length two, defining lower and upper axis limits
+\item{ylim}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
 y-axis fits to the required range of the data.}
 
@@ -239,7 +239,7 @@ ageGrp <- group_var(efc$e17age)
 ageGrpLab <- group_labels(efc$e17age)
 sjp.frq(ageGrp,
         title = get_label(efc$e17age),
-        axisLabels.x = ageGrpLab)
+        axis.labels = ageGrpLab)
 
 
 # box plots with interaction variable
@@ -284,7 +284,7 @@ sjp.frq(efc$c160age,
         showStandardNormalCurve = TRUE,
         normalCurveColor = "blue",
         normalCurveSize = 3,
-        axisLimits.y = c(0,50))
+        ylim = c(0,50))
 
 }
 \seealso{

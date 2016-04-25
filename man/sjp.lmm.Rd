@@ -6,7 +6,7 @@
 \usage{
 sjp.lmm(..., type = "lm", title = NULL, labelDependentVariables = NULL,
   legendDepVarTitle = "Dependent Variables", legendPValTitle = "p-level",
-  var.labels = NULL, axisTitle.x = "Estimates", axisLimits = NULL,
+  var.labels = NULL, axisTitle.x = "Estimates", axis.lim = NULL,
   breakTitleAt = 50, breakLabelsAt = 25, breakLegendTitleAt = 20,
   gridBreaksAt = NULL, geom.size = 3, geom.spacing = 0.4,
   geom.colors = "Set1", fade.ns = FALSE, usePShapes = FALSE,
@@ -45,7 +45,7 @@ labels from the random intercept's categories (if \code{type = "re"}).}
 
 \item{axisTitle.x}{string, title for the x axis.}
 
-\item{axisLimits}{numeric vector of length 2, defining the range of the plot axis.
+\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
 By default, the limits range from the lowest confidence interval to the 
 highest, so plot has maximum zoom.}
 

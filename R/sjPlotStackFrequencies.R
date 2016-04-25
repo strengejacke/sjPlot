@@ -24,11 +24,9 @@
 #'            \item{\code{"last.desc"}}{to order descending by lowest count of last category,}
 #'            \item{\code{NULL}}{(default) for no sorting.}
 #'          }
-#' @param weightBy weight factor that will be applied to weight all cases from \code{items}.
-#'          Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, so no weights are used.
-#' @param weightByTitleString suffix (as string) for the plot's title, if \code{weightBy} is specified,
-#'          e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's 
-#'          title will not have a suffix when cases are weighted.
+#' @param weight.by weight factor that will be applied to weight all cases from \code{items}.
+#'          Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, 
+#'          so no weights are used.
 #' @param hideLegend logical, indicates whether legend (guide) should be shown or not.
 #' @param title plot's title
 #' @param legendTitle title of plot's legend
@@ -119,8 +117,7 @@
 sjp.stackfrq <- function(items,
                          legendLabels = NULL,
                          sort.frq = NULL,
-                         weightBy = NULL,
-                         weightByTitleString = NULL,
+                         weight.by = NULL,
                          hideLegend = FALSE,
                          title = NULL,
                          legendTitle = NULL,
@@ -261,10 +258,10 @@ sjp.stackfrq <- function(items,
     # data frame)
     # -----------------------------------------------
     # check whether counts should be weighted or not
-    if (is.null(weightBy)) {
+    if (is.null(weight.by)) {
       df <- as.data.frame(prop.table(table(variable)))
     } else {
-      df <- as.data.frame(prop.table(round(stats::xtabs(weightBy ~ variable), 0)))
+      df <- as.data.frame(prop.table(round(stats::xtabs(weight.by ~ variable), 0)))
     }
     # give columns names
     names(df) <- c("var", "prc")
@@ -305,11 +302,7 @@ sjp.stackfrq <- function(items,
   if (!is.null(legendTitle)) legendTitle <- sjmisc::word_wrap(legendTitle, breakLegendTitleAt)
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(title)) {
-    # if we have weighted values, say that in diagram's title
-    if (!is.null(weightByTitleString)) title <- paste0(title, weightByTitleString)
-    title <- sjmisc::word_wrap(title, breakTitleAt)    
-  }
+  if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)    
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
   if (!is.null(axisLabels.y)) axisLabels.y <- sjmisc::word_wrap(axisLabels.y, breakLabelsAt)    

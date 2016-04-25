@@ -4,8 +4,8 @@
 \alias{sjp.stackfrq}
 \title{Plot stacked proportional bars}
 \usage{
-sjp.stackfrq(items, legendLabels = NULL, sort.frq = NULL, weightBy = NULL,
-  weightByTitleString = NULL, hideLegend = FALSE, title = NULL,
+sjp.stackfrq(items, legendLabels = NULL, sort.frq = NULL,
+  weight.by = NULL, hideLegend = FALSE, title = NULL,
   legendTitle = NULL, includeN = TRUE, axisLabels.y = NULL,
   breakTitleAt = 50, breakLabelsAt = 30, breakLegendTitleAt = 30,
   breakLegendLabelsAt = 28, gridBreaksAt = 0.2, expand.grid = FALSE,
@@ -31,12 +31,9 @@ by highest count of first or last category of \code{items}.
   \item{\code{NULL}}{(default) for no sorting.}
 }}
 
-\item{weightBy}{weight factor that will be applied to weight all cases from \code{items}.
-Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, so no weights are used.}
-
-\item{weightByTitleString}{suffix (as string) for the plot's title, if \code{weightBy} is specified,
-e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's 
-title will not have a suffix when cases are weighted.}
+\item{weight.by}{weight factor that will be applied to weight all cases from \code{items}.
+Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, 
+so no weights are used.}
 
 \item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
 

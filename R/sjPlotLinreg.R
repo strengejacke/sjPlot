@@ -273,7 +273,7 @@ sjp.lm <- function(fit,
                    var.labels = NULL,
                    legendTitle = NULL,
                    axisTitle.x = "Estimates",
-                   axisLimits = NULL,
+                   axis.lim = NULL,
                    geom.colors = "Set1",
                    geom.size = NULL,
                    vline.type = 2,
@@ -349,7 +349,7 @@ sjp.lm <- function(fit,
   }
   if (type == "pred") {
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legendTitle,
-                                   show.ci, geom.size, axisLimits.y = axisLimits,
+                                   show.ci, geom.size, ylim = axis.lim,
                                    facet.grid, type = "fe", show.loess, printPlot)))
   }
   if (type == "poly") {
@@ -358,7 +358,7 @@ sjp.lm <- function(fit,
   }
   if (type == "eff") {
     return(invisible(sjp.glm.eff(fit, title, geom.size, remove.estimates, vars,
-                                 show.ci, axisLimits.y = NULL, facet.grid,
+                                 show.ci, ylim = NULL, facet.grid,
                                  fun = "lm", printPlot)))
   }
   if (type == "ma") {
@@ -524,15 +524,15 @@ sjp.lm <- function(fit,
   betas$xv <- as.factor(betas$xv)
   # --------------------------------------------------------
   # Calculate axis limits. The range is from lowest lower-CI
-  # to highest upper-CI, or a user-defined range (if "axisLimits"
+  # to highest upper-CI, or a user-defined range (if "axis.lim"
   # is not NULL)
   # --------------------------------------------------------
-  if (is.null(axisLimits)) {
+  if (is.null(axis.lim)) {
     upper_lim <- (ceiling(10 * max(betas$upper))) / 10
     lower_lim <- (floor(10 * min(betas$lower))) / 10
   } else {
-    lower_lim <- axisLimits[1]
-    upper_lim <- axisLimits[2]
+    lower_lim <- axis.lim[1]
+    upper_lim <- axis.lim[2]
   }
   # determine gridbreaks
   if (is.null(gridBreaksAt)) {
