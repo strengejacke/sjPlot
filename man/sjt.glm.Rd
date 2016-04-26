@@ -4,8 +4,8 @@
 \alias{sjt.glm}
 \title{Summary of generalized linear models as HTML table}
 \usage{
-sjt.glm(..., file = NULL, labelPredictors = NULL,
-  labelDependentVariables = NULL, stringPredictors = "Predictors",
+sjt.glm(..., file = NULL, labelPredictors = NULL, depvar.labels = NULL,
+  stringPredictors = "Predictors",
   stringDependentVariables = "Dependent Variables",
   showHeaderStrings = FALSE, stringIntercept = "(Intercept)",
   stringObservations = "Observations", stringOR = "OR", stringCI = "CI",
@@ -35,7 +35,7 @@ labels are set based on label attributes (see \code{\link[sjmisc]{get_label}}),
 If \code{labelPredictors = ""}, column names (vector names) are used
 as predictor labels. See 'Examples'.}
 
-\item{labelDependentVariables}{character vector with labels of dependent 
+\item{depvar.labels}{character vector with labels of dependent 
 variables of all fitted models. See 'Examples'.}
 
 \item{stringPredictors}{string constant used as headline for the predictor column.
@@ -222,7 +222,7 @@ fitOR3 <- glm(y3 ~ Education + Examination + Catholic, data = swiss,
 \dontrun{
 # open HTML-table in RStudio Viewer Pane or web browser
 sjt.glm(fitOR1, fitOR2, 
-        labelDependentVariables = c("Fertility", "Infant Mortality"),
+        depvar.labels = c("Fertility", "Infant Mortality"),
         labelPredictors = c("Education", "Examination", "Catholic"),
         ci.hyphen = " to ")
 
@@ -235,9 +235,7 @@ sjt.glm(fitOR1, fitOR2, fitOR3,
 # open HTML-table in RStudio Viewer Pane or web browser,
 # indicating p-values as numbers and printing CI in a separate column
 sjt.glm(fitOR1, fitOR2, fitOR3,
-        labelDependentVariables = c("Fertility", 
-                                    "Infant Mortality", 
-                                    "Agriculture"),
+        depvar.labels = c("Fertility", "Infant Mortality", "Agriculture"),
         labelPredictors = c("Education", "Examination", "Catholic"))
 
 
@@ -245,9 +243,7 @@ sjt.glm(fitOR1, fitOR2, fitOR3,
 # User defined style sheet
 # -------------------------------------------- 
 sjt.glm(fitOR1, fitOR2, fitOR3,
-        labelDependentVariables = c("Fertility", 
-                                    "Infant Mortality", 
-                                    "Agriculture"),
+        depvar.labels = c("Fertility", "Infant Mortality", "Agriculture"),
         labelPredictors = c("Education", "Examination", "Catholic"),
         showHeaderStrings = TRUE,
         CSS = list(css.table = "border: 2px solid;",
@@ -266,19 +262,14 @@ data(efc)
 efc$services <- sjmisc::dicho(efc$tot_sc_e, "v", 0, as.num = TRUE)
 # fit 3 models with different link-functions
 fit1 <- glm(services ~ neg_c_7 + c161sex + e42dep, 
-            data = efc, 
-            family = binomial(link = "logit"))
+            data = efc, family = binomial(link = "logit"))
 fit2 <- glm(services ~ neg_c_7 + c161sex + e42dep, 
-            data = efc, 
-            family = binomial(link = "probit"))
+            data = efc, family = binomial(link = "probit"))
 fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep, 
-            data = efc, 
-            family = poisson(link = "log"))
+            data = efc, family = poisson(link = "log"))
             
 # compare models
-sjt.glm(fit1, fit2, fit3, 
-        showAIC = TRUE, 
-        showFamily = TRUE)
+sjt.glm(fit1, fit2, fit3, showAIC = TRUE, showFamily = TRUE)
 
 
 # --------------------------------------------
@@ -286,10 +277,8 @@ sjt.glm(fit1, fit2, fit3,
 # --------------------------------------------
 # open HTML-table in RStudio Viewer Pane or web browser,
 # table indicating p-values as stars
-sjt.glm(fit1, fit2, fit3, 
-        pvaluesAsNumbers = FALSE,
-        showAIC = TRUE, 
-        showFamily = TRUE)
+sjt.glm(fit1, fit2, fit3, pvaluesAsNumbers = FALSE,
+        showAIC = TRUE, showFamily = TRUE)
 
 # open HTML-table in RStudio Viewer Pane or web browser,
 # indicating p-values as stars and integrate CI in OR column

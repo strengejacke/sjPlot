@@ -24,21 +24,8 @@
 #'            \item{\code{"last.desc"}}{to order descending by lowest count of last category,}
 #'            \item{\code{NULL}}{(default) for no sorting.}
 #'          }
-#' @param weight.by weight factor that will be applied to weight all cases from \code{items}.
-#'          Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, 
-#'          so no weights are used.
-#' @param hideLegend logical, indicates whether legend (guide) should be shown or not.
-#' @param title plot's title
 #' @param legendTitle title of plot's legend
 #' @param includeN logical, if \code{TRUE} (default), the N of each item is included into axis labels.
-#' @param geom.colors user defined color palette for geoms. If specified, must either be vector with color values 
-#'          of same length as groups defined in \code{legendLabels}, or a specific color palette code.
-#'          See 'Note' in \code{\link{sjp.grpfrq}}.
-#' @param geom.size size resp. width of the geoms (bar width)
-#' @param axisLabels.y character vector with labels for the y-axis (variable names 
-#'          of \code{items}). Example: \code{axisLabels.y = c("Q1", "Q2", "Q3")}
-#'          Axis labels will automatically be detected, when they have
-#'          label attributes (see \code{\link[sjmisc]{set_label}}) for details).
 #' @param breakTitleAt determines how many chars of the title are displayed in
 #'          one line and when a line break is inserted into the title.
 #' @param breakLabelsAt determines how many chars of the category labels are displayed in 
@@ -49,10 +36,6 @@
 #'          displayed in one line and when a line break is inserted.
 #' @param expand.grid logical, if \code{TRUE} (default), the diagram has margins, 
 #'          i.e. the y-axis is not exceeded to the diagram's boundaries.
-#' @param axisTitle.x title for the x-axis. Default is \code{NULL} (no title).
-#' @param axisTitle.y title for the y-axis. Default is \code{NULL} (no title).
-#' @param labelDigits The amount of digits for rounding \code{value.labels}. Default is 1, 
-#'          i.e. value labels have 1 digit after decimal point.
 #' @param showPercentageAxis If \code{TRUE} (default), the percentage values at the x-axis are shown.
 #' @param showItemLabels Whether x axis text (category names) should be shown or not.
 #' @param showSeparatorLine If \code{TRUE}, a line is drawn to visually "separate" each bar in the diagram.
@@ -64,6 +47,7 @@
 #' 
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.frq
+#' @inheritParams sjp.glmer
 #' 
 #' @examples
 #' # -------------------------------
@@ -116,11 +100,11 @@ sjp.stackfrq <- function(items,
                          legendLabels = NULL,
                          sort.frq = NULL,
                          weight.by = NULL,
-                         hideLegend = FALSE,
+                         show.legend = TRUE,
                          title = NULL,
                          legendTitle = NULL,
                          includeN = TRUE,
-                         axisLabels.y = NULL,
+                         axis.labels = NULL,
                          breakTitleAt = 50,
                          breakLabelsAt = 30,
                          breakLegendTitleAt = 30,
@@ -129,10 +113,9 @@ sjp.stackfrq <- function(items,
                          expand.grid = FALSE,
                          geom.size = 0.5,
                          geom.colors = "Blues",
-                         axisTitle.x = NULL,
-                         axisTitle.y = NULL,
+                         axis.titles = NULL,
                          show.values = TRUE,
-                         labelDigits = 1,
+                         digits = 1,
                          vjust = "center",
                          showPercentageAxis = TRUE,
                          showItemLabels = TRUE,
@@ -146,6 +129,16 @@ sjp.stackfrq <- function(items,
   # a data frame with several items, convert vector to data frame
   # --------------------------------------------------------
   if (!is.data.frame(items) && !is.matrix(items)) items <- as.data.frame(items)
+  # --------------------------------------------------------
+  # copy titles
+  # --------------------------------------------------------
+  if (is.null(axis.titles)) {
+    axisTitle.x <- NULL
+    axisTitle.y <- NULL
+  } else {
+    axisTitle.x <- axis.titles[1]
+    if (length(axis.titles) > 1) axisTitle.y <- axis.titles[2]
+  }
   # --------------------------------------------------------
   # check sorting
   # --------------------------------------------------------
@@ -176,26 +169,19 @@ sjp.stackfrq <- function(items,
                                                                 attr.only = F,
                                                                 include.values = NULL,
                                                                 include.non.labelled = T)
-  if (is.null(axisLabels.y)) {
-    axisLabels.y <- c()
+  if (is.null(axis.labels)) {
+    axis.labels <- c()
     # if yes, iterate each variable
     for (i in 1:ncol(items)) {
       # retrieve variable name attribute
-      axisLabels.y <- c(axisLabels.y, sjmisc::get_label(items[[i]], def.value = colnames(items)[i]))
+      axis.labels <- c(axis.labels, sjmisc::get_label(items[[i]], def.value = colnames(items)[i]))
     }
   }
   # --------------------------------------------------------
-  # If axisLabels.y were not defined, simply use column names
+  # unname labels, if necessary, so we have a simple
+  # character vector
   # --------------------------------------------------------
-  if (is.null(axisLabels.y)) axisLabels.y <- colnames(items)
-  # --------------------------------------------------------
-  # unlist/ unname axis labels
-  # --------------------------------------------------------
-  if (!is.null(axisLabels.y)) {
-    # unname labels, if necessary, so we have a simple
-    # character vector
-    if (!is.null(names(axisLabels.y))) axisLabels.y <- as.vector(axisLabels.y)
-  } 
+  if (!is.null(names(axis.labels))) axis.labels <- as.vector(axis.labels)
   # --------------------------------------------------------
   # unlist/ unname axis labels
   # --------------------------------------------------------
@@ -217,9 +203,9 @@ sjp.stackfrq <- function(items,
   # Check whether N of each item should be included into
   # axis labels
   # --------------------------------------------------------
-  if (includeN && !is.null(axisLabels.y)) {
-    for (i in 1:length(axisLabels.y)) {
-      axisLabels.y[i] <- paste(axisLabels.y[i], 
+  if (includeN && !is.null(axis.labels)) {
+    for (i in 1:length(axis.labels)) {
+      axis.labels[i] <- paste(axis.labels[i], 
                                sprintf(" (n=%i)", length(stats::na.omit(items[[i]]))), 
                                sep = "")
     }
@@ -303,7 +289,7 @@ sjp.stackfrq <- function(items,
   if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)    
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
-  if (!is.null(axisLabels.y)) axisLabels.y <- sjmisc::word_wrap(axisLabels.y, breakLabelsAt)    
+  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)    
   # ----------------------------
   # Check if ordering was requested
   # ----------------------------
@@ -339,13 +325,13 @@ sjp.stackfrq <- function(items,
     # replace old grp-order by new order
     mydat$grp <- as.factor(orderedrow)
     # reorder axis labels as well
-    axisLabels.y <- axisLabels.y[order(dummy2)]
+    axis.labels <- axis.labels[order(dummy2)]
   }
   # --------------------------------------------------------
   # check if category-oder on x-axis should be reversed
   # change category label order then
   # --------------------------------------------------------
-  if (reverseOrder && is.null(sort.frq)) axisLabels.y <- rev(axisLabels.y)
+  if (reverseOrder && is.null(sort.frq)) axis.labels <- rev(axis.labels)
   # --------------------------------------------------------
   # set diagram margins
   # --------------------------------------------------------
@@ -357,9 +343,9 @@ sjp.stackfrq <- function(items,
   # --------------------------------------------------------
   # Set value labels and label digits
   # --------------------------------------------------------
-  mydat$labelDigits <- labelDigits
+  mydat$digits <- digits
   if (show.values) {
-    ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%.*f%%", labelDigits, 100 * prc)),
+    ggvaluelabels <-  geom_text(aes(y = ypos, label = sprintf("%.*f%%", digits, 100 * prc)),
                                 vjust = vjust)
   } else {
     ggvaluelabels <-  geom_text(aes(y = ypos), label = "")
@@ -410,9 +396,9 @@ sjp.stackfrq <- function(items,
     # no additional labels for the x- and y-axis, only diagram title
     labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legendTitle) +
     # print value labels to the x-axis.
-    # If parameter "axisLabels.y" is NULL, the category numbers (1 to ...) 
+    # If parameter "axis.labels" is NULL, the category numbers (1 to ...) 
     # appear on the x-axis
-    scale_x_discrete(labels = axisLabels.y) +
+    scale_x_discrete(labels = axis.labels) +
     # set Y-axis, depending on the calculated upper y-range.
     # It either corresponds to the maximum amount of cases in the data set
     # (length of var) or to the highest count of var's categories.
@@ -429,7 +415,7 @@ sjp.stackfrq <- function(items,
   baseplot <- sj.setGeomColors(baseplot, 
                                geom.colors, 
                                length(legendLabels), 
-                               ifelse(isTRUE(hideLegend), FALSE, TRUE), 
+                               show.legend, 
                                legendLabels)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted

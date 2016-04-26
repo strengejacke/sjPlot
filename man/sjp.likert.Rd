@@ -8,13 +8,13 @@ sjp.likert(items, catcount = NULL, cat.neutral = NULL, weight.by = NULL,
   weightByTitleString = NULL, sort.frq = NULL, geom.size = 0.6,
   geom.colors = "BrBG", reverse.colors = FALSE,
   cat.neutral.color = "grey70", intercept.line.color = "grey50",
-  value.labels = "show", showPercentageSign = FALSE, labelDigits = 1,
-  legendLabels = NULL, hideLegend = FALSE, title = NULL,
+  value.labels = "show", showPercentageSign = FALSE, digits = 1,
+  legendLabels = NULL, show.legend = TRUE, title = NULL,
   legendTitle = NULL, includeN = TRUE, showItemLabels = TRUE,
-  axisLabels.y = NULL, breakTitleAt = 50, breakLabelsAt = 30,
+  axis.labels = NULL, breakTitleAt = 50, breakLabelsAt = 30,
   breakLegendTitleAt = 30, breakLegendLabelsAt = 28, gridRange = 1,
-  grid.breaks = 0.2, expand.grid = TRUE, axisTitle.x = NULL,
-  axisTitle.y = NULL, coord.flip = TRUE, printPlot = TRUE)
+  grid.breaks = 0.2, expand.grid = TRUE, axis.titles = NULL,
+  coord.flip = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{items}{\code{\link{data.frame}} with each column representing one likert-item.}
@@ -32,8 +32,9 @@ the index number (value) for this category. Else, set \code{cat.neutral = NULL} 
 The proportions of neutral category answers are plotted as grey bars on the left side of
 the figure.}
 
-\item{weight.by}{weight factor that will be applied to weight all cases from \code{varCount}.
-Must be a vector of same length as \code{varCount}. Default is \code{NULL}, so no weights are used.}
+\item{weight.by}{weight factor that will be applied to weight all cases.
+Must be a vector of same length as the input vector. Default is 
+\code{NULL}, so no weights are used.}
 
 \item{weightByTitleString}{suffix (as string) for the plot's title, if \code{weight.by} is specified,
 e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's 
@@ -49,11 +50,11 @@ total sum of positive or negative answers.
   \item{\code{NULL}}{(default) for no sorting}
 }}
 
-\item{geom.size}{width of bars. Recommended values for this argument are from 0.4 to 1.5}
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
+depending on plot type and function. Note that bar and bin widths mostly 
+need smaller values than dot sizes.}
 
-\item{geom.colors}{user defined color palette for geoms. If specified, must either be vector with color values 
-of same length as groups defined in \code{legendLabels}, or a specific color palette code.
-See 'Note' in \code{\link{sjp.grpfrq}}.}
+\item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
 \item{reverse.colors}{logical, if \code{TRUE}, the color scale from \code{geom.colors} will be reversed,
 so positive and negative values switch colors.}
@@ -72,18 +73,16 @@ so positive and negative values switch colors.}
 
 \item{showPercentageSign}{logical, if \code{TRUE}, \%-signs for value labels are shown.}
 
-\item{labelDigits}{amount of digits for rounding \code{value.labels}. Default is 1, 
-i.e. value labels have 1 digit after decimal point.}
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
 \item{legendLabels}{character vector with names of the 
 likert-scale-categories that appear as legend text.}
 
-\item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
+\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
+function, a legend is added to the plot.}
 
-\item{title}{plot title as string. Example: \code{title = "my title"}.
-Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
-no title is printed.}
+\item{title}{string, used as plot title. Depending on plot type and function,
+will be set automatically. If \code{title = ""}, no title is printed.}
 
 \item{legendTitle}{title of the plot legend, as string.}
 
@@ -91,10 +90,7 @@ no title is printed.}
 
 \item{showItemLabels}{logical, whether x-axis text (category names) should be shown or not}
 
-\item{axisLabels.y}{character vector with labels for the y-axis (names of the 
-\code{items}). Example: \code{axisLabels.y = c("Q1", "Q2", "Q3")}.
-Axis labels will automatically be detected, when they have
-label attributes (see \code{\link[sjmisc]{set_label}} for details).}
+\item{axis.labels}{character vector with labels used as axis labels.}
 
 \item{breakTitleAt}{determines how many chars of the plot title are displayed in
 one line and when a line break is inserted into the title.}
@@ -122,9 +118,8 @@ i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 \item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 axes and plotting region. Default is \code{FALSE}.}
 
-\item{axisTitle.x}{title for the x-axis. Default is \code{NULL} (no title).}
-
-\item{axisTitle.y}{title for the y-axis. Default is \code{NULL} (no title).}
+\item{axis.titles}{character vector of length one or two, defining the title(s)
+for the x-axis and y-axis.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
@@ -200,14 +195,14 @@ items <- c("Q1", "Q2", "Q3", "Q4", "Q5")
 sjp.likert(likert_2,
            geom.colors = c("green", "red"),
            legendLabels = levels_2, 
-           axisLabels.y = items, 
+           axis.labels = items, 
            sort.frq = "neg.desc")
 
 # plot 4-category-likert-scale, no order
 sjp.likert(likert_4, 
            cat.neutral = 5,
            legendLabels = levels_4, 
-           axisLabels.y = items,
+           axis.labels = items,
            gridRange = 1.2,
            expand.grid = FALSE,
            value.labels = "sum.outside",
@@ -217,9 +212,9 @@ sjp.likert(likert_4,
 # in brown color scale
 sjp.likert(likert_6, 
            legendLabels = levels_6, 
-           axisLabels.y = items, 
+           axis.labels = items, 
            sort.frq = "pos.asc", 
-           labelDigits = 0,
+           digits = 0,
            showPercentageSign = TRUE,
            value.labels = "sum.inside")
 

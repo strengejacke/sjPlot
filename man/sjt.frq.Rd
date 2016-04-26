@@ -4,7 +4,7 @@
 \alias{sjt.frq}
 \title{Summary of frequencies as HTML table}
 \usage{
-sjt.frq(data, file = NULL, weightBy = NULL,
+sjt.frq(data, file = NULL, weight.by = NULL,
   weightByTitleString = " (weighted)", variableLabels = NULL,
   valueLabels = NULL, autoGroupAt = NULL, sort.frq = NULL,
   alternateRowColors = FALSE, stringValue = "value", stringCount = "N",
@@ -25,10 +25,11 @@ sjt.frq(data, file = NULL, weightBy = NULL,
 If \code{NULL} (default), the output will be saved as temporary file and 
 openend either in the IDE's viewer pane or the default web browser.}
 
-\item{weightBy}{weight factor that will be applied to weight all cases from \code{data}.
-Must be a vector of same length as \code{nrow(data)}. Default is \code{NULL}, so no weights are used.}
+\item{weight.by}{weight factor that will be applied to weight all cases.
+Must be a vector of same length as the input vector. Default is 
+\code{NULL}, so no weights are used.}
 
-\item{weightByTitleString}{suffix (as string) for the tabel caption, if \code{weightBy} is specified,
+\item{weightByTitleString}{suffix (as string) for the tabel caption, if \code{weight.by} is specified,
 e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so
 the table caption will not have a suffix when cases are weighted.}
 
@@ -107,7 +108,7 @@ column (see \code{showSkew})). Default is lower case Greek gamma.}
 kurtosis column (see \code{showKurtosis})). Default is lower case 
 Greek omega.}
 
-\item{digits}{amount of digits used for table values. Default is 2.}
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
 \item{removeStringVectors}{If \code{TRUE} (default), character vectors / string variables will be removed from
 \code{data} before frequency tables are computed.}

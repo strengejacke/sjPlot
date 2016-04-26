@@ -5,16 +5,16 @@
 \title{Plot estimates, predictions or effects of linear models}
 \usage{
 sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
-  resp.label = NULL, var.labels = NULL, legendTitle = NULL,
-  axisTitle.x = "Estimates", axis.lim = NULL, geom.colors = "Set1",
+  resp.label = NULL, axis.labels = NULL, legendTitle = NULL,
+  axis.title = NULL, axis.lim = NULL, geom.colors = "Set1",
   geom.size = NULL, vline.type = 2, vline.color = "grey70",
   group.estimates = NULL, remove.estimates = NULL, vars = NULL,
   breakTitleAt = 50, breakLabelsAt = 25, grid.breaks = NULL,
-  coord.flip = TRUE, facet.grid = TRUE, show.values = TRUE,
-  labelDigits = 2, show.p = TRUE, showModelSummary = FALSE,
-  show.ci = TRUE, pointAlpha = 0.2, showScatterPlot = TRUE,
-  show.loess = FALSE, show.loess.ci = FALSE, show.legend = FALSE,
-  y.offset = 0.15, poly.term = NULL, showOriginalModelOnly = TRUE,
+  coord.flip = TRUE, facet.grid = TRUE, show.values = TRUE, digits = 2,
+  show.p = TRUE, showModelSummary = FALSE, show.ci = TRUE,
+  pointAlpha = 0.2, showScatterPlot = TRUE, show.loess = FALSE,
+  show.loess.ci = FALSE, show.legend = FALSE, y.offset = 0.15,
+  poly.term = NULL, showOriginalModelOnly = TRUE,
   completeDiagnostic = FALSE, printPlot = TRUE)
 }
 \arguments{
@@ -38,22 +38,18 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
 If \code{group.estimates} is \emph{not} \code{NULL}, estimates are sorted
 according to their group assignment.}
 
-\item{title}{plot title as string. Example: \code{title = "my title"}.
-Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
-no title is printed.}
+\item{title}{string, used as plot title. Depending on plot type and function,
+will be set automatically. If \code{title = ""}, no title is printed.}
 
 \item{resp.label}{name of dependent variable, as string. Only 
 used if fitted model has only one predictor and \code{type = "lm"}.}
 
-\item{var.labels}{character vector with labels for the model terms, used as axis labels.
-For mixed models, should either be vector of fixed effects variable labels 
-(if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
-labels from the random intercept's categories (if \code{type = "re"}).}
+\item{axis.labels}{character vector with labels used as axis labels.}
 
 \item{legendTitle}{title of the plot legend, as string.}
 
-\item{axisTitle.x}{title for the x-axis. Default is \code{"Estimates"}.}
+\item{axis.title}{string, title for the axis. If not specified, a default labelling depending
+on the plot function and type is chosen.}
 
 \item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
 By default, the limits range from the lowest confidence interval to the 
@@ -61,11 +57,13 @@ highest, so plot has maximum zoom.}
 
 \item{geom.colors}{user defined color palette for geoms. If \code{group.estimates}
 is \emph{not} specified, must either be vector with two color values or a specific
-color palette code (see 'Note' in \code{\link{sjp.grpfrq}}). Else, if
+color palette code (see 'Details' in \code{\link{sjp.grpfrq}}). Else, if
 \code{group.estimates} is specified, \code{geom.colors} must be a vector
 of same length as groups. See 'Examples'.}
 
-\item{geom.size}{size resp. width of the geoms (bar width, point size or line thickness, depending on \code{type} argument).}
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
+depending on plot type and function. Note that bar and bin widths mostly 
+need smaller values than dot sizes.}
 
 \item{vline.type}{linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
 
@@ -104,18 +102,16 @@ bar charts. Ideal for larger amount of groups. This argument wraps a single pane
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
-\item{labelDigits}{amount of digits for rounding the estimates (see \code{show.values}).
-Default is 2, i.e. estimates have 2 digits after decimal point.}
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
-\item{show.p}{logical, whether the significance level of each coefficient
-should be appended to values or not.}
+\item{show.p}{logical, adds significance levels to value or variable labels.}
 
 \item{showModelSummary}{logical, if \code{TRUE}, a summary of the regression model with
 Intercept, R-squared, F-Test and AIC-value is printed to the lower right corner
 of the plot.}
 
 \item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a condifence
-region is added to the plot.}
+interval or region is added to the plot.}
 
 \item{pointAlpha}{alpha value of point-geoms in the scatter plots.
 Default is 0.2.}
@@ -133,10 +129,8 @@ will be plotted. Default is \code{FALSE}. Only applies, if \code{show.loess = TR
 (and for \code{\link{sjp.lmer}}, only applies if \code{type = "fe.slope"}
 or \code{type = "fe.resid"}).}
 
-\item{show.legend}{logical, if \code{TRUE}, for mixed models
-\code{type = "rs.ri"}, a legend for group levels of
-the random intercept is shown. For \code{lm} and \code{glm},
-a legend for grouped estimates is shown.}
+\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
+function, a legend is added to the plot.}
 
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
@@ -249,7 +243,7 @@ fit <- lm(neg_c_7 ~ quol_5, data=efc)
 # plot regression line with label strings
 sjp.lm(fit,
        resp.label = "Burden of care",
-       var.labels = "Quality of life",
+       axis.labels = "Quality of life",
        show.loess = TRUE)
 
 # --------------------------------------------------

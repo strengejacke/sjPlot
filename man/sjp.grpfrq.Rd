@@ -5,20 +5,20 @@
 \title{Plot grouped or stacked frequencies}
 \usage{
 sjp.grpfrq(varCount, varGroup, weight.by = NULL, weightByTitleString = NULL,
-  interactionVar = NULL, type = "bars", geom.size = NULL,
-  geom.spacing = 0.15, geom.colors = "Paired", hideLegend = FALSE,
-  facet.grid = FALSE, title = "", legendTitle = NULL,
-  axis.labels = NULL, interactionVarLabels = NULL, legendLabels = NULL,
-  ylim = NULL, breakTitleAt = 50, breakLabelsAt = 15,
-  breakLegendTitleAt = 20, breakLegendLabelsAt = 20, grid.breaks = NULL,
-  barPosition = "dodge", innerBoxPlotWidth = 0.15,
-  innerBoxPlotDotSize = 3, smoothLines = FALSE, expand.grid = FALSE,
-  show.values = TRUE, showCountValues = TRUE, showPercentageValues = TRUE,
-  show.axis.values = TRUE, showPlotAnnotation = TRUE,
+  interactionVar = NULL, type = c("bar", "dot", "line", "boxplot",
+  "violin"), geom.size = NULL, geom.spacing = 0.15,
+  geom.colors = "Paired", show.legend = TRUE, facet.grid = FALSE,
+  title = "", legendTitle = NULL, axis.labels = NULL,
+  interactionVarLabels = NULL, legendLabels = NULL, ylim = NULL,
+  breakTitleAt = 50, breakLabelsAt = 15, breakLegendTitleAt = 20,
+  breakLegendLabelsAt = 20, grid.breaks = NULL, barPosition = "dodge",
+  innerBoxPlotWidth = 0.15, innerBoxPlotDotSize = 3, smoothLines = FALSE,
+  expand.grid = FALSE, show.values = TRUE, show.n = TRUE,
+  show.perc = TRUE, show.axis.values = TRUE, showPlotAnnotation = TRUE,
   showTableSummary = FALSE, showGroupCount = FALSE, tableSummaryPos = "r",
-  axisTitle.x = "", axisTitle.y = "", autoGroupAt = NULL,
-  coord.flip = FALSE, vjust = "bottom", hjust = "center",
-  y.offset = NULL, na.rm = TRUE, printPlot = TRUE)
+  axis.titles = NULL, autoGroupAt = NULL, coord.flip = FALSE,
+  vjust = "bottom", hjust = "center", y.offset = NULL, na.rm = TRUE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{varCount}{a vector of values (variable) describing the bars which make up the plot.}
@@ -26,8 +26,9 @@ sjp.grpfrq(varCount, varGroup, weight.by = NULL, weightByTitleString = NULL,
 \item{varGroup}{grouping variable of same length as \code{varCount}, where \code{varCount} 
 is grouped into the categories represented by \code{varGrp}.}
 
-\item{weight.by}{weight factor that will be applied to weight all cases from \code{varCount}.
-Must be a vector of same length as \code{varCount}. Default is \code{NULL}, so no weights are used.}
+\item{weight.by}{weight factor that will be applied to weight all cases.
+Must be a vector of same length as the input vector. Default is 
+\code{NULL}, so no weights are used.}
 
 \item{weightByTitleString}{suffix (as string) for the plot's title, if \code{weight.by} is specified,
 e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's 
@@ -36,52 +37,45 @@ title will not have a suffix when cases are weighted.}
 \item{interactionVar}{an interaction variable which can be used for box plots. Divides each category indicated
 by \code{varGroup} into the factors of \code{interactionVar}, so that each category of \code{varGroup}
 is subgrouped into \code{interactionVar}'s categories. Only applies when argument \code{type}
-is \code{box} or \code{violin} (resp. their alternative strings like \code{"boxplot"}, \code{"boxplots"} or \code{"v"}).}
+is \code{box} or \code{violin} (resp. their alternative strings like \code{"boxplot"}, \code{"boxplot"} or \code{"v"}).}
 
-\item{type}{The plot type. May be one of the following:
+\item{type}{Specifies the plot type. May be abbreviated.
 \describe{
-  \item{\code{"bars"}}{for simple bars (the default setting)}
-  \item{\code{"dots"}}{for dot plots}
-  \item{\code{"lines"}}{for grouped line-styled plot}
-  \item{\code{"boxplots"}}{for grouped box plots}
-  \item{\code{"violins"}}{for grouped violin plots}
-  }
-  You may use initial letter for \code{type} options, except for
-  \code{type = "boxplots"}, which may be abbreviated \code{type = "box"}}
+  \item{\code{"bar"}}{for simple bars (default)}
+  \item{\code{"dot"}}{for a dot plot}
+  \item{\code{"histogram"}}{for a histogram (does not apply to grouped frequencies)}
+  \item{\code{"line"}}{for a line-styled histogram with filled area}
+  \item{\code{"density"}}{for a density plot (does not apply to grouped frequencies)}
+  \item{\code{"boxplot"}}{for box plot}
+  \item{\code{"violin"}}{for violin plots}
+  }}
 
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, depending on \code{type} argument).
-Note that bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
-By default, \code{geom.size = NULL}, which means that this argument is automatically
-adjusted depending on the plot type.}
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
+depending on plot type and function. Note that bar and bin widths mostly 
+need smaller values than dot sizes.}
 
 \item{geom.spacing}{the spacing between geoms (i.e. bar spacing)}
 
-\item{geom.colors}{User defined color palette for geoms. If specified, must either be vector with color values 
-of same length as groups defined in \code{varGroup}, or a specific color brewer palette code (see 'Note').}
+\item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
-\item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
+\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
+function, a legend is added to the plot.}
 
 \item{facet.grid}{\code{TRUE} when bar charts should be plotted as facet grids instead of integrated single
 bar charts. Ideal for larger amount of groups. This argument wraps a single panel into 
 \code{varGroup} amount of panels, i.e. each group is represented within a new panel.}
 
-\item{title}{plot title as string. Example: \code{title = "my title"}.
-Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
-no title is printed.}
+\item{title}{string, used as plot title. Depending on plot type and function,
+will be set automatically. If \code{title = ""}, no title is printed.}
 
 \item{legendTitle}{title of the plot legend, as string.}
 
-\item{axis.labels}{a character vector with labels for the x-axis breaks. \strong{Note:} 
-Axis labels will be automatically detected, when data was either imported 
-with \code{\link[sjmisc]{read_spss}} or has named factor levels 
-(see 'Examples'). Else, specifiy argument like this:
-\code{axis.labels = c("Label1", "Label2", "Label3")}.}
+\item{axis.labels}{character vector with labels used as axis labels.}
 
 \item{interactionVarLabels}{a character vector with labels for the x-axis breaks
 when having interaction variables included.
 These labels replace the \code{axis.labels}. Only applies, when using box or violin plots
-(i.e. \code{type = "boxplots"} or \code{"violins"}) and \code{interactionVar} is not \code{NULL}.
+(i.e. \code{type = "boxplot"} or \code{"violin"}) and \code{interactionVar} is not \code{NULL}.
 Example: See \code{axis.labels}.}
 
 \item{legendLabels}{a character vector with labels for the guide/legend.}
@@ -109,22 +103,22 @@ i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 or stacked (use \code{"stack"} as argument).}
 
 \item{innerBoxPlotWidth}{width of the inner box plot that is plotted inside of violin plots. Only applies 
-if \code{type = "violins"}. Default value is 0.15}
+if \code{type = "violin"}. Default value is 0.15}
 
 \item{innerBoxPlotDotSize}{size of mean dot insie a violin or box plot. Applies only 
-when \code{type = "violins"} or \code{"boxplots"}.}
+when \code{type = "violin"} or \code{"boxplot"}.}
 
-\item{smoothLines}{prints a smooth line curve. Only applies, when argument \code{type = "lines"}.}
+\item{smoothLines}{prints a smooth line curve. Only applies, when argument \code{type = "line"}.}
 
 \item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 axes and plotting region. Default is \code{FALSE}.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
-\item{showCountValues}{logical, if \code{TRUE} (default), count values are plotted to each bar. 
-If \code{FALSE}, count values are removed.}
+\item{show.n}{logical, if \code{TRUE}, adds total number of cases for each
+group or category to the labels.}
 
-\item{showPercentageValues}{logical, if \code{TRUE} (default), percentage values are plotted to each bar
+\item{show.perc}{logical, if \code{TRUE} (default), percentage values are plotted to each bar
 If \code{FALSE}, percentage values are removed.}
 
 \item{show.axis.values}{logical, whether count or percentage values for the axis
@@ -140,7 +134,7 @@ values lower than five(or lower than 10 if df is 1), the Fisher's excact test
 (see \code{\link{fisher.test}}) is computed instead of chi-square test. 
 If the table's matrix is larger than 2x2, Fisher's excact test with Monte Carlo 
 simulation is computed. Only applies to barcharts or dotplots, i.e. 
-when argument \code{type = "bars"} or \code{"dots"}.}
+when argument \code{type = "bar"} or \code{"dot"}.}
 
 \item{showGroupCount}{logical, if \code{TRUE}, the count within each group is added 
 to the category labels (e.g. \code{"Cat 1 (n=87)"}). Default value is \code{FALSE}.}
@@ -149,14 +143,8 @@ to the category labels (e.g. \code{"Cat 1 (n=87)"}). Default value is \code{FALS
 is \code{TRUE}. Default is \code{"r"}, i.e. it's printed to the upper right corner. 
 Use \code{"l"} for upper left corner.}
 
-\item{axisTitle.x}{title for the x-axis. By default, \code{""} is used, i.e. no title
-is printed. If \code{axisTitle.x = NULL}, the variable name will be 
-automatically detected and used as title (see \code{\link[sjmisc]{set_label}}) 
-for details).}
-
-\item{axisTitle.y}{title for the-y axis. By default, \code{""} is used, i.e. no title
-is printed. If \code{axisTitle.y = NULL}, variable name will be automatically 
-detected and used as title (see \code{\link[sjmisc]{set_label}}) for details).}
+\item{axis.titles}{character vector of length one or two, defining the title(s)
+for the x-axis and y-axis.}
 
 \item{autoGroupAt}{numeric value, indicating at which length of unique values of \code{varCount}, 
 automatic grouping into smaller units is done (see \code{\link[sjmisc]{group_var}}).
@@ -197,11 +185,11 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 Plot grouped or stacked frequencies of variables as bar/dot, 
                box or violin plots, or line plot.
 }
-\note{
+\details{
 \code{geom.colors} may be a acharacter vector of color values 
-        in hex-format, or a name of a \href{http://colorbrewer2.org}{color brewer} palette.
-        Following options are valid for the \code{geom.colors} argument:
-        \itemize{
+         in hex-format, or a name of a \href{http://colorbrewer2.org}{color brewer} palette.
+         Following options are valid for the \code{geom.colors} argument:
+         \itemize{
            \item If not specified, a default color brewer palette will be used, which is suitable for the plot style (i.e. diverging for likert scales, qualitative for grouped bars etc.).
            \item If \code{"gs"}, a greyscale will be used.
            \item If \code{geom.colors} is any valid color brewer palette name, the related palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view all available palette names.
@@ -243,7 +231,7 @@ sjp.grpfrq(efc$neg_c_7,
 # same data as line plot
 sjp.grpfrq(efc$neg_c_7, 
            efc$e42dep, 
-           type = "lines")
+           type = "line")
            
 }
 \seealso{

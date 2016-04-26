@@ -4,10 +4,10 @@
 \alias{view_df}
 \title{View structure of labelled data frames}
 \usage{
-view_df(x, weightBy = NULL, file = NULL, alternateRowColors = TRUE,
+view_df(x, weight.by = NULL, file = NULL, alternateRowColors = TRUE,
   showID = TRUE, showType = FALSE, show.values = TRUE,
   show.labels = TRUE, showFreq = FALSE, showPerc = FALSE,
-  showWtdFreq = FALSE, showWtdPerc = FALSE, showNA = FALSE,
+  showWtdFreq = FALSE, showWtdPerc = FALSE, show.na = FALSE,
   sortByName = FALSE, breakVariableNamesAt = 50, encoding = NULL,
   hideProgressBar = FALSE, CSS = NULL, useViewer = TRUE,
   no.output = FALSE, remove.spaces = TRUE)
@@ -18,8 +18,9 @@ view_df(x, weightBy = NULL, file = NULL, alternateRowColors = TRUE,
 or any similar labelled data frame (see \code{\link[sjmisc]{set_label}}
 and \code{\link[sjmisc]{set_labels}}).}
 
-\item{weightBy}{weight factor that will be applied to weight all cases from \code{data}.
-Must be a vector of same length as \code{nrow(data)}. Default is \code{NULL}, so no weights are used.}
+\item{weight.by}{weight factor that will be applied to weight all cases.
+Must be a vector of same length as the input vector. Default is 
+\code{NULL}, so no weights are used.}
 
 \item{file}{destination file, if the output should be saved as file.
 If \code{NULL} (default), the output will be saved as temporary file and 
@@ -43,13 +44,13 @@ is hidden by default.}
 \item{showPerc}{logical, if \code{TRUE}, an additional column with percentage of frequencies for each variable is shown.}
 
 \item{showWtdFreq}{logical, if \code{TRUE}, an additional column with weighted
-frequencies for each variable is shown. Weights strem from \code{weightBy}.}
+frequencies for each variable is shown. Weights strem from \code{weight.by}.}
 
 \item{showWtdPerc}{logical, if \code{TRUE}, an additional column with weighted
 percentage of frequencies for each variable is shown.
-Weights strem from \code{weightBy}.}
+Weights strem from \code{weight.by}.}
 
-\item{showNA}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.}
+\item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.}
 
 \item{sortByName}{logical, if \code{TRUE}, rows are sorted according to the variable
 names. By default, rows (variables) are ordered according to their

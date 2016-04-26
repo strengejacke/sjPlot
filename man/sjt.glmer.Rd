@@ -4,8 +4,8 @@
 \alias{sjt.glmer}
 \title{Summary of generalized linear mixed models as HTML table}
 \usage{
-sjt.glmer(..., file = NULL, labelPredictors = NULL,
-  labelDependentVariables = NULL, stringPredictors = "Predictors",
+sjt.glmer(..., file = NULL, labelPredictors = NULL, depvar.labels = NULL,
+  stringPredictors = "Predictors",
   stringDependentVariables = "Dependent Variables",
   showHeaderStrings = FALSE, stringIntercept = "(Intercept)",
   stringObservations = "Observations", stringOR = "OR", stringCI = "CI",
@@ -35,7 +35,7 @@ labels are set based on label attributes (see \code{\link[sjmisc]{get_label}}),
 If \code{labelPredictors = ""}, column names (vector names) are used
 as predictor labels. See 'Examples'.}
 
-\item{labelDependentVariables}{character vector with labels of dependent 
+\item{depvar.labels}{character vector with labels of dependent 
 variables of all fitted models. See 'Examples'.}
 
 \item{stringPredictors}{string constant used as headline for the predictor column.

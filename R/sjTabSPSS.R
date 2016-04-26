@@ -26,10 +26,10 @@
 #' @param showFreq logical, if \code{TRUE}, an additional column with frequencies for each variable is shown.
 #' @param showPerc logical, if \code{TRUE}, an additional column with percentage of frequencies for each variable is shown.
 #' @param showWtdFreq logical, if \code{TRUE}, an additional column with weighted
-#'          frequencies for each variable is shown. Weights strem from \code{weightBy}.
+#'          frequencies for each variable is shown. Weights strem from \code{weight.by}.
 #' @param showWtdPerc logical, if \code{TRUE}, an additional column with weighted
 #'          percentage of frequencies for each variable is shown.
-#'          Weights strem from \code{weightBy}.
+#'          Weights strem from \code{weight.by}.
 #' @param sortByName logical, if \code{TRUE}, rows are sorted according to the variable
 #'          names. By default, rows (variables) are ordered according to their
 #'          order in the data frame.
@@ -42,6 +42,7 @@
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.df
 #' @inheritParams sjt.xtab
+#' @inheritParams sjp.grpfrq
 #'          
 #' @return Invisibly returns
 #'          \itemize{
@@ -83,7 +84,7 @@
 #' @importFrom utils txtProgressBar setTxtProgressBar
 #' @export
 view_df <- function(x,
-                    weightBy = NULL,
+                    weight.by = NULL,
                     file = NULL,
                     alternateRowColors = TRUE,
                     showID = TRUE,
@@ -94,7 +95,7 @@ view_df <- function(x,
                     showPerc = FALSE,
                     showWtdFreq = FALSE,
                     showWtdPerc = FALSE,
-                    showNA = FALSE,
+                    show.na = FALSE,
                     sortByName = FALSE,
                     breakVariableNamesAt = 50,
                     encoding = NULL,
@@ -173,7 +174,7 @@ view_df <- function(x,
   page.content <- paste0(page.content, "<th class=\"thead\">Name</th>")
   if (showType) page.content <- paste0(page.content, "<th class=\"thead\">Type</th>")
   page.content <- paste0(page.content, "<th class=\"thead\">Label</th>")
-  if (showNA) page.content <- paste0(page.content, "<th class=\"thead\">missings</th>")
+  if (show.na) page.content <- paste0(page.content, "<th class=\"thead\">missings</th>")
   if (show.values) page.content <- paste0(page.content, "<th class=\"thead\">Values</th>")
   if (show.labels) page.content <- paste0(page.content, "<th class=\"thead\">Value Labels</th>")
   if (showFreq) page.content <- paste0(page.content, "<th class=\"thead\">Freq.</th>")
@@ -224,7 +225,7 @@ view_df <- function(x,
     # ----------------------------
     # missings and missing percentage
     # ----------------------------
-    if (showNA) {
+    if (show.na) {
       page.content <- paste0(page.content, 
                              sprintf("    <td class=\"tdata%s\">%i (%.2f%%)</td>\n", 
                                      arcstring, 
@@ -235,7 +236,7 @@ view_df <- function(x,
     # values
     # ----------------------------
     if (show.values) {
-      valstring <- c("")
+      valstring <- ""
       # do we have valid index?
       if (index <= ncol(x)) {
         # if yes, get variable values
@@ -257,7 +258,7 @@ view_df <- function(x,
     # value labels
     # ----------------------------
     if (show.labels) {
-      valstring <- c("")
+      valstring <- ""
       # do we have valid index?
       if (index <= length(df.val)) {
         # if yes, get value labels
@@ -298,20 +299,20 @@ view_df <- function(x,
     # ----------------------------
     # frequencies
     # ----------------------------
-    if (showWtdFreq && !is.null(weightBy)) {
+    if (showWtdFreq && !is.null(weight.by)) {
       page.content <- paste0(page.content, 
                              sprintf("    <td class=\"tdata%s\">%s</td>\n", 
                                      arcstring, 
-                                     frq.value(index, x, df.val, weightBy)))
+                                     frq.value(index, x, df.val, weight.by)))
     }
     # ----------------------------
     # percentage of frequencies
     # ----------------------------
-    if (showPerc && !is.null(weightBy)) {
+    if (showPerc && !is.null(weight.by)) {
       page.content <- paste0(page.content, 
                              sprintf("    <td class=\"tdata%s\">%s</td>\n", 
                                      arcstring, 
-                                     prc.value(index, x, df.val, weightBy)))
+                                     prc.value(index, x, df.val, weight.by)))
     }
     # update progress bar
     if (!hideProgressBar) utils::setTxtProgressBar(pb, ccnt)

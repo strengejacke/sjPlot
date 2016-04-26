@@ -7,11 +7,10 @@
 sjc.qclus(data, groupcount = NULL, groups = NULL, method = "k",
   distance = "euclidean", agglomeration = "ward", iter.max = 20,
   algorithm = "Hartigan-Wong", showAccuracy = FALSE, title = NULL,
-  axis.labels = NULL, axisTitle.x = "Cluster group characteristics",
-  axisTitle.y = "Mean of z-scores", breakTitleAt = 40, breakLabelsAt = 20,
+  axis.labels = NULL, breakTitleAt = 40, breakLabelsAt = 20,
   breakLegendTitleAt = 20, breakLegendLabelsAt = 20, facetCluster = FALSE,
   geom.colors = "Paired", geom.size = 0.5, geom.spacing = 0.1,
-  hideLegend = FALSE, showAxisLabels.x = TRUE, showAxisLabels.y = TRUE,
+  show.legend = TRUE, showAxisLabels.x = TRUE, showAxisLabels.y = TRUE,
   showGroupCount = TRUE, showAccuracyLabels = FALSE, legendTitle = NULL,
   legendLabels = NULL, coord.flip = FALSE, reverseAxis.x = FALSE,
   printPlot = TRUE)
@@ -69,20 +68,10 @@ for details on this argument.}
 which computes a linear discriminant analysis on the classified cluster groups and plots a 
 bar graph indicating the goodness of classification for each group.}
 
-\item{title}{plot title as string. Example: \code{title = "my title"}.
-Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
-no title is printed.}
+\item{title}{string, used as plot title. Depending on plot type and function,
+will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{axis.labels}{a character vector with labels for the x-axis breaks. \strong{Note:} 
-Axis labels will be automatically detected, when data was either imported 
-with \code{\link[sjmisc]{read_spss}} or has named factor levels 
-(see 'Examples'). Else, specifiy argument like this:
-\code{axis.labels = c("Label1", "Label2", "Label3")}.}
-
-\item{axisTitle.x}{title for the x-axis.}
-
-\item{axisTitle.y}{title for the y-axis.}
+\item{axis.labels}{character vector with labels used as axis labels.}
 
 \item{breakTitleAt}{Determines how many chars of the title are displayed in 
 one line and when a line break is inserted into the title.}
@@ -99,13 +88,16 @@ displayed in one line and when a line break is inserted.}
 \item{facetCluster}{If \code{TRUE}, each cluster group will be represented by an own panel.
 Default is \code{FALSE}, thus all cluster groups are plotted in a single graph.}
 
-\item{geom.colors}{user defined color for bars. See 'Note' in \code{\link{sjp.grpfrq}}.}
+\item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
-\item{geom.size}{width of bars. Recommended values for this argument are from 0.4 to 1.5}
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
+depending on plot type and function. Note that bar and bin widths mostly 
+need smaller values than dot sizes.}
 
 \item{geom.spacing}{the spacing between geoms (i.e. bar spacing)}
 
-\item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
+\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
+function, a legend is added to the plot.}
 
 \item{showAxisLabels.x}{whether x axis labels (cluster variables) should be shown or not.}
 

@@ -5,17 +5,16 @@
 \title{Plot Pearson's Chi2-Test of multiple contingency tables}
 \usage{
 sjp.chi2(df, title = "Pearson's Chi2-Test of Independence",
-  axisLabels = NULL, breakTitleAt = 50, breakLabelsAt = 20,
-  hideLegend = TRUE, legendTitle = NULL, printPlot = TRUE)
+  axis.labels = NULL, breakTitleAt = 50, breakLabelsAt = 20,
+  show.legend = FALSE, legendTitle = NULL, printPlot = TRUE)
 }
 \arguments{
 \item{df}{a data frame of (dichotomous) factor variables.}
 
-\item{title}{Title of the diagram, plotted above the whole diagram panel}
+\item{title}{string, used as plot title. Depending on plot type and function,
+will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{axisLabels}{Labels for the x- andy y-axis
-axisLabels are detected automatically if each variable has
-a label attribute (see \code{\link[sjmisc]{set_label}}) for details).}
+\item{axis.labels}{character vector with labels used as axis labels.}
 
 \item{breakTitleAt}{Wordwrap for diagram title. Determines how many chars of the title are displayed in
 one line and when a line break is inserted into the title}
@@ -23,8 +22,8 @@ one line and when a line break is inserted into the title}
 \item{breakLabelsAt}{Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in 
 one line and when a line break is inserted}
 
-\item{hideLegend}{show or hide the legend. The legend indicates the strength of correlations
-by gradient colour fill.}
+\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
+function, a legend is added to the plot.}
 
 \item{legendTitle}{the legend title, provided as string, e.g. \code{legendTitle=c("Strength of correlation")}.
 Default is \code{NULL}, hence no legend title is used.}
@@ -53,7 +52,7 @@ mydf <- data.frame(as.factor(sample(1:2, 100, replace=TRUE)),
 items <- list(c("Item 1", "Item 2", "Item 3", "Item 4", "Item 5"))
 
 # plot Chi2-contingency-table
-sjp.chi2(mydf, axisLabels = items)
+sjp.chi2(mydf, axis.labels = items)
 
 }
 \seealso{

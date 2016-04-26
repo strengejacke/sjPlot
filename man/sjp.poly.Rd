@@ -5,10 +5,10 @@
 \title{Plot polynomials for (generalized) linear regression}
 \usage{
 sjp.poly(x, poly.term, poly.degree, poly.scale = FALSE, fun = NULL,
-  axisTitle.x = NULL, axisTitle.y = NULL, showScatterPlot = TRUE,
-  show.loess = TRUE, show.loess.ci = TRUE, showPValues = TRUE,
-  geom.colors = NULL, geom.size = 0.8, loessLineColor = "#808080",
-  pointColor = "#404040", pointAlpha = 0.2, printPlot = TRUE)
+  axis.title = NULL, showScatterPlot = TRUE, show.loess = TRUE,
+  show.loess.ci = TRUE, showPValues = TRUE, geom.colors = NULL,
+  geom.size = 0.8, loessLineColor = "#808080", pointColor = "#404040",
+  pointAlpha = 0.2, printPlot = TRUE)
 }
 \arguments{
 \item{x}{a vector, representing the response variable of a linear (mixed) model; or
@@ -33,11 +33,8 @@ When \code{x} is not a vector, but a fitted model object, the function
 is detected automatically. If \code{x} is a vector, \code{fun} defaults
 to \code{"lm"}.}
 
-\item{axisTitle.x}{A label for the x axis. Use \code{NULL} to automatically detect 
-variable names that will be used as title (see \code{\link[sjmisc]{set_label}}) for details).}
-
-\item{axisTitle.y}{A label for the y axis. Use \code{NULL} to automatically detect 
-variable names that will be used as title (see \code{\link[sjmisc]{set_label}}) for details).}
+\item{axis.title}{string, title for the axis. If not specified, a default labelling depending
+on the plot function and type is chosen.}
 
 \item{showScatterPlot}{If \code{TRUE} (default), a scatter plot of response and predictor values
 for each predictor of the fitted model \code{fit} is plotted.}
@@ -50,10 +47,11 @@ will be plotted.}
 \item{showPValues}{logical, if \code{TRUE} (default), p-values for polynomial terms are
 printed to the console.}
 
-\item{geom.colors}{User defined color palette for geoms. Must either be vector with two color values
-or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.}
+\item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
-\item{geom.size}{size resp. width of plotted lines.}
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
+depending on plot type and function. Note that bar and bin widths mostly 
+need smaller values than dot sizes.}
 
 \item{loessLineColor}{color of the loess-smoothed line. Only applies, if \code{show.loess = TRUE}.}
 

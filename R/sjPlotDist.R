@@ -22,14 +22,9 @@ utils::globalVariables(c("p.level"))
 #'          without shaded area is plotted.
 #' @param xmax numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
 #'          ranges to a value where a p-level of 0.00001 is reached.
-#' @param geom.colors User defined color palette for shaded areas.
-#'          \itemize{
-#'            \item If not specified, the qualitative \code{"Paired"} color brewer palette will be used.
-#'            \item If \code{"gs"}, a greyscale will be used.
-#'            \item If \code{geom.colors} is any valid color brewer palette name, the related \href{http://colorbrewer2.org}{color brewer} palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} from the \pkg{RColorBrewer}-package to view all available palette names.
-#'            \item Else specify your own color values as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
-#'          }
 #' @param geom.alpha specified the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.
+#' 
+#' @inheritParams sjp.grpfrq
 #' 
 #' @examples
 #' # a simple normal distribution
@@ -151,6 +146,7 @@ dist_norm <- function(norm = NULL,
 #'          ranges to a value where a p-level of 0.00001 is reached.
 #' 
 #' @inheritParams dist_norm
+#' @inheritParams sjp.grpfrq
 #' 
 #' @examples
 #' # a simple chi-squared distribution
@@ -290,6 +286,7 @@ dist_chisq <- function(chi2 = NULL,
 #'          ranges to a value where a p-level of 0.00001 is reached.
 #' 
 #' @inheritParams dist_norm
+#' @inheritParams sjp.grpfrq
 #' 
 #' @examples
 #' # a simple F distribution for 6 and 45 degrees of freedom
@@ -415,6 +412,7 @@ dist_f <- function(f = NULL,
 #'          ranges to a value where a p-level of 0.00001 is reached.
 #' 
 #' @inheritParams dist_norm
+#' @inheritParams sjp.grpfrq
 #' 
 #' @examples
 #' # a simple t-distribution

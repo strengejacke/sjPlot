@@ -8,16 +8,14 @@
 #' 
 #' @param varCount a numeric vector / variable. Mean, SD and SE for this variable are calculated.
 #' @param varGrp a (numeric) vector with group indices, used to select sub-groups from \code{varCount}.
-#' @param weightBy A weight factor that will be applied to weight all cases.
-#'          Must be a vector of same length as \code{varCount}. Default is \code{NULL}, 
-#'          so no weights are used.
 #' @param rowLabels a character vector of same length as \code{varGrp} unqiue values. In short: the
 #'          value labels of \code{varGrp}. Used to name table rows. By default, row labels
 #'          are automatically detected if set by \code{\link[sjmisc]{set_labels}}.
-#' @param digits amount of digits for table values.
 #' @param digits.summary amount of digits for summary statistics (Anova).
 #' 
 #' @inheritParams sjt.frq
+#' @inheritParams sjp.glmer
+#' @inheritParams sjp.grpfrq
 #' 
 #' @return Invisibly returns a \code{\link{list}} with
 #'          \itemize{
@@ -54,7 +52,7 @@
 #' @export
 sjt.grpmean <- function(varCount,
                         varGrp,
-                        weightBy = NULL,
+                        weight.by = NULL,
                         rowLabels = NULL,
                         digits = 2,
                         digits.summary = 3,
@@ -96,8 +94,8 @@ sjt.grpmean <- function(varCount,
   # compute anova statistics for mean table
   # see below
   # --------------------------------------
-  if (!is.null(weightBy)) {
-    fit <- stats::lm(varCount ~ as.factor(varGrp), weights = weightBy)
+  if (!is.null(weight.by)) {
+    fit <- stats::lm(varCount ~ as.factor(varGrp), weights = weight.by)
   } else {
     fit <- stats::lm(varCount ~ as.factor(varGrp))
   }
@@ -126,9 +124,9 @@ sjt.grpmean <- function(varCount,
     # --------------------------------------
     # do we have weighted means?
     # --------------------------------------
-    if (!is.null(weightBy)) {
+    if (!is.null(weight.by)) {
       mw <- weighted.mean(varCount[varGrp == indices[i]], 
-                          w = weightBy[varGrp == indices[i]],
+                          w = weight.by[varGrp == indices[i]],
                           na.rm = TRUE)
     } else {
       mw <- mean(varCount[varGrp == indices[i]], na.rm = TRUE)
@@ -148,9 +146,9 @@ sjt.grpmean <- function(varCount,
   # --------------------------------------
   # do we have weighted means?
   # --------------------------------------
-  if (!is.null(weightBy)) {
+  if (!is.null(weight.by)) {
     mw <- weighted.mean(varCount, 
-                        w = weightBy,
+                        w = weight.by,
                         na.rm = TRUE)
   } else {
     mw <- mean(varCount, na.rm = TRUE)

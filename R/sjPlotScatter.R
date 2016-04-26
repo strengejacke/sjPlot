@@ -22,16 +22,6 @@
 #'          to match \code{pointLabels}. If \code{pointLabels = NULL} (default),
 #'          no labels are printed.
 #' @param label.size Size of text labels if argument \code{pointLabels} is used.
-#' @param axisTitle.x title for the x axis. Use \code{NULL} to automatically
-#'          detect variable names that will be used as title
-#'          (see \code{\link[sjmisc]{set_label}}) for details).
-#' @param axisTitle.y title for the y axis.
-#'          Use \code{NULL} to automatically detect variable names that will be used as title
-#'          (see \code{\link[sjmisc]{set_label}}) for details).
-#' @param geom.size size of point geoms.
-#' @param geom.colors color(s) of point geoms. If \code{grp} is not \code{NULL},
-#'          groups are indicated by different colors, thus a vector with multiple
-#'          color values has to be supplied.
 #' @param showTickMarkLabels.x logica, whether x axis tick mark labels should be shown or not.
 #' @param showTickMarkLabels.y logical, hether y axis tick mark labels  should be shown or not.
 #' @param showGroupFitLine logical, if \code{TRUE}, a fitted line for each group
@@ -90,8 +80,8 @@
 #'             title = "Scatter Plot",
 #'             legendTitle = get_label(efc)['e42dep'],
 #'             legendLabels = get_labels(efc)[['e42dep']],
-#'             axisTitle.x = get_label(efc)['c160age'],
-#'             axisTitle.y = get_label(efc)['e17age'],
+#'             axis.titles = c(get_label(efc)['c160age'],
+#'                             get_label(efc)['e17age']),
 #'             showGroupFitLine = TRUE)
 #'
 #' # grouped and labelled scatter plot as facets
@@ -106,7 +96,7 @@
 #'
 #' # "hide" axis titles
 #' sjp.scatter(efc$c160age, efc$e17age, efc$e42dep,
-#'             title = "", axisTitle.x = "", axisTitle.y = "")
+#'             title = "", axis.titles = c("", ""))
 #'
 #' # plot text labels
 #' pl <- c(1:10)
@@ -126,8 +116,7 @@ sjp.scatter <- function(x = NULL,
                         legendTitle = NULL,
                         legendLabels = NULL,
                         pointLabels = NULL,
-                        axisTitle.x = NULL,
-                        axisTitle.y = NULL,
+                        axis.titles = NULL,
                         breakTitleAt = 50,
                         breakLegendTitleAt = 20,
                         breakLegendLabelsAt = 20,
@@ -145,7 +134,7 @@ sjp.scatter <- function(x = NULL,
                         autojitter = TRUE,
                         jitterRatio = 0.15,
                         showRug = FALSE,
-                        hideLegend = FALSE,
+                        show.legend = TRUE,
                         facet.grid = FALSE,
                         printPlot = TRUE) {
   # ------------------------
@@ -161,6 +150,16 @@ sjp.scatter <- function(x = NULL,
   name.x <- get_var_name(deparse(substitute(x)))
   name.y <- get_var_name(deparse(substitute(y)))
   name.grp <- get_var_name(deparse(substitute(grp)))
+  # --------------------------------------------------------
+  # copy titles
+  # --------------------------------------------------------
+  if (is.null(axis.titles)) {
+    axisTitle.x <- NULL
+    axisTitle.y <- NULL
+  } else {
+    axisTitle.x <- axis.titles[1]
+    if (length(axis.titles) > 1) axisTitle.y <- axis.titles[2]
+  }
   # --------------------------------------------------------
   # check parameters
   # --------------------------------------------------------
@@ -231,7 +230,7 @@ sjp.scatter <- function(x = NULL,
     # if not, add a dummy grouping variable
     grp <- rep(1, length(x))
     # we don't need legend here
-    hideLegend <- TRUE
+    show.legend <- FALSE
   }
   # simple data frame
   df <- stats::na.omit(data.frame(cbind(x = x, y = y, grp = grp)))
@@ -359,7 +358,7 @@ sjp.scatter <- function(x = NULL,
   scatter <- sj.setGeomColors(scatter,
                               geom.colors,
                               length(legendLabels),
-                              ifelse(isTRUE(hideLegend), FALSE, TRUE),
+                              show.legend,
                               legendLabels)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted

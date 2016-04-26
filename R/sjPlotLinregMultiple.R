@@ -19,19 +19,12 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #'            \item{\code{"std"}}{for forest-plot like plot of standardized beta values.}
 #'            \item{\code{"std2"}}{for forest-plot like plot of standardized beta values, however, standardization is done by rescaling estimates by dividing them by two sd (see 'Details' in \code{\link{sjp.lm}}).}
 #'          }
-#' @param title diagram's title as string.
 #' @param legendDepVarTitle character vector used for the legend title.
 #'          Default is \code{"Dependent Variables"}.
 #' @param legendPValTitle character vector used for the title of the significance level's legend.
 #'          Default is \code{"p-level"}. Only applies if \code{usePShapes = TRUE}.
-#' @param axisTitle.x string, title for the x axis.
-#' @param geom.size size of the points that indicate the estimates. Default is 3.
 #' @param geom.spacing spacing between the dots and error bars of the plotted fitted models. Default
 #'          is 0.3.
-#' @param geom.colors colors for representing the estimates (i.e. points and error bars)
-#'          of the different fitted models. Thus, the length of this vector must be equal to
-#'          the length of supplied fitted models, so each model is represented by its own color.
-#'          See 'Note' in \code{\link{sjp.grpfrq}}.
 #' @param fade.ns if \code{TRUE}, non significant estimates will be printed in slightly faded colors.
 #' @param usePShapes If \code{TRUE}, significant levels are distinguished by different point shapes and a related
 #'          legend is plotted. Default is \code{FALSE}.
@@ -39,9 +32,9 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #'          an integrated single graph.
 #'          
 #' @inheritParams sjp.lm
+#' @inheritParams sjp.lmer
 #' @inheritParams sjt.lm
 #' @inheritParams sjp.grpfrq
-#' @inheritParams sjp.lmer
 #'           
 #' @note The fitted models may have differing predictors, but only in a 
 #'         "stepwise" sense; i.e., models should share a common set of predictors,
@@ -69,13 +62,10 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #' # plot multiple models with legend labels and 
 #' # point shapes instead of value labels
 #' sjp.lmm(fit1, fit2, fit3,
-#'          var.labels = c("Carer's Age",
-#'                         "Hours of Care", 
-#'                         "Carer's Sex",
-#'                         "Educational Status"),
-#'          labelDependentVariables = c("Barthel Index", 
-#'                                      "Negative Impact", 
-#'                                      "Services used"),
+#'          axis.labels = c("Carer's Age", "Hours of Care", "Carer's Sex",
+#'                          "Educational Status"),
+#'          depvar.labels = c("Barthel Index", "Negative Impact", 
+#'                            "Services used"),
 #'          show.values = FALSE,
 #'          show.p = FALSE,
 #'          fade.ns = TRUE,
@@ -110,11 +100,11 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 sjp.lmm <- function(...,
                     type = "lm",
                     title = NULL,
-                    labelDependentVariables = NULL,
+                    depvar.labels = NULL,
                     legendDepVarTitle = "Dependent Variables",
                     legendPValTitle = "p-level",
-                    var.labels = NULL,
-                    axisTitle.x = "Estimates",
+                    axis.labels = NULL,
+                    axis.title = "Estimates",
                     axis.lim = NULL,
                     breakTitleAt = 50,
                     breakLabelsAt = 25,
@@ -132,9 +122,9 @@ sjp.lmm <- function(...,
                     coord.flip = TRUE,
                     show.intercept = FALSE,
                     show.values = TRUE,
-                    labelDigits = 2,
+                    digits = 2,
                     show.p = TRUE,
-                    hideLegend = FALSE,
+                    show.legend = TRUE,
                     facet.grid = FALSE,
                     printPlot = TRUE) {
   # --------------------------------------------------------
@@ -157,22 +147,22 @@ sjp.lmm <- function(...,
   # ----------------------------
   # if we have no labels of dependent variables supplied, use a 
   # default string (Model) for legend
-  if (is.null(labelDependentVariables)) {
-    labelDependentVariables <- c()
+  if (is.null(depvar.labels)) {
+    depvar.labels <- c()
     for (i in seq_len(fitlength)) {
-      labelDependentVariables <- c(labelDependentVariables, 
-                                   get_model_response_label(input_list[[i]]))
+      depvar.labels <- c(depvar.labels, 
+                         get_model_response_label(input_list[[i]]))
     }
   }
   # check length of diagram title and split longer string at into new lines
   if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
+  if (!is.null(axis.title)) axis.title <- sjmisc::word_wrap(axis.title, breakTitleAt)
   # check length of dependent variables
-  if (!is.null(labelDependentVariables)) labelDependentVariables <- sjmisc::word_wrap(labelDependentVariables, breakLegendTitleAt)
+  if (!is.null(depvar.labels)) depvar.labels <- sjmisc::word_wrap(depvar.labels, breakLegendTitleAt)
   # check length of x-axis-labels and split longer strings at into new lines
-  if (!is.null(var.labels)) var.labels <- sjmisc::word_wrap(var.labels, breakLabelsAt)
+  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
   # ----------------------------
   # iterate all fitted models
   # ----------------------------
@@ -189,8 +179,7 @@ sjp.lmm <- function(...,
       # no intercept for std
       show.intercept <- FALSE
       # add "std." to title?
-      if (axisTitle.x == "Estimates")
-        axisTitle.x <- "Std. Estimates"
+      if (axis.title == "Estimates") axis.title <- "Std. Estimates"
     } else if (type == "std2") {
       # retrieve standardized betas
       betas <- data.frame(rbind(data.frame(beta = 0, ci.low = 0, ci.hi = 0),
@@ -198,8 +187,7 @@ sjp.lmm <- function(...,
       # no intercept for std
       show.intercept <- FALSE
       # add "std." to title?
-      if (axisTitle.x == "Estimates")
-        axisTitle.x <- "Std. Estimates"
+      if (axis.title == "Estimates") axis.title <- "Std. Estimates"
     } else {
       # do we have mermod object?
       if (sjmisc::str_contains(class(fit), "merMod", ignore.case = T))
@@ -237,7 +225,7 @@ sjp.lmm <- function(...,
     # (i.e. are more transparent)
     palpha <- NULL
     for (i in 1:length(pv)) {
-      ps[i] <- c("")
+      ps[i] <- ""
       pointshapes[i] <- 1
       palpha[i] <- "s"
     }
@@ -245,7 +233,7 @@ sjp.lmm <- function(...,
     # copy beta-values into data column
     # ----------------------------
     ps <- rep("", length(ov))
-    if (show.values) ps <- sprintf("%.*f", labelDigits, ov)
+    if (show.values) ps <- sprintf("%.*f", digits, ov)
     # ----------------------------
     # copy p-values into data column
     # ----------------------------
@@ -306,9 +294,9 @@ sjp.lmm <- function(...,
     row.names(finalbetas) <- keepnames
   }
   # set axis labels
-  if (is.null(var.labels)) {
-    var.labels <- unique(finalbetas$term)
-    var.labels <- var.labels[order(unique(finalbetas$xpos))]
+  if (is.null(axis.labels)) {
+    axis.labels <- unique(finalbetas$term)
+    axis.labels <- axis.labels[order(unique(finalbetas$xpos))]
   }
   # --------------------------------------------------------
   # Calculate axis limits. The range is from lowest lower-CI
@@ -412,10 +400,10 @@ sjp.lmm <- function(...,
                color = vline.color) +
     labs(title = title, 
          x = NULL, 
-         y = axisTitle.x, 
+         y = axis.title, 
          shape = legendPValTitle, 
          colour = legendDepVarTitle) +
-    scale_x_discrete(labels = var.labels) +
+    scale_x_discrete(labels = axis.labels) +
     scale_y_continuous(limits = c(lower_lim, upper_lim), 
                        breaks = ticks, 
                        labels = ticks) +
@@ -433,9 +421,9 @@ sjp.lmm <- function(...,
   # ---------------------------------------------------------
   plotHeader <- sj.setGeomColors(plotHeader, 
                                  geom.colors, 
-                                 length(labelDependentVariables), 
-                                 ifelse(isTRUE(hideLegend), FALSE, TRUE), 
-                                 labelDependentVariables)  
+                                 length(depvar.labels), 
+                                 show.legend, 
+                                 depvar.labels)  
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------

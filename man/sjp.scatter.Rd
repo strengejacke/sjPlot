@@ -6,13 +6,13 @@
 \usage{
 sjp.scatter(x = NULL, y = NULL, grp = NULL, title = "",
   legendTitle = NULL, legendLabels = NULL, pointLabels = NULL,
-  axisTitle.x = NULL, axisTitle.y = NULL, breakTitleAt = 50,
-  breakLegendTitleAt = 20, breakLegendLabelsAt = 20, geom.size = 2,
-  label.size = 3, geom.colors = NULL, showTickMarkLabels.x = TRUE,
+  axis.titles = NULL, breakTitleAt = 50, breakLegendTitleAt = 20,
+  breakLegendLabelsAt = 20, geom.size = 2, label.size = 3,
+  geom.colors = NULL, showTickMarkLabels.x = TRUE,
   showTickMarkLabels.y = TRUE, showGroupFitLine = FALSE,
   showTotalFitLine = FALSE, show.ci = FALSE, fitmethod = "lm",
   useJitter = FALSE, useCount = FALSE, autojitter = TRUE,
-  jitterRatio = 0.15, showRug = FALSE, hideLegend = FALSE,
+  jitterRatio = 0.15, showRug = FALSE, show.legend = TRUE,
   facet.grid = FALSE, printPlot = TRUE)
 }
 \arguments{
@@ -27,10 +27,8 @@ dots along the y axis.}
 \item{grp}{grouping variable. If not \code{NULL}, the scatter plot will be grouped. See
 'Examples'. Default is \code{NULL}, i.e. not grouping is done.}
 
-\item{title}{plot title as string. Example: \code{title = "my title"}.
-Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
-no title is printed.}
+\item{title}{string, used as plot title. Depending on plot type and function,
+will be set automatically. If \code{title = ""}, no title is printed.}
 
 \item{legendTitle}{title of the plot legend, as string.}
 
@@ -43,13 +41,8 @@ If \code{pointLabels} has a different length, data points will be trimmed
 to match \code{pointLabels}. If \code{pointLabels = NULL} (default),
 no labels are printed.}
 
-\item{axisTitle.x}{title for the x axis. Use \code{NULL} to automatically
-detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_label}}) for details).}
-
-\item{axisTitle.y}{title for the y axis.
-Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_label}}) for details).}
+\item{axis.titles}{character vector of length one or two, defining the title(s)
+for the x-axis and y-axis.}
 
 \item{breakTitleAt}{determines how many chars of the plot title are displayed in
 one line and when a line break is inserted into the title.}
@@ -60,13 +53,13 @@ are displayed in one line and when a line break is inserted.}
 \item{breakLegendLabelsAt}{determines how many chars of the legend labels are 
 displayed in one line and when a line break is inserted.}
 
-\item{geom.size}{size of point geoms.}
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
+depending on plot type and function. Note that bar and bin widths mostly 
+need smaller values than dot sizes.}
 
 \item{label.size}{Size of text labels if argument \code{pointLabels} is used.}
 
-\item{geom.colors}{color(s) of point geoms. If \code{grp} is not \code{NULL},
-groups are indicated by different colors, thus a vector with multiple
-color values has to be supplied.}
+\item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
 \item{showTickMarkLabels.x}{logica, whether x axis tick mark labels should be shown or not.}
 
@@ -80,7 +73,7 @@ scatterplot is drawn. See \code{fitmethod} to change the fit method
 of the fitted line.}
 
 \item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a condifence
-region is added to the plot.}
+interval or region is added to the plot.}
 
 \item{fitmethod}{By default, a linear method (\code{"lm"}) is used for fitting
 the fit lines. Possible values are for instance \code{"lm"}, \code{"glm"},
@@ -106,7 +99,8 @@ between 0 and 1.}
 \item{showRug}{logical, if \code{TRUE}, a marginal rug plot is displayed
 in the graph.}
 
-\item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
+\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
+function, a legend is added to the plot.}
 
 \item{facet.grid}{\code{TRUE} when each scatter plot group should be plotted as single facet instead of
 an integrated single graph. Only applies if \code{grp} is not \code{NULL}. Each category of
@@ -147,8 +141,8 @@ sjp.scatter(efc$c160age, efc$e17age, efc$e42dep,
             title = "Scatter Plot",
             legendTitle = get_label(efc)['e42dep'],
             legendLabels = get_labels(efc)[['e42dep']],
-            axisTitle.x = get_label(efc)['c160age'],
-            axisTitle.y = get_label(efc)['e17age'],
+            axis.titles = c(get_label(efc)['c160age'],
+                            get_label(efc)['e17age']),
             showGroupFitLine = TRUE)
 
 # grouped and labelled scatter plot as facets
@@ -163,7 +157,7 @@ sjp.scatter(y = fit$residuals, showTotalFitLine = TRUE)
 
 # "hide" axis titles
 sjp.scatter(efc$c160age, efc$e17age, efc$e42dep,
-            title = "", axisTitle.x = "", axisTitle.y = "")
+            title = "", axis.titles = c("", ""))
 
 # plot text labels
 pl <- c(1:10)

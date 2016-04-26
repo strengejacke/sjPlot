@@ -19,19 +19,11 @@ utils::globalVariables("pv")
 #' @param meansums logical, if \code{TRUE}, the values reported are the true group mean values (see also \code{\link{sjt.grpmean}}).
 #'          If \code{FALSE} (default), the values are reported in the standard way, i.e. the values indicate the difference of
 #'          the group mean in relation to the intercept (reference group).
-#' @param axisLabels.y character vector, indicating the value labels of \code{grpVar} that 
-#'          are used for labelling the axis. See 'Examples'.
-#' @param reverseOrder logical, if \code{TRUE}, the order of categories (groups) is reversed.
-#'          Default is \code{FALSE}.
 #' @param stringIntercept string that indicates the reference group (intercept), that is appended to
 #'          the value label of the grouping variable. Default is \code{"(Intercept)"}.
 #' @param axis.lim numeric vector of length 2, defining the range of the plot axis.
 #'          By default, the limits range from the lowest confidence interval to the 
 #'          highest, so plot has maximum zoom.
-#' @param geom.colors vector of length two, indicating the colors of the points; 
-#'          first value is for groups with positive means and the second for 
-#'          negative means.
-#' @param geom.size size of the points. Default is 3.
 #' @param showModelSummary logical, if \code{TRUE}, a summary of the anova model with 
 #'          Sum of Squares between groups (ssb), Sum of Squares within groups (ssw), multiple and adjusted 
 #'          R-square and F-Test is printed to the lower right corner
@@ -39,6 +31,8 @@ utils::globalVariables("pv")
 #'          
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lm
+#' @inheritParams sjp.glmer
+#' @inheritParams sjp.xtab
 #'          
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}).
@@ -60,10 +54,10 @@ sjp.aov1 <- function(depVar,
                      grpVar,
                      meansums = FALSE,
                      title = NULL,
-                     axisLabels.y = NULL,
-                     reverseOrder = FALSE,
+                     axis.labels = NULL,
+                     rev.order = FALSE,
                      stringIntercept = "(Intercept)",
-                     axisTitle.x = "",
+                     axis.title = "",
                      axis.lim = NULL,
                      geom.colors = c("#3366a0", "#aa3333"),
                      geom.size = 3,
@@ -72,7 +66,7 @@ sjp.aov1 <- function(depVar,
                      grid.breaks = NULL,
                      expand.grid = FALSE,
                      show.values = TRUE,
-                     labelDigits = 2,
+                     digits = 2,
                      y.offset = .1,
                      show.p = TRUE,
                      showModelSummary = FALSE,
@@ -85,11 +79,11 @@ sjp.aov1 <- function(depVar,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(axisLabels.y)) axisLabels.y <- sjmisc::get_labels(grpVar, 
-                                                                attr.only = F,
-                                                                include.values = NULL,
-                                                                include.non.labelled = T)
-  if (is.null(axisTitle.x)) axisTitle.x <- sjmisc::get_label(depVar, def.value = depVar.name)
+  if (is.null(axis.labels)) axis.labels <- sjmisc::get_labels(grpVar, 
+                                                              attr.only = F,
+                                                              include.values = NULL,
+                                                              include.non.labelled = T)
+  if (is.null(axis.title)) axis.title <- sjmisc::get_label(depVar, def.value = depVar.name)
   if (is.null(title)) {
     t1 <- sjmisc::get_label(grpVar, def.value = grpVar.name)
     t2 <- sjmisc::get_label(depVar, def.value = depVar.name)
@@ -98,15 +92,15 @@ sjp.aov1 <- function(depVar,
   # --------------------------------------------------------
   # remove titles if empty
   # --------------------------------------------------------
-  if (!is.null(axisLabels.y) && axisLabels.y == "") axisLabels.y <- NULL
-  if (!is.null(axisTitle.x) && axisTitle.x == "") axisTitle.x <- NULL  
+  if (!is.null(axis.labels) && axis.labels == "") axis.labels <- NULL
+  if (!is.null(axis.title) && axis.title == "") axis.title <- NULL  
   if (!is.null(title) && title == "") title <- NULL    
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
-  if (!is.null(axisLabels.y)) {
+  if (!is.null(axis.labels)) {
     # append "intercept" string, to mark the reference category
-    axisLabels.y[1] <- paste(axisLabels.y[1], stringIntercept)
+    axis.labels[1] <- paste(axis.labels[1], stringIntercept)
   }
   # --------------------------------------------------------
   # Check if grpVar is factor. If not, convert to factor
@@ -123,16 +117,15 @@ sjp.aov1 <- function(depVar,
   # check whether we have x-axis title. if not, use standard
   # value
   # --------------------------------------------------------
-  if (is.null(axisTitle.x)) axisTitle.x <- c("")
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
   if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
+  if (!is.null(axis.title)) axis.title <- sjmisc::word_wrap(axis.title, breakTitleAt)
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
-  if (!is.null(axisLabels.y)) axisLabels.y <- sjmisc::word_wrap(axisLabels.y, breakLabelsAt)
+  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
   # ----------------------------
   # Calculate one-way-anova. Since we have
   # only one group variable, Type of SS does
@@ -190,10 +183,10 @@ sjp.aov1 <- function(depVar,
   # print coefficients and p-values in plot
   # ----------------------------
   # init data column for p-values
-  ps <- c(round(means, labelDigits))
+  ps <- c(round(means, digits))
   # if no values should be shown, clear
   # vector now
-  if (!show.values) ps <- rep(c(""), length(ps))
+  if (!show.values) ps <- rep("", length(ps))
   # --------------------------------------------------------
   # copy p-values into data column
   # --------------------------------------------------------
@@ -206,7 +199,7 @@ sjp.aov1 <- function(depVar,
   # check whether order of category items should be reversed
   # or not
   # --------------------------------------------------------
-  if (reverseOrder)
+  if (rev.order)
     catorder <- c(length(means):1)
   else
     catorder <- c(1:length(means))
@@ -224,9 +217,9 @@ sjp.aov1 <- function(depVar,
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
   # --------------------------------------------------------
-  if (is.null(axisLabels.y)) axisLabels.y <- row.names(df)
+  if (is.null(axis.labels)) axis.labels <- row.names(df)
   # order labels
-  axisLabels.y <- axisLabels.y[catorder]
+  axis.labels <- axis.labels[catorder]
   # give columns names
   names(df) <- c("means", "lower", "upper", "p", "pv", "xv")
   df$means <- sjmisc::to_value(df$means, keep.labels = F)
@@ -287,9 +280,9 @@ sjp.aov1 <- function(depVar,
     # set y-scale-limits, breaks and tick labels
     scaley +
     # set value labels to x-axis
-    scale_x_discrete(labels = axisLabels.y, limits = c(1:nrow(df))) +
+    scale_x_discrete(labels = axis.labels, limits = c(1:nrow(df))) +
     # flip coordinates
-    labs(title = title, x = NULL, y = axisTitle.x) +
+    labs(title = title, x = NULL, y = axis.title) +
     coord_flip()
   # check whether modelsummary should be printed
   if (showModelSummary) {

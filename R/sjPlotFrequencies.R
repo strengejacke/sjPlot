@@ -25,26 +25,14 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #'          according to the frequencies or not.  Default is \code{"none"}, so 
 #'          categories are not sorted by frequency. Use \code{"asc"} or
 #'          \code{"desc"} for sorting categories ascending or descending order.
-#' @param type Specifies the plot type. May be abbreviated.
-#'          \describe{
-#'            \item{\code{"bars"}}{for simple bars (the default setting)}
-#'            \item{\code{"dots"}}{for a dot plot}
-#'            \item{\code{"histogram"}}{for a histogram}
-#'            \item{\code{"lines"}}{for a line-styled histogram with filled area}
-#'            \item{\code{"density"}}{for a density plot}
-#'            \item{\code{"boxplot"}}{for box plot}
-#'            \item{\code{"violin"}}{for violin plots}
-#'            }
 #' @param geom.colors user defined color for geoms, e.g. \code{geom.colors = "#0080ff"}.
 #' @param interactionVarLabels a character vector with labels for the x-axis breaks 
 #'          when having interaction variables included. These labels replace the 
 #'          \code{axis.labels}. Only applies, when using box or violin plots
 #'          (i.e. \code{type = "boxplot"} or \code{"violin"}) and \code{interactionVar} 
 #'          is not \code{NULL}.
-#' @param show.ci logical, whether or not confidence intervals should be plotted. 
-#'          Only applies to \code{type = "dots"} or \code{type = "bars"}.
 #' @param errorbar.color color of confidence interval bars (error bars). 
-#'          Only applies to \code{type = "bars"}. In case of dot plots, error bars 
+#'          Only applies to \code{type = "bar"}. In case of dot plots, error bars 
 #'          will have same colors as dots (see \code{geom.colors}).
 #' @param showMeanIntercept logical, if \code{TRUE}, a vertical line in histograms 
 #'          is drawn to indicate the mean value of the variables. Only 
@@ -70,11 +58,6 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' @param normalCurveAlpha transparancy level (alpha value) of the normal curve. Only
 #'          applies if \code{showNormalCurve = TRUE}.
 #' @param xlim numeric vector of length two, defining lower and upper axis limits
-#' @param axisTitle.x title for the x-axis. By default, the variable name will be 
-#'          automatically detected and used as title (see \code{\link[sjmisc]{set_label}}) 
-#'          for details).
-#' @param axisTitle.y title for the y-axis. By default, this value is \code{NULL},
-#'          i.e. no title is printed.
 #' @param autoGroupAt numeric value, indicating at which length of unique values of \code{x}, 
 #'          automatic grouping into smaller units is done (see \code{\link[sjmisc]{group_var}}).
 #'          If \code{x} has large numbers of unique values, there may be too many bars 
@@ -85,6 +68,8 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #'          See \code{\link[sjmisc]{group_var}} for examples on grouping.
 #'          
 #' @inheritParams sjp.grpfrq
+#' @inheritParams sjp.lm
+#' @inheritParams sjp.glmer
 #' 
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{mydf}).
@@ -138,7 +123,7 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' 
 #' # plotting confidence intervals
 #' sjp.frq(efc$e15relat,
-#'         type = "dots",
+#'         type = "dot",
 #'         show.ci = TRUE,
 #'         sort.frq = "desc",
 #'         coord.flip = TRUE,
@@ -173,7 +158,7 @@ sjp.frq <- function(x,
                     weightByTitleString = NULL,
                     interactionVar = NULL,
                     sort.frq = "none",
-                    type = c("bars", "dots", "histogram", "lines", "density", "boxplot", "violin"),
+                    type = c("bar", "dot", "histogram", "line", "density", "boxplot", "violin"),
                     geom.size = NULL,
                     geom.colors = "#336699",
                     axis.labels = NULL,
@@ -187,8 +172,8 @@ sjp.frq <- function(x,
                     innerBoxPlotDotSize = 3,
                     expand.grid = FALSE,
                     show.values = TRUE,
-                    showCountValues = TRUE,
-                    showPercentageValues = TRUE,
+                    show.n = TRUE,
+                    show.perc = TRUE,
                     show.axis.values = TRUE,
                     show.ci = FALSE,
                     errorbar.color = "darkred",
@@ -201,8 +186,7 @@ sjp.frq <- function(x,
                     normalCurveColor = "red",
                     normalCurveSize = 0.8,
                     normalCurveAlpha = 0.4,
-                    axisTitle.x = NULL,
-                    axisTitle.y = NULL,
+                    axis.title = NULL,
                     autoGroupAt = NULL,
                     coord.flip = FALSE,
                     vjust = "bottom",
@@ -259,12 +243,12 @@ sjp.frq <- function(x,
       include.non.labelled = T
     )
   }
-  if (is.null(axisTitle.x)) axisTitle.x <- sjmisc::get_label(x, def.value = var.name)
+  if (is.null(axis.title)) axis.title <- sjmisc::get_label(x, def.value = var.name)
   if (is.null(title)) title <- sjmisc::get_label(x, def.value = var.name)
   # --------------------------------------------------------
   # remove titles if empty
   # --------------------------------------------------------
-  if (!is.null(axisTitle.x) && axisTitle.x == "") axisTitle.x <- NULL
+  if (!is.null(axis.title) && axis.title == "") axis.title <- NULL
   if (!is.null(title) && title == "") title <- NULL    
   # --------------------------------------------------------
   # check color argument
@@ -284,13 +268,13 @@ sjp.frq <- function(x,
   # check default geom.size
   # --------------------------------------------------------
   if (is.null(geom.size)) {
-    if (type == "bars") 
+    if (type == "bar") 
       geom.size <- .7
-    else if (type == "dots") 
+    else if (type == "dot") 
       geom.size <- 2.5
     else if (type == "histogram") 
       geom.size <- .7
-    else if (type == "lines") 
+    else if (type == "line") 
       geom.size <- .8
     else if (type == "boxplot") 
       geom.size <- .3
@@ -335,7 +319,7 @@ sjp.frq <- function(x,
                           order.frq = sort.frq, 
                           round.prz = 2,
                           na.rm = na.rm, 
-                          weightBy = weight.by)
+                          weight.by = weight.by)
   mydat <- df.frq$mydat
   if (!is.null(df.frq$labels) && is.null(axis.labels)) axis.labels <- df.frq$labels
   # --------------------------------------------------------
@@ -359,13 +343,8 @@ sjp.frq <- function(x,
   }
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(axisTitle.x)) {
-    axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)    
-  }
-  # check length of x-axis title and split longer string at into new lines
-  # every 50 chars
-  if (!is.null(axisTitle.y)) {
-    axisTitle.y <- sjmisc::word_wrap(axisTitle.y, breakTitleAt)    
+  if (!is.null(axis.title)) {
+    axis.title <- sjmisc::word_wrap(axis.title, breakTitleAt)    
   }
   # check length of x-axis-labels of interaction variable and split 
   # longer strings into new lines
@@ -455,7 +434,7 @@ sjp.frq <- function(x,
   if (type == "boxplot" || type == "violin") show.values <- FALSE
   if (show.values) {
     # here we have counts and percentages
-    if (showPercentageValues && showCountValues) {
+    if (show.perc && show.n) {
       if (coord.flip) {
         ggvaluelabels <-  geom_text(label = sprintf("%i (%.01f%%)", mydat$frq, mydat$valid.prc),
                                     hjust = hjust,
@@ -467,13 +446,13 @@ sjp.frq <- function(x,
                                     vjust = vjust,
                                     aes(y = label.pos + y_offset))
       }
-    } else if (showCountValues) {
+    } else if (show.n) {
       # here we have counts, without percentages
       ggvaluelabels <-  geom_text(label = sprintf("%i", mydat$frq),
                                   hjust = hjust,
                                   vjust = vjust,
                                   aes(y = label.pos + y_offset))
-    } else if (showPercentageValues) {
+    } else if (show.perc) {
       # here we have counts, without percentages
       ggvaluelabels <-  geom_text(label = sprintf("%.01f%%", mydat$valid.prc),
                                   hjust = hjust,
@@ -525,15 +504,15 @@ sjp.frq <- function(x,
   # ----------------------------------
   # bar and dot plot start here!
   # ----------------------------------
-  if (type == "bars" || type == "dots") {
+  if (type == "bar" || type == "dot") {
     # -----------------------------------
     # define geom
     # -----------------------------------
-    if (type == "bars") {
+    if (type == "bar") {
       geob <- geom_bar(stat = "identity", 
                        width = geom.size, 
                        fill = geom.colors)
-    } else if (type == "dots") {
+    } else if (type == "dot") {
       geob <- geom_point(size = geom.size, colour = geom.colors)
     }
     # -----------------------------------
@@ -553,7 +532,7 @@ sjp.frq <- function(x,
       # appear on the x-axis
       scale_x_discrete(labels = axis.labels)
     if (show.ci) {
-      ebcol <- ifelse(type == "dots", geom.colors, errorbar.color)
+      ebcol <- ifelse(type == "dot", geom.colors, errorbar.color)
       # print confidence intervalls (error bars)
       baseplot <- baseplot + geom_errorbar(aes(ymin = lower.ci, ymax = upper.ci), 
                                            colour = ebcol, 
@@ -711,7 +690,7 @@ sjp.frq <- function(x,
       yscale
   }
   # set axes text and 
-  baseplot <- baseplot + labs(title = title, x = axisTitle.x, y = axisTitle.y)
+  baseplot <- baseplot + labs(title = title, x = axis.title)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------

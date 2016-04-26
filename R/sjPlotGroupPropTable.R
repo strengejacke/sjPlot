@@ -16,14 +16,8 @@ utils::globalVariables(c("dep", "n"))
 #' @param shape.fill.color optional color vector, fill-color for non-filled shapes
 #' @param shapes numeric vector with shape styles, used to map the different
 #'          categories of \code{x}.
-#' @param axisLabels character vector with \code{groups} labels for the y-axis.
 #' @param showTotal logical, if \code{TRUE}, a total summary line for all aggregated
 #'          \code{groups} is added.
-#' @param showP logical, if \code{TRUE}, axis labels for groups will also contain
-#'          the results of the \code{\link[stats]{chisq.test}} of \code{x} and
-#'          \code{y} for each \code{groups}.
-#' @param showN logical, if \code{TRUE}, axis labels for groups will also contain
-#'          the total number of cases in each \code{groups}.
 #' @param annotateTotal logical, if \code{TRUE} and \code{showTotal = TRUE},
 #'          the total-row in the figure will be highlighted with a slightly
 #'          shaded background.
@@ -34,7 +28,11 @@ utils::globalVariables(c("dep", "n"))
 #'           was used for setting up the ggplot-object (\code{df}).
 #'
 #' @inheritParams sjp.grpfrq
+#' @inheritParams sjp.lm
 #' @inheritParams sjp.xtab
+#'
+#' @details The p-values are based on \code{\link[stats]{chisq.test}} of \code{x} 
+#'            and \code{y} for each \code{groups}.
 #'
 #' @examples
 #' library(sjmisc)
@@ -65,9 +63,8 @@ sjp.gpt <- function(x,
                     shape.fill.color = "#f0f0f0",
                     shapes = c(15, 16, 17, 18, 21, 22, 23, 24, 25, 7, 8, 9, 10, 12),
                     title = NULL,
-                    axisLabels = NULL,
-                    axisTitle.x = NULL,
-                    axisTitle.y = NULL,
+                    axis.labels = NULL,
+                    axis.titles = NULL,
                     legendTitle = NULL,
                     legendLabels = NULL,
                     breakTitleAt = 50,
@@ -78,15 +75,24 @@ sjp.gpt <- function(x,
                     grid.breaks = NULL,
                     showTotal = TRUE,
                     annotateTotal = TRUE,
-                    showP = TRUE,
-                    showN = TRUE,
-                    hideLegend = FALSE,
+                    show.p = TRUE,
+                    show.n = TRUE,
                     printPlot = TRUE) {
   # --------------------------------------------------------
   # get variable name
   # --------------------------------------------------------
   var.name.x <- get_var_name(deparse(substitute(x)))
   var.name.y <- get_var_name(deparse(substitute(y)))
+  # --------------------------------------------------------
+  # copy titles
+  # --------------------------------------------------------
+  if (is.null(axis.titles)) {
+    axisTitle.x <- NULL
+    axisTitle.y <- NULL
+  } else {
+    axisTitle.x <- axis.titles[1]
+    if (length(axis.titles) > 1) axisTitle.y <- axis.titles[2]
+  }
   # --------------------------------------------------------
   # try to automatically set labels if not passed as argument
   # --------------------------------------------------------
@@ -96,10 +102,10 @@ sjp.gpt <- function(x,
                                 include.values = NULL,
                                 include.non.labelled = T)
   ylabels <- ylabels[length(ylabels)]
-  if (is.null(axisLabels)) axisLabels <- sjmisc::get_labels(groups,
-                                                            attr.only = F,
-                                                            include.values = NULL,
-                                                            include.non.labelled = T)
+  if (is.null(axis.labels)) axis.labels <- sjmisc::get_labels(groups,
+                                                              attr.only = F,
+                                                              include.values = NULL,
+                                                              include.non.labelled = T)
   if (is.null(axisTitle.y)) axisTitle.y <- paste0("Proportion of ",
                                                   sjmisc::get_label(x, def.value = var.name.x),
                                                   " in ",
@@ -115,7 +121,7 @@ sjp.gpt <- function(x,
   # ---------------------------------------------
   # set labels that are still missing, but which need values
   # ---------------------------------------------
-  if (is.null(axisLabels)) axisLabels <- as.character(c(1:length(groups)))
+  if (is.null(axis.labels)) axis.labels <- as.character(c(1:length(groups)))
   # ---------------------------------------------
   # wrap titles and labels
   # ---------------------------------------------
@@ -124,7 +130,7 @@ sjp.gpt <- function(x,
   if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
   if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
   if (!is.null(axisTitle.y)) axisTitle.y <- sjmisc::word_wrap(axisTitle.y, breakTitleAt)
-  if (!is.null(axisLabels)) axisLabels <- sjmisc::word_wrap(axisLabels, breakLabelsAt)
+  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
   # ------------------------------------
   # final data frae for plot
   # ------------------------------------
@@ -188,7 +194,7 @@ sjp.gpt <- function(x,
     # copy N
     group.n <- c(group.n, prettyNum(pvals$N, big.mark = ",", scientific = F))
     # add "total" to axis labels
-    axisLabels <- c(axisLabels, "Total")
+    axis.labels <- c(axis.labels, "Total")
   }
   # ------------------------------------
   # make group variables categorical
@@ -202,8 +208,8 @@ sjp.gpt <- function(x,
   # ------------------------------------
   # add N and p-values to axis labels?
   # ------------------------------------
-  if (showN) axisLabels <- paste0(axisLabels, " (n=", group.n, ")")
-  if (showP) axisLabels <- paste0(axisLabels, " ", group.p)
+  if (show.n) axis.labels <- paste0(axis.labels, " (n=", group.n, ")")
+  if (show.p) axis.labels <- paste0(axis.labels, " ", group.p)
   # --------------------------------------------------------
   # Set up axis limits
   # --------------------------------------------------------
@@ -238,7 +244,7 @@ sjp.gpt <- function(x,
     scale_y_continuous(labels = scales::percent,
                        breaks = gridbreaks,
                        limits = axis.lim) +
-    scale_x_discrete(labels = rev(axisLabels)) +
+    scale_x_discrete(labels = rev(axis.labels)) +
     scale_shape_manual(name = legendTitle,
                        labels = legendLabels,
                        values = shapes[1:pal.len]) +

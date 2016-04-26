@@ -60,14 +60,10 @@ utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "s
 #' @param showAccuracy logical, if \code{TRUE}, the \code{\link{sjc.grpdisc}} function will be called,
 #'          which computes a linear discriminant analysis on the classified cluster groups and plots a 
 #'          bar graph indicating the goodness of classification for each group.
-#' @param axisTitle.x title for the x-axis.
-#' @param axisTitle.y title for the y-axis.
 #' @param breakTitleAt Determines how many chars of the title are displayed in 
 #'          one line and when a line break is inserted into the title.
 #' @param facetCluster If \code{TRUE}, each cluster group will be represented by an own panel.
 #'          Default is \code{FALSE}, thus all cluster groups are plotted in a single graph.
-#' @param geom.colors user defined color for bars. See 'Note' in \code{\link{sjp.grpfrq}}.
-#' @param geom.size width of bars. Recommended values for this argument are from 0.4 to 1.5
 #' @param showAxisLabels.x whether x axis labels (cluster variables) should be shown or not.
 #' @param showAxisLabels.y whether y axis labels (z scores) should be shown or not.
 #' @param showGroupCount if \code{TRUE} (default), the count within each cluster group is added to the 
@@ -129,8 +125,6 @@ sjc.qclus <- function(data,
                       showAccuracy = FALSE,
                       title = NULL,
                       axis.labels = NULL,
-                      axisTitle.x = "Cluster group characteristics",
-                      axisTitle.y = "Mean of z-scores",
                       breakTitleAt = 40,
                       breakLabelsAt = 20,
                       breakLegendTitleAt = 20,
@@ -139,7 +133,7 @@ sjc.qclus <- function(data,
                       geom.colors = "Paired",
                       geom.size = 0.5,
                       geom.spacing = 0.1,
-                      hideLegend = FALSE,
+                      show.legend = TRUE,
                       showAxisLabels.x = TRUE,
                       showAxisLabels.y = TRUE,
                       showGroupCount = TRUE,
@@ -168,10 +162,6 @@ sjc.qclus <- function(data,
   # --------------------------------------------------------
   # check length of diagram title and split longer string at into new lines
   if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)    
-  # check length of x-axis title and split longer string at into new lines
-  if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)    
-  # check length of y-axis title and split longer string at into new lines
-  if (!is.null(axisTitle.y)) axisTitle.y <- sjmisc::word_wrap(axisTitle.y, breakTitleAt)    
   # check length of legend title and split longer string at into new lines
   if (!is.null(legendTitle)) legendTitle <- sjmisc::word_wrap(title, breakLegendTitleAt)    
   # check length of y-axis title and split longer string at into new lines
@@ -294,7 +284,7 @@ sjc.qclus <- function(data,
     scale_x_discrete(breaks = c(1:colnr), 
                      limits = c(1:colnr), 
                      labels = axis.labels) +
-    labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legendTitle)
+    labs(title = title, x = "Cluster group characteristics", y = "Mean of z-scores", fill = legendTitle)
   # --------------------------------------------------------
   # hide y-axis labels
   # --------------------------------------------------------
@@ -314,7 +304,7 @@ sjc.qclus <- function(data,
   gp <- sj.setGeomColors(gp, 
                          geom.colors, 
                          length(legendLabels), 
-                         ifelse(isTRUE(hideLegend), FALSE, TRUE), 
+                         show.legend,
                          legendLabels)  
   # --------------------------------------------------------
   # plot

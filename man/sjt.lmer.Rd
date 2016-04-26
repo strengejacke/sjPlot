@@ -4,8 +4,8 @@
 \alias{sjt.lmer}
 \title{Summary of linear mixed effects models as HTML table}
 \usage{
-sjt.lmer(..., file = NULL, labelPredictors = NULL,
-  labelDependentVariables = NULL, stringPredictors = "Predictors",
+sjt.lmer(..., file = NULL, labelPredictors = NULL, depvar.labels = NULL,
+  stringPredictors = "Predictors",
   stringDependentVariables = "Dependent Variables",
   showHeaderStrings = FALSE, stringIntercept = "(Intercept)",
   stringObservations = "Observations", stringB = "B",
@@ -36,7 +36,7 @@ labels are set based on label attributes (see \code{\link[sjmisc]{get_label}}),
 If \code{labelPredictors = ""}, column names (vector names) are used
 as predictor labels. See 'Examples'.}
 
-\item{labelDependentVariables}{character vector with labels of dependent 
+\item{depvar.labels}{character vector with labels of dependent 
 variables of all fitted models. See 'Examples'.}
 
 \item{stringPredictors}{string constant used as headline for the predictor column.
@@ -100,8 +100,8 @@ p-values are indicated by asterisks.}
 \item{boldpvalues}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
 
 \item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
-F-tests with Kenward-Roger approximation for the df. Caution: This
-may dramatically slow down the CPU!}
+F-tests with Kenward-Roger approximation for the df. Caution: Computation
+may take very long time for large samples!}
 
 \item{separateConfColumn}{if \code{TRUE}, the CI values are shown in a separate table column.
 Default is \code{FALSE}.}

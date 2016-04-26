@@ -5,13 +5,13 @@
 \title{Plot stacked proportional bars}
 \usage{
 sjp.stackfrq(items, legendLabels = NULL, sort.frq = NULL,
-  weight.by = NULL, hideLegend = FALSE, title = NULL,
-  legendTitle = NULL, includeN = TRUE, axisLabels.y = NULL,
+  weight.by = NULL, show.legend = TRUE, title = NULL,
+  legendTitle = NULL, includeN = TRUE, axis.labels = NULL,
   breakTitleAt = 50, breakLabelsAt = 30, breakLegendTitleAt = 30,
   breakLegendLabelsAt = 28, grid.breaks = 0.2, expand.grid = FALSE,
-  geom.size = 0.5, geom.colors = "Blues", axisTitle.x = NULL,
-  axisTitle.y = NULL, show.values = TRUE, labelDigits = 1,
-  vjust = "center", showPercentageAxis = TRUE, showItemLabels = TRUE,
+  geom.size = 0.5, geom.colors = "Blues", axis.titles = NULL,
+  show.values = TRUE, digits = 1, vjust = "center",
+  showPercentageAxis = TRUE, showItemLabels = TRUE,
   showSeparatorLine = FALSE, separatorLineColor = "grey80",
   separatorLineSize = 0.3, coord.flip = TRUE, printPlot = TRUE)
 }
@@ -31,22 +31,21 @@ by highest count of first or last category of \code{items}.
   \item{\code{NULL}}{(default) for no sorting.}
 }}
 
-\item{weight.by}{weight factor that will be applied to weight all cases from \code{items}.
-Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, 
-so no weights are used.}
+\item{weight.by}{weight factor that will be applied to weight all cases.
+Must be a vector of same length as the input vector. Default is 
+\code{NULL}, so no weights are used.}
 
-\item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
+\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
+function, a legend is added to the plot.}
 
-\item{title}{plot's title}
+\item{title}{string, used as plot title. Depending on plot type and function,
+will be set automatically. If \code{title = ""}, no title is printed.}
 
 \item{legendTitle}{title of plot's legend}
 
 \item{includeN}{logical, if \code{TRUE} (default), the N of each item is included into axis labels.}
 
-\item{axisLabels.y}{character vector with labels for the y-axis (variable names 
-of \code{items}). Example: \code{axisLabels.y = c("Q1", "Q2", "Q3")}
-Axis labels will automatically be detected, when they have
-label attributes (see \code{\link[sjmisc]{set_label}}) for details).}
+\item{axis.labels}{character vector with labels used as axis labels.}
 
 \item{breakTitleAt}{determines how many chars of the title are displayed in
 one line and when a line break is inserted into the title.}
@@ -66,20 +65,18 @@ i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 \item{expand.grid}{logical, if \code{TRUE} (default), the diagram has margins, 
 i.e. the y-axis is not exceeded to the diagram's boundaries.}
 
-\item{geom.size}{size resp. width of the geoms (bar width)}
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
+depending on plot type and function. Note that bar and bin widths mostly 
+need smaller values than dot sizes.}
 
-\item{geom.colors}{user defined color palette for geoms. If specified, must either be vector with color values 
-of same length as groups defined in \code{legendLabels}, or a specific color palette code.
-See 'Note' in \code{\link{sjp.grpfrq}}.}
+\item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
-\item{axisTitle.x}{title for the x-axis. Default is \code{NULL} (no title).}
-
-\item{axisTitle.y}{title for the y-axis. Default is \code{NULL} (no title).}
+\item{axis.titles}{character vector of length one or two, defining the title(s)
+for the x-axis and y-axis.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
-\item{labelDigits}{The amount of digits for rounding \code{value.labels}. Default is 1, 
-i.e. value labels have 1 digit after decimal point.}
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
 \item{vjust}{character vector, indicating the vertical position of value 
 labels. Allowed are same values as for \code{vjust} aesthetics from 

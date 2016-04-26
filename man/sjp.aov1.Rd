@@ -5,12 +5,12 @@
 \title{Plot One-Way-Anova tables}
 \usage{
 sjp.aov1(depVar, grpVar, meansums = FALSE, title = NULL,
-  axisLabels.y = NULL, reverseOrder = FALSE,
-  stringIntercept = "(Intercept)", axisTitle.x = "", axis.lim = NULL,
-  geom.colors = c("#3366a0", "#aa3333"), geom.size = 3, breakTitleAt = 50,
-  breakLabelsAt = 25, grid.breaks = NULL, expand.grid = FALSE,
-  show.values = TRUE, labelDigits = 2, y.offset = 0.1, show.p = TRUE,
-  showModelSummary = FALSE, printPlot = TRUE)
+  axis.labels = NULL, rev.order = FALSE, stringIntercept = "(Intercept)",
+  axis.title = "", axis.lim = NULL, geom.colors = c("#3366a0", "#aa3333"),
+  geom.size = 3, breakTitleAt = 50, breakLabelsAt = 25,
+  grid.breaks = NULL, expand.grid = FALSE, show.values = TRUE,
+  digits = 2, y.offset = 0.1, show.p = TRUE, showModelSummary = FALSE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{depVar}{dependent variable. Will be used with following formula:
@@ -23,34 +23,28 @@ sjp.aov1(depVar, grpVar, meansums = FALSE, title = NULL,
 If \code{FALSE} (default), the values are reported in the standard way, i.e. the values indicate the difference of
 the group mean in relation to the intercept (reference group).}
 
-\item{title}{plot title as string. Example: \code{title = "my title"}.
-Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
-no title is printed.}
+\item{title}{string, used as plot title. Depending on plot type and function,
+will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{axisLabels.y}{character vector, indicating the value labels of \code{grpVar} that 
-are used for labelling the axis. See 'Examples'.}
+\item{axis.labels}{character vector with labels used as axis labels.}
 
-\item{reverseOrder}{logical, if \code{TRUE}, the order of categories (groups) is reversed.
-Default is \code{FALSE}.}
+\item{rev.order}{logical, if \code{TRUE}, order of categories (groups) is reversed.}
 
 \item{stringIntercept}{string that indicates the reference group (intercept), that is appended to
 the value label of the grouping variable. Default is \code{"(Intercept)"}.}
 
-\item{axisTitle.x}{title for the x-axis. By default, \code{""} is used, i.e. no title
-is printed. If \code{axisTitle.x = NULL}, the variable name will be 
-automatically detected and used as title (see \code{\link[sjmisc]{set_label}}) 
-for details).}
+\item{axis.title}{string, title for the axis. If not specified, a default labelling depending
+on the plot function and type is chosen.}
 
 \item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
 By default, the limits range from the lowest confidence interval to the 
 highest, so plot has maximum zoom.}
 
-\item{geom.colors}{vector of length two, indicating the colors of the points; 
-first value is for groups with positive means and the second for 
-negative means.}
+\item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
-\item{geom.size}{size of the points. Default is 3.}
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
+depending on plot type and function. Note that bar and bin widths mostly 
+need smaller values than dot sizes.}
 
 \item{breakTitleAt}{determines how many chars of the plot title are displayed in
 one line and when a line break is inserted into the title.}
@@ -66,14 +60,12 @@ axes and plotting region. Default is \code{FALSE}.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
-\item{labelDigits}{amount of digits for rounding the estimates (see \code{show.values}).
-Default is 2, i.e. estimates have 2 digits after decimal point.}
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
-\item{show.p}{logical, whether the significance level of each coefficient
-should be appended to values or not.}
+\item{show.p}{logical, adds significance levels to value or variable labels.}
 
 \item{showModelSummary}{logical, if \code{TRUE}, a summary of the anova model with 
 Sum of Squares between groups (ssb), Sum of Squares within groups (ssw), multiple and adjusted 

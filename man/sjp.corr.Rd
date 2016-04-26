@@ -4,10 +4,10 @@
 \alias{sjp.corr}
 \title{Plot correlation matrix}
 \usage{
-sjp.corr(data, title = NULL, axisLabels = NULL, type = "circle",
+sjp.corr(data, title = NULL, axis.labels = NULL, type = "circle",
   sortCorrelations = TRUE, decimals = 3, missingDeletion = "listwise",
   corMethod = "spearman", geom.colors = "RdBu", geom.size = 15,
-  breakTitleAt = 50, breakLabelsAt = 20, hideLegend = TRUE,
+  breakTitleAt = 50, breakLabelsAt = 20, show.legend = FALSE,
   legendTitle = NULL, show.values = TRUE, showPValues = TRUE,
   pvaluesAsNumbers = FALSE, printPlot = TRUE)
 }
@@ -16,15 +16,10 @@ sjp.corr(data, title = NULL, axisLabels = NULL, type = "circle",
 \code{\link{cor}}-function, or a \code{\link{data.frame}} of variables that
 should be correlated.}
 
-\item{title}{plot title as string. Example: \code{title = "my title"}.
-Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
-no title is printed.}
+\item{title}{string, used as plot title. Depending on plot type and function,
+will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{axisLabels}{labels for the x- andy y-axis. AxisLabels are detected automatically
-if \code{data} is a \code{\link{data.frame}} where variables have 
-label attributes (see \code{\link[sjmisc]{set_label}}) 
-for details).}
+\item{axis.labels}{character vector with labels used as axis labels.}
 
 \item{type}{indicates whether the geoms of correlation values should be plotted
 as \code{"circle"} (default) or as \code{"tile"}.}
@@ -44,13 +39,11 @@ the values labels are shown. Default is 3. Only applies when
 \item{corMethod}{indicates the correlation computation method. May be one of
 \code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.}
 
-\item{geom.colors}{color palette for fillng the geoms. If not specified, the diverging color palette
-from the color brewer palettes (RdBu) is used, resulting in red colors for negative and blue colors
-for positive correlations, that become lighter the weaker the correlations are. Use any
-color palette that is suitbale for the \code{scale_fill_gradientn} argument of ggplot2.}
+\item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
-\item{geom.size}{specifies the circle size factor. The circle size depends on the correlation
-value multiplicated with this factor. Default is 15.}
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
+depending on plot type and function. Note that bar and bin widths mostly 
+need smaller values than dot sizes.}
 
 \item{breakTitleAt}{determines how many chars of the plot title are displayed in
 one line and when a line break is inserted into the title.}
@@ -58,7 +51,8 @@ one line and when a line break is inserted into the title.}
 \item{breakLabelsAt}{determines how many chars of the category labels are displayed in 
 one line and when a line break is inserted.}
 
-\item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
+\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
+function, a legend is added to the plot.}
 
 \item{legendTitle}{title of the plot legend, as string.}
 
@@ -122,7 +116,7 @@ mydf <- data.frame(efc[, vars.index])
 colnames(mydf) <- varlabs[vars.index]
 
 # show legend
-sjp.corr(mydf, type = "tile", hideLegend = FALSE)
+sjp.corr(mydf, type = "tile", show.legend = TRUE)
 
 # -------------------------------
 # auto-detection of labels

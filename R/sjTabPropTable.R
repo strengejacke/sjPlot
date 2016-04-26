@@ -10,10 +10,6 @@
 #'              
 #' @param var.row variable that should be displayed in the table rows.
 #' @param var.col variable that should be displayed in the table columns.
-#' @param weightBy weight factor that will be applied to weight all cases.
-#'          Must be a vector of same length as \code{var.row}. Default is \code{NULL}, so no weights are used.
-#' @param digits amount of digits used for the percentage values inside table cells.
-#'          Default is 1.
 #' @param variableLabels character vector of same length as supplied variables, with 
 #'          the associated variable names. Following order is needed: name of \code{var.row},
 #'          name of \code{var.col}, and - if \code{var.grp} is not \code{NULL} - name of \code{var.grp}.
@@ -38,10 +34,7 @@
 #'          Cramer's V or Phi-value etc. is shown. If a cell contains expected values lower than five (or lower than 10 
 #'          if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is computed instead of chi-square test. 
 #'          If the table's matrix is larger than 2x2, Fisher's excact test with Monte Carlo simulation is computed.
-#' @param showLegend logical, if \code{TRUE}, the color legend for coloring observed and expected
-#'          values as well as cell, row and column percentages is shown. See \code{tdcol.n},
-#'          \code{tdcol.expected}, \code{tdcol.cell}, \code{tdcol.row} and \code{tdcol.col}.
-#' @param showNA logical, if \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.
+#' @param show.na logical, if \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.
 #' @param labelNA The label for the missing column/row.
 #' @param tdcol.n Color for highlighting count (observed) values in table cells. Default is black.
 #' @param tdcol.expected Color for highlighting expected values in table cells. Default is cyan.
@@ -60,6 +53,8 @@
 #'          
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.df
+#' @inheritParams sjp.glmer
+#' @inheritParams sjp.grpfrq
 #'          
 #' @return Invisibly returns
 #'          \itemize{
@@ -113,7 +108,7 @@
 #' @export
 sjt.xtab <- function(var.row,
                      var.col,
-                     weightBy = NULL,
+                     weight.by = NULL,
                      digits = 1,
                      file = NULL,
                      variableLabels = NULL,
@@ -129,8 +124,8 @@ sjt.xtab <- function(var.row,
                      showExpected = FALSE,
                      showHorizontalLine = FALSE,
                      showSummary = TRUE,
-                     showLegend = FALSE,
-                     showNA = FALSE,
+                     show.legend = FALSE,
+                     show.na = FALSE,
                      labelNA = "NA",
                      tdcol.n = "black",
                      tdcol.expected = "#339999",
@@ -170,8 +165,8 @@ sjt.xtab <- function(var.row,
   mydat <- create.xtab.df(var.row,
                           var.col,
                           round.prz = digits,
-                          na.rm = !showNA,
-                          weightBy = weightBy)
+                          na.rm = !show.na,
+                          weight.by = weight.by)
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
@@ -476,7 +471,7 @@ sjt.xtab <- function(var.row,
   # -------------------------------------
   # print legend
   # -------------------------------------
-  if (showLegend) {
+  if (show.legend) {
     # add new paragraph
     page.content <- paste(page.content, "<p>\n  ")
     # -----------------

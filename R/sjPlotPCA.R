@@ -26,20 +26,9 @@
 #'          between the highest and 2nd highest factor should be 0.1
 #' @param plotEigenvalues If \code{TRUE}, a plot showing the Eigenvalues according to the
 #'          Kaiser criteria is plotted to determine the number of factors.
-#' @param digits The amount of decimals used. Default is 2.
-#' @param title Title of the diagram, plotted above the whole diagram panel.
-#' @param axisLabels.y The item labels that are printed on the y-axis. If no item labels are
-#'          provided (default), the data frame's column names are used. Item labels must
-#'          be a string vector, e.g.: \code{axisLabels.y = c("Var 1", "Var 2", "Var 3")}.
 #' @param type Plot type resp. geom type. May be one of following: \code{"circle"} or \code{"tile"} 
 #'          circular or tiled geoms, or \code{"bar"} for a bar plot. You may use initial letter only
 #'          for this argument.
-#' @param geom.colors A color palette for fillng the geoms. If not specified, the diverging \code{"RdBl"} color palette
-#'          from the color brewer palettes is used, resulting in red colors for negative and blue colors
-#'          for positive factor loadings, that become lighter the weaker the loadings are. Use any
-#'          color palette that is suitbale for the \code{scale_fill_gradientn} argument of ggplot2.
-#' @param geom.size Specifies the circle size factor. The circle size depends on the correlation
-#'          value multiplicated with this factor. Default is 10.
 #' @param breakTitleAt Wordwrap for diagram title. Determines how many chars of the title are displayed in
 #'          one line and when a line break is inserted into the title. Default is 50.
 #' @param breakLabelsAt Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in 
@@ -61,6 +50,7 @@
 #'            }
 #' 
 #' @inheritParams sjp.grpfrq
+#' @inheritParams sjp.glmer
 #' 
 #' @note This PCA uses the \code{\link{prcomp}} function and the \code{\link{varimax}} rotation.
 #' 
@@ -154,7 +144,7 @@ sjp.pca <- function(data,
                     plotEigenvalues = FALSE,
                     digits = 2,
                     title = NULL,
-                    axisLabels.y = NULL,
+                    axis.labels = NULL,
                     type = "b",
                     geom.size = .6,
                     geom.colors = "RdBu",
@@ -172,17 +162,17 @@ sjp.pca <- function(data,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
-  if (is.null(axisLabels.y) && is.data.frame(data)) {
+  if (is.null(axis.labels) && is.data.frame(data)) {
     # if yes, iterate each variable
     for (i in 1:ncol(data)) {
       # retrieve variable name attribute
       vn <- sjmisc::get_label(data[[i]], def.value = colnames(data)[i])
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
-        axisLabels.y <- c(axisLabels.y, vn)
+        axis.labels <- c(axis.labels, vn)
       } else {
         # else break out of loop
-        axisLabels.y <- NULL
+        axis.labels <- NULL
         break
       }
     }
@@ -206,14 +196,10 @@ sjp.pca <- function(data,
     pcadata <- stats::prcomp(stats::na.omit(data), retx = TRUE, center = TRUE, scale. = TRUE)
     dataframeparam <- TRUE
   }
-  # --------------------------------------------------------
-  # unlist labels
-  # --------------------------------------------------------
-  if (!is.null(axisLabels.y) && is.list(axisLabels.y)) axisLabels.y <- unlistlabels(axisLabels.y)
   # ----------------------------
   # calculate eigenvalues
   # ----------------------------
-  pcadata.eigenval <- pcadata$sdev^2
+  pcadata.eigenval <- pcadata$sdev ^ 2
   # ----------------------------
   # retrieve best amount of factors according
   # to Kaiser-critearia, i.e. factors with eigen value > 1
@@ -262,14 +248,14 @@ sjp.pca <- function(data,
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
   # ----------------------------
-  if (is.null(axisLabels.y)) axisLabels.y <- row.names(df)
+  if (is.null(axis.labels)) axis.labels <- row.names(df)
   # ----------------------------
   # Prepare length of title and labels
   # ----------------------------
   # check length of diagram title and split longer string at into new lines
   if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
   # check length of x-axis-labels and split longer strings at into new lines
-  if (!is.null(axisLabels.y)) axisLabels.y <- sjmisc::word_wrap(axisLabels.y, breakLabelsAt)
+  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
   # --------------------------------------------------------
   # this function checks which items have unclear factor loadings,
   # i.e. which items do not strongly load on a single factor but
@@ -366,7 +352,7 @@ sjp.pca <- function(data,
   # we need new columns for y-positions and point sizes
   df <- cbind(df, ypos = 1:nrow(pcadata.varim$loadings), psize = exp(abs(df$value)) * geom.size)
   if (!show.values) {
-    valueLabels <- c("")
+    valueLabels <- ""
   } else {
     valueLabels <- sprintf("%.*f", digits, df$value)
   }
@@ -414,15 +400,15 @@ sjp.pca <- function(data,
   # --------------------------------------------------------
   if (type == "b") {
     heatmap <- heatmap + 
-      scale_x_discrete(labels = rev(axisLabels.y)) +
+      scale_x_discrete(labels = rev(axis.labels)) +
       scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .2)) +
       facet_grid(~xpos) +
       coord_flip()
   } else {
     heatmap <- heatmap + 
       geom_text(label = valueLabels) +
-      scale_y_reverse(breaks = seq(1, length(axisLabels.y), by = 1), 
-                      labels = axisLabels.y)
+      scale_y_reverse(breaks = seq(1, length(axis.labels), by = 1), 
+                      labels = axis.labels)
     # --------------------------------------------------------
     # show cronbach's alpha value for each scale 
     # --------------------------------------------------------

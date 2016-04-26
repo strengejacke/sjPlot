@@ -6,12 +6,12 @@
 \usage{
 sjp.gpt(x, y, groups, geom.colors = "Set1", geom.size = 2.5,
   shape.fill.color = "#f0f0f0", shapes = c(15, 16, 17, 18, 21, 22, 23, 24,
-  25, 7, 8, 9, 10, 12), title = NULL, axisLabels = NULL,
-  axisTitle.x = NULL, axisTitle.y = NULL, legendTitle = NULL,
-  legendLabels = NULL, breakTitleAt = 50, breakLabelsAt = 15,
-  breakLegendTitleAt = 20, breakLegendLabelsAt = 20, axis.lim = NULL,
-  grid.breaks = NULL, showTotal = TRUE, annotateTotal = TRUE,
-  showP = TRUE, showN = TRUE, hideLegend = FALSE, printPlot = TRUE)
+  25, 7, 8, 9, 10, 12), title = NULL, axis.labels = NULL,
+  axis.titles = NULL, legendTitle = NULL, legendLabels = NULL,
+  breakTitleAt = 50, breakLabelsAt = 15, breakLegendTitleAt = 20,
+  breakLegendLabelsAt = 20, axis.lim = NULL, grid.breaks = NULL,
+  showTotal = TRUE, annotateTotal = TRUE, show.p = TRUE, show.n = TRUE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{x}{categorical variable, where the proportion of each categorie in the
@@ -23,34 +23,24 @@ category and all remaining categories.}
 
 \item{groups}{grouping variable, which will define the y-axis}
 
-\item{geom.colors}{User defined color palette for geoms. If specified, must either be vector with color values 
-of same length as groups defined in \code{varGroup}, or a specific color brewer palette code (see 'Note').}
+\item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, depending on \code{type} argument).
-Note that bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
-By default, \code{geom.size = NULL}, which means that this argument is automatically
-adjusted depending on the plot type.}
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
+depending on plot type and function. Note that bar and bin widths mostly 
+need smaller values than dot sizes.}
 
 \item{shape.fill.color}{optional color vector, fill-color for non-filled shapes}
 
 \item{shapes}{numeric vector with shape styles, used to map the different
 categories of \code{x}.}
 
-\item{title}{plot title as string. Example: \code{title = "my title"}.
-Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
-no title is printed.}
+\item{title}{string, used as plot title. Depending on plot type and function,
+will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{axisLabels}{character vector with \code{groups} labels for the y-axis.}
+\item{axis.labels}{character vector with labels used as axis labels.}
 
-\item{axisTitle.x}{title for the x-axis. By default, \code{""} is used, i.e. no title
-is printed. If \code{axisTitle.x = NULL}, the variable name will be 
-automatically detected and used as title (see \code{\link[sjmisc]{set_label}}) 
-for details).}
-
-\item{axisTitle.y}{title for the-y axis. By default, \code{""} is used, i.e. no title
-is printed. If \code{axisTitle.y = NULL}, variable name will be automatically 
-detected and used as title (see \code{\link[sjmisc]{set_label}}) for details).}
+\item{axis.titles}{character vector of length one or two, defining the title(s)
+for the x-axis and y-axis.}
 
 \item{legendTitle}{title of the plot legend, as string.}
 
@@ -80,14 +70,10 @@ i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 the total-row in the figure will be highlighted with a slightly
 shaded background.}
 
-\item{showP}{logical, if \code{TRUE}, axis labels for groups will also contain
-the results of the \code{\link[stats]{chisq.test}} of \code{x} and
-\code{y} for each \code{groups}.}
+\item{show.p}{logical, adds significance levels to value or variable labels.}
 
-\item{showN}{logical, if \code{TRUE}, axis labels for groups will also contain
-the total number of cases in each \code{groups}.}
-
-\item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
+\item{show.n}{logical, if \code{TRUE}, adds total number of cases for each
+group or category to the labels.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
@@ -101,6 +87,10 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 Plot grouped proportional crosstables, where the proportion of
                each level of \code{x} for the highest category in \code{y}
                is plotted, for each subgroup of \code{groups}.
+}
+\details{
+The p-values are based on \code{\link[stats]{chisq.test}} of \code{x} 
+           and \code{y} for each \code{groups}.
 }
 \examples{
 library(sjmisc)

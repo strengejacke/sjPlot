@@ -4,8 +4,8 @@
 \alias{sjt.lm}
 \title{Summary of linear regression as HTML table}
 \usage{
-sjt.lm(..., file = NULL, labelPredictors = NULL,
-  labelDependentVariables = NULL, stringPredictors = "Predictors",
+sjt.lm(..., file = NULL, labelPredictors = NULL, depvar.labels = NULL,
+  stringPredictors = "Predictors",
   stringDependentVariables = "Dependent Variables",
   showHeaderStrings = FALSE, stringIntercept = "(Intercept)",
   stringObservations = "Observations", stringB = "B",
@@ -36,7 +36,7 @@ labels are set based on label attributes (see \code{\link[sjmisc]{get_label}}),
 If \code{labelPredictors = ""}, column names (vector names) are used
 as predictor labels. See 'Examples'.}
 
-\item{labelDependentVariables}{character vector with labels of dependent 
+\item{depvar.labels}{character vector with labels of dependent 
 variables of all fitted models. See 'Examples'.}
 
 \item{stringPredictors}{string constant used as headline for the predictor column.
@@ -100,8 +100,8 @@ p-values are indicated by asterisks.}
 \item{boldpvalues}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
 
 \item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
-F-tests with Kenward-Roger approximation for the df. Caution: This
-may dramatically slow down the CPU!}
+F-tests with Kenward-Roger approximation for the df. Caution: Computation
+may take very long time for large samples!}
 
 \item{separateConfColumn}{if \code{TRUE}, the CI values are shown in a separate table column.
 Default is \code{FALSE}.}
@@ -237,66 +237,28 @@ sjt.lm(fit1, fit2)
 # in the following examples, we set labels via argument
 sjt.lm(fit1, 
        fit2, 
-       labelDependentVariables = c("Barthel-Index",
-                                   "Negative Impact"),
-       labelPredictors = c("Carer's Age", 
-                           "Hours of Care", 
-                           "Carer's Sex", 
-                           "Educational Status"))
+       depvar.labels = c("Barthel-Index", "Negative Impact"),
+       labelPredictors = c("Carer's Age", "Hours of Care", 
+                           "Carer's Sex", "Educational Status"))
 
 # use vector names as labels
 sjt.lm(fit1, fit2, labelPredictors = "")
 
 # show HTML-table, indicating p-values as asterisks
-sjt.lm(fit1, 
-       fit2, 
-       labelDependentVariables = c("Barthel-Index", 
-                                   "Negative Impact"),
-       labelPredictors = c("Carer's Age", 
-                           "Hours of Care", 
-                           "Carer's Sex", 
-                           "Educational Status"),
-       showStdBeta = TRUE, 
-       pvaluesAsNumbers = FALSE)
+sjt.lm(fit1, fit2, showStdBeta = TRUE, pvaluesAsNumbers = FALSE)
 
 # create and open HTML-table in RStudio Viewer Pane or web browser,
 # integrate CI in estimate column
-sjt.lm(fit1, 
-       fit2, 
-       labelDependentVariables = c("Barthel-Index", 
-                                   "Negative Impact"),
-       labelPredictors = c("Carer's Age", 
-                           "Hours of Care", 
-                           "Carer's Sex", 
-                           "Educational Status"),
-       separateConfColumn = FALSE)
+sjt.lm(fit1, fit2, separateConfColumn = FALSE)
 
 # show HTML-table, indicating p-values as numbers
 # and printing CI in a separate column
-sjt.lm(fit1, 
-       fit2, 
-       labelDependentVariables = c("Barthel-Index", 
-                                   "Negative Impact"),
-       labelPredictors = c("Carer's Age", 
-                           "Hours of Care", 
-                           "Carer's Sex", 
-                           "Educational Status"),
-       showStdBeta = TRUE)
+sjt.lm(fit1, fit2, showStdBeta = TRUE)
 
 # show HTML-table, indicating p-values as stars
 # and integrate CI in estimate column
-sjt.lm(fit1, 
-       fit2, 
-       labelDependentVariables = c("Barthel-Index", 
-                                   "Negative Impact"),
-       labelPredictors = c("Carer's Age", 
-                           "Hours of Care", 
-                           "Carer's Sex", 
-                           "Educational Status"),
-       showStdBeta = TRUE, 
-       ci.hyphen = " to ",
-       minus.sign = "&minus;",
-       pvaluesAsNumbers = FALSE, 
+sjt.lm(fit1, fit2, showStdBeta = TRUE, ci.hyphen = " to ",
+       minus.sign = "&minus;", pvaluesAsNumbers = FALSE, 
        separateConfColumn = FALSE)
 
 # ---------------------------------- 
@@ -307,29 +269,15 @@ fit3 <- lm(tot_sc_e ~ c160age + c12hour + c161sex + c172code, data=efc)
 fit4 <- lm(e42dep ~ c160age + c12hour + c161sex + c172code, data=efc)
 
 # create and save first HTML-table
-part1 <- sjt.lm(fit1, 
-                fit2, 
-                labelDependentVariables = c("Barthel-Index", 
-                                            "Negative Impact"),
-                labelPredictors = c("Carer's Age", 
-                                    "Hours of Care",
-                                    "Carer's Sex", 
-                                    "Educational Status"))
+part1 <- sjt.lm(fit1, fit2)
+
 # create and save second HTML-table
-part2 <- sjt.lm(fit3, 
-                fit4, 
-                labelDependentVariables = c("Service Usage", 
-                                            "Elder's Dependency"),
-                labelPredictors = c("Carer's Age", 
-                                    "Hours of Care",
-                                    "Carer's Sex", 
-                                    "Educational Status"))
+part2 <- sjt.lm(fit3, fit4)
+
 # browse temporary file
 htmlFile <- tempfile(fileext=".html")
 write(sprintf("<html><head>\%s</head><body>\%s<p></p>\%s</body></html>",
-              part1$page.style, 
-              part1$page.content, 
-              part2$page.content),
+              part1$page.style, part1$page.content, part2$page.content),
       file = htmlFile)
 viewer <- getOption("viewer")
 if (!is.null(viewer)) viewer(htmlFile) else utils::browseURL(htmlFile)
@@ -337,13 +285,7 @@ if (!is.null(viewer)) viewer(htmlFile) else utils::browseURL(htmlFile)
 # ---------------------------------- 
 # User defined style sheet
 # ---------------------------------- 
-sjt.lm(fit1, 
-       fit2, 
-       labelDependentVariables = c("Barthel-Index", "Negative Impact"),
-       labelPredictors = c("Carer's Age", 
-                           "Hours of Care", 
-                           "Carer's Sex", 
-                           "Educational Status"),
+sjt.lm(fit1, fit2, 
        CSS = list(css.table = "border: 2px solid;",
                   css.tdata = "border: 1px solid;",
                   css.depvarhead = "color:#003399;"))
@@ -363,9 +305,7 @@ fit1 <- lm(barthtot ~ c160age + c12hour + c172code + c161sex, data=efc)
 fit2 <- lm(neg_c_7 ~ c160age + c12hour + c172code + c161sex, data=efc)
 
 # plot models, but group by predictors
-sjt.lm(fit1,
-       fit2,
-       group.pred = TRUE)
+sjt.lm(fit1, fit2, group.pred = TRUE)
 
 # ---------------------------------------- 
 # compare models with different predictors

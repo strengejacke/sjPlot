@@ -47,15 +47,9 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'          effects slopes for each grouping level is plotted. To better find
 #'          certain groups, use this argument to emphasize these groups in the plot.
 #'          See 'Examples'.
-#' @param title character vector with one or more labels that are used as plot title. If
-#'          \code{type = "re"}, use the predictors' variable labels as titles.
-#' @param geom.colors user defined color palette for geoms. Must either be vector with two color values
-#'          or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.
-#' @param geom.size size of geoms (point size or line size, depending on \code{type}-argument).
-#' @param hideErrorBars logical, if \code{TRUE}, the error bars that indicate the confidence intervals of the odds ratios are not
-#'          shown.
-#' @param stringIntercept string, label of intercept estimate on the y axis. Only applies, if \code{show.intercept}
-#'          is \code{TRUE} and \code{var.labels} is not \code{NULL}.
+#' @param title character vector with one or more labels that are used as plot title.
+#' @param stringIntercept string, axis label of intercept estimate. Only applies, 
+#'          if \code{show.intercept = TRUE} and \code{axis.labels} is not \code{NULL}.
 #' @param sort.est determines in which way estimates are sorted in the plot:
 #'          \itemize{
 #'            \item If \code{NULL} (default), no sorting is done and estimates are sorted in order of model coefficients.
@@ -65,18 +59,15 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'            }
 #'            See 'Examples'.
 #' @param fade.ns if \code{TRUE}, non significant estimates will be printed in slightly faded colors.
-#' @param var.labels character vector with labels for the model terms, used as axis labels.
+#' @param axis.labels character vector with labels for the model terms, used as axis labels.
 #'          For mixed models, should either be vector of fixed effects variable labels 
 #'          (if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
 #'          labels from the random intercept's categories (if \code{type = "re"}).
-#' @param axisTitle.x title for the x axis. If not specified, a default labelling depending
-#'          on the plot type is chosen.
-#' @param axisTitle.y title for the y axis. If not specified, a default labelling depending
-#'          on the plot type is chosen.
+#' @param axis.title string, title for the axis. If not specified, a default labelling depending
+#'          on the plot function and type is chosen.
 #' @param vline.type linetype of the vertical "zero point" line. Default is \code{2} (dashed line).
 #' @param vline.color color of the vertical "zero point" line. Default value is \code{"grey70"}.
-#' @param labelDigits numeric, amount of digits for rounding the estimates (see \code{show.values}).
-#'          Default is 2, i.e. estimates have 2 digits after decimal point.
+#' @param digits numeric, amount of digits after decimal point when rounding estimates and values.
 #' @param facet.grid \code{TRUE} when each plot should be plotted separately instead of
 #'          an integrated (faceted) single graph.
 #' @param free.scale if \code{TRUE} and \code{facet.grid = TRUE}, each facet grid
@@ -91,10 +82,6 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'          the values in \code{sample.n} are selected to plot random effects.
 #'          Use the latter option to always select a fixed, identical set of
 #'          random effects for plotting (useful when ecomparing multiple models).
-#' @param show.legend logical, if \code{TRUE}, for mixed models
-#'          \code{type = "rs.ri"}, a legend for group levels of
-#'          the random intercept is shown. For \code{lm} and \code{glm},
-#'          a legend for grouped estimates is shown.
 #'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lm
@@ -244,13 +231,11 @@ sjp.glmer <- function(fit,
                       title = NULL,
                       geom.size = NULL,
                       geom.colors = "Set1",
-                      hideErrorBars = FALSE,
                       show.intercept = TRUE,
                       stringIntercept = "(Intercept)",
                       sort.est = NULL,
-                      var.labels = NULL,
-                      axisTitle.x = NULL,
-                      axisTitle.y = NULL,
+                      axis.labels = NULL,
+                      axis.title = NULL,
                       ylim = NULL,
                       facet.grid = TRUE,
                       free.scale = FALSE,
@@ -258,7 +243,7 @@ sjp.glmer <- function(fit,
                       vline.color = "grey70",
                       remove.estimates = NULL,
                       show.values = TRUE,
-                      labelDigits = 2,
+                      digits = 2,
                       y.offset = .1,
                       show.p = TRUE,
                       fade.ns = FALSE,
@@ -266,10 +251,17 @@ sjp.glmer <- function(fit,
                       sample.n = NULL,
                       show.legend = FALSE,
                       printPlot = TRUE) {
+  # -------------------------------------
+  # check for deprecated argument values
+  # -------------------------------------
   if (type == "fe.prob" || type == "fe.pc") type <- "fe.slope"
   if (type == "ri.prob" || type == "ri.pc" || type == "fe.ri") type <- "ri.slope"
   if (type == "y.prob" || type == "y.pc") type <- "pred"
-
+  # -------------------------------------
+  # switch default value for "show.ci" for certain plot types
+  # -------------------------------------
+  if (type %in% c("re.qq", "fe", "re", "fe.std", "coef") && missing(show.ci)) show.ci <- TRUE
+  
   sjp.lme4(fit,
            type,
            vars,
@@ -278,19 +270,17 @@ sjp.glmer <- function(fit,
            title,
            geom.size,
            geom.colors,
-           hideErrorBars,
            show.intercept,
            stringIntercept,
            sort.est,
-           var.labels,
-           axisTitle.x,
-           axisTitle.y,
+           axis.labels,
+           axis.title,
            ylim,
            vline.type,
            vline.color,
            remove.estimates,
            show.values,
-           labelDigits,
+           digits,
            y.offset,
            show.p,
            facet.grid,
@@ -400,8 +390,8 @@ sjp.glmer <- function(fit,
 #'          specified, if \code{type = "poly"}, in order to plot marginal effects
 #'          for polynomial terms. See 'Examples'.
 #' @param p.kr logical, if \code{TRUE}, p-value estimation is based on conditional 
-#'          F-tests with Kenward-Roger approximation for the df. Caution: This
-#'          may dramatically slow down the CPU!
+#'          F-tests with Kenward-Roger approximation for the df. Caution: Computation
+#'          may take very long time for large samples!
 #'
 #' @inheritParams sjp.glmer
 #' @inheritParams sjp.grpfrq
@@ -540,36 +530,41 @@ sjp.lmer <- function(fit,
                      title = NULL,
                      geom.size = NULL,
                      geom.colors = "Set1",
-                     hideErrorBars = FALSE,
                      show.intercept = TRUE,
                      stringIntercept = "(Intercept)",
                      sort.est = NULL,
-                     var.labels = NULL,
-                     axisTitle.x = NULL,
-                     axisTitle.y = NULL,
+                     axis.labels = NULL,
+                     axis.title = NULL,
                      ylim = NULL,
                      vline.type = 2,
                      vline.color = "grey70",
                      remove.estimates = NULL,
                      show.values = TRUE,
-                     labelDigits = 2,
+                     digits = 2,
                      y.offset = .1,
                      show.p = TRUE,
                      facet.grid = TRUE,
                      free.scale = FALSE,
                      fade.ns = FALSE,
-                     show.ci = TRUE,
+                     show.ci = FALSE,
                      p.kr = TRUE,
                      pointAlpha = 0.2,
                      showScatterPlot = TRUE,
                      show.loess = FALSE,
-                     show.loess.ci=FALSE,
+                     show.loess.ci = FALSE,
                      poly.term = NULL,
                      sample.n = NULL,
                      show.legend = FALSE,
                      printPlot = TRUE) {
+  # -------------------------------------
+  # check for deprecated argument values
+  # -------------------------------------
   if (type == "fe.prob" || type == "fe.pc") type <- "fe.slope"
   if (type == "fe.ri") type <- "ri.slope"
+  # -------------------------------------
+  # switch default value for "show.ci" for certain plot types
+  # -------------------------------------
+  if (type %in% c("re.qq", "fe", "re", "fe.std", "coef") && missing(show.ci)) show.ci <- TRUE
   
   sjp.lme4(fit,
            type,
@@ -579,19 +574,17 @@ sjp.lmer <- function(fit,
            title,
            geom.size,
            geom.colors,
-           hideErrorBars,
            show.intercept,
            stringIntercept,
            sort.est,
-           var.labels,
-           axisTitle.x,
-           axisTitle.y,
+           axis.labels,
+           axis.title,
            ylim,
            vline.type,
            vline.color,
            remove.estimates,
            show.values,
-           labelDigits,
+           digits,
            y.offset,
            show.p,
            facet.grid,
@@ -618,19 +611,17 @@ sjp.lme4  <- function(fit,
                       title,
                       geom.size,
                       geom.colors,
-                      hideErrorBars,
                       show.intercept,
                       stringIntercept,
                       sort.est,
-                      var.labels,
-                      axisTitle.x,
-                      axisTitle.y,
+                      axis.labels,
+                      axis.title,
                       ylim,
                       vline.type,
                       vline.color,
                       remove.estimates,
                       show.values,
-                      labelDigits,
+                      digits,
                       y.offset,
                       show.p,
                       facet.grid,
@@ -668,7 +659,7 @@ sjp.lme4  <- function(fit,
   # remember whether predictor labels
   # are empty
   # ---------------------------------------
-  empty.var.labels <- is.null(var.labels)
+  empty.axis.labels <- is.null(axis.labels)
   # ---------------------------------------
   # for standardized coefficients, intercept
   # is always 0, so no need to be shown
@@ -780,7 +771,7 @@ sjp.lme4  <- function(fit,
     # plot correlation matrix of fixed effects,
     # to inspect multicollinearity
     # ---------------------------------------
-    return(invisible(sjp.lme.fecor(fit, var.labels, sort.est, fun, printPlot)))
+    return(invisible(sjp.lme.fecor(fit, axis.labels, sort.est, fun, printPlot)))
   } else if (type == "fe.slope" || type == "fe.resid") {
     # ---------------------------------------
     # plot slopes for each fixed coefficient
@@ -801,8 +792,8 @@ sjp.lme4  <- function(fit,
     # plot marginal effects for polynimial terms
     # ---------------------------------------
     if (fun == "lm") {
-      return(invisible(sjp.lm.poly(fit, poly.term, geom.colors, geom.size, axisTitle.x,
-                                   axisTitle.y, show.ci, printPlot)))
+      return(invisible(sjp.lm.poly(fit, poly.term, geom.colors, geom.size, axis.title,
+                                   show.ci, printPlot)))
     } else {
       warning("Plotting polynomial terms only works for function `sjp.lmer`.", call. = FALSE)
       return(invisible(NULL))
@@ -826,15 +817,15 @@ sjp.lme4  <- function(fit,
                                           emph.grp, ylim, printPlot)))
     }
   } else if (type == "rs.ri") {
-    return(invisible(sjp.lme.rsri(fit, title, axisTitle.x, axisTitle.y, ri.nr,
-                                  emph.grp, geom.colors, geom.size, sample.n,
-                                  show.legend, ylim, printPlot, fun)))
+    return(invisible(sjp.lme.rsri(fit, title, axis.title, ri.nr, emph.grp, 
+                                  geom.colors, geom.size, sample.n, show.legend, 
+                                  ylim, printPlot, fun)))
   } else if (type == "re.qq") {
     # ---------------------------------------
     # plot qq-plots for random effects to
     # inspect normality
     # ---------------------------------------
-    return(invisible(sjp.lme.reqq(fit, geom.colors, geom.size, hideErrorBars,
+    return(invisible(sjp.lme.reqq(fit, geom.colors, geom.size, show.ci,
                                   vline.type, vline.color, fun,
                                   printPlot)))
   } else if (type == "pred") {
@@ -894,9 +885,9 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------
       # copy rownames as axis labels, if not set
       # ---------------------------------------
-      if (empty.var.labels) {
-        # use rownames, if var.labels not available
-        var.labels <- rownames(mydf.ef)
+      if (empty.axis.labels) {
+        # use rownames, if axis.labels not available
+        axis.labels <- rownames(mydf.ef)
       }
       # ---------------------------------------
       # retrieve standard errors, for ci
@@ -977,7 +968,7 @@ sjp.lme4  <- function(fit,
         # no p-values for random effects,
         # but value labels
         ps <- rep("", nrow(tmp))
-        if (show.values) ps <- sprintf("%.*f", labelDigits, tmp$estimate)
+        if (show.values) ps <- sprintf("%.*f", digits, tmp$estimate)
         tmp$p.string <- ps
         tmp$p.value <- NA
         # ---------------------------------------
@@ -1034,7 +1025,7 @@ sjp.lme4  <- function(fit,
       # ----------------------------
       # copy estimate-values into data column
       # ----------------------------
-      if (show.values) ps <- sprintf("%.*f", labelDigits, ov)
+      if (show.values) ps <- sprintf("%.*f", digits, ov)
       # ----------------------------
       # copy p-values into data column
       # for better readability, convert p-values to asterisks
@@ -1078,24 +1069,24 @@ sjp.lme4  <- function(fit,
         # set back rownames
         row.names(mydf) <- keepnames
         # remove labels?
-        if (!empty.var.labels && length(var.labels) > nrow(mydf))
-          var.labels <- var.labels[-remrows]
+        if (!empty.axis.labels && length(axis.labels) > nrow(mydf))
+          axis.labels <- axis.labels[-remrows]
       }
       # ---------------------------------------
       # copy rownames as axis labels, if not set
       # ---------------------------------------
-      if (empty.var.labels) {
-        # use rownames, if var.labels not available
-        var.labels <- suppressWarnings(retrieveModelLabels(list(fit), group.pred = FALSE))
-        if (show.intercept) var.labels <- c(stringIntercept, var.labels)
+      if (empty.axis.labels) {
+        # use rownames, if axis.labels not available
+        axis.labels <- suppressWarnings(retrieveModelLabels(list(fit), group.pred = FALSE))
+        if (show.intercept) axis.labels <- c(stringIntercept, axis.labels)
         # check for correct length
-        if (length(var.labels) != nrow(mydf)) {
-          var.labels <- rownames(mydf)
+        if (length(axis.labels) != nrow(mydf)) {
+          axis.labels <- rownames(mydf)
         }
       } else {
         # check if intercept should be added, in case
-        # var.labels are passed
-        if (show.intercept) var.labels <- c(stringIntercept, var.labels)
+        # axis.labels are passed
+        if (show.intercept) axis.labels <- c(stringIntercept, axis.labels)
       }
       # ---------------------------------------
       # sort data frame. init order
@@ -1119,22 +1110,22 @@ sjp.lme4  <- function(fit,
       # remove data rows for these estimates
       mydf <- mydf[remes, ]
       # also remove predictor labels
-      var.labels <- var.labels[remes]
+      axis.labels <- axis.labels[remes]
       # re-arrange sorting
       mydf$sorting <- order(mydf$sorting)
     }
     # ---------------------------------------
     # check length labels
     # ---------------------------------------
-    if (length(var.labels) != nrow(mydf) &&
-        (length(var.labels) != (nrow(mydf) / length(unique(mydf$grp))))) {
-      warning("`var.labels` has insufficient length. Using row names.", call. = F)
-      var.labels <- row.names(mydf)
+    if (length(axis.labels) != nrow(mydf) &&
+        (length(axis.labels) != (nrow(mydf) / length(unique(mydf$grp))))) {
+      warning("`axis.labels` has insufficient length. Using row names.", call. = F)
+      axis.labels <- row.names(mydf)
     }
     # ---------------------------------------
     # discrete x position, needed for ggplot
     # ---------------------------------------
-    mydf$x <- as.factor(1:length(var.labels))
+    mydf$x <- as.factor(1:length(axis.labels))
     # ---------------------------------------
     # set indicator whether or not non significant
     # odds ratios should be faded.
@@ -1151,7 +1142,7 @@ sjp.lme4  <- function(fit,
     plot.effe <- function(mydf,
                           title,
                           facet.grid,
-                          hideErrorBars,
+                          show.ci,
                           vline.type,
                           vline.color,
                           fun,
@@ -1176,7 +1167,7 @@ sjp.lme4  <- function(fit,
         # ---------------------------------------
       # labels in sorted order
       # ---------------------------------------
-      scale_x_discrete(labels = var.labels[mydf$sorting]) +
+      scale_x_discrete(labels = axis.labels[mydf$sorting]) +
         # ---------------------------------------
       # fade non significant estimate
       # ---------------------------------------
@@ -1197,32 +1188,29 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------
       # hide error bars (conf int)?
       # ---------------------------------------
-      if (!hideErrorBars)  gp <- gp +
+      if (show.ci)  gp <- gp +
           geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0)
       # ---------------------------------------
       # axis titles
       # ---------------------------------------
       if (type == "fe" || type == "fe.std") {
-        if (is.null(axisTitle.x)) axisTitle.x <- ""
-        if (is.null(axisTitle.y)) axisTitle.y <- ""
+        if (is.null(axis.title)) axis.title <- ""
       } else if (type == "re") {
-        if (is.null(axisTitle.x)) axisTitle.x <- "Group levels"
-        if (is.null(axisTitle.y)) axisTitle.y <- ""
+        if (is.null(axis.title)) axis.title <- "Group levels"
       }
       # ---------------------------------------
       # add facet grid here, faceting by group
       # (level) of random intercept
       # ---------------------------------------
       if (facet.grid) {
-        gp <- gp + labs(x = axisTitle.x, y = axisTitle.y)
+        gp <- gp + labs(x = axis.title)
         # check if user wants free scale for each facet
         if (free.scale)
           gp  <- gp + facet_wrap(~grp, scales = "free_y")
         else
           gp  <- gp + facet_grid(~grp)
       } else {
-        gp <- gp +
-          labs(x = axisTitle.x, y = axisTitle.y, title = title)
+        gp <- gp + labs(x = axis.title, title = title)
       }
       return(gp)
     }
@@ -1238,7 +1226,7 @@ sjp.lme4  <- function(fit,
       me.plot <- plot.effe(mydf,
                            title,
                            facet.grid,
-                           hideErrorBars,
+                           show.ci,
                            vline.type,
                            vline.color,
                            fun,
@@ -1271,7 +1259,7 @@ sjp.lme4  <- function(fit,
         me.plot <- plot.effe(mydf[mydf$grp == groups[j], ],
                              title[j],
                              facet.grid,
-                             hideErrorBars,
+                             show.ci,
                              vline.type,
                              vline.color,
                              fun,
@@ -1619,8 +1607,7 @@ sjp.lmer.ri.slope <- function(fit, ri.nr, vars, emph.grp, geom.size, printPlot) 
 
 sjp.lme.rsri <- function(fit,
                          title,
-                         axisTitle.x,
-                         axisTitle.y,
+                         axis.title,
                          ri.nr,
                          emph.grp,
                          geom.colors,
@@ -1642,7 +1629,6 @@ sjp.lme.rsri <- function(fit,
   # get model family, for link-inverse function
   # ----------------------------
   fitfam <- stats::family(fit)
-  faminfo <- get_glm_family(fit)
   # ----------------------------
   # retrieve term names, so we find the estimates in the
   # coefficients list
@@ -1768,17 +1754,14 @@ sjp.lme.rsri <- function(fit,
       # ------------------------------
       # axis-x title
       # ------------------------------
-      if (is.null(axisTitle.x))
+      if (is.null(axis.title))
         p_axisTitle.x <- sjmisc::get_label(m_f[[rnd.slope.name]], def.value = rnd.slope.name)
       else
-        p_axisTitle.x <- axisTitle.x
+        p_axisTitle.x <- axis.title
       # ------------------------------
       # prepare base response title
       # ------------------------------
-      if (is.null(axisTitle.y))
-        p_axisTitle.y <- sjmisc::get_label(m_f[[1]], def.value = colnames(m_f)[1])
-      else
-        p_axisTitle.y <- axisTitle.y
+      p_axisTitle.y <- sjmisc::get_label(m_f[[1]], def.value = colnames(m_f)[1])
       # ------------------------------
       # prepare base plot
       # ------------------------------
@@ -1843,7 +1826,7 @@ sjp.lme.rsri <- function(fit,
 sjp.lme.reqq <- function(fit,
                          geom.colors,
                          geom.size,
-                         hideErrorBars,
+                         show.ci,
                          vline.type,
                          vline.color,
                          fun,
@@ -1872,7 +1855,7 @@ sjp.lme.reqq <- function(fit,
   # ---------------------------------------
   # hide error bars (conf int)?
   # ---------------------------------------
-  if (!hideErrorBars) {
+  if (show.ci) {
     gp <- gp +
       geom_errorbar(aes(ymin = y - ci, ymax = y + ci),
                     width = 0,
@@ -1912,7 +1895,7 @@ sjp.lme.reqq <- function(fit,
 # ---------------------------------------
 #' @importFrom stats cov2cor vcov
 sjp.lme.fecor <- function(fit,
-                          var.labels,
+                          axis.labels,
                           sort.est,
                           fun,
                           printPlot,
@@ -1923,10 +1906,10 @@ sjp.lme.fecor <- function(fit,
   # ---------------------------------------
   # copy rownames as axis labels, if not set
   # ---------------------------------------
-  if (is.null(var.labels)) {
-    var.labels <- names(lme4::fixef(fit))
+  if (is.null(axis.labels)) {
+    axis.labels <- names(lme4::fixef(fit))
   } else {
-    var.labels <- c("(Intercept)", var.labels)
+    axis.labels <- c("(Intercept)", axis.labels)
   }
   # ---------------------------------------
   so <- summary(fit)
@@ -1934,8 +1917,8 @@ sjp.lme.fecor <- function(fit,
     mydf <- as.matrix(stats::cov2cor(as.matrix(stats::vcov(fit)))),
     error = function(cond) { mydf <- as.matrix(so$vcov@factors$correlation) }
   )
-  rownames(mydf) <- var.labels
-  colnames(mydf) <- var.labels
+  rownames(mydf) <- axis.labels
+  colnames(mydf) <- axis.labels
   # fix sort-argument
   if (!is.null(sort.est) && sort.est != TRUE)
     sort.est <- FALSE
@@ -1945,10 +1928,8 @@ sjp.lme.fecor <- function(fit,
   # return correlation plot
   # ---------------------------------------
   if (fcall == "sjp") {
-    corret <- sjp.corr(as.matrix(mydf),
-                       sortCorrelations = sort.est,
-                       axisLabels = var.labels,
-                       printPlot = printPlot)
+    corret <- sjp.corr(as.matrix(mydf), sortCorrelations = sort.est,
+                       axis.labels = axis.labels, printPlot = printPlot)
   } else {
     corret <- sjt.corr(as.matrix(mydf),
                        triangle = "l",

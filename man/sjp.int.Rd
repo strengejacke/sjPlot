@@ -7,13 +7,12 @@
 sjp.int(fit, type = "eff", int.term = NULL, int.plot.index = NULL,
   diff = FALSE, moderatorValues = "minmax", swapPredictors = FALSE,
   plevel = 0.1, title = NULL, fillColor = "grey", fillAlpha = 0.3,
-  geom.colors = "Set1", geom.size = NULL, axisTitle.x = NULL,
-  axisTitle.y = NULL, axis.labels = NULL, legendTitle = NULL,
-  legendLabels = NULL, show.values = FALSE, breakTitleAt = 50,
-  breakLegendLabelsAt = 20, breakLegendTitleAt = 20, xlim = NULL,
-  ylim = NULL, y.offset = 0.07, grid.breaks = NULL, show.ci = FALSE,
-  p.kr = TRUE, valueLabel.digits = 2, facet.grid = FALSE,
-  printPlot = TRUE)
+  geom.colors = "Set1", geom.size = NULL, axis.title = NULL,
+  axis.labels = NULL, legendTitle = NULL, legendLabels = NULL,
+  show.values = FALSE, breakTitleAt = 50, breakLegendLabelsAt = 20,
+  breakLegendTitleAt = 20, xlim = NULL, ylim = NULL, y.offset = 0.07,
+  grid.breaks = NULL, show.ci = FALSE, p.kr = TRUE,
+  valueLabel.digits = 2, facet.grid = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{the fitted (generalized) linear (mixed) model object, including interaction terms. Accepted model
@@ -87,17 +86,13 @@ mean value of the interaction term (moderator value). Third value is only used w
 \code{moderatorValues = "meansd"}. Or, if \code{diff = TRUE}, only one color value for the 
 line indicating the upper difference between lower and upper bound of interaction terms.}
 
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, depending on \code{type} argument).
-Note that bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
-By default, \code{geom.size = NULL}, which means that this argument is automatically
-adjusted depending on the plot type.}
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
+depending on plot type and function. Note that bar and bin widths mostly 
+need smaller values than dot sizes.}
 
-\item{axisTitle.x}{a default title used for the x-axis. Should be a character vector
+\item{axis.title}{a default title used for the x-axis. Should be a character vector
 of same length as interaction plots to be plotted. Default value is \code{NULL},
 which means that each plot's x-axis uses the predictor's name as title.}
-
-\item{axisTitle.y}{a default title used for the y-axis. Default value is \code{NULL},
-which means that each plot's y-axis uses the dependent variable's name as title.}
 
 \item{axis.labels}{character vector with value labels of the interaction, used
 to label the x-axis. Only applies to \code{type = "emm"}.}
@@ -142,8 +137,8 @@ for the confidence regeion (e.g. \code{show.ci = 0.9} plots a 90\% CI).
 Only applies to \code{type = "emm"} or \code{type = "eff"}.}
 
 \item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
-F-tests with Kenward-Roger approximation for the df. Caution: This
-may dramatically slow down the CPU!}
+F-tests with Kenward-Roger approximation for the df. Caution: Computation
+may take very long time for large samples!}
 
 \item{valueLabel.digits}{the amount of digits of the displayed value labels. Defaults to 2.}
 

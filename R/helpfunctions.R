@@ -148,7 +148,7 @@ create.frq.df <- function(x,
                           order.frq = "none",
                           round.prz = 2,
                           na.rm = FALSE,
-                          weightBy = NULL) {
+                          weight.by = NULL) {
   #---------------------------------------------------
   # variable with only mising?
   #---------------------------------------------------
@@ -175,7 +175,7 @@ create.frq.df <- function(x,
   #---------------------------------------------------
   # weight variable
   #---------------------------------------------------
-  if (!is.null(weightBy)) x <- sjmisc::weight(x, weightBy)
+  if (!is.null(weight.by)) x <- sjmisc::weight(x, weight.by)
   #---------------------------------------------------
   # do we have a labelled vector?
   #---------------------------------------------------
@@ -275,7 +275,7 @@ create.xtab.df <- function(x,
                            grp,
                            round.prz = 2,
                            na.rm = FALSE,
-                           weightBy = NULL) {
+                           weight.by = NULL) {
   # ------------------------------
   # convert to labels
   # ------------------------------
@@ -285,7 +285,7 @@ create.xtab.df <- function(x,
   # create frequency crosstable. we need to convert
   # vector to labelled factor first.
   # ------------------------------
-  if (is.null(weightBy)) {
+  if (is.null(weight.by)) {
     if (na.rm) {
       mydat <- stats::ftable(table(x_full, grp_full))
     } else {
@@ -293,9 +293,9 @@ create.xtab.df <- function(x,
     }
   } else {
     if (na.rm)
-      mydat <- stats::ftable(round(stats::xtabs(weightBy ~ x_full + grp_full)), 0)
+      mydat <- stats::ftable(round(stats::xtabs(weight.by ~ x_full + grp_full)), 0)
     else
-      mydat <- stats::ftable(round(stats::xtabs(weightBy ~ x_full + grp_full, 
+      mydat <- stats::ftable(round(stats::xtabs(weight.by ~ x_full + grp_full, 
                                                 exclude = NULL, 
                                                 na.action = stats::na.pass)), 0)
   }
@@ -381,7 +381,7 @@ is.brewer.pal <- function(pal) {
 
 # Calculate statistics of cross tabs
 #' @importFrom stats chisq.test fisher.test xtabs
-crosstabsum <- function(x, grp, weightBy) {
+crosstabsum <- function(x, grp, weight.by) {
   # --------------------------------------------------------
   # check p-value-style option
   # --------------------------------------------------------
@@ -391,10 +391,10 @@ crosstabsum <- function(x, grp, weightBy) {
   } else {
     p_zero <- "0"
   }
-  if (is.null(weightBy)) {
+  if (is.null(weight.by)) {
     ftab <- table(x, grp)
   } else {
-    ftab <- round(stats::xtabs(weightBy ~ x + grp), 0)
+    ftab <- round(stats::xtabs(weight.by ~ x + grp), 0)
   }
   # calculate chi square value
   chsq <- stats::chisq.test(ftab)

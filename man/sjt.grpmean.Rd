@@ -4,7 +4,7 @@
 \alias{sjt.grpmean}
 \title{Summary of grouped means as HTML table}
 \usage{
-sjt.grpmean(varCount, varGrp, weightBy = NULL, rowLabels = NULL,
+sjt.grpmean(varCount, varGrp, weight.by = NULL, rowLabels = NULL,
   digits = 2, digits.summary = 3, file = NULL, encoding = NULL,
   CSS = NULL, useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
@@ -13,15 +13,15 @@ sjt.grpmean(varCount, varGrp, weightBy = NULL, rowLabels = NULL,
 
 \item{varGrp}{a (numeric) vector with group indices, used to select sub-groups from \code{varCount}.}
 
-\item{weightBy}{A weight factor that will be applied to weight all cases.
-Must be a vector of same length as \code{varCount}. Default is \code{NULL}, 
-so no weights are used.}
+\item{weight.by}{weight factor that will be applied to weight all cases.
+Must be a vector of same length as the input vector. Default is 
+\code{NULL}, so no weights are used.}
 
 \item{rowLabels}{a character vector of same length as \code{varGrp} unqiue values. In short: the
 value labels of \code{varGrp}. Used to name table rows. By default, row labels
 are automatically detected if set by \code{\link[sjmisc]{set_labels}}.}
 
-\item{digits}{amount of digits for table values.}
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
 \item{digits.summary}{amount of digits for summary statistics (Anova).}
 

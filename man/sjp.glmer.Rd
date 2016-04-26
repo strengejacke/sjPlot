@@ -6,14 +6,12 @@
 \usage{
 sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   title = NULL, geom.size = NULL, geom.colors = "Set1",
-  hideErrorBars = FALSE, show.intercept = TRUE,
-  stringIntercept = "(Intercept)", sort.est = NULL, var.labels = NULL,
-  axisTitle.x = NULL, axisTitle.y = NULL, ylim = NULL,
-  facet.grid = TRUE, free.scale = FALSE, vline.type = 2,
-  vline.color = "grey70", remove.estimates = NULL, show.values = TRUE,
-  labelDigits = 2, y.offset = 0.1, show.p = TRUE, fade.ns = FALSE,
-  show.ci = FALSE, sample.n = NULL, show.legend = FALSE,
-  printPlot = TRUE)
+  show.intercept = TRUE, stringIntercept = "(Intercept)", sort.est = NULL,
+  axis.labels = NULL, axis.title = NULL, ylim = NULL, facet.grid = TRUE,
+  free.scale = FALSE, vline.type = 2, vline.color = "grey70",
+  remove.estimates = NULL, show.values = TRUE, digits = 2,
+  y.offset = 0.1, show.p = TRUE, fade.ns = FALSE, show.ci = FALSE,
+  sample.n = NULL, show.legend = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{glmer}}-function.}
@@ -52,24 +50,21 @@ effects slopes for each grouping level is plotted. To better find
 certain groups, use this argument to emphasize these groups in the plot.
 See 'Examples'.}
 
-\item{title}{character vector with one or more labels that are used as plot title. If
-\code{type = "re"}, use the predictors' variable labels as titles.}
+\item{title}{character vector with one or more labels that are used as plot title.}
 
-\item{geom.size}{size of geoms (point size or line size, depending on \code{type}-argument).}
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
+depending on plot type and function. Note that bar and bin widths mostly 
+need smaller values than dot sizes.}
 
-\item{geom.colors}{user defined color palette for geoms. Must either be vector with two color values
-or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.}
-
-\item{hideErrorBars}{logical, if \code{TRUE}, the error bars that indicate the confidence intervals of the odds ratios are not
-shown.}
+\item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
 \item{show.intercept}{logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
 Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential 
 transformation of estimates, the intercept in some cases can not be calculated, thus the
 function call is interrupted and no plot printed.}
 
-\item{stringIntercept}{string, label of intercept estimate on the y axis. Only applies, if \code{show.intercept}
-is \code{TRUE} and \code{var.labels} is not \code{NULL}.}
+\item{stringIntercept}{string, axis label of intercept estimate. Only applies, 
+if \code{show.intercept = TRUE} and \code{axis.labels} is not \code{NULL}.}
 
 \item{sort.est}{determines in which way estimates are sorted in the plot:
 \itemize{
@@ -80,16 +75,13 @@ is \code{TRUE} and \code{var.labels} is not \code{NULL}.}
   }
   See 'Examples'.}
 
-\item{var.labels}{character vector with labels for the model terms, used as axis labels.
+\item{axis.labels}{character vector with labels for the model terms, used as axis labels.
 For mixed models, should either be vector of fixed effects variable labels 
 (if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
 labels from the random intercept's categories (if \code{type = "re"}).}
 
-\item{axisTitle.x}{title for the x axis. If not specified, a default labelling depending
-on the plot type is chosen.}
-
-\item{axisTitle.y}{title for the y axis. If not specified, a default labelling depending
-on the plot type is chosen.}
+\item{axis.title}{string, title for the axis. If not specified, a default labelling depending
+on the plot function and type is chosen.}
 
 \item{ylim}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
@@ -113,19 +105,17 @@ is \code{NULL}, i.e. all estimates are printed.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
-\item{labelDigits}{numeric, amount of digits for rounding the estimates (see \code{show.values}).
-Default is 2, i.e. estimates have 2 digits after decimal point.}
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
-\item{show.p}{logical, whether the significance level of each coefficient
-should be appended to values or not.}
+\item{show.p}{logical, adds significance levels to value or variable labels.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 
 \item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a condifence
-region is added to the plot.}
+interval or region is added to the plot.}
 
 \item{sample.n}{numeric vector. only applies, if \code{type = "rs.ri"}. If
 plot has many random intercepts (grouping levels), overplotting of
@@ -137,10 +127,8 @@ the values in \code{sample.n} are selected to plot random effects.
 Use the latter option to always select a fixed, identical set of
 random effects for plotting (useful when ecomparing multiple models).}
 
-\item{show.legend}{logical, if \code{TRUE}, for mixed models
-\code{type = "rs.ri"}, a legend for group levels of
-the random intercept is shown. For \code{lm} and \code{glm},
-a legend for grouped estimates is shown.}
+\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
+function, a legend is added to the plot.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}

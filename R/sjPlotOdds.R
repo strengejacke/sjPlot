@@ -22,7 +22,6 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only two arguments are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other arguments are ignored.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
-#' @param axisTitle.x string; title for the x-axis.
 #' @param transformTicks logical, if \code{TRUE}, the grid lines have exponential 
 #'          distances (equidistant), i.e. they visually have the same distance from 
 #'          one panel grid to the next. If \code{FALSE}, grids are 
@@ -120,13 +119,13 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' # plot odds
 #' sjp.glm(fit,
 #'         title = get_label(efc$neg_c_7),
-#'         var.labels = predlab)
+#'         axis.labels = predlab)
 #'
 #' # plot probability curves (predicted probabilities)
 #' # of coefficients
 #' sjp.glm(fit,
 #'         title = get_label(efc$neg_c_7),
-#'         var.labels = predlab,
+#'         axis.labels = predlab,
 #'         type = "slope")
 #'
 #' # --------------------------
@@ -134,7 +133,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' # --------------------------
 #' sjp.glm(fit, 
 #'         group.estimates = c(1, 2, 2, 2, 3, 4, 4),
-#'         var.labels = predlab)
+#'         axis.labels = predlab)
 #'
 #' # --------------------------
 #' # model predictions, with selected model terms.
@@ -156,8 +155,8 @@ sjp.glm <- function(fit,
                     type = "dots",
                     sort.est = TRUE,
                     title = NULL,
-                    var.labels = NULL,
-                    axisTitle.x = "Odds Ratios",
+                    axis.labels = NULL,
+                    axis.title = "Odds Ratios",
                     legendTitle = NULL,
                     axis.lim = NULL,
                     breakTitleAt = 50,
@@ -175,7 +174,7 @@ sjp.glm <- function(fit,
                     y.offset = .15,
                     show.intercept = FALSE,
                     show.values = TRUE,
-                    labelDigits = 2,
+                    digits = 2,
                     show.p = TRUE,
                     showModelSummary = FALSE,
                     facet.grid = TRUE,
@@ -243,8 +242,8 @@ sjp.glm <- function(fit,
   # --------------------------------------------------------
   # auto-retrieve value labels
   # --------------------------------------------------------
-  if (is.null(var.labels)) {
-    var.labels <- suppressWarnings(retrieveModelLabels(list(fit), group.pred = FALSE))
+  if (is.null(axis.labels)) {
+    axis.labels <- suppressWarnings(retrieveModelLabels(list(fit), group.pred = FALSE))
   }
   # ----------------------------
   # check model family, do we have count model?
@@ -260,19 +259,19 @@ sjp.glm <- function(fit,
   # Prepare length of title and labels
   # ----------------------------
   # check default label and fit family
-  if (!is.null(axisTitle.x) && axisTitle.x == "Odds Ratios") {
+  if (!is.null(axis.title) && axis.title == "Odds Ratios") {
     if (poisson_fam)
-      axisTitle.x <- "Incident Rate Ratios"
+      axis.title <- "Incident Rate Ratios"
     else if (binom_fam && !logit_link)
-      axisTitle.x <- "Risk Ratios"
+      axis.title <- "Risk Ratios"
   }
   # check length of diagram title and split longer string at into new lines
   if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
+  if (!is.null(axis.title)) axis.title <- sjmisc::word_wrap(axis.title, breakTitleAt)
   # check length of x-axis-labels and split longer strings at into new lines
-  if (!is.null(var.labels)) var.labels <- sjmisc::word_wrap(var.labels, breakLabelsAt)
+  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
   # ----------------------------
   # get model coefficients
   # ----------------------------
@@ -299,7 +298,7 @@ sjp.glm <- function(fit,
   # copy OR-values into data column
   # ----------------------------
   ps <- rep("", length(ov))
-  if (show.values) ps <- sprintf("%.*f", labelDigits, ov)
+  if (show.values) ps <- sprintf("%.*f", digits, ov)
   # ----------------------------
   # copy p-values into data column
   # ----------------------------
@@ -326,8 +325,8 @@ sjp.glm <- function(fit,
   # have factors with different levels, which appear as
   # "multiple predictors", but are only one variable
   # --------------------------------------------------------
-  if (is.null(var.labels) || length(var.labels) < length(row.names(odds))) {
-    var.labels <- row.names(odds)
+  if (is.null(axis.labels) || length(axis.labels) < length(row.names(odds))) {
+    axis.labels <- row.names(odds)
   }
   # ----------------------------
   # bind p-values to data frame
@@ -376,8 +375,8 @@ sjp.glm <- function(fit,
     # set back rownames
     row.names(odds) <- keepnames
     # remove labels?
-    if (!is.null(var.labels) && length(var.labels) > nrow(odds))
-      var.labels <- var.labels[-remrows]
+    if (!is.null(axis.labels) && length(axis.labels) > nrow(odds))
+      axis.labels <- axis.labels[-remrows]
     # remove p-values
     ov <- ov[-remrows]
   }
@@ -447,10 +446,10 @@ sjp.glm <- function(fit,
   # --------------------------------------------------------
   if (sort.est) {
     if (!is.null(group.estimates)) {
-      var.labels <- rev(var.labels[order(odds$grp.est, odds$OR)])
+      axis.labels <- rev(axis.labels[order(odds$grp.est, odds$OR)])
       odds <- odds[rev(order(odds$grp.est, odds$OR)), ]
     } else {
-      var.labels <- var.labels[order(odds$OR)]
+      axis.labels <- axis.labels[order(odds$OR)]
       odds <- odds[order(odds$OR), ]
     }
   }
@@ -459,7 +458,7 @@ sjp.glm <- function(fit,
   # --------------------------------------------------------
   if (show.intercept) {
     odds <- data.frame(rbind(tmp[1, ], odds))
-    var.labels <- c("Intercept", var.labels)
+    axis.labels <- c("Intercept", axis.labels)
   }
   odds$vars <- as.factor(1:nrow(odds))
   # --------------------------------------------------------
@@ -501,9 +500,9 @@ sjp.glm <- function(fit,
                color = vline.color) +
     labs(title = title,
          x = NULL,
-         y = axisTitle.x,
+         y = axis.title,
          colour = legendTitle) +
-    scale_x_discrete(labels = var.labels)
+    scale_x_discrete(labels = axis.labels)
   # --------------------------------------------------------
   # create pretty breaks for log-scale
   # --------------------------------------------------------

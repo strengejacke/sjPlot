@@ -35,15 +35,13 @@ openend either in the IDE's viewer pane or the default web browser.}
 \item{varlabels}{character vector with item labels that are printed in the first column. If no item labels are
 provided (default), the data frame's column names are used.}
 
-\item{title}{plot title as string. Example: \code{title = "my title"}.
-Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
-no title is printed.}
+\item{title}{string, used as plot title. Depending on plot type and function,
+will be set automatically. If \code{title = ""}, no title is printed.}
 
 \item{breakLabelsAt}{determines how many chars of the category labels are displayed in 
 one line and when a line break is inserted.}
 
-\item{digits}{amount of digits used for table values. Default is 2.}
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
 \item{showCronbachsAlpha}{logical, if \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
 i.e. all variables with the highest loading for a factor are taken for the

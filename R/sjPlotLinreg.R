@@ -86,13 +86,11 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'          according to their group assignment.
 #' @param resp.label name of dependent variable, as string. Only 
 #'          used if fitted model has only one predictor and \code{type = "lm"}.
-#' @param axisTitle.x title for the x-axis. Default is \code{"Estimates"}.
 #' @param geom.colors user defined color palette for geoms. If \code{group.estimates}
 #'          is \emph{not} specified, must either be vector with two color values or a specific
-#'          color palette code (see 'Note' in \code{\link{sjp.grpfrq}}). Else, if
+#'          color palette code (see 'Details' in \code{\link{sjp.grpfrq}}). Else, if
 #'          \code{group.estimates} is specified, \code{geom.colors} must be a vector
 #'          of same length as groups. See 'Examples'.
-#' @param geom.size size resp. width of the geoms (bar width, point size or line thickness, depending on \code{type} argument).
 #' @param group.estimates numeric or character vector, indicating a group identifier for
 #'          each estimate. Dots and confidence intervals of estimates are coloured
 #'          according to their group association. See 'Examples'.
@@ -102,15 +100,12 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'          is \code{NULL}, i.e. all estimates are printed.
 #' @param coord.flip logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
 #'          values are plotted on the x-axis.
-#' @param labelDigits amount of digits for rounding the estimates (see \code{show.values}).
-#'          Default is 2, i.e. estimates have 2 digits after decimal point.
-#' @param show.p logical, whether the significance level of each coefficient
-#'          should be appended to values or not.
+#' @param show.p logical, adds significance levels to value or variable labels.
 #' @param showModelSummary logical, if \code{TRUE}, a summary of the regression model with
 #'          Intercept, R-squared, F-Test and AIC-value is printed to the lower right corner
 #'          of the plot.
 #' @param show.ci logical, if \code{TRUE}, depending on \code{type}, a condifence
-#'          region is added to the plot.
+#'          interval or region is added to the plot.
 #' @param showScatterPlot logical, if \code{TRUE} (default), a scatter plot of
 #'          response and predictor values for each predictor of \code{fit} is plotted.
 #'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
@@ -163,7 +158,7 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #' # plot regression line with label strings
 #' sjp.lm(fit,
 #'        resp.label = "Burden of care",
-#'        var.labels = "Quality of life",
+#'        axis.labels = "Quality of life",
 #'        show.loess = TRUE)
 #'
 #' # --------------------------------------------------
@@ -272,9 +267,9 @@ sjp.lm <- function(fit,
                    sort.est = TRUE,
                    title = NULL,
                    resp.label = NULL,
-                   var.labels = NULL,
+                   axis.labels = NULL,
                    legendTitle = NULL,
-                   axisTitle.x = "Estimates",
+                   axis.title = NULL,
                    axis.lim = NULL,
                    geom.colors = "Set1",
                    geom.size = NULL,
@@ -289,7 +284,7 @@ sjp.lm <- function(fit,
                    coord.flip = TRUE,
                    facet.grid = TRUE,
                    show.values = TRUE,
-                   labelDigits = 2,
+                   digits = 2,
                    show.p = TRUE,
                    showModelSummary = FALSE,
                    show.ci = TRUE,
@@ -335,7 +330,7 @@ sjp.lm <- function(fit,
   if ((type == "lm" || type == "resid") && predvars.length <= 2) {
     # reset default color setting, does not look that good.
     if (geom.colors == "Set1") geom.colors <- NULL
-    return(invisible(sjp.lm1(fit, title, breakTitleAt, var.labels, resp.label,
+    return(invisible(sjp.lm1(fit, title, breakTitleAt, axis.labels, resp.label,
                              breakLabelsAt, geom.colors, show.ci, pointAlpha,
                              showScatterPlot, show.loess, show.loess.ci, showModelSummary,
                              useResiduals = ifelse(type == "lm", FALSE, TRUE),
@@ -355,8 +350,8 @@ sjp.lm <- function(fit,
                                    facet.grid, type = "fe", show.loess, printPlot)))
   }
   if (type == "poly") {
-    return(invisible(sjp.lm.poly(fit, poly.term, geom.colors, geom.size, axisTitle.x,
-                                 NULL, show.ci, printPlot)))
+    return(invisible(sjp.lm.poly(fit, poly.term, geom.colors, geom.size, axis.title,
+                                 show.ci, printPlot)))
   }
   if (type == "eff") {
     return(invisible(sjp.glm.eff(fit, title, geom.size, remove.estimates, vars,
@@ -371,21 +366,23 @@ sjp.lm <- function(fit,
   }
   # check size argument
   if (is.null(geom.size)) geom.size <- 3
+  # check default axis title
+  if (is.null(axis.title)) axis.title <- "Estimates"
   # --------------------------------------------------------
   # auto-retrieve value labels
   # --------------------------------------------------------
-  if (is.null(var.labels) && all(class(fit) != "plm")) {
-    var.labels <- suppressWarnings(retrieveModelLabels(list(fit), group.pred = FALSE))
+  if (is.null(axis.labels) && all(class(fit) != "plm")) {
+    axis.labels <- suppressWarnings(retrieveModelLabels(list(fit), group.pred = FALSE))
   }
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
   if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
+  if (!is.null(axis.title)) axis.title <- sjmisc::word_wrap(axis.title, breakTitleAt)
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
-  if (!is.null(var.labels)) var.labels <- sjmisc::word_wrap(var.labels, breakLabelsAt)
+  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
   # ----------------------------
   # create expression with model summarys. used
   # for plotting in the diagram later
@@ -413,8 +410,8 @@ sjp.lm <- function(fit,
     # retrieve standardized betas
     tmp <- suppressWarnings(sjmisc::std_beta(fit, include.ci = TRUE, type = type))
     # add "std." to title?
-    if (axisTitle.x == "Estimates")
-      axisTitle.x <- "Std. Estimates"
+    if (!is.null(axis.title) && axis.title == "Estimates")
+      axis.title <- "Std. Estimates"
   } else {
     bv <- stats::coef(fit)[-1]
     if (1 == length(bv)) {
@@ -465,15 +462,15 @@ sjp.lm <- function(fit,
     # set back rownames
     row.names(tmp) <- keepnames
     # remove labels?
-    if (!is.null(var.labels) && length(var.labels) > nrow(tmp))
-      var.labels <- var.labels[-remrows]
+    if (!is.null(axis.labels) && length(axis.labels) > nrow(tmp))
+      axis.labels <- axis.labels[-remrows]
     # remove p-values
     pv <- pv[-remrows]
   }
   # -------------------------------------------------
   # init data column for p-values
   # -------------------------------------------------
-  ps <- sprintf("%.*f", labelDigits, tmp$beta)
+  ps <- sprintf("%.*f", digits, tmp$beta)
   # if no values should be shown, clear
   # vector now
   if (!show.values) ps <- rep("", length(ps))
@@ -496,8 +493,8 @@ sjp.lm <- function(fit,
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
   # --------------------------------------------------------
-  if (is.null(var.labels) || length(var.labels) < length(row.names(betas)))
-    var.labels <- row.names(betas)
+  if (is.null(axis.labels) || length(axis.labels) < length(row.names(betas)))
+    axis.labels <- row.names(betas)
   # --------------------------------------------------------
   # define sorting criteria. the values on the x-axis are being sorted
   # either by beta-values (sort="beta") or by standardized
@@ -509,14 +506,14 @@ sjp.lm <- function(fit,
   if (sort.est) {
     # order according to group assignment?
     if (!is.null(group.estimates)) {
-      var.labels <- rev(var.labels[order(tmp$grp.est, tmp$beta)])
+      axis.labels <- rev(axis.labels[order(tmp$grp.est, tmp$beta)])
       betas <- betas[rev(order(tmp$grp.est, tmp$beta)), ]
     } else {
-      var.labels <- var.labels[order(tmp$beta)]
+      axis.labels <- axis.labels[order(tmp$beta)]
       betas <- betas[order(tmp$beta), ]
     }
   } else {
-    var.labels <- rev(var.labels)
+    axis.labels <- rev(axis.labels)
     betas <- betas[nrow(betas):1, ]
   }
   betas <- cbind(1:nrow(betas), betas)
@@ -576,9 +573,9 @@ sjp.lm <- function(fit,
                        breaks = ticks,
                        labels = ticks) +
     # set value labels to x-axis
-    scale_x_discrete(labels = var.labels,
-                     limits = 1:length(var.labels)) +
-    labs(title = title, x = NULL, y = axisTitle.x, colour = legendTitle)
+    scale_x_discrete(labels = axis.labels,
+                     limits = 1:length(axis.labels)) +
+    labs(title = title, x = NULL, y = axis.title, colour = legendTitle)
   # --------------------------------------------------------
   # flip coordinates?
   # --------------------------------------------------------
@@ -1090,7 +1087,7 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly = TRUE, completeDiagnostic =
 sjp.lm1 <- function(fit,
                    title=NULL,
                    breakTitleAt=50,
-                   var.labels=NULL,
+                   axis.labels=NULL,
                    resp.label=NULL,
                    breakLabelsAt=20,
                    geom.colors = NULL,
@@ -1171,11 +1168,11 @@ sjp.lm1 <- function(fit,
   # ----------------------------
   # prepare axis labels
   # ----------------------------
-  if (is.null(var.labels)) var.labels <- xval
+  if (is.null(axis.labels)) axis.labels <- xval
   if (is.null(resp.label)) resp.label <- response
   # check length of axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
-  var.labels <- sjmisc::word_wrap(var.labels, breakLabelsAt)
+  axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
   resp.label <- sjmisc::word_wrap(resp.label, breakLabelsAt)
   # -----------------------------------------------------------
   # plot regression line and confidence intervall
@@ -1205,7 +1202,7 @@ sjp.lm1 <- function(fit,
   # set plot labs
   # -----------------------------------------------------------
   reglinplot <- reglinplot +
-    labs(title = title, x = var.labels, y = resp.label)
+    labs(title = title, x = axis.labels, y = resp.label)
   # ------------------------------------------
   # check whether table summary should be printed
   # ------------------------------------------
@@ -1228,8 +1225,7 @@ sjp.lm.poly <- function(fit,
                         poly.term,
                         geom.colors,
                         geom.size,
-                        axisTitle.x,
-                        axisTitle.y,
+                        axis.title,
                         show.ci,
                         printPlot) {
   # check size argument
@@ -1247,14 +1243,8 @@ sjp.lm.poly <- function(fit,
   # get model data column names
   cn <- colnames(mf)
   xl <- NULL
-  # any axis title?
-  if (is.null(axisTitle.y)) {
-    # find response name
-    resp.name <- "Response"
-    resp.name <- get_var_name(cn[1])
-  } else {
-    resp.name <- axisTitle.y
-  }
+  # get variable label for response
+  resp.name <- sjmisc::get_label(mf[[1]], def.value = cn[1])
   # -------------------------------------
   # argument check: poly.term required and
   # polynomial must be found in model
@@ -1307,7 +1297,7 @@ sjp.lm.poly <- function(fit,
   # --------------------------------------------
   # retrieve labels
   # --------------------------------------------
-  if (is.null(axisTitle.x) || axisTitle.x == "Estimates") axisTitle.x <- poly.term
+  if (is.null(axis.title)) axis.title <- poly.term
   # ------------------------
   # compute marginal effects of polynomial
   # ------------------------
@@ -1329,7 +1319,7 @@ sjp.lm.poly <- function(fit,
   # plot predicted effect of polynomial term
   polyplot <- polyplot +
     geom_line(colour = geom.colors[1], size = geom.size) +
-    labs(x = axisTitle.x, y = resp.name)
+    labs(x = axis.title, y = resp.name)
   # print plot
   if (printPlot) print(polyplot)
   # return result

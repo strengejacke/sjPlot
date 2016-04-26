@@ -91,11 +91,9 @@
 #'          mean value of the interaction term (moderator value). Third value is only used when 
 #'          \code{moderatorValues = "meansd"}. Or, if \code{diff = TRUE}, only one color value for the 
 #'          line indicating the upper difference between lower and upper bound of interaction terms.
-#' @param axisTitle.x a default title used for the x-axis. Should be a character vector
+#' @param axis.title a default title used for the x-axis. Should be a character vector
 #'          of same length as interaction plots to be plotted. Default value is \code{NULL},
 #'          which means that each plot's x-axis uses the predictor's name as title.
-#' @param axisTitle.y a default title used for the y-axis. Default value is \code{NULL},
-#'          which means that each plot's y-axis uses the dependent variable's name as title.
 #' @param axis.labels character vector with value labels of the interaction, used
 #'          to label the x-axis. Only applies to \code{type = "emm"}.
 #' @param legendTitle title of the diagram's legend. A character vector of same length as 
@@ -316,8 +314,7 @@ sjp.int <- function(fit,
                     fillAlpha = 0.3,
                     geom.colors = "Set1",
                     geom.size = NULL,
-                    axisTitle.x = NULL,
-                    axisTitle.y = NULL,
+                    axis.title = NULL,
                     axis.labels = NULL,
                     legendTitle = NULL,
                     legendLabels = NULL,
@@ -425,7 +422,7 @@ sjp.int <- function(fit,
       warning("argument `show.ci` must be logical for `type = 'emm'`.", call. = F)
     }
     return(sjp.emm(fit, swapPredictors, plevel, title, geom.colors, geom.size,
-                   axisTitle.x, axisTitle.y, axis.labels, legendTitle, legendLabels,
+                   axis.title, axis.labels, legendTitle, legendLabels,
                    show.values, valueLabel.digits, show.ci, p.kr, breakTitleAt,
                    breakLegendTitleAt, breakLegendLabelsAt, y.offset, ylim, 
                    grid.breaks, facet.grid, printPlot))
@@ -440,20 +437,20 @@ sjp.int <- function(fit,
   # --------------------------------------------------------
   if (type == "eff") {
     return(sjp.eff.int(fit, int.term, int.plot.index, moderatorValues, swapPredictors, plevel,
-                       title, fillAlpha, geom.colors, geom.size, axisTitle.x,
-                       axisTitle.y, legendTitle, legendLabels,
-                       show.values, breakTitleAt, breakLegendLabelsAt, 
-                       breakLegendTitleAt, xlim, ylim, 
-                       y.offset, grid.breaks, show.ci, facet.grid, printPlot, fun))
+                       title, fillAlpha, geom.colors, geom.size, axis.title,
+                       legendTitle, legendLabels, show.values, breakTitleAt, breakLegendLabelsAt, 
+                       breakLegendTitleAt, xlim, ylim, y.offset, grid.breaks, 
+                       show.ci, facet.grid, printPlot, fun))
   }
   # -----------------------------------------------------------
   # set axis title
   # -----------------------------------------------------------
-  if ((fun == "glm" || fun == "glmer") && is.null(axisTitle.y)) {
+  y_title <- NULL
+  if ((fun == "glm" || fun == "glmer")) {
     if (binom_fam)
-      axisTitle.y <- "Change in Predicted Probability"
+      y_title <- "Change in Predicted Probability"
     else 
-      axisTitle.y <- "Change in Incidents Rates"
+      y_title <- "Change in Incidents Rates"
   }
   # -----------------------------------------------------------
   # get all (significant) interaction terms from model
@@ -786,15 +783,15 @@ sjp.int <- function(fit,
     # -----------------------------------------------------------
     # x axis titles
     # -----------------------------------------------------------
-    if (!is.null(axisTitle.x)) {
+    if (!is.null(axis.title)) {
       # copy plot counter 
       l_nr <- cnt
       # check if we have enough axis titles, if not, use last legend title
-      if (l_nr > length(axisTitle.x)) l_nr <- length(axisTitle.x)
+      if (l_nr > length(axis.title)) l_nr <- length(axis.title)
       # set axis title
-      labx <- axisTitle.x[l_nr]
+      labx <- axis.title[l_nr]
     }
-    if (!is.null(axisTitle.y)) laby <- axisTitle.y
+    if (!is.null(y_title)) laby <- y_title
     # -----------------------------------------------------------
     # prepare annotation labels
     # -----------------------------------------------------------
@@ -910,8 +907,7 @@ sjp.eff.int <- function(fit,
                         fillAlpha = 0.3,
                         geom.colors = "Set1",
                         geom.size = 0.7,
-                        axisTitle.x = NULL,
-                        axisTitle.y = NULL,
+                        axis.title = NULL,
                         legendTitle = NULL,
                         legendLabels = NULL,
                         show.values = FALSE,
@@ -1153,11 +1149,11 @@ sjp.eff.int <- function(fit,
     # -----------------------------------------------------------
     # check if we have linear regression
     # -----------------------------------------------------------
+    y_title <- NULL
     if (fun == "lm" || fun == "lmer" || fun == "lme" || fun == "gls") {
       # Label on y-axis is name of dependent variable
-      if (is.null(axisTitle.y)) 
-        axisTitle.y <- sjmisc::get_label(stats::model.frame(fit)[[response.name]], 
-                                         def.value = response.name)
+      y_title <- sjmisc::get_label(stats::model.frame(fit)[[response.name]], 
+                                       def.value = response.name)
       # -----------------------------------------------------------
       # retrieve lowest and highest x and y position to determine
       # the scale limits
@@ -1188,13 +1184,11 @@ sjp.eff.int <- function(fit,
       # --------------------------------------------------------
       # Label on y-axis is fixed
       # --------------------------------------------------------
-      if (is.null(axisTitle.y)) {
-        # for logistic reg.
-        if (binom_fam)
-          axisTitle.y <- "Predicted Probability"
-        else if (poisson_fam)
-          axisTitle.y <- "Predicted Incidents"
-      }
+      # for logistic reg.
+      if (binom_fam)
+        y_title <- "Predicted Probability"
+      else if (poisson_fam)
+        y_title <- "Predicted Incidents"
       # -----------------------------------------------------------
       # retrieve lowest and highest x and y position to determine
       # the scale limits
@@ -1299,15 +1293,15 @@ sjp.eff.int <- function(fit,
     # -----------------------------------------------------------
     # x axis titles
     # -----------------------------------------------------------
-    if (!is.null(axisTitle.x)) {
+    if (!is.null(axis.title)) {
       # copy plot counter 
       l_nr <- i
       # check if we have enough axis titles, if not, use last legend title
-      if (l_nr > length(axisTitle.x)) l_nr <- length(axisTitle.x)
+      if (l_nr > length(axis.title)) l_nr <- length(axis.title)
       # set axis title
-      labx <- axisTitle.x[l_nr]
+      labx <- axis.title[l_nr]
     }
-    if (!is.null(axisTitle.y)) laby <- axisTitle.y
+    if (!is.null(y_title)) laby <- y_title
     # -----------------------------------------------------------
     # wrap titles
     # -----------------------------------------------------------

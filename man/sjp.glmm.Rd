@@ -4,25 +4,26 @@
 \alias{sjp.glmm}
 \title{Plot estimates of multiple fitted glm(er)'s}
 \usage{
-sjp.glmm(..., title = NULL, labelDependentVariables = NULL,
+sjp.glmm(..., title = NULL, depvar.labels = NULL,
   legendDepVarTitle = "Dependent Variables", legendPValTitle = "p-level",
-  var.labels = NULL, axisTitle.x = "Odds Ratios", axis.lim = NULL,
+  axis.labels = NULL, axis.title = "Odds Ratios", axis.lim = NULL,
   breakTitleAt = 50, breakLabelsAt = 25, breakLegendTitleAt = 20,
   grid.breaks = 0.5, transformTicks = TRUE, geom.size = 3,
   geom.spacing = 0.4, geom.colors = "Set1", fade.ns = FALSE,
   usePShapes = FALSE, vline.type = 2, vline.color = "grey70",
   remove.estimates = NULL, coord.flip = TRUE, show.intercept = FALSE,
-  show.values = TRUE, labelDigits = 2, show.p = TRUE,
-  hideLegend = FALSE, facet.grid = FALSE, printPlot = TRUE)
+  show.values = TRUE, digits = 2, show.p = TRUE, show.legend = TRUE,
+  facet.grid = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{...}{one or more fitted \code{glm}- or \code{glmerMod}-objects. May 
 also be a \code{\link{list}}-object with 
 fitted models, instead of separating each model with comma. See 'Examples'.}
 
-\item{title}{diagram's title as string.}
+\item{title}{string, used as plot title. Depending on plot type and function,
+will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{labelDependentVariables}{character vector with labels of dependent 
+\item{depvar.labels}{character vector with labels of dependent 
 variables of all fitted models. See 'Examples'.}
 
 \item{legendDepVarTitle}{character vector used for the legend title.
@@ -31,12 +32,10 @@ Default is \code{"Dependent Variables"}.}
 \item{legendPValTitle}{character vector used for the title of the significance level's legend.
 Default is \code{"p-level"}. Only applies if \code{usePShapes = TRUE}.}
 
-\item{var.labels}{character vector with labels for the model terms, used as axis labels.
-For mixed models, should either be vector of fixed effects variable labels 
-(if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
-labels from the random intercept's categories (if \code{type = "re"}).}
+\item{axis.labels}{character vector with labels used as axis labels.}
 
-\item{axisTitle.x}{string, title for the x axis.}
+\item{axis.title}{string, title for the axis. If not specified, a default labelling depending
+on the plot function and type is chosen.}
 
 \item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
 By default, the limits range from the lowest confidence interval to the 
@@ -60,15 +59,18 @@ one panel grid to the next. If \code{FALSE}, grids are
 plotted on every \code{grid.breaks}'s position, thus the grid lines become narrower with 
 higher odds ratio values.}
 
-\item{geom.size}{size of the points that indicate the estimates. Default is 3.}
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
+depending on plot type and function. Note that bar and bin widths mostly 
+need smaller values than dot sizes.}
 
 \item{geom.spacing}{spacing between the dots and error bars of the plotted fitted models. Default
 is 0.3.}
 
-\item{geom.colors}{colors for representing the estimates (i.e. points and error bars)
-of the different fitted models. Thus, the length of this vector must be equal to
-the length of supplied fitted models, so each model is represented by its own color.
-See 'Note' in \code{\link{sjp.grpfrq}}.}
+\item{geom.colors}{user defined color palette for geoms. If \code{group.estimates}
+is \emph{not} specified, must either be vector with two color values or a specific
+color palette code (see 'Details' in \code{\link{sjp.grpfrq}}). Else, if
+\code{group.estimates} is specified, \code{geom.colors} must be a vector
+of same length as groups. See 'Examples'.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 
@@ -94,13 +96,12 @@ function call is interrupted and no plot printed.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
-\item{labelDigits}{amount of digits for rounding the estimates (see \code{show.values}).
-Default is 2, i.e. estimates have 2 digits after decimal point.}
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
-\item{show.p}{logical, whether the significance level of each coefficient
-should be appended to values or not.}
+\item{show.p}{logical, adds significance levels to value or variable labels.}
 
-\item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
+\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
+function, a legend is added to the plot.}
 
 \item{facet.grid}{\code{TRUE} when each model should be plotted as single facet instead of 
 an integrated single graph.}
@@ -143,12 +144,8 @@ sjp.glmm(fitOR1, fitOR2, fitOR3, facet.grid = TRUE)
 
 # plot multiple models with legend labels and point shapes instead of value  labels
 sjp.glmm(fitOR1, fitOR2, fitOR3,
-         labelDependentVariables = c("Fertility", 
-                                     "Infant Mortality", 
-                                     "Agriculture"),
-         show.values = FALSE,
-         show.p = FALSE,
-         fade.ns = TRUE,
+         depvar.labels = c("Fertility", "Infant Mortality", "Agriculture"),
+         show.values = FALSE, show.p = FALSE, fade.ns = TRUE, 
          usePShapes = TRUE)
 
 # plot multiple models from nested lists argument

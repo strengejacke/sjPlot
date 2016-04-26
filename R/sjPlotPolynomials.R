@@ -24,10 +24,6 @@
 #'          When \code{x} is not a vector, but a fitted model object, the function
 #'          is detected automatically. If \code{x} is a vector, \code{fun} defaults
 #'          to \code{"lm"}.
-#' @param axisTitle.x A label for the x axis. Use \code{NULL} to automatically detect 
-#'          variable names that will be used as title (see \code{\link[sjmisc]{set_label}}) for details).
-#' @param axisTitle.y A label for the y axis. Use \code{NULL} to automatically detect 
-#'          variable names that will be used as title (see \code{\link[sjmisc]{set_label}}) for details).
 #' @param showScatterPlot If \code{TRUE} (default), a scatter plot of response and predictor values
 #'          for each predictor of the fitted model \code{fit} is plotted.
 #' @param show.loess If \code{TRUE}, an additional loess-smoothed line is plotted.
@@ -35,9 +31,6 @@
 #'          will be plotted.
 #' @param showPValues logical, if \code{TRUE} (default), p-values for polynomial terms are
 #'          printed to the console.
-#' @param geom.colors User defined color palette for geoms. Must either be vector with two color values
-#'          or a specific color palette code. See 'Note' in \code{\link{sjp.grpfrq}}.
-#' @param geom.size size resp. width of plotted lines.
 #' @param loessLineColor color of the loess-smoothed line. Only applies, if \code{show.loess = TRUE}.
 #' @param pointColor color of the scatter plot's point. Only applies, if \code{showScatterPlot = TRUE}.
 #' @param pointAlpha The alpha values of the scatter plot's point-geoms. Default is 0.2.
@@ -49,6 +42,8 @@
 #'            \item{\code{df}}{the data frame that was used for setting up the ggplot-object}
 #'            \item{\code{cutpoints}}{a data frame that indicates x-values and predicted y-values of each direction change in the loess curvature}
 #'           }
+#' 
+#' @inheritParams sjp.glmer
 #' 
 #' @details For each polynomial degree, a simple linear regression on \code{x} (resp.
 #'            the extracted response, if \code{x} is a fitted model) is performed,
@@ -114,8 +109,7 @@ sjp.poly <- function(x,
                      poly.degree,
                      poly.scale = FALSE,
                      fun = NULL,
-                     axisTitle.x = NULL,
-                     axisTitle.y = NULL,
+                     axis.title = NULL,
                      showScatterPlot = TRUE,
                      show.loess = TRUE,
                      show.loess.ci = TRUE,
@@ -140,19 +134,22 @@ sjp.poly <- function(x,
   # --------------------------------------------
   # parameter check: fitted model or variables?
   # --------------------------------------------
-  if ((any(class(x) == "glmerMod") || any(class(x) == "lmerMod" || any(class(x) == "merModLmerTest"))) && !requireNamespace("lme4", quietly = TRUE)) {
-    stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
-  }
-  if (any(class(x) == "glmerMod") || any(class(x) == "lmerMod") || any(class(x) == "merModLmerTest")) {
+  if (is_merMod(x)) { 
+    if (!requireNamespace("lme4", quietly = TRUE))
+      stop("Package `lme4`` needed for this function to work. Please install it.", call. = FALSE)
     # retrieve response vector
     resp <- lme4::getME(x, "y")
+    # get model frame
+    mf <- stats::model.frame(x)
     # retrieve polynomial term
-    poly.term <- x@frame[[which(colnames(x@frame) == poly.term)]]
+    poly.term <- mf[[poly.term]]
   } else if (any(class(x) == "lm") || any(class(x) == "glm")) {
+    # get model frame
+    mf <- stats::model.frame(x)
     # retrieve response vector
-    resp <- x$model[[1]]
+    resp <- mf[[1]]
     # retrieve polynomial term
-    poly.term <- x$model[[which(colnames(x$model) == poly.term)]]
+    poly.term <- mf[[poly.term]]
   } else {
     resp <- x
   }
@@ -169,13 +166,8 @@ sjp.poly <- function(x,
   # --------------------------------------------
   # retrieve labels
   # --------------------------------------------
-  if (is.null(axisTitle.x))
-    axisTitle.x <- sjmisc::get_label(poly.term, def.value = defv)
-  if (is.null(axisTitle.y)) 
-    axisTitle.y <- sjmisc::get_label(resp, def.value = "Response")
-  # no labels found? set default then
-  if (is.null(axisTitle.x)) axisTitle.x <- "Polynomial term"
-  if (is.null(axisTitle.y)) axisTitle.y <- "Response"
+  if (is.null(axis.title)) axis.title <- sjmisc::get_label(poly.term, def.value = defv)
+  axisTitle.y <- sjmisc::get_label(resp, def.value = "Response")
   # --------------------------------------------
   # init data frame
   # --------------------------------------------
@@ -192,13 +184,12 @@ sjp.poly <- function(x,
   # --------------------------------------------
   for (i in poly.degree) {
     # poly-function can't cope with missings, so remove them here
-    mydat <- na.omit(data.frame(x = poly.term, y = resp))
+    mydat <- stats::na.omit(data.frame(x = poly.term, y = resp))
     # fit model with polynomials
     if (fun == "lm")
       fit <- stats::lm(mydat$y ~ poly(mydat$x, i, raw = TRUE))
     else
-      fit <- stats::glm(mydat$y ~ poly(mydat$x, i, raw = TRUE), 
-                        family = stats::binomial(link = "logit"))
+      fit <- stats::glm(mydat$y ~ poly(mydat$x, i, raw = TRUE), family = stats::family(x))
     # check whether we have an integer poly.degree
     # or a float value
     poly.digit <- ifelse(i %% 1 == 0, 0, 1)
@@ -236,7 +227,7 @@ sjp.poly <- function(x,
   polyplot <- polyplot + 
     geom_line(aes(y = pred), size = geom.size) + 
     scale_color_manual(values = geom.colors, labels = lapply(poly.degree, function(j) bquote(x^.(j)))) +
-    labs(x = axisTitle.x, y = axisTitle.y, colour = "Polynomial\ndegrees")
+    labs(x = axis.title, y = axisTitle.y, colour = "Polynomial\ndegrees")
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------

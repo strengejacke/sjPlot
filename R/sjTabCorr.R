@@ -28,8 +28,6 @@
 #'          data frame's column names are used. Item labels are detected automatically 
 #'          if \code{data} is a \code{\link{data.frame}} where variables have
 #'          label attributes (see \code{\link[sjmisc]{set_label}}) for details).
-#' @param digits amount of digits used the values inside table cells.
-#'          Default is 2.
 #' @param triangle indicates whether only the upper right (use \code{"upper"}), lower left (use \code{"lower"})
 #'          or both (use \code{"both"}) triangles of the correlation table is filled with values. Default
 #'          is \code{"both"}. You can specifiy the inital letter only.
@@ -49,6 +47,7 @@
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.df
 #' @inheritParams sjp.grpfrq
+#' @inheritParams sjp.glmer
 #'          
 #' @return Invisibly returns
 #'          \itemize{

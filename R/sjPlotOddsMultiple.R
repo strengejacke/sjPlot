@@ -16,6 +16,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 #' @inheritParams sjp.glm
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.grpfrq
+#' @inheritParams sjt.lm
 #'          
 #' @note The fitted models may have differing predictors, but only in a 
 #'         "stepwise" sense; i.e., models should share a common set of predictors,
@@ -45,12 +46,8 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 #' 
 #' # plot multiple models with legend labels and point shapes instead of value  labels
 #' sjp.glmm(fitOR1, fitOR2, fitOR3,
-#'          labelDependentVariables = c("Fertility", 
-#'                                      "Infant Mortality", 
-#'                                      "Agriculture"),
-#'          show.values = FALSE,
-#'          show.p = FALSE,
-#'          fade.ns = TRUE,
+#'          depvar.labels = c("Fertility", "Infant Mortality", "Agriculture"),
+#'          show.values = FALSE, show.p = FALSE, fade.ns = TRUE, 
 #'          usePShapes = TRUE)
 #' 
 #' # plot multiple models from nested lists argument
@@ -97,11 +94,11 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 #' @export
 sjp.glmm <- function(...,
                      title = NULL,
-                     labelDependentVariables = NULL,
+                     depvar.labels = NULL,
                      legendDepVarTitle = "Dependent Variables",
                      legendPValTitle = "p-level",
-                     var.labels = NULL,
-                     axisTitle.x = "Odds Ratios",
+                     axis.labels = NULL,
+                     axis.title = "Odds Ratios",
                      axis.lim = NULL,
                      breakTitleAt = 50,
                      breakLabelsAt = 25,
@@ -119,9 +116,9 @@ sjp.glmm <- function(...,
                      coord.flip = TRUE,
                      show.intercept = FALSE,
                      show.values = TRUE,
-                     labelDigits = 2,
+                     digits = 2,
                      show.p = TRUE,
-                     hideLegend = FALSE,
+                     show.legend = TRUE,
                      facet.grid = FALSE,
                      printPlot = TRUE) {
   # --------------------------------------------------------
@@ -143,22 +140,22 @@ sjp.glmm <- function(...,
   # ----------------------------
   # if we have no labels of dependent variables supplied, use a 
   # default string (Model) for legend
-  if (is.null(labelDependentVariables)) {
-    labelDependentVariables <- c()
+  if (is.null(depvar.labels)) {
+    depvar.labels <- c()
     for (i in seq_len(fitlength)) {
-      labelDependentVariables <- c(labelDependentVariables, 
-                                   get_model_response_label(input_list[[i]]))
+      depvar.labels <- c(depvar.labels, 
+                         get_model_response_label(input_list[[i]]))
     }
   }
   # check length of diagram title and split longer string at into new lines
   if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
+  if (!is.null(axis.title)) axis.title <- sjmisc::word_wrap(axis.title, breakTitleAt)
   # check length of dependent variables
-  if (!is.null(labelDependentVariables)) labelDependentVariables <- sjmisc::word_wrap(labelDependentVariables, breakLegendTitleAt)
+  if (!is.null(depvar.labels)) depvar.labels <- sjmisc::word_wrap(depvar.labels, breakLegendTitleAt)
   # check length of x-axis-labels and split longer strings at into new lines
-  if (!is.null(var.labels)) var.labels <- sjmisc::word_wrap(var.labels, breakLabelsAt)
+  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
   # ----------------------------
   # iterate all fitted models
   # ----------------------------
@@ -200,7 +197,7 @@ sjp.glmm <- function(...,
     # (i.e. are more transparent)
     palpha <- NULL
     for (i in 1:length(pv)) {
-      ps[i] <- c("")
+      ps[i] <- ""
       pointshapes[i] <- 1
       palpha[i] <- "s"
     }
@@ -209,7 +206,7 @@ sjp.glmm <- function(...,
     # ----------------------------
     if (show.values) {
       for (i in 1:length(pv)) {
-        ps[i] <- sprintf("%.*f", labelDigits, ov[i])
+        ps[i] <- sprintf("%.*f", digits, ov[i])
       }
     }
     # ----------------------------
@@ -272,9 +269,9 @@ sjp.glmm <- function(...,
     row.names(finalodds) <- keepnames
   }
   # set axis labels
-  if (is.null(var.labels)) {
-    var.labels <- unique(finalodds$term)
-    var.labels <- var.labels[order(unique(finalodds$xpos))]
+  if (is.null(axis.labels)) {
+    axis.labels <- unique(finalodds$term)
+    axis.labels <- axis.labels[order(unique(finalodds$xpos))]
   }
   # --------------------------------------------------------
   # Calculate axis limits. The range is from lowest lower-CI
@@ -375,10 +372,10 @@ sjp.glmm <- function(...,
                colour = vline.color) +
     labs(title = title, 
          x = NULL, 
-         y = axisTitle.x, 
+         y = axis.title, 
          shape = legendPValTitle, 
          colour = legendDepVarTitle) +
-    scale_x_discrete(labels = var.labels) +
+    scale_x_discrete(labels = axis.labels) +
     # use transparancy if requested, but hide legend
     scale_alpha_manual(values = c(nsAlpha, 1.0), guide = "none")
   # --------------------------------------------------------
@@ -412,9 +409,9 @@ sjp.glmm <- function(...,
   # ---------------------------------------------------------
   plotHeader <- sj.setGeomColors(plotHeader, 
                                  geom.colors, 
-                                 length(labelDependentVariables), 
-                                 ifelse(isTRUE(hideLegend), FALSE, TRUE), 
-                                 labelDependentVariables)
+                                 length(depvar.labels), 
+                                 show.legend, 
+                                 depvar.labels)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------

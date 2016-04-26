@@ -13,22 +13,18 @@ utils::globalVariables(c("Row", "Column", "p.value"))
 #'                \href{https://talesofr.wordpress.com/2013/05/05/ridiculously-photogenic-factors-heatmap-with-p-values/}{Tales of R}.
 #' 
 #' @param df a data frame of (dichotomous) factor variables.
-#' @param title Title of the diagram, plotted above the whole diagram panel
-#' @param axisLabels Labels for the x- andy y-axis
-#'          axisLabels are detected automatically if each variable has
-#'          a label attribute (see \code{\link[sjmisc]{set_label}}) for details).
 #' @param breakTitleAt Wordwrap for diagram title. Determines how many chars of the title are displayed in
 #'          one line and when a line break is inserted into the title
 #' @param breakLabelsAt Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in 
 #'          one line and when a line break is inserted
-#' @param hideLegend show or hide the legend. The legend indicates the strength of correlations
-#'          by gradient colour fill.
 #' @param legendTitle the legend title, provided as string, e.g. \code{legendTitle=c("Strength of correlation")}.
 #'          Default is \code{NULL}, hence no legend title is used.
 #' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{mydf}).
+#' 
+#' @inheritParams sjp.grpfrq
 #' 
 #' @examples
 #' # create data frame with 5 dichotomous (dummy) variables
@@ -41,7 +37,7 @@ utils::globalVariables(c("Row", "Column", "p.value"))
 #' items <- list(c("Item 1", "Item 2", "Item 3", "Item 4", "Item 5"))
 #' 
 #' # plot Chi2-contingency-table
-#' sjp.chi2(mydf, axisLabels = items)
+#' sjp.chi2(mydf, axis.labels = items)
 #' 
 #' @import ggplot2
 #' @importFrom dplyr bind_rows
@@ -49,27 +45,27 @@ utils::globalVariables(c("Row", "Column", "p.value"))
 #' @export
 sjp.chi2 <- function(df,
                      title = "Pearson's Chi2-Test of Independence",
-                     axisLabels = NULL,
+                     axis.labels = NULL,
                      breakTitleAt = 50,
                      breakLabelsAt = 20,
-                     hideLegend = TRUE,
+                     show.legend = FALSE,
                      legendTitle = NULL,
                      printPlot = TRUE) {
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(axisLabels)) {
-    axisLabels <- c()
+  if (is.null(axis.labels)) {
+    axis.labels <- c()
     # if yes, iterate each variable
     for (i in 1:ncol(df)) {
       # retrieve variable name attribute
       vn <- sjmisc::get_label(df[[i]], def.value = colnames(df)[i])
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
-        axisLabels <- c(axisLabels, vn)
+        axis.labels <- c(axis.labels, vn)
       } else {
         # else break out of loop
-        axisLabels <- NULL
+        axis.labels <- NULL
         break
       }
     }
@@ -98,12 +94,12 @@ sjp.chi2 <- function(df,
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
   # ----------------------------
-  if (is.null(axisLabels)) axisLabels <- row.names(m)
+  if (is.null(axis.labels)) axis.labels <- row.names(m)
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
-  if (!is.null(axisLabels) && is.list(axisLabels)) {
-    axisLabels <- unlistlabels(axisLabels)
+  if (!is.null(axis.labels) && is.list(axis.labels)) {
+    axis.labels <- unlistlabels(axis.labels)
   }
   # ----------------------------
   # Prepare length of title and labels
@@ -111,14 +107,14 @@ sjp.chi2 <- function(df,
   # check length of diagram title and split longer string at into new lines
   if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
   # check length of x-axis-labels and split longer strings at into new lines
-  if (!is.null(axisLabels)) axisLabels <- sjmisc::word_wrap(axisLabels, breakLabelsAt)
+  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
   # --------------------------------------------------------
   # start with base plot object here
   # --------------------------------------------------------
   chiPlot <- ggplot(data = m, aes(x = Row, y = Column, fill = p.value, label = p.value)) +
     geom_tile() +
-    scale_x_discrete(labels = axisLabels) +
-    scale_y_discrete(labels = axisLabels) +
+    scale_x_discrete(labels = axis.labels) +
+    scale_y_discrete(labels = axis.labels) +
     scale_fill_gradient2(low = rgb(128, 205, 193, maxColorValue = 255), 
                          mid = "white", 
                          high = rgb(5, 113, 176, maxColorValue = 255), 
@@ -131,7 +127,7 @@ sjp.chi2 <- function(df,
   # ---------------------------------------------------------
   # hide legend?
   # ---------------------------------------------------------
-  if (hideLegend) chiPlot <- chiPlot + guides(fill = FALSE)
+  if (!show.legend) chiPlot <- chiPlot + guides(fill = FALSE)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------

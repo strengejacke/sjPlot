@@ -13,9 +13,7 @@
 #' @param file destination file, if the output should be saved as file.
 #'          If \code{NULL} (default), the output will be saved as temporary file and 
 #'          openend either in the IDE's viewer pane or the default web browser.
-#' @param weightBy weight factor that will be applied to weight all cases from \code{data}.
-#'          Must be a vector of same length as \code{nrow(data)}. Default is \code{NULL}, so no weights are used.
-#' @param weightByTitleString suffix (as string) for the tabel caption, if \code{weightBy} is specified,
+#' @param weightByTitleString suffix (as string) for the tabel caption, if \code{weight.by} is specified,
 #'          e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so
 #'          the table caption will not have a suffix when cases are weighted.
 #' @param variableLabels character vector or a list of character vectors that indicate
@@ -74,7 +72,6 @@
 #' @param kurtosisString A character string, which is used as header for the 
 #'          kurtosis column (see \code{showKurtosis})). Default is lower case 
 #'          Greek omega.
-#' @param digits amount of digits used for table values. Default is 2.
 #' @param removeStringVectors If \code{TRUE} (default), character vectors / string variables will be removed from
 #'          \code{data} before frequency tables are computed.
 #' @param autoGroupStrings if \code{TRUE} (default), string values in character 
@@ -108,6 +105,9 @@
 #'            }
 #'            for further use.
 #'          
+#' @inheritParams sjp.glmer
+#' @inheritParams sjp.grpfrq
+#' 
 #' @note The HTML tables can either be saved as file and manually opened (specify argument \code{file}) or
 #'         they can be saved as temporary files and will be displayed in the RStudio Viewer pane (if working with RStudio)
 #'         or opened with the default web browser. Displaying resp. opening a temporary file is the
@@ -200,7 +200,7 @@
 #' @export
 sjt.frq <- function(data,
                     file = NULL,
-                    weightBy = NULL,
+                    weight.by = NULL,
                     weightByTitleString = " (weighted)",
                     variableLabels = NULL,
                     valueLabels = NULL,
@@ -524,7 +524,7 @@ sjt.frq <- function(data,
                             order.frq = sort.frq,
                             round.prz = digits,
                             na.rm = F, 
-                            weightBy = weightBy)
+                            weight.by = weight.by)
     df <- df.frq$mydat
     #---------------------------------------------------
     # auto-set skipping zero-rows?
@@ -554,7 +554,7 @@ sjt.frq <- function(data,
     # -------------------------------------
     varlab <- variableLabels[[cnt]]
     # if we have weighted values, say that in diagram's title
-    if (!is.null(weightBy)) {
+    if (!is.null(weight.by)) {
       varlab <- paste(varlab, weightByTitleString, sep = "")
     }
     # -------------------------------------
@@ -646,12 +646,12 @@ sjt.frq <- function(data,
       # last element in df$frq is amount of missings,
       # so substract from total to get valid N
       varvalid <- vartot - df$frq[nrow(df)]
-      if (is.null(weightBy)) {
+      if (is.null(weight.by)) {
         mw <- mean(orivar, na.rm = TRUE)
         sum_var <- orivar
       } else {
-        mw <- stats::weighted.mean(orivar, weightBy, na.rm = TRUE)
-        sum_var <- sjmisc::weight(orivar, weightBy)
+        mw <- stats::weighted.mean(orivar, weight.by, na.rm = TRUE)
+        sum_var <- sjmisc::weight(orivar, weight.by)
       }
       descr <- ""
       if (showSkew || showKurtosis) {

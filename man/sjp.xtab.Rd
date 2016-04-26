@@ -4,19 +4,18 @@
 \alias{sjp.xtab}
 \title{Plot contingency tables}
 \usage{
-sjp.xtab(x, grp, title = "", legendTitle = NULL, weightBy = NULL,
+sjp.xtab(x, grp, title = "", legendTitle = NULL, weight.by = NULL,
   weightByTitleString = NULL, type = "bars", tableIndex = "col",
-  reverseOrder = FALSE, ylim = NULL, axis.labels = NULL,
+  rev.order = FALSE, ylim = NULL, axis.labels = NULL,
   legendLabels = NULL, vjust = "bottom", hjust = "center",
   y.offset = NULL, stringTotal = "Total", breakTitleAt = 50,
   breakLabelsAt = 15, breakLegendTitleAt = 20, breakLegendLabelsAt = 20,
   grid.breaks = 0.2, geom.size = 0.7, geom.spacing = 0.1,
   geom.colors = "Paired", barPosition = "dodge", lineDotSize = 3,
   smoothLines = FALSE, expand.grid = FALSE, show.values = TRUE,
-  showCountValues = TRUE, showPercentageValues = TRUE,
-  showCategoryLabels = TRUE, showTableSummary = FALSE,
-  tableSummaryPos = "r", showTotalColumn = TRUE, hideLegend = FALSE,
-  axisTitle.x = NULL, axisTitle.y = NULL, coord.flip = FALSE,
+  show.n = TRUE, show.perc = TRUE, showCategoryLabels = TRUE,
+  showTableSummary = FALSE, tableSummaryPos = "r", showTotalColumn = TRUE,
+  show.legend = TRUE, axis.titles = NULL, coord.flip = FALSE,
   printPlot = TRUE)
 }
 \arguments{
@@ -25,15 +24,14 @@ sjp.xtab(x, grp, title = "", legendTitle = NULL, weightBy = NULL,
 \item{grp}{grouping variable of same length as \code{x}, where \code{x} 
 is grouped into the categories represented by \code{grp}.}
 
-\item{title}{plot title as string. Example: \code{title = "my title"}.
-Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
-no title is printed.}
+\item{title}{string, used as plot title. Depending on plot type and function,
+will be set automatically. If \code{title = ""}, no title is printed.}
 
 \item{legendTitle}{title of the plot legend, as string.}
 
-\item{weightBy}{weight factor that will be applied to weight all cases from \code{x}.
-Must be a vector of same length as \code{x}. Default is \code{NULL}, so no weights are used.}
+\item{weight.by}{weight factor that will be applied to weight all cases.
+Must be a vector of same length as the input vector. Default is 
+\code{NULL}, so no weights are used.}
 
 \item{weightByTitleString}{suffix (as string) for the plot's title, if \code{weight.by} is specified,
 e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's 
@@ -47,17 +45,13 @@ calculating row percentages, \code{"col"} for column percentages and \code{"cell
 If \code{tableIndex = "col"}, an additional bar with the total sum of each column
 can be added to the plot (see \code{showTotalColumn}).}
 
-\item{reverseOrder}{logical, whether categories along the x-axis should apper in reversed order or not.}
+\item{rev.order}{logical, if \code{TRUE}, order of categories (groups) is reversed.}
 
 \item{ylim}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
 y-axis fits to the required range of the data.}
 
-\item{axis.labels}{a character vector with labels for the x-axis breaks. \strong{Note:} 
-Axis labels will be automatically detected, when data was either imported 
-with \code{\link[sjmisc]{read_spss}} or has named factor levels 
-(see 'Examples'). Else, specifiy argument like this:
-\code{axis.labels = c("Label1", "Label2", "Label3")}.}
+\item{axis.labels}{character vector with labels used as axis labels.}
 
 \item{legendLabels}{a character vector with labels for the guide/legend.}
 
@@ -94,13 +88,13 @@ displayed in one line and when a line break is inserted.}
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
-\item{geom.size}{size resp. width of the geoms (bar width).}
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
+depending on plot type and function. Note that bar and bin widths mostly 
+need smaller values than dot sizes.}
 
 \item{geom.spacing}{the spacing between geoms (i.e. bar spacing)}
 
-\item{geom.colors}{user defined color palette for geoms. If specified, must either be vector with color values 
-of same length as groups defined in \code{x}, or a specific color palette code.
-See 'Note' in \code{\link{sjp.grpfrq}}.}
+\item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
 \item{barPosition}{indicates whether bars should be positioned side-by-side (default)
 or stacked (use \code{"stack"} as argument).}
@@ -114,10 +108,10 @@ axes and plotting region. Default is \code{FALSE}.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
-\item{showCountValues}{logical, if \code{TRUE} (default), count values are plotted to each bar. 
-If \code{FALSE}, count values are removed.}
+\item{show.n}{logical, if \code{TRUE}, adds total number of cases for each
+group or category to the labels.}
 
-\item{showPercentageValues}{logical, if \code{TRUE} (default), percentage values are plotted to each bar
+\item{show.perc}{logical, if \code{TRUE} (default), percentage values are plotted to each bar
 If \code{FALSE}, percentage values are removed.}
 
 \item{showCategoryLabels}{whether x-axis text (category names) should be shown or not.}
@@ -129,7 +123,7 @@ values lower than five(or lower than 10 if df is 1), the Fisher's excact test
 (see \code{\link{fisher.test}}) is computed instead of chi-square test. 
 If the table's matrix is larger than 2x2, Fisher's excact test with Monte Carlo 
 simulation is computed. Only applies to barcharts or dotplots, i.e. 
-when argument \code{type = "bars"} or \code{"dots"}.}
+when argument \code{type = "bar"} or \code{"dot"}.}
 
 \item{tableSummaryPos}{position of the model summary which is printed when \code{showTableSummary} 
 is \code{TRUE}. Default is \code{"r"}, i.e. it's printed to the upper right corner. 
@@ -139,15 +133,11 @@ Use \code{"l"} for upper left corner.}
 with the sum within each category and it's percentages will be added 
 to each category.}
 
-\item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
+\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
+function, a legend is added to the plot.}
 
-\item{axisTitle.x}{title for the x-axis. Default is \code{NULL}, so variable name
-of \code{x} will automatically be detected and used as axis title
-(see \code{\link[sjmisc]{set_label}}) for details).}
-
-\item{axisTitle.y}{title for the y-axis. Default is \code{NULL}, so variable name
-of \code{grp} will automatically be detected and used as axis title
-(see \code{\link[sjmisc]{set_label}}) for details).}
+\item{axis.titles}{character vector of length one or two, defining the title(s)
+for the x-axis and y-axis.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 

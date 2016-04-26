@@ -4,16 +4,16 @@ get_table_header <- function(encoding, cellSpacing, cellGroupIndent, pvaluesAsNu
 
 
 
-get_table_response_label <- function(page.content, labelDependentVariables, input_list, tcp, headerColSpanFactor) {
+get_table_response_label <- function(page.content, depvar.labels, input_list, tcp, headerColSpanFactor) {
   # -------------------------------------
   # set default dependent var label
   # -------------------------------------
-  if (is.null(labelDependentVariables)) {
+  if (is.null(depvar.labels)) {
     # here we try to find variable labels for each
     # response vector. if we found a label for *all*
     # responses, we use these as labels for the dependent
     # variables, in the table column headers
-    labelDependentVariables <- c()
+    depvar.labels <- c()
     # iterate models
     for (i in 1:length(input_list)) {
       # get model data
@@ -22,15 +22,15 @@ get_table_response_label <- function(page.content, labelDependentVariables, inpu
       resp_vec <- m_d$resp
       resp_name <- m_d$resp.label
       # get label
-      labelDependentVariables <- c(labelDependentVariables, 
-                                   sjmisc::get_label(resp_vec, def.value = resp_name))
+      depvar.labels <- c(depvar.labels, 
+                         sjmisc::get_label(resp_vec, def.value = resp_name))
     }
   }
   # -------------------------------------
   # continue with model-labels (dependent variables)
   # which are the heading for each model column
   # -------------------------------------
-  for (i in 1:length(labelDependentVariables)) {
+  for (i in 1:length(depvar.labels)) {
     # -------------------------
     # insert "separator column"
     # -------------------------
@@ -40,17 +40,17 @@ get_table_response_label <- function(page.content, labelDependentVariables, inpu
                              sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\" colspan=\"%i\">%s</td>", 
                                      tcp, 
                                      headerColSpanFactor, 
-                                     labelDependentVariables[i]))
+                                     depvar.labels[i]))
     } else {
       page.content <- paste0(page.content, 
                              sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\">%s</td>", 
                                      tcp, 
-                                     labelDependentVariables[i]))
+                                     depvar.labels[i]))
     }
   }
   page.content <- paste0(page.content, "\n  </tr>")
   
-  return(list(page.content = page.content, labelDependentVariables = labelDependentVariables))
+  return(list(page.content = page.content, depvar.labels = depvar.labels))
 }
 
 

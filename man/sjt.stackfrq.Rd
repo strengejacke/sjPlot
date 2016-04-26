@@ -4,10 +4,10 @@
 \alias{sjt.stackfrq}
 \title{Summary of stacked frequencies as HTML table}
 \usage{
-sjt.stackfrq(items, weightBy = NULL, title = NULL, varlabels = NULL,
+sjt.stackfrq(items, weight.by = NULL, title = NULL, varlabels = NULL,
   breakLabelsAt = 40, valuelabels = NULL, breakValueLabelsAt = 20,
   sort.frq = NULL, alternateRowColors = FALSE, digits = 2,
-  showN = FALSE, showTotalN = FALSE, showNA = FALSE, labelNA = "NA",
+  show.n = FALSE, showTotalN = FALSE, show.na = FALSE, labelNA = "NA",
   showSkew = FALSE, showKurtosis = FALSE, digits.stats = 2,
   skewString = "Skew", kurtosisString = "Kurtosis", file = NULL,
   encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
@@ -16,8 +16,9 @@ sjt.stackfrq(items, weightBy = NULL, title = NULL, varlabels = NULL,
 \arguments{
 \item{items}{\code{\link{data.frame}} with each column representing one (likert- or scale-)item.}
 
-\item{weightBy}{weight factor that will be applied to weight all cases from \code{items}.
-Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, so no weights are used.}
+\item{weight.by}{weight factor that will be applied to weight all cases.
+Must be a vector of same length as the input vector. Default is 
+\code{NULL}, so no weights are used.}
 
 \item{title}{table caption.}
 
@@ -47,14 +48,14 @@ by highest count of first or last category of \code{items}.
 \item{alternateRowColors}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
 
-\item{digits}{amount of digits for rounding the percentage values.
-Default is 2, i.e. percentage values have 2 digits after decimal point.}
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
-\item{showN}{logical, if \code{TRUE}, each item's category N is printed in the table cells.}
+\item{show.n}{logical, if \code{TRUE}, adds total number of cases for each
+group or category to the labels.}
 
 \item{showTotalN}{logical, if \code{TRUE}, an additional column with each item's total N is printed.}
 
-\item{showNA}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.}
+\item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.}
 
 \item{labelNA}{The label for the missing column/row.}
 
@@ -176,8 +177,8 @@ sjt.stackfrq(efc[, c(start:end)],
 
 sjt.stackfrq(efc[, c(start:end)],
              alternateRowColors = TRUE,
-             showN = TRUE,
-             showNA = TRUE)
+             show.n = TRUE,
+             show.na = TRUE)
          
          
 # -------------------------------- 

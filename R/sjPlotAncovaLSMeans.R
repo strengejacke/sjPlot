@@ -8,8 +8,7 @@ sjp.emm <- function(fit,
                     title = NULL,
                     geom.colors = "Set1",
                     geom.size = 0.7,
-                    axisTitle.x = NULL,
-                    axisTitle.y = NULL,
+                    axis.title = NULL,
                     axis.labels = NULL,
                     legendTitle = NULL,
                     legendLabels = NULL,
@@ -43,7 +42,7 @@ sjp.emm <- function(fit,
   # -----------------------------------------------------------
   if (any(class(fit) == "lmerMod") || any(class(fit) == "merModLmerTest")) {
     return(sjp.emm.lmer(fit, swapPredictors, plevel, title, geom.colors, geom.size,
-                        axisTitle.x, axisTitle.y, axis.labels, legendLabels,
+                        axis.title, axis.labels, legendLabels,
                         show.values, valueLabel.digits, show.ci, p.kr, breakTitleAt,
                         breakLegendLabelsAt, y.offset, ylim, grid.breaks, 
                         facet.grid, printPlot))
@@ -262,16 +261,12 @@ sjp.emm <- function(fit,
         lTitle <- legendTitle
       }
       if (is.null(axis.labels)) axis.labels <- alx
-      if (!is.null(axisTitle.x)) {
-        labx <- axisTitle.x
+      if (!is.null(axis.title)) {
+        labx <- axis.title
       } else {
         labx <- term.pairs[2]
       }
-      if (!is.null(axisTitle.y)) {
-        laby <- axisTitle.y
-      } else {
-        laby <- response.label
-      }
+      laby <- response.label
       # -----------------------------------------------------------
       # prepare annotation labels
       # -----------------------------------------------------------
@@ -344,8 +339,8 @@ sjp.emm <- function(fit,
 
 
 #' @importFrom stats model.frame
-sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.size, axisTitle.x,
-                         axisTitle.y, axis.labels, legendLabels, show.values,
+sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.size, 
+                         axis.title, axis.labels, legendLabels, show.values,
                          valueLabel.digits, show.ci, p.kr, breakTitleAt, breakLegendLabelsAt,
                          y.offset, ylim, grid.breaks, facet.grid, printPlot) {
   if ((any(class(fit) == "lmerMod") || any(class(fit) == "merModLmerTest")) && !requireNamespace("lmerTest", quietly = TRUE)) {
@@ -548,16 +543,12 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.s
         lLabels <- legendLabels
       }
       if (is.null(axis.labels)) axis.labels <- alx
-      if (!is.null(axisTitle.x)) {
-        labx <- axisTitle.x
+      if (!is.null(axis.title)) {
+        labx <- axis.title
       } else {
         labx <- term.pairs[2]
       }
-      if (!is.null(axisTitle.y)) {
-        laby <- axisTitle.y
-      } else {
-        laby <- response.label
-      }
+      laby <- response.label
       # -----------------------------------------------------------
       # prepare annotation labels
       # -----------------------------------------------------------

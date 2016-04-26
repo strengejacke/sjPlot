@@ -5,10 +5,10 @@
 \title{Plot PCA results}
 \usage{
 sjp.pca(data, numberOfFactors = NULL, factorLoadingTolerance = 0.1,
-  plotEigenvalues = FALSE, digits = 2, title = NULL,
-  axisLabels.y = NULL, type = "b", geom.size = 0.6,
-  geom.colors = "RdBu", breakTitleAt = 50, breakLabelsAt = 30,
-  show.values = TRUE, showCronbachsAlpha = TRUE, printPlot = TRUE)
+  plotEigenvalues = FALSE, digits = 2, title = NULL, axis.labels = NULL,
+  type = "b", geom.size = 0.6, geom.colors = "RdBu", breakTitleAt = 50,
+  breakLabelsAt = 30, show.values = TRUE, showCronbachsAlpha = TRUE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{data}{A data frame with factors (each columns one variable) that should be used 
@@ -28,25 +28,22 @@ between the highest and 2nd highest factor should be 0.1}
 \item{plotEigenvalues}{If \code{TRUE}, a plot showing the Eigenvalues according to the
 Kaiser criteria is plotted to determine the number of factors.}
 
-\item{digits}{The amount of decimals used. Default is 2.}
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
-\item{title}{Title of the diagram, plotted above the whole diagram panel.}
+\item{title}{string, used as plot title. Depending on plot type and function,
+will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{axisLabels.y}{The item labels that are printed on the y-axis. If no item labels are
-provided (default), the data frame's column names are used. Item labels must
-be a string vector, e.g.: \code{axisLabels.y = c("Var 1", "Var 2", "Var 3")}.}
+\item{axis.labels}{character vector with labels used as axis labels.}
 
 \item{type}{Plot type resp. geom type. May be one of following: \code{"circle"} or \code{"tile"} 
 circular or tiled geoms, or \code{"bar"} for a bar plot. You may use initial letter only
 for this argument.}
 
-\item{geom.size}{Specifies the circle size factor. The circle size depends on the correlation
-value multiplicated with this factor. Default is 10.}
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
+depending on plot type and function. Note that bar and bin widths mostly 
+need smaller values than dot sizes.}
 
-\item{geom.colors}{A color palette for fillng the geoms. If not specified, the diverging \code{"RdBl"} color palette
-from the color brewer palettes is used, resulting in red colors for negative and blue colors
-for positive factor loadings, that become lighter the weaker the loadings are. Use any
-color palette that is suitbale for the \code{scale_fill_gradientn} argument of ggplot2.}
+\item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
 \item{breakTitleAt}{Wordwrap for diagram title. Determines how many chars of the title are displayed in
 one line and when a line break is inserted into the title. Default is 50.}

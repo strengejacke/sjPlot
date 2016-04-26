@@ -13,8 +13,6 @@
 #'                when plotting scales like SF, Barthel-Index, Quality-of-Life-scales etc.).
 #'                
 #' @param items \code{\link{data.frame}} with each column representing one (likert- or scale-)item.
-#' @param weightBy weight factor that will be applied to weight all cases from \code{items}.
-#'          Must be a vector of same length as \code{nrow(items)}. Default is \code{NULL}, so no weights are used.
 #' @param title table caption.
 #' @param varlabels character vector with variable names. If not specified, row names of \code{items}
 #'          will be used, resp. variable labels will automatically be detected, when they have
@@ -34,11 +32,7 @@
 #'            \item \code{"last.desc"} to order descending by lowest count of last category,
 #'            \item or \code{NULL} (default) for no sorting.
 #'          }
-#' @param digits amount of digits for rounding the percentage values.
-#'          Default is 2, i.e. percentage values have 2 digits after decimal point.
-#' @param showN logical, if \code{TRUE}, each item's category N is printed in the table cells.
 #' @param showTotalN logical, if \code{TRUE}, an additional column with each item's total N is printed.
-#' @param showNA logical, if \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.
 #' @param labelNA The label for the missing column/row.
 #' @param showSkew logical, if \code{TRUE}, an additional column with each item's skewness is printed.
 #'          The skewness is retrieved from the \code{\link[psych]{describe}}-function 
@@ -53,6 +47,9 @@
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.df
 #' @inheritParams sjt.itemanalysis
+#' @inheritParams sjp.glmer
+#' @inheritParams sjt.xtab
+#' @inheritParams sjp.grpfrq
 #'          
 #' @return Invisibly returns
 #'          \itemize{
@@ -122,8 +119,8 @@
 #' 
 #' sjt.stackfrq(efc[, c(start:end)],
 #'              alternateRowColors = TRUE,
-#'              showN = TRUE,
-#'              showNA = TRUE)
+#'              show.n = TRUE,
+#'              show.na = TRUE)
 #'          
 #'          
 #' # -------------------------------- 
@@ -141,7 +138,7 @@
 #' @importFrom stats xtabs
 #' @export
 sjt.stackfrq <- function(items,
-                         weightBy = NULL,
+                         weight.by = NULL,
                          title = NULL,
                          varlabels = NULL,
                          breakLabelsAt = 40,
@@ -150,9 +147,9 @@ sjt.stackfrq <- function(items,
                          sort.frq = NULL,
                          alternateRowColors = FALSE,
                          digits = 2,
-                         showN = FALSE,
+                         show.n = FALSE,
                          showTotalN = FALSE,
-                         showNA = FALSE,
+                         show.na = FALSE,
                          labelNA = "NA",
                          showSkew = FALSE,
                          showKurtosis = FALSE,
@@ -218,7 +215,7 @@ sjt.stackfrq <- function(items,
   # ----------------------------
   if (is.null(valuelabels)) valuelabels <- as.character(minval:maxval)
   # check whether missings should be shown
-  if (showNA) valuelabels <- c(valuelabels, labelNA)
+  if (show.na) valuelabels <- c(valuelabels, labelNA)
   # save amolunt of values
   catcount <- length(valuelabels)
   # check length of x-axis-labels and split longer strings at into new lines
@@ -257,25 +254,25 @@ sjt.stackfrq <- function(items,
     # if we don't have weights, create simple frequency table
     # of each item
     # ----------------------------
-    if (showNA) {
+    if (show.na) {
       # ----------------------------
       # include missing
       # ----------------------------
-      if (is.null(weightBy)) {
+      if (is.null(weight.by)) {
         dummy <- table(addNA(items[[i]]))
       } else {
         # else weight with xtabs
-        dummy <- round(stats::xtabs(weightBy ~ addNA(items[[i]])), 0)
+        dummy <- round(stats::xtabs(weight.by ~ addNA(items[[i]])), 0)
       }
     # ----------------------------
     # exclude missing
     # ----------------------------
     } else {
-      if (is.null(weightBy)) {
+      if (is.null(weight.by)) {
         dummy <- table(items[[i]])
       } else {
         # else weight with xtabs
-        dummy <- round(stats::xtabs(weightBy ~ items[[i]]), 0)
+        dummy <- round(stats::xtabs(weight.by ~ items[[i]]), 0)
       }
     }
     # ----------------------------
@@ -290,7 +287,7 @@ sjt.stackfrq <- function(items,
     # ----------------------------
     # if we have missings, manually change table names
     # ----------------------------
-    if (showNA) {
+    if (show.na) {
       # retrieve amount of categories
       tl <- length(names(dummy))
       # retrieve maximum category value, omitting NA
@@ -438,7 +435,7 @@ sjt.stackfrq <- function(items,
     # iterate all columns
     # --------------------------------------------------------
     for (j in 1:ncol(mat)) {
-      if (showN) {
+      if (show.n) {
         page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s\">%i<br>(%.*f&nbsp;%%)</td>\n", arcstring, mat.n[facord[i], j], digits, 100 * mat[facord[i], j]))
       } else {
         page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s\">%.*f&nbsp;%%</td>\n", arcstring, digits, 100 * mat[facord[i], j]))

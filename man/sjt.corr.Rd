@@ -46,8 +46,7 @@ label attributes (see \code{\link[sjmisc]{set_label}}) for details).}
 \item{breakLabelsAt}{determines how many chars of the category labels are displayed in 
 one line and when a line break is inserted.}
 
-\item{digits}{amount of digits used the values inside table cells.
-Default is 2.}
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
 \item{triangle}{indicates whether only the upper right (use \code{"upper"}), lower left (use \code{"lower"})
 or both (use \code{"both"}) triangles of the correlation table is filled with values. Default

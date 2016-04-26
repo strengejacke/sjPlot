@@ -4,13 +4,13 @@
 \alias{sjt.xtab}
 \title{Summary of contingency tables as HTML table}
 \usage{
-sjt.xtab(var.row, var.col, weightBy = NULL, digits = 1, file = NULL,
+sjt.xtab(var.row, var.col, weight.by = NULL, digits = 1, file = NULL,
   variableLabels = NULL, valueLabels = NULL, title = NULL,
   breakVariableLabelsAt = 40, breakValueLabelsAt = 20,
   stringTotal = "Total", showObserved = TRUE, showCellPerc = FALSE,
   showRowPerc = FALSE, showColPerc = FALSE, showExpected = FALSE,
-  showHorizontalLine = FALSE, showSummary = TRUE, showLegend = FALSE,
-  showNA = FALSE, labelNA = "NA", tdcol.n = "black",
+  showHorizontalLine = FALSE, showSummary = TRUE, show.legend = FALSE,
+  show.na = FALSE, labelNA = "NA", tdcol.n = "black",
   tdcol.expected = "#339999", tdcol.cell = "#993333",
   tdcol.row = "#333399", tdcol.col = "#339933", highlightTotal = FALSE,
   highlightColor = "#f8f8f8", percSign = "&nbsp;&#37;", hundret = "100.0",
@@ -22,11 +22,11 @@ sjt.xtab(var.row, var.col, weightBy = NULL, digits = 1, file = NULL,
 
 \item{var.col}{variable that should be displayed in the table columns.}
 
-\item{weightBy}{weight factor that will be applied to weight all cases.
-Must be a vector of same length as \code{var.row}. Default is \code{NULL}, so no weights are used.}
+\item{weight.by}{weight factor that will be applied to weight all cases.
+Must be a vector of same length as the input vector. Default is 
+\code{NULL}, so no weights are used.}
 
-\item{digits}{amount of digits used for the percentage values inside table cells.
-Default is 1.}
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
 \item{file}{destination file, if the output should be saved as file.
 If \code{NULL} (default), the output will be saved as temporary file and 
@@ -70,11 +70,10 @@ Cramer's V or Phi-value etc. is shown. If a cell contains expected values lower 
 if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is computed instead of chi-square test. 
 If the table's matrix is larger than 2x2, Fisher's excact test with Monte Carlo simulation is computed.}
 
-\item{showLegend}{logical, if \code{TRUE}, the color legend for coloring observed and expected
-values as well as cell, row and column percentages is shown. See \code{tdcol.n},
-\code{tdcol.expected}, \code{tdcol.cell}, \code{tdcol.row} and \code{tdcol.col}.}
+\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
+function, a legend is added to the plot.}
 
-\item{showNA}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.}
+\item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.}
 
 \item{labelNA}{The label for the missing column/row.}
 

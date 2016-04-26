@@ -76,7 +76,7 @@ utils::globalVariables(c("starts_with"))
 #' \dontrun{
 #' # open HTML-table in RStudio Viewer Pane or web browser
 #' sjt.glm(fitOR1, fitOR2, 
-#'         labelDependentVariables = c("Fertility", "Infant Mortality"),
+#'         depvar.labels = c("Fertility", "Infant Mortality"),
 #'         labelPredictors = c("Education", "Examination", "Catholic"),
 #'         ci.hyphen = " to ")
 #' 
@@ -89,9 +89,7 @@ utils::globalVariables(c("starts_with"))
 #' # open HTML-table in RStudio Viewer Pane or web browser,
 #' # indicating p-values as numbers and printing CI in a separate column
 #' sjt.glm(fitOR1, fitOR2, fitOR3,
-#'         labelDependentVariables = c("Fertility", 
-#'                                     "Infant Mortality", 
-#'                                     "Agriculture"),
+#'         depvar.labels = c("Fertility", "Infant Mortality", "Agriculture"),
 #'         labelPredictors = c("Education", "Examination", "Catholic"))
 #' 
 #' 
@@ -99,9 +97,7 @@ utils::globalVariables(c("starts_with"))
 #' # User defined style sheet
 #' # -------------------------------------------- 
 #' sjt.glm(fitOR1, fitOR2, fitOR3,
-#'         labelDependentVariables = c("Fertility", 
-#'                                     "Infant Mortality", 
-#'                                     "Agriculture"),
+#'         depvar.labels = c("Fertility", "Infant Mortality", "Agriculture"),
 #'         labelPredictors = c("Education", "Examination", "Catholic"),
 #'         showHeaderStrings = TRUE,
 #'         CSS = list(css.table = "border: 2px solid;",
@@ -120,19 +116,14 @@ utils::globalVariables(c("starts_with"))
 #' efc$services <- sjmisc::dicho(efc$tot_sc_e, "v", 0, as.num = TRUE)
 #' # fit 3 models with different link-functions
 #' fit1 <- glm(services ~ neg_c_7 + c161sex + e42dep, 
-#'             data = efc, 
-#'             family = binomial(link = "logit"))
+#'             data = efc, family = binomial(link = "logit"))
 #' fit2 <- glm(services ~ neg_c_7 + c161sex + e42dep, 
-#'             data = efc, 
-#'             family = binomial(link = "probit"))
+#'             data = efc, family = binomial(link = "probit"))
 #' fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep, 
-#'             data = efc, 
-#'             family = poisson(link = "log"))
+#'             data = efc, family = poisson(link = "log"))
 #'             
 #' # compare models
-#' sjt.glm(fit1, fit2, fit3, 
-#'         showAIC = TRUE, 
-#'         showFamily = TRUE)
+#' sjt.glm(fit1, fit2, fit3, showAIC = TRUE, showFamily = TRUE)
 #' 
 #' 
 #' # --------------------------------------------
@@ -140,10 +131,8 @@ utils::globalVariables(c("starts_with"))
 #' # --------------------------------------------
 #' # open HTML-table in RStudio Viewer Pane or web browser,
 #' # table indicating p-values as stars
-#' sjt.glm(fit1, fit2, fit3, 
-#'         pvaluesAsNumbers = FALSE,
-#'         showAIC = TRUE, 
-#'         showFamily = TRUE)
+#' sjt.glm(fit1, fit2, fit3, pvaluesAsNumbers = FALSE,
+#'         showAIC = TRUE, showFamily = TRUE)
 #' 
 #' # open HTML-table in RStudio Viewer Pane or web browser,
 #' # indicating p-values as stars and integrate CI in OR column
@@ -194,7 +183,7 @@ utils::globalVariables(c("starts_with"))
 sjt.glm <- function(...,
                     file = NULL,
                     labelPredictors = NULL,
-                    labelDependentVariables = NULL,
+                    depvar.labels = NULL,
                     stringPredictors = "Predictors",
                     stringDependentVariables = "Dependent Variables",
                     showHeaderStrings = FALSE,
@@ -519,10 +508,10 @@ sjt.glm <- function(...,
   # -------------------------------------
   # set default dependent var label
   # -------------------------------------
-  gtrl <- get_table_response_label(page.content, labelDependentVariables, 
+  gtrl <- get_table_response_label(page.content, depvar.labels, 
                                    input_list, tcp, headerColSpanFactor)
   page.content <- gtrl$page.content
-  labelDependentVariables <- gtrl$labelDependentVariables
+  depvar.labels <- gtrl$depvar.labels
   # -------------------------------------
   # set default predictor labels
   # -------------------------------------
@@ -557,7 +546,7 @@ sjt.glm <- function(...,
   # -------------------------------------
   if (showAbbrHeadline) {
     page.content <- paste0(page.content, "\n  <tr>\n    <td class=\"tdata colnames\">&nbsp;</td>")
-    colnr <- ifelse(is.null(labelDependentVariables), length(input_list), length(labelDependentVariables))
+    colnr <- ifelse(is.null(depvar.labels), length(input_list), length(depvar.labels))
     for (i in 1:colnr) {
       # -------------------------
       # insert "separator column"
@@ -1219,7 +1208,7 @@ sjt.glm <- function(...,
 sjt.glmer <- function(...,
                       file = NULL,
                       labelPredictors = NULL,
-                      labelDependentVariables = NULL,
+                      depvar.labels = NULL,
                       stringPredictors = "Predictors",
                       stringDependentVariables = "Dependent Variables",
                       showHeaderStrings = FALSE,
@@ -1264,7 +1253,7 @@ sjt.glmer <- function(...,
   
   input_list <- list(...)
   return(sjt.glm(input_list, file = file, labelPredictors = labelPredictors, 
-                 labelDependentVariables = labelDependentVariables, stringPredictors = stringPredictors, 
+                 depvar.labels = depvar.labels, stringPredictors = stringPredictors, 
                  stringDependentVariables = stringDependentVariables, showHeaderStrings = showHeaderStrings, 
                  stringIntercept = stringIntercept,
                  stringObservations = stringObservations, stringOR = stringOR,

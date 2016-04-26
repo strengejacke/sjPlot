@@ -5,13 +5,13 @@
 \title{Plot estimates, predictions or effects of generalized linear models}
 \usage{
 sjp.glm(fit, type = "dots", sort.est = TRUE, title = NULL,
-  var.labels = NULL, axisTitle.x = "Odds Ratios", legendTitle = NULL,
+  axis.labels = NULL, axis.title = "Odds Ratios", legendTitle = NULL,
   axis.lim = NULL, breakTitleAt = 50, breakLabelsAt = 25,
   grid.breaks = 0.5, transformTicks = TRUE, geom.size = NULL,
   geom.colors = "Set1", vline.type = 2, vline.color = "grey70",
   group.estimates = NULL, remove.estimates = NULL, vars = NULL,
   coord.flip = TRUE, y.offset = 0.15, show.intercept = FALSE,
-  show.values = TRUE, labelDigits = 2, show.p = TRUE,
+  show.values = TRUE, digits = 2, show.p = TRUE,
   showModelSummary = FALSE, facet.grid = TRUE, show.ci = FALSE,
   show.legend = FALSE, showOriginalModelOnly = TRUE, printPlot = TRUE)
 }
@@ -32,17 +32,13 @@ sjp.glm(fit, type = "dots", sort.est = TRUE, title = NULL,
 If \code{group.estimates} is \emph{not} \code{NULL}, estimates are sorted
 according to their group assignment.}
 
-\item{title}{plot title as string. Example: \code{title = "my title"}.
-Use \code{NULL} to automatically detect variable names that will be used as title
-(see \code{\link[sjmisc]{set_label}}) for details). If \code{title = ""},
-no title is printed.}
+\item{title}{string, used as plot title. Depending on plot type and function,
+will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{var.labels}{character vector with labels for the model terms, used as axis labels.
-For mixed models, should either be vector of fixed effects variable labels 
-(if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
-labels from the random intercept's categories (if \code{type = "re"}).}
+\item{axis.labels}{character vector with labels used as axis labels.}
 
-\item{axisTitle.x}{string; title for the x-axis.}
+\item{axis.title}{string, title for the axis. If not specified, a default labelling depending
+on the plot function and type is chosen.}
 
 \item{legendTitle}{title of the plot legend, as string.}
 
@@ -65,11 +61,13 @@ one panel grid to the next. If \code{FALSE}, grids are
 plotted on every \code{grid.breaks}'s position, thus the grid lines become narrower with 
 higher odds ratio values.}
 
-\item{geom.size}{size resp. width of the geoms (bar width, point size or line thickness, depending on \code{type} argument).}
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
+depending on plot type and function. Note that bar and bin widths mostly 
+need smaller values than dot sizes.}
 
 \item{geom.colors}{user defined color palette for geoms. If \code{group.estimates}
 is \emph{not} specified, must either be vector with two color values or a specific
-color palette code (see 'Note' in \code{\link{sjp.grpfrq}}). Else, if
+color palette code (see 'Details' in \code{\link{sjp.grpfrq}}). Else, if
 \code{group.estimates} is specified, \code{geom.colors} must be a vector
 of same length as groups. See 'Examples'.}
 
@@ -105,11 +103,9 @@ function call is interrupted and no plot printed.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
-\item{labelDigits}{amount of digits for rounding the estimates (see \code{show.values}).
-Default is 2, i.e. estimates have 2 digits after decimal point.}
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
-\item{show.p}{logical, whether the significance level of each coefficient
-should be appended to values or not.}
+\item{show.p}{logical, adds significance levels to value or variable labels.}
 
 \item{showModelSummary}{logical, if \code{TRUE}, a summary of the regression model with
 Intercept, R-squared, F-Test and AIC-value is printed to the lower right corner
@@ -119,12 +115,10 @@ of the plot.}
 an integrated (faceted) single graph. Only applies, if \code{type = "slope"}.}
 
 \item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a condifence
-region is added to the plot.}
+interval or region is added to the plot.}
 
-\item{show.legend}{logical, if \code{TRUE}, for mixed models
-\code{type = "rs.ri"}, a legend for group levels of
-the random intercept is shown. For \code{lm} and \code{glm},
-a legend for grouped estimates is shown.}
+\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
+function, a legend is added to the plot.}
 
 \item{showOriginalModelOnly}{logical, if \code{TRUE} (default) and \code{type = "ma"}, 
 only the model assumptions of \code{fit} are plotted.
@@ -215,13 +209,13 @@ fit <- glm(y ~., data = mydf, family = binomial(link = "logit"))
 # plot odds
 sjp.glm(fit,
         title = get_label(efc$neg_c_7),
-        var.labels = predlab)
+        axis.labels = predlab)
 
 # plot probability curves (predicted probabilities)
 # of coefficients
 sjp.glm(fit,
         title = get_label(efc$neg_c_7),
-        var.labels = predlab,
+        axis.labels = predlab,
         type = "slope")
 
 # --------------------------
@@ -229,7 +223,7 @@ sjp.glm(fit,
 # --------------------------
 sjp.glm(fit, 
         group.estimates = c(1, 2, 2, 2, 3, 4, 4),
-        var.labels = predlab)
+        axis.labels = predlab)
 
 # --------------------------
 # model predictions, with selected model terms.
