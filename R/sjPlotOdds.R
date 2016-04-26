@@ -26,7 +26,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' @param transformTicks logical, if \code{TRUE}, the grid lines have exponential 
 #'          distances (equidistant), i.e. they visually have the same distance from 
 #'          one panel grid to the next. If \code{FALSE}, grids are 
-#'          plotted on every \code{gridBreaksAt}'s position, thus the grid lines become narrower with 
+#'          plotted on every \code{grid.breaks}'s position, thus the grid lines become narrower with 
 #'          higher odds ratio values.
 #' @param show.intercept logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
 #'          Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential 
@@ -162,7 +162,7 @@ sjp.glm <- function(fit,
                     axis.lim = NULL,
                     breakTitleAt = 50,
                     breakLabelsAt = 25,
-                    gridBreaksAt = 0.5,
+                    grid.breaks = 0.5,
                     transformTicks = TRUE,
                     geom.size = NULL,
                     geom.colors = "Set1",
@@ -176,7 +176,7 @@ sjp.glm <- function(fit,
                     show.intercept = FALSE,
                     show.values = TRUE,
                     labelDigits = 2,
-                    showPValueLabels = TRUE,
+                    show.p = TRUE,
                     showModelSummary = FALSE,
                     facet.grid = TRUE,
                     show.ci = FALSE,
@@ -303,7 +303,7 @@ sjp.glm <- function(fit,
   # ----------------------------
   # copy p-values into data column
   # ----------------------------
-  if (showPValueLabels) {
+  if (show.p) {
     for (i in 1:length(pv)) {
       ps[i] <- sjmisc::trim(paste(ps[i], get_p_stars(pv[i])))
     }
@@ -417,7 +417,7 @@ sjp.glm <- function(fit,
   # Define axis ticks, i.e. at which position we have grid
   # bars.
   # --------------------------------------------------------
-  ticks <- seq(lower_lim, upper_lim, by = gridBreaksAt)
+  ticks <- seq(lower_lim, upper_lim, by = grid.breaks)
   # ----------------------------
   # create expression with model summarys. used
   # for plotting in the diagram later

@@ -77,8 +77,6 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #' @param vline.color color of the vertical "zero point" line. Default value is \code{"grey70"}.
 #' @param labelDigits numeric, amount of digits for rounding the estimates (see \code{show.values}).
 #'          Default is 2, i.e. estimates have 2 digits after decimal point.
-#' @param showPValueLabels logical, whether the significance levels of each coefficient should be appended
-#'          to values or not.
 #' @param facet.grid \code{TRUE} when each plot should be plotted separately instead of
 #'          an integrated (faceted) single graph.
 #' @param free.scale if \code{TRUE} and \code{facet.grid = TRUE}, each facet grid
@@ -262,7 +260,7 @@ sjp.glmer <- function(fit,
                       show.values = TRUE,
                       labelDigits = 2,
                       y.offset = .1,
-                      showPValueLabels = TRUE,
+                      show.p = TRUE,
                       fade.ns = FALSE,
                       show.ci = FALSE,
                       sample.n = NULL,
@@ -294,7 +292,7 @@ sjp.glmer <- function(fit,
            show.values,
            labelDigits,
            y.offset,
-           showPValueLabels,
+           show.p,
            facet.grid,
            free.scale,
            fade.ns,
@@ -556,7 +554,7 @@ sjp.lmer <- function(fit,
                      show.values = TRUE,
                      labelDigits = 2,
                      y.offset = .1,
-                     showPValueLabels = TRUE,
+                     show.p = TRUE,
                      facet.grid = TRUE,
                      free.scale = FALSE,
                      fade.ns = FALSE,
@@ -595,7 +593,7 @@ sjp.lmer <- function(fit,
            show.values,
            labelDigits,
            y.offset,
-           showPValueLabels,
+           show.p,
            facet.grid,
            free.scale,
            fade.ns,
@@ -634,7 +632,7 @@ sjp.lme4  <- function(fit,
                       show.values,
                       labelDigits,
                       y.offset,
-                      showPValueLabels,
+                      show.p,
                       facet.grid,
                       free.scale,
                       fade.ns,
@@ -1045,7 +1043,7 @@ sjp.lme4  <- function(fit,
       # p < 0.01 = **
       # p < 0.05 = *
       # ----------------------------
-      if (showPValueLabels) {
+      if (show.p) {
         for (i in 1:length(pv)) {
           ps[i] <- sjmisc::trim(paste(ps[i], get_p_stars(pv[i])))
         }

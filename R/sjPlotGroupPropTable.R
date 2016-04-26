@@ -75,7 +75,7 @@ sjp.gpt <- function(x,
                     breakLegendTitleAt = 20,
                     breakLegendLabelsAt = 20,
                     axis.lim = NULL,
-                    gridBreaksAt = NULL,
+                    grid.breaks = NULL,
                     showTotal = TRUE,
                     annotateTotal = TRUE,
                     showP = TRUE,
@@ -211,10 +211,10 @@ sjp.gpt <- function(x,
   # --------------------------------------------------------
   # Set up grid breaks
   # --------------------------------------------------------
-  if (is.null(gridBreaksAt))
+  if (is.null(grid.breaks))
     gridbreaks <- ggplot2::waiver()
   else
-    gridbreaks <- c(seq(axis.lim[1], axis.lim[2], by = gridBreaksAt))
+    gridbreaks <- c(seq(axis.lim[1], axis.lim[2], by = grid.breaks))
   # --------------------------------------------------------
   # Set up geom colors
   # --------------------------------------------------------

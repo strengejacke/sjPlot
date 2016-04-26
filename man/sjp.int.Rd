@@ -11,7 +11,7 @@ sjp.int(fit, type = "eff", int.term = NULL, int.plot.index = NULL,
   axisTitle.y = NULL, axis.labels = NULL, legendTitle = NULL,
   legendLabels = NULL, show.values = FALSE, breakTitleAt = 50,
   breakLegendLabelsAt = 20, breakLegendTitleAt = 20, xlim = NULL,
-  ylim = NULL, y.offset = 0.07, gridBreaksAt = NULL, show.ci = FALSE,
+  ylim = NULL, y.offset = 0.07, grid.breaks = NULL, show.ci = FALSE,
   p.kr = TRUE, valueLabel.digits = 2, facet.grid = FALSE,
   printPlot = TRUE)
 }
@@ -132,8 +132,8 @@ y-axis fits to the required range of the data.}
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
-\item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
-position a major grid is being printed.}
+\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
+i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
 \item{show.ci}{may be a numeric or logical value. If \code{show.ci} is logical and 
 \code{TRUE}, a 95\% confidence region will be plotted. If \code{show.ci}

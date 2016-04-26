@@ -49,7 +49,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 #'                                      "Infant Mortality", 
 #'                                      "Agriculture"),
 #'          show.values = FALSE,
-#'          showPValueLabels = FALSE,
+#'          show.p = FALSE,
 #'          fade.ns = TRUE,
 #'          usePShapes = TRUE)
 #' 
@@ -106,7 +106,7 @@ sjp.glmm <- function(...,
                      breakTitleAt = 50,
                      breakLabelsAt = 25,
                      breakLegendTitleAt = 20,
-                     gridBreaksAt = 0.5,
+                     grid.breaks = 0.5,
                      transformTicks = TRUE,
                      geom.size = 3,
                      geom.spacing = 0.4,
@@ -120,7 +120,7 @@ sjp.glmm <- function(...,
                      show.intercept = FALSE,
                      show.values = TRUE,
                      labelDigits = 2,
-                     showPValueLabels = TRUE,
+                     show.p = TRUE,
                      hideLegend = FALSE,
                      facet.grid = FALSE,
                      printPlot = TRUE) {
@@ -220,13 +220,13 @@ sjp.glmm <- function(...,
         pointshapes[i] <- 1
         palpha[i] <- "ns"
       } else if (pv[i] >= 0.01 && pv[i] < 0.05) {
-        if (showPValueLabels) ps[i] <- paste(ps[i], "*")
+        if (show.p) ps[i] <- paste(ps[i], "*")
         pointshapes[i] <- 2
       } else if (pv[i] >= 0.001 && pv[i] < 0.01) {
-        if (showPValueLabels) ps[i] <- paste(ps[i], "**")
+        if (show.p) ps[i] <- paste(ps[i], "**")
         pointshapes[i] <- 3
       } else {
-        if (showPValueLabels) ps[i] <- paste(ps[i], "***")
+        if (show.p) ps[i] <- paste(ps[i], "***")
         pointshapes[i] <- 4
       }
     }  
@@ -292,7 +292,7 @@ sjp.glmm <- function(...,
     # if we show p value labels, increase upper
     # limit of x axis, so labels are plotted inside
     # diagram range
-    if (show.values || showPValueLabels) upper_lim <- upper_lim + 0.1
+    if (show.values || show.p) upper_lim <- upper_lim + 0.1
     # give warnings when auto-limits are very low/high
     if ((lower_lim < 0.1) || (upper_lim > 100)) {
       warning("Exp. coefficients and/or exp. confidence intervals may be out of printable bounds. Consider using `axis.lim` argument!")
@@ -306,7 +306,7 @@ sjp.glmm <- function(...,
   # Define axis ticks, i.e. at which position we have grid
   # bars.
   # --------------------------------------------------------
-  ticks <- seq(lower_lim, upper_lim, by = gridBreaksAt)
+  ticks <- seq(lower_lim, upper_lim, by = grid.breaks)
   # --------------------------------------------------------
   # prepare star and shape values. we just copy those values
   # that are actually needed, so legend shapes are always 

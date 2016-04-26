@@ -10,11 +10,11 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   stringIntercept = "(Intercept)", sort.est = NULL, var.labels = NULL,
   axisTitle.x = NULL, axisTitle.y = NULL, ylim = NULL, vline.type = 2,
   vline.color = "grey70", remove.estimates = NULL, show.values = TRUE,
-  labelDigits = 2, y.offset = 0.1, showPValueLabels = TRUE,
-  facet.grid = TRUE, free.scale = FALSE, fade.ns = FALSE,
-  show.ci = TRUE, p.kr = TRUE, pointAlpha = 0.2, showScatterPlot = TRUE,
-  show.loess = FALSE, show.loess.ci = FALSE, poly.term = NULL,
-  sample.n = NULL, show.legend = FALSE, printPlot = TRUE)
+  labelDigits = 2, y.offset = 0.1, show.p = TRUE, facet.grid = TRUE,
+  free.scale = FALSE, fade.ns = FALSE, show.ci = TRUE, p.kr = TRUE,
+  pointAlpha = 0.2, showScatterPlot = TRUE, show.loess = FALSE,
+  show.loess.ci = FALSE, poly.term = NULL, sample.n = NULL,
+  show.legend = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{lmer}}-function.}
@@ -117,8 +117,8 @@ Default is 2, i.e. estimates have 2 digits after decimal point.}
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
-\item{showPValueLabels}{logical, whether the significance levels of each coefficient should be appended
-to values or not.}
+\item{show.p}{logical, whether the significance level of each coefficient
+should be appended to values or not.}
 
 \item{facet.grid}{\code{TRUE} when each plot should be plotted separately instead of
 an integrated (faceted) single graph.}

@@ -7,11 +7,11 @@
 sjp.glm(fit, type = "dots", sort.est = TRUE, title = NULL,
   var.labels = NULL, axisTitle.x = "Odds Ratios", legendTitle = NULL,
   axis.lim = NULL, breakTitleAt = 50, breakLabelsAt = 25,
-  gridBreaksAt = 0.5, transformTicks = TRUE, geom.size = NULL,
+  grid.breaks = 0.5, transformTicks = TRUE, geom.size = NULL,
   geom.colors = "Set1", vline.type = 2, vline.color = "grey70",
   group.estimates = NULL, remove.estimates = NULL, vars = NULL,
   coord.flip = TRUE, y.offset = 0.15, show.intercept = FALSE,
-  show.values = TRUE, labelDigits = 2, showPValueLabels = TRUE,
+  show.values = TRUE, labelDigits = 2, show.p = TRUE,
   showModelSummary = FALSE, facet.grid = TRUE, show.ci = FALSE,
   show.legend = FALSE, showOriginalModelOnly = TRUE, printPlot = TRUE)
 }
@@ -56,13 +56,13 @@ one line and when a line break is inserted into the title.}
 \item{breakLabelsAt}{determines how many chars of the category labels are displayed in 
 one line and when a line break is inserted.}
 
-\item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
-position a major grid is being printed.}
+\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
+i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
 \item{transformTicks}{logical, if \code{TRUE}, the grid lines have exponential 
 distances (equidistant), i.e. they visually have the same distance from 
 one panel grid to the next. If \code{FALSE}, grids are 
-plotted on every \code{gridBreaksAt}'s position, thus the grid lines become narrower with 
+plotted on every \code{grid.breaks}'s position, thus the grid lines become narrower with 
 higher odds ratio values.}
 
 \item{geom.size}{size resp. width of the geoms (bar width, point size or line thickness, depending on \code{type} argument).}
@@ -108,7 +108,7 @@ function call is interrupted and no plot printed.}
 \item{labelDigits}{amount of digits for rounding the estimates (see \code{show.values}).
 Default is 2, i.e. estimates have 2 digits after decimal point.}
 
-\item{showPValueLabels}{logical, whether the significance level of each coefficient
+\item{show.p}{logical, whether the significance level of each coefficient
 should be appended to values or not.}
 
 \item{showModelSummary}{logical, if \code{TRUE}, a summary of the regression model with

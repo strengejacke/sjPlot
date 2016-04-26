@@ -8,11 +8,11 @@ sjp.glmm(..., title = NULL, labelDependentVariables = NULL,
   legendDepVarTitle = "Dependent Variables", legendPValTitle = "p-level",
   var.labels = NULL, axisTitle.x = "Odds Ratios", axis.lim = NULL,
   breakTitleAt = 50, breakLabelsAt = 25, breakLegendTitleAt = 20,
-  gridBreaksAt = 0.5, transformTicks = TRUE, geom.size = 3,
+  grid.breaks = 0.5, transformTicks = TRUE, geom.size = 3,
   geom.spacing = 0.4, geom.colors = "Set1", fade.ns = FALSE,
   usePShapes = FALSE, vline.type = 2, vline.color = "grey70",
   remove.estimates = NULL, coord.flip = TRUE, show.intercept = FALSE,
-  show.values = TRUE, labelDigits = 2, showPValueLabels = TRUE,
+  show.values = TRUE, labelDigits = 2, show.p = TRUE,
   hideLegend = FALSE, facet.grid = FALSE, printPlot = TRUE)
 }
 \arguments{
@@ -51,13 +51,13 @@ one line and when a line break is inserted.}
 \item{breakLegendTitleAt}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}
 
-\item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
-position a major grid is being printed.}
+\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
+i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
 \item{transformTicks}{logical, if \code{TRUE}, the grid lines have exponential 
 distances (equidistant), i.e. they visually have the same distance from 
 one panel grid to the next. If \code{FALSE}, grids are 
-plotted on every \code{gridBreaksAt}'s position, thus the grid lines become narrower with 
+plotted on every \code{grid.breaks}'s position, thus the grid lines become narrower with 
 higher odds ratio values.}
 
 \item{geom.size}{size of the points that indicate the estimates. Default is 3.}
@@ -97,8 +97,8 @@ function call is interrupted and no plot printed.}
 \item{labelDigits}{amount of digits for rounding the estimates (see \code{show.values}).
 Default is 2, i.e. estimates have 2 digits after decimal point.}
 
-\item{showPValueLabels}{Whether the significance levels of each coefficient should be appended
-to values or not.}
+\item{show.p}{logical, whether the significance level of each coefficient
+should be appended to values or not.}
 
 \item{hideLegend}{logical, indicates whether legend (guide) should be shown or not.}
 
@@ -147,7 +147,7 @@ sjp.glmm(fitOR1, fitOR2, fitOR3,
                                      "Infant Mortality", 
                                      "Agriculture"),
          show.values = FALSE,
-         showPValueLabels = FALSE,
+         show.p = FALSE,
          fade.ns = TRUE,
          usePShapes = TRUE)
 

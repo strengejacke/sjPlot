@@ -9,9 +9,9 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   axisTitle.x = "Estimates", axis.lim = NULL, geom.colors = "Set1",
   geom.size = NULL, vline.type = 2, vline.color = "grey70",
   group.estimates = NULL, remove.estimates = NULL, vars = NULL,
-  breakTitleAt = 50, breakLabelsAt = 25, gridBreaksAt = NULL,
+  breakTitleAt = 50, breakLabelsAt = 25, grid.breaks = NULL,
   coord.flip = TRUE, facet.grid = TRUE, show.values = TRUE,
-  labelDigits = 2, showPValueLabels = TRUE, showModelSummary = FALSE,
+  labelDigits = 2, show.p = TRUE, showModelSummary = FALSE,
   show.ci = TRUE, pointAlpha = 0.2, showScatterPlot = TRUE,
   show.loess = FALSE, show.loess.ci = FALSE, show.legend = FALSE,
   y.offset = 0.15, poly.term = NULL, showOriginalModelOnly = TRUE,
@@ -26,7 +26,7 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   \item{\code{"std"}}{for forest-plot like plot of standardized beta values. If the fitted model only contains one predictor, intercept and slope are plotted.}
   \item{\code{"std2"}}{for forest-plot like plot of standardized beta values, however, standardization is done by dividing by two sd (see 'Details'). If the fitted model only contains one predictor, intercept and slope are plotted.}
   \item{\code{"slope"}}{to plot regression lines for each single predictor of the fitted model, against the response (linear relationship between each model term and response).}
-  \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals (linear relationship between each model term and residuals). May be used for model diagnostics (see \url{https://www.otexts.org/fpp/5/4}).}
+  \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals (linear relationship between each model term and residuals). May be used for model diagnostics.}
   \item{\code{"pred"}}{to plot predicted values for the response, related to specific predictors. See 'Details'.}
   \item{\code{"eff"}}{to plot marginal effects of all terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms.}
   \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples').}
@@ -92,8 +92,8 @@ one line and when a line break is inserted into the title.}
 \item{breakLabelsAt}{determines how many chars of the category labels are displayed in 
 one line and when a line break is inserted.}
 
-\item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
-position a major grid is being printed.}
+\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
+i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
 \item{coord.flip}{logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
 values are plotted on the x-axis.}
@@ -107,7 +107,7 @@ bar charts. Ideal for larger amount of groups. This argument wraps a single pane
 \item{labelDigits}{amount of digits for rounding the estimates (see \code{show.values}).
 Default is 2, i.e. estimates have 2 digits after decimal point.}
 
-\item{showPValueLabels}{logical, whether the significance level of each coefficient
+\item{show.p}{logical, whether the significance level of each coefficient
 should be appended to values or not.}
 
 \item{showModelSummary}{logical, if \code{TRUE}, a summary of the regression model with
@@ -231,11 +231,11 @@ Depending on the \code{type}, this function plots coefficients (estimates)
 fit <- lm(airquality$Ozone ~ airquality$Wind + airquality$Temp + airquality$Solar.R)
 
 # plot estimates with CI
-sjp.lm(fit, gridBreaksAt = 2)
+sjp.lm(fit, grid.breaks = 2)
 
 # plot estimates with CI
 # and with narrower tick marks
-# (because "gridBreaksAt" was not specified)
+# (because "grid.breaks" was not specified)
 sjp.lm(fit)
 
 # ---------------------------------------------------
@@ -349,6 +349,8 @@ sjp.lm(fit, type = "poly", poly.term = "e17age")}
 }
 \references{
 Gelman A (2008) "Scaling regression inputs by dividing by two standard deviations." \emph{Statistics in Medicine 27: 2865–2873.} \url{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}
+            \cr \cr
+            Hyndman RJ, Athanasopoulos G (2013) "Forecasting: principles and practice." OTexts; accessed from \url{https://www.otexts.org/fpp/5/4}.
 }
 \seealso{
 \href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm} for

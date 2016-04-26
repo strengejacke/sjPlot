@@ -65,8 +65,8 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'          are displayed in one line and when a line break is inserted.
 #' @param breakLegendLabelsAt determines how many chars of the legend labels are 
 #'          displayed in one line and when a line break is inserted.
-#' @param gridBreaksAt set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
-#'          position a major grid is being printed.
+#' @param grid.breaks numeric; sets the distance between breaks for the axis, 
+#'          i.e. at every \code{grid.breaks}'th position a major grid is being printed.
 #' @param innerBoxPlotWidth width of the inner box plot that is plotted inside of violin plots. Only applies 
 #'          if \code{type = "violins"}. Default value is 0.15
 #' @param innerBoxPlotDotSize size of mean dot insie a violin or box plot. Applies only 
@@ -211,7 +211,7 @@ sjp.grpfrq <- function(varCount,
                        breakLabelsAt = 15,
                        breakLegendTitleAt = 20,
                        breakLegendLabelsAt = 20,
-                       gridBreaksAt = NULL,
+                       grid.breaks = NULL,
                        barPosition = "dodge",
                        innerBoxPlotWidth = 0.15,
                        innerBoxPlotDotSize = 3,
@@ -734,10 +734,10 @@ sjp.grpfrq <- function(varCount,
   # --------------------------------------------------------
   # Set up grid breaks
   # --------------------------------------------------------
-  if (is.null(gridBreaksAt)) {
+  if (is.null(grid.breaks)) {
     gridbreaks <- ggplot2::waiver()
   } else {
-    gridbreaks <- seq(lower_lim, upper_lim, by = gridBreaksAt)
+    gridbreaks <- seq(lower_lim, upper_lim, by = grid.breaks)
   }
   # ----------------------------------
   # Print plot

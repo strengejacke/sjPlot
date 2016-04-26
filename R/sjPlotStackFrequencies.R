@@ -47,8 +47,6 @@
 #'          are displayed in one line and when a line break is inserted.
 #' @param breakLegendLabelsAt determines how many chars of the legend labels are 
 #'          displayed in one line and when a line break is inserted.
-#' @param gridBreaksAt set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
-#'          position a major grid is being printed. Valid values range from 0 to 1.
 #' @param expand.grid logical, if \code{TRUE} (default), the diagram has margins, 
 #'          i.e. the y-axis is not exceeded to the diagram's boundaries.
 #' @param axisTitle.x title for the x-axis. Default is \code{NULL} (no title).
@@ -127,7 +125,7 @@ sjp.stackfrq <- function(items,
                          breakLabelsAt = 30,
                          breakLegendTitleAt = 30,
                          breakLegendLabelsAt = 28,
-                         gridBreaksAt = 0.2,
+                         grid.breaks = 0.2,
                          expand.grid = FALSE,
                          geom.size = 0.5,
                          geom.colors = "Blues",
@@ -369,10 +367,10 @@ sjp.stackfrq <- function(items,
   # --------------------------------------------------------
   # Set up grid breaks
   # --------------------------------------------------------
-  if (is.null(gridBreaksAt)) {
+  if (is.null(grid.breaks)) {
     gridbreaks <- ggplot2::waiver()
   } else {
-    gridbreaks <- c(seq(0, 1, by = gridBreaksAt))
+    gridbreaks <- c(seq(0, 1, by = grid.breaks))
   }
   # --------------------------------------------------------
   # check if category-oder on x-axis should be reversed

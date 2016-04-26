@@ -8,9 +8,9 @@ sjp.aov1(depVar, grpVar, meansums = FALSE, title = NULL,
   axisLabels.y = NULL, reverseOrder = FALSE,
   stringIntercept = "(Intercept)", axisTitle.x = "", axis.lim = NULL,
   geom.colors = c("#3366a0", "#aa3333"), geom.size = 3, breakTitleAt = 50,
-  breakLabelsAt = 25, gridBreaksAt = NULL, expand.grid = FALSE,
-  show.values = TRUE, labelDigits = 2, y.offset = 0.1,
-  showPValueLabels = TRUE, showModelSummary = FALSE, printPlot = TRUE)
+  breakLabelsAt = 25, grid.breaks = NULL, expand.grid = FALSE,
+  show.values = TRUE, labelDigits = 2, y.offset = 0.1, show.p = TRUE,
+  showModelSummary = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{depVar}{dependent variable. Will be used with following formula:
@@ -58,8 +58,8 @@ one line and when a line break is inserted into the title.}
 \item{breakLabelsAt}{determines how many chars of the category labels are displayed in 
 one line and when a line break is inserted.}
 
-\item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
-position a major grid is being printed.}
+\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
+i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
 \item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 axes and plotting region. Default is \code{FALSE}.}
@@ -72,7 +72,7 @@ Default is 2, i.e. estimates have 2 digits after decimal point.}
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
-\item{showPValueLabels}{logical, whether the significance level of each coefficient
+\item{show.p}{logical, whether the significance level of each coefficient
 should be appended to values or not.}
 
 \item{showModelSummary}{logical, if \code{TRUE}, a summary of the anova model with 

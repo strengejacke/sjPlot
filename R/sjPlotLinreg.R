@@ -74,7 +74,7 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'            \item{\code{"std"}}{for forest-plot like plot of standardized beta values. If the fitted model only contains one predictor, intercept and slope are plotted.}
 #'            \item{\code{"std2"}}{for forest-plot like plot of standardized beta values, however, standardization is done by dividing by two sd (see 'Details'). If the fitted model only contains one predictor, intercept and slope are plotted.}
 #'            \item{\code{"slope"}}{to plot regression lines for each single predictor of the fitted model, against the response (linear relationship between each model term and response).}
-#'            \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals (linear relationship between each model term and residuals). May be used for model diagnostics (see \url{https://www.otexts.org/fpp/5/4}).}
+#'            \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals (linear relationship between each model term and residuals). May be used for model diagnostics.}
 #'            \item{\code{"pred"}}{to plot predicted values for the response, related to specific predictors. See 'Details'.}
 #'            \item{\code{"eff"}}{to plot marginal effects of all terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms.}
 #'            \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples').}
@@ -104,7 +104,7 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'          values are plotted on the x-axis.
 #' @param labelDigits amount of digits for rounding the estimates (see \code{show.values}).
 #'          Default is 2, i.e. estimates have 2 digits after decimal point.
-#' @param showPValueLabels logical, whether the significance level of each coefficient
+#' @param show.p logical, whether the significance level of each coefficient
 #'          should be appended to values or not.
 #' @param showModelSummary logical, if \code{TRUE}, a summary of the regression model with
 #'          Intercept, R-squared, F-Test and AIC-value is printed to the lower right corner
@@ -128,6 +128,8 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #' @inheritParams sjp.glmer
 #'
 #' @references Gelman A (2008) "Scaling regression inputs by dividing by two standard deviations." \emph{Statistics in Medicine 27: 2865–2873.} \url{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}
+#'             \cr \cr
+#'             Hyndman RJ, Athanasopoulos G (2013) "Forecasting: principles and practice." OTexts; accessed from \url{https://www.otexts.org/fpp/5/4}.
 #'
 #' @return Depending on the \code{type}, in most cases (insisibily)
 #'           returns the ggplot-object with the complete plot (\code{plot})
@@ -143,11 +145,11 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #' fit <- lm(airquality$Ozone ~ airquality$Wind + airquality$Temp + airquality$Solar.R)
 #'
 #' # plot estimates with CI
-#' sjp.lm(fit, gridBreaksAt = 2)
+#' sjp.lm(fit, grid.breaks = 2)
 #'
 #' # plot estimates with CI
 #' # and with narrower tick marks
-#' # (because "gridBreaksAt" was not specified)
+#' # (because "grid.breaks" was not specified)
 #' sjp.lm(fit)
 #'
 #' # ---------------------------------------------------
@@ -283,12 +285,12 @@ sjp.lm <- function(fit,
                    vars = NULL,
                    breakTitleAt = 50,
                    breakLabelsAt = 25,
-                   gridBreaksAt = NULL,
+                   grid.breaks = NULL,
                    coord.flip = TRUE,
                    facet.grid = TRUE,
                    show.values = TRUE,
                    labelDigits = 2,
-                   showPValueLabels = TRUE,
+                   show.p = TRUE,
                    showModelSummary = FALSE,
                    show.ci = TRUE,
                    pointAlpha = 0.2,
@@ -478,7 +480,7 @@ sjp.lm <- function(fit,
   # --------------------------------------------------------
   # copy p-values into data column
   # --------------------------------------------------------
-  if (showPValueLabels) {
+  if (show.p) {
     for (i in 1:length(pv)) {
       ps[i] <- sjmisc::trim(paste(ps[i], get_p_stars(pv[i])))
     }
@@ -535,10 +537,10 @@ sjp.lm <- function(fit,
     upper_lim <- axis.lim[2]
   }
   # determine gridbreaks
-  if (is.null(gridBreaksAt)) {
+  if (is.null(grid.breaks)) {
     ticks <- pretty(c(lower_lim, upper_lim))
   } else {
-    ticks <- seq(lower_lim, upper_lim, by = gridBreaksAt)
+    ticks <- seq(lower_lim, upper_lim, by = grid.breaks)
   }
   # --------------------------------------------------------
   # Start plot here! First check how to colour geoms

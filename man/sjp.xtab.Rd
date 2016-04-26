@@ -10,7 +10,7 @@ sjp.xtab(x, grp, title = "", legendTitle = NULL, weightBy = NULL,
   legendLabels = NULL, vjust = "bottom", hjust = "center",
   y.offset = NULL, stringTotal = "Total", breakTitleAt = 50,
   breakLabelsAt = 15, breakLegendTitleAt = 20, breakLegendLabelsAt = 20,
-  gridBreaksAt = 0.2, geom.size = 0.7, geom.spacing = 0.1,
+  grid.breaks = 0.2, geom.size = 0.7, geom.spacing = 0.1,
   geom.colors = "Paired", barPosition = "dodge", lineDotSize = 3,
   smoothLines = FALSE, expand.grid = FALSE, show.values = TRUE,
   showCountValues = TRUE, showPercentageValues = TRUE,
@@ -91,8 +91,8 @@ are displayed in one line and when a line break is inserted.}
 \item{breakLegendLabelsAt}{determines how many chars of the legend labels are 
 displayed in one line and when a line break is inserted.}
 
-\item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
-position a major grid is being printed.}
+\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
+i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
 \item{geom.size}{size resp. width of the geoms (bar width).}
 

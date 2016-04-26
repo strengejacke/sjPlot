@@ -185,7 +185,7 @@ sjp.likert <- function(items,
                        breakLegendTitleAt = 30, 
                        breakLegendLabelsAt = 28,
                        gridRange = 1,
-                       gridBreaksAt = 0.2,
+                       grid.breaks = 0.2,
                        expand.grid = TRUE,
                        axisTitle.x = NULL,
                        axisTitle.y = NULL,
@@ -532,7 +532,7 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   # Set up grid breaks
   # --------------------------------------------------------
-  gridbreaks <- round(c(seq(-gridRange, gridRange, by = gridBreaksAt)), 2)
+  gridbreaks <- round(c(seq(-gridRange, gridRange, by = grid.breaks)), 2)
   gridlabs <- ifelse(abs(gridbreaks) > 1, "", paste0(c(abs(round(100 * gridbreaks))), "%"))
   # --------------------------------------------------------
   # start plot here

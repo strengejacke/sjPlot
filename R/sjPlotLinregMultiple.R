@@ -35,8 +35,6 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #' @param fade.ns if \code{TRUE}, non significant estimates will be printed in slightly faded colors.
 #' @param usePShapes If \code{TRUE}, significant levels are distinguished by different point shapes and a related
 #'          legend is plotted. Default is \code{FALSE}.
-#' @param showPValueLabels Whether the significance levels of each coefficient should be appended
-#'          to values or not.
 #' @param facet.grid \code{TRUE} when each model should be plotted as single facet instead of 
 #'          an integrated single graph.
 #'          
@@ -79,7 +77,7 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #'                                      "Negative Impact", 
 #'                                      "Services used"),
 #'          show.values = FALSE,
-#'          showPValueLabels = FALSE,
+#'          show.p = FALSE,
 #'          fade.ns = TRUE,
 #'          usePShapes = TRUE)
 #' 
@@ -121,7 +119,7 @@ sjp.lmm <- function(...,
                     breakTitleAt = 50,
                     breakLabelsAt = 25,
                     breakLegendTitleAt = 20,
-                    gridBreaksAt = NULL,
+                    grid.breaks = NULL,
                     geom.size = 3,
                     geom.spacing = 0.4,
                     geom.colors = "Set1",
@@ -135,7 +133,7 @@ sjp.lmm <- function(...,
                     show.intercept = FALSE,
                     show.values = TRUE,
                     labelDigits = 2,
-                    showPValueLabels = TRUE,
+                    show.p = TRUE,
                     hideLegend = FALSE,
                     facet.grid = FALSE,
                     printPlot = TRUE) {
@@ -256,13 +254,13 @@ sjp.lmm <- function(...,
         pointshapes[i] <- 1
         palpha[i] <- "ns"
       } else if (pv[i] >= 0.01 && pv[i] < 0.05) {
-        if (showPValueLabels) ps[i] <- paste(ps[i], "*")
+        if (show.p) ps[i] <- paste(ps[i], "*")
         pointshapes[i] <- 2
       } else if (pv[i] >= 0.001 && pv[i] < 0.01) {
-        if (showPValueLabels) ps[i] <- paste(ps[i], "**")
+        if (show.p) ps[i] <- paste(ps[i], "**")
         pointshapes[i] <- 3
       } else {
-        if (showPValueLabels) ps[i] <- paste(ps[i], "***")
+        if (show.p) ps[i] <- paste(ps[i], "***")
         pointshapes[i] <- 4
       }
     }  
@@ -325,7 +323,7 @@ sjp.lmm <- function(...,
     # if we show p value labels, increase upper
     # limit of x axis, so labels are plotted inside
     # diagram range
-    if (show.values || showPValueLabels) upper_lim <- upper_lim + 0.1
+    if (show.values || show.p) upper_lim <- upper_lim + 0.1
   } else {
     # Here we have user defind axis range
     lower_lim <- axis.lim[1]
@@ -336,10 +334,10 @@ sjp.lmm <- function(...,
   # bars.
   # --------------------------------------------------------
   # determine gridbreaks
-  if (is.null(gridBreaksAt)) {
+  if (is.null(grid.breaks)) {
     ticks <- pretty(c(lower_lim, upper_lim))
   } else {
-    ticks <- c(seq(lower_lim, upper_lim, by = gridBreaksAt))
+    ticks <- c(seq(lower_lim, upper_lim, by = grid.breaks))
   }
   # --------------------------------------------------------
   # prepare star and shape values. we just copy those values

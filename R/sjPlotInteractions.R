@@ -328,7 +328,7 @@ sjp.int <- function(fit,
                     xlim = NULL,
                     ylim = NULL,
                     y.offset = 0.07,
-                    gridBreaksAt = NULL,
+                    grid.breaks = NULL,
                     show.ci = FALSE,
                     p.kr = TRUE,
                     valueLabel.digits = 2,
@@ -385,7 +385,7 @@ sjp.int <- function(fit,
     fillAlpha <- 0
   }
   # gridbreaks
-  if (is.null(gridBreaksAt)) gridbreaks.x <- gridbreaks.y <- ggplot2::waiver()
+  if (is.null(grid.breaks)) gridbreaks.x <- gridbreaks.y <- ggplot2::waiver()
   # moderator value
   if (moderatorValues != "minmax" && moderatorValues != "zeromax" && 
       moderatorValues != "meansd" && moderatorValues != "quart" &&
@@ -428,7 +428,7 @@ sjp.int <- function(fit,
                    axisTitle.x, axisTitle.y, axis.labels, legendTitle, legendLabels,
                    show.values, valueLabel.digits, show.ci, p.kr, breakTitleAt,
                    breakLegendTitleAt, breakLegendLabelsAt, y.offset, ylim, 
-                   gridBreaksAt, facet.grid, printPlot))
+                   grid.breaks, facet.grid, printPlot))
   }
   # --------------------------------------------------------
   # list labels
@@ -444,7 +444,7 @@ sjp.int <- function(fit,
                        axisTitle.y, legendTitle, legendLabels,
                        show.values, breakTitleAt, breakLegendLabelsAt, 
                        breakLegendTitleAt, xlim, ylim, 
-                       y.offset, gridBreaksAt, show.ci, facet.grid, printPlot, fun))
+                       y.offset, grid.breaks, show.ci, facet.grid, printPlot, fun))
   }
   # -----------------------------------------------------------
   # set axis title
@@ -712,9 +712,9 @@ sjp.int <- function(fit,
     # -----------------------------------------------------------
     # check whether user defined grid breaks / tick marks are used
     # -----------------------------------------------------------
-    if (!is.null(gridBreaksAt)) {
-      gridbreaks.x <- seq(lowerLim.x, upperLim.x, by = gridBreaksAt)
-      gridbreaks.y <- seq(lowerLim.y, upperLim.y, by = gridBreaksAt)
+    if (!is.null(grid.breaks)) {
+      gridbreaks.x <- seq(lowerLim.x, upperLim.x, by = grid.breaks)
+      gridbreaks.y <- seq(lowerLim.y, upperLim.y, by = grid.breaks)
     }
     # -----------------------------------------------------------
     # prepare plot title and axis titles
@@ -921,7 +921,7 @@ sjp.eff.int <- function(fit,
                         xlim = NULL,
                         ylim = NULL,
                         y.offset = 0.07,
-                        gridBreaksAt = NULL,
+                        grid.breaks = NULL,
                         show.ci = FALSE,
                         facet.grid = FALSE,
                         printPlot = TRUE,
@@ -937,7 +937,7 @@ sjp.eff.int <- function(fit,
     stop("Package 'effects' needed for this function to work. Please install it.", call. = FALSE)
   }
   # gridbreaks
-  if (is.null(gridBreaksAt)) gridbreaks.x <- gridbreaks.y <- ggplot2::waiver()
+  if (is.null(grid.breaks)) gridbreaks.x <- gridbreaks.y <- ggplot2::waiver()
   # init default
   binom_fam <- FALSE
   # ------------------------
@@ -1235,9 +1235,9 @@ sjp.eff.int <- function(fit,
     # -----------------------------------------------------------
     # check whether user defined grid breaks / tick marks are used
     # -----------------------------------------------------------
-    if (!is.null(gridBreaksAt)) {
-      gridbreaks.x <- seq(lowerLim.x, upperLim.x, by = gridBreaksAt)
-      gridbreaks.y <- seq(lowerLim.y, upperLim.y, by = gridBreaksAt)
+    if (!is.null(grid.breaks)) {
+      gridbreaks.x <- seq(lowerLim.x, upperLim.x, by = grid.breaks)
+      gridbreaks.y <- seq(lowerLim.y, upperLim.y, by = grid.breaks)
     } else if (x_is_factor) {
       gridbreaks.x <- sort(unique(intdf$x))
     } else {

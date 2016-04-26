@@ -13,7 +13,7 @@ sjp.likert(items, catcount = NULL, cat.neutral = NULL, weight.by = NULL,
   legendTitle = NULL, includeN = TRUE, showItemLabels = TRUE,
   axisLabels.y = NULL, breakTitleAt = 50, breakLabelsAt = 30,
   breakLegendTitleAt = 30, breakLegendLabelsAt = 28, gridRange = 1,
-  gridBreaksAt = 0.2, expand.grid = TRUE, axisTitle.x = NULL,
+  grid.breaks = 0.2, expand.grid = TRUE, axisTitle.x = NULL,
   axisTitle.y = NULL, coord.flip = TRUE, printPlot = TRUE)
 }
 \arguments{
@@ -116,8 +116,8 @@ E.g. \code{gridRange = 1.4} will set the axis from -140 to +140\%, however, only
 (valid) axis labels from -100 to +100\% are printed. Neutral categories are
 adjusted to the most left limit.}
 
-\item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
-position a major grid is being printed.}
+\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
+i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
 \item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 axes and plotting region. Default is \code{FALSE}.}

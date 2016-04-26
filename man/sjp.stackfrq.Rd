@@ -8,7 +8,7 @@ sjp.stackfrq(items, legendLabels = NULL, sort.frq = NULL,
   weight.by = NULL, hideLegend = FALSE, title = NULL,
   legendTitle = NULL, includeN = TRUE, axisLabels.y = NULL,
   breakTitleAt = 50, breakLabelsAt = 30, breakLegendTitleAt = 30,
-  breakLegendLabelsAt = 28, gridBreaksAt = 0.2, expand.grid = FALSE,
+  breakLegendLabelsAt = 28, grid.breaks = 0.2, expand.grid = FALSE,
   geom.size = 0.5, geom.colors = "Blues", axisTitle.x = NULL,
   axisTitle.y = NULL, show.values = TRUE, labelDigits = 1,
   vjust = "center", showPercentageAxis = TRUE, showItemLabels = TRUE,
@@ -60,8 +60,8 @@ are displayed in one line and when a line break is inserted.}
 \item{breakLegendLabelsAt}{determines how many chars of the legend labels are 
 displayed in one line and when a line break is inserted.}
 
-\item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
-position a major grid is being printed. Valid values range from 0 to 1.}
+\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
+i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
 \item{expand.grid}{logical, if \code{TRUE} (default), the diagram has margins, 
 i.e. the y-axis is not exceeded to the diagram's boundaries.}

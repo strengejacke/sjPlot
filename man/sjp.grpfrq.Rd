@@ -10,7 +10,7 @@ sjp.grpfrq(varCount, varGroup, weight.by = NULL, weightByTitleString = NULL,
   facet.grid = FALSE, title = "", legendTitle = NULL,
   axis.labels = NULL, interactionVarLabels = NULL, legendLabels = NULL,
   ylim = NULL, breakTitleAt = 50, breakLabelsAt = 15,
-  breakLegendTitleAt = 20, breakLegendLabelsAt = 20, gridBreaksAt = NULL,
+  breakLegendTitleAt = 20, breakLegendLabelsAt = 20, grid.breaks = NULL,
   barPosition = "dodge", innerBoxPlotWidth = 0.15,
   innerBoxPlotDotSize = 3, smoothLines = FALSE, expand.grid = FALSE,
   show.values = TRUE, showCountValues = TRUE, showPercentageValues = TRUE,
@@ -102,8 +102,8 @@ are displayed in one line and when a line break is inserted.}
 \item{breakLegendLabelsAt}{determines how many chars of the legend labels are 
 displayed in one line and when a line break is inserted.}
 
-\item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
-position a major grid is being printed.}
+\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
+i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
 \item{barPosition}{indicates whether bars should be positioned side-by-side (default)
 or stacked (use \code{"stack"} as argument).}

@@ -4,26 +4,25 @@
 \alias{sjp.frq}
 \title{Plot frequencies of variables}
 \usage{
-sjp.frq(varCount, title = "", weight.by = NULL,
-  weightByTitleString = NULL, interactionVar = NULL, sort.frq = "none",
-  type = "bars", geom.size = NULL, geom.colors = "#336699",
-  axis.labels = NULL, interactionVarLabels = NULL, xlim = NULL,
-  ylim = NULL, breakTitleAt = 50, breakLabelsAt = 20,
-  gridBreaksAt = NULL, innerBoxPlotWidth = 0.15, innerBoxPlotDotSize = 3,
-  expand.grid = FALSE, show.values = TRUE, showCountValues = TRUE,
-  showPercentageValues = TRUE, show.axis.values = TRUE, show.ci = FALSE,
-  errorbar.color = "darkred", showMeanIntercept = FALSE,
-  showMeanValue = TRUE, showStandardDeviation = TRUE,
-  showNormalCurve = FALSE, showStandardNormalCurve = FALSE,
-  adjustNormalCurve.x = FALSE, meanInterceptLineType = 2,
-  meanInterceptLineSize = 0.5, normalCurveColor = "red",
-  normalCurveSize = 0.8, normalCurveAlpha = 0.4, axisTitle.x = NULL,
-  axisTitle.y = NULL, autoGroupAt = NULL, coord.flip = FALSE,
-  vjust = "bottom", hjust = "center", y.offset = NULL, na.rm = TRUE,
-  printPlot = TRUE)
+sjp.frq(x, title = "", weight.by = NULL, weightByTitleString = NULL,
+  interactionVar = NULL, sort.frq = "none", type = c("bars", "dots",
+  "histogram", "lines", "density", "boxplot", "violin"), geom.size = NULL,
+  geom.colors = "#336699", axis.labels = NULL,
+  interactionVarLabels = NULL, xlim = NULL, ylim = NULL,
+  breakTitleAt = 50, breakLabelsAt = 20, grid.breaks = NULL,
+  innerBoxPlotWidth = 0.15, innerBoxPlotDotSize = 3, expand.grid = FALSE,
+  show.values = TRUE, showCountValues = TRUE, showPercentageValues = TRUE,
+  show.axis.values = TRUE, show.ci = FALSE, errorbar.color = "darkred",
+  showMeanIntercept = FALSE, showMeanValue = TRUE,
+  showStandardDeviation = TRUE, showNormalCurve = FALSE,
+  meanInterceptLineType = 2, meanInterceptLineSize = 0.5,
+  normalCurveColor = "red", normalCurveSize = 0.8, normalCurveAlpha = 0.4,
+  axisTitle.x = NULL, axisTitle.y = NULL, autoGroupAt = NULL,
+  coord.flip = FALSE, vjust = "bottom", hjust = "center",
+  y.offset = NULL, na.rm = TRUE, printPlot = TRUE)
 }
 \arguments{
-\item{varCount}{a vector of values (variable) describing the bars which make up the plot.}
+\item{x}{a vector of values (variable) describing the bars which make up the plot.}
 
 \item{title}{plot title as string. Example: \code{title = "my title"}.
 Use \code{NULL} to automatically detect variable names that will be used as title
@@ -38,27 +37,24 @@ e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's
 title will not have a suffix when cases are weighted.}
 
 \item{interactionVar}{an interaction variable which can be used for box plots. Divides the observations in 
-\code{varCount} into sub groups indicated by \code{interactionVar}. Only 
-applies when \code{type = "boxplots"} or \code{"violins"}.}
+\code{x} into sub groups indicated by \code{interactionVar}. Only 
+applies when \code{type = "boxplot"} or \code{"violin"}.}
 
 \item{sort.frq}{Determines whether categories (bars) on x-axis should be sorted 
 according to the frequencies or not.  Default is \code{"none"}, so 
 categories are not sorted by frequency. Use \code{"asc"} or
 \code{"desc"} for sorting categories ascending or descending order.}
 
-\item{type}{Specifies the type of distribution plot that will be plotted.
+\item{type}{Specifies the plot type. May be abbreviated.
 \describe{
   \item{\code{"bars"}}{for simple bars (the default setting)}
   \item{\code{"dots"}}{for a dot plot}
   \item{\code{"histogram"}}{for a histogram}
   \item{\code{"lines"}}{for a line-styled histogram with filled area}
   \item{\code{"density"}}{for a density plot}
-  \item{\code{"boxplots"}}{for box plots}
-  \item{\code{"violins"}}{for violin plots}
-  }
-  You may use initial letter for \code{type} options, except for
-  \code{type = "dots"} and \code{type = "boxplots"}, which may be abbreviated
-  with \code{type = "dot"} and \code{type = "box"}}
+  \item{\code{"boxplot"}}{for box plot}
+  \item{\code{"violin"}}{for violin plots}
+  }}
 
 \item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, depending on \code{type} argument).
 Note that bar and bin widths mostly need smaller values than dot sizes (i.e. if \code{type = "dots"}).
@@ -76,7 +72,7 @@ with \code{\link[sjmisc]{read_spss}} or has named factor levels
 \item{interactionVarLabels}{a character vector with labels for the x-axis breaks 
 when having interaction variables included. These labels replace the 
 \code{axis.labels}. Only applies, when using box or violin plots
-(i.e. \code{type = "boxplots"} or \code{"violins"}) and \code{interactionVar} 
+(i.e. \code{type = "boxplot"} or \code{"violin"}) and \code{interactionVar} 
 is not \code{NULL}.}
 
 \item{xlim}{numeric vector of length two, defining lower and upper axis limits}
@@ -91,8 +87,8 @@ one line and when a line break is inserted into the title.}
 \item{breakLabelsAt}{determines how many chars of the category labels are displayed in 
 one line and when a line break is inserted.}
 
-\item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
-position a major grid is being printed.}
+\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
+i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
 \item{innerBoxPlotWidth}{width of the inner box plot that is plotted inside of violin plots. Only applies 
 if \code{type = "violins"}. Default value is 0.15}
@@ -137,16 +133,6 @@ line. Only applies to histogram-charts.}
 is plotted over the histogram or density plot. Default is
 \code{FALSE}. Only applies when histograms or density plots are plotted (see \code{type}).}
 
-\item{showStandardNormalCurve}{logical, if \code{TRUE}, a normal curve, which is not 
-adjusted to the data (thus representing a "true" standard normal curve, 
-which is, however, still an approximation), is plotted over the histogram 
-or density plot. Default is \code{FALSE}. Only applies when 
-histograms or density plots are plotted (see \code{type}).}
-
-\item{adjustNormalCurve.x}{logical, if \code{TRUE} and \code{showStandardNormalCurve} is also \code{TRUE}, the 
-x-axis-start of the standard normal curve starts with the x-axis limits of the graph. This
-is only necessary, if minimum value of \code{varCount} is larger than 0 or 1.}
-
 \item{meanInterceptLineType}{numeric value, indicating the linetype of the mean 
 intercept line. Only applies to histogram-charts and 
 when \code{showMeanIntercept = TRUE}.}
@@ -170,11 +156,11 @@ for details).}
 \item{axisTitle.y}{title for the y-axis. By default, this value is \code{NULL},
 i.e. no title is printed.}
 
-\item{autoGroupAt}{numeric value, indicating at which length of unique values of \code{varCount}, 
+\item{autoGroupAt}{numeric value, indicating at which length of unique values of \code{x}, 
 automatic grouping into smaller units is done (see \code{\link[sjmisc]{group_var}}).
-If \code{varCount} has large numbers of unique values, there may be too many bars 
+If \code{x} has large numbers of unique values, there may be too many bars 
 for the plot. Hence it's practical to group such variables. For example, 
-if \code{autoGroupAt = 50} and \code{varCount} has more than 50 unique values,
+if \code{autoGroupAt = 50} and \code{x} has more than 50 unique values,
 it will be grouped (using the \code{\link[sjmisc]{group_var}} function). 
 Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.
 See \code{\link[sjmisc]{group_var}} for examples on grouping.}
@@ -277,14 +263,13 @@ sjp.frq(efc$c160age,
         type = "h", 
         geom.size = 3)
 
-# histogram with overlayed normal curves
+# histogram with overlayed normal curve
 sjp.frq(efc$c160age,
         type = "h",
         showMeanIntercept = TRUE,
         showMeanValue = TRUE,
         showNormalCurve = TRUE,
         showStandardDeviation = TRUE,
-        showStandardNormalCurve = TRUE,
         normalCurveColor = "blue",
         normalCurveSize = 3,
         ylim = c(0,50))

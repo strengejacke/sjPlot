@@ -11,9 +11,9 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   axisTitle.x = NULL, axisTitle.y = NULL, ylim = NULL,
   facet.grid = TRUE, free.scale = FALSE, vline.type = 2,
   vline.color = "grey70", remove.estimates = NULL, show.values = TRUE,
-  labelDigits = 2, y.offset = 0.1, showPValueLabels = TRUE,
-  fade.ns = FALSE, show.ci = FALSE, sample.n = NULL,
-  show.legend = FALSE, printPlot = TRUE)
+  labelDigits = 2, y.offset = 0.1, show.p = TRUE, fade.ns = FALSE,
+  show.ci = FALSE, sample.n = NULL, show.legend = FALSE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{glmer}}-function.}
@@ -119,8 +119,8 @@ Default is 2, i.e. estimates have 2 digits after decimal point.}
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
-\item{showPValueLabels}{logical, whether the significance levels of each coefficient should be appended
-to values or not.}
+\item{show.p}{logical, whether the significance level of each coefficient
+should be appended to values or not.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 

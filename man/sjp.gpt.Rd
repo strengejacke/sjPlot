@@ -10,7 +10,7 @@ sjp.gpt(x, y, groups, geom.colors = "Set1", geom.size = 2.5,
   axisTitle.x = NULL, axisTitle.y = NULL, legendTitle = NULL,
   legendLabels = NULL, breakTitleAt = 50, breakLabelsAt = 15,
   breakLegendTitleAt = 20, breakLegendLabelsAt = 20, axis.lim = NULL,
-  gridBreaksAt = NULL, showTotal = TRUE, annotateTotal = TRUE,
+  grid.breaks = NULL, showTotal = TRUE, annotateTotal = TRUE,
   showP = TRUE, showN = TRUE, hideLegend = FALSE, printPlot = TRUE)
 }
 \arguments{
@@ -70,8 +70,8 @@ displayed in one line and when a line break is inserted.}
 
 \item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.}
 
-\item{gridBreaksAt}{set breaks for the axis, i.e. at every \code{gridBreaksAt}'th 
-position a major grid is being printed.}
+\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
+i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
 \item{showTotal}{logical, if \code{TRUE}, a total summary line for all aggregated
 \code{groups} is added.}

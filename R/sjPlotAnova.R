@@ -69,12 +69,12 @@ sjp.aov1 <- function(depVar,
                      geom.size = 3,
                      breakTitleAt = 50,
                      breakLabelsAt = 25,
-                     gridBreaksAt = NULL,
+                     grid.breaks = NULL,
                      expand.grid = FALSE,
                      show.values = TRUE,
                      labelDigits = 2,
                      y.offset = .1,
-                     showPValueLabels = TRUE,
+                     show.p = TRUE,
                      showModelSummary = FALSE,
                      printPlot = TRUE) {
   # --------------------------------------------------------
@@ -197,7 +197,7 @@ sjp.aov1 <- function(depVar,
   # --------------------------------------------------------
   # copy p-values into data column
   # --------------------------------------------------------
-  if (showPValueLabels) {
+  if (show.p) {
     for (i in 1:length(means.p)) {
       ps[i] <- sjmisc::trim(paste(ps[i], get_p_stars(means.p[i])))
     }  
@@ -259,10 +259,10 @@ sjp.aov1 <- function(depVar,
     upper_lim <- axis.lim[2]
   }
   # determine gridbreaks
-  if (is.null(gridBreaksAt))
+  if (is.null(grid.breaks))
     ticks <- pretty(c(lower_lim, upper_lim))
   else
-    ticks <- c(seq(lower_lim, upper_lim, by = gridBreaksAt))
+    ticks <- c(seq(lower_lim, upper_lim, by = grid.breaks))
   # --------------------------------------------------------
   # Set up plot padding (margins inside diagram)
   # --------------------------------------------------------

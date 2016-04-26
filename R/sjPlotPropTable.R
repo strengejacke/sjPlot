@@ -142,7 +142,7 @@ sjp.xtab <- function(x,
                      breakLabelsAt = 15,
                      breakLegendTitleAt = 20,
                      breakLegendLabelsAt = 20,
-                     gridBreaksAt = 0.2,
+                     grid.breaks = 0.2,
                      geom.size = 0.7,
                      geom.spacing = 0.1,
                      geom.colors = "Paired",
@@ -429,10 +429,10 @@ sjp.xtab <- function(x,
   # --------------------------------------------------------
   # Set up grid breaks
   # --------------------------------------------------------
-  if (is.null(gridBreaksAt)) {
+  if (is.null(grid.breaks)) {
     gridbreaks <- ggplot2::waiver()
   } else {
-    gridbreaks <- c(seq(lower_lim, upper_lim, by = gridBreaksAt))
+    gridbreaks <- c(seq(lower_lim, upper_lim, by = grid.breaks))
   }
   # ----------------------------------
   # construct final plot, base constructor

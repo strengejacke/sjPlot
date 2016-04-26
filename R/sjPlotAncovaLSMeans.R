@@ -22,7 +22,7 @@ sjp.emm <- function(fit,
                     breakLegendLabelsAt = 20,
                     y.offset = 0.07,
                     ylim = NULL,
-                    gridBreaksAt = NULL,
+                    grid.breaks = NULL,
                     facet.grid = FALSE,
                     printPlot = TRUE) {
   # --------------------------------------------------------
@@ -45,7 +45,7 @@ sjp.emm <- function(fit,
     return(sjp.emm.lmer(fit, swapPredictors, plevel, title, geom.colors, geom.size,
                         axisTitle.x, axisTitle.y, axis.labels, legendLabels,
                         show.values, valueLabel.digits, show.ci, p.kr, breakTitleAt,
-                        breakLegendLabelsAt, y.offset, ylim, gridBreaksAt, 
+                        breakLegendLabelsAt, y.offset, ylim, grid.breaks, 
                         facet.grid, printPlot))
   }
   # init vector that saves ggplot objects
@@ -54,7 +54,7 @@ sjp.emm <- function(fit,
   # -----------------------------------------------------------
   # parameter check
   # -----------------------------------------------------------
-  if (is.null(gridBreaksAt)) gridbreaks.y <- ggplot2::waiver()
+  if (is.null(grid.breaks)) gridbreaks.y <- ggplot2::waiver()
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
@@ -212,8 +212,8 @@ sjp.emm <- function(fit,
       # -----------------------------------------------------------
       # check whether user defined grid breaks / tick marks are used
       # -----------------------------------------------------------
-      if (!is.null(gridBreaksAt)) {
-        gridbreaks.y <- c(seq(lowerLim.y, upperLim.y, by = gridBreaksAt))
+      if (!is.null(grid.breaks)) {
+        gridbreaks.y <- c(seq(lowerLim.y, upperLim.y, by = grid.breaks))
       }
       # -----------------------------------------------------------
       # prepare label and name from dependend variable
@@ -347,7 +347,7 @@ sjp.emm <- function(fit,
 sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.size, axisTitle.x,
                          axisTitle.y, axis.labels, legendLabels, show.values,
                          valueLabel.digits, show.ci, p.kr, breakTitleAt, breakLegendLabelsAt,
-                         y.offset, ylim, gridBreaksAt, facet.grid, printPlot) {
+                         y.offset, ylim, grid.breaks, facet.grid, printPlot) {
   if ((any(class(fit) == "lmerMod") || any(class(fit) == "merModLmerTest")) && !requireNamespace("lmerTest", quietly = TRUE)) {
     stop("Package 'lmerTest' needed for this function to work. Please install it.", call. = FALSE)
   }
@@ -361,7 +361,7 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.s
   # -----------------------------------------------------------
   # parameter check
   # -----------------------------------------------------------
-  if (is.null(gridBreaksAt)) gridbreaks.y <- ggplot2::waiver()
+  if (is.null(grid.breaks)) gridbreaks.y <- ggplot2::waiver()
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
@@ -509,8 +509,8 @@ sjp.emm.lmer <- function(fit, swapPredictors, plevel, title, geom.colors, geom.s
       # -----------------------------------------------------------
       # check whether user defined grid breaks / tick marks are used
       # -----------------------------------------------------------
-      if (!is.null(gridBreaksAt)) {
-        gridbreaks.y <- c(seq(lowerLim.y, upperLim.y, by = gridBreaksAt))
+      if (!is.null(grid.breaks)) {
+        gridbreaks.y <- c(seq(lowerLim.y, upperLim.y, by = grid.breaks))
       }
       # -----------------------------------------------------------
       # prepare label and name from depend variable
