@@ -2122,9 +2122,27 @@ sjp.glm.eff <- function(fit,
                           upper = eff[[i]]$upper,
                           grp = t)
       }
-      # copy possible labels
-      tmp$label <- as.character(suppressWarnings(sjmisc::to_label(tmp$x, add.non.labelled = T)))
+      # -------------------------
+      # get possible labels
+      # -------------------------
+      if (t %in% colnames(fitfram))
+        tmp_lab <- sjmisc::get_labels(fitfram[[t]])
+      else
+        tmp_lab <- NULL
+      # -------------------------
+      # check if we have correct amount of labels
+      # -------------------------
+      if (length(tmp_lab) != nrow(tmp)) tmp_lab <- NULL
+      # -------------------------
+      # copy labels to data frame
+      # -------------------------
+      if (is.null(tmp_lab))
+        tmp$label <- as.character(suppressWarnings(sjmisc::to_label(tmp$x, add.non.labelled = T)))
+      else
+        tmp$label <- tmp_lab
+      # -------------------------
       # make sure x is numeric
+      # -------------------------
       tmp$x <- sjmisc::to_value(tmp$x, keep.labels = F)
       # sort rows. we may need to do this if we have factors
       tmp <- tmp[order(tmp$x), ]
@@ -2161,7 +2179,7 @@ sjp.glm.eff <- function(fit,
   # ------------------------
   # create plot
   # ------------------------
-  if (isTRUE(facet.grid)) {
+  if (facet.grid) {
     eff.plot <- ggplot(mydat, aes(x = x, y = y))
     # show confidence region?
     if (show.ci) eff.plot <- eff.plot + geom_ribbon(aes(ymin = lower, ymax = upper), alpha = .15)
@@ -2210,7 +2228,7 @@ sjp.glm.eff <- function(fit,
       if (anyNA(suppressWarnings(as.numeric(mydat_sub$label)))) {
         eff.plot <- eff.plot +
           scale_x_continuous(labels = mydat_sub$label,
-                             breaks = 1:length(mydat_sub$label))
+                             breaks = mydat_sub$x)
       }
       # ------------------------
       # print plot?
