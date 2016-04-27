@@ -834,7 +834,7 @@ sjp.lme4  <- function(fit,
     # response value
     # ---------------------------------------
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = NULL,
-                                   show.ci, geom.size, ylim, facet.grid, 
+                                   geom.colors, show.ci, geom.size, ylim, facet.grid, 
                                    type = "re", show.loess = F, printPlot)))
   } else if (type == "pred.fe") {
     # ---------------------------------------
@@ -842,7 +842,7 @@ sjp.lme4  <- function(fit,
     # response value
     # ---------------------------------------
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = NULL,
-                                   show.ci, geom.size, ylim, facet.grid, 
+                                   geom.colors, show.ci, geom.size, ylim, facet.grid, 
                                    type = "fe", show.loess = F, printPlot)))
   }
   # ---------------------------------------

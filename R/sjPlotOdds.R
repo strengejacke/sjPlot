@@ -218,7 +218,7 @@ sjp.glm <- function(fit,
   }
   if (type == "pred") {
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legendTitle,
-                                   show.ci, geom.size, ylim = axis.lim,
+                                   geom.colors, show.ci, geom.size, ylim = axis.lim,
                                    facet.grid, type = "fe", show.loess = F, printPlot)))
   }
   if (type == "ma") {
@@ -802,6 +802,7 @@ sjp.glm.predy <- function(fit,
                           vars,
                           t.title,
                           l.title,
+                          geom.colors,
                           show.ci,
                           geom.size,
                           ylim,
@@ -896,20 +897,34 @@ sjp.glm.predy <- function(fit,
     vars <- vars[1:2]
   } 
   mydf <- dplyr::select(fitfram, match(c(vars, "predicted.values"), colnames(fitfram)))
+  # init legend labels
+  legend.labels <- NULL
+  # check if we have a categorical variable with value
+  # labels at the x-axis
+  axis_labels <- sjmisc::get_labels(mydf[[1]])
   # ----------------------------
   # with or w/o grouping factor?
   # ----------------------------
-  legend.labels <- NULL
   if (length(vars) == 1) {
     colnames(mydf) <- c("x", "y")
+    # x needs to be numeric
+    mydf$x <- sjmisc::to_value(mydf$x)
+    # set colors
+    if (is.null(geom.colors)) geom.colors <- col_check2(geom.colors, 1)
+    # init plot
     mp <- ggplot(mydf, aes(x = x, y = y)) +
       labs(x = x.title, y = y.title, title = t.title)
   } else {
     colnames(mydf) <- c("x", "grp", "y")
-    # check if we have legend labels
-    legend.labels <- sjmisc::get_labels(mydf$grp)
+    # x needs to be numeric
+    mydf$x <- sjmisc::to_value(mydf$x)
     # convert to factor for proper legend
     mydf$grp <- sjmisc::to_factor(mydf$grp)
+    # check if we have legend labels
+    legend.labels <- sjmisc::get_labels(mydf$grp)
+    # set colors
+    geom.colors <- col_check2(geom.colors, length(legend.labels))
+    # init plot
     mp <- ggplot(mydf, aes(x = x, y = y, colour = grp, group = grp)) +
       labs(x = x.title, y = y.title, title = t.title, colour = l.title)
   }
@@ -923,6 +938,10 @@ sjp.glm.predy <- function(fit,
   # ---------------------------------------------------------
   # Prepare plot
   # ---------------------------------------------------------
+  if (!is.null(axis_labels)) {
+    # if we have value labels, use these as axis labels
+    mp <- mp + scale_x_continuous(breaks = sort(unique(mydf$x)), labels = axis_labels)
+  }
   if (fit.m == "lm") {
     mp <- mp +
       stat_smooth(method = fit.m, 
@@ -954,17 +973,18 @@ sjp.glm.predy <- function(fit,
   if (binom_fam) {
     # cartesian coord still plots range of se, even
     # when se exceeds plot range.
-    mp <- mp + coord_cartesian(ylim = ylim)
+    mp <- mp + coord_cartesian(ylim = ylim) +
+      scale_y_continuous(labels = scales::percent)
   }
   if (facet.grid && length(vars) == 2) {
     mp <- mp + 
       facet_wrap(~grp, ncol = round(sqrt(length(unique(mydf$grp)))), 
                  scales = "free_x") +
+      scale_colour_manual(values = geom.colors) +
       guides(colour = FALSE)
   } else if (!is.null(legend.labels)) {
     mp <- mp +
-      scale_colour_discrete(breaks = c(1:length(legend.labels)),
-                            labels = legend.labels)
+      scale_colour_manual(values = geom.colors, labels = legend.labels)
   }
   
   # --------------------------
