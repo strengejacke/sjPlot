@@ -55,7 +55,7 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'            \item If \code{NULL} (default), no sorting is done and estimates are sorted in order of model coefficients.
 #'            \item If \code{sort.est = "sort.all"}, estimates are re-sorted for each coefficient (only applies if \code{type = "re"} and \code{facet.grid = FALSE}), i.e. the estimates of the random effects for each predictor are sorted and plotted to an own plot.
 #'            \item If \code{type = "fe"} or \code{type = "fe.std"}, \code{TRUE} will sort estimates
-#'            \item Else, specify a predictor's / coefficient's name to sort estimates according to this coefficient.
+#'            \item If \code{type = "re"}, specify a predictor's / coefficient's name to sort estimates according to this coefficient.
 #'            }
 #'            See 'Examples'.
 #' @param fade.ns if \code{TRUE}, non significant estimates will be printed in slightly faded colors.
@@ -1093,10 +1093,11 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------
       reihe <- c(1:nrow(mydf))
       # ---------------------------------------
-      # just one sorting option, simply sort odds ratios
+      # just one sorting option, simply sort estimates
       # ---------------------------------------
       if (!is.null(sort.est)) {
         reihe <- order(mydf$estimate)
+        # sort data frame
         mydf <- mydf[reihe, ]
       }
       mydf$sorting <- reihe
@@ -1120,7 +1121,7 @@ sjp.lme4  <- function(fit,
     if (length(axis.labels) != nrow(mydf) &&
         (length(axis.labels) != (nrow(mydf) / length(unique(mydf$grp))))) {
       warning("`axis.labels` has insufficient length. Using row names.", call. = F)
-      axis.labels <- row.names(mydf)
+      axis.labels <- row.names(mydf)[order(mydf$sorting)]
     }
     # ---------------------------------------
     # discrete x position, needed for ggplot

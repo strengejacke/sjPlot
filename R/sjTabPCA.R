@@ -172,7 +172,7 @@ sjt.pca <- function(data,
   # check if user has passed a data frame
   # or a pca object
   # ----------------------------
-  if (class(data) == "prcomp") {
+  if (any(class(data) == "prcomp")) {
     pcadata <- data
     dataframeparam <- FALSE
     showMSA <- FALSE

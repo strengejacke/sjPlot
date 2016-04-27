@@ -189,7 +189,7 @@ sjp.pca <- function(data,
   # check if user has passed a data frame
   # or a pca object
   # ----------------------------
-  if (class(data) == "prcomp") {
+  if (any(class(data) == "prcomp")) {
     pcadata <- data
     dataframeparam <- FALSE
   } else {
@@ -434,7 +434,7 @@ sjp.pca <- function(data,
   # in order to get more clearly factor loadings
   # --------------------------------------------------------
   remdf <- NULL
-  if (class(data) == "data.frame") {
+  if (any(class(data) == "data.frame")) {
     message("Following items have no clear factor loading:")
     if (!is.null(removableItems)) {
       message(colnames(data)[removableItems])

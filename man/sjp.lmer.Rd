@@ -77,7 +77,7 @@ if \code{show.intercept = TRUE} and \code{axis.labels} is not \code{NULL}.}
   \item If \code{NULL} (default), no sorting is done and estimates are sorted in order of model coefficients.
   \item If \code{sort.est = "sort.all"}, estimates are re-sorted for each coefficient (only applies if \code{type = "re"} and \code{facet.grid = FALSE}), i.e. the estimates of the random effects for each predictor are sorted and plotted to an own plot.
   \item If \code{type = "fe"} or \code{type = "fe.std"}, \code{TRUE} will sort estimates
-  \item Else, specify a predictor's / coefficient's name to sort estimates according to this coefficient.
+  \item If \code{type = "re"}, specify a predictor's / coefficient's name to sort estimates according to this coefficient.
   }
   See 'Examples'.}
 

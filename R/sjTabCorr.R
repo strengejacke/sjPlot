@@ -198,7 +198,7 @@ sjt.corr <- function(data,
   # check if user has passed a data frame
   # or a pca object
   # ----------------------------
-  if (class(data) == "matrix") {
+  if (any(class(data) == "matrix")) {
     corr <- data
     cpvalues <- NULL
   } else {
