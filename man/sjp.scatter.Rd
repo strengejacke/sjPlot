@@ -30,8 +30,6 @@ dots along the y axis.}
 \item{title}{string, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{legendTitle}{title of the plot legend, as string.}
-
 \item{legendLabels}{a character vector with labels for the guide/legend.}
 
 \item{pointLabels}{character vector with names for each coordinate pair given

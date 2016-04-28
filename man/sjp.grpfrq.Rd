@@ -8,7 +8,7 @@ sjp.grpfrq(varCount, varGroup, weight.by = NULL, weightByTitleString = NULL,
   interactionVar = NULL, type = c("bar", "dot", "line", "boxplot",
   "violin"), geom.size = NULL, geom.spacing = 0.15,
   geom.colors = "Paired", show.legend = TRUE, facet.grid = FALSE,
-  title = "", legendTitle = NULL, axis.labels = NULL,
+  title = "", legend.title = NULL, axis.labels = NULL,
   interactionVarLabels = NULL, legendLabels = NULL, ylim = NULL,
   breakTitleAt = 50, breakLabelsAt = 15, breakLegendTitleAt = 20,
   breakLegendLabelsAt = 20, grid.breaks = NULL, barPosition = "dodge",
@@ -68,7 +68,7 @@ bar charts. Ideal for larger amount of groups. This argument wraps a single pane
 \item{title}{string, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{legendTitle}{title of the plot legend, as string.}
+\item{legend.title}{title of the plot legend, as string.}
 
 \item{axis.labels}{character vector with labels used as axis labels.}
 

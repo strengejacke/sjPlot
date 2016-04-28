@@ -27,8 +27,6 @@ is grouped into the categories represented by \code{grp}.}
 \item{title}{string, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{legendTitle}{title of the plot legend, as string.}
-
 \item{weight.by}{weight factor that will be applied to weight all cases.
 Must be a vector of same length as the input vector. Default is 
 \code{NULL}, so no weights are used.}

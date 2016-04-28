@@ -45,7 +45,7 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'          \code{varGroup} amount of panels, i.e. each group is represented within a new panel.
 #' @param title string, used as plot title. Depending on plot type and function,
 #'          will be set automatically. If \code{title = ""}, no title is printed.
-#' @param legendTitle title of the plot legend, as string.
+#' @param legend.title title of the plot legend, as string.
 #' @param axis.labels character vector with labels used as axis labels.
 #' @param interactionVarLabels a character vector with labels for the x-axis breaks
 #'          when having interaction variables included.
@@ -191,7 +191,7 @@ sjp.grpfrq <- function(varCount,
                        show.legend = TRUE,
                        facet.grid = FALSE,
                        title = "",
-                       legendTitle = NULL,
+                       legend.title = NULL,
                        axis.labels = NULL,
                        interactionVarLabels = NULL,
                        legendLabels = NULL,
@@ -361,7 +361,7 @@ sjp.grpfrq <- function(varCount,
     legendLabels <- axis.labels
   }
   if (is.null(axisTitle.x)) axisTitle.x <- sjmisc::get_label(varCount, def.value = var.name.cnt)
-  if (is.null(legendTitle)) legendTitle <- sjmisc::get_label(varGroup, def.value = var.name.grp)
+  if (is.null(legend.title)) legend.title <- sjmisc::get_label(varGroup, def.value = var.name.grp)
   if (is.null(title)) {
     t1 <- sjmisc::get_label(varCount, def.value = var.name.cnt)
     t2 <- sjmisc::get_label(varGroup, def.value = var.name.grp)
@@ -370,7 +370,7 @@ sjp.grpfrq <- function(varCount,
   # --------------------------------------------------------
   # remove titles if empty
   # --------------------------------------------------------
-  if (!is.null(legendTitle) && legendTitle == "") legendTitle <- NULL
+  if (!is.null(legend.title) && legend.title == "") legend.title <- NULL
   if (!is.null(axisTitle.x) && axisTitle.x == "") axisTitle.x <- NULL
   if (!is.null(axisTitle.y) && axisTitle.y == "") axisTitle.y <- NULL
   if (!is.null(title) && title == "") title <- NULL
@@ -496,8 +496,8 @@ sjp.grpfrq <- function(varCount,
   # --------------------------------------------------------
   if (!is.null(legendLabels))
     legendLabels <- sjmisc::word_wrap(legendLabels, breakLegendLabelsAt)
-  if (!is.null(legendTitle))
-    legendTitle <- sjmisc::word_wrap(legendTitle, breakLegendTitleAt)
+  if (!is.null(legend.title))
+    legend.title <- sjmisc::word_wrap(legend.title, breakLegendTitleAt)
   if (!is.null(title)) {
     # if we have weighted values, say that in diagram's title
     if (!is.null(weightByTitleString))
@@ -826,8 +826,8 @@ sjp.grpfrq <- function(varCount,
     labs(title = title,
          x = axisTitle.x,
          y = axisTitle.y,
-         fill = legendTitle,
-         colour = legendTitle) +
+         fill = legend.title,
+         colour = legend.title) +
     # print value labels to the x-axis.
     # If argument "axis.labels" is NULL, the category numbers (1 to ...)
     # appear on the x-axis

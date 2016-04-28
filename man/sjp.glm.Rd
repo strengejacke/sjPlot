@@ -40,8 +40,6 @@ will be set automatically. If \code{title = ""}, no title is printed.}
 \item{axis.title}{string, title for the axis. If not specified, a default labelling depending
 on the plot function and type is chosen.}
 
-\item{legendTitle}{title of the plot legend, as string.}
-
 \item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
 By default, the limits range from the lowest confidence interval to the 
 highest, so plot has maximum zoom.}

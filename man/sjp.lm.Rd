@@ -46,8 +46,6 @@ used if fitted model has only one predictor and \code{type = "lm"}.}
 
 \item{axis.labels}{character vector with labels used as axis labels.}
 
-\item{legendTitle}{title of the plot legend, as string.}
-
 \item{axis.title}{string, title for the axis. If not specified, a default labelling depending
 on the plot function and type is chosen.}
 

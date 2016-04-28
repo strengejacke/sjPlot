@@ -54,8 +54,6 @@ one line and when a line break is inserted.}
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
-\item{legendTitle}{title of the plot legend, as string.}
-
 \item{show.values}{logical, whether values should be plotted or not.}
 
 \item{showPValues}{logical, whether significance levels (p-values) of correlations should

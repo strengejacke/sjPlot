@@ -109,8 +109,6 @@ legend labels (e.g. \code{"Group 1 (n=87)"}).}
 \item{showAccuracyLabels}{if \code{TRUE}, the accuracy-values for each cluster group is added to the 
 legend labels (e.g. \code{"Group 1 (n=87, accuracy=95.3)"}). Accuracy is calculated by \code{\link{sjc.grpdisc}}.}
 
-\item{legendTitle}{title of the plot legend, as string.}
-
 \item{legendLabels}{labels for the guide/legend. If \code{legendLabels = NULL}
 (default), the standard string \code{"Group <nr>"} will be used.}
 

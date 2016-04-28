@@ -84,7 +84,7 @@ function, a legend is added to the plot.}
 \item{title}{string, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{legendTitle}{title of the plot legend, as string.}
+\item{legendTitle}{title of plot's legend}
 
 \item{includeN}{logical, if \code{TRUE} (default), the N of each item will be included in axis labels.}
 

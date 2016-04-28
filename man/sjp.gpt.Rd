@@ -42,8 +42,6 @@ will be set automatically. If \code{title = ""}, no title is printed.}
 \item{axis.titles}{character vector of length one or two, defining the title(s)
 for the x-axis and y-axis.}
 
-\item{legendTitle}{title of the plot legend, as string.}
-
 \item{legendLabels}{a character vector with labels for the guide/legend.}
 
 \item{breakTitleAt}{determines how many chars of the plot title are displayed in
