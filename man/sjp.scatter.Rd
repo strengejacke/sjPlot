@@ -5,7 +5,7 @@
 \title{Plot (grouped) scatter plots}
 \usage{
 sjp.scatter(x = NULL, y = NULL, grp = NULL, title = "",
-  legendTitle = NULL, legendLabels = NULL, pointLabels = NULL,
+  legend.title = NULL, legend.labels = NULL, pointLabels = NULL,
   axis.titles = NULL, breakTitleAt = 50, breakLegendTitleAt = 20,
   breakLegendLabelsAt = 20, geom.size = 2, label.size = 3,
   geom.colors = NULL, showTickMarkLabels.x = TRUE,
@@ -30,7 +30,9 @@ dots along the y axis.}
 \item{title}{string, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{legendLabels}{a character vector with labels for the guide/legend.}
+\item{legend.title}{title of the plot legend, as string.}
+
+\item{legend.labels}{a character vector with labels for the guide/legend.}
 
 \item{pointLabels}{character vector with names for each coordinate pair given
 by \code{x} and \code{y}, so text labels are added to the plot. 
@@ -137,8 +139,8 @@ sjp.scatter(efc$e16sex,efc$neg_c_7, efc$c172code, showRug = TRUE)
 # of labels, but instead pass labels as arguments
 sjp.scatter(efc$c160age, efc$e17age, efc$e42dep,
             title = "Scatter Plot",
-            legendTitle = get_label(efc)['e42dep'],
-            legendLabels = get_labels(efc)[['e42dep']],
+            legend.title = get_label(efc)['e42dep'],
+            legend.labels = get_labels(efc)[['e42dep']],
             axis.titles = c(get_label(efc)['c160age'],
                             get_label(efc)['e17age']),
             showGroupFitLine = TRUE)

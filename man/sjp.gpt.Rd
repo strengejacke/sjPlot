@@ -7,7 +7,7 @@
 sjp.gpt(x, y, groups, geom.colors = "Set1", geom.size = 2.5,
   shape.fill.color = "#f0f0f0", shapes = c(15, 16, 17, 18, 21, 22, 23, 24,
   25, 7, 8, 9, 10, 12), title = NULL, axis.labels = NULL,
-  axis.titles = NULL, legendTitle = NULL, legendLabels = NULL,
+  axis.titles = NULL, legend.title = NULL, legend.labels = NULL,
   breakTitleAt = 50, breakLabelsAt = 15, breakLegendTitleAt = 20,
   breakLegendLabelsAt = 20, axis.lim = NULL, grid.breaks = NULL,
   showTotal = TRUE, annotateTotal = TRUE, show.p = TRUE, show.n = TRUE,
@@ -42,7 +42,9 @@ will be set automatically. If \code{title = ""}, no title is printed.}
 \item{axis.titles}{character vector of length one or two, defining the title(s)
 for the x-axis and y-axis.}
 
-\item{legendLabels}{a character vector with labels for the guide/legend.}
+\item{legend.title}{title of the plot legend, as string.}
+
+\item{legend.labels}{a character vector with labels for the guide/legend.}
 
 \item{breakTitleAt}{determines how many chars of the plot title are displayed in
 one line and when a line break is inserted into the title.}

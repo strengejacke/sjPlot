@@ -8,7 +8,7 @@ sjp.corr(data, title = NULL, axis.labels = NULL, type = "circle",
   sortCorrelations = TRUE, decimals = 3, missingDeletion = "listwise",
   corMethod = "spearman", geom.colors = "RdBu", geom.size = 15,
   breakTitleAt = 50, breakLabelsAt = 20, show.legend = FALSE,
-  legendTitle = NULL, show.values = TRUE, showPValues = TRUE,
+  legend.title = NULL, show.values = TRUE, showPValues = TRUE,
   pvaluesAsNumbers = FALSE, printPlot = TRUE)
 }
 \arguments{
@@ -53,6 +53,8 @@ one line and when a line break is inserted.}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
+
+\item{legend.title}{title of the plot legend, as string.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 

@@ -5,7 +5,7 @@
 \title{Plot estimates, predictions or effects of generalized linear models}
 \usage{
 sjp.glm(fit, type = "dots", sort.est = TRUE, title = NULL,
-  axis.labels = NULL, axis.title = "Odds Ratios", legendTitle = NULL,
+  axis.labels = NULL, axis.title = "Odds Ratios", legend.title = NULL,
   axis.lim = NULL, breakTitleAt = 50, breakLabelsAt = 25,
   grid.breaks = 0.5, transformTicks = TRUE, geom.size = NULL,
   geom.colors = "Set1", vline.type = 2, vline.color = "grey70",
@@ -39,6 +39,8 @@ will be set automatically. If \code{title = ""}, no title is printed.}
 
 \item{axis.title}{string, title for the axis. If not specified, a default labelling depending
 on the plot function and type is chosen.}
+
+\item{legend.title}{title of the plot legend, as string.}
 
 \item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
 By default, the limits range from the lowest confidence interval to the 
@@ -88,8 +90,7 @@ estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability or
 incidents curves
 (for \code{\link[lme4]{glmer}}) of random intercepts.}
 
-\item{coord.flip}{logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
-values are plotted on the x-axis.}
+\item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}

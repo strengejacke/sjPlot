@@ -157,7 +157,7 @@ sjp.glm <- function(fit,
                     title = NULL,
                     axis.labels = NULL,
                     axis.title = "Odds Ratios",
-                    legendTitle = NULL,
+                    legend.title = NULL,
                     axis.lim = NULL,
                     breakTitleAt = 50,
                     breakLabelsAt = 25,
@@ -217,7 +217,7 @@ sjp.glm <- function(fit,
                                  facet.grid, fun = "glm", printPlot)))
   }
   if (type == "pred") {
-    return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legendTitle,
+    return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
                                    geom.colors, show.ci, geom.size, ylim = axis.lim,
                                    facet.grid, type = "fe", show.loess = F, printPlot)))
   }
@@ -354,13 +354,13 @@ sjp.glm <- function(fit,
       warning("Length of `group.estimates` does not equal number of model coefficients. Ignoring this argument.", call. = F)
       group.estimates = NULL
       show.legend <- FALSE
-      legendTitle <- NULL
+      legend.title <- NULL
     } else {
       odds$grp.est <- as.character(group.estimates)
     }
   } else {
     show.legend <- FALSE
-    legendTitle <- NULL
+    legend.title <- NULL
   }
   # -------------------------------------------------
   # remove any estimates from the output?
@@ -501,7 +501,7 @@ sjp.glm <- function(fit,
     labs(title = title,
          x = NULL,
          y = axis.title,
-         colour = legendTitle) +
+         colour = legend.title) +
     scale_x_discrete(labels = axis.labels)
   # --------------------------------------------------------
   # create pretty breaks for log-scale

@@ -13,8 +13,6 @@
 #' @note Thanks to \href{http://www.clas.ufl.edu/users/forrest/}{Forrest Stevens} for bug fixes.
 #' 
 #' @param items \code{\link{data.frame}} with each column representing one item.
-#' @param legendLabels list or vector of strings that indicate the items' categories.
-#'          Will also appear as legend text.
 #' @param sort.frq indicates whether the \code{items} should be ordered by
 #'          by highest count of first or last category of \code{items}.
 #'          \describe{
@@ -24,7 +22,6 @@
 #'            \item{\code{"last.desc"}}{to order descending by lowest count of last category,}
 #'            \item{\code{NULL}}{(default) for no sorting.}
 #'          }
-#' @param legendTitle title of plot's legend
 #' @param includeN logical, if \code{TRUE} (default), the N of each item is included into axis labels.
 #' @param breakTitleAt determines how many chars of the title are displayed in
 #'          one line and when a line break is inserted into the title.
@@ -34,14 +31,11 @@
 #'          are displayed in one line and when a line break is inserted.
 #' @param breakLegendLabelsAt determines how many chars of the legend labels are 
 #'          displayed in one line and when a line break is inserted.
-#' @param expand.grid logical, if \code{TRUE} (default), the diagram has margins, 
-#'          i.e. the y-axis is not exceeded to the diagram's boundaries.
 #' @param showPercentageAxis If \code{TRUE} (default), the percentage values at the x-axis are shown.
 #' @param showItemLabels Whether x axis text (category names) should be shown or not.
 #' @param showSeparatorLine If \code{TRUE}, a line is drawn to visually "separate" each bar in the diagram.
 #' @param separatorLineColor The color of the separator line. only applies, if \code{showSeparatorLine} is \code{TRUE}.
 #' @param separatorLineSize The size of the separator line. only applies, if \code{showSeparatorLine} is \code{TRUE}.
-#' @param coord.flip If \code{TRUE}, the x and y axis are swapped.
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}).
 #' 
@@ -74,7 +68,7 @@
 #'               "Severely dependent")
 #' 
 #' # plot stacked frequencies of 5 (ordered) item-scales
-#' sjp.stackfrq(likert_4, legendLabels = levels_4)
+#' sjp.stackfrq(likert_4, legend.labels = levels_4)
 #' 
 #' 
 #' # -------------------------------
@@ -97,12 +91,12 @@
 #' @importFrom stats na.omit xtabs
 #' @export
 sjp.stackfrq <- function(items,
-                         legendLabels = NULL,
+                         legend.labels = NULL,
                          sort.frq = NULL,
                          weight.by = NULL,
                          show.legend = TRUE,
                          title = NULL,
-                         legendTitle = NULL,
+                         legend.title = NULL,
                          includeN = TRUE,
                          axis.labels = NULL,
                          breakTitleAt = 50,
@@ -165,7 +159,7 @@ sjp.stackfrq <- function(items,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(legendLabels)) legendLabels <- sjmisc::get_labels(items[[1]],
+  if (is.null(legend.labels)) legend.labels <- sjmisc::get_labels(items[[1]],
                                                                 attr.only = F,
                                                                 include.values = NULL,
                                                                 include.non.labelled = T)
@@ -185,18 +179,18 @@ sjp.stackfrq <- function(items,
   # --------------------------------------------------------
   # unlist/ unname axis labels
   # --------------------------------------------------------
-  if (!is.null(legendLabels)) {
+  if (!is.null(legend.labels)) {
     # unname labels, if necessary, so we have a simple
     # character vector
-    if (!is.null(names(legendLabels))) legendLabels <- as.vector(legendLabels)
+    if (!is.null(names(legend.labels))) legend.labels <- as.vector(legend.labels)
   } 
-  if (is.null(legendLabels)) {
+  if (is.null(legend.labels)) {
     # if we have no legend labels, we iterate all data frame's
     # columns to find all unique items of the data frame.
     # In case one item has missing categories, this may be
     # "compensated" by looking at all items, so we have the
     # actual values of all items.
-    legendLabels <- as.character(sort(unique(unlist(
+    legend.labels <- as.character(sort(unique(unlist(
       apply(items, 2, function(x) unique(stats::na.omit(x)))))))
   }
   # --------------------------------------------------------
@@ -214,7 +208,7 @@ sjp.stackfrq <- function(items,
   # if we have legend labels, we know the exact
   # amount of groups
   # -----------------------------------------------
-  countlen <- length(legendLabels)
+  countlen <- length(legend.labels)
   # -----------------------------------------------
   # create cross table for stats, summary etc.
   # and weight variable. do this for each item that was
@@ -280,10 +274,10 @@ sjp.stackfrq <- function(items,
   # Prepare and trim legend labels to appropriate size
   # --------------------------------------------------------
   # wrap legend text lines
-  legendLabels <- sjmisc::word_wrap(legendLabels, breakLegendLabelsAt)    
+  legend.labels <- sjmisc::word_wrap(legend.labels, breakLegendLabelsAt)    
   # check whether we have a title for the legend
   # if yes, wrap legend title line
-  if (!is.null(legendTitle)) legendTitle <- sjmisc::word_wrap(legendTitle, breakLegendTitleAt)
+  if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(legend.title, breakLegendTitleAt)
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
   if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)    
@@ -394,7 +388,7 @@ sjp.stackfrq <- function(items,
     # show absolute and percentage value of each bar.
     ggvaluelabels +
     # no additional labels for the x- and y-axis, only diagram title
-    labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legendTitle) +
+    labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legend.title) +
     # print value labels to the x-axis.
     # If parameter "axis.labels" is NULL, the category numbers (1 to ...) 
     # appear on the x-axis
@@ -414,9 +408,9 @@ sjp.stackfrq <- function(items,
   # ---------------------------------------------------------
   baseplot <- sj.setGeomColors(baseplot, 
                                geom.colors, 
-                               length(legendLabels), 
+                               length(legend.labels), 
                                show.legend, 
-                               legendLabels)
+                               legend.labels)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------

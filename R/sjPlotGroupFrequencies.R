@@ -52,7 +52,7 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'          These labels replace the \code{axis.labels}. Only applies, when using box or violin plots
 #'          (i.e. \code{type = "boxplot"} or \code{"violin"}) and \code{interactionVar} is not \code{NULL}.
 #'          Example: See \code{axis.labels}.
-#' @param legendLabels a character vector with labels for the guide/legend.
+#' @param legend.labels a character vector with labels for the guide/legend.
 #' @param breakTitleAt determines how many chars of the plot title are displayed in
 #'          one line and when a line break is inserted into the title.
 #' @param breakLabelsAt determines how many chars of the category labels are displayed in 
@@ -194,7 +194,7 @@ sjp.grpfrq <- function(varCount,
                        legend.title = NULL,
                        axis.labels = NULL,
                        interactionVarLabels = NULL,
-                       legendLabels = NULL,
+                       legend.labels = NULL,
                        ylim = NULL,
                        breakTitleAt = 50,
                        breakLabelsAt = 15,
@@ -347,7 +347,7 @@ sjp.grpfrq <- function(varCount,
     if (missing(show.legend)) show.legend <- !is.null(interactionVar)
   }
   if (is.null(axis.labels)) axis.labels <- mydat$labels.cnt
-  if (is.null(legendLabels)) legendLabels <- mydat$labels.grp
+  if (is.null(legend.labels)) legend.labels <- mydat$labels.grp
   if (is.null(interactionVarLabels) && !is.null(interactionVar)) {
     interactionVarLabels <- sjmisc::get_labels(interactionVar,
                                                attr.only = F,
@@ -358,7 +358,7 @@ sjp.grpfrq <- function(varCount,
                                 length.out = length(axis.labels) * length(interactionVarLabels))
     # we need a legend, cause x axis is labelled with interaction var value
     show.legend <- TRUE
-    legendLabels <- axis.labels
+    legend.labels <- axis.labels
   }
   if (is.null(axisTitle.x)) axisTitle.x <- sjmisc::get_label(varCount, def.value = var.name.cnt)
   if (is.null(legend.title)) legend.title <- sjmisc::get_label(varGroup, def.value = var.name.grp)
@@ -388,7 +388,7 @@ sjp.grpfrq <- function(varCount,
   # --------------------------------------------------------
   # Define amount of categories
   # --------------------------------------------------------
-  grpcount <- length(legendLabels)
+  grpcount <- length(legend.labels)
   # -----------------------------------------------
   # create cross table for stats, summary etc.
   # and weight variable
@@ -494,8 +494,8 @@ sjp.grpfrq <- function(varCount,
   # --------------------------------------------------------
   # Prepare and trim legend labels to appropriate size
   # --------------------------------------------------------
-  if (!is.null(legendLabels))
-    legendLabels <- sjmisc::word_wrap(legendLabels, breakLegendLabelsAt)
+  if (!is.null(legend.labels))
+    legend.labels <- sjmisc::word_wrap(legend.labels, breakLegendLabelsAt)
   if (!is.null(legend.title))
     legend.title <- sjmisc::word_wrap(legend.title, breakLegendTitleAt)
   if (!is.null(title)) {
@@ -554,7 +554,7 @@ sjp.grpfrq <- function(varCount,
       axis.labels <- paste(axis.labels, " (n=", sums, ")", sep = "")
       sums <- unname(colSums(mydat$mydat[, -1]))
       # add group count to each cat. label
-      legendLabels <- paste(legendLabels, " (n=", sums, ")", sep = "")
+      legend.labels <- paste(legend.labels, " (n=", sums, ")", sep = "")
     }
   }
   # --------------------------------------------------------
@@ -855,9 +855,9 @@ sjp.grpfrq <- function(varCount,
   baseplot <-
     sj.setGeomColors(baseplot,
                      geom.colors,
-                     length(legendLabels),
+                     length(legend.labels),
                      show.legend,
-                     legendLabels)
+                     legend.labels)
   # ----------------------------------
   # Plot integrated bar chart here
   # ----------------------------------

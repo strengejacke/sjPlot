@@ -11,8 +11,8 @@ sjc.qclus(data, groupcount = NULL, groups = NULL, method = "k",
   breakLegendTitleAt = 20, breakLegendLabelsAt = 20, facetCluster = FALSE,
   geom.colors = "Paired", geom.size = 0.5, geom.spacing = 0.1,
   show.legend = TRUE, showAxisLabels.x = TRUE, showAxisLabels.y = TRUE,
-  showGroupCount = TRUE, showAccuracyLabels = FALSE, legendTitle = NULL,
-  legendLabels = NULL, coord.flip = FALSE, reverseAxis.x = FALSE,
+  showGroupCount = TRUE, showAccuracyLabels = FALSE, legend.title = NULL,
+  legend.labels = NULL, coord.flip = FALSE, reverseAxis.x = FALSE,
   printPlot = TRUE)
 }
 \arguments{
@@ -109,8 +109,9 @@ legend labels (e.g. \code{"Group 1 (n=87)"}).}
 \item{showAccuracyLabels}{if \code{TRUE}, the accuracy-values for each cluster group is added to the 
 legend labels (e.g. \code{"Group 1 (n=87, accuracy=95.3)"}). Accuracy is calculated by \code{\link{sjc.grpdisc}}.}
 
-\item{legendLabels}{labels for the guide/legend. If \code{legendLabels = NULL}
-(default), the standard string \code{"Group <nr>"} will be used.}
+\item{legend.title}{title of the plot legend, as string.}
+
+\item{legend.labels}{a character vector with labels for the guide/legend.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 

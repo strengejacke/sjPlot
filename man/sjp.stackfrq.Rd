@@ -4,9 +4,9 @@
 \alias{sjp.stackfrq}
 \title{Plot stacked proportional bars}
 \usage{
-sjp.stackfrq(items, legendLabels = NULL, sort.frq = NULL,
+sjp.stackfrq(items, legend.labels = NULL, sort.frq = NULL,
   weight.by = NULL, show.legend = TRUE, title = NULL,
-  legendTitle = NULL, includeN = TRUE, axis.labels = NULL,
+  legend.title = NULL, includeN = TRUE, axis.labels = NULL,
   breakTitleAt = 50, breakLabelsAt = 30, breakLegendTitleAt = 30,
   breakLegendLabelsAt = 28, grid.breaks = 0.2, expand.grid = FALSE,
   geom.size = 0.5, geom.colors = "Blues", axis.titles = NULL,
@@ -18,8 +18,7 @@ sjp.stackfrq(items, legendLabels = NULL, sort.frq = NULL,
 \arguments{
 \item{items}{\code{\link{data.frame}} with each column representing one item.}
 
-\item{legendLabels}{list or vector of strings that indicate the items' categories.
-Will also appear as legend text.}
+\item{legend.labels}{a character vector with labels for the guide/legend.}
 
 \item{sort.frq}{indicates whether the \code{items} should be ordered by
 by highest count of first or last category of \code{items}.
@@ -41,7 +40,7 @@ function, a legend is added to the plot.}
 \item{title}{string, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{legendTitle}{title of plot's legend}
+\item{legend.title}{title of the plot legend, as string.}
 
 \item{includeN}{logical, if \code{TRUE} (default), the N of each item is included into axis labels.}
 
@@ -62,8 +61,8 @@ displayed in one line and when a line break is inserted.}
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
-\item{expand.grid}{logical, if \code{TRUE} (default), the diagram has margins, 
-i.e. the y-axis is not exceeded to the diagram's boundaries.}
+\item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
+axes and plotting region. Default is \code{FALSE}.}
 
 \item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
 depending on plot type and function. Note that bar and bin widths mostly 
@@ -94,7 +93,7 @@ away from the center of the plot respectively.}
 
 \item{separatorLineSize}{The size of the separator line. only applies, if \code{showSeparatorLine} is \code{TRUE}.}
 
-\item{coord.flip}{If \code{TRUE}, the x and y axis are swapped.}
+\item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
@@ -136,7 +135,7 @@ levels_4 <- c("Independent",
               "Severely dependent")
 
 # plot stacked frequencies of 5 (ordered) item-scales
-sjp.stackfrq(likert_4, legendLabels = levels_4)
+sjp.stackfrq(likert_4, legend.labels = levels_4)
 
 
 # -------------------------------

@@ -96,10 +96,10 @@
 #'          which means that each plot's x-axis uses the predictor's name as title.
 #' @param axis.labels character vector with value labels of the interaction, used
 #'          to label the x-axis. Only applies to \code{type = "emm"}.
-#' @param legendTitle title of the diagram's legend. A character vector of same length as 
+#' @param legend.title title of the diagram's legend. A character vector of same length as 
 #'          amount of interaction plots to be plotted (i.e. one vector element for each
 #'          plot's legend title).
-#' @param legendLabels labels for the guide/legend. Either a character vector of same length as
+#' @param legend.labels labels for the guide/legend. Either a character vector of same length as
 #'          amount of legend labels of the plot, or a \code{list} of character vectors, if more than one
 #'          interaction plot is plotted (i.e. one vector of legend labels for each interaction plot).
 #'          Default is \code{NULL}, so the name of the predictor with min/max-effect is used 
@@ -237,12 +237,12 @@
 #' # plot interaction, increase p-level sensivity
 #' sjp.int(fit,
 #'         type = "eff",
-#'         legendLabels = get_labels(efc$c161sex),
+#'         legend.labels = get_labels(efc$c161sex),
 #'         plevel = 0.1)
 #'
 #' sjp.int(fit,
 #'         type = "cond",
-#'         legendLabels = get_labels(efc$c161sex),
+#'         legend.labels = get_labels(efc$c161sex),
 #'         plevel = 0.1)
 #'         
 #' \dontrun{
@@ -316,8 +316,8 @@ sjp.int <- function(fit,
                     geom.size = NULL,
                     axis.title = NULL,
                     axis.labels = NULL,
-                    legendTitle = NULL,
-                    legendLabels = NULL,
+                    legend.title = NULL,
+                    legend.labels = NULL,
                     show.values = FALSE,
                     breakTitleAt = 50,
                     breakLegendLabelsAt = 20,
@@ -422,7 +422,7 @@ sjp.int <- function(fit,
       warning("argument `show.ci` must be logical for `type = 'emm'`.", call. = F)
     }
     return(sjp.emm(fit, swapPredictors, plevel, title, geom.colors, geom.size,
-                   axis.title, axis.labels, legendTitle, legendLabels,
+                   axis.title, axis.labels, legend.title, legend.labels,
                    show.values, valueLabel.digits, show.ci, p.kr, breakTitleAt,
                    breakLegendTitleAt, breakLegendLabelsAt, y.offset, ylim, 
                    grid.breaks, facet.grid, printPlot))
@@ -430,15 +430,15 @@ sjp.int <- function(fit,
   # --------------------------------------------------------
   # list labels
   # --------------------------------------------------------
-  if (!is.null(legendLabels) && !is.list(legendLabels)) legendLabels <- list(legendLabels)
-  if (!is.null(legendTitle) && is.list(legendTitle)) legendTitle <- unlist(legendTitle)
+  if (!is.null(legend.labels) && !is.list(legend.labels)) legend.labels <- list(legend.labels)
+  if (!is.null(legend.title) && is.list(legend.title)) legend.title <- unlist(legend.title)
   # --------------------------------------------------------
   # plot moderation effeczs?
   # --------------------------------------------------------
   if (type == "eff") {
     return(sjp.eff.int(fit, int.term, int.plot.index, moderatorValues, swapPredictors, plevel,
                        title, fillAlpha, geom.colors, geom.size, axis.title,
-                       legendTitle, legendLabels, show.values, breakTitleAt, breakLegendLabelsAt, 
+                       legend.title, legend.labels, show.values, breakTitleAt, breakLegendLabelsAt, 
                        breakLegendTitleAt, xlim, ylim, y.offset, grid.breaks, 
                        show.ci, facet.grid, printPlot, fun))
   }
@@ -733,7 +733,7 @@ sjp.int <- function(fit,
     # -----------------------------------------------------------
     # legend labels
     # -----------------------------------------------------------
-    if (is.null(legendLabels)) {
+    if (is.null(legend.labels)) {
       # lLabels <- NULL
       # # ---------------------------------
       # # find moderator variable in data
@@ -763,22 +763,22 @@ sjp.int <- function(fit,
       # copy plot counter 
       l_nr <- cnt
       # check if we have enough labels. if not, use last labels
-      if (l_nr > length(legendLabels)) l_nr <- length(legendLabels)
+      if (l_nr > length(legend.labels)) l_nr <- length(legend.labels)
       # set legend labels for plot
-      lLabels <- legendLabels[[l_nr]]
+      lLabels <- legend.labels[[l_nr]]
     }
     # -----------------------------------------------------------
     # legend titles
     # -----------------------------------------------------------
-    if (is.null(legendTitle)) {
+    if (is.null(legend.title)) {
       lTitle <- predy
     } else {
       # copy plot counter 
       l_nr <- cnt
       # check if we have enough legend titles, if not, use last legend title
-      if (l_nr > length(legendTitle)) l_nr <- length(legendTitle)
+      if (l_nr > length(legend.title)) l_nr <- length(legend.title)
       # set legend title for plot
-      lTitle <- legendTitle[l_nr]
+      lTitle <- legend.title[l_nr]
     }
     # -----------------------------------------------------------
     # x axis titles
@@ -908,8 +908,8 @@ sjp.eff.int <- function(fit,
                         geom.colors = "Set1",
                         geom.size = 0.7,
                         axis.title = NULL,
-                        legendTitle = NULL,
-                        legendLabels = NULL,
+                        legend.title = NULL,
+                        legend.labels = NULL,
                         show.values = FALSE,
                         breakTitleAt = 50,
                         breakLegendLabelsAt = 20,
@@ -1258,7 +1258,7 @@ sjp.eff.int <- function(fit,
     # -----------------------------------------------------------
     # legend labels
     # -----------------------------------------------------------
-    if (is.null(legendLabels)) {
+    if (is.null(legend.labels)) {
       # try to get labels
       lLabels <- sjmisc::get_labels(stats::model.frame(fit)[[moderator.name]], attr.only = F)
       # if we still have no labels, get values from group
@@ -1267,9 +1267,9 @@ sjp.eff.int <- function(fit,
       # copy plot counter 
       l_nr <- i
       # check if we have enough labels. if not, use last labels
-      if (l_nr > length(legendLabels)) l_nr <- length(legendLabels)
+      if (l_nr > length(legend.labels)) l_nr <- length(legend.labels)
       # set legend labels for plot
-      lLabels <- legendLabels[[l_nr]]
+      lLabels <- legend.labels[[l_nr]]
     }
     # -----------------------------------------------------------
     # prepare facet-labels
@@ -1280,15 +1280,15 @@ sjp.eff.int <- function(fit,
     # -----------------------------------------------------------
     # legend titles
     # -----------------------------------------------------------
-    if (is.null(legendTitle)) {
+    if (is.null(legend.title)) {
       lTitle <- sjmisc::get_label(stats::model.frame(fit)[[moderator.name]], def.value = moderator.name)
     } else {
       # copy plot counter 
       l_nr <- i
       # check if we have enough legend titles, if not, use last legend title
-      if (l_nr > length(legendTitle)) l_nr <- length(legendTitle)
+      if (l_nr > length(legend.title)) l_nr <- length(legend.title)
       # set legend title for plot
-      lTitle <- legendTitle[l_nr]
+      lTitle <- legend.title[l_nr]
     }
     # -----------------------------------------------------------
     # x axis titles

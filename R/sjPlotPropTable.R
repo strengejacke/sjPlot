@@ -49,7 +49,7 @@ utils::globalVariables(c("rowname", "total", "ges", "prc", "n", "Count", "Group"
 #' # plot "cross tablulation" of x and y, including labels
 #' sjp.xtab(x, grp, 
 #'          axis.labels = c("low", "mid", "high"),
-#'          legendLabels = c("Grp 1", "Grp 2", "Grp 3", "Grp 4"))
+#'          legend.labels = c("Grp 1", "Grp 2", "Grp 3", "Grp 4"))
 #' 
 #' # plot "cross tablulation" of x and grp
 #' # as stacked proportional bars
@@ -79,15 +79,15 @@ utils::globalVariables(c("rowname", "total", "ges", "prc", "n", "Count", "Group"
 #'          efc$e16sex,
 #'          title = efc.var['e42dep'],
 #'          axis.labels = efc.val[['e42dep']],
-#'          legendTitle = efc.var['e16sex'],
-#'          legendLabels = efc.val[['e16sex']])
+#'          legend.title = efc.var['e16sex'],
+#'          legend.labels = efc.val[['e16sex']])
 #'          
 #' sjp.xtab(efc$e16sex,
 #'          efc$e42dep,
 #'          title = efc.var['e16sex'],
 #'          axis.labels = efc.val[['e16sex']],
-#'          legendTitle = efc.var['e42dep'],
-#'          legendLabels = efc.val[['e42dep']])
+#'          legend.title = efc.var['e42dep'],
+#'          legend.labels = efc.val[['e42dep']])
 #'          
 #' # -------------------------------
 #' # auto-detection of labels works here
@@ -113,7 +113,7 @@ utils::globalVariables(c("rowname", "total", "ges", "prc", "n", "Count", "Group"
 sjp.xtab <- function(x,
                      grp,
                      title = "",
-                     legendTitle = NULL,
+                     legend.title = NULL,
                      weight.by = NULL,
                      weightByTitleString = NULL,
                      type = "bars",
@@ -121,7 +121,7 @@ sjp.xtab <- function(x,
                      rev.order = FALSE,
                      ylim = NULL,
                      axis.labels = NULL,
-                     legendLabels = NULL,
+                     legend.labels = NULL,
                      vjust = "bottom",
                      hjust = "center",
                      y.offset = NULL,
@@ -226,9 +226,9 @@ sjp.xtab <- function(x,
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
   if (is.null(axis.labels)) axis.labels <- mydat$labels.cnt
-  if (is.null(legendLabels)) legendLabels <- mydat$labels.grp
+  if (is.null(legend.labels)) legend.labels <- mydat$labels.grp
   if (is.null(axisTitle.x)) axisTitle.x <- sjmisc::get_label(x, def.value = var.name.cnt)
-  if (is.null(legendTitle)) legendTitle <- sjmisc::get_label(grp, def.value = var.name.grp)
+  if (is.null(legend.title)) legend.title <- sjmisc::get_label(grp, def.value = var.name.grp)
   if (is.null(title)) {
     t1 <- sjmisc::get_label(x, def.value = var.name.cnt)
     t2 <- sjmisc::get_label(grp, def.value = var.name.grp)
@@ -237,7 +237,7 @@ sjp.xtab <- function(x,
   # --------------------------------------------------------
   # remove titles if empty
   # --------------------------------------------------------
-  if (!is.null(legendTitle) && legendTitle == "") legendTitle <- NULL
+  if (!is.null(legend.title) && legend.title == "") legend.title <- NULL
   if (!is.null(axisTitle.x) && axisTitle.x == "") axisTitle.x <- NULL
   if (!is.null(axisTitle.y) && axisTitle.y == "") axisTitle.y <- NULL  
   if (!is.null(title) && title == "") title <- NULL    
@@ -245,8 +245,8 @@ sjp.xtab <- function(x,
   # Check if user wants to add total column, and if so,
   # define amount of categories
   # --------------------------------------------------------
-  if (showTotalColumn) legendLabels <- c(legendLabels, stringTotal)
-  grpcount <- length(legendLabels)
+  if (showTotalColumn) legend.labels <- c(legend.labels, stringTotal)
+  grpcount <- length(legend.labels)
   # -----------------------------------------------
   # check whether row, column or cell percentages are requested
   #---------------------------------------------------
@@ -318,8 +318,8 @@ sjp.xtab <- function(x,
   # --------------------------------------------------------
   # Prepare and trim legend labels to appropriate size
   # --------------------------------------------------------
-  if (!is.null(legendLabels)) legendLabels <- sjmisc::word_wrap(legendLabels, breakLegendLabelsAt)
-  if (!is.null(legendTitle)) legendTitle <- sjmisc::word_wrap(legendTitle, breakLegendTitleAt)
+  if (!is.null(legend.labels)) legend.labels <- sjmisc::word_wrap(legend.labels, breakLegendLabelsAt)
+  if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(legend.title, breakLegendTitleAt)
   if (!is.null(title)) {
     # if we have weighted values, say that in diagram's title
     if (!is.null(weightByTitleString)) title <- paste(title, weightByTitleString, sep = "")
@@ -482,7 +482,7 @@ sjp.xtab <- function(x,
     labs(title = title, 
          x = axisTitle.x, 
          y = axisTitle.y, 
-         fill = legendTitle) +
+         fill = legend.title) +
     # print value labels to the x-axis.
     # If argument "axis.labels" is NULL, the category numbers (1 to ...) 
     # appear on the x-axis
@@ -502,9 +502,9 @@ sjp.xtab <- function(x,
   # ---------------------------------------------------------
   baseplot <- sj.setGeomColors(baseplot, 
                                geom.colors, 
-                               length(legendLabels), 
+                               length(legend.labels), 
                                show.legend, 
-                               legendLabels)
+                               legend.labels)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------

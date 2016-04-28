@@ -6,7 +6,7 @@
 \usage{
 sjp.chi2(df, title = "Pearson's Chi2-Test of Independence",
   axis.labels = NULL, breakTitleAt = 50, breakLabelsAt = 20,
-  show.legend = FALSE, legendTitle = NULL, printPlot = TRUE)
+  show.legend = FALSE, legend.title = NULL, printPlot = TRUE)
 }
 \arguments{
 \item{df}{a data frame of (dichotomous) factor variables.}
@@ -25,8 +25,7 @@ one line and when a line break is inserted}
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
-\item{legendTitle}{the legend title, provided as string, e.g. \code{legendTitle=c("Strength of correlation")}.
-Default is \code{NULL}, hence no legend title is used.}
+\item{legend.title}{title of the plot legend, as string.}
 
 \item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}

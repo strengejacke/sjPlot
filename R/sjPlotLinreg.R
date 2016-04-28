@@ -98,8 +98,6 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'          which estimates should be removed from the plot.
 #'          \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 #'          is \code{NULL}, i.e. all estimates are printed.
-#' @param coord.flip logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
-#'          values are plotted on the x-axis.
 #' @param show.p logical, adds significance levels to value or variable labels.
 #' @param showModelSummary logical, if \code{TRUE}, a summary of the regression model with
 #'          Intercept, R-squared, F-Test and AIC-value is printed to the lower right corner
@@ -268,7 +266,7 @@ sjp.lm <- function(fit,
                    title = NULL,
                    resp.label = NULL,
                    axis.labels = NULL,
-                   legendTitle = NULL,
+                   legend.title = NULL,
                    axis.title = NULL,
                    axis.lim = NULL,
                    geom.colors = "Set1",
@@ -345,7 +343,7 @@ sjp.lm <- function(fit,
                                 remove.estimates, vars, printPlot)))
   }
   if (type == "pred") {
-    return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legendTitle,
+    return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
                                    geom.colors, show.ci, geom.size, ylim = axis.lim,
                                    facet.grid, type = "fe", show.loess, printPlot)))
   }
@@ -441,13 +439,13 @@ sjp.lm <- function(fit,
       warning("Length of `group.estimates` does not equal number of model coefficients. Ignoring this argument.", call. = F)
       group.estimates = NULL
       show.legend <- FALSE
-      legendTitle <- NULL
+      legend.title <- NULL
     } else {
       tmp$grp.est <- as.character(group.estimates)
     }
   } else {
     show.legend <- FALSE
-    legendTitle <- NULL
+    legend.title <- NULL
   }
   # -------------------------------------------------
   # remove any estimates from the output?
@@ -575,7 +573,7 @@ sjp.lm <- function(fit,
     # set value labels to x-axis
     scale_x_discrete(labels = axis.labels,
                      limits = 1:length(axis.labels)) +
-    labs(title = title, x = NULL, y = axis.title, colour = legendTitle)
+    labs(title = title, x = NULL, y = axis.title, colour = legend.title)
   # --------------------------------------------------------
   # flip coordinates?
   # --------------------------------------------------------

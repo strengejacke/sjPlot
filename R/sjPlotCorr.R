@@ -104,7 +104,7 @@ sjp.corr <- function(data,
                      breakTitleAt = 50,
                      breakLabelsAt = 20,
                      show.legend = FALSE,
-                     legendTitle = NULL,
+                     legend.title = NULL,
                      show.values = TRUE,
                      showPValues = TRUE,
                      pvaluesAsNumbers = FALSE,
@@ -325,7 +325,7 @@ sjp.corr <- function(data,
     scale_fill_gradientn(colours = geom.colors, limits = c(-1,1)) +
     scale_colour_gradient2(low = "#ca0020", mid = "grey40", high = "#0571b0", limits = c(-1,1)) +
     geom_text(label = sprintf("%s%s", correlationValueLabels, correlationPValues)) +
-    labs(title = title, x = NULL, y = NULL, fill = legendTitle)
+    labs(title = title, x = NULL, y = NULL, fill = legend.title)
   if (show.legend) {
     corrPlot <- corrPlot + guides(colour = FALSE)
   } else {

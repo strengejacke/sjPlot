@@ -17,8 +17,6 @@ utils::globalVariables(c("Row", "Column", "p.value"))
 #'          one line and when a line break is inserted into the title
 #' @param breakLabelsAt Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in 
 #'          one line and when a line break is inserted
-#' @param legendTitle the legend title, provided as string, e.g. \code{legendTitle=c("Strength of correlation")}.
-#'          Default is \code{NULL}, hence no legend title is used.
 #' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
@@ -49,7 +47,7 @@ sjp.chi2 <- function(df,
                      breakTitleAt = 50,
                      breakLabelsAt = 20,
                      show.legend = FALSE,
-                     legendTitle = NULL,
+                     legend.title = NULL,
                      printPlot = TRUE) {
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
@@ -123,7 +121,7 @@ sjp.chi2 <- function(df,
     labs(title = title, 
          x = NULL, 
          y = NULL, 
-         fill = legendTitle)
+         fill = legend.title)
   # ---------------------------------------------------------
   # hide legend?
   # ---------------------------------------------------------

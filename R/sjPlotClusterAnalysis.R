@@ -70,8 +70,6 @@ utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "s
 #'          legend labels (e.g. \code{"Group 1 (n=87)"}).
 #' @param showAccuracyLabels if \code{TRUE}, the accuracy-values for each cluster group is added to the 
 #'          legend labels (e.g. \code{"Group 1 (n=87, accuracy=95.3)"}). Accuracy is calculated by \code{\link{sjc.grpdisc}}.
-#' @param legendLabels labels for the guide/legend. If \code{legendLabels = NULL}
-#'          (default), the standard string \code{"Group <nr>"} will be used.
 #' @param reverseAxis.x if \code{TRUE}, the values on the x-axis are reversed.
 #'
 #' @inheritParams sjp.grpfrq
@@ -138,8 +136,8 @@ sjc.qclus <- function(data,
                       showAxisLabels.y = TRUE,
                       showGroupCount = TRUE,
                       showAccuracyLabels = FALSE,
-                      legendTitle = NULL,
-                      legendLabels = NULL,
+                      legend.title = NULL,
+                      legend.labels = NULL,
                       coord.flip = FALSE,
                       reverseAxis.x = FALSE,
                       printPlot = TRUE) {
@@ -163,9 +161,9 @@ sjc.qclus <- function(data,
   # check length of diagram title and split longer string at into new lines
   if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)    
   # check length of legend title and split longer string at into new lines
-  if (!is.null(legendTitle)) legendTitle <- sjmisc::word_wrap(title, breakLegendTitleAt)    
+  if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(title, breakLegendTitleAt)    
   # check length of y-axis title and split longer string at into new lines
-  if (!is.null(legendLabels)) legendLabels <- sjmisc::word_wrap(legendLabels, breakLegendLabelsAt)
+  if (!is.null(legend.labels)) legend.labels <- sjmisc::word_wrap(legend.labels, breakLegendLabelsAt)
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
   axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
@@ -209,7 +207,7 @@ sjc.qclus <- function(data,
   # ---------------------------------------------
   # auto-set legend labels
   # ---------------------------------------------
-  if (is.null(legendLabels)) legendLabels <- sprintf("Group %i", c(1:groupcount))
+  if (is.null(legend.labels)) legend.labels <- sprintf("Group %i", c(1:groupcount))
   # --------------------------------------------------------
   # show goodness of classification
   # --------------------------------------------------------
@@ -222,18 +220,18 @@ sjc.qclus <- function(data,
   # ---------------------------------------------
   if (showGroupCount || showAccuracyLabels) {
     # iterate legend labels
-    for (i in 1:length(legendLabels)) {
+    for (i in 1:length(legend.labels)) {
       # label string for group count
       gcnt.label <- sprintf("n=%i", length(which(grp == i)))
       # label string for accuracy
       acc.label <- sprintf("accuracy=%.2f%%", 100 * grp.accuracy$accuracy[i])
       # prepare legend label
-      legendLabels[i] <- paste0(legendLabels[i], " (")
+      legend.labels[i] <- paste0(legend.labels[i], " (")
       # add group count to each label
-      if (showGroupCount) legendLabels[i] <- paste0(legendLabels[i], gcnt.label)
-      if (showGroupCount && showAccuracyLabels) legendLabels[i] <- paste0(legendLabels[i], ", ")
-      if (showAccuracyLabels) legendLabels[i] <- paste0(legendLabels[i], acc.label)
-      legendLabels[i] <- paste0(legendLabels[i], ")")
+      if (showGroupCount) legend.labels[i] <- paste0(legend.labels[i], gcnt.label)
+      if (showGroupCount && showAccuracyLabels) legend.labels[i] <- paste0(legend.labels[i], ", ")
+      if (showAccuracyLabels) legend.labels[i] <- paste0(legend.labels[i], acc.label)
+      legend.labels[i] <- paste0(legend.labels[i], ")")
     }
   }
   # scale data
@@ -284,7 +282,7 @@ sjc.qclus <- function(data,
     scale_x_discrete(breaks = c(1:colnr), 
                      limits = c(1:colnr), 
                      labels = axis.labels) +
-    labs(title = title, x = "Cluster group characteristics", y = "Mean of z-scores", fill = legendTitle)
+    labs(title = title, x = "Cluster group characteristics", y = "Mean of z-scores", fill = legend.title)
   # --------------------------------------------------------
   # hide y-axis labels
   # --------------------------------------------------------
@@ -303,9 +301,9 @@ sjc.qclus <- function(data,
   # ---------------------------------------------------------
   gp <- sj.setGeomColors(gp, 
                          geom.colors, 
-                         length(legendLabels), 
+                         length(legend.labels), 
                          show.legend,
-                         legendLabels)  
+                         legend.labels)  
   # --------------------------------------------------------
   # plot
   # --------------------------------------------------------

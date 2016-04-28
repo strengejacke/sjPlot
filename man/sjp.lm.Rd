@@ -5,7 +5,7 @@
 \title{Plot estimates, predictions or effects of linear models}
 \usage{
 sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
-  resp.label = NULL, axis.labels = NULL, legendTitle = NULL,
+  resp.label = NULL, axis.labels = NULL, legend.title = NULL,
   axis.title = NULL, axis.lim = NULL, geom.colors = "Set1",
   geom.size = NULL, vline.type = 2, vline.color = "grey70",
   group.estimates = NULL, remove.estimates = NULL, vars = NULL,
@@ -45,6 +45,8 @@ will be set automatically. If \code{title = ""}, no title is printed.}
 used if fitted model has only one predictor and \code{type = "lm"}.}
 
 \item{axis.labels}{character vector with labels used as axis labels.}
+
+\item{legend.title}{title of the plot legend, as string.}
 
 \item{axis.title}{string, title for the axis. If not specified, a default labelling depending
 on the plot function and type is chosen.}
@@ -91,8 +93,7 @@ one line and when a line break is inserted.}
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
-\item{coord.flip}{logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
-values are plotted on the x-axis.}
+\item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
 \item{facet.grid}{\code{TRUE} when bar charts should be plotted as facet grids instead of integrated single
 bar charts. Ideal for larger amount of groups. This argument wraps a single panel into 

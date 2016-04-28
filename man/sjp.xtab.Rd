@@ -4,10 +4,10 @@
 \alias{sjp.xtab}
 \title{Plot contingency tables}
 \usage{
-sjp.xtab(x, grp, title = "", legendTitle = NULL, weight.by = NULL,
+sjp.xtab(x, grp, title = "", legend.title = NULL, weight.by = NULL,
   weightByTitleString = NULL, type = "bars", tableIndex = "col",
   rev.order = FALSE, ylim = NULL, axis.labels = NULL,
-  legendLabels = NULL, vjust = "bottom", hjust = "center",
+  legend.labels = NULL, vjust = "bottom", hjust = "center",
   y.offset = NULL, stringTotal = "Total", breakTitleAt = 50,
   breakLabelsAt = 15, breakLegendTitleAt = 20, breakLegendLabelsAt = 20,
   grid.breaks = 0.2, geom.size = 0.7, geom.spacing = 0.1,
@@ -26,6 +26,8 @@ is grouped into the categories represented by \code{grp}.}
 
 \item{title}{string, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
+
+\item{legend.title}{title of the plot legend, as string.}
 
 \item{weight.by}{weight factor that will be applied to weight all cases.
 Must be a vector of same length as the input vector. Default is 
@@ -51,7 +53,7 @@ y-axis fits to the required range of the data.}
 
 \item{axis.labels}{character vector with labels used as axis labels.}
 
-\item{legendLabels}{a character vector with labels for the guide/legend.}
+\item{legend.labels}{a character vector with labels for the guide/legend.}
 
 \item{vjust}{character vector, indicating the vertical position of value 
 labels. Allowed are same values as for \code{vjust} aesthetics from 
@@ -161,7 +163,7 @@ sjp.xtab(x, grp)
 # plot "cross tablulation" of x and y, including labels
 sjp.xtab(x, grp, 
          axis.labels = c("low", "mid", "high"),
-         legendLabels = c("Grp 1", "Grp 2", "Grp 3", "Grp 4"))
+         legend.labels = c("Grp 1", "Grp 2", "Grp 3", "Grp 4"))
 
 # plot "cross tablulation" of x and grp
 # as stacked proportional bars
@@ -191,15 +193,15 @@ sjp.xtab(efc$e42dep,
          efc$e16sex,
          title = efc.var['e42dep'],
          axis.labels = efc.val[['e42dep']],
-         legendTitle = efc.var['e16sex'],
-         legendLabels = efc.val[['e16sex']])
+         legend.title = efc.var['e16sex'],
+         legend.labels = efc.val[['e16sex']])
          
 sjp.xtab(efc$e16sex,
          efc$e42dep,
          title = efc.var['e16sex'],
          axis.labels = efc.val[['e16sex']],
-         legendTitle = efc.var['e42dep'],
-         legendLabels = efc.val[['e42dep']])
+         legend.title = efc.var['e42dep'],
+         legend.labels = efc.val[['e42dep']])
          
 # -------------------------------
 # auto-detection of labels works here

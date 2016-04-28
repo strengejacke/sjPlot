@@ -8,7 +8,7 @@ sjp.int(fit, type = "eff", int.term = NULL, int.plot.index = NULL,
   diff = FALSE, moderatorValues = "minmax", swapPredictors = FALSE,
   plevel = 0.1, title = NULL, fillColor = "grey", fillAlpha = 0.3,
   geom.colors = "Set1", geom.size = NULL, axis.title = NULL,
-  axis.labels = NULL, legendTitle = NULL, legendLabels = NULL,
+  axis.labels = NULL, legend.title = NULL, legend.labels = NULL,
   show.values = FALSE, breakTitleAt = 50, breakLegendLabelsAt = 20,
   breakLegendTitleAt = 20, xlim = NULL, ylim = NULL, y.offset = 0.07,
   grid.breaks = NULL, show.ci = FALSE, p.kr = TRUE,
@@ -97,11 +97,11 @@ which means that each plot's x-axis uses the predictor's name as title.}
 \item{axis.labels}{character vector with value labels of the interaction, used
 to label the x-axis. Only applies to \code{type = "emm"}.}
 
-\item{legendTitle}{title of the diagram's legend. A character vector of same length as 
+\item{legend.title}{title of the diagram's legend. A character vector of same length as 
 amount of interaction plots to be plotted (i.e. one vector element for each
 plot's legend title).}
 
-\item{legendLabels}{labels for the guide/legend. Either a character vector of same length as
+\item{legend.labels}{labels for the guide/legend. Either a character vector of same length as
 amount of legend labels of the plot, or a \code{list} of character vectors, if more than one
 interaction plot is plotted (i.e. one vector of legend labels for each interaction plot).
 Default is \code{NULL}, so the name of the predictor with min/max-effect is used 
@@ -289,12 +289,12 @@ fit <- glm(y ~ sex * barthel,
 # plot interaction, increase p-level sensivity
 sjp.int(fit,
         type = "eff",
-        legendLabels = get_labels(efc$c161sex),
+        legend.labels = get_labels(efc$c161sex),
         plevel = 0.1)
 
 sjp.int(fit,
         type = "cond",
-        legendLabels = get_labels(efc$c161sex),
+        legend.labels = get_labels(efc$c161sex),
         plevel = 0.1)
         
 \dontrun{

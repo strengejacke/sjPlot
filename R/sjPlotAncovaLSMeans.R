@@ -11,7 +11,7 @@ sjp.emm <- function(fit,
                     axis.title = NULL,
                     axis.labels = NULL,
                     legend.title = NULL,
-                    legendLabels = NULL,
+                    legend.labels = NULL,
                     show.values = FALSE,
                     valueLabel.digits = 2,
                     show.ci = FALSE,
@@ -40,7 +40,7 @@ sjp.emm <- function(fit,
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
-  if (!is.null(legendLabels) && is.list(legendLabels)) legendLabels <- unlistlabels(legendLabels)
+  if (!is.null(legend.labels) && is.list(legend.labels)) legend.labels <- unlistlabels(legend.labels)
   # init vector that saves ggplot objects
   plotlist <- list()
   dflist <- list()
@@ -261,13 +261,13 @@ sjp.emm <- function(fit,
       # -----------------------------------------------------------
       # legend labels
       # -----------------------------------------------------------
-      if (is.null(legendLabels)) {
+      if (is.null(legend.labels)) {
         # try to get labels
         lLabels <- sjmisc::get_labels(m_f[term.pairs[1]][, 1], attr.only = F)
         # if we still have no labels, get factor levels
         if (is.null(lLabels)) levels(m_f[term.pairs[1]][, 1])
       } else {
-        lLabels <- legendLabels
+        lLabels <- legend.labels
       }
       # -----------------------------------------------------------
       # legend title

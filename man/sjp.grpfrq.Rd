@@ -9,7 +9,7 @@ sjp.grpfrq(varCount, varGroup, weight.by = NULL, weightByTitleString = NULL,
   "violin"), geom.size = NULL, geom.spacing = 0.15,
   geom.colors = "Paired", show.legend = TRUE, facet.grid = FALSE,
   title = "", legend.title = NULL, axis.labels = NULL,
-  interactionVarLabels = NULL, legendLabels = NULL, ylim = NULL,
+  interactionVarLabels = NULL, legend.labels = NULL, ylim = NULL,
   breakTitleAt = 50, breakLabelsAt = 15, breakLegendTitleAt = 20,
   breakLegendLabelsAt = 20, grid.breaks = NULL, barPosition = "dodge",
   innerBoxPlotWidth = 0.15, innerBoxPlotDotSize = 3, smoothLines = FALSE,
@@ -78,7 +78,7 @@ These labels replace the \code{axis.labels}. Only applies, when using box or vio
 (i.e. \code{type = "boxplot"} or \code{"violin"}) and \code{interactionVar} is not \code{NULL}.
 Example: See \code{axis.labels}.}
 
-\item{legendLabels}{a character vector with labels for the guide/legend.}
+\item{legend.labels}{a character vector with labels for the guide/legend.}
 
 \item{ylim}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 

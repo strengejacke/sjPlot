@@ -65,8 +65,8 @@ sjp.gpt <- function(x,
                     title = NULL,
                     axis.labels = NULL,
                     axis.titles = NULL,
-                    legendTitle = NULL,
-                    legendLabels = NULL,
+                    legend.title = NULL,
+                    legend.labels = NULL,
                     breakTitleAt = 50,
                     breakLabelsAt = 15,
                     breakLegendTitleAt = 20,
@@ -113,8 +113,8 @@ sjp.gpt <- function(x,
                                                   " (",
                                                   ylabels,
                                                   ")")
-  if (is.null(legendTitle)) legendTitle <- sjmisc::get_label(x, def.value = var.name.x)
-  if (is.null(legendLabels)) legendLabels <- sjmisc::get_labels(x,
+  if (is.null(legend.title)) legend.title <- sjmisc::get_label(x, def.value = var.name.x)
+  if (is.null(legend.labels)) legend.labels <- sjmisc::get_labels(x,
                                                                 attr.only = F,
                                                                 include.values = NULL,
                                                                 include.non.labelled = T)
@@ -125,8 +125,8 @@ sjp.gpt <- function(x,
   # ---------------------------------------------
   # wrap titles and labels
   # ---------------------------------------------
-  if (!is.null(legendLabels)) legendLabels <- sjmisc::word_wrap(legendLabels, breakLegendLabelsAt)
-  if (!is.null(legendTitle)) legendTitle <- sjmisc::word_wrap(legendTitle, breakLegendTitleAt)
+  if (!is.null(legend.labels)) legend.labels <- sjmisc::word_wrap(legend.labels, breakLegendLabelsAt)
+  if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(legend.title, breakLegendTitleAt)
   if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
   if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
   if (!is.null(axisTitle.y)) axisTitle.y <- sjmisc::word_wrap(axisTitle.y, breakTitleAt)
@@ -224,7 +224,7 @@ sjp.gpt <- function(x,
   # --------------------------------------------------------
   # Set up geom colors
   # --------------------------------------------------------
-  pal.len <- length(legendLabels)
+  pal.len <- length(legend.labels)
   if (is.brewer.pal(geom.colors[1])) {
     geom.colors <- scales::brewer_pal(palette = geom.colors[1])(pal.len)
   } else if (geom.colors[1] == "gs") {
@@ -245,11 +245,11 @@ sjp.gpt <- function(x,
                        breaks = gridbreaks,
                        limits = axis.lim) +
     scale_x_discrete(labels = rev(axis.labels)) +
-    scale_shape_manual(name = legendTitle,
-                       labels = legendLabels,
+    scale_shape_manual(name = legend.title,
+                       labels = legend.labels,
                        values = shapes[1:pal.len]) +
-    scale_colour_manual(name = legendTitle,
-                        labels = legendLabels,
+    scale_colour_manual(name = legend.title,
+                        labels = legend.labels,
                         values = geom.colors) +
     labs(x = axisTitle.x,
          y = axisTitle.y,

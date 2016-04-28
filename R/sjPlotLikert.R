@@ -43,8 +43,6 @@ utils::globalVariables(c("offset"))
 #'          so positive and negative values switch colors.
 #' @param cat.neutral.color color of the neutral category, if plotted (see \code{cat.neutral}).
 #' @param intercept.line.color color of the vertical intercept line that divides positive and negative values.
-#' @param legendLabels character vector with names of the 
-#'          likert-scale-categories that appear as legend text.
 #' @param includeN logical, if \code{TRUE} (default), the N of each item will be included in axis labels.
 #' @param value.labels determines style and position of percentage value labels on the bars:
 #'          \describe{
@@ -120,14 +118,14 @@ utils::globalVariables(c("offset"))
 #' # plot dichotomous likert scale, ordered by "negative" values
 #' sjp.likert(likert_2,
 #'            geom.colors = c("green", "red"),
-#'            legendLabels = levels_2, 
+#'            legend.labels = levels_2, 
 #'            axis.labels = items, 
 #'            sort.frq = "neg.desc")
 #' 
 #' # plot 4-category-likert-scale, no order
 #' sjp.likert(likert_4, 
 #'            cat.neutral = 5,
-#'            legendLabels = levels_4, 
+#'            legend.labels = levels_4, 
 #'            axis.labels = items,
 #'            gridRange = 1.2,
 #'            expand.grid = FALSE,
@@ -137,7 +135,7 @@ utils::globalVariables(c("offset"))
 #' # plot 6-category-likert-scale, ordered by positive values,
 #' # in brown color scale
 #' sjp.likert(likert_6, 
-#'            legendLabels = levels_6, 
+#'            legend.labels = levels_6, 
 #'            axis.labels = items, 
 #'            sort.frq = "pos.asc", 
 #'            digits = 0,
@@ -162,10 +160,10 @@ sjp.likert <- function(items,
                        value.labels = "show",
                        showPercentageSign = FALSE,
                        digits = 1,
-                       legendLabels = NULL,
+                       legend.labels = NULL,
                        show.legend = TRUE,
                        title = NULL, 
-                       legendTitle = NULL,
+                       legend.title = NULL,
                        includeN = TRUE,
                        showItemLabels = TRUE,
                        axis.labels = NULL,
@@ -220,7 +218,7 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
-  if (is.null(legendLabels)) legendLabels <- sjmisc::get_labels(items[[1]],
+  if (is.null(legend.labels)) legend.labels <- sjmisc::get_labels(items[[1]],
                                                                 attr.only = F,
                                                                 include.values = NULL,
                                                                 include.non.labelled = T)
@@ -238,9 +236,9 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   # unlist/ unname axis labels
   # --------------------------------------------------------
-  if (!is.null(legendLabels)) {
+  if (!is.null(legend.labels)) {
     # unname labels, if necessary, so we have a simple character vector
-    if (!is.null(names(legendLabels))) legendLabels <- as.vector(legendLabels)
+    if (!is.null(names(legend.labels))) legend.labels <- as.vector(legend.labels)
   } 
   # --------------------------------------------------------
   # determine catcount
@@ -260,15 +258,15 @@ sjp.likert <- function(items,
     # then equals catcount
     catcount <- max(catcount) - min(catcount) + 1
     # check if category count matches category label count
-    if (!is.null(legendLabels)) {
+    if (!is.null(legend.labels)) {
       # how many labels do we have?
       # substract 1, if we have neutral category
-      lll <- length(legendLabels) - adding
+      lll <- length(legend.labels) - adding
       # catcount and legend label count equal?
       if (catcount < lll) {
         # warn user that detected amount of categories and supplied legend labels
         # are different.
-        warning("Length of labels for item categories `legendLabels` differs from detected amount of categories. Use `catcount` argument to define amount of item categories, if plotting does not work.", call. = F)
+        warning("Length of labels for item categories `legend.labels` differs from detected amount of categories. Use `catcount` argument to define amount of item categories, if plotting does not work.", call. = F)
         # adjust catcount to length of legend labels, because
         # we assume that labels represent the valid range of 
         # item categories
@@ -285,7 +283,7 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   # set legend labels, if we have none yet
   # --------------------------------------------------------
-  if (is.null(legendLabels)) legendLabels <- c(1:(catcount + adding))
+  if (is.null(legend.labels)) legend.labels <- c(1:(catcount + adding))
   # --------------------------------------------------------
   # prepare data frames
   # --------------------------------------------------------
@@ -481,11 +479,11 @@ sjp.likert <- function(items,
   # Prepare and trim legend labels to appropriate size
   # --------------------------------------------------------
   # wrap legend text lines
-  legendLabels <- sjmisc::word_wrap(legendLabels, breakLegendLabelsAt)
+  legend.labels <- sjmisc::word_wrap(legend.labels, breakLegendLabelsAt)
   # check whether we have a title for the legend
-  if (!is.null(legendTitle)) {
+  if (!is.null(legend.title)) {
     # if yes, wrap legend title line
-    legendTitle <- sjmisc::word_wrap(legendTitle, breakLegendTitleAt)
+    legend.title <- sjmisc::word_wrap(legend.title, breakLegendTitleAt)
   }
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
@@ -602,7 +600,7 @@ sjp.likert <- function(items,
   # continues with plot
   # ---------------------------------------------------------
   gp <- gp +
-    labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legendTitle) +
+    labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legend.title) +
     # ---------------------------------------------------------
     # scale x is continuous to make plotting the bar annotation
     # for neutral category work...
@@ -622,7 +620,7 @@ sjp.likert <- function(items,
                          geom.colors, 
                          (catcount + adding), 
                          show.legend, 
-                         legendLabels,
+                         legend.labels,
                          reverse.colors)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted

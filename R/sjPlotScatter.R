@@ -78,8 +78,8 @@
 #' # of labels, but instead pass labels as arguments
 #' sjp.scatter(efc$c160age, efc$e17age, efc$e42dep,
 #'             title = "Scatter Plot",
-#'             legendTitle = get_label(efc)['e42dep'],
-#'             legendLabels = get_labels(efc)[['e42dep']],
+#'             legend.title = get_label(efc)['e42dep'],
+#'             legend.labels = get_labels(efc)[['e42dep']],
 #'             axis.titles = c(get_label(efc)['c160age'],
 #'                             get_label(efc)['e17age']),
 #'             showGroupFitLine = TRUE)
@@ -113,8 +113,8 @@ sjp.scatter <- function(x = NULL,
                         y = NULL,
                         grp = NULL,
                         title = "",
-                        legendTitle = NULL,
-                        legendLabels = NULL,
+                        legend.title = NULL,
+                        legend.labels = NULL,
                         pointLabels = NULL,
                         axis.titles = NULL,
                         breakTitleAt = 50,
@@ -177,11 +177,11 @@ sjp.scatter <- function(x = NULL,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(legendLabels) && !is.null(grp)) legendLabels <- sjmisc::get_labels(grp,
+  if (is.null(legend.labels) && !is.null(grp)) legend.labels <- sjmisc::get_labels(grp,
                                                                                  attr.only = F,
                                                                                  include.values = NULL,
                                                                                  include.non.labelled = T)
-  if (is.null(legendTitle) && !is.null(grp)) legendTitle <- sjmisc::get_label(grp, def.value = name.grp)
+  if (is.null(legend.title) && !is.null(grp)) legend.title <- sjmisc::get_label(grp, def.value = name.grp)
   if (is.null(axisTitle.x)) axisTitle.x <- sjmisc::get_label(x, def.value = name.x)
   if (is.null(axisTitle.y)) axisTitle.y <- sjmisc::get_label(y, def.value = name.y)
   if (is.null(title)) {
@@ -198,7 +198,7 @@ sjp.scatter <- function(x = NULL,
   # --------------------------------------------------------
   # remove titles if empty
   # --------------------------------------------------------
-  if (!is.null(legendTitle) && legendTitle == "") legendTitle <- NULL
+  if (!is.null(legend.title) && legend.title == "") legend.title <- NULL
   if (!is.null(axisTitle.x) && axisTitle.x == "") axisTitle.x <- NULL
   if (!is.null(axisTitle.y) && axisTitle.y == "") axisTitle.y <- NULL
   if (!is.null(title) && title == "") title <- NULL
@@ -258,12 +258,12 @@ sjp.scatter <- function(x = NULL,
   # --------------------------------------------------------
   # Check whether we have any labels passed as parameter
   # if not, use category text of group variable as legend text
-  if (is.null(legendLabels)) legendLabels <- c(sort(unique(df$grp)))
+  if (is.null(legend.labels)) legend.labels <- c(sort(unique(df$grp)))
   # wrap legend text lines
-  legendLabels <- sjmisc::word_wrap(legendLabels, breakLegendLabelsAt)
+  legend.labels <- sjmisc::word_wrap(legend.labels, breakLegendLabelsAt)
   # check whether we have a title for the legend
   # if yes, wrap legend title line
-  if (!is.null(legendTitle)) legendTitle <- sjmisc::word_wrap(legendTitle, breakLegendTitleAt)
+  if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(legend.title, breakLegendTitleAt)
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
   if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
@@ -331,7 +331,7 @@ sjp.scatter <- function(x = NULL,
     labs(title = title,
          x = axisTitle.x,
          y = axisTitle.y,
-         colour = legendTitle)
+         colour = legend.title)
   # --------------------------------------------------------
   # Hide or show tick marks
   # --------------------------------------------------------
@@ -357,9 +357,9 @@ sjp.scatter <- function(x = NULL,
   # ---------------------------------------------------------
   scatter <- sj.setGeomColors(scatter,
                               geom.colors,
-                              length(legendLabels),
+                              length(legend.labels),
                               show.legend,
-                              legendLabels)
+                              legend.labels)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------

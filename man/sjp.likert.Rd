@@ -9,8 +9,8 @@ sjp.likert(items, catcount = NULL, cat.neutral = NULL, weight.by = NULL,
   geom.colors = "BrBG", reverse.colors = FALSE,
   cat.neutral.color = "grey70", intercept.line.color = "grey50",
   value.labels = "show", showPercentageSign = FALSE, digits = 1,
-  legendLabels = NULL, show.legend = TRUE, title = NULL,
-  legendTitle = NULL, includeN = TRUE, showItemLabels = TRUE,
+  legend.labels = NULL, show.legend = TRUE, title = NULL,
+  legend.title = NULL, includeN = TRUE, showItemLabels = TRUE,
   axis.labels = NULL, breakTitleAt = 50, breakLabelsAt = 30,
   breakLegendTitleAt = 30, breakLegendLabelsAt = 28, gridRange = 1,
   grid.breaks = 0.2, expand.grid = TRUE, axis.titles = NULL,
@@ -75,8 +75,7 @@ so positive and negative values switch colors.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
-\item{legendLabels}{character vector with names of the 
-likert-scale-categories that appear as legend text.}
+\item{legend.labels}{a character vector with labels for the guide/legend.}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
@@ -84,7 +83,7 @@ function, a legend is added to the plot.}
 \item{title}{string, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{legendTitle}{title of plot's legend}
+\item{legend.title}{title of the plot legend, as string.}
 
 \item{includeN}{logical, if \code{TRUE} (default), the N of each item will be included in axis labels.}
 
@@ -194,14 +193,14 @@ items <- c("Q1", "Q2", "Q3", "Q4", "Q5")
 # plot dichotomous likert scale, ordered by "negative" values
 sjp.likert(likert_2,
            geom.colors = c("green", "red"),
-           legendLabels = levels_2, 
+           legend.labels = levels_2, 
            axis.labels = items, 
            sort.frq = "neg.desc")
 
 # plot 4-category-likert-scale, no order
 sjp.likert(likert_4, 
            cat.neutral = 5,
-           legendLabels = levels_4, 
+           legend.labels = levels_4, 
            axis.labels = items,
            gridRange = 1.2,
            expand.grid = FALSE,
@@ -211,7 +210,7 @@ sjp.likert(likert_4,
 # plot 6-category-likert-scale, ordered by positive values,
 # in brown color scale
 sjp.likert(likert_6, 
-           legendLabels = levels_6, 
+           legend.labels = levels_6, 
            axis.labels = items, 
            sort.frq = "pos.asc", 
            digits = 0,

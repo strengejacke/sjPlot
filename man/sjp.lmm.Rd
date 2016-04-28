@@ -91,8 +91,7 @@ which estimates should be removed from the plot.
 \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 is \code{NULL}, i.e. all estimates are printed.}
 
-\item{coord.flip}{logical, if \code{TRUE} (default), predictors are plotted along the y-axis and estimate
-values are plotted on the x-axis.}
+\item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
 \item{show.intercept}{logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
 Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential 
