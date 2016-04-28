@@ -34,20 +34,20 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' @param errorbar.color color of confidence interval bars (error bars). 
 #'          Only applies to \code{type = "bar"}. In case of dot plots, error bars 
 #'          will have same colors as dots (see \code{geom.colors}).
-#' @param showMeanIntercept logical, if \code{TRUE}, a vertical line in histograms 
+#' @param show.mean logical, if \code{TRUE}, a vertical line in histograms 
 #'          is drawn to indicate the mean value of the variables. Only 
 #'          applies to histogram-charts.
-#' @param showMeanValue logical, if \code{TRUE} (default), the mean value 
-#'          is printed to the vertical line that indicates the mean value
-#'          of the variables. Only applies to histogram-charts.
-#' @param showStandardDeviation logical, if \code{TRUE}, the standard deviation 
+#' @param show.mean.val logical, if \code{TRUE} (default), the mean value 
+#'          is printed to the vertical line that indicates the variable's
+#'          mean. Only applies to histogram-charts.
+#' @param show.sd logical, if \code{TRUE}, the standard deviation 
 #'          is annotated as shaded rectangle around the mean intercept
 #'          line. Only applies to histogram-charts.
-#' @param meanInterceptLineType numeric value, indicating the linetype of the mean 
+#' @param mean.line.type numeric value, indicating the linetype of the mean 
 #'          intercept line. Only applies to histogram-charts and 
-#'          when \code{showMeanIntercept = TRUE}.
-#' @param meanInterceptLineSize numeric, size of the mean intercept line. Only 
-#'          applies to histogram-charts and when \code{showMeanIntercept = TRUE}.
+#'          when \code{show.mean = TRUE}.
+#' @param mean.line.size numeric, size of the mean intercept line. Only 
+#'          applies to histogram-charts and when \code{show.mean = TRUE}.
 #' @param showNormalCurve logical, if \code{TRUE}, a normal curve, which is adjusted to the data,
 #'          is plotted over the histogram or density plot. Default is
 #'          \code{FALSE}. Only applies when histograms or density plots are plotted (see \code{type}).
@@ -79,7 +79,7 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' sjp.frq(ChickWeight$weight, type = "box")
 #' 
 #' # histogram
-#' sjp.frq(discoveries, type = "hist", showMeanIntercept = TRUE)
+#' sjp.frq(discoveries, type = "hist", show.mean = TRUE)
 #'         
 #' # violin plot
 #' sjp.frq(ChickWeight$weight, type = "v")
@@ -140,10 +140,10 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' # histogram with overlayed normal curve
 #' sjp.frq(efc$c160age,
 #'         type = "h",
-#'         showMeanIntercept = TRUE,
-#'         showMeanValue = TRUE,
+#'         show.mean = TRUE,
+#'         show.mean.val = TRUE,
 #'         showNormalCurve = TRUE,
-#'         showStandardDeviation = TRUE,
+#'         show.sd = TRUE,
 #'         normalCurveColor = "blue",
 #'         normalCurveSize = 3,
 #'         ylim = c(0,50))
@@ -177,12 +177,12 @@ sjp.frq <- function(x,
                     show.axis.values = TRUE,
                     show.ci = FALSE,
                     errorbar.color = "darkred",
-                    showMeanIntercept = FALSE,
-                    showMeanValue = TRUE,
-                    showStandardDeviation = TRUE,
+                    show.mean = FALSE,
+                    show.mean.val = TRUE,
+                    show.sd = TRUE,
                     showNormalCurve = FALSE,
-                    meanInterceptLineType = 2,
-                    meanInterceptLineSize = 0.5,
+                    mean.line.type = 2,
+                    mean.line.size = 0.5,
                     normalCurveColor = "red",
                     normalCurveSize = 0.8,
                     normalCurveAlpha = 0.4,
@@ -640,14 +640,14 @@ sjp.frq <- function(x,
                       alpha = normalCurveAlpha)
     }
     # if we have a histogram, add mean-lines
-    if (showMeanIntercept) {
+    if (show.mean) {
       baseplot <- baseplot + 
         # vertical lines indicating the mean
         geom_vline(xintercept = mittelwert, 
-                   linetype = meanInterceptLineType, 
-                   size = meanInterceptLineSize)
+                   linetype = mean.line.type, 
+                   size = mean.line.size)
       # check whether meanvalue should be shown.
-      if (showMeanValue) {
+      if (show.mean.val) {
         baseplot <- baseplot + 
           # use annotation instead of geomtext, because we need mean value only printed once
           annotate("text", 
@@ -660,7 +660,7 @@ sjp.frq <- function(x,
                    hjust = "top")
       }
       # check whether the user wants to plot standard deviation area
-      if (showStandardDeviation) {
+      if (show.sd) {
         baseplot <- baseplot +
           # first draw shaded rectangle. these are by default in grey colour with very high transparancy
           annotate("rect", 
@@ -673,11 +673,11 @@ sjp.frq <- function(x,
           # draw border-lines for shaded rectangle
           geom_vline(xintercept = mittelwert - stddev, 
                      linetype = 3, 
-                     size = meanInterceptLineSize, 
+                     size = mean.line.size, 
                      alpha = 0.7) +
           geom_vline(xintercept = mittelwert + stddev, 
                      linetype = 3, 
-                     size = meanInterceptLineSize, 
+                     size = mean.line.size, 
                      alpha = 0.7)
       }
     }

@@ -13,9 +13,8 @@ sjp.frq(x, title = "", weight.by = NULL, weightByTitleString = NULL,
   innerBoxPlotWidth = 0.15, innerBoxPlotDotSize = 3, expand.grid = FALSE,
   show.values = TRUE, show.n = TRUE, show.perc = TRUE,
   show.axis.values = TRUE, show.ci = FALSE, errorbar.color = "darkred",
-  showMeanIntercept = FALSE, showMeanValue = TRUE,
-  showStandardDeviation = TRUE, showNormalCurve = FALSE,
-  meanInterceptLineType = 2, meanInterceptLineSize = 0.5,
+  show.mean = FALSE, show.mean.val = TRUE, show.sd = TRUE,
+  showNormalCurve = FALSE, mean.line.type = 2, mean.line.size = 0.5,
   normalCurveColor = "red", normalCurveSize = 0.8, normalCurveAlpha = 0.4,
   axis.title = NULL, autoGroupAt = NULL, coord.flip = FALSE,
   vjust = "bottom", hjust = "center", y.offset = NULL, na.rm = TRUE,
@@ -111,15 +110,15 @@ interval or region is added to the plot.}
 Only applies to \code{type = "bar"}. In case of dot plots, error bars 
 will have same colors as dots (see \code{geom.colors}).}
 
-\item{showMeanIntercept}{logical, if \code{TRUE}, a vertical line in histograms 
+\item{show.mean}{logical, if \code{TRUE}, a vertical line in histograms 
 is drawn to indicate the mean value of the variables. Only 
 applies to histogram-charts.}
 
-\item{showMeanValue}{logical, if \code{TRUE} (default), the mean value 
-is printed to the vertical line that indicates the mean value
-of the variables. Only applies to histogram-charts.}
+\item{show.mean.val}{logical, if \code{TRUE} (default), the mean value 
+is printed to the vertical line that indicates the variable's
+mean. Only applies to histogram-charts.}
 
-\item{showStandardDeviation}{logical, if \code{TRUE}, the standard deviation 
+\item{show.sd}{logical, if \code{TRUE}, the standard deviation 
 is annotated as shaded rectangle around the mean intercept
 line. Only applies to histogram-charts.}
 
@@ -127,12 +126,12 @@ line. Only applies to histogram-charts.}
 is plotted over the histogram or density plot. Default is
 \code{FALSE}. Only applies when histograms or density plots are plotted (see \code{type}).}
 
-\item{meanInterceptLineType}{numeric value, indicating the linetype of the mean 
+\item{mean.line.type}{numeric value, indicating the linetype of the mean 
 intercept line. Only applies to histogram-charts and 
-when \code{showMeanIntercept = TRUE}.}
+when \code{show.mean = TRUE}.}
 
-\item{meanInterceptLineSize}{numeric, size of the mean intercept line. Only 
-applies to histogram-charts and when \code{showMeanIntercept = TRUE}.}
+\item{mean.line.size}{numeric, size of the mean intercept line. Only 
+applies to histogram-charts and when \code{show.mean = TRUE}.}
 
 \item{normalCurveColor}{color of the normal curve line. Only
 applies if \code{showNormalCurve = TRUE}.}
@@ -195,7 +194,7 @@ This function only works with variables with integer values (or numeric
 sjp.frq(ChickWeight$weight, type = "box")
 
 # histogram
-sjp.frq(discoveries, type = "hist", showMeanIntercept = TRUE)
+sjp.frq(discoveries, type = "hist", show.mean = TRUE)
         
 # violin plot
 sjp.frq(ChickWeight$weight, type = "v")
@@ -256,10 +255,10 @@ sjp.frq(efc$c160age,
 # histogram with overlayed normal curve
 sjp.frq(efc$c160age,
         type = "h",
-        showMeanIntercept = TRUE,
-        showMeanValue = TRUE,
+        show.mean = TRUE,
+        show.mean.val = TRUE,
         showNormalCurve = TRUE,
-        showStandardDeviation = TRUE,
+        show.sd = TRUE,
         normalCurveColor = "blue",
         normalCurveSize = 3,
         ylim = c(0,50))
