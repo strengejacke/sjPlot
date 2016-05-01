@@ -287,6 +287,7 @@ sjp.emm <- function(fit,
       } else {
         labx <- axis.title
       }
+      # y-axis label
       laby <- response.label
       # -----------------------------------------------------------
       # prepare annotation labels

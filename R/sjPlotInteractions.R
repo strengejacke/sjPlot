@@ -1146,14 +1146,15 @@ sjp.eff.int <- function(fit,
     }
     # make sure x is numeric
     intdf$x <- sjmisc::to_value(intdf$x, keep.labels = F)
+    # get name of response, for axis title
+    yaxisname <- sjmisc::get_label(stats::model.frame(fit)[[response.name]], 
+                                   def.value = response.name)
     # -----------------------------------------------------------
     # check if we have linear regression
     # -----------------------------------------------------------
-    y_title <- NULL
     if (fun == "lm" || fun == "lmer" || fun == "lme" || fun == "gls") {
       # Label on y-axis is name of dependent variable
-      y_title <- sjmisc::get_label(stats::model.frame(fit)[[response.name]], 
-                                       def.value = response.name)
+      y_title <- sprintf("Predicted values of %s", yaxisname)
       # -----------------------------------------------------------
       # retrieve lowest and highest x and y position to determine
       # the scale limits
@@ -1186,9 +1187,11 @@ sjp.eff.int <- function(fit,
       # --------------------------------------------------------
       # for logistic reg.
       if (binom_fam)
-        y_title <- "Predicted Probability"
+        y_title <- sprintf("Predicted probabilities for %s", yaxisname)
       else if (poisson_fam)
-        y_title <- "Predicted Incidents"
+        y_title <- sprintf("Predicted incidents for %s", yaxisname)
+      else
+        y_title <- sprintf("Predicted values for %s", yaxisname)
       # -----------------------------------------------------------
       # retrieve lowest and highest x and y position to determine
       # the scale limits
@@ -1301,11 +1304,14 @@ sjp.eff.int <- function(fit,
       # set axis title
       labx <- axis.title[l_nr]
     }
-    if (!is.null(y_title)) laby <- y_title
+    # y-axis title.
+    laby <- y_title
     # -----------------------------------------------------------
     # wrap titles
     # -----------------------------------------------------------
     labtitle <- sjmisc::word_wrap(labtitle, breakTitleAt)
+    labx <- sjmisc::word_wrap(labx, breakTitleAt)
+    laby <- sjmisc::word_wrap(laby, breakTitleAt)
     # wrap legend labels
     lLabels <- sjmisc::word_wrap(lLabels, breakLegendLabelsAt)
     # wrap legend title

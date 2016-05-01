@@ -475,7 +475,7 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
   for (k in 1:length(models)) {
     # get model
     fit <- models[[k]]
-    # copy model matrix
+    # copy model frame
     fmodel <- stats::model.frame(fit)
     # get model coefficients' names
     if (is_merMod(fit)) {
