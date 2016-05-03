@@ -126,8 +126,8 @@ sjp.xtab <- function(x,
                      hjust = "center",
                      y.offset = NULL,
                      stringTotal = "Total",
-                     breakTitleAt = 50,
-                     breakLabelsAt = 15,
+                     wrap.title = 50,
+                     wrap.labels = 15,
                      breakLegendTitleAt = 20,
                      breakLegendLabelsAt = 20,
                      grid.breaks = 0.2,
@@ -323,11 +323,11 @@ sjp.xtab <- function(x,
   if (!is.null(title)) {
     # if we have weighted values, say that in diagram's title
     if (!is.null(weightByTitleString)) title <- paste(title, weightByTitleString, sep = "")
-    title <- sjmisc::word_wrap(title, breakTitleAt)
+    title <- sjmisc::word_wrap(title, wrap.title)
   }
-  if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
-  if (!is.null(axisTitle.y)) axisTitle.y <- sjmisc::word_wrap(axisTitle.y, breakTitleAt)
-  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
+  if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, wrap.title)
+  if (!is.null(axisTitle.y)) axisTitle.y <- sjmisc::word_wrap(axisTitle.y, wrap.title)
+  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
   # ----------------------------
   # create expression with model summarys. used
   # for plotting in the diagram later

@@ -520,7 +520,7 @@ sjt.frq <- function(data,
     # create frequency data frame
     #---------------------------------------------------
     df.frq <- create.frq.df(data[[cnt]],
-                            breakLabelsAt = Inf,
+                            wrap.labels = Inf,
                             order.frq = sort.frq,
                             round.prz = digits,
                             na.rm = F, 

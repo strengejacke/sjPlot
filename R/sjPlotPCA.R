@@ -29,10 +29,6 @@
 #' @param type Plot type resp. geom type. May be one of following: \code{"circle"} or \code{"tile"} 
 #'          circular or tiled geoms, or \code{"bar"} for a bar plot. You may use initial letter only
 #'          for this argument.
-#' @param breakTitleAt Wordwrap for diagram title. Determines how many chars of the title are displayed in
-#'          one line and when a line break is inserted into the title. Default is 50.
-#' @param breakLabelsAt Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in 
-#'          one line and when a line break is inserted. Default is 12.
 #' @param showCronbachsAlpha If \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
 #'          i.e. all variables with the highest loading for a factor are taken for the
 #'          reliability test. The result is an alpha value for each factor dimension.
@@ -148,8 +144,8 @@ sjp.pca <- function(data,
                     type = "b",
                     geom.size = .6,
                     geom.colors = "RdBu",
-                    breakTitleAt = 50,
-                    breakLabelsAt = 30,
+                    wrap.title = 50,
+                    wrap.labels = 30,
                     show.values = TRUE,
                     showCronbachsAlpha = TRUE,
                     printPlot = TRUE) {
@@ -253,9 +249,9 @@ sjp.pca <- function(data,
   # Prepare length of title and labels
   # ----------------------------
   # check length of diagram title and split longer string at into new lines
-  if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
+  if (!is.null(title)) title <- sjmisc::word_wrap(title, wrap.title)
   # check length of x-axis-labels and split longer strings at into new lines
-  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
+  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
   # --------------------------------------------------------
   # this function checks which items have unclear factor loadings,
   # i.e. which items do not strongly load on a single factor but

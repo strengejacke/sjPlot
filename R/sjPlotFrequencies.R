@@ -165,8 +165,8 @@ sjp.frq <- function(x,
                     interactionVarLabels = NULL,
                     xlim = NULL,
                     ylim = NULL,
-                    breakTitleAt = 50,
-                    breakLabelsAt = 20,
+                    wrap.title = 50,
+                    wrap.labels = 20,
                     grid.breaks = NULL,
                     innerBoxPlotWidth = 0.15,
                     innerBoxPlotDotSize = 3,
@@ -315,7 +315,7 @@ sjp.frq <- function(x,
   # create frequency data frame
   #---------------------------------------------------
   df.frq <- create.frq.df(x, 
-                          breakLabelsAt = breakLabelsAt, 
+                          wrap.labels = wrap.labels, 
                           order.frq = sort.frq, 
                           round.prz = 2,
                           na.rm = na.rm, 
@@ -339,18 +339,18 @@ sjp.frq <- function(x,
     if (!is.null(weightByTitleString)) {
       title <- paste(title, weightByTitleString, sep = "")
     }
-    title <- sjmisc::word_wrap(title, breakTitleAt)    
+    title <- sjmisc::word_wrap(title, wrap.title)    
   }
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
   if (!is.null(axis.title)) {
-    axis.title <- sjmisc::word_wrap(axis.title, breakTitleAt)    
+    axis.title <- sjmisc::word_wrap(axis.title, wrap.title)    
   }
   # check length of x-axis-labels of interaction variable and split 
   # longer strings into new lines
   if (!is.null(interactionVar)) {
     if (!is.null(interactionVarLabels)) {
-      interactionVarLabels <- sjmisc::word_wrap(interactionVarLabels, breakLabelsAt)    
+      interactionVarLabels <- sjmisc::word_wrap(interactionVarLabels, wrap.labels)    
     # If interaction-variable-labels were not defined, simply set numbers from 1 to
     # amount of categories instead
     } else {

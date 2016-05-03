@@ -53,10 +53,10 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'          (i.e. \code{type = "boxplot"} or \code{"violin"}) and \code{interactionVar} is not \code{NULL}.
 #'          Example: See \code{axis.labels}.
 #' @param legend.labels a character vector with labels for the guide/legend.
-#' @param breakTitleAt determines how many chars of the plot title are displayed in
-#'          one line and when a line break is inserted into the title.
-#' @param breakLabelsAt determines how many chars of the category labels are displayed in 
+#' @param wrap.title numeric, determines how many chars of the plot title are displayed in
 #'          one line and when a line break is inserted.
+#' @param wrap.labels determines how many chars of the category, variable or axis 
+#'          labels are displayed in one line and when a line break is inserted.
 #' @param breakLegendTitleAt determines how many chars of the legend's title 
 #'          are displayed in one line and when a line break is inserted.
 #' @param breakLegendLabelsAt determines how many chars of the legend labels are 
@@ -196,8 +196,8 @@ sjp.grpfrq <- function(varCount,
                        interactionVarLabels = NULL,
                        legend.labels = NULL,
                        ylim = NULL,
-                       breakTitleAt = 50,
-                       breakLabelsAt = 15,
+                       wrap.title = 50,
+                       wrap.labels = 15,
                        breakLegendTitleAt = 20,
                        breakLegendLabelsAt = 20,
                        grid.breaks = NULL,
@@ -502,17 +502,17 @@ sjp.grpfrq <- function(varCount,
     # if we have weighted values, say that in diagram's title
     if (!is.null(weightByTitleString))
       title <- paste(title, weightByTitleString, sep = "")
-    title <- sjmisc::word_wrap(title, breakTitleAt)
+    title <- sjmisc::word_wrap(title, wrap.title)
   }
   if (!is.null(axisTitle.x))
-    axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
+    axisTitle.x <- sjmisc::word_wrap(axisTitle.x, wrap.title)
   if (!is.null(axisTitle.y))
-    axisTitle.y <- sjmisc::word_wrap(axisTitle.y, breakTitleAt)
+    axisTitle.y <- sjmisc::word_wrap(axisTitle.y, wrap.title)
   if (!is.null(axis.labels))
-    axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
+    axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
   if (!is.null(interactionVar)) {
     if (!is.null(interactionVarLabels)) {
-      interactionVarLabels <- sjmisc::word_wrap(interactionVarLabels, breakLabelsAt)
+      interactionVarLabels <- sjmisc::word_wrap(interactionVarLabels, wrap.labels)
     }
     # If interaction-variable-labels were not defined, simply set numbers from 1 to
     # amount of categories instead

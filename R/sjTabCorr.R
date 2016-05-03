@@ -136,7 +136,7 @@ sjt.corr <- function(data,
                      fade.ns = TRUE,
                      file = NULL, 
                      varlabels = NULL,
-                     breakLabelsAt = 40,
+                     wrap.labels = 40,
                      digits = 3,
                      triangle = "both",
                      val.rm = NULL,
@@ -278,7 +278,7 @@ sjt.corr <- function(data,
     varlabels <- row.names(corr)
   }
   # check length of x-axis-labels and split longer strings at into new lines
-  varlabels <- sjmisc::word_wrap(varlabels, breakLabelsAt, "<br>")
+  varlabels <- sjmisc::word_wrap(varlabels, wrap.labels, "<br>")
   # -------------------------------------
   # init header
   # -------------------------------------

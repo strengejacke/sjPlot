@@ -7,7 +7,7 @@
 sjp.stackfrq(items, legend.labels = NULL, sort.frq = NULL,
   weight.by = NULL, show.legend = TRUE, title = NULL,
   legend.title = NULL, includeN = TRUE, axis.labels = NULL,
-  breakTitleAt = 50, breakLabelsAt = 30, breakLegendTitleAt = 30,
+  wrap.title = 50, wrap.labels = 30, breakLegendTitleAt = 30,
   breakLegendLabelsAt = 28, grid.breaks = 0.2, expand.grid = FALSE,
   geom.size = 0.5, geom.colors = "Blues", axis.titles = NULL,
   show.values = TRUE, digits = 1, vjust = "center",
@@ -46,11 +46,11 @@ will be set automatically. If \code{title = ""}, no title is printed.}
 
 \item{axis.labels}{character vector with labels used as axis labels.}
 
-\item{breakTitleAt}{determines how many chars of the title are displayed in
-one line and when a line break is inserted into the title.}
-
-\item{breakLabelsAt}{determines how many chars of the category labels are displayed in 
+\item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
+
+\item{wrap.labels}{determines how many chars of the category, variable or axis 
+labels are displayed in one line and when a line break is inserted.}
 
 \item{breakLegendTitleAt}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}

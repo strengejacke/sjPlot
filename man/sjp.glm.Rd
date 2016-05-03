@@ -6,14 +6,14 @@
 \usage{
 sjp.glm(fit, type = "dots", sort.est = TRUE, title = NULL,
   axis.labels = NULL, axis.title = "Odds Ratios", legend.title = NULL,
-  axis.lim = NULL, breakTitleAt = 50, breakLabelsAt = 25,
-  grid.breaks = 0.5, transformTicks = TRUE, geom.size = NULL,
-  geom.colors = "Set1", vline.type = 2, vline.color = "grey70",
-  group.estimates = NULL, remove.estimates = NULL, vars = NULL,
-  coord.flip = TRUE, y.offset = 0.15, show.intercept = FALSE,
-  show.values = TRUE, digits = 2, show.p = TRUE,
-  showModelSummary = FALSE, facet.grid = TRUE, show.ci = FALSE,
-  show.legend = FALSE, showOriginalModelOnly = TRUE, printPlot = TRUE)
+  axis.lim = NULL, wrap.title = 50, wrap.labels = 25, grid.breaks = 0.5,
+  transformTicks = TRUE, geom.size = NULL, geom.colors = "Set1",
+  vline.type = 2, vline.color = "grey70", group.estimates = NULL,
+  remove.estimates = NULL, vars = NULL, coord.flip = TRUE,
+  y.offset = 0.15, show.intercept = FALSE, show.values = TRUE,
+  digits = 2, show.p = TRUE, showModelSummary = FALSE,
+  facet.grid = TRUE, show.ci = FALSE, show.legend = FALSE,
+  showOriginalModelOnly = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).}
@@ -46,11 +46,11 @@ on the plot function and type is chosen.}
 By default, the limits range from the lowest confidence interval to the 
 highest, so plot has maximum zoom.}
 
-\item{breakTitleAt}{determines how many chars of the plot title are displayed in
-one line and when a line break is inserted into the title.}
-
-\item{breakLabelsAt}{determines how many chars of the category labels are displayed in 
+\item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
+
+\item{wrap.labels}{determines how many chars of the category, variable or axis 
+labels are displayed in one line and when a line break is inserted.}
 
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}

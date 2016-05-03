@@ -159,8 +159,8 @@ sjp.glm <- function(fit,
                     axis.title = "Odds Ratios",
                     legend.title = NULL,
                     axis.lim = NULL,
-                    breakTitleAt = 50,
-                    breakLabelsAt = 25,
+                    wrap.title = 50,
+                    wrap.labels = 25,
                     grid.breaks = 0.5,
                     transformTicks = TRUE,
                     geom.size = NULL,
@@ -266,12 +266,12 @@ sjp.glm <- function(fit,
       axis.title <- "Risk Ratios"
   }
   # check length of diagram title and split longer string at into new lines
-  if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
+  if (!is.null(title)) title <- sjmisc::word_wrap(title, wrap.title)
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(axis.title)) axis.title <- sjmisc::word_wrap(axis.title, breakTitleAt)
+  if (!is.null(axis.title)) axis.title <- sjmisc::word_wrap(axis.title, wrap.title)
   # check length of x-axis-labels and split longer strings at into new lines
-  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
+  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
   # ----------------------------
   # get model coefficients
   # ----------------------------

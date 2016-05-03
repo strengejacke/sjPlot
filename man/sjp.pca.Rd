@@ -6,8 +6,8 @@
 \usage{
 sjp.pca(data, numberOfFactors = NULL, factorLoadingTolerance = 0.1,
   plotEigenvalues = FALSE, digits = 2, title = NULL, axis.labels = NULL,
-  type = "b", geom.size = 0.6, geom.colors = "RdBu", breakTitleAt = 50,
-  breakLabelsAt = 30, show.values = TRUE, showCronbachsAlpha = TRUE,
+  type = "b", geom.size = 0.6, geom.colors = "RdBu", wrap.title = 50,
+  wrap.labels = 30, show.values = TRUE, showCronbachsAlpha = TRUE,
   printPlot = TRUE)
 }
 \arguments{
@@ -45,11 +45,11 @@ need smaller values than dot sizes.}
 
 \item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
-\item{breakTitleAt}{Wordwrap for diagram title. Determines how many chars of the title are displayed in
-one line and when a line break is inserted into the title. Default is 50.}
+\item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
+one line and when a line break is inserted.}
 
-\item{breakLabelsAt}{Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in 
-one line and when a line break is inserted. Default is 12.}
+\item{wrap.labels}{determines how many chars of the category, variable or axis 
+labels are displayed in one line and when a line break is inserted.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 

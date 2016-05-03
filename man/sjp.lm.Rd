@@ -9,7 +9,7 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   axis.title = NULL, axis.lim = NULL, geom.colors = "Set1",
   geom.size = NULL, vline.type = 2, vline.color = "grey70",
   group.estimates = NULL, remove.estimates = NULL, vars = NULL,
-  breakTitleAt = 50, breakLabelsAt = 25, grid.breaks = NULL,
+  wrap.title = 50, wrap.labels = 25, grid.breaks = NULL,
   coord.flip = TRUE, facet.grid = TRUE, show.values = TRUE, digits = 2,
   show.p = TRUE, showModelSummary = FALSE, show.ci = TRUE,
   pointAlpha = 0.2, showScatterPlot = TRUE, show.loess = FALSE,
@@ -84,11 +84,11 @@ estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability or
 incidents curves
 (for \code{\link[lme4]{glmer}}) of random intercepts.}
 
-\item{breakTitleAt}{determines how many chars of the plot title are displayed in
-one line and when a line break is inserted into the title.}
-
-\item{breakLabelsAt}{determines how many chars of the category labels are displayed in 
+\item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
+
+\item{wrap.labels}{determines how many chars of the category, variable or axis 
+labels are displayed in one line and when a line break is inserted.}
 
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}

@@ -101,8 +101,8 @@ sjp.corr <- function(data,
                      corMethod = "spearman",
                      geom.colors = "RdBu",
                      geom.size = 15,
-                     breakTitleAt = 50,
-                     breakLabelsAt = 20,
+                     wrap.title = 50,
+                     wrap.labels = 20,
                      show.legend = FALSE,
                      legend.title = NULL,
                      show.values = TRUE,
@@ -205,9 +205,9 @@ sjp.corr <- function(data,
   # Prepare length of title and labels
   # ----------------------------
   # check length of diagram title and split longer string at into new lines
-  if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
+  if (!is.null(title)) title <- sjmisc::word_wrap(title, wrap.title)
   # check length of x-axis-labels and split longer strings at into new lines
-  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
+  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
   # --------------------------------------------------------
   # order correlations from highest to lowest correlation coefficient
   # --------------------------------------------------------

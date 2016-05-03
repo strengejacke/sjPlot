@@ -7,7 +7,7 @@
 sjp.corr(data, title = NULL, axis.labels = NULL, type = "circle",
   sortCorrelations = TRUE, decimals = 3, missingDeletion = "listwise",
   corMethod = "spearman", geom.colors = "RdBu", geom.size = 15,
-  breakTitleAt = 50, breakLabelsAt = 20, show.legend = FALSE,
+  wrap.title = 50, wrap.labels = 20, show.legend = FALSE,
   legend.title = NULL, show.values = TRUE, showPValues = TRUE,
   pvaluesAsNumbers = FALSE, printPlot = TRUE)
 }
@@ -45,11 +45,11 @@ the values labels are shown. Default is 3. Only applies when
 depending on plot type and function. Note that bar and bin widths mostly 
 need smaller values than dot sizes.}
 
-\item{breakTitleAt}{determines how many chars of the plot title are displayed in
-one line and when a line break is inserted into the title.}
-
-\item{breakLabelsAt}{determines how many chars of the category labels are displayed in 
+\item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
+
+\item{wrap.labels}{determines how many chars of the category, variable or axis 
+labels are displayed in one line and when a line break is inserted.}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}

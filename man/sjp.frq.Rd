@@ -9,7 +9,7 @@ sjp.frq(x, title = "", weight.by = NULL, weightByTitleString = NULL,
   "histogram", "line", "density", "boxplot", "violin"), geom.size = NULL,
   geom.colors = "#336699", axis.labels = NULL,
   interactionVarLabels = NULL, xlim = NULL, ylim = NULL,
-  breakTitleAt = 50, breakLabelsAt = 20, grid.breaks = NULL,
+  wrap.title = 50, wrap.labels = 20, grid.breaks = NULL,
   innerBoxPlotWidth = 0.15, innerBoxPlotDotSize = 3, expand.grid = FALSE,
   show.values = TRUE, show.n = TRUE, show.perc = TRUE,
   show.axis.values = TRUE, show.ci = FALSE, errorbar.color = "darkred",
@@ -74,11 +74,11 @@ is not \code{NULL}.}
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
 y-axis fits to the required range of the data.}
 
-\item{breakTitleAt}{determines how many chars of the plot title are displayed in
-one line and when a line break is inserted into the title.}
-
-\item{breakLabelsAt}{determines how many chars of the category labels are displayed in 
+\item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
+
+\item{wrap.labels}{determines how many chars of the category, variable or axis 
+labels are displayed in one line and when a line break is inserted.}
 
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}

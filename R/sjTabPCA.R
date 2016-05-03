@@ -133,7 +133,7 @@ sjt.pca <- function(data,
                     file = NULL,
                     varlabels = NULL,
                     title = "Principal Component Analysis (with varimax rotation)",
-                    breakLabelsAt = 40,
+                    wrap.labels = 40,
                     digits = 2,
                     showCronbachsAlpha = TRUE,
                     showMSA = FALSE,
@@ -289,7 +289,7 @@ sjt.pca <- function(data,
   # ----------------------------
   if (!is.null(varlabels)) {
     # wrap long variable labels
-    varlabels <- sjmisc::word_wrap(varlabels, breakLabelsAt, "<br>")
+    varlabels <- sjmisc::word_wrap(varlabels, wrap.labels, "<br>")
   }
   # --------------------------------------------------------
   # this function checks which items have unclear factor loadings,

@@ -17,8 +17,6 @@
 #' @param varlabels character vector with variable names. If not specified, row names of \code{items}
 #'          will be used, resp. variable labels will automatically be detected, when they have
 #'          a variable label attribute (see \code{\link[sjmisc]{set_label}}) for details).
-#' @param breakLabelsAt determines how many chars of the variable labels are displayed in 
-#'          one line and when a line break is inserted. Default is 40.
 #' @param valuelabels character vector with category/value labels, which
 #'          appear in the header row.
 #' @param breakValueLabelsAt determines how many chars of the value labels are displayed in 
@@ -141,7 +139,7 @@ sjt.stackfrq <- function(items,
                          weight.by = NULL,
                          title = NULL,
                          varlabels = NULL,
-                         breakLabelsAt = 40,
+                         wrap.labels = 40,
                          valuelabels = NULL,
                          breakValueLabelsAt = 20,
                          sort.frq = NULL,
@@ -225,7 +223,7 @@ sjt.stackfrq <- function(items,
   # ----------------------------
   if (is.null(varlabels)) varlabels <- colnames(items)
   # check length of x-axis-labels and split longer strings at into new lines
-  varlabels <- sjmisc::word_wrap(varlabels, breakLabelsAt, "<br>")
+  varlabels <- sjmisc::word_wrap(varlabels, wrap.labels, "<br>")
   # ----------------------------  
   # additional statistics required from psych-package?
   # ----------------------------

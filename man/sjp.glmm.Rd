@@ -7,7 +7,7 @@
 sjp.glmm(..., title = NULL, depvar.labels = NULL,
   legendDepVarTitle = "Dependent Variables", legendPValTitle = "p-level",
   axis.labels = NULL, axis.title = "Odds Ratios", axis.lim = NULL,
-  breakTitleAt = 50, breakLabelsAt = 25, breakLegendTitleAt = 20,
+  wrap.title = 50, wrap.labels = 25, breakLegendTitleAt = 20,
   grid.breaks = 0.5, transformTicks = TRUE, geom.size = 3,
   geom.spacing = 0.4, geom.colors = "Set1", fade.ns = FALSE,
   usePShapes = FALSE, vline.type = 2, vline.color = "grey70",
@@ -41,11 +41,11 @@ on the plot function and type is chosen.}
 By default, the limits range from the lowest confidence interval to the 
 highest, so plot has maximum zoom.}
 
-\item{breakTitleAt}{determines how many chars of the plot title are displayed in
-one line and when a line break is inserted into the title.}
-
-\item{breakLabelsAt}{determines how many chars of the category labels are displayed in 
+\item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
+
+\item{wrap.labels}{determines how many chars of the category, variable or axis 
+labels are displayed in one line and when a line break is inserted.}
 
 \item{breakLegendTitleAt}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}

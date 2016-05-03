@@ -7,7 +7,7 @@
 sjc.qclus(data, groupcount = NULL, groups = NULL, method = "k",
   distance = "euclidean", agglomeration = "ward", iter.max = 20,
   algorithm = "Hartigan-Wong", showAccuracy = FALSE, title = NULL,
-  axis.labels = NULL, breakTitleAt = 40, breakLabelsAt = 20,
+  axis.labels = NULL, wrap.title = 40, wrap.labels = 20,
   breakLegendTitleAt = 20, breakLegendLabelsAt = 20, facetCluster = FALSE,
   geom.colors = "Paired", geom.size = 0.5, geom.spacing = 0.1,
   show.legend = TRUE, showAxisLabels.x = TRUE, showAxisLabels.y = TRUE,
@@ -73,11 +73,11 @@ will be set automatically. If \code{title = ""}, no title is printed.}
 
 \item{axis.labels}{character vector with labels used as axis labels.}
 
-\item{breakTitleAt}{Determines how many chars of the title are displayed in 
-one line and when a line break is inserted into the title.}
-
-\item{breakLabelsAt}{determines how many chars of the category labels are displayed in 
+\item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
+
+\item{wrap.labels}{determines how many chars of the category, variable or axis 
+labels are displayed in one line and when a line break is inserted.}
 
 \item{breakLegendTitleAt}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}

@@ -5,7 +5,7 @@
 \title{Summary of stacked frequencies as HTML table}
 \usage{
 sjt.stackfrq(items, weight.by = NULL, title = NULL, varlabels = NULL,
-  breakLabelsAt = 40, valuelabels = NULL, breakValueLabelsAt = 20,
+  wrap.labels = 40, valuelabels = NULL, breakValueLabelsAt = 20,
   sort.frq = NULL, alternateRowColors = FALSE, digits = 2,
   show.n = FALSE, showTotalN = FALSE, show.na = FALSE, labelNA = "NA",
   showSkew = FALSE, showKurtosis = FALSE, digits.stats = 2,
@@ -26,8 +26,8 @@ Must be a vector of same length as the input vector. Default is
 will be used, resp. variable labels will automatically be detected, when they have
 a variable label attribute (see \code{\link[sjmisc]{set_label}}) for details).}
 
-\item{breakLabelsAt}{determines how many chars of the variable labels are displayed in 
-one line and when a line break is inserted. Default is 40.}
+\item{wrap.labels}{determines how many chars of the category, variable or axis 
+labels are displayed in one line and when a line break is inserted.}
 
 \item{valuelabels}{character vector with category/value labels, which
 appear in the header row.}

@@ -62,7 +62,7 @@ sjp.aov1 <- function(depVar,
                      geom.colors = c("#3366a0", "#aa3333"),
                      geom.size = 3,
                      breakTitleAt = 50,
-                     breakLabelsAt = 25,
+                     wrap.labels = 25,
                      grid.breaks = NULL,
                      expand.grid = FALSE,
                      show.values = TRUE,
@@ -125,7 +125,7 @@ sjp.aov1 <- function(depVar,
   if (!is.null(axis.title)) axis.title <- sjmisc::word_wrap(axis.title, breakTitleAt)
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
-  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
+  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
   # ----------------------------
   # Calculate one-way-anova. Since we have
   # only one group variable, Type of SS does

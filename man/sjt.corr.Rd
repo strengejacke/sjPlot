@@ -6,7 +6,7 @@
 \usage{
 sjt.corr(data, missingDeletion = "pairwise", corMethod = "spearman",
   title = NULL, showPValues = TRUE, pvaluesAsNumbers = FALSE,
-  fade.ns = TRUE, file = NULL, varlabels = NULL, breakLabelsAt = 40,
+  fade.ns = TRUE, file = NULL, varlabels = NULL, wrap.labels = 40,
   digits = 3, triangle = "both", val.rm = NULL, stringDiagonal = NULL,
   encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
   remove.spaces = TRUE)
@@ -43,8 +43,8 @@ data frame's column names are used. Item labels are detected automatically
 if \code{data} is a \code{\link{data.frame}} where variables have
 label attributes (see \code{\link[sjmisc]{set_label}}) for details).}
 
-\item{breakLabelsAt}{determines how many chars of the category labels are displayed in 
-one line and when a line break is inserted.}
+\item{wrap.labels}{determines how many chars of the category, variable or axis 
+labels are displayed in one line and when a line break is inserted.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 

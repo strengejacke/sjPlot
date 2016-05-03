@@ -10,7 +10,7 @@ sjp.grpfrq(varCount, varGroup, weight.by = NULL, weightByTitleString = NULL,
   geom.colors = "Paired", show.legend = TRUE, facet.grid = FALSE,
   title = "", legend.title = NULL, axis.labels = NULL,
   interactionVarLabels = NULL, legend.labels = NULL, ylim = NULL,
-  breakTitleAt = 50, breakLabelsAt = 15, breakLegendTitleAt = 20,
+  wrap.title = 50, wrap.labels = 15, breakLegendTitleAt = 20,
   breakLegendLabelsAt = 20, grid.breaks = NULL, barPosition = "dodge",
   innerBoxPlotWidth = 0.15, innerBoxPlotDotSize = 3, smoothLines = FALSE,
   expand.grid = FALSE, show.values = TRUE, show.n = TRUE,
@@ -84,11 +84,11 @@ Example: See \code{axis.labels}.}
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
 y-axis fits to the required range of the data.}
 
-\item{breakTitleAt}{determines how many chars of the plot title are displayed in
-one line and when a line break is inserted into the title.}
-
-\item{breakLabelsAt}{determines how many chars of the category labels are displayed in 
+\item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
+
+\item{wrap.labels}{determines how many chars of the category, variable or axis 
+labels are displayed in one line and when a line break is inserted.}
 
 \item{breakLegendTitleAt}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}

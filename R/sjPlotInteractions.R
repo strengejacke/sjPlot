@@ -319,7 +319,7 @@ sjp.int <- function(fit,
                     legend.title = NULL,
                     legend.labels = NULL,
                     show.values = FALSE,
-                    breakTitleAt = 50,
+                    wrap.title = 50,
                     breakLegendLabelsAt = 20,
                     breakLegendTitleAt = 20,
                     xlim = NULL,
@@ -423,7 +423,7 @@ sjp.int <- function(fit,
     }
     return(sjp.emm(fit, swapPredictors, plevel, title, geom.colors, geom.size,
                    axis.title, axis.labels, legend.title, legend.labels,
-                   show.values, valueLabel.digits, show.ci, p.kr, breakTitleAt,
+                   show.values, valueLabel.digits, show.ci, p.kr, wrap.title,
                    breakLegendTitleAt, breakLegendLabelsAt, y.offset, ylim, 
                    grid.breaks, facet.grid, printPlot))
   }
@@ -438,7 +438,7 @@ sjp.int <- function(fit,
   if (type == "eff") {
     return(sjp.eff.int(fit, int.term, int.plot.index, moderatorValues, swapPredictors, plevel,
                        title, fillAlpha, geom.colors, geom.size, axis.title,
-                       legend.title, legend.labels, show.values, breakTitleAt, breakLegendLabelsAt, 
+                       legend.title, legend.labels, show.values, wrap.title, breakLegendLabelsAt, 
                        breakLegendTitleAt, xlim, ylim, y.offset, grid.breaks, 
                        show.ci, facet.grid, printPlot, fun))
   }
@@ -796,7 +796,7 @@ sjp.int <- function(fit,
     # prepare annotation labels
     # -----------------------------------------------------------
     # wrap title
-    labtitle <- sjmisc::word_wrap(labtitle, breakTitleAt)
+    labtitle <- sjmisc::word_wrap(labtitle, wrap.title)
     # wrap legend labels
     lLabels <- sjmisc::word_wrap(lLabels, breakLegendLabelsAt)
     # wrap legend title
@@ -911,7 +911,7 @@ sjp.eff.int <- function(fit,
                         legend.title = NULL,
                         legend.labels = NULL,
                         show.values = FALSE,
-                        breakTitleAt = 50,
+                        wrap.title = 50,
                         breakLegendLabelsAt = 20,
                         breakLegendTitleAt = 20,
                         xlim = NULL,
@@ -1309,9 +1309,9 @@ sjp.eff.int <- function(fit,
     # -----------------------------------------------------------
     # wrap titles
     # -----------------------------------------------------------
-    labtitle <- sjmisc::word_wrap(labtitle, breakTitleAt)
-    labx <- sjmisc::word_wrap(labx, breakTitleAt)
-    laby <- sjmisc::word_wrap(laby, breakTitleAt)
+    labtitle <- sjmisc::word_wrap(labtitle, wrap.title)
+    labx <- sjmisc::word_wrap(labx, wrap.title)
+    laby <- sjmisc::word_wrap(laby, wrap.title)
     # wrap legend labels
     lLabels <- sjmisc::word_wrap(lLabels, breakLegendLabelsAt)
     # wrap legend title

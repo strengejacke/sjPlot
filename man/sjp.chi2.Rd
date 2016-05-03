@@ -5,7 +5,7 @@
 \title{Plot Pearson's Chi2-Test of multiple contingency tables}
 \usage{
 sjp.chi2(df, title = "Pearson's Chi2-Test of Independence",
-  axis.labels = NULL, breakTitleAt = 50, breakLabelsAt = 20,
+  axis.labels = NULL, wrap.title = 50, wrap.labels = 20,
   show.legend = FALSE, legend.title = NULL, printPlot = TRUE)
 }
 \arguments{
@@ -16,11 +16,11 @@ will be set automatically. If \code{title = ""}, no title is printed.}
 
 \item{axis.labels}{character vector with labels used as axis labels.}
 
-\item{breakTitleAt}{Wordwrap for diagram title. Determines how many chars of the title are displayed in
-one line and when a line break is inserted into the title}
+\item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
+one line and when a line break is inserted.}
 
-\item{breakLabelsAt}{Wordwrap for diagram labels. Determines how many chars of the category labels are displayed in 
-one line and when a line break is inserted}
+\item{wrap.labels}{determines how many chars of the category, variable or axis 
+labels are displayed in one line and when a line break is inserted.}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}

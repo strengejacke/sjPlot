@@ -117,7 +117,7 @@ sjp.scatter <- function(x = NULL,
                         legend.labels = NULL,
                         pointLabels = NULL,
                         axis.titles = NULL,
-                        breakTitleAt = 50,
+                        wrap.title = 50,
                         breakLegendTitleAt = 20,
                         breakLegendLabelsAt = 20,
                         geom.size = 2,
@@ -266,13 +266,13 @@ sjp.scatter <- function(x = NULL,
   if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(legend.title, breakLegendTitleAt)
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
+  if (!is.null(title)) title <- sjmisc::word_wrap(title, wrap.title)
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
+  if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, wrap.title)
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(axisTitle.y)) axisTitle.y <- sjmisc::word_wrap(axisTitle.y, breakTitleAt)
+  if (!is.null(axisTitle.y)) axisTitle.y <- sjmisc::word_wrap(axisTitle.y, wrap.title)
   # --------------------------------------------------------
   # Plot scatter plot
   # --------------------------------------------------------

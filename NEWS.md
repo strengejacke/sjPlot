@@ -16,3 +16,4 @@
 ## Bug fixes
 
 * During code clean-up, argument `group.pred` did not work for `sjt`-functions in past update.
+* Fixed bug with computation of confidence intervals and relative confidence intervals in `sjp.frq`.

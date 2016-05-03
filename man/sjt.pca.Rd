@@ -7,7 +7,7 @@
 sjt.pca(data, numberOfFactors = NULL, factorLoadingTolerance = 0.1,
   file = NULL, varlabels = NULL,
   title = "Principal Component Analysis (with varimax rotation)",
-  breakLabelsAt = 40, digits = 2, showCronbachsAlpha = TRUE,
+  wrap.labels = 40, digits = 2, showCronbachsAlpha = TRUE,
   showMSA = FALSE, showVariance = FALSE, alternateRowColors = FALSE,
   stringPov = "Proportion of Variance",
   stringCpov = "Cumulative Proportion", encoding = NULL, CSS = NULL,
@@ -38,8 +38,8 @@ provided (default), the data frame's column names are used.}
 \item{title}{string, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{breakLabelsAt}{determines how many chars of the category labels are displayed in 
-one line and when a line break is inserted.}
+\item{wrap.labels}{determines how many chars of the category, variable or axis 
+labels are displayed in one line and when a line break is inserted.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 

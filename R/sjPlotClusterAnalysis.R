@@ -60,8 +60,6 @@ utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "s
 #' @param showAccuracy logical, if \code{TRUE}, the \code{\link{sjc.grpdisc}} function will be called,
 #'          which computes a linear discriminant analysis on the classified cluster groups and plots a 
 #'          bar graph indicating the goodness of classification for each group.
-#' @param breakTitleAt Determines how many chars of the title are displayed in 
-#'          one line and when a line break is inserted into the title.
 #' @param facetCluster If \code{TRUE}, each cluster group will be represented by an own panel.
 #'          Default is \code{FALSE}, thus all cluster groups are plotted in a single graph.
 #' @param showAxisLabels.x whether x axis labels (cluster variables) should be shown or not.
@@ -123,8 +121,8 @@ sjc.qclus <- function(data,
                       showAccuracy = FALSE,
                       title = NULL,
                       axis.labels = NULL,
-                      breakTitleAt = 40,
-                      breakLabelsAt = 20,
+                      wrap.title = 40,
+                      wrap.labels = 20,
                       breakLegendTitleAt = 20,
                       breakLegendLabelsAt = 20,
                       facetCluster = FALSE,
@@ -159,14 +157,14 @@ sjc.qclus <- function(data,
   # Trim labels and title to appropriate size
   # --------------------------------------------------------
   # check length of diagram title and split longer string at into new lines
-  if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)    
+  if (!is.null(title)) title <- sjmisc::word_wrap(title, wrap.title)    
   # check length of legend title and split longer string at into new lines
   if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(title, breakLegendTitleAt)    
   # check length of y-axis title and split longer string at into new lines
   if (!is.null(legend.labels)) legend.labels <- sjmisc::word_wrap(legend.labels, breakLegendLabelsAt)
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
-  axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
+  axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
   # ---------------------------------------------
   # check for auto-groupcount
   # ---------------------------------------------

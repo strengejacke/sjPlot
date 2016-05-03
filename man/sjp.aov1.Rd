@@ -7,7 +7,7 @@
 sjp.aov1(depVar, grpVar, meansums = FALSE, title = NULL,
   axis.labels = NULL, rev.order = FALSE, stringIntercept = "(Intercept)",
   axis.title = "", axis.lim = NULL, geom.colors = c("#3366a0", "#aa3333"),
-  geom.size = 3, breakTitleAt = 50, breakLabelsAt = 25,
+  geom.size = 3, breakTitleAt = 50, wrap.labels = 25,
   grid.breaks = NULL, expand.grid = FALSE, show.values = TRUE,
   digits = 2, y.offset = 0.1, show.p = TRUE, showModelSummary = FALSE,
   printPlot = TRUE)
@@ -46,11 +46,8 @@ highest, so plot has maximum zoom.}
 depending on plot type and function. Note that bar and bin widths mostly 
 need smaller values than dot sizes.}
 
-\item{breakTitleAt}{determines how many chars of the plot title are displayed in
-one line and when a line break is inserted into the title.}
-
-\item{breakLabelsAt}{determines how many chars of the category labels are displayed in 
-one line and when a line break is inserted.}
+\item{wrap.labels}{determines how many chars of the category, variable or axis 
+labels are displayed in one line and when a line break is inserted.}
 
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}

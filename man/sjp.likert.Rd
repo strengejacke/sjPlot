@@ -11,7 +11,7 @@ sjp.likert(items, catcount = NULL, cat.neutral = NULL, weight.by = NULL,
   value.labels = "show", showPercentageSign = FALSE, digits = 1,
   legend.labels = NULL, show.legend = TRUE, title = NULL,
   legend.title = NULL, includeN = TRUE, showItemLabels = TRUE,
-  axis.labels = NULL, breakTitleAt = 50, breakLabelsAt = 30,
+  axis.labels = NULL, wrap.title = 50, wrap.labels = 30,
   breakLegendTitleAt = 30, breakLegendLabelsAt = 28, gridRange = 1,
   grid.breaks = 0.2, expand.grid = TRUE, axis.titles = NULL,
   coord.flip = TRUE, printPlot = TRUE)
@@ -91,11 +91,11 @@ will be set automatically. If \code{title = ""}, no title is printed.}
 
 \item{axis.labels}{character vector with labels used as axis labels.}
 
-\item{breakTitleAt}{determines how many chars of the plot title are displayed in
-one line and when a line break is inserted into the title.}
-
-\item{breakLabelsAt}{determines how many chars of the category labels are displayed in 
+\item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
+
+\item{wrap.labels}{determines how many chars of the category, variable or axis 
+labels are displayed in one line and when a line break is inserted.}
 
 \item{breakLegendTitleAt}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}

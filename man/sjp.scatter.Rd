@@ -6,7 +6,7 @@
 \usage{
 sjp.scatter(x = NULL, y = NULL, grp = NULL, title = "",
   legend.title = NULL, legend.labels = NULL, pointLabels = NULL,
-  axis.titles = NULL, breakTitleAt = 50, breakLegendTitleAt = 20,
+  axis.titles = NULL, wrap.title = 50, breakLegendTitleAt = 20,
   breakLegendLabelsAt = 20, geom.size = 2, label.size = 3,
   geom.colors = NULL, showTickMarkLabels.x = TRUE,
   showTickMarkLabels.y = TRUE, showGroupFitLine = FALSE,
@@ -44,8 +44,8 @@ no labels are printed.}
 \item{axis.titles}{character vector of length one or two, defining the title(s)
 for the x-axis and y-axis.}
 
-\item{breakTitleAt}{determines how many chars of the plot title are displayed in
-one line and when a line break is inserted into the title.}
+\item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
+one line and when a line break is inserted.}
 
 \item{breakLegendTitleAt}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}

@@ -67,8 +67,8 @@ sjp.gpt <- function(x,
                     axis.titles = NULL,
                     legend.title = NULL,
                     legend.labels = NULL,
-                    breakTitleAt = 50,
-                    breakLabelsAt = 15,
+                    wrap.title = 50,
+                    wrap.labels = 15,
                     breakLegendTitleAt = 20,
                     breakLegendLabelsAt = 20,
                     axis.lim = NULL,
@@ -127,10 +127,10 @@ sjp.gpt <- function(x,
   # ---------------------------------------------
   if (!is.null(legend.labels)) legend.labels <- sjmisc::word_wrap(legend.labels, breakLegendLabelsAt)
   if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(legend.title, breakLegendTitleAt)
-  if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
-  if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, breakTitleAt)
-  if (!is.null(axisTitle.y)) axisTitle.y <- sjmisc::word_wrap(axisTitle.y, breakTitleAt)
-  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
+  if (!is.null(title)) title <- sjmisc::word_wrap(title, wrap.title)
+  if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, wrap.title)
+  if (!is.null(axisTitle.y)) axisTitle.y <- sjmisc::word_wrap(axisTitle.y, wrap.title)
+  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
   # ------------------------------------
   # final data frae for plot
   # ------------------------------------

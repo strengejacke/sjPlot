@@ -167,8 +167,8 @@ sjp.likert <- function(items,
                        includeN = TRUE,
                        showItemLabels = TRUE,
                        axis.labels = NULL,
-                       breakTitleAt = 50, 
-                       breakLabelsAt = 30, 
+                       wrap.title = 50, 
+                       wrap.labels = 30, 
                        breakLegendTitleAt = 30, 
                        breakLegendLabelsAt = 28,
                        gridRange = 1,
@@ -492,12 +492,12 @@ sjp.likert <- function(items,
     if (!is.null(weightByTitleString)) {
       title <- paste(title, weightByTitleString, sep = "")
     }
-    title <- sjmisc::word_wrap(title, breakTitleAt)
+    title <- sjmisc::word_wrap(title, wrap.title)
   }
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
   if (!is.null(axis.labels)) {
-    axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
+    axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
   }
   # --------------------------------------------------------
   # set diagram margins

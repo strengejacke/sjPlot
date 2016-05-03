@@ -8,8 +8,8 @@ sjp.xtab(x, grp, title = "", legend.title = NULL, weight.by = NULL,
   weightByTitleString = NULL, type = "bars", tableIndex = "col",
   rev.order = FALSE, ylim = NULL, axis.labels = NULL,
   legend.labels = NULL, vjust = "bottom", hjust = "center",
-  y.offset = NULL, stringTotal = "Total", breakTitleAt = 50,
-  breakLabelsAt = 15, breakLegendTitleAt = 20, breakLegendLabelsAt = 20,
+  y.offset = NULL, stringTotal = "Total", wrap.title = 50,
+  wrap.labels = 15, breakLegendTitleAt = 20, breakLegendLabelsAt = 20,
   grid.breaks = 0.2, geom.size = 0.7, geom.spacing = 0.1,
   geom.colors = "Paired", barPosition = "dodge", lineDotSize = 3,
   smoothLines = FALSE, expand.grid = FALSE, show.values = TRUE,
@@ -73,11 +73,11 @@ to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 \item{stringTotal}{string for the legend label when a total-column is added. Only applies
 if \code{showTotalColumn = TRUE}. Default is \code{"Total"}.}
 
-\item{breakTitleAt}{determines how many chars of the plot title are displayed in
-one line and when a line break is inserted into the title.}
-
-\item{breakLabelsAt}{determines how many chars of the category labels are displayed in 
+\item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
+
+\item{wrap.labels}{determines how many chars of the category, variable or axis 
+labels are displayed in one line and when a line break is inserted.}
 
 \item{breakLegendTitleAt}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}

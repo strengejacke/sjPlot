@@ -276,8 +276,8 @@ sjp.lm <- function(fit,
                    group.estimates = NULL,
                    remove.estimates = NULL,
                    vars = NULL,
-                   breakTitleAt = 50,
-                   breakLabelsAt = 25,
+                   wrap.title = 50,
+                   wrap.labels = 25,
                    grid.breaks = NULL,
                    coord.flip = TRUE,
                    facet.grid = TRUE,
@@ -328,8 +328,8 @@ sjp.lm <- function(fit,
   if ((type == "lm" || type == "resid") && predvars.length <= 2) {
     # reset default color setting, does not look that good.
     if (geom.colors == "Set1") geom.colors <- NULL
-    return(invisible(sjp.lm1(fit, title, breakTitleAt, axis.labels, resp.label,
-                             breakLabelsAt, geom.colors, show.ci, pointAlpha,
+    return(invisible(sjp.lm1(fit, title, wrap.title, axis.labels, resp.label,
+                             wrap.labels, geom.colors, show.ci, pointAlpha,
                              showScatterPlot, show.loess, show.loess.ci, showModelSummary,
                              useResiduals = ifelse(type == "lm", FALSE, TRUE),
                              printPlot)))
@@ -337,7 +337,7 @@ sjp.lm <- function(fit,
   if (type == "slope" || type == "resid") {
     # reset default color setting, does not look that good.
     if (geom.colors == "Set1") geom.colors <- NULL
-    return(invisible(sjp.reglin(fit, title, breakTitleAt, geom.colors, show.ci,
+    return(invisible(sjp.reglin(fit, title, wrap.title, geom.colors, show.ci,
                                 pointAlpha, showScatterPlot, show.loess, show.loess.ci,
                                 useResiduals = ifelse(type == "slope", FALSE, TRUE),
                                 remove.estimates, vars, printPlot)))
@@ -374,13 +374,13 @@ sjp.lm <- function(fit,
   }
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
+  if (!is.null(title)) title <- sjmisc::word_wrap(title, wrap.title)
   # check length of x-axis title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(axis.title)) axis.title <- sjmisc::word_wrap(axis.title, breakTitleAt)
+  if (!is.null(axis.title)) axis.title <- sjmisc::word_wrap(axis.title, wrap.title)
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
-  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
+  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
   # ----------------------------
   # create expression with model summarys. used
   # for plotting in the diagram later
@@ -607,7 +607,7 @@ sjp.lm <- function(fit,
 
 sjp.reglin <- function(fit, 
                        title = NULL, 
-                       breakTitleAt = 50, 
+                       wrap.title = 50, 
                        geom.colors = NULL,
                        show.ci = TRUE,
                        pointAlpha = 0.2,
@@ -675,7 +675,7 @@ sjp.reglin <- function(fit,
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
   # -----------------------------------------------------------
-  if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
+  if (!is.null(title)) title <- sjmisc::word_wrap(title, wrap.title)
   # -----------------------------------------------------------
   # iterate all predictors
   # -----------------------------------------------------------
@@ -1040,14 +1040,14 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly = TRUE, completeDiagnostic =
       sjp.setTheme(theme = "scatterw")
       p1 <- sjp.reglin(linreg,
                        title = "Relationship of residuals against predictors (original model) (if scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly",
-                       breakTitleAt = 60,
+                       wrap.title = 60,
                        useResiduals = T)$plot.list
       # save plot
       plot.list <- c(plot.list, p1)
       if (modelOptmized) {
         p1 <- sjp.reglin(model,
                          title = "Relationship of residuals against predictors (updated model) (if scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly",
-                         breakTitleAt = 60,
+                         wrap.title = 60,
                          useResiduals = T)
         # save plot
         plot.list <- c(plot.list, p1)
@@ -1084,10 +1084,10 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly = TRUE, completeDiagnostic =
 
 sjp.lm1 <- function(fit,
                    title=NULL,
-                   breakTitleAt=50,
+                   wrap.title=50,
                    axis.labels=NULL,
                    resp.label=NULL,
-                   breakLabelsAt=20,
+                   wrap.labels=20,
                    geom.colors = NULL,
                    show.ci=TRUE,
                    pointAlpha=0.2,
@@ -1116,7 +1116,7 @@ sjp.lm1 <- function(fit,
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
   # -----------------------------------------------------------
-  if (!is.null(title)) title <- sjmisc::word_wrap(title, breakTitleAt)
+  if (!is.null(title)) title <- sjmisc::word_wrap(title, wrap.title)
   # -----------------------------------------------------------
   # remember length of predictor variables
   # -----------------------------------------------------------
@@ -1170,8 +1170,8 @@ sjp.lm1 <- function(fit,
   if (is.null(resp.label)) resp.label <- response
   # check length of axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
-  axis.labels <- sjmisc::word_wrap(axis.labels, breakLabelsAt)
-  resp.label <- sjmisc::word_wrap(resp.label, breakLabelsAt)
+  axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
+  resp.label <- sjmisc::word_wrap(resp.label, wrap.labels)
   # -----------------------------------------------------------
   # plot regression line and confidence intervall
   # -----------------------------------------------------------
