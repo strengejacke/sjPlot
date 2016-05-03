@@ -7,10 +7,9 @@
 sjp.aov1(depVar, grpVar, meansums = FALSE, title = NULL,
   axis.labels = NULL, rev.order = FALSE, stringIntercept = "(Intercept)",
   axis.title = "", axis.lim = NULL, geom.colors = c("#3366a0", "#aa3333"),
-  geom.size = 3, breakTitleAt = 50, wrap.labels = 25,
-  grid.breaks = NULL, expand.grid = FALSE, show.values = TRUE,
-  digits = 2, y.offset = 0.1, show.p = TRUE, showModelSummary = FALSE,
-  printPlot = TRUE)
+  geom.size = 3, wrap.title = 50, wrap.labels = 25, grid.breaks = NULL,
+  expand.grid = FALSE, show.values = TRUE, digits = 2, y.offset = 0.1,
+  show.p = TRUE, showModelSummary = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{depVar}{dependent variable. Will be used with following formula:
@@ -45,6 +44,9 @@ highest, so plot has maximum zoom.}
 \item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
 depending on plot type and function. Note that bar and bin widths mostly 
 need smaller values than dot sizes.}
+
+\item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
+one line and when a line break is inserted.}
 
 \item{wrap.labels}{determines how many chars of the category, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
