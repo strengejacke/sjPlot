@@ -24,15 +24,13 @@
 #'          When \code{x} is not a vector, but a fitted model object, the function
 #'          is detected automatically. If \code{x} is a vector, \code{fun} defaults
 #'          to \code{"lm"}.
-#' @param showScatterPlot If \code{TRUE} (default), a scatter plot of response and predictor values
-#'          for each predictor of the fitted model \code{fit} is plotted.
 #' @param show.loess If \code{TRUE}, an additional loess-smoothed line is plotted.
 #' @param show.loess.ci If \code{TRUE}, a confidence region for the loess-smoothed line
 #'          will be plotted.
-#' @param showPValues logical, if \code{TRUE} (default), p-values for polynomial terms are
+#' @param show.p logical, if \code{TRUE} (default), p-values for polynomial terms are
 #'          printed to the console.
 #' @param loessLineColor color of the loess-smoothed line. Only applies, if \code{show.loess = TRUE}.
-#' @param pointColor color of the scatter plot's point. Only applies, if \code{showScatterPlot = TRUE}.
+#' @param pointColor color of the scatter plot's point. Only applies, if \code{scatter.plot = TRUE}.
 #' @param pointAlpha The alpha values of the scatter plot's point-geoms. Default is 0.2.
 #' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
@@ -44,6 +42,7 @@
 #'           }
 #' 
 #' @inheritParams sjp.glmer
+#' @inheritParams sjp.lm
 #' 
 #' @details For each polynomial degree, a simple linear regression on \code{x} (resp.
 #'            the extracted response, if \code{x} is a fitted model) is performed,
@@ -76,7 +75,7 @@
 #' 
 #' # linear to cubic fit
 #' sjp.poly(efc$c160age, efc$quol_5, 
-#'          1:4, showScatterPlot = FALSE)
+#'          1:4, scatter.plot = FALSE)
 #' 
 #' 
 #' library(sjmisc)
@@ -85,12 +84,12 @@
 #' fit <- lm(tot_sc_e ~ c12hour + e17age + e42dep, data = efc)
 #' # inspect relationship between predictors and response
 #' sjp.lm(fit, type = "slope", 
-#'        show.loess = TRUE, showScatterPlot = FALSE)
+#'        show.loess = TRUE, scatter.plot = FALSE)
 #' # "e17age" does not seem to be linear correlated to response
 #' # try to find appropiate polynomial. Grey line (loess smoothed)
 #' # indicates best fit. Looks like x^4 has the best fit,
 #' # however, only x^3 has significant p-values.
-#' sjp.poly(fit, "e17age", 2:4, showScatterPlot = FALSE)
+#' sjp.poly(fit, "e17age", 2:4, scatter.plot = FALSE)
 #' 
 #' \dontrun{
 #' # fit new model
@@ -110,10 +109,10 @@ sjp.poly <- function(x,
                      poly.scale = FALSE,
                      fun = NULL,
                      axis.title = NULL,
-                     showScatterPlot = TRUE,
+                     scatter.plot = TRUE,
                      show.loess = TRUE,
                      show.loess.ci = TRUE,
-                     showPValues = TRUE,
+                     show.p = TRUE,
                      geom.colors = NULL,
                      geom.size = .8,
                      loessLineColor = "#808080",
@@ -198,7 +197,7 @@ sjp.poly <- function(x,
                                     stats::predict(fit), 
                                     sprintf("x^%.*f", poly.digit, i)))
     # print p-values?
-    if (showPValues) {
+    if (show.p) {
       # get p-values
       pvals <- summary(fit)$coefficients[-1, 4]
       # prepare output string
@@ -216,7 +215,7 @@ sjp.poly <- function(x,
   # create plot
   polyplot <- ggplot(plot.df, aes(x, y, colour = grp))
   # show scatter plot as well?
-  if (showScatterPlot) polyplot <- polyplot + geom_jitter(colour = pointColor, alpha = pointAlpha)
+  if (scatter.plot) polyplot <- polyplot + geom_jitter(colour = pointColor, alpha = pointAlpha)
   # show loess curve? this curve indicates the "perfect" curve through
   # the data
   if (show.loess) polyplot <- polyplot + stat_smooth(method = "loess", 

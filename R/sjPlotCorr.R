@@ -29,12 +29,11 @@ utils::globalVariables(c("ordx", "ordy"))
 #'          \code{"listwise"} (default) or \code{"pairwise"}.
 #' @param corMethod indicates the correlation computation method. May be one of
 #'          \code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.
-#' @param showPValues logical, whether significance levels (p-values) of correlations should
-#'          be plotted to each geom. See 'Note'.
 #' @param pvaluesAsNumbers logical, if \code{TRUE}, the significance levels (p-values) are printed as numbers.
 #'          if \code{FALSE} (default), asterisks are used. See 'Note'.
 #'          
 #' @inheritParams sjp.grpfrq
+#' @inheritParams sjp.lm
 #' 
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}) and the original correlation matrix
@@ -42,7 +41,7 @@ utils::globalVariables(c("ordx", "ordy"))
 #'
 #' @note If \code{data} is a matrix with correlation coefficients as returned by 
 #'       the \code{\link{cor}}-function, p-values can't be computed.
-#'       Thus, \code{showPValues} and \code{pvaluesAsNumbers}
+#'       Thus, \code{show.p} and \code{pvaluesAsNumbers}
 #'       only have an effect if \code{data} is a \code{\link{data.frame}}.
 #'
 #' @examples
@@ -106,7 +105,7 @@ sjp.corr <- function(data,
                      show.legend = FALSE,
                      legend.title = NULL,
                      show.values = TRUE,
-                     showPValues = TRUE,
+                     show.p = TRUE,
                      pvaluesAsNumbers = FALSE,
                      printPlot = TRUE) {
   # --------------------------------------------------------
@@ -290,7 +289,7 @@ sjp.corr <- function(data,
     correlationPValues <- ""
   } else {
     correlationValueLabels <- ifelse(is.na(orderedCorr$psize), sprintf("%.*f", decimals, orderedCorr$value), "")
-    if (showPValues) {
+    if (show.p) {
       correlationPValues <- ifelse(is.na(orderedCorr$psize), orderedCorr$ps, "")
     } else {
       correlationPValues <- ""

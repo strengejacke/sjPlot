@@ -374,10 +374,6 @@ sjp.glmer <- function(fit,
 #'          }
 #' @param pointAlpha alpha value of point-geoms in the scatter plots.
 #'          Default is 0.2.
-#' @param showScatterPlot logical, if \code{TRUE} (default), a scatter plot of
-#'          response and predictor values for each predictor of the fitted
-#'          model \code{fit} is plotted. Only applies if \code{type = "fe.slope"}
-#'          or \code{type = "fe.resid"}.
 #' @param show.loess logical, if \code{TRUE}, and depending on \code{type}, an 
 #'          additional loess-smoothed line is plotted.
 #' @param show.loess.ci logical, if \code{TRUE}, a confidence region for the loess-smoothed line
@@ -478,7 +474,7 @@ sjp.glmer <- function(fit,
 #' # try to find appropiate polynomial. Grey line (loess smoothed)
 #' # indicates best fit. Looks like x^4 has the best fit,
 #' # however, x^2 seems to be suitable according to p-values.
-#' sjp.poly(fit, "barthel", 2:4, showScatterPlot = FALSE)
+#' sjp.poly(fit, "barthel", 2:4, scatter.plot = FALSE)
 #'
 #' # fit new model
 #' fit <- lmer(neg_c_7 ~ sex + c12hour + barthel +
@@ -547,7 +543,7 @@ sjp.lmer <- function(fit,
                      show.ci = FALSE,
                      p.kr = TRUE,
                      pointAlpha = 0.2,
-                     showScatterPlot = TRUE,
+                     scatter.plot = TRUE,
                      show.loess = FALSE,
                      show.loess.ci = FALSE,
                      poly.term = NULL,
@@ -593,7 +589,7 @@ sjp.lmer <- function(fit,
            printPlot,
            fun = "lm",
            pointAlpha,
-           showScatterPlot,
+           scatter.plot,
            show.loess,
            show.loess.ci,
            poly.term,
@@ -630,7 +626,7 @@ sjp.lme4  <- function(fit,
                       printPlot,
                       fun,
                       pointAlpha = 0.2,
-                      showScatterPlot = TRUE,
+                      scatter.plot = TRUE,
                       show.loess = FALSE,
                       show.loess.ci = FALSE,
                       poly.term = NULL,
@@ -778,7 +774,7 @@ sjp.lme4  <- function(fit,
       # reset default color setting, does not look that good.
       if (geom.colors == "Set1") geom.colors <- NULL
       return(invisible(sjp.reglin(fit, title, 50, geom.colors, show.ci, pointAlpha,
-                                  showScatterPlot, show.loess, show.loess.ci, 
+                                  scatter.plot, show.loess, show.loess.ci, 
                                   useResiduals = ifelse(type == "fe.slope", FALSE, TRUE),
                                   remove.estimates, vars, printPlot)))
     } else {

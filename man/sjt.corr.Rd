@@ -5,9 +5,9 @@
 \title{Summary of correlations as HTML table}
 \usage{
 sjt.corr(data, missingDeletion = "pairwise", corMethod = "spearman",
-  title = NULL, showPValues = TRUE, pvaluesAsNumbers = FALSE,
-  fade.ns = TRUE, file = NULL, varlabels = NULL, wrap.labels = 40,
-  digits = 3, triangle = "both", val.rm = NULL, stringDiagonal = NULL,
+  title = NULL, show.p = TRUE, pvaluesAsNumbers = FALSE, fade.ns = TRUE,
+  file = NULL, var.labels = NULL, wrap.labels = 40, digits = 3,
+  triangle = "both", val.rm = NULL, stringDiagonal = NULL,
   encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
   remove.spaces = TRUE)
 }
@@ -24,8 +24,8 @@ should be correlated.}
 
 \item{title}{table caption. By default, \code{title = NULL}, hence no title will be used.}
 
-\item{showPValues}{logical, whether significance levels (p-values) of correlations should 
-be printed or not. See 'Note'.}
+\item{show.p}{logical, adds significance levels to values, or value and 
+variable labels.}
 
 \item{pvaluesAsNumbers}{logical, if \code{TRUE}, the significance levels (p-values) are printed as numbers.
 if \code{FALSE} (default), asterisks are used. See 'Note'.}
@@ -37,11 +37,8 @@ a lighter grey text color). See 'Note'.}
 If \code{NULL} (default), the output will be saved as temporary file and 
 openend either in the IDE's viewer pane or the default web browser.}
 
-\item{varlabels}{character vector with item labels that are printed along the 
-first column/row. If no item labels are provided (default), the 
-data frame's column names are used. Item labels are detected automatically 
-if \code{data} is a \code{\link{data.frame}} where variables have
-label attributes (see \code{\link[sjmisc]{set_label}}) for details).}
+\item{var.labels}{character vector with variable names, which will be used 
+to label variables in the output.}
 
 \item{wrap.labels}{determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
@@ -107,7 +104,7 @@ See 'Details' in \code{\link{sjt.frq}}.
 \note{
 If \code{data} is a matrix with correlation coefficients as returned by 
       the \code{\link{cor}}-function, p-values can't be computed.
-      Thus, \code{showPValues}, \code{pvaluesAsNumbers} and \code{fade.ns}
+      Thus, \code{show.p}, \code{pvaluesAsNumbers} and \code{fade.ns}
       only have an effect if \code{data} is a \code{\link{data.frame}}.
       \cr \cr
       Additionally, see 'Note' in \code{\link{sjt.frq}}.

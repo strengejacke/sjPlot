@@ -146,7 +146,7 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 sjp.frq <- function(var.cnt,
                     title = "",
                     weight.by = NULL,
-                    weightByTitleString = NULL,
+                    title.wtd.suffix = NULL,
                     interactionVar = NULL,
                     sort.frq = "none",
                     type = c("bar", "dot", "histogram", "line", "density", "boxplot", "violin"),
@@ -327,8 +327,8 @@ sjp.frq <- function(var.cnt,
   # every 50 chars
   if (!is.null(title)) {
     # if we have weighted values, say that in diagram's title
-    if (!is.null(weightByTitleString)) {
-      title <- paste(title, weightByTitleString, sep = "")
+    if (!is.null(title.wtd.suffix)) {
+      title <- paste(title, title.wtd.suffix, sep = "")
     }
     title <- sjmisc::word_wrap(title, wrap.title)    
   }

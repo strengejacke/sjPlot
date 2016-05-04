@@ -8,7 +8,7 @@ sjp.corr(data, title = NULL, axis.labels = NULL, type = "circle",
   sortCorrelations = TRUE, decimals = 3, missingDeletion = "listwise",
   corMethod = "spearman", geom.colors = "RdBu", geom.size = 15,
   wrap.title = 50, wrap.labels = 20, show.legend = FALSE,
-  legend.title = NULL, show.values = TRUE, showPValues = TRUE,
+  legend.title = NULL, show.values = TRUE, show.p = TRUE,
   pvaluesAsNumbers = FALSE, printPlot = TRUE)
 }
 \arguments{
@@ -58,8 +58,8 @@ function, a legend is added to the plot.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
-\item{showPValues}{logical, whether significance levels (p-values) of correlations should
-be plotted to each geom. See 'Note'.}
+\item{show.p}{logical, adds significance levels to values, or value and 
+variable labels.}
 
 \item{pvaluesAsNumbers}{logical, if \code{TRUE}, the significance levels (p-values) are printed as numbers.
 if \code{FALSE} (default), asterisks are used. See 'Note'.}
@@ -83,7 +83,7 @@ Plot correlation matrix as ellipses or tiles. Required argument is either
 \note{
 If \code{data} is a matrix with correlation coefficients as returned by 
       the \code{\link{cor}}-function, p-values can't be computed.
-      Thus, \code{showPValues} and \code{pvaluesAsNumbers}
+      Thus, \code{show.p} and \code{pvaluesAsNumbers}
       only have an effect if \code{data} is a \code{\link{data.frame}}.
 }
 \examples{

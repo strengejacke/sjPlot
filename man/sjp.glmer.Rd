@@ -110,7 +110,8 @@ is \code{NULL}, i.e. all estimates are printed.}
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
-\item{show.p}{logical, adds significance levels to value or variable labels.}
+\item{show.p}{logical, adds significance levels to values, or value and 
+variable labels.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 

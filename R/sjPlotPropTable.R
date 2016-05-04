@@ -113,7 +113,7 @@ sjp.xtab <- function(x,
                      title = "",
                      legend.title = NULL,
                      weight.by = NULL,
-                     weightByTitleString = NULL,
+                     title.wtd.suffix = NULL,
                      type = "bars",
                      tableIndex = "col",
                      rev.order = FALSE,
@@ -324,7 +324,7 @@ sjp.xtab <- function(x,
   if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(legend.title, breakLegendTitleAt)
   if (!is.null(title)) {
     # if we have weighted values, say that in diagram's title
-    if (!is.null(weightByTitleString)) title <- paste(title, weightByTitleString, sep = "")
+    if (!is.null(title.wtd.suffix)) title <- paste(title, title.wtd.suffix, sep = "")
     title <- sjmisc::word_wrap(title, wrap.title)
   }
   if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, wrap.title)

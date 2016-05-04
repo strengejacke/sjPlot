@@ -17,17 +17,10 @@
 #'          \code{"listwise"} or \code{"pairwise"} (default).
 #' @param corMethod indicates the correlation computation method. May be one of
 #'          \code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.
-#' @param showPValues logical, whether significance levels (p-values) of correlations should 
-#'          be printed or not. See 'Note'.
 #' @param pvaluesAsNumbers logical, if \code{TRUE}, the significance levels (p-values) are printed as numbers.
 #'          if \code{FALSE} (default), asterisks are used. See 'Note'.
 #' @param fade.ns logical, if \code{TRUE} (default), non-significant correlation-values appear faded (by using
 #'          a lighter grey text color). See 'Note'.
-#' @param varlabels character vector with item labels that are printed along the 
-#'          first column/row. If no item labels are provided (default), the 
-#'          data frame's column names are used. Item labels are detected automatically 
-#'          if \code{data} is a \code{\link{data.frame}} where variables have
-#'          label attributes (see \code{\link[sjmisc]{set_label}}) for details).
 #' @param triangle indicates whether only the upper right (use \code{"upper"}), lower left (use \code{"lower"})
 #'          or both (use \code{"both"}) triangles of the correlation table is filled with values. Default
 #'          is \code{"both"}. You can specifiy the inital letter only.
@@ -48,6 +41,7 @@
 #' @inheritParams sjt.df
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.glmer
+#' @inheritParams sjp.lm
 #'          
 #' @return Invisibly returns
 #'          \itemize{
@@ -60,7 +54,7 @@
 #'
 #' @note If \code{data} is a matrix with correlation coefficients as returned by 
 #'       the \code{\link{cor}}-function, p-values can't be computed.
-#'       Thus, \code{showPValues}, \code{pvaluesAsNumbers} and \code{fade.ns}
+#'       Thus, \code{show.p}, \code{pvaluesAsNumbers} and \code{fade.ns}
 #'       only have an effect if \code{data} is a \code{\link{data.frame}}.
 #'       \cr \cr
 #'       Additionally, see 'Note' in \code{\link{sjt.frq}}.
@@ -131,11 +125,11 @@ sjt.corr <- function(data,
                      missingDeletion = "pairwise",
                      corMethod = "spearman",
                      title = NULL,
-                     showPValues = TRUE,
+                     show.p = TRUE,
                      pvaluesAsNumbers = FALSE,
                      fade.ns = TRUE,
                      file = NULL, 
-                     varlabels = NULL,
+                     var.labels = NULL,
                      wrap.labels = 40,
                      digits = 3,
                      triangle = "both",
@@ -172,18 +166,18 @@ sjt.corr <- function(data,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
-  if (is.null(varlabels) && is.data.frame(data)) {
-    varlabels <- c()
+  if (is.null(var.labels) && is.data.frame(data)) {
+    var.labels <- c()
     # if yes, iterate each variable
     for (i in 1:ncol(data)) {
       # retrieve variable name attribute
       vn <- sjmisc::get_label(data[[i]], def.value = colnames(data)[i])
       # if variable has attribute, add to variableLabel list
       if (!is.null(vn)) {
-        varlabels <- c(varlabels, vn)
+        var.labels <- c(var.labels, vn)
       } else {
         # else break out of loop
-        varlabels <- NULL
+        var.labels <- NULL
         break
       }
     }
@@ -268,17 +262,17 @@ sjt.corr <- function(data,
                                                         x <- sub("0", p_zero, sprintf("%.*f", digits, x)))
     }
   } else {
-    showPValues <- FALSE
+    show.p <- FALSE
   }
   # ----------------------------
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
   # ----------------------------
-  if (is.null(varlabels)) {
-    varlabels <- row.names(corr)
+  if (is.null(var.labels)) {
+    var.labels <- row.names(corr)
   }
   # check length of x-axis-labels and split longer strings at into new lines
-  varlabels <- sjmisc::word_wrap(varlabels, wrap.labels, "<br>")
+  var.labels <- sjmisc::word_wrap(var.labels, wrap.labels, "<br>")
   # -------------------------------------
   # init header
   # -------------------------------------
@@ -358,7 +352,7 @@ sjt.corr <- function(data,
   page.content <- paste0(page.content, "    <th class=\"thead\">&nbsp;</th>\n")
   # iterate columns
   for (i in 1:ncol(corr)) {
-    page.content <- paste0(page.content, sprintf("    <th class=\"thead\">%s</th>\n", varlabels[i]))
+    page.content <- paste0(page.content, sprintf("    <th class=\"thead\">%s</th>\n", var.labels[i]))
   }
   # close table row
   page.content <- paste0(page.content, "  </tr>\n")
@@ -370,7 +364,7 @@ sjt.corr <- function(data,
     # write tr-tag
     page.content <- paste0(page.content, "  <tr>\n")
     # print first table cell
-    page.content <- paste0(page.content, sprintf("    <td class=\"firsttablecol\">%s</td>\n", varlabels[i]))
+    page.content <- paste0(page.content, sprintf("    <td class=\"firsttablecol\">%s</td>\n", var.labels[i]))
     # --------------------------------------------------------
     # iterate all columns
     # --------------------------------------------------------
@@ -398,7 +392,7 @@ sjt.corr <- function(data,
           # --------------------------------------------------------
           # check whether we want to show P-Values
           # --------------------------------------------------------
-          if (showPValues) {
+          if (show.p) {
             if (pvaluesAsNumbers) {
               # --------------------------------------------------------
               # if we have p-values as number, print them in new row

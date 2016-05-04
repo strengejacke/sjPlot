@@ -12,7 +12,7 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   wrap.title = 50, wrap.labels = 25, grid.breaks = NULL,
   coord.flip = TRUE, facet.grid = TRUE, show.values = TRUE, digits = 2,
   show.p = TRUE, show.summary = FALSE, show.ci = TRUE, pointAlpha = 0.2,
-  showScatterPlot = TRUE, show.loess = FALSE, show.loess.ci = FALSE,
+  scatter.plot = TRUE, show.loess = FALSE, show.loess.ci = FALSE,
   show.legend = FALSE, y.offset = 0.15, poly.term = NULL,
   showOriginalModelOnly = TRUE, completeDiagnostic = FALSE,
   printPlot = TRUE)
@@ -102,7 +102,8 @@ in a grid of an integrated single plot.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
-\item{show.p}{logical, adds significance levels to value or variable labels.}
+\item{show.p}{logical, adds significance levels to values, or value and 
+variable labels.}
 
 \item{show.summary}{logical, if \code{TRUE}, a summary with model statistics 
 is added to the plot.}
@@ -113,10 +114,9 @@ interval or region is added to the plot.}
 \item{pointAlpha}{alpha value of point-geoms in the scatter plots.
 Default is 0.2.}
 
-\item{showScatterPlot}{logical, if \code{TRUE} (default), a scatter plot of
-response and predictor values for each predictor of \code{fit} is plotted.
-Only applies if \code{type = "lm"} and fitted model has only one predictor,
-or if \code{type = "slope"} or \code{type = "resid"}.}
+\item{scatter.plot}{logical, if \code{TRUE} (default), a scatter plot of
+response and predictor values for each predictor of the model
+is plotted. Only applies for slope-type plots.}
 
 \item{show.loess}{logical, if \code{TRUE}, and depending on \code{type}, an 
 additional loess-smoothed line is plotted.}
@@ -258,7 +258,7 @@ sjp.lm(fit, type = "slope")
 # reression line w/o scatter plot
 sjp.lm(fit,
        type = "slope",
-       showScatterPlot = FALSE)
+       scatter.plot = FALSE)
 
 # --------------------------
 # plotting model assumptions
@@ -322,7 +322,7 @@ fit <- lm(tot_sc_e ~ c12hour + e17age + e42dep, data = efc)
 # try to find appropiate polynomial. Grey line (loess smoothed)
 # indicates best fit. Looks like x^3 has a good fit.
 # (not checked for significance yet).
-sjp.poly(fit, "e17age", 2:4, showScatterPlot = FALSE)
+sjp.poly(fit, "e17age", 2:4, scatter.plot = FALSE)
 # fit new model
 fit <- lm(tot_sc_e ~ c12hour + e42dep +
           e17age + I(e17age^2) + I(e17age^3),

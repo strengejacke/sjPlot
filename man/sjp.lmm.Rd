@@ -102,7 +102,8 @@ function call is interrupted and no plot printed.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
-\item{show.p}{logical, adds significance levels to value or variable labels.}
+\item{show.p}{logical, adds significance levels to values, or value and 
+variable labels.}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}

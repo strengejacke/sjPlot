@@ -98,15 +98,15 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'          which estimates should be removed from the plot.
 #'          \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 #'          is \code{NULL}, i.e. all estimates are printed.
-#' @param show.p logical, adds significance levels to value or variable labels.
+#' @param show.p logical, adds significance levels to values, or value and 
+#'          variable labels.
 #' @param show.summary logical, if \code{TRUE}, a summary with model statistics 
 #'          is added to the plot.
 #' @param show.ci logical, if \code{TRUE}, depending on \code{type}, a condifence
 #'          interval or region is added to the plot.
-#' @param showScatterPlot logical, if \code{TRUE} (default), a scatter plot of
-#'          response and predictor values for each predictor of \code{fit} is plotted.
-#'          Only applies if \code{type = "lm"} and fitted model has only one predictor,
-#'          or if \code{type = "slope"} or \code{type = "resid"}.
+#' @param scatter.plot logical, if \code{TRUE} (default), a scatter plot of
+#'          response and predictor values for each predictor of the model
+#'          is plotted. Only applies for slope-type plots.
 #' @param showOriginalModelOnly logical, if \code{TRUE} (default), only model assumptions of
 #'          \code{fit} are plotted. if \code{FALSE}, model assumptions of an updated
 #'          model where outliers are automatically excluded are also plotted.
@@ -173,7 +173,7 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #' # reression line w/o scatter plot
 #' sjp.lm(fit,
 #'        type = "slope",
-#'        showScatterPlot = FALSE)
+#'        scatter.plot = FALSE)
 #'
 #' # --------------------------
 #' # plotting model assumptions
@@ -237,7 +237,7 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #' # try to find appropiate polynomial. Grey line (loess smoothed)
 #' # indicates best fit. Looks like x^3 has a good fit.
 #' # (not checked for significance yet).
-#' sjp.poly(fit, "e17age", 2:4, showScatterPlot = FALSE)
+#' sjp.poly(fit, "e17age", 2:4, scatter.plot = FALSE)
 #' # fit new model
 #' fit <- lm(tot_sc_e ~ c12hour + e42dep +
 #'           e17age + I(e17age^2) + I(e17age^3),
@@ -286,7 +286,7 @@ sjp.lm <- function(fit,
                    show.summary = FALSE,
                    show.ci = TRUE,
                    pointAlpha = 0.2,
-                   showScatterPlot = TRUE,
+                   scatter.plot = TRUE,
                    show.loess = FALSE,
                    show.loess.ci = FALSE,
                    show.legend = FALSE,
@@ -329,7 +329,7 @@ sjp.lm <- function(fit,
     if (geom.colors == "Set1") geom.colors <- NULL
     return(invisible(sjp.lm1(fit, title, wrap.title, axis.labels, resp.label,
                              wrap.labels, geom.colors, show.ci, pointAlpha,
-                             showScatterPlot, show.loess, show.loess.ci, show.summary,
+                             scatter.plot, show.loess, show.loess.ci, show.summary,
                              useResiduals = ifelse(type == "lm", FALSE, TRUE),
                              printPlot)))
   }
@@ -337,7 +337,7 @@ sjp.lm <- function(fit,
     # reset default color setting, does not look that good.
     if (geom.colors == "Set1") geom.colors <- NULL
     return(invisible(sjp.reglin(fit, title, wrap.title, geom.colors, show.ci,
-                                pointAlpha, showScatterPlot, show.loess, show.loess.ci,
+                                pointAlpha, scatter.plot, show.loess, show.loess.ci,
                                 useResiduals = ifelse(type == "slope", FALSE, TRUE),
                                 remove.estimates, vars, printPlot)))
   }
@@ -610,7 +610,7 @@ sjp.reglin <- function(fit,
                        geom.colors = NULL,
                        show.ci = TRUE,
                        pointAlpha = 0.2,
-                       showScatterPlot = TRUE,
+                       scatter.plot = TRUE,
                        show.loess = TRUE,
                        show.loess.ci = FALSE,
                        useResiduals = FALSE,
@@ -698,7 +698,7 @@ sjp.reglin <- function(fit,
     # -----------------------------------------------------------
     # plot jittered values if requested
     # -----------------------------------------------------------
-    if (showScatterPlot) reglinplot <- reglinplot + geom_jitter(alpha = pointAlpha,
+    if (scatter.plot) reglinplot <- reglinplot + geom_jitter(alpha = pointAlpha,
                                                                 colour = pointColor)
     # -----------------------------------------------------------
     # check whether additional loess-line should be plotted
@@ -1090,7 +1090,7 @@ sjp.lm1 <- function(fit,
                    geom.colors = NULL,
                    show.ci=TRUE,
                    pointAlpha=0.2,
-                   showScatterPlot=TRUE,
+                   scatter.plot=TRUE,
                    show.loess=FALSE,
                    show.loess.ci=FALSE,
                    show.summary=TRUE,
@@ -1182,7 +1182,7 @@ sjp.lm1 <- function(fit,
   # -----------------------------------------------------------
   # plot jittered values if requested
   # -----------------------------------------------------------
-  if (showScatterPlot) {
+  if (scatter.plot) {
     reglinplot <- reglinplot + geom_jitter(alpha = pointAlpha,
                                            colour = pointColor)
   }

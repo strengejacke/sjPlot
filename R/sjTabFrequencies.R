@@ -13,9 +13,6 @@
 #' @param file destination file, if the output should be saved as file.
 #'          If \code{NULL} (default), the output will be saved as temporary file and 
 #'          openend either in the IDE's viewer pane or the default web browser.
-#' @param weightByTitleString suffix (as string) for the tabel caption, if \code{weight.by} is specified,
-#'          e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so
-#'          the table caption will not have a suffix when cases are weighted.
 #' @param var.labels character vector with variable names, which will be used 
 #'          to label variables in the output.
 #' @param value.labels character vector (or \code{list} of character vectors)
@@ -27,19 +24,19 @@
 #'          frequencies are ordered by values.
 #' @param alternateRowColors logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 #'          background color.
-#' @param stringValue label for the very first table column containing the values (see
+#' @param string.val label for the very first table column containing the values (see
 #'          \code{value.labels}).
-#' @param stringCount label for the first table data column containing the counts. Default is \code{"N"}.
-#' @param stringPerc label for the second table data column containing the raw percentages. Default is \code{"raw \%"}.
-#' @param stringValidPerc String label for the third data table column containing the valid percentages, i.e. the
+#' @param string.cnt label for the first table data column containing the counts. Default is \code{"N"}.
+#' @param string.prc label for the second table data column containing the raw percentages. Default is \code{"raw \%"}.
+#' @param string.vprc String label for the third data table column containing the valid percentages, i.e. the
 #'          count percentage value exluding possible missing values.
-#' @param stringCumPerc String label for the last table data column containing the cumulative percentages.
-#' @param stringMissingValue String label for the last table data row containing missing values.
-#' @param highlightMedian If \code{TRUE}, the table row indicating the median value will
-#'          be highlighted.
-#' @param highlightQuartiles If \code{TRUE}, the table row indicating the lower and upper quartiles will
-#'          be highlighted.
-#' @param skipZeroRows If \code{TRUE}, rows with only zero-values are not printed
+#' @param string.cprc String label for the last table data column containing the cumulative percentages.
+#' @param string.na String label for the last table data row containing missing values.
+#' @param emph.md If \code{TRUE}, the table row indicating the median value will
+#'          be emphasized.
+#' @param emph.quart If \code{TRUE}, the table row indicating the lower and upper quartiles will
+#'          be emphasized.
+#' @param skip.zero If \code{TRUE}, rows with only zero-values are not printed
 #'          (e.g. if a variable has values or levels 1 to 8, and levels / values 
 #'          4 to 6 have no counts, these values would not be printed in the table). 
 #'          Use \code{FALSE} to print also zero-values, or use \code{"auto"} (default)
@@ -48,16 +45,16 @@
 #'          counts, zero-values would be skipped automatically).
 #' @param show.summary If \code{TRUE} (default), a summary row with total and valid N as well as mean and
 #'          standard deviation is shown.
-#' @param showSkew If \code{TRUE}, the variable's skewness is added to the summary.
+#' @param show.skew If \code{TRUE}, the variable's skewness is added to the summary.
 #'          The skewness is retrieved from the \code{\link[psych]{describe}}-function 
 #'          of the \pkg{psych}-package.
-#' @param showKurtosis If \code{TRUE}, the variable's kurtosis is added to the summary.
+#' @param show.kurtosis If \code{TRUE}, the variable's kurtosis is added to the summary.
 #'          The kurtosis is retrieved from the \code{\link[psych]{describe}}-function 
 #'          of the \pkg{psych}-package.
 #' @param skewString A character string, which is used as header for the skew 
-#'          column (see \code{showSkew})). Default is lower case Greek gamma.
+#'          column (see \code{show.skew})). Default is lower case Greek gamma.
 #' @param kurtosisString A character string, which is used as header for the 
-#'          kurtosis column (see \code{showKurtosis})). Default is lower case 
+#'          kurtosis column (see \code{show.kurtosis})). Default is lower case 
 #'          Greek omega.
 #' @param removeStringVectors If \code{TRUE} (default), character vectors / string variables will be removed from
 #'          \code{data} before frequency tables are computed.
@@ -165,8 +162,8 @@
 #' # plot larger scale including zero-counts
 #' # indicating median and quartiles
 #' sjt.frq(efc$neg_c_7,
-#'         highlightMedian = TRUE,
-#'         highlightQuartiles = TRUE)
+#'         emph.md = TRUE,
+#'         emph.quart = TRUE)
 #' 
 #' # -------------------------------
 #' # sort frequencies
@@ -188,24 +185,24 @@
 sjt.frq <- function(data,
                     file = NULL,
                     weight.by = NULL,
-                    weightByTitleString = " (weighted)",
+                    title.wtd.suffix = " (weighted)",
                     var.labels = NULL,
                     value.labels = NULL,
                     auto.group = NULL,
                     sort.frq = NULL,
                     alternateRowColors = FALSE,
-                    stringValue = "value",
-                    stringCount = "N",
-                    stringPerc = "raw %",
-                    stringValidPerc = "valid %",
-                    stringCumPerc = "cumulative %",
-                    stringMissingValue = "missings",
-                    highlightMedian = FALSE,
-                    highlightQuartiles = FALSE,
-                    skipZeroRows = "auto",
+                    string.val = "value",
+                    string.cnt = "N",
+                    string.prc = "raw %",
+                    string.vprc = "valid %",
+                    string.cprc = "cumulative %",
+                    string.na = "missings",
+                    emph.md = FALSE,
+                    emph.quart = FALSE,
+                    skip.zero = "auto",
                     show.summary = TRUE,
-                    showSkew = FALSE,
-                    showKurtosis = FALSE,
+                    show.skew = FALSE,
+                    show.kurtosis = FALSE,
                     skewString = "&gamma;",
                     kurtosisString = "&omega;",
                     digits = 2,
@@ -222,7 +219,7 @@ sjt.frq <- function(data,
   # -------------------------------------
   encoding <- get.encoding(encoding, data)
   # save original value
-  o.skipZeroRows <- skipZeroRows
+  o.skip.zero <- skip.zero
   # -------------------------------------
   # warning
   # -------------------------------------
@@ -446,7 +443,7 @@ sjt.frq <- function(data,
   # header row of table
   # -------------------------------------
   page.content.list <- list()
-  headerRow <- sprintf("   <tr>\n     <th class=\"thead firsttablerow firsttablecol\">%s</th>\n     <th class=\"thead firsttablerow\">%s</th>\n     <th class=\"thead firsttablerow\">%s</th>\n     <th class=\"thead firsttablerow\">%s</th>\n     <th class=\"thead firsttablerow\">%s</th>\n   </tr>\n\n", stringValue, stringCount, stringPerc, stringValidPerc, stringCumPerc)
+  headerRow <- sprintf("   <tr>\n     <th class=\"thead firsttablerow firsttablecol\">%s</th>\n     <th class=\"thead firsttablerow\">%s</th>\n     <th class=\"thead firsttablerow\">%s</th>\n     <th class=\"thead firsttablerow\">%s</th>\n     <th class=\"thead firsttablerow\">%s</th>\n   </tr>\n\n", string.val, string.cnt, string.prc, string.vprc, string.cprc)
   # -------------------------------------
   # start iterating all variables
   # -------------------------------------
@@ -516,7 +513,7 @@ sjt.frq <- function(data,
     #---------------------------------------------------
     # auto-set skipping zero-rows?
     #---------------------------------------------------
-    if (!is.logical(o.skipZeroRows)) {
+    if (!is.logical(o.skip.zero)) {
       # retrieve range of values
       vonbis <- max(var, na.rm = T) - min(var, na.rm = T)
       # retrieve count of unique values
@@ -524,9 +521,9 @@ sjt.frq <- function(data,
       # check proportion of possible values and actual values
       # if we have more than 25% of zero-values, or if we have
       # in general a large variable range, skip zero-rows.
-      skipZeroRows <- ((100 * anzval / vonbis) < 75) || (anzval > 20)
+      skip.zero <- ((100 * anzval / vonbis) < 75) || (anzval > 20)
     } else {
-      skipZeroRows <- o.skipZeroRows
+      skip.zero <- o.skip.zero
     }
     # save labels
     vallab <- df.frq$labels
@@ -542,7 +539,7 @@ sjt.frq <- function(data,
     varlab <- var.labels[[cnt]]
     # if we have weighted values, say that in diagram's title
     if (!is.null(weight.by)) {
-      varlab <- paste(varlab, weightByTitleString, sep = "")
+      varlab <- paste(varlab, title.wtd.suffix, sep = "")
     }
     # -------------------------------------
     # table caption, variable label
@@ -560,7 +557,7 @@ sjt.frq <- function(data,
       # -------------------------------------
       # check if to skip zero rows
       # -------------------------------------
-      if (skipZeroRows && zerorow) {
+      if (skip.zero && zerorow) {
         # nothing here...
       } else {
         # -------------------------------------
@@ -575,15 +572,13 @@ sjt.frq <- function(data,
         if (alternateRowColors) rowstring <- ifelse(sjmisc::is_even(j), " arc", "")
         rowcss <- rowstring
         # check whether we have median row and whether it should be highlighted
-        if (highlightMedian && ((j + df.frq$minval) == (var.median + 1))) {
+        if (emph.md && ((j + df.frq$minval) == (var.median + 1))) {
           rowcss <- sprintf(" mdrow%s", rowstring)
         }
         # check whether we have lower quartile and whether it should be highlighted
-        else {
-          if (highlightQuartiles) {
-            if (((j + df.frq$minval) == (var.lowerq + 1)) || ((j + df.frq$minval) == (var.upperq + 1))) {
-              rowcss <- sprintf(" qrow%s", rowstring)
-            }
+        else if (emph.quart) {
+          if (((j + df.frq$minval) == (var.lowerq + 1)) || ((j + df.frq$minval) == (var.upperq + 1))) {
+            rowcss <- sprintf(" qrow%s", rowstring)
           }
         }
         # value label
@@ -617,7 +612,7 @@ sjt.frq <- function(data,
     # write table data row
     # -------------------------------------
     # value label
-    page.content <- paste(page.content, sprintf("  <tr>\n     <td class=\"tdata leftalign lasttablerow firsttablecol\">%s</td>\n", stringMissingValue))
+    page.content <- paste(page.content, sprintf("  <tr>\n     <td class=\"tdata leftalign lasttablerow firsttablecol\">%s</td>\n", string.na))
     # cell values, first value is integer
     page.content <- paste(page.content, sprintf("    <td class=\"tdata centeralign lasttablerow\">%i</td>\n", as.integer(datarow$frq)))
     # 2nd value is float. we don't need 3rd and 4th value as they are always 0 and 100
@@ -641,17 +636,17 @@ sjt.frq <- function(data,
         sum_var <- sjmisc::weight(orivar, weight.by)
       }
       descr <- ""
-      if (showSkew || showKurtosis) {
+      if (show.skew || show.kurtosis) {
         pstat <- psych::describe(data.frame(sum_var))
-        if (showSkew) descr <- sprintf(" &middot; %s=%.*f", 
-                                       skewString, 
-                                       digits,
-                                       pstat$skew)
-        if (showKurtosis) descr <- sprintf("%s &middot; %s=%.*f", 
-                                           descr, 
-                                           kurtosisString, 
-                                           digits,
-                                           pstat$kurtosis)
+        if (show.skew) descr <- sprintf(" &middot; %s=%.*f", 
+                                        skewString, 
+                                        digits,
+                                        pstat$skew)
+        if (show.kurtosis) descr <- sprintf("%s &middot; %s=%.*f", 
+                                            descr, 
+                                            kurtosisString, 
+                                            digits,
+                                            pstat$kurtosis)
       }
       page.content <- paste(page.content, sprintf("  </tr>\n  <tr>\n    <td class=\"tdata summary\" colspan=\"5\">total N=%i &middot; valid N=%i &middot; x&#772;=%.*f &middot; &sigma;=%.*f%s</td>\n", 
                                                   vartot, 

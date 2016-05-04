@@ -150,7 +150,7 @@ sjp.likert <- function(items,
                        catcount = NULL, 
                        cat.neutral = NULL,
                        weight.by = NULL,
-                       weightByTitleString = NULL,
+                       title.wtd.suffix = NULL,
                        sort.frq = NULL,
                        geom.size = .6,
                        geom.colors = "BrBG",
@@ -489,8 +489,8 @@ sjp.likert <- function(items,
   # every 50 chars
   if (!is.null(title)) {
     # if we have weighted values, say that in diagram's title
-    if (!is.null(weightByTitleString)) {
-      title <- paste(title, weightByTitleString, sep = "")
+    if (!is.null(title.wtd.suffix)) {
+      title <- paste(title, title.wtd.suffix, sep = "")
     }
     title <- sjmisc::word_wrap(title, wrap.title)
   }

@@ -64,7 +64,8 @@ axes and plotting region. Default is \code{FALSE}.}
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
-\item{show.p}{logical, adds significance levels to value or variable labels.}
+\item{show.p}{logical, adds significance levels to values, or value and 
+variable labels.}
 
 \item{show.summary}{logical, if \code{TRUE} (default), a summary with chi-squared 
 statistics (see \code{\link{chisq.test}}), Cramer's V or Phi-value etc. 
