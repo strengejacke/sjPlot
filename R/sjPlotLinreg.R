@@ -99,9 +99,8 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'          \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 #'          is \code{NULL}, i.e. all estimates are printed.
 #' @param show.p logical, adds significance levels to value or variable labels.
-#' @param showModelSummary logical, if \code{TRUE}, a summary of the regression model with
-#'          Intercept, R-squared, F-Test and AIC-value is printed to the lower right corner
-#'          of the plot.
+#' @param show.summary logical, if \code{TRUE}, a summary with model statistics 
+#'          is added to the plot.
 #' @param show.ci logical, if \code{TRUE}, depending on \code{type}, a condifence
 #'          interval or region is added to the plot.
 #' @param showScatterPlot logical, if \code{TRUE} (default), a scatter plot of
@@ -284,7 +283,7 @@ sjp.lm <- function(fit,
                    show.values = TRUE,
                    digits = 2,
                    show.p = TRUE,
-                   showModelSummary = FALSE,
+                   show.summary = FALSE,
                    show.ci = TRUE,
                    pointAlpha = 0.2,
                    showScatterPlot = TRUE,
@@ -304,7 +303,7 @@ sjp.lm <- function(fit,
   # check argument. No model-summary supported for plm-objects
   # -----------------------------------------------------------
   if (any(class(fit) == "plm") || any(class(fit) == "pggls")) {
-    showModelSummary <- FALSE
+    show.summary <- FALSE
     # -----------------------------------------------------------
     # check package availability if fit is plm-object
     # -----------------------------------------------------------
@@ -315,7 +314,7 @@ sjp.lm <- function(fit,
   if (any(class(fit) == "gls")) {
     if (!requireNamespace("nlme", quietly = TRUE))
       stop("Package `nlme` needed for this function to work. Please install it.", call. = FALSE)
-    showModelSummary <- FALSE
+    show.summary <- FALSE
   }
   # -----------------------------------------------------------
   # set default title
@@ -330,7 +329,7 @@ sjp.lm <- function(fit,
     if (geom.colors == "Set1") geom.colors <- NULL
     return(invisible(sjp.lm1(fit, title, wrap.title, axis.labels, resp.label,
                              wrap.labels, geom.colors, show.ci, pointAlpha,
-                             showScatterPlot, show.loess, show.loess.ci, showModelSummary,
+                             showScatterPlot, show.loess, show.loess.ci, show.summary,
                              useResiduals = ifelse(type == "lm", FALSE, TRUE),
                              printPlot)))
   }
@@ -385,7 +384,7 @@ sjp.lm <- function(fit,
   # create expression with model summarys. used
   # for plotting in the diagram later
   # ----------------------------
-  if (showModelSummary) {
+  if (show.summary) {
     modsum <- sju.modsum.lm(fit)
   } else {
     modsum <- NULL
@@ -1094,7 +1093,7 @@ sjp.lm1 <- function(fit,
                    showScatterPlot=TRUE,
                    show.loess=FALSE,
                    show.loess.ci=FALSE,
-                   showModelSummary=TRUE,
+                   show.summary=TRUE,
                    useResiduals=FALSE,
                    printPlot=TRUE) {
   # -----------------------------------------------------------
@@ -1158,7 +1157,7 @@ sjp.lm1 <- function(fit,
   # create expression with model summarys. used
   # for plotting in the diagram later
   # ----------------------------
-  if (showModelSummary) {
+  if (show.summary) {
     modsum <- sju.modsum.lm(fit)
   } else {
     modsum <- NULL

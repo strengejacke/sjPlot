@@ -4,26 +4,26 @@
 \alias{sjp.grpfrq}
 \title{Plot grouped or stacked frequencies}
 \usage{
-sjp.grpfrq(varCount, varGroup, weight.by = NULL, weightByTitleString = NULL,
+sjp.grpfrq(var.cnt, var.grp, weight.by = NULL, weightByTitleString = NULL,
   interactionVar = NULL, type = c("bar", "dot", "line", "boxplot",
   "violin"), geom.size = NULL, geom.spacing = 0.15,
   geom.colors = "Paired", show.legend = TRUE, facet.grid = FALSE,
   title = "", legend.title = NULL, axis.labels = NULL,
   interactionVarLabels = NULL, legend.labels = NULL, ylim = NULL,
   wrap.title = 50, wrap.labels = 15, breakLegendTitleAt = 20,
-  breakLegendLabelsAt = 20, grid.breaks = NULL, barPosition = "dodge",
-  innerBoxPlotWidth = 0.15, innerBoxPlotDotSize = 3, smoothLines = FALSE,
-  expand.grid = FALSE, show.values = TRUE, show.n = TRUE,
-  show.perc = TRUE, show.axis.values = TRUE, showPlotAnnotation = TRUE,
-  showTableSummary = FALSE, showGroupCount = FALSE, tableSummaryPos = "r",
-  axis.titles = NULL, autoGroupAt = NULL, coord.flip = FALSE,
-  vjust = "bottom", hjust = "center", y.offset = NULL, na.rm = TRUE,
-  printPlot = TRUE)
+  breakLegendLabelsAt = 20, grid.breaks = NULL, bar.pos = c("dodge",
+  "stack"), innerBoxPlotWidth = 0.15, innerBoxPlotDotSize = 3,
+  smoothLines = FALSE, expand.grid = FALSE, show.values = TRUE,
+  show.n = TRUE, show.prc = TRUE, show.axis.values = TRUE,
+  showPlotAnnotation = TRUE, show.summary = FALSE, showGroupCount = FALSE,
+  tableSummaryPos = "r", axis.titles = NULL, auto.group = NULL,
+  coord.flip = FALSE, vjust = "bottom", hjust = "center",
+  y.offset = NULL, na.rm = TRUE, printPlot = TRUE)
 }
 \arguments{
-\item{varCount}{a vector of values (variable) describing the bars which make up the plot.}
+\item{var.cnt}{vector of counts, for which frequencies or means will be plotted or printed.}
 
-\item{varGroup}{grouping variable of same length as \code{varCount}, where \code{varCount} 
+\item{var.grp}{factor with the cross-classifying variable, where \code{var.cnt} 
 is grouped into the categories represented by \code{varGrp}.}
 
 \item{weight.by}{weight factor that will be applied to weight all cases.
@@ -35,7 +35,7 @@ e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's
 title will not have a suffix when cases are weighted.}
 
 \item{interactionVar}{an interaction variable which can be used for box plots. Divides each category indicated
-by \code{varGroup} into the factors of \code{interactionVar}, so that each category of \code{varGroup}
+by \code{var.grp} into the factors of \code{interactionVar}, so that each category of \code{var.grp}
 is subgrouped into \code{interactionVar}'s categories. Only applies when argument \code{type}
 is \code{box} or \code{violin} (resp. their alternative strings like \code{"boxplot"}, \code{"boxplot"} or \code{"v"}).}
 
@@ -61,9 +61,8 @@ need smaller values than dot sizes.}
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
-\item{facet.grid}{\code{TRUE} when bar charts should be plotted as facet grids instead of integrated single
-bar charts. Ideal for larger amount of groups. This argument wraps a single panel into 
-\code{varGroup} amount of panels, i.e. each group is represented within a new panel.}
+\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
+in a grid of an integrated single plot.}
 
 \item{title}{string, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
@@ -87,7 +86,7 @@ y-axis fits to the required range of the data.}
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{determines how many chars of the category, variable or axis 
+\item{wrap.labels}{determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
 \item{breakLegendTitleAt}{determines how many chars of the legend's title 
@@ -99,7 +98,7 @@ displayed in one line and when a line break is inserted.}
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
-\item{barPosition}{indicates whether bars should be positioned side-by-side (default)
+\item{bar.pos}{indicates whether bars should be positioned side-by-side (default)
 or stacked (use \code{"stack"} as argument).}
 
 \item{innerBoxPlotWidth}{width of the inner box plot that is plotted inside of violin plots. Only applies 
@@ -118,7 +117,7 @@ axes and plotting region. Default is \code{FALSE}.}
 \item{show.n}{logical, if \code{TRUE}, adds total number of cases for each
 group or category to the labels.}
 
-\item{show.perc}{logical, if \code{TRUE} (default), percentage values are plotted to each bar
+\item{show.prc}{logical, if \code{TRUE} (default), percentage values are plotted to each bar
 If \code{FALSE}, percentage values are removed.}
 
 \item{show.axis.values}{logical, whether count or percentage values for the axis
@@ -127,32 +126,27 @@ should be printed or not.}
 \item{showPlotAnnotation}{logical, if \code{TRUE}, the groups of dots in a dot-plot are highlighted 
 with a shaded rectangle.}
 
-\item{showTableSummary}{logical, if \code{TRUE}, a summary of the cross tabulation with N, 
-chi-squared, df, Cramer's V or Phi-value and p-value is printed to the upper 
-right corner of the plot (see \code{tableSummaryPos}. If a cell contains expected
-values lower than five(or lower than 10 if df is 1), the Fisher's excact test 
-(see \code{\link{fisher.test}}) is computed instead of chi-square test. 
-If the table's matrix is larger than 2x2, Fisher's excact test with Monte Carlo 
-simulation is computed. Only applies to barcharts or dotplots, i.e. 
-when argument \code{type = "bar"} or \code{"dot"}.}
+\item{show.summary}{logical, if \code{TRUE} (default), a summary with chi-squared 
+statistics (see \code{\link{chisq.test}}), Cramer's V or Phi-value etc. 
+is shown. If a cell contains expected values lower than five (or lower than 10 
+if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is 
+computed instead of chi-squared test. If the table's matrix is larger 
+than 2x2, Fisher's excact test with Monte Carlo simulation is computed.}
 
 \item{showGroupCount}{logical, if \code{TRUE}, the count within each group is added 
 to the category labels (e.g. \code{"Cat 1 (n=87)"}). Default value is \code{FALSE}.}
 
-\item{tableSummaryPos}{position of the model summary which is printed when \code{showTableSummary} 
+\item{tableSummaryPos}{position of the model summary which is printed when \code{show.summary} 
 is \code{TRUE}. Default is \code{"r"}, i.e. it's printed to the upper right corner. 
 Use \code{"l"} for upper left corner.}
 
 \item{axis.titles}{character vector of length one or two, defining the title(s)
 for the x-axis and y-axis.}
 
-\item{autoGroupAt}{numeric value, indicating at which length of unique values of \code{varCount}, 
-automatic grouping into smaller units is done (see \code{\link[sjmisc]{group_var}}).
-If \code{varCount} has large numbers of unique values, there may be too many bars 
-for the plot. Hence it's practical to group such variables. For example, 
-if \code{autoGroupAt = 50} and \code{varCount} has more than 50 unique values,
-it will be grouped (using the \code{\link[sjmisc]{group_var}} function). 
-Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.
+\item{auto.group}{numeric value, indicating the minimum amount of unique values 
+in the count variable, at which automatic grouping into smaller units 
+is done (see \code{\link[sjmisc]{group_var}}). Default value for 
+\code{auto.group} is \code{NULL}, i.e. auto-grouping is off.
 See \code{\link[sjmisc]{group_var}} for examples on grouping.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}

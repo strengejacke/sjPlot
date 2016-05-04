@@ -87,8 +87,8 @@ on the plot function and type is chosen.}
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
 y-axis fits to the required range of the data.}
 
-\item{facet.grid}{\code{TRUE} when each plot should be plotted separately instead of
-an integrated (faceted) single graph.}
+\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
+in a grid of an integrated single plot.}
 
 \item{free.scale}{if \code{TRUE} and \code{facet.grid = TRUE}, each facet grid
 gets its own fitted scale. If \code{free.scale = FALSE}, each facet in

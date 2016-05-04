@@ -17,10 +17,7 @@
 #'          \code{\link[sjmisc]{read_sas}} or \code{\link[sjmisc]{read_stata}} function,
 #'          or any similar labelled data frame (see \code{\link[sjmisc]{set_label}}
 #'          and \code{\link[sjmisc]{set_labels}}).
-#' @param showID logical, if \code{TRUE} (default), the variable ID is shown in the first column.
-#' @param showType logical, if \code{TRUE}, the variable type is shown in a separate column. Since
-#'          SPSS variable types are mostly \code{\link{numeric}} after import, this column
-#'          is hidden by default.
+#' @param show.id logical, if \code{TRUE} (default), the variable ID is shown in the first column.
 #' @param show.values logical, if \code{TRUE} (default), the variable values are shown as additional column.
 #' @param show.labels logical, if \code{TRUE} (default), the value labels are shown as additional column.
 #' @param showFreq logical, if \code{TRUE}, an additional column with frequencies for each variable is shown.
@@ -33,9 +30,6 @@
 #' @param sortByName logical, if \code{TRUE}, rows are sorted according to the variable
 #'          names. By default, rows (variables) are ordered according to their
 #'          order in the data frame.
-#' @param breakVariableNamesAt Wordwrap for lomg variable names. Determines how many chars of
-#'          a variable name are displayed in one line and when a line break is inserted.
-#'          Default value is 50, use \code{NULL} to turn off word wrap.
 #' @param hideProgressBar If \code{TRUE}, the progress bar that is displayed when creating the
 #'          table is hidden. Default in \code{FALSE}, hence the bar is visible.
 #'          
@@ -70,7 +64,7 @@
 #' view_df(efc, show.values = FALSE, show.labels = FALSE)
 #' 
 #' # view variables including variable typed, orderd by name
-#' view_df(efc, sortByName = TRUE, showType = TRUE)
+#' view_df(efc, sortByName = TRUE, show.type = TRUE)
 #' 
 #' # ---------------------------------------------------------------- 
 #' # User defined style sheet
@@ -87,8 +81,8 @@ view_df <- function(x,
                     weight.by = NULL,
                     file = NULL,
                     alternateRowColors = TRUE,
-                    showID = TRUE,
-                    showType = FALSE,
+                    show.id = TRUE,
+                    show.type = FALSE,
                     show.values = TRUE,
                     show.labels = TRUE,
                     showFreq = FALSE,
@@ -97,7 +91,7 @@ view_df <- function(x,
                     showWtdPerc = FALSE,
                     show.na = FALSE,
                     sortByName = FALSE,
-                    breakVariableNamesAt = 50,
+                    wrap.labels = 50,
                     encoding = NULL,
                     hideProgressBar = FALSE,
                     CSS = NULL,
@@ -170,9 +164,9 @@ view_df <- function(x,
   # header row
   # -------------------------------------
   page.content <- paste0(page.content, "  <tr>\n    ")
-  if (showID) page.content <- paste0(page.content, "<th class=\"thead\">ID</th>")
+  if (show.id) page.content <- paste0(page.content, "<th class=\"thead\">ID</th>")
   page.content <- paste0(page.content, "<th class=\"thead\">Name</th>")
-  if (showType) page.content <- paste0(page.content, "<th class=\"thead\">Type</th>")
+  if (show.type) page.content <- paste0(page.content, "<th class=\"thead\">Type</th>")
   page.content <- paste0(page.content, "<th class=\"thead\">Label</th>")
   if (show.na) page.content <- paste0(page.content, "<th class=\"thead\">missings</th>")
   if (show.values) page.content <- paste0(page.content, "<th class=\"thead\">Values</th>")
@@ -200,11 +194,11 @@ view_df <- function(x,
     if (alternateRowColors) arcstring <- ifelse(sjmisc::is_even(ccnt), " arc", "")
     page.content <- paste0(page.content, "  <tr>\n")
     # ID
-    if (showID) page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%i</td>\n", arcstring, index))
+    if (show.id) page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%i</td>\n", arcstring, index))
     # name
     page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, colnames(x)[index]))
     # type
-    if (showType) {
+    if (show.type) {
       vartype <- get.vartype(x[[index]])
       page.content <- paste0(page.content, 
                              sprintf("    <td class=\"tdata%s\">%s</td>\n", 
@@ -214,9 +208,9 @@ view_df <- function(x,
     # label
     if (index <= length(df.var)) {
       varlab <- df.var[index]
-      if (!is.null(breakVariableNamesAt)) {
+      if (!is.null(wrap.labels)) {
         # wrap long variable labels
-        varlab <- sjmisc::word_wrap(varlab, breakVariableNamesAt, "<br>")
+        varlab <- sjmisc::word_wrap(varlab, wrap.labels, "<br>")
       }
     } else {
       varlab <- "<NA>"

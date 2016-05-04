@@ -4,24 +4,24 @@
 \alias{sjp.frq}
 \title{Plot frequencies of variables}
 \usage{
-sjp.frq(x, title = "", weight.by = NULL, weightByTitleString = NULL,
+sjp.frq(var.cnt, title = "", weight.by = NULL, weightByTitleString = NULL,
   interactionVar = NULL, sort.frq = "none", type = c("bar", "dot",
   "histogram", "line", "density", "boxplot", "violin"), geom.size = NULL,
   geom.colors = "#336699", axis.labels = NULL,
   interactionVarLabels = NULL, xlim = NULL, ylim = NULL,
   wrap.title = 50, wrap.labels = 20, grid.breaks = NULL,
   innerBoxPlotWidth = 0.15, innerBoxPlotDotSize = 3, expand.grid = FALSE,
-  show.values = TRUE, show.n = TRUE, show.perc = TRUE,
+  show.values = TRUE, show.n = TRUE, show.prc = TRUE,
   show.axis.values = TRUE, show.ci = FALSE, errorbar.color = "darkred",
   show.mean = FALSE, show.mean.val = TRUE, show.sd = TRUE,
-  showNormalCurve = FALSE, mean.line.type = 2, mean.line.size = 0.5,
-  normalCurveColor = "red", normalCurveSize = 0.8, normalCurveAlpha = 0.4,
-  axis.title = NULL, autoGroupAt = NULL, coord.flip = FALSE,
-  vjust = "bottom", hjust = "center", y.offset = NULL, na.rm = TRUE,
-  printPlot = TRUE)
+  normal.curve = FALSE, mean.line.type = 2, mean.line.size = 0.5,
+  normal.curve.color = "red", normal.curve.size = 0.8,
+  normal.curve.alpha = 0.4, axis.title = NULL, auto.group = NULL,
+  coord.flip = FALSE, vjust = "bottom", hjust = "center",
+  y.offset = NULL, na.rm = TRUE, printPlot = TRUE)
 }
 \arguments{
-\item{x}{a vector of values (variable) describing the bars which make up the plot.}
+\item{var.cnt}{vector of counts, for which frequencies or means will be plotted or printed.}
 
 \item{title}{string, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
@@ -35,7 +35,7 @@ e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's
 title will not have a suffix when cases are weighted.}
 
 \item{interactionVar}{an interaction variable which can be used for box plots. Divides the observations in 
-\code{x} into sub groups indicated by \code{interactionVar}. Only 
+\code{var.cnt} into sub groups indicated by \code{interactionVar}. Only 
 applies when \code{type = "boxplot"} or \code{"violin"}.}
 
 \item{sort.frq}{Determines whether categories (bars) on x-axis should be sorted 
@@ -77,7 +77,7 @@ y-axis fits to the required range of the data.}
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{determines how many chars of the category, variable or axis 
+\item{wrap.labels}{determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
@@ -97,7 +97,7 @@ axes and plotting region. Default is \code{FALSE}.}
 \item{show.n}{logical, if \code{TRUE}, adds total number of cases for each
 group or category to the labels.}
 
-\item{show.perc}{logical, if \code{TRUE} (default), percentage values are plotted to each bar
+\item{show.prc}{logical, if \code{TRUE} (default), percentage values are plotted to each bar
 If \code{FALSE}, percentage values are removed.}
 
 \item{show.axis.values}{logical, whether count or percentage values for the axis
@@ -122,7 +122,7 @@ mean. Only applies to histogram-charts.}
 is annotated as shaded rectangle around the mean intercept
 line. Only applies to histogram-charts.}
 
-\item{showNormalCurve}{logical, if \code{TRUE}, a normal curve, which is adjusted to the data,
+\item{normal.curve}{logical, if \code{TRUE}, a normal curve, which is adjusted to the data,
 is plotted over the histogram or density plot. Default is
 \code{FALSE}. Only applies when histograms or density plots are plotted (see \code{type}).}
 
@@ -133,25 +133,22 @@ when \code{show.mean = TRUE}.}
 \item{mean.line.size}{numeric, size of the mean intercept line. Only 
 applies to histogram-charts and when \code{show.mean = TRUE}.}
 
-\item{normalCurveColor}{color of the normal curve line. Only
-applies if \code{showNormalCurve = TRUE}.}
+\item{normal.curve.color}{color of the normal curve line. Only
+applies if \code{normal.curve = TRUE}.}
 
-\item{normalCurveSize}{numeric, size of the normal curve line. Only
-applies if \code{showNormalCurve = TRUE}.}
+\item{normal.curve.size}{numeric, size of the normal curve line. Only
+applies if \code{normal.curve = TRUE}.}
 
-\item{normalCurveAlpha}{transparancy level (alpha value) of the normal curve. Only
-applies if \code{showNormalCurve = TRUE}.}
+\item{normal.curve.alpha}{transparancy level (alpha value) of the normal curve. Only
+applies if \code{normal.curve = TRUE}.}
 
 \item{axis.title}{string, title for the axis. If not specified, a default labelling depending
 on the plot function and type is chosen.}
 
-\item{autoGroupAt}{numeric value, indicating at which length of unique values of \code{x}, 
-automatic grouping into smaller units is done (see \code{\link[sjmisc]{group_var}}).
-If \code{x} has large numbers of unique values, there may be too many bars 
-for the plot. Hence it's practical to group such variables. For example, 
-if \code{autoGroupAt = 50} and \code{x} has more than 50 unique values,
-it will be grouped (using the \code{\link[sjmisc]{group_var}} function). 
-Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.
+\item{auto.group}{numeric value, indicating the minimum amount of unique values 
+in the count variable, at which automatic grouping into smaller units 
+is done (see \code{\link[sjmisc]{group_var}}). Default value for 
+\code{auto.group} is \code{NULL}, i.e. auto-grouping is off.
 See \code{\link[sjmisc]{group_var}} for examples on grouping.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
@@ -257,10 +254,10 @@ sjp.frq(efc$c160age,
         type = "h",
         show.mean = TRUE,
         show.mean.val = TRUE,
-        showNormalCurve = TRUE,
+        normal.curve = TRUE,
         show.sd = TRUE,
-        normalCurveColor = "blue",
-        normalCurveSize = 3,
+        normal.curve.color = "blue",
+        normal.curve.size = 3,
         ylim = c(0,50))
 
 }

@@ -68,8 +68,6 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #' @param vline.type linetype of the vertical "zero point" line. Default is \code{2} (dashed line).
 #' @param vline.color color of the vertical "zero point" line. Default value is \code{"grey70"}.
 #' @param digits numeric, amount of digits after decimal point when rounding estimates and values.
-#' @param facet.grid \code{TRUE} when each plot should be plotted separately instead of
-#'          an integrated (faceted) single graph.
 #' @param free.scale if \code{TRUE} and \code{facet.grid = TRUE}, each facet grid
 #'          gets its own fitted scale. If \code{free.scale = FALSE}, each facet in
 #'          the grid has the same scale range.

@@ -102,9 +102,8 @@ in the graph.}
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
-\item{facet.grid}{\code{TRUE} when each scatter plot group should be plotted as single facet instead of
-an integrated single graph. Only applies if \code{grp} is not \code{NULL}. Each category of
-\code{grp} will be plotted in an own facet.}
+\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
+in a grid of an integrated single plot.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}

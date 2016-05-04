@@ -49,7 +49,7 @@ will be set automatically. If \code{title = ""}, no title is printed.}
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{determines how many chars of the category, variable or axis 
+\item{wrap.labels}{determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
 \item{breakLegendTitleAt}{determines how many chars of the legend's title 

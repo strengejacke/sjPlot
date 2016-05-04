@@ -11,10 +11,10 @@ sjp.xtab(x, grp, title = "", legend.title = NULL, weight.by = NULL,
   y.offset = NULL, stringTotal = "Total", wrap.title = 50,
   wrap.labels = 15, breakLegendTitleAt = 20, breakLegendLabelsAt = 20,
   grid.breaks = 0.2, geom.size = 0.7, geom.spacing = 0.1,
-  geom.colors = "Paired", barPosition = "dodge", lineDotSize = 3,
+  geom.colors = "Paired", bar.pos = c("dodge", "stack"), lineDotSize = 3,
   smoothLines = FALSE, expand.grid = FALSE, show.values = TRUE,
-  show.n = TRUE, show.perc = TRUE, showCategoryLabels = TRUE,
-  showTableSummary = FALSE, tableSummaryPos = "r", showTotalColumn = TRUE,
+  show.n = TRUE, show.prc = TRUE, showCategoryLabels = TRUE,
+  show.summary = FALSE, tableSummaryPos = "r", showTotalColumn = TRUE,
   show.legend = TRUE, axis.titles = NULL, coord.flip = FALSE,
   printPlot = TRUE)
 }
@@ -76,7 +76,7 @@ if \code{showTotalColumn = TRUE}. Default is \code{"Total"}.}
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{determines how many chars of the category, variable or axis 
+\item{wrap.labels}{determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
 \item{breakLegendTitleAt}{determines how many chars of the legend's title 
@@ -96,7 +96,7 @@ need smaller values than dot sizes.}
 
 \item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
-\item{barPosition}{indicates whether bars should be positioned side-by-side (default)
+\item{bar.pos}{indicates whether bars should be positioned side-by-side (default)
 or stacked (use \code{"stack"} as argument).}
 
 \item{lineDotSize}{dot size, only applies, when argument \code{type = "lines"}.}
@@ -111,21 +111,19 @@ axes and plotting region. Default is \code{FALSE}.}
 \item{show.n}{logical, if \code{TRUE}, adds total number of cases for each
 group or category to the labels.}
 
-\item{show.perc}{logical, if \code{TRUE} (default), percentage values are plotted to each bar
+\item{show.prc}{logical, if \code{TRUE} (default), percentage values are plotted to each bar
 If \code{FALSE}, percentage values are removed.}
 
 \item{showCategoryLabels}{whether x-axis text (category names) should be shown or not.}
 
-\item{showTableSummary}{logical, if \code{TRUE}, a summary of the cross tabulation with N, 
-chi-squared, df, Cramer's V or Phi-value and p-value is printed to the upper 
-right corner of the plot (see \code{tableSummaryPos}. If a cell contains expected
-values lower than five(or lower than 10 if df is 1), the Fisher's excact test 
-(see \code{\link{fisher.test}}) is computed instead of chi-square test. 
-If the table's matrix is larger than 2x2, Fisher's excact test with Monte Carlo 
-simulation is computed. Only applies to barcharts or dotplots, i.e. 
-when argument \code{type = "bar"} or \code{"dot"}.}
+\item{show.summary}{logical, if \code{TRUE} (default), a summary with chi-squared 
+statistics (see \code{\link{chisq.test}}), Cramer's V or Phi-value etc. 
+is shown. If a cell contains expected values lower than five (or lower than 10 
+if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is 
+computed instead of chi-squared test. If the table's matrix is larger 
+than 2x2, Fisher's excact test with Monte Carlo simulation is computed.}
 
-\item{tableSummaryPos}{position of the model summary which is printed when \code{showTableSummary} 
+\item{tableSummaryPos}{position of the model summary which is printed when \code{show.summary} 
 is \code{TRUE}. Default is \code{"r"}, i.e. it's printed to the upper right corner. 
 Use \code{"l"} for upper left corner.}
 
@@ -169,8 +167,8 @@ sjp.xtab(x, grp,
 # as stacked proportional bars
 sjp.xtab(x, grp, 
          tableIndex = "row", 
-         barPosition = "stack", 
-         showTableSummary = TRUE,
+         bar.pos = "stack", 
+         show.summary = TRUE,
          coord.flip = TRUE)
 
 # example with vertical labels
@@ -213,7 +211,7 @@ sjp.xtab(efc$e16sex, efc$e42dep, title = NULL)
 sjp.xtab(efc$e16sex,
          efc$e42dep,
          tableIndex = "row",
-         barPosition = "stack",
+         bar.pos = "stack",
          coord.flip = TRUE)
 
 

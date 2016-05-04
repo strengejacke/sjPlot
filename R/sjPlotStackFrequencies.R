@@ -173,19 +173,18 @@ sjp.stackfrq <- function(items,
   # --------------------------------------------------------
   if (!is.null(names(axis.labels))) axis.labels <- as.vector(axis.labels)
   # --------------------------------------------------------
-  # unlist/ unname axis labels
+  # unname labels, if necessary, so we have a simple
+  # character vector
   # --------------------------------------------------------
-  if (!is.null(legend.labels)) {
-    # unname labels, if necessary, so we have a simple
-    # character vector
-    if (!is.null(names(legend.labels))) legend.labels <- as.vector(legend.labels)
-  } 
+  if (!is.null(legend.labels) && !is.null(names(legend.labels))) legend.labels <- as.vector(legend.labels)
+  # --------------------------------------------------------
+  # if we have no legend labels, we iterate all data frame's
+  # columns to find all unique items of the data frame.
+  # In case one item has missing categories, this may be
+  # "compensated" by looking at all items, so we have the
+  # actual values of all items.
+  # --------------------------------------------------------
   if (is.null(legend.labels)) {
-    # if we have no legend labels, we iterate all data frame's
-    # columns to find all unique items of the data frame.
-    # In case one item has missing categories, this may be
-    # "compensated" by looking at all items, so we have the
-    # actual values of all items.
     legend.labels <- as.character(sort(unique(unlist(
       apply(items, 2, function(x) unique(stats::na.omit(x)))))))
   }
@@ -249,9 +248,7 @@ sjp.stackfrq <- function(items,
     # create new data frame. We now have a data frame with all
     # variable categories abd their related percentages, including
     # zero counts, but no(!) missings!
-    mydf <- data.frame(grp = i, 
-                       cat = 1:countlen, 
-                       prc)
+    mydf <- data.frame(grp = i, cat = 1:countlen, prc)
     # now, append data frames
     mydat <- data.frame(rbind(mydat, mydf))
   }

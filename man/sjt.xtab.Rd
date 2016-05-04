@@ -5,15 +5,14 @@
 \title{Summary of contingency tables as HTML table}
 \usage{
 sjt.xtab(var.row, var.col, weight.by = NULL, digits = 1, file = NULL,
-  variableLabels = NULL, valueLabels = NULL, title = NULL,
-  breakVariableLabelsAt = 40, breakValueLabelsAt = 20,
-  stringTotal = "Total", showObserved = TRUE, showCellPerc = FALSE,
-  showRowPerc = FALSE, showColPerc = FALSE, showExpected = FALSE,
-  showHorizontalLine = FALSE, showSummary = TRUE, show.legend = FALSE,
-  show.na = FALSE, labelNA = "NA", tdcol.n = "black",
-  tdcol.expected = "#339999", tdcol.cell = "#993333",
+  var.labels = NULL, value.labels = NULL, title = NULL,
+  wrap.labels = 20, stringTotal = "Total", show.obs = TRUE,
+  show.cell.prc = FALSE, show.row.prc = FALSE, show.col.prc = FALSE,
+  show.exp = FALSE, showHorizontalLine = FALSE, show.summary = TRUE,
+  show.legend = FALSE, show.na = FALSE, labelNA = "NA",
+  tdcol.n = "black", tdcol.expected = "#339999", tdcol.cell = "#993333",
   tdcol.row = "#333399", tdcol.col = "#339933", highlightTotal = FALSE,
-  highlightColor = "#f8f8f8", percSign = "&nbsp;&#37;", hundret = "100.0",
+  highlightColor = "#f8f8f8", prc.sign = "&nbsp;&#37;", hundret = "100.0",
   encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
   remove.spaces = TRUE)
 }
@@ -32,43 +31,34 @@ Must be a vector of same length as the input vector. Default is
 If \code{NULL} (default), the output will be saved as temporary file and 
 openend either in the IDE's viewer pane or the default web browser.}
 
-\item{variableLabels}{character vector of same length as supplied variables, with 
-the associated variable names. Following order is needed: name of \code{var.row},
-name of \code{var.col}, and - if \code{var.grp} is not \code{NULL} - name of \code{var.grp}.
-See 'Examples'.
-Variable labels are detected automatically, if \code{var.row} or \code{var.col}
-have label attributes (see \code{\link[sjmisc]{set_label}}) for details).}
+\item{var.labels}{character vector with variable names, which will be used 
+to label variables in the output.}
 
-\item{valueLabels}{\code{\link{list}} of two character vectors that indicate the value labels of the supplied
-variables. Following order is needed: value labels of \code{var.row}
-and value labels of \code{var.col}. See 'Examples'.}
+\item{value.labels}{character vector (or \code{list} of character vectors)
+with value labels of the supplied variables, which will be used 
+to label variable values in the output.}
 
 \item{title}{table caption. By default, \code{title = NULL}, hence no title will be used.}
 
-\item{breakVariableLabelsAt}{determines how many chars of the variable labels are displayed in 
-one line and when a line break is inserted. Default is 40.}
-
-\item{breakValueLabelsAt}{determines how many chars of the value labels are displayed in 
-one line and when a line break is inserted. Default is 20.}
+\item{wrap.labels}{determines how many chars of the value, variable or axis 
+labels are displayed in one line and when a line break is inserted.}
 
 \item{stringTotal}{label for the total column / row header}
 
-\item{showObserved}{logical, if \code{TRUE}, observed values are shown}
+\item{show.obs}{logical, if \code{TRUE}, observed values are shown}
 
-\item{showCellPerc}{logical, if \code{TRUE}, cell percentage values are shown}
+\item{show.cell.prc}{logical, if \code{TRUE}, cell percentage values are shown}
 
-\item{showRowPerc}{logical, if \code{TRUE}, row percentage values are shown}
+\item{show.row.prc}{logical, if \code{TRUE}, row percentage values are shown}
 
-\item{showColPerc}{logical, if \code{TRUE}, column percentage values are shown}
+\item{show.col.prc}{logical, if \code{TRUE}, column percentage values are shown}
 
-\item{showExpected}{logical, if \code{TRUE}, expected values are also shown}
+\item{show.exp}{logical, if \code{TRUE}, expected values are also shown}
 
 \item{showHorizontalLine}{logical, if \code{TRUE}, data rows are separated with a horizontal line}
 
-\item{showSummary}{logical, if \code{TRUE} (default), a summary row with chi-square statistics (see \code{\link{chisq.test}}),
-Cramer's V or Phi-value etc. is shown. If a cell contains expected values lower than five (or lower than 10 
-if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is computed instead of chi-square test. 
-If the table's matrix is larger than 2x2, Fisher's excact test with Monte Carlo simulation is computed.}
+\item{show.summary}{If \code{TRUE} (default), a summary row with total and valid N as well as mean and
+standard deviation is shown.}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
@@ -93,7 +83,7 @@ different background color. See \code{highlightColor}.}
 \item{highlightColor}{logical, if \code{highlightTotal = TRUE}, this color value will be used
 for painting the background of the total column and row. Default is a light grey.}
 
-\item{percSign}{The percentage sign that is printed in the table cells, in HTML-format.
+\item{prc.sign}{The percentage sign that is printed in the table cells, in HTML-format.
 Default is \code{"&nbsp;\%"}, hence the percentage sign has a non-breaking-space after
 the percentage value.}
 
@@ -153,16 +143,16 @@ sjt.xtab(efc$e16sex, efc$e42dep)
 # labels and expected values
 sjt.xtab(efc$e16sex, 
          efc$e42dep, 
-         variableLabels = c("Elder's gender", 
-                            "Elder's dependency"),
-         valueLabels = list(efc.labels[['e16sex']], 
+         var.labels = c("Elder's gender", 
+                        "Elder's dependency"),
+         value.labels = list(efc.labels[['e16sex']], 
                             efc.labels[['e42dep']]),
-         showExpected = TRUE)
+         show.exp = TRUE)
 
 # print minimal cross table with labels, total col/row highlighted
 sjt.xtab(efc$e16sex, efc$e42dep, 
          showHorizontalLine = FALSE,
-         showCellPerc = FALSE,
+         show.cell.prc = FALSE,
          highlightTotal = TRUE)
 
 # ---------------------------------------------------------------- 

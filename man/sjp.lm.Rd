@@ -11,11 +11,11 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   group.estimates = NULL, remove.estimates = NULL, vars = NULL,
   wrap.title = 50, wrap.labels = 25, grid.breaks = NULL,
   coord.flip = TRUE, facet.grid = TRUE, show.values = TRUE, digits = 2,
-  show.p = TRUE, showModelSummary = FALSE, show.ci = TRUE,
-  pointAlpha = 0.2, showScatterPlot = TRUE, show.loess = FALSE,
-  show.loess.ci = FALSE, show.legend = FALSE, y.offset = 0.15,
-  poly.term = NULL, showOriginalModelOnly = TRUE,
-  completeDiagnostic = FALSE, printPlot = TRUE)
+  show.p = TRUE, show.summary = FALSE, show.ci = TRUE, pointAlpha = 0.2,
+  showScatterPlot = TRUE, show.loess = FALSE, show.loess.ci = FALSE,
+  show.legend = FALSE, y.offset = 0.15, poly.term = NULL,
+  showOriginalModelOnly = TRUE, completeDiagnostic = FALSE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{fit}{fitted linear regression model (of class \code{\link{lm}}, \code{\link[nlme]{gls}} or \code{plm}).}
@@ -87,7 +87,7 @@ incidents curves
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{determines how many chars of the category, variable or axis 
+\item{wrap.labels}{determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
@@ -95,9 +95,8 @@ i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
-\item{facet.grid}{\code{TRUE} when bar charts should be plotted as facet grids instead of integrated single
-bar charts. Ideal for larger amount of groups. This argument wraps a single panel into 
-\code{varGroup} amount of panels, i.e. each group is represented within a new panel.}
+\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
+in a grid of an integrated single plot.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
@@ -105,9 +104,8 @@ bar charts. Ideal for larger amount of groups. This argument wraps a single pane
 
 \item{show.p}{logical, adds significance levels to value or variable labels.}
 
-\item{showModelSummary}{logical, if \code{TRUE}, a summary of the regression model with
-Intercept, R-squared, F-Test and AIC-value is printed to the lower right corner
-of the plot.}
+\item{show.summary}{logical, if \code{TRUE}, a summary with model statistics 
+is added to the plot.}
 
 \item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a condifence
 interval or region is added to the plot.}

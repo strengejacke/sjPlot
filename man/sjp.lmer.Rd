@@ -111,8 +111,8 @@ to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
 \item{show.p}{logical, adds significance levels to value or variable labels.}
 
-\item{facet.grid}{\code{TRUE} when each plot should be plotted separately instead of
-an integrated (faceted) single graph.}
+\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
+in a grid of an integrated single plot.}
 
 \item{free.scale}{if \code{TRUE} and \code{facet.grid = TRUE}, each facet grid
 gets its own fitted scale. If \code{free.scale = FALSE}, each facet in

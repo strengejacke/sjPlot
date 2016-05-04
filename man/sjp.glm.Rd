@@ -11,9 +11,9 @@ sjp.glm(fit, type = "dots", sort.est = TRUE, title = NULL,
   vline.type = 2, vline.color = "grey70", group.estimates = NULL,
   remove.estimates = NULL, vars = NULL, coord.flip = TRUE,
   y.offset = 0.15, show.intercept = FALSE, show.values = TRUE,
-  digits = 2, show.p = TRUE, showModelSummary = FALSE,
-  facet.grid = TRUE, show.ci = FALSE, show.legend = FALSE,
-  showOriginalModelOnly = TRUE, printPlot = TRUE)
+  digits = 2, show.p = TRUE, show.summary = FALSE, facet.grid = TRUE,
+  show.ci = FALSE, show.legend = FALSE, showOriginalModelOnly = TRUE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{fit}{fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).}
@@ -49,7 +49,7 @@ highest, so plot has maximum zoom.}
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{determines how many chars of the category, variable or axis 
+\item{wrap.labels}{determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
@@ -106,12 +106,11 @@ function call is interrupted and no plot printed.}
 
 \item{show.p}{logical, adds significance levels to value or variable labels.}
 
-\item{showModelSummary}{logical, if \code{TRUE}, a summary of the regression model with
-Intercept, R-squared, F-Test and AIC-value is printed to the lower right corner
-of the plot.}
+\item{show.summary}{logical, if \code{TRUE}, a summary with model statistics 
+is added to the plot.}
 
-\item{facet.grid}{logical, \code{TRUE} when each plot should be plotted separately instead of
-an integrated (faceted) single graph. Only applies, if \code{type = "slope"}.}
+\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
+in a grid of an integrated single plot.}
 
 \item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a condifence
 interval or region is added to the plot.}

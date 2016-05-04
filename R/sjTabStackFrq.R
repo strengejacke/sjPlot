@@ -14,13 +14,6 @@
 #'                
 #' @param items \code{\link{data.frame}} with each column representing one (likert- or scale-)item.
 #' @param title table caption.
-#' @param varlabels character vector with variable names. If not specified, row names of \code{items}
-#'          will be used, resp. variable labels will automatically be detected, when they have
-#'          a variable label attribute (see \code{\link[sjmisc]{set_label}}) for details).
-#' @param valuelabels character vector with category/value labels, which
-#'          appear in the header row.
-#' @param breakValueLabelsAt determines how many chars of the value labels are displayed in 
-#'          one line and when a line break is inserted. Default is 20.
 #' @param sort.frq logical, indicates whether the \code{items} should be ordered by
 #'          by highest count of first or last category of \code{items}.
 #'          \itemize{
@@ -98,7 +91,7 @@
 #' 
 #' # plot stacked frequencies of 5 (ordered) item-scales
 #' \dontrun{
-#' sjt.stackfrq(likert_4, valuelabels = levels_4, varlabels = items)
+#' sjt.stackfrq(likert_4, value.labels = levels_4, var.labels = items)
 #' 
 #' 
 #' # -------------------------------
@@ -138,10 +131,9 @@
 sjt.stackfrq <- function(items,
                          weight.by = NULL,
                          title = NULL,
-                         varlabels = NULL,
-                         wrap.labels = 40,
-                         valuelabels = NULL,
-                         breakValueLabelsAt = 20,
+                         var.labels = NULL,
+                         value.labels = NULL,
+                         wrap.labels = 20,
                          sort.frq = NULL,
                          alternateRowColors = FALSE,
                          digits = 2,
@@ -190,16 +182,16 @@ sjt.stackfrq <- function(items,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(valuelabels)) valuelabels <- sjmisc::get_labels(items[[1]],
+  if (is.null(value.labels)) value.labels <- sjmisc::get_labels(items[[1]],
                                                               attr.only = F,
                                                               include.values = NULL,
                                                               include.non.labelled = T)
-  if (is.null(varlabels)) {
-    varlabels <- c()
+  if (is.null(var.labels)) {
+    var.labels <- c()
     # if yes, iterate each variable
     for (i in 1:ncol(items)) {
       # retrieve variable name attribute
-      varlabels <- c(varlabels, sjmisc::get_label(items[[i]], def.value = colnames(items)[i]))
+      var.labels <- c(var.labels, sjmisc::get_label(items[[i]], def.value = colnames(items)[i]))
     }
   }
   # ----------------------------
@@ -211,19 +203,19 @@ sjt.stackfrq <- function(items,
   # if we have no value labels, set default labels and find amount
   # of unique categories
   # ----------------------------
-  if (is.null(valuelabels)) valuelabels <- as.character(minval:maxval)
+  if (is.null(value.labels)) value.labels <- as.character(minval:maxval)
   # check whether missings should be shown
-  if (show.na) valuelabels <- c(valuelabels, labelNA)
+  if (show.na) value.labels <- c(value.labels, labelNA)
   # save amolunt of values
-  catcount <- length(valuelabels)
+  catcount <- length(value.labels)
   # check length of x-axis-labels and split longer strings at into new lines
-  valuelabels <- sjmisc::word_wrap(valuelabels, breakValueLabelsAt, "<br>")
+  value.labels <- sjmisc::word_wrap(value.labels, wrap.labels, "<br>")
   # ----------------------------
   # if we have no variable labels, use row names
   # ----------------------------
-  if (is.null(varlabels)) varlabels <- colnames(items)
+  if (is.null(var.labels)) var.labels <- colnames(items)
   # check length of x-axis-labels and split longer strings at into new lines
-  varlabels <- sjmisc::word_wrap(varlabels, wrap.labels, "<br>")
+  var.labels <- sjmisc::word_wrap(var.labels, wrap.labels, "<br>")
   # ----------------------------  
   # additional statistics required from psych-package?
   # ----------------------------
@@ -406,7 +398,7 @@ sjt.stackfrq <- function(items,
   page.content <- paste0(page.content, "    <th class=\"thead\">&nbsp;</th>\n")
   # iterate columns
   for (i in 1:catcount) {
-    page.content <- paste0(page.content, sprintf("    <th class=\"thead\">%s</th>\n", valuelabels[i]))
+    page.content <- paste0(page.content, sprintf("    <th class=\"thead\">%s</th>\n", value.labels[i]))
   }
   # add N column
   if (showTotalN) page.content <- paste0(page.content, "    <th class=\"thead ncol summary\">N</th>\n")
@@ -428,7 +420,7 @@ sjt.stackfrq <- function(items,
     # write tr-tag
     page.content <- paste0(page.content, "  <tr>\n")
     # print first table cell
-    page.content <- paste0(page.content, sprintf("    <td class=\"firsttablecol%s\">%s</td>\n", arcstring, varlabels[facord[i]]))
+    page.content <- paste0(page.content, sprintf("    <td class=\"firsttablecol%s\">%s</td>\n", arcstring, var.labels[facord[i]]))
     # --------------------------------------------------------
     # iterate all columns
     # --------------------------------------------------------

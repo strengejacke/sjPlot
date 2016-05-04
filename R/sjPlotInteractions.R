@@ -110,7 +110,6 @@
 #'          for the confidence regeion (e.g. \code{show.ci = 0.9} plots a 90\% CI).
 #'          Only applies to \code{type = "emm"} or \code{type = "eff"}.
 #' @param valueLabel.digits the amount of digits of the displayed value labels. Defaults to 2.
-#' @param facet.grid \code{TRUE} for faceted plots instead of an integrated single plot.
 #' 
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.frq

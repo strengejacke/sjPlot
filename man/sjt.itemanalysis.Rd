@@ -6,7 +6,7 @@
 \usage{
 sjt.itemanalysis(df, factor.groups = NULL, factor.groups.titles = "auto",
   scaleItems = FALSE, minValidRowMeanValue = 2, alternateRowColors = TRUE,
-  orderColumn = NULL, orderAscending = TRUE, showShapiro = FALSE,
+  sort.col = NULL, sort.asc = TRUE, showShapiro = FALSE,
   showKurtosis = FALSE, showCompCorrMat = TRUE, file = NULL,
   encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
   remove.spaces = TRUE)
@@ -36,12 +36,12 @@ technically, row). See \code{mean_n} for details.}
 \item{alternateRowColors}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
 
-\item{orderColumn}{indicates a column, either by column name or by column index number,
+\item{sort.col}{indicates a column, either by column name or by column index number,
 that should be sorted. Default order is ascending, which can be changed with
-\code{orderAscending} argument. Default is \code{NULL}, hence the data frame
+\code{sort.asc} argument. Default is \code{NULL}, hence the data frame
 is printed with no specific order. See 'Examples'.}
 
-\item{orderAscending}{logical, if \code{TRUE} (default) and \code{orderColumn} is not \code{NULL},
+\item{sort.asc}{logical, if \code{TRUE} (default) and \code{sort.col} is not \code{NULL},
 data frame is ordered according to the specified column in an ascending order.
 Use \code{FALSE} to apply descending order. See 'Examples'.}
 

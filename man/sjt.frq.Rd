@@ -5,13 +5,13 @@
 \title{Summary of frequencies as HTML table}
 \usage{
 sjt.frq(data, file = NULL, weight.by = NULL,
-  weightByTitleString = " (weighted)", variableLabels = NULL,
-  valueLabels = NULL, autoGroupAt = NULL, sort.frq = NULL,
+  weightByTitleString = " (weighted)", var.labels = NULL,
+  value.labels = NULL, auto.group = NULL, sort.frq = NULL,
   alternateRowColors = FALSE, stringValue = "value", stringCount = "N",
   stringPerc = "raw \%", stringValidPerc = "valid \%",
   stringCumPerc = "cumulative \%", stringMissingValue = "missings",
   highlightMedian = FALSE, highlightQuartiles = FALSE,
-  skipZeroRows = "auto", showSummary = TRUE, showSkew = FALSE,
+  skipZeroRows = "auto", show.summary = TRUE, showSkew = FALSE,
   showKurtosis = FALSE, skewString = "&gamma;",
   kurtosisString = "&omega;", digits = 2, removeStringVectors = TRUE,
   autoGroupStrings = TRUE, maxStringDist = 3, encoding = NULL,
@@ -33,25 +33,17 @@ Must be a vector of same length as the input vector. Default is
 e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so
 the table caption will not have a suffix when cases are weighted.}
 
-\item{variableLabels}{character vector or a list of character vectors that indicate
-the variable names of \code{data} and will be used as variable labels
-in the output. Note that if multiple variables
-are supplied (if \code{data} is a \code{\link{data.frame}}), the variable 
-labels must be supplied as \code{list} object (see 'Examples').}
+\item{var.labels}{character vector with variable names, which will be used 
+to label variables in the output.}
 
-\item{valueLabels}{character vector that indicate the value labels of
-\code{data}. Note that if multiple variables are supplied (if \code{data} 
-is a \code{\link{data.frame}}), the value labels must be supplied as 
-\code{list} object (see 'Examples').}
+\item{value.labels}{character vector (or \code{list} of character vectors)
+with value labels of the supplied variables, which will be used 
+to label variable values in the output.}
 
-\item{autoGroupAt}{numeric value, indicating at which length of unique values of \code{data}, 
-automatic grouping into smaller units is done (see \code{\link[sjmisc]{group_var}}).
-Variables with large numbers of unique values may be too time consuming when 
-a HTML table is created and R would not respond any longer, or the resulting table 
-would be to too long and confusing. Hence it's recommended to group such variables. 
-If \code{autoGroupAt = 50} and \code{varCount} has more than 50 unique values,
-it will be grouped (using the \code{\link[sjmisc]{group_var}} function). 
-Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.
+\item{auto.group}{numeric value, indicating the minimum amount of unique values 
+in the count variable, at which automatic grouping into smaller units 
+is done (see \code{\link[sjmisc]{group_var}}). Default value for 
+\code{auto.group} is \code{NULL}, i.e. auto-grouping is off.
 See \code{\link[sjmisc]{group_var}} for examples on grouping.}
 
 \item{sort.frq}{whether frequencies should be sorted or not. Use \code{"asc"} or \code{"ascending"}
@@ -63,7 +55,7 @@ frequencies are ordered by values.}
 background color.}
 
 \item{stringValue}{label for the very first table column containing the values (see
-\code{valueLabels}).}
+\code{value.labels}).}
 
 \item{stringCount}{label for the first table data column containing the counts. Default is \code{"N"}.}
 
@@ -90,7 +82,7 @@ to detect whether it makes sense or not to print zero-values (e.g., a variable
 "age" with values from 10 to 100, where at least 25 percent of all possible values have no
 counts, zero-values would be skipped automatically).}
 
-\item{showSummary}{If \code{TRUE} (default), a summary row with total and valid N as well as mean and
+\item{show.summary}{If \code{TRUE} (default), a summary row with total and valid N as well as mean and
 standard deviation is shown.}
 
 \item{showSkew}{If \code{TRUE}, the variable's skewness is added to the summary.
@@ -196,21 +188,21 @@ sjt.frq(efc$e42dep)
 
 # plot and show frequency table of "e42dep" with labels
 sjt.frq(efc$e42dep,
-        variableLabels = "Dependency",
-        valueLabels = c("independent",
+        var.labels = "Dependency",
+        value.labels = c("independent",
                         "slightly dependent",
                         "moderately dependent",
                         "severely dependent"))
 
 # plot frequencies of e42dep, e16sex and c172code in one HTML file
 # and show table in RStudio Viewer Pane or default web browser
-# Note that valueLabels of multiple variables have to be
+# Note that value.labels of multiple variables have to be
 # list-objects
 sjt.frq(data.frame(efc$e42dep, efc$e16sex, efc$c172code),
-        variableLabels = c("Dependency", 
+        var.labels = c("Dependency", 
                            "Gender", 
                            "Education"),
-        valueLabels = list(c("independent",
+        value.labels = list(c("independent",
                              "slightly dependent",
                              "moderately dependent",
                              "severely dependent"),

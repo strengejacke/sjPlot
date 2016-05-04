@@ -47,9 +47,6 @@
 #'          between 0 and 1.
 #' @param showRug logical, if \code{TRUE}, a marginal rug plot is displayed
 #'          in the graph.
-#' @param facet.grid \code{TRUE} when each scatter plot group should be plotted as single facet instead of
-#'          an integrated single graph. Only applies if \code{grp} is not \code{NULL}. Each category of
-#'          \code{grp} will be plotted in an own facet.
 #'
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}).

@@ -28,8 +28,6 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #' @param fade.ns if \code{TRUE}, non significant estimates will be printed in slightly faded colors.
 #' @param usePShapes If \code{TRUE}, significant levels are distinguished by different point shapes and a related
 #'          legend is plotted. Default is \code{FALSE}.
-#' @param facet.grid \code{TRUE} when each model should be plotted as single facet instead of 
-#'          an integrated single graph.
 #'          
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.lmer

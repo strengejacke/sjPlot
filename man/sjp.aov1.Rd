@@ -4,19 +4,19 @@
 \alias{sjp.aov1}
 \title{Plot One-Way-Anova tables}
 \usage{
-sjp.aov1(depVar, grpVar, meansums = FALSE, title = NULL,
+sjp.aov1(var.dep, var.grp, meansums = FALSE, title = NULL,
   axis.labels = NULL, rev.order = FALSE, stringIntercept = "(Intercept)",
   axis.title = "", axis.lim = NULL, geom.colors = c("#3366a0", "#aa3333"),
   geom.size = 3, wrap.title = 50, wrap.labels = 25, grid.breaks = NULL,
   expand.grid = FALSE, show.values = TRUE, digits = 2, y.offset = 0.1,
-  show.p = TRUE, showModelSummary = FALSE, printPlot = TRUE)
+  show.p = TRUE, show.summary = FALSE, printPlot = TRUE)
 }
 \arguments{
-\item{depVar}{dependent variable. Will be used with following formula:
-\code{aov(depVar ~ grpVar)}}
+\item{var.dep}{dependent variable. Will be used with following formula:
+\code{aov(var.dep ~ var.grp)}}
 
-\item{grpVar}{grouping variable, as unordered factor. Will be used with following formula:
-\code{aov(depVar ~ grpVar)}}
+\item{var.grp}{factor with the cross-classifying variable, where \code{var.cnt} 
+is grouped into the categories represented by \code{varGrp}.}
 
 \item{meansums}{logical, if \code{TRUE}, the values reported are the true group mean values (see also \code{\link{sjt.grpmean}}).
 If \code{FALSE} (default), the values are reported in the standard way, i.e. the values indicate the difference of
@@ -48,7 +48,7 @@ need smaller values than dot sizes.}
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{determines how many chars of the category, variable or axis 
+\item{wrap.labels}{determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
@@ -66,10 +66,12 @@ to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
 \item{show.p}{logical, adds significance levels to value or variable labels.}
 
-\item{showModelSummary}{logical, if \code{TRUE}, a summary of the anova model with 
-Sum of Squares between groups (ssb), Sum of Squares within groups (ssw), multiple and adjusted 
-R-square and F-Test is printed to the lower right corner
-of the diagram. Default is \code{TRUE}.}
+\item{show.summary}{logical, if \code{TRUE} (default), a summary with chi-squared 
+statistics (see \code{\link{chisq.test}}), Cramer's V or Phi-value etc. 
+is shown. If a cell contains expected values lower than five (or lower than 10 
+if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is 
+computed instead of chi-squared test. If the table's matrix is larger 
+than 2x2, Fisher's excact test with Monte Carlo simulation is computed.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
@@ -87,7 +89,7 @@ Plot One-Way-Anova table sum of squares (SS) of each factor level (group)
 \examples{
 library(sjmisc)
 data(efc)
-# note: "grpVar" does not need to be a factor.
+# note: "var.grp" does not need to be a factor.
 # coercion to factor is done by the function
 sjp.aov1(efc$c12hour, efc$e42dep)
 

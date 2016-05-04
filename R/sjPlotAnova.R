@@ -12,10 +12,8 @@ utils::globalVariables("pv")
 #'                
 #' @seealso \code{\link{sjt.grpmean}}
 #'                
-#' @param depVar dependent variable. Will be used with following formula:
-#'          \code{aov(depVar ~ grpVar)}
-#' @param grpVar grouping variable, as unordered factor. Will be used with following formula:
-#'          \code{aov(depVar ~ grpVar)}
+#' @param var.dep dependent variable. Will be used with following formula:
+#'          \code{aov(var.dep ~ var.grp)}
 #' @param meansums logical, if \code{TRUE}, the values reported are the true group mean values (see also \code{\link{sjt.grpmean}}).
 #'          If \code{FALSE} (default), the values are reported in the standard way, i.e. the values indicate the difference of
 #'          the group mean in relation to the intercept (reference group).
@@ -24,10 +22,6 @@ utils::globalVariables("pv")
 #' @param axis.lim numeric vector of length 2, defining the range of the plot axis.
 #'          By default, the limits range from the lowest confidence interval to the 
 #'          highest, so plot has maximum zoom.
-#' @param showModelSummary logical, if \code{TRUE}, a summary of the anova model with 
-#'          Sum of Squares between groups (ssb), Sum of Squares within groups (ssw), multiple and adjusted 
-#'          R-square and F-Test is printed to the lower right corner
-#'          of the diagram. Default is \code{TRUE}.
 #'          
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lm
@@ -40,7 +34,7 @@ utils::globalVariables("pv")
 #' @examples
 #' library(sjmisc)
 #' data(efc)
-#' # note: "grpVar" does not need to be a factor.
+#' # note: "var.grp" does not need to be a factor.
 #' # coercion to factor is done by the function
 #' sjp.aov1(efc$c12hour, efc$e42dep)
 #' 
@@ -50,8 +44,8 @@ utils::globalVariables("pv")
 #' @importFrom stats confint aov summary.lm
 #' @importFrom dplyr add_rownames
 #' @export
-sjp.aov1 <- function(depVar,
-                     grpVar,
+sjp.aov1 <- function(var.dep,
+                     var.grp,
                      meansums = FALSE,
                      title = NULL,
                      axis.labels = NULL,
@@ -69,24 +63,24 @@ sjp.aov1 <- function(depVar,
                      digits = 2,
                      y.offset = .1,
                      show.p = TRUE,
-                     showModelSummary = FALSE,
+                     show.summary = FALSE,
                      printPlot = TRUE) {
   # --------------------------------------------------------
   # get variable name
   # --------------------------------------------------------
-  grpVar.name <- get_var_name(deparse(substitute(grpVar)))
-  depVar.name <- get_var_name(deparse(substitute(depVar)))
+  var.grp.name <- get_var_name(deparse(substitute(var.grp)))
+  var.dep.name <- get_var_name(deparse(substitute(var.dep)))
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(axis.labels)) axis.labels <- sjmisc::get_labels(grpVar, 
+  if (is.null(axis.labels)) axis.labels <- sjmisc::get_labels(var.grp, 
                                                               attr.only = F,
                                                               include.values = NULL,
                                                               include.non.labelled = T)
-  if (is.null(axis.title)) axis.title <- sjmisc::get_label(depVar, def.value = depVar.name)
+  if (is.null(axis.title)) axis.title <- sjmisc::get_label(var.dep, def.value = var.dep.name)
   if (is.null(title)) {
-    t1 <- sjmisc::get_label(grpVar, def.value = grpVar.name)
-    t2 <- sjmisc::get_label(depVar, def.value = depVar.name)
+    t1 <- sjmisc::get_label(var.grp, def.value = var.grp.name)
+    t2 <- sjmisc::get_label(var.dep, def.value = var.dep.name)
     if (!is.null(t1) && !is.null(t2)) title <- paste0(t1, " by ", t2)
   }
   # --------------------------------------------------------
@@ -103,9 +97,9 @@ sjp.aov1 <- function(depVar,
     axis.labels[1] <- paste(axis.labels[1], stringIntercept)
   }
   # --------------------------------------------------------
-  # Check if grpVar is factor. If not, convert to factor
+  # Check if var.grp is factor. If not, convert to factor
   # --------------------------------------------------------
-  if (!is.factor(grpVar)) grpVar <- as.factor(grpVar)
+  if (!is.factor(var.grp)) var.grp <- as.factor(var.grp)
   # --------------------------------------------------------
   # Check spelling of type-param
   # --------------------------------------------------------
@@ -131,7 +125,7 @@ sjp.aov1 <- function(depVar,
   # only one group variable, Type of SS does
   # not matter.
   # ----------------------------
-  fit <- stats::aov(depVar ~ grpVar)
+  fit <- stats::aov(var.dep ~ var.grp)
   # coefficients (group mean)
   means <- stats::summary.lm(fit)$coefficients[, 1]
   # p-values of means
@@ -156,7 +150,7 @@ sjp.aov1 <- function(depVar,
   # create expression with model summarys. used
   # for plotting in the diagram later
   # ----------------------------
-  if (showModelSummary) {
+  if (show.summary) {
     # sum of squares
     ss <- summary(fit)[[1]]['Sum Sq']
     # multiple r2
@@ -285,7 +279,7 @@ sjp.aov1 <- function(depVar,
     labs(title = title, x = NULL, y = axis.title) +
     coord_flip()
   # check whether modelsummary should be printed
-  if (showModelSummary) {
+  if (show.summary) {
     # add annotations with model summary
     # annotations include intercept-value and model's r-square
     anovaplot <- anovaplot + annotate("text", 

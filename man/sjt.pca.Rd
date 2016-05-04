@@ -38,7 +38,7 @@ provided (default), the data frame's column names are used.}
 \item{title}{string, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{wrap.labels}{determines how many chars of the category, variable or axis 
+\item{wrap.labels}{determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}

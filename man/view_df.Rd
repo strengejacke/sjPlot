@@ -5,10 +5,10 @@
 \title{View structure of labelled data frames}
 \usage{
 view_df(x, weight.by = NULL, file = NULL, alternateRowColors = TRUE,
-  showID = TRUE, showType = FALSE, show.values = TRUE,
+  show.id = TRUE, show.type = FALSE, show.values = TRUE,
   show.labels = TRUE, showFreq = FALSE, showPerc = FALSE,
   showWtdFreq = FALSE, showWtdPerc = FALSE, show.na = FALSE,
-  sortByName = FALSE, breakVariableNamesAt = 50, encoding = NULL,
+  sortByName = FALSE, wrap.labels = 50, encoding = NULL,
   hideProgressBar = FALSE, CSS = NULL, useViewer = TRUE,
   no.output = FALSE, remove.spaces = TRUE)
 }
@@ -29,11 +29,10 @@ openend either in the IDE's viewer pane or the default web browser.}
 \item{alternateRowColors}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
 
-\item{showID}{logical, if \code{TRUE} (default), the variable ID is shown in the first column.}
+\item{show.id}{logical, if \code{TRUE} (default), the variable ID is shown in the first column.}
 
-\item{showType}{logical, if \code{TRUE}, the variable type is shown in a separate column. Since
-SPSS variable types are mostly \code{\link{numeric}} after import, this column
-is hidden by default.}
+\item{show.type}{logical, if \code{TRUE}, the variable type is shown in a separate
+row respectively column.}
 
 \item{show.values}{logical, if \code{TRUE} (default), the variable values are shown as additional column.}
 
@@ -56,9 +55,8 @@ Weights strem from \code{weight.by}.}
 names. By default, rows (variables) are ordered according to their
 order in the data frame.}
 
-\item{breakVariableNamesAt}{Wordwrap for lomg variable names. Determines how many chars of
-a variable name are displayed in one line and when a line break is inserted.
-Default value is 50, use \code{NULL} to turn off word wrap.}
+\item{wrap.labels}{determines how many chars of the value, variable or axis 
+labels are displayed in one line and when a line break is inserted.}
 
 \item{encoding}{string, indicating the charset encoding used for variable and 
 value labels. Default is \code{NULL}, so encoding will be auto-detected 
@@ -120,7 +118,7 @@ view_df(efc)
 view_df(efc, show.values = FALSE, show.labels = FALSE)
 
 # view variables including variable typed, orderd by name
-view_df(efc, sortByName = TRUE, showType = TRUE)
+view_df(efc, sortByName = TRUE, show.type = TRUE)
 
 # ---------------------------------------------------------------- 
 # User defined style sheet

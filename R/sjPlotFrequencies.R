@@ -17,9 +17,8 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #'         factor levels), i.e. scales / centred variables
 #'         with decimals may result in unexpected behaviour.
 #' 
-#' @param x a vector of values (variable) describing the bars which make up the plot.
 #' @param interactionVar an interaction variable which can be used for box plots. Divides the observations in 
-#'          \code{x} into sub groups indicated by \code{interactionVar}. Only 
+#'          \code{var.cnt} into sub groups indicated by \code{interactionVar}. Only 
 #'          applies when \code{type = "boxplot"} or \code{"violin"}.
 #' @param sort.frq Determines whether categories (bars) on x-axis should be sorted 
 #'          according to the frequencies or not.  Default is \code{"none"}, so 
@@ -48,24 +47,16 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #'          when \code{show.mean = TRUE}.
 #' @param mean.line.size numeric, size of the mean intercept line. Only 
 #'          applies to histogram-charts and when \code{show.mean = TRUE}.
-#' @param showNormalCurve logical, if \code{TRUE}, a normal curve, which is adjusted to the data,
+#' @param normal.curve logical, if \code{TRUE}, a normal curve, which is adjusted to the data,
 #'          is plotted over the histogram or density plot. Default is
 #'          \code{FALSE}. Only applies when histograms or density plots are plotted (see \code{type}).
-#' @param normalCurveColor color of the normal curve line. Only
-#'          applies if \code{showNormalCurve = TRUE}.
-#' @param normalCurveSize numeric, size of the normal curve line. Only
-#'          applies if \code{showNormalCurve = TRUE}.
-#' @param normalCurveAlpha transparancy level (alpha value) of the normal curve. Only
-#'          applies if \code{showNormalCurve = TRUE}.
+#' @param normal.curve.color color of the normal curve line. Only
+#'          applies if \code{normal.curve = TRUE}.
+#' @param normal.curve.size numeric, size of the normal curve line. Only
+#'          applies if \code{normal.curve = TRUE}.
+#' @param normal.curve.alpha transparancy level (alpha value) of the normal curve. Only
+#'          applies if \code{normal.curve = TRUE}.
 #' @param xlim numeric vector of length two, defining lower and upper axis limits
-#' @param autoGroupAt numeric value, indicating at which length of unique values of \code{x}, 
-#'          automatic grouping into smaller units is done (see \code{\link[sjmisc]{group_var}}).
-#'          If \code{x} has large numbers of unique values, there may be too many bars 
-#'          for the plot. Hence it's practical to group such variables. For example, 
-#'          if \code{autoGroupAt = 50} and \code{x} has more than 50 unique values,
-#'          it will be grouped (using the \code{\link[sjmisc]{group_var}} function). 
-#'          Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.
-#'          See \code{\link[sjmisc]{group_var}} for examples on grouping.
 #'          
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lm
@@ -142,17 +133,17 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #'         type = "h",
 #'         show.mean = TRUE,
 #'         show.mean.val = TRUE,
-#'         showNormalCurve = TRUE,
+#'         normal.curve = TRUE,
 #'         show.sd = TRUE,
-#'         normalCurveColor = "blue",
-#'         normalCurveSize = 3,
+#'         normal.curve.color = "blue",
+#'         normal.curve.size = 3,
 #'         ylim = c(0,50))
 #' 
 #' @import ggplot2
 #' @import sjmisc
 #' @importFrom stats na.omit sd weighted.mean
 #' @export
-sjp.frq <- function(x,
+sjp.frq <- function(var.cnt,
                     title = "",
                     weight.by = NULL,
                     weightByTitleString = NULL,
@@ -173,21 +164,21 @@ sjp.frq <- function(x,
                     expand.grid = FALSE,
                     show.values = TRUE,
                     show.n = TRUE,
-                    show.perc = TRUE,
+                    show.prc = TRUE,
                     show.axis.values = TRUE,
                     show.ci = FALSE,
                     errorbar.color = "darkred",
                     show.mean = FALSE,
                     show.mean.val = TRUE,
                     show.sd = TRUE,
-                    showNormalCurve = FALSE,
+                    normal.curve = FALSE,
                     mean.line.type = 2,
                     mean.line.size = 0.5,
-                    normalCurveColor = "red",
-                    normalCurveSize = 0.8,
-                    normalCurveAlpha = 0.4,
+                    normal.curve.color = "red",
+                    normal.curve.size = 0.8,
+                    normal.curve.alpha = 0.4,
                     axis.title = NULL,
-                    autoGroupAt = NULL,
+                    auto.group = NULL,
                     coord.flip = FALSE,
                     vjust = "bottom",
                     hjust = "center",
@@ -197,13 +188,13 @@ sjp.frq <- function(x,
   # --------------------------------------------------------
   # get variable name
   # --------------------------------------------------------
-  var.name <- get_var_name(deparse(substitute(x)))
+  var.name <- get_var_name(deparse(substitute(var.cnt)))
   # --------------------------------------------------------
   # set text label offset
   # --------------------------------------------------------
   if (is.null(y.offset)) {
     # get maximum y-pos
-    y.offset <- ceiling(max(table(x)) / 100)
+    y.offset <- ceiling(max(table(var.cnt)) / 100)
     if (coord.flip) {
       if (missing(vjust)) vjust <- "center"
       if (missing(hjust)) hjust <- "bottom"
@@ -229,7 +220,7 @@ sjp.frq <- function(x,
   # --------------------------------------------------------
   if (is.null(axis.labels)) {
     axis.labels <- sjmisc::get_labels(
-      x,
+      var.cnt,
       attr.only = F,
       include.values = NULL,
       include.non.labelled = T
@@ -243,8 +234,8 @@ sjp.frq <- function(x,
       include.non.labelled = T
     )
   }
-  if (is.null(axis.title)) axis.title <- sjmisc::get_label(x, def.value = var.name)
-  if (is.null(title)) title <- sjmisc::get_label(x, def.value = var.name)
+  if (is.null(axis.title)) axis.title <- sjmisc::get_label(var.cnt, def.value = var.name)
+  if (is.null(title)) title <- sjmisc::get_label(var.cnt, def.value = var.name)
   # --------------------------------------------------------
   # remove titles if empty
   # --------------------------------------------------------
@@ -293,28 +284,28 @@ sjp.frq <- function(x,
   #---------------------------------------------------
   # check whether variable should be auto-grouped
   #---------------------------------------------------
-  if (!is.null(autoGroupAt) && length(unique(x)) >= autoGroupAt) {
+  if (!is.null(auto.group) && length(unique(var.cnt)) >= auto.group) {
     message(sprintf("`%s` has %i unique values and was grouped...", 
                     var.name, 
-                    length(unique(x))))
+                    length(unique(var.cnt))))
     # check for default auto-group-size or user-defined groups
-    agcnt <- ifelse(autoGroupAt < 30, autoGroupAt, 30)
+    agcnt <- ifelse(auto.group < 30, auto.group, 30)
     # group axis labels
-    axis.labels <- sjmisc::group_labels(sjmisc::to_value(x, keep.labels = F),
+    axis.labels <- sjmisc::group_labels(sjmisc::to_value(var.cnt, keep.labels = F),
                                         groupsize = "auto", 
                                         groupcount = agcnt)
     # group variable
-    x <- sjmisc::group_var(sjmisc::to_value(x, keep.labels = F), 
-                           groupsize = "auto", 
-                           as.num = TRUE, 
-                           groupcount = agcnt)
+    var.cnt <- sjmisc::group_var(sjmisc::to_value(var.cnt, keep.labels = F), 
+                                 groupsize = "auto", 
+                                 as.num = TRUE, 
+                                 groupcount = agcnt)
     # set label attributes
-    sjmisc::set_labels(x) <- axis.labels
+    sjmisc::set_labels(var.cnt) <- axis.labels
   }
   #---------------------------------------------------
   # create frequency data frame
   #---------------------------------------------------
-  df.frq <- create.frq.df(x, 
+  df.frq <- create.frq.df(var.cnt, 
                           wrap.labels = wrap.labels, 
                           order.frq = sort.frq, 
                           round.prz = 2,
@@ -361,31 +352,32 @@ sjp.frq <- function(x,
   # --------------------------------------------------------
   # count variable may not be a factor!
   # --------------------------------------------------------
-  if (is.factor(x) || is.character(x)) {
-    x <- sjmisc::to_value(x, keep.labels = F)
+  if (is.factor(var.cnt) || is.character(var.cnt)) {
+    var.cnt <- sjmisc::to_value(var.cnt, keep.labels = F)
   }
   # --------------------------------------------------------
   # If we have a histogram, caluclate means of groups
   # --------------------------------------------------------
   if (is.null(weight.by)) {
-    mittelwert <- mean(x, na.rm = TRUE)
+    mittelwert <- mean(var.cnt, na.rm = TRUE)
+    stddev <- stats::sd(var.cnt, na.rm = TRUE)
   } else {
-    mittelwert <- stats::weighted.mean(x, weight.by, na.rm = TRUE)
+    mittelwert <- stats::weighted.mean(var.cnt, weight.by, na.rm = TRUE)
+    stddev <- sjmisc::wtd_sd(var.cnt, weights = weight.by)
   }
-  stddev <- stats::sd(x, na.rm = TRUE)
   # --------------------------------------------------------
   # If we have boxplots, use different data frame structure
   # --------------------------------------------------------
   if (type == "boxplot" || type == "violin") {
     if (is.null(interactionVar)) {
       mydat <- stats::na.omit(data.frame(cbind(grp = 1, 
-                                               frq = x, 
-                                               val = x)))
+                                               frq = var.cnt, 
+                                               val = var.cnt)))
     } else {
       mydat <- stats::na.omit(data.frame(cbind(grp = 1, 
                                                ia = interactionVar, 
-                                               frq = x, 
-                                               val = x)))
+                                               frq = var.cnt, 
+                                               val = var.cnt)))
       mydat$ia <- as.factor(mydat$ia)
     }
     mydat$grp <- as.factor(mydat$grp)
@@ -405,8 +397,8 @@ sjp.frq <- function(x,
     # the y axis
     if (type == "boxplot" || type == "violin") {
       # use an extra standard-deviation as limits for the y-axis when we have boxplots
-      lower_lim <- min(x, na.rm = TRUE) - floor(stats::sd(x, na.rm = TRUE))
-      upper_lim <- max(x, na.rm = TRUE) + ceiling(stats::sd(x, na.rm = TRUE))
+      lower_lim <- min(var.cnt, na.rm = TRUE) - floor(stats::sd(var.cnt, na.rm = TRUE))
+      upper_lim <- max(var.cnt, na.rm = TRUE) + ceiling(stats::sd(var.cnt, na.rm = TRUE))
       # make sure that the y-axis is not below zero
       if (lower_lim < 0) {
         lower_lim <- 0
@@ -414,17 +406,17 @@ sjp.frq <- function(x,
       }
     } else if (type == "histogram") {
       # what is the maximum values after binning for histograms?
-      hist.grp.cnt <- ceiling(diff(range(x, na.rm = T)) / geom.size)
+      hist.grp.cnt <- ceiling(diff(range(var.cnt, na.rm = T)) / geom.size)
       # ... or the amount of max. answers per category
       # add 5% margin to upper limit
-      upper_lim <- max(pretty(table(sjmisc::group_var(x, 
+      upper_lim <- max(pretty(table(sjmisc::group_var(var.cnt, 
                                                       groupsize = "auto", 
                                                       groupcount = hist.grp.cnt)) * 1.05))
     } else {
       if (show.ci)
         upper_lim <- max(pretty(mydat$upper.ci * 1.05))
       else
-        upper_lim <- max(pretty(table(x) * 1.05))
+        upper_lim <- max(pretty(table(var.cnt) * 1.05))
     }
   }
   # --------------------------------------------------------
@@ -434,7 +426,7 @@ sjp.frq <- function(x,
   if (type == "boxplot" || type == "violin") show.values <- FALSE
   if (show.values) {
     # here we have counts and percentages
-    if (show.perc && show.n) {
+    if (show.prc && show.n) {
       if (coord.flip) {
         ggvaluelabels <-  geom_text(label = sprintf("%i (%.01f%%)", mydat$frq, mydat$valid.prc),
                                     hjust = hjust,
@@ -452,7 +444,7 @@ sjp.frq <- function(x,
                                   hjust = hjust,
                                   vjust = vjust,
                                   aes(y = label.pos + y_offset))
-    } else if (show.perc) {
+    } else if (show.prc) {
       # here we have counts, without percentages
       ggvaluelabels <-  geom_text(label = sprintf("%.01f%%", mydat$valid.prc),
                                   hjust = hjust,
@@ -497,10 +489,10 @@ sjp.frq <- function(x,
   # Print plot
   # ----------------------------------
   # calculate mean and sd for non-adjusted normal curve
-  stdmean <- diff(range(x, na.rm = TRUE)) / 2
-  stdadjust <- min(x, na.rm = TRUE)
+  stdmean <- diff(range(var.cnt, na.rm = TRUE)) / 2
+  stdadjust <- min(var.cnt, na.rm = TRUE)
   stdsd <- stdmean / 4
-  stdlen <- length(stats::na.omit(x))
+  stdlen <- length(stats::na.omit(var.cnt))
   # ----------------------------------
   # bar and dot plot start here!
   # ----------------------------------
@@ -583,7 +575,7 @@ sjp.frq <- function(x,
   # Start density plot here
   # --------------------------------------------------
   } else if (type == "dens") {
-    xv <- stats::na.omit(x)
+    xv <- stats::na.omit(var.cnt)
     densityDat <- data.frame(xv)
     # First, plot histogram with density curve
     baseplot <- ggplot(densityDat, aes(x = xv)) +
@@ -598,14 +590,14 @@ sjp.frq <- function(x,
                          limits = xlim)
     # check whether user wants to overlay the histogram
     # with a normal curve
-    if (showNormalCurve) {
+    if (normal.curve) {
       baseplot <- baseplot +
         stat_function(fun = dnorm,
                       args = list(mean = mean(densityDat$xv),
                                   sd = stats::sd(densityDat$xv)),
-                      colour = normalCurveColor,
-                      size = normalCurveSize,
-                      alpha = normalCurveAlpha)
+                      colour = normal.curve.color,
+                      size = normal.curve.size,
+                      alpha = normal.curve.alpha)
     }
   } else {
     # -----------------------------------------------------------------
@@ -614,13 +606,15 @@ sjp.frq <- function(x,
     # counts on the y-axis
     # -----------------------------------------------------------------
     if (type == "histogram") {
-      xv <- stats::na.omit(x)
-      if (geom.size < round(diff(range(xv)) / 50)) message("Using very small binwidth. Consider adjusting `geom.size` argument.")
+      xv <- stats::na.omit(var.cnt)
+      if (geom.size < round(diff(range(xv)) / 50)) 
+        message("Using very small binwidth. Consider adjusting `geom.size` argument.")
+      # create second data frame
       hist.dat <- data.frame(xv)
+      # original data needed for normal curve
       baseplot <- ggplot(mydat) +
-        geom_histogram(data = hist.dat,
-                       aes(x = xv),
-                       binwidth = geom.size, 
+        # second data frame mapped to the histogram geom
+        geom_histogram(data = hist.dat, aes(x = xv), binwidth = geom.size, 
                        fill = geom.colors)        
       
     } else {
@@ -631,13 +625,13 @@ sjp.frq <- function(x,
     }
     # check whether user wants to overlay the histogram
     # with a normal curve
-    if (showNormalCurve) {
+    if (normal.curve) {
       baseplot <- baseplot +
         stat_function(fun = function(xx, mean, sd, n) { n * dnorm(x = xx, mean = mean, sd = sd) },
-                      args = with(mydat, c(mean = mittelwert, sd = stddev, n = length(x))),
-                      colour = normalCurveColor,
-                      size = normalCurveSize,
-                      alpha = normalCurveAlpha)
+                      args = with(mydat, c(mean = mittelwert, sd = stddev, n = length(var.cnt))),
+                      colour = normal.curve.color,
+                      size = normal.curve.size,
+                      alpha = normal.curve.alpha)
     }
     # if we have a histogram, add mean-lines
     if (show.mean) {

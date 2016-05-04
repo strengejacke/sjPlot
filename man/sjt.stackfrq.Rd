@@ -4,14 +4,13 @@
 \alias{sjt.stackfrq}
 \title{Summary of stacked frequencies as HTML table}
 \usage{
-sjt.stackfrq(items, weight.by = NULL, title = NULL, varlabels = NULL,
-  wrap.labels = 40, valuelabels = NULL, breakValueLabelsAt = 20,
-  sort.frq = NULL, alternateRowColors = FALSE, digits = 2,
-  show.n = FALSE, showTotalN = FALSE, show.na = FALSE, labelNA = "NA",
-  showSkew = FALSE, showKurtosis = FALSE, digits.stats = 2,
-  skewString = "Skew", kurtosisString = "Kurtosis", file = NULL,
-  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
-  remove.spaces = TRUE)
+sjt.stackfrq(items, weight.by = NULL, title = NULL, var.labels = NULL,
+  value.labels = NULL, wrap.labels = 20, sort.frq = NULL,
+  alternateRowColors = FALSE, digits = 2, show.n = FALSE,
+  showTotalN = FALSE, show.na = FALSE, labelNA = "NA", showSkew = FALSE,
+  showKurtosis = FALSE, digits.stats = 2, skewString = "Skew",
+  kurtosisString = "Kurtosis", file = NULL, encoding = NULL, CSS = NULL,
+  useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{items}{\code{\link{data.frame}} with each column representing one (likert- or scale-)item.}
@@ -22,18 +21,15 @@ Must be a vector of same length as the input vector. Default is
 
 \item{title}{table caption.}
 
-\item{varlabels}{character vector with variable names. If not specified, row names of \code{items}
-will be used, resp. variable labels will automatically be detected, when they have
-a variable label attribute (see \code{\link[sjmisc]{set_label}}) for details).}
+\item{var.labels}{character vector with variable names, which will be used 
+to label variables in the output.}
 
-\item{wrap.labels}{determines how many chars of the category, variable or axis 
+\item{value.labels}{character vector (or \code{list} of character vectors)
+with value labels of the supplied variables, which will be used 
+to label variable values in the output.}
+
+\item{wrap.labels}{determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
-
-\item{valuelabels}{character vector with category/value labels, which
-appear in the header row.}
-
-\item{breakValueLabelsAt}{determines how many chars of the value labels are displayed in 
-one line and when a line break is inserted. Default is 20.}
 
 \item{sort.frq}{logical, indicates whether the \code{items} should be ordered by
 by highest count of first or last category of \code{items}.
@@ -158,7 +154,7 @@ items <- c("Q1", "Q2", "Q3", "Q4", "Q5")
 
 # plot stacked frequencies of 5 (ordered) item-scales
 \dontrun{
-sjt.stackfrq(likert_4, valuelabels = levels_4, varlabels = items)
+sjt.stackfrq(likert_4, value.labels = levels_4, var.labels = items)
 
 
 # -------------------------------

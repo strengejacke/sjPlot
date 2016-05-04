@@ -4,21 +4,22 @@
 \alias{sjt.grpmean}
 \title{Summary of grouped means as HTML table}
 \usage{
-sjt.grpmean(varCount, varGrp, weight.by = NULL, rowLabels = NULL,
+sjt.grpmean(var.cnt, var.grp, weight.by = NULL, rowLabels = NULL,
   digits = 2, digits.summary = 3, file = NULL, encoding = NULL,
   CSS = NULL, useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
-\item{varCount}{a numeric vector / variable. Mean, SD and SE for this variable are calculated.}
+\item{var.cnt}{vector of counts, for which frequencies or means will be plotted or printed.}
 
-\item{varGrp}{a (numeric) vector with group indices, used to select sub-groups from \code{varCount}.}
+\item{var.grp}{factor with the cross-classifying variable, where \code{var.cnt} 
+is grouped into the categories represented by \code{varGrp}.}
 
 \item{weight.by}{weight factor that will be applied to weight all cases.
 Must be a vector of same length as the input vector. Default is 
 \code{NULL}, so no weights are used.}
 
-\item{rowLabels}{a character vector of same length as \code{varGrp} unqiue values. In short: the
-value labels of \code{varGrp}. Used to name table rows. By default, row labels
+\item{rowLabels}{a character vector of same length as \code{var.grp} unqiue values. In short: the
+value labels of \code{var.grp}. Used to name table rows. By default, row labels
 are automatically detected if set by \code{\link[sjmisc]{set_labels}}.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
@@ -61,18 +62,18 @@ Invisibly returns a \code{\link{list}} with
            for further use.
 }
 \description{
-Computes mean, sd and se for each sub-group (indicated by \code{varGrp})
-               of \code{varCount} and prints the result as HTML table.
+Computes mean, sd and se for each sub-group (indicated by \code{var.grp})
+               of \code{var.cnt} and prints the result as HTML table.
 }
 \details{
-This function performs a One-Way-Anova with \code{varCount} as dependent
-           and \code{varGrp} as independent variable, by calling
-           \code{lm(varCount ~ as.factor(varGrp))}, to get p-values for each
+This function performs a One-Way-Anova with \code{var.cnt} as dependent
+           and \code{var.grp} as independent variable, by calling
+           \code{lm(var.cnt ~ as.factor(var.grp))}, to get p-values for each
            sub-group and the complete "model". Thus, p-values indicate whether
            each group-mean is significantly different from the reference 
-           group (reference level of \code{varGrp}). Statistics like mean values are
-           based on subsetted groups (i.e. \code{varCount} is divided into sub-groups
-           indicated by \code{varGrp}).
+           group (reference level of \code{var.grp}). Statistics like mean values are
+           based on subsetted groups (i.e. \code{var.cnt} is divided into sub-groups
+           indicated by \code{var.grp}).
            \cr \cr
            Furthermore, see 'Details' in \code{\link{sjt.frq}}.
 }

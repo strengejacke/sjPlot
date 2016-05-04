@@ -16,24 +16,11 @@
 #' @param weightByTitleString suffix (as string) for the tabel caption, if \code{weight.by} is specified,
 #'          e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so
 #'          the table caption will not have a suffix when cases are weighted.
-#' @param variableLabels character vector or a list of character vectors that indicate
-#'          the variable names of \code{data} and will be used as variable labels
-#'          in the output. Note that if multiple variables
-#'          are supplied (if \code{data} is a \code{\link{data.frame}}), the variable 
-#'          labels must be supplied as \code{list} object (see 'Examples').
-#' @param valueLabels character vector that indicate the value labels of  
-#'          \code{data}. Note that if multiple variables are supplied (if \code{data} 
-#'          is a \code{\link{data.frame}}), the value labels must be supplied as 
-#'          \code{list} object (see 'Examples').
-#' @param autoGroupAt numeric value, indicating at which length of unique values of \code{data}, 
-#'          automatic grouping into smaller units is done (see \code{\link[sjmisc]{group_var}}).
-#'          Variables with large numbers of unique values may be too time consuming when 
-#'          a HTML table is created and R would not respond any longer, or the resulting table 
-#'          would be to too long and confusing. Hence it's recommended to group such variables. 
-#'          If \code{autoGroupAt = 50} and \code{varCount} has more than 50 unique values,
-#'          it will be grouped (using the \code{\link[sjmisc]{group_var}} function). 
-#'          Default value for \code{autoGroupAt} is \code{NULL}, i.e. auto-grouping is off.
-#'          See \code{\link[sjmisc]{group_var}} for examples on grouping.
+#' @param var.labels character vector with variable names, which will be used 
+#'          to label variables in the output.
+#' @param value.labels character vector (or \code{list} of character vectors)
+#'          with value labels of the supplied variables, which will be used 
+#'          to label variable values in the output.
 #' @param sort.frq whether frequencies should be sorted or not. Use \code{"asc"} or \code{"ascending"}
 #'          to sort frequencies ascending, or \code{"desc"} or \code{"descending"} to sort
 #'          frequencies in descending order. By default, \code{sort.frq} is \code{NULL}, i.e.
@@ -41,7 +28,7 @@
 #' @param alternateRowColors logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 #'          background color.
 #' @param stringValue label for the very first table column containing the values (see
-#'          \code{valueLabels}).
+#'          \code{value.labels}).
 #' @param stringCount label for the first table data column containing the counts. Default is \code{"N"}.
 #' @param stringPerc label for the second table data column containing the raw percentages. Default is \code{"raw \%"}.
 #' @param stringValidPerc String label for the third data table column containing the valid percentages, i.e. the
@@ -59,7 +46,7 @@
 #'          to detect whether it makes sense or not to print zero-values (e.g., a variable
 #'          "age" with values from 10 to 100, where at least 25 percent of all possible values have no
 #'          counts, zero-values would be skipped automatically).
-#' @param showSummary If \code{TRUE} (default), a summary row with total and valid N as well as mean and
+#' @param show.summary If \code{TRUE} (default), a summary row with total and valid N as well as mean and
 #'          standard deviation is shown.
 #' @param showSkew If \code{TRUE}, the variable's skewness is added to the summary.
 #'          The skewness is retrieved from the \code{\link[psych]{describe}}-function 
@@ -147,21 +134,21 @@
 #' 
 #' # plot and show frequency table of "e42dep" with labels
 #' sjt.frq(efc$e42dep,
-#'         variableLabels = "Dependency",
-#'         valueLabels = c("independent",
+#'         var.labels = "Dependency",
+#'         value.labels = c("independent",
 #'                         "slightly dependent",
 #'                         "moderately dependent",
 #'                         "severely dependent"))
 #' 
 #' # plot frequencies of e42dep, e16sex and c172code in one HTML file
 #' # and show table in RStudio Viewer Pane or default web browser
-#' # Note that valueLabels of multiple variables have to be
+#' # Note that value.labels of multiple variables have to be
 #' # list-objects
 #' sjt.frq(data.frame(efc$e42dep, efc$e16sex, efc$c172code),
-#'         variableLabels = c("Dependency", 
+#'         var.labels = c("Dependency", 
 #'                            "Gender", 
 #'                            "Education"),
-#'         valueLabels = list(c("independent",
+#'         value.labels = list(c("independent",
 #'                              "slightly dependent",
 #'                              "moderately dependent",
 #'                              "severely dependent"),
@@ -202,9 +189,9 @@ sjt.frq <- function(data,
                     file = NULL,
                     weight.by = NULL,
                     weightByTitleString = " (weighted)",
-                    variableLabels = NULL,
-                    valueLabels = NULL,
-                    autoGroupAt = NULL,
+                    var.labels = NULL,
+                    value.labels = NULL,
+                    auto.group = NULL,
                     sort.frq = NULL,
                     alternateRowColors = FALSE,
                     stringValue = "value",
@@ -216,7 +203,7 @@ sjt.frq <- function(data,
                     highlightMedian = FALSE,
                     highlightQuartiles = FALSE,
                     skipZeroRows = "auto",
-                    showSummary = TRUE,
+                    show.summary = TRUE,
                     showSkew = FALSE,
                     showKurtosis = FALSE,
                     skewString = "&gamma;",
@@ -346,22 +333,22 @@ sjt.frq <- function(data,
   # -------------------------------------
   # auto-retrieve variable labels
   # -------------------------------------
-  if (is.null(variableLabels)) {
+  if (is.null(var.labels)) {
     # init variable Labels as list
-    variableLabels <- list()
+    var.labels <- list()
     # check if we have data frame with several variables
     if (is.data.frame(data)) {
       # if yes, iterate each variable
       for (i in 1:ncol(data)) {
         # retrieve variable name attribute
-        variableLabels <-
-          c(variableLabels, sjmisc::get_label(data[[i]], def.value = colnames(data)[i]))
+        var.labels <-
+          c(var.labels, sjmisc::get_label(data[[i]], def.value = colnames(data)[i]))
       }
     # we have a single variable only
     } else {
       # retrieve variable name attribute
-      variableLabels <-
-        c(variableLabels, sjmisc::get_label(data, def.value = deparse(substitute(data))))
+      var.labels <-
+        c(var.labels, sjmisc::get_label(data, def.value = deparse(substitute(data))))
     }
   }
   # -------------------------------------
@@ -372,9 +359,9 @@ sjt.frq <- function(data,
     isString <- is.character(data)
     # check for auto-detection of labels, but only for non-character-vectors
     # characters will be handled later
-    if (is.null(valueLabels) &&
+    if (is.null(value.labels) &&
         !isString)
-      valueLabels <-
+      value.labels <-
         sjmisc::get_labels(
           data,
           attr.only = F,
@@ -411,20 +398,20 @@ sjt.frq <- function(data,
   # transform variable and value labels 
   # to list object
   # -------------------------------------
-  if (!is.null(variableLabels) && !is.list(variableLabels)) {
+  if (!is.null(var.labels) && !is.list(var.labels)) {
     # if we have variable labels as vector, convert them to list
-    variableLabels <- as.list(variableLabels)
-  } else if (is.null(variableLabels)) {
+    var.labels <- as.list(var.labels)
+  } else if (is.null(var.labels)) {
     # if we have no variable labels, use column names
     # of data frame
-    variableLabels <- as.list(colnames(data))
+    var.labels <- as.list(colnames(data))
   }
-  if (!is.null(valueLabels) && !is.list(valueLabels)) {
+  if (!is.null(value.labels) && !is.list(value.labels)) {
     # if we have value labels as vector, convert them to list
-    valueLabels <- list(valueLabels)
-  } else if (is.null(valueLabels)) {
+    value.labels <- list(value.labels)
+  } else if (is.null(value.labels)) {
     # create list
-    valueLabels <- list()
+    value.labels <- list()
     # iterate all variables
     for (i in 1:nvar) {
       # retrieve variable
@@ -432,7 +419,7 @@ sjt.frq <- function(data,
       # usually, value labels are NULL if we have string vector. if so
       # set value labels according to values
       if (is.character(dummy)) {
-        valueLabels <- c(valueLabels, list(names(table(dummy))))
+        value.labels <- c(value.labels, list(names(table(dummy))))
       } else {
         # check for auto-detection of labels
         avl <-
@@ -443,16 +430,16 @@ sjt.frq <- function(data,
             include.non.labelled = T
           )
         if (!is.null(avl)) {
-          valueLabels <- c(valueLabels, list(avl))
+          value.labels <- c(value.labels, list(avl))
         } else {
-          valueLabels <- c(valueLabels, 
+          value.labels <- c(value.labels, 
                            list(min(dummy, na.rm = TRUE):max(dummy, na.rm = TRUE)))
         }
       }
       # and add label range to value labels list
-      if (is.null(valueLabels))
-        valueLabels <-
-          c(valueLabels, list(min(dummy, na.rm = TRUE):max(dummy, na.rm = TRUE)))
+      if (is.null(value.labels))
+        value.labels <-
+          c(value.labels, list(min(dummy, na.rm = TRUE):max(dummy, na.rm = TRUE)))
     }
   }
   # -------------------------------------
@@ -467,18 +454,18 @@ sjt.frq <- function(data,
     # -----------------------------------------------
     # check for length of unique values and skip if too long
     # -----------------------------------------------
-    if (!is.null(autoGroupAt) &&
+    if (!is.null(auto.group) &&
         !is.character(data[[cnt]]) &&
-        length(unique(data[[cnt]])) >= autoGroupAt) {
+        length(unique(data[[cnt]])) >= auto.group) {
       message(sprintf(
         "Variable %s with %i unique values was grouped...",
         colnames(data)[cnt],
         length(unique(data[[cnt]]))
       ))
       # check for default auto-group-size or user-defined groups
-      agcnt <- ifelse(autoGroupAt < 30, autoGroupAt, 30)
+      agcnt <- ifelse(auto.group < 30, auto.group, 30)
       # group labels
-      valueLabels[[cnt]] <-
+      value.labels[[cnt]] <-
         sjmisc::group_labels(
           sjmisc::to_value(data[[cnt]], keep.labels = F),
           groupsize = "auto",
@@ -493,7 +480,7 @@ sjt.frq <- function(data,
           groupcount = agcnt
         )
       # set labels
-      data[[cnt]] <- sjmisc::set_labels(data[[cnt]], valueLabels[[cnt]])
+      data[[cnt]] <- sjmisc::set_labels(data[[cnt]], value.labels[[cnt]])
     }
     # -----------------------------------------------
     # prepare data: create frequencies and weight them,
@@ -552,7 +539,7 @@ sjt.frq <- function(data,
     # -------------------------------------
     # retrieve variable label
     # -------------------------------------
-    varlab <- variableLabels[[cnt]]
+    varlab <- var.labels[[cnt]]
     # if we have weighted values, say that in diagram's title
     if (!is.null(weight.by)) {
       varlab <- paste(varlab, weightByTitleString, sep = "")
@@ -638,7 +625,7 @@ sjt.frq <- function(data,
     # -------------------------------------
     # add info for mean, standard deviation
     # -------------------------------------
-    if (showSummary) {
+    if (show.summary) {
       # sum of frequencies is total N. Use these numbers
       # instead of "length(var)", because weighted data
       # has different N

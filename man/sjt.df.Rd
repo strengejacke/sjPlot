@@ -5,11 +5,10 @@
 \title{Show (description of) data frame as HTML table}
 \usage{
 sjt.df(mydf, describe = TRUE, file = NULL, alternateRowColors = FALSE,
-  orderColumn = NULL, orderAscending = TRUE, title = NULL,
-  repeatHeader = FALSE, stringVariable = "Variable", showType = FALSE,
-  showRowNames = TRUE, showCommentRow = FALSE,
-  commentString = "No comment...", big.mark = NULL,
-  hideProgressBar = FALSE, encoding = NULL, CSS = NULL,
+  sort.col = NULL, sort.asc = TRUE, title = NULL, repeatHeader = FALSE,
+  stringVariable = "Variable", show.type = FALSE, showRowNames = TRUE,
+  showCommentRow = FALSE, commentString = "No comment...",
+  big.mark = NULL, hideProgressBar = FALSE, encoding = NULL, CSS = NULL,
   useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE, ...)
 }
 \arguments{
@@ -26,12 +25,12 @@ openend either in the IDE's viewer pane or the default web browser.}
 \item{alternateRowColors}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
 
-\item{orderColumn}{indicates a column, either by column name or by column index number,
+\item{sort.col}{indicates a column, either by column name or by column index number,
 that should be sorted. Default order is ascending, which can be changed with
-\code{orderAscending} argument. Default is \code{NULL}, hence the data frame
+\code{sort.asc} argument. Default is \code{NULL}, hence the data frame
 is printed with no specific order. See 'Examples'.}
 
-\item{orderAscending}{logical, if \code{TRUE} (default) and \code{orderColumn} is not \code{NULL},
+\item{sort.asc}{logical, if \code{TRUE} (default) and \code{sort.col} is not \code{NULL},
 data frame is ordered according to the specified column in an ascending order.
 Use \code{FALSE} to apply descending order. See 'Examples'.}
 
@@ -42,8 +41,8 @@ be helpful, if you have longer tables and want to see the column names at the en
 
 \item{stringVariable}{string, label used for the first column name. Default is \code{"Variable"}.}
 
-\item{showType}{logical, if \code{TRUE}, the variable type is shown in a separate row below the column
-names.}
+\item{show.type}{logical, if \code{TRUE}, the variable type is shown in a separate
+row respectively column.}
 
 \item{showRowNames}{logical, if \code{TRUE} and \code{describe = FALSE}, 
 first table column contains row names of data frame. Use 
@@ -123,21 +122,21 @@ sjt.df(efc[1:50, 1:5],
 
 # plot efc-data frame summary, sorted descending by mean-column
 sjt.df(efc, 
-       orderColumn = "mean", 
-       orderAscending = FALSE)
+       sort.col = "mean", 
+       sort.asc = FALSE)
 
 # plot first 20 rows of first 5 columns of example data set,
 # sort by column "e42dep" with alternating row colors
 sjt.df(efc[1:20, 1:5], 
        alternateRowColors = TRUE, 
-       orderColumn = "e42dep", 
+       sort.col = "e42dep", 
        describe = FALSE)
 
 # plot first 20 rows of first 5 columns of example data set,
 # sorted by 4th column in descending order.
 sjt.df(efc[1:20, 1:5], 
-       orderColumn = 4, 
-       orderAscending = FALSE, 
+       sort.col = 4, 
+       sort.asc = FALSE, 
        describe = FALSE)
 
 # add big mark to thousands

@@ -18,19 +18,19 @@
 #'          If \code{describe = FALSE}, the data frame's content (values) is shown.
 #' @param alternateRowColors logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 #'          background color.
-#' @param orderColumn indicates a column, either by column name or by column index number,
+#' @param sort.col indicates a column, either by column name or by column index number,
 #'          that should be sorted. Default order is ascending, which can be changed with
-#'          \code{orderAscending} argument. Default is \code{NULL}, hence the data frame
+#'          \code{sort.asc} argument. Default is \code{NULL}, hence the data frame
 #'          is printed with no specific order. See 'Examples'.
-#' @param orderAscending logical, if \code{TRUE} (default) and \code{orderColumn} is not \code{NULL},
+#' @param sort.asc logical, if \code{TRUE} (default) and \code{sort.col} is not \code{NULL},
 #'          data frame is ordered according to the specified column in an ascending order.
 #'          Use \code{FALSE} to apply descending order. See 'Examples'.
 #' @param title table caption. By default, \code{title = NULL}, hence no title will be used.
 #' @param stringVariable string, label used for the first column name. Default is \code{"Variable"}.
 #' @param repeatHeader logical, if \code{TRUE}, the header row will also be added at the bottom at the table. This might
 #'          be helpful, if you have longer tables and want to see the column names at the end of the table as well.
-#' @param showType logical, if \code{TRUE}, the variable type is shown in a separate row below the column
-#'          names.
+#' @param show.type logical, if \code{TRUE}, the variable type is shown in a separate
+#'          row respectively column.
 #' @param showRowNames logical, if \code{TRUE} and \code{describe = FALSE}, 
 #'          first table column contains row names of data frame. Use 
 #'          \code{showRowNames = FALSE} to omit first table column with row names.
@@ -76,21 +76,21 @@
 #' 
 #' # plot efc-data frame summary, sorted descending by mean-column
 #' sjt.df(efc, 
-#'        orderColumn = "mean", 
-#'        orderAscending = FALSE)
+#'        sort.col = "mean", 
+#'        sort.asc = FALSE)
 #' 
 #' # plot first 20 rows of first 5 columns of example data set,
 #' # sort by column "e42dep" with alternating row colors
 #' sjt.df(efc[1:20, 1:5], 
 #'        alternateRowColors = TRUE, 
-#'        orderColumn = "e42dep", 
+#'        sort.col = "e42dep", 
 #'        describe = FALSE)
 #' 
 #' # plot first 20 rows of first 5 columns of example data set,
 #' # sorted by 4th column in descending order.
 #' sjt.df(efc[1:20, 1:5], 
-#'        orderColumn = 4, 
-#'        orderAscending = FALSE, 
+#'        sort.col = 4, 
+#'        sort.asc = FALSE, 
 #'        describe = FALSE)
 #' 
 #' # add big mark to thousands
@@ -113,12 +113,12 @@ sjt.df <- function(mydf,
                    describe = TRUE,
                    file = NULL,
                    alternateRowColors = FALSE,
-                   orderColumn = NULL,
-                   orderAscending = TRUE,
+                   sort.col = NULL,
+                   sort.asc = TRUE,
                    title = NULL,
                    repeatHeader = FALSE,
                    stringVariable = "Variable",
-                   showType = FALSE,
+                   show.type = FALSE,
                    showRowNames = TRUE,
                    showCommentRow = FALSE,
                    commentString = "No comment...",
@@ -168,19 +168,19 @@ sjt.df <- function(mydf,
   # -------------------------------------
   # Order data set if requested
   # -------------------------------------
-  if (!is.null(orderColumn)) {
-    # check whether orderColumn is numeric or character
-    if (is.character(orderColumn)) {
-      # retrieve column that equals orderColumn string
-      nr <- which(colnames(mydf) == orderColumn)
-      orderColumn <- as.numeric(nr)
+  if (!is.null(sort.col)) {
+    # check whether sort.col is numeric or character
+    if (is.character(sort.col)) {
+      # retrieve column that equals sort.col string
+      nr <- which(colnames(mydf) == sort.col)
+      sort.col <- as.numeric(nr)
     }
     # check for correct range
-    if (is.numeric(orderColumn) && orderColumn > 0 && orderColumn <= ncol(mydf)) {
+    if (is.numeric(sort.col) && sort.col > 0 && sort.col <= ncol(mydf)) {
       # retrieve order
-      rfolge <- order(mydf[[orderColumn]])
+      rfolge <- order(mydf[[sort.col]])
       # reverse order?
-      if (!orderAscending) rfolge <- rev(rfolge)
+      if (!sort.asc) rfolge <- rev(rfolge)
       # sort dataframe
       mydf <- mydf[rfolge, ]
     }
@@ -268,7 +268,7 @@ sjt.df <- function(mydf,
     vartype <- get.vartype(mydf[[i]])
     # column names and variable as table headline
     page.content <- paste0(page.content, sprintf("    <th class=\"thead firsttablerow\">%s", cnames[i]))
-    if (showType) page.content <- paste0(page.content, sprintf("<br>(%s)", vartype))
+    if (show.type) page.content <- paste0(page.content, sprintf("<br>(%s)", vartype))
     page.content <- paste0(page.content, "</th>\n")
   }
   page.content <- paste0(page.content, "  </tr>\n")
@@ -310,7 +310,7 @@ sjt.df <- function(mydf,
       vartype <- get.vartype(mydf[[i]])
       # column names and variable as table headline
       page.content <- paste0(page.content, sprintf("    <th class=\"thead lasttablerow\">%s", cnames[i]))
-      if (showType) page.content <- paste0(page.content, sprintf("<br>(%s)", vartype))
+      if (show.type) page.content <- paste0(page.content, sprintf("<br>(%s)", vartype))
       page.content <- paste0(page.content, "</th>\n")
     }
     page.content <- paste0(page.content, "  </tr>\n")

@@ -142,7 +142,8 @@ may take very long time for large samples!}
 
 \item{valueLabel.digits}{the amount of digits of the displayed value labels. Defaults to 2.}
 
-\item{facet.grid}{\code{TRUE} for faceted plots instead of an integrated single plot.}
+\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
+in a grid of an integrated single plot.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}

@@ -31,11 +31,6 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'          Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential 
 #'          transformation of estimates, the intercept in some cases can not be calculated, thus the
 #'          function call is interrupted and no plot printed.
-#' @param showModelSummary logical, if \code{TRUE}, a summary of the regression model with
-#'          Intercept, R-squared, F-Test and AIC-value is printed to the lower right corner
-#'          of the plot.
-#' @param facet.grid logical, \code{TRUE} when each plot should be plotted separately instead of
-#'          an integrated (faceted) single graph. Only applies, if \code{type = "slope"}.
 #' @param showOriginalModelOnly logical, if \code{TRUE} (default) and \code{type = "ma"}, 
 #'          only the model assumptions of \code{fit} are plotted.
 #'          If \code{FALSE}, the model assumptions of an updated model where outliers
@@ -176,7 +171,7 @@ sjp.glm <- function(fit,
                     show.values = TRUE,
                     digits = 2,
                     show.p = TRUE,
-                    showModelSummary = FALSE,
+                    show.summary = FALSE,
                     facet.grid = TRUE,
                     show.ci = FALSE,
                     show.legend = FALSE,
@@ -191,7 +186,7 @@ sjp.glm <- function(fit,
   # --------------------------------------------------------
   if (any(class(fit) == "logistf")) {
     # no model summary currently supported for logistf class
-    showModelSummary <- FALSE
+    show.summary <- FALSE
     # create "dummy" variable, to avoid errors
     fit$model <- fit$data
     # no probability curves currently supported
@@ -421,7 +416,7 @@ sjp.glm <- function(fit,
   # create expression with model summarys. used
   # for plotting in the diagram later
   # ----------------------------
-  if (showModelSummary) {
+  if (show.summary) {
     psr <- sjmisc::r2(fit)
     modsum <- as.character(as.expression(
       substitute("(Intercept)" == ic * "," ~~ italic(R)[CS]^2 == r2cs * "," ~~ italic(R)[N]^2 == r2n * "," ~~ -2 * lambda == la * "," ~~ chi^2 == c2 * "," ~~ "AIC" == aic,

@@ -20,8 +20,6 @@ utils::globalVariables(c("rowname", "total", "ges", "prc", "n", "Count", "Group"
 #'          calculating row percentages, \code{"col"} for column percentages and \code{"cell"} for cell percentages.
 #'          If \code{tableIndex = "col"}, an additional bar with the total sum of each column
 #'          can be added to the plot (see \code{showTotalColumn}).
-#' @param barPosition indicates whether bars should be positioned side-by-side (default)
-#'          or stacked (use \code{"stack"} as argument).
 #' @param rev.order logical, if \code{TRUE}, order of categories (groups) is reversed.
 #' @param lineDotSize dot size, only applies, when argument \code{type = "lines"}.
 #' @param smoothLines prints a smooth line curve. Only applies, when argument \code{type = "lines"}.
@@ -55,8 +53,8 @@ utils::globalVariables(c("rowname", "total", "ges", "prc", "n", "Count", "Group"
 #' # as stacked proportional bars
 #' sjp.xtab(x, grp, 
 #'          tableIndex = "row", 
-#'          barPosition = "stack", 
-#'          showTableSummary = TRUE,
+#'          bar.pos = "stack", 
+#'          show.summary = TRUE,
 #'          coord.flip = TRUE)
 #' 
 #' # example with vertical labels
@@ -99,7 +97,7 @@ utils::globalVariables(c("rowname", "total", "ges", "prc", "n", "Count", "Group"
 #' sjp.xtab(efc$e16sex,
 #'          efc$e42dep,
 #'          tableIndex = "row",
-#'          barPosition = "stack",
+#'          bar.pos = "stack",
 #'          coord.flip = TRUE)
 #'
 #'
@@ -134,15 +132,15 @@ sjp.xtab <- function(x,
                      geom.size = 0.7,
                      geom.spacing = 0.1,
                      geom.colors = "Paired",
-                     barPosition = "dodge",
+                     bar.pos = c("dodge", "stack"),
                      lineDotSize = 3,
                      smoothLines = FALSE,
                      expand.grid = FALSE,
                      show.values = TRUE,
                      show.n = TRUE,
-                     show.perc = TRUE,
+                     show.prc = TRUE,
                      showCategoryLabels = TRUE,
-                     showTableSummary = FALSE,
+                     show.summary = FALSE,
                      tableSummaryPos = "r",
                      showTotalColumn = TRUE,
                      show.legend = TRUE,
@@ -154,6 +152,10 @@ sjp.xtab <- function(x,
   # --------------------------------------------------------
   var.name.cnt <- get_var_name(deparse(substitute(x)))
   var.name.grp <- get_var_name(deparse(substitute(grp)))
+  # --------------------------------------------------------
+  # match arguments
+  # --------------------------------------------------------
+  bar.pos <- match.arg(bar.pos)
   # --------------------------------------------------------
   # copy titles
   # --------------------------------------------------------
@@ -180,7 +182,7 @@ sjp.xtab <- function(x,
   # --------------------------------------------------------
   if (is.null(y.offset)) {
     # stacked bars?
-    if (barPosition == "stack") {
+    if (bar.pos == "stack") {
       y_offset <- 0
     } else {
       y.offset <- .005
@@ -301,7 +303,7 @@ sjp.xtab <- function(x,
   # --------------------------------------------------------
   # add line-break char
   # --------------------------------------------------------
-  if (show.perc && show.n) {
+  if (show.prc && show.n) {
     mydf$line.break <- ifelse(isTRUE(coord.flip), ' ', '\n')
   } else {
     mydf$line.break <- ""
@@ -309,7 +311,7 @@ sjp.xtab <- function(x,
   # --------------------------------------------------------
   # define label position for dodged bars
   # --------------------------------------------------------
-  if (barPosition == "dodge") mydf$ypos <- mydf$prc
+  if (bar.pos == "dodge") mydf$ypos <- mydf$prc
   # --------------------------------------------------------
   # finally, percentage values need to be between 0 and 1
   # --------------------------------------------------------
@@ -332,7 +334,7 @@ sjp.xtab <- function(x,
   # create expression with model summarys. used
   # for plotting in the diagram later
   # ----------------------------
-  if (showTableSummary) {
+  if (show.summary) {
     modsum <- crosstabsum(x, grp, weight.by)
   } else {
     modsum <- NULL
@@ -348,7 +350,7 @@ sjp.xtab <- function(x,
   if (!is.null(ylim) && length(ylim) == 2) {
     lower_lim <- ylim[1]
     upper_lim <- ylim[2]
-  } else if (barPosition == "stack") {
+  } else if (bar.pos == "stack") {
     # check upper limits. we may have rounding errors, so values
     # sum up to more than 100%
     ul <- max(mydf %>% 
@@ -388,13 +390,13 @@ sjp.xtab <- function(x,
   if (show.values) {
     # if we have dodged bars or dots, we have to use a slightly dodged position for labels
     # as well, sofor better reading
-    if (barPosition == "dodge") {
-      if (show.perc && show.n) {
+    if (bar.pos == "dodge") {
+      if (show.prc && show.n) {
         ggvaluelabels <- geom_text(aes(y = ypos + y_offset, label = sprintf("%.01f%%%s(n=%i)", 100 * prc, line.break, n)),
                                    position = position_dodge(posdodge),
                                    vjust = vjust,
                                    hjust = hjust)
-      } else if (show.perc) {
+      } else if (show.prc) {
         ggvaluelabels <- geom_text(aes(y = ypos + y_offset, label = sprintf("%.01f%%", 100 * prc)),
                                    position = position_dodge(posdodge),
                                    vjust = vjust,
@@ -406,11 +408,11 @@ sjp.xtab <- function(x,
                                    hjust = hjust)
       }
     } else {
-      if (show.perc && show.n) {
+      if (show.prc && show.n) {
         ggvaluelabels <- geom_text(aes(y = ypos, label = sprintf("%.01f%%%s(n=%i)", 100 * prc, line.break, n)),
                                    vjust = vjust,
                                    hjust = hjust)
-      } else if (show.perc) {
+      } else if (show.prc) {
         ggvaluelabels <- geom_text(aes(y = ypos, label = sprintf("%.01f%%", 100 * prc)),
                                    vjust = vjust,
                                    hjust = hjust)
@@ -440,7 +442,7 @@ sjp.xtab <- function(x,
   # check whether bars or lines should be printed
   # ----------------------------------
   if (type == "bars") {
-    if (barPosition == "dodge") {
+    if (bar.pos == "dodge") {
       geob <- geom_bar(stat = "identity", 
                        position = position_dodge(posdodge), 
                        width = geom.size)
