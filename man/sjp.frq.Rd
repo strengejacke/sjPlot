@@ -4,7 +4,7 @@
 \alias{sjp.frq}
 \title{Plot frequencies of variables}
 \usage{
-sjp.frq(var.cnt, title = "", weight.by = NULL, weightByTitleString = NULL,
+sjp.frq(var.cnt, title = "", weight.by = NULL, title.wtd.suffix = NULL,
   interactionVar = NULL, sort.frq = "none", type = c("bar", "dot",
   "histogram", "line", "density", "boxplot", "violin"), geom.size = NULL,
   geom.colors = "#336699", axis.labels = NULL,
@@ -30,8 +30,8 @@ will be set automatically. If \code{title = ""}, no title is printed.}
 Must be a vector of same length as the input vector. Default is 
 \code{NULL}, so no weights are used.}
 
-\item{weightByTitleString}{suffix (as string) for the plot's title, if \code{weight.by} is specified,
-e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's 
+\item{title.wtd.suffix}{suffix (as string) for the title, if \code{weight.by} is specified,
+e.g. \code{title.wtd.suffix=" (weighted)"}. Default is \code{NULL}, so 
 title will not have a suffix when cases are weighted.}
 
 \item{interactionVar}{an interaction variable which can be used for box plots. Divides the observations in 

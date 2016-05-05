@@ -13,12 +13,6 @@
 #' @param data matrix with correlation coefficients as returned by the 
 #'          \code{\link{cor}}-function, or a \code{\link{data.frame}} of variables that
 #'          should be correlated.
-#' @param missingDeletion indicates how missing values are treated. May be either
-#'          \code{"listwise"} or \code{"pairwise"} (default).
-#' @param corMethod indicates the correlation computation method. May be one of
-#'          \code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.
-#' @param pvaluesAsNumbers logical, if \code{TRUE}, the significance levels (p-values) are printed as numbers.
-#'          if \code{FALSE} (default), asterisks are used. See 'Note'.
 #' @param fade.ns logical, if \code{TRUE} (default), non-significant correlation-values appear faded (by using
 #'          a lighter grey text color). See 'Note'.
 #' @param triangle indicates whether only the upper right (use \code{"upper"}), lower left (use \code{"lower"})
@@ -42,6 +36,7 @@
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.glmer
 #' @inheritParams sjp.lm
+#' @inheritParams sjp.corr
 #'          
 #' @return Invisibly returns
 #'          \itemize{
@@ -54,7 +49,7 @@
 #'
 #' @note If \code{data} is a matrix with correlation coefficients as returned by 
 #'       the \code{\link{cor}}-function, p-values can't be computed.
-#'       Thus, \code{show.p}, \code{pvaluesAsNumbers} and \code{fade.ns}
+#'       Thus, \code{show.p}, \code{p.numeric} and \code{fade.ns}
 #'       only have an effect if \code{data} is a \code{\link{data.frame}}.
 #'       \cr \cr
 #'       Additionally, see 'Note' in \code{\link{sjt.frq}}.
@@ -93,7 +88,7 @@
 #'
 #' # we have high correlations here, because all items
 #' # belong to one factor. See example from "sjp.pca". 
-#' sjt.corr(mydf, pvaluesAsNumbers = TRUE)
+#' sjt.corr(mydf, p.numeric = TRUE)
 #' 
 #' # -------------------------------
 #' # auto-detection of labels, only lower triangle
@@ -122,11 +117,11 @@
 #' @importFrom stats na.omit
 #' @export
 sjt.corr <- function(data,
-                     missingDeletion = "pairwise",
-                     corMethod = "spearman",
+                     na.deletion = c("listwise", "pairwise"),
+                     corr.method = c("spearman", "pearson", "kendall"),
                      title = NULL,
                      show.p = TRUE,
-                     pvaluesAsNumbers = FALSE,
+                     p.numeric = FALSE,
                      fade.ns = TRUE,
                      file = NULL, 
                      var.labels = NULL,
@@ -149,6 +144,11 @@ sjt.corr <- function(data,
   } else {
     p_zero <- "0"
   }
+  # --------------------------------------------------------
+  # check args
+  # --------------------------------------------------------
+  na.deletion <- match.arg(na.deletion)
+  corr.method <- match.arg(corr.method)
   # --------------------------------------------------------
   # check encoding
   # --------------------------------------------------------
@@ -185,8 +185,8 @@ sjt.corr <- function(data,
   # ----------------------------
   # check for valid argument
   # ----------------------------
-  if (corMethod != "pearson" && corMethod != "spearman" && corMethod != "kendall") {
-    stop("argument 'corMethod' must be one of: pearson, spearman or kendall")
+  if (corr.method != "pearson" && corr.method != "spearman" && corr.method != "kendall") {
+    stop("argument 'corr.method' must be one of: pearson, spearman or kendall")
   }
   # ----------------------------
   # check if user has passed a data frame
@@ -198,14 +198,14 @@ sjt.corr <- function(data,
   } else {
     # missing deletion corresponds to
     # SPSS listwise
-    if (missingDeletion == "listwise") {
+    if (na.deletion == "listwise") {
       data <- stats::na.omit(data)
-      corr <- cor(data, method = corMethod)
+      corr <- cor(data, method = corr.method)
     } else {
       # missing deletion corresponds to
       # SPSS pairwise
       corr <- cor(data, 
-                  method = corMethod, 
+                  method = corr.method, 
                   use = "pairwise.complete.obs")
     }
     #---------------------------------------
@@ -220,7 +220,7 @@ sjt.corr <- function(data,
           test <- cor.test(df[[i]], 
                            df[[j]], 
                            alternative = "two.sided", 
-                           method = corMethod)
+                           method = corr.method)
           pv <- cbind(pv, round(test$p.value, 5))
         }
         cp <- rbind(cp, pv)
@@ -237,7 +237,7 @@ sjt.corr <- function(data,
   # add column with significance value
   # --------------------------------------------------------
   if (!is.null(cpvalues)) {
-    if (!pvaluesAsNumbers) {
+    if (!p.numeric) {
       # --------------------------------------------------------
       # prepare function for apply-function. replace sig. p
       # with asterisks
@@ -255,7 +255,7 @@ sjt.corr <- function(data,
       }
     }
     cpvalues <- apply(cpvalues, c(1,2), fun.star)
-    if (pvaluesAsNumbers) {
+    if (p.numeric) {
       cpvalues <- apply(cpvalues, c(1,2), function(x) if (x < 0.001) 
                                                         x <- sprintf("&lt;%s.001", p_zero) 
                                                       else 
@@ -302,7 +302,7 @@ sjt.corr <- function(data,
   css.notsig <- "color:#999999;"
   css.summary <- "border-bottom:double black; border-top:1px solid black; font-style:italic; font-size:0.9em; text-align:right;"
   css.pval <- "vertical-align:super;font-size:0.8em;"
-  if (pvaluesAsNumbers) css.pval <- "font-style:italic;"
+  if (p.numeric) css.pval <- "font-style:italic;"
   # ------------------------
   # check user defined style sheets
   # ------------------------
@@ -393,7 +393,7 @@ sjt.corr <- function(data,
           # check whether we want to show P-Values
           # --------------------------------------------------------
           if (show.p) {
-            if (pvaluesAsNumbers) {
+            if (p.numeric) {
               # --------------------------------------------------------
               # if we have p-values as number, print them in new row
               # --------------------------------------------------------
@@ -445,7 +445,7 @@ sjt.corr <- function(data,
   # -------------------------------------
   page.content <- paste0(page.content, "  <tr>\n")
   page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"summary\">", ncol(corr) + 1))
-  page.content <- paste0(page.content, sprintf("Computed correlation used %s-method with %s-deletion.", corMethod, missingDeletion))
+  page.content <- paste0(page.content, sprintf("Computed correlation used %s-method with %s-deletion.", corr.method, na.deletion))
   page.content <- paste0(page.content, "</td>\n  </tr>\n")
   # -------------------------------------
   # finish table

@@ -5,7 +5,7 @@
 \title{Plot contingency tables}
 \usage{
 sjp.xtab(x, grp, title = "", legend.title = NULL, weight.by = NULL,
-  weightByTitleString = NULL, type = "bars", tableIndex = "col",
+  title.wtd.suffix = NULL, type = "bars", tableIndex = "col",
   rev.order = FALSE, ylim = NULL, axis.labels = NULL,
   legend.labels = NULL, vjust = "bottom", hjust = "center",
   y.offset = NULL, stringTotal = "Total", wrap.title = 50,
@@ -33,8 +33,8 @@ will be set automatically. If \code{title = ""}, no title is printed.}
 Must be a vector of same length as the input vector. Default is 
 \code{NULL}, so no weights are used.}
 
-\item{weightByTitleString}{suffix (as string) for the plot's title, if \code{weight.by} is specified,
-e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's 
+\item{title.wtd.suffix}{suffix (as string) for the title, if \code{weight.by} is specified,
+e.g. \code{title.wtd.suffix=" (weighted)"}. Default is \code{NULL}, so 
 title will not have a suffix when cases are weighted.}
 
 \item{type}{plot type. may be either \code{"b"}, \code{"bar"}, \code{"bars"} (default) for bar charts,

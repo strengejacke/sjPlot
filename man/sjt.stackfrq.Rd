@@ -59,9 +59,8 @@ group or category to the labels.}
 The skewness is retrieved from the \code{\link[psych]{describe}}-function 
 of the \pkg{psych}-package.}
 
-\item{showKurtosis}{If \code{TRUE}, the variable's kurtosis is added to the summary.
-The kurtosis is retrieved from the \code{\link[psych]{describe}}-function 
-of the \pkg{psych}-package.}
+\item{showKurtosis}{logical, if \code{TRUE}, the kurtosis for each item will also be shown (see \code{\link[psych]{kurtosi}}
+and \code{\link[psych]{describe}} in the \code{psych}-package for more details.}
 
 \item{digits.stats}{amount of digits for rounding the skewness and kurtosis valuess.
 Default is 2, i.e. skewness and kurtosis values have 2 digits after decimal point.}

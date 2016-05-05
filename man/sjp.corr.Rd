@@ -5,11 +5,11 @@
 \title{Plot correlation matrix}
 \usage{
 sjp.corr(data, title = NULL, axis.labels = NULL, type = "circle",
-  sortCorrelations = TRUE, decimals = 3, missingDeletion = "listwise",
-  corMethod = "spearman", geom.colors = "RdBu", geom.size = 15,
-  wrap.title = 50, wrap.labels = 20, show.legend = FALSE,
-  legend.title = NULL, show.values = TRUE, show.p = TRUE,
-  pvaluesAsNumbers = FALSE, printPlot = TRUE)
+  sort.corr = TRUE, decimals = 3, na.deletion = c("listwise", "pairwise"),
+  corr.method = c("spearman", "pearson", "kendall"), geom.colors = "RdBu",
+  geom.size = 15, wrap.title = 50, wrap.labels = 20,
+  show.legend = FALSE, legend.title = NULL, show.values = TRUE,
+  show.p = TRUE, p.numeric = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{data}{matrix with correlation coefficients as returned by the 
@@ -24,7 +24,7 @@ will be set automatically. If \code{title = ""}, no title is printed.}
 \item{type}{indicates whether the geoms of correlation values should be plotted
 as \code{"circle"} (default) or as \code{"tile"}.}
 
-\item{sortCorrelations}{logical, if \code{TRUE} (default), the axis labels are sorted
+\item{sort.corr}{logical, if \code{TRUE} (default), the axis labels are sorted
 according to the correlation strength. If \code{FALSE}, axis labels
 appear in order of how variables were included in the cor-computation or
 data frame.}
@@ -33,11 +33,13 @@ data frame.}
 the values labels are shown. Default is 3. Only applies when
 \code{show.values = TRUE}.}
 
-\item{missingDeletion}{indicates how missing values are treated. May be either
-\code{"listwise"} (default) or \code{"pairwise"}.}
+\item{na.deletion}{indicates how missing values are treated. May be either
+\code{"listwise"} (default) or \code{"pairwise"}. May be
+abbreviated.}
 
-\item{corMethod}{indicates the correlation computation method. May be one of
-\code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.}
+\item{corr.method}{indicates the correlation computation method. May be one of
+\code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.
+May be abbreviated.}
 
 \item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
@@ -61,8 +63,8 @@ function, a legend is added to the plot.}
 \item{show.p}{logical, adds significance levels to values, or value and 
 variable labels.}
 
-\item{pvaluesAsNumbers}{logical, if \code{TRUE}, the significance levels (p-values) are printed as numbers.
-if \code{FALSE} (default), asterisks are used. See 'Note'.}
+\item{p.numeric}{logical, if \code{TRUE}, the p-values are printed 
+as numbers. If \code{FALSE} (default), asterisks are used.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
@@ -83,7 +85,7 @@ Plot correlation matrix as ellipses or tiles. Required argument is either
 \note{
 If \code{data} is a matrix with correlation coefficients as returned by 
       the \code{\link{cor}}-function, p-values can't be computed.
-      Thus, \code{show.p} and \code{pvaluesAsNumbers}
+      Thus, \code{show.p} and \code{p.numeric}
       only have an effect if \code{data} is a \code{\link{data.frame}}.
 }
 \examples{

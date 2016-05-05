@@ -4,7 +4,7 @@
 \alias{sjp.grpfrq}
 \title{Plot grouped or stacked frequencies}
 \usage{
-sjp.grpfrq(var.cnt, var.grp, weight.by = NULL, weightByTitleString = NULL,
+sjp.grpfrq(var.cnt, var.grp, weight.by = NULL, title.wtd.suffix = NULL,
   interactionVar = NULL, type = c("bar", "dot", "line", "boxplot",
   "violin"), geom.size = NULL, geom.spacing = 0.15,
   geom.colors = "Paired", show.legend = TRUE, facet.grid = FALSE,
@@ -30,8 +30,8 @@ is grouped into the categories represented by \code{varGrp}.}
 Must be a vector of same length as the input vector. Default is 
 \code{NULL}, so no weights are used.}
 
-\item{weightByTitleString}{suffix (as string) for the plot's title, if \code{weight.by} is specified,
-e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's 
+\item{title.wtd.suffix}{suffix (as string) for the title, if \code{weight.by} is specified,
+e.g. \code{title.wtd.suffix=" (weighted)"}. Default is \code{NULL}, so 
 title will not have a suffix when cases are weighted.}
 
 \item{interactionVar}{an interaction variable which can be used for box plots. Divides each category indicated
@@ -194,38 +194,22 @@ Plot grouped or stacked frequencies of variables as bar/dot,
 # histrogram with EUROFAMCARE sample dataset
 library(sjmisc)
 data(efc)
-sjp.grpfrq(efc$e17age,
-           efc$e16sex,
-           show.values = FALSE)
+sjp.grpfrq(efc$e17age, efc$e16sex, show.values = FALSE)
 
 # boxplot
-sjp.grpfrq(efc$e17age, 
-           efc$e42dep, 
-           type = "box")
+sjp.grpfrq(efc$e17age, efc$e42dep, type = "box")
 
-# -------------------------------------------------
-# auto-detection of value labels and variable names
-# -------------------------------------------------
-# grouped bars using necessary y-limit            
-sjp.grpfrq(efc$e42dep, 
-           efc$e16sex, 
-           title = NULL)
+# grouped bars
+sjp.grpfrq(efc$e42dep, efc$e16sex, title = NULL)
 
 # box plots with interaction variable            
-sjp.grpfrq(efc$e17age,
-           efc$e42dep,
-           interactionVar = efc$e16sex,
-           type = "box")
+sjp.grpfrq(efc$e17age, efc$e42dep, interactionVar = efc$e16sex, type = "box")
 
-# Grouped bar plot ranging from 7 to 28
-sjp.grpfrq(efc$neg_c_7, 
-           efc$e42dep, 
-           show.values = FALSE)
+# Grouped bar plot
+sjp.grpfrq(efc$neg_c_7, efc$e42dep, show.values = FALSE)
 
 # same data as line plot
-sjp.grpfrq(efc$neg_c_7, 
-           efc$e42dep, 
-           type = "line")
+sjp.grpfrq(efc$neg_c_7, efc$e42dep, type = "line")
            
 }
 \seealso{

@@ -6,9 +6,9 @@
 \usage{
 sjc.qclus(data, groupcount = NULL, groups = NULL, method = "k",
   distance = "euclidean", agglomeration = "ward", iter.max = 20,
-  algorithm = "Hartigan-Wong", showAccuracy = FALSE, title = NULL,
+  algorithm = "Hartigan-Wong", show.accuracy = FALSE, title = NULL,
   axis.labels = NULL, wrap.title = 40, wrap.labels = 20,
-  breakLegendTitleAt = 20, breakLegendLabelsAt = 20, facetCluster = FALSE,
+  breakLegendTitleAt = 20, breakLegendLabelsAt = 20, facet.grid = FALSE,
   geom.colors = "Paired", geom.size = 0.5, geom.spacing = 0.1,
   show.legend = TRUE, showAxisLabels.x = TRUE, showAxisLabels.y = TRUE,
   showGroupCount = TRUE, showAccuracyLabels = FALSE, legend.title = NULL,
@@ -64,7 +64,7 @@ If \code{method = "kmeans"} this argument will be ignored. See 'Note'.}
 \code{"Lloyd"} (used by SPSS), or \code{"MacQueen"}. See \code{\link{kmeans}} 
 for details on this argument.}
 
-\item{showAccuracy}{logical, if \code{TRUE}, the \code{\link{sjc.grpdisc}} function will be called,
+\item{show.accuracy}{logical, if \code{TRUE}, the \code{\link{sjc.grpdisc}} function will be called,
 which computes a linear discriminant analysis on the classified cluster groups and plots a 
 bar graph indicating the goodness of classification for each group.}
 
@@ -85,8 +85,8 @@ are displayed in one line and when a line break is inserted.}
 \item{breakLegendLabelsAt}{determines how many chars of the legend labels are 
 displayed in one line and when a line break is inserted.}
 
-\item{facetCluster}{If \code{TRUE}, each cluster group will be represented by an own panel.
-Default is \code{FALSE}, thus all cluster groups are plotted in a single graph.}
+\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
+in a grid of an integrated single plot.}
 
 \item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
@@ -154,7 +154,7 @@ sjc.qclus(mtcars)
 # groups in a faceted panel
 sjc.qclus(airquality, 
           groupcount = 4, 
-          facetCluster = TRUE)}
+          facet.grid = TRUE)}
           
 # k-means clustering of airquality data
 # and saving the results. most likely, 3 cluster

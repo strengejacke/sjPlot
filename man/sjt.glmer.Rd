@@ -11,7 +11,7 @@ sjt.glmer(..., file = NULL, labelPredictors = NULL, depvar.labels = NULL,
   stringObservations = "Observations", stringOR = "OR", stringCI = "CI",
   stringSE = "std. Error", stringP = "p", digits.est = 2, digits.p = 3,
   digits.ci = 2, digits.se = 2, digits.summary = 3, exp.coef = TRUE,
-  pvaluesAsNumbers = TRUE, boldpvalues = TRUE, showConfInt = TRUE,
+  p.numeric = TRUE, boldpvalues = TRUE, showConfInt = TRUE,
   showStdError = FALSE, ci.hyphen = "&nbsp;&ndash;&nbsp;",
   separateConfColumn = TRUE, newLineConf = TRUE, group.pred = FALSE,
   showAbbrHeadline = TRUE, showPseudoR = FALSE, showICC = TRUE,
@@ -76,8 +76,8 @@ confidence intervals are exponentiated. Use \code{FALSE} for
 non-exponentiated coefficients (log-odds) as provided by 
 the \code{\link{summary}} function.}
 
-\item{pvaluesAsNumbers}{logical, if \code{TRUE}, p-values are shown as numbers. If \code{FALSE} (default),
-p-values are indicated by asterisks.}
+\item{p.numeric}{logical, if \code{TRUE}, the p-values are printed 
+as numbers. If \code{FALSE} (default), asterisks are used.}
 
 \item{boldpvalues}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
 
@@ -241,7 +241,7 @@ sjt.glmer(fit1, fit2,
           showAIC = TRUE,
           showConfInt = FALSE,
           showStdError = TRUE,
-          pvaluesAsNumbers = FALSE)
+          p.numeric = FALSE)
           
 # print summary table
 sjt.glmer(fit1, fit2,

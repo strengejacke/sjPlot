@@ -18,19 +18,21 @@ utils::globalVariables(c("ordx", "ordy"))
 #'          should be correlated.
 #' @param type indicates whether the geoms of correlation values should be plotted
 #'          as \code{"circle"} (default) or as \code{"tile"}.
-#' @param sortCorrelations logical, if \code{TRUE} (default), the axis labels are sorted
+#' @param sort.corr logical, if \code{TRUE} (default), the axis labels are sorted
 #'          according to the correlation strength. If \code{FALSE}, axis labels
 #'          appear in order of how variables were included in the cor-computation or
 #'          data frame.
 #' @param decimals indicates how many decimal values after comma are printed when
 #'          the values labels are shown. Default is 3. Only applies when
 #'          \code{show.values = TRUE}.
-#' @param missingDeletion indicates how missing values are treated. May be either
-#'          \code{"listwise"} (default) or \code{"pairwise"}.
-#' @param corMethod indicates the correlation computation method. May be one of
+#' @param na.deletion indicates how missing values are treated. May be either
+#'          \code{"listwise"} (default) or \code{"pairwise"}. May be
+#'          abbreviated.
+#' @param corr.method indicates the correlation computation method. May be one of
 #'          \code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.
-#' @param pvaluesAsNumbers logical, if \code{TRUE}, the significance levels (p-values) are printed as numbers.
-#'          if \code{FALSE} (default), asterisks are used. See 'Note'.
+#'          May be abbreviated.
+#' @param p.numeric logical, if \code{TRUE}, the p-values are printed 
+#'          as numbers. If \code{FALSE} (default), asterisks are used.
 #'          
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lm
@@ -41,7 +43,7 @@ utils::globalVariables(c("ordx", "ordy"))
 #'
 #' @note If \code{data} is a matrix with correlation coefficients as returned by 
 #'       the \code{\link{cor}}-function, p-values can't be computed.
-#'       Thus, \code{show.p} and \code{pvaluesAsNumbers}
+#'       Thus, \code{show.p} and \code{p.numeric}
 #'       only have an effect if \code{data} is a \code{\link{data.frame}}.
 #'
 #' @examples
@@ -94,10 +96,10 @@ sjp.corr <- function(data,
                      title = NULL,
                      axis.labels = NULL,
                      type = "circle",
-                     sortCorrelations = TRUE,
+                     sort.corr = TRUE,
                      decimals = 3,
-                     missingDeletion = "listwise",
-                     corMethod = "spearman",
+                     na.deletion = c("listwise", "pairwise"),
+                     corr.method = c("spearman", "pearson", "kendall"),
                      geom.colors = "RdBu",
                      geom.size = 15,
                      wrap.title = 50,
@@ -106,7 +108,7 @@ sjp.corr <- function(data,
                      legend.title = NULL,
                      show.values = TRUE,
                      show.p = TRUE,
-                     pvaluesAsNumbers = FALSE,
+                     p.numeric = FALSE,
                      printPlot = TRUE) {
   # --------------------------------------------------------
   # check p-value-style option
@@ -117,6 +119,11 @@ sjp.corr <- function(data,
   } else {
     p_zero <- "0"
   }
+  # --------------------------------------------------------
+  # check args
+  # --------------------------------------------------------
+  na.deletion <- match.arg(na.deletion)
+  corr.method <- match.arg(corr.method)
   # --------------------------------------------------------
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
@@ -147,8 +154,8 @@ sjp.corr <- function(data,
   # ----------------------------
   # check for valid argument
   # ----------------------------
-  if (corMethod != "pearson" && corMethod != "spearman" && corMethod != "kendall") {
-    warning("argument 'corMethod' must be one of: pearson, spearman or kendall.", call. = F)
+  if (corr.method != "pearson" && corr.method != "spearman" && corr.method != "kendall") {
+    warning("argument 'corr.method' must be one of: pearson, spearman or kendall.", call. = F)
     return(invisible(NULL))
   }
   # ----------------------------
@@ -161,14 +168,14 @@ sjp.corr <- function(data,
   } else {
     # missing deletion corresponds to
     # SPSS listwise
-    if (missingDeletion == "listwise") {
+    if (na.deletion == "listwise") {
       data <- stats::na.omit(data)
-      corr <- stats::cor(data, method = corMethod)
+      corr <- stats::cor(data, method = corr.method)
     }
     # missing deletion corresponds to
     # SPSS pairwise
     else {
-      corr <- stats::cor(data, method = corMethod, use = "pairwise.complete.obs")
+      corr <- stats::cor(data, method = corr.method, use = "pairwise.complete.obs")
     }
     #---------------------------------------
     # if we have a data frame as argument,
@@ -182,7 +189,7 @@ sjp.corr <- function(data,
           test <- stats::cor.test(df[[i]], 
                                   df[[j]], 
                                   alternative = "two.sided", 
-                                  method = corMethod)
+                                  method = corr.method)
           pv <- cbind(pv, round(test$p.value, 4))
         }
         cp <- rbind(cp, pv)
@@ -210,7 +217,7 @@ sjp.corr <- function(data,
   # --------------------------------------------------------
   # order correlations from highest to lowest correlation coefficient
   # --------------------------------------------------------
-  if (sortCorrelations) {
+  if (sort.corr) {
     neword <- order(corr[1, ])
     orderedCorr <- corr[neword, neword]
     # order variable labels as well
@@ -266,7 +273,7 @@ sjp.corr <- function(data,
   # --------------------------------------------------------
   cpv <- c()
   if (!is.null(cpvalues)) {
-    if (!pvaluesAsNumbers) {
+    if (!p.numeric) {
       for (cpi in 1:nrow(cpvalues)) {
         cpv <- c(cpv, get_p_stars(cpvalues$value[cpi]))
       }
@@ -295,7 +302,7 @@ sjp.corr <- function(data,
       correlationPValues <- ""
     }
   }
-  message(sprintf("Computing correlation using %s-method with %s-deletion...", corMethod, missingDeletion))
+  message(sprintf("Computing correlation using %s-method with %s-deletion...", corr.method, na.deletion))
   # --------------------------------------------------------
   # start with base plot object here
   # --------------------------------------------------------

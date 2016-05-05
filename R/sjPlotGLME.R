@@ -48,7 +48,7 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'          certain groups, use this argument to emphasize these groups in the plot.
 #'          See 'Examples'.
 #' @param title character vector with one or more labels that are used as plot title.
-#' @param stringIntercept string, axis label of intercept estimate. Only applies, 
+#' @param string.interc string, axis label of intercept estimate. Only applies, 
 #'          if \code{show.intercept = TRUE} and \code{axis.labels} is not \code{NULL}.
 #' @param sort.est determines in which way estimates are sorted in the plot:
 #'          \itemize{
@@ -230,7 +230,7 @@ sjp.glmer <- function(fit,
                       geom.size = NULL,
                       geom.colors = "Set1",
                       show.intercept = TRUE,
-                      stringIntercept = "(Intercept)",
+                      string.interc = "(Intercept)",
                       sort.est = NULL,
                       axis.labels = NULL,
                       axis.title = NULL,
@@ -269,7 +269,7 @@ sjp.glmer <- function(fit,
            geom.size,
            geom.colors,
            show.intercept,
-           stringIntercept,
+           string.interc,
            sort.est,
            axis.labels,
            axis.title,
@@ -525,7 +525,7 @@ sjp.lmer <- function(fit,
                      geom.size = NULL,
                      geom.colors = "Set1",
                      show.intercept = TRUE,
-                     stringIntercept = "(Intercept)",
+                     string.interc = "(Intercept)",
                      sort.est = NULL,
                      axis.labels = NULL,
                      axis.title = NULL,
@@ -569,7 +569,7 @@ sjp.lmer <- function(fit,
            geom.size,
            geom.colors,
            show.intercept,
-           stringIntercept,
+           string.interc,
            sort.est,
            axis.labels,
            axis.title,
@@ -606,7 +606,7 @@ sjp.lme4  <- function(fit,
                       geom.size,
                       geom.colors,
                       show.intercept,
-                      stringIntercept,
+                      string.interc,
                       sort.est,
                       axis.labels,
                       axis.title,
@@ -1072,7 +1072,7 @@ sjp.lme4  <- function(fit,
       if (empty.axis.labels) {
         # use rownames, if axis.labels not available
         axis.labels <- suppressWarnings(retrieveModelLabels(list(fit), group.pred = FALSE))
-        if (show.intercept) axis.labels <- c(stringIntercept, axis.labels)
+        if (show.intercept) axis.labels <- c(string.interc, axis.labels)
         # check for correct length
         if (length(axis.labels) != nrow(mydf)) {
           axis.labels <- rownames(mydf)
@@ -1080,7 +1080,7 @@ sjp.lme4  <- function(fit,
       } else {
         # check if intercept should be added, in case
         # axis.labels are passed
-        if (show.intercept) axis.labels <- c(stringIntercept, axis.labels)
+        if (show.intercept) axis.labels <- c(string.interc, axis.labels)
       }
       # ---------------------------------------
       # sort data frame. init order
@@ -1923,7 +1923,7 @@ sjp.lme.fecor <- function(fit,
   # return correlation plot
   # ---------------------------------------
   if (fcall == "sjp") {
-    corret <- sjp.corr(as.matrix(mydf), sortCorrelations = sort.est,
+    corret <- sjp.corr(as.matrix(mydf), sort.corr = sort.est,
                        axis.labels = axis.labels, printPlot = printPlot)
   } else {
     corret <- sjt.corr(as.matrix(mydf),

@@ -4,31 +4,33 @@
 \alias{sjt.corr}
 \title{Summary of correlations as HTML table}
 \usage{
-sjt.corr(data, missingDeletion = "pairwise", corMethod = "spearman",
-  title = NULL, show.p = TRUE, pvaluesAsNumbers = FALSE, fade.ns = TRUE,
-  file = NULL, var.labels = NULL, wrap.labels = 40, digits = 3,
-  triangle = "both", val.rm = NULL, stringDiagonal = NULL,
-  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
-  remove.spaces = TRUE)
+sjt.corr(data, na.deletion = c("listwise", "pairwise"),
+  corr.method = c("spearman", "pearson", "kendall"), title = NULL,
+  show.p = TRUE, p.numeric = FALSE, fade.ns = TRUE, file = NULL,
+  var.labels = NULL, wrap.labels = 40, digits = 3, triangle = "both",
+  val.rm = NULL, stringDiagonal = NULL, encoding = NULL, CSS = NULL,
+  useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{data}{matrix with correlation coefficients as returned by the 
 \code{\link{cor}}-function, or a \code{\link{data.frame}} of variables that
 should be correlated.}
 
-\item{missingDeletion}{indicates how missing values are treated. May be either
-\code{"listwise"} or \code{"pairwise"} (default).}
+\item{na.deletion}{indicates how missing values are treated. May be either
+\code{"listwise"} (default) or \code{"pairwise"}. May be
+abbreviated.}
 
-\item{corMethod}{indicates the correlation computation method. May be one of
-\code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.}
+\item{corr.method}{indicates the correlation computation method. May be one of
+\code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.
+May be abbreviated.}
 
 \item{title}{table caption. By default, \code{title = NULL}, hence no title will be used.}
 
 \item{show.p}{logical, adds significance levels to values, or value and 
 variable labels.}
 
-\item{pvaluesAsNumbers}{logical, if \code{TRUE}, the significance levels (p-values) are printed as numbers.
-if \code{FALSE} (default), asterisks are used. See 'Note'.}
+\item{p.numeric}{logical, if \code{TRUE}, the p-values are printed 
+as numbers. If \code{FALSE} (default), asterisks are used.}
 
 \item{fade.ns}{logical, if \code{TRUE} (default), non-significant correlation-values appear faded (by using
 a lighter grey text color). See 'Note'.}
@@ -104,7 +106,7 @@ See 'Details' in \code{\link{sjt.frq}}.
 \note{
 If \code{data} is a matrix with correlation coefficients as returned by 
       the \code{\link{cor}}-function, p-values can't be computed.
-      Thus, \code{show.p}, \code{pvaluesAsNumbers} and \code{fade.ns}
+      Thus, \code{show.p}, \code{p.numeric} and \code{fade.ns}
       only have an effect if \code{data} is a \code{\link{data.frame}}.
       \cr \cr
       Additionally, see 'Note' in \code{\link{sjt.frq}}.
@@ -141,7 +143,7 @@ colnames(mydf) <- varlabs[c(start:end)]
 
 # we have high correlations here, because all items
 # belong to one factor. See example from "sjp.pca". 
-sjt.corr(mydf, pvaluesAsNumbers = TRUE)
+sjt.corr(mydf, p.numeric = TRUE)
 
 # -------------------------------
 # auto-detection of labels, only lower triangle

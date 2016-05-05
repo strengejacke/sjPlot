@@ -5,14 +5,13 @@
 \title{Summary of frequencies as HTML table}
 \usage{
 sjt.frq(data, file = NULL, weight.by = NULL,
-  weightByTitleString = " (weighted)", var.labels = NULL,
+  title.wtd.suffix = " (weighted)", var.labels = NULL,
   value.labels = NULL, auto.group = NULL, sort.frq = NULL,
-  alternateRowColors = FALSE, stringValue = "value", stringCount = "N",
-  stringPerc = "raw \%", stringValidPerc = "valid \%",
-  stringCumPerc = "cumulative \%", stringMissingValue = "missings",
-  highlightMedian = FALSE, highlightQuartiles = FALSE,
-  skipZeroRows = "auto", show.summary = TRUE, showSkew = FALSE,
-  showKurtosis = FALSE, skewString = "&gamma;",
+  alternateRowColors = FALSE, string.val = "value", string.cnt = "N",
+  string.prc = "raw \%", string.vprc = "valid \%",
+  string.cprc = "cumulative \%", string.na = "missings", emph.md = FALSE,
+  emph.quart = FALSE, skip.zero = "auto", show.summary = TRUE,
+  show.skew = FALSE, show.kurtosis = FALSE, skewString = "&gamma;",
   kurtosisString = "&omega;", digits = 2, removeStringVectors = TRUE,
   autoGroupStrings = TRUE, maxStringDist = 3, encoding = NULL,
   CSS = NULL, useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
@@ -29,9 +28,9 @@ openend either in the IDE's viewer pane or the default web browser.}
 Must be a vector of same length as the input vector. Default is 
 \code{NULL}, so no weights are used.}
 
-\item{weightByTitleString}{suffix (as string) for the tabel caption, if \code{weight.by} is specified,
-e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so
-the table caption will not have a suffix when cases are weighted.}
+\item{title.wtd.suffix}{suffix (as string) for the title, if \code{weight.by} is specified,
+e.g. \code{title.wtd.suffix=" (weighted)"}. Default is \code{NULL}, so 
+title will not have a suffix when cases are weighted.}
 
 \item{var.labels}{character vector with variable names, which will be used 
 to label variables in the output.}
@@ -54,27 +53,27 @@ frequencies are ordered by values.}
 \item{alternateRowColors}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
 
-\item{stringValue}{label for the very first table column containing the values (see
+\item{string.val}{label for the very first table column containing the values (see
 \code{value.labels}).}
 
-\item{stringCount}{label for the first table data column containing the counts. Default is \code{"N"}.}
+\item{string.cnt}{label for the first table data column containing the counts. Default is \code{"N"}.}
 
-\item{stringPerc}{label for the second table data column containing the raw percentages. Default is \code{"raw \%"}.}
+\item{string.prc}{label for the second table data column containing the raw percentages. Default is \code{"raw \%"}.}
 
-\item{stringValidPerc}{String label for the third data table column containing the valid percentages, i.e. the
+\item{string.vprc}{String label for the third data table column containing the valid percentages, i.e. the
 count percentage value exluding possible missing values.}
 
-\item{stringCumPerc}{String label for the last table data column containing the cumulative percentages.}
+\item{string.cprc}{String label for the last table data column containing the cumulative percentages.}
 
-\item{stringMissingValue}{String label for the last table data row containing missing values.}
+\item{string.na}{String label for the last table data row containing missing values.}
 
-\item{highlightMedian}{If \code{TRUE}, the table row indicating the median value will
-be highlighted.}
+\item{emph.md}{If \code{TRUE}, the table row indicating the median value will
+be emphasized.}
 
-\item{highlightQuartiles}{If \code{TRUE}, the table row indicating the lower and upper quartiles will
-be highlighted.}
+\item{emph.quart}{If \code{TRUE}, the table row indicating the lower and upper quartiles will
+be emphasized.}
 
-\item{skipZeroRows}{If \code{TRUE}, rows with only zero-values are not printed
+\item{skip.zero}{If \code{TRUE}, rows with only zero-values are not printed
 (e.g. if a variable has values or levels 1 to 8, and levels / values 
 4 to 6 have no counts, these values would not be printed in the table). 
 Use \code{FALSE} to print also zero-values, or use \code{"auto"} (default)
@@ -85,19 +84,19 @@ counts, zero-values would be skipped automatically).}
 \item{show.summary}{If \code{TRUE} (default), a summary row with total and valid N as well as mean and
 standard deviation is shown.}
 
-\item{showSkew}{If \code{TRUE}, the variable's skewness is added to the summary.
+\item{show.skew}{If \code{TRUE}, the variable's skewness is added to the summary.
 The skewness is retrieved from the \code{\link[psych]{describe}}-function 
 of the \pkg{psych}-package.}
 
-\item{showKurtosis}{If \code{TRUE}, the variable's kurtosis is added to the summary.
+\item{show.kurtosis}{If \code{TRUE}, the variable's kurtosis is added to the summary.
 The kurtosis is retrieved from the \code{\link[psych]{describe}}-function 
 of the \pkg{psych}-package.}
 
 \item{skewString}{A character string, which is used as header for the skew 
-column (see \code{showSkew})). Default is lower case Greek gamma.}
+column (see \code{show.skew})). Default is lower case Greek gamma.}
 
 \item{kurtosisString}{A character string, which is used as header for the 
-kurtosis column (see \code{showKurtosis})). Default is lower case 
+kurtosis column (see \code{show.kurtosis})). Default is lower case 
 Greek omega.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
@@ -219,8 +218,8 @@ sjt.frq(data.frame(efc$e42dep, efc$e16sex, efc$c172code))
 # plot larger scale including zero-counts
 # indicating median and quartiles
 sjt.frq(efc$neg_c_7,
-        highlightMedian = TRUE,
-        highlightQuartiles = TRUE)
+        emph.md = TRUE,
+        emph.quart = TRUE)
 
 # -------------------------------
 # sort frequencies

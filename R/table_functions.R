@@ -1,5 +1,5 @@
-get_table_header <- function(encoding, cellSpacing, cellGroupIndent, pvaluesAsNumbers, showHeaderStrings, CSS) {
-  return(table_style_worker(NULL, encoding, cellSpacing, cellGroupIndent, pvaluesAsNumbers, showHeaderStrings, CSS, option = 1))
+get_table_header <- function(encoding, cellSpacing, cellGroupIndent, p.numeric, showHeaderStrings, CSS) {
+  return(table_style_worker(NULL, encoding, cellSpacing, cellGroupIndent, p.numeric, showHeaderStrings, CSS, option = 1))
 }
 
 
@@ -56,17 +56,17 @@ get_table_response_label <- function(page.content, depvar.labels, input_list, tc
 
 
 
-replace_css_styles <- function(page.content, cellSpacing, cellGroupIndent, pvaluesAsNumbers, showHeaderStrings, CSS) {
-  return(table_style_worker(page.content, NULL, cellSpacing, cellGroupIndent, pvaluesAsNumbers, showHeaderStrings, CSS, option = 2))
+replace_css_styles <- function(page.content, cellSpacing, cellGroupIndent, p.numeric, showHeaderStrings, CSS) {
+  return(table_style_worker(page.content, NULL, cellSpacing, cellGroupIndent, p.numeric, showHeaderStrings, CSS, option = 2))
 }
 
 
-get_table_css_styles <- function(cellSpacing, cellGroupIndent, pvaluesAsNumbers, showHeaderStrings, CSS) {
-  return(table_style_worker(NULL, NULL, cellSpacing, cellGroupIndent, pvaluesAsNumbers, showHeaderStrings, CSS, option = 3))
+get_table_css_styles <- function(cellSpacing, cellGroupIndent, p.numeric, showHeaderStrings, CSS) {
+  return(table_style_worker(NULL, NULL, cellSpacing, cellGroupIndent, p.numeric, showHeaderStrings, CSS, option = 3))
 }
 
 table_style_worker <- function(page.content, encoding, cellSpacing, cellGroupIndent, 
-                               pvaluesAsNumbers, showHeaderStrings, CSS, option) {
+                               p.numeric, showHeaderStrings, CSS, option) {
   # -------------------------------------
   # init style sheet and tags used for css-definitions
   # we can use these variables for string-replacement
@@ -127,7 +127,7 @@ table_style_worker <- function(page.content, encoding, cellSpacing, cellGroupInd
   css.modelcolumn5 <- ""
   css.modelcolumn6 <- ""
   # change table style if we have pvalues as numbers
-  if (pvaluesAsNumbers) css.table <- sprintf("%s%s", css.table, css.noannorow)
+  if (p.numeric) css.table <- sprintf("%s%s", css.table, css.noannorow)
   if (showHeaderStrings) css.labelcellborder <- ""
   # ------------------------
   # check user defined style sheets

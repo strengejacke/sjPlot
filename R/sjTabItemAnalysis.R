@@ -364,9 +364,9 @@ sjt.itemanalysis <- function(df,
       # give proper columm names
       colnames(df.cc) <- sprintf("Component %i", c(1:ncol(df.cc)))
       # compute correlation table, store html result
-      html <- sjt.corr(df.cc, 
-                       missingDeletion = "listwise", 
-                       pvaluesAsNumbers = TRUE, 
+      html <- sjt.corr(df.cc,
+                       na.deletion = "listwise", 
+                       p.numeric = TRUE, 
                        triangle = "lower", 
                        stringDiagonal = sprintf("&alpha;=%.3f", unlist(cronbach.total)), 
                        encoding = encoding, 

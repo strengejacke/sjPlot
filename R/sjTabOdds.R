@@ -44,6 +44,7 @@ utils::globalVariables(c("starts_with"))
 #'          
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.lm
+#' @inheritParams sjp.corr
 #' 
 #' @return Invisibly returns
 #'          \itemize{
@@ -131,13 +132,13 @@ utils::globalVariables(c("starts_with"))
 #' # --------------------------------------------
 #' # open HTML-table in RStudio Viewer Pane or web browser,
 #' # table indicating p-values as stars
-#' sjt.glm(fit1, fit2, fit3, pvaluesAsNumbers = FALSE,
+#' sjt.glm(fit1, fit2, fit3, p.numeric = FALSE,
 #'         showAIC = TRUE, showFamily = TRUE)
 #' 
 #' # open HTML-table in RStudio Viewer Pane or web browser,
 #' # indicating p-values as stars and integrate CI in OR column
 #' sjt.glm(fit1, fit2, fit3, 
-#'         pvaluesAsNumbers = FALSE,
+#'         p.numeric = FALSE,
 #'         separateConfColumn = FALSE,
 #'         showAIC = TRUE, 
 #'         showFamily = TRUE,
@@ -199,7 +200,7 @@ sjt.glm <- function(...,
                     digits.se = 2,
                     digits.summary = 3,
                     exp.coef = TRUE,
-                    pvaluesAsNumbers = TRUE,
+                    p.numeric = TRUE,
                     boldpvalues = TRUE,
                     showConfInt = TRUE,
                     showStdError = FALSE,
@@ -247,7 +248,7 @@ sjt.glm <- function(...,
   # -------------------------------------
   # init header
   # -------------------------------------
-  toWrite <- get_table_header(encoding, cellSpacing, cellGroupIndent, pvaluesAsNumbers, showHeaderStrings, CSS)
+  toWrite <- get_table_header(encoding, cellSpacing, cellGroupIndent, p.numeric, showHeaderStrings, CSS)
   # ------------------------
   # retrieve fitted models
   # ------------------------
@@ -361,7 +362,7 @@ sjt.glm <- function(...,
     # -------------------------------------
     # prepare p-values, either as * or as numbers
     # -------------------------------------
-    if (!pvaluesAsNumbers) {
+    if (!p.numeric) {
       fit.df$pv <- sapply(fit.df$pv, function(x) x <- get_p_stars(x))
     } else {
       if (boldpvalues) {
@@ -469,7 +470,7 @@ sjt.glm <- function(...,
   # i.e. the amount of table columns that are needed for each model
   # (B, p, CI, se...)
   headerColSpanFactor <- 1
-  if (pvaluesAsNumbers) headerColSpanFactor <- headerColSpanFactor + 1
+  if (p.numeric) headerColSpanFactor <- headerColSpanFactor + 1
   if (separateConfColumn) headerColSpanFactor <- headerColSpanFactor + 1
   if (showStdError) headerColSpanFactor <- headerColSpanFactor + 1
   # now that we know how many columns each model needs,
@@ -564,7 +565,7 @@ sjt.glm <- function(...,
       # show std. error
       if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames modelcolumn3\">%s</td>", stringSE))
       # show p-values as numbers in separate column
-      if (pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames modelcolumn4\">%s</td>", stringP))
+      if (p.numeric) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames modelcolumn4\">%s</td>", stringP))
     }
     page.content <- paste(page.content, "\n  </tr>\n")
   }
@@ -599,7 +600,7 @@ sjt.glm <- function(...,
                                                    tcb_class, 
                                                    joined.df[1, (i - 1) * 5 + 2]))
       # if p-values are not shown as numbers, insert them after beta-value
-      if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[1, (i - 1) * 5 + 5]))
+      if (!p.numeric) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[1, (i - 1) * 5 + 5]))
       # if we have CI, start new table cell (CI in separate column)
       if (showConfInt) {
         page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign %smodelcolumn2\">%s%s%s</td>", 
@@ -622,7 +623,7 @@ sjt.glm <- function(...,
                                                                     ci.hyphen,
                                                                     joined.df[1, (i - 1) * 5 + 4]))
       # if p-values are not shown as numbers, insert them after beta-value
-      if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[1, (i - 1) * 5 + 5]))
+      if (!p.numeric) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[1, (i - 1) * 5 + 5]))
       page.content <- paste0(page.content, "</td>")
     }
     # show std. error
@@ -630,7 +631,7 @@ sjt.glm <- function(...,
                                                                    tcb_class,
                                                                    joined.df[1, (i - 1) * 5 + 6]))
     # show p-values as numbers in separate column
-    if (pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign %smodelcolumn4\">%s</td>", 
+    if (p.numeric) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign %smodelcolumn4\">%s</td>", 
                                                                        tcb_class,
                                                                        joined.df[1, (i - 1) * 5 + 5]))
   }
@@ -681,7 +682,7 @@ sjt.glm <- function(...,
         page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumn1\">%s", 
                                                      joined.df[i + 1, (j - 1) * 5 + 2]))
         # if p-values are not shown as numbers, insert them after beta-value
-        if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", 
+        if (!p.numeric) page.content <- paste0(page.content, sprintf("&nbsp;%s", 
                                                                             joined.df[i + 1, (j - 1) * 5 + 5]))
         # if we have CI, start new table cell (CI in separate column)
         if (showConfInt) {
@@ -704,7 +705,7 @@ sjt.glm <- function(...,
                                                                                     ci.sep.string, 
                                                                                     ci.hi))
         # if p-values are not shown as numbers, insert them after beta-value
-        if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("&nbsp;%s", 
+        if (!p.numeric) page.content <- paste0(page.content, sprintf("&nbsp;%s", 
                                                                             joined.df[i + 1, (j - 1) * 5 + 5]))
         page.content <- paste0(page.content, "</td>")
       }
@@ -712,7 +713,7 @@ sjt.glm <- function(...,
       if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign modelcolumn3\">%s</td>", 
                                                                      joined.df[i + 1, (j - 1) * 5 + 6]))
       # show p-values as numbers in separate column
-      if (pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign modelcolumn4\">%s</td>", 
+      if (p.numeric) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign modelcolumn4\">%s</td>", 
                                                                          joined.df[i + 1, (j - 1) * 5 + 5]))
     }
     page.content <- paste0(page.content, "\n  </tr>")
@@ -1081,7 +1082,7 @@ sjt.glm <- function(...,
   # -------------------------------------
   # table footnote
   # -------------------------------------
-  if (!pvaluesAsNumbers) page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata annorow\">Notes</td><td class=\"tdata annorow annostyle\" colspan=\"%i\"><em>* p&lt;%s.05&nbsp;&nbsp;&nbsp;** p&lt;%s.01&nbsp;&nbsp;&nbsp;*** p&lt;%s.001</em></td>\n  </tr>\n", headerColSpan, p_zero, p_zero, p_zero))
+  if (!p.numeric) page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata annorow\">Notes</td><td class=\"tdata annorow annostyle\" colspan=\"%i\"><em>* p&lt;%s.05&nbsp;&nbsp;&nbsp;** p&lt;%s.01&nbsp;&nbsp;&nbsp;*** p&lt;%s.001</em></td>\n  </tr>\n", headerColSpan, p_zero, p_zero, p_zero))
   page.content <- paste0(page.content, "</table>\n")
   # -------------------------------------
   # finish table
@@ -1093,7 +1094,7 @@ sjt.glm <- function(...,
   # useful for knitr
   # -------------------------------------
   knitr <- replace_css_styles(page.content, cellSpacing, cellGroupIndent, 
-                              pvaluesAsNumbers, showHeaderStrings, CSS)
+                              p.numeric, showHeaderStrings, CSS)
   # -------------------------------------
   # remove spaces?
   # -------------------------------------
@@ -1115,7 +1116,7 @@ sjt.glm <- function(...,
   # -------------------------------------
   invisible(structure(class = c("sjTable", "sjtglm"),
                       list(page.style = get_table_css_styles(cellSpacing, cellGroupIndent,
-                                                             pvaluesAsNumbers, showHeaderStrings, CSS),
+                                                             p.numeric, showHeaderStrings, CSS),
                            page.content = page.content,
                            output.complete = toWrite,
                            knitr = knitr,
@@ -1132,6 +1133,7 @@ sjt.glm <- function(...,
 #' 
 #' @inheritParams sjt.glm
 #' @inheritParams sjt.frq
+#' @inheritParams sjp.corr
 #' 
 #' @return Invisibly returns
 #'          \itemize{
@@ -1190,7 +1192,7 @@ sjt.glm <- function(...,
 #'           showAIC = TRUE,
 #'           showConfInt = FALSE,
 #'           showStdError = TRUE,
-#'           pvaluesAsNumbers = FALSE)
+#'           p.numeric = FALSE)
 #'           
 #' # print summary table
 #' sjt.glmer(fit1, fit2,
@@ -1224,7 +1226,7 @@ sjt.glmer <- function(...,
                       digits.se = 2,
                       digits.summary = 3,
                       exp.coef = TRUE,
-                      pvaluesAsNumbers = TRUE,
+                      p.numeric = TRUE,
                       boldpvalues = TRUE,
                       showConfInt = TRUE,
                       showStdError = FALSE,
@@ -1260,7 +1262,7 @@ sjt.glmer <- function(...,
                  stringCI = stringCI, stringSE = stringSE, stringP = stringP, 
                  digits.est = digits.est, digits.p = digits.p, digits.ci = digits.ci,
                  digits.se = digits.se, digits.summary = digits.summary, exp.coef = exp.coef,
-                 pvaluesAsNumbers = pvaluesAsNumbers, boldpvalues = boldpvalues, 
+                 p.numeric = p.numeric, boldpvalues = boldpvalues, 
                  showConfInt = showConfInt, showStdError = showStdError, 
                  ci.hyphen = ci.hyphen, separateConfColumn = separateConfColumn, newLineConf = newLineConf, 
                  group.pred = group.pred, showAbbrHeadline = showAbbrHeadline, showPseudoR = showPseudoR, showICC = showICC, 

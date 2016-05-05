@@ -14,10 +14,10 @@ sjt.lmer(..., file = NULL, labelPredictors = NULL, depvar.labels = NULL,
   showStdBeta = FALSE, showStdError = FALSE,
   ci.hyphen = "&nbsp;&ndash;&nbsp;", minus.sign = "&#45;", digits.est = 2,
   digits.p = 3, digits.ci = 2, digits.se = 2, digits.sb = 2,
-  digits.summary = 3, pvaluesAsNumbers = TRUE, boldpvalues = TRUE,
-  p.kr = TRUE, separateConfColumn = TRUE, newLineConf = TRUE,
-  group.pred = FALSE, showAbbrHeadline = TRUE, showR2 = TRUE,
-  showICC = TRUE, showREvar = TRUE, showAIC = FALSE, showAICc = FALSE,
+  digits.summary = 3, p.numeric = TRUE, boldpvalues = TRUE, p.kr = TRUE,
+  separateConfColumn = TRUE, newLineConf = TRUE, group.pred = FALSE,
+  showAbbrHeadline = TRUE, showR2 = TRUE, showICC = TRUE,
+  showREvar = TRUE, showAIC = FALSE, showAICc = FALSE,
   showDeviance = TRUE, remove.estimates = NULL, cellSpacing = 0.2,
   cellGroupIndent = 0.6, encoding = NULL, CSS = NULL, useViewer = TRUE,
   no.output = FALSE, remove.spaces = TRUE)
@@ -94,8 +94,8 @@ May be an HTML entity. See 'Examples'.}
 
 \item{digits.summary}{amount of decimals for values in model summary}
 
-\item{pvaluesAsNumbers}{logical, if \code{TRUE}, p-values are shown as numbers. If \code{FALSE} (default),
-p-values are indicated by asterisks.}
+\item{p.numeric}{logical, if \code{TRUE}, the p-values are printed 
+as numbers. If \code{FALSE} (default), asterisks are used.}
 
 \item{boldpvalues}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
 
@@ -249,7 +249,7 @@ sjt.lmer(fit1, fit2,
          showAIC = TRUE,
          showConfInt = FALSE,
          showStdError = TRUE,
-         pvaluesAsNumbers = FALSE)
+         p.numeric = FALSE)
            
 sjt.lmer(fit1, fit2, fit3, 
          showAIC = TRUE,

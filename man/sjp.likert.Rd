@@ -5,7 +5,7 @@
 \title{Plot likert scales as centered stacked bars}
 \usage{
 sjp.likert(items, catcount = NULL, cat.neutral = NULL, weight.by = NULL,
-  weightByTitleString = NULL, sort.frq = NULL, geom.size = 0.6,
+  title.wtd.suffix = NULL, sort.frq = NULL, geom.size = 0.6,
   geom.colors = "BrBG", reverse.colors = FALSE,
   cat.neutral.color = "grey70", intercept.line.color = "grey50",
   value.labels = "show", showPercentageSign = FALSE, digits = 1,
@@ -36,8 +36,8 @@ the figure.}
 Must be a vector of same length as the input vector. Default is 
 \code{NULL}, so no weights are used.}
 
-\item{weightByTitleString}{suffix (as string) for the plot's title, if \code{weight.by} is specified,
-e.g. \code{weightByTitleString=" (weighted)"}. Default is \code{NULL}, so plot's 
+\item{title.wtd.suffix}{suffix (as string) for the title, if \code{weight.by} is specified,
+e.g. \code{title.wtd.suffix=" (weighted)"}. Default is \code{NULL}, so 
 title will not have a suffix when cases are weighted.}
 
 \item{sort.frq}{indicates whether the items of \code{items} should be ordered by 

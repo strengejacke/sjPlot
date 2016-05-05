@@ -6,7 +6,7 @@
 \usage{
 sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   title = NULL, geom.size = NULL, geom.colors = "Set1",
-  show.intercept = TRUE, stringIntercept = "(Intercept)", sort.est = NULL,
+  show.intercept = TRUE, string.interc = "(Intercept)", sort.est = NULL,
   axis.labels = NULL, axis.title = NULL, ylim = NULL, vline.type = 2,
   vline.color = "grey70", remove.estimates = NULL, show.values = TRUE,
   digits = 2, y.offset = 0.1, show.p = TRUE, facet.grid = TRUE,
@@ -69,7 +69,7 @@ Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential
 transformation of estimates, the intercept in some cases can not be calculated, thus the
 function call is interrupted and no plot printed.}
 
-\item{stringIntercept}{string, axis label of intercept estimate. Only applies, 
+\item{string.interc}{string, axis label of intercept estimate. Only applies, 
 if \code{show.intercept = TRUE} and \code{axis.labels} is not \code{NULL}.}
 
 \item{sort.est}{determines in which way estimates are sorted in the plot:

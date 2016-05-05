@@ -11,7 +11,7 @@ sjt.glm(..., file = NULL, labelPredictors = NULL, depvar.labels = NULL,
   stringObservations = "Observations", stringOR = "OR", stringCI = "CI",
   stringSE = "std. Error", stringP = "p", digits.est = 2, digits.p = 3,
   digits.ci = 2, digits.se = 2, digits.summary = 3, exp.coef = TRUE,
-  pvaluesAsNumbers = TRUE, boldpvalues = TRUE, showConfInt = TRUE,
+  p.numeric = TRUE, boldpvalues = TRUE, showConfInt = TRUE,
   showStdError = FALSE, ci.hyphen = "&nbsp;&ndash;&nbsp;",
   separateConfColumn = TRUE, newLineConf = TRUE, group.pred = TRUE,
   showAbbrHeadline = TRUE, showPseudoR = FALSE, showICC = FALSE,
@@ -76,8 +76,8 @@ confidence intervals are exponentiated. Use \code{FALSE} for
 non-exponentiated coefficients (log-odds) as provided by 
 the \code{\link{summary}} function.}
 
-\item{pvaluesAsNumbers}{logical, if \code{TRUE}, p-values are shown as numbers. If \code{FALSE} (default),
-p-values are indicated by asterisks.}
+\item{p.numeric}{logical, if \code{TRUE}, the p-values are printed 
+as numbers. If \code{FALSE} (default), asterisks are used.}
 
 \item{boldpvalues}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
 
@@ -277,13 +277,13 @@ sjt.glm(fit1, fit2, fit3, showAIC = TRUE, showFamily = TRUE)
 # --------------------------------------------
 # open HTML-table in RStudio Viewer Pane or web browser,
 # table indicating p-values as stars
-sjt.glm(fit1, fit2, fit3, pvaluesAsNumbers = FALSE,
+sjt.glm(fit1, fit2, fit3, p.numeric = FALSE,
         showAIC = TRUE, showFamily = TRUE)
 
 # open HTML-table in RStudio Viewer Pane or web browser,
 # indicating p-values as stars and integrate CI in OR column
 sjt.glm(fit1, fit2, fit3, 
-        pvaluesAsNumbers = FALSE,
+        p.numeric = FALSE,
         separateConfColumn = FALSE,
         showAIC = TRUE, 
         showFamily = TRUE,

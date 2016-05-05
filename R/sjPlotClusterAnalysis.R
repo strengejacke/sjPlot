@@ -57,11 +57,9 @@ utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "s
 #'          \code{method = "kmeans"}. May be one of \code{"Hartigan-Wong"} (default), 
 #'          \code{"Lloyd"} (used by SPSS), or \code{"MacQueen"}. See \code{\link{kmeans}} 
 #'          for details on this argument.
-#' @param showAccuracy logical, if \code{TRUE}, the \code{\link{sjc.grpdisc}} function will be called,
+#' @param show.accuracy logical, if \code{TRUE}, the \code{\link{sjc.grpdisc}} function will be called,
 #'          which computes a linear discriminant analysis on the classified cluster groups and plots a 
 #'          bar graph indicating the goodness of classification for each group.
-#' @param facetCluster If \code{TRUE}, each cluster group will be represented by an own panel.
-#'          Default is \code{FALSE}, thus all cluster groups are plotted in a single graph.
 #' @param showAxisLabels.x whether x axis labels (cluster variables) should be shown or not.
 #' @param showAxisLabels.y whether y axis labels (z scores) should be shown or not.
 #' @param showGroupCount if \code{TRUE} (default), the count within each cluster group is added to the 
@@ -92,7 +90,7 @@ utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "s
 #' # groups in a faceted panel
 #' sjc.qclus(airquality, 
 #'           groupcount = 4, 
-#'           facetCluster = TRUE)}
+#'           facet.grid = TRUE)}
 #'           
 #' # k-means clustering of airquality data
 #' # and saving the results. most likely, 3 cluster
@@ -118,14 +116,14 @@ sjc.qclus <- function(data,
                       agglomeration = "ward",
                       iter.max = 20,
                       algorithm = "Hartigan-Wong",
-                      showAccuracy = FALSE,
+                      show.accuracy = FALSE,
                       title = NULL,
                       axis.labels = NULL,
                       wrap.title = 40,
                       wrap.labels = 20,
                       breakLegendTitleAt = 20,
                       breakLegendLabelsAt = 20,
-                      facetCluster = FALSE,
+                      facet.grid = FALSE,
                       geom.colors = "Paired",
                       geom.size = 0.5,
                       geom.spacing = 0.1,
@@ -212,7 +210,7 @@ sjc.qclus <- function(data,
   grp.accuracy <- sjc.grpdisc(data, 
                               groups = grp, 
                               groupcount = groupcount, 
-                              printPlot = showAccuracy)
+                              printPlot = show.accuracy)
   # ---------------------------------------------
   # Add group count to legend labels
   # ---------------------------------------------
@@ -293,7 +291,7 @@ sjc.qclus <- function(data,
   # --------------------------------------------------------
   # use facets
   # --------------------------------------------------------
-  if (facetCluster) gp <- gp + facet_wrap(~group)
+  if (facet.grid) gp <- gp + facet_wrap(~group)
   # ---------------------------------------------------------
   # set geom colors
   # ---------------------------------------------------------

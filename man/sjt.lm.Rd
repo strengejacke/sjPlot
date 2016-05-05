@@ -13,14 +13,14 @@ sjt.lm(..., file = NULL, labelPredictors = NULL, depvar.labels = NULL,
   stringP = "p", showEst = TRUE, showConfInt = TRUE, showStdBeta = NULL,
   showStdError = FALSE, ci.hyphen = "&nbsp;&ndash;&nbsp;",
   minus.sign = "&#45;", digits.est = 2, digits.p = 3, digits.ci = 2,
-  digits.se = 2, digits.sb = 2, digits.summary = 3,
-  pvaluesAsNumbers = TRUE, boldpvalues = TRUE, p.kr = TRUE,
-  separateConfColumn = TRUE, newLineConf = TRUE, group.pred = TRUE,
-  showAbbrHeadline = TRUE, showR2 = TRUE, showICC = FALSE,
-  showREvar = FALSE, showFStat = FALSE, showAIC = FALSE,
-  showAICc = FALSE, showDeviance = FALSE, remove.estimates = NULL,
-  cellSpacing = 0.2, cellGroupIndent = 0.6, encoding = NULL, CSS = NULL,
-  useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
+  digits.se = 2, digits.sb = 2, digits.summary = 3, p.numeric = TRUE,
+  boldpvalues = TRUE, p.kr = TRUE, separateConfColumn = TRUE,
+  newLineConf = TRUE, group.pred = TRUE, showAbbrHeadline = TRUE,
+  showR2 = TRUE, showICC = FALSE, showREvar = FALSE, showFStat = FALSE,
+  showAIC = FALSE, showAICc = FALSE, showDeviance = FALSE,
+  remove.estimates = NULL, cellSpacing = 0.2, cellGroupIndent = 0.6,
+  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
+  remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{one or more fitted linear (mixed) models.}
@@ -94,8 +94,8 @@ May be an HTML entity. See 'Examples'.}
 
 \item{digits.summary}{amount of decimals for values in model summary}
 
-\item{pvaluesAsNumbers}{logical, if \code{TRUE}, p-values are shown as numbers. If \code{FALSE} (default),
-p-values are indicated by asterisks.}
+\item{p.numeric}{logical, if \code{TRUE}, the p-values are printed 
+as numbers. If \code{FALSE} (default), asterisks are used.}
 
 \item{boldpvalues}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
 
@@ -245,7 +245,7 @@ sjt.lm(fit1,
 sjt.lm(fit1, fit2, labelPredictors = "")
 
 # show HTML-table, indicating p-values as asterisks
-sjt.lm(fit1, fit2, showStdBeta = TRUE, pvaluesAsNumbers = FALSE)
+sjt.lm(fit1, fit2, showStdBeta = TRUE, p.numeric = FALSE)
 
 # create and open HTML-table in RStudio Viewer Pane or web browser,
 # integrate CI in estimate column
@@ -258,7 +258,7 @@ sjt.lm(fit1, fit2, showStdBeta = TRUE)
 # show HTML-table, indicating p-values as stars
 # and integrate CI in estimate column
 sjt.lm(fit1, fit2, showStdBeta = TRUE, ci.hyphen = " to ",
-       minus.sign = "&minus;", pvaluesAsNumbers = FALSE, 
+       minus.sign = "&minus;", p.numeric = FALSE, 
        separateConfColumn = FALSE)
 
 # ---------------------------------- 
@@ -369,7 +369,7 @@ sjt.lm(fit1, fit2, fit4, fit3,
 sjt.lm(fit1, fit2, fit4, fit3,
        showEst = FALSE,
        showStdBeta = TRUE,
-       pvaluesAsNumbers = FALSE,
+       p.numeric = FALSE,
        group.pred = FALSE,
        CSS = list(css.modelcolumn4 = 'border-left:1px solid black;',
                   css.modelcolumn5 = 'padding-right:50px;'))}
