@@ -8,8 +8,8 @@ sjt.lmer(..., file = NULL, labelPredictors = NULL, depvar.labels = NULL,
   stringPredictors = "Predictors",
   stringDependentVariables = "Dependent Variables",
   showHeaderStrings = FALSE, stringIntercept = "(Intercept)",
-  stringObservations = "Observations", stringB = "B",
-  stringSB = "std. Beta", stringCI = "CI", stringSE = "std. Error",
+  stringObservations = "Observations", string.est = "B",
+  string.std = "std. Beta", string.ci = "CI", string.se = "std. Error",
   stringP = "p", showEst = TRUE, showConfInt = TRUE,
   showStdBeta = FALSE, showStdError = FALSE,
   ci.hyphen = "&nbsp;&ndash;&nbsp;", minus.sign = "&#45;", digits.est = 2,
@@ -54,13 +54,13 @@ Default is \code{"Intercept"}.}
 \item{stringObservations}{string constant used in the summary row for the count of observation
 (cases). Default is \code{"Observations"}.}
 
-\item{stringB}{string used for the column heading of estimates. Default is \code{"B"}.}
+\item{string.est}{string used for the column heading of estimates.}
 
-\item{stringSB}{string used for the column heading of standardized beta coefficients. Default is \code{"std. Beta"}.}
+\item{string.std}{string used for the column heading of standardized beta coefficients. Default is \code{"std. Beta"}.}
 
-\item{stringCI}{string used for the column heading of confidence interval values. Default is \code{"CI"}.}
+\item{string.ci}{string used for the column heading of confidence interval values. Default is \code{"CI"}.}
 
-\item{stringSE}{string used for the column heading of standard error values. Default is \code{"std. Error"}.}
+\item{string.se}{string used for the column heading of standard error values. Default is \code{"std. Error"}.}
 
 \item{stringP}{string used for the column heading of p values. Default is \code{"p"}.}
 

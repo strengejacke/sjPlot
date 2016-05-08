@@ -26,7 +26,7 @@
 #'          the HTML table, but made "invisible" with white foreground color. You can use the \code{CSS}
 #'          argument (\code{"css.valueremove"}) to change color and appearance of those correlation value that are smaller than
 #'          the limit specified by \code{val.rm}. 
-#' @param stringDiagonal a vector with string values of the same length as \code{ncol(data)} (number of
+#' @param string.diag a vector with string values of the same length as \code{ncol(data)} (number of
 #'          correlated items) that can be used to display content in the diagonal cells
 #'          where row and column item are identical (i.e. the "self-correlation"). By defauilt,
 #'          this argument is \code{NULL} and the diagnal cells are empty.
@@ -129,7 +129,7 @@ sjt.corr <- function(data,
                      digits = 3,
                      triangle = "both",
                      val.rm = NULL,
-                     stringDiagonal = NULL,
+                     string.diag = NULL,
                      encoding = NULL,
                      CSS = NULL,
                      useViewer = TRUE,
@@ -373,11 +373,11 @@ sjt.corr <- function(data,
       # leave out self-correlations
       # --------------------------------------------------------
       if (j == i) {
-        if (is.null(stringDiagonal) || length(stringDiagonal) > ncol(corr)) {
+        if (is.null(string.diag) || length(string.diag) > ncol(corr)) {
           page.content <- paste0(page.content, "    <td class=\"tdata centeralign\">&nbsp;</td>\n")
         } else {
           page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign\">%s</td>\n", 
-                                                       stringDiagonal[j]))
+                                                       string.diag[j]))
         }
       } else {
         # --------------------------------------------------------

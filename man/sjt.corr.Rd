@@ -8,7 +8,7 @@ sjt.corr(data, na.deletion = c("listwise", "pairwise"),
   corr.method = c("spearman", "pearson", "kendall"), title = NULL,
   show.p = TRUE, p.numeric = FALSE, fade.ns = TRUE, file = NULL,
   var.labels = NULL, wrap.labels = 40, digits = 3, triangle = "both",
-  val.rm = NULL, stringDiagonal = NULL, encoding = NULL, CSS = NULL,
+  val.rm = NULL, string.diag = NULL, encoding = NULL, CSS = NULL,
   useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
@@ -60,7 +60,7 @@ the HTML table, but made "invisible" with white foreground color. You can use th
 argument (\code{"css.valueremove"}) to change color and appearance of those correlation value that are smaller than
 the limit specified by \code{val.rm}.}
 
-\item{stringDiagonal}{a vector with string values of the same length as \code{ncol(data)} (number of
+\item{string.diag}{a vector with string values of the same length as \code{ncol(data)} (number of
 correlated items) that can be used to display content in the diagonal cells
 where row and column item are identical (i.e. the "self-correlation"). By defauilt,
 this argument is \code{NULL} and the diagnal cells are empty.}

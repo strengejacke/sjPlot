@@ -29,14 +29,14 @@ utils::globalVariables(c("starts_with"))
 #'          dependent variable columns. Default is \code{"Dependent Variables"}.
 #' @param showHeaderStrings logical, if \code{TRUE}, the header strings \code{stringPredictors}
 #'          and \code{stringDependentVariables} are shown. By default, they're hidden.
-#' @param stringIntercept string constant used as headline for the Intercept row.
+#' @param string.interc string constant used as headline for the Intercept row.
 #'          Default is \code{"Intercept"}.
 #' @param stringObservations string constant used in the summary row for the count of observation
 #'          (cases). Default is \code{"Observations"}.
-#' @param stringB string used for the column heading of estimates. Default is \code{"B"}.
-#' @param stringSB string used for the column heading of standardized beta coefficients. Default is \code{"std. Beta"}.
-#' @param stringCI string used for the column heading of confidence interval values. Default is \code{"CI"}.
-#' @param stringSE string used for the column heading of standard error values. Default is \code{"std. Error"}.
+#' @param string.est string used for the column heading of estimates.
+#' @param string.std string used for the column heading of standardized beta coefficients. Default is \code{"std. Beta"}.
+#' @param string.ci string used for the column heading of confidence interval values. Default is \code{"CI"}.
+#' @param string.se string used for the column heading of standard error values. Default is \code{"std. Error"}.
 #' @param stringP string used for the column heading of p values. Default is \code{"p"}.
 #' @param showEst logical, if \code{TRUE} (default), the estimates are printed.
 #' @param showConfInt logical, if \code{TRUE} (default), the confidence intervall is also printed to the table. Use
@@ -299,12 +299,12 @@ sjt.lm <- function(...,
                    stringPredictors = "Predictors",
                    stringDependentVariables = "Dependent Variables",
                    showHeaderStrings = FALSE,
-                   stringIntercept = "(Intercept)",
+                   string.interc = "(Intercept)",
                    stringObservations = "Observations",
-                   stringB = "B",
-                   stringSB = "std. Beta",
-                   stringCI = "CI",
-                   stringSE = "std. Error",
+                   string.est = "B",
+                   string.std = "std. Beta",
+                   string.ci = "CI",
+                   string.se = "std. Error",
                    stringP = "p",
                    showEst = TRUE,
                    showConfInt = TRUE,
@@ -606,11 +606,11 @@ sjt.lm <- function(...,
   # -------------------------------------
   if (!showConfInt) {
     separateConfColumn <- FALSE
-    showCIString <- stringB
-    showCIStringSB <- stringSB
+    showCIString <- string.est
+    showCIStringSB <- string.std
   } else {
-    showCIString <- sprintf("%s (%s)", stringB, stringCI)
-    showCIStringSB <- sprintf("%s (%s)", stringSB, stringCI)
+    showCIString <- sprintf("%s (%s)", string.est, string.ci)
+    showCIStringSB <- sprintf("%s (%s)", string.std, string.ci)
   }
   # -------------------------------------
   # table headline
@@ -683,21 +683,21 @@ sjt.lm <- function(...,
       # confidence interval in separate column
       if (showEst) {
         if (separateConfColumn) {
-          page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign colnames modelcolumn1\">%s</td>", stringB))
-          if (showConfInt) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames modelcolumn2\">%s</td>", stringCI))
+          page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign colnames modelcolumn1\">%s</td>", string.est))
+          if (showConfInt) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames modelcolumn2\">%s</td>", string.ci))
         } else {
           # confidence interval in Beta-column
           page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign colnames modelcolumn1\">%s</td>", showCIString))
         }
       }
       # show std. error
-      if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames modelcolumn3\">%s</td>", stringSE))
+      if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames modelcolumn3\">%s</td>", string.se))
       # show std. beta
       if (showStdBetaValues) {
         # confidence interval in separate column
         if (separateConfColumn) {
-          page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames modelcolumn4\">%s</td>", stringSB))
-          if (showConfInt) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames modelcolumn5\">%s</td>", stringCI))
+          page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames modelcolumn4\">%s</td>", string.std))
+          if (showConfInt) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames modelcolumn5\">%s</td>", string.ci))
         } else {
           # confidence interval in Beta-column
           page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign colnames modelcolumn4\">%s</td>", showCIStringSB))
@@ -758,7 +758,7 @@ sjt.lm <- function(...,
   # -------------------------------------
   page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata %sleftalign\">%s</td>", 
                                                tcb_class, 
-                                               stringIntercept))
+                                               string.interc))
   for (i in 1:length(input_list)) {
     # -------------------------
     # insert "separator column"
@@ -1388,12 +1388,12 @@ sjt.lmer <- function(...,
                      stringPredictors = "Predictors",
                      stringDependentVariables = "Dependent Variables",
                      showHeaderStrings = FALSE,
-                     stringIntercept = "(Intercept)",
+                     string.interc = "(Intercept)",
                      stringObservations = "Observations",
-                     stringB = "B",
-                     stringSB = "std. Beta",
-                     stringCI = "CI",
-                     stringSE = "std. Error",
+                     string.est = "B",
+                     string.std = "std. Beta",
+                     string.ci = "CI",
+                     string.se = "std. Error",
                      stringP = "p",
                      showEst = TRUE,
                      showConfInt = TRUE,
@@ -1432,9 +1432,9 @@ sjt.lmer <- function(...,
   return(sjt.lm(input_list, file = file, labelPredictors = labelPredictors, 
                 depvar.labels = depvar.labels, stringPredictors = stringPredictors, 
                 stringDependentVariables = stringDependentVariables, 
-                showHeaderStrings = showHeaderStrings, stringIntercept = stringIntercept,
-                stringObservations = stringObservations, stringB = stringB, stringSB = stringSB, 
-                stringCI = stringCI, stringSE = stringSE, stringP = stringP, showEst = showEst,
+                showHeaderStrings = showHeaderStrings, string.interc = string.interc,
+                stringObservations = stringObservations, string.est = string.est, string.std = string.std, 
+                string.ci = string.ci, string.se = string.se, stringP = stringP, showEst = showEst,
                 showConfInt = showConfInt, showStdBeta = showStdBeta, showStdError = showStdError, 
                 ci.hyphen = ci.hyphen, minus.sign = minus.sign,
                 digits.est = digits.est, digits.p = digits.p, digits.ci = digits.ci,

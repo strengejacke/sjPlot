@@ -10,7 +10,6 @@ utils::globalVariables(c("starts_with"))
 #'                e.g. when comparing different stepwise fitted models.
 #' 
 #' @param ... one or more fitted generalized linear (mixed) models.
-#' @param stringOR string used for the column heading of estimates. Default is \code{"OR"}.
 #' @param exp.coef logical, if \code{TRUE} (default), regression coefficients and 
 #'          confidence intervals are exponentiated. Use \code{FALSE} for 
 #'          non-exponentiated coefficients (log-odds) as provided by 
@@ -20,11 +19,11 @@ utils::globalVariables(c("starts_with"))
 #'          line with OR values.
 #' @param showAbbrHeadline logical, if \code{TRUE} (default), the table data columns have a headline with 
 #'          abbreviations for odds ratios, confidence interval and p-values.
-#' @param showPseudoR logical, if \code{TRUE} (default), the pseudo R2 values for each model are printed
+#' @param show.r2 logical, if \code{TRUE} (default), the pseudo R2 values for each model are printed
 #'          in the model summary. R2cs is the Cox-Snell-pseudo R-squared value, R2n is Nagelkerke's 
 #'          pseudo R-squared value and \code{D} is Tjur's Coefficient of Discrimination
 #'          (see \code{\link[sjmisc]{cod}}).
-#' @param showLogLik logical, if \code{TRUE}, the Log-Likelihood for each model is printed
+#' @param show.loglik logical, if \code{TRUE}, the Log-Likelihood for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
 #' @param showChi2 logical, if \code{TRUE}, the p-value of the chi-squared value for each 
 #'          model's residual deviance against the null deviance is printed
@@ -142,7 +141,7 @@ utils::globalVariables(c("starts_with"))
 #'         separateConfColumn = FALSE,
 #'         showAIC = TRUE, 
 #'         showFamily = TRUE,
-#'         showPseudoR = TRUE)
+#'         show.r2 = TRUE)
 #' 
 #' # ---------------------------------- 
 #' # automatic grouping of predictors
@@ -188,11 +187,11 @@ sjt.glm <- function(...,
                     stringPredictors = "Predictors",
                     stringDependentVariables = "Dependent Variables",
                     showHeaderStrings = FALSE,
-                    stringIntercept = "(Intercept)",
+                    string.interc = "(Intercept)",
                     stringObservations = "Observations",
-                    stringOR = "OR",
-                    stringCI = "CI",
-                    stringSE = "std. Error",
+                    string.est = "OR",
+                    string.ci = "CI",
+                    string.se = "std. Error",
                     stringP = "p",
                     digits.est = 2,
                     digits.p = 3,
@@ -209,10 +208,10 @@ sjt.glm <- function(...,
                     newLineConf = TRUE,
                     group.pred = TRUE,
                     showAbbrHeadline = TRUE,
-                    showPseudoR = FALSE,
+                    show.r2 = FALSE,
                     showICC = FALSE,
                     showREvar = FALSE,
-                    showLogLik = FALSE,
+                    show.loglik = FALSE,
                     showAIC = FALSE,
                     showAICc = FALSE,
                     showDeviance = FALSE,
@@ -456,9 +455,9 @@ sjt.glm <- function(...,
   # -------------------------------------
   if (!showConfInt) {
     separateConfColumn <- FALSE
-    showCIString <- stringOR
+    showCIString <- string.est
   } else {
-    showCIString <- sprintf("%s (%s)", stringOR, stringCI)
+    showCIString <- sprintf("%s (%s)", string.est, string.ci)
   }
   # -------------------------------------
   # table headline
@@ -555,15 +554,15 @@ sjt.glm <- function(...,
       page.content <- paste0(page.content, "<td class=\"separatorcol colnames\">&nbsp;</td>")
       # confidence interval in separate column
       if (separateConfColumn) {
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign colnames modelcolumn1\">%s</td>", stringOR))
-        if (showConfInt) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames modelcolumn2\">%s</td>", stringCI))
+        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign colnames modelcolumn1\">%s</td>", string.est))
+        if (showConfInt) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames modelcolumn2\">%s</td>", string.ci))
       }
       else {
         # confidence interval in Beta-column
         page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign colnames modelcolumn1\">%s</td>", showCIString))
       }
       # show std. error
-      if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames modelcolumn3\">%s</td>", stringSE))
+      if (showStdError) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames modelcolumn3\">%s</td>", string.se))
       # show p-values as numbers in separate column
       if (p.numeric) page.content <- paste0(page.content, sprintf("<td class=\"tdata centeralign colnames modelcolumn4\">%s</td>", stringP))
     }
@@ -587,7 +586,7 @@ sjt.glm <- function(...,
   # -------------------------------------
   # 1. row: intercept
   # -------------------------------------
-  page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata %sleftalign\">%s</td>", tcb_class, stringIntercept))
+  page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata %sleftalign\">%s</td>", tcb_class, string.interc))
   for (i in 1:length(input_list)) {
     # -------------------------
     # insert "separator column"
@@ -879,7 +878,7 @@ sjt.glm <- function(...,
   # -------------------------------------
   # Model-Summary: pseudo r2
   # -------------------------------------
-  if (showPseudoR) {
+  if (show.r2) {
     # first, we need the correct description for 2nd r2-value
     if (lmerob)
       r2string <- "Tjur's D"
@@ -949,7 +948,7 @@ sjt.glm <- function(...,
   # -------------------------------------
   # Model-Summary: log likelihood
   # -------------------------------------
-  if (showLogLik) {
+  if (show.loglik) {
     page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">-2 Log-Likelihood</td>")
     for (i in 1:length(input_list)) {
       # -------------------------
@@ -1214,11 +1213,11 @@ sjt.glmer <- function(...,
                       stringPredictors = "Predictors",
                       stringDependentVariables = "Dependent Variables",
                       showHeaderStrings = FALSE,
-                      stringIntercept = "(Intercept)",
+                      string.interc = "(Intercept)",
                       stringObservations = "Observations",
-                      stringOR = "OR",
-                      stringCI = "CI",
-                      stringSE = "std. Error",
+                      string.est = "OR",
+                      string.ci = "CI",
+                      string.se = "std. Error",
                       stringP = "p",
                       digits.est = 2,
                       digits.p = 3,
@@ -1235,10 +1234,10 @@ sjt.glmer <- function(...,
                       newLineConf = TRUE,
                       group.pred = FALSE,
                       showAbbrHeadline = TRUE,
-                      showPseudoR = FALSE,
+                      show.r2 = FALSE,
                       showICC = TRUE,
                       showREvar = TRUE,
-                      showLogLik = FALSE,
+                      show.loglik = FALSE,
                       showAIC = FALSE,
                       showAICc = FALSE,
                       showDeviance = TRUE,
@@ -1257,16 +1256,16 @@ sjt.glmer <- function(...,
   return(sjt.glm(input_list, file = file, labelPredictors = labelPredictors, 
                  depvar.labels = depvar.labels, stringPredictors = stringPredictors, 
                  stringDependentVariables = stringDependentVariables, showHeaderStrings = showHeaderStrings, 
-                 stringIntercept = stringIntercept,
-                 stringObservations = stringObservations, stringOR = stringOR,
-                 stringCI = stringCI, stringSE = stringSE, stringP = stringP, 
+                 string.interc = string.interc,
+                 stringObservations = stringObservations, string.est = string.est,
+                 string.ci = string.ci, string.se = string.se, stringP = stringP, 
                  digits.est = digits.est, digits.p = digits.p, digits.ci = digits.ci,
                  digits.se = digits.se, digits.summary = digits.summary, exp.coef = exp.coef,
                  p.numeric = p.numeric, boldpvalues = boldpvalues, 
                  showConfInt = showConfInt, showStdError = showStdError, 
                  ci.hyphen = ci.hyphen, separateConfColumn = separateConfColumn, newLineConf = newLineConf, 
-                 group.pred = group.pred, showAbbrHeadline = showAbbrHeadline, showPseudoR = showPseudoR, showICC = showICC, 
-                 showREvar = showREvar, showLogLik = showLogLik, showAIC = showAIC, showAICc = showAICc, showDeviance = showDeviance,
+                 group.pred = group.pred, showAbbrHeadline = showAbbrHeadline, show.r2 = show.r2, showICC = showICC, 
+                 showREvar = showREvar, show.loglik = show.loglik, showAIC = showAIC, showAICc = showAICc, showDeviance = showDeviance,
                  showChi2 = FALSE, showHosLem = showHosLem, showFamily = showFamily, remove.estimates = remove.estimates, 
                  cellSpacing = cellSpacing, cellGroupIndent = cellGroupIndent, encoding = encoding, 
                  CSS = CSS, useViewer = useViewer, no.output = no.output, remove.spaces = remove.spaces))

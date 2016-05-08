@@ -368,7 +368,7 @@ sjt.itemanalysis <- function(df,
                        na.deletion = "listwise", 
                        p.numeric = TRUE, 
                        triangle = "lower", 
-                       stringDiagonal = sprintf("&alpha;=%.3f", unlist(cronbach.total)), 
+                       string.diag = sprintf("&alpha;=%.3f", unlist(cronbach.total)), 
                        encoding = encoding, 
                        no.output = TRUE)
       # add to html that is printed
