@@ -4,17 +4,17 @@
 \alias{sjp.pca}
 \title{Plot PCA results}
 \usage{
-sjp.pca(data, numberOfFactors = NULL, factorLoadingTolerance = 0.1,
+sjp.pca(data, nmbr.fctr = NULL, factorLoadingTolerance = 0.1,
   plotEigenvalues = FALSE, digits = 2, title = NULL, axis.labels = NULL,
-  type = "b", geom.size = 0.6, geom.colors = "RdBu", wrap.title = 50,
-  wrap.labels = 30, show.values = TRUE, showCronbachsAlpha = TRUE,
-  printPlot = TRUE)
+  type = c("bar", "circle", "tile"), geom.size = 0.6,
+  geom.colors = "RdBu", wrap.title = 50, wrap.labels = 30,
+  show.values = TRUE, showCronbachsAlpha = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{data}{A data frame with factors (each columns one variable) that should be used 
 to compute a PCA, or a \code{\link{prcomp}} object.}
 
-\item{numberOfFactors}{A predefined number of factors to use for the calculating the varimax
+\item{nmbr.fctr}{number of factors used for calculating the varimax
 rotation. By default, this value is \code{NULL} and the amount of factors is
 calculated according to the Kaiser-criteria. See paramater \code{plotEigenvalues}.}
 
@@ -85,33 +85,15 @@ This PCA uses the \code{\link{prcomp}} function and the \code{\link{varimax}} ro
 }
 \examples{
 # randomly create data frame with 7 items, each consisting of 4 categories
-likert_4 <- data.frame(sample(1:4, 
-                              500, 
-                              replace = TRUE, 
-                              prob = c(0.2, 0.3, 0.1, 0.4)),
-                       sample(1:4, 
-                              500, 
-                              replace = TRUE, 
-                              prob = c(0.5, 0.25, 0.15, 0.1)),
-                       sample(1:4, 
-                              500, 
-                              replace = TRUE, 
-                              prob = c(0.4, 0.15, 0.25, 0.2)),
-                       sample(1:4, 
-                              500, 
-                              replace = TRUE, 
-                              prob = c(0.25, 0.1, 0.4, 0.25)),
-                       sample(1:4, 
-                              500, 
-                              replace = TRUE, 
-                              prob = c(0.1, 0.4, 0.4, 0.1)),
-                       sample(1:4, 
-                              500, 
-                              replace = TRUE),
-                       sample(1:4, 
-                              500, 
-                              replace = TRUE, 
-                              prob = c(0.35, 0.25, 0.15, 0.25)))
+likert_4 <- data.frame(
+  sample(1:4, 500, replace = TRUE, prob = c(0.2, 0.3, 0.1, 0.4)),
+  sample(1:4, 500, replace = TRUE, prob = c(0.5, 0.25, 0.15, 0.1)),
+  sample(1:4, 500, replace = TRUE, prob = c(0.4, 0.15, 0.25, 0.2)),
+  sample(1:4, 500, replace = TRUE, prob = c(0.25, 0.1, 0.4, 0.25)),
+  sample(1:4, 500, replace = TRUE, prob = c(0.1, 0.4, 0.4, 0.1)),
+  sample(1:4, 500, replace = TRUE),
+  sample(1:4, 500, replace = TRUE, prob = c(0.35, 0.25, 0.15, 0.25))
+)
 
 # Create variable labels
 colnames(likert_4) <- c("V1", "V2", "V3", "V4", "V5", "V6", "V7")
@@ -123,17 +105,10 @@ sjp.pca(likert_4, type = "tile")
 sjp.pca(likert_4, type = "bar")
 
 # manually compute PCA
-pca <- prcomp(na.omit(likert_4), 
-              retx = TRUE, 
-              center = TRUE, 
-              scale. = TRUE)
+pca <- prcomp(na.omit(likert_4), retx = TRUE, center = TRUE, scale. = TRUE)
 # plot results from PCA as circles, including Eigenvalue-diagnostic.
 # note that this plot does not compute the Cronbach's Alpha
-sjp.pca(pca, 
-        plotEigenvalues = TRUE, 
-        type = "circle",
-        geom.size = 10)
-
+sjp.pca(pca, plotEigenvalues = TRUE, type = "circle", geom.size = 10)
 
 # -------------------------------
 # Data from the EUROFAMCARE sample dataset

@@ -18,7 +18,7 @@
 #' @param value.labels character vector (or \code{list} of character vectors)
 #'          with value labels of the supplied variables, which will be used 
 #'          to label variable values in the output.
-#' @param alternateRowColors logical, if \code{TRUE}, alternating rows are highlighted with a light gray
+#' @param altr.row.col logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 #'          background color.
 #' @param string.val label for the very first table column containing the values (see
 #'          \code{value.labels}).
@@ -177,7 +177,7 @@ sjt.frq <- function(data,
                     value.labels = NULL,
                     auto.group = NULL,
                     sort.frq = c("none", "asc", "desc"),
-                    alternateRowColors = FALSE,
+                    altr.row.col = FALSE,
                     string.val = "value",
                     string.cnt = "N",
                     string.prc = "raw %",
@@ -560,7 +560,7 @@ sjt.frq <- function(data,
         # init default values
         rowstring <- ""
         # init default value for alternating colors
-        if (alternateRowColors) rowstring <- ifelse(sjmisc::is_even(j), " arc", "")
+        if (altr.row.col) rowstring <- ifelse(sjmisc::is_even(j), " arc", "")
         rowcss <- rowstring
         # check whether we have median row and whether it should be highlighted
         if (emph.md && ((j + df.frq$minval) == (var.median + 1))) {

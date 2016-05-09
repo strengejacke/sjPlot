@@ -4,12 +4,12 @@
 \alias{sjt.df}
 \title{Show (description of) data frame as HTML table}
 \usage{
-sjt.df(mydf, describe = TRUE, file = NULL, alternateRowColors = FALSE,
-  sort.col = NULL, sort.asc = TRUE, title = NULL, repeatHeader = FALSE,
-  stringVariable = "Variable", show.type = FALSE, showRowNames = TRUE,
-  showCommentRow = FALSE, commentString = "No comment...",
-  big.mark = NULL, hide.progress = FALSE, encoding = NULL, CSS = NULL,
-  use.viewer = TRUE, no.output = FALSE, remove.spaces = TRUE, ...)
+sjt.df(mydf, describe = TRUE, file = NULL, altr.row.col = FALSE,
+  sort.col = NULL, sort.asc = TRUE, title = NULL, repeat.header = FALSE,
+  string.var = "Variable", show.type = FALSE, show.rownames = TRUE,
+  show.cmmn.row = FALSE, string.cmmn = "No comment...", big.mark = NULL,
+  hide.progress = FALSE, encoding = NULL, CSS = NULL, use.viewer = TRUE,
+  no.output = FALSE, remove.spaces = TRUE, ...)
 }
 \arguments{
 \item{mydf}{data frame that should be printed as table}
@@ -22,7 +22,7 @@ If \code{describe = FALSE}, the data frame's content (values) is shown.}
 If \code{NULL} (default), the output will be saved as temporary file and 
 openend either in the IDE's viewer pane or the default web browser.}
 
-\item{alternateRowColors}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
+\item{altr.row.col}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
 
 \item{sort.col}{indicates a column, either by column name or by column index number,
@@ -36,23 +36,23 @@ Use \code{FALSE} to apply descending order. See 'Examples'.}
 
 \item{title}{table caption. By default, \code{title = NULL}, hence no title will be used.}
 
-\item{repeatHeader}{logical, if \code{TRUE}, the header row will also be added at the bottom at the table. This might
+\item{repeat.header}{logical, if \code{TRUE}, the header row will also be added at the bottom at the table. This might
 be helpful, if you have longer tables and want to see the column names at the end of the table as well.}
 
-\item{stringVariable}{string, label used for the first column name. Default is \code{"Variable"}.}
+\item{string.var}{string, label used for the first column name. Default is \code{"Variable"}.}
 
 \item{show.type}{logical, if \code{TRUE}, the variable type is shown in a separate
 row respectively column.}
 
-\item{showRowNames}{logical, if \code{TRUE} and \code{describe = FALSE}, 
+\item{show.rownames}{logical, if \code{TRUE} and \code{describe = FALSE}, 
 first table column contains row names of data frame. Use 
-\code{showRowNames = FALSE} to omit first table column with row names.}
+\code{show.rownames = FALSE} to omit first table column with row names.}
 
-\item{showCommentRow}{logical, if \code{TRUE}, an optional comment line can be added to the end / below
-the table. Use \code{commentString} to specify the comment.}
+\item{show.cmmn.row}{logical, if \code{TRUE}, an optional comment line can be added to the end / below
+the table. Use \code{string.cmmn} to specify the comment.}
 
-\item{commentString}{string that will be added to the end / below the table. Only
-applies, if \code{showCommentRow = TRUE}.}
+\item{string.cmmn}{string that will be added to the end / below the table. Only
+applies, if \code{show.cmmn.row = TRUE}.}
 
 \item{big.mark}{character; if not \code{NULL}, used as mark between every 
 thousands decimals before (hence big) the decimal point}
@@ -113,31 +113,22 @@ library(sjmisc)
 data(efc)
 
 # plot efc-data frame summary
-sjt.df(efc, alternateRowColors = TRUE)
+sjt.df(efc, altr.row.col = TRUE)
 
 # plot content, first 50 rows of first 5 columns of example data set
-sjt.df(efc[1:50, 1:5], 
-       describe = FALSE, 
-       stringVariable = "Observation")
+sjt.df(efc[1:50, 1:5], describe = FALSE, string.var = "Observation")
 
 # plot efc-data frame summary, sorted descending by mean-column
-sjt.df(efc, 
-       sort.col = "mean", 
-       sort.asc = FALSE)
+sjt.df(efc, sort.col = "mean", sort.asc = FALSE)
 
 # plot first 20 rows of first 5 columns of example data set,
 # sort by column "e42dep" with alternating row colors
-sjt.df(efc[1:20, 1:5], 
-       alternateRowColors = TRUE, 
-       sort.col = "e42dep", 
-       describe = FALSE)
+sjt.df(efc[1:20, 1:5], altr.row.col = TRUE, 
+       sort.col = "e42dep", describe = FALSE)
 
 # plot first 20 rows of first 5 columns of example data set,
 # sorted by 4th column in descending order.
-sjt.df(efc[1:20, 1:5], 
-       sort.col = 4, 
-       sort.asc = FALSE, 
-       describe = FALSE)
+sjt.df(efc[1:20, 1:5], sort.col = 4, sort.asc = FALSE, describe = FALSE)
 
 # add big mark to thousands
 library(datasets)
@@ -146,8 +137,7 @@ sjt.df(as.data.frame(WorldPhones), big.mark = ",")
 # ---------------------------------------------------------------- 
 # User defined style sheet
 # ---------------------------------------------------------------- 
-sjt.df(efc,
-       alternateRowColor = TRUE,
+sjt.df(efc, altr.row.col = TRUE, 
        CSS = list(css.table = "border: 2px solid #999999;",
                   css.tdata = "border-top: 1px solid;",
                   css.arc = "color:blue;"))}

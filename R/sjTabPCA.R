@@ -15,7 +15,7 @@
 #' 
 #' @param data data frame with factors (each columns one variable) that should be used 
 #'          to compute a PCA, or a \code{\link{prcomp}} object.
-#' @param numberOfFactors number of factors used for calculating the varimax
+#' @param nmbr.fctr number of factors used for calculating the varimax
 #'          rotation. By default, this value is \code{NULL} and the amount of factors is
 #'          calculated according to the Kaiser-criteria. See paramater \code{plotEigenvalues}.
 #' @param factorLoadingTolerance specifies the minimum difference a variable needs to have between
@@ -65,33 +65,15 @@
 #' @examples
 #' \dontrun{
 #' # randomly create data frame with 7 items, each consisting of 4 categories
-#' likert_4 <- data.frame(sample(1:4, 
-#'                               500, 
-#'                               replace = TRUE, 
-#'                               prob = c(0.2, 0.3, 0.1, 0.4)),
-#'                        sample(1:4, 
-#'                               500, 
-#'                               replace = TRUE, 
-#'                               prob = c(0.5, 0.25, 0.15, 0.1)),
-#'                        sample(1:4, 
-#'                               500, 
-#'                               replace = TRUE, 
-#'                               prob = c(0.4, 0.15, 0.25, 0.2)),
-#'                        sample(1:4, 
-#'                               500, 
-#'                               replace = TRUE, 
-#'                               prob = c(0.25, 0.1, 0.4, 0.25)),
-#'                        sample(1:4, 
-#'                               500, 
-#'                               replace = TRUE, 
-#'                               prob = c(0.1, 0.4, 0.4, 0.1)),
-#'                        sample(1:4, 
-#'                               500, 
-#'                               replace = TRUE),
-#'                        sample(1:4, 
-#'                               500, 
-#'                               replace = TRUE, 
-#'                               prob = c(0.35, 0.25, 0.15, 0.25)))
+#' likert_4 <- data.frame(
+#'   sample(1:4, 500, replace = TRUE, prob = c(0.2, 0.3, 0.1, 0.4)),
+#'   sample(1:4, 500, replace = TRUE, prob = c(0.5, 0.25, 0.15, 0.1)),
+#'   sample(1:4, 500, replace = TRUE, prob = c(0.4, 0.15, 0.25, 0.2)),
+#'   sample(1:4, 500, replace = TRUE, prob = c(0.25, 0.1, 0.4, 0.25)),
+#'   sample(1:4, 500, replace = TRUE, prob = c(0.1, 0.4, 0.4, 0.1)),
+#'   sample(1:4, 500, replace = TRUE),
+#'   sample(1:4, 500, replace = TRUE, prob = c(0.35, 0.25, 0.15, 0.25))
+#' )
 #'
 #' # Create variable labels
 #' colnames(likert_4) <- c("V1", "V2", "V3", "V4", "V5", "V6", "V7")
@@ -128,7 +110,7 @@
 #' @importFrom stats prcomp
 #' @export
 sjt.pca <- function(data,
-                    numberOfFactors = NULL,
+                    nmbr.fctr = NULL,
                     factorLoadingTolerance = 0.1,
                     file = NULL,
                     varlabels = NULL,
@@ -138,7 +120,7 @@ sjt.pca <- function(data,
                     showCronbachsAlpha = TRUE,
                     showMSA = FALSE,
                     showVariance = FALSE,
-                    alternateRowColors = FALSE,
+                    altr.row.col = FALSE,
                     stringPov = "Proportion of Variance",
                     stringCpov = "Cumulative Proportion",
                     encoding = NULL,
@@ -275,7 +257,7 @@ sjt.pca <- function(data,
   # varimax rotation, retrieve factor loadings
   # --------------------------------------------------------
   # check for predefined number of factors
-  if (!is.null(numberOfFactors) && is.numeric(numberOfFactors)) pcadata.kaiser <- numberOfFactors
+  if (!is.null(nmbr.fctr) && is.numeric(nmbr.fctr)) pcadata.kaiser <- nmbr.fctr
   pcadata.varim <- varimaxrota(pcadata, pcadata.kaiser)
   # create data frame with factor loadings
   df <- as.data.frame(pcadata.varim$loadings[, 1:ncol(pcadata.varim$loadings)])
@@ -436,7 +418,7 @@ sjt.pca <- function(data,
     # default row string for alternative row colors
     arcstring <- ""
     # if we have alternating row colors, set css
-    if (alternateRowColors) arcstring <- ifelse(sjmisc::is_even(i), " arc", "")
+    if (altr.row.col) arcstring <- ifelse(sjmisc::is_even(i), " arc", "")
     # write tr-tag with class-attributes
     page.content <- paste0(page.content, "  <tr>\n")
     # print first table cell

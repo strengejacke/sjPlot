@@ -78,7 +78,7 @@
 view_df <- function(x,
                     weight.by = NULL,
                     file = NULL,
-                    alternateRowColors = TRUE,
+                    altr.row.col = TRUE,
                     show.id = TRUE,
                     show.type = FALSE,
                     show.values = TRUE,
@@ -187,7 +187,7 @@ view_df <- function(x,
     # default row string
     arcstring <- ""
     # if we have alternating row colors, set css
-    if (alternateRowColors) arcstring <- ifelse(sjmisc::is_even(ccnt), " arc", "")
+    if (altr.row.col) arcstring <- ifelse(sjmisc::is_even(ccnt), " arc", "")
     page.content <- paste0(page.content, "  <tr>\n")
     # ID
     if (show.id) page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%i</td>\n", arcstring, index))

@@ -4,7 +4,7 @@
 \alias{sjt.mwu}
 \title{Summary of Mann-Whitney-Test as HTML table}
 \usage{
-sjt.mwu(x, title = NULL, alternateRowColors = TRUE, file = NULL,
+sjt.mwu(x, title = NULL, altr.row.col = TRUE, file = NULL,
   encoding = NULL, CSS = NULL, use.viewer = TRUE, no.output = FALSE,
   remove.spaces = TRUE)
 }
@@ -13,7 +13,7 @@ sjt.mwu(x, title = NULL, alternateRowColors = TRUE, file = NULL,
 
 \item{title}{table caption. By default, \code{title = NULL}, hence no title will be used.}
 
-\item{alternateRowColors}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
+\item{altr.row.col}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
 
 \item{file}{destination file, if the output should be saved as file.

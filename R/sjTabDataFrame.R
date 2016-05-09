@@ -16,8 +16,6 @@
 #' @param describe logical, if \code{TRUE} (default), a description of the data frame's variables is given.
 #'          The description is retrieved from the \code{\link[psych]{describe}} function. 
 #'          If \code{describe = FALSE}, the data frame's content (values) is shown.
-#' @param alternateRowColors logical, if \code{TRUE}, alternating rows are highlighted with a light gray
-#'          background color.
 #' @param sort.col indicates a column, either by column name or by column index number,
 #'          that should be sorted. Default order is ascending, which can be changed with
 #'          \code{sort.asc} argument. Default is \code{NULL}, hence the data frame
@@ -26,18 +24,18 @@
 #'          data frame is ordered according to the specified column in an ascending order.
 #'          Use \code{FALSE} to apply descending order. See 'Examples'.
 #' @param title table caption. By default, \code{title = NULL}, hence no title will be used.
-#' @param stringVariable string, label used for the first column name. Default is \code{"Variable"}.
-#' @param repeatHeader logical, if \code{TRUE}, the header row will also be added at the bottom at the table. This might
+#' @param string.var string, label used for the first column name. Default is \code{"Variable"}.
+#' @param repeat.header logical, if \code{TRUE}, the header row will also be added at the bottom at the table. This might
 #'          be helpful, if you have longer tables and want to see the column names at the end of the table as well.
 #' @param show.type logical, if \code{TRUE}, the variable type is shown in a separate
 #'          row respectively column.
-#' @param showRowNames logical, if \code{TRUE} and \code{describe = FALSE}, 
+#' @param show.rownames logical, if \code{TRUE} and \code{describe = FALSE}, 
 #'          first table column contains row names of data frame. Use 
-#'          \code{showRowNames = FALSE} to omit first table column with row names.
-#' @param showCommentRow logical, if \code{TRUE}, an optional comment line can be added to the end / below
-#'          the table. Use \code{commentString} to specify the comment.
-#' @param commentString string that will be added to the end / below the table. Only
-#'          applies, if \code{showCommentRow = TRUE}.
+#'          \code{show.rownames = FALSE} to omit first table column with row names.
+#' @param show.cmmn.row logical, if \code{TRUE}, an optional comment line can be added to the end / below
+#'          the table. Use \code{string.cmmn} to specify the comment.
+#' @param string.cmmn string that will be added to the end / below the table. Only
+#'          applies, if \code{show.cmmn.row = TRUE}.
 #' @param big.mark character; if not \code{NULL}, used as mark between every 
 #'          thousands decimals before (hence big) the decimal point
 #' @param hide.progress logical, if \code{TRUE}, the progress bar that is displayed when creating the
@@ -67,31 +65,22 @@
 #' data(efc)
 #' 
 #' # plot efc-data frame summary
-#' sjt.df(efc, alternateRowColors = TRUE)
+#' sjt.df(efc, altr.row.col = TRUE)
 #' 
 #' # plot content, first 50 rows of first 5 columns of example data set
-#' sjt.df(efc[1:50, 1:5], 
-#'        describe = FALSE, 
-#'        stringVariable = "Observation")
+#' sjt.df(efc[1:50, 1:5], describe = FALSE, string.var = "Observation")
 #' 
 #' # plot efc-data frame summary, sorted descending by mean-column
-#' sjt.df(efc, 
-#'        sort.col = "mean", 
-#'        sort.asc = FALSE)
+#' sjt.df(efc, sort.col = "mean", sort.asc = FALSE)
 #' 
 #' # plot first 20 rows of first 5 columns of example data set,
 #' # sort by column "e42dep" with alternating row colors
-#' sjt.df(efc[1:20, 1:5], 
-#'        alternateRowColors = TRUE, 
-#'        sort.col = "e42dep", 
-#'        describe = FALSE)
+#' sjt.df(efc[1:20, 1:5], altr.row.col = TRUE, 
+#'        sort.col = "e42dep", describe = FALSE)
 #' 
 #' # plot first 20 rows of first 5 columns of example data set,
 #' # sorted by 4th column in descending order.
-#' sjt.df(efc[1:20, 1:5], 
-#'        sort.col = 4, 
-#'        sort.asc = FALSE, 
-#'        describe = FALSE)
+#' sjt.df(efc[1:20, 1:5], sort.col = 4, sort.asc = FALSE, describe = FALSE)
 #' 
 #' # add big mark to thousands
 #' library(datasets)
@@ -100,8 +89,7 @@
 #' # ---------------------------------------------------------------- 
 #' # User defined style sheet
 #' # ---------------------------------------------------------------- 
-#' sjt.df(efc,
-#'        alternateRowColor = TRUE,
+#' sjt.df(efc, altr.row.col = TRUE, 
 #'        CSS = list(css.table = "border: 2px solid #999999;",
 #'                   css.tdata = "border-top: 1px solid;",
 #'                   css.arc = "color:blue;"))}
@@ -112,16 +100,16 @@
 sjt.df <- function(mydf,
                    describe = TRUE,
                    file = NULL,
-                   alternateRowColors = FALSE,
+                   altr.row.col = FALSE,
                    sort.col = NULL,
                    sort.asc = TRUE,
                    title = NULL,
-                   repeatHeader = FALSE,
-                   stringVariable = "Variable",
+                   repeat.header = FALSE,
+                   string.var = "Variable",
                    show.type = FALSE,
-                   showRowNames = TRUE,
-                   showCommentRow = FALSE,
-                   commentString = "No comment...",
+                   show.rownames = TRUE,
+                   show.cmmn.row = FALSE,
+                   string.cmmn = "No comment...",
                    big.mark = NULL,
                    hide.progress = FALSE,
                    encoding = NULL,
@@ -212,7 +200,7 @@ sjt.df <- function(mydf,
   css.leftalign <- "text-align:left;"
   css.centertalign <- "text-align:center;"
   css.comment <- "font-style:italic; border-top:double black; text-align:right;"
-  if (showCommentRow && repeatHeader) css.comment <- "font-style:italic; text-align:right;"
+  if (show.cmmn.row && repeat.header) css.comment <- "font-style:italic; text-align:right;"
   # ------------------------
   # check user defined style sheets
   # ------------------------
@@ -262,7 +250,7 @@ sjt.df <- function(mydf,
   # -------------------------------------
   page.content <- paste0(page.content, "  <tr>\n")
   # first columns are rownames
-  if (showRowNames) page.content <- paste0(page.content, sprintf("    <th class=\"thead firsttablerow firsttablecol\">%s</th>\n", stringVariable))
+  if (show.rownames) page.content <- paste0(page.content, sprintf("    <th class=\"thead firsttablerow firsttablecol\">%s</th>\n", string.var))
   for (i in 1:colcnt) {
     # check variable type
     vartype <- get.vartype(mydf[[i]])
@@ -283,10 +271,10 @@ sjt.df <- function(mydf,
     # default row string
     arcstring <- ""
     # if we have alternating row colors, set css
-    if (alternateRowColors) arcstring <- ifelse(sjmisc::is_even(rcnt), " arc", "")
+    if (altr.row.col) arcstring <- ifelse(sjmisc::is_even(rcnt), " arc", "")
     page.content <- paste0(page.content, "  <tr>\n")
     # first table cell is rowname
-    if (showRowNames) page.content <- paste0(page.content, sprintf("    <td class=\"tdata leftalign firsttablecol%s\">%s</td>\n", arcstring, rnames[rcnt]))
+    if (show.rownames) page.content <- paste0(page.content, sprintf("    <td class=\"tdata leftalign firsttablecol%s\">%s</td>\n", arcstring, rnames[rcnt]))
     # all columns of a row
     for (ccnt in 1:colcnt) {
       page.content <- paste0(page.content, sprintf("    <td class=\"tdata centertalign%s\">%s</td>\n", arcstring, mydf[rcnt, ccnt]))
@@ -300,9 +288,9 @@ sjt.df <- function(mydf,
   # -------------------------------------
   # repeat header row?
   # -------------------------------------
-  if (repeatHeader) {
+  if (repeat.header) {
     page.content <- paste0(page.content, "  <tr>\n")
-    if (showRowNames) page.content <- paste0(page.content, sprintf("    <th class=\"thead lasttablerow firsttablecol\">%s</th>\n", stringVariable))
+    if (show.rownames) page.content <- paste0(page.content, sprintf("    <th class=\"thead lasttablerow firsttablecol\">%s</th>\n", string.var))
     for (i in 1:colcnt) {
       # check variable type
       vartype <- get.vartype(mydf[[i]])
@@ -316,10 +304,10 @@ sjt.df <- function(mydf,
   # -------------------------------------
   # add optional "comment" row
   # -------------------------------------
-  if (showCommentRow) {
+  if (show.cmmn.row) {
     page.content <- paste0(page.content, "  <tr>\n")
-    if (!showRowNames) colcnt <- colcnt - 1
-    page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"comment\">%s</td>\n", colcnt + 1, commentString))
+    if (!show.rownames) colcnt <- colcnt - 1
+    page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"comment\">%s</td>\n", colcnt + 1, string.cmmn))
     # close row tag
     page.content <- paste0(page.content, "</tr>\n")
   }

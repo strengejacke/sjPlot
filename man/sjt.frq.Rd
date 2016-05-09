@@ -7,8 +7,8 @@
 sjt.frq(data, file = NULL, weight.by = NULL,
   title.wtd.suffix = " (weighted)", var.labels = NULL,
   value.labels = NULL, auto.group = NULL, sort.frq = c("none", "asc",
-  "desc"), alternateRowColors = FALSE, string.val = "value",
-  string.cnt = "N", string.prc = "raw \%", string.vprc = "valid \%",
+  "desc"), altr.row.col = FALSE, string.val = "value", string.cnt = "N",
+  string.prc = "raw \%", string.vprc = "valid \%",
   string.cprc = "cumulative \%", string.na = "missings", emph.md = FALSE,
   emph.quart = FALSE, skip.zero = "auto", show.summary = TRUE,
   show.skew = FALSE, show.kurtosis = FALSE, skewString = "&gamma;",
@@ -51,7 +51,7 @@ according to their frequencies or not. Default is \code{"none"}, so
 categories are not sorted by frequency. Use \code{"asc"} or
 \code{"desc"} for sorting categories ascending or descending order.}
 
-\item{alternateRowColors}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
+\item{altr.row.col}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
 
 \item{string.val}{label for the very first table column containing the values (see

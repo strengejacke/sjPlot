@@ -15,9 +15,6 @@
 #' 
 #' @param data A data frame with factors (each columns one variable) that should be used 
 #'          to compute a PCA, or a \code{\link{prcomp}} object.
-#' @param numberOfFactors A predefined number of factors to use for the calculating the varimax
-#'          rotation. By default, this value is \code{NULL} and the amount of factors is
-#'          calculated according to the Kaiser-criteria. See paramater \code{plotEigenvalues}.
 #' @param factorLoadingTolerance Specifies the minimum difference a variable needs to have between
 #'          factor loadings (components) in order to indicate a clear loading on just one factor and not
 #'          diffusing over all factors. For instance, a variable with 0.8, 0.82 and 0.84 factor loading 
@@ -47,38 +44,21 @@
 #' 
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.glmer
+#' @inheritParams sjt.pca
 #' 
 #' @note This PCA uses the \code{\link{prcomp}} function and the \code{\link{varimax}} rotation.
 #' 
 #' @examples
 #' # randomly create data frame with 7 items, each consisting of 4 categories
-#' likert_4 <- data.frame(sample(1:4, 
-#'                               500, 
-#'                               replace = TRUE, 
-#'                               prob = c(0.2, 0.3, 0.1, 0.4)),
-#'                        sample(1:4, 
-#'                               500, 
-#'                               replace = TRUE, 
-#'                               prob = c(0.5, 0.25, 0.15, 0.1)),
-#'                        sample(1:4, 
-#'                               500, 
-#'                               replace = TRUE, 
-#'                               prob = c(0.4, 0.15, 0.25, 0.2)),
-#'                        sample(1:4, 
-#'                               500, 
-#'                               replace = TRUE, 
-#'                               prob = c(0.25, 0.1, 0.4, 0.25)),
-#'                        sample(1:4, 
-#'                               500, 
-#'                               replace = TRUE, 
-#'                               prob = c(0.1, 0.4, 0.4, 0.1)),
-#'                        sample(1:4, 
-#'                               500, 
-#'                               replace = TRUE),
-#'                        sample(1:4, 
-#'                               500, 
-#'                               replace = TRUE, 
-#'                               prob = c(0.35, 0.25, 0.15, 0.25)))
+#' likert_4 <- data.frame(
+#'   sample(1:4, 500, replace = TRUE, prob = c(0.2, 0.3, 0.1, 0.4)),
+#'   sample(1:4, 500, replace = TRUE, prob = c(0.5, 0.25, 0.15, 0.1)),
+#'   sample(1:4, 500, replace = TRUE, prob = c(0.4, 0.15, 0.25, 0.2)),
+#'   sample(1:4, 500, replace = TRUE, prob = c(0.25, 0.1, 0.4, 0.25)),
+#'   sample(1:4, 500, replace = TRUE, prob = c(0.1, 0.4, 0.4, 0.1)),
+#'   sample(1:4, 500, replace = TRUE),
+#'   sample(1:4, 500, replace = TRUE, prob = c(0.35, 0.25, 0.15, 0.25))
+#' )
 #'
 #' # Create variable labels
 #' colnames(likert_4) <- c("V1", "V2", "V3", "V4", "V5", "V6", "V7")
@@ -90,17 +70,10 @@
 #' sjp.pca(likert_4, type = "bar")
 #' 
 #' # manually compute PCA
-#' pca <- prcomp(na.omit(likert_4), 
-#'               retx = TRUE, 
-#'               center = TRUE, 
-#'               scale. = TRUE)
+#' pca <- prcomp(na.omit(likert_4), retx = TRUE, center = TRUE, scale. = TRUE)
 #' # plot results from PCA as circles, including Eigenvalue-diagnostic.
 #' # note that this plot does not compute the Cronbach's Alpha
-#' sjp.pca(pca, 
-#'         plotEigenvalues = TRUE, 
-#'         type = "circle",
-#'         geom.size = 10)
-#' 
+#' sjp.pca(pca, plotEigenvalues = TRUE, type = "circle", geom.size = 10)
 #' 
 #' # -------------------------------
 #' # Data from the EUROFAMCARE sample dataset
@@ -135,13 +108,13 @@
 #' @importFrom stats na.omit prcomp
 #' @export
 sjp.pca <- function(data,
-                    numberOfFactors = NULL,
+                    nmbr.fctr = NULL,
                     factorLoadingTolerance = 0.1,
                     plotEigenvalues = FALSE,
                     digits = 2,
                     title = NULL,
                     axis.labels = NULL,
-                    type = "b",
+                    type = c("bar", "circle", "tile"),
                     geom.size = .6,
                     geom.colors = "RdBu",
                     wrap.title = 50,
@@ -152,9 +125,7 @@ sjp.pca <- function(data,
   # --------------------------------------------------------
   # check arguments
   # --------------------------------------------------------
-  if (type == "circles" || type == "circle") type <- "c"
-  if (type == "tiles" || type == "tile") type <- "t"
-  if (type == "bars" || type == "bar") type <- "b"
+  type <- match.arg(type)
   # --------------------------------------------------------
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
@@ -234,7 +205,7 @@ sjp.pca <- function(data,
   # varimax rotation, retrieve factor loadings
   # --------------------------------------------------------
   # check for predefined number of factors
-  if (!is.null(numberOfFactors) && is.numeric(numberOfFactors)) pcadata.kaiser <- numberOfFactors
+  if (!is.null(nmbr.fctr) && is.numeric(nmbr.fctr)) pcadata.kaiser <- nmbr.fctr
   pcadata.varim <- varimaxrota(pcadata, pcadata.kaiser)
   # pcadata.varim = varimax(loadings(pcadata))
   # create data frame with factor loadings
@@ -355,7 +326,7 @@ sjp.pca <- function(data,
   # --------------------------------------------------------
   # start with base plot object here
   # --------------------------------------------------------
-  if (type == "b") {
+  if (type == "bar") {
     heatmap <- ggplot(df, aes(x = rev(factor(ypos)), 
                               y = abs(value), 
                               fill = value))
@@ -367,9 +338,9 @@ sjp.pca <- function(data,
   # --------------------------------------------------------
   # determine the geom type, either points when "type" is "circles"
   # --------------------------------------------------------
-  if (type == "c") {
+  if (type == "circle") {
     geo <- geom_point(shape = 21, size = df$psize)
-  } else if (type == "t") {
+  } else if (type == "tile") {
     # ----------------------------------------
     # or boxes / tiles when "type" is "tile"
     # ----------------------------------------
@@ -394,7 +365,7 @@ sjp.pca <- function(data,
   # --------------------------------------------------------
   # facet bars, and flip coordinates
   # --------------------------------------------------------
-  if (type == "b") {
+  if (type == "bar") {
     heatmap <- heatmap + 
       scale_x_discrete(labels = rev(axis.labels)) +
       scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .2)) +

@@ -4,11 +4,11 @@
 \alias{sjt.pca}
 \title{Summary of principal component analysis as HTML table}
 \usage{
-sjt.pca(data, numberOfFactors = NULL, factorLoadingTolerance = 0.1,
-  file = NULL, varlabels = NULL,
+sjt.pca(data, nmbr.fctr = NULL, factorLoadingTolerance = 0.1, file = NULL,
+  varlabels = NULL,
   title = "Principal Component Analysis (with varimax rotation)",
   wrap.labels = 40, digits = 2, showCronbachsAlpha = TRUE,
-  showMSA = FALSE, showVariance = FALSE, alternateRowColors = FALSE,
+  showMSA = FALSE, showVariance = FALSE, altr.row.col = FALSE,
   stringPov = "Proportion of Variance",
   stringCpov = "Cumulative Proportion", encoding = NULL, CSS = NULL,
   use.viewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
@@ -17,7 +17,7 @@ sjt.pca(data, numberOfFactors = NULL, factorLoadingTolerance = 0.1,
 \item{data}{data frame with factors (each columns one variable) that should be used 
 to compute a PCA, or a \code{\link{prcomp}} object.}
 
-\item{numberOfFactors}{number of factors used for calculating the varimax
+\item{nmbr.fctr}{number of factors used for calculating the varimax
 rotation. By default, this value is \code{NULL} and the amount of factors is
 calculated according to the Kaiser-criteria. See paramater \code{plotEigenvalues}.}
 
@@ -54,7 +54,7 @@ dor each component.}
 \item{showVariance}{logical, if \code{TRUE}, the proportions of variances for each component as well as cumulative
 variance are shown in the table footer.}
 
-\item{alternateRowColors}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
+\item{altr.row.col}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
 
 \item{stringPov}{string for the table row that contains the proportions of variances. By default, 
@@ -114,33 +114,15 @@ See 'Notes' in \code{\link{sjt.frq}}.
 \examples{
 \dontrun{
 # randomly create data frame with 7 items, each consisting of 4 categories
-likert_4 <- data.frame(sample(1:4, 
-                              500, 
-                              replace = TRUE, 
-                              prob = c(0.2, 0.3, 0.1, 0.4)),
-                       sample(1:4, 
-                              500, 
-                              replace = TRUE, 
-                              prob = c(0.5, 0.25, 0.15, 0.1)),
-                       sample(1:4, 
-                              500, 
-                              replace = TRUE, 
-                              prob = c(0.4, 0.15, 0.25, 0.2)),
-                       sample(1:4, 
-                              500, 
-                              replace = TRUE, 
-                              prob = c(0.25, 0.1, 0.4, 0.25)),
-                       sample(1:4, 
-                              500, 
-                              replace = TRUE, 
-                              prob = c(0.1, 0.4, 0.4, 0.1)),
-                       sample(1:4, 
-                              500, 
-                              replace = TRUE),
-                       sample(1:4, 
-                              500, 
-                              replace = TRUE, 
-                              prob = c(0.35, 0.25, 0.15, 0.25)))
+likert_4 <- data.frame(
+  sample(1:4, 500, replace = TRUE, prob = c(0.2, 0.3, 0.1, 0.4)),
+  sample(1:4, 500, replace = TRUE, prob = c(0.5, 0.25, 0.15, 0.1)),
+  sample(1:4, 500, replace = TRUE, prob = c(0.4, 0.15, 0.25, 0.2)),
+  sample(1:4, 500, replace = TRUE, prob = c(0.25, 0.1, 0.4, 0.25)),
+  sample(1:4, 500, replace = TRUE, prob = c(0.1, 0.4, 0.4, 0.1)),
+  sample(1:4, 500, replace = TRUE),
+  sample(1:4, 500, replace = TRUE, prob = c(0.35, 0.25, 0.15, 0.25))
+)
 
 # Create variable labels
 colnames(likert_4) <- c("V1", "V2", "V3", "V4", "V5", "V6", "V7")

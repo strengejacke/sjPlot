@@ -4,7 +4,7 @@
 \alias{view_df}
 \title{View structure of labelled data frames}
 \usage{
-view_df(x, weight.by = NULL, file = NULL, alternateRowColors = TRUE,
+view_df(x, weight.by = NULL, file = NULL, altr.row.col = TRUE,
   show.id = TRUE, show.type = FALSE, show.values = TRUE,
   show.labels = TRUE, show.frq = FALSE, show.prc = FALSE,
   show.wtd.frq = FALSE, show.wtd.prc = FALSE, show.na = FALSE,
@@ -26,7 +26,7 @@ Must be a vector of same length as the input vector. Default is
 If \code{NULL} (default), the output will be saved as temporary file and 
 openend either in the IDE's viewer pane or the default web browser.}
 
-\item{alternateRowColors}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
+\item{altr.row.col}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
 
 \item{show.id}{logical, if \code{TRUE} (default), the variable ID is shown in the first column.}

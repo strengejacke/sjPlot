@@ -36,18 +36,16 @@
 #'          component-table. Must be a character vector of same length as \code{length(unique(factor.groups))}.
 #'          Default is \code{"auto"}, which means that each table has a standard caption \emph{Component x}.
 #'          Use \code{NULL} to suppress table captions.
-#' @param scaleItems logical, if \code{TRUE}, the data frame's vectors will be scaled when calculating the
+#' @param scale logical, if \code{TRUE}, the data frame's vectors will be scaled when calculating the
 #'          Cronbach's Alpha value (see \code{\link[sjmisc]{reliab_test}}). Recommended, when 
 #'          the variables have different measures / scales.
-#' @param minValidRowMeanValue minimum amount of valid values to compute row means for index scores.
+#' @param min.valid.rowmean minimum amount of valid values to compute row means for index scores.
 #'          Default is 2, i.e. the return values \code{index.scores} and \code{df.index.scores} are
-#'          computed for those items that have at least \code{minValidRowMeanValue} per case (observation, or
+#'          computed for those items that have at least \code{min.valid.rowmean} per case (observation, or
 #'          technically, row). See \code{mean_n} for details.
-#' @param alternateRowColors logical, if \code{TRUE}, alternating rows are highlighted with a light gray
-#'          background color.
-#' @param showShapiro logical, if \code{TRUE}, a Shapiro-Wilk normality test is computed for each item.
+#' @param show.shapiro logical, if \code{TRUE}, a Shapiro-Wilk normality test is computed for each item.
 #'          See \code{\link{shapiro.test}} for details.
-#' @param showKurtosis logical, if \code{TRUE}, the kurtosis for each item will also be shown (see \code{\link[psych]{kurtosi}}
+#' @param show.kurtosis logical, if \code{TRUE}, the kurtosis for each item will also be shown (see \code{\link[psych]{kurtosi}}
 #'          and \code{\link[psych]{describe}} in the \code{psych}-package for more details.
 #' @param showCompCorrMat logical, if \code{TRUE} (default), a correlation matrix of each component's
 #'          index score is shown. Only applies if \code{factor.groups} is not \code{NULL} and \code{df} has
@@ -134,13 +132,13 @@
 sjt.itemanalysis <- function(df,
                              factor.groups = NULL,
                              factor.groups.titles = "auto",
-                             scaleItems = FALSE,
-                             minValidRowMeanValue = 2,
-                             alternateRowColors = TRUE,
+                             scale = FALSE,
+                             min.valid.rowmean = 2,
+                             altr.row.col = TRUE,
                              sort.col = NULL,
                              sort.asc = TRUE,
-                             showShapiro = FALSE,
-                             showKurtosis = FALSE,
+                             show.shapiro = FALSE,
+                             show.kurtosis = FALSE,
                              showCompCorrMat = TRUE,
                              file = NULL,
                              encoding = NULL,
@@ -247,11 +245,11 @@ sjt.itemanalysis <- function(df,
     # get statistics
     # -----------------------------------
     dstat <- psych::describe(df.sub)
-    reli <- sjmisc::reliab_test(df.sub, scale.items = scaleItems)
+    reli <- sjmisc::reliab_test(df.sub, scale.items = scale)
     # -----------------------------------
     # get index score value, by retrieving the row mean
     # -----------------------------------
-    item.score <- sjmisc::mean_n(df.sub, minValidRowMeanValue)
+    item.score <- sjmisc::mean_n(df.sub, min.valid.rowmean)
     # -----------------------------------
     # store scaled values of each item's total score
     # to compute correlation coefficients between identified components
@@ -280,14 +278,14 @@ sjt.itemanalysis <- function(df,
     # -----------------------------------
     # include kurtosis statistics
     # -----------------------------------
-    if (showKurtosis) {
+    if (show.kurtosis) {
       df.dummy <- data.frame(cbind(df.dummy, round(dstat$kurtosis, 2)))
       df.colnames <- c(df.colnames, "Kurtosis")
     }
     # -----------------------------------
     # include shapiro-wilk normality test
     # -----------------------------------
-    if (showShapiro) {
+    if (show.shapiro) {
       shaptest.w <- apply(df.sub, 2, function(x) stats::shapiro.test(x)$statistic)
       shaptest.p <- apply(df.sub, 2, function(x) stats::shapiro.test(x)$p.value)
       df.dummy <- data.frame(cbind(df.dummy, sprintf("%.2f (%.3f)", shaptest.w, shaptest.p)))
@@ -341,11 +339,11 @@ sjt.itemanalysis <- function(df,
                    title = dftitle, 
                    sort.asc = sort.asc, 
                    sort.col = sort.col, 
-                   alternateRowColors = alternateRowColors, 
+                   altr.row.col = altr.row.col, 
                    CSS = CSS, 
                    encoding = encoding, 
-                   showCommentRow = TRUE, 
-                   commentString = sprintf("Mean inter-item-correlation=%.3f &middot; Cronbach's &alpha;=%.3f", mic.total[[i]], cronbach.total[[i]]))
+                   show.cmmn.row = TRUE, 
+                   string.cmmn = sprintf("Mean inter-item-correlation=%.3f &middot; Cronbach's &alpha;=%.3f", mic.total[[i]], cronbach.total[[i]]))
     # add to complete html-page
     complete.page <- paste0(complete.page, html$knitr)
     complete.page <- paste0(complete.page, "<p style=\"margin:2em;\">&nbsp;</p>")

@@ -23,17 +23,13 @@
 #'            \item \code{"last.desc"} to order descending by lowest count of last category,
 #'            \item or \code{NULL} (default) for no sorting.
 #'          }
-#' @param showTotalN logical, if \code{TRUE}, an additional column with each item's total N is printed.
+#' @param show.total logical, if \code{TRUE}, an additional column with each item's total N is printed.
 #' @param string.na The label for the missing column/row.
-#' @param showSkew logical, if \code{TRUE}, an additional column with each item's skewness is printed.
+#' @param show.skew logical, if \code{TRUE}, an additional column with each item's skewness is printed.
 #'          The skewness is retrieved from the \code{\link[psych]{describe}}-function 
 #'          of the \pkg{psych}-package.
 #' @param digits.stats amount of digits for rounding the skewness and kurtosis valuess.
 #'          Default is 2, i.e. skewness and kurtosis values have 2 digits after decimal point.
-#' @param skewString string, which is used as header for the skew column (see \code{showSkew})).
-#'          Default is \code{"Skew"}.
-#' @param kurtosisString string, which is used as header for the kurtosis column (see \code{showKurtosis})).
-#'          Default is \code{"Kurtosis"}.
 #'          
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.df
@@ -93,17 +89,17 @@
 #' # recveive first item of COPE-index scale
 #' end <- which(colnames(efc) == "c90cop9")
 #' 
-#' sjt.stackfrq(efc[, c(start:end)], alternateRowColors = TRUE)
+#' sjt.stackfrq(efc[, c(start:end)], altr.row.col = TRUE)
 #' 
-#' sjt.stackfrq(efc[, c(start:end)], alternateRowColors = TRUE,
+#' sjt.stackfrq(efc[, c(start:end)], altr.row.col = TRUE,
 #'              show.n = TRUE, show.na = TRUE)
 #'          
 #'          
 #' # -------------------------------- 
 #' # User defined style sheet
 #' # -------------------------------- 
-#' sjt.stackfrq(efc[, c(start:end)], alternateRowColors = TRUE, 
-#'              showTotalN = TRUE, showSkew = TRUE, showKurtosis = TRUE,
+#' sjt.stackfrq(efc[, c(start:end)], altr.row.col = TRUE, 
+#'              show.total = TRUE, show.skew = TRUE, show.kurtosis = TRUE,
 #'              CSS = list(css.ncol = "border-left:1px dotted black;",
 #'                         css.summary = "font-style:italic;"))}
 #'              
@@ -117,17 +113,15 @@ sjt.stackfrq <- function(items,
                          value.labels = NULL,
                          wrap.labels = 20,
                          sort.frq = NULL,
-                         alternateRowColors = FALSE,
+                         altr.row.col = FALSE,
                          digits = 2,
                          show.n = FALSE,
-                         showTotalN = FALSE,
+                         show.total = FALSE,
                          show.na = FALSE,
                          string.na = "NA",
-                         showSkew = FALSE,
-                         showKurtosis = FALSE,
+                         show.skew = FALSE,
+                         show.kurtosis = FALSE,
                          digits.stats = 2,
-                         skewString = "Skew",
-                         kurtosisString = "Kurtosis",
                          file = NULL, 
                          encoding = NULL,
                          CSS = NULL,
@@ -201,7 +195,7 @@ sjt.stackfrq <- function(items,
   # ----------------------------  
   # additional statistics required from psych-package?
   # ----------------------------
-  if (showSkew || showKurtosis) pstat <- psych::describe(items)
+  if (show.skew || show.kurtosis) pstat <- psych::describe(items)
   # ----------------------------
   # create data frame with each item in a row
   # therefore, iterate each item
@@ -383,11 +377,11 @@ sjt.stackfrq <- function(items,
     page.content <- paste0(page.content, sprintf("    <th class=\"thead\">%s</th>\n", value.labels[i]))
   }
   # add N column
-  if (showTotalN) page.content <- paste0(page.content, "    <th class=\"thead ncol summary\">N</th>\n")
+  if (show.total) page.content <- paste0(page.content, "    <th class=\"thead ncol summary\">N</th>\n")
   # add skew column
-  if (showSkew) page.content <- paste0(page.content, sprintf("    <th class=\"thead skewcol summary\">%s</th>\n", skewString))
+  if (show.skew) page.content <- paste0(page.content, "    <th class=\"thead skewcol summary\">Skew</th>\n")
   # add kurtosis column
-  if (showKurtosis) page.content <- paste0(page.content, sprintf("    <th class=\"thead kurtcol summary\">%s</th>\n", kurtosisString))
+  if (show.kurtosis) page.content <- paste0(page.content, "    <th class=\"thead kurtcol summary\">Kurtosis</th>\n")
   # close table row
   page.content <- paste0(page.content, "  </tr>\n")
   # -------------------------------------
@@ -398,7 +392,7 @@ sjt.stackfrq <- function(items,
     # default row string for alternative row colors
     arcstring <- ""
     # if we have alternating row colors, set css
-    if (alternateRowColors) arcstring <- ifelse(sjmisc::is_even(i), " arc", "")
+    if (altr.row.col) arcstring <- ifelse(sjmisc::is_even(i), " arc", "")
     # write tr-tag
     page.content <- paste0(page.content, "  <tr>\n")
     # print first table cell
@@ -414,11 +408,11 @@ sjt.stackfrq <- function(items,
       }
     }
     # add column with N's
-    if (showTotalN) page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign ncol summary%s\">%i</td>\n", arcstring, itemcount[facord[i]]))
+    if (show.total) page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign ncol summary%s\">%i</td>\n", arcstring, itemcount[facord[i]]))
     # add column with Skew's
-    if (showSkew) page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign skewcol summary%s\">%.*f</td>\n", arcstring, digits.stats, pstat$skew[facord[i]]))
+    if (show.skew) page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign skewcol summary%s\">%.*f</td>\n", arcstring, digits.stats, pstat$skew[facord[i]]))
     # add column with Kurtosis's
-    if (showKurtosis) page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign kurtcol summary%s\">%.*f</td>\n", arcstring, digits.stats, pstat$kurtosis[facord[i]]))
+    if (show.kurtosis) page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign kurtcol summary%s\">%.*f</td>\n", arcstring, digits.stats, pstat$kurtosis[facord[i]]))
     # close row
     page.content <- paste0(page.content, "  </tr>\n")
   }
