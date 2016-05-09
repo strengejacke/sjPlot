@@ -62,7 +62,7 @@ of the \pkg{psych}-package.}
 
 \item{show.kurtosis}{If \code{TRUE}, the variable's kurtosis is added to the summary.
 The kurtosis is retrieved from the \code{\link[psych]{describe}}-function 
-of the \pkg{psych}-package.}
+of the \pkg{psych}-package and indicated by a lower case Greek omega.}
 
 \item{digits.stats}{amount of digits for rounding the skewness and kurtosis valuess.
 Default is 2, i.e. skewness and kurtosis values have 2 digits after decimal point.}

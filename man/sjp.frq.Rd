@@ -202,41 +202,23 @@ sjp.frq(efc$e15relat)
 # grouped variable
 ageGrp <- group_var(efc$e17age)
 ageGrpLab <- group_labels(efc$e17age)
-sjp.frq(ageGrp,
-        title = get_label(efc$e17age),
-        axis.labels = ageGrpLab)
-
+sjp.frq(ageGrp, title = get_label(efc$e17age), axis.labels = ageGrpLab)
 
 # negative impact scale, ranging from 7-28
 sjp.frq(efc$neg_c_7)
 
-
-# plotting confidence intervals
-sjp.frq(efc$e15relat,
-        type = "dot",
-        show.ci = TRUE,
-        sort.frq = "desc",
-        coord.flip = TRUE,
-        expand.grid = TRUE, # for text labels
-        vjust = "bottom",   # for text labels
-        hjust = "left")     # for text labels
-
+# plotting confidence intervals. expand grid and v/hjust for text labels
+sjp.frq(efc$e15relat, type = "dot", show.ci = TRUE, sort.frq = "desc",
+        coord.flip = TRUE, expand.grid = TRUE, vjust = "bottom", 
+        hjust = "left")
 
 # Simulate ggplot-default histogram
-sjp.frq(efc$c160age, 
-        type = "h", 
-        geom.size = 3)
+sjp.frq(efc$c160age, type = "h", geom.size = 3)
 
 # histogram with overlayed normal curve
-sjp.frq(efc$c160age,
-        type = "h",
-        show.mean = TRUE,
-        show.mean.val = TRUE,
-        normal.curve = TRUE,
-        show.sd = TRUE,
-        normal.curve.color = "blue",
-        normal.curve.size = 3,
-        ylim = c(0,50))
+sjp.frq(efc$c160age, type = "h", show.mean = TRUE, show.mean.val = TRUE,
+        normal.curve = TRUE, show.sd = TRUE, normal.curve.color = "blue",
+        normal.curve.size = 3, ylim = c(0,50))
 
 }
 \seealso{

@@ -11,10 +11,9 @@ sjt.frq(data, file = NULL, weight.by = NULL,
   string.prc = "raw \%", string.vprc = "valid \%",
   string.cprc = "cumulative \%", string.na = "missings", emph.md = FALSE,
   emph.quart = FALSE, skip.zero = "auto", show.summary = TRUE,
-  show.skew = FALSE, show.kurtosis = FALSE, skewString = "&gamma;",
-  kurtosisString = "&omega;", digits = 2, removeStringVectors = TRUE,
-  autoGroupStrings = TRUE, maxStringDist = 3, encoding = NULL,
-  CSS = NULL, use.viewer = TRUE, no.output = FALSE,
+  show.skew = FALSE, show.kurtosis = FALSE, digits = 2,
+  ignore.strings = TRUE, auto.grp.strings = TRUE, max.string.dist = 3,
+  encoding = NULL, CSS = NULL, use.viewer = TRUE, no.output = FALSE,
   remove.spaces = TRUE)
 }
 \arguments{
@@ -87,32 +86,26 @@ standard deviation is shown.}
 
 \item{show.skew}{If \code{TRUE}, the variable's skewness is added to the summary.
 The skewness is retrieved from the \code{\link[psych]{describe}}-function 
-of the \pkg{psych}-package.}
+of the \pkg{psych}-package and indicated by a lower case Greek gamma.}
 
 \item{show.kurtosis}{If \code{TRUE}, the variable's kurtosis is added to the summary.
 The kurtosis is retrieved from the \code{\link[psych]{describe}}-function 
-of the \pkg{psych}-package.}
-
-\item{skewString}{A character string, which is used as header for the skew 
-column (see \code{show.skew})). Default is lower case Greek gamma.}
-
-\item{kurtosisString}{A character string, which is used as header for the 
-kurtosis column (see \code{show.kurtosis})). Default is lower case 
-Greek omega.}
+of the \pkg{psych}-package and indicated by a lower case Greek omega.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
-\item{removeStringVectors}{If \code{TRUE} (default), character vectors / string variables will be removed from
+\item{ignore.strings}{If \code{TRUE} (default), character vectors / string variables will be removed from
 \code{data} before frequency tables are computed.}
 
-\item{autoGroupStrings}{if \code{TRUE} (default), string values in character 
+\item{auto.grp.strings}{if \code{TRUE} (default), string values in character 
 vectors (string variables) are automatically grouped based on their 
 similarity. The similarity is estimated with the \pkg{stringdist}-package.
-You can specify a distance-measure via \code{maxStringDist} argument. This argument only
-applies if \code{removeStringVectors} is \code{FALSE}.}
+You can specify a distance-measure via \code{max.string.dist} argument. This argument only
+applies if \code{ignore.strings} is \code{FALSE}.}
 
-\item{maxStringDist}{the allowed distance of string values in a character vector, which indicates
-when two string values are merged because they are considered as close enough.}
+\item{max.string.dist}{the allowed distance of string values in a character vector, which indicates
+when two string values are merged because they are considered as close enough.
+See \code{auto.grp.strings}.}
 
 \item{encoding}{string, indicating the charset encoding used for variable and 
 value labels. Default is \code{NULL}, so encoding will be auto-detected 

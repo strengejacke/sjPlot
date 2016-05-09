@@ -48,18 +48,14 @@ utils::globalVariables(c("ordx", "ordy"))
 #'
 #' @examples
 #' # create data frame with 5 random variables
-#' mydf <- data.frame(cbind(runif(10), 
-#'                          runif(10), 
-#'                          runif(10), 
-#'                          runif(10), 
-#'                          runif(10)))
+#' mydf <- data.frame(cbind(runif(10), runif(10), runif(10), 
+#'                          runif(10), runif(10)))
 #'
 #' # plot correlation matrix using circles
 #' sjp.corr(mydf)
 #'
 #' # plot correlation matrix using square tiles without diagram background
 #' sjp.corr(mydf, type = "tile")
-#'
 #'
 #' # -------------------------------
 #' # Data from the EUROFAMCARE sample dataset

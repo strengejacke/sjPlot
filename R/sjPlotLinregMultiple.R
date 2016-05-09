@@ -19,14 +19,12 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #'            \item{\code{"std"}}{for forest-plot like plot of standardized beta values.}
 #'            \item{\code{"std2"}}{for forest-plot like plot of standardized beta values, however, standardization is done by rescaling estimates by dividing them by two sd (see 'Details' in \code{\link{sjp.lm}}).}
 #'          }
-#' @param legendDepVarTitle character vector used for the legend title.
-#'          Default is \code{"Dependent Variables"}.
-#' @param legendPValTitle character vector used for the title of the significance level's legend.
-#'          Default is \code{"p-level"}. Only applies if \code{usePShapes = TRUE}.
+#' @param legend.pval.title title of the plot legend that indicates the p-values, as string.
+#'          Default is \code{"p-level"}. Only applies if \code{p.shape = TRUE}.
 #' @param geom.spacing spacing between the dots and error bars of the plotted fitted models. Default
 #'          is 0.3.
 #' @param fade.ns if \code{TRUE}, non significant estimates will be printed in slightly faded colors.
-#' @param usePShapes If \code{TRUE}, significant levels are distinguished by different point shapes and a related
+#' @param p.shape If \code{TRUE}, significant levels are distinguished by different point shapes and a related
 #'          legend is plotted. Default is \code{FALSE}.
 #'          
 #' @inheritParams sjp.lm
@@ -60,14 +58,10 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #' # plot multiple models with legend labels and 
 #' # point shapes instead of value labels
 #' sjp.lmm(fit1, fit2, fit3,
-#'          axis.labels = c("Carer's Age", "Hours of Care", "Carer's Sex",
-#'                          "Educational Status"),
-#'          depvar.labels = c("Barthel Index", "Negative Impact", 
-#'                            "Services used"),
-#'          show.values = FALSE,
-#'          show.p = FALSE,
-#'          fade.ns = TRUE,
-#'          usePShapes = TRUE)
+#'         axis.labels = c("Carer's Age", "Hours of Care", "Carer's Sex",
+#'                         "Educational Status"),
+#'         depvar.labels = c("Barthel Index", "Negative Impact", "Services used"),
+#'         show.values = FALSE, show.p = FALSE, fade.ns = TRUE, p.shape = TRUE)
 #' 
 #' # ------------------------------
 #' # plot multiple models from nested lists argument
@@ -99,8 +93,8 @@ sjp.lmm <- function(...,
                     type = "lm",
                     title = NULL,
                     depvar.labels = NULL,
-                    legendDepVarTitle = "Dependent Variables",
-                    legendPValTitle = "p-level",
+                    legend.title = "Dependent Variables",
+                    legend.pval.title = "p-level",
                     axis.labels = NULL,
                     axis.title = "Estimates",
                     axis.lim = NULL,
@@ -112,7 +106,7 @@ sjp.lmm <- function(...,
                     geom.spacing = 0.4,
                     geom.colors = "Set1",
                     fade.ns = FALSE,
-                    usePShapes = FALSE,
+                    p.shape = FALSE,
                     p.kr = TRUE,
                     vline.type = 2,
                     vline.color = "grey70",
@@ -351,7 +345,7 @@ sjp.lmm <- function(...,
   # first check, whether user wants different shapes for
   # different p-levels
   # --------------------------------------------------------
-  if (usePShapes) {
+  if (p.shape) {
     plotHeader <- plotHeader +
       # set shape aesthetic. we have to repeat the other aesthestics as well,
       # because otherwise the order of point shapes differes from the order
@@ -399,8 +393,8 @@ sjp.lmm <- function(...,
     labs(title = title, 
          x = NULL, 
          y = axis.title, 
-         shape = legendPValTitle, 
-         colour = legendDepVarTitle) +
+         shape = legend.pval.title, 
+         colour = legend.title) +
     scale_x_discrete(labels = axis.labels) +
     scale_y_continuous(limits = c(lower_lim, upper_lim), 
                        breaks = ticks, 

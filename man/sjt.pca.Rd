@@ -4,13 +4,13 @@
 \alias{sjt.pca}
 \title{Summary of principal component analysis as HTML table}
 \usage{
-sjt.pca(data, nmbr.fctr = NULL, factorLoadingTolerance = 0.1, file = NULL,
-  varlabels = NULL,
+sjt.pca(data, nmbr.fctr = NULL, fctr.load.tlrn = 0.1, file = NULL,
+  var.labels = NULL,
   title = "Principal Component Analysis (with varimax rotation)",
-  wrap.labels = 40, digits = 2, showCronbachsAlpha = TRUE,
-  showMSA = FALSE, showVariance = FALSE, altr.row.col = FALSE,
-  stringPov = "Proportion of Variance",
-  stringCpov = "Cumulative Proportion", encoding = NULL, CSS = NULL,
+  wrap.labels = 40, digits = 2, show.cronb = TRUE, show.msa = FALSE,
+  show.var = FALSE, altr.row.col = FALSE,
+  string.pov = "Proportion of Variance",
+  string.cpov = "Cumulative Proportion", encoding = NULL, CSS = NULL,
   use.viewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
@@ -21,7 +21,7 @@ to compute a PCA, or a \code{\link{prcomp}} object.}
 rotation. By default, this value is \code{NULL} and the amount of factors is
 calculated according to the Kaiser-criteria. See paramater \code{plotEigenvalues}.}
 
-\item{factorLoadingTolerance}{specifies the minimum difference a variable needs to have between
+\item{fctr.load.tlrn}{specifies the minimum difference a variable needs to have between
 factor loadings (components) in order to indicate a clear loading on just one factor and not
 diffusing over all factors. For instance, a variable with 0.8, 0.82 and 0.84 factor loading 
 on 3 possible factors can not be clearly assigned to just one factor and thus would be removed
@@ -32,8 +32,8 @@ between the highest and 2nd highest factor should be 0.1}
 If \code{NULL} (default), the output will be saved as temporary file and 
 openend either in the IDE's viewer pane or the default web browser.}
 
-\item{varlabels}{character vector with item labels that are printed in the first column. If no item labels are
-provided (default), the data frame's column names are used.}
+\item{var.labels}{character vector with variable names, which will be used 
+to label variables in the output.}
 
 \item{title}{string, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
@@ -43,24 +43,24 @@ labels are displayed in one line and when a line break is inserted.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
-\item{showCronbachsAlpha}{logical, if \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
+\item{show.cronb}{logical, if \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
 i.e. all variables with the highest loading for a factor are taken for the
 reliability test. The result is an alpha value for each factor dimension.
 Only applies when \code{data} is a data frame and no \code{\link{prcomp}} object.}
 
-\item{showMSA}{logical, if \code{TRUE}, shows an additional column with the measure of sampling adequacy according
+\item{show.msa}{logical, if \code{TRUE}, shows an additional column with the measure of sampling adequacy according
 dor each component.}
 
-\item{showVariance}{logical, if \code{TRUE}, the proportions of variances for each component as well as cumulative
+\item{show.var}{logical, if \code{TRUE}, the proportions of variances for each component as well as cumulative
 variance are shown in the table footer.}
 
 \item{altr.row.col}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
 
-\item{stringPov}{string for the table row that contains the proportions of variances. By default, 
+\item{string.pov}{string for the table row that contains the proportions of variances. By default, 
 \emph{"Proportion of Variance"} will be used.}
 
-\item{stringCpov}{string for the table row that contains the cumulative variances. By default, 
+\item{string.cpov}{string for the table row that contains the cumulative variances. By default, 
 \emph{"Cumulative Proportion"} will be used.}
 
 \item{encoding}{string, indicating the charset encoding used for variable and 
@@ -91,7 +91,7 @@ Invisibly returns
            \item the complete html-output (\code{output.complete}),
            \item the html-table with inline-css for use with knitr (\code{knitr}),
            \item the \code{factor.index}, i.e. the column index of each variable with the highest factor loading for each factor and
-           \item the \code{removed.items}, i.e. which variables have been removed because they were outside of the \code{factorLoadingTolerance}'s range.
+           \item the \code{removed.items}, i.e. which variables have been removed because they were outside of the \code{fctr.load.tlrn}'s range.
            }
            for further use.
 }

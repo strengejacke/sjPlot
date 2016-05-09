@@ -5,15 +5,15 @@
 \title{Plot estimates of multiple fitted lm(er)'s}
 \usage{
 sjp.lmm(..., type = "lm", title = NULL, depvar.labels = NULL,
-  legendDepVarTitle = "Dependent Variables", legendPValTitle = "p-level",
+  legend.title = "Dependent Variables", legend.pval.title = "p-level",
   axis.labels = NULL, axis.title = "Estimates", axis.lim = NULL,
   wrap.title = 50, wrap.labels = 25, breakLegendTitleAt = 20,
   grid.breaks = NULL, geom.size = 3, geom.spacing = 0.4,
-  geom.colors = "Set1", fade.ns = FALSE, usePShapes = FALSE,
-  p.kr = TRUE, vline.type = 2, vline.color = "grey70",
-  remove.estimates = NULL, coord.flip = TRUE, show.intercept = FALSE,
-  show.values = TRUE, digits = 2, show.p = TRUE, show.legend = TRUE,
-  facet.grid = FALSE, printPlot = TRUE)
+  geom.colors = "Set1", fade.ns = FALSE, p.shape = FALSE, p.kr = TRUE,
+  vline.type = 2, vline.color = "grey70", remove.estimates = NULL,
+  coord.flip = TRUE, show.intercept = FALSE, show.values = TRUE,
+  digits = 2, show.p = TRUE, show.legend = TRUE, facet.grid = FALSE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{...}{one or more fitted \code{lm} or \code{lmerMod}-objects. May also 
@@ -33,11 +33,10 @@ will be set automatically. If \code{title = ""}, no title is printed.}
 \item{depvar.labels}{character vector with labels of dependent 
 variables of all fitted models. See 'Examples'.}
 
-\item{legendDepVarTitle}{character vector used for the legend title.
-Default is \code{"Dependent Variables"}.}
+\item{legend.title}{title of the plot legend, as string.}
 
-\item{legendPValTitle}{character vector used for the title of the significance level's legend.
-Default is \code{"p-level"}. Only applies if \code{usePShapes = TRUE}.}
+\item{legend.pval.title}{title of the plot legend that indicates the p-values, as string.
+Default is \code{"p-level"}. Only applies if \code{p.shape = TRUE}.}
 
 \item{axis.labels}{character vector with labels used as axis labels.}
 
@@ -75,7 +74,7 @@ of same length as groups. See 'Examples'.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 
-\item{usePShapes}{If \code{TRUE}, significant levels are distinguished by different point shapes and a related
+\item{p.shape}{If \code{TRUE}, significant levels are distinguished by different point shapes and a related
 legend is plotted. Default is \code{FALSE}.}
 
 \item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
@@ -149,14 +148,10 @@ sjp.lmm(fit1, fit2, fit3, facet.grid = TRUE)
 # plot multiple models with legend labels and 
 # point shapes instead of value labels
 sjp.lmm(fit1, fit2, fit3,
-         axis.labels = c("Carer's Age", "Hours of Care", "Carer's Sex",
-                         "Educational Status"),
-         depvar.labels = c("Barthel Index", "Negative Impact", 
-                           "Services used"),
-         show.values = FALSE,
-         show.p = FALSE,
-         fade.ns = TRUE,
-         usePShapes = TRUE)
+        axis.labels = c("Carer's Age", "Hours of Care", "Carer's Sex",
+                        "Educational Status"),
+        depvar.labels = c("Barthel Index", "Negative Impact", "Services used"),
+        show.values = FALSE, show.p = FALSE, fade.ns = TRUE, p.shape = TRUE)
 
 # ------------------------------
 # plot multiple models from nested lists argument

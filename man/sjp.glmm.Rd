@@ -5,12 +5,12 @@
 \title{Plot estimates of multiple fitted glm(er)'s}
 \usage{
 sjp.glmm(..., title = NULL, depvar.labels = NULL,
-  legendDepVarTitle = "Dependent Variables", legendPValTitle = "p-level",
+  legend.title = "Dependent Variables", legend.pval.title = "p-level",
   axis.labels = NULL, axis.title = "Odds Ratios", axis.lim = NULL,
   wrap.title = 50, wrap.labels = 25, breakLegendTitleAt = 20,
   grid.breaks = 0.5, transformTicks = TRUE, geom.size = 3,
   geom.spacing = 0.4, geom.colors = "Set1", fade.ns = FALSE,
-  usePShapes = FALSE, vline.type = 2, vline.color = "grey70",
+  p.shape = FALSE, vline.type = 2, vline.color = "grey70",
   remove.estimates = NULL, coord.flip = TRUE, show.intercept = FALSE,
   show.values = TRUE, digits = 2, show.p = TRUE, show.legend = TRUE,
   facet.grid = FALSE, printPlot = TRUE)
@@ -26,11 +26,10 @@ will be set automatically. If \code{title = ""}, no title is printed.}
 \item{depvar.labels}{character vector with labels of dependent 
 variables of all fitted models. See 'Examples'.}
 
-\item{legendDepVarTitle}{character vector used for the legend title.
-Default is \code{"Dependent Variables"}.}
+\item{legend.title}{title of the plot legend, as string.}
 
-\item{legendPValTitle}{character vector used for the title of the significance level's legend.
-Default is \code{"p-level"}. Only applies if \code{usePShapes = TRUE}.}
+\item{legend.pval.title}{title of the plot legend that indicates the p-values, as string.
+Default is \code{"p-level"}. Only applies if \code{p.shape = TRUE}.}
 
 \item{axis.labels}{character vector with labels used as axis labels.}
 
@@ -74,7 +73,7 @@ of same length as groups. See 'Examples'.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 
-\item{usePShapes}{If \code{TRUE}, significant levels are distinguished by different point shapes and a related
+\item{p.shape}{If \code{TRUE}, significant levels are distinguished by different point shapes and a related
 legend is plotted. Default is \code{FALSE}.}
 
 \item{vline.type}{linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
@@ -145,8 +144,7 @@ sjp.glmm(fitOR1, fitOR2, fitOR3, facet.grid = TRUE)
 # plot multiple models with legend labels and point shapes instead of value  labels
 sjp.glmm(fitOR1, fitOR2, fitOR3,
          depvar.labels = c("Fertility", "Infant Mortality", "Agriculture"),
-         show.values = FALSE, show.p = FALSE, fade.ns = TRUE, 
-         usePShapes = TRUE)
+         show.values = FALSE, show.p = FALSE, fade.ns = TRUE, p.shape = TRUE)
 
 # plot multiple models from nested lists argument
 all.models <- list()
@@ -155,7 +153,6 @@ all.models[[2]] <- fitOR2
 all.models[[3]] <- fitOR3
 
 sjp.glmm(all.models)
-
 
 # -------------------------------
 # Predictors for negative impact
@@ -178,8 +175,7 @@ mydat <- data.frame(y = as.factor(y),
                     edu.mid = as.factor(edu.mid),
                     edu.hi = as.factor(edu.high))
 
-fit1 <- glm(y ~ sex + edu.mid + edu.hi, 
-            data = mydat, 
+fit1 <- glm(y ~ sex + edu.mid + edu.hi,  data = mydat, 
             family = binomial(link = "logit"))
 fit2 <- update(fit1, . ~ . + barthel)
 fit3 <- update(fit2, . ~ . + dep)

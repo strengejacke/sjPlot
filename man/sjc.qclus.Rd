@@ -152,9 +152,7 @@ sjc.qclus(mtcars)
 
 # k-means clustering of mtcars-dataset with 4 pre-defined
 # groups in a faceted panel
-sjc.qclus(airquality, 
-          groupcount = 4, 
-          facet.grid = TRUE)}
+sjc.qclus(airquality, groupcount = 4, facet.grid = TRUE)}
           
 # k-means clustering of airquality data
 # and saving the results. most likely, 3 cluster
@@ -163,9 +161,7 @@ airgrp <- sjc.qclus(airquality)
 
 # "re-plot" cluster groups, without computing
 # new k-means cluster analysis.
-sjc.qclus(airquality,
-          groupcount = 3,
-          groups = airgrp$classification)
+sjc.qclus(airquality, groupcount = 3, groups = airgrp$classification)
 
 }
 \references{

@@ -153,10 +153,8 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #' # fit model
 #' fit <- lm(neg_c_7 ~ quol_5, data=efc)
 #' # plot regression line with label strings
-#' sjp.lm(fit,
-#'        resp.label = "Burden of care",
-#'        axis.labels = "Quality of life",
-#'        show.loess = TRUE)
+#' sjp.lm(fit, resp.label = "Burden of care",
+#'        axis.labels = "Quality of life", show.loess = TRUE)
 #'
 #' # --------------------------------------------------
 #' # plotting regression lines of each single predictor
@@ -171,9 +169,7 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #' sjp.lm(fit, type = "slope")
 #'
 #' # reression line w/o scatter plot
-#' sjp.lm(fit,
-#'        type = "slope",
-#'        scatter.plot = FALSE)
+#' sjp.lm(fit, type = "slope", scatter.plot = FALSE)
 #'
 #' # --------------------------
 #' # plotting model assumptions
@@ -190,20 +186,15 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'           data = efc)
 #'
 #' # order estimates according to coefficient's order
-#' sjp.lm(fit,
-#'        group.estimates = c(1, 1, 2, 3, 3, 4),
-#'        geom.colors = c("green", "red", "blue", "grey"),
-#'        sort.est = FALSE)
+#' sjp.lm(fit, group.estimates = c(1, 1, 2, 3, 3, 4),
+#'        geom.colors = c("green", "red", "blue", "grey"), sort.est = FALSE)
 #'
 #' fit <- lm(barthtot ~ c160age + c12hour + e17age+ c161sex + c172code + e16sex,
 #'           data = efc)
 #'
 #' # force order of estimates according to group assignment
-#' sjp.lm(fit,
-#'        group.estimates = c(1, 2, 1, 3, 4, 3),
-#'        geom.colors = c("green", "red", "blue", "grey"),
-#'        sort.est = TRUE)
-#'
+#' sjp.lm(fit, group.estimates = c(1, 2, 1, 3, 4, 3),
+#'        geom.colors = c("green", "red", "blue", "grey"), sort.est = TRUE)
 #'
 #' # --------------------------
 #' # predicted values for response
@@ -244,7 +235,6 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'           data = efc)
 #' # plot marginal effects of polynomial term
 #' sjp.lm(fit, type = "poly", poly.term = "e17age")
-#'
 #'
 #' library(splines)
 #' # fit new model with "splines"-package, "bs"

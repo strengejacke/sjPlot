@@ -15,28 +15,18 @@
 #' 
 #' @param data A data frame with factors (each columns one variable) that should be used 
 #'          to compute a PCA, or a \code{\link{prcomp}} object.
-#' @param factorLoadingTolerance Specifies the minimum difference a variable needs to have between
-#'          factor loadings (components) in order to indicate a clear loading on just one factor and not
-#'          diffusing over all factors. For instance, a variable with 0.8, 0.82 and 0.84 factor loading 
-#'          on 3 possible factors can not be clearly assigned to just one factor and thus would be removed
-#'          from the principal component analysis. By default, the minimum difference of loading values
-#'          between the highest and 2nd highest factor should be 0.1
-#' @param plotEigenvalues If \code{TRUE}, a plot showing the Eigenvalues according to the
+#' @param plot.eigen If \code{TRUE}, a plot showing the Eigenvalues according to the
 #'          Kaiser criteria is plotted to determine the number of factors.
 #' @param type Plot type resp. geom type. May be one of following: \code{"circle"} or \code{"tile"} 
 #'          circular or tiled geoms, or \code{"bar"} for a bar plot. You may use initial letter only
 #'          for this argument.
-#' @param showCronbachsAlpha If \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
-#'          i.e. all variables with the highest loading for a factor are taken for the
-#'          reliability test. The result is an alpha value for each factor dimension.
-#'          Only applies when \code{data} is a data frame and no \code{\link{prcomp}} object.
 #' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #' @return (Invisibly) returns a \code{\link{structure}} with
 #'          \itemize{
 #'            \item the varimax-rotated factor loading matrix (\code{varim})
 #'            \item the column indices of removed variables (for more details see next list item) (\code{removed.colindex})
-#'            \item an updated data frame containing all factors that have a clear loading on a specific scale in case \code{data} was a data frame (See argument \code{factorLoadingTolerance} for more details) (\code{removed.df})
+#'            \item an updated data frame containing all factors that have a clear loading on a specific scale in case \code{data} was a data frame (See argument \code{fctr.load.tlrn} for more details) (\code{removed.df})
 #'            \item the \code{factor.index}, i.e. the column index of each variable with the highest factor loading for each factor,
 #'            \item the ggplot-object (\code{plot}),
 #'            \item the data frame that was used for setting up the ggplot-object (\code{df}).
@@ -73,7 +63,7 @@
 #' pca <- prcomp(na.omit(likert_4), retx = TRUE, center = TRUE, scale. = TRUE)
 #' # plot results from PCA as circles, including Eigenvalue-diagnostic.
 #' # note that this plot does not compute the Cronbach's Alpha
-#' sjp.pca(pca, plotEigenvalues = TRUE, type = "circle", geom.size = 10)
+#' sjp.pca(pca, plot.eigen = TRUE, type = "circle", geom.size = 10)
 #' 
 #' # -------------------------------
 #' # Data from the EUROFAMCARE sample dataset
@@ -109,8 +99,8 @@
 #' @export
 sjp.pca <- function(data,
                     nmbr.fctr = NULL,
-                    factorLoadingTolerance = 0.1,
-                    plotEigenvalues = FALSE,
+                    fctr.load.tlrn = 0.1,
+                    plot.eigen = FALSE,
                     digits = 2,
                     title = NULL,
                     axis.labels = NULL,
@@ -120,7 +110,7 @@ sjp.pca <- function(data,
                     wrap.title = 50,
                     wrap.labels = 30,
                     show.values = TRUE,
-                    showCronbachsAlpha = TRUE,
+                    show.cronb = TRUE,
                     printPlot = TRUE) {
   # --------------------------------------------------------
   # check arguments
@@ -132,16 +122,10 @@ sjp.pca <- function(data,
   if (is.null(axis.labels) && is.data.frame(data)) {
     # if yes, iterate each variable
     for (i in 1:ncol(data)) {
-      # retrieve variable name attribute
-      vn <- sjmisc::get_label(data[[i]], def.value = colnames(data)[i])
+      # retrieve variable name attribute and
       # if variable has attribute, add to variableLabel list
-      if (!is.null(vn)) {
-        axis.labels <- c(axis.labels, vn)
-      } else {
-        # else break out of loop
-        axis.labels <- NULL
-        break
-      }
+      axis.labels <- c(axis.labels,
+                       sjmisc::get_label(data[[i]], def.value = colnames(data)[i]))
     }
   }
   # ----------------------------
@@ -175,7 +159,7 @@ sjp.pca <- function(data,
   # ----------------------------
   # plot eigenvalues
   # ----------------------------
-  if (plotEigenvalues) {
+  if (plot.eigen) {
     # create data frame with eigen values
     mydat <- as.data.frame(cbind(xpos = 1:length(pcadata.eigenval), eigen = pcadata.eigenval))
     # plot eigenvalues as line curve
@@ -185,12 +169,8 @@ sjp.pca <- function(data,
         geom_line() + geom_point() +
         geom_hline(yintercept = 1, linetype = 2, colour = "grey50") +
         # print best number of factors according to eigen value
-        annotate("text", 
-                 label = sprintf("Factors: %i", pcadata.kaiser), 
-                 x = Inf, 
-                 y = Inf, 
-                 vjust = "top", 
-                 hjust = "top") +
+        annotate("text", label = sprintf("Factors: %i", pcadata.kaiser), 
+                 x = Inf, y = Inf, vjust = "top", hjust = "top") +
         scale_x_continuous(breaks = c(seq(1, nrow(mydat), by = 2))) +
         labs(title = NULL, y = "Eigenvalue", x = "Number of factors")
     plot(eigenplot)
@@ -241,7 +221,7 @@ sjp.pca <- function(data,
       # retrieve 2. highest loading
       max2load <- sort(rowval, TRUE)[2]
       # check difference between both
-      if (abs(maxload - max2load) < factorLoadingTolerance) {
+      if (abs(maxload - max2load) < fctr.load.tlrn) {
         # if difference is below the tolerance,
         # remeber row-ID so we can remove that items
         # for further PCA with updated data frame
@@ -295,7 +275,7 @@ sjp.pca <- function(data,
     alphaValues <- getCronbach(data, getItemLoadings(df))
   } else {
     message("Cronbach's Alpha can only be calculated when having a data frame with each component / variable as column.")
-    showCronbachsAlpha <- FALSE
+    show.cronb <- FALSE
   }
   # -------------------------------------
   # create list with factor loadings that indicate
@@ -306,16 +286,12 @@ sjp.pca <- function(data,
   # retrieve those items that have unclear factor loadings, i.e.
   # which almost load equally on several factors. The tolerance
   # that indicates which difference between factor loadings is
-  # considered as "equally" is defined via factorLoadingTolerance
+  # considered as "equally" is defined via fctr.load.tlrn
   removableItems <- getRemovableItems(df)
   # rename columns, so we have numbers on x axis
-  names(df) <- c(1:ncol(df))
+  names(df) <- 1:ncol(df)
   # convert to long data
-  df <- tidyr::gather(df, 
-                      "xpos", 
-                      "value", 
-                      1:ncol(df), 
-                      factor_key = TRUE)  
+  df <- tidyr::gather(df, "xpos", "value", 1:ncol(df), factor_key = TRUE)  
   # we need new columns for y-positions and point sizes
   df <- cbind(df, ypos = 1:nrow(pcadata.varim$loadings), psize = exp(abs(df$value)) * geom.size)
   if (!show.values) {
@@ -327,13 +303,9 @@ sjp.pca <- function(data,
   # start with base plot object here
   # --------------------------------------------------------
   if (type == "bar") {
-    heatmap <- ggplot(df, aes(x = rev(factor(ypos)), 
-                              y = abs(value), 
-                              fill = value))
+    heatmap <- ggplot(df, aes(x = rev(factor(ypos)), y = abs(value), fill = value))
   } else {
-    heatmap <- ggplot(data = df, aes(x = xpos, 
-                                     y = ypos, 
-                                     fill = value))
+    heatmap <- ggplot(data = df, aes(x = xpos, y = ypos, fill = value))
   }
   # --------------------------------------------------------
   # determine the geom type, either points when "type" is "circles"
@@ -351,8 +323,7 @@ sjp.pca <- function(data,
     # ----------
     geo <- geom_bar(stat = "identity", width = geom.size)
   }
-  heatmap <- heatmap +
-    geo +
+  heatmap <- heatmap + geo +
     # --------------------------------------------------------
     # fill gradient colour from distinct color brewer palette. 
     # negative correlations are dark red, positive corr. are dark blue, 
@@ -379,12 +350,9 @@ sjp.pca <- function(data,
     # --------------------------------------------------------
     # show cronbach's alpha value for each scale 
     # --------------------------------------------------------
-    if (showCronbachsAlpha) {
+    if (show.cronb) {
       heatmap <- heatmap +
-        annotate("text", 
-                 x = alphaValues$nr, 
-                 y = Inf, 
-                 parse = TRUE, 
+        annotate("text", x = alphaValues$nr, y = Inf, parse = TRUE, 
                  label = sprintf("alpha == %.*f", digits, alphaValues$alpha), 
                  vjust = -0.5)
     }
@@ -395,7 +363,7 @@ sjp.pca <- function(data,
   if (printPlot) graphics::plot(heatmap)
   # --------------------------------------------------------
   # if we have a data frame, all factors which do not clearly
-  # load on a specific dimension (see patameter "factorLoadingTolerance")
+  # load on a specific dimension (see patameter "fctr.load.tlrn")
   # will be removed and the updated data frame will be returned.
   # the user may calculate another PCA with the updated data frame
   # in order to get more clearly factor loadings

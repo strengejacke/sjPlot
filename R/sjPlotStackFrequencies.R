@@ -54,14 +54,11 @@
 #' likert_4 <- data.frame(Q1, Q2, Q3, Q4, Q5)
 #' 
 #' # create labels
-#' levels_4 <- c("Independent", 
-#'               "Slightly dependent", 
-#'               "Dependent", 
-#'               "Severely dependent")
+#' levels_4 <- c("Independent", "Slightly dependent", 
+#'               "Dependent", "Severely dependent")
 #' 
 #' # plot stacked frequencies of 5 (ordered) item-scales
 #' sjp.stackfrq(likert_4, legend.labels = levels_4)
-#' 
 #' 
 #' # -------------------------------
 #' # Data from the EUROFAMCARE sample dataset

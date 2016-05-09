@@ -4,11 +4,11 @@
 \alias{sjp.pca}
 \title{Plot PCA results}
 \usage{
-sjp.pca(data, nmbr.fctr = NULL, factorLoadingTolerance = 0.1,
-  plotEigenvalues = FALSE, digits = 2, title = NULL, axis.labels = NULL,
-  type = c("bar", "circle", "tile"), geom.size = 0.6,
-  geom.colors = "RdBu", wrap.title = 50, wrap.labels = 30,
-  show.values = TRUE, showCronbachsAlpha = TRUE, printPlot = TRUE)
+sjp.pca(data, nmbr.fctr = NULL, fctr.load.tlrn = 0.1, plot.eigen = FALSE,
+  digits = 2, title = NULL, axis.labels = NULL, type = c("bar",
+  "circle", "tile"), geom.size = 0.6, geom.colors = "RdBu",
+  wrap.title = 50, wrap.labels = 30, show.values = TRUE,
+  show.cronb = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{data}{A data frame with factors (each columns one variable) that should be used 
@@ -18,14 +18,14 @@ to compute a PCA, or a \code{\link{prcomp}} object.}
 rotation. By default, this value is \code{NULL} and the amount of factors is
 calculated according to the Kaiser-criteria. See paramater \code{plotEigenvalues}.}
 
-\item{factorLoadingTolerance}{Specifies the minimum difference a variable needs to have between
+\item{fctr.load.tlrn}{specifies the minimum difference a variable needs to have between
 factor loadings (components) in order to indicate a clear loading on just one factor and not
 diffusing over all factors. For instance, a variable with 0.8, 0.82 and 0.84 factor loading 
 on 3 possible factors can not be clearly assigned to just one factor and thus would be removed
 from the principal component analysis. By default, the minimum difference of loading values
 between the highest and 2nd highest factor should be 0.1}
 
-\item{plotEigenvalues}{If \code{TRUE}, a plot showing the Eigenvalues according to the
+\item{plot.eigen}{If \code{TRUE}, a plot showing the Eigenvalues according to the
 Kaiser criteria is plotted to determine the number of factors.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
@@ -53,7 +53,7 @@ labels are displayed in one line and when a line break is inserted.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
-\item{showCronbachsAlpha}{If \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
+\item{show.cronb}{logical, if \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
 i.e. all variables with the highest loading for a factor are taken for the
 reliability test. The result is an alpha value for each factor dimension.
 Only applies when \code{data} is a data frame and no \code{\link{prcomp}} object.}
@@ -66,7 +66,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
          \itemize{
            \item the varimax-rotated factor loading matrix (\code{varim})
            \item the column indices of removed variables (for more details see next list item) (\code{removed.colindex})
-           \item an updated data frame containing all factors that have a clear loading on a specific scale in case \code{data} was a data frame (See argument \code{factorLoadingTolerance} for more details) (\code{removed.df})
+           \item an updated data frame containing all factors that have a clear loading on a specific scale in case \code{data} was a data frame (See argument \code{fctr.load.tlrn} for more details) (\code{removed.df})
            \item the \code{factor.index}, i.e. the column index of each variable with the highest factor loading for each factor,
            \item the ggplot-object (\code{plot}),
            \item the data frame that was used for setting up the ggplot-object (\code{df}).
@@ -108,7 +108,7 @@ sjp.pca(likert_4, type = "bar")
 pca <- prcomp(na.omit(likert_4), retx = TRUE, center = TRUE, scale. = TRUE)
 # plot results from PCA as circles, including Eigenvalue-diagnostic.
 # note that this plot does not compute the Cronbach's Alpha
-sjp.pca(pca, plotEigenvalues = TRUE, type = "circle", geom.size = 10)
+sjp.pca(pca, plot.eigen = TRUE, type = "circle", geom.size = 10)
 
 # -------------------------------
 # Data from the EUROFAMCARE sample dataset

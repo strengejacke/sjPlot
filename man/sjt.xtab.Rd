@@ -6,15 +6,14 @@
 \usage{
 sjt.xtab(var.row, var.col, weight.by = NULL, digits = 1, file = NULL,
   var.labels = NULL, value.labels = NULL, title = NULL,
-  wrap.labels = 20, stringTotal = "Total", show.obs = TRUE,
+  wrap.labels = 20, string.total = "Total", show.obs = TRUE,
   show.cell.prc = FALSE, show.row.prc = FALSE, show.col.prc = FALSE,
   show.exp = FALSE, show.summary = TRUE, show.legend = FALSE,
   show.na = FALSE, tdcol.n = "black", tdcol.expected = "#339999",
   tdcol.cell = "#993333", tdcol.row = "#333399", tdcol.col = "#339933",
-  highlightTotal = FALSE, highlightColor = "#f8f8f8",
-  prc.sign = "&nbsp;&#37;", hundret = "100.0", encoding = NULL,
-  CSS = NULL, use.viewer = TRUE, no.output = FALSE,
-  remove.spaces = TRUE)
+  emph.total = FALSE, emph.color = "#f8f8f8", prc.sign = "&nbsp;&#37;",
+  hundret = "100.0", encoding = NULL, CSS = NULL, use.viewer = TRUE,
+  no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{var.row}{variable that should be displayed in the table rows.}
@@ -43,7 +42,7 @@ to label variable values in the output.}
 \item{wrap.labels}{determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
-\item{stringTotal}{label for the total column / row header}
+\item{string.total}{label for the total column / row header}
 
 \item{show.obs}{logical, if \code{TRUE}, observed values are shown}
 
@@ -74,10 +73,10 @@ are added to the output.}
 
 \item{tdcol.col}{Color for highlighting column percentage values in table cells. Default is green.}
 
-\item{highlightTotal}{logical, if \code{TRUE}, the total column and row will be highlighted with a
-different background color. See \code{highlightColor}.}
+\item{emph.total}{logical, if \code{TRUE}, the total column and row will be emphasized with a
+different background color. See \code{emph.color}.}
 
-\item{highlightColor}{logical, if \code{highlightTotal = TRUE}, this color value will be used
+\item{emph.color}{logical, if \code{emph.total = TRUE}, this color value will be used
 for painting the background of the total column and row. Default is a light grey.}
 
 \item{prc.sign}{The percentage sign that is printed in the table cells, in HTML-format.
@@ -149,7 +148,7 @@ sjt.xtab(efc$e16sex,
 # print minimal cross table with labels, total col/row highlighted
 sjt.xtab(efc$e16sex, efc$e42dep, 
          show.cell.prc = FALSE,
-         highlightTotal = TRUE)
+         emph.total = TRUE)
 
 # ---------------------------------------------------------------- 
 # User defined style sheet

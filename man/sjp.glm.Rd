@@ -174,7 +174,6 @@ fitOR <- glm(y ~ Education + Examination + Infant.Mortality + Catholic,
 # print Odds Ratios as dots
 sjp.glm(fitOR)
 
-
 # -------------------------------
 # Predictors for negative impact
 # of care. Data from the EUROFAMCARE
@@ -206,23 +205,17 @@ mydf <- data.frame(y = as.factor(y),
 # fit model
 fit <- glm(y ~., data = mydf, family = binomial(link = "logit"))
 # plot odds
-sjp.glm(fit,
-        title = get_label(efc$neg_c_7),
-        axis.labels = predlab)
+sjp.glm(fit, title = get_label(efc$neg_c_7), axis.labels = predlab)
 
 # plot probability curves (predicted probabilities)
 # of coefficients
-sjp.glm(fit,
-        title = get_label(efc$neg_c_7),
-        axis.labels = predlab,
+sjp.glm(fit, title = get_label(efc$neg_c_7), axis.labels = predlab,
         type = "slope")
 
 # --------------------------
 # grouping estimates
 # --------------------------
-sjp.glm(fit, 
-        group.estimates = c(1, 2, 2, 2, 3, 4, 4),
-        axis.labels = predlab)
+sjp.glm(fit,  group.estimates = c(1, 2, 2, 2, 3, 4, 4), axis.labels = predlab)
 
 # --------------------------
 # model predictions, with selected model terms.

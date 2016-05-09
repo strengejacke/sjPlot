@@ -43,24 +43,20 @@
 #'          standard deviation is shown.
 #' @param show.skew If \code{TRUE}, the variable's skewness is added to the summary.
 #'          The skewness is retrieved from the \code{\link[psych]{describe}}-function 
-#'          of the \pkg{psych}-package.
+#'          of the \pkg{psych}-package and indicated by a lower case Greek gamma.
 #' @param show.kurtosis If \code{TRUE}, the variable's kurtosis is added to the summary.
 #'          The kurtosis is retrieved from the \code{\link[psych]{describe}}-function 
-#'          of the \pkg{psych}-package.
-#' @param skewString A character string, which is used as header for the skew 
-#'          column (see \code{show.skew})). Default is lower case Greek gamma.
-#' @param kurtosisString A character string, which is used as header for the 
-#'          kurtosis column (see \code{show.kurtosis})). Default is lower case 
-#'          Greek omega.
-#' @param removeStringVectors If \code{TRUE} (default), character vectors / string variables will be removed from
+#'          of the \pkg{psych}-package and indicated by a lower case Greek omega.
+#' @param ignore.strings If \code{TRUE} (default), character vectors / string variables will be removed from
 #'          \code{data} before frequency tables are computed.
-#' @param autoGroupStrings if \code{TRUE} (default), string values in character 
+#' @param auto.grp.strings if \code{TRUE} (default), string values in character 
 #'          vectors (string variables) are automatically grouped based on their 
 #'          similarity. The similarity is estimated with the \pkg{stringdist}-package.
-#'          You can specify a distance-measure via \code{maxStringDist} argument. This argument only
-#'          applies if \code{removeStringVectors} is \code{FALSE}.
-#' @param maxStringDist the allowed distance of string values in a character vector, which indicates
+#'          You can specify a distance-measure via \code{max.string.dist} argument. This argument only
+#'          applies if \code{ignore.strings} is \code{FALSE}.
+#' @param max.string.dist the allowed distance of string values in a character vector, which indicates
 #'          when two string values are merged because they are considered as close enough.
+#'          See \code{auto.grp.strings}.
 #' @param encoding string, indicating the charset encoding used for variable and 
 #'          value labels. Default is \code{NULL}, so encoding will be auto-detected 
 #'          depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
@@ -190,12 +186,10 @@ sjt.frq <- function(data,
                     show.summary = TRUE,
                     show.skew = FALSE,
                     show.kurtosis = FALSE,
-                    skewString = "&gamma;",
-                    kurtosisString = "&omega;",
                     digits = 2,
-                    removeStringVectors = TRUE,
-                    autoGroupStrings = TRUE,
-                    maxStringDist = 3,
+                    ignore.strings = TRUE,
+                    auto.grp.strings = TRUE,
+                    max.string.dist = 3,
                     encoding = NULL,
                     CSS = NULL,
                     use.viewer = TRUE,
@@ -287,7 +281,7 @@ sjt.frq <- function(data,
   # -------------------------------------
   # check if string vectors should be removed
   # -------------------------------------
-  if (removeStringVectors) {
+  if (ignore.strings) {
     # ---------------------------------------
     # check if we have data frame with several variables
     # ---------------------------------------
@@ -295,7 +289,7 @@ sjt.frq <- function(data,
       # remove string variables
       data <- data[, !sapply(data, is.character)]
     } else if (is.character(data)) {
-      stop("argument 'data' is a single string vector, where string vectors should be removed. No data to compute frequency table left. See argument 'removeStringVectors' for details.", call. = FALSE)
+      stop("argument `data` is a single string vector, where string vectors should be removed. No data to compute frequency table left. See argument `ignore.strings` for details.", call. = FALSE)
     }
   }
   # -------------------------------------
@@ -370,7 +364,7 @@ sjt.frq <- function(data,
   # -------------------------------------
   # auto-group string vectors
   # -------------------------------------
-  if (autoGroupStrings) {
+  if (auto.grp.strings) {
     # iterate data frame
     for (i in 1:nvar) {
       # get variable
@@ -378,7 +372,8 @@ sjt.frq <- function(data,
       # check if character
       if (is.character(sv)) {
         # group strings
-        data[[i]] <- sjmisc::group_str(sv, maxStringDist, remove.empty = F)
+        data[[i]] <- sjmisc::group_str(strings = sv, maxdist = max.string.dist, 
+                                       remove.empty = F)
       }
     }
   }
@@ -629,15 +624,9 @@ sjt.frq <- function(data,
       descr <- ""
       if (show.skew || show.kurtosis) {
         pstat <- psych::describe(data.frame(sum_var))
-        if (show.skew) descr <- sprintf(" &middot; %s=%.*f", 
-                                        skewString, 
-                                        digits,
-                                        pstat$skew)
-        if (show.kurtosis) descr <- sprintf("%s &middot; %s=%.*f", 
-                                            descr, 
-                                            kurtosisString, 
-                                            digits,
-                                            pstat$kurtosis)
+        if (show.skew) descr <- sprintf(" &middot; &gamma;=%.*f", digits, pstat$skew)
+        if (show.kurtosis) descr <- sprintf("%s &middot; &omega;=%.*f", descr, 
+                                            digits, pstat$kurtosis)
       }
       page.content <- paste(page.content, sprintf("  </tr>\n  <tr>\n    <td class=\"tdata summary\" colspan=\"5\">total N=%i &middot; valid N=%i &middot; x&#772;=%.*f &middot; &sigma;=%.*f%s</td>\n", 
                                                   vartot, 

@@ -10,7 +10,7 @@
 #'              
 #' @param var.row variable that should be displayed in the table rows.
 #' @param var.col variable that should be displayed in the table columns.
-#' @param stringTotal label for the total column / row header
+#' @param string.total label for the total column / row header
 #' @param show.cell.prc logical, if \code{TRUE}, cell percentage values are shown
 #' @param show.row.prc logical, if \code{TRUE}, row percentage values are shown
 #' @param show.col.prc logical, if \code{TRUE}, column percentage values are shown
@@ -21,9 +21,9 @@
 #' @param tdcol.cell Color for highlighting cell percentage values in table cells. Default is red.
 #' @param tdcol.row Color for highlighting row percentage values in table cells. Default is blue.
 #' @param tdcol.col Color for highlighting column percentage values in table cells. Default is green.
-#' @param highlightTotal logical, if \code{TRUE}, the total column and row will be highlighted with a
-#'          different background color. See \code{highlightColor}.
-#' @param highlightColor logical, if \code{highlightTotal = TRUE}, this color value will be used
+#' @param emph.total logical, if \code{TRUE}, the total column and row will be emphasized with a
+#'          different background color. See \code{emph.color}.
+#' @param emph.color logical, if \code{emph.total = TRUE}, this color value will be used
 #'          for painting the background of the total column and row. Default is a light grey.
 #' @param prc.sign The percentage sign that is printed in the table cells, in HTML-format.
 #'          Default is \code{"&nbsp;\%"}, hence the percentage sign has a non-breaking-space after
@@ -72,7 +72,7 @@
 #' # print minimal cross table with labels, total col/row highlighted
 #' sjt.xtab(efc$e16sex, efc$e42dep, 
 #'          show.cell.prc = FALSE,
-#'          highlightTotal = TRUE)
+#'          emph.total = TRUE)
 #' 
 #' # ---------------------------------------------------------------- 
 #' # User defined style sheet
@@ -94,7 +94,7 @@ sjt.xtab <- function(var.row,
                      value.labels = NULL,
                      title = NULL,
                      wrap.labels = 20,
-                     stringTotal = "Total",
+                     string.total = "Total",
                      show.obs = TRUE,
                      show.cell.prc = FALSE,
                      show.row.prc = FALSE,
@@ -108,8 +108,8 @@ sjt.xtab <- function(var.row,
                      tdcol.cell = "#993333",
                      tdcol.row = "#333399",
                      tdcol.col = "#339933",
-                     highlightTotal = FALSE,
-                     highlightColor = "#f8f8f8",
+                     emph.total = FALSE,
+                     emph.color = "#f8f8f8",
                      prc.sign = "&nbsp;&#37;",
                      hundret = "100.0",
                      encoding = NULL,
@@ -183,7 +183,7 @@ sjt.xtab <- function(var.row,
   labels.var.row <- sjmisc::word_wrap(labels.var.row, wrap.labels, "<br>")
   labels.var.col <- sjmisc::word_wrap(labels.var.col, wrap.labels, "<br>")
   # add "total"
-  labels.var.row <- c(labels.var.row, stringTotal)
+  labels.var.row <- c(labels.var.row, string.total)
   labels.var.col <- c(labels.var.col)
   # -------------------------------------
   # compute table counts and percentages
@@ -238,8 +238,8 @@ sjt.xtab <- function(var.row,
   css.secondtablerow <- "border-bottom:1px solid; text-align:center;"
   css.leftalign <- "text-align:left; vertical-align:middle;"
   css.centeralign <- "text-align:center;"
-  css.lasttablerow <- ifelse(isTRUE(highlightTotal), sprintf(" border-bottom:double; background-color:%s;", highlightColor), " border-bottom:double;")
-  css.totcol <- ifelse(isTRUE(highlightTotal), sprintf(" background-color:%s;", highlightColor), "")
+  css.lasttablerow <- ifelse(isTRUE(emph.total), sprintf(" border-bottom:double; background-color:%s;", emph.color), " border-bottom:double;")
+  css.totcol <- ifelse(isTRUE(emph.total), sprintf(" background-color:%s;", emph.color), "")
   css.tothi <- "font-weight:bolder; font-style:italic;"
   css.summary <- "text-align:right; font-size:0.9em; font-style:italic;"
   css.horline <- ""
@@ -295,7 +295,7 @@ sjt.xtab <- function(var.row,
   # -------------------------------------
   # total-column
   # -------------------------------------
-  page.content <- paste(page.content, sprintf("    <th class=\"thead tothi firstcolborder totcol\" rowspan=\"2\">%s</th>\n", stringTotal))
+  page.content <- paste(page.content, sprintf("    <th class=\"thead tothi firstcolborder totcol\" rowspan=\"2\">%s</th>\n", string.total))
   page.content <- paste(page.content, "  </tr>\n")
   # -------------------------------------
   # init second table row

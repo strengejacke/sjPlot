@@ -245,10 +245,7 @@ sjp.lmer(fit, sort.est = "Days")
 
 # plot each predictor as own plot
 # sort each plot
-sjp.lmer(fit,
-         facet.grid = FALSE,
-         sort.est = "sort.all")
-
+sjp.lmer(fit, facet.grid = FALSE, sort.est = "sort.all")
 
 library(sjmisc)
 data(efc)
@@ -262,35 +259,23 @@ mydf <- data.frame(neg_c_7 = as.numeric(efc$neg_c_7),
                    barthel = as.numeric(efc$barthtot),
                    grp = efc$grp)
 # fit lmer
-fit <- lmer(neg_c_7 ~ sex + c12hour + barthel + (1|grp),
-            data = mydf)
+fit <- lmer(neg_c_7 ~ sex + c12hour + barthel + (1|grp), data = mydf)
 
 # plot fixed effects
 sjp.lmer(fit, type = "fe")
 
-sjp.lmer(fit,
-         type = "fe.std",
-         sort.est = TRUE)
+sjp.lmer(fit, type = "fe.std", sort.est = TRUE)
 
-# plot fixed effects slopes for
-# each random intercept, but only for
-# coefficient "c12hour"
-sjp.lmer(fit,
-         type = "ri.slope",
-         vars = "c12hour")
+# plot fixed effects slopes for each random intercept, 
+# but only for coefficient "c12hour"
+sjp.lmer(fit, type = "ri.slope", vars = "c12hour")
 
-# highlight specific grouping levels
-# in this case we compare spouses, children
-# and children-in-law
-sjp.lmer(fit,
-         type = "ri.slope",
-         emph.grp = c(1, 2, 4),
-         vars = "c12hour")
+# highlight specific grouping levels, in this case we compare 
+# spouses, children and children-in-law
+sjp.lmer(fit, type = "ri.slope", emph.grp = c(1, 2, 4), vars = "c12hour")
 
 \dontrun{
-# --------------------------
 # plotting polynomial terms
-# --------------------------
 # check linear relation between predictors and response
 sjp.lmer(fit, type = "fe.slope")
 
@@ -307,7 +292,6 @@ fit <- lmer(neg_c_7 ~ sex + c12hour + barthel +
 # plot marginal effects of polynomial term
 sjp.lmer(fit, type = "poly", poly.term = "barthel")
 
-
 # lme4 complaints about scale of polynomial term, so
 # try centering this predictor
 mydf$barthel_s <- scale(mydf$barthel, center = TRUE, scale = TRUE)
@@ -322,10 +306,7 @@ sjp.lmer(fit_s, type = "poly", poly.term = "barthel_s")
 # scaling also improved p-values
 sjt.lmer(fit, fit_s)
 
-
-# --------------------------
 # plotting predicted values for response
-# --------------------------
 # conditioned on random effects
 sjp.lmer(fit, type = "pred", vars = "c12hour")
 
@@ -334,7 +315,7 @@ sjp.lmer(fit, type = "pred.fe", vars = c("c12hour", "sex"))
 
 # grouped, for fixed effects only, non-facted
 sjp.lmer(fit, type = "pred.fe", vars = c("c12hour", "sex"), 
-facet.grid = FALSE, show.ci = FALSE)}
+         facet.grid = FALSE, show.ci = FALSE)}
 
 }
 \seealso{

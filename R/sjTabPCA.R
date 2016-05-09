@@ -18,25 +18,23 @@
 #' @param nmbr.fctr number of factors used for calculating the varimax
 #'          rotation. By default, this value is \code{NULL} and the amount of factors is
 #'          calculated according to the Kaiser-criteria. See paramater \code{plotEigenvalues}.
-#' @param factorLoadingTolerance specifies the minimum difference a variable needs to have between
+#' @param fctr.load.tlrn specifies the minimum difference a variable needs to have between
 #'          factor loadings (components) in order to indicate a clear loading on just one factor and not
 #'          diffusing over all factors. For instance, a variable with 0.8, 0.82 and 0.84 factor loading 
 #'          on 3 possible factors can not be clearly assigned to just one factor and thus would be removed
 #'          from the principal component analysis. By default, the minimum difference of loading values
 #'          between the highest and 2nd highest factor should be 0.1
-#' @param varlabels character vector with item labels that are printed in the first column. If no item labels are
-#'          provided (default), the data frame's column names are used.
-#' @param showCronbachsAlpha logical, if \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
+#' @param show.cronb logical, if \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
 #'          i.e. all variables with the highest loading for a factor are taken for the
 #'          reliability test. The result is an alpha value for each factor dimension.
 #'          Only applies when \code{data} is a data frame and no \code{\link{prcomp}} object.
-#' @param showMSA logical, if \code{TRUE}, shows an additional column with the measure of sampling adequacy according
+#' @param show.msa logical, if \code{TRUE}, shows an additional column with the measure of sampling adequacy according
 #'          dor each component.
-#' @param showVariance logical, if \code{TRUE}, the proportions of variances for each component as well as cumulative
+#' @param show.var logical, if \code{TRUE}, the proportions of variances for each component as well as cumulative
 #'          variance are shown in the table footer.
-#' @param stringPov string for the table row that contains the proportions of variances. By default, 
+#' @param string.pov string for the table row that contains the proportions of variances. By default, 
 #'          \emph{"Proportion of Variance"} will be used.
-#' @param stringCpov string for the table row that contains the cumulative variances. By default, 
+#' @param string.cpov string for the table row that contains the cumulative variances. By default, 
 #'          \emph{"Cumulative Proportion"} will be used.
 #'          
 #' @inheritParams sjt.frq
@@ -51,7 +49,7 @@
 #'            \item the complete html-output (\code{output.complete}),
 #'            \item the html-table with inline-css for use with knitr (\code{knitr}),
 #'            \item the \code{factor.index}, i.e. the column index of each variable with the highest factor loading for each factor and
-#'            \item the \code{removed.items}, i.e. which variables have been removed because they were outside of the \code{factorLoadingTolerance}'s range.
+#'            \item the \code{removed.items}, i.e. which variables have been removed because they were outside of the \code{fctr.load.tlrn}'s range.
 #'            }
 #'            for further use.
 #'
@@ -111,18 +109,18 @@
 #' @export
 sjt.pca <- function(data,
                     nmbr.fctr = NULL,
-                    factorLoadingTolerance = 0.1,
+                    fctr.load.tlrn = 0.1,
                     file = NULL,
-                    varlabels = NULL,
+                    var.labels = NULL,
                     title = "Principal Component Analysis (with varimax rotation)",
                     wrap.labels = 40,
                     digits = 2,
-                    showCronbachsAlpha = TRUE,
-                    showMSA = FALSE,
-                    showVariance = FALSE,
+                    show.cronb = TRUE,
+                    show.msa = FALSE,
+                    show.var = FALSE,
                     altr.row.col = FALSE,
-                    stringPov = "Proportion of Variance",
-                    stringCpov = "Cumulative Proportion",
+                    string.pov = "Proportion of Variance",
+                    string.cpov = "Cumulative Proportion",
                     encoding = NULL,
                     CSS = NULL,
                     use.viewer = TRUE,
@@ -135,19 +133,13 @@ sjt.pca <- function(data,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(varlabels) && is.data.frame(data)) {
+  if (is.null(var.labels) && is.data.frame(data)) {
     # if yes, iterate each variable
     for (i in 1:ncol(data)) {
-      # retrieve variable name attribute
-      vn <- sjmisc::get_label(data[[i]], def.value = colnames(data)[i])  
+      # retrieve variable name attribute and
       # if variable has attribute, add to variableLabel list
-      if (!is.null(vn)) {
-        varlabels <- c(varlabels, vn)
-      } else {
-        # else break out of loop
-        varlabels <- NULL
-        break
-      }
+      var.labels <- c(var.labels,
+                      sjmisc::get_label(data[[i]], def.value = colnames(data)[i]))
     }
   }
   # ----------------------------
@@ -157,11 +149,9 @@ sjt.pca <- function(data,
   if (any(class(data) == "prcomp")) {
     pcadata <- data
     dataframeparam <- FALSE
-    showMSA <- FALSE
+    show.msa <- FALSE
   } else {
-    pcadata <- stats::prcomp(stats::na.omit(data), 
-                             retx = TRUE, 
-                             center = TRUE, 
+    pcadata <- stats::prcomp(stats::na.omit(data), retx = TRUE, center = TRUE, 
                              scale. = TRUE)
     dataframeparam <- TRUE
   }
@@ -204,11 +194,11 @@ sjt.pca <- function(data,
   css.removable <- "background-color:#eacccc;"
   css.firsttablerow <- "border-top:1px solid black;"
   css.firsttablecol <- ""
-  if (!showMSA && !showCronbachsAlpha) css.cpov <- sprintf("%s border-bottom:double;", css.cpov)
-  if (!showMSA && showCronbachsAlpha) css.cronbach <- sprintf("%s border-bottom:double;", css.cronbach)
-  if (!showVariance && showCronbachsAlpha) css.cronbach <- sprintf("%s border-top:1px solid;", css.cronbach)
-  if (!showVariance && !showCronbachsAlpha) css.kmo <- sprintf("%s border-top:1px solid;",css.kmo)
-  if (!showVariance && !showCronbachsAlpha && !showMSA) css.table <- sprintf("%s border-bottom:double;", css.table)
+  if (!show.msa && !show.cronb) css.cpov <- sprintf("%s border-bottom:double;", css.cpov)
+  if (!show.msa && show.cronb) css.cronbach <- sprintf("%s border-bottom:double;", css.cronbach)
+  if (!show.var && show.cronb) css.cronbach <- sprintf("%s border-top:1px solid;", css.cronbach)
+  if (!show.var && !show.cronb) css.kmo <- sprintf("%s border-top:1px solid;",css.kmo)
+  if (!show.var && !show.cronb && !show.msa) css.table <- sprintf("%s border-bottom:double;", css.table)
   # ------------------------
   # check user defined style sheets
   # ------------------------
@@ -265,13 +255,13 @@ sjt.pca <- function(data,
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
   # ----------------------------
-  if (is.null(varlabels)) varlabels <- row.names(df)
+  if (is.null(var.labels)) var.labels <- row.names(df)
   # ----------------------------
   # Prepare length of labels
   # ----------------------------
-  if (!is.null(varlabels)) {
+  if (!is.null(var.labels)) {
     # wrap long variable labels
-    varlabels <- sjmisc::word_wrap(varlabels, wrap.labels, "<br>")
+    var.labels <- sjmisc::word_wrap(var.labels, wrap.labels, "<br>")
   }
   # --------------------------------------------------------
   # this function checks which items have unclear factor loadings,
@@ -291,7 +281,7 @@ sjt.pca <- function(data,
       # retrieve 2. highest loading
       max2load <- sort(rowval, TRUE)[2]
       # check difference between both
-      if (abs(maxload - max2load) < factorLoadingTolerance) {
+      if (abs(maxload - max2load) < fctr.load.tlrn) {
         # if difference is below the tolerance,
         # remeber row-ID so we can remove that items
         # for further PCA with updated data frame
@@ -349,29 +339,28 @@ sjt.pca <- function(data,
   if (dataframeparam) {
     # get alpha values
     alphaValues <- getCronbach(data, getItemLoadings(df))
-  }
-  else {
+  } else {
     message("Cronbach's Alpha can only be calculated when having a data frame with each component / variable as column.")
     alphaValues <- NULL
-    showCronbachsAlpha <- FALSE
+    show.cronb <- FALSE
   }
   # -------------------------------------
   # retrieve those items that have unclear factor loadings, i.e.
   # which almost load equally on several factors. The tolerance
   # that indicates which difference between factor loadings is
-  # considered as "equally" is defined via factorLoadingTolerance
+  # considered as "equally" is defined via fctr.load.tlrn
   # -------------------------------------
   removableItems <- getRemovableItems(df)
   # -------------------------------------
   # retrieve kmo and msa for data set
   # -------------------------------------
   kmo <- NULL
-  if (showMSA) kmo <- psych::KMO(data)
+  if (show.msa) kmo <- psych::KMO(data)
   # -------------------------------------
   # variance
   # -------------------------------------
   pov <- cpov <- NULL
-  if (showVariance) {
+  if (show.var) {
     pov <- summary(pcadata)$importance[2, 1:pcadata.kaiser]
     cpov <- summary(pcadata)$importance[3, 1:pcadata.kaiser]
   }
@@ -399,7 +388,7 @@ sjt.pca <- function(data,
     page.content <- paste0(page.content, sprintf("    <th class=\"thead\">Component %i</th>\n", i))
   }
   # check if msa column should be shown
-  if (showMSA) page.content <- paste0(page.content, "    <th class=\"thead msa\">MSA</th>\n")
+  if (show.msa) page.content <- paste0(page.content, "    <th class=\"thead msa\">MSA</th>\n")
   # close table row
   page.content <- paste0(page.content, "  </tr>\n")
   # -------------------------------------
@@ -423,25 +412,18 @@ sjt.pca <- function(data,
     page.content <- paste0(page.content, "  <tr>\n")
     # print first table cell
     page.content <- paste0(page.content, sprintf("    <td class=\"firsttablecol%s%s\">%s</td>\n", 
-                                                 arcstring, 
-                                                 rowcss, 
-                                                 varlabels[i]))
+                                                 arcstring, rowcss, var.labels[i]))
     # iterate all columns
     for (j in 1:ncol(df)) {
       # start table column
-      colcss <- sprintf(" class=\"tdata centeralign%s%s\"", 
-                        arcstring, 
-                        rowcss)
-      if (maxdf[[i]] != max(abs(df[i, j]))) colcss <- sprintf(" class=\"tdata centeralign minval%s%s\"", 
-                                                              arcstring, 
-                                                              rowcss)
+      colcss <- sprintf(" class=\"tdata centeralign%s%s\"", arcstring, rowcss)
+      if (maxdf[[i]] != max(abs(df[i, j]))) 
+        colcss <- sprintf(" class=\"tdata centeralign minval%s%s\"", arcstring, rowcss)
       page.content <- paste0(page.content, sprintf("    <td%s>%.*f</td>\n", 
-                                                   colcss, 
-                                                   digits, 
-                                                   df[i, j]))
+                                                   colcss, digits, df[i, j]))
     }
     # check if msa column should be shown
-    if (showMSA) page.content <- paste0(page.content, sprintf("    <td class=\"tdata msa centeralign%s%s\">%.*f</td>\n", 
+    if (show.msa) page.content <- paste0(page.content, sprintf("    <td class=\"tdata msa centeralign%s%s\">%.*f</td>\n", 
                                                               arcstring, 
                                                               rowcss, 
                                                               digits, 
@@ -452,11 +434,11 @@ sjt.pca <- function(data,
   # -------------------------------------
   # variance
   # -------------------------------------
-  if (showVariance) {
+  if (show.var) {
     # write tr-tag with class-attributes
     page.content <- paste0(page.content, "  <tr>\n")
     # first column
-    page.content <- paste0(page.content, sprintf("    <td class=\"tdata pov\">%s</td>\n", stringPov))
+    page.content <- paste0(page.content, sprintf("    <td class=\"tdata pov\">%s</td>\n", string.pov))
     # iterate alpha-values
     for (i in 1:length(pov)) {
       page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign pov\">%.*f&nbsp;%%</td>\n", 
@@ -464,10 +446,10 @@ sjt.pca <- function(data,
                                                    100 * pov[i]))
     }
     # check if msa column should be shown
-    if (showMSA) page.content <- paste0(page.content, "    <td class=\"tdata centeralign pov\"></td>\n")
+    if (show.msa) page.content <- paste0(page.content, "    <td class=\"tdata centeralign pov\"></td>\n")
     page.content <- paste0(page.content, "  </tr>\n  <tr>\n")
     # first column
-    page.content <- paste0(page.content, sprintf("    <td class=\"tdata cpov\">%s</td>\n", stringCpov))
+    page.content <- paste0(page.content, sprintf("    <td class=\"tdata cpov\">%s</td>\n", string.cpov))
     # iterate alpha-values
     for (i in 1:length(pov)) {
       page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign cpov\">%.*f&nbsp;%%</td>\n", 
@@ -475,13 +457,13 @@ sjt.pca <- function(data,
                                                    100 * cpov[i]))
     }
     # check if msa column should be shown
-    if (showMSA) page.content <- paste0(page.content, "    <td class=\"tdata centeralign cpov\"></td>\n")
+    if (show.msa) page.content <- paste0(page.content, "    <td class=\"tdata centeralign cpov\"></td>\n")
     page.content <- paste0(page.content, "  </tr>\n")
   }
   # -------------------------------------
   # cronbach's alpha
   # -------------------------------------
-  if (showCronbachsAlpha && !is.null(alphaValues)) {
+  if (show.cronb && !is.null(alphaValues)) {
     # write tr-tag with class-attributes
     page.content <- paste0(page.content, "  <tr>\n")
     # first column
@@ -493,13 +475,13 @@ sjt.pca <- function(data,
                                                    alphaValues[i]))
     }
     # check if msa column should be shown
-    if (showMSA) page.content <- paste0(page.content, "    <td class=\"tdata centeralign cronbach\"></td>\n")
+    if (show.msa) page.content <- paste0(page.content, "    <td class=\"tdata centeralign cronbach\"></td>\n")
     page.content <- paste0(page.content, "  </tr>\n")
   }
   # -------------------------------------
   # Kaiser-Meyer-Olkin-Kriterium
   # -------------------------------------
-  if (showMSA) {
+  if (show.msa) {
     # write tr-tag with class-attributes
     page.content <- paste0(page.content, "  <tr>\n")
     page.content <- paste0(page.content, "    <td class=\"tdata kmo\">Kaiser-Meyer-Olkin</td>\n")

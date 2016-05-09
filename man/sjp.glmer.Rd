@@ -217,8 +217,7 @@ library(sjmisc)
 sleepstudy$Reaction.dicho <- dicho(sleepstudy$Reaction, dich.by = "median")
 # fit model
 fit <- glmer(Reaction.dicho ~ Days + (Days | Subject),
-             sleepstudy,
-             family = binomial("logit"))
+             data = sleepstudy, family = binomial("logit"))
 
 # simple plot
 sjp.glmer(fit)
@@ -240,39 +239,27 @@ mydf <- data.frame(hi_qol = as.factor(efc$hi_qol),
                    grp = efc$grp)
 # fit glmer
 fit <- glmer(hi_qol ~ sex + c12hour + neg_c_7 + (1|grp),
-             data = mydf,
-             family = binomial("logit"))
+             data = mydf, family = binomial("logit"))
 
 # plot and sort fixed effects
-sjp.glmer(fit,
-          type = "fe",
-          sort.est = TRUE)
+sjp.glmer(fit, type = "fe", sort.est = TRUE)
 
 # plot probability curves (predicted probabilities)
 # for each covariate, grouped by random intercepts
 # in integrated plots, emphasizing groups 1 and 4
-sjp.glmer(fit,
-          type = "ri.slope",
-          emph.grp = c(1, 4),
-          facet.grid = FALSE)
+sjp.glmer(fit, type = "ri.slope", emph.grp = c(1, 4), facet.grid = FALSE)
 
 # plot probability curve (predicted probabilities)
 # of fixed effect, only for coefficient "neg_c_7"
-sjp.glmer(fit,
-          type = "fe.slope",
-          vars = "neg_c_7")
+sjp.glmer(fit, type = "fe.slope", vars = "neg_c_7")
 
 # plot predicted probabilities for response,
 # related to model predictor, conditioned on random effects
-sjp.glmer(fit,
-          type = "pred",
-          vars = "neg_c_7")
+sjp.glmer(fit, type = "pred", vars = "neg_c_7")
 
 # plot predicted probabilities for response,
 # related to model predictor, grouped
-sjp.glmer(fit,
-          type = "pred.fe",
-          vars = c("neg_c_7", "sex"))
+sjp.glmer(fit, type = "pred.fe", vars = c("neg_c_7", "sex"))
           
 # non faceted, with ci           
 sjp.glmer(fit, type = "pred.fe", vars = c("neg_c_7", "sex"), 

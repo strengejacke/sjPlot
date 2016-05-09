@@ -47,8 +47,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 #' # plot multiple models with legend labels and point shapes instead of value  labels
 #' sjp.glmm(fitOR1, fitOR2, fitOR3,
 #'          depvar.labels = c("Fertility", "Infant Mortality", "Agriculture"),
-#'          show.values = FALSE, show.p = FALSE, fade.ns = TRUE, 
-#'          usePShapes = TRUE)
+#'          show.values = FALSE, show.p = FALSE, fade.ns = TRUE, p.shape = TRUE)
 #' 
 #' # plot multiple models from nested lists argument
 #' all.models <- list()
@@ -57,7 +56,6 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 #' all.models[[3]] <- fitOR3
 #' 
 #' sjp.glmm(all.models)
-#' 
 #' 
 #' # -------------------------------
 #' # Predictors for negative impact
@@ -80,8 +78,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 #'                     edu.mid = as.factor(edu.mid),
 #'                     edu.hi = as.factor(edu.high))
 #' 
-#' fit1 <- glm(y ~ sex + edu.mid + edu.hi, 
-#'             data = mydat, 
+#' fit1 <- glm(y ~ sex + edu.mid + edu.hi,  data = mydat, 
 #'             family = binomial(link = "logit"))
 #' fit2 <- update(fit1, . ~ . + barthel)
 #' fit3 <- update(fit2, . ~ . + dep)
@@ -95,8 +92,8 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 sjp.glmm <- function(...,
                      title = NULL,
                      depvar.labels = NULL,
-                     legendDepVarTitle = "Dependent Variables",
-                     legendPValTitle = "p-level",
+                     legend.title = "Dependent Variables",
+                     legend.pval.title = "p-level",
                      axis.labels = NULL,
                      axis.title = "Odds Ratios",
                      axis.lim = NULL,
@@ -109,7 +106,7 @@ sjp.glmm <- function(...,
                      geom.spacing = 0.4,
                      geom.colors = "Set1",
                      fade.ns = FALSE,
-                     usePShapes = FALSE,
+                     p.shape = FALSE,
                      vline.type = 2,
                      vline.color = "grey70",
                      remove.estimates = NULL,
@@ -330,7 +327,7 @@ sjp.glmm <- function(...,
   # first check, whether user wants different shapes for
   # different p-levels
   # --------------------------------------------------------
-  if (usePShapes) {
+  if (p.shape) {
     plotHeader <- plotHeader +
       # set shape aesthetic. we have to repeat the other aesthestics as well,
       # because otherwise the order of point shapes differes from the order
@@ -373,8 +370,8 @@ sjp.glmm <- function(...,
     labs(title = title, 
          x = NULL, 
          y = axis.title, 
-         shape = legendPValTitle, 
-         colour = legendDepVarTitle) +
+         shape = legend.pval.title, 
+         colour = legend.title) +
     scale_x_discrete(labels = axis.labels) +
     # use transparancy if requested, but hide legend
     scale_alpha_manual(values = c(nsAlpha, 1.0), guide = "none")
