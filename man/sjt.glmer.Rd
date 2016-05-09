@@ -4,23 +4,21 @@
 \alias{sjt.glmer}
 \title{Summary of generalized linear mixed models as HTML table}
 \usage{
-sjt.glmer(..., file = NULL, labelPredictors = NULL, depvar.labels = NULL,
-  stringPredictors = "Predictors",
-  stringDependentVariables = "Dependent Variables",
-  showHeaderStrings = FALSE, stringIntercept = "(Intercept)",
-  stringObservations = "Observations", string.est = "OR",
-  string.ci = "CI", string.se = "std. Error", stringP = "p",
-  digits.est = 2, digits.p = 3, digits.ci = 2, digits.se = 2,
-  digits.summary = 3, exp.coef = TRUE, p.numeric = TRUE,
-  boldpvalues = TRUE, showConfInt = TRUE, showStdError = FALSE,
-  ci.hyphen = "&nbsp;&ndash;&nbsp;", separateConfColumn = TRUE,
-  newLineConf = TRUE, group.pred = FALSE, showAbbrHeadline = TRUE,
-  show.r2 = FALSE, showICC = TRUE, showREvar = TRUE,
-  show.loglik = FALSE, showAIC = FALSE, showAICc = FALSE,
-  showDeviance = TRUE, showHosLem = FALSE, showFamily = FALSE,
-  remove.estimates = NULL, cellSpacing = 0.2, cellGroupIndent = 0.6,
-  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
-  remove.spaces = TRUE)
+sjt.glmer(..., file = NULL, pred.labels = NULL, depvar.labels = NULL,
+  string.pred = "Predictors", string.dv = "Dependent Variables",
+  show.header = FALSE, string.interc = "(Intercept)",
+  string.obs = "Observations", string.est = "OR", string.ci = "CI",
+  string.se = "std. Error", string.p = "p", digits.est = 2,
+  digits.p = 3, digits.ci = 2, digits.se = 2, digits.summary = 3,
+  exp.coef = TRUE, p.numeric = TRUE, boldpvalues = TRUE, show.ci = TRUE,
+  show.se = FALSE, ci.hyphen = "&nbsp;&ndash;&nbsp;",
+  separate.ci.col = TRUE, newline.ci = TRUE, group.pred = FALSE,
+  show.col.header = TRUE, show.r2 = FALSE, show.icc = TRUE,
+  show.re.var = TRUE, show.loglik = FALSE, show.aic = FALSE,
+  show.aicc = FALSE, show.dev = TRUE, show.hoslem = FALSE,
+  show.family = FALSE, remove.estimates = NULL, cell.spacing = 0.2,
+  cell.gpr.indent = 0.6, encoding = NULL, CSS = NULL, use.viewer = TRUE,
+  no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{one or more fitted generalized linear (mixed) models.}
@@ -29,29 +27,29 @@ sjt.glmer(..., file = NULL, labelPredictors = NULL, depvar.labels = NULL,
 If \code{NULL} (default), the output will be saved as temporary file and 
 openend either in the IDE's viewer pane or the default web browser.}
 
-\item{labelPredictors}{character vector with labels of predictor variables.
-If not \code{NULL}, \code{labelPredictors} will be used in the first
+\item{pred.labels}{character vector with labels of predictor variables.
+If not \code{NULL}, \code{pred.labels} will be used in the first
 table column with the predictors' names. If \code{NULL}, variable
 labels are set based on label attributes (see \code{\link[sjmisc]{get_label}}),
-If \code{labelPredictors = ""}, column names (vector names) are used
+If \code{pred.labels = ""}, column names (vector names) are used
 as predictor labels. See 'Examples'.}
 
 \item{depvar.labels}{character vector with labels of dependent 
 variables of all fitted models. See 'Examples'.}
 
-\item{stringPredictors}{string constant used as headline for the predictor column.
+\item{string.pred}{string constant used as headline for the predictor column.
 Default is \code{"Predictors"}.}
 
-\item{stringDependentVariables}{string constant used as headline for the 
+\item{string.dv}{string constant used as headline for the 
 dependent variable columns. Default is \code{"Dependent Variables"}.}
 
-\item{showHeaderStrings}{logical, if \code{TRUE}, the header strings \code{stringPredictors}
-and \code{stringDependentVariables} are shown. By default, they're hidden.}
+\item{show.header}{logical, if \code{TRUE}, the header strings \code{string.pred}
+and \code{string.dv} are shown. By default, they're hidden.}
 
-\item{stringIntercept}{string constant used as headline for the Intercept row.
+\item{string.interc}{string constant used as headline for the Intercept row.
 Default is \code{"Intercept"}.}
 
-\item{stringObservations}{string constant used in the summary row for the count of observation
+\item{string.obs}{string constant used in the summary row for the count of observation
 (cases). Default is \code{"Observations"}.}
 
 \item{string.est}{string used for the column heading of estimates.}
@@ -60,7 +58,7 @@ Default is \code{"Intercept"}.}
 
 \item{string.se}{string used for the column heading of standard error values. Default is \code{"std. Error"}.}
 
-\item{stringP}{string used for the column heading of p values. Default is \code{"p"}.}
+\item{string.p}{string used for the column heading of p values. Default is \code{"p"}.}
 
 \item{digits.est}{amount of decimals for estimates}
 
@@ -82,63 +80,63 @@ as numbers. If \code{FALSE} (default), asterisks are used.}
 
 \item{boldpvalues}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
 
-\item{showConfInt}{logical, if \code{TRUE} (default), the confidence intervall is also printed to the table. Use
+\item{show.ci}{logical, if \code{TRUE} (default), the confidence intervall is also printed to the table. Use
 \code{FALSE} to omit the CI in the table.}
 
-\item{showStdError}{logical, if \code{TRUE}, the standard errors are also printed.
+\item{show.se}{logical, if \code{TRUE}, the standard errors are also printed.
 Default is \code{FALSE}.}
 
 \item{ci.hyphen}{string, indicating the hyphen for confidence interval range.
 May be an HTML entity. See 'Examples'.}
 
-\item{separateConfColumn}{if \code{TRUE}, the CI values are shown in a separate table column.
+\item{separate.ci.col}{if \code{TRUE}, the CI values are shown in a separate table column.
 Default is \code{FALSE}.}
 
-\item{newLineConf}{logical, if \code{TRUE} and \code{separateConfColumn = FALSE}, inserts a line break
-between OR and CI values. If \code{FALSE}, CI values are printed in the same
-line with OR values.}
+\item{newline.ci}{logical, if \code{TRUE} and \code{separate.ci.col = FALSE}, inserts a line break
+between estimate and CI values. If \code{FALSE}, CI values are printed in the same
+line as estimate values.}
 
 \item{group.pred}{logical, if \code{TRUE} (default), automatically groups table rows with 
 factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
 be grouped, if the factor has more than two levels. Grouping means that a separate headline
 row is inserted to the table just before the predictor values.}
 
-\item{showAbbrHeadline}{logical, if \code{TRUE} (default), the table data columns have a headline with 
-abbreviations for odds ratios, confidence interval and p-values.}
+\item{show.col.header}{logical, if \code{TRUE} (default), the table data columns have a headline with 
+abbreviations for estimates, std. beta-values, confidence interval and p-values.}
 
 \item{show.r2}{logical, if \code{TRUE} (default), the pseudo R2 values for each model are printed
 in the model summary. R2cs is the Cox-Snell-pseudo R-squared value, R2n is Nagelkerke's 
 pseudo R-squared value and \code{D} is Tjur's Coefficient of Discrimination
 (see \code{\link[sjmisc]{cod}}).}
 
-\item{showICC}{logical, if \code{TRUE}, the intra-class-correlation for each 
+\item{show.icc}{logical, if \code{TRUE}, the intra-class-correlation for each 
 model is printed in the model summary. Only applies to mixed models.}
 
-\item{showREvar}{logical, if \code{TRUE}, the variance parameters for the random
+\item{show.re.var}{logical, if \code{TRUE}, the variance parameters for the random
 effects for each model are printed in the model summary. Only applies to mixed models.
 For details output, see 'Note' in \code{\link[sjmisc]{icc}}.}
 
 \item{show.loglik}{logical, if \code{TRUE}, the Log-Likelihood for each model is printed
 in the model summary. Default is \code{FALSE}.}
 
-\item{showAIC}{logical, if \code{TRUE}, the AIC value for each model is printed
+\item{show.aic}{logical, if \code{TRUE}, the AIC value for each model is printed
 in the model summary. Default is \code{FALSE}.}
 
-\item{showAICc}{logical, if \code{TRUE}, the second-order AIC value for each model 
+\item{show.aicc}{logical, if \code{TRUE}, the second-order AIC value for each model 
 is printed in the model summary. Default is \code{FALSE}.}
 
-\item{showDeviance}{logical, if \code{TRUE}, the deviance for each model 
+\item{show.dev}{logical, if \code{TRUE}, the deviance for each model 
 is printed in the model summary.}
 
-\item{showHosLem}{logical, if \code{TRUE}, a Hosmer-Lemeshow-Goodness-of-fit-test is
+\item{show.hoslem}{logical, if \code{TRUE}, a Hosmer-Lemeshow-Goodness-of-fit-test is
 performed. A well-fitting model shows no significant difference between 
 the model and the observed data, i.e. the reported p-values should be
 greater than 0.05.}
 
-\item{showFamily}{logical, if \code{TRUE}, the family object and link function for each fitted model
+\item{show.family}{logical, if \code{TRUE}, the family object and link function for each fitted model
 are printed. Can be used in case you want to compare models with different link functions
 and same predictors and response, to decide which model fits best. See \code{\link{family}}
-for more details. It is recommended to inspect the model \code{\link{AIC}} (see \code{showAIC}) to get a
+for more details. It is recommended to inspect the model \code{\link{AIC}} (see \code{show.aic}) to get a
 decision help for which model to choose.}
 
 \item{remove.estimates}{numeric vector with indices (order equals to row index of \code{coef(fit)}) 
@@ -149,12 +147,12 @@ would remove the 2nd to the 4th estimate (1st to 3rd predictor after intercept) 
 \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default 
 is \code{NULL}, i.e. all estimates are printed.}
 
-\item{cellSpacing}{numeric, inner padding of table cells. By default, this value is 0.2 (unit is cm), which is
+\item{cell.spacing}{numeric, inner padding of table cells. By default, this value is 0.2 (unit is cm), which is
 suitable for viewing the table. Decrease this value (0.05 to 0.1) if you want to import the table
 into Office documents. This is a convenient argument for the \code{CSS} argument for changing
 cell spacing, which would be: \code{CSS = list(css.thead = "padding:0.2cm;", css.tdata = "padding:0.2cm;")}.}
 
-\item{cellGroupIndent}{indent for table rows with grouped factor predictors. Only applies
+\item{cell.gpr.indent}{indent for table rows with grouped factor predictors. Only applies
 if \code{group.pred = TRUE}.}
 
 \item{encoding}{string, indicating the charset encoding used for variable and 
@@ -165,7 +163,7 @@ Windows OS). Change encoding if specific chars are not properly displayed (e.g. 
 \item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
 
-\item{useViewer}{If \code{TRUE}, the function tries to show the HTML table in the IDE's viewer pane. If
+\item{use.viewer}{If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
 
 \item{no.output}{logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
@@ -199,7 +197,7 @@ See 'Details' in \code{\link{sjt.frq}}.
 Computation of p-values (if necessary) are based on Wald chi-squared tests from the 
         \code{Anova}-function of the \pkg{car}-package.
         \cr \cr
-        The variance components of the random parts (see \code{showREvar}) are
+        The variance components of the random parts (see \code{show.re.var}) are
         denoted like:
         \itemize{
          \item between-group-variance: tau-zero-zero
@@ -239,21 +237,21 @@ sjt.glmer(fit1, fit2,
 
 # print summary table, using different table layout
 sjt.glmer(fit1, fit2,
-          showAIC = TRUE,
-          showConfInt = FALSE,
-          showStdError = TRUE,
+          show.aic = TRUE,
+          show.ci = FALSE,
+          show.se = TRUE,
           p.numeric = FALSE)
           
 # print summary table
 sjt.glmer(fit1, fit2,
-          labelPredictors = c("Elder's gender (female)",
+          pred.labels = c("Elder's gender (female)",
                               "Hours of care per week",
                               "Negative Impact",
                               "Educational level (mid)",
                               "Educational level (high)"))
 
 # use vector names as predictor labels
-sjt.glmer(fit1, fit2, labelPredictors = "")}
+sjt.glmer(fit1, fit2, pred.labels = "")}
 
 
 }

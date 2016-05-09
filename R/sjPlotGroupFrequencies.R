@@ -114,7 +114,8 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'          away from the center of the plot respectively.
 #' @param y.offset numeric, offset for text labels when their alignment is adjusted 
 #'          to the top/bottom of the geom (see \code{hjust} and \code{vjust}).
-#' @param na.rm logical, if \code{TRUE}, missings are not included in the frequency plot.
+#' @param show.na logical, if \code{TRUE}, \code{\link{NA}}'s (missing values)
+#'          are added to the output.
 #' @param printPlot logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
@@ -198,7 +199,7 @@ sjp.grpfrq <- function(var.cnt,
                        vjust = "bottom",
                        hjust = "center",
                        y.offset = NULL,
-                       na.rm = TRUE,
+                       show.na = FALSE,
                        printPlot = TRUE) {
   # --------------------------------------------------------
   # get variable name
@@ -308,7 +309,7 @@ sjp.grpfrq <- function(var.cnt,
   # --------------------------------------------------------
   # create cross table of frequencies and percentages
   # --------------------------------------------------------
-  mydat <- create.xtab.df(grp.var.cnt, var.grp, round.prz = 2, na.rm = na.rm,
+  mydat <- create.xtab.df(grp.var.cnt, var.grp, round.prz = 2, na.rm = !show.na,
                           weight.by = weight.by)
   # --------------------------------------------------------
   # x-position as numeric factor, added later after
@@ -482,7 +483,7 @@ sjp.grpfrq <- function(var.cnt,
   # add group counts to category labels
   # --------------------------------------------------------
   if (showGroupCount) {
-    nas <- ifelse(isTRUE(na.rm), "ifany", "no")
+    nas <- ifelse(isTRUE(show.na), "ifany", "no")
     # check whether we have interaction variables or not
     if (!is.null(interactionVarLabels)) {
       # retrieve group counts by converting data column

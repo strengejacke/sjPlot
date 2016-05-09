@@ -694,7 +694,6 @@ sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect = TRUE, print
 #' @param show.diff logical, if \code{TRUE}, an additional plot with the differences between 
 #'          each fusion step of the Elbow criterion calculation is shown. This plot
 #'          may help identifying the "elbow". Default for this argument is \code{FALSE}.
-#' @param showDiff Deprecated; use \code{show.diff} instead.
 #'          
 #' @examples
 #' # plot elbow values of mtcars dataset
@@ -706,14 +705,7 @@ sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect = TRUE, print
 #' @importFrom stats na.omit
 #' @importFrom graphics plot
 #' @export
-sjc.elbow <- function(data, steps = 15, show.diff = FALSE, showDiff = FALSE) {
-  # -----------------------------------
-  # warn, if deprecated param is used
-  # -----------------------------------
-  if (!missing(showDiff)) {
-    warning("argument 'showDiff' is deprecated; please use 'show.diff' instead.")
-    show.diff <- showDiff
-  }
+sjc.elbow <- function(data, steps = 15, show.diff = FALSE) {
   # Prepare Data
   # listwise deletion of missing
   data <- stats::na.omit(data) 

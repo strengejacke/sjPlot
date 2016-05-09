@@ -11,7 +11,7 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
   vline.color = "grey70", remove.estimates = NULL, show.values = TRUE,
   digits = 2, y.offset = 0.1, show.p = TRUE, facet.grid = TRUE,
   free.scale = FALSE, fade.ns = FALSE, show.ci = FALSE, p.kr = TRUE,
-  pointAlpha = 0.2, scatter.plot = TRUE, show.loess = FALSE,
+  point.alpha = 0.2, scatter.plot = TRUE, show.loess = FALSE,
   show.loess.ci = FALSE, poly.term = NULL, sample.n = NULL,
   show.legend = FALSE, printPlot = TRUE)
 }
@@ -121,15 +121,14 @@ the grid has the same scale range.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 
-\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a condifence
+\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
 interval or region is added to the plot.}
 
 \item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
 F-tests with Kenward-Roger approximation for the df. Caution: Computation
 may take very long time for large samples!}
 
-\item{pointAlpha}{alpha value of point-geoms in the scatter plots.
-Default is 0.2.}
+\item{point.alpha}{alpha value of point-geoms in the scatter plots.}
 
 \item{scatter.plot}{logical, if \code{TRUE} (default), a scatter plot of
 response and predictor values for each predictor of the model

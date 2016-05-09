@@ -14,15 +14,15 @@ utils::globalVariables(c("rowname", "total", "ges", "prc", "n", "Count", "Group"
 #' @param x a vector of values (variable) describing the bars which make up the plot.
 #' @param grp grouping variable of same length as \code{x}, where \code{x} 
 #'          is grouped into the categories represented by \code{grp}.
-#' @param type plot type. may be either \code{"b"}, \code{"bar"}, \code{"bars"} (default) for bar charts,
-#'          or \code{"l"}, \code{"line"}, \code{"lines"} for line diagram.
+#' @param type plot type. may be either \code{"bar"} (default) for bar charts,
+#'          or \code{"line"} for line diagram.
 #' @param tableIndex indicates which data of the proportional table should be plotted. Use \code{"row"} for
 #'          calculating row percentages, \code{"col"} for column percentages and \code{"cell"} for cell percentages.
 #'          If \code{tableIndex = "col"}, an additional bar with the total sum of each column
 #'          can be added to the plot (see \code{showTotalColumn}).
 #' @param rev.order logical, if \code{TRUE}, order of categories (groups) is reversed.
-#' @param lineDotSize dot size, only applies, when argument \code{type = "lines"}.
-#' @param smoothLines prints a smooth line curve. Only applies, when argument \code{type = "lines"}.
+#' @param lineDotSize dot size, only applies, when argument \code{type = "line"}.
+#' @param smoothLines prints a smooth line curve. Only applies, when argument \code{type = "line"}.
 #' @param stringTotal string for the legend label when a total-column is added. Only applies
 #'          if \code{showTotalColumn = TRUE}. Default is \code{"Total"}.
 #' @param showCategoryLabels whether x-axis text (category names) should be shown or not.
@@ -114,8 +114,8 @@ sjp.xtab <- function(x,
                      legend.title = NULL,
                      weight.by = NULL,
                      title.wtd.suffix = NULL,
-                     type = "bars",
-                     tableIndex = "col",
+                     type = c("bar", "line"),
+                     tableIndex = c("col", "cell", "row"),
                      rev.order = FALSE,
                      ylim = NULL,
                      axis.labels = NULL,
@@ -156,6 +156,8 @@ sjp.xtab <- function(x,
   # match arguments
   # --------------------------------------------------------
   bar.pos <- match.arg(bar.pos)
+  type <- match.arg(type)
+  tableIndex <- match.arg(tableIndex)
   # --------------------------------------------------------
   # copy titles
   # --------------------------------------------------------
@@ -167,12 +169,9 @@ sjp.xtab <- function(x,
     if (length(axis.titles) > 1) axisTitle.y <- axis.titles[2]
   }
   # --------------------------------------------------------
-  # We have several options to name the diagram type
-  # Here we will reduce it to a unique value
+  # grid-expansion
   # --------------------------------------------------------
-  if (type == "b" || type == "bar") type <- "bars"
-  if (type == "l" || type == "line") type <- "lines"
-  if (isTRUE(expand.grid)) {
+  if (expand.grid) {
     expand.grid <- ggplot2::waiver()
   } else {
     expand.grid <- c(0, 0)
@@ -382,7 +381,7 @@ sjp.xtab <- function(x,
   # --------------------------------------------------------
   # align dodged position of labels to bar positions
   # --------------------------------------------------------
-  posdodge <- ifelse(type == "lines", 0, geom.size + geom.spacing)
+  posdodge <- ifelse(type == "line", 0, geom.size + geom.spacing)
   if (!showCategoryLabels) axis.labels <- ""
   # --------------------------------------------------------
   # Set value labels
@@ -441,7 +440,7 @@ sjp.xtab <- function(x,
   # ----------------------------------
   # check whether bars or lines should be printed
   # ----------------------------------
-  if (type == "bars") {
+  if (type == "bar") {
     if (bar.pos == "dodge") {
       geob <- geom_bar(stat = "identity", 
                        position = position_dodge(posdodge), 
@@ -452,7 +451,7 @@ sjp.xtab <- function(x,
                        width = geom.size)
     }
   # check if we have lines
-  } else if (type == "lines") {
+  } else if (type == "line") {
     # for lines, numeric scale
     mydf$xpos <- sjmisc::to_value(mydf$xpos, keep.labels = F)
     line.stat <- ifelse(isTRUE(smoothLines), "smooth", "identity")
@@ -465,7 +464,7 @@ sjp.xtab <- function(x,
   # --------------------------------------------------------
   baseplot <- ggplot(mydf, aes(x = xpos, y = prc, fill = group)) + geob
   # if we have line diagram, print lines here
-  if (type == "lines") {
+  if (type == "line") {
     baseplot <- baseplot + 
       geom_point(size = lineDotSize, 
                  shape = 21, 

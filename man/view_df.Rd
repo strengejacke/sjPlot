@@ -6,10 +6,10 @@
 \usage{
 view_df(x, weight.by = NULL, file = NULL, alternateRowColors = TRUE,
   show.id = TRUE, show.type = FALSE, show.values = TRUE,
-  show.labels = TRUE, showFreq = FALSE, showPerc = FALSE,
-  showWtdFreq = FALSE, showWtdPerc = FALSE, show.na = FALSE,
-  sortByName = FALSE, wrap.labels = 50, encoding = NULL,
-  hideProgressBar = FALSE, CSS = NULL, useViewer = TRUE,
+  show.labels = TRUE, show.frq = FALSE, show.prc = FALSE,
+  show.wtd.frq = FALSE, show.wtd.prc = FALSE, show.na = FALSE,
+  sort.by.name = FALSE, wrap.labels = 50, encoding = NULL,
+  hide.progress = FALSE, CSS = NULL, use.viewer = TRUE,
   no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
@@ -38,20 +38,21 @@ row respectively column.}
 
 \item{show.labels}{logical, if \code{TRUE} (default), the value labels are shown as additional column.}
 
-\item{showFreq}{logical, if \code{TRUE}, an additional column with frequencies for each variable is shown.}
+\item{show.frq}{logical, if \code{TRUE}, an additional column with frequencies for each variable is shown.}
 
-\item{showPerc}{logical, if \code{TRUE}, an additional column with percentage of frequencies for each variable is shown.}
+\item{show.prc}{logical, if \code{TRUE}, an additional column with percentage of frequencies for each variable is shown.}
 
-\item{showWtdFreq}{logical, if \code{TRUE}, an additional column with weighted
+\item{show.wtd.frq}{logical, if \code{TRUE}, an additional column with weighted
 frequencies for each variable is shown. Weights strem from \code{weight.by}.}
 
-\item{showWtdPerc}{logical, if \code{TRUE}, an additional column with weighted
+\item{show.wtd.prc}{logical, if \code{TRUE}, an additional column with weighted
 percentage of frequencies for each variable is shown.
 Weights strem from \code{weight.by}.}
 
-\item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.}
+\item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values)
+are added to the output.}
 
-\item{sortByName}{logical, if \code{TRUE}, rows are sorted according to the variable
+\item{sort.by.name}{logical, if \code{TRUE}, rows are sorted according to the variable
 names. By default, rows (variables) are ordered according to their
 order in the data frame.}
 
@@ -63,13 +64,13 @@ value labels. Default is \code{NULL}, so encoding will be auto-detected
 depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
 Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
 
-\item{hideProgressBar}{If \code{TRUE}, the progress bar that is displayed when creating the
-table is hidden. Default in \code{FALSE}, hence the bar is visible.}
+\item{hide.progress}{logical, if \code{TRUE}, the progress bar that is displayed when creating the
+output is hidden. Default in \code{FALSE}, hence the bar is visible.}
 
 \item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
 
-\item{useViewer}{If \code{TRUE}, the function tries to show the HTML table in the IDE's viewer pane. If
+\item{use.viewer}{If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
 
 \item{no.output}{logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
@@ -118,7 +119,7 @@ view_df(efc)
 view_df(efc, show.values = FALSE, show.labels = FALSE)
 
 # view variables including variable typed, orderd by name
-view_df(efc, sortByName = TRUE, show.type = TRUE)
+view_df(efc, sort.by.name = TRUE, show.type = TRUE)
 
 # ---------------------------------------------------------------- 
 # User defined style sheet

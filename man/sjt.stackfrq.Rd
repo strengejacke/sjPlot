@@ -7,10 +7,11 @@
 sjt.stackfrq(items, weight.by = NULL, title = NULL, var.labels = NULL,
   value.labels = NULL, wrap.labels = 20, sort.frq = NULL,
   alternateRowColors = FALSE, digits = 2, show.n = FALSE,
-  showTotalN = FALSE, show.na = FALSE, labelNA = "NA", showSkew = FALSE,
-  showKurtosis = FALSE, digits.stats = 2, skewString = "Skew",
-  kurtosisString = "Kurtosis", file = NULL, encoding = NULL, CSS = NULL,
-  useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
+  showTotalN = FALSE, show.na = FALSE, string.na = "NA",
+  showSkew = FALSE, showKurtosis = FALSE, digits.stats = 2,
+  skewString = "Skew", kurtosisString = "Kurtosis", file = NULL,
+  encoding = NULL, CSS = NULL, use.viewer = TRUE, no.output = FALSE,
+  remove.spaces = TRUE)
 }
 \arguments{
 \item{items}{\code{\link{data.frame}} with each column representing one (likert- or scale-)item.}
@@ -51,9 +52,10 @@ group or category to the labels.}
 
 \item{showTotalN}{logical, if \code{TRUE}, an additional column with each item's total N is printed.}
 
-\item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.}
+\item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values)
+are added to the output.}
 
-\item{labelNA}{The label for the missing column/row.}
+\item{string.na}{The label for the missing column/row.}
 
 \item{showSkew}{logical, if \code{TRUE}, an additional column with each item's skewness is printed.
 The skewness is retrieved from the \code{\link[psych]{describe}}-function 
@@ -83,7 +85,7 @@ Windows OS). Change encoding if specific chars are not properly displayed (e.g. 
 \item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
 
-\item{useViewer}{If \code{TRUE}, the function tries to show the HTML table in the IDE's viewer pane. If
+\item{use.viewer}{If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
 
 \item{no.output}{logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
@@ -122,31 +124,19 @@ See 'Notes' in \code{\link{sjt.frq}}.
 # random sample
 # -------------------------------
 # prepare data for 4-category likert scale, 5 items
-likert_4 <- data.frame(as.factor(sample(1:4, 
-                                        500, 
-                                        replace = TRUE, 
+likert_4 <- data.frame(as.factor(sample(1:4, 500, replace = TRUE, 
                                         prob = c(0.2, 0.3, 0.1, 0.4))),
-                       as.factor(sample(1:4, 
-                                        500, 
-                                        replace = TRUE, 
+                       as.factor(sample(1:4, 500, replace = TRUE, 
                                         prob = c(0.5, 0.25, 0.15, 0.1))),
-                       as.factor(sample(1:4, 
-                                        500, 
-                                        replace = TRUE, 
+                       as.factor(sample(1:4, 500, replace = TRUE, 
                                         prob = c(0.25, 0.1, 0.4, 0.25))),
-                       as.factor(sample(1:4, 
-                                        500, 
-                                        replace = TRUE, 
+                       as.factor(sample(1:4, 500, replace = TRUE, 
                                         prob = c(0.1, 0.4, 0.4, 0.1))),
-                       as.factor(sample(1:4, 
-                                        500, 
-                                        replace = TRUE, 
+                       as.factor(sample(1:4, 500, replace = TRUE, 
                                         prob = c(0.35, 0.25, 0.15, 0.25))))
 # create labels
-levels_4 <- c("Independent", 
-              "Slightly dependent", 
-              "Dependent", 
-              "Severely dependent")
+levels_4 <- c("Independent", "Slightly dependent", 
+              "Dependent", "Severely dependent")
 
 # create item labels
 items <- c("Q1", "Q2", "Q3", "Q4", "Q5")
@@ -167,23 +157,17 @@ start <- which(colnames(efc) == "c82cop1")
 # recveive first item of COPE-index scale
 end <- which(colnames(efc) == "c90cop9")
 
-sjt.stackfrq(efc[, c(start:end)],
-             alternateRowColors = TRUE)
+sjt.stackfrq(efc[, c(start:end)], alternateRowColors = TRUE)
 
-sjt.stackfrq(efc[, c(start:end)],
-             alternateRowColors = TRUE,
-             show.n = TRUE,
-             show.na = TRUE)
+sjt.stackfrq(efc[, c(start:end)], alternateRowColors = TRUE,
+             show.n = TRUE, show.na = TRUE)
          
          
 # -------------------------------- 
 # User defined style sheet
 # -------------------------------- 
-sjt.stackfrq(efc[, c(start:end)],
-             alternateRowColors = TRUE,
-             showTotalN = TRUE,
-             showSkew = TRUE,
-             showKurtosis = TRUE,
+sjt.stackfrq(efc[, c(start:end)], alternateRowColors = TRUE, 
+             showTotalN = TRUE, showSkew = TRUE, showKurtosis = TRUE,
              CSS = list(css.ncol = "border-left:1px dotted black;",
                         css.summary = "font-style:italic;"))}
              

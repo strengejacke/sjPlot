@@ -100,7 +100,7 @@ print.table.summary <- function(baseplot,
 
 # display html-content in viewer pane
 # or write it to file
-out.html.table <- function(no.output, file, knitr, toWrite, useViewer) {
+out.html.table <- function(no.output, file, knitr, toWrite, use.viewer) {
   if (!no.output) {
     # -------------------------------------
     # check if we have filename specified
@@ -117,7 +117,7 @@ out.html.table <- function(no.output, file, knitr, toWrite, useViewer) {
       write(toWrite, file = htmlFile)
       # check whether we have RStudio Viewer
       viewer <- getOption("viewer")
-      if (useViewer && !is.null(viewer)) {
+      if (use.viewer && !is.null(viewer)) {
         viewer(htmlFile)
       } else {
         utils::browseURL(htmlFile)
@@ -249,7 +249,10 @@ create.frq.df <- function(x,
   # -------------------------------------
   if (!is.null(mydat$label)) mydat$label[is.na(mydat$label)] <- "NA"
   suppressMessages(sjmisc::replace_na(mydat$val) <- nrow(mydat))
-  mydat$val <- sjmisc::to_value(mydat$val, keep.labels = F)
+  # save original order
+  mydat$order <- sjmisc::to_value(mydat$val, keep.labels = F)
+  # sort for x-axis
+  mydat$val <- sort(mydat$order)
   # -------------------------------------
   # wrap labels?
   # -------------------------------------

@@ -72,7 +72,7 @@ is drawn. See \code{fitmethod} to change the fit method of the fitted lines.}
 scatterplot is drawn. See \code{fitmethod} to change the fit method
 of the fitted line.}
 
-\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a condifence
+\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
 interval or region is added to the plot.}
 
 \item{fitmethod}{By default, a linear method (\code{"lm"}) is used for fitting

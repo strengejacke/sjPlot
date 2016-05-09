@@ -5,8 +5,8 @@
 \title{Plot contingency tables}
 \usage{
 sjp.xtab(x, grp, title = "", legend.title = NULL, weight.by = NULL,
-  title.wtd.suffix = NULL, type = "bars", tableIndex = "col",
-  rev.order = FALSE, ylim = NULL, axis.labels = NULL,
+  title.wtd.suffix = NULL, type = c("bar", "line"), tableIndex = c("col",
+  "cell", "row"), rev.order = FALSE, ylim = NULL, axis.labels = NULL,
   legend.labels = NULL, vjust = "bottom", hjust = "center",
   y.offset = NULL, stringTotal = "Total", wrap.title = 50,
   wrap.labels = 15, breakLegendTitleAt = 20, breakLegendLabelsAt = 20,
@@ -37,8 +37,8 @@ Must be a vector of same length as the input vector. Default is
 e.g. \code{title.wtd.suffix=" (weighted)"}. Default is \code{NULL}, so 
 title will not have a suffix when cases are weighted.}
 
-\item{type}{plot type. may be either \code{"b"}, \code{"bar"}, \code{"bars"} (default) for bar charts,
-or \code{"l"}, \code{"line"}, \code{"lines"} for line diagram.}
+\item{type}{plot type. may be either \code{"bar"} (default) for bar charts,
+or \code{"line"} for line diagram.}
 
 \item{tableIndex}{indicates which data of the proportional table should be plotted. Use \code{"row"} for
 calculating row percentages, \code{"col"} for column percentages and \code{"cell"} for cell percentages.
@@ -99,9 +99,9 @@ need smaller values than dot sizes.}
 \item{bar.pos}{indicates whether bars should be positioned side-by-side (default)
 or stacked (use \code{"stack"} as argument).}
 
-\item{lineDotSize}{dot size, only applies, when argument \code{type = "lines"}.}
+\item{lineDotSize}{dot size, only applies, when argument \code{type = "line"}.}
 
-\item{smoothLines}{prints a smooth line curve. Only applies, when argument \code{type = "lines"}.}
+\item{smoothLines}{prints a smooth line curve. Only applies, when argument \code{type = "line"}.}
 
 \item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 axes and plotting region. Default is \code{FALSE}.}

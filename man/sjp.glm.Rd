@@ -113,7 +113,7 @@ is added to the plot.}
 \item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
 in a grid of an integrated single plot.}
 
-\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a condifence
+\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
 interval or region is added to the plot.}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and

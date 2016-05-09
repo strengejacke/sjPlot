@@ -18,10 +18,6 @@
 #' @param value.labels character vector (or \code{list} of character vectors)
 #'          with value labels of the supplied variables, which will be used 
 #'          to label variable values in the output.
-#' @param sort.frq whether frequencies should be sorted or not. Use \code{"asc"} or \code{"ascending"}
-#'          to sort frequencies ascending, or \code{"desc"} or \code{"descending"} to sort
-#'          frequencies in descending order. By default, \code{sort.frq} is \code{NULL}, i.e.
-#'          frequencies are ordered by values.
 #' @param alternateRowColors logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 #'          background color.
 #' @param string.val label for the very first table column containing the values (see
@@ -71,7 +67,7 @@
 #'          Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).
 #' @param CSS \code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
 #'          \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.
-#' @param useViewer If \code{TRUE}, the function tries to show the HTML table in the IDE's viewer pane. If
+#' @param use.viewer If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 #'          \code{FALSE} or no viewer available, the HTML table is opened in a web browser.
 #' @param no.output logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
 #'          the viewer pane and not even saved to file. This option is useful when the html output
@@ -91,6 +87,7 @@
 #'          
 #' @inheritParams sjp.glmer
 #' @inheritParams sjp.grpfrq
+#' @inheritParams sjp.frq
 #' 
 #' @note The HTML tables can either be saved as file and manually opened (specify argument \code{file}) or
 #'         they can be saved as temporary files and will be displayed in the RStudio Viewer pane (if working with RStudio)
@@ -130,27 +127,19 @@
 #' sjt.frq(efc$e42dep)
 #' 
 #' # plot and show frequency table of "e42dep" with labels
-#' sjt.frq(efc$e42dep,
-#'         var.labels = "Dependency",
-#'         value.labels = c("independent",
-#'                         "slightly dependent",
-#'                         "moderately dependent",
-#'                         "severely dependent"))
+#' sjt.frq(efc$e42dep, var.labels = "Dependency",
+#'         value.labels = c("independent", "slightly dependent",
+#'                          "moderately dependent", "severely dependent"))
 #' 
 #' # plot frequencies of e42dep, e16sex and c172code in one HTML file
 #' # and show table in RStudio Viewer Pane or default web browser
 #' # Note that value.labels of multiple variables have to be
 #' # list-objects
 #' sjt.frq(data.frame(efc$e42dep, efc$e16sex, efc$c172code),
-#'         var.labels = c("Dependency", 
-#'                            "Gender", 
-#'                            "Education"),
-#'         value.labels = list(c("independent",
-#'                              "slightly dependent",
-#'                              "moderately dependent",
-#'                              "severely dependent"),
-#'                            c("male", "female"),
-#'                            c("low", "mid", "high")))
+#'         var.labels = c("Dependency", "Gender", "Education"),
+#'         value.labels = list(c("independent", "slightly dependent",
+#'                               "moderately dependent", "severely dependent"),
+#'                             c("male", "female"), c("low", "mid", "high")))
 #' 
 #' # -------------------------------
 #' # auto-detection of labels
@@ -161,9 +150,7 @@
 #' 
 #' # plot larger scale including zero-counts
 #' # indicating median and quartiles
-#' sjt.frq(efc$neg_c_7,
-#'         emph.md = TRUE,
-#'         emph.quart = TRUE)
+#' sjt.frq(efc$neg_c_7, emph.md = TRUE, emph.quart = TRUE)
 #' 
 #' # -------------------------------
 #' # sort frequencies
@@ -189,7 +176,7 @@ sjt.frq <- function(data,
                     var.labels = NULL,
                     value.labels = NULL,
                     auto.group = NULL,
-                    sort.frq = NULL,
+                    sort.frq = c("none", "asc", "desc"),
                     alternateRowColors = FALSE,
                     string.val = "value",
                     string.cnt = "N",
@@ -211,7 +198,7 @@ sjt.frq <- function(data,
                     maxStringDist = 3,
                     encoding = NULL,
                     CSS = NULL,
-                    useViewer = TRUE,
+                    use.viewer = TRUE,
                     no.output = FALSE,
                     remove.spaces = TRUE) {
   # -------------------------------------
@@ -221,9 +208,13 @@ sjt.frq <- function(data,
   # save original value
   o.skip.zero <- skip.zero
   # -------------------------------------
+  # match arguments
+  # -------------------------------------
+  sort.frq <- match.arg(sort.frq)
+  # -------------------------------------
   # warning
   # -------------------------------------
-  if (!is.null(sort.frq)) message("Sorting may not work when data contains values with zero-counts.")
+  if (!is.null(sort.frq) && sort.frq != "none") message("Sorting may not work when data contains values with zero-counts.")
   # -------------------------------------
   # table init
   # -------------------------------------
@@ -724,7 +715,7 @@ sjt.frq <- function(data,
   # -------------------------------------
   # check if html-content should be outputted
   # -------------------------------------
-  out.html.table(no.output, file, knitr, toWrite, useViewer)
+  out.html.table(no.output, file, knitr, toWrite, use.viewer)
   # -------------------------------------
   # return results
   # -------------------------------------

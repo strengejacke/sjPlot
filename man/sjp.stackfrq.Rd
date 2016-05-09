@@ -6,14 +6,12 @@
 \usage{
 sjp.stackfrq(items, legend.labels = NULL, sort.frq = NULL,
   weight.by = NULL, show.legend = TRUE, title = NULL,
-  legend.title = NULL, includeN = TRUE, axis.labels = NULL,
+  legend.title = NULL, include.n = TRUE, axis.labels = NULL,
   wrap.title = 50, wrap.labels = 30, breakLegendTitleAt = 30,
   breakLegendLabelsAt = 28, grid.breaks = 0.2, expand.grid = FALSE,
   geom.size = 0.5, geom.colors = "Blues", axis.titles = NULL,
   show.values = TRUE, digits = 1, vjust = "center",
-  showPercentageAxis = TRUE, showItemLabels = TRUE,
-  showSeparatorLine = FALSE, separatorLineColor = "grey80",
-  separatorLineSize = 0.3, coord.flip = TRUE, printPlot = TRUE)
+  showPercentageAxis = TRUE, coord.flip = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{items}{\code{\link{data.frame}} with each column representing one item.}
@@ -42,7 +40,7 @@ will be set automatically. If \code{title = ""}, no title is printed.}
 
 \item{legend.title}{title of the plot legend, as string.}
 
-\item{includeN}{logical, if \code{TRUE} (default), the N of each item is included into axis labels.}
+\item{include.n}{logical, if \code{TRUE} (default), the N of each item will be included in axis labels.}
 
 \item{axis.labels}{character vector with labels used as axis labels.}
 
@@ -84,14 +82,6 @@ new options like "inward" and "outward", which align text towards and
 away from the center of the plot respectively.}
 
 \item{showPercentageAxis}{If \code{TRUE} (default), the percentage values at the x-axis are shown.}
-
-\item{showItemLabels}{Whether x axis text (category names) should be shown or not.}
-
-\item{showSeparatorLine}{If \code{TRUE}, a line is drawn to visually "separate" each bar in the diagram.}
-
-\item{separatorLineColor}{The color of the separator line. only applies, if \code{showSeparatorLine} is \code{TRUE}.}
-
-\item{separatorLineSize}{The size of the separator line. only applies, if \code{showSeparatorLine} is \code{TRUE}.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 

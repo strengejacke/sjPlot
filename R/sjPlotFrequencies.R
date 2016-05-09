@@ -1,5 +1,5 @@
 # bind global variables
-utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci", "ia", "..density.."))
+utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci", "..density.."))
 
 
 #' @title Plot frequencies of variables
@@ -17,19 +17,11 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #'         factor levels), i.e. scales / centred variables
 #'         with decimals may result in unexpected behaviour.
 #' 
-#' @param interactionVar an interaction variable which can be used for box plots. Divides the observations in 
-#'          \code{var.cnt} into sub groups indicated by \code{interactionVar}. Only 
-#'          applies when \code{type = "boxplot"} or \code{"violin"}.
-#' @param sort.frq Determines whether categories (bars) on x-axis should be sorted 
-#'          according to the frequencies or not.  Default is \code{"none"}, so 
+#' @param sort.frq Determines whether categories should be sorted 
+#'          according to their frequencies or not. Default is \code{"none"}, so 
 #'          categories are not sorted by frequency. Use \code{"asc"} or
 #'          \code{"desc"} for sorting categories ascending or descending order.
 #' @param geom.colors user defined color for geoms, e.g. \code{geom.colors = "#0080ff"}.
-#' @param interactionVarLabels a character vector with labels for the x-axis breaks 
-#'          when having interaction variables included. These labels replace the 
-#'          \code{axis.labels}. Only applies, when using box or violin plots
-#'          (i.e. \code{type = "boxplot"} or \code{"violin"}) and \code{interactionVar} 
-#'          is not \code{NULL}.
 #' @param errorbar.color color of confidence interval bars (error bars). 
 #'          Only applies to \code{type = "bar"}. In case of dot plots, error bars 
 #'          will have same colors as dots (see \code{geom.colors}).
@@ -96,18 +88,6 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #'         axis.labels = ageGrpLab)
 #' 
 #' 
-#' # box plots with interaction variable
-#' # the following example is equal to the function call
-#' # sjp.grpfrq(efc$e17age, efc$e16sex, type = "box")
-#' sjp.frq(efc$e17age,
-#'         title = paste(get_label(efc$e17age), 
-#'                       "by", 
-#'                       get_label(efc$e16sex),
-#'         interactionVar = efc$e16sex,
-#'         interactionVarLabels = get_labels(efc$e16sex),
-#'         type = "box"))
-#' 
-#' 
 #' # negative impact scale, ranging from 7-28
 #' sjp.frq(efc$neg_c_7)
 #' 
@@ -147,13 +127,11 @@ sjp.frq <- function(var.cnt,
                     title = "",
                     weight.by = NULL,
                     title.wtd.suffix = NULL,
-                    interactionVar = NULL,
-                    sort.frq = "none",
+                    sort.frq = c("none", "asc", "desc"),
                     type = c("bar", "dot", "histogram", "line", "density", "boxplot", "violin"),
                     geom.size = NULL,
                     geom.colors = "#336699",
                     axis.labels = NULL,
-                    interactionVarLabels = NULL,
                     xlim = NULL,
                     ylim = NULL,
                     wrap.title = 50,
@@ -183,7 +161,7 @@ sjp.frq <- function(var.cnt,
                     vjust = "bottom",
                     hjust = "center",
                     y.offset = NULL,
-                    na.rm = TRUE,
+                    show.na = FALSE,
                     printPlot = TRUE) {
   # --------------------------------------------------------
   # get variable name
@@ -219,20 +197,8 @@ sjp.frq <- function(var.cnt,
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
   if (is.null(axis.labels)) {
-    axis.labels <- sjmisc::get_labels(
-      var.cnt,
-      attr.only = F,
-      include.values = NULL,
-      include.non.labelled = T
-    )
-  }
-  if (is.null(interactionVarLabels) && !is.null(interactionVar)) {
-    interactionVarLabels <- sjmisc::get_labels(
-      interactionVar,
-      attr.only = F,
-      include.values = NULL,
-      include.non.labelled = T
-    )
+    axis.labels <- sjmisc::get_labels(var.cnt, attr.only = F, include.values = NULL, 
+                                      include.non.labelled = T)
   }
   if (is.null(axis.title)) axis.title <- sjmisc::get_label(var.cnt, def.value = var.name)
   if (is.null(title)) title <- sjmisc::get_label(var.cnt, def.value = var.name)
@@ -246,10 +212,11 @@ sjp.frq <- function(var.cnt,
   # --------------------------------------------------------
   if (length(geom.colors) > 1) geom.colors <- geom.colors[1]
   # --------------------------------------------------------
-  # We have several options to name the plot type
-  # Here we will reduce it to a unique value
+  # Match arguments
   # --------------------------------------------------------
   type <- match.arg(type)
+  sort.frq <- match.arg(sort.frq)
+  # default grid-expansion
   if (isTRUE(expand.grid) || (missing(expand.grid) && type == "histogram")) {
     expand.grid <- ggplot2::waiver()
   } else {
@@ -273,13 +240,6 @@ sjp.frq <- function(var.cnt,
       geom.size <- .3
     else
       geom.size <- .7
-  }
-  #---------------------------------------------------
-  # check whether variable should be auto-grouped
-  #---------------------------------------------------
-  if (!is.null(interactionVar) && type != "boxplot" && type != "violin") {
-    warning("`interactionVar` only applies to boxplots and violinplots (see `type`) and will be ignored.", call. = F)
-    interactionVar <- NULL
   }
   #---------------------------------------------------
   # check whether variable should be auto-grouped
@@ -309,10 +269,15 @@ sjp.frq <- function(var.cnt,
                           wrap.labels = wrap.labels, 
                           order.frq = sort.frq, 
                           round.prz = 2,
-                          na.rm = na.rm, 
+                          na.rm = !show.na, 
                           weight.by = weight.by)
   mydat <- df.frq$mydat
-  if (!is.null(df.frq$labels) && is.null(axis.labels)) axis.labels <- df.frq$labels
+  # any labels detected?
+  if (!is.null(df.frq$labels) && is.null(axis.labels)) 
+    axis.labels <- df.frq$labels
+  else if (!is.null(axis.labels) && sort.frq != "none")
+    # sort labels in required order
+    axis.labels <- axis.labels[mydat$order]
   # --------------------------------------------------------
   # define text label position
   # --------------------------------------------------------
@@ -337,18 +302,6 @@ sjp.frq <- function(var.cnt,
   if (!is.null(axis.title)) {
     axis.title <- sjmisc::word_wrap(axis.title, wrap.title)    
   }
-  # check length of x-axis-labels of interaction variable and split 
-  # longer strings into new lines
-  if (!is.null(interactionVar)) {
-    if (!is.null(interactionVarLabels)) {
-      interactionVarLabels <- sjmisc::word_wrap(interactionVarLabels, wrap.labels)    
-    # If interaction-variable-labels were not defined, simply set numbers from 1 to
-    # amount of categories instead
-    } else {
-      iavarLabLength <- length(unique(stats::na.omit(interactionVar)))
-      interactionVarLabels <- c(1:iavarLabLength)
-    }
-  }
   # --------------------------------------------------------
   # count variable may not be a factor!
   # --------------------------------------------------------
@@ -369,17 +322,9 @@ sjp.frq <- function(var.cnt,
   # If we have boxplots, use different data frame structure
   # --------------------------------------------------------
   if (type == "boxplot" || type == "violin") {
-    if (is.null(interactionVar)) {
-      mydat <- stats::na.omit(data.frame(cbind(grp = 1, 
-                                               frq = var.cnt, 
-                                               val = var.cnt)))
-    } else {
-      mydat <- stats::na.omit(data.frame(cbind(grp = 1, 
-                                               ia = interactionVar, 
-                                               frq = var.cnt, 
-                                               val = var.cnt)))
-      mydat$ia <- as.factor(mydat$ia)
-    }
+    mydat <- stats::na.omit(data.frame(cbind(grp = 1, 
+                                             frq = var.cnt, 
+                                             val = var.cnt)))
     mydat$grp <- as.factor(mydat$grp)
   }  
   # --------------------------------------------------------
@@ -488,11 +433,6 @@ sjp.frq <- function(var.cnt,
   # ----------------------------------
   # Print plot
   # ----------------------------------
-  # calculate mean and sd for non-adjusted normal curve
-  stdmean <- diff(range(var.cnt, na.rm = TRUE)) / 2
-  stdadjust <- min(var.cnt, na.rm = TRUE)
-  stdsd <- stdmean / 4
-  stdlen <- length(stats::na.omit(var.cnt))
   # ----------------------------------
   # bar and dot plot start here!
   # ----------------------------------
@@ -537,13 +477,10 @@ sjp.frq <- function(var.cnt,
   # Start box plot here
   # --------------------------------------------------
   } else if (type == "boxplot" || type == "violin") {
-    if (is.null(interactionVar)) {
-      baseplot <- ggplot(mydat, aes(x = grp, y = frq))
-      scalex <- scale_x_discrete(labels = "")
-    } else {
-      baseplot <- ggplot(mydat, aes(x = interaction(ia, grp), y = frq))
-      scalex <- scale_x_discrete(labels = interactionVarLabels)
-    }
+    # setup base plot
+    baseplot <- ggplot(mydat, aes(x = grp, y = frq))
+    # and x-axis
+    scalex <- scale_x_discrete(labels = "")
     if (type == "boxplot") {
       baseplot <- baseplot + 
         geom_boxplot(width = geom.size, fill = geom.colors)
@@ -684,7 +621,7 @@ sjp.frq <- function(var.cnt,
       yscale
   }
   # set axes text and 
-  baseplot <- baseplot + labs(title = title, x = axis.title)
+  baseplot <- baseplot + labs(title = title, x = axis.title, y = NULL)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------

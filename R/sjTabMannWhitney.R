@@ -37,7 +37,7 @@ sjt.mwu <- function(x,
                     file=NULL,
                     encoding=NULL,
                     CSS=NULL,
-                    useViewer = TRUE, 
+                    use.viewer = TRUE, 
                     no.output = FALSE,
                     remove.spaces = TRUE) {
   # --------------------------------------------------------
@@ -71,12 +71,12 @@ sjt.mwu <- function(x,
                  CSS = CSS,
                  no.output = T,
                  encoding = encoding,
-                 hideProgressBar = T,
+                 hide.progress = T,
                  remove.spaces = remove.spaces)
   # -------------------------------------
   # check if html-content should be printed
   # -------------------------------------
-  out.html.table(no.output, file, html$knitr, html$output.complete, useViewer)  
+  out.html.table(no.output, file, html$knitr, html$output.complete, use.viewer)  
   invisible(list(class = c("sjTable", "sjtmwu"),
                  df = x$tab.df, 
                  page.style = html$page.style,

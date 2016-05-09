@@ -8,8 +8,8 @@ sjt.df(mydf, describe = TRUE, file = NULL, alternateRowColors = FALSE,
   sort.col = NULL, sort.asc = TRUE, title = NULL, repeatHeader = FALSE,
   stringVariable = "Variable", show.type = FALSE, showRowNames = TRUE,
   showCommentRow = FALSE, commentString = "No comment...",
-  big.mark = NULL, hideProgressBar = FALSE, encoding = NULL, CSS = NULL,
-  useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE, ...)
+  big.mark = NULL, hide.progress = FALSE, encoding = NULL, CSS = NULL,
+  use.viewer = TRUE, no.output = FALSE, remove.spaces = TRUE, ...)
 }
 \arguments{
 \item{mydf}{data frame that should be printed as table}
@@ -57,8 +57,8 @@ applies, if \code{showCommentRow = TRUE}.}
 \item{big.mark}{character; if not \code{NULL}, used as mark between every 
 thousands decimals before (hence big) the decimal point}
 
-\item{hideProgressBar}{logical, if \code{TRUE}, the progress bar that is displayed when creating the
-table is hidden. Default in \code{FALSE}, hence the bar is visible.}
+\item{hide.progress}{logical, if \code{TRUE}, the progress bar that is displayed when creating the
+output is hidden. Default in \code{FALSE}, hence the bar is visible.}
 
 \item{encoding}{string, indicating the charset encoding used for variable and 
 value labels. Default is \code{NULL}, so encoding will be auto-detected 
@@ -68,7 +68,7 @@ Windows OS). Change encoding if specific chars are not properly displayed (e.g. 
 \item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
 
-\item{useViewer}{If \code{TRUE}, the function tries to show the HTML table in the IDE's viewer pane. If
+\item{use.viewer}{If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
 
 \item{no.output}{logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in

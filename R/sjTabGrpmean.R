@@ -57,7 +57,7 @@ sjt.grpmean <- function(var.cnt,
                         file = NULL,
                         encoding = NULL,
                         CSS = NULL,
-                        useViewer = TRUE,
+                        use.viewer = TRUE,
                         no.output = FALSE,
                         remove.spaces = TRUE) {
   # --------------------------------------------------------
@@ -145,9 +145,7 @@ sjt.grpmean <- function(var.cnt,
   # do we have weighted means?
   # --------------------------------------
   if (!is.null(weight.by)) {
-    mw <- weighted.mean(var.cnt, 
-                        w = weight.by,
-                        na.rm = TRUE)
+    mw <- weighted.mean(var.cnt, w = weight.by, na.rm = TRUE)
   } else {
     mw <- mean(var.cnt, na.rm = TRUE)
   }
@@ -192,7 +190,7 @@ sjt.grpmean <- function(var.cnt,
                  no.output = T,
                  CSS = CSS,
                  encoding = encoding,
-                 hideProgressBar = TRUE,
+                 hide.progress = TRUE,
                  commentString = gsub("=0.", 
                                       paste0("=", p_zero, "."), 
                                       sprintf("<strong>Anova:</strong> R<sup>2</sup>=%.*f &middot; adj. R<sup>2</sup>=%.*f &middot; %s &middot; F=%.*f &middot; %s",
@@ -202,7 +200,7 @@ sjt.grpmean <- function(var.cnt,
   # -------------------------------------
   # check if html-content should be printed
   # -------------------------------------
-  out.html.table(no.output, file, html$knitr, html$output.complete, useViewer)  
+  out.html.table(no.output, file, html$knitr, html$output.complete, use.viewer)  
   invisible(list(class = c("sjTable", "sjtgrpmean"),
                  df = df, 
                  page.style = html$page.style,

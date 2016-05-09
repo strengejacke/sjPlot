@@ -8,12 +8,12 @@ sjt.xtab(var.row, var.col, weight.by = NULL, digits = 1, file = NULL,
   var.labels = NULL, value.labels = NULL, title = NULL,
   wrap.labels = 20, stringTotal = "Total", show.obs = TRUE,
   show.cell.prc = FALSE, show.row.prc = FALSE, show.col.prc = FALSE,
-  show.exp = FALSE, showHorizontalLine = FALSE, show.summary = TRUE,
-  show.legend = FALSE, show.na = FALSE, labelNA = "NA",
-  tdcol.n = "black", tdcol.expected = "#339999", tdcol.cell = "#993333",
-  tdcol.row = "#333399", tdcol.col = "#339933", highlightTotal = FALSE,
-  highlightColor = "#f8f8f8", prc.sign = "&nbsp;&#37;", hundret = "100.0",
-  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
+  show.exp = FALSE, show.summary = TRUE, show.legend = FALSE,
+  show.na = FALSE, tdcol.n = "black", tdcol.expected = "#339999",
+  tdcol.cell = "#993333", tdcol.row = "#333399", tdcol.col = "#339933",
+  highlightTotal = FALSE, highlightColor = "#f8f8f8",
+  prc.sign = "&nbsp;&#37;", hundret = "100.0", encoding = NULL,
+  CSS = NULL, use.viewer = TRUE, no.output = FALSE,
   remove.spaces = TRUE)
 }
 \arguments{
@@ -55,17 +55,14 @@ labels are displayed in one line and when a line break is inserted.}
 
 \item{show.exp}{logical, if \code{TRUE}, expected values are also shown}
 
-\item{showHorizontalLine}{logical, if \code{TRUE}, data rows are separated with a horizontal line}
-
 \item{show.summary}{If \code{TRUE} (default), a summary row with total and valid N as well as mean and
 standard deviation is shown.}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
-\item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.}
-
-\item{labelNA}{The label for the missing column/row.}
+\item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values)
+are added to the output.}
 
 \item{tdcol.n}{Color for highlighting count (observed) values in table cells. Default is black.}
 
@@ -98,7 +95,7 @@ Windows OS). Change encoding if specific chars are not properly displayed (e.g. 
 \item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
 
-\item{useViewer}{If \code{TRUE}, the function tries to show the HTML table in the IDE's viewer pane. If
+\item{use.viewer}{If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
 
 \item{no.output}{logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
@@ -151,7 +148,6 @@ sjt.xtab(efc$e16sex,
 
 # print minimal cross table with labels, total col/row highlighted
 sjt.xtab(efc$e16sex, efc$e42dep, 
-         showHorizontalLine = FALSE,
          show.cell.prc = FALSE,
          highlightTotal = TRUE)
 

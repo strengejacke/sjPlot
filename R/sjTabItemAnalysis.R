@@ -145,7 +145,7 @@ sjt.itemanalysis <- function(df,
                              file = NULL,
                              encoding = NULL,
                              CSS = NULL,
-                             useViewer = TRUE,
+                             use.viewer = TRUE,
                              no.output = FALSE,
                              remove.spaces = TRUE) {
   # -------------------------------------
@@ -391,7 +391,7 @@ sjt.itemanalysis <- function(df,
   # -------------------------------------
   # check if html-content should be printed
   # -------------------------------------
-  out.html.table(no.output, file, knitr, complete.page, useViewer)  
+  out.html.table(no.output, file, knitr, complete.page, use.viewer)  
   invisible(list(class = c("sjTable", "sjtitemanalysis"),
                  df.list = df.ia,
                  index.scores = index.scores,

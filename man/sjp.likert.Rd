@@ -8,13 +8,13 @@ sjp.likert(items, catcount = NULL, cat.neutral = NULL, weight.by = NULL,
   title.wtd.suffix = NULL, sort.frq = NULL, geom.size = 0.6,
   geom.colors = "BrBG", reverse.colors = FALSE,
   cat.neutral.color = "grey70", intercept.line.color = "grey50",
-  value.labels = "show", showPercentageSign = FALSE, digits = 1,
+  value.labels = "show", show.prc.sign = FALSE, digits = 1,
   legend.labels = NULL, show.legend = TRUE, title = NULL,
-  legend.title = NULL, includeN = TRUE, showItemLabels = TRUE,
-  axis.labels = NULL, wrap.title = 50, wrap.labels = 30,
-  breakLegendTitleAt = 30, breakLegendLabelsAt = 28, gridRange = 1,
-  grid.breaks = 0.2, expand.grid = TRUE, axis.titles = NULL,
-  coord.flip = TRUE, printPlot = TRUE)
+  legend.title = NULL, include.n = TRUE, axis.labels = NULL,
+  wrap.title = 50, wrap.labels = 30, breakLegendTitleAt = 30,
+  breakLegendLabelsAt = 28, grid.range = 1, grid.breaks = 0.2,
+  expand.grid = TRUE, axis.titles = NULL, coord.flip = TRUE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{items}{\code{\link{data.frame}} with each column representing one likert-item.}
@@ -71,7 +71,7 @@ so positive and negative values switch colors.}
   \item{\code{"sum.outide"}}{shows the sums of percentage values for both negative and positive values and prints them outside the end of each bar}
 }}
 
-\item{showPercentageSign}{logical, if \code{TRUE}, \%-signs for value labels are shown.}
+\item{show.prc.sign}{logical, if \code{TRUE}, \%-signs for value labels are shown.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
@@ -85,9 +85,7 @@ will be set automatically. If \code{title = ""}, no title is printed.}
 
 \item{legend.title}{title of the plot legend, as string.}
 
-\item{includeN}{logical, if \code{TRUE} (default), the N of each item will be included in axis labels.}
-
-\item{showItemLabels}{logical, whether x-axis text (category names) should be shown or not}
+\item{include.n}{logical, if \code{TRUE} (default), the N of each item will be included in axis labels.}
 
 \item{axis.labels}{character vector with labels used as axis labels.}
 
@@ -103,11 +101,11 @@ are displayed in one line and when a line break is inserted.}
 \item{breakLegendLabelsAt}{determines how many chars of the legend labels are 
 displayed in one line and when a line break is inserted.}
 
-\item{gridRange}{numeric, limits of the x-axis-range, as proportion of 100. 
+\item{grid.range}{numeric, limits of the x-axis-range, as proportion of 100. 
 Default is 1, so the x-scale ranges from zero to 100\% on 
 both sides from the center. You can use values beyond 1
 (100\%) in case bar labels are not printed because they exceed the axis range.
-E.g. \code{gridRange = 1.4} will set the axis from -140 to +140\%, however, only
+E.g. \code{grid.range = 1.4} will set the axis from -140 to +140\%, however, only
 (valid) axis labels from -100 to +100\% are printed. Neutral categories are
 adjusted to the most left limit.}
 
@@ -202,10 +200,10 @@ sjp.likert(likert_4,
            cat.neutral = 5,
            legend.labels = levels_4, 
            axis.labels = items,
-           gridRange = 1.2,
+           grid.range = 1.2,
            expand.grid = FALSE,
            value.labels = "sum.outside",
-           showPercentageSign = TRUE)
+           show.prc.sign = TRUE)
 
 # plot 6-category-likert-scale, ordered by positive values,
 # in brown color scale
@@ -214,7 +212,7 @@ sjp.likert(likert_6,
            axis.labels = items, 
            sort.frq = "pos.asc", 
            digits = 0,
-           showPercentageSign = TRUE,
+           show.prc.sign = TRUE,
            value.labels = "sum.inside")
 
 }

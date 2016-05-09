@@ -16,9 +16,6 @@
 #' @param show.col.prc logical, if \code{TRUE}, column percentage values are shown
 #' @param show.obs logical, if \code{TRUE}, observed values are shown
 #' @param show.exp logical, if \code{TRUE}, expected values are also shown
-#' @param showHorizontalLine logical, if \code{TRUE}, data rows are separated with a horizontal line
-#' @param show.na logical, if \code{TRUE}, \code{\link{NA}}'s (missing values) are also printed in the table.
-#' @param labelNA The label for the missing column/row.
 #' @param tdcol.n Color for highlighting count (observed) values in table cells. Default is black.
 #' @param tdcol.expected Color for highlighting expected values in table cells. Default is cyan.
 #' @param tdcol.cell Color for highlighting cell percentage values in table cells. Default is red.
@@ -74,7 +71,6 @@
 #' 
 #' # print minimal cross table with labels, total col/row highlighted
 #' sjt.xtab(efc$e16sex, efc$e42dep, 
-#'          showHorizontalLine = FALSE,
 #'          show.cell.prc = FALSE,
 #'          highlightTotal = TRUE)
 #' 
@@ -104,11 +100,9 @@ sjt.xtab <- function(var.row,
                      show.row.prc = FALSE,
                      show.col.prc = FALSE,
                      show.exp = FALSE,
-                     showHorizontalLine = FALSE,
                      show.summary = TRUE,
                      show.legend = FALSE,
                      show.na = FALSE,
-                     labelNA = "NA",
                      tdcol.n = "black",
                      tdcol.expected = "#339999",
                      tdcol.cell = "#993333",
@@ -120,7 +114,7 @@ sjt.xtab <- function(var.row,
                      hundret = "100.0",
                      encoding = NULL,
                      CSS = NULL,
-                     useViewer = TRUE,
+                     use.viewer = TRUE,
                      no.output = FALSE,
                      remove.spaces = TRUE) {
   # --------------------------------------------------------
@@ -248,7 +242,7 @@ sjt.xtab <- function(var.row,
   css.totcol <- ifelse(isTRUE(highlightTotal), sprintf(" background-color:%s;", highlightColor), "")
   css.tothi <- "font-weight:bolder; font-style:italic;"
   css.summary <- "text-align:right; font-size:0.9em; font-style:italic;"
-  css.horline <- ifelse(isTRUE(showHorizontalLine), "border-bottom:1px solid;", "")
+  css.horline <- ""
   # ------------------------
   # check user defined style sheets
   # ------------------------
@@ -548,7 +542,7 @@ sjt.xtab <- function(var.row,
   # -------------------------------------
   # check if html-content should be printed
   # -------------------------------------
-  out.html.table(no.output, file, knitr, toWrite, useViewer)   
+  out.html.table(no.output, file, knitr, toWrite, use.viewer)   
   # -------------------------------------
   # return results
   # -------------------------------------

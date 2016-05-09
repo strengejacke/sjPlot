@@ -143,7 +143,7 @@ sjt.pca <- function(data,
                     stringCpov = "Cumulative Proportion",
                     encoding = NULL,
                     CSS = NULL,
-                    useViewer = TRUE,
+                    use.viewer = TRUE,
                     no.output = FALSE,
                     remove.spaces = TRUE) {
   # -------------------------------------
@@ -580,7 +580,7 @@ sjt.pca <- function(data,
   # -------------------------------------
   # check if html-content should be outputted
   # -------------------------------------
-  out.html.table(no.output, file, knitr, toWrite, useViewer) 
+  out.html.table(no.output, file, knitr, toWrite, use.viewer) 
   # -------------------------------------
   # return results
   # -------------------------------------

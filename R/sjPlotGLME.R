@@ -1,5 +1,5 @@
 # bind global variables
-utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "conf.high", "pred", "prob", "p.string", "CSS", "useViewer", "no.output"))
+utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "conf.high", "pred", "prob", "p.string", "CSS", "no.output"))
 
 
 #' @title Plot estimates, predictions or effects of generalized linear mixed effects models
@@ -372,8 +372,7 @@ sjp.glmer <- function(fit,
 #'            \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples' here and 'Details' of \code{\link{sjp.lm}}).}
 #'            \item{\code{"ma"}}{to check model assumptions. Note that no further arguments except \code{fit} are relevant for this option. All other arguments are ignored.}
 #'          }
-#' @param pointAlpha alpha value of point-geoms in the scatter plots.
-#'          Default is 0.2.
+#' @param point.alpha alpha value of point-geoms in the scatter plots.
 #' @param show.loess logical, if \code{TRUE}, and depending on \code{type}, an 
 #'          additional loess-smoothed line is plotted.
 #' @param show.loess.ci logical, if \code{TRUE}, a confidence region for the loess-smoothed line
@@ -542,7 +541,7 @@ sjp.lmer <- function(fit,
                      fade.ns = FALSE,
                      show.ci = FALSE,
                      p.kr = TRUE,
-                     pointAlpha = 0.2,
+                     point.alpha = 0.2,
                      scatter.plot = TRUE,
                      show.loess = FALSE,
                      show.loess.ci = FALSE,
@@ -588,7 +587,7 @@ sjp.lmer <- function(fit,
            p.kr,
            printPlot,
            fun = "lm",
-           pointAlpha,
+           point.alpha,
            scatter.plot,
            show.loess,
            show.loess.ci,
@@ -625,7 +624,7 @@ sjp.lme4  <- function(fit,
                       p.kr,
                       printPlot,
                       fun,
-                      pointAlpha = 0.2,
+                      point.alpha = 0.2,
                       scatter.plot = TRUE,
                       show.loess = FALSE,
                       show.loess.ci = FALSE,
@@ -773,7 +772,7 @@ sjp.lme4  <- function(fit,
     if (fun == "lm") {
       # reset default color setting, does not look that good.
       if (geom.colors == "Set1") geom.colors <- NULL
-      return(invisible(sjp.reglin(fit, title, 50, geom.colors, show.ci, pointAlpha,
+      return(invisible(sjp.reglin(fit, title, 50, geom.colors, show.ci, point.alpha,
                                   scatter.plot, show.loess, show.loess.ci, 
                                   useResiduals = ifelse(type == "fe.slope", FALSE, TRUE),
                                   remove.estimates, vars, printPlot)))
@@ -1896,7 +1895,7 @@ sjp.lme.fecor <- function(fit,
                           printPlot,
                           fcall = "sjp",
                           CSS = NULL,
-                          useViewer = TRUE,
+                          use.viewer = TRUE,
                           no.output = TRUE) {
   # ---------------------------------------
   # copy rownames as axis labels, if not set
@@ -1929,7 +1928,7 @@ sjp.lme.fecor <- function(fit,
     corret <- sjt.corr(as.matrix(mydf),
                        triangle = "l",
                        CSS = CSS,
-                       useViewer = useViewer,
+                       use.viewer = use.viewer,
                        no.output = no.output)
   }
   return(invisible(structure(class = ifelse(fun == "glm", "sjpglmer.cor", "sjplmer.cor"),

@@ -115,7 +115,7 @@ variable labels.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 
-\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a condifence
+\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
 interval or region is added to the plot.}
 
 \item{sample.n}{numeric vector. only applies, if \code{type = "rs.ri"}. If

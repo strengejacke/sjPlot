@@ -24,7 +24,7 @@
 #'            \item or \code{NULL} (default) for no sorting.
 #'          }
 #' @param showTotalN logical, if \code{TRUE}, an additional column with each item's total N is printed.
-#' @param labelNA The label for the missing column/row.
+#' @param string.na The label for the missing column/row.
 #' @param showSkew logical, if \code{TRUE}, an additional column with each item's skewness is printed.
 #'          The skewness is retrieved from the \code{\link[psych]{describe}}-function 
 #'          of the \pkg{psych}-package.
@@ -60,31 +60,19 @@
 #' # random sample
 #' # -------------------------------
 #' # prepare data for 4-category likert scale, 5 items
-#' likert_4 <- data.frame(as.factor(sample(1:4, 
-#'                                         500, 
-#'                                         replace = TRUE, 
+#' likert_4 <- data.frame(as.factor(sample(1:4, 500, replace = TRUE, 
 #'                                         prob = c(0.2, 0.3, 0.1, 0.4))),
-#'                        as.factor(sample(1:4, 
-#'                                         500, 
-#'                                         replace = TRUE, 
+#'                        as.factor(sample(1:4, 500, replace = TRUE, 
 #'                                         prob = c(0.5, 0.25, 0.15, 0.1))),
-#'                        as.factor(sample(1:4, 
-#'                                         500, 
-#'                                         replace = TRUE, 
+#'                        as.factor(sample(1:4, 500, replace = TRUE, 
 #'                                         prob = c(0.25, 0.1, 0.4, 0.25))),
-#'                        as.factor(sample(1:4, 
-#'                                         500, 
-#'                                         replace = TRUE, 
+#'                        as.factor(sample(1:4, 500, replace = TRUE, 
 #'                                         prob = c(0.1, 0.4, 0.4, 0.1))),
-#'                        as.factor(sample(1:4, 
-#'                                         500, 
-#'                                         replace = TRUE, 
+#'                        as.factor(sample(1:4, 500, replace = TRUE, 
 #'                                         prob = c(0.35, 0.25, 0.15, 0.25))))
 #' # create labels
-#' levels_4 <- c("Independent", 
-#'               "Slightly dependent", 
-#'               "Dependent", 
-#'               "Severely dependent")
+#' levels_4 <- c("Independent", "Slightly dependent", 
+#'               "Dependent", "Severely dependent")
 #' 
 #' # create item labels
 #' items <- c("Q1", "Q2", "Q3", "Q4", "Q5")
@@ -105,23 +93,17 @@
 #' # recveive first item of COPE-index scale
 #' end <- which(colnames(efc) == "c90cop9")
 #' 
-#' sjt.stackfrq(efc[, c(start:end)],
-#'              alternateRowColors = TRUE)
+#' sjt.stackfrq(efc[, c(start:end)], alternateRowColors = TRUE)
 #' 
-#' sjt.stackfrq(efc[, c(start:end)],
-#'              alternateRowColors = TRUE,
-#'              show.n = TRUE,
-#'              show.na = TRUE)
+#' sjt.stackfrq(efc[, c(start:end)], alternateRowColors = TRUE,
+#'              show.n = TRUE, show.na = TRUE)
 #'          
 #'          
 #' # -------------------------------- 
 #' # User defined style sheet
 #' # -------------------------------- 
-#' sjt.stackfrq(efc[, c(start:end)],
-#'              alternateRowColors = TRUE,
-#'              showTotalN = TRUE,
-#'              showSkew = TRUE,
-#'              showKurtosis = TRUE,
+#' sjt.stackfrq(efc[, c(start:end)], alternateRowColors = TRUE, 
+#'              showTotalN = TRUE, showSkew = TRUE, showKurtosis = TRUE,
 #'              CSS = list(css.ncol = "border-left:1px dotted black;",
 #'                         css.summary = "font-style:italic;"))}
 #'              
@@ -140,7 +122,7 @@ sjt.stackfrq <- function(items,
                          show.n = FALSE,
                          showTotalN = FALSE,
                          show.na = FALSE,
-                         labelNA = "NA",
+                         string.na = "NA",
                          showSkew = FALSE,
                          showKurtosis = FALSE,
                          digits.stats = 2,
@@ -149,7 +131,7 @@ sjt.stackfrq <- function(items,
                          file = NULL, 
                          encoding = NULL,
                          CSS = NULL,
-                         useViewer = TRUE,
+                         use.viewer = TRUE,
                          no.output = FALSE,
                          remove.spaces = TRUE) {
   # --------------------------------------------------------
@@ -205,7 +187,7 @@ sjt.stackfrq <- function(items,
   # ----------------------------
   if (is.null(value.labels)) value.labels <- as.character(minval:maxval)
   # check whether missings should be shown
-  if (show.na) value.labels <- c(value.labels, labelNA)
+  if (show.na) value.labels <- c(value.labels, string.na)
   # save amolunt of values
   catcount <- length(value.labels)
   # check length of x-axis-labels and split longer strings at into new lines
@@ -354,17 +336,17 @@ sjt.stackfrq <- function(items,
   # check user defined style sheets
   # ------------------------
   if (!is.null(CSS)) {
-    if (!is.null(CSS[['css.table']])) css.table <- ifelse(substring(CSS[['css.table']],1,1)=='+', paste0(css.table, substring(CSS[['css.table']],2)), CSS[['css.table']])
-    if (!is.null(CSS[['css.thead']])) css.thead <- ifelse(substring(CSS[['css.thead']],1,1)=='+', paste0(css.thead, substring(CSS[['css.thead']],2)), CSS[['css.thead']])
-    if (!is.null(CSS[['css.caption']])) css.caption <- ifelse(substring(CSS[['css.caption']],1,1)=='+', paste0(css.caption, substring(CSS[['css.caption']],2)), CSS[['css.caption']])
-    if (!is.null(CSS[['css.summary']])) css.summary <- ifelse(substring(CSS[['css.summary']],1,1)=='+', paste0(css.summary, substring(CSS[['css.summary']],2)), CSS[['css.summary']])
-    if (!is.null(CSS[['css.arc']])) css.arc <- ifelse(substring(CSS[['css.arc']],1,1)=='+', paste0(css.arc, substring(CSS[['css.arc']],2)), CSS[['css.arc']])
-    if (!is.null(CSS[['css.tdata']])) css.tdata <- ifelse(substring(CSS[['css.tdata']],1,1)=='+', paste0(css.tdata, substring(CSS[['css.tdata']],2)), CSS[['css.tdata']])
-    if (!is.null(CSS[['css.centeralign']])) css.centeralign <- ifelse(substring(CSS[['css.centeralign']],1,1)=='+', paste0(css.centeralign, substring(CSS[['css.centeralign']],2)), CSS[['css.centeralign']])
-    if (!is.null(CSS[['css.firsttablecol']])) css.firsttablecol <- ifelse(substring(CSS[['css.firsttablecol']],1,1)=='+', paste0(css.firsttablecol, substring(CSS[['css.firsttablecol']],2)), CSS[['css.firsttablecol']])
-    if (!is.null(CSS[['css.ncol']])) css.ncol <- ifelse(substring(CSS[['css.ncol']],1,1)=='+', paste0(css.ncol, substring(CSS[['css.ncol']],2)), CSS[['css.ncol']])
-    if (!is.null(CSS[['css.skewcol']])) css.skewcol <- ifelse(substring(CSS[['css.skewcol']],1,1)=='+', paste0(css.skewcol, substring(CSS[['css.skewcol']],2)), CSS[['css.skewcol']])
-    if (!is.null(CSS[['css.kurtcol']])) css.kurtcol <- ifelse(substring(CSS[['css.kurtcol']],1,1)=='+', paste0(css.kurtcol, substring(CSS[['css.kurtcol']],2)), CSS[['css.kurtcol']])
+    if (!is.null(CSS[['css.table']])) css.table <- ifelse(substring(CSS[['css.table']],1,1) == '+', paste0(css.table, substring(CSS[['css.table']],2)), CSS[['css.table']])
+    if (!is.null(CSS[['css.thead']])) css.thead <- ifelse(substring(CSS[['css.thead']],1,1) == '+', paste0(css.thead, substring(CSS[['css.thead']],2)), CSS[['css.thead']])
+    if (!is.null(CSS[['css.caption']])) css.caption <- ifelse(substring(CSS[['css.caption']],1,1) == '+', paste0(css.caption, substring(CSS[['css.caption']],2)), CSS[['css.caption']])
+    if (!is.null(CSS[['css.summary']])) css.summary <- ifelse(substring(CSS[['css.summary']],1,1) == '+', paste0(css.summary, substring(CSS[['css.summary']],2)), CSS[['css.summary']])
+    if (!is.null(CSS[['css.arc']])) css.arc <- ifelse(substring(CSS[['css.arc']],1,1) == '+', paste0(css.arc, substring(CSS[['css.arc']],2)), CSS[['css.arc']])
+    if (!is.null(CSS[['css.tdata']])) css.tdata <- ifelse(substring(CSS[['css.tdata']],1,1) == '+', paste0(css.tdata, substring(CSS[['css.tdata']],2)), CSS[['css.tdata']])
+    if (!is.null(CSS[['css.centeralign']])) css.centeralign <- ifelse(substring(CSS[['css.centeralign']],1,1) == '+', paste0(css.centeralign, substring(CSS[['css.centeralign']],2)), CSS[['css.centeralign']])
+    if (!is.null(CSS[['css.firsttablecol']])) css.firsttablecol <- ifelse(substring(CSS[['css.firsttablecol']],1,1) == '+', paste0(css.firsttablecol, substring(CSS[['css.firsttablecol']],2)), CSS[['css.firsttablecol']])
+    if (!is.null(CSS[['css.ncol']])) css.ncol <- ifelse(substring(CSS[['css.ncol']],1,1) == '+', paste0(css.ncol, substring(CSS[['css.ncol']],2)), CSS[['css.ncol']])
+    if (!is.null(CSS[['css.skewcol']])) css.skewcol <- ifelse(substring(CSS[['css.skewcol']],1,1) == '+', paste0(css.skewcol, substring(CSS[['css.skewcol']],2)), CSS[['css.skewcol']])
+    if (!is.null(CSS[['css.kurtcol']])) css.kurtcol <- ifelse(substring(CSS[['css.kurtcol']],1,1) == '+', paste0(css.kurtcol, substring(CSS[['css.kurtcol']],2)), CSS[['css.kurtcol']])
   }
   # ------------------------
   # set page style
@@ -485,13 +467,13 @@ sjt.stackfrq <- function(items,
   # -------------------------------------
   # check if html-content should be outputted
   # -------------------------------------
-  out.html.table(no.output, file, knitr, toWrite, useViewer) 
+  out.html.table(no.output, file, knitr, toWrite, use.viewer) 
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible (structure(class = "sjtstackfrq",
-                       list(page.style = page.style,
-                            page.content = page.content,
-                            output.complete = toWrite,
-                            knitr = knitr)))
+  invisible(structure(class = "sjtstackfrq",
+                      list(page.style = page.style,
+                           page.content = page.content,
+                           output.complete = toWrite,
+                           knitr = knitr)))
 }

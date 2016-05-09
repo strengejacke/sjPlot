@@ -6,15 +6,16 @@
 \usage{
 sjt.frq(data, file = NULL, weight.by = NULL,
   title.wtd.suffix = " (weighted)", var.labels = NULL,
-  value.labels = NULL, auto.group = NULL, sort.frq = NULL,
-  alternateRowColors = FALSE, string.val = "value", string.cnt = "N",
-  string.prc = "raw \%", string.vprc = "valid \%",
+  value.labels = NULL, auto.group = NULL, sort.frq = c("none", "asc",
+  "desc"), alternateRowColors = FALSE, string.val = "value",
+  string.cnt = "N", string.prc = "raw \%", string.vprc = "valid \%",
   string.cprc = "cumulative \%", string.na = "missings", emph.md = FALSE,
   emph.quart = FALSE, skip.zero = "auto", show.summary = TRUE,
   show.skew = FALSE, show.kurtosis = FALSE, skewString = "&gamma;",
   kurtosisString = "&omega;", digits = 2, removeStringVectors = TRUE,
   autoGroupStrings = TRUE, maxStringDist = 3, encoding = NULL,
-  CSS = NULL, useViewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
+  CSS = NULL, use.viewer = TRUE, no.output = FALSE,
+  remove.spaces = TRUE)
 }
 \arguments{
 \item{data}{variables which frequencies should be printed as table. Either use a single variable
@@ -45,10 +46,10 @@ is done (see \code{\link[sjmisc]{group_var}}). Default value for
 \code{auto.group} is \code{NULL}, i.e. auto-grouping is off.
 See \code{\link[sjmisc]{group_var}} for examples on grouping.}
 
-\item{sort.frq}{whether frequencies should be sorted or not. Use \code{"asc"} or \code{"ascending"}
-to sort frequencies ascending, or \code{"desc"} or \code{"descending"} to sort
-frequencies in descending order. By default, \code{sort.frq} is \code{NULL}, i.e.
-frequencies are ordered by values.}
+\item{sort.frq}{Determines whether categories should be sorted 
+according to their frequencies or not. Default is \code{"none"}, so 
+categories are not sorted by frequency. Use \code{"asc"} or
+\code{"desc"} for sorting categories ascending or descending order.}
 
 \item{alternateRowColors}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
@@ -121,7 +122,7 @@ Windows OS). Change encoding if specific chars are not properly displayed (e.g. 
 \item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
 
-\item{useViewer}{If \code{TRUE}, the function tries to show the HTML table in the IDE's viewer pane. If
+\item{use.viewer}{If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
 
 \item{no.output}{logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
@@ -186,27 +187,19 @@ data(efc)
 sjt.frq(efc$e42dep)
 
 # plot and show frequency table of "e42dep" with labels
-sjt.frq(efc$e42dep,
-        var.labels = "Dependency",
-        value.labels = c("independent",
-                        "slightly dependent",
-                        "moderately dependent",
-                        "severely dependent"))
+sjt.frq(efc$e42dep, var.labels = "Dependency",
+        value.labels = c("independent", "slightly dependent",
+                         "moderately dependent", "severely dependent"))
 
 # plot frequencies of e42dep, e16sex and c172code in one HTML file
 # and show table in RStudio Viewer Pane or default web browser
 # Note that value.labels of multiple variables have to be
 # list-objects
 sjt.frq(data.frame(efc$e42dep, efc$e16sex, efc$c172code),
-        var.labels = c("Dependency", 
-                           "Gender", 
-                           "Education"),
-        value.labels = list(c("independent",
-                             "slightly dependent",
-                             "moderately dependent",
-                             "severely dependent"),
-                           c("male", "female"),
-                           c("low", "mid", "high")))
+        var.labels = c("Dependency", "Gender", "Education"),
+        value.labels = list(c("independent", "slightly dependent",
+                              "moderately dependent", "severely dependent"),
+                            c("male", "female"), c("low", "mid", "high")))
 
 # -------------------------------
 # auto-detection of labels
@@ -217,9 +210,7 @@ sjt.frq(data.frame(efc$e42dep, efc$e16sex, efc$c172code))
 
 # plot larger scale including zero-counts
 # indicating median and quartiles
-sjt.frq(efc$neg_c_7,
-        emph.md = TRUE,
-        emph.quart = TRUE)
+sjt.frq(efc$neg_c_7, emph.md = TRUE, emph.quart = TRUE)
 
 # -------------------------------
 # sort frequencies

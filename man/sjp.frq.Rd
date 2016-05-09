@@ -5,10 +5,9 @@
 \title{Plot frequencies of variables}
 \usage{
 sjp.frq(var.cnt, title = "", weight.by = NULL, title.wtd.suffix = NULL,
-  interactionVar = NULL, sort.frq = "none", type = c("bar", "dot",
-  "histogram", "line", "density", "boxplot", "violin"), geom.size = NULL,
-  geom.colors = "#336699", axis.labels = NULL,
-  interactionVarLabels = NULL, xlim = NULL, ylim = NULL,
+  sort.frq = c("none", "asc", "desc"), type = c("bar", "dot", "histogram",
+  "line", "density", "boxplot", "violin"), geom.size = NULL,
+  geom.colors = "#336699", axis.labels = NULL, xlim = NULL, ylim = NULL,
   wrap.title = 50, wrap.labels = 20, grid.breaks = NULL,
   innerBoxPlotWidth = 0.15, innerBoxPlotDotSize = 3, expand.grid = FALSE,
   show.values = TRUE, show.n = TRUE, show.prc = TRUE,
@@ -18,7 +17,7 @@ sjp.frq(var.cnt, title = "", weight.by = NULL, title.wtd.suffix = NULL,
   normal.curve.color = "red", normal.curve.size = 0.8,
   normal.curve.alpha = 0.4, axis.title = NULL, auto.group = NULL,
   coord.flip = FALSE, vjust = "bottom", hjust = "center",
-  y.offset = NULL, na.rm = TRUE, printPlot = TRUE)
+  y.offset = NULL, show.na = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{var.cnt}{vector of counts, for which frequencies or means will be plotted or printed.}
@@ -34,12 +33,8 @@ Must be a vector of same length as the input vector. Default is
 e.g. \code{title.wtd.suffix=" (weighted)"}. Default is \code{NULL}, so 
 title will not have a suffix when cases are weighted.}
 
-\item{interactionVar}{an interaction variable which can be used for box plots. Divides the observations in 
-\code{var.cnt} into sub groups indicated by \code{interactionVar}. Only 
-applies when \code{type = "boxplot"} or \code{"violin"}.}
-
-\item{sort.frq}{Determines whether categories (bars) on x-axis should be sorted 
-according to the frequencies or not.  Default is \code{"none"}, so 
+\item{sort.frq}{Determines whether categories should be sorted 
+according to their frequencies or not. Default is \code{"none"}, so 
 categories are not sorted by frequency. Use \code{"asc"} or
 \code{"desc"} for sorting categories ascending or descending order.}
 
@@ -61,12 +56,6 @@ need smaller values than dot sizes.}
 \item{geom.colors}{user defined color for geoms, e.g. \code{geom.colors = "#0080ff"}.}
 
 \item{axis.labels}{character vector with labels used as axis labels.}
-
-\item{interactionVarLabels}{a character vector with labels for the x-axis breaks 
-when having interaction variables included. These labels replace the 
-\code{axis.labels}. Only applies, when using box or violin plots
-(i.e. \code{type = "boxplot"} or \code{"violin"}) and \code{interactionVar} 
-is not \code{NULL}.}
 
 \item{xlim}{numeric vector of length two, defining lower and upper axis limits}
 
@@ -103,7 +92,7 @@ If \code{FALSE}, percentage values are removed.}
 \item{show.axis.values}{logical, whether count or percentage values for the axis
 should be printed or not.}
 
-\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a condifence
+\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
 interval or region is added to the plot.}
 
 \item{errorbar.color}{color of confidence interval bars (error bars). 
@@ -168,7 +157,8 @@ away from the center of the plot respectively.}
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
-\item{na.rm}{logical, if \code{TRUE}, missings are not included in the frequency plot.}
+\item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values)
+are added to the output.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
@@ -215,18 +205,6 @@ ageGrpLab <- group_labels(efc$e17age)
 sjp.frq(ageGrp,
         title = get_label(efc$e17age),
         axis.labels = ageGrpLab)
-
-
-# box plots with interaction variable
-# the following example is equal to the function call
-# sjp.grpfrq(efc$e17age, efc$e16sex, type = "box")
-sjp.frq(efc$e17age,
-        title = paste(get_label(efc$e17age), 
-                      "by", 
-                      get_label(efc$e16sex),
-        interactionVar = efc$e16sex,
-        interactionVarLabels = get_labels(efc$e16sex),
-        type = "box"))
 
 
 # negative impact scale, ranging from 7-28

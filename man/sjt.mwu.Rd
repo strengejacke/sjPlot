@@ -5,7 +5,7 @@
 \title{Summary of Mann-Whitney-Test as HTML table}
 \usage{
 sjt.mwu(x, title = NULL, alternateRowColors = TRUE, file = NULL,
-  encoding = NULL, CSS = NULL, useViewer = TRUE, no.output = FALSE,
+  encoding = NULL, CSS = NULL, use.viewer = TRUE, no.output = FALSE,
   remove.spaces = TRUE)
 }
 \arguments{
@@ -28,7 +28,7 @@ Windows OS). Change encoding if specific chars are not properly displayed (e.g. 
 \item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
 
-\item{useViewer}{If \code{TRUE}, the function tries to show the HTML table in the IDE's viewer pane. If
+\item{use.viewer}{If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
 
 \item{no.output}{logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in

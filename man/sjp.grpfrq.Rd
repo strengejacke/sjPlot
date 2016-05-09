@@ -18,7 +18,7 @@ sjp.grpfrq(var.cnt, var.grp, weight.by = NULL, title.wtd.suffix = NULL,
   showPlotAnnotation = TRUE, show.summary = FALSE, showGroupCount = FALSE,
   tableSummaryPos = "r", axis.titles = NULL, auto.group = NULL,
   coord.flip = FALSE, vjust = "bottom", hjust = "center",
-  y.offset = NULL, na.rm = TRUE, printPlot = TRUE)
+  y.offset = NULL, show.na = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{var.cnt}{vector of counts, for which frequencies or means will be plotted or printed.}
@@ -166,7 +166,8 @@ away from the center of the plot respectively.}
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
-\item{na.rm}{logical, if \code{TRUE}, missings are not included in the frequency plot.}
+\item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values)
+are added to the output.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}

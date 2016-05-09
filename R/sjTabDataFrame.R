@@ -40,8 +40,8 @@
 #'          applies, if \code{showCommentRow = TRUE}.
 #' @param big.mark character; if not \code{NULL}, used as mark between every 
 #'          thousands decimals before (hence big) the decimal point
-#' @param hideProgressBar logical, if \code{TRUE}, the progress bar that is displayed when creating the
-#'          table is hidden. Default in \code{FALSE}, hence the bar is visible.
+#' @param hide.progress logical, if \code{TRUE}, the progress bar that is displayed when creating the
+#'          output is hidden. Default in \code{FALSE}, hence the bar is visible.
 #' @param ... other arguments passed down to the \code{\link[psych]{describe}} function.
 #'          
 #' @inheritParams sjt.frq
@@ -123,10 +123,10 @@ sjt.df <- function(mydf,
                    showCommentRow = FALSE,
                    commentString = "No comment...",
                    big.mark = NULL,
-                   hideProgressBar = FALSE,
+                   hide.progress = FALSE,
                    encoding = NULL,
                    CSS = NULL,
-                   useViewer = TRUE,
+                   use.viewer = TRUE,
                    no.output = FALSE,
                    remove.spaces = TRUE,
                    ...) {
@@ -275,9 +275,7 @@ sjt.df <- function(mydf,
   # -------------------------------------
   # create progress bar
   # -------------------------------------
-  if (!hideProgressBar) pb <- utils::txtProgressBar(min = 0, 
-                                                    max = rowcnt, 
-                                                    style = 3)
+  if (!hide.progress) pb <- utils::txtProgressBar(min = 0, max = rowcnt, style = 3)
   # -------------------------------------
   # subsequent rows
   # -------------------------------------
@@ -294,11 +292,11 @@ sjt.df <- function(mydf,
       page.content <- paste0(page.content, sprintf("    <td class=\"tdata centertalign%s\">%s</td>\n", arcstring, mydf[rcnt, ccnt]))
     }
     # update progress bar
-    if (!hideProgressBar) utils::setTxtProgressBar(pb, rcnt)
+    if (!hide.progress) utils::setTxtProgressBar(pb, rcnt)
     # close row tag
     page.content <- paste0(page.content, "</tr>\n")
   }
-  if (!hideProgressBar) close(pb)
+  if (!hide.progress) close(pb)
   # -------------------------------------
   # repeat header row?
   # -------------------------------------
@@ -366,7 +364,7 @@ sjt.df <- function(mydf,
   # -------------------------------------
   # check if html-content should be outputted
   # -------------------------------------
-  out.html.table(no.output, file, knitr, toWrite, useViewer)
+  out.html.table(no.output, file, knitr, toWrite, use.viewer)
   # -------------------------------------
   # return results
   # -------------------------------------

@@ -102,7 +102,7 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'          variable labels.
 #' @param show.summary logical, if \code{TRUE}, a summary with model statistics 
 #'          is added to the plot.
-#' @param show.ci logical, if \code{TRUE}, depending on \code{type}, a condifence
+#' @param show.ci logical, if \code{TRUE}, depending on \code{type}, a confidence
 #'          interval or region is added to the plot.
 #' @param scatter.plot logical, if \code{TRUE} (default), a scatter plot of
 #'          response and predictor values for each predictor of the model
@@ -285,7 +285,7 @@ sjp.lm <- function(fit,
                    show.p = TRUE,
                    show.summary = FALSE,
                    show.ci = TRUE,
-                   pointAlpha = 0.2,
+                   point.alpha = 0.2,
                    scatter.plot = TRUE,
                    show.loess = FALSE,
                    show.loess.ci = FALSE,
@@ -328,7 +328,7 @@ sjp.lm <- function(fit,
     # reset default color setting, does not look that good.
     if (geom.colors == "Set1") geom.colors <- NULL
     return(invisible(sjp.lm1(fit, title, wrap.title, axis.labels, resp.label,
-                             wrap.labels, geom.colors, show.ci, pointAlpha,
+                             wrap.labels, geom.colors, show.ci, point.alpha,
                              scatter.plot, show.loess, show.loess.ci, show.summary,
                              useResiduals = ifelse(type == "lm", FALSE, TRUE),
                              printPlot)))
@@ -337,7 +337,7 @@ sjp.lm <- function(fit,
     # reset default color setting, does not look that good.
     if (geom.colors == "Set1") geom.colors <- NULL
     return(invisible(sjp.reglin(fit, title, wrap.title, geom.colors, show.ci,
-                                pointAlpha, scatter.plot, show.loess, show.loess.ci,
+                                point.alpha, scatter.plot, show.loess, show.loess.ci,
                                 useResiduals = ifelse(type == "slope", FALSE, TRUE),
                                 remove.estimates, vars, printPlot)))
   }
@@ -609,7 +609,7 @@ sjp.reglin <- function(fit,
                        wrap.title = 50, 
                        geom.colors = NULL,
                        show.ci = TRUE,
-                       pointAlpha = 0.2,
+                       point.alpha = 0.2,
                        scatter.plot = TRUE,
                        show.loess = TRUE,
                        show.loess.ci = FALSE,
@@ -698,8 +698,8 @@ sjp.reglin <- function(fit,
     # -----------------------------------------------------------
     # plot jittered values if requested
     # -----------------------------------------------------------
-    if (scatter.plot) reglinplot <- reglinplot + geom_jitter(alpha = pointAlpha,
-                                                                colour = pointColor)
+    if (scatter.plot) reglinplot <- reglinplot + geom_jitter(alpha = point.alpha,
+                                                             colour = pointColor)
     # -----------------------------------------------------------
     # check whether additional loess-line should be plotted
     # -----------------------------------------------------------
@@ -1089,7 +1089,7 @@ sjp.lm1 <- function(fit,
                    wrap.labels=20,
                    geom.colors = NULL,
                    show.ci=TRUE,
-                   pointAlpha=0.2,
+                   point.alpha=0.2,
                    scatter.plot=TRUE,
                    show.loess=FALSE,
                    show.loess.ci=FALSE,
@@ -1183,7 +1183,7 @@ sjp.lm1 <- function(fit,
   # plot jittered values if requested
   # -----------------------------------------------------------
   if (scatter.plot) {
-    reglinplot <- reglinplot + geom_jitter(alpha = pointAlpha,
+    reglinplot <- reglinplot + geom_jitter(alpha = point.alpha,
                                            colour = pointColor)
   }
   # -----------------------------------------------------------

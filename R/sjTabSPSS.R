@@ -20,18 +20,16 @@
 #' @param show.id logical, if \code{TRUE} (default), the variable ID is shown in the first column.
 #' @param show.values logical, if \code{TRUE} (default), the variable values are shown as additional column.
 #' @param show.labels logical, if \code{TRUE} (default), the value labels are shown as additional column.
-#' @param showFreq logical, if \code{TRUE}, an additional column with frequencies for each variable is shown.
-#' @param showPerc logical, if \code{TRUE}, an additional column with percentage of frequencies for each variable is shown.
-#' @param showWtdFreq logical, if \code{TRUE}, an additional column with weighted
+#' @param show.frq logical, if \code{TRUE}, an additional column with frequencies for each variable is shown.
+#' @param show.prc logical, if \code{TRUE}, an additional column with percentage of frequencies for each variable is shown.
+#' @param show.wtd.frq logical, if \code{TRUE}, an additional column with weighted
 #'          frequencies for each variable is shown. Weights strem from \code{weight.by}.
-#' @param showWtdPerc logical, if \code{TRUE}, an additional column with weighted
+#' @param show.wtd.prc logical, if \code{TRUE}, an additional column with weighted
 #'          percentage of frequencies for each variable is shown.
 #'          Weights strem from \code{weight.by}.
-#' @param sortByName logical, if \code{TRUE}, rows are sorted according to the variable
+#' @param sort.by.name logical, if \code{TRUE}, rows are sorted according to the variable
 #'          names. By default, rows (variables) are ordered according to their
 #'          order in the data frame.
-#' @param hideProgressBar If \code{TRUE}, the progress bar that is displayed when creating the
-#'          table is hidden. Default in \code{FALSE}, hence the bar is visible.
 #'          
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.df
@@ -64,7 +62,7 @@
 #' view_df(efc, show.values = FALSE, show.labels = FALSE)
 #' 
 #' # view variables including variable typed, orderd by name
-#' view_df(efc, sortByName = TRUE, show.type = TRUE)
+#' view_df(efc, sort.by.name = TRUE, show.type = TRUE)
 #' 
 #' # ---------------------------------------------------------------- 
 #' # User defined style sheet
@@ -85,17 +83,17 @@ view_df <- function(x,
                     show.type = FALSE,
                     show.values = TRUE,
                     show.labels = TRUE,
-                    showFreq = FALSE,
-                    showPerc = FALSE,
-                    showWtdFreq = FALSE,
-                    showWtdPerc = FALSE,
+                    show.frq = FALSE,
+                    show.prc = FALSE,
+                    show.wtd.frq = FALSE,
+                    show.wtd.prc = FALSE,
                     show.na = FALSE,
-                    sortByName = FALSE,
+                    sort.by.name = FALSE,
                     wrap.labels = 50,
                     encoding = NULL,
-                    hideProgressBar = FALSE,
+                    hide.progress = FALSE,
                     CSS = NULL,
-                    useViewer = TRUE,
+                    use.viewer = TRUE,
                     no.output = FALSE,
                     remove.spaces = TRUE) {
 # -------------------------------------
@@ -120,7 +118,7 @@ view_df <- function(x,
   # -------------------------------------
   # Order data set if requested
   # -------------------------------------
-  if (sortByName) id <- id[order(colnames(x))]
+  if (sort.by.name) id <- id[order(colnames(x))]
   # -------------------------------------
   # init style sheet and tags used for css-definitions
   # we can use these variables for string-replacement
@@ -171,17 +169,15 @@ view_df <- function(x,
   if (show.na) page.content <- paste0(page.content, "<th class=\"thead\">missings</th>")
   if (show.values) page.content <- paste0(page.content, "<th class=\"thead\">Values</th>")
   if (show.labels) page.content <- paste0(page.content, "<th class=\"thead\">Value Labels</th>")
-  if (showFreq) page.content <- paste0(page.content, "<th class=\"thead\">Freq.</th>")
-  if (showPerc) page.content <- paste0(page.content, "<th class=\"thead\">%</th>")
-  if (showWtdFreq) page.content <- paste0(page.content, "<th class=\"thead\">weighted Freq.</th>")
-  if (showWtdPerc) page.content <- paste0(page.content, "<th class=\"thead\">weighted %</th>")
+  if (show.frq) page.content <- paste0(page.content, "<th class=\"thead\">Freq.</th>")
+  if (show.prc) page.content <- paste0(page.content, "<th class=\"thead\">%</th>")
+  if (show.wtd.frq) page.content <- paste0(page.content, "<th class=\"thead\">weighted Freq.</th>")
+  if (show.wtd.prc) page.content <- paste0(page.content, "<th class=\"thead\">weighted %</th>")
   page.content <- paste0(page.content, "\n  </tr>\n")
   # -------------------------------------
   # create progress bar
   # -------------------------------------
-  if (!hideProgressBar) pb <- utils::txtProgressBar(min = 0, 
-                                                    max = colcnt, 
-                                                    style = 3)
+  if (!hide.progress) pb <- utils::txtProgressBar(min = 0, max = colcnt, style = 3)
   # -------------------------------------
   # subsequent rows
   # -------------------------------------
@@ -275,7 +271,7 @@ view_df <- function(x,
     # ----------------------------
     # frequencies
     # ----------------------------
-    if (showFreq) {
+    if (show.frq) {
       page.content <- paste0(page.content, 
                              sprintf("    <td class=\"tdata%s\">%s</td>\n", 
                                      arcstring, 
@@ -284,7 +280,7 @@ view_df <- function(x,
     # ----------------------------
     # percentage of frequencies
     # ----------------------------
-    if (showPerc) {
+    if (show.prc) {
       page.content <- paste0(page.content, 
                              sprintf("    <td class=\"tdata%s\">%s</td>\n", 
                                      arcstring, 
@@ -293,7 +289,7 @@ view_df <- function(x,
     # ----------------------------
     # frequencies
     # ----------------------------
-    if (showWtdFreq && !is.null(weight.by)) {
+    if (show.wtd.frq && !is.null(weight.by)) {
       page.content <- paste0(page.content, 
                              sprintf("    <td class=\"tdata%s\">%s</td>\n", 
                                      arcstring, 
@@ -302,18 +298,18 @@ view_df <- function(x,
     # ----------------------------
     # percentage of frequencies
     # ----------------------------
-    if (showPerc && !is.null(weight.by)) {
+    if (show.prc && !is.null(weight.by)) {
       page.content <- paste0(page.content, 
                              sprintf("    <td class=\"tdata%s\">%s</td>\n", 
                                      arcstring, 
                                      prc.value(index, x, df.val, weight.by)))
     }
     # update progress bar
-    if (!hideProgressBar) utils::setTxtProgressBar(pb, ccnt)
+    if (!hide.progress) utils::setTxtProgressBar(pb, ccnt)
     # close row tag
     page.content <- paste0(page.content, "  </tr>\n")
   }
-  if (!hideProgressBar) close(pb)
+  if (!hide.progress) close(pb)
   # -------------------------------------
   # finish html page
   # -------------------------------------
@@ -348,7 +344,7 @@ view_df <- function(x,
   # -------------------------------------
   # check if html-content should be outputted
   # -------------------------------------
-  out.html.table(no.output, file, knitr, toWrite, useViewer)    
+  out.html.table(no.output, file, knitr, toWrite, use.viewer)    
   # -------------------------------------
   # return results
   # -------------------------------------

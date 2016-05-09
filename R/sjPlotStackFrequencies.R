@@ -22,16 +22,12 @@
 #'            \item{\code{"last.desc"}}{to order descending by lowest count of last category,}
 #'            \item{\code{NULL}}{(default) for no sorting.}
 #'          }
-#' @param includeN logical, if \code{TRUE} (default), the N of each item is included into axis labels.
+#' @param include.n logical, if \code{TRUE} (default), the N of each item will be included in axis labels.
 #' @param breakLegendTitleAt determines how many chars of the legend's title 
 #'          are displayed in one line and when a line break is inserted.
 #' @param breakLegendLabelsAt determines how many chars of the legend labels are 
 #'          displayed in one line and when a line break is inserted.
 #' @param showPercentageAxis If \code{TRUE} (default), the percentage values at the x-axis are shown.
-#' @param showItemLabels Whether x axis text (category names) should be shown or not.
-#' @param showSeparatorLine If \code{TRUE}, a line is drawn to visually "separate" each bar in the diagram.
-#' @param separatorLineColor The color of the separator line. only applies, if \code{showSeparatorLine} is \code{TRUE}.
-#' @param separatorLineSize The size of the separator line. only applies, if \code{showSeparatorLine} is \code{TRUE}.
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}).
 #' 
@@ -93,7 +89,7 @@ sjp.stackfrq <- function(items,
                          show.legend = TRUE,
                          title = NULL,
                          legend.title = NULL,
-                         includeN = TRUE,
+                         include.n = TRUE,
                          axis.labels = NULL,
                          wrap.title = 50,
                          wrap.labels = 30,
@@ -108,10 +104,6 @@ sjp.stackfrq <- function(items,
                          digits = 1,
                          vjust = "center",
                          showPercentageAxis = TRUE,
-                         showItemLabels = TRUE,
-                         showSeparatorLine = FALSE,
-                         separatorLineColor = "grey80",
-                         separatorLineSize = 0.3,
                          coord.flip = TRUE,
                          printPlot = TRUE) {
   # --------------------------------------------------------
@@ -153,12 +145,11 @@ sjp.stackfrq <- function(items,
     reverseOrder <- FALSE
   }
   # --------------------------------------------------------
-  # try to automatically set labels is not passed as parameter
+  # try to automatically set labels if not passed as parameter
   # --------------------------------------------------------
-  if (is.null(legend.labels)) legend.labels <- sjmisc::get_labels(items[[1]],
-                                                                attr.only = F,
-                                                                include.values = NULL,
-                                                                include.non.labelled = T)
+  if (is.null(legend.labels)) 
+    legend.labels <- sjmisc::get_labels(items[[1]], attr.only = F,
+                                        include.values = NULL, include.non.labelled = T)
   if (is.null(axis.labels)) {
     axis.labels <- c()
     # if yes, iterate each variable
@@ -192,11 +183,11 @@ sjp.stackfrq <- function(items,
   # Check whether N of each item should be included into
   # axis labels
   # --------------------------------------------------------
-  if (includeN && !is.null(axis.labels)) {
+  if (include.n) {
     for (i in 1:length(axis.labels)) {
       axis.labels[i] <- paste(axis.labels[i], 
-                               sprintf(" (n=%i)", length(stats::na.omit(items[[i]]))), 
-                               sep = "")
+                              sprintf(" (n=%i)", length(stats::na.omit(items[[i]]))), 
+                              sep = "")
     }
   }
   # -----------------------------------------------
@@ -357,16 +348,6 @@ sjp.stackfrq <- function(items,
   baseplot <- baseplot +
     # plot bar chart
     geom_bar(stat = "identity", position = "stack", width = geom.size)
-  # --------------------------------------------------------
-  # check whether bars should be visually separated by an 
-  # additional separator line
-  # --------------------------------------------------------
-  if (showSeparatorLine) {
-    baseplot <- baseplot +
-      geom_vline(xintercept = c(seq(1.5, length(items), by = 1)), 
-                 size = separatorLineSize, 
-                 colour = separatorLineColor)
-  }
   # -----------------
   # show/hide percentage values on x axis
   # ----------------------------

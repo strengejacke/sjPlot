@@ -1,5 +1,5 @@
-get_table_header <- function(encoding, cellSpacing, cellGroupIndent, p.numeric, showHeaderStrings, CSS) {
-  return(table_style_worker(NULL, encoding, cellSpacing, cellGroupIndent, p.numeric, showHeaderStrings, CSS, option = 1))
+get_table_header <- function(encoding, cell.spacing, cell.gpr.indent, p.numeric, show.header, CSS) {
+  return(table_style_worker(NULL, encoding, cell.spacing, cell.gpr.indent, p.numeric, show.header, CSS, option = 1))
 }
 
 
@@ -56,17 +56,17 @@ get_table_response_label <- function(page.content, depvar.labels, input_list, tc
 
 
 
-replace_css_styles <- function(page.content, cellSpacing, cellGroupIndent, p.numeric, showHeaderStrings, CSS) {
-  return(table_style_worker(page.content, NULL, cellSpacing, cellGroupIndent, p.numeric, showHeaderStrings, CSS, option = 2))
+replace_css_styles <- function(page.content, cell.spacing, cell.gpr.indent, p.numeric, show.header, CSS) {
+  return(table_style_worker(page.content, NULL, cell.spacing, cell.gpr.indent, p.numeric, show.header, CSS, option = 2))
 }
 
 
-get_table_css_styles <- function(cellSpacing, cellGroupIndent, p.numeric, showHeaderStrings, CSS) {
-  return(table_style_worker(NULL, NULL, cellSpacing, cellGroupIndent, p.numeric, showHeaderStrings, CSS, option = 3))
+get_table_css_styles <- function(cell.spacing, cell.gpr.indent, p.numeric, show.header, CSS) {
+  return(table_style_worker(NULL, NULL, cell.spacing, cell.gpr.indent, p.numeric, show.header, CSS, option = 3))
 }
 
-table_style_worker <- function(page.content, encoding, cellSpacing, cellGroupIndent, 
-                               p.numeric, showHeaderStrings, CSS, option) {
+table_style_worker <- function(page.content, encoding, cell.spacing, cell.gpr.indent, 
+                               p.numeric, show.header, CSS, option) {
   # -------------------------------------
   # init style sheet and tags used for css-definitions
   # we can use these variables for string-replacement
@@ -100,8 +100,8 @@ table_style_worker <- function(page.content, encoding, cellSpacing, cellGroupInd
   tag.modelcolumn5 <- "modelcolumn5"
   tag.modelcolumn6 <- "modelcolumn6"
   css.table <- "border-collapse:collapse; border:none;"
-  css.thead <- sprintf("border-bottom: 1px solid; padding:%.1fcm;", cellSpacing)
-  css.tdata <- sprintf("padding:%.1fcm;", cellSpacing)
+  css.thead <- sprintf("border-bottom: 1px solid; padding:%.1fcm;", cell.spacing)
+  css.tdata <- sprintf("padding:%.1fcm;", cell.spacing)
   css.separatorcol <- "padding-left:0.5em; padding-right:0.5em;"
   css.summary <- "padding-top:0.1cm; padding-bottom:0.1cm;"
   css.fixedparts <- "font-weight:bold; text-align:left;"
@@ -118,8 +118,8 @@ table_style_worker <- function(page.content, encoding, cellSpacing, cellGroupInd
   css.annostyle <- "text-align:right;"
   css.leftalign <- "text-align:left;"
   css.centeralign <- "text-align:center;"
-  css.grouprow <- sprintf("padding:%.1fcm;", cellSpacing)
-  css.tgrpdata <- sprintf("font-style:italic; padding:%.1fcm; padding-left:%.1fcm;", cellSpacing, cellGroupIndent)
+  css.grouprow <- sprintf("padding:%.1fcm;", cell.spacing)
+  css.tgrpdata <- sprintf("font-style:italic; padding:%.1fcm; padding-left:%.1fcm;", cell.spacing, cell.gpr.indent)
   css.modelcolumn1 <- ""
   css.modelcolumn2 <- ""
   css.modelcolumn3 <- ""
@@ -128,7 +128,7 @@ table_style_worker <- function(page.content, encoding, cellSpacing, cellGroupInd
   css.modelcolumn6 <- ""
   # change table style if we have pvalues as numbers
   if (p.numeric) css.table <- sprintf("%s%s", css.table, css.noannorow)
-  if (showHeaderStrings) css.labelcellborder <- ""
+  if (show.header) css.labelcellborder <- ""
   # ------------------------
   # check user defined style sheets
   # ------------------------

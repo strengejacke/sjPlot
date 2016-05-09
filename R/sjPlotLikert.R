@@ -43,7 +43,6 @@ utils::globalVariables(c("offset"))
 #'          so positive and negative values switch colors.
 #' @param cat.neutral.color color of the neutral category, if plotted (see \code{cat.neutral}).
 #' @param intercept.line.color color of the vertical intercept line that divides positive and negative values.
-#' @param includeN logical, if \code{TRUE} (default), the N of each item will be included in axis labels.
 #' @param value.labels determines style and position of percentage value labels on the bars:
 #'          \describe{
 #'            \item{\code{"show"}}{(default) shows percentage value labels in the middle of each category bar}
@@ -51,13 +50,12 @@ utils::globalVariables(c("offset"))
 #'            \item{\code{"sum.inside"}}{shows the sums of percentage values for both negative and positive values and prints them inside the end of each bar}
 #'            \item{\code{"sum.outide"}}{shows the sums of percentage values for both negative and positive values and prints them outside the end of each bar}
 #'          }
-#' @param showPercentageSign logical, if \code{TRUE}, \%-signs for value labels are shown.
-#' @param showItemLabels logical, whether x-axis text (category names) should be shown or not
-#' @param gridRange numeric, limits of the x-axis-range, as proportion of 100. 
+#' @param show.prc.sign logical, if \code{TRUE}, \%-signs for value labels are shown.
+#' @param grid.range numeric, limits of the x-axis-range, as proportion of 100. 
 #'          Default is 1, so the x-scale ranges from zero to 100\% on 
 #'          both sides from the center. You can use values beyond 1
 #'          (100\%) in case bar labels are not printed because they exceed the axis range.
-#'          E.g. \code{gridRange = 1.4} will set the axis from -140 to +140\%, however, only
+#'          E.g. \code{grid.range = 1.4} will set the axis from -140 to +140\%, however, only
 #'          (valid) axis labels from -100 to +100\% are printed. Neutral categories are
 #'          adjusted to the most left limit.
 #' 
@@ -127,10 +125,10 @@ utils::globalVariables(c("offset"))
 #'            cat.neutral = 5,
 #'            legend.labels = levels_4, 
 #'            axis.labels = items,
-#'            gridRange = 1.2,
+#'            grid.range = 1.2,
 #'            expand.grid = FALSE,
 #'            value.labels = "sum.outside",
-#'            showPercentageSign = TRUE)
+#'            show.prc.sign = TRUE)
 #' 
 #' # plot 6-category-likert-scale, ordered by positive values,
 #' # in brown color scale
@@ -139,7 +137,7 @@ utils::globalVariables(c("offset"))
 #'            axis.labels = items, 
 #'            sort.frq = "pos.asc", 
 #'            digits = 0,
-#'            showPercentageSign = TRUE,
+#'            show.prc.sign = TRUE,
 #'            value.labels = "sum.inside")
 #' 
 #' @import ggplot2
@@ -158,20 +156,19 @@ sjp.likert <- function(items,
                        cat.neutral.color = "grey70",
                        intercept.line.color = "grey50",
                        value.labels = "show",
-                       showPercentageSign = FALSE,
+                       show.prc.sign = FALSE,
                        digits = 1,
                        legend.labels = NULL,
                        show.legend = TRUE,
                        title = NULL, 
                        legend.title = NULL,
-                       includeN = TRUE,
-                       showItemLabels = TRUE,
+                       include.n = TRUE,
                        axis.labels = NULL,
                        wrap.title = 50, 
                        wrap.labels = 30, 
                        breakLegendTitleAt = 30, 
                        breakLegendLabelsAt = 28,
-                       gridRange = 1,
+                       grid.range = 1,
                        grid.breaks = 0.2,
                        expand.grid = TRUE,
                        axis.titles = NULL,
@@ -367,7 +364,7 @@ sjp.likert <- function(items,
   # Check whether N of each item should be included into
   # axis labels
   # --------------------------------------------------------
-  if (includeN && !is.null(axis.labels)) {
+  if (include.n) {
     for (i in 1:length(axis.labels)) {
       axis.labels[i] <- paste(axis.labels[i], 
                                sprintf(" (n=%i)", length(stats::na.omit(items[[i]]))), 
@@ -450,7 +447,7 @@ sjp.likert <- function(items,
                                             frq = -1 + fr[catcount + adding],
                                             ypos = -1 + (fr[catcount + adding] / 2),
                                             ypos2 = -1 + fr[catcount + adding],
-                                            offset = -1 * gridRange)))
+                                            offset = -1 * grid.range)))
       # cumulative neutral cat
       ypos.sum.dk <- c(ypos.sum.dk, -1 + fr[catcount + adding])
     }
@@ -494,11 +491,13 @@ sjp.likert <- function(items,
     }
     title <- sjmisc::word_wrap(title, wrap.title)
   }
+  # --------------------------------------------------------
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
-  if (!is.null(axis.labels)) {
-    axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
-  }
+  # --------------------------------------------------------
+  axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
+  # sort labels
+  axis.labels <- axis.labels[sort.freq]
   # --------------------------------------------------------
   # set diagram margins
   # --------------------------------------------------------
@@ -508,17 +507,9 @@ sjp.likert <- function(items,
     expgrid <- c(0, 0)
   }
   # --------------------------------------------------------
-  # Hide or show Category Labels (x axis text) 
-  # --------------------------------------------------------
-  if (!showItemLabels) {
-    axis.labels <- ""
-  } else {
-    axis.labels <- axis.labels[sort.freq]
-  }
-  # --------------------------------------------------------
   # Set up grid breaks
   # --------------------------------------------------------
-  gridbreaks <- round(c(seq(-gridRange, gridRange, by = grid.breaks)), 2)
+  gridbreaks <- round(c(seq(-grid.range, grid.range, by = grid.breaks)), 2)
   gridlabs <- ifelse(abs(gridbreaks) > 1, "", paste0(c(abs(round(100 * gridbreaks))), "%"))
   # --------------------------------------------------------
   # start plot here
@@ -555,7 +546,7 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   # should percentage value labels be printed?
   # --------------------------------------------------------
-  percsign <- mydat.pos$percsign <- mydat.neg$percsign <- ifelse(isTRUE(showPercentageSign), "%", "")
+  percsign <- mydat.pos$percsign <- mydat.neg$percsign <- ifelse(isTRUE(show.prc.sign), "%", "")
   if (nrow(mydat.dk) > 0) mydat.dk$percsign <- percsign
   # --------------------------------------------------------
   # creating value labels for cumulative percentages, so
@@ -593,7 +584,7 @@ sjp.likert <- function(items,
       annotate("text", x = xpos.sum.neg, y = ypos.sum.neg, hjust = hort.neg, label = ypos.sum.neg.lab)
     if (!is.null(cat.neutral)) {
       gp <- gp +
-        annotate("text", x = xpos.sum.dk, y = ypos.sum.dk + 1 - gridRange, hjust = hort.dk, label = ypos.sum.dk.lab)
+        annotate("text", x = xpos.sum.dk, y = ypos.sum.dk + 1 - grid.range, hjust = hort.dk, label = ypos.sum.dk.lab)
     }
   }
   # ---------------------------------------------------------
@@ -606,7 +597,7 @@ sjp.likert <- function(items,
     # for neutral category work...
     # ---------------------------------------------------------
     scale_x_continuous(breaks = c(1:ncol(freq.df)), labels = axis.labels) +
-    scale_y_continuous(breaks = gridbreaks, limits = c(-gridRange, gridRange), expand = expgrid, labels = gridlabs) +
+    scale_y_continuous(breaks = gridbreaks, limits = c(-grid.range, grid.range), expand = expgrid, labels = gridlabs) +
     geom_hline(yintercept = 0, color = intercept.line.color)
   # ---------------------------------------------------------
   # check whether coordinates should be flipped, i.e.

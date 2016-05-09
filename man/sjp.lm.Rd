@@ -11,11 +11,11 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   group.estimates = NULL, remove.estimates = NULL, vars = NULL,
   wrap.title = 50, wrap.labels = 25, grid.breaks = NULL,
   coord.flip = TRUE, facet.grid = TRUE, show.values = TRUE, digits = 2,
-  show.p = TRUE, show.summary = FALSE, show.ci = TRUE, pointAlpha = 0.2,
-  scatter.plot = TRUE, show.loess = FALSE, show.loess.ci = FALSE,
-  show.legend = FALSE, y.offset = 0.15, poly.term = NULL,
-  showOriginalModelOnly = TRUE, completeDiagnostic = FALSE,
-  printPlot = TRUE)
+  show.p = TRUE, show.summary = FALSE, show.ci = TRUE,
+  point.alpha = 0.2, scatter.plot = TRUE, show.loess = FALSE,
+  show.loess.ci = FALSE, show.legend = FALSE, y.offset = 0.15,
+  poly.term = NULL, showOriginalModelOnly = TRUE,
+  completeDiagnostic = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{fitted linear regression model (of class \code{\link{lm}}, \code{\link[nlme]{gls}} or \code{plm}).}
@@ -108,11 +108,10 @@ variable labels.}
 \item{show.summary}{logical, if \code{TRUE}, a summary with model statistics 
 is added to the plot.}
 
-\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a condifence
+\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
 interval or region is added to the plot.}
 
-\item{pointAlpha}{alpha value of point-geoms in the scatter plots.
-Default is 0.2.}
+\item{point.alpha}{alpha value of point-geoms in the scatter plots.}
 
 \item{scatter.plot}{logical, if \code{TRUE} (default), a scatter plot of
 response and predictor values for each predictor of the model

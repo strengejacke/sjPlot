@@ -30,8 +30,7 @@
 #' @param show.p logical, if \code{TRUE} (default), p-values for polynomial terms are
 #'          printed to the console.
 #' @param loessLineColor color of the loess-smoothed line. Only applies, if \code{show.loess = TRUE}.
-#' @param pointColor color of the scatter plot's point. Only applies, if \code{scatter.plot = TRUE}.
-#' @param pointAlpha The alpha values of the scatter plot's point-geoms. Default is 0.2.
+#' @param point.color color of the scatter plot's point. Only applies, if \code{scatter.plot = TRUE}.
 #' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #' @return (insisibily) returns 
@@ -116,8 +115,8 @@ sjp.poly <- function(x,
                      geom.colors = NULL,
                      geom.size = .8,
                      loessLineColor = "#808080",
-                     pointColor = "#404040",
-                     pointAlpha = .2,
+                     point.color = "#404040",
+                     point.alpha = .2,
                      printPlot = TRUE) {
   # --------------------------------------------
   # check color parameter
@@ -215,7 +214,7 @@ sjp.poly <- function(x,
   # create plot
   polyplot <- ggplot(plot.df, aes(x, y, colour = grp))
   # show scatter plot as well?
-  if (scatter.plot) polyplot <- polyplot + geom_jitter(colour = pointColor, alpha = pointAlpha)
+  if (scatter.plot) polyplot <- polyplot + geom_jitter(colour = point.color, alpha = point.alpha)
   # show loess curve? this curve indicates the "perfect" curve through
   # the data
   if (show.loess) polyplot <- polyplot + stat_smooth(method = "loess", 
