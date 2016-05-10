@@ -86,9 +86,7 @@
 #' library(datasets)
 #' sjt.df(as.data.frame(WorldPhones), big.mark = ",")
 #' 
-#' # ---------------------------------------------------------------- 
 #' # User defined style sheet
-#' # ---------------------------------------------------------------- 
 #' sjt.df(efc, altr.row.col = TRUE, 
 #'        CSS = list(css.table = "border: 2px solid #999999;",
 #'                   css.tdata = "border-top: 1px solid;",

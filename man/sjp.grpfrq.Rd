@@ -12,7 +12,7 @@ sjp.grpfrq(var.cnt, var.grp, weight.by = NULL, title.wtd.suffix = NULL,
   interactionVarLabels = NULL, legend.labels = NULL, ylim = NULL,
   wrap.title = 50, wrap.labels = 15, wrap.legend.title = 20,
   wrap.legend.labels = 20, grid.breaks = NULL, bar.pos = c("dodge",
-  "stack"), innerBoxPlotWidth = 0.15, innerBoxPlotDotSize = 3,
+  "stack"), inner.box.width = 0.15, inner.box.dotsize = 3,
   smoothLines = FALSE, expand.grid = FALSE, show.values = TRUE,
   show.n = TRUE, show.prc = TRUE, show.axis.values = TRUE,
   showPlotAnnotation = TRUE, show.summary = FALSE, showGroupCount = FALSE,
@@ -101,10 +101,10 @@ i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 \item{bar.pos}{indicates whether bars should be positioned side-by-side (default)
 or stacked (use \code{"stack"} as argument).}
 
-\item{innerBoxPlotWidth}{width of the inner box plot that is plotted inside of violin plots. Only applies 
+\item{inner.box.width}{width of the inner box plot that is plotted inside of violin plots. Only applies 
 if \code{type = "violin"}. Default value is 0.15}
 
-\item{innerBoxPlotDotSize}{size of mean dot insie a violin or box plot. Applies only 
+\item{inner.box.dotsize}{size of mean dot insie a violin or box plot. Applies only 
 when \code{type = "violin"} or \code{"boxplot"}.}
 
 \item{smoothLines}{prints a smooth line curve. Only applies, when argument \code{type = "line"}.}
@@ -120,7 +120,7 @@ group or category to the labels.}
 \item{show.prc}{logical, if \code{TRUE} (default), percentage values are plotted to each bar
 If \code{FALSE}, percentage values are removed.}
 
-\item{show.axis.values}{logical, whether count or percentage values for the axis
+\item{show.axis.values}{logical, whether category, count or percentage values for the axis
 should be printed or not.}
 
 \item{showPlotAnnotation}{logical, if \code{TRUE}, the groups of dots in a dot-plot are highlighted 

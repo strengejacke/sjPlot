@@ -119,8 +119,8 @@ sjp.frq <- function(var.cnt,
                     wrap.title = 50,
                     wrap.labels = 20,
                     grid.breaks = NULL,
-                    innerBoxPlotWidth = 0.15,
-                    innerBoxPlotDotSize = 3,
+                    inner.box.width = 0.15,
+                    inner.box.dotsize = 3,
                     expand.grid = FALSE,
                     show.values = TRUE,
                     show.n = TRUE,
@@ -230,17 +230,15 @@ sjp.frq <- function(var.cnt,
     message(sprintf("`%s` has %i unique values and was grouped...", 
                     var.name, 
                     length(unique(var.cnt))))
-    # check for default auto-group-size or user-defined groups
-    agcnt <- ifelse(auto.group < 30, auto.group, 30)
     # group axis labels
     axis.labels <- sjmisc::group_labels(sjmisc::to_value(var.cnt, keep.labels = F),
                                         groupsize = "auto", 
-                                        groupcount = agcnt)
+                                        groupcount = auto.group)
     # group variable
     var.cnt <- sjmisc::group_var(sjmisc::to_value(var.cnt, keep.labels = F), 
                                  groupsize = "auto", 
                                  as.num = TRUE, 
-                                 groupcount = agcnt)
+                                 groupcount = auto.group)
     # set label attributes
     sjmisc::set_labels(var.cnt) <- axis.labels
   }
@@ -413,9 +411,6 @@ sjp.frq <- function(var.cnt,
                                  labels = NULL)
   }
   # ----------------------------------
-  # Print plot
-  # ----------------------------------
-  # ----------------------------------
   # bar and dot plot start here!
   # ----------------------------------
   if (type == "bar" || type == "dot") {
@@ -473,7 +468,7 @@ sjp.frq <- function(var.cnt,
                     fill = geom.colors) +
         # if we have a violin plot, add an additional boxplot inside to show
         # more information
-        geom_boxplot(width = innerBoxPlotWidth, 
+        geom_boxplot(width = inner.box.width, 
                      fill = "white")
     }
     # if we have boxplots or violon plots, also add a point that indicates
@@ -484,7 +479,7 @@ sjp.frq <- function(var.cnt,
       stat_summary(fun.y = "mean", 
                    geom = "point", 
                    shape = 21, 
-                   size = innerBoxPlotDotSize, 
+                   size = inner.box.dotsize, 
                    fill = fcsp)
     # no additional labels for the x- and y-axis, only diagram title
     baseplot <- baseplot + 

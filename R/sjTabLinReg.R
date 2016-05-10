@@ -56,7 +56,7 @@ utils::globalVariables(c("starts_with"))
 #' @param digits.se amount of decimals for standard error
 #' @param digits.std amount of decimals for standardized beta
 #' @param digits.summary amount of decimals for values in model summary
-#' @param boldpvalues logical, if \code{TRUE} (default), significant p-values are shown bold faced.
+#' @param emph.p logical, if \code{TRUE} (default), significant p-values are shown bold faced.
 #' @param separate.ci.col if \code{TRUE}, the CI values are shown in a separate table column.
 #'          Default is \code{FALSE}.
 #' @param newline.ci logical, if \code{TRUE} and \code{separate.ci.col = FALSE}, inserts a line break
@@ -114,13 +114,14 @@ utils::globalVariables(c("starts_with"))
 #' @note See 'Note' in \code{\link{sjt.frq}}.
 #'  
 #' @details Concerning the \code{show.std} argument, \code{show.std = "std"}
-#'            will print normal standardized estimates. \code{show.std = "std2"},
+#'            will print normal standardized estimates. For \code{show.std = "std2"},
 #'            however, standardization of estimates follows 
 #'            \href{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}{Gelman's (2008)}
 #'            suggestion, rescaling the estimates by dividing them by two standard 
 #'            deviations instead of just one. Resulting coefficients are then 
 #'            directly comparable for untransformed binary predictors. This type 
-#'            of standardization uses the \code{\link[arm]{standardize}}-function.
+#'            of standardization uses the \code{\link[arm]{standardize}}-function
+#'            from the \pkg{arm}-package.
 #'            For backward compatibility reasons, \code{show.std} also may be 
 #'            a logical value; if \code{TRUE}, normal standardized estimates are 
 #'            printed (same effect as \code{show.std = "std"}). Use 
@@ -149,8 +150,7 @@ utils::globalVariables(c("starts_with"))
 #' 
 #' # create and open HTML-table in RStudio Viewer Pane or web browser
 #' # in the following examples, we set labels via argument
-#' sjt.lm(fit1, 
-#'        fit2, 
+#' sjt.lm(fit1, fit2, 
 #'        depvar.labels = c("Barthel-Index", "Negative Impact"),
 #'        pred.labels = c("Carer's Age", "Hours of Care", 
 #'                            "Carer's Sex", "Educational Status"))
@@ -241,12 +241,10 @@ utils::globalVariables(c("starts_with"))
 #'
 #' sjt.lm(fit1, fit2, fit3)
 #'
-#'
 #' # ---------------------------------------- 
 #' # compare models with different predictors
 #' # and grouping
 #' # ---------------------------------------- 
-#' 
 #' # make cope-index categorical
 #' efc$c82cop1 <- to_factor(efc$c82cop1)
 #' # fit another model
@@ -256,11 +254,8 @@ utils::globalVariables(c("starts_with"))
 #' sjt.lm(fit1, fit2, fit4, fit3)
 #' 
 #' # show standardized beta only
-#' sjt.lm(fit1, fit2, fit4, fit3,
-#'        show.est = FALSE,
-#'        show.std = TRUE,
-#'        show.aic = TRUE,
-#'        show.fstat = TRUE)
+#' sjt.lm(fit1, fit2, fit4, fit3, show.est = FALSE, show.std = TRUE,
+#'        show.aic = TRUE, show.fstat = TRUE)
 #'
 #' # -----------------------------------------------------------
 #' # color insanity. just to show that each column has an own
@@ -268,11 +263,8 @@ utils::globalVariables(c("starts_with"))
 #' # you can define column spaces / margins, border etc. to
 #' # visually separate your models in the table
 #' # -----------------------------------------------------------
-#' sjt.lm(fit1, fit2, fit4, fit3,
-#'        show.std = TRUE,
-#'        show.aic = TRUE,
-#'        show.fstat = TRUE,
-#'        show.se = TRUE,
+#' sjt.lm(fit1, fit2, fit4, fit3, show.std = TRUE, show.aic = TRUE,
+#'        show.fstat = TRUE, show.se = TRUE,
 #'        CSS = list(css.modelcolumn1 = 'color:blue;',
 #'                   css.modelcolumn2 = 'color:red;',
 #'                   css.modelcolumn3 = 'color:green;',
@@ -280,11 +272,8 @@ utils::globalVariables(c("starts_with"))
 #'                   css.modelcolumn5 = 'color:#777777;',
 #'                   css.modelcolumn6 = 'color:#3399cc;'))
 #'
-#' sjt.lm(fit1, fit2, fit4, fit3,
-#'        show.est = FALSE,
-#'        show.std = TRUE,
-#'        p.numeric = FALSE,
-#'        group.pred = FALSE,
+#' sjt.lm(fit1, fit2, fit4, fit3, show.est = FALSE, show.std = TRUE,
+#'        p.numeric = FALSE, group.pred = FALSE,
 #'        CSS = list(css.modelcolumn4 = 'border-left:1px solid black;',
 #'                   css.modelcolumn5 = 'padding-right:50px;'))}
 #'                   
@@ -319,7 +308,7 @@ sjt.lm <- function(...,
                    digits.std = 2,
                    digits.summary = 3,
                    p.numeric = TRUE,
-                   boldpvalues = TRUE,
+                   emph.p = TRUE,
                    p.kr = TRUE,
                    separate.ci.col = TRUE,
                    newline.ci = TRUE,
@@ -511,7 +500,7 @@ sjt.lm <- function(...,
     if (!p.numeric) {
       fit.df$pv <- sapply(fit.df$pv, function(x) x <- get_p_stars(x))
     } else {
-      if (boldpvalues) {
+      if (emph.p) {
         sb1 <- "<b>"
         sb2 <- "</b>"
       } else {
@@ -1408,7 +1397,7 @@ sjt.lmer <- function(...,
                      digits.std = 2,
                      digits.summary = 3,
                      p.numeric = TRUE,
-                     boldpvalues = TRUE,
+                     emph.p = TRUE,
                      p.kr = TRUE,
                      separate.ci.col = TRUE,
                      newline.ci = TRUE,
@@ -1439,7 +1428,7 @@ sjt.lmer <- function(...,
                 ci.hyphen = ci.hyphen, minus.sign = minus.sign,
                 digits.est = digits.est, digits.p = digits.p, digits.ci = digits.ci,
                 digits.se = digits.se, digits.std = digits.std, digits.summary = digits.summary, 
-                p.numeric = p.numeric, boldpvalues = boldpvalues, p.kr = p.kr,
+                p.numeric = p.numeric, emph.p = emph.p, p.kr = p.kr,
                 separate.ci.col = separate.ci.col, newline.ci = newline.ci, 
                 group.pred = group.pred, show.col.header = show.col.header, show.r2 = show.r2, show.icc = show.icc, 
                 show.re.var = show.re.var, show.fstat = FALSE, show.aic = show.aic, show.aicc = show.aicc, show.dev = show.dev,

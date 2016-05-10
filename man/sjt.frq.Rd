@@ -194,25 +194,17 @@ sjt.frq(data.frame(efc$e42dep, efc$e16sex, efc$c172code),
                               "moderately dependent", "severely dependent"),
                             c("male", "female"), c("low", "mid", "high")))
 
-# -------------------------------
 # auto-detection of labels
-# due to auto-detection of labels, this works as well
-# -------------------------------
 sjt.frq(data.frame(efc$e42dep, efc$e16sex, efc$c172code))
-
 
 # plot larger scale including zero-counts
 # indicating median and quartiles
 sjt.frq(efc$neg_c_7, emph.md = TRUE, emph.quart = TRUE)
 
-# -------------------------------
 # sort frequencies
-# -------------------------------
 sjt.frq(efc$e42dep, sort.frq = "desc")
 
-# -------------------------------- 
 # User defined style sheet
-# -------------------------------- 
 sjt.frq(efc$e42dep,
         CSS = list(css.table = "border: 2px solid;",
                    css.tdata = "border: 1px solid;",

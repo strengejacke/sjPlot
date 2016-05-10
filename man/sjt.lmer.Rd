@@ -12,7 +12,7 @@ sjt.lmer(..., file = NULL, pred.labels = NULL, depvar.labels = NULL,
   show.est = TRUE, show.ci = TRUE, show.std = FALSE, show.se = FALSE,
   ci.hyphen = "&nbsp;&ndash;&nbsp;", minus.sign = "&#45;", digits.est = 2,
   digits.p = 3, digits.ci = 2, digits.se = 2, digits.std = 2,
-  digits.summary = 3, p.numeric = TRUE, boldpvalues = TRUE, p.kr = TRUE,
+  digits.summary = 3, p.numeric = TRUE, emph.p = TRUE, p.kr = TRUE,
   separate.ci.col = TRUE, newline.ci = TRUE, group.pred = FALSE,
   show.col.header = TRUE, show.r2 = TRUE, show.icc = TRUE,
   show.re.var = TRUE, show.aic = FALSE, show.aicc = FALSE,
@@ -95,7 +95,7 @@ May be an HTML entity. See 'Examples'.}
 \item{p.numeric}{logical, if \code{TRUE}, the p-values are printed 
 as numbers. If \code{FALSE} (default), asterisks are used.}
 
-\item{boldpvalues}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
+\item{emph.p}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
 
 \item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
 F-tests with Kenward-Roger approximation for the df. Caution: Computation

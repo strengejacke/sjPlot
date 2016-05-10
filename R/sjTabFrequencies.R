@@ -137,25 +137,17 @@
 #'                               "moderately dependent", "severely dependent"),
 #'                             c("male", "female"), c("low", "mid", "high")))
 #' 
-#' # -------------------------------
 #' # auto-detection of labels
-#' # due to auto-detection of labels, this works as well
-#' # -------------------------------
 #' sjt.frq(data.frame(efc$e42dep, efc$e16sex, efc$c172code))
-#' 
 #' 
 #' # plot larger scale including zero-counts
 #' # indicating median and quartiles
 #' sjt.frq(efc$neg_c_7, emph.md = TRUE, emph.quart = TRUE)
 #' 
-#' # -------------------------------
 #' # sort frequencies
-#' # -------------------------------
 #' sjt.frq(efc$e42dep, sort.frq = "desc")
 #' 
-#' # -------------------------------- 
 #' # User defined style sheet
-#' # -------------------------------- 
 #' sjt.frq(efc$e42dep,
 #'         CSS = list(css.table = "border: 2px solid;",
 #'                    css.tdata = "border: 1px solid;",
@@ -306,9 +298,7 @@ sjt.frq <- function(data,
     # check if any NA-only variables found
     if (length(NAcolumns) > 0) {
       message(sprintf("%i variables have been removed from output, because they contained only NA's: %s", 
-                      length(NAcolumns), 
-                      paste(colnames(data)[NAcolumns], 
-                            collapse = "; ")))
+                      length(NAcolumns), paste(colnames(data)[NAcolumns], collapse = "; ")))
       data <- data[, -NAcolumns]
     }
   }
@@ -341,15 +331,10 @@ sjt.frq <- function(data,
     isString <- is.character(data)
     # check for auto-detection of labels, but only for non-character-vectors
     # characters will be handled later
-    if (is.null(value.labels) &&
-        !isString)
+    if (is.null(value.labels) && !isString)
       value.labels <-
-        sjmisc::get_labels(
-          data,
-          attr.only = F,
-          include.values = NULL,
-          include.non.labelled = T
-        )
+        sjmisc::get_labels(data, attr.only = F, include.values = NULL, 
+                           include.non.labelled = T)
     # copy variable to data frame for unuqie handling
     data <- as.data.frame(data)
     if (isString) {
@@ -372,8 +357,8 @@ sjt.frq <- function(data,
       # check if character
       if (is.character(sv)) {
         # group strings
-        data[[i]] <- sjmisc::group_str(strings = sv, maxdist = max.string.dist, 
-                                       remove.empty = F)
+        data[[i]] <- 
+          sjmisc::group_str(strings = sv, maxdist = max.string.dist, remove.empty = F)
       }
     }
   }
@@ -406,12 +391,8 @@ sjt.frq <- function(data,
       } else {
         # check for auto-detection of labels
         avl <-
-          sjmisc::get_labels(
-            dummy,
-            attr.only = F,
-            include.values = NULL,
-            include.non.labelled = T
-          )
+          sjmisc::get_labels(dummy, attr.only = F, include.values = NULL, 
+                             include.non.labelled = T)
         if (!is.null(avl)) {
           value.labels <- c(value.labels, list(avl))
         } else {
@@ -437,31 +418,17 @@ sjt.frq <- function(data,
     # -----------------------------------------------
     # check for length of unique values and skip if too long
     # -----------------------------------------------
-    if (!is.null(auto.group) &&
-        !is.character(data[[cnt]]) &&
-        length(unique(data[[cnt]])) >= auto.group) {
-      message(sprintf(
-        "Variable %s with %i unique values was grouped...",
-        colnames(data)[cnt],
-        length(unique(data[[cnt]]))
-      ))
-      # check for default auto-group-size or user-defined groups
-      agcnt <- ifelse(auto.group < 30, auto.group, 30)
+    if (!is.null(auto.group) && !is.character(data[[cnt]]) && length(unique(data[[cnt]])) >= auto.group) {
+      message(sprintf("Variable %s with %i unique values was grouped...",
+                      colnames(data)[cnt], length(unique(data[[cnt]]))))
       # group labels
-      value.labels[[cnt]] <-
-        sjmisc::group_labels(
-          sjmisc::to_value(data[[cnt]], keep.labels = F),
-          groupsize = "auto",
-          groupcount = agcnt
-        )
+      value.labels[[cnt]] <- 
+        sjmisc::group_labels(sjmisc::to_value(data[[cnt]], keep.labels = F),
+                             groupsize = "auto", groupcount = auto.group)
       # group variable
       data[[cnt]] <-
-        sjmisc::group_var(
-          sjmisc::to_value(data[[cnt]], keep.labels = F),
-          groupsize = "auto",
-          as.num = TRUE,
-          groupcount = agcnt
-        )
+        sjmisc::group_var(sjmisc::to_value(data[[cnt]], keep.labels = F),
+                          groupsize = "auto", as.num = TRUE, groupcount = auto.group)
       # set labels
       data[[cnt]] <- sjmisc::set_labels(data[[cnt]], value.labels[[cnt]])
     }
@@ -476,8 +443,7 @@ sjt.frq <- function(data,
       # here we have numeric or factor variables
     } else {
       # convert to numeric
-      orivar <- var <- sjmisc::to_value(data[[cnt]], 
-                                        keep.labels = F)
+      orivar <- var <- sjmisc::to_value(data[[cnt]], keep.labels = F)
     }
     # retrieve summary
     varsummary <- summary(var)
@@ -570,20 +536,16 @@ sjt.frq <- function(data,
         # value label
         page.content <- paste(page.content, 
                               sprintf("  <tr>\n     <td class=\"tdata leftalign firsttablecol%s\">%s</td>\n", 
-                                      rowcss, 
-                                      vallab[j]))
+                                      rowcss, vallab[j]))
         # cell values, first value is integer
         page.content <- paste(page.content, 
                               sprintf("    <td class=\"tdata centeralign%s\">%i</td>\n", 
-                                      rowcss, 
-                                      as.integer(datarow$frq)))
+                                      rowcss, as.integer(datarow$frq)))
         for (i in 8:10) {
           # following values are float
           page.content <- paste(page.content, 
                                 sprintf("    <td class=\"tdata centeralign%s\">%.*f</td>\n", 
-                                        rowcss, 
-                                        digits,
-                                        datarow[i]))
+                                        rowcss, digits, datarow[i]))
         }
         # close row-tag
         page.content <- paste(page.content, "  </tr>\n", "\n")
@@ -628,14 +590,10 @@ sjt.frq <- function(data,
         if (show.kurtosis) descr <- sprintf("%s &middot; &omega;=%.*f", descr, 
                                             digits, pstat$kurtosis)
       }
-      page.content <- paste(page.content, sprintf("  </tr>\n  <tr>\n    <td class=\"tdata summary\" colspan=\"5\">total N=%i &middot; valid N=%i &middot; x&#772;=%.*f &middot; &sigma;=%.*f%s</td>\n", 
-                                                  vartot, 
-                                                  varvalid, 
-                                                  digits,
-                                                  mw, 
-                                                  digits,
-                                                  sd(sum_var, na.rm = TRUE), 
-                                                  descr))
+      page.content <- paste(page.content, 
+                            sprintf("  </tr>\n  <tr>\n    <td class=\"tdata summary\" colspan=\"5\">total N=%i &middot; valid N=%i &middot; x&#772;=%.*f &middot; &sigma;=%.*f%s</td>\n", 
+                                    vartot, varvalid, digits, mw, digits,
+                                    stats::sd(sum_var, na.rm = TRUE), descr))
     }
     # -------------------------------------
     # finish table
@@ -665,8 +623,7 @@ sjt.frq <- function(data,
   if (nvar > 1) {
     knitr <- c()
     for (i in 1:length(page.content.list)) {
-      knitr <- paste0(knitr, 
-                      page.content.list[[i]], 
+      knitr <- paste0(knitr, page.content.list[[i]], 
                       sprintf("\n<p style=\"%s\">&nbsp;</p>\n", css.abstand))
     }
   } else {

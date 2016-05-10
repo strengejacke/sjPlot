@@ -22,8 +22,6 @@
 #'          to match \code{pointLabels}. If \code{pointLabels = NULL} (default),
 #'          no labels are printed.
 #' @param label.size Size of text labels if argument \code{pointLabels} is used.
-#' @param showTickMarkLabels.x logica, whether x axis tick mark labels should be shown or not.
-#' @param showTickMarkLabels.y logical, hether y axis tick mark labels  should be shown or not.
 #' @param showGroupFitLine logical, if \code{TRUE}, a fitted line for each group
 #'          is drawn. See \code{fitmethod} to change the fit method of the fitted lines.
 #' @param showTotalFitLine logical, if \code{TRUE}, a fitted line for the overall
@@ -120,8 +118,7 @@ sjp.scatter <- function(x = NULL,
                         geom.size = 2,
                         label.size = 3,
                         geom.colors = NULL,
-                        showTickMarkLabels.x = TRUE,
-                        showTickMarkLabels.y = TRUE,
+                        show.axis.values = TRUE,
                         showGroupFitLine = FALSE,
                         showTotalFitLine = FALSE,
                         show.ci = FALSE,
@@ -332,8 +329,9 @@ sjp.scatter <- function(x = NULL,
   # --------------------------------------------------------
   # Hide or show tick marks
   # --------------------------------------------------------
-  if (!showTickMarkLabels.x) scatter <- scatter + scale_x_continuous(labels = NULL)
-  if (!showTickMarkLabels.y) scatter <- scatter + scale_y_continuous(labels = NULL)
+  if (!show.axis.values) 
+    scatter <- scatter + scale_y_continuous(labels = NULL) +
+                         scale_x_continuous(labels = NULL)
   # --------------------------------------
   # facet plot
   # --------------------------------------

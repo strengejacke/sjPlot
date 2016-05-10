@@ -6,9 +6,6 @@
 #'              
 #' @seealso \code{\link{sjp.aov1}}  
 #' 
-#' @param rowLabels a character vector of same length as \code{var.grp} unqiue values. In short: the
-#'          value labels of \code{var.grp}. Used to name table rows. By default, row labels
-#'          are automatically detected if set by \code{\link[sjmisc]{set_labels}}.
 #' @param digits.summary amount of digits for summary statistics (Anova).
 #' 
 #' @inheritParams sjt.frq
@@ -42,8 +39,7 @@
 #' \dontrun{
 #' library(sjmisc)
 #' data(efc)
-#' sjt.grpmean(efc$c12hour,
-#'             efc$e42dep)}
+#' sjt.grpmean(efc$c12hour, efc$e42dep)}
 #'             
 #' @import sjmisc
 #' @importFrom stats na.omit lm
@@ -51,7 +47,7 @@
 sjt.grpmean <- function(var.cnt,
                         var.grp,
                         weight.by = NULL,
-                        rowLabels = NULL,
+                        value.labels = NULL,
                         digits = 2,
                         digits.summary = 3,
                         file = NULL,
@@ -72,7 +68,7 @@ sjt.grpmean <- function(var.cnt,
   # --------------------------------------
   # set value and row labels
   # --------------------------------------
-  if (is.null(rowLabels)) rowLabels <- sjmisc::get_labels(var.grp,
+  if (is.null(value.labels)) value.labels <- sjmisc::get_labels(var.grp,
                                                           attr.only = F,
                                                           include.values = NULL,
                                                           include.non.labelled = T)
@@ -161,8 +157,8 @@ sjt.grpmean <- function(var.cnt,
   # --------------------------------------
   # fix row labels, if empty or NULL
   # --------------------------------------
-  if (is.null(rowLabels) || length(rowLabels) < (nrow(df) - 1)) rowLabels <- as.character(indices)
-  rownames(df) <- c(rowLabels, "Total")
+  if (is.null(value.labels) || length(value.labels) < (nrow(df) - 1)) value.labels <- as.character(indices)
+  rownames(df) <- c(value.labels, "Total")
   # --------------------------------------
   # get anova statistics for mean table
   # --------------------------------------

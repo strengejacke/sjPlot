@@ -8,8 +8,7 @@ sjp.scatter(x = NULL, y = NULL, grp = NULL, title = "",
   legend.title = NULL, legend.labels = NULL, pointLabels = NULL,
   axis.titles = NULL, wrap.title = 50, wrap.legend.title = 20,
   wrap.legend.labels = 20, geom.size = 2, label.size = 3,
-  geom.colors = NULL, showTickMarkLabels.x = TRUE,
-  showTickMarkLabels.y = TRUE, showGroupFitLine = FALSE,
+  geom.colors = NULL, show.axis.values = TRUE, showGroupFitLine = FALSE,
   showTotalFitLine = FALSE, show.ci = FALSE, fitmethod = "lm",
   useJitter = FALSE, useCount = FALSE, autojitter = TRUE,
   jitterRatio = 0.15, showRug = FALSE, show.legend = TRUE,
@@ -61,9 +60,8 @@ need smaller values than dot sizes.}
 
 \item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
-\item{showTickMarkLabels.x}{logica, whether x axis tick mark labels should be shown or not.}
-
-\item{showTickMarkLabels.y}{logical, hether y axis tick mark labels  should be shown or not.}
+\item{show.axis.values}{logical, whether category, count or percentage values for the axis
+should be printed or not.}
 
 \item{showGroupFitLine}{logical, if \code{TRUE}, a fitted line for each group
 is drawn. See \code{fitmethod} to change the fit method of the fitted lines.}

@@ -42,7 +42,7 @@ utils::globalVariables(c("offset"))
 #'          so positive and negative values switch colors.
 #' @param cat.neutral.color color of the neutral category, if plotted (see \code{cat.neutral}).
 #' @param intercept.line.color color of the vertical intercept line that divides positive and negative values.
-#' @param value.labels determines style and position of percentage value labels on the bars:
+#' @param values determines style and position of percentage value labels on the bars:
 #'          \describe{
 #'            \item{\code{"show"}}{(default) shows percentage value labels in the middle of each category bar}
 #'            \item{\code{"hide"}}{hides the value labels, so no percentage values on the bars are printed}
@@ -88,11 +88,8 @@ utils::globalVariables(c("offset"))
 #' likert_4 <- data.frame(Q1, Q2, Q3, Q4, Q5)
 #' 
 #' # create labels
-#' levels_4 <- c("Strongly agree", 
-#'               "Agree", 
-#'               "Disagree", 
-#'               "Strongly Disagree", 
-#'               "Don't know")
+#' levels_4 <- c("Strongly agree", "Agree", "Disagree", 
+#'               "Strongly Disagree", "Don't know")
 #' 
 #' # prepare data for 6-category likert scale, 5 items
 #' likert_6 <- data.frame()
@@ -113,31 +110,19 @@ utils::globalVariables(c("offset"))
 #' items <- c("Q1", "Q2", "Q3", "Q4", "Q5")
 #' 
 #' # plot dichotomous likert scale, ordered by "negative" values
-#' sjp.likert(likert_2,
-#'            geom.colors = c("green", "red"),
-#'            legend.labels = levels_2, 
-#'            axis.labels = items, 
-#'            sort.frq = "neg.desc")
+#' sjp.likert(likert_2, geom.colors = c("green", "red"), legend.labels = levels_2, 
+#'            axis.labels = items, sort.frq = "neg.desc")
 #' 
 #' # plot 4-category-likert-scale, no order
-#' sjp.likert(likert_4, 
-#'            cat.neutral = 5,
-#'            legend.labels = levels_4, 
-#'            axis.labels = items,
-#'            grid.range = 1.2,
-#'            expand.grid = FALSE,
-#'            value.labels = "sum.outside",
-#'            show.prc.sign = TRUE)
+#' sjp.likert(likert_4, cat.neutral = 5, legend.labels = levels_4, 
+#'            axis.labels = items, grid.range = 1.2, expand.grid = FALSE,
+#'            values = "sum.outside", show.prc.sign = TRUE)
 #' 
 #' # plot 6-category-likert-scale, ordered by positive values,
 #' # in brown color scale
-#' sjp.likert(likert_6, 
-#'            legend.labels = levels_6, 
-#'            axis.labels = items, 
-#'            sort.frq = "pos.asc", 
-#'            digits = 0,
-#'            show.prc.sign = TRUE,
-#'            value.labels = "sum.inside")
+#' sjp.likert(likert_6,  legend.labels = levels_6, axis.labels = items, 
+#'            sort.frq = "pos.asc", digits = 0, show.prc.sign = TRUE,
+#'            values = "sum.inside")
 #' 
 #' @import ggplot2
 #' @import sjmisc
@@ -154,7 +139,7 @@ sjp.likert <- function(items,
                        reverse.colors = FALSE,
                        cat.neutral.color = "grey70",
                        intercept.line.color = "grey50",
-                       value.labels = "show",
+                       values = "show",
                        show.prc.sign = FALSE,
                        digits = 1,
                        legend.labels = NULL,
@@ -555,7 +540,7 @@ sjp.likert <- function(items,
   ypos.sum.neg.lab  <- ifelse(ypos.sum.neg < 0, sprintf("%.*f%s", digits, 100 * abs(ypos.sum.neg), percsign), "")
   ypos.sum.dk.lab  <- ifelse(ypos.sum.dk > -1, sprintf("%.*f%s", digits, 100 * (1 + ypos.sum.dk), percsign), "")
   
-  if (value.labels == "show") {
+  if (values == "show") {
     # show them in middle of bar
     gp <- gp +
       geom_text(data = subset(mydat.pos, frq > 0), 
@@ -566,9 +551,9 @@ sjp.likert <- function(items,
       gp <- gp +
         geom_text(data = subset(mydat.dk, frq > -1), aes(x = x, y = ypos + offset + 1, label = sprintf("%.*f%s", digits, 100 * (1 + frq), percsign)))
     }
-  } else if (value.labels == "sum.inside" || value.labels == "sum.outside") {
+  } else if (values == "sum.inside" || values == "sum.outside") {
     # show cumulative outside bar
-    if (value.labels == "sum.outside") {
+    if (values == "sum.outside") {
       hort.pos <- -0.15
       hort.neg <- 1.15
       hort.dk <- -0.15

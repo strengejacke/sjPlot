@@ -10,7 +10,7 @@ sjt.glmer(..., file = NULL, pred.labels = NULL, depvar.labels = NULL,
   string.obs = "Observations", string.est = "OR", string.ci = "CI",
   string.se = "std. Error", string.p = "p", digits.est = 2,
   digits.p = 3, digits.ci = 2, digits.se = 2, digits.summary = 3,
-  exp.coef = TRUE, p.numeric = TRUE, boldpvalues = TRUE, show.ci = TRUE,
+  exp.coef = TRUE, p.numeric = TRUE, emph.p = TRUE, show.ci = TRUE,
   show.se = FALSE, ci.hyphen = "&nbsp;&ndash;&nbsp;",
   separate.ci.col = TRUE, newline.ci = TRUE, group.pred = FALSE,
   show.col.header = TRUE, show.r2 = FALSE, show.icc = TRUE,
@@ -78,7 +78,7 @@ the \code{\link{summary}} function.}
 \item{p.numeric}{logical, if \code{TRUE}, the p-values are printed 
 as numbers. If \code{FALSE} (default), asterisks are used.}
 
-\item{boldpvalues}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
+\item{emph.p}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
 
 \item{show.ci}{logical, if \code{TRUE} (default), the confidence intervall is also printed to the table. Use
 \code{FALSE} to omit the CI in the table.}
@@ -225,30 +225,21 @@ mydf <- data.frame(hi_qol = to_factor(efc$hi_qol),
                    
 # fit glmer
 fit1 <- glmer(hi_qol ~ sex + c12hour + neg_c_7 + (1|grp),
-              data = mydf,
-              family = binomial("logit"))
+              data = mydf, family = binomial("logit"))
 fit2 <- glmer(hi_qol ~ sex + c12hour + neg_c_7 + education + (1|grp),
-              data = mydf,
-              family = binomial("logit"))
+              data = mydf, family = binomial("logit"))
               
 # print summary table
-sjt.glmer(fit1, fit2,
-          ci.hyphen = " to ")
+sjt.glmer(fit1, fit2, ci.hyphen = " to ")
 
 # print summary table, using different table layout
-sjt.glmer(fit1, fit2,
-          show.aic = TRUE,
-          show.ci = FALSE,
-          show.se = TRUE,
-          p.numeric = FALSE)
+sjt.glmer(fit1, fit2, show.aic = TRUE, show.ci = FALSE,
+          show.se = TRUE, p.numeric = FALSE)
           
 # print summary table
-sjt.glmer(fit1, fit2,
-          pred.labels = c("Elder's gender (female)",
-                              "Hours of care per week",
-                              "Negative Impact",
-                              "Educational level (mid)",
-                              "Educational level (high)"))
+sjt.glmer(fit1, fit2, pred.labels = c("Elder's gender (female)",
+            "Hours of care per week", "Negative Impact",
+            "Educational level (mid)", "Educational level (high)"))
 
 # use vector names as predictor labels
 sjt.glmer(fit1, fit2, pred.labels = "")}

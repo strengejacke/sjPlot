@@ -8,7 +8,7 @@ sjp.likert(items, catcount = NULL, cat.neutral = NULL, weight.by = NULL,
   title.wtd.suffix = NULL, sort.frq = NULL, geom.size = 0.6,
   geom.colors = "BrBG", reverse.colors = FALSE,
   cat.neutral.color = "grey70", intercept.line.color = "grey50",
-  value.labels = "show", show.prc.sign = FALSE, digits = 1,
+  values = "show", show.prc.sign = FALSE, digits = 1,
   legend.labels = NULL, show.legend = TRUE, title = NULL,
   legend.title = NULL, include.n = TRUE, axis.labels = NULL,
   wrap.title = 50, wrap.labels = 30, wrap.legend.title = 30,
@@ -63,7 +63,7 @@ so positive and negative values switch colors.}
 
 \item{intercept.line.color}{color of the vertical intercept line that divides positive and negative values.}
 
-\item{value.labels}{determines style and position of percentage value labels on the bars:
+\item{values}{determines style and position of percentage value labels on the bars:
 \describe{
   \item{\code{"show"}}{(default) shows percentage value labels in the middle of each category bar}
   \item{\code{"hide"}}{hides the value labels, so no percentage values on the bars are printed}
@@ -164,11 +164,8 @@ Q5 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.35, 0.25, 0.15, 0.25
 likert_4 <- data.frame(Q1, Q2, Q3, Q4, Q5)
 
 # create labels
-levels_4 <- c("Strongly agree", 
-              "Agree", 
-              "Disagree", 
-              "Strongly Disagree", 
-              "Don't know")
+levels_4 <- c("Strongly agree", "Agree", "Disagree", 
+              "Strongly Disagree", "Don't know")
 
 # prepare data for 6-category likert scale, 5 items
 likert_6 <- data.frame()
@@ -189,31 +186,19 @@ levels_6 <- c("Very strongly agree", "Strongly agree", "Agree",
 items <- c("Q1", "Q2", "Q3", "Q4", "Q5")
 
 # plot dichotomous likert scale, ordered by "negative" values
-sjp.likert(likert_2,
-           geom.colors = c("green", "red"),
-           legend.labels = levels_2, 
-           axis.labels = items, 
-           sort.frq = "neg.desc")
+sjp.likert(likert_2, geom.colors = c("green", "red"), legend.labels = levels_2, 
+           axis.labels = items, sort.frq = "neg.desc")
 
 # plot 4-category-likert-scale, no order
-sjp.likert(likert_4, 
-           cat.neutral = 5,
-           legend.labels = levels_4, 
-           axis.labels = items,
-           grid.range = 1.2,
-           expand.grid = FALSE,
-           value.labels = "sum.outside",
-           show.prc.sign = TRUE)
+sjp.likert(likert_4, cat.neutral = 5, legend.labels = levels_4, 
+           axis.labels = items, grid.range = 1.2, expand.grid = FALSE,
+           values = "sum.outside", show.prc.sign = TRUE)
 
 # plot 6-category-likert-scale, ordered by positive values,
 # in brown color scale
-sjp.likert(likert_6, 
-           legend.labels = levels_6, 
-           axis.labels = items, 
-           sort.frq = "pos.asc", 
-           digits = 0,
-           show.prc.sign = TRUE,
-           value.labels = "sum.inside")
+sjp.likert(likert_6,  legend.labels = levels_6, axis.labels = items, 
+           sort.frq = "pos.asc", digits = 0, show.prc.sign = TRUE,
+           values = "sum.inside")
 
 }
 \seealso{

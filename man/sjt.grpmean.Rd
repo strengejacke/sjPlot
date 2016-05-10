@@ -4,7 +4,7 @@
 \alias{sjt.grpmean}
 \title{Summary of grouped means as HTML table}
 \usage{
-sjt.grpmean(var.cnt, var.grp, weight.by = NULL, rowLabels = NULL,
+sjt.grpmean(var.cnt, var.grp, weight.by = NULL, value.labels = NULL,
   digits = 2, digits.summary = 3, file = NULL, encoding = NULL,
   CSS = NULL, use.viewer = TRUE, no.output = FALSE,
   remove.spaces = TRUE)
@@ -19,9 +19,9 @@ is grouped into the categories represented by \code{varGrp}.}
 Must be a vector of same length as the input vector. Default is 
 \code{NULL}, so no weights are used.}
 
-\item{rowLabels}{a character vector of same length as \code{var.grp} unqiue values. In short: the
-value labels of \code{var.grp}. Used to name table rows. By default, row labels
-are automatically detected if set by \code{\link[sjmisc]{set_labels}}.}
+\item{value.labels}{character vector (or \code{list} of character vectors)
+with value labels of the supplied variables, which will be used 
+to label variable values in the output.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
@@ -85,8 +85,7 @@ See 'Notes' in \code{\link{sjt.frq}}.
 \dontrun{
 library(sjmisc)
 data(efc)
-sjt.grpmean(efc$c12hour,
-            efc$e42dep)}
+sjt.grpmean(efc$c12hour, efc$e42dep)}
             
 }
 \seealso{

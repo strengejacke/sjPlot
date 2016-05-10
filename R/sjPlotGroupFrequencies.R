@@ -62,9 +62,9 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'          displayed in one line and when a line break is inserted.
 #' @param grid.breaks numeric; sets the distance between breaks for the axis, 
 #'          i.e. at every \code{grid.breaks}'th position a major grid is being printed.
-#' @param innerBoxPlotWidth width of the inner box plot that is plotted inside of violin plots. Only applies 
+#' @param inner.box.width width of the inner box plot that is plotted inside of violin plots. Only applies 
 #'          if \code{type = "violin"}. Default value is 0.15
-#' @param innerBoxPlotDotSize size of mean dot insie a violin or box plot. Applies only 
+#' @param inner.box.dotsize size of mean dot insie a violin or box plot. Applies only 
 #'          when \code{type = "violin"} or \code{"boxplot"}.
 #' @param geom.colors user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.
 #' @param geom.size size resp. width of the geoms (bar width, line thickness or point size, 
@@ -77,7 +77,7 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #' @param show.values logical, whether values should be plotted or not.
 #' @param show.n logical, if \code{TRUE}, adds total number of cases for each
 #'          group or category to the labels.
-#' @param show.axis.values logical, whether count or percentage values for the axis
+#' @param show.axis.values logical, whether category, count or percentage values for the axis
 #'          should be printed or not.
 #' @param show.prc logical, if \code{TRUE} (default), percentage values are plotted to each bar
 #'          If \code{FALSE}, percentage values are removed.
@@ -181,8 +181,8 @@ sjp.grpfrq <- function(var.cnt,
                        wrap.legend.labels = 20,
                        grid.breaks = NULL,
                        bar.pos = c("dodge", "stack"),
-                       innerBoxPlotWidth = 0.15,
-                       innerBoxPlotDotSize = 3,
+                       inner.box.width = 0.15,
+                       inner.box.dotsize = 3,
                        smoothLines = FALSE,
                        expand.grid = FALSE,
                        show.values = TRUE,
@@ -681,7 +681,7 @@ sjp.grpfrq <- function(var.cnt,
     # more information
     if (type == "violin") {
       baseplot <- baseplot +
-        geom_boxplot(width = innerBoxPlotWidth, fill = "white", outlier.colour = NA)
+        geom_boxplot(width = inner.box.width, fill = "white", outlier.colour = NA)
     }
     # ---------------------------------------------------------
     # if we have boxplots or violon plots, also add a point that indicates
@@ -691,7 +691,7 @@ sjp.grpfrq <- function(var.cnt,
     fcsp <- ifelse(type == "boxplot", "white", "black")
     baseplot <- baseplot +
       stat_summary(fun.y = "mean", geom = "point", shape = 21,
-                   size = innerBoxPlotDotSize, fill = fcsp)
+                   size = inner.box.dotsize, fill = fcsp)
   } else {
     if (type == "dot") {
       baseplot <- ggplot(mydf, aes(x = xpos, y = frq, colour = group))

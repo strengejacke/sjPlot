@@ -4,8 +4,7 @@
 \alias{sjc.grpdisc}
 \title{Compute a linear discriminant analysis on classified cluster groups}
 \usage{
-sjc.grpdisc(data, groups, groupcount, showTotalCorrect = TRUE,
-  printPlot = TRUE)
+sjc.grpdisc(data, groups, groupcount, clss.fit = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{data}{data frame containing all variables that should be used for the
@@ -18,7 +17,7 @@ from the \code{\link{sjc.cluster}}-function}
 \code{\link{sjc.elbow}} to determine the group-count depending
 on the elbow-criterion.}
 
-\item{showTotalCorrect}{logical, if \code{TRUE} (default), a vertical line indicating the
+\item{clss.fit}{logical, if \code{TRUE} (default), a vertical line indicating the
 overall goodness of classification is added to the plot, so one can see
 whether a certain group is below or above the average classification goodness.}
 

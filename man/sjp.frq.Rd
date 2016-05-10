@@ -9,7 +9,7 @@ sjp.frq(var.cnt, title = "", weight.by = NULL, title.wtd.suffix = NULL,
   "line", "density", "boxplot", "violin"), geom.size = NULL,
   geom.colors = "#336699", axis.labels = NULL, xlim = NULL, ylim = NULL,
   wrap.title = 50, wrap.labels = 20, grid.breaks = NULL,
-  innerBoxPlotWidth = 0.15, innerBoxPlotDotSize = 3, expand.grid = FALSE,
+  inner.box.width = 0.15, inner.box.dotsize = 3, expand.grid = FALSE,
   show.values = TRUE, show.n = TRUE, show.prc = TRUE,
   show.axis.values = TRUE, show.ci = FALSE, errorbar.color = "darkred",
   show.mean = FALSE, show.mean.val = TRUE, show.sd = TRUE,
@@ -72,10 +72,10 @@ labels are displayed in one line and when a line break is inserted.}
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
-\item{innerBoxPlotWidth}{width of the inner box plot that is plotted inside of violin plots. Only applies 
+\item{inner.box.width}{width of the inner box plot that is plotted inside of violin plots. Only applies 
 if \code{type = "violin"}. Default value is 0.15}
 
-\item{innerBoxPlotDotSize}{size of mean dot insie a violin or box plot. Applies only 
+\item{inner.box.dotsize}{size of mean dot insie a violin or box plot. Applies only 
 when \code{type = "violin"} or \code{"boxplot"}.}
 
 \item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
@@ -89,7 +89,7 @@ group or category to the labels.}
 \item{show.prc}{logical, if \code{TRUE} (default), percentage values are plotted to each bar
 If \code{FALSE}, percentage values are removed.}
 
-\item{show.axis.values}{logical, whether count or percentage values for the axis
+\item{show.axis.values}{logical, whether category, count or percentage values for the axis
 should be printed or not.}
 
 \item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence

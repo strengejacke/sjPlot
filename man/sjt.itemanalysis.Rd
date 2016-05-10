@@ -7,7 +7,7 @@
 sjt.itemanalysis(df, factor.groups = NULL, factor.groups.titles = "auto",
   scale = FALSE, min.valid.rowmean = 2, altr.row.col = TRUE,
   sort.col = NULL, sort.asc = TRUE, show.shapiro = FALSE,
-  show.kurtosis = FALSE, showCompCorrMat = TRUE, file = NULL,
+  show.kurtosis = FALSE, show.corr.matrix = TRUE, file = NULL,
   encoding = NULL, CSS = NULL, use.viewer = TRUE, no.output = FALSE,
   remove.spaces = TRUE)
 }
@@ -51,7 +51,7 @@ See \code{\link{shapiro.test}} for details.}
 \item{show.kurtosis}{logical, if \code{TRUE}, the kurtosis for each item will also be shown (see \code{\link[psych]{kurtosi}}
 and \code{\link[psych]{describe}} in the \code{psych}-package for more details.}
 
-\item{showCompCorrMat}{logical, if \code{TRUE} (default), a correlation matrix of each component's
+\item{show.corr.matrix}{logical, if \code{TRUE} (default), a correlation matrix of each component's
 index score is shown. Only applies if \code{factor.groups} is not \code{NULL} and \code{df} has
 more than one group. First, for each case (df's row), the sum of all variables (df's columns) is
 scaled (using the \code{\link{scale}}-function) and represents a "total score" for

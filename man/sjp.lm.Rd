@@ -168,7 +168,7 @@ Depending on the \code{type}, this function plots coefficients (estimates)
                  estimates by dividing them by two standard deviations instead of 
                  just one. Resulting coefficients are then directly comparable for 
                  untransformed binary predictors. This standardization uses the 
-                 \code{\link[arm]{standardize}}-function.}
+                 \code{\link[arm]{standardize}}-function from the \pkg{arm}-package.}
            \item{\code{type = "slope"}}{regression lines (slopes) with confidence 
                  intervals for each single predictor of the fitted model are plotted, 
                  i.e. all predictors of the fitted model are extracted and for each of

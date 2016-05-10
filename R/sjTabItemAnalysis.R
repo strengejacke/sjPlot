@@ -47,7 +47,7 @@
 #'          See \code{\link{shapiro.test}} for details.
 #' @param show.kurtosis logical, if \code{TRUE}, the kurtosis for each item will also be shown (see \code{\link[psych]{kurtosi}}
 #'          and \code{\link[psych]{describe}} in the \code{psych}-package for more details.
-#' @param showCompCorrMat logical, if \code{TRUE} (default), a correlation matrix of each component's
+#' @param show.corr.matrix logical, if \code{TRUE} (default), a correlation matrix of each component's
 #'          index score is shown. Only applies if \code{factor.groups} is not \code{NULL} and \code{df} has
 #'          more than one group. First, for each case (df's row), the sum of all variables (df's columns) is
 #'          scaled (using the \code{\link{scale}}-function) and represents a "total score" for
@@ -139,7 +139,7 @@ sjt.itemanalysis <- function(df,
                              sort.asc = TRUE,
                              show.shapiro = FALSE,
                              show.kurtosis = FALSE,
-                             showCompCorrMat = TRUE,
+                             show.corr.matrix = TRUE,
                              file = NULL,
                              encoding = NULL,
                              CSS = NULL,
@@ -352,7 +352,7 @@ sjt.itemanalysis <- function(df,
   # -------------------------------------
   # show component correlation table
   # -------------------------------------
-  if (showCompCorrMat) {
+  if (show.corr.matrix) {
     # check if we have enough components
     if (length(df.comcor) > 1) {
       # copy all component correlation values to a data frame

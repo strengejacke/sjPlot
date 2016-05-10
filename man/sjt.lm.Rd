@@ -12,7 +12,7 @@ sjt.lm(..., file = NULL, pred.labels = NULL, depvar.labels = NULL,
   show.est = TRUE, show.ci = TRUE, show.std = NULL, show.se = FALSE,
   ci.hyphen = "&nbsp;&ndash;&nbsp;", minus.sign = "&#45;", digits.est = 2,
   digits.p = 3, digits.ci = 2, digits.se = 2, digits.std = 2,
-  digits.summary = 3, p.numeric = TRUE, boldpvalues = TRUE, p.kr = TRUE,
+  digits.summary = 3, p.numeric = TRUE, emph.p = TRUE, p.kr = TRUE,
   separate.ci.col = TRUE, newline.ci = TRUE, group.pred = TRUE,
   show.col.header = TRUE, show.r2 = TRUE, show.icc = FALSE,
   show.re.var = FALSE, show.fstat = FALSE, show.aic = FALSE,
@@ -96,7 +96,7 @@ May be an HTML entity. See 'Examples'.}
 \item{p.numeric}{logical, if \code{TRUE}, the p-values are printed 
 as numbers. If \code{FALSE} (default), asterisks are used.}
 
-\item{boldpvalues}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
+\item{emph.p}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
 
 \item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
 F-tests with Kenward-Roger approximation for the df. Caution: Computation
@@ -196,13 +196,14 @@ Summarizes (multiple) fitted linear models (coefficients, std. beta values etc.)
 }
 \details{
 Concerning the \code{show.std} argument, \code{show.std = "std"}
-           will print normal standardized estimates. \code{show.std = "std2"},
+           will print normal standardized estimates. For \code{show.std = "std2"},
            however, standardization of estimates follows 
            \href{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}{Gelman's (2008)}
            suggestion, rescaling the estimates by dividing them by two standard 
            deviations instead of just one. Resulting coefficients are then 
            directly comparable for untransformed binary predictors. This type 
-           of standardization uses the \code{\link[arm]{standardize}}-function.
+           of standardization uses the \code{\link[arm]{standardize}}-function
+           from the \pkg{arm}-package.
            For backward compatibility reasons, \code{show.std} also may be 
            a logical value; if \code{TRUE}, normal standardized estimates are 
            printed (same effect as \code{show.std = "std"}). Use 
@@ -234,8 +235,7 @@ sjt.lm(fit1, fit2)
 
 # create and open HTML-table in RStudio Viewer Pane or web browser
 # in the following examples, we set labels via argument
-sjt.lm(fit1, 
-       fit2, 
+sjt.lm(fit1, fit2, 
        depvar.labels = c("Barthel-Index", "Negative Impact"),
        pred.labels = c("Carer's Age", "Hours of Care", 
                            "Carer's Sex", "Educational Status"))
@@ -326,12 +326,10 @@ fit3 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e, data = efc)
 
 sjt.lm(fit1, fit2, fit3)
 
-
 # ---------------------------------------- 
 # compare models with different predictors
 # and grouping
 # ---------------------------------------- 
-
 # make cope-index categorical
 efc$c82cop1 <- to_factor(efc$c82cop1)
 # fit another model
@@ -341,11 +339,8 @@ fit4 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e + c82cop1,
 sjt.lm(fit1, fit2, fit4, fit3)
 
 # show standardized beta only
-sjt.lm(fit1, fit2, fit4, fit3,
-       show.est = FALSE,
-       show.std = TRUE,
-       show.aic = TRUE,
-       show.fstat = TRUE)
+sjt.lm(fit1, fit2, fit4, fit3, show.est = FALSE, show.std = TRUE,
+       show.aic = TRUE, show.fstat = TRUE)
 
 # -----------------------------------------------------------
 # color insanity. just to show that each column has an own
@@ -353,11 +348,8 @@ sjt.lm(fit1, fit2, fit4, fit3,
 # you can define column spaces / margins, border etc. to
 # visually separate your models in the table
 # -----------------------------------------------------------
-sjt.lm(fit1, fit2, fit4, fit3,
-       show.std = TRUE,
-       show.aic = TRUE,
-       show.fstat = TRUE,
-       show.se = TRUE,
+sjt.lm(fit1, fit2, fit4, fit3, show.std = TRUE, show.aic = TRUE,
+       show.fstat = TRUE, show.se = TRUE,
        CSS = list(css.modelcolumn1 = 'color:blue;',
                   css.modelcolumn2 = 'color:red;',
                   css.modelcolumn3 = 'color:green;',
@@ -365,11 +357,8 @@ sjt.lm(fit1, fit2, fit4, fit3,
                   css.modelcolumn5 = 'color:#777777;',
                   css.modelcolumn6 = 'color:#3399cc;'))
 
-sjt.lm(fit1, fit2, fit4, fit3,
-       show.est = FALSE,
-       show.std = TRUE,
-       p.numeric = FALSE,
-       group.pred = FALSE,
+sjt.lm(fit1, fit2, fit4, fit3, show.est = FALSE, show.std = TRUE,
+       p.numeric = FALSE, group.pred = FALSE,
        CSS = list(css.modelcolumn4 = 'border-left:1px solid black;',
                   css.modelcolumn5 = 'padding-right:50px;'))}
                   

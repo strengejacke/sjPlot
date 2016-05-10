@@ -10,8 +10,8 @@ sjp.gpt(x, y, groups, geom.colors = "Set1", geom.size = 2.5,
   axis.titles = NULL, legend.title = NULL, legend.labels = NULL,
   wrap.title = 50, wrap.labels = 15, wrap.legend.title = 20,
   wrap.legend.labels = 20, axis.lim = NULL, grid.breaks = NULL,
-  showTotal = TRUE, annotateTotal = TRUE, show.p = TRUE, show.n = TRUE,
-  printPlot = TRUE)
+  show.total = TRUE, annotate.total = TRUE, show.p = TRUE,
+  show.n = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{x}{categorical variable, where the proportion of each categorie in the
@@ -63,10 +63,10 @@ displayed in one line and when a line break is inserted.}
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
-\item{showTotal}{logical, if \code{TRUE}, a total summary line for all aggregated
+\item{show.total}{logical, if \code{TRUE}, a total summary line for all aggregated
 \code{groups} is added.}
 
-\item{annotateTotal}{logical, if \code{TRUE} and \code{showTotal = TRUE},
+\item{annotate.total}{logical, if \code{TRUE} and \code{show.total = TRUE},
 the total-row in the figure will be highlighted with a slightly
 shaded background.}
 

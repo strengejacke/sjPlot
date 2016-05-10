@@ -532,7 +532,7 @@ sjc.dend <- function(data, groupcount, distance = "euclidean", agglomeration = "
 #' @param groupcount amount of groups (clusters) that should be used. Use
 #'          \code{\link{sjc.elbow}} to determine the group-count depending
 #'          on the elbow-criterion.
-#' @param showTotalCorrect logical, if \code{TRUE} (default), a vertical line indicating the
+#' @param clss.fit logical, if \code{TRUE} (default), a vertical line indicating the
 #'          overall goodness of classification is added to the plot, so one can see
 #'          whether a certain group is below or above the average classification goodness.
 #' @param printPlot logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
@@ -559,7 +559,7 @@ sjc.dend <- function(data, groupcount, distance = "euclidean", agglomeration = "
 #' @importFrom graphics plot
 #' @import ggplot2
 #' @export
-sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect = TRUE, printPlot = TRUE) {
+sjc.grpdisc <- function(data, groups, groupcount, clss.fit = TRUE, printPlot = TRUE) {
   # Prepare Data
   # listwise deletion of missing
   data <- stats::na.omit(data)
@@ -643,7 +643,7 @@ sjc.grpdisc <- function(data, groups, groupcount, showTotalCorrect = TRUE, print
     # beside the bars and not printed into them
     coord_cartesian(ylim = c(0, 100), 
                     xlim = c(-0.5, groupcount + 1))
-  if (showTotalCorrect) {
+  if (clss.fit) {
     classplot <- classplot +
     # set line across all bars which indicates the total percentage of
     # correct assigned cases

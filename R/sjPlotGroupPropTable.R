@@ -16,9 +16,9 @@ utils::globalVariables(c("dep", "n"))
 #' @param shape.fill.color optional color vector, fill-color for non-filled shapes
 #' @param shapes numeric vector with shape styles, used to map the different
 #'          categories of \code{x}.
-#' @param showTotal logical, if \code{TRUE}, a total summary line for all aggregated
+#' @param show.total logical, if \code{TRUE}, a total summary line for all aggregated
 #'          \code{groups} is added.
-#' @param annotateTotal logical, if \code{TRUE} and \code{showTotal = TRUE},
+#' @param annotate.total logical, if \code{TRUE} and \code{show.total = TRUE},
 #'          the total-row in the figure will be highlighted with a slightly
 #'          shaded background.
 #' @param axis.lim numeric vector of length 2, defining the range of the plot axis.
@@ -73,8 +73,8 @@ sjp.gpt <- function(x,
                     wrap.legend.labels = 20,
                     axis.lim = NULL,
                     grid.breaks = NULL,
-                    showTotal = TRUE,
-                    annotateTotal = TRUE,
+                    show.total = TRUE,
+                    annotate.total = TRUE,
                     show.p = TRUE,
                     show.n = TRUE,
                     printPlot = TRUE) {
@@ -179,7 +179,7 @@ sjp.gpt <- function(x,
   # if we want total line, repeat all for
   # complete data frame
   # --------------------------------
-  if (showTotal) {
+  if (show.total) {
     tmp <- mydf %>%
       dplyr::group_by(xpos) %>%
       dplyr::summarise(ypos = mean(dep))
@@ -258,7 +258,7 @@ sjp.gpt <- function(x,
   # --------------------------------------------------------
   # Annotate total line?
   # --------------------------------------------------------
-  if (showTotal && annotateTotal)
+  if (show.total && annotate.total)
     p <- p + annotate("rect", xmin = 0.5,  xmax = 1.5, ymin = -Inf, ymax = Inf, alpha = 0.15)
   # --------------------------------------------------------
   # print plot

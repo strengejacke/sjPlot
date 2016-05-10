@@ -10,7 +10,7 @@ sjt.glm(..., file = NULL, pred.labels = NULL, depvar.labels = NULL,
   string.obs = "Observations", string.est = "OR", string.ci = "CI",
   string.se = "std. Error", string.p = "p", digits.est = 2,
   digits.p = 3, digits.ci = 2, digits.se = 2, digits.summary = 3,
-  exp.coef = TRUE, p.numeric = TRUE, boldpvalues = TRUE, show.ci = TRUE,
+  exp.coef = TRUE, p.numeric = TRUE, emph.p = TRUE, show.ci = TRUE,
   show.se = FALSE, ci.hyphen = "&nbsp;&ndash;&nbsp;",
   separate.ci.col = TRUE, newline.ci = TRUE, group.pred = TRUE,
   show.col.header = TRUE, show.r2 = FALSE, show.icc = FALSE,
@@ -79,7 +79,7 @@ the \code{\link{summary}} function.}
 \item{p.numeric}{logical, if \code{TRUE}, the p-values are printed 
 as numbers. If \code{FALSE} (default), asterisks are used.}
 
-\item{boldpvalues}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
+\item{emph.p}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
 
 \item{show.ci}{logical, if \code{TRUE} (default), the confidence intervall is also printed to the table. Use
 \code{FALSE} to omit the CI in the table.}
@@ -238,7 +238,6 @@ sjt.glm(fitOR1, fitOR2, fitOR3,
         depvar.labels = c("Fertility", "Infant Mortality", "Agriculture"),
         pred.labels = c("Education", "Examination", "Catholic"))
 
-
 # -------------------------------------------- 
 # User defined style sheet
 # -------------------------------------------- 
@@ -249,7 +248,6 @@ sjt.glm(fitOR1, fitOR2, fitOR3,
         CSS = list(css.table = "border: 2px solid;",
                    css.tdata = "border: 1px solid;",
                    css.depvarhead = "color:#003399;"))
-
 
 # -------------------------------------------- 
 # Compare models with different link functions, 
@@ -271,7 +269,6 @@ fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep,
 # compare models
 sjt.glm(fit1, fit2, fit3, show.aic = TRUE, show.family = TRUE)
 
-
 # --------------------------------------------
 # Change style of p-values and CI-appearance
 # --------------------------------------------
@@ -282,12 +279,8 @@ sjt.glm(fit1, fit2, fit3, p.numeric = FALSE,
 
 # open HTML-table in RStudio Viewer Pane or web browser,
 # indicating p-values as stars and integrate CI in OR column
-sjt.glm(fit1, fit2, fit3, 
-        p.numeric = FALSE,
-        separate.ci.col = FALSE,
-        show.aic = TRUE, 
-        show.family = TRUE,
-        show.r2 = TRUE)
+sjt.glm(fit1, fit2, fit3, p.numeric = FALSE, separate.ci.col = FALSE,
+        show.aic = TRUE, show.family = TRUE, show.r2 = TRUE)
 
 # ---------------------------------- 
 # automatic grouping of predictors
@@ -304,7 +297,6 @@ fit <- glm(services ~ neg_c_7 + c161sex + e42dep, data = efc)
 
 # automatic grouping of categorical predictors
 sjt.glm(fit)
-
 
 # ---------------------------------- 
 # compare models with different predictors

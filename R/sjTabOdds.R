@@ -87,7 +87,6 @@ utils::globalVariables(c("starts_with"))
 #'         depvar.labels = c("Fertility", "Infant Mortality", "Agriculture"),
 #'         pred.labels = c("Education", "Examination", "Catholic"))
 #' 
-#' 
 #' # -------------------------------------------- 
 #' # User defined style sheet
 #' # -------------------------------------------- 
@@ -98,7 +97,6 @@ utils::globalVariables(c("starts_with"))
 #'         CSS = list(css.table = "border: 2px solid;",
 #'                    css.tdata = "border: 1px solid;",
 #'                    css.depvarhead = "color:#003399;"))
-#' 
 #' 
 #' # -------------------------------------------- 
 #' # Compare models with different link functions, 
@@ -120,7 +118,6 @@ utils::globalVariables(c("starts_with"))
 #' # compare models
 #' sjt.glm(fit1, fit2, fit3, show.aic = TRUE, show.family = TRUE)
 #' 
-#' 
 #' # --------------------------------------------
 #' # Change style of p-values and CI-appearance
 #' # --------------------------------------------
@@ -131,12 +128,8 @@ utils::globalVariables(c("starts_with"))
 #' 
 #' # open HTML-table in RStudio Viewer Pane or web browser,
 #' # indicating p-values as stars and integrate CI in OR column
-#' sjt.glm(fit1, fit2, fit3, 
-#'         p.numeric = FALSE,
-#'         separate.ci.col = FALSE,
-#'         show.aic = TRUE, 
-#'         show.family = TRUE,
-#'         show.r2 = TRUE)
+#' sjt.glm(fit1, fit2, fit3, p.numeric = FALSE, separate.ci.col = FALSE,
+#'         show.aic = TRUE, show.family = TRUE, show.r2 = TRUE)
 #' 
 #' # ---------------------------------- 
 #' # automatic grouping of predictors
@@ -153,7 +146,6 @@ utils::globalVariables(c("starts_with"))
 #' 
 #' # automatic grouping of categorical predictors
 #' sjt.glm(fit)
-#' 
 #' 
 #' # ---------------------------------- 
 #' # compare models with different predictors
@@ -195,7 +187,7 @@ sjt.glm <- function(...,
                     digits.summary = 3,
                     exp.coef = TRUE,
                     p.numeric = TRUE,
-                    boldpvalues = TRUE,
+                    emph.p = TRUE,
                     show.ci = TRUE,
                     show.se = FALSE,
                     ci.hyphen = "&nbsp;&ndash;&nbsp;",
@@ -359,7 +351,7 @@ sjt.glm <- function(...,
     if (!p.numeric) {
       fit.df$pv <- sapply(fit.df$pv, function(x) x <- get_p_stars(x))
     } else {
-      if (boldpvalues) {
+      if (emph.p) {
         sb1 <- "<b>"
         sb2 <- "</b>"
       } else {
@@ -1171,30 +1163,21 @@ sjt.glm <- function(...,
 #'                    
 #' # fit glmer
 #' fit1 <- glmer(hi_qol ~ sex + c12hour + neg_c_7 + (1|grp),
-#'               data = mydf,
-#'               family = binomial("logit"))
+#'               data = mydf, family = binomial("logit"))
 #' fit2 <- glmer(hi_qol ~ sex + c12hour + neg_c_7 + education + (1|grp),
-#'               data = mydf,
-#'               family = binomial("logit"))
+#'               data = mydf, family = binomial("logit"))
 #'               
 #' # print summary table
-#' sjt.glmer(fit1, fit2,
-#'           ci.hyphen = " to ")
+#' sjt.glmer(fit1, fit2, ci.hyphen = " to ")
 #' 
 #' # print summary table, using different table layout
-#' sjt.glmer(fit1, fit2,
-#'           show.aic = TRUE,
-#'           show.ci = FALSE,
-#'           show.se = TRUE,
-#'           p.numeric = FALSE)
+#' sjt.glmer(fit1, fit2, show.aic = TRUE, show.ci = FALSE,
+#'           show.se = TRUE, p.numeric = FALSE)
 #'           
 #' # print summary table
-#' sjt.glmer(fit1, fit2,
-#'           pred.labels = c("Elder's gender (female)",
-#'                               "Hours of care per week",
-#'                               "Negative Impact",
-#'                               "Educational level (mid)",
-#'                               "Educational level (high)"))
+#' sjt.glmer(fit1, fit2, pred.labels = c("Elder's gender (female)",
+#'             "Hours of care per week", "Negative Impact",
+#'             "Educational level (mid)", "Educational level (high)"))
 #' 
 #' # use vector names as predictor labels
 #' sjt.glmer(fit1, fit2, pred.labels = "")}
@@ -1221,7 +1204,7 @@ sjt.glmer <- function(...,
                       digits.summary = 3,
                       exp.coef = TRUE,
                       p.numeric = TRUE,
-                      boldpvalues = TRUE,
+                      emph.p = TRUE,
                       show.ci = TRUE,
                       show.se = FALSE,
                       ci.hyphen = "&nbsp;&ndash;&nbsp;",
@@ -1256,7 +1239,7 @@ sjt.glmer <- function(...,
                  string.ci = string.ci, string.se = string.se, string.p = string.p, 
                  digits.est = digits.est, digits.p = digits.p, digits.ci = digits.ci,
                  digits.se = digits.se, digits.summary = digits.summary, exp.coef = exp.coef,
-                 p.numeric = p.numeric, boldpvalues = boldpvalues, 
+                 p.numeric = p.numeric, emph.p = emph.p, 
                  show.ci = show.ci, show.se = show.se, 
                  ci.hyphen = ci.hyphen, separate.ci.col = separate.ci.col, newline.ci = newline.ci, 
                  group.pred = group.pred, show.col.header = show.col.header, show.r2 = show.r2, show.icc = show.icc, 

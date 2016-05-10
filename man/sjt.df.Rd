@@ -134,9 +134,7 @@ sjt.df(efc[1:20, 1:5], sort.col = 4, sort.asc = FALSE, describe = FALSE)
 library(datasets)
 sjt.df(as.data.frame(WorldPhones), big.mark = ",")
 
-# ---------------------------------------------------------------- 
 # User defined style sheet
-# ---------------------------------------------------------------- 
 sjt.df(efc, altr.row.col = TRUE, 
        CSS = list(css.table = "border: 2px solid #999999;",
                   css.tdata = "border-top: 1px solid;",
