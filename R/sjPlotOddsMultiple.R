@@ -68,17 +68,13 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 #' # create binary response
 #' y <- ifelse(efc$neg_c_7 < median(na.omit(efc$neg_c_7)), 0, 1)
 #' # create dummy variables for educational status
-#' edu.mid <- ifelse(efc$c172code == 2, 1, 0)
-#' edu.high <- ifelse(efc$c172code == 3, 1, 0)
-#' # create data frame for fitted model
-#' mydat <- data.frame(y = as.factor(y),
-#'                     sex = as.factor(efc$c161sex),
-#'                     dep = as.factor(efc$e42dep),
-#'                     barthel = as.numeric(efc$barthtot),
-#'                     edu.mid = as.factor(edu.mid),
-#'                     edu.hi = as.factor(edu.high))
+#' mydf <- data.frame(y = as.factor(y),
+#'                    sex = efc$c161sex,
+#'                    dep = to_factor(efc$e42dep),
+#'                    barthel = efc$barthtot,
+#'                    education = to_factor(efc$c172code))
 #' 
-#' fit1 <- glm(y ~ sex + edu.mid + edu.hi,  data = mydat, 
+#' fit1 <- glm(y ~ sex + education,  data = mydf, 
 #'             family = binomial(link = "logit"))
 #' fit2 <- update(fit1, . ~ . + barthel)
 #' fit3 <- update(fit2, . ~ . + dep)
@@ -95,13 +91,13 @@ sjp.glmm <- function(...,
                      legend.title = "Dependent Variables",
                      legend.pval.title = "p-level",
                      axis.labels = NULL,
-                     axis.title = "Odds Ratios",
+                     axis.title = "Estimates",
                      axis.lim = NULL,
                      wrap.title = 50,
                      wrap.labels = 25,
-                     breakLegendTitleAt = 20,
+                     wrap.legend.title = 20,
                      grid.breaks = 0.5,
-                     transformTicks = TRUE,
+                     trns.ticks = TRUE,
                      geom.size = 3,
                      geom.spacing = 0.4,
                      geom.colors = "Set1",
@@ -150,7 +146,7 @@ sjp.glmm <- function(...,
   # every 50 chars
   if (!is.null(axis.title)) axis.title <- sjmisc::word_wrap(axis.title, wrap.title)
   # check length of dependent variables
-  if (!is.null(depvar.labels)) depvar.labels <- sjmisc::word_wrap(depvar.labels, breakLegendTitleAt)
+  if (!is.null(depvar.labels)) depvar.labels <- sjmisc::word_wrap(depvar.labels, wrap.legend.title)
   # check length of x-axis-labels and split longer strings at into new lines
   if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
   # ----------------------------
@@ -378,7 +374,7 @@ sjp.glmm <- function(...,
   # --------------------------------------------------------
   # create pretty breaks for log-scale
   # --------------------------------------------------------
-  if (transformTicks) {
+  if (trns.ticks) {
     # since the odds are plotted on a log-scale, the grid bars'
     # distance shrinks with higher odds values. to provide a visual
     # proportional distance of the grid bars, we can apply the

@@ -11,12 +11,11 @@ sjp.pca(data, nmbr.fctr = NULL, fctr.load.tlrn = 0.1, plot.eigen = FALSE,
   show.cronb = TRUE, printPlot = TRUE)
 }
 \arguments{
-\item{data}{A data frame with factors (each columns one variable) that should be used 
-to compute a PCA, or a \code{\link{prcomp}} object.}
+\item{data}{\code{data.frame} that should be used to compute a PCA, or a \code{\link{prcomp}} object.}
 
 \item{nmbr.fctr}{number of factors used for calculating the varimax
 rotation. By default, this value is \code{NULL} and the amount of factors is
-calculated according to the Kaiser-criteria. See paramater \code{plotEigenvalues}.}
+calculated according to the Kaiser-criteria.}
 
 \item{fctr.load.tlrn}{specifies the minimum difference a variable needs to have between
 factor loadings (components) in order to indicate a clear loading on just one factor and not

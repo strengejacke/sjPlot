@@ -9,8 +9,8 @@ sjp.int(fit, type = "eff", int.term = NULL, int.plot.index = NULL,
   plevel = 0.1, title = NULL, fillColor = "grey", fillAlpha = 0.3,
   geom.colors = "Set1", geom.size = NULL, axis.title = NULL,
   axis.labels = NULL, legend.title = NULL, legend.labels = NULL,
-  show.values = FALSE, wrap.title = 50, breakLegendLabelsAt = 20,
-  breakLegendTitleAt = 20, xlim = NULL, ylim = NULL, y.offset = 0.07,
+  show.values = FALSE, wrap.title = 50, wrap.legend.labels = 20,
+  wrap.legend.title = 20, xlim = NULL, ylim = NULL, y.offset = 0.07,
   grid.breaks = NULL, show.ci = FALSE, p.kr = TRUE,
   valueLabel.digits = 2, facet.grid = FALSE, printPlot = TRUE)
 }
@@ -112,10 +112,10 @@ as legend label.}
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{breakLegendLabelsAt}{determines how many chars of the legend labels are 
+\item{wrap.legend.labels}{determines how many chars of the legend labels are 
 displayed in one line and when a line break is inserted.}
 
-\item{breakLegendTitleAt}{determines how many chars of the legend's title 
+\item{wrap.legend.title}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}
 
 \item{xlim}{numeric vector of length two, defining lower and upper axis limits}

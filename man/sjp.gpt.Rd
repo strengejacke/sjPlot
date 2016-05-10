@@ -8,8 +8,8 @@ sjp.gpt(x, y, groups, geom.colors = "Set1", geom.size = 2.5,
   shape.fill.color = "#f0f0f0", shapes = c(15, 16, 17, 18, 21, 22, 23, 24,
   25, 7, 8, 9, 10, 12), title = NULL, axis.labels = NULL,
   axis.titles = NULL, legend.title = NULL, legend.labels = NULL,
-  wrap.title = 50, wrap.labels = 15, breakLegendTitleAt = 20,
-  breakLegendLabelsAt = 20, axis.lim = NULL, grid.breaks = NULL,
+  wrap.title = 50, wrap.labels = 15, wrap.legend.title = 20,
+  wrap.legend.labels = 20, axis.lim = NULL, grid.breaks = NULL,
   showTotal = TRUE, annotateTotal = TRUE, show.p = TRUE, show.n = TRUE,
   printPlot = TRUE)
 }
@@ -52,10 +52,10 @@ one line and when a line break is inserted.}
 \item{wrap.labels}{determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
-\item{breakLegendTitleAt}{determines how many chars of the legend's title 
+\item{wrap.legend.title}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}
 
-\item{breakLegendLabelsAt}{determines how many chars of the legend labels are 
+\item{wrap.legend.labels}{determines how many chars of the legend labels are 
 displayed in one line and when a line break is inserted.}
 
 \item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.}

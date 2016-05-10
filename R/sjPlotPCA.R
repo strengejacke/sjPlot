@@ -13,8 +13,6 @@
 #'            \item \code{\link{sjt.pca}}
 #'            }
 #' 
-#' @param data A data frame with factors (each columns one variable) that should be used 
-#'          to compute a PCA, or a \code{\link{prcomp}} object.
 #' @param plot.eigen If \code{TRUE}, a plot showing the Eigenvalues according to the
 #'          Kaiser criteria is plotted to determine the number of factors.
 #' @param type Plot type resp. geom type. May be one of following: \code{"circle"} or \code{"tile"} 

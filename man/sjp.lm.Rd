@@ -14,8 +14,7 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   show.p = TRUE, show.summary = FALSE, show.ci = TRUE,
   point.alpha = 0.2, scatter.plot = TRUE, show.loess = FALSE,
   show.loess.ci = FALSE, show.legend = FALSE, y.offset = 0.15,
-  poly.term = NULL, showOriginalModelOnly = TRUE,
-  completeDiagnostic = FALSE, printPlot = TRUE)
+  poly.term = NULL, completeDiagnostic = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{fitted linear regression model (of class \code{\link{lm}}, \code{\link[nlme]{gls}} or \code{plm}).}
@@ -30,7 +29,7 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   \item{\code{"pred"}}{to plot predicted values for the response, related to specific predictors. See 'Details'.}
   \item{\code{"eff"}}{to plot marginal effects of all terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms.}
   \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples').}
-  \item{\code{"ma"}}{to check model assumptions. Note that only three arguments are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other arguments are ignored.}
+  \item{\code{"ma"}}{to check model assumptions. Note that only three arguments are relevant for this option \code{fit} and \code{completeDiagnostic}. All other arguments are ignored.}
   \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 }}
 
@@ -135,11 +134,6 @@ to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 specified, if \code{type = "poly"}, in order to plot marginal effects
 for polynomial terms. See 'Examples'.}
 
-\item{showOriginalModelOnly}{logical, if \code{TRUE} (default), only model assumptions of
-\code{fit} are plotted. if \code{FALSE}, model assumptions of an updated
-model where outliers are automatically excluded are also plotted.
-Only applies if \code{type = "ma"}.}
-
 \item{completeDiagnostic}{logical, if \code{TRUE}, additional tests are performed. Default is \code{FALSE}
 Only applies if \code{type = "ma"}.}
 
@@ -204,8 +198,8 @@ Depending on the \code{type}, this function plots coefficients (estimates)
                  plotting the curvilinear relationships of response and quadratic, cubic etc. 
                  terms. This function accepts following argument.}
            \item{\code{type = "ma"}}{checks model assumptions. Please note that only 
-                 three arguments are relevant: \code{fit}, \code{completeDiagnostic} 
-                 and \code{showOriginalModelOnly}. All other arguments are ignored.}
+                 three arguments are relevant: \code{fit} and \code{completeDiagnostic}. 
+                 All other arguments are ignored.}
            \item{\code{type = "vif"}}{Variance Inflation Factors (check for multicollinearity) 
                  are plotted. As a rule of thumb, values below 5 are considered as good 
                  and indicate no multicollinearity, values between 5 and 10 may be tolerable.

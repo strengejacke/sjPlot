@@ -11,13 +11,13 @@ sjp.likert(items, catcount = NULL, cat.neutral = NULL, weight.by = NULL,
   value.labels = "show", show.prc.sign = FALSE, digits = 1,
   legend.labels = NULL, show.legend = TRUE, title = NULL,
   legend.title = NULL, include.n = TRUE, axis.labels = NULL,
-  wrap.title = 50, wrap.labels = 30, breakLegendTitleAt = 30,
-  breakLegendLabelsAt = 28, grid.range = 1, grid.breaks = 0.2,
+  wrap.title = 50, wrap.labels = 30, wrap.legend.title = 30,
+  wrap.legend.labels = 28, grid.range = 1, grid.breaks = 0.2,
   expand.grid = TRUE, axis.titles = NULL, coord.flip = TRUE,
   printPlot = TRUE)
 }
 \arguments{
-\item{items}{\code{\link{data.frame}} with each column representing one likert-item.}
+\item{items}{\code{data.frame} with each column representing one item.}
 
 \item{catcount}{optional, amount of categories of \code{items} (e.g. \emph{"strongly disagree", 
 "disagree", "agree"} and \emph{"strongly agree"} would be \code{catcount = 4}).
@@ -95,10 +95,10 @@ one line and when a line break is inserted.}
 \item{wrap.labels}{determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
-\item{breakLegendTitleAt}{determines how many chars of the legend's title 
+\item{wrap.legend.title}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}
 
-\item{breakLegendLabelsAt}{determines how many chars of the legend labels are 
+\item{wrap.legend.labels}{determines how many chars of the legend labels are 
 displayed in one line and when a line break is inserted.}
 
 \item{grid.range}{numeric, limits of the x-axis-range, as proportion of 100. 

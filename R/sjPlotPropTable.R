@@ -16,17 +16,16 @@ utils::globalVariables(c("rowname", "total", "ges", "prc", "n", "Count", "Group"
 #'          is grouped into the categories represented by \code{grp}.
 #' @param type plot type. may be either \code{"bar"} (default) for bar charts,
 #'          or \code{"line"} for line diagram.
-#' @param tableIndex indicates which data of the proportional table should be plotted. Use \code{"row"} for
+#' @param margin indicates which data of the proportional table should be plotted. Use \code{"row"} for
 #'          calculating row percentages, \code{"col"} for column percentages and \code{"cell"} for cell percentages.
-#'          If \code{tableIndex = "col"}, an additional bar with the total sum of each column
-#'          can be added to the plot (see \code{showTotalColumn}).
+#'          If \code{margin = "col"}, an additional bar with the total sum of each column
+#'          can be added to the plot (see \code{show.total}).
 #' @param rev.order logical, if \code{TRUE}, order of categories (groups) is reversed.
 #' @param lineDotSize dot size, only applies, when argument \code{type = "line"}.
 #' @param smoothLines prints a smooth line curve. Only applies, when argument \code{type = "line"}.
-#' @param stringTotal string for the legend label when a total-column is added. Only applies
-#'          if \code{showTotalColumn = TRUE}. Default is \code{"Total"}.
-#' @param showCategoryLabels whether x-axis text (category names) should be shown or not.
-#' @param showTotalColumn when \code{tableIndex = "col"}, an additional bar 
+#' @param string.total string for the legend label when a total-column is added. Only applies
+#'          if \code{show.total = TRUE}. Default is \code{"Total"}.
+#' @param show.total when \code{margin = "col"}, an additional bar 
 #'          with the sum within each category and it's percentages will be added 
 #'          to each category.
 #'          
@@ -45,26 +44,19 @@ utils::globalVariables(c("rowname", "total", "ges", "prc", "n", "Count", "Group"
 #' sjp.xtab(x, grp)
 #' 
 #' # plot "cross tablulation" of x and y, including labels
-#' sjp.xtab(x, grp, 
-#'          axis.labels = c("low", "mid", "high"),
+#' sjp.xtab(x, grp, axis.labels = c("low", "mid", "high"),
 #'          legend.labels = c("Grp 1", "Grp 2", "Grp 3", "Grp 4"))
 #' 
 #' # plot "cross tablulation" of x and grp
 #' # as stacked proportional bars
-#' sjp.xtab(x, grp, 
-#'          tableIndex = "row", 
-#'          bar.pos = "stack", 
-#'          show.summary = TRUE,
-#'          coord.flip = TRUE)
+#' sjp.xtab(x, grp, margin = "row", bar.pos = "stack", 
+#'          show.summary = TRUE, coord.flip = TRUE)
 #' 
 #' # example with vertical labels
 #' library(sjmisc)
 #' data(efc)
 #' sjp.setTheme(geom.label.angle = 90)
-#' sjp.xtab(efc$e42dep, 
-#'          efc$e16sex,
-#'          vjust = "center",
-#'          hjust = "bottom")
+#' sjp.xtab(efc$e42dep, efc$e16sex, vjust = "center", hjust = "bottom")
 #' 
 #' # grouped bars with EUROFAMCARE sample dataset
 #' # dataset was importet from an SPSS-file,
@@ -73,18 +65,12 @@ utils::globalVariables(c("rowname", "total", "ges", "prc", "n", "Count", "Group"
 #' efc.val <- get_labels(efc)
 #' efc.var <- get_label(efc)
 #' 
-#' sjp.xtab(efc$e42dep,
-#'          efc$e16sex,
-#'          title = efc.var['e42dep'],
-#'          axis.labels = efc.val[['e42dep']],
-#'          legend.title = efc.var['e16sex'],
+#' sjp.xtab(efc$e42dep, efc$e16sex, title = efc.var['e42dep'],
+#'          axis.labels = efc.val[['e42dep']], legend.title = efc.var['e16sex'],
 #'          legend.labels = efc.val[['e16sex']])
 #'          
-#' sjp.xtab(efc$e16sex,
-#'          efc$e42dep,
-#'          title = efc.var['e16sex'],
-#'          axis.labels = efc.val[['e16sex']],
-#'          legend.title = efc.var['e42dep'],
+#' sjp.xtab(efc$e16sex, efc$e42dep, title = efc.var['e16sex'],
+#'          axis.labels = efc.val[['e16sex']], legend.title = efc.var['e42dep'],
 #'          legend.labels = efc.val[['e42dep']])
 #'          
 #' # -------------------------------
@@ -94,12 +80,8 @@ utils::globalVariables(c("rowname", "total", "ges", "prc", "n", "Count", "Group"
 #' # -------------------------------
 #' sjp.xtab(efc$e16sex, efc$e42dep, title = NULL)
 #' 
-#' sjp.xtab(efc$e16sex,
-#'          efc$e42dep,
-#'          tableIndex = "row",
-#'          bar.pos = "stack",
-#'          coord.flip = TRUE)
-#'
+#' sjp.xtab(efc$e16sex, efc$e42dep, margin = "row",
+#'          bar.pos = "stack", coord.flip = TRUE)
 #'
 #' @import ggplot2
 #' @import sjmisc
@@ -115,7 +97,7 @@ sjp.xtab <- function(x,
                      weight.by = NULL,
                      title.wtd.suffix = NULL,
                      type = c("bar", "line"),
-                     tableIndex = c("col", "cell", "row"),
+                     margin = c("col", "cell", "row"),
                      rev.order = FALSE,
                      ylim = NULL,
                      axis.labels = NULL,
@@ -123,11 +105,11 @@ sjp.xtab <- function(x,
                      vjust = "bottom",
                      hjust = "center",
                      y.offset = NULL,
-                     stringTotal = "Total",
+                     string.total = "Total",
                      wrap.title = 50,
                      wrap.labels = 15,
-                     breakLegendTitleAt = 20,
-                     breakLegendLabelsAt = 20,
+                     wrap.legend.title = 20,
+                     wrap.legend.labels = 20,
                      grid.breaks = 0.2,
                      geom.size = 0.7,
                      geom.spacing = 0.1,
@@ -139,10 +121,9 @@ sjp.xtab <- function(x,
                      show.values = TRUE,
                      show.n = TRUE,
                      show.prc = TRUE,
-                     showCategoryLabels = TRUE,
                      show.summary = FALSE,
                      tableSummaryPos = "r",
-                     showTotalColumn = TRUE,
+                     show.total = TRUE,
                      show.legend = TRUE,
                      axis.titles = NULL,
                      coord.flip = FALSE,
@@ -157,7 +138,7 @@ sjp.xtab <- function(x,
   # --------------------------------------------------------
   bar.pos <- match.arg(bar.pos)
   type <- match.arg(type)
-  tableIndex <- match.arg(tableIndex)
+  margin <- match.arg(margin)
   # --------------------------------------------------------
   # copy titles
   # --------------------------------------------------------
@@ -209,15 +190,11 @@ sjp.xtab <- function(x,
   # --------------------------------------------------------
   # total column only applies to column percentages
   # --------------------------------------------------------
-  if (tableIndex != "col") showTotalColumn <- FALSE
+  if (margin != "col") show.total <- FALSE
   # --------------------------------------------------------
   # create cross table of frequencies and percentages
   # --------------------------------------------------------
-  mydat <- create.xtab.df(x,
-                          grp,
-                          round.prz = 2,
-                          na.rm = T,
-                          weight.by = weight.by)
+  mydat <- create.xtab.df(x, grp, round.prz = 2, na.rm = T, weight.by = weight.by)
   # --------------------------------------------------------
   # x-position as numeric factor, added later after
   # tidying
@@ -246,48 +223,40 @@ sjp.xtab <- function(x,
   # Check if user wants to add total column, and if so,
   # define amount of categories
   # --------------------------------------------------------
-  if (showTotalColumn) legend.labels <- c(legend.labels, stringTotal)
+  if (show.total) legend.labels <- c(legend.labels, string.total)
   grpcount <- length(legend.labels)
   # -----------------------------------------------
   # check whether row, column or cell percentages are requested
   #---------------------------------------------------
-  if (tableIndex == "cell")
+  if (margin == "cell")
     myptab <- mydat$proptab.cell
-  else if (tableIndex == "col")
+  else if (margin == "col")
     myptab <- mydat$proptab.col
-  else if (tableIndex == "row")
+  else if (margin == "row")
     myptab <- mydat$proptab.row
   myptab <- dplyr::add_rownames(data.frame(myptab))
   # -----------------------------------------------
   # tidy data
   #---------------------------------------------------
-  mydf <- tidyr::gather(myptab,
-                        "group",
-                        "prc",
-                        2:(grpcount + 1),
-                        factor_key = TRUE)
+  mydf <- tidyr::gather(myptab, "group", "prc", 2:(grpcount + 1), factor_key = TRUE)
   # -----------------------------------------------
   # add total column and row to n-values
   #---------------------------------------------------
-  if (tableIndex != "row")
+  if (margin != "row")
     mydat$mydat$total <- unname(rowSums(mydat$mydat[, -1]))
-  if (tableIndex != "col")
+  if (margin != "col")
     mydat$mydat <-
     rbind(mydat$mydat, c("total", unname(colSums(mydat$mydat[, -1]))))
   # -----------------------------------------------
   # add n-values to tidy data frame
   #---------------------------------------------------
-  dummydf <- tidyr::gather(mydat$mydat,
-                           "group",
-                           "n",
-                           2:(grpcount + 1),
-                           factor_key = TRUE)
+  dummydf <- tidyr::gather(mydat$mydat, "group", "n", 2:(grpcount + 1), factor_key = TRUE)
   mydf$n <- as.numeric(dummydf$n)
   # -----------------------------------------------
   # remove total for row and column index
   #---------------------------------------------------
-  if (tableIndex != "col") mydf <- dplyr::filter(mydf, rowname != "total")
-  if (tableIndex == "cell") mydf <- dplyr::select(mydf, -total)
+  if (margin != "col") mydf <- dplyr::filter(mydf, rowname != "total")
+  if (margin == "cell") mydf <- dplyr::select(mydf, -total)
   # --------------------------------------------------------
   # add xpos now
   # --------------------------------------------------------
@@ -319,8 +288,8 @@ sjp.xtab <- function(x,
   # --------------------------------------------------------
   # Prepare and trim legend labels to appropriate size
   # --------------------------------------------------------
-  if (!is.null(legend.labels)) legend.labels <- sjmisc::word_wrap(legend.labels, breakLegendLabelsAt)
-  if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(legend.title, breakLegendTitleAt)
+  if (!is.null(legend.labels)) legend.labels <- sjmisc::word_wrap(legend.labels, wrap.legend.labels)
+  if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(legend.title, wrap.legend.title)
   if (!is.null(title)) {
     # if we have weighted values, say that in diagram's title
     if (!is.null(title.wtd.suffix)) title <- paste(title, title.wtd.suffix, sep = "")
@@ -382,7 +351,6 @@ sjp.xtab <- function(x,
   # align dodged position of labels to bar positions
   # --------------------------------------------------------
   posdodge <- ifelse(type == "line", 0, geom.size + geom.spacing)
-  if (!showCategoryLabels) axis.labels <- ""
   # --------------------------------------------------------
   # Set value labels
   # --------------------------------------------------------
@@ -393,32 +361,26 @@ sjp.xtab <- function(x,
       if (show.prc && show.n) {
         ggvaluelabels <- geom_text(aes(y = ypos + y_offset, label = sprintf("%.01f%%%s(n=%i)", 100 * prc, line.break, n)),
                                    position = position_dodge(posdodge),
-                                   vjust = vjust,
-                                   hjust = hjust)
+                                   vjust = vjust, hjust = hjust)
       } else if (show.prc) {
         ggvaluelabels <- geom_text(aes(y = ypos + y_offset, label = sprintf("%.01f%%", 100 * prc)),
                                    position = position_dodge(posdodge),
-                                   vjust = vjust,
-                                   hjust = hjust)
+                                   vjust = vjust, hjust = hjust)
       } else if (show.n) {
         ggvaluelabels <- geom_text(aes(y = ypos + y_offset, label = sprintf("n=%i", n)),
                                    position = position_dodge(posdodge),
-                                   vjust = vjust,
-                                   hjust = hjust)
+                                   vjust = vjust, hjust = hjust)
       }
     } else {
       if (show.prc && show.n) {
         ggvaluelabels <- geom_text(aes(y = ypos, label = sprintf("%.01f%%%s(n=%i)", 100 * prc, line.break, n)),
-                                   vjust = vjust,
-                                   hjust = hjust)
+                                   vjust = vjust, hjust = hjust)
       } else if (show.prc) {
         ggvaluelabels <- geom_text(aes(y = ypos, label = sprintf("%.01f%%", 100 * prc)),
-                                   vjust = vjust,
-                                   hjust = hjust)
+                                   vjust = vjust, hjust = hjust)
       } else if (show.n) {
         ggvaluelabels <- geom_text(aes(y = ypos, label = sprintf("n=%i", n)),
-                                   vjust = vjust,
-                                   hjust = hjust)
+                                   vjust = vjust, hjust = hjust)
       }
     }
   } else {
@@ -442,7 +404,7 @@ sjp.xtab <- function(x,
   # ----------------------------------
   if (type == "bar") {
     if (bar.pos == "dodge") {
-      geob <- geom_bar(stat = "identity", 
+      geob <- geom_bar(stat = "identity",
                        position = position_dodge(posdodge), 
                        width = geom.size)
     } else {
@@ -455,9 +417,7 @@ sjp.xtab <- function(x,
     # for lines, numeric scale
     mydf$xpos <- sjmisc::to_value(mydf$xpos, keep.labels = F)
     line.stat <- ifelse(isTRUE(smoothLines), "smooth", "identity")
-    geob <- geom_line(aes(colour = group),
-                      size = geom.size, 
-                      stat = line.stat)
+    geob <- geom_line(aes(colour = group), size = geom.size,  stat = line.stat)
   }
   # --------------------------------------------------------
   # start plot here
@@ -466,24 +426,17 @@ sjp.xtab <- function(x,
   # if we have line diagram, print lines here
   if (type == "line") {
     baseplot <- baseplot + 
-      geom_point(size = lineDotSize, 
-                 shape = 21, 
-                 show.legend = FALSE)
+      geom_point(size = lineDotSize, shape = 21, show.legend = FALSE)
   }
   # ------------------------------------------
   # check whether table summary should be printed
   # ------------------------------------------
-  baseplot <- print.table.summary(baseplot,
-                                  modsum,
-                                  tableSummaryPos)
+  baseplot <- print.table.summary(baseplot, modsum, tableSummaryPos)
   baseplot <- baseplot +
     # show absolute and percentage value of each bar.
     ggvaluelabels +
     # no additional labels for the x- and y-axis, only diagram title
-    labs(title = title, 
-         x = axisTitle.x, 
-         y = axisTitle.y, 
-         fill = legend.title) +
+    labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legend.title) +
     # print value labels to the x-axis.
     # If argument "axis.labels" is NULL, the category numbers (1 to ...) 
     # appear on the x-axis

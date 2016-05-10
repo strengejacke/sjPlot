@@ -6,8 +6,8 @@
 \usage{
 sjp.scatter(x = NULL, y = NULL, grp = NULL, title = "",
   legend.title = NULL, legend.labels = NULL, pointLabels = NULL,
-  axis.titles = NULL, wrap.title = 50, breakLegendTitleAt = 20,
-  breakLegendLabelsAt = 20, geom.size = 2, label.size = 3,
+  axis.titles = NULL, wrap.title = 50, wrap.legend.title = 20,
+  wrap.legend.labels = 20, geom.size = 2, label.size = 3,
   geom.colors = NULL, showTickMarkLabels.x = TRUE,
   showTickMarkLabels.y = TRUE, showGroupFitLine = FALSE,
   showTotalFitLine = FALSE, show.ci = FALSE, fitmethod = "lm",
@@ -47,10 +47,10 @@ for the x-axis and y-axis.}
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{breakLegendTitleAt}{determines how many chars of the legend's title 
+\item{wrap.legend.title}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}
 
-\item{breakLegendLabelsAt}{determines how many chars of the legend labels are 
+\item{wrap.legend.labels}{determines how many chars of the legend labels are 
 displayed in one line and when a line break is inserted.}
 
 \item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 

@@ -8,7 +8,7 @@ sjc.qclus(data, groupcount = NULL, groups = NULL, method = "k",
   distance = "euclidean", agglomeration = "ward", iter.max = 20,
   algorithm = "Hartigan-Wong", show.accuracy = FALSE, title = NULL,
   axis.labels = NULL, wrap.title = 40, wrap.labels = 20,
-  breakLegendTitleAt = 20, breakLegendLabelsAt = 20, facet.grid = FALSE,
+  wrap.legend.title = 20, wrap.legend.labels = 20, facet.grid = FALSE,
   geom.colors = "Paired", geom.size = 0.5, geom.spacing = 0.1,
   show.legend = TRUE, showAxisLabels.x = TRUE, showAxisLabels.y = TRUE,
   showGroupCount = TRUE, showAccuracyLabels = FALSE, legend.title = NULL,
@@ -79,10 +79,10 @@ one line and when a line break is inserted.}
 \item{wrap.labels}{determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
-\item{breakLegendTitleAt}{determines how many chars of the legend's title 
+\item{wrap.legend.title}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}
 
-\item{breakLegendLabelsAt}{determines how many chars of the legend labels are 
+\item{wrap.legend.labels}{determines how many chars of the legend labels are 
 displayed in one line and when a line break is inserted.}
 
 \item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 

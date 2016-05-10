@@ -100,7 +100,7 @@ sjp.lmm <- function(...,
                     axis.lim = NULL,
                     wrap.title = 50,
                     wrap.labels = 25,
-                    breakLegendTitleAt = 20,
+                    wrap.legend.title = 20,
                     grid.breaks = NULL,
                     geom.size = 3,
                     geom.spacing = 0.4,
@@ -152,7 +152,7 @@ sjp.lmm <- function(...,
   # every 50 chars
   if (!is.null(axis.title)) axis.title <- sjmisc::word_wrap(axis.title, wrap.title)
   # check length of dependent variables
-  if (!is.null(depvar.labels)) depvar.labels <- sjmisc::word_wrap(depvar.labels, breakLegendTitleAt)
+  if (!is.null(depvar.labels)) depvar.labels <- sjmisc::word_wrap(depvar.labels, wrap.legend.title)
   # check length of x-axis-labels and split longer strings at into new lines
   if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
   # ----------------------------

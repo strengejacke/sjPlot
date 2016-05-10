@@ -1338,7 +1338,7 @@ sjt.lm <- function(...,
 #' 
 #' # data frame for fitted model
 #' mydf <- data.frame(neg_c_7 = efc$neg_c_7,
-#'                    sex = to_factor(efc$c161sex,
+#'                    sex = efc$c161sex,
 #'                    c12hour = efc$c12hour,
 #'                    barthel = efc$barthtot,
 #'                    education = to_factor(efc$c172code),

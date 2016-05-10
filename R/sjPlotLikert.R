@@ -18,7 +18,6 @@ utils::globalVariables(c("offset"))
 #'        of categories fails. In such cases, specify the amount of categories
 #'        with the \code{catcount}-argument.
 #' 
-#' @param items \code{\link{data.frame}} with each column representing one likert-item.
 #' @param catcount optional, amount of categories of \code{items} (e.g. \emph{"strongly disagree", 
 #'          "disagree", "agree"} and \emph{"strongly agree"} would be \code{catcount = 4}).
 #'          Note that this argument only applies to "valid" answers, i.e. if you
@@ -166,8 +165,8 @@ sjp.likert <- function(items,
                        axis.labels = NULL,
                        wrap.title = 50, 
                        wrap.labels = 30, 
-                       breakLegendTitleAt = 30, 
-                       breakLegendLabelsAt = 28,
+                       wrap.legend.title = 30, 
+                       wrap.legend.labels = 28,
                        grid.range = 1,
                        grid.breaks = 0.2,
                        expand.grid = TRUE,
@@ -476,11 +475,11 @@ sjp.likert <- function(items,
   # Prepare and trim legend labels to appropriate size
   # --------------------------------------------------------
   # wrap legend text lines
-  legend.labels <- sjmisc::word_wrap(legend.labels, breakLegendLabelsAt)
+  legend.labels <- sjmisc::word_wrap(legend.labels, wrap.legend.labels)
   # check whether we have a title for the legend
   if (!is.null(legend.title)) {
     # if yes, wrap legend title line
-    legend.title <- sjmisc::word_wrap(legend.title, breakLegendTitleAt)
+    legend.title <- sjmisc::word_wrap(legend.title, wrap.legend.title)
   }
   # check length of diagram title and split longer string at into new lines
   # every 50 chars

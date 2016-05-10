@@ -14,12 +14,11 @@ sjt.pca(data, nmbr.fctr = NULL, fctr.load.tlrn = 0.1, file = NULL,
   use.viewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
-\item{data}{data frame with factors (each columns one variable) that should be used 
-to compute a PCA, or a \code{\link{prcomp}} object.}
+\item{data}{\code{data.frame} that should be used to compute a PCA, or a \code{\link{prcomp}} object.}
 
 \item{nmbr.fctr}{number of factors used for calculating the varimax
 rotation. By default, this value is \code{NULL} and the amount of factors is
-calculated according to the Kaiser-criteria. See paramater \code{plotEigenvalues}.}
+calculated according to the Kaiser-criteria.}
 
 \item{fctr.load.tlrn}{specifies the minimum difference a variable needs to have between
 factor loadings (components) in order to indicate a clear loading on just one factor and not
@@ -35,8 +34,7 @@ openend either in the IDE's viewer pane or the default web browser.}
 \item{var.labels}{character vector with variable names, which will be used 
 to label variables in the output.}
 
-\item{title}{string, used as plot title. Depending on plot type and function,
-will be set automatically. If \code{title = ""}, no title is printed.}
+\item{title}{table caption. By default, \code{title = NULL}, hence no title will be used.}
 
 \item{wrap.labels}{determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}

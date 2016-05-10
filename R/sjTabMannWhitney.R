@@ -5,7 +5,7 @@
 #'                from the Mann-Whitney-test are obtained by the \code{\link[sjmisc]{mwu}}
 #'                function from the \pkg{sjmisc}-package.
 #'
-#' @param x Results of a Mann-Whitney-U test, provided by \code{\link[sjmisc]{mwu}}. See examples.
+#' @param x results of a Mann-Whitney-U test, provided by \code{\link[sjmisc]{mwu}}. See 'Examples'.
 #'          
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.df

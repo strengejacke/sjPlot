@@ -6,9 +6,9 @@
 \usage{
 sjp.glmm(..., title = NULL, depvar.labels = NULL,
   legend.title = "Dependent Variables", legend.pval.title = "p-level",
-  axis.labels = NULL, axis.title = "Odds Ratios", axis.lim = NULL,
-  wrap.title = 50, wrap.labels = 25, breakLegendTitleAt = 20,
-  grid.breaks = 0.5, transformTicks = TRUE, geom.size = 3,
+  axis.labels = NULL, axis.title = "Estimates", axis.lim = NULL,
+  wrap.title = 50, wrap.labels = 25, wrap.legend.title = 20,
+  grid.breaks = 0.5, trns.ticks = TRUE, geom.size = 3,
   geom.spacing = 0.4, geom.colors = "Set1", fade.ns = FALSE,
   p.shape = FALSE, vline.type = 2, vline.color = "grey70",
   remove.estimates = NULL, coord.flip = TRUE, show.intercept = FALSE,
@@ -46,13 +46,13 @@ one line and when a line break is inserted.}
 \item{wrap.labels}{determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
-\item{breakLegendTitleAt}{determines how many chars of the legend's title 
+\item{wrap.legend.title}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}
 
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
-\item{transformTicks}{logical, if \code{TRUE}, the grid lines have exponential 
+\item{trns.ticks}{logical, if \code{TRUE}, the grid lines have exponential 
 distances (equidistant), i.e. they visually have the same distance from 
 one panel grid to the next. If \code{FALSE}, grids are 
 plotted on every \code{grid.breaks}'s position, thus the grid lines become narrower with 
@@ -165,17 +165,13 @@ data(efc)
 # create binary response
 y <- ifelse(efc$neg_c_7 < median(na.omit(efc$neg_c_7)), 0, 1)
 # create dummy variables for educational status
-edu.mid <- ifelse(efc$c172code == 2, 1, 0)
-edu.high <- ifelse(efc$c172code == 3, 1, 0)
-# create data frame for fitted model
-mydat <- data.frame(y = as.factor(y),
-                    sex = as.factor(efc$c161sex),
-                    dep = as.factor(efc$e42dep),
-                    barthel = as.numeric(efc$barthtot),
-                    edu.mid = as.factor(edu.mid),
-                    edu.hi = as.factor(edu.high))
+mydf <- data.frame(y = as.factor(y),
+                   sex = efc$c161sex,
+                   dep = to_factor(efc$e42dep),
+                   barthel = efc$barthtot,
+                   education = to_factor(efc$c172code))
 
-fit1 <- glm(y ~ sex + edu.mid + edu.hi,  data = mydat, 
+fit1 <- glm(y ~ sex + education,  data = mydf, 
             family = binomial(link = "logit"))
 fit2 <- update(fit1, . ~ . + barthel)
 fit3 <- update(fit2, . ~ . + dep)

@@ -7,13 +7,12 @@
 sjp.glm(fit, type = "dots", sort.est = TRUE, title = NULL,
   axis.labels = NULL, axis.title = "Odds Ratios", legend.title = NULL,
   axis.lim = NULL, wrap.title = 50, wrap.labels = 25, grid.breaks = 0.5,
-  transformTicks = TRUE, geom.size = NULL, geom.colors = "Set1",
+  trns.ticks = TRUE, geom.size = NULL, geom.colors = "Set1",
   vline.type = 2, vline.color = "grey70", group.estimates = NULL,
   remove.estimates = NULL, vars = NULL, coord.flip = TRUE,
   y.offset = 0.15, show.intercept = FALSE, show.values = TRUE,
   digits = 2, show.p = TRUE, show.summary = FALSE, facet.grid = TRUE,
-  show.ci = FALSE, show.legend = FALSE, showOriginalModelOnly = TRUE,
-  printPlot = TRUE)
+  show.ci = FALSE, show.legend = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).}
@@ -24,7 +23,7 @@ sjp.glm(fit, type = "dots", sort.est = TRUE, title = NULL,
   \item{\code{"slope"}}{to plot probability or incidents slopes (predicted probabilities or incidents) for each model term, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
   \item{\code{"eff"}}{to plot marginal effects of predicted probabilities or incidents for each model term, where all remaining co-variates are set to the mean (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
   \item{\code{"pred"}}{to plot predicted values for the response, related to specific model predictors. See 'Details'.}
-  \item{\code{"ma"}}{to check model assumptions. Note that only two arguments are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other arguments are ignored.}
+  \item{\code{"ma"}}{to check model assumptions. Note that the only relevant argument for this option is \code{fit}. All other arguments are ignored.}
   \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 }}
 
@@ -55,7 +54,7 @@ labels are displayed in one line and when a line break is inserted.}
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
-\item{transformTicks}{logical, if \code{TRUE}, the grid lines have exponential 
+\item{trns.ticks}{logical, if \code{TRUE}, the grid lines have exponential 
 distances (equidistant), i.e. they visually have the same distance from 
 one panel grid to the next. If \code{FALSE}, grids are 
 plotted on every \code{grid.breaks}'s position, thus the grid lines become narrower with 
@@ -119,11 +118,6 @@ interval or region is added to the plot.}
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
-\item{showOriginalModelOnly}{logical, if \code{TRUE} (default) and \code{type = "ma"}, 
-only the model assumptions of \code{fit} are plotted.
-If \code{FALSE}, the model assumptions of an updated model where outliers
-are automatically excluded are also plotted.}
-
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
@@ -181,41 +175,27 @@ sjp.glm(fitOR)
 # -------------------------------
 library(sjmisc)
 data(efc)
-# retrieve predictor variable labels
-labs <- get_label(efc)
-predlab <- c(labs[['c161sex']],
-             paste0(labs[['e42dep']], " (slightly)"),
-             paste0(labs[['e42dep']], " (moderate)"),
-             paste0(labs[['e42dep']], " (severely)"),
-             labs[['barthtot']],
-             paste0(labs[['c172code']], " (mid)"),
-             paste0(labs[['c172code']], " (high)"))
 # create binary response
 y <- ifelse(efc$neg_c_7 < median(na.omit(efc$neg_c_7)), 0, 1)
-# create dummy variables for educational status
-edu.mid <- ifelse(efc$c172code == 2, 1, 0)
-edu.high <- ifelse(efc$c172code == 3, 1, 0)
 # create data frame for fitted model
 mydf <- data.frame(y = as.factor(y),
-                   sex = as.factor(efc$c161sex),
-                   dep = as.factor(efc$e42dep),
-                   barthel = as.numeric(efc$barthtot),
-                   edu.mid = as.factor(edu.mid),
-                   edu.hi = as.factor(edu.high))
+                   sex = efc$c161sex,
+                   dep = to_factor(efc$e42dep),
+                   barthel = efc$barthtot,
+                   education = to_factor(efc$c172code))
 # fit model
 fit <- glm(y ~., data = mydf, family = binomial(link = "logit"))
-# plot odds
-sjp.glm(fit, title = get_label(efc$neg_c_7), axis.labels = predlab)
 
-# plot probability curves (predicted probabilities)
-# of coefficients
-sjp.glm(fit, title = get_label(efc$neg_c_7), axis.labels = predlab,
-        type = "slope")
+# plot odds ratios
+sjp.glm(fit, title = get_label(efc$neg_c_7))
+
+# plot probability curves (relationship between predictors and response)
+sjp.glm(fit, title = get_label(efc$neg_c_7), type = "slope")
 
 # --------------------------
 # grouping estimates
 # --------------------------
-sjp.glm(fit,  group.estimates = c(1, 2, 2, 2, 3, 4, 4), axis.labels = predlab)
+sjp.glm(fit,  group.estimates = c(1, 2, 2, 2, 3, 4, 4))
 
 # --------------------------
 # model predictions, with selected model terms.

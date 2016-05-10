@@ -7,7 +7,7 @@
 sjp.lmm(..., type = "lm", title = NULL, depvar.labels = NULL,
   legend.title = "Dependent Variables", legend.pval.title = "p-level",
   axis.labels = NULL, axis.title = "Estimates", axis.lim = NULL,
-  wrap.title = 50, wrap.labels = 25, breakLegendTitleAt = 20,
+  wrap.title = 50, wrap.labels = 25, wrap.legend.title = 20,
   grid.breaks = NULL, geom.size = 3, geom.spacing = 0.4,
   geom.colors = "Set1", fade.ns = FALSE, p.shape = FALSE, p.kr = TRUE,
   vline.type = 2, vline.color = "grey70", remove.estimates = NULL,
@@ -53,7 +53,7 @@ one line and when a line break is inserted.}
 \item{wrap.labels}{determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
-\item{breakLegendTitleAt}{determines how many chars of the legend's title 
+\item{wrap.legend.title}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}
 
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 

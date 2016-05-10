@@ -12,8 +12,7 @@
 #'                should be printed as table to compare their distributions (e.g.
 #'                when plotting scales like SF, Barthel-Index, Quality-of-Life-scales etc.).
 #'                
-#' @param items \code{\link{data.frame}} with each column representing one (likert- or scale-)item.
-#' @param title table caption.
+#' @param title table caption, as character vector.
 #' @param sort.frq logical, indicates whether the \code{items} should be ordered by
 #'          by highest count of first or last category of \code{items}.
 #'          \itemize{
@@ -23,7 +22,8 @@
 #'            \item \code{"last.desc"} to order descending by lowest count of last category,
 #'            \item or \code{NULL} (default) for no sorting.
 #'          }
-#' @param show.total logical, if \code{TRUE}, an additional column with each item's total N is printed.
+#' @param show.total logical, if \code{TRUE}, an additional column with each 
+#'          item's total N is printed.
 #' @param string.na The label for the missing column/row.
 #' @param show.skew logical, if \code{TRUE}, an additional column with each item's skewness is printed.
 #'          The skewness is retrieved from the \code{\link[psych]{describe}}-function 
@@ -37,6 +37,7 @@
 #' @inheritParams sjp.glmer
 #' @inheritParams sjt.xtab
 #' @inheritParams sjp.grpfrq
+#' @inheritParams sjp.stackfrq
 #'          
 #' @return Invisibly returns
 #'          \itemize{
@@ -115,10 +116,10 @@ sjt.stackfrq <- function(items,
                          sort.frq = NULL,
                          altr.row.col = FALSE,
                          digits = 2,
+                         string.na = "NA",
                          show.n = FALSE,
                          show.total = FALSE,
                          show.na = FALSE,
-                         string.na = "NA",
                          show.skew = FALSE,
                          show.kurtosis = FALSE,
                          digits.stats = 2,

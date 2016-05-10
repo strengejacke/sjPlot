@@ -19,10 +19,10 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'            \item{\code{"slope"}}{to plot probability or incidents slopes (predicted probabilities or incidents) for each model term, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
 #'            \item{\code{"eff"}}{to plot marginal effects of predicted probabilities or incidents for each model term, where all remaining co-variates are set to the mean (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
 #'            \item{\code{"pred"}}{to plot predicted values for the response, related to specific model predictors. See 'Details'.}
-#'            \item{\code{"ma"}}{to check model assumptions. Note that only two arguments are relevant for this option \code{fit} and \code{showOriginalModelOnly}. All other arguments are ignored.}
+#'            \item{\code{"ma"}}{to check model assumptions. Note that the only relevant argument for this option is \code{fit}. All other arguments are ignored.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
-#' @param transformTicks logical, if \code{TRUE}, the grid lines have exponential 
+#' @param trns.ticks logical, if \code{TRUE}, the grid lines have exponential 
 #'          distances (equidistant), i.e. they visually have the same distance from 
 #'          one panel grid to the next. If \code{FALSE}, grids are 
 #'          plotted on every \code{grid.breaks}'s position, thus the grid lines become narrower with 
@@ -31,10 +31,6 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'          Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential 
 #'          transformation of estimates, the intercept in some cases can not be calculated, thus the
 #'          function call is interrupted and no plot printed.
-#' @param showOriginalModelOnly logical, if \code{TRUE} (default) and \code{type = "ma"}, 
-#'          only the model assumptions of \code{fit} are plotted.
-#'          If \code{FALSE}, the model assumptions of an updated model where outliers
-#'          are automatically excluded are also plotted.
 #'          
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.grpfrq
@@ -87,41 +83,27 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' # -------------------------------
 #' library(sjmisc)
 #' data(efc)
-#' # retrieve predictor variable labels
-#' labs <- get_label(efc)
-#' predlab <- c(labs[['c161sex']],
-#'              paste0(labs[['e42dep']], " (slightly)"),
-#'              paste0(labs[['e42dep']], " (moderate)"),
-#'              paste0(labs[['e42dep']], " (severely)"),
-#'              labs[['barthtot']],
-#'              paste0(labs[['c172code']], " (mid)"),
-#'              paste0(labs[['c172code']], " (high)"))
 #' # create binary response
 #' y <- ifelse(efc$neg_c_7 < median(na.omit(efc$neg_c_7)), 0, 1)
-#' # create dummy variables for educational status
-#' edu.mid <- ifelse(efc$c172code == 2, 1, 0)
-#' edu.high <- ifelse(efc$c172code == 3, 1, 0)
 #' # create data frame for fitted model
 #' mydf <- data.frame(y = as.factor(y),
-#'                    sex = as.factor(efc$c161sex),
-#'                    dep = as.factor(efc$e42dep),
-#'                    barthel = as.numeric(efc$barthtot),
-#'                    edu.mid = as.factor(edu.mid),
-#'                    edu.hi = as.factor(edu.high))
+#'                    sex = efc$c161sex,
+#'                    dep = to_factor(efc$e42dep),
+#'                    barthel = efc$barthtot,
+#'                    education = to_factor(efc$c172code))
 #' # fit model
 #' fit <- glm(y ~., data = mydf, family = binomial(link = "logit"))
-#' # plot odds
-#' sjp.glm(fit, title = get_label(efc$neg_c_7), axis.labels = predlab)
+#' 
+#' # plot odds ratios
+#' sjp.glm(fit, title = get_label(efc$neg_c_7))
 #'
-#' # plot probability curves (predicted probabilities)
-#' # of coefficients
-#' sjp.glm(fit, title = get_label(efc$neg_c_7), axis.labels = predlab,
-#'         type = "slope")
+#' # plot probability curves (relationship between predictors and response)
+#' sjp.glm(fit, title = get_label(efc$neg_c_7), type = "slope")
 #'
 #' # --------------------------
 #' # grouping estimates
 #' # --------------------------
-#' sjp.glm(fit,  group.estimates = c(1, 2, 2, 2, 3, 4, 4), axis.labels = predlab)
+#' sjp.glm(fit,  group.estimates = c(1, 2, 2, 2, 3, 4, 4))
 #'
 #' # --------------------------
 #' # model predictions, with selected model terms.
@@ -150,7 +132,7 @@ sjp.glm <- function(fit,
                     wrap.title = 50,
                     wrap.labels = 25,
                     grid.breaks = 0.5,
-                    transformTicks = TRUE,
+                    trns.ticks = TRUE,
                     geom.size = NULL,
                     geom.colors = "Set1",
                     vline.type = 2,
@@ -168,7 +150,6 @@ sjp.glm <- function(fit,
                     facet.grid = TRUE,
                     show.ci = FALSE,
                     show.legend = FALSE,
-                    showOriginalModelOnly = TRUE,
                     printPlot = TRUE) {
   # --------------------------------------------------------
   # check arg
@@ -210,7 +191,7 @@ sjp.glm <- function(fit,
                                    facet.grid, type = "fe", show.loess = F, printPlot)))
   }
   if (type == "ma") {
-    return(invisible(sjp.glm.ma(fit, showOriginalModelOnly)))
+    return(invisible(sjp.glm.ma(fit)))
   }
   if (type == "vif") {
     return(invisible(sjp.vif(fit)))
@@ -220,7 +201,7 @@ sjp.glm <- function(fit,
   # ----------------------------
   if (type == "or" || type == "glm") type <- "dots"
   if (type != "dots") {
-    warning("Invalid 'type' argument. Defaulting to 'dots'.", call. = F)
+    warning("Invalid `type` argument. Defaulting to `dots`.", call. = F)
     type <- "dots"
   }
   # ----------------------------
@@ -494,7 +475,7 @@ sjp.glm <- function(fit,
   # --------------------------------------------------------
   # create pretty breaks for log-scale
   # --------------------------------------------------------
-  if (transformTicks) {
+  if (trns.ticks) {
     # since the odds are plotted on a log-scale, the grid bars'
     # distance shrinks with higher odds values. to provide a visual
     # proportional distance of the grid bars, we can apply the
@@ -986,7 +967,7 @@ sjp.glm.predy <- function(fit,
 
 #' @importFrom stats update qqnorm qqline residuals anova
 #' @importFrom graphics points text abline plot
-sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
+sjp.glm.ma <- function(logreg) {
   # ---------------------------------
   # remove outliers
   # ---------------------------------
@@ -1068,38 +1049,22 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
                    labs[labord][(n - nlab + 1):n])
   }
   # show half-normal quantiles for original model
-  halfnorm(stats::residuals(logreg), main = "Original model (over-/underdispersion)")
-  if (!showOriginalModelOnly) {
-    # show half-normal quantiles for updated model
-    halfnorm(stats::residuals(model), main = "Updated model (over-/underdispersion)")
-  }
+  halfnorm(stats::residuals(logreg), main = "Over-/underdispersion")
   # ------------------------------------------------------
   # Influential and leverage points
   # ------------------------------------------------------
   car::influencePlot(logreg)
-  if (!showOriginalModelOnly) car::influencePlot(model)
   # ------------------------------------------------------
   # Residual plot
   # ------------------------------------------------------
   res <- stats::residuals(logreg, type = "deviance")
   graphics::plot(log(abs(stats::predict(logreg))), 
-       res, main = "Residual plot (original model)", 
+       res, main = "Residual plot", 
        xlab = "Log-predicted values", 
        ylab = "Deviance residuals")
   graphics::abline(h = 0, lty = 2)
   stats::qqnorm(res)
   stats::qqline(res)
-  if (!showOriginalModelOnly) {
-    res <- stats::residuals(model, type = "deviance")
-    graphics::plot(log(abs(stats::predict(model))), 
-         res, 
-         main = "Residual plot (updated model)", 
-         xlab = "Log-predicted values", 
-         ylab = "Deviance residuals")
-    graphics::abline(h = 0, lty = 2)
-    stats::qqnorm(res)
-    stats::qqline(res)
-  }
   # ------------------------------------------------------
   # Residual plot two
   # ------------------------------------------------------
@@ -1111,23 +1076,10 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
     geom_point(aes(colour = grp), show.legend = F) + 
     geom_hline(yintercept = 0) +
     stat_smooth(method = "loess", se = T) +
-    labs(title = "Residual plot (original model)",
+    labs(title = "Residual plot",
          x = "Log-predicted values",
          y = "Deviance residuals")
   graphics::plot(gp)
-  if (!showOriginalModelOnly) {
-    gp <- ggplot(data.frame(x = stats::predict(model), 
-                            y = stats::residuals(model),
-                            grp = stats::model.frame(model)[[1]]), 
-                 aes(x, y)) + 
-      geom_point(aes(colour = grp), show.legend = F) + 
-      geom_hline(yintercept = 0) +
-      stat_smooth(method = "loess", se = T) +
-      labs(title = "Residual plot (updated model)",
-           x = "Log-predicted values",
-           y = "Deviance residuals")
-    graphics::plot(gp)
-  }
   # ------------------------------------------------------
   # Check "linearity"
   # ------------------------------------------------------
@@ -1152,16 +1104,11 @@ sjp.glm.ma <- function(logreg, showOriginalModelOnly=TRUE) {
   # introduced into the model.
   # -------------------------------------
   message("--------------------\nCheck significance of terms when they entered the model...")
-  message("Anova original model:")
+  message("Anova:\n")
   print(stats::anova(logreg, test = "Chisq"))
-  if (!showOriginalModelOnly) {
-    message(paste("\n\nAnova updated model:\n"))
-    print(stats::anova(model, test = "Chisq"))
-  }
   # -------------------------------------
   sjp.setTheme(theme = "forestgrey")
-  sjp.glm(logreg, title = "Original model")
-  if (!showOriginalModelOnly) sjp.glm(model, title = "Updated model")
+  sjp.glm(logreg)
   # return updated model
   invisible(structure(list(class = "sjp.glm.ma",
                            model = model,

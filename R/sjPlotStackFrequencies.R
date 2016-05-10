@@ -12,7 +12,7 @@
 #' 
 #' @note Thanks to \href{http://www.clas.ufl.edu/users/forrest/}{Forrest Stevens} for bug fixes.
 #' 
-#' @param items \code{\link{data.frame}} with each column representing one item.
+#' @param items \code{data.frame} with each column representing one item.
 #' @param sort.frq indicates whether the \code{items} should be ordered by
 #'          by highest count of first or last category of \code{items}.
 #'          \describe{
@@ -23,10 +23,6 @@
 #'            \item{\code{NULL}}{(default) for no sorting.}
 #'          }
 #' @param include.n logical, if \code{TRUE} (default), the N of each item will be included in axis labels.
-#' @param breakLegendTitleAt determines how many chars of the legend's title 
-#'          are displayed in one line and when a line break is inserted.
-#' @param breakLegendLabelsAt determines how many chars of the legend labels are 
-#'          displayed in one line and when a line break is inserted.
 #' @param showPercentageAxis If \code{TRUE} (default), the percentage values at the x-axis are shown.
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}).
@@ -90,8 +86,8 @@ sjp.stackfrq <- function(items,
                          axis.labels = NULL,
                          wrap.title = 50,
                          wrap.labels = 30,
-                         breakLegendTitleAt = 30,
-                         breakLegendLabelsAt = 28,
+                         wrap.legend.title = 30,
+                         wrap.legend.labels = 28,
                          grid.breaks = 0.2,
                          expand.grid = FALSE,
                          geom.size = 0.5,
@@ -255,10 +251,10 @@ sjp.stackfrq <- function(items,
   # Prepare and trim legend labels to appropriate size
   # --------------------------------------------------------
   # wrap legend text lines
-  legend.labels <- sjmisc::word_wrap(legend.labels, breakLegendLabelsAt)    
+  legend.labels <- sjmisc::word_wrap(legend.labels, wrap.legend.labels)    
   # check whether we have a title for the legend
   # if yes, wrap legend title line
-  if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(legend.title, breakLegendTitleAt)
+  if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(legend.title, wrap.legend.title)
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
   if (!is.null(title)) title <- sjmisc::word_wrap(title, wrap.title)    

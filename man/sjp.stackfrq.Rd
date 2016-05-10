@@ -7,14 +7,14 @@
 sjp.stackfrq(items, legend.labels = NULL, sort.frq = NULL,
   weight.by = NULL, show.legend = TRUE, title = NULL,
   legend.title = NULL, include.n = TRUE, axis.labels = NULL,
-  wrap.title = 50, wrap.labels = 30, breakLegendTitleAt = 30,
-  breakLegendLabelsAt = 28, grid.breaks = 0.2, expand.grid = FALSE,
+  wrap.title = 50, wrap.labels = 30, wrap.legend.title = 30,
+  wrap.legend.labels = 28, grid.breaks = 0.2, expand.grid = FALSE,
   geom.size = 0.5, geom.colors = "Blues", axis.titles = NULL,
   show.values = TRUE, digits = 1, vjust = "center",
   showPercentageAxis = TRUE, coord.flip = TRUE, printPlot = TRUE)
 }
 \arguments{
-\item{items}{\code{\link{data.frame}} with each column representing one item.}
+\item{items}{\code{data.frame} with each column representing one item.}
 
 \item{legend.labels}{a character vector with labels for the guide/legend.}
 
@@ -50,10 +50,10 @@ one line and when a line break is inserted.}
 \item{wrap.labels}{determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
-\item{breakLegendTitleAt}{determines how many chars of the legend's title 
+\item{wrap.legend.title}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}
 
-\item{breakLegendLabelsAt}{determines how many chars of the legend labels are 
+\item{wrap.legend.labels}{determines how many chars of the legend labels are 
 displayed in one line and when a line break is inserted.}
 
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 

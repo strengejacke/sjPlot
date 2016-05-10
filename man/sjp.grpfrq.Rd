@@ -10,8 +10,8 @@ sjp.grpfrq(var.cnt, var.grp, weight.by = NULL, title.wtd.suffix = NULL,
   geom.colors = "Paired", show.legend = TRUE, facet.grid = FALSE,
   title = "", legend.title = NULL, axis.labels = NULL,
   interactionVarLabels = NULL, legend.labels = NULL, ylim = NULL,
-  wrap.title = 50, wrap.labels = 15, breakLegendTitleAt = 20,
-  breakLegendLabelsAt = 20, grid.breaks = NULL, bar.pos = c("dodge",
+  wrap.title = 50, wrap.labels = 15, wrap.legend.title = 20,
+  wrap.legend.labels = 20, grid.breaks = NULL, bar.pos = c("dodge",
   "stack"), innerBoxPlotWidth = 0.15, innerBoxPlotDotSize = 3,
   smoothLines = FALSE, expand.grid = FALSE, show.values = TRUE,
   show.n = TRUE, show.prc = TRUE, show.axis.values = TRUE,
@@ -89,10 +89,10 @@ one line and when a line break is inserted.}
 \item{wrap.labels}{determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
-\item{breakLegendTitleAt}{determines how many chars of the legend's title 
+\item{wrap.legend.title}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}
 
-\item{breakLegendLabelsAt}{determines how many chars of the legend labels are 
+\item{wrap.legend.labels}{determines how many chars of the legend labels are 
 displayed in one line and when a line break is inserted.}
 
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 

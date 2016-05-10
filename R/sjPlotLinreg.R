@@ -58,8 +58,8 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'                  plotting the curvilinear relationships of response and quadratic, cubic etc. 
 #'                  terms. This function accepts following argument.}
 #'            \item{\code{type = "ma"}}{checks model assumptions. Please note that only 
-#'                  three arguments are relevant: \code{fit}, \code{completeDiagnostic} 
-#'                  and \code{showOriginalModelOnly}. All other arguments are ignored.}
+#'                  three arguments are relevant: \code{fit} and \code{completeDiagnostic}. 
+#'                  All other arguments are ignored.}
 #'            \item{\code{type = "vif"}}{Variance Inflation Factors (check for multicollinearity) 
 #'                  are plotted. As a rule of thumb, values below 5 are considered as good 
 #'                  and indicate no multicollinearity, values between 5 and 10 may be tolerable.
@@ -78,7 +78,7 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'            \item{\code{"pred"}}{to plot predicted values for the response, related to specific predictors. See 'Details'.}
 #'            \item{\code{"eff"}}{to plot marginal effects of all terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms.}
 #'            \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples').}
-#'            \item{\code{"ma"}}{to check model assumptions. Note that only three arguments are relevant for this option \code{fit}, \code{completeDiagnostic} and \code{showOriginalModelOnly}. All other arguments are ignored.}
+#'            \item{\code{"ma"}}{to check model assumptions. Note that only three arguments are relevant for this option \code{fit} and \code{completeDiagnostic}. All other arguments are ignored.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
 #' @param sort.est logical, determines whether estimates should be sorted according to their values.
@@ -107,10 +107,6 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #' @param scatter.plot logical, if \code{TRUE} (default), a scatter plot of
 #'          response and predictor values for each predictor of the model
 #'          is plotted. Only applies for slope-type plots.
-#' @param showOriginalModelOnly logical, if \code{TRUE} (default), only model assumptions of
-#'          \code{fit} are plotted. if \code{FALSE}, model assumptions of an updated
-#'          model where outliers are automatically excluded are also plotted.
-#'          Only applies if \code{type = "ma"}.
 #' @param completeDiagnostic logical, if \code{TRUE}, additional tests are performed. Default is \code{FALSE}
 #'          Only applies if \code{type = "ma"}.
 #'
@@ -282,7 +278,6 @@ sjp.lm <- function(fit,
                    show.legend = FALSE,
                    y.offset = .15,
                    poly.term = NULL,
-                   showOriginalModelOnly = TRUE,
                    completeDiagnostic = FALSE,
                    printPlot = TRUE) {
   # -----------------------------------------------------------
@@ -346,7 +341,7 @@ sjp.lm <- function(fit,
                                  fun = "lm", printPlot)))
   }
   if (type == "ma") {
-    return(invisible(sjp.lm.ma(fit, showOriginalModelOnly, completeDiagnostic)))
+    return(invisible(sjp.lm.ma(fit, completeDiagnostic)))
   }
   if (type == "vif") {
     return(invisible(sjp.vif(fit)))
@@ -779,7 +774,7 @@ col_check2 <- function(geom.colors, collen) {
 
 #' @importFrom stats fitted rstudent residuals sd median
 #' @importFrom dplyr add_rownames
-sjp.lm.ma <- function(linreg, showOriginalModelOnly = TRUE, completeDiagnostic = FALSE) {
+sjp.lm.ma <- function(linreg, completeDiagnostic = FALSE) {
   # ------------------------
   # prepare plot list
   # ------------------------
@@ -790,12 +785,12 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly = TRUE, completeDiagnostic =
   if (!requireNamespace("lmtest", quietly = TRUE)) {
     stop("Package 'lmtest' needed for this function to work. Please install it.", call. = FALSE)
   }
+  # copy current model
+  model <- linreg
   # ---------------------------------
   # remove outliers, only non-mixed models
   # ---------------------------------
   if (any(class(linreg) == "lm")) {
-    # copy current model
-    model <- linreg
     # get r2
     rs <- summary(model)$r.squared
     # maximum loops
@@ -851,27 +846,21 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly = TRUE, completeDiagnostic =
                 summary(model)$adj.r.squared,
                 AIC(linreg),
                 AIC(model)))
-    modelOptmized <- ifelse(removedcases > 0, TRUE, FALSE)
-    if (showOriginalModelOnly) modelOptmized <- FALSE
     # ---------------------------------
     # show VIF-Values
     # ---------------------------------
     sjp.setTheme(theme = "539w")
     sjp.vif(linreg)
-    if (modelOptmized) sjp.vif(model)
   } else {
     # we have no updated model w/o outliers for
     # other model classes than "lm"
-    showOriginalModelOnly <- TRUE
-    modelOptmized <- FALSE
-    model <- linreg
     outlier <- NULL
   }
   # ---------------------------------
   # Print non-normality of residuals and outliers both of original and updated model
   # dots should be plotted along the line, this the dots should follow a linear direction
   # ---------------------------------
-  ggqqp <- function(fit, title.suffix = " (original model)") {
+  ggqqp <- function(fit) {
     # mixed model model?
     if (any(class(fit) == "lme") || any(class(fit) == "lmerMod")) {
       res_ <- sort(stats::residuals(fit), na.last = NA)
@@ -909,9 +898,8 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly = TRUE, completeDiagnostic =
              geom_point() +
              text_label +
              stat_smooth(method = "lm", se = FALSE) +
-             labs(title = sprintf("Non-normality of residuals and outliers%s\n(Dots should be plotted along the line)", title.suffix),
-                  y = y_lab,
-                  x = "Theoretical quantiles"))
+             labs(title = "Non-normality of residuals and outliers\n(Dots should be plotted along the line)",
+                  y = y_lab, x = "Theoretical quantiles"))
   }
   sjp.setTheme(theme = "scatterw")
   # qq-plot of studentized residuals for base model
@@ -920,27 +908,14 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly = TRUE, completeDiagnostic =
   plot.list[[length(plot.list) + 1]] <- p1
   # print plot
   suppressWarnings(print(p1))
-  # qq-plot of studentized residuals for updated model
-  if (modelOptmized) {
-    p1 <- ggqqp(model, " (updated model)")
-    # save plot
-    plot.list[[length(plot.list) + 1]] <- p1
-    # print plot
-    suppressWarnings(print(p1))
-  }
   # ---------------------------------
   # Print non-normality of residuals both of original and updated model
   # Distribution should look like normal curve
   # ---------------------------------
-  gghist <- function(fit, title.suffix = " (original model)") {
+  gghist <- function(fit) {
     return(ggplot(fit, aes(x = .resid)) +
-             geom_histogram(aes(y = ..density..),
-                            binwidth = 0.2,
-                            fill = "grey60",
-                            colour = "grey30") +
-             geom_density(aes(y = ..density..),
-                          fill = "#4080cc",
-                          alpha = 0.2) +
+             geom_histogram(aes(y = ..density..), binwidth = 0.2, fill = "grey60", colour = "grey30") +
+             geom_density(aes(y = ..density..), fill = "#4080cc", alpha = 0.2) +
              stat_function(fun = dnorm,
                            args = list(mean = mean(unname(stats::residuals(fit)), na.rm = TRUE),
                                        sd = stats::sd(unname(stats::residuals(fit)), na.rm = TRUE)),
@@ -948,7 +923,7 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly = TRUE, completeDiagnostic =
                            size = 0.8) +
              labs(x = "Residuals",
                   y = "Density",
-                  title = sprintf("Non-normality of residuals%s\n(Distribution should look like normal curve)", title.suffix)))
+                  title = "Non-normality of residuals\n(Distribution should look like normal curve)"))
   }
   sjp.setTheme(theme = "539w")
   # residuals histrogram for base model
@@ -957,14 +932,6 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly = TRUE, completeDiagnostic =
   plot.list[[length(plot.list) + 1]] <- p1
   # print plot
   print(p1)
-  # residuals histrogram for updated model
-  if (modelOptmized) {
-    p1 <- gghist(model, " (updated model)")
-    # save plot
-    plot.list[[length(plot.list) + 1]] <- p1
-    # print plot
-    print(p1)
-  }
   # ---------------------------------
   # Non-constant residuals
   # ---------------------------------
@@ -981,14 +948,14 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly = TRUE, completeDiagnostic =
   # you want is something that is akin towards a horizontal line. In such case, the data is somehow not homogenous
   # maybe because one part of the data is more variable than another. If that is the case, you might need to transform
   # the data in order to make it meet the assumptions that are necessary for linear models.
-  ggsced <- function(fit, title.suffix = ", original model") {
+  ggsced <- function(fit) {
     return(ggplot(fit, aes(x = .fitted, y = .resid)) +
              geom_hline(yintercept = 0, alpha = 0.7) +
              geom_point() +
              geom_smooth(method = "loess", se = FALSE) +
              labs(x = "Fitted values",
                   y = "Residuals",
-                  title = sprintf("Homoscedasticity (homogeneity of variance,\nrandomly distributed residuals%s)\n(Amount and distance of points scattered above/below line is equal)", title.suffix)))
+                  title = "Homoscedasticity (homogeneity of variance,\nrandomly distributed residuals)\n(Amount and distance of points scattered above/below line is equal)"))
   }
   sjp.setTheme(theme = "scatterw")
   # homoscedascity for base model
@@ -997,52 +964,27 @@ sjp.lm.ma <- function(linreg, showOriginalModelOnly = TRUE, completeDiagnostic =
   plot.list[[length(plot.list) + 1]] <- p1
   # print plot
   print(p1)
-  # homoscedascity for base model
-  if (modelOptmized) {
-    p1 <- ggsced(model, ", updated model")
-    # save plot
-    plot.list[[length(plot.list) + 1]] <- p1
-    # print plot
-    print(p1)
-  }
   # ---------------------------------
   # summarize old and new model
   # ---------------------------------
   if (any(class(linreg) == "lm")) {
     sjp.setTheme(theme = "forestw")
-    p1 <- sjp.lm(linreg, title = "Original model", printPlot = FALSE)$plot
+    p1 <- sjp.lm(linreg, printPlot = FALSE)$plot
     # save plot
     plot.list[[length(plot.list) + 1]] <- p1
     # print plot
     print(p1)
-    if (modelOptmized) {
-      p1 <- sjp.lm(model, title = "Updated model", printPlot = FALSE)$plot
-      # save plot
-      plot.list[[length(plot.list) + 1]] <- p1
-      # print plot
-      print(p1)
-    }
     if (completeDiagnostic) {
       # ---------------------------------
       # Plot residuals against predictors
       # ---------------------------------
       sjp.setTheme(theme = "scatterw")
       p1 <- sjp.reglin(linreg,
-                       title = "Relationship of residuals against predictors (original model) (if scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly",
+                       title = "Relationship of residuals against predictors (if scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly",
                        wrap.title = 60,
                        useResiduals = T)$plot.list
       # save plot
       plot.list <- c(plot.list, p1)
-      if (modelOptmized) {
-        p1 <- sjp.reglin(model,
-                         title = "Relationship of residuals against predictors (updated model) (if scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly",
-                         wrap.title = 60,
-                         useResiduals = T)
-        # save plot
-        plot.list <- c(plot.list, p1)
-        # print plot
-        print(p1)
-      }
       # ---------------------------------
       # Non-linearity
       # ---------------------------------

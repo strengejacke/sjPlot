@@ -9,7 +9,7 @@ sjt.mwu(x, title = NULL, altr.row.col = TRUE, file = NULL,
   remove.spaces = TRUE)
 }
 \arguments{
-\item{x}{Results of a Mann-Whitney-U test, provided by \code{\link[sjmisc]{mwu}}. See examples.}
+\item{x}{results of a Mann-Whitney-U test, provided by \code{\link[sjmisc]{mwu}}. See 'Examples'.}
 
 \item{title}{table caption. By default, \code{title = NULL}, hence no title will be used.}
 

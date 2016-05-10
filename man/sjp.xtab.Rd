@@ -5,18 +5,17 @@
 \title{Plot contingency tables}
 \usage{
 sjp.xtab(x, grp, title = "", legend.title = NULL, weight.by = NULL,
-  title.wtd.suffix = NULL, type = c("bar", "line"), tableIndex = c("col",
+  title.wtd.suffix = NULL, type = c("bar", "line"), margin = c("col",
   "cell", "row"), rev.order = FALSE, ylim = NULL, axis.labels = NULL,
   legend.labels = NULL, vjust = "bottom", hjust = "center",
-  y.offset = NULL, stringTotal = "Total", wrap.title = 50,
-  wrap.labels = 15, breakLegendTitleAt = 20, breakLegendLabelsAt = 20,
+  y.offset = NULL, string.total = "Total", wrap.title = 50,
+  wrap.labels = 15, wrap.legend.title = 20, wrap.legend.labels = 20,
   grid.breaks = 0.2, geom.size = 0.7, geom.spacing = 0.1,
   geom.colors = "Paired", bar.pos = c("dodge", "stack"), lineDotSize = 3,
   smoothLines = FALSE, expand.grid = FALSE, show.values = TRUE,
-  show.n = TRUE, show.prc = TRUE, showCategoryLabels = TRUE,
-  show.summary = FALSE, tableSummaryPos = "r", showTotalColumn = TRUE,
-  show.legend = TRUE, axis.titles = NULL, coord.flip = FALSE,
-  printPlot = TRUE)
+  show.n = TRUE, show.prc = TRUE, show.summary = FALSE,
+  tableSummaryPos = "r", show.total = TRUE, show.legend = TRUE,
+  axis.titles = NULL, coord.flip = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{x}{a vector of values (variable) describing the bars which make up the plot.}
@@ -40,10 +39,10 @@ title will not have a suffix when cases are weighted.}
 \item{type}{plot type. may be either \code{"bar"} (default) for bar charts,
 or \code{"line"} for line diagram.}
 
-\item{tableIndex}{indicates which data of the proportional table should be plotted. Use \code{"row"} for
+\item{margin}{indicates which data of the proportional table should be plotted. Use \code{"row"} for
 calculating row percentages, \code{"col"} for column percentages and \code{"cell"} for cell percentages.
-If \code{tableIndex = "col"}, an additional bar with the total sum of each column
-can be added to the plot (see \code{showTotalColumn}).}
+If \code{margin = "col"}, an additional bar with the total sum of each column
+can be added to the plot (see \code{show.total}).}
 
 \item{rev.order}{logical, if \code{TRUE}, order of categories (groups) is reversed.}
 
@@ -70,8 +69,8 @@ away from the center of the plot respectively.}
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
-\item{stringTotal}{string for the legend label when a total-column is added. Only applies
-if \code{showTotalColumn = TRUE}. Default is \code{"Total"}.}
+\item{string.total}{string for the legend label when a total-column is added. Only applies
+if \code{show.total = TRUE}. Default is \code{"Total"}.}
 
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
@@ -79,10 +78,10 @@ one line and when a line break is inserted.}
 \item{wrap.labels}{determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
-\item{breakLegendTitleAt}{determines how many chars of the legend's title 
+\item{wrap.legend.title}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}
 
-\item{breakLegendLabelsAt}{determines how many chars of the legend labels are 
+\item{wrap.legend.labels}{determines how many chars of the legend labels are 
 displayed in one line and when a line break is inserted.}
 
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
@@ -114,8 +113,6 @@ group or category to the labels.}
 \item{show.prc}{logical, if \code{TRUE} (default), percentage values are plotted to each bar
 If \code{FALSE}, percentage values are removed.}
 
-\item{showCategoryLabels}{whether x-axis text (category names) should be shown or not.}
-
 \item{show.summary}{logical, if \code{TRUE} (default), a summary with chi-squared 
 statistics (see \code{\link{chisq.test}}), Cramer's V or Phi-value etc. 
 is shown. If a cell contains expected values lower than five (or lower than 10 
@@ -127,7 +124,7 @@ than 2x2, Fisher's excact test with Monte Carlo simulation is computed.}
 is \code{TRUE}. Default is \code{"r"}, i.e. it's printed to the upper right corner. 
 Use \code{"l"} for upper left corner.}
 
-\item{showTotalColumn}{when \code{tableIndex = "col"}, an additional bar 
+\item{show.total}{when \code{margin = "col"}, an additional bar 
 with the sum within each category and it's percentages will be added 
 to each category.}
 
@@ -159,26 +156,19 @@ x <- sample(1:3, 100, replace = TRUE)
 sjp.xtab(x, grp)
 
 # plot "cross tablulation" of x and y, including labels
-sjp.xtab(x, grp, 
-         axis.labels = c("low", "mid", "high"),
+sjp.xtab(x, grp, axis.labels = c("low", "mid", "high"),
          legend.labels = c("Grp 1", "Grp 2", "Grp 3", "Grp 4"))
 
 # plot "cross tablulation" of x and grp
 # as stacked proportional bars
-sjp.xtab(x, grp, 
-         tableIndex = "row", 
-         bar.pos = "stack", 
-         show.summary = TRUE,
-         coord.flip = TRUE)
+sjp.xtab(x, grp, margin = "row", bar.pos = "stack", 
+         show.summary = TRUE, coord.flip = TRUE)
 
 # example with vertical labels
 library(sjmisc)
 data(efc)
 sjp.setTheme(geom.label.angle = 90)
-sjp.xtab(efc$e42dep, 
-         efc$e16sex,
-         vjust = "center",
-         hjust = "bottom")
+sjp.xtab(efc$e42dep, efc$e16sex, vjust = "center", hjust = "bottom")
 
 # grouped bars with EUROFAMCARE sample dataset
 # dataset was importet from an SPSS-file,
@@ -187,18 +177,12 @@ data(efc)
 efc.val <- get_labels(efc)
 efc.var <- get_label(efc)
 
-sjp.xtab(efc$e42dep,
-         efc$e16sex,
-         title = efc.var['e42dep'],
-         axis.labels = efc.val[['e42dep']],
-         legend.title = efc.var['e16sex'],
+sjp.xtab(efc$e42dep, efc$e16sex, title = efc.var['e42dep'],
+         axis.labels = efc.val[['e42dep']], legend.title = efc.var['e16sex'],
          legend.labels = efc.val[['e16sex']])
          
-sjp.xtab(efc$e16sex,
-         efc$e42dep,
-         title = efc.var['e16sex'],
-         axis.labels = efc.val[['e16sex']],
-         legend.title = efc.var['e42dep'],
+sjp.xtab(efc$e16sex, efc$e42dep, title = efc.var['e16sex'],
+         axis.labels = efc.val[['e16sex']], legend.title = efc.var['e42dep'],
          legend.labels = efc.val[['e42dep']])
          
 # -------------------------------
@@ -208,12 +192,8 @@ sjp.xtab(efc$e16sex,
 # -------------------------------
 sjp.xtab(efc$e16sex, efc$e42dep, title = NULL)
 
-sjp.xtab(efc$e16sex,
-         efc$e42dep,
-         tableIndex = "row",
-         bar.pos = "stack",
-         coord.flip = TRUE)
-
+sjp.xtab(efc$e16sex, efc$e42dep, margin = "row",
+         bar.pos = "stack", coord.flip = TRUE)
 
 }
 \seealso{

@@ -17,8 +17,8 @@ sjp.emm <- function(fit,
                     show.ci = FALSE,
                     p.kr = TRUE,
                     breakTitleAt = 50,
-                    breakLegendTitleAt = 20,
-                    breakLegendLabelsAt = 20,
+                    wrap.legend.title = 20,
+                    wrap.legend.labels = 20,
                     y.offset = 0.07,
                     ylim = NULL,
                     grid.breaks = NULL,
@@ -297,9 +297,9 @@ sjp.emm <- function(fit,
       labx <- sjmisc::word_wrap(labx, breakTitleAt)
       laby <- sjmisc::word_wrap(laby, breakTitleAt)
       # wrap legend labels
-      lLabels <- sjmisc::word_wrap(lLabels, breakLegendLabelsAt)
+      lLabels <- sjmisc::word_wrap(lLabels, wrap.legend.labels)
       # wrap legend title
-      lTitle <- sjmisc::word_wrap(lTitle, breakLegendTitleAt)
+      lTitle <- sjmisc::word_wrap(lTitle, wrap.legend.title)
       # -----------------------------------------------------------
       # prepare base plot of interactions
       # -----------------------------------------------------------

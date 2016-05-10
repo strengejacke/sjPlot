@@ -56,9 +56,9 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'          one line and when a line break is inserted.
 #' @param wrap.labels determines how many chars of the value, variable or axis 
 #'          labels are displayed in one line and when a line break is inserted.
-#' @param breakLegendTitleAt determines how many chars of the legend's title 
+#' @param wrap.legend.title determines how many chars of the legend's title 
 #'          are displayed in one line and when a line break is inserted.
-#' @param breakLegendLabelsAt determines how many chars of the legend labels are 
+#' @param wrap.legend.labels determines how many chars of the legend labels are 
 #'          displayed in one line and when a line break is inserted.
 #' @param grid.breaks numeric; sets the distance between breaks for the axis, 
 #'          i.e. at every \code{grid.breaks}'th position a major grid is being printed.
@@ -177,8 +177,8 @@ sjp.grpfrq <- function(var.cnt,
                        ylim = NULL,
                        wrap.title = 50,
                        wrap.labels = 15,
-                       breakLegendTitleAt = 20,
-                       breakLegendLabelsAt = 20,
+                       wrap.legend.title = 20,
+                       wrap.legend.labels = 20,
                        grid.breaks = NULL,
                        bar.pos = c("dodge", "stack"),
                        innerBoxPlotWidth = 0.15,
@@ -453,9 +453,9 @@ sjp.grpfrq <- function(var.cnt,
   # Prepare and trim legend labels to appropriate size
   # --------------------------------------------------------
   if (!is.null(legend.labels))
-    legend.labels <- sjmisc::word_wrap(legend.labels, breakLegendLabelsAt)
+    legend.labels <- sjmisc::word_wrap(legend.labels, wrap.legend.labels)
   if (!is.null(legend.title))
-    legend.title <- sjmisc::word_wrap(legend.title, breakLegendTitleAt)
+    legend.title <- sjmisc::word_wrap(legend.title, wrap.legend.title)
   if (!is.null(title)) {
     # if we have weighted values, say that in diagram's title
     if (!is.null(title.wtd.suffix))

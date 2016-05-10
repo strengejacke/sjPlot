@@ -115,8 +115,8 @@ sjp.scatter <- function(x = NULL,
                         pointLabels = NULL,
                         axis.titles = NULL,
                         wrap.title = 50,
-                        breakLegendTitleAt = 20,
-                        breakLegendLabelsAt = 20,
+                        wrap.legend.title = 20,
+                        wrap.legend.labels = 20,
                         geom.size = 2,
                         label.size = 3,
                         geom.colors = NULL,
@@ -257,10 +257,10 @@ sjp.scatter <- function(x = NULL,
   # if not, use category text of group variable as legend text
   if (is.null(legend.labels)) legend.labels <- c(sort(unique(df$grp)))
   # wrap legend text lines
-  legend.labels <- sjmisc::word_wrap(legend.labels, breakLegendLabelsAt)
+  legend.labels <- sjmisc::word_wrap(legend.labels, wrap.legend.labels)
   # check whether we have a title for the legend
   # if yes, wrap legend title line
-  if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(legend.title, breakLegendTitleAt)
+  if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(legend.title, wrap.legend.title)
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
   if (!is.null(title)) title <- sjmisc::word_wrap(title, wrap.title)

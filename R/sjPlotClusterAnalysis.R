@@ -117,8 +117,8 @@ sjc.qclus <- function(data,
                       axis.labels = NULL,
                       wrap.title = 40,
                       wrap.labels = 20,
-                      breakLegendTitleAt = 20,
-                      breakLegendLabelsAt = 20,
+                      wrap.legend.title = 20,
+                      wrap.legend.labels = 20,
                       facet.grid = FALSE,
                       geom.colors = "Paired",
                       geom.size = 0.5,
@@ -153,9 +153,9 @@ sjc.qclus <- function(data,
   # check length of diagram title and split longer string at into new lines
   if (!is.null(title)) title <- sjmisc::word_wrap(title, wrap.title)    
   # check length of legend title and split longer string at into new lines
-  if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(title, breakLegendTitleAt)    
+  if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(title, wrap.legend.title)    
   # check length of y-axis title and split longer string at into new lines
-  if (!is.null(legend.labels)) legend.labels <- sjmisc::word_wrap(legend.labels, breakLegendLabelsAt)
+  if (!is.null(legend.labels)) legend.labels <- sjmisc::word_wrap(legend.labels, wrap.legend.labels)
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
   axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)

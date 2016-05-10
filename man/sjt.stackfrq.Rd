@@ -6,20 +6,20 @@
 \usage{
 sjt.stackfrq(items, weight.by = NULL, title = NULL, var.labels = NULL,
   value.labels = NULL, wrap.labels = 20, sort.frq = NULL,
-  altr.row.col = FALSE, digits = 2, show.n = FALSE, show.total = FALSE,
-  show.na = FALSE, string.na = "NA", show.skew = FALSE,
+  altr.row.col = FALSE, digits = 2, string.na = "NA", show.n = FALSE,
+  show.total = FALSE, show.na = FALSE, show.skew = FALSE,
   show.kurtosis = FALSE, digits.stats = 2, file = NULL, encoding = NULL,
   CSS = NULL, use.viewer = TRUE, no.output = FALSE,
   remove.spaces = TRUE)
 }
 \arguments{
-\item{items}{\code{\link{data.frame}} with each column representing one (likert- or scale-)item.}
+\item{items}{\code{data.frame} with each column representing one item.}
 
 \item{weight.by}{weight factor that will be applied to weight all cases.
 Must be a vector of same length as the input vector. Default is 
 \code{NULL}, so no weights are used.}
 
-\item{title}{table caption.}
+\item{title}{table caption, as character vector.}
 
 \item{var.labels}{character vector with variable names, which will be used 
 to label variables in the output.}
@@ -46,15 +46,16 @@ background color.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
+\item{string.na}{The label for the missing column/row.}
+
 \item{show.n}{logical, if \code{TRUE}, adds total number of cases for each
 group or category to the labels.}
 
-\item{show.total}{logical, if \code{TRUE}, an additional column with each item's total N is printed.}
+\item{show.total}{logical, if \code{TRUE}, an additional column with each 
+item's total N is printed.}
 
 \item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values)
 are added to the output.}
-
-\item{string.na}{The label for the missing column/row.}
 
 \item{show.skew}{logical, if \code{TRUE}, an additional column with each item's skewness is printed.
 The skewness is retrieved from the \code{\link[psych]{describe}}-function 

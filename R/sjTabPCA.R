@@ -13,11 +13,10 @@
 #'            \item \code{\link{sjp.pca}}
 #'          }
 #' 
-#' @param data data frame with factors (each columns one variable) that should be used 
-#'          to compute a PCA, or a \code{\link{prcomp}} object.
+#' @param data \code{data.frame} that should be used to compute a PCA, or a \code{\link{prcomp}} object.
 #' @param nmbr.fctr number of factors used for calculating the varimax
 #'          rotation. By default, this value is \code{NULL} and the amount of factors is
-#'          calculated according to the Kaiser-criteria. See paramater \code{plotEigenvalues}.
+#'          calculated according to the Kaiser-criteria.
 #' @param fctr.load.tlrn specifies the minimum difference a variable needs to have between
 #'          factor loadings (components) in order to indicate a clear loading on just one factor and not
 #'          diffusing over all factors. For instance, a variable with 0.8, 0.82 and 0.84 factor loading 
@@ -38,8 +37,8 @@
 #'          \emph{"Cumulative Proportion"} will be used.
 #'          
 #' @inheritParams sjt.frq
-#' @inheritParams sjp.grpfrq
 #' @inheritParams sjt.df
+#' @inheritParams sjp.grpfrq
 #' @inheritParams sjt.corr
 #'          
 #' @return Invisibly returns
