@@ -33,13 +33,13 @@
 #' @param jitter.dots logical, if \code{TRUE}, points will be jittered (to avoid overplotting).
 #' @param emph.dots logical, if \code{TRUE}, overlapping points at same coordinates
 #'          will be becomme larger, so point size indicates amount of overlapping.
-#' @param autojitter logical, if \code{TRUE}, points will be jittered according
+#' @param auto.jitter logical, if \code{TRUE}, points will be jittered according
 #'          to an overlap-estimation. A matrix of \code{x} and \code{y} values
 #'          is created and the amount of cells (indicating a unique point position)
 #'          is calculated. If more than 15\% (see \code{jitter.ratio}) of the
 #'          approximated amount of unique point coordinates seem to
 #'          overlap, they are automatically jittered.
-#' @param jitter.ratio ratio of tolerated overlapping (see \code{autojitter}).
+#' @param jitter.ratio ratio of tolerated overlapping (see \code{auto.jitter}).
 #'          If approximated amount of overlapping  points exceed this ratio,
 #'          they are automatically jittered. Default is 0.15. Valid values range
 #'          between 0 and 1.
@@ -120,7 +120,7 @@ sjp.scatter <- function(x = NULL,
                         fitmethod = "lm",
                         jitter.dots = FALSE,
                         emph.dots = FALSE,
-                        autojitter = TRUE,
+                        auto.jitter = TRUE,
                         jitter.ratio = 0.15,
                         show.rug = FALSE,
                         show.legend = TRUE,
@@ -162,7 +162,7 @@ sjp.scatter <- function(x = NULL,
   if (is.null(x)) x <- c(1:length(y))
   if (is.null(y)) y <- c(1:length(x))
   # disable auto-jitter?
-  if (emph.dots) autojitter <- FALSE
+  if (emph.dots) auto.jitter <- FALSE
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
@@ -194,7 +194,7 @@ sjp.scatter <- function(x = NULL,
   # ------------------------------------------
   # check for auto-jittering
   # ------------------------------------------
-  if (autojitter && !jitter.dots) {
+  if (auto.jitter && !jitter.dots) {
     # check for valid range of jitter ratio
     if (jitter.ratio <= 0 || jitter.ratio >= 1) {
       # inform user

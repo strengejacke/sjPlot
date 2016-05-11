@@ -4,25 +4,20 @@
 \alias{sjt.frq}
 \title{Summary of frequencies as HTML table}
 \usage{
-sjt.frq(data, file = NULL, weight.by = NULL,
-  title.wtd.suffix = " (weighted)", var.labels = NULL,
-  value.labels = NULL, auto.group = NULL, sort.frq = c("none", "asc",
+sjt.frq(data, weight.by = NULL, title.wtd.suffix = " (weighted)",
+  var.labels = NULL, value.labels = NULL, sort.frq = c("none", "asc",
   "desc"), altr.row.col = FALSE, string.val = "value", string.cnt = "N",
   string.prc = "raw \%", string.vprc = "valid \%",
   string.cprc = "cumulative \%", string.na = "missings", emph.md = FALSE,
-  emph.quart = FALSE, skip.zero = "auto", show.summary = TRUE,
-  show.skew = FALSE, show.kurtosis = FALSE, digits = 2,
-  ignore.strings = TRUE, auto.grp.strings = TRUE, max.string.dist = 3,
-  encoding = NULL, CSS = NULL, use.viewer = TRUE, no.output = FALSE,
-  remove.spaces = TRUE)
+  emph.quart = FALSE, show.summary = TRUE, show.skew = FALSE,
+  show.kurtosis = FALSE, skip.zero = "auto", ignore.strings = TRUE,
+  auto.group = NULL, auto.grp.strings = TRUE, max.string.dist = 3,
+  digits = 2, CSS = NULL, encoding = NULL, file = NULL,
+  use.viewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{data}{variables which frequencies should be printed as table. Either use a single variable
 (vector) or a data frame where each column represents a variable (see 'Examples').}
-
-\item{file}{destination file, if the output should be saved as file.
-If \code{NULL} (default), the output will be saved as temporary file and 
-openend either in the IDE's viewer pane or the default web browser.}
 
 \item{weight.by}{weight factor that will be applied to weight all cases.
 Must be a vector of same length as the input vector. Default is 
@@ -38,12 +33,6 @@ to label variables in the output.}
 \item{value.labels}{character vector (or \code{list} of character vectors)
 with value labels of the supplied variables, which will be used 
 to label variable values in the output.}
-
-\item{auto.group}{numeric value, indicating the minimum amount of unique values 
-in the count variable, at which automatic grouping into smaller units 
-is done (see \code{\link[sjmisc]{group_var}}). Default value for 
-\code{auto.group} is \code{NULL}, i.e. auto-grouping is off.
-See \code{\link[sjmisc]{group_var}} for examples on grouping.}
 
 \item{sort.frq}{Determines whether categories should be sorted 
 according to their frequencies or not. Default is \code{"none"}, so 
@@ -73,14 +62,6 @@ be emphasized.}
 \item{emph.quart}{If \code{TRUE}, the table row indicating the lower and upper quartiles will
 be emphasized.}
 
-\item{skip.zero}{If \code{TRUE}, rows with only zero-values are not printed
-(e.g. if a variable has values or levels 1 to 8, and levels / values 
-4 to 6 have no counts, these values would not be printed in the table). 
-Use \code{FALSE} to print also zero-values, or use \code{"auto"} (default)
-to detect whether it makes sense or not to print zero-values (e.g., a variable
-"age" with values from 10 to 100, where at least 25 percent of all possible values have no
-counts, zero-values would be skipped automatically).}
-
 \item{show.summary}{If \code{TRUE} (default), a summary row with total and valid N as well as mean and
 standard deviation is shown.}
 
@@ -92,10 +73,22 @@ of the \pkg{psych}-package and indicated by a lower case Greek gamma.}
 The kurtosis is retrieved from the \code{\link[psych]{describe}}-function 
 of the \pkg{psych}-package and indicated by a lower case Greek omega.}
 
-\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
+\item{skip.zero}{If \code{TRUE}, rows with only zero-values are not printed
+(e.g. if a variable has values or levels 1 to 8, and levels / values 
+4 to 6 have no counts, these values would not be printed in the table). 
+Use \code{FALSE} to print also zero-values, or use \code{"auto"} (default)
+to detect whether it makes sense or not to print zero-values (e.g., a variable
+"age" with values from 10 to 100, where at least 25 percent of all possible values have no
+counts, zero-values would be skipped automatically).}
 
 \item{ignore.strings}{If \code{TRUE} (default), character vectors / string variables will be removed from
 \code{data} before frequency tables are computed.}
+
+\item{auto.group}{numeric value, indicating the minimum amount of unique values 
+in the count variable, at which automatic grouping into smaller units 
+is done (see \code{\link[sjmisc]{group_var}}). Default value for 
+\code{auto.group} is \code{NULL}, i.e. auto-grouping is off.
+See \code{\link[sjmisc]{group_var}} for examples on grouping.}
 
 \item{auto.grp.strings}{if \code{TRUE} (default), string values in character 
 vectors (string variables) are automatically grouped based on their 
@@ -107,13 +100,19 @@ applies if \code{ignore.strings} is \code{FALSE}.}
 when two string values are merged because they are considered as close enough.
 See \code{auto.grp.strings}.}
 
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
+
+\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
+\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
+
 \item{encoding}{string, indicating the charset encoding used for variable and 
 value labels. Default is \code{NULL}, so encoding will be auto-detected 
 depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
 Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
 
-\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
-\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
+\item{file}{destination file, if the output should be saved as file.
+If \code{NULL} (default), the output will be saved as temporary file and 
+openend either in the IDE's viewer pane or the default web browser.}
 
 \item{use.viewer}{If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}

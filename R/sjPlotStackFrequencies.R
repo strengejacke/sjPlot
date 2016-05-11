@@ -22,8 +22,7 @@
 #'            \item{\code{"last.desc"}}{to order descending by lowest count of last category,}
 #'            \item{\code{NULL}}{(default) for no sorting.}
 #'          }
-#' @param include.n logical, if \code{TRUE} (default), the N of each item will be included in axis labels.
-#' @param showPercentageAxis If \code{TRUE} (default), the percentage values at the x-axis are shown.
+#' @param show.prc If \code{TRUE} (default), the percentage values at the x-axis are shown.
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}).
 #' 
@@ -76,27 +75,27 @@
 #' @importFrom stats na.omit xtabs
 #' @export
 sjp.stackfrq <- function(items,
-                         legend.labels = NULL,
-                         sort.frq = NULL,
-                         weight.by = NULL,
-                         show.legend = TRUE,
                          title = NULL,
                          legend.title = NULL,
-                         include.n = TRUE,
+                         legend.labels = NULL,
+                         axis.titles = NULL,
                          axis.labels = NULL,
+                         weight.by = NULL,
+                         sort.frq = NULL,
                          wrap.title = 50,
                          wrap.labels = 30,
                          wrap.legend.title = 30,
                          wrap.legend.labels = 28,
-                         grid.breaks = 0.2,
-                         expand.grid = FALSE,
                          geom.size = 0.5,
                          geom.colors = "Blues",
-                         axis.titles = NULL,
                          show.values = TRUE,
+                         show.n = TRUE,
+                         show.prc = TRUE,
+                         show.legend = TRUE,
+                         grid.breaks = 0.2,
+                         expand.grid = FALSE,
                          digits = 1,
                          vjust = "center",
-                         showPercentageAxis = TRUE,
                          coord.flip = TRUE,
                          printPlot = TRUE) {
   # --------------------------------------------------------
@@ -176,7 +175,7 @@ sjp.stackfrq <- function(items,
   # Check whether N of each item should be included into
   # axis labels
   # --------------------------------------------------------
-  if (include.n) {
+  if (show.n) {
     for (i in 1:length(axis.labels)) {
       axis.labels[i] <- paste(axis.labels[i], 
                               sprintf(" (n=%i)", length(stats::na.omit(items[[i]]))), 
@@ -344,7 +343,7 @@ sjp.stackfrq <- function(items,
   # -----------------
   # show/hide percentage values on x axis
   # ----------------------------
-  if (showPercentageAxis)
+  if (show.prc)
     perc.val <- scales::percent
   else
     perc.val <- NULL

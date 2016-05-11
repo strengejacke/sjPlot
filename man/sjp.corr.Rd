@@ -14,8 +14,8 @@ sjp.corr(data, title = NULL, axis.labels = NULL, type = c("circle",
 }
 \arguments{
 \item{data}{matrix with correlation coefficients as returned by the 
-\code{\link{cor}}-function, or a \code{\link{data.frame}} of variables that
-should be correlated.}
+\code{\link{cor}}-function, or a \code{data.frame} of variables where
+correlations between columns should be computed.}
 
 \item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}

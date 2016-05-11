@@ -4,20 +4,32 @@
 \alias{sjp.likert}
 \title{Plot likert scales as centered stacked bars}
 \usage{
-sjp.likert(items, catcount = NULL, cat.neutral = NULL, weight.by = NULL,
-  title.wtd.suffix = NULL, sort.frq = NULL, geom.size = 0.6,
-  geom.colors = "BrBG", reverse.colors = FALSE,
-  cat.neutral.color = "grey70", intercept.line.color = "grey50",
-  values = "show", show.prc.sign = FALSE, digits = 1,
-  legend.labels = NULL, show.legend = TRUE, title = NULL,
-  legend.title = NULL, include.n = TRUE, axis.labels = NULL,
-  wrap.title = 50, wrap.labels = 30, wrap.legend.title = 30,
-  wrap.legend.labels = 28, grid.range = 1, grid.breaks = 0.2,
-  expand.grid = TRUE, axis.titles = NULL, coord.flip = TRUE,
-  printPlot = TRUE)
+sjp.likert(items, title = NULL, legend.title = NULL, legend.labels = NULL,
+  axis.titles = NULL, axis.labels = NULL, catcount = NULL,
+  cat.neutral = NULL, sort.frq = NULL, weight.by = NULL,
+  title.wtd.suffix = NULL, wrap.title = 50, wrap.labels = 30,
+  wrap.legend.title = 30, wrap.legend.labels = 28, geom.size = 0.6,
+  geom.colors = "BrBG", cat.neutral.color = "grey70",
+  intercept.line.color = "grey50", reverse.colors = FALSE,
+  values = "show", show.n = TRUE, show.legend = TRUE,
+  show.prc.sign = FALSE, grid.range = 1, grid.breaks = 0.2,
+  expand.grid = TRUE, digits = 1, coord.flip = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{items}{\code{data.frame} with each column representing one item.}
+
+\item{title}{character vector, used as plot title. Depending on plot type and function,
+will be set automatically. If \code{title = ""}, no title is printed.}
+
+\item{legend.title}{character vector, used as title for the plot legend.}
+
+\item{legend.labels}{a character vector with labels for the guide/legend.}
+
+\item{axis.titles}{character vector of length one or two, defining the title(s)
+for the x-axis and y-axis.}
+
+\item{axis.labels}{character vector with labels used as axis labels. Optional
+argument, since in most cases, axis labels are set automatically.}
 
 \item{catcount}{optional, amount of categories of \code{items} (e.g. \emph{"strongly disagree", 
 "disagree", "agree"} and \emph{"strongly agree"} would be \code{catcount = 4}).
@@ -32,14 +44,6 @@ the index number (value) for this category. Else, set \code{cat.neutral = NULL} 
 The proportions of neutral category answers are plotted as grey bars on the left side of
 the figure.}
 
-\item{weight.by}{weight factor that will be applied to weight all cases.
-Must be a vector of same length as the input vector. Default is 
-\code{NULL}, so no weights are used.}
-
-\item{title.wtd.suffix}{suffix (as string) for the title, if \code{weight.by} is specified,
-e.g. \code{title.wtd.suffix=" (weighted)"}. Default is \code{NULL}, so 
-title will not have a suffix when cases are weighted.}
-
 \item{sort.frq}{indicates whether the items of \code{items} should be ordered by 
 total sum of positive or negative answers.
 \describe{
@@ -50,45 +54,13 @@ total sum of positive or negative answers.
   \item{\code{NULL}}{(default) for no sorting}
 }}
 
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function). Note that bar and bin widths mostly 
-need smaller values than dot sizes.}
+\item{weight.by}{weight factor that will be applied to weight all cases.
+Must be a vector of same length as the input vector. Default is 
+\code{NULL}, so no weights are used.}
 
-\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
-
-\item{reverse.colors}{logical, if \code{TRUE}, the color scale from \code{geom.colors} will be reversed,
-so positive and negative values switch colors.}
-
-\item{cat.neutral.color}{color of the neutral category, if plotted (see \code{cat.neutral}).}
-
-\item{intercept.line.color}{color of the vertical intercept line that divides positive and negative values.}
-
-\item{values}{determines style and position of percentage value labels on the bars:
-\describe{
-  \item{\code{"show"}}{(default) shows percentage value labels in the middle of each category bar}
-  \item{\code{"hide"}}{hides the value labels, so no percentage values on the bars are printed}
-  \item{\code{"sum.inside"}}{shows the sums of percentage values for both negative and positive values and prints them inside the end of each bar}
-  \item{\code{"sum.outide"}}{shows the sums of percentage values for both negative and positive values and prints them outside the end of each bar}
-}}
-
-\item{show.prc.sign}{logical, if \code{TRUE}, \%-signs for value labels are shown.}
-
-\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
-
-\item{legend.labels}{a character vector with labels for the guide/legend.}
-
-\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
-function, a legend is added to the plot.}
-
-\item{title}{character vector, used as plot title. Depending on plot type and function,
-will be set automatically. If \code{title = ""}, no title is printed.}
-
-\item{legend.title}{character vector, used as title for the plot legend.}
-
-\item{include.n}{logical, if \code{TRUE} (default), the N of each item will be included in axis labels.}
-
-\item{axis.labels}{character vector with labels used as axis labels. Optional
-argument, since in most cases, axis labels are set automatically.}
+\item{title.wtd.suffix}{suffix (as string) for the title, if \code{weight.by} is specified,
+e.g. \code{title.wtd.suffix=" (weighted)"}. Default is \code{NULL}, so 
+title will not have a suffix when cases are weighted.}
 
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
@@ -101,6 +73,35 @@ are displayed in one line and when a line break is inserted.}
 
 \item{wrap.legend.labels}{determines how many chars of the legend labels are 
 displayed in one line and when a line break is inserted.}
+
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
+depending on plot type and function). Note that bar and bin widths mostly 
+need smaller values than dot sizes.}
+
+\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
+
+\item{cat.neutral.color}{color of the neutral category, if plotted (see \code{cat.neutral}).}
+
+\item{intercept.line.color}{color of the vertical intercept line that divides positive and negative values.}
+
+\item{reverse.colors}{logical, if \code{TRUE}, the color scale from \code{geom.colors} will be reversed,
+so positive and negative values switch colors.}
+
+\item{values}{determines style and position of percentage value labels on the bars:
+\describe{
+  \item{\code{"show"}}{(default) shows percentage value labels in the middle of each category bar}
+  \item{\code{"hide"}}{hides the value labels, so no percentage values on the bars are printed}
+  \item{\code{"sum.inside"}}{shows the sums of percentage values for both negative and positive values and prints them inside the end of each bar}
+  \item{\code{"sum.outide"}}{shows the sums of percentage values for both negative and positive values and prints them outside the end of each bar}
+}}
+
+\item{show.n}{logical, if \code{TRUE}, adds total number of cases for each
+group or category to the labels.}
+
+\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
+function, a legend is added to the plot.}
+
+\item{show.prc.sign}{logical, if \code{TRUE}, \%-signs for value labels are shown.}
 
 \item{grid.range}{numeric, limits of the x-axis-range, as proportion of 100. 
 Default is 1, so the x-scale ranges from zero to 100\% on 
@@ -116,8 +117,7 @@ i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 \item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 axes and plotting region. Default is \code{FALSE}.}
 
-\item{axis.titles}{character vector of length one or two, defining the title(s)
-for the x-axis and y-axis.}
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 

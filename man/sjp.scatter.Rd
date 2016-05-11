@@ -10,7 +10,7 @@ sjp.scatter(x = NULL, y = NULL, grp = NULL, title = "",
   wrap.legend.labels = 20, geom.size = 2, label.size = 3,
   geom.colors = NULL, show.axis.values = TRUE, fit.line.grps = FALSE,
   fit.line = FALSE, show.ci = FALSE, fitmethod = "lm",
-  jitter.dots = FALSE, emph.dots = FALSE, autojitter = TRUE,
+  jitter.dots = FALSE, emph.dots = FALSE, auto.jitter = TRUE,
   jitter.ratio = 0.15, show.rug = FALSE, show.legend = TRUE,
   facet.grid = FALSE, printPlot = TRUE)
 }
@@ -82,14 +82,14 @@ the fit lines. Possible values are for instance \code{"lm"}, \code{"glm"},
 \item{emph.dots}{logical, if \code{TRUE}, overlapping points at same coordinates
 will be becomme larger, so point size indicates amount of overlapping.}
 
-\item{autojitter}{logical, if \code{TRUE}, points will be jittered according
+\item{auto.jitter}{logical, if \code{TRUE}, points will be jittered according
 to an overlap-estimation. A matrix of \code{x} and \code{y} values
 is created and the amount of cells (indicating a unique point position)
 is calculated. If more than 15\% (see \code{jitter.ratio}) of the
 approximated amount of unique point coordinates seem to
 overlap, they are automatically jittered.}
 
-\item{jitter.ratio}{ratio of tolerated overlapping (see \code{autojitter}).
+\item{jitter.ratio}{ratio of tolerated overlapping (see \code{auto.jitter}).
 If approximated amount of overlapping  points exceed this ratio,
 they are automatically jittered. Default is 0.15. Valid values range
 between 0 and 1.}

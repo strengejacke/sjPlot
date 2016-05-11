@@ -10,7 +10,7 @@
 #'                or saves it as file. Helpful if you want a quick overview of a data frame's 
 #'                content. See argument \code{describe} for details. By default, \code{describe} 
 #'                is \code{TRUE} and a description of the data frame is given,
-#'                using the \code{\link[psych]{describe}} function of the \code{psych} package.
+#'                using the \code{\link[psych]{describe}}-function of the \pkg{psych}-package.
 #'
 #' @param mydf data frame that should be printed as table
 #' @param describe logical, if \code{TRUE} (default), a description of the data frame's variables is given.
@@ -97,21 +97,21 @@
 #' @export
 sjt.df <- function(mydf,
                    describe = TRUE,
-                   file = NULL,
                    altr.row.col = FALSE,
                    sort.col = NULL,
                    sort.asc = TRUE,
                    title = NULL,
                    repeat.header = FALSE,
-                   string.var = "Variable",
                    show.type = FALSE,
                    show.rownames = TRUE,
                    show.cmmn.row = FALSE,
                    string.cmmn = "No comment...",
+                   string.var = "Variable",
                    big.mark = NULL,
                    hide.progress = FALSE,
-                   encoding = NULL,
                    CSS = NULL,
+                   encoding = NULL,
+                   file = NULL, 
                    use.viewer = TRUE,
                    no.output = FALSE,
                    remove.spaces = TRUE,

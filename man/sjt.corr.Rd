@@ -6,15 +6,14 @@
 \usage{
 sjt.corr(data, na.deletion = c("listwise", "pairwise"),
   corr.method = c("spearman", "pearson", "kendall"), title = NULL,
-  show.p = TRUE, p.numeric = FALSE, fade.ns = TRUE, file = NULL,
-  var.labels = NULL, wrap.labels = 40, digits = 3, triangle = "both",
-  val.rm = NULL, string.diag = NULL, encoding = NULL, CSS = NULL,
+  var.labels = NULL, wrap.labels = 40, show.p = TRUE, p.numeric = FALSE,
+  fade.ns = TRUE, val.rm = NULL, digits = 3, triangle = "both",
+  string.diag = NULL, CSS = NULL, encoding = NULL, file = NULL,
   use.viewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
-\item{data}{matrix with correlation coefficients as returned by the 
-\code{\link{cor}}-function, or a \code{\link{data.frame}} of variables that
-should be correlated.}
+\item{data}{variables which frequencies should be printed as table. Either use a single variable
+(vector) or a data frame where each column represents a variable (see 'Examples').}
 
 \item{na.deletion}{indicates how missing values are treated. May be either
 \code{"listwise"} (default) or \code{"pairwise"}. May be
@@ -26,30 +25,20 @@ May be abbreviated.}
 
 \item{title}{table caption. By default, \code{title = NULL}, hence no title will be used.}
 
-\item{show.p}{logical, adds significance levels to values, or value and 
-variable labels.}
-
-\item{p.numeric}{logical, if \code{TRUE}, the p-values are printed 
-as numbers. If \code{FALSE} (default), asterisks are used.}
-
-\item{fade.ns}{logical, if \code{TRUE} (default), non-significant correlation-values appear faded (by using
-a lighter grey text color). See 'Note'.}
-
-\item{file}{destination file, if the output should be saved as file.
-If \code{NULL} (default), the output will be saved as temporary file and 
-openend either in the IDE's viewer pane or the default web browser.}
-
 \item{var.labels}{character vector with variable names, which will be used 
 to label variables in the output.}
 
 \item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
-\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
+\item{show.p}{logical, adds significance levels to values, or value and 
+variable labels.}
 
-\item{triangle}{indicates whether only the upper right (use \code{"upper"}), lower left (use \code{"lower"})
-or both (use \code{"both"}) triangles of the correlation table is filled with values. Default
-is \code{"both"}. You can specifiy the inital letter only.}
+\item{p.numeric}{logical, if \code{TRUE}, the p-values are printed 
+as numbers. If \code{FALSE} (default), asterisks are used.}
+
+\item{fade.ns}{logical, if \code{TRUE} (default), non-significant correlation-values 
+appear faded (by using a lighter grey text color). See 'Note'.}
 
 \item{val.rm}{specify a number between 0 and 1 to suppress the output of correlation values 
 that are smaller than \code{val.rm}. The absolute correlation values are used, so
@@ -60,18 +49,28 @@ the HTML table, but made "invisible" with white foreground color. You can use th
 argument (\code{"css.valueremove"}) to change color and appearance of those correlation value that are smaller than
 the limit specified by \code{val.rm}.}
 
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
+
+\item{triangle}{indicates whether only the upper right (use \code{"upper"}), lower left (use \code{"lower"})
+or both (use \code{"both"}) triangles of the correlation table is filled with values. Default
+is \code{"both"}. You can specifiy the inital letter only.}
+
 \item{string.diag}{a vector with string values of the same length as \code{ncol(data)} (number of
 correlated items) that can be used to display content in the diagonal cells
 where row and column item are identical (i.e. the "self-correlation"). By defauilt,
 this argument is \code{NULL} and the diagnal cells are empty.}
+
+\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
+\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
 
 \item{encoding}{string, indicating the charset encoding used for variable and 
 value labels. Default is \code{NULL}, so encoding will be auto-detected 
 depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
 Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
 
-\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
-\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
+\item{file}{destination file, if the output should be saved as file.
+If \code{NULL} (default), the output will be saved as temporary file and 
+openend either in the IDE's viewer pane or the default web browser.}
 
 \item{use.viewer}{If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}

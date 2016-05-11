@@ -10,11 +10,8 @@
 #'                a \code{\link{data.frame}} or a matrix with correlation coefficients 
 #'                as returned by the \code{\link{cor}}-function.
 #'                
-#' @param data matrix with correlation coefficients as returned by the 
-#'          \code{\link{cor}}-function, or a \code{\link{data.frame}} of variables that
-#'          should be correlated.
-#' @param fade.ns logical, if \code{TRUE} (default), non-significant correlation-values appear faded (by using
-#'          a lighter grey text color). See 'Note'.
+#' @param fade.ns logical, if \code{TRUE} (default), non-significant correlation-values 
+#'          appear faded (by using a lighter grey text color). See 'Note'.
 #' @param triangle indicates whether only the upper right (use \code{"upper"}), lower left (use \code{"lower"})
 #'          or both (use \code{"both"}) triangles of the correlation table is filled with values. Default
 #'          is \code{"both"}. You can specifiy the inital letter only.
@@ -120,18 +117,18 @@ sjt.corr <- function(data,
                      na.deletion = c("listwise", "pairwise"),
                      corr.method = c("spearman", "pearson", "kendall"),
                      title = NULL,
+                     var.labels = NULL,
+                     wrap.labels = 40,
                      show.p = TRUE,
                      p.numeric = FALSE,
                      fade.ns = TRUE,
-                     file = NULL, 
-                     var.labels = NULL,
-                     wrap.labels = 40,
+                     val.rm = NULL,
                      digits = 3,
                      triangle = "both",
-                     val.rm = NULL,
                      string.diag = NULL,
-                     encoding = NULL,
                      CSS = NULL,
+                     encoding = NULL,
+                     file = NULL, 
                      use.viewer = TRUE,
                      no.output = FALSE,
                      remove.spaces = TRUE) {

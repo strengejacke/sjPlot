@@ -9,8 +9,8 @@ utils::globalVariables(c("ordx", "ordy"))
 #' @seealso \code{\link{sjt.corr}}
 #'
 #' @param data matrix with correlation coefficients as returned by the 
-#'          \code{\link{cor}}-function, or a \code{\link{data.frame}} of variables that
-#'          should be correlated.
+#'          \code{\link{cor}}-function, or a \code{data.frame} of variables where
+#'          correlations between columns should be computed.
 #' @param type indicates whether the geoms of correlation values should be plotted
 #'          as \code{"circle"} (default) or as \code{"tile"}.
 #' @param sort.corr logical, if \code{TRUE} (default), the axis labels are sorted

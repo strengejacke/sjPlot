@@ -4,19 +4,34 @@
 \alias{sjp.stackfrq}
 \title{Plot stacked proportional bars}
 \usage{
-sjp.stackfrq(items, legend.labels = NULL, sort.frq = NULL,
-  weight.by = NULL, show.legend = TRUE, title = NULL,
-  legend.title = NULL, include.n = TRUE, axis.labels = NULL,
-  wrap.title = 50, wrap.labels = 30, wrap.legend.title = 30,
-  wrap.legend.labels = 28, grid.breaks = 0.2, expand.grid = FALSE,
-  geom.size = 0.5, geom.colors = "Blues", axis.titles = NULL,
-  show.values = TRUE, digits = 1, vjust = "center",
-  showPercentageAxis = TRUE, coord.flip = TRUE, printPlot = TRUE)
+sjp.stackfrq(items, title = NULL, legend.title = NULL,
+  legend.labels = NULL, axis.titles = NULL, axis.labels = NULL,
+  weight.by = NULL, sort.frq = NULL, wrap.title = 50, wrap.labels = 30,
+  wrap.legend.title = 30, wrap.legend.labels = 28, geom.size = 0.5,
+  geom.colors = "Blues", show.values = TRUE, show.n = TRUE,
+  show.prc = TRUE, show.legend = TRUE, grid.breaks = 0.2,
+  expand.grid = FALSE, digits = 1, vjust = "center", coord.flip = TRUE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{items}{\code{data.frame} with each column representing one item.}
 
+\item{title}{character vector, used as plot title. Depending on plot type and function,
+will be set automatically. If \code{title = ""}, no title is printed.}
+
+\item{legend.title}{character vector, used as title for the plot legend.}
+
 \item{legend.labels}{a character vector with labels for the guide/legend.}
+
+\item{axis.titles}{character vector of length one or two, defining the title(s)
+for the x-axis and y-axis.}
+
+\item{axis.labels}{character vector with labels used as axis labels. Optional
+argument, since in most cases, axis labels are set automatically.}
+
+\item{weight.by}{weight factor that will be applied to weight all cases.
+Must be a vector of same length as the input vector. Default is 
+\code{NULL}, so no weights are used.}
 
 \item{sort.frq}{indicates whether the \code{items} should be ordered by
 by highest count of first or last category of \code{items}.
@@ -27,23 +42,6 @@ by highest count of first or last category of \code{items}.
   \item{\code{"last.desc"}}{to order descending by lowest count of last category,}
   \item{\code{NULL}}{(default) for no sorting.}
 }}
-
-\item{weight.by}{weight factor that will be applied to weight all cases.
-Must be a vector of same length as the input vector. Default is 
-\code{NULL}, so no weights are used.}
-
-\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
-function, a legend is added to the plot.}
-
-\item{title}{character vector, used as plot title. Depending on plot type and function,
-will be set automatically. If \code{title = ""}, no title is printed.}
-
-\item{legend.title}{character vector, used as title for the plot legend.}
-
-\item{include.n}{logical, if \code{TRUE} (default), the N of each item will be included in axis labels.}
-
-\item{axis.labels}{character vector with labels used as axis labels. Optional
-argument, since in most cases, axis labels are set automatically.}
 
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
@@ -57,22 +55,27 @@ are displayed in one line and when a line break is inserted.}
 \item{wrap.legend.labels}{determines how many chars of the legend labels are 
 displayed in one line and when a line break is inserted.}
 
-\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
-i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
-
-\item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
-axes and plotting region. Default is \code{FALSE}.}
-
 \item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
 depending on plot type and function). Note that bar and bin widths mostly 
 need smaller values than dot sizes.}
 
 \item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
-\item{axis.titles}{character vector of length one or two, defining the title(s)
-for the x-axis and y-axis.}
-
 \item{show.values}{logical, whether values should be plotted or not.}
+
+\item{show.n}{logical, if \code{TRUE}, adds total number of cases for each
+group or category to the labels.}
+
+\item{show.prc}{If \code{TRUE} (default), the percentage values at the x-axis are shown.}
+
+\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
+function, a legend is added to the plot.}
+
+\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
+i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
+
+\item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
+axes and plotting region. Default is \code{FALSE}.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
@@ -81,8 +84,6 @@ labels. Allowed are same values as for \code{vjust} aesthetics from
 \code{ggplot2}: "left", "center", "right", "bottom", "middle", "top" and
 new options like "inward" and "outward", which align text towards and 
 away from the center of the plot respectively.}
-
-\item{showPercentageAxis}{If \code{TRUE} (default), the percentage values at the x-axis are shown.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
