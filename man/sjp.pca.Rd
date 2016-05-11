@@ -29,25 +29,26 @@ Kaiser criteria is plotted to determine the number of factors.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
-\item{title}{string, used as plot title. Depending on plot type and function,
+\item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{axis.labels}{character vector with labels used as axis labels.}
+\item{axis.labels}{character vector with labels used as axis labels. Optional
+argument, since in most cases, axis labels are set automatically.}
 
 \item{type}{Plot type resp. geom type. May be one of following: \code{"circle"} or \code{"tile"} 
 circular or tiled geoms, or \code{"bar"} for a bar plot. You may use initial letter only
 for this argument.}
 
 \item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function. Note that bar and bin widths mostly 
+depending on plot type and function). Note that bar and bin widths mostly 
 need smaller values than dot sizes.}
 
-\item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
+\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
 \item{show.values}{logical, whether values should be plotted or not.}

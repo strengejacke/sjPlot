@@ -9,8 +9,6 @@
 #'              \item Hayes AF (2012) PROCESS: A versatile computational tool for observed variable mediation, moderation, and conditional process modeling [White paper] \href{http://imaging.mrc-cbu.cam.ac.uk/statswiki/FAQ/SobelTest?action=AttachFile&do=get&target=process.pdf}{download}
 #'              \item \href{http://www.theanalysisfactor.com/interpreting-interactions-in-regression/}{Grace-Martin K: Interpreting Interactions in Regression}
 #'              \item \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin K: Clarifications on Interpreting Interactions in Regression}
-#'              \item \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}
-#'              \item \href{http://www.theanalysisfactor.com/using-adjusted-means-to-interpret-moderators-in-analysis-of-covariance/}{Grace-Martin K: Using Adjusted Means to Interpret Moderators in Analysis of Covariance.}
 #'              }
 #'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.int/}{sjPlot manual: sjp.int}
@@ -60,7 +58,7 @@
 #' @param diff if \code{FALSE} (default), the minimum and maximum interaction effects of the moderating variable
 #'          is shown (one line each). if \code{TRUE}, only the difference between minimum and maximum interaction effect
 #'          is shown (single line). Only applies to \code{type = "cond"}.
-#' @param moderatorValues indicates which values of the moderator variable should be used when plotting the effects of the
+#' @param mdrt.values indicates which values of the moderator variable should be used when plotting the effects of the
 #'          independent variable on the dependent variable.
 #'          \describe{
 #'            \item{\code{"minmax"}}{(default) minimum and maximum values (lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator.}
@@ -69,7 +67,7 @@
 #'            \item{\code{"quart"}}{calculates and uses the quartiles (lower, median and upper) of the moderator value.}
 #'            \item{\code{"all"}}{uses all values of the moderator variable. Note that this option only applies to \code{type = "eff"}, for numeric moderator values.}
 #'          }
-#' @param swapPredictors if \code{TRUE}, the predictor on the x-axis and the moderator value in an interaction are
+#' @param swap.pred if \code{TRUE}, the predictor on the x-axis and the moderator value in an interaction are
 #'          swapped. For \code{type = "eff"}, the first interaction term is used as moderator and the second term
 #'          is plotted at the x-axis. For \code{type = "cond"}, the interaction's predictor with less unique values is 
 #'          printed along the x-axis. Default is \code{FALSE}, so the second predictor in an interaction, respectively 
@@ -78,18 +76,18 @@
 #'          i.e. at which p-level an interaction term will be considered for plotting. Default is
 #'          0.1 (10 percent), hence, non-significant interactions are excluded by default. This
 #'          argument does not apply to \code{type = "eff"}.
-#' @param title a default title used for the plots. Should be a character vector
+#' @param title default title used for the plots. Should be a character vector
 #'          of same length as interaction plots to be plotted. Default value is \code{NULL}, which means that each plot's title
 #'          includes the dependent variable as well as the names of the interaction terms.
-#' @param fillColor fill color of the shaded area between the minimum and maximum lines. Default is \code{"grey"}.
-#'          Either set \code{fillColor} to \code{NULL} or use 0 for \code{fillAlpha} if you want to hide the shaded area.
-#' @param fillAlpha alpha value (transparancy) of the shaded area between the minimum and maximum lines. Default is 0.4.
-#'          Use either 0 or set \code{fillColor} to \code{NULL} if you want to hide the shaded area.
+#' @param fill.color fill color of the shaded area between the minimum and maximum lines. Default is \code{"grey"}.
+#'          Either set \code{fill.color} to \code{NULL} or use 0 for \code{fill.alpha} if you want to hide the shaded area.
+#' @param fill.alpha alpha value (transparancy) of the shaded area between the minimum and maximum lines. Default is 0.4.
+#'          Use either 0 or set \code{fill.color} to \code{NULL} if you want to hide the shaded area.
 #' @param geom.colors vector of color values. First value is the color of the line indicating the lower bound of
 #'          the interaction term (moderator value). Second value is the color of the line indicating the upper bound of
 #'          the interaction term (moderator value). Third value, if applicable, is the color of the line indicating the
 #'          mean value of the interaction term (moderator value). Third value is only used when 
-#'          \code{moderatorValues = "meansd"}. Or, if \code{diff = TRUE}, only one color value for the 
+#'          \code{mdrt.values = "meansd"}. Or, if \code{diff = TRUE}, only one color value for the 
 #'          line indicating the upper difference between lower and upper bound of interaction terms.
 #' @param axis.title a default title used for the x-axis. Should be a character vector
 #'          of same length as interaction plots to be plotted. Default value is \code{NULL},
@@ -109,11 +107,11 @@
 #'          if numeric, must be a number between 0 and 1, indicating the proportion
 #'          for the confidence regeion (e.g. \code{show.ci = 0.9} plots a 90\% CI).
 #'          Only applies to \code{type = "emm"} or \code{type = "eff"}.
-#' @param valueLabel.digits the amount of digits of the displayed value labels. Defaults to 2.
 #' 
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.frq
 #' @inheritParams sjp.lmer
+#' @inheritParams sjp.glmer
 #' 
 #' @return (Insisibily) returns the ggplot-objects with the complete plot-list (\code{plot.list})
 #'           as well as the data frames that were used for setting up the ggplot-objects (\code{data.list}).
@@ -121,17 +119,15 @@
 #' @details \describe{
 #'            \item{\code{type = "eff"}}{plots the overall effects (marginal effects) of the interaction, with all remaining
 #'              covariates set to the mean. Effects are calculated using the \code{\link[effects]{effect}}-
-#'              function from the \pkg{effects}-package. \cr \cr
-#'              Following arguments \emph{do not} apply to this function: \code{diff}, \code{axis.labels}.
+#'              function from the \pkg{effects}-package.
 #'            }
 #'            \item{\code{type = "cond"}}{plots the effective \emph{change} or \emph{impact} 
 #'              (conditional effect) on a dependent variable of a moderation effect, as 
-#'              described in \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin},
-#'              i.e. the difference of the moderation effect on the dependent variable in \emph{presence}
-#'              and \emph{absence} of the moderating effect (\emph{simple slope} plot or 
-#'              \emph{conditional effect}, see \href{http://imaging.mrc-cbu.cam.ac.uk/statswiki/FAQ/SobelTest?action=AttachFile&do=get&target=process.pdf}{Hayes 2012}).
+#'              described by Grace-Martin, i.e. the difference of the moderation effect on the 
+#'              dependent variable in \emph{presence} and \emph{absence} of the moderating effect 
+#'              (\emph{simple slope} plot or \emph{conditional effect}, see Hayes 2012).
 #'              Hence, this plot type may be used especially for \emph{binary or dummy coded} 
-#'              moderator values (see also \href{http://jee3.web.rice.edu/interaction-overconfidence.pdf}{Esarey and Summer 2015}).
+#'              moderator values (see also Esarey and Summer 2015).
 #'              This type \emph{does not} show the overall effect (marginal mean, i.e. adjusted
 #'              for all other predictors and covariates) of interactions on the result of Y. Use 
 #'              \code{type = "eff"} for effect displays similar to the \code{\link[effects]{effect}}-function 
@@ -143,10 +139,6 @@
 #'              The fitted models may be linear (mixed effects) 
 #'              models of class \code{\link{lm}} or \code{\link[lme4]{merMod}}. This function may be used, for example,
 #'              to plot differences in interventions between control and treatment groups over multiple time points.
-#'              \itemize{
-#'                \item Following paramters apply to this plot type: \code{show.ci}, \code{valueLabel.digits} and \code{axis.labels}.
-#'                \item Following arguments \emph{do not} apply to this function: \code{int.term}, \code{int.plot.index}, \code{diff}, \code{moderatorValues}, \code{fillColor}, \code{fillAlpha}.
-#'              }
 #'            }
 #'          }
 #'          The argument \code{int.term} only applies to \code{type = "eff"} and can be used
@@ -160,7 +152,7 @@
 #' @note Note that beside interaction terms, also the single predictors of each interaction (main effects)
 #'        must be included in the fitted model as well. Thus, \code{lm(dep ~ pred1 * pred2)} will work, 
 #'        but \code{lm(dep ~ pred1:pred2)} won't! \cr \cr
-#'        For \code{type = "emm"}, all interaction terms have to be \code{\link{factor}}s!
+#'        For \code{type = "emm"}, all interaction terms have to be factors.
 #'        Furthermore, for \code{type = "eff"}, predictors of interactions that are introduced first into the model
 #'        are used as grouping variable, while the latter predictor is printed along the x-axis
 #'        (i.e. lm(y~a+b+a:b) means that "a" is used as grouping variable and "b" is plotted along the x-axis).
@@ -171,7 +163,7 @@
 #'
 #' # fit "dummy" model. Note that moderator should enter
 #' # first the model, followed by predictor. Else, use
-#' # argument "swapPredictors" to change predictor on 
+#' # argument "swap.pred" to change predictor on 
 #' # x-axis with moderator
 #' fit <- lm(weight ~ Diet * Time, data = ChickWeight)
 #'
@@ -209,13 +201,11 @@
 #'
 #' # plot interactions, using mean and sd as moderator
 #' # values to calculate interaction effect
-#' sjp.int(fit, type = "eff", moderatorValues = "meansd")
-#' sjp.int(fit, type = "cond", moderatorValues = "meansd")
+#' sjp.int(fit, type = "eff", mdrt.values = "meansd")
+#' sjp.int(fit, type = "cond", mdrt.values = "meansd")
 #'
 #' # plot interactions, including those with p-value up to 0.1
-#' sjp.int(fit,
-#'         type = "cond",
-#'         plevel = 0.1)
+#' sjp.int(fit, type = "cond", plevel = 0.1)
 #'
 #' # -------------------------------
 #' # Predictors for negative impact of care.
@@ -230,19 +220,12 @@
 #'                    sex = as.factor(efc$c161sex),
 #'                    barthel = as.numeric(efc$barthtot))
 #' # fit model
-#' fit <- glm(y ~ sex * barthel,
-#'            data = mydf,
+#' fit <- glm(y ~ sex * barthel, data = mydf,
 #'            family = binomial(link = "logit"))
+#'            
 #' # plot interaction, increase p-level sensivity
-#' sjp.int(fit,
-#'         type = "eff",
-#'         legend.labels = get_labels(efc$c161sex),
-#'         plevel = 0.1)
-#'
-#' sjp.int(fit,
-#'         type = "cond",
-#'         legend.labels = get_labels(efc$c161sex),
-#'         plevel = 0.1)
+#' sjp.int(fit, type = "eff", legend.labels = get_labels(efc$c161sex), plevel = 0.1)
+#' sjp.int(fit, type = "cond", legend.labels = get_labels(efc$c161sex), plevel = 0.1)
 #'         
 #' \dontrun{
 #' # -------------------------------
@@ -272,10 +255,7 @@
 #' # plot marginal means of interactions, including those with p-value up to 1
 #' sjp.int(fit, type = "emm", plevel = 1)
 #' # swap predictors
-#' sjp.int(fit, 
-#'         type = "emm",
-#'         plevel = 1, 
-#'         swapPredictors = TRUE)
+#' sjp.int(fit, type = "emm", plevel = 1, swap.pred = TRUE)
 #'
 #' # -------------------------------
 #' # Plot effects
@@ -289,11 +269,7 @@
 #' sjp.int(fit, type = "eff", show.ci = TRUE)
 #'
 #' # plot effects, faceted
-#' sjp.int(fit, 
-#'         type = "eff", 
-#'         int.plot.index = 3,
-#'         show.ci = TRUE,
-#'         facet.grid = TRUE)}
+#' sjp.int(fit, type = "eff", int.plot.index = 3, show.ci = TRUE, facet.grid = TRUE)}
 #'
 #' @import ggplot2
 #' @import sjmisc
@@ -301,16 +277,16 @@
 #' @importFrom effects allEffects effect
 #' @export
 sjp.int <- function(fit,
-                    type = "eff",
+                    type = c("eff", "cond", "emm"),
                     int.term = NULL,
                     int.plot.index = NULL,
                     diff = FALSE,
-                    moderatorValues = "minmax",
-                    swapPredictors = FALSE,
+                    mdrt.values = c("minmax", "meansd", "zeromax", "quart", "all"),
+                    swap.pred = FALSE,
                     plevel = 0.1,
                     title = NULL,
-                    fillColor = "grey",
-                    fillAlpha = 0.3,
+                    fill.color = "grey",
+                    fill.alpha = 0.3,
                     geom.colors = "Set1",
                     geom.size = NULL,
                     axis.title = NULL,
@@ -327,9 +303,14 @@ sjp.int <- function(fit,
                     grid.breaks = NULL,
                     show.ci = FALSE,
                     p.kr = TRUE,
-                    valueLabel.digits = 2,
+                    digits = 2,
                     facet.grid = FALSE,
                     printPlot = TRUE) {
+  # -----------------------------------------------------------
+  # match arguments
+  # -----------------------------------------------------------
+  type <- match.arg(type)
+  mdrt.values <- match.arg(mdrt.values)
   # -----------------------------------------------------------
   # check class of fitted model
   # -----------------------------------------------------------
@@ -368,35 +349,24 @@ sjp.int <- function(fit,
   # check if suggested package is available
   # ------------------------
   if ((fun == "lmer" || fun == "glmer" || fun == "nlmer") && !requireNamespace("lme4", quietly = TRUE)) {
-    stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
+    stop("Package `lme4` needed for this function to work. Please install it.", call. = FALSE)
   }
   if (fun == "plm" && !"package:plm" %in% search()) {
-    stop("Package 'plm' needs to be loaded for this function to work... Use 'library(plm)' and call this function again.", call. = FALSE)
+    stop("Package `plm` needs to be loaded for this function to work... Use `library(plm)` and call this function again.", call. = FALSE)
   }
   # -----------------------------------------------------------
   # argument check
   # -----------------------------------------------------------
-  if (is.null(fillColor)) {
-    fillColor <- "white"
-    fillAlpha <- 0
+  if (is.null(fill.color)) {
+    fill.color <- "white"
+    fill.alpha <- 0
   }
   # gridbreaks
   if (is.null(grid.breaks)) gridbreaks.x <- gridbreaks.y <- ggplot2::waiver()
-  # moderator value
-  if (moderatorValues != "minmax" && moderatorValues != "zeromax" && 
-      moderatorValues != "meansd" && moderatorValues != "quart" &&
-      moderatorValues != "all") {
-    message("`moderatorValues` has to be one of `minmax`, `zeromax`, `quart`, `meansd` or `all`. Defaulting to `minmax`.")
-    moderatorValues <- "minmax"
-  }
-  # check plot type
-  if (type != "cond" && type != "emm" && type != "eff") {
-    message("`type` has to be one of `cond`, `eff` or `emm`. Defaulting to `cond`.")
-    type <- "cond"
-  }
-  if (type == "cond" && moderatorValues == "all") {
-    message("`moderatorValues = \"all\"` only applies to `type = \"cond\". Defaulting `moderatorValues` to `minmax`.")
-    moderatorValues <- "minmax"
+  # check matching argument combinations
+  if (type == "cond" && mdrt.values == "all") {
+    message("`mdrt.values = \"all\"` only applies to `type = \"eff\". Defaulting `mdrt.values` to `minmax`.")
+    mdrt.values <- "minmax"
   }
   # ------------------------
   # do we have glm? if so, get link family. make exceptions
@@ -420,9 +390,9 @@ sjp.int <- function(fit,
       show.ci <- TRUE
       warning("argument `show.ci` must be logical for `type = 'emm'`.", call. = F)
     }
-    return(sjp.emm(fit, swapPredictors, plevel, title, geom.colors, geom.size,
+    return(sjp.emm(fit, swap.pred, plevel, title, geom.colors, geom.size,
                    axis.title, axis.labels, legend.title, legend.labels,
-                   show.values, valueLabel.digits, show.ci, p.kr, wrap.title,
+                   show.values, digits, show.ci, p.kr, wrap.title,
                    wrap.legend.title, wrap.legend.labels, y.offset, ylim, 
                    grid.breaks, facet.grid, printPlot))
   }
@@ -435,8 +405,8 @@ sjp.int <- function(fit,
   # plot moderation effeczs?
   # --------------------------------------------------------
   if (type == "eff") {
-    return(sjp.eff.int(fit, int.term, int.plot.index, moderatorValues, swapPredictors, plevel,
-                       title, fillAlpha, geom.colors, geom.size, axis.title,
+    return(sjp.eff.int(fit, int.term, int.plot.index, mdrt.values, swap.pred, plevel,
+                       title, fill.alpha, geom.colors, geom.size, axis.title,
                        legend.title, legend.labels, show.values, wrap.title, wrap.legend.labels, 
                        wrap.legend.title, xlim, ylim, y.offset, grid.breaks, 
                        show.ci, facet.grid, printPlot, fun))
@@ -531,7 +501,7 @@ sjp.int <- function(fit,
     # a "smaller range" (i.e. less unique values)
     # or swap predictors on axes if requested
     # -----------------------------------------------------------
-    if (swapPredictors) {
+    if (swap.pred) {
       useFirstPredOnY <- ifelse(length(pred1uniquevals) > length(pred2uniquevals), F, T)
     } else {
       useFirstPredOnY <- ifelse(length(pred1uniquevals) > length(pred2uniquevals), T, F)
@@ -568,26 +538,26 @@ sjp.int <- function(fit,
     # Check whether moderator value has enough unique values
     # for quartiles
     # -----------------------------------------------------------
-    moderatorValues <- mv_check(moderatorValues, mod.value)
+    mdrt.values <- mv_check(mdrt.values, mod.value)
     # -----------------------------------------------------------
     # check which values of moderator should be plotted, i.e. if
     # lower/upper bound (min-max) or mean and standard-deviation
     # should be used as valus for the moderator.
     # see http://www.theanalysisfactor.com/3-tips-interpreting-moderation/
     # -----------------------------------------------------------
-    if (moderatorValues == "minmax") {
+    if (mdrt.values == "minmax") {
       mw <- NA
       ymin <- min(mod.value, na.rm = T)
       ymax <- max(mod.value, na.rm = T)
-    } else if (moderatorValues == "meansd") {
+    } else if (mdrt.values == "meansd") {
       mw <- mean(mod.value, na.rm = T)
       ymin <- mw - sd(mod.value, na.rm = T)
       ymax <- mw + sd(mod.value, na.rm = T)
-    } else if (moderatorValues == "zeromax") {
+    } else if (mdrt.values == "zeromax") {
       mw <- NA
       ymin <- 0
       ymax <- max(mod.value, na.rm = T)
-    } else if (moderatorValues == "quart") {
+    } else if (mdrt.values == "quart") {
       qu <- as.vector(stats::quantile(mod.value, na.rm = T))
       mw <- qu[3]
       ymin <- qu[2]
@@ -627,7 +597,7 @@ sjp.int <- function(fit,
                       grp = "max")
     intdf <- as.data.frame(rbind(intdf, tmp))
     # store in df
-    if (moderatorValues == "meansd" || moderatorValues == "quart") {
+    if (mdrt.values == "meansd" || mdrt.values == "quart") {
       # ------------------------------
       # here we calculate the effect of predictor 1 under presence
       # of mean of predictor 2 on the dependent variable. Thus, the slope for
@@ -748,11 +718,11 @@ sjp.int <- function(fit,
       # }
       # if we still have no labels, prepare generic labels
       # if (is.null(lLabels)) {
-      if (moderatorValues == "minmax") {
+      if (mdrt.values == "minmax") {
         lLabels <- c(paste0("lower bound of ", predy), paste0("upper bound of ", predy))
-      } else if (moderatorValues == "meansd") {
+      } else if (mdrt.values == "meansd") {
         lLabels <- c(paste0("lower sd of ", predy), paste0("upper sd of ", predy), paste0("mean of ", predy))
-      } else if (moderatorValues == "quart") {
+      } else if (mdrt.values == "quart") {
         lLabels <- c(paste0("lower quartile of ", predy), paste0("upper quartile of ", predy), paste0("median of ", predy))
       } else {
         lLabels <- c(paste0("0 for ", predy), paste0("upper bound of ", predy))
@@ -810,8 +780,8 @@ sjp.int <- function(fit,
       # and maximum curve of interactions
       # -----------------------------------------------------------
       geom_ribbon(aes(ymin = 0, ymax = ydiff),
-                  fill = fillColor,
-                  alpha = fillAlpha) +
+                  fill = fill.color,
+                  alpha = fill.alpha) +
         geom_line(size = geom.size)
       # -----------------------------------------------------------
       # show value labels
@@ -829,8 +799,8 @@ sjp.int <- function(fit,
         baseplot <- baseplot +
           # add a shaded region between minimun and maximum curve of interactions
           geom_ribbon(aes(ymin = ymin, ymax = ymax, colour = NULL),
-                      fill = fillColor,
-                      alpha = fillAlpha,
+                      fill = fill.color,
+                      alpha = fill.alpha,
                       show.legend = FALSE)
       }
       # add line
@@ -855,7 +825,7 @@ sjp.int <- function(fit,
       lLabels <- NULL
       lTitle <- NULL
     } else {
-      if (moderatorValues == "minmax" || moderatorValues == "zeromax") {
+      if (mdrt.values == "minmax" || mdrt.values == "zeromax") {
         col.len <- 2
       } else {
         col.len <- 3
@@ -899,11 +869,11 @@ sjp.int <- function(fit,
 sjp.eff.int <- function(fit,
                         int.term = NULL,
                         int.plot.index = NULL,
-                        moderatorValues = "minmax",
-                        swapPredictors = FALSE,
+                        mdrt.values = "minmax",
+                        swap.pred = FALSE,
                         plevel = 0.05,
                         title = NULL,
-                        fillAlpha = 0.3,
+                        fill.alpha = 0.3,
                         geom.colors = "Set1",
                         geom.size = 0.7,
                         axis.title = NULL,
@@ -1000,8 +970,8 @@ sjp.eff.int <- function(fit,
     # -----------------------------------------------------------
     # save response, predictor and moderator names
     # -----------------------------------------------------------
-    pred_x.name <- colnames(intdf)[ifelse(isTRUE(swapPredictors), 1, 2)]
-    moderator.name <- colnames(intdf)[ifelse(isTRUE(swapPredictors), 2, 1)]
+    pred_x.name <- colnames(intdf)[ifelse(isTRUE(swap.pred), 1, 2)]
+    moderator.name <- colnames(intdf)[ifelse(isTRUE(swap.pred), 2, 1)]
     response.name <- dummy.eff$response
     # prepare axis titles
     labx <- sjmisc::get_label(stats::model.frame(fit)[[pred_x.name]], def.value = pred_x.name)
@@ -1023,10 +993,10 @@ sjp.eff.int <- function(fit,
       # Check whether moderator value has enough unique values
       # for quartiles
       # -----------------------------------------------------------
-      moderatorValues <- mv_check(moderatorValues, modval)
+      mdrt.values <- mv_check(mdrt.values, modval)
       # we have more than two values, so re-calculate effects, just using
       # min and max value of moderator. 
-      if (moderatorValues == "minmax" && length(unique(intdf[[moderator.name]])) > 2) {
+      if (mdrt.values == "minmax" && length(unique(intdf[[moderator.name]])) > 2) {
         # retrieve min and max values
         mv.min <- min(modval, na.rm = T)
         mv.max <- max(modval, na.rm = T)
@@ -1034,22 +1004,22 @@ sjp.eff.int <- function(fit,
         xl1 <- list(x = c(mv.min, mv.max))
         # we have more than two values, so re-calculate effects, just using
         # 0 and max value of moderator.
-      } else if (moderatorValues == "zeromax" && length(unique(intdf[[moderator.name]])) > 2) {
+      } else if (mdrt.values == "zeromax" && length(unique(intdf[[moderator.name]])) > 2) {
         # retrieve max values
         mv.max <- max(modval, na.rm = T)
         # re-compute effects, prepare xlevels
         xl1 <- list(x = c(0, mv.max))
         # compute mean +/- sd
-      } else if (moderatorValues == "meansd") {
+      } else if (mdrt.values == "meansd") {
         # retrieve mean and sd
         mv.mean <- round(mean(modval, na.rm = T), 2)
         mv.sd <- round(sd(modval, na.rm = T), 2)
         # re-compute effects, prepare xlevels
         xl1 <- list(x = c(mv.mean - mv.sd, mv.mean, mv.mean + mv.sd))
-      } else if (moderatorValues == "all") {
+      } else if (mdrt.values == "all") {
         # re-compute effects, prepare xlevels
         xl1 <- list(x = as.vector((unique(sort(modval, na.last = NA)))))
-      } else if (moderatorValues == "quart") {
+      } else if (mdrt.values == "quart") {
         # re-compute effects, prepare xlevels
         xl1 <- list(x = as.vector(stats::quantile(modval, na.rm = T)))
       }
@@ -1119,7 +1089,7 @@ sjp.eff.int <- function(fit,
     # -----------------------------------------------------------
     # change column names
     # -----------------------------------------------------------
-    if (swapPredictors) {
+    if (swap.pred) {
       colnames(intdf) <- c("x", "grp", "y", "se", "conf.low", "conf.high")
     } else {
       colnames(intdf) <- c("grp", "x", "y", "se", "conf.low", "conf.high")
@@ -1340,7 +1310,7 @@ sjp.eff.int <- function(fit,
         # -------------------------------------------------
         baseplot <- baseplot +
           geom_ribbon(aes(ymin = conf.low, ymax = conf.high, colour = NULL, fill = grp),
-                      alpha = fillAlpha,
+                      alpha = fill.alpha,
                       show.legend = FALSE)
       }
     }
@@ -1422,14 +1392,14 @@ sjp.eff.int <- function(fit,
 
 
 #' @importFrom stats quantile
-mv_check <- function(moderatorValues, x) {
+mv_check <- function(mdrt.values, x) {
   mvc <- length(unique(as.vector(stats::quantile(x, na.rm = T))))
-  if (moderatorValues == "quart" && mvc < 3) {
+  if (mdrt.values == "quart" && mvc < 3) {
     # tell user that quart won't work
-    message("Could not compute quartiles, too small range of moderator variable. Defaulting 'moderatorValues' to 'minmax'.")
-    moderatorValues <- "minmax"
+    message("Could not compute quartiles, too small range of moderator variable. Defaulting `mdrt.values` to `minmax`.")
+    mdrt.values <- "minmax"
   }
-  return(moderatorValues)
+  return(mdrt.values)
 }
 
 

@@ -4,14 +4,15 @@
 \alias{sjp.glmer}
 \title{Plot estimates, predictions or effects of generalized linear mixed effects models}
 \usage{
-sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL, emph.grp = NULL,
-  title = NULL, geom.size = NULL, geom.colors = "Set1",
-  show.intercept = TRUE, string.interc = "(Intercept)", sort.est = NULL,
-  axis.labels = NULL, axis.title = NULL, ylim = NULL, facet.grid = TRUE,
-  free.scale = FALSE, vline.type = 2, vline.color = "grey70",
-  remove.estimates = NULL, show.values = TRUE, digits = 2,
-  y.offset = 0.1, show.p = TRUE, fade.ns = FALSE, show.ci = FALSE,
-  sample.n = NULL, show.legend = FALSE, printPlot = TRUE)
+sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL,
+  remove.estimates = NULL, emph.grp = NULL, sample.n = NULL,
+  sort.est = NULL, title = NULL, axis.labels = NULL, axis.title = NULL,
+  geom.colors = "Set1", geom.size = NULL, show.values = TRUE,
+  show.p = TRUE, show.ci = FALSE, show.legend = FALSE,
+  show.intercept = TRUE, string.interc = "(Intercept)", fade.ns = FALSE,
+  ylim = NULL, digits = 2, vline.type = 2, vline.color = "grey70",
+  facet.grid = TRUE, free.scale = FALSE, y.offset = 0.1,
+  printPlot = TRUE)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{glmer}}-function.}
@@ -43,80 +44,17 @@ which random effects of which random intercept (or: which list elements
 of \code{\link[lme4]{ranef}}) will be plotted. Default is \code{NULL},
 so all random effects will be plotted.}
 
+\item{remove.estimates}{character vector with coefficient names that indicate
+which estimates should be removed from the plot.
+\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
+is \code{NULL}, i.e. all estimates are printed.}
+
 \item{emph.grp}{numeric vector with index numbers of grouping levels (from random effect).
 If \code{type = "ri.slope"} and \code{facet.grid = FALSE},
 an integrated plot of predicted probabilities of fixed effects resp. fixed
 effects slopes for each grouping level is plotted. To better find
 certain groups, use this argument to emphasize these groups in the plot.
 See 'Examples'.}
-
-\item{title}{character vector with one or more labels that are used as plot title.}
-
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function. Note that bar and bin widths mostly 
-need smaller values than dot sizes.}
-
-\item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
-
-\item{show.intercept}{logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
-Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential 
-transformation of estimates, the intercept in some cases can not be calculated, thus the
-function call is interrupted and no plot printed.}
-
-\item{string.interc}{string, axis label of intercept estimate. Only applies, 
-if \code{show.intercept = TRUE} and \code{axis.labels} is not \code{NULL}.}
-
-\item{sort.est}{determines in which way estimates are sorted in the plot:
-\itemize{
-  \item If \code{NULL} (default), no sorting is done and estimates are sorted in order of model coefficients.
-  \item If \code{sort.est = "sort.all"}, estimates are re-sorted for each coefficient (only applies if \code{type = "re"} and \code{facet.grid = FALSE}), i.e. the estimates of the random effects for each predictor are sorted and plotted to an own plot.
-  \item If \code{type = "fe"} or \code{type = "fe.std"}, \code{TRUE} will sort estimates
-  \item If \code{type = "re"}, specify a predictor's / coefficient's name to sort estimates according to this coefficient.
-  }
-  See 'Examples'.}
-
-\item{axis.labels}{character vector with labels for the model terms, used as axis labels.
-For mixed models, should either be vector of fixed effects variable labels 
-(if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
-labels from the random intercept's categories (if \code{type = "re"}).}
-
-\item{axis.title}{string, title for the axis. If not specified, a default labelling depending
-on the plot function and type is chosen.}
-
-\item{ylim}{numeric vector of length two, defining lower and upper axis limits
-of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
-y-axis fits to the required range of the data.}
-
-\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
-in a grid of an integrated single plot.}
-
-\item{free.scale}{if \code{TRUE} and \code{facet.grid = TRUE}, each facet grid
-gets its own fitted scale. If \code{free.scale = FALSE}, each facet in
-the grid has the same scale range.}
-
-\item{vline.type}{linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
-
-\item{vline.color}{color of the vertical "zero point" line. Default value is \code{"grey70"}.}
-
-\item{remove.estimates}{character vector with coefficient names that indicate
-which estimates should be removed from the plot.
-\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
-is \code{NULL}, i.e. all estimates are printed.}
-
-\item{show.values}{logical, whether values should be plotted or not.}
-
-\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
-
-\item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
-to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
-
-\item{show.p}{logical, adds significance levels to values, or value and 
-variable labels.}
-
-\item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
-
-\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
-interval or region is added to the plot.}
 
 \item{sample.n}{numeric vector. only applies, if \code{type = "rs.ri"}. If
 plot has many random intercepts (grouping levels), overplotting of
@@ -128,8 +66,71 @@ the values in \code{sample.n} are selected to plot random effects.
 Use the latter option to always select a fixed, identical set of
 random effects for plotting (useful when ecomparing multiple models).}
 
+\item{sort.est}{determines in which way estimates are sorted in the plot:
+\itemize{
+  \item If \code{NULL} (default), no sorting is done and estimates are sorted in order of model coefficients.
+  \item If \code{sort.est = "sort.all"}, estimates are re-sorted for each coefficient (only applies if \code{type = "re"} and \code{facet.grid = FALSE}), i.e. the estimates of the random effects for each predictor are sorted and plotted to an own plot.
+  \item If \code{type = "fe"} or \code{type = "fe.std"}, \code{TRUE} will sort estimates
+  \item If \code{type = "re"}, specify a predictor's / coefficient's name to sort estimates according to this coefficient.
+  }
+  See 'Examples'.}
+
+\item{title}{character vector with one or more labels that are used as plot title.}
+
+\item{axis.labels}{character vector with labels for the model terms, used as axis labels.
+For mixed models, should either be vector of fixed effects variable labels 
+(if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
+labels from the random intercept's categories (if \code{type = "re"}).}
+
+\item{axis.title}{character vector, used as title for the axis. If not specified, 
+a default labelling depending on the plot function and type is chosen.}
+
+\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
+
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
+depending on plot type and function). Note that bar and bin widths mostly 
+need smaller values than dot sizes.}
+
+\item{show.values}{logical, whether values should be plotted or not.}
+
+\item{show.p}{logical, adds significance levels to values, or value and 
+variable labels.}
+
+\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
+interval or region is added to the plot.}
+
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
+
+\item{show.intercept}{logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
+Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential 
+transformation of estimates, the intercept in some cases can not be calculated, thus the
+function call is interrupted and no plot printed.}
+
+\item{string.interc}{string, axis label of intercept estimate. Only applies, 
+if \code{show.intercept = TRUE} and \code{axis.labels} is not \code{NULL}.}
+
+\item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
+
+\item{ylim}{numeric vector of length two, defining lower and upper axis limits
+of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
+y-axis fits to the required range of the data.}
+
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
+
+\item{vline.type}{linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
+
+\item{vline.color}{color of the vertical "zero point" line. Default value is \code{"grey70"}.}
+
+\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
+in a grid of an integrated single plot.}
+
+\item{free.scale}{if \code{TRUE} and \code{facet.grid = TRUE}, each facet grid
+gets its own fitted scale. If \code{free.scale = FALSE}, each facet in
+the grid has the same scale range.}
+
+\item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
+to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}

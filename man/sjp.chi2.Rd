@@ -9,23 +9,24 @@ sjp.chi2(df, title = "Pearson's Chi2-Test of Independence",
   show.legend = FALSE, legend.title = NULL, printPlot = TRUE)
 }
 \arguments{
-\item{df}{a data frame of (dichotomous) factor variables.}
+\item{df}{data frame with (dichotomous) factor variables.}
 
-\item{title}{string, used as plot title. Depending on plot type and function,
+\item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{axis.labels}{character vector with labels used as axis labels.}
+\item{axis.labels}{character vector with labels used as axis labels. Optional
+argument, since in most cases, axis labels are set automatically.}
 
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
-\item{legend.title}{title of the plot legend, as string.}
+\item{legend.title}{character vector, used as title for the plot legend.}
 
 \item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}

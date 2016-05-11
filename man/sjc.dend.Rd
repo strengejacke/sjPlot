@@ -7,7 +7,7 @@
 sjc.dend(data, groupcount, distance = "euclidean", agglomeration = "ward")
 }
 \arguments{
-\item{data}{data frame containing all variables that should be used for the
+\item{data}{\code{data.frame} with variables that should be used for the
 cluster analysis.}
 
 \item{groupcount}{The amount of groups (clusters) that should be used.

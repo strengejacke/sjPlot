@@ -4,15 +4,16 @@
 \alias{sjp.int}
 \title{Plot interaction effects of (generalized) linear (mixed) models}
 \usage{
-sjp.int(fit, type = "eff", int.term = NULL, int.plot.index = NULL,
-  diff = FALSE, moderatorValues = "minmax", swapPredictors = FALSE,
-  plevel = 0.1, title = NULL, fillColor = "grey", fillAlpha = 0.3,
+sjp.int(fit, type = c("eff", "cond", "emm"), int.term = NULL,
+  int.plot.index = NULL, diff = FALSE, mdrt.values = c("minmax", "meansd",
+  "zeromax", "quart", "all"), swap.pred = FALSE, plevel = 0.1,
+  title = NULL, fill.color = "grey", fill.alpha = 0.3,
   geom.colors = "Set1", geom.size = NULL, axis.title = NULL,
   axis.labels = NULL, legend.title = NULL, legend.labels = NULL,
   show.values = FALSE, wrap.title = 50, wrap.legend.labels = 20,
   wrap.legend.title = 20, xlim = NULL, ylim = NULL, y.offset = 0.07,
-  grid.breaks = NULL, show.ci = FALSE, p.kr = TRUE,
-  valueLabel.digits = 2, facet.grid = FALSE, printPlot = TRUE)
+  grid.breaks = NULL, show.ci = FALSE, p.kr = TRUE, digits = 2,
+  facet.grid = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{the fitted (generalized) linear (mixed) model object, including interaction terms. Accepted model
@@ -48,7 +49,7 @@ are plotted.}
 is shown (one line each). if \code{TRUE}, only the difference between minimum and maximum interaction effect
 is shown (single line). Only applies to \code{type = "cond"}.}
 
-\item{moderatorValues}{indicates which values of the moderator variable should be used when plotting the effects of the
+\item{mdrt.values}{indicates which values of the moderator variable should be used when plotting the effects of the
 independent variable on the dependent variable.
 \describe{
   \item{\code{"minmax"}}{(default) minimum and maximum values (lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator.}
@@ -58,7 +59,7 @@ independent variable on the dependent variable.
   \item{\code{"all"}}{uses all values of the moderator variable. Note that this option only applies to \code{type = "eff"}, for numeric moderator values.}
 }}
 
-\item{swapPredictors}{if \code{TRUE}, the predictor on the x-axis and the moderator value in an interaction are
+\item{swap.pred}{if \code{TRUE}, the predictor on the x-axis and the moderator value in an interaction are
 swapped. For \code{type = "eff"}, the first interaction term is used as moderator and the second term
 is plotted at the x-axis. For \code{type = "cond"}, the interaction's predictor with less unique values is 
 printed along the x-axis. Default is \code{FALSE}, so the second predictor in an interaction, respectively 
@@ -69,25 +70,25 @@ i.e. at which p-level an interaction term will be considered for plotting. Defau
 0.1 (10 percent), hence, non-significant interactions are excluded by default. This
 argument does not apply to \code{type = "eff"}.}
 
-\item{title}{a default title used for the plots. Should be a character vector
+\item{title}{default title used for the plots. Should be a character vector
 of same length as interaction plots to be plotted. Default value is \code{NULL}, which means that each plot's title
 includes the dependent variable as well as the names of the interaction terms.}
 
-\item{fillColor}{fill color of the shaded area between the minimum and maximum lines. Default is \code{"grey"}.
-Either set \code{fillColor} to \code{NULL} or use 0 for \code{fillAlpha} if you want to hide the shaded area.}
+\item{fill.color}{fill color of the shaded area between the minimum and maximum lines. Default is \code{"grey"}.
+Either set \code{fill.color} to \code{NULL} or use 0 for \code{fill.alpha} if you want to hide the shaded area.}
 
-\item{fillAlpha}{alpha value (transparancy) of the shaded area between the minimum and maximum lines. Default is 0.4.
-Use either 0 or set \code{fillColor} to \code{NULL} if you want to hide the shaded area.}
+\item{fill.alpha}{alpha value (transparancy) of the shaded area between the minimum and maximum lines. Default is 0.4.
+Use either 0 or set \code{fill.color} to \code{NULL} if you want to hide the shaded area.}
 
 \item{geom.colors}{vector of color values. First value is the color of the line indicating the lower bound of
 the interaction term (moderator value). Second value is the color of the line indicating the upper bound of
 the interaction term (moderator value). Third value, if applicable, is the color of the line indicating the
 mean value of the interaction term (moderator value). Third value is only used when 
-\code{moderatorValues = "meansd"}. Or, if \code{diff = TRUE}, only one color value for the 
+\code{mdrt.values = "meansd"}. Or, if \code{diff = TRUE}, only one color value for the 
 line indicating the upper difference between lower and upper bound of interaction terms.}
 
 \item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function. Note that bar and bin widths mostly 
+depending on plot type and function). Note that bar and bin widths mostly 
 need smaller values than dot sizes.}
 
 \item{axis.title}{a default title used for the x-axis. Should be a character vector
@@ -118,7 +119,9 @@ displayed in one line and when a line break is inserted.}
 \item{wrap.legend.title}{determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}
 
-\item{xlim}{numeric vector of length two, defining lower and upper axis limits}
+\item{xlim}{numeric vector of length two, defining lower and upper axis limits
+of the x scale. By default, this argument is set to \code{NULL}, i.e. the 
+x-axis fits to the required range of the data.}
 
 \item{ylim}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
@@ -140,7 +143,7 @@ Only applies to \code{type = "emm"} or \code{type = "eff"}.}
 F-tests with Kenward-Roger approximation for the df. Caution: Computation
 may take very long time for large samples!}
 
-\item{valueLabel.digits}{the amount of digits of the displayed value labels. Defaults to 2.}
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
 \item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
 in a grid of an integrated single plot.}
@@ -174,17 +177,15 @@ Plot regression (predicted values) or probability lines (predicted probabilities
 \describe{
            \item{\code{type = "eff"}}{plots the overall effects (marginal effects) of the interaction, with all remaining
              covariates set to the mean. Effects are calculated using the \code{\link[effects]{effect}}-
-             function from the \pkg{effects}-package. \cr \cr
-             Following arguments \emph{do not} apply to this function: \code{diff}, \code{axis.labels}.
+             function from the \pkg{effects}-package.
            }
            \item{\code{type = "cond"}}{plots the effective \emph{change} or \emph{impact} 
              (conditional effect) on a dependent variable of a moderation effect, as 
-             described in \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin},
-             i.e. the difference of the moderation effect on the dependent variable in \emph{presence}
-             and \emph{absence} of the moderating effect (\emph{simple slope} plot or 
-             \emph{conditional effect}, see \href{http://imaging.mrc-cbu.cam.ac.uk/statswiki/FAQ/SobelTest?action=AttachFile&do=get&target=process.pdf}{Hayes 2012}).
+             described by Grace-Martin, i.e. the difference of the moderation effect on the 
+             dependent variable in \emph{presence} and \emph{absence} of the moderating effect 
+             (\emph{simple slope} plot or \emph{conditional effect}, see Hayes 2012).
              Hence, this plot type may be used especially for \emph{binary or dummy coded} 
-             moderator values (see also \href{http://jee3.web.rice.edu/interaction-overconfidence.pdf}{Esarey and Summer 2015}).
+             moderator values (see also Esarey and Summer 2015).
              This type \emph{does not} show the overall effect (marginal mean, i.e. adjusted
              for all other predictors and covariates) of interactions on the result of Y. Use 
              \code{type = "eff"} for effect displays similar to the \code{\link[effects]{effect}}-function 
@@ -196,10 +197,6 @@ Plot regression (predicted values) or probability lines (predicted probabilities
              The fitted models may be linear (mixed effects) 
              models of class \code{\link{lm}} or \code{\link[lme4]{merMod}}. This function may be used, for example,
              to plot differences in interventions between control and treatment groups over multiple time points.
-             \itemize{
-               \item Following paramters apply to this plot type: \code{show.ci}, \code{valueLabel.digits} and \code{axis.labels}.
-               \item Following arguments \emph{do not} apply to this function: \code{int.term}, \code{int.plot.index}, \code{diff}, \code{moderatorValues}, \code{fillColor}, \code{fillAlpha}.
-             }
            }
          }
          The argument \code{int.term} only applies to \code{type = "eff"} and can be used
@@ -214,7 +211,7 @@ Plot regression (predicted values) or probability lines (predicted probabilities
 Note that beside interaction terms, also the single predictors of each interaction (main effects)
        must be included in the fitted model as well. Thus, \code{lm(dep ~ pred1 * pred2)} will work, 
        but \code{lm(dep ~ pred1:pred2)} won't! \cr \cr
-       For \code{type = "emm"}, all interaction terms have to be \code{\link{factor}}s!
+       For \code{type = "emm"}, all interaction terms have to be factors.
        Furthermore, for \code{type = "eff"}, predictors of interactions that are introduced first into the model
        are used as grouping variable, while the latter predictor is printed along the x-axis
        (i.e. lm(y~a+b+a:b) means that "a" is used as grouping variable and "b" is plotted along the x-axis).
@@ -225,7 +222,7 @@ Note that beside interaction terms, also the single predictors of each interacti
 
 # fit "dummy" model. Note that moderator should enter
 # first the model, followed by predictor. Else, use
-# argument "swapPredictors" to change predictor on 
+# argument "swap.pred" to change predictor on 
 # x-axis with moderator
 fit <- lm(weight ~ Diet * Time, data = ChickWeight)
 
@@ -263,13 +260,11 @@ sjp.int(fit, type = "eff", int.term = "sex*education")
 
 # plot interactions, using mean and sd as moderator
 # values to calculate interaction effect
-sjp.int(fit, type = "eff", moderatorValues = "meansd")
-sjp.int(fit, type = "cond", moderatorValues = "meansd")
+sjp.int(fit, type = "eff", mdrt.values = "meansd")
+sjp.int(fit, type = "cond", mdrt.values = "meansd")
 
 # plot interactions, including those with p-value up to 0.1
-sjp.int(fit,
-        type = "cond",
-        plevel = 0.1)
+sjp.int(fit, type = "cond", plevel = 0.1)
 
 # -------------------------------
 # Predictors for negative impact of care.
@@ -284,19 +279,12 @@ mydf <- data.frame(y = as.factor(y),
                    sex = as.factor(efc$c161sex),
                    barthel = as.numeric(efc$barthtot))
 # fit model
-fit <- glm(y ~ sex * barthel,
-           data = mydf,
+fit <- glm(y ~ sex * barthel, data = mydf,
            family = binomial(link = "logit"))
+           
 # plot interaction, increase p-level sensivity
-sjp.int(fit,
-        type = "eff",
-        legend.labels = get_labels(efc$c161sex),
-        plevel = 0.1)
-
-sjp.int(fit,
-        type = "cond",
-        legend.labels = get_labels(efc$c161sex),
-        plevel = 0.1)
+sjp.int(fit, type = "eff", legend.labels = get_labels(efc$c161sex), plevel = 0.1)
+sjp.int(fit, type = "cond", legend.labels = get_labels(efc$c161sex), plevel = 0.1)
         
 \dontrun{
 # -------------------------------
@@ -326,10 +314,7 @@ sjp.int(fit, type = "emm")
 # plot marginal means of interactions, including those with p-value up to 1
 sjp.int(fit, type = "emm", plevel = 1)
 # swap predictors
-sjp.int(fit, 
-        type = "emm",
-        plevel = 1, 
-        swapPredictors = TRUE)
+sjp.int(fit, type = "emm", plevel = 1, swap.pred = TRUE)
 
 # -------------------------------
 # Plot effects
@@ -343,11 +328,7 @@ fit <- lm(burden ~ .*., data = mydf)
 sjp.int(fit, type = "eff", show.ci = TRUE)
 
 # plot effects, faceted
-sjp.int(fit, 
-        type = "eff", 
-        int.plot.index = 3,
-        show.ci = TRUE,
-        facet.grid = TRUE)}
+sjp.int(fit, type = "eff", int.plot.index = 3, show.ci = TRUE, facet.grid = TRUE)}
 
 }
 \references{
@@ -359,8 +340,6 @@ sjp.int(fit,
              \item Hayes AF (2012) PROCESS: A versatile computational tool for observed variable mediation, moderation, and conditional process modeling [White paper] \href{http://imaging.mrc-cbu.cam.ac.uk/statswiki/FAQ/SobelTest?action=AttachFile&do=get&target=process.pdf}{download}
              \item \href{http://www.theanalysisfactor.com/interpreting-interactions-in-regression/}{Grace-Martin K: Interpreting Interactions in Regression}
              \item \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin K: Clarifications on Interpreting Interactions in Regression}
-             \item \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}
-             \item \href{http://www.theanalysisfactor.com/using-adjusted-means-to-interpret-moderators-in-analysis-of-covariance/}{Grace-Martin K: Using Adjusted Means to Interpret Moderators in Analysis of Covariance.}
              }
 }
 \seealso{

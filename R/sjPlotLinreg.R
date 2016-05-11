@@ -541,22 +541,15 @@ sjp.lm <- function(fit,
     # and error bar
     geom_errorbar(aes(ymin = lower, ymax = upper), width = 0) +
     # Print p-values. With vertical adjustment, so they don't overlap with the errorbars
-    geom_text(aes(label = p),
-              nudge_x = y.offset,
-              show.legend = FALSE) +
+    geom_text(aes(label = p), nudge_x = y.offset, show.legend = FALSE) +
     # print point
     geom_point(size = geom.size) +
     # Intercept-line
-    geom_hline(yintercept = 0,
-               linetype = vline.type,
-               color = vline.color) +
+    geom_hline(yintercept = 0, linetype = vline.type, color = vline.color) +
     # set y-scale-limits, breaks and tick labels
-    scale_y_continuous(limits = c(lower_lim, upper_lim),
-                       breaks = ticks,
-                       labels = ticks) +
+    scale_y_continuous(limits = c(lower_lim, upper_lim), breaks = ticks, labels = ticks) +
     # set value labels to x-axis
-    scale_x_discrete(labels = axis.labels,
-                     limits = 1:length(axis.labels)) +
+    scale_x_discrete(labels = axis.labels, limits = 1:length(axis.labels)) +
     labs(title = title, x = NULL, y = axis.title, colour = legend.title)
   # --------------------------------------------------------
   # flip coordinates?

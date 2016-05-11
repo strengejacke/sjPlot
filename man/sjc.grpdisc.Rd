@@ -7,8 +7,8 @@
 sjc.grpdisc(data, groups, groupcount, clss.fit = TRUE, printPlot = TRUE)
 }
 \arguments{
-\item{data}{data frame containing all variables that should be used for the
-check for goodness of classification of a cluster analysis}
+\item{data}{\code{data.frame} with variables that should be used for the
+cluster analysis.}
 
 \item{groups}{group classification of the cluster analysis that was returned
 from the \code{\link{sjc.cluster}}-function}

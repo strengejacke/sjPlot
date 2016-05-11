@@ -11,10 +11,10 @@ sjp.xtab(x, grp, title = "", legend.title = NULL, weight.by = NULL,
   y.offset = NULL, string.total = "Total", wrap.title = 50,
   wrap.labels = 15, wrap.legend.title = 20, wrap.legend.labels = 20,
   grid.breaks = 0.2, geom.size = 0.7, geom.spacing = 0.1,
-  geom.colors = "Paired", bar.pos = c("dodge", "stack"), lineDotSize = 3,
-  smoothLines = FALSE, expand.grid = FALSE, show.values = TRUE,
+  geom.colors = "Paired", bar.pos = c("dodge", "stack"), dot.size = 3,
+  smooth.lines = FALSE, expand.grid = FALSE, show.values = TRUE,
   show.n = TRUE, show.prc = TRUE, show.summary = FALSE,
-  tableSummaryPos = "r", show.total = TRUE, show.legend = TRUE,
+  summary.pos = "r", show.total = TRUE, show.legend = TRUE,
   axis.titles = NULL, coord.flip = FALSE, printPlot = TRUE)
 }
 \arguments{
@@ -23,10 +23,10 @@ sjp.xtab(x, grp, title = "", legend.title = NULL, weight.by = NULL,
 \item{grp}{grouping variable of same length as \code{x}, where \code{x} 
 is grouped into the categories represented by \code{grp}.}
 
-\item{title}{string, used as plot title. Depending on plot type and function,
+\item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{legend.title}{title of the plot legend, as string.}
+\item{legend.title}{character vector, used as title for the plot legend.}
 
 \item{weight.by}{weight factor that will be applied to weight all cases.
 Must be a vector of same length as the input vector. Default is 
@@ -50,7 +50,8 @@ can be added to the plot (see \code{show.total}).}
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
 y-axis fits to the required range of the data.}
 
-\item{axis.labels}{character vector with labels used as axis labels.}
+\item{axis.labels}{character vector with labels used as axis labels. Optional
+argument, since in most cases, axis labels are set automatically.}
 
 \item{legend.labels}{a character vector with labels for the guide/legend.}
 
@@ -75,7 +76,7 @@ if \code{show.total = TRUE}. Default is \code{"Total"}.}
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
 \item{wrap.legend.title}{determines how many chars of the legend's title 
@@ -88,19 +89,19 @@ displayed in one line and when a line break is inserted.}
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
 \item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function. Note that bar and bin widths mostly 
+depending on plot type and function). Note that bar and bin widths mostly 
 need smaller values than dot sizes.}
 
 \item{geom.spacing}{the spacing between geoms (i.e. bar spacing)}
 
-\item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
+\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
 \item{bar.pos}{indicates whether bars should be positioned side-by-side (default)
 or stacked (use \code{"stack"} as argument).}
 
-\item{lineDotSize}{dot size, only applies, when argument \code{type = "line"}.}
+\item{dot.size}{dot size, only applies, when argument \code{type = "line"}.}
 
-\item{smoothLines}{prints a smooth line curve. Only applies, when argument \code{type = "line"}.}
+\item{smooth.lines}{prints a smooth line curve. Only applies, when argument \code{type = "line"}.}
 
 \item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 axes and plotting region. Default is \code{FALSE}.}
@@ -120,7 +121,7 @@ if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is
 computed instead of chi-squared test. If the table's matrix is larger 
 than 2x2, Fisher's excact test with Monte Carlo simulation is computed.}
 
-\item{tableSummaryPos}{position of the model summary which is printed when \code{show.summary} 
+\item{summary.pos}{position of the model summary which is printed when \code{show.summary} 
 is \code{TRUE}. Default is \code{"r"}, i.e. it's printed to the upper right corner. 
 Use \code{"l"} for upper left corner.}
 

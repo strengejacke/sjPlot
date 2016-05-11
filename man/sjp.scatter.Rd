@@ -26,10 +26,10 @@ dots along the y axis.}
 \item{grp}{grouping variable. If not \code{NULL}, the scatter plot will be grouped. See
 'Examples'. Default is \code{NULL}, i.e. not grouping is done.}
 
-\item{title}{string, used as plot title. Depending on plot type and function,
+\item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{legend.title}{title of the plot legend, as string.}
+\item{legend.title}{character vector, used as title for the plot legend.}
 
 \item{legend.labels}{a character vector with labels for the guide/legend.}
 
@@ -53,12 +53,12 @@ are displayed in one line and when a line break is inserted.}
 displayed in one line and when a line break is inserted.}
 
 \item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function. Note that bar and bin widths mostly 
+depending on plot type and function). Note that bar and bin widths mostly 
 need smaller values than dot sizes.}
 
 \item{label.size}{Size of text labels if argument \code{dot.labels} is used.}
 
-\item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
+\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
 \item{show.axis.values}{logical, whether category, count or percentage values for the axis
 should be printed or not.}

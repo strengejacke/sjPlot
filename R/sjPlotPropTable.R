@@ -21,8 +21,7 @@ utils::globalVariables(c("rowname", "total", "ges", "prc", "n", "Count", "Group"
 #'          If \code{margin = "col"}, an additional bar with the total sum of each column
 #'          can be added to the plot (see \code{show.total}).
 #' @param rev.order logical, if \code{TRUE}, order of categories (groups) is reversed.
-#' @param lineDotSize dot size, only applies, when argument \code{type = "line"}.
-#' @param smoothLines prints a smooth line curve. Only applies, when argument \code{type = "line"}.
+#' @param dot.size dot size, only applies, when argument \code{type = "line"}.
 #' @param string.total string for the legend label when a total-column is added. Only applies
 #'          if \code{show.total = TRUE}. Default is \code{"Total"}.
 #' @param show.total when \code{margin = "col"}, an additional bar 
@@ -115,14 +114,14 @@ sjp.xtab <- function(x,
                      geom.spacing = 0.1,
                      geom.colors = "Paired",
                      bar.pos = c("dodge", "stack"),
-                     lineDotSize = 3,
-                     smoothLines = FALSE,
+                     dot.size = 3,
+                     smooth.lines = FALSE,
                      expand.grid = FALSE,
                      show.values = TRUE,
                      show.n = TRUE,
                      show.prc = TRUE,
                      show.summary = FALSE,
-                     tableSummaryPos = "r",
+                     summary.pos = "r",
                      show.total = TRUE,
                      show.legend = TRUE,
                      axis.titles = NULL,
@@ -416,7 +415,7 @@ sjp.xtab <- function(x,
   } else if (type == "line") {
     # for lines, numeric scale
     mydf$xpos <- sjmisc::to_value(mydf$xpos, keep.labels = F)
-    line.stat <- ifelse(isTRUE(smoothLines), "smooth", "identity")
+    line.stat <- ifelse(isTRUE(smooth.lines), "smooth", "identity")
     geob <- geom_line(aes(colour = group), size = geom.size,  stat = line.stat)
   }
   # --------------------------------------------------------
@@ -426,12 +425,12 @@ sjp.xtab <- function(x,
   # if we have line diagram, print lines here
   if (type == "line") {
     baseplot <- baseplot + 
-      geom_point(size = lineDotSize, shape = 21, show.legend = FALSE)
+      geom_point(size = dot.size, shape = 21, show.legend = FALSE)
   }
   # ------------------------------------------
   # check whether table summary should be printed
   # ------------------------------------------
-  baseplot <- print.table.summary(baseplot, modsum, tableSummaryPos)
+  baseplot <- print.table.summary(baseplot, modsum, summary.pos)
   baseplot <- baseplot +
     # show absolute and percentage value of each bar.
     ggvaluelabels +

@@ -86,6 +86,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 #' @importFrom stats na.omit coef confint
 #' @export
 sjp.glmm <- function(...,
+                     remove.estimates = NULL,
                      title = NULL,
                      depvar.labels = NULL,
                      legend.title = "Dependent Variables",
@@ -101,18 +102,17 @@ sjp.glmm <- function(...,
                      geom.size = 3,
                      geom.spacing = 0.4,
                      geom.colors = "Set1",
+                     show.values = TRUE,
+                     show.legend = TRUE,
+                     show.intercept = FALSE,
+                     show.p = TRUE,
                      fade.ns = FALSE,
                      p.shape = FALSE,
                      vline.type = 2,
                      vline.color = "grey70",
-                     remove.estimates = NULL,
-                     coord.flip = TRUE,
-                     show.intercept = FALSE,
-                     show.values = TRUE,
                      digits = 2,
-                     show.p = TRUE,
-                     show.legend = TRUE,
                      facet.grid = FALSE,
+                     coord.flip = TRUE,
                      printPlot = TRUE) {
   # --------------------------------------------------------
   # retrieve list of fitted models

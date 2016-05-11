@@ -14,19 +14,19 @@ utils::globalVariables("pv")
 #'                
 #' @param var.dep dependent variable. Will be used with following formula:
 #'          \code{aov(var.dep ~ var.grp)}
+#' @param var.grp factor with the cross-classifying variable, where \code{var.dep} 
+#'          is grouped into the categories represented by \code{var.grp}.
 #' @param meansums logical, if \code{TRUE}, the values reported are the true group mean values (see also \code{\link{sjt.grpmean}}).
 #'          If \code{FALSE} (default), the values are reported in the standard way, i.e. the values indicate the difference of
 #'          the group mean in relation to the intercept (reference group).
 #' @param string.interc string that indicates the reference group (intercept), that is appended to
 #'          the value label of the grouping variable. Default is \code{"(Intercept)"}.
-#' @param axis.lim numeric vector of length 2, defining the range of the plot axis.
-#'          By default, the limits range from the lowest confidence interval to the 
-#'          highest, so plot has maximum zoom.
 #'          
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.glmer
 #' @inheritParams sjp.xtab
+#' @inheritParams sjp.gpt
 #'          
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}).
@@ -58,7 +58,6 @@ sjp.aov1 <- function(var.dep,
                      wrap.title = 50,
                      wrap.labels = 25,
                      grid.breaks = NULL,
-                     expand.grid = FALSE,
                      show.values = TRUE,
                      digits = 2,
                      y.offset = .1,
@@ -100,13 +99,6 @@ sjp.aov1 <- function(var.dep,
   # Check if var.grp is factor. If not, convert to factor
   # --------------------------------------------------------
   if (!is.factor(var.grp)) var.grp <- as.factor(var.grp)
-  # --------------------------------------------------------
-  # Check spelling of type-param
-  # --------------------------------------------------------
-  if (isTRUE(expand.grid)) 
-    expand.grid <- ggplot2::waiver()
-  else
-    expand.grid <- c(0, 0)
   # --------------------------------------------------------
   # check whether we have x-axis title. if not, use standard
   # value
@@ -259,22 +251,18 @@ sjp.aov1 <- function(var.dep,
   # --------------------------------------------------------
   # Start plot here!
   # --------------------------------------------------------
-  anovaplot <- ggplot(df, aes(y = means, x = xv)) +
+  anovaplot <- ggplot(df, aes(y = means, x = as.factor(xv))) +
     # print point
     geom_point(size = geom.size, colour = df$geocol) +
     # and error bar
-    geom_errorbar(aes(ymin = lower, ymax = upper), 
-                  colour = df$geocol, 
-                  width = 0) +
+    geom_errorbar(aes(ymin = lower, ymax = upper), colour = df$geocol, width = 0) +
     # Print p-values. With vertical adjustment, so 
     # they don't overlap with the errorbars
-    geom_text(aes(label = pv, y = means), 
-              nudge_x = y.offset, 
-              show.legend = FALSE) +
+    geom_text(aes(label = pv, y = means), nudge_x = y.offset, show.legend = FALSE) +
     # set y-scale-limits, breaks and tick labels
     scaley +
     # set value labels to x-axis
-    scale_x_discrete(labels = axis.labels, limits = c(1:nrow(df))) +
+    scale_x_discrete(labels = axis.labels, limits = 1:length(axis.labels)) +
     # flip coordinates
     labs(title = title, x = NULL, y = axis.title) +
     coord_flip()
@@ -282,11 +270,9 @@ sjp.aov1 <- function(var.dep,
   if (show.summary) {
     # add annotations with model summary
     # annotations include intercept-value and model's r-square
-    anovaplot <- anovaplot + annotate("text", 
-                                      label = modsum, 
-                                      parse = TRUE, 
-                                      x = -Inf, 
-                                      y = Inf)
+    anovaplot <- anovaplot + 
+      annotate("text", label = modsum, parse = TRUE, x = -Inf, y = Inf, 
+               hjust = "right", vjust = "bottom")
   }
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted

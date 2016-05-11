@@ -56,7 +56,7 @@ are added to the output.}
 names. By default, rows (variables) are ordered according to their
 order in the data frame.}
 
-\item{wrap.labels}{determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
 \item{encoding}{string, indicating the charset encoding used for variable and 

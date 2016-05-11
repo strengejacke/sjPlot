@@ -4,22 +4,24 @@
 \alias{sjp.corr}
 \title{Plot correlation matrix}
 \usage{
-sjp.corr(data, title = NULL, axis.labels = NULL, type = "circle",
-  sort.corr = TRUE, decimals = 3, na.deletion = c("listwise", "pairwise"),
-  corr.method = c("spearman", "pearson", "kendall"), geom.colors = "RdBu",
-  geom.size = 15, wrap.title = 50, wrap.labels = 20,
-  show.legend = FALSE, legend.title = NULL, show.values = TRUE,
-  show.p = TRUE, p.numeric = FALSE, printPlot = TRUE)
+sjp.corr(data, title = NULL, axis.labels = NULL, type = c("circle",
+  "tile"), sort.corr = TRUE, decimals = 3, na.deletion = c("listwise",
+  "pairwise"), corr.method = c("spearman", "pearson", "kendall"),
+  geom.colors = "RdBu", geom.size = 15, wrap.title = 50,
+  wrap.labels = 20, show.legend = FALSE, legend.title = NULL,
+  show.values = TRUE, show.p = TRUE, p.numeric = FALSE,
+  printPlot = TRUE)
 }
 \arguments{
 \item{data}{matrix with correlation coefficients as returned by the 
 \code{\link{cor}}-function, or a \code{\link{data.frame}} of variables that
 should be correlated.}
 
-\item{title}{string, used as plot title. Depending on plot type and function,
+\item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{axis.labels}{character vector with labels used as axis labels.}
+\item{axis.labels}{character vector with labels used as axis labels. Optional
+argument, since in most cases, axis labels are set automatically.}
 
 \item{type}{indicates whether the geoms of correlation values should be plotted
 as \code{"circle"} (default) or as \code{"tile"}.}
@@ -41,22 +43,22 @@ abbreviated.}
 \code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.
 May be abbreviated.}
 
-\item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
+\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
 \item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function. Note that bar and bin widths mostly 
+depending on plot type and function). Note that bar and bin widths mostly 
 need smaller values than dot sizes.}
 
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
-\item{legend.title}{title of the plot legend, as string.}
+\item{legend.title}{character vector, used as title for the plot legend.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
@@ -75,12 +77,14 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
           (\code{corr.matrix}).
 }
 \description{
-Plot correlation matrix as ellipses or tiles. Required argument is either
-               a \code{\link{data.frame}} or a matrix with correlation coefficients 
-               as returned by the \code{\link{cor}}-function. In case of ellipses, the
-               ellipses size indicates the strength of the correlation. Furthermore,
-               blue and red colors indicate positive or negative correlations, where
-               stronger correlations are darker.
+Plot correlation matrix as ellipses or tiles.
+}
+\details{
+Required argument is either a \code{\link{data.frame}} or a matrix with correlation coefficients 
+           as returned by the \code{\link{cor}}-function. In case of ellipses, the
+           ellipses size indicates the strength of the correlation. Furthermore,
+           blue and red colors indicate positive or negative correlations, where
+           stronger correlations are darker.
 }
 \note{
 If \code{data} is a matrix with correlation coefficients as returned by 

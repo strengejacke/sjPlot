@@ -13,7 +13,7 @@ sjt.grpmean(var.cnt, var.grp, weight.by = NULL, value.labels = NULL,
 \item{var.cnt}{vector of counts, for which frequencies or means will be plotted or printed.}
 
 \item{var.grp}{factor with the cross-classifying variable, where \code{var.cnt} 
-is grouped into the categories represented by \code{varGrp}.}
+is grouped into the categories represented by \code{var.grp}.}
 
 \item{weight.by}{weight factor that will be applied to weight all cases.
 Must be a vector of same length as the input vector. Default is 

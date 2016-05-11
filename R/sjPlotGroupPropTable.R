@@ -7,8 +7,9 @@ utils::globalVariables(c("dep", "n"))
 #'                each level of \code{x} for the highest category in \code{y}
 #'                is plotted, for each subgroup of \code{groups}.
 #'
-#' @param x categorical variable, where the proportion of each categorie in the
-#'            highest category of \code{y} will be printed along the x-axis.
+#' @param x categorical variable, where the proportion of each category in 
+#'            \code{x} for the highest category of \code{y} will be printed 
+#'            along the x-axis.
 #' @param y categorical or numeric variable. If not a binary variable, \code{y}
 #'            will be recoded into a binary variable, dichtomized at the highest
 #'            category and all remaining categories.
@@ -97,27 +98,26 @@ sjp.gpt <- function(x,
   # try to automatically set labels if not passed as argument
   # --------------------------------------------------------
   x <- suppressMessages(sjmisc::to_factor(x))
-  ylabels <- sjmisc::get_labels(y,
-                                attr.only = F,
-                                include.values = NULL,
+  ylabels <- sjmisc::get_labels(y, attr.only = F, include.values = NULL,
                                 include.non.labelled = T)
+  # get only value label for hightest category
   ylabels <- ylabels[length(ylabels)]
-  if (is.null(axis.labels)) axis.labels <- sjmisc::get_labels(groups,
-                                                              attr.only = F,
-                                                              include.values = NULL,
-                                                              include.non.labelled = T)
-  if (is.null(axisTitle.y)) axisTitle.y <- paste0("Proportion of ",
-                                                  sjmisc::get_label(x, def.value = var.name.x),
-                                                  " in ",
-                                                  sjmisc::get_label(y, def.value = var.name.y),
-                                                  " (",
-                                                  ylabels,
-                                                  ")")
-  if (is.null(legend.title)) legend.title <- sjmisc::get_label(x, def.value = var.name.x)
-  if (is.null(legend.labels)) legend.labels <- sjmisc::get_labels(x,
-                                                                attr.only = F,
-                                                                include.values = NULL,
-                                                                include.non.labelled = T)
+  if (is.null(axis.labels)) {
+    axis.labels <- sjmisc::get_labels(groups, attr.only = F, include.values = NULL, 
+                                      include.non.labelled = T)
+  }
+  if (is.null(axisTitle.y)) {
+    axisTitle.y <- paste0("Proportion of ", sjmisc::get_label(x, def.value = var.name.x),
+                          " in ", sjmisc::get_label(y, def.value = var.name.y), 
+                          " (", ylabels, ")")
+  }
+  if (is.null(legend.title)) {
+    legend.title <- sjmisc::get_label(x, def.value = var.name.x)
+  }
+  if (is.null(legend.labels)) {
+    legend.labels <- sjmisc::get_labels(x, attr.only = F, include.values = NULL,
+                                        include.non.labelled = T)
+  }
   # ---------------------------------------------
   # set labels that are still missing, but which need values
   # ---------------------------------------------
@@ -163,8 +163,7 @@ sjp.gpt <- function(x,
   # ------------------------------------
   pvals <- mydf %>%
     dplyr::group_by(grp) %>%
-    dplyr::summarise(N = n(),
-                     p = suppressWarnings(stats::chisq.test(table(xpos, dep))$p.value))
+    dplyr::summarise(N = n(), p = suppressWarnings(stats::chisq.test(table(xpos, dep))$p.value))
   # ------------------------------------
   # copy p values
   # ------------------------------------
@@ -185,8 +184,7 @@ sjp.gpt <- function(x,
       dplyr::summarise(ypos = mean(dep))
     # pvalues and N
     pvals <- mydf %>%
-      dplyr::summarise(N = n(),
-                       p = suppressWarnings(stats::chisq.test(table(xpos, dep))$p.value))
+      dplyr::summarise(N = n(), p = suppressWarnings(stats::chisq.test(table(xpos, dep))$p.value))
     # bind total row to final df
     newdf <- dplyr::bind_rows(newdf, tmp)
     # copy p values
@@ -236,24 +234,13 @@ sjp.gpt <- function(x,
   # --------------------------------------------------------
   # Set up plot
   # --------------------------------------------------------
-  p <- ggplot(newdf, aes(x = rev(grp),
-                         y = ypos,
-                         colour = xpos,
-                         shape = xpos)) +
+  p <- ggplot(newdf, aes(x = rev(grp), y = ypos, colour = xpos, shape = xpos)) +
     geom_point(size = geom.size, fill = shape.fill.color) +
-    scale_y_continuous(labels = scales::percent,
-                       breaks = gridbreaks,
-                       limits = axis.lim) +
+    scale_y_continuous(labels = scales::percent, breaks = gridbreaks, limits = axis.lim) +
     scale_x_discrete(labels = rev(axis.labels)) +
-    scale_shape_manual(name = legend.title,
-                       labels = legend.labels,
-                       values = shapes[1:pal.len]) +
-    scale_colour_manual(name = legend.title,
-                        labels = legend.labels,
-                        values = geom.colors) +
-    labs(x = axisTitle.x,
-         y = axisTitle.y,
-         title = title) +
+    scale_shape_manual(name = legend.title, labels = legend.labels, values = shapes[1:pal.len]) +
+    scale_colour_manual(name = legend.title, labels = legend.labels, values = geom.colors) +
+    labs(x = axisTitle.x, y = axisTitle.y, title = title) +
     coord_flip()
   # --------------------------------------------------------
   # Annotate total line?
@@ -264,6 +251,5 @@ sjp.gpt <- function(x,
   # print plot
   # --------------------------------------------------------
   if (printPlot) print(p)
-  invisible(structure(list(plot = p,
-                           df = newdf)))
+  invisible(structure(list(plot = p, df = newdf)))
 }

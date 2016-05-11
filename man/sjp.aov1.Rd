@@ -8,54 +8,50 @@ sjp.aov1(var.dep, var.grp, meansums = FALSE, title = NULL,
   axis.labels = NULL, rev.order = FALSE, string.interc = "(Intercept)",
   axis.title = "", axis.lim = NULL, geom.colors = c("#3366a0", "#aa3333"),
   geom.size = 3, wrap.title = 50, wrap.labels = 25, grid.breaks = NULL,
-  expand.grid = FALSE, show.values = TRUE, digits = 2, y.offset = 0.1,
-  show.p = TRUE, show.summary = FALSE, printPlot = TRUE)
+  show.values = TRUE, digits = 2, y.offset = 0.1, show.p = TRUE,
+  show.summary = FALSE, printPlot = TRUE)
 }
 \arguments{
 \item{var.dep}{dependent variable. Will be used with following formula:
 \code{aov(var.dep ~ var.grp)}}
 
-\item{var.grp}{factor with the cross-classifying variable, where \code{var.cnt} 
-is grouped into the categories represented by \code{varGrp}.}
+\item{var.grp}{factor with the cross-classifying variable, where \code{var.dep} 
+is grouped into the categories represented by \code{var.grp}.}
 
 \item{meansums}{logical, if \code{TRUE}, the values reported are the true group mean values (see also \code{\link{sjt.grpmean}}).
 If \code{FALSE} (default), the values are reported in the standard way, i.e. the values indicate the difference of
 the group mean in relation to the intercept (reference group).}
 
-\item{title}{string, used as plot title. Depending on plot type and function,
+\item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{axis.labels}{character vector with labels used as axis labels.}
+\item{axis.labels}{character vector with labels used as axis labels. Optional
+argument, since in most cases, axis labels are set automatically.}
 
 \item{rev.order}{logical, if \code{TRUE}, order of categories (groups) is reversed.}
 
 \item{string.interc}{string that indicates the reference group (intercept), that is appended to
 the value label of the grouping variable. Default is \code{"(Intercept)"}.}
 
-\item{axis.title}{string, title for the axis. If not specified, a default labelling depending
-on the plot function and type is chosen.}
+\item{axis.title}{character vector, used as title for the axis. If not specified, 
+a default labelling depending on the plot function and type is chosen.}
 
-\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
-By default, the limits range from the lowest confidence interval to the 
-highest, so plot has maximum zoom.}
+\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.}
 
-\item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
+\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
 \item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function. Note that bar and bin widths mostly 
+depending on plot type and function). Note that bar and bin widths mostly 
 need smaller values than dot sizes.}
 
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
-
-\item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
-axes and plotting region. Default is \code{FALSE}.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 

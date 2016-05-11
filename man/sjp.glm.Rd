@@ -4,15 +4,16 @@
 \alias{sjp.glm}
 \title{Plot estimates, predictions or effects of generalized linear models}
 \usage{
-sjp.glm(fit, type = "dots", sort.est = TRUE, title = NULL,
-  axis.labels = NULL, axis.title = "Odds Ratios", legend.title = NULL,
-  axis.lim = NULL, wrap.title = 50, wrap.labels = 25, grid.breaks = 0.5,
-  trns.ticks = TRUE, geom.size = NULL, geom.colors = "Set1",
-  vline.type = 2, vline.color = "grey70", group.estimates = NULL,
-  remove.estimates = NULL, vars = NULL, coord.flip = TRUE,
-  y.offset = 0.15, show.intercept = FALSE, show.values = TRUE,
-  digits = 2, show.p = TRUE, show.summary = FALSE, facet.grid = TRUE,
-  show.ci = FALSE, show.legend = FALSE, printPlot = TRUE)
+sjp.glm(fit, type = "dots", vars = NULL, group.estimates = NULL,
+  remove.estimates = NULL, sort.est = TRUE, title = NULL,
+  legend.title = NULL, axis.labels = NULL, axis.title = "Odds Ratios",
+  geom.size = NULL, geom.colors = "Set1", wrap.title = 50,
+  wrap.labels = 25, axis.lim = NULL, grid.breaks = 0.5,
+  trns.ticks = TRUE, show.intercept = FALSE, show.values = TRUE,
+  show.p = TRUE, show.ci = FALSE, show.legend = FALSE,
+  show.summary = FALSE, digits = 2, vline.type = 2,
+  vline.color = "grey70", coord.flip = TRUE, y.offset = 0.15,
+  facet.grid = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{fit}{fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).}
@@ -27,52 +28,11 @@ sjp.glm(fit, type = "dots", sort.est = TRUE, title = NULL,
   \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 }}
 
-\item{sort.est}{logical, determines whether estimates should be sorted according to their values.
-If \code{group.estimates} is \emph{not} \code{NULL}, estimates are sorted
-according to their group assignment.}
-
-\item{title}{string, used as plot title. Depending on plot type and function,
-will be set automatically. If \code{title = ""}, no title is printed.}
-
-\item{axis.labels}{character vector with labels used as axis labels.}
-
-\item{axis.title}{string, title for the axis. If not specified, a default labelling depending
-on the plot function and type is chosen.}
-
-\item{legend.title}{title of the plot legend, as string.}
-
-\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
-By default, the limits range from the lowest confidence interval to the 
-highest, so plot has maximum zoom.}
-
-\item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
-one line and when a line break is inserted.}
-
-\item{wrap.labels}{determines how many chars of the value, variable or axis 
-labels are displayed in one line and when a line break is inserted.}
-
-\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
-i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
-
-\item{trns.ticks}{logical, if \code{TRUE}, the grid lines have exponential 
-distances (equidistant), i.e. they visually have the same distance from 
-one panel grid to the next. If \code{FALSE}, grids are 
-plotted on every \code{grid.breaks}'s position, thus the grid lines become narrower with 
-higher odds ratio values.}
-
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function. Note that bar and bin widths mostly 
-need smaller values than dot sizes.}
-
-\item{geom.colors}{user defined color palette for geoms. If \code{group.estimates}
-is \emph{not} specified, must either be vector with two color values or a specific
-color palette code (see 'Details' in \code{\link{sjp.grpfrq}}). Else, if
-\code{group.estimates} is specified, \code{geom.colors} must be a vector
-of same length as groups. See 'Examples'.}
-
-\item{vline.type}{linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
-
-\item{vline.color}{color of the vertical "zero point" line. Default value is \code{"grey70"}.}
+\item{vars}{numeric vector with column indices of selected variables or a character vector with
+variable names of selected variables from the fitted model, which should be used to plot
+estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability or
+incidents curves
+(for \code{\link[lme4]{glmer}}) of random intercepts.}
 
 \item{group.estimates}{numeric or character vector, indicating a group identifier for
 each estimate. Dots and confidence intervals of estimates are coloured
@@ -83,16 +43,47 @@ which estimates should be removed from the plot.
 \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 is \code{NULL}, i.e. all estimates are printed.}
 
-\item{vars}{numeric vector with column indices of selected variables or a character vector with
-variable names of selected variables from the fitted model, which should be used to plot
-estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability or
-incidents curves
-(for \code{\link[lme4]{glmer}}) of random intercepts.}
+\item{sort.est}{logical, determines whether estimates should be sorted according to their values.
+If \code{group.estimates} is \emph{not} \code{NULL}, estimates are sorted
+according to their group assignment.}
 
-\item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
+\item{title}{character vector, used as plot title. Depending on plot type and function,
+will be set automatically. If \code{title = ""}, no title is printed.}
 
-\item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
-to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
+\item{legend.title}{character vector, used as title for the plot legend.}
+
+\item{axis.labels}{character vector with labels used as axis labels. Optional
+argument, since in most cases, axis labels are set automatically.}
+
+\item{axis.title}{character vector, used as title for the axis. If not specified, 
+a default labelling depending on the plot function and type is chosen.}
+
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
+depending on plot type and function). Note that bar and bin widths mostly 
+need smaller values than dot sizes.}
+
+\item{geom.colors}{user defined color palette for geoms. If \code{group.estimates}
+is \emph{not} specified, must either be vector with two color values or a specific
+color palette code (see 'Details' in \code{\link{sjp.grpfrq}}). Else, if
+\code{group.estimates} is specified, \code{geom.colors} must be a vector
+of same length as groups. See 'Examples'.}
+
+\item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
+one line and when a line break is inserted.}
+
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
+labels are displayed in one line and when a line break is inserted.}
+
+\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.}
+
+\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
+i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
+
+\item{trns.ticks}{logical, if \code{TRUE}, the grid lines have exponential 
+distances (equidistant), i.e. they visually have the same distance from 
+one panel grid to the next. If \code{FALSE}, grids are 
+plotted on every \code{grid.breaks}'s position, thus the grid lines become narrower with 
+higher odds ratio values.}
 
 \item{show.intercept}{logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
 Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential 
@@ -101,22 +92,31 @@ function call is interrupted and no plot printed.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
-\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
-
 \item{show.p}{logical, adds significance levels to values, or value and 
 variable labels.}
-
-\item{show.summary}{logical, if \code{TRUE}, a summary with model statistics 
-is added to the plot.}
-
-\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
-in a grid of an integrated single plot.}
 
 \item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
 interval or region is added to the plot.}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
+
+\item{show.summary}{logical, if \code{TRUE}, a summary with model statistics 
+is added to the plot.}
+
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
+
+\item{vline.type}{linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
+
+\item{vline.color}{color of the vertical "zero point" line. Default value is \code{"grey70"}.}
+
+\item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
+
+\item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
+to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
+
+\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
+in a grid of an integrated single plot.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
@@ -169,9 +169,8 @@ fitOR <- glm(y ~ Education + Examination + Infant.Mortality + Catholic,
 sjp.glm(fitOR)
 
 # -------------------------------
-# Predictors for negative impact
-# of care. Data from the EUROFAMCARE
-# sample dataset
+# Predictors for negative impact of care. Data from 
+# the EUROFAMCARE sample dataset
 # -------------------------------
 library(sjmisc)
 data(efc)

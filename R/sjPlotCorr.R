@@ -4,12 +4,7 @@ utils::globalVariables(c("ordx", "ordy"))
 #' @title Plot correlation matrix
 #' @name sjp.corr
 #'
-#' @description Plot correlation matrix as ellipses or tiles. Required argument is either
-#'                a \code{\link{data.frame}} or a matrix with correlation coefficients 
-#'                as returned by the \code{\link{cor}}-function. In case of ellipses, the
-#'                ellipses size indicates the strength of the correlation. Furthermore,
-#'                blue and red colors indicate positive or negative correlations, where
-#'                stronger correlations are darker.
+#' @description Plot correlation matrix as ellipses or tiles.
 #'
 #' @seealso \code{\link{sjt.corr}}
 #'
@@ -45,6 +40,12 @@ utils::globalVariables(c("ordx", "ordy"))
 #'       the \code{\link{cor}}-function, p-values can't be computed.
 #'       Thus, \code{show.p} and \code{p.numeric}
 #'       only have an effect if \code{data} is a \code{\link{data.frame}}.
+#'
+#' @details Required argument is either a \code{\link{data.frame}} or a matrix with correlation coefficients 
+#'            as returned by the \code{\link{cor}}-function. In case of ellipses, the
+#'            ellipses size indicates the strength of the correlation. Furthermore,
+#'            blue and red colors indicate positive or negative correlations, where
+#'            stronger correlations are darker.
 #'
 #' @examples
 #' # create data frame with 5 random variables
@@ -91,7 +92,7 @@ utils::globalVariables(c("ordx", "ordy"))
 sjp.corr <- function(data,
                      title = NULL,
                      axis.labels = NULL,
-                     type = "circle",
+                     type = c("circle", "tile"),
                      sort.corr = TRUE,
                      decimals = 3,
                      na.deletion = c("listwise", "pairwise"),
@@ -120,6 +121,7 @@ sjp.corr <- function(data,
   # --------------------------------------------------------
   na.deletion <- match.arg(na.deletion)
   corr.method <- match.arg(corr.method)
+  type <- match.arg(type)
   # --------------------------------------------------------
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
@@ -146,13 +148,6 @@ sjp.corr <- function(data,
     geom.colors <- scales::brewer_pal(palette = geom.colors[1])(5)
   } else if (geom.colors[1] == "gs") {
     geom.colors <- scales::grey_pal()(5)
-  }
-  # ----------------------------
-  # check for valid argument
-  # ----------------------------
-  if (corr.method != "pearson" && corr.method != "spearman" && corr.method != "kendall") {
-    warning("argument 'corr.method' must be one of: pearson, spearman or kendall.", call. = F)
-    return(invisible(NULL))
   }
   # ----------------------------
   # check if user has passed a data frame
@@ -182,9 +177,7 @@ sjp.corr <- function(data,
       for (i in 1:ncol(df)) {
         pv <- c()
         for (j in 1:ncol(df)) {
-          test <- stats::cor.test(df[[i]], 
-                                  df[[j]], 
-                                  alternative = "two.sided", 
+          test <- stats::cor.test(df[[i]], df[[j]], alternative = "two.sided", 
                                   method = corr.method)
           pv <- cbind(pv, round(test$p.value, 4))
         }
@@ -239,23 +232,16 @@ sjp.corr <- function(data,
   # --------------------------------------------------------
   # first, save original matrix for return value
   oricor <- orderedCorr
-  orderedCorr <- tidyr::gather(data.frame(orderedCorr), 
-                               "var", 
-                               "value", 
-                               1:ncol(orderedCorr),
-                               factor_key = TRUE)
+  orderedCorr <- tidyr::gather(data.frame(orderedCorr), "var", "value", 
+                               1:ncol(orderedCorr), factor_key = TRUE)
   # orderedCorr <- melt(orderedCorr)
-  if (!is.null(cpvalues)) cpvalues <- tidyr::gather(data.frame(cpvalues), 
-                                                    "var", 
-                                                    "value", 
-                                                    1:ncol(cpvalues),
-                                                    factor_key = TRUE)
+  if (!is.null(cpvalues)) 
+    cpvalues <- tidyr::gather(data.frame(cpvalues), "var", "value",
+                              1:ncol(cpvalues), factor_key = TRUE)
   # if (!is.null(cpvalues)) cpvalues <- melt(cpvalues)
   # bind additional information like order for x- and y-axis
   # as well as the size of plotted points
-  orderedCorr <- cbind(orderedCorr, 
-                       ordx = c(1:nrow(corr)), 
-                       ordy = yo, 
+  orderedCorr <- cbind(orderedCorr, ordx = c(1:nrow(corr)), ordy = yo, 
                        psize = c(exp(abs(orderedCorr$value)) * geom.size))
   # diagonal circles should be hidden, set their point size to 0
   orderedCorr$psize[which(orderedCorr$value >= 0.999)] <- 0
@@ -323,8 +309,10 @@ sjp.corr <- function(data,
   corrPlot <- corrPlot +
     scale_x_discrete(labels = axis.labels) +
     scale_y_discrete(labels = axis.labels) +
-    # set limits to (-1,1) to make sure the whole color palette is used
+    # set limits to (-1,1) to make sure the whole color palette is used. this
+    # is the colour scale for geoms
     scale_fill_gradientn(colours = geom.colors, limits = c(-1,1)) +
+    # and here we have the colour scale for the text labels
     scale_colour_gradient2(low = "#ca0020", mid = "grey40", high = "#0571b0", limits = c(-1,1)) +
     geom_text(label = sprintf("%s%s", correlationValueLabels, correlationPValues)) +
     labs(title = title, x = NULL, y = NULL, fill = legend.title)

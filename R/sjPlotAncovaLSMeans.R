@@ -3,7 +3,7 @@ utils::globalVariables(c("xn", "vld", "conf.low", "conf.high"))
 
 #' @importFrom dplyr filter
 sjp.emm <- function(fit,
-                    swapPredictors = FALSE,
+                    swap.pred = FALSE,
                     plevel = 0.05,
                     title = NULL,
                     geom.colors = "Set1",
@@ -13,7 +13,7 @@ sjp.emm <- function(fit,
                     legend.title = NULL,
                     legend.labels = NULL,
                     show.values = FALSE,
-                    valueLabel.digits = 2,
+                    digits = 2,
                     show.ci = FALSE,
                     p.kr = TRUE,
                     breakTitleAt = 50,
@@ -163,7 +163,7 @@ sjp.emm <- function(fit,
         # -----------------------------------------------------------
         emm.df <- lmerTest::lsmeans(fit, paste(term.pairs, collapse = ":"))[[1]]
         # swap predictors?
-        if (swapPredictors) term.pairs <- rev(term.pairs)
+        if (swap.pred) term.pairs <- rev(term.pairs)
         # -----------------------------------------------------------
         # get column indices of interaction terms, estimate and
         # confidence intervals. latter term in interaction is considered
@@ -179,9 +179,9 @@ sjp.emm <- function(fit,
         # create data frame from lsmeans
         # -----------------------------------------------------------
         intdf <- data.frame(emm.df[, emm.col],
-                            rep(valueLabel.digits, times = nrow(emm.df)))
+                            rep(digits, times = nrow(emm.df)))
       } else {
-        if (swapPredictors) term.pairs <- rev(term.pairs)
+        if (swap.pred) term.pairs <- rev(term.pairs)
         # -----------------------------------------------------------
         # retrieve estiamted marginal means
         # -----------------------------------------------------------
@@ -192,7 +192,7 @@ sjp.emm <- function(fit,
                             emm[1],
                             emm[6],
                             emm[7],
-                            rep(valueLabel.digits, times = nrow(emm[1])))
+                            rep(digits, times = nrow(emm[1])))
       }
       colnames(intdf) <- c("x", "y", "grp", "conf.low", "conf.high", "vld")
       # -----------------------------------------------------------

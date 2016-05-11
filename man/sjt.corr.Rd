@@ -42,7 +42,7 @@ openend either in the IDE's viewer pane or the default web browser.}
 \item{var.labels}{character vector with variable names, which will be used 
 to label variables in the output.}
 
-\item{wrap.labels}{determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}

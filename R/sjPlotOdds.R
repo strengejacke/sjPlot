@@ -77,9 +77,8 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' sjp.glm(fitOR)
 #'
 #' # -------------------------------
-#' # Predictors for negative impact
-#' # of care. Data from the EUROFAMCARE
-#' # sample dataset
+#' # Predictors for negative impact of care. Data from 
+#' # the EUROFAMCARE sample dataset
 #' # -------------------------------
 #' library(sjmisc)
 #' data(efc)
@@ -123,33 +122,33 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' @export
 sjp.glm <- function(fit,
                     type = "dots",
-                    sort.est = TRUE,
-                    title = NULL,
-                    axis.labels = NULL,
-                    axis.title = "Odds Ratios",
-                    legend.title = NULL,
-                    axis.lim = NULL,
-                    wrap.title = 50,
-                    wrap.labels = 25,
-                    grid.breaks = 0.5,
-                    trns.ticks = TRUE,
-                    geom.size = NULL,
-                    geom.colors = "Set1",
-                    vline.type = 2,
-                    vline.color = "grey70",
+                    vars = NULL,
                     group.estimates = NULL,
                     remove.estimates = NULL,
-                    vars = NULL,
-                    coord.flip = TRUE,
-                    y.offset = .15,
+                    sort.est = TRUE,
+                    title = NULL,
+                    legend.title = NULL,
+                    axis.labels = NULL,
+                    axis.title = "Odds Ratios",
+                    geom.size = NULL,
+                    geom.colors = "Set1",
+                    wrap.title = 50,
+                    wrap.labels = 25,
+                    axis.lim = NULL,
+                    grid.breaks = 0.5,
+                    trns.ticks = TRUE,
                     show.intercept = FALSE,
                     show.values = TRUE,
-                    digits = 2,
                     show.p = TRUE,
-                    show.summary = FALSE,
-                    facet.grid = TRUE,
                     show.ci = FALSE,
                     show.legend = FALSE,
+                    show.summary = FALSE,
+                    digits = 2,
+                    vline.type = 2,
+                    vline.color = "grey70",
+                    coord.flip = TRUE,
+                    y.offset = .15,
+                    facet.grid = TRUE,
                     printPlot = TRUE) {
   # --------------------------------------------------------
   # check arg

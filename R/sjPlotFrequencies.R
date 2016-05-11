@@ -49,6 +49,8 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' @param normal.curve.alpha transparancy level (alpha value) of the normal curve. Only
 #'          applies if \code{normal.curve = TRUE}.
 #' @param xlim numeric vector of length two, defining lower and upper axis limits
+#'          of the x scale. By default, this argument is set to \code{NULL}, i.e. the 
+#'          x-axis fits to the required range of the data.
 #'          
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lm
@@ -113,37 +115,37 @@ sjp.frq <- function(var.cnt,
                     type = c("bar", "dot", "histogram", "line", "density", "boxplot", "violin"),
                     geom.size = NULL,
                     geom.colors = "#336699",
+                    errorbar.color = "darkred",
+                    axis.title = NULL,
                     axis.labels = NULL,
                     xlim = NULL,
                     ylim = NULL,
                     wrap.title = 50,
                     wrap.labels = 20,
                     grid.breaks = NULL,
-                    inner.box.width = 0.15,
-                    inner.box.dotsize = 3,
                     expand.grid = FALSE,
                     show.values = TRUE,
                     show.n = TRUE,
                     show.prc = TRUE,
                     show.axis.values = TRUE,
                     show.ci = FALSE,
-                    errorbar.color = "darkred",
+                    show.na = FALSE,
                     show.mean = FALSE,
                     show.mean.val = TRUE,
                     show.sd = TRUE,
-                    normal.curve = FALSE,
                     mean.line.type = 2,
                     mean.line.size = 0.5,
+                    inner.box.width = 0.15,
+                    inner.box.dotsize = 3,
+                    normal.curve = FALSE,
                     normal.curve.color = "red",
                     normal.curve.size = 0.8,
                     normal.curve.alpha = 0.4,
-                    axis.title = NULL,
                     auto.group = NULL,
                     coord.flip = FALSE,
                     vjust = "bottom",
                     hjust = "center",
                     y.offset = NULL,
-                    show.na = FALSE,
                     printPlot = TRUE) {
   # --------------------------------------------------------
   # get variable name

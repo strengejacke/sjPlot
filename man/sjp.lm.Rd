@@ -37,22 +37,21 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
 If \code{group.estimates} is \emph{not} \code{NULL}, estimates are sorted
 according to their group assignment.}
 
-\item{title}{string, used as plot title. Depending on plot type and function,
+\item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
 
 \item{resp.label}{name of dependent variable, as string. Only 
 used if fitted model has only one predictor and \code{type = "lm"}.}
 
-\item{axis.labels}{character vector with labels used as axis labels.}
+\item{axis.labels}{character vector with labels used as axis labels. Optional
+argument, since in most cases, axis labels are set automatically.}
 
-\item{legend.title}{title of the plot legend, as string.}
+\item{legend.title}{character vector, used as title for the plot legend.}
 
-\item{axis.title}{string, title for the axis. If not specified, a default labelling depending
-on the plot function and type is chosen.}
+\item{axis.title}{character vector, used as title for the axis. If not specified, 
+a default labelling depending on the plot function and type is chosen.}
 
-\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
-By default, the limits range from the lowest confidence interval to the 
-highest, so plot has maximum zoom.}
+\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.}
 
 \item{geom.colors}{user defined color palette for geoms. If \code{group.estimates}
 is \emph{not} specified, must either be vector with two color values or a specific
@@ -61,7 +60,7 @@ color palette code (see 'Details' in \code{\link{sjp.grpfrq}}). Else, if
 of same length as groups. See 'Examples'.}
 
 \item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function. Note that bar and bin widths mostly 
+depending on plot type and function). Note that bar and bin widths mostly 
 need smaller values than dot sizes.}
 
 \item{vline.type}{linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
@@ -86,7 +85,7 @@ incidents curves
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 

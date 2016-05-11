@@ -19,8 +19,8 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #'            \item{\code{"std"}}{for forest-plot like plot of standardized beta values.}
 #'            \item{\code{"std2"}}{for forest-plot like plot of standardized beta values, however, standardization is done by rescaling estimates by dividing them by two sd (see 'Details' in \code{\link{sjp.lm}}).}
 #'          }
-#' @param legend.pval.title title of the plot legend that indicates the p-values, as string.
-#'          Default is \code{"p-level"}. Only applies if \code{p.shape = TRUE}.
+#' @param legend.pval.title character vector, used as title of the plot legend that 
+#'          indicates the p-values. Default is \code{"p-level"}. Only applies if \code{p.shape = TRUE}.
 #' @param geom.spacing spacing between the dots and error bars of the plotted fitted models. Default
 #'          is 0.3.
 #' @param fade.ns if \code{TRUE}, non significant estimates will be printed in slightly faded colors.
@@ -91,6 +91,7 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #' @export
 sjp.lmm <- function(...,
                     type = "lm",
+                    remove.estimates = NULL,
                     title = NULL,
                     depvar.labels = NULL,
                     legend.title = "Dependent Variables",
@@ -105,19 +106,18 @@ sjp.lmm <- function(...,
                     geom.size = 3,
                     geom.spacing = 0.4,
                     geom.colors = "Set1",
+                    show.values = TRUE,
+                    show.legend = TRUE,
+                    show.intercept = FALSE,
+                    show.p = TRUE,
                     fade.ns = FALSE,
                     p.shape = FALSE,
                     p.kr = TRUE,
                     vline.type = 2,
                     vline.color = "grey70",
-                    remove.estimates = NULL,
-                    coord.flip = TRUE,
-                    show.intercept = FALSE,
-                    show.values = TRUE,
                     digits = 2,
-                    show.p = TRUE,
-                    show.legend = TRUE,
                     facet.grid = FALSE,
+                    coord.flip = TRUE,
                     printPlot = TRUE) {
   # --------------------------------------------------------
   # retrieve list of fitted models

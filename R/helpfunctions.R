@@ -74,11 +74,11 @@ get_glm_family <- function(fit) {
 # here we print out total N of cases, chi-square and significance of the table
 print.table.summary <- function(baseplot,
                                 modsum,
-                                tableSummaryPos = "r") {
+                                summary.pos = "r") {
   if (!is.null(modsum)) {
     # add annotations with table summary
     # here we print out total N of cases, chi-square and significance of the table
-    if (tableSummaryPos == "r") {
+    if (summary.pos == "r") {
       t.hjust <- "top"
       x.x <- Inf
     } else {

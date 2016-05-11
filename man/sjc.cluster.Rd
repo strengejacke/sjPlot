@@ -4,21 +4,24 @@
 \alias{sjc.cluster}
 \title{Compute hierarchical or kmeans cluster analysis}
 \usage{
-sjc.cluster(data, groupcount = NULL, method = "h", distance = "euclidean",
-  agglomeration = "ward", iter.max = 20, algorithm = "Hartigan-Wong")
+sjc.cluster(data, groupcount = NULL, method = c("hclust", "kmeans"),
+  distance = c("euclidean", "maximum", "manhattan", "canberra", "binary",
+  "minkowski"), agglomeration = c("ward", "ward.D", "ward.D2", "single",
+  "complete", "average", "mcquitty", "median", "centroid"), iter.max = 20,
+  algorithm = c("Hartigan-Wong", "Lloyd", "MacQueen"))
 }
 \arguments{
-\item{data}{data frame containing all variables that should be used for the
+\item{data}{\code{data.frame} with variables that should be used for the
 cluster analysis.}
 
-\item{groupcount}{amount of groups (clusters) that should be retrieved. May also be
+\item{groupcount}{amount of groups (clusters) used for the cluster solution. May also be
 a set of initial (distinct) cluster centres, in case \code{method = "kmeans"}
 (see \code{\link{kmeans}} for details on \code{centers} argument). 
-If \code{groupcount = NULL}, the optimal amount of clusters is calculated using the 
-gap statistics (see \code{\link{sjc.kgap}}. However, this works only 
-with \code{method = "kmeans"}. If \code{method = "hclust"}, you have 
-to specify \code{groupcount}. Following functions 
-may be helpful for estimating the amount of clusters:
+If \code{groupcount = NULL} and \code{method = "kmeans"}, the optimal 
+amount of clusters is calculated using the gap statistics (see 
+\code{\link{sjc.kgap}}). For \code{method = "hclust"}, \code{groupcount}
+needs to be specified. Following functions may be helpful for estimating 
+the amount of clusters:
 \itemize{
   \item Use \code{\link{sjc.elbow}} to determine the group-count depending on the elbow-criterion.
   \item If \code{method = "kmeans"}, use \code{\link{sjc.kgap}} to determine the group-count according to the gap-statistic.
@@ -26,9 +29,10 @@ may be helpful for estimating the amount of clusters:
   \item Use \code{\link{sjc.grpdisc}} to inspect the goodness of grouping (accuracy of classification).
   }}
 
-\item{method}{Indicates the clustering method. If \code{"hclust"} (default), a hierachical 
-clustering using the ward method is computed. Use \code{"kmeans"} to compute a k-means clustering.
-You can specifiy inital letters only.}
+\item{method}{method for computing the cluster analysis. By default (\code{"kmeans"}), a
+kmeans cluster analysis will be computed. Use \code{"hclust"} to 
+compute a hierarchical cluster analysis. You can specify the 
+initial letters only.}
 
 \item{distance}{distance measure to be used when \code{method = "hclust"} (for hierarchical
 clustering). Must be one of \code{"euclidean"}, \code{"maximum"}, \code{"manhattan"}, 
@@ -68,7 +72,7 @@ Since R version > 3.0.3, the \code{"ward"} option has been replaced by
        have to be considered:
        \enumerate{
          \item Use the \code{/PRINT INITIAL} option for SPSS Quick Cluster to get a table with initial cluster centers.
-         \item Create a \code{\link{matrix}} of this table, by consecutively copying the values, one row after another, from the SPSS output into a matrix and specifying \code{nrow} and \code{ncol} arguments.
+         \item Create a \code{\link{matrix}} of this table, by consecutively copying the values, one row after another, from the SPSS output into a matrix and specify \code{nrow} and \code{ncol} arguments.
          \item Use \code{algorithm="Lloyd"}.
          \item Use the same amount of \code{iter.max} both in SPSS and this \code{sjc.qclus}.
        }

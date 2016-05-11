@@ -12,7 +12,7 @@ utils::globalVariables(c("Row", "Column", "p.value"))
 #'                Calculation of Chi2-matrix taken from 
 #'                \href{https://talesofr.wordpress.com/2013/05/05/ridiculously-photogenic-factors-heatmap-with-p-values/}{Tales of R}.
 #' 
-#' @param df a data frame of (dichotomous) factor variables.
+#' @param df data frame with (dichotomous) factor variables.
 #' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that

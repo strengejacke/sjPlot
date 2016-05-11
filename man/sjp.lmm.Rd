@@ -4,16 +4,16 @@
 \alias{sjp.lmm}
 \title{Plot estimates of multiple fitted lm(er)'s}
 \usage{
-sjp.lmm(..., type = "lm", title = NULL, depvar.labels = NULL,
-  legend.title = "Dependent Variables", legend.pval.title = "p-level",
-  axis.labels = NULL, axis.title = "Estimates", axis.lim = NULL,
-  wrap.title = 50, wrap.labels = 25, wrap.legend.title = 20,
-  grid.breaks = NULL, geom.size = 3, geom.spacing = 0.4,
-  geom.colors = "Set1", fade.ns = FALSE, p.shape = FALSE, p.kr = TRUE,
-  vline.type = 2, vline.color = "grey70", remove.estimates = NULL,
-  coord.flip = TRUE, show.intercept = FALSE, show.values = TRUE,
-  digits = 2, show.p = TRUE, show.legend = TRUE, facet.grid = FALSE,
-  printPlot = TRUE)
+sjp.lmm(..., type = "lm", remove.estimates = NULL, title = NULL,
+  depvar.labels = NULL, legend.title = "Dependent Variables",
+  legend.pval.title = "p-level", axis.labels = NULL,
+  axis.title = "Estimates", axis.lim = NULL, wrap.title = 50,
+  wrap.labels = 25, wrap.legend.title = 20, grid.breaks = NULL,
+  geom.size = 3, geom.spacing = 0.4, geom.colors = "Set1",
+  show.values = TRUE, show.legend = TRUE, show.intercept = FALSE,
+  show.p = TRUE, fade.ns = FALSE, p.shape = FALSE, p.kr = TRUE,
+  vline.type = 2, vline.color = "grey70", digits = 2,
+  facet.grid = FALSE, coord.flip = TRUE, printPlot = TRUE)
 }
 \arguments{
 \item{...}{one or more fitted \code{lm} or \code{lmerMod}-objects. May also 
@@ -27,30 +27,34 @@ each model with comma. See 'Examples'.}
   \item{\code{"std2"}}{for forest-plot like plot of standardized beta values, however, standardization is done by rescaling estimates by dividing them by two sd (see 'Details' in \code{\link{sjp.lm}}).}
 }}
 
-\item{title}{string, used as plot title. Depending on plot type and function,
+\item{remove.estimates}{character vector with coefficient names that indicate
+which estimates should be removed from the plot.
+\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
+is \code{NULL}, i.e. all estimates are printed.}
+
+\item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
 
 \item{depvar.labels}{character vector with labels of dependent 
 variables of all fitted models. See 'Examples'.}
 
-\item{legend.title}{title of the plot legend, as string.}
+\item{legend.title}{character vector, used as title for the plot legend.}
 
-\item{legend.pval.title}{title of the plot legend that indicates the p-values, as string.
-Default is \code{"p-level"}. Only applies if \code{p.shape = TRUE}.}
+\item{legend.pval.title}{character vector, used as title of the plot legend that 
+indicates the p-values. Default is \code{"p-level"}. Only applies if \code{p.shape = TRUE}.}
 
-\item{axis.labels}{character vector with labels used as axis labels.}
+\item{axis.labels}{character vector with labels used as axis labels. Optional
+argument, since in most cases, axis labels are set automatically.}
 
-\item{axis.title}{string, title for the axis. If not specified, a default labelling depending
-on the plot function and type is chosen.}
+\item{axis.title}{character vector, used as title for the axis. If not specified, 
+a default labelling depending on the plot function and type is chosen.}
 
-\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
-By default, the limits range from the lowest confidence interval to the 
-highest, so plot has maximum zoom.}
+\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.}
 
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
 \item{wrap.legend.title}{determines how many chars of the legend's title 
@@ -60,7 +64,7 @@ are displayed in one line and when a line break is inserted.}
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
 \item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function. Note that bar and bin widths mostly 
+depending on plot type and function). Note that bar and bin widths mostly 
 need smaller values than dot sizes.}
 
 \item{geom.spacing}{spacing between the dots and error bars of the plotted fitted models. Default
@@ -71,6 +75,19 @@ is \emph{not} specified, must either be vector with two color values or a specif
 color palette code (see 'Details' in \code{\link{sjp.grpfrq}}). Else, if
 \code{group.estimates} is specified, \code{geom.colors} must be a vector
 of same length as groups. See 'Examples'.}
+
+\item{show.values}{logical, whether values should be plotted or not.}
+
+\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
+function, a legend is added to the plot.}
+
+\item{show.intercept}{logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
+Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential 
+transformation of estimates, the intercept in some cases can not be calculated, thus the
+function call is interrupted and no plot printed.}
+
+\item{show.p}{logical, adds significance levels to values, or value and 
+variable labels.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 
@@ -85,30 +102,12 @@ may take very long time for large samples!}
 
 \item{vline.color}{color of the vertical "zero point" line. Default value is \code{"grey70"}.}
 
-\item{remove.estimates}{character vector with coefficient names that indicate
-which estimates should be removed from the plot.
-\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
-is \code{NULL}, i.e. all estimates are printed.}
-
-\item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
-
-\item{show.intercept}{logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
-Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential 
-transformation of estimates, the intercept in some cases can not be calculated, thus the
-function call is interrupted and no plot printed.}
-
-\item{show.values}{logical, whether values should be plotted or not.}
-
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
-
-\item{show.p}{logical, adds significance levels to values, or value and 
-variable labels.}
-
-\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
-function, a legend is added to the plot.}
 
 \item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
 in a grid of an integrated single plot.}
+
+\item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
