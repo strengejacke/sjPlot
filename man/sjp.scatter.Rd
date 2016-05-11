@@ -5,13 +5,13 @@
 \title{Plot (grouped) scatter plots}
 \usage{
 sjp.scatter(x = NULL, y = NULL, grp = NULL, title = "",
-  legend.title = NULL, legend.labels = NULL, pointLabels = NULL,
+  legend.title = NULL, legend.labels = NULL, dot.labels = NULL,
   axis.titles = NULL, wrap.title = 50, wrap.legend.title = 20,
   wrap.legend.labels = 20, geom.size = 2, label.size = 3,
-  geom.colors = NULL, show.axis.values = TRUE, showGroupFitLine = FALSE,
-  showTotalFitLine = FALSE, show.ci = FALSE, fitmethod = "lm",
-  useJitter = FALSE, useCount = FALSE, autojitter = TRUE,
-  jitterRatio = 0.15, showRug = FALSE, show.legend = TRUE,
+  geom.colors = NULL, show.axis.values = TRUE, fit.line.grps = FALSE,
+  fit.line = FALSE, show.ci = FALSE, fitmethod = "lm",
+  jitter.dots = FALSE, emph.dots = FALSE, autojitter = TRUE,
+  jitter.ratio = 0.15, show.rug = FALSE, show.legend = TRUE,
   facet.grid = FALSE, printPlot = TRUE)
 }
 \arguments{
@@ -33,11 +33,11 @@ will be set automatically. If \code{title = ""}, no title is printed.}
 
 \item{legend.labels}{a character vector with labels for the guide/legend.}
 
-\item{pointLabels}{character vector with names for each coordinate pair given
+\item{dot.labels}{character vector with names for each coordinate pair given
 by \code{x} and \code{y}, so text labels are added to the plot. 
 Must be of same length as \code{x} and \code{y}.
-If \code{pointLabels} has a different length, data points will be trimmed
-to match \code{pointLabels}. If \code{pointLabels = NULL} (default),
+If \code{dot.labels} has a different length, data points will be trimmed
+to match \code{dot.labels}. If \code{dot.labels = NULL} (default),
 no labels are printed.}
 
 \item{axis.titles}{character vector of length one or two, defining the title(s)
@@ -56,17 +56,17 @@ displayed in one line and when a line break is inserted.}
 depending on plot type and function. Note that bar and bin widths mostly 
 need smaller values than dot sizes.}
 
-\item{label.size}{Size of text labels if argument \code{pointLabels} is used.}
+\item{label.size}{Size of text labels if argument \code{dot.labels} is used.}
 
 \item{geom.colors}{user defined color for bars. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
 \item{show.axis.values}{logical, whether category, count or percentage values for the axis
 should be printed or not.}
 
-\item{showGroupFitLine}{logical, if \code{TRUE}, a fitted line for each group
+\item{fit.line.grps}{logical, if \code{TRUE}, a fitted line for each group
 is drawn. See \code{fitmethod} to change the fit method of the fitted lines.}
 
-\item{showTotalFitLine}{logical, if \code{TRUE}, a fitted line for the overall
+\item{fit.line}{logical, if \code{TRUE}, a fitted line for the overall
 scatterplot is drawn. See \code{fitmethod} to change the fit method
 of the fitted line.}
 
@@ -77,24 +77,24 @@ interval or region is added to the plot.}
 the fit lines. Possible values are for instance \code{"lm"}, \code{"glm"},
 \code{"loess"} or \code{"auto"}.}
 
-\item{useJitter}{logical, if \code{TRUE}, points will be jittered (to avoid overplotting).}
+\item{jitter.dots}{logical, if \code{TRUE}, points will be jittered (to avoid overplotting).}
 
-\item{useCount}{logical, if \code{TRUE}, overlapping points at same coordinates
+\item{emph.dots}{logical, if \code{TRUE}, overlapping points at same coordinates
 will be becomme larger, so point size indicates amount of overlapping.}
 
 \item{autojitter}{logical, if \code{TRUE}, points will be jittered according
 to an overlap-estimation. A matrix of \code{x} and \code{y} values
 is created and the amount of cells (indicating a unique point position)
-is calculated. If more than 15\% (see \code{jitterRatio}) of the
+is calculated. If more than 15\% (see \code{jitter.ratio}) of the
 approximated amount of unique point coordinates seem to
 overlap, they are automatically jittered.}
 
-\item{jitterRatio}{ratio of tolerated overlapping (see \code{autojitter}).
+\item{jitter.ratio}{ratio of tolerated overlapping (see \code{autojitter}).
 If approximated amount of overlapping  points exceed this ratio,
 they are automatically jittered. Default is 0.15. Valid values range
 between 0 and 1.}
 
-\item{showRug}{logical, if \code{TRUE}, a marginal rug plot is displayed
+\item{show.rug}{logical, if \code{TRUE}, a marginal rug plot is displayed
 in the graph.}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
@@ -130,38 +130,33 @@ sjp.scatter(efc$c160age, efc$e17age)
 sjp.scatter(efc$c160age, efc$e17age, efc$e42dep)
 
 # grouped and jittered scatter plot with marginal rug plot
-sjp.scatter(efc$e16sex,efc$neg_c_7, efc$c172code, showRug = TRUE)
+sjp.scatter(efc$e16sex,efc$neg_c_7, efc$c172code, show.rug = TRUE)
 
 # grouped and labelled scatter plot, not using the auto-detection
 # of labels, but instead pass labels as arguments
 sjp.scatter(efc$c160age, efc$e17age, efc$e42dep,
-            title = "Scatter Plot",
-            legend.title = get_label(efc)['e42dep'],
+            title = "Scatter Plot", legend.title = get_label(efc)['e42dep'],
             legend.labels = get_labels(efc)[['e42dep']],
-            axis.titles = c(get_label(efc)['c160age'],
-                            get_label(efc)['e17age']),
-            showGroupFitLine = TRUE)
+            axis.titles = c(get_label(efc)['c160age'], get_label(efc)['e17age']),
+            fit.line.grps = TRUE)
 
 # grouped and labelled scatter plot as facets
-sjp.scatter(efc$c160age,efc$e17age, efc$e42dep,
-            showGroupFitLine = TRUE,
-            facet.grid = TRUE,
-            show.ci = TRUE)
+sjp.scatter(efc$c160age,efc$e17age, efc$e42dep, fit.line.grps = TRUE,
+            facet.grid = TRUE, show.ci = TRUE)
 
 # plot residuals of fitted models
 fit <- lm(neg_c_7 ~ quol_5, data = efc)
-sjp.scatter(y = fit$residuals, showTotalFitLine = TRUE)
+sjp.scatter(y = fit$residuals, fit.line = TRUE)
 
 # "hide" axis titles
-sjp.scatter(efc$c160age, efc$e17age, efc$e42dep,
-            title = "", axis.titles = c("", ""))
+sjp.scatter(efc$c160age, efc$e17age, efc$e42dep, title = "", 
+            axis.titles = c("", ""))
 
 # plot text labels
 pl <- c(1:10)
-for (i in 1:10) pl[i] <- paste(sample(c(0:9, letters, LETTERS),
-                                      8, replace = TRUE),
-                               collapse = "")
-sjp.scatter(runif(10), runif(10), pointLabels = pl)
+for (i in 1:10) 
+  pl[i] <- paste(sample(c(0:9, letters, LETTERS), 8, replace = TRUE), collapse = "")
+sjp.scatter(runif(10), runif(10), dot.labels = pl)
 
 }
 \seealso{

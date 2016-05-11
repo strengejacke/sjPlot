@@ -324,7 +324,7 @@ sjp.lm <- function(fit,
     return(invisible(sjp.reglin(fit, title, wrap.title, geom.colors, show.ci,
                                 point.alpha, scatter.plot, show.loess, show.loess.ci,
                                 useResiduals = ifelse(type == "slope", FALSE, TRUE),
-                                remove.estimates, vars, printPlot)))
+                                remove.estimates, vars, ylim = axis.lim, printPlot)))
   }
   if (type == "pred") {
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
@@ -601,6 +601,7 @@ sjp.reglin <- function(fit,
                        useResiduals = FALSE,
                        remove.estimates = NULL,
                        vars = NULL,
+                       ylim = NULL,
                        printPlot = TRUE) {
   # -----------------------------------------------------------
   # check argument
@@ -677,9 +678,7 @@ sjp.reglin <- function(fit,
     # plot regression line and confidence intervall
     # -----------------------------------------------------------
     reglinplot <- ggplot(mydat, aes(x = x, y = y)) +
-      stat_smooth(method = "lm",
-                  se = show.ci,
-                  colour = lineColor)
+      stat_smooth(method = "lm", se = show.ci, colour = lineColor)
     # -----------------------------------------------------------
     # plot jittered values if requested
     # -----------------------------------------------------------
@@ -690,9 +689,7 @@ sjp.reglin <- function(fit,
     # -----------------------------------------------------------
     if (show.loess) {
       reglinplot <- reglinplot +
-        stat_smooth(method = "loess",
-                    se = show.loess.ci,
-                    colour = loessLineColor)
+        stat_smooth(method = "loess", se = show.loess.ci, colour = loessLineColor)
     }
     # -----------------------------------------------------------
     # set plot labs
@@ -701,6 +698,12 @@ sjp.reglin <- function(fit,
       labs(title = title,
            x = sjmisc::get_label(model_data[[p_v]], def.value = p_v),
            y = response)
+    # -----------------------------------------------------------
+    # y-axis limit
+    # -----------------------------------------------------------
+    if (!is.null(ylim)) {
+      reglinplot <- reglinplot + ylim(ylim)
+    }
     # ---------------------------------------------------------
     # Check whether ggplot object should be returned or plotted
     # ---------------------------------------------------------
@@ -981,8 +984,7 @@ sjp.lm.ma <- function(linreg, completeDiagnostic = FALSE) {
       sjp.setTheme(theme = "scatterw")
       p1 <- sjp.reglin(linreg,
                        title = "Relationship of residuals against predictors (if scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly",
-                       wrap.title = 60,
-                       useResiduals = T)$plot.list
+                       wrap.title = 60, useResiduals = T)$plot.list
       # save plot
       plot.list <- c(plot.list, p1)
       # ---------------------------------

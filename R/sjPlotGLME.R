@@ -743,7 +743,7 @@ sjp.lme4  <- function(fit,
       return(invisible(sjp.reglin(fit, title, 50, geom.colors, show.ci, point.alpha,
                                   scatter.plot, show.loess, show.loess.ci, 
                                   useResiduals = ifelse(type == "fe.slope", FALSE, TRUE),
-                                  remove.estimates, vars, printPlot)))
+                                  remove.estimates, vars, ylim, printPlot)))
     } else {
       return(invisible(sjp.glm.slope(fit, title, geom.size, remove.estimates, vars,
                                      ylim, show.ci, facet.grid, printPlot)))
