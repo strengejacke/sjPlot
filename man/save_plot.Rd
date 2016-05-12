@@ -37,9 +37,8 @@ Furthermore, there are some theme-presets, which can be used:
   \item{\code{"538"}}{a grey-scaled theme inspired by \href{http://fivethirtyeight.com}{538-charts}, adapted from \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{minimaxir.com}.}
   \item{\code{"539"}}{a slight modification of the 538-theme.}
   \item{\code{"scatter"}}{a theme for scatter plots in 539-theme-style.}
+  \item{\code{"rbase"}}{an R base graphics like theme; however, only for plots with y-axis-scales.}
   \item{\code{"538w"}, \code{"539w"}, \code{"scatterw"} and \code{"forestw"}}{for themes as described above, however all with white backgrounds.}
-  \item{\code{"blues"}}{a blue-colored scheme based on the Blues color-brewer-palette.}
-  \item{\code{"greens"}}{a green-colored scheme.}
 }}
 
 \item{label.size}{fontsize of value labels inside plot area}

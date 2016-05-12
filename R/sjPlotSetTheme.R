@@ -20,9 +20,8 @@
 #'          \item{\code{"538"}}{a grey-scaled theme inspired by \href{http://fivethirtyeight.com}{538-charts}, adapted from \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{minimaxir.com}.}
 #'          \item{\code{"539"}}{a slight modification of the 538-theme.}
 #'          \item{\code{"scatter"}}{a theme for scatter plots in 539-theme-style.}
+#'          \item{\code{"rbase"}}{an R base graphics like theme; however, only for plots with y-axis-scales.}
 #'          \item{\code{"538w"}, \code{"539w"}, \code{"scatterw"} and \code{"forestw"}}{for themes as described above, however all with white backgrounds.}
-#'          \item{\code{"blues"}}{a blue-colored scheme based on the Blues color-brewer-palette.}
-#'          \item{\code{"greens"}}{a green-colored scheme.}
 #'        }
 #' @param title.size size of plot title. Default is 1.3.
 #' @param title.color color of plot title. Default is \code{"black"}.
@@ -65,8 +64,10 @@
 #' @param axis.textsize.y size of y-axis labels
 #' @param axis.textsize size for both x- and y-axis labels. 
 #'          If set, overrides both \code{axis.textsize.x} and \code{axis.textsize.y}.
+#' @param axis.ticksize.x size of tick marks at x-axis.        
+#' @param axis.ticksize.y size of tick marks at y-axis.        
 #' @param axis.tickslen length of axis tick marks
-#' @param axis.ticksol color of axis tick marks
+#' @param axis.tickscol color of axis tick marks
 #' @param axis.ticksmar margin between axis labels and tick marks
 #' @param panel.bordercol color of whole diagram border (panel border)
 #' @param panel.backcol color of the diagram's background
@@ -157,33 +158,28 @@
 #' sjp.frq(efc$e42dep)
 #' 
 #' # adjust value labels
-#' sjp.setTheme(geom.label.size = 3.5,
-#'              geom.label.color = "#3366cc",
+#' sjp.setTheme(geom.label.size = 3.5, geom.label.color = "#3366cc",
 #'              geom.label.angle = 90)
 #' # hjust-aes needs adjustment for this
 #' update_geom_defaults('text', list(hjust = -0.1))
-#' sjp.xtab(efc$e42dep, 
-#'          efc$e16sex,
-#'          vjust = "center",
-#'          hjust = "center")
+#' sjp.xtab(efc$e42dep, efc$e16sex, vjust = "center", hjust = "center")
 #' 
 #' # Create own theme based on classic-theme
-#' sjp.setTheme(base = theme_classic(),
-#'              axis.linecolor = "grey50",
+#' sjp.setTheme(base = theme_classic(), axis.linecolor = "grey50",
 #'              axis.textcolor = "#6699cc")
 #' sjp.frq(efc$e42dep)
 #'
 #' # use theme pre-set
-#' sjp.setTheme(theme = "538",
-#'              geom.alpha = 0.8)
+#' sjp.setTheme(theme = "538", geom.alpha = 0.8)
 #' library(ggplot2) # for custom base-line
-#' sjp.frq(efc$e42dep, 
-#'         geom.color = "#c0392b",
-#'         expand.grid = TRUE,
+#' sjp.frq(efc$e42dep, geom.color = "#c0392b", expand.grid = TRUE,
 #'         printPlot = FALSE)$plot + 
-#'   geom_hline(yintercept = 0, 
-#'              size = 0.5, 
-#'              colour = "black")}
+#'   geom_hline(yintercept = 0, size = 0.5, colour = "black")
+#' 
+#' # mimic R base theme
+#' sjp.setTheme("rbase")
+#' sjp.frq(efc$e42dep, ylim = c(0, 400), axis.title = "", 
+#'         title = get_label(efc$e42dep))}
 #' 
 #' @import ggplot2
 #' @importFrom scales brewer_pal grey_pal
@@ -231,8 +227,10 @@ sjp.setTheme <- function(# base theme
                          axis.textsize = NULL,
                          # axis ticks
                          axis.tickslen = NULL,
-                         axis.ticksol = NULL,
+                         axis.tickscol = NULL,
                          axis.ticksmar = NULL,
+                         axis.ticksize.x = NULL,
+                         axis.ticksize.y = NULL,
                          # panel defaults
                          panel.backcol = NULL,
                          panel.bordercol = NULL,
@@ -275,9 +273,22 @@ sjp.setTheme <- function(# base theme
   if (!is.null(theme) && theme == "blank") {
     base <- theme_classic()
     axis.linecolor <- "white"
-    axis.ticksol <- "white"
+    axis.tickscol <- "white"
     panel.gridcol <- "white"
     plot.col <- "white"
+  }
+  # ----------------------------------------  
+  # check for r base theme
+  # ----------------------------------------  
+  if (!is.null(theme) && theme == "rbase") {
+    theme <- "forestw"
+    if (missing(axis.tickslen)) axis.tickslen <- .25
+    if (missing(axis.linecolor.y)) {
+      axis.linecolor.y <- "grey30"
+      axis.tickscol <- "grey30"
+    }
+    axis.ticksize.x <- 0
+    axis.linecolor.x <- "white"
   }
   # ----------------------------------------  
   # check for forset theme. based on theme_bw,
@@ -286,7 +297,7 @@ sjp.setTheme <- function(# base theme
   if (!is.null(theme) && theme == "forest") {
     base <- theme_bw()
     panel.gridcol <- "white"
-    axis.tickslen <- 0
+    if (missing(axis.tickslen)) axis.tickslen <- 0
   }  
   # ----------------------------------------  
   # check for grey-scaled 538 theme.
@@ -307,7 +318,7 @@ sjp.setTheme <- function(# base theme
     if (missing(geom.label.color) || is.null(geom.label.color)) geom.label.color <- g.palette[6]
     if (missing(legend.title.color)) legend.title.color <- g.palette[7]
     if (missing(legend.color)) legend.color <- g.palette[6]
-    axis.tickslen <- 0
+    if (missing(axis.tickslen)) axis.tickslen <- 0
     # custom modifications
     title.align <- "center"
     axis.title.x.vjust <- -1
@@ -343,7 +354,7 @@ sjp.setTheme <- function(# base theme
     if (missing(geom.label.color) || is.null(geom.label.color)) geom.label.color <- g.palette[6]
     if (missing(legend.title.color)) legend.title.color <- g.palette[7]
     if (missing(legend.color)) legend.color <- g.palette[6]
-    axis.tickslen <- 0
+    if (missing(axis.tickslen)) axis.tickslen <- 0
     # custom modifications
     title.align <- "center"
     axis.title.x.vjust <- -1
@@ -372,62 +383,9 @@ sjp.setTheme <- function(# base theme
     if (missing(geom.label.color) || is.null(geom.label.color)) geom.label.color <- g.palette[6]
     if (missing(legend.title.color)) legend.title.color <- g.palette[7]
     if (missing(legend.color)) legend.color <- g.palette[6]
-    axis.tickslen <- 0
+    if (missing(axis.tickslen)) axis.tickslen <- 0
     # custom modifications
     panel.major.linetype <- panel.minor.linetype <- 2
-    title.align <- "center"
-    axis.title.x.vjust <- -1
-    axis.title.y.vjust <- 1.5
-    title.vjust <- 1.75
-    plot.margins <- unit(c(1, .5, 1, 0.5), "cm")
-  }  
-  if (!is.null(theme) && theme == "blues") {
-    base <- theme_bw()
-    g.palette <- scales::brewer_pal(palette = "Blues")(9)
-    panel.bordercol <- panel.backcol <- panel.col <- g.palette[1]
-    plot.backcol <- plot.bordercol <- plot.col <- g.palette[1]
-    panel.major.gridcol <- g.palette[3]
-    panel.minor.gridcol <- g.palette[1]
-    axis.linecolor <- NULL
-    axis.linecolor.y  <- g.palette[1]
-    axis.linecolor.x <- g.palette[9]
-    panel.gridcol.x <- g.palette[1]
-    legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[1]
-    title.color <- "black"
-    axis.textcolor <- g.palette[9]
-    axis.title.color <- "black"
-    if (is.null(geom.label.color)) geom.label.color <- g.palette[5]
-    legend.title.color <- g.palette[8]
-    legend.color <- g.palette[6]
-    axis.tickslen <- 0
-    # custom modifications
-    title.align <- "center"
-    axis.title.x.vjust <- -1
-    axis.title.y.vjust <- 1.5
-    title.vjust <- 1.75
-    plot.margins <- unit(c(1, .5, 1, 0.5), "cm")
-  }  
-  if (!is.null(theme) && theme == "greens") {
-    base <- theme_bw()
-    g.palette <- scales::brewer_pal(palette = "BrBG")(9)
-    g.palette[5] <- "#f5faf5"
-    panel.bordercol <- panel.backcol <- panel.col <- g.palette[5]
-    plot.backcol <- plot.bordercol <- plot.col <- g.palette[5]
-    panel.major.gridcol <- g.palette[6]
-    panel.minor.gridcol <- g.palette[5]
-    axis.linecolor <- NULL
-    axis.linecolor.y  <- g.palette[5]
-    axis.linecolor.x <- g.palette[9]
-    panel.gridcol.x <- g.palette[5]
-    legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[5]
-    title.color <- "black"
-    axis.textcolor <- g.palette[9]
-    axis.title.color <- "black"
-    if (is.null(geom.label.color)) geom.label.color <- g.palette[8]
-    legend.title.color <- g.palette[9]
-    legend.color <- g.palette[8]
-    axis.tickslen <- 0
-    # custom modifications
     title.align <- "center"
     axis.title.x.vjust <- -1
     axis.title.y.vjust <- 1.5
@@ -554,36 +512,22 @@ sjp.setTheme <- function(# base theme
       # ----------------------------------------
       # set base elements that are always set
       # ----------------------------------------
-      theme(plot.title = element_text(size = rel(title.size), 
-                                      colour = title.color,
-                                      hjust = title.align),
-            axis.text = element_text(angle = axis.angle, 
-                                     size = rel(axis.textsize), 
-                                     colour = axis.textcolor),
-            axis.text.x = element_text(angle = axis.angle.x, 
-                                       size = rel(axis.textsize.x), 
-                                       colour = axis.textcolor.x), 
-            axis.text.y = element_text(angle = axis.angle.y, 
-                                       size = rel(axis.textsize.y), 
-                                       colour = axis.textcolor.y), 
-            axis.title = element_text(size = rel(axis.title.size), 
-                                      colour = axis.title.color),
+      theme(plot.title = element_text(size = rel(title.size),  colour = title.color, hjust = title.align),
+            axis.text = element_text(angle = axis.angle, size = rel(axis.textsize), colour = axis.textcolor),
+            axis.text.x = element_text(angle = axis.angle.x, size = rel(axis.textsize.x), colour = axis.textcolor.x), 
+            axis.text.y = element_text(angle = axis.angle.y, size = rel(axis.textsize.y), colour = axis.textcolor.y), 
+            axis.title = element_text(size = rel(axis.title.size), colour = axis.title.color),
             legend.position = legend.pos,
             legend.justification = legend.just,
-            legend.text = element_text(size = rel(legend.size),
-                                       colour = legend.color),
-            legend.title = element_text(size = rel(legend.title.size),
-                                        colour = legend.title.color,
-                                        face = legend.title.face),
-            legend.background = element_rect(colour = legend.bordercol, 
-                                             fill = legend.backgroundcol))
+            legend.text = element_text(size = rel(legend.size), colour = legend.color),
+            legend.title = element_text(size = rel(legend.title.size), colour = legend.title.color, face = legend.title.face),
+            legend.background = element_rect(colour = legend.bordercol, fill = legend.backgroundcol))
     # ----------------------------------------
     # set legend items background-color
     # ----------------------------------------
     if (!is.null(legend.item.backcol)) {
       sjtheme <- sjtheme +
-        theme(legend.key = element_rect(colour = legend.item.bordercol, 
-                                        fill = legend.item.backcol))
+        theme(legend.key = element_rect(colour = legend.item.bordercol, fill = legend.item.backcol))
     }
     # ----------------------------------------
     # set legend item size
@@ -597,17 +541,16 @@ sjp.setTheme <- function(# base theme
     # ----------------------------------------
     if (!is.null(axis.linecolor)) {
       sjtheme <- sjtheme +
-        theme(axis.line = element_line(colour = axis.linecolor, 
-                                       size = axis.line.size),
+        theme(axis.line = element_line(colour = axis.linecolor, size = axis.line.size),
               axis.line.x = element_line(colour = axis.linecolor.x),
               axis.line.y = element_line(colour = axis.linecolor.y))
     }
     # ----------------------------------------
     # set axis ticks, if defined
     # ----------------------------------------
-    if (!is.null(axis.ticksol)) {
+    if (!is.null(axis.tickscol)) {
       sjtheme <- sjtheme +
-        theme(axis.ticks = element_line(colour = axis.ticksol))
+        theme(axis.ticks = element_line(colour = axis.tickscol))
     }
     if (!is.null(axis.tickslen)) {
       sjtheme <- sjtheme +
@@ -617,21 +560,27 @@ sjp.setTheme <- function(# base theme
       sjtheme <- sjtheme +
         theme(axis.ticks.margin = unit(axis.ticksmar, "cm"))
     }
+    if (!is.null(axis.ticksize.x)) {
+      sjtheme <- sjtheme +
+        theme(axis.ticks.x = element_line(size = axis.ticksize.x))
+    }
+    if (!is.null(axis.ticksize.y)) {
+      sjtheme <- sjtheme +
+        theme(axis.ticks.y = element_line(size = axis.ticksize.y))
+    }
     # ----------------------------------------
     # set plot colors, if defined
     # ----------------------------------------
     if (!is.null(plot.col)) {
       sjtheme <- sjtheme +
-        theme(plot.background = element_rect(colour = plot.bordercol, 
-                                             fill = plot.backcol))
+        theme(plot.background = element_rect(colour = plot.bordercol, fill = plot.backcol))
     }
     # ----------------------------------------
     # set panel colors, if defined
     # ----------------------------------------
     if (!is.null(panel.col)) {
       sjtheme <- sjtheme +
-        theme(panel.background = element_rect(colour = panel.bordercol, 
-                                              fill = panel.backcol),
+        theme(panel.background = element_rect(colour = panel.bordercol, fill = panel.backcol),
               panel.border = element_rect(colour = panel.bordercol))
     }
     # ----------------------------------------
@@ -686,9 +635,8 @@ sjp.setTheme <- function(# base theme
     # finally, set theme
     # ----------------------------------------
     theme_set(sjtheme)
-  }
-  else {
-    warning("Either 'theme' or 'base' must be supplied as ggplot-theme-object to set global theme options for sjPlot.", call. = F)
+  } else {
+    warning("Either `theme` or `base` must be supplied as ggplot-theme-object to set global theme options for sjPlot.", call. = F)
   }
   
   # ----------------------------------------

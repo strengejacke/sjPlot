@@ -5,18 +5,18 @@
 \title{Summary of generalized linear mixed models as HTML table}
 \usage{
 sjt.glmer(..., file = NULL, pred.labels = NULL, depvar.labels = NULL,
-  string.pred = "Predictors", string.dv = "Dependent Variables",
-  show.header = FALSE, string.interc = "(Intercept)",
+  remove.estimates = NULL, group.pred = FALSE, exp.coef = TRUE,
+  p.numeric = TRUE, emph.p = TRUE, separate.ci.col = TRUE,
+  newline.ci = TRUE, show.ci = TRUE, show.se = FALSE,
+  show.header = FALSE, show.col.header = TRUE, show.r2 = FALSE,
+  show.icc = TRUE, show.re.var = TRUE, show.loglik = FALSE,
+  show.aic = FALSE, show.aicc = FALSE, show.dev = TRUE,
+  show.hoslem = FALSE, show.family = FALSE, string.pred = "Predictors",
+  string.dv = "Dependent Variables", string.interc = "(Intercept)",
   string.obs = "Observations", string.est = "OR", string.ci = "CI",
-  string.se = "std. Error", string.p = "p", digits.est = 2,
-  digits.p = 3, digits.ci = 2, digits.se = 2, digits.summary = 3,
-  exp.coef = TRUE, p.numeric = TRUE, emph.p = TRUE, show.ci = TRUE,
-  show.se = FALSE, ci.hyphen = "&nbsp;&ndash;&nbsp;",
-  separate.ci.col = TRUE, newline.ci = TRUE, group.pred = FALSE,
-  show.col.header = TRUE, show.r2 = FALSE, show.icc = TRUE,
-  show.re.var = TRUE, show.loglik = FALSE, show.aic = FALSE,
-  show.aicc = FALSE, show.dev = TRUE, show.hoslem = FALSE,
-  show.family = FALSE, remove.estimates = NULL, cell.spacing = 0.2,
+  string.se = "std. Error", string.p = "p",
+  ci.hyphen = "&nbsp;&ndash;&nbsp;", digits.est = 2, digits.p = 3,
+  digits.ci = 2, digits.se = 2, digits.summary = 3, cell.spacing = 0.2,
   cell.gpr.indent = 0.6, encoding = NULL, CSS = NULL, use.viewer = TRUE,
   no.output = FALSE, remove.spaces = TRUE)
 }
@@ -37,38 +37,18 @@ as predictor labels. See 'Examples'.}
 \item{depvar.labels}{character vector with labels of dependent 
 variables of all fitted models. See 'Examples'.}
 
-\item{string.pred}{string constant used as headline for the predictor column.
-Default is \code{"Predictors"}.}
+\item{remove.estimates}{numeric vector with indices (order equals to row index of \code{coef(fit)}) 
+or character vector with coefficient names that indicate which estimates should be removed
+from the table output. The first estimate is the intercept, followed by the model predictors.
+\emph{The intercept cannot be removed from the table output!} \code{remove.estimates = c(2:4)} 
+would remove the 2nd to the 4th estimate (1st to 3rd predictor after intercept) from the output. 
+\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default 
+is \code{NULL}, i.e. all estimates are printed.}
 
-\item{string.dv}{string constant used as headline for the 
-dependent variable columns. Default is \code{"Dependent Variables"}.}
-
-\item{show.header}{logical, if \code{TRUE}, the header strings \code{string.pred}
-and \code{string.dv} are shown. By default, they're hidden.}
-
-\item{string.interc}{string constant used as headline for the Intercept row.
-Default is \code{"Intercept"}.}
-
-\item{string.obs}{string constant used in the summary row for the count of observation
-(cases). Default is \code{"Observations"}.}
-
-\item{string.est}{string used for the column heading of estimates.}
-
-\item{string.ci}{string used for the column heading of confidence interval values. Default is \code{"CI"}.}
-
-\item{string.se}{string used for the column heading of standard error values. Default is \code{"std. Error"}.}
-
-\item{string.p}{string used for the column heading of p values. Default is \code{"p"}.}
-
-\item{digits.est}{amount of decimals for estimates}
-
-\item{digits.p}{amount of decimals for p-values}
-
-\item{digits.ci}{amount of decimals for confidence intervals}
-
-\item{digits.se}{amount of decimals for standard error}
-
-\item{digits.summary}{amount of decimals for values in model summary}
+\item{group.pred}{logical, if \code{TRUE} (default), automatically groups table rows with 
+factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
+be grouped, if the factor has more than two levels. Grouping means that a separate headline
+row is inserted to the table just before the predictor values.}
 
 \item{exp.coef}{logical, if \code{TRUE} (default), regression coefficients and 
 confidence intervals are exponentiated. Use \code{FALSE} for 
@@ -80,15 +60,6 @@ as numbers. If \code{FALSE} (default), asterisks are used.}
 
 \item{emph.p}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
 
-\item{show.ci}{logical, if \code{TRUE} (default), the confidence intervall is also printed to the table. Use
-\code{FALSE} to omit the CI in the table.}
-
-\item{show.se}{logical, if \code{TRUE}, the standard errors are also printed.
-Default is \code{FALSE}.}
-
-\item{ci.hyphen}{string, indicating the hyphen for confidence interval range.
-May be an HTML entity. See 'Examples'.}
-
 \item{separate.ci.col}{if \code{TRUE}, the CI values are shown in a separate table column.
 Default is \code{FALSE}.}
 
@@ -96,10 +67,14 @@ Default is \code{FALSE}.}
 between estimate and CI values. If \code{FALSE}, CI values are printed in the same
 line as estimate values.}
 
-\item{group.pred}{logical, if \code{TRUE} (default), automatically groups table rows with 
-factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
-be grouped, if the factor has more than two levels. Grouping means that a separate headline
-row is inserted to the table just before the predictor values.}
+\item{show.ci}{logical, if \code{TRUE} (default), the confidence intervall is also printed to the table. Use
+\code{FALSE} to omit the CI in the table.}
+
+\item{show.se}{logical, if \code{TRUE}, the standard errors are also printed.
+Default is \code{FALSE}.}
+
+\item{show.header}{logical, if \code{TRUE}, the header strings \code{string.pred}
+and \code{string.dv} are shown. By default, they're hidden.}
 
 \item{show.col.header}{logical, if \code{TRUE} (default), the table data columns have a headline with 
 abbreviations for estimates, std. beta-values, confidence interval and p-values.}
@@ -139,13 +114,38 @@ and same predictors and response, to decide which model fits best. See \code{\li
 for more details. It is recommended to inspect the model \code{\link{AIC}} (see \code{show.aic}) to get a
 decision help for which model to choose.}
 
-\item{remove.estimates}{numeric vector with indices (order equals to row index of \code{coef(fit)}) 
-or character vector with coefficient names that indicate which estimates should be removed
-from the table output. The first estimate is the intercept, followed by the model predictors.
-\emph{The intercept cannot be removed from the table output!} \code{remove.estimates = c(2:4)} 
-would remove the 2nd to the 4th estimate (1st to 3rd predictor after intercept) from the output. 
-\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default 
-is \code{NULL}, i.e. all estimates are printed.}
+\item{string.pred}{string constant used as headline for the predictor column.
+Default is \code{"Predictors"}.}
+
+\item{string.dv}{string constant used as headline for the 
+dependent variable columns. Default is \code{"Dependent Variables"}.}
+
+\item{string.interc}{string constant used as headline for the Intercept row.
+Default is \code{"Intercept"}.}
+
+\item{string.obs}{string constant used in the summary row for the count of observation
+(cases). Default is \code{"Observations"}.}
+
+\item{string.est}{string used for the column heading of estimates.}
+
+\item{string.ci}{string used for the column heading of confidence interval values. Default is \code{"CI"}.}
+
+\item{string.se}{string used for the column heading of standard error values. Default is \code{"std. Error"}.}
+
+\item{string.p}{string used for the column heading of p values. Default is \code{"p"}.}
+
+\item{ci.hyphen}{string, indicating the hyphen for confidence interval range.
+May be an HTML entity. See 'Examples'.}
+
+\item{digits.est}{amount of decimals for estimates}
+
+\item{digits.p}{amount of decimals for p-values}
+
+\item{digits.ci}{amount of decimals for confidence intervals}
+
+\item{digits.se}{amount of decimals for standard error}
+
+\item{digits.summary}{amount of decimals for values in model summary}
 
 \item{cell.spacing}{numeric, inner padding of table cells. By default, this value is 0.2 (unit is cm), which is
 suitable for viewing the table. Decrease this value (0.05 to 0.1) if you want to import the table

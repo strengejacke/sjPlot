@@ -92,7 +92,7 @@
 #' 
 #' @details \bold{How does the \code{CSS}-argument work?}
 #'            \cr \cr
-#'            With the \code{CSS}-paramater, the visual appearance of the tables
+#'            With the \code{CSS}-argument, the visual appearance of the tables
 #'            can be modified. To get an overview of all style-sheet-classnames 
 #'            that are used in this function, see return value \code{page.style} for details. 
 #'            Arguments for this list have following syntax:

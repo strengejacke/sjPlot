@@ -199,10 +199,10 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
-  if (is.null(legend.labels)) legend.labels <- sjmisc::get_labels(items[[1]],
-                                                                attr.only = F,
-                                                                include.values = NULL,
-                                                                include.non.labelled = T)
+  if (is.null(legend.labels)) {
+    legend.labels <- sjmisc::get_labels(items[[1]], attr.only = F,
+                                        include.values = NULL, include.non.labelled = T)
+  }
   if (is.null(axis.labels)) {
     axis.labels <- c()
     # if yes, iterate each variable
@@ -348,7 +348,7 @@ sjp.likert <- function(items,
   # Check whether N of each item should be included into
   # axis labels
   # --------------------------------------------------------
-  if (include.n) {
+  if (show.n) {
     for (i in 1:length(axis.labels)) {
       axis.labels[i] <- paste(axis.labels[i], 
                                sprintf(" (n=%i)", length(stats::na.omit(items[[i]]))), 
