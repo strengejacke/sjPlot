@@ -175,10 +175,11 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #' efc$grp = as.factor(efc$e15relat)
 #' levels(x = efc$grp) <- get_labels(efc$e15relat)
 #' # data frame for fitted model
-#' mydf <- data.frame(hi_qol = as.factor(efc$hi_qol),
-#'                    sex = as.factor(efc$c161sex),
-#'                    c12hour = as.numeric(efc$c12hour),
-#'                    neg_c_7 = as.numeric(efc$neg_c_7),
+#' mydf <- data.frame(hi_qol = to_factor(efc$hi_qol),
+#'                    sex = to_factor(efc$c161sex),
+#'                    education = to_factor(efc$c172code),
+#'                    c12hour = efc$c12hour,
+#'                    neg_c_7 = efc$neg_c_7,
 #'                    grp = efc$grp)
 #' # fit glmer
 #' fit <- glmer(hi_qol ~ sex + c12hour + neg_c_7 + (1|grp),
@@ -187,6 +188,13 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #' # plot and sort fixed effects
 #' sjp.glmer(fit, type = "fe", sort.est = TRUE)
 #'
+#' # fit glmer, with categorical predictor with more than 2 levels
+#' fit <- glmer(hi_qol ~ education + c12hour + neg_c_7 + (1|grp),
+#'              data = mydf, family = binomial("logit"))
+#'
+#' # plot and sort fixed effects, axis labels automatically retrieved
+#' sjp.glmer(fit, type = "fe", sort.est = TRUE)
+#' 
 #' # plot probability curves (predicted probabilities)
 #' # for each covariate, grouped by random intercepts
 #' # in integrated plots, emphasizing groups 1 and 4
@@ -1053,9 +1061,7 @@ sjp.lme4  <- function(fit,
         axis.labels <- suppressWarnings(retrieveModelLabels(list(fit), group.pred = FALSE))
         if (show.intercept) axis.labels <- c(string.interc, axis.labels)
         # check for correct length
-        if (length(axis.labels) != nrow(mydf)) {
-          axis.labels <- rownames(mydf)
-        }
+        if (length(axis.labels) != nrow(mydf)) axis.labels <- rownames(mydf)
       } else {
         # check if intercept should be added, in case
         # axis.labels are passed

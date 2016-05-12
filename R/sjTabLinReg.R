@@ -1335,14 +1335,21 @@ sjt.lm <- function(...,
 #'                    grp = efc$grp,
 #'                    carelevel = efc$care.level)
 #'                    
-#' # fit two sample models
+#' # fit three sample models
 #' fit1 <- lmer(neg_c_7 ~ sex + c12hour + barthel + (1|grp), data = mydf)
 #' fit2 <- lmer(neg_c_7 ~ sex + c12hour + education + barthel + (1|grp), data = mydf)
 #' fit3 <- lmer(neg_c_7 ~ sex + c12hour + education + barthel + 
 #'               (1|grp) + (1|carelevel), data = mydf)
 #' 
-#' # print summary table
-#' sjt.lmer(fit1, fit2, ci.hyphen = " to ", minus.sign = "&minus;")
+#' # print summary table... automatic grouping does not work here,
+#' # barthel-index is printed as category of education (values are
+#' # correct, however, indentation is wrong)
+#' sjt.lmer(fit1, fit2, ci.hyphen = " to ", group.pred = TRUE)
+#' 
+#' # either change order of models
+#' sjt.lmer(fit2, fit1, group.pred = TRUE)
+#' # or turn off automatic grouping of categorical predictors
+#' sjt.lmer(fit1, fit2, group.pred = FALSE)
 #' 
 #' # print table, using vector names as labels
 #' sjt.lmer(fit1, fit2, fit3, pred.labels = "")
@@ -1361,11 +1368,10 @@ sjt.lm <- function(...,
 #'                   
 #' @export
 sjt.lmer <- function(...,
-                     
                      pred.labels = NULL,
                      depvar.labels = NULL,
                      remove.estimates = NULL,
-                     group.pred = TRUE,
+                     group.pred = FALSE,
                      p.numeric = TRUE,
                      emph.p = TRUE,
                      p.kr = TRUE,

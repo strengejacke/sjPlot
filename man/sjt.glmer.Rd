@@ -220,7 +220,7 @@ mydf <- data.frame(hi_qol = to_factor(efc$hi_qol),
                    sex = to_factor(efc$c161sex),
                    c12hour = efc$c12hour,
                    neg_c_7 = efc$neg_c_7,
-                   education = efc$c172code,
+                   education = to_factor(efc$c172code),
                    grp = efc$grp)
                    
 # fit glmer

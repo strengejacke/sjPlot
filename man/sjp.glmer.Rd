@@ -239,16 +239,24 @@ efc$hi_qol <- dicho(efc$quol_5)
 efc$grp = as.factor(efc$e15relat)
 levels(x = efc$grp) <- get_labels(efc$e15relat)
 # data frame for fitted model
-mydf <- data.frame(hi_qol = as.factor(efc$hi_qol),
-                   sex = as.factor(efc$c161sex),
-                   c12hour = as.numeric(efc$c12hour),
-                   neg_c_7 = as.numeric(efc$neg_c_7),
+mydf <- data.frame(hi_qol = to_factor(efc$hi_qol),
+                   sex = to_factor(efc$c161sex),
+                   education = to_factor(efc$c172code),
+                   c12hour = efc$c12hour,
+                   neg_c_7 = efc$neg_c_7,
                    grp = efc$grp)
 # fit glmer
 fit <- glmer(hi_qol ~ sex + c12hour + neg_c_7 + (1|grp),
              data = mydf, family = binomial("logit"))
 
 # plot and sort fixed effects
+sjp.glmer(fit, type = "fe", sort.est = TRUE)
+
+# fit glmer, with categorical predictor with more than 2 levels
+fit <- glmer(hi_qol ~ education + c12hour + neg_c_7 + (1|grp),
+             data = mydf, family = binomial("logit"))
+
+# plot and sort fixed effects, axis labels automatically retrieved
 sjp.glmer(fit, type = "fe", sort.est = TRUE)
 
 # plot probability curves (predicted probabilities)
