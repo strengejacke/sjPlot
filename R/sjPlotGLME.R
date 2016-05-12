@@ -189,7 +189,7 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #' sjp.glmer(fit, type = "fe", sort.est = TRUE)
 #'
 #' # fit glmer, with categorical predictor with more than 2 levels
-#' fit <- glmer(hi_qol ~ education + c12hour + neg_c_7 + (1|grp),
+#' fit <- glmer(hi_qol ~ sex + education + c12hour + neg_c_7 + (1|grp),
 #'              data = mydf, family = binomial("logit"))
 #'
 #' # plot and sort fixed effects, axis labels automatically retrieved
@@ -213,7 +213,7 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #' sjp.glmer(fit, type = "pred.fe", vars = c("neg_c_7", "sex"))
 #'           
 #' # non faceted, with ci           
-#' sjp.glmer(fit, type = "pred.fe", vars = c("neg_c_7", "sex"), 
+#' sjp.glmer(fit, type = "pred.fe", vars = c("neg_c_7", "education"), 
 #'           show.ci = TRUE, facet.grid = FALSE)
 #'
 #'                      
