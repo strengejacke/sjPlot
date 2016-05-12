@@ -112,19 +112,10 @@ If \code{data} is a matrix with correlation coefficients as returned by
 }
 \examples{
 \dontrun{
-# create data frame with 5 random variables
-mydf <- data.frame(cbind(runif(10), 
-                         runif(10), 
-                         runif(10), 
-                         runif(10), 
-                         runif(10)))
-
 # plot correlation matrix using circles
 sjt.corr(mydf)
 
-# -------------------------------
 # Data from the EUROFAMCARE sample dataset
-# -------------------------------
 library(sjmisc)
 data(efc)
 
@@ -144,28 +135,16 @@ colnames(mydf) <- varlabs[c(start:end)]
 # belong to one factor. See example from "sjp.pca". 
 sjt.corr(mydf, p.numeric = TRUE)
 
-# -------------------------------
 # auto-detection of labels, only lower triangle
-# -------------------------------
 sjt.corr(efc[, c(start:end)], triangle = "lower")
 
-# -------------------------------
-# auto-detection of labels, only lower triangle,
-# all correlation values smaller than 0.3 are not
-# shown in the table
-# -------------------------------
-sjt.corr(efc[, c(start:end)], 
-         triangle = "lower", 
-         val.rm = 0.3)
+# auto-detection of labels, only lower triangle, all correlation 
+# values smaller than 0.3 are not shown in the table
+sjt.corr(efc[, c(start:end)], triangle = "lower", val.rm = 0.3)
 
-# -------------------------------
-# auto-detection of labels, only lower triangle,
-# all correlation values smaller than 0.3 are printed
-# in blue
-# -------------------------------
-sjt.corr(efc[, c(start:end)], 
-         triangle = "lower",
-         val.rm = 0.3, 
+# auto-detection of labels, only lower triangle, all correlation 
+# values smaller than 0.3 are printed in blue
+sjt.corr(efc[, c(start:end)], triangle = "lower",val.rm = 0.3, 
          CSS = list(css.valueremove = 'color:blue;'))}
 
 }

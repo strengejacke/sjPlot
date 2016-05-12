@@ -80,6 +80,8 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'          the values in \code{sample.n} are selected to plot random effects.
 #'          Use the latter option to always select a fixed, identical set of
 #'          random effects for plotting (useful when ecomparing multiple models).
+#' @param ... other arguments, passed down to the \code{\link[effects]{effect}} resp. 
+#'          \code{\link[effects]{allEffects}} function when \code{type = "eff"}.
 #'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lm
@@ -92,8 +94,9 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'            }
 #'
 #' @note \itemize{
-#'          \item{Computation of p-values (if necessary) are based on
-#'                Wald chi-square tests from the \code{Anova}-function of the \pkg{car}-package.}
+#'          \item{Computation of p-values (if necessary) is based on normal-
+#'                distribution assumption, treating the t-statistics as Wald
+#'                z-statistics.}
 #'          \item{Plot types use the inverse link-function to calculate predicted
 #'                probabilites or incidents rates. Thus, this function should work
 #'                with different model families and link functions; however, the
@@ -117,7 +120,9 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'            \item{\code{type = "eff"}}{plots the marginal effects of model predictors.
 #'            Unlike \code{type = "fe.slope"}, the predicted values computed by 
 #'            \code{type = "eff"} are adjusted for all co-variates, which are
-#'            set to the mean, as returned by the \code{\link[effects]{allEffects}} function.}
+#'            set to the mean, as returned by the \code{\link[effects]{allEffects}} function.
+#'            You can pass further arguments down to \code{allEffects} for flexible
+#'            function call via the \code{...}-argument.}
 #'            \item{\code{type = "ri.slope"}}{the predicted values
 #'            are based on the fixed effects intercept, plus each random intercept and
 #'            each specific  fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),
@@ -235,7 +240,8 @@ sjp.glmer <- function(fit,
                       facet.grid = TRUE,
                       free.scale = FALSE,
                       y.offset = .1,
-                      printPlot = TRUE) {
+                      printPlot = TRUE,
+                      ...) {
   # -------------------------------------
   # check for deprecated argument values
   # -------------------------------------
@@ -281,7 +287,8 @@ sjp.glmer <- function(fit,
            FALSE,
            NULL,
            sample.n,
-           show.legend)
+           show.legend,
+           ...)
 }
 
 
@@ -310,7 +317,9 @@ sjp.glmer <- function(fit,
 #'            fitted values are plotted against the residuals instead of response.}
 #'            \item{\code{type = "eff"}}{plots the adjusted (marginal) effects
 #'            for each fixed effect, with all co-variates set to the mean, as
-#'            returned by the \code{\link[effects]{allEffects}} function.}
+#'            returned by the \code{\link[effects]{allEffects}} function.
+#'            You can pass further arguments down to \code{allEffects} for flexible
+#'            function call via the \code{...}-argument.}
 #'            \item{\code{type = "rs.ri"}}{plots regression lines for the random
 #'            parts of the model, i.e. all random slopes for each random intercept.
 #'            As the random intercepts describe the deviation from the global intercept,
@@ -387,8 +396,9 @@ sjp.glmer <- function(fit,
 #' @note Computation of p-values (if necessary and if \code{p.kr = TRUE}) are based 
 #'         on conditional F-tests with Kenward-Roger approximation for the df, using 
 #'         the \pkg{pbkrtest}-package. If \pkg{pbkrtest} is not available or
-#'         \code{p.kr = FALSE}, Wald chi-squared tests from the
-#'         \code{Anova}-function of the \pkg{car}-package are computed.
+#'         \code{p.kr = FALSE}, computation of p-values is based 
+#'         on normal-distribution assumption, treating the t-statistics as Wald
+#'         z-statistics.
 #'
 #' @examples
 #' # fit model
@@ -439,7 +449,7 @@ sjp.glmer <- function(fit,
 #' \dontrun{
 #' # plotting polynomial terms
 #' # check linear relation between predictors and response
-#' sjp.lmer(fit, type = "fe.slope")
+#' sjp.lmer(fit, type = "fe.slope", show.loess = TRUE)
 #'
 #' # "barthel" does not seem to be linear correlated to response
 #' # try to find appropiate polynomial. Grey line (loess smoothed)
@@ -480,7 +490,6 @@ sjp.glmer <- function(fit,
 #'          facet.grid = FALSE, show.ci = FALSE)}
 #'
 #' @import ggplot2
-#' @importFrom car Anova
 #' @importFrom dplyr sample_n add_rownames slice
 #' @export
 sjp.lmer <- function(fit,
@@ -492,12 +501,11 @@ sjp.lmer <- function(fit,
                      sample.n = NULL,
                      poly.term = NULL,
                      sort.est = NULL,
-                     p.kr = TRUE,
                      title = NULL,
                      axis.labels = NULL,
                      axis.title = NULL,
-                     geom.colors = "Set1",
                      geom.size = NULL,
+                     geom.colors = "Set1",
                      show.values = TRUE,
                      show.p = TRUE,
                      show.ci = FALSE,
@@ -506,9 +514,10 @@ sjp.lmer <- function(fit,
                      show.loess.ci = FALSE,
                      show.intercept = TRUE,
                      string.interc = "(Intercept)",
+                     p.kr = TRUE,
+                     point.alpha = 0.2,
                      scatter.plot = TRUE,
                      fade.ns = FALSE,
-                     point.alpha = 0.2,
                      ylim = NULL,
                      digits = 2,
                      vline.type = 2,
@@ -516,7 +525,8 @@ sjp.lmer <- function(fit,
                      facet.grid = TRUE,
                      free.scale = FALSE,
                      y.offset = .1,
-                     printPlot = TRUE) {
+                     printPlot = TRUE,
+                     ...) {
   # -------------------------------------
   # check for deprecated argument values
   # -------------------------------------
@@ -561,7 +571,8 @@ sjp.lmer <- function(fit,
            show.loess.ci,
            poly.term,
            sample.n,
-           show.legend)
+           show.legend,
+           ...)
 }
 
 sjp.lme4  <- function(fit,
@@ -598,7 +609,8 @@ sjp.lme4  <- function(fit,
                       show.loess.ci = FALSE,
                       poly.term = NULL,
                       sample.n = NULL,
-                      show.legend = FALSE) {
+                      show.legend = FALSE,
+                      ...) {
   # ------------------------
   # check if suggested package is available
   # ------------------------
@@ -765,7 +777,7 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     return(invisible(sjp.glm.eff(fit, title, geom.size, remove.estimates, vars, 
                                  show.ci, ylim = NULL, facet.grid,
-                                 fun = fun, printPlot)))
+                                 fun = fun, printPlot, ...)))
   } else if (type == "ri.slope") {
     # ---------------------------------------
     # plot slopes for each fixex coefficient
@@ -1907,7 +1919,6 @@ sjp.lme.fecor <- function(fit,
 
 
 #' @importFrom stats coef
-#' @importFrom car Anova
 get_lmerMod_pvalues <- function(fitmod, KR = TRUE) {
   # retrieve sigificance level of independent variables (p-values)
   if (any(class(fitmod) == "merModLmerTest") && requireNamespace("lmerTest", quietly = TRUE)) {
@@ -1933,20 +1944,8 @@ get_lmerMod_pvalues <- function(fitmod, KR = TRUE) {
     # compute p-values, assuming an approximate t-dist
     pv <- 2 * (1 - pt(abs(cs$`t value`), df.kr))
   } else {
-    # if we don't have p-values in summary, try to get them via anova
-    # we use type 3 here to include intercept
-    message("Computing approximate p-values via Wald chi-squared test...")
-    pia <- suppressMessages(car::Anova(fitmod, type = "III"))
-    # factors may have multiple levels, however, p-value
-    # is not calculated for each factor level. Drop these p-values.
-    # pia$`Pr(>Chisq)`[which(pia$Df > 1)] <- NA
-    pv <- c()
-    # to get matching rows between model coefficient and p-values
-    # calculated by anova, we "repeat" rows of factors - these factors
-    # appear multiple times in the coefficient table (one for each factor
-    # level), however, only once in the anova table. Factor levels,
-    # i.e. times to repeat, is indicated by the Df.
-    pv <- c(pv, rep(pia$`Pr(>Chisq)`, pia$Df))
+    message("Computing p-values via Wald-statistics approximation (treating t as Wald z).")
+    pv <- (1 - pnorm(abs(cs[, 3]))) * 2
   }
   return(pv)
 }
@@ -1963,7 +1962,8 @@ sjp.glm.eff <- function(fit,
                         ylim,
                         facet.grid,
                         fun,
-                        printPlot) {
+                        printPlot,
+                        ...) {
   # ---------------------------------------
   # check axis range
   # ---------------------------------------
@@ -1972,10 +1972,10 @@ sjp.glm.eff <- function(fit,
   # check if suggested package is available
   # ------------------------
   if (!requireNamespace("effects", quietly = TRUE)) {
-    stop("Package 'effects' needed for this function to work. Please install it.", call. = FALSE)
+    stop("Package `effects` needed for this function to work. Please install it.", call. = FALSE)
   }
   if ((any(class(fit) == "lmerMod" || any(class(fit) == "merModLmerTest"))) && !requireNamespace("lme4", quietly = TRUE)) {
-    stop("Package 'lme4' needed for this function to work. Please install it.", call. = FALSE)
+    stop("Package `lme4` needed for this function to work. Please install it.", call. = FALSE)
   }
   # ---------------------------------------
   # init plot list
@@ -2053,7 +2053,7 @@ sjp.glm.eff <- function(fit,
   # ------------------------
   # compute marginal effects for each model term
   # ------------------------
-  eff <- effects::allEffects(fit, xlevels = xl, KR = FALSE)
+  eff <- effects::allEffects(fit, xlevels = xl, KR = FALSE, ...)
   # select specific terms only
   eff <- eff[which(names(eff) %in% all.terms)]
   # init final df
@@ -2189,8 +2189,7 @@ sjp.glm.eff <- function(fit,
       # ------------------------
       if (anyNA(suppressWarnings(as.numeric(mydat_sub$label)))) {
         eff.plot <- eff.plot +
-          scale_x_continuous(labels = mydat_sub$label,
-                             breaks = mydat_sub$x)
+          scale_x_continuous(labels = mydat_sub$label, breaks = mydat_sub$x)
       }
       # ------------------------
       # print plot?

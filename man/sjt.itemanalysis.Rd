@@ -138,9 +138,7 @@ See 'Details' in \code{\link{sjt.frq}}.
 See 'Notes' in \code{\link{sjt.frq}}.
 }
 \examples{
-# -------------------------------
 # Data from the EUROFAMCARE sample dataset
-# -------------------------------
 library(sjmisc)
 data(efc)
 
@@ -159,15 +157,11 @@ colnames(mydf) <- varlabs[c(start:end)]
 \dontrun{
 sjt.itemanalysis(mydf)
 
-# -------------------------------
 # auto-detection of labels
-# -------------------------------
 sjt.itemanalysis(efc[, c(start:end)])
   
-# ---------------------------------------
 # Compute PCA on Cope-Index, and perform a
 # item analysis for each extracted factor.
-# ---------------------------------------
 factor.groups <- sjt.pca(mydf, no.output = TRUE)$factor.index
 sjt.itemanalysis(mydf, factor.groups)}
  

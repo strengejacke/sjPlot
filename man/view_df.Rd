@@ -4,13 +4,13 @@
 \alias{view_df}
 \title{View structure of labelled data frames}
 \usage{
-view_df(x, weight.by = NULL, file = NULL, altr.row.col = TRUE,
-  show.id = TRUE, show.type = FALSE, show.values = TRUE,
-  show.labels = TRUE, show.frq = FALSE, show.prc = FALSE,
-  show.wtd.frq = FALSE, show.wtd.prc = FALSE, show.na = FALSE,
-  sort.by.name = FALSE, wrap.labels = 50, encoding = NULL,
-  hide.progress = FALSE, CSS = NULL, use.viewer = TRUE,
-  no.output = FALSE, remove.spaces = TRUE)
+view_df(x, weight.by = NULL, altr.row.col = TRUE, show.id = TRUE,
+  show.type = FALSE, show.values = TRUE, show.labels = TRUE,
+  show.frq = FALSE, show.prc = FALSE, show.wtd.frq = FALSE,
+  show.wtd.prc = FALSE, show.na = FALSE, sort.by.name = FALSE,
+  wrap.labels = 50, hide.progress = FALSE, CSS = NULL, encoding = NULL,
+  file = NULL, use.viewer = TRUE, no.output = FALSE,
+  remove.spaces = TRUE)
 }
 \arguments{
 \item{x}{\code{data.frame}, imported by \code{\link[sjmisc]{read_spss}},
@@ -21,10 +21,6 @@ and \code{\link[sjmisc]{set_labels}}).}
 \item{weight.by}{weight factor that will be applied to weight all cases.
 Must be a vector of same length as the input vector. Default is 
 \code{NULL}, so no weights are used.}
-
-\item{file}{destination file, if the output should be saved as file.
-If \code{NULL} (default), the output will be saved as temporary file and 
-openend either in the IDE's viewer pane or the default web browser.}
 
 \item{altr.row.col}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
@@ -59,16 +55,20 @@ order in the data frame.}
 \item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
-\item{encoding}{string, indicating the charset encoding used for variable and 
-value labels. Default is \code{NULL}, so encoding will be auto-detected 
-depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
-Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
-
 \item{hide.progress}{logical, if \code{TRUE}, the progress bar that is displayed when creating the
 output is hidden. Default in \code{FALSE}, hence the bar is visible.}
 
 \item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
+
+\item{encoding}{string, indicating the charset encoding used for variable and 
+value labels. Default is \code{NULL}, so encoding will be auto-detected 
+depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
+Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
+
+\item{file}{destination file, if the output should be saved as file.
+If \code{NULL} (default), the output will be saved as temporary file and 
+openend either in the IDE's viewer pane or the default web browser.}
 
 \item{use.viewer}{If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}

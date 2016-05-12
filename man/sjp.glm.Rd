@@ -13,7 +13,7 @@ sjp.glm(fit, type = "dots", vars = NULL, group.estimates = NULL,
   show.p = TRUE, show.ci = FALSE, show.legend = FALSE,
   show.summary = FALSE, digits = 2, vline.type = 2,
   vline.color = "grey70", coord.flip = TRUE, y.offset = 0.15,
-  facet.grid = TRUE, printPlot = TRUE)
+  facet.grid = TRUE, printPlot = TRUE, ...)
 }
 \arguments{
 \item{fit}{fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).}
@@ -120,6 +120,9 @@ in a grid of an integrated single plot.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
+
+\item{...}{other arguments, passed down to the \code{\link[effects]{effect}} resp. 
+\code{\link[effects]{allEffects}} function when \code{type = "eff"}.}
 }
 \value{
 (Insisibily) returns, depending on the plot type
@@ -147,7 +150,9 @@ Plot odds or incident rate ratios with confidence intervalls as dot plot.
            \item{\code{type = "eff"}}{computes marginal effects of all higher order
            terms in the model. The predicted values computed by \code{type = "eff"}
            are adjusted for all other co-variates, by setting them to the mean
-           (as returned by the \code{\link[effects]{allEffects}} function).}
+           (as returned by the \code{\link[effects]{allEffects}} function).
+           You can pass further arguments down to \code{allEffects} for flexible
+           function call via the \code{...}-argument.}
            \item{\code{type = "pred"}}{the predicted values
            of the response are computed, based on the \code{\link{predict.glm}}
            method. Corresponds to \code{\link{predict}(fit, type = "response")}.

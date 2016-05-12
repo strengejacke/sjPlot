@@ -113,7 +113,7 @@ decision help for which model to choose.}
 \item{string.pred}{character vector,used as headline for the predictor column.
 Default is \code{"Predictors"}.}
 
-\item{string.dv}{string constant used as headline for the 
+\item{string.dv}{character vector, used as headline for the 
 dependent variable columns. Default is \code{"Dependent Variables"}.}
 
 \item{string.interc}{character vector, used as headline for the Intercept row.
@@ -194,8 +194,8 @@ Summarizes (multiple) fitted generalized linear mixed models (odds ratios, ci, p
 See 'Details' in \code{\link{sjt.frq}}.
 }
 \note{
-Computation of p-values (if necessary) are based on Wald chi-squared tests from the 
-        \code{Anova}-function of the \pkg{car}-package.
+Computation of p-values (if necessary) is based on normal-distribution 
+        assumption, treating the t-statistics as Wald z-statistics.
         \cr \cr
         The variance components of the random parts (see \code{show.re.var}) are
         denoted like:

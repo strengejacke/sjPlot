@@ -50,7 +50,9 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'                  predictor, the predicted values towards the response are plotted, with 
 #'                  all remaining co-variates set to the mean. Due to possible different 
 #'                  scales of predictors, a faceted plot is printed (instead of plotting 
-#'                  all lines in one plot).}
+#'                  all lines in one plot).
+#'                  You can pass further arguments down to \code{allEffects} for flexible
+#'                  function call via the \code{...}-argument.}
 #'            \item{\code{type = "poly"}}{plots the marginal effects of polynomial terms 
 #'                  in \code{fit}, using the \code{\link[effects]{effect}} function, but 
 #'                  only for a selected polynomial term, which is specified with \code{poly.term}.
@@ -247,39 +249,40 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #' @export
 sjp.lm <- function(fit,
                    type = "lm",
-                   sort.est = TRUE,
-                   title = NULL,
-                   resp.label = NULL,
-                   axis.labels = NULL,
-                   legend.title = NULL,
-                   axis.title = NULL,
-                   axis.lim = NULL,
-                   geom.colors = "Set1",
-                   geom.size = NULL,
-                   vline.type = 2,
-                   vline.color = "grey70",
+                   vars = NULL,
                    group.estimates = NULL,
                    remove.estimates = NULL,
-                   vars = NULL,
-                   wrap.title = 50,
-                   wrap.labels = 25,
-                   grid.breaks = NULL,
-                   coord.flip = TRUE,
-                   facet.grid = TRUE,
-                   show.values = TRUE,
-                   digits = 2,
-                   show.p = TRUE,
-                   show.summary = FALSE,
-                   show.ci = TRUE,
+                   sort.est = TRUE,
+                   poly.term = NULL,
+                   title = NULL,
+                   legend.title = NULL,
+                   axis.labels = NULL,
+                   axis.title = NULL,
+                   resp.label = NULL,
+                   geom.size = NULL,
+                   geom.colors = "Set1",
                    point.alpha = 0.2,
                    scatter.plot = TRUE,
+                   wrap.title = 50,
+                   wrap.labels = 25,
+                   axis.lim = NULL,
+                   grid.breaks = NULL,
+                   show.values = TRUE,
+                   show.p = TRUE,
+                   show.ci = TRUE,
+                   show.legend = FALSE,
                    show.loess = FALSE,
                    show.loess.ci = FALSE,
-                   show.legend = FALSE,
+                   show.summary = FALSE,
+                   digits = 2,
+                   vline.type = 2,
+                   vline.color = "grey70",
+                   coord.flip = TRUE,
                    y.offset = .15,
-                   poly.term = NULL,
+                   facet.grid = TRUE,
                    completeDiagnostic = FALSE,
-                   printPlot = TRUE) {
+                   printPlot = TRUE,
+                   ...) {
   # -----------------------------------------------------------
   # remember length of predictor variables
   # -----------------------------------------------------------
@@ -338,7 +341,7 @@ sjp.lm <- function(fit,
   if (type == "eff") {
     return(invisible(sjp.glm.eff(fit, title, geom.size, remove.estimates, vars,
                                  show.ci, ylim = NULL, facet.grid,
-                                 fun = "lm", printPlot)))
+                                 fun = "lm", printPlot, ...)))
   }
   if (type == "ma") {
     return(invisible(sjp.lm.ma(fit, completeDiagnostic)))

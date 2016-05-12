@@ -57,7 +57,7 @@ one line and when a line break is inserted.}
 \item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
-\item{wrap.legend.title}{determines how many chars of the legend's title 
+\item{wrap.legend.title}{numeric, determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}
 
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 

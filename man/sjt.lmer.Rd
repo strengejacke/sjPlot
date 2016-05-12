@@ -9,7 +9,7 @@ sjt.lmer(..., pred.labels = NULL, depvar.labels = NULL,
   emph.p = TRUE, p.kr = TRUE, separate.ci.col = TRUE, newline.ci = TRUE,
   show.est = TRUE, show.std = NULL, show.ci = TRUE, show.se = FALSE,
   show.header = FALSE, show.col.header = TRUE, show.r2 = TRUE,
-  show.icc = FALSE, show.re.var = FALSE, show.fstat = FALSE,
+  show.icc = TRUE, show.re.var = TRUE, show.fstat = FALSE,
   show.aic = FALSE, show.aicc = FALSE, show.dev = FALSE,
   string.pred = "Predictors", string.dv = "Dependent Variables",
   string.interc = "(Intercept)", string.obs = "Observations",
@@ -107,7 +107,7 @@ is printed in the model summary.}
 \item{string.pred}{character vector,used as headline for the predictor column.
 Default is \code{"Predictors"}.}
 
-\item{string.dv}{string constant used as headline for the 
+\item{string.dv}{character vector, used as headline for the 
 dependent variable columns. Default is \code{"Dependent Variables"}.}
 
 \item{string.interc}{character vector, used as headline for the Intercept row.
@@ -199,8 +199,9 @@ See 'Details' in \code{\link{sjt.frq}}.
 Computation of p-values (if necessary and if \code{p.kr = TRUE}) are based 
         on conditional F-tests with Kenward-Roger approximation for the df, using 
         the \pkg{pbkrtest}-package. If \pkg{pbkrtest} is not available or
-        \code{p.kr = FALSE}, Wald chi-squared tests from the
-        \code{Anova}-function of the \pkg{car}-package are computed.
+        \code{p.kr = FALSE}, computation of p-values is based 
+        on normal-distribution assumption, treating the t-statistics as Wald
+        z-statistics.
         \cr \cr
         The variance components of the random parts (see \code{show.re.var}) are
         denoted like:
@@ -235,36 +236,25 @@ mydf <- data.frame(neg_c_7 = efc$neg_c_7,
 fit1 <- lmer(neg_c_7 ~ sex + c12hour + barthel + (1|grp), data = mydf)
 fit2 <- lmer(neg_c_7 ~ sex + c12hour + education + barthel + (1|grp), data = mydf)
 fit3 <- lmer(neg_c_7 ~ sex + c12hour + education + barthel + 
-              (1|grp) + 
-              (1|carelevel), data = mydf)
+              (1|grp) + (1|carelevel), data = mydf)
 
 # print summary table
-sjt.lmer(fit1, fit2,
-         ci.hyphen = " to ",
-         minus.sign = "&minus;")
+sjt.lmer(fit1, fit2, ci.hyphen = " to ", minus.sign = "&minus;")
 
 # print table, using vector names as labels
 sjt.lmer(fit1, fit2, fit3, pred.labels = "")
 
 # show other statistics
-sjt.lmer(fit1, fit2,
-         show.aic = TRUE,
-         show.ci = FALSE,
-         show.se = TRUE,
-         p.numeric = FALSE)
+sjt.lmer(fit1, fit2, show.aic = TRUE, show.ci = FALSE, 
+         show.se = TRUE, p.numeric = FALSE)
            
-sjt.lmer(fit1, fit2, fit3, 
-         show.aic = TRUE,
-         separate.ci.col = FALSE,
-         newline.ci = FALSE)
+sjt.lmer(fit1, fit2, fit3, show.aic = TRUE, 
+         separate.ci.col = FALSE, newline.ci = FALSE)
 
 # user defined predictor labels
-sjt.lmer(fit1, fit2, fit3,
-         pred.labels = c("Elder's gender (female)",
-                             "Hours of care per week",
-                             "Barthel Index",
-                             "Educational level (mid)",
-                             "Educational level (high)"))}
+sjt.lmer(fit1, fit2, fit3, pred.labels = c("Elder's gender (female)",
+         "Hours of care per week", "Barthel Index", "Educational level (mid)",
+         "Educational level (high)"))}
                   
 }
 \seealso{

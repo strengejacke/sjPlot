@@ -12,7 +12,7 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL,
   show.intercept = TRUE, string.interc = "(Intercept)", fade.ns = FALSE,
   ylim = NULL, digits = 2, vline.type = 2, vline.color = "grey70",
   facet.grid = TRUE, free.scale = FALSE, y.offset = 0.1,
-  printPlot = TRUE)
+  printPlot = TRUE, ...)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{glmer}}-function.}
@@ -134,6 +134,9 @@ to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
+
+\item{...}{other arguments, passed down to the \code{\link[effects]{effect}} resp. 
+\code{\link[effects]{allEffects}} function when \code{type = "eff"}.}
 }
 \value{
 (Insisibily) returns, depending on the plot type
@@ -165,7 +168,9 @@ By default, this function plots estimates (odds, risk or incidents
            \item{\code{type = "eff"}}{plots the marginal effects of model predictors.
            Unlike \code{type = "fe.slope"}, the predicted values computed by 
            \code{type = "eff"} are adjusted for all co-variates, which are
-           set to the mean, as returned by the \code{\link[effects]{allEffects}} function.}
+           set to the mean, as returned by the \code{\link[effects]{allEffects}} function.
+           You can pass further arguments down to \code{allEffects} for flexible
+           function call via the \code{...}-argument.}
            \item{\code{type = "ri.slope"}}{the predicted values
            are based on the fixed effects intercept, plus each random intercept and
            each specific  fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),
@@ -198,8 +203,9 @@ By default, this function plots estimates (odds, risk or incidents
 }
 \note{
 \itemize{
-         \item{Computation of p-values (if necessary) are based on
-               Wald chi-square tests from the \code{Anova}-function of the \pkg{car}-package.}
+         \item{Computation of p-values (if necessary) is based on normal-
+               distribution assumption, treating the t-statistics as Wald
+               z-statistics.}
          \item{Plot types use the inverse link-function to calculate predicted
                probabilites or incidents rates. Thus, this function should work
                with different model families and link functions; however, the

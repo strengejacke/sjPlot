@@ -4,17 +4,17 @@
 \alias{sjp.lm}
 \title{Plot estimates, predictions or effects of linear models}
 \usage{
-sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
-  resp.label = NULL, axis.labels = NULL, legend.title = NULL,
-  axis.title = NULL, axis.lim = NULL, geom.colors = "Set1",
-  geom.size = NULL, vline.type = 2, vline.color = "grey70",
-  group.estimates = NULL, remove.estimates = NULL, vars = NULL,
-  wrap.title = 50, wrap.labels = 25, grid.breaks = NULL,
-  coord.flip = TRUE, facet.grid = TRUE, show.values = TRUE, digits = 2,
-  show.p = TRUE, show.summary = FALSE, show.ci = TRUE,
-  point.alpha = 0.2, scatter.plot = TRUE, show.loess = FALSE,
-  show.loess.ci = FALSE, show.legend = FALSE, y.offset = 0.15,
-  poly.term = NULL, completeDiagnostic = FALSE, printPlot = TRUE)
+sjp.lm(fit, type = "lm", vars = NULL, group.estimates = NULL,
+  remove.estimates = NULL, sort.est = TRUE, poly.term = NULL,
+  title = NULL, legend.title = NULL, axis.labels = NULL,
+  axis.title = NULL, resp.label = NULL, geom.size = NULL,
+  geom.colors = "Set1", point.alpha = 0.2, scatter.plot = TRUE,
+  wrap.title = 50, wrap.labels = 25, axis.lim = NULL,
+  grid.breaks = NULL, show.values = TRUE, show.p = TRUE, show.ci = TRUE,
+  show.legend = FALSE, show.loess = FALSE, show.loess.ci = FALSE,
+  show.summary = FALSE, digits = 2, vline.type = 2,
+  vline.color = "grey70", coord.flip = TRUE, y.offset = 0.15,
+  facet.grid = TRUE, completeDiagnostic = FALSE, printPlot = TRUE, ...)
 }
 \arguments{
 \item{fit}{fitted linear regression model (of class \code{\link{lm}}, \code{\link[nlme]{gls}} or \code{plm}).}
@@ -33,39 +33,11 @@ sjp.lm(fit, type = "lm", sort.est = TRUE, title = NULL,
   \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 }}
 
-\item{sort.est}{logical, determines whether estimates should be sorted according to their values.
-If \code{group.estimates} is \emph{not} \code{NULL}, estimates are sorted
-according to their group assignment.}
-
-\item{title}{character vector, used as plot title. Depending on plot type and function,
-will be set automatically. If \code{title = ""}, no title is printed.}
-
-\item{resp.label}{name of dependent variable, as string. Only 
-used if fitted model has only one predictor and \code{type = "lm"}.}
-
-\item{axis.labels}{character vector with labels used as axis labels. Optional
-argument, since in most cases, axis labels are set automatically.}
-
-\item{legend.title}{character vector, used as title for the plot legend.}
-
-\item{axis.title}{character vector, used as title for the axis. If not specified, 
-a default labelling depending on the plot function and type is chosen.}
-
-\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.}
-
-\item{geom.colors}{user defined color palette for geoms. If \code{group.estimates}
-is \emph{not} specified, must either be vector with two color values or a specific
-color palette code (see 'Details' in \code{\link{sjp.grpfrq}}). Else, if
-\code{group.estimates} is specified, \code{geom.colors} must be a vector
-of same length as groups. See 'Examples'.}
-
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function). Note that bar and bin widths mostly 
-need smaller values than dot sizes.}
-
-\item{vline.type}{linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
-
-\item{vline.color}{color of the vertical "zero point" line. Default value is \code{"grey70"}.}
+\item{vars}{numeric vector with column indices of selected variables or a character vector with
+variable names of selected variables from the fitted model, which should be used to plot
+estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability or
+incidents curves
+(for \code{\link[lme4]{glmer}}) of random intercepts.}
 
 \item{group.estimates}{numeric or character vector, indicating a group identifier for
 each estimate. Dots and confidence intervals of estimates are coloured
@@ -76,11 +48,43 @@ which estimates should be removed from the plot.
 \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 is \code{NULL}, i.e. all estimates are printed.}
 
-\item{vars}{numeric vector with column indices of selected variables or a character vector with
-variable names of selected variables from the fitted model, which should be used to plot
-estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability or
-incidents curves
-(for \code{\link[lme4]{glmer}}) of random intercepts.}
+\item{sort.est}{logical, determines whether estimates should be sorted according to their values.
+If \code{group.estimates} is \emph{not} \code{NULL}, estimates are sorted
+according to their group assignment.}
+
+\item{poly.term}{name of a polynomial term in \code{fit} as string. Needs to be
+specified, if \code{type = "poly"}, in order to plot marginal effects
+for polynomial terms. See 'Examples'.}
+
+\item{title}{character vector, used as plot title. Depending on plot type and function,
+will be set automatically. If \code{title = ""}, no title is printed.}
+
+\item{legend.title}{character vector, used as title for the plot legend.}
+
+\item{axis.labels}{character vector with labels used as axis labels. Optional
+argument, since in most cases, axis labels are set automatically.}
+
+\item{axis.title}{character vector, used as title for the axis. If not specified, 
+a default labelling depending on the plot function and type is chosen.}
+
+\item{resp.label}{name of dependent variable, as string. Only 
+used if fitted model has only one predictor and \code{type = "lm"}.}
+
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
+depending on plot type and function). Note that bar and bin widths mostly 
+need smaller values than dot sizes.}
+
+\item{geom.colors}{user defined color palette for geoms. If \code{group.estimates}
+is \emph{not} specified, must either be vector with two color values or a specific
+color palette code (see 'Details' in \code{\link{sjp.grpfrq}}). Else, if
+\code{group.estimates} is specified, \code{geom.colors} must be a vector
+of same length as groups. See 'Examples'.}
+
+\item{point.alpha}{alpha value of point-geoms in the scatter plots.}
+
+\item{scatter.plot}{logical, if \code{TRUE} (default), a scatter plot of
+response and predictor values for each predictor of the model
+is plotted. Only applies for slope-type plots.}
 
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
@@ -88,32 +92,21 @@ one line and when a line break is inserted.}
 \item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
+\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.}
+
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
-\item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
-
-\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
-in a grid of an integrated single plot.}
-
 \item{show.values}{logical, whether values should be plotted or not.}
-
-\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
 \item{show.p}{logical, adds significance levels to values, or value and 
 variable labels.}
 
-\item{show.summary}{logical, if \code{TRUE}, a summary with model statistics 
-is added to the plot.}
-
 \item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
 interval or region is added to the plot.}
 
-\item{point.alpha}{alpha value of point-geoms in the scatter plots.}
-
-\item{scatter.plot}{logical, if \code{TRUE} (default), a scatter plot of
-response and predictor values for each predictor of the model
-is plotted. Only applies for slope-type plots.}
+\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
+function, a legend is added to the plot.}
 
 \item{show.loess}{logical, if \code{TRUE}, and depending on \code{type}, an 
 additional loess-smoothed line is plotted.}
@@ -123,21 +116,31 @@ will be plotted. Default is \code{FALSE}. Only applies, if \code{show.loess = TR
 (and for \code{\link{sjp.lmer}}, only applies if \code{type = "fe.slope"}
 or \code{type = "fe.resid"}).}
 
-\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
-function, a legend is added to the plot.}
+\item{show.summary}{logical, if \code{TRUE}, a summary with model statistics 
+is added to the plot.}
+
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
+
+\item{vline.type}{linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
+
+\item{vline.color}{color of the vertical "zero point" line. Default value is \code{"grey70"}.}
+
+\item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
-\item{poly.term}{name of a polynomial term in \code{fit} as string. Needs to be
-specified, if \code{type = "poly"}, in order to plot marginal effects
-for polynomial terms. See 'Examples'.}
+\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
+in a grid of an integrated single plot.}
 
 \item{completeDiagnostic}{logical, if \code{TRUE}, additional tests are performed. Default is \code{FALSE}
 Only applies if \code{type = "ma"}.}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
+
+\item{...}{other arguments, passed down to the \code{\link[effects]{effect}} resp. 
+\code{\link[effects]{allEffects}} function when \code{type = "eff"}.}
 }
 \value{
 Depending on the \code{type}, in most cases (insisibily)
@@ -189,7 +192,9 @@ Depending on the \code{type}, this function plots coefficients (estimates)
                  predictor, the predicted values towards the response are plotted, with 
                  all remaining co-variates set to the mean. Due to possible different 
                  scales of predictors, a faceted plot is printed (instead of plotting 
-                 all lines in one plot).}
+                 all lines in one plot).
+                 You can pass further arguments down to \code{allEffects} for flexible
+                 function call via the \code{...}-argument.}
            \item{\code{type = "poly"}}{plots the marginal effects of polynomial terms 
                  in \code{fit}, using the \code{\link[effects]{effect}} function, but 
                  only for a selected polynomial term, which is specified with \code{poly.term}.

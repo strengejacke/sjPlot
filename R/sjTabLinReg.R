@@ -25,7 +25,7 @@ utils::globalVariables(c("starts_with"))
 #'          variables of all fitted models. See 'Examples'.
 #' @param string.pred character vector,used as headline for the predictor column.
 #'          Default is \code{"Predictors"}.
-#' @param string.dv string constant used as headline for the 
+#' @param string.dv character vector, used as headline for the 
 #'          dependent variable columns. Default is \code{"Dependent Variables"}.
 #' @param show.header logical, if \code{TRUE}, the header strings \code{string.pred}
 #'          and \code{string.dv} are shown. By default, they're hidden.
@@ -1300,8 +1300,9 @@ sjt.lm <- function(...,
 #' @note Computation of p-values (if necessary and if \code{p.kr = TRUE}) are based 
 #'         on conditional F-tests with Kenward-Roger approximation for the df, using 
 #'         the \pkg{pbkrtest}-package. If \pkg{pbkrtest} is not available or
-#'         \code{p.kr = FALSE}, Wald chi-squared tests from the
-#'         \code{Anova}-function of the \pkg{car}-package are computed.
+#'         \code{p.kr = FALSE}, computation of p-values is based 
+#'         on normal-distribution assumption, treating the t-statistics as Wald
+#'         z-statistics.
 #'         \cr \cr
 #'         The variance components of the random parts (see \code{show.re.var}) are
 #'         denoted like:
@@ -1338,36 +1339,25 @@ sjt.lm <- function(...,
 #' fit1 <- lmer(neg_c_7 ~ sex + c12hour + barthel + (1|grp), data = mydf)
 #' fit2 <- lmer(neg_c_7 ~ sex + c12hour + education + barthel + (1|grp), data = mydf)
 #' fit3 <- lmer(neg_c_7 ~ sex + c12hour + education + barthel + 
-#'               (1|grp) + 
-#'               (1|carelevel), data = mydf)
+#'               (1|grp) + (1|carelevel), data = mydf)
 #' 
 #' # print summary table
-#' sjt.lmer(fit1, fit2,
-#'          ci.hyphen = " to ",
-#'          minus.sign = "&minus;")
+#' sjt.lmer(fit1, fit2, ci.hyphen = " to ", minus.sign = "&minus;")
 #' 
 #' # print table, using vector names as labels
 #' sjt.lmer(fit1, fit2, fit3, pred.labels = "")
 #' 
 #' # show other statistics
-#' sjt.lmer(fit1, fit2,
-#'          show.aic = TRUE,
-#'          show.ci = FALSE,
-#'          show.se = TRUE,
-#'          p.numeric = FALSE)
+#' sjt.lmer(fit1, fit2, show.aic = TRUE, show.ci = FALSE, 
+#'          show.se = TRUE, p.numeric = FALSE)
 #'            
-#' sjt.lmer(fit1, fit2, fit3, 
-#'          show.aic = TRUE,
-#'          separate.ci.col = FALSE,
-#'          newline.ci = FALSE)
+#' sjt.lmer(fit1, fit2, fit3, show.aic = TRUE, 
+#'          separate.ci.col = FALSE, newline.ci = FALSE)
 #'
 #' # user defined predictor labels
-#' sjt.lmer(fit1, fit2, fit3,
-#'          pred.labels = c("Elder's gender (female)",
-#'                              "Hours of care per week",
-#'                              "Barthel Index",
-#'                              "Educational level (mid)",
-#'                              "Educational level (high)"))}
+#' sjt.lmer(fit1, fit2, fit3, pred.labels = c("Elder's gender (female)",
+#'          "Hours of care per week", "Barthel Index", "Educational level (mid)",
+#'          "Educational level (high)"))}
 #'                   
 #' @export
 sjt.lmer <- function(...,
@@ -1388,8 +1378,8 @@ sjt.lmer <- function(...,
                      show.header = FALSE,
                      show.col.header = TRUE,
                      show.r2 = TRUE,
-                     show.icc = FALSE,
-                     show.re.var = FALSE,
+                     show.icc = TRUE,
+                     show.re.var = TRUE,
                      show.fstat = FALSE,
                      show.aic = FALSE,
                      show.aicc = FALSE,

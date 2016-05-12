@@ -420,9 +420,7 @@ sjp.frq <- function(var.cnt,
     # define geom
     # -----------------------------------
     if (type == "bar") {
-      geob <- geom_bar(stat = "identity", 
-                       width = geom.size, 
-                       fill = geom.colors)
+      geob <- geom_bar(stat = "identity", width = geom.size, fill = geom.colors)
     } else if (type == "dot") {
       geob <- geom_point(size = geom.size, colour = geom.colors)
     }
@@ -446,8 +444,7 @@ sjp.frq <- function(var.cnt,
       ebcol <- ifelse(type == "dot", geom.colors, errorbar.color)
       # print confidence intervalls (error bars)
       baseplot <- baseplot + geom_errorbar(aes(ymin = lower.ci, ymax = upper.ci), 
-                                           colour = ebcol, 
-                                           width = 0)
+                                           colour = ebcol, width = 0)
     }
     # check whether coordinates should be flipped, i.e.
     # swap x and y axis
@@ -465,24 +462,18 @@ sjp.frq <- function(var.cnt,
         geom_boxplot(width = geom.size, fill = geom.colors)
     } else {
       baseplot <- baseplot + 
-        geom_violin(trim = trimViolin, 
-                    width = geom.size, 
-                    fill = geom.colors) +
+        geom_violin(trim = trimViolin, width = geom.size, fill = geom.colors) +
         # if we have a violin plot, add an additional boxplot inside to show
         # more information
-        geom_boxplot(width = inner.box.width, 
-                     fill = "white")
+        geom_boxplot(width = inner.box.width, fill = "white")
     }
     # if we have boxplots or violon plots, also add a point that indicates
     # the mean value
     # different fill colours, because violin boxplots have white background
     fcsp <- ifelse(type == "boxplot", "white", "black")
     baseplot <- baseplot +
-      stat_summary(fun.y = "mean", 
-                   geom = "point", 
-                   shape = 21, 
-                   size = inner.box.dotsize, 
-                   fill = fcsp)
+      stat_summary(fun.y = "mean", geom = "point", shape = 21, 
+                   size = inner.box.dotsize, fill = fcsp)
     # no additional labels for the x- and y-axis, only diagram title
     baseplot <- baseplot + 
       yscale +
@@ -497,13 +488,9 @@ sjp.frq <- function(var.cnt,
     baseplot <- ggplot(densityDat, aes(x = xv)) +
       geom_histogram(aes(y = ..density..), fill = geom.colors) +
       # transparent density curve above bars
-      geom_density(aes(y = ..density..), 
-                   fill = "cornsilk", 
-                   alpha = 0.3) +
+      geom_density(aes(y = ..density..), fill = "cornsilk", alpha = 0.3) +
       # remove margins from left and right diagram side
-      scale_x_continuous(expand = expand.grid, 
-                         breaks = histgridbreaks,
-                         limits = xlim)
+      scale_x_continuous(expand = expand.grid, breaks = histgridbreaks,limits = xlim)
     # check whether user wants to overlay the histogram
     # with a normal curve
     if (normal.curve) {
@@ -530,8 +517,7 @@ sjp.frq <- function(var.cnt,
       # original data needed for normal curve
       baseplot <- ggplot(mydat) +
         # second data frame mapped to the histogram geom
-        geom_histogram(data = hist.dat, aes(x = xv), binwidth = geom.size, 
-                       fill = geom.colors)        
+        geom_histogram(data = hist.dat, aes(x = xv), binwidth = geom.size, fill = geom.colors)        
       
     } else {
       baseplot <- ggplot(mydat, aes(x = val, y = frq)) +
@@ -553,9 +539,7 @@ sjp.frq <- function(var.cnt,
     if (show.mean) {
       baseplot <- baseplot + 
         # vertical lines indicating the mean
-        geom_vline(xintercept = mittelwert, 
-                   linetype = mean.line.type, 
-                   size = mean.line.size)
+        geom_vline(xintercept = mittelwert, linetype = mean.line.type, size = mean.line.size)
       # check whether meanvalue should be shown.
       if (show.mean.val) {
         baseplot <- baseplot + 
@@ -594,9 +578,7 @@ sjp.frq <- function(var.cnt,
     # show absolute and percentage value of each bar.
     baseplot <- baseplot + 
       # remove margins from left and right diagram side
-      scale_x_continuous(limits = xlim, 
-                         expand = expand.grid, 
-                         breaks = histgridbreaks) +
+      scale_x_continuous(limits = xlim, expand = expand.grid, breaks = histgridbreaks) +
       yscale
   }
   # set axes text and 

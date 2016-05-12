@@ -107,7 +107,7 @@ is printed in the model summary.}
 \item{string.pred}{character vector,used as headline for the predictor column.
 Default is \code{"Predictors"}.}
 
-\item{string.dv}{string constant used as headline for the 
+\item{string.dv}{character vector, used as headline for the 
 dependent variable columns. Default is \code{"Dependent Variables"}.}
 
 \item{string.interc}{character vector, used as headline for the Intercept row.

@@ -1130,8 +1130,8 @@ sjt.glm <- function(...,
 #'            }
 #'            for further use.
 #'
-#' @note Computation of p-values (if necessary) are based on Wald chi-squared tests from the 
-#'         \code{Anova}-function of the \pkg{car}-package.
+#' @note Computation of p-values (if necessary) is based on normal-distribution 
+#'         assumption, treating the t-statistics as Wald z-statistics.
 #'         \cr \cr
 #'         The variance components of the random parts (see \code{show.re.var}) are
 #'         denoted like:

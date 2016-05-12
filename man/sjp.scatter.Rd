@@ -31,7 +31,7 @@ will be set automatically. If \code{title = ""}, no title is printed.}
 
 \item{legend.title}{character vector, used as title for the plot legend.}
 
-\item{legend.labels}{a character vector with labels for the guide/legend.}
+\item{legend.labels}{character vector with labels for the guide/legend.}
 
 \item{dot.labels}{character vector with names for each coordinate pair given
 by \code{x} and \code{y}, so text labels are added to the plot. 
@@ -46,10 +46,10 @@ for the x-axis and y-axis.}
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.legend.title}{determines how many chars of the legend's title 
+\item{wrap.legend.title}{numeric, determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}
 
-\item{wrap.legend.labels}{determines how many chars of the legend labels are 
+\item{wrap.legend.labels}{numeric, determines how many chars of the legend labels are 
 displayed in one line and when a line break is inserted.}
 
 \item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 

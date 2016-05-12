@@ -137,22 +137,14 @@ sjt.xtab(efc$e16sex, efc$e42dep)
          
 # print cross table with manually set
 # labels and expected values
-sjt.xtab(efc$e16sex, 
-         efc$e42dep, 
-         var.labels = c("Elder's gender", 
-                        "Elder's dependency"),
-         value.labels = list(efc.labels[['e16sex']], 
-                            efc.labels[['e42dep']]),
-         show.exp = TRUE)
+sjt.xtab(efc$e16sex, efc$e42dep, var.labels = c("Elder's gender", 
+         "Elder's dependency"), value.labels = list(efc.labels[['e16sex']], 
+         efc.labels[['e42dep']]), show.exp = TRUE)
 
 # print minimal cross table with labels, total col/row highlighted
-sjt.xtab(efc$e16sex, efc$e42dep, 
-         show.cell.prc = FALSE,
-         emph.total = TRUE)
+sjt.xtab(efc$e16sex, efc$e42dep, show.cell.prc = FALSE, emph.total = TRUE)
 
-# ---------------------------------------------------------------- 
 # User defined style sheet
-# ---------------------------------------------------------------- 
 sjt.xtab(efc$e16sex, efc$e42dep, 
          CSS = list(css.table = "border: 2px solid;",
                     css.tdata = "border: 1px solid;",

@@ -46,7 +46,7 @@ for the x-axis and y-axis.}
 
 \item{legend.title}{character vector, used as title for the plot legend.}
 
-\item{legend.labels}{a character vector with labels for the guide/legend.}
+\item{legend.labels}{character vector with labels for the guide/legend.}
 
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
@@ -54,10 +54,10 @@ one line and when a line break is inserted.}
 \item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
-\item{wrap.legend.title}{determines how many chars of the legend's title 
+\item{wrap.legend.title}{numeric, determines how many chars of the legend's title 
 are displayed in one line and when a line break is inserted.}
 
-\item{wrap.legend.labels}{determines how many chars of the legend labels are 
+\item{wrap.legend.labels}{numeric, determines how many chars of the legend labels are 
 displayed in one line and when a line break is inserted.}
 
 \item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.}

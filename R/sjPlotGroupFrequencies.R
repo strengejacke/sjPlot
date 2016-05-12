@@ -51,14 +51,14 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'          when having interaction variables included.
 #'          These labels replace the \code{axis.labels}. Only applies, when using box or violin plots
 #'          (i.e. \code{type = "boxplot"} or \code{"violin"}) and \code{intr.var} is not \code{NULL}.
-#' @param legend.labels a character vector with labels for the guide/legend.
+#' @param legend.labels character vector with labels for the guide/legend.
 #' @param wrap.title numeric, determines how many chars of the plot title are displayed in
 #'          one line and when a line break is inserted.
 #' @param wrap.labels numeric, determines how many chars of the value, variable or axis 
 #'          labels are displayed in one line and when a line break is inserted.
-#' @param wrap.legend.title determines how many chars of the legend's title 
+#' @param wrap.legend.title numeric, determines how many chars of the legend's title 
 #'          are displayed in one line and when a line break is inserted.
-#' @param wrap.legend.labels determines how many chars of the legend labels are 
+#' @param wrap.legend.labels numeric, determines how many chars of the legend labels are 
 #'          displayed in one line and when a line break is inserted.
 #' @param grid.breaks numeric; sets the distance between breaks for the axis, 
 #'          i.e. at every \code{grid.breaks}'th position a major grid is being printed.

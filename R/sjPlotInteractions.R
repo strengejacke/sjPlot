@@ -48,18 +48,18 @@
 #'            \item{\code{type = "cond"}}{plots the mere \emph{change} of the moderating effect on the response value (conditional effect). See 'Details'.}
 #'            \item{\code{type = "emm"}}{plots the estimated marginal means (least square means). If this type is chosen, not all function arguments are applicable. See 'Details'.}
 #'          }
-#' @param int.term select interaction term of \code{fit} (as character), which should be plotted
-#'          when using \code{type = "eff"}. By default, this argument can be ignored
+#' @param int.term name of interaction term of \code{fit} (as character), which should be plotted
+#'          when using \code{type = "eff"}. By default, this argument will be ignored
 #'          (i.e. \code{int.term = NULL}). See 'Details'.
 #' @param int.plot.index numeric vector with index numbers that indicate which 
 #'          interaction terms should be plotted in case the \code{fit} has more than
-#'          one interaction. By default, this values is \code{NULL}, hence all interactions
+#'          one interaction. By default, this value is \code{NULL}, hence all interactions
 #'          are plotted.
 #' @param diff if \code{FALSE} (default), the minimum and maximum interaction effects of the moderating variable
 #'          is shown (one line each). if \code{TRUE}, only the difference between minimum and maximum interaction effect
 #'          is shown (single line). Only applies to \code{type = "cond"}.
-#' @param mdrt.values indicates which values of the moderator variable should be used when plotting the effects of the
-#'          independent variable on the dependent variable.
+#' @param mdrt.values indicates which values of the moderator variable should be 
+#'          used when plotting the interaction effects.
 #'          \describe{
 #'            \item{\code{"minmax"}}{(default) minimum and maximum values (lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator.}
 #'            \item{\code{"meansd"}}{uses the mean value of the moderator as well as one standard deviation below and above mean value to plot the effect of the moderator on the independent variable (following the convention suggested by Cohen and Cohen and popularized by Aiken and West, i.e. using the mean, the value one standard deviation above, and the value one standard deviation below the mean as values of the moderator, see \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}).}
@@ -83,12 +83,10 @@
 #'          Either set \code{fill.color} to \code{NULL} or use 0 for \code{fill.alpha} if you want to hide the shaded area.
 #' @param fill.alpha alpha value (transparancy) of the shaded area between the minimum and maximum lines. Default is 0.4.
 #'          Use either 0 or set \code{fill.color} to \code{NULL} if you want to hide the shaded area.
-#' @param geom.colors vector of color values. First value is the color of the line indicating the lower bound of
-#'          the interaction term (moderator value). Second value is the color of the line indicating the upper bound of
-#'          the interaction term (moderator value). Third value, if applicable, is the color of the line indicating the
-#'          mean value of the interaction term (moderator value). Third value is only used when 
-#'          \code{mdrt.values = "meansd"}. Or, if \code{diff = TRUE}, only one color value for the 
-#'          line indicating the upper difference between lower and upper bound of interaction terms.
+#' @param geom.colors vector of color values or name of a valid color brewer palette. 
+#'          If not a color brewer palette name, \code{geom.colors} must be of same 
+#'          length as moderator values used in the plot (see \code{mdrt.values}).
+#'          See also 'Details' in \code{\link{sjp.grpfrq}}.
 #' @param axis.title a default title used for the x-axis. Should be a character vector
 #'          of same length as interaction plots to be plotted. Default value is \code{NULL},
 #'          which means that each plot's x-axis uses the predictor's name as title.
@@ -120,12 +118,15 @@
 #'            \item{\code{type = "eff"}}{plots the overall effects (marginal effects) of the interaction, with all remaining
 #'              covariates set to the mean. Effects are calculated using the \code{\link[effects]{effect}}-
 #'              function from the \pkg{effects}-package.
+#'              You can pass further arguments down to \code{allEffects} for flexible
+#'              function call via the \code{...}-argument.
 #'            }
 #'            \item{\code{type = "cond"}}{plots the effective \emph{change} or \emph{impact} 
 #'              (conditional effect) on a dependent variable of a moderation effect, as 
 #'              described by Grace-Martin, i.e. the difference of the moderation effect on the 
 #'              dependent variable in \emph{presence} and \emph{absence} of the moderating effect 
-#'              (\emph{simple slope} plot or \emph{conditional effect}, see Hayes 2012).
+#'              (\emph{simple slope} plot or \emph{conditional effect}, see Hayes 2012). All
+#'              remaining predictors are set to zero (i.e. ignored and not adjusted for).
 #'              Hence, this plot type may be used especially for \emph{binary or dummy coded} 
 #'              moderator values (see also Esarey and Summer 2015).
 #'              This type \emph{does not} show the overall effect (marginal mean, i.e. adjusted
@@ -220,9 +221,7 @@
 #'                    sex = as.factor(efc$c161sex),
 #'                    barthel = as.numeric(efc$barthtot))
 #' # fit model
-#' fit <- glm(y ~ sex * barthel, data = mydf,
-#'            family = binomial(link = "logit"))
-#'            
+#' fit <- glm(y ~ sex * barthel, data = mydf, family = binomial(link = "logit"))
 #' # plot interaction, increase p-level sensivity
 #' sjp.int(fit, type = "eff", legend.labels = get_labels(efc$c161sex), plevel = 0.1)
 #' sjp.int(fit, type = "cond", legend.labels = get_labels(efc$c161sex), plevel = 0.1)
@@ -280,32 +279,33 @@ sjp.int <- function(fit,
                     type = c("eff", "cond", "emm"),
                     int.term = NULL,
                     int.plot.index = NULL,
-                    diff = FALSE,
                     mdrt.values = c("minmax", "meansd", "zeromax", "quart", "all"),
                     swap.pred = FALSE,
                     plevel = 0.1,
+                    diff = FALSE,
                     title = NULL,
-                    fill.color = "grey",
-                    fill.alpha = 0.3,
-                    geom.colors = "Set1",
-                    geom.size = NULL,
                     axis.title = NULL,
                     axis.labels = NULL,
                     legend.title = NULL,
                     legend.labels = NULL,
-                    show.values = FALSE,
                     wrap.title = 50,
                     wrap.legend.labels = 20,
                     wrap.legend.title = 20,
+                    geom.colors = "Set1",
+                    geom.size = NULL,
+                    fill.color = "grey",
+                    fill.alpha = 0.3,
+                    show.values = FALSE,
+                    show.ci = FALSE,
+                    p.kr = TRUE,
+                    grid.breaks = NULL,
                     xlim = NULL,
                     ylim = NULL,
                     y.offset = 0.07,
-                    grid.breaks = NULL,
-                    show.ci = FALSE,
-                    p.kr = TRUE,
                     digits = 2,
                     facet.grid = FALSE,
-                    printPlot = TRUE) {
+                    printPlot = TRUE,
+                    ...) {
   # -----------------------------------------------------------
   # match arguments
   # -----------------------------------------------------------
@@ -409,7 +409,7 @@ sjp.int <- function(fit,
                        title, fill.alpha, geom.colors, geom.size, axis.title,
                        legend.title, legend.labels, show.values, wrap.title, wrap.legend.labels, 
                        wrap.legend.title, xlim, ylim, y.offset, grid.breaks, 
-                       show.ci, facet.grid, printPlot, fun))
+                       show.ci, facet.grid, printPlot, fun, ...))
   }
   # -----------------------------------------------------------
   # set axis title
@@ -583,18 +583,10 @@ sjp.int <- function(fit,
     # ------------------------------
     maxy <- (b.pred * pred.value) + (b3 * pred.value * ymax)
     # store in df
-    tmp <- data.frame(x = pred.value, 
-                      y = miny, 
-                      ymin = miny, 
-                      ymax = maxy, 
-                      grp = "min")
+    tmp <- data.frame(x = pred.value, y = miny, ymin = miny, ymax = maxy, grp = "min")
     intdf <- as.data.frame(rbind(intdf, tmp))
     # store in df
-    tmp <- data.frame(x = pred.value, 
-                      y = maxy, 
-                      ymin = miny, 
-                      ymax = maxy, 
-                      grp = "max")
+    tmp <- data.frame(x = pred.value, y = maxy, ymin = miny, ymax = maxy, grp = "max")
     intdf <- as.data.frame(rbind(intdf, tmp))
     # store in df
     if (mdrt.values == "meansd" || mdrt.values == "quart") {
@@ -604,11 +596,7 @@ sjp.int <- function(fit,
       # predictor 2 only is not needed. see references above
       # ------------------------------
       mittelwert <- (b.pred * pred.value) + (b3 * pred.value * mw)
-      tmp <- data.frame(x = pred.value, 
-                        y = mittelwert, 
-                        ymin = miny, 
-                        ymax = maxy, 
-                        grp = "mean")
+      tmp <- data.frame(x = pred.value, y = mittelwert, ymin = miny, ymax = maxy, grp = "mean")
       intdf <- as.data.frame(rbind(intdf, tmp))
     }
     # -----------------------------------------------------------
@@ -890,7 +878,8 @@ sjp.eff.int <- function(fit,
                         show.ci = FALSE,
                         facet.grid = FALSE,
                         printPlot = TRUE,
-                        fun) {
+                        fun,
+                        ...) {
   # --------------------------------------------------------
   # check default geom.size
   # --------------------------------------------------------
@@ -899,7 +888,7 @@ sjp.eff.int <- function(fit,
   # check if suggested package is available
   # ------------------------
   if (!requireNamespace("effects", quietly = TRUE)) {
-    stop("Package 'effects' needed for this function to work. Please install it.", call. = FALSE)
+    stop("Package `effects` needed for this function to work. Please install it.", call. = FALSE)
   }
   # gridbreaks
   if (is.null(grid.breaks)) gridbreaks.x <- gridbreaks.y <- ggplot2::waiver()
@@ -1035,19 +1024,14 @@ sjp.eff.int <- function(fit,
       # combine lists
       if (is.null(int.term)) {
         # re-compute effects
-        eff.tmp <- effects::allEffects(fit, 
-                                       xlevels = c(xl1, xl2), 
-                                       KR = F, 
-                                       confidence.level = eci)
+        eff.tmp <- effects::allEffects(fit, xlevels = c(xl1, xl2), KR = F, 
+                                       confidence.level = eci, ...)
         # reset data frame
         intdf <- data.frame(eff.tmp[[intpos[i]]])
       } else {
         # re-compute effects
-        eff.tmp <- effects::effect(int.term, 
-                                   fit, 
-                                   xlevels = c(xl1, xl2), 
-                                   KR = F,
-                                   confidence.level = eci)
+        eff.tmp <- effects::effect(int.term, fit, xlevels = c(xl1, xl2), 
+                                   KR = F, confidence.level = eci, ...)
         # reset data frame
         intdf <- data.frame(eff.tmp)
       }
@@ -1069,19 +1053,14 @@ sjp.eff.int <- function(fit,
       # combine lists
       if (is.null(int.term)) {
         # re-compute effects
-        eff.tmp <- effects::allEffects(fit,
-                                       xlevels = xl, 
-                                       KR = F,
-                                       confidence.level = eci)
+        eff.tmp <- effects::allEffects(fit, xlevels = xl,  KR = F,
+                                       confidence.level = eci, ...)
         # reset data frame
         intdf <- data.frame(eff.tmp[[intpos[i]]])
       } else {
         # re-compute effects
-        eff.tmp <- effects::effect(int.term, 
-                                   fit, 
-                                   xlevels = xl, 
-                                   KR = F,
-                                   confidence.level = eci)
+        eff.tmp <- effects::effect(int.term, fit, xlevels = xl, KR = F,
+                                   confidence.level = eci, ...)
         # reset data frame
         intdf <- data.frame(eff.tmp)
       }
@@ -1213,12 +1192,8 @@ sjp.eff.int <- function(fit,
     # prepare plot title and axis titles
     # -----------------------------------------------------------
     if (is.null(title)) {
-      labtitle <- paste0("Interaction effect of ",
-                         moderator.name,
-                         " and ",
-                         pred_x.name,
-                         " on ", 
-                         response.name)
+      labtitle <- paste0("Interaction effect of ", moderator.name, " and ",
+                         pred_x.name, " on ", response.name)
     } else {
       # copy plot counter 
       l_nr <- i
@@ -1300,8 +1275,7 @@ sjp.eff.int <- function(fit,
         # -------------------------------------------------
         baseplot <- baseplot +
           geom_errorbar(aes(ymin = conf.low, ymax = conf.high, colour = grp),
-                        width = 0,
-                        show.legend = FALSE) +
+                        width = 0, show.legend = FALSE) +
           geom_point()
       } else {
         # -------------------------------------------------
@@ -1310,8 +1284,7 @@ sjp.eff.int <- function(fit,
         # -------------------------------------------------
         baseplot <- baseplot +
           geom_ribbon(aes(ymin = conf.low, ymax = conf.high, colour = NULL, fill = grp),
-                      alpha = fill.alpha,
-                      show.legend = FALSE)
+                      alpha = fill.alpha, show.legend = FALSE)
       }
     }
     baseplot <- baseplot + geom_line(size = geom.size)
@@ -1324,9 +1297,7 @@ sjp.eff.int <- function(fit,
       if (!x_is_factor) baseplot <- baseplot + geom_point()
       # add value label text
       baseplot <- baseplot +
-        geom_text(aes(label = round(y, 1)),
-                  nudge_y = y.offset,
-                  show.legend = FALSE)
+        geom_text(aes(label = round(y, 1)), nudge_y = y.offset, show.legend = FALSE)
     }
     # ------------------------------------------------------------------------------------
     # build plot object with theme and labels

@@ -6,14 +6,14 @@
 \usage{
 sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL,
   remove.estimates = NULL, emph.grp = NULL, sample.n = NULL,
-  poly.term = NULL, sort.est = NULL, p.kr = TRUE, title = NULL,
-  axis.labels = NULL, axis.title = NULL, geom.colors = "Set1",
-  geom.size = NULL, show.values = TRUE, show.p = TRUE, show.ci = FALSE,
+  poly.term = NULL, sort.est = NULL, title = NULL, axis.labels = NULL,
+  axis.title = NULL, geom.size = NULL, geom.colors = "Set1",
+  show.values = TRUE, show.p = TRUE, show.ci = FALSE,
   show.legend = FALSE, show.loess = FALSE, show.loess.ci = FALSE,
-  show.intercept = TRUE, string.interc = "(Intercept)",
-  scatter.plot = TRUE, fade.ns = FALSE, point.alpha = 0.2, ylim = NULL,
+  show.intercept = TRUE, string.interc = "(Intercept)", p.kr = TRUE,
+  point.alpha = 0.2, scatter.plot = TRUE, fade.ns = FALSE, ylim = NULL,
   digits = 2, vline.type = 2, vline.color = "grey70", facet.grid = TRUE,
-  free.scale = FALSE, y.offset = 0.1, printPlot = TRUE)
+  free.scale = FALSE, y.offset = 0.1, printPlot = TRUE, ...)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{lmer}}-function.}
@@ -84,10 +84,6 @@ for polynomial terms. See 'Examples'.}
   }
   See 'Examples'.}
 
-\item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
-F-tests with Kenward-Roger approximation for the df. Caution: Computation
-may take very long time for large samples!}
-
 \item{title}{character vector with one or more labels that are used as plot title.}
 
 \item{axis.labels}{character vector with labels for the model terms, used as axis labels.
@@ -98,11 +94,11 @@ labels from the random intercept's categories (if \code{type = "re"}).}
 \item{axis.title}{character vector, used as title for the axis. If not specified, 
 a default labelling depending on the plot function and type is chosen.}
 
-\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
-
 \item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
 depending on plot type and function). Note that bar and bin widths mostly 
 need smaller values than dot sizes.}
+
+\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
@@ -131,13 +127,17 @@ function call is interrupted and no plot printed.}
 \item{string.interc}{string, axis label of intercept estimate. Only applies, 
 if \code{show.intercept = TRUE} and \code{axis.labels} is not \code{NULL}.}
 
+\item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
+F-tests with Kenward-Roger approximation for the df. Caution: Computation
+may take very long time for large samples!}
+
+\item{point.alpha}{alpha value of point-geoms in the scatter plots.}
+
 \item{scatter.plot}{logical, if \code{TRUE} (default), a scatter plot of
 response and predictor values for each predictor of the model
 is plotted. Only applies for slope-type plots.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
-
-\item{point.alpha}{alpha value of point-geoms in the scatter plots.}
 
 \item{ylim}{numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
@@ -161,6 +161,9 @@ to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
 \item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
+
+\item{...}{other arguments, passed down to the \code{\link[effects]{effect}} resp. 
+\code{\link[effects]{allEffects}} function when \code{type = "eff"}.}
 }
 \value{
 (Insisibily) returns
@@ -192,7 +195,9 @@ By default, this function plots estimates (coefficients) with confidence
            fitted values are plotted against the residuals instead of response.}
            \item{\code{type = "eff"}}{plots the adjusted (marginal) effects
            for each fixed effect, with all co-variates set to the mean, as
-           returned by the \code{\link[effects]{allEffects}} function.}
+           returned by the \code{\link[effects]{allEffects}} function.
+           You can pass further arguments down to \code{allEffects} for flexible
+           function call via the \code{...}-argument.}
            \item{\code{type = "rs.ri"}}{plots regression lines for the random
            parts of the model, i.e. all random slopes for each random intercept.
            As the random intercepts describe the deviation from the global intercept,
@@ -226,8 +231,9 @@ By default, this function plots estimates (coefficients) with confidence
 Computation of p-values (if necessary and if \code{p.kr = TRUE}) are based 
         on conditional F-tests with Kenward-Roger approximation for the df, using 
         the \pkg{pbkrtest}-package. If \pkg{pbkrtest} is not available or
-        \code{p.kr = FALSE}, Wald chi-squared tests from the
-        \code{Anova}-function of the \pkg{car}-package are computed.
+        \code{p.kr = FALSE}, computation of p-values is based 
+        on normal-distribution assumption, treating the t-statistics as Wald
+        z-statistics.
 }
 \examples{
 # fit model
@@ -277,7 +283,7 @@ sjp.lmer(fit, type = "ri.slope", emph.grp = c(1, 2, 4), vars = "c12hour")
 \dontrun{
 # plotting polynomial terms
 # check linear relation between predictors and response
-sjp.lmer(fit, type = "fe.slope")
+sjp.lmer(fit, type = "fe.slope", show.loess = TRUE)
 
 # "barthel" does not seem to be linear correlated to response
 # try to find appropiate polynomial. Grey line (loess smoothed)

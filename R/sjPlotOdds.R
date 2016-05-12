@@ -55,7 +55,9 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #'            \item{\code{type = "eff"}}{computes marginal effects of all higher order
 #'            terms in the model. The predicted values computed by \code{type = "eff"}
 #'            are adjusted for all other co-variates, by setting them to the mean
-#'            (as returned by the \code{\link[effects]{allEffects}} function).}
+#'            (as returned by the \code{\link[effects]{allEffects}} function).
+#'            You can pass further arguments down to \code{allEffects} for flexible
+#'            function call via the \code{...}-argument.}
 #'            \item{\code{type = "pred"}}{the predicted values
 #'            of the response are computed, based on the \code{\link{predict.glm}}
 #'            method. Corresponds to \code{\link{predict}(fit, type = "response")}.
@@ -149,7 +151,8 @@ sjp.glm <- function(fit,
                     coord.flip = TRUE,
                     y.offset = .15,
                     facet.grid = TRUE,
-                    printPlot = TRUE) {
+                    printPlot = TRUE,
+                    ...) {
   # --------------------------------------------------------
   # check arg
   # --------------------------------------------------------
@@ -181,8 +184,8 @@ sjp.glm <- function(fit,
   }
   if (type == "eff") {
     return(invisible(sjp.glm.eff(fit, title, geom.size, remove.estimates, vars,
-                                 show.ci, ylim = axis.lim,
-                                 facet.grid, fun = "glm", printPlot)))
+                                 show.ci, ylim = axis.lim, facet.grid, fun = "glm", 
+                                 printPlot, ...)))
   }
   if (type == "pred") {
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,

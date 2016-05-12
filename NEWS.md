@@ -2,7 +2,7 @@
 
 ## Major changes
 
-This package update included a major revision of function arguments and their naming, in order to get a consistent argument pattern across all packafe functions. This means that your existing code, which uses **sjPlot**-package-functions, most likely needs adaptions to work again.
+This package update includes a major revision of function arguments and their naming, in order to get a consistent argument pattern across all package functions. This means that your existing code, which uses **sjPlot**-package-functions, most likely needs adaptions to work again.
 
 * Arguments were harmonized across all package functions. This includes refactoring of many function argument names, to get consistent argument names in functions (e.g. `sort.coef` now no longer exists, and was renamed to `sort.est`, which was already used by some other functions).
 
@@ -20,6 +20,7 @@ This package update included a major revision of function arguments and their na
 ## Changes to functions
 
 * Effect plots (`type = "eff"`) for (generalized) linear (mixed) models (`sjp.lm`, `sjp.glm`, `sjp.lmer` and `sjp.glmer`) get a `vars` and `facet.grid` argument.
+* Effect plots (`type = "eff"`) get a `...` argument, to pass down other arguments to the `effects`-package.
 * Predicted values for response (`type = "pred"` or `type = "pred.re"`) for `sjp.glm`, `sjp.glmer`, `sjp.lm` and `sjp.lmer` get a `vars` argument to specify x-axis and optional grouping variables. Furthermore, models from other model families and link functions (including negative binomial) now also work with this plot type.
 * Functions `sjp.lmer`, `sjp.glmer`, `sjt.lmer`, `sjt.glmer`, `sjp.lmm` and `sjp.glmm` get a `p.kr` argument, to decide whether computation of p-values should be based on Kenward-Roger approximation or not (for very large data sets, it's recommended to set this argument to `FALSE` because it is very time consuming).
 
