@@ -74,8 +74,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 #'                    barthel = efc$barthtot,
 #'                    education = to_factor(efc$c172code))
 #' 
-#' fit1 <- glm(y ~ sex + education,  data = mydf, 
-#'             family = binomial(link = "logit"))
+#' fit1 <- glm(y ~ sex + education,  data = mydf, family = binomial(link = "logit"))
 #' fit2 <- update(fit1, . ~ . + barthel)
 #' fit3 <- update(fit2, . ~ . + dep)
 #' 

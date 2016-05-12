@@ -18,26 +18,26 @@ utils::globalVariables(c("starts_with"))
 #' @param pred.labels character vector with labels of predictor variables.
 #'          If not \code{NULL}, \code{pred.labels} will be used in the first
 #'          table column with the predictors' names. If \code{NULL}, variable
-#'          labels are set based on label attributes (see \code{\link[sjmisc]{get_label}}),
+#'          labels are set based on label attributes (see \code{\link[sjmisc]{get_label}}).
 #'          If \code{pred.labels = ""}, column names (vector names) are used
 #'          as predictor labels. See 'Examples'.
 #' @param depvar.labels character vector with labels of dependent 
 #'          variables of all fitted models. See 'Examples'.
-#' @param string.pred string constant used as headline for the predictor column.
+#' @param string.pred character vector,used as headline for the predictor column.
 #'          Default is \code{"Predictors"}.
 #' @param string.dv string constant used as headline for the 
 #'          dependent variable columns. Default is \code{"Dependent Variables"}.
 #' @param show.header logical, if \code{TRUE}, the header strings \code{string.pred}
 #'          and \code{string.dv} are shown. By default, they're hidden.
-#' @param string.interc string constant used as headline for the Intercept row.
+#' @param string.interc character vector, used as headline for the Intercept row.
 #'          Default is \code{"Intercept"}.
-#' @param string.obs string constant used in the summary row for the count of observation
+#' @param string.obs character vector, used in the summary row for the count of observation
 #'          (cases). Default is \code{"Observations"}.
-#' @param string.est string used for the column heading of estimates.
-#' @param string.std string used for the column heading of standardized beta coefficients. Default is \code{"std. Beta"}.
-#' @param string.ci string used for the column heading of confidence interval values. Default is \code{"CI"}.
-#' @param string.se string used for the column heading of standard error values. Default is \code{"std. Error"}.
-#' @param string.p string used for the column heading of p values. Default is \code{"p"}.
+#' @param string.est character vector, used for the column heading of estimates.
+#' @param string.std character vector, used for the column heading of standardized beta coefficients. Default is \code{"std. Beta"}.
+#' @param string.ci character vector, used for the column heading of confidence interval values. Default is \code{"CI"}.
+#' @param string.se character vector, used for the column heading of standard error values. Default is \code{"std. Error"}.
+#' @param string.p character vector, used for the column heading of p values. Default is \code{"p"}.
 #' @param show.est logical, if \code{TRUE} (default), the estimates are printed.
 #' @param show.ci logical, if \code{TRUE} (default), the confidence intervall is also printed to the table. Use
 #'          \code{FALSE} to omit the CI in the table.
@@ -46,7 +46,7 @@ utils::globalVariables(c("starts_with"))
 #'          See 'Details'.
 #' @param show.se logical, if \code{TRUE}, the standard errors are also printed.
 #'          Default is \code{FALSE}.
-#' @param ci.hyphen string, indicating the hyphen for confidence interval range.
+#' @param ci.hyphen character vector, indicating the hyphen for confidence interval range.
 #'          May be an HTML entity. See 'Examples'.
 #' @param minus.sign string, indicating the minus sign for negative numbers.
 #'          May be an HTML entity. See 'Examples'.
@@ -282,37 +282,20 @@ utils::globalVariables(c("starts_with"))
 #' @importFrom lme4 VarCorr
 #' @export
 sjt.lm <- function(...,
-                   file = NULL,
                    pred.labels = NULL,
                    depvar.labels = NULL,
-                   string.pred = "Predictors",
-                   string.dv = "Dependent Variables",
-                   show.header = FALSE,
-                   string.interc = "(Intercept)",
-                   string.obs = "Observations",
-                   string.est = "B",
-                   string.std = "std. Beta",
-                   string.ci = "CI",
-                   string.se = "std. Error",
-                   string.p = "p",
-                   show.est = TRUE,
-                   show.ci = TRUE,
-                   show.std = NULL,
-                   show.se = FALSE,
-                   ci.hyphen = "&nbsp;&ndash;&nbsp;",
-                   minus.sign = "&#45;",
-                   digits.est = 2,
-                   digits.p = 3,
-                   digits.ci = 2,
-                   digits.se = 2,
-                   digits.std = 2,
-                   digits.summary = 3,
+                   remove.estimates = NULL,
+                   group.pred = TRUE,
                    p.numeric = TRUE,
                    emph.p = TRUE,
                    p.kr = TRUE,
                    separate.ci.col = TRUE,
                    newline.ci = TRUE,
-                   group.pred = TRUE,
+                   show.est = TRUE,
+                   show.std = NULL,
+                   show.ci = TRUE,
+                   show.se = FALSE,
+                   show.header = FALSE,
                    show.col.header = TRUE,
                    show.r2 = TRUE,
                    show.icc = FALSE,
@@ -321,11 +304,28 @@ sjt.lm <- function(...,
                    show.aic = FALSE,
                    show.aicc = FALSE,
                    show.dev = FALSE,
-                   remove.estimates = NULL,
+                   string.pred = "Predictors",
+                   string.dv = "Dependent Variables",
+                   string.interc = "(Intercept)",
+                   string.obs = "Observations",
+                   string.est = "B",
+                   string.std = "std. Beta",
+                   string.ci = "CI",
+                   string.se = "std. Error",
+                   string.p = "p",
+                   ci.hyphen = "&nbsp;&ndash;&nbsp;",
+                   minus.sign = "&#45;",
+                   digits.est = 2,
+                   digits.std = 2,
+                   digits.p = 3,
+                   digits.ci = 2,
+                   digits.se = 2,
+                   digits.summary = 3,
                    cell.spacing = 0.2,
                    cell.gpr.indent = 0.6,
-                   encoding = NULL,
                    CSS = NULL,
+                   encoding = NULL,
+                   file = NULL,
                    use.viewer = TRUE,
                    no.output = FALSE,
                    remove.spaces = TRUE) {
@@ -1371,12 +1371,31 @@ sjt.lm <- function(...,
 #'                   
 #' @export
 sjt.lmer <- function(...,
-                     file = NULL,
+                     
                      pred.labels = NULL,
                      depvar.labels = NULL,
+                     remove.estimates = NULL,
+                     group.pred = TRUE,
+                     p.numeric = TRUE,
+                     emph.p = TRUE,
+                     p.kr = TRUE,
+                     separate.ci.col = TRUE,
+                     newline.ci = TRUE,
+                     show.est = TRUE,
+                     show.std = NULL,
+                     show.ci = TRUE,
+                     show.se = FALSE,
+                     show.header = FALSE,
+                     show.col.header = TRUE,
+                     show.r2 = TRUE,
+                     show.icc = FALSE,
+                     show.re.var = FALSE,
+                     show.fstat = FALSE,
+                     show.aic = FALSE,
+                     show.aicc = FALSE,
+                     show.dev = FALSE,
                      string.pred = "Predictors",
                      string.dv = "Dependent Variables",
-                     show.header = FALSE,
                      string.interc = "(Intercept)",
                      string.obs = "Observations",
                      string.est = "B",
@@ -1384,36 +1403,19 @@ sjt.lmer <- function(...,
                      string.ci = "CI",
                      string.se = "std. Error",
                      string.p = "p",
-                     show.est = TRUE,
-                     show.ci = TRUE,
-                     show.std = FALSE,
-                     show.se = FALSE,
                      ci.hyphen = "&nbsp;&ndash;&nbsp;",
                      minus.sign = "&#45;",
                      digits.est = 2,
+                     digits.std = 2,
                      digits.p = 3,
                      digits.ci = 2,
                      digits.se = 2,
-                     digits.std = 2,
                      digits.summary = 3,
-                     p.numeric = TRUE,
-                     emph.p = TRUE,
-                     p.kr = TRUE,
-                     separate.ci.col = TRUE,
-                     newline.ci = TRUE,
-                     group.pred = FALSE,
-                     show.col.header = TRUE,
-                     show.r2 = TRUE,
-                     show.icc = TRUE,
-                     show.re.var = TRUE,
-                     show.aic = FALSE,
-                     show.aicc = FALSE,
-                     show.dev = TRUE,
-                     remove.estimates = NULL,
                      cell.spacing = 0.2,
                      cell.gpr.indent = 0.6,
-                     encoding = NULL,
                      CSS = NULL,
+                     encoding = NULL,
+                     file = NULL,
                      use.viewer = TRUE,
                      no.output = FALSE,
                      remove.spaces = TRUE) {

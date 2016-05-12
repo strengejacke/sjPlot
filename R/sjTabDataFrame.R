@@ -123,7 +123,7 @@ sjt.df <- function(mydf,
   # unique handling for the data
   # -------------------------------------
   if (!is.data.frame(mydf)) {
-    stop("argument needs to be a data frame!", call. = FALSE)
+    stop("`mydf` needs to be a data frame!", call. = FALSE)
   }
   # -------------------------------------
   # Description?
@@ -135,10 +135,7 @@ sjt.df <- function(mydf,
     missings.percentage <- round(100 * missings / nrow(mydf), 2)
     mydf <- round(psych::describe(mydf, ...), 2)
     # insert missing variables in data frame
-    mydf <- data.frame(mydf[, 1:2], 
-                       missings, 
-                       missings.percentage, 
-                       mydf[, 3:ncol(mydf)])
+    mydf <- data.frame(mydf[, 1:2], missings, missings.percentage, mydf[, 3:ncol(mydf)])
     # proper column name
     colnames(mydf)[4] <- "missings (percentage)"
     # want to insert a thousands big mark?

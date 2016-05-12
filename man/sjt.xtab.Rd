@@ -4,16 +4,16 @@
 \alias{sjt.xtab}
 \title{Summary of contingency tables as HTML table}
 \usage{
-sjt.xtab(var.row, var.col, weight.by = NULL, digits = 1, file = NULL,
-  var.labels = NULL, value.labels = NULL, title = NULL,
-  wrap.labels = 20, string.total = "Total", show.obs = TRUE,
-  show.cell.prc = FALSE, show.row.prc = FALSE, show.col.prc = FALSE,
-  show.exp = FALSE, show.summary = TRUE, show.legend = FALSE,
-  show.na = FALSE, tdcol.n = "black", tdcol.expected = "#339999",
+sjt.xtab(var.row, var.col, weight.by = NULL, title = NULL,
+  var.labels = NULL, value.labels = NULL, wrap.labels = 20,
+  show.obs = TRUE, show.cell.prc = FALSE, show.row.prc = FALSE,
+  show.col.prc = FALSE, show.exp = FALSE, show.summary = TRUE,
+  show.legend = FALSE, show.na = FALSE, string.total = "Total",
+  digits = 1, tdcol.n = "black", tdcol.expected = "#339999",
   tdcol.cell = "#993333", tdcol.row = "#333399", tdcol.col = "#339933",
   emph.total = FALSE, emph.color = "#f8f8f8", prc.sign = "&nbsp;&#37;",
-  hundret = "100.0", encoding = NULL, CSS = NULL, use.viewer = TRUE,
-  no.output = FALSE, remove.spaces = TRUE)
+  hundret = "100.0", CSS = NULL, encoding = NULL, file = NULL,
+  use.viewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{var.row}{variable that should be displayed in the table rows.}
@@ -24,11 +24,7 @@ sjt.xtab(var.row, var.col, weight.by = NULL, digits = 1, file = NULL,
 Must be a vector of same length as the input vector. Default is 
 \code{NULL}, so no weights are used.}
 
-\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
-
-\item{file}{destination file, if the output should be saved as file.
-If \code{NULL} (default), the output will be saved as temporary file and 
-openend either in the IDE's viewer pane or the default web browser.}
+\item{title}{table caption. By default, \code{title = NULL}, hence no title will be used.}
 
 \item{var.labels}{character vector with variable names, which will be used 
 to label variables in the output.}
@@ -37,12 +33,8 @@ to label variables in the output.}
 with value labels of the supplied variables, which will be used 
 to label variable values in the output.}
 
-\item{title}{table caption. By default, \code{title = NULL}, hence no title will be used.}
-
 \item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
-
-\item{string.total}{label for the total column / row header}
 
 \item{show.obs}{logical, if \code{TRUE}, observed values are shown}
 
@@ -62,6 +54,10 @@ function, a legend is added to the plot.}
 
 \item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values)
 are added to the output.}
+
+\item{string.total}{label for the total column / row header}
+
+\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
 \item{tdcol.n}{Color for highlighting count (observed) values in table cells. Default is black.}
 
@@ -86,13 +82,17 @@ the percentage value.}
 \item{hundret}{Default value that indicates the 100-percent column-sums (since rounding values
 may lead to non-exact results). Default is \code{"100.0"}.}
 
+\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
+\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
+
 \item{encoding}{string, indicating the charset encoding used for variable and 
 value labels. Default is \code{NULL}, so encoding will be auto-detected 
 depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
 Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
 
-\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
-\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
+\item{file}{destination file, if the output should be saved as file.
+If \code{NULL} (default), the output will be saved as temporary file and 
+openend either in the IDE's viewer pane or the default web browser.}
 
 \item{use.viewer}{If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}

@@ -5,8 +5,8 @@
 \title{Summary of grouped means as HTML table}
 \usage{
 sjt.grpmean(var.cnt, var.grp, weight.by = NULL, value.labels = NULL,
-  digits = 2, digits.summary = 3, file = NULL, encoding = NULL,
-  CSS = NULL, use.viewer = TRUE, no.output = FALSE,
+  digits = 2, digits.summary = 3, CSS = NULL, encoding = NULL,
+  file = NULL, use.viewer = TRUE, no.output = FALSE,
   remove.spaces = TRUE)
 }
 \arguments{
@@ -27,17 +27,17 @@ to label variable values in the output.}
 
 \item{digits.summary}{amount of digits for summary statistics (Anova).}
 
-\item{file}{destination file, if the output should be saved as file.
-If \code{NULL} (default), the output will be saved as temporary file and 
-openend either in the IDE's viewer pane or the default web browser.}
+\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
+\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
 
 \item{encoding}{string, indicating the charset encoding used for variable and 
 value labels. Default is \code{NULL}, so encoding will be auto-detected 
 depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
 Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
 
-\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
-\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
+\item{file}{destination file, if the output should be saved as file.
+If \code{NULL} (default), the output will be saved as temporary file and 
+openend either in the IDE's viewer pane or the default web browser.}
 
 \item{use.viewer}{If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}

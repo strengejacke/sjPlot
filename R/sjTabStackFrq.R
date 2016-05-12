@@ -57,16 +57,14 @@
 #' # random sample
 #' # -------------------------------
 #' # prepare data for 4-category likert scale, 5 items
-#' likert_4 <- data.frame(as.factor(sample(1:4, 500, replace = TRUE, 
-#'                                         prob = c(0.2, 0.3, 0.1, 0.4))),
-#'                        as.factor(sample(1:4, 500, replace = TRUE, 
-#'                                         prob = c(0.5, 0.25, 0.15, 0.1))),
-#'                        as.factor(sample(1:4, 500, replace = TRUE, 
-#'                                         prob = c(0.25, 0.1, 0.4, 0.25))),
-#'                        as.factor(sample(1:4, 500, replace = TRUE, 
-#'                                         prob = c(0.1, 0.4, 0.4, 0.1))),
-#'                        as.factor(sample(1:4, 500, replace = TRUE, 
-#'                                         prob = c(0.35, 0.25, 0.15, 0.25))))
+#' likert_4 <- data.frame(
+#'   as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.2, 0.3, 0.1, 0.4))),
+#'   as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.5, 0.25, 0.15, 0.1))),
+#'   as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.25, 0.1, 0.4, 0.25))),
+#'   as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.1, 0.4, 0.4, 0.1))),
+#'   as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.35, 0.25, 0.15, 0.25)))
+#' )
+#' 
 #' # create labels
 #' levels_4 <- c("Independent", "Slightly dependent", 
 #'               "Dependent", "Severely dependent")
@@ -77,7 +75,6 @@
 #' # plot stacked frequencies of 5 (ordered) item-scales
 #' \dontrun{
 #' sjt.stackfrq(likert_4, value.labels = levels_4, var.labels = items)
-#' 
 #' 
 #' # -------------------------------
 #' # Data from the EUROFAMCARE sample dataset
@@ -94,7 +91,6 @@
 #' 
 #' sjt.stackfrq(efc[, c(start:end)], altr.row.col = TRUE,
 #'              show.n = TRUE, show.na = TRUE)
-#'          
 #'          
 #' # -------------------------------- 
 #' # User defined style sheet

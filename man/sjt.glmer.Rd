@@ -4,7 +4,7 @@
 \alias{sjt.glmer}
 \title{Summary of generalized linear mixed models as HTML table}
 \usage{
-sjt.glmer(..., file = NULL, pred.labels = NULL, depvar.labels = NULL,
+sjt.glmer(..., pred.labels = NULL, depvar.labels = NULL,
   remove.estimates = NULL, group.pred = FALSE, exp.coef = TRUE,
   p.numeric = TRUE, emph.p = TRUE, separate.ci.col = TRUE,
   newline.ci = TRUE, show.ci = TRUE, show.se = FALSE,
@@ -17,20 +17,16 @@ sjt.glmer(..., file = NULL, pred.labels = NULL, depvar.labels = NULL,
   string.se = "std. Error", string.p = "p",
   ci.hyphen = "&nbsp;&ndash;&nbsp;", digits.est = 2, digits.p = 3,
   digits.ci = 2, digits.se = 2, digits.summary = 3, cell.spacing = 0.2,
-  cell.gpr.indent = 0.6, encoding = NULL, CSS = NULL, use.viewer = TRUE,
-  no.output = FALSE, remove.spaces = TRUE)
+  cell.gpr.indent = 0.6, CSS = NULL, encoding = NULL, file = NULL,
+  use.viewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{one or more fitted generalized linear (mixed) models.}
 
-\item{file}{destination file, if the output should be saved as file.
-If \code{NULL} (default), the output will be saved as temporary file and 
-openend either in the IDE's viewer pane or the default web browser.}
-
 \item{pred.labels}{character vector with labels of predictor variables.
 If not \code{NULL}, \code{pred.labels} will be used in the first
 table column with the predictors' names. If \code{NULL}, variable
-labels are set based on label attributes (see \code{\link[sjmisc]{get_label}}),
+labels are set based on label attributes (see \code{\link[sjmisc]{get_label}}).
 If \code{pred.labels = ""}, column names (vector names) are used
 as predictor labels. See 'Examples'.}
 
@@ -114,27 +110,27 @@ and same predictors and response, to decide which model fits best. See \code{\li
 for more details. It is recommended to inspect the model \code{\link{AIC}} (see \code{show.aic}) to get a
 decision help for which model to choose.}
 
-\item{string.pred}{string constant used as headline for the predictor column.
+\item{string.pred}{character vector,used as headline for the predictor column.
 Default is \code{"Predictors"}.}
 
 \item{string.dv}{string constant used as headline for the 
 dependent variable columns. Default is \code{"Dependent Variables"}.}
 
-\item{string.interc}{string constant used as headline for the Intercept row.
+\item{string.interc}{character vector, used as headline for the Intercept row.
 Default is \code{"Intercept"}.}
 
-\item{string.obs}{string constant used in the summary row for the count of observation
+\item{string.obs}{character vector, used in the summary row for the count of observation
 (cases). Default is \code{"Observations"}.}
 
-\item{string.est}{string used for the column heading of estimates.}
+\item{string.est}{character vector, used for the column heading of estimates.}
 
-\item{string.ci}{string used for the column heading of confidence interval values. Default is \code{"CI"}.}
+\item{string.ci}{character vector, used for the column heading of confidence interval values. Default is \code{"CI"}.}
 
-\item{string.se}{string used for the column heading of standard error values. Default is \code{"std. Error"}.}
+\item{string.se}{character vector, used for the column heading of standard error values. Default is \code{"std. Error"}.}
 
-\item{string.p}{string used for the column heading of p values. Default is \code{"p"}.}
+\item{string.p}{character vector, used for the column heading of p values. Default is \code{"p"}.}
 
-\item{ci.hyphen}{string, indicating the hyphen for confidence interval range.
+\item{ci.hyphen}{character vector, indicating the hyphen for confidence interval range.
 May be an HTML entity. See 'Examples'.}
 
 \item{digits.est}{amount of decimals for estimates}
@@ -155,13 +151,17 @@ cell spacing, which would be: \code{CSS = list(css.thead = "padding:0.2cm;", css
 \item{cell.gpr.indent}{indent for table rows with grouped factor predictors. Only applies
 if \code{group.pred = TRUE}.}
 
+\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
+\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
+
 \item{encoding}{string, indicating the charset encoding used for variable and 
 value labels. Default is \code{NULL}, so encoding will be auto-detected 
 depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
 Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
 
-\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
-\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
+\item{file}{destination file, if the output should be saved as file.
+If \code{NULL} (default), the output will be saved as temporary file and 
+openend either in the IDE's viewer pane or the default web browser.}
 
 \item{use.viewer}{If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}

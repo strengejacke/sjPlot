@@ -34,10 +34,10 @@
 sjt.mwu <- function(x, 
                     title = NULL, 
                     altr.row.col = TRUE, 
-                    file=NULL,
-                    encoding=NULL,
-                    CSS=NULL,
-                    use.viewer = TRUE, 
+                    CSS = NULL,
+                    encoding = NULL,
+                    file = NULL,
+                    use.viewer = TRUE,
                     no.output = FALSE,
                     remove.spaces = TRUE) {
   # --------------------------------------------------------
