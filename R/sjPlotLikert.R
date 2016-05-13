@@ -171,7 +171,10 @@ sjp.likert <- function(items,
     axisTitle.y <- NULL
   } else {
     axisTitle.x <- axis.titles[1]
-    if (length(axis.titles) > 1) axisTitle.y <- axis.titles[2]
+    if (length(axis.titles) > 1)
+      axisTitle.y <- axis.titles[2]
+    else
+      axisTitle.y <- NULL
   }
   # --------------------------------------------------------
   # check sorting

@@ -193,7 +193,7 @@ sjp.setTheme <- function(# base theme
                          # geom defaults
                          # geom.colors=NULL,
                          geom.outline.color = NULL,
-                         geom.outline.size = 0.1,
+                         geom.outline.size = 0,
                          geom.boxoutline.size = 0.5,
                          geom.boxoutline.color = "black",
                          geom.alpha = 1,
