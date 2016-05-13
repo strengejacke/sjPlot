@@ -132,13 +132,17 @@ sjp.scatter <- function(x = NULL,
   if (!is.null(dot.labels) && !requireNamespace("ggrepel", quietly = TRUE)) {
     stop("Package `ggrepel` needed to plot labels. Please install it.", call. = FALSE)
   }
-  
   # --------------------------------------------------------
   # get variable name
   # --------------------------------------------------------
   name.x <- get_var_name(deparse(substitute(x)))
   name.y <- get_var_name(deparse(substitute(y)))
   name.grp <- get_var_name(deparse(substitute(grp)))
+  # --------------------------------------------------------
+  # any missing names?
+  # --------------------------------------------------------
+  if (is.null(name.x) || name.x == "NULL") name.x <- ""
+  if (is.null(name.y) || name.y == "NULL") name.y <- ""
   # --------------------------------------------------------
   # copy titles
   # --------------------------------------------------------
@@ -169,10 +173,10 @@ sjp.scatter <- function(x = NULL,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(legend.labels) && !is.null(grp)) legend.labels <- sjmisc::get_labels(grp,
-                                                                                 attr.only = F,
-                                                                                 include.values = NULL,
-                                                                                 include.non.labelled = T)
+  if (is.null(legend.labels) && !is.null(grp)) {
+    legend.labels <- sjmisc::get_labels(grp, attr.only = F, include.values = NULL,
+                                        include.non.labelled = T)
+  }
   if (is.null(legend.title) && !is.null(grp)) legend.title <- sjmisc::get_label(grp, def.value = name.grp)
   if (is.null(axisTitle.x)) axisTitle.x <- sjmisc::get_label(x, def.value = name.x)
   if (is.null(axisTitle.y)) axisTitle.y <- sjmisc::get_label(y, def.value = name.y)
