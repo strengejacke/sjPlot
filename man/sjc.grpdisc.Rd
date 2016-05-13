@@ -20,6 +20,9 @@ on the elbow-criterion.}
 \item{clss.fit}{logical, if \code{TRUE} (default), a vertical line indicating the
 overall goodness of classification is added to the plot, so one can see
 whether a certain group is below or above the average classification goodness.}
+
+\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
 (Invisibly) returns an object with

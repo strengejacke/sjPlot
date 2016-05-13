@@ -112,6 +112,9 @@ if \code{show.intercept = TRUE} and \code{axis.labels} is not \code{NULL}.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 
+\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
+Depending on plot type, may effect either x- or y-axis, or both.}
+
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
 \item{vline.type}{linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
