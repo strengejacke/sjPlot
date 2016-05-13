@@ -400,7 +400,10 @@ sjp.xtab <- function(x,
   # construct final plot, base constructor
   # first, set x scale
   # ----------------------------------
-  scalex <- scale_x_discrete(labels = axis.labels)
+  if (type == "line")
+    scalex <- scale_x_continuous(labels = axis.labels)
+  else
+    scalex <- scale_x_discrete(labels = axis.labels)
   # ----------------------------------
   # check whether bars or lines should be printed
   # ----------------------------------

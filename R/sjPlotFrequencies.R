@@ -488,7 +488,7 @@ sjp.frq <- function(var.cnt,
       # transparent density curve above bars
       geom_density(aes(y = ..density..), fill = "cornsilk", alpha = 0.3) +
       # remove margins from left and right diagram side
-      scale_x_continuous(expand = expand.grid, breaks = histgridbreaks,limits = xlim)
+      scale_x_continuous(expand = expand.grid, breaks = histgridbreaks, limits = xlim)
     # check whether user wants to overlay the histogram
     # with a normal curve
     if (normal.curve) {
@@ -515,12 +515,11 @@ sjp.frq <- function(var.cnt,
       # original data needed for normal curve
       baseplot <- ggplot(mydat) +
         # second data frame mapped to the histogram geom
-        geom_histogram(data = hist.dat, aes(x = xv), binwidth = geom.size, fill = geom.colors)        
-      
+        geom_histogram(data = hist.dat, aes(x = xv), binwidth = geom.size, fill = geom.colors)
     } else {
       baseplot <- ggplot(mydat, aes(x = val, y = frq)) +
         geom_area(alpha = 0.3) +
-        geom_line(size = geom.size, colour = geom.colors) +
+        geom_line(size = geom.size, colour = geom.colors)
         ggvaluelabels
     }
     # check whether user wants to overlay the histogram
@@ -574,10 +573,9 @@ sjp.frq <- function(var.cnt,
       }
     }
     # show absolute and percentage value of each bar.
-    baseplot <- baseplot + 
-      # remove margins from left and right diagram side
-      scale_x_continuous(limits = xlim, expand = expand.grid, breaks = histgridbreaks) +
-      yscale
+    baseplot <- baseplot + yscale +
+      # continuous x-scale for histograms
+      scale_x_continuous(limits = xlim, expand = expand.grid, breaks = histgridbreaks)
   }
   # set axes text and 
   baseplot <- baseplot + labs(title = title, x = axis.title, y = NULL)
