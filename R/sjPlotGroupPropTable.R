@@ -23,6 +23,7 @@ utils::globalVariables(c("dep", "n"))
 #'          the total-row in the figure will be highlighted with a slightly
 #'          shaded background.
 #' @param axis.lim numeric vector of length 2, defining the range of the plot axis.
+#'          Depending on plot type, may effect either x- or y-axis, or both.
 #'
 #' @return (Insisibily) returns the ggplot-object with the complete plot
 #'           (\code{plot}) as well as the data frame that

@@ -241,7 +241,7 @@ sjp.glmer <- function(fit,
                       show.intercept = TRUE,
                       string.interc = "(Intercept)",
                       fade.ns = FALSE,
-                      ylim = NULL,
+                      axis.lim = NULL,
                       digits = 2,
                       vline.type = 2,
                       vline.color = "grey70",
@@ -274,7 +274,7 @@ sjp.glmer <- function(fit,
            sort.est,
            axis.labels,
            axis.title,
-           ylim,
+           axis.lim,
            vline.type,
            vline.color,
            remove.estimates,
@@ -526,7 +526,7 @@ sjp.lmer <- function(fit,
                      point.alpha = 0.2,
                      scatter.plot = TRUE,
                      fade.ns = FALSE,
-                     ylim = NULL,
+                     axis.lim = NULL,
                      digits = 2,
                      vline.type = 2,
                      vline.color = "grey70",
@@ -558,7 +558,7 @@ sjp.lmer <- function(fit,
            sort.est,
            axis.labels,
            axis.title,
-           ylim,
+           axis.lim,
            vline.type,
            vline.color,
            remove.estimates,
@@ -596,7 +596,7 @@ sjp.lme4  <- function(fit,
                       sort.est,
                       axis.labels,
                       axis.title,
-                      ylim,
+                      axis.lim,
                       vline.type,
                       vline.color,
                       remove.estimates,
@@ -763,10 +763,10 @@ sjp.lme4  <- function(fit,
       return(invisible(sjp.reglin(fit, title, 50, geom.colors, show.ci, point.alpha,
                                   scatter.plot, show.loess, show.loess.ci, 
                                   useResiduals = ifelse(type == "fe.slope", FALSE, TRUE),
-                                  remove.estimates, vars, ylim, prnt.plot)))
+                                  remove.estimates, vars, ylim = axis.lim, prnt.plot)))
     } else {
       return(invisible(sjp.glm.slope(fit, title, geom.size, remove.estimates, vars,
-                                     ylim, show.ci, facet.grid, prnt.plot)))
+                                     ylim = axis.lim, show.ci, facet.grid, prnt.plot)))
     }
   } else if (type == "poly") {
     # ---------------------------------------
@@ -784,7 +784,7 @@ sjp.lme4  <- function(fit,
     # plot marginal effects of fixed terms
     # ---------------------------------------
     return(invisible(sjp.glm.eff(fit, title, geom.size, remove.estimates, vars, 
-                                 show.ci, ylim = NULL, facet.grid,
+                                 show.ci, ylim = axis.lim, facet.grid,
                                  fun = fun, prnt.plot, ...)))
   } else if (type == "ri.slope") {
     # ---------------------------------------
@@ -795,12 +795,12 @@ sjp.lme4  <- function(fit,
       return(invisible(sjp.lmer.ri.slope(fit, ri.nr, vars, emph.grp, geom.size, prnt.plot)))
     } else {
       return(invisible(sjp.glmer.ri.slope(fit, show.ci, facet.grid, ri.nr, vars,
-                                          emph.grp, ylim, prnt.plot)))
+                                          emph.grp, ylim = axis.lim, prnt.plot)))
     }
   } else if (type == "rs.ri") {
     return(invisible(sjp.lme.rsri(fit, title, axis.title, ri.nr, emph.grp, 
                                   geom.colors, geom.size, sample.n, show.legend, 
-                                  ylim, prnt.plot, fun)))
+                                  ylim = axis.lim, prnt.plot, fun)))
   } else if (type == "re.qq") {
     # ---------------------------------------
     # plot qq-plots for random effects to
@@ -815,7 +815,7 @@ sjp.lme4  <- function(fit,
     # response value
     # ---------------------------------------
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = NULL,
-                                   geom.colors, show.ci, geom.size, ylim, facet.grid, 
+                                   geom.colors, show.ci, geom.size, ylim = axis.lim, facet.grid, 
                                    type = "re", show.loess = F, prnt.plot)))
   } else if (type == "pred.fe") {
     # ---------------------------------------
@@ -823,7 +823,7 @@ sjp.lme4  <- function(fit,
     # response value
     # ---------------------------------------
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = NULL,
-                                   geom.colors, show.ci, geom.size, ylim, facet.grid, 
+                                   geom.colors, show.ci, geom.size, ylim = axis.lim, facet.grid, 
                                    type = "fe", show.loess = F, prnt.plot)))
   }
   # ---------------------------------------
@@ -1165,6 +1165,8 @@ sjp.lme4  <- function(fit,
                                       breaks = base_breaks(ceiling(max(mydf$conf.high, na.rm = T))),
                                       labels = prettyNum)
       }
+      # do we have an axis limit?
+      if (!is.null(axis.lim)) gp <- gp + ylim(axis.lim)
       # ---------------------------------------
       # hide error bars (conf int)?
       # ---------------------------------------

@@ -49,7 +49,8 @@ argument, since in most cases, axis labels are set automatically.}
 \item{axis.title}{character vector, used as title for the axis. If not specified, 
 a default labelling depending on the plot function and type is chosen.}
 
-\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.}
+\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
+Depending on plot type, may effect either x- or y-axis, or both.}
 
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}

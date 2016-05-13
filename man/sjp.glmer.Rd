@@ -10,7 +10,7 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL,
   geom.colors = "Set1", geom.size = NULL, show.values = TRUE,
   show.p = TRUE, show.ci = FALSE, show.legend = FALSE,
   show.intercept = TRUE, string.interc = "(Intercept)", fade.ns = FALSE,
-  ylim = NULL, digits = 2, vline.type = 2, vline.color = "grey70",
+  axis.lim = NULL, digits = 2, vline.type = 2, vline.color = "grey70",
   facet.grid = TRUE, free.scale = FALSE, y.offset = 0.1,
   prnt.plot = TRUE, ...)
 }
@@ -111,10 +111,6 @@ function call is interrupted and no plot printed.}
 if \code{show.intercept = TRUE} and \code{axis.labels} is not \code{NULL}.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
-
-\item{ylim}{numeric vector of length two, defining lower and upper axis limits
-of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
-y-axis fits to the required range of the data.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 

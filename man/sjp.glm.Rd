@@ -74,7 +74,8 @@ one line and when a line break is inserted.}
 \item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
-\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.}
+\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
+Depending on plot type, may effect either x- or y-axis, or both.}
 
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}

@@ -11,9 +11,10 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL,
   show.values = TRUE, show.p = TRUE, show.ci = FALSE,
   show.legend = FALSE, show.loess = FALSE, show.loess.ci = FALSE,
   show.intercept = TRUE, string.interc = "(Intercept)", p.kr = TRUE,
-  point.alpha = 0.2, scatter.plot = TRUE, fade.ns = FALSE, ylim = NULL,
-  digits = 2, vline.type = 2, vline.color = "grey70", facet.grid = TRUE,
-  free.scale = FALSE, y.offset = 0.1, prnt.plot = TRUE, ...)
+  point.alpha = 0.2, scatter.plot = TRUE, fade.ns = FALSE,
+  axis.lim = NULL, digits = 2, vline.type = 2, vline.color = "grey70",
+  facet.grid = TRUE, free.scale = FALSE, y.offset = 0.1,
+  prnt.plot = TRUE, ...)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{lmer}}-function.}
@@ -138,10 +139,6 @@ response and predictor values for each predictor of the model
 is plotted. Only applies for slope-type plots.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
-
-\item{ylim}{numeric vector of length two, defining lower and upper axis limits
-of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
-y-axis fits to the required range of the data.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
