@@ -23,7 +23,7 @@ sjp.emm <- function(fit,
                     ylim = NULL,
                     grid.breaks = NULL,
                     facet.grid = FALSE,
-                    printPlot = TRUE) {
+                    prnt.plot = TRUE) {
   # --------------------------------------------------------
   # check default geom.size
   # --------------------------------------------------------
@@ -347,7 +347,7 @@ sjp.emm <- function(fit,
       # ---------------------------------------------------------
       # Check whether ggplot object should be returned or plotted
       # ---------------------------------------------------------
-      if (printPlot) print(baseplot)
+      if (prnt.plot) graphics::plot(baseplot)
       # concatenate plot object
       plotlist[[length(plotlist) + 1]] <- baseplot
       dflist[[length(dflist) + 1]] <- intdf

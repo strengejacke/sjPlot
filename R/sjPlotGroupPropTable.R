@@ -78,7 +78,7 @@ sjp.gpt <- function(x,
                     annotate.total = TRUE,
                     show.p = TRUE,
                     show.n = TRUE,
-                    printPlot = TRUE) {
+                    prnt.plot = TRUE) {
   # --------------------------------------------------------
   # get variable name
   # --------------------------------------------------------
@@ -250,6 +250,6 @@ sjp.gpt <- function(x,
   # --------------------------------------------------------
   # print plot
   # --------------------------------------------------------
-  if (printPlot) print(p)
+  if (prnt.plot) graphics::plot(p)
   invisible(structure(list(plot = p, df = newdf)))
 }

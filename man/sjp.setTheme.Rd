@@ -259,7 +259,7 @@ sjp.frq(efc$e42dep)
 sjp.setTheme(theme = "538", geom.alpha = 0.8)
 library(ggplot2) # for custom base-line
 sjp.frq(efc$e42dep, geom.color = "#c0392b", expand.grid = TRUE,
-        printPlot = FALSE)$plot + 
+        prnt.plot = FALSE)$plot + 
   geom_hline(yintercept = 0, size = 0.5, colour = "black")
 
 # mimic R base theme

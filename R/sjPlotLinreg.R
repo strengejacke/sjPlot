@@ -281,7 +281,7 @@ sjp.lm <- function(fit,
                    y.offset = .15,
                    facet.grid = TRUE,
                    completeDiagnostic = FALSE,
-                   printPlot = TRUE,
+                   prnt.plot = TRUE,
                    ...) {
   # -----------------------------------------------------------
   # remember length of predictor variables
@@ -319,7 +319,7 @@ sjp.lm <- function(fit,
                              wrap.labels, geom.colors, show.ci, point.alpha,
                              scatter.plot, show.loess, show.loess.ci, show.summary,
                              useResiduals = ifelse(type == "lm", FALSE, TRUE),
-                             printPlot)))
+                             prnt.plot)))
   }
   if (type == "slope" || type == "resid") {
     # reset default color setting, does not look that good.
@@ -327,21 +327,21 @@ sjp.lm <- function(fit,
     return(invisible(sjp.reglin(fit, title, wrap.title, geom.colors, show.ci,
                                 point.alpha, scatter.plot, show.loess, show.loess.ci,
                                 useResiduals = ifelse(type == "slope", FALSE, TRUE),
-                                remove.estimates, vars, ylim = axis.lim, printPlot)))
+                                remove.estimates, vars, ylim = axis.lim, prnt.plot)))
   }
   if (type == "pred") {
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
                                    geom.colors, show.ci, geom.size, ylim = axis.lim,
-                                   facet.grid, type = "fe", show.loess, printPlot)))
+                                   facet.grid, type = "fe", show.loess, prnt.plot)))
   }
   if (type == "poly") {
     return(invisible(sjp.lm.poly(fit, poly.term, geom.colors, geom.size, axis.title,
-                                 show.ci, printPlot)))
+                                 show.ci, prnt.plot)))
   }
   if (type == "eff") {
     return(invisible(sjp.glm.eff(fit, title, geom.size, remove.estimates, vars,
                                  show.ci, ylim = NULL, facet.grid,
-                                 fun = "lm", printPlot, ...)))
+                                 fun = "lm", prnt.plot, ...)))
   }
   if (type == "ma") {
     return(invisible(sjp.lm.ma(fit, completeDiagnostic)))
@@ -569,7 +569,7 @@ sjp.lm <- function(fit,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (printPlot) print(betaplot)
+  if (prnt.plot) graphics::plot(betaplot)
   # -------------------------------------
   # set proper column names
   # -------------------------------------
@@ -598,7 +598,7 @@ sjp.reglin <- function(fit,
                        remove.estimates = NULL,
                        vars = NULL,
                        ylim = NULL,
-                       printPlot = TRUE) {
+                       prnt.plot = TRUE) {
   # -----------------------------------------------------------
   # check argument
   # -----------------------------------------------------------
@@ -707,7 +707,7 @@ sjp.reglin <- function(fit,
     plotlist[[length(plotlist) + 1]] <- reglinplot
     dflist[[length(dflist) + 1]] <- mydat
     # print plot
-    if (printPlot) graphics::plot(reglinplot)
+    if (prnt.plot) graphics::plot(reglinplot)
   }
   # -------------------------------------
   # return results
@@ -906,7 +906,7 @@ sjp.lm.ma <- function(linreg, completeDiagnostic = FALSE) {
   # save plot
   plot.list[[length(plot.list) + 1]] <- p1
   # print plot
-  suppressWarnings(print(p1))
+  suppressWarnings(graphics::plot(p1))
   # ---------------------------------
   # Print non-normality of residuals both of original and updated model
   # Distribution should look like normal curve
@@ -930,7 +930,7 @@ sjp.lm.ma <- function(linreg, completeDiagnostic = FALSE) {
   # save plot
   plot.list[[length(plot.list) + 1]] <- p1
   # print plot
-  print(p1)
+  graphics::plot(p1)
   # ---------------------------------
   # Non-constant residuals
   # ---------------------------------
@@ -962,17 +962,17 @@ sjp.lm.ma <- function(linreg, completeDiagnostic = FALSE) {
   # save plot
   plot.list[[length(plot.list) + 1]] <- p1
   # print plot
-  print(p1)
+  graphics::plot(p1)
   # ---------------------------------
   # summarize old and new model
   # ---------------------------------
   if (any(class(linreg) == "lm")) {
     sjp.setTheme(theme = "forestw")
-    p1 <- sjp.lm(linreg, printPlot = FALSE)$plot
+    p1 <- sjp.lm(linreg, prnt.plot = FALSE)$plot
     # save plot
     plot.list[[length(plot.list) + 1]] <- p1
     # print plot
-    print(p1)
+    graphics::plot(p1)
     if (completeDiagnostic) {
       # ---------------------------------
       # Plot residuals against predictors
@@ -1025,7 +1025,7 @@ sjp.lm1 <- function(fit,
                    show.loess.ci=FALSE,
                    show.summary=TRUE,
                    useResiduals=FALSE,
-                   printPlot=TRUE) {
+                   prnt.plot=TRUE) {
   # -----------------------------------------------------------
   # check argument
   # -----------------------------------------------------------
@@ -1138,7 +1138,7 @@ sjp.lm1 <- function(fit,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (printPlot) print(reglinplot)
+  if (prnt.plot) graphics::plot(reglinplot)
   # -------------------------------------
   # return results
   # -------------------------------------
@@ -1154,7 +1154,7 @@ sjp.lm.poly <- function(fit,
                         geom.size,
                         axis.title,
                         show.ci,
-                        printPlot) {
+                        prnt.plot) {
   # check size argument
   if (is.null(geom.size)) geom.size <- .8
   # ------------------------
@@ -1248,7 +1248,7 @@ sjp.lm.poly <- function(fit,
     geom_line(colour = geom.colors[1], size = geom.size) +
     labs(x = axis.title, y = resp.name)
   # print plot
-  if (printPlot) print(polyplot)
+  if (prnt.plot) graphics::plot(polyplot)
   # return result
   invisible(structure(class = "sjplmpoly",
                       list(plot = polyplot,

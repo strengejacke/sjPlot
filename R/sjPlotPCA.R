@@ -18,8 +18,6 @@
 #' @param type Plot type resp. geom type. May be one of following: \code{"circle"} or \code{"tile"} 
 #'          circular or tiled geoms, or \code{"bar"} for a bar plot. You may use initial letter only
 #'          for this argument.
-#' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-#'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #' @return (Invisibly) returns a \code{\link{structure}} with
 #'          \itemize{
 #'            \item the varimax-rotated factor loading matrix (\code{varim})
@@ -109,7 +107,7 @@ sjp.pca <- function(data,
                     wrap.labels = 30,
                     show.values = TRUE,
                     show.cronb = TRUE,
-                    printPlot = TRUE) {
+                    prnt.plot = TRUE) {
   # --------------------------------------------------------
   # check arguments
   # --------------------------------------------------------
@@ -358,7 +356,7 @@ sjp.pca <- function(data,
   # --------------------------------------------------------
   # print plot
   # --------------------------------------------------------
-  if (printPlot) graphics::plot(heatmap)
+  if (prnt.plot) graphics::plot(heatmap)
   # --------------------------------------------------------
   # if we have a data frame, all factors which do not clearly
   # load on a specific dimension (see patameter "fctr.load.tlrn")

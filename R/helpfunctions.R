@@ -747,7 +747,7 @@ get_model_response_label <- function(fit) {
 #' data(efc)
 #' # show frequencies of relationship-variable and
 #' # retrieve plot object
-#' gp <- sjp.frq(efc$e15relat, printPlot = FALSE)
+#' gp <- sjp.frq(efc$e15relat, prnt.plot = FALSE)
 #' # show current plot
 #' plot(gp$plot)
 #' # show adjusted plot
@@ -764,8 +764,7 @@ adjust_plot_range <- function(gp, upperMargin=1.05) {
   ylo <- abs(gy$panel$ranges[[1]]$y.range[1])
   yhi <- abs(gy$panel$ranges[[1]]$y.range[2] * upperMargin)
   # change y scale
-  gp <- gp + scale_y_continuous(expand = c(0, 0),
-                                limits = c(0, ylo + yhi))
+  gp <- gp + scale_y_continuous(expand = c(0, 0), limits = c(0, ylo + yhi))
   # return plot
   return(gp)
 }

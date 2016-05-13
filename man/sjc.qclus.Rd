@@ -14,7 +14,7 @@ sjc.qclus(data, groupcount = NULL, groups = NULL, method = c("kmeans",
   wrap.legend.labels = 20, facet.grid = FALSE, geom.colors = "Paired",
   geom.size = 0.5, geom.spacing = 0.1, show.legend = TRUE,
   show.grpcnt = TRUE, legend.title = NULL, legend.labels = NULL,
-  coord.flip = FALSE, reverse.axis = FALSE, printPlot = TRUE)
+  coord.flip = FALSE, reverse.axis = FALSE, prnt.plot = TRUE)
 }
 \arguments{
 \item{data}{\code{data.frame} with variables that should be used for the
@@ -112,7 +112,7 @@ legend labels (e.g. \code{"Group 1 (n=87)"}).}
 
 \item{reverse.axis}{if \code{TRUE}, the values on the x-axis are reversed.}
 
-\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{

@@ -146,7 +146,7 @@ sjp.frq <- function(var.cnt,
                     vjust = "bottom",
                     hjust = "center",
                     y.offset = NULL,
-                    printPlot = TRUE) {
+                    prnt.plot = TRUE) {
   # --------------------------------------------------------
   # get variable name
   # --------------------------------------------------------
@@ -443,8 +443,8 @@ sjp.frq <- function(var.cnt,
     if (show.ci) {
       ebcol <- ifelse(type == "dot", geom.colors, errorbar.color)
       # print confidence intervalls (error bars)
-      baseplot <- baseplot + geom_errorbar(aes(ymin = lower.ci, ymax = upper.ci), 
-                                           colour = ebcol, width = 0)
+      baseplot <- baseplot + 
+        geom_errorbar(aes(ymin = lower.ci, ymax = upper.ci), colour = ebcol, width = 0)
     }
     # check whether coordinates should be flipped, i.e.
     # swap x and y axis
@@ -475,13 +475,11 @@ sjp.frq <- function(var.cnt,
       stat_summary(fun.y = "mean", geom = "point", shape = 21, 
                    size = inner.box.dotsize, fill = fcsp)
     # no additional labels for the x- and y-axis, only diagram title
-    baseplot <- baseplot + 
-      yscale +
-      scalex
+    baseplot <- baseplot + yscale + scalex
   # --------------------------------------------------
   # Start density plot here
   # --------------------------------------------------
-  } else if (type == "dens") {
+  } else if (type == "density") {
     xv <- stats::na.omit(var.cnt)
     densityDat <- data.frame(xv)
     # First, plot histogram with density curve
@@ -586,7 +584,7 @@ sjp.frq <- function(var.cnt,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (printPlot) graphics::plot(baseplot)
+  if (prnt.plot) graphics::plot(baseplot)
   # -------------------------------------
   # return results
   # -------------------------------------

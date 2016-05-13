@@ -14,7 +14,7 @@ sjp.lm(fit, type = "lm", vars = NULL, group.estimates = NULL,
   show.legend = FALSE, show.loess = FALSE, show.loess.ci = FALSE,
   show.summary = FALSE, digits = 2, vline.type = 2,
   vline.color = "grey70", coord.flip = TRUE, y.offset = 0.15,
-  facet.grid = TRUE, completeDiagnostic = FALSE, printPlot = TRUE, ...)
+  facet.grid = TRUE, completeDiagnostic = FALSE, prnt.plot = TRUE, ...)
 }
 \arguments{
 \item{fit}{fitted linear regression model (of class \code{\link{lm}}, \code{\link[nlme]{gls}} or \code{plm}).}
@@ -136,7 +136,7 @@ in a grid of an integrated single plot.}
 \item{completeDiagnostic}{logical, if \code{TRUE}, additional tests are performed. Default is \code{FALSE}
 Only applies if \code{type = "ma"}.}
 
-\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 
 \item{...}{other arguments, passed down to the \code{\link[effects]{effect}} resp. 

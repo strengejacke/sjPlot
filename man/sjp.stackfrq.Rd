@@ -11,7 +11,7 @@ sjp.stackfrq(items, title = NULL, legend.title = NULL,
   geom.colors = "Blues", show.values = TRUE, show.n = TRUE,
   show.prc = TRUE, show.legend = TRUE, grid.breaks = 0.2,
   expand.grid = FALSE, digits = 1, vjust = "center", coord.flip = TRUE,
-  printPlot = TRUE)
+  prnt.plot = TRUE)
 }
 \arguments{
 \item{items}{\code{data.frame} with each column representing one item.}
@@ -87,7 +87,7 @@ away from the center of the plot respectively.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
-\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{

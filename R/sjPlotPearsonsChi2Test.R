@@ -13,8 +13,6 @@ utils::globalVariables(c("Row", "Column", "p.value"))
 #'                \href{https://talesofr.wordpress.com/2013/05/05/ridiculously-photogenic-factors-heatmap-with-p-values/}{Tales of R}.
 #' 
 #' @param df data frame with (dichotomous) factor variables.
-#' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-#'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{mydf}).
 #' 
@@ -44,7 +42,7 @@ sjp.chi2 <- function(df,
                      wrap.labels = 20,
                      show.legend = FALSE,
                      legend.title = NULL,
-                     printPlot = TRUE) {
+                     prnt.plot = TRUE) {
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
@@ -125,7 +123,7 @@ sjp.chi2 <- function(df,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (printPlot) graphics::plot(chiPlot)
+  if (prnt.plot) graphics::plot(chiPlot)
   # -------------------------------------
   # return results
   # -------------------------------------

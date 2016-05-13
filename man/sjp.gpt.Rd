@@ -11,7 +11,7 @@ sjp.gpt(x, y, groups, geom.colors = "Set1", geom.size = 2.5,
   wrap.title = 50, wrap.labels = 15, wrap.legend.title = 20,
   wrap.legend.labels = 20, axis.lim = NULL, grid.breaks = NULL,
   show.total = TRUE, annotate.total = TRUE, show.p = TRUE,
-  show.n = TRUE, printPlot = TRUE)
+  show.n = TRUE, prnt.plot = TRUE)
 }
 \arguments{
 \item{x}{categorical variable, where the proportion of each category in 
@@ -78,7 +78,7 @@ variable labels.}
 \item{show.n}{logical, if \code{TRUE}, adds total number of cases for each
 group or category to the labels.}
 
-\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{

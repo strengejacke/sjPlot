@@ -118,7 +118,7 @@ sjp.lmm <- function(...,
                     digits = 2,
                     facet.grid = FALSE,
                     coord.flip = TRUE,
-                    printPlot = TRUE) {
+                    prnt.plot = TRUE) {
   # --------------------------------------------------------
   # retrieve list of fitted models
   # --------------------------------------------------------
@@ -419,7 +419,7 @@ sjp.lmm <- function(...,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (printPlot) graphics::plot(plotHeader)
+  if (prnt.plot) graphics::plot(plotHeader)
   # -------------------------------------
   # set proper column names
   # -------------------------------------

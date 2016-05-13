@@ -91,42 +91,42 @@ utils::globalVariables(c("rowname", "total", "ges", "prc", "n", "Count", "Group"
 #' @export
 sjp.xtab <- function(x,
                      grp,
-                     title = "",
-                     legend.title = NULL,
-                     weight.by = NULL,
-                     title.wtd.suffix = NULL,
                      type = c("bar", "line"),
                      margin = c("col", "cell", "row"),
-                     rev.order = FALSE,
-                     ylim = NULL,
+                     bar.pos = c("dodge", "stack"),
+                     title = "",
+                     title.wtd.suffix = NULL,
+                     axis.titles = NULL,
                      axis.labels = NULL,
+                     legend.title = NULL,
                      legend.labels = NULL,
-                     vjust = "bottom",
-                     hjust = "center",
-                     y.offset = NULL,
+                     weight.by = NULL,
+                     rev.order = FALSE,
+                     show.values = TRUE,
+                     show.n = TRUE,
+                     show.prc = TRUE,
+                     show.total = TRUE,
+                     show.legend = TRUE,
+                     show.summary = FALSE,
+                     summary.pos = "r",
                      string.total = "Total",
                      wrap.title = 50,
                      wrap.labels = 15,
                      wrap.legend.title = 20,
                      wrap.legend.labels = 20,
-                     grid.breaks = 0.2,
                      geom.size = 0.7,
                      geom.spacing = 0.1,
                      geom.colors = "Paired",
-                     bar.pos = c("dodge", "stack"),
                      dot.size = 3,
                      smooth.lines = FALSE,
+                     grid.breaks = 0.2,
                      expand.grid = FALSE,
-                     show.values = TRUE,
-                     show.n = TRUE,
-                     show.prc = TRUE,
-                     show.summary = FALSE,
-                     summary.pos = "r",
-                     show.total = TRUE,
-                     show.legend = TRUE,
-                     axis.titles = NULL,
+                     ylim = NULL,
+                     vjust = "bottom",
+                     hjust = "center",
+                     y.offset = NULL,
                      coord.flip = FALSE,
-                     printPlot = TRUE) {
+                     prnt.plot = TRUE) {
   # --------------------------------------------------------
   # get variable name
   # --------------------------------------------------------
@@ -146,7 +146,10 @@ sjp.xtab <- function(x,
     axisTitle.y <- NULL
   } else {
     axisTitle.x <- axis.titles[1]
-    if (length(axis.titles) > 1) axisTitle.y <- axis.titles[2]
+    if (length(axis.titles) > 1) 
+      axisTitle.y <- axis.titles[2]
+    else
+      axisTitle.y <- NULL
   }
   # --------------------------------------------------------
   # grid-expansion
@@ -461,7 +464,7 @@ sjp.xtab <- function(x,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (printPlot) plot(baseplot)
+  if (prnt.plot) graphics::plot(baseplot)
   # -------------------------------------
   # return results
   # -------------------------------------

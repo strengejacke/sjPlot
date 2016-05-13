@@ -10,7 +10,7 @@ sjp.corr(data, title = NULL, axis.labels = NULL, type = c("circle",
   geom.colors = "RdBu", geom.size = 15, wrap.title = 50,
   wrap.labels = 20, show.legend = FALSE, legend.title = NULL,
   show.values = TRUE, show.p = TRUE, p.numeric = FALSE,
-  printPlot = TRUE)
+  prnt.plot = TRUE)
 }
 \arguments{
 \item{data}{matrix with correlation coefficients as returned by the 
@@ -68,7 +68,7 @@ variable labels.}
 \item{p.numeric}{logical, if \code{TRUE}, the p-values are printed 
 as numbers. If \code{FALSE} (default), asterisks are used.}
 
-\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{

@@ -13,7 +13,7 @@ sjp.glm(fit, type = "dots", vars = NULL, group.estimates = NULL,
   show.p = TRUE, show.ci = FALSE, show.legend = FALSE,
   show.summary = FALSE, digits = 2, vline.type = 2,
   vline.color = "grey70", coord.flip = TRUE, y.offset = 0.15,
-  facet.grid = TRUE, printPlot = TRUE, ...)
+  facet.grid = TRUE, prnt.plot = TRUE, ...)
 }
 \arguments{
 \item{fit}{fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).}
@@ -118,7 +118,7 @@ to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 \item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
 in a grid of an integrated single plot.}
 
-\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 
 \item{...}{other arguments, passed down to the \code{\link[effects]{effect}} resp. 

@@ -8,7 +8,7 @@ sjp.pca(data, nmbr.fctr = NULL, fctr.load.tlrn = 0.1, plot.eigen = FALSE,
   digits = 2, title = NULL, axis.labels = NULL, type = c("bar",
   "circle", "tile"), geom.size = 0.6, geom.colors = "RdBu",
   wrap.title = 50, wrap.labels = 30, show.values = TRUE,
-  show.cronb = TRUE, printPlot = TRUE)
+  show.cronb = TRUE, prnt.plot = TRUE)
 }
 \arguments{
 \item{data}{\code{data.frame} that should be used to compute a PCA, or a \code{\link{prcomp}} object.}
@@ -58,7 +58,7 @@ i.e. all variables with the highest loading for a factor are taken for the
 reliability test. The result is an alpha value for each factor dimension.
 Only applies when \code{data} is a data frame and no \code{\link{prcomp}} object.}
 
-\item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{

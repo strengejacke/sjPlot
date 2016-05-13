@@ -63,7 +63,7 @@ sjp.aov1 <- function(var.dep,
                      y.offset = .1,
                      show.p = TRUE,
                      show.summary = FALSE,
-                     printPlot = TRUE) {
+                     prnt.plot = TRUE) {
   # --------------------------------------------------------
   # get variable name
   # --------------------------------------------------------
@@ -277,7 +277,7 @@ sjp.aov1 <- function(var.dep,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (printPlot) print(anovaplot)
+  if (prnt.plot) graphics::plot(anovaplot)
   # -------------------------------------
   # set proper column names
   # -------------------------------------

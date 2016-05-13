@@ -127,7 +127,7 @@ sjc.qclus <- function(data,
                       legend.labels = NULL,
                       coord.flip = FALSE,
                       reverse.axis = FALSE,
-                      printPlot = TRUE) {
+                      prnt.plot = TRUE) {
   # --------------------------------------------------------
   # match arguments
   # --------------------------------------------------------
@@ -203,7 +203,7 @@ sjc.qclus <- function(data,
   grp.accuracy <- sjc.grpdisc(data, 
                               groups = grp, 
                               groupcount = groupcount, 
-                              printPlot = show.accuracy)
+                              prnt.plot = show.accuracy)
   # ---------------------------------------------
   # Add group count to legend labels
   # ---------------------------------------------
@@ -288,7 +288,7 @@ sjc.qclus <- function(data,
   # --------------------------------------------------------
   # plot
   # --------------------------------------------------------
-  if (printPlot) graphics::plot(gp)
+  if (prnt.plot) graphics::plot(gp)
   # --------------------------------------------------------
   # return values
   # --------------------------------------------------------
@@ -518,8 +518,6 @@ sjc.dend <- function(data, groupcount, distance = "euclidean", agglomeration = "
 #' @param clss.fit logical, if \code{TRUE} (default), a vertical line indicating the
 #'          overall goodness of classification is added to the plot, so one can see
 #'          whether a certain group is below or above the average classification goodness.
-#' @param printPlot logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-#'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #'
 #' @inheritParams sjc.cluster
 #'
@@ -544,7 +542,7 @@ sjc.dend <- function(data, groupcount, distance = "euclidean", agglomeration = "
 #' @importFrom graphics plot
 #' @import ggplot2
 #' @export
-sjc.grpdisc <- function(data, groups, groupcount, clss.fit = TRUE, printPlot = TRUE) {
+sjc.grpdisc <- function(data, groups, groupcount, clss.fit = TRUE, prnt.plot = TRUE) {
   # Prepare Data
   # listwise deletion of missing
   data <- stats::na.omit(data)
@@ -647,7 +645,7 @@ sjc.grpdisc <- function(data, groups, groupcount, clss.fit = TRUE, printPlot = T
   # --------------------------------------------------------
   # plot
   # --------------------------------------------------------
-  if (printPlot) graphics::plot(classplot)
+  if (prnt.plot) graphics::plot(classplot)
   # --------------------------------------------------------
   # return values
   # --------------------------------------------------------

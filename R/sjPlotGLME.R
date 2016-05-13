@@ -248,7 +248,7 @@ sjp.glmer <- function(fit,
                       facet.grid = TRUE,
                       free.scale = FALSE,
                       y.offset = .1,
-                      printPlot = TRUE,
+                      prnt.plot = TRUE,
                       ...) {
   # -------------------------------------
   # check for deprecated argument values
@@ -287,7 +287,7 @@ sjp.glmer <- function(fit,
            fade.ns,
            show.ci,
            FALSE,
-           printPlot,
+           prnt.plot,
            fun = "glm",
            0.2,
            TRUE,
@@ -533,7 +533,7 @@ sjp.lmer <- function(fit,
                      facet.grid = TRUE,
                      free.scale = FALSE,
                      y.offset = .1,
-                     printPlot = TRUE,
+                     prnt.plot = TRUE,
                      ...) {
   # -------------------------------------
   # check for deprecated argument values
@@ -571,7 +571,7 @@ sjp.lmer <- function(fit,
            fade.ns,
            show.ci,
            p.kr,
-           printPlot,
+           prnt.plot,
            fun = "lm",
            point.alpha,
            scatter.plot,
@@ -609,7 +609,7 @@ sjp.lme4  <- function(fit,
                       fade.ns,
                       show.ci,
                       p.kr,
-                      printPlot,
+                      prnt.plot,
                       fun,
                       point.alpha = 0.2,
                       scatter.plot = TRUE,
@@ -752,7 +752,7 @@ sjp.lme4  <- function(fit,
     # plot correlation matrix of fixed effects,
     # to inspect multicollinearity
     # ---------------------------------------
-    return(invisible(sjp.lme.fecor(fit, axis.labels, sort.est, fun, printPlot)))
+    return(invisible(sjp.lme.fecor(fit, axis.labels, sort.est, fun, prnt.plot)))
   } else if (type == "fe.slope" || type == "fe.resid") {
     # ---------------------------------------
     # plot slopes for each fixed coefficient
@@ -763,10 +763,10 @@ sjp.lme4  <- function(fit,
       return(invisible(sjp.reglin(fit, title, 50, geom.colors, show.ci, point.alpha,
                                   scatter.plot, show.loess, show.loess.ci, 
                                   useResiduals = ifelse(type == "fe.slope", FALSE, TRUE),
-                                  remove.estimates, vars, ylim, printPlot)))
+                                  remove.estimates, vars, ylim, prnt.plot)))
     } else {
       return(invisible(sjp.glm.slope(fit, title, geom.size, remove.estimates, vars,
-                                     ylim, show.ci, facet.grid, printPlot)))
+                                     ylim, show.ci, facet.grid, prnt.plot)))
     }
   } else if (type == "poly") {
     # ---------------------------------------
@@ -774,7 +774,7 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     if (fun == "lm") {
       return(invisible(sjp.lm.poly(fit, poly.term, geom.colors, geom.size, axis.title,
-                                   show.ci, printPlot)))
+                                   show.ci, prnt.plot)))
     } else {
       warning("Plotting polynomial terms only works for function `sjp.lmer`.", call. = FALSE)
       return(invisible(NULL))
@@ -785,22 +785,22 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     return(invisible(sjp.glm.eff(fit, title, geom.size, remove.estimates, vars, 
                                  show.ci, ylim = NULL, facet.grid,
-                                 fun = fun, printPlot, ...)))
+                                 fun = fun, prnt.plot, ...)))
   } else if (type == "ri.slope") {
     # ---------------------------------------
     # plot slopes for each fixex coefficient
     # depending on random intercept levels
     # ---------------------------------------
     if (fun == "lm") {
-      return(invisible(sjp.lmer.ri.slope(fit, ri.nr, vars, emph.grp, geom.size, printPlot)))
+      return(invisible(sjp.lmer.ri.slope(fit, ri.nr, vars, emph.grp, geom.size, prnt.plot)))
     } else {
       return(invisible(sjp.glmer.ri.slope(fit, show.ci, facet.grid, ri.nr, vars,
-                                          emph.grp, ylim, printPlot)))
+                                          emph.grp, ylim, prnt.plot)))
     }
   } else if (type == "rs.ri") {
     return(invisible(sjp.lme.rsri(fit, title, axis.title, ri.nr, emph.grp, 
                                   geom.colors, geom.size, sample.n, show.legend, 
-                                  ylim, printPlot, fun)))
+                                  ylim, prnt.plot, fun)))
   } else if (type == "re.qq") {
     # ---------------------------------------
     # plot qq-plots for random effects to
@@ -808,7 +808,7 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     return(invisible(sjp.lme.reqq(fit, geom.colors, geom.size, show.ci,
                                   vline.type, vline.color, fun,
-                                  printPlot)))
+                                  prnt.plot)))
   } else if (type == "pred") {
     # ---------------------------------------
     # plot predicted probabilities / values of
@@ -816,7 +816,7 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = NULL,
                                    geom.colors, show.ci, geom.size, ylim, facet.grid, 
-                                   type = "re", show.loess = F, printPlot)))
+                                   type = "re", show.loess = F, prnt.plot)))
   } else if (type == "pred.fe") {
     # ---------------------------------------
     # plot predicted probabilities / values of
@@ -824,7 +824,7 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = NULL,
                                    geom.colors, show.ci, geom.size, ylim, facet.grid, 
-                                   type = "fe", show.loess = F, printPlot)))
+                                   type = "fe", show.loess = F, prnt.plot)))
   }
   # ---------------------------------------
   # check geom size
@@ -1220,7 +1220,7 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------------------------
       # Check whether ggplot object should be returned or plotted
       # ---------------------------------------------------------
-      if (printPlot) print(me.plot)
+      if (prnt.plot) graphics::plot(me.plot)
       me.plot <- NULL
     } else {
       # ---------------------------------------
@@ -1253,7 +1253,7 @@ sjp.lme4  <- function(fit,
         # ---------------------------------------------------------
         # Check whether ggplot object should be returned or plotted
         # ---------------------------------------------------------
-        if (printPlot) print(me.plot)
+        if (prnt.plot) graphics::plot(me.plot)
         me.plot <- NULL
       }
     }
@@ -1278,7 +1278,7 @@ sjp.lme4  <- function(fit,
 
 #' @importFrom stats model.frame family na.omit
 sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
-                               ylim, printPlot) {
+                               ylim, prnt.plot) {
   # ----------------------------
   # retrieve data frame of model to check whether
   # we have any numeric terms in fitted model; and
@@ -1451,7 +1451,7 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
           # -------------------------------------
           # check if metric plots should be plotted
           # -------------------------------------
-          if (printPlot) print(mp)
+          if (prnt.plot) graphics::plot(mp)
         }
       }
     }
@@ -1462,7 +1462,7 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
 }
 
 
-sjp.lmer.ri.slope <- function(fit, ri.nr, vars, emph.grp, geom.size, printPlot) {
+sjp.lmer.ri.slope <- function(fit, ri.nr, vars, emph.grp, geom.size, prnt.plot) {
   # check size argument
   if (is.null(geom.size)) geom.size <- .7
   # -----------------------------------------------------------
@@ -1576,7 +1576,7 @@ sjp.lmer.ri.slope <- function(fit, ri.nr, vars, emph.grp, geom.size, printPlot) 
       # -------------------------------------
       # check if metric plots should be plotted
       # -------------------------------------
-      if (printPlot) print(gp)
+      if (prnt.plot) graphics::plot(gp)
     }
   }
   invisible(structure(class = "sjplmer.feri",
@@ -1595,7 +1595,7 @@ sjp.lme.rsri <- function(fit,
                          sample.n,
                          show.legend,
                          ylim,
-                         printPlot,
+                         prnt.plot,
                          fun) {
   # check size argument
   if (is.null(geom.size)) geom.size <- .7
@@ -1787,7 +1787,7 @@ sjp.lme.rsri <- function(fit,
       # -------------------------------------
       # check if metric plots should be plotted
       # -------------------------------------
-      if (printPlot) print(gp)
+      if (prnt.plot) graphics::plot(gp)
     }
   }
   invisible(structure(class = "sjplmer.reri",
@@ -1810,7 +1810,7 @@ sjp.lme.reqq <- function(fit,
                          vline.type,
                          vline.color,
                          fun,
-                         printPlot) {
+                         prnt.plot) {
   re   <- lme4::ranef(fit, condVar = T)[[1]]
   pv   <- attr(re, "postVar")
   cols <- 1:(dim(pv)[1])
@@ -1854,9 +1854,9 @@ sjp.lme.reqq <- function(fit,
   # ---------------------------------------------------------
   # print plot?
   # ---------------------------------------------------------
-  if (printPlot) {
+  if (prnt.plot) {
     message("Testing for normal distribution. Dots should be plotted along the line.")
-    print(gp)
+    graphics::plot(gp)
   }
   # -------------------------------------
   # return results
@@ -1878,7 +1878,7 @@ sjp.lme.fecor <- function(fit,
                           axis.labels,
                           sort.est,
                           fun,
-                          printPlot,
+                          prnt.plot,
                           fcall = "sjp",
                           CSS = NULL,
                           use.viewer = TRUE,
@@ -1909,7 +1909,7 @@ sjp.lme.fecor <- function(fit,
   # ---------------------------------------
   if (fcall == "sjp") {
     corret <- sjp.corr(as.matrix(mydf), sort.corr = sort.est,
-                       axis.labels = axis.labels, printPlot = printPlot)
+                       axis.labels = axis.labels, prnt.plot = prnt.plot)
   } else {
     corret <- sjt.corr(as.matrix(mydf),
                        triangle = "l",
@@ -1968,7 +1968,7 @@ sjp.glm.eff <- function(fit,
                         ylim,
                         facet.grid,
                         fun,
-                        printPlot,
+                        prnt.plot,
                         ...) {
   # ---------------------------------------
   # check axis range
@@ -2168,7 +2168,7 @@ sjp.glm.eff <- function(fit,
     # ------------------------
     # print plot?
     # ------------------------
-    if (printPlot) print(eff.plot)
+    if (prnt.plot) graphics::plot(eff.plot)
   } else {
     # separate plot for each group
     for (i in unique(mydat$grp)) {
@@ -2200,7 +2200,7 @@ sjp.glm.eff <- function(fit,
       # ------------------------
       # print plot?
       # ------------------------
-      if (printPlot) print(eff.plot)
+      if (prnt.plot) graphics::plot(eff.plot)
       # add plot to plot list
       eff.plot.list[[length(eff.plot.list) + 1]] <- eff.plot
     }

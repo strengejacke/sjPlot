@@ -9,7 +9,7 @@ sjp.aov1(var.dep, var.grp, meansums = FALSE, title = NULL,
   axis.title = "", axis.lim = NULL, geom.colors = c("#3366a0", "#aa3333"),
   geom.size = 3, wrap.title = 50, wrap.labels = 25, grid.breaks = NULL,
   show.values = TRUE, digits = 2, y.offset = 0.1, show.p = TRUE,
-  show.summary = FALSE, printPlot = TRUE)
+  show.summary = FALSE, prnt.plot = TRUE)
 }
 \arguments{
 \item{var.dep}{dependent variable. Will be used with following formula:
@@ -70,7 +70,7 @@ if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is
 computed instead of chi-squared test. If the table's matrix is larger 
 than 2x2, Fisher's excact test with Monte Carlo simulation is computed.}
 
-\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{

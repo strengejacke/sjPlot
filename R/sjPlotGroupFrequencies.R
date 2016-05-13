@@ -116,7 +116,7 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'          to the top/bottom of the geom (see \code{hjust} and \code{vjust}).
 #' @param show.na logical, if \code{TRUE}, \code{\link{NA}}'s (missing values)
 #'          are added to the output.
-#' @param printPlot logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+#' @param prnt.plot logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 #'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}).
@@ -201,7 +201,7 @@ sjp.grpfrq <- function(var.cnt,
                        y.offset = NULL,
                        vjust = "bottom",
                        hjust = "center",
-                       printPlot = TRUE) {
+                       prnt.plot = TRUE) {
   # --------------------------------------------------------
   # get variable name
   # --------------------------------------------------------
@@ -215,7 +215,10 @@ sjp.grpfrq <- function(var.cnt,
     axisTitle.y <- NULL
   } else {
     axisTitle.x <- axis.titles[1]
-    if (length(axis.titles) > 1) axisTitle.y <- axis.titles[2]
+    if (length(axis.titles) > 1) 
+      axisTitle.y <- axis.titles[2]
+    else
+      axisTitle.y <- NULL
   }
   # --------------------------------------------------------
   # match arguments
@@ -764,7 +767,7 @@ sjp.grpfrq <- function(var.cnt,
   # ----------------------------------
   # Plot integrated bar chart here
   # ----------------------------------
-  if (printPlot) graphics::plot(baseplot)
+  if (prnt.plot) graphics::plot(baseplot)
   # -------------------------------------
   # return results
   # -------------------------------------

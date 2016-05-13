@@ -157,7 +157,7 @@ sjp.likert <- function(items,
                        expand.grid = TRUE,
                        digits = 1,
                        coord.flip = TRUE,
-                       printPlot = TRUE) {
+                       prnt.plot = TRUE) {
   # --------------------------------------------------------
   # check param. if we have a single vector instead of
   # a data frame with several items, convert vector to data frame
@@ -600,7 +600,7 @@ sjp.likert <- function(items,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (printPlot) graphics::plot(gp)
+  if (prnt.plot) graphics::plot(gp)
   # -------------------------------------
   # return results
   # -------------------------------------

@@ -13,7 +13,7 @@ sjp.lmm(..., type = "lm", remove.estimates = NULL, title = NULL,
   show.values = TRUE, show.legend = TRUE, show.intercept = FALSE,
   show.p = TRUE, fade.ns = FALSE, p.shape = FALSE, p.kr = TRUE,
   vline.type = 2, vline.color = "grey70", digits = 2,
-  facet.grid = FALSE, coord.flip = TRUE, printPlot = TRUE)
+  facet.grid = FALSE, coord.flip = TRUE, prnt.plot = TRUE)
 }
 \arguments{
 \item{...}{one or more fitted \code{lm} or \code{lmerMod}-objects. May also 
@@ -109,7 +109,7 @@ in a grid of an integrated single plot.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
-\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{

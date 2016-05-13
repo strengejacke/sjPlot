@@ -35,7 +35,7 @@ library(sjmisc)
 data(efc)
 # show frequencies of relationship-variable and
 # retrieve plot object
-gp <- sjp.frq(efc$e15relat, printPlot = FALSE)
+gp <- sjp.frq(efc$e15relat, prnt.plot = FALSE)
 # show current plot
 plot(gp$plot)
 # show adjusted plot

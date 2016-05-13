@@ -89,7 +89,7 @@ sjp.stackfrq <- function(items,
                          digits = 1,
                          vjust = "center",
                          coord.flip = TRUE,
-                         printPlot = TRUE) {
+                         prnt.plot = TRUE) {
   # --------------------------------------------------------
   # check param. if we have a single vector instead of
   # a data frame with several items, convert vector to data frame
@@ -372,7 +372,7 @@ sjp.stackfrq <- function(items,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (printPlot) graphics::plot(baseplot)
+  if (prnt.plot) graphics::plot(baseplot)
   # -------------------------------------
   # return results
   # -------------------------------------

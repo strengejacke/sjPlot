@@ -31,8 +31,6 @@
 #'          printed to the console.
 #' @param loessLineColor color of the loess-smoothed line. Only applies, if \code{show.loess = TRUE}.
 #' @param point.color color of the scatter plot's point. Only applies, if \code{scatter.plot = TRUE}.
-#' @param printPlot If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-#'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
 #' @return (insisibily) returns 
 #'           \describe{
 #'            \item{\code{plot}}{the ggplot-object with the complete plot}
@@ -113,7 +111,7 @@ sjp.poly <- function(x,
                      loessLineColor = "#808080",
                      point.color = "#404040",
                      point.alpha = .2,
-                     printPlot = TRUE) {
+                     prnt.plot = TRUE) {
   # --------------------------------------------
   # check color parameter
   # --------------------------------------------
@@ -225,7 +223,7 @@ sjp.poly <- function(x,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (printPlot) print(polyplot)
+  if (prnt.plot) print(polyplot)
   # -------------------------------------
   # return results
   # -------------------------------------

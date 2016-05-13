@@ -8,7 +8,7 @@ sjp.poly(x, poly.term, poly.degree, poly.scale = FALSE, fun = NULL,
   axis.title = NULL, scatter.plot = TRUE, show.loess = TRUE,
   show.loess.ci = TRUE, show.p = TRUE, geom.colors = NULL,
   geom.size = 0.8, loessLineColor = "#808080", point.color = "#404040",
-  point.alpha = 0.2, printPlot = TRUE)
+  point.alpha = 0.2, prnt.plot = TRUE)
 }
 \arguments{
 \item{x}{a vector, representing the response variable of a linear (mixed) model; or
@@ -60,7 +60,7 @@ need smaller values than dot sizes.}
 
 \item{point.alpha}{alpha value of point-geoms in the scatter plots.}
 
-\item{printPlot}{If \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{

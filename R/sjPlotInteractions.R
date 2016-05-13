@@ -304,7 +304,7 @@ sjp.int <- function(fit,
                     y.offset = 0.07,
                     digits = 2,
                     facet.grid = FALSE,
-                    printPlot = TRUE,
+                    prnt.plot = TRUE,
                     ...) {
   # -----------------------------------------------------------
   # match arguments
@@ -394,7 +394,7 @@ sjp.int <- function(fit,
                    axis.title, axis.labels, legend.title, legend.labels,
                    show.values, digits, show.ci, p.kr, wrap.title,
                    wrap.legend.title, wrap.legend.labels, y.offset, ylim, 
-                   grid.breaks, facet.grid, printPlot))
+                   grid.breaks, facet.grid, prnt.plot))
   }
   # --------------------------------------------------------
   # list labels
@@ -409,7 +409,7 @@ sjp.int <- function(fit,
                        title, fill.alpha, geom.colors, geom.size, axis.title,
                        legend.title, legend.labels, show.values, wrap.title, wrap.legend.labels, 
                        wrap.legend.title, xlim, ylim, y.offset, grid.breaks, 
-                       show.ci, facet.grid, printPlot, fun, ...))
+                       show.ci, facet.grid, prnt.plot, fun, ...))
   }
   # -----------------------------------------------------------
   # set axis title
@@ -839,7 +839,7 @@ sjp.int <- function(fit,
     # ---------------------------------------------------------
     # Check whether ggplot object should be returned or plotted
     # ---------------------------------------------------------
-    if (printPlot) print(baseplot)
+    if (prnt.plot) graphics::plot(baseplot)
     # concatenate plot object
     plotlist[[length(plotlist) + 1]] <- baseplot
     dflist[[length(dflist) + 1]] <- intdf
@@ -877,7 +877,7 @@ sjp.eff.int <- function(fit,
                         grid.breaks = NULL,
                         show.ci = FALSE,
                         facet.grid = FALSE,
-                        printPlot = TRUE,
+                        prnt.plot = TRUE,
                         fun,
                         ...) {
   # --------------------------------------------------------
@@ -1348,7 +1348,7 @@ sjp.eff.int <- function(fit,
     # ---------------------------------------------------------
     # Check whether ggplot object should be returned or plotted
     # ---------------------------------------------------------
-    if (printPlot) print(baseplot)
+    if (prnt.plot) graphics::plot(baseplot)
     # concatenate plot object
     plotlist[[length(plotlist) + 1]] <- baseplot
     dflist[[length(dflist) + 1]] <- intdf

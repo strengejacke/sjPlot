@@ -12,7 +12,7 @@ sjp.scatter(x = NULL, y = NULL, grp = NULL, title = "",
   fit.line = FALSE, show.ci = FALSE, fitmethod = "lm",
   jitter.dots = FALSE, emph.dots = FALSE, auto.jitter = TRUE,
   jitter.ratio = 0.15, show.rug = FALSE, show.legend = TRUE,
-  facet.grid = FALSE, printPlot = TRUE)
+  facet.grid = FALSE, prnt.plot = TRUE)
 }
 \arguments{
 \item{x}{vector indicating the x positions. If not specified (i.e. if
@@ -103,7 +103,7 @@ function, a legend is added to the plot.}
 \item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
 in a grid of an integrated single plot.}
 
-\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{

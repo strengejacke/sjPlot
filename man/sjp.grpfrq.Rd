@@ -17,7 +17,7 @@ sjp.grpfrq(var.cnt, var.grp, type = c("bar", "dot", "line", "boxplot",
   grid.breaks = NULL, expand.grid = FALSE, inner.box.width = 0.15,
   inner.box.dotsize = 3, smooth.lines = FALSE, emph.dots = TRUE,
   summary.pos = "r", facet.grid = FALSE, coord.flip = FALSE,
-  y.offset = NULL, vjust = "bottom", hjust = "center", printPlot = TRUE)
+  y.offset = NULL, vjust = "bottom", hjust = "center", prnt.plot = TRUE)
 }
 \arguments{
 \item{var.cnt}{vector of counts, for which frequencies or means will be plotted or printed.}
@@ -168,7 +168,7 @@ labels. Allowed are same values as for \code{vjust} aesthetics from
 new options like "inward" and "outward", which align text towards and 
 away from the center of the plot respectively.}
 
-\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{

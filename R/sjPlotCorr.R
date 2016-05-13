@@ -106,7 +106,7 @@ sjp.corr <- function(data,
                      show.values = TRUE,
                      show.p = TRUE,
                      p.numeric = FALSE,
-                     printPlot = TRUE) {
+                     prnt.plot = TRUE) {
   # --------------------------------------------------------
   # check p-value-style option
   # --------------------------------------------------------
@@ -324,7 +324,7 @@ sjp.corr <- function(data,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (printPlot) graphics::plot(corrPlot)
+  if (prnt.plot) graphics::plot(corrPlot)
   # -------------------------------------
   # return results
   # -------------------------------------

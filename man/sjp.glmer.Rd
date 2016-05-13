@@ -12,7 +12,7 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL,
   show.intercept = TRUE, string.interc = "(Intercept)", fade.ns = FALSE,
   ylim = NULL, digits = 2, vline.type = 2, vline.color = "grey70",
   facet.grid = TRUE, free.scale = FALSE, y.offset = 0.1,
-  printPlot = TRUE, ...)
+  prnt.plot = TRUE, ...)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{glmer}}-function.}
@@ -132,7 +132,7 @@ the grid has the same scale range.}
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
-\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 
 \item{...}{other arguments, passed down to the \code{\link[effects]{effect}} resp. 

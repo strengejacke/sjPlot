@@ -125,7 +125,7 @@ sjp.scatter <- function(x = NULL,
                         show.rug = FALSE,
                         show.legend = TRUE,
                         facet.grid = FALSE,
-                        printPlot = TRUE) {
+                        prnt.plot = TRUE) {
   # ------------------------
   # check if suggested packages are available
   # ------------------------
@@ -346,7 +346,7 @@ sjp.scatter <- function(x = NULL,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (printPlot) graphics::plot(scatter)
+  if (prnt.plot) graphics::plot(scatter)
   # -------------------------------------
   # return results
   # -------------------------------------

@@ -13,7 +13,7 @@ sjp.int(fit, type = c("eff", "cond", "emm"), int.term = NULL,
   geom.size = NULL, fill.color = "grey", fill.alpha = 0.3,
   show.values = FALSE, show.ci = FALSE, p.kr = TRUE, grid.breaks = NULL,
   xlim = NULL, ylim = NULL, y.offset = 0.07, digits = 2,
-  facet.grid = FALSE, printPlot = TRUE, ...)
+  facet.grid = FALSE, prnt.plot = TRUE, ...)
 }
 \arguments{
 \item{fit}{the fitted (generalized) linear (mixed) model object, including interaction terms. Accepted model
@@ -146,7 +146,7 @@ to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 \item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
 in a grid of an integrated single plot.}
 
-\item{printPlot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
+\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 
 \item{...}{other arguments, passed down to the \code{\link[effects]{effect}} resp. 

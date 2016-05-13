@@ -151,7 +151,7 @@ sjp.glm <- function(fit,
                     coord.flip = TRUE,
                     y.offset = .15,
                     facet.grid = TRUE,
-                    printPlot = TRUE,
+                    prnt.plot = TRUE,
                     ...) {
   # --------------------------------------------------------
   # check arg
@@ -180,17 +180,17 @@ sjp.glm <- function(fit,
   # --------------------------------------------------------
   if (type == "slope") {
     return(invisible(sjp.glm.slope(fit, title, geom.size, remove.estimates, vars,
-                                   ylim = axis.lim, show.ci, facet.grid, printPlot)))
+                                   ylim = axis.lim, show.ci, facet.grid, prnt.plot)))
   }
   if (type == "eff") {
     return(invisible(sjp.glm.eff(fit, title, geom.size, remove.estimates, vars,
                                  show.ci, ylim = axis.lim, facet.grid, fun = "glm", 
-                                 printPlot, ...)))
+                                 prnt.plot, ...)))
   }
   if (type == "pred") {
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
                                    geom.colors, show.ci, geom.size, ylim = axis.lim,
-                                   facet.grid, type = "fe", show.loess = F, printPlot)))
+                                   facet.grid, type = "fe", show.loess = F, prnt.plot)))
   }
   if (type == "ma") {
     return(invisible(sjp.glm.ma(fit)))
@@ -505,7 +505,7 @@ sjp.glm <- function(fit,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (printPlot) print(plotHeader)
+  if (prnt.plot) graphics::plot(plotHeader)
   # -------------------------------------
   # set proper column names
   # -------------------------------------
@@ -523,7 +523,7 @@ sjp.glm <- function(fit,
 
 #' @importFrom stats predict coef formula model.frame
 sjp.glm.slope <- function(fit, title, geom.size, remove.estimates, vars,
-                          ylim, show.ci, facet.grid, printPlot) {
+                          ylim, show.ci, facet.grid, prnt.plot) {
   # check size argument
   if (is.null(geom.size)) geom.size <- .7
   # ----------------------------
@@ -749,12 +749,12 @@ sjp.glm.slope <- function(fit, title, geom.size, remove.estimates, vars,
   # --------------------------
   # plot plots
   # --------------------------
-  if (printPlot) {
+  if (prnt.plot) {
     if (facet.grid && !is.null(plot.facet)) {
-      print(plot.facet)
+      graphics::plot(plot.facet)
     } else {
       for (i in 1:length(plot.metricpred)) {
-        print(plot.metricpred[[i]])
+        graphics::plot(plot.metricpred[[i]])
       }
     }
   }
@@ -780,7 +780,7 @@ sjp.glm.predy <- function(fit,
                           facet.grid,
                           type = "fe",
                           show.loess = FALSE,
-                          printPlot) {
+                          prnt.plot) {
   # -----------------------------------------------------------
   # check class of fitted model
   # -----------------------------------------------------------
@@ -961,7 +961,7 @@ sjp.glm.predy <- function(fit,
   # --------------------------
   # plot plots
   # --------------------------
-  if (printPlot) print(mp)
+  if (prnt.plot) graphics::plot(mp)
   return(structure(class = c("sjPlot", "sjpglm.ppresp"),
                    list(data = mydf, plot = mp)))
 }
