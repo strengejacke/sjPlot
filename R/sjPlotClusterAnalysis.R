@@ -520,6 +520,7 @@ sjc.dend <- function(data, groupcount, distance = "euclidean", agglomeration = "
 #'          whether a certain group is below or above the average classification goodness.
 #'
 #' @inheritParams sjc.cluster
+#' @inheritParams sjp.grpfrq
 #'
 #' @return (Invisibly) returns an object with
 #'           \itemize{

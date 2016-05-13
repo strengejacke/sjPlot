@@ -407,7 +407,7 @@ sjp.glmm <- function(...,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (prnt.plot) grpahics::plot(plotHeader)
+  if (prnt.plot) graphics::plot(plotHeader)
   # -------------------------------------
   # set proper column names
   # -------------------------------------

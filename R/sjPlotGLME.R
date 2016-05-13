@@ -86,6 +86,7 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.glm
+#' @inheritParams sjp.gpt
 #'
 #' @return (Insisibily) returns, depending on the plot type
 #'          \itemize{
@@ -393,6 +394,7 @@ sjp.glmer <- function(fit,
 #' @inheritParams sjp.glmer
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lm
+#' @inheritParams sjp.gpt
 #'
 #' @return (Insisibily) returns
 #'          \itemize{
