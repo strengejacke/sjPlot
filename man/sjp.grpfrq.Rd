@@ -36,8 +36,8 @@ is grouped into the categories represented by \code{var.grp}.}
   \item{\code{"violin"}}{for violin plots}
   }}
 
-\item{bar.pos}{indicates whether bars should be positioned side-by-side (default)
-or stacked (use \code{"stack"} as argument).}
+\item{bar.pos}{indicates whether bars should be positioned side-by-side (default),
+or stacked (\code{bar.pos = "stack"}). May be abbreviated.}
 
 \item{weight.by}{weight factor that will be applied to weight all cases.
 Must be a vector of same length as the input vector. Default is 

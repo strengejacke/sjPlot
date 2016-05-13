@@ -23,8 +23,8 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'          by \code{var.grp} into the factors of \code{intr.var}, so that each category of \code{var.grp}
 #'          is subgrouped into \code{intr.var}'s categories. Only applies when 
 #'          \code{type = "boxplot"} or \code{type = "violin"}.
-#' @param bar.pos indicates whether bars should be positioned side-by-side (default)
-#'          or stacked (use \code{"stack"} as argument).
+#' @param bar.pos indicates whether bars should be positioned side-by-side (default),
+#'          or stacked (\code{bar.pos = "stack"}). May be abbreviated.
 #' @param type Specifies the plot type. May be abbreviated.
 #'          \describe{
 #'            \item{\code{"bar"}}{for simple bars (default)}
@@ -226,6 +226,10 @@ sjp.grpfrq <- function(var.cnt,
   type <- match.arg(type)
   bar.pos <- match.arg(bar.pos)
   # --------------------------------------------------------
+  # turn off legend by default for facet grids
+  # --------------------------------------------------------
+  if (isTRUE(facet.grid) && missing(show.legend)) show.legend <- FALSE
+  # --------------------------------------------------------
   # Plot margins
   # --------------------------------------------------------
   if (isTRUE(expand.grid))
@@ -325,7 +329,16 @@ sjp.grpfrq <- function(var.cnt,
     if (missing(show.legend)) show.legend <- !is.null(intr.var)
   }
   if (is.null(axis.labels)) axis.labels <- mydat$labels.cnt
-  if (is.null(legend.labels)) legend.labels <- mydat$labels.grp
+  # we need to know later whether user has supplied legend labels or not
+  we_have_legend_labels <- FALSE
+  # check for auto-getting labels, ot if user passed legend labels as argument
+  if (is.null(legend.labels)) 
+    legend.labels <- mydat$labels.grp
+  else
+    we_have_legend_labels <- TRUE
+  # go to interaction terms. in this case, due to interaction, the axis
+  # labels become legend labels, but only if user has not specified
+  # legend labels yet. In the latter case, leave legend labels unchanged.
   if (is.null(intr.var.labels) && !is.null(intr.var)) {
     intr.var.labels <- sjmisc::get_labels(intr.var, attr.only = F, 
                                           include.values = F, include.non.labelled = T)
@@ -333,7 +346,8 @@ sjp.grpfrq <- function(var.cnt,
     intr.var.labels <- rep(intr.var.labels, length.out = length(axis.labels) * length(intr.var.labels))
     # we need a legend, cause x axis is labelled with interaction var value
     show.legend <- TRUE
-    legend.labels <- axis.labels
+    # has user specified legend labels before?
+    if (!we_have_legend_labels) legend.labels <- axis.labels
   }
   if (is.null(axisTitle.x)) axisTitle.x <- sjmisc::get_label(var.cnt, def.value = var.name.cnt)
   if (is.null(legend.title)) legend.title <- sjmisc::get_label(var.grp, def.value = var.name.grp)

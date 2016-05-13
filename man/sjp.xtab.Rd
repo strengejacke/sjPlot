@@ -31,8 +31,8 @@ calculating row percentages, \code{"col"} for column percentages and \code{"cell
 If \code{margin = "col"}, an additional bar with the total sum of each column
 can be added to the plot (see \code{show.total}).}
 
-\item{bar.pos}{indicates whether bars should be positioned side-by-side (default)
-or stacked (use \code{"stack"} as argument).}
+\item{bar.pos}{indicates whether bars should be positioned side-by-side (default),
+or stacked (\code{bar.pos = "stack"}). May be abbreviated.}
 
 \item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.}
