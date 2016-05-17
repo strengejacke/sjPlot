@@ -238,7 +238,7 @@ sjt.lm(fit1, fit2)
 sjt.lm(fit1, fit2, 
        depvar.labels = c("Barthel-Index", "Negative Impact"),
        pred.labels = c("Carer's Age", "Hours of Care", 
-                           "Carer's Sex", "Educational Status"))
+                       "Carer's Sex", "Educational Status"))
 
 # use vector names as labels
 sjt.lm(fit1, fit2, pred.labels = "")

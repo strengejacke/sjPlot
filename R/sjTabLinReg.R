@@ -153,7 +153,7 @@ utils::globalVariables(c("starts_with"))
 #' sjt.lm(fit1, fit2, 
 #'        depvar.labels = c("Barthel-Index", "Negative Impact"),
 #'        pred.labels = c("Carer's Age", "Hours of Care", 
-#'                            "Carer's Sex", "Educational Status"))
+#'                        "Carer's Sex", "Educational Status"))
 #' 
 #' # use vector names as labels
 #' sjt.lm(fit1, fit2, pred.labels = "")
@@ -702,13 +702,17 @@ sjt.lm <- function(...,
   # -------------------------------------
   if (is.null(pred.labels)) {
     pred.labels <- suppressWarnings(retrieveModelLabels(input_list, group.pred = group.pred))
+    # remove labels from removed estimates. we need "-1" here, because removed
+    # estimates start counting with the intercept, while predictor label counting
+    # starts with first estimate after intercept
+    if (!is.null(keep.estimates)) pred.labels <- pred.labels[keep.estimates - 1]
   }
   # --------------------------------------------------------
   # auto-retrieving variable labels does not work when we
   # have factors with different levels, which appear as 
   # "multiple predictors", but are only one variable
   # --------------------------------------------------------
-  if (is.null(pred.labels) || length(pred.labels) < length(joined.df[-1, 1])) {
+  if (is.null(pred.labels) || length(pred.labels) < (nrow(joined.df) - 1)) {
     pred.labels <- joined.df[-1, 1]
   }
   # -------------------------------------
@@ -759,11 +763,10 @@ sjt.lm <- function(...,
       if (separate.ci.col) {
         # open table cell for Beta-coefficient
         page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign %smodelcolumn1\">%s", 
-                                                     tcb_class, 
-                                                     joined.df[1, (i - 1) * 8 + 2]))
+                                                     tcb_class, joined.df[1, (i - 1) * 8 + 2]))
         # if p-values are not shown as numbers, insert them after beta-value
-        if (!p.numeric) page.content <- paste0(page.content, sprintf("&nbsp;%s", 
-                                                                            joined.df[1, (i - 1) * 8 + 5]))
+        if (!p.numeric) page.content <- paste0(page.content, 
+                                               sprintf("&nbsp;%s", joined.df[1, (i - 1) * 8 + 5]))
         # if we have CI, start new table cell (CI in separate column)
         if (show.ci) {
           page.content <- paste0(page.content, sprintf("</td><td class=\"tdata centeralign %smodelcolumn2\">%s%s%s</td>", 

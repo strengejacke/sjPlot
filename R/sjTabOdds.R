@@ -504,13 +504,17 @@ sjt.glm <- function(...,
   # -------------------------------------
   if (is.null(pred.labels)) {
     pred.labels <- suppressWarnings(retrieveModelLabels(input_list, group.pred = group.pred))
+    # remove labels from removed estimates. we need "-1" here, because removed
+    # estimates start counting with the intercept, while predictor label counting
+    # starts with first estimate after intercept
+    if (!is.null(keep.estimates)) pred.labels <- pred.labels[keep.estimates - 1]
   }
   # --------------------------------------------------------
   # auto-retrieving variable labels does not work when we
   # have factors with different levels, which appear as 
   # "multiple predictors", but are only one variable
   # --------------------------------------------------------
-  if (is.null(pred.labels) || length(pred.labels) < length(joined.df[-1, 1])) {
+  if (is.null(pred.labels) || length(pred.labels) < (nrow(joined.df) - 1)) {
     pred.labels <- joined.df[-1, 1]
   }
   # -------------------------------------

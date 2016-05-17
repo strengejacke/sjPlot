@@ -439,16 +439,16 @@ sjt.frq <- function(data,
     # check if we have a string-vector
     if (is.character(data[[cnt]])) {
       # convert string to numeric
-      orivar <- var <- as.numeric(as.factor(data[[cnt]]))
+      orivar <- varia <- as.numeric(as.factor(data[[cnt]]))
       # here we have numeric or factor variables
     } else {
       # convert to numeric
-      orivar <- var <- sjmisc::to_value(data[[cnt]], keep.labels = F)
+      orivar <- varia <- sjmisc::to_value(data[[cnt]], keep.labels = F)
     }
     # retrieve summary
-    varsummary <- summary(var)
+    varsummary <- summary(varia)
     # retrieve median
-    var.median <- varsummary[[3]]
+    var.median <- stats::median(varia, na.rm = TRUE)
     # retrieve quartiles
     var.lowerq <- round(varsummary[[2]])
     var.upperq <- round(varsummary[[5]])
@@ -467,9 +467,9 @@ sjt.frq <- function(data,
     #---------------------------------------------------
     if (!is.logical(o.skip.zero)) {
       # retrieve range of values
-      vonbis <- max(var, na.rm = T) - min(var, na.rm = T)
+      vonbis <- max(varia, na.rm = T) - min(varia, na.rm = T)
       # retrieve count of unique values
-      anzval <- stats::na.omit(unique(var))
+      anzval <- stats::na.omit(unique(varia))
       # check proportion of possible values and actual values
       # if we have more than 25% of zero-values, or if we have
       # in general a large variable range, skip zero-rows.
@@ -570,7 +570,7 @@ sjt.frq <- function(data,
     # -------------------------------------
     if (show.summary) {
       # sum of frequencies is total N. Use these numbers
-      # instead of "length(var)", because weighted data
+      # instead of "length(varia)", because weighted data
       # has different N
       vartot <- sum(df$frq, na.rm = T)
       # last element in df$frq is amount of missings,

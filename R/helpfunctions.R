@@ -248,7 +248,7 @@ create.frq.df <- function(x,
   # "rename" NA values
   # -------------------------------------
   if (!is.null(mydat$label)) mydat$label[is.na(mydat$label)] <- "NA"
-  suppressMessages(sjmisc::replace_na(mydat$val) <- nrow(mydat))
+  suppressMessages(sjmisc::replace_na(mydat$val) <- max(sjmisc::to_value(mydat$val), na.rm = T) + 1)
   # save original order
   mydat$order <- sjmisc::to_value(mydat$val, keep.labels = F)
   # sort for x-axis

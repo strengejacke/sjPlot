@@ -335,17 +335,21 @@ sjp.frq <- function(var.cnt,
       # what is the maximum values after binning for histograms?
       hist.grp.cnt <- ceiling(diff(range(var.cnt, na.rm = T)) / geom.size)
       # ... or the amount of max. answers per category
-      # add 5% margin to upper limit
+      # add 10% margin to upper limit
       upper_lim <- max(pretty(table(sjmisc::group_var(var.cnt, 
                                                       groupsize = "auto", 
-                                                      groupcount = hist.grp.cnt)) * 1.05))
+                                                      groupcount = hist.grp.cnt)) * 1.1))
     } else {
       if (show.ci)
-        upper_lim <- max(pretty(mydat$upper.ci * 1.05))
+        upper_lim <- max(pretty(mydat$upper.ci * 1.1))
       else
-        upper_lim <- max(pretty(table(var.cnt) * 1.05))
+        upper_lim <- max(pretty(table(var.cnt) * 1.1))
     }
   }
+  # --------------------------------------------------------
+  # If we want to include NA, use raw percentages as valid percentages
+  # --------------------------------------------------------
+  if (show.na) mydat$valid.prc <- mydat$raw.prc
   # --------------------------------------------------------
   # Set value labels
   # --------------------------------------------------------
