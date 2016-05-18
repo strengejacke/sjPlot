@@ -1,4 +1,4 @@
-Version 1.9.4-9
+Version 2.0.0
 -----------------------------------------------------------------------------
 Major changes:
 * This package update includes a major revision of function arguments and their naming, in order to get a consistent argument pattern across all package functions. This means that your existing code, which uses **sjPlot**-package-functions, most likely needs adaptions to work again.

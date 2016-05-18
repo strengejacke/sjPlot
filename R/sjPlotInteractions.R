@@ -409,7 +409,7 @@ sjp.int <- function(fit,
                        title, fill.alpha, geom.colors, geom.size, axis.title,
                        legend.title, legend.labels, show.values, wrap.title, wrap.legend.labels, 
                        wrap.legend.title, xlim, ylim, y.offset, grid.breaks, 
-                       show.ci, facet.grid, prnt.plot, fun, ...))
+                       show.ci, p.kr, facet.grid, prnt.plot, fun, ...))
   }
   # -----------------------------------------------------------
   # set axis title
@@ -452,6 +452,10 @@ sjp.int <- function(fit,
   # that should not be plotted. but be careful for out of bound index!
   if (!is.null(int.plot.index) && !any(int.plot.index > length(intnames))) intnames <- intnames[int.plot.index]
   # -----------------------------------------------------------
+  # get model frame, needed later for label detection
+  # -----------------------------------------------------------
+  modfram <- stats::model.frame(fit)
+  # -----------------------------------------------------------
   # Now iterate all significant interaction terms
   # and manually calculate the linear regression by inserting
   # the estimates of each term and the associated interaction term,
@@ -465,7 +469,8 @@ sjp.int <- function(fit,
     interactionterms <- unlist(strsplit(intnames[cnt], ":"))
     labx <- c()
     # Label on y-axis is name of dependent variable
-    laby <- paste0("Change in ", git[["depvar.label"]])
+    laby <- paste0("Change in ", sjmisc::get_label(modfram[[git[["depvar.label"]]]], 
+                                                   def.value = git[["depvar.label"]]))
     # -----------------------------------------------------------
     # find estimates (beta values) for each single predictor of
     # the interaction as well as of the interaction term
@@ -510,7 +515,8 @@ sjp.int <- function(fit,
     # calculate regression line
     # -----------------------------------------------------------
     if (useFirstPredOnY) {
-      labx <- interactionterms[1]
+      labx <- sjmisc::get_label(modfram[[interactionterms[1]]], 
+                                def.value = interactionterms[1])
       predy <- interactionterms[2]
       # -----------------------------------------------------------
       # define predictor and moderator values
@@ -522,7 +528,8 @@ sjp.int <- function(fit,
       # -----------------------------------------------------------
       b.pred <- b1
     } else {
-      labx <- interactionterms[2]
+      labx <- sjmisc::get_label(modfram[[interactionterms[2]]], 
+                                def.value = interactionterms[2])
       predy <- interactionterms[1]
       # -----------------------------------------------------------
       # define predictor and moderator values
@@ -688,34 +695,44 @@ sjp.int <- function(fit,
       labtitle <- title[l_nr]
     }
     # -----------------------------------------------------------
+    # get model frame, needed for label detection
+    # -----------------------------------------------------------
+    modfram <- stats::model.frame(fit)
+    modfound <- modfram[[predy]]
+    # -----------------------------------------------------------
     # legend labels
     # -----------------------------------------------------------
     if (is.null(legend.labels)) {
-      # lLabels <- NULL
-      # # ---------------------------------
-      # # find moderator variable in data
-      # # ---------------------------------
-      # modfram <- stats::model.frame(fit)
-      # modfound <- sapply(colnames(modfram), 
-      #                    function(x) grepl(pattern = x, x = predy, fixed = T))
-      # # anything found?
-      # if (any(modfound)) {
-      #   # if it's a factor, we may use labels here
-      #   if (is.factor(modfram[[names(which(modfound))]]))
-      #     lLabels <- sjmisc::get_labels(modfram[[names(which(modfound))]], attr.only = F)
-      # }
-      # if we still have no labels, prepare generic labels
-      # if (is.null(lLabels)) {
-      if (mdrt.values == "minmax") {
-        lLabels <- c(paste0("lower bound of ", predy), paste0("upper bound of ", predy))
-      } else if (mdrt.values == "meansd") {
-        lLabels <- c(paste0("lower sd of ", predy), paste0("upper sd of ", predy), paste0("mean of ", predy))
-      } else if (mdrt.values == "quart") {
-        lLabels <- c(paste0("lower quartile of ", predy), paste0("upper quartile of ", predy), paste0("median of ", predy))
+      # ---------------------------------
+      # find moderator variable in data
+      # ---------------------------------
+      if (!is.null(modfound)) {
+        lLabels <- sjmisc::get_labels(modfound, attr.only = F)
       } else {
-        lLabels <- c(paste0("0 for ", predy), paste0("upper bound of ", predy))
+        lLabels <- NULL
       }
-      # }
+      # if we still have no labels, prepare generic labels
+      if (is.null(lLabels)) {
+        if (mdrt.values == "minmax") {
+          lLabels <- c(paste0("lower bound of ", predy), paste0("upper bound of ", predy))
+        } else if (mdrt.values == "meansd") {
+          lLabels <- c(paste0("lower sd of ", predy), paste0("upper sd of ", predy), paste0("mean of ", predy))
+        } else if (mdrt.values == "quart") {
+          lLabels <- c(paste0("lower quartile of ", predy), paste0("upper quartile of ", predy), paste0("median of ", predy))
+        } else {
+          lLabels <- c(paste0("0 for ", predy), paste0("upper bound of ", predy))
+        }
+      } else {
+        if (mdrt.values == "minmax") {
+          lLabels <- lLabels[c(1, length(lLabels))]
+        } else if (mdrt.values == "meansd") {
+          lLabels <- c(paste0("lower sd of ", predy), paste0("upper sd of ", predy), paste0("mean of ", predy))
+        } else if (mdrt.values == "quart") {
+          lLabels <- c(paste0("lower quartile of ", predy), paste0("upper quartile of ", predy), paste0("median of ", predy))
+        } else {
+          lLabels <- c(paste0("0 for ", predy), lLabels[length(lLabels)])
+        }
+      }
     } else {
       # copy plot counter 
       l_nr <- cnt
@@ -728,7 +745,7 @@ sjp.int <- function(fit,
     # legend titles
     # -----------------------------------------------------------
     if (is.null(legend.title)) {
-      lTitle <- predy
+      lTitle <- sjmisc::get_label(modfound, def.value = predy)
     } else {
       # copy plot counter 
       l_nr <- cnt
@@ -876,6 +893,7 @@ sjp.eff.int <- function(fit,
                         y.offset = 0.07,
                         grid.breaks = NULL,
                         show.ci = FALSE,
+                        p.kr = FALSE,
                         facet.grid = FALSE,
                         prnt.plot = TRUE,
                         fun,
@@ -966,6 +984,7 @@ sjp.eff.int <- function(fit,
     labx <- sjmisc::get_label(stats::model.frame(fit)[[pred_x.name]], def.value = pred_x.name)
     # check whether x-axis-predictor is a factor or not
     x_is_factor <- is.factor(intdf[[pred_x.name]]) || (length(unique(na.omit(intdf[[pred_x.name]]))) < 3)
+    mod_is_factor <- is.factor(intdf[[moderator.name]])
     # -----------------------------------------------------------
     # check for moderator values, but only, if moderator 
     # is no factor value. In this case, we can choose
@@ -973,7 +992,7 @@ sjp.eff.int <- function(fit,
     # e.g. only min/max, or mean and sd. We don't need these
     # values for categorical moderator values.
     # -----------------------------------------------------------
-    if (!is.factor(intdf[[moderator.name]])) {
+    if (!mod_is_factor) {
       # retrieve moderator value
       modval <- dummy.eff$data[[moderator.name]]
       # retrieve predictor value
@@ -1024,14 +1043,14 @@ sjp.eff.int <- function(fit,
       # combine lists
       if (is.null(int.term)) {
         # re-compute effects
-        eff.tmp <- effects::allEffects(fit, xlevels = c(xl1, xl2), KR = F, 
+        eff.tmp <- effects::allEffects(fit, xlevels = c(xl1, xl2), KR = p.kr, 
                                        confidence.level = eci, ...)
         # reset data frame
         intdf <- data.frame(eff.tmp[[intpos[i]]])
       } else {
         # re-compute effects
         eff.tmp <- effects::effect(int.term, fit, xlevels = c(xl1, xl2), 
-                                   KR = F, confidence.level = eci, ...)
+                                   KR = p.kr, confidence.level = eci, ...)
         # reset data frame
         intdf <- data.frame(eff.tmp)
       }
@@ -1040,7 +1059,7 @@ sjp.eff.int <- function(fit,
       # is no factor, select whole range of possible
       # values.
       # -----------------------------------------------------------
-    } else if (!is.factor(intdf[[pred_x.name]])) {
+    } else if (!x_is_factor) {
       # retrieve predictor value
       predval <- dummy.eff$data[[pred_x.name]]
       # add values of interaction term
@@ -1053,13 +1072,13 @@ sjp.eff.int <- function(fit,
       # combine lists
       if (is.null(int.term)) {
         # re-compute effects
-        eff.tmp <- effects::allEffects(fit, xlevels = xl,  KR = F,
+        eff.tmp <- effects::allEffects(fit, xlevels = xl,  KR = p.kr,
                                        confidence.level = eci, ...)
         # reset data frame
         intdf <- data.frame(eff.tmp[[intpos[i]]])
       } else {
         # re-compute effects
-        eff.tmp <- effects::effect(int.term, fit, xlevels = xl, KR = F,
+        eff.tmp <- effects::effect(int.term, fit, xlevels = xl, KR = p.kr,
                                    confidence.level = eci, ...)
         # reset data frame
         intdf <- data.frame(eff.tmp)
@@ -1080,7 +1099,9 @@ sjp.eff.int <- function(fit,
     intdf <- droplevels(intdf)
     # group as factor
     intdf$grp <- factor(intdf$grp, levels = unique(as.character(intdf$grp)))
+    # reset labels
     x_labels <- NULL
+    lLabels <- NULL
     # does model have labels? we want these if x is a factor.
     # first we need to know whether we have a model-data-frame
     if (x_is_factor) {
@@ -1206,8 +1227,11 @@ sjp.eff.int <- function(fit,
     # legend labels
     # -----------------------------------------------------------
     if (is.null(legend.labels)) {
-      # try to get labels
-      lLabels <- sjmisc::get_labels(stats::model.frame(fit)[[moderator.name]], attr.only = F)
+      # try to get labels, but only for factors
+      if (mod_is_factor) {
+        lLabels <- sjmisc::get_labels(stats::model.frame(fit)[[moderator.name]], 
+                                      attr.only = F)
+      }
       # if we still have no labels, get values from group
       if (is.null(lLabels)) lLabels <- unique(as.character(intdf$grp))
     } else {
@@ -1228,7 +1252,8 @@ sjp.eff.int <- function(fit,
     # legend titles
     # -----------------------------------------------------------
     if (is.null(legend.title)) {
-      lTitle <- sjmisc::get_label(stats::model.frame(fit)[[moderator.name]], def.value = moderator.name)
+      lTitle <- sjmisc::get_label(stats::model.frame(fit)[[moderator.name]], 
+                                  def.value = moderator.name)
     } else {
       # copy plot counter 
       l_nr <- i
@@ -1415,7 +1440,7 @@ getInteractionTerms <- function(fit, fun, plevel, p.kr) {
       # retrieve model matrix
       fitdat <- data.frame(cbind(as.vector(fit$model[, 1]), stats::model.matrix(fit)))
     } else {
-      depvar.label <- attr(attr(fit$terms, "dataClasses"), "names")[1]
+      depvar.label <- colnames(stats::model.frame(fit))[1]
       # retrieve model matrix
       fitdat <- data.frame(stats::model.matrix(fit))
     }

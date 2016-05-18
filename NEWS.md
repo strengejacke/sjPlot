@@ -1,4 +1,4 @@
-# sjPlot 1.9.4-9
+# sjPlot 2.0.0
 
 ## Major changes
 
