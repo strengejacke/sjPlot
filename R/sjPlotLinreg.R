@@ -340,7 +340,7 @@ sjp.lm <- function(fit,
   }
   if (type == "eff") {
     return(invisible(sjp.glm.eff(fit, title, geom.size, remove.estimates, vars,
-                                 show.ci, ylim = NULL, facet.grid,
+                                 show.ci, ylim = axis.lim, facet.grid,
                                  fun = "lm", prnt.plot, ...)))
   }
   if (type == "ma") {
@@ -678,8 +678,9 @@ sjp.reglin <- function(fit,
     # -----------------------------------------------------------
     # plot jittered values if requested
     # -----------------------------------------------------------
-    if (scatter.plot) reglinplot <- reglinplot + geom_jitter(alpha = point.alpha,
-                                                             colour = pointColor)
+    if (scatter.plot) {
+      reglinplot <- reglinplot + geom_jitter(alpha = point.alpha, colour = pointColor)
+    }
     # -----------------------------------------------------------
     # check whether additional loess-line should be plotted
     # -----------------------------------------------------------
@@ -698,12 +699,21 @@ sjp.reglin <- function(fit,
     # y-axis limit
     # -----------------------------------------------------------
     if (!is.null(ylim)) {
-      reglinplot <- reglinplot + ylim(ylim)
+      # find current loop index
+      loopcnt <- which(p_v == predvars)
+      # if we have one axis limits range for all plots, use this here
+      if (!is.list(ylim) && length(ylim) == 2) {
+        reglinplot <- reglinplot + ylim(ylim)
+      } else if (is.list(ylim) && length(ylim) >= loopcnt) {
+        # we may have multiple axis-limits-values, one pair for
+        # each plot. so check for correct length here
+        reglinplot <- reglinplot + ylim(ylim[[loopcnt]])
+      }
     }
     # ---------------------------------------------------------
     # Check whether ggplot object should be returned or plotted
     # ---------------------------------------------------------
-    # concatenate plot object
+    # add plot object to list
     plotlist[[length(plotlist) + 1]] <- reglinplot
     dflist[[length(dflist) + 1]] <- mydat
     # print plot

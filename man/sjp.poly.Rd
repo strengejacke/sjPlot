@@ -7,7 +7,7 @@
 sjp.poly(x, poly.term, poly.degree, poly.scale = FALSE, fun = NULL,
   axis.title = NULL, scatter.plot = TRUE, show.loess = TRUE,
   show.loess.ci = TRUE, show.p = TRUE, geom.colors = NULL,
-  geom.size = 0.8, loessLineColor = "#808080", point.color = "#404040",
+  geom.size = 0.8, loess.color = "#808080", point.color = "#404040",
   point.alpha = 0.2, prnt.plot = TRUE)
 }
 \arguments{
@@ -54,7 +54,7 @@ printed to the console.}
 depending on plot type and function). Note that bar and bin widths mostly 
 need smaller values than dot sizes.}
 
-\item{loessLineColor}{color of the loess-smoothed line. Only applies, if \code{show.loess = TRUE}.}
+\item{loess.color}{color of the loess-smoothed line. Only applies, if \code{show.loess = TRUE}.}
 
 \item{point.color}{color of the scatter plot's point. Only applies, if \code{scatter.plot = TRUE}.}
 

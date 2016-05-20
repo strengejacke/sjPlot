@@ -43,7 +43,11 @@ argument, since in most cases, axis labels are set automatically.}
 a default labelling depending on the plot function and type is chosen.}
 
 \item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
-Depending on plot type, may effect either x- or y-axis, or both.}
+Depending on plot type, may effect either x- or y-axis, or both.
+For multiple plot outputs (e.g., from \code{type = "eff"} or 
+\code{type = "slope"} in \code{\link{sjp.glm}}), \code{axis.lim} may
+also be a list of vectors of length 2, defining axis limits for each
+plot (only if non-faceted).}
 
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}

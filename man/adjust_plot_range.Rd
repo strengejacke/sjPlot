@@ -4,13 +4,13 @@
 \alias{adjust_plot_range}
 \title{Adjust y range of ggplot-objects}
 \usage{
-adjust_plot_range(gp, upperMargin = 1.05)
+adjust_plot_range(gp, upper.mrgn = 1.05)
 }
 \arguments{
 \item{gp}{A ggplot-object. Usually, this will be returned by most of this
 package's plotting functions.}
 
-\item{upperMargin}{Defines the new margin of the upper y-bound of the plot. This value will
+\item{upper.mrgn}{Defines the new margin of the upper y-bound of the plot. This value will
 be multiplied with \code{gp}'s current total y-range. Default is 1.05, which means
 that the upper margin of the new plot's "visible" plot area will be increased
 by 5 percent. (i.e. the y-range is 105 percent of the original range,

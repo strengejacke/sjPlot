@@ -697,9 +697,8 @@ sjp.glm.slope <- function(fit, title, geom.size, remove.estimates, vars,
                       size = geom.size,
                       colour = "black")
       }
-      # y-limits for binomial models
-      if (binom_fam)
-        mp <- mp + coord_cartesian(ylim = y.limits)
+      # y-limits
+      mp <- mp + coord_cartesian(ylim = y.limits)
       # add plot to list
       plot.metricpred[[length(plot.metricpred) + 1]] <- mp
     }
@@ -737,9 +736,8 @@ sjp.glm.slope <- function(fit, title, geom.size, remove.estimates, vars,
                    ncol = round(sqrt(length(mydf.metricpred))),
                    scales = "free_x") +
         guides(colour = FALSE)
-      # y-limits for binomial models
-      if (binom_fam)
-        mp <- mp + coord_cartesian(ylim = y.limits)
+      # y-limits
+      mp <- mp + coord_cartesian(ylim = y.limits)
       # add integrated plot to plot list
       plot.facet <- mp
       # add integrated data frame to plot list
@@ -941,12 +939,22 @@ sjp.glm.predy <- function(fit,
                                          se = F,
                                          size = geom.size,
                                          colour = "darkred")
+  # ---------------------------------------------------------
+  # coord-system for y-axis limits
+  # cartesian coord still plots range of se, even
+  # when se exceeds plot range.
+  # ---------------------------------------------------------
+  # add percentage labels for binomial family
   if (binom_fam) {
-    # cartesian coord still plots range of se, even
-    # when se exceeds plot range.
-    mp <- mp + coord_cartesian(ylim = ylim) +
-      scale_y_continuous(labels = scales::percent)
+    mp <- mp + 
+      scale_y_continuous(labels = scales::percent) +
+      coord_cartesian(ylim = ylim)
+  } else {
+    mp <- mp + ylim(ylim)    
   }
+  # ---------------------------------------------------------
+  # facet grid, if we have grouping variable
+  # ---------------------------------------------------------
   if (facet.grid && length(vars) == 2) {
     mp <- mp + 
       facet_wrap(~grp, ncol = round(sqrt(length(unique(mydf$grp)))), 

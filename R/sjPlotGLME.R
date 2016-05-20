@@ -794,7 +794,7 @@ sjp.lme4  <- function(fit,
     # depending on random intercept levels
     # ---------------------------------------
     if (fun == "lm") {
-      return(invisible(sjp.lmer.ri.slope(fit, ri.nr, vars, emph.grp, geom.size, prnt.plot)))
+      return(invisible(sjp.lmer.ri.slope(fit, ri.nr, vars, emph.grp, ylim = axis.lim, geom.size, prnt.plot)))
     } else {
       return(invisible(sjp.glmer.ri.slope(fit, show.ci, facet.grid, ri.nr, vars,
                                           emph.grp, ylim = axis.lim, prnt.plot)))
@@ -1412,19 +1412,28 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
             labs(x = NULL, y = y.title,
                  title = sprintf("%s of %s on %s", y.title, pred.name, response.name))
           # ------------------------------
-          # check axis limits
+          # prepare default y-axis limits
           # ------------------------------
-          if (is.null(ylim)) {
-            y.limits <- c(as.integer(floor(10 * min(final.df$prob, na.rm = T) * .9)) / 10,
-                          as.integer(ceiling(10 * max(final.df$prob, na.rm = T) * 1.1)) / 10)
-          } else {
-            y.limits <- ylim
-          }
+          y.limits <- c(as.integer(floor(10 * min(final.df$prob, na.rm = T) * .9)) / 10,
+                        as.integer(ceiling(10 * max(final.df$prob, na.rm = T) * 1.1)) / 10)
+          # ------------------------------
+          # check axis limits, if we have user defined values
+          # ------------------------------
+          if (!is.null(ylim)) {
+            # if we have one axis limits range for all plots, use this here
+            if (!is.list(ylim) && length(ylim) == 2) {
+              y.limits <- ylim
+            } else if (is.list(ylim) && length(ylim) >= i) {
+              # we may have multiple axis-limits-values here, one pair for
+              # each plot. so check for correct length here
+              y.limits <- ylim[[i]]
+            }
+          } 
+          # ---------------------------------------------------------
           # cartesian coord still plots range of se, even
           # when se exceeds plot range.
-          # y-limits for binomial models
-          if (binom_fam)
-            mp <- mp + coord_cartesian(ylim = y.limits)
+          # ---------------------------------------------------------
+          mp <- mp + coord_cartesian(ylim = y.limits)
           # ---------------------------------------------------------
           # wrap to facets
           # ---------------------------------------------------------
@@ -1466,7 +1475,7 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
 }
 
 
-sjp.lmer.ri.slope <- function(fit, ri.nr, vars, emph.grp, geom.size, prnt.plot) {
+sjp.lmer.ri.slope <- function(fit, ri.nr, vars, emph.grp, ylim, geom.size, prnt.plot) {
   # check size argument
   if (is.null(geom.size)) geom.size <- .7
   # -----------------------------------------------------------
@@ -1559,6 +1568,19 @@ sjp.lmer.ri.slope <- function(fit, ri.nr, vars, emph.grp, geom.size, prnt.plot) 
         labs(title = sprintf("Random effect \"%s\"", ri.name),
              x = fit.term.names[j],
              y = response.name)
+      # ------------------------------
+      # check axis limits, if we have user defined values
+      # ------------------------------
+      if (!is.null(ylim)) {
+        # if we have one axis limits range for all plots, use this here
+        if (!is.list(ylim) && length(ylim) == 2) {
+          gp <- gp + ylim(ylim)
+        } else if (is.list(ylim) && length(ylim) >= j) {
+          # we may have multiple axis-limits-values here, one pair for
+          # each plot. so check for correct length here
+          gp <- gp + ylim(ylim[[j]])
+        }
+      } 
       # ------------------------------
       # highlight specific groups?
       # ------------------------------
@@ -1974,10 +1996,6 @@ sjp.glm.eff <- function(fit,
                         fun,
                         prnt.plot,
                         ...) {
-  # ---------------------------------------
-  # check axis range
-  # ---------------------------------------
-  if (is.null(ylim)) ylim <- c(0, 1)
   # ------------------------
   # check if suggested package is available
   # ------------------------
@@ -2162,12 +2180,14 @@ sjp.glm.eff <- function(fit,
     # ------------------------
     # for logistic regression, use percentage scale
     # ------------------------
-    if (fun == "glm" && binom_fam) {
-      eff.plot <- eff.plot +
-        scale_y_continuous(labels = scales::percent)
-      # do we have axis limits?
-      if (!is.null(ylim))
+    if (fun == "glm" && binom_fam)
+      eff.plot <- eff.plot + scale_y_continuous(labels = scales::percent)
+    # do we have axis limits?
+    if (!is.null(ylim)) {
+      if (fun == "glm" && binom_fam)
         eff.plot <- eff.plot + coord_cartesian(ylim = ylim)
+      else
+        eff.plot <- eff.plot + ylim(ylim)
     }
     # ------------------------
     # print plot?
@@ -2187,12 +2207,33 @@ sjp.glm.eff <- function(fit,
       # ------------------------
       # for logistic regression, use percentage scale
       # ------------------------
-      if (fun == "glm" && binom_fam) {
-        eff.plot <- eff.plot +
-          scale_y_continuous(labels = scales::percent)
-        # do we have axis limits?
-        if (!is.null(ylim))
-          eff.plot <- eff.plot + coord_cartesian(ylim = ylim)
+      if (fun == "glm" && binom_fam)
+        eff.plot <- eff.plot + scale_y_continuous(labels = scales::percent)
+      # ------------------------
+      # do we have axis limits?
+      # ------------------------
+      y.limits <- NULL
+      if (!is.null(ylim)) {
+        # find current loop index
+        loopcnt <- which(i == unique(mydat$grp))
+        # if we have one axis limits range for all plots, use this here
+        if (!is.list(ylim) && length(ylim) == 2) {
+          y.limits <- ylim
+        } else if (is.list(ylim) && length(ylim) >= loopcnt) {
+          # we may have multiple axis-limits-values here, one pair for
+          # each plot. so check for correct length here
+          y.limits <- ylim[[loopcnt]]
+        }
+      }
+      # ---------------------------------------------------------
+      # cartesian coord still plots range of se, even
+      # when se exceeds plot range. only for binomial models
+      # ---------------------------------------------------------
+      if (!is.null(y.limits)) {
+        if (fun == "glm" && binom_fam)
+          eff.plot <- eff.plot + coord_cartesian(ylim = y.limits)
+        else
+          eff.plot <- eff.plot + ylim(y.limits)
       }
       # ------------------------
       # continuous or discrete scale?

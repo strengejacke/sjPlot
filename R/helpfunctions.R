@@ -733,7 +733,7 @@ get_model_response_label <- function(fit) {
 #'
 #' @param gp A ggplot-object. Usually, this will be returned by most of this
 #'          package's plotting functions.
-#' @param upperMargin Defines the new margin of the upper y-bound of the plot. This value will
+#' @param upper.mrgn Defines the new margin of the upper y-bound of the plot. This value will
 #'          be multiplied with \code{gp}'s current total y-range. Default is 1.05, which means
 #'          that the upper margin of the new plot's "visible" plot area will be increased
 #'          by 5 percent. (i.e. the y-range is 105 percent of the original range,
@@ -755,14 +755,14 @@ get_model_response_label <- function(fit) {
 #'
 #' @import ggplot2
 #' @export
-adjust_plot_range <- function(gp, upperMargin=1.05) {
+adjust_plot_range <- function(gp, upper.mrgn=1.05) {
   # retrieve y-range of original plot
   gp <- gp + scale_y_continuous(limits = NULL)
   # build ggplot object
   gy <- ggplot_build(gp)
   # calculate new limit
   ylo <- abs(gy$panel$ranges[[1]]$y.range[1])
-  yhi <- abs(gy$panel$ranges[[1]]$y.range[2] * upperMargin)
+  yhi <- abs(gy$panel$ranges[[1]]$y.range[2] * upper.mrgn)
   # change y scale
   gp <- gp + scale_y_continuous(expand = c(0, 0), limits = c(0, ylo + yhi))
   # return plot
