@@ -393,7 +393,7 @@ sjp.glm <- function(fit,
   # for plotting in the diagram later
   # ----------------------------
   if (show.summary) {
-    psr <- sjmisc::r2(fit)
+    psr <- sjstats::r2(fit)
     modsum <- as.character(as.expression(
       substitute("(Intercept)" == ic * "," ~~ italic(R)[CS]^2 == r2cs * "," ~~ italic(R)[N]^2 == r2n * "," ~~ -2 * lambda == la * "," ~~ chi^2 == c2 * "," ~~ "AIC" == aic,
                  list(ic = sprintf("%.2f", exp(stats::coef(fit)[1])),

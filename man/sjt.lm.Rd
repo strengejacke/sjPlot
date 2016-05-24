@@ -83,14 +83,14 @@ abbreviations for estimates, std. beta-values, confidence interval and p-values.
 
 \item{show.r2}{logical, if \code{TRUE} (default), the R2 and adjusted R2 values for each model are printed
 in the model summary. For linear mixed models, the R2 and Omega-squared values are printed
-(see \code{\link[sjmisc]{r2}} for details).}
+(see \code{\link[sjstats]{r2}} for details).}
 
 \item{show.icc}{logical, if \code{TRUE}, the intra-class-correlation for each 
 model is printed in the model summary. Only applies to mixed models.}
 
 \item{show.re.var}{logical, if \code{TRUE}, the variance parameters for the random
 effects for each model are printed in the model summary. Only applies to mixed models.
-For details output, see 'Note' in \code{\link[sjmisc]{icc}}.}
+For details output, see 'Note' in \code{\link[sjstats]{icc}}.}
 
 \item{show.fstat}{If \code{TRUE}, the F-statistics for each model is printed
 in the model summary. Default is \code{FALSE}.}

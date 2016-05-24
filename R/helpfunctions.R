@@ -141,6 +141,7 @@ get_var_name <- function(x) {
 
 # Create frequency data frame of a variable
 # for sjp and sjt frq functions
+#' @import sjstats
 #' @importFrom stats na.omit
 #' @importFrom dplyr add_rownames full_join
 create.frq.df <- function(x,
@@ -175,7 +176,7 @@ create.frq.df <- function(x,
   #---------------------------------------------------
   # weight variable
   #---------------------------------------------------
-  if (!is.null(weight.by)) x <- sjmisc::weight(x, weight.by)
+  if (!is.null(weight.by)) x <- sjstats::weight(x, weight.by)
   #---------------------------------------------------
   # do we have a labelled vector?
   #---------------------------------------------------
@@ -402,7 +403,7 @@ crosstabsum <- function(x, grp, weight.by) {
   # calculate chi square value
   chsq <- stats::chisq.test(ftab)
   p.value <- chsq$p.value
-  tab <- sjmisc::table_values(ftab)
+  tab <- sjstats::table_values(ftab)
   # do we have cells with less than 5 observations?
   if (min(tab$expected) < 5 || (min(tab$expected) < 10 && chsq$parameter == 1)) {
     fish <- stats::fisher.test(ftab, simulate.p.value = (nrow(ftab) > 2 || ncol(ftab) > 2))
@@ -426,14 +427,14 @@ crosstabsum <- function(x, grp, weight.by) {
                    list(tn = summary(ftab)$n.cases,
                         c2 = sprintf("%.2f", chsq$statistic),
                         dft = c(chsq$parameter),
-                        kook = sprintf("%.2f", sjmisc::cramer(ftab)),
+                        kook = sprintf("%.2f", sjstats::cramer(ftab)),
                         pva = pvas))))
     } else {
       modsum <- as.character(as.expression(
         substitute("N" == tn * "," ~~ "df" == dft * "," ~~ phi[c] == kook * "," ~~ "Fisher's p" < pva,
                    list(tn = summary(ftab)$n.cases,
                         dft = c(chsq$parameter),
-                        kook = sprintf("%.2f", sjmisc::cramer(ftab)),
+                        kook = sprintf("%.2f", sjstats::cramer(ftab)),
                         pva = pvas))))
     }
   # if variables have two categories (2x2 table), use phi to calculate
@@ -446,14 +447,14 @@ crosstabsum <- function(x, grp, weight.by) {
                    list(tn = summary(ftab)$n.cases,
                         c2 = sprintf("%.2f", chsq$statistic),
                         dft = c(chsq$parameter),
-                        kook = sprintf("%.2f", sjmisc::phi(ftab)),
+                        kook = sprintf("%.2f", sjstats::phi(ftab)),
                         pva = pvas))))
     } else {
       modsum <- as.character(as.expression(
         substitute("N" == tn * "," ~~ "df" == dft * "," ~~ phi == kook * "," ~~ "Fisher's p" == pva,
                    list(tn = summary(ftab)$n.cases,
                         dft = c(chsq$parameter),
-                        kook = sprintf("%.2f", sjmisc::phi(ftab)),
+                        kook = sprintf("%.2f", sjstats::phi(ftab)),
                         pva = pvas))))
     }
   }

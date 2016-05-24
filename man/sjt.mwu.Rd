@@ -9,7 +9,7 @@ sjt.mwu(x, title = NULL, altr.row.col = TRUE, CSS = NULL,
   remove.spaces = TRUE)
 }
 \arguments{
-\item{x}{results of a Mann-Whitney-U test, provided by \code{\link[sjmisc]{mwu}}. See 'Examples'.}
+\item{x}{results of a Mann-Whitney-U test, provided by \code{\link[sjstats]{mwu}}. See 'Examples'.}
 
 \item{title}{table caption. By default, \code{title = NULL}, hence no title will be used.}
 
@@ -53,8 +53,8 @@ Invisibly returns a \code{\link{list}} with
 }
 \description{
 Shows the results of a Mann-Whitney-U-test as HTML table. The results
-               from the Mann-Whitney-test are obtained by the \code{\link[sjmisc]{mwu}}
-               function from the \pkg{sjmisc}-package.
+               from the Mann-Whitney-test are obtained by the \code{\link[sjstats]{mwu}}
+               function from the \pkg{sjstats}-package.
 }
 \details{
 See 'Details' in \code{\link{sjt.frq}}.

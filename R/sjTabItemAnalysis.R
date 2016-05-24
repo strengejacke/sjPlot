@@ -37,7 +37,7 @@
 #'          Default is \code{"auto"}, which means that each table has a standard caption \emph{Component x}.
 #'          Use \code{NULL} to suppress table captions.
 #' @param scale logical, if \code{TRUE}, the data frame's vectors will be scaled when calculating the
-#'          Cronbach's Alpha value (see \code{\link[sjmisc]{reliab_test}}). Recommended, when 
+#'          Cronbach's Alpha value (see \code{\link[sjstats]{reliab_test}}). Recommended, when 
 #'          the variables have different measures / scales.
 #' @param min.valid.rowmean minimum amount of valid values to compute row means for index scores.
 #'          Default is 2, i.e. the return values \code{index.scores} and \code{df.index.scores} are
@@ -76,8 +76,8 @@
 #' @note \itemize{
 #'          \item The \emph{Shapiro-Wilk Normality Test} (see column \code{W(p)}) tests if an item has a distribution that is significantly different from normal.
 #'          \item \emph{Item difficulty} should range between 0.2 and 0.8. Ideal value is \code{p+(1-p)/2} (which mostly is between 0.5 and 0.8).
-#'          \item For \emph{item discrimination}, acceptable values are 0.20 or higher; the closer to 1.00 the better. See \code{\link[sjmisc]{reliab_test}} for more details.
-#'          \item In case the total \emph{Cronbach's Alpha} value is below the acceptable cut-off of 0.7 (mostly if an index has few items), the \emph{mean inter-item-correlation} is an alternative measure to indicate acceptability. Satisfactory range lies between 0.2 and 0.4. See also \code{\link[sjmisc]{mic}}.
+#'          \item For \emph{item discrimination}, acceptable values are 0.20 or higher; the closer to 1.00 the better. See \code{\link[sjstats]{reliab_test}} for more details.
+#'          \item In case the total \emph{Cronbach's Alpha} value is below the acceptable cut-off of 0.7 (mostly if an index has few items), the \emph{mean inter-item-correlation} is an alternative measure to indicate acceptability. Satisfactory range lies between 0.2 and 0.4. See also \code{\link[sjstats]{mic}}.
 #'        }
 #' 
 #' @note See 'Notes' in \code{\link{sjt.frq}}.
@@ -239,11 +239,11 @@ sjt.itemanalysis <- function(df,
     # get statistics
     # -----------------------------------
     dstat <- psych::describe(df.sub)
-    reli <- sjmisc::reliab_test(df.sub, scale.items = scale)
+    reli <- sjstats::reliab_test(df.sub, scale.items = scale)
     # -----------------------------------
     # get index score value, by retrieving the row mean
     # -----------------------------------
-    item.score <- sjmisc::mean_n(df.sub, min.valid.rowmean)
+    item.score <- sjstats::mean_n(df.sub, min.valid.rowmean)
     # -----------------------------------
     # store scaled values of each item's total score
     # to compute correlation coefficients between identified components
@@ -298,12 +298,12 @@ sjt.itemanalysis <- function(df,
     df.ia[[length(df.ia) + 1]] <- df.dummy
     diff.ideal.list[[length(diff.ideal.list) + 1]] <- diff.ideal
     index.scores[[length(index.scores) + 1]] <- item.score
-    cronbach.total[[length(cronbach.total) + 1]] <- sjmisc::cronb(df.sub)
+    cronbach.total[[length(cronbach.total) + 1]] <- sjstats::cronb(df.sub)
     df.comcor[[length(df.comcor) + 1]] <- comcor
     # -----------------------------------
     # Mean-interitem-corelation
     # -----------------------------------
-    mic.total[[length(mic.total) + 1]] <- sjmisc::mic(df.sub)
+    mic.total[[length(mic.total) + 1]] <- sjstats::mic(df.sub)
   }
   # -----------------------------------
   # create data frame with index scores,

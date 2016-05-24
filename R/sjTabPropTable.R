@@ -146,6 +146,11 @@ sjt.xtab <- function(var.row,
   var.labels <- sjmisc::word_wrap(var.labels, wrap.labels, "<br>")
   s.var.row <- var.labels[1]
   s.var.col <- var.labels[2]
+  # --------------------------------------------------------
+  # Do we have notes for vectors?
+  # --------------------------------------------------------
+  n.var.row <- sjmisc::get_note(var.row)
+  n.var.col <- sjmisc::get_note(var.col)
   # -------------------------------------
   # init variable labels
   # -------------------------------------
@@ -188,7 +193,7 @@ sjt.xtab <- function(var.row,
   tab.row$total <- 100
   tab.col <- mydat$proptab.col
   tab.col <- rbind(tab.col, rep(100, times = ncol(tab.col)))
-  tab.expected <- sjmisc::table_values(stats::ftable(as.matrix(tab)))$expected
+  tab.expected <- sjstats::table_values(stats::ftable(as.matrix(tab)))$expected
   # -------------------------------------
   # determine total number of columns and rows
   # -------------------------------------
@@ -279,11 +284,19 @@ sjt.xtab <- function(var.row,
   # -------------------------------------
   # column with row-variable-name
   # -------------------------------------
-  page.content <- paste(page.content, sprintf("    <th class=\"thead firstcolborder\" rowspan=\"2\">%s</th>\n", s.var.row))
+  if (!is.null(n.var.row))
+    th.title.tag <- sprintf(" title=\"%s\"", n.var.row)
+  else
+    th.title.tag <- ""
+  page.content <- paste(page.content, sprintf("    <th class=\"thead firstcolborder\" rowspan=\"2\"%s>%s</th>\n", th.title.tag, s.var.row))
   # -------------------------------------
   # column with column-variable-name
   # -------------------------------------
-  page.content <- paste(page.content, sprintf("    <th class=\"thead\" colspan=\"%i\">%s</th>\n", length(labels.var.col), s.var.col))
+  if (!is.null(n.var.col))
+    th.title.tag <- sprintf(" title=\"%s\"", n.var.col)
+  else
+    th.title.tag <- ""
+  page.content <- paste(page.content, sprintf("    <th class=\"thead\" colspan=\"%i\"%s>%s</th>\n", length(labels.var.col), th.title.tag, s.var.col))
   # -------------------------------------
   # total-column
   # -------------------------------------
@@ -392,12 +405,12 @@ sjt.xtab <- function(var.row,
     # than two categories. if they have more, use Cramer's V to calculate
     # the contingency coefficient
     if (nrow(ftab) > 2 || ncol(ftab) > 2) {
-      kook <- sprintf("&Phi;<sub>c</sub>=%.3f", sjmisc::cramer(ftab))
+      kook <- sprintf("&Phi;<sub>c</sub>=%.3f", sjstats::cramer(ftab))
       # if minimum expected values below 5, compute fisher's exact test
       if (min(tab.expected) < 5 || (min(tab.expected) < 10 && chsq$parameter == 1)) 
         fish <- fisher.test(ftab, simulate.p.value = TRUE)
     } else {
-      kook <- sprintf("&Phi;=%.3f", sjmisc::phi(ftab))
+      kook <- sprintf("&Phi;=%.3f", sjstats::phi(ftab))
       # if minimum expected values below 5 and df=1, compute fisher's exact test
       if (min(tab.expected) < 5 || (min(tab.expected) < 10 && chsq$parameter == 1)) 
         fish <- fisher.test(ftab)

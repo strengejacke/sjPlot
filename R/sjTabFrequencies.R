@@ -324,6 +324,23 @@ sjt.frq <- function(data,
     }
   }
   # -------------------------------------
+  # auto-retrieve variable notes
+  # -------------------------------------
+  # init variable notes as list
+  note.labels <- list()
+  # check if we have data frame with several variables
+  if (is.data.frame(data)) {
+    # if yes, iterate each variable
+    for (i in 1:ncol(data)) {
+      # retrieve note attribute
+      note.labels <- c(note.labels, sjmisc::get_note(data[[i]]))
+    }
+    # we have a single variable only
+  } else {
+    # retrieve note attribute
+    note.labels <- c(note.labels, sjmisc::get_note(data))
+  }
+  # -------------------------------------
   # make data frame of single variable, so we have
   # unique handling for the data
   # -------------------------------------
@@ -496,7 +513,11 @@ sjt.frq <- function(data,
     # -------------------------------------
     # table caption, variable label
     # -------------------------------------
-    page.content <- paste(page.content, sprintf("  <caption>%s</caption>\n", varlab))
+    if (!is.null(note.labels) && !sjmisc::is_empty(note.labels))
+      caption.title.tag <- sprintf(" title=\"%s\"", note.labels[[cnt]])
+    else
+      caption.title.tag <- ""
+    page.content <- paste(page.content, sprintf("  <caption%s>%s</caption>\n", caption.title.tag, varlab))
     # -------------------------------------
     # header row with column labels
     # -------------------------------------
@@ -581,7 +602,7 @@ sjt.frq <- function(data,
         sum_var <- orivar
       } else {
         mw <- stats::weighted.mean(orivar, weight.by, na.rm = TRUE)
-        sum_var <- sjmisc::weight(orivar, weight.by)
+        sum_var <- sjstats::weight(orivar, weight.by)
       }
       descr <- ""
       if (show.skew || show.kurtosis) {

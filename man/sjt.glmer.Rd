@@ -78,14 +78,14 @@ abbreviations for estimates, std. beta-values, confidence interval and p-values.
 \item{show.r2}{logical, if \code{TRUE} (default), the pseudo R2 values for each model are printed
 in the model summary. R2cs is the Cox-Snell-pseudo R-squared value, R2n is Nagelkerke's 
 pseudo R-squared value and \code{D} is Tjur's Coefficient of Discrimination
-(see \code{\link[sjmisc]{cod}}).}
+(see \code{\link[sjstats]{cod}}).}
 
 \item{show.icc}{logical, if \code{TRUE}, the intra-class-correlation for each 
 model is printed in the model summary. Only applies to mixed models.}
 
 \item{show.re.var}{logical, if \code{TRUE}, the variance parameters for the random
 effects for each model are printed in the model summary. Only applies to mixed models.
-For details output, see 'Note' in \code{\link[sjmisc]{icc}}.}
+For details output, see 'Note' in \code{\link[sjstats]{icc}}.}
 
 \item{show.loglik}{logical, if \code{TRUE}, the Log-Likelihood for each model is printed
 in the model summary. Default is \code{FALSE}.}

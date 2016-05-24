@@ -25,7 +25,7 @@ Default is \code{"auto"}, which means that each table has a standard caption \em
 Use \code{NULL} to suppress table captions.}
 
 \item{scale}{logical, if \code{TRUE}, the data frame's vectors will be scaled when calculating the
-Cronbach's Alpha value (see \code{\link[sjmisc]{reliab_test}}). Recommended, when 
+Cronbach's Alpha value (see \code{\link[sjstats]{reliab_test}}). Recommended, when 
 the variables have different measures / scales.}
 
 \item{min.valid.rowmean}{minimum amount of valid values to compute row means for index scores.
@@ -131,8 +131,8 @@ See 'Details' in \code{\link{sjt.frq}}.
 \itemize{
          \item The \emph{Shapiro-Wilk Normality Test} (see column \code{W(p)}) tests if an item has a distribution that is significantly different from normal.
          \item \emph{Item difficulty} should range between 0.2 and 0.8. Ideal value is \code{p+(1-p)/2} (which mostly is between 0.5 and 0.8).
-         \item For \emph{item discrimination}, acceptable values are 0.20 or higher; the closer to 1.00 the better. See \code{\link[sjmisc]{reliab_test}} for more details.
-         \item In case the total \emph{Cronbach's Alpha} value is below the acceptable cut-off of 0.7 (mostly if an index has few items), the \emph{mean inter-item-correlation} is an alternative measure to indicate acceptability. Satisfactory range lies between 0.2 and 0.4. See also \code{\link[sjmisc]{mic}}.
+         \item For \emph{item discrimination}, acceptable values are 0.20 or higher; the closer to 1.00 the better. See \code{\link[sjstats]{reliab_test}} for more details.
+         \item In case the total \emph{Cronbach's Alpha} value is below the acceptable cut-off of 0.7 (mostly if an index has few items), the \emph{mean inter-item-correlation} is an alternative measure to indicate acceptability. Satisfactory range lies between 0.2 and 0.4. See also \code{\link[sjstats]{mic}}.
        }
 
 See 'Notes' in \code{\link{sjt.frq}}.

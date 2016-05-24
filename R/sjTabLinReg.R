@@ -70,12 +70,12 @@ utils::globalVariables(c("starts_with"))
 #'          abbreviations for estimates, std. beta-values, confidence interval and p-values.
 #' @param show.r2 logical, if \code{TRUE} (default), the R2 and adjusted R2 values for each model are printed
 #'          in the model summary. For linear mixed models, the R2 and Omega-squared values are printed
-#'          (see \code{\link[sjmisc]{r2}} for details).
+#'          (see \code{\link[sjstats]{r2}} for details).
 #' @param show.icc logical, if \code{TRUE}, the intra-class-correlation for each 
 #'          model is printed in the model summary. Only applies to mixed models.
 #' @param show.re.var logical, if \code{TRUE}, the variance parameters for the random
 #'          effects for each model are printed in the model summary. Only applies to mixed models.
-#'          For details output, see 'Note' in \code{\link[sjmisc]{icc}}.
+#'          For details output, see 'Note' in \code{\link[sjstats]{icc}}.
 #' @param show.fstat If \code{TRUE}, the F-statistics for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
 #' @param show.aic logical, if \code{TRUE}, the AIC value for each model is printed
@@ -450,7 +450,7 @@ sjt.lm <- function(...,
     if (lmerob) {
       # get cleaned CI
       confis <- get_cleaned_ciMerMod(fit, "lm", T)
-      sbmer <- suppressWarnings(sjmisc::std_beta(fit)[-1, ])
+      sbmer <- suppressWarnings(sjstats::std_beta(fit)[-1, ])
       sbvals <- data.frame(beta = sbmer[, 1], 
                            ci.low = sbmer[, 1] - 1.96 * sbmer[, 2],
                            ci.hi = sbmer[, 1] + 1.96 * sbmer[, 2],
@@ -459,9 +459,9 @@ sjt.lm <- function(...,
     } else {
       confis <- stats::confint(fit)
       if (!is.null(show.std) && show.std == "std2") 
-        sbvals <- suppressWarnings(sjmisc::std_beta(fit, include.ci = T, type = "std2"))
+        sbvals <- suppressWarnings(sjstats::std_beta(fit, include.ci = T, type = "std2"))
       else
-        sbvals <- suppressWarnings(sjmisc::std_beta(fit, include.ci = T))
+        sbvals <- suppressWarnings(sjstats::std_beta(fit, include.ci = T))
       coef.fit <- stats::coef(fit)
     }
     # -------------------------------------
@@ -1069,7 +1069,7 @@ sjt.lm <- function(...,
     # -------------------------------------
     if (show.icc) {
       # get icc from models
-      summary.icc <- sjmisc::icc(input_list[[which.max(all_mm_counts)]])
+      summary.icc <- sjstats::icc(input_list[[which.max(all_mm_counts)]])
       # iterate icc's
       for (si in 1:mmcount) {
         page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata leftalign summary\">ICC<sub>%s</sub></td>\n", names(summary.icc[si])))
@@ -1080,7 +1080,7 @@ sjt.lm <- function(...,
           # -------------------------
           page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
           # get icc from models
-          sub.summary.icc <- sjmisc::icc(input_list[[i]])
+          sub.summary.icc <- sjstats::icc(input_list[[i]])
           # does model have enough icc values?
           # if yes, print
           if (length(sub.summary.icc) >= si) {
@@ -1138,7 +1138,7 @@ sjt.lm <- function(...,
         page.content <- paste0(page.content, sprintf("    %sNA / NA</td>\n", colspanstring))
       } else {
         # get r2 values
-        r2vals <- sjmisc::r2(input_list[[i]])
+        r2vals <- sjstats::r2(input_list[[i]])
         page.content <- paste0(page.content, gsub("0.", 
                                                   paste0(p_zero, "."), 
                                                   sprintf("    %s%.*f / %.*f</td>\n", 

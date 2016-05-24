@@ -219,6 +219,7 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'
 #'                      
 #' @import ggplot2
+#' @import sjstats
 #' @importFrom dplyr slice add_rownames sample_n
 #' @importFrom lme4 fixef ranef confint.merMod getME
 #' @export
@@ -500,6 +501,7 @@ sjp.glmer <- function(fit,
 #'          facet.grid = FALSE, show.ci = FALSE)}
 #'
 #' @import ggplot2
+#' @import sjstats
 #' @importFrom dplyr sample_n add_rownames slice
 #' @export
 sjp.lmer <- function(fit,
@@ -876,7 +878,7 @@ sjp.lme4  <- function(fit,
       # retrieve standard errors, for ci
       # ---------------------------------------
       if (type == "coef") {
-        se.fit <- data.frame(t(sjmisc::se(fit)[[lcnt]]))
+        se.fit <- data.frame(t(sjstats::se(fit)[[lcnt]]))
       } else {
         se.fit <- arm::se.ranef(fit)[[lcnt]]
       }
@@ -975,7 +977,7 @@ sjp.lme4  <- function(fit,
         mydf <- get_cleaned_ciMerMod(fit, fun)
       } else {
         if (type == "fe.std") {
-          tmpdf <- sjmisc::std_beta(fit)
+          tmpdf <- sjstats::std_beta(fit)
           mydf <- data.frame(estimate = tmpdf$stdcoef,
                              conf.low = tmpdf$stdcoef - (1.96 * tmpdf$stdse),
                              conf.high = tmpdf$stdcoef + (1.96 * tmpdf$stdse))
@@ -998,7 +1000,7 @@ sjp.lme4  <- function(fit,
         ov <- exp(lme4::fixef(fit))
       } else {
         if (type == "fe.std") {
-          ov <- sjmisc::std_beta(fit)$stdcoef
+          ov <- sjstats::std_beta(fit)$stdcoef
         } else {
           ov <- lme4::fixef(fit)
         }

@@ -134,7 +134,7 @@ sjt.grpmean <- function(var.cnt,
                 cbind(mean = sprintf("%.*f", digits, mw),
                       N = length(stats::na.omit(var.cnt[var.grp == indices[i]])),
                       sd = sprintf("%.*f", digits, sd(var.cnt[var.grp == indices[i]], na.rm = TRUE)),
-                      se = sprintf("%.*f", digits, sjmisc::se(var.cnt[var.grp == indices[i]])),
+                      se = sprintf("%.*f", digits, sjstats::se(var.cnt[var.grp == indices[i]])),
                       p = pval[i]))
   }
   # --------------------------------------
@@ -152,7 +152,7 @@ sjt.grpmean <- function(var.cnt,
               cbind(mean = sprintf("%.*f", digits, mw),
                     N = length(stats::na.omit(var.cnt)),
                     sd = sprintf("%.*f", digits, sd(var.cnt, na.rm = TRUE)),
-                    se = sprintf("%.*f", digits, sjmisc::se(var.cnt)),
+                    se = sprintf("%.*f", digits, sjstats::se(var.cnt)),
                     p = ""))
   # --------------------------------------
   # fix row labels, if empty or NULL
@@ -169,7 +169,7 @@ sjt.grpmean <- function(var.cnt,
   # get F-statistics
   fstat <- sum.fit$fstatistic[1]
   # p-value for F-test
-  pval <- sjmisc:::lm_pval_fstat(fit)
+  pval <- sjstats:::lm_pval_fstat(fit)
   pvalstring <- ifelse(pval < 0.001, 
                        sprintf("p&lt;%s.001", p_zero), 
                        sub("0", p_zero, sprintf("p=%.*f", digits.summary, pval)))

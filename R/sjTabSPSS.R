@@ -191,8 +191,12 @@ view_df <- function(x,
     page.content <- paste0(page.content, "  <tr>\n")
     # ID
     if (show.id) page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%i</td>\n", arcstring, index))
-    # name
-    page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, colnames(x)[index]))
+    # name, and note
+    if (!is.null(sjmisc::get_note(x[[index]])))
+      td.title.tag <- sprintf(" title=\"%s\"", sjmisc::get_note(x[[index]]))
+    else
+      td.title.tag <- ""
+    page.content <- paste0(page.content, sprintf("    <td class=\"tdata%s\"%s>%s</td>\n", arcstring, td.title.tag, colnames(x)[index]))
     # type
     if (show.type) {
       vartype <- get.vartype(x[[index]])
@@ -362,7 +366,7 @@ frq.value <- function(index, x, df.val, weights = NULL) {
   if (index <= ncol(x) && !is.null(df.val[[index]])) {
     # do we have weights?
     if (!is.null(weights)) 
-      variab <- sjmisc::weight(x[[index]], weights)
+      variab <- sjstats::weight(x[[index]], weights)
     else
       variab <- x[[index]]
     # create frequency table. same function as for
@@ -389,7 +393,7 @@ prc.value <- function(index, x, df.val, weights = NULL) {
   if (index <= ncol(x) && !is.null(df.val[[index]])) {
     # do we have weights?
     if (!is.null(weights)) 
-      variab <- sjmisc::weight(x[[index]], weights)
+      variab <- sjstats::weight(x[[index]], weights)
     else
       variab <- x[[index]]
     # create frequency table, but only get valid percentages

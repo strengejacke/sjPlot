@@ -304,7 +304,7 @@ sjt.pca <- function(data,
     for (n in 1:length(unique(itemloadings))) {
       # calculate cronbach's alpha for those cases that all have the
       # highest loading on the same factor
-      cbv <- c(cbv, sjmisc::cronb(stats::na.omit(dataframe[, which(itemloadings == n)])))
+      cbv <- c(cbv, sjstats::cronb(stats::na.omit(dataframe[, which(itemloadings == n)])))
     }
     # cbv now contains the factor numbers and the related alpha values
     # for each "factor dimension scale"

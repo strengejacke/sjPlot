@@ -17,7 +17,7 @@ utils::globalVariables(c("starts_with"))
 #' @param show.r2 logical, if \code{TRUE} (default), the pseudo R2 values for each model are printed
 #'          in the model summary. R2cs is the Cox-Snell-pseudo R-squared value, R2n is Nagelkerke's 
 #'          pseudo R-squared value and \code{D} is Tjur's Coefficient of Discrimination
-#'          (see \code{\link[sjmisc]{cod}}).
+#'          (see \code{\link[sjstats]{cod}}).
 #' @param show.loglik logical, if \code{TRUE}, the Log-Likelihood for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
 #' @param show.chi2 logical, if \code{TRUE}, the p-value of the chi-squared value for each 
@@ -829,7 +829,7 @@ sjt.glm <- function(...,
     # -------------------------------------
     if (show.icc) {
       # get icc from models
-      summary.icc <- sjmisc::icc(input_list[[which.max(all_mm_counts)]])
+      summary.icc <- sjstats::icc(input_list[[which.max(all_mm_counts)]])
       # iterate icc's
       for (si in 1:mmcount) {
         page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata leftalign summary\">ICC<sub>%s</sub></td>", names(summary.icc[si])))
@@ -840,7 +840,7 @@ sjt.glm <- function(...,
           # -------------------------
           page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
           # get icc from models
-          sub.summary.icc <- sjmisc::icc(input_list[[i]])
+          sub.summary.icc <- sjstats::icc(input_list[[i]])
           # does model have enough icc values?
           # if yes, print
           if (length(sub.summary.icc) >= si) {
@@ -882,8 +882,8 @@ sjt.glm <- function(...,
       # insert "separator column"
       # -------------------------
       page.content <- paste0(page.content, "\n    <td class=\"separatorcol\">&nbsp;</td>")
-      psr <- sjmisc::r2(input_list[[i]])
-      tjur <- sjmisc::cod(input_list[[i]])
+      psr <- sjstats::r2(input_list[[i]])
+      tjur <- sjstats::cod(input_list[[i]])
       if (lmerob) {
         page.content <- paste0(page.content, gsub("0.", 
                                                   paste0(p_zero, "."),
@@ -1003,7 +1003,7 @@ sjt.glm <- function(...,
   #         # -------------------------
   #         # compute Pearson's X2 GOF-test
   #         # -------------------------
-  #         pgof <- sjmisc::chisq_gof(input_list[[i]])
+  #         pgof <- sjstats::chisq_gof(input_list[[i]])
   #         # -------------------------
   #         # print chisq and p
   #         # -------------------------
@@ -1034,7 +1034,7 @@ sjt.glm <- function(...,
       # -------------------------
       # compute Hosmer-Lemeshow test
       # -------------------------
-      hlgof <- sjmisc::hoslem_gof(input_list[[i]])
+      hlgof <- sjstats::hoslem_gof(input_list[[i]])
       # -------------------------
       # print chisq and p
       # -------------------------

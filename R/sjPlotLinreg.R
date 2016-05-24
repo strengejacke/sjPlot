@@ -393,7 +393,7 @@ sjp.lm <- function(fit,
   # -------------------------------------------------
   if (type == "std" || type == "std2") {
     # retrieve standardized betas
-    tmp <- suppressWarnings(sjmisc::std_beta(fit, include.ci = TRUE, type = type))
+    tmp <- suppressWarnings(sjstats::std_beta(fit, include.ci = TRUE, type = type))
     # add "std." to title?
     if (!is.null(axis.title) && axis.title == "Estimates")
       axis.title <- "Std. Estimates"

@@ -2,10 +2,10 @@
 #' @name sjt.mwu
 #' 
 #' @description Shows the results of a Mann-Whitney-U-test as HTML table. The results
-#'                from the Mann-Whitney-test are obtained by the \code{\link[sjmisc]{mwu}}
-#'                function from the \pkg{sjmisc}-package.
+#'                from the Mann-Whitney-test are obtained by the \code{\link[sjstats]{mwu}}
+#'                function from the \pkg{sjstats}-package.
 #'
-#' @param x results of a Mann-Whitney-U test, provided by \code{\link[sjmisc]{mwu}}. See 'Examples'.
+#' @param x results of a Mann-Whitney-U test, provided by \code{\link[sjstats]{mwu}}. See 'Examples'.
 #'          
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.df

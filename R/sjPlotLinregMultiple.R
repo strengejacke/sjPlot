@@ -167,7 +167,7 @@ sjp.lmm <- function(...,
     if (type == "std") {
       # retrieve standardized betas
       betas <- data.frame(rbind(data.frame(beta = 0, ci.low = 0, ci.hi = 0),
-                                suppressWarnings(sjmisc::std_beta(fit, include.ci = TRUE))))
+                                suppressWarnings(sjstats::std_beta(fit, include.ci = TRUE))))
       # no intercept for std
       show.intercept <- FALSE
       # add "std." to title?
@@ -175,7 +175,7 @@ sjp.lmm <- function(...,
     } else if (type == "std2") {
       # retrieve standardized betas
       betas <- data.frame(rbind(data.frame(beta = 0, ci.low = 0, ci.hi = 0),
-                                sjmisc::std_beta(fit, include.ci = TRUE, type = "std2")))
+                                sjstats::std_beta(fit, include.ci = TRUE, type = "std2")))
       # no intercept for std
       show.intercept <- FALSE
       # add "std." to title?
