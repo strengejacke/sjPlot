@@ -86,7 +86,7 @@ sjp.emm <- function(fit,
   # -----------------------------------------------------------
   if (is_mer_mod) {
     # get all p-values
-    pval <- get_lmerMod_pvalues(fit, KR = p.kr)[pos]
+    pval <- sjstats::merMod_p(fit, p.kr)[pos]
   } else {
     # retrieve p-values
     pval <- summary(fit)$coefficients[pos, 4]

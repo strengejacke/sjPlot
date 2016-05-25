@@ -991,7 +991,7 @@ sjp.lme4  <- function(fit,
       # ----------------------------
       # retrieve sigificance level of independent variables (p-values)
       # ----------------------------
-      pv <- get_lmerMod_pvalues(fit, p.kr)
+      pv <- sjstats::merMod_p(fit, p.kr)
       # ----------------------------
       # retrieve odds ratios resp.
       # betas or standardized betas
@@ -1949,39 +1949,6 @@ sjp.lme.fecor <- function(fit,
                              list(plot = corret$plot,
                                   data = corret$df,
                                   corr.matrix = corret$corr.matrix))))
-}
-
-
-#' @importFrom stats coef
-get_lmerMod_pvalues <- function(fitmod, KR = TRUE) {
-  # retrieve sigificance level of independent variables (p-values)
-  if (any(class(fitmod) == "merModLmerTest") && requireNamespace("lmerTest", quietly = TRUE)) {
-    cs <- suppressWarnings(stats::coef(lmerTest::summary(fitmod)))
-  } else {
-    cs <- stats::coef(summary(fitmod))
-  }
-  # check if we have p-values in summary
-  if (ncol(cs) >= 4) {
-    # do we have a p-value column?
-    pvcn <- which(colnames(cs) == "Pr(>|t|)")
-    # if not, default to 4
-    if (length(pvcn) == 0) pvcn <- 4
-    pv <- cs[, pvcn]
-  } else if (any(class(fitmod) == "lmerMod") && requireNamespace("pbkrtest", quietly = TRUE) && KR) {
-    # compute Kenward-Roger-DF for p-statistic. Code snippet adapted from
-    # http://mindingthebrain.blogspot.de/2014/02/three-ways-to-get-parameter-specific-p.html
-    message("Computing p-values via Kenward-Roger approximation. Use `p.kr = FALSE` if computation takes too long.")
-    #first coefficients need to be data frame
-    cs <- as.data.frame(cs)
-    # get KR DF
-    df.kr <- pbkrtest::get_Lb_ddf(fitmod, lme4::fixef(fitmod))
-    # compute p-values, assuming an approximate t-dist
-    pv <- 2 * (1 - pt(abs(cs$`t value`), df.kr))
-  } else {
-    message("Computing p-values via Wald-statistics approximation (treating t as Wald z).")
-    pv <- (1 - pnorm(abs(cs[, 3]))) * 2
-  }
-  return(pv)
 }
 
 

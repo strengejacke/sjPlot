@@ -168,7 +168,7 @@ sjp.glmm <- function(...,
     # ----------------------------
     # retrieve sigificance level of independent variables (p-values)
     if (sjmisc::str_contains(class(fit), "merMod", ignore.case = T))
-      pv <- get_lmerMod_pvalues(fit)
+      pv <- sjstats::merMod_p(fit)
     else
       pv <- unname(stats::coef(summary(fit))[, 4])
     # for better readability, convert p-values to asterisks

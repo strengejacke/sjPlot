@@ -1474,7 +1474,7 @@ getInteractionTerms <- function(fit, fun, plevel, p.kr) {
     # -----------------------------------------------------------
     # retrieve p-values, without intercept
     # -----------------------------------------------------------
-    pval <- get_lmerMod_pvalues(fit, p.kr)[-1]
+    pval <- sjstats::merMod_p(fit, p.kr)[-1]
     # -----------------------------------------------------------
     # retrieve estimates, without intercept
     # -----------------------------------------------------------

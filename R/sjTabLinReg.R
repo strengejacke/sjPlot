@@ -479,7 +479,7 @@ sjt.lm <- function(...,
     # -------------------------------------
     if (lmerob) {
       # p-values
-      fit.df$pv <- round(get_lmerMod_pvalues(fit, p.kr), digits.p)
+      fit.df$pv <- round(sjstats::merMod_p(fit, p.kr), digits.p)
       # standard error
       fit.df$se <- sprintf("%.*f", digits.se, stats::coef(summary(fit))[, "Std. Error"])
     } else {
