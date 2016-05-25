@@ -201,7 +201,7 @@ Computation of p-values (if necessary and if \code{p.kr = TRUE}) are based
         the \pkg{pbkrtest}-package. If \pkg{pbkrtest} is not available or
         \code{p.kr = FALSE}, computation of p-values is based 
         on normal-distribution assumption, treating the t-statistics as Wald
-        z-statistics.
+        z-statistics. See 'Details' in \code{\link[sjstats]{merMod_p}}.
         \cr \cr
         The variance components of the random parts (see \code{show.re.var}) are
         denoted like:

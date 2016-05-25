@@ -409,7 +409,7 @@ sjp.glmer <- function(fit,
 #'         the \pkg{pbkrtest}-package. If \pkg{pbkrtest} is not available or
 #'         \code{p.kr = FALSE}, computation of p-values is based 
 #'         on normal-distribution assumption, treating the t-statistics as Wald
-#'         z-statistics.
+#'         z-statistics. See 'Details' in \code{\link[sjstats]{merMod_p}}.
 #'
 #' @examples
 #' # fit model

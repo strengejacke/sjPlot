@@ -42,8 +42,7 @@ Suggests:
     ggrepel,
     lmerTest,
     lmtest,
-    lsmeans,
-    pbkrtest (>= 0.4-6)
+    lsmeans
 URL: https://github.com/sjPlot/devel
 BugReports: https://github.com/sjPlot/devel/issues
 RoxygenNote: 5.0.1
