@@ -1189,6 +1189,16 @@ sjt.lm <- function(...,
   # Model-Summary: AIC
   # -------------------------------------
   if (show.aic) {
+    # -------------------------------------
+    # Check whether we have mixed models, and fitted with REML.
+    # In this case, comparison of AIC does not make sense -
+    # user need to refit models with REML = FALSE
+    # -------------------------------------
+    if (lmerob && length(input_list) > 1) {
+      # check whether we have mixed models fitted with REML
+      models.reml <- vapply(input_list, function(x) is(x, "merMod") && isREML(x), NA)
+      if (any(models.reml)) warning("Some models were fit with REML. To get meaningful AIC values for comparison, refit models with ML (`REML = FALSE`).", call. = F)
+    }
     page.content <- paste(page.content, "  <tr>\n     <td class=\"tdata leftalign summary\">AIC</td>\n")
     for (i in 1:length(input_list)) {
       # -------------------------
