@@ -19,7 +19,7 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL,
 
 \item{type}{type of plot. Use one of following:
 \describe{
-  \item{\code{"re"}}{(default) for odds or incidents ratios of random effects}
+  \item{\code{"re"}}{(default) for conditional modes (odds or incidents ratios) of random effects}
   \item{\code{"fe"}}{for odds or incidents ratios of fixed effects}
   \item{\code{"fe.cor"}}{for correlation matrix of fixed effects}
   \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
@@ -160,6 +160,10 @@ By default, this function plots estimates (odds, risk or incidents
 }
 \details{
 \describe{
+           \item{\code{type = "re"}}{plots the conditional modes of the random
+           effects, inclduing predicion intervals. It basically does the same
+           as \code{dotplot(exp(ranef(fit, condVar = TRUE)[[i]])}, where \code{i}
+           denotes the random effect index.}
            \item{\code{type = "fe.slope"}}{the predicted values
            are based on the fixed effects intercept's estimate and each specific
            fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),

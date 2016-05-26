@@ -19,7 +19,7 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #' @param fit a fitted model as returned by the \code{\link[lme4]{glmer}}-function.
 #' @param type type of plot. Use one of following:
 #'          \describe{
-#'            \item{\code{"re"}}{(default) for odds or incidents ratios of random effects}
+#'            \item{\code{"re"}}{(default) for conditional modes (odds or incidents ratios) of random effects}
 #'            \item{\code{"fe"}}{for odds or incidents ratios of fixed effects}
 #'            \item{\code{"fe.cor"}}{for correlation matrix of fixed effects}
 #'            \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
@@ -110,6 +110,10 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'        }
 #'
 #' @details \describe{
+#'            \item{\code{type = "re"}}{plots the conditional modes of the random
+#'            effects, inclduing predicion intervals. It basically does the same
+#'            as \code{dotplot(exp(ranef(fit, condVar = TRUE)[[i]])}, where \code{i}
+#'            denotes the random effect index.}
 #'            \item{\code{type = "fe.slope"}}{the predicted values
 #'            are based on the fixed effects intercept's estimate and each specific
 #'            fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),
@@ -314,6 +318,10 @@ sjp.glmer <- function(fit,
 #'                predicted values or diagnostic plots.
 #'
 #' @details \describe{
+#'            \item{\code{type = "re"}}{plots the conditional modes of the random
+#'            effects, inclduing predicion intervals. It basically does the same
+#'            as \code{dotplot(ranef(fit, condVar = TRUE)[[i]])}, where \code{i}
+#'            denotes the random effect index.}
 #'            \item{\code{type = "fe.slope"}}{plots the linear relationship between
 #'            each fixed effect and the response. The regression lines are \emph{not}
 #'            based on the fitted model's fixed effects estimates (though they may
@@ -362,7 +370,7 @@ sjp.glmer <- function(fit,
 #' @param fit a fitted model as returned by the \code{\link[lme4]{lmer}}-function.
 #' @param type type of plot. Use one of following:
 #'          \describe{
-#'            \item{\code{"re"}}{(default) for estimates of random effects as forest plot}
+#'            \item{\code{"re"}}{(default) for conditional modes of random effects as forest plot}
 #'            \item{\code{"fe"}}{for estimates of fixed effects as forest plot}
 #'            \item{\code{"fe.std"}}{for standardized estimates of fixed effects as forest plot}
 #'            \item{\code{"fe.slope"}}{to plot regression lines (slopes) with confidence intervals for each single fixed effect, i.e. all fixed terms are extracted and each is plotted against the response variable (linear relationship between each fixed term and response)}

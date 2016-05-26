@@ -21,7 +21,7 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL,
 
 \item{type}{type of plot. Use one of following:
 \describe{
-  \item{\code{"re"}}{(default) for estimates of random effects as forest plot}
+  \item{\code{"re"}}{(default) for conditional modes of random effects as forest plot}
   \item{\code{"fe"}}{for estimates of fixed effects as forest plot}
   \item{\code{"fe.std"}}{for standardized estimates of fixed effects as forest plot}
   \item{\code{"fe.slope"}}{to plot regression lines (slopes) with confidence intervals for each single fixed effect, i.e. all fixed terms are extracted and each is plotted against the response variable (linear relationship between each fixed term and response)}
@@ -186,6 +186,10 @@ By default, this function plots estimates (coefficients) with confidence
 }
 \details{
 \describe{
+           \item{\code{type = "re"}}{plots the conditional modes of the random
+           effects, inclduing predicion intervals. It basically does the same
+           as \code{dotplot(ranef(fit, condVar = TRUE)[[i]])}, where \code{i}
+           denotes the random effect index.}
            \item{\code{type = "fe.slope"}}{plots the linear relationship between
            each fixed effect and the response. The regression lines are \emph{not}
            based on the fitted model's fixed effects estimates (though they may
