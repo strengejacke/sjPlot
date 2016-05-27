@@ -33,8 +33,9 @@ When \code{x} is not a vector, but a fitted model object, the function
 is detected automatically. If \code{x} is a vector, \code{fun} defaults
 to \code{"lm"}.}
 
-\item{axis.title}{character vector, used as title for the axis. If not specified, 
-a default labelling depending on the plot function and type is chosen.}
+\item{axis.title}{character vector of length one or two (depending on
+the plot function and type), used as title(s) for the x and y axis. 
+If not specified, a default labelling  is chosen.}
 
 \item{scatter.plot}{logical, if \code{TRUE} (default), a scatter plot of
 response and predictor values for each predictor of the model

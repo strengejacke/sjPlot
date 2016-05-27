@@ -33,8 +33,9 @@ argument, since in most cases, axis labels are set automatically.}
 \item{string.interc}{string that indicates the reference group (intercept), that is appended to
 the value label of the grouping variable. Default is \code{"(Intercept)"}.}
 
-\item{axis.title}{character vector, used as title for the axis. If not specified, 
-a default labelling depending on the plot function and type is chosen.}
+\item{axis.title}{character vector of length one or two (depending on
+the plot function and type), used as title(s) for the x and y axis. 
+If not specified, a default labelling  is chosen.}
 
 \item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
 Depending on plot type, may effect either x- or y-axis, or both.

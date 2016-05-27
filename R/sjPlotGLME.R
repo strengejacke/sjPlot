@@ -63,8 +63,9 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'          For mixed models, should either be vector of fixed effects variable labels 
 #'          (if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
 #'          labels from the random intercept's categories (if \code{type = "re"}).
-#' @param axis.title character vector, used as title for the axis. If not specified, 
-#'          a default labelling depending on the plot function and type is chosen.
+#' @param axis.title character vector of length one or two (depending on
+#'          the plot function and type), used as title(s) for the x and y axis. 
+#'          If not specified, a default labelling  is chosen.
 #' @param vline.type linetype of the vertical "zero point" line. Default is \code{2} (dashed line).
 #' @param vline.color color of the vertical "zero point" line. Default value is \code{"grey70"}.
 #' @param digits numeric, amount of digits after decimal point when rounding estimates and values.
@@ -1188,24 +1189,31 @@ sjp.lme4  <- function(fit,
       # axis titles
       # ---------------------------------------
       if (type == "fe" || type == "fe.std") {
-        if (is.null(axis.title)) axis.title <- ""
+        if (is.null(axis.title)) axis.title <- c("", "")
       } else if (type == "re") {
-        if (is.null(axis.title)) axis.title <- "Group levels"
+        if (is.null(axis.title)) axis.title <- c("Group levels", "BLUP")
+      }
+      # check if we have required length of axis titles
+      if (length(axis.title) == 1) {
+        if (type == "fe" || type == "fe.std")
+          axis.title <- c("", axis.title)
+        else
+          axis.title <- c(axis.title, "")
       }
       # ---------------------------------------
       # add facet grid here, faceting by group
       # (level) of random intercept
       # ---------------------------------------
       if (facet.grid) {
-        gp <- gp + labs(x = axis.title)
+        # no title for facets
+        title <- NULL
         # check if user wants free scale for each facet
         if (free.scale)
           gp  <- gp + facet_wrap(~grp, scales = "free_y")
         else
           gp  <- gp + facet_grid(~grp)
-      } else {
-        gp <- gp + labs(x = axis.title, title = title)
       }
+      gp <- gp + labs(x = axis.title[1], y = axis.title[2], title = title)
       return(gp)
     }
     # ---------------------------------------

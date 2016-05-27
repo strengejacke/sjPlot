@@ -59,8 +59,9 @@ need smaller values than dot sizes.}
 Only applies to \code{type = "bar"}. In case of dot plots, error bars 
 will have same colors as dots (see \code{geom.colors}).}
 
-\item{axis.title}{character vector, used as title for the axis. If not specified, 
-a default labelling depending on the plot function and type is chosen.}
+\item{axis.title}{character vector of length one or two (depending on
+the plot function and type), used as title(s) for the x and y axis. 
+If not specified, a default labelling  is chosen.}
 
 \item{axis.labels}{character vector with labels used as axis labels. Optional
 argument, since in most cases, axis labels are set automatically.}
