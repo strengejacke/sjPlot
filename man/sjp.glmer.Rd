@@ -5,14 +5,14 @@
 \title{Plot estimates, predictions or effects of generalized linear mixed effects models}
 \usage{
 sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL,
-  remove.estimates = NULL, emph.grp = NULL, sample.n = NULL,
-  sort.est = NULL, title = NULL, axis.labels = NULL, axis.title = NULL,
-  geom.colors = "Set1", geom.size = NULL, show.values = TRUE,
-  show.p = TRUE, show.ci = FALSE, show.legend = FALSE,
-  show.intercept = TRUE, string.interc = "(Intercept)", fade.ns = FALSE,
-  axis.lim = NULL, digits = 2, vline.type = 2, vline.color = "grey70",
-  facet.grid = TRUE, free.scale = FALSE, y.offset = 0.1,
-  prnt.plot = TRUE, ...)
+  group.estimates = NULL, remove.estimates = NULL, emph.grp = NULL,
+  sample.n = NULL, sort.est = NULL, title = NULL, axis.labels = NULL,
+  axis.title = NULL, geom.colors = "Set1", geom.size = NULL,
+  show.values = TRUE, show.p = TRUE, show.ci = FALSE,
+  show.legend = FALSE, show.intercept = FALSE,
+  string.interc = "(Intercept)", fade.ns = FALSE, axis.lim = NULL,
+  digits = 2, vline.type = 2, vline.color = "grey70", facet.grid = TRUE,
+  free.scale = FALSE, y.offset = 0.1, prnt.plot = TRUE, ...)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{glmer}}-function.}
@@ -43,6 +43,10 @@ and fitted model has more than one random intercept, \code{ri.nr} indicates
 which random effects of which random intercept (or: which list elements
 of \code{\link[lme4]{ranef}}) will be plotted. Default is \code{NULL},
 so all random effects will be plotted.}
+
+\item{group.estimates}{numeric or character vector, indicating a group identifier for
+each estimate. Dots and confidence intervals of estimates are coloured
+according to their group association. See 'Examples'.}
 
 \item{remove.estimates}{character vector with coefficient names that indicate
 which estimates should be removed from the plot.

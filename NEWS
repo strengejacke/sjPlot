@@ -4,6 +4,7 @@ General:
 * `sjt.lmer` and `sjt.glmer` now warn when `show.aic = TRUE` and models were fitted with REML instead of ML.
 
 Changes to functions:
+* Added `group.estimate` argument to `sjp.lmer` and `sjp.glmer` (for fixed effetcs only).
 * `sjt.frq`, `sjt.xtab` and `view_df` now show notes (`note`-attribute, see `sjmisc::set_note`) of labelled data as tooltip, when mouse hovers the variable name/label, in the HTML-output.
 * `axis.title` argument for `sjp.glmer` and `sjp.lmer` can now be a vector of length one or two, to be more flexible with axes titles for the various plot types.
 

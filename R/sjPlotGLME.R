@@ -232,6 +232,7 @@ sjp.glmer <- function(fit,
                       type = "re",
                       vars = NULL,
                       ri.nr = NULL,
+                      group.estimates = NULL,
                       remove.estimates = NULL,
                       emph.grp = NULL,
                       sample.n = NULL,
@@ -245,7 +246,7 @@ sjp.glmer <- function(fit,
                       show.p = TRUE,
                       show.ci = FALSE,
                       show.legend = FALSE,
-                      show.intercept = TRUE,
+                      show.intercept = FALSE,
                       string.interc = "(Intercept)",
                       fade.ns = FALSE,
                       axis.lim = NULL,
@@ -284,6 +285,7 @@ sjp.glmer <- function(fit,
            axis.lim,
            vline.type,
            vline.color,
+           group.estimates,
            remove.estimates,
            show.values,
            digits,
@@ -517,6 +519,7 @@ sjp.lmer <- function(fit,
                      type = "re",
                      vars = NULL,
                      ri.nr = NULL,
+                     group.estimates = NULL,
                      remove.estimates = NULL,
                      emph.grp = NULL,
                      sample.n = NULL,
@@ -533,7 +536,7 @@ sjp.lmer <- function(fit,
                      show.legend = FALSE,
                      show.loess = FALSE,
                      show.loess.ci = FALSE,
-                     show.intercept = TRUE,
+                     show.intercept = FALSE,
                      string.interc = "(Intercept)",
                      p.kr = TRUE,
                      point.alpha = 0.2,
@@ -574,6 +577,7 @@ sjp.lmer <- function(fit,
            axis.lim,
            vline.type,
            vline.color,
+           group.estimates,
            remove.estimates,
            show.values,
            digits,
@@ -612,6 +616,7 @@ sjp.lme4  <- function(fit,
                       axis.lim,
                       vline.type,
                       vline.color,
+                      group.estimates,
                       remove.estimates,
                       show.values,
                       digits,
@@ -848,6 +853,13 @@ sjp.lme4  <- function(fit,
   # ---------------------------------------
   me.plot.list <- list()
   # ---------------------------------------
+  # grouping estimates only for fixed effects
+  # ---------------------------------------
+  if ((type == "re" || type == "coef") && !is.null(group.estimates)) {
+    warning("`group.estimates` nor supported for random effects.", call. = F)
+    group.estimates <- NULL
+  }
+  # ---------------------------------------
   # start plotting here. for fixed effects,
   # only one plot. For random effect, we loop
   # the plotting for each specifief random
@@ -980,7 +992,7 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------
       if (fun == "glm") {
         if (type == "fe.std") {
-          warning("'type = fe.std' only works for linear models.", call. = F)
+          warning("`type = \"fe.std\"` only works for linear models.", call. = F)
         }
         # get odds ratios and cleaned CI
         mydf <- get_cleaned_ciMerMod(fit, fun)
@@ -1051,6 +1063,23 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------
       if (!show.intercept) mydf <- mydf[-1, ]
       # -------------------------------------------------
+      # group estimates?
+      # -------------------------------------------------
+      if (!is.null(group.estimates)) {
+        # check for correct length
+        if (length(group.estimates) != nrow(mydf)) {
+          warning("Length of `group.estimates` does not equal number of model coefficients. Ignoring this argument.", call. = F)
+          group.estimates = NULL
+          show.legend <- FALSE
+        } else {
+          mydf$grp <- as.character(group.estimates)
+          # by default, legend should be visible
+          if (missing(show.legend)) show.legend <- TRUE
+        }
+      } else {
+        show.legend <- FALSE
+      }
+      # -------------------------------------------------
       # remove any estimates from the output?
       # -------------------------------------------------
       if (!is.null(remove.estimates)) {
@@ -1088,7 +1117,11 @@ sjp.lme4  <- function(fit,
       # just one sorting option, simply sort estimates
       # ---------------------------------------
       if (!is.null(sort.est)) {
-        reihe <- order(mydf$estimate)
+        # sort according to group assignment?
+        if (!is.null(group.estimates))
+          reihe <- order(mydf$grp, mydf$estimate)
+        else
+          reihe <- order(mydf$estimate)
         # sort data frame
         mydf <- mydf[reihe, ]
       }
@@ -1135,6 +1168,7 @@ sjp.lme4  <- function(fit,
     plot.effe <- function(mydf,
                           title,
                           facet.grid,
+                          group.estimates,
                           show.ci,
                           vline.type,
                           vline.color,
@@ -1146,10 +1180,22 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------
       interc <- ifelse(fun == "glm", 1, 0)
       mydf$interc <- interc
-      gp <- ggplot(mydf, aes(x = x,
-                             y = estimate,
-                             colour = (estimate > interc),
-                             alpha = fade)) +
+      # --------------------------------------------------------
+      # Start plot here! First check how to colour geoms
+      # (whether grouped or not)
+      # --------------------------------------------------------
+      if (!is.null(group.estimates)) {
+        gp <- ggplot(mydf, aes(x = x,
+                               y = estimate,
+                               colour = grp,
+                               alpha = fade))
+      } else {
+        gp <- ggplot(mydf, aes(x = x,
+                               y = estimate,
+                               colour = (estimate > interc),
+                               alpha = fade))
+      }
+      gp <- gp +
         # Intercept-line
         geom_hline(yintercept = interc,
                    linetype = vline.type,
@@ -1219,7 +1265,7 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     # facet grid means, just one plot
     # ---------------------------------------
-    if (facet.grid) {
+    if (facet.grid || !is.null(group.estimates)) {
       # ---------------------------------------
       # for random effects, no title is displayed in facet. so
       # tell user via message that random effects are plotted
@@ -1228,6 +1274,7 @@ sjp.lme4  <- function(fit,
       me.plot <- plot.effe(mydf,
                            title,
                            facet.grid,
+                           group.estimates,
                            show.ci,
                            vline.type,
                            vline.color,
@@ -1235,9 +1282,20 @@ sjp.lme4  <- function(fit,
                            type,
                            free.scale)
       # ---------------------------------------------------------
+      # grouped estimates should be shown in legend
+      # ---------------------------------------------------------
+      if (!is.null(group.estimates)) {
+        pal.len <- length(unique(group.estimates))
+        legend.labels <- unique(mydf$grp)
+      } else {
+        pal.len <- 2
+        show.legend <- FALSE
+        legend.labels <- NULL
+      }
+      # ---------------------------------------------------------
       # set geom colors
       # ---------------------------------------------------------
-      me.plot <- sj.setGeomColors(me.plot, geom.colors, 2, FALSE, NULL)
+      me.plot <- sj.setGeomColors(me.plot, geom.colors, pal.len, show.legend, legend.labels)
       me.plot.list[[length(me.plot.list) + 1]]  <- me.plot
       # ---------------------------------------------------------
       # Check whether ggplot object should be returned or plotted
@@ -1261,6 +1319,7 @@ sjp.lme4  <- function(fit,
         me.plot <- plot.effe(mydf[mydf$grp == groups[j], ],
                              title[j],
                              facet.grid,
+                             group.estimates,
                              show.ci,
                              vline.type,
                              vline.color,
