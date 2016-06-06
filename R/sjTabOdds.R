@@ -207,6 +207,7 @@ sjt.glm <- function(...,
                     digits.summary = 3,
                     cell.spacing = 0.2,
                     cell.gpr.indent = 0.6,
+                    sep.column = TRUE,
                     CSS = NULL,
                     encoding = NULL,
                     file = NULL,
@@ -495,8 +496,7 @@ sjt.glm <- function(...,
   # -------------------------------------
   # set default dependent var label
   # -------------------------------------
-  gtrl <- get_table_response_label(page.content, depvar.labels, 
-                                   input_list, tcp, headerColSpanFactor)
+  gtrl <- get_table_response_label(page.content, depvar.labels, input_list, tcp, headerColSpanFactor, sep.column)
   page.content <- gtrl$page.content
   depvar.labels <- gtrl$depvar.labels
   # -------------------------------------
@@ -542,7 +542,7 @@ sjt.glm <- function(...,
       # -------------------------
       # insert "separator column"
       # -------------------------
-      page.content <- paste0(page.content, "<td class=\"separatorcol colnames\">&nbsp;</td>")
+      if (sep.column) page.content <- paste0(page.content, "<td class=\"separatorcol colnames\">&nbsp;</td>")
       # confidence interval in separate column
       if (separate.ci.col) {
         page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign colnames modelcolumn1\">%s</td>", string.est))
@@ -582,7 +582,7 @@ sjt.glm <- function(...,
     # -------------------------
     # insert "separator column"
     # -------------------------
-    page.content <- paste0(page.content, sprintf("<td class=\"separatorcol %s\">&nbsp;</td>", tcb_class))
+    if (sep.column) page.content <- paste0(page.content, sprintf("<td class=\"separatorcol %s\">&nbsp;</td>", tcb_class))
     # confidence interval in separate column
     if (separate.ci.col) {
       # open table cell for Beta-coefficient
@@ -665,7 +665,7 @@ sjt.glm <- function(...,
       # -------------------------
       # insert "separator column"
       # -------------------------
-      page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
+      if (sep.column) page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
       # confidence interval in separate column
       if (separate.ci.col) {
         # open table cell for Beta-coefficient
@@ -758,7 +758,7 @@ sjt.glm <- function(...,
           # -------------------------
           # insert "separator column"
           # -------------------------
-          page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
+          if (sep.column) page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
           # get random intercept variance
           reva <- lme4::VarCorr(input_list[[i]])
           vars <- lapply(reva, function(x) x[[1]])
@@ -784,7 +784,7 @@ sjt.glm <- function(...,
           # -------------------------
           # insert "separator column"
           # -------------------------
-          page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
+          if (sep.column) page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
           # does model have random slope?
           if (has_rnd_slope[i]) {
             # get slope-intercept correlation
@@ -811,7 +811,7 @@ sjt.glm <- function(...,
         # -------------------------
         # insert "separator column"
         # -------------------------
-        page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
+        if (sep.column) page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
         # retrieve random intercepts of each model
         sub.mmgrps <- lme4::getME(input_list[[i]], "flist")
         # does model have enough random intercepts?
@@ -838,7 +838,7 @@ sjt.glm <- function(...,
           # -------------------------
           # insert "separator column"
           # -------------------------
-          page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
+          if (sep.column) page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
           # get icc from models
           sub.summary.icc <- sjstats::icc(input_list[[i]])
           # does model have enough icc values?
@@ -862,7 +862,7 @@ sjt.glm <- function(...,
     # -------------------------
     # insert "separator column"
     # -------------------------
-    page.content <- paste0(page.content, "<td class=\"separatorcol firstsumrow\">&nbsp;</td>")
+    if (sep.column) page.content <- paste0(page.content, "<td class=\"separatorcol firstsumrow\">&nbsp;</td>")
     page.content <- paste(page.content, sprintf("%s%i</td>", colspanstringfirstrow, stats::nobs(input_list[[i]])))
   }
   page.content <- paste0(page.content, "\n  </tr>\n")
@@ -881,7 +881,7 @@ sjt.glm <- function(...,
       # -------------------------
       # insert "separator column"
       # -------------------------
-      page.content <- paste0(page.content, "\n    <td class=\"separatorcol\">&nbsp;</td>")
+      if (sep.column) page.content <- paste0(page.content, "\n    <td class=\"separatorcol\">&nbsp;</td>")
       psr <- sjstats::r2(input_list[[i]])
       tjur <- sjstats::cod(input_list[[i]])
       if (lmerob) {
@@ -927,7 +927,7 @@ sjt.glm <- function(...,
       # -------------------------
       # insert "separator column"
       # -------------------------
-      page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
+      if (sep.column) page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
       page.content <- paste0(page.content, sprintf("%s%.*f</td>", colspanstring, digits.summary, stats::AIC(input_list[[i]])))
     }
     page.content <- paste0(page.content, "\n  </tr>\n")
@@ -941,7 +941,7 @@ sjt.glm <- function(...,
       # -------------------------
       # insert "separator column"
       # -------------------------
-      page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
+      if (sep.column) page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
       page.content <- paste0(page.content, sprintf("%s%.*f</td>", colspanstring, digits.summary, AICcmodavg::AICc(input_list[[i]])))
     }
     page.content <- paste0(page.content, "\n  </tr>\n")
@@ -955,7 +955,7 @@ sjt.glm <- function(...,
       # -------------------------
       # insert "separator column"
       # -------------------------
-      page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
+      if (sep.column) page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
       page.content <- paste0(page.content, sprintf("%s%.*f</td>", colspanstring, digits.summary, -2 * as.vector(stats::logLik(input_list[[i]]))))
     }
     page.content <- paste0(page.content, "\n  </tr>\n")
@@ -969,7 +969,7 @@ sjt.glm <- function(...,
       # -------------------------
       # insert "separator column"
       # -------------------------
-      page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
+      if (sep.column) page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
       page.content <- paste0(page.content, sprintf("%s%.*f</td>", colspanstring, digits.summary, stats::deviance(input_list[[i]], REML = FALSE)))
     }
     page.content <- paste0(page.content, "\n  </tr>\n")
@@ -983,7 +983,7 @@ sjt.glm <- function(...,
       # -------------------------
       # insert "separator column"
       # -------------------------
-      page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
+      if (sep.column) page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
       page.content <- paste0(page.content, gsub("0.",
                                                 paste0(p_zero, "."),
                                                 sprintf("%sp=%.*f</td>", 
@@ -1009,7 +1009,7 @@ sjt.glm <- function(...,
   #         # -------------------------
   #         # insert "separator column"
   #         # -------------------------
-  #         page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
+  #         if (sep.column) page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
   #         # -------------------------
   #         # compute Pearson's X2 GOF-test
   #         # -------------------------
@@ -1040,7 +1040,7 @@ sjt.glm <- function(...,
       # -------------------------
       # insert "separator column"
       # -------------------------
-      page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
+      if (sep.column) page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
       # -------------------------
       # compute Hosmer-Lemeshow test
       # -------------------------
@@ -1070,7 +1070,7 @@ sjt.glm <- function(...,
       # -------------------------
       # insert "separator column"
       # -------------------------
-      page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
+      if (sep.column) page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
       fam <- stats::family(input_list[[i]])
       page.content <- paste0(page.content, sprintf("%s%s (%s)</td>", 
                                                    colspanstring, 
@@ -1237,6 +1237,7 @@ sjt.glmer <- function(...,
                       digits.summary = 3,
                       cell.spacing = 0.2,
                       cell.gpr.indent = 0.6,
+                      sep.column = TRUE,
                       CSS = NULL,
                       encoding = NULL,
                       file = NULL,
@@ -1259,6 +1260,6 @@ sjt.glmer <- function(...,
                  group.pred = group.pred, show.col.header = show.col.header, show.r2 = show.r2, show.icc = show.icc, 
                  show.re.var = show.re.var, show.loglik = show.loglik, show.aic = show.aic, show.aicc = show.aicc, show.dev = show.dev,
                  show.chi2 = FALSE, show.hoslem = show.hoslem, show.family = show.family, remove.estimates = remove.estimates, 
-                 cell.spacing = cell.spacing, cell.gpr.indent = cell.gpr.indent, encoding = encoding, 
-                 CSS = CSS, use.viewer = use.viewer, no.output = no.output, remove.spaces = remove.spaces))
+                 cell.spacing = cell.spacing, cell.gpr.indent = cell.gpr.indent, sep.column = sep.column,
+                 encoding = encoding, CSS = CSS, use.viewer = use.viewer, no.output = no.output, remove.spaces = remove.spaces))
 }

@@ -4,7 +4,7 @@ get_table_header <- function(encoding, cell.spacing, cell.gpr.indent, p.numeric,
 
 
 
-get_table_response_label <- function(page.content, depvar.labels, input_list, tcp, headerColSpanFactor) {
+get_table_response_label <- function(page.content, depvar.labels, input_list, tcp, headerColSpanFactor, sep.column) {
   # -------------------------------------
   # set default dependent var label
   # -------------------------------------
@@ -34,7 +34,7 @@ get_table_response_label <- function(page.content, depvar.labels, input_list, tc
     # -------------------------
     # insert "separator column"
     # -------------------------
-    page.content <- paste0(page.content, sprintf("\n    <td class=\"separatorcol%s\">&nbsp;</td>", tcp))
+    if (sep.column) page.content <- paste0(page.content, sprintf("\n    <td class=\"separatorcol%s\">&nbsp;</td>", tcp))
     if (headerColSpanFactor > 1) {
       page.content <- paste0(page.content, 
                              sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\" colspan=\"%i\">%s</td>", 
