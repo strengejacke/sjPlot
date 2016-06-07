@@ -1,4 +1,4 @@
-# sjPlot 2.0.0-2
+# sjPlot 2.0.0-3
 
 ## General
 
@@ -11,7 +11,7 @@
 * `axis.title` argument for `sjp.glmer` and `sjp.lmer` can now be a vector of length one or two, to be more flexible with axes titles for the various plot types.
 * `sjt.lm`, `sjt.glm`, `sjt.lmer` and `sjt.glmer` get a `sep.column` argument to add (default) or remove a separator column (i.e. margin) between model columns.
 * Argument `axis.title` now also applies to `type = "pred"` for `sjp.lm`, `sjp.glm`, `sjp.lmer` and `sjp.glmer`.
-
+* Added argument `legend.title` to `sjp.lmer` and `sjp.glmer` to set legend title for those plot types who have legends.
 
 ## Bug fixes
 

@@ -479,14 +479,8 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
   for (k in 1:length(models)) {
     # get model
     fit <- models[[k]]
-    # get model coefficients' names
-    if (is_merMod(fit)) {
-      # copy model frame
-      fmodel <- stats::model.frame(fit, fixed.only = T)
-    } else {
-      # copy model frame
-      fmodel <- stats::model.frame(fit)
-    }
+    # copy model frame
+    fmodel <- stats::model.frame(fit, fixed.only = T)
     # retrieve all factors from model
     for (grp.cnt in 1:ncol(fmodel)) {
       # get variable
@@ -583,14 +577,12 @@ retrieveModelLabels <- function(models, group.pred) {
       return(NULL)
     # get model coefficients' names
     if (is_merMod(fit)) {
-      # get model frame
-      m_f <- stats::model.frame(fit, fixed.only = TRUE)
       coef_names <- names(lme4::fixef(fit))
     } else {
-      # get model frame
-      m_f <- stats::model.frame(fit)
       coef_names <- names(stats::coef(fit))
     }
+    # get model frame
+    m_f <- stats::model.frame(fit, fixed.only = TRUE)
     # iterate coefficients (1 is intercept or response)
     for (i in 2:ncol(m_f)) {
       # check bounds

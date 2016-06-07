@@ -14,7 +14,7 @@ sjp.lm(fit, type = "lm", vars = NULL, group.estimates = NULL,
   show.legend = FALSE, show.loess = FALSE, show.loess.ci = FALSE,
   show.summary = FALSE, digits = 2, vline.type = 2,
   vline.color = "grey70", coord.flip = TRUE, y.offset = 0.15,
-  facet.grid = TRUE, completeDiagnostic = FALSE, prnt.plot = TRUE, ...)
+  facet.grid = TRUE, complete.dgns = FALSE, prnt.plot = TRUE, ...)
 }
 \arguments{
 \item{fit}{fitted linear regression model (of class \code{\link{lm}}, \code{\link[nlme]{gls}} or \code{plm}).}
@@ -29,7 +29,7 @@ sjp.lm(fit, type = "lm", vars = NULL, group.estimates = NULL,
   \item{\code{"pred"}}{to plot predicted values for the response, related to specific predictors. See 'Details'.}
   \item{\code{"eff"}}{to plot marginal effects of all terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms.}
   \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples').}
-  \item{\code{"ma"}}{to check model assumptions. Note that only three arguments are relevant for this option \code{fit} and \code{completeDiagnostic}. All other arguments are ignored.}
+  \item{\code{"ma"}}{to check model assumptions. Note that only three arguments are relevant for this option \code{fit} and \code{complete.dgns}. All other arguments are ignored.}
   \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 }}
 
@@ -141,7 +141,7 @@ to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 \item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
 in a grid of an integrated single plot.}
 
-\item{completeDiagnostic}{logical, if \code{TRUE}, additional tests are performed. Default is \code{FALSE}
+\item{complete.dgns}{logical, if \code{TRUE}, additional tests are performed. Default is \code{FALSE}
 Only applies if \code{type = "ma"}.}
 
 \item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
@@ -210,7 +210,7 @@ Depending on the \code{type}, this function plots coefficients (estimates)
                  plotting the curvilinear relationships of response and quadratic, cubic etc. 
                  terms. This function accepts following argument.}
            \item{\code{type = "ma"}}{checks model assumptions. Please note that only 
-                 three arguments are relevant: \code{fit} and \code{completeDiagnostic}. 
+                 three arguments are relevant: \code{fit} and \code{complete.dgns}. 
                  All other arguments are ignored.}
            \item{\code{type = "vif"}}{Variance Inflation Factors (check for multicollinearity) 
                  are plotted. As a rule of thumb, values below 5 are considered as good 

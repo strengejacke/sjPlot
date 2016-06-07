@@ -60,7 +60,7 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'                  plotting the curvilinear relationships of response and quadratic, cubic etc. 
 #'                  terms. This function accepts following argument.}
 #'            \item{\code{type = "ma"}}{checks model assumptions. Please note that only 
-#'                  three arguments are relevant: \code{fit} and \code{completeDiagnostic}. 
+#'                  three arguments are relevant: \code{fit} and \code{complete.dgns}. 
 #'                  All other arguments are ignored.}
 #'            \item{\code{type = "vif"}}{Variance Inflation Factors (check for multicollinearity) 
 #'                  are plotted. As a rule of thumb, values below 5 are considered as good 
@@ -80,7 +80,7 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'            \item{\code{"pred"}}{to plot predicted values for the response, related to specific predictors. See 'Details'.}
 #'            \item{\code{"eff"}}{to plot marginal effects of all terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms.}
 #'            \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples').}
-#'            \item{\code{"ma"}}{to check model assumptions. Note that only three arguments are relevant for this option \code{fit} and \code{completeDiagnostic}. All other arguments are ignored.}
+#'            \item{\code{"ma"}}{to check model assumptions. Note that only three arguments are relevant for this option \code{fit} and \code{complete.dgns}. All other arguments are ignored.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
 #' @param sort.est logical, determines whether estimates should be sorted according to their values.
@@ -112,7 +112,7 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #' @param legend.title character vector, used as title for the plot legend. Note that
 #'          only some plot types have legends (e.g. \code{type = "pred"} or when
 #'          grouping estimates with \code{group.estimates}).
-#' @param completeDiagnostic logical, if \code{TRUE}, additional tests are performed. Default is \code{FALSE}
+#' @param complete.dgns logical, if \code{TRUE}, additional tests are performed. Default is \code{FALSE}
 #'          Only applies if \code{type = "ma"}.
 #'
 #' @inheritParams sjp.grpfrq
@@ -283,7 +283,7 @@ sjp.lm <- function(fit,
                    coord.flip = TRUE,
                    y.offset = .15,
                    facet.grid = TRUE,
-                   completeDiagnostic = FALSE,
+                   complete.dgns = FALSE,
                    prnt.plot = TRUE,
                    ...) {
   # -----------------------------------------------------------
@@ -348,7 +348,7 @@ sjp.lm <- function(fit,
                                  fun = "lm", prnt.plot, ...)))
   }
   if (type == "ma") {
-    return(invisible(sjp.lm.ma(fit, completeDiagnostic)))
+    return(invisible(sjp.lm.ma(fit, complete.dgns)))
   }
   if (type == "vif") {
     return(invisible(sjp.vif(fit)))
@@ -787,7 +787,7 @@ col_check2 <- function(geom.colors, collen) {
 
 #' @importFrom stats fitted rstudent residuals sd median
 #' @importFrom dplyr add_rownames
-sjp.lm.ma <- function(linreg, completeDiagnostic = FALSE) {
+sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
   # ------------------------
   # prepare plot list
   # ------------------------
@@ -987,7 +987,7 @@ sjp.lm.ma <- function(linreg, completeDiagnostic = FALSE) {
     plot.list[[length(plot.list) + 1]] <- p1
     # print plot
     graphics::plot(p1)
-    if (completeDiagnostic) {
+    if (complete.dgns) {
       # ---------------------------------
       # Plot residuals against predictors
       # ---------------------------------
