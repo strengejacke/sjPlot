@@ -38,7 +38,9 @@ will be set automatically. If \code{title = ""}, no title is printed.}
 \item{depvar.labels}{character vector with labels of dependent 
 variables of all fitted models. See 'Examples'.}
 
-\item{legend.title}{character vector, used as title for the plot legend.}
+\item{legend.title}{character vector, used as title for the plot legend. Note that
+only some plot types have legends (e.g. \code{type = "pred"} or when
+grouping estimates with \code{group.estimates}).}
 
 \item{legend.pval.title}{character vector, used as title of the plot legend that 
 indicates the p-values. Default is \code{"p-level"}. Only applies if \code{p.shape = TRUE}.}

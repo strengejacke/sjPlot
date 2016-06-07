@@ -189,6 +189,7 @@ sjp.glm <- function(fit,
   }
   if (type == "pred") {
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
+                                   a.title = axis.title,
                                    geom.colors, show.ci, geom.size, ylim = axis.lim,
                                    facet.grid, type = "fe", show.loess = F, prnt.plot)))
   }
@@ -771,6 +772,7 @@ sjp.glm.predy <- function(fit,
                           vars,
                           t.title,
                           l.title,
+                          a.title,
                           geom.colors,
                           show.ci,
                           geom.size,
@@ -853,8 +855,13 @@ sjp.glm.predy <- function(fit,
       t.title <- "Predicted values"
   }
   # axis titles
-  x.title <- sjmisc::get_label(fitfram[[vars[1]]], def.value = vars[1])
-  y.title <- sjmisc::get_label(fitfram[[1]], def.value = colnames(fitfram)[1])
+  if (is.null(a.title) || length(a.title) != 2) {
+    x.title <- sjmisc::get_label(fitfram[[vars[1]]], def.value = vars[1])
+    y.title <- sjmisc::get_label(fitfram[[1]], def.value = colnames(fitfram)[1])
+  } else {
+    x.title <- a.title[1]
+    y.title <- a.title[2]
+  }
   # legend title
   if (is.null(l.title))
     l.title <- sjmisc::get_label(fitfram[[vars[2]]], def.value = vars[2])

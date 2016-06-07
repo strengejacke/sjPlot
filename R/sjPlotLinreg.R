@@ -109,6 +109,9 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #' @param scatter.plot logical, if \code{TRUE} (default), a scatter plot of
 #'          response and predictor values for each predictor of the model
 #'          is plotted. Only applies for slope-type plots.
+#' @param legend.title character vector, used as title for the plot legend. Note that
+#'          only some plot types have legends (e.g. \code{type = "pred"} or when
+#'          grouping estimates with \code{group.estimates}).
 #' @param completeDiagnostic logical, if \code{TRUE}, additional tests are performed. Default is \code{FALSE}
 #'          Only applies if \code{type = "ma"}.
 #'
@@ -331,6 +334,7 @@ sjp.lm <- function(fit,
   }
   if (type == "pred") {
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
+                                   a.title = axis.title,
                                    geom.colors, show.ci, geom.size, ylim = axis.lim,
                                    facet.grid, type = "fe", show.loess, prnt.plot)))
   }

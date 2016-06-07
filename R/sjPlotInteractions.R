@@ -92,7 +92,7 @@
 #'          which means that each plot's x-axis uses the predictor's name as title.
 #' @param axis.labels character vector with value labels of the interaction, used
 #'          to label the x-axis. Only applies to \code{type = "emm"}.
-#' @param legend.title title of the diagram's legend. A character vector of same length as 
+#' @param legend.title title of the plot's legend. A character vector of same length as 
 #'          amount of interaction plots to be plotted (i.e. one vector element for each
 #'          plot's legend title).
 #' @param legend.labels labels for the guide/legend. Either a character vector of same length as

@@ -479,15 +479,13 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
   for (k in 1:length(models)) {
     # get model
     fit <- models[[k]]
-    # copy model frame
-    fmodel <- stats::model.frame(fit)
     # get model coefficients' names
     if (is_merMod(fit)) {
-      # for merMod, remove random parts. Therefor, get random part terms
-      tmp <- stats::terms(stats::formula(fit))
-      rnd.terms <- grep("|", attr(tmp, "term.labels"), fixed = TRUE, value = FALSE) + 1
-      # now remove random parts from model frame
-      fmodel <- fmodel[, -rnd.terms]
+      # copy model frame
+      fmodel <- stats::model.frame(fit, fixed.only = T)
+    } else {
+      # copy model frame
+      fmodel <- stats::model.frame(fit)
     }
     # retrieve all factors from model
     for (grp.cnt in 1:ncol(fmodel)) {
@@ -583,17 +581,14 @@ retrieveModelLabels <- function(models, group.pred) {
     if (any(class(fit) == "plm") || 
         any(class(fit) == "ppgls"))
       return(NULL)
-    # get model frame
-    m_f <- stats::model.frame(fit)
     # get model coefficients' names
     if (is_merMod(fit)) {
+      # get model frame
+      m_f <- stats::model.frame(fit, fixed.only = TRUE)
       coef_names <- names(lme4::fixef(fit))
-      # for merMod, remove random parts. Therefor, get random part terms
-      tmp <- stats::terms(stats::formula(fit))
-      rnd.terms <- grep("|", attr(tmp, "term.labels"), fixed = TRUE, value = FALSE) + 1
-      # now remove random parts from model frame
-      m_f <- m_f[, -rnd.terms]
     } else {
+      # get model frame
+      m_f <- stats::model.frame(fit)
       coef_names <- names(stats::coef(fit))
     }
     # iterate coefficients (1 is intercept or response)

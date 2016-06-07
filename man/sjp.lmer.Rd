@@ -7,10 +7,10 @@
 sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL,
   group.estimates = NULL, remove.estimates = NULL, emph.grp = NULL,
   sample.n = NULL, poly.term = NULL, sort.est = NULL, title = NULL,
-  axis.labels = NULL, axis.title = NULL, geom.size = NULL,
-  geom.colors = "Set1", show.values = TRUE, show.p = TRUE,
-  show.ci = FALSE, show.legend = FALSE, show.loess = FALSE,
-  show.loess.ci = FALSE, show.intercept = FALSE,
+  legend.title = NULL, axis.labels = NULL, axis.title = NULL,
+  geom.size = NULL, geom.colors = "Set1", show.values = TRUE,
+  show.p = TRUE, show.ci = FALSE, show.legend = FALSE,
+  show.loess = FALSE, show.loess.ci = FALSE, show.intercept = FALSE,
   string.interc = "(Intercept)", p.kr = TRUE, point.alpha = 0.2,
   scatter.plot = TRUE, fade.ns = FALSE, axis.lim = NULL, digits = 2,
   vline.type = 2, vline.color = "grey70", facet.grid = TRUE,
@@ -91,6 +91,10 @@ for polynomial terms. See 'Examples'.}
 
 \item{title}{character vector with one or more labels that are used as plot title.}
 
+\item{legend.title}{character vector, used as title for the plot legend. Note that
+only some plot types have legends (e.g. \code{type = "pred"} or when
+grouping estimates with \code{group.estimates}).}
+
 \item{axis.labels}{character vector with labels for the model terms, used as axis labels.
 For mixed models, should either be vector of fixed effects variable labels 
 (if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
@@ -104,7 +108,11 @@ If not specified, a default labelling  is chosen.}
 depending on plot type and function). Note that bar and bin widths mostly 
 need smaller values than dot sizes.}
 
-\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
+\item{geom.colors}{user defined color palette for geoms. If \code{group.estimates}
+is \emph{not} specified, must either be vector with two color values or a specific
+color palette code (see 'Details' in \code{\link{sjp.grpfrq}}). Else, if
+\code{group.estimates} is specified, \code{geom.colors} must be a vector
+of same length as groups. See 'Examples'.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 

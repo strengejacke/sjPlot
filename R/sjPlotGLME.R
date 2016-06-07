@@ -84,9 +84,9 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #' @param ... other arguments, passed down to the \code{\link[effects]{effect}} resp. 
 #'          \code{\link[effects]{allEffects}} function when \code{type = "eff"}.
 #'
-#' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.glm
+#' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.gpt
 #'
 #' @return (Insisibily) returns, depending on the plot type
@@ -238,6 +238,7 @@ sjp.glmer <- function(fit,
                       sample.n = NULL,
                       sort.est = NULL,
                       title = NULL,
+                      legend.title = NULL,
                       axis.labels = NULL,
                       axis.title = NULL,
                       geom.colors = "Set1",
@@ -275,6 +276,7 @@ sjp.glmer <- function(fit,
            ri.nr,
            emph.grp,
            title,
+           legend.title,
            geom.size,
            geom.colors,
            show.intercept,
@@ -526,6 +528,7 @@ sjp.lmer <- function(fit,
                      poly.term = NULL,
                      sort.est = NULL,
                      title = NULL,
+                     legend.title = NULL,
                      axis.labels = NULL,
                      axis.title = NULL,
                      geom.size = NULL,
@@ -567,6 +570,7 @@ sjp.lmer <- function(fit,
            ri.nr,
            emph.grp,
            title,
+           legend.title,
            geom.size,
            geom.colors,
            show.intercept,
@@ -606,6 +610,7 @@ sjp.lme4  <- function(fit,
                       ri.nr,
                       emph.grp,
                       title,
+                      legend.title,
                       geom.size,
                       geom.colors,
                       show.intercept,
@@ -716,6 +721,10 @@ sjp.lme4  <- function(fit,
     # Check valid index of highlighted group levels
     # ---------------------------------------
     if (!is.null(emph.grp)) {
+      # ---------------------------------------
+      # check default for facet grid. if not specified, set to false
+      # ---------------------------------------
+      if (missing(facet.grid)) facet.grid <- FALSE
       # ---------------------------------------
       # emphasizing groups does only work if
       # plot is not faceted!
@@ -832,7 +841,8 @@ sjp.lme4  <- function(fit,
     # plot predicted probabilities / values of
     # response value
     # ---------------------------------------
-    return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = NULL,
+    return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
+                                   a.title = axis.title,
                                    geom.colors, show.ci, geom.size, ylim = axis.lim, facet.grid, 
                                    type = "re", show.loess = F, prnt.plot)))
   } else if (type == "pred.fe") {
@@ -840,7 +850,8 @@ sjp.lme4  <- function(fit,
     # plot predicted probabilities / values of
     # response value
     # ---------------------------------------
-    return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = NULL,
+    return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
+                                   a.title = axis.title,
                                    geom.colors, show.ci, geom.size, ylim = axis.lim, facet.grid, 
                                    type = "fe", show.loess = F, prnt.plot)))
   }
@@ -1071,6 +1082,7 @@ sjp.lme4  <- function(fit,
           warning("Length of `group.estimates` does not equal number of model coefficients. Ignoring this argument.", call. = F)
           group.estimates = NULL
           show.legend <- FALSE
+          legend.title <- NULL
         } else {
           mydf$grp <- as.character(group.estimates)
           # by default, legend should be visible
@@ -1078,6 +1090,7 @@ sjp.lme4  <- function(fit,
         }
       } else {
         show.legend <- FALSE
+        legend.title <- NULL
       }
       # -------------------------------------------------
       # remove any estimates from the output?
@@ -1167,6 +1180,7 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     plot.effe <- function(mydf,
                           title,
+                          legend.title,
                           facet.grid,
                           group.estimates,
                           show.ci,
@@ -1259,7 +1273,7 @@ sjp.lme4  <- function(fit,
         else
           gp  <- gp + facet_grid(~grp)
       }
-      gp <- gp + labs(x = axis.title[1], y = axis.title[2], title = title)
+      gp <- gp + labs(x = axis.title[1], y = axis.title[2], title = title, colour = legend.title)
       return(gp)
     }
     # ---------------------------------------
@@ -1273,6 +1287,7 @@ sjp.lme4  <- function(fit,
       if (type == "re") message("Plotting random effects...")
       me.plot <- plot.effe(mydf,
                            title,
+                           legend.title,
                            facet.grid,
                            group.estimates,
                            show.ci,
@@ -1318,6 +1333,7 @@ sjp.lme4  <- function(fit,
       for (j in 1:length(groups)) {
         me.plot <- plot.effe(mydf[mydf$grp == groups[j], ],
                              title[j],
+                             NULL,
                              facet.grid,
                              group.estimates,
                              show.ci,
@@ -1365,7 +1381,7 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
   # we have any numeric terms in fitted model; and
   # get model family, for link-inverse function
   # ----------------------------
-  fit.df <- stats::model.frame(fit)
+  fit.df <- stats::model.frame(fit, fixed.only = TRUE)
   fitfam <- stats::family(fit)
   faminfo <- get_glm_family(fit)
   # --------------------------------------------------------
@@ -1379,9 +1395,8 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
   # ----------------------------
   plot.prob <- list()
   mydf.prob <- list()
-  fit.term.length <- length(names(lme4::fixef(fit))[-1])
-  fit.term.names <- stats::na.omit(attr(attr(fit.df, "terms"), "term.labels")[1:fit.term.length])
-  response.name <- attr(attr(attr(fit.df, "terms"), "dataClasses"), "names")[1]
+  fit.term.names <- colnames(fit.df)[-1]
+  response.name <- colnames(fit.df)[1]
   fi <- unname(lme4::fixef(fit))[1]
   # ----------------------------
   # filter vars?
