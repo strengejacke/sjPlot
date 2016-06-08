@@ -642,15 +642,6 @@ sjp.lme4  <- function(fit,
                       sample.n = NULL,
                       show.legend = FALSE,
                       ...) {
-  # ------------------------
-  # check if suggested package is available
-  # ------------------------
-  if (!requireNamespace("lme4", quietly = TRUE)) {
-    stop("Package `lme4` needed for this function to work. Please install it.", call. = FALSE)
-  }
-  if (!requireNamespace("arm", quietly = TRUE)) {
-    stop("Package `arm` needed for this function to work. Please install it.", call. = FALSE)
-  }
   # -------------------------------------
   # check type
   # -------------------------------------
@@ -854,6 +845,12 @@ sjp.lme4  <- function(fit,
                                    a.title = axis.title,
                                    geom.colors, show.ci, geom.size, ylim = axis.lim, facet.grid, 
                                    type = "fe", show.loess = F, prnt.plot)))
+  }
+  # ------------------------
+  # check if suggested package is available
+  # ------------------------
+  if (!requireNamespace("arm", quietly = TRUE)) {
+    stop("Package `arm` needed for this function to work. Please install it.", call. = FALSE)
   }
   # ---------------------------------------
   # check geom size
@@ -2060,9 +2057,6 @@ sjp.glm.eff <- function(fit,
   # ------------------------
   if (!requireNamespace("effects", quietly = TRUE)) {
     stop("Package `effects` needed for this function to work. Please install it.", call. = FALSE)
-  }
-  if ((any(class(fit) == "lmerMod" || any(class(fit) == "merModLmerTest"))) && !requireNamespace("lme4", quietly = TRUE)) {
-    stop("Package `lme4` needed for this function to work. Please install it.", call. = FALSE)
   }
   # ---------------------------------------
   # init plot list

@@ -119,7 +119,6 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' 
 #' @import ggplot2
 #' @import sjmisc
-#' @importFrom car outlierTest influencePlot crPlots durbinWatsonTest leveragePlots ncvTest spreadLevelPlot vif
 #' @importFrom stats na.omit coef confint logLik
 #' @export
 sjp.glm <- function(fit,
@@ -985,6 +984,12 @@ sjp.glm.predy <- function(fit,
 #' @importFrom stats update qqnorm qqline residuals anova
 #' @importFrom graphics points text abline plot
 sjp.glm.ma <- function(logreg) {
+  # -----------------------------------
+  # check package availability
+  # -----------------------------------
+  if (!requireNamespace("car", quietly = TRUE)) {
+    stop("Package `car` needed for this function to work. Please install it.", call. = F)
+  }
   # ---------------------------------
   # remove outliers
   # ---------------------------------

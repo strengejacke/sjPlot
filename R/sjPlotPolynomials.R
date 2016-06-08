@@ -127,8 +127,6 @@ sjp.poly <- function(x,
   # parameter check: fitted model or variables?
   # --------------------------------------------
   if (is_merMod(x)) { 
-    if (!requireNamespace("lme4", quietly = TRUE))
-      stop("Package `lme4`` needed for this function to work. Please install it.", call. = FALSE)
     # retrieve response vector
     resp <- lme4::getME(x, "y")
     # get model frame

@@ -1,5 +1,5 @@
 # bind global variables
-utils::globalVariables(c("Freq"))
+utils::globalVariables(c("Freq", "vif"))
 
 # Help-functions
 
@@ -760,6 +760,12 @@ adjust_plot_range <- function(gp, upper.mrgn=1.05) {
 
 #' @importFrom stats reorder
 sjp.vif <- function(fit) {
+  # -----------------------------------
+  # check package availability
+  # -----------------------------------
+  if (!requireNamespace("car", quietly = TRUE)) {
+    stop("Package `car` needed for this function to work. Please install it.", call. = F)
+  }
   vifval <- NULL
   vifplot <- NULL
   mydat <- NULL

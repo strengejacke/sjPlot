@@ -348,9 +348,6 @@ sjp.int <- function(fit,
   # ------------------------
   # check if suggested package is available
   # ------------------------
-  if ((fun == "lmer" || fun == "glmer" || fun == "nlmer") && !requireNamespace("lme4", quietly = TRUE)) {
-    stop("Package `lme4` needed for this function to work. Please install it.", call. = FALSE)
-  }
   if (fun == "plm" && !"package:plm" %in% search()) {
     stop("Package `plm` needs to be loaded for this function to work... Use `library(plm)` and call this function again.", call. = FALSE)
   }

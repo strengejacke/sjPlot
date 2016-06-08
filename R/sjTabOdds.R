@@ -1,7 +1,3 @@
-# bind global variables
-utils::globalVariables(c("starts_with"))
-
-
 #' @title Summary of generalized linear models as HTML table
 #' @name sjt.glm
 #' 
@@ -249,9 +245,6 @@ sjt.glm <- function(...,
   # do we have mixed models?
   # ------------------------
   lmerob <- any(class(input_list[[1]]) == "glmerMod")
-  if (lmerob && !requireNamespace("lme4", quietly = TRUE)) {
-    stop("Package `lme4` needed for this function to work. Please install it.", call. = FALSE)
-  }
   # ------------------------
   # should AICc be computed? Check for package
   # ------------------------
@@ -919,7 +912,7 @@ sjt.glm <- function(...,
     # -------------------------------------
     if (lmerob && length(input_list) > 1) {
       # check whether we have mixed models fitted with REML
-      models.reml <- vapply(input_list, function(x) is(x, "merMod") && isREML(x), NA)
+      models.reml <- vapply(input_list, function(x) is(x, "merMod") && lme4::isREML(x), NA)
       if (any(models.reml)) warning("Some models were fit with REML. To get meaningful AIC values for comparison, refit models with ML (`REML = FALSE`).", call. = F)
     }
     page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">AIC</td>")

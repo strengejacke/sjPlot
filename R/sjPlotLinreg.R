@@ -245,7 +245,6 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'
 #' @import ggplot2
 #' @import sjmisc
-#' @importFrom car outlierTest crPlots durbinWatsonTest leveragePlots ncvTest spreadLevelPlot vif
 #' @importFrom stats model.matrix confint coef residuals sd
 #' @importFrom dplyr slice
 #' @importFrom nlme getData getResponse getCovariateFormula
@@ -795,8 +794,11 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
   # ------------------------
   # check if suggested package is available
   # ------------------------
+  if (!requireNamespace("car", quietly = TRUE)) {
+    stop("Package `car` needed for this function to work. Please install it.", call. = F)
+  }
   if (!requireNamespace("lmtest", quietly = TRUE)) {
-    stop("Package 'lmtest' needed for this function to work. Please install it.", call. = FALSE)
+    stop("Package `lmtest` needed for this function to work. Please install it.", call. = FALSE)
   }
   # copy current model
   model <- linreg
