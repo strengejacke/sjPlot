@@ -775,15 +775,15 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     # plot slopes for each fixed coefficient
     # ---------------------------------------
+    if (geom.colors == "Set1") geom.colors <- "black"
     if (fun == "lm") {
       # reset default color setting, does not look that good.
-      if (geom.colors == "Set1") geom.colors <- NULL
       return(invisible(sjp.reglin(fit, title, 50, geom.colors, show.ci, point.alpha,
                                   scatter.plot, show.loess, show.loess.ci, 
                                   useResiduals = ifelse(type == "fe.slope", FALSE, TRUE),
                                   remove.estimates, vars, ylim = axis.lim, prnt.plot)))
     } else {
-      return(invisible(sjp.glm.slope(fit, title, geom.size, remove.estimates, vars,
+      return(invisible(sjp.glm.slope(fit, title, geom.size, geom.colors, remove.estimates, vars,
                                      ylim = axis.lim, show.ci, facet.grid, prnt.plot)))
     }
   } else if (type == "poly") {
@@ -828,6 +828,8 @@ sjp.lme4  <- function(fit,
                                   vline.type, vline.color, fun,
                                   prnt.plot)))
   } else if (type == "pred") {
+    # fix color
+    if (geom.colors == "Set1" && length(vars) == 1) geom.colors <- "black"
     # ---------------------------------------
     # plot predicted probabilities / values of
     # response value
@@ -837,6 +839,8 @@ sjp.lme4  <- function(fit,
                                    geom.colors, show.ci, geom.size, ylim = axis.lim, facet.grid, 
                                    type = "re", show.loess = F, prnt.plot)))
   } else if (type == "pred.fe") {
+    # fix color
+    if (geom.colors == "Set1" && length(vars) == 1) geom.colors <- "black"
     # ---------------------------------------
     # plot predicted probabilities / values of
     # response value

@@ -178,7 +178,7 @@ sjp.glm <- function(fit,
   # check type
   # --------------------------------------------------------
   if (type == "slope") {
-    return(invisible(sjp.glm.slope(fit, title, geom.size, remove.estimates, vars,
+    return(invisible(sjp.glm.slope(fit, title, geom.size, geom.colors, remove.estimates, vars,
                                    ylim = axis.lim, show.ci, facet.grid, prnt.plot)))
   }
   if (type == "eff") {
@@ -522,10 +522,12 @@ sjp.glm <- function(fit,
 
 
 #' @importFrom stats predict coef formula model.frame
-sjp.glm.slope <- function(fit, title, geom.size, remove.estimates, vars,
+sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, vars,
                           ylim, show.ci, facet.grid, prnt.plot) {
   # check size argument
   if (is.null(geom.size)) geom.size <- .7
+  # check geom-color argument
+  geom.colors <- col_check2(geom.colors, 1)
   # ----------------------------
   # do we have mermod object?
   # ----------------------------
@@ -688,14 +690,14 @@ sjp.glm.slope <- function(fit, title, geom.size, remove.estimates, vars,
                       method.args = list(family = "poisson"),
                       se = show.ci,
                       size = geom.size,
-                      colour = "black")
+                      colour = geom.colors)
       } else {
         mp <- mp +
           stat_smooth(method = "glm", 
                       method.args = list(family = fitfam$family), 
                       se = show.ci,
                       size = geom.size,
-                      colour = "black")
+                      colour = geom.colors)
       }
       # y-limits
       mp <- mp + coord_cartesian(ylim = y.limits)
@@ -722,14 +724,14 @@ sjp.glm.slope <- function(fit, title, geom.size, remove.estimates, vars,
                       method.args = list(family = "poisson"),
                       se = show.ci,
                       size = geom.size,
-                      colour = "black")
+                      colour = geom.colors)
       } else {
         mp <- mp +
           stat_smooth(method = "glm", 
                       method.args = list(family = fitfam$family), 
                       se = show.ci,
                       size = geom.size,
-                      colour = "black")
+                      colour = geom.colors)
       }
       mp <- mp +
         facet_wrap(~grp,
@@ -884,11 +886,13 @@ sjp.glm.predy <- function(fit,
     colnames(mydf) <- c("x", "y")
     # x needs to be numeric
     mydf$x <- sjmisc::to_value(mydf$x)
+    # convert to factor for proper legend
+    mydf$grp <- sjmisc::to_factor(1)
     # set colors
-    if (is.null(geom.colors)) geom.colors <- col_check2(geom.colors, 1)
+    geom.colors <- col_check2(geom.colors, 1)
     # init plot
-    mp <- ggplot(mydf, aes(x = x, y = y)) +
-      labs(x = x.title, y = y.title, title = t.title)
+    mp <- ggplot(mydf, aes(x = x, y = y, colour = grp)) +
+      labs(x = x.title, y = y.title, title = t.title, colour = NULL)
   } else {
     colnames(mydf) <- c("x", "grp", "y")
     # x needs to be numeric
@@ -968,8 +972,18 @@ sjp.glm.predy <- function(fit,
       scale_colour_manual(values = geom.colors) +
       guides(colour = FALSE)
   } else if (!is.null(legend.labels)) {
+    if (length(legend.labels) == 1) {
+      mp <- mp +
+        scale_colour_manual(values = geom.colors) +
+        guides(colour = FALSE)
+    } else {
+      mp <- mp +
+        scale_colour_manual(values = geom.colors, labels = legend.labels)
+    }
+  } else {
     mp <- mp +
-      scale_colour_manual(values = geom.colors, labels = legend.labels)
+      scale_colour_manual(values = geom.colors) +
+      guides(colour = FALSE)
   }
   
   # --------------------------
