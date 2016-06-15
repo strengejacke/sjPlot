@@ -1491,9 +1491,7 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
           # special handling for negativ binomial
           if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
             mp <- mp +
-              stat_smooth(method = "glm",
-                          method.args = list(family = "poisson"),
-                          se = show.ci)
+              stat_smooth(method = "glm.b", se = show.ci)
           } else {
             mp <- mp +
               stat_smooth(method = "glm",
@@ -1871,9 +1869,7 @@ sjp.lme.rsri <- function(fit,
         # special handling for negativ binomial
         if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
           gp <- gp +
-            stat_smooth(method = "glm",
-                        method.args = list(family = "poisson"),
-                        se = F)
+            stat_smooth(method = "glm.nb", se = F)
         } else {
           gp <- gp +
             stat_smooth(method = "glm", se = F,

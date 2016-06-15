@@ -47,9 +47,9 @@ factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
 be grouped, if the factor has more than two levels. Grouping means that a separate headline
 row is inserted to the table just before the predictor values.}
 
-\item{exp.coef}{logical, if \code{TRUE} (default), regression coefficients and 
-confidence intervals are exponentiated. Use \code{FALSE} for 
-non-exponentiated coefficients (log-odds) as provided by 
+\item{exp.coef}{logical, if \code{TRUE} (default), regression coefficients and
+confidence intervals are exponentiated. Use \code{FALSE} for
+non-exponentiated coefficients (log-odds) as provided by
 the \code{\link{summary}} function.}
 
 \item{p.numeric}{logical, if \code{TRUE}, the p-values are printed 
@@ -77,7 +77,7 @@ and \code{string.dv} are shown. By default, they're hidden.}
 abbreviations for estimates, std. beta-values, confidence interval and p-values.}
 
 \item{show.r2}{logical, if \code{TRUE} (default), the pseudo R2 values for each model are printed
-in the model summary. R2cs is the Cox-Snell-pseudo R-squared value, R2n is Nagelkerke's 
+in the model summary. R2cs is the Cox-Snell-pseudo R-squared value, R2n is Nagelkerke's
 pseudo R-squared value and \code{D} is Tjur's Coefficient of Discrimination
 (see \code{\link[sjstats]{cod}}).}
 
@@ -101,7 +101,7 @@ is printed in the model summary. Default is \code{FALSE}.}
 is printed in the model summary.}
 
 \item{show.hoslem}{logical, if \code{TRUE}, a Hosmer-Lemeshow-Goodness-of-fit-test is
-performed. A well-fitting model shows no significant difference between 
+performed. A well-fitting model shows no significant difference between
 the model and the observed data, i.e. the reported p-values should be
 greater than 0.05.}
 
@@ -111,7 +111,7 @@ and same predictors and response, to decide which model fits best. See \code{\li
 for more details. It is recommended to inspect the model \code{\link{AIC}} (see \code{show.aic}) to get a
 decision help for which model to choose.}
 
-\item{show.chi2}{logical, if \code{TRUE}, the p-value of the chi-squared value for each 
+\item{show.chi2}{logical, if \code{TRUE}, the p-value of the chi-squared value for each
 model's residual deviance against the null deviance is printed
 in the model summary. Default is \code{FALSE}. A well-fitting model
 with predictors should significantly differ from the null-model
@@ -227,7 +227,7 @@ fitOR3 <- glm(y3 ~ Education + Examination + Catholic, data = swiss,
 
 \dontrun{
 # open HTML-table in RStudio Viewer Pane or web browser
-sjt.glm(fitOR1, fitOR2, 
+sjt.glm(fitOR1, fitOR2,
         depvar.labels = c("Fertility", "Infant Mortality"),
         pred.labels = c("Education", "Examination", "Catholic"),
         ci.hyphen = " to ")
@@ -244,9 +244,9 @@ sjt.glm(fitOR1, fitOR2, fitOR3,
         depvar.labels = c("Fertility", "Infant Mortality", "Agriculture"),
         pred.labels = c("Education", "Examination", "Catholic"))
 
-# -------------------------------------------- 
+# --------------------------------------------
 # User defined style sheet
-# -------------------------------------------- 
+# --------------------------------------------
 sjt.glm(fitOR1, fitOR2, fitOR3,
         depvar.labels = c("Fertility", "Infant Mortality", "Agriculture"),
         pred.labels = c("Education", "Examination", "Catholic"),
@@ -255,23 +255,23 @@ sjt.glm(fitOR1, fitOR2, fitOR3,
                    css.tdata = "border: 1px solid;",
                    css.depvarhead = "color:#003399;"))
 
-# -------------------------------------------- 
-# Compare models with different link functions, 
+# --------------------------------------------
+# Compare models with different link functions,
 # but same predictors and response
-# -------------------------------------------- 
+# --------------------------------------------
 library(sjmisc)
 # load efc sample data
 data(efc)
 # dichtomozize service usage by "service usage yes/no"
-efc$services <- sjmisc::dicho(efc$tot_sc_e, "v", 0, as.num = TRUE)
+efc$services <- sjmisc::dicho(efc$tot_sc_e, 0, as.num = TRUE)
 # fit 3 models with different link-functions
-fit1 <- glm(services ~ neg_c_7 + c161sex + e42dep, 
+fit1 <- glm(services ~ neg_c_7 + c161sex + e42dep,
             data = efc, family = binomial(link = "logit"))
-fit2 <- glm(services ~ neg_c_7 + c161sex + e42dep, 
+fit2 <- glm(services ~ neg_c_7 + c161sex + e42dep,
             data = efc, family = binomial(link = "probit"))
-fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep, 
+fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep,
             data = efc, family = poisson(link = "log"))
-            
+
 # compare models
 sjt.glm(fit1, fit2, fit3, show.aic = TRUE, show.family = TRUE)
 
@@ -288,14 +288,14 @@ sjt.glm(fit1, fit2, fit3, p.numeric = FALSE,
 sjt.glm(fit1, fit2, fit3, p.numeric = FALSE, separate.ci.col = FALSE,
         show.aic = TRUE, show.family = TRUE, show.r2 = TRUE)
 
-# ---------------------------------- 
+# ----------------------------------
 # automatic grouping of predictors
-# ---------------------------------- 
+# ----------------------------------
 library(sjmisc)
 # load efc sample data
 data(efc)
 # dichtomozize service usage by "service usage yes/no"
-efc$services <- sjmisc::dicho(efc$tot_sc_e, "v", 0, as.num = TRUE)
+efc$services <- sjmisc::dicho(efc$tot_sc_e, 0, as.num = TRUE)
 # make dependency categorical
 efc$e42dep <- to_factor(efc$e42dep)
 # fit model with "grouped" predictor
@@ -304,11 +304,11 @@ fit <- glm(services ~ neg_c_7 + c161sex + e42dep, data = efc)
 # automatic grouping of categorical predictors
 sjt.glm(fit)
 
-# ---------------------------------- 
+# ----------------------------------
 # compare models with different predictors
-# ---------------------------------- 
+# ----------------------------------
 fit2 <- glm(services ~ neg_c_7 + c161sex + e42dep + c12hour, data = efc)
-fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep + c12hour + c172code, 
+fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep + c12hour + c172code,
             data = efc)
 
 # print models with different predictors
