@@ -3,6 +3,7 @@
 ## General
 
 * `sjt.lmer` and `sjt.glmer` now warn when `show.aic = TRUE` and models were fitted with REML instead of ML.
+* Better support for `plm` objects in `sjt.lm`, `sjp.lm` and `sjp.int`.
 
 ## Changes to functions
 
