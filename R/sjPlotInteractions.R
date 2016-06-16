@@ -105,6 +105,9 @@
 #'          if numeric, must be a number between 0 and 1, indicating the proportion
 #'          for the confidence regeion (e.g. \code{show.ci = 0.9} plots a 90\% CI).
 #'          Only applies to \code{type = "emm"} or \code{type = "eff"}.
+#' @param jitter.ci logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
+#'          bands are displayed as error bars, adds jittering to lines and error bars
+#'          to avoid overlapping.
 #' 
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.frq
@@ -297,6 +300,7 @@ sjp.int <- function(fit,
                     fill.alpha = 0.3,
                     show.values = FALSE,
                     show.ci = FALSE,
+                    jitter.ci = FALSE,
                     p.kr = TRUE,
                     grid.breaks = NULL,
                     xlim = NULL,
@@ -406,7 +410,7 @@ sjp.int <- function(fit,
                        title, fill.alpha, geom.colors, geom.size, axis.title,
                        legend.title, legend.labels, show.values, wrap.title, wrap.legend.labels, 
                        wrap.legend.title, xlim, ylim, y.offset, grid.breaks, 
-                       show.ci, p.kr, facet.grid, prnt.plot, fun, ...))
+                       show.ci, jitter.ci, p.kr, facet.grid, prnt.plot, fun, ...))
   }
   # -----------------------------------------------------------
   # set axis title
@@ -890,6 +894,7 @@ sjp.eff.int <- function(fit,
                         y.offset = 0.07,
                         grid.breaks = NULL,
                         show.ci = FALSE,
+                        jitter.ci = FALSE,
                         p.kr = FALSE,
                         facet.grid = FALSE,
                         prnt.plot = TRUE,
@@ -1290,15 +1295,27 @@ sjp.eff.int <- function(fit,
     # confidence interval?
     # ------------------------------------------------------------
     if (show.ci) {
+      # -------------------------------------------------
+      # for factors, we add error bars instead of
+      # continuous confidence region
+      # -------------------------------------------------
       if (x_is_factor) {
         # -------------------------------------------------
-        # for factors, we add error bars instead of
-        # continuous confidence region
+        # check if to add jittering
         # -------------------------------------------------
-        baseplot <- baseplot +
-          geom_errorbar(aes(ymin = conf.low, ymax = conf.high, colour = grp),
-                        width = 0, show.legend = FALSE) +
-          geom_point()
+        if (jitter.ci) {
+          baseplot <- baseplot +
+            geom_errorbar(aes(ymin = conf.low, ymax = conf.high, colour = grp),
+                          width = 0, show.legend = FALSE, position = position_dodge(.2)) +
+            geom_point(position = position_dodge(.2)) +
+            geom_line(size = geom.size, position = position_dodge(.2))
+        } else {
+          baseplot <- baseplot +
+            geom_errorbar(aes(ymin = conf.low, ymax = conf.high, colour = grp),
+                          width = 0, show.legend = FALSE) +
+            geom_point() +
+            geom_line(size = geom.size)
+        }
       } else {
         # -------------------------------------------------
         # for continuous variables, we add  continuous 
@@ -1306,10 +1323,12 @@ sjp.eff.int <- function(fit,
         # -------------------------------------------------
         baseplot <- baseplot +
           geom_ribbon(aes(ymin = conf.low, ymax = conf.high, colour = NULL, fill = grp),
-                      alpha = fill.alpha, show.legend = FALSE)
+                      alpha = fill.alpha, show.legend = FALSE) +
+          geom_line(size = geom.size)
       }
+    } else {
+      baseplot <- baseplot + geom_line(size = geom.size)
     }
-    baseplot <- baseplot + geom_line(size = geom.size)
     # ------------------------------------------------------------
     # plot value labels
     # ------------------------------------------------------------

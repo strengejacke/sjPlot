@@ -11,9 +11,9 @@ sjp.int(fit, type = c("eff", "cond", "emm"), int.term = NULL,
   legend.title = NULL, legend.labels = NULL, wrap.title = 50,
   wrap.legend.labels = 20, wrap.legend.title = 20, geom.colors = "Set1",
   geom.size = NULL, fill.color = "grey", fill.alpha = 0.3,
-  show.values = FALSE, show.ci = FALSE, p.kr = TRUE, grid.breaks = NULL,
-  xlim = NULL, ylim = NULL, y.offset = 0.07, digits = 2,
-  facet.grid = FALSE, prnt.plot = TRUE, ...)
+  show.values = FALSE, show.ci = FALSE, jitter.ci = FALSE, p.kr = TRUE,
+  grid.breaks = NULL, xlim = NULL, ylim = NULL, y.offset = 0.07,
+  digits = 2, facet.grid = FALSE, prnt.plot = TRUE, ...)
 }
 \arguments{
 \item{fit}{the fitted (generalized) linear (mixed) model object, including interaction terms. Accepted model
@@ -122,6 +122,10 @@ Use either 0 or set \code{fill.color} to \code{NULL} if you want to hide the sha
 if numeric, must be a number between 0 and 1, indicating the proportion
 for the confidence regeion (e.g. \code{show.ci = 0.9} plots a 90\% CI).
 Only applies to \code{type = "emm"} or \code{type = "eff"}.}
+
+\item{jitter.ci}{logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
+bands are displayed as error bars, adds jittering to lines and error bars
+to avoid overlapping.}
 
 \item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
 F-tests with Kenward-Roger approximation for the df. Caution: Computation
