@@ -31,7 +31,7 @@ Imports:
     psych,
     scales,
     sjmisc (>= 1.8),
-    sjstats (>= 0.1.0-1),
+    sjstats (>= 0.2.0),
     tidyr (>= 0.4.1)
 Suggests:
     AICcmodavg,

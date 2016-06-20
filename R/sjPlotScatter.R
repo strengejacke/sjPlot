@@ -228,10 +228,14 @@ sjp.scatter <- function(x = NULL,
     # we don't need legend here
     show.legend <- FALSE
   }
+  # get value labels from attribute
+  grl <- sjmisc::get_labels(grp, attr.only = T)
   # simple data frame
   df <- stats::na.omit(data.frame(cbind(x = x, y = y, grp = grp)))
   # group as factor
   df$grp <- as.factor(df$grp)
+  # set labelled levels, for facets
+  if (facet.grid && !is.null(grl)) levels(df$grp) <- grl
   # do we have point labels?
   if (!is.null(dot.labels)) {
     # check length
@@ -254,7 +258,7 @@ sjp.scatter <- function(x = NULL,
   # --------------------------------------------------------
   # Check whether we have any labels passed as parameter
   # if not, use category text of group variable as legend text
-  if (is.null(legend.labels)) legend.labels <- c(sort(unique(df$grp)))
+  if (is.null(legend.labels)) legend.labels <- sort(unique(df$grp))
   # wrap legend text lines
   legend.labels <- sjmisc::word_wrap(legend.labels, wrap.legend.labels)
   # check whether we have a title for the legend
