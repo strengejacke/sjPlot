@@ -6,11 +6,11 @@
 \usage{
 sjt.stackfrq(items, weight.by = NULL, title = NULL, var.labels = NULL,
   value.labels = NULL, wrap.labels = 20, sort.frq = NULL,
-  altr.row.col = FALSE, digits = 2, string.na = "NA", show.n = FALSE,
-  show.total = FALSE, show.na = FALSE, show.skew = FALSE,
-  show.kurtosis = FALSE, digits.stats = 2, file = NULL, encoding = NULL,
-  CSS = NULL, use.viewer = TRUE, no.output = FALSE,
-  remove.spaces = TRUE)
+  altr.row.col = FALSE, digits = 2, string.total = "N",
+  string.na = "NA", show.n = FALSE, show.total = FALSE, show.na = FALSE,
+  show.skew = FALSE, show.kurtosis = FALSE, digits.stats = 2,
+  file = NULL, encoding = NULL, CSS = NULL, use.viewer = TRUE,
+  no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{items}{\code{data.frame} with each column representing one item.}
@@ -46,7 +46,9 @@ background color.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
-\item{string.na}{The label for the missing column/row.}
+\item{string.total}{label for the total N column.}
+
+\item{string.na}{label for the missing column/row.}
 
 \item{show.n}{logical, if \code{TRUE}, adds total number of cases for each
 group or category to the labels.}

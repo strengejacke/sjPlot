@@ -16,6 +16,7 @@
 * Argument `geom.colors` now applies to more plot types in `sjp.lm`, `sjp.glm`, `sjp.lmer` and `sjp.glmer`. 
 * Added argument `legend.title` to `sjp.lmer` and `sjp.glmer` to set legend title for those plot types who have legends.
 * Added argument `jitter.ci` to `sjp.int` to add jittering to confidence bands for error bars, to avoid overlap.
+* Added argument `string.total` to `sjt.stackfrq` to label the column with total N (see `show.total`).
 
 ## Bug fixes
 

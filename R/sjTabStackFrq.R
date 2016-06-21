@@ -24,7 +24,8 @@
 #'          }
 #' @param show.total logical, if \code{TRUE}, an additional column with each 
 #'          item's total N is printed.
-#' @param string.na The label for the missing column/row.
+#' @param string.total label for the total N column.
+#' @param string.na label for the missing column/row.
 #' @param show.skew logical, if \code{TRUE}, an additional column with each item's skewness is printed.
 #'          The skewness is retrieved from the \code{\link[psych]{describe}}-function 
 #'          of the \pkg{psych}-package.
@@ -112,6 +113,7 @@ sjt.stackfrq <- function(items,
                          sort.frq = NULL,
                          altr.row.col = FALSE,
                          digits = 2,
+                         string.total = "N",
                          string.na = "NA",
                          show.n = FALSE,
                          show.total = FALSE,
@@ -374,7 +376,7 @@ sjt.stackfrq <- function(items,
     page.content <- paste0(page.content, sprintf("    <th class=\"thead\">%s</th>\n", value.labels[i]))
   }
   # add N column
-  if (show.total) page.content <- paste0(page.content, "    <th class=\"thead ncol summary\">N</th>\n")
+  if (show.total) page.content <- paste0(page.content, sprintf("    <th class=\"thead ncol summary\">%s</th>\n", string.total))
   # add skew column
   if (show.skew) page.content <- paste0(page.content, "    <th class=\"thead skewcol summary\">Skew</th>\n")
   # add kurtosis column
