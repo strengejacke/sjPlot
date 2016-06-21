@@ -84,7 +84,6 @@ utils::globalVariables(c("ordx", "ordy"))
 #'
 #'
 #' @import ggplot2
-#' @import sjmisc
 #' @importFrom tidyr gather
 #' @importFrom scales brewer_pal grey_pal
 #' @importFrom stats cor cor.test na.omit
@@ -177,8 +176,9 @@ sjp.corr <- function(data,
       for (i in 1:ncol(df)) {
         pv <- c()
         for (j in 1:ncol(df)) {
-          test <- stats::cor.test(df[[i]], df[[j]], alternative = "two.sided", 
-                                  method = corr.method)
+          test <- suppressWarnings(stats::cor.test(df[[i]], df[[j]], 
+                                                   alternative = "two.sided", 
+                                                   method = corr.method))
           pv <- cbind(pv, round(test$p.value, 4))
         }
         cp <- rbind(cp, pv)

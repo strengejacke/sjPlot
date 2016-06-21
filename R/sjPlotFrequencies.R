@@ -104,8 +104,8 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #'         normal.curve.size = 3, ylim = c(0,50))
 #' 
 #' @import ggplot2
-#' @import sjmisc
-#' @import sjstats
+#' @importFrom sjstats wtd_sd
+#' @importFrom sjmisc set_labels group_labels group_var
 #' @importFrom stats na.omit sd weighted.mean
 #' @export
 sjp.frq <- function(var.cnt,

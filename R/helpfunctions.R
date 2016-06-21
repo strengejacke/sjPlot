@@ -13,6 +13,7 @@ base_breaks <- function(n = 10) {
 }
 
 
+#' @importFrom sjmisc get_label get_labels str_contains to_label to_value replace_na word_wrap
 get_lm_data <- function(fit) {
   if (any(class(fit) == "plm")) {
     # plm objects have different structure than (g)lm
@@ -141,7 +142,7 @@ get_var_name <- function(x) {
 
 # Create frequency data frame of a variable
 # for sjp and sjt frq functions
-#' @import sjstats
+#' @importFrom sjstats weight table_values cramer phi
 #' @importFrom stats na.omit
 #' @importFrom dplyr add_rownames full_join
 create.frq.df <- function(x,

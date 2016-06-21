@@ -281,6 +281,7 @@
 #' @importFrom dplyr full_join slice
 #' @importFrom stats nobs AIC confint coef deviance
 #' @importFrom lme4 VarCorr
+#' @importFrom sjstats std_beta icc r2 cod chisq_gof hoslem_gof
 #' @export
 sjt.lm <- function(...,
                    pred.labels = NULL,

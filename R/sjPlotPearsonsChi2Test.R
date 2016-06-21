@@ -33,7 +33,6 @@ utils::globalVariables(c("Row", "Column", "p.value"))
 #' 
 #' @import ggplot2
 #' @importFrom dplyr bind_rows
-#' @import sjmisc
 #' @export
 sjp.chi2 <- function(df,
                      title = "Pearson's Chi2-Test of Independence",

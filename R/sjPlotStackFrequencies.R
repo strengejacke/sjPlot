@@ -62,7 +62,6 @@
 #' 
 #' @import ggplot2
 #' @importFrom dplyr group_by mutate arrange
-#' @import sjmisc
 #' @importFrom scales percent
 #' @importFrom stats na.omit xtabs
 #' @export

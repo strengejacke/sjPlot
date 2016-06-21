@@ -125,8 +125,8 @@ utils::globalVariables(c("offset"))
 #'            values = "sum.inside")
 #' 
 #' @import ggplot2
-#' @import sjmisc
 #' @importFrom stats na.omit xtabs
+#' @importFrom sjmisc is_odd set_na
 #' @export
 sjp.likert <- function(items,
                        title = NULL, 
@@ -237,7 +237,12 @@ sjp.likert <- function(items,
       catcount <- unique(c(catcount, unique(stats::na.omit(items[[i]]))))
     }
     # remove neutral category
-    if (!is.null(cat.neutral)) catcount <- catcount[-which(catcount == cat.neutral)]
+    if (!is.null(cat.neutral)) {
+      # find neutral cat value in catcount
+      ncv_pos <- which(catcount == cat.neutral)
+      # if not empty, remove
+      if (!sjmisc::is_empty(ncv_pos)) catcount <- catcount[-ncv_pos]
+    }
     # detect range of valid categories, which
     # then equals catcount
     catcount <- max(catcount) - min(catcount) + 1

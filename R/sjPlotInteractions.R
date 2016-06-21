@@ -3,7 +3,7 @@
 #'
 #' @references \itemize{
 #'              \item Aiken and West (1991). Multiple Regression: Testing and Interpreting Interactions.
-#'              \item Brambor T, Clark WR and Golder M (2006) Understanding Interaction Models: Improving Empirical Analyses. Political Analysis 14: 63-82 \href{https://files.nyu.edu/mrg217/public/pa_final.pdf}{download}
+#'              \item Brambor T, Clark WR and Golder M (2006) Understanding Interaction Models: Improving Empirical Analyses. Political Analysis 14: 63-82. \doi{10.1093/pan/mpi014}
 #'              \item Esarey J, Sumner JL (2015) Marginal Effects in Interaction Models: Determining and Controlling the False Positive Rate. \href{http://jee3.web.rice.edu/interaction-overconfidence.pdf}{download}
 #'              \item Fox J (2003) Effect displays in R for generalised linear models. Journal of Statistical Software 8:15, 1–27, \href{http://www.jstatsoft.org/v08/i15/}{<http://www.jstatsoft.org/v08/i15/>}
 #'              \item Hayes AF (2012) PROCESS: A versatile computational tool for observed variable mediation, moderation, and conditional process modeling [White paper] \href{http://imaging.mrc-cbu.cam.ac.uk/statswiki/FAQ/SobelTest?action=AttachFile&do=get&target=process.pdf}{download}
@@ -274,8 +274,8 @@
 #' sjp.int(fit, type = "eff", int.plot.index = 3, show.ci = TRUE, facet.grid = TRUE)}
 #'
 #' @import ggplot2
-#' @import sjmisc
 #' @importFrom stats family quantile
+#' @importFrom sjmisc is_num_fac
 #' @importFrom effects allEffects effect
 #' @export
 sjp.int <- function(fit,
@@ -366,7 +366,7 @@ sjp.int <- function(fit,
   if (is.null(grid.breaks)) gridbreaks.x <- gridbreaks.y <- ggplot2::waiver()
   # check matching argument combinations
   if (type == "cond" && mdrt.values == "all") {
-    message("`mdrt.values = \"all\"` only applies to `type = \"eff\". Defaulting `mdrt.values` to `minmax`.")
+    message("`mdrt.values = \"all\"` only applies to `type = \"eff\"`. Defaulting `mdrt.values` to `minmax`.")
     mdrt.values <- "minmax"
   }
   # ------------------------

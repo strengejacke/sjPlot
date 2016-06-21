@@ -72,8 +72,8 @@
 #'                    css.tdata = "border: 1px solid;",
 #'                    css.arc = "color:blue;"))}
 #'
-#' @import sjmisc 
 #' @importFrom utils txtProgressBar setTxtProgressBar
+#' @importFrom sjmisc is_even get_values
 #' @export
 view_df <- function(x,
                     weight.by = NULL,

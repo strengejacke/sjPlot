@@ -98,7 +98,6 @@ utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "s
 #' sjc.qclus(airquality, groupcount = 3, groups = airgrp$classification)
 #' 
 #' @import ggplot2
-#' @import sjmisc
 #' @importFrom stats na.omit
 #' @importFrom graphics plot
 #' @export

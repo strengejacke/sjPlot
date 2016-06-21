@@ -92,6 +92,7 @@
 #' @importFrom tidyr gather
 #' @importFrom scales brewer_pal grey_pal
 #' @importFrom stats na.omit prcomp
+#' @importFrom sjstats cronb
 #' @export
 sjp.pca <- function(data,
                     nmbr.fctr = NULL,

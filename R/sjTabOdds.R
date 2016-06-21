@@ -162,6 +162,7 @@
 #'
 #' @importFrom dplyr full_join slice
 #' @importFrom stats nobs AIC confint coef logLik family deviance
+#' @importFrom sjstats std_beta icc r2 cod chisq_gof hoslem_gof
 #' @export
 sjt.glm <- function(...,
                     pred.labels = NULL,

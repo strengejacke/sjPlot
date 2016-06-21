@@ -258,7 +258,7 @@ sjp.scatter <- function(x = NULL,
   # --------------------------------------------------------
   # Check whether we have any labels passed as parameter
   # if not, use category text of group variable as legend text
-  if (is.null(legend.labels)) legend.labels <- sort(unique(df$grp))
+  if (is.null(legend.labels)) legend.labels <- as.character(sort(unique(df$grp)))
   # wrap legend text lines
   legend.labels <- sjmisc::word_wrap(legend.labels, wrap.legend.labels)
   # check whether we have a title for the legend

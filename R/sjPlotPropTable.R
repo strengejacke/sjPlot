@@ -83,7 +83,6 @@ utils::globalVariables(c("rowname", "total", "ges", "prc", "n", "Count", "Group"
 #'          bar.pos = "stack", coord.flip = TRUE)
 #'
 #' @import ggplot2
-#' @import sjmisc
 #' @importFrom dplyr group_by mutate arrange add_rownames filter select summarize
 #' @importFrom tidyr gather
 #' @importFrom scales percent

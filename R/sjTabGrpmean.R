@@ -41,7 +41,6 @@
 #' data(efc)
 #' sjt.grpmean(efc$c12hour, efc$e42dep)}
 #'             
-#' @import sjmisc
 #' @importFrom stats na.omit lm
 #' @export
 sjt.grpmean <- function(var.cnt,

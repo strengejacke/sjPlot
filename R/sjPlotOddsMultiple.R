@@ -81,7 +81,6 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
 #' sjp.glmm(fit1, fit2, fit3)
 #' 
 #' @import ggplot2
-#' @import sjmisc
 #' @importFrom stats na.omit coef confint
 #' @export
 sjp.glmm <- function(...,

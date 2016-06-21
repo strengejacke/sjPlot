@@ -244,9 +244,9 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #' sjp.lm(fit, type = "poly", poly.term = "e17age")}
 #'
 #' @import ggplot2
-#' @import sjmisc
 #' @importFrom stats model.matrix confint coef residuals sd
 #' @importFrom dplyr slice
+#' @importFrom sjmisc is_empty
 #' @importFrom nlme getData getResponse getCovariateFormula
 #' @export
 sjp.lm <- function(fit,

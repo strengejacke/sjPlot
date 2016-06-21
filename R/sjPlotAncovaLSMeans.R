@@ -2,6 +2,7 @@
 utils::globalVariables(c("xn", "vld", "conf.low", "conf.high"))
 
 #' @importFrom dplyr filter
+#' @importFrom sjstats merMod_p
 sjp.emm <- function(fit,
                     swap.pred = FALSE,
                     plevel = 0.05,

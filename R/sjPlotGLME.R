@@ -224,7 +224,6 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'
 #'                      
 #' @import ggplot2
-#' @import sjstats
 #' @importFrom dplyr slice add_rownames sample_n
 #' @importFrom lme4 fixef ranef confint.merMod getME
 #' @export
@@ -514,7 +513,7 @@ sjp.glmer <- function(fit,
 #'          facet.grid = FALSE, show.ci = FALSE)}
 #'
 #' @import ggplot2
-#' @import sjstats
+#' @importFrom sjstats se std_beta merMod_p
 #' @importFrom dplyr sample_n add_rownames slice
 #' @export
 sjp.lmer <- function(fit,
@@ -1555,7 +1554,7 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
           # -------------------------------------
           # check if metric plots should be plotted
           # -------------------------------------
-          if (prnt.plot) graphics::plot(mp)
+          if (prnt.plot) suppressWarnings(graphics::plot(mp))
         }
       }
     }

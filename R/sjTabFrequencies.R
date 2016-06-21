@@ -155,7 +155,7 @@
 #' 
 #' @importFrom psych describe
 #' @importFrom stats na.omit weighted.mean
-#' @import sjmisc
+#' @importFrom sjmisc get_note group_str
 #' @export
 sjt.frq <- function(data,
                     weight.by = NULL,

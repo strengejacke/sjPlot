@@ -55,10 +55,10 @@ utils::globalVariables(c("dep", "n"))
 #' sjp.gpt(efc$c172code, efc$e42dep, efc$n4pstu)
 #'
 #' @import ggplot2
-#' @import sjmisc
 #' @importFrom magrittr "%>%"
 #' @importFrom dplyr group_by summarise bind_rows
 #' @importFrom scales percent
+#' @importFrom sjmisc to_factor rec
 #' @importFrom stats na.omit chisq.test
 #' @export
 sjp.gpt <- function(x,

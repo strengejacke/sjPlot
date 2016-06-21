@@ -154,8 +154,7 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #' sjp.grpfrq(efc$neg_c_7, efc$e42dep, type = "line")
 #'            
 #' @import ggplot2
-#' @import sjmisc
-#' @import sjstats
+#' @importFrom sjstats weight2
 #' @importFrom tidyr gather
 #' @importFrom dplyr group_by mutate arrange summarise add_rownames
 #' @importFrom stats na.omit xtabs wilcox.test sd

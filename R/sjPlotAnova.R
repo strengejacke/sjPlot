@@ -40,7 +40,7 @@ utils::globalVariables("pv")
 #' 
 #' 
 #' @import ggplot2
-#' @import sjmisc
+#' @importFrom sjmisc get_label get_labels trim word_wrap to_value
 #' @importFrom stats confint aov summary.lm
 #' @importFrom dplyr add_rownames
 #' @export

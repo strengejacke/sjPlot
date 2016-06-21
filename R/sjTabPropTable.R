@@ -74,7 +74,6 @@
 #'                     css.tdata = "border: 1px solid;",
 #'                     css.horline = "border-bottom: double blue;"))}
 #'
-#' @import sjmisc
 #' @importFrom stats xtabs ftable
 #' @export
 sjt.xtab <- function(var.row,

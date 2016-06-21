@@ -118,7 +118,6 @@ utils::globalVariables(c("OR", "lower", "upper", "p"))
 #' sjp.glm(fit, type = "pred", vars = c("barthel", "dep"), facet.grid = FALSE)
 #' 
 #' @import ggplot2
-#' @import sjmisc
 #' @importFrom stats na.omit coef confint logLik
 #' @export
 sjp.glm <- function(fit,
@@ -749,10 +748,10 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
   # --------------------------
   if (prnt.plot) {
     if (facet.grid && !is.null(plot.facet)) {
-      graphics::plot(plot.facet)
+      suppressWarnings(graphics::plot(plot.facet))
     } else {
       for (i in 1:length(plot.metricpred)) {
-        graphics::plot(plot.metricpred[[i]])
+        suppressWarnings(graphics::plot(plot.metricpred[[i]]))
       }
     }
   }
@@ -986,7 +985,7 @@ sjp.glm.predy <- function(fit,
   # --------------------------
   # plot plots
   # --------------------------
-  if (prnt.plot) graphics::plot(mp)
+  if (prnt.plot) suppressWarnings(graphics::plot(mp))
   return(structure(class = c("sjPlot", "sjpglm.ppresp"),
                    list(data = mydf, plot = mp)))
 }
