@@ -172,7 +172,7 @@ sjp.glm <- function(fit,
   # -----------------------------------------------------------
   # set default title
   # -----------------------------------------------------------
-  if (is.null(title) && (type != "eff" && type != "slope")) title <- get_model_response_label(fit)
+  if (is.null(title) && (type != "eff" && type != "slope" && type != "pred")) title <- get_model_response_label(fit)
   # --------------------------------------------------------
   # check type
   # --------------------------------------------------------
@@ -870,6 +870,12 @@ sjp.glm.predy <- function(fit,
     message("`vars` must have not more than two values. Using first two values now.")
     vars <- vars[1:2]
   } 
+  # ----------------------------
+  # check for correct vars specification
+  # ----------------------------
+  if (!all(vars %in% colnames(fitfram))) {
+    stop("At least one term specified in `vars` is no valid model term.", call. = F)
+  }
   mydf <- dplyr::select(fitfram, match(c(vars, "predicted.values"), colnames(fitfram)))
   # init legend labels
   legend.labels <- NULL
