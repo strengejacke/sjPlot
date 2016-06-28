@@ -42,7 +42,7 @@ utils::globalVariables("pv")
 #' @import ggplot2
 #' @importFrom sjmisc get_label get_labels trim word_wrap to_value
 #' @importFrom stats confint aov summary.lm
-#' @importFrom dplyr add_rownames
+#' @importFrom tibble rownames_to_column
 #' @export
 sjp.aov1 <- function(var.dep,
                      var.grp,
@@ -281,7 +281,7 @@ sjp.aov1 <- function(var.dep,
   # -------------------------------------
   # set proper column names
   # -------------------------------------
-  df <- dplyr::add_rownames(df)
+  df <- tibble::rownames_to_column(df)
   colnames(df) <- c("term", "estimate", "conf.low", "conf.high", 
                     "p.value", "p.string", "xpos", "geom.color")
   # -------------------------------------

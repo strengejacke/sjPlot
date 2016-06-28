@@ -576,7 +576,7 @@ sjp.lm <- function(fit,
   # -------------------------------------
   # set proper column names
   # -------------------------------------
-  betas <- dplyr::add_rownames(betas)
+  betas <- tibble::rownames_to_column(betas)
   colnames(betas) <- c("term", "xpos", "estimate", "conf.low", 
                        "conf.high", "p.string", "p.value", "group")
   # -------------------------------------
@@ -785,7 +785,6 @@ col_check2 <- function(geom.colors, collen) {
 
 
 #' @importFrom stats fitted rstudent residuals sd median
-#' @importFrom dplyr add_rownames
 sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
   # ------------------------
   # prepare plot list

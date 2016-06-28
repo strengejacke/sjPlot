@@ -144,7 +144,7 @@ get_var_name <- function(x) {
 # for sjp and sjt frq functions
 #' @importFrom sjstats weight table_values cramer phi
 #' @importFrom stats na.omit
-#' @importFrom dplyr add_rownames full_join
+#' @importFrom dplyr full_join
 create.frq.df <- function(x,
                           wrap.labels = Inf,
                           order.frq = "none",

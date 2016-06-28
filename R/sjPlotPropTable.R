@@ -83,7 +83,7 @@ utils::globalVariables(c("rowname", "total", "ges", "prc", "n", "Count", "Group"
 #'          bar.pos = "stack", coord.flip = TRUE)
 #'
 #' @import ggplot2
-#' @importFrom dplyr group_by mutate arrange add_rownames filter select summarize
+#' @importFrom dplyr group_by mutate arrange filter select summarize
 #' @importFrom tidyr gather
 #' @importFrom scales percent
 #' @importFrom stats na.omit
@@ -235,7 +235,7 @@ sjp.xtab <- function(x,
     myptab <- mydat$proptab.col
   else if (margin == "row")
     myptab <- mydat$proptab.row
-  myptab <- dplyr::add_rownames(data.frame(myptab))
+  myptab <- tibble::rownames_to_column(data.frame(myptab))
   # -----------------------------------------------
   # tidy data
   #---------------------------------------------------

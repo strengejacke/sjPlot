@@ -22,7 +22,7 @@ Depends:
     stats,
     utils
 Imports:
-    dplyr (>= 0.4.3),
+    dplyr (>= 0.5.0),
     effects,
     ggplot2 (>= 2.1.0),
     lme4 (>= 1.1-10),
@@ -32,6 +32,7 @@ Imports:
     scales,
     sjmisc (>= 1.8),
     sjstats (>= 0.2.0),
+    tibble,
     tidyr (>= 0.4.1)
 Suggests:
     AICcmodavg,

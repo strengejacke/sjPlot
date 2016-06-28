@@ -156,7 +156,7 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #' @import ggplot2
 #' @importFrom sjstats weight2
 #' @importFrom tidyr gather
-#' @importFrom dplyr group_by mutate arrange summarise add_rownames
+#' @importFrom dplyr group_by mutate arrange summarise
 #' @importFrom stats na.omit xtabs wilcox.test sd
 #' @export
 sjp.grpfrq <- function(var.cnt,
@@ -787,5 +787,6 @@ sjp.grpfrq <- function(var.cnt,
   # -------------------------------------
   invisible(structure(class = c("sjp", "sjpgrpfrq"),
                       list(plot = baseplot,
-                           df = mydat)))
+                           df = mydat,
+                           df.plot = mydf)))
 }

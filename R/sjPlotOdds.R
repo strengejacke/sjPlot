@@ -508,7 +508,7 @@ sjp.glm <- function(fit,
   # -------------------------------------
   # set proper column names
   # -------------------------------------
-  odds <- dplyr::add_rownames(odds)
+  odds <- tibble::rownames_to_column(odds)
   colnames(odds) <- c("term", "estimate", "conf.low", "conf.high", 
                       "p.string", "p.value", "xpos")
   # -------------------------------------

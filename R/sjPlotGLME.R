@@ -224,7 +224,7 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'
 #'                      
 #' @import ggplot2
-#' @importFrom dplyr slice add_rownames sample_n
+#' @importFrom dplyr slice sample_n
 #' @importFrom lme4 fixef ranef confint.merMod getME
 #' @export
 sjp.glmer <- function(fit,
@@ -514,7 +514,7 @@ sjp.glmer <- function(fit,
 #'
 #' @import ggplot2
 #' @importFrom sjstats se std_beta merMod_p
-#' @importFrom dplyr sample_n add_rownames slice
+#' @importFrom dplyr sample_n slice
 #' @export
 sjp.lmer <- function(fit,
                      type = "re",
@@ -1361,7 +1361,7 @@ sjp.lme4  <- function(fit,
   # add term names
   # -------------------------------------
   if (type == "fe" || type == "fe.std") {
-    mydf <- dplyr::add_rownames(mydf, var = "term")
+    mydf <- tibble::rownames_to_column(mydf, var = "term")
   }
   # -------------------------------------
   # return results
@@ -1781,7 +1781,7 @@ sjp.lme.rsri <- function(fit,
     # ------------------------------
     # retrieve random effects
     # ------------------------------
-    rand.ef <- dplyr::add_rownames(rnd.part)
+    rand.ef <- tibble::rownames_to_column(rnd.part)
     # ------------------------------
     # sample random rows?
     # good to have when we have many random intercepts
