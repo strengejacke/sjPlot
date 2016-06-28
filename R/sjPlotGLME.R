@@ -2188,6 +2188,8 @@ sjp.glm.eff <- function(fit,
       tmp$x <- sjmisc::to_value(tmp$x, keep.labels = F)
       # sort rows. we may need to do this if we have factors
       tmp <- tmp[order(tmp$x), ]
+      # get possible variable labels
+      tmp$var.label <- sjmisc::get_label(fitfram[[t]], def.value = t)
       # do we already have data?
       if (nrow(mydat) > 0)
         mydat <- rbind(mydat, tmp)
@@ -2227,7 +2229,7 @@ sjp.glm.eff <- function(fit,
     if (show.ci) eff.plot <- eff.plot + geom_ribbon(aes(ymin = lower, ymax = upper), alpha = .15)
     eff.plot <- eff.plot +
       geom_line(size = geom.size) +
-      facet_wrap(~grp, ncol = round(sqrt(grp.cnt)), scales = "free_x") +
+      facet_wrap(~var.label, ncol = round(sqrt(grp.cnt)), scales = "free_x") +
       labs(x = NULL, y = axisTitle.y, title = title)
     # ------------------------
     # for logistic regression, use percentage scale
@@ -2255,7 +2257,7 @@ sjp.glm.eff <- function(fit,
       if (show.ci) eff.plot <- eff.plot + geom_ribbon(aes(ymin = lower, ymax = upper), alpha = .15)
       eff.plot <- eff.plot +
         geom_line(size = geom.size) +
-        labs(x = NULL, y = axisTitle.y, title = sprintf("Marginal effects of %s", i))
+        labs(x = NULL, y = axisTitle.y, title = sprintf("Marginal effects of %s", mydat_sub$var.label[1]))
       # ------------------------
       # for logistic regression, use percentage scale
       # ------------------------
@@ -2305,7 +2307,7 @@ sjp.glm.eff <- function(fit,
   # -------------------------------------
   # set proper column names
   # -------------------------------------
-  colnames(mydat) <- c("x", "y", "conf.low", "conf.high", "term", "label")
+  colnames(mydat) <- c("x", "y", "conf.low", "conf.high", "term", "labels", "label")
   # return result
   invisible(structure(class = c("sjPlot", "sjpglmeff"),
                       list(plot = eff.plot,
