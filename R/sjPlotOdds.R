@@ -880,7 +880,7 @@ sjp.glm.predy <- function(fit,
   # init legend labels
   legend.labels <- NULL
   # check if we have a categorical variable with value
-  # labels at the x-axis
+  # labels at the x-axis.
   axis_labels <- sjmisc::get_labels(mydf[[1]])
   # ----------------------------
   # with or w/o grouping factor?

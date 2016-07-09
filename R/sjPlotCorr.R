@@ -211,13 +211,12 @@ sjp.corr <- function(data,
     orderedCorr <- corr[neword, neword]
     # order variable labels as well
     axis.labels <- axis.labels[neword]
-    if (!is.null(cpvalues)) {
-      cpvalues <- cpvalues[neword, neword]
-    }
+    if (!is.null(cpvalues)) cpvalues <- cpvalues[neword, neword]
   } else {
-    orderedCorr <- rev(corr)
+    cl <- ncol(corr)
+    orderedCorr <- corr[cl:1, cl:1]
     axis.labels <- rev(axis.labels)
-    if (!is.null(cpvalues)) cpvalues <- rev(cpvalues)
+    if (!is.null(cpvalues)) cpvalues <- cpvalues[cl:1, cl:1]
   }
   # --------------------------------------------------------
   # prepare a ordering-index-column needed for the data frame
@@ -225,7 +224,7 @@ sjp.corr <- function(data,
   # --------------------------------------------------------
   yo <- c()
   for (i in 1:nrow(corr)) {
-    yo <- c(yo, c(rep(i, nrow(corr))))
+    yo <- c(yo, rep(i, nrow(corr)))
   }
   # --------------------------------------------------------
   # melt correlation matrix and create data frame
