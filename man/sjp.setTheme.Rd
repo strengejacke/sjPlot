@@ -4,14 +4,15 @@
 \alias{sjp.setTheme}
 \title{Set global theme options for sjp-functions}
 \usage{
-sjp.setTheme(theme = NULL, title.color = "black", title.size = 1.2,
-  title.align = "left", geom.outline.color = NULL, geom.outline.size = 0,
-  geom.boxoutline.size = 0.5, geom.boxoutline.color = "black",
-  geom.alpha = 1, geom.linetype = 1, geom.errorbar.size = 0.7,
-  geom.errorbar.linetype = 1, geom.label.color = NULL,
-  geom.label.size = 4, geom.label.alpha = 1, geom.label.angle = 0,
-  axis.title.color = "grey30", axis.title.size = 1.1, axis.angle.x = 0,
-  axis.angle.y = 0, axis.angle = NULL, axis.textcolor.x = "grey30",
+sjp.setTheme(theme = NULL, theme.font = NULL, title.color = "black",
+  title.size = 1.2, title.align = "left", geom.outline.color = NULL,
+  geom.outline.size = 0, geom.boxoutline.size = 0.5,
+  geom.boxoutline.color = "black", geom.alpha = 1, geom.linetype = 1,
+  geom.errorbar.size = 0.7, geom.errorbar.linetype = 1,
+  geom.label.color = NULL, geom.label.size = 4, geom.label.alpha = 1,
+  geom.label.angle = 0, axis.title.color = "grey30",
+  axis.title.size = 1.1, axis.angle.x = 0, axis.angle.y = 0,
+  axis.angle = NULL, axis.textcolor.x = "grey30",
   axis.textcolor.y = "grey30", axis.textcolor = NULL,
   axis.linecolor.x = NULL, axis.linecolor.y = NULL, axis.linecolor = NULL,
   axis.line.size = 0.5, axis.textsize.x = 1, axis.textsize.y = 1,
@@ -42,14 +43,15 @@ sjp.setTheme(theme = NULL, title.color = "black", title.size = 1.2,
 Furthermore, there are some theme-presets, which can be used:
 \describe{
   \item{\code{"blank"}}{a theme with no grids and axes.}
-  \item{\code{"forest"}}{a theme for forest plots, with no grids.}
-  \item{\code{"forestgrey"}}{a theme for forest plots, with no grids, in "539" style.}
+  \item{\code{"forest"}}{a theme for forest plots, with no grids, in "539" style.}
   \item{\code{"538"}}{a grey-scaled theme inspired by \href{http://fivethirtyeight.com}{538-charts}, adapted from \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{minimaxir.com}.}
   \item{\code{"539"}}{a slight modification of the 538-theme.}
   \item{\code{"scatter"}}{a theme for scatter plots in 539-theme-style.}
   \item{\code{"rbase"}}{an R base graphics like theme; however, only for plots with y-axis-scales.}
   \item{\code{"538w"}, \code{"539w"}, \code{"scatterw"} and \code{"forestw"}}{for themes as described above, however all with white backgrounds.}
 }}
+
+\item{theme.font}{base font family for the plot.}
 
 \item{title.color}{color of plot title. Default is \code{"black"}.}
 

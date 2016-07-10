@@ -327,13 +327,20 @@ sjt.glm <- function(...,
     }
     # -------------------------------------
     # extracting p-values and se differs between
-    # lmer and lm
+    # glmer and glm, and also pglm. Note that
+    # pglm-models do not have the "pglm"-class-attribute,
+    # differently stated in the help ?pglm
     # -------------------------------------
     if (lmerob) {
       # p-values
       fit.df$pv <- round(sjstats::merMod_p(fit), digits.p)
       # standard error
       fit.df$se <- sprintf("%.*f", digits.se, stats::coef(summary(fit))[, "Std. Error"])
+    } else if (any(class(fit) %in% c("pglm", "maxLik"))) {
+      # p-values
+      fit.df$pv <- round(summary(fit)$estimate[, 4], digits.p)
+      # standard error
+      fit.df$se <- sprintf("%.*f", digits.se, summary(fit)$estimate[, 2])
     } else {
       # p-values
       fit.df$pv <- round(summary(fit)$coefficients[, 4], digits.p)

@@ -15,14 +15,14 @@
 #'        Furthermore, there are some theme-presets, which can be used:
 #'        \describe{
 #'          \item{\code{"blank"}}{a theme with no grids and axes.}
-#'          \item{\code{"forest"}}{a theme for forest plots, with no grids.}
-#'          \item{\code{"forestgrey"}}{a theme for forest plots, with no grids, in "539" style.}
+#'          \item{\code{"forest"}}{a theme for forest plots, with no grids, in "539" style.}
 #'          \item{\code{"538"}}{a grey-scaled theme inspired by \href{http://fivethirtyeight.com}{538-charts}, adapted from \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{minimaxir.com}.}
 #'          \item{\code{"539"}}{a slight modification of the 538-theme.}
 #'          \item{\code{"scatter"}}{a theme for scatter plots in 539-theme-style.}
 #'          \item{\code{"rbase"}}{an R base graphics like theme; however, only for plots with y-axis-scales.}
 #'          \item{\code{"538w"}, \code{"539w"}, \code{"scatterw"} and \code{"forestw"}}{for themes as described above, however all with white backgrounds.}
 #'        }
+#' @param theme.font base font family for the plot.
 #' @param title.size size of plot title. Default is 1.3.
 #' @param title.color color of plot title. Default is \code{"black"}.
 #' @param title.align alignment of plot title. Must be one of \code{"left"} (default),
@@ -183,9 +183,11 @@
 #' 
 #' @import ggplot2
 #' @importFrom scales brewer_pal grey_pal
+#' @importFrom dplyr case_when
 #' @export
 sjp.setTheme <- function(# base theme
                          theme = NULL,
+                         theme.font = NULL,
                          # title defaults
                          title.color = "black",
                          title.size = 1.2,
@@ -266,6 +268,8 @@ sjp.setTheme <- function(# base theme
   plot.margins <- NULL
   panel.gridcol.x <- NULL
   panel.gridcol.y <- NULL
+  if (!is.null(theme) && theme == "forest") theme <- "forestw"
+  if (!is.null(theme) && theme == "forestgrey") theme <- "forest"
   # ----------------------------------------  
   # check for blank theme, i.e. if user requires special
   # theme without any grids or axis lines
@@ -302,96 +306,62 @@ sjp.setTheme <- function(# base theme
   # ----------------------------------------  
   # check for grey-scaled 538 theme.
   # ----------------------------------------  
-  if (!is.null(theme) && (theme == "538" || theme == "538w")) {
+  if (!is.null(theme) && 
+      theme %in% c("538", "538w", "539", "539w", "forest", "forestgrey", 
+                   "forestw", "scatter", "scatterw")) {
     base <- theme_bw()
     g.palette <- scales::brewer_pal(palette = "Greys")(9)
-    col.ind <- ifelse(theme == "538", 2, 1)
+    col.ind <- dplyr::case_when(
+      theme == "538" ~ 2,
+      theme == "539" ~ 2, 
+      theme == "539w" ~ 1,
+      theme == "538w" ~ 1,
+      theme == "forestw" ~ 1,
+      theme == "forestgrey" ~ 2,
+      theme == "forest" ~ 2,
+      TRUE ~ 1
+    )
     panel.bordercol <- panel.backcol <- panel.col <- g.palette[col.ind]
     plot.backcol <- plot.bordercol <- plot.col <- g.palette[col.ind]
+    panel.major.gridcol <- dplyr::case_when(
+      theme %in% c("539", "539w", "538", "538w") ~ g.palette[4],
+      TRUE ~ g.palette[col.ind]
+    )
     panel.minor.gridcol <- g.palette[col.ind]
-    axis.linecolor.x  <- axis.linecolor.y <- axis.linecolor <- g.palette[col.ind]
-    legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[col.ind]
-    panel.major.gridcol <- g.palette[4]
+    panel.gridcol.x <- dplyr::case_when(
+      theme %in% c("539", "539w", "538", "538w") ~ g.palette[col.ind],
+      TRUE ~ g.palette[4]
+    )
     if (missing(title.color)) title.color <- g.palette[9]
+    if (missing(axis.tickslen)) axis.tickslen <- 0
     if (missing(axis.textcolor)) axis.textcolor <- g.palette[6]
     if (missing(axis.title.color)) axis.title.color <- g.palette[7]
     if (missing(geom.label.color) || is.null(geom.label.color)) geom.label.color <- g.palette[6]
     if (missing(legend.title.color)) legend.title.color <- g.palette[7]
     if (missing(legend.color)) legend.color <- g.palette[6]
-    if (missing(axis.tickslen)) axis.tickslen <- 0
-    # custom modifications
-    title.align <- "center"
-    axis.title.x.vjust <- -1
-    axis.title.y.vjust <- 1.5
-    title.vjust <- 1.75
-    plot.margins <- unit(c(1, .5, 1, 0.5), "cm")
-    message("Theme '538' looks better with panel margins. You may want to use argument 'expand.grid = TRUE' in sjp-functions.")
-  }  
-  # ----------------------------------------  
-  # check for grey-scaled 539 theme, which are
-  # alternatives to 538
-  # ----------------------------------------  
-  if (!is.null(theme) && (theme == "539" || theme == "539w" || theme == "forestgrey" || theme == "forestw")) {
-    base <- theme_bw()
-    g.palette <- scales::brewer_pal(palette = "Greys")(9)
-    col.ind <- ifelse(theme == "539w" || theme == "forestw", 1, 2)
-    panel.bordercol <- panel.backcol <- panel.col <- g.palette[col.ind]
-    plot.backcol <- plot.bordercol <- plot.col <- g.palette[col.ind]
-    if (theme == "539" || theme == "539w") {
-      panel.major.gridcol <- g.palette[4]
-      panel.minor.gridcol <- g.palette[col.ind]
-      panel.gridcol.x <- g.palette[col.ind]
+    legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[col.ind]
+    if (theme %in% c("538", "538w")) {
+      axis.linecolor.x  <- axis.linecolor.y <- axis.linecolor <- g.palette[col.ind]
     } else {
-      panel.major.gridcol <- panel.minor.gridcol <- g.palette[col.ind]
+      if (theme %in% c("scatter", "scatterw"))
+        axis.linecolor <- g.palette[5]
+      else
+        axis.linecolor <- NULL
+      if (missing(axis.linecolor.y) || is.null(axis.linecolor.y)) axis.linecolor.y <- g.palette[col.ind]
+      if (missing(axis.linecolor.x) || is.null(axis.linecolor.x)) axis.linecolor.x <- g.palette[9]
     }
-    axis.linecolor <- NULL
-    if (missing(axis.linecolor.y) || is.null(axis.linecolor.y)) axis.linecolor.y <- g.palette[col.ind]
-    if (missing(axis.linecolor.x) || is.null(axis.linecolor.x)) axis.linecolor.x <- g.palette[9]
-    legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[col.ind]
-    if (missing(title.color)) title.color <- g.palette[9]
-    if (missing(axis.textcolor)) axis.textcolor <- g.palette[6]
-    if (missing(axis.title.color)) axis.title.color <- g.palette[7]
-    if (missing(geom.label.color) || is.null(geom.label.color)) geom.label.color <- g.palette[6]
-    if (missing(legend.title.color)) legend.title.color <- g.palette[7]
-    if (missing(legend.color)) legend.color <- g.palette[6]
-    if (missing(axis.tickslen)) axis.tickslen <- 0
-    # custom modifications
+    if (theme %in% c("scatter", "scatterw")) {
+      panel.major.linetype <- panel.minor.linetype <- 2
+      panel.gridcol.y <- g.palette[4]
+    }
     title.align <- "center"
     axis.title.x.vjust <- -1
     axis.title.y.vjust <- 1.5
     title.vjust <- 1.75
     plot.margins <- unit(c(1, .5, 1, 0.5), "cm")
-  }  
-  # ----------------------------------------  
-  # check for scatter, a theme with crossed
-  # grids and based on 538
-  # ----------------------------------------  
-  if (!is.null(theme) && (theme == "scatter" || theme == "scatterw")) {
-    base <- theme_bw()
-    col.ind <- ifelse(theme == "scatterw", 1, 2)
-    g.palette <- scales::brewer_pal(palette = "Greys")(9)
-    panel.bordercol <- panel.backcol <- panel.col <- g.palette[col.ind]
-    plot.backcol <- plot.bordercol <- plot.col <- g.palette[col.ind]
-    panel.major.gridcol <- panel.minor.gridcol <- g.palette[4]
-    axis.linecolor <- g.palette[5]
-    if (missing(axis.linecolor.y) || is.null(axis.linecolor.y)) axis.linecolor.y <- g.palette[col.ind]
-    if (missing(axis.linecolor.x) || is.null(axis.linecolor.x)) axis.linecolor.x <- g.palette[col.ind]
-    legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[col.ind]
-    if (missing(title.color)) title.color <- g.palette[9]
-    if (missing(axis.textcolor)) axis.textcolor <- g.palette[6]
-    if (missing(axis.title.color)) axis.title.color <- g.palette[7]
-    if (missing(geom.label.color) || is.null(geom.label.color)) geom.label.color <- g.palette[6]
-    if (missing(legend.title.color)) legend.title.color <- g.palette[7]
-    if (missing(legend.color)) legend.color <- g.palette[6]
-    if (missing(axis.tickslen)) axis.tickslen <- 0
-    # custom modifications
-    panel.major.linetype <- panel.minor.linetype <- 2
-    title.align <- "center"
-    axis.title.x.vjust <- -1
-    axis.title.y.vjust <- 1.5
-    title.vjust <- 1.75
-    plot.margins <- unit(c(1, .5, 1, 0.5), "cm")
-  }  
+    if (theme %in% c("538", "538w"))
+        message("Theme '538' looks better with panel margins. You may want to use argument 'expand.grid = TRUE' in sjp-functions.")
+  }
   # ----------------------------------------  
   # set defaults for geom label colors
   # ----------------------------------------  
@@ -522,6 +492,13 @@ sjp.setTheme <- function(# base theme
             legend.text = element_text(size = rel(legend.size), colour = legend.color),
             legend.title = element_text(size = rel(legend.title.size), colour = legend.title.color, face = legend.title.face),
             legend.background = element_rect(colour = legend.bordercol, fill = legend.backgroundcol))
+    # ----------------------------------------
+    # set base font for theme
+    # ----------------------------------------
+    if (!is.null(theme.font)) {
+      sjtheme <- sjtheme +
+        theme(text = element_text(family = theme.font))
+    }
     # ----------------------------------------
     # set legend items background-color
     # ----------------------------------------
