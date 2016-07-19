@@ -13,3 +13,4 @@
 ## Bug fixes
 
 * In `sjp.corr`, argument `sort.corr = FALSE` caused an error.
+* In `sjt.glm` and `sjt.glmer`, settingargument `sep.column` to `FALSE` still added separator columns at the right end of the table.

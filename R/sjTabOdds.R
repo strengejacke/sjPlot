@@ -463,10 +463,11 @@ sjt.glm <- function(...,
   if (show.se) headerColSpanFactor <- headerColSpanFactor + 1
   # now that we know how many columns each model needs,
   # we multiply columns per model with count of models, so we have
-  # the column span over all models together; furthermore, we add
-  # count of models  to the overall column span, because
+  # the column span over all models together
+  headerColSpan <- headerColSpanFactor * headerColSpan
+  # furthermore, we add count of models  to the overall column span, if
   # each model is separated with an empty table column
-  headerColSpan <- headerColSpanFactor * headerColSpan + length(input_list)
+  if (sep.column) headerColSpan <- headerColSpan + length(input_list)
   linebreakstring <- " "
   if (newline.ci) linebreakstring <- "<br>"
   # -------------------------------------
