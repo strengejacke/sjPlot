@@ -12,5 +12,6 @@
 
 ## Bug fixes
 
+* In some cases, `sjp.int` cropped parts of the plot, when `jitter.ci` was `TRUE`.
 * In `sjp.corr`, argument `sort.corr = FALSE` caused an error.
 * In `sjt.glm` and `sjt.glmer`, settingargument `sep.column` to `FALSE` still added separator columns at the right end of the table.

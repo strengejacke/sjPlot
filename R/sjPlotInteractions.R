@@ -1309,6 +1309,9 @@ sjp.eff.int <- function(fit,
                           width = 0, show.legend = FALSE, position = position_dodge(.2)) +
             geom_point(position = position_dodge(.2)) +
             geom_line(size = geom.size, position = position_dodge(.2))
+          # adjust axis limits, so jittered geoms are within plot boundaries
+          lowerLim.x <- lowerLim.x - .2
+          upperLim.x <- upperLim.x + .2
         } else {
           baseplot <- baseplot +
             geom_errorbar(aes(ymin = conf.low, ymax = conf.high, colour = grp),
