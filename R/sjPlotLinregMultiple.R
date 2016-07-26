@@ -88,6 +88,7 @@ utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 #' @importFrom stats coef confint
 #' @importFrom dplyr slice
 #' @importFrom sjstats merMod_p
+#' @importFrom tibble lst
 #' @export
 sjp.lmm <- function(...,
                     type = "lm",
@@ -122,7 +123,7 @@ sjp.lmm <- function(...,
   # --------------------------------------------------------
   # retrieve list of fitted models
   # --------------------------------------------------------
-  input_list <- list(...)
+  input_list <- tibble::lst(...)
   # --------------------------------------------------------
   # check length. if we have a list of fitted model, 
   # we need to "unlist" them

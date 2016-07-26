@@ -1,5 +1,5 @@
 # bind global variables
-utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta", "p", "x", "ydiff", "y", "grp", ".stdresid", ".resid", ".fitted", "V1", "V2", "grp.est"))
+utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".stdresid", ".resid", ".fitted", "V1", "V2"))
 
 
 #' @title Plot estimates, predictions or effects of linear models
@@ -245,8 +245,10 @@ utils::globalVariables(c("fit", "vars", "Beta", "xv", "lower", "upper", "stdbeta
 #'
 #' @import ggplot2
 #' @importFrom stats model.matrix confint coef residuals sd
-#' @importFrom dplyr slice
+#' @importFrom dplyr slice select_
+#' @importFrom broom tidy
 #' @importFrom sjmisc is_empty
+#' @importFrom tibble as_tibble
 #' @importFrom nlme getData getResponse getCovariateFormula
 #' @export
 sjp.lm <- function(fit,
@@ -401,25 +403,11 @@ sjp.lm <- function(fit,
     if (!is.null(axis.title) && axis.title == "Estimates")
       axis.title <- "Std. Estimates"
   } else {
-    bv <- stats::coef(fit)[-1]
-    if (1 == length(bv)) {
-      # --------------------------------------------------------
-      # if we have only one independent variable, cbind does not
-      # work, since it duplicates the coefficients. so we simply
-      # concatenate here
-      # --------------------------------------------------------
-      tmp <- data.frame(
-        bv,
-        stats::confint(fit, level = 0.95)[-1, 1],
-        stats::confint(fit, level = 0.95)[-1, 2])
-    } else {
-      tmp <- data.frame(cbind(
-        bv,
-        stats::confint(fit, level = 0.95)[-1, ]))
-    }
+    tmp <- broom::tidy(fit, conf.int = TRUE) %>%
+             dplyr::slice(-1) %>% 
+             dplyr::select_("term", "estimate", "conf.low", "conf.high")
   }
-  colnames(tmp) <- c("beta", "low.ci", "hi.ci")
-  tmp$grp.est <- NA
+  tmp$group <- NA
   # -------------------------------------------------
   # group estimates?
   # -------------------------------------------------
@@ -431,7 +419,7 @@ sjp.lm <- function(fit,
       show.legend <- FALSE
       legend.title <- NULL
     } else {
-      tmp$grp.est <- as.character(group.estimates)
+      tmp$group <- as.character(group.estimates)
     }
   } else {
     show.legend <- FALSE
@@ -442,13 +430,11 @@ sjp.lm <- function(fit,
   # -------------------------------------------------
   if (!is.null(remove.estimates)) {
     # get row indices of rows that should be removed
-    remrows <- match(remove.estimates, row.names(tmp))
+    remrows <- match(remove.estimates, tmp[["term"]])
     # remember old rownames
-    keepnames <- row.names(tmp)[-remrows]
+    keepnames <- tmp[["term"]][-remrows]
     # remove rows
-    tmp <- dplyr::slice(tmp, c(1:nrow(tmp))[-remrows])
-    # set back rownames
-    row.names(tmp) <- keepnames
+    tmp <- dplyr::slice(tmp, seq_len(nrow(tmp))[-remrows])
     # remove labels?
     if (!is.null(axis.labels) && length(axis.labels) > nrow(tmp))
       axis.labels <- axis.labels[-remrows]
@@ -458,7 +444,7 @@ sjp.lm <- function(fit,
   # -------------------------------------------------
   # init data column for p-values
   # -------------------------------------------------
-  ps <- sprintf("%.*f", digits, tmp$beta)
+  ps <- sprintf("%.*f", digits, tmp[["estimate"]])
   # if no values should be shown, clear
   # vector now
   if (!show.values) ps <- rep("", length(ps))
@@ -476,13 +462,13 @@ sjp.lm <- function(fit,
   # case no values are drawn, we simply use an empty string.
   # finally, we need the p-values of the coefficients, because the value
   # labels may have different colours according to their significance level
-  betas <- cbind(tmp[, !colnames(tmp) == "grp.est"], ps, pv, tmp$grp.est)
+  betas <- cbind(tmp[, !colnames(tmp) == "group"], p.string = ps, p.value = pv, group = tmp[["group"]])
   # --------------------------------------------------------
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
   # --------------------------------------------------------
-  if (is.null(axis.labels) || length(axis.labels) < length(row.names(betas)))
-    axis.labels <- row.names(betas)
+  if (is.null(axis.labels) || length(axis.labels) < length(betas[["term"]]))
+    axis.labels <- betas[["term"]]
   # --------------------------------------------------------
   # define sorting criteria. the values on the x-axis are being sorted
   # either by beta-values (sort="beta") or by standardized
@@ -494,29 +480,27 @@ sjp.lm <- function(fit,
   if (sort.est) {
     # order according to group assignment?
     if (!is.null(group.estimates)) {
-      axis.labels <- rev(axis.labels[order(tmp$grp.est, tmp$beta)])
-      betas <- betas[rev(order(tmp$grp.est, tmp$beta)), ]
+      axis.labels <- rev(axis.labels[order(tmp[["group"]], tmp[["estimate"]])])
+      betas <- betas[rev(order(tmp[["group"]], tmp[["estimate"]])), ]
     } else {
-      axis.labels <- axis.labels[order(tmp$beta)]
-      betas <- betas[order(tmp$beta), ]
+      axis.labels <- axis.labels[order(tmp[["estimate"]])]
+      betas <- betas[order(tmp[["estimate"]]), ]
     }
   } else {
     axis.labels <- rev(axis.labels)
     betas <- betas[nrow(betas):1, ]
   }
-  betas <- cbind(1:nrow(betas), betas)
-  # give columns names
-  colnames(betas) <- c("xv", "Beta", "lower", "upper", "p", "pv", "grp.est")
-  betas$p <- as.character(betas$p)
-  betas$xv <- as.factor(betas$xv)
+  betas <- cbind(xpos = 1:nrow(betas), betas)
+  betas[["p.string"]] <- as.character(betas[["p.string"]])
+  betas[["xpos"]] <- as.factor(betas[["xpos"]])
   # --------------------------------------------------------
   # Calculate axis limits. The range is from lowest lower-CI
   # to highest upper-CI, or a user-defined range (if "axis.lim"
   # is not NULL)
   # --------------------------------------------------------
   if (is.null(axis.lim)) {
-    upper_lim <- (ceiling(10 * max(betas$upper))) / 10
-    lower_lim <- (floor(10 * min(betas$lower))) / 10
+    upper_lim <- (ceiling(10 * max(betas[["conf.high"]]))) / 10
+    lower_lim <- (floor(10 * min(betas[["conf.low"]]))) / 10
   } else {
     lower_lim <- axis.lim[1]
     upper_lim <- axis.lim[2]
@@ -532,11 +516,11 @@ sjp.lm <- function(fit,
   # (whether grouped or not)
   # --------------------------------------------------------
   if (!is.null(group.estimates)) {
-    betaplot <- ggplot(betas, aes(x = xv, y = Beta, colour = grp.est))
+    betaplot <- ggplot(betas, aes(x = xpos, y = estimate, colour = group))
     pal.len <- length(unique(group.estimates))
-    legend.labels <- unique(betas$grp.est)
+    legend.labels <- unique(betas[["group"]])
   } else {
-    betaplot <- ggplot(betas, aes(x = xv, y = Beta, colour = (Beta >= 0)))
+    betaplot <- ggplot(betas, aes(x = xpos, y = estimate, colour = (estimate >= 0)))
     pal.len <- 2
     legend.labels <- NULL
   }
@@ -545,9 +529,9 @@ sjp.lm <- function(fit,
   # --------------------------------------------------------
   betaplot <- betaplot +
     # and error bar
-    geom_errorbar(aes(ymin = lower, ymax = upper), width = 0) +
+    geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0) +
     # Print p-values. With vertical adjustment, so they don't overlap with the errorbars
-    geom_text(aes(label = p), nudge_x = y.offset, show.legend = FALSE) +
+    geom_text(aes(label = p.string), nudge_x = y.offset, show.legend = FALSE) +
     # print point
     geom_point(size = geom.size) +
     # Intercept-line
@@ -574,17 +558,11 @@ sjp.lm <- function(fit,
   # ---------------------------------------------------------
   if (prnt.plot) graphics::plot(betaplot)
   # -------------------------------------
-  # set proper column names
-  # -------------------------------------
-  betas <- tibble::rownames_to_column(betas)
-  colnames(betas) <- c("term", "xpos", "estimate", "conf.low", 
-                       "conf.high", "p.string", "p.value", "group")
-  # -------------------------------------
   # return results
   # -------------------------------------
   invisible(structure(class = c("sjplot", "sjplm"),
                       list(plot = betaplot,
-                           data = betas)))
+                           data = tibble::as_tibble(betas))))
 }
 
 

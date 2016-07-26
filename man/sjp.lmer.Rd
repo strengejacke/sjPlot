@@ -34,6 +34,7 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL,
   \item{\code{"pred"}}{to plot predicted values for the response, related to specific model predictors and conditioned on random effects. See 'Details'.}
   \item{\code{"pred.fe"}}{to plot predicted values for the response, related to specific model predictors and conditioned on fixed effects only. See 'Details'.}
   \item{\code{"eff"}}{to plot marginal effects of all fixed terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms. See also 'Details' of \code{\link{sjp.lm}}.}
+  \item{\code{"eff.ri"}}{to plot marginal effects of all fixed terms in \code{fit}, varying by the random intercepts.}
   \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples' here and 'Details' of \code{\link{sjp.lm}}).}
   \item{\code{"ma"}}{to check model assumptions. Note that no further arguments except \code{fit} are relevant for this option. All other arguments are ignored.}
 }}
@@ -219,6 +220,12 @@ By default, this function plots estimates (coefficients) with confidence
            returned by the \code{\link[effects]{allEffects}} function.
            You can pass further arguments down to \code{allEffects} for flexible
            function call via the \code{...}-argument.}
+           \item{\code{type = "eff.ri"}}{plots the adjusted (marginal) effects
+           for each fixed effect, with all co-variates set to the mean, varying
+           by the random intercepts. This plot type basically does the same
+           as \code{type = "ri.slope"}, except that the co-variates are not
+           set to zero, but adjusted for. This plot type differs from \code{type = "ri.slope"}
+           only in the adjusted y-axis-scale}
            \item{\code{type = "rs.ri"}}{plots regression lines for the random
            parts of the model, i.e. all random slopes for each random intercept.
            As the random intercepts describe the deviation from the global intercept,
@@ -229,7 +236,8 @@ By default, this function plots estimates (coefficients) with confidence
            \item{\code{type = "ri.slope"}}{plots regression lines for each fixed
            effect (slopes) within each random intercept. Lines are based on 
            the fixed effects intercept, plus each random intercept and
-           each specific fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),
+           each specific fixed term's estimate. All other fixed effects are 
+           set to zero (i.e. ignored),
            which corresponds to \code{b0 + b0[r1-rn] + bi * xi)}
            (where \code{xi} is the estimate of fixed effects, \code{b0} is the intercept of
            the fixed effects and \code{b0[r1-rn]} are all random intercepts).}

@@ -282,6 +282,7 @@
 #' @importFrom stats nobs AIC confint coef deviance
 #' @importFrom lme4 VarCorr
 #' @importFrom sjstats std_beta icc r2 cod chisq_gof hoslem_gof
+#' @importFrom tibble lst
 #' @export
 sjt.lm <- function(...,
                    pred.labels = NULL,
@@ -370,7 +371,7 @@ sjt.lm <- function(...,
   # ------------------------
   # retrieve fitted models
   # ------------------------
-  input_list <- list(...)
+  input_list <- tibble::lst(...)
   # --------------------------------------------------------
   # check length. if we have a list of fitted model, 
   # we need to "unlist" them
@@ -1429,7 +1430,7 @@ sjt.lmer <- function(...,
                      use.viewer = TRUE,
                      no.output = FALSE,
                      remove.spaces = TRUE) {
-  input_list <- list(...)
+  input_list <- tibble::lst(...)
   return(sjt.lm(input_list, file = file, pred.labels = pred.labels, 
                 depvar.labels = depvar.labels, string.pred = string.pred, 
                 string.dv = string.dv, 

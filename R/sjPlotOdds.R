@@ -1,5 +1,5 @@
 # bind global variables
-utils::globalVariables(c("OR", "lower", "upper", "p"))
+utils::globalVariables(c("OR", "lower", "upper", "p", "grp.est"))
 
 
 #' @title Plot estimates, predictions or effects of generalized linear models

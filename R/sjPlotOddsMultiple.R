@@ -115,7 +115,7 @@ sjp.glmm <- function(...,
   # --------------------------------------------------------
   # retrieve list of fitted models
   # --------------------------------------------------------
-  input_list <- list(...)
+  input_list <- tibble::lst(...)
   # --------------------------------------------------------
   # check length. if we have a list of fitted model, 
   # we need to "unlist" them

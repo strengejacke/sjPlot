@@ -342,6 +342,12 @@ sjp.glmer <- function(fit,
 #'            returned by the \code{\link[effects]{allEffects}} function.
 #'            You can pass further arguments down to \code{allEffects} for flexible
 #'            function call via the \code{...}-argument.}
+#'            \item{\code{type = "eff.ri"}}{plots the adjusted (marginal) effects
+#'            for each fixed effect, with all co-variates set to the mean, varying
+#'            by the random intercepts. This plot type basically does the same
+#'            as \code{type = "ri.slope"}, except that the co-variates are not
+#'            set to zero, but adjusted for. This plot type differs from \code{type = "ri.slope"}
+#'            only in the adjusted y-axis-scale}
 #'            \item{\code{type = "rs.ri"}}{plots regression lines for the random
 #'            parts of the model, i.e. all random slopes for each random intercept.
 #'            As the random intercepts describe the deviation from the global intercept,
@@ -352,7 +358,8 @@ sjp.glmer <- function(fit,
 #'            \item{\code{type = "ri.slope"}}{plots regression lines for each fixed
 #'            effect (slopes) within each random intercept. Lines are based on 
 #'            the fixed effects intercept, plus each random intercept and
-#'            each specific fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),
+#'            each specific fixed term's estimate. All other fixed effects are 
+#'            set to zero (i.e. ignored),
 #'            which corresponds to \code{b0 + b0[r1-rn] + bi * xi)}
 #'            (where \code{xi} is the estimate of fixed effects, \code{b0} is the intercept of
 #'            the fixed effects and \code{b0[r1-rn]} are all random intercepts).}
@@ -387,6 +394,7 @@ sjp.glmer <- function(fit,
 #'            \item{\code{"pred"}}{to plot predicted values for the response, related to specific model predictors and conditioned on random effects. See 'Details'.}
 #'            \item{\code{"pred.fe"}}{to plot predicted values for the response, related to specific model predictors and conditioned on fixed effects only. See 'Details'.}
 #'            \item{\code{"eff"}}{to plot marginal effects of all fixed terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms. See also 'Details' of \code{\link{sjp.lm}}.}
+#'            \item{\code{"eff.ri"}}{to plot marginal effects of all fixed terms in \code{fit}, varying by the random intercepts.}
 #'            \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples' here and 'Details' of \code{\link{sjp.lm}}).}
 #'            \item{\code{"ma"}}{to check model assumptions. Note that no further arguments except \code{fit} are relevant for this option. All other arguments are ignored.}
 #'          }
@@ -645,7 +653,8 @@ sjp.lme4  <- function(fit,
   # check type
   # -------------------------------------
   if (!(type %in% c("re", "fe", "fe.std", "fe.slope", "fe.resid", "fe.cor", "re.qq",
-                    "ri.slope", "rs.ri", "coef", "pred", "pred.fe", "poly", "eff", "ma"))) {
+                    "ri.slope", "rs.ri", "coef", "pred", "pred.fe", "poly", "eff", 
+                    "eff.ri", "ma"))) {
     warning("Invalid option for `type` argument. Defaulting to `type = \"fe\"` now.")
     type  <- "fe"
   }
@@ -669,7 +678,7 @@ sjp.lme4  <- function(fit,
   # all effects
   # ---------------------------------------
   loops <- 1
-  if (type == "re" || type == "ri.slope" || type == "rs.ri" || type == "coef") {
+  if (type %in% c("re", "ri.slope", "eff.ri", "rs.ri", "coef")) {
     # ---------------------------------------
     # do we have a specific random intercept
     # specified? If yes, check valid index
@@ -803,13 +812,14 @@ sjp.lme4  <- function(fit,
     return(invisible(sjp.glm.eff(fit, title, geom.size, remove.estimates, vars, 
                                  show.ci, ylim = axis.lim, facet.grid,
                                  fun = fun, prnt.plot, ...)))
-  } else if (type == "ri.slope") {
+  } else if (type == "ri.slope" || type == "eff.ri") {
     # ---------------------------------------
     # plot slopes for each fixex coefficient
     # depending on random intercept levels
     # ---------------------------------------
     if (fun == "lm") {
-      return(invisible(sjp.lmer.ri.slope(fit, ri.nr, vars, emph.grp, ylim = axis.lim, geom.size, prnt.plot)))
+      return(invisible(sjp.lmer.ri.slope(fit, ri.nr, vars, emph.grp, ylim = axis.lim, 
+                                         geom.size, prnt.plot, type)))
     } else {
       return(invisible(sjp.glmer.ri.slope(fit, show.ci, facet.grid, ri.nr, vars,
                                           emph.grp, ylim = axis.lim, prnt.plot)))
@@ -1565,12 +1575,15 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
 }
 
 
-sjp.lmer.ri.slope <- function(fit, ri.nr, vars, emph.grp, ylim, geom.size, prnt.plot) {
+#' @importFrom stats formula
+#' @importFrom tibble as_tibble rownames_to_column
+sjp.lmer.ri.slope <- function(fit, ri.nr, vars, emph.grp, ylim, geom.size, prnt.plot, type) {
   # check size argument
   if (is.null(geom.size)) geom.size <- .7
   # -----------------------------------------------------------
-  # get model frame
+  # get model frame and model matrix
   # -----------------------------------------------------------
+  m_m <- as.data.frame(stats::model.matrix(fit))
   m_f <- stats::model.frame(fit)
   # ----------------------------
   # retrieve term names, so we find the estimates in the
@@ -1587,10 +1600,10 @@ sjp.lmer.ri.slope <- function(fit, ri.nr, vars, emph.grp, ylim, geom.size, prnt.
   # iterate all random intercept
   # ---------------------------------------
   for (ri.count in ri.nr) {
+    ri.tmp <- lme4::ranef(fit)
     # retrieve random effects
-    rand.ef <- lme4::ranef(fit)[[ri.count]]
-    # and list name
-    ri.name <- names(lme4::ranef(fit)[ri.count])
+    rand.ef <- tibble::as_tibble(tibble::rownames_to_column(ri.tmp[[ri.count]]))
+    ri.name <- names(ri.tmp[ri.count])
     # ------------------------------
     # set geom highlight colors
     # to highlight specific grouping levels
@@ -1619,45 +1632,70 @@ sjp.lmer.ri.slope <- function(fit, ri.nr, vars, emph.grp, ylim, geom.size, prnt.
     # loop through all coefficients
     # ----------------------------
     # slopes for all fixed effects
-    for (j in 1:length(estimates)) {
+    # slopes for all fixed effects
+    for (j in seq_len(length(estimates))) {
       # reset data frame
       final.df <- data.frame()
       # slopes for each random intercept
-      for (i in 1:nrow(rand.ef)) {
+      for (i in seq_len(nrow(rand.ef))) {
         # retrieve intercept
-        ri <- rand.ef[i, 1]
-        xpos <- NULL
-        # find original values for estimates
-        for (k in 1:length(all.term.names)) {
-          # check if estimate's name matches any column
-          # in the data frame of the fitted model
-          pos <- grep(all.term.names[k], fit.term.names[j], fixed = T)
-          # found?
-          if (length(pos) > 0) {
-            xpos <- sort(unique(m_f[, k]))
-            break
-          }
-        }
-        # check if we found any values...
-        if (!is.null(xpos)) {
+        ri <- rand.ef[[2]][i]
+        # 
+        if (type == "eff.ri") {
+          # retrieve unique values of estimates
+          est.values <- as.vector(na.omit(unique(m_m[[fit.term.names[j]]])))
+          # retrieve all other estimates, which should be set to mean
+          # we need the switch-argument for interaction terms, to find the correct
+          # data in the model matrix
+          other.est <- 
+            m_m[, c(FALSE, !sjmisc::str_contains(fit.term.names[j], 
+                                                 colnames(m_m),
+                                                 switch = !sjmisc::is_empty(grep(":", fit.term.names[j], fixed = T)))[-1])]
+          # compute mean effects
+          est.effect <- as.vector(estimates[-j] * colMeans(sjmisc::to_value(other.est), na.rm = T))
           final.df <- rbind(final.df,
-                            cbind(x = sjmisc::to_value(xpos, keep.labels = F),
-                                  y = fi + ri + sjmisc::to_value(xpos, keep.labels = F) * estimates[j],
+                            cbind(x = sjmisc::to_value(est.values, keep.labels = F),
+                                  y = fi + ri + sum(est.effect) + sjmisc::to_value(est.values, keep.labels = F) * estimates[j],
                                   grp = i))
+        } else {
+          xpos <- NULL
+          # find original values for estimates
+          for (k in 1:length(all.term.names)) {
+            # check if estimate's name matches any column
+            # in the data frame of the fitted model
+            pos <- grep(all.term.names[k], fit.term.names[j], fixed = T)
+            # found?
+            if (length(pos) > 0) {
+              xpos <- sort(unique(m_f[, k]))
+              break
+            }
+          }
+          # check if we found any values...
+          if (!is.null(xpos)) {
+            final.df <- rbind(final.df,
+                              cbind(x = sjmisc::to_value(xpos, keep.labels = F),
+                                    y = fi + ri + sjmisc::to_value(xpos, keep.labels = F) * estimates[j],
+                                    grp = i))
+          }
         }
       }
       # comvert grouping level to factor
       final.df$grp <- as.factor(final.df$grp)
       # retrieve group level label
-      levels(final.df$grp)  <- row.names(rand.ef)
+      levels(final.df$grp) <- rand.ef[[1]]
+      # ------------------------------
+      # prepare plot title
+      # ------------------------------
+      if (type == "eff.ri")
+        plot.title <- sprintf("Marginal effect of %s, conditioned on %s", fit.term.names[j], ri.name)
+      else
+        plot.title <- sprintf("Random effect \"%s\"", ri.name)
       # ------------------------------
       # prepare base plot
       # ------------------------------
       gp <- ggplot(final.df, aes(x = x, y = y, colour = grp)) +
         geom_line(size = geom.size) +
-        labs(title = sprintf("Random effect \"%s\"", ri.name),
-             x = fit.term.names[j],
-             y = response.name)
+        labs(title = plot.title, x = fit.term.names[j], y = response.name)
       # ------------------------------
       # check axis limits, if we have user defined values
       # ------------------------------
@@ -1676,7 +1714,7 @@ sjp.lmer.ri.slope <- function(fit, ri.nr, vars, emph.grp, ylim, geom.size, prnt.
       # ------------------------------
       if (!is.null(geom.colors)) {
         # set grouping levels as legend labels
-        legendLabels <- row.names(rand.ef)
+        legendLabels <- rand.ef[[1]]
         # set new color scale
         gp <- sj.setGeomColors(gp,
                                geom.colors,

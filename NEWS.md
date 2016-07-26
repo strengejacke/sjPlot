@@ -9,6 +9,7 @@
 ## Changes to functions
 
 * Added argument `theme.font` to `sjp.setTheme` to apply a base font family for themes.
+* `sjp.lmer` gets a new plot type `eff.ri` to plot marginal effects, varying by random intercepts.
 
 ## Bug fixes
 

@@ -163,6 +163,7 @@
 #' @importFrom dplyr full_join slice
 #' @importFrom stats nobs AIC confint coef logLik family deviance
 #' @importFrom sjstats std_beta icc r2 cod chisq_gof hoslem_gof
+#' @importFrom tibble lst
 #' @export
 sjt.glm <- function(...,
                     pred.labels = NULL,
@@ -236,7 +237,7 @@ sjt.glm <- function(...,
   # ------------------------
   # retrieve fitted models
   # ------------------------
-  input_list <- list(...)
+  input_list <- tibble::lst(...)
   # --------------------------------------------------------
   # check length. if we have a list of fitted model,
   # we need to "unlist" them
@@ -1247,7 +1248,7 @@ sjt.glmer <- function(...,
                       no.output = FALSE,
                       remove.spaces = TRUE) {
 
-  input_list <- list(...)
+  input_list <- tibble::lst(...)
   return(sjt.glm(input_list, file = file, pred.labels = pred.labels,
                  depvar.labels = depvar.labels, string.pred = string.pred,
                  string.dv = string.dv, show.header = show.header,
