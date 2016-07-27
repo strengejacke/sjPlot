@@ -137,7 +137,7 @@ sjc.qclus <- function(data,
   # --------------------------------------------------------
   # save original data frame
   # --------------------------------------------------------
-  rownames(data) <- c(1:nrow(data))
+  rownames(data) <- 1:nrow(data)
   data.origin <- data
   # remove missings
   data <- stats::na.omit(data)
@@ -231,13 +231,13 @@ sjc.qclus <- function(data,
   # ---------------------------------------------
   # iterate all columns to calculate group means
   # ---------------------------------------------
-  for (cnt in 1:colnr) {
+  for (cnt in seq_len(colnr)) {
     # retrieve column data
     coldat <- z[, cnt]
     # ---------------------------------------------
     # iterate groups
     # ---------------------------------------------
-    for (i in 1:groupcount) {
+    for (i in seq_len(groupcount)) {
       # retrieve column values for each group
       grpvalues <- coldat[which(grp == i)]
       # calculate mean
@@ -348,9 +348,6 @@ sjc.cluster <- function(data,
                         iter.max = 20,
                         algorithm = c("Hartigan-Wong", "Lloyd", "MacQueen")) {
   # --------------------------------------------------------
-  # check for abbreviations
-  # --------------------------------------------------------
-  # --------------------------------------------------------
   # match arguments
   # --------------------------------------------------------
   distance <- match.arg(distance)
@@ -362,7 +359,7 @@ sjc.cluster <- function(data,
   # --------------------------------------------------------
   data.origin <- data
   # create id with index numbers for rows
-  data.origin$sj.grp.id <- c(1:nrow(data.origin))
+  data.origin$sj.grp.id <- 1:nrow(data.origin)
   # create NA-vector of same length as data frame
   complete.groups <- rep(NA, times = nrow(data.origin))
   # Prepare Data
@@ -477,7 +474,7 @@ sjc.dend <- function(data, groupcount, distance = "euclidean", agglomeration = "
     # retrieve different colors
     color <- scales::brewer_pal("qual", "Set1")(gl)
     # iterate all groupcounts
-    for (cnt in 1:gl) {
+    for (cnt in seq_len(gl)) {
       k <- groupcount[cnt]
       # retrieve cluster
       cluster <- stats::cutree(hc, k = k)

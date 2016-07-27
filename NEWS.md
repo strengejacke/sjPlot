@@ -15,4 +15,5 @@
 
 * In some cases, `sjp.int` cropped parts of the plot, when `jitter.ci` was `TRUE`.
 * In `sjp.corr`, argument `sort.corr = FALSE` caused an error.
-* In `sjt.glm` and `sjt.glmer`, settingargument `sep.column` to `FALSE` still added separator columns at the right end of the table.
+* In `sjt.glm` and `sjt.glmer`, setting argument `sep.column` to `FALSE` still added separator columns at the right end of the table.
+* `sjp.xtab` caused an error when a value from `x` was completely missing in `grp` (or vice versa) ([#144](https://github.com/sjPlot/devel/issues/144)).

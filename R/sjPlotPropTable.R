@@ -246,8 +246,7 @@ sjp.xtab <- function(x,
   if (margin != "row")
     mydat$mydat$total <- unname(rowSums(mydat$mydat[, -1]))
   if (margin != "col")
-    mydat$mydat <-
-    rbind(mydat$mydat, c("total", unname(colSums(mydat$mydat[, -1]))))
+    mydat$mydat <- rbind(mydat$mydat, c("total", unname(colSums(mydat$mydat[, -1]))))
   # -----------------------------------------------
   # add n-values to tidy data frame
   #---------------------------------------------------
@@ -332,7 +331,7 @@ sjp.xtab <- function(x,
       upper_lim <- 1
   } else {
     # factor depends on labels
-    if (isTRUE(show.values))
+    if (show.values)
       mlp <- 1.2
     else
       mlp <- 1.1

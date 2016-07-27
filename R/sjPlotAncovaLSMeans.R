@@ -3,6 +3,7 @@ utils::globalVariables(c("xn", "vld", "conf.low", "conf.high"))
 
 #' @importFrom dplyr filter
 #' @importFrom sjstats merMod_p
+#' @importFrom stats terms
 sjp.emm <- function(fit,
                     swap.pred = FALSE,
                     plevel = 0.05,
@@ -59,7 +60,7 @@ sjp.emm <- function(fit,
   # init variable
   it.names <- c()
   # get model term names
-  preds <- attr(terms(fit), "term.labels")
+  preds <- attr(stats::terms(fit), "term.labels")
   # any predictors with colon?
   pos <- grep(":", preds)
   # if yes, we have our interaction terms
@@ -107,7 +108,7 @@ sjp.emm <- function(fit,
   # Now iterate all interaction terms from model
   # -----------------------------------------------------------
   interactionterms <- c()
-  for (i in 1:length(it.names)) {
+  for (i in seq_len(length(it.names))) {
     # -----------------------------------------------------------
     # retrieve interaction terms
     # -----------------------------------------------------------
@@ -119,7 +120,7 @@ sjp.emm <- function(fit,
       # -----------------------------------------------------------
       # Iterate all interactions on factor-level-basis from model
       # -----------------------------------------------------------
-      for (cnt in 1:length(intnames)) {
+      for (cnt in seq_len(length(intnames))) {
         # -----------------------------------------------------------
         # first, retrieve and split interaction term so we know
         # the two predictor variables, or factor levels of the
@@ -151,7 +152,7 @@ sjp.emm <- function(fit,
   # -----------------------------------------------------------
   is.em <- suppressWarnings(sjmisc::is_empty(interactionterms));
   if (!is.em && nrow(interactionterms) > 0) {
-    for (cnt in 1:nrow(interactionterms)) {
+    for (cnt in seq_len(nrow(interactionterms))) {
       # -----------------------------------------------------------
       # retrieve each pair of interaction terms
       # -----------------------------------------------------------
@@ -188,11 +189,7 @@ sjp.emm <- function(fit,
         # -----------------------------------------------------------
         emm <- summary(lsmeans::lsmeans.character(fit, term.pairs))
         # create data frame from lsmeans
-        intdf <- data.frame(emm[2],
-                            emm[3],
-                            emm[1],
-                            emm[6],
-                            emm[7],
+        intdf <- data.frame(emm[2], emm[3], emm[1], emm[6], emm[7],
                             rep(digits, times = nrow(emm[1])))
       }
       colnames(intdf) <- c("x", "y", "grp", "conf.low", "conf.high", "vld")

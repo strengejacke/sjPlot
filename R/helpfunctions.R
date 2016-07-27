@@ -310,10 +310,12 @@ create.xtab.df <- function(x,
   proptab.row <- rbind(as.data.frame(as.matrix(round(100 * prop.table(mydat, 1), round.prz))), 
                        colSums(proptab.cell))
   rownames(proptab.row)[nrow(proptab.row)] <- "total"
+  proptab.row <- as.data.frame(apply(proptab.row, c(1, 2), function(x) if (is.na(x)) x <- 0 else x))
   # create proportional tables, column  percentages, including total row
   proptab.col <- cbind(as.data.frame(as.matrix(round(100 * prop.table(mydat, 2), round.prz))), 
                        rowSums(proptab.cell))
   colnames(proptab.col)[ncol(proptab.col)] <- "total"
+  proptab.col <- as.data.frame(apply(proptab.col, c(1, 2), function(x) if (is.na(x)) x <- 0 else x))
   # add total row and column to cell percentages afterwards
   proptab.cell <- rbind(as.data.frame(as.matrix(proptab.cell)), colSums(proptab.cell))
   proptab.cell <- cbind(as.data.frame(as.matrix(proptab.cell)), rowSums(proptab.cell))
