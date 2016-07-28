@@ -400,8 +400,7 @@ sjp.lm <- function(fit,
     # retrieve standardized betas
     tmp <- suppressWarnings(sjstats::std_beta(fit, include.ci = TRUE, type = type))
     # add "std." to title?
-    if (!is.null(axis.title) && axis.title == "Estimates")
-      axis.title <- "Std. Estimates"
+    if (!is.null(axis.title) && axis.title == "Estimates") axis.title <- "Std. Estimates"
   } else {
     tmp <- broom::tidy(fit, conf.int = TRUE) %>%
              dplyr::slice(-1) %>% 
@@ -431,8 +430,6 @@ sjp.lm <- function(fit,
   if (!is.null(remove.estimates)) {
     # get row indices of rows that should be removed
     remrows <- match(remove.estimates, tmp[["term"]])
-    # remember old rownames
-    keepnames <- tmp[["term"]][-remrows]
     # remove rows
     tmp <- dplyr::slice(tmp, seq_len(nrow(tmp))[-remrows])
     # remove labels?
@@ -603,11 +600,7 @@ sjp.reglin <- function(fit,
   model_data <- stats::model.frame(fit)
   depvar.label <- sjmisc::get_label(model_data[[1]], def.value = colnames(model_data)[1])
   resp <- model_data[[1]]
-  # gls needs extra handling
-  if (any(class(fit) == "gls")) 
-    predvars <- all.vars(nlme::getCovariateFormula(fit))
-  else
-    predvars <- colnames(model_data)[-1]
+  predvars <- all.vars(stats::formula(fit)[[3L]])
   # ------------------------
   # remove estimates?
   # ------------------------
