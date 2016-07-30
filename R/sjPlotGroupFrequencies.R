@@ -490,7 +490,7 @@ sjp.grpfrq <- function(var.cnt,
     # amount of categories instead
     else {
       iavarLabLength <- length(unique(stats::na.omit(intr.var)))
-      intr.var.labels <- c(1:iavarLabLength)
+      intr.var.labels <- 1:iavarLabLength
     }
   }
   # --------------------------------------------------------
