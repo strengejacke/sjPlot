@@ -877,7 +877,7 @@ sjp.lme4  <- function(fit,
   # grouping estimates only for fixed effects
   # ---------------------------------------
   if ((type == "re" || type == "coef") && !is.null(group.estimates)) {
-    warning("`group.estimates` nor supported for random effects.", call. = F)
+    warning("`group.estimates` not supported for random effects.", call. = F)
     group.estimates <- NULL
   }
   # ---------------------------------------
@@ -919,29 +919,39 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------
       # retrieve standard errors, for ci
       # ---------------------------------------
-      if (type == "coef") {
-        se.fit <- data.frame(t(sjstats::se(fit)[[lcnt]]))
-      } else {
-        se.fit <- arm::se.ranef(fit)[[lcnt]]
+      if (show.ci) {
+        if (type == "coef") {
+          se.fit <- data.frame(t(sjstats::se(fit)[[lcnt]]))
+        } else {
+          se.fit <- arm::se.ranef(fit)[[lcnt]]
+        }
       }
       # ---------------------------------------
       # select random effects for each coefficient
       # ---------------------------------------
-      for (i in 1:ncol(mydf.ef)) {
+      for (i in seq_len(ncol(mydf.ef))) {
         # ---------------------------------------
         # create data frame
         # 1. col: odds ratios /estimates of re-estimates
         # 2. col.: lower conf int
         # 3. col: upper conf int
         # ---------------------------------------
-        if (fun == "glm") {
-          tmp <- data.frame(estimate = exp(mydf.ef[, i]),
-                            conf.low = exp(mydf.ef[, i] - (1.96 * se.fit[, i])),
-                            conf.high = exp(mydf.ef[, i] + (1.96 * se.fit[, i])))
+        if (show.ci) {
+          if (fun == "glm") {
+            tmp <- data.frame(estimate = exp(mydf.ef[, i]),
+                              conf.low = exp(mydf.ef[, i] - (1.96 * se.fit[, i])),
+                              conf.high = exp(mydf.ef[, i] + (1.96 * se.fit[, i])))
+          } else {
+            tmp <- data.frame(estimate = mydf.ef[, i],
+                              conf.low = mydf.ef[, i] - (1.96 * se.fit[, i]),
+                              conf.high = mydf.ef[, i] + (1.96 * se.fit[, i]))
+          }
         } else {
-          tmp <- data.frame(estimate = mydf.ef[, i],
-                            conf.low = mydf.ef[, i] - (1.96 * se.fit[, i]),
-                            conf.high = mydf.ef[, i] + (1.96 * se.fit[, i]))
+          if (fun == "glm") {
+            tmp <- data.frame(estimate = exp(mydf.ef[, i]), conf.low = NA, conf.high = NA)
+          } else {
+            tmp <- data.frame(estimate = mydf.ef[, i], conf.low = NA, conf.high = NA)
+          }
         }
         # ---------------------------------------
         # set column names (variable / coefficient name)
@@ -951,7 +961,7 @@ sjp.lme4  <- function(fit,
         # ---------------------------------------
         # sort data frame. init order
         # ---------------------------------------
-        reihe <- c(1:nrow(tmp))
+        reihe <- seq_len(nrow(tmp))
         # ---------------------------------------
         # sorting requested?
         # ---------------------------------------
@@ -1062,7 +1072,7 @@ sjp.lme4  <- function(fit,
       # p < 0.05 = *
       # ----------------------------
       if (show.p) {
-        for (i in 1:length(pv)) {
+        for (i in seq_len(length(pv))) {
           ps[i] <- sjmisc::trim(paste(ps[i], get_p_stars(pv[i])))
         }
       }
@@ -1076,7 +1086,7 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------
       # just one group, so no faceting needed
       # ---------------------------------------
-      mydf$grp <- c("1")
+      mydf$grp <- "1"
       facet.grid <- FALSE
       if (is.null(title)) title <- ifelse(type == "fe.std", "Standardized fixed effects", "Fixed effects")
       # ---------------------------------------
@@ -1111,7 +1121,7 @@ sjp.lme4  <- function(fit,
         # remember old rownames
         keepnames <- row.names(mydf)[-remrows]
         # remove rows
-        mydf <- dplyr::slice(mydf, c(1:nrow(mydf))[-remrows])
+        mydf <- dplyr::slice(mydf, seq_len(nrow(mydf))[-remrows])
         # set back rownames
         row.names(mydf) <- keepnames
         # remove labels?
