@@ -248,7 +248,7 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #' @importFrom dplyr slice select_
 #' @importFrom broom tidy
 #' @importFrom sjmisc is_empty
-#' @importFrom tibble as_tibble
+#' @importFrom tibble as_tibble rownames_to_column
 #' @importFrom nlme getData getResponse getCovariateFormula
 #' @export
 sjp.lm <- function(fit,
@@ -398,9 +398,13 @@ sjp.lm <- function(fit,
   # -------------------------------------------------
   if (type == "std" || type == "std2") {
     # retrieve standardized betas
-    tmp <- suppressWarnings(sjstats::std_beta(fit, include.ci = TRUE, type = type))
+    tmp <- suppressWarnings(
+      tibble::rownames_to_column(
+        sjstats::std_beta(fit, include.ci = TRUE, type = type)))
     # add "std." to title?
     if (!is.null(axis.title) && axis.title == "Estimates") axis.title <- "Std. Estimates"
+    # give common column names
+    colnames(tmp) <- c("term", "estimate", "conf.low", "conf.high")
   } else {
     tmp <- broom::tidy(fit, conf.int = TRUE) %>%
              dplyr::slice(-1) %>% 
@@ -845,51 +849,28 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
   # Print non-normality of residuals and outliers both of original and updated model
   # dots should be plotted along the line, this the dots should follow a linear direction
   # ---------------------------------
-  ggqqp <- function(fit) {
-    # mixed model model?
-    if (any(class(fit) == "lme") || any(class(fit) == "lmerMod")) {
-      res_ <- sort(stats::residuals(fit), na.last = NA)
-      y_lab <- "Residuals"
-    } else {
-      # else, normal model
-      res_ <- sort(stats::rstudent(fit), na.last = NA)
-      y_lab <- "Studentized Residuals"
-    }
-    fitted_ <- sort(stats::fitted(fit), na.last = NA)
-    # create data frame
-    mydf <- na.omit(data.frame(x = fitted_, y = res_))
-    # try to estimate outlier
-    mydf <- cbind(quot = mydf$x / mydf$y, mydf)
-    mydf$case.nr <- names(res_)
-    mydf$ratio <- mydf$y / mydf$quot
-    # something like a ratio of maximum distance from residuals
-    quot.md <- stats::median(mydf$ratio)
-    quot.sd <- stats::sd(mydf$ratio)
-    quot.rng <- c(quot.md - quot.sd, quot.md + quot.sd)
-    # label outliers with case number
-    mydf$label <- NA
-    outl <- which(mydf$ratio < (2 * quot.rng[1]))
-    mydf$label[outl] <- mydf$case.nr[outl]
-    outl <- which(mydf$ratio > (2 * quot.rng[2]))
-    mydf$label[outl] <- mydf$case.nr[outl]
-    # ggrepel installed?
-    if (!requireNamespace("ggrepel", quietly = TRUE)) {
-      text_label <- geom_text(hjust = "bottom", vjust = "bottom")
-    } else {
-      text_label <- ggrepel::geom_label_repel()
-    }
-    # plot it
-    return(ggplot(mydf, aes(x = x, y = y, label = label)) +
-             geom_point() +
-             text_label +
-             stat_smooth(method = "lm", se = FALSE) +
-             labs(title = "Non-normality of residuals and outliers\n(Dots should be plotted along the line)",
-                  y = y_lab, x = "Theoretical quantiles"))
-  }
   sjp.setTheme(theme = "scatterw")
   # qq-plot of studentized residuals for base model
-  p1 <- ggqqp(linreg)
-  # save plot
+  # mixed model model?
+  if (any(class(linreg) == "lme") || any(class(linreg) == "lmerMod")) {
+    res_ <- sort(stats::residuals(linreg), na.last = NA)
+    y_lab <- "Residuals"
+  } else {
+    # else, normal model
+    res_ <- sort(stats::rstudent(linreg), na.last = NA)
+    y_lab <- "Studentized Residuals"
+  }
+  fitted_ <- sort(stats::fitted(linreg), na.last = NA)
+  # create data frame
+  mydf <- na.omit(data.frame(x = fitted_, y = res_))
+  # plot it
+  p1 <- ggplot(mydf, aes(x = x, y = y)) +
+           geom_point() +
+           scale_colour_manual(values = c("#0033cc", "#993300")) +
+           stat_smooth(method = "lm", se = FALSE) +
+           labs(title = "Non-normality of residuals and outliers\n(Dots should be plotted along the line)",
+                y = y_lab, x = "Theoretical quantiles (predicted values)")
+  # save plots
   plot.list[[length(plot.list) + 1]] <- p1
   # print plot
   suppressWarnings(graphics::plot(p1))

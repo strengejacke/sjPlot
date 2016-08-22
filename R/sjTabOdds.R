@@ -205,6 +205,7 @@ sjt.glm <- function(...,
                     digits.summary = 3,
                     cell.spacing = 0.2,
                     cell.gpr.indent = 0.6,
+                    p.zero = FALSE,
                     sep.column = TRUE,
                     CSS = NULL,
                     encoding = NULL,
@@ -216,12 +217,10 @@ sjt.glm <- function(...,
   # --------------------------------------------------------
   # check p-value-style option
   # --------------------------------------------------------
-  opt <- getOption("p_zero")
-  if (is.null(opt) || opt == FALSE) {
+  if (!p.zero)
     p_zero <- ""
-  } else {
+  else
     p_zero <- "0"
-  }
   # check hyphen for ci-range
   if (is.null(ci.hyphen)) ci.hyphen <- "&nbsp;&ndash;&nbsp;"
   # replace space with protected space in ci-hyphen
@@ -1240,6 +1239,7 @@ sjt.glmer <- function(...,
                       digits.summary = 3,
                       cell.spacing = 0.2,
                       cell.gpr.indent = 0.6,
+                      p.zero = FALSE,
                       sep.column = TRUE,
                       CSS = NULL,
                       encoding = NULL,
@@ -1263,6 +1263,6 @@ sjt.glmer <- function(...,
                  group.pred = group.pred, show.col.header = show.col.header, show.r2 = show.r2, show.icc = show.icc,
                  show.re.var = show.re.var, show.loglik = show.loglik, show.aic = show.aic, show.aicc = show.aicc, show.dev = show.dev,
                  show.chi2 = FALSE, show.hoslem = show.hoslem, show.family = show.family, remove.estimates = remove.estimates,
-                 cell.spacing = cell.spacing, cell.gpr.indent = cell.gpr.indent, sep.column = sep.column,
+                 cell.spacing = cell.spacing, cell.gpr.indent = cell.gpr.indent, p.zero = p.zero, sep.column = sep.column,
                  encoding = encoding, CSS = CSS, use.viewer = use.viewer, no.output = no.output, remove.spaces = remove.spaces))
 }

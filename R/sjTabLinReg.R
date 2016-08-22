@@ -73,7 +73,8 @@
 #'          effects for each model are printed in the model summary. Only applies to mixed models.
 #'          For details output, see 'Note' in \code{\link[sjstats]{icc}}.
 #' @param show.fstat If \code{TRUE}, the F-statistics for each model is printed
-#'          in the model summary. Default is \code{FALSE}.
+#'          in the model summary. Default is \code{FALSE}. This argument does not apply to
+#'          \code{\link{sjt.lmer}}.
 #' @param show.aic logical, if \code{TRUE}, the AIC value for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
 #' @param show.aicc logical, if \code{TRUE}, the second-order AIC value for each model 
@@ -93,6 +94,9 @@
 #'          cell spacing, which would be: \code{CSS = list(css.thead = "padding:0.2cm;", css.tdata = "padding:0.2cm;")}.
 #' @param cell.gpr.indent indent for table rows with grouped factor predictors. Only applies
 #'          if \code{group.pred = TRUE}.
+#' @param p.zero logical, if \code{TRUE}, p-values have a leading 0 before the
+#'          period (e.g. \emph{0.002}), else p-values start with a period and
+#'          without a zero (e.g. \emph{.002}).
 #' @param sep.column logical, if \code{TRUE}, an empty table column is added after 
 #'          each model column, to add margins between model columns. By default, this
 #'          column will be added to the output; however, when copying tables to 
@@ -326,6 +330,7 @@ sjt.lm <- function(...,
                    digits.summary = 3,
                    cell.spacing = 0.2,
                    cell.gpr.indent = 0.6,
+                   p.zero = FALSE,
                    sep.column = TRUE,
                    CSS = NULL,
                    encoding = NULL,
@@ -336,13 +341,10 @@ sjt.lm <- function(...,
   # --------------------------------------------------------
   # check p-value-style option
   # --------------------------------------------------------
-  opt <- getOption("p_zero")
-  if (is.null(opt) || opt == FALSE) {
+  if (!p.zero)
     p_zero <- ""
-  } else {
+  else
     p_zero <- "0"
-  }
-  
   # -------------------------------------
   # check arguments
   # -------------------------------------
@@ -1423,6 +1425,7 @@ sjt.lmer <- function(...,
                      digits.summary = 3,
                      cell.spacing = 0.2,
                      cell.gpr.indent = 0.6,
+                     p.zero = FALSE,
                      sep.column = TRUE,
                      CSS = NULL,
                      encoding = NULL,
@@ -1446,6 +1449,6 @@ sjt.lmer <- function(...,
                 group.pred = group.pred, show.col.header = show.col.header, show.r2 = show.r2, show.icc = show.icc, 
                 show.re.var = show.re.var, show.fstat = FALSE, show.aic = show.aic, show.aicc = show.aicc, show.dev = show.dev,
                 remove.estimates = remove.estimates, cell.spacing = cell.spacing, cell.gpr.indent = cell.gpr.indent,
-                sep.column = sep.column, encoding = encoding, 
+                p.zero = p.zero, sep.column = sep.column, encoding = encoding, 
                 CSS = CSS, use.viewer = use.viewer, no.output = no.output, remove.spaces = remove.spaces))
 }

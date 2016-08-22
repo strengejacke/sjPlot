@@ -93,7 +93,8 @@ effects for each model are printed in the model summary. Only applies to mixed m
 For details output, see 'Note' in \code{\link[sjstats]{icc}}.}
 
 \item{show.fstat}{If \code{TRUE}, the F-statistics for each model is printed
-in the model summary. Default is \code{FALSE}.}
+in the model summary. Default is \code{FALSE}. This argument does not apply to
+\code{\link{sjt.lmer}}.}
 
 \item{show.aic}{logical, if \code{TRUE}, the AIC value for each model is printed
 in the model summary. Default is \code{FALSE}.}

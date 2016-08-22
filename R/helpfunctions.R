@@ -193,7 +193,7 @@ create.frq.df <- function(x,
     else
       dat$val <- as.numeric(dat$val)
     # create frequency table
-    dat2 <- data.frame(table(x, exclude = NULL))
+    dat2 <- data.frame(table(x, useNA = "always"))
     colnames(dat2) <- c("val", "frq")
     dat2$val <- sjmisc::to_value(dat2$val, keep.labels = F)
     # join frq table and label columns
@@ -203,7 +203,7 @@ create.frq.df <- function(x,
     suppressMessages(sjmisc::replace_na(mydat$frq) <- 0)
   } else {
     # if we have no labels, do simple frq table
-    mydat <- data.frame(table(x, exclude = NULL))
+    mydat <- data.frame(table(x, useNA = "always"))
     colnames(mydat) <- c("val", "frq")
     # add values as label
     mydat$label <- labels <- as.character(mydat$val)
@@ -250,7 +250,10 @@ create.frq.df <- function(x,
   # -------------------------------------
   # "rename" NA values
   # -------------------------------------
-  if (!is.null(mydat$label)) mydat$label[is.na(mydat$label)] <- "NA"
+  if (!is.null(mydat$label)) {
+    mydat$label[is.na(mydat$label)] <- "NA"
+    mydat$label[mydat$label == "<NA>"] <- "NA"
+  }
   suppressMessages(sjmisc::replace_na(mydat$val) <- max(sjmisc::to_value(mydat$val), na.rm = T) + 1)
   # save original order
   mydat$order <- sjmisc::to_value(mydat$val, keep.labels = F)
@@ -295,7 +298,7 @@ create.xtab.df <- function(x,
     if (na.rm) {
       mydat <- stats::ftable(table(x_full, grp_full))
     } else {
-      mydat <- stats::ftable(table(x_full, grp_full, exclude = NULL))
+      mydat <- stats::ftable(table(x_full, grp_full, useNA = "always"))
     }
   } else {
     if (na.rm)
@@ -332,6 +335,7 @@ create.xtab.df <- function(x,
   # rename column names
   colnames(mydat)[1] <- "label"
   colnames(mydat)[is.na(colnames(mydat))] <- "NA"
+  colnames(mydat)[colnames(mydat) == "<NA>"] <- "NA"
   # label must be character
   mydat$label <- as.character(mydat$label)
   mydat$label[is.na(mydat$label)] <- "NA"

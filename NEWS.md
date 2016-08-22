@@ -1,8 +1,14 @@
-# sjPlot 2.0.2-1
+# sjPlot 2.0.3
 
 ## Changes to functions
 
 * For `sjp.glmer` and `sjp.lmer`, argument `show.ci` now also applies for plotting random effects (`type = "re"`, the default), so confidence intervals are not calculated. This may be useful in some cases where computation of standard errors for random effects caused an error.
+* `table*, exclude = NULL)` was changed to `table*, useNA = "always")`, because of planned changes in upcoming R version 3.4.
+* `get_option("p_zero")` was removed, and `sjt.lm`, `sjt.glm`, `sjt.lmer` and `sjt.glmer` get a `p.zero` argument.
+
+## Bug fixes
+
+* A bug introduced in update 2.0.2 caused an error in `sjp.lm` for `type = "std"`.
 
 
 # sjPlot 2.0.2
