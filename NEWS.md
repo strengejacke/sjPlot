@@ -1,5 +1,8 @@
 # sjPlot 2.0.3
 
+## New functions
+* `sjp.resid`, an experimental function to plot and analyze residuals from linear models.
+
 ## Changes to functions
 
 * For `sjp.glmer` and `sjp.lmer`, argument `show.ci` now also applies for plotting random effects (`type = "re"`, the default), so confidence intervals may not be calculated. This may be useful in some cases where computation of standard errors for random effects caused an error.

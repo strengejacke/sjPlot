@@ -240,18 +240,14 @@ sjp.grpfrq <- function(var.cnt,
   # check default geom.size
   # --------------------------------------------------------
   if (is.null(geom.size)) {
-    if (type == "bar")
-      geom.size <- .7
-    else if (type == "dot")
-      geom.size <- 3
-    else if (type == "line")
-      geom.size <- .8
-    else if (type == "boxplot")
-      geom.size <- .5
-    else if (type == "violin")
-      geom.size <- .6
-    else
-      geom.size <- .7
+    geom.size <- dplyr::case_when(
+      type == "bar" ~ .7,
+      type == "dot" ~ 3,
+      type == "line" ~ .8,
+      type == "boxplot" ~ .5,
+      type == "violin" ~ .6,
+      TRUE ~ .7
+    )
   }
   # --------------------------------------------------------
   # set text label offset

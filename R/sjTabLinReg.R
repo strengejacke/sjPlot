@@ -53,6 +53,9 @@
 #' @param digits.std amount of decimals for standardized beta
 #' @param digits.summary amount of decimals for values in model summary
 #' @param emph.p logical, if \code{TRUE} (default), significant p-values are shown bold faced.
+#' @param p.zero logical, if \code{TRUE}, p-values have a leading 0 before the
+#'          period (e.g. \emph{0.002}), else p-values start with a period and
+#'          without a zero (e.g. \emph{.002}).
 #' @param separate.ci.col if \code{TRUE}, the CI values are shown in a separate table column.
 #'          Default is \code{FALSE}.
 #' @param newline.ci logical, if \code{TRUE} and \code{separate.ci.col = FALSE}, inserts a line break
@@ -94,9 +97,6 @@
 #'          cell spacing, which would be: \code{CSS = list(css.thead = "padding:0.2cm;", css.tdata = "padding:0.2cm;")}.
 #' @param cell.gpr.indent indent for table rows with grouped factor predictors. Only applies
 #'          if \code{group.pred = TRUE}.
-#' @param p.zero logical, if \code{TRUE}, p-values have a leading 0 before the
-#'          period (e.g. \emph{0.002}), else p-values start with a period and
-#'          without a zero (e.g. \emph{.002}).
 #' @param sep.column logical, if \code{TRUE}, an empty table column is added after 
 #'          each model column, to add margins between model columns. By default, this
 #'          column will be added to the output; however, when copying tables to 
@@ -295,6 +295,7 @@ sjt.lm <- function(...,
                    group.pred = TRUE,
                    p.numeric = TRUE,
                    emph.p = TRUE,
+                   p.zero = FALSE,
                    p.kr = TRUE,
                    separate.ci.col = TRUE,
                    newline.ci = TRUE,
@@ -330,7 +331,6 @@ sjt.lm <- function(...,
                    digits.summary = 3,
                    cell.spacing = 0.2,
                    cell.gpr.indent = 0.6,
-                   p.zero = FALSE,
                    sep.column = TRUE,
                    CSS = NULL,
                    encoding = NULL,
@@ -1390,6 +1390,7 @@ sjt.lmer <- function(...,
                      group.pred = FALSE,
                      p.numeric = TRUE,
                      emph.p = TRUE,
+                     p.zero = FALSE,
                      p.kr = TRUE,
                      separate.ci.col = TRUE,
                      newline.ci = TRUE,
@@ -1425,7 +1426,6 @@ sjt.lmer <- function(...,
                      digits.summary = 3,
                      cell.spacing = 0.2,
                      cell.gpr.indent = 0.6,
-                     p.zero = FALSE,
                      sep.column = TRUE,
                      CSS = NULL,
                      encoding = NULL,
@@ -1444,11 +1444,11 @@ sjt.lmer <- function(...,
                 ci.hyphen = ci.hyphen, minus.sign = minus.sign,
                 digits.est = digits.est, digits.p = digits.p, digits.ci = digits.ci,
                 digits.se = digits.se, digits.std = digits.std, digits.summary = digits.summary, 
-                p.numeric = p.numeric, emph.p = emph.p, p.kr = p.kr,
+                p.numeric = p.numeric, emph.p = emph.p, p.zero = p.zero, p.kr = p.kr,
                 separate.ci.col = separate.ci.col, newline.ci = newline.ci, 
                 group.pred = group.pred, show.col.header = show.col.header, show.r2 = show.r2, show.icc = show.icc, 
                 show.re.var = show.re.var, show.fstat = FALSE, show.aic = show.aic, show.aicc = show.aicc, show.dev = show.dev,
                 remove.estimates = remove.estimates, cell.spacing = cell.spacing, cell.gpr.indent = cell.gpr.indent,
-                p.zero = p.zero, sep.column = sep.column, encoding = encoding, 
+                sep.column = sep.column, encoding = encoding, 
                 CSS = CSS, use.viewer = use.viewer, no.output = no.output, remove.spaces = remove.spaces))
 }

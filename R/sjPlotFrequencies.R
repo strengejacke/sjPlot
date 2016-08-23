@@ -148,13 +148,13 @@ sjp.frq <- function(var.cnt,
                     hjust = "center",
                     y.offset = NULL,
                     prnt.plot = TRUE) {
-  # --------------------------------------------------------
-  # get variable name
-  # --------------------------------------------------------
+  
+  # get variable name, used as default label if variable
+  # has no label attributes
   var.name <- get_var_name(deparse(substitute(var.cnt)))
-  # --------------------------------------------------------
-  # set text label offset
-  # --------------------------------------------------------
+  
+  # try to find some useful default offsets for textlabels,
+  # depending on plot range and flipped coordinates
   if (is.null(y.offset)) {
     # get maximum y-pos
     y.offset <- ceiling(max(table(var.cnt)) / 100)
@@ -178,57 +178,48 @@ sjp.frq <- function(var.cnt,
   } else {
     y_offset <- y.offset
   }
-  # --------------------------------------------------------
-  # try to automatically set labels is not passed as argument
-  # --------------------------------------------------------
+  
+  # try to automatically set labels, if not passed as argument -----
+  # to make plot annotations more beautiful, supporting labelled data
   if (is.null(axis.labels)) {
     axis.labels <- sjmisc::get_labels(var.cnt, attr.only = F, include.values = NULL, 
                                       include.non.labelled = T)
   }
   if (is.null(axis.title)) axis.title <- sjmisc::get_label(var.cnt, def.value = var.name)
   if (is.null(title)) title <- sjmisc::get_label(var.cnt, def.value = var.name)
-  # --------------------------------------------------------
+  
   # remove titles if empty
-  # --------------------------------------------------------
   if (!is.null(axis.title) && axis.title == "") axis.title <- NULL
   if (!is.null(title) && title == "") title <- NULL    
-  # --------------------------------------------------------
+  
   # check color argument
-  # --------------------------------------------------------
   if (length(geom.colors) > 1) geom.colors <- geom.colors[1]
-  # --------------------------------------------------------
-  # Match arguments
-  # --------------------------------------------------------
+
+  # Match arguments -----
   type <- match.arg(type)
   sort.frq <- match.arg(sort.frq)
+  
   # default grid-expansion
   if (isTRUE(expand.grid) || (missing(expand.grid) && type == "histogram")) {
     expand.grid <- ggplot2::waiver()
   } else {
     expand.grid <- c(0, 0)
   }
-  # --------------------------------------------------------
-  # check default geom.size
-  # --------------------------------------------------------
+
+  # check default geom.size -----
   if (is.null(geom.size)) {
-    if (type == "bar") 
-      geom.size <- .7
-    else if (type == "dot") 
-      geom.size <- 2.5
-    else if (type == "histogram") 
-      geom.size <- .7
-    else if (type == "line") 
-      geom.size <- .8
-    else if (type == "boxplot") 
-      geom.size <- .3
-    else if (type == "violin") 
-      geom.size <- .3
-    else
-      geom.size <- .7
+    geom.size <- dplyr::case_when(
+      type == "bar" ~ .7,
+      type == "dot" ~ 2.5,
+      type == "histogram" ~ .7,
+      type == "line" ~ .8,
+      type == "boxplot" ~ .3,
+      type == "violin" ~ .3,
+      TRUE ~ .7
+    )
   }
-  #---------------------------------------------------
-  # check whether variable should be auto-grouped
-  #---------------------------------------------------
+  
+  # check whether variable should be auto-grouped -----
   if (!is.null(auto.group) && length(unique(var.cnt)) >= auto.group) {
     message(sprintf("`%s` has %i unique values and was grouped...", 
                     var.name, 
@@ -245,9 +236,8 @@ sjp.frq <- function(var.cnt,
     # set label attributes
     sjmisc::set_labels(var.cnt) <- axis.labels
   }
-  #---------------------------------------------------
-  # create frequency data frame
-  #---------------------------------------------------
+  
+  # create frequency data frame -----
   df.frq <- create.frq.df(var.cnt, 
                           wrap.labels = wrap.labels, 
                           order.frq = sort.frq, 
@@ -261,39 +251,31 @@ sjp.frq <- function(var.cnt,
   else if (!is.null(axis.labels) && sort.frq != "none")
     # sort labels in required order
     axis.labels <- axis.labels[mydat$order]
-  # --------------------------------------------------------
+  
   # define text label position
-  # --------------------------------------------------------
   if (show.ci)
     mydat$label.pos <- mydat$upper.ci
   else
     mydat$label.pos <- mydat$frq
-  # --------------------------------------------------------
-  # Trim labels and title to appropriate size
-  # --------------------------------------------------------
-  # check length of diagram title and split longer string at into new lines
+  
+  # Trim labels and title to appropriate size -----
+  # check length of diagram title and split longer string into new lines
   # every 50 chars
   if (!is.null(title)) {
     # if we have weighted values, say that in diagram's title
-    if (!is.null(title.wtd.suffix)) {
-      title <- paste(title, title.wtd.suffix, sep = "")
-    }
+    if (!is.null(title.wtd.suffix)) title <- paste(title, title.wtd.suffix, sep = "")
     title <- sjmisc::word_wrap(title, wrap.title)    
   }
-  # check length of x-axis title and split longer string at into new lines
+  # check length of x-axis title and split longer string into new lines
   # every 50 chars
-  if (!is.null(axis.title)) {
-    axis.title <- sjmisc::word_wrap(axis.title, wrap.title)    
-  }
-  # --------------------------------------------------------
+  if (!is.null(axis.title)) axis.title <- sjmisc::word_wrap(axis.title, wrap.title)    
+  
   # count variable may not be a factor!
-  # --------------------------------------------------------
   if (is.factor(var.cnt) || is.character(var.cnt)) {
     var.cnt <- sjmisc::to_value(var.cnt, keep.labels = F)
   }
-  # --------------------------------------------------------
+  
   # If we have a histogram, caluclate means of groups
-  # --------------------------------------------------------
   if (is.null(weight.by)) {
     mittelwert <- mean(var.cnt, na.rm = TRUE)
     stddev <- stats::sd(var.cnt, na.rm = TRUE)
@@ -301,18 +283,16 @@ sjp.frq <- function(var.cnt,
     mittelwert <- stats::weighted.mean(var.cnt, weight.by, na.rm = TRUE)
     stddev <- sjstats::wtd_sd(var.cnt, weights = weight.by)
   }
-  # --------------------------------------------------------
+  
   # If we have boxplots, use different data frame structure
-  # --------------------------------------------------------
   if (type == "boxplot" || type == "violin") {
     mydat <- stats::na.omit(data.frame(cbind(grp = 1, 
                                              frq = var.cnt, 
                                              val = var.cnt)))
     mydat$grp <- as.factor(mydat$grp)
   }  
-  # --------------------------------------------------------
+  
   # Prepare bar charts
-  # --------------------------------------------------------
   trimViolin <- FALSE
   lower_lim <- 0
   # calculate upper y-axis-range
@@ -347,13 +327,10 @@ sjp.frq <- function(var.cnt,
         upper_lim <- max(pretty(table(var.cnt) * 1.1))
     }
   }
-  # --------------------------------------------------------
+  
   # If we want to include NA, use raw percentages as valid percentages
-  # --------------------------------------------------------
   if (show.na) mydat$valid.prc <- mydat$raw.prc
-  # --------------------------------------------------------
-  # Set value labels
-  # --------------------------------------------------------
+  
   # don't display value labels when we have boxplots or violin plots
   if (type == "boxplot" || type == "violin") show.values <- FALSE
   if (show.values) {
@@ -390,9 +367,8 @@ sjp.frq <- function(var.cnt,
     # no labels
     ggvaluelabels <-  geom_text(aes(y = frq), label = "")
   }
-  # --------------------------------------------------------
+  
   # Set up grid breaks
-  # --------------------------------------------------------
   maxx <- max(mydat$val) + 1
   if (is.null(grid.breaks)) {
     gridbreaks <- ggplot2::waiver()
@@ -401,9 +377,7 @@ sjp.frq <- function(var.cnt,
     gridbreaks <- c(seq(lower_lim, upper_lim, by = grid.breaks))
     histgridbreaks <- c(seq(lower_lim, maxx, by = grid.breaks))
   }
-  # ----------------------------------
-  # set y scaling and label texts
-  # ----------------------------------
+  
   # set Y-axis, depending on the calculated upper y-range.
   # It either corresponds to the maximum amount of cases in the data set
   # (length of var) or to the highest count of var's categories.
@@ -417,23 +391,18 @@ sjp.frq <- function(var.cnt,
                                  breaks = gridbreaks, 
                                  labels = NULL)
   }
-  # ----------------------------------
-  # bar and dot plot start here!
-  # ----------------------------------
+  
+  # bar and dot plot start here! -----
   if (type == "bar" || type == "dot") {
-    # -----------------------------------
     # define geom
-    # -----------------------------------
     if (type == "bar") {
       geob <- geom_bar(stat = "identity", width = geom.size, fill = geom.colors)
     } else if (type == "dot") {
       geob <- geom_point(size = geom.size, colour = geom.colors)
     }
-    # -----------------------------------
     # mydat is a data frame that only contains one variable (var).
     # Must be declared as factor, so the bars are central aligned to
     # each x-axis-break. 
-    # -----------------------------------
     baseplot <- ggplot(mydat, aes(x = factor(val), y = frq)) + 
       geob +
       yscale + 
@@ -454,9 +423,8 @@ sjp.frq <- function(var.cnt,
     # check whether coordinates should be flipped, i.e.
     # swap x and y axis
     if (coord.flip) baseplot <- baseplot + coord_flip()
-  # --------------------------------------------------
-  # Start box plot here
-  # --------------------------------------------------
+  
+  # Start box plot here -----
   } else if (type == "boxplot" || type == "violin") {
     # setup base plot
     baseplot <- ggplot(mydat, aes(x = grp, y = frq))
@@ -595,16 +563,3 @@ sjp.frq <- function(var.cnt,
                       list(plot = baseplot,
                            mydf = mydat)))
 }
-
-
-# usage:
-# df<-insertRowToDF(df,5,c(16,0)); # inserting the values (16,0) after the 5th row
-insertRowToDF <- function(X, index_after, vector_to_insert){
-  stopifnot(length(vector_to_insert) == ncol(X)) # to check valid row to be inserted
-  X <- rbind(X[1:index_after,],
-             vector_to_insert,
-             X[(index_after + 1):nrow(X), ])
-  row.names(X) <- 1:nrow(X)
-  return(X)
-}
-

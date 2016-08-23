@@ -6,21 +6,20 @@
 \usage{
 sjt.lmer(..., pred.labels = NULL, depvar.labels = NULL,
   remove.estimates = NULL, group.pred = FALSE, p.numeric = TRUE,
-  emph.p = TRUE, p.kr = TRUE, separate.ci.col = TRUE, newline.ci = TRUE,
-  show.est = TRUE, show.std = NULL, show.ci = TRUE, show.se = FALSE,
-  show.header = FALSE, show.col.header = TRUE, show.r2 = TRUE,
-  show.icc = TRUE, show.re.var = TRUE, show.fstat = FALSE,
-  show.aic = FALSE, show.aicc = FALSE, show.dev = FALSE,
-  string.pred = "Predictors", string.dv = "Dependent Variables",
-  string.interc = "(Intercept)", string.obs = "Observations",
-  string.est = "B", string.std = "std. Beta", string.ci = "CI",
-  string.se = "std. Error", string.p = "p",
+  emph.p = TRUE, p.zero = FALSE, p.kr = TRUE, separate.ci.col = TRUE,
+  newline.ci = TRUE, show.est = TRUE, show.std = NULL, show.ci = TRUE,
+  show.se = FALSE, show.header = FALSE, show.col.header = TRUE,
+  show.r2 = TRUE, show.icc = TRUE, show.re.var = TRUE,
+  show.fstat = FALSE, show.aic = FALSE, show.aicc = FALSE,
+  show.dev = FALSE, string.pred = "Predictors",
+  string.dv = "Dependent Variables", string.interc = "(Intercept)",
+  string.obs = "Observations", string.est = "B", string.std = "std. Beta",
+  string.ci = "CI", string.se = "std. Error", string.p = "p",
   ci.hyphen = "&nbsp;&ndash;&nbsp;", minus.sign = "&#45;", digits.est = 2,
   digits.std = 2, digits.p = 3, digits.ci = 2, digits.se = 2,
   digits.summary = 3, cell.spacing = 0.2, cell.gpr.indent = 0.6,
-  p.zero = FALSE, sep.column = TRUE, CSS = NULL, encoding = NULL,
-  file = NULL, use.viewer = TRUE, no.output = FALSE,
-  remove.spaces = TRUE)
+  sep.column = TRUE, CSS = NULL, encoding = NULL, file = NULL,
+  use.viewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{one or more fitted linear (mixed) models.}
@@ -52,6 +51,10 @@ row is inserted to the table just before the predictor values.}
 as numbers. If \code{FALSE} (default), asterisks are used.}
 
 \item{emph.p}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
+
+\item{p.zero}{logical, if \code{TRUE}, p-values have a leading 0 before the
+period (e.g. \emph{0.002}), else p-values start with a period and
+without a zero (e.g. \emph{.002}).}
 
 \item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
 F-tests with Kenward-Roger approximation for the df. Caution: Computation
@@ -153,10 +156,6 @@ cell spacing, which would be: \code{CSS = list(css.thead = "padding:0.2cm;", css
 
 \item{cell.gpr.indent}{indent for table rows with grouped factor predictors. Only applies
 if \code{group.pred = TRUE}.}
-
-\item{p.zero}{logical, if \code{TRUE}, p-values have a leading 0 before the
-period (e.g. \emph{0.002}), else p-values start with a period and
-without a zero (e.g. \emph{.002}).}
 
 \item{sep.column}{logical, if \code{TRUE}, an empty table column is added after 
 each model column, to add margins between model columns. By default, this
