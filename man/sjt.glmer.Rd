@@ -17,8 +17,8 @@ sjt.glmer(..., pred.labels = NULL, depvar.labels = NULL,
   string.se = "std. Error", string.p = "p",
   ci.hyphen = "&nbsp;&ndash;&nbsp;", digits.est = 2, digits.p = 3,
   digits.ci = 2, digits.se = 2, digits.summary = 3, cell.spacing = 0.2,
-  cell.gpr.indent = 0.6, sep.column = TRUE, CSS = NULL, encoding = NULL,
-  file = NULL, use.viewer = TRUE, no.output = FALSE,
+  cell.gpr.indent = 0.6, p.zero = FALSE, sep.column = TRUE, CSS = NULL,
+  encoding = NULL, file = NULL, use.viewer = TRUE, no.output = FALSE,
   remove.spaces = TRUE)
 }
 \arguments{
@@ -151,6 +151,10 @@ cell spacing, which would be: \code{CSS = list(css.thead = "padding:0.2cm;", css
 
 \item{cell.gpr.indent}{indent for table rows with grouped factor predictors. Only applies
 if \code{group.pred = TRUE}.}
+
+\item{p.zero}{logical, if \code{TRUE}, p-values have a leading 0 before the
+period (e.g. \emph{0.002}), else p-values start with a period and
+without a zero (e.g. \emph{.002}).}
 
 \item{sep.column}{logical, if \code{TRUE}, an empty table column is added after 
 each model column, to add margins between model columns. By default, this
