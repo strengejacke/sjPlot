@@ -61,25 +61,27 @@ sjp.resid <- function(fit, remove.estimates = NULL, show.lines = TRUE,
   sel <- 2:length(keep)
   colnames(dummy)[sel] <- sjmisc::get_label(dummy, def.value = colnames(dummy)[sel])[sel]
   
+  # melt data
+  mydat <- suppressWarnings(dummy %>% 
+    tidyr::gather(key = "grp", value = "x", -1, -predicted, -residuals))
+  
   # melt data, build basic plot
-  suppressWarnings(res.plot <- dummy %>% 
-    tidyr::gather(key = "grp", value = "x", -1, -predicted, -residuals) %>% 
-    ggplot(aes_string(x = "x", y = rv)) +
-    stat_smooth(method = "lm", se = F, colour = "grey70"))
+  res.plot <- ggplot(mydat, aes_string(x = "x", y = rv)) +
+    stat_smooth(method = "lm", se = F, colour = "grey70")
   
   if (show.lines) res.plot <- res.plot + 
     geom_segment(aes(xend = x, yend = predicted), alpha = .3)
   
   if (show.resid) res.plot <- res.plot + 
-    geom_point(aes(color = residuals))
+    geom_point(aes(fill = residuals), shape = 21, colour = "grey50")
   
   if (show.pred) res.plot <- res.plot + 
     geom_point(aes(y = predicted), shape = 1)
   
   res.plot <- res.plot +
     facet_grid(~grp, scales = "free") +
-    scale_color_gradient2(low = "#003399", mid = "white", high = "#993300") +
-    guides(color = FALSE) +
+    scale_fill_gradient2(low = "#003399", mid = "white", high = "#993300") +
+    guides(color = FALSE, fill = FALSE) +
     labs(x = NULL, y = sjmisc::get_label(mydat[[1]], def.value = rv))
   
   # Check whether ggplot object should be returned or plotted
