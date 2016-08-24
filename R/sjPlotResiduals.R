@@ -4,7 +4,11 @@ utils::globalVariables(c("predicted", "residuals"))
 #' @title Plot predicted values and their residuals
 #' @name sjp.resid
 #'
-#' @description to follow...
+#' @description This function plots observed and predicted values of the response
+#'              of linear (mixed) models for each coefficient and highlights the
+#'              observed values according to their distance (residuals) to the 
+#'              predicted values. This allows to investigate how well actual and 
+#'              predicted values of the outcome fit across the predictor variables.
 #'
 #' @param fit fitted linear regression model (of class \code{\link{lm}}, 
 #'        \code{\link[nlme]{gls}} or \code{plm}).
@@ -19,6 +23,9 @@ utils::globalVariables(c("predicted", "residuals"))
 #'           as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{mydf}).
 #'
+#' @note The actual (observed) values have a coloured fill, while the predicted
+#'       values have a solid outline without filling.
+#'
 #' @examples
 #' library(sjmisc)
 #' data(efc)
@@ -32,8 +39,8 @@ utils::globalVariables(c("predicted", "residuals"))
 #' sjp.resid(fit, remove.estimates = c("e17age", "e42dep"))
 #'
 #' @export
-sjp.resid <- function(fit, remove.estimates = NULL, show.lines = TRUE, 
-                      show.resid = TRUE, show.pred = TRUE, prnt.plot = TRUE) {
+sjp.resid <- function(fit, geom.size = 2, remove.estimates = NULL, show.lines = TRUE, 
+                      show.resid = TRUE, show.pred = TRUE, show.ci = F, prnt.plot = TRUE) {
   # show lines only when both residual and predicted
   # values are plotted - else, lines make no sense
   if (!show.pred || !show.resid) show.lines <- FALSE
@@ -59,7 +66,9 @@ sjp.resid <- function(fit, remove.estimates = NULL, show.lines = TRUE,
   # set default variable labels, used as column names, so labelled
   # data variable labels appear in facet grid header.
   sel <- 2:length(keep)
-  colnames(dummy)[sel] <- sjmisc::get_label(dummy, def.value = colnames(dummy)[sel])[sel]
+  var.labels <- sjmisc::get_label(dummy, def.value = colnames(dummy)[sel])[sel]
+  if (is.null(var.labels) || all(var.labels == "")) var.labels <- colnames(dummy)[sel]
+  colnames(dummy)[sel] <- var.labels
   
   # melt data
   mydat <- suppressWarnings(dummy %>% 
@@ -67,16 +76,16 @@ sjp.resid <- function(fit, remove.estimates = NULL, show.lines = TRUE,
   
   # melt data, build basic plot
   res.plot <- ggplot(mydat, aes_string(x = "x", y = rv)) +
-    stat_smooth(method = "lm", se = F, colour = "grey70")
+    stat_smooth(method = "lm", se = show.ci, colour = "grey70")
   
   if (show.lines) res.plot <- res.plot + 
     geom_segment(aes(xend = x, yend = predicted), alpha = .3)
   
   if (show.resid) res.plot <- res.plot + 
-    geom_point(aes(fill = residuals), shape = 21, colour = "grey50")
+    geom_point(aes(fill = residuals), size = geom.size, shape = 21, colour = "grey50")
   
   if (show.pred) res.plot <- res.plot + 
-    geom_point(aes(y = predicted), shape = 1)
+    geom_point(aes(y = predicted), shape = 1, size = geom.size)
   
   res.plot <- res.plot +
     facet_grid(~grp, scales = "free") +
