@@ -566,7 +566,7 @@ sjp.lm <- function(fit,
                            data = tibble::as_tibble(betas))))
 }
 
-
+#' @importFrom sjstats resp_val resp_var pred_vars
 sjp.reglin <- function(fit, 
                        title = NULL, 
                        wrap.title = 50, 
@@ -602,9 +602,9 @@ sjp.reglin <- function(fit,
   # column the data for each predictor is.
   # -----------------------------------------------------------
   model_data <- stats::model.frame(fit)
-  depvar.label <- sjmisc::get_label(model_data[[1]], def.value = colnames(model_data)[1])
-  resp <- model_data[[1]]
-  predvars <- all.vars(stats::formula(fit)[[3L]])
+  depvar.label <- sjmisc::get_label(model_data[[1]], def.value = sjstats::resp_var(fit))
+  resp <- sjstats::resp_val(fit)
+  predvars <- sjstats::pred_vars(fit)
   # ------------------------
   # remove estimates?
   # ------------------------

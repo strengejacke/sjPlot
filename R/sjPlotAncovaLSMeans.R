@@ -234,7 +234,7 @@ sjp.emm <- function(fit,
       # prepare label and name from dependend variable
       # -----------------------------------------------------------
       # get response name, which is variable name
-      response.name <- colnames(m_f)[1]
+      response.name <- sjstats::resp_var(fit)
       # get variable label attribute
       response.label <- sjmisc::get_label(m_f[[1]], def.value = response.name)
       # -----------------------------------------------------------

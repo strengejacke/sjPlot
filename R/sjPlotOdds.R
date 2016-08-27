@@ -594,7 +594,7 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
   # Retrieve response for automatic title
   # ------------------------
   resp <- fit.df[[1]]
-  resp.col <- colnames(fit.df)[1]
+  resp.col <- sjstats::resp_var(fit)
   # ----------------------------
   # loop through all coefficients
   # ----------------------------

@@ -31,7 +31,7 @@ get_lm_data <- function(fit) {
   } else if (is_merMod(fit)) {
     fit_x <- data.frame(stats::model.matrix(fit))
     # retrieve response vector
-    resp <- sjstats::resp_val(fit)
+    resp <- stats::model.frame(fit)[[1]]
     depvar.label <- sjstats::resp_var(fit)
   } else if (any(class(fit) == "gls")) {
     fit_x <- data.frame(stats::model.matrix(fit))
@@ -40,7 +40,7 @@ get_lm_data <- function(fit) {
   } else {
     fit_x <- data.frame(stats::model.matrix(fit))
     # retrieve response vector
-    resp <- sjstats::resp_val(fit)
+    resp <- stats::model.frame(fit)[[1]]
     depvar.label <- sjstats::resp_var(fit)
   }
   # get variable label label
