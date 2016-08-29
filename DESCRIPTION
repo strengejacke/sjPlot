@@ -27,7 +27,6 @@ Imports:
     effects,
     ggplot2 (>= 2.1.0),
     lme4 (>= 1.1-10),
-    magrittr,
     nlme,
     psych,
     scales,
