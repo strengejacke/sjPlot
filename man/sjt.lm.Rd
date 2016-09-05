@@ -366,7 +366,8 @@ sjt.lm(fit1, fit2, fit4, fit3, show.std = TRUE, show.aic = TRUE,
                   css.modelcolumn3 = 'color:green;',
                   css.modelcolumn4 = 'color:#ffff00;',
                   css.modelcolumn5 = 'color:#777777;',
-                  css.modelcolumn6 = 'color:#3399cc;'))
+                  css.modelcolumn6 = 'color:#3399cc;',
+                  css.modelcolumn7 = 'color:#cc9933;'))
 
 sjt.lm(fit1, fit2, fit4, fit3, show.est = FALSE, show.std = TRUE,
        p.numeric = FALSE, group.pred = FALSE,

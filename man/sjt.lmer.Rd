@@ -204,7 +204,22 @@ Summarizes (multiple) fitted linear mixed effects models
                predictors, e.g. when comparing different stepwise fitted models.
 }
 \details{
-See 'Details' in \code{\link{sjt.frq}}.
+Concerning the \code{show.std} argument, \code{show.std = "std"}
+           will print normal standardized estimates. For \code{show.std = "std2"},
+           however, standardization of estimates follows 
+           \href{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}{Gelman's (2008)}
+           suggestion, rescaling the estimates by dividing them by two standard 
+           deviations instead of just one. Resulting coefficients are then 
+           directly comparable for untransformed binary predictors. This type 
+           of standardization uses the \code{\link[arm]{standardize}}-function
+           from the \pkg{arm}-package.
+           For backward compatibility reasons, \code{show.std} also may be 
+           a logical value; if \code{TRUE}, normal standardized estimates are 
+           printed (same effect as \code{show.std = "std"}). Use 
+           \code{show.std = NULL} (default) or \code{show.std = FALSE},
+           if standardized estimats should not be printed.
+           \cr \cr
+           Furthermore, see 'Details' in \code{\link{sjt.frq}}.
 }
 \note{
 Computation of p-values (if necessary and if \code{p.kr = TRUE}) are based 

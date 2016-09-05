@@ -3,6 +3,11 @@ get_table_header <- function(encoding, cell.spacing, cell.gpr.indent, p.numeric,
 }
 
 
+table_cell_string <- function(page.content, cell.prefix, cell.class, col.nr, cell.value) {
+  return(paste0(page.content, sprintf("%s<td class=\"tdata centeralign %smodelcolumn%i\">%s</td>", 
+                                      cell.prefix, cell.class, col.nr, cell.value)))
+}
+
 
 get_table_response_label <- function(page.content, depvar.labels, input_list, tcp, headerColSpanFactor, sep.column) {
   # -------------------------------------
@@ -99,6 +104,7 @@ table_style_worker <- function(page.content, encoding, cell.spacing, cell.gpr.in
   tag.modelcolumn4 <- "modelcolumn4"
   tag.modelcolumn5 <- "modelcolumn5"
   tag.modelcolumn6 <- "modelcolumn6"
+  tag.modelcolumn7 <- "modelcolumn7"
   css.table <- "border-collapse:collapse; border:none;"
   css.thead <- sprintf("border-bottom: 1px solid; padding:%.1fcm;", cell.spacing)
   css.tdata <- sprintf("padding:%.1fcm;", cell.spacing)
@@ -126,6 +132,7 @@ table_style_worker <- function(page.content, encoding, cell.spacing, cell.gpr.in
   css.modelcolumn4 <- ""
   css.modelcolumn5 <- ""
   css.modelcolumn6 <- ""
+  css.modelcolumn7 <- ""
   # change table style if we have pvalues as numbers
   if (p.numeric) css.table <- sprintf("%s%s", css.table, css.noannorow)
   if (show.header) css.labelcellborder <- ""
@@ -160,11 +167,12 @@ table_style_worker <- function(page.content, encoding, cell.spacing, cell.gpr.in
     if (!is.null(CSS[['css.modelcolumn4']])) css.modelcolumn4 <- ifelse(substring(CSS[['css.modelcolumn4']], 1, 1) == '+', paste0(css.modelcolumn4, substring(CSS[['css.modelcolumn4']], 2)), CSS[['css.modelcolumn4']])
     if (!is.null(CSS[['css.modelcolumn5']])) css.modelcolumn5 <- ifelse(substring(CSS[['css.modelcolumn5']], 1, 1) == '+', paste0(css.modelcolumn5, substring(CSS[['css.modelcolumn5']], 2)), CSS[['css.modelcolumn5']])
     if (!is.null(CSS[['css.modelcolumn6']])) css.modelcolumn6 <- ifelse(substring(CSS[['css.modelcolumn6']], 1, 1) == '+', paste0(css.modelcolumn6, substring(CSS[['css.modelcolumn6']], 2)), CSS[['css.modelcolumn6']])
+    if (!is.null(CSS[['css.modelcolumn7']])) css.modelcolumn7 <- ifelse(substring(CSS[['css.modelcolumn7']], 1, 1) == '+', paste0(css.modelcolumn7, substring(CSS[['css.modelcolumn7']], 2)), CSS[['css.modelcolumn7']])
   }
   # ------------------------
   # set page style
   # ------------------------
-  page.style <-  sprintf("<style>%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
+  page.style <-  sprintf("<style>%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
                          tag.table, css.table, tag.thead, css.thead, tag.tdata, css.tdata,
                          tag.summary, css.summary, tag.colnames, css.colnames,
                          tag.firstsumrow, css.firstsumrow, tag.lasttablerow, css.lasttablerow,
@@ -180,6 +188,7 @@ table_style_worker <- function(page.content, encoding, cell.spacing, cell.gpr.in
                          tag.modelcolumn4, css.modelcolumn4,
                          tag.modelcolumn5, css.modelcolumn5,
                          tag.modelcolumn6, css.modelcolumn6,
+                         tag.modelcolumn7, css.modelcolumn7,
                          tag.fixedparts, css.fixedparts,
                          tag.randomparts, css.randomparts,
                          tag.separatorcol, css.separatorcol)
@@ -239,6 +248,7 @@ table_style_worker <- function(page.content, encoding, cell.spacing, cell.gpr.in
     knitr <- gsub(tag.modelcolumn4, css.modelcolumn4, knitr, fixed = TRUE, useBytes = TRUE)
     knitr <- gsub(tag.modelcolumn5, css.modelcolumn5, knitr, fixed = TRUE, useBytes = TRUE)
     knitr <- gsub(tag.modelcolumn6, css.modelcolumn6, knitr, fixed = TRUE, useBytes = TRUE)
+    knitr <- gsub(tag.modelcolumn7, css.modelcolumn7, knitr, fixed = TRUE, useBytes = TRUE)
     
     return(knitr)
   } else if (option == 3) {
