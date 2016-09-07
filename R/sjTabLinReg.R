@@ -651,7 +651,7 @@ sjt.lm <- function(...,
   # -------------------------------------
   tcp <- ""
   if (!show.header) {
-    page.content <- paste0(page.content, "\n    <td class=\"tdata topborder\">&nbsp;</td>")
+    page.content <- paste0(page.content, "\n    <td class=\"tdata labelcellborder topborder\">&nbsp;</td>")
     tcp <- " topborder"
   }
   # -------------------------------------

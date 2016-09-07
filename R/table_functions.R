@@ -35,11 +35,11 @@ get_table_response_label <- function(page.content, depvar.labels, input_list, tc
   # continue with model-labels (dependent variables)
   # which are the heading for each model column
   # -------------------------------------
-  for (i in 1:length(depvar.labels)) {
+  for (i in seq_len(length(depvar.labels))) {
     # -------------------------
     # insert "separator column"
     # -------------------------
-    if (sep.column) page.content <- paste0(page.content, sprintf("\n    <td class=\"separatorcol%s\">&nbsp;</td>", tcp))
+    if (sep.column) page.content <- paste0(page.content, sprintf("\n    <td class=\"labelcellborder separatorcol%s\">&nbsp;</td>", tcp))
     if (headerColSpanFactor > 1) {
       page.content <- paste0(page.content, 
                              sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\" colspan=\"%i\">%s</td>", 
