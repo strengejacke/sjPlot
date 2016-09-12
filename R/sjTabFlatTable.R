@@ -10,6 +10,7 @@
 #'               number of decimal places.
 #'
 #' @inheritParams sjt.xtab
+#' @inheritParams sjt.frq
 #' 
 #' @return An object of class \code{\link[stats]{ftable}}.
 #'
