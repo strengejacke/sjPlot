@@ -1287,14 +1287,7 @@ sjt.lm <- function(...,
 #'            }
 #'            for further use.
 #'
-#' @note Computation of p-values (if necessary and if \code{p.kr = TRUE}) are based 
-#'         on conditional F-tests with Kenward-Roger approximation for the df, using 
-#'         the \pkg{pbkrtest}-package. If \pkg{pbkrtest} is not available or
-#'         \code{p.kr = FALSE}, computation of p-values is based 
-#'         on normal-distribution assumption, treating the t-statistics as Wald
-#'         z-statistics. See 'Details' in \code{\link[sjstats]{merMod_p}}.
-#'         \cr \cr
-#'         The variance components of the random parts (see \code{show.re.var}) are
+#' @note The variance components of the random parts (see \code{show.re.var}) are
 #'         denoted like:
 #'         \itemize{
 #'          \item within-group variance: sigma-squared
@@ -1316,6 +1309,17 @@ sjt.lm <- function(...,
 #'            printed (same effect as \code{show.std = "std"}). Use 
 #'            \code{show.std = NULL} (default) or \code{show.std = FALSE},
 #'            if standardized estimats should not be printed.
+#'            \cr \cr
+#'            Computation of p-values (if necessary and if \code{p.kr = TRUE}) are based 
+#'            on conditional F-tests with Kenward-Roger approximation for the df, using 
+#'            the \pkg{pbkrtest}-package. If \pkg{pbkrtest} is not available or
+#'            \code{p.kr = FALSE}, computation of p-values is based 
+#'            on normal-distribution assumption, treating the t-statistics as Wald
+#'            z-statistics. See 'Details' in \code{\link[sjstats]{merMod_p}}.
+#'            \cr \cr
+#'            The confidence intervals stem from \pkg{broom}'s 
+#'            \code{\link[broom]{tidy}}-function. For linear mixed models, the computation
+#'            method is "Wald" (\code{lme4::confint.merMod(fit, method = "Wald")}).
 #'            \cr \cr
 #'            Furthermore, see 'Details' in \code{\link{sjt.frq}}.
 #' 
