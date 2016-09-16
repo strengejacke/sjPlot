@@ -1184,7 +1184,7 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     # discrete x position, needed for ggplot
     # ---------------------------------------
-    mydf$x <- as.factor(1:length(axis.labels))
+    mydf$x <- as.factor(seq_len(length(axis.labels)))
     # ---------------------------------------
     # set indicator whether or not non significant
     # odds ratios should be faded.
@@ -1219,15 +1219,11 @@ sjp.lme4  <- function(fit,
       # (whether grouped or not)
       # --------------------------------------------------------
       if (!is.null(group.estimates)) {
-        gp <- ggplot(mydf, aes(x = x,
-                               y = estimate,
-                               colour = grp,
-                               alpha = fade))
+        gp <- ggplot(mydf, aes_string(x = "x", y = "estimate",
+                                      colour = "grp", alpha = "fade"))
       } else {
-        gp <- ggplot(mydf, aes(x = x,
-                               y = estimate,
-                               colour = (estimate > interc),
-                               alpha = fade))
+        gp <- ggplot(mydf, aes(x = x, y = estimate, 
+                               colour = (estimate > interc), alpha = fade))
       }
       gp <- gp +
         # Intercept-line
@@ -1236,7 +1232,7 @@ sjp.lme4  <- function(fit,
                    color = vline.color) +
         geom_point(size = geom.size) +
         # print value labels and p-values
-        geom_text(aes(label = p.string, y = estimate), nudge_x = y.offset) +
+        geom_text(aes_string(label = "p.string", y = "estimate"), nudge_x = y.offset) +
         # ---------------------------------------
       # labels in sorted order
       # ---------------------------------------
@@ -1350,7 +1346,7 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------
       # iterate coefficients
       # ---------------------------------------
-      for (j in 1:length(groups)) {
+      for (j in seq_len(length(groups))) {
         me.plot <- plot.effe(mydf[mydf$grp == groups[j], ],
                              title[j],
                              NULL,
@@ -2088,6 +2084,7 @@ sjp.lme.fecor <- function(fit,
 
 #' @importFrom stats family model.frame na.omit
 #' @importFrom dplyr filter
+#' @importFrom sjstats pred_vars
 sjp.glm.eff <- function(fit,
                         title,
                         geom.size,
@@ -2112,7 +2109,10 @@ sjp.glm.eff <- function(fit,
   # ------------------------
   # Get link family and model frame
   # ------------------------
-  fitfram <- stats::model.frame(fit)
+  if (is_merMod(fit))
+    fitfram <- stats::model.frame(fit, fixed.only = TRUE)
+  else
+    fitfram <- stats::model.frame(fit)
   fitfam <- get_glm_family(fit)
   # --------------------------------------------------------
   # create logical for family
@@ -2120,9 +2120,11 @@ sjp.glm.eff <- function(fit,
   poisson_fam <- fitfam$is_pois
   binom_fam <- fitfam$is_bin
   # ------------------------
-  # retrieve all terms excluding intercept
+  # retrieve all terms and term name, excluding intercept,
+  # both as they appear as column name and as real variable name
   # ------------------------
   all.terms <- colnames(fitfram)[-1]
+  all.pred.names <- sjstats::pred_vars(fit)[seq_len(length(all.terms))]
   # ------------------------
   # Retrieve response for automatic title
   # ------------------------
@@ -2151,19 +2153,23 @@ sjp.glm.eff <- function(fit,
   # remove setimates?
   # ------------------------
   if (!is.null(remove.estimates)) {
-    remcols <- match(remove.estimates, all.terms)
+    remcols <- match(remove.estimates, all.pred.names)
     # remember old rownames
-    if (!sjmisc::is_empty(remcols))
+    if (!sjmisc::is_empty(remcols)) {
       all.terms <- all.terms[-remcols]
+      all.pred.names <- all.pred.names[-remcols]
+    }
   }
   # ------------------------
   # select specific setimates?
   # ------------------------
   if (!is.null(vars)) {
-    remcols <- match(vars, all.terms)
+    remcols <- match(vars, all.pred.names)
     # remember old rownames
-    if (!sjmisc::is_empty(remcols))
+    if (!sjmisc::is_empty(remcols)) {
       all.terms <- all.terms[remcols]
+      all.pred.names <- all.pred.names[remcols]
+    }
   }
   # ------------------------
   # prepare getting unique values of predictors,
@@ -2183,13 +2189,13 @@ sjp.glm.eff <- function(fit,
   # ------------------------
   eff <- effects::allEffects(fit, xlevels = xl, KR = FALSE, ...)
   # select specific terms only
-  eff <- eff[which(names(eff) %in% all.terms)]
+  eff <- eff[which(names(eff) %in% all.terms) | which(names(eff) %in% all.pred.names)]
   # init final df
   mydat <- data.frame()
   # interaction term found?
   int.found <- FALSE
   # iterate all effects
-  for (i in 1:length(eff)) {
+  for (i in seq_len(length(eff))) {
     # get term, for which effects were calculated
     t <- eff[[i]]$term
     # check if we have interaction term
@@ -2272,9 +2278,9 @@ sjp.glm.eff <- function(fit,
   # create plot
   # ------------------------
   if (facet.grid) {
-    eff.plot <- ggplot(mydat, aes(x = x, y = y))
+    eff.plot <- ggplot(mydat, aes_string(x = "x", y = "y"))
     # show confidence region?
-    if (show.ci) eff.plot <- eff.plot + geom_ribbon(aes(ymin = lower, ymax = upper), alpha = .15)
+    if (show.ci) eff.plot <- eff.plot + geom_ribbon(aes_string(ymin = "lower", ymax = "upper"), alpha = .15)
     eff.plot <- eff.plot +
       geom_line(size = geom.size) +
       facet_wrap(~var.label, ncol = round(sqrt(grp.cnt)), scales = "free_x") +
@@ -2300,9 +2306,9 @@ sjp.glm.eff <- function(fit,
     for (i in unique(mydat$grp)) {
       # select subset
       mydat_sub <- dplyr::filter(mydat, grp == i)
-      eff.plot <- ggplot(mydat_sub, aes(x = x, y = y))
+      eff.plot <- ggplot(mydat_sub, aes_string(x = "x", y = "y"))
       # show confidence region?
-      if (show.ci) eff.plot <- eff.plot + geom_ribbon(aes(ymin = lower, ymax = upper), alpha = .15)
+      if (show.ci) eff.plot <- eff.plot + geom_ribbon(aes_string(ymin = "lower", ymax = "upper"), alpha = .15)
       eff.plot <- eff.plot +
         geom_line(size = geom.size) +
         labs(x = NULL, y = axisTitle.y, title = sprintf("Marginal effects of %s", mydat_sub$var.label[1]))
@@ -2371,8 +2377,8 @@ sjp.glmer.ma <- function(fit) {
   gp <- ggplot(data.frame(x = stats::predict(fit),
                           y = stats::residuals(fit),
                           grp = as.factor(lme4::getME(fit, "y"))),
-               aes(x, y)) +
-    geom_point(aes(colour = grp), show.legend = F) +
+               aes_string(x = "x", y = "y")) +
+    geom_point(aes_string(colour = "grp"), show.legend = F) +
     geom_hline(yintercept = 0) +
     stat_smooth(method = "loess", se = T) +
     labs(title = "Residual plot (original model)",
@@ -2386,8 +2392,8 @@ sjp.glmer.ma <- function(fit) {
       mydat <- data.frame(x = m_f[[pr]],
                           y = stats::residuals(fit),
                           grp = as.factor(lme4::getME(fit, "y")))
-      gp <- ggplot(mydat, aes(x, y)) +
-        geom_point(aes(colour = grp), show.legend = F) +
+      gp <- ggplot(mydat, aes_string(x = "x", y = "y")) +
+        geom_point(aes_string(colour = "grp"), show.legend = F) +
         geom_hline(yintercept = 0) +
         stat_smooth(method = "loess", se = T) +
         labs(x = pr, y = "Residuals",

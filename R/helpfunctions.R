@@ -579,7 +579,7 @@ is_merMod <- function(fit) {
 #' @importFrom stats formula terms
 retrieveModelLabels <- function(models, group.pred) {
   fit.labels <- c()
-  for (k in 1:length(models)) {
+  for (k in seq_len(length(models))) {
     # get model
     fit <- models[[k]]
     # any valid model?

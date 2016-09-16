@@ -12,7 +12,7 @@
 ## Bug fixes
 
 * A bug introduced in update 2.0.2 caused an error in `sjp.lm` for `type = "std"`.
-
+* Effect plots (`type = "eff"`) for `sjp.lm`, `sjp.glm`, `sjp.lmer` and `sjp.glmer` did not plot all predictors, when predictor name was not exactly specified in formula, but transformed inside formula (e.g. `log(pred + 1)`).
 
 # sjPlot 2.0.2
 
