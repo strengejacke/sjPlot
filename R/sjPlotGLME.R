@@ -1029,12 +1029,9 @@ sjp.lme4  <- function(fit,
         mydf <- get_cleaned_ciMerMod(fit, fun)
       } else {
         if (type == "fe.std") {
-          tmpdf <- sjstats::std_beta(fit)
-          mydf <- data.frame(estimate = tmpdf$stdcoef,
-                             conf.low = tmpdf$stdcoef - (1.96 * tmpdf$stdse),
-                             conf.high = tmpdf$stdcoef + (1.96 * tmpdf$stdse))
-          # set default row names
-          rownames(mydf) <- names(lme4::fixef(fit))
+          mydf <- sjstats::std_beta(fit) %>% 
+            tibble::column_to_rownames(var = "term") %>% 
+            dplyr::select_("std.estimate", "conf.low", "conf.high")
         } else {
           # get odds ratios and cleaned CI
           mydf <- get_cleaned_ciMerMod(fit, fun)
@@ -1052,7 +1049,7 @@ sjp.lme4  <- function(fit,
         ov <- exp(lme4::fixef(fit))
       } else {
         if (type == "fe.std") {
-          ov <- sjstats::std_beta(fit)$stdcoef
+          ov <- mydf$std.estimate
         } else {
           ov <- lme4::fixef(fit)
         }
@@ -2405,6 +2402,8 @@ sjp.glmer.ma <- function(fit) {
 
 
 #' @importFrom lme4 fixef confint.merMod
+#' @importFrom tibble rownames_to_column
+#' @importFrom dplyr select_ rename_
 get_cleaned_ciMerMod <- function(fit, fun, ci.only = FALSE) {
   # get odds ratios of fixed effects
   estimate <- lme4::fixef(fit)
@@ -2415,10 +2414,12 @@ get_cleaned_ciMerMod <- function(fit, fun, ci.only = FALSE) {
     mydf <- data.frame(cbind(estimate, CI))
   else
     mydf <- data.frame(exp(cbind(estimate, CI)))
+  # add rownames
+  mydf <- mydf %>% 
+    tibble::rownames_to_column(var = "term") %>% 
+    dplyr::rename_(.dots = list("conf.low" = "X2.5..", "conf.high" = "X97.5.."))
   # only return ci?
-  if (ci.only)
-    return(as.data.frame(CI))
-  else
-    # return df
-    return(mydf)
+  if (ci.only) mydf <- mydf %>% dplyr::select_("-estimate")
+  # return df
+  return(mydf)
 }

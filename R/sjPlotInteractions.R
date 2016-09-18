@@ -962,7 +962,7 @@ sjp.eff.int <- function(fit,
   # -----------------------------------------------------------
   # iterate all interaction terms
   # -----------------------------------------------------------
-  for (i in 1:length(intpos)) {
+  for (i in seq_len(length(intpos))) {
     # -----------------------------------------------------------
     # copy "eff" object, so we don't confuse with effect-return-
     # value from single term and multiple terms

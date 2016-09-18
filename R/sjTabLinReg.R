@@ -639,21 +639,15 @@ sjt.lm <- function(...,
   if (show.header) {
     page.content <- paste0(page.content, sprintf("\n  <tr>\n    <td class=\"tdata topborder\" rowspan=\"2\"><em>%s</em></td>", string.pred))
     page.content <- paste0(page.content, sprintf("\n    <td colspan=\"%i\" class=\"tdata topborder depvarhead\"><em>%s</em></td>", headerColSpan, string.dv))
-    page.content <- paste0(page.content, "\n  </tr>")
   }
-  # -------------------------------------
-  # table headline: label for dependent variables (model outcomes)
-  # -------------------------------------
-  page.content <- paste0(page.content, "\n<tr>")
   # -------------------------------------
   # If we don't show header strings, a rowspan-attribute is missing,
   # so we need to insert an empty cell here
   # -------------------------------------
-  tcp <- ""
-  if (!show.header) {
-    page.content <- paste0(page.content, "\n    <td class=\"tdata labelcellborder topborder\">&nbsp;</td>")
+  if (show.header)
+    tcp <- ""
+  else
     tcp <- " topborder"
-  }
   # -------------------------------------
   # set default dependent var label
   # -------------------------------------

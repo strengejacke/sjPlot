@@ -248,8 +248,9 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #' @importFrom dplyr slice select_
 #' @importFrom broom tidy
 #' @importFrom sjmisc is_empty
-#' @importFrom tibble as_tibble rownames_to_column
+#' @importFrom tibble as_tibble
 #' @importFrom nlme getData getResponse getCovariateFormula
+#' @importFrom sjstats get_model_pval std_beta
 #' @export
 sjp.lm <- function(fit,
                    type = "lm",
@@ -386,7 +387,7 @@ sjp.lm <- function(fit,
   # print beta- and p-values in bar charts
   # ----------------------------
   # retrieve sigificance level of independent variables (p-values)
-  pv <- get_lm_pvalues(fit, include.intercept = F)$p
+  pv <- sjstats::get_model_pval(fit, p.kr = F)[["p.value"]][-1]
   # -------------------------------------------------
   # for better readability, convert p-values to asterisks
   # with:
@@ -399,8 +400,9 @@ sjp.lm <- function(fit,
   if (type == "std" || type == "std2") {
     # retrieve standardized betas
     tmp <- suppressWarnings(
-      tibble::rownames_to_column(
-        sjstats::std_beta(fit, include.ci = TRUE, type = type)))
+      sjstats::std_beta(fit, type = type) %>% 
+        dplyr::select_("-std.error")
+    )
     # add "std." to title?
     if (!is.null(axis.title) && axis.title == "Estimates") axis.title <- "Std. Estimates"
     # give common column names

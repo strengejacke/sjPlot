@@ -20,7 +20,7 @@ get_table_response_label <- function(page.content, depvar.labels, input_list, tc
     # variables, in the table column headers
     depvar.labels <- c()
     # iterate models
-    for (i in 1:length(input_list)) {
+    for (i in seq_len(length(input_list))) {
       # get model data
       m_d <- get_lm_data(input_list[[i]])
       # get model response
