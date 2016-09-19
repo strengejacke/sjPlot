@@ -2258,7 +2258,7 @@ sjp.glm.eff <- function(fit,
     return(list(p = NULL, se = NULL))
   }
   # continuous numbering of row names
-  rownames(mydat) <- c(1:nrow(mydat))
+  rownames(mydat) <- seq_len(nrow(mydat))
   # ------------------------
   # tell user that interaction terms are ignored
   # ------------------------
@@ -2303,9 +2303,17 @@ sjp.glm.eff <- function(fit,
     for (i in unique(mydat$grp)) {
       # select subset
       mydat_sub <- dplyr::filter(mydat, grp == i)
+      # check if is factor
+      x_is_factor <- anyNA(suppressWarnings(as.numeric(mydat_sub$label)))
+      # start plot
       eff.plot <- ggplot(mydat_sub, aes_string(x = "x", y = "y"))
       # show confidence region?
-      if (show.ci) eff.plot <- eff.plot + geom_ribbon(aes_string(ymin = "lower", ymax = "upper"), alpha = .15)
+      if (show.ci) {
+        if (x_is_factor)
+          eff.plot <- eff.plot + geom_errorbar(aes_string(ymin = "lower", ymax = "upper"), width = 0)
+        else
+          eff.plot <- eff.plot + geom_ribbon(aes_string(ymin = "lower", ymax = "upper"), alpha = .15)
+      }
       eff.plot <- eff.plot +
         geom_line(size = geom.size) +
         labs(x = NULL, y = axisTitle.y, title = sprintf("Marginal effects of %s", mydat_sub$var.label[1]))
@@ -2343,7 +2351,7 @@ sjp.glm.eff <- function(fit,
       # ------------------------
       # continuous or discrete scale?
       # ------------------------
-      if (anyNA(suppressWarnings(as.numeric(mydat_sub$label)))) {
+      if (x_is_factor) {
         eff.plot <- eff.plot +
           scale_x_continuous(labels = mydat_sub$label, breaks = mydat_sub$x)
       }
