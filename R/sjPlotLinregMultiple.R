@@ -1,5 +1,4 @@
 # bind global variables
-utils::globalVariables(c("beta", "lower", "upper", "p", "pa", "shape"))
 
 #' @title Plot estimates of multiple fitted lm(er)'s
 #' @name sjp.lmm
@@ -159,24 +158,16 @@ sjp.lmm <- function(...,
   # ----------------------------
   # iterate all fitted models
   # ----------------------------
-  for (fitcnt in 1:fitlength) {
+  for (fitcnt in seq_len(fitlength)) {
     # retrieve fitted model
     fit <- input_list[[fitcnt]]
     # ----------------------------
     # retrieve beta's (lm)
     # ----------------------------
-    if (type == "std") {
+    if (type == "std" || type == "std2") {
       # retrieve standardized betas
-      betas <- data.frame(rbind(data.frame(beta = 0, ci.low = 0, ci.hi = 0),
-                                suppressWarnings(sjstats::std_beta(fit, include.ci = TRUE))))
-      # no intercept for std
-      show.intercept <- FALSE
-      # add "std." to title?
-      if (axis.title == "Estimates") axis.title <- "Std. Estimates"
-    } else if (type == "std2") {
-      # retrieve standardized betas
-      betas <- data.frame(rbind(data.frame(beta = 0, ci.low = 0, ci.hi = 0),
-                                sjstats::std_beta(fit, include.ci = TRUE, type = "std2")))
+      betas <- suppressWarnings(sjstats::std_beta(fit, type = type)) %>% 
+        dplyr::select_("-std.error")
       # no intercept for std
       show.intercept <- FALSE
       # add "std." to title?
@@ -185,28 +176,29 @@ sjp.lmm <- function(...,
       # do we have mermod object?
       if (sjmisc::str_contains(class(fit), "merMod", ignore.case = T))
         betas <- get_cleaned_ciMerMod(fit, "lm")
-      else
+      else {
         # copy estimates to data frame
         betas <- data.frame(stats::coef(fit), stats::confint(fit))
+        betas <- tibble::rownames_to_column(betas, var = "term")
+      }
     }
     # ----------------------------
     # give proper column names
     # ----------------------------
-    colnames(betas) <- c("beta", "ci.low", "ci.hi")
+    colnames(betas) <- c("term", "beta", "ci.low", "ci.hi")
     # ----------------------------
     # print p-values in bar charts
     # ----------------------------
     # retrieve sigificance level of independent variables (p-values)
-    if (sjmisc::str_contains(class(fit), "merMod", ignore.case = T))
-      pv <- sjstats::merMod_p(fit, p.kr)
-    else
-      pv <- get_lm_pvalues(fit)$p
+    pv <- sjstats::get_model_pval(fit, p.kr = p.kr)$p.value
+    #remove intercept from df
+    if (!show.intercept) pv <- pv[-1]
     # for better readability, convert p-values to asterisks
     # with:
     # p < 0.001 = ***
     # p < 0.01 = **
     # p < 0.05 = *
-    ov <- betas[, 1]
+    ov <- betas$beta
     # "ps" holds the p-value of the coefficients, including asterisks, as
     # string vector
     ps <- NULL
@@ -217,7 +209,7 @@ sjp.lmm <- function(...,
     # non-significant values can be drawn with a lesser alpha-level
     # (i.e. are more transparent)
     palpha <- NULL
-    for (i in 1:length(pv)) {
+    for (i in seq_len(length(pv))) {
       ps[i] <- ""
       pointshapes[i] <- 1
       palpha[i] <- "s"
@@ -230,7 +222,7 @@ sjp.lmm <- function(...,
     # ----------------------------
     # copy p-values into data column
     # ----------------------------
-    for (i in 1:length(pv)) {
+    for (i in seq_len(length(pv))) {
       if (pv[i] >= 0.05) {
         pointshapes[i] <- 1
         palpha[i] <- "ns"
@@ -248,13 +240,7 @@ sjp.lmm <- function(...,
     # ----------------------------
     # bind p-values to data frame
     # ----------------------------
-    betas <- data.frame(betas, ps, palpha, pointshapes, fitcnt, pv)
-    # set column names
-    colnames(betas) <- c("beta", "lower", "upper", "p", "pa", "shape", "grp", "p.value")
-    #remove intercept from df
-    if (!show.intercept) betas <- betas[-1, ]
-    # add rownames
-    betas$term <- row.names(betas)
+    betas <- data.frame(betas, p = ps, pa = palpha, shape = pointshapes, grp = fitcnt, p.value = pv)
     # add data frame to final data frame
     finalbetas <- rbind(finalbetas, betas)
   }
@@ -274,17 +260,13 @@ sjp.lmm <- function(...,
   if (!is.null(remove.estimates)) {
     # get row indices of rows that should be removed
     remrows <- c()
-    for (re in 1:length(remove.estimates)) {
-      remrows <- c(remrows, which(substr(row.names(finalbetas), 
+    for (re in seq_len(length(remove.estimates))) {
+      remrows <- c(remrows, which(substr(finalbetas$term, 
                                          start = 1, 
                                          stop = nchar(remove.estimates[re])) == remove.estimates[re]))
     }
-    # remember old rownames
-    keepnames <- row.names(finalbetas)[-remrows]
     # remove rows
     finalbetas <- dplyr::slice(finalbetas, c(1:nrow(finalbetas))[-remrows])
-    # set back rownames
-    row.names(finalbetas) <- keepnames
   }
   # set axis labels
   if (is.null(axis.labels)) {
@@ -299,8 +281,8 @@ sjp.lmm <- function(...,
     # we have confindence intervals displayed, so
     # the range corresponds to the boundaries given by
     # the CI's
-    upper_lim <- ceiling(10 * max(finalbetas$upper)) / 10
-    lower_lim <- floor(10 * min(finalbetas$lower)) / 10
+    upper_lim <- ceiling(10 * max(finalbetas$ci.hi)) / 10
+    lower_lim <- floor(10 * min(finalbetas$ci.low)) / 10
     # if we show p value labels, increase upper
     # limit of x axis, so labels are plotted inside
     # diagram range
@@ -336,11 +318,8 @@ sjp.lmm <- function(...,
   # The order of aesthetics matters in terms of ordering the error bars!
   # Using alpha-aes before colour would order error-bars according to
   # alpha-level instead of colour-aes.
-  plotHeader <- ggplot(finalbetas, aes(y = beta, 
-                                       x = xpos, 
-                                       group = grp, 
-                                       colour = grp, 
-                                       alpha = pa))
+  plotHeader <- ggplot(finalbetas, aes_string(y = "beta", x = "xpos", group = "grp", 
+                                              colour = "grp", alpha = "pa"))
   # --------------------------------------------------------
   # start with dot-plotting here
   # first check, whether user wants different shapes for
@@ -354,7 +333,7 @@ sjp.lmm <- function(...,
       # The order of aesthetics matters in terms of ordering the error bars!
       # Using shape before colour would order points according to shapes instead
       # of colour-aes.
-      geom_point(aes(shape = shape), 
+      geom_point(aes_string(shape = "shape"), 
                  size = geom.size, 
                  position = position_dodge(-geom.spacing)) +
       # and use a shape scale, in order to have a legend
@@ -375,13 +354,13 @@ sjp.lmm <- function(...,
     # --------------------------------------------------------
     # print confidence intervalls (error bars)
     # --------------------------------------------------------
-    geom_errorbar(aes(ymin = lower, ymax = upper), 
+    geom_errorbar(aes_string(ymin = "ci.low", ymax = "ci.hi"), 
                   position = position_dodge(-geom.spacing), 
                   width = 0) +
     # --------------------------------------------------------
     # print value labels and p-values
     # --------------------------------------------------------
-    geom_text(aes(label = p, y = upper), 
+    geom_text(aes_string(label = "p", y = "ci.hi"), 
               position = position_dodge(width = -geom.spacing), 
               hjust = -0.1,
               show.legend = FALSE) +

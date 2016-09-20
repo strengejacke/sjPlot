@@ -638,7 +638,10 @@ sjt.lm <- function(...,
   # -------------------------------------
   if (show.header) {
     page.content <- paste0(page.content, sprintf("\n  <tr>\n    <td class=\"tdata topborder\" rowspan=\"2\"><em>%s</em></td>", string.pred))
-    page.content <- paste0(page.content, sprintf("\n    <td colspan=\"%i\" class=\"tdata topborder depvarhead\"><em>%s</em></td>", headerColSpan, string.dv))
+    page.content <- paste0(page.content, sprintf("\n    <td colspan=\"%i\" class=\"tdata topborder depvarhead\"><em>%s</em></td>\n  </tr>\n", headerColSpan, string.dv))
+  } else {
+    # first column is empty
+    page.content <- paste0(page.content,"\n    <td class=\"tdata topborder\">&nbsp;</td>")
   }
   # -------------------------------------
   # If we don't show header strings, a rowspan-attribute is missing,
@@ -801,7 +804,9 @@ sjt.lm <- function(...,
     # show std. beta std. error
     if (showStdBetaValues && show.se) page.content <- table_cell_string(page.content, "\n    ", tcb_class, 6, "&nbsp;")
     # show p-values as numbers in separate column
-    if (p.numeric) page.content <- table_cell_string(page.content, "\n    ", tcb_class, 7, joined.df[1, (i - 1) * 9 + COL_P])
+    if (p.numeric)
+      # if we don't have estimates, intercept is not available. so don't show p-value here
+      page.content <- table_cell_string(page.content, "\n    ", tcb_class, 7, ifelse(isTRUE(show.est), joined.df[1, (i - 1) * 9 + COL_P], "&nbsp;"))
   }
   page.content <- paste0(page.content, "\n  </tr>")  
   # -------------------------------------

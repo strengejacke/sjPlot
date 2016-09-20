@@ -1030,8 +1030,7 @@ sjp.lme4  <- function(fit,
       } else {
         if (type == "fe.std") {
           mydf <- sjstats::std_beta(fit) %>% 
-            tibble::column_to_rownames(var = "term") %>% 
-            dplyr::select_("std.estimate", "conf.low", "conf.high")
+            dplyr::select_("term", "std.estimate", "conf.low", "conf.high")
         } else {
           # get odds ratios and cleaned CI
           mydf <- get_cleaned_ciMerMod(fit, fun)
@@ -1079,7 +1078,7 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------
       # set proper column names
       # ---------------------------------------
-      colnames(mydf) <- c("estimate", "conf.low", "conf.high", "p.string", "p.value")
+      colnames(mydf) <- c("term", "estimate", "conf.low", "conf.high", "p.string", "p.value")
       # ---------------------------------------
       # just one group, so no faceting needed
       # ---------------------------------------
@@ -1114,13 +1113,9 @@ sjp.lme4  <- function(fit,
       # -------------------------------------------------
       if (!is.null(remove.estimates)) {
         # get row indices of rows that should be removed
-        remrows <- match(remove.estimates, row.names(mydf))
-        # remember old rownames
-        keepnames <- row.names(mydf)[-remrows]
+        remrows <- match(remove.estimates, mydf$term)
         # remove rows
         mydf <- dplyr::slice(mydf, seq_len(nrow(mydf))[-remrows])
-        # set back rownames
-        row.names(mydf) <- keepnames
         # remove labels?
         if (!empty.axis.labels && length(axis.labels) > nrow(mydf))
           axis.labels <- axis.labels[-remrows]
@@ -1133,7 +1128,7 @@ sjp.lme4  <- function(fit,
         axis.labels <- suppressWarnings(retrieveModelLabels(list(fit), group.pred = FALSE))
         if (show.intercept) axis.labels <- c(string.interc, axis.labels)
         # check for correct length
-        if (length(axis.labels) != nrow(mydf)) axis.labels <- rownames(mydf)
+        if (length(axis.labels) != nrow(mydf)) axis.labels <- mydf$term
       } else {
         # check if intercept should be added, in case
         # axis.labels are passed
@@ -1142,7 +1137,7 @@ sjp.lme4  <- function(fit,
       # ---------------------------------------
       # sort data frame. init order
       # ---------------------------------------
-      reihe <- c(1:nrow(mydf))
+      reihe <- seq_len(nrow(mydf))
       # ---------------------------------------
       # just one sorting option, simply sort estimates
       # ---------------------------------------
@@ -1162,7 +1157,7 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     if (!is.null(vars)) {
       # find estimates that should be removed
-      remes <- which(!is.na(match(rownames(mydf), vars)))
+      remes <- which(!is.na(match(mydf$term, vars)))
       # remove data rows for these estimates
       mydf <- mydf[remes, ]
       # also remove predictor labels
@@ -1176,7 +1171,7 @@ sjp.lme4  <- function(fit,
     if (length(axis.labels) != nrow(mydf) &&
         (length(axis.labels) != (nrow(mydf) / length(unique(mydf$grp))))) {
       warning("`axis.labels` has insufficient length. Using row names.", call. = F)
-      axis.labels <- row.names(mydf)[order(mydf$sorting)]
+      axis.labels <- mydf$term[order(mydf$sorting)]
     }
     # ---------------------------------------
     # discrete x position, needed for ggplot
@@ -1257,7 +1252,7 @@ sjp.lme4  <- function(fit,
       # hide error bars (conf int)?
       # ---------------------------------------
       if (show.ci)  gp <- gp +
-          geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0)
+          geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), width = 0)
       # ---------------------------------------
       # axis titles
       # ---------------------------------------
@@ -1370,12 +1365,6 @@ sjp.lme4  <- function(fit,
   }
   # me plot contains first of all plots...
   me.plot <- me.plot.list[[1]]
-  # -------------------------------------
-  # add term names
-  # -------------------------------------
-  if (type == "fe" || type == "fe.std") {
-    mydf <- tibble::rownames_to_column(mydf, var = "term")
-  }
   # -------------------------------------
   # return results
   # -------------------------------------

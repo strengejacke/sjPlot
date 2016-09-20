@@ -294,7 +294,7 @@ sjt.glm <- function(...,
   # -------------------------------------
   # iterate all models
   # -------------------------------------
-  for (i in 1:length(input_list)) {
+  for (i in seq_len(length(input_list))) {
     # -------------------------------------
     # retrieve model
     # -------------------------------------
@@ -304,7 +304,8 @@ sjt.glm <- function(...,
     # -------------------------------------
     if (lmerob) {
       # get cleaned CI
-      confis <- get_cleaned_ciMerMod(fit, "glm", T)
+      confis <- get_cleaned_ciMerMod(fit, "lm", T) %>% 
+        dplyr::select_("-term")
       coef.fit <- lme4::fixef(fit)
     } else {
       confis <- stats::confint(fit)
@@ -403,7 +404,7 @@ sjt.glm <- function(...,
   # -------------------------------------
   # replace NA, created by join, with empty string
   # -------------------------------------
-  for (i in 1:ncol(joined.df)) {
+  for (i in seq_len(ncol(joined.df))) {
     joined.df[, i] <- sapply(joined.df[, i], function(x) if (is.na(x)) x <- "" else x)
   }
   # -------------------------------------
@@ -416,7 +417,7 @@ sjt.glm <- function(...,
       # if so, retrieve index numbers
       tmp_re <- c()
       # iterate all var names
-      for (re in 1:length(remove.estimates)) {
+      for (re in seq_len(length(remove.estimates))) {
         # find row index by name
         tmp_re <- c(tmp_re, which(joined.df$coef.name == remove.estimates[re]))
       }
@@ -432,7 +433,7 @@ sjt.glm <- function(...,
       message("Intercept cannot be removed from table output. However, you may fake with style sheet, e.g. CSS = list(css.topcontentborder = \"+font-size: 0px;\").")
     }
     # create all row indices
-    rowind <- c(1:nrow(joined.df))
+    rowind <- seq_len(nrow(joined.df))
     # "inverse" removable inices
     keep.estimates <- rowind[-remove.estimates]
     # select rows
@@ -631,7 +632,7 @@ sjt.glm <- function(...,
   # -------------------------------------
   # subsequent rows: pedictors
   # -------------------------------------
-  for (i in 1:(nrow(joined.df) - 1)) {
+  for (i in seq_len(nrow(joined.df) - 1)) {
     # -------------------------------------
     # do we need to insert a "factor grouping headline row"?
     # -------------------------------------
