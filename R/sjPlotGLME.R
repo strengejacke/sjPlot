@@ -2175,7 +2175,7 @@ sjp.glm.eff <- function(fit,
   # ------------------------
   eff <- effects::allEffects(fit, xlevels = xl, KR = FALSE, ...)
   # select specific terms only
-  eff <- eff[which(names(eff) %in% all.terms) | which(names(eff) %in% all.pred.names)]
+  eff <- eff[which(names(eff) %in% all.terms | names(eff) %in% all.pred.names)]
   # init final df
   mydat <- data.frame()
   # interaction term found?
