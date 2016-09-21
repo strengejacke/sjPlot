@@ -180,6 +180,8 @@ sjp.lmm <- function(...,
         # copy estimates to data frame
         betas <- data.frame(stats::coef(fit), stats::confint(fit))
         betas <- tibble::rownames_to_column(betas, var = "term")
+        # show intercept?
+        if (!show.intercept) betas <- betas[-1, ]
       }
     }
     # ----------------------------
@@ -214,10 +216,7 @@ sjp.lmm <- function(...,
       pointshapes[i] <- 1
       palpha[i] <- "s"
     }
-    # ----------------------------
-    # copy beta-values into data column
-    # ----------------------------
-    ps <- rep("", length(ov))
+    # print values to p-string
     if (show.values) ps <- sprintf("%.*f", digits, ov)
     # ----------------------------
     # copy p-values into data column
