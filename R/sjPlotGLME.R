@@ -2174,6 +2174,9 @@ sjp.glm.eff <- function(fit,
   # compute marginal effects for each model term
   # ------------------------
   eff <- effects::allEffects(fit, xlevels = xl, KR = FALSE, ...)
+  # remove spaces from model terms, required, because 'effects()' removes
+  # them, too, else we don't match the model term ("log(term + 1)" => "log(term+1)")
+  all.terms <- gsub(" ", "", all.terms, fixed = TRUE)
   # select specific terms only
   eff <- eff[which(names(eff) %in% all.terms | names(eff) %in% all.pred.names)]
   # init final df
