@@ -2,6 +2,7 @@
 
 ## New functions
 * `sjp.resid`, an experimental function to plot and analyze residuals from linear models.
+* `plot_grid` to plot a list of ggplot-objects as arranged grid in a single plot.
 
 ## Changes to functions
 
