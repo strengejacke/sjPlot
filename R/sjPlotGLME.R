@@ -2230,7 +2230,8 @@ sjp.glm.eff <- function(fit,
       # -------------------------
       tmp$x <- sjmisc::to_value(tmp$x, keep.labels = F)
       # sort rows. we may need to do this if we have factors
-      tmp <- tmp[order(tmp$x), ]
+      # tmp <- tmp[order(tmp$x), ]
+      tmp$x <- sort(tmp$x)
       # get possible variable labels
       tmp$var.label <- sjmisc::get_label(fitfram[[t]], def.value = t)
       # do we already have data?
