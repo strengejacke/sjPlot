@@ -1,4 +1,4 @@
-# sjPlot 2.0.3
+# sjPlot 2.1.0
 
 ## New functions
 * `sjp.resid`, an experimental function to plot and analyze residuals from linear models.

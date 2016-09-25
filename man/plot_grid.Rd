@@ -4,10 +4,13 @@
 \alias{plot_grid}
 \title{Arrange list of plots as grid}
 \usage{
-plot_grid(x)
+plot_grid(x, margin = c(1, 1, 1, 1))
 }
 \arguments{
 \item{x}{A list of ggplot-objects. See 'Details'.}
+
+\item{margin}{A numeric vector of length 4, indicating the top, right, bottom
+and left margin for each plot, in centimetres.}
 }
 \value{
 An object of class \code{gtable}.
@@ -28,7 +31,7 @@ data(efc)
 # fit model
 fit <- lm(tot_sc_e ~ c12hour + e17age + e42dep + neg_c_7, data = efc)
 # plot marginal effects for each predictor, each as single plot
-p <- sjp.lm(fit, type = "eff", facet.grid = FALSE)
+p <- sjp.lm(fit, type = "eff", facet.grid = FALSE, prnt.plot = FALSE)
 
 # plot grid
 plot_grid(p$plot.list)

@@ -268,7 +268,6 @@ sjp.setTheme <- function(# base theme
   plot.margins <- NULL
   panel.gridcol.x <- NULL
   panel.gridcol.y <- NULL
-  if (!is.null(theme) && theme == "forest") theme <- "forestw"
   if (!is.null(theme) && theme == "forestgrey") theme <- "forest"
   # ----------------------------------------  
   # check for blank theme, i.e. if user requires special
@@ -307,7 +306,7 @@ sjp.setTheme <- function(# base theme
   # check for grey-scaled 538 theme.
   # ----------------------------------------  
   if (!is.null(theme) && 
-      theme %in% c("538", "538w", "539", "539w", "forest", "forestgrey", 
+      theme %in% c("538", "538w", "539", "539w", "forest",
                    "forestw", "scatter", "scatterw")) {
     base <- theme_bw()
     g.palette <- scales::brewer_pal(palette = "Greys")(9)
@@ -317,7 +316,6 @@ sjp.setTheme <- function(# base theme
       theme == "539w" ~ 1,
       theme == "538w" ~ 1,
       theme == "forestw" ~ 1,
-      theme == "forestgrey" ~ 2,
       theme == "forest" ~ 2,
       TRUE ~ 1
     )

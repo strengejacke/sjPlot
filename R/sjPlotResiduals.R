@@ -10,7 +10,7 @@ utils::globalVariables(c("predicted", "residuals"))
 #'              predicted values. This allows to investigate how well actual and 
 #'              predicted values of the outcome fit across the predictor variables.
 #'
-#' @param fit fitted linear regression model (of class \code{\link{lm}}, 
+#' @param fit fitted linear (mixed) regression model (including objects of class
 #'        \code{\link[nlme]{gls}} or \code{plm}).
 #' @param show.lines logical, if \code{TRUE}, a line connecting predicted and
 #'        residual values is plotted. Set this argument to \code{FALSE}, if
@@ -79,13 +79,13 @@ sjp.resid <- function(fit, geom.size = 2, remove.estimates = NULL, show.lines = 
     stat_smooth(method = "lm", se = show.ci, colour = "grey70")
   
   if (show.lines) res.plot <- res.plot + 
-    geom_segment(aes(xend = x, yend = predicted), alpha = .3)
+    geom_segment(aes_string(xend = "x", yend = "predicted"), alpha = .3)
   
   if (show.resid) res.plot <- res.plot + 
-    geom_point(aes(fill = residuals), size = geom.size, shape = 21, colour = "grey50")
+    geom_point(aes_string(fill = "residuals"), size = geom.size, shape = 21, colour = "grey50")
   
   if (show.pred) res.plot <- res.plot + 
-    geom_point(aes(y = predicted), shape = 1, size = geom.size)
+    geom_point(aes_string(y = "predicted"), shape = 1, size = geom.size)
   
   res.plot <- res.plot +
     facet_grid(~grp, scales = "free") +

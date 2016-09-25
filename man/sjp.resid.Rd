@@ -8,7 +8,7 @@ sjp.resid(fit, geom.size = 2, remove.estimates = NULL, show.lines = TRUE,
   show.resid = TRUE, show.pred = TRUE, show.ci = F, prnt.plot = TRUE)
 }
 \arguments{
-\item{fit}{fitted linear regression model (of class \code{\link{lm}}, 
+\item{fit}{fitted linear (mixed) regression model (including objects of class
 \code{\link[nlme]{gls}} or \code{plm}).}
 
 \item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
