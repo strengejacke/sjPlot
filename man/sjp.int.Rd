@@ -148,7 +148,10 @@ to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
 \item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
-in a grid of an integrated single plot.}
+in a grid of an integrated single plot. This argument calls 
+\code{\link[ggplot2]{facet_wrap}} or \code{\link[ggplot2]{facet_grid}}
+to arrange plots. Use \code{\link{plot_grid}} to plot multiple plot-objects 
+as an arranged grid with \code{\link[gridExtra]{grid.arrange}}.}
 
 \item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}

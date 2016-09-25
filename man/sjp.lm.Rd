@@ -139,7 +139,10 @@ is added to the plot.}
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
 \item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
-in a grid of an integrated single plot.}
+in a grid of an integrated single plot. This argument calls 
+\code{\link[ggplot2]{facet_wrap}} or \code{\link[ggplot2]{facet_grid}}
+to arrange plots. Use \code{\link{plot_grid}} to plot multiple plot-objects 
+as an arranged grid with \code{\link[gridExtra]{grid.arrange}}.}
 
 \item{complete.dgns}{logical, if \code{TRUE}, additional tests are performed. Default is \code{FALSE}
 Only applies if \code{type = "ma"}.}

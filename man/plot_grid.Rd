@@ -9,6 +9,9 @@ plot_grid(x)
 \arguments{
 \item{x}{A list of ggplot-objects. See 'Details'.}
 }
+\value{
+An object of class \code{gtable}.
+}
 \description{
 Plot multiple ggplot-objects as a grid-arranged single plot.
 }

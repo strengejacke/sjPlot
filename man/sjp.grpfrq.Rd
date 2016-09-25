@@ -149,7 +149,10 @@ is \code{TRUE}. Default is \code{"r"}, i.e. it's printed to the upper right corn
 Use \code{"l"} for upper left corner.}
 
 \item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
-in a grid of an integrated single plot.}
+in a grid of an integrated single plot. This argument calls 
+\code{\link[ggplot2]{facet_wrap}} or \code{\link[ggplot2]{facet_grid}}
+to arrange plots. Use \code{\link{plot_grid}} to plot multiple plot-objects 
+as an arranged grid with \code{\link[gridExtra]{grid.arrange}}.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 

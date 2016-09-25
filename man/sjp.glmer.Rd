@@ -139,7 +139,10 @@ plot (only if non-faceted).}
 \item{vline.color}{color of the vertical "zero point" line. Default value is \code{"grey70"}.}
 
 \item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
-in a grid of an integrated single plot.}
+in a grid of an integrated single plot. This argument calls 
+\code{\link[ggplot2]{facet_wrap}} or \code{\link[ggplot2]{facet_grid}}
+to arrange plots. Use \code{\link{plot_grid}} to plot multiple plot-objects 
+as an arranged grid with \code{\link[gridExtra]{grid.arrange}}.}
 
 \item{free.scale}{if \code{TRUE} and \code{facet.grid = TRUE}, each facet grid
 gets its own fitted scale. If \code{free.scale = FALSE}, each facet in

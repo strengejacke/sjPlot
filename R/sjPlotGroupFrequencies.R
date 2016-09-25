@@ -41,7 +41,10 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'          of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
 #'          y-axis fits to the required range of the data.
 #' @param facet.grid \code{TRUE} to arrange the lay out of of multiple plots 
-#'          in a grid of an integrated single plot.
+#'          in a grid of an integrated single plot. This argument calls 
+#'          \code{\link[ggplot2]{facet_wrap}} or \code{\link[ggplot2]{facet_grid}}
+#'          to arrange plots. Use \code{\link{plot_grid}} to plot multiple plot-objects 
+#'          as an arranged grid with \code{\link[gridExtra]{grid.arrange}}.
 #' @param title character vector, used as plot title. Depending on plot type and function,
 #'          will be set automatically. If \code{title = ""}, no title is printed.
 #' @param legend.title character vector, used as title for the plot legend.

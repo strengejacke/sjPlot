@@ -4,7 +4,9 @@
 #' @description Plot multiple ggplot-objects as a grid-arranged single plot.
 #'
 #' @param x A list of ggplot-objects. See 'Details'.
-
+#' 
+#' @return An object of class \code{gtable}.
+#' 
 #' @details This function takes a \code{list} of ggplot-objects as argument.
 #'          Plotting functions of this package that produce multiple plot
 #'          objects (e.g., when there is an argument \code{facet.grid}) usually
