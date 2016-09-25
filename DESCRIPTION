@@ -39,6 +39,7 @@ Suggests:
     arm,
     car,
     cluster,
+    gridExtra,
     ggrepel,
     lmerTest,
     lmtest,

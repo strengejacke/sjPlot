@@ -1,6 +1,6 @@
 #' @title View structure of labelled data frames
 #' @name view_df
-#' 
+#'
 #' @description Save (or show) content of an imported SPSS, SAS or Stata data file,
 #'                or any similar labelled \code{data.frame}, as HTML table.
 #'                Similar to the SPSS variable view. This quick overview shows
@@ -12,7 +12,7 @@
 #'            \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
 #'            \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
 #'          }
-#' 
+#'
 #' @param x \code{data.frame}, imported by \code{\link[sjmisc]{read_spss}},
 #'          \code{\link[sjmisc]{read_sas}} or \code{\link[sjmisc]{read_stata}} function,
 #'          or any similar labelled data frame (see \code{\link[sjmisc]{set_label}}
@@ -30,12 +30,12 @@
 #' @param sort.by.name logical, if \code{TRUE}, rows are sorted according to the variable
 #'          names. By default, rows (variables) are ordered according to their
 #'          order in the data frame.
-#'          
+#'
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.df
 #' @inheritParams sjt.xtab
 #' @inheritParams sjp.grpfrq
-#'          
+#'
 #' @return Invisibly returns
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
@@ -46,7 +46,7 @@
 #'            for further use.
 #'
 #' @note See 'Notes' in \code{\link{sjt.frq}}.
-#'  
+#'
 #' @details See 'Details' in \code{\link{sjt.frq}}.
 #'
 #' @examples
@@ -54,19 +54,19 @@
 #' # init dataset
 #' library(sjmisc)
 #' data(efc)
-#' 
+#'
 #' # view variables
 #' view_df(efc)
-#' 
+#'
 #' # view variables w/o values and value labels
 #' view_df(efc, show.values = FALSE, show.labels = FALSE)
-#' 
+#'
 #' # view variables including variable typed, orderd by name
 #' view_df(efc, sort.by.name = TRUE, show.type = TRUE)
-#' 
-#' # ---------------------------------------------------------------- 
+#'
+#' # ----------------------------------------------------------------
 #' # User defined style sheet
-#' # ---------------------------------------------------------------- 
+#' # ----------------------------------------------------------------
 #' view_df(efc,
 #'         CSS = list(css.table = "border: 2px solid;",
 #'                    css.tdata = "border: 1px solid;",
@@ -114,7 +114,7 @@ view_df <- function(x,
   # get row count and ID's
   # -------------------------------------
   colcnt <- ncol(x)
-  id <- 1:colcnt
+  id <- seq_len(colcnt)
   # -------------------------------------
   # Order data set if requested
   # -------------------------------------
@@ -148,7 +148,7 @@ view_df <- function(x,
   # set style sheet
   # -------------------------------------
   page.style <- sprintf("<style>\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n%s { %s }\n</style>",
-                        tag.table, css.table, tag.thead, css.thead, tag.tdata, css.tdata, 
+                        tag.table, css.table, tag.thead, css.thead, tag.tdata, css.tdata,
                         tag.arc, css.arc, tag.caption, css.caption)
   # -------------------------------------
   # table init
@@ -181,7 +181,7 @@ view_df <- function(x,
   # -------------------------------------
   # subsequent rows
   # -------------------------------------
-  for (ccnt in 1:colcnt) {
+  for (ccnt in seq_len(colcnt)) {
     # get index number, depending on sorting
     index <- id[ccnt]
     # default row string
@@ -200,9 +200,9 @@ view_df <- function(x,
     # type
     if (show.type) {
       vartype <- get.vartype(x[[index]])
-      page.content <- paste0(page.content, 
-                             sprintf("    <td class=\"tdata%s\">%s</td>\n", 
-                                     arcstring, 
+      page.content <- paste0(page.content,
+                             sprintf("    <td class=\"tdata%s\">%s</td>\n",
+                                     arcstring,
                                      vartype))
     }
     # label
@@ -220,9 +220,9 @@ view_df <- function(x,
     # missings and missing percentage
     # ----------------------------
     if (show.na) {
-      page.content <- paste0(page.content, 
-                             sprintf("    <td class=\"tdata%s\">%i (%.2f%%)</td>\n", 
-                                     arcstring, 
+      page.content <- paste0(page.content,
+                             sprintf("    <td class=\"tdata%s\">%i (%.2f%%)</td>\n",
+                                     arcstring,
                                      sum(is.na(x[[index]]), na.rm = T),
                                      100 * sum(is.na(x[[index]]), na.rm = T) / nrow(x)))
     }
@@ -276,36 +276,36 @@ view_df <- function(x,
     # frequencies
     # ----------------------------
     if (show.frq) {
-      page.content <- paste0(page.content, 
-                             sprintf("    <td class=\"tdata%s\">%s</td>\n", 
-                                     arcstring, 
+      page.content <- paste0(page.content,
+                             sprintf("    <td class=\"tdata%s\">%s</td>\n",
+                                     arcstring,
                                      frq.value(index, x, df.val)))
     }
     # ----------------------------
     # percentage of frequencies
     # ----------------------------
     if (show.prc) {
-      page.content <- paste0(page.content, 
-                             sprintf("    <td class=\"tdata%s\">%s</td>\n", 
-                                     arcstring, 
+      page.content <- paste0(page.content,
+                             sprintf("    <td class=\"tdata%s\">%s</td>\n",
+                                     arcstring,
                                      prc.value(index, x, df.val)))
     }
     # ----------------------------
     # frequencies
     # ----------------------------
     if (show.wtd.frq && !is.null(weight.by)) {
-      page.content <- paste0(page.content, 
-                             sprintf("    <td class=\"tdata%s\">%s</td>\n", 
-                                     arcstring, 
+      page.content <- paste0(page.content,
+                             sprintf("    <td class=\"tdata%s\">%s</td>\n",
+                                     arcstring,
                                      frq.value(index, x, df.val, weight.by)))
     }
     # ----------------------------
     # percentage of frequencies
     # ----------------------------
     if (show.prc && !is.null(weight.by)) {
-      page.content <- paste0(page.content, 
-                             sprintf("    <td class=\"tdata%s\">%s</td>\n", 
-                                     arcstring, 
+      page.content <- paste0(page.content,
+                             sprintf("    <td class=\"tdata%s\">%s</td>\n",
+                                     arcstring,
                                      prc.value(index, x, df.val, weight.by)))
     }
     # update progress bar
@@ -348,7 +348,7 @@ view_df <- function(x,
   # -------------------------------------
   # check if html-content should be outputted
   # -------------------------------------
-  out.html.table(no.output, file, knitr, toWrite, use.viewer)    
+  out.html.table(no.output, file, knitr, toWrite, use.viewer)
   # -------------------------------------
   # return results
   # -------------------------------------
@@ -365,7 +365,7 @@ frq.value <- function(index, x, df.val, weights = NULL) {
   # check if we have a valid index
   if (index <= ncol(x) && !is.null(df.val[[index]])) {
     # do we have weights?
-    if (!is.null(weights)) 
+    if (!is.null(weights))
       variab <- sjstats::weight(x[[index]], weights)
     else
       variab <- x[[index]]
@@ -392,7 +392,7 @@ prc.value <- function(index, x, df.val, weights = NULL) {
   # check for valid indices
   if (index <= ncol(x) && !is.null(df.val[[index]])) {
     # do we have weights?
-    if (!is.null(weights)) 
+    if (!is.null(weights))
       variab <- sjstats::weight(x[[index]], weights)
     else
       variab <- x[[index]]
@@ -410,5 +410,5 @@ prc.value <- function(index, x, df.val, weights = NULL) {
   } else {
     valstring <- ""
   }
-  return(valstring)  
+  return(valstring)
 }

@@ -121,9 +121,9 @@ view_df(efc, show.values = FALSE, show.labels = FALSE)
 # view variables including variable typed, orderd by name
 view_df(efc, sort.by.name = TRUE, show.type = TRUE)
 
-# ---------------------------------------------------------------- 
+# ----------------------------------------------------------------
 # User defined style sheet
-# ---------------------------------------------------------------- 
+# ----------------------------------------------------------------
 view_df(efc,
         CSS = list(css.table = "border: 2px solid;",
                    css.tdata = "border: 1px solid;",
