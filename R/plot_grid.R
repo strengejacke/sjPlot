@@ -46,6 +46,10 @@ plot_grid <- function(x, margin = c(1, 1, 1, 1)) {
     pl + theme(plot.margin = unit(margin, "cm"))
   })
 
+  # compute amount of columns and rows
+  ncol <- round(sqrt(length(x)))
+  nrow <- ceiling(length(x) / ncol)
+  
   f <- eval(bquote(gridExtra::"grid.arrange"))
-  do.call(f, c(x, ncol = floor(sqrt(length(x)))))
+  do.call(f, c(x, nrow = nrow, ncol = ncol))
 }
