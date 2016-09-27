@@ -20,23 +20,13 @@ of the following acceptes file types: ".png", ".jpg" or ".tif".}
 
 \item{dpi}{resolution in dpi (dots per inch)}
 
-\item{theme}{specify pre-set themes (see 'Details'). Valid argument for ggplot default-themes are for instance:
-\itemize{
-  \item \code{theme_bw}
-  \item \code{theme_classic}
-  \item \code{theme_grey}
-  \item \code{theme_light}
-  \item \code{theme_linedraw}
-  \item \code{theme_minimal}
-}
-Furthermore, there are some theme-presets, which can be used:
+\item{theme}{Name of a pre-set theme. May be one of:
 \describe{
   \item{\code{"blank"}}{a theme with no grids and axes.}
   \item{\code{"forest"}}{a theme for forest plots, with no grids, in "539" style.}
   \item{\code{"538"}}{a grey-scaled theme inspired by \href{http://fivethirtyeight.com}{538-charts}, adapted from \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{minimaxir.com}.}
   \item{\code{"539"}}{a slight modification of the 538-theme.}
   \item{\code{"scatter"}}{a theme for scatter plots in 539-theme-style.}
-  \item{\code{"rbase"}}{an R base graphics like theme; however, only for plots with y-axis-scales.}
   \item{\code{"538w"}, \code{"539w"}, \code{"scatterw"} and \code{"forestw"}}{for themes as described above, however all with white backgrounds.}
 }}
 

@@ -455,7 +455,7 @@ sjp.lm <- function(fit,
   # copy p-values into data column
   # --------------------------------------------------------
   if (show.p) {
-    for (i in 1:length(pv)) {
+    for (i in seq_len(length(pv))) {
       ps[i] <- sjmisc::trim(paste(ps[i], get_p_stars(pv[i])))
     }
   }
@@ -493,7 +493,7 @@ sjp.lm <- function(fit,
     axis.labels <- rev(axis.labels)
     betas <- betas[nrow(betas):1, ]
   }
-  betas <- cbind(xpos = 1:nrow(betas), betas)
+  betas <- cbind(xpos = seq_len(nrow(betas)), betas)
   betas[["p.string"]] <- as.character(betas[["p.string"]])
   betas[["xpos"]] <- as.factor(betas[["xpos"]])
   # --------------------------------------------------------
@@ -519,7 +519,7 @@ sjp.lm <- function(fit,
   # (whether grouped or not)
   # --------------------------------------------------------
   if (!is.null(group.estimates)) {
-    betaplot <- ggplot(betas, aes(x = xpos, y = estimate, colour = group))
+    betaplot <- ggplot(betas, aes_string(x = "xpos", y = "estimate", colour = "group"))
     pal.len <- length(unique(group.estimates))
     legend.labels <- unique(betas[["group"]])
   } else {
@@ -653,7 +653,7 @@ sjp.reglin <- function(fit,
     # -----------------------------------------------------------
     # plot regression line and confidence intervall
     # -----------------------------------------------------------
-    reglinplot <- ggplot(mydat, aes(x = x, y = y)) +
+    reglinplot <- ggplot(mydat, aes_string(x = "x", y = "y")) +
       stat_smooth(method = "lm", se = show.ci, colour = lineColor)
     # -----------------------------------------------------------
     # plot jittered values if requested
@@ -840,7 +840,7 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
     # ---------------------------------
     # show VIF-Values
     # ---------------------------------
-    sjp.setTheme(theme = "539w")
+    set_theme("539w")
     sjp.vif(linreg)
   } else {
     # we have no updated model w/o outliers for
@@ -851,7 +851,7 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
   # Print non-normality of residuals and outliers both of original and updated model
   # dots should be plotted along the line, this the dots should follow a linear direction
   # ---------------------------------
-  sjp.setTheme(theme = "scatterw")
+  set_theme("scatterw")
   # qq-plot of studentized residuals for base model
   # mixed model model?
   if (any(class(linreg) == "lme") || any(class(linreg) == "lmerMod")) {
@@ -893,7 +893,7 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
                   y = "Density",
                   title = "Non-normality of residuals\n(Distribution should look like normal curve)"))
   }
-  sjp.setTheme(theme = "539w")
+  set_theme("539w")
   # residuals histrogram for base model
   p1 <- gghist(linreg)
   # save plot
@@ -925,7 +925,7 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
                   y = "Residuals",
                   title = "Homoscedasticity (homogeneity of variance,\nrandomly distributed residuals)\n(Amount and distance of points scattered above/below line is equal)"))
   }
-  sjp.setTheme(theme = "scatterw")
+  set_theme("scatterw")
   # homoscedascity for base model
   p1 <- ggsced(linreg)
   # save plot
@@ -936,7 +936,7 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
   # summarize old and new model
   # ---------------------------------
   if (any(class(linreg) == "lm")) {
-    sjp.setTheme(theme = "forestw")
+    set_theme("forestw")
     p1 <- sjp.lm(linreg, prnt.plot = FALSE)$plot
     # save plot
     plot.list[[length(plot.list) + 1]] <- p1
@@ -946,7 +946,7 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
       # ---------------------------------
       # Plot residuals against predictors
       # ---------------------------------
-      sjp.setTheme(theme = "scatterw")
+      set_theme("scatterw")
       p1 <- sjp.reglin(linreg,
                        title = "Relationship of residuals against predictors (if scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly",
                        wrap.title = 60, useResiduals = T)$plot.list

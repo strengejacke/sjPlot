@@ -41,4 +41,4 @@ install.packages("sjPlot")
 
 ## Citation
 
-In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](http://cran.r-project.org/package=ggplot2), consider citing this package as well.
+In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](https://cran.r-project.org/package=ggplot2), consider citing this package as well.

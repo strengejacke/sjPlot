@@ -3,6 +3,7 @@
 ## New functions
 * `sjp.resid`, an experimental function to plot and analyze residuals from linear models.
 * `plot_grid` to plot a list of ggplot-objects as arranged grid in a single plot.
+* `set_theme` to use a preset of default themes for plots from the sjp-functions.
 
 ## Changes to functions
 
@@ -10,6 +11,7 @@
 * Effect plots (`type = "eff"`) for `sjp.lm`, `sjp.glm`, `sjp.lmer` and `sjp.glmer` should now better handle categorical variables and their labels, including using error bars insted of regions for confidence intervals.
 * `table(*, exclude = NULL)` was changed to `table(*, useNA = "always")`, because of planned changes in upcoming R version 3.4.
 * `get_option("p_zero")` was removed, and `sjt.lm`, `sjt.glm`, `sjt.lmer` and `sjt.glmer` get a `p.zero` argument.
+* `sjp.setTheme` no longer sets default theme presets for plots; use `set_theme` instead.
 
 ## Bug fixes
 

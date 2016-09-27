@@ -4,15 +4,16 @@
 \alias{sjp.setTheme}
 \title{Set global theme options for sjp-functions}
 \usage{
-sjp.setTheme(theme = NULL, theme.font = NULL, title.color = "black",
-  title.size = 1.2, title.align = "left", geom.outline.color = NULL,
-  geom.outline.size = 0, geom.boxoutline.size = 0.5,
-  geom.boxoutline.color = "black", geom.alpha = 1, geom.linetype = 1,
-  geom.errorbar.size = 0.7, geom.errorbar.linetype = 1,
-  geom.label.color = NULL, geom.label.size = 4, geom.label.alpha = 1,
-  geom.label.angle = 0, axis.title.color = "grey30",
-  axis.title.size = 1.1, axis.angle.x = 0, axis.angle.y = 0,
-  axis.angle = NULL, axis.textcolor.x = "grey30",
+sjp.setTheme(base = theme_grey(), theme.font = NULL,
+  title.color = "black", title.size = 1.2, title.align = "left",
+  title.vjust = NULL, geom.outline.color = NULL, geom.outline.size = 0,
+  geom.boxoutline.size = 0.5, geom.boxoutline.color = "black",
+  geom.alpha = 1, geom.linetype = 1, geom.errorbar.size = 0.7,
+  geom.errorbar.linetype = 1, geom.label.color = NULL,
+  geom.label.size = 4, geom.label.alpha = 1, geom.label.angle = 0,
+  axis.title.color = "grey30", axis.title.size = 1.1,
+  axis.title.x.vjust = NULL, axis.title.y.vjust = NULL, axis.angle.x = 0,
+  axis.angle.y = 0, axis.angle = NULL, axis.textcolor.x = "grey30",
   axis.textcolor.y = "grey30", axis.textcolor = NULL,
   axis.linecolor.x = NULL, axis.linecolor.y = NULL, axis.linecolor = NULL,
   axis.line.size = 0.5, axis.textsize.x = 1, axis.textsize.y = 1,
@@ -20,36 +21,19 @@ sjp.setTheme(theme = NULL, theme.font = NULL, title.color = "black",
   axis.ticksmar = NULL, axis.ticksize.x = NULL, axis.ticksize.y = NULL,
   panel.backcol = NULL, panel.bordercol = NULL, panel.col = NULL,
   panel.major.gridcol = NULL, panel.minor.gridcol = NULL,
-  panel.gridcol = NULL, panel.major.linetype = 1,
-  panel.minor.linetype = 1, plot.backcol = NULL, plot.bordercol = NULL,
-  plot.col = NULL, legend.pos = "right", legend.just = NULL,
-  legend.inside = FALSE, legend.size = 1, legend.color = "black",
-  legend.title.size = 1, legend.title.color = "black",
-  legend.title.face = "bold", legend.backgroundcol = "white",
-  legend.bordercol = "white", legend.item.size = NULL,
-  legend.item.backcol = "grey90", legend.item.bordercol = "white",
-  base = theme_grey())
+  panel.gridcol = NULL, panel.gridcol.x = NULL, panel.gridcol.y = NULL,
+  panel.major.linetype = 1, panel.minor.linetype = 1, plot.backcol = NULL,
+  plot.bordercol = NULL, plot.col = NULL, plot.margins = NULL,
+  legend.pos = "right", legend.just = NULL, legend.inside = FALSE,
+  legend.size = 1, legend.color = "black", legend.title.size = 1,
+  legend.title.color = "black", legend.title.face = "bold",
+  legend.backgroundcol = "white", legend.bordercol = "white",
+  legend.item.size = NULL, legend.item.backcol = "grey90",
+  legend.item.bordercol = "white")
 }
 \arguments{
-\item{theme}{specify pre-set themes (see 'Details'). Valid argument for ggplot default-themes are for instance:
-\itemize{
-  \item \code{theme_bw}
-  \item \code{theme_classic}
-  \item \code{theme_grey}
-  \item \code{theme_light}
-  \item \code{theme_linedraw}
-  \item \code{theme_minimal}
-}
-Furthermore, there are some theme-presets, which can be used:
-\describe{
-  \item{\code{"blank"}}{a theme with no grids and axes.}
-  \item{\code{"forest"}}{a theme for forest plots, with no grids, in "539" style.}
-  \item{\code{"538"}}{a grey-scaled theme inspired by \href{http://fivethirtyeight.com}{538-charts}, adapted from \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{minimaxir.com}.}
-  \item{\code{"539"}}{a slight modification of the 538-theme.}
-  \item{\code{"scatter"}}{a theme for scatter plots in 539-theme-style.}
-  \item{\code{"rbase"}}{an R base graphics like theme; however, only for plots with y-axis-scales.}
-  \item{\code{"538w"}, \code{"539w"}, \code{"scatterw"} and \code{"forestw"}}{for themes as described above, however all with white backgrounds.}
-}}
+\item{base}{base theme where theme is built on. By default, all 
+metrics from \code{theme_gray()} are used. See 'Details'.}
 
 \item{theme.font}{base font family for the plot.}
 
@@ -59,6 +43,8 @@ Furthermore, there are some theme-presets, which can be used:
 
 \item{title.align}{alignment of plot title. Must be one of \code{"left"} (default),
 \code{"center"} or \code{"right"}. You may use initial letter only.}
+
+\item{title.vjust}{numeric, vertical adjustment for plot title.}
 
 \item{geom.outline.color}{color of geom outline. Only applies, if \code{geom.outline.size}
 is larger than 0.}
@@ -91,6 +77,10 @@ Only applies, if \code{geom.boxoutline.size} is larger than 0.}
 \item{axis.title.color}{color of x- and y-axis title labels}
 
 \item{axis.title.size}{size of x- and y-axis title labels}
+
+\item{axis.title.x.vjust}{numeric, vertical adjustment of x-axis-title.}
+
+\item{axis.title.y.vjust}{numeric, vertical adjustment of y-axis-title.}
 
 \item{axis.angle.x}{angle for x-axis labels}
 
@@ -148,6 +138,10 @@ If set, overrides both \code{panel.bordercol} and \code{panel.backcol}.}
 \item{panel.gridcol}{color for both minor and major grid lines of the diagram background.
 If set, overrides both \code{panel.major.gridcol} and \code{panel.minor.gridcol}.}
 
+\item{panel.gridcol.x}{see \code{panel.gridcol}.}
+
+\item{panel.gridcol.y}{see \code{panel.gridcol}.}
+
 \item{panel.major.linetype}{line type for major grid lines}
 
 \item{panel.minor.linetype}{line type for minor grid lines}
@@ -158,6 +152,9 @@ If set, overrides both \code{panel.major.gridcol} and \code{panel.minor.gridcol}
 
 \item{plot.col}{color of both plot's region border and background.
 If set, overrides both \code{plot.backcol} and \code{plot.bordercol}.}
+
+\item{plot.margins}{numeric vector of length 4, indicating the top, right, 
+bottom and left margin of the plot region.}
 
 \item{legend.pos}{position of the legend, if a legend is drawn.
 \describe{
@@ -202,9 +199,6 @@ recommended values are from 0.3 to 2.5}
 \item{legend.item.backcol}{fill color of the legend's item-background. Default is \code{"grey90"}.}
 
 \item{legend.item.bordercol}{color of the legend's item-border. Default is \code{"white"}.}
-
-\item{base}{base theme where theme is built on. By default, all 
-metrics from \code{theme_gray()} are used. See 'Details'.}
 }
 \value{
 The customized theme object, or \code{NULL}, if a ggplot-theme was used.
@@ -213,17 +207,9 @@ The customized theme object, or \code{NULL}, if a ggplot-theme was used.
 Set global theme options for sjp-functions.
 }
 \details{
-If the \code{theme} argument is one of the valid ggplot-themes, this theme
-           will be used and all further arguments will be ignored. If you want to modify
-           a ggplot-theme, use \code{base = "theme_xy"}, then further arguments to
-           this function will be applied to the theme as well.
-           \cr \cr
-           If the \code{theme} argument is one of sjPlot-pre-set-themes, you
-           can use further arguments for specific customization of the theme.
-           \emph{sjPlot-pre-set-themes won't work with the \code{base} argument!}
-           The \code{base} argument is only intended to select a ggplot-theme
-           as base for further modifications (which can be triggered via the
-           various function arguments).
+The \code{base} argument is intended to select a ggplot-theme
+           as base for further modifications (which can be triggered 
+           via the various function arguments).
 }
 \examples{
 \dontrun{
@@ -241,7 +227,7 @@ sjp.xtab(efc$e42dep, efc$e16sex)
 # Use classic-theme. you may need to
 # load the ggplot2-library.
 library(ggplot2)
-sjp.setTheme(theme = theme_classic())
+sjp.setTheme(base = theme_classic())
 sjp.frq(efc$e42dep)
 
 # adjust value labels
@@ -254,19 +240,7 @@ sjp.xtab(efc$e42dep, efc$e16sex, vjust = "center", hjust = "center")
 # Create own theme based on classic-theme
 sjp.setTheme(base = theme_classic(), axis.linecolor = "grey50",
              axis.textcolor = "#6699cc")
-sjp.frq(efc$e42dep)
-
-# use theme pre-set
-sjp.setTheme(theme = "538", geom.alpha = 0.8)
-library(ggplot2) # for custom base-line
-sjp.frq(efc$e42dep, geom.color = "#c0392b", expand.grid = TRUE,
-        prnt.plot = FALSE)$plot + 
-  geom_hline(yintercept = 0, size = 0.5, colour = "black")
-
-# mimic R base theme
-sjp.setTheme("rbase")
-sjp.frq(efc$e42dep, ylim = c(0, 400), axis.title = "", 
-        title = get_label(efc$e42dep))}
+sjp.frq(efc$e42dep)}
 
 }
 \references{

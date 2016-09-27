@@ -124,7 +124,7 @@ sjp.corr(mydf, type = "tile", show.legend = TRUE)
 # auto-detection of labels
 # -------------------------------
 # blank theme
-sjp.setTheme(theme = "blank", axis.angle.x = 90)
+set_theme("blank", axis.angle.x = 90)
 sjp.corr(efc[, vars.index])
 
 

@@ -772,7 +772,7 @@ sjc.elbow <- function(data, steps = 15, show.diff = FALSE) {
 #' 
 #' @references \itemize{
 #'              \item Tibshirani R, Walther G, Hastie T (2001) Estimating the number of clusters in a data set via gap statistic. J. R. Statist. Soc. B, 63, Part 2, pp. 411-423
-#'              \item Maechler, M., Rousseeuw, P., Struyf, A., Hubert, M., Hornik, K.(2013). cluster: Cluster Analysis Basics and Extensions. R package version 1.14.4. (\href{http://cran.r-project.org/package=cluster}{web})
+#'              \item Maechler, M., Rousseeuw, P., Struyf, A., Hubert, M., Hornik, K.(2013). cluster: Cluster Analysis Basics and Extensions. R package version 1.14.4. (\href{https://cran.r-project.org/package=cluster}{web})
 #'             }
 #' 
 #' @examples

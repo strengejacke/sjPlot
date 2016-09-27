@@ -598,7 +598,7 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
   # ----------------------------
   # loop through all coefficients
   # ----------------------------
-  for (i in 1:length(fit.term.names)) {
+  for (i in seq_len(length(fit.term.names))) {
     # get values from coefficient
     coef.column <- which(colnames(fit.df) == fit.term.names[i])
     # check if we have found the coefficient
@@ -667,7 +667,7 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
   if (length(mydf.metricpred) > 0) {
     # create mydf for integrated plot
     mydf.ges <- data.frame()
-    for (i in 1:length(mydf.metricpred)) {
+    for (i in seq_len(length(mydf.metricpred))) {
       # "melt" all single mydf's to one
       mydf.ges <- rbind(mydf.ges, mydf.metricpred[[i]])
       # ------------------------------
@@ -750,7 +750,7 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
     if (facet.grid && !is.null(plot.facet)) {
       suppressWarnings(graphics::plot(plot.facet))
     } else {
-      for (i in 1:length(plot.metricpred)) {
+      for (i in seq_len(length(plot.metricpred))) {
         suppressWarnings(graphics::plot(plot.metricpred[[i]]))
       }
     }
@@ -894,7 +894,7 @@ sjp.glm.predy <- function(fit,
     # set colors
     geom.colors <- col_check2(geom.colors, 1)
     # init plot
-    mp <- ggplot(mydf, aes(x = x, y = y, colour = grp)) +
+    mp <- ggplot(mydf, aes_string(x = "x", y = "y", colour = "grp")) +
       labs(x = x.title, y = y.title, title = t.title, colour = NULL)
   } else {
     colnames(mydf) <- c("x", "grp", "y")
@@ -907,7 +907,7 @@ sjp.glm.predy <- function(fit,
     # set colors
     geom.colors <- col_check2(geom.colors, length(legend.labels))
     # init plot
-    mp <- ggplot(mydf, aes(x = x, y = y, colour = grp, group = grp)) +
+    mp <- ggplot(mydf, aes_string(x = "x", y = "y", colour = "grp", group = "grp")) +
       labs(x = x.title, y = y.title, title = t.title, colour = l.title)
   }
   # ------------------------------
@@ -1106,7 +1106,7 @@ sjp.glm.ma <- function(logreg) {
   # ------------------------------------------------------
   # Residual plot two
   # ------------------------------------------------------
-  sjp.setTheme("scatterw")
+  set_theme("scatterw")
   gp <- ggplot(data.frame(x = stats::predict(logreg), 
                           y = stats::residuals(logreg),
                           grp = stats::model.frame(logreg)[[1]]),
@@ -1145,7 +1145,7 @@ sjp.glm.ma <- function(logreg) {
   message("Anova:\n")
   print(stats::anova(logreg, test = "Chisq"))
   # -------------------------------------
-  sjp.setTheme(theme = "forestgrey")
+  set_theme("forest")
   sjp.glm(logreg)
   # return updated model
   invisible(structure(list(class = "sjp.glm.ma",

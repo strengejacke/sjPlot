@@ -37,7 +37,7 @@ The package supports labelled data, i.e. value and variable labels from labelled
 Package: \tab sjPlot\cr
 Type: \tab Package\cr
 Version: \tab 2.1.0\cr
-Date: \tab 2016-10-01\cr
+Date: \tab 2016-09-27\cr
 License: \tab GPL-3\cr
 }
 }

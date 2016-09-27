@@ -79,7 +79,7 @@ utils::globalVariables(c("ordx", "ordy"))
 #' # auto-detection of labels
 #' # -------------------------------
 #' # blank theme
-#' sjp.setTheme(theme = "blank", axis.angle.x = 90)
+#' set_theme("blank", axis.angle.x = 90)
 #' sjp.corr(efc[, vars.index])
 #'
 #'
@@ -223,7 +223,7 @@ sjp.corr <- function(data,
   # that is passed to the ggplot
   # --------------------------------------------------------
   yo <- c()
-  for (i in 1:nrow(corr)) {
+  for (i in seq_len(nrow(corr))) {
     yo <- c(yo, rep(i, nrow(corr)))
   }
   # --------------------------------------------------------
@@ -232,15 +232,15 @@ sjp.corr <- function(data,
   # first, save original matrix for return value
   oricor <- orderedCorr
   orderedCorr <- tidyr::gather(data.frame(orderedCorr), "var", "value", 
-                               1:ncol(orderedCorr), factor_key = TRUE)
+                               seq_len(ncol(orderedCorr)), factor_key = TRUE)
   # orderedCorr <- melt(orderedCorr)
   if (!is.null(cpvalues)) 
     cpvalues <- tidyr::gather(data.frame(cpvalues), "var", "value",
-                              1:ncol(cpvalues), factor_key = TRUE)
+                              seq_len(ncol(cpvalues)), factor_key = TRUE)
   # if (!is.null(cpvalues)) cpvalues <- melt(cpvalues)
   # bind additional information like order for x- and y-axis
   # as well as the size of plotted points
-  orderedCorr <- cbind(orderedCorr, ordx = 1:nrow(corr), ordy = yo, 
+  orderedCorr <- cbind(orderedCorr, ordx = seq_len(nrow(corr)), ordy = yo, 
                        psize = exp(abs(orderedCorr$value)) * geom.size)
   # diagonal circles should be hidden, set their point size to 0
   orderedCorr$psize[which(orderedCorr$value >= 0.999)] <- 0

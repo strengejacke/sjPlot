@@ -3,30 +3,14 @@
 #' 
 #' @description Set global theme options for sjp-functions.
 #' 
-#' @param theme specify pre-set themes (see 'Details'). Valid argument for ggplot default-themes are for instance:
-#'        \itemize{
-#'          \item \code{theme_bw}
-#'          \item \code{theme_classic}
-#'          \item \code{theme_grey}
-#'          \item \code{theme_light}
-#'          \item \code{theme_linedraw}
-#'          \item \code{theme_minimal}
-#'        }
-#'        Furthermore, there are some theme-presets, which can be used:
-#'        \describe{
-#'          \item{\code{"blank"}}{a theme with no grids and axes.}
-#'          \item{\code{"forest"}}{a theme for forest plots, with no grids, in "539" style.}
-#'          \item{\code{"538"}}{a grey-scaled theme inspired by \href{http://fivethirtyeight.com}{538-charts}, adapted from \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{minimaxir.com}.}
-#'          \item{\code{"539"}}{a slight modification of the 538-theme.}
-#'          \item{\code{"scatter"}}{a theme for scatter plots in 539-theme-style.}
-#'          \item{\code{"rbase"}}{an R base graphics like theme; however, only for plots with y-axis-scales.}
-#'          \item{\code{"538w"}, \code{"539w"}, \code{"scatterw"} and \code{"forestw"}}{for themes as described above, however all with white backgrounds.}
-#'        }
+#' @param base base theme where theme is built on. By default, all 
+#'          metrics from \code{theme_gray()} are used. See 'Details'.
 #' @param theme.font base font family for the plot.
 #' @param title.size size of plot title. Default is 1.3.
 #' @param title.color color of plot title. Default is \code{"black"}.
 #' @param title.align alignment of plot title. Must be one of \code{"left"} (default),
 #'          \code{"center"} or \code{"right"}. You may use initial letter only.
+#' @param title.vjust numeric, vertical adjustment for plot title.
 #' @param geom.outline.size size of bar outlines. Default is 0.1. Use
 #'          size of \code{0} to remove geom outline.
 #' @param geom.outline.color color of geom outline. Only applies, if \code{geom.outline.size}
@@ -45,6 +29,8 @@
 #' @param geom.label.angle angle of geom's value and annotation labels
 #' @param axis.title.color color of x- and y-axis title labels
 #' @param axis.title.size size of x- and y-axis title labels
+#' @param axis.title.x.vjust numeric, vertical adjustment of x-axis-title.
+#' @param axis.title.y.vjust numeric, vertical adjustment of y-axis-title.
 #' @param axis.angle.x angle for x-axis labels
 #' @param axis.angle.y angle for y-axis labels
 #' @param axis.angle angle for x- and y-axis labels. If set, overrides both \code{axis.angle.x} and \code{axis.angle.y}
@@ -77,8 +63,12 @@
 #' @param panel.minor.gridcol color of the minor grid lines of the diagram background
 #' @param panel.gridcol color for both minor and major grid lines of the diagram background.
 #'          If set, overrides both \code{panel.major.gridcol} and \code{panel.minor.gridcol}.
+#' @param panel.gridcol.x see \code{panel.gridcol}.
+#' @param panel.gridcol.y see \code{panel.gridcol}.
 #' @param panel.major.linetype line type for major grid lines
 #' @param panel.minor.linetype line type for minor grid lines
+#' @param plot.margins numeric vector of length 4, indicating the top, right, 
+#'          bottom and left margin of the plot region.
 #' @param plot.backcol color of the plot's background
 #' @param plot.bordercol color of whole plot's border (panel border)
 #' @param plot.col color of both plot's region border and background.
@@ -114,22 +104,12 @@
 #' @param legend.item.size size of legend's item (legend key), in centimetres.
 #' @param legend.item.bordercol color of the legend's item-border. Default is \code{"white"}.
 #' @param legend.item.backcol fill color of the legend's item-background. Default is \code{"grey90"}.
-#' @param base base theme where theme is built on. By default, all 
-#'          metrics from \code{theme_gray()} are used. See 'Details'.
 #' 
 #' @return The customized theme object, or \code{NULL}, if a ggplot-theme was used.
 #' 
-#' @details If the \code{theme} argument is one of the valid ggplot-themes, this theme
-#'            will be used and all further arguments will be ignored. If you want to modify
-#'            a ggplot-theme, use \code{base = "theme_xy"}, then further arguments to
-#'            this function will be applied to the theme as well.
-#'            \cr \cr
-#'            If the \code{theme} argument is one of sjPlot-pre-set-themes, you
-#'            can use further arguments for specific customization of the theme.
-#'            \emph{sjPlot-pre-set-themes won't work with the \code{base} argument!}
-#'            The \code{base} argument is only intended to select a ggplot-theme
-#'            as base for further modifications (which can be triggered via the
-#'            various function arguments).
+#' @details The \code{base} argument is intended to select a ggplot-theme
+#'            as base for further modifications (which can be triggered 
+#'            via the various function arguments).
 #' 
 #' @seealso \href{http://www.strengejacke.de/sjPlot/custplot/}{sjPlot manual: customize plot appearance}
 #' 
@@ -154,7 +134,7 @@
 #' # Use classic-theme. you may need to
 #' # load the ggplot2-library.
 #' library(ggplot2)
-#' sjp.setTheme(theme = theme_classic())
+#' sjp.setTheme(base = theme_classic())
 #' sjp.frq(efc$e42dep)
 #' 
 #' # adjust value labels
@@ -167,31 +147,20 @@
 #' # Create own theme based on classic-theme
 #' sjp.setTheme(base = theme_classic(), axis.linecolor = "grey50",
 #'              axis.textcolor = "#6699cc")
-#' sjp.frq(efc$e42dep)
-#'
-#' # use theme pre-set
-#' sjp.setTheme(theme = "538", geom.alpha = 0.8)
-#' library(ggplot2) # for custom base-line
-#' sjp.frq(efc$e42dep, geom.color = "#c0392b", expand.grid = TRUE,
-#'         prnt.plot = FALSE)$plot + 
-#'   geom_hline(yintercept = 0, size = 0.5, colour = "black")
-#' 
-#' # mimic R base theme
-#' sjp.setTheme("rbase")
-#' sjp.frq(efc$e42dep, ylim = c(0, 400), axis.title = "", 
-#'         title = get_label(efc$e42dep))}
+#' sjp.frq(efc$e42dep)}
 #' 
 #' @import ggplot2
 #' @importFrom scales brewer_pal grey_pal
 #' @importFrom dplyr case_when
 #' @export
 sjp.setTheme <- function(# base theme
-                         theme = NULL,
+                         base = theme_grey(),
                          theme.font = NULL,
                          # title defaults
                          title.color = "black",
                          title.size = 1.2,
                          title.align = "left",
+                         title.vjust = NULL,
                          # geom defaults
                          # geom.colors=NULL,
                          geom.outline.color = NULL,
@@ -210,6 +179,8 @@ sjp.setTheme <- function(# base theme
                          # axis titles
                          axis.title.color = "grey30",
                          axis.title.size = 1.1,
+                         axis.title.x.vjust = NULL,
+                         axis.title.y.vjust = NULL,
                          # axis text angle
                          axis.angle.x = 0,
                          axis.angle.y = 0,
@@ -240,12 +211,15 @@ sjp.setTheme <- function(# base theme
                          panel.major.gridcol = NULL,
                          panel.minor.gridcol = NULL,
                          panel.gridcol = NULL,
+                         panel.gridcol.x = NULL,
+                         panel.gridcol.y = NULL,
                          panel.major.linetype = 1,
                          panel.minor.linetype = 1,
                          # plot background color
                          plot.backcol = NULL,
                          plot.bordercol = NULL,
                          plot.col = NULL,
+                         plot.margins = NULL,
                          # legend
                          legend.pos = "right",
                          legend.just = NULL,
@@ -259,107 +233,8 @@ sjp.setTheme <- function(# base theme
                          legend.bordercol = "white",
                          legend.item.size = NULL,
                          legend.item.backcol = "grey90",
-                         legend.item.bordercol = "white",
-                         base = theme_grey()) {
+                         legend.item.bordercol = "white") {
   sjtheme <- NULL
-  title.vjust <- NULL
-  axis.title.x.vjust <- NULL
-  axis.title.y.vjust <- NULL
-  plot.margins <- NULL
-  panel.gridcol.x <- NULL
-  panel.gridcol.y <- NULL
-  if (!is.null(theme) && theme == "forestgrey") theme <- "forest"
-  # ----------------------------------------  
-  # check for blank theme, i.e. if user requires special
-  # theme without any grids or axis lines
-  # ----------------------------------------  
-  if (!is.null(theme) && theme == "blank") {
-    base <- theme_classic()
-    axis.linecolor <- "white"
-    axis.tickscol <- "white"
-    panel.gridcol <- "white"
-    plot.col <- "white"
-  }
-  # ----------------------------------------  
-  # check for r base theme
-  # ----------------------------------------  
-  if (!is.null(theme) && theme == "rbase") {
-    theme <- "forestw"
-    if (missing(axis.tickslen)) axis.tickslen <- .25
-    if (missing(axis.linecolor.y)) {
-      axis.linecolor.y <- "grey30"
-      axis.tickscol <- "grey30"
-    }
-    axis.ticksize.x <- 0
-    axis.linecolor.x <- "white"
-  }
-  # ----------------------------------------  
-  # check for forset theme. based on theme_bw,
-  # this theme has no grids
-  # ----------------------------------------  
-  if (!is.null(theme) && theme == "forest") {
-    base <- theme_bw()
-    panel.gridcol <- "white"
-    if (missing(axis.tickslen)) axis.tickslen <- 0
-  }  
-  # ----------------------------------------  
-  # check for grey-scaled 538 theme.
-  # ----------------------------------------  
-  if (!is.null(theme) && 
-      theme %in% c("538", "538w", "539", "539w", "forest",
-                   "forestw", "scatter", "scatterw")) {
-    base <- theme_bw()
-    g.palette <- scales::brewer_pal(palette = "Greys")(9)
-    col.ind <- dplyr::case_when(
-      theme == "538" ~ 2,
-      theme == "539" ~ 2, 
-      theme == "539w" ~ 1,
-      theme == "538w" ~ 1,
-      theme == "forestw" ~ 1,
-      theme == "forest" ~ 2,
-      TRUE ~ 1
-    )
-    panel.bordercol <- panel.backcol <- panel.col <- g.palette[col.ind]
-    plot.backcol <- plot.bordercol <- plot.col <- g.palette[col.ind]
-    panel.major.gridcol <- dplyr::case_when(
-      theme %in% c("539", "539w", "538", "538w") ~ g.palette[4],
-      TRUE ~ g.palette[col.ind]
-    )
-    panel.minor.gridcol <- g.palette[col.ind]
-    panel.gridcol.x <- dplyr::case_when(
-      theme %in% c("539", "539w", "538", "538w") ~ g.palette[col.ind],
-      TRUE ~ g.palette[4]
-    )
-    if (missing(title.color)) title.color <- g.palette[9]
-    if (missing(axis.tickslen)) axis.tickslen <- 0
-    if (missing(axis.textcolor)) axis.textcolor <- g.palette[6]
-    if (missing(axis.title.color)) axis.title.color <- g.palette[7]
-    if (missing(geom.label.color) || is.null(geom.label.color)) geom.label.color <- g.palette[6]
-    if (missing(legend.title.color)) legend.title.color <- g.palette[7]
-    if (missing(legend.color)) legend.color <- g.palette[6]
-    legend.item.backcol <- legend.item.bordercol <- legend.backgroundcol <- legend.bordercol <- g.palette[col.ind]
-    if (theme %in% c("538", "538w")) {
-      axis.linecolor.x  <- axis.linecolor.y <- axis.linecolor <- g.palette[col.ind]
-    } else {
-      if (theme %in% c("scatter", "scatterw"))
-        axis.linecolor <- g.palette[5]
-      else
-        axis.linecolor <- NULL
-      if (missing(axis.linecolor.y) || is.null(axis.linecolor.y)) axis.linecolor.y <- g.palette[col.ind]
-      if (missing(axis.linecolor.x) || is.null(axis.linecolor.x)) axis.linecolor.x <- g.palette[9]
-    }
-    if (theme %in% c("scatter", "scatterw")) {
-      panel.major.linetype <- panel.minor.linetype <- 2
-      panel.gridcol.y <- g.palette[4]
-    }
-    title.align <- "center"
-    axis.title.x.vjust <- -1
-    axis.title.y.vjust <- 1.5
-    title.vjust <- 1.75
-    plot.margins <- unit(c(1, .5, 1, 0.5), "cm")
-    if (theme %in% c("538", "538w"))
-        message("Theme '538' looks better with panel margins. You may want to use argument 'expand.grid = TRUE' in sjp-functions.")
-  }
   # ----------------------------------------  
   # set defaults for geom label colors
   # ----------------------------------------  
@@ -784,6 +659,7 @@ sj.setGeomColors <- function(plot,
 #' @param legend.titlesize fontsize of legend title
 #' 
 #' @inheritParams sjp.setTheme
+#' @inheritParams set_theme
 #' 
 #' @note This is a convenient function with some default settings that should
 #'         come close to most of the needs for fontsize and scaling in figures
@@ -823,8 +699,8 @@ save_plot <- function(filename,
   # -------------------------
   # catch old theme
   curtheme = ggplot2::theme_get()
-  sjp.setTheme(theme = theme, 
-               geom.label.color = "black",
+  set_theme(theme)
+  sjp.setTheme(geom.label.color = "black",
                axis.title.color = "black",
                axis.textcolor = "black",
                legend.title.color = "black",
