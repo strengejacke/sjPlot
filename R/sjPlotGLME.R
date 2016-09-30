@@ -1472,7 +1472,7 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
           # save predictor name
           pred.name <- fit.term.names[i]
           # do this for each random intercept group
-          for (j in 1:nrow(rand.ef)) {
+          for (j in seq_len(nrow(rand.ef))) {
             # calculate probability for each random effect group
             mydf.vals$y <- fitfam$linkinv(eta = (fi + rand.ef[j, 1] + mydf.vals$xbeta))
             # add to final data frame
@@ -1488,11 +1488,11 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
           # ---------------------------------------------------------
           # prepare base plot
           # ---------------------------------------------------------
-          mp <- ggplot(final.df, aes(x = pred, y = prob, colour = grp))
+          mp <- ggplot(final.df, aes_string(x = "pred", y = "prob", colour = "grp"))
           # special handling for negativ binomial
           if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
             mp <- mp +
-              stat_smooth(method = "glm.b", se = show.ci)
+              stat_smooth(method = "glm.nb", se = show.ci)
           } else {
             mp <- mp +
               stat_smooth(method = "glm",
@@ -1843,7 +1843,7 @@ sjp.lme.rsri <- function(fit,
       # reset data frame
       final.df <- data.frame()
       # slopes for each random intercept
-      for (i in 1:nrow(rand.ef)) {
+      for (i in seq_len(nrow(rand.ef))) {
         # retrieve intercept
         ri <- rand.ef[[2]][i]
         # retrieve random slope
@@ -1891,7 +1891,7 @@ sjp.lme.rsri <- function(fit,
       # ------------------------------
       # prepare base plot
       # ------------------------------
-      gp <- ggplot(final.df, aes(x = x, y = y, colour = grp))
+      gp <- ggplot(final.df, aes_string(x = "x", y = "y", colour = "grp"))
       if (fun == "lm") {
         gp <- gp + geom_line(size = geom.size)
       } else {
@@ -1968,7 +1968,7 @@ sjp.lme.reqq <- function(fit,
                      grp = "1")
   # check size argument
   if (is.null(geom.size)) geom.size <- 3
-  gp <- ggplot(pDf, aes(nQQ, y, colour = grp)) +
+  gp <- ggplot(pDf, aes_string(x = "nQQ", y = "y", colour = "grp")) +
     facet_wrap(~ind, scales = "free") +
     xlab("Standard normal quantiles") +
     ylab("Random effect quantiles") +

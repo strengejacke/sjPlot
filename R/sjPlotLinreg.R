@@ -435,7 +435,7 @@ sjp.lm <- function(fit,
   # -------------------------------------------------
   if (!is.null(remove.estimates)) {
     # get row indices of rows that should be removed
-    remrows <- match(remove.estimates, tmp[["term"]])
+    remrows <- match(remove.estimates, tmp$term)
     # remove rows
     tmp <- dplyr::slice(tmp, seq_len(nrow(tmp))[-remrows])
     # remove labels?
@@ -447,7 +447,7 @@ sjp.lm <- function(fit,
   # -------------------------------------------------
   # init data column for p-values
   # -------------------------------------------------
-  ps <- sprintf("%.*f", digits, tmp[["estimate"]])
+  ps <- sprintf("%.*f", digits, tmp$estimate)
   # if no values should be shown, clear
   # vector now
   if (!show.values) ps <- rep("", length(ps))
@@ -465,13 +465,13 @@ sjp.lm <- function(fit,
   # case no values are drawn, we simply use an empty string.
   # finally, we need the p-values of the coefficients, because the value
   # labels may have different colours according to their significance level
-  betas <- cbind(tmp[, !colnames(tmp) == "group"], p.string = ps, p.value = pv, group = tmp[["group"]])
+  betas <- cbind(tmp[, !colnames(tmp) == "group"], p.string = ps, p.value = pv, group = tmp$group)
   # --------------------------------------------------------
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
   # --------------------------------------------------------
-  if (is.null(axis.labels) || length(axis.labels) < length(betas[["term"]]))
-    axis.labels <- betas[["term"]]
+  if (is.null(axis.labels) || length(axis.labels) < length(betas$term))
+    axis.labels <- betas$term
   # --------------------------------------------------------
   # define sorting criteria. the values on the x-axis are being sorted
   # either by beta-values (sort="beta") or by standardized
@@ -483,27 +483,27 @@ sjp.lm <- function(fit,
   if (sort.est) {
     # order according to group assignment?
     if (!is.null(group.estimates)) {
-      axis.labels <- rev(axis.labels[order(tmp[["group"]], tmp[["estimate"]])])
-      betas <- betas[rev(order(tmp[["group"]], tmp[["estimate"]])), ]
+      axis.labels <- rev(axis.labels[order(tmp$group, tmp$estimate)])
+      betas <- betas[rev(order(tmp$group, tmp$estimate)), ]
     } else {
-      axis.labels <- axis.labels[order(tmp[["estimate"]])]
-      betas <- betas[order(tmp[["estimate"]]), ]
+      axis.labels <- axis.labels[order(tmp$estimate)]
+      betas <- betas[order(tmp$estimate), ]
     }
   } else {
     axis.labels <- rev(axis.labels)
     betas <- betas[nrow(betas):1, ]
   }
   betas <- cbind(xpos = seq_len(nrow(betas)), betas)
-  betas[["p.string"]] <- as.character(betas[["p.string"]])
-  betas[["xpos"]] <- as.factor(betas[["xpos"]])
+  betas$p.string <- as.character(betas$p.string)
+  betas$xpos <- as.factor(betas$xpos)
   # --------------------------------------------------------
   # Calculate axis limits. The range is from lowest lower-CI
   # to highest upper-CI, or a user-defined range (if "axis.lim"
   # is not NULL)
   # --------------------------------------------------------
   if (is.null(axis.lim)) {
-    upper_lim <- (ceiling(10 * max(betas[["conf.high"]]))) / 10
-    lower_lim <- (floor(10 * min(betas[["conf.low"]]))) / 10
+    upper_lim <- (ceiling(10 * max(betas$conf.high))) / 10
+    lower_lim <- (floor(10 * min(betas$conf.low))) / 10
   } else {
     lower_lim <- axis.lim[1]
     upper_lim <- axis.lim[2]
@@ -521,7 +521,7 @@ sjp.lm <- function(fit,
   if (!is.null(group.estimates)) {
     betaplot <- ggplot(betas, aes_string(x = "xpos", y = "estimate", colour = "group"))
     pal.len <- length(unique(group.estimates))
-    legend.labels <- unique(betas[["group"]])
+    legend.labels <- unique(betas$group)
   } else {
     betaplot <- ggplot(betas, aes(x = xpos, y = estimate, colour = (estimate >= 0)))
     pal.len <- 2

@@ -151,13 +151,9 @@ sjp.glm <- function(fit,
                     facet.grid = TRUE,
                     prnt.plot = TRUE,
                     ...) {
-  # --------------------------------------------------------
-  # check arg
-  # --------------------------------------------------------
+  # check args -----
   if (type == "pc" || type == "prob") type <- "slope"
-  # --------------------------------------------------------
-  # check param
-  # --------------------------------------------------------
+
   if (any(class(fit) == "logistf")) {
     # no model summary currently supported for logistf class
     show.summary <- FALSE
@@ -169,13 +165,11 @@ sjp.glm <- function(fit,
       type <- "dots"
     }
   }
-  # -----------------------------------------------------------
+  
   # set default title
-  # -----------------------------------------------------------
   if (is.null(title) && (type != "eff" && type != "slope" && type != "pred")) title <- get_model_response_label(fit)
-  # --------------------------------------------------------
-  # check type
-  # --------------------------------------------------------
+  
+  # check plot-type -----
   if (type == "slope") {
     return(invisible(sjp.glm.slope(fit, title, geom.size, geom.colors, remove.estimates, vars,
                                    ylim = axis.lim, show.ci, facet.grid, prnt.plot)))
@@ -197,37 +191,32 @@ sjp.glm <- function(fit,
   if (type == "vif") {
     return(invisible(sjp.vif(fit)))
   }
-  # ----------------------------
-  # check type param
-  # ----------------------------
+  
+  # check type param -----
   if (type == "or" || type == "glm") type <- "dots"
   if (type != "dots") {
     warning("Invalid `type` argument. Defaulting to `dots`.", call. = F)
     type <- "dots"
   }
-  # ----------------------------
+  
   # check size param
-  # ----------------------------
   if (is.null(geom.size)) geom.size <- 3
-  # --------------------------------------------------------
+  
   # auto-retrieve value labels
-  # --------------------------------------------------------
   if (is.null(axis.labels)) {
     axis.labels <- suppressWarnings(retrieveModelLabels(list(fit), group.pred = FALSE))
   }
-  # ----------------------------
+  
   # check model family, do we have count model?
-  # ----------------------------
   fitfam <- get_glm_family(fit)
-  # --------------------------------------------------------
+  
   # create logical for family
-  # --------------------------------------------------------
   poisson_fam <- fitfam$is_pois
   binom_fam <- fitfam$is_bin
   logit_link <- fitfam$is_logit
-  # ----------------------------
-  # Prepare length of title and labels
-  # ----------------------------
+  
+  # Prepare length of title and labels -----
+  
   # check default label and fit family
   if (!is.null(axis.title) && axis.title == "Odds Ratios") {
     if (poisson_fam)
@@ -242,65 +231,58 @@ sjp.glm <- function(fit,
   if (!is.null(axis.title)) axis.title <- sjmisc::word_wrap(axis.title, wrap.title)
   # check length of x-axis-labels and split longer strings at into new lines
   if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
-  # ----------------------------
-  # get model coefficients
-  # ----------------------------
+  
+  # get model coefficients -----
   model_coef <- exp(stats::coef(fit))
   # create data frame for ggplot
   tmp <- data.frame(cbind(model_coef, exp(stats::confint(fit))))
-  # ----------------------------
+  
   # print p-values in bar charts
-  # ----------------------------
+  
   # retrieve sigificance level of independent variables (p-values)
   if (any(class(fit) == "logistf")) {
     pv <- fit$prob
   } else {
     pv <- stats::coef(summary(fit))[,4]
   }
-  # for better readability, convert p-values to asterisks
-  # with:
-  # p < 0.001 = ***
-  # p < 0.01 = **
-  # p < 0.05 = *
   # retrieve odds ratios
   ov <- model_coef
-  # ----------------------------
+  
   # copy OR-values into data column
-  # ----------------------------
   ps <- rep("", length(ov))
   if (show.values) ps <- sprintf("%.*f", digits, ov)
-  # ----------------------------
+  
   # copy p-values into data column
-  # ----------------------------
   if (show.p) {
-    for (i in 1:length(pv)) {
+    for (i in seq_len(length(pv))) {
+      # for better readability, convert p-values to asterisks
+      # with:
+      # p < 0.001 = ***
+      # p < 0.01 = **
+      # p < 0.05 = *
       ps[i] <- sjmisc::trim(paste(ps[i], get_p_stars(pv[i])))
     }
   }
-  # ----------------------------
+  
   # remove intercept
-  # ----------------------------
   odds <- tmp[-1, ]
-  # ----------------------------
+  
   # retrieve odds ratios, without intercept. now we can order
   # the predictors according to their OR value, while the intercept
   # is always shown on top
-  # ----------------------------
   ov <- model_coef[-1]
-  # ----------------------------
+  
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
-  # ----------------------------
+  
   # auto-retrieving variable labels does not work when we
   # have factors with different levels, which appear as
   # "multiple predictors", but are only one variable
-  # --------------------------------------------------------
   if (is.null(axis.labels) || length(axis.labels) < length(row.names(odds))) {
     axis.labels <- row.names(odds)
   }
-  # ----------------------------
+  
   # bind p-values to data frame
-  # ----------------------------
   odds <- cbind(odds, ps[-1], pv[-1])
   # we repeat the whole procedure for our
   # tmp-data frame as well, since this data frame
@@ -315,9 +297,8 @@ sjp.glm <- function(fit,
   # init grouping variable
   odds$grp.est <- NA
   tmp$grp.est <- NA
-  # -------------------------------------------------
-  # group estimates?
-  # -------------------------------------------------
+  
+  # group estimates? -----
   if (!is.null(group.estimates)) {
     # check for correct length
     if (length(group.estimates) != nrow(odds)) {
@@ -332,9 +313,8 @@ sjp.glm <- function(fit,
     show.legend <- FALSE
     legend.title <- NULL
   }
-  # -------------------------------------------------
-  # remove any estimates from the output?
-  # -------------------------------------------------
+  
+  # remove any estimates from the output? -----
   if (!is.null(remove.estimates)) {
     # get row indices of rows that should be removed
     remrows <- match(remove.estimates, row.names(odds))
@@ -350,10 +330,9 @@ sjp.glm <- function(fit,
     # remove p-values
     ov <- ov[-remrows]
   }
-  # --------------------------------------------------------
+  
   # Calculate axis limits. The range is from lowest lower-CI
   # to highest upper-CI, or a user defined range
-  # --------------------------------------------------------
   if (is.null(axis.lim)) {
     # if intercept is shown, we have to adjuste the axis limits to max/min
     # values of odds ratios AND intercept
@@ -382,15 +361,12 @@ sjp.glm <- function(fit,
     lower_lim <- axis.lim[1]
     upper_lim <- axis.lim[2]
   }
-  # --------------------------------------------------------
-  # Define axis ticks, i.e. at which position we have grid
-  # bars.
-  # --------------------------------------------------------
+  
+  # Define axis ticks
   ticks <- seq(lower_lim, upper_lim, by = grid.breaks)
-  # ----------------------------
-  # create expression with model summarys. used
-  # for plotting in the diagram later
-  # ----------------------------
+  
+  # create expression with model summarys -----
+  # used for plotting in the diagram later
   if (show.summary) {
     psr <- sjstats::r2(fit)
     modsum <- as.character(as.expression(
@@ -411,9 +387,8 @@ sjp.glm <- function(fit,
   } else {
     modsum <- NULL
   }
-  # --------------------------------------------------------
+  
   # Sort odds and labels according to b-coefficients
-  # --------------------------------------------------------
   if (sort.est) {
     if (!is.null(group.estimates)) {
       axis.labels <- rev(axis.labels[order(odds$grp.est, odds$OR)])
@@ -423,20 +398,18 @@ sjp.glm <- function(fit,
       odds <- odds[order(odds$OR), ]
     }
   }
-  # --------------------------------------------------------
+
   # check whether intercept should be shown
-  # --------------------------------------------------------
   if (show.intercept) {
     odds <- data.frame(rbind(tmp[1, ], odds))
     axis.labels <- c("Intercept", axis.labels)
   }
-  odds$vars <- as.factor(1:nrow(odds))
-  # --------------------------------------------------------
+  odds$vars <- as.factor(seq_len(nrow(odds)))
+  
   # Start plot here! First check how to colour geoms
   # (whether grouped or not)
-  # --------------------------------------------------------
   if (!is.null(group.estimates)) {
-    plotHeader <- ggplot(odds, aes(y = OR, x = vars, colour = grp.est))
+    plotHeader <- ggplot(odds, aes_string(y = "OR", x = "vars", colour = "grp.est"))
     pal.len <- length(unique(group.estimates))
     legend.labels <- unique(odds$grp.est)
   } else {
@@ -444,38 +417,28 @@ sjp.glm <- function(fit,
     pal.len <- 2
     legend.labels <- NULL
   }
-  # --------------------------------------------------------
-  # start with dot-plotting here
-  # --------------------------------------------------------
+  
+  # start with dot-plotting here -----
   plotHeader <- plotHeader +
     # Order odds according to beta-coefficients, colour points and lines according to
     # OR-value greater / lower than 1
     geom_point(size = geom.size) +
     # print confidence intervalls (error bars)
-    geom_errorbar(aes(ymin = lower, 
-                      ymax = upper), 
-                  width = 0) +
+    geom_errorbar(aes_string(ymin = "lower", ymax = "upper"), width = 0) +
     # print value labels and p-values
-    geom_text(aes(label = p, y = OR), nudge_x = y.offset)
-  # ------------------------------------------
+    geom_text(aes_string(label = "p", y = "OR"), nudge_x = y.offset)
+  
   # add annotations with model summary
   # here we print out the log-lik-ratio "lambda" and the chi-square significance of the model
   # compared to the null-model
-  # ------------------------------------------
   plotHeader <- print.table.summary(plotHeader, modsum)
   plotHeader <- plotHeader +
     # Intercept-line
-    geom_hline(yintercept = 1,
-               linetype = vline.type,
-               color = vline.color) +
-    labs(title = title,
-         x = NULL,
-         y = axis.title,
-         colour = legend.title) +
+    geom_hline(yintercept = 1, linetype = vline.type, color = vline.color) +
+    labs(title = title, x = NULL, y = axis.title, colour = legend.title) +
     scale_x_discrete(labels = axis.labels)
-  # --------------------------------------------------------
-  # create pretty breaks for log-scale
-  # --------------------------------------------------------
+  
+  # create pretty breaks for log-scale -----
   if (trns.ticks) {
     # since the odds are plotted on a log-scale, the grid bars'
     # distance shrinks with higher odds values. to provide a visual
@@ -493,27 +456,22 @@ sjp.glm <- function(fit,
                     breaks = ticks,
                     labels = ticks)
   }
-  # --------------------------------------------------------
+  
   # flip coordinates?
-  # --------------------------------------------------------
   if (coord.flip) plotHeader <- plotHeader + coord_flip()
-  # ---------------------------------------------------------
-  # set geom colors
-  # ---------------------------------------------------------
+  
+  # set geom colors -----
   plotHeader <- sj.setGeomColors(plotHeader, geom.colors, pal.len, show.legend, legend.labels)
-  # ---------------------------------------------------------
+  
   # Check whether ggplot object should be returned or plotted
-  # ---------------------------------------------------------
   if (prnt.plot) graphics::plot(plotHeader)
-  # -------------------------------------
+  
   # set proper column names
-  # -------------------------------------
   odds <- tibble::rownames_to_column(odds)
   colnames(odds) <- c("term", "estimate", "conf.low", "conf.high", 
                       "p.string", "p.value", "xpos")
-  # -------------------------------------
-  # return results
-  # -------------------------------------
+  
+  # return results -----
   invisible(structure(class = c("sjPlot", "sjpglm"),
                       list(plot = plotHeader,
                            data = odds)))
