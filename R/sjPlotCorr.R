@@ -125,20 +125,7 @@ sjp.corr <- function(data,
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
   if (is.null(axis.labels) && is.data.frame(data)) {
-    axis.labels <- c()
-    # if yes, iterate each variable
-    for (i in seq_len(ncol(data))) {
-      # retrieve variable name attribute
-      vn <- sjmisc::get_label(data[[i]], def.value = colnames(data)[i])
-      # if variable has attribute, add to variableLabel list
-      if (!is.null(vn)) {
-        axis.labels <- c(axis.labels, vn)
-      } else {
-        # else break out of loop
-        axis.labels <- NULL
-        break
-      }
-    }
+    axis.labels <- sjmisc::get_label(data, def.value = colnames(data))
   }
   # ----------------------------
   # set color palette
@@ -173,9 +160,9 @@ sjp.corr <- function(data,
     #---------------------------------------
     computePValues <- function(df) {
       cp <- c()
-      for (i in 1:ncol(df)) {
+      for (i in seq_len(ncol(df))) {
         pv <- c()
-        for (j in 1:ncol(df)) {
+        for (j in seq_len(ncol(df))) {
           test <- suppressWarnings(stats::cor.test(df[[i]], df[[j]], 
                                                    alternative = "two.sided", 
                                                    method = corr.method))
@@ -192,10 +179,6 @@ sjp.corr <- function(data,
   # if not, use variable names from data frame
   # ----------------------------
   if (is.null(axis.labels)) axis.labels <- row.names(corr)
-  # --------------------------------------------------------
-  # unlist labels
-  # --------------------------------------------------------
-  if (!is.null(axis.labels) && is.list(axis.labels)) axis.labels <- unlistlabels(axis.labels)
   # ----------------------------
   # Prepare length of title and labels
   # ----------------------------
@@ -285,14 +268,14 @@ sjp.corr <- function(data,
   # --------------------------------------------------------
   # start with base plot object here
   # --------------------------------------------------------
-  corrPlot <- ggplot(data = orderedCorr, aes(x = ordx, y = ordy, fill = value, colour = value))
+  corrPlot <- ggplot(orderedCorr, aes_string(x = "ordx", y = "ordy", fill = "value", colour = "value"))
   # corrPlot <- ggplot(data=orderedCorr, aes(x=ordx, y=ordy, fill=value))
   # --------------------------------------------------------
   # determine the geom type, either points when "type" is "circles"
   # --------------------------------------------------------
   if (type == "circle") {
     corrPlot <- corrPlot +
-      geom_point(shape = 21, size = orderedCorr$psize, colour = "black")
+      geom_point(shape = 21, colour = "black", size = orderedCorr$size)
   }
   # --------------------------------------------------------
   # or boxes / tiles when "type" is "tile"

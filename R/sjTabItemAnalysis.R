@@ -255,8 +255,8 @@ sjt.itemanalysis <- function(df,
     # In case df had less than 3 columns, NULL is returned
     # -----------------------------------
     if (!is.null(reli)) {
-      alpha <- reli[, 1]
-      itemdis <- reli[, 2]
+      alpha <- reli$alpha.if.deleted
+      itemdis <- reli$item.discr
     } else {
       alpha <- as.factor(NA)
       itemdis <- as.factor(NA)

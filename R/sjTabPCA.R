@@ -301,7 +301,7 @@ sjt.pca <- function(data,
     # clear vector
     cbv <- c()
     # iterate all highest factor loadings of items
-    for (n in 1:length(unique(itemloadings))) {
+    for (n in seq_len(length(unique(itemloadings)))) {
       # calculate cronbach's alpha for those cases that all have the
       # highest loading on the same factor
       cbv <- c(cbv, sjstats::cronb(stats::na.omit(dataframe[, which(itemloadings == n)])))
