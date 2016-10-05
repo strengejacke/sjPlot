@@ -720,56 +720,6 @@ get_model_response_label <- function(fit) {
 }
 
 
-#' @title Adjust y range of ggplot-objects
-#' @name adjust_plot_range
-#'
-#' @description This method adjusts the y-range of a ggplot-object, which is useful when
-#'                value labels are outside the plot region. A modified ggplot-object will
-#'                be returned with adjusted y-range so everything should be visible.
-#'                Note that this function only works on \code{scale_y_continuous}.
-#'
-#' @note This function only works on \code{scale_y_continuous}.
-#'
-#' @references \href{http://blog.ouseful.info/2013/12/03/setting-axis-limits-on-ggplot-charts/}{OUseful.Info (2013)}
-#'
-#' @param gp A ggplot-object. Usually, this will be returned by most of this
-#'          package's plotting functions.
-#' @param upper.mrgn Defines the new margin of the upper y-bound of the plot. This value will
-#'          be multiplied with \code{gp}'s current total y-range. Default is 1.05, which means
-#'          that the upper margin of the new plot's "visible" plot area will be increased
-#'          by 5 percent. (i.e. the y-range is 105 percent of the original range,
-#'          in order to make all object visible).
-#' @return The same ggplot-object, with adjusted y-range, so all graphics and labels
-#'          should be visible.
-#'
-#' @examples
-#' # sample data set
-#' library(sjmisc)
-#' data(efc)
-#' # show frequencies of relationship-variable and
-#' # retrieve plot object
-#' gp <- sjp.frq(efc$e15relat, prnt.plot = FALSE)
-#' # show current plot
-#' plot(gp$plot)
-#' # show adjusted plot
-#' adjust_plot_range(gp$plot)
-#'
-#' @import ggplot2
-#' @export
-adjust_plot_range <- function(gp, upper.mrgn=1.05) {
-  # retrieve y-range of original plot
-  gp <- gp + scale_y_continuous(limits = NULL)
-  # build ggplot object
-  gy <- ggplot_build(gp)
-  # calculate new limit
-  ylo <- abs(gy$panel$ranges[[1]]$y.range[1])
-  yhi <- abs(gy$panel$ranges[[1]]$y.range[2] * upper.mrgn)
-  # change y scale
-  gp <- gp + scale_y_continuous(expand = c(0, 0), limits = c(0, ylo + yhi))
-  # return plot
-  return(gp)
-}
-
 
 #' @importFrom stats reorder
 sjp.vif <- function(fit) {
