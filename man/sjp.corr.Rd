@@ -4,13 +4,12 @@
 \alias{sjp.corr}
 \title{Plot correlation matrix}
 \usage{
-sjp.corr(data, title = NULL, axis.labels = NULL, type = c("circle",
-  "tile"), sort.corr = TRUE, decimals = 3, na.deletion = c("listwise",
-  "pairwise"), corr.method = c("spearman", "pearson", "kendall"),
-  geom.colors = "RdBu", geom.size = 15, wrap.title = 50,
-  wrap.labels = 20, show.legend = FALSE, legend.title = NULL,
-  show.values = TRUE, show.p = TRUE, p.numeric = FALSE,
-  prnt.plot = TRUE)
+sjp.corr(data, title = NULL, axis.labels = NULL, sort.corr = TRUE,
+  decimals = 3, na.deletion = c("listwise", "pairwise"),
+  corr.method = c("spearman", "pearson", "kendall"), geom.colors = "RdBu",
+  wrap.title = 50, wrap.labels = 20, show.legend = FALSE,
+  legend.title = NULL, show.values = TRUE, show.p = TRUE,
+  p.numeric = FALSE, prnt.plot = TRUE)
 }
 \arguments{
 \item{data}{matrix with correlation coefficients as returned by the 
@@ -22,9 +21,6 @@ will be set automatically. If \code{title = ""}, no title is printed.}
 
 \item{axis.labels}{character vector with labels used as axis labels. Optional
 argument, since in most cases, axis labels are set automatically.}
-
-\item{type}{indicates whether the geoms of correlation values should be plotted
-as \code{"circle"} (default) or as \code{"tile"}.}
 
 \item{sort.corr}{logical, if \code{TRUE} (default), the axis labels are sorted
 according to the correlation strength. If \code{FALSE}, axis labels
@@ -44,10 +40,6 @@ abbreviated.}
 May be abbreviated.}
 
 \item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
-
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function). Note that bar and bin widths mostly 
-need smaller values than dot sizes.}
 
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
@@ -97,11 +89,8 @@ If \code{data} is a matrix with correlation coefficients as returned by
 mydf <- data.frame(cbind(runif(10), runif(10), runif(10), 
                          runif(10), runif(10)))
 
-# plot correlation matrix using circles
+# plot correlation matrix
 sjp.corr(mydf)
-
-# plot correlation matrix using square tiles without diagram background
-sjp.corr(mydf, type = "tile")
 
 # -------------------------------
 # Data from the EUROFAMCARE sample dataset
@@ -118,7 +107,7 @@ mydf <- data.frame(efc[, vars.index])
 colnames(mydf) <- varlabs[vars.index]
 
 # show legend
-sjp.corr(mydf, type = "tile", show.legend = TRUE)
+sjp.corr(mydf, show.legend = TRUE)
 
 # -------------------------------
 # auto-detection of labels

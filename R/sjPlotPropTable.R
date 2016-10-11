@@ -200,7 +200,7 @@ sjp.xtab <- function(x,
   # x-position as numeric factor, added later after
   # tidying
   # --------------------------------------------------------
-  bars.xpos <- 1:nrow(mydat$mydat)
+  bars.xpos <- seq_len(nrow(mydat$mydat))
   # --------------------------------------------------------
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
@@ -384,7 +384,7 @@ sjp.xtab <- function(x,
       }
     }
   } else {
-    ggvaluelabels <- geom_text(aes(y = ypos), label = "")
+    ggvaluelabels <- geom_text(aes_string(y = "ypos"), label = "")
   }
   # --------------------------------------------------------
   # Set up grid breaks
@@ -392,7 +392,7 @@ sjp.xtab <- function(x,
   if (is.null(grid.breaks)) {
     gridbreaks <- ggplot2::waiver()
   } else {
-    gridbreaks <- c(seq(lower_lim, upper_lim, by = grid.breaks))
+    gridbreaks <- seq(lower_lim, upper_lim, by = grid.breaks)
   }
   # ----------------------------------
   # construct final plot, base constructor
@@ -420,12 +420,12 @@ sjp.xtab <- function(x,
     # for lines, numeric scale
     mydf$xpos <- sjmisc::to_value(mydf$xpos, keep.labels = F)
     line.stat <- ifelse(isTRUE(smooth.lines), "smooth", "identity")
-    geob <- geom_line(aes(colour = group), size = geom.size,  stat = line.stat)
+    geob <- geom_line(aes_string(colour = "group"), size = geom.size,  stat = line.stat)
   }
   # --------------------------------------------------------
   # start plot here
   # --------------------------------------------------------
-  baseplot <- ggplot(mydf, aes(x = xpos, y = prc, fill = group)) + geob
+  baseplot <- ggplot(mydf, aes_string(x = "xpos", y = "prc", fill = "group")) + geob
   # if we have line diagram, print lines here
   if (type == "line") {
     baseplot <- baseplot + 

@@ -169,7 +169,7 @@ sjp.aov1 <- function(var.dep,
   # print coefficients and p-values in plot
   # ----------------------------
   # init data column for p-values
-  ps <- c(round(means, digits))
+  ps <- round(means, digits)
   # if no values should be shown, clear
   # vector now
   if (!show.values) ps <- rep("", length(ps))
@@ -177,7 +177,7 @@ sjp.aov1 <- function(var.dep,
   # copy p-values into data column
   # --------------------------------------------------------
   if (show.p) {
-    for (i in 1:length(means.p)) {
+    for (i in seq_len(length(means.p))) {
       ps[i] <- sjmisc::trim(paste(ps[i], get_p_stars(means.p[i])))
     }  
   }
@@ -186,9 +186,9 @@ sjp.aov1 <- function(var.dep,
   # or not
   # --------------------------------------------------------
   if (rev.order)
-    catorder <- c(length(means):1)
+    catorder <- length(means):1
   else
-    catorder <- c(1:length(means))
+    catorder <- seq_len(length(means))
   # --------------------------------------------------------
   # create new data.frame, since ggplot requires data.frame as parameter
   # The data frame contains means, CI and p-values
@@ -241,7 +241,7 @@ sjp.aov1 <- function(var.dep,
   if (is.null(grid.breaks))
     ticks <- pretty(c(lower_lim, upper_lim))
   else
-    ticks <- c(seq(lower_lim, upper_lim, by = grid.breaks))
+    ticks <- seq(lower_lim, upper_lim, by = grid.breaks)
   # --------------------------------------------------------
   # Set up plot padding (margins inside diagram)
   # --------------------------------------------------------

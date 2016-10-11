@@ -152,7 +152,7 @@ sjp.scatter <- function(x = NULL,
   } else {
     axisTitle.x <- axis.titles[1]
     if (length(axis.titles) > 1) 
-      axisTitle.y <- axis.titles[2]#
+      axisTitle.y <- axis.titles[2]
     else
       axisTitle.y <- NULL
   }
@@ -243,15 +243,15 @@ sjp.scatter <- function(x = NULL,
       # Tell user that we have too many point labels
       warning("More point labels than data points. Omitting remaining point labels", call. = F)
       # shorten vector
-      dot.labels <- dot.labels[1:nrow(df)]
+      dot.labels <- dot.labels[seq_len(nrow(df))]
     } else if (length(dot.labels) < nrow(df)) {
       # Tell user that we have too less point labels
       warning("Less point labels than data points. Omitting remaining data point", call. = F)
       # shorten data frame
-      df <- df[1:length(dot.labels), ]
+      df <- df[seq_len(length(dot.labels)), ]
     }
     # append labels
-    df$dot.labels <- as.character(dot.labels)
+    df$dot.lab <- as.character(dot.labels)
   }
   # --------------------------------------------------------
   # Prepare and trim legend labels to appropriate size
@@ -276,7 +276,7 @@ sjp.scatter <- function(x = NULL,
   # --------------------------------------------------------
   # Plot scatter plot
   # --------------------------------------------------------
-  scatter <- ggplot(df,aes(x, y, colour = grp))
+  scatter <- ggplot(df, aes_string(x = "x", y = "y", colour = "grp"))
   # --------------------------------------------------------
   # Add marginal rug
   # --------------------------------------------------------
@@ -296,8 +296,7 @@ sjp.scatter <- function(x = NULL,
     # do we have text?
     if (!is.null(dot.labels))
       scatter <- scatter + 
-        ggrepel::geom_text_repel(aes(label = dot.labels), size = label.size,
-                                 position = "jitter")
+        ggrepel::geom_text_repel(aes_string(label = "dot.lab"), size = label.size, position = "jitter")
   } else {
     if (emph.dots) {
       # indicate overlapping dots by point size
@@ -309,7 +308,7 @@ sjp.scatter <- function(x = NULL,
     # do we have text?
     if (!is.null(dot.labels)) {
       scatter <- scatter + 
-        ggrepel::geom_text_repel(aes(label = dot.labels), size = label.size)
+        ggrepel::geom_text_repel(aes_string(label = "dot.lab"), size = label.size)
       
     }
   }
@@ -317,7 +316,7 @@ sjp.scatter <- function(x = NULL,
   # Show fitted lines
   # --------------------------------------------------------
   if (fit.line.grps) scatter <- scatter + 
-    stat_smooth(data = df, aes(colour = grp), method = fitmethod, se = show.ci)
+    stat_smooth(data = df, aes_string(colour = "grp"), method = fitmethod, se = show.ci)
   if (fit.line) scatter <- scatter + 
     stat_smooth(method = fitmethod, se = show.ci, colour = "black")
   # --------------------------------------------------------

@@ -118,11 +118,11 @@ sjp.pca <- function(data,
   # --------------------------------------------------------
   if (is.null(axis.labels) && is.data.frame(data)) {
     # if yes, iterate each variable
-    for (i in 1:ncol(data)) {
+    for (i in seq_len(ncol(data))) {
       # retrieve variable name attribute and
       # if variable has attribute, add to variableLabel list
       axis.labels <- c(axis.labels,
-                       sjmisc::get_label(data[[i]], def.value = colnames(data)[i]))
+                       unname(sjmisc::get_label(data[[i]], def.value = colnames(data)[i])))
     }
   }
   # ----------------------------
@@ -186,7 +186,7 @@ sjp.pca <- function(data,
   pcadata.varim <- varimaxrota(pcadata, pcadata.kaiser)
   # pcadata.varim = varimax(loadings(pcadata))
   # create data frame with factor loadings
-  df <- as.data.frame(pcadata.varim$loadings[, 1:ncol(pcadata.varim$loadings)])
+  df <- as.data.frame(pcadata.varim$loadings[, seq_len(ncol(pcadata.varim$loadings))])
   # df <- as.data.frame(pcadata.varim$rotmat[, 1:pcadata.kaiser])
   # ----------------------------
   # check if user defined labels have been supplied
@@ -210,7 +210,7 @@ sjp.pca <- function(data,
     removers <- c()
     # iterate each row of the data frame. each row represents
     # one item with its factor loadings
-    for (i in 1:nrow(dataframe)) {
+    for (i in seq_len(nrow(dataframe))) {
       # get factor loadings for each item
       rowval <- as.numeric(abs(df[i, ]))
       # retrieve highest loading
@@ -250,7 +250,7 @@ sjp.pca <- function(data,
     # clear vector
     cbv <- c()
     # iterate all highest factor loadings of items
-    for (n in 1:length(unique(itemloadings))) {
+    for (n in seq_len(length(unique(itemloadings)))) {
       # calculate cronbach's alpha for those cases that all have the
       # highest loading on the same factor
       cbv <- as.data.frame(rbind(cbv, cbind(nr = n, sjstats::cronb(stats::na.omit(dataframe[, which(itemloadings == n)])))))
@@ -286,11 +286,11 @@ sjp.pca <- function(data,
   # considered as "equally" is defined via fctr.load.tlrn
   removableItems <- getRemovableItems(df)
   # rename columns, so we have numbers on x axis
-  names(df) <- 1:ncol(df)
+  names(df) <- seq_len(ncol(df))
   # convert to long data
-  df <- tidyr::gather(df, "xpos", "value", 1:ncol(df), factor_key = TRUE)  
+  df <- tidyr::gather(df, "xpos", "value", seq_len(ncol(df)), factor_key = TRUE)  
   # we need new columns for y-positions and point sizes
-  df <- cbind(df, ypos = 1:nrow(pcadata.varim$loadings), psize = exp(abs(df$value)) * geom.size)
+  df <- cbind(df, ypos = seq_len(nrow(pcadata.varim$loadings)), psize = exp(abs(df$value)) * geom.size)
   if (!show.values) {
     valueLabels <- ""
   } else {

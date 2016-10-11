@@ -44,7 +44,7 @@ get_lm_data <- function(fit) {
     depvar.label <- sjstats::resp_var(fit)
   }
   # get variable label label
-  depvar.label <- sjmisc::get_label(resp, depvar.label)
+  depvar.label <- unname(sjmisc::get_label(x = resp, def.value = depvar.label))
   return(list(matrix = fit_x, resp.label = depvar.label, resp = resp))
 }
 
@@ -484,7 +484,7 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
   # retrieve fitted models
   # ------------------------
   # go through fitted models
-  for (k in 1:length(models)) {
+  for (k in seq_len(length(models))) {
     # get model
     fit <- models[[k]]
     # copy model frame
@@ -716,7 +716,7 @@ unlistlabels <- function(lab) {
 
 get_model_response_label <- function(fit) {
   m_f <- stats::model.frame(fit)
-  sjmisc::get_label(m_f[[1]], def.value = colnames(m_f)[1])
+  unname(sjmisc::get_label(m_f[[1]], def.value = colnames(m_f)[1]))
 }
 
 
