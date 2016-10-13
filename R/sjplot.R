@@ -19,18 +19,30 @@
 #'       that should be plotted, and, second, to name further arguments that are
 #'       used in the subsequent plotting functions. Refer to the online-help of
 #'       supported plotting-functions to see valid arguments.
+#'       \cr \cr
+#'       Following functions can already be used in a pipe-workflow, because their
+#'       first argument is a data frame: \code{\link{sjp.chi2}}, \code{\link{sjp.corr}},
+#'       \code{\link{sjp.likert}}, \code{\link{sjp.pca}}, \code{\link{sjp.stackfrq}},
+#'       \code{\link{sjt.corr}}, \code{\link{sjt.df}}, \code{\link{sjt.frq}},
+#'       \code{\link{sjt.itemanalysis}}, \code{\link{sjt.pca}}, 
+#'       \code{\link{sjt.stackfrq}}, \code{\link{view_df}}.
 #' 
 #' @details Following \code{fun}-values are currently supported:
 #'          \describe{
-#'             \item{\code{"frq"}}{calls \code{\link{sjp.frq}}. If \code{.data} 
-#'             has more than one variable, a plot for each variable in \code{.data} 
-#'             is plotted.
+#'             \item{\code{"frq"}}{calls \code{\link{sjp.frq}} or \code{\link{sjt.frq}}.
+#'             If \code{.data} has more than one variable, a plot for each 
+#'             variable in \code{.data} is plotted.
 #'             }
 #'             \item{\code{"grpfrq"}}{calls \code{\link{sjp.grpfrq}}. The first 
 #'             two variables in \code{.data} are used (and required) to create the plot.
 #'             }
-#'             \item{\code{"xtab"}}{calls \code{\link{sjp.xtab}}. The first 
-#'             two variables in \code{.data} are used (and required) to create the plot.
+#'             \item{\code{"xtab"}}{calls \code{\link{sjp.xtab}} or \code{\link{sjt.xtab}}.
+#'             The first two variables in \code{.data} are used (and required) 
+#'             to create the plot or table.
+#'             }
+#'             \item{\code{"grpmean"}}{calls \code{\link{sjt.grpmean}}.
+#'             The first two variables in \code{.data} are used (and required) 
+#'             to create the table.
 #'             }
 #'             \item{\code{"gpt"}}{calls \code{\link{sjp.gpt}}. The first 
 #'             three variables in \code{.data} are used (and required) to create the plot.
@@ -39,6 +51,9 @@
 #'             two variables in \code{.data} are used (and required) to create the plot;
 #'             if \code{.data} also has a third variable, this is used as grouping-
 #'             variable in \code{sjp.scatter}.
+#'             }
+#'             \item{\code{"aov1"}}{calls \code{\link{sjp.aov1}}. The first 
+#'             two variables in \code{.data} are used (and required) to create the plot.
 #'             }
 #'          }
 #' 
@@ -65,7 +80,7 @@
 #'
 #' @importFrom sjmisc is_empty
 #' @export
-sjplot <- function(.data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter")) {
+sjplot <- function(.data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter", "aov1")) {
   # check if x is a data frame
   if (!is.data.frame(.data)) stop("`x` must be a data frame.", call. = F)
   
@@ -91,6 +106,8 @@ sjplot <- function(.data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter"
       sjp.gpt(x[[1]], x[[2]], x[[3]])
     } else if (fun  == "scatter") {
       sjp.scatter(x[[1]], x[[2]], x[[3]])
+    } else if (fun  == "aov1") {
+      sjp.aov1(x[[1]], x[[2]])
     }
   } else {
     if (fun == "frq") {
@@ -103,6 +120,8 @@ sjplot <- function(.data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter"
       do.call(sjp.gpt, args = c(list(x = x[[1]], y = x[[2]], groups = x[[3]]), args))
     } else if (fun  == "scatter") {
       do.call(sjp.scatter, args = c(list(x = x[[1]], y = x[[2]], grp = x[[3]]), args))
+    } else if (fun  == "aov1") {
+      do.call(sjp.aov1, args = c(list(var.dep = x[[1]], var.grp = x[[2]]), args))
     }
   }
 }
@@ -110,7 +129,7 @@ sjplot <- function(.data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter"
 
 #' @rdname sjplot
 #' @export
-sjtab <- function(.data, ..., fun = c("frq", "xtab")) {
+sjtab <- function(.data, ..., fun = c("frq", "xtab", "grpmean")) {
   # check if x is a data frame
   if (!is.data.frame(.data)) stop("`x` must be a data frame.", call. = F)
   
@@ -130,12 +149,16 @@ sjtab <- function(.data, ..., fun = c("frq", "xtab")) {
       sjt.frq(x)
     } else if (fun  == "xtab") {
       sjt.xtab(x[[1]], x[[2]])
+    } else if (fun  == "grpmean") {
+      sjt.grpmean(x[[1]], x[[2]])
     }
   } else {
     if (fun == "frq") {
       do.call(sjt.frq, args = c(list(data = x), args))
     } else if (fun  == "xtab") {
       do.call(sjp.xtab, args = c(list(var.row = x[[1]], var.col = x[[2]]), args))
+    } else if (fun  == "grpmean") {
+      do.call(sjt.grpmean, args = c(list(var.cnt = x[[1]], var.grp = x[[2]]), args))
     }
   }
 }
