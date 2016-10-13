@@ -1,6 +1,19 @@
+# sjPlot 2.2.0
+
+## General
+
+* Some fixes needed to be compatible with the latest ggplot2-update.
+
+## New functions
+
+* `sjplot`, a pipe-friendly wrapper for some of this package's plotting-functions.
+* `sjtab`, a pipe-friendly wrapper for some of this package's table-functions.
+
+
 # sjPlot 2.1.0
 
 ## New functions
+
 * `sjp.resid`, an experimental function to plot and analyze residuals from linear models.
 * `plot_grid` to plot a list of ggplot-objects as arranged grid in a single plot.
 * `set_theme` to use a preset of default themes for plots from the sjp-functions.

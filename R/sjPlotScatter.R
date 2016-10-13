@@ -166,8 +166,8 @@ sjp.scatter <- function(x = NULL,
     warning("Only one of `jitter.dots` and `emph.dots` may be `TRUE`. Defaulting `jitter.dots` to `FALSE`.")
     jitter.dots <- FALSE
   }
-  if (is.null(x)) x <- c(1:length(y))
-  if (is.null(y)) y <- c(1:length(x))
+  if (is.null(x)) x <- seq_len(length(y))
+  if (is.null(y)) y <- seq_len(length(x))
   # disable auto-jitter?
   if (emph.dots) auto.jitter <- FALSE
   # --------------------------------------------------------

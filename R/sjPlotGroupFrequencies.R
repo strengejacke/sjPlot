@@ -780,7 +780,7 @@ sjp.grpfrq <- function(var.cnt,
   # ----------------------------------
   # Plot integrated bar chart here
   # ----------------------------------
-  if (prnt.plot) graphics::plot(baseplot)
+  if (prnt.plot) suppressWarnings(graphics::plot(baseplot))
   # -------------------------------------
   # return results
   # -------------------------------------

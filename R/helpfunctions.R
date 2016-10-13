@@ -3,6 +3,36 @@ utils::globalVariables(c("Freq", "vif"))
 
 # Help-functions
 
+
+# evaluates arguments
+get_dot_data <- function(data, dots) {
+  # any dots?
+  if (length(dots) > 0)
+    # get variable names
+    vars <- dot_names(dots)
+  else
+    vars <- NULL
+  
+  # check if data is a data frame
+  if (is.data.frame(data)) {
+    # get valid variable names
+    vars <- vars[vars %in% colnames(data)]
+    vars.is.empty <- suppressWarnings(sjmisc::is_empty(vars))
+    if (!is.null(vars) && !vars.is.empty)
+      # select variables, if any
+      x <- data[, vars, drop = FALSE]
+    else
+      # else return complete data frame
+      x <- data
+  }
+    
+  x
+}
+
+# return names of objects passed as ellipses argument
+dot_names <- function(dots) unname(unlist(lapply(dots, as.character)))
+
+
 # function to create pretty breaks
 # for log-scales
 #' @importFrom grDevices axisTicks
