@@ -12,8 +12,8 @@
 #'          arguments passed down to the \pkg{sjPlot}-functions. See 'Examples'.
 #' @param fun Plotting function. Refers to the function name of \pkg{sjPlot}-functions.
 #'          See 'Details' and 'Examples'.
-#' 
-#' @return NULL.
+#'          
+#' @return An object of class \code{ggplot}.
 #' 
 #' @note The \code{...}-argument is used, first, to specify the variables from \code{.data}
 #'       that should be plotted, and, second, to name further arguments that are
@@ -77,6 +77,11 @@
 #'   select(e42dep, c172code, c161sex) %>% 
 #'   sjplot(fun = "scatter")
 #'
+#' # frequencies, as plot grid
+#' efc %>% 
+#'   select(e42dep, c172code, e16sex, c161sex) %>% 
+#'   sjplot() %>% 
+#'   plot_grid()
 #'
 #' @importFrom sjmisc is_empty
 #' @export
@@ -84,9 +89,9 @@ sjplot <- function(.data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter"
   # check if x is a data frame
   if (!is.data.frame(.data)) stop("`x` must be a data frame.", call. = F)
   
-  # match fun-arguments
+  # match arguments
   fun <- match.arg(fun)
-  
+
   # evaluate arguments, generate data
   x <- get_dot_data(.data, match.call(expand.dots = FALSE)$`...`)
   
@@ -94,35 +99,53 @@ sjplot <- function(.data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter"
   args <- match.call(expand.dots = FALSE)$`...`
   args <- args[names(args) != ""]
   
+  p <- NULL
+  pl <- NULL
+  
   # choose plottype, and call plot-function with or w/o additional arguments
   if (sjmisc::is_empty(args)) {
+    pl <- list()
     if (fun == "frq") {
-      for (i in seq_len(ncol(x))) sjp.frq(x[[i]])
+      for (i in seq_len(ncol(x))) {
+        pl[[length(pl) + 1]] <- sjp.frq(x[[i]], prnt.plot = F)$plot
+      }
     } else if (fun  == "grpfrq") {
-      sjp.grpfrq(x[[1]], x[[2]])
+      p <- sjp.grpfrq(x[[1]], x[[2]], prnt.plot = F)$plot
     } else if (fun  == "xtab") {
-      sjp.xtab(x[[1]], x[[2]])
+      p <- sjp.xtab(x[[1]], x[[2]], prnt.plot = F)$plot
     } else if (fun  == "gpt") {
-      sjp.gpt(x[[1]], x[[2]], x[[3]])
+      p <- sjp.gpt(x[[1]], x[[2]], x[[3]], prnt.plot = F)$plot
     } else if (fun  == "scatter") {
-      sjp.scatter(x[[1]], x[[2]], x[[3]])
+      p <- sjp.scatter(x[[1]], x[[2]], x[[3]], prnt.plot = F)$plot
     } else if (fun  == "aov1") {
-      sjp.aov1(x[[1]], x[[2]])
+      p <- sjp.aov1(x[[1]], x[[2]], prnt.plot = F)$plot
     }
   } else {
     if (fun == "frq") {
-      for (i in seq_len(ncol(x))) do.call(sjp.frq, args = c(list(var.cnt = x[[i]]), args))
+      pl <- list()
+      for (i in seq_len(ncol(x))) {
+        pl[[length(pl) + 1]] <- do.call(sjp.frq, args = c(list(var.cnt = x[[i]], prnt.plot = F), args))$plot
+      }
     } else if (fun  == "grpfrq") {
-      do.call(sjp.grpfrq, args = c(list(var.cnt = x[[1]], var.grp = x[[2]]), args))
+      p <- do.call(sjp.grpfrq, args = c(list(var.cnt = x[[1]], var.grp = x[[2]], prnt.plot = F), args))$plot
     } else if (fun  == "xtab") {
-      do.call(sjp.xtab, args = c(list(x = x[[1]], grp = x[[2]]), args))
+      p <- do.call(sjp.xtab, args = c(list(x = x[[1]], grp = x[[2]], prnt.plot = F), args))$plot
     } else if (fun  == "gpt") {
-      do.call(sjp.gpt, args = c(list(x = x[[1]], y = x[[2]], groups = x[[3]]), args))
+      p <- do.call(sjp.gpt, args = c(list(x = x[[1]], y = x[[2]], groups = x[[3]], prnt.plot = F), args))$plot
     } else if (fun  == "scatter") {
-      do.call(sjp.scatter, args = c(list(x = x[[1]], y = x[[2]], grp = x[[3]]), args))
+      p <- do.call(sjp.scatter, args = c(list(x = x[[1]], y = x[[2]], grp = x[[3]], prnt.plot = F), args))$plot
     } else if (fun  == "aov1") {
-      do.call(sjp.aov1, args = c(list(var.dep = x[[1]], var.grp = x[[2]]), args))
+      p <- do.call(sjp.aov1, args = c(list(var.dep = x[[1]], var.grp = x[[2]], prnt.plot = F), args))$plot
     }
+  }
+  
+  # print all plots
+  if (!is.null(pl)) {
+    for (p in pl) suppressWarnings(graphics::plot(p))
+    invisible(pl)
+  } else {
+    suppressWarnings(graphics::plot(p))
+    invisible(p)
   }
 }
 

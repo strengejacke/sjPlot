@@ -19,7 +19,7 @@ arguments passed down to the \pkg{sjPlot}-functions. See 'Examples'.}
 See 'Details' and 'Examples'.}
 }
 \value{
-NULL.
+An object of class \code{ggplot}.
 }
 \description{
 This function has a pipe-friendly argument-structure, with the
@@ -92,6 +92,11 @@ efc \%>\%
   select(e42dep, c172code, c161sex) \%>\% 
   sjplot(fun = "scatter")
 
+# frequencies, as plot grid
+efc \%>\% 
+  select(e42dep, c172code, e16sex, c161sex) \%>\% 
+  sjplot() \%>\% 
+  plot_grid()
 
 }
 
