@@ -47,7 +47,7 @@
 #'          in the graph.
 #'
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-#'           was used for setting up the ggplot-object (\code{df}).
+#'           was used for setting up the ggplot-object (\code{data}).
 #'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lm
@@ -362,5 +362,5 @@ sjp.scatter <- function(x = NULL,
   # -------------------------------------
   invisible(structure(class = "sjpscatter",
                       list(plot = scatter,
-                           df = df)))
+                           data = df)))
 }

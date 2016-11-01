@@ -57,7 +57,7 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' @inheritParams sjp.glmer
 #' 
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-#'           was used for setting up the ggplot-object (\code{mydf}).
+#'           was used for setting up the ggplot-object (\code{data}).
 #' 
 #' @examples
 #' # boxplot
@@ -561,5 +561,5 @@ sjp.frq <- function(var.cnt,
   # -------------------------------------
   invisible(structure(class = "sjpfrq",
                       list(plot = baseplot,
-                           mydf = mydat)))
+                           data = mydat)))
 }

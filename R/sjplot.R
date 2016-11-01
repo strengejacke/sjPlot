@@ -104,8 +104,8 @@ sjplot <- function(.data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter"
   
   # choose plottype, and call plot-function with or w/o additional arguments
   if (sjmisc::is_empty(args)) {
-    pl <- list()
     if (fun == "frq") {
+      pl <- list()
       for (i in seq_len(ncol(x))) {
         pl[[length(pl) + 1]] <- sjp.frq(x[[i]], prnt.plot = F)$plot
       }

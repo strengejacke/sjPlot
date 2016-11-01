@@ -1,3 +1,9 @@
+# sjPlot 2.1.2
+
+## Bug fixes
+
+* Fixed bug in `sjplot` that caused figures not being plotted in certain situations.
+
 # sjPlot 2.1.1
 
 ## General

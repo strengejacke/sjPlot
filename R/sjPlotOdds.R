@@ -643,7 +643,8 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
       # special handling for negativ binomial
       if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
         mp <- mp +
-          stat_smooth(method = "glm.nb",
+          stat_smooth(method = "glm", 
+                      method.args = list(family = "poisson"), 
                       se = show.ci,
                       size = geom.size,
                       colour = geom.colors)
@@ -676,7 +677,8 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
       # special handling for negativ binomial
       if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
         mp <- mp +
-          stat_smooth(method = "glm.nb", 
+          stat_smooth(method = "glm", 
+                      method.args = list(family = "poisson"), 
                       se = show.ci,
                       size = geom.size,
                       colour = geom.colors)

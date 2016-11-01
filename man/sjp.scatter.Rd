@@ -111,7 +111,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 }
 \value{
 (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-          was used for setting up the ggplot-object (\code{df}).
+          was used for setting up the ggplot-object (\code{data}).
 }
 \description{
 Display scatter plot of two variables. Adding a grouping variable to
