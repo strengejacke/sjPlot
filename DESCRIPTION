@@ -30,7 +30,7 @@ Imports:
     nlme,
     psych,
     scales,
-    sjmisc (>= 2.0.0),
+    sjmisc (>= 2.0.1),
     sjstats (>= 0.5.0),
     tibble (>= 1.2.0),
     tidyr (>= 0.6.0)

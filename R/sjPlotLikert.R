@@ -207,12 +207,8 @@ sjp.likert <- function(items,
                                         include.values = NULL, include.non.labelled = T)
   }
   if (is.null(axis.labels)) {
-    axis.labels <- c()
-    # if yes, iterate each variable
-    for (i in 1:ncol(items)) {
-      # retrieve variable name attribute
-      axis.labels <- c(axis.labels, sjmisc::get_label(items[[i]], def.value = colnames(items)[i]))
-    }
+    # retrieve variable name attribute
+    axis.labels <- unname(sjmisc::get_label(items, def.value = colnames(items)))
   }  
   # --------------------------------------------------------
   # unname labels, if necessary, so we have a simple character vector
@@ -231,7 +227,7 @@ sjp.likert <- function(items,
   if (is.null(catcount)) {
     catcount <- c()
     # iterate all items
-    for (i in 1:ncol(items)) {
+    for (i in seq_len(ncol(items))) {
       # add new unique item values to catcount, so catcount
       # finally contains all unique values of items
       catcount <- unique(c(catcount, unique(stats::na.omit(items[[i]]))))
@@ -272,7 +268,7 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   # set legend labels, if we have none yet
   # --------------------------------------------------------
-  if (is.null(legend.labels)) legend.labels <- c(1:(catcount + adding))
+  if (is.null(legend.labels)) legend.labels <- seq_len(catcount + adding)
   # --------------------------------------------------------
   # prepare data frames
   # --------------------------------------------------------
@@ -283,7 +279,7 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   # loop through all likert-items
   # --------------------------------------------------------
-  for (i in 1:ncol(items)) {
+  for (i in seq_len(ncol(items))) {
     # --------------------------------------------------------
     # convert to numeric values
     # --------------------------------------------------------
@@ -316,7 +312,7 @@ sjp.likert <- function(items,
     # that category, replace it with NA
     # --------------------------------------------------------
     if (is.null(cat.neutral) && max(items[[i]], na.rm = T) > catcount)
-      items[[i]] <- sjmisc::set_na(items[[i]], catcount + 1)
+      items[[i]] <- sjmisc::set_na(items[[i]], catcount + 1, as.tag = F)
     # --------------------------------------------------------
     # create proportional frequency table
     # --------------------------------------------------------
@@ -357,7 +353,7 @@ sjp.likert <- function(items,
   # axis labels
   # --------------------------------------------------------
   if (show.n) {
-    for (i in 1:length(axis.labels)) {
+    for (i in seq_len(length(axis.labels))) {
       axis.labels[i] <- paste(axis.labels[i], 
                                sprintf(" (n=%i)", length(stats::na.omit(items[[i]]))), 
                                sep = "")
@@ -377,13 +373,13 @@ sjp.likert <- function(items,
   # sort items
   # --------------------------------------------------------
   if (is.null(sort.frq))
-    sort.freq <- c(1:ncol(freq.df))
+    sort.freq <- seq_len(ncol(freq.df))
   else if (sort.frq == "pos")
     sort.freq <- order(sums.lower)
   else if (sort.frq == "neg")
     sort.freq <- order(sums.upper)
   else
-    sort.freq <- c(1:ncol(freq.df))
+    sort.freq <- seq_len(ncol(freq.df))
   # --------------------------------------------------------
   # reverse item order?
   # --------------------------------------------------------
@@ -410,7 +406,7 @@ sjp.likert <- function(items,
     mydat.pos <- as.data.frame(rbind(mydat.pos, 
                                      cbind(x = i, 
                                            grp = lower.half, 
-                                           frq = c(fr[lower.half]),
+                                           frq = fr[lower.half],
                                            ypos = cumsum(fr[lower.half]) - 0.5 * (fr[lower.half]),
                                            ypos2 = sum(fr[lower.half]))))
     # --------------------------------------------------------
@@ -424,7 +420,7 @@ sjp.likert <- function(items,
     mydat.neg <- as.data.frame(rbind(mydat.neg, 
                                      cbind(x = i, 
                                            grp = upper.half, 
-                                           frq = c(-fr[upper.half]),
+                                           frq = -fr[upper.half],
                                            ypos = -1 * (cumsum(fr[upper.half]) - 0.5 * (fr[upper.half])),
                                            ypos2 = -1 * sum(fr[upper.half]))))
     # summed up (cumulative) percs
@@ -447,7 +443,7 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   # x-positions for cumulative percentages
   # --------------------------------------------------------
-  xpos.sum.dk <- xpos.sum.neg <- xpos.sum.pos <- c(1:length(ypos.sum.pos))
+  xpos.sum.dk <- xpos.sum.neg <- xpos.sum.pos <- seq_len(length(ypos.sum.pos))
   # --------------------------------------------------------
   # grp as factor
   # --------------------------------------------------------
@@ -509,12 +505,12 @@ sjp.likert <- function(items,
   gp <- ggplot() +
     # positive value bars
     geom_bar(data = mydat.pos, 
-             aes(x = x, y = frq, fill = grp), 
+             aes_string(x = "x", y = "frq", fill = "grp"), 
              width = geom.size, 
              stat = "identity") +
     # negative value bars
     geom_bar(data = mydat.neg, 
-             aes(x = x, y = frq, fill = grp), 
+             aes_string(x = "x", y = "frq", fill = "grp"), 
              width = geom.size, 
              stat = "identity")
   # --------------------------------------------------------
@@ -588,7 +584,7 @@ sjp.likert <- function(items,
     # scale x is continuous to make plotting the bar annotation
     # for neutral category work...
     # ---------------------------------------------------------
-    scale_x_continuous(breaks = c(1:ncol(freq.df)), labels = axis.labels) +
+    scale_x_continuous(breaks = seq_len(ncol(freq.df)), labels = axis.labels) +
     scale_y_continuous(breaks = gridbreaks, limits = c(-grid.range, grid.range), expand = expgrid, labels = gridlabs) +
     geom_hline(yintercept = 0, color = intercept.line.color)
   # ---------------------------------------------------------
@@ -608,7 +604,7 @@ sjp.likert <- function(items,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (prnt.plot) graphics::plot(gp)
+  if (prnt.plot) suppressWarnings(graphics::plot(gp))
   # -------------------------------------
   # return results
   # -------------------------------------
