@@ -312,7 +312,7 @@ sjp.likert <- function(items,
     # that category, replace it with NA
     # --------------------------------------------------------
     if (is.null(cat.neutral) && max(items[[i]], na.rm = T) > catcount)
-      items[[i]] <- sjmisc::set_na(items[[i]], catcount + 1, as.tag = F)
+      items[[i]] <- sjmisc::set_na(items[[i]], value = catcount + 1, as.tag = F)
     # --------------------------------------------------------
     # create proportional frequency table
     # --------------------------------------------------------

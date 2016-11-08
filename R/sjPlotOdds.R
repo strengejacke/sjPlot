@@ -568,7 +568,7 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
       # melt variable
       mydf.vals <- data.frame(values = vals.unique)
       # convert factor to numeric
-      if (is.factor(mydf.vals$values)) mydf.vals$values <- sjmisc::to_value(mydf.vals$values, 0, keep.labels = F)
+      if (is.factor(mydf.vals$values)) mydf.vals$values <- sjmisc::to_value(mydf.vals$values, start.at = 0, keep.labels = F)
       # check if we have a factor, then we may have reference levels
       if (is.factor(values)) {
         # add reference level to coefficient name

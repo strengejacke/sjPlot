@@ -1452,7 +1452,7 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
         # melt variable
         mydf.vals <- data.frame(value = vals.unique)
         # convert factor to numeric
-        if (is.factor(mydf.vals$value)) mydf.vals$value <- sjmisc::to_value(mydf.vals$value, 0, keep.labels = F)
+        if (is.factor(mydf.vals$value)) mydf.vals$value <- sjmisc::to_value(mydf.vals$value, start.at = 0, keep.labels = F)
         # retrieve names of coefficients
         coef.names <- names(lme4::fixef(fit))
         # check if we have a factor, then we may have reference levels
