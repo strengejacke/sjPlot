@@ -2071,6 +2071,7 @@ sjp.lme.fecor <- function(fit,
 #' @importFrom stats family model.frame na.omit
 #' @importFrom dplyr filter
 #' @importFrom sjstats pred_vars
+#' @importFrom sjmisc is_empty
 sjp.glm.eff <- function(fit,
                         title,
                         geom.size,
@@ -2088,6 +2089,15 @@ sjp.glm.eff <- function(fit,
   if (!requireNamespace("effects", quietly = TRUE)) {
     stop("Package `effects` needed for this function to work. Please install it.", call. = FALSE)
   }
+  
+  # additional arguments for 'effects()'-function?
+  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  # check whether we have a "transformation" argument
+  t.add <- which(names(add.args) == "transformation")
+  # if we have a "transformation" argument, and it's NULL, 
+  # no transformation of scale
+  no.transform <- !sjmisc::is_empty(t.add) && is.null(eval(add.args[[t.add]]))
+  
   # ---------------------------------------
   # init plot list
   # ---------------------------------------
@@ -2120,16 +2130,26 @@ sjp.glm.eff <- function(fit,
   # Retrieve response for automatic title
   # ------------------------
   if (fun == "glm") {
-    # retrieve response vector
+    # check for family, and set appropriate scale-title
+    # if we have transformation through effects-package,
+    # check if data is on original or transformed scale
     if (binom_fam)
-      axisTitle.y <- paste("Predicted probabilities for", 
-                           sjmisc::get_label(resp, def.value = resp.col))
+      ysc <- dplyr::if_else(isTRUE(no.transform), 
+                            true = "log-odds", 
+                            false = "probabilities", 
+                            missing = "values")
     else if (poisson_fam)
-      axisTitle.y <- paste("Predicted incidents for", 
-                           sjmisc::get_label(resp, def.value = resp.col))
+      ysc <- dplyr::if_else(isTRUE(no.transform), 
+                            true = "log-mean", 
+                            false = "incidents", 
+                            missing = "values")
     else
-      axisTitle.y <- paste("Predicted values for", 
-                           sjmisc::get_label(resp, def.value = resp.col))
+      ysc <- "values"
+    
+    # set y-axis-title
+    axisTitle.y <- paste(sprintf("Predicted %s for", ysc),
+                         sjmisc::get_label(resp, def.value = resp.col))
+    
   } else {
     axisTitle.y <- sjmisc::get_label(resp, def.value = resp.col)
   }
@@ -2194,7 +2214,7 @@ sjp.glm.eff <- function(fit,
       # build data frame, with raw values
       # predicted response and lower/upper ci
       # ------------------------
-      if (fun == "glm") {
+      if (fun == "glm" && !no.transform) {
         tmp <- data.frame(x = eff[[i]]$x[[t]],
                           y = eff[[i]]$transformation$inverse(eta = eff[[i]]$fit),
                           lower = eff[[i]]$transformation$inverse(eta = eff[[i]]$lower),
@@ -2278,7 +2298,7 @@ sjp.glm.eff <- function(fit,
     # ------------------------
     # for logistic regression, use percentage scale
     # ------------------------
-    if (fun == "glm" && binom_fam)
+    if (fun == "glm" && binom_fam && !no.transform)
       eff.plot <- eff.plot + scale_y_continuous(labels = scales::percent)
     # do we have axis limits?
     if (!is.null(ylim)) {

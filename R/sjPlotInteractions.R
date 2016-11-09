@@ -872,6 +872,7 @@ sjp.int <- function(fit,
   
   
 #' @importFrom stats na.omit model.frame
+#' @importFrom dplyr if_else
 sjp.eff.int <- function(fit,
                         int.term = NULL,
                         int.plot.index = NULL,
@@ -914,6 +915,15 @@ sjp.eff.int <- function(fit,
   if (is.null(grid.breaks)) gridbreaks.x <- gridbreaks.y <- ggplot2::waiver()
   # init default
   binom_fam <- FALSE
+  
+  # additional arguments for 'effects()'-function?
+  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  # check whether we have a "transformation" argument
+  t.add <- which(names(add.args) == "transformation")
+  # if we have a "transformation" argument, and it's NULL, 
+  # no transformation of scale
+  no.transform <- !sjmisc::is_empty(t.add) && is.null(eval(add.args[[t.add]]))
+
   # ------------------------
   # multiple purpose of show.ci parameter. if logical,
   # sets default CI to 0.95, else show.ci also may be
@@ -1157,12 +1167,20 @@ sjp.eff.int <- function(fit,
       # Label on y-axis is fixed
       # --------------------------------------------------------
       # for logistic reg.
-      if (binom_fam)
-        y_title <- sprintf("Predicted probabilities for %s", yaxisname)
-      else if (poisson_fam)
-        y_title <- sprintf("Predicted incidents for %s", yaxisname)
-      else
-        y_title <- sprintf("Predicted values for %s", yaxisname)
+      if (binom_fam) {
+        ysc <- dplyr::if_else(isTRUE(no.transform), 
+                              true = "log-odds", 
+                              false = "probabilities", 
+                              missing = "values")
+      } else if (poisson_fam) {
+        ysc <- dplyr::if_else(isTRUE(no.transform), 
+                              true = "log-mean", 
+                              false = "incidents", 
+                              missing = "values")
+      } else {
+        ysc <- "values"
+      }
+      y_title <- sprintf("Predicted %s for %s", ysc, yaxisname)
       # -----------------------------------------------------------
       # retrieve lowest and highest x and y position to determine
       # the scale limits
@@ -1290,7 +1308,7 @@ sjp.eff.int <- function(fit,
     # ------------------------------------------------------------
     # start plot
     # ------------------------------------------------------------
-    baseplot <- ggplot(intdf, aes(x = x, y = y, colour = grp))
+    baseplot <- ggplot(intdf, aes_string(x = "x", y = "y", colour = "grp"))
     # ------------------------------------------------------------
     # confidence interval?
     # ------------------------------------------------------------
@@ -1305,7 +1323,7 @@ sjp.eff.int <- function(fit,
         # -------------------------------------------------
         if (jitter.ci) {
           baseplot <- baseplot +
-            geom_errorbar(aes(ymin = conf.low, ymax = conf.high, colour = grp),
+            geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high", colour = "grp"),
                           width = 0, show.legend = FALSE, position = position_dodge(.2)) +
             geom_point(position = position_dodge(.2)) +
             geom_line(size = geom.size, position = position_dodge(.2))
@@ -1314,7 +1332,7 @@ sjp.eff.int <- function(fit,
           upperLim.x <- upperLim.x + .2
         } else {
           baseplot <- baseplot +
-            geom_errorbar(aes(ymin = conf.low, ymax = conf.high, colour = grp),
+            geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high", colour = "grp"),
                           width = 0, show.legend = FALSE) +
             geom_point() +
             geom_line(size = geom.size)
@@ -1325,7 +1343,7 @@ sjp.eff.int <- function(fit,
         # confidence region instead of error bars 
         # -------------------------------------------------
         baseplot <- baseplot +
-          geom_ribbon(aes(ymin = conf.low, ymax = conf.high, colour = NULL, fill = grp),
+          geom_ribbon(aes_string(ymin = "conf.low", ymax = "conf.high", colour = NULL, fill = "grp"),
                       alpha = fill.alpha, show.legend = FALSE) +
           geom_line(size = geom.size)
       }
@@ -1366,7 +1384,7 @@ sjp.eff.int <- function(fit,
     # for logistic regression, use 
     # 0 to 1 scale limits and percentage scale
     # ------------------------
-    if (binom_fam) {
+    if (binom_fam && !no.transform) {
       baseplot <- baseplot +
         scale_y_continuous(limits = c(lowerLim.y, upperLim.y), 
                            breaks = gridbreaks.y,

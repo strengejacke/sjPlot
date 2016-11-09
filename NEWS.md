@@ -1,5 +1,9 @@
 # sjPlot 2.1.2
 
+## General
+
+* Effect-plots from `sjp.int()`, `sjp.glm()` and `sjp.glmer()` now support the `transformation`-argument from the __effects__-package. For example, when calling `sjp.glm(fit, type = "eff", transformation = NULL)`, predictions are on their original scale (y-scale) and the title for the y-scale is changed accordingly.
+
 ## Bug fixes
 
 * Fixed bug in `sjplot` that caused figures not being plotted in certain situations.
