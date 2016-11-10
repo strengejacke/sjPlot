@@ -102,7 +102,7 @@
 #' # load efc sample data
 #' data(efc)
 #' # dichtomozize service usage by "service usage yes/no"
-#' efc$services <- sjmisc::dicho(efc$tot_sc_e, 0, as.num = TRUE)
+#' efc$services <- sjmisc::dicho(efc$tot_sc_e, dich.by = 0, as.num = TRUE)
 #' # fit 3 models with different link-functions
 #' fit1 <- glm(services ~ neg_c_7 + c161sex + e42dep,
 #'             data = efc, family = binomial(link = "logit"))
@@ -134,7 +134,7 @@
 #' # load efc sample data
 #' data(efc)
 #' # dichtomozize service usage by "service usage yes/no"
-#' efc$services <- sjmisc::dicho(efc$tot_sc_e, 0, as.num = TRUE)
+#' efc$services <- sjmisc::dicho(efc$tot_sc_e, dich.by = 0, as.num = TRUE)
 #' # make dependency categorical
 #' efc$e42dep <- to_factor(efc$e42dep)
 #' # fit model with "grouped" predictor
