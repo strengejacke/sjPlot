@@ -638,7 +638,7 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
         y.limits <- ylim
       }
       # create single plots for each numeric predictor
-      mp <- ggplot(mydf.metricpred[[i]], aes(x = values, y = y)) +
+      mp <- ggplot(mydf.metricpred[[i]], aes_string(x = "values", y = "y")) +
         labs(x = axisLabels.mp[i], y = y.title, title = title)
       # special handling for negativ binomial
       if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
@@ -672,7 +672,7 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
       } else {
         y.limits <- ylim
       }
-      mp <- ggplot(mydf.ges, aes(x = values, y = y)) +
+      mp <- ggplot(mydf.ges, aes_string(x = "values", y = "y")) +
         labs(x = NULL, y = y.title, title = title)
       # special handling for negativ binomial
       if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {

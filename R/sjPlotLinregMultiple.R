@@ -170,6 +170,8 @@ sjp.lmm <- function(...,
         dplyr::select_("-std.error")
       # no intercept for std
       show.intercept <- FALSE
+      # remove intercept for merMod
+      if (is_merMod(fit)) betas <- betas[-1, ]
       # add "std." to title?
       if (axis.title == "Estimates") axis.title <- "Std. Estimates"
     } else {
@@ -194,7 +196,7 @@ sjp.lmm <- function(...,
     # retrieve sigificance level of independent variables (p-values)
     pv <- sjstats::get_model_pval(fit, p.kr = p.kr)$p.value
     # remove intercept from df, if necessary
-    if (type == "lm" && !show.intercept) pv <- pv[-1]
+    if (!show.intercept) pv <- pv[-1]
     # for better readability, convert p-values to asterisks
     # with:
     # p < 0.001 = ***
