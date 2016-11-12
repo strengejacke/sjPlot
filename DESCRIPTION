@@ -25,13 +25,13 @@ Imports:
     broom (>= 0.4.1),
     dplyr (>= 0.5.0),
     effects,
-    ggplot2 (>= 2.1.0),
+    ggplot2 (>= 2.2.0),
     lme4 (>= 1.1-10),
     nlme,
     psych,
     scales,
     sjmisc (>= 2.0.1),
-    sjstats (>= 0.5.0),
+    sjstats (>= 0.6.0),
     tibble (>= 1.2.0),
     tidyr (>= 0.6.0)
 Suggests:

@@ -12,6 +12,7 @@
 
 * Fixed bug in `sjplot()` that caused figures not being plotted in certain situations.
 * Fixed bug in `sjp.lmm()`, which caused an error for plotting multiple mixed models when Intercept was hidden.
+* Fixed bug in `sjp.lmm()`, which caused an error for `type = "std"` or `type = "std2"`.
 
 # sjPlot 2.1.1
 
