@@ -4,9 +4,14 @@
 
 * Effect-plots from `sjp.int()`, `sjp.glm()` and `sjp.glmer()` now support the `transformation`-argument from the __effects__-package. For example, when calling `sjp.glm(fit, type = "eff", transformation = NULL)`, predictions are on their original scale (y-scale) and the title for the y-scale is changed accordingly.
 
+## Changes to functions
+
+* Restored order of categories in `sjp.stackfrq()`, which were reversed by the last ggplot2-update, where `position_stack()` now sort the stacking order to match grouping order.
+
 ## Bug fixes
 
-* Fixed bug in `sjplot` that caused figures not being plotted in certain situations.
+* Fixed bug in `sjplot()` that caused figures not being plotted in certain situations.
+* Fixed bug in `sjp.lmm()`, which caused an error for plotting multiple mixed models when Intercept was hidden.
 
 # sjPlot 2.1.1
 

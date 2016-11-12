@@ -139,7 +139,7 @@ sjp.stackfrq <- function(items,
   if (is.null(axis.labels)) {
     axis.labels <- c()
     # if yes, iterate each variable
-    for (i in 1:ncol(items)) {
+    for (i in seq_len(ncol(items))) {
       # retrieve variable name attribute
       axis.labels <- c(axis.labels, sjmisc::get_label(items[[i]], def.value = colnames(items)[i]))
     }
@@ -170,7 +170,7 @@ sjp.stackfrq <- function(items,
   # axis labels
   # --------------------------------------------------------
   if (show.n) {
-    for (i in 1:length(axis.labels)) {
+    for (i in seq_len(length(axis.labels))) {
       axis.labels[i] <- paste(axis.labels[i], 
                               sprintf(" (n=%i)", length(stats::na.omit(items[[i]]))), 
                               sep = "")
@@ -197,7 +197,7 @@ sjp.stackfrq <- function(items,
     diff <- ifelse(min(items, na.rm = TRUE) == 0, 1, 0)
   }
   # iterate item-list
-  for (i in 1:ncol(items)) {
+  for (i in seq_len(ncol(items))) {
     # get each single items
     variable <- items[[i]]
     # -----------------------------------------------
@@ -225,7 +225,7 @@ sjp.stackfrq <- function(items,
     # create new data frame. We now have a data frame with all
     # variable categories abd their related percentages, including
     # zero counts, but no(!) missings!
-    mydf <- data.frame(grp = i, cat = 1:countlen, prc)
+    mydf <- data.frame(grp = i, cat = seq_len(countlen), prc)
     # now, append data frames
     mydat <- data.frame(rbind(mydat, mydf))
   }
@@ -266,7 +266,7 @@ sjp.stackfrq <- function(items,
       facord <- order(mydat$prc[which(mydat$cat == countlen)])
     }
     # create dummy vectors from 1 to itemlength
-    dummy1 <- dummy2 <- c(1:length(facord))
+    dummy1 <- dummy2 <- seq_len(length(facord))
     # facords holds the ordered item indices! we now need to
     # change the original item-index with its ordered position index.
     # example:
@@ -285,7 +285,7 @@ sjp.stackfrq <- function(items,
     # now we have the order of either lowest to highest counts of first
     # or last category of "items". We now need to repeat these values as 
     # often as we have answer categories
-    orderedrow <- unlist(tapply(dummy2, 1:length(dummy2), function(x) rep(x, countlen)))
+    orderedrow <- unlist(tapply(dummy2, seq_len(length(dummy2)), function(x) rep(x, countlen)))
     # replace old grp-order by new order
     mydat$grp <- as.factor(orderedrow)
     # reorder axis labels as well
@@ -333,7 +333,7 @@ sjp.stackfrq <- function(items,
   }  
   baseplot <- baseplot +
     # plot bar chart
-    geom_bar(stat = "identity", position = "stack", width = geom.size)
+    geom_bar(stat = "identity", position = position_stack(reverse = TRUE), width = geom.size)
   # -----------------
   # show/hide percentage values on x axis
   # ----------------------------

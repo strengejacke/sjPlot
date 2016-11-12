@@ -150,7 +150,7 @@ sjp.glmm <- function(...,
   # ----------------------------
   # iterate all fitted models
   # ----------------------------
-  for (fitcnt in 1:fitlength) {
+  for (fitcnt in seq_len(fitlength)) {
     # retrieve fitted model
     fit <- input_list[[fitcnt]]
     # ----------------------------

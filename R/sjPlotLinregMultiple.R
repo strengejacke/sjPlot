@@ -180,9 +180,9 @@ sjp.lmm <- function(...,
         # copy estimates to data frame
         betas <- data.frame(stats::coef(fit), stats::confint(fit))
         betas <- tibble::rownames_to_column(betas, var = "term")
-        # show intercept?
-        if (!show.intercept) betas <- betas[-1, ]
       }
+      # show intercept?
+      if (!show.intercept) betas <- betas[-1, ]
     }
     # ----------------------------
     # give proper column names
