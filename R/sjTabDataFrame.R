@@ -193,7 +193,7 @@ sjt.df <- function(mydf,
   css.firsttablerow <- "border-bottom:1px solid black;"
   css.firsttablecol <- ""
   css.leftalign <- "text-align:left;"
-  css.centertalign <- "text-align:center;"
+  css.centeralign <- "text-align:center;"
   css.comment <- "font-style:italic; border-top:double black; text-align:right;"
   if (show.cmmn.row && repeat.header) css.comment <- "font-style:italic; text-align:right;"
   # ------------------------
@@ -219,7 +219,7 @@ sjt.df <- function(mydf,
                         tag.table, css.table, tag.caption, css.caption,
                         tag.thead, css.thead, tag.tdata, css.tdata, tag.arc, css.arc,
                         tag.lasttablerow, css.lasttablerow, tag.firsttablerow, css.firsttablerow,
-                        tag.leftalign, css.leftalign, tag.centertalign, css.centertalign,
+                        tag.leftalign, css.leftalign, tag.centertalign, css.centeralign,
                         tag.firsttablecol, css.firsttablecol, tag.comment, css.comment)
   toWrite <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n%s\n</head>\n<body>\n", encoding, page.style)
   # -------------------------------------
@@ -335,7 +335,7 @@ sjt.df <- function(mydf,
   knitr <- gsub(tag.firsttablerow, css.firsttablerow, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.firsttablecol, css.firsttablecol, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.leftalign, css.leftalign, knitr, fixed = TRUE, useBytes = TRUE)
-  knitr <- gsub(tag.centertalign, css.centertalign, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.centertalign, css.centeralign, knitr, fixed = TRUE, useBytes = TRUE)
   # -------------------------------------
   # remove spaces?
   # -------------------------------------
