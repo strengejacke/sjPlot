@@ -19,8 +19,8 @@ utils::globalVariables(c("predicted", "residuals"))
 #' @param show.pred logical, if \code{TRUE}, predicted values are plotted.
 #' @inheritParams sjp.lm
 #'
-#' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) 
-#'           as well as the data frame that
+#' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}),
+#'           the residual pattern (\code{pattern}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{mydf}).
 #'
 #' @note The actual (observed) values have a coloured fill, while the predicted
@@ -37,6 +37,9 @@ utils::globalVariables(c("predicted", "residuals"))
 #' 
 #' # remove some independent variables from output
 #' sjp.resid(fit, remove.estimates = c("e17age", "e42dep"))
+#' 
+#' # show pattern
+#' sjp.resid(fit, remove.estimates = c("e17age", "e42dep"))$pattern
 #'
 #' @export
 sjp.resid <- function(fit, geom.size = 2, remove.estimates = NULL, show.lines = TRUE, 
@@ -87,10 +90,18 @@ sjp.resid <- function(fit, geom.size = 2, remove.estimates = NULL, show.lines = 
   if (show.pred) res.plot <- res.plot + 
     geom_point(aes_string(y = "predicted"), shape = 1, size = geom.size)
   
+  # residual plot
   res.plot <- res.plot +
     facet_grid(~grp, scales = "free") +
     scale_fill_gradient2(low = "#003399", mid = "white", high = "#993300") +
     guides(color = FALSE, fill = FALSE) +
+    labs(x = NULL, y = sjmisc::get_label(mydat[[1]], def.value = rv))
+  
+  # residual plot, showing pattern
+  pattern.plot <- ggplot(mydat, aes_string(x = "x", y = "residuals")) + 
+    geom_hline(yintercept = 0, colour = "white", size = 2) + 
+    geom_line() +
+    facet_grid(~grp, scales = "free") +
     labs(x = NULL, y = sjmisc::get_label(mydat[[1]], def.value = rv))
   
   # Check whether ggplot object should be returned or plotted
@@ -99,5 +110,6 @@ sjp.resid <- function(fit, geom.size = 2, remove.estimates = NULL, show.lines = 
   # return results
   invisible(structure(class = "sjpresid",
                       list(plot = res.plot,
+                           pattern = pattern.plot,
                            mydf = mydat)))
 }

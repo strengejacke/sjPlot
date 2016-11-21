@@ -35,8 +35,8 @@ interval or region is added to the plot.}
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
-(Insisibily) returns the ggplot-object with the complete plot (\code{plot}) 
-          as well as the data frame that
+(Insisibily) returns the ggplot-object with the complete plot (\code{plot}),
+          the residual pattern (\code{pattern}) as well as the data frame that
           was used for setting up the ggplot-object (\code{mydf}).
 }
 \description{
@@ -61,6 +61,9 @@ sjp.resid(fit)
 
 # remove some independent variables from output
 sjp.resid(fit, remove.estimates = c("e17age", "e42dep"))
+
+# show pattern
+sjp.resid(fit, remove.estimates = c("e17age", "e42dep"))$pattern
 
 }
 

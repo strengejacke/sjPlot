@@ -1438,7 +1438,7 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
     # ----------------------------
     # loop through all coefficients
     # ----------------------------
-    for (i in 1:length(fit.term.names)) {
+    for (i in seq_len(length(fit.term.names))) {
       # init lists with all additional data frames and plots
       final.df <- data.frame()
       # get values from coefficient
