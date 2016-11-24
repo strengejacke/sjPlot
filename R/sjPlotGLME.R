@@ -809,9 +809,9 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     # plot marginal effects of fixed terms
     # ---------------------------------------
-    return(invisible(sjp.glm.eff(fit, title, geom.size, remove.estimates, vars, 
-                                 show.ci, ylim = axis.lim, facet.grid,
-                                 fun = fun, prnt.plot, ...)))
+    return(invisible(sjp.glm.eff(fit, title, axis.title, geom.size, 
+                                 remove.estimates, vars, show.ci, ylim = axis.lim, 
+                                 facet.grid, fun = fun, prnt.plot, ...)))
   } else if (type == "ri.slope" || type == "eff.ri") {
     # ---------------------------------------
     # plot slopes for each fixex coefficient
@@ -2074,6 +2074,7 @@ sjp.lme.fecor <- function(fit,
 #' @importFrom sjmisc is_empty
 sjp.glm.eff <- function(fit,
                         title,
+                        axis.title,
                         geom.size,
                         remove.estimates,
                         vars,
@@ -2129,32 +2130,35 @@ sjp.glm.eff <- function(fit,
   # ------------------------
   # Retrieve response for automatic title
   # ------------------------
-  if (fun == "glm") {
-    # check for family, and set appropriate scale-title
-    # if we have transformation through effects-package,
-    # check if data is on original or transformed scale
-    if (binom_fam)
-      ysc <- dplyr::if_else(isTRUE(no.transform), 
-                            true = "log-odds", 
-                            false = "probabilities", 
-                            missing = "values")
-    else if (poisson_fam)
-      ysc <- dplyr::if_else(isTRUE(no.transform), 
-                            true = "log-mean", 
-                            false = "incidents", 
-                            missing = "values")
-    else
-      ysc <- "values"
-    
-    # set y-axis-title
-    axisTitle.y <- paste(sprintf("Predicted %s for", ysc),
-                         sjmisc::get_label(resp, def.value = resp.col))
-    
-  } else {
-    axisTitle.y <- sjmisc::get_label(resp, def.value = resp.col)
+  if (!is.null(axis.title) && sjmisc::is_empty(axis.title)) {
+    axisTitle.y <- axis.title
   }
-  # which title?
-  if (is.null(title)) title <- "Marginal effects of model predictors"
+  else {
+    if (fun == "glm") {
+      # check for family, and set appropriate scale-title
+      # if we have transformation through effects-package,
+      # check if data is on original or transformed scale
+      if (binom_fam)
+        ysc <- dplyr::if_else(isTRUE(no.transform), 
+                              true = "log-odds", 
+                              false = "probabilities", 
+                              missing = "values")
+      else if (poisson_fam)
+        ysc <- dplyr::if_else(isTRUE(no.transform), 
+                              true = "log-mean", 
+                              false = "incidents", 
+                              missing = "values")
+      else
+        ysc <- "values"
+      
+      # set y-axis-title
+      axisTitle.y <- paste(sprintf("Predicted %s for", ysc),
+                           sjmisc::get_label(resp, def.value = resp.col))
+      
+    } else {
+      axisTitle.y <- sjmisc::get_label(resp, def.value = resp.col)
+    }
+  }
   # ------------------------
   # remove setimates?
   # ------------------------
@@ -2290,7 +2294,12 @@ sjp.glm.eff <- function(fit,
   if (facet.grid) {
     eff.plot <- ggplot(mydat, aes_string(x = "x", y = "y"))
     # show confidence region?
-    if (show.ci) eff.plot <- eff.plot + geom_ribbon(aes_string(ymin = "lower", ymax = "upper"), alpha = .15)
+    if (show.ci) eff.plot <- eff.plot + 
+        geom_ribbon(aes_string(ymin = "lower", ymax = "upper"), alpha = .15)
+    
+    # which title?
+    if (is.null(title)) title <- "Marginal effects of model predictors"
+
     eff.plot <- eff.plot +
       geom_line(size = geom.size) +
       facet_wrap(~var.label, ncol = round(sqrt(grp.cnt)), scales = "free_x") +
@@ -2327,9 +2336,18 @@ sjp.glm.eff <- function(fit,
         else
           eff.plot <- eff.plot + geom_ribbon(aes_string(ymin = "lower", ymax = "upper"), alpha = .15)
       }
+      
+      # do we have a title?
+      if (!is.null(title) && length(title) >= i)
+        ptitle <- title[i]
+      else if (!is.null(title) && sjmisc::is_empty(title))
+        ptitle <- ""
+      else
+        ptitle <- sprintf("Marginal effects of %s", mydat_sub$var.label[1])
+                          
       eff.plot <- eff.plot +
         geom_line(size = geom.size) +
-        labs(x = NULL, y = axisTitle.y, title = sprintf("Marginal effects of %s", mydat_sub$var.label[1]))
+        labs(x = NULL, y = axisTitle.y, title = ptitle)
       # ------------------------
       # for logistic regression, use percentage scale
       # ------------------------

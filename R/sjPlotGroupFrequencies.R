@@ -47,6 +47,8 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'          as an arranged grid with \code{\link[gridExtra]{grid.arrange}}.
 #' @param title character vector, used as plot title. Depending on plot type and function,
 #'          will be set automatically. If \code{title = ""}, no title is printed.
+#'          For effect-plots, may also be a character vector of length > 1,
+#'          to define titles for each sub-plot or facet.
 #' @param legend.title character vector, used as title for the plot legend.
 #' @param axis.labels character vector with labels used as axis labels. Optional
 #'          argument, since in most cases, axis labels are set automatically.

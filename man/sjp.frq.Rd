@@ -23,7 +23,9 @@ sjp.frq(var.cnt, title = "", weight.by = NULL, title.wtd.suffix = NULL,
 \item{var.cnt}{vector of counts, for which frequencies or means will be plotted or printed.}
 
 \item{title}{character vector, used as plot title. Depending on plot type and function,
-will be set automatically. If \code{title = ""}, no title is printed.}
+will be set automatically. If \code{title = ""}, no title is printed.
+For effect-plots, may also be a character vector of length > 1,
+to define titles for each sub-plot or facet.}
 
 \item{weight.by}{weight factor that will be applied to weight all cases.
 Must be a vector of same length as the input vector. Default is 

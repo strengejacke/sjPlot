@@ -57,7 +57,9 @@ specified, if \code{type = "poly"}, in order to plot marginal effects
 for polynomial terms. See 'Examples'.}
 
 \item{title}{character vector, used as plot title. Depending on plot type and function,
-will be set automatically. If \code{title = ""}, no title is printed.}
+will be set automatically. If \code{title = ""}, no title is printed.
+For effect-plots, may also be a character vector of length > 1,
+to define titles for each sub-plot or facet.}
 
 \item{legend.title}{character vector, used as title for the plot legend. Note that
 only some plot types have legends (e.g. \code{type = "pred"} or when

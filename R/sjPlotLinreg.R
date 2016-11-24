@@ -345,7 +345,7 @@ sjp.lm <- function(fit,
                                  show.ci, prnt.plot)))
   }
   if (type == "eff") {
-    return(invisible(sjp.glm.eff(fit, title, geom.size, remove.estimates, vars,
+    return(invisible(sjp.glm.eff(fit, title, axis.title, geom.size, remove.estimates, vars,
                                  show.ci, ylim = axis.lim, facet.grid,
                                  fun = "lm", prnt.plot, ...)))
   }

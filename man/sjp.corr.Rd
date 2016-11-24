@@ -17,7 +17,9 @@ sjp.corr(data, title = NULL, axis.labels = NULL, sort.corr = TRUE,
 correlations between columns should be computed.}
 
 \item{title}{character vector, used as plot title. Depending on plot type and function,
-will be set automatically. If \code{title = ""}, no title is printed.}
+will be set automatically. If \code{title = ""}, no title is printed.
+For effect-plots, may also be a character vector of length > 1,
+to define titles for each sub-plot or facet.}
 
 \item{axis.labels}{character vector with labels used as axis labels. Optional
 argument, since in most cases, axis labels are set automatically.}

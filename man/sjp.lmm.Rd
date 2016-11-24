@@ -33,7 +33,9 @@ which estimates should be removed from the plot.
 is \code{NULL}, i.e. all estimates are printed.}
 
 \item{title}{character vector, used as plot title. Depending on plot type and function,
-will be set automatically. If \code{title = ""}, no title is printed.}
+will be set automatically. If \code{title = ""}, no title is printed.
+For effect-plots, may also be a character vector of length > 1,
+to define titles for each sub-plot or facet.}
 
 \item{depvar.labels}{character vector with labels of dependent 
 variables of all fitted models. See 'Examples'.}

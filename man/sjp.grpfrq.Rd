@@ -49,7 +49,9 @@ is subgrouped into \code{intr.var}'s categories. Only applies when
 \code{type = "boxplot"} or \code{type = "violin"}.}
 
 \item{title}{character vector, used as plot title. Depending on plot type and function,
-will be set automatically. If \code{title = ""}, no title is printed.}
+will be set automatically. If \code{title = ""}, no title is printed.
+For effect-plots, may also be a character vector of length > 1,
+to define titles for each sub-plot or facet.}
 
 \item{title.wtd.suffix}{suffix (as string) for the title, if \code{weight.by} is specified,
 e.g. \code{title.wtd.suffix=" (weighted)"}. Default is \code{NULL}, so 
