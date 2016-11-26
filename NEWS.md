@@ -5,6 +5,10 @@
 * `sjp.resid()` now also returns a plot with the residual pattern, `$pattern`.
 * Plot and axis titles from effect-plots can now be changed with `title` or `axis.title` argument. Use a character vector of length > 1 to define (axis) titles for each plot or facet; use `""` to remove the plot.
 
+## Bug fixes
+
+* Restored order of categories in `sjp.xtab()` for stacked bars (`position_stack()` reversed order since  last ggplot2-update), so labels are now incorreclty positioned again.
+
 # sjPlot 2.1.2
 
 ## General

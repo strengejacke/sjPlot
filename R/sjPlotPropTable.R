@@ -412,7 +412,7 @@ sjp.xtab <- function(x,
                        width = geom.size)
     } else {
       geob <- geom_bar(stat = "identity",
-                       position = "stack", 
+                       position = position_stack(reverse = TRUE),
                        width = geom.size)
     }
   # check if we have lines

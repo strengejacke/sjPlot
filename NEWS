@@ -4,13 +4,17 @@ Changes to functions:
 * `sjp.resid()` now also returns a plot with the residual pattern, `$pattern`.
 * Plot and axis titles from effect-plots can now be changed with `title` or `axis.title` argument. Use a character vector of length > 1 to define (axis) titles for each plot or facet; use `""` to remove the plot.
 
+Bug fixes:
+* Restored order of categories in `sjp.xtab()` for stacked bars (`position_stack()` reversed order since  last ggplot2-update), so labels are now incorreclty positioned again.
+
+
 Version 2.1.2
 -----------------------------------------------------------------------------
 General:
 * Effect-plots from `sjp.int()`, `sjp.glm()` and `sjp.glmer()` now support the `transformation`-argument from the 'effects'-package. For example, when calling `sjp.glm(fit, type = "eff", transformation = NULL)`, predictions are on their original scale (y-scale) and the title for the y-scale is changed accordingly.
 
 Changes to functions:
-* Restored order of categories in `sjp.stackfrq()`, which were reversed by the last ggplot2-update, where `position_stack()` now sort the stacking order to match grouping order.
+* Restored order of categories in `sjp.stackfrq()`, which were reversed by the last ggplot2-update, where `position_stack()` now sorts the stacking order to match grouping order.
 
 Bug fixes:
 * Fixed bug in `sjplot()` that caused figures not being plotted in certain situations.
