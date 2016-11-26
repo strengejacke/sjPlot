@@ -585,7 +585,7 @@ sjp.grpfrq <- function(var.cnt,
       geob <- geom_bar(stat = "identity", width = geom.size,
                        position = position_dodge(posdodge))
     } else {
-      geob <- geom_bar(stat = "identity", width = geom.size, position = "stack")
+      geob <- geom_bar(stat = "identity", width = geom.size, position = position_stack(reverse = TRUE))
     }
   } else if (type == "line") {
     if (smooth.lines) {
