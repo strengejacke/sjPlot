@@ -206,12 +206,23 @@ sjp.frq <- function(var.cnt,
     expand.grid <- c(0, 0)
   }
 
+  # for histograms or density plots...
+  xv <- stats::na.omit(var.cnt)
+  # check for nice bin-width defaults
+  if (type %in% c("histogram", "density") && 
+      !is.null(geom.size) && 
+      geom.size < round(diff(range(xv)) / 40))
+    message("Using very small binwidth. Consider adjusting `geom.size` argument.")
+  # create second data frame
+  hist.dat <- data.frame(xv)
+  
   # check default geom.size -----
   if (is.null(geom.size)) {
     geom.size <- dplyr::case_when(
       type == "bar" ~ .7,
       type == "dot" ~ 2.5,
-      type == "histogram" ~ .7,
+      type == "density" ~ round(diff(range(xv)) / 40),
+      type == "histogram" ~ round(diff(range(xv)) / 40),
       type == "line" ~ .8,
       type == "boxplot" ~ .3,
       type == "violin" ~ .3,
@@ -453,11 +464,9 @@ sjp.frq <- function(var.cnt,
   # Start density plot here
   # --------------------------------------------------
   } else if (type == "density") {
-    xv <- stats::na.omit(var.cnt)
-    densityDat <- data.frame(xv)
     # First, plot histogram with density curve
-    baseplot <- ggplot(densityDat, aes(x = xv)) +
-      geom_histogram(aes(y = ..density..), fill = geom.colors) +
+    baseplot <- ggplot(hist.dat, aes(x = xv)) +
+      geom_histogram(aes(y = ..density..), binwidth = geom.size, fill = geom.colors) +
       # transparent density curve above bars
       geom_density(aes(y = ..density..), fill = "cornsilk", alpha = 0.3) +
       # remove margins from left and right diagram side
@@ -467,8 +476,8 @@ sjp.frq <- function(var.cnt,
     if (normal.curve) {
       baseplot <- baseplot +
         stat_function(fun = dnorm,
-                      args = list(mean = mean(densityDat$xv),
-                                  sd = stats::sd(densityDat$xv)),
+                      args = list(mean = mean(hist.dat$xv),
+                                  sd = stats::sd(hist.dat$xv)),
                       colour = normal.curve.color,
                       size = normal.curve.size,
                       alpha = normal.curve.alpha)
@@ -480,11 +489,6 @@ sjp.frq <- function(var.cnt,
     # counts on the y-axis
     # -----------------------------------------------------------------
     if (type == "histogram") {
-      xv <- stats::na.omit(var.cnt)
-      if (geom.size < round(diff(range(xv)) / 50)) 
-        message("Using very small binwidth. Consider adjusting `geom.size` argument.")
-      # create second data frame
-      hist.dat <- data.frame(xv)
       # original data needed for normal curve
       baseplot <- ggplot(mydat) +
         # second data frame mapped to the histogram geom
