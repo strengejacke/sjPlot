@@ -121,7 +121,7 @@
 #'  
 #' @importFrom psych describe
 #' @importFrom stats shapiro.test
-#' @importFrom sjstats reliab_test mean_n mic cronb
+#' @importFrom sjstats reliab_test mean_n mic cronb std
 #' @export
 sjt.itemanalysis <- function(df,
                              factor.groups = NULL,
@@ -206,7 +206,7 @@ sjt.itemanalysis <- function(df,
   # -----------------------------------
   # iterate all sub-scales (groups)
   # -----------------------------------
-  for (i in 1:length(findex)) {
+  for (i in seq_len(length(findex))) {
     # -----------------------------------
     # retrieve sub-scale
     # -----------------------------------
@@ -249,7 +249,7 @@ sjt.itemanalysis <- function(df,
     # to compute correlation coefficients between identified components
     # -----------------------------------
     df.subcc <- subset(df, select = which(factor.groups == findex[i]))
-    comcor <- scale(apply(df.subcc, 1, sum), center = TRUE, scale = TRUE)
+    comcor <- sjstats::std(rowSums(df.subcc))
     # -----------------------------------
     # check if we have valid return values from reliability test.
     # In case df had less than 3 columns, NULL is returned
@@ -309,7 +309,7 @@ sjt.itemanalysis <- function(df,
   # create data frame with index scores,
   # including missings
   # -----------------------------------
-  for (i in 1:length(index.scores)) {
+  for (i in seq_len(length(index.scores))) {
     # column names equal row-index-values
     index <- as.numeric(names(index.scores[[i]]))
     # fill df with index-score-values
@@ -323,7 +323,7 @@ sjt.itemanalysis <- function(df,
   # -----------------------------------
   # iterate all data frames etc.
   # -----------------------------------
-  for (i in 1:length(df.ia)) {
+  for (i in seq_len(length(df.ia))) {
     # check if we have titles for each component-table
     if (!is.null(factor.groups.titles)) dftitle <- factor.groups.titles[i]
     # get html-table from data frame
@@ -354,7 +354,7 @@ sjt.itemanalysis <- function(df,
                                  nrow = nrow(df), 
                                  byrow = FALSE))
       # give proper columm names
-      colnames(df.cc) <- sprintf("Component %i", c(1:ncol(df.cc)))
+      colnames(df.cc) <- sprintf("Component %i", seq_len(ncol(df.cc)))
       # compute correlation table, store html result
       html <- sjt.corr(df.cc,
                        na.deletion = "listwise", 

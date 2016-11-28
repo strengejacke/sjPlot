@@ -1,6 +1,3 @@
-# bind global variables
-utils::globalVariables(c("OR", "lower", "upper", "p", "pa", "shape"))
-
 #' @title Plot estimates of multiple fitted glm(er)'s
 #' @name sjp.glmm
 #' 
@@ -120,7 +117,8 @@ sjp.glmm <- function(...,
   # check length. if we have a list of fitted model, 
   # we need to "unlist" them
   # --------------------------------------------------------
-  if (length(input_list) == 1 && class(input_list[[1]]) == "list") input_list <- lapply(input_list[[1]], function(x) x)
+  if (length(input_list) == 1 && class(input_list[[1]]) == "list") 
+    input_list <- lapply(input_list[[1]], function(x) x)
   # ----------------------------
   # init final data frame
   # ----------------------------
@@ -131,13 +129,8 @@ sjp.glmm <- function(...,
   # ----------------------------
   # if we have no labels of dependent variables supplied, use a 
   # default string (Model) for legend
-  if (is.null(depvar.labels)) {
-    depvar.labels <- c()
-    for (i in seq_len(fitlength)) {
-      depvar.labels <- c(depvar.labels, 
-                         get_model_response_label(input_list[[i]]))
-    }
-  }
+  if (is.null(depvar.labels))
+    depvar.labels <- unname(unlist(lapply(input_list, get_model_response_label)))
   # check length of diagram title and split longer string at into new lines
   if (!is.null(title)) title <- sjmisc::word_wrap(title, wrap.title)
   # check length of x-axis title and split longer string at into new lines
@@ -187,7 +180,7 @@ sjp.glmm <- function(...,
     # non-significant values can be drawn with a lesser alpha-level
     # (i.e. are more transparent)
     palpha <- NULL
-    for (i in 1:length(pv)) {
+    for (i in seq_len(length(pv))) {
       ps[i] <- ""
       pointshapes[i] <- 1
       palpha[i] <- "s"
@@ -195,15 +188,11 @@ sjp.glmm <- function(...,
     # ----------------------------
     # copy OR-values into data column
     # ----------------------------
-    if (show.values) {
-      for (i in 1:length(pv)) {
-        ps[i] <- sprintf("%.*f", digits, ov[i])
-      }
-    }
+    if (show.values) ps <- sprintf("%.*f", digits, ov)
     # ----------------------------
     # copy p-values into data column
     # ----------------------------
-    for (i in 1:length(pv)) {
+    for (i in seq_len(length(pv))) {
       if (pv[i] >= 0.05) {
         pointshapes[i] <- 1
         palpha[i] <- "ns"
@@ -247,7 +236,7 @@ sjp.glmm <- function(...,
   if (!is.null(remove.estimates)) {
     # get row indices of rows that should be removed
     remrows <- c()
-    for (re in 1:length(remove.estimates)) {
+    for (re in seq_len(length(remove.estimates))) {
       remrows <- c(remrows, which(substr(row.names(finalodds), 
                                          start = 1, 
                                          stop = nchar(remove.estimates[re])) == remove.estimates[re]))
@@ -255,7 +244,7 @@ sjp.glmm <- function(...,
     # remember old rownames
     keepnames <- row.names(finalodds)[-remrows]
     # remove rows
-    finalodds <- dplyr::slice(finalodds, c(1:nrow(finalodds))[-remrows])
+    finalodds <- dplyr::slice(finalodds, seq_len(nrow(finalodds))[-remrows])
     # set back rownames
     row.names(finalodds) <- keepnames
   }
@@ -311,11 +300,8 @@ sjp.glmm <- function(...,
   # The order of aesthetics matters in terms of ordering the error bars!
   # Using alpha-aes before colour would order error-bars according to
   # alpha-level instead of colour-aes.
-  plotHeader <- ggplot(finalodds, aes(y = OR, 
-                                      x = xpos, 
-                                      group = grp,
-                                      colour = grp, 
-                                      alpha = pa))
+  plotHeader <- ggplot(finalodds, aes_string(y = "OR", x = "xpos", group = "grp",
+                                             colour = "grp", alpha = "pa"))
   # --------------------------------------------------------
   # start with dot-plotting here
   # first check, whether user wants different shapes for
@@ -329,7 +315,7 @@ sjp.glmm <- function(...,
       # The order of aesthetics matters in terms of ordering the error bars!
       # Using shape before colour would order points according to shapes instead
       # of colour-aes.
-      geom_point(aes(shape = shape), 
+      geom_point(aes_string(shape = "shape"), 
                  size = geom.size, 
                  position = position_dodge(-geom.spacing)) +
       # and use a shape scale, in order to have a legend
@@ -349,11 +335,11 @@ sjp.glmm <- function(...,
   # --------------------------------------------------------
   plotHeader <- plotHeader +
     # print confidence intervalls (error bars)
-    geom_errorbar(aes(ymin = lower, ymax = upper), 
+    geom_errorbar(aes_string(ymin = "lower", ymax = "upper"), 
                   width = 0, 
                   position = position_dodge(-geom.spacing)) +
     # print value labels and p-values
-    geom_text(aes(label = p, y = upper), 
+    geom_text(aes_string(label = "p", y = "upper"), 
               position = position_dodge(width = -geom.spacing), 
               hjust = -0.1,
               show.legend = FALSE) +
@@ -406,7 +392,7 @@ sjp.glmm <- function(...,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (prnt.plot) graphics::plot(plotHeader)
+  if (prnt.plot) suppressWarnings(graphics::plot(plotHeader))
   # -------------------------------------
   # set proper column names
   # -------------------------------------

@@ -234,7 +234,7 @@ sjc.qclus <- function(data,
   # ---------------------------------------------
   for (cnt in seq_len(colnr)) {
     # retrieve column data
-    coldat <- z[, cnt]
+    coldat <- z[[cnt]]
     # ---------------------------------------------
     # iterate groups
     # ---------------------------------------------
@@ -840,7 +840,7 @@ sjc.kgap <- function(x,
                   colour = "#3366cc") +
     geom_line(colour = "gray50") +
     geom_point(colour = df$pcol, size = df$psize) +
-    scale_x_discrete(breaks = c(1:nrow(df))) +
+    scale_x_discrete(breaks = seq_len(nrow(df))) +
     labs(x = "Number of clusters", 
          y = "Gap", 
          title = sprintf("Estimation of clusters (gap statistics)\n%i-cluster solution found", nc)) +

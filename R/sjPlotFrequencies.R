@@ -105,7 +105,7 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' 
 #' @import ggplot2
 #' @importFrom sjstats wtd_sd
-#' @importFrom sjmisc set_labels group_labels group_var
+#' @importFrom sjmisc set_labels group_labels group_var to_value
 #' @importFrom stats na.omit sd weighted.mean
 #' @export
 sjp.frq <- function(var.cnt,
@@ -207,7 +207,7 @@ sjp.frq <- function(var.cnt,
   }
 
   # for histograms or density plots...
-  xv <- stats::na.omit(var.cnt)
+  xv <- sjmisc::to_value(stats::na.omit(var.cnt))
   # check for nice bin-width defaults
   if (type %in% c("histogram", "density") && 
       !is.null(geom.size) && 
@@ -221,8 +221,8 @@ sjp.frq <- function(var.cnt,
     geom.size <- dplyr::case_when(
       type == "bar" ~ .7,
       type == "dot" ~ 2.5,
-      type == "density" ~ round(diff(range(xv)) / 40),
-      type == "histogram" ~ round(diff(range(xv)) / 40),
+      type == "density" ~ ceiling(diff(range(xv)) / 40),
+      type == "histogram" ~ ceiling(diff(range(xv)) / 40),
       type == "line" ~ .8,
       type == "boxplot" ~ .3,
       type == "violin" ~ .3,
