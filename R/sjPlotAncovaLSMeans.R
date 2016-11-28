@@ -306,13 +306,13 @@ sjp.emm <- function(fit,
       # Confidence intervals?
       # -----------------------------------------------------------
       if (show.ci) baseplot <- baseplot +
-          geom_ribbon(aes(x = xn, ymin = conf.low, ymax = conf.high, fill = grp), alpha = .3)
+          geom_ribbon(aes_string(x = "xn", ymin = "conf.low", ymax = "conf.high", fill = "grp"), alpha = .3)
       # -----------------------------------------------------------
       # continue with plot. point and line layers above ribbon
       # -----------------------------------------------------------
       baseplot <- baseplot +
-        geom_point(aes(x = x, y = y, colour = grp)) +
-        geom_line(aes(x = xn, y = y, colour = grp), size = geom.size) +
+        geom_point(aes_string(x = "x", y = "y", colour = "grp")) +
+        geom_line(aes_string(x = "xn", y = "y", colour = "grp"), size = geom.size) +
         scale_x_discrete(labels = axis.labels)
       # ------------------------------------------------------------
       # plot value labels

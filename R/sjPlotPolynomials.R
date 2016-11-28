@@ -194,7 +194,7 @@ sjp.poly <- function(x,
       # prepare output string
       p.out <- sprintf("Polynomial degrees: %.*f\n---------------------\n", poly.digit, i)
       # iterate polynomial terms and print p-value for each polynom
-      for (j in 1:i) p.out <- paste0(p.out, sprintf("p(x^%i): %.3f\n", j, unname(pvals[j])))
+      for (j in seq_len(i)) p.out <- paste0(p.out, sprintf("p(x^%i): %.3f\n", j, unname(pvals[j])))
       # add separator line after each model
       p.out <- paste0(p.out, "\n")
       # print p-values for fitted model
@@ -204,7 +204,7 @@ sjp.poly <- function(x,
   # name df
   colnames(plot.df) <- c("x","y", "pred", "grp")
   # create plot
-  polyplot <- ggplot(plot.df, aes(x, y, colour = grp))
+  polyplot <- ggplot(plot.df, aes_string(x = "x", y = "y", colour = "grp"))
   # show scatter plot as well?
   if (scatter.plot) polyplot <- polyplot + geom_jitter(colour = point.color, alpha = point.alpha)
   # show loess curve? this curve indicates the "perfect" curve through
@@ -215,7 +215,7 @@ sjp.poly <- function(x,
                                                     size = geom.size)
   # add curves for polynomials
   polyplot <- polyplot + 
-    geom_line(aes(y = pred), size = geom.size) + 
+    geom_line(aes_string(y = "pred"), size = geom.size) + 
     scale_color_manual(values = geom.colors, labels = lapply(poly.degree, function(j) bquote(x^.(j)))) +
     labs(x = axis.title, y = axisTitle.y, colour = "Polynomial\ndegrees")
   # ---------------------------------------------------------

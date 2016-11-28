@@ -100,6 +100,7 @@ utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "s
 #' @import ggplot2
 #' @importFrom stats na.omit
 #' @importFrom graphics plot
+#' @importFrom sjstats std
 #' @export
 sjc.qclus <- function(data,
                       groupcount = NULL,
@@ -137,7 +138,7 @@ sjc.qclus <- function(data,
   # --------------------------------------------------------
   # save original data frame
   # --------------------------------------------------------
-  rownames(data) <- 1:nrow(data)
+  rownames(data) <- seq_len(nrow(data))
   data.origin <- data
   # remove missings
   data <- stats::na.omit(data)
@@ -195,7 +196,7 @@ sjc.qclus <- function(data,
   # ---------------------------------------------
   # auto-set legend labels
   # ---------------------------------------------
-  if (is.null(legend.labels)) legend.labels <- sprintf("Group %i", c(1:groupcount))
+  if (is.null(legend.labels)) legend.labels <- sprintf("Group %i", seq_len(groupcount))
   # --------------------------------------------------------
   # show goodness of classification
   # --------------------------------------------------------
@@ -208,7 +209,7 @@ sjc.qclus <- function(data,
   # ---------------------------------------------
   if (show.grpcnt || show.accuracy) {
     # iterate legend labels
-    for (i in 1:length(legend.labels)) {
+    for (i in seq_len(length(legend.labels))) {
       # label string for group count
       gcnt.label <- sprintf("n=%i", length(which(grp == i)))
       # label string for accuracy
@@ -223,7 +224,7 @@ sjc.qclus <- function(data,
     }
   }
   # scale data
-  z <- scale(data)
+  z <- sjstats::std(data)
   # retrieve column count
   colnr <- ncol(data)
   # init data frame
@@ -263,8 +264,8 @@ sjc.qclus <- function(data,
     geom_bar(stat = "identity", 
              position = position_dodge(geom.size + geom.spacing), 
              width = geom.size) +
-    scale_x_discrete(breaks = c(1:colnr), 
-                     limits = c(1:colnr), 
+    scale_x_discrete(breaks = seq_len(colnr), 
+                     limits = seq_len(colnr), 
                      labels = axis.labels) +
     labs(title = title, x = "Cluster group characteristics", y = "Mean of z-scores", fill = legend.title)
   # --------------------------------------------------------
@@ -359,7 +360,7 @@ sjc.cluster <- function(data,
   # --------------------------------------------------------
   data.origin <- data
   # create id with index numbers for rows
-  data.origin$sj.grp.id <- 1:nrow(data.origin)
+  data.origin$sj.grp.id <- seq_len(nrow(data.origin))
   # create NA-vector of same length as data frame
   complete.groups <- rep(NA, times = nrow(data.origin))
   # Prepare Data
@@ -576,11 +577,11 @@ sjc.grpdisc <- function(data, groups, groupcount, clss.fit = TRUE, prnt.plot = T
   labeldat <- NULL
   # data frame has flexible count of rows, depending on
   # the amount of groups in the lda
-  for (i in 1:groupcount) {
+  for (i in seq_len(groupcount)) {
     # first columns indicates the two parts of each group
     # (correct percentage and remaining percentage untill 100%)
-    newdat <- rbind(newdat, c(paste("g", i, sep = "")))
-    newdat <- rbind(newdat, c(paste("g", i, sep = "")))
+    newdat <- rbind(newdat, paste("g", i, sep = ""))
+    newdat <- rbind(newdat, paste("g", i, sep = ""))
     # second columns contains the percentage of lda
     # followed by the remaining percentage to 100%
     tmpdat <- rbind(tmpdat, perc[i])
@@ -604,7 +605,7 @@ sjc.grpdisc <- function(data, groups, groupcount, clss.fit = TRUE, prnt.plot = T
   # plot bar charts, stacked proportional
   # this works, because we always have two "values" (variables)
   # for the X-axis in the $grp-columns indicating a group
-  classplot <- ggplot(mydat, aes(x = grp, y = prc, fill = fg)) +
+  classplot <- ggplot(mydat, aes_string(x = "grp", y = "prc", fill = "fg")) +
     # use stat identity to show value, not count of $prc-variable
     # draw no legend!
     geom_bar(stat = "identity", colour = "black", show.legend = FALSE) +
@@ -615,7 +616,7 @@ sjc.grpdisc <- function(data, groups, groupcount, clss.fit = TRUE, prnt.plot = T
          x = "cluster groups", 
          y = NULL) +
     # print value labels into bar chart
-    geom_text(aes(label = cprc, y = cprc), 
+    geom_text(aes_string(label = "cprc", y = "cprc"), 
               vjust = 1.2, 
               colour = "white") +
     # larger font size for axes
@@ -698,21 +699,21 @@ sjc.elbow <- function(data, steps = 15, show.diff = FALSE) {
   # round and print elbow values
   wssround <- round(wss, 0)
   dfElbowValues <- as.data.frame(wssround)
-  dfElbowValues <- cbind(dfElbowValues, xpos = 1:nrow(dfElbowValues))
+  dfElbowValues <- cbind(dfElbowValues, xpos = seq_len(nrow(dfElbowValues)))
   # calculate differences between each step
   diff <- c()
   for (i in 2:steps) diff <- cbind(diff,wssround[i - 1] - wssround[i])
   dfElbowDiff <- tidyr::gather(as.data.frame(diff), 
                                "Var2", 
                                "value", 
-                               1:ncol(diff),
+                               seq_len(ncol(diff)),
                                factor_key = TRUE)
   # --------------------------------------------------
   # Plot diagram with sum of squares
   # all pointes are connected with a line
   # a bend the in curve progression might indicate elbow
   # --------------------------------------------------
-  graphics::plot(ggplot(dfElbowValues, aes(x = xpos, y = wssround, label = wssround)) + 
+  graphics::plot(ggplot(dfElbowValues, aes_string(x = "xpos", y = "wssround", label = "wssround")) + 
                    geom_line(colour = lcol) + 
                    geom_point(colour = lcol, size = 3) +
                    geom_text(hjust = -0.3) +
@@ -725,7 +726,7 @@ sjc.elbow <- function(data, steps = 15, show.diff = FALSE) {
   # might indicate elbow
   # --------------------------------------------------
   if (show.diff) {
-    graphics::plot(ggplot(dfElbowDiff, aes(x = Var2, y = value, label = value)) + 
+    graphics::plot(ggplot(dfElbowDiff, aes_string(x = "Var2", y = "value", label = "value")) + 
                      geom_line(colour = lcol) + 
                      geom_point(colour = lcol, size = 3) +
                      geom_text(hjust = -0.3) +
@@ -826,13 +827,13 @@ sjc.kgap <- function(x,
   cclus <- rep("black", max)
   cclus[nc] <- "#cc3366"
   # create data frame
-  df <- data.frame(x = 1:max, 
+  df <- data.frame(x = seq_len(max), 
                    y = gap$Tab[, 'gap'], 
                    se = gap$Tab[, 'SE.sim'], 
                    psize = nclus, 
                    pcol = cclus)
   # plot cluster solution
-  gp <- ggplot(df, aes(x = x, y = y)) + 
+  gp <- ggplot(df, aes_string(x = "x", y = "y")) + 
     geom_errorbar(aes(ymin = y - se, ymax = y + se), 
                   width = 0, 
                   size = 0.5, 

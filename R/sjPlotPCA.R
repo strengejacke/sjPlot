@@ -158,7 +158,7 @@ sjp.pca <- function(data,
   # ----------------------------
   if (plot.eigen) {
     # create data frame with eigen values
-    mydat <- as.data.frame(cbind(xpos = 1:length(pcadata.eigenval), eigen = pcadata.eigenval))
+    mydat <- as.data.frame(cbind(xpos = seq_len(length(pcadata.eigenval)), eigen = pcadata.eigenval))
     # plot eigenvalues as line curve
     eigenplot <- 
       # indicate eigen vlaues > 1
@@ -168,7 +168,7 @@ sjp.pca <- function(data,
         # print best number of factors according to eigen value
         annotate("text", label = sprintf("Factors: %i", pcadata.kaiser), 
                  x = Inf, y = Inf, vjust = "top", hjust = "top") +
-        scale_x_continuous(breaks = c(seq(1, nrow(mydat), by = 2))) +
+        scale_x_continuous(breaks = seq(1, nrow(mydat), by = 2)) +
         labs(title = NULL, y = "Eigenvalue", x = "Number of factors")
     plot(eigenplot)
     # print statistics
@@ -257,7 +257,7 @@ sjp.pca <- function(data,
     }
     # just for vertical position adjustment when we print the alpha values
     vpos <- rep(c(-0.25, -1), nrow(cbv))
-    cbv <- cbind(cbv, vpos[1:nrow(cbv)])
+    cbv <- cbind(cbv, vpos[seq_len(nrow(cbv))])
     names(cbv) <- c("nr", "alpha", "vpos")
     # cbv now contains the factor numbers and the related alpha values
     # for each "factor dimension scale"
@@ -370,7 +370,7 @@ sjp.pca <- function(data,
     message("Following items have no clear factor loading:")
     if (!is.null(removableItems)) {
       message(colnames(data)[removableItems])
-      remdf <- data[, c(-removableItems)]
+      remdf <- data[, -removableItems]
     } else {
       message("none.")
     }

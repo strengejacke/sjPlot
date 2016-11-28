@@ -263,6 +263,8 @@ sjp.grpfrq <- function(var.cnt,
     if (coord.flip) {
       if (missing(vjust)) vjust <- "center"
       if (missing(hjust)) hjust <- "bottom"
+      # for flipped coordinates, we need to adjust
+      # y-offset according to horizontal adjustemnt of labels
       if (hjust == "bottom")
         y_offset <- y.offset
       else if (hjust == "top")
@@ -270,6 +272,8 @@ sjp.grpfrq <- function(var.cnt,
       else
         y_offset <- 0
     } else {
+      # for non-flipped coordinates, we need to adjust
+      # y-offset according to vertical adjustemnt of labels
       if (vjust == "bottom")
         y_offset <- y.offset
       else if (vjust == "top")
@@ -319,7 +323,7 @@ sjp.grpfrq <- function(var.cnt,
   # x-position as numeric factor, added later after
   # tidying
   # --------------------------------------------------------
-  bars.xpos <- 1:nrow(mydat$mydat)
+  bars.xpos <- seq_len(nrow(mydat$mydat))
   # --------------------------------------------------------
   # try to automatically set labels if not passed as argument
   # --------------------------------------------------------

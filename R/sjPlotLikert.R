@@ -395,7 +395,7 @@ sjp.likert <- function(items,
   # data rows in this data frame and now need to "split"
   # positive and negative values
   # --------------------------------------------------------
-  for (i in 1:ncol(freq.df)) {
+  for (i in seq_len(ncol(freq.df))) {
     # sort
     fr <- freq.df[, sort.freq[i]]
     # --------------------------------------------------------
@@ -497,8 +497,8 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   # Set up grid breaks
   # --------------------------------------------------------
-  gridbreaks <- round(c(seq(-grid.range, grid.range, by = grid.breaks)), 2)
-  gridlabs <- ifelse(abs(gridbreaks) > 1, "", paste0(c(abs(round(100 * gridbreaks))), "%"))
+  gridbreaks <- round(seq(-grid.range, grid.range, by = grid.breaks), 2)
+  gridlabs <- ifelse(abs(gridbreaks) > 1, "", paste0(abs(round(100 * gridbreaks)), "%"))
   # --------------------------------------------------------
   # start plot here
   # --------------------------------------------------------

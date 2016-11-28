@@ -1,7 +1,3 @@
-# bind global variables
-utils::globalVariables(c("Row", "Column", "p.value"))
-
-
 #' @title Plot Pearson's Chi2-Test of multiple contingency tables
 #' @name sjp.chi2
 #' 
@@ -65,14 +61,14 @@ sjp.chi2 <- function(df,
   # Calculation of Chi2-matrix taken from following blog-posting:
   # http://talesofr.wordpress.com/2013/05/05/ridiculously-photogenic-factors-heatmap-with-p-values/
   # ----------------------------------------------------------------
-  combos <- expand.grid(rep(list(1:ncol(df)), 2)) # combinations with repetitions
+  combos <- expand.grid(rep(list(seq_len(ncol(df))), 2)) # combinations with repetitions
   combos <- as.matrix(combos)
   combos <- t(combos) # transpose matrix
   # ----------------------------------------------------------------
   # when 2 variables are *not* significant, they are independent
   # ----------------------------------------------------------------
   m <- data.frame()
-  for (i in 1:ncol(combos)) {
+  for (i in seq_len(ncol(combos))) {
     test <- chisq.test(df[, combos[1, i]], df[, combos[2, i]])
     out <- data.frame(Row = colnames(df)[combos[1, i]], 
                       Column = colnames(df)[combos[2, i]],
@@ -102,7 +98,7 @@ sjp.chi2 <- function(df,
   # --------------------------------------------------------
   # start with base plot object here
   # --------------------------------------------------------
-  chiPlot <- ggplot(data = m, aes(x = Row, y = Column, fill = p.value, label = p.value)) +
+  chiPlot <- ggplot(data = m, aes_string(x = "Row", y = "Column", fill = "p.value", label = "p.value")) +
     geom_tile() +
     scale_x_discrete(labels = axis.labels) +
     scale_y_discrete(labels = axis.labels) +
