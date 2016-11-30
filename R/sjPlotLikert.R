@@ -504,15 +504,14 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   gp <- ggplot() +
     # positive value bars
-    geom_bar(data = mydat.pos, 
+    geom_col(data = mydat.pos, 
              aes_string(x = "x", y = "frq", fill = "grp"), 
-             width = geom.size, 
-             stat = "identity") +
+             width = geom.size) +
     # negative value bars
-    geom_bar(data = mydat.neg, 
+    geom_col(data = mydat.neg, 
              aes_string(x = "x", y = "frq", fill = "grp"), 
-             width = geom.size, 
-             stat = "identity")
+             width = geom.size,
+             position = position_stack(reverse = T))
   # --------------------------------------------------------
   # print bar for neutral category. this is a "fake" bar created
   # with geom_rect. to make this work, we need to set the x-axis
