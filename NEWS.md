@@ -1,5 +1,9 @@
 # sjPlot 2.1.3
 
+## New Functions
+
+* `sjp.kfold_cv()` to plot model fit from k-fold cross-validation.
+
 ## Changes to functions
 
 * `sjp.resid()` now also returns a plot with the residual pattern, `$pattern`.
