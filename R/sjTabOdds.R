@@ -332,22 +332,11 @@ sjt.glm <- function(...,
     # pglm-models do not have the "pglm"-class-attribute,
     # differently stated in the help ?pglm
     # -------------------------------------
-    if (lmerob) {
-      # p-values
-      fit.df$pv <- round(sjstats::merMod_p(fit), digits.p)
-      # standard error
-      fit.df$se <- sprintf("%.*f", digits.se, stats::coef(summary(fit))[, "Std. Error"])
-    } else if (any(class(fit) %in% c("pglm", "maxLik"))) {
-      # p-values
-      fit.df$pv <- round(summary(fit)$estimate[, 4], digits.p)
-      # standard error
-      fit.df$se <- sprintf("%.*f", digits.se, summary(fit)$estimate[, 2])
-    } else {
-      # p-values
-      fit.df$pv <- round(summary(fit)$coefficients[, 4], digits.p)
-      # standard error
-      fit.df$se <- sprintf("%.*f", digits.se, summary(fit)$coefficients[, 2])
-    }
+    p.tmp <- sjstats::get_model_pval(fit)
+    # p-values
+    fit.df$pv <- round(p.tmp[["p.value"]], digits.p)
+    # standard error
+    fit.df$se <- sprintf("%.*f", digits.se, p.tmp[["std.error"]])
     # -------------------------------------
     # prepare p-values, either as * or as numbers
     # -------------------------------------

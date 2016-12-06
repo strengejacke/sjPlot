@@ -429,7 +429,7 @@ sjp.glmer <- function(fit,
 #'         the \pkg{pbkrtest}-package. If \pkg{pbkrtest} is not available or
 #'         \code{p.kr = FALSE}, computation of p-values is based 
 #'         on normal-distribution assumption, treating the t-statistics as Wald
-#'         z-statistics. See 'Details' in \code{\link[sjstats]{merMod_p}}.
+#'         z-statistics. See 'Details' in \code{\link[sjstats]{get_model_pval}}.
 #'
 #' @examples
 #' # fit model
@@ -521,7 +521,7 @@ sjp.glmer <- function(fit,
 #'          facet.grid = FALSE, show.ci = FALSE)}
 #'
 #' @import ggplot2
-#' @importFrom sjstats se std_beta merMod_p
+#' @importFrom sjstats se std_beta get_model_pval
 #' @importFrom dplyr sample_n slice
 #' @export
 sjp.lmer <- function(fit,
@@ -1039,7 +1039,7 @@ sjp.lme4  <- function(fit,
       # ----------------------------
       # retrieve sigificance level of independent variables (p-values)
       # ----------------------------
-      pv <- sjstats::merMod_p(fit, p.kr)
+      pv <- sjstats::get_model_pval(fit, p.kr)[["p.value"]]
       # ----------------------------
       # retrieve odds ratios resp.
       # betas or standardized betas

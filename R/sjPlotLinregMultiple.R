@@ -86,7 +86,7 @@
 #' @import ggplot2
 #' @importFrom stats coef confint
 #' @importFrom dplyr slice
-#' @importFrom sjstats merMod_p
+#' @importFrom sjstats get_model_pval
 #' @importFrom tibble lst
 #' @export
 sjp.lmm <- function(...,

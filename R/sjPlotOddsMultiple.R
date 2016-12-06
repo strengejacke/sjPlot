@@ -159,10 +159,7 @@ sjp.glmm <- function(...,
     # print p-values in bar charts
     # ----------------------------
     # retrieve sigificance level of independent variables (p-values)
-    if (sjmisc::str_contains(class(fit), "merMod", ignore.case = T))
-      pv <- sjstats::merMod_p(fit)
-    else
-      pv <- unname(stats::coef(summary(fit))[, 4])
+    pv <- sjstats::get_model_pval(fit)[["p.value"]]
     # for better readability, convert p-values to asterisks
     # with:
     # p < 0.001 = ***

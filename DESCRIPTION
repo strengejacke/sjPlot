@@ -32,7 +32,7 @@ Imports:
     psych,
     purrr,
     scales,
-    sjmisc (>= 2.0.1),
+    sjmisc (>= 2.1.0),
     sjstats (>= 0.6.0),
     tibble (>= 1.2.0),
     tidyr (>= 0.6.0)

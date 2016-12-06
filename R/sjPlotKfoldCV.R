@@ -1,3 +1,6 @@
+# bind global variables
+utils::globalVariables(c("train", "model", "test", ".response", "sse", "sst"))
+
 #' @title Plot model fit from k-fold cross-validation
 #' @name sjp.kfold_cv
 #'
@@ -43,13 +46,14 @@
 #' @importFrom broom augment
 #' @importFrom tidyr unnest
 #' @importFrom graphics plot
+#' @importFrom stats as.formula
 #' @export
 sjp.kfold_cv <- function(data, formula, k = 5) {
   # make sure that data is a tibble
   if (!tibble::is.tibble(data)) data <- tibble::as_tibble(data)
   
   # make sure we have a formula
-  if (!inherits(formula, "formula")) formula <- as.formula(formula)
+  if (!inherits(formula, "formula")) formula <- stats::as.formula(formula)
   
   # get name of response variable and get variable label, if
   # there is any... used for labelling plot axis

@@ -224,7 +224,7 @@ Concerning the \code{show.std} argument, \code{show.std = "std"}
            the \pkg{pbkrtest}-package. If \pkg{pbkrtest} is not available or
            \code{p.kr = FALSE}, computation of p-values is based 
            on normal-distribution assumption, treating the t-statistics as Wald
-           z-statistics. See 'Details' in \code{\link[sjstats]{merMod_p}}.
+           z-statistics. See 'Details' in \code{\link[sjstats]{get_model_pval}}.
            \cr \cr
            The confidence intervals stem from \pkg{broom}'s 
            \code{\link[broom]{tidy}}-function. For linear mixed models, the computation
@@ -250,7 +250,9 @@ data(efc)
 # prepare group variable
 efc$grp = as.factor(efc$e15relat)
 levels(x = efc$grp) <- get_labels(efc$e15relat)
-efc$care.level <- as.factor(sjmisc::rec(efc$n4pstu, "0=0;1=1;2=2;3:4=4"))
+efc$care.level <- sjmisc::rec(efc$n4pstu, 
+                              recodes = "0=0;1=1;2=2;3:4=3", 
+                              as.fac = TRUE)
 levels(x = efc$care.level) <- c("none", "I", "II", "III")
 
 # data frame for fitted model

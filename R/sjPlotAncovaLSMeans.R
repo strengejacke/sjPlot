@@ -2,7 +2,7 @@
 utils::globalVariables(c("xn", "vld", "conf.low", "conf.high"))
 
 #' @importFrom dplyr filter
-#' @importFrom sjstats merMod_p
+#' @importFrom sjstats get_model_pval
 #' @importFrom stats terms
 sjp.emm <- function(fit,
                     swap.pred = FALSE,
@@ -86,13 +86,8 @@ sjp.emm <- function(fit,
   # -----------------------------------------------------------
   # get terms of fitted model
   # -----------------------------------------------------------
-  if (is_mer_mod) {
-    # get all p-values
-    pval <- sjstats::merMod_p(fit, p.kr)[pos]
-  } else {
-    # retrieve p-values
-    pval <- summary(fit)$coefficients[pos, 4]
-  }
+  # get all p-values
+  pval <- sjstats::get_model_pval(fit, p.kr)[["p.value"]][pos]
   # get significant interactions
   intnames <- cf[pos[which(pval < plevel)]]
   # check for any signigicant interactions, stop if nothing found
