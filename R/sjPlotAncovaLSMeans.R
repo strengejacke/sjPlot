@@ -36,7 +36,7 @@ sjp.emm <- function(fit,
   if (!requireNamespace("lsmeans", quietly = TRUE)) {
     stop("Package `lsmeans` needed for this function to work. Please install it.", call. = FALSE)
   }
-  if ((any(class(fit) == "lmerMod" || any(class(fit) == "merModLmerTest"))) && !requireNamespace("lmerTest", quietly = TRUE)) {
+  if (inherits(fit, c("lmerMod", "merModLmerTest")) && !requireNamespace("lmerTest", quietly = TRUE)) {
     stop("Package `lmerTest` needed for this function to work. Please install it.", call. = FALSE)
   }
   # --------------------------------------------------------
@@ -235,9 +235,9 @@ sjp.emm <- function(fit,
       # -----------------------------------------------------------
       # prepare label for x-axix
       # -----------------------------------------------------------
-      alx <- sjmisc::get_labels(m_f[[term.pairs[2]]], 
-                                attr.only = F, 
-                                include.values = NULL, 
+      alx <- sjmisc::get_labels(m_f[[term.pairs[2]]],
+                                attr.only = F,
+                                include.values = NULL,
                                 include.non.labelled = T)
       # check if we have any
       if (is.null(alx)) alx <- term.pairs[2]
@@ -332,7 +332,7 @@ sjp.emm <- function(fit,
       # ---------------------------------------------------------
       # facet grid?
       # ---------------------------------------------------------
-      if (facet.grid) baseplot <- baseplot + facet_grid( ~grp)    
+      if (facet.grid) baseplot <- baseplot + facet_grid( ~grp)
       # ---------------------------------------------------------
       # set geom colors
       # ---------------------------------------------------------

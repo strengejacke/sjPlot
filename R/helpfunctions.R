@@ -12,7 +12,7 @@ get_dot_data <- function(data, dots) {
     vars <- dot_names(dots)
   else
     vars <- NULL
-  
+
   # check if data is a data frame
   if (is.data.frame(data)) {
     # get valid variable names
@@ -25,7 +25,7 @@ get_dot_data <- function(data, dots) {
       # else return complete data frame
       x <- data
   }
-    
+
   x
 }
 
@@ -46,13 +46,13 @@ base_breaks <- function(n = 10) {
 #' @importFrom sjmisc get_label get_labels str_contains to_label to_value replace_na word_wrap
 #' @importFrom sjstats resp_val resp_var
 get_lm_data <- function(fit) {
-  if (any(class(fit) == "plm")) {
+  if (inherits(fit, "plm")) {
     # plm objects have different structure than (g)lm
     fit_x <- data.frame(cbind(as.vector(fit$model[, 1]), stats::model.matrix(fit)))
     # retrieve response vector
     resp <- sjstats::resp_val(fit)
     depvar.label <- sjstats::resp_var(fit)
-  } else if (any(class(fit) == "pggls")) {
+  } else if (inherits(fit, "pggls")) {
     # plm objects have different structure than (g)lm
     fit_x <- data.frame(fit$model)
     depvar.label <- attr(attr(attr(fit$model, "terms"), "dataClasses"), "names")[1]
@@ -63,7 +63,7 @@ get_lm_data <- function(fit) {
     # retrieve response vector
     resp <- stats::model.frame(fit)[[1]]
     depvar.label <- sjstats::resp_var(fit)
-  } else if (any(class(fit) == "gls")) {
+  } else if (inherits(fit, "gls")) {
     fit_x <- data.frame(stats::model.matrix(fit))
     resp <- nlme::getResponse(fit)
     depvar.label <- attr(resp, "label")
@@ -334,19 +334,19 @@ create.xtab.df <- function(x,
     if (na.rm)
       mydat <- stats::ftable(round(stats::xtabs(weight.by ~ x_full + grp_full)), 0)
     else
-      mydat <- stats::ftable(round(stats::xtabs(weight.by ~ x_full + grp_full, 
-                                                exclude = NULL, 
+      mydat <- stats::ftable(round(stats::xtabs(weight.by ~ x_full + grp_full,
+                                                exclude = NULL,
                                                 na.action = stats::na.pass)), 0)
   }
   # create proportional tables, cell values
   proptab.cell <- round(100 * prop.table(mydat), round.prz)
   # create proportional tables, row percentages, including total row
-  proptab.row <- rbind(as.data.frame(as.matrix(round(100 * prop.table(mydat, 1), round.prz))), 
+  proptab.row <- rbind(as.data.frame(as.matrix(round(100 * prop.table(mydat, 1), round.prz))),
                        colSums(proptab.cell))
   rownames(proptab.row)[nrow(proptab.row)] <- "total"
   proptab.row <- as.data.frame(apply(proptab.row, c(1, 2), function(x) if (is.na(x)) x <- 0 else x))
   # create proportional tables, column  percentages, including total row
-  proptab.col <- cbind(as.data.frame(as.matrix(round(100 * prop.table(mydat, 2), round.prz))), 
+  proptab.col <- cbind(as.data.frame(as.matrix(round(100 * prop.table(mydat, 2), round.prz))),
                        rowSums(proptab.cell))
   colnames(proptab.col)[ncol(proptab.col)] <- "total"
   proptab.col <- as.data.frame(apply(proptab.col, c(1, 2), function(x) if (is.na(x)) x <- 0 else x))
@@ -600,7 +600,7 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
 
 
 is_merMod <- function(fit) {
-  return(any(class(fit) %in% c("lmerMod", "glmerMod", "nlmerMod", "merModLmerTest")))
+  return(inherits(fit, c("lmerMod", "glmerMod", "nlmerMod", "merModLmerTest")))
 }
 
 
@@ -613,9 +613,7 @@ retrieveModelLabels <- function(models, group.pred) {
     # get model
     fit <- models[[k]]
     # any valid model?
-    if (any(class(fit) == "plm") || 
-        any(class(fit) == "ppgls"))
-      return(NULL)
+    if (inherits(fit, c("plm", "ppgls")) return(NULL)
     # get model coefficients' names
     if (is_merMod(fit)) {
       coef_names <- names(lme4::fixef(fit))
@@ -679,8 +677,8 @@ retrieveModelLabels <- function(models, group.pred) {
 
 # compute chi-square for glm
 Chisquare.glm <- function(rr, digits = 3) {
-  return(with(rr, pchisq(null.deviance - deviance, 
-                         df.null - df.residual, 
+  return(with(rr, pchisq(null.deviance - deviance,
+                         df.null - df.residual,
                          lower.tail = FALSE), digits = digits))
 }
 
