@@ -295,7 +295,7 @@ sjp.lm <- function(fit,
   # -----------------------------------------------------------
   # check argument. No model-summary supported for plm-objects
   # -----------------------------------------------------------
-  if (any(class(fit) == "plm") || any(class(fit) == "pggls")) {
+  if (inherits(fit, c("plm", "pggls"))) {
     show.summary <- FALSE
     # -----------------------------------------------------------
     # check package availability if fit is plm-object
@@ -781,7 +781,7 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
   # ---------------------------------
   # remove outliers, only non-mixed models
   # ---------------------------------
-  if (any(class(linreg) == "lm")) {
+  if (inherits(linreg, "lm")) {
     # get r2
     rs <- summary(model)$r.squared
     # maximum loops
@@ -854,7 +854,7 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
   set_theme("scatterw")
   # qq-plot of studentized residuals for base model
   # mixed model model?
-  if (any(class(linreg) == "lme") || any(class(linreg) == "lmerMod")) {
+  if (inherits(linreg, c("lme", "lmerMod"))) {
     res_ <- sort(stats::residuals(linreg), na.last = NA)
     y_lab <- "Residuals"
   } else {
@@ -866,7 +866,7 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
   # create data frame
   mydf <- na.omit(data.frame(x = fitted_, y = res_))
   # plot it
-  p1 <- ggplot(mydf, aes(x = x, y = y)) +
+  p1 <- ggplot(mydf, aes_string(x = "x", y = "y")) +
            geom_point() +
            scale_colour_manual(values = c("#0033cc", "#993300")) +
            stat_smooth(method = "lm", se = FALSE) +
@@ -935,7 +935,7 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
   # ---------------------------------
   # summarize old and new model
   # ---------------------------------
-  if (any(class(linreg) == "lm")) {
+  if (inherits(linreg, "lm")) {
     set_theme("forestw")
     p1 <- sjp.lm(linreg, prnt.plot = FALSE)$plot
     # save plot
@@ -1073,8 +1073,7 @@ sjp.lm1 <- function(fit,
   # -----------------------------------------------------------
   # plot regression line and confidence intervall
   # -----------------------------------------------------------
-  reglinplot <- ggplot(mydat,
-                       aes(x = x, y = y)) +
+  reglinplot <- ggplot(mydat, aes_string(x = "x", y = "y")) +
     stat_smooth(method = "lm",
                 se = show.ci,
                 colour = lineColor)
@@ -1227,10 +1226,10 @@ sjp.lm.poly <- function(fit,
 
 get_lm_pvalues <- function(fit, include.intercept = TRUE) {
   # retrieve sigificance level of independent variables (p-values)
-  if (any(class(fit) == "pggls")) {
+  if (inherits(fit, "pggls")) {
     p <- summary(fit)$CoefTable[, 4]
     se <- summary(fit)$CoefTable[, 2]
-  } else if (any(class(fit) == "gls")) {
+  } else if (inherits(fit, "gls")) {
     p <- summary(fit)$tTable[, 4]
     se <- summary(fit)$tTable[, 2]
   } else {

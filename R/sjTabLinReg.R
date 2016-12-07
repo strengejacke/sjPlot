@@ -396,7 +396,7 @@ sjt.lm <- function(...,
   # ------------------------
   # do we have mixed models?
   # ------------------------
-  lmerob <- any(class(input_list[[1]]) == "lmerMod") || any(class(input_list[[1]]) == "merModLmerTest")
+  lmerob <- inherits(input_list[[1]], c("lmerMod", "merModLmerTest"))
   # ------------------------
   # should AICc be computed? Check for package
   # ------------------------

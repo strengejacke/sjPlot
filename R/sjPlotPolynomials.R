@@ -133,7 +133,7 @@ sjp.poly <- function(x,
     mf <- stats::model.frame(x)
     # retrieve polynomial term
     poly.term <- mf[[poly.term]]
-  } else if (any(class(x) == "lm") || any(class(x) == "glm")) {
+  } else if (inherits(x, c("lm", "glm"))) {
     # get model frame
     mf <- stats::model.frame(x)
     # retrieve response vector
