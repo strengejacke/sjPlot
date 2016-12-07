@@ -137,6 +137,10 @@ sjp.lmm <- function(...,
   # ----------------------------
   # Prepare length of title and labels
   # ----------------------------
+  # auto-retrieve value labels
+  if (is.null(axis.labels)) {
+    axis.labels <- suppressWarnings(retrieveModelLabels(input_list, group.pred = FALSE))
+  }
   # if we have no labels of dependent variables supplied, use a 
   # default string (Model) for legend
   if (is.null(depvar.labels))
@@ -250,6 +254,8 @@ sjp.lmm <- function(...,
   finalbetas$grp <- as.factor(finalbetas$grp)
   # convert to character
   finalbetas$shape <- as.character(finalbetas$shape)
+  # sort labels
+  axis.labels <- axis.labels[order(unique(finalbetas$xpos))]
   # -------------------------------------------------
   # remove any estimates from the output?
   # -------------------------------------------------

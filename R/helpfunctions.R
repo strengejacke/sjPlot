@@ -613,7 +613,7 @@ retrieveModelLabels <- function(models, group.pred) {
     # get model
     fit <- models[[k]]
     # any valid model?
-    if (inherits(fit, c("plm", "ppgls")) return(NULL)
+    if (inherits(fit, c("plm", "ppgls"))) return(NULL)
     # get model coefficients' names
     if (is_merMod(fit)) {
       coef_names <- names(lme4::fixef(fit))
@@ -645,25 +645,19 @@ retrieveModelLabels <- function(models, group.pred) {
           # have any labels, and have we same amount of labels
           # as factor levels?
           if (!is.null(pvar.lab) && length(pvar.lab) == pvar.len) {
-            # add labels
-            if (sjmisc::str_contains(fit.labels, pattern = pvar.lab[2:pvar.len], logic = "NOT")) {
-              # create labels
-              if (group.pred && pvar.len > 2) {
-                # if predictor grouping is enabled, don't use variable labels again
-                labels.to.add <- pvar.lab[2:pvar.len]
-              } else {
-                # else, if we have not grouped predictors, we have no headin
-                # with variable label, hence, factor levels may not be intuitiv.
-                # thus, add variable label so values have a meaning
-                labels.to.add <- sprintf("%s (%s)", lab, pvar.lab[2:pvar.len])
-              }
-              fit.labels <- c(fit.labels, labels.to.add)
+            # create labels
+            if (group.pred && pvar.len > 2) {
+              # if predictor grouping is enabled, don't use variable labels again
+              labels.to.add <- pvar.lab[2:pvar.len]
+            } else {
+              # else, if we have not grouped predictors, we have no headin
+              # with variable label, hence, factor levels may not be intuitiv.
+              # thus, add variable label so values have a meaning
+              labels.to.add <- sprintf("%s (%s)", lab, pvar.lab[2:pvar.len])
             }
+            fit.labels <- c(fit.labels, labels.to.add)
           } else {
-            # add labels
-            if (sjmisc::str_contains(fit.labels, pattern = coef_name, logic = "NOT")) {
-              fit.labels <- c(fit.labels, coef_name)
-            }
+            fit.labels <- c(fit.labels, coef_name)
           }
         } else {
           if (!any(fit.labels == lab)) fit.labels <- c(fit.labels, lab)
@@ -671,7 +665,7 @@ retrieveModelLabels <- function(models, group.pred) {
       }
     }
   }
-  return(fit.labels)
+  return(unique(fit.labels))
 }
 
 

@@ -154,7 +154,7 @@ sjp.glm <- function(fit,
   # check args -----
   if (type == "pc" || type == "prob") type <- "slope"
 
-  if (any(class(fit) == "logistf")) {
+  if (inherits(fit, "logistf")) {
     # no model summary currently supported for logistf class
     show.summary <- FALSE
     # create "dummy" variable, to avoid errors

@@ -9,6 +9,7 @@
 * `sjp.resid()` now also returns a plot with the residual pattern, `$pattern`.
 * Plot and axis titles from effect-plots can now be changed with `title` or `axis.title` argument. Use a character vector of length > 1 to define (axis) titles for each plot or facet; use `""` to remove the plot.
 * Pick better defaults for `geom.size`-argument for histogram and density plots in `sjp.frq()`.
+* Improved automatic label detection for regression models for plot or table output.
 
 ## Bug fixes
 

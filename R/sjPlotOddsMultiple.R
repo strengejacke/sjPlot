@@ -127,6 +127,10 @@ sjp.glmm <- function(...,
   # ----------------------------
   # Prepare length of title and labels
   # ----------------------------
+  # auto-retrieve value labels
+  if (is.null(axis.labels)) {
+    axis.labels <- suppressWarnings(retrieveModelLabels(input_list, group.pred = FALSE))
+  }
   # if we have no labels of dependent variables supplied, use a 
   # default string (Model) for legend
   if (is.null(depvar.labels))
@@ -227,6 +231,8 @@ sjp.glmm <- function(...,
   finalodds$grp <- as.factor(finalodds$grp)
   # convert to character
   finalodds$shape <- as.character(finalodds$shape)
+  # sort labels
+  axis.labels <- axis.labels[order(unique(finalodds$xpos))]
   # -------------------------------------------------
   # remove any estimates from the output?
   # -------------------------------------------------
