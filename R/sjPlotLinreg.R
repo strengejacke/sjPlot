@@ -338,7 +338,8 @@ sjp.lm <- function(fit,
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
                                    a.title = axis.title,
                                    geom.colors, show.ci, geom.size, ylim = axis.lim,
-                                   facet.grid, type = "fe", show.loess, prnt.plot)))
+                                   facet.grid, type = "fe", scatter.plot, point.alpha, 
+                                   show.loess, prnt.plot)))
   }
   if (type == "poly") {
     return(invisible(sjp.lm.poly(fit, poly.term, geom.colors, geom.size, axis.title,

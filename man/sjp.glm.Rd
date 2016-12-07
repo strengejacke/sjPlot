@@ -11,9 +11,9 @@ sjp.glm(fit, type = "dots", vars = NULL, group.estimates = NULL,
   wrap.labels = 25, axis.lim = NULL, grid.breaks = 0.5,
   trns.ticks = TRUE, show.intercept = FALSE, show.values = TRUE,
   show.p = TRUE, show.ci = FALSE, show.legend = FALSE,
-  show.summary = FALSE, digits = 2, vline.type = 2,
-  vline.color = "grey70", coord.flip = TRUE, y.offset = 0.15,
-  facet.grid = TRUE, prnt.plot = TRUE, ...)
+  show.summary = FALSE, point.alpha = 0.2, scatter.plot = TRUE,
+  digits = 2, vline.type = 2, vline.color = "grey70", coord.flip = TRUE,
+  y.offset = 0.15, facet.grid = TRUE, prnt.plot = TRUE, ...)
 }
 \arguments{
 \item{fit}{fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).}
@@ -113,6 +113,12 @@ function, a legend is added to the plot.}
 
 \item{show.summary}{logical, if \code{TRUE}, a summary with model statistics 
 is added to the plot.}
+
+\item{point.alpha}{alpha value of point-geoms in the scatter plots.}
+
+\item{scatter.plot}{logical, if \code{TRUE} (default), a scatter plot of
+response and predictor values for each predictor of the model
+is plotted. Only applies for slope-type plots.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 

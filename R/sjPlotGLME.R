@@ -50,6 +50,7 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #' @param title character vector with one or more labels that are used as plot title.
 #' @param string.interc string, axis label of intercept estimate. Only applies, 
 #'          if \code{show.intercept = TRUE} and \code{axis.labels} is not \code{NULL}.
+#' @param point.alpha alpha value of point-geoms in the scatter plots.
 #' @param sort.est determines in which way estimates are sorted in the plot:
 #'          \itemize{
 #'            \item If \code{NULL} (default), no sorting is done and estimates are sorted in order of model coefficients.
@@ -248,6 +249,8 @@ sjp.glmer <- function(fit,
                       show.legend = FALSE,
                       show.intercept = FALSE,
                       string.interc = "(Intercept)",
+                      point.alpha = 0.2,
+                      scatter.plot = TRUE,
                       fade.ns = FALSE,
                       axis.lim = NULL,
                       digits = 2,
@@ -299,8 +302,8 @@ sjp.glmer <- function(fit,
            FALSE,
            prnt.plot,
            fun = "glm",
-           0.2,
-           TRUE,
+           point.alpha,
+           scatter.plot,
            FALSE,
            FALSE,
            NULL,
@@ -398,7 +401,6 @@ sjp.glmer <- function(fit,
 #'            \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples' here and 'Details' of \code{\link{sjp.lm}}).}
 #'            \item{\code{"ma"}}{to check model assumptions. Note that no further arguments except \code{fit} are relevant for this option. All other arguments are ignored.}
 #'          }
-#' @param point.alpha alpha value of point-geoms in the scatter plots.
 #' @param show.loess logical, if \code{TRUE}, and depending on \code{type}, an 
 #'          additional loess-smoothed line is plotted.
 #' @param show.loess.ci logical, if \code{TRUE}, a confidence region for the loess-smoothed line
@@ -792,7 +794,8 @@ sjp.lme4  <- function(fit,
                                   remove.estimates, vars, ylim = axis.lim, prnt.plot)))
     } else {
       return(invisible(sjp.glm.slope(fit, title, geom.size, geom.colors, remove.estimates, vars,
-                                     ylim = axis.lim, show.ci, facet.grid, prnt.plot)))
+                                     ylim = axis.lim, show.ci, facet.grid, scatter.plot,
+                                     point.alpha, prnt.plot)))
     }
   } else if (type == "poly") {
     # ---------------------------------------
@@ -846,7 +849,7 @@ sjp.lme4  <- function(fit,
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
                                    a.title = axis.title,
                                    geom.colors, show.ci, geom.size, ylim = axis.lim, facet.grid, 
-                                   type = "re", show.loess = F, prnt.plot)))
+                                   type = "re", scatter.plot, point.alpha, show.loess = F, prnt.plot)))
   } else if (type == "pred.fe") {
     # fix color
     if (geom.colors == "Set1" && length(vars) == 1) geom.colors <- "black"
@@ -857,7 +860,7 @@ sjp.lme4  <- function(fit,
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
                                    a.title = axis.title,
                                    geom.colors, show.ci, geom.size, ylim = axis.lim, facet.grid, 
-                                   type = "fe", show.loess = F, prnt.plot)))
+                                   type = "fe", scatter.plot, point.alpha, show.loess = F, prnt.plot)))
   }
   # ------------------------
   # check if suggested package is available

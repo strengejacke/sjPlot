@@ -10,9 +10,10 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL,
   axis.labels = NULL, axis.title = NULL, geom.colors = "Set1",
   geom.size = NULL, show.values = TRUE, show.p = TRUE, show.ci = FALSE,
   show.legend = FALSE, show.intercept = FALSE,
-  string.interc = "(Intercept)", fade.ns = FALSE, axis.lim = NULL,
-  digits = 2, vline.type = 2, vline.color = "grey70", facet.grid = TRUE,
-  free.scale = FALSE, y.offset = 0.1, prnt.plot = TRUE, ...)
+  string.interc = "(Intercept)", point.alpha = 0.2, scatter.plot = TRUE,
+  fade.ns = FALSE, axis.lim = NULL, digits = 2, vline.type = 2,
+  vline.color = "grey70", facet.grid = TRUE, free.scale = FALSE,
+  y.offset = 0.1, prnt.plot = TRUE, ...)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{glmer}}-function.}
@@ -122,6 +123,12 @@ function call is interrupted and no plot printed.}
 
 \item{string.interc}{string, axis label of intercept estimate. Only applies, 
 if \code{show.intercept = TRUE} and \code{axis.labels} is not \code{NULL}.}
+
+\item{point.alpha}{alpha value of point-geoms in the scatter plots.}
+
+\item{scatter.plot}{logical, if \code{TRUE} (default), a scatter plot of
+response and predictor values for each predictor of the model
+is plotted. Only applies for slope-type plots.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 
