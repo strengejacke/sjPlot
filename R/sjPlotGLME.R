@@ -2457,8 +2457,8 @@ get_cleaned_ciMerMod <- function(fit, fun, ci.only = FALSE) {
   else
     mydf <- data.frame(exp(cbind(estimate, CI)))
   # add rownames
-  mydf <- mydf %>% 
-    tibble::rownames_to_column(var = "term") %>% 
+  mydf <- 
+    tibble::rownames_to_column(mydf, var = "term") %>% 
     dplyr::rename_(.dots = list("conf.low" = "X2.5..", "conf.high" = "X97.5.."))
   # only return ci?
   if (ci.only) mydf <- mydf %>% dplyr::select_("-estimate")

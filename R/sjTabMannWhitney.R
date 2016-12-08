@@ -1,15 +1,15 @@
 #' @title Summary of Mann-Whitney-Test as HTML table
 #' @name sjt.mwu
-#' 
+#'
 #' @description Shows the results of a Mann-Whitney-U-test as HTML table. The results
 #'                from the Mann-Whitney-test are obtained by the \code{\link[sjstats]{mwu}}
 #'                function from the \pkg{sjstats}-package.
 #'
 #' @param x results of a Mann-Whitney-U test, provided by \code{\link[sjstats]{mwu}}. See 'Examples'.
-#'          
+#'
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.df
-#'  
+#'
 #' @return Invisibly returns a \code{\link{list}} with
 #'          \itemize{
 #'            \item the data frame with the description information (\code{data}),
@@ -21,19 +21,19 @@
 #'            for further use.
 #'
 #' @note See 'Notes' in \code{\link{sjt.frq}}.
-#'  
+#'
 #' @details See 'Details' in \code{\link{sjt.frq}}.
 #'
-#' @examples 
+#' @examples
 #' \dontrun{
 #' library(sjmisc)
 #' data(efc)
 #' sjt.mwu(mwu(efc$e17age, efc$e42dep))}
 #'
 #' @export
-sjt.mwu <- function(x, 
-                    title = NULL, 
-                    altr.row.col = TRUE, 
+sjt.mwu <- function(x,
+                    title = NULL,
+                    altr.row.col = TRUE,
                     CSS = NULL,
                     encoding = NULL,
                     file = NULL,
@@ -44,7 +44,7 @@ sjt.mwu <- function(x,
   # check correct class
   # --------------------------------------------------------
   if (class(x) != "mwu") {
-    stop("'x' must be of class 'mwu', as returned by the 'mwu'-function of the sjmisc-package. See ?sjt.mwu for details.", call. = F)
+    stop("`x` must be of class `mwu`, as returned by the `mwu()`-function of the sjstats-package.", call. = F)
   }
   # --------------------------------------------------------
   # check p-value-style option
@@ -63,10 +63,10 @@ sjt.mwu <- function(x,
   # --------------------------------------------------------
   # print table and return results
   # --------------------------------------------------------
-  html <- sjt.df(x$tab.df, 
+  html <- sjt.df(x$tab.df,
                  title = title,
-                 describe = F, 
-                 show.rownames = F, 
+                 describe = F,
+                 show.rownames = F,
                  altr.row.col = altr.row.col,
                  CSS = CSS,
                  no.output = T,
@@ -76,9 +76,9 @@ sjt.mwu <- function(x,
   # -------------------------------------
   # check if html-content should be printed
   # -------------------------------------
-  out.html.table(no.output, file, html$knitr, html$output.complete, use.viewer)  
+  out.html.table(no.output, file, html$knitr, html$output.complete, use.viewer)
   invisible(list(class = c("sjTable", "sjtmwu"),
-                 df = x$tab.df, 
+                 df = x$tab.df,
                  page.style = html$page.style,
                  page.content = html$page.content,
                  knitr = html$knitr,

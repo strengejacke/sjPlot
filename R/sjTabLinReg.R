@@ -56,6 +56,10 @@
 #' @param p.zero logical, if \code{TRUE}, p-values have a leading 0 before the
 #'          period (e.g. \emph{0.002}), else p-values start with a period and
 #'          without a zero (e.g. \emph{.002}).
+#' @param robust logical, if \code{TRUE}, robust standard errors and confidence 
+#'          intervals will be reported. Computation of robust standard errors is
+#'          based on the \code{\link[sjstats]{robust}}-function in the 
+#'          \pkg{sjstats}-package.
 #' @param separate.ci.col if \code{TRUE}, the CI values are shown in a separate table column.
 #'          Default is \code{FALSE}.
 #' @param newline.ci logical, if \code{TRUE} and \code{separate.ci.col = FALSE}, inserts a line break
@@ -286,7 +290,7 @@
 #' @importFrom dplyr full_join slice bind_cols select_ rename_
 #' @importFrom stats nobs AIC confint coef deviance
 #' @importFrom lme4 VarCorr
-#' @importFrom sjstats std_beta icc r2 cod chisq_gof hoslem_gof get_model_pval
+#' @importFrom sjstats std_beta icc r2 cod chisq_gof hoslem_gof get_model_pval robust
 #' @importFrom tibble lst add_row add_column
 #' @importFrom broom tidy
 #' @export
@@ -299,6 +303,7 @@ sjt.lm <- function(...,
                    emph.p = TRUE,
                    p.zero = FALSE,
                    p.kr = TRUE,
+                   robust = FALSE,
                    separate.ci.col = TRUE,
                    newline.ci = TRUE,
                    show.est = TRUE,
@@ -449,8 +454,13 @@ sjt.lm <- function(...,
     # -------------------------------------
     # get tidy model summary
     # -------------------------------------
-    fit.df <- broom::tidy(input_list[[i]], effects = "fixed", conf.int = T) %>% 
-      dplyr::select_("-statistic")
+    if (robust) {
+      fit.df <- sjstats::robust(input_list[[i]], conf.int = T) %>% 
+        dplyr::select_("-statistic")
+    } else {
+      fit.df <- broom::tidy(input_list[[i]], effects = "fixed", conf.int = T) %>% 
+        dplyr::select_("-statistic")
+    }
     # -------------------------------------
     # check for p-value colum
     # -------------------------------------
@@ -534,7 +544,7 @@ sjt.lm <- function(...,
     # -------------------------------------
     # add to df list
     # -------------------------------------
-    df.fit[[length(df.fit) + 1]] <- fit.df
+    df.fit[[length(df.fit) + 1]] <- as.data.frame(fit.df)
   }
   # -------------------------------------
   # join all data frame, i.e. "merge" all
@@ -584,12 +594,6 @@ sjt.lm <- function(...,
     # select rows
     joined.df <- dplyr::slice(joined.df, keep.estimates)
   }
-  # replace empty values &nbsp;
-  # for (i in seq_len(nrow(joined.df))) {
-  #   for (j in seq_len(ncol(joined.df))) {
-  #     if (sjmisc::is_empty(joined.df[i, j])) joined.df[i, j] <- "&nbsp;"
-  #   }
-  # }
   # -------------------------------------
   # if confidence interval should be omitted,
   # don't use separate column for CI!
@@ -1444,7 +1448,7 @@ sjt.lmer <- function(...,
                 digits.est = digits.est, digits.p = digits.p, digits.ci = digits.ci,
                 digits.se = digits.se, digits.std = digits.std, digits.summary = digits.summary, 
                 p.numeric = p.numeric, emph.p = emph.p, p.zero = p.zero, p.kr = p.kr,
-                separate.ci.col = separate.ci.col, newline.ci = newline.ci, 
+                robust = FALSE, separate.ci.col = separate.ci.col, newline.ci = newline.ci, 
                 group.pred = group.pred, show.col.header = show.col.header, show.r2 = show.r2, show.icc = show.icc, 
                 show.re.var = show.re.var, show.fstat = FALSE, show.aic = show.aic, show.aicc = show.aicc, show.dev = show.dev,
                 remove.estimates = remove.estimates, cell.spacing = cell.spacing, cell.gpr.indent = cell.gpr.indent,

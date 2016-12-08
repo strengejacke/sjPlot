@@ -174,6 +174,7 @@ sjt.glm <- function(...,
                     p.numeric = TRUE,
                     emph.p = TRUE,
                     p.zero = FALSE,
+                    robust = FALSE,
                     separate.ci.col = TRUE,
                     newline.ci = TRUE,
                     show.ci = TRUE,
@@ -300,48 +301,37 @@ sjt.glm <- function(...,
     # -------------------------------------
     fit <- input_list[[i]]
     # -------------------------------------
-    # retrieve ci for model
+    # get tidy model summary
     # -------------------------------------
-    if (lmerob) {
-      # get cleaned CI
-      confis <- get_cleaned_ciMerMod(fit, "lm", T) %>% 
-        dplyr::select_("-term")
-      coef.fit <- lme4::fixef(fit)
+    if (robust) {
+      fit.df <- sjstats::robust(fit, conf.int = T, exponentiate = F) %>% 
+        dplyr::select_("-statistic")
     } else {
-      confis <- stats::confint(fit)
-      coef.fit <- stats::coef(fit)
+      fit.df <- broom::tidy(fit, effects = "fixed", conf.int = T) %>% 
+        dplyr::select_("-statistic")
     }
     # -------------------------------------
     # write data to data frame. we need names of
     # coefficients, estimated values, ci,
     # std. beta and p-values
     # -------------------------------------
-    fit.df <- data.frame(names(coef.fit))
     if (exp.coef) {
-      fit.df$coeffs <- sprintf("%.*f", digits.est, exp(coef.fit))
-      fit.df$confi_lower <- sprintf("%.*f", digits.ci, exp(confis[, 1]))
-      fit.df$confi_higher <- sprintf("%.*f", digits.ci, exp(confis[, 2]))
-    } else {
-      fit.df$coeffs <- sprintf("%.*f", digits.est, coef.fit)
-      fit.df$confi_lower <- sprintf("%.*f", digits.ci, confis[, 1])
-      fit.df$confi_higher <- sprintf("%.*f", digits.ci, confis[, 2])
+      fit.df$estimate <- exp(fit.df$estimate)
+      fit.df$conf.low <- exp(fit.df$conf.low)
+      fit.df$conf.high <- exp(fit.df$conf.high)
     }
     # -------------------------------------
-    # extracting p-values and se differs between
-    # glmer and glm, and also pglm. Note that
-    # pglm-models do not have the "pglm"-class-attribute,
-    # differently stated in the help ?pglm
+    # format values
     # -------------------------------------
-    p.tmp <- sjstats::get_model_pval(fit)
-    # p-values
-    fit.df$pv <- round(p.tmp[["p.value"]], digits.p)
-    # standard error
-    fit.df$se <- sprintf("%.*f", digits.se, p.tmp[["std.error"]])
+    fit.df$estimate <- sprintf("%.*f", digits.est, fit.df$estimate)
+    fit.df$conf.low <- sprintf("%.*f", digits.ci, fit.df$conf.low)
+    fit.df$conf.high <- sprintf("%.*f", digits.ci, fit.df$conf.high)
+    fit.df$std.error <- sprintf("%.*f", digits.se, fit.df$std.error)
     # -------------------------------------
     # prepare p-values, either as * or as numbers
     # -------------------------------------
     if (!p.numeric) {
-      fit.df$pv <- sapply(fit.df$pv, function(x) x <- get_p_stars(x))
+      fit.df$p.value <- sapply(fit.df$p.value, function(x) x <- get_p_stars(x))
     } else {
       if (emph.p) {
         sb1 <- "<b>"
@@ -349,7 +339,7 @@ sjt.glm <- function(...,
       } else {
         sb1 <- sb2 <- ""
       }
-      fit.df$pv <- sapply(fit.df$pv, function(x) {
+      fit.df$p.value <- sapply(fit.df$p.value, function(x) {
         if (x < 0.05) {
           if (x < 0.001 && digits.p <= 3) {
             x <- sprintf("%s&lt;0.001%s", sb1, sb2)
@@ -372,14 +362,15 @@ sjt.glm <- function(...,
     # -------------------------------------
     colnames(fit.df) <- c("coef.name",
                           sprintf("estimate%i", i),
-                          sprintf("ci.lo%i", i),
-                          sprintf("ci.hi%i", i),
+                          sprintf("se%i", i),
                           sprintf("p-value%i", i),
-                          sprintf("se%i", i))
+                          sprintf("ci.lo%i", i),
+                          sprintf("ci.hi%i", i))
+    fit.df <- fit.df[, c(1:2, 5:6, 4, 3)]
     # -------------------------------------
     # add to df list
     # -------------------------------------
-    df.fit[[length(df.fit) + 1]] <- fit.df
+    df.fit[[length(df.fit) + 1]] <- as.data.frame(fit.df)
   }
   # -------------------------------------
   # join all data frame
@@ -530,7 +521,7 @@ sjt.glm <- function(...,
   if (show.col.header) {
     page.content <- paste0(page.content, "\n  <tr>\n    <td class=\"tdata colnames\">&nbsp;</td>")
     colnr <- ifelse(is.null(depvar.labels), length(input_list), length(depvar.labels))
-    for (i in 1:colnr) {
+    for (i in seq_len(colnr)) {
       # -------------------------
       # insert "separator column"
       # -------------------------
@@ -570,7 +561,7 @@ sjt.glm <- function(...,
   # 1. row: intercept
   # -------------------------------------
   page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata %sleftalign\">%s</td>", tcb_class, string.interc))
-  for (i in 1:length(input_list)) {
+  for (i in seq_len(length(input_list))) {
     # -------------------------
     # insert "separator column"
     # -------------------------
@@ -642,7 +633,7 @@ sjt.glm <- function(...,
     # ---------------------------------------
     # go through fitted model's statistics
     # ---------------------------------------
-    for (j in 1:length(input_list)) {
+    for (j in seq_len(length(input_list))) {
       # retieve lower and upper ci
       ci.lo <- joined.df[i + 1, (j - 1) * 5 + 3]
       ci.hi <- joined.df[i + 1, (j - 1) * 5 + 4]
@@ -741,12 +732,12 @@ sjt.glm <- function(...,
       # -------------------------
       # first models indicates grouping levels. we have to assume comparable models
       # with same random intercepts.
-      for (gl in 1:mmcount) {
+      for (gl in seq_len(mmcount)) {
         page.content <- paste0(page.content,
                                sprintf("\n  <tr>\n    <td class=\"tdata summary leftalign\">&tau;<sub>00, %s</sub></td>\n",
                                        names(mmgrps[gl])))
         # iterate models
-        for (i in 1:length(input_list)) {
+        for (i in seq_len(length(input_list))) {
           # -------------------------
           # insert "separator column"
           # -------------------------
@@ -772,7 +763,7 @@ sjt.glm <- function(...,
         # iterate final models
         page.content <- paste0(page.content, "\n  <tr>\n    <td class=\"tdata summary leftalign\">&rho;<sub>01</sub></td>\n")
         # iterate models
-        for (i in 1:length(input_list)) {
+        for (i in seq_len(length(input_list))) {
           # -------------------------
           # insert "separator column"
           # -------------------------
@@ -796,10 +787,10 @@ sjt.glm <- function(...,
     # -------------------------------------
     # first models indicates grouping levels. we have to assume comparable models
     # with same random intercepts.
-    for (gl in 1:mmcount) {
+    for (gl in seq_len(mmcount)) {
       page.content <- paste0(page.content, sprintf("\n  <tr>\n    <td class=\"tdata summary leftalign\">N<sub>%s</sub></td>", names(mmgrps[gl])))
       # iterate models
-      for (i in 1:length(input_list)) {
+      for (i in seq_len(length(input_list))) {
         # -------------------------
         # insert "separator column"
         # -------------------------
@@ -823,10 +814,10 @@ sjt.glm <- function(...,
       # get icc from models
       summary.icc <- sjstats::icc(input_list[[which.max(all_mm_counts)]])
       # iterate icc's
-      for (si in 1:mmcount) {
+      for (si in seq_len(mmcount)) {
         page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata leftalign summary\">ICC<sub>%s</sub></td>", names(summary.icc[si])))
         # iterate models
-        for (i in 1:length(input_list)) {
+        for (i in seq_len(length(input_list))) {
           # -------------------------
           # insert "separator column"
           # -------------------------
@@ -850,7 +841,7 @@ sjt.glm <- function(...,
   # Model-Summary: N
   # -------------------------------------
   page.content <- paste0(page.content, sprintf("\n  <tr>\n    <td class=\"tdata summary leftalign firstsumrow\">%s</td>", string.obs))
-  for (i in 1:length(input_list)) {
+  for (i in seq_len(length(input_list))) {
     # -------------------------
     # insert "separator column"
     # -------------------------
@@ -869,7 +860,7 @@ sjt.glm <- function(...,
       r2string <- "Pseudo-R<sup>2</sup>"
 
     page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata leftalign summary\">%s</td>", r2string))
-    for (i in 1:length(input_list)) {
+    for (i in seq_len(length(input_list))) {
       # -------------------------
       # insert "separator column"
       # -------------------------
@@ -915,7 +906,7 @@ sjt.glm <- function(...,
       if (any(models.reml)) warning("Some models were fit with REML. To get meaningful AIC values for comparison, refit models with ML (`REML = FALSE`).", call. = F)
     }
     page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">AIC</td>")
-    for (i in 1:length(input_list)) {
+    for (i in seq_len(length(input_list))) {
       # -------------------------
       # insert "separator column"
       # -------------------------
@@ -929,7 +920,7 @@ sjt.glm <- function(...,
   # -------------------------------------
   if (show.aicc) {
     page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">AICc</td>")
-    for (i in 1:length(input_list)) {
+    for (i in seq_len(length(input_list))) {
       # -------------------------
       # insert "separator column"
       # -------------------------
@@ -943,7 +934,7 @@ sjt.glm <- function(...,
   # -------------------------------------
   if (show.loglik) {
     page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">-2 Log-Likelihood</td>")
-    for (i in 1:length(input_list)) {
+    for (i in seq_len(length(input_list))) {
       # -------------------------
       # insert "separator column"
       # -------------------------
@@ -957,7 +948,7 @@ sjt.glm <- function(...,
   # -------------------------------------
   if (show.dev) {
     page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">Deviance</td>")
-    for (i in 1:length(input_list)) {
+    for (i in seq_len(length(input_list))) {
       # -------------------------
       # insert "separator column"
       # -------------------------
@@ -971,7 +962,7 @@ sjt.glm <- function(...,
   # -------------------------------------
   if (show.chi2) {
     page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">&Chi;<sup>2</sup><sub>deviance</sub></td>")
-    for (i in 1:length(input_list)) {
+    for (i in seq_len(length(input_list))) {
       # -------------------------
       # insert "separator column"
       # -------------------------
@@ -987,48 +978,11 @@ sjt.glm <- function(...,
     page.content <- paste0(page.content, "\n  </tr>\n")
   }
   # -------------------------------------
-  # Model-Summary: chi-square-GOF
-  # -------------------------------------
-  #   if (showGoF) {
-  #     # -------------------------
-  #     # not working for glmer
-  #     # -------------------------
-  #     if (lmerob) {
-  #       warning("Chi-square Goodness-of-Fit-test does not work for 'merMod'-objects.", call. = F)
-  #     } else {
-  #       page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">Pearson's &Chi;<sup>2</sup></td>")
-  #       for (i in 1:length(input_list)) {
-  #         # -------------------------
-  #         # insert "separator column"
-  #         # -------------------------
-  #         if (sep.column) page.content <- paste0(page.content, "<td class=\"separatorcol\">&nbsp;</td>")
-  #         # -------------------------
-  #         # compute Pearson's X2 GOF-test
-  #         # -------------------------
-  #         pgof <- sjstats::chisq_gof(input_list[[i]])
-  #         # -------------------------
-  #         # print chisq and p
-  #         # -------------------------
-  #         page.content <- paste0(page.content,
-  #                                gsub("0.",
-  #                                     paste0(p_zero, "."),
-  #                                     sprintf("%s%.*f; p=%.*f</td>",
-  #                                             colspanstring,
-  #                                             digits.summary,
-  #                                             pgof$X2,
-  #                                             digits.summary,
-  #                                             pgof$p.value),
-  #                                     fixed = T))
-  #       }
-  #       page.content <- paste0(page.content, "\n  </tr>\n")
-  #     }
-  #   }
-  # -------------------------------------
   # Model-Summary: Hosmer-Lemeshow-GOF
   # -------------------------------------
   if (show.hoslem) {
     page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">Hosmer-Lemeshow-&Chi;<sup>2</sup></td>")
-    for (i in 1:length(input_list)) {
+    for (i in seq_len(length(input_list))) {
       # -------------------------
       # insert "separator column"
       # -------------------------
@@ -1058,7 +1012,7 @@ sjt.glm <- function(...,
   # -------------------------------------
   if (show.family) {
     page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">Family</td>")
-    for (i in 1:length(input_list)) {
+    for (i in seq_len(length(input_list))) {
       # -------------------------
       # insert "separator column"
       # -------------------------
@@ -1247,7 +1201,7 @@ sjt.glmer <- function(...,
                  string.ci = string.ci, string.se = string.se, string.p = string.p,
                  digits.est = digits.est, digits.p = digits.p, digits.ci = digits.ci,
                  digits.se = digits.se, digits.summary = digits.summary, exp.coef = exp.coef,
-                 p.numeric = p.numeric, emph.p = emph.p, p.zero = p.zero,
+                 p.numeric = p.numeric, emph.p = emph.p, p.zero = p.zero, robust = FALSE, 
                  show.ci = show.ci, show.se = show.se,
                  ci.hyphen = ci.hyphen, separate.ci.col = separate.ci.col, newline.ci = newline.ci,
                  group.pred = group.pred, show.col.header = show.col.header, show.r2 = show.r2, show.icc = show.icc,

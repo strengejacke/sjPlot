@@ -6,12 +6,12 @@
 \usage{
 sjt.lm(..., pred.labels = NULL, depvar.labels = NULL,
   remove.estimates = NULL, group.pred = TRUE, p.numeric = TRUE,
-  emph.p = TRUE, p.zero = FALSE, p.kr = TRUE, separate.ci.col = TRUE,
-  newline.ci = TRUE, show.est = TRUE, show.std = NULL, show.ci = TRUE,
-  show.se = FALSE, show.header = FALSE, show.col.header = TRUE,
-  show.r2 = TRUE, show.icc = FALSE, show.re.var = FALSE,
-  show.fstat = FALSE, show.aic = FALSE, show.aicc = FALSE,
-  show.dev = FALSE, string.pred = "Predictors",
+  emph.p = TRUE, p.zero = FALSE, p.kr = TRUE, robust = FALSE,
+  separate.ci.col = TRUE, newline.ci = TRUE, show.est = TRUE,
+  show.std = NULL, show.ci = TRUE, show.se = FALSE, show.header = FALSE,
+  show.col.header = TRUE, show.r2 = TRUE, show.icc = FALSE,
+  show.re.var = FALSE, show.fstat = FALSE, show.aic = FALSE,
+  show.aicc = FALSE, show.dev = FALSE, string.pred = "Predictors",
   string.dv = "Dependent Variables", string.interc = "(Intercept)",
   string.obs = "Observations", string.est = "B", string.std = "std. Beta",
   string.ci = "CI", string.se = "std. Error", string.p = "p",
@@ -59,6 +59,11 @@ without a zero (e.g. \emph{.002}).}
 \item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
 F-tests with Kenward-Roger approximation for the df. Caution: Computation
 may take very long time for large samples!}
+
+\item{robust}{logical, if \code{TRUE}, robust standard errors and confidence 
+intervals will be reported. Computation of robust standard errors is
+based on the \code{\link[sjstats]{robust}}-function in the 
+\pkg{sjstats}-package.}
 
 \item{separate.ci.col}{if \code{TRUE}, the CI values are shown in a separate table column.
 Default is \code{FALSE}.}

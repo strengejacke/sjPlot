@@ -6,7 +6,7 @@
 \usage{
 sjt.glm(..., pred.labels = NULL, depvar.labels = NULL,
   remove.estimates = NULL, group.pred = TRUE, exp.coef = TRUE,
-  p.numeric = TRUE, emph.p = TRUE, p.zero = FALSE,
+  p.numeric = TRUE, emph.p = TRUE, p.zero = FALSE, robust = FALSE,
   separate.ci.col = TRUE, newline.ci = TRUE, show.ci = TRUE,
   show.se = FALSE, show.header = FALSE, show.col.header = TRUE,
   show.r2 = FALSE, show.icc = FALSE, show.re.var = FALSE,
@@ -61,6 +61,11 @@ as numbers. If \code{FALSE} (default), asterisks are used.}
 \item{p.zero}{logical, if \code{TRUE}, p-values have a leading 0 before the
 period (e.g. \emph{0.002}), else p-values start with a period and
 without a zero (e.g. \emph{.002}).}
+
+\item{robust}{logical, if \code{TRUE}, robust standard errors and confidence 
+intervals will be reported. Computation of robust standard errors is
+based on the \code{\link[sjstats]{robust}}-function in the 
+\pkg{sjstats}-package.}
 
 \item{separate.ci.col}{if \code{TRUE}, the CI values are shown in a separate table column.
 Default is \code{FALSE}.}
