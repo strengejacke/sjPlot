@@ -15,8 +15,8 @@
 
 ## Bug fixes
 
-* Restored order of categories in `sjp.xtab()` and `sjp.grpfrq()` for stacked bars (`position_stack()` reversed order since  last ggplot2-update), so labels are now correclty positioned again.
-* Restored order of categories in `sjp.likert()`, so groups are now in correct order again.
+* Restored correct order of categories in `sjp.xtab()` and `sjp.grpfrq()` for stacked bars (`position_stack()` reversed order since last ggplot2-update), so labels are now correclty positioned again.
+* Restored correct order of categories in `sjp.likert()`, so groups are now in correct order again.
 
 # sjPlot 2.1.2
 

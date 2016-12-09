@@ -146,23 +146,12 @@ Note that only even numbers of categories are possible to plot, so the "positive
        with the \code{catcount}-argument.
 }
 \examples{
-# prepare data for dichotomous likert scale, 5 items
-likert_2 <- data.frame(
-  as.factor(sample(1:2, 500, replace = TRUE, prob = c(0.3,0.7))),
-  as.factor(sample(1:2, 500, replace = TRUE, prob = c(0.6,0.4))),
-  as.factor(sample(1:2, 500, replace = TRUE, prob = c(0.25,0.75))),
-  as.factor(sample(1:2, 500, replace = TRUE, prob = c(0.9,0.1))),
-  as.factor(sample(1:2, 500, replace = TRUE, prob = c(0.35,0.65))))
-  
-# create labels
-levels_2 <- c("Agree", "Disagree")
-                       
 # prepare data for 4-category likert scale, with neutral category 5 items
-Q1 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.2, 0.3, 0.1, 0.4)))
-Q2 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.5, 0.25, 0.15, 0.1)))
-Q3 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.25, 0.1, 0.4, 0.25)))
-Q4 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.1, 0.4, 0.4, 0.1)))
-Q5 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.35, 0.25, 0.15, 0.25)))
+Q1 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(.2, .3, .1, .4)))
+Q2 <- as.factor(sample(1:5, 500, replace = TRUE, prob = c(.5, .25, .12, .09, .03)))
+Q3 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(.25, .1, .4, .25)))
+Q4 <- as.factor(sample(1:5, 500, replace = TRUE, prob = c(.1, .3, .38, .1, .12)))
+Q5 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(.35, .25, .15, .25)))
 
 likert_4 <- data.frame(Q1, Q2, Q3, Q4, Q5)
 
@@ -170,38 +159,21 @@ likert_4 <- data.frame(Q1, Q2, Q3, Q4, Q5)
 levels_4 <- c("Strongly agree", "Agree", "Disagree", 
               "Strongly Disagree", "Don't know")
 
-# prepare data for 6-category likert scale, 5 items
-likert_6 <- data.frame()
-
-Q1 <- as.factor(sample(1:6, 500, replace = TRUE, prob = c(0.2,0.1,0.1,0.3,0.2,0.1)))
-Q2 <- as.factor(sample(1:6, 500, replace = TRUE, prob = c(0.15,0.15,0.3,0.1,0.1,0.2)))
-Q3 <- as.factor(sample(1:6, 500, replace = TRUE, prob = c(0.2,0.25,0.05,0.2,0.2,0.2)))
-Q4 <- as.factor(sample(1:6, 500, replace = TRUE, prob = c(0.2,0.1,0.1,0.4,0.1,0.1)))
-Q5 <- as.factor(sample(1:6, 500, replace = TRUE, prob = c(0.1,0.4,0.1,0.3,0.05,0.15)))
-
-likert_6 <- data.frame(Q1, Q2, Q3, Q4, Q5)
-
-# create labels
-levels_6 <- c("Very strongly agree", "Strongly agree", "Agree",
-              "Disagree", "Strongly disagree", "Very strongly disagree")
-
 # create item labels
 items <- c("Q1", "Q2", "Q3", "Q4", "Q5")
 
-# plot dichotomous likert scale, ordered by "negative" values
-sjp.likert(likert_2, geom.colors = c("green", "red"), legend.labels = levels_2, 
-           axis.labels = items, sort.frq = "neg.desc")
-
-# plot 4-category-likert-scale, no order
+# plot 4-category-likert-scale, no sorting
 sjp.likert(likert_4, cat.neutral = 5, legend.labels = levels_4, 
            axis.labels = items, grid.range = 1.2, expand.grid = FALSE,
            values = "sum.outside", show.prc.sign = TRUE)
 
-# plot 6-category-likert-scale, ordered by positive values,
-# in brown color scale
-sjp.likert(likert_6,  legend.labels = levels_6, axis.labels = items, 
-           sort.frq = "pos.asc", digits = 0, show.prc.sign = TRUE,
-           values = "sum.inside")
+# Data from the EUROFAMCARE sample dataset
+library(dplyr)
+library(sjmisc)
+data(efc)
+# find all variables from COPE-Index, which all have a "cop" in their
+# variable name, and then plot that subset as likert-plot
+efc[, find_var(efc, "cop")] \%>\% sjp.likert()
 
 }
 \seealso{
