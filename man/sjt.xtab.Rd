@@ -46,8 +46,9 @@ labels are displayed in one line and when a line break is inserted.}
 
 \item{show.exp}{logical, if \code{TRUE}, expected values are also shown}
 
-\item{show.summary}{If \code{TRUE} (default), a summary row with total and valid N as well as mean and
-standard deviation is shown.}
+\item{show.summary}{logical, if \code{TRUE}, a summary row with 
+chi-squared statistics, degrees of freedom and Cramer's V or Phi
+coefficient and p-value for the chi-squared statistics.}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}

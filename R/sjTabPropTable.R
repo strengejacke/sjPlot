@@ -16,6 +16,9 @@
 #' @param show.col.prc logical, if \code{TRUE}, column percentage values are shown
 #' @param show.obs logical, if \code{TRUE}, observed values are shown
 #' @param show.exp logical, if \code{TRUE}, expected values are also shown
+#' @param show.summary logical, if \code{TRUE}, a summary row with 
+#'          chi-squared statistics, degrees of freedom and Cramer's V or Phi
+#'          coefficient and p-value for the chi-squared statistics.
 #' @param tdcol.n Color for highlighting count (observed) values in table cells. Default is black.
 #' @param tdcol.expected Color for highlighting expected values in table cells. Default is cyan.
 #' @param tdcol.cell Color for highlighting cell percentage values in table cells. Default is red.
