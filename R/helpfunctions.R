@@ -176,12 +176,17 @@ get_var_name <- function(x) {
 #' @importFrom sjstats weight table_values cramer phi
 #' @importFrom stats na.omit
 #' @importFrom dplyr full_join
+#' @importFrom sjmisc zap_inf
 create.frq.df <- function(x,
                           wrap.labels = Inf,
                           order.frq = "none",
                           round.prz = 2,
                           na.rm = FALSE,
                           weight.by = NULL) {
+  #---------------------------------------------------
+  # zap inf and NaN
+  #---------------------------------------------------
+  x <- sjmisc::zap_inf(x)
   #---------------------------------------------------
   # variable with only mising?
   #---------------------------------------------------

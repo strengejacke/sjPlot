@@ -291,7 +291,7 @@ sjt.frq <- function(data,
     # store column indices of variables that only have NA's
     NAcolumns <- c()
     # iterate all columns
-    for (i in 1:ncol(data)) {
+    for (i in seq_len(ncol(data))) {
       # check type
       if (length(stats::na.omit(data[[i]])) == 0) NAcolumns <- c(NAcolumns, i)
     }
@@ -311,7 +311,7 @@ sjt.frq <- function(data,
     # check if we have data frame with several variables
     if (is.data.frame(data)) {
       # if yes, iterate each variable
-      for (i in 1:ncol(data)) {
+      for (i in seq_len(ncol(data))) {
         # retrieve variable name attribute
         var.labels <-
           c(var.labels, sjmisc::get_label(data[[i]], def.value = colnames(data)[i]))
@@ -331,7 +331,7 @@ sjt.frq <- function(data,
   # check if we have data frame with several variables
   if (is.data.frame(data)) {
     # if yes, iterate each variable
-    for (i in 1:ncol(data)) {
+    for (i in seq_len(ncol(data))) {
       # retrieve note attribute
       note.labels <- c(note.labels, sjmisc::get_note(data[[i]]))
     }
@@ -368,7 +368,7 @@ sjt.frq <- function(data,
   # -------------------------------------
   if (auto.grp.strings) {
     # iterate data frame
-    for (i in 1:nvar) {
+    for (i in seq_len(nvar)) {
       # get variable
       sv <- data[[i]]
       # check if character
@@ -398,7 +398,7 @@ sjt.frq <- function(data,
     # create list
     value.labels <- list()
     # iterate all variables
-    for (i in 1:nvar) {
+    for (i in seq_len(nvar)) {
       # retrieve variable
       dummy <- data[[i]]
       # usually, value labels are NULL if we have string vector. if so
@@ -431,7 +431,7 @@ sjt.frq <- function(data,
   # -------------------------------------
   # start iterating all variables
   # -------------------------------------
-  for (cnt in 1:nvar) {
+  for (cnt in seq_len(nvar)) {
     # -----------------------------------------------
     # check for length of unique values and skip if too long
     # -----------------------------------------------

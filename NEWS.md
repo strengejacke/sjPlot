@@ -19,6 +19,7 @@
 * Restored correct order of categories in `sjp.likert()`, so groups are now in correct order again.
 * Fixed bug in `sjt.grpmean()` for variables with unused value labels (values that were labelled, but did not appear on the vector).
 * Fixed wrong documentation for `show.summary`-argument in `sjt.xtab()`.
+* `sjt.frq()` showed messed up labels when a labelled vector had both `NA` values _and_ `NaN` or infinite values.
 
 
 # sjPlot 2.1.2
