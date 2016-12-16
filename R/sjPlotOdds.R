@@ -36,6 +36,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "grp.est"))
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.aov1
 #' @inheritParams sjp.glmer
+#' @inheritParams sjp.int
 #' 
 #' @return (Insisibily) returns, depending on the plot type
 #'          \itemize{
@@ -141,6 +142,7 @@ sjp.glm <- function(fit,
                     show.values = TRUE,
                     show.p = TRUE,
                     show.ci = FALSE,
+                    jitter.ci = FALSE,
                     show.legend = FALSE,
                     show.summary = FALSE,
                     point.alpha = 0.2,
@@ -185,8 +187,9 @@ sjp.glm <- function(fit,
   if (type == "pred") {
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
                                    a.title = axis.title,
-                                   geom.colors, show.ci, geom.size, ylim = axis.lim,
-                                   facet.grid, type = "fe", scatter.plot, point.alpha, show.loess = F, prnt.plot)))
+                                   geom.colors, show.ci, jitter.ci, geom.size, ylim = axis.lim,
+                                   facet.grid, type = "fe", scatter.plot, point.alpha, show.loess = F, 
+                                   prnt.plot, ...)))
   }
   if (type == "ma") {
     return(invisible(sjp.glm.ma(fit)))
@@ -779,8 +782,9 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
 
 
 #' @importFrom stats model.frame predict predict.glm family
-#' @importFrom dplyr select mutate
+#' @importFrom dplyr select mutate group_by_ summarize
 #' @importFrom sjstats resp_val
+#' @importFrom merTools predictInterval
 sjp.glm.predy <- function(fit,
                           vars,
                           t.title,
@@ -788,6 +792,7 @@ sjp.glm.predy <- function(fit,
                           a.title,
                           geom.colors,
                           show.ci,
+                          jitter.ci,
                           geom.size,
                           ylim,
                           facet.grid,
@@ -795,7 +800,8 @@ sjp.glm.predy <- function(fit,
                           scatter.plot,
                           point.alpha,
                           show.loess = FALSE,
-                          prnt.plot) {
+                          prnt.plot,
+                          ...) {
   # -----------------------------------------------------------
   # check class of fitted model
   # -----------------------------------------------------------
@@ -830,20 +836,6 @@ sjp.glm.predy <- function(fit,
     return(NULL)
   }
   # ----------------------------
-  # get predicted values for response
-  # ----------------------------
-  fitfram <- stats::model.frame(fit)
-  if (fun == "glm") {
-    fitfram$predicted.values <- stats::predict.glm(fit, newdata = fitfram, type = "response")
-  } else if (fun %in% c("glmer", "lmer", "nlmer")) {
-    if (type == "fe")
-      fitfram$predicted.values <- stats::predict(fit, newdata = fitfram, type = "response", re.form = NA)
-    else
-      fitfram$predicted.values <- stats::predict(fit, newdata = fitfram, type = "response", re.form = NULL)
-  } else {
-    fitfram$predicted.values <- stats::predict(fit, newdata = fitfram, type = "response")
-  }
-  # ----------------------------
   # check model family, do we have count model?
   # ----------------------------
   faminfo <- get_glm_family(fit)
@@ -858,6 +850,51 @@ sjp.glm.predy <- function(fit,
   # --------------------------------------------------------
   binom_fam <- faminfo$is_bin
   poisson_fam <- faminfo$is_pois
+  # ----------------------------
+  # get predicted values for response
+  # ----------------------------
+  fitfram <- stats::model.frame(fit)
+  # normal GLM's should work with the predict()-function from stats-package
+  if (fun == "glm") {
+    # get predictions with SE
+    prdat <- stats::predict.glm(fit, newdata = fitfram, type = "response", se.fit = T)
+    # copy predictions
+    fitfram$predicted.values <- prdat$fit
+    # calculate CI
+    fitfram$conf.low <- prdat$fit - 1.96 * prdat$se.fit
+    fitfram$conf.high <- prdat$fit + 1.96 * prdat$se.fit
+  } else if (show.ci && (fun == "lmer" || (fun == "glmer" && binom_fam))) {
+    # prediction intervals from merMod-package only work for linear or
+    # binary logistic multilevel models
+    prdat <- merTools::predictInterval(
+      fit, newdata = fitfram, which = ifelse(type == "fe", "fixed", "full"),
+      type = ifelse(fit.m == "lm", "linear.prediction", "probability"),
+      level = .95
+    )
+    # copy predictions
+    fitfram$predicted.values <- prdat$fit
+    # calculate CI
+    fitfram$conf.low <- prdat$lwr
+    fitfram$conf.high <- prdat$upr
+  } else if (fun %in% c("lmer", "nlmer", "glmer")) {
+    # for all other kinds of glmer or nlmer, we need the predict-function from
+    # lme4, however, without ci-bands
+    if (type == "fe")
+      fitfram$predicted.values <- stats::predict(fit, newdata = fitfram, type = "response", re.form = NA)
+    else
+      fitfram$predicted.values <- stats::predict(fit, newdata = fitfram, type = "response", re.form = NULL)
+    # no CI for lme4-predictions
+    fitfram$conf.low <- NA
+    fitfram$conf.high <- NA
+  } else {
+    # get predictions with SE
+    prdat <- stats::predict(fit, newdata = fitfram, type = "response", se.fit = T)
+    # copy predictions
+    fitfram$predicted.values <- prdat$fit
+    # calculate CI
+    fitfram$conf.low <- prdat$fit - 1.96 * prdat$se.fit
+    fitfram$conf.high <- prdat$fit + 1.96 * prdat$se.fit
+  }
   # ----------------------------
   # check default titles
   # ----------------------------
@@ -896,7 +933,7 @@ sjp.glm.predy <- function(fit,
   # now select only relevant variables: the predictors on the x-axis,
   # the predictions and the originial response vector (needed for scatter plot)
   mydf <- fitfram %>% 
-    dplyr::select(match(c(vars, "predicted.values"), colnames(fitfram))) %>% 
+    dplyr::select(match(c(vars, "predicted.values", "conf.low", "conf.high"), colnames(fitfram))) %>% 
     dplyr::mutate(resp.y = sjmisc::to_value(sjstats::resp_val(fit), start.at = 0, keep.labels = F))
   # init legend labels
   legend.labels <- NULL
@@ -907,7 +944,7 @@ sjp.glm.predy <- function(fit,
   # with or w/o grouping factor?
   # ----------------------------
   if (length(vars) == 1) {
-    colnames(mydf) <- c("x", "y", "resp.y")
+    colnames(mydf) <- c("x", "y", "ci.low", "ci.high", "resp.y")
     # x needs to be numeric
     mydf$x <- sjmisc::to_value(mydf$x)
     # convert to factor for proper legend
@@ -918,7 +955,7 @@ sjp.glm.predy <- function(fit,
     mp <- ggplot(mydf, aes_string(x = "x", y = "y", colour = "grp")) +
       labs(x = x.title, y = y.title, title = t.title, colour = NULL)
   } else {
-    colnames(mydf) <- c("x", "grp", "y", "resp.y")
+    colnames(mydf) <- c("x", "grp", "y", "ci.low", "ci.high", "resp.y")
     # x needs to be numeric
     mydf$x <- sjmisc::to_value(mydf$x)
     # convert to factor for proper legend
@@ -943,14 +980,34 @@ sjp.glm.predy <- function(fit,
       if (binom_fam) {
         ylim <- c(0, 1)
       } else {
-        ylim <-
-          c(as.integer(floor(10 * min(mydf$resp.y, na.rm = T) * .9)) / 10,
-            as.integer(ceiling(10 * max(mydf$resp.y, na.rm = T) * 1.1)) / 10)
+        if (show.ci && !any(is.na(mydf$ci.low))) {
+          # first, get lowest value from response and CI
+          lowest.y <- suppressWarnings(
+            c(as.integer(floor(10 * min(mydf$resp.y, na.rm = T) * .9)) / 10,
+              as.integer(floor(10 * min(mydf$ci.low, na.rm = T) * .9)) / 10)
+          )
+          # then, get highest value from response and CI
+          highest.y <- suppressWarnings(
+            c(as.integer(ceiling(10 * max(mydf$resp.y, na.rm = T) * 1.1)) / 10,
+              as.integer(ceiling(10 * max(mydf$ci.high, na.rm = T) * 1.1)) / 10)
+          )
+        } else {
+          lowest.y <- as.integer(floor(10 * min(mydf$resp.y, na.rm = T) * .9)) / 10
+          highest.y <- as.integer(ceiling(10 * max(mydf$resp.y, na.rm = T) * 1.1)) / 10
+        }
+        # now check which is lower/higher: response value or CI
+        ylim <- c(min(lowest.y, na.rm = T), max(highest.y, na.rm = T))
       }
     } else {
-      ylim <-
-        c(as.integer(floor(10 * min(mydf$y, na.rm = T) * .9)) / 10,
-          as.integer(ceiling(10 * max(mydf$y, na.rm = T) * 1.1)) / 10)
+      if (show.ci && !any(is.na(mydf$ci.low))) {
+        ylim <-
+          c(as.integer(floor(10 * min(mydf$ci.low, na.rm = T) * .9)) / 10,
+            as.integer(ceiling(10 * max(mydf$ci.high, na.rm = T) * 1.1)) / 10)
+      } else {
+        ylim <-
+          c(as.integer(floor(10 * min(mydf$y, na.rm = T) * .9)) / 10,
+            as.integer(ceiling(10 * max(mydf$y, na.rm = T) * 1.1)) / 10)
+      }
     }
   }
   # ---------------------------------------------------------
@@ -967,24 +1024,81 @@ sjp.glm.predy <- function(fit,
                            alpha = point.alpha,
                            position = position_jitter(width = .1, height = .1))
   
-  if (fit.m == "lm") {
-    mp <- mp +
-      stat_smooth(method = fit.m, 
-                  se = show.ci,
-                  size = geom.size)
+  # for factors, use error bars. but only if we have predicted CI in our data
+  if (is.factor(fitfram[[vars[1]]]) && !any(is.na(mydf$ci.low))) {
+    
+    # get ...-argument, and check if it was "width"
+    eb.width <- match.call(expand.dots = FALSE)$`...`[["width"]]
+    if (is.null(eb.width)) eb.width <- 0
+    
+    # predictions for factor levels slightly vary, so take the mean value
+    # for the predictions at each factor level. This ensures a unique
+    # data point for each level
+    datpoint <- mydf %>% 
+      dplyr::group_by_("x", "grp") %>% 
+      dplyr::summarize(y = mean(y), ci.low = mean(ci.low), ci.high = mean(ci.high))
+    
+    # no jittering, when we have no CI
+    if (!show.ci) jitter.ci <- F
+    
+    # show confidence intervals?
+    if (show.ci) {
+      if (jitter.ci) {
+        mp <- mp + geom_errorbar(
+          aes_string(ymin = "ci.low", ymax = "ci.high"),
+          data = datpoint,
+          size = geom.size,
+          width = eb.width,
+          position = position_dodge(.2)
+        )
+      } else {
+        mp <- mp + geom_errorbar(
+          aes_string(ymin = "ci.low", ymax = "ci.high"), 
+          data = datpoint,
+          size = geom.size,
+          width = eb.width
+        )
+        
+      }
+    }
+    
+    # plot line and data points. we don't need smoothing for discrete levels
+    if (jitter.ci) {
+      mp <- mp + 
+        geom_line(aes_string(x = "x", y = "y", colour = "grp"), 
+                  data = datpoint, 
+                  size = geom.size,
+                  position = position_dodge(.2)) +
+        geom_point(aes_string(x = "x", y = "y", colour = "grp"), 
+                   data = datpoint,
+                   position = position_dodge(.2))
+    } else {
+      mp <- mp + 
+        geom_line(aes_string(x = "x", y = "y", colour = "grp"), data = datpoint, size = geom.size) +
+        geom_point(aes_string(x = "x", y = "y", colour = "grp"), data = datpoint)
+    }
+    
+    
   } else {
-    # special handling for negativ binomial
-    if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
+    if (fit.m == "lm") {
       mp <- mp +
-        stat_smooth(method = "glm.nb",
+        stat_smooth(method = fit.m, 
                     se = show.ci,
                     size = geom.size)
     } else {
-      mp <- mp +
-        stat_smooth(method = fit.m, 
-                    method.args = list(family = fitfam$family), 
-                    se = show.ci,
-                    size = geom.size)
+      # special handling for negativ binomial
+      if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
+        mp <- mp +
+          stat_smooth(method = "glm.nb",
+                      se = show.ci,
+                      size = geom.size)
+      } else {
+        mp <- mp +
+          stat_smooth(method = fit.m, 
+                      method.args = list(family = fitfam$family), 
+                      se = show.ci,
+                      size = geom.size)
+      }
     }
   }
   # ---------------------------------------------------------

@@ -462,7 +462,7 @@ sjp.int <- function(fit,
   # the estimates of each term and the associated interaction term,
   # i.e.: y = b0 + (b1 * pred1) + (b2 * pred2) + (b3 * pred1 * pred2)
   # -----------------------------------------------------------
-  for (cnt in 1:length(intnames)) {
+  for (cnt in seq_len(length(intnames))) {
     # -----------------------------------------------------------
     # first, retrieve and split interaction term so we know
     # the two predictor variables of the interaction term
@@ -780,7 +780,7 @@ sjp.int <- function(fit,
     # prepare base plot of interactions
     # -----------------------------------------------------------
     if (diff) {
-      baseplot <- ggplot(intdf, aes(x = x, y = ydiff)) +
+      baseplot <- ggplot(intdf, aes_string(x = "x", y = "ydiff")) +
         # -----------------------------------------------------------
       # add a shaded region between minimun
       # and maximum curve of interactions
@@ -799,7 +799,7 @@ sjp.int <- function(fit,
                     show.legend = FALSE)
       }
     } else {
-      baseplot <- ggplot(intdf, aes(x = x, y = y, colour = grp))
+      baseplot <- ggplot(intdf, aes_string(x = "x", y = "y", colour = "grp"))
       # the shaded area between line only if plots are not faceted
       if (!facet.grid) {
         baseplot <- baseplot +
@@ -1313,6 +1313,9 @@ sjp.eff.int <- function(fit,
     # confidence interval?
     # ------------------------------------------------------------
     if (show.ci) {
+      # get ...-argument, and check if it was "width"
+      eb.width <- match.call(expand.dots = FALSE)$`...`[["width"]]
+      if (is.null(eb.width)) eb.width <- 0
       # -------------------------------------------------
       # for factors, we add error bars instead of
       # continuous confidence region
@@ -1324,7 +1327,7 @@ sjp.eff.int <- function(fit,
         if (jitter.ci) {
           baseplot <- baseplot +
             geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high", colour = "grp"),
-                          width = 0, show.legend = FALSE, position = position_dodge(.2)) +
+                          width = eb.width, show.legend = FALSE, position = position_dodge(.2)) +
             geom_point(position = position_dodge(.2)) +
             geom_line(size = geom.size, position = position_dodge(.2))
           # adjust axis limits, so jittered geoms are within plot boundaries
@@ -1333,7 +1336,7 @@ sjp.eff.int <- function(fit,
         } else {
           baseplot <- baseplot +
             geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high", colour = "grp"),
-                          width = 0, show.legend = FALSE) +
+                          width = eb.width, show.legend = FALSE) +
             geom_point() +
             geom_line(size = geom.size)
         }

@@ -9,7 +9,7 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL,
   sample.n = NULL, sort.est = NULL, title = NULL, legend.title = NULL,
   axis.labels = NULL, axis.title = NULL, geom.colors = "Set1",
   geom.size = NULL, show.values = TRUE, show.p = TRUE, show.ci = FALSE,
-  show.legend = FALSE, show.intercept = FALSE,
+  jitter.ci = FALSE, show.legend = FALSE, show.intercept = FALSE,
   string.interc = "(Intercept)", point.alpha = 0.2, scatter.plot = TRUE,
   fade.ns = FALSE, axis.lim = NULL, digits = 2, vline.type = 2,
   vline.color = "grey70", facet.grid = TRUE, free.scale = FALSE,
@@ -113,6 +113,10 @@ variable labels.}
 \item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
 interval or region is added to the plot.}
 
+\item{jitter.ci}{logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
+bands are displayed as error bars, adds jittering to lines and error bars
+to avoid overlapping.}
+
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
@@ -162,7 +166,8 @@ to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 
 \item{...}{other arguments, passed down to the \code{\link[effects]{effect}} resp. 
-\code{\link[effects]{allEffects}} function when \code{type = "eff"}.}
+\code{\link[effects]{allEffects}} function when \code{type = "eff"},
+or to ggplot-objects.}
 }
 \value{
 (Insisibily) returns, depending on the plot type

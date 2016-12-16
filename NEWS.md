@@ -7,6 +7,9 @@
 ## Changes to functions
 
 * For `sjp.glm()` and `sjp.glmer()`, `type = "pred"`, `type = "slope"`, `type = "pred.fe"` and `type = "fe.slope"` can now also plot data points when `scatter.plot = TRUE`. Use `point.alpha` to adjust alpha-level of data points.
+* For `sjp.lm()`, `sjp.lmer()`, `sjp.glm()` and `sjp.glmer()`, `type = "pred"` and `type = "pred.fe"` now plot error bars for `show.ci = TRUE` and a discrete variable on the x-axis.
+* For `sjp.lm()`, `sjp.lmer()`, `sjp.glm()` and `sjp.glmer()`, the `...`-ellipses argument now is also passed down to all errorbars-geoms in prediction- and effect-plots, so you can now use the `width`-argument to show the small stripes at the lower/upper end of the error bars.
+* Effect-plots (`type = "eff"`) now plot data points for discrete variables on the x-axis.
 * `sjt.lm()` and `sjt.glm()` get a `robust`-argument to compute robust standard errors and confidence intervals.
 * `sjp.resid()` now also returns a plot with the residual pattern, `$pattern`.
 * Plot and axis titles from effect-plots can now be changed with `title` or `axis.title` argument. Use a character vector of length > 1 to define (axis) titles for each plot or facet; use `""` to remove the titles.

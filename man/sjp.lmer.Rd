@@ -9,12 +9,13 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL,
   sample.n = NULL, poly.term = NULL, sort.est = NULL, title = NULL,
   legend.title = NULL, axis.labels = NULL, axis.title = NULL,
   geom.size = NULL, geom.colors = "Set1", show.values = TRUE,
-  show.p = TRUE, show.ci = FALSE, show.legend = FALSE,
-  show.loess = FALSE, show.loess.ci = FALSE, show.intercept = FALSE,
-  string.interc = "(Intercept)", p.kr = TRUE, point.alpha = 0.2,
-  scatter.plot = TRUE, fade.ns = FALSE, axis.lim = NULL, digits = 2,
-  vline.type = 2, vline.color = "grey70", facet.grid = TRUE,
-  free.scale = FALSE, y.offset = 0.1, prnt.plot = TRUE, ...)
+  show.p = TRUE, show.ci = FALSE, jitter.ci = FALSE,
+  show.legend = FALSE, show.loess = FALSE, show.loess.ci = FALSE,
+  show.intercept = FALSE, string.interc = "(Intercept)", p.kr = TRUE,
+  point.alpha = 0.2, scatter.plot = TRUE, fade.ns = FALSE,
+  axis.lim = NULL, digits = 2, vline.type = 2, vline.color = "grey70",
+  facet.grid = TRUE, free.scale = FALSE, y.offset = 0.1,
+  prnt.plot = TRUE, ...)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{lmer}}-function.}
@@ -123,6 +124,10 @@ variable labels.}
 \item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
 interval or region is added to the plot.}
 
+\item{jitter.ci}{logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
+bands are displayed as error bars, adds jittering to lines and error bars
+to avoid overlapping.}
+
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
@@ -184,7 +189,8 @@ to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 
 \item{...}{other arguments, passed down to the \code{\link[effects]{effect}} resp. 
-\code{\link[effects]{allEffects}} function when \code{type = "eff"}.}
+\code{\link[effects]{allEffects}} function when \code{type = "eff"},
+or to ggplot-objects.}
 }
 \value{
 (Insisibily) returns

@@ -119,6 +119,7 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #' @inheritParams sjp.lmer
 #' @inheritParams sjp.aov1
 #' @inheritParams sjp.glmer
+#' @inheritParams sjp.int
 #'
 #' @references Gelman A (2008) "Scaling regression inputs by dividing by two standard deviations." \emph{Statistics in Medicine 27: 2865–2873.} \url{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}
 #'             \cr \cr
@@ -275,6 +276,7 @@ sjp.lm <- function(fit,
                    show.values = TRUE,
                    show.p = TRUE,
                    show.ci = TRUE,
+                   jitter.ci = FALSE,
                    show.legend = FALSE,
                    show.loess = FALSE,
                    show.loess.ci = FALSE,
@@ -337,9 +339,9 @@ sjp.lm <- function(fit,
   if (type == "pred") {
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
                                    a.title = axis.title,
-                                   geom.colors, show.ci, geom.size, ylim = axis.lim,
+                                   geom.colors, show.ci, jitter.ci, geom.size, ylim = axis.lim,
                                    facet.grid, type = "fe", scatter.plot, point.alpha, 
-                                   show.loess, prnt.plot)))
+                                   show.loess, prnt.plot, ...)))
   }
   if (type == "poly") {
     return(invisible(sjp.lm.poly(fit, poly.term, geom.colors, geom.size, axis.title,

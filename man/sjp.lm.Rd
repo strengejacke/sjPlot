@@ -11,10 +11,11 @@ sjp.lm(fit, type = "lm", vars = NULL, group.estimates = NULL,
   geom.colors = "Set1", point.alpha = 0.2, scatter.plot = TRUE,
   wrap.title = 50, wrap.labels = 25, axis.lim = NULL,
   grid.breaks = NULL, show.values = TRUE, show.p = TRUE, show.ci = TRUE,
-  show.legend = FALSE, show.loess = FALSE, show.loess.ci = FALSE,
-  show.summary = FALSE, digits = 2, vline.type = 2,
-  vline.color = "grey70", coord.flip = TRUE, y.offset = 0.15,
-  facet.grid = TRUE, complete.dgns = FALSE, prnt.plot = TRUE, ...)
+  jitter.ci = FALSE, show.legend = FALSE, show.loess = FALSE,
+  show.loess.ci = FALSE, show.summary = FALSE, digits = 2,
+  vline.type = 2, vline.color = "grey70", coord.flip = TRUE,
+  y.offset = 0.15, facet.grid = TRUE, complete.dgns = FALSE,
+  prnt.plot = TRUE, ...)
 }
 \arguments{
 \item{fit}{fitted linear regression model (of class \code{\link{lm}}, \code{\link[nlme]{gls}} or \code{plm}).}
@@ -115,6 +116,10 @@ variable labels.}
 \item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
 interval or region is added to the plot.}
 
+\item{jitter.ci}{logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
+bands are displayed as error bars, adds jittering to lines and error bars
+to avoid overlapping.}
+
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
@@ -153,7 +158,8 @@ Only applies if \code{type = "ma"}.}
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 
 \item{...}{other arguments, passed down to the \code{\link[effects]{effect}} resp. 
-\code{\link[effects]{allEffects}} function when \code{type = "eff"}.}
+\code{\link[effects]{allEffects}} function when \code{type = "eff"},
+or to ggplot-objects.}
 }
 \value{
 Depending on the \code{type}, in most cases (insisibily)

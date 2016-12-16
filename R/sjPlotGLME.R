@@ -83,12 +83,14 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'          Use the latter option to always select a fixed, identical set of
 #'          random effects for plotting (useful when ecomparing multiple models).
 #' @param ... other arguments, passed down to the \code{\link[effects]{effect}} resp. 
-#'          \code{\link[effects]{allEffects}} function when \code{type = "eff"}.
+#'          \code{\link[effects]{allEffects}} function when \code{type = "eff"},
+#'          or to ggplot-objects.
 #'
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.glm
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.gpt
+#' @inheritParams sjp.int
 #'
 #' @return (Insisibily) returns, depending on the plot type
 #'          \itemize{
@@ -246,6 +248,7 @@ sjp.glmer <- function(fit,
                       show.values = TRUE,
                       show.p = TRUE,
                       show.ci = FALSE,
+                      jitter.ci = FALSE,                     
                       show.legend = FALSE,
                       show.intercept = FALSE,
                       string.interc = "(Intercept)",
@@ -299,6 +302,7 @@ sjp.glmer <- function(fit,
            free.scale,
            fade.ns,
            show.ci,
+           jitter.ci,
            FALSE,
            prnt.plot,
            fun = "glm",
@@ -418,6 +422,7 @@ sjp.glmer <- function(fit,
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.gpt
+#' @inheritParams sjp.int
 #'
 #' @return (Insisibily) returns
 #'          \itemize{
@@ -545,6 +550,7 @@ sjp.lmer <- function(fit,
                      show.values = TRUE,
                      show.p = TRUE,
                      show.ci = FALSE,
+                     jitter.ci = FALSE,                     
                      show.legend = FALSE,
                      show.loess = FALSE,
                      show.loess.ci = FALSE,
@@ -600,6 +606,7 @@ sjp.lmer <- function(fit,
            free.scale,
            fade.ns,
            show.ci,
+           jitter.ci, 
            p.kr,
            prnt.plot,
            fun = "lm",
@@ -640,6 +647,7 @@ sjp.lme4  <- function(fit,
                       free.scale,
                       fade.ns,
                       show.ci,
+                      jitter.ci,
                       p.kr,
                       prnt.plot,
                       fun,
@@ -848,8 +856,9 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
                                    a.title = axis.title,
-                                   geom.colors, show.ci, geom.size, ylim = axis.lim, facet.grid, 
-                                   type = "re", scatter.plot, point.alpha, show.loess = F, prnt.plot)))
+                                   geom.colors, show.ci, jitter.ci, geom.size, ylim = axis.lim, facet.grid, 
+                                   type = "re", scatter.plot, point.alpha, show.loess = F, 
+                                   prnt.plot, ...)))
   } else if (type == "pred.fe") {
     # fix color
     if (geom.colors == "Set1" && length(vars) == 1) geom.colors <- "black"
@@ -859,8 +868,9 @@ sjp.lme4  <- function(fit,
     # ---------------------------------------
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
                                    a.title = axis.title,
-                                   geom.colors, show.ci, geom.size, ylim = axis.lim, facet.grid, 
-                                   type = "fe", scatter.plot, point.alpha, show.loess = F, prnt.plot)))
+                                   geom.colors, show.ci, jitter.ci, geom.size, ylim = axis.lim, facet.grid, 
+                                   type = "fe", scatter.plot, point.alpha, show.loess = F, 
+                                   prnt.plot, ...)))
   }
   # ------------------------
   # check if suggested package is available
@@ -2334,8 +2344,15 @@ sjp.glm.eff <- function(fit,
       eff.plot <- ggplot(mydat_sub, aes_string(x = "x", y = "y"))
       # show confidence region?
       if (show.ci) {
+        
+        # get ...-argument, and check if it was "width"
+        eb.width <- match.call(expand.dots = FALSE)$`...`[["width"]]
+        if (is.null(eb.width)) eb.width <- 0
+        
         if (x_is_factor)
-          eff.plot <- eff.plot + geom_errorbar(aes_string(ymin = "lower", ymax = "upper"), width = 0)
+          eff.plot <- eff.plot + 
+            geom_errorbar(aes_string(ymin = "lower", ymax = "upper"), width = eb.width) +
+            geom_point()
         else
           eff.plot <- eff.plot + geom_ribbon(aes_string(ymin = "lower", ymax = "upper"), alpha = .15)
       }

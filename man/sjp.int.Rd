@@ -157,7 +157,8 @@ as an arranged grid with \code{\link[gridExtra]{grid.arrange}}.}
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 
 \item{...}{other arguments, passed down to the \code{\link[effects]{effect}} resp. 
-\code{\link[effects]{allEffects}} function when \code{type = "eff"}.}
+\code{\link[effects]{allEffects}} function when \code{type = "eff"},
+or to ggplot-objects.}
 }
 \value{
 (Insisibily) returns the ggplot-objects with the complete plot-list (\code{plot.list})

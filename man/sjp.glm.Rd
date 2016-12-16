@@ -10,10 +10,11 @@ sjp.glm(fit, type = "dots", vars = NULL, group.estimates = NULL,
   geom.size = NULL, geom.colors = "Set1", wrap.title = 50,
   wrap.labels = 25, axis.lim = NULL, grid.breaks = 0.5,
   trns.ticks = TRUE, show.intercept = FALSE, show.values = TRUE,
-  show.p = TRUE, show.ci = FALSE, show.legend = FALSE,
-  show.summary = FALSE, point.alpha = 0.2, scatter.plot = TRUE,
-  digits = 2, vline.type = 2, vline.color = "grey70", coord.flip = TRUE,
-  y.offset = 0.15, facet.grid = TRUE, prnt.plot = TRUE, ...)
+  show.p = TRUE, show.ci = FALSE, jitter.ci = FALSE,
+  show.legend = FALSE, show.summary = FALSE, point.alpha = 0.2,
+  scatter.plot = TRUE, digits = 2, vline.type = 2,
+  vline.color = "grey70", coord.flip = TRUE, y.offset = 0.15,
+  facet.grid = TRUE, prnt.plot = TRUE, ...)
 }
 \arguments{
 \item{fit}{fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).}
@@ -108,6 +109,10 @@ variable labels.}
 \item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
 interval or region is added to the plot.}
 
+\item{jitter.ci}{logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
+bands are displayed as error bars, adds jittering to lines and error bars
+to avoid overlapping.}
+
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
@@ -141,7 +146,8 @@ as an arranged grid with \code{\link[gridExtra]{grid.arrange}}.}
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 
 \item{...}{other arguments, passed down to the \code{\link[effects]{effect}} resp. 
-\code{\link[effects]{allEffects}} function when \code{type = "eff"}.}
+\code{\link[effects]{allEffects}} function when \code{type = "eff"},
+or to ggplot-objects.}
 }
 \value{
 (Insisibily) returns, depending on the plot type
