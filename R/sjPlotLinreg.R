@@ -326,7 +326,7 @@ sjp.lm <- function(fit,
                              wrap.labels, geom.colors, show.ci, point.alpha,
                              scatter.plot, show.loess, show.loess.ci, show.summary,
                              useResiduals = ifelse(type == "lm", FALSE, TRUE),
-                             prnt.plot)))
+                             prnt.plot, ...)))
   }
   if (type == "slope" || type == "resid") {
     # reset default color setting, does not look that good.
@@ -334,7 +334,7 @@ sjp.lm <- function(fit,
     return(invisible(sjp.reglin(fit, title, wrap.title, geom.colors, show.ci,
                                 point.alpha, scatter.plot, show.loess, show.loess.ci,
                                 useResiduals = ifelse(type == "slope", FALSE, TRUE),
-                                remove.estimates, vars, ylim = axis.lim, prnt.plot)))
+                                remove.estimates, vars, ylim = axis.lim, prnt.plot, ...)))
   }
   if (type == "pred") {
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
@@ -585,11 +585,17 @@ sjp.reglin <- function(fit,
                        remove.estimates = NULL,
                        vars = NULL,
                        ylim = NULL,
-                       prnt.plot = TRUE) {
+                       prnt.plot = TRUE,
+                       ...) {
   # -----------------------------------------------------------
   # check argument
   # -----------------------------------------------------------
   geom.colors <- col_check(geom.colors, show.loess)
+  # ---------------------------------------
+  # get ...-argument, and check if it was "alpha"
+  # ---------------------------------------
+  ci.alpha <- match.call(expand.dots = FALSE)$`...`[["alpha"]]
+  if (is.null(ci.alpha)) ci.alpha <- .15
   # -----------------------------------------------------------
   # set color defaults
   # -----------------------------------------------------------
@@ -657,7 +663,8 @@ sjp.reglin <- function(fit,
     # plot regression line and confidence intervall
     # -----------------------------------------------------------
     reglinplot <- ggplot(mydat, aes_string(x = "x", y = "y")) +
-      stat_smooth(method = "lm", se = show.ci, colour = lineColor)
+      stat_smooth(method = "lm", se = show.ci, colour = lineColor, 
+                  fill = lineColor, alpha = ci.alpha)
     # -----------------------------------------------------------
     # plot jittered values if requested
     # -----------------------------------------------------------
@@ -669,7 +676,8 @@ sjp.reglin <- function(fit,
     # -----------------------------------------------------------
     if (show.loess) {
       reglinplot <- reglinplot +
-        stat_smooth(method = "loess", se = show.loess.ci, colour = loessLineColor)
+        stat_smooth(method = "loess", se = show.loess.ci, 
+                    colour = loessLineColor, alpha = ci.alpha)
     }
     # -----------------------------------------------------------
     # set plot labs
@@ -952,7 +960,7 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
       set_theme("scatterw")
       p1 <- sjp.reglin(linreg,
                        title = "Relationship of residuals against predictors (if scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly",
-                       wrap.title = 60, useResiduals = T)$plot.list
+                       wrap.title = 60, useResiduals = T, alpha = .15)$plot.list
       # save plot
       plot.list <- c(plot.list, p1)
       # ---------------------------------
@@ -997,11 +1005,17 @@ sjp.lm1 <- function(fit,
                    show.loess.ci=FALSE,
                    show.summary=TRUE,
                    useResiduals=FALSE,
-                   prnt.plot=TRUE) {
+                   prnt.plot=TRUE,
+                   ...) {
   # -----------------------------------------------------------
   # check argument
   # -----------------------------------------------------------
   geom.colors <- col_check(geom.colors, show.loess)
+  # ---------------------------------------
+  # get ...-argument, and check if it was "alpha"
+  # ---------------------------------------
+  ci.alpha <- match.call(expand.dots = FALSE)$`...`[["alpha"]]
+  if (is.null(ci.alpha)) ci.alpha <- .15
   # -----------------------------------------------------------
   # set color defaults
   # -----------------------------------------------------------
@@ -1079,7 +1093,9 @@ sjp.lm1 <- function(fit,
   reglinplot <- ggplot(mydat, aes_string(x = "x", y = "y")) +
     stat_smooth(method = "lm",
                 se = show.ci,
-                colour = lineColor)
+                colour = lineColor,
+                fill = lineColor,
+                alpha = ci.alpha)
   # -----------------------------------------------------------
   # plot jittered values if requested
   # -----------------------------------------------------------
@@ -1094,7 +1110,8 @@ sjp.lm1 <- function(fit,
     reglinplot <- reglinplot +
       stat_smooth(method = "loess",
                   se = show.loess.ci,
-                  colour = loessLineColor)
+                  colour = loessLineColor,
+                  alpha = ci.alpha)
   }
   # -----------------------------------------------------------
   # set plot labs
@@ -1211,9 +1228,9 @@ sjp.lm.poly <- function(fit,
                       lower = eff$lower,
                       upper = eff$upper)
   # base plot
-  polyplot <- ggplot(mydat, aes(x = x, y = y))
+  polyplot <- ggplot(mydat, aes_string(x = "x", y = "y"))
   # show confidence region?
-  if (show.ci) polyplot <- polyplot + geom_ribbon(aes(ymin = lower, ymax = upper), alpha = .15)
+  if (show.ci) polyplot <- polyplot + geom_ribbon(aes_string(ymin = "lower", ymax = "upper"), alpha = .15)
   # plot predicted effect of polynomial term
   polyplot <- polyplot +
     geom_line(colour = geom.colors[1], size = geom.size) +

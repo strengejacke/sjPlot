@@ -828,6 +828,14 @@ sjp.glm.predy <- function(fit,
   # check size argument
   # ----------------------------
   if (is.null(geom.size)) geom.size <- .7
+  # ---------------------------------------
+  # get ...-argument, and check if it was "width"
+  # ---------------------------------------
+  eb.width <- match.call(expand.dots = FALSE)$`...`[["width"]]
+  if (is.null(eb.width)) eb.width <- 0
+  # get ...-argument, and check if it was "alpha"
+  ci.alpha <- match.call(expand.dots = FALSE)$`...`[["alpha"]]
+  if (is.null(ci.alpha)) ci.alpha <- .15
   # ----------------------------
   # check vars argument
   # ----------------------------
@@ -952,8 +960,8 @@ sjp.glm.predy <- function(fit,
     # set colors
     geom.colors <- col_check2(geom.colors, 1)
     # init plot
-    mp <- ggplot(mydf, aes_string(x = "x", y = "y", colour = "grp")) +
-      labs(x = x.title, y = y.title, title = t.title, colour = NULL)
+    mp <- ggplot(mydf, aes_string(x = "x", y = "y", colour = "grp", fill = "grp")) +
+      labs(x = x.title, y = y.title, title = t.title, colour = NULL, fill = NULL)
   } else {
     colnames(mydf) <- c("x", "grp", "y", "ci.low", "ci.high", "resp.y")
     # x needs to be numeric
@@ -965,8 +973,8 @@ sjp.glm.predy <- function(fit,
     # set colors
     geom.colors <- col_check2(geom.colors, length(legend.labels))
     # init plot
-    mp <- ggplot(mydf, aes_string(x = "x", y = "y", colour = "grp", group = "grp")) +
-      labs(x = x.title, y = y.title, title = t.title, colour = l.title)
+    mp <- ggplot(mydf, aes_string(x = "x", y = "y", colour = "grp", fill = "grp")) +
+      labs(x = x.title, y = y.title, title = t.title, colour = l.title, fill = NULL)
   }
   # ------------------------------
   # check axis limits
@@ -1026,11 +1034,6 @@ sjp.glm.predy <- function(fit,
   
   # for factors, use error bars. but only if we have predicted CI in our data
   if (is.factor(fitfram[[vars[1]]]) && !any(is.na(mydf$ci.low))) {
-    
-    # get ...-argument, and check if it was "width"
-    eb.width <- match.call(expand.dots = FALSE)$`...`[["width"]]
-    if (is.null(eb.width)) eb.width <- 0
-    
     # predictions for factor levels slightly vary, so take the mean value
     # for the predictions at each factor level. This ensures a unique
     # data point for each level
@@ -1077,27 +1080,28 @@ sjp.glm.predy <- function(fit,
         geom_line(aes_string(x = "x", y = "y", colour = "grp"), data = datpoint, size = geom.size) +
         geom_point(aes_string(x = "x", y = "y", colour = "grp"), data = datpoint)
     }
-    
-    
   } else {
     if (fit.m == "lm") {
       mp <- mp +
         stat_smooth(method = fit.m, 
                     se = show.ci,
-                    size = geom.size)
+                    size = geom.size,
+                    alpha = ci.alpha)
     } else {
       # special handling for negativ binomial
       if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
         mp <- mp +
           stat_smooth(method = "glm.nb",
                       se = show.ci,
-                      size = geom.size)
+                      size = geom.size,
+                      alpha = ci.alpha)
       } else {
         mp <- mp +
           stat_smooth(method = fit.m, 
                       method.args = list(family = fitfam$family), 
                       se = show.ci,
-                      size = geom.size)
+                      size = geom.size,
+                      alpha = ci.alpha)
       }
     }
   }
@@ -1107,7 +1111,8 @@ sjp.glm.predy <- function(fit,
   if (show.loess) mp <- mp + stat_smooth(method = "loess",
                                          se = F,
                                          size = geom.size,
-                                         colour = "darkred")
+                                         colour = "darkred",
+                                         alpha = ci.alpha)
   # ---------------------------------------------------------
   # coord-system for y-axis limits
   # cartesian coord still plots range of se, even
@@ -1129,20 +1134,25 @@ sjp.glm.predy <- function(fit,
       facet_wrap(~grp, ncol = round(sqrt(length(unique(mydf$grp)))), 
                  scales = "free_x") +
       scale_colour_manual(values = geom.colors) +
-      guides(colour = FALSE)
+      scale_fill_manual(values = geom.colors) +
+      guides(colour = FALSE, fill = FALSE)
   } else if (!is.null(legend.labels)) {
     if (length(legend.labels) == 1) {
       mp <- mp +
         scale_colour_manual(values = geom.colors) +
-        guides(colour = FALSE)
+        scale_fill_manual(values = geom.colors) +
+        guides(colour = FALSE, fill = FALSE)
     } else {
       mp <- mp +
-        scale_colour_manual(values = geom.colors, labels = legend.labels)
+        scale_colour_manual(values = geom.colors, labels = legend.labels) +
+        scale_fill_manual(values = geom.colors) +
+        guides(fill = FALSE)
     }
   } else {
     mp <- mp +
       scale_colour_manual(values = geom.colors) +
-      guides(colour = FALSE)
+      scale_fill_manual(values = geom.colors) +
+      guides(colour = FALSE, fill = FALSE)
   }
   
   # --------------------------

@@ -159,7 +159,8 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 
 \item{...}{other arguments, passed down to the \code{\link[effects]{effect}} resp. 
 \code{\link[effects]{allEffects}} function when \code{type = "eff"},
-or to ggplot-objects.}
+or aes-arguments passed down to ggplot-objects (like \code{width}
+for errorbars or \code{alpha} for confidence bands).}
 }
 \value{
 Depending on the \code{type}, in most cases (insisibily)

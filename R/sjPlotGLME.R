@@ -84,7 +84,8 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'          random effects for plotting (useful when ecomparing multiple models).
 #' @param ... other arguments, passed down to the \code{\link[effects]{effect}} resp. 
 #'          \code{\link[effects]{allEffects}} function when \code{type = "eff"},
-#'          or to ggplot-objects.
+#'          or aes-arguments passed down to ggplot-objects (like \code{width}
+#'          for errorbars or \code{alpha} for confidence bands).
 #'
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.glm
@@ -799,7 +800,8 @@ sjp.lme4  <- function(fit,
       return(invisible(sjp.reglin(fit, title, 50, geom.colors, show.ci, point.alpha,
                                   scatter.plot, show.loess, show.loess.ci, 
                                   useResiduals = ifelse(type == "fe.slope", FALSE, TRUE),
-                                  remove.estimates, vars, ylim = axis.lim, prnt.plot)))
+                                  remove.estimates, vars, ylim = axis.lim, 
+                                  prnt.plot, ...)))
     } else {
       return(invisible(sjp.glm.slope(fit, title, geom.size, geom.colors, remove.estimates, vars,
                                      ylim = axis.lim, show.ci, facet.grid, scatter.plot,
@@ -833,7 +835,8 @@ sjp.lme4  <- function(fit,
                                          geom.size, prnt.plot, type)))
     } else {
       return(invisible(sjp.glmer.ri.slope(fit, show.ci, facet.grid, ri.nr, vars,
-                                          emph.grp, ylim = axis.lim, prnt.plot)))
+                                          emph.grp, ylim = axis.lim, prnt.plot,
+                                          ...)))
     }
   } else if (type == "rs.ri") {
     return(invisible(sjp.lme.rsri(fit, title, axis.title, ri.nr, emph.grp, 
@@ -1390,7 +1393,7 @@ sjp.lme4  <- function(fit,
 
 #' @importFrom stats model.frame family na.omit
 sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
-                               ylim, prnt.plot) {
+                               ylim, prnt.plot, ...) {
   # ----------------------------
   # retrieve data frame of model to check whether
   # we have any numeric terms in fitted model; and
@@ -1430,6 +1433,11 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
     y.title <- paste("Predicted probabilities")
   else if (poisson_fam)
     y.title <- paste("Predicted incidents")
+  # ---------------------------------------
+  # get ...-argument, and check if it was "alpha"
+  # ---------------------------------------
+  ci.alpha <- match.call(expand.dots = FALSE)$`...`[["alpha"]]
+  if (is.null(ci.alpha)) ci.alpha <- .15
   # ---------------------------------------
   # iterate all random effects
   # ---------------------------------------
@@ -1501,16 +1509,17 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
           # ---------------------------------------------------------
           # prepare base plot
           # ---------------------------------------------------------
-          mp <- ggplot(final.df, aes_string(x = "pred", y = "prob", colour = "grp"))
+          mp <- ggplot(final.df, aes_string(x = "pred", y = "prob", colour = "grp", fill = "grp"))
           # special handling for negativ binomial
           if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
             mp <- mp +
-              stat_smooth(method = "glm.nb", se = show.ci)
+              stat_smooth(method = "glm.nb", se = show.ci, alpha = ci.alpha)
           } else {
             mp <- mp +
               stat_smooth(method = "glm",
                           method.args = list(family = fitfam$family),
-                          se = show.ci)
+                          se = show.ci,
+                          alpha = ci.alpha)
           }
           # continue with plot setup
           mp <- mp +
@@ -1547,7 +1556,7 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
                                   ncol = round(sqrt(nrow(rand.ef))),
                                   scales = "free_x") +
               # no legend
-              guides(colour = FALSE)
+              guides(colour = FALSE, fill = FALSE)
           } else if (!is.null(geom.colors)) {
             # ------------------------------
             # highlight specific groups?
@@ -1967,7 +1976,8 @@ sjp.lme.reqq <- function(fit,
                          vline.type,
                          vline.color,
                          fun,
-                         prnt.plot) {
+                         prnt.plot,
+                         ...) {
   re   <- lme4::ranef(fit, condVar = T)[[1]]
   pv   <- attr(re, "postVar")
   cols <- 1:(dim(pv)[1])
@@ -1981,7 +1991,12 @@ sjp.lme.reqq <- function(fit,
                      grp = "1")
   # check size argument
   if (is.null(geom.size)) geom.size <- 3
-  gp <- ggplot(pDf, aes_string(x = "nQQ", y = "y", colour = "grp")) +
+  
+  # get ...-argument, and check if it was "alpha"
+  ci.alpha <- match.call(expand.dots = FALSE)$`...`[["alpha"]]
+  if (is.null(ci.alpha)) ci.alpha <- .15
+  
+  gp <- ggplot(pDf, aes_string(x = "nQQ", y = "y", colour = "grp", fill = "grp")) +
     facet_wrap(~ind, scales = "free") +
     xlab("Standard normal quantiles") +
     ylab("Random effect quantiles") +
@@ -2002,7 +2017,7 @@ sjp.lme.reqq <- function(fit,
   # plot points and interceot
   # ---------------------------------------
   gp <- gp +
-    stat_smooth(method = "lm") +
+    stat_smooth(method = "lm", alpha = ci.alpha) +
     geom_point(size = geom.size)
   # ---------------------------------------------------------
   # set geom colors
