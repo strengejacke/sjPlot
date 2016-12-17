@@ -5,12 +5,12 @@
 \alias{sjtab}
 \title{Wrapper to create plots and tables within a pipe-workflow}
 \usage{
-sjplot(.data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter", "aov1"))
+sjplot(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter", "aov1"))
 
-sjtab(.data, ..., fun = c("frq", "xtab", "grpmean"))
+sjtab(data, ..., fun = c("frq", "xtab", "grpmean"))
 }
 \arguments{
-\item{.data}{A data frame.}
+\item{data}{A data frame.}
 
 \item{...}{Names of variables that should be plotted, and also further 
 arguments passed down to the \pkg{sjPlot}-functions. See 'Examples'.}
@@ -32,35 +32,35 @@ This function has a pipe-friendly argument-structure, with the
 Following \code{fun}-values are currently supported:
          \describe{
             \item{\code{"frq"}}{calls \code{\link{sjp.frq}} or \code{\link{sjt.frq}}.
-            If \code{.data} has more than one variable, a plot for each 
-            variable in \code{.data} is plotted.
+            If \code{data} has more than one variable, a plot for each 
+            variable in \code{data} is plotted.
             }
             \item{\code{"grpfrq"}}{calls \code{\link{sjp.grpfrq}}. The first 
-            two variables in \code{.data} are used (and required) to create the plot.
+            two variables in \code{data} are used (and required) to create the plot.
             }
             \item{\code{"xtab"}}{calls \code{\link{sjp.xtab}} or \code{\link{sjt.xtab}}.
-            The first two variables in \code{.data} are used (and required) 
+            The first two variables in \code{data} are used (and required) 
             to create the plot or table.
             }
             \item{\code{"grpmean"}}{calls \code{\link{sjt.grpmean}}.
-            The first two variables in \code{.data} are used (and required) 
+            The first two variables in \code{data} are used (and required) 
             to create the table.
             }
             \item{\code{"gpt"}}{calls \code{\link{sjp.gpt}}. The first 
-            three variables in \code{.data} are used (and required) to create the plot.
+            three variables in \code{data} are used (and required) to create the plot.
             }
             \item{\code{"scatter"}}{calls \code{\link{sjp.scatter}}. The first 
-            two variables in \code{.data} are used (and required) to create the plot;
-            if \code{.data} also has a third variable, this is used as grouping-
+            two variables in \code{data} are used (and required) to create the plot;
+            if \code{data} also has a third variable, this is used as grouping-
             variable in \code{sjp.scatter}.
             }
             \item{\code{"aov1"}}{calls \code{\link{sjp.aov1}}. The first 
-            two variables in \code{.data} are used (and required) to create the plot.
+            two variables in \code{data} are used (and required) to create the plot.
             }
          }
 }
 \note{
-The \code{...}-argument is used, first, to specify the variables from \code{.data}
+The \code{...}-argument is used, first, to specify the variables from \code{data}
       that should be plotted, and, second, to name further arguments that are
       used in the subsequent plotting functions. Refer to the online-help of
       supported plotting-functions to see valid arguments.

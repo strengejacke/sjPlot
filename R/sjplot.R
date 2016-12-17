@@ -7,7 +7,7 @@
 #'              the input and calls the requested sjp.xy- resp. sjt.xy-function 
 #'              to create a plot or table.
 #'
-#' @param .data A data frame.
+#' @param data A data frame.
 #' @param ... Names of variables that should be plotted, and also further 
 #'          arguments passed down to the \pkg{sjPlot}-functions. See 'Examples'.
 #' @param fun Plotting function. Refers to the function name of \pkg{sjPlot}-functions.
@@ -15,7 +15,7 @@
 #'          
 #' @return An object of class \code{ggplot}.
 #' 
-#' @note The \code{...}-argument is used, first, to specify the variables from \code{.data}
+#' @note The \code{...}-argument is used, first, to specify the variables from \code{data}
 #'       that should be plotted, and, second, to name further arguments that are
 #'       used in the subsequent plotting functions. Refer to the online-help of
 #'       supported plotting-functions to see valid arguments.
@@ -30,30 +30,30 @@
 #' @details Following \code{fun}-values are currently supported:
 #'          \describe{
 #'             \item{\code{"frq"}}{calls \code{\link{sjp.frq}} or \code{\link{sjt.frq}}.
-#'             If \code{.data} has more than one variable, a plot for each 
-#'             variable in \code{.data} is plotted.
+#'             If \code{data} has more than one variable, a plot for each 
+#'             variable in \code{data} is plotted.
 #'             }
 #'             \item{\code{"grpfrq"}}{calls \code{\link{sjp.grpfrq}}. The first 
-#'             two variables in \code{.data} are used (and required) to create the plot.
+#'             two variables in \code{data} are used (and required) to create the plot.
 #'             }
 #'             \item{\code{"xtab"}}{calls \code{\link{sjp.xtab}} or \code{\link{sjt.xtab}}.
-#'             The first two variables in \code{.data} are used (and required) 
+#'             The first two variables in \code{data} are used (and required) 
 #'             to create the plot or table.
 #'             }
 #'             \item{\code{"grpmean"}}{calls \code{\link{sjt.grpmean}}.
-#'             The first two variables in \code{.data} are used (and required) 
+#'             The first two variables in \code{data} are used (and required) 
 #'             to create the table.
 #'             }
 #'             \item{\code{"gpt"}}{calls \code{\link{sjp.gpt}}. The first 
-#'             three variables in \code{.data} are used (and required) to create the plot.
+#'             three variables in \code{data} are used (and required) to create the plot.
 #'             }
 #'             \item{\code{"scatter"}}{calls \code{\link{sjp.scatter}}. The first 
-#'             two variables in \code{.data} are used (and required) to create the plot;
-#'             if \code{.data} also has a third variable, this is used as grouping-
+#'             two variables in \code{data} are used (and required) to create the plot;
+#'             if \code{data} also has a third variable, this is used as grouping-
 #'             variable in \code{sjp.scatter}.
 #'             }
 #'             \item{\code{"aov1"}}{calls \code{\link{sjp.aov1}}. The first 
-#'             two variables in \code{.data} are used (and required) to create the plot.
+#'             two variables in \code{data} are used (and required) to create the plot.
 #'             }
 #'          }
 #' 
@@ -85,15 +85,15 @@
 #'
 #' @importFrom sjmisc is_empty
 #' @export
-sjplot <- function(.data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter", "aov1")) {
+sjplot <- function(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter", "aov1")) {
   # check if x is a data frame
-  if (!is.data.frame(.data)) stop("`x` must be a data frame.", call. = F)
+  if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = F)
   
   # match arguments
   fun <- match.arg(fun)
 
   # evaluate arguments, generate data
-  x <- get_dot_data(.data, match.call(expand.dots = FALSE)$`...`)
+  x <- get_dot_data(data, match.call(expand.dots = FALSE)$`...`)
   
   # check remaining arguments
   args <- match.call(expand.dots = FALSE)$`...`
@@ -116,7 +116,10 @@ sjplot <- function(.data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter"
     } else if (fun  == "gpt") {
       p <- sjp.gpt(x[[1]], x[[2]], x[[3]], prnt.plot = F)$plot
     } else if (fun  == "scatter") {
-      p <- sjp.scatter(x[[1]], x[[2]], x[[3]], prnt.plot = F)$plot
+      if (ncol(x) >= 3)
+        p <- sjp.scatter(x[[1]], x[[2]], x[[3]], prnt.plot = F)$plot
+      else
+        p <- sjp.scatter(x[[1]], x[[2]], prnt.plot = F)$plot
     } else if (fun  == "aov1") {
       p <- sjp.aov1(x[[1]], x[[2]], prnt.plot = F)$plot
     }
@@ -133,7 +136,10 @@ sjplot <- function(.data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter"
     } else if (fun  == "gpt") {
       p <- do.call(sjp.gpt, args = c(list(x = x[[1]], y = x[[2]], groups = x[[3]], prnt.plot = F), args))$plot
     } else if (fun  == "scatter") {
-      p <- do.call(sjp.scatter, args = c(list(x = x[[1]], y = x[[2]], grp = x[[3]], prnt.plot = F), args))$plot
+      if (ncol(x) >= 3)
+        p <- do.call(sjp.scatter, args = c(list(x = x[[1]], y = x[[2]], grp = x[[3]], prnt.plot = F), args))$plot
+      else
+        p <- do.call(sjp.scatter, args = c(list(x = x[[1]], y = x[[2]], prnt.plot = F), args))$plot
     } else if (fun  == "aov1") {
       p <- do.call(sjp.aov1, args = c(list(var.dep = x[[1]], var.grp = x[[2]], prnt.plot = F), args))$plot
     }
@@ -152,15 +158,15 @@ sjplot <- function(.data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter"
 
 #' @rdname sjplot
 #' @export
-sjtab <- function(.data, ..., fun = c("frq", "xtab", "grpmean")) {
+sjtab <- function(data, ..., fun = c("frq", "xtab", "grpmean")) {
   # check if x is a data frame
-  if (!is.data.frame(.data)) stop("`x` must be a data frame.", call. = F)
+  if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = F)
   
   # match fun-arguments
   fun <- match.arg(fun)
   
   # evaluate arguments, generate data
-  x <- get_dot_data(.data, match.call(expand.dots = FALSE)$`...`)
+  x <- get_dot_data(data, match.call(expand.dots = FALSE)$`...`)
   
   # check remaining arguments
   args <- match.call(expand.dots = FALSE)$`...`
