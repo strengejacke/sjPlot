@@ -145,7 +145,7 @@ sjp.emm <- function(fit,
   # check if we have any valid interaction terms
   # for lsmeans function
   # -----------------------------------------------------------
-  is.em <- suppressWarnings(sjmisc::is_empty(interactionterms));
+  is.em <- sjmisc::is_empty(interactionterms)
   if (!is.em && nrow(interactionterms) > 0) {
     for (cnt in seq_len(nrow(interactionterms))) {
       # -----------------------------------------------------------

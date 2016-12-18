@@ -17,7 +17,7 @@ get_dot_data <- function(data, dots) {
   if (is.data.frame(data)) {
     # get valid variable names
     vars <- vars[vars %in% colnames(data)]
-    vars.is.empty <- suppressWarnings(sjmisc::is_empty(vars))
+    vars.is.empty <- sjmisc::is_empty(vars)
     if (!is.null(vars) && !vars.is.empty)
       # select variables, if any
       x <- data[, vars, drop = FALSE]

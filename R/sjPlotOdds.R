@@ -928,9 +928,9 @@ sjp.glm.predy <- function(fit,
   # ----------------------------
   # check for correct length of vector
   # ----------------------------
-  if (length(vars) > 2) {
-    message("`vars` must have not more than two values. Using first two values now.")
-    vars <- vars[1:2]
+  if (length(vars) > 3) {
+    message("`vars` must have not more than three values. Using first two values now.")
+    vars <- vars[1:3]
   } 
   # ----------------------------
   # check for correct vars specification
@@ -963,13 +963,21 @@ sjp.glm.predy <- function(fit,
     mp <- ggplot(mydf, aes_string(x = "x", y = "y", colour = "grp", fill = "grp")) +
       labs(x = x.title, y = y.title, title = t.title, colour = NULL, fill = NULL)
   } else {
-    colnames(mydf) <- c("x", "grp", "y", "ci.low", "ci.high", "resp.y")
+    # name data depending on whether we have a facet-variable or not
+    if (length(vars) == 2) {
+      colnames(mydf) <- c("x", "grp", "y", "ci.low", "ci.high", "resp.y")
+    } else {
+      colnames(mydf) <- c("x", "grp", "facet", "y", "ci.low", "ci.high", "resp.y")
+      mydf$facet <- sjmisc::to_label(mydf$facet, prefix = T, drop.na = T, drop.levels = T)
+    }
     # x needs to be numeric
     mydf$x <- sjmisc::to_value(mydf$x)
     # convert to factor for proper legend
     mydf$grp <- sjmisc::to_factor(mydf$grp)
     # check if we have legend labels
     legend.labels <- sjmisc::get_labels(mydf$grp)
+    # for facets, label factor
+    if (facet.grid) mydf$grp <- sjmisc::to_label(mydf$grp, prefix = T, drop.na = T, drop.levels = T)
     # set colors
     geom.colors <- col_check2(geom.colors, length(legend.labels))
     # init plot
@@ -1129,7 +1137,13 @@ sjp.glm.predy <- function(fit,
   # ---------------------------------------------------------
   # facet grid, if we have grouping variable
   # ---------------------------------------------------------
-  if (facet.grid && length(vars) == 2) {
+  if (length(vars) == 3) {
+    mp <- mp + 
+      facet_wrap(~facet, ncol = round(sqrt(length(unique(mydf$facet))))) +
+      scale_colour_manual(values = geom.colors, labels = legend.labels) +
+      scale_fill_manual(values = geom.colors) +
+      guides(fill = FALSE)
+  } else if (facet.grid && length(vars) == 2) {
     mp <- mp + 
       facet_wrap(~grp, ncol = round(sqrt(length(unique(mydf$grp)))), 
                  scales = "free_x") +
