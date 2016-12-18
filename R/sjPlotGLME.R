@@ -82,10 +82,16 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'          the values in \code{sample.n} are selected to plot random effects.
 #'          Use the latter option to always select a fixed, identical set of
 #'          random effects for plotting (useful when ecomparing multiple models).
-#' @param ... other arguments, passed down to the \code{\link[effects]{effect}} resp. 
-#'          \code{\link[effects]{allEffects}} function when \code{type = "eff"},
-#'          or aes-arguments passed down to ggplot-objects (like \code{width}
-#'          for errorbars or \code{alpha} for confidence bands).
+#' @param ... other arguments passed down to further functions. Currently, following
+#'          arguments are supported:
+#'          \describe{
+#'            \item{\code{?effects::effect}}{
+#'              Any arguments accepted by the \code{\link[effects]{effect}} resp. 
+#'              \code{\link[effects]{allEffects}} function, for \code{type = "eff"}.
+#'            }
+#'            \item{\code{width}}{The \code{width}-argument for error bars.}
+#'            \item{\code{alpha}}{The \code{alpha}-argument for confidence bands.}
+#'          }
 #'
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.glm
@@ -226,6 +232,8 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #' sjp.glmer(fit, type = "pred.fe", vars = c("neg_c_7", "education"), 
 #'           show.ci = TRUE, facet.grid = FALSE)
 #'
+#' # predictions by gender and education
+#' sjp.glmer(fit, type = "pred.fe", vars = c("neg_c_7", "sex", "education"))
 #'                      
 #' @import ggplot2
 #' @importFrom dplyr slice sample_n
@@ -249,12 +257,12 @@ sjp.glmer <- function(fit,
                       show.values = TRUE,
                       show.p = TRUE,
                       show.ci = FALSE,
-                      jitter.ci = FALSE,                     
                       show.legend = FALSE,
                       show.intercept = FALSE,
                       string.interc = "(Intercept)",
                       point.alpha = 0.2,
                       scatter.plot = TRUE,
+                      jitter.ci = FALSE,                     
                       fade.ns = FALSE,
                       axis.lim = NULL,
                       digits = 2,
@@ -551,7 +559,6 @@ sjp.lmer <- function(fit,
                      show.values = TRUE,
                      show.p = TRUE,
                      show.ci = FALSE,
-                     jitter.ci = FALSE,                     
                      show.legend = FALSE,
                      show.loess = FALSE,
                      show.loess.ci = FALSE,
@@ -560,6 +567,7 @@ sjp.lmer <- function(fit,
                      p.kr = TRUE,
                      point.alpha = 0.2,
                      scatter.plot = TRUE,
+                     jitter.ci = FALSE,                     
                      fade.ns = FALSE,
                      axis.lim = NULL,
                      digits = 2,

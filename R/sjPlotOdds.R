@@ -1,5 +1,5 @@
 # bind global variables
-utils::globalVariables(c("OR", "lower", "upper", "p", "grp.est"))
+utils::globalVariables(c("OR", "lower", "upper", "p", "grp.est", "ci.low", "ci.high"))
 
 
 #' @title Plot estimates, predictions or effects of generalized linear models
@@ -89,7 +89,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "grp.est"))
 #' y <- ifelse(efc$neg_c_7 < median(na.omit(efc$neg_c_7)), 0, 1)
 #' # create data frame for fitted model
 #' mydf <- data.frame(y = as.factor(y),
-#'                    sex = efc$c161sex,
+#'                    sex = to_factor(efc$c161sex),
 #'                    dep = to_factor(efc$e42dep),
 #'                    barthel = efc$barthtot,
 #'                    education = to_factor(efc$c172code))
@@ -117,6 +117,8 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "grp.est"))
 #' sjp.glm(fit, type = "pred", vars = c("barthel", "dep"), show.ci = TRUE)
 #' # w/o facets
 #' sjp.glm(fit, type = "pred", vars = c("barthel", "dep"), facet.grid = FALSE)
+#' # with third grouping variable - this type automatically uses grid layout
+#' sjp.glm(fit, type = "pred", vars = c("barthel", "sex", "education"))
 #' 
 #' @import ggplot2
 #' @importFrom stats na.omit coef confint logLik
@@ -142,11 +144,11 @@ sjp.glm <- function(fit,
                     show.values = TRUE,
                     show.p = TRUE,
                     show.ci = FALSE,
-                    jitter.ci = FALSE,
                     show.legend = FALSE,
                     show.summary = FALSE,
                     point.alpha = 0.2,
                     scatter.plot = TRUE,
+                    jitter.ci = FALSE,
                     digits = 2,
                     vline.type = 2,
                     vline.color = "grey70",
@@ -929,7 +931,7 @@ sjp.glm.predy <- function(fit,
   # check for correct length of vector
   # ----------------------------
   if (length(vars) > 3) {
-    message("`vars` must have not more than three values. Using first two values now.")
+    message("`vars` must have not more than three values. Using first three values now.")
     vars <- vars[1:3]
   } 
   # ----------------------------
@@ -1291,8 +1293,8 @@ sjp.glm.ma <- function(logreg) {
   gp <- ggplot(data.frame(x = stats::predict(logreg), 
                           y = stats::residuals(logreg),
                           grp = stats::model.frame(logreg)[[1]]),
-               aes(x, y)) + 
-    geom_point(aes(colour = grp), show.legend = F) + 
+               aes_string(x = "x", y = "y")) + 
+    geom_point(aes_string(colour = "grp"), show.legend = F) + 
     geom_hline(yintercept = 0) +
     stat_smooth(method = "loess", se = T) +
     labs(title = "Residual plot",
@@ -1308,8 +1310,8 @@ sjp.glm.ma <- function(logreg) {
       mydat <- data.frame(x = logreg$model[[pr]], 
                           y = stats::residuals(logreg),
                           grp = as.factor(stats::model.frame(logreg)[[1]]))
-      gp <- ggplot(mydat, aes(x, y)) + 
-        geom_point(aes(colour = grp), show.legend = F) + 
+      gp <- ggplot(mydat, aes_string(x = "x", y = "y")) + 
+        geom_point(aes_string(colour = "grp"), show.legend = F) + 
         geom_hline(yintercept = 0) +
         stat_smooth(method = "loess", se = T) +
         labs(x = pr, y = "Residuals",

@@ -156,10 +156,16 @@ as an arranged grid with \code{\link[gridExtra]{grid.arrange}}.}
 \item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 
-\item{...}{other arguments, passed down to the \code{\link[effects]{effect}} resp. 
-\code{\link[effects]{allEffects}} function when \code{type = "eff"},
-or aes-arguments passed down to ggplot-objects (like \code{width}
-for errorbars or \code{alpha} for confidence bands).}
+\item{...}{other arguments passed down to further functions. Currently, following
+arguments are supported:
+\describe{
+  \item{\code{?effects::effect}}{
+    Any arguments accepted by the \code{\link[effects]{effect}} resp. 
+    \code{\link[effects]{allEffects}} function, for \code{type = "eff"}.
+  }
+  \item{\code{width}}{The \code{width}-argument for error bars.}
+  \item{\code{alpha}}{The \code{alpha}-argument for confidence bands.}
+}}
 }
 \value{
 (Insisibily) returns the ggplot-objects with the complete plot-list (\code{plot.list})

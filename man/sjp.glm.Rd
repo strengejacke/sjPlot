@@ -10,11 +10,11 @@ sjp.glm(fit, type = "dots", vars = NULL, group.estimates = NULL,
   geom.size = NULL, geom.colors = "Set1", wrap.title = 50,
   wrap.labels = 25, axis.lim = NULL, grid.breaks = 0.5,
   trns.ticks = TRUE, show.intercept = FALSE, show.values = TRUE,
-  show.p = TRUE, show.ci = FALSE, jitter.ci = FALSE,
-  show.legend = FALSE, show.summary = FALSE, point.alpha = 0.2,
-  scatter.plot = TRUE, digits = 2, vline.type = 2,
-  vline.color = "grey70", coord.flip = TRUE, y.offset = 0.15,
-  facet.grid = TRUE, prnt.plot = TRUE, ...)
+  show.p = TRUE, show.ci = FALSE, show.legend = FALSE,
+  show.summary = FALSE, point.alpha = 0.2, scatter.plot = TRUE,
+  jitter.ci = FALSE, digits = 2, vline.type = 2, vline.color = "grey70",
+  coord.flip = TRUE, y.offset = 0.15, facet.grid = TRUE,
+  prnt.plot = TRUE, ...)
 }
 \arguments{
 \item{fit}{fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).}
@@ -109,10 +109,6 @@ variable labels.}
 \item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
 interval or region is added to the plot.}
 
-\item{jitter.ci}{logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
-bands are displayed as error bars, adds jittering to lines and error bars
-to avoid overlapping.}
-
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
@@ -124,6 +120,10 @@ is added to the plot.}
 \item{scatter.plot}{logical, if \code{TRUE} (default), a scatter plot of
 response and predictor values for each predictor of the model
 is plotted. Only applies for slope-type plots.}
+
+\item{jitter.ci}{logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
+bands are displayed as error bars, adds jittering to lines and error bars
+to avoid overlapping.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
@@ -145,10 +145,16 @@ as an arranged grid with \code{\link[gridExtra]{grid.arrange}}.}
 \item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 
-\item{...}{other arguments, passed down to the \code{\link[effects]{effect}} resp. 
-\code{\link[effects]{allEffects}} function when \code{type = "eff"},
-or aes-arguments passed down to ggplot-objects (like \code{width}
-for errorbars or \code{alpha} for confidence bands).}
+\item{...}{other arguments passed down to further functions. Currently, following
+arguments are supported:
+\describe{
+  \item{\code{?effects::effect}}{
+    Any arguments accepted by the \code{\link[effects]{effect}} resp. 
+    \code{\link[effects]{allEffects}} function, for \code{type = "eff"}.
+  }
+  \item{\code{width}}{The \code{width}-argument for error bars.}
+  \item{\code{alpha}}{The \code{alpha}-argument for confidence bands.}
+}}
 }
 \value{
 (Insisibily) returns, depending on the plot type
@@ -209,7 +215,7 @@ data(efc)
 y <- ifelse(efc$neg_c_7 < median(na.omit(efc$neg_c_7)), 0, 1)
 # create data frame for fitted model
 mydf <- data.frame(y = as.factor(y),
-                   sex = efc$c161sex,
+                   sex = to_factor(efc$c161sex),
                    dep = to_factor(efc$e42dep),
                    barthel = efc$barthtot,
                    education = to_factor(efc$c172code))
@@ -237,6 +243,8 @@ sjp.glm(fit, type = "pred", vars = "barthel")
 sjp.glm(fit, type = "pred", vars = c("barthel", "dep"), show.ci = TRUE)
 # w/o facets
 sjp.glm(fit, type = "pred", vars = c("barthel", "dep"), facet.grid = FALSE)
+# with third grouping variable - this type automatically uses grid layout
+sjp.glm(fit, type = "pred", vars = c("barthel", "sex", "education"))
 
 }
 \seealso{

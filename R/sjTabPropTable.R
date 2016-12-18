@@ -318,11 +318,11 @@ sjt.xtab <- function(var.row,
   # -------------------------------------
   # table content
   # -------------------------------------
-  rowlabelcnt <- 1:length(labels.var.row)
+  rowlabelcnt <- seq_len(length(labels.var.row))
   # -------------------------------------
   # iterate all table data rows
   # -------------------------------------
-  for (irow in 1:totalnrow) {
+  for (irow in seq_len(totalnrow)) {
     # -------------------------------------
     # start new table row
     # -------------------------------------
@@ -344,7 +344,7 @@ sjt.xtab <- function(var.row,
     # -------------------------------------
     # iterate all data columns
     # -------------------------------------
-    for (icol in 1:totalncol) {
+    for (icol in seq_len(totalncol)) {
       cellstring <- ""
       # -------------------------------------
       # first table cell data contains observed values

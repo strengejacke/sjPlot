@@ -9,10 +9,10 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL,
   sample.n = NULL, poly.term = NULL, sort.est = NULL, title = NULL,
   legend.title = NULL, axis.labels = NULL, axis.title = NULL,
   geom.size = NULL, geom.colors = "Set1", show.values = TRUE,
-  show.p = TRUE, show.ci = FALSE, jitter.ci = FALSE,
-  show.legend = FALSE, show.loess = FALSE, show.loess.ci = FALSE,
-  show.intercept = FALSE, string.interc = "(Intercept)", p.kr = TRUE,
-  point.alpha = 0.2, scatter.plot = TRUE, fade.ns = FALSE,
+  show.p = TRUE, show.ci = FALSE, show.legend = FALSE,
+  show.loess = FALSE, show.loess.ci = FALSE, show.intercept = FALSE,
+  string.interc = "(Intercept)", p.kr = TRUE, point.alpha = 0.2,
+  scatter.plot = TRUE, jitter.ci = FALSE, fade.ns = FALSE,
   axis.lim = NULL, digits = 2, vline.type = 2, vline.color = "grey70",
   facet.grid = TRUE, free.scale = FALSE, y.offset = 0.1,
   prnt.plot = TRUE, ...)
@@ -124,10 +124,6 @@ variable labels.}
 \item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
 interval or region is added to the plot.}
 
-\item{jitter.ci}{logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
-bands are displayed as error bars, adds jittering to lines and error bars
-to avoid overlapping.}
-
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
@@ -156,6 +152,10 @@ may take very long time for large samples!}
 \item{scatter.plot}{logical, if \code{TRUE} (default), a scatter plot of
 response and predictor values for each predictor of the model
 is plotted. Only applies for slope-type plots.}
+
+\item{jitter.ci}{logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
+bands are displayed as error bars, adds jittering to lines and error bars
+to avoid overlapping.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 
@@ -188,10 +188,16 @@ to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 \item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 
-\item{...}{other arguments, passed down to the \code{\link[effects]{effect}} resp. 
-\code{\link[effects]{allEffects}} function when \code{type = "eff"},
-or aes-arguments passed down to ggplot-objects (like \code{width}
-for errorbars or \code{alpha} for confidence bands).}
+\item{...}{other arguments passed down to further functions. Currently, following
+arguments are supported:
+\describe{
+  \item{\code{?effects::effect}}{
+    Any arguments accepted by the \code{\link[effects]{effect}} resp. 
+    \code{\link[effects]{allEffects}} function, for \code{type = "eff"}.
+  }
+  \item{\code{width}}{The \code{width}-argument for error bars.}
+  \item{\code{alpha}}{The \code{alpha}-argument for confidence bands.}
+}}
 }
 \value{
 (Insisibily) returns
