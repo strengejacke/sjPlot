@@ -959,7 +959,7 @@ sjp.glm.predy <- function(fit,
   legend.labels <- NULL
   # check if we have a categorical variable with value
   # labels at the x-axis.
-  axis_labels <- sjmisc::get_labels(mydf[[1]])
+  axis_labels <- sjmisc::get_labels(mydf[[1]], include.non.labelled = T, drop.unused = TRUE)
   # ----------------------------
   # with or w/o grouping factor?
   # ----------------------------
@@ -996,6 +996,10 @@ sjp.glm.predy <- function(fit,
     mp <- ggplot(mydf, aes_string(x = "x", y = "y", colour = "grp", fill = "grp")) +
       labs(x = x.title, y = y.title, title = t.title, colour = l.title, fill = NULL)
   }
+  # check correct labels
+  if (!is.null(axis_labels) && length(axis_labels) != length(stats::na.omit(unique(mydf$x))))
+    axis_labels <- as.vector(sort(stats::na.omit(unique(mydf$x))))
+  
   # ------------------------------
   # check axis limits
   # ------------------------------
