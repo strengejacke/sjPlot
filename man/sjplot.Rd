@@ -10,7 +10,8 @@ sjplot(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter", "aov1"))
 sjtab(data, ..., fun = c("frq", "xtab", "grpmean"))
 }
 \arguments{
-\item{data}{A data frame.}
+\item{data}{A data frame. May also be a grouped data frame (see 'Note' and
+'Examples').}
 
 \item{...}{Names of variables that should be plotted, and also further 
 arguments passed down to the \pkg{sjPlot}-functions. See 'Examples'.}
@@ -65,6 +66,9 @@ The \code{...}-argument is used, first, to specify the variables from \code{data
       used in the subsequent plotting functions. Refer to the online-help of
       supported plotting-functions to see valid arguments.
       \cr \cr
+      \code{data} may also be a grouped data frame (see \code{\link[dplyr]{group_by}})
+      with up to two grouping variables. Plots are created for each subgroup then.
+      \cr \cr
       Following functions can already be used in a pipe-workflow, because their
       first argument is a data frame: \code{\link{sjp.chi2}}, \code{\link{sjp.corr}},
       \code{\link{sjp.likert}}, \code{\link{sjp.pca}}, \code{\link{sjp.stackfrq}},
@@ -97,6 +101,12 @@ efc \%>\%
   select(e42dep, c172code, e16sex, c161sex) \%>\% 
   sjplot() \%>\% 
   plot_grid()
+
+# plot grouped data frame
+efc \%>\% 
+  group_by(e16sex, c172code) \%>\% 
+  select(e42dep, e16sex, c172code) \%>\% 
+  sjplot(wrap.title = 100) # no line break for subtitles
 
 }
 

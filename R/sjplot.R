@@ -7,7 +7,8 @@
 #'              the input and calls the requested sjp.xy- resp. sjt.xy-function 
 #'              to create a plot or table.
 #'
-#' @param data A data frame.
+#' @param data A data frame. May also be a grouped data frame (see 'Note' and
+#'          'Examples').
 #' @param ... Names of variables that should be plotted, and also further 
 #'          arguments passed down to the \pkg{sjPlot}-functions. See 'Examples'.
 #' @param fun Plotting function. Refers to the function name of \pkg{sjPlot}-functions.
@@ -19,6 +20,9 @@
 #'       that should be plotted, and, second, to name further arguments that are
 #'       used in the subsequent plotting functions. Refer to the online-help of
 #'       supported plotting-functions to see valid arguments.
+#'       \cr \cr
+#'       \code{data} may also be a grouped data frame (see \code{\link[dplyr]{group_by}})
+#'       with up to two grouping variables. Plots are created for each subgroup then.
 #'       \cr \cr
 #'       Following functions can already be used in a pipe-workflow, because their
 #'       first argument is a data frame: \code{\link{sjp.chi2}}, \code{\link{sjp.corr}},
@@ -83,7 +87,16 @@
 #'   sjplot() %>% 
 #'   plot_grid()
 #'
-#' @importFrom sjmisc is_empty
+#' # plot grouped data frame
+#' efc %>% 
+#'   group_by(e16sex, c172code) %>% 
+#'   select(e42dep, e16sex, c172code) %>% 
+#'   sjplot(wrap.title = 100) # no line break for subtitles
+#'
+#' @importFrom sjmisc is_empty copy_labels get_label get_labels
+#' @importFrom dplyr select_ filter
+#' @importFrom tidyr nest
+#' @importFrom stats complete.cases
 #' @export
 sjplot <- function(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter", "aov1")) {
   # check if x is a data frame
@@ -99,6 +112,90 @@ sjplot <- function(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter",
   args <- match.call(expand.dots = FALSE)$`...`
   args <- args[names(args) != ""]
   
+  p <- NULL
+  pl <- NULL
+  
+  # do we have a grouped data frame?
+  if (inherits(x, "grouped_df")) {
+    # get grouped data
+    grps <- get_grouped_data(x)
+    
+    # now plot everything
+    for (i in seq_len(nrow(grps))) {
+      # copy back labels to grouped data frame
+      tmp <- sjmisc::copy_labels(grps$data[[i]], x)
+      
+      # prepare argument list, including title
+      tmp.args <- get_grouped_title(x, grps, args, i)
+      
+      # plot
+      plots <- plot_sj(tmp, fun, tmp.args)
+      pl <- c(pl, plots$p)
+      pl <- c(pl, plots$pl)
+    }
+  } else {
+    # plot
+    plots <- plot_sj(x, fun, args)
+    # we only have one plot call
+    p <- plots$p
+    pl <- plots$pl
+  }
+
+  # print all plots
+  if (!is.null(pl)) {
+    for (p in pl) suppressWarnings(graphics::plot(p))
+    invisible(pl)
+  } else {
+    suppressWarnings(graphics::plot(p))
+    invisible(p)
+  }
+}
+
+
+get_grouped_title <- function(x, grps, args, i) {
+  # prepare title for group
+  var.name <- colnames(grps)[1]
+  t1 <- sjmisc::get_label(x[[var.name]], def.value = var.name)
+  t2 <- sjmisc::get_labels(x[[var.name]])[grps[[var.name]][i]]
+  title <- sprintf("%s: %s", t1, t2)
+  
+  # do we have another groupng variable?
+  if (length(attr(x, "vars", exact = T)) > 1) {
+    # prepare title for group
+    var.name <- colnames(grps)[2]
+    t1 <- sjmisc::get_label(x[[var.name]], def.value = var.name)
+    t2 <- sjmisc::get_labels(x[[var.name]])[grps[[var.name]][i]]
+    title <- sprintf("%s\n%s: %s", title, t1, t2)
+  }
+  
+  # add title argument to argument list
+  c(args, `title` = title)
+}
+
+
+get_grouped_data <- function(x) {
+  # nest data frame
+  grps <- tidyr::nest(x)
+  
+  # remove NA category
+  cc <- grps %>% 
+    dplyr::select_("-data") %>% 
+    stats::complete.cases()
+  # select only complete cases
+  grps <- grps %>% dplyr::filter(cc)
+  
+  # arrange data
+  if (length(attr(x, "vars", exact = T)) == 1)
+    reihe <- order(grps[[1]])
+  else
+    reihe <- order(grps[[1]], grps[[2]])
+  grps <- grps[reihe, ]
+  
+  grps
+}
+
+
+plot_sj <- function(x, fun, args) {
   p <- NULL
   pl <- NULL
   
@@ -145,14 +242,7 @@ sjplot <- function(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter",
     }
   }
   
-  # print all plots
-  if (!is.null(pl)) {
-    for (p in pl) suppressWarnings(graphics::plot(p))
-    invisible(pl)
-  } else {
-    suppressWarnings(graphics::plot(p))
-    invisible(p)
-  }
+  list(p = p, pl = pl)
 }
 
 

@@ -5,6 +5,7 @@ New Functions:
 
 Changes to functions:
 * Argument `scatter.plot` was renamed to `show.scatter`.
+* `sjplot()` also accepts grouped data frames, to create plots for all subgroups.
 * For `sjp.glm()` and `sjp.glmer()`, `type = "pred"`, `type = "slope"`, `type = "pred.fe"` and `type = "fe.slope"` can now also plot data points when `scatter.plot = TRUE`. Use `point.alpha` to adjust alpha-level of data points.
 * For `sjp.glm()` and `sjp.glmer()`, `type = "pred"` and `type = "pred.fe"` now accept three variables for the `vars`-argument, to facet grouped predictions by a third variable.
 * For `sjp.lm()`, `sjp.lmer()`, `sjp.glm()` and `sjp.glmer()`, `type = "pred"` and `type = "pred.fe"` now plot error bars for `show.ci = TRUE` and a discrete variable on the x-axis.
