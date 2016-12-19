@@ -130,7 +130,7 @@ sjplot <- function(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter",
       
       # plot
       plots <- plot_sj(tmp, fun, tmp.args)
-      pl <- c(pl, plots$p)
+      pl <- c(pl, list(plots$p))
       pl <- c(pl, plots$pl)
     }
   } else {
