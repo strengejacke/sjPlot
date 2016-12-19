@@ -15,7 +15,7 @@ Description: Collection of plotting and table output functions for data
     terms) and much more. This package supports labelled data.
 License: GPL-3
 Depends:
-    R (>= 3.2),
+    R (>= 3.3),
     graphics,
     grDevices,
     methods,
@@ -34,7 +34,7 @@ Imports:
     purrr,
     scales,
     sjmisc (>= 2.1.0),
-    sjstats (>= 0.7.0),
+    sjstats (>= 0.7.1),
     tibble (>= 1.2.0),
     tidyr (>= 0.6.0)
 Suggests:

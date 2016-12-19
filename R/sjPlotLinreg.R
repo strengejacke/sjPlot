@@ -106,9 +106,8 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #'          is added to the plot.
 #' @param show.ci logical, if \code{TRUE}, depending on \code{type}, a confidence
 #'          interval or region is added to the plot.
-#' @param scatter.plot logical, if \code{TRUE} (default), a scatter plot of
-#'          response and predictor values for each predictor of the model
-#'          is plotted. Only applies for slope-type plots.
+#' @param show.scatter logical, if \code{TRUE} (default), adds a scatter plot of
+#'          data points to the plot. Only applies for slope-type or predictions plots.
 #' @param legend.title character vector, used as title for the plot legend. Note that
 #'          only some plot types have legends (e.g. \code{type = "pred"} or when
 #'          grouping estimates with \code{group.estimates}).
@@ -171,7 +170,7 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #' sjp.lm(fit, type = "slope")
 #'
 #' # reression line w/o scatter plot
-#' sjp.lm(fit, type = "slope", scatter.plot = FALSE)
+#' sjp.lm(fit, type = "slope", show.scatter = FALSE)
 #'
 #' # --------------------------
 #' # plotting model assumptions
@@ -230,7 +229,7 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #' # try to find appropiate polynomial. Grey line (loess smoothed)
 #' # indicates best fit. Looks like x^3 has a good fit.
 #' # (not checked for significance yet).
-#' sjp.poly(fit, "e17age", 2:4, scatter.plot = FALSE)
+#' sjp.poly(fit, "e17age", 2:4, show.scatter = FALSE)
 #' # fit new model
 #' fit <- lm(tot_sc_e ~ c12hour + e42dep +
 #'           e17age + I(e17age^2) + I(e17age^3),
@@ -278,8 +277,9 @@ sjp.lm <- function(fit,
                    show.loess = FALSE,
                    show.loess.ci = FALSE,
                    show.summary = FALSE,
+                   show.scatter = TRUE,
                    point.alpha = 0.2,
-                   scatter.plot = TRUE,
+                   point.color = NULL,
                    jitter.ci = FALSE,
                    digits = 2,
                    vline.type = 2,
@@ -324,7 +324,7 @@ sjp.lm <- function(fit,
     if (geom.colors == "Set1") geom.colors <- NULL
     return(invisible(sjp.lm1(fit, title, wrap.title, axis.labels, resp.label,
                              wrap.labels, geom.colors, show.ci, point.alpha,
-                             scatter.plot, show.loess, show.loess.ci, show.summary,
+                             show.scatter, show.loess, show.loess.ci, show.summary,
                              useResiduals = ifelse(type == "lm", FALSE, TRUE),
                              prnt.plot, ...)))
   }
@@ -332,7 +332,7 @@ sjp.lm <- function(fit,
     # reset default color setting, does not look that good.
     if (geom.colors == "Set1") geom.colors <- NULL
     return(invisible(sjp.reglin(fit, title, wrap.title, geom.colors, show.ci,
-                                point.alpha, scatter.plot, show.loess, show.loess.ci,
+                                point.alpha, show.scatter, show.loess, show.loess.ci,
                                 useResiduals = ifelse(type == "slope", FALSE, TRUE),
                                 remove.estimates, vars, ylim = axis.lim, prnt.plot, ...)))
   }
@@ -340,8 +340,8 @@ sjp.lm <- function(fit,
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
                                    a.title = axis.title,
                                    geom.colors, show.ci, jitter.ci, geom.size, ylim = axis.lim,
-                                   facet.grid, type = "fe", scatter.plot, point.alpha, 
-                                   show.loess, prnt.plot, ...)))
+                                   facet.grid, type = "fe", show.scatter, point.alpha, 
+                                   point.color, show.loess, prnt.plot, ...)))
   }
   if (type == "poly") {
     return(invisible(sjp.lm.poly(fit, poly.term, geom.colors, geom.size, axis.title,
@@ -578,7 +578,7 @@ sjp.reglin <- function(fit,
                        geom.colors = NULL,
                        show.ci = TRUE,
                        point.alpha = 0.2,
-                       scatter.plot = TRUE,
+                       show.scatter = TRUE,
                        show.loess = TRUE,
                        show.loess.ci = FALSE,
                        useResiduals = FALSE,
@@ -592,10 +592,9 @@ sjp.reglin <- function(fit,
   # -----------------------------------------------------------
   geom.colors <- col_check(geom.colors, show.loess)
   # ---------------------------------------
-  # get ...-argument, and check if it was "alpha"
+  # get ...-arguments
   # ---------------------------------------
-  ci.alpha <- match.call(expand.dots = FALSE)$`...`[["alpha"]]
-  if (is.null(ci.alpha)) ci.alpha <- .15
+  dot.args <- get_dot_args(match.call(expand.dots = FALSE)$`...`)
   # -----------------------------------------------------------
   # set color defaults
   # -----------------------------------------------------------
@@ -664,12 +663,12 @@ sjp.reglin <- function(fit,
     # -----------------------------------------------------------
     reglinplot <- ggplot(mydat, aes_string(x = "x", y = "y")) +
       stat_smooth(method = "lm", se = show.ci, colour = lineColor, 
-                  fill = lineColor, alpha = ci.alpha)
+                  fill = lineColor, alpha = dot.args[["ci.alpha"]], level = dot.args[["ci.lvl"]])
     # -----------------------------------------------------------
     # plot jittered values if requested
     # -----------------------------------------------------------
-    if (scatter.plot) {
-      reglinplot <- reglinplot + geom_jitter(alpha = point.alpha, colour = pointColor)
+    if (show.scatter) {
+      reglinplot <- reglinplot + geom_jitter(alpha = point.alpha, colour = pointColor, shape = 16)
     }
     # -----------------------------------------------------------
     # check whether additional loess-line should be plotted
@@ -677,7 +676,7 @@ sjp.reglin <- function(fit,
     if (show.loess) {
       reglinplot <- reglinplot +
         stat_smooth(method = "loess", se = show.loess.ci, 
-                    colour = loessLineColor, alpha = ci.alpha)
+                    colour = loessLineColor, alpha = dot.args[["ci.alpha"]], level = dot.args[["ci.lvl"]])
     }
     # -----------------------------------------------------------
     # set plot labs
@@ -1000,7 +999,7 @@ sjp.lm1 <- function(fit,
                    geom.colors = NULL,
                    show.ci=TRUE,
                    point.alpha=0.2,
-                   scatter.plot=TRUE,
+                   show.scatter=TRUE,
                    show.loess=FALSE,
                    show.loess.ci=FALSE,
                    show.summary=TRUE,
@@ -1014,8 +1013,7 @@ sjp.lm1 <- function(fit,
   # ---------------------------------------
   # get ...-argument, and check if it was "alpha"
   # ---------------------------------------
-  ci.alpha <- match.call(expand.dots = FALSE)$`...`[["alpha"]]
-  if (is.null(ci.alpha)) ci.alpha <- .15
+  dot.args <- get_dot_args(match.call(expand.dots = FALSE)$`...`)
   # -----------------------------------------------------------
   # set color defaults
   # -----------------------------------------------------------
@@ -1095,13 +1093,15 @@ sjp.lm1 <- function(fit,
                 se = show.ci,
                 colour = lineColor,
                 fill = lineColor,
-                alpha = ci.alpha)
+                alpha = dot.args[["ci.alpha"]],
+                level = dot.args[["ci.lvl"]])
   # -----------------------------------------------------------
   # plot jittered values if requested
   # -----------------------------------------------------------
-  if (scatter.plot) {
+  if (show.scatter) {
     reglinplot <- reglinplot + geom_jitter(alpha = point.alpha,
-                                           colour = pointColor)
+                                           colour = pointColor,
+                                           shape = 16)
   }
   # -----------------------------------------------------------
   # check whether additional loess-line should be plotted
@@ -1111,7 +1111,8 @@ sjp.lm1 <- function(fit,
       stat_smooth(method = "loess",
                   se = show.loess.ci,
                   colour = loessLineColor,
-                  alpha = ci.alpha)
+                  alpha = dot.args[["ci.alpha"]],
+                  level = dot.args[["ci.lvl"]])
   }
   # -----------------------------------------------------------
   # set plot labs

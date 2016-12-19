@@ -25,11 +25,16 @@ sjp.emm <- function(fit,
                     ylim = NULL,
                     grid.breaks = NULL,
                     facet.grid = FALSE,
-                    prnt.plot = TRUE) {
+                    prnt.plot = TRUE,
+                    ...) {
   # --------------------------------------------------------
   # check default geom.size
   # --------------------------------------------------------
   if (is.null(geom.size)) geom.size = .7
+  # ---------------------------------------
+  # get ...-arguments
+  # ---------------------------------------
+  dot.args <- get_dot_args(match.call(expand.dots = FALSE)$`...`)
   # ------------------------
   # check if suggested packages are available
   # ------------------------
@@ -301,7 +306,7 @@ sjp.emm <- function(fit,
       # Confidence intervals?
       # -----------------------------------------------------------
       if (show.ci) baseplot <- baseplot +
-          geom_ribbon(aes_string(x = "xn", ymin = "conf.low", ymax = "conf.high", fill = "grp"), alpha = .3)
+          geom_ribbon(aes_string(x = "xn", ymin = "conf.low", ymax = "conf.high", fill = "grp"), alpha = dot.args[["ci.alpha"]])
       # -----------------------------------------------------------
       # continue with plot. point and line layers above ribbon
       # -----------------------------------------------------------

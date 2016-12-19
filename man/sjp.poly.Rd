@@ -5,10 +5,10 @@
 \title{Plot polynomials for (generalized) linear regression}
 \usage{
 sjp.poly(x, poly.term, poly.degree, poly.scale = FALSE, fun = NULL,
-  axis.title = NULL, scatter.plot = TRUE, show.loess = TRUE,
-  show.loess.ci = TRUE, show.p = TRUE, geom.colors = NULL,
-  geom.size = 0.8, loess.color = "#808080", point.color = "#404040",
-  point.alpha = 0.2, prnt.plot = TRUE)
+  axis.title = NULL, geom.colors = NULL, geom.size = 0.8,
+  show.loess = TRUE, show.loess.ci = TRUE, show.p = TRUE,
+  show.scatter = TRUE, point.alpha = 0.2, point.color = "#404040",
+  loess.color = "#808080", prnt.plot = TRUE)
 }
 \arguments{
 \item{x}{a vector, representing the response variable of a linear (mixed) model; or
@@ -37,18 +37,6 @@ to \code{"lm"}.}
 the plot function and type), used as title(s) for the x and y axis. 
 If not specified, a default labelling  is chosen.}
 
-\item{scatter.plot}{logical, if \code{TRUE} (default), a scatter plot of
-response and predictor values for each predictor of the model
-is plotted. Only applies for slope-type plots.}
-
-\item{show.loess}{If \code{TRUE}, an additional loess-smoothed line is plotted.}
-
-\item{show.loess.ci}{If \code{TRUE}, a confidence region for the loess-smoothed line
-will be plotted.}
-
-\item{show.p}{logical, if \code{TRUE} (default), p-values for polynomial terms are
-printed to the console.}
-
 \item{geom.colors}{user defined color palette for geoms. If \code{group.estimates}
 is \emph{not} specified, must either be vector with two color values or a specific
 color palette code (see 'Details' in \code{\link{sjp.grpfrq}}). Else, if
@@ -59,11 +47,24 @@ of same length as groups. See 'Examples'.}
 depending on plot type and function). Note that bar and bin widths mostly 
 need smaller values than dot sizes.}
 
+\item{show.loess}{If \code{TRUE}, an additional loess-smoothed line is plotted.}
+
+\item{show.loess.ci}{If \code{TRUE}, a confidence region for the loess-smoothed line
+will be plotted.}
+
+\item{show.p}{logical, if \code{TRUE} (default), p-values for polynomial terms are
+printed to the console.}
+
+\item{show.scatter}{logical, if \code{TRUE} (default), adds a scatter plot of
+data points to the plot. Only applies for slope-type or predictions plots.}
+
+\item{point.alpha}{alpha value of point-geoms in the scatter plots. Only applies,
+if \code{show.scatter = TRUE}.}
+
+\item{point.color}{color of of point-geoms in the scatter plots. Only applies,
+if \code{show.scatter = TRUE}.}
+
 \item{loess.color}{color of the loess-smoothed line. Only applies, if \code{show.loess = TRUE}.}
-
-\item{point.color}{color of the scatter plot's point. Only applies, if \code{scatter.plot = TRUE}.}
-
-\item{point.alpha}{alpha value of point-geoms in the scatter plots.}
 
 \item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
@@ -111,19 +112,19 @@ sjp.poly(efc$c160age, efc$quol_5, 1)
 sjp.poly(efc$c160age, efc$quol_5, 2)
 
 # linear to cubic fit
-sjp.poly(efc$c160age, efc$quol_5, 1:4, scatter.plot = FALSE)
+sjp.poly(efc$c160age, efc$quol_5, 1:4, show.scatter = FALSE)
 
 library(sjmisc)
 data(efc)
 # fit sample model
 fit <- lm(tot_sc_e ~ c12hour + e17age + e42dep, data = efc)
 # inspect relationship between predictors and response
-sjp.lm(fit, type = "slope", show.loess = TRUE, scatter.plot = FALSE)
+sjp.lm(fit, type = "slope", show.loess = TRUE, show.scatter = FALSE)
 # "e17age" does not seem to be linear correlated to response
 # try to find appropiate polynomial. Grey line (loess smoothed)
 # indicates best fit. Looks like x^4 has the best fit,
 # however, only x^3 has significant p-values.
-sjp.poly(fit, "e17age", 2:4, scatter.plot = FALSE)
+sjp.poly(fit, "e17age", 2:4, show.scatter = FALSE)
 
 \dontrun{
 # fit new model

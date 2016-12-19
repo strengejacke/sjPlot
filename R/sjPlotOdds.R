@@ -146,8 +146,9 @@ sjp.glm <- function(fit,
                     show.ci = FALSE,
                     show.legend = FALSE,
                     show.summary = FALSE,
+                    show.scatter = TRUE,
                     point.alpha = 0.2,
-                    scatter.plot = TRUE,
+                    point.color = NULL,
                     jitter.ci = FALSE,
                     digits = 2,
                     vline.type = 2,
@@ -178,7 +179,7 @@ sjp.glm <- function(fit,
   # check plot-type -----
   if (type == "slope") {
     return(invisible(sjp.glm.slope(fit, title, geom.size, geom.colors, remove.estimates, vars,
-                                   ylim = axis.lim, show.ci, facet.grid, scatter.plot,
+                                   ylim = axis.lim, show.ci, facet.grid, show.scatter,
                                    point.alpha, prnt.plot)))
   }
   if (type == "eff") {
@@ -190,8 +191,8 @@ sjp.glm <- function(fit,
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
                                    a.title = axis.title,
                                    geom.colors, show.ci, jitter.ci, geom.size, ylim = axis.lim,
-                                   facet.grid, type = "fe", scatter.plot, point.alpha, show.loess = F, 
-                                   prnt.plot, ...)))
+                                   facet.grid, type = "fe", show.scatter, point.alpha, 
+                                   point.color, show.loess = F, prnt.plot, ...)))
   }
   if (type == "ma") {
     return(invisible(sjp.glm.ma(fit)))
@@ -488,11 +489,15 @@ sjp.glm <- function(fit,
 
 #' @importFrom stats predict coef formula model.frame
 sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, vars,
-                          ylim, show.ci, facet.grid, scatter.plot = FALSE, point.alpha = .2, prnt.plot) {
+                          ylim, show.ci, facet.grid, show.scatter = FALSE, point.alpha = .2, prnt.plot) {
   # check size argument
   if (is.null(geom.size)) geom.size <- .7
   # check geom-color argument
-  geom.colors <- col_check2(geom.colors, ifelse(isTRUE(scatter.plot), 2, 1))
+  geom.colors <- col_check2(geom.colors, ifelse(isTRUE(show.scatter), 2, 1))
+  # ---------------------------------------
+  # get ...-argument, and check if it was "width"
+  # ---------------------------------------
+  dot.args <- get_dot_args(match.call(expand.dots = FALSE)$`...`)
   # ----------------------------
   # do we have mermod object?
   # ----------------------------
@@ -647,7 +652,7 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
       if (is.null(ylim)) {
         # if we have a scatter plot, we need to take the y-values from the
         # original response as range, else just the y-values from the predictions...
-        if (scatter.plot) {
+        if (show.scatter) {
           # ... except for binomial models. here we have a response vector with
           # 0 and 1, so the limits are 0 and 1
           if (binom_fam) {
@@ -668,9 +673,9 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
         labs(x = axisLabels.mp[i], y = y.title, title = title)
       
       # plot jittered values if requested
-      if (scatter.plot)
+      if (show.scatter)
         mp <- mp + geom_jitter(aes_string(x = "coef.x", y = "resp.y"),
-                               alpha = point.alpha, colour = geom.colors[2],
+                               alpha = point.alpha, colour = geom.colors[2], shape = 16,
                                position = position_jitter(width = .1, height = .1))
       
       # special handling for negativ binomial
@@ -679,6 +684,8 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
           stat_smooth(method = "glm", 
                       method.args = list(family = "poisson"), 
                       se = show.ci,
+                      level = dot.args[["ci.lvl"]],
+                      alpha = dot.args[["ci.alpha"]],
                       size = geom.size,
                       colour = geom.colors[1])
       } else {
@@ -686,6 +693,8 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
           stat_smooth(method = "glm", 
                       method.args = list(family = fitfam$family), 
                       se = show.ci,
+                      level = dot.args[["ci.lvl"]],
+                      alpha = dot.args[["ci.alpha"]],
                       size = geom.size,
                       colour = geom.colors[1])
       }
@@ -705,7 +714,7 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
       if (is.null(ylim)) {
         # if we have a scatter plot, we need to take the y-values from the
         # original response as range, else just the y-values from the predictions...
-        if (scatter.plot) {
+        if (show.scatter) {
           # ... except for binomial models. here we have a response vector with
           # 0 and 1, so the limits are 0 and 1
           if (binom_fam) {
@@ -725,9 +734,9 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
         labs(x = NULL, y = y.title, title = title)
       
       # plot jittered values if requested
-      if (scatter.plot)
+      if (show.scatter)
         mp <- mp + geom_jitter(aes_string(x = "coef.x", y = "resp.y"),
-                               alpha = point.alpha, colour = geom.colors[2],
+                               alpha = point.alpha, colour = geom.colors[2], shape = 16,
                                position = position_jitter(width = .1, height = .1))
 
       # special handling for negativ binomial
@@ -736,12 +745,16 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
           stat_smooth(method = "glm", 
                       method.args = list(family = "poisson"), 
                       se = show.ci,
+                      level = dot.args[["ci.lvl"]],
+                      alpha = dot.args[["ci.alpha"]],
                       size = geom.size,
                       colour = geom.colors[1])
       } else {
         mp <- mp +
           stat_smooth(method = "glm", 
                       method.args = list(family = fitfam$family), 
+                      level = dot.args[["ci.lvl"]],
+                      alpha = dot.args[["ci.alpha"]],
                       se = show.ci,
                       size = geom.size,
                       colour = geom.colors[1])
@@ -799,8 +812,9 @@ sjp.glm.predy <- function(fit,
                           ylim,
                           facet.grid,
                           type = "fe",
-                          scatter.plot,
+                          show.scatter,
                           point.alpha,
+                          point.color,
                           show.loess = FALSE,
                           prnt.plot,
                           ...) {
@@ -831,14 +845,10 @@ sjp.glm.predy <- function(fit,
   # ----------------------------
   if (is.null(geom.size)) geom.size <- .7
   # ---------------------------------------
-  # get ...-argument, and check if it was "width"
+  # get ...-arguments
   # ---------------------------------------
-  eb.width <- match.call(expand.dots = FALSE)$`...`[["width"]]
-  if (is.null(eb.width)) eb.width <- 0
-  # get ...-argument, and check if it was "alpha"
-  ci.alpha <- match.call(expand.dots = FALSE)$`...`[["alpha"]]
-  if (is.null(ci.alpha)) ci.alpha <- .15
-  # ----------------------------
+  dot.args <- get_dot_args(match.call(expand.dots = FALSE)$`...`)
+  # ---------------------------------------
   # check vars argument
   # ----------------------------
   if (is.null(vars)) {
@@ -879,7 +889,7 @@ sjp.glm.predy <- function(fit,
     prdat <- merTools::predictInterval(
       fit, newdata = fitfram, which = ifelse(type == "fe", "fixed", "full"),
       type = ifelse(fit.m == "lm", "linear.prediction", "probability"),
-      level = .95
+      level = dot.args[["ci.lvl"]]
     )
     # copy predictions
     fitfram$predicted.values <- prdat$fit
@@ -898,7 +908,7 @@ sjp.glm.predy <- function(fit,
     fitfram$conf.high <- NA
   } else {
     # get predictions with SE
-    prdat <- stats::predict(fit, newdata = fitfram, type = "response", se.fit = T)
+    prdat <- stats::predict(fit, newdata = fitfram, type = "response", se.fit = T, level = dot.args[["ci.lvl"]])
     # copy predictions
     fitfram$predicted.values <- prdat$fit
     # calculate CI
@@ -992,7 +1002,7 @@ sjp.glm.predy <- function(fit,
   if (is.null(ylim)) {
     # if we have a scatter plot, we need to take the y-values from the
     # original response as range, else just the y-values from the predictions...
-    if (scatter.plot) {
+    if (show.scatter) {
       # ... except for binomial models. here we have a response vector with
       # 0 and 1, so the limits are 0 and 1
       if (binom_fam) {
@@ -1037,10 +1047,19 @@ sjp.glm.predy <- function(fit,
   }
   
   # plot jittered values if requested
-  if (scatter.plot)
-    mp <- mp + geom_jitter(aes_string(y = "resp.y"),
-                           alpha = point.alpha,
-                           position = position_jitter(width = .1, height = .1))
+  if (show.scatter) {
+    if (is.null(point.color))
+      mp <- mp + geom_jitter(aes_string(y = "resp.y"),
+                             alpha = point.alpha, 
+                             shape = 16,
+                             position = position_jitter(width = .1, height = .1))
+    else
+      mp <- mp + geom_jitter(aes_string(y = "resp.y"),
+                             alpha = point.alpha,
+                             colour = point.color,
+                             shape = 16,
+                             position = position_jitter(width = .1, height = .1))
+  }
   
   # for factors, use error bars. but only if we have predicted CI in our data
   if (is.factor(fitfram[[vars[1]]]) && !any(is.na(mydf$ci.low))) {
@@ -1061,7 +1080,7 @@ sjp.glm.predy <- function(fit,
           aes_string(ymin = "ci.low", ymax = "ci.high"),
           data = datpoint,
           size = geom.size,
-          width = eb.width,
+          width = dot.args[["eb.width"]],
           position = position_dodge(.2)
         )
       } else {
@@ -1069,7 +1088,7 @@ sjp.glm.predy <- function(fit,
           aes_string(ymin = "ci.low", ymax = "ci.high"), 
           data = datpoint,
           size = geom.size,
-          width = eb.width
+          width = dot.args[["eb.width"]]
         )
         
       }
@@ -1084,34 +1103,38 @@ sjp.glm.predy <- function(fit,
                   position = position_dodge(.2)) +
         geom_point(aes_string(x = "x", y = "y", colour = "grp"), 
                    data = datpoint,
+                   shape = 16,
                    position = position_dodge(.2))
     } else {
       mp <- mp + 
         geom_line(aes_string(x = "x", y = "y", colour = "grp"), data = datpoint, size = geom.size) +
-        geom_point(aes_string(x = "x", y = "y", colour = "grp"), data = datpoint)
+        geom_point(aes_string(x = "x", y = "y", colour = "grp"), data = datpoint, shape = 16)
     }
   } else {
     if (fit.m == "lm") {
       mp <- mp +
         stat_smooth(method = fit.m, 
                     se = show.ci,
+                    level = dot.args[["ci.lvl"]],
                     size = geom.size,
-                    alpha = ci.alpha)
+                    alpha = dot.args[["ci.alpha"]])
     } else {
       # special handling for negativ binomial
       if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
         mp <- mp +
           stat_smooth(method = "glm.nb",
                       se = show.ci,
+                      level = dot.args[["ci.lvl"]],
                       size = geom.size,
-                      alpha = ci.alpha)
+                      alpha = dot.args[["ci.alpha"]])
       } else {
         mp <- mp +
           stat_smooth(method = fit.m, 
                       method.args = list(family = fitfam$family), 
                       se = show.ci,
+                      level = dot.args[["ci.lvl"]],
                       size = geom.size,
-                      alpha = ci.alpha)
+                      alpha = dot.args[["ci.alpha"]])
       }
     }
   }
@@ -1122,7 +1145,7 @@ sjp.glm.predy <- function(fit,
                                          se = F,
                                          size = geom.size,
                                          colour = "darkred",
-                                         alpha = ci.alpha)
+                                         alpha = dot.args[["ci.alpha"]])
   # ---------------------------------------------------------
   # coord-system for y-axis limits
   # cartesian coord still plots range of se, even

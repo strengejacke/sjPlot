@@ -12,10 +12,10 @@ sjp.lm(fit, type = "lm", vars = NULL, group.estimates = NULL,
   axis.lim = NULL, grid.breaks = NULL, show.values = TRUE,
   show.p = TRUE, show.ci = TRUE, show.legend = FALSE,
   show.loess = FALSE, show.loess.ci = FALSE, show.summary = FALSE,
-  point.alpha = 0.2, scatter.plot = TRUE, jitter.ci = FALSE, digits = 2,
-  vline.type = 2, vline.color = "grey70", coord.flip = TRUE,
-  y.offset = 0.15, facet.grid = TRUE, complete.dgns = FALSE,
-  prnt.plot = TRUE, ...)
+  show.scatter = TRUE, point.alpha = 0.2, point.color = NULL,
+  jitter.ci = FALSE, digits = 2, vline.type = 2, vline.color = "grey70",
+  coord.flip = TRUE, y.offset = 0.15, facet.grid = TRUE,
+  complete.dgns = FALSE, prnt.plot = TRUE, ...)
 }
 \arguments{
 \item{fit}{fitted linear regression model (of class \code{\link{lm}}, \code{\link[nlme]{gls}} or \code{plm}).}
@@ -124,11 +124,14 @@ or \code{type = "fe.resid"}).}
 \item{show.summary}{logical, if \code{TRUE}, a summary with model statistics 
 is added to the plot.}
 
-\item{point.alpha}{alpha value of point-geoms in the scatter plots.}
+\item{show.scatter}{logical, if \code{TRUE} (default), adds a scatter plot of
+data points to the plot. Only applies for slope-type or predictions plots.}
 
-\item{scatter.plot}{logical, if \code{TRUE} (default), a scatter plot of
-response and predictor values for each predictor of the model
-is plotted. Only applies for slope-type plots.}
+\item{point.alpha}{alpha value of point-geoms in the scatter plots. Only applies,
+if \code{show.scatter = TRUE}.}
+
+\item{point.color}{color of of point-geoms in the scatter plots. Only applies,
+if \code{show.scatter = TRUE}.}
 
 \item{jitter.ci}{logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
 bands are displayed as error bars, adds jittering to lines and error bars
@@ -166,6 +169,7 @@ arguments are supported:
   }
   \item{\code{width}}{The \code{width}-argument for error bars.}
   \item{\code{alpha}}{The \code{alpha}-argument for confidence bands.}
+  \item{\code{level}}{The \code{level}-argument confidence bands.}
 }}
 }
 \value{
@@ -277,7 +281,7 @@ fit <- lm(tot_sc_e ~ c12hour + e17age + e42dep, data=efc)
 sjp.lm(fit, type = "slope")
 
 # reression line w/o scatter plot
-sjp.lm(fit, type = "slope", scatter.plot = FALSE)
+sjp.lm(fit, type = "slope", show.scatter = FALSE)
 
 # --------------------------
 # plotting model assumptions
@@ -336,7 +340,7 @@ fit <- lm(tot_sc_e ~ c12hour + e17age + e42dep, data = efc)
 # try to find appropiate polynomial. Grey line (loess smoothed)
 # indicates best fit. Looks like x^3 has a good fit.
 # (not checked for significance yet).
-sjp.poly(fit, "e17age", 2:4, scatter.plot = FALSE)
+sjp.poly(fit, "e17age", 2:4, show.scatter = FALSE)
 # fit new model
 fit <- lm(tot_sc_e ~ c12hour + e42dep +
           e17age + I(e17age^2) + I(e17age^3),

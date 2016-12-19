@@ -4,6 +4,25 @@ utils::globalVariables(c("Freq", "vif"))
 # Help-functions
 
 
+# get additional arguments for geoms
+get_dot_args <- function(x) {
+  # ---------------------------------------
+  # get ...-argument, and check if it was "width"
+  # ---------------------------------------
+  eb.width <- x[["width"]]
+  if (is.null(eb.width)) eb.width <- 0
+  # get ...-argument, and check if it was "alpha"
+  ci.alpha <- x[["alpha"]]
+  if (is.null(ci.alpha)) ci.alpha <- .15
+  # get ...-argument, and check if it was "level"
+  ci.lvl <- x[["level"]]
+  if (is.null(ci.lvl)) ci.lvl <- .95
+  
+  list(eb.width = eb.width,
+       ci.alpha = ci.alpha,
+       ci.lvl = ci.lvl)
+}
+
 # evaluates arguments
 get_dot_data <- function(data, dots) {
   # any dots?

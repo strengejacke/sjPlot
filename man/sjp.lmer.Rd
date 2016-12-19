@@ -11,11 +11,11 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL,
   geom.size = NULL, geom.colors = "Set1", show.values = TRUE,
   show.p = TRUE, show.ci = FALSE, show.legend = FALSE,
   show.loess = FALSE, show.loess.ci = FALSE, show.intercept = FALSE,
-  string.interc = "(Intercept)", p.kr = TRUE, point.alpha = 0.2,
-  scatter.plot = TRUE, jitter.ci = FALSE, fade.ns = FALSE,
-  axis.lim = NULL, digits = 2, vline.type = 2, vline.color = "grey70",
-  facet.grid = TRUE, free.scale = FALSE, y.offset = 0.1,
-  prnt.plot = TRUE, ...)
+  string.interc = "(Intercept)", p.kr = TRUE, show.scatter = TRUE,
+  point.alpha = 0.2, point.color = NULL, jitter.ci = FALSE,
+  fade.ns = FALSE, axis.lim = NULL, digits = 2, vline.type = 2,
+  vline.color = "grey70", facet.grid = TRUE, free.scale = FALSE,
+  y.offset = 0.1, prnt.plot = TRUE, ...)
 }
 \arguments{
 \item{fit}{a fitted model as returned by the \code{\link[lme4]{lmer}}-function.}
@@ -147,11 +147,14 @@ if \code{show.intercept = TRUE} and \code{axis.labels} is not \code{NULL}.}
 F-tests with Kenward-Roger approximation for the df. Caution: Computation
 may take very long time for large samples!}
 
-\item{point.alpha}{alpha value of point-geoms in the scatter plots.}
+\item{show.scatter}{logical, if \code{TRUE} (default), adds a scatter plot of
+data points to the plot. Only applies for slope-type or predictions plots.}
 
-\item{scatter.plot}{logical, if \code{TRUE} (default), a scatter plot of
-response and predictor values for each predictor of the model
-is plotted. Only applies for slope-type plots.}
+\item{point.alpha}{alpha value of point-geoms in the scatter plots. Only applies,
+if \code{show.scatter = TRUE}.}
+
+\item{point.color}{color of of point-geoms in the scatter plots. Only applies,
+if \code{show.scatter = TRUE}.}
 
 \item{jitter.ci}{logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
 bands are displayed as error bars, adds jittering to lines and error bars
@@ -197,6 +200,7 @@ arguments are supported:
   }
   \item{\code{width}}{The \code{width}-argument for error bars.}
   \item{\code{alpha}}{The \code{alpha}-argument for confidence bands.}
+  \item{\code{level}}{The \code{level}-argument confidence bands.}
 }}
 }
 \value{
@@ -334,7 +338,7 @@ sjp.lmer(fit, type = "fe.slope", show.loess = TRUE)
 # try to find appropiate polynomial. Grey line (loess smoothed)
 # indicates best fit. Looks like x^4 has the best fit,
 # however, x^2 seems to be suitable according to p-values.
-sjp.poly(fit, "barthel", 2:4, scatter.plot = FALSE)
+sjp.poly(fit, "barthel", 2:4, show.scatter = FALSE)
 
 # fit new model
 fit <- lmer(neg_c_7 ~ sex + c12hour + barthel +

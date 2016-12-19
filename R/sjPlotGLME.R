@@ -50,7 +50,10 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #' @param title character vector with one or more labels that are used as plot title.
 #' @param string.interc string, axis label of intercept estimate. Only applies, 
 #'          if \code{show.intercept = TRUE} and \code{axis.labels} is not \code{NULL}.
-#' @param point.alpha alpha value of point-geoms in the scatter plots.
+#' @param point.alpha alpha value of point-geoms in the scatter plots. Only applies,
+#'          if \code{show.scatter = TRUE}.
+#' @param point.color color of of point-geoms in the scatter plots. Only applies,
+#'          if \code{show.scatter = TRUE}.
 #' @param sort.est determines in which way estimates are sorted in the plot:
 #'          \itemize{
 #'            \item If \code{NULL} (default), no sorting is done and estimates are sorted in order of model coefficients.
@@ -91,6 +94,7 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'            }
 #'            \item{\code{width}}{The \code{width}-argument for error bars.}
 #'            \item{\code{alpha}}{The \code{alpha}-argument for confidence bands.}
+#'            \item{\code{level}}{The \code{level}-argument confidence bands.}
 #'          }
 #'
 #' @inheritParams sjp.lm
@@ -260,8 +264,9 @@ sjp.glmer <- function(fit,
                       show.legend = FALSE,
                       show.intercept = FALSE,
                       string.interc = "(Intercept)",
+                      show.scatter = TRUE,
                       point.alpha = 0.2,
-                      scatter.plot = TRUE,
+                      point.color = NULL,
                       jitter.ci = FALSE,                     
                       fade.ns = FALSE,
                       axis.lim = NULL,
@@ -315,8 +320,9 @@ sjp.glmer <- function(fit,
            FALSE,
            prnt.plot,
            fun = "glm",
+           show.scatter,
            point.alpha,
-           scatter.plot,
+           point.color,
            FALSE,
            FALSE,
            NULL,
@@ -502,7 +508,7 @@ sjp.glmer <- function(fit,
 #' # try to find appropiate polynomial. Grey line (loess smoothed)
 #' # indicates best fit. Looks like x^4 has the best fit,
 #' # however, x^2 seems to be suitable according to p-values.
-#' sjp.poly(fit, "barthel", 2:4, scatter.plot = FALSE)
+#' sjp.poly(fit, "barthel", 2:4, show.scatter = FALSE)
 #'
 #' # fit new model
 #' fit <- lmer(neg_c_7 ~ sex + c12hour + barthel +
@@ -565,8 +571,9 @@ sjp.lmer <- function(fit,
                      show.intercept = FALSE,
                      string.interc = "(Intercept)",
                      p.kr = TRUE,
+                     show.scatter = TRUE,
                      point.alpha = 0.2,
-                     scatter.plot = TRUE,
+                     point.color = NULL,
                      jitter.ci = FALSE,                     
                      fade.ns = FALSE,
                      axis.lim = NULL,
@@ -619,8 +626,9 @@ sjp.lmer <- function(fit,
            p.kr,
            prnt.plot,
            fun = "lm",
+           show.scatter,
            point.alpha,
-           scatter.plot,
+           point.color,
            show.loess,
            show.loess.ci,
            poly.term,
@@ -660,8 +668,9 @@ sjp.lme4  <- function(fit,
                       p.kr,
                       prnt.plot,
                       fun,
+                      show.scatter = TRUE,
                       point.alpha = 0.2,
-                      scatter.plot = TRUE,
+                      point.color = NULL,
                       show.loess = FALSE,
                       show.loess.ci = FALSE,
                       poly.term = NULL,
@@ -806,13 +815,13 @@ sjp.lme4  <- function(fit,
     if (fun == "lm") {
       # reset default color setting, does not look that good.
       return(invisible(sjp.reglin(fit, title, 50, geom.colors, show.ci, point.alpha,
-                                  scatter.plot, show.loess, show.loess.ci, 
+                                  show.scatter, show.loess, show.loess.ci, 
                                   useResiduals = ifelse(type == "fe.slope", FALSE, TRUE),
                                   remove.estimates, vars, ylim = axis.lim, 
                                   prnt.plot, ...)))
     } else {
       return(invisible(sjp.glm.slope(fit, title, geom.size, geom.colors, remove.estimates, vars,
-                                     ylim = axis.lim, show.ci, facet.grid, scatter.plot,
+                                     ylim = axis.lim, show.ci, facet.grid, show.scatter,
                                      point.alpha, prnt.plot)))
     }
   } else if (type == "poly") {
@@ -868,8 +877,8 @@ sjp.lme4  <- function(fit,
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
                                    a.title = axis.title,
                                    geom.colors, show.ci, jitter.ci, geom.size, ylim = axis.lim, facet.grid, 
-                                   type = "re", scatter.plot, point.alpha, show.loess = F, 
-                                   prnt.plot, ...)))
+                                   type = "re", show.scatter, point.alpha, point.color,
+                                   show.loess = F, prnt.plot, ...)))
   } else if (type == "pred.fe") {
     # fix color
     if (geom.colors == "Set1" && length(vars) == 1) geom.colors <- "black"
@@ -880,8 +889,8 @@ sjp.lme4  <- function(fit,
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
                                    a.title = axis.title,
                                    geom.colors, show.ci, jitter.ci, geom.size, ylim = axis.lim, facet.grid, 
-                                   type = "fe", scatter.plot, point.alpha, show.loess = F, 
-                                   prnt.plot, ...)))
+                                   type = "fe", show.scatter, point.alpha, 
+                                   point.color, show.loess = F, prnt.plot, ...)))
   }
   # ------------------------
   # check if suggested package is available
@@ -1415,6 +1424,10 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
   # --------------------------------------------------------
   poisson_fam <- faminfo$is_pois
   binom_fam <- faminfo$is_bin
+  # ---------------------------------------
+  # get ...-argument
+  # ---------------------------------------
+  dot.args <- get_dot_args(match.call(expand.dots = FALSE)$`...`)
   # ----------------------------
   # retrieve term names, so we find the estimates in the
   # coefficients list
@@ -1441,11 +1454,6 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
     y.title <- paste("Predicted probabilities")
   else if (poisson_fam)
     y.title <- paste("Predicted incidents")
-  # ---------------------------------------
-  # get ...-argument, and check if it was "alpha"
-  # ---------------------------------------
-  ci.alpha <- match.call(expand.dots = FALSE)$`...`[["alpha"]]
-  if (is.null(ci.alpha)) ci.alpha <- .15
   # ---------------------------------------
   # iterate all random effects
   # ---------------------------------------
@@ -1521,13 +1529,13 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
           # special handling for negativ binomial
           if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
             mp <- mp +
-              stat_smooth(method = "glm.nb", se = show.ci, alpha = ci.alpha)
+              stat_smooth(method = "glm.nb", se = show.ci, alpha = dot.args[["ci.alpha"]])
           } else {
             mp <- mp +
               stat_smooth(method = "glm",
                           method.args = list(family = fitfam$family),
                           se = show.ci,
-                          alpha = ci.alpha)
+                          alpha = dot.args[["ci.alpha"]])
           }
           # continue with plot setup
           mp <- mp +
@@ -1988,7 +1996,7 @@ sjp.lme.reqq <- function(fit,
                          ...) {
   re   <- lme4::ranef(fit, condVar = T)[[1]]
   pv   <- attr(re, "postVar")
-  cols <- 1:(dim(pv)[1])
+  cols <- seq_len(dim(pv)[1])
   se   <- unlist(lapply(cols, function(i) sqrt(pv[i, i, ])))
   ord  <- unlist(lapply(re, order)) + rep((0:(ncol(re) - 1)) * nrow(re), each = nrow(re))
   pDf  <- data.frame(y = unlist(re)[ord],
@@ -2000,10 +2008,9 @@ sjp.lme.reqq <- function(fit,
   # check size argument
   if (is.null(geom.size)) geom.size <- 3
   
-  # get ...-argument, and check if it was "alpha"
-  ci.alpha <- match.call(expand.dots = FALSE)$`...`[["alpha"]]
-  if (is.null(ci.alpha)) ci.alpha <- .15
-  
+  # get ...-arguments
+  dot.args <- get_dot_args(match.call(expand.dots = FALSE)$`...`)
+
   gp <- ggplot(pDf, aes_string(x = "nQQ", y = "y", colour = "grp", fill = "grp")) +
     facet_wrap(~ind, scales = "free") +
     xlab("Standard normal quantiles") +
@@ -2025,7 +2032,7 @@ sjp.lme.reqq <- function(fit,
   # plot points and interceot
   # ---------------------------------------
   gp <- gp +
-    stat_smooth(method = "lm", alpha = ci.alpha) +
+    stat_smooth(method = "lm", alpha = dot.args[["ci.alpha"]]) +
     geom_point(size = geom.size)
   # ---------------------------------------------------------
   # set geom colors
@@ -2134,6 +2141,11 @@ sjp.glm.eff <- function(fit,
   # if we have a "transformation" argument, and it's NULL, 
   # no transformation of scale
   no.transform <- !sjmisc::is_empty(t.add) && is.null(eval(add.args[[t.add]]))
+  
+  # ---------------------------------------
+  # get ...-arguments
+  # ---------------------------------------
+  dot.args <- get_dot_args(match.call(expand.dots = FALSE)$`...`)
   
   # ---------------------------------------
   # init plot list
@@ -2331,7 +2343,7 @@ sjp.glm.eff <- function(fit,
     eff.plot <- ggplot(mydat, aes_string(x = "x", y = "y"))
     # show confidence region?
     if (show.ci) eff.plot <- eff.plot + 
-        geom_ribbon(aes_string(ymin = "lower", ymax = "upper"), alpha = .15)
+      geom_ribbon(aes_string(ymin = "lower", ymax = "upper"), alpha = dot.args[["ci.alpha"]])
     
     # which title?
     if (is.null(title)) title <- "Marginal effects of model predictors"
@@ -2367,17 +2379,12 @@ sjp.glm.eff <- function(fit,
       eff.plot <- ggplot(mydat_sub, aes_string(x = "x", y = "y"))
       # show confidence region?
       if (show.ci) {
-        
-        # get ...-argument, and check if it was "width"
-        eb.width <- match.call(expand.dots = FALSE)$`...`[["width"]]
-        if (is.null(eb.width)) eb.width <- 0
-        
         if (x_is_factor)
           eff.plot <- eff.plot + 
-            geom_errorbar(aes_string(ymin = "lower", ymax = "upper"), width = eb.width) +
+            geom_errorbar(aes_string(ymin = "lower", ymax = "upper"), width = dot.args[["eb.width"]]) +
             geom_point()
         else
-          eff.plot <- eff.plot + geom_ribbon(aes_string(ymin = "lower", ymax = "upper"), alpha = .15)
+          eff.plot <- eff.plot + geom_ribbon(aes_string(ymin = "lower", ymax = "upper"), alpha = dot.args[["ci.alpha"]])
       }
       
       # do we have a title?

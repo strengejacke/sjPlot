@@ -100,11 +100,6 @@
 #'          interaction plot is plotted (i.e. one vector of legend labels for each interaction plot).
 #'          Default is \code{NULL}, so the name of the predictor with min/max-effect is used 
 #'          as legend label.
-#' @param show.ci may be a numeric or logical value. If \code{show.ci} is logical and 
-#'          \code{TRUE}, a 95\% confidence region will be plotted. If \code{show.ci}
-#'          if numeric, must be a number between 0 and 1, indicating the proportion
-#'          for the confidence regeion (e.g. \code{show.ci = 0.9} plots a 90\% CI).
-#'          Only applies to \code{type = "emm"} or \code{type = "eff"}.
 #' @param jitter.ci logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
 #'          bands are displayed as error bars, adds jittering to lines and error bars
 #'          to avoid overlapping.
@@ -382,20 +377,11 @@ sjp.int <- function(fit,
   # plot estimated marginal means?
   # --------------------------------------------------------
   if (type == "emm") {
-    # ------------------------
-    # multiple purpose of show.ci parameter. if logical,
-    # sets default CI to 0.95, else show.ci also may be
-    # numeric
-    # ------------------------
-    if (!is.null(show.ci) && !is.logical(show.ci)) {
-      show.ci <- TRUE
-      warning("argument `show.ci` must be logical for `type = 'emm'`.", call. = F)
-    }
     return(sjp.emm(fit, swap.pred, plevel, title, geom.colors, geom.size,
                    axis.title, axis.labels, legend.title, legend.labels,
                    show.values, digits, show.ci, p.kr, wrap.title,
                    wrap.legend.title, wrap.legend.labels, y.offset, ylim, 
-                   grid.breaks, facet.grid, prnt.plot))
+                   grid.breaks, facet.grid, prnt.plot, ...))
   }
   # --------------------------------------------------------
   # list labels
@@ -407,7 +393,7 @@ sjp.int <- function(fit,
   # --------------------------------------------------------
   if (type == "eff") {
     return(sjp.eff.int(fit, int.term, int.plot.index, mdrt.values, swap.pred, plevel,
-                       title, fill.alpha, geom.colors, geom.size, axis.title,
+                       title, geom.colors, geom.size, axis.title,
                        legend.title, legend.labels, show.values, wrap.title, wrap.legend.labels, 
                        wrap.legend.title, xlim, ylim, y.offset, grid.breaks, 
                        show.ci, jitter.ci, p.kr, facet.grid, prnt.plot, fun, ...))
@@ -880,7 +866,6 @@ sjp.eff.int <- function(fit,
                         swap.pred = FALSE,
                         plevel = 0.05,
                         title = NULL,
-                        fill.alpha = 0.2,
                         geom.colors = "Set1",
                         geom.size = 0.7,
                         axis.title = NULL,
@@ -923,18 +908,11 @@ sjp.eff.int <- function(fit,
   # if we have a "transformation" argument, and it's NULL, 
   # no transformation of scale
   no.transform <- !sjmisc::is_empty(t.add) && is.null(eval(add.args[[t.add]]))
-
-  # ------------------------
-  # multiple purpose of show.ci parameter. if logical,
-  # sets default CI to 0.95, else show.ci also may be
-  # numeric
-  # ------------------------
-  if (!is.null(show.ci) && !is.logical(show.ci)) {
-    eci <- show.ci
-    show.ci = TRUE
-  } else {
-    eci <- 0.95
-  }
+  # ---------------------------------------
+  # get ...-arguments
+  # ---------------------------------------
+  dot.args <- get_dot_args(match.call(expand.dots = FALSE)$`...`)
+  
   # ------------------------
   # calculate effects of higher order terms and
   # check if fitted model contains any interaction terms
@@ -1056,13 +1034,13 @@ sjp.eff.int <- function(fit,
       if (is.null(int.term)) {
         # re-compute effects
         eff.tmp <- effects::allEffects(fit, xlevels = c(xl1, xl2), KR = p.kr, 
-                                       confidence.level = eci, ...)
+                                       confidence.level = dot.args[["ci.lvl"]], ...)
         # reset data frame
         intdf <- data.frame(eff.tmp[[intpos[i]]])
       } else {
         # re-compute effects
         eff.tmp <- effects::effect(int.term, fit, xlevels = c(xl1, xl2), 
-                                   KR = p.kr, confidence.level = eci, ...)
+                                   KR = p.kr, confidence.level = dot.args[["ci.lvl"]], ...)
         # reset data frame
         intdf <- data.frame(eff.tmp)
       }
@@ -1085,13 +1063,13 @@ sjp.eff.int <- function(fit,
       if (is.null(int.term)) {
         # re-compute effects
         eff.tmp <- effects::allEffects(fit, xlevels = xl,  KR = p.kr,
-                                       confidence.level = eci, ...)
+                                       confidence.level = dot.args[["ci.lvl"]], ...)
         # reset data frame
         intdf <- data.frame(eff.tmp[[intpos[i]]])
       } else {
         # re-compute effects
         eff.tmp <- effects::effect(int.term, fit, xlevels = xl, KR = p.kr,
-                                   confidence.level = eci, ...)
+                                   confidence.level = dot.args[["ci.lvl"]], ...)
         # reset data frame
         intdf <- data.frame(eff.tmp)
       }
@@ -1313,9 +1291,6 @@ sjp.eff.int <- function(fit,
     # confidence interval?
     # ------------------------------------------------------------
     if (show.ci) {
-      # get ...-argument, and check if it was "width"
-      eb.width <- match.call(expand.dots = FALSE)$`...`[["width"]]
-      if (is.null(eb.width)) eb.width <- 0
       # -------------------------------------------------
       # for factors, we add error bars instead of
       # continuous confidence region
@@ -1327,8 +1302,9 @@ sjp.eff.int <- function(fit,
         if (jitter.ci) {
           baseplot <- baseplot +
             geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high", colour = "grp"),
-                          width = eb.width, show.legend = FALSE, position = position_dodge(.2)) +
-            geom_point(position = position_dodge(.2)) +
+                          width = dot.args[["eb.width"]], show.legend = FALSE, 
+                          position = position_dodge(.2)) +
+            geom_point(position = position_dodge(.2), shape = 16) +
             geom_line(size = geom.size, position = position_dodge(.2))
           # adjust axis limits, so jittered geoms are within plot boundaries
           lowerLim.x <- lowerLim.x - .2
@@ -1336,8 +1312,8 @@ sjp.eff.int <- function(fit,
         } else {
           baseplot <- baseplot +
             geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high", colour = "grp"),
-                          width = eb.width, show.legend = FALSE) +
-            geom_point() +
+                          width = dot.args[["eb.width"]], show.legend = FALSE) +
+            geom_point(shape = 16) +
             geom_line(size = geom.size)
         }
       } else {
@@ -1347,7 +1323,7 @@ sjp.eff.int <- function(fit,
         # -------------------------------------------------
         baseplot <- baseplot +
           geom_ribbon(aes_string(ymin = "conf.low", ymax = "conf.high", colour = NULL, fill = "grp"),
-                      alpha = fill.alpha, show.legend = FALSE) +
+                      alpha = dot.args[["ci.alpha"]], show.legend = FALSE) +
           geom_line(size = geom.size)
       }
     } else {

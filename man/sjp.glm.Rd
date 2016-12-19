@@ -11,10 +11,10 @@ sjp.glm(fit, type = "dots", vars = NULL, group.estimates = NULL,
   wrap.labels = 25, axis.lim = NULL, grid.breaks = 0.5,
   trns.ticks = TRUE, show.intercept = FALSE, show.values = TRUE,
   show.p = TRUE, show.ci = FALSE, show.legend = FALSE,
-  show.summary = FALSE, point.alpha = 0.2, scatter.plot = TRUE,
-  jitter.ci = FALSE, digits = 2, vline.type = 2, vline.color = "grey70",
-  coord.flip = TRUE, y.offset = 0.15, facet.grid = TRUE,
-  prnt.plot = TRUE, ...)
+  show.summary = FALSE, show.scatter = TRUE, point.alpha = 0.2,
+  point.color = NULL, jitter.ci = FALSE, digits = 2, vline.type = 2,
+  vline.color = "grey70", coord.flip = TRUE, y.offset = 0.15,
+  facet.grid = TRUE, prnt.plot = TRUE, ...)
 }
 \arguments{
 \item{fit}{fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).}
@@ -115,11 +115,14 @@ function, a legend is added to the plot.}
 \item{show.summary}{logical, if \code{TRUE}, a summary with model statistics 
 is added to the plot.}
 
-\item{point.alpha}{alpha value of point-geoms in the scatter plots.}
+\item{show.scatter}{logical, if \code{TRUE} (default), adds a scatter plot of
+data points to the plot. Only applies for slope-type or predictions plots.}
 
-\item{scatter.plot}{logical, if \code{TRUE} (default), a scatter plot of
-response and predictor values for each predictor of the model
-is plotted. Only applies for slope-type plots.}
+\item{point.alpha}{alpha value of point-geoms in the scatter plots. Only applies,
+if \code{show.scatter = TRUE}.}
+
+\item{point.color}{color of of point-geoms in the scatter plots. Only applies,
+if \code{show.scatter = TRUE}.}
 
 \item{jitter.ci}{logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
 bands are displayed as error bars, adds jittering to lines and error bars
@@ -154,6 +157,7 @@ arguments are supported:
   }
   \item{\code{width}}{The \code{width}-argument for error bars.}
   \item{\code{alpha}}{The \code{alpha}-argument for confidence bands.}
+  \item{\code{level}}{The \code{level}-argument confidence bands.}
 }}
 }
 \value{

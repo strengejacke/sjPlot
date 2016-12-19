@@ -117,11 +117,8 @@ Use either 0 or set \code{fill.color} to \code{NULL} if you want to hide the sha
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
-\item{show.ci}{may be a numeric or logical value. If \code{show.ci} is logical and 
-\code{TRUE}, a 95\% confidence region will be plotted. If \code{show.ci}
-if numeric, must be a number between 0 and 1, indicating the proportion
-for the confidence regeion (e.g. \code{show.ci = 0.9} plots a 90\% CI).
-Only applies to \code{type = "emm"} or \code{type = "eff"}.}
+\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
+interval or region is added to the plot.}
 
 \item{jitter.ci}{logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
 bands are displayed as error bars, adds jittering to lines and error bars
@@ -165,6 +162,7 @@ arguments are supported:
   }
   \item{\code{width}}{The \code{width}-argument for error bars.}
   \item{\code{alpha}}{The \code{alpha}-argument for confidence bands.}
+  \item{\code{level}}{The \code{level}-argument confidence bands.}
 }}
 }
 \value{

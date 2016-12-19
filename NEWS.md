@@ -1,4 +1,4 @@
-# sjPlot 2.1.3
+# sjPlot 2.2.0
 
 ## New Functions
 
@@ -6,10 +6,12 @@
 
 ## Changes to functions
 
+* Argument `scatter.plot` was renamed to `show.scatter`.
 * For `sjp.glm()` and `sjp.glmer()`, `type = "pred"`, `type = "slope"`, `type = "pred.fe"` and `type = "fe.slope"` can now also plot data points when `scatter.plot = TRUE`. Use `point.alpha` to adjust alpha-level of data points.
 * For `sjp.lm()`, `sjp.lmer()`, `sjp.glm()` and `sjp.glmer()`, `type = "pred"` and `type = "pred.fe"` now plot error bars for `show.ci = TRUE` and a discrete variable on the x-axis.
 * For `sjp.glm()` and `sjp.glmer()`, `type = "pred"` and `type = "pred.fe"` now accept three variables for the `vars`-argument, to facet grouped predictions by a third variable.
-* For `sjp.lm()`, `sjp.lmer()`, `sjp.glm()` and `sjp.glmer()`, the `...`-ellipses argument now is also passed down to all errorbars- and smooth-geoms in prediction- and effect-plots, so you can now use the `width`-argument to show the small stripes at the lower/upper end of the error bars, and the `alpha`-argument to define alpha-level of confidence bands.
+* For `sjp.lm()`, `sjp.lmer()`, `sjp.glm()` and `sjp.glmer()`, the `...`-ellipses argument now is also passed down to all errorbars- and smooth-geoms in prediction- and effect-plots, so you can now use the `width`-argument to show the small stripes at the lower/upper end of the error bars, the `alpha`-argument to define alpha-level or the `level`-argument to define the level of confidence bands.
+* `sjp.lm()`, `sjp.lmer()`, `sjp.glm()` and `sjp.glmer()` get a `point.color`-argument, do define color of point-geoms when `show.scatter = TRUE`. If not defined, point-geoms will have same group-color as lines.
 * Effect-plots (`type = "eff"`) now plot data points for discrete variables on the x-axis.
 * `sjt.lm()` and `sjt.glm()` get a `robust`-argument to compute robust standard errors and confidence intervals.
 * `sjp.resid()` now also returns a plot with the residual pattern, `$pattern`.
