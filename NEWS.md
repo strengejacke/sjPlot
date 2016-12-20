@@ -7,8 +7,9 @@
 ## Changes to functions
 
 * Argument `scatter.plot` was renamed to `show.scatter`.
+* Argument `varl.labels` in `sjt.frq()` was renamed to `title`.
 * `sjplot()` and `sjtab()` also accept grouped data frames, to create plots or tables for all subgroups.
-* For `sjp.glm()` and `sjp.glmer()`, `type = "pred"`, `type = "slope"`, `type = "pred.fe"` and `type = "fe.slope"` can now also plot data points when `scatter.plot = TRUE`. Use `point.alpha` to adjust alpha-level of data points.
+* For `sjp.glm()` and `sjp.glmer()`, `type = "pred"`, `type = "slope"`, `type = "pred.fe"` and `type = "fe.slope"` can now also plot data points when `show.scatter = TRUE`. Use `point.alpha` to adjust alpha-level of data points.
 * For `sjp.lm()`, `sjp.lmer()`, `sjp.glm()` and `sjp.glmer()`, `type = "pred"` and `type = "pred.fe"` now plot error bars for `show.ci = TRUE` and a discrete variable on the x-axis.
 * For `sjp.glm()` and `sjp.glmer()`, `type = "pred"` and `type = "pred.fe"` now accept three variables for the `vars`-argument, to facet grouped predictions by a third variable.
 * For `sjp.lm()`, `sjp.lmer()`, `sjp.glm()` and `sjp.glmer()`, the `...`-ellipses argument now is also passed down to all errorbars- and smooth-geoms in prediction- and effect-plots, so you can now use the `width`-argument to show the small stripes at the lower/upper end of the error bars, the `alpha`-argument to define alpha-level or the `level`-argument to define the level of confidence bands.

@@ -21,7 +21,7 @@ arguments passed down to the \pkg{sjPlot}-functions. See 'Examples'.}
 See 'Details' and 'Examples'.}
 }
 \value{
-An object of class \code{ggplot}.
+See related sjp. and sjt.-functions.
 }
 \description{
 This function has a pipe-friendly argument-structure, with the

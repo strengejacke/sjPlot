@@ -15,7 +15,7 @@
 #' @param fun Plotting function. Refers to the function name of \pkg{sjPlot}-functions.
 #'          See 'Details' and 'Examples'.
 #'          
-#' @return An object of class \code{ggplot}.
+#' @return See related sjp. and sjt.-functions.
 #' 
 #' @note The \code{...}-argument is used, first, to specify the variables from \code{data}
 #'       that should be plotted, and, second, to name further arguments that are
