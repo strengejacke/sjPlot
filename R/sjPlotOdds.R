@@ -109,7 +109,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "grp.est", "ci.low", "ci.h
 #'
 #' # --------------------------
 #' # model predictions, with selected model terms.
-#' # 'vars' needs to be a character vector of length 1 or 2
+#' # 'vars' needs to be a character vector of length 1 to 3
 #' # with names of model terms for x-axis and grouping factor.
 #' # --------------------------
 #' sjp.glm(fit, type = "pred", vars = "barthel")

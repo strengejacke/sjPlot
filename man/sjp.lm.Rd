@@ -36,9 +36,8 @@ sjp.lm(fit, type = "lm", vars = NULL, group.estimates = NULL,
 
 \item{vars}{numeric vector with column indices of selected variables or a character vector with
 variable names of selected variables from the fitted model, which should be used to plot
-estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability or
-incidents curves
-(for \code{\link[lme4]{glmer}}) of random intercepts.}
+- depending on \code{type} - estimates, fixed effects slopes or predicted values 
+(mean, probabilities, incidents rates, ...). See 'Examples'.}
 
 \item{group.estimates}{numeric or character vector, indicating a group identifier for
 each estimate. Dots and confidence intervals of estimates are coloured
@@ -314,7 +313,8 @@ sjp.lm(fit, group.estimates = c(1, 2, 1, 3, 4, 3),
 library(sjmisc)
 data(efc)
 efc$education <- to_label(to_factor(efc$c172code))
-fit <- lm(barthtot ~ c160age + c12hour + e17age+ education,
+efc$gender <- to_label(to_factor(efc$c161sex))
+fit <- lm(barthtot ~ c160age + c12hour + e17age + gender + education,
           data = efc)
 
 sjp.lm(fit, type = "pred", vars = "c160age")
@@ -328,6 +328,9 @@ sjp.lm(fit, type = "pred", vars = c("c12hour", "education"))
 # grouped, non-facet
 sjp.lm(fit, type = "pred", vars = c("c12hour", "education"),
        facet.grid = FALSE)
+
+# two groupings
+sjp.lm(fit, type = "pred", vars = c("c12hour", "gender", "education"))
 
 # --------------------------
 # plotting polynomial terms

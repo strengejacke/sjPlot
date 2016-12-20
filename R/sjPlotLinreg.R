@@ -203,7 +203,8 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #' library(sjmisc)
 #' data(efc)
 #' efc$education <- to_label(to_factor(efc$c172code))
-#' fit <- lm(barthtot ~ c160age + c12hour + e17age+ education,
+#' efc$gender <- to_label(to_factor(efc$c161sex))
+#' fit <- lm(barthtot ~ c160age + c12hour + e17age + gender + education,
 #'           data = efc)
 #'
 #' sjp.lm(fit, type = "pred", vars = "c160age")
@@ -217,6 +218,9 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #' # grouped, non-facet
 #' sjp.lm(fit, type = "pred", vars = c("c12hour", "education"),
 #'        facet.grid = FALSE)
+#' 
+#' # two groupings
+#' sjp.lm(fit, type = "pred", vars = c("c12hour", "gender", "education"))
 #' 
 #' # --------------------------
 #' # plotting polynomial terms

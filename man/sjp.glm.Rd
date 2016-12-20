@@ -31,9 +31,8 @@ sjp.glm(fit, type = "dots", vars = NULL, group.estimates = NULL,
 
 \item{vars}{numeric vector with column indices of selected variables or a character vector with
 variable names of selected variables from the fitted model, which should be used to plot
-estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability or
-incidents curves
-(for \code{\link[lme4]{glmer}}) of random intercepts.}
+- depending on \code{type} - estimates, fixed effects slopes or predicted values 
+(mean, probabilities, incidents rates, ...). See 'Examples'.}
 
 \item{group.estimates}{numeric or character vector, indicating a group identifier for
 each estimate. Dots and confidence intervals of estimates are coloured
@@ -239,7 +238,7 @@ sjp.glm(fit,  group.estimates = c(1, 2, 2, 2, 3, 4, 4))
 
 # --------------------------
 # model predictions, with selected model terms.
-# 'vars' needs to be a character vector of length 1 or 2
+# 'vars' needs to be a character vector of length 1 to 3
 # with names of model terms for x-axis and grouping factor.
 # --------------------------
 sjp.glm(fit, type = "pred", vars = "barthel")

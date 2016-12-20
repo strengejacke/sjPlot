@@ -33,9 +33,8 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'          }
 #' @param vars numeric vector with column indices of selected variables or a character vector with
 #'          variable names of selected variables from the fitted model, which should be used to plot
-#'          estimates, fixed effects slopes (for \code{\link[lme4]{lmer}}) or probability or
-#'          incidents curves
-#'          (for \code{\link[lme4]{glmer}}) of random intercepts.
+#'          - depending on \code{type} - estimates, fixed effects slopes or predicted values 
+#'          (mean, probabilities, incidents rates, ...). See 'Examples'.
 #' @param ri.nr numeric vector. If \code{type = "re"} or \code{type = "ri.slope"},
 #'          and fitted model has more than one random intercept, \code{ri.nr} indicates
 #'          which random effects of which random intercept (or: which list elements
