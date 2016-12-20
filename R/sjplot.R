@@ -5,7 +5,8 @@
 #'              first argument always being the data, followed by variables that
 #'              should be plotted or printed as table. The function then transforms 
 #'              the input and calls the requested sjp.- resp. sjt.-function 
-#'              to create a plot or table.
+#'              to create a plot or table. \cr \cr
+#'              Both \code{sjplot()} and \code{sjtab()} support grouped data frames.
 #'
 #' @param data A data frame. May also be a grouped data frame (see 'Note' and
 #'          'Examples').
@@ -23,44 +24,40 @@
 #'       \cr \cr
 #'       \code{data} may also be a grouped data frame (see \code{\link[dplyr]{group_by}})
 #'       with up to two grouping variables. Plots are created for each subgroup then.
-#'       \cr \cr
-#'       Following functions can already be used in a pipe-workflow, because their
-#'       first argument is a data frame: \code{\link{sjp.chi2}}, \code{\link{sjp.corr}},
-#'       \code{\link{sjp.pca}}, \code{\link{sjp.stackfrq}},
-#'       \code{\link{sjt.corr}}, \code{\link{sjt.df}}, \code{\link{sjt.frq}},
-#'       \code{\link{sjt.itemanalysis}}, \code{\link{sjt.pca}}, 
-#'       \code{\link{sjt.stackfrq}}, \code{\link{view_df}}.
 #' 
 #' @details Following \code{fun}-values are currently supported:
 #'          \describe{
+#'             \item{\code{"aov1"}}{calls \code{\link{sjp.aov1}}. The first 
+#'             two variables in \code{data} are used (and required) to create the plot.
+#'             }
 #'             \item{\code{"frq"}}{calls \code{\link{sjp.frq}} or \code{\link{sjt.frq}}.
 #'             If \code{data} has more than one variable, a plot for each 
 #'             variable in \code{data} is plotted.
 #'             }
+#'             \item{\code{"gpt"}}{calls \code{\link{sjp.gpt}}. The first 
+#'             three variables in \code{data} are used (and required) to create the plot.
+#'             }
 #'             \item{\code{"grpfrq"}}{calls \code{\link{sjp.grpfrq}}. The first 
 #'             two variables in \code{data} are used (and required) to create the plot.
-#'             }
-#'             \item{\code{"xtab"}}{calls \code{\link{sjp.xtab}} or \code{\link{sjt.xtab}}.
-#'             The first two variables in \code{data} are used (and required) 
-#'             to create the plot or table.
 #'             }
 #'             \item{\code{"grpmean"}}{calls \code{\link{sjt.grpmean}}.
 #'             The first two variables in \code{data} are used (and required) 
 #'             to create the table.
 #'             }
-#'             \item{\code{"gpt"}}{calls \code{\link{sjp.gpt}}. The first 
-#'             three variables in \code{data} are used (and required) to create the plot.
+#'             \item{\code{"likert"}}{calls \code{\link{sjp.likert}}. \code{data} 
+#'             must be a data frame with items to plot.
 #'             }
 #'             \item{\code{"scatter"}}{calls \code{\link{sjp.scatter}}. The first 
 #'             two variables in \code{data} are used (and required) to create the plot;
 #'             if \code{data} also has a third variable, this is used as grouping-
 #'             variable in \code{sjp.scatter}.
 #'             }
-#'             \item{\code{"aov1"}}{calls \code{\link{sjp.aov1}}. The first 
-#'             two variables in \code{data} are used (and required) to create the plot.
+#'             \item{\code{"stackfrq"}}{calls \code{\link{sjp.stackfrq}} or \code{\link{sjt.stackfrq}}.
+#'             \code{data} must be a data frame with items to create the plot or table.
 #'             }
-#'             \item{\code{"likert"}}{calls \code{\link{sjp.likert}}. \code{data} 
-#'             must be a data frame with items to plot.
+#'             \item{\code{"xtab"}}{calls \code{\link{sjp.xtab}} or \code{\link{sjt.xtab}}.
+#'             The first two variables in \code{data} are used (and required) 
+#'             to create the plot or table.
 #'             }
 #'          }
 #' 
@@ -108,7 +105,8 @@
 #' @importFrom tidyr nest
 #' @importFrom stats complete.cases
 #' @export
-sjplot <- function(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter", "aov1", "likert")) {
+sjplot <- function(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter", 
+                                      "aov1", "likert", "stackfrq")) {
   # check if x is a data frame
   if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = F)
   
@@ -166,7 +164,7 @@ sjplot <- function(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter",
 
 #' @rdname sjplot
 #' @export
-sjtab <- function(data, ..., fun = c("frq", "xtab", "grpmean")) {
+sjtab <- function(data, ..., fun = c("frq", "xtab", "grpmean", "stackfrq")) {
   # check if x is a data frame
   if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = F)
   
@@ -261,6 +259,8 @@ plot_sj <- function(x, fun, args) {
       p <- sjp.grpfrq(x[[1]], x[[2]], prnt.plot = F)$plot
     } else if (fun  == "likert") {
       p <- sjp.likert(x, prnt.plot = F)$plot
+    } else if (fun  == "stackfrq") {
+      p <- sjp.stackfrq(x, prnt.plot = F)$plot
     } else if (fun  == "xtab") {
       p <- sjp.xtab(x[[1]], x[[2]], prnt.plot = F)$plot
     } else if (fun  == "gpt") {
@@ -283,6 +283,8 @@ plot_sj <- function(x, fun, args) {
       p <- do.call(sjp.grpfrq, args = c(list(var.cnt = x[[1]], var.grp = x[[2]], prnt.plot = F), args))$plot
     } else if (fun  == "likert") {
       p <- do.call(sjp.likert, args = c(list(items = x, prnt.plot = F), args))$plot
+    } else if (fun  == "stackfrq") {
+      p <- do.call(sjp.stackfrq, args = c(list(items = x, prnt.plot = F), args))$plot
     } else if (fun  == "xtab") {
       p <- do.call(sjp.xtab, args = c(list(x = x[[1]], grp = x[[2]], prnt.plot = F), args))$plot
     } else if (fun  == "gpt") {
@@ -309,12 +311,16 @@ tab_sj <- function(x, fun, args) {
       sjt.frq(x)
     } else if (fun  == "xtab") {
       sjt.xtab(x[[1]], x[[2]])
+    } else if (fun  == "stackfrq") {
+      sjt.stackfrq(x)
     } else if (fun  == "grpmean") {
       sjt.grpmean(x[[1]], x[[2]])
     }
   } else {
     if (fun == "frq") {
       do.call(sjt.frq, args = c(list(data = x), args))
+    } else if (fun  == "stackfrq") {
+      do.call(sjt.stackfrq, args = c(list(items = x), args))
     } else if (fun  == "xtab") {
       do.call(sjt.xtab, args = c(list(var.row = x[[1]], var.col = x[[2]]), args))
     } else if (fun  == "grpmean") {

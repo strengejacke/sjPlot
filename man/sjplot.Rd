@@ -6,9 +6,9 @@
 \title{Wrapper to create plots and tables within a pipe-workflow}
 \usage{
 sjplot(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter", "aov1",
-  "likert"))
+  "likert", "stackfrq"))
 
-sjtab(data, ..., fun = c("frq", "xtab", "grpmean"))
+sjtab(data, ..., fun = c("frq", "xtab", "grpmean", "stackfrq"))
 }
 \arguments{
 \item{data}{A data frame. May also be a grouped data frame (see 'Note' and
@@ -28,39 +28,43 @@ This function has a pipe-friendly argument-structure, with the
              first argument always being the data, followed by variables that
              should be plotted or printed as table. The function then transforms 
              the input and calls the requested sjp.- resp. sjt.-function 
-             to create a plot or table.
+             to create a plot or table. \cr \cr
+             Both \code{sjplot()} and \code{sjtab()} support grouped data frames.
 }
 \details{
 Following \code{fun}-values are currently supported:
          \describe{
+            \item{\code{"aov1"}}{calls \code{\link{sjp.aov1}}. The first 
+            two variables in \code{data} are used (and required) to create the plot.
+            }
             \item{\code{"frq"}}{calls \code{\link{sjp.frq}} or \code{\link{sjt.frq}}.
             If \code{data} has more than one variable, a plot for each 
             variable in \code{data} is plotted.
             }
+            \item{\code{"gpt"}}{calls \code{\link{sjp.gpt}}. The first 
+            three variables in \code{data} are used (and required) to create the plot.
+            }
             \item{\code{"grpfrq"}}{calls \code{\link{sjp.grpfrq}}. The first 
             two variables in \code{data} are used (and required) to create the plot.
-            }
-            \item{\code{"xtab"}}{calls \code{\link{sjp.xtab}} or \code{\link{sjt.xtab}}.
-            The first two variables in \code{data} are used (and required) 
-            to create the plot or table.
             }
             \item{\code{"grpmean"}}{calls \code{\link{sjt.grpmean}}.
             The first two variables in \code{data} are used (and required) 
             to create the table.
             }
-            \item{\code{"gpt"}}{calls \code{\link{sjp.gpt}}. The first 
-            three variables in \code{data} are used (and required) to create the plot.
+            \item{\code{"likert"}}{calls \code{\link{sjp.likert}}. \code{data} 
+            must be a data frame with items to plot.
             }
             \item{\code{"scatter"}}{calls \code{\link{sjp.scatter}}. The first 
             two variables in \code{data} are used (and required) to create the plot;
             if \code{data} also has a third variable, this is used as grouping-
             variable in \code{sjp.scatter}.
             }
-            \item{\code{"aov1"}}{calls \code{\link{sjp.aov1}}. The first 
-            two variables in \code{data} are used (and required) to create the plot.
+            \item{\code{"stackfrq"}}{calls \code{\link{sjp.stackfrq}} or \code{\link{sjt.stackfrq}}.
+            \code{data} must be a data frame with items to create the plot or table.
             }
-            \item{\code{"likert"}}{calls \code{\link{sjp.likert}}. \code{data} 
-            must be a data frame with items to plot.
+            \item{\code{"xtab"}}{calls \code{\link{sjp.xtab}} or \code{\link{sjt.xtab}}.
+            The first two variables in \code{data} are used (and required) 
+            to create the plot or table.
             }
          }
 }
@@ -72,13 +76,6 @@ The \code{...}-argument is used, first, to specify the variables from \code{data
       \cr \cr
       \code{data} may also be a grouped data frame (see \code{\link[dplyr]{group_by}})
       with up to two grouping variables. Plots are created for each subgroup then.
-      \cr \cr
-      Following functions can already be used in a pipe-workflow, because their
-      first argument is a data frame: \code{\link{sjp.chi2}}, \code{\link{sjp.corr}},
-      \code{\link{sjp.pca}}, \code{\link{sjp.stackfrq}},
-      \code{\link{sjt.corr}}, \code{\link{sjt.df}}, \code{\link{sjt.frq}},
-      \code{\link{sjt.itemanalysis}}, \code{\link{sjt.pca}}, 
-      \code{\link{sjt.stackfrq}}, \code{\link{view_df}}.
 }
 \examples{
 library(sjmisc)
