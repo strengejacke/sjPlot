@@ -27,7 +27,7 @@ on 3 possible factors can not be clearly assigned to just one factor and thus wo
 from the principal component analysis. By default, the minimum difference of loading values
 between the highest and 2nd highest factor should be 0.1}
 
-\item{title}{table caption. By default, \code{title = NULL}, hence no title will be used.}
+\item{title}{table caption, as character vector.}
 
 \item{var.labels}{character vector with variable names, which will be used 
 to label variables in the output.}

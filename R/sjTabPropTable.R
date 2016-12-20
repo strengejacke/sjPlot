@@ -10,6 +10,8 @@
 #'              
 #' @param var.row variable that should be displayed in the table rows.
 #' @param var.col variable that should be displayed in the table columns.
+#' @param var.labels character vector with variable names, which will be used 
+#'          to label variables in the output.
 #' @param string.total label for the total column / row header
 #' @param show.cell.prc logical, if \code{TRUE}, cell percentage values are shown
 #' @param show.row.prc logical, if \code{TRUE}, row percentage values are shown

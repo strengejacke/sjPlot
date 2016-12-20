@@ -13,8 +13,7 @@
 #' @param file destination file, if the output should be saved as file.
 #'          If \code{NULL} (default), the output will be saved as temporary file and 
 #'          openend either in the IDE's viewer pane or the default web browser.
-#' @param var.labels character vector with variable names, which will be used 
-#'          to label variables in the output.
+#' @param title table caption, as character vector.
 #' @param value.labels character vector (or \code{list} of character vectors)
 #'          with value labels of the supplied variables, which will be used 
 #'          to label variable values in the output.
@@ -123,7 +122,7 @@
 #' sjt.frq(efc$e42dep)
 #' 
 #' # plot and show frequency table of "e42dep" with labels
-#' sjt.frq(efc$e42dep, var.labels = "Dependency",
+#' sjt.frq(efc$e42dep, title = "Dependency",
 #'         value.labels = c("independent", "slightly dependent",
 #'                          "moderately dependent", "severely dependent"))
 #' 
@@ -132,7 +131,7 @@
 #' # Note that value.labels of multiple variables have to be
 #' # list-objects
 #' sjt.frq(data.frame(efc$e42dep, efc$e16sex, efc$c172code),
-#'         var.labels = c("Dependency", "Gender", "Education"),
+#'         title = c("Dependency", "Gender", "Education"),
 #'         value.labels = list(c("independent", "slightly dependent",
 #'                               "moderately dependent", "severely dependent"),
 #'                             c("male", "female"), c("low", "mid", "high")))
@@ -160,7 +159,7 @@
 sjt.frq <- function(data,
                     weight.by = NULL,
                     title.wtd.suffix = " (weighted)",
-                    var.labels = NULL,
+                    title = NULL,
                     value.labels = NULL,
                     sort.frq = c("none", "asc", "desc"),
                     altr.row.col = FALSE,
@@ -305,22 +304,15 @@ sjt.frq <- function(data,
   # -------------------------------------
   # auto-retrieve variable labels
   # -------------------------------------
-  if (is.null(var.labels)) {
-    # init variable Labels as list
-    var.labels <- list()
+  if (is.null(title)) {
     # check if we have data frame with several variables
     if (is.data.frame(data)) {
-      # if yes, iterate each variable
-      for (i in seq_len(ncol(data))) {
-        # retrieve variable name attribute
-        var.labels <-
-          c(var.labels, sjmisc::get_label(data[[i]], def.value = colnames(data)[i]))
-      }
+      # retrieve variable name attribute
+      title <- sjmisc::get_label(data, def.value = colnames(data))
     # we have a single variable only
     } else {
       # retrieve variable name attribute
-      var.labels <-
-        c(var.labels, sjmisc::get_label(data, def.value = deparse(substitute(data))))
+      title <- sjmisc::get_label(data, def.value = deparse(substitute(data)))
     }
   }
   # -------------------------------------
@@ -383,14 +375,6 @@ sjt.frq <- function(data,
   # transform variable and value labels 
   # to list object
   # -------------------------------------
-  if (!is.null(var.labels) && !is.list(var.labels)) {
-    # if we have variable labels as vector, convert them to list
-    var.labels <- as.list(var.labels)
-  } else if (is.null(var.labels)) {
-    # if we have no variable labels, use column names
-    # of data frame
-    var.labels <- as.list(colnames(data))
-  }
   if (!is.null(value.labels) && !is.list(value.labels)) {
     # if we have value labels as vector, convert them to list
     value.labels <- list(value.labels)
@@ -505,7 +489,7 @@ sjt.frq <- function(data,
     # -------------------------------------
     # retrieve variable label
     # -------------------------------------
-    varlab <- var.labels[[cnt]]
+    varlab <- title[cnt]
     # if we have weighted values, say that in diagram's title
     if (!is.null(weight.by)) {
       varlab <- paste(varlab, title.wtd.suffix, sep = "")

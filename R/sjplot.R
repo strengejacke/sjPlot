@@ -4,7 +4,7 @@
 #' @description This function has a pipe-friendly argument-structure, with the
 #'              first argument always being the data, followed by variables that
 #'              should be plotted or printed as table. The function then transforms 
-#'              the input and calls the requested sjp.xy- resp. sjt.xy-function 
+#'              the input and calls the requested sjp.- resp. sjt.-function 
 #'              to create a plot or table.
 #'
 #' @param data A data frame. May also be a grouped data frame (see 'Note' and
@@ -26,7 +26,7 @@
 #'       \cr \cr
 #'       Following functions can already be used in a pipe-workflow, because their
 #'       first argument is a data frame: \code{\link{sjp.chi2}}, \code{\link{sjp.corr}},
-#'       \code{\link{sjp.likert}}, \code{\link{sjp.pca}}, \code{\link{sjp.stackfrq}},
+#'       \code{\link{sjp.pca}}, \code{\link{sjp.stackfrq}},
 #'       \code{\link{sjt.corr}}, \code{\link{sjt.df}}, \code{\link{sjt.frq}},
 #'       \code{\link{sjt.itemanalysis}}, \code{\link{sjt.pca}}, 
 #'       \code{\link{sjt.stackfrq}}, \code{\link{view_df}}.
@@ -58,6 +58,9 @@
 #'             }
 #'             \item{\code{"aov1"}}{calls \code{\link{sjp.aov1}}. The first 
 #'             two variables in \code{data} are used (and required) to create the plot.
+#'             }
+#'             \item{\code{"likert"}}{calls \code{\link{sjp.likert}}. \code{data} 
+#'             must be a data frame with items to plot.
 #'             }
 #'          }
 #' 
@@ -93,12 +96,19 @@
 #'   select(e42dep, e16sex, c172code) %>% 
 #'   sjplot(wrap.title = 100) # no line break for subtitles
 #'
+#' \dontrun{
+#' # table output of grouped data frame
+#' efc %>% 
+#'   group_by(e16sex, c172code) %>% 
+#'   select(e42dep, n4pstu, e16sex, c172code) %>% 
+#'   sjtab(fun = "xtab", use.viewer = FALSE) # open all tables in browser}
+#'
 #' @importFrom sjmisc is_empty copy_labels get_label get_labels
 #' @importFrom dplyr select_ filter
 #' @importFrom tidyr nest
 #' @importFrom stats complete.cases
 #' @export
-sjplot <- function(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter", "aov1")) {
+sjplot <- function(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter", "aov1", "likert")) {
   # check if x is a data frame
   if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = F)
   
@@ -126,12 +136,14 @@ sjplot <- function(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter",
       tmp <- sjmisc::copy_labels(grps$data[[i]], x)
       
       # prepare argument list, including title
-      tmp.args <- get_grouped_title(x, grps, args, i)
+      tmp.args <- get_grouped_title(x, grps, args, i, sep = "\n")
       
       # plot
       plots <- plot_sj(tmp, fun, tmp.args)
-      pl <- c(pl, list(plots$p))
-      pl <- c(pl, plots$pl)
+      
+      # add plots, check for NULL results
+      if (!is.null(plots$p)) pl <- c(pl, list(plots$p))
+      if (!is.null(plots$pl)) pl <- c(pl, plots$pl)
     }
   } else {
     # plot
@@ -152,7 +164,46 @@ sjplot <- function(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter",
 }
 
 
-get_grouped_title <- function(x, grps, args, i) {
+#' @rdname sjplot
+#' @export
+sjtab <- function(data, ..., fun = c("frq", "xtab", "grpmean")) {
+  # check if x is a data frame
+  if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = F)
+  
+  # match fun-arguments
+  fun <- match.arg(fun)
+  
+  # evaluate arguments, generate data
+  x <- get_dot_data(data, match.call(expand.dots = FALSE)$`...`)
+  
+  # check remaining arguments
+  args <- match.call(expand.dots = FALSE)$`...`
+  args <- args[names(args) != ""]
+  
+  # do we have a grouped data frame?
+  if (inherits(x, "grouped_df")) {
+    # get grouped data
+    grps <- get_grouped_data(x)
+    
+    # now plot everything
+    for (i in seq_len(nrow(grps))) {
+      # copy back labels to grouped data frame
+      tmp <- sjmisc::copy_labels(grps$data[[i]], x)
+      
+      # prepare argument list, including title
+      tmp.args <- get_grouped_title(x, grps, args, i, sep = "<br>")
+      
+      # table
+      tab_sj(tmp, fun, tmp.args)
+    }
+  } else {
+    # plot
+    tab_sj(x, fun, args)
+  }
+}
+
+
+get_grouped_title <- function(x, grps, args, i, sep = "\n") {
   # prepare title for group
   var.name <- colnames(grps)[1]
   t1 <- sjmisc::get_label(x[[var.name]], def.value = var.name)
@@ -165,7 +216,7 @@ get_grouped_title <- function(x, grps, args, i) {
     var.name <- colnames(grps)[2]
     t1 <- sjmisc::get_label(x[[var.name]], def.value = var.name)
     t2 <- sjmisc::get_labels(x[[var.name]])[grps[[var.name]][i]]
-    title <- sprintf("%s\n%s: %s", title, t1, t2)
+    title <- sprintf("%s%s%s: %s", title, sep, t1, t2)
   }
   
   # add title argument to argument list
@@ -208,6 +259,8 @@ plot_sj <- function(x, fun, args) {
       }
     } else if (fun  == "grpfrq") {
       p <- sjp.grpfrq(x[[1]], x[[2]], prnt.plot = F)$plot
+    } else if (fun  == "likert") {
+      p <- sjp.likert(x, prnt.plot = F)$plot
     } else if (fun  == "xtab") {
       p <- sjp.xtab(x[[1]], x[[2]], prnt.plot = F)$plot
     } else if (fun  == "gpt") {
@@ -228,6 +281,8 @@ plot_sj <- function(x, fun, args) {
       }
     } else if (fun  == "grpfrq") {
       p <- do.call(sjp.grpfrq, args = c(list(var.cnt = x[[1]], var.grp = x[[2]], prnt.plot = F), args))$plot
+    } else if (fun  == "likert") {
+      p <- do.call(sjp.likert, args = c(list(items = x, prnt.plot = F), args))$plot
     } else if (fun  == "xtab") {
       p <- do.call(sjp.xtab, args = c(list(x = x[[1]], grp = x[[2]], prnt.plot = F), args))$plot
     } else if (fun  == "gpt") {
@@ -246,21 +301,7 @@ plot_sj <- function(x, fun, args) {
 }
 
 
-#' @rdname sjplot
-#' @export
-sjtab <- function(data, ..., fun = c("frq", "xtab", "grpmean")) {
-  # check if x is a data frame
-  if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = F)
-  
-  # match fun-arguments
-  fun <- match.arg(fun)
-  
-  # evaluate arguments, generate data
-  x <- get_dot_data(data, match.call(expand.dots = FALSE)$`...`)
-  
-  # check remaining arguments
-  args <- match.call(expand.dots = FALSE)$`...`
-  args <- args[names(args) != ""]
+tab_sj <- function(x, fun, args) {
   
   # choose plottype, and call plot-function with or w/o additional arguments
   if (sjmisc::is_empty(args)) {
@@ -275,7 +316,7 @@ sjtab <- function(data, ..., fun = c("frq", "xtab", "grpmean")) {
     if (fun == "frq") {
       do.call(sjt.frq, args = c(list(data = x), args))
     } else if (fun  == "xtab") {
-      do.call(sjp.xtab, args = c(list(var.row = x[[1]], var.col = x[[2]]), args))
+      do.call(sjt.xtab, args = c(list(var.row = x[[1]], var.col = x[[2]]), args))
     } else if (fun  == "grpmean") {
       do.call(sjt.grpmean, args = c(list(var.cnt = x[[1]], var.grp = x[[2]]), args))
     }

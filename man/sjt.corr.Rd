@@ -23,7 +23,7 @@ abbreviated.}
 \code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.
 May be abbreviated.}
 
-\item{title}{table caption. By default, \code{title = NULL}, hence no title will be used.}
+\item{title}{table caption, as character vector.}
 
 \item{var.labels}{character vector with variable names, which will be used 
 to label variables in the output.}

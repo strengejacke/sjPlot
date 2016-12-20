@@ -5,7 +5,8 @@
 \alias{sjtab}
 \title{Wrapper to create plots and tables within a pipe-workflow}
 \usage{
-sjplot(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter", "aov1"))
+sjplot(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter", "aov1",
+  "likert"))
 
 sjtab(data, ..., fun = c("frq", "xtab", "grpmean"))
 }
@@ -26,7 +27,7 @@ An object of class \code{ggplot}.
 This function has a pipe-friendly argument-structure, with the
              first argument always being the data, followed by variables that
              should be plotted or printed as table. The function then transforms 
-             the input and calls the requested sjp.xy- resp. sjt.xy-function 
+             the input and calls the requested sjp.- resp. sjt.-function 
              to create a plot or table.
 }
 \details{
@@ -58,6 +59,9 @@ Following \code{fun}-values are currently supported:
             \item{\code{"aov1"}}{calls \code{\link{sjp.aov1}}. The first 
             two variables in \code{data} are used (and required) to create the plot.
             }
+            \item{\code{"likert"}}{calls \code{\link{sjp.likert}}. \code{data} 
+            must be a data frame with items to plot.
+            }
          }
 }
 \note{
@@ -71,7 +75,7 @@ The \code{...}-argument is used, first, to specify the variables from \code{data
       \cr \cr
       Following functions can already be used in a pipe-workflow, because their
       first argument is a data frame: \code{\link{sjp.chi2}}, \code{\link{sjp.corr}},
-      \code{\link{sjp.likert}}, \code{\link{sjp.pca}}, \code{\link{sjp.stackfrq}},
+      \code{\link{sjp.pca}}, \code{\link{sjp.stackfrq}},
       \code{\link{sjt.corr}}, \code{\link{sjt.df}}, \code{\link{sjt.frq}},
       \code{\link{sjt.itemanalysis}}, \code{\link{sjt.pca}}, 
       \code{\link{sjt.stackfrq}}, \code{\link{view_df}}.
@@ -107,6 +111,13 @@ efc \%>\%
   group_by(e16sex, c172code) \%>\% 
   select(e42dep, e16sex, c172code) \%>\% 
   sjplot(wrap.title = 100) # no line break for subtitles
+
+\dontrun{
+# table output of grouped data frame
+efc \%>\% 
+  group_by(e16sex, c172code) \%>\% 
+  select(e42dep, n4pstu, e16sex, c172code) \%>\% 
+  sjtab(fun = "xtab", use.viewer = FALSE) # open all tables in browser}
 
 }
 

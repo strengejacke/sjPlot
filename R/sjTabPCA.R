@@ -37,6 +37,7 @@
 #'          \emph{"Cumulative Proportion"} will be used.
 #'          
 #' @inheritParams sjt.frq
+#' @inheritParams sjt.xtab
 #' @inheritParams sjt.df
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjt.corr

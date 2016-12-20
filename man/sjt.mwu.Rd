@@ -11,7 +11,7 @@ sjt.mwu(x, title = NULL, altr.row.col = TRUE, CSS = NULL,
 \arguments{
 \item{x}{results of a Mann-Whitney-U test, provided by \code{\link[sjstats]{mwu}}. See 'Examples'.}
 
-\item{title}{table caption. By default, \code{title = NULL}, hence no title will be used.}
+\item{title}{table caption, as character vector.}
 
 \item{altr.row.col}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}

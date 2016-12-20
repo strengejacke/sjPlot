@@ -5,8 +5,8 @@
 \title{Summary of frequencies as HTML table}
 \usage{
 sjt.frq(data, weight.by = NULL, title.wtd.suffix = " (weighted)",
-  var.labels = NULL, value.labels = NULL, sort.frq = c("none", "asc",
-  "desc"), altr.row.col = FALSE, string.val = "value", string.cnt = "N",
+  title = NULL, value.labels = NULL, sort.frq = c("none", "asc", "desc"),
+  altr.row.col = FALSE, string.val = "value", string.cnt = "N",
   string.prc = "raw \%", string.vprc = "valid \%",
   string.cprc = "cumulative \%", string.na = "missings", emph.md = FALSE,
   emph.quart = FALSE, show.summary = TRUE, show.skew = FALSE,
@@ -27,8 +27,7 @@ Must be a vector of same length as the input vector. Default is
 e.g. \code{title.wtd.suffix=" (weighted)"}. Default is \code{NULL}, so 
 title will not have a suffix when cases are weighted.}
 
-\item{var.labels}{character vector with variable names, which will be used 
-to label variables in the output.}
+\item{title}{table caption, as character vector.}
 
 \item{value.labels}{character vector (or \code{list} of character vectors)
 with value labels of the supplied variables, which will be used 
@@ -179,7 +178,7 @@ data(efc)
 sjt.frq(efc$e42dep)
 
 # plot and show frequency table of "e42dep" with labels
-sjt.frq(efc$e42dep, var.labels = "Dependency",
+sjt.frq(efc$e42dep, title = "Dependency",
         value.labels = c("independent", "slightly dependent",
                          "moderately dependent", "severely dependent"))
 
@@ -188,7 +187,7 @@ sjt.frq(efc$e42dep, var.labels = "Dependency",
 # Note that value.labels of multiple variables have to be
 # list-objects
 sjt.frq(data.frame(efc$e42dep, efc$e16sex, efc$c172code),
-        var.labels = c("Dependency", "Gender", "Education"),
+        title = c("Dependency", "Gender", "Education"),
         value.labels = list(c("independent", "slightly dependent",
                               "moderately dependent", "severely dependent"),
                             c("male", "female"), c("low", "mid", "high")))

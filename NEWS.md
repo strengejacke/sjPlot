@@ -7,7 +7,7 @@
 ## Changes to functions
 
 * Argument `scatter.plot` was renamed to `show.scatter`.
-* `sjplot()` also accepts grouped data frames, to create plots for all subgroups.
+* `sjplot()` and `sjtab()` also accept grouped data frames, to create plots or tables for all subgroups.
 * For `sjp.glm()` and `sjp.glmer()`, `type = "pred"`, `type = "slope"`, `type = "pred.fe"` and `type = "fe.slope"` can now also plot data points when `scatter.plot = TRUE`. Use `point.alpha` to adjust alpha-level of data points.
 * For `sjp.lm()`, `sjp.lmer()`, `sjp.glm()` and `sjp.glmer()`, `type = "pred"` and `type = "pred.fe"` now plot error bars for `show.ci = TRUE` and a discrete variable on the x-axis.
 * For `sjp.glm()` and `sjp.glmer()`, `type = "pred"` and `type = "pred.fe"` now accept three variables for the `vars`-argument, to facet grouped predictions by a third variable.
@@ -27,6 +27,7 @@
 * Fixed bug in `sjt.grpmean()` for variables with unused value labels (values that were labelled, but did not appear on the vector).
 * Fixed wrong documentation for `show.summary`-argument in `sjt.xtab()`.
 * `sjt.frq()` and `sjp.frq()` showed messed up labels when a labelled vector had both `NA` values _and_ `NaN` or infinite values.
+* `sjtab()` did not create tables for `fun = "xtab"` with additional arguments.
 
 
 # sjPlot 2.1.2

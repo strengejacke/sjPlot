@@ -30,7 +30,7 @@ is printed with no specific order. See 'Examples'.}
 data frame is ordered according to the specified column in an ascending order.
 Use \code{FALSE} to apply descending order. See 'Examples'.}
 
-\item{title}{table caption. By default, \code{title = NULL}, hence no title will be used.}
+\item{title}{table caption, as character vector.}
 
 \item{repeat.header}{logical, if \code{TRUE}, the header row will also be added at the bottom at the table. This might
 be helpful, if you have longer tables and want to see the column names at the end of the table as well.}

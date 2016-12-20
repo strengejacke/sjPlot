@@ -23,7 +23,6 @@
 #' @param sort.asc logical, if \code{TRUE} (default) and \code{sort.col} is not \code{NULL},
 #'          data frame is ordered according to the specified column in an ascending order.
 #'          Use \code{FALSE} to apply descending order. See 'Examples'.
-#' @param title table caption. By default, \code{title = NULL}, hence no title will be used.
 #' @param string.var string, label used for the first column name. Default is \code{"Variable"}.
 #' @param repeat.header logical, if \code{TRUE}, the header row will also be added at the bottom at the table. This might
 #'          be helpful, if you have longer tables and want to see the column names at the end of the table as well.

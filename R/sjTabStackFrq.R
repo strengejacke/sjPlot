@@ -12,7 +12,6 @@
 #'                should be printed as table to compare their distributions (e.g.
 #'                when plotting scales like SF, Barthel-Index, Quality-of-Life-scales etc.).
 #'                
-#' @param title table caption, as character vector.
 #' @param sort.frq logical, indicates whether the \code{items} should be ordered by
 #'          by highest count of first or last category of \code{items}.
 #'          \itemize{

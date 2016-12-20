@@ -29,6 +29,7 @@
 #'          this argument is \code{NULL} and the diagnal cells are empty.
 #'          
 #' @inheritParams sjt.frq
+#' @inheritParams sjt.xtab
 #' @inheritParams sjt.df
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.glmer
