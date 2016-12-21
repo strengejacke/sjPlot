@@ -395,7 +395,7 @@ sjt.lm <- function(...,
     # check package availability if fit is plm-object
     # -----------------------------------------------------------
     if (!"package:plm" %in% search()) {
-      stop("Package `plm`` needs to be loaded for this function to work... Use 'library(plm)' and call this function again.", call. = FALSE)
+      stop("Package `plm` needs to be loaded for this function to work. Use `library(plm)` and call this function again.", call. = FALSE)
     }
   }
   # ------------------------
