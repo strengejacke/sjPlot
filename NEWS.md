@@ -7,7 +7,7 @@
 ## Changes to functions
 
 * Argument `scatter.plot` was renamed to `show.scatter`.
-* Argument `varl.labels` in `sjt.frq()` was renamed to `title`.
+* Argument `var.labels` in `sjt.frq()` was renamed to `title`.
 * `sjplot()` and `sjtab()` also accept grouped data frames, to create plots or tables for all subgroups.
 * For `sjp.glm()` and `sjp.glmer()`, `type = "pred"`, `type = "slope"`, `type = "pred.fe"` and `type = "fe.slope"` can now also plot data points when `show.scatter = TRUE`. Use `point.alpha` to adjust alpha-level of data points.
 * For `sjp.lm()`, `sjp.lmer()`, `sjp.glm()` and `sjp.glmer()`, `type = "pred"` and `type = "pred.fe"` now plot error bars for `show.ci = TRUE` and a discrete variable on the x-axis.
