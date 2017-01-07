@@ -854,7 +854,7 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
     # ---------------------------------
     # show VIF-Values
     # ---------------------------------
-    set_theme("539w")
+    ggplot2::theme_set(ggplot2::theme_bw())
     sjp.vif(linreg)
   } else {
     # we have no updated model w/o outliers for
@@ -865,7 +865,6 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
   # Print non-normality of residuals and outliers both of original and updated model
   # dots should be plotted along the line, this the dots should follow a linear direction
   # ---------------------------------
-  set_theme("scatterw")
   # qq-plot of studentized residuals for base model
   # mixed model model?
   if (inherits(linreg, c("lme", "lmerMod"))) {
@@ -884,7 +883,8 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
            geom_point() +
            scale_colour_manual(values = c("#0033cc", "#993300")) +
            stat_smooth(method = "lm", se = FALSE) +
-           labs(title = "Non-normality of residuals and outliers\n(Dots should be plotted along the line)",
+           labs(title = "Non-normality of residuals and outliers",
+                subtitle = "Dots should be plotted along the line",
                 y = y_lab, x = "Theoretical quantiles (predicted values)")
   # save plots
   plot.list[[length(plot.list) + 1]] <- p1
@@ -905,9 +905,9 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
                            size = 0.8) +
              labs(x = "Residuals",
                   y = "Density",
-                  title = "Non-normality of residuals\n(Distribution should look like normal curve)"))
+                  title = "Non-normality of residuals",
+                  subtitle = "Distribution should look like normal curve"))
   }
-  set_theme("539w")
   # residuals histrogram for base model
   p1 <- gghist(linreg)
   # save plot
@@ -937,9 +937,9 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
              geom_smooth(method = "loess", se = FALSE) +
              labs(x = "Fitted values",
                   y = "Residuals",
-                  title = "Homoscedasticity (homogeneity of variance,\nrandomly distributed residuals)\n(Amount and distance of points scattered above/below line is equal)"))
+                  title = "Homoscedasticity (constant variance of residuals)",
+                  subtitle = "Amount and distance of points scattered above/below line is equal or randomly spread"))
   }
-  set_theme("scatterw")
   # homoscedascity for base model
   p1 <- ggsced(linreg)
   # save plot
@@ -950,7 +950,6 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
   # summarize old and new model
   # ---------------------------------
   if (inherits(linreg, "lm")) {
-    set_theme("forestw")
     p1 <- sjp.lm(linreg, prnt.plot = FALSE)$plot
     # save plot
     plot.list[[length(plot.list) + 1]] <- p1
@@ -960,9 +959,9 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
       # ---------------------------------
       # Plot residuals against predictors
       # ---------------------------------
-      set_theme("scatterw")
       p1 <- sjp.reglin(linreg,
-                       title = "Relationship of residuals against predictors (if scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly",
+                       title = "Relationship of residuals against predictors",  
+                       subtitle = "If scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly",
                        wrap.title = 60, useResiduals = T, alpha = .15)$plot.list
       # save plot
       plot.list <- c(plot.list, p1)
@@ -1154,7 +1153,7 @@ sjp.lm.poly <- function(fit,
   # check if suggested package is available
   # ------------------------
   if (!requireNamespace("effects", quietly = TRUE)) {
-    stop("Package 'effects' needed for this function to work. Please install it.", call. = FALSE)
+    stop("Package `effects` needed for this function to work. Please install it.", call. = FALSE)
   }
   # -------------------------------------
   # retrieve model matrix
@@ -1193,7 +1192,7 @@ sjp.lm.poly <- function(fit,
     }
     # no polynomial term found...
     if (!poly.found) {
-      stop("'poly.term' not given, or not found in model. Please check name of polynomial term.", call. = FALSE)
+      stop("`poly.term` not given, or not found in model. Please check name of polynomial term.", call. = FALSE)
       # xl already defined? If not, do it now!
     } else if (is.null(xl)) {
       # "dummy computation" of effects to get range of poly term
@@ -1204,7 +1203,7 @@ sjp.lm.poly <- function(fit,
       xl <- list(x = seq(pora[1], pora[2]))
     }
   } else {
-    stop("'poly.term' must be specified.", call. = FALSE)
+    stop("`poly.term` must be specified.", call. = FALSE)
   }
   # ------------------------
   # check for color brewer palette
