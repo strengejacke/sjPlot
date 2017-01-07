@@ -1,3 +1,13 @@
+# sjPlot 2.2.1
+
+## Changes to functions
+
+* `sjp.lm()` for `type = "ma"` now uses subtitles in multi-line plot-titles.
+
+## Bug fixes
+
+* Residuals in `sjp.kfold_cv()` had wrong leading sign (i.e. positive residuals were negative and vice versa).
+
 # sjPlot 2.2.0
 
 ## New Functions
