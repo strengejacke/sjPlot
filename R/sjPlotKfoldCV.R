@@ -73,7 +73,7 @@ sjp.kfold_cv <- function(data, formula, k = 5) {
 
   # compute residuals for each k-fold model
   res <- res %>% 
-    dplyr::mutate(residuals = .fitted - .response)
+    dplyr::mutate(residuals = .response - .fitted)
   
   # compute model quality measures r2 and rmse
   gof <- res %>% 
