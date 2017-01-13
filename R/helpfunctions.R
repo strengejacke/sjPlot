@@ -547,7 +547,7 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
     else
       fmodel <- stats::model.frame(fit)
     # retrieve all factors from model
-    for (grp.cnt in 1:ncol(fmodel)) {
+    for (grp.cnt in seq_len(ncol(fmodel))) {
       # get variable
       fit.var <- fmodel[, grp.cnt]
       # is factor? and has more than two levels?
@@ -590,7 +590,7 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
       # take care, while loop!
       any.found <- FALSE
       # if yes, go through all grouping row indices
-      for (i in 1:length(group.pred.rows)) {
+      for (i in seq_len(length(group.pred.rows))) {
         # if yes, check if removed row was before
         # grouped row indes
         if (length(rem_rows) > 0 && rem_rows[1] <= group.pred.rows[i]) {
@@ -648,43 +648,46 @@ retrieveModelLabels <- function(models, group.pred) {
       # get model frame
       m_f <- stats::model.frame(fit)
     }
-    # iterate coefficients (1 is intercept or response)
-    for (i in 2:ncol(m_f)) {
-      # check bounds
-      if (i <= length(coef_names)) {
-        # get predictor
-        pvar <- m_f[, i]
-        # check if we have a variable label
-        lab <- sjmisc::get_label(pvar, def.value = colnames(m_f)[i])
-        # get model coefficients' names
-        coef_name <- coef_names[i]
-        # is predictor a factor?
-        # if yes, we have this variable multiple
-        # times, so manually set value labels
-        if (is.factor(pvar)) {
-          # get amount of levels
-          pvar.len <- nlevels(pvar)
-          # get value labels, if any
-          pvar.lab <- sjmisc::get_labels(pvar)
-          # have any labels, and have we same amount of labels
-          # as factor levels?
-          if (!is.null(pvar.lab) && length(pvar.lab) == pvar.len) {
-            # create labels
-            if (group.pred && pvar.len > 2) {
-              # if predictor grouping is enabled, don't use variable labels again
-              labels.to.add <- pvar.lab[2:pvar.len]
+    # for NULL-models, we just have one column in model frame
+    if (ncol(m_f) > 1) {
+      # iterate coefficients (1 is intercept or response)
+      for (i in 2:ncol(m_f)) {
+        # check bounds
+        if (i <= length(coef_names)) {
+          # get predictor
+          pvar <- m_f[, i]
+          # check if we have a variable label
+          lab <- sjmisc::get_label(pvar, def.value = colnames(m_f)[i])
+          # get model coefficients' names
+          coef_name <- coef_names[i]
+          # is predictor a factor?
+          # if yes, we have this variable multiple
+          # times, so manually set value labels
+          if (is.factor(pvar)) {
+            # get amount of levels
+            pvar.len <- nlevels(pvar)
+            # get value labels, if any
+            pvar.lab <- sjmisc::get_labels(pvar)
+            # have any labels, and have we same amount of labels
+            # as factor levels?
+            if (!is.null(pvar.lab) && length(pvar.lab) == pvar.len) {
+              # create labels
+              if (group.pred && pvar.len > 2) {
+                # if predictor grouping is enabled, don't use variable labels again
+                labels.to.add <- pvar.lab[2:pvar.len]
+              } else {
+                # else, if we have not grouped predictors, we have no headin
+                # with variable label, hence, factor levels may not be intuitiv.
+                # thus, add variable label so values have a meaning
+                labels.to.add <- sprintf("%s (%s)", lab, pvar.lab[2:pvar.len])
+              }
+              fit.labels <- c(fit.labels, labels.to.add)
             } else {
-              # else, if we have not grouped predictors, we have no headin
-              # with variable label, hence, factor levels may not be intuitiv.
-              # thus, add variable label so values have a meaning
-              labels.to.add <- sprintf("%s (%s)", lab, pvar.lab[2:pvar.len])
+              fit.labels <- c(fit.labels, coef_name)
             }
-            fit.labels <- c(fit.labels, labels.to.add)
           } else {
-            fit.labels <- c(fit.labels, coef_name)
+            if (!any(fit.labels == lab)) fit.labels <- c(fit.labels, lab)
           }
-        } else {
-          if (!any(fit.labels == lab)) fit.labels <- c(fit.labels, lab)
         }
       }
     }

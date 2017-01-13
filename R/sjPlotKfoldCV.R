@@ -82,7 +82,7 @@ sjp.kfold_cv <- function(data, formula, k = 5) {
       sst = sum((.response - mean(.response, na.rm = T)) ^ 2, na.rm = T), # Sum of Squares Total
       sse = sum(residuals ^ 2, na.rm = T),                                # Sum of Squares Residual/Error
       rsquared = 1 - sse / sst,                                           # Proportion of variance accounted for
-      rmse = sqrt(mean(residuals ^ 2, na.rm = T))                         # Root Mean Squared Error
+      rmse = sqrt(mean(residuals ^ 2, na.rm = T))
     ) %>% 
     dplyr::ungroup()
   
@@ -100,8 +100,8 @@ sjp.kfold_cv <- function(data, formula, k = 5) {
   # ouput of quality measures to console  
   cat("Quality Measures of k-Fold Cross-Validation\n")
   cat(sprintf("   R-squared: %.3f\n", mean(gof$rsquared)))
-  cat(sprintf("        RMSE: %.3f\n\n", mean(gof$rmse)))
-  
+  cat(sprintf("        RMSE: %.3f\n", mean(gof$rmse)))
+
   # return plot and quality measures
   invisible(structure(class = "sjp.kfold_cv",
                       list(plot = p,

@@ -1,3 +1,9 @@
+# sjPlot 2.2.2
+
+## Bug fixes
+
+* Plotting or table output of regression models did not work with null-models (i.e. with intercept only).
+
 # sjPlot 2.2.1
 
 ## Changes to functions
