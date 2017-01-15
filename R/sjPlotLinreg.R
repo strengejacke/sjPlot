@@ -775,7 +775,7 @@ col_check2 <- function(geom.colors, collen) {
 }
 
 
-#' @importFrom stats fitted rstudent residuals sd median
+#' @importFrom stats fitted rstudent residuals sd median update AIC
 sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
   # ------------------------
   # prepare plot list
@@ -817,7 +817,7 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
       } else {
         # retrieve variable numbers of outliers
         # update model by removing outliers
-        dummymodel <- update(model, subset = -c(vars))
+        dummymodel <- stats::update(model, subset = -c(vars))
         # retrieve new r2
         dummyrs <- summary(dummymodel)$r.squared
         # decrease maximum loops
@@ -849,8 +849,8 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
                 summary(linreg)$adj.r.squared,
                 summary(model)$r.squared,
                 summary(model)$adj.r.squared,
-                AIC(linreg),
-                AIC(model)))
+                stats::AIC(linreg),
+                stats::AIC(model)))
     # ---------------------------------
     # show VIF-Values
     # ---------------------------------
