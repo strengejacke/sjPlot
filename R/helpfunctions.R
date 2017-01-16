@@ -17,7 +17,7 @@ get_dot_args <- function(x) {
   # get ...-argument, and check if it was "level"
   ci.lvl <- x[["level"]]
   if (is.null(ci.lvl)) ci.lvl <- .95
-  
+
   list(eb.width = eb.width,
        ci.alpha = ci.alpha,
        ci.lvl = ci.lvl)
@@ -743,12 +743,8 @@ varimaxrota <- function(data, factors) {
   ladungen <- data$rotation %*% diag(data$sdev)
   # Zur Durchführung der VARIMAX-Rotation erzeugen wir eine Matrix
   # mit den Faktorladungen der ausgewählten Faktoren (Anzahl = Parameter "factors")
-  ladb <- c()
-  for (i in 1:factors) {
-    ladb <- cbind(ladb, ladungen[, i])
-  }
   # Varimax Rotation durchführen
-  varib <- stats::varimax(ladb)
+  varib <- stats::varimax(ladungen[, seq_len(factors)])
   return(varib)
 }
 

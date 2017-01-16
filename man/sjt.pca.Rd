@@ -4,8 +4,8 @@
 \alias{sjt.pca}
 \title{Summary of principal component analysis as HTML table}
 \usage{
-sjt.pca(data, nmbr.fctr = NULL, fctr.load.tlrn = 0.1,
-  title = "Principal Component Analysis (with varimax rotation)",
+sjt.pca(data, rotation = c("varimax", "oblimin"), nmbr.fctr = NULL,
+  fctr.load.tlrn = 0.1, title = "Principal Component Analysis",
   var.labels = NULL, wrap.labels = 40, show.cronb = TRUE,
   show.msa = FALSE, show.var = FALSE, altr.row.col = FALSE, digits = 2,
   string.pov = "Proportion of Variance",
@@ -15,6 +15,9 @@ sjt.pca(data, nmbr.fctr = NULL, fctr.load.tlrn = 0.1,
 }
 \arguments{
 \item{data}{\code{data.frame} that should be used to compute a PCA, or a \code{\link{prcomp}} object.}
+
+\item{rotation}{rotation of the factor loadings. May be \code{"varimax"} for orthogonal rotation
+or \code{"oblimin"} for oblique transformation.}
 
 \item{nmbr.fctr}{number of factors used for calculating the varimax
 rotation. By default, this value is \code{NULL} and the amount of factors is

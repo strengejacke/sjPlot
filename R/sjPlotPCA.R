@@ -93,8 +93,10 @@
 #' @importFrom scales brewer_pal grey_pal
 #' @importFrom stats na.omit prcomp
 #' @importFrom sjstats cronb
+#' @importFrom psych principal
 #' @export
 sjp.pca <- function(data,
+                    rotation = c("varimax", "oblimin"),
                     nmbr.fctr = NULL,
                     fctr.load.tlrn = 0.1,
                     plot.eigen = FALSE,
@@ -113,17 +115,12 @@ sjp.pca <- function(data,
   # check arguments
   # --------------------------------------------------------
   type <- match.arg(type)
+  rotation <- match.arg(rotation)
   # --------------------------------------------------------
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
   if (is.null(axis.labels) && is.data.frame(data)) {
-    # if yes, iterate each variable
-    for (i in seq_len(ncol(data))) {
-      # retrieve variable name attribute and
-      # if variable has attribute, add to variableLabel list
-      axis.labels <- c(axis.labels,
-                       unname(sjmisc::get_label(data[[i]], def.value = colnames(data)[i])))
-    }
+    axis.labels <- unname(sjmisc::get_label(data, def.value = colnames(data)))
   }
   # ----------------------------
   # set color palette
@@ -137,10 +134,10 @@ sjp.pca <- function(data,
   # check if user has passed a data frame
   # or a pca object
   # ----------------------------
-  if (any(class(data) == "prcomp")) {
+  if (inherits(data, "prcomp")) {
     pcadata <- data
     dataframeparam <- FALSE
-  } else {
+  } else if (is.data.frame(data)) {
     pcadata <- stats::prcomp(stats::na.omit(data), retx = TRUE, center = TRUE, scale. = TRUE)
     dataframeparam <- TRUE
   }
@@ -183,10 +180,15 @@ sjp.pca <- function(data,
   # --------------------------------------------------------
   # check for predefined number of factors
   if (!is.null(nmbr.fctr) && is.numeric(nmbr.fctr)) pcadata.kaiser <- nmbr.fctr
-  pcadata.varim <- varimaxrota(pcadata, pcadata.kaiser)
-  # pcadata.varim = varimax(loadings(pcadata))
+  
+  # rotate matrix
+  if (rotation == "varimax")
+    pcadata.rotate <- varimaxrota(pcadata, pcadata.kaiser)
+  else if (rotation == "oblimin")
+    pcadata.rotate <- psych::principal(r = data, nfactors = pcadata.kaiser, rotate = "oblimin")
+  
   # create data frame with factor loadings
-  df <- as.data.frame(pcadata.varim$loadings[, seq_len(ncol(pcadata.varim$loadings))])
+  df <- as.data.frame(pcadata.rotate$loadings[, seq_len(ncol(pcadata.rotate$loadings))])
   # df <- as.data.frame(pcadata.varim$rotmat[, 1:pcadata.kaiser])
   # ----------------------------
   # check if user defined labels have been supplied
@@ -338,6 +340,7 @@ sjp.pca <- function(data,
       scale_x_discrete(labels = rev(axis.labels)) +
       scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .2)) +
       facet_grid(~xpos) +
+      geom_text(label = valueLabels, hjust = -0.2) +
       coord_flip()
   } else {
     heatmap <- heatmap + 

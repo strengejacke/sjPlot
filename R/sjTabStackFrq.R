@@ -156,17 +156,17 @@ sjt.stackfrq <- function(items,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(value.labels)) value.labels <- sjmisc::get_labels(items[[1]],
-                                                              attr.only = F,
-                                                              include.values = NULL,
-                                                              include.non.labelled = T)
+  if (is.null(value.labels)) {
+    value.labels <- sjmisc::get_labels(
+      items[[1]],
+      attr.only = F,
+      include.values = NULL,
+      include.non.labelled = T
+    )
+  }
+  
   if (is.null(var.labels)) {
-    var.labels <- c()
-    # if yes, iterate each variable
-    for (i in 1:ncol(items)) {
-      # retrieve variable name attribute
-      var.labels <- c(var.labels, sjmisc::get_label(items[[i]], def.value = colnames(items)[i]))
-    }
+    var.labels <- sjmisc::get_label(items, def.value = colnames(items))
   }
   # ----------------------------
   # retrieve min and max values
@@ -213,7 +213,7 @@ sjt.stackfrq <- function(items,
     diff <- ifelse(min(items, na.rm = TRUE) == 0, 1, 0)
   }
   # iterate item-list
-  for (i in 1:ncol(items)) {
+  for (i in seq_len(ncol(items))) {
     # ----------------------------
     # if we don't have weights, create simple frequency table
     # of each item
@@ -275,7 +275,7 @@ sjt.stackfrq <- function(items,
   # Check if ordering was requested
   # ----------------------------
   # default order
-  facord <- c(1:nrow(mat))
+  facord <- seq_len(nrow(mat))
   if (!is.null(sort.frq)) {
     # ----------------------------
     # order by first cat
@@ -386,7 +386,7 @@ sjt.stackfrq <- function(items,
   # data rows
   # -------------------------------------
   # iterate all rows of df
-  for (i in 1:nrow(mat)) {
+  for (i in seq_len(nrow(mat))) {
     # default row string for alternative row colors
     arcstring <- ""
     # if we have alternating row colors, set css
@@ -398,7 +398,7 @@ sjt.stackfrq <- function(items,
     # --------------------------------------------------------
     # iterate all columns
     # --------------------------------------------------------
-    for (j in 1:ncol(mat)) {
+    for (j in seq_len(ncol(mat))) {
       if (show.n) {
         page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s\">%i<br>(%.*f&nbsp;%%)</td>\n", arcstring, mat.n[facord[i], j], digits, 100 * mat[facord[i], j]))
       } else {

@@ -4,14 +4,17 @@
 \alias{sjp.pca}
 \title{Plot PCA results}
 \usage{
-sjp.pca(data, nmbr.fctr = NULL, fctr.load.tlrn = 0.1, plot.eigen = FALSE,
-  digits = 2, title = NULL, axis.labels = NULL, type = c("bar",
-  "circle", "tile"), geom.size = 0.6, geom.colors = "RdBu",
-  wrap.title = 50, wrap.labels = 30, show.values = TRUE,
-  show.cronb = TRUE, prnt.plot = TRUE)
+sjp.pca(data, rotation = c("varimax", "oblimin"), nmbr.fctr = NULL,
+  fctr.load.tlrn = 0.1, plot.eigen = FALSE, digits = 2, title = NULL,
+  axis.labels = NULL, type = c("bar", "circle", "tile"), geom.size = 0.6,
+  geom.colors = "RdBu", wrap.title = 50, wrap.labels = 30,
+  show.values = TRUE, show.cronb = TRUE, prnt.plot = TRUE)
 }
 \arguments{
 \item{data}{\code{data.frame} that should be used to compute a PCA, or a \code{\link{prcomp}} object.}
+
+\item{rotation}{rotation of the factor loadings. May be \code{"varimax"} for orthogonal rotation
+or \code{"oblimin"} for oblique transformation.}
 
 \item{nmbr.fctr}{number of factors used for calculating the varimax
 rotation. By default, this value is \code{NULL} and the amount of factors is

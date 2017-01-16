@@ -1,5 +1,10 @@
 # sjPlot 2.2.2
 
+## Changes to functions
+
+* `sjp.pca()` and `sjt.pca()` get a `rotation`-argument, to use either varimax- or oblimin-transformation of factor loadings.
+* Argument `show.value` now also applies to bar plots in `sjp.pca()`. 
+
 ## Bug fixes
 
 * Plotting or table output of regression models did not work with null-models (i.e. with intercept only).

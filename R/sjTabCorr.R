@@ -144,20 +144,7 @@ sjt.corr <- function(data,
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
   if (is.null(var.labels) && is.data.frame(data)) {
-    var.labels <- c()
-    # if yes, iterate each variable
-    for (i in 1:ncol(data)) {
-      # retrieve variable name attribute
-      vn <- sjmisc::get_label(data[[i]], def.value = colnames(data)[i])
-      # if variable has attribute, add to variableLabel list
-      if (!is.null(vn)) {
-        var.labels <- c(var.labels, vn)
-      } else {
-        # else break out of loop
-        var.labels <- NULL
-        break
-      }
-    }
+    var.labels <- sjmisc::get_label(data, def.value = colnames(data))
   }
   # ----------------------------
   # check for valid argument
@@ -194,9 +181,15 @@ sjt.corr <- function(data,
       for (i in 1:ncol(df)) {
         pv <- c()
         for (j in 1:ncol(df)) {
-          test <- suppressWarnings(stats::cor.test(df[[i]], df[[j]], 
-                                                   alternative = "two.sided", 
-                                                   method = corr.method))
+          test <- suppressWarnings(
+            stats::cor.test(
+              df[[i]],
+              df[[j]],
+              alternative = "two.sided",
+              method = corr.method
+            )
+          )
+          
           pv <- cbind(pv, round(test$p.value, 5))
         }
         cp <- rbind(cp, pv)
@@ -232,10 +225,17 @@ sjt.corr <- function(data,
     }
     cpvalues <- apply(cpvalues, c(1,2), fun.star)
     if (p.numeric) {
-      cpvalues <- apply(cpvalues, c(1,2), function(x) if (x < 0.001) 
-                                                        x <- sprintf("&lt;%s.001", p_zero) 
-                                                      else 
-                                                        x <- sub("0", p_zero, sprintf("%.*f", digits, x)))
+      cpvalues <- 
+        apply(
+          cpvalues, 
+          c(1,2), 
+          function(x) {
+            if (x < 0.001)
+              x <- sprintf("&lt;%s.001", p_zero)
+            else
+              x <- sub("0", p_zero, sprintf("%.*f", digits, x))
+          }
+        )
     }
   } else {
     show.p <- FALSE

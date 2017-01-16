@@ -147,20 +147,8 @@ sjt.itemanalysis <- function(df,
   # -----------------------------------
   # auto-detect variable labels
   # -----------------------------------
-  varlabels <- c()
-  for (i in 1:ncol(df)) {
-    # retrieve variable name attribute
-    vn <- sjmisc::get_label(df[[i]], def.value = colnames(df)[i])
-    # if variable has attribute, add to variableLabel list
-    if (!is.null(vn)) {
-      varlabels <- c(varlabels, vn)
-    } else {
-      # else break out of loop
-      varlabels <- NULL
-      break
-    }
-  }
-  if (!is.null(varlabels)) colnames(df) <- varlabels
+  varlabels <- sjmisc::get_label(df, def.value = colnames(df))
+  colnames(df) <- varlabels
   # -----------------------------------
   # check whether we have (factor) groups
   # for data frame
@@ -194,7 +182,7 @@ sjt.itemanalysis <- function(df,
   # -----------------------------------
   df.index.scores <- c()
   # create a column for each sub-group that will contain the index-score-values
-  for (i in 1:length(findex)) {
+  for (i in seq_len(length(findex))) {
     # first, will with NA. Values follow later
     score <- rep(NA, nrow(df))
     df.index.scores <- cbind(df.index.scores, score)
@@ -202,7 +190,7 @@ sjt.itemanalysis <- function(df,
   # convert to data frame
   df.index.scores <- data.frame(df.index.scores)
   # proper col names
-  colnames(df.index.scores) <- sprintf("Score%i", seq_along(1:ncol(df.index.scores)))
+  colnames(df.index.scores) <- sprintf("Score%i", seq_len(ncol(df.index.scores)))
   # -----------------------------------
   # iterate all sub-scales (groups)
   # -----------------------------------
