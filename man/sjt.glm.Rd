@@ -218,7 +218,10 @@ Summarizes (multiple) fitted generalized linear models (odds ratios, ci, p-value
 See 'Details' in \code{\link{sjt.frq}}.
 }
 \note{
-See 'Notes' in \code{\link{sjt.frq}}.
+Standard errors for generalized linear models are adjusted according to
+      the delta method for approximating standard error of transformed 
+      regression parameters (see \code{\link[sjstats]{se}}).
+      \cr \cr Futhermore, see 'Notes' in \code{\link{sjt.frq}}.
 }
 \examples{
 # prepare dummy variables for binary logistic regression
