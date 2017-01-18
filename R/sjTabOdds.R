@@ -45,8 +45,10 @@
 #'            }
 #'            for further use.
 #'
-#' @note Standard errors for generalized linear (mixed) models are adjusted 
-#'       according to the delta method for approximating standard error of 
+#' @note Standard errors for generalized linear (mixed) models are \emph{not} 
+#'       the regular standard errors on the untransformed scale, as shown in the
+#'       \code{summary()}-method. Rather, \code{sjt.glm()} uses adjustments 
+#'       according to the delta method for approximating standard errors of 
 #'       transformed regression parameters (see \code{\link[sjstats]{se}}).
 #'       \cr \cr Futhermore, see 'Notes' in \code{\link{sjt.frq}}.
 #'
@@ -1109,6 +1111,12 @@ sjt.glm <- function(...,
 #'          \item between-group-variance: tau-zero-zero
 #'          \item random-slope-intercept-correlation: rho-zero-one
 #'          }
+#'       Standard errors for generalized linear (mixed) models are \emph{not} 
+#'       the regular standard errors on the untransformed scale, as shown in the
+#'       \code{summary()}-method. Rather, \code{sjt.glmer()} uses adjustments 
+#'       according to the delta method for approximating standard errors of 
+#'       transformed regression parameters (see \code{\link[sjstats]{se}}).
+#'       \cr \cr Futhermore, see 'Notes' in \code{\link{sjt.frq}}.
 #'
 #' @details See 'Details' in \code{\link{sjt.frq}}.
 #'

@@ -218,9 +218,11 @@ Summarizes (multiple) fitted generalized linear models (odds ratios, ci, p-value
 See 'Details' in \code{\link{sjt.frq}}.
 }
 \note{
-Standard errors for generalized linear models are adjusted according to
-      the delta method for approximating standard error of transformed 
-      regression parameters (see \code{\link[sjstats]{se}}).
+Standard errors for generalized linear (mixed) models are \emph{not} 
+      the regular standard errors on the untransformed scale, as shown in the
+      \code{summary()}-method. Rather, \code{sjt.glm()} uses adjustments 
+      according to the delta method for approximating standard errors of 
+      transformed regression parameters (see \code{\link[sjstats]{se}}).
       \cr \cr Futhermore, see 'Notes' in \code{\link{sjt.frq}}.
 }
 \examples{

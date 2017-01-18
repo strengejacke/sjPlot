@@ -214,6 +214,12 @@ Computation of p-values (if necessary) is based on normal-distribution
          \item between-group-variance: tau-zero-zero
          \item random-slope-intercept-correlation: rho-zero-one
          }
+      Standard errors for generalized linear (mixed) models are \emph{not} 
+      the regular standard errors on the untransformed scale, as shown in the
+      \code{summary()}-method. Rather, \code{sjt.glmer()} uses adjustments 
+      according to the delta method for approximating standard errors of 
+      transformed regression parameters (see \code{\link[sjstats]{se}}).
+      \cr \cr Futhermore, see 'Notes' in \code{\link{sjt.frq}}.
 }
 \examples{
 \dontrun{
