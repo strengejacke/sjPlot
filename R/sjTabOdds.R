@@ -45,9 +45,9 @@
 #'            }
 #'            for further use.
 #'
-#' @note Standard errors for generalized linear models are adjusted according to
-#'       the delta method for approximating standard error of transformed 
-#'       regression parameters (see \code{\link[sjstats]{se}}).
+#' @note Standard errors for generalized linear (mixed) models are adjusted 
+#'       according to the delta method for approximating standard error of 
+#'       transformed regression parameters (see \code{\link[sjstats]{se}}).
 #'       \cr \cr Futhermore, see 'Notes' in \code{\link{sjt.frq}}.
 #'
 #' @details See 'Details' in \code{\link{sjt.frq}}.
@@ -311,19 +311,14 @@ sjt.glm <- function(...,
       fit.df <- sjstats::robust(fit, conf.int = T, exponentiate = F) %>% 
         dplyr::select_("-statistic")
     } else {
-      if (is_merMod(fit)) {
-        fit.df <- broom::tidy(fit, effects = "fixed", conf.int = T) %>% 
-          dplyr::select_("-statistic")
-      } else {
-        fit.df <- broom::tidy(fit, effects = "fixed", conf.int = T) %>% 
-          # remove non-transformed standard error
-          dplyr::select_("-statistic", "-std.error") %>% 
-          # get adjusted standard errors
-          dplyr::mutate(std.error = sjstats::se(fit)[["or.se"]])
-        
-        # reorder df
-        fit.df <- fit.df[, c(1:2, 6, 3:5)]
-      }
+      fit.df <- broom::tidy(fit, effects = "fixed", conf.int = T) %>% 
+        # remove non-transformed standard error
+        dplyr::select_("-statistic", "-std.error") %>% 
+        # get adjusted standard errors
+        dplyr::mutate(std.error = sjstats::se(fit)[["std.error"]])
+      
+      # reorder df
+      fit.df <- fit.df[, c(1:2, 6, 3:5)]
     }
     # -------------------------------------
     # write data to data frame. we need names of

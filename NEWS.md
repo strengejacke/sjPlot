@@ -4,7 +4,7 @@
 
 * `sjp.pca()` and `sjt.pca()` get a `rotation`-argument, to use either varimax- or oblimin-transformation of factor loadings.
 * Argument `show.value` now also applies to bar plots in `sjp.pca()`. 
-* `sjt.glm()`, for generalized linar models, now shows adjusted standard errors, using the Taylor serie-based delta method. 
+* `sjt.glm()`, for generalized linar (mixed) models, now shows adjusted standard errors, using the Taylor serie-based delta method. 
 
 ## Bug fixes
 
