@@ -282,15 +282,15 @@ create.frq.df <- function(x,
   # Order categories ascending or descending
   # --------------------------------------------------------
   if (!is.null(order.frq) && (order.frq == "asc" || order.frq == "desc")) {
-    ord <- order(mydat$frq[1:valid.vals], decreasing = (order.frq == "desc"))
+    ord <- order(mydat$frq[seq_len(valid.vals)], decreasing = (order.frq == "desc"))
     mydat <- mydat[c(ord, valid.vals + 1), ]
     labels <- labels[ord]
   }
   # raw percentages
   mydat$raw.prc <- mydat$frq / sum(mydat$frq)
   # compute valud and cumulative percentages
-  mydat$valid.prc <- c(mydat$frq[1:valid.vals] / length(stats::na.omit(x)), NA)
-  mydat$cum.prc <- c(cumsum(mydat$valid.prc[1:valid.vals]), NA)
+  mydat$valid.prc <- c(mydat$frq[seq_len(valid.vals)] / length(stats::na.omit(x)), NA)
+  mydat$cum.prc <- c(cumsum(mydat$valid.prc[seq_len(valid.vals)]), NA)
   # proper rounding
   mydat$raw.prc <- 100 * round(mydat$raw.prc, round.prz + 2)
   mydat$cum.prc <- 100 * round(mydat$cum.prc, round.prz + 2)

@@ -182,9 +182,14 @@ sjp.frq <- function(var.cnt,
   # try to automatically set labels, if not passed as argument -----
   # to make plot annotations more beautiful, supporting labelled data
   if (is.null(axis.labels)) {
-    axis.labels <- sjmisc::get_labels(var.cnt, attr.only = F, include.values = NULL, 
-                                      include.non.labelled = T)
+    axis.labels <- sjmisc::get_labels(
+      var.cnt,
+      attr.only = F,
+      include.values = NULL,
+      include.non.labelled = T
+    )
   }
+  
   if (is.null(axis.title)) axis.title <- sjmisc::get_label(var.cnt, def.value = var.name)
   if (is.null(title)) title <- sjmisc::get_label(var.cnt, def.value = var.name)
   
@@ -232,30 +237,43 @@ sjp.frq <- function(var.cnt,
   
   # check whether variable should be auto-grouped -----
   if (!is.null(auto.group) && length(unique(var.cnt)) >= auto.group) {
-    message(sprintf("`%s` has %i unique values and was grouped...", 
-                    var.name, 
-                    length(unique(var.cnt))))
+    message(
+      sprintf("`%s` has %i unique values and was grouped...", 
+              var.name, 
+              length(unique(var.cnt)))
+    )
+    
     # group axis labels
-    axis.labels <- sjmisc::group_labels(sjmisc::to_value(var.cnt, keep.labels = F),
-                                        groupsize = "auto", 
-                                        groupcount = auto.group)
+    axis.labels <- sjmisc::group_labels(
+      sjmisc::to_value(var.cnt, keep.labels = F),
+      groupsize = "auto", 
+      groupcount = auto.group
+    )
+    
     # group variable
-    var.cnt <- sjmisc::group_var(sjmisc::to_value(var.cnt, keep.labels = F), 
-                                 groupsize = "auto", 
-                                 as.num = TRUE, 
-                                 groupcount = auto.group)
+    var.cnt <- sjmisc::group_var(
+      sjmisc::to_value(var.cnt, keep.labels = F), 
+      groupsize = "auto", 
+      as.num = TRUE, 
+      groupcount = auto.group
+    )
+    
     # set label attributes
     sjmisc::set_labels(var.cnt) <- axis.labels
   }
   
   # create frequency data frame -----
-  df.frq <- create.frq.df(var.cnt, 
-                          wrap.labels = wrap.labels, 
-                          order.frq = sort.frq, 
-                          round.prz = 2,
-                          na.rm = !show.na, 
-                          weight.by = weight.by)
+  df.frq <- create.frq.df(
+    var.cnt, 
+    wrap.labels = wrap.labels, 
+    order.frq = sort.frq, 
+    round.prz = 2,
+    na.rm = !show.na, 
+    weight.by = weight.by
+  )
+  
   mydat <- df.frq$mydat
+  
   # any labels detected?
   if (!is.null(df.frq$labels) && is.null(axis.labels)) 
     axis.labels <- df.frq$labels
@@ -429,7 +447,7 @@ sjp.frq <- function(var.cnt,
       ebcol <- ifelse(type == "dot", geom.colors, errorbar.color)
       # print confidence intervalls (error bars)
       baseplot <- baseplot + 
-        geom_errorbar(aes(ymin = lower.ci, ymax = upper.ci), colour = ebcol, width = 0)
+        geom_errorbar(aes_string(ymin = "lower.ci", ymax = "upper.ci"), colour = ebcol, width = 0)
     }
     # check whether coordinates should be flipped, i.e.
     # swap x and y axis
@@ -438,7 +456,7 @@ sjp.frq <- function(var.cnt,
   # Start box plot here -----
   } else if (type == "boxplot" || type == "violin") {
     # setup base plot
-    baseplot <- ggplot(mydat, aes(x = grp, y = frq))
+    baseplot <- ggplot(mydat, aes_string(x = "grp", y = "frq"))
     # and x-axis
     scalex <- scale_x_discrete(labels = "")
     if (type == "boxplot") {
