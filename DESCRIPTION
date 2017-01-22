@@ -27,6 +27,7 @@ Imports:
     effects,
     ggplot2 (>= 2.2.0),
     lme4 (>= 1.1-10),
+    MASS,
     merTools (>= 0.3.0),
     modelr,
     nlme,
@@ -46,8 +47,7 @@ Suggests:
     ggrepel,
     lmerTest,
     lmtest,
-    lsmeans,
-    MASS
+    lsmeans
 URL: https://github.com/sjPlot/devel
 BugReports: https://github.com/sjPlot/devel/issues
 RoxygenNote: 5.0.1

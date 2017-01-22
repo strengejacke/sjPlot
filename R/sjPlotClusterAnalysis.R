@@ -258,7 +258,7 @@ sjc.qclus <- function(data,
     gp <- ggplot(df, aes(x = rev(x), y = y, fill = group))
     axis.labels <- rev(axis.labels)
   } else {
-    gp <- ggplot(df, aes(x = x, y = y, fill = group))
+    gp <- ggplot(df, aes_string(x = "x", y = "y", fill = "group"))
   }
   gp <- gp +
     geom_bar(stat = "identity", 
@@ -537,15 +537,10 @@ sjc.dend <- function(data, groupcount, distance = "euclidean", agglomeration = "
 #' 
 #' @importFrom stats na.omit
 #' @importFrom graphics plot
+#' @importFrom MASS lda
 #' @import ggplot2
 #' @export
 sjc.grpdisc <- function(data, groups, groupcount, clss.fit = TRUE, prnt.plot = TRUE) {
-  # -----------------------------------
-  # check package availability
-  # -----------------------------------
-  if (!requireNamespace("MASS", quietly = TRUE)) {
-    stop("Package `MASS` needed for this function to work. Please install it.", call. = F)
-  }
   # Prepare Data
   # listwise deletion of missing
   data <- stats::na.omit(data)

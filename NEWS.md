@@ -2,6 +2,7 @@
 
 ## Changes to functions
 
+* `sjp.kfold_cv()` now also supports poisson and negative binomial regression models.
 * `sjp.pca()` and `sjt.pca()` get a `rotation`-argument, to use either varimax- or oblimin-transformation of factor loadings.
 * Argument `show.value` now also applies to bar plots in `sjp.pca()`. 
 * `sjt.glm()`, for generalized linar (mixed) models, now shows adjusted standard errors, using the Taylor serie-based delta method. 
