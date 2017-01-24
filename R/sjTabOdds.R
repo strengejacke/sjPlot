@@ -45,11 +45,13 @@
 #'            }
 #'            for further use.
 #'
-#' @note Standard errors for generalized linear (mixed) models are \emph{not} 
-#'       the regular standard errors on the untransformed scale, as shown in the
-#'       \code{summary()}-method. Rather, \code{sjt.glm()} uses adjustments 
-#'       according to the delta method for approximating standard errors of 
-#'       transformed regression parameters (see \code{\link[sjstats]{se}}).
+#' @note If \code{exp.coef = TRUE} and Odds Ratios are reported, standard errors 
+#'       for generalized linear (mixed) models are \emph{not} on the untransformed 
+#'       scale, as shown in the \code{summary()}-method. Rather, \code{sjt.glm()} 
+#'       uses adjustments according to the delta method for approximating standard 
+#'       errors of transformed regression parameters (see \code{\link[sjstats]{se}}).
+#'       If \code{exp.coef = FALSE} and log-Odds Ratios are reported, the standard
+#'       errors are untransformed.
 #'       \cr \cr Futhermore, see 'Notes' in \code{\link{sjt.frq}}.
 #'
 #' @details See 'Details' in \code{\link{sjt.frq}}.
@@ -313,14 +315,24 @@ sjt.glm <- function(...,
       fit.df <- sjstats::robust(fit, conf.int = T, exponentiate = F) %>% 
         dplyr::select_("-statistic")
     } else {
-      fit.df <- broom::tidy(fit, effects = "fixed", conf.int = T) %>% 
-        # remove non-transformed standard error
-        dplyr::select_("-statistic", "-std.error") %>% 
-        # get adjusted standard errors
-        dplyr::mutate(std.error = sjstats::se(fit)[["std.error"]])
+      # get tidy output
+      fit.df <- broom::tidy(fit, effects = "fixed", conf.int = T)
       
-      # reorder df
-      fit.df <- fit.df[, c(1:2, 6, 3:5)]
+      # check if coefficients should be exponentiated - if yes,
+      # also retrieve adjusted standard errors
+      if (exp.coef) {
+        fit.df <- fit.df %>% 
+          # remove non-transformed standard error
+          dplyr::select_("-statistic", "-std.error") %>% 
+          # and add adjusted standard errors
+          dplyr::mutate(std.error = sjstats::se(fit)[["std.error"]])
+        
+        # reorder df
+        fit.df <- fit.df[, c(1:2, 6, 3:5)]
+      } else {
+        # just remove test statistics
+        fit.df <- dplyr::select_(fit.df, "-statistic")
+      }
     }
     # -------------------------------------
     # write data to data frame. we need names of

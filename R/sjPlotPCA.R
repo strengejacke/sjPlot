@@ -382,7 +382,7 @@ sjp.pca <- function(data,
   # return structure with various results
   # --------------------------------------------------------
   invisible(structure(class = "sjcpca",
-                      list(varim = pcadata.varim,
+                      list(varim = pcadata.rotate,
                            removed.colindex = removableItems,
                            removed.df = remdf,
                            factor.index = factorindex,
