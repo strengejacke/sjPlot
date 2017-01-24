@@ -362,40 +362,65 @@ create.xtab.df <- function(x,
                                                 exclude = NULL,
                                                 na.action = stats::na.pass)), 0)
   }
+  
   # create proportional tables, cell values
+  ori.cell.values <- 100 * prop.table(mydat)
   proptab.cell <- round(100 * prop.table(mydat), round.prz)
+  
   # create proportional tables, row percentages, including total row
-  proptab.row <- rbind(as.data.frame(as.matrix(round(100 * prop.table(mydat, 1), round.prz))),
-                       colSums(proptab.cell))
+  proptab.row <- rbind(
+    as.data.frame(as.matrix(round(100 * prop.table(mydat, 1), round.prz))),
+    round(colSums(ori.cell.values), round.prz)
+  )
+  
   rownames(proptab.row)[nrow(proptab.row)] <- "total"
   proptab.row <- as.data.frame(apply(proptab.row, c(1, 2), function(x) if (is.na(x)) x <- 0 else x))
+  
   # create proportional tables, column  percentages, including total row
-  proptab.col <- cbind(as.data.frame(as.matrix(round(100 * prop.table(mydat, 2), round.prz))),
-                       rowSums(proptab.cell))
+  proptab.col <- cbind(
+    as.data.frame(as.matrix(round(100 * prop.table(mydat, 2), round.prz))),
+    round(rowSums(ori.cell.values), round.prz)
+  )
+  
   colnames(proptab.col)[ncol(proptab.col)] <- "total"
   proptab.col <- as.data.frame(apply(proptab.col, c(1, 2), function(x) if (is.na(x)) x <- 0 else x))
+  
   # add total row and column to cell percentages afterwards
-  proptab.cell <- rbind(as.data.frame(as.matrix(proptab.cell)), colSums(proptab.cell))
-  proptab.cell <- cbind(as.data.frame(as.matrix(proptab.cell)), rowSums(proptab.cell))
+  proptab.cell <- rbind(
+    as.data.frame(as.matrix(proptab.cell)), 
+    round(colSums(ori.cell.values), round.prz)
+  )
+  
+  proptab.cell <- cbind(
+    as.data.frame(as.matrix(proptab.cell)),
+    rowSums(proptab.cell)
+  )
+  
   # due to roundings, total might differ from 100%, so clean this here
   proptab.cell[nrow(proptab.cell), ncol(proptab.cell)] <- 100
   colnames(proptab.cell)[ncol(proptab.cell)] <- "total"
   rownames(proptab.cell)[nrow(proptab.cell)] <- "total"
+  
   # convert to data frame
   mydat <- data.frame(mydat)
   colnames(mydat)[2] <- "Var2"
+  
   # spread variables back, so we have a table again
   mydat <- tidyr::spread(mydat, Var2, Freq)
+  
   # rename column names
   colnames(mydat)[1] <- "label"
   colnames(mydat)[is.na(colnames(mydat))] <- "NA"
   colnames(mydat)[colnames(mydat) == "<NA>"] <- "NA"
+  
   # label must be character
   mydat$label <- as.character(mydat$label)
   mydat$label[is.na(mydat$label)] <- "NA"
+  
   # save labels to extra vector
   labels.cnt <- mydat$label
   labels.grp <- colnames(mydat)[-1]
+  
   # return result
   invisible(structure(list(mydat = mydat,
                            proptab.cell = proptab.cell,
