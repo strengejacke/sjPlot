@@ -56,7 +56,9 @@ will be plotted.}
 printed to the console.}
 
 \item{show.scatter}{logical, if \code{TRUE} (default), adds a scatter plot of
-data points to the plot. Only applies for slope-type or predictions plots.}
+data points to the plot. Only applies for slope-type or predictions plots.
+For most plot types, dots are jittered to avoid overplotting, hence the 
+points don't reflect exact values in the data.}
 
 \item{point.alpha}{alpha value of point-geoms in the scatter plots. Only applies,
 if \code{show.scatter = TRUE}.}

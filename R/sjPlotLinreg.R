@@ -108,6 +108,8 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #'          interval or region is added to the plot.
 #' @param show.scatter logical, if \code{TRUE} (default), adds a scatter plot of
 #'          data points to the plot. Only applies for slope-type or predictions plots.
+#'          For most plot types, dots are jittered to avoid overplotting, hence the 
+#'          points don't reflect exact values in the data.
 #' @param legend.title character vector, used as title for the plot legend. Note that
 #'          only some plot types have legends (e.g. \code{type = "pred"} or when
 #'          grouping estimates with \code{group.estimates}).
