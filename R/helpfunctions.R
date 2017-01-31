@@ -254,7 +254,7 @@ create.frq.df <- function(x,
     mydat <- suppressMessages(dplyr::full_join(dat, dat2))
     # replace NA with 0, for proper percentages, i.e.
     # missing values don't appear (zero counts)
-    suppressMessages(sjmisc::replace_na(mydat$frq) <- 0)
+    mydat$frq <- suppressMessages(sjmisc::replace_na(mydat$frq, value = 0))
   } else {
     # if we have no labels, do simple frq table
     mydat <- data.frame(table(x, useNA = "always"))
@@ -308,7 +308,7 @@ create.frq.df <- function(x,
     mydat$label[is.na(mydat$label)] <- "NA"
     mydat$label[mydat$label == "<NA>"] <- "NA"
   }
-  suppressMessages(sjmisc::replace_na(mydat$val) <- max(sjmisc::to_value(mydat$val), na.rm = T) + 1)
+  mydat$val <- suppressMessages(sjmisc::replace_na(mydat$val, value = max(sjmisc::to_value(mydat$val), na.rm = T) + 1))
   # save original order
   mydat$order <- sjmisc::to_value(mydat$val, keep.labels = F)
   # sort for x-axis

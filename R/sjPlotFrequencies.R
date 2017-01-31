@@ -259,7 +259,7 @@ sjp.frq <- function(var.cnt,
     )
     
     # set label attributes
-    sjmisc::set_labels(var.cnt) <- axis.labels
+    var.cnt <- sjmisc::set_labels(var.cnt, labels = axis.labels)
   }
   
   # create frequency data frame -----

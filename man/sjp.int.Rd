@@ -319,7 +319,7 @@ mydf$education <- factor(mydf$education)
 # name factor levels and dependent variable
 levels(mydf$sex) <- c("female", "male")
 levels(mydf$education) <- c("low", "mid", "high")
-mydf$burden <- set_label(mydf$burden, "care burden")
+mydf$burden <- set_label(mydf$burden, lab = "care burden")
 # fit "dummy" model
 fit <- lm(burden ~ .*., data = mydf)
 summary(fit)

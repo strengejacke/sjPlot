@@ -431,7 +431,7 @@ sjt.frq <- function(data,
         sjmisc::group_var(sjmisc::to_value(data[[cnt]], keep.labels = F),
                           groupsize = "auto", as.num = TRUE, groupcount = auto.group)
       # set labels
-      data[[cnt]] <- sjmisc::set_labels(data[[cnt]], value.labels[[cnt]])
+      data[[cnt]] <- sjmisc::set_labels(data[[cnt]], labels = value.labels[[cnt]])
     }
     # -----------------------------------------------
     # prepare data: create frequencies and weight them,
