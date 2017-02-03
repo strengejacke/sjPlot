@@ -123,4 +123,3 @@ sjp.corr(efc[, vars.index])
 \seealso{
 \code{\link{sjt.corr}}
 }
-

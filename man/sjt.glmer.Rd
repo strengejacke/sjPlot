@@ -263,4 +263,3 @@ sjt.glmer(fit1, fit2, pred.labels = "")}
 
 
 }
-

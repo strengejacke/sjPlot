@@ -142,4 +142,3 @@ sjt.pca(efc[, c(start:end)])}
            \item \code{\link{sjp.pca}}
          }
 }
-

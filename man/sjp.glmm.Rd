@@ -190,4 +190,3 @@ fit3 <- update(fit2, . ~ . + dep)
 sjp.glmm(fit1, fit2, fit3)
 
 }
-

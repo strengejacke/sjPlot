@@ -383,4 +383,3 @@ sjt.lm(fit1, fit2, fit4, fit3, show.est = FALSE, show.std = TRUE,
 \seealso{
 \href{http://strengejacke.de/sjPlot/sjt.lm/}{sjPlot manual: sjt.lm}
 }
-

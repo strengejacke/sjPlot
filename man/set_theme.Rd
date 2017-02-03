@@ -44,4 +44,3 @@ sjp.xtab(efc$e42dep, efc$e16sex)
 \seealso{
 \href{http://www.strengejacke.de/sjPlot/custplot/}{sjPlot manual: customize plot appearance}
 }
-

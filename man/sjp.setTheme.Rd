@@ -252,4 +252,3 @@ sjp.frq(efc$e42dep)}
 \seealso{
 \href{http://www.strengejacke.de/sjPlot/custplot/}{sjPlot manual: customize plot appearance}
 }
-

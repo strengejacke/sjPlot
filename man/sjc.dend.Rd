@@ -49,4 +49,3 @@ sjc.dend(mtcars, 5)
 sjc.dend(mtcars, 2:4)
 
 }
-

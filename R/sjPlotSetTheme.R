@@ -408,7 +408,7 @@ sjp.setTheme <- function(# base theme
     }
     if (!is.null(axis.ticksmar)) {
       sjtheme <- sjtheme +
-        theme(axis.ticks.margin = unit(axis.ticksmar, "cm"))
+        theme(axis.text = element_text(margin = margin(t = axis.ticksmar, unit = "cm")))
     }
     if (!is.null(axis.ticksize.x)) {
       sjtheme <- sjtheme +

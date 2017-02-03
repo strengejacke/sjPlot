@@ -66,4 +66,3 @@ sjp.resid(fit, remove.estimates = c("e17age", "e42dep"))
 sjp.resid(fit, remove.estimates = c("e17age", "e42dep"))$pattern
 
 }
-

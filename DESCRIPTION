@@ -2,7 +2,7 @@ Package: sjPlot
 Type: Package
 Encoding: UTF-8
 Title: Data Visualization for Statistics in Social Science
-Version: 2.2.1
+Version: 2.2.1.9000
 Date: 2017-01-11
 Author: Daniel Lüdecke <d.luedecke@uke.de>
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
@@ -25,8 +25,8 @@ Imports:
     broom (>= 0.4.1),
     dplyr (>= 0.5.0),
     effects,
-    ggplot2 (>= 2.2.0),
-    lme4 (>= 1.1-10),
+    ggplot2 (>= 2.2.1),
+    lme4 (>= 1.1-12),
     MASS,
     merTools (>= 0.3.0),
     modelr,
@@ -34,8 +34,8 @@ Imports:
     psych,
     purrr,
     scales,
-    sjmisc (>= 2.2.0),
-    sjstats (>= 0.7.1),
+    sjmisc (>= 2.2.1),
+    sjstats (>= 0.8.0),
     tibble (>= 1.2.0),
     tidyr (>= 0.6.0)
 Suggests:
@@ -47,7 +47,9 @@ Suggests:
     ggrepel,
     lmerTest,
     lmtest,
-    lsmeans
+    lsmeans,
+    knitr
 URL: https://github.com/sjPlot/devel
 BugReports: https://github.com/sjPlot/devel/issues
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.0
+VignetteBuilder: knitr

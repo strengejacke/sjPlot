@@ -57,4 +57,3 @@ dist_chisq(chi2 = 10, deg.f = 6)
 dist_chisq(p = 0.125, deg.f = 6)
 
 }
-

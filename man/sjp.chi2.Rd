@@ -60,4 +60,3 @@ sjp.chi2(mydf, axis.labels = items)
 \seealso{
 \href{http://talesofr.wordpress.com/2013/05/05/ridiculously-photogenic-factors-heatmap-with-p-values/}{Tales of R}.
 }
-

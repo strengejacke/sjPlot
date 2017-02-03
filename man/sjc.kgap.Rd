@@ -64,4 +64,3 @@ sjc.kgap(iris[,1:4])}
 \seealso{
 \code{\link{sjc.elbow}}
 }
-

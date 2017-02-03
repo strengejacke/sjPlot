@@ -117,4 +117,3 @@ sjp.gpt(efc$e42dep, efc$e16sex, efc$e15relat)
 sjp.gpt(efc$c172code, efc$e42dep, efc$n4pstu)
 
 }
-

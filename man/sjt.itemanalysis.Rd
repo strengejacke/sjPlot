@@ -177,4 +177,3 @@ sjt.itemanalysis(mydf, factor.groups)}
 \seealso{
 \href{http://www.strengejacke.de/sjPlot/sjt.itemanalysis/}{sjPlot manual: sjt.itemanalysis}
 }
-

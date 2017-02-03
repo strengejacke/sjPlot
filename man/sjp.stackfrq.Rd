@@ -141,4 +141,3 @@ sjp.stackfrq(efc[, c(start:end)])
              \item \code{\link{sjt.stackfrq}}
              }
 }
-

@@ -172,4 +172,3 @@ sjt.stackfrq(efc[, c(start:end)], altr.row.col = TRUE,
              \item \code{\link{sjp.likert}}
              }
 }
-

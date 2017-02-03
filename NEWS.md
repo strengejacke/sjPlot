@@ -1,4 +1,8 @@
-# sjPlot 2.2.2
+# sjPlot 2.2.1.9000
+
+## General
+
+* Successively adding vignettes to this package.
 
 ## Changes to functions
 

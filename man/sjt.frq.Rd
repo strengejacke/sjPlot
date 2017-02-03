@@ -215,4 +215,3 @@ sjt.frq(efc$e42dep,
            \item \code{\link{sjp.frq}}
          }
 }
-

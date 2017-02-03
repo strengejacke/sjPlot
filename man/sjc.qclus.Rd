@@ -170,4 +170,3 @@ sjc.qclus(airquality, groupcount = 3, groups = airgrp$classification)
 \references{
 Maechler M, Rousseeuw P, Struyf A, Hubert M, Hornik K (2014) cluster: Cluster Analysis Basics and Extensions. R package.
 }
-

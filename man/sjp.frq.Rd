@@ -233,4 +233,3 @@ sjp.frq(efc$c160age, type = "h", show.mean = TRUE, show.mean.val = TRUE,
            \item \code{\link{sjt.frq}}
          }
 }
-

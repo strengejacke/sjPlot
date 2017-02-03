@@ -377,4 +377,3 @@ sjp.lmer(fit, type = "pred.fe", vars = c("c12hour", "sex"),
 \seealso{
 \href{http://www.strengejacke.de/sjPlot/sjp.lmer/}{sjPlot manual: sjp.lmer}
 }
-

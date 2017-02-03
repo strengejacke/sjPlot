@@ -335,4 +335,3 @@ sjp.glmer(fit, type = "pred.fe", vars = c("neg_c_7", "sex", "education"))
 \seealso{
 \href{http://www.strengejacke.de/sjPlot/sjp.glmer/}{sjPlot manual: sjp.glmer}
 }
-

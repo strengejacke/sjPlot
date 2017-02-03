@@ -370,4 +370,3 @@ Gelman A (2008) "Scaling regression inputs by dividing by two standard deviation
            more details and examples of this function; use \code{\link{sjp.poly}}
            to see which polynomial degree fits best for possible polynomial terms.
 }
-

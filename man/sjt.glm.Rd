@@ -339,4 +339,3 @@ fit3 <- glm(services ~ neg_c_7 + c161sex + c172code, data = efc)
 sjt.glm(fit, fit2, fit3, group.pred = FALSE)}
 
 }
-

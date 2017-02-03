@@ -52,4 +52,3 @@ dist_f(f = 2, deg.f1 = 6, deg.f2 = 45)
 dist_f(p = 0.2, deg.f1 = 6, deg.f2 = 45)
 
 }
-

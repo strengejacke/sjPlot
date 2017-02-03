@@ -158,4 +158,3 @@ sjt.xtab(efc$e16sex, efc$e42dep,
            \item \code{\link{sjp.xtab}}
          }
 }
-

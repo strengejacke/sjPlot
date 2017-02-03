@@ -360,4 +360,3 @@ sjp.int(fit, type = "eff", int.plot.index = 3, show.ci = TRUE, facet.grid = TRUE
 \seealso{
 \href{http://www.strengejacke.de/sjPlot/sjp.int/}{sjPlot manual: sjp.int}
 }
-

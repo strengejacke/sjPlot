@@ -32,22 +32,7 @@ The package supports labelled data, i.e. value and variable labels from labelled
     \item \code{sjt} - (HTML) table output functions
   }
 }
-\details{
-\tabular{rl}{
-Package: \tab sjPlot\cr
-Type: \tab Package\cr
-Version: \tab 2.2.1\cr
-Date: \tab 2017-01-11\cr
-License: \tab GPL-3\cr
-}
-}
+
 \author{
 Daniel Lüdecke \email{d.luedecke@uke.de}
-}
-\references{
-  \itemize{
-    \item Documentation: \url{http://www.strengejacke.de/sjPlot}
-    \item Github: \url{https://github.com/sjPlot/devel}
-    \item Bug reports: \url{https://github.com/sjPlot/devel/issues}
-  }
 }

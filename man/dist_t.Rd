@@ -50,4 +50,3 @@ dist_t(t = 1, deg.f = 6)
 dist_t(p = 0.4, deg.f = 6)
 
 }
-

@@ -50,4 +50,3 @@ This is a convenient function with some default settings that should
         when saving them for printing or publishing. It uses cairographics
         anti-aliasing (see \code{\link[grDevices]{png}}).
 }
-

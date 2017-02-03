@@ -91,4 +91,3 @@ sjt.grpmean(efc$c12hour, efc$e42dep)}
 \seealso{
 \code{\link{sjp.aov1}}
 }
-

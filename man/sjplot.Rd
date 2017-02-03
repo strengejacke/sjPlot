@@ -117,4 +117,3 @@ efc \%>\%
   sjtab(fun = "xtab", use.viewer = FALSE) # open all tables in browser}
 
 }
-

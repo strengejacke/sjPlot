@@ -777,7 +777,8 @@ col_check2 <- function(geom.colors, collen) {
 }
 
 
-#' @importFrom stats fitted rstudent residuals sd median update AIC
+#' @importFrom stats fitted rstudent residuals sd median AIC
+#' @importFrom sjstats outliers
 sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
   # ------------------------
   # prepare plot list
@@ -797,72 +798,13 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
   # ---------------------------------
   # remove outliers, only non-mixed models
   # ---------------------------------
-  if (inherits(linreg, "lm")) {
-    # get r2
-    rs <- summary(model)$r.squared
-    # maximum loops
-    maxloops <- 5
-    maxcnt <- maxloops
-    # remember how many cases have been removed
-    removedcases <- 0
-    outlier <- c()
-    loop <- TRUE
-    # start loop
-    while (isTRUE(loop)) {
-      # get outliers of model
-      # ol <- car::outlierTest(model)
-      # vars <- as.numeric(names(ol$p))
-      vars <- as.numeric(names(which(car::outlierTest(model, cutoff = Inf, n.max = Inf)$bonf.p < 1)))
-      # do we have any outliers?
-      if (sjmisc::is_empty(vars)) {
-        loop <- FALSE
-      } else {
-        # retrieve variable numbers of outliers
-        # update model by removing outliers
-        dummymodel <- stats::update(model, subset = -c(vars))
-        # retrieve new r2
-        dummyrs <- summary(dummymodel)$r.squared
-        # decrease maximum loops
-        maxcnt <- maxcnt - 1
-        # check whether r2 of updated model is lower
-        # than previous r2 or if we have already all loop-steps done,
-        # stop loop
-        if (dummyrs < rs || maxcnt < 1) {
-          loop <- FALSE
-        } else {
-          # else copy new model, which is the better one (according to r2)
-          model <- dummymodel
-          # and get new r2
-          rs <- dummyrs
-          # count removed cases
-          removedcases <- removedcases + length(vars)
-          # add outliers to final return value
-          outlier <- c(outlier, vars)
-        }
-      }
-    }
-    # ---------------------------------
-    # print steps from original to updated model
-    # ---------------------------------
-    message(sprintf("Removed %i cases during %i step(s).\nR^2 / adj. R^2 of original model: %f / %f\nR^2 / adj. R^2 of updated model:  %f / %f\nAIC of original model: %f \nAIC of updated model:  %f\n",
-                removedcases,
-                maxloops - (maxcnt + 1),
-                summary(linreg)$r.squared,
-                summary(linreg)$adj.r.squared,
-                summary(model)$r.squared,
-                summary(model)$adj.r.squared,
-                stats::AIC(linreg),
-                stats::AIC(model)))
-    # ---------------------------------
-    # show VIF-Values
-    # ---------------------------------
-    ggplot2::theme_set(ggplot2::theme_bw())
-    sjp.vif(linreg)
-  } else {
-    # we have no updated model w/o outliers for
-    # other model classes than "lm"
-    outlier <- NULL
-  }
+  outlier <- sjstats::outliers(linreg)
+  print(outlier$result)
+  # ---------------------------------
+  # show VIF-Values
+  # ---------------------------------
+  ggplot2::theme_set(ggplot2::theme_bw())
+  sjp.vif(linreg)
   # ---------------------------------
   # Print non-normality of residuals and outliers both of original and updated model
   # dots should be plotted along the line, this the dots should follow a linear direction
@@ -991,7 +933,7 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
   invisible(structure(list(class = "sjp.lm.ma",
                            model = model,
                            plot.list = plot.list,
-                           outlier = outlier)))
+                           outlier = outlier$removed.obs)))
 }
 
 

@@ -30,4 +30,3 @@ Plot elbow values of a k-means cluster analysis. This function
 sjc.elbow(mtcars)
 
 }
-

@@ -136,4 +136,3 @@ view_df(efc,
            \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
          }
 }
-

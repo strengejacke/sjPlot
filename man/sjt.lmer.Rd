@@ -300,4 +300,3 @@ sjt.lmer(fit1, fit2, fit3, pred.labels = c("Elder's gender (female)",
 \href{http://strengejacke.de/sjPlot/sjt.lmer/}{sjPlot manual: sjt.lmer} 
            and \code{\link{sjt.lm}} for further examples.
 }
-

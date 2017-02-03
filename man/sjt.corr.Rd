@@ -154,4 +154,3 @@ sjt.corr(efc[, c(start:end)], triangle = "lower",val.rm = 0.3,
           \item \code{\link{sjp.corr}}
          }
 }
-

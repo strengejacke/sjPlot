@@ -1207,7 +1207,7 @@ sjp.glm.predy <- function(fit,
 }
 
 
-#' @importFrom stats update qqnorm qqline residuals anova
+#' @importFrom stats qqnorm qqline residuals anova
 #' @importFrom graphics points text abline plot
 sjp.glm.ma <- function(logreg) {
   # -----------------------------------
@@ -1221,55 +1221,11 @@ sjp.glm.ma <- function(logreg) {
   # ---------------------------------
   # copy current model
   model <- logreg
-  # get AIC-Value
-  aic <- logreg$aic
-  # maximum loops
-  maxloops <- 5
-  maxcnt <- maxloops
-  # remember how many cases have been removed
-  removedcases <- 0
-  outlier <- c()
-  loop <- TRUE
-  # start loop
-  while (isTRUE(loop)) {
-    # get outliers of model
-    # ol <- car::outlierTest(model)
-    # retrieve variable numbers of outliers
-    # vars <- as.numeric(attr(ol$p, "names"))
-    vars <- as.numeric(names(which(car::outlierTest(model, cutoff = Inf, n.max = Inf)$bonf.p < 1)))    # update model by removing outliers
-    if (sjmisc::is_empty(vars)) {
-      loop <- FALSE
-    } else {
-      dummymodel <- stats::update(model, subset = -c(vars))
-      # retrieve new AIC-value
-      dummyaic <- dummymodel$aic
-      # decrease maximum loops
-      maxcnt <- maxcnt - 1
-      # check whether AIC-value of updated model is larger
-      # than previous AIC-value or if we have already all loop-steps done,
-      # stop loop
-      if (dummyaic >= aic || maxcnt < 1) {
-        loop <- FALSE
-      } else {
-        # else copy new model, which is the better one (according to AIC-value)
-        model <- dummymodel
-        # and get new AIC-value
-        aic <- dummyaic
-        # count removed cases
-        removedcases <- removedcases + length(vars)
-        # add outliers to final return value
-        outlier <- c(outlier, vars)
-      }
-    }
-  }
   # ---------------------------------
-  # print steps from original to updated model
+  # remove outliers, only non-mixed models
   # ---------------------------------
-  message(sprintf(("Removed %i cases during %i step(s).\nAIC-value of original model: %.2f\nAIC-value of updated model:  %.2f\n"),
-                  removedcases,
-                  maxloops - (maxcnt + 1),
-                  logreg$aic,
-                  model$aic))
+  outlier <- sjstats::outliers(logreg)
+  print(outlier$result)
   # ------------------------------------------------------
   # Overdispersion
   # Sometimes we can get a deviance that is much larger than expected
@@ -1360,5 +1316,5 @@ sjp.glm.ma <- function(logreg) {
   # return updated model
   invisible(structure(list(class = "sjp.glm.ma",
                            model = model,
-                           outlier = outlier)))
+                           outlier = outlier$removed.obs)))
 }

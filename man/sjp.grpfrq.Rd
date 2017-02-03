@@ -221,4 +221,3 @@ sjp.grpfrq(efc$neg_c_7, efc$e42dep, type = "line")
 \seealso{
 \href{http://www.strengejacke.de/sjPlot/sjp.grpfrq/}{sjPlot manual: sjp.grpfrq}
 }
-

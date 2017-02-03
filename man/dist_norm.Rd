@@ -51,4 +51,3 @@ dist_norm(norm = 1)
 dist_norm(p = 0.2)
 
 }
-

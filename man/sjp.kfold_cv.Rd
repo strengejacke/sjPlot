@@ -58,4 +58,3 @@ fit <- MASS::glm.nb(tot_sc_e ~ neg_c_7 + c172code, data = efc)
 sjp.kfold_cv(efc, fit = fit)
 
 }
-

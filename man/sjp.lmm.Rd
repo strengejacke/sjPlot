@@ -187,4 +187,3 @@ fit3 <- update(fit2, . ~ . + am)
 sjp.lmm(fit1, fit2, fit3, type = "std2")
 
 }
-

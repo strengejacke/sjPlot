@@ -149,4 +149,3 @@ sjp.pca(efc[, c(start:end)], type = "circle", geom.size = 10)
            \item \code{\link{sjt.pca}}
            }
 }
-

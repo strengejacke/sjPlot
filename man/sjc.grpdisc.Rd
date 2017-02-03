@@ -47,4 +47,3 @@ groups <- sjc.cluster(mtcars, 5)
 sjc.grpdisc(mtcars, groups, 5)
 
 }
-

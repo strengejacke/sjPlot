@@ -205,4 +205,3 @@ sjp.xtab(efc$e16sex, efc$e42dep, margin = "row",
              \item \code{\link{sjt.xtab}}
              }
 }
-
