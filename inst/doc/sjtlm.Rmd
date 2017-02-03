@@ -1,0 +1,236 @@
+---
+title: "Summary of Linear Regression Models as HTML Table"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Summary of Linear Regression Models as HTML Table}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+This document shows examples for using the `sjt.lm()` function of the sjPlot package.
+
+```{r, warning=FALSE, message=FALSE}
+# load package
+library(sjPlot)
+library(sjmisc)
+# sample data
+data(efc)
+```
+
+## Linear model summaries as HTML table
+
+The `sjt.lm()` function prints summaries of linear models (fitted with the `lm()` function) as nicely formatted html-tables.
+
+Before starting, sample data is loaded and sample models are fitted:
+
+```{r, results='hide'}
+# fit first model
+fit1 <- lm(barthtot ~ c160age + c12hour + c161sex + c172code, data = efc)
+# fit second model 
+fit2 <- lm(neg_c_7 ~ c160age + c12hour + c161sex + c172code, data = efc)
+# Note that both models share the same predictors and only differ 
+# in their dependent variable. See examples of stepwise models 
+# later...
+``` 
+
+The simplest way of producing the table output is by passing the fitted models as parameter. By default, estimates (_B_), confidence intervals (_CI_) and p-values (_p_) are reported. The models are named _Model 1_ and _Model 2_.
+
+```{r eval=FALSE}
+sjt.lm(fit1, fit2)
+```
+`r sjt.lm(fit1, fit2, no.output=TRUE)$knitr`
+
+### Custom labels
+You can specify the 'model' label via `depvar.labels` parameter:
+
+```{r eval=FALSE}
+sjt.lm(fit1, fit2,
+       depvar.labels = c("Barthel-Index", "Negative Impact"))
+```
+`r sjt.lm(fit1, fit2, depvar.labels = c("Barthel-Index", "Negative Impact"), no.output=TRUE)$knitr`
+
+### More custom labels
+Here is an example how to change the other labels. Note that `show.header` makes the two labels on top and top left corner appear in the table.
+
+```{r eval=FALSE}
+sjt.lm(fit1, fit2, show.header = TRUE,
+       string.est = "Estimate",
+       string.ci = "Conf. Int.",
+       string.p = "p-value",
+       string.dv = "Response",
+       string.pred = "Coefficients",
+       string.interc = "Konstante",
+       depvar.labels = c("Barthel-Index", "Negative Impact"))
+```
+`r sjt.lm(fit1, fit2, show.header = TRUE, string.est = "Estimate", string.ci = "Conf. Int.", string.p = "p-value", string.dv = "Response", string.pred = "Coefficients", string.interc = "Konstante",depvar.labels = c("Barthel-Index", "Negative Impact"), no.output=TRUE)$knitr`
+
+## Changing summary style and content
+
+You can change the table style with specific parameters, e.g. to include CI into the same table cell as the estimates, print asterisks instead of numeric p-values etc.
+
+```{r eval=FALSE}
+sjt.lm(fit1, fit2,
+       separate.ci.col = FALSE, # ci in same cell as estimates
+       show.std = TRUE,         # also show standardized beta values
+       p.numeric = FALSE)       # "*" instead of numeric values
+```
+`r sjt.lm(fit1, fit2, separate.ci.col = FALSE, show.std = TRUE, p.numeric = FALSE, no.output=TRUE)$knitr`
+
+
+## Custom variable labels
+
+In the above example, the original variable labels are long and not so pretty. You can change variable labels either with `sjmisc::set_label()`, which will affect all future plots and tables, or pass own labels via `pred.labels`.
+
+```{r eval=FALSE}
+sjt.lm(fit1, fit2, 
+       pred.labels = c("Carer's Age", "Hours of Care",
+                       "Carer's Sex", "Educational Status"))
+```
+`r sjt.lm(fit1, fit2, pred.labels = c("Carer's Age", "Hours of Care", "Carer's Sex", "Educational Status"), no.output=TRUE)$knitr`
+
+
+## Compare models with different predictors
+
+In some cases, for instance stepwise regressions, you have different predictors on the same response. The proper grouping of predictors, resp. rows, is done automatically.
+
+First, let's fit some example models.
+
+```{r, results='hide'}
+# fit first model
+fit1 <- lm(neg_c_7 ~ c160age + c172code + c161sex, data = efc)
+# fit second model
+fit2 <- lm(neg_c_7 ~ c160age + c172code + c161sex + c12hour, data = efc)
+# fit second model
+fit3 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e, data = efc)
+```
+
+Note that printing tables with fitted models, which have different predictors do not automatically detect variable labels (maybe this will be implemented in a future package version).
+
+```{r eval=FALSE}
+sjt.lm(fit1, fit2, fit3, 
+       separate.ci.col = FALSE,
+       show.aic = TRUE,
+       show.fstat = TRUE)
+```
+`r sjt.lm(fit1, fit2, fit3, separate.ci.col = FALSE, show.aic = TRUE, show.fstat = TRUE, no.output=TRUE)$knitr`
+
+## More space bewteen model columns
+
+Especially when fitting and summarizing some more models, it might help to increase the distance between the columns that separate the models. This can be done by tweaking the `css.separatorcol` style-sheet:
+
+```{r eval=FALSE}
+sjt.lm(fit1, fit2, fit3, 
+       CSS = list(css.separatorcol = 'padding-right:1.5em; padding-left:1.5em;'))
+```
+`r sjt.lm(fit1, fit2, fit3, CSS = list(css.separatorcol = 'padding-right:1.5em; padding-left:1.5em;'), no.output=TRUE)$knitr`
+
+## Automatic grouping of categorical predictors
+
+In case you have categorical variables with more than two factor levels, the `sjt.lm()` function automatically groups the category levels to give a better overview of predictors in the table.
+
+By default, automatic grouping is activated. To disable this feature, use `group.pred = FALSE` as parameter.
+
+To demonstrate this feature, we first convert two predictors to factors (what they actually are, indeed). To do this, we use the `sjmisc::to_factor()` function, which converts numerical variables into factors, however, does not remove the variable and value label attributes.
+
+```{r, results='hide'}
+# make education categorical
+efc$c172code <- to_factor(efc$c172code)
+# make dependency categorical
+efc$e42dep <- to_factor(efc$e42dep)
+# fit first model again (with c172code as factor)
+fit1 <- lm(barthtot ~ c160age + c12hour + c172code + c161sex + e42dep, data = efc)
+# fit second model again (with c172code as factor)
+fit2 <- lm(neg_c_7 ~ c160age + c12hour + c172code + c161sex + e42dep, data = efc)
+```
+
+Now we can print the table.
+
+```{r eval=FALSE}
+sjt.lm(fit1, fit2)
+```
+`r sjt.lm(fit1, fit2, no.output=TRUE)$knitr`
+
+## Removing estimates from the output
+
+With `remove.estimates`, specific estimates can be removed from the table output. This may make sense in case you have stepwise regression models and only want to compare the varying predictors but not the controls. `remove.estimates` either accepts the row indices of the rows of the table output that should be removed, or the coefficient's names.
+
+When using numeric indices, the estimates' index number relates to the same order as `coef(fit)`.
+
+_Note that automatic grouping of categorical predictors (argument_ `group.pred`_) does not yet work properly when removing estimates!_ See also Example 6 for further details.
+
+```{r, results='hide'}
+data(efc)
+# make education categorical
+efc$c172code <- to_factor(efc$c172code)
+# make education categorical
+efc$e42dep <- to_factor(efc$e42dep)
+# make prettier variable labels
+set_label(efc$c172code) <- "Education"
+set_label(efc$e42dep) <- "Dependency"
+# fit first model
+fit1 <- lm(neg_c_7 ~ c160age + c172code + c161sex, data = efc)
+# fit second model
+fit2 <- lm(neg_c_7 ~ c160age + c172code + c161sex + c12hour, data = efc)
+# fit third model
+fit3 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e, data = efc)
+```
+
+### Example 1: Complete table output
+
+Here you have the complete table output. This helps you identify the row index numbers. Especially when you have multiple models with different predictors, the estimate's position in the last model may differ from this estimate's position in the table output.
+
+```{r eval=FALSE}
+sjt.lm(fit1, fit2, fit3, group.pred = FALSE)
+```
+`r sjt.lm(fit1, fit2, fit3, group.pred = FALSE, no.output=TRUE)$knitr`
+
+### Example 2: Removing the intercept
+
+Note that currently the intercept cannot be removed from the model output. However, you can "fake" a removed intercept by setting the font size of the first row (with intercept) to zero via `CSS = list(css.topcontentborder = "+font-size: 0px;")`.
+
+```{r eval=FALSE}
+sjt.lm(fit1, fit2, fit3, group.pred = FALSE,
+       CSS = list(css.topcontentborder = "+font-size: 0px;"))
+```
+`r sjt.lm(fit1, fit2, fit3, group.pred = FALSE, CSS = list(css.topcontentborder = "+font-size: 0px;"), no.output=TRUE)$knitr`
+
+
+### Example 3: Remove first coefficient (after intercept)
+
+```{r eval=FALSE}
+sjt.lm(fit1, fit2, fit3, group.pred = FALSE,
+       remove.estimates = 2)
+```
+`r sjt.lm(fit1, fit2, fit3, group.pred = FALSE, remove.estimates = 2, no.output=TRUE)$knitr`
+
+### Example 4: Remove age and sex
+
+```{r eval=FALSE}
+sjt.lm(fit1, fit2, fit3, group.pred = FALSE,
+       remove.estimates = c("c160age", "c161sex"))
+```
+`r sjt.lm(fit1, fit2, fit3, group.pred = FALSE, remove.estimates = c("c160age", "c161sex"), no.output=TRUE)$knitr`
+
+### Example 5: Remove many esimates
+
+```{r eval=FALSE}
+sjt.lm(fit1, fit2, fit3, group.pred = FALSE,
+       remove.estimates = c(2,5,6,10))
+```
+`r sjt.lm(fit1, fit2, fit3, group.pred = FALSE, remove.estimates = c(1,2,5,6,10), no.output=TRUE)$knitr`
+
+### Example 6: Custom predictor labels
+
+In most cases you need to define your own labels when removing estimates, especially when you have grouped categorical predictors, because automatic label detection is quite tricky in such situations. If you provide own labels, please note that grouped predictors' headings (the variable name of the grouped, categorical variable) are still automatically set by the `sjt.lm` function (variable labels are used, so use `set_label` for those categorical predictors). All data rows in the table, i.e. for each coefficient appearing in the model, you need to specify a label string.
+
+In the next example, we have seven table rows with data (excluding intercept): mid and hi education (categories of the variable Education), Hours of Care, slight, moderate and severe dependency (categories of the variable Dependency) and Service Usage. These 'rows' need to be labelled.
+
+```{r eval=FALSE}
+sjt.lm(fit1, fit2, fit3
+       pred.labels = c("mid education", "hi education", "Hours of Care", 
+                       "slight dependency", "moderate dependency", 
+                       "severe dependency", "Service Usage"),
+       remove.estimates = c("c160age", "c161sex"))
+```
+`r sjt.lm(fit1, fit2, fit3, pred.labels = c("mid education", "hi education", "Hours of Care", "slight dependency", "moderate dependency", "severe dependency", "Service Usage"), remove.estimates = c("c160age", "c161sex"), no.output=TRUE)$knitr`

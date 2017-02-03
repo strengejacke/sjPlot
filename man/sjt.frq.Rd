@@ -159,7 +159,7 @@ Shows (multiple) frequency tables as HTML file, or saves them as file.
            \item \code{css.arc = 'color:blue;'} for a blue text color each 2nd row.
            \item \code{css.caption = '+color:red;'} to add red font-color to the default table caption style.
          }
-         See further examples at \href{http://www.strengejacke.de/sjPlot/sjtbasics}{sjPlot manual: sjt-basics}.
+         See further examples in \href{../doc/sjtbasic.html}{this package-vignette}.
 }
 \note{
 The HTML tables can either be saved as file and manually opened (specify argument \code{file}) or

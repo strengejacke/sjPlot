@@ -36,9 +36,9 @@ sjp.grpfrq(efc$e42dep,
            geom.colors = "PuRd", 
            show.values = FALSE)
 
-## ---- fig.width=7, fig.height=10, warning=FALSE, message=FALSE-----------
-library(RColorBrewer)
-display.brewer.all()
+## ---- eval=FALSE, warning=FALSE, message=FALSE---------------------------
+#  library(RColorBrewer)
+#  display.brewer.all()
 
 ## ---- fig.width=7, fig.height=5, warning=FALSE, message=FALSE------------
 sjp.setTheme(geom.label.color = "white",

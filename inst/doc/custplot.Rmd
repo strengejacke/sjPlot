@@ -64,7 +64,7 @@ sjp.grpfrq(efc$e42dep,
 
 An overview of all supported color codes can be obtained with `display.brewer.all()` from the `RColorBrewer` package.
 
-```{r, fig.width=7, fig.height=10, warning=FALSE, message=FALSE}
+```{r, eval=FALSE, warning=FALSE, message=FALSE}
 library(RColorBrewer)
 display.brewer.all()
 ```
