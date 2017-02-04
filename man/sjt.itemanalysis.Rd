@@ -60,7 +60,9 @@ After that, each case (df's row) has a scales sum score for each component.
 Finally, a correlation of these "scale sum scores" is computed.}
 
 \item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
-\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
+\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
+see \href{../doc/sjtbasic.html}{this package-vignette}, or 'Details' in
+\code{\link{sjt.frq}}.}
 
 \item{encoding}{string, indicating the charset encoding used for variable and 
 value labels. Default is \code{NULL}, so encoding will be auto-detected 

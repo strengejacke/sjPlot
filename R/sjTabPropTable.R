@@ -35,6 +35,8 @@
 #'          the percentage value.
 #' @param hundret Default value that indicates the 100-percent column-sums (since rounding values
 #'          may lead to non-exact results). Default is \code{"100.0"}.
+#' @param ... Other arguments, currently passed down to the test statistics functions
+#'        \code{chisq.test} or \code{fisher.test}.
 #'          
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.df
@@ -50,9 +52,10 @@
 #'            }
 #'            for further use.
 #'          
-#' @note See 'Notes' in \code{\link{sjt.frq}}.
-#'  
-#' @details See 'Details' in \code{\link{sjt.frq}}.
+#' @details The p-value is computed by \code{\link[stats]{chisq.test}}, unless
+#'          the smallest expected value in a table cell is smaller than 5,
+#'          or smaller than 10 and the df = 1 - in this case, \code{\link[stats]{fisher.test}}
+#'          is used.
 #'         
 #' @examples 
 #' # prepare sample data set
@@ -79,7 +82,7 @@
 #'                     css.tdata = "border: 1px solid;",
 #'                     css.horline = "border-bottom: double blue;"))}
 #'
-#' @importFrom stats xtabs ftable
+#' @importFrom stats xtabs ftable chisq.test fisher.test
 #' @export
 sjt.xtab <- function(var.row,
                      var.col,
@@ -112,7 +115,8 @@ sjt.xtab <- function(var.row,
                      file = NULL,
                      use.viewer = TRUE,
                      no.output = FALSE,
-                     remove.spaces = TRUE) {
+                     remove.spaces = TRUE,
+                     ...) {
   # --------------------------------------------------------
   # check p-value-style option
   # --------------------------------------------------------
@@ -403,7 +407,7 @@ sjt.xtab <- function(var.row,
     # start new table row
     page.content <- paste(page.content, "\n  <tr>\n    ", sep = "")
     # calculate chi square value
-    chsq <- chisq.test(ftab)
+    chsq <- stats::chisq.test(ftab, ...)
     fish <- NULL
     # check whether variables are dichotome or if they have more
     # than two categories. if they have more, use Cramer's V to calculate
@@ -412,12 +416,12 @@ sjt.xtab <- function(var.row,
       kook <- sprintf("V=%.3f", sjstats::cramer(ftab))
       # if minimum expected values below 5, compute fisher's exact test
       if (min(tab.expected) < 5 || (min(tab.expected) < 10 && chsq$parameter == 1)) 
-        fish <- fisher.test(ftab, simulate.p.value = TRUE)
+        fish <- stats::fisher.test(ftab, simulate.p.value = TRUE, ...)
     } else {
       kook <- sprintf("&Phi;=%.3f", sjstats::phi(ftab))
       # if minimum expected values below 5 and df=1, compute fisher's exact test
       if (min(tab.expected) < 5 || (min(tab.expected) < 10 && chsq$parameter == 1)) 
-        fish <- fisher.test(ftab)
+        fish <- stats::fisher.test(ftab, ...)
     }
     # make phi-value apa style
     kook <- gsub("0.", paste0(p_zero, "."), kook, fixed = TRUE)

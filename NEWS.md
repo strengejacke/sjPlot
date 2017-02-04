@@ -12,6 +12,7 @@
 * `sjt.glm()`, for generalized linar (mixed) models, now shows adjusted standard errors, using the Taylor series-based delta method. 
 * More precise rounding of percentage values in `sjt.xtab()`, `sjp.xtab()` and `sjp.grpfrq()`.
 * Cramer's V in `sjt.xtab()` is now dentoted as _V_.
+* `sjt.xtab()` gets a `...`-argument, to pass down further arguments to the test statistics functions `chisq.test()` and `fisher.test()`.
 
 ## Bug fixes
 

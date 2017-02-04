@@ -80,7 +80,9 @@ depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-125
 Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
 
 \item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
-\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
+\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
+see \href{../doc/sjtbasic.html}{this package-vignette}, or 'Details' in
+\code{\link{sjt.frq}}.}
 
 \item{use.viewer}{If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}

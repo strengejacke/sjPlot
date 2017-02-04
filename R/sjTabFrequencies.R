@@ -61,7 +61,9 @@
 #'          depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
 #'          Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).
 #' @param CSS \code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
-#'          \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.
+#'          \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
+#'          see \href{../doc/sjtbasic.html}{this package-vignette}, or 'Details' in
+#'          \code{\link{sjt.frq}}.
 #' @param use.viewer If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 #'          \code{FALSE} or no viewer available, the HTML table is opened in a web browser.
 #' @param no.output logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in

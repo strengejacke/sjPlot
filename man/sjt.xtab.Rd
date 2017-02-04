@@ -13,7 +13,7 @@ sjt.xtab(var.row, var.col, weight.by = NULL, title = NULL,
   tdcol.cell = "#993333", tdcol.row = "#333399", tdcol.col = "#339933",
   emph.total = FALSE, emph.color = "#f8f8f8", prc.sign = "&nbsp;&#37;",
   hundret = "100.0", CSS = NULL, encoding = NULL, file = NULL,
-  use.viewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
+  use.viewer = TRUE, no.output = FALSE, remove.spaces = TRUE, ...)
 }
 \arguments{
 \item{var.row}{variable that should be displayed in the table rows.}
@@ -84,7 +84,9 @@ the percentage value.}
 may lead to non-exact results). Default is \code{"100.0"}.}
 
 \item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
-\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. See 'Details'.}
+\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
+see \href{../doc/sjtbasic.html}{this package-vignette}, or 'Details' in
+\code{\link{sjt.frq}}.}
 
 \item{encoding}{string, indicating the charset encoding used for variable and 
 value labels. Default is \code{NULL}, so encoding will be auto-detected 
@@ -106,6 +108,9 @@ value.}
 \item{remove.spaces}{logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
 that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
 may look less pretty, but it may help when exporting html-tables to office tools.}
+
+\item{...}{Other arguments, currently passed down to the test statistics functions
+\code{chisq.test} or \code{fisher.test}.}
 }
 \value{
 Invisibly returns
@@ -121,10 +126,10 @@ Invisibly returns
 Shows contingency tables as HTML file in browser or viewer pane, or saves them as file.
 }
 \details{
-See 'Details' in \code{\link{sjt.frq}}.
-}
-\note{
-See 'Notes' in \code{\link{sjt.frq}}.
+The p-value is computed by \code{\link[stats]{chisq.test}}, unless
+         the smallest expected value in a table cell is smaller than 5,
+         or smaller than 10 and the df = 1 - in this case, \code{\link[stats]{fisher.test}}
+         is used.
 }
 \examples{
 # prepare sample data set
