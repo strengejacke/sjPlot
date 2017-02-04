@@ -55,10 +55,18 @@
 #'            }
 #'            for further use.
 #'          
-#' @details The p-value is computed by \code{\link[stats]{chisq.test}}, unless
-#'          the smallest expected value in a table cell is smaller than 5,
-#'          or smaller than 10 and the df = 1 - in this case, \code{\link[stats]{fisher.test}}
-#'          is used.
+#' @details The p-value for Cramer's V and the Phi coefficient are based
+#'          on \code{chisq.test()}. If any expected value of a table cell is
+#'          smaller than 5, or smaller than 10 and the df is 1, then \code{fisher.test()}
+#'          is used to compute the p-value. The test statistic is calculated
+#'          with \code{cramer()} resp. \code{phi()}.
+#'          \cr \cr
+#'          Both test statistic and p-value for Spearman's rho, Kendall's tau
+#'          and Pearson's r are calculated with \code{cor.test()}.
+#'          \cr \cr
+#'          When \code{statistics = "auto"}, only Cramer's V or Phi are calculated,
+#'          based on the dimension of the table (i.e. if the table has more than
+#'          two rows or columns, Cramer's V is calculated, else Phi).
 #'         
 #' @examples 
 #' # prepare sample data set
