@@ -11,6 +11,7 @@
 * Argument `show.value` now also applies to bar plots in `sjp.pca()`. 
 * `sjt.glm()`, for generalized linar (mixed) models, now shows adjusted standard errors, using the Taylor series-based delta method. 
 * More precise rounding of percentage values in `sjt.xtab()`, `sjp.xtab()` and `sjp.grpfrq()`.
+* Cramer's V in `sjt.xtab()` is now dentoted as _V_.
 
 ## Bug fixes
 

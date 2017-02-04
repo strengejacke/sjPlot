@@ -409,7 +409,7 @@ sjt.xtab <- function(var.row,
     # than two categories. if they have more, use Cramer's V to calculate
     # the contingency coefficient
     if (nrow(ftab) > 2 || ncol(ftab) > 2) {
-      kook <- sprintf("&Phi;<sub>c</sub>=%.3f", sjstats::cramer(ftab))
+      kook <- sprintf("V=%.3f", sjstats::cramer(ftab))
       # if minimum expected values below 5, compute fisher's exact test
       if (min(tab.expected) < 5 || (min(tab.expected) < 10 && chsq$parameter == 1)) 
         fish <- fisher.test(ftab, simulate.p.value = TRUE)
