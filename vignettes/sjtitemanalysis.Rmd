@@ -9,6 +9,10 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
 This document shows examples for using the `sjt.itemanalysis()` function of the sjPlot package.
 
 ## Performing an item analysis of a scale or index

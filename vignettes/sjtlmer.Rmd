@@ -8,6 +8,11 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
 This document shows examples for using the `sjt.lmer()` function of the sjPlot package.
 
 ```{r, results='hide', message=FALSE, warning=FALSE}

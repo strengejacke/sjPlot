@@ -9,6 +9,11 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 7, fig.height = 5, warning = FALSE, message = FALSE)
+```
+
+
 This vignette shows how the plots created by the `sjp.` functions of the sjPlot package can be customized.
 
 The examples refer to the `sjp.grpfrq` function, but most arguments are similar across all plotting function of the **sjPlot** package.
@@ -18,7 +23,7 @@ Tweaking plot appearance
 The base function to globally change theme option for all sjp-function is `sjp.setTheme()`, and to use presets of themes, `set_theme()`. Except for geom-colors and geom-sizes, all theme-options can be set via this function. This new theme will be applied to all following plots created with the `sjPlot` package.
 
 There are various arguments to change colors, sizes, angles etc. of labels. Following example show changes to colors, sizes, angles, geom-outlines and theme.
-```{r, fig.width=7, fig.height=5, warning=FALSE, message=FALSE}
+```{r}
 # load libraries
 library(sjPlot)  # for plotting
 library(sjmisc)  # for sample data
@@ -44,11 +49,7 @@ sjp.grpfrq(efc$e42dep,
 ### Using the Color Brewer palettes
 All plotting functions support the usage of the [Colorbrewer](http://colorbrewer2.org) palettes. To apply a color brewer palette, use specify the palette as `geom.colors`. Any valid color brewer palette is recognized automatically.
 
-```{r results='hide', warning=FALSE, message=FALSE, echo=FALSE}
-sjp.setTheme(geom.label.size = 3)
-```
-
-```{r, fig.width=7, fig.height=5, warning=FALSE, message=FALSE}
+```{r}
 # blank theme
 set_theme(theme = "blank",
           axis.title.size = .9,
@@ -64,7 +65,7 @@ sjp.grpfrq(efc$e42dep,
 
 An overview of all supported color codes can be obtained with `display.brewer.all()` from the `RColorBrewer` package.
 
-```{r, eval=FALSE, warning=FALSE, message=FALSE}
+```{r, eval=FALSE}
 library(RColorBrewer)
 display.brewer.all()
 ```
@@ -72,7 +73,8 @@ display.brewer.all()
 Plot with flipped coordinates
 -----------------------------
 The plot's axes can be flipped using `coord.flip = TRUE`. If needed, labels can be placed inside the bars with the `vjust` or `hjust` arguments. In such cases, you might need to adjust the label colors with `geom.label.color = "white"`.
-```{r, fig.width=7, fig.height=5, warning=FALSE, message=FALSE}
+
+```{r}
 sjp.setTheme(geom.label.color = "white",
              geom.label.size = 3)
 # labels appear very large due to export metrics
@@ -84,7 +86,8 @@ sjp.grpfrq(efc$e42dep,
 Adding plot margins
 -------------------
 Plots with no margins towards the axes may look strange to some people (not to me, though). To restore the ggplot-default behaviour, use the `expand.grid` argument:
-```{r results='hide', warning=FALSE, message=FALSE, echo=FALSE}
+
+```{r results='hide', echo=FALSE}
 sjp.setTheme(axis.title.size = .9,
              axis.textsize = .9,
              legend.size = .7,
@@ -92,7 +95,7 @@ sjp.setTheme(axis.title.size = .9,
              geom.label.size = 3)
 ```
 
-```{r, fig.width=7, fig.height=5, warning=FALSE, message=FALSE}
+```{r}
 sjp.grpfrq(efc$e42dep,
            efc$e16sex,
            expand.grid = TRUE)
@@ -101,7 +104,8 @@ sjp.grpfrq(efc$e42dep,
 Theme options
 -------------
 You can use any pre-defined theme from ggplot, like `theme_bw()`, `theme_classic()` or `theme_minimal()` as default theme. See the list of supported themes at the online-help `?sjp.setTheme` under argument _theme_.
-```{r, fig.width=7, fig.height=5, warning=FALSE, message=FALSE}
+
+```{r}
 sjp.setTheme(base = theme_light())
 sjp.frq(efc$e42dep)
 ```
@@ -111,18 +115,18 @@ Pre-defined themes
 
 There is a set of pre-defined themes from the sjPlot-package that can be applied by calling `set_theme()`:
 
-```{r, fig.width=7, fig.height=5, warning=FALSE, message=FALSE}
+```{r}
 set_theme("blank")
 sjp.frq(efc$e42dep)
 ```
 
-```{r, fig.width=7, fig.height=5, warning=FALSE, message=FALSE}
+```{r}
 set_theme("539")
 sjp.frq(efc$e42dep)
 ```
 
 
-```{r, fig.width=7, fig.height=5, warning=FALSE, message=FALSE}
+```{r}
 set_theme("scatter")
 sjp.frq(efc$e42dep,
         geom.colors = "#2255aa")
@@ -133,7 +137,7 @@ Set up own themes based on existing themes
 ------------------------------------------
 
 If you want to use a specific theme as base for building your own theme, use the `base` argument. When using `base` instead of `theme`, further arguments for settings colors etc. are not ignored.
-```{r, fig.width=7, fig.height=5, warning=FALSE, message=FALSE}
+```{r}
 sjp.setTheme(base = theme_bw(),            # bw-base
              axis.linecolor = "darkgreen") # with green axes.
 sjp.frq(efc$e42dep)
@@ -143,7 +147,7 @@ sjp.frq(efc$e42dep)
 Further customization options
 -----------------------------
 Each plotting function invisibly returns the ggplot-object. You can further add options to customize the appearance of the plot, like in the following example, where the count axis is hidden (color set to white):
-```{r, fig.width=7, fig.height=5, warning=FALSE, message=FALSE}
+```{r}
 sjp.setTheme(
   base = theme_classic(),
   axis.tickslen = 0, # hides tick marks
@@ -169,7 +173,7 @@ Note that the `prnt.plot` argument is set to `FALSE` in the above example, so th
 ### Changing axis range
 In the above example, value labels are cut off. In such cases, you may need to adjust the axis range.
 
-```{r results='hide', warning=FALSE, message=FALSE, echo=FALSE}
+```{r results='hide', echo=FALSE}
 sjp.setTheme(base = theme_classic(),
              axis.title.size = .9,
              axis.textsize = .9,
@@ -177,7 +181,7 @@ sjp.setTheme(base = theme_classic(),
              legend.title.size = .8)
 ```
 
-```{r, fig.width=7, fig.height=5, warning=FALSE, message=FALSE}
+```{r}
 sjp.grpfrq(efc$e42dep,
            efc$e16sex,
            ylim = c(0, 350),
@@ -189,7 +193,7 @@ Plot legend
 -----------
 The plot's legend can be customized via various `legend.`-arguments, see following examples:
 
-```{r, fig.width=7, fig.height=5, warning=FALSE, message=FALSE}
+```{r}
 sjp.setTheme(base = theme_classic(), 
              legend.title.face = "italic", # title font face
              legend.inside = TRUE,         # legend inside plot
@@ -206,7 +210,7 @@ sjp.grpfrq(efc$e42dep,
 ```
 
 
-```{r, fig.width=7, fig.height=5, warning=FALSE, message=FALSE}
+```{r}
 sjp.setTheme(base = theme_classic(), 
              axis.linecolor = "white",     # "remove" axis lines
              axis.textcolor.y = "darkred", # set axis label text only for y axis
@@ -224,7 +228,7 @@ sjp.grpfrq(efc$e42dep, efc$e16sex)
 
 The following two plots demonstrate numeric positioning of legend and its relative justification.
 
-```{r, fig.width=7, fig.height=5, warning=FALSE, message=FALSE}
+```{r}
 sjp.setTheme(legend.inside = TRUE,    # legend inside plot
              legend.pos = c(.3, .7),  # relative legend position inside plot
              legend.just = c(.1, .8), # legend justification relative to position
@@ -238,7 +242,7 @@ sjp.grpfrq(efc$e42dep,
            coord.flip = TRUE)
 ```
 
-```{r, fig.width=7, fig.height=5, warning=FALSE, message=FALSE}
+```{r}
 sjp.setTheme(legend.inside = TRUE,    # legend inside plot
              legend.pos = c(.3, .7),  # relative legend position inside plot
              legend.just = c(.8, .1), # legend justification relative to position

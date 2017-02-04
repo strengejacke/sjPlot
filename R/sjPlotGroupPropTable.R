@@ -83,14 +83,11 @@ sjp.gpt <- function(x,
                     show.p = TRUE,
                     show.n = TRUE,
                     prnt.plot = TRUE) {
-  # --------------------------------------------------------
   # get variable name
-  # --------------------------------------------------------
   var.name.x <- get_var_name(deparse(substitute(x)))
   var.name.y <- get_var_name(deparse(substitute(y)))
-  # --------------------------------------------------------
+
   # copy titles
-  # --------------------------------------------------------
   if (is.null(axis.titles)) {
     axisTitle.x <- NULL
     axisTitle.y <- NULL
@@ -101,99 +98,120 @@ sjp.gpt <- function(x,
     else
       axisTitle.y <- NULL
   }
-  # --------------------------------------------------------
+  
   # try to automatically set labels if not passed as argument
-  # --------------------------------------------------------
   x <- suppressMessages(sjmisc::to_factor(x))
-  ylabels <- sjmisc::get_labels(y, attr.only = F, include.values = NULL,
-                                include.non.labelled = T)
+  ylabels <-
+    sjmisc::get_labels(
+      y,
+      attr.only = F,
+      include.values = NULL,
+      include.non.labelled = T
+    )
+  
   # get only value label for hightest category
   ylabels <- ylabels[length(ylabels)]
   if (is.null(axis.labels)) {
-    axis.labels <- sjmisc::get_labels(groups, attr.only = F, include.values = NULL, 
-                                      include.non.labelled = T)
+    axis.labels <-
+      sjmisc::get_labels(
+        groups,
+        attr.only = F,
+        include.values = NULL,
+        include.non.labelled = T
+      )
   }
+  
   if (is.null(axisTitle.y)) {
-    axisTitle.y <- paste0("Proportion of ", sjmisc::get_label(x, def.value = var.name.x),
-                          " in ", sjmisc::get_label(y, def.value = var.name.y), 
-                          " (", ylabels, ")")
+    axisTitle.y <-
+      paste0(
+        "Proportion of ",
+        sjmisc::get_label(x, def.value = var.name.x),
+        " in ",
+        sjmisc::get_label(y, def.value = var.name.y),
+        " (",
+        ylabels,
+        ")"
+      )
   }
+  
   if (is.null(legend.title)) {
     legend.title <- sjmisc::get_label(x, def.value = var.name.x)
   }
+  
   if (is.null(legend.labels)) {
-    legend.labels <- sjmisc::get_labels(x, attr.only = F, include.values = NULL,
-                                        include.non.labelled = T)
+    legend.labels <-
+      sjmisc::get_labels(
+        x,
+        attr.only = F,
+        include.values = NULL,
+        include.non.labelled = T
+      )
   }
-  # ---------------------------------------------
+  
   # set labels that are still missing, but which need values
-  # ---------------------------------------------
-  if (is.null(axis.labels)) axis.labels <- as.character(c(1:length(groups)))
-  # ---------------------------------------------
+  if (is.null(axis.labels)) axis.labels <- as.character(seq_len(length(groups)))
+  
   # wrap titles and labels
-  # ---------------------------------------------
   if (!is.null(legend.labels)) legend.labels <- sjmisc::word_wrap(legend.labels, wrap.legend.labels)
   if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(legend.title, wrap.legend.title)
   if (!is.null(title)) title <- sjmisc::word_wrap(title, wrap.title)
   if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, wrap.title)
   if (!is.null(axisTitle.y)) axisTitle.y <- sjmisc::word_wrap(axisTitle.y, wrap.title)
   if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
-  # ------------------------------------
-  # final data frae for plot
-  # ------------------------------------
+
+  # final data frame for plot
   newdf <- data.frame()
   group.p <- c()
   group.n <- c()
-    # ------------------------------------
+  
   # create data frame, for dplyr-chain
-  # ------------------------------------
-  mydf <- stats::na.omit(data.frame(grp = sjmisc::to_value(groups, keep.labels = F),
-                                    xpos = x,
-                                    dep = sjmisc::to_value(y, keep.labels = F)))
-  # ------------------------------------
+  mydf <-
+    stats::na.omit(data.frame(
+      grp = sjmisc::to_value(groups, keep.labels = F),
+      xpos = x,
+      dep = sjmisc::to_value(y, keep.labels = F)
+    ))
+  
   # recode dependent variable's categorues
   # max and all others, so we have proportion
   # between maximux value and rest
-  # ------------------------------------
   mydf$dep <- sjmisc::rec(mydf$dep, recodes = "max=1;else=0")
-  # ------------------------------------
+  
   # group data by grouping variable, and inside
   # groups, group the x-variable
-  # ------------------------------------
+  
   newdf <- mydf %>%
     dplyr::group_by(grp, xpos) %>%
     dplyr::summarise(ypos = mean(dep))
-  # ------------------------------------
+  
   # group data by grouping variable,
   # and summarize N per group and chisq.test
   # of grp and x within each group
-  # ------------------------------------
   pvals <- mydf %>%
     dplyr::group_by(grp) %>%
     dplyr::summarise(N = n(), p = suppressWarnings(stats::chisq.test(table(xpos, dep))$p.value))
-  # ------------------------------------
+  
   # copy p values
-  # ------------------------------------
-  for (i in 1:length(pvals$grp)) group.p <- c(group.p, get_p_stars(pvals$p[i]))
-  # ------------------------------------
+  for (i in seq_len(length(pvals$grp))) group.p <- c(group.p, get_p_stars(pvals$p[i]))
+  
   # copy N
-  # ------------------------------------
-  for (i in 1:length(pvals$grp)) group.n <- c(group.n, prettyNum(pvals$N[i],
-                                                                 big.mark = ",",
-                                                                 scientific = F))
-  # --------------------------------
+  for (i in seq_len(length(pvals$grp)))
+    group.n <- c(group.n, prettyNum(pvals$N[i], big.mark = ",", scientific = F))
+  
   # if we want total line, repeat all for
   # complete data frame
-  # --------------------------------
   if (show.total) {
     tmp <- mydf %>%
       dplyr::group_by(xpos) %>%
       dplyr::summarise(ypos = mean(dep))
+    
     # pvalues and N
     pvals <- mydf %>%
       dplyr::summarise(N = n(), p = suppressWarnings(stats::chisq.test(table(xpos, dep))$p.value))
+    
     # bind total row to final df
     newdf <- dplyr::bind_rows(newdf, tmp)
+    
     # copy p values
     group.p <- c(group.p, get_p_stars(pvals$p))
     # copy N
@@ -201,34 +219,28 @@ sjp.gpt <- function(x,
     # add "total" to axis labels
     axis.labels <- c(axis.labels, "Total")
   }
-  # ------------------------------------
+  
   # make group variables categorical
-  # ------------------------------------
   newdf$grp <- suppressMessages(sjmisc::to_factor(newdf$grp))
   newdf$xpos <- suppressMessages(sjmisc::to_factor(newdf$xpos))
-  # ------------------------------------
+
   # proportion needs to be numeric
-  # ------------------------------------
   newdf$ypos <- sjmisc::to_value(newdf$ypos, keep.labels = F)
-  # ------------------------------------
+  
   # add N and p-values to axis labels?
-  # ------------------------------------
   if (show.n) axis.labels <- paste0(axis.labels, " (n=", group.n, ")")
   if (show.p) axis.labels <- paste0(axis.labels, " ", group.p)
-  # --------------------------------------------------------
+  
   # Set up axis limits
-  # --------------------------------------------------------
   if (is.null(axis.lim)) axis.lim <- c(0, max(pretty(max(newdf$ypos, na.rm = TRUE), 10)))
-  # --------------------------------------------------------
+  
   # Set up grid breaks
-  # --------------------------------------------------------
   if (is.null(grid.breaks))
     gridbreaks <- ggplot2::waiver()
   else
-    gridbreaks <- c(seq(axis.lim[1], axis.lim[2], by = grid.breaks))
-  # --------------------------------------------------------
+    gridbreaks <- seq(axis.lim[1], axis.lim[2], by = grid.breaks)
+  
   # Set up geom colors
-  # --------------------------------------------------------
   pal.len <- length(legend.labels)
   if (is.brewer.pal(geom.colors[1])) {
     geom.colors <- scales::brewer_pal(palette = geom.colors[1])(pal.len)
@@ -238,9 +250,8 @@ sjp.gpt <- function(x,
     warning("More colors provided than needed. Shortening color palette.")
     geom.colors <- geom.colors[1:pal.len]
   }
-  # --------------------------------------------------------
+  
   # Set up plot
-  # --------------------------------------------------------
   p <- ggplot(newdf, aes(x = rev(grp), y = ypos, colour = xpos, shape = xpos)) +
     geom_point(size = geom.size, fill = shape.fill.color) +
     scale_y_continuous(labels = scales::percent, breaks = gridbreaks, limits = axis.lim) +
@@ -249,14 +260,12 @@ sjp.gpt <- function(x,
     scale_colour_manual(name = legend.title, labels = legend.labels, values = geom.colors) +
     labs(x = axisTitle.x, y = axisTitle.y, title = title) +
     coord_flip()
-  # --------------------------------------------------------
+  
   # Annotate total line?
-  # --------------------------------------------------------
   if (show.total && annotate.total)
     p <- p + annotate("rect", xmin = 0.5,  xmax = 1.5, ymin = -Inf, ymax = Inf, alpha = 0.15)
-  # --------------------------------------------------------
+  
   # print plot
-  # --------------------------------------------------------
   if (prnt.plot) graphics::plot(p)
   invisible(structure(list(plot = p, df = newdf)))
 }

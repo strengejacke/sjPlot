@@ -37,6 +37,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "grp.est", "ci.low", "ci.h
 #' @inheritParams sjp.aov1
 #' @inheritParams sjp.glmer
 #' @inheritParams sjp.int
+#' @inheritParams sjp.gpt
 #' 
 #' @return (Insisibily) returns, depending on the plot type
 #'          \itemize{
@@ -178,21 +179,66 @@ sjp.glm <- function(fit,
   
   # check plot-type -----
   if (type == "slope") {
-    return(invisible(sjp.glm.slope(fit, title, geom.size, geom.colors, remove.estimates, vars,
-                                   ylim = axis.lim, show.ci, facet.grid, show.scatter,
-                                   point.alpha, prnt.plot)))
+    return(invisible(
+      sjp.glm.slope(
+        fit,
+        title,
+        geom.size,
+        geom.colors,
+        remove.estimates,
+        vars,
+        ylim = axis.lim,
+        show.ci,
+        facet.grid,
+        show.scatter,
+        point.alpha,
+        prnt.plot
+      )
+    ))
   }
+  
   if (type == "eff") {
-    return(invisible(sjp.glm.eff(fit, title, axis.title, geom.size, remove.estimates, vars,
-                                 show.ci, ylim = axis.lim, facet.grid, fun = "glm", 
-                                 prnt.plot, ...)))
+    return(invisible(
+      sjp.glm.eff(
+        fit,
+        title,
+        axis.title,
+        geom.size,
+        remove.estimates,
+        vars,
+        show.ci,
+        ylim = axis.lim,
+        facet.grid,
+        fun = "glm",
+        prnt.plot,
+        ...
+      )
+    ))
   }
+  
   if (type == "pred") {
-    return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
-                                   a.title = axis.title,
-                                   geom.colors, show.ci, jitter.ci, geom.size, ylim = axis.lim,
-                                   facet.grid, type = "fe", show.scatter, point.alpha, 
-                                   point.color, show.loess = F, prnt.plot, ...)))
+    return(invisible(
+      sjp.glm.predy(
+        fit,
+        vars,
+        t.title = title,
+        l.title = legend.title,
+        a.title = axis.title,
+        geom.colors,
+        show.ci,
+        jitter.ci,
+        geom.size,
+        ylim = axis.lim,
+        facet.grid,
+        type = "fe",
+        show.scatter,
+        point.alpha,
+        point.color,
+        show.loess = F,
+        prnt.plot,
+        ...
+      )
+    ))
   }
   if (type == "ma") {
     return(invisible(sjp.glm.ma(fit)))
@@ -252,7 +298,7 @@ sjp.glm <- function(fit,
   if (any(class(fit) == "logistf")) {
     pv <- fit$prob
   } else {
-    pv <- stats::coef(summary(fit))[,4]
+    pv <- stats::coef(summary(fit))[, 4]
   }
   # retrieve odds ratios
   ov <- model_coef
@@ -330,7 +376,7 @@ sjp.glm <- function(fit,
     # remember old rownames
     keepnames <- row.names(odds)[-remrows]
     # remove rows
-    odds <- dplyr::slice(odds, c(1:nrow(odds))[-remrows])
+    odds <- dplyr::slice(odds, seq_len(nrow(odds))[-remrows])
     # set back rownames
     row.names(odds) <- keepnames
     # remove labels?
@@ -379,20 +425,31 @@ sjp.glm <- function(fit,
   if (show.summary) {
     psr <- sjstats::r2(fit)
     modsum <- as.character(as.expression(
-      substitute("(Intercept)" == ic * "," ~~ italic(R)[CS]^2 == r2cs * "," ~~ italic(R)[N]^2 == r2n * "," ~~ -2 * lambda == la * "," ~~ chi^2 == c2 * "," ~~ "AIC" == aic,
-                 list(ic = sprintf("%.2f", exp(stats::coef(fit)[1])),
-                      r2cs = sprintf("%.3f", psr$CoxSnell),
-                      r2n = sprintf("%.3f", psr$Nagelkerke),
-                      la = sprintf("%.2f", -2 * stats::logLik(fit)),
-                      c2 = sprintf("%.2f", Chisquare.glm(fit)),
-                      aic = sprintf("%.2f", fit$aic)))))
-    cat(sprintf("Intercept = %.2f\nR2[cs] = %.3f\nR2[n] = %.3f\nLambda = %.2f\nChi2 = %.2f\nAIC = %.2f\n",
-                exp(stats::coef(fit)[1]),
-                psr$CoxSnell,
-                psr$Nagelkerke,
-                -2 * stats::logLik(fit),
-                Chisquare.glm(fit),
-                fit$aic))
+      substitute(
+        "(Intercept)" == ic * "," ~  ~ italic(R)[CS] ^ 2 == r2cs * "," ~  ~ italic(R)[N] ^
+          2 == r2n * "," ~  ~ -2 * lambda == la * "," ~  ~ chi ^ 2 == c2 * "," ~
+          ~ "AIC" == aic,
+        list(
+          ic = sprintf("%.2f", exp(stats::coef(fit)[1])),
+          r2cs = sprintf("%.3f", psr$CoxSnell),
+          r2n = sprintf("%.3f", psr$Nagelkerke),
+          la = sprintf("%.2f", -2 * stats::logLik(fit)),
+          c2 = sprintf("%.2f", Chisquare.glm(fit)),
+          aic = sprintf("%.2f", fit$aic)
+        )
+      )
+    ))
+    cat(
+      sprintf(
+        "Intercept = %.2f\nR2[cs] = %.3f\nR2[n] = %.3f\nLambda = %.2f\nChi2 = %.2f\nAIC = %.2f\n",
+        exp(stats::coef(fit)[1]),
+        psr$CoxSnell,
+        psr$Nagelkerke,
+        -2 * stats::logLik(fit),
+        Chisquare.glm(fit),
+        fit$aic
+      )
+    )
   } else {
     modsum <- NULL
   }
@@ -454,16 +511,20 @@ sjp.glm <- function(fit,
     # proportional distance of the grid bars, we can apply the
     # exponential-function on the tick marks
     plotHeader <- plotHeader +
-      scale_y_continuous(trans = "log10",
-                         limits = c(lower_lim, upper_lim),
-                         breaks = base_breaks(upper_lim),
-                         labels = prettyNum)
+      scale_y_continuous(
+        trans = "log10",
+        limits = c(lower_lim, upper_lim),
+        breaks = base_breaks(upper_lim),
+        labels = prettyNum
+      )
   } else {
     plotHeader <- plotHeader +
       # logarithmic scale for odds
-      scale_y_log10(limits = c(lower_lim, upper_lim),
-                    breaks = ticks,
-                    labels = ticks)
+      scale_y_log10(
+        limits = c(lower_lim, upper_lim),
+        breaks = ticks,
+        labels = ticks
+      )
   }
   
   # flip coordinates?
@@ -477,13 +538,17 @@ sjp.glm <- function(fit,
   
   # set proper column names
   odds <- tibble::rownames_to_column(odds)
-  colnames(odds) <- c("term", "estimate", "conf.low", "conf.high", 
-                      "p.string", "p.value", "xpos")
+  colnames(odds) <-
+    c("term",
+      "estimate",
+      "conf.low",
+      "conf.high",
+      "p.string",
+      "p.value",
+      "xpos")
   
   # return results -----
-  invisible(structure(class = c("sjPlot", "sjpglm"),
-                      list(plot = plotHeader,
-                           data = odds)))
+  invisible(structure(class = c("sjPlot", "sjpglm"), list(plot = plotHeader, data = odds)))
 }
 
 

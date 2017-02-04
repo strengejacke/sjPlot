@@ -9,6 +9,11 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+
 This vignette describes some basic features of all `sjt` functions from the **sjPlot** package. These functions create HTML table outputs.
 
 
