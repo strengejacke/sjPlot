@@ -19,7 +19,8 @@
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -54,3 +55,6 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 .Rproj.user
+
+inst/doc
+revdep
