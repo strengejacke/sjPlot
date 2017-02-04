@@ -11,6 +11,7 @@ Changes to functions:
 * More precise rounding of percentage values in `sjt.xtab()`, `sjp.xtab()` and `sjp.grpfrq()`.
 * Cramer's V in `sjt.xtab()` is now dentoted as V.
 * `sjt.xtab()` gets a `...`-argument, to pass down further arguments to the test statistics functions `chisq.test()` and `fisher.test()`.
+* `sjt.xtab()` gets a `statistics`-argument, to select one of different measures of associations for the table summary.
 
 Bug fixes:
 * Plotting or table output of regression models did not work with null-models (i.e. with intercept only).

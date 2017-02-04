@@ -7,8 +7,9 @@
 sjt.xtab(var.row, var.col, weight.by = NULL, title = NULL,
   var.labels = NULL, value.labels = NULL, wrap.labels = 20,
   show.obs = TRUE, show.cell.prc = FALSE, show.row.prc = FALSE,
-  show.col.prc = FALSE, show.exp = FALSE, show.summary = TRUE,
-  show.legend = FALSE, show.na = FALSE, string.total = "Total",
+  show.col.prc = FALSE, show.exp = FALSE, show.legend = FALSE,
+  show.na = FALSE, show.summary = TRUE, statistics = c("auto", "cramer",
+  "phi", "spearman", "kendall", "pearson"), string.total = "Total",
   digits = 1, tdcol.n = "black", tdcol.expected = "#339999",
   tdcol.cell = "#993333", tdcol.row = "#333399", tdcol.col = "#339933",
   emph.total = FALSE, emph.color = "#f8f8f8", prc.sign = "&nbsp;&#37;",
@@ -46,15 +47,19 @@ labels are displayed in one line and when a line break is inserted.}
 
 \item{show.exp}{logical, if \code{TRUE}, expected values are also shown}
 
-\item{show.summary}{logical, if \code{TRUE}, a summary row with 
-chi-squared statistics, degrees of freedom and Cramer's V or Phi
-coefficient and p-value for the chi-squared statistics.}
-
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
 \item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values)
 are added to the output.}
+
+\item{show.summary}{logical, if \code{TRUE}, a summary row with 
+chi-squared statistics, degrees of freedom and Cramer's V or Phi
+coefficient and p-value for the chi-squared statistics.}
+
+\item{statistics}{Name of measure of association that should be computed. May
+be one of \code{"auto"}, \code{"cramer"}, \code{"phi"}, \code{"spearman"},
+\code{"kendall"} or \code{"pearson"}. See 'Details'.}
 
 \item{string.total}{label for the total column / row header}
 
@@ -110,7 +115,7 @@ that contains the html-data. Use this, if you want to remove parantheses for htm
 may look less pretty, but it may help when exporting html-tables to office tools.}
 
 \item{...}{Other arguments, currently passed down to the test statistics functions
-\code{chisq.test} or \code{fisher.test}.}
+\code{chisq.test()} or \code{fisher.test()}.}
 }
 \value{
 Invisibly returns

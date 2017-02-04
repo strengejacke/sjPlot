@@ -13,6 +13,7 @@
 * More precise rounding of percentage values in `sjt.xtab()`, `sjp.xtab()` and `sjp.grpfrq()`.
 * Cramer's V in `sjt.xtab()` is now dentoted as _V_.
 * `sjt.xtab()` gets a `...`-argument, to pass down further arguments to the test statistics functions `chisq.test()` and `fisher.test()`.
+* `sjt.xtab()` gets a `statistics`-argument, to select one of different measures of associations for the table summary.
 
 ## Bug fixes
 
