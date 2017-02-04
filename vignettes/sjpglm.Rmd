@@ -29,7 +29,7 @@ set_theme("forest",
 
 ## Fitting a logistic model
 
-First, we fit a binomial logit-model and create a vector with labels for the predictors.
+First, we fit some models (binomial logit, poisson and a negative binomial), which will be used in the following examples.
 ```{r results='hide'}
 # create binary response
 y <- ifelse(efc$neg_c_7 < median(na.omit(efc$neg_c_7)), 0, 1)
@@ -45,6 +45,17 @@ set_label(df$y) <- "High Negative Impact"
 fit <- glm(y ~., 
            data = df, 
            family = binomial(link = "logit"))
+
+# set variable label for service usage
+set_label(efc$tot_sc_e) <- "Total number of services used by carer"
+
+# fit poisson model
+fit2 <- glm(tot_sc_e ~ neg_c_7 + e42dep + c161sex,
+            data = efc, family = poisson(link = "log"))
+
+# fit negative binomial model as well
+library(MASS)
+fit3 <- glm.nb(tot_sc_e ~ neg_c_7 + e42dep + c161sex, data = efc)
 ```
 
 ## Plotting estimates of generalized linear models
@@ -52,26 +63,6 @@ fit <- glm(y ~.,
 With the `sjp.glm()` function you can plot the odds ratios (or e.g. incidents ratios for poisson models) with confidence intervals as so called _forest plots_.
 ```{r}
 sjp.glm(fit)
-``` 
-
-## Plotting incident rate ratios (Poisson)
-
-```{r}
-# set variable label for service usage
-set_label(efc$tot_sc_e) <- "Total number of services used by carer"
-
-# fit poisson model
-fit2 <- glm(tot_sc_e ~ neg_c_7 + e42dep + c161sex,
-            data = efc, family = poisson(link = "log"))
-# fit incident rate ratios, we need three decimal points to see 
-# a difference to the negative binomial model...
-sjp.glm(fit2, digits = 3)
-
-# fit negative binomial model as well
-library(MASS)
-fit3 <- glm.nb(tot_sc_e ~ neg_c_7 + e42dep + c161sex, data = efc)
-# fit incident rate ratios
-sjp.glm(fit3, digits = 3)
 ``` 
 
 ## Continuous values at the axis
@@ -105,17 +96,10 @@ A probability curve of all predictors is plotted, which indicates the probabilit
 
 This kind of plot may be more informative then the odds ratio of `0.97` for the predictor _Total score BARTHEL INDEX_.
 
-The same works for other model families or link functions. The following shows predicted incidents from the poisson model.
+The same works for other model families or link functions. Confidence intervals are shown when `show.ci = TRUE`, and data points are not plotted when `show.scatter = FALSE`. You can also plot single plots for each coefficient when `facet.grid = FALSE`. To get selected plots for particular predictors only, pass the term names to the `vars` argument. In the following example, only the relationship between _barthel_ and negative impact is shown.
 
 ```{r}
-sjp.glm(fit2, type = "slope")
-```
-
-Confidence intervals are shown when `show.ci = TRUE`, and data points are not plotted when `show.scatter = FALSE`. You can also plot single plots for each coefficient when `facet.grid = FALSE`. To get selected plots for particular predictors only, pass the term names to the `vars` argument. In the following example, only the relationship between _barthel_ and negative impact is shown.
-
-```{r}
-sjp.glm(fit, type = "slope", facet.grid = FALSE, 
-        show.ci = TRUE, vars = "barthel")
+sjp.glm(fit, type = "slope", facet.grid = FALSE, show.ci = TRUE, vars = "barthel")
 ```
 
 
@@ -128,12 +112,7 @@ With `type = "eff"`, you can plot marginal effects (predicted marginal probabili
 sjp.glm(fit, type = "eff")
 ```
 
-As you can see in the above examples, multiple plots for `type = "eff"` are plotted as [facet grid](http://docs.ggplot2.org/current/facet_grid.html) resp. as [facet wrap](http://docs.ggplot2.org/current/facet_wrap.html). Since this does not allow to set a different x-scale for each plot, x-axis are not properly labelled. However, `facet.grid = FALSE` produces a single plot for each predictor:
-
-```{r}
-# plot marginal effects, but only for dependency this time
-sjp.glm(fit, type = "eff", facet.grid = FALSE, vars = "education")
-``` 
+As you can see in the above examples, multiple plots for `type = "eff"` are plotted as [facet grid](http://docs.ggplot2.org/current/facet_grid.html) resp. as [facet wrap](http://docs.ggplot2.org/current/facet_wrap.html). Since this does not allow to set a different x-scale for each plot, x-axis are not properly labelled. However, `facet.grid = FALSE` produces a single plot for each predictor.
 
 To arrange all predictors of multiple in one plot, as grid, use the `plot_grid()` function _on multiple plot objects_. `plot_grid()` requires multiple plots, so you have to set `facet.grid = FALSE` to get a `plot.list`-value as return value from the function (see `?sjp.lm` on _Return Value_ for more details). This allows you arrange multiple plots as grid in one plot, but with different x-axis-scales.
 
@@ -164,19 +143,14 @@ With `type = "pred"`, you can plot predicted values for the response, related to
 ```{r}
 # the binary outcome
 sjp.glm(fit, type = "pred", vars = "barthel")
-
 # the count outcome
-sjp.glm(fit3, type = "pred", vars = c("neg_c_7", "e42dep"),
-        show.ci = TRUE)
+sjp.glm(fit3, type = "pred", vars = c("neg_c_7", "e42dep"), show.ci = TRUE)
 
 # the count outcome, non faceted
-sjp.glm(fit2, type = "pred", vars = c("neg_c_7", "e42dep"),
-        facet.grid = FALSE)
+sjp.glm(fit2, type = "pred", vars = c("neg_c_7", "e42dep"), facet.grid = FALSE)
 
 # the count outcome, grouped gender and education, w/o data points
 # and adjusted y-limits, to completely show CI bands
-sjp.glm(fit2, type = "pred", vars = c("neg_c_7", "c161sex","e42dep"),
-        facet.grid = FALSE, show.ci = TRUE, show.scatter = FALSE,
-        axis.lim = c(0, 4))
+sjp.glm(fit2, type = "pred", vars = c("neg_c_7", "c161sex","e42dep"), facet.grid = FALSE, show.ci = TRUE, show.scatter = FALSE, axis.lim = c(0, 4))
 ```
 

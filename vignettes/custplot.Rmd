@@ -118,15 +118,7 @@ There is a set of pre-defined themes from the sjPlot-package that can be applied
 ```{r}
 set_theme("blank")
 sjp.frq(efc$e42dep)
-```
 
-```{r}
-set_theme("539")
-sjp.frq(efc$e42dep)
-```
-
-
-```{r}
 set_theme("scatter")
 sjp.frq(efc$e42dep,
         geom.colors = "#2255aa")
@@ -170,25 +162,6 @@ sjp.grpfrq(
 
 Note that the `prnt.plot` argument is set to `FALSE` in the above example, so the function call itself does not produce a plot (otherwise, two plots would be plotted).
 
-### Changing axis range
-In the above example, value labels are cut off. In such cases, you may need to adjust the axis range.
-
-```{r results='hide', echo=FALSE}
-sjp.setTheme(base = theme_classic(),
-             axis.title.size = .9,
-             axis.textsize = .9,
-             legend.size = .7,
-             legend.title.size = .8)
-```
-
-```{r}
-sjp.grpfrq(efc$e42dep,
-           efc$e16sex,
-           ylim = c(0, 350),
-           coord.flip = TRUE,
-           show.axis.values = FALSE)
-```
-
 Plot legend
 -----------
 The plot's legend can be customized via various `legend.`-arguments, see following examples:
@@ -226,32 +199,3 @@ sjp.setTheme(base = theme_classic(),
 sjp.grpfrq(efc$e42dep, efc$e16sex)
 ```
 
-The following two plots demonstrate numeric positioning of legend and its relative justification.
-
-```{r}
-sjp.setTheme(legend.inside = TRUE,    # legend inside plot
-             legend.pos = c(.3, .7),  # relative legend position inside plot
-             legend.just = c(.1, .8), # legend justification relative to position
-             axis.title.size = .9,
-             axis.textsize = .9,
-             legend.size = .7,
-             legend.title.size = .8,
-             geom.label.size = 3)
-sjp.grpfrq(efc$e42dep, 
-           efc$e16sex, 
-           coord.flip = TRUE)
-```
-
-```{r}
-sjp.setTheme(legend.inside = TRUE,    # legend inside plot
-             legend.pos = c(.3, .7),  # relative legend position inside plot
-             legend.just = c(.8, .1), # legend justification relative to position
-             axis.title.size = .9,
-             axis.textsize = .9,
-             legend.size = .7,
-             legend.title.size = .8,
-             geom.label.size = 3)
-sjp.grpfrq(efc$e42dep, 
-           efc$e16sex, 
-           coord.flip = TRUE)
-```

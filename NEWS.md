@@ -2,7 +2,7 @@
 
 ## General
 
-* Successively adding vignettes to this package.
+* Vignettes were added to this package.
 
 ## Changes to functions
 

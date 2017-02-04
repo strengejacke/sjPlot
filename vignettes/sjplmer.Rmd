@@ -57,14 +57,7 @@ By default, random effects are plotted. In this example, the random effects of r
 sjp.lmer(fit, y.offset = .4)
 ``` 
 
-With the `sort.est` argument you can specify the random intercept or any random coefficient in order to sort the effects accordingly.
-
-```{r}
-# sort by predictor Days
-sjp.lmer(fit, sort.est = "Days", y.offset = .4)
-``` 
-
-Since the grouping levels in a faceted plot define the x-axis for each facet, sorting can only be applied to one coefficient or the intercept. If all random intercepts and random coefficients should be sorted, turn faceting off and use `sort.est = "sort.all"`.
+With the `sort.est` argument you can specify the random intercept or any random coefficient in order to sort the effects accordingly. Since the grouping levels in a faceted plot define the x-axis for each facet, sorting can only be applied to one coefficient or the intercept. If all random intercepts and random coefficients should be sorted, turn faceting off and use `sort.est = "sort.all"`.
 
 ```{r}
 # sort all predictors

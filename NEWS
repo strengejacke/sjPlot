@@ -1,7 +1,7 @@
 Version 2.2.2
 -----------------------------------------------------------------------------
 General:
-* Successively adding vignettes to this package.
+* Vignettes were added to this package.
 
 Changes to functions:
 * `sjp.kfold_cv()` now also supports poisson and negative binomial regression models.
