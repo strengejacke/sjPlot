@@ -55,6 +55,3 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 .Rproj.user
-
-inst/doc
-revdep
