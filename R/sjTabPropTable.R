@@ -559,6 +559,7 @@ sjt.xtab <- function(var.row,
 
 #' @importFrom stats fisher.test chisq.test cor.test ftable
 #' @importFrom dplyr case_when
+#' @importFrom sjstats table_values cramer phi
 xtab_stats <- function(data, statistics = c("auto", "cramer", "phi", "spearman", "kendall", "pearson"), ...) {
   # match arguments
   statistics <- match.arg(statistics)
@@ -567,7 +568,7 @@ xtab_stats <- function(data, statistics = c("auto", "cramer", "phi", "spearman",
   tab <- table(data)
 
   # get expected values
-  tab.val <- table_values(tab)
+  tab.val <- sjstats::table_values(tab)
   
   # remember whether fisher's exact test was used or not
   use.fisher <- FALSE
@@ -584,7 +585,7 @@ xtab_stats <- function(data, statistics = c("auto", "cramer", "phi", "spearman",
     # check row/column
     if ((nrow(tab) > 2 || ncol(tab) > 2 || statistics == "cramer") && statistics != "phi") {
       # get cramer's V
-      s <- cramer(tab)
+      s <- sjstats::cramer(tab)
       
       # if minimum expected values below 5, compute fisher's exact test
       if (min(tab.val$expected) < 5 ||
@@ -597,7 +598,7 @@ xtab_stats <- function(data, statistics = c("auto", "cramer", "phi", "spearman",
       statistics <- "cramer"
     } else {
       # get Phi
-      s <- phi(tab)
+      s <- sjstats::phi(tab)
       
       # if minimum expected values below 5 and df=1, compute fisher's exact test
       if (min(tab.val$expected) < 5 ||
