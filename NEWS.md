@@ -1,4 +1,4 @@
-# sjPlot 2.2.1.9000
+# sjPlot 2.3.0
 
 ## General
 

@@ -3,7 +3,7 @@ Type: Package
 Encoding: UTF-8
 Title: Data Visualization for Statistics in Social Science
 Version: 2.2.1.9000
-Date: 2017-01-11
+Date: 2017-02-06
 Author: Daniel Lüdecke <d.luedecke@uke.de>
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
 Description: Collection of plotting and table output functions for data

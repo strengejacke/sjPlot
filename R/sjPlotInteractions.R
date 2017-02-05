@@ -3,7 +3,7 @@
 #'
 #' @references \itemize{
 #'              \item Aiken and West (1991). Multiple Regression: Testing and Interpreting Interactions.
-#'              \item Brambor T, Clark WR and Golder M (2006) Understanding Interaction Models: Improving Empirical Analyses. Political Analysis 14: 63-82. \doi{10.1093/pan/mpi014}
+#'              \item Brambor T, Clark WR and Golder M (2006) Understanding Interaction Models: Improving Empirical Analyses. Political Analysis 14: 63-82. \href{https://academic.oup.com/pan/article/14/1/63/1501303/Understanding-Interaction-Models-Improving}{download}
 #'              \item Esarey J, Sumner JL (2015) Marginal Effects in Interaction Models: Determining and Controlling the False Positive Rate. \href{http://jee3.web.rice.edu/interaction-overconfidence.pdf}{download}
 #'              \item Fox J (2003) Effect displays in R for generalised linear models. Journal of Statistical Software 8:15, 1–27, \href{http://www.jstatsoft.org/v08/i15/}{<http://www.jstatsoft.org/v08/i15/>}
 #'              \item Hayes AF (2012) PROCESS: A versatile computational tool for observed variable mediation, moderation, and conditional process modeling [White paper] \href{http://imaging.mrc-cbu.cam.ac.uk/statswiki/FAQ/SobelTest?action=AttachFile&do=get&target=process.pdf}{download}

@@ -67,7 +67,7 @@ sjp.glm(fit)
 
 ## Continuous values at the axis
 
-Due to the log-scaling of the x-axis - which should be done when plotting odds ratios (see [here](http://aje.oxfordjournals.org/content/early/2011/06/29/aje.kwr156.long) and [here](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1127651/)) - the x-axis values have an exponential growth. However, you can transform the ticks with `trns.ticks` (defaults to `TRUE`) to get proportional distances between the values. The x-axis-tick marks are set accordingly.
+Due to the log-scaling of the x-axis - which should be done when plotting odds ratios (see [here](https://academic.oup.com/aje/article/174/3/376/247288/Should-Graphs-of-Risk-or-Rate-Ratios-be-Plotted-on) and [here](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1127651/)) - the x-axis values have an exponential growth. However, you can transform the ticks with `trns.ticks` (defaults to `TRUE`) to get proportional distances between the values. The x-axis-tick marks are set accordingly.
 
 ```{r}
 sjp.glm(fit, trns.ticks = FALSE)
