@@ -21,6 +21,8 @@ There are two ways to create plots in black and white or greyscale. For bar plot
 ```{r}
 library(sjPlot)
 library(sjmisc)
+library(ggplot2)
+theme_set(theme_bw())
 data(efc)
 sjp.grpfrq(efc$e42dep, efc$c172code, geom.colors = "gs")
 ```
@@ -41,8 +43,6 @@ Following plot-types allow black & white figures:
 Use `geom.colors = "bw"` to create a b/w-plot.
 
 ```{r}
-library(ggplot2)
-theme_set(theme_bw())
 # create binrary response
 y <- ifelse(efc$neg_c_7 < median(na.omit(efc$neg_c_7)), 0, 1)
 # create data frame for fitting model
