@@ -764,6 +764,9 @@ col_check2 <- function(geom.colors, collen) {
     } else if (geom.colors[1] == "gs") {
       geom.colors <- scales::grey_pal()(collen)
       # do we have correct amount of colours?
+    } else if (geom.colors[1] == "bw") {
+      geom.colors <- rep("black", times = collen)
+      # do we have correct amount of colours?
     } else if (length(geom.colors) != collen) {
       # warn user abount wrong color palette
       warning(sprintf("Insufficient length of color palette provided. %i color values needed.", collen), call. = F)

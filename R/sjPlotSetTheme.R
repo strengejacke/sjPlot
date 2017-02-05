@@ -568,20 +568,28 @@ sj.setGeomColors <- function(plot,
   if (!is.null(geom.colors) && geom.colors == "themr") {
     return(plot)
   }
+  
   # ---------------------------------------------------------
   # dummy function for setting legend labels and geom-colors
   # ---------------------------------------------------------
-  usenormalscale <- function(plot, geom.colors, labels) {
+  usenormalscale <- function(plot, geom.colors, labels, bw.figure, ltypes) {
     if (!show.legend) {
       plot <- plot + 
         scale_fill_manual(values = geom.colors, guide = FALSE) +
         scale_colour_manual(values = geom.colors, guide = FALSE) +
-        guides(fill = FALSE, colour = FALSE, text = FALSE)
+        scale_linetype_manual(values = ltypes, guide = FALSE) + 
+        guides(fill = FALSE, colour = FALSE, text = FALSE, linetype = FALSE)
     } else {
       plot <- plot + 
         scale_fill_manual(values = geom.colors, labels = labels) +
         scale_colour_manual(values = geom.colors, labels = labels) +
-        guides(text = FALSE)
+        scale_linetype_manual(values = ltypes)
+      # for b/w figures, add linetype scale
+      if (bw.figure) {
+        plot <- plot + guides(text = FALSE, colour = FALSE)
+      } else {
+        plot <- plot + guides(text = FALSE, linetype = FALSE)
+      }
     }
     return(plot)
   }
@@ -589,20 +597,36 @@ sj.setGeomColors <- function(plot,
   # dummy function for only setting legend labels, but no
   # geom-colors
   # ---------------------------------------------------------
-  uselegendscale <- function(plot, labels) {
+  uselegendscale <- function(plot, labels, bw.figure, ltypes) {
     if (!show.legend) {
       plot <- plot + 
         scale_fill_discrete(guide = FALSE) +
         scale_colour_discrete(guide = FALSE) +
-        guides(fill = FALSE, colour = FALSE, text = FALSE)
+        scale_linetype_manual(values = ltypes, guide = FALSE) + 
+        guides(fill = FALSE, colour = FALSE, text = FALSE, linetype = FALSE)
     } else {
       plot <- plot + 
         scale_fill_discrete(labels = labels) +
         scale_colour_discrete(labels = labels) +
-        guides(text = FALSE)
+        scale_linetype_manual(values = ltypes)
+      # for b/w figures, add linetype scale
+      if (bw.figure) {
+        plot <- plot + guides(text = FALSE, colour = FALSE)
+      } else {
+        plot <- plot + guides(text = FALSE, linetype = FALSE)
+      }
     }
     return(plot)
   }
+
+  # check if we have coloured plot or b/w figure with different linetypes
+  bw.figure <- !is.null(geom.colors) && geom.colors[1] == "bw"
+  
+  if (bw.figure) 
+    ltypes <- seq_len(6)[seq_len(pal.len)]
+  else
+    ltypes <- rep(1, times = pal.len)
+  
   # ---------------------------------------------------------
   # set geom colors
   # ---------------------------------------------------------
@@ -621,6 +645,8 @@ sj.setGeomColors <- function(plot,
     } else if (geom.colors[1] == "gs") {
       geom.colors <- scales::grey_pal()(pal.len)
       if (reverse.colors) geom.colors <- rev(geom.colors)
+    } else if (geom.colors[1] == "bw") {
+      geom.colors <- rep("black", times = pal.len)
     } else if (length(geom.colors) > pal.len) {
       warning("More colors provided than needed. Shortening color palette.")
       geom.colors <- geom.colors[1:pal.len]
@@ -629,12 +655,12 @@ sj.setGeomColors <- function(plot,
     
     if (length(geom.colors) < pal.len) {
       warning("Too less colors provided for plot. Using default color palette.")
-      plot <- uselegendscale(plot, labels)
+      plot <- uselegendscale(plot, labels, bw.figure, ltypes)
     } else {
-      plot <- usenormalscale(plot, geom.colors, labels)
+      plot <- usenormalscale(plot, geom.colors, labels, bw.figure, ltypes)
     }
   } else {
-    plot <- uselegendscale(plot, labels)
+    plot <- uselegendscale(plot, labels, bw.figure, ltypes)
   }
   return(plot)
 }

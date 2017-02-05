@@ -133,6 +133,7 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'          \itemize{
 #'            \item If not specified, a default color brewer palette will be used, which is suitable for the plot style (i.e. diverging for likert scales, qualitative for grouped bars etc.).
 #'            \item If \code{"gs"}, a greyscale will be used.
+#'            \item If \code{"bw"}, and plot-type is a line-plot (like \code{sjp.int()} or \code{sjp.glm(type = "pred")}), the plot is black/white and uses different line types to distinguish groups (see \href{../doc/blackwhitefigures.html}{this package-vignette}).
 #'            \item If \code{geom.colors} is any valid color brewer palette name, the related palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view all available palette names.
 #'            \item Else specify own color values or names as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
 #'          }
@@ -682,13 +683,13 @@ sjp.grpfrq <- function(var.cnt,
     mydf$xpos <- sjmisc::to_value(mydf$xpos, keep.labels = FALSE)
     # lines need colour aes
     baseplot <-
-      ggplot(mydf, aes(x = xpos, y = frq, colour = group)) + geob
+      ggplot(mydf, aes_string(x = "xpos", y = "frq", colour = "group", linetype = "group")) + geob
     # continuous scale for lines needed
     scalex <- scale_x_continuous()
   } else if (type == "boxplot" || type == "violin") {
     if (is.null(intr.var)) {
       baseplot <- 
-        ggplot(mydf,aes(x = group, y = frq, fill = group, weight = wb)) + geob
+        ggplot(mydf,aes_string(x = "group", y = "frq", fill = "group", weight = "wb")) + geob
       scalex <- scale_x_discrete(labels = axis.labels)
     } else {
       baseplot <- 
@@ -713,7 +714,7 @@ sjp.grpfrq <- function(var.cnt,
                    size = inner.box.dotsize, fill = fcsp)
   } else {
     if (type == "dot") {
-      baseplot <- ggplot(mydf, aes(x = xpos, y = frq, colour = group))
+      baseplot <- ggplot(mydf, aes_string(x = "xpos", y = "frq", colour = "group"))
       # ---------------------------------------------------------
       # check whether we have dots plotted, and if so, use annotation
       # We have to use annotation first, because the diagram's layers are plotted
@@ -722,7 +723,7 @@ sjp.grpfrq <- function(var.cnt,
       # ---------------------------------------------------------
       if (!is.null(ganno) && !facet.grid) baseplot <- baseplot + ganno
     } else {
-      baseplot <- ggplot(mydf, aes(x = xpos, y = frq, fill = group))
+      baseplot <- ggplot(mydf, aes_string(x = "xpos", y = "frq", fill = "group"))
     }
     # add geom
     baseplot <- baseplot + geob

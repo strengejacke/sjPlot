@@ -1,0 +1,64 @@
+---
+title: "Black & White Figures for Print Journals"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Black & White Figures for Print Journals}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 5, message = FALSE, warning = FALSE)
+```
+
+This document shows examples how to create b/w figures, e.g. if you don't want colored figures for print-journals.
+
+## Barplots in grey-scaled colors
+
+There are two ways to create plots in black and white or greyscale. For bar plots, `geom.colors = "gs"` creates a plot using a greyscale (based on `scales::grey_pal()`).
+
+```{r}
+library(sjPlot)
+library(sjmisc)
+data(efc)
+sjp.grpfrq(efc$e42dep, efc$c172code, geom.colors = "gs")
+```
+
+## Lineplots in b/w with different linetypes
+
+Similar to barplots, lineplots can be plotted in greyscale as well (with `geom.colors = "gs"`). However, in most cases lines colored in greyscale are difficult to distinguish. In this case, certain plot types in **sjPlot** support black & white figures with different linetypes.
+
+Following plot-types allow black & white figures:
+
+* `sjp.grpfrq(type = "line")`
+* `sjp.int()`
+* `sjp.lm(type = "pred")`
+* `sjp.glm(type = "pred")`
+* `sjp.lmer(type = "pred")`
+* `sjp.glmer(type = "pred")`
+
+Use `geom.colors = "bw"` to create a b/w-plot.
+
+```{r}
+library(ggplot2)
+theme_set(theme_bw())
+# create binrary response
+y <- ifelse(efc$neg_c_7 < median(na.omit(efc$neg_c_7)), 0, 1)
+# create data frame for fitting model
+df <- data.frame(
+  y = to_factor(y),
+  sex = to_factor(efc$c161sex),
+  dep = to_factor(efc$e42dep),
+  barthel = efc$barthtot,
+  education = to_factor(efc$c172code)
+)
+# set variable label for response
+set_label(df$y) <- "High Negative Impact"
+# fit model
+fit <- glm(y ~., data = df, family = binomial(link = "logit"))
+# print predicted propbabilities
+sjp.glm(fit, type = "pred", vars = c("barthel", "sex","dep"), geom.colors = "bw")
+```
+
+Different linetypes do not apply to other linetyped plots (like `sjp.lm(type = "eff")` or `sjp.lm(type = "slope")`), because these usually only plot a single line - so there's no need for different linetypes, you can just set `geom.colors = "black"` (or `geom.colors = "bw"`).

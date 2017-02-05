@@ -1025,6 +1025,8 @@ sjp.glm.predy <- function(fit,
   # check if we have a categorical variable with value
   # labels at the x-axis.
   axis_labels <- sjmisc::get_labels(mydf[[1]], include.non.labelled = T, drop.unused = TRUE)
+  # check if we have bw-figure
+  bw.figure <- !is.null(geom.colors) && geom.colors[1] == "bw"
   # ----------------------------
   # with or w/o grouping factor?
   # ----------------------------
@@ -1058,8 +1060,8 @@ sjp.glm.predy <- function(fit,
     # set colors
     geom.colors <- col_check2(geom.colors, length(legend.labels))
     # init plot
-    mp <- ggplot(mydf, aes_string(x = "x", y = "y", colour = "grp", fill = "grp")) +
-      labs(x = x.title, y = y.title, title = t.title, colour = l.title, fill = NULL)
+    mp <- ggplot(mydf, aes_string(x = "x", y = "y", colour = "grp", fill = "grp", linetype = "grp")) +
+      labs(x = x.title, y = y.title, title = t.title, colour = l.title, fill = NULL, linetype = l.title)
   }
   # check correct labels
   if (!is.null(axis_labels) && length(axis_labels) != length(stats::na.omit(unique(mydf$x))))
@@ -1166,24 +1168,25 @@ sjp.glm.predy <- function(fit,
     # plot line and data points. we don't need smoothing for discrete levels
     if (jitter.ci) {
       mp <- mp + 
-        geom_line(aes_string(x = "x", y = "y", colour = "grp"), 
+        geom_line(aes_string(x = "x", y = "y", colour = "grp", linetype = "grp"), 
                   data = datpoint, 
                   size = geom.size,
                   position = position_dodge(.2)) +
-        geom_point(aes_string(x = "x", y = "y", colour = "grp"), 
+        geom_point(aes_string(x = "x", y = "y", colour = "grp", linetype = "grp"), 
                    data = datpoint,
                    shape = 16,
                    position = position_dodge(.2))
     } else {
       mp <- mp + 
-        geom_line(aes_string(x = "x", y = "y", colour = "grp"), data = datpoint, size = geom.size) +
-        geom_point(aes_string(x = "x", y = "y", colour = "grp"), data = datpoint, shape = 16)
+        geom_line(aes_string(x = "x", y = "y", colour = "grp", linetype = "grp"), data = datpoint, size = geom.size) +
+        geom_point(aes_string(x = "x", y = "y", colour = "grp", linetype = "grp"), data = datpoint, shape = 16)
     }
   } else {
     if (fit.m == "lm") {
       mp <- mp +
         stat_smooth(method = fit.m, 
                     se = show.ci,
+                    fullrange = T,
                     level = dot.args[["ci.lvl"]],
                     size = geom.size,
                     alpha = dot.args[["ci.alpha"]])
@@ -1194,6 +1197,7 @@ sjp.glm.predy <- function(fit,
           stat_smooth(method = "glm.nb",
                       se = show.ci,
                       level = dot.args[["ci.lvl"]],
+                      fullrange = T,
                       size = geom.size,
                       alpha = dot.args[["ci.alpha"]])
       } else {
@@ -1201,6 +1205,7 @@ sjp.glm.predy <- function(fit,
           stat_smooth(method = fit.m, 
                       method.args = list(family = fitfam$family), 
                       se = show.ci,
+                      fullrange = T,
                       level = dot.args[["ci.lvl"]],
                       size = geom.size,
                       alpha = dot.args[["ci.alpha"]])
@@ -1212,6 +1217,7 @@ sjp.glm.predy <- function(fit,
   # ---------------------------------------------------------
   if (show.loess) mp <- mp + stat_smooth(method = "loess",
                                          se = F,
+                                         fullrange = T,
                                          size = geom.size,
                                          colour = "darkred",
                                          alpha = dot.args[["ci.alpha"]])
@@ -1228,39 +1234,48 @@ sjp.glm.predy <- function(fit,
   } else {
     mp <- mp + ylim(ylim)    
   }
+  
+  # check if we have coloured plot or b/w figure with different linetypes
+  if (bw.figure) 
+    ltypes <- seq_len(6)[seq_len(length(geom.colors))]
+  else
+    ltypes <- rep(1, times = length(geom.colors))
+  
   # ---------------------------------------------------------
   # facet grid, if we have grouping variable
   # ---------------------------------------------------------
+  mp <- mp +
+    scale_colour_manual(values = geom.colors, labels = legend.labels) +
+    scale_linetype_manual(values = ltypes, labels = legend.labels) +
+    scale_fill_manual(values = geom.colors)
+
   if (length(vars) == 3) {
-    mp <- mp + 
-      facet_wrap(~facet, ncol = round(sqrt(length(unique(mydf$facet))))) +
-      scale_colour_manual(values = geom.colors, labels = legend.labels) +
-      scale_fill_manual(values = geom.colors) +
-      guides(fill = FALSE)
+    mp <- mp +  facet_wrap(~facet, ncol = round(sqrt(length(unique(mydf$facet)))))
+
+    # add legend depending on b/w figure    
+    if (bw.figure)
+      mp <- mp + guides(fill = FALSE)
+    else
+      mp <- mp + guides(fill = FALSE, linetype = FALSE)
+    
   } else if (facet.grid && length(vars) == 2) {
-    mp <- mp + 
-      facet_wrap(~grp, ncol = round(sqrt(length(unique(mydf$grp)))), 
-                 scales = "free_x") +
-      scale_colour_manual(values = geom.colors) +
-      scale_fill_manual(values = geom.colors) +
-      guides(colour = FALSE, fill = FALSE)
+      mp <- mp + 
+        facet_wrap(~grp, ncol = round(sqrt(length(unique(mydf$grp)))), scales = "free_x") +
+        guides(colour = FALSE, fill = FALSE, linetype = FALSE)
   } else if (!is.null(legend.labels)) {
     if (length(legend.labels) == 1) {
       mp <- mp +
-        scale_colour_manual(values = geom.colors) +
-        scale_fill_manual(values = geom.colors) +
-        guides(colour = FALSE, fill = FALSE)
+        guides(colour = FALSE, fill = FALSE, linetype = FALSE)
     } else {
-      mp <- mp +
-        scale_colour_manual(values = geom.colors, labels = legend.labels) +
-        scale_fill_manual(values = geom.colors) +
-        guides(fill = FALSE)
+      # add legend depending on b/w figure    
+      if (bw.figure)
+        mp <- mp + guides(fill = FALSE)
+      else
+        mp <- mp + guides(fill = FALSE, linetype = FALSE)
     }
   } else {
-    mp <- mp +
-      scale_colour_manual(values = geom.colors) +
-      scale_fill_manual(values = geom.colors) +
-      guides(colour = FALSE, fill = FALSE)
+    mp <- mp +     
+      guides(colour = FALSE, fill = FALSE, linetype = FALSE)
   }
   
   # --------------------------
