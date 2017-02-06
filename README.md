@@ -14,10 +14,11 @@ library(devtools)
 devtools::install_github("sjPlot/devel")
 ```
 
-Please note that the latest development snapshot most likely depends on the latest build of the [sjmisc-package](https://github.com/sjPlot/sjmisc), so you probably want to install it as well:
+Please note that the latest development snapshot most likely depends on the latest builds of the [sjmisc-package](https://github.com/sjPlot/sjmisc) and [sjstats-package](https://github.com/sjPlot/sjstats), so you probably want to install these as well:
 
 ```r
 devtools::install_github("sjPlot/sjmisc")
+devtools::install_github("sjPlot/sjstats")
 ```
 
 ### Officiale, stable release

@@ -350,7 +350,7 @@ sjp.lmer(fit, type = "poly", poly.term = "barthel")
 
 # lme4 complaints about scale of polynomial term, so
 # try centering this predictor
-mydf$barthel_s <- sjstats::std(mydf$barthel)
+mydf$barthel_s <- sjmisc::std(mydf$barthel)
 
 # re-fit model
 fit_s <- lmer(neg_c_7 ~ sex + c12hour + barthel_s +

@@ -100,7 +100,7 @@ utils::globalVariables(c("xpos", "value", "Var2", "grp", "prc", "fg", "cprc", "s
 #' @import ggplot2
 #' @importFrom stats na.omit
 #' @importFrom graphics plot
-#' @importFrom sjstats std
+#' @importFrom sjmisc std
 #' @export
 sjc.qclus <- function(data,
                       groupcount = NULL,
@@ -224,7 +224,7 @@ sjc.qclus <- function(data,
     }
   }
   # scale data
-  z <- sjstats::std(data)
+  z <- sjmisc::std(data)
   # retrieve column count
   colnr <- ncol(data)
   # init data frame

@@ -121,7 +121,8 @@
 #'  
 #' @importFrom psych describe
 #' @importFrom stats shapiro.test
-#' @importFrom sjstats reliab_test mean_n mic cronb std
+#' @importFrom sjstats reliab_test mean_n mic cronb
+#' @importFrom sjmisc std
 #' @export
 sjt.itemanalysis <- function(df,
                              factor.groups = NULL,
@@ -237,7 +238,7 @@ sjt.itemanalysis <- function(df,
     # to compute correlation coefficients between identified components
     # -----------------------------------
     df.subcc <- subset(df, select = which(factor.groups == findex[i]))
-    comcor <- sjstats::std(rowSums(df.subcc))
+    comcor <- sjmisc::std(rowSums(df.subcc))
     # -----------------------------------
     # check if we have valid return values from reliability test.
     # In case df had less than 3 columns, NULL is returned

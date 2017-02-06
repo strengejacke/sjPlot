@@ -93,7 +93,8 @@
 #'                     css.tdata = "border: 1px solid;",
 #'                     css.horline = "border-bottom: double blue;"))}
 #'
-#' @importFrom stats xtabs ftable chisq.test fisher.test
+#' @importFrom stats ftable
+#' @importFrom sjstats xtab_statistics
 #' @export
 sjt.xtab <- function(var.row,
                      var.col,
@@ -416,9 +417,8 @@ sjt.xtab <- function(var.row,
   # table summary
   # -------------------------------------
   if (show.summary) {
-    xt_stat <- xtab_stats(data.frame(var.row, var.col), statistics = statistics, ...)
-    chsq <- stats::chisq.test(var.row, var.col)
-    
+    xt_stat <- sjstats::xtab_statistics(data = data.frame(var.row, var.col), statistics = statistics, ...)
+
     # fisher's exact test?
     if (xt_stat$fisher)
       pstring <- "Fisher's p"
@@ -432,7 +432,7 @@ sjt.xtab <- function(var.row,
         totalncol + 1,
         xt_stat$stat.name,
         xt_stat$statistic,
-        chsq$parameter,
+        xt_stat$df,
         xt_stat$method,
         xt_stat$estimate,
         pstring,
@@ -554,88 +554,4 @@ sjt.xtab <- function(var.row,
                            page.content = page.content,
                            output.complete = toWrite,
                            knitr = knitr)))
-}
-
-
-#' @importFrom stats fisher.test chisq.test cor.test ftable
-#' @importFrom dplyr case_when
-#' @importFrom sjstats table_values cramer phi
-xtab_stats <- function(data, statistics = c("auto", "cramer", "phi", "spearman", "kendall", "pearson"), ...) {
-  # match arguments
-  statistics <- match.arg(statistics)
-
-  # copy data as table  
-  tab <- table(data)
-
-  # get expected values
-  tab.val <- sjstats::table_values(tab)
-  
-  # remember whether fisher's exact test was used or not
-  use.fisher <- FALSE
-  
-  # select statistics automatically, based on number of rows/columns
-  if (statistics %in% c("auto", "cramer", "phi")) {
-    # get chisq-statistics, for df and p-value
-    chsq <- suppressWarnings(stats::chisq.test(tab, ...))
-    pv <- chsq$p.value
-    test <- chsq$statistic
-    # set statistics name
-    names(test) <- "Chi-squared"
-    
-    # check row/column
-    if ((nrow(tab) > 2 || ncol(tab) > 2 || statistics == "cramer") && statistics != "phi") {
-      # get cramer's V
-      s <- sjstats::cramer(tab)
-      
-      # if minimum expected values below 5, compute fisher's exact test
-      if (min(tab.val$expected) < 5 ||
-          (min(tab.val$expected) < 10 && chsq$parameter == 1)) {
-        pv <- stats::fisher.test(tab, simulate.p.value = TRUE, ...)$p.value
-        use.fisher <- TRUE
-      }
-      
-      # set statistics
-      statistics <- "cramer"
-    } else {
-      # get Phi
-      s <- sjstats::phi(tab)
-      
-      # if minimum expected values below 5 and df=1, compute fisher's exact test
-      if (min(tab.val$expected) < 5 ||
-          (min(tab.val$expected) < 10 && chsq$parameter == 1)) {
-        pv <- stats::fisher.test(tab, ...)$p.value
-        use.fisher <- TRUE
-      }
-      
-      # set statistics
-      statistics <- "phi"
-    }
-  } else {
-    # compute correlation coefficient
-    cv <- stats::cor.test(x = data[[1]], y = data[[2]], method = statistics, ...)
-    # get statistics and p-value
-    s <- cv$estimate
-    pv <- cv$p.value
-    test <- cv$statistic
-  }
-  
-  # compute method string
-  method <- dplyr::case_when(
-    statistics == "kendall" ~ "Kendall's tau",
-    statistics == "spearman" ~ "Spearman's rho",
-    statistics == "pearson" ~ "Person's r",
-    statistics == "cramer" ~ "Cramer's V",
-    statistics == "phi" ~ "Phi"
-  )
-  
-  # return result
-  return(list(
-    estimate = s,
-    p.value = pv,
-    statistic = test,
-    stat.name = names(test),
-    method = method,
-    method.short = statistics,
-    fisher = use.fisher
-  ))
 }

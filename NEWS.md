@@ -1,3 +1,10 @@
+# sjPlot 2.3.0.9000
+
+## General
+
+* Updated Namespace for functions that moved from package **sjstats** to **sjmisc**.
+
+
 # sjPlot 2.3.0
 
 ## General
@@ -6,7 +13,7 @@
 
 ## Changes to functions
 
-* You can use `geom.colors = "bw"` for linetype-plots, to create black & white figures that use different linerypes instead of different colors.
+* You can use `geom.colors = "bw"` for linetype-plots, to create black & white figures that use different linetypes instead of different colors.
 * `sjp.kfold_cv()` now also supports poisson and negative binomial regression models.
 * `sjp.pca()` and `sjt.pca()` get a `rotation`-argument, to use either varimax- or oblimin-transformation of factor loadings.
 * Argument `show.value` now also applies to bar plots in `sjp.pca()`. 

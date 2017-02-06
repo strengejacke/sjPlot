@@ -34,17 +34,18 @@ data(efc)
 # prepare grouping variables
 efc$grp = as.factor(efc$e15relat)
 levels(x = efc$grp) <- get_labels(efc$e15relat)
-efc$care.level <- rec(efc$n4pstu, recodes = "0=0;1=1;2=2;3:4=4", as.num = FALSE)
-levels(x = efc$care.level) <- c("none", "I", "II", "III")
+efc$care.level <- rec(efc$n4pstu, recodes = "0=0;1=1;2=2;3:4=4", val.labels = c("none", "I", "II", "III"))
 
 # data frame for fitted model
-mydf <- data.frame(neg_c_7 = efc$neg_c_7,
-                   sex = to_factor(efc$c161sex),
-                   c12hour = efc$c12hour,
-                   barthel = efc$barthtot,
-                   education = to_factor(efc$c172code),
-                   grp = efc$grp,
-                   carelevel = efc$care.level)
+mydf <- data.frame(
+  neg_c_7 = efc$neg_c_7,
+  sex = to_factor(efc$c161sex),
+  c12hour = efc$c12hour,
+  barthel = efc$barthtot,
+  education = to_factor(efc$c172code),
+  grp = efc$grp,
+  carelevel = to_factor(efc$care.level)
+  )
 
 # fit sample models
 fit1 <- lmer(neg_c_7 ~ sex + c12hour + barthel + (1 | grp), data = mydf)
