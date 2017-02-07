@@ -4,6 +4,9 @@
 
 * Updated Namespace for functions that moved from package **sjstats** to **sjmisc**.
 
+## Changes to functions
+
+* Changed defaults for `save_plot()`.
 
 # sjPlot 2.3.0
 

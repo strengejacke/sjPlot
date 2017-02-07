@@ -3,6 +3,9 @@ Version 2.3.0.9000
 General:
 * Updated Namespace for functions that moved from package 'sjstats' to 'sjmisc'.
 
+Changes to functions:
+* Changed defaults for `save_plot()`.
+
 Version 2.3.0
 -----------------------------------------------------------------------------
 General:

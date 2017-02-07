@@ -701,12 +701,13 @@ save_plot <- function(filename,
                       width = 12,
                       height = 9,
                       dpi = 300,
-                      theme = "forestw",
+                      theme = ggplot2::theme_get(),
                       label.size = 2.4,
                       axis.textsize = .8,
                       axis.titlesize = .75,
-                      legend.textsize = .5,
-                      legend.titlesize = .6) {
+                      legend.textsize = .6,
+                      legend.titlesize = .65,
+                      legend.itemsize = .5) {
   # -------------------------
   # get file extension
   # -------------------------
@@ -723,20 +724,19 @@ save_plot <- function(filename,
   # set printable theme, adjust font sizes.
   # this is the most critical point...
   # -------------------------
-  # catch old theme
-  curtheme = ggplot2::theme_get()
-  set_theme(theme)
-  sjp.setTheme(geom.label.color = "black",
-               axis.title.color = "black",
-               axis.textcolor = "black",
-               legend.title.color = "black",
-               legend.color = "black",
-               geom.label.size = label.size,
-               axis.textsize = axis.textsize,
-               axis.title.size = axis.titlesize,
-               legend.size = legend.textsize,
-               legend.title.size = legend.titlesize,
-               legend.item.size = .35)
+  sjp.setTheme(base = theme,
+    geom.label.color = "black",
+    axis.title.color = "black",
+    axis.textcolor = "black",
+    legend.title.color = "black",
+    legend.color = "black",
+    geom.label.size = label.size,
+    axis.textsize = axis.textsize,
+    axis.title.size = axis.titlesize,
+    legend.size = legend.textsize,
+    legend.title.size = legend.titlesize,
+    legend.item.size = legend.itemsize
+  )
   # -------------------------
   # prapare save
   # -------------------------
@@ -763,9 +763,7 @@ save_plot <- function(filename,
                     type = "cairo")
   
   # print plot to device
-  print(fig)
+  graphics::plot(fig)
   # close device
   grDevices::dev.off()  
-  # set back theme
-  ggplot2::theme_set(curtheme)
 }

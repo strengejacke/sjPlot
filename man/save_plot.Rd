@@ -5,8 +5,9 @@
 \title{Save ggplot-figure for print publication}
 \usage{
 save_plot(filename, fig = ggplot2::last_plot(), width = 12, height = 9,
-  dpi = 300, theme = "forestw", label.size = 2.4, axis.textsize = 0.8,
-  axis.titlesize = 0.75, legend.textsize = 0.5, legend.titlesize = 0.6)
+  dpi = 300, theme = ggplot2::theme_get(), label.size = 2.4,
+  axis.textsize = 0.8, axis.titlesize = 0.75, legend.textsize = 0.6,
+  legend.titlesize = 0.65, legend.itemsize = 0.5)
 }
 \arguments{
 \item{filename}{the name of the output file; filename must end with one
