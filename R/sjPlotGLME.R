@@ -68,7 +68,11 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'          labels from the random intercept's categories (if \code{type = "re"}).
 #' @param axis.title character vector of length one or two (depending on
 #'          the plot function and type), used as title(s) for the x and y axis. 
-#'          If not specified, a default labelling  is chosen.
+#'          If not specified, a default labelling  is chosen. To set multiple 
+#'          axis titles (e.g. with \code{type = "eff"} for many predictors),
+#'          \code{axis.title} must be a character vector of same length of plots
+#'          that are printed. In this case, each plot gets an own axis title
+#'          (applying, for instance, to the y-axis for \code{type = "eff"}).
 #' @param vline.type linetype of the vertical "zero point" line. Default is \code{2} (dashed line).
 #' @param vline.color color of the vertical "zero point" line. Default value is \code{"grey70"}.
 #' @param digits numeric, amount of digits after decimal point when rounding estimates and values.
@@ -2177,10 +2181,7 @@ sjp.glm.eff <- function(fit,
   # ------------------------
   # Retrieve response for automatic title
   # ------------------------
-  if (!is.null(axis.title) && sjmisc::is_empty(axis.title)) {
-    axisTitle.y <- axis.title
-  }
-  else {
+  if (is.null(axis.title)) {
     if (fun == "glm") {
       # check for family, and set appropriate scale-title
       # if we have transformation through effects-package,
@@ -2199,11 +2200,11 @@ sjp.glm.eff <- function(fit,
         ysc <- "values"
       
       # set y-axis-title
-      axisTitle.y <- paste(sprintf("Predicted %s for", ysc),
+      axis.title <- paste(sprintf("Predicted %s for", ysc),
                            sjmisc::get_label(resp, def.value = resp.col))
       
     } else {
-      axisTitle.y <- sjmisc::get_label(resp, def.value = resp.col)
+      axis.title <- sjmisc::get_label(resp, def.value = resp.col)
     }
   }
   # ------------------------
@@ -2327,7 +2328,7 @@ sjp.glm.eff <- function(fit,
   # tell user that interaction terms are ignored
   # ------------------------
   if (int.found) {
-    message("Interaction terms in model have been ignored. Call `sjp.int` to plot effects of interaction terms.")
+    message("Interaction terms in model have been ignored. Use `sjp.int()` to plot effects of interaction terms.")
   }
   # ------------------------
   # how many different groups?
@@ -2350,7 +2351,7 @@ sjp.glm.eff <- function(fit,
     eff.plot <- eff.plot +
       geom_line(size = geom.size) +
       facet_wrap(~var.label, ncol = round(sqrt(grp.cnt)), scales = "free_x") +
-      labs(x = NULL, y = axisTitle.y, title = title)
+      labs(x = NULL, y = axis.title, title = title)
     # ------------------------
     # for logistic regression, use percentage scale
     # ------------------------
@@ -2386,17 +2387,28 @@ sjp.glm.eff <- function(fit,
           eff.plot <- eff.plot + geom_ribbon(aes_string(ymin = "lower", ymax = "upper"), alpha = dot.args[["ci.alpha"]])
       }
       
+      # find current loopindex
+      loopcnt <- which(i == unique(mydat$grp))
+      
       # do we have a title?
-      if (!is.null(title) && length(title) >= i)
-        ptitle <- title[i]
+      if (!is.null(title) && length(title) >= loopcnt)
+        ptitle <- title[loopcnt]
       else if (!is.null(title) && sjmisc::is_empty(title))
         ptitle <- ""
       else
         ptitle <- sprintf("Marginal effects of %s", mydat_sub$var.label[1])
                           
+      # do we have an axis-title?
+      if (!is.null(axis.title) && length(axis.title) >= loopcnt)
+        atitle <- axis.title[loopcnt]
+      else if (!is.null(axis.title) && sjmisc::is_empty(axis.title))
+        atitle <- ""
+      else
+        atitle <- axis.title
+
       eff.plot <- eff.plot +
         geom_line(size = geom.size) +
-        labs(x = NULL, y = axisTitle.y, title = ptitle)
+        labs(x = NULL, y = atitle, title = ptitle)
       # ------------------------
       # for logistic regression, use percentage scale
       # ------------------------
@@ -2407,8 +2419,6 @@ sjp.glm.eff <- function(fit,
       # ------------------------
       y.limits <- NULL
       if (!is.null(ylim)) {
-        # find current loop index
-        loopcnt <- which(i == unique(mydat$grp))
         # if we have one axis limits range for all plots, use this here
         if (!is.list(ylim) && length(ylim) == 2) {
           y.limits <- ylim

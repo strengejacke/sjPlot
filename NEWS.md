@@ -8,6 +8,7 @@
 
 * Changed defaults for `save_plot()`.
 * `save_plot()` now also supports _svg_-format.
+* For effect-plots (`type = "eff"`), the `axis.title`-argument can now be used to change the title of y-axes.
 
 # sjPlot 2.3.0
 

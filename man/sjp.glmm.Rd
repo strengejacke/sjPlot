@@ -45,7 +45,11 @@ argument, since in most cases, axis labels are set automatically.}
 
 \item{axis.title}{character vector of length one or two (depending on
 the plot function and type), used as title(s) for the x and y axis. 
-If not specified, a default labelling  is chosen.}
+If not specified, a default labelling  is chosen. To set multiple 
+axis titles (e.g. with \code{type = "eff"} for many predictors),
+\code{axis.title} must be a character vector of same length of plots
+that are printed. In this case, each plot gets an own axis title
+(applying, for instance, to the y-axis for \code{type = "eff"}).}
 
 \item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
 Depending on plot type, may effect either x- or y-axis, or both.
