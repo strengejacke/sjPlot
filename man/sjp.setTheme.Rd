@@ -32,7 +32,7 @@ sjp.setTheme(base = theme_grey(), theme.font = NULL,
   legend.item.bordercol = "white")
 }
 \arguments{
-\item{base}{base theme where theme is built on. By default, all 
+\item{base}{base theme where theme is built on. By default, all
 metrics from \code{theme_gray()} are used. See 'Details'.}
 
 \item{theme.font}{base font family for the plot.}
@@ -94,14 +94,14 @@ color palette will be used for the labels.}
 \item{axis.textcolor.y}{color for y-axis labels. If not specified, a default dark gray
 color palette will be used for the labels.}
 
-\item{axis.textcolor}{color for both x- and y-axis labels. 
+\item{axis.textcolor}{color for both x- and y-axis labels.
 If set, overrides both \code{axis.textcolor.x} and \code{axis.textcolor.y}}
 
 \item{axis.linecolor.x}{color of x-axis border}
 
 \item{axis.linecolor.y}{color of y-axis border}
 
-\item{axis.linecolor}{color for both x- and y-axis borders. 
+\item{axis.linecolor}{color for both x- and y-axis borders.
 If set, overrides both \code{axis.linecolor.x} and \code{axis.linecolor.y}.}
 
 \item{axis.line.size}{size (thickness) of axis lines. Only affected, if \code{axis.linecolor}
@@ -111,7 +111,7 @@ is set.}
 
 \item{axis.textsize.y}{size of y-axis labels}
 
-\item{axis.textsize}{size for both x- and y-axis labels. 
+\item{axis.textsize}{size for both x- and y-axis labels.
 If set, overrides both \code{axis.textsize.x} and \code{axis.textsize.y}.}
 
 \item{axis.tickslen}{length of axis tick marks}
@@ -153,33 +153,33 @@ If set, overrides both \code{panel.major.gridcol} and \code{panel.minor.gridcol}
 \item{plot.col}{color of both plot's region border and background.
 If set, overrides both \code{plot.backcol} and \code{plot.bordercol}.}
 
-\item{plot.margins}{numeric vector of length 4, indicating the top, right, 
+\item{plot.margins}{numeric vector of length 4, indicating the top, right,
 bottom and left margin of the plot region.}
 
 \item{legend.pos}{position of the legend, if a legend is drawn.
 \describe{
   \item{\emph{legend outside plot}}{
-    Use \code{"bottom"}, \code{"top"}, \code{"left"} or \code{"right"} 
-    to position the legend above, below, on the left or right side 
+    Use \code{"bottom"}, \code{"top"}, \code{"left"} or \code{"right"}
+    to position the legend above, below, on the left or right side
     of the diagram. Right positioning is default.
   }
   \item{\emph{legend inside plot}}{
     If \code{legend.inside = TRUE}, legend can be placed inside
-    plot. Use \code{"top left"}, \code{"top right"}, \code{"bottom left"} 
-    and \code{"bottom right"} to position legend in any of these corners, 
-    or a two-element numeric vector with values from 0-1. See also 
+    plot. Use \code{"top left"}, \code{"top right"}, \code{"bottom left"}
+    and \code{"bottom right"} to position legend in any of these corners,
+    or a two-element numeric vector with values from 0-1. See also
     \code{legend.inside}.
   }
 }}
 
-\item{legend.just}{justification of legend, relative to its position (\code{"center"} or 
+\item{legend.just}{justification of legend, relative to its position (\code{"center"} or
 two-element numeric vector with values from 0-1. By default (outside legend),
 justification is centered. If legend is inside and justification not specified,
 legend justification is set according to legend position.}
 
 \item{legend.inside}{logical, use \code{TRUE} to put legend inside the plotting area. See \code{legend.pos}.}
 
-\item{legend.size}{text size of the legend. Default is 1. Relative size, so 
+\item{legend.size}{text size of the legend. Default is 1. Relative size, so
 recommended values are from 0.3 to 2.5}
 
 \item{legend.color}{color of the legend labels}
@@ -208,7 +208,7 @@ Set global theme options for sjp-functions.
 }
 \details{
 The \code{base} argument is intended to select a ggplot-theme
-           as base for further modifications (which can be triggered 
+           as base for further modifications (which can be triggered
            via the various function arguments).
 }
 \examples{
@@ -220,7 +220,7 @@ data(efc)
 sjp.setTheme()
 
 # legends of all plots inside
-sjp.setTheme(legend.pos = "top left", 
+sjp.setTheme(legend.pos = "top left",
              legend.inside = TRUE)
 sjp.xtab(efc$e42dep, efc$e16sex)
 

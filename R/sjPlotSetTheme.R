@@ -693,7 +693,7 @@ sj.setGeomColors <- function(plot,
 #'         anti-aliasing (see \code{\link[grDevices]{png}}).
 #'
 #' @import ggplot2
-#' @importFrom grDevices png jpeg tiff dev.off
+#' @importFrom grDevices png jpeg tiff dev.off cm svg
 #'
 #' @export
 save_plot <- function(filename,
@@ -763,8 +763,8 @@ save_plot <- function(filename,
                     type = "cairo")
   else if (ext == 'svg')
     grDevices::svg(filename = filename,
-                   width = width/cm(1),
-                   height = height/cm(1))
+                   width = width / grDevices::cm(1),
+                   height = height / grDevices::cm(1))
 
   # print plot to device
   graphics::plot(fig)

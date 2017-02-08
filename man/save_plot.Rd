@@ -11,7 +11,7 @@ save_plot(filename, fig = ggplot2::last_plot(), width = 12, height = 9,
 }
 \arguments{
 \item{filename}{the name of the output file; filename must end with one
-of the following acceptes file types: ".png", ".jpg" or ".tif".}
+of the following acceptes file types: ".png", ".jpg", ".svg" or ".tif".}
 
 \item{fig}{the plot that should be saved. By default, the last plot is saved.}
 
@@ -19,7 +19,7 @@ of the following acceptes file types: ".png", ".jpg" or ".tif".}
 
 \item{height}{the height of the figure, in centimetres}
 
-\item{dpi}{resolution in dpi (dots per inch)}
+\item{dpi}{resolution in dpi (dots per inch). Ignored for vector formats, such as ".svg".}
 
 \item{theme}{Name of a pre-set theme. May be one of:
 \describe{

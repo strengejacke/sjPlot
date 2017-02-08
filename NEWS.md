@@ -7,6 +7,7 @@
 ## Changes to functions
 
 * Changed defaults for `save_plot()`.
+* `save_plot()` now also supports _svg_-format.
 
 # sjPlot 2.3.0
 
