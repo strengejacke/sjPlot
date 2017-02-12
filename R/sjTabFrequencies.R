@@ -668,13 +668,20 @@ sjt.frq <- function(data,
   # -------------------------------------
   # check if html-content should be outputted
   # -------------------------------------
-  out.html.table(no.output, file, knitr, toWrite, use.viewer)
+  # out.html.table(no.output, file, knitr, toWrite, use.viewer)
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible(structure(class = c("sjTable", "sjtfrq"),
-                      list(page.style = page.style,
-                           page.content.list = page.content.list,
-                           output.complete = toWrite,
-                           knitr = knitr)))
+  structure(
+    class = c("sjTable", "sjtfrq"),
+    list(
+      page.style = page.style,
+      page.content.list = page.content.list,
+      output.complete = toWrite,
+      knitr = knitr,
+      file = file,
+      show = !no.output,
+      use.viewer = use.viewer
+    )
+  )
 }
