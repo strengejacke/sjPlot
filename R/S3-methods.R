@@ -28,3 +28,13 @@ print.sjTable <- function(x, ...) {
     }
   }
 }
+
+#' @importFrom knitr asis_output
+#' @export
+knit_print.sjTable <-  function(input, ...) {
+  if (!requireNamespace("knitr", quietly = TRUE)) {
+    stop("Package `knitr` needed to print tables inside knitr-documents. Please install it.", call. = F)
+  }
+  
+  knitr::asis_output(input$knitr)
+}
