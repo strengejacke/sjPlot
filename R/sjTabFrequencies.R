@@ -676,7 +676,7 @@ sjt.frq <- function(data,
     class = c("sjTable", "sjtfrq"),
     list(
       page.style = page.style,
-      page.content.list = page.content.list,
+      page.content = page.content.list[[1]],
       output.complete = toWrite,
       knitr = knitr,
       file = file,

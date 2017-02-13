@@ -117,7 +117,7 @@
 #'             data = efc, family = binomial(link = "probit"))
 #' fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep,
 #'             data = efc, family = poisson(link = "log"))
-#'
+#' 
 #' # compare models
 #' sjt.glm(fit1, fit2, fit3, show.aic = TRUE, show.family = TRUE)
 #'
@@ -1088,7 +1088,7 @@ sjt.glm <- function(...,
                       list(page.style = get_table_css_styles(cell.spacing, cell.gpr.indent,
                                                              p.numeric, show.header, CSS),
                            page.content = page.content,
-                           page.content.list = page.content.list,
+                           #page.content.list = page.content.list,
                            output.complete = toWrite,
                            knitr = knitr,
                            file = file,

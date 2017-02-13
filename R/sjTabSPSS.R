@@ -54,7 +54,7 @@
 #' # init dataset
 #' library(sjmisc)
 #' data(efc)
-#'
+#' 
 #' # view variables
 #' view_df(efc)
 #'
@@ -362,7 +362,6 @@ view_df <- function(x,
     list(
       page.style = page.style,
       page.content = page.content,
-      page.content.list = page.content.list,
       output.complete = toWrite,
       knitr = knitr,
       file = file,

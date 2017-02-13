@@ -355,7 +355,7 @@ sjt.df <- function(mydf,
     class = c("sjTable", "sjtdf"),
     list(
       page.style = page.style,
-      page.content.list = page.content.list,
+      page.content = page.content,
       output.complete = toWrite,
       knitr = knitr,
       file = file,

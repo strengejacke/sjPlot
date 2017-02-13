@@ -26,10 +26,10 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(sjmisc)
-#' data(efc)
+#' #' library(sjmisc)
+#' #' data(efc)
 #' sjt.mwu(mwu(efc$e17age, efc$e42dep))}
-#'
+
 #' @export
 sjt.mwu <- function(x,
                     title = NULL,
@@ -81,7 +81,7 @@ sjt.mwu <- function(x,
     class = c("sjTable", "sjtmwu"),
     list(
       page.style = html$page.style,
-      page.content.list = page.content.list,
+      #page.content.list = page.content.list,
       page.content = html$page.content,
       output.complete = html$output.complete,
       knitr = html$knitr,

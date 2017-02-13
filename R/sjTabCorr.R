@@ -70,13 +70,13 @@
 #' start <- which(colnames(efc) == "c83cop2")
 #' # recveive last item of COPE-index scale
 #' end <- which(colnames(efc) == "c88cop7")
-#'  
+#' 
 #' # create data frame with COPE-index scale
 #' mydf <- data.frame(efc[, c(start:end)])
 #' colnames(mydf) <- varlabs[c(start:end)]
-#'
+#' 
 #' # we have high correlations here, because all items
-#' # belong to one factor. See example from "sjp.pca". 
+#' # belong to one factor. See example from "sjp.pca".
 #' sjt.corr(mydf, p.numeric = TRUE)
 #' 
 #' # auto-detection of labels, only lower triangle
@@ -476,7 +476,7 @@ sjt.corr <- function(data,
     class = c("sjTable", "sjtcorr"),
     list(
       page.style = page.style,
-      page.content.list = page.content,
+      page.content = page.content,
       output.complete = toWrite,
       knitr = knitr,
       file = file,

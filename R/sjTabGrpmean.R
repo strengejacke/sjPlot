@@ -202,10 +202,8 @@ sjt.grpmean <- function(var.cnt,
   structure(
     class = c("sjTable", "sjtgrpmean"),
     list(
-      page.style = page.style,
-      page.content.list = page.content.list,
-      output.complete = toWrite,
-      knitr = knitr,
+      output.complete = html$output.complete,
+      knitr = html$knitr,
       file = file,
       show = !no.output,
       use.viewer = use.viewer

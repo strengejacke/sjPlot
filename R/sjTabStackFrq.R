@@ -463,10 +463,9 @@ sjt.stackfrq <- function(items,
   # -------------------------------------
   # return results
   # -------------------------------------
-  structure(class = "sjtstackfrq",
+  structure(class = c("sjTable", "sjtstackfrq"),
                       list(page.style = page.style,
                            page.content = page.content,
-                           page.content.list = page.content.list,
                            output.complete = toWrite,
                            knitr = knitr,
                            file = file,
