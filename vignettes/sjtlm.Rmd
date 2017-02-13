@@ -39,7 +39,7 @@ The simplest way of producing the table output is by passing the fitted models a
 ```{r eval=FALSE}
 sjt.lm(fit1, fit2)
 ```
-`r sjt.lm(fit1, fit2, no.output=TRUE)$knitr`
+
 
 ### Custom labels
 You can specify the 'model' label via `depvar.labels` parameter:
@@ -48,7 +48,7 @@ You can specify the 'model' label via `depvar.labels` parameter:
 sjt.lm(fit1, fit2,
        depvar.labels = c("Barthel-Index", "Negative Impact"))
 ```
-`r sjt.lm(fit1, fit2, depvar.labels = c("Barthel-Index", "Negative Impact"), no.output=TRUE)$knitr`
+
 
 ### More custom labels
 Here is an example how to change the other labels. Note that `show.header` makes the two labels on top and top left corner appear in the table.
@@ -63,7 +63,7 @@ sjt.lm(fit1, fit2, show.header = TRUE,
        string.interc = "Konstante",
        depvar.labels = c("Barthel-Index", "Negative Impact"))
 ```
-`r sjt.lm(fit1, fit2, show.header = TRUE, string.est = "Estimate", string.ci = "Conf. Int.", string.p = "p-value", string.dv = "Response", string.pred = "Coefficients", string.interc = "Konstante",depvar.labels = c("Barthel-Index", "Negative Impact"), no.output=TRUE)$knitr`
+
 
 ## Changing summary style and content
 
@@ -75,7 +75,7 @@ sjt.lm(fit1, fit2,
        show.std = TRUE,         # also show standardized beta values
        p.numeric = FALSE)       # "*" instead of numeric values
 ```
-`r sjt.lm(fit1, fit2, separate.ci.col = FALSE, show.std = TRUE, p.numeric = FALSE, no.output=TRUE)$knitr`
+
 
 
 ## Custom variable labels
@@ -87,7 +87,6 @@ sjt.lm(fit1, fit2,
        pred.labels = c("Carer's Age", "Hours of Care",
                        "Carer's Sex", "Educational Status"))
 ```
-`r sjt.lm(fit1, fit2, pred.labels = c("Carer's Age", "Hours of Care", "Carer's Sex", "Educational Status"), no.output=TRUE)$knitr`
 
 
 ## Compare models with different predictors
@@ -113,7 +112,7 @@ sjt.lm(fit1, fit2, fit3,
        show.aic = TRUE,
        show.fstat = TRUE)
 ```
-`r sjt.lm(fit1, fit2, fit3, separate.ci.col = FALSE, show.aic = TRUE, show.fstat = TRUE, no.output=TRUE)$knitr`
+
 
 ## More space bewteen model columns
 
@@ -123,7 +122,7 @@ Especially when fitting and summarizing some more models, it might help to incre
 sjt.lm(fit1, fit2, fit3, 
        CSS = list(css.separatorcol = 'padding-right:1.5em; padding-left:1.5em;'))
 ```
-`r sjt.lm(fit1, fit2, fit3, CSS = list(css.separatorcol = 'padding-right:1.5em; padding-left:1.5em;'), no.output=TRUE)$knitr`
+
 
 ## Automatic grouping of categorical predictors
 
@@ -149,7 +148,7 @@ Now we can print the table.
 ```{r eval=FALSE}
 sjt.lm(fit1, fit2)
 ```
-`r sjt.lm(fit1, fit2, no.output=TRUE)$knitr`
+
 
 ## Removing estimates from the output
 
@@ -183,7 +182,7 @@ Here you have the complete table output. This helps you identify the row index n
 ```{r eval=FALSE}
 sjt.lm(fit1, fit2, fit3, group.pred = FALSE)
 ```
-`r sjt.lm(fit1, fit2, fit3, group.pred = FALSE, no.output=TRUE)$knitr`
+
 
 ### Example 2: Removing the intercept
 
@@ -193,7 +192,7 @@ Note that currently the intercept cannot be removed from the model output. Howev
 sjt.lm(fit1, fit2, fit3, group.pred = FALSE,
        CSS = list(css.topcontentborder = "+font-size: 0px;"))
 ```
-`r sjt.lm(fit1, fit2, fit3, group.pred = FALSE, CSS = list(css.topcontentborder = "+font-size: 0px;"), no.output=TRUE)$knitr`
+
 
 
 ### Example 3: Remove first coefficient (after intercept)
@@ -202,7 +201,7 @@ sjt.lm(fit1, fit2, fit3, group.pred = FALSE,
 sjt.lm(fit1, fit2, fit3, group.pred = FALSE,
        remove.estimates = 2)
 ```
-`r sjt.lm(fit1, fit2, fit3, group.pred = FALSE, remove.estimates = 2, no.output=TRUE)$knitr`
+
 
 ### Example 4: Remove age and sex
 
@@ -210,7 +209,7 @@ sjt.lm(fit1, fit2, fit3, group.pred = FALSE,
 sjt.lm(fit1, fit2, fit3, group.pred = FALSE,
        remove.estimates = c("c160age", "c161sex"))
 ```
-`r sjt.lm(fit1, fit2, fit3, group.pred = FALSE, remove.estimates = c("c160age", "c161sex"), no.output=TRUE)$knitr`
+`
 
 ### Example 5: Remove many esimates
 
@@ -218,7 +217,7 @@ sjt.lm(fit1, fit2, fit3, group.pred = FALSE,
 sjt.lm(fit1, fit2, fit3, group.pred = FALSE,
        remove.estimates = c(2,5,6,10))
 ```
-`r sjt.lm(fit1, fit2, fit3, group.pred = FALSE, remove.estimates = c(1,2,5,6,10), no.output=TRUE)$knitr`
+
 
 ### Example 6: Custom predictor labels
 
@@ -233,4 +232,4 @@ sjt.lm(fit1, fit2, fit3
                        "severe dependency", "Service Usage"),
        remove.estimates = c("c160age", "c161sex"))
 ```
-`r sjt.lm(fit1, fit2, fit3, pred.labels = c("mid education", "hi education", "Hours of Care", "slight dependency", "moderate dependency", "severe dependency", "Service Usage"), remove.estimates = c("c160age", "c161sex"), no.output=TRUE)$knitr`
+

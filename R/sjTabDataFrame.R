@@ -346,16 +346,23 @@ sjt.df <- function(mydf,
   # -------------------------------------
   # check if html-content should be outputted
   # -------------------------------------
-  out.html.table(no.output, file, knitr, toWrite, use.viewer)
+  #out.html.table(no.output, file, knitr, toWrite, use.viewer)
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible(structure(class = "sjtdf",
-                      list(data = mydf,
-                           page.style = page.style,
-                           page.content = page.content,
-                           output.complete = toWrite,
-                           knitr = knitr)))
+  
+  structure(
+    class = c("sjTable", "sjtdf"),
+    list(
+      page.style = page.style,
+      page.content.list = page.content.list,
+      output.complete = toWrite,
+      knitr = knitr,
+      file = file,
+      show = !no.output,
+      use.viewer = use.viewer
+    )
+  )
 }
 
 

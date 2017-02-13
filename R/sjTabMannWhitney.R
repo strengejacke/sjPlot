@@ -76,11 +76,20 @@ sjt.mwu <- function(x,
   # -------------------------------------
   # check if html-content should be printed
   # -------------------------------------
-  out.html.table(no.output, file, html$knitr, html$output.complete, use.viewer)
-  invisible(list(class = c("sjTable", "sjtmwu"),
-                 df = x$tab.df,
-                 page.style = html$page.style,
-                 page.content = html$page.content,
-                 knitr = html$knitr,
-                 output.complete = html$output.complete))
+  #out.html.table(no.output, file, html$knitr, html$output.complete, use.viewer)
+  structure(
+    class = c("sjTable", "sjtmwu"),
+    list(
+      page.style = html$page.style,
+      page.content.list = page.content.list,
+      page.content = html$page.content,
+      output.complete = html$output.complete,
+      knitr = html$knitr,
+      file = file,
+      show = !no.output,
+      use.viewer = use.viewer,
+      df = x$tab.df
+    )
+  )
+
 }

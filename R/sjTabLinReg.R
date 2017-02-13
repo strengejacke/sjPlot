@@ -1248,7 +1248,7 @@ sjt.lm <- function(...,
   # -------------------------------------
   # check if html-content should be outputted
   # -------------------------------------
-  out.html.table(no.output, file, knitr, toWrite, use.viewer)  
+  #out.html.table(no.output, file, knitr, toWrite, use.viewer)  
   # -------------------------------------
   # replace &nbsp; (former NA), created by join, with empty string
   # -------------------------------------
@@ -1256,13 +1256,22 @@ sjt.lm <- function(...,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible(structure(class = c("sjTable", "sjtlm"),
-                      list(page.style = get_table_css_styles(cell.spacing, cell.gpr.indent,
-                                                             p.numeric, show.header, CSS),
-                           page.content = page.content,
-                           output.complete = toWrite,
-                           knitr = knitr,
-                           data = joined.df)))
+
+  structure(
+    class = c("sjTable", "sjtfrq"),
+    list(
+      page.style = get_table_css_styles(cell.spacing, cell.gpr.indent,
+                                        p.numeric, show.header, CSS),
+      page.content.list = page.content.list,
+      page.content = page.content,
+      output.complete = toWrite,
+      knitr = knitr,
+      file = file,
+      show = !no.output,
+      use.viewer = use.viewer,
+      data = joined.df
+    )
+  )
 }
 
 

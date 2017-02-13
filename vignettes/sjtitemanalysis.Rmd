@@ -53,7 +53,7 @@ The simplest function call is just passing the data frame as argument. In this c
 ```{r eval=FALSE}
 sjt.itemanalysis(mydf)
 ```
-`r sjt.itemanalysis(mydf, no.output=TRUE)$knitr`
+
 
 To interprete the output, we may consider following values as rule-of-thumbs for indicating a reliable scale:
 
@@ -80,7 +80,7 @@ The PCA extracted two components. Now `sjt.itemanalysis()` ...
 ```{r eval=FALSE}
 sjt.itemanalysis(mydf, factor.groups)
 ```
-`r sjt.itemanalysis(mydf, factor.groups, no.output=TRUE)$knitr`
+
 
 ## Adding further statistics
 
@@ -88,4 +88,4 @@ sjt.itemanalysis(mydf, factor.groups)
 sjt.itemanalysis(mydf, factor.groups, 
                  show.shapiro = TRUE, show.kurtosis = TRUE)
 ```
-`r sjt.itemanalysis(mydf, factor.groups, show.shapiro = T, show.kurtosis = T, no.output=TRUE)$knitr`
+

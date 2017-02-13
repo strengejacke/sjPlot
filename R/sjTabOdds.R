@@ -1076,7 +1076,7 @@ sjt.glm <- function(...,
   # -------------------------------------
   # check if html-content should be outputted
   # -------------------------------------
-  out.html.table(no.output, file, knitr, toWrite, use.viewer)
+  #out.html.table(no.output, file, knitr, toWrite, use.viewer)
   # -------------------------------------
   # replace &nbsp; (former NA), created by join, with empty string
   # -------------------------------------
@@ -1084,13 +1084,17 @@ sjt.glm <- function(...,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible(structure(class = c("sjTable", "sjtglm"),
+ structure(class = c("sjTable", "sjtglm"),
                       list(page.style = get_table_css_styles(cell.spacing, cell.gpr.indent,
                                                              p.numeric, show.header, CSS),
                            page.content = page.content,
+                           page.content.list = page.content.list,
                            output.complete = toWrite,
                            knitr = knitr,
-                           data = joined.df)))
+                           file = file,
+                           show = !no.output,
+                           use.viewer = use.viewer,
+                           data = joined.df))
 }
 
 

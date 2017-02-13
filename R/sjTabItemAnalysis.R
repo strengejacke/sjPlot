@@ -372,14 +372,34 @@ sjt.itemanalysis <- function(df,
   # -------------------------------------
   # check if html-content should be printed
   # -------------------------------------
-  out.html.table(no.output, file, knitr, complete.page, use.viewer)  
-  invisible(list(class = c("sjTable", "sjtitemanalysis"),
-                 df.list = df.ia,
-                 index.scores = index.scores,
-                 df.index.scores = df.index.scores,
-                 cronbach.values = cronbach.total,
-                 ideal.item.diff = diff.ideal.list,
-                 knitr = knitr,
-                 knitr.list = knitr.list,
-                 complete.page = complete.page))
+  #out.html.table(no.output, file, knitr, complete.page, use.viewer)  
+  
+  structure(
+    class = c("sjTable", "sjtitemanalysis"),
+    list(
+      page.style = page.style,
+      page.content.list = page.content.list,
+      output.complete = toWrite,
+      knitr = knitr,
+      file = file,
+      show = !no.output,
+      use.viewer = use.viewer,
+      df.list = df.ia,
+      index.scores = index.scores,
+      df.index.scores = df.index.scores,
+      cronbach.values = cronbach.total,
+      ideal.item.diff = diff.ideal.list,
+      knitr.list = knitr.list,
+      complete.page = complete.page
+    )
+  )
+ # invisible(list(class = c("sjTable", "sjtitemanalysis"),
+#                 df.list = df.ia,
+ #                index.scores = index.scores,
+  #               df.index.scores = df.index.scores,
+   #              cronbach.values = cronbach.total,
+    #             ideal.item.diff = diff.ideal.list,
+     #            knitr = knitr,
+      #           knitr.list = knitr.list,
+       #          complete.page = complete.page))
 }

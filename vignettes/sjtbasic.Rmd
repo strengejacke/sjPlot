@@ -77,31 +77,16 @@ Most `sjt` function invisibly return a structure with following values:
 * the complete html-output `output.complete`
 * the html-table with inline-css for use with knitr `knitr`
 
-`page.style` and `page.content` are described below in the CSS section. If you want to include a HTML table in your knitr document, simply use an inline code chunk. Be sure to use `no.output=TRUE`, because else your output would also be opened in a viewer pane or webbrowser.
+`page.style` and `page.content` are described below in the CSS section. If you want to include a HTML table in your knitr document, simply use the corresponding function within a code chunk. Be sure to use `no.output=TRUE`, because else your output would also be opened in a viewer pane or webbrowser.
 
 `r rinline("sjt.frq(efc\\$e42dep, no.output=TRUE)\\$knitr")`
 
-If you want to include both the source code and the output in your HTML document, you first need to write your code chunk, which should not be evaluated. Note that you don't need to use `no.output = TRUE` and `$knitr` in this chunk.
+If you want to include both the source code and the output in your HTML document, you first need to write your code chunk, which should not be evaluated. Note that you don't need to use `no.output = TRUE` and `$knitr` in this chunk. The results look like this in your HTML document:
 
-**Chunk 1**
-
-    ```{r eval=FALSE}`r ''`
-    sjt.frq(efc$e42dep)
-    ```
-
-Then repeat your code line, using the `no.output = TRUE` and `$knitr` parameters. This code chunk, however, should be evaluated:
-
-**Chunk 2**
-
-`r rinline("sjt.frq(efc\\$e42dep, no.output=TRUE)\\$knitr")`
-
-If the above two code chunks 1 and 2 are compiled, the results look like this in your HTML document:
-
-```{r eval=FALSE}
+```{r}
 sjt.frq(efc$e42dep)
 ```
 
-`r sjt.frq(efc$e42dep, no.output=TRUE)$knitr`
 
 
 Customizing table output with the CSS parameter
@@ -111,7 +96,10 @@ The table output is in in [HTML format](http://en.wikipedia.org/wiki/HTML). The 
 Many table elements (header, row, column, cell, summary row, first row or column...) have CSS-class attributes, which can be used to change the table style. Since each `sjt` function has different table elements and thus different class attributes, you first need to know which styles can be customized.
 
 The HTML and CSS code, which is described below, stem from this table output:
-`r sjt.frq(efc$e42dep, no.output=TRUE)$knitr`
+```{r}
+sjt.frq(efc$e42dep, no.output = T)
+```
+
 
 ### Retrieving customizable styles
 Each `sjt` function invisibly returns several values. The return value `page.style` contains the style information for the HTML table. You can print this style sheet to console using the base R `cat` function:
@@ -151,10 +139,10 @@ sjt.frq(efc$e42dep,
                    css.lasttablerow = 'border-top: 1px solid; border-bottom: none;', 
                    css.summary = 'color: blue;'))
 ```
-`r sjt.frq(efc$e42dep, no.output=TRUE, CSS=list(css.centeralign='text-align: left;', css.caption='font-weight: normal; font-style: italic;', css.firsttablecol='font-weight: bold;', css.lasttablerow='border-top: 1px solid; border-bottom: none;', css.summary='color: blue;'))$knitr`
+
 
 In the above example, the summary-table row lost the original style and just became blue. If you want to keep the original style and just *add* additional style information, use the plus-sign (+) as initial character for the parameter attributes. In the following example, the summary row keeps its original style and is additionally printed in blue:
 ```{r eval=FALSE}
 sjt.frq(efc$e42dep, CSS = list(css.summary = '+color: blue;'))
 ```
-`r sjt.frq(efc$e42dep, no.output=TRUE, CSS=list(css.summary='+color: blue;'))$knitr`
+

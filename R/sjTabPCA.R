@@ -538,15 +538,19 @@ sjt.pca <- function(data,
   # -------------------------------------
   # check if html-content should be outputted
   # -------------------------------------
-  out.html.table(no.output, file, knitr, toWrite, use.viewer) 
+  #out.html.table(no.output, file, knitr, toWrite, use.viewer) 
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible(structure(class = c("sjTable", "sjtpca"),
+  structure(class = c("sjTable", "sjtpca"),
                       list(page.style = page.style,
                            page.content = page.content,
+                           page.content.list = page.content.list,
                            output.complete = toWrite,
                            knitr = knitr,
                            factor.index = factorindex,
-                           removed.items = removableItems)))
+                           removed.items = removableItems,
+                           file = file,
+                           show = !no.output,
+                           use.viewer = use.viewer))
 }
