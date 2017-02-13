@@ -32,7 +32,7 @@ print.sjTable <- function(x, ...) {
 #' @importFrom htmltools HTML
 #' @export
 knit_print.sjTable <-  function(input, ...) {
- if (!requireNamespace("knitr", quietly = TRUE)) {
+ if (!requireNamespace("htmltools", quietly = TRUE)) {
    stop("Package `htmltools` needed to print tables inside knitr-documents. Please install it.", call. = F)
  }
   htmltools::HTML(input$knitr)
