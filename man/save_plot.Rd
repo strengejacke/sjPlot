@@ -40,6 +40,8 @@ of the following acceptes file types: ".png", ".jpg", ".svg" or ".tif".}
 \item{legend.textsize}{fontsize of legend labels}
 
 \item{legend.titlesize}{fontsize of legend title}
+
+\item{legend.itemsize}{size of legend's item (legend key), in centimetres.}
 }
 \description{
 Convenient function to save the last ggplot-figure in

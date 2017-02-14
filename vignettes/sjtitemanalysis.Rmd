@@ -50,10 +50,9 @@ mydf <- dplyr::select(efc, contains("cop"))
 
 The simplest function call is just passing the data frame as argument. In this case, the function assumes that all variables of the data frame belong to one factor only.
 
-```{r eval=FALSE}
+```{r}
 sjt.itemanalysis(mydf)
 ```
-
 
 To interprete the output, we may consider following values as rule-of-thumbs for indicating a reliable scale:
 
@@ -77,15 +76,13 @@ The PCA extracted two components. Now `sjt.itemanalysis()` ...
 2. builds an index of each component, by standardizing each scale
 3. and adds a component-correlation-matrix, to see whether the index scores (which are based on the components) are highly correlated or not.
 
-```{r eval=FALSE}
+```{r}
 sjt.itemanalysis(mydf, factor.groups)
 ```
 
-
 ## Adding further statistics
 
-```{r eval=FALSE}
-sjt.itemanalysis(mydf, factor.groups, 
-                 show.shapiro = TRUE, show.kurtosis = TRUE)
+```{r}
+sjt.itemanalysis(mydf, factor.groups, show.shapiro = TRUE, show.kurtosis = TRUE)
 ```
 

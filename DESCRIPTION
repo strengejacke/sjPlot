@@ -29,6 +29,7 @@ Imports:
     dplyr (>= 0.5.0),
     effects,
     ggplot2 (>= 2.2.1),
+    knitr,
     lme4 (>= 1.1-12),
     MASS,
     merTools (>= 0.3.0),
@@ -50,8 +51,7 @@ Suggests:
     ggrepel,
     lmerTest,
     lmtest,
-    lsmeans,
-    knitr
+    lsmeans
 URL: https://github.com/sjPlot/devel
 BugReports: https://github.com/sjPlot/devel/issues
 RoxygenNote: 6.0.1

@@ -10,7 +10,7 @@ vignette: >
 ---
 
 ```{r echo = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", message = FALSE)
 ```
 
 This document shows examples for using the `sjt.lmer()` function of the sjPlot package.
@@ -62,7 +62,7 @@ The resulting table is divided into three parts:
 2. _Random parts_ - the model's group count (amount of random intercepts) as well as the Intra-Class-Correlation-Coefficient _ICC_ and information on the random effect variances (within-group, between-group etc.)
 3. _Summary_ - Observations, AIC etc.
 
-```{r eval=FALSE}
+```{r}
 sjt.lmer(fit1, fit2)
 ```
 
@@ -70,7 +70,7 @@ sjt.lmer(fit1, fit2)
 ### Custom labels
 You can specify the 'model' label via `depvar.labels` parameter:
 
-```{r eval=FALSE}
+```{r}
 sjt.lmer(fit1, fit2,
          depvar.labels = c("Negative Impact", "Negative Impact"))
 ```
@@ -79,7 +79,7 @@ sjt.lmer(fit1, fit2,
 ### More custom labels
 Here is an example how to change the other labels. Note that `show.header` makes the two labels on top and top left corner appear in the table.
 
-```{r eval=FALSE}
+```{r}
 sjt.lmer(fit1, fit2, show.header = TRUE, string.est = "Estimate", 
          string.ci = "Conf. Int.", string.p = "p-value",
          string.dv = "Response", string.pred = "Coefficients",
@@ -92,7 +92,7 @@ sjt.lmer(fit1, fit2, show.header = TRUE, string.est = "Estimate",
 
 You can change the table style with specific parameters, e.g. to include CI into the same table cell as the estimates, print asterisks instead of numeric p-values etc.
 
-```{r eval=FALSE}
+```{r}
 sjt.lmer(fit1, fit2,
          separate.ci.col = FALSE, # ci in same cell as estimates
          show.std = TRUE,         # also show standardized beta values
@@ -108,7 +108,7 @@ sjt.lmer(fit1, fit2,
 
 In the above example, the original variable labels are long and not much pretty. You can change variable labels either with `sjmisc::set_label()`, which will affect all future plots and tables, or pass own labels via `pred.labels`.
 
-```{r eval=FALSE}
+```{r}
 sjt.lmer(fit1, fit2, pred.labels = c("Carer's Sex",
          "Hours of Care", "Elder's Dependency",
          "Mid Educational Level", "High Educational Level"))
@@ -119,7 +119,7 @@ sjt.lmer(fit1, fit2, pred.labels = c("Carer's Sex",
 
 Categorical variables with more than two levels can be grouped in the table output. Grouping means, that a row with the variable label is inserted before these variables, and a value label for each category (i.e. factor level) is printed with a small margin.
 
-```{r eval=FALSE}
+```{r}
 sjt.lmer(fit3, fit2, fit1, group.pred = TRUE)
 ```
 
@@ -130,7 +130,7 @@ Note that in the above example, the order of fitted model was changed. This is s
 
 When models have different random intercepts, the `sjt.lmer()` function tries to detect these information from each model. In the _Random parts_ section of the table, information on multiple grouping levels and ICC's are printed then.
 
-```{r eval=FALSE}
+```{r}
 sjt.lmer(fit1, fit2, fit3)
 ```
 
@@ -141,7 +141,7 @@ _Note that in certain cases, depending on the order of fitted models with severa
 
 Especially when fitting and summarizing some more models, it might help to increase the distance between the columns that separate the models. This can be done by tweaking the `css.separatorcol` style-sheet:
 
-```{r eval=FALSE}
+```{r}
 sjt.lmer(fit1, fit2, fit3, 
          CSS = list(css.separatorcol = 'padding-right:1.5em; padding-left:1.5em;'),
          show.re.var = FALSE,
@@ -160,7 +160,7 @@ When using numeric indices, the estimates' index number relates to the same orde
 
 Here you have the complete table output. This helps you identify the row index numbers. Especially when you have multiple models with different predictors, the estimate's position in the last model may differ from this estimate's position in the table output.
 
-```{r eval=FALSE}
+```{r}
 sjt.lmer(fit1, fit2, fit3,
          show.re.var = FALSE,
          show.icc = FALSE)
@@ -168,7 +168,7 @@ sjt.lmer(fit1, fit2, fit3,
 
 ### Example 2: Remove first coefficient (after intercept)
 
-```{r eval=FALSE}
+```{r}
 sjt.lmer(fit1, fit2, fit3,
          remove.estimates = 2,
          show.re.var = FALSE,
@@ -178,7 +178,7 @@ sjt.lmer(fit1, fit2, fit3,
 
 ### Example 3: Remove hours of care and sex
 
-```{r eval=FALSE}
+```{r}
 sjt.lmer(fit1, fit2, fit3,
          remove.estimates = c("c12hour", "sex2"),
          show.re.var = FALSE,

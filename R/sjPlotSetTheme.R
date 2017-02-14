@@ -683,6 +683,7 @@ sj.setGeomColors <- function(plot,
 #' @param axis.titlesize fontsize of axis titles
 #' @param legend.textsize fontsize of legend labels
 #' @param legend.titlesize fontsize of legend title
+#' @param legend.itemsize size of legend's item (legend key), in centimetres.
 #'
 #' @inheritParams sjp.setTheme
 #' @inheritParams set_theme

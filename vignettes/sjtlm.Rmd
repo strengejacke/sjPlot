@@ -8,9 +8,14 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", warning = FALSE, message = FALSE)
+```
+
 This document shows examples for using the `sjt.lm()` function of the sjPlot package.
 
-```{r, warning=FALSE, message=FALSE}
+```{r}
 # load package
 library(sjPlot)
 library(sjmisc)
@@ -36,7 +41,7 @@ fit2 <- lm(neg_c_7 ~ c160age + c12hour + c161sex + c172code, data = efc)
 
 The simplest way of producing the table output is by passing the fitted models as parameter. By default, estimates (_B_), confidence intervals (_CI_) and p-values (_p_) are reported. The models are named _Model 1_ and _Model 2_.
 
-```{r eval=FALSE}
+```{r}
 sjt.lm(fit1, fit2)
 ```
 
@@ -44,24 +49,27 @@ sjt.lm(fit1, fit2)
 ### Custom labels
 You can specify the 'model' label via `depvar.labels` parameter:
 
-```{r eval=FALSE}
-sjt.lm(fit1, fit2,
-       depvar.labels = c("Barthel-Index", "Negative Impact"))
+```{r}
+sjt.lm(fit1, fit2, depvar.labels = c("Barthel-Index", "Negative Impact"))
 ```
 
 
 ### More custom labels
 Here is an example how to change the other labels. Note that `show.header` makes the two labels on top and top left corner appear in the table.
 
-```{r eval=FALSE}
-sjt.lm(fit1, fit2, show.header = TRUE,
-       string.est = "Estimate",
-       string.ci = "Conf. Int.",
-       string.p = "p-value",
-       string.dv = "Response",
-       string.pred = "Coefficients",
-       string.interc = "Konstante",
-       depvar.labels = c("Barthel-Index", "Negative Impact"))
+```{r}
+sjt.lm(
+  fit1,
+  fit2,
+  show.header = TRUE,
+  string.est = "Estimate",
+  string.ci = "Conf. Int.",
+  string.p = "p-value",
+  string.dv = "Response",
+  string.pred = "Coefficients",
+  string.interc = "Konstante",
+  depvar.labels = c("Barthel-Index", "Negative Impact")
+)
 ```
 
 
@@ -69,11 +77,14 @@ sjt.lm(fit1, fit2, show.header = TRUE,
 
 You can change the table style with specific parameters, e.g. to include CI into the same table cell as the estimates, print asterisks instead of numeric p-values etc.
 
-```{r eval=FALSE}
-sjt.lm(fit1, fit2,
-       separate.ci.col = FALSE, # ci in same cell as estimates
-       show.std = TRUE,         # also show standardized beta values
-       p.numeric = FALSE)       # "*" instead of numeric values
+```{r}
+sjt.lm(
+  fit1,
+  fit2,
+  separate.ci.col = FALSE, # ci in same cell as estimates
+  show.std = TRUE,         # also show standardized beta values
+  p.numeric = FALSE        # "*" instead of numeric values
+)       
 ```
 
 
@@ -82,10 +93,8 @@ sjt.lm(fit1, fit2,
 
 In the above example, the original variable labels are long and not so pretty. You can change variable labels either with `sjmisc::set_label()`, which will affect all future plots and tables, or pass own labels via `pred.labels`.
 
-```{r eval=FALSE}
-sjt.lm(fit1, fit2, 
-       pred.labels = c("Carer's Age", "Hours of Care",
-                       "Carer's Sex", "Educational Status"))
+```{r}
+sjt.lm(fit1, fit2, pred.labels = c("Carer's Age", "Hours of Care", "Carer's Sex", "Educational Status"))
 ```
 
 
@@ -106,7 +115,7 @@ fit3 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e, data = efc)
 
 Note that printing tables with fitted models, which have different predictors do not automatically detect variable labels (maybe this will be implemented in a future package version).
 
-```{r eval=FALSE}
+```{r}
 sjt.lm(fit1, fit2, fit3, 
        separate.ci.col = FALSE,
        show.aic = TRUE,
@@ -118,9 +127,8 @@ sjt.lm(fit1, fit2, fit3,
 
 Especially when fitting and summarizing some more models, it might help to increase the distance between the columns that separate the models. This can be done by tweaking the `css.separatorcol` style-sheet:
 
-```{r eval=FALSE}
-sjt.lm(fit1, fit2, fit3, 
-       CSS = list(css.separatorcol = 'padding-right:1.5em; padding-left:1.5em;'))
+```{r}
+sjt.lm(fit1, fit2, fit3, CSS = list(css.separatorcol = 'padding-right:1.5em; padding-left:1.5em;'))
 ```
 
 
@@ -145,7 +153,7 @@ fit2 <- lm(neg_c_7 ~ c160age + c12hour + c172code + c161sex + e42dep, data = efc
 
 Now we can print the table.
 
-```{r eval=FALSE}
+```{r}
 sjt.lm(fit1, fit2)
 ```
 
@@ -179,54 +187,44 @@ fit3 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e, data = efc)
 
 Here you have the complete table output. This helps you identify the row index numbers. Especially when you have multiple models with different predictors, the estimate's position in the last model may differ from this estimate's position in the table output.
 
-```{r eval=FALSE}
+```{r}
 sjt.lm(fit1, fit2, fit3, group.pred = FALSE)
 ```
-
 
 ### Example 2: Removing the intercept
 
 Note that currently the intercept cannot be removed from the model output. However, you can "fake" a removed intercept by setting the font size of the first row (with intercept) to zero via `CSS = list(css.topcontentborder = "+font-size: 0px;")`.
 
-```{r eval=FALSE}
-sjt.lm(fit1, fit2, fit3, group.pred = FALSE,
-       CSS = list(css.topcontentborder = "+font-size: 0px;"))
+```{r}
+sjt.lm(fit1, fit2, fit3, group.pred = FALSE, CSS = list(css.topcontentborder = "+font-size: 0px;"))
 ```
-
-
 
 ### Example 3: Remove first coefficient (after intercept)
 
-```{r eval=FALSE}
-sjt.lm(fit1, fit2, fit3, group.pred = FALSE,
-       remove.estimates = 2)
+```{r}
+sjt.lm(fit1, fit2, fit3, group.pred = FALSE, remove.estimates = 2)
 ```
-
 
 ### Example 4: Remove age and sex
 
-```{r eval=FALSE}
-sjt.lm(fit1, fit2, fit3, group.pred = FALSE,
-       remove.estimates = c("c160age", "c161sex"))
+```{r}
+sjt.lm(fit1, fit2, fit3, group.pred = FALSE, remove.estimates = c("c160age", "c161sex"))
 ```
-`
 
 ### Example 5: Remove many esimates
 
-```{r eval=FALSE}
-sjt.lm(fit1, fit2, fit3, group.pred = FALSE,
-       remove.estimates = c(2,5,6,10))
+```{r}
+sjt.lm(fit1, fit2, fit3, group.pred = FALSE, remove.estimates = c(2,5,6,10))
 ```
-
 
 ### Example 6: Custom predictor labels
 
-In most cases you need to define your own labels when removing estimates, especially when you have grouped categorical predictors, because automatic label detection is quite tricky in such situations. If you provide own labels, please note that grouped predictors' headings (the variable name of the grouped, categorical variable) are still automatically set by the `sjt.lm` function (variable labels are used, so use `set_label` for those categorical predictors). All data rows in the table, i.e. for each coefficient appearing in the model, you need to specify a label string.
+In most cases you need to define your own labels when removing estimates, especially when you have grouped categorical predictors, because automatic label detection is quite tricky in such situations. If you provide own labels, please note that grouped predictors' headings (the variable name of the grouped, categorical variable) are still automatically set by the `sjt.lm()` function (variable labels are used, so use `set_label()` for those categorical predictors). All data rows in the table, i.e. for each coefficient appearing in the model, you need to specify a label string.
 
 In the next example, we have seven table rows with data (excluding intercept): mid and hi education (categories of the variable Education), Hours of Care, slight, moderate and severe dependency (categories of the variable Dependency) and Service Usage. These 'rows' need to be labelled.
 
-```{r eval=FALSE}
-sjt.lm(fit1, fit2, fit3
+```{r}
+sjt.lm(fit1, fit2, fit3,
        pred.labels = c("mid education", "hi education", "Hours of Care", 
                        "slight dependency", "moderate dependency", 
                        "severe dependency", "Service Usage"),

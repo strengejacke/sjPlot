@@ -325,6 +325,7 @@ sjt.itemanalysis <- function(df,
                    altr.row.col = altr.row.col, 
                    CSS = CSS, 
                    encoding = encoding, 
+                   hide.progress = TRUE,
                    show.cmmn.row = TRUE, 
                    string.cmmn = sprintf("Mean inter-item-correlation=%.3f &middot; Cronbach's &alpha;=%.3f", mic.total[[i]], cronbach.total[[i]]))
     # add to complete html-page
