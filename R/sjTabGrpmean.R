@@ -205,6 +205,8 @@ sjt.grpmean <- function(var.cnt,
       output.complete = html$output.complete,
       knitr = html$knitr,
       file = file,
+      page.style = html$page.style,
+      page.content = html$page.content,
       show = !no.output,
       use.viewer = use.viewer
     )
