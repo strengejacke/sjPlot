@@ -59,7 +59,7 @@ This example first detects your operating system and then chooses the associated
 
 # Knitr integration of HTML tables
 
-**sjPlot** provides a print-method for HTML-tables inside knitr-documents, so you can use the `sjt`-functions inside code chunks in knitr, and the HTML-table will be printed to the knitr-document.
+**sjPlot** provides a print-method for HTML-tables to use in knitr-documents, so you can use the `sjt`-functions inside code chunks in knitr-rmarkdown files. The HTML-table will be printed to the knitr-document 'as is':
 
 ```{r}
 sjt.frq(efc$e42dep)
