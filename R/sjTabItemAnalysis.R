@@ -92,11 +92,11 @@
 #'             }
 #' 
 #' @examples
-#' Data from the EUROFAMCARE sample dataset
+#' # Data from the EUROFAMCARE sample dataset
 #' library(sjmisc)
 #' data(efc)
 #' 
-#' retrieve variable and value labels
+#' # retrieve variable and value labels
 #' varlabs <- get_label(efc)
 #' 
 #' # recveive first item of COPE-index scale
@@ -108,7 +108,7 @@
 #' mydf <- data.frame(efc[, c(start:end)])
 #' colnames(mydf) <- varlabs[c(start:end)]
 #' 
-#'  \dontrun{
+#' \dontrun{
 #' sjt.itemanalysis(mydf)
 #' 
 #' # auto-detection of labels
@@ -389,5 +389,4 @@ sjt.itemanalysis <- function(df,
       ideal.item.diff = diff.ideal.list
     )
   )
-
 }
