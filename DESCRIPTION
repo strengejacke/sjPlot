@@ -5,8 +5,8 @@ Title: Data Visualization for Statistics in Social Science
 Version: 2.3.0.9001
 Date: 2017-02-14
 Authors@R: c(
-    person("Daniel", "Lüdecke", , "d.luedecke@uke.de", c("aut", "cre")),
-    person("Carsten", "Schwemmer", , "carsten.schwemmer@uni-bamberg.de", role = "ctb")
+    person("Daniel", "Lüdecke", email = "d.luedecke@uke.de", role = c("aut", "cre")),
+    person("Carsten", "Schwemmer", email = "carsten.schwemmer@uni-bamberg.de", role = "ctb")
           )
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
 Description: Collection of plotting and table output functions for data
