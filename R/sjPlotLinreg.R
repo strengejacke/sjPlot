@@ -738,7 +738,10 @@ col_check <- function(geom.colors, show.loess) {
     geom.colors <- scales::grey_pal()(collen)
   } else {
     # do we have correct amount of colours?
-    if (length(geom.colors) != collen) {
+    if (length(geom.colors) > collen) {
+      # shorten palette
+      geom.colors <- geom.colors[1:collen]
+    } else if (length(geom.colors) < collen) {
       # warn user abount wrong color palette
       warning(sprintf("Insufficient length of color palette provided. %i color values needed.", collen), call. = F)
       # set default
@@ -767,7 +770,10 @@ col_check2 <- function(geom.colors, collen) {
     } else if (geom.colors[1] == "bw") {
       geom.colors <- rep("black", times = collen)
       # do we have correct amount of colours?
-    } else if (length(geom.colors) != collen) {
+    } else if (length(geom.colors) > collen) {
+      # shorten palette
+      geom.colors <- geom.colors[1:collen]
+    } else if (length(geom.colors) < collen) {
       # warn user abount wrong color palette
       warning(sprintf("Insufficient length of color palette provided. %i color values needed.", collen), call. = F)
       # set default palette

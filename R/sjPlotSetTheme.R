@@ -694,7 +694,6 @@ sj.setGeomColors <- function(plot,
 #'
 #' @import ggplot2
 #' @importFrom grDevices png jpeg tiff dev.off cm svg
-#'
 #' @export
 save_plot <- function(filename,
                       fig = ggplot2::last_plot(),
