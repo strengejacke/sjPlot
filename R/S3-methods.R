@@ -29,11 +29,11 @@ print.sjTable <- function(x, ...) {
   }
 }
 
-#' @importFrom htmltools HTML
+#' @importFrom knitr asis_output
 #' @export
 knit_print.sjTable <-  function(input, ...) {
- if (!requireNamespace("htmltools", quietly = TRUE)) {
-   stop("Package `htmltools` needed to print tables inside knitr-documents. Please install it.", call. = F)
+ if (!requireNamespace("knitr", quietly = TRUE)) {
+   stop("Package `knitr` needed to print tables inside knitr-documents. Please install it.", call. = F)
  }
-  htmltools::HTML(input$knitr)
+  knitr::asis_output(input$knitr)
 }

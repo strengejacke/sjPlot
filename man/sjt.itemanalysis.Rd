@@ -141,7 +141,9 @@ See 'Notes' in \code{\link{sjt.frq}}.
 }
 \examples{
 Data from the EUROFAMCARE sample dataset
-library(sjmisc)data(efc)
+library(sjmisc)
+data(efc)
+
 retrieve variable and value labels
 varlabs <- get_label(efc)
 
@@ -153,9 +155,9 @@ end <- which(colnames(efc) == "c90cop9")
 # create data frame with COPE-index scale
 mydf <- data.frame(efc[, c(start:end)])
 colnames(mydf) <- varlabs[c(start:end)]
-#' #'
-#' #' \dontrun{
-#' sjt.itemanalysis(mydf)
+
+ \dontrun{
+sjt.itemanalysis(mydf)
 
 # auto-detection of labels
 sjt.itemanalysis(efc[, c(start:end)])

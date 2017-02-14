@@ -79,7 +79,6 @@ Most `sjt` function invisibly return a structure with following values:
 
 `page.style` and `page.content` are described below in the CSS section. If you want to include a HTML table in your knitr document, simply use the corresponding function within a code chunk. Be sure to use `no.output=TRUE`, because else your output would also be opened in a viewer pane or webbrowser.
 
-`r rinline("sjt.frq(efc\\$e42dep, no.output=TRUE)\\$knitr")`
 
 If you want to include both the source code and the output in your HTML document, you first need to write your code chunk, which should not be evaluated. Note that you don't need to use `no.output = TRUE` and `$knitr` in this chunk. The results look like this in your HTML document:
 
@@ -131,7 +130,7 @@ You can customize the table output with the `CSS` parameter. This parameter requ
 5. the CSS format must end with a colon (;)
 
 Example:
-```{r eval=FALSE}
+```{r }
 sjt.frq(efc$e42dep, 
         CSS = list(css.centeralign = 'text-align: left;', 
                    css.caption = 'font-weight: normal; font-style: italic;', 
@@ -142,7 +141,7 @@ sjt.frq(efc$e42dep,
 
 
 In the above example, the summary-table row lost the original style and just became blue. If you want to keep the original style and just *add* additional style information, use the plus-sign (+) as initial character for the parameter attributes. In the following example, the summary row keeps its original style and is additionally printed in blue:
-```{r eval=FALSE}
+```{r }
 sjt.frq(efc$e42dep, CSS = list(css.summary = '+color: blue;'))
 ```
 

@@ -2,9 +2,12 @@ Package: sjPlot
 Type: Package
 Encoding: UTF-8
 Title: Data Visualization for Statistics in Social Science
-Version: 2.3.0.9000
-Date: 2017-02-07
-Author: Daniel Lüdecke <d.luedecke@uke.de>
+Version: 2.3.0.9001
+Date: 2017-02-14
+Authors@R: c(
+    person("Daniel", "Lüdecke", , "d.luedecke@uke.de", c("aut", "cre")),
+    person("Carsten", "Schwemmer", , "carsten.schwemmer@uni-bamberg.de", role = "ctb")
+          )
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
 Description: Collection of plotting and table output functions for data
     visualization. Results of various statistical analyses (that are commonly used

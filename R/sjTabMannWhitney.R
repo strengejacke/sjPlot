@@ -26,8 +26,8 @@
 #'
 #' @examples
 #' \dontrun{
-#' #' library(sjmisc)
-#' #' data(efc)
+#' library(sjmisc)
+#' data(efc)
 #' sjt.mwu(mwu(efc$e17age, efc$e42dep))}
 
 #' @export
