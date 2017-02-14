@@ -198,11 +198,17 @@ sjt.grpmean <- function(var.cnt,
   # -------------------------------------
   # check if html-content should be printed
   # -------------------------------------
-  out.html.table(no.output, file, html$knitr, html$output.complete, use.viewer)  
-  invisible(list(class = c("sjTable", "sjtgrpmean"),
-                 df = df, 
-                 page.style = html$page.style,
-                 page.content = html$page.content,
-                 knitr = html$knitr,
-                 output.complete = html$output.complete))
+  #out.html.table(no.output, file, html$knitr, html$output.complete, use.viewer)  
+  structure(
+    class = c("sjTable", "sjtgrpmean"),
+    list(
+      output.complete = html$output.complete,
+      knitr = html$knitr,
+      file = file,
+      page.style = html$page.style,
+      page.content = html$page.content,
+      show = !no.output,
+      use.viewer = use.viewer
+    )
+  )
 }

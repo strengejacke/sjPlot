@@ -92,23 +92,23 @@
 #'             }
 #' 
 #' @examples
-#' # Data from the EUROFAMCARE sample dataset
+#' Data from the EUROFAMCARE sample dataset
 #' library(sjmisc)
 #' data(efc)
 #' 
-#' # retrieve variable and value labels
+#' retrieve variable and value labels
 #' varlabs <- get_label(efc)
 #' 
 #' # recveive first item of COPE-index scale
 #' start <- which(colnames(efc) == "c82cop1")
 #' # recveive last item of COPE-index scale
 #' end <- which(colnames(efc) == "c90cop9")
-#'  
+#' 
 #' # create data frame with COPE-index scale
 #' mydf <- data.frame(efc[, c(start:end)])
 #' colnames(mydf) <- varlabs[c(start:end)]
 #' 
-#' \dontrun{
+#'  \dontrun{
 #' sjt.itemanalysis(mydf)
 #' 
 #' # auto-detection of labels
@@ -372,14 +372,22 @@ sjt.itemanalysis <- function(df,
   # -------------------------------------
   # check if html-content should be printed
   # -------------------------------------
-  out.html.table(no.output, file, knitr, complete.page, use.viewer)  
-  invisible(list(class = c("sjTable", "sjtitemanalysis"),
-                 df.list = df.ia,
-                 index.scores = index.scores,
-                 df.index.scores = df.index.scores,
-                 cronbach.values = cronbach.total,
-                 ideal.item.diff = diff.ideal.list,
-                 knitr = knitr,
-                 knitr.list = knitr.list,
-                 complete.page = complete.page))
+  #out.html.table(no.output, file, knitr, complete.page, use.viewer)  
+  
+  structure(
+    class = c("sjTable", "sjtitemanalysis"),
+    list(
+      output.complete = complete.page,
+      knitr = knitr,
+      file = file,
+      show = !no.output,
+      use.viewer = use.viewer,
+      df.list = df.ia,
+      index.scores = index.scores,
+      df.index.scores = df.index.scores,
+      cronbach.values = cronbach.total,
+      ideal.item.diff = diff.ideal.list
+    )
+  )
+
 }

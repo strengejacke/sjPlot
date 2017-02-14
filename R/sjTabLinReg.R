@@ -143,7 +143,7 @@
 #' \dontrun{
 #' # Now fit the models. Note that both models share the same predictors
 #' # and only differ in their dependent variable. See examples of stepwise
-#' # models below at the end.
+#' models below at the end.
 #' library(sjmisc)
 #' data(efc)
 #' 
@@ -152,12 +152,12 @@
 #' # fit second model
 #' fit2 <- lm(neg_c_7 ~ c160age + c12hour + c161sex + c172code, data = efc)
 #' 
-#' # create and open HTML-table in RStudio Viewer Pane or web browser
-#' # note that we don't need to specify labels for the predictors,
-#' # because these are automatically read
+#' create and open HTML-table in RStudio Viewer Pane or web browser
+#' note that we don't need to specify labels for the predictors,
+#' because these are automatically read
 #' sjt.lm(fit1, fit2)
 #' 
-#' # create and open HTML-table in RStudio Viewer Pane or web browser
+#' create and open HTML-table in RStudio Viewer Pane or web browser
 #' # in the following examples, we set labels via argument
 #' sjt.lm(fit1, fit2, 
 #'        depvar.labels = c("Barthel-Index", "Negative Impact"),
@@ -1248,7 +1248,7 @@ sjt.lm <- function(...,
   # -------------------------------------
   # check if html-content should be outputted
   # -------------------------------------
-  out.html.table(no.output, file, knitr, toWrite, use.viewer)  
+  #out.html.table(no.output, file, knitr, toWrite, use.viewer)  
   # -------------------------------------
   # replace &nbsp; (former NA), created by join, with empty string
   # -------------------------------------
@@ -1256,13 +1256,21 @@ sjt.lm <- function(...,
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible(structure(class = c("sjTable", "sjtlm"),
-                      list(page.style = get_table_css_styles(cell.spacing, cell.gpr.indent,
-                                                             p.numeric, show.header, CSS),
-                           page.content = page.content,
-                           output.complete = toWrite,
-                           knitr = knitr,
-                           data = joined.df)))
+
+  structure(
+    class = c("sjTable", "sjtfrq"),
+    list(
+      page.style = get_table_css_styles(cell.spacing, cell.gpr.indent,
+                                        p.numeric, show.header, CSS),
+      page.content = page.content,
+      output.complete = toWrite,
+      knitr = knitr,
+      file = file,
+      show = !no.output,
+      use.viewer = use.viewer,
+      data = joined.df
+    )
+  )
 }
 
 

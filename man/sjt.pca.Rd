@@ -127,7 +127,7 @@ varlabs <- get_label(efc)
 start <- which(colnames(efc) == "c82cop1")
 # recveive last item of COPE-index scale
 end <- which(colnames(efc) == "c90cop9")
- 
+
 # create data frame with COPE-index scale
 mydf <- as.data.frame(efc[, c(start:end)])
 colnames(mydf) <- varlabs[c(start:end)]

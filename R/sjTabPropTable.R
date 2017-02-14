@@ -545,13 +545,17 @@ sjt.xtab <- function(var.row,
   # -------------------------------------
   # check if html-content should be printed
   # -------------------------------------
-  out.html.table(no.output, file, knitr, toWrite, use.viewer)   
+  #out.html.table(no.output, file, knitr, toWrite, use.viewer)   
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible(structure(class = c("sjTable", "sjtxtab"),
+  structure(class = c("sjTable", "sjtxtab"),
                       list(page.style = page.style,
                            page.content = page.content,
+                           #page.content.list = page.content.list,
                            output.complete = toWrite,
-                           knitr = knitr)))
+                           knitr = knitr,
+                           file = file,
+                           show = !no.output,
+                           use.viewer = use.viewer))
 }

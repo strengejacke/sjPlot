@@ -69,5 +69,4 @@ See 'Notes' in \code{\link{sjt.frq}}.
 library(sjmisc)
 data(efc)
 sjt.mwu(mwu(efc$e17age, efc$e42dep))}
-
 }

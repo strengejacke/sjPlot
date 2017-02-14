@@ -459,13 +459,16 @@ sjt.stackfrq <- function(items,
   # -------------------------------------
   # check if html-content should be outputted
   # -------------------------------------
-  out.html.table(no.output, file, knitr, toWrite, use.viewer) 
+  #out.html.table(no.output, file, knitr, toWrite, use.viewer) 
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible(structure(class = "sjtstackfrq",
+  structure(class = c("sjTable", "sjtstackfrq"),
                       list(page.style = page.style,
                            page.content = page.content,
                            output.complete = toWrite,
-                           knitr = knitr)))
+                           knitr = knitr,
+                           file = file,
+                           show = !no.output,
+                           use.viewer = use.viewer))
 }

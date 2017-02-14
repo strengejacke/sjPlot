@@ -75,7 +75,7 @@
 #' start <- which(colnames(efc) == "c82cop1")
 #' # recveive last item of COPE-index scale
 #' end <- which(colnames(efc) == "c90cop9")
-#'  
+#' 
 #' # create data frame with COPE-index scale
 #' mydf <- as.data.frame(efc[, c(start:end)])
 #' colnames(mydf) <- varlabs[c(start:end)]
@@ -538,15 +538,19 @@ sjt.pca <- function(data,
   # -------------------------------------
   # check if html-content should be outputted
   # -------------------------------------
-  out.html.table(no.output, file, knitr, toWrite, use.viewer) 
+  #out.html.table(no.output, file, knitr, toWrite, use.viewer) 
   # -------------------------------------
   # return results
   # -------------------------------------
-  invisible(structure(class = c("sjTable", "sjtpca"),
+  structure(class = c("sjTable", "sjtpca"),
                       list(page.style = page.style,
                            page.content = page.content,
+                          # page.content.list = page.content.list,
                            output.complete = toWrite,
                            knitr = knitr,
                            factor.index = factorindex,
-                           removed.items = removableItems)))
+                           removed.items = removableItems,
+                           file = file,
+                           show = !no.output,
+                           use.viewer = use.viewer))
 }
