@@ -2,7 +2,7 @@
 
 ## General
 
-* All `sjt`-functions can now be directly integrated into knitr-code-chunks, because sjPlot now exports a knitr-print-method (see `vignette("sjtbasic", "sjPlot")`).
+* All `sjt`-functions can now be directly integrated into knitr-code-chunks, because sjPlot exports a knitr-print-method (see `vignette("sjtbasic", "sjPlot")`).
 * Updated Namespace for functions that moved from package **sjstats** to **sjmisc**.
 
 ## Changes to functions
