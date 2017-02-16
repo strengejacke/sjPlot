@@ -174,6 +174,8 @@ sjtab <- function(data, ..., fun = c("frq", "xtab", "grpmean", "stackfrq")) {
   # evaluate arguments, generate data
   x <- get_dot_data(data, match.call(expand.dots = FALSE)$`...`)
   
+  tabs.list <- list()
+  
   # check remaining arguments
   args <- match.call(expand.dots = FALSE)$`...`
   args <- args[names(args) != ""]
@@ -192,8 +194,43 @@ sjtab <- function(data, ..., fun = c("frq", "xtab", "grpmean", "stackfrq")) {
       tmp.args <- get_grouped_title(x, grps, args, i, sep = "<br>")
       
       # table
-      tab_sj(tmp, fun, tmp.args)
+      tl <- tab_sj(tmp, fun, tmp.args)
+      
+      # save list
+      tabs.list[[length(tabs.list) + 1]] <- tl
     }
+    
+    final.table <- paste0(
+      tl$header,
+      tl$page.style,
+      "\n</head>\n<body>\n"
+    )
+    
+    final.knitr <- ""
+    
+    # iterate table list
+    for (i in seq_len(length(tabs.list))) {
+      final.table <- paste0(final.table, tabs.list[[i]]$page.content, sep = "\n<p>&nbsp;</p>\n")
+      final.knitr <- paste0(final.knitr, tabs.list[[i]]$knitr, sep = "\n<p>&nbsp;</p>\n")
+    }
+
+    # close html tags    
+    final.table <- paste0(final.table, "\n</body>\n</html>")
+
+    # return all tables
+    return(structure(
+      class = c("sjTable", "sjtab"),
+      list(
+        page.style = tl$page.style,
+        header = tl$header,
+        page.content = final.table,
+        output.complete = final.table,
+        knitr = final.knitr,
+        file = eval(args[["file"]]),
+        show = ifelse(is.null(args[["no.output"]]), TRUE, !eval(args[["no.output"]])),
+        use.viewer = ifelse(is.null(args[["use.viewer"]]), TRUE, eval(args[["use.viewer"]]))
+      )
+    ))
   } else {
     # plot
     tab_sj(x, fun, args)

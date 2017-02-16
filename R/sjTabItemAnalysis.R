@@ -362,6 +362,7 @@ sjt.itemanalysis <- function(df,
   # wrap html-tags
   # -------------------------------------
   knitr <- complete.page
+  table.header <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n", encoding)
   complete.page <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n</head>\n<body>\n%s\n</body></html>", encoding, complete.page)
   # -------------------------------------
   # remove spaces?
@@ -381,6 +382,7 @@ sjt.itemanalysis <- function(df,
       output.complete = complete.page,
       knitr = knitr,
       file = file,
+      header = table.header,
       show = !no.output,
       use.viewer = use.viewer,
       df.list = df.ia,

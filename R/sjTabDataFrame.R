@@ -220,7 +220,12 @@ sjt.df <- function(mydf,
                         tag.lasttablerow, css.lasttablerow, tag.firsttablerow, css.firsttablerow,
                         tag.leftalign, css.leftalign, tag.centertalign, css.centeralign,
                         tag.firsttablecol, css.firsttablecol, tag.comment, css.comment)
-  toWrite <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n%s\n</head>\n<body>\n", encoding, page.style)
+  
+  # first, save table header
+  toWrite <- table.header <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n", encoding)
+  
+  # then also set page-CSS-stylesheet
+  toWrite <- sprintf("%s%s\n</head>\n<body>\n", toWrite, page.style)
   # -------------------------------------
   # get row and column count of data frame
   # -------------------------------------
@@ -357,6 +362,7 @@ sjt.df <- function(mydf,
       page.style = page.style,
       page.content = page.content,
       output.complete = toWrite,
+      header = table.header,
       knitr = knitr,
       file = file,
       show = !no.output,

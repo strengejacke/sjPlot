@@ -1092,6 +1092,7 @@ sjt.glm <- function(...,
                            output.complete = toWrite,
                            knitr = knitr,
                            file = file,
+                           header = NULL,
                            show = !no.output,
                            use.viewer = use.viewer,
                            data = joined.df))

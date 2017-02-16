@@ -188,29 +188,24 @@ sjt.frq <- function(data,
                     use.viewer = TRUE,
                     no.output = FALSE,
                     remove.spaces = TRUE) {
-  # -------------------------------------
   # check encoding
-  # -------------------------------------
   encoding <- get.encoding(encoding, data)
+  
   # save original value
   o.skip.zero <- skip.zero
-  # -------------------------------------
+  
   # match arguments
-  # -------------------------------------
   sort.frq <- match.arg(sort.frq)
-  # -------------------------------------
-  # warning
-  # -------------------------------------
-  if (!is.null(sort.frq) && sort.frq != "none") message("Sorting may not work when data contains values with zero-counts.")
-  # -------------------------------------
+  
+  if (!is.null(sort.frq) && sort.frq != "none")
+    message("Sorting may not work when data contains values with zero-counts.")
+  
   # table init
-  # -------------------------------------
-  toWrite <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n", encoding)
-  # -------------------------------------
-  # init style sheet and tags used for css-definitions
+  toWrite <- table.header <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n", encoding)
+  
+  # init style sheet and tags used for css-definitions -----
   # we can use these variables for string-replacement
   # later for return value
-  # -------------------------------------
   tag.table <- "table"
   tag.thead <- "thead"
   tag.tdata <- "tdata"
@@ -225,6 +220,7 @@ sjt.frq <- function(data,
   tag.leftalign <- "leftalign"
   tag.centeralign <- "centeralign"
   tag.firsttablecol <- "firsttablecol"
+  
   css.table <- "border-collapse:collapse; border:none;"
   css.thead <- "border-top:double; text-align:center; font-style:italic; font-weight:normal; padding-left:0.2cm; padding-right:0.2cm;"
   css.tdata <- "padding:0.2cm;"
@@ -239,9 +235,8 @@ sjt.frq <- function(data,
   css.leftalign <- "text-align:left;"
   css.centeralign <- "text-align:center;"
   css.firsttablecol <- ""
-  # ------------------------
-  # check user defined style sheets
-  # ------------------------
+  
+  # check user defined style sheets -----
   if (!is.null(CSS)) {
     if (!is.null(CSS[['css.table']])) css.table <- ifelse(substring(CSS[['css.table']], 1, 1) == '+', paste0(css.table, substring(CSS[['css.table']], 2)), CSS[['css.table']])
     if (!is.null(CSS[['css.thead']])) css.thead <- ifelse(substring(CSS[['css.thead']], 1, 1) == '+', paste0(css.thead, substring(CSS[['css.thead']], 2)), CSS[['css.thead']])
@@ -258,54 +253,58 @@ sjt.frq <- function(data,
     if (!is.null(CSS[['css.centeralign']])) css.centeralign <- ifelse(substring(CSS[['css.centeralign']], 1, 1) == '+', paste0(css.centeralign, substring(CSS[['css.centeralign']], 2)), CSS[['css.centeralign']])
     if (!is.null(CSS[['css.firsttablecol']])) css.firsttablecol <- ifelse(substring(CSS[['css.firsttablecol']], 1, 1) == '+', paste0(css.firsttablecol, substring(CSS[['css.firsttablecol']], 2)), CSS[['css.firsttablecol']])
   }
-  # -------------------------------------
-  # set style sheet
-  # -------------------------------------
-  page.style <- sprintf("<style>\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n%s { %s }\n.%s { %s }\n</style>",
-                        tag.table, css.table, tag.thead, css.thead, tag.tdata, css.tdata,
-                        tag.summary, css.summary, tag.arc, css.arc, tag.qrow, css.qrow,
-                        tag.mdrow, css.mdrow, tag.abstand, css.abstand, tag.lasttablerow, css.lasttablerow,
-                        tag.firsttablerow, css.firsttablerow, tag.leftalign, css.leftalign,
-                        tag.centeralign, css.centeralign, tag.caption, css.caption,
-                        tag.firsttablecol, css.firsttablecol)
+  
+  # set style sheet -----
+  page.style <- sprintf(
+    "<style>\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n%s { %s }\n.%s { %s }\n</style>",
+    tag.table, css.table, tag.thead, css.thead, tag.tdata, css.tdata,
+    tag.summary, css.summary, tag.arc, css.arc, tag.qrow, css.qrow,
+    tag.mdrow, css.mdrow, tag.abstand, css.abstand, tag.lasttablerow, css.lasttablerow,
+    tag.firsttablerow, css.firsttablerow, tag.leftalign, css.leftalign,
+    tag.centeralign, css.centeralign, tag.caption, css.caption,
+    tag.firsttablecol, css.firsttablecol
+  )
+  
   # start writing content
   toWrite <- paste(toWrite, page.style)
   toWrite <- paste(toWrite, "\n</head>\n<body>\n")
-  # -------------------------------------
+  
   # check if string vectors should be removed
-  # -------------------------------------
   if (ignore.strings) {
-    # ---------------------------------------
     # check if we have data frame with several variables
-    # ---------------------------------------
     if (is.data.frame(data)) {
       # remove string variables
       data <- data[, !sapply(data, is.character)]
     } else if (is.character(data)) {
-      stop("argument `data` is a single string vector, where string vectors should be removed. No data to compute frequency table left. See argument `ignore.strings` for details.", call. = FALSE)
+      stop("`data` is a single string vector, where string vectors should be removed. No data to compute frequency table left. See argument `ignore.strings` for details.", call. = FALSE)
     }
   }
-  # -------------------------------------
+  
   # Remove variables that only have missings
-  # -------------------------------------
   if (is.data.frame(data)) {
     # store column indices of variables that only have NA's
     NAcolumns <- c()
+    
     # iterate all columns
     for (i in seq_len(ncol(data))) {
       # check type
       if (length(stats::na.omit(data[[i]])) == 0) NAcolumns <- c(NAcolumns, i)
     }
+    
     # check if any NA-only variables found
     if (length(NAcolumns) > 0) {
-      message(sprintf("%i variables have been removed from output, because they contained only NA's: %s", 
-                      length(NAcolumns), paste(colnames(data)[NAcolumns], collapse = "; ")))
+      message(
+        sprintf(
+          "%i variables have been removed from output, because they contained only NA's: %s",
+          length(NAcolumns),
+          paste(colnames(data)[NAcolumns], collapse = "; ")
+        )
+      )
       data <- data[, -NAcolumns]
     }
   }
-  # -------------------------------------
-  # auto-retrieve variable labels
-  # -------------------------------------
+  
+  # auto-retrieve variable labels -----
   if (is.null(title)) {
     # check if we have data frame with several variables
     if (is.data.frame(data)) {
@@ -317,11 +316,10 @@ sjt.frq <- function(data,
       title <- sjmisc::get_label(data, def.value = deparse(substitute(data)))
     }
   }
-  # -------------------------------------
+  
   # auto-retrieve variable notes
-  # -------------------------------------
-  # init variable notes as list
   note.labels <- list()
+  
   # check if we have data frame with several variables
   if (is.data.frame(data)) {
     # if yes, iterate each variable
@@ -334,32 +332,34 @@ sjt.frq <- function(data,
     # retrieve note attribute
     note.labels <- c(note.labels, sjmisc::get_note(data))
   }
-  # -------------------------------------
+  
   # make data frame of single variable, so we have
   # unique handling for the data
-  # -------------------------------------
   if (!is.data.frame(data)) {
     isString <- is.character(data)
+    
     # check for auto-detection of labels, but only for non-character-vectors
     # characters will be handled later
     if (is.null(value.labels) && !isString)
       value.labels <-
-        sjmisc::get_labels(data, attr.only = F, include.values = NULL, 
-                           include.non.labelled = T)
+        sjmisc::get_labels(
+          data,
+          attr.only = F,
+          include.values = NULL,
+          include.non.labelled = T
+        )
+    
     # copy variable to data frame for unuqie handling
     data <- as.data.frame(data)
-    if (isString) {
-      # reformat into string, if it was...
-      data$data <- as.character(data$data)
-    }
+    
+    # reformat into string, if it was...
+    if (isString) data$data <- as.character(data$data)
   }
-  # -------------------------------------
+  
   # determine number of variables
-  # -------------------------------------
   nvar <- ncol(data)
-  # -------------------------------------
-  # auto-group string vectors
-  # -------------------------------------
+  
+  # auto-group string vectors -----
   if (auto.grp.strings) {
     # iterate data frame
     for (i in seq_len(nvar)) {
@@ -369,14 +369,15 @@ sjt.frq <- function(data,
       if (is.character(sv)) {
         # group strings
         data[[i]] <- 
-          sjmisc::group_str(strings = sv, maxdist = max.string.dist, remove.empty = F)
+          sjmisc::group_str(strings = sv,
+                            maxdist = max.string.dist,
+                            remove.empty = F)
       }
     }
   }
-  # -------------------------------------
+  
   # transform variable and value labels 
   # to list object
-  # -------------------------------------
   if (!is.null(value.labels) && !is.list(value.labels)) {
     # if we have value labels as vector, convert them to list
     value.labels <- list(value.labels)
@@ -394,51 +395,65 @@ sjt.frq <- function(data,
       } else {
         # check for auto-detection of labels
         avl <-
-          sjmisc::get_labels(dummy, attr.only = F, include.values = NULL, 
-                             include.non.labelled = T)
+          sjmisc::get_labels(
+            dummy,
+            attr.only = F,
+            include.values = NULL,
+            include.non.labelled = T
+          )
+        
         if (!is.null(avl)) {
           value.labels <- c(value.labels, list(avl))
         } else {
-          value.labels <- c(value.labels, 
-                           list(min(dummy, na.rm = TRUE):max(dummy, na.rm = TRUE)))
+          value.labels <- c(value.labels,
+                            list(min(dummy, na.rm = TRUE):max(dummy, na.rm = TRUE)))
         }
       }
+      
       # and add label range to value labels list
       if (is.null(value.labels))
         value.labels <-
           c(value.labels, list(min(dummy, na.rm = TRUE):max(dummy, na.rm = TRUE)))
     }
   }
-  # -------------------------------------
+  
   # header row of table
-  # -------------------------------------
   page.content.list <- list()
-  headerRow <- sprintf("   <tr>\n     <th class=\"thead firsttablerow firsttablecol\">%s</th>\n     <th class=\"thead firsttablerow\">%s</th>\n     <th class=\"thead firsttablerow\">%s</th>\n     <th class=\"thead firsttablerow\">%s</th>\n     <th class=\"thead firsttablerow\">%s</th>\n   </tr>\n\n", string.val, string.cnt, string.prc, string.vprc, string.cprc)
-  # -------------------------------------
+  headerRow <- sprintf("   <tr>\n     <th class=\"thead firsttablerow leftalign firsttablecol\">%s</th>\n     <th class=\"thead firsttablerow\">%s</th>\n     <th class=\"thead firsttablerow\">%s</th>\n     <th class=\"thead firsttablerow\">%s</th>\n     <th class=\"thead firsttablerow\">%s</th>\n   </tr>\n\n", string.val, string.cnt, string.prc, string.vprc, string.cprc)
+  
   # start iterating all variables
-  # -------------------------------------
   for (cnt in seq_len(nvar)) {
-    # -----------------------------------------------
     # check for length of unique values and skip if too long
-    # -----------------------------------------------
-    if (!is.null(auto.group) && !is.character(data[[cnt]]) && length(unique(data[[cnt]])) >= auto.group) {
-      message(sprintf("Variable %s with %i unique values was grouped...",
-                      colnames(data)[cnt], length(unique(data[[cnt]]))))
+    if (!is.null(auto.group) &&
+        !is.character(data[[cnt]]) &&
+        length(unique(data[[cnt]])) >= auto.group) {
+      message(sprintf(
+        "Variable %s with %i unique values was grouped...",
+        colnames(data)[cnt],
+        length(unique(data[[cnt]]))
+      ))
+      
       # group labels
       value.labels[[cnt]] <- 
-        sjmisc::group_labels(sjmisc::to_value(data[[cnt]], keep.labels = F),
-                             groupsize = "auto", groupcount = auto.group)
+        sjmisc::group_labels(
+          sjmisc::to_value(data[[cnt]], keep.labels = F),
+          groupsize = "auto",
+          groupcount = auto.group
+        )
+      
       # group variable
       data[[cnt]] <-
-        sjmisc::group_var(sjmisc::to_value(data[[cnt]], keep.labels = F),
-                          groupsize = "auto", as.num = TRUE, groupcount = auto.group)
+        sjmisc::group_var(
+          sjmisc::to_value(data[[cnt]], keep.labels = F),
+          groupsize = "auto",
+          as.num = TRUE,
+          groupcount = auto.group
+        )
+      
       # set labels
       data[[cnt]] <- sjmisc::set_labels(data[[cnt]], labels = value.labels[[cnt]])
     }
-    # -----------------------------------------------
-    # prepare data: create frequencies and weight them,
-    # if requested. put data into a data frame
-    #---------------------------------------------------
+    
     # check if we have a string-vector
     if (is.character(data[[cnt]])) {
       # convert string to numeric
@@ -448,26 +463,30 @@ sjt.frq <- function(data,
       # convert to numeric
       orivar <- varia <- sjmisc::to_value(data[[cnt]], keep.labels = F)
     }
+    
     # retrieve summary
     varsummary <- summary(varia)
+    
     # retrieve median
     var.median <- stats::median(varia, na.rm = TRUE)
+    
     # retrieve quartiles
     var.lowerq <- round(varsummary[[2]])
     var.upperq <- round(varsummary[[5]])
-    #---------------------------------------------------
-    # create frequency data frame
-    #---------------------------------------------------
-    df.frq <- create.frq.df(data[[cnt]],
-                            wrap.labels = Inf,
-                            order.frq = sort.frq,
-                            round.prz = digits,
-                            na.rm = F, 
-                            weight.by = weight.by)
+    
+    # create frequency data frame -----
+    df.frq <- create.frq.df(
+      data[[cnt]],
+      wrap.labels = Inf,
+      order.frq = sort.frq,
+      round.prz = digits,
+      na.rm = F,
+      weight.by = weight.by
+    )
+    
     df <- df.frq$mydat
-    #---------------------------------------------------
+    
     # auto-set skipping zero-rows?
-    #---------------------------------------------------
     if (!is.logical(o.skip.zero)) {
       # retrieve range of values
       vonbis <- max(varia, na.rm = T) - min(varia, na.rm = T)
@@ -480,109 +499,146 @@ sjt.frq <- function(data,
     } else {
       skip.zero <- o.skip.zero
     }
+
+    # if we just have one value, skip.zero might be NA,
+    # so set to FALSE here
+    if (is.na(skip.zero)) skip.zero <- F
+    
     # save labels
     vallab <- df.frq$labels
+    
     # rename "NA" row
     rownames(df)[nrow(df)] <- "NA"
-    # -------------------------------------
+    
     # start table tag
-    # -------------------------------------
     page.content <- "<table>\n"
-    # -------------------------------------
+    
     # retrieve variable label
-    # -------------------------------------
     varlab <- title[cnt]
+    
     # if we have weighted values, say that in diagram's title
     if (!is.null(weight.by)) {
       varlab <- paste(varlab, title.wtd.suffix, sep = "")
     }
-    # -------------------------------------
+    
     # table caption, variable label
-    # -------------------------------------
     if (!is.null(note.labels) && !sjmisc::is_empty(note.labels))
       caption.title.tag <- sprintf(" title=\"%s\"", note.labels[[cnt]])
     else
       caption.title.tag <- ""
+    
     page.content <- paste(page.content, sprintf("  <caption%s>%s</caption>\n", caption.title.tag, varlab))
-    # -------------------------------------
+    
     # header row with column labels
-    # -------------------------------------
     page.content <- paste0(page.content, headerRow)
+    
     # iterate all labels, each one in one row
-    for (j in 1:(nrow(df) - 1)) {
+    for (j in seq_len(nrow(df) - 1)) {
       # retrieve data row
+      # access cell data via "celldata <- datarow[XY]
+      # datarow has 11 data columns / cells: 
+      # val, label, frq, upper.ci, lower.ci, rel.upper.ci, 
+      # rel.lower.ci, raw.prc, valid.prc, cum.prc, order
       datarow <- df[j, ]
       zerorow <- (datarow$frq == 0)
-      # -------------------------------------
+      
       # check if to skip zero rows
-      # -------------------------------------
       if (skip.zero && zerorow) {
         # nothing here...
       } else {
-        # -------------------------------------
-        # access cell data via "celldata <- c(datarow[XY])
-        # we have 4 data cells (freq, perc, valid and cumperc)
-        # -------------------------------------
-        # write table data row
-        # -------------------------------------
         # init default values
         rowstring <- ""
+        
         # init default value for alternating colors
         if (altr.row.col) rowstring <- ifelse(sjmisc::is_even(j), " arc", "")
         rowcss <- rowstring
+        
         # check whether we have median row and whether it should be highlighted
         if (emph.md && ((j + df.frq$minval) == (var.median + 1))) {
           rowcss <- sprintf(" mdrow%s", rowstring)
-        }
-        # check whether we have lower quartile and whether it should be highlighted
-        else if (emph.quart) {
+        } else if (emph.quart) {
+          # check whether we have lower quartile and whether it should be highlighted
           if (((j + df.frq$minval) == (var.lowerq + 1)) || ((j + df.frq$minval) == (var.upperq + 1))) {
             rowcss <- sprintf(" qrow%s", rowstring)
           }
         }
+        
         # value label
-        page.content <- paste(page.content, 
-                              sprintf("  <tr>\n     <td class=\"tdata leftalign firsttablecol%s\">%s</td>\n", 
-                                      rowcss, vallab[j]))
+        page.content <- paste(
+          page.content,
+          sprintf(
+            "  <tr>\n     <td class=\"tdata leftalign firsttablecol%s\">%s</td>\n",
+            rowcss,
+            vallab[j]
+          )
+        )
+        
         # cell values, first value is integer
-        page.content <- paste(page.content, 
-                              sprintf("    <td class=\"tdata centeralign%s\">%i</td>\n", 
-                                      rowcss, as.integer(datarow$frq)))
+        page.content <- paste(
+          page.content,
+          sprintf(
+            "    <td class=\"tdata centeralign%s\">%i</td>\n",
+            rowcss,
+            as.integer(datarow$frq)
+          )
+        )
+        
+        # percentage values
         for (i in 8:10) {
-          # following values are float
-          page.content <- paste(page.content, 
-                                sprintf("    <td class=\"tdata centeralign%s\">%.*f</td>\n", 
-                                        rowcss, digits, datarow[i]))
+          # following values (raw.prc, valid.prc, cum.prc) are float
+          page.content <- paste(
+            page.content,
+            sprintf(
+              "    <td class=\"tdata centeralign%s\">%.*f</td>\n",
+              rowcss,
+              digits,
+              datarow[i]
+            )
+          )
         }
+        
         # close row-tag
         page.content <- paste(page.content, "  </tr>\n", "\n")
       }
     }
-    # -------------------------------------
+    
     # write last table data row with NA
-    # -------------------------------------
-    # retrieve data row
     datarow <- df[nrow(df), ]
-    # -------------------------------------
-    # write table data row
-    # -------------------------------------
+    
     # value label
-    page.content <- paste(page.content, sprintf("  <tr>\n     <td class=\"tdata leftalign lasttablerow firsttablecol\">%s</td>\n", string.na))
+    page.content <- paste(
+      page.content, 
+      sprintf("  <tr>\n     <td class=\"tdata leftalign lasttablerow firsttablecol\">%s</td>\n", string.na)
+    )
+    
     # cell values, first value is integer
-    page.content <- paste(page.content, sprintf("    <td class=\"tdata centeralign lasttablerow\">%i</td>\n", as.integer(datarow$frq)))
-    # 2nd value is float. we don't need 3rd and 4th value as they are always 0 and 100
-    page.content <- paste(page.content, sprintf("    <td class=\"tdata centeralign lasttablerow\">%.*f</td>\n     <td class=\"tdata lasttablerow\"></td>\n     <td class=\"tdata lasttablerow\"></td>\n", digits, datarow$raw.prc))
-    # -------------------------------------
+    page.content <- paste(
+      page.content, 
+      sprintf("    <td class=\"tdata centeralign lasttablerow\">%i</td>\n", as.integer(datarow$frq))
+    )
+    
+    # 2nd value is float. we don't need valid and cumulative percentage, 
+    # because these are always NA for missings
+    page.content <- paste(
+      page.content, 
+      sprintf(
+        "    <td class=\"tdata centeralign lasttablerow\">%.*f</td>\n     <td class=\"tdata lasttablerow\"></td>\n     <td class=\"tdata lasttablerow\"></td>\n", 
+        digits, 
+        datarow$raw.prc
+      )
+    )
+    
     # add info for mean, standard deviation
-    # -------------------------------------
     if (show.summary) {
       # sum of frequencies is total N. Use these numbers
       # instead of "length(varia)", because weighted data
       # has different N
       vartot <- sum(df$frq, na.rm = T)
+      
       # last element in df$frq is amount of missings,
       # so substract from total to get valid N
       varvalid <- vartot - df$frq[nrow(df)]
+      
       if (is.null(weight.by)) {
         mw <- mean(orivar, na.rm = TRUE)
         sum_var <- orivar
@@ -590,61 +646,68 @@ sjt.frq <- function(data,
         mw <- stats::weighted.mean(orivar, weight.by, na.rm = TRUE)
         sum_var <- sjstats::weight(orivar, weight.by)
       }
+      
       descr <- ""
+      
       if (show.skew || show.kurtosis) {
         pstat <- psych::describe(data.frame(sum_var))
         if (show.skew) descr <- sprintf(" &middot; &gamma;=%.*f", digits, pstat$skew)
-        if (show.kurtosis) descr <- sprintf("%s &middot; &omega;=%.*f", descr, 
-                                            digits, pstat$kurtosis)
+        if (show.kurtosis)
+          descr <-
+            sprintf("%s &middot; &omega;=%.*f", descr, digits, pstat$kurtosis)
       }
-      page.content <- paste(page.content, 
-                            sprintf("  </tr>\n  <tr>\n    <td class=\"tdata summary\" colspan=\"5\">total N=%i &middot; valid N=%i &middot; x&#772;=%.*f &middot; &sigma;=%.*f%s</td>\n", 
-                                    vartot, varvalid, digits, mw, digits,
-                                    stats::sd(sum_var, na.rm = TRUE), descr))
+      
+      page.content <-
+        paste(
+          page.content,
+          sprintf(
+            "  </tr>\n  <tr>\n    <td class=\"tdata summary\" colspan=\"5\">total N=%i &middot; valid N=%i &middot; x&#772;=%.*f &middot; &sigma;=%.*f%s</td>\n",
+            vartot,
+            varvalid,
+            digits,
+            mw,
+            digits,
+            stats::sd(sum_var, na.rm = TRUE),
+            descr
+          )
+        )
     }
-    # -------------------------------------
+    
     # finish table
-    # -------------------------------------
     page.content <- paste(page.content, "  </tr>\n </table>")
-    # -------------------------------------
+    
     # add table to return value list, so user can access each
     # single frequency table
-    # -------------------------------------
     page.content.list[[length(page.content.list) + 1]] <- page.content
     toWrite <- paste(toWrite, page.content, "\n")
-    # -------------------------------------
+    
     # add separator in case we have more than one table
-    # -------------------------------------
     if (nvar > 1) toWrite = paste(toWrite, "\n<p class=\"abstand\">&nbsp;</p>\n", "\n")
   }
-  # -------------------------------------
+  
   # finish html page
-  # -------------------------------------
   toWrite <- paste0(toWrite, "</body></html>")
-  # -------------------------------------
+  
   # replace class attributes with inline style,
   # useful for knitr
-  # -------------------------------------
-  # copy page content
-  # -------------------------------------
   if (nvar > 1) {
-    knitr <- c()
-    for (i in 1:length(page.content.list)) {
-      knitr <- paste0(knitr, page.content.list[[i]], 
-                      sprintf("\n<p style=\"%s\">&nbsp;</p>\n", css.abstand))
+    knitr <- ""
+    for (i in seq_len(length(page.content.list))) {
+      knitr <-
+        paste0(knitr,
+               page.content.list[[i]],
+               sprintf("\n<p style=\"%s\">&nbsp;</p>\n", css.abstand))
     }
   } else {
     knitr <- page.content
   }
-  # -------------------------------------
-  # set style attributes for main table tags
-  # -------------------------------------
+  
+  # set style attributes for main table tags -----
   knitr <- gsub("class=", "style=", knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub("<table", sprintf("<table style=\"%s\"", css.table), knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub("<caption", sprintf("<caption style=\"%s\"", css.caption), knitr, fixed = TRUE, useBytes = TRUE)
-  # -------------------------------------
-  # replace class-attributes with inline-style-definitions
-  # -------------------------------------
+  
+  # replace class-attributes with inline-style-definitions -----
   knitr <- gsub(tag.tdata, css.tdata, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.thead, css.thead, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.firsttablerow, css.firsttablerow, knitr, fixed = TRUE, useBytes = TRUE)
@@ -657,21 +720,15 @@ sjt.frq <- function(data,
   knitr <- gsub(tag.qrow, css.qrow, knitr, fixed = TRUE, useBytes = TRUE)  
   knitr <- gsub(tag.mdrow, css.mdrow, knitr, fixed = TRUE, useBytes = TRUE)  
   knitr <- gsub(tag.abstand, css.abstand, knitr, fixed = TRUE, useBytes = TRUE)  
-  # -------------------------------------
+  
   # remove spaces?
-  # -------------------------------------
   if (remove.spaces) {
     knitr <- sju.rmspc(knitr)
     toWrite <- sju.rmspc(toWrite)
     page.content <- sju.rmspc(page.content)
   }
-  # -------------------------------------
-  # check if html-content should be outputted
-  # -------------------------------------
-  # out.html.table(no.output, file, knitr, toWrite, use.viewer)
-  # -------------------------------------
-  # return results
-  # -------------------------------------
+  
+  # return results -----
   structure(
     class = c("sjTable", "sjtfrq"),
     list(
@@ -679,6 +736,7 @@ sjt.frq <- function(data,
       page.content = page.content.list[[1]],
       output.complete = toWrite,
       knitr = knitr,
+      header = table.header,
       file = file,
       show = !no.output,
       use.viewer = use.viewer

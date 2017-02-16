@@ -139,7 +139,7 @@ sjt.pca <- function(data,
   # -------------------------------------
   # init header
   # -------------------------------------
-  toWrite <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n", encoding)
+  toWrite <- table.header <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n", encoding)
   # -------------------------------------
   # init style sheet and tags used for css-definitions
   # we can use these variables for string-replacement
@@ -536,21 +536,17 @@ sjt.pca <- function(data,
     page.content <- sju.rmspc(page.content)
   }
   # -------------------------------------
-  # check if html-content should be outputted
-  # -------------------------------------
-  #out.html.table(no.output, file, knitr, toWrite, use.viewer) 
-  # -------------------------------------
   # return results
   # -------------------------------------
   structure(class = c("sjTable", "sjtpca"),
                       list(page.style = page.style,
                            page.content = page.content,
-                          # page.content.list = page.content.list,
                            output.complete = toWrite,
                            knitr = knitr,
                            factor.index = factorindex,
                            removed.items = removableItems,
                            file = file,
+                           header = table.header,
                            show = !no.output,
                            use.viewer = use.viewer))
 }

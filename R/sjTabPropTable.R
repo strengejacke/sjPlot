@@ -226,7 +226,7 @@ sjt.xtab <- function(var.row,
   # table init
   # -------------------------------------
   # init web page header
-  toWrite <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n", encoding)
+  toWrite <- table.header <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n", encoding)
   # -------------------------------------
   # init style sheet and tags used for css-definitions
   # we can use these variables for string-replacement
@@ -543,18 +543,14 @@ sjt.xtab <- function(var.row,
     page.content <- sju.rmspc(page.content)
   }
   # -------------------------------------
-  # check if html-content should be printed
-  # -------------------------------------
-  #out.html.table(no.output, file, knitr, toWrite, use.viewer)   
-  # -------------------------------------
   # return results
   # -------------------------------------
   structure(class = c("sjTable", "sjtxtab"),
                       list(page.style = page.style,
                            page.content = page.content,
-                           #page.content.list = page.content.list,
                            output.complete = toWrite,
                            knitr = knitr,
+                           header = table.header,
                            file = file,
                            show = !no.output,
                            use.viewer = use.viewer))

@@ -22,9 +22,10 @@ This vignette describes some basic features of all `sjt` functions from the **sj
 Before starting, we need to load the required packages and sample data.
 
 ```{r, message=FALSE, warning=FALSE}
-# load package
+# load packages
 library(sjPlot)
 library(sjmisc)
+library(dplyr)
 # load sample data set.
 data(efc)
 ```
@@ -52,17 +53,27 @@ if (.Platform$OS.type == "unix")
   encoding <- "UTF-8" 
 else 
   encoding <- "Windows-1252"
+
 sjt.frq(efc$e15relat, encoding = encoding)
 ```
 
 This example first detects your operating system and then chooses the associated character encoding, which is used in the HTML file. If this does not work for you, you have to use the `encoding` parameter.
 
-# Knitr integration of HTML tables
+## Knitr integration of HTML tables
 
 **sjPlot** provides a print-method for HTML-tables to use in knitr-documents, so you can use the `sjt`-functions inside code chunks in knitr-rmarkdown files. The HTML-table will be printed to the knitr-document 'as is':
 
 ```{r}
 sjt.frq(efc$e42dep)
+```
+
+This also works for table-outputs from `sjtab()`. For instance, you can easily create multiple tables from grouped data frames.
+
+```{r}
+efc %>% 
+  group_by(e16sex, c172code) %>% 
+  select(e16sex, c172code, e42dep) %>% 
+  sjtab()
 ```
 
 Note that this does not properly work for PDF-documents, but only if the output of the rmarkdown-file is HTML.

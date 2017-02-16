@@ -252,7 +252,7 @@ sjt.corr <- function(data,
   # -------------------------------------
   # init header
   # -------------------------------------
-  toWrite <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n", encoding)
+  toWrite <- table.header <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n", encoding)
   # -------------------------------------
   # init style sheet and tags used for css-definitions
   # we can use these variables for string-replacement
@@ -478,6 +478,7 @@ sjt.corr <- function(data,
       page.style = page.style,
       page.content = page.content,
       output.complete = toWrite,
+      header = table.header,
       knitr = knitr,
       file = file,
       show = !no.output,
