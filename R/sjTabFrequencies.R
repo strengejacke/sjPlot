@@ -1,21 +1,21 @@
 #' @title Summary of frequencies as HTML table
 #' @name sjt.frq
-#' 
+#'
 #' @description Shows (multiple) frequency tables as HTML file, or saves them as file.
-#' 
+#'
 #' @seealso \itemize{
 #'            \item \href{http://www.strengejacke.de/sjPlot/sjt.frq/}{sjPlot manual: sjt.frq}
 #'            \item \code{\link{sjp.frq}}
 #'          }
-#' 
+#'
 #' @param data variables which frequencies should be printed as table. Either use a single variable
 #'          (vector) or a data frame where each column represents a variable (see 'Examples').
 #' @param file destination file, if the output should be saved as file.
-#'          If \code{NULL} (default), the output will be saved as temporary file and 
+#'          If \code{NULL} (default), the output will be saved as temporary file and
 #'          openend either in the IDE's viewer pane or the default web browser.
 #' @param title table caption, as character vector.
 #' @param value.labels character vector (or \code{list} of character vectors)
-#'          with value labels of the supplied variables, which will be used 
+#'          with value labels of the supplied variables, which will be used
 #'          to label variable values in the output.
 #' @param altr.row.col logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 #'          background color.
@@ -32,8 +32,8 @@
 #' @param emph.quart If \code{TRUE}, the table row indicating the lower and upper quartiles will
 #'          be emphasized.
 #' @param skip.zero If \code{TRUE}, rows with only zero-values are not printed
-#'          (e.g. if a variable has values or levels 1 to 8, and levels / values 
-#'          4 to 6 have no counts, these values would not be printed in the table). 
+#'          (e.g. if a variable has values or levels 1 to 8, and levels / values
+#'          4 to 6 have no counts, these values would not be printed in the table).
 #'          Use \code{FALSE} to print also zero-values, or use \code{"auto"} (default)
 #'          to detect whether it makes sense or not to print zero-values (e.g., a variable
 #'          "age" with values from 10 to 100, where at least 25 percent of all possible values have no
@@ -41,26 +41,26 @@
 #' @param show.summary If \code{TRUE} (default), a summary row with total and valid N as well as mean and
 #'          standard deviation is shown.
 #' @param show.skew If \code{TRUE}, the variable's skewness is added to the summary.
-#'          The skewness is retrieved from the \code{\link[psych]{describe}}-function 
+#'          The skewness is retrieved from the \code{\link[psych]{describe}}-function
 #'          of the \pkg{psych}-package and indicated by a lower case Greek gamma.
 #' @param show.kurtosis If \code{TRUE}, the variable's kurtosis is added to the summary.
-#'          The kurtosis is retrieved from the \code{\link[psych]{describe}}-function 
+#'          The kurtosis is retrieved from the \code{\link[psych]{describe}}-function
 #'          of the \pkg{psych}-package and indicated by a lower case Greek omega.
 #' @param ignore.strings If \code{TRUE} (default), character vectors / string variables will be removed from
 #'          \code{data} before frequency tables are computed.
-#' @param auto.grp.strings if \code{TRUE} (default), string values in character 
-#'          vectors (string variables) are automatically grouped based on their 
+#' @param auto.grp.strings if \code{TRUE} (default), string values in character
+#'          vectors (string variables) are automatically grouped based on their
 #'          similarity. The similarity is estimated with the \pkg{stringdist}-package.
 #'          You can specify a distance-measure via \code{max.string.dist} argument. This argument only
 #'          applies if \code{ignore.strings} is \code{FALSE}.
 #' @param max.string.dist the allowed distance of string values in a character vector, which indicates
 #'          when two string values are merged because they are considered as close enough.
 #'          See \code{auto.grp.strings}.
-#' @param encoding string, indicating the charset encoding used for variable and 
-#'          value labels. Default is \code{NULL}, so encoding will be auto-detected 
+#' @param encoding string, indicating the charset encoding used for variable and
+#'          value labels. Default is \code{NULL}, so encoding will be auto-detected
 #'          depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
 #'          Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).
-#' @param CSS \code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
+#' @param CSS \code{\link{list}}-object with user-defined style-sheet-definitions, according to the
 #'          \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
 #'          see \href{../doc/sjtbasic.html}{this package-vignette}, or 'Details' in
 #'          \code{\link{sjt.frq}}.
@@ -81,26 +81,26 @@
 #'            \item the html-table with inline-css for use with knitr (\code{knitr})
 #'            }
 #'            for further use.
-#'          
+#'
 #' @inheritParams sjp.glmer
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.frq
-#' 
+#'
 #' @note The HTML tables can either be saved as file and manually opened (specify argument \code{file}) or
 #'         they can be saved as temporary files and will be displayed in the RStudio Viewer pane (if working with RStudio)
 #'         or opened with the default web browser. Displaying resp. opening a temporary file is the
 #'         default behaviour (i.e. \code{file = NULL}).
-#' 
+#'
 #' @details \bold{How does the \code{CSS}-argument work?}
 #'            \cr \cr
 #'            With the \code{CSS}-argument, the visual appearance of the tables
-#'            can be modified. To get an overview of all style-sheet-classnames 
-#'            that are used in this function, see return value \code{page.style} for details. 
+#'            can be modified. To get an overview of all style-sheet-classnames
+#'            that are used in this function, see return value \code{page.style} for details.
 #'            Arguments for this list have following syntax:
 #'          \enumerate{
 #'            \item the class-names with \code{"css."}-prefix as argument name and
 #'            \item each style-definition must end with a semicolon
-#'          } 
+#'          }
 #'          You can add style information to the default styles by using a + (plus-sign) as
 #'          initial character for the argument attributes. Examples:
 #'          \itemize{
@@ -112,22 +112,22 @@
 #'            \item \code{css.caption = '+color:red;'} to add red font-color to the default table caption style.
 #'          }
 #'          See further examples in \href{../doc/sjtbasic.html}{this package-vignette}.
-#'          
+#'
 #' @examples
 #' \dontrun{
 #' # load sample data
 #' library(sjmisc)
 #' data(efc)
-#' 
+#'
 #' # show frequencies of "e42dep" in RStudio Viewer Pane
 #' # or default web browser
 #' sjt.frq(efc$e42dep)
-#' 
+#'
 #' # plot and show frequency table of "e42dep" with labels
 #' sjt.frq(efc$e42dep, title = "Dependency",
 #'         value.labels = c("independent", "slightly dependent",
 #'                          "moderately dependent", "severely dependent"))
-#' 
+#'
 #' # plot frequencies of e42dep, e16sex and c172code in one HTML file
 #' # and show table in RStudio Viewer Pane or default web browser
 #' # Note that value.labels of multiple variables have to be
@@ -137,23 +137,23 @@
 #'         value.labels = list(c("independent", "slightly dependent",
 #'                               "moderately dependent", "severely dependent"),
 #'                             c("male", "female"), c("low", "mid", "high")))
-#' 
+#'
 #' # auto-detection of labels
 #' sjt.frq(data.frame(efc$e42dep, efc$e16sex, efc$c172code))
-#' 
+#'
 #' # plot larger scale including zero-counts
 #' # indicating median and quartiles
 #' sjt.frq(efc$neg_c_7, emph.md = TRUE, emph.quart = TRUE)
-#' 
+#'
 #' # sort frequencies
 #' sjt.frq(efc$e42dep, sort.frq = "desc")
-#' 
+#'
 #' # User defined style sheet
 #' sjt.frq(efc$e42dep,
 #'         CSS = list(css.table = "border: 2px solid;",
 #'                    css.tdata = "border: 1px solid;",
 #'                    css.firsttablecol = "color:#003399; font-weight:bold;"))}
-#' 
+#'
 #' @importFrom psych describe
 #' @importFrom stats na.omit weighted.mean
 #' @importFrom sjmisc get_note group_str
@@ -184,25 +184,25 @@ sjt.frq <- function(data,
                     digits = 2,
                     CSS = NULL,
                     encoding = NULL,
-                    file = NULL, 
+                    file = NULL,
                     use.viewer = TRUE,
                     no.output = FALSE,
                     remove.spaces = TRUE) {
   # check encoding
   encoding <- get.encoding(encoding, data)
-  
+
   # save original value
   o.skip.zero <- skip.zero
-  
+
   # match arguments
   sort.frq <- match.arg(sort.frq)
-  
+
   if (!is.null(sort.frq) && sort.frq != "none")
     message("Sorting may not work when data contains values with zero-counts.")
-  
+
   # table init
   toWrite <- table.header <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n", encoding)
-  
+
   # init style sheet and tags used for css-definitions -----
   # we can use these variables for string-replacement
   # later for return value
@@ -220,7 +220,7 @@ sjt.frq <- function(data,
   tag.leftalign <- "leftalign"
   tag.centeralign <- "centeralign"
   tag.firsttablecol <- "firsttablecol"
-  
+
   css.table <- "border-collapse:collapse; border:none;"
   css.thead <- "border-top:double; text-align:center; font-style:italic; font-weight:normal; padding-left:0.2cm; padding-right:0.2cm;"
   css.tdata <- "padding:0.2cm;"
@@ -235,7 +235,7 @@ sjt.frq <- function(data,
   css.leftalign <- "text-align:left;"
   css.centeralign <- "text-align:center;"
   css.firsttablecol <- ""
-  
+
   # check user defined style sheets -----
   if (!is.null(CSS)) {
     if (!is.null(CSS[['css.table']])) css.table <- ifelse(substring(CSS[['css.table']], 1, 1) == '+', paste0(css.table, substring(CSS[['css.table']], 2)), CSS[['css.table']])
@@ -253,7 +253,7 @@ sjt.frq <- function(data,
     if (!is.null(CSS[['css.centeralign']])) css.centeralign <- ifelse(substring(CSS[['css.centeralign']], 1, 1) == '+', paste0(css.centeralign, substring(CSS[['css.centeralign']], 2)), CSS[['css.centeralign']])
     if (!is.null(CSS[['css.firsttablecol']])) css.firsttablecol <- ifelse(substring(CSS[['css.firsttablecol']], 1, 1) == '+', paste0(css.firsttablecol, substring(CSS[['css.firsttablecol']], 2)), CSS[['css.firsttablecol']])
   }
-  
+
   # set style sheet -----
   page.style <- sprintf(
     "<style>\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n%s { %s }\n.%s { %s }\n</style>",
@@ -264,11 +264,11 @@ sjt.frq <- function(data,
     tag.centeralign, css.centeralign, tag.caption, css.caption,
     tag.firsttablecol, css.firsttablecol
   )
-  
+
   # start writing content
   toWrite <- paste(toWrite, page.style)
   toWrite <- paste(toWrite, "\n</head>\n<body>\n")
-  
+
   # check if string vectors should be removed
   if (ignore.strings) {
     # check if we have data frame with several variables
@@ -279,18 +279,18 @@ sjt.frq <- function(data,
       stop("`data` is a single string vector, where string vectors should be removed. No data to compute frequency table left. See argument `ignore.strings` for details.", call. = FALSE)
     }
   }
-  
+
   # Remove variables that only have missings
   if (is.data.frame(data)) {
     # store column indices of variables that only have NA's
     NAcolumns <- c()
-    
+
     # iterate all columns
     for (i in seq_len(ncol(data))) {
       # check type
       if (length(stats::na.omit(data[[i]])) == 0) NAcolumns <- c(NAcolumns, i)
     }
-    
+
     # check if any NA-only variables found
     if (length(NAcolumns) > 0) {
       message(
@@ -303,7 +303,7 @@ sjt.frq <- function(data,
       data <- data[, -NAcolumns]
     }
   }
-  
+
   # auto-retrieve variable labels -----
   if (is.null(title)) {
     # check if we have data frame with several variables
@@ -316,10 +316,10 @@ sjt.frq <- function(data,
       title <- sjmisc::get_label(data, def.value = deparse(substitute(data)))
     }
   }
-  
+
   # auto-retrieve variable notes
   note.labels <- list()
-  
+
   # check if we have data frame with several variables
   if (is.data.frame(data)) {
     # if yes, iterate each variable
@@ -332,33 +332,22 @@ sjt.frq <- function(data,
     # retrieve note attribute
     note.labels <- c(note.labels, sjmisc::get_note(data))
   }
-  
+
   # make data frame of single variable, so we have
   # unique handling for the data
   if (!is.data.frame(data)) {
     isString <- is.character(data)
-    
-    # check for auto-detection of labels, but only for non-character-vectors
-    # characters will be handled later
-    if (is.null(value.labels) && !isString)
-      value.labels <-
-        sjmisc::get_labels(
-          data,
-          attr.only = F,
-          include.values = NULL,
-          include.non.labelled = T
-        )
-    
+
     # copy variable to data frame for unuqie handling
     data <- as.data.frame(data)
-    
+
     # reformat into string, if it was...
     if (isString) data$data <- as.character(data$data)
   }
-  
+
   # determine number of variables
   nvar <- ncol(data)
-  
+
   # auto-group string vectors -----
   if (auto.grp.strings) {
     # iterate data frame
@@ -368,59 +357,18 @@ sjt.frq <- function(data,
       # check if character
       if (is.character(sv)) {
         # group strings
-        data[[i]] <- 
+        data[[i]] <-
           sjmisc::group_str(strings = sv,
                             maxdist = max.string.dist,
                             remove.empty = F)
       }
     }
   }
-  
-  # transform variable and value labels 
-  # to list object
-  if (!is.null(value.labels) && !is.list(value.labels)) {
-    # if we have value labels as vector, convert them to list
-    value.labels <- list(value.labels)
-  } else if (is.null(value.labels)) {
-    # create list
-    value.labels <- list()
-    # iterate all variables
-    for (i in seq_len(nvar)) {
-      # retrieve variable
-      dummy <- data[[i]]
-      # usually, value labels are NULL if we have string vector. if so
-      # set value labels according to values
-      if (is.character(dummy)) {
-        value.labels <- c(value.labels, list(names(table(dummy))))
-      } else {
-        # check for auto-detection of labels
-        avl <-
-          sjmisc::get_labels(
-            dummy,
-            attr.only = F,
-            include.values = NULL,
-            include.non.labelled = T
-          )
-        
-        if (!is.null(avl)) {
-          value.labels <- c(value.labels, list(avl))
-        } else {
-          value.labels <- c(value.labels,
-                            list(min(dummy, na.rm = TRUE):max(dummy, na.rm = TRUE)))
-        }
-      }
-      
-      # and add label range to value labels list
-      if (is.null(value.labels))
-        value.labels <-
-          c(value.labels, list(min(dummy, na.rm = TRUE):max(dummy, na.rm = TRUE)))
-    }
-  }
-  
+
   # header row of table
   page.content.list <- list()
   headerRow <- sprintf("   <tr>\n     <th class=\"thead firsttablerow leftalign firsttablecol\">%s</th>\n     <th class=\"thead firsttablerow\">%s</th>\n     <th class=\"thead firsttablerow\">%s</th>\n     <th class=\"thead firsttablerow\">%s</th>\n     <th class=\"thead firsttablerow\">%s</th>\n   </tr>\n\n", string.val, string.cnt, string.prc, string.vprc, string.cprc)
-  
+
   # start iterating all variables
   for (cnt in seq_len(nvar)) {
     # check for length of unique values and skip if too long
@@ -432,15 +380,15 @@ sjt.frq <- function(data,
         colnames(data)[cnt],
         length(unique(data[[cnt]]))
       ))
-      
+
       # group labels
-      value.labels[[cnt]] <- 
+      val.lab <-
         sjmisc::group_labels(
           sjmisc::to_value(data[[cnt]], keep.labels = F),
           groupsize = "auto",
           groupcount = auto.group
         )
-      
+
       # group variable
       data[[cnt]] <-
         sjmisc::group_var(
@@ -449,11 +397,11 @@ sjt.frq <- function(data,
           as.num = TRUE,
           groupcount = auto.group
         )
-      
+
       # set labels
-      data[[cnt]] <- sjmisc::set_labels(data[[cnt]], labels = value.labels[[cnt]])
+      data[[cnt]] <- sjmisc::set_labels(data[[cnt]], labels = val.lab)
     }
-    
+
     # check if we have a string-vector
     if (is.character(data[[cnt]])) {
       # convert string to numeric
@@ -463,17 +411,17 @@ sjt.frq <- function(data,
       # convert to numeric
       orivar <- varia <- sjmisc::to_value(data[[cnt]], keep.labels = F)
     }
-    
+
     # retrieve summary
     varsummary <- summary(varia)
-    
+
     # retrieve median
     var.median <- stats::median(varia, na.rm = TRUE)
-    
+
     # retrieve quartiles
     var.lowerq <- round(varsummary[[2]])
     var.upperq <- round(varsummary[[5]])
-    
+
     # create frequency data frame -----
     df.frq <- create.frq.df(
       data[[cnt]],
@@ -483,9 +431,9 @@ sjt.frq <- function(data,
       na.rm = F,
       weight.by = weight.by
     )
-    
+
     df <- df.frq$mydat
-    
+
     # auto-set skipping zero-rows?
     if (!is.logical(o.skip.zero)) {
       # retrieve range of values
@@ -503,56 +451,64 @@ sjt.frq <- function(data,
     # if we just have one value, skip.zero might be NA,
     # so set to FALSE here
     if (is.na(skip.zero)) skip.zero <- F
-    
+
     # save labels
     vallab <- df.frq$labels
-    
+
+    # check if we have default value labels
+    if (!is.null(value.labels)) {
+      if (is.list(value.labels))
+        vallab <- value.labels[[cnt]]
+      else
+        vallab <- value.labels
+    }
+
     # rename "NA" row
     rownames(df)[nrow(df)] <- "NA"
-    
+
     # start table tag
     page.content <- "<table>\n"
-    
+
     # retrieve variable label
     varlab <- title[cnt]
-    
+
     # if we have weighted values, say that in diagram's title
     if (!is.null(weight.by)) {
       varlab <- paste(varlab, title.wtd.suffix, sep = "")
     }
-    
+
     # table caption, variable label
     if (!is.null(note.labels) && !sjmisc::is_empty(note.labels))
       caption.title.tag <- sprintf(" title=\"%s\"", note.labels[[cnt]])
     else
       caption.title.tag <- ""
-    
+
     page.content <- paste(page.content, sprintf("  <caption%s>%s</caption>\n", caption.title.tag, varlab))
-    
+
     # header row with column labels
     page.content <- paste0(page.content, headerRow)
-    
+
     # iterate all labels, each one in one row
     for (j in seq_len(nrow(df) - 1)) {
       # retrieve data row
       # access cell data via "celldata <- datarow[XY]
-      # datarow has 11 data columns / cells: 
-      # val, label, frq, upper.ci, lower.ci, rel.upper.ci, 
+      # datarow has 11 data columns / cells:
+      # val, label, frq, upper.ci, lower.ci, rel.upper.ci,
       # rel.lower.ci, raw.prc, valid.prc, cum.prc, order
       datarow <- df[j, ]
       zerorow <- (datarow$frq == 0)
-      
+
       # check if to skip zero rows
       if (skip.zero && zerorow) {
         # nothing here...
       } else {
         # init default values
         rowstring <- ""
-        
+
         # init default value for alternating colors
         if (altr.row.col) rowstring <- ifelse(sjmisc::is_even(j), " arc", "")
         rowcss <- rowstring
-        
+
         # check whether we have median row and whether it should be highlighted
         if (emph.md && ((j + df.frq$minval) == (var.median + 1))) {
           rowcss <- sprintf(" mdrow%s", rowstring)
@@ -562,7 +518,7 @@ sjt.frq <- function(data,
             rowcss <- sprintf(" qrow%s", rowstring)
           }
         }
-        
+
         # value label
         page.content <- paste(
           page.content,
@@ -572,7 +528,7 @@ sjt.frq <- function(data,
             vallab[j]
           )
         )
-        
+
         # cell values, first value is integer
         page.content <- paste(
           page.content,
@@ -582,7 +538,7 @@ sjt.frq <- function(data,
             as.integer(datarow$frq)
           )
         )
-        
+
         # percentage values
         for (i in 8:10) {
           # following values (raw.prc, valid.prc, cum.prc) are float
@@ -596,49 +552,49 @@ sjt.frq <- function(data,
             )
           )
         }
-        
+
         # close row-tag
         page.content <- paste(page.content, "  </tr>\n", "\n")
       }
     }
-    
+
     # write last table data row with NA
     datarow <- df[nrow(df), ]
-    
+
     # value label
     page.content <- paste(
-      page.content, 
+      page.content,
       sprintf("  <tr>\n     <td class=\"tdata leftalign lasttablerow firsttablecol\">%s</td>\n", string.na)
     )
-    
+
     # cell values, first value is integer
     page.content <- paste(
-      page.content, 
+      page.content,
       sprintf("    <td class=\"tdata centeralign lasttablerow\">%i</td>\n", as.integer(datarow$frq))
     )
-    
-    # 2nd value is float. we don't need valid and cumulative percentage, 
+
+    # 2nd value is float. we don't need valid and cumulative percentage,
     # because these are always NA for missings
     page.content <- paste(
-      page.content, 
+      page.content,
       sprintf(
-        "    <td class=\"tdata centeralign lasttablerow\">%.*f</td>\n     <td class=\"tdata lasttablerow\"></td>\n     <td class=\"tdata lasttablerow\"></td>\n", 
-        digits, 
+        "    <td class=\"tdata centeralign lasttablerow\">%.*f</td>\n     <td class=\"tdata lasttablerow\"></td>\n     <td class=\"tdata lasttablerow\"></td>\n",
+        digits,
         datarow$raw.prc
       )
     )
-    
+
     # add info for mean, standard deviation
     if (show.summary) {
       # sum of frequencies is total N. Use these numbers
       # instead of "length(varia)", because weighted data
       # has different N
       vartot <- sum(df$frq, na.rm = T)
-      
+
       # last element in df$frq is amount of missings,
       # so substract from total to get valid N
       varvalid <- vartot - df$frq[nrow(df)]
-      
+
       if (is.null(weight.by)) {
         mw <- mean(orivar, na.rm = TRUE)
         sum_var <- orivar
@@ -646,9 +602,9 @@ sjt.frq <- function(data,
         mw <- stats::weighted.mean(orivar, weight.by, na.rm = TRUE)
         sum_var <- sjstats::weight(orivar, weight.by)
       }
-      
+
       descr <- ""
-      
+
       if (show.skew || show.kurtosis) {
         pstat <- psych::describe(data.frame(sum_var))
         if (show.skew) descr <- sprintf(" &middot; &gamma;=%.*f", digits, pstat$skew)
@@ -656,7 +612,7 @@ sjt.frq <- function(data,
           descr <-
             sprintf("%s &middot; &omega;=%.*f", descr, digits, pstat$kurtosis)
       }
-      
+
       page.content <-
         paste(
           page.content,
@@ -672,22 +628,22 @@ sjt.frq <- function(data,
           )
         )
     }
-    
+
     # finish table
     page.content <- paste(page.content, "  </tr>\n </table>")
-    
+
     # add table to return value list, so user can access each
     # single frequency table
     page.content.list[[length(page.content.list) + 1]] <- page.content
     toWrite <- paste(toWrite, page.content, "\n")
-    
+
     # add separator in case we have more than one table
     if (nvar > 1) toWrite = paste(toWrite, "\n<p class=\"abstand\">&nbsp;</p>\n", "\n")
   }
-  
+
   # finish html page
   toWrite <- paste0(toWrite, "</body></html>")
-  
+
   # replace class attributes with inline style,
   # useful for knitr
   if (nvar > 1) {
@@ -701,33 +657,33 @@ sjt.frq <- function(data,
   } else {
     knitr <- page.content
   }
-  
+
   # set style attributes for main table tags -----
   knitr <- gsub("class=", "style=", knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub("<table", sprintf("<table style=\"%s\"", css.table), knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub("<caption", sprintf("<caption style=\"%s\"", css.caption), knitr, fixed = TRUE, useBytes = TRUE)
-  
+
   # replace class-attributes with inline-style-definitions -----
   knitr <- gsub(tag.tdata, css.tdata, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.thead, css.thead, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.firsttablerow, css.firsttablerow, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.firsttablecol, css.firsttablecol, knitr, fixed = TRUE, useBytes = TRUE)
-  knitr <- gsub(tag.leftalign, css.leftalign, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.centeralign, css.centeralign, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.lasttablerow, css.lasttablerow, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.summary, css.summary, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.arc, css.arc, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.qrow, css.qrow, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.mdrow, css.mdrow, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.abstand, css.abstand, knitr, fixed = TRUE, useBytes = TRUE)  
-  
+  knitr <- gsub(tag.leftalign, css.leftalign, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.centeralign, css.centeralign, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.lasttablerow, css.lasttablerow, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.summary, css.summary, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.arc, css.arc, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.qrow, css.qrow, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.mdrow, css.mdrow, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.abstand, css.abstand, knitr, fixed = TRUE, useBytes = TRUE)
+
   # remove spaces?
   if (remove.spaces) {
     knitr <- sju.rmspc(knitr)
     toWrite <- sju.rmspc(toWrite)
     page.content <- sju.rmspc(page.content)
   }
-  
+
   # return results -----
   structure(
     class = c("sjTable", "sjtfrq"),

@@ -16,6 +16,7 @@
 ## Bug fixes
 
 * Fixed bug in `sjt.frq()` for variables with many missign values and labelled values that did not occur on that variable.
+* Argument `value.labels` had no effect for `sjt.frq()`.
 
 # sjPlot 2.3.0
 

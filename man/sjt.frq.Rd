@@ -30,7 +30,7 @@ title will not have a suffix when cases are weighted.}
 \item{title}{table caption, as character vector.}
 
 \item{value.labels}{character vector (or \code{list} of character vectors)
-with value labels of the supplied variables, which will be used 
+with value labels of the supplied variables, which will be used
 to label variable values in the output.}
 
 \item{sort.frq}{Determines whether categories should be sorted 
@@ -65,16 +65,16 @@ be emphasized.}
 standard deviation is shown.}
 
 \item{show.skew}{If \code{TRUE}, the variable's skewness is added to the summary.
-The skewness is retrieved from the \code{\link[psych]{describe}}-function 
+The skewness is retrieved from the \code{\link[psych]{describe}}-function
 of the \pkg{psych}-package and indicated by a lower case Greek gamma.}
 
 \item{show.kurtosis}{If \code{TRUE}, the variable's kurtosis is added to the summary.
-The kurtosis is retrieved from the \code{\link[psych]{describe}}-function 
+The kurtosis is retrieved from the \code{\link[psych]{describe}}-function
 of the \pkg{psych}-package and indicated by a lower case Greek omega.}
 
 \item{skip.zero}{If \code{TRUE}, rows with only zero-values are not printed
-(e.g. if a variable has values or levels 1 to 8, and levels / values 
-4 to 6 have no counts, these values would not be printed in the table). 
+(e.g. if a variable has values or levels 1 to 8, and levels / values
+4 to 6 have no counts, these values would not be printed in the table).
 Use \code{FALSE} to print also zero-values, or use \code{"auto"} (default)
 to detect whether it makes sense or not to print zero-values (e.g., a variable
 "age" with values from 10 to 100, where at least 25 percent of all possible values have no
@@ -89,8 +89,8 @@ is done (see \code{\link[sjmisc]{group_var}}). Default value for
 \code{auto.group} is \code{NULL}, i.e. auto-grouping is off.
 See \code{\link[sjmisc]{group_var}} for examples on grouping.}
 
-\item{auto.grp.strings}{if \code{TRUE} (default), string values in character 
-vectors (string variables) are automatically grouped based on their 
+\item{auto.grp.strings}{if \code{TRUE} (default), string values in character
+vectors (string variables) are automatically grouped based on their
 similarity. The similarity is estimated with the \pkg{stringdist}-package.
 You can specify a distance-measure via \code{max.string.dist} argument. This argument only
 applies if \code{ignore.strings} is \code{FALSE}.}
@@ -101,18 +101,18 @@ See \code{auto.grp.strings}.}
 
 \item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
 
-\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
+\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
 see \href{../doc/sjtbasic.html}{this package-vignette}, or 'Details' in
 \code{\link{sjt.frq}}.}
 
-\item{encoding}{string, indicating the charset encoding used for variable and 
-value labels. Default is \code{NULL}, so encoding will be auto-detected 
+\item{encoding}{string, indicating the charset encoding used for variable and
+value labels. Default is \code{NULL}, so encoding will be auto-detected
 depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
 Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
 
 \item{file}{destination file, if the output should be saved as file.
-If \code{NULL} (default), the output will be saved as temporary file and 
+If \code{NULL} (default), the output will be saved as temporary file and
 openend either in the IDE's viewer pane or the default web browser.}
 
 \item{use.viewer}{If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
@@ -144,13 +144,13 @@ Shows (multiple) frequency tables as HTML file, or saves them as file.
 \bold{How does the \code{CSS}-argument work?}
            \cr \cr
            With the \code{CSS}-argument, the visual appearance of the tables
-           can be modified. To get an overview of all style-sheet-classnames 
-           that are used in this function, see return value \code{page.style} for details. 
+           can be modified. To get an overview of all style-sheet-classnames
+           that are used in this function, see return value \code{page.style} for details.
            Arguments for this list have following syntax:
          \enumerate{
            \item the class-names with \code{"css."}-prefix as argument name and
            \item each style-definition must end with a semicolon
-         } 
+         }
          You can add style information to the default styles by using a + (plus-sign) as
          initial character for the argument attributes. Examples:
          \itemize{

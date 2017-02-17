@@ -25,7 +25,7 @@ Must be a vector of same length as the input vector. Default is
 to label variables in the output.}
 
 \item{value.labels}{character vector (or \code{list} of character vectors)
-with value labels of the supplied variables, which will be used 
+with value labels of the supplied variables, which will be used
 to label variable values in the output.}
 
 \item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
@@ -64,22 +64,22 @@ The skewness is retrieved from the \code{\link[psych]{describe}}-function
 of the \pkg{psych}-package.}
 
 \item{show.kurtosis}{If \code{TRUE}, the variable's kurtosis is added to the summary.
-The kurtosis is retrieved from the \code{\link[psych]{describe}}-function 
+The kurtosis is retrieved from the \code{\link[psych]{describe}}-function
 of the \pkg{psych}-package and indicated by a lower case Greek omega.}
 
 \item{digits.stats}{amount of digits for rounding the skewness and kurtosis valuess.
 Default is 2, i.e. skewness and kurtosis values have 2 digits after decimal point.}
 
 \item{file}{destination file, if the output should be saved as file.
-If \code{NULL} (default), the output will be saved as temporary file and 
+If \code{NULL} (default), the output will be saved as temporary file and
 openend either in the IDE's viewer pane or the default web browser.}
 
-\item{encoding}{string, indicating the charset encoding used for variable and 
-value labels. Default is \code{NULL}, so encoding will be auto-detected 
+\item{encoding}{string, indicating the charset encoding used for variable and
+value labels. Default is \code{NULL}, so encoding will be auto-detected
 depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
 Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
 
-\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
+\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
 see \href{../doc/sjtbasic.html}{this package-vignette}, or 'Details' in
 \code{\link{sjt.frq}}.}

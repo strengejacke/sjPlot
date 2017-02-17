@@ -58,18 +58,18 @@ labels are displayed in one line and when a line break is inserted.}
 \item{hide.progress}{logical, if \code{TRUE}, the progress bar that is displayed when creating the
 output is hidden. Default in \code{FALSE}, hence the bar is visible.}
 
-\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the 
+\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
 see \href{../doc/sjtbasic.html}{this package-vignette}, or 'Details' in
 \code{\link{sjt.frq}}.}
 
-\item{encoding}{string, indicating the charset encoding used for variable and 
-value labels. Default is \code{NULL}, so encoding will be auto-detected 
+\item{encoding}{string, indicating the charset encoding used for variable and
+value labels. Default is \code{NULL}, so encoding will be auto-detected
 depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
 Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
 
 \item{file}{destination file, if the output should be saved as file.
-If \code{NULL} (default), the output will be saved as temporary file and 
+If \code{NULL} (default), the output will be saved as temporary file and
 openend either in the IDE's viewer pane or the default web browser.}
 
 \item{use.viewer}{If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
