@@ -56,7 +56,7 @@ as numbers. If \code{FALSE} (default), asterisks are used.}
 period (e.g. \emph{0.002}), else p-values start with a period and
 without a zero (e.g. \emph{.002}).}
 
-\item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
+\item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional
 F-tests with Kenward-Roger approximation for the df. Caution: Computation
 may take very long time for large samples!}
 

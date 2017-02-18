@@ -42,7 +42,7 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL,
 
 \item{vars}{numeric vector with column indices of selected variables or a character vector with
 variable names of selected variables from the fitted model, which should be used to plot
-- depending on \code{type} - estimates, fixed effects slopes or predicted values 
+- depending on \code{type} - estimates, fixed effects slopes or predicted values
 (mean, probabilities, incidents rates, ...). See 'Examples'.}
 
 \item{ri.nr}{numeric vector. If \code{type = "re"} or \code{type = "ri.slope"},
@@ -97,13 +97,13 @@ only some plot types have legends (e.g. \code{type = "pred"} or when
 grouping estimates with \code{group.estimates}).}
 
 \item{axis.labels}{character vector with labels for the model terms, used as axis labels.
-For mixed models, should either be vector of fixed effects variable labels 
+For mixed models, should either be vector of fixed effects variable labels
 (if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
 labels from the random intercept's categories (if \code{type = "re"}).}
 
 \item{axis.title}{character vector of length one or two (depending on
-the plot function and type), used as title(s) for the x and y axis. 
-If not specified, a default labelling  is chosen. To set multiple 
+the plot function and type), used as title(s) for the x and y axis.
+If not specified, a default labelling  is chosen. To set multiple
 axis titles (e.g. with \code{type = "eff"} for many predictors),
 \code{axis.title} must be a character vector of same length of plots
 that are printed. In this case, each plot gets an own axis title
@@ -130,7 +130,7 @@ interval or region is added to the plot.}
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
-\item{show.loess}{logical, if \code{TRUE}, and depending on \code{type}, an 
+\item{show.loess}{logical, if \code{TRUE}, and depending on \code{type}, an
 additional loess-smoothed line is plotted.}
 
 \item{show.loess.ci}{logical, if \code{TRUE}, a confidence region for the loess-smoothed line
@@ -143,10 +143,10 @@ Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential
 transformation of estimates, the intercept in some cases can not be calculated, thus the
 function call is interrupted and no plot printed.}
 
-\item{string.interc}{string, axis label of intercept estimate. Only applies, 
+\item{string.interc}{string, axis label of intercept estimate. Only applies,
 if \code{show.intercept = TRUE} and \code{axis.labels} is not \code{NULL}.}
 
-\item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
+\item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional
 F-tests with Kenward-Roger approximation for the df. Caution: Computation
 may take very long time for large samples!}
 
@@ -200,7 +200,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 arguments are supported:
 \describe{
   \item{\code{?effects::effect}}{
-    Any arguments accepted by the \code{\link[effects]{effect}} resp. 
+    Any arguments accepted by the \code{\link[effects]{effect}} resp.
     \code{\link[effects]{allEffects}} function, for \code{type = "eff"}.
   }
   \item{\code{width}}{The \code{width}-argument for error bars.}
@@ -259,9 +259,9 @@ By default, this function plots estimates (coefficients) with confidence
            use the \code{sample.n} argument to randomly sample a limited amount
            of groups.}
            \item{\code{type = "ri.slope"}}{plots regression lines for each fixed
-           effect (slopes) within each random intercept. Lines are based on 
+           effect (slopes) within each random intercept. Lines are based on
            the fixed effects intercept, plus each random intercept and
-           each specific fixed term's estimate. All other fixed effects are 
+           each specific fixed term's estimate. All other fixed effects are
            set to zero (i.e. ignored),
            which corresponds to \code{b0 + b0[r1-rn] + bi * xi)}
            (where \code{xi} is the estimate of fixed effects, \code{b0} is the intercept of
@@ -270,22 +270,22 @@ By default, this function plots estimates (coefficients) with confidence
            effect coefficients, as retrieved by \code{\link[lme4]{coef.merMod}},
            it's simply \code{\link[lme4]{ranef} + \link[lme4]{fixef}}.}
            \item{\code{type = "pred"} or \code{type = "pred.fe"}}{predicted
-           values for response, conditional on fixed effects only or on random 
+           values for response, conditional on fixed effects only or on random
            intercept. It's calling
            \code{predict(fit, type = "response", re.form = NA)} resp.
            \code{predict(fit, type = "response", re.form = NULL)} to
            compute the values.
            This plot type requires the \code{vars} argument to select specific terms
-           that should be used for the x-axis and - optional - as grouping factor. 
+           that should be used for the x-axis and - optional - as grouping factor.
            Hence, \code{vars} must be a character vector with the names of
            one or two model predictors. See 'Examples'.}
          }
 }
 \note{
-Computation of p-values (if necessary and if \code{p.kr = TRUE}) are based 
-        on conditional F-tests with Kenward-Roger approximation for the df, using 
+Computation of p-values (if necessary and if \code{p.kr = TRUE}) are based
+        on conditional F-tests with Kenward-Roger approximation for the df, using
         the \pkg{pbkrtest}-package. If \pkg{pbkrtest} is not available or
-        \code{p.kr = FALSE}, computation of p-values is based 
+        \code{p.kr = FALSE}, computation of p-values is based
         on normal-distribution assumption, treating the t-statistics as Wald
         z-statistics. See 'Details' in \code{\link[sjstats]{get_model_pval}}.
 }
@@ -326,11 +326,11 @@ sjp.lmer(fit, type = "fe")
 
 sjp.lmer(fit, type = "fe.std", sort.est = TRUE)
 
-# plot fixed effects slopes for each random intercept, 
+# plot fixed effects slopes for each random intercept,
 # but only for coefficient "c12hour"
 sjp.lmer(fit, type = "ri.slope", vars = "c12hour")
 
-# highlight specific grouping levels, in this case we compare 
+# highlight specific grouping levels, in this case we compare
 # spouses, children and children-in-law
 sjp.lmer(fit, type = "ri.slope", emph.grp = c(1, 2, 4), vars = "c12hour")
 
@@ -374,7 +374,7 @@ sjp.lmer(fit, type = "pred", vars = "c12hour")
 sjp.lmer(fit, type = "pred.fe", vars = c("c12hour", "sex"))
 
 # grouped, for fixed effects only, non-facted
-sjp.lmer(fit, type = "pred.fe", vars = c("c12hour", "sex"), 
+sjp.lmer(fit, type = "pred.fe", vars = c("c12hour", "sex"),
          facet.grid = FALSE, show.ci = FALSE)}
 
 }

@@ -12,6 +12,7 @@
 * `save_plot()` now also supports _svg_-format.
 * For effect-plots (`type = "eff"`), the `axis.title`-argument can now be used to change the title of y-axes.
 * For `sjp.lm()`, `sjp.glm()`, `sjp.lmer()` and `sjp.glmer()`, if color palette has more values than needed, it is silently shortend to the required length.
+* When plotting mixed models, argument `geom.colors` now also applies to plot-type `type = "ri.slope"`.
 
 ## Bug fixes
 

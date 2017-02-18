@@ -36,7 +36,7 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL,
 
 \item{vars}{numeric vector with column indices of selected variables or a character vector with
 variable names of selected variables from the fitted model, which should be used to plot
-- depending on \code{type} - estimates, fixed effects slopes or predicted values 
+- depending on \code{type} - estimates, fixed effects slopes or predicted values
 (mean, probabilities, incidents rates, ...). See 'Examples'.}
 
 \item{ri.nr}{numeric vector. If \code{type = "re"} or \code{type = "ri.slope"},
@@ -87,13 +87,13 @@ only some plot types have legends (e.g. \code{type = "pred"} or when
 grouping estimates with \code{group.estimates}).}
 
 \item{axis.labels}{character vector with labels for the model terms, used as axis labels.
-For mixed models, should either be vector of fixed effects variable labels 
+For mixed models, should either be vector of fixed effects variable labels
 (if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
 labels from the random intercept's categories (if \code{type = "re"}).}
 
 \item{axis.title}{character vector of length one or two (depending on
-the plot function and type), used as title(s) for the x and y axis. 
-If not specified, a default labelling  is chosen. To set multiple 
+the plot function and type), used as title(s) for the x and y axis.
+If not specified, a default labelling  is chosen. To set multiple
 axis titles (e.g. with \code{type = "eff"} for many predictors),
 \code{axis.title} must be a character vector of same length of plots
 that are printed. In this case, each plot gets an own axis title
@@ -125,7 +125,7 @@ Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential
 transformation of estimates, the intercept in some cases can not be calculated, thus the
 function call is interrupted and no plot printed.}
 
-\item{string.interc}{string, axis label of intercept estimate. Only applies, 
+\item{string.interc}{string, axis label of intercept estimate. Only applies,
 if \code{show.intercept = TRUE} and \code{axis.labels} is not \code{NULL}.}
 
 \item{show.scatter}{logical, if \code{TRUE} (default), adds a scatter plot of
@@ -178,7 +178,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 arguments are supported:
 \describe{
   \item{\code{?effects::effect}}{
-    Any arguments accepted by the \code{\link[effects]{effect}} resp. 
+    Any arguments accepted by the \code{\link[effects]{effect}} resp.
     \code{\link[effects]{allEffects}} function, for \code{type = "eff"}.
   }
   \item{\code{width}}{The \code{width}-argument for error bars.}
@@ -214,11 +214,11 @@ By default, this function plots estimates (odds, risk or incidents
            fixed term's estimate. All other fixed effects are set to zero (i.e. ignored),
            which corresponds to \code{family(fit)$linkinv(eta = b0 + bi * xi)} (where \code{xi}
            is the estimate of fixed effects and \code{b0} is the intercept of
-           the fixed effects; the inverse link-function is used). This plot type 
-           may give similar results as \code{type = "pred"}, however, \code{type = "fe.slope"} 
+           the fixed effects; the inverse link-function is used). This plot type
+           may give similar results as \code{type = "pred"}, however, \code{type = "fe.slope"}
            does not adjust for other predictors.}
            \item{\code{type = "eff"}}{plots the marginal effects of model predictors.
-           Unlike \code{type = "fe.slope"}, the predicted values computed by 
+           Unlike \code{type = "fe.slope"}, the predicted values computed by
            \code{type = "eff"} are adjusted for all co-variates, which are
            set to the mean, as returned by the \code{\link[effects]{allEffects}} function.
            You can pass further arguments down to \code{allEffects} for flexible
@@ -241,14 +241,14 @@ By default, this function plots estimates (odds, risk or incidents
            \item{\code{type = "coef"}}{forest plot of joint fixed and random
            effect coefficients, as retrieved by \code{\link[lme4]{coef.merMod}},
            it's simply \code{\link[lme4]{ranef} + \link[lme4]{fixef}}.}
-           \item{\code{type = "pred"} or \code{type = "pred.fe"}}{predicted 
+           \item{\code{type = "pred"} or \code{type = "pred.fe"}}{predicted
            values against response, only fixed effects or
            conditional on random intercept. It's calling
            \code{predict(fit, type = "response", re.form = NA)} resp.
            \code{predict(fit, type = "response", re.form = NULL)} to
            compute the values.
            This plot type requires the \code{vars} argument to select specific terms
-           that should be used for the x-axis and - optional - as grouping factor. 
+           that should be used for the x-axis and - optional - as grouping factor.
            Hence, \code{vars} must be a character vector with the names of
            one or two model predictors. See 'Examples'.}
          }
@@ -327,14 +327,14 @@ sjp.glmer(fit, type = "pred", vars = "neg_c_7")
 # plot predicted probabilities for response,
 # related to model predictor, grouped
 sjp.glmer(fit, type = "pred.fe", vars = c("neg_c_7", "sex"))
-          
-# non faceted, with ci           
-sjp.glmer(fit, type = "pred.fe", vars = c("neg_c_7", "education"), 
+
+# non faceted, with ci
+sjp.glmer(fit, type = "pred.fe", vars = c("neg_c_7", "education"),
           show.ci = TRUE, facet.grid = FALSE)
 
 # predictions by gender and education
 sjp.glmer(fit, type = "pred.fe", vars = c("neg_c_7", "sex", "education"))
-                     
+
 }
 \seealso{
 \href{http://www.strengejacke.de/sjPlot/sjp.glmer/}{sjPlot manual: sjp.glmer}

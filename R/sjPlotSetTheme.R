@@ -623,7 +623,7 @@ sj.setGeomColors <- function(plot,
   bw.figure <- !is.null(geom.colors) && geom.colors[1] == "bw"
 
   if (bw.figure)
-    ltypes <- seq_len(6)[seq_len(pal.len)]
+    ltypes <- seq_len(pal.len)
   else
     ltypes <- rep(1, times = pal.len)
 

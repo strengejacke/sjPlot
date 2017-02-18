@@ -124,7 +124,7 @@ interval or region is added to the plot.}
 bands are displayed as error bars, adds jittering to lines and error bars
 to avoid overlapping.}
 
-\item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional 
+\item{p.kr}{logical, if \code{TRUE}, p-value estimation is based on conditional
 F-tests with Kenward-Roger approximation for the df. Caution: Computation
 may take very long time for large samples!}
 
@@ -157,7 +157,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 arguments are supported:
 \describe{
   \item{\code{?effects::effect}}{
-    Any arguments accepted by the \code{\link[effects]{effect}} resp. 
+    Any arguments accepted by the \code{\link[effects]{effect}} resp.
     \code{\link[effects]{allEffects}} function, for \code{type = "eff"}.
   }
   \item{\code{width}}{The \code{width}-argument for error bars.}

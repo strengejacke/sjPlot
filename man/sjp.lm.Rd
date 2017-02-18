@@ -36,7 +36,7 @@ sjp.lm(fit, type = "lm", vars = NULL, group.estimates = NULL,
 
 \item{vars}{numeric vector with column indices of selected variables or a character vector with
 variable names of selected variables from the fitted model, which should be used to plot
-- depending on \code{type} - estimates, fixed effects slopes or predicted values 
+- depending on \code{type} - estimates, fixed effects slopes or predicted values
 (mean, probabilities, incidents rates, ...). See 'Examples'.}
 
 \item{group.estimates}{numeric or character vector, indicating a group identifier for
@@ -69,8 +69,8 @@ grouping estimates with \code{group.estimates}).}
 argument, since in most cases, axis labels are set automatically.}
 
 \item{axis.title}{character vector of length one or two (depending on
-the plot function and type), used as title(s) for the x and y axis. 
-If not specified, a default labelling  is chosen. To set multiple 
+the plot function and type), used as title(s) for the x and y axis.
+If not specified, a default labelling  is chosen. To set multiple
 axis titles (e.g. with \code{type = "eff"} for many predictors),
 \code{axis.title} must be a character vector of same length of plots
 that are printed. In this case, each plot gets an own axis title
@@ -116,7 +116,7 @@ interval or region is added to the plot.}
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
-\item{show.loess}{logical, if \code{TRUE}, and depending on \code{type}, an 
+\item{show.loess}{logical, if \code{TRUE}, and depending on \code{type}, an
 additional loess-smoothed line is plotted.}
 
 \item{show.loess.ci}{logical, if \code{TRUE}, a confidence region for the loess-smoothed line
@@ -169,7 +169,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 arguments are supported:
 \describe{
   \item{\code{?effects::effect}}{
-    Any arguments accepted by the \code{\link[effects]{effect}} resp. 
+    Any arguments accepted by the \code{\link[effects]{effect}} resp.
     \code{\link[effects]{allEffects}} function, for \code{type = "eff"}.
   }
   \item{\code{width}}{The \code{width}-argument for error bars.}
