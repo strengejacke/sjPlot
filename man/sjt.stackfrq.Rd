@@ -21,7 +21,7 @@ Must be a vector of same length as the input vector. Default is
 
 \item{title}{table caption, as character vector.}
 
-\item{var.labels}{character vector with variable names, which will be used 
+\item{var.labels}{character vector with variable names, which will be used
 to label variables in the output.}
 
 \item{value.labels}{character vector (or \code{list} of character vectors)

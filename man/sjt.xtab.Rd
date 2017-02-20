@@ -27,7 +27,7 @@ Must be a vector of same length as the input vector. Default is
 
 \item{title}{table caption, as character vector.}
 
-\item{var.labels}{character vector with variable names, which will be used 
+\item{var.labels}{character vector with variable names, which will be used
 to label variables in the output.}
 
 \item{value.labels}{character vector (or \code{list} of character vectors)
@@ -53,7 +53,7 @@ function, a legend is added to the plot.}
 \item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values)
 are added to the output.}
 
-\item{show.summary}{logical, if \code{TRUE}, a summary row with 
+\item{show.summary}{logical, if \code{TRUE}, a summary row with
 chi-squared statistics, degrees of freedom and Cramer's V or Phi
 coefficient and p-value for the chi-squared statistics.}
 
@@ -148,26 +148,37 @@ The p-value for Cramer's V and the Phi coefficient are based
 # prepare sample data set
 library(sjmisc)
 data(efc)
-efc.labels <- get_labels(efc)
 
 # print simple cross table with labels
 \dontrun{
 sjt.xtab(efc$e16sex, efc$e42dep)
-         
+
 # print cross table with manually set
 # labels and expected values
-sjt.xtab(efc$e16sex, efc$e42dep, var.labels = c("Elder's gender", 
-         "Elder's dependency"), value.labels = list(efc.labels[['e16sex']], 
+sjt.xtab(efc$e16sex, efc$e42dep, var.labels = c("Elder's gender",
+         "Elder's dependency"), value.labels = list(efc.labels[['e16sex']],
          efc.labels[['e42dep']]), show.exp = TRUE)
 
 # print minimal cross table with labels, total col/row highlighted
 sjt.xtab(efc$e16sex, efc$e42dep, show.cell.prc = FALSE, emph.total = TRUE)
 
 # User defined style sheet
-sjt.xtab(efc$e16sex, efc$e42dep, 
+sjt.xtab(efc$e16sex, efc$e42dep,
          CSS = list(css.table = "border: 2px solid;",
                     css.tdata = "border: 1px solid;",
                     css.horline = "border-bottom: double blue;"))}
+
+# ordinal data, use Kendall's tau
+sjt.xtab(efc$e42dep, efc$quol_5, statistics = "kendall")
+
+# calculate Spearman's rho, with continuity correction
+sjt.xtab(
+  efc$e42dep,
+  efc$quol_5,
+  statistics = "spearman",
+  exact = FALSE,
+  continuity = TRUE
+)
 
 }
 \seealso{

@@ -1,16 +1,16 @@
 #' @title Summary of contingency tables as HTML table
 #' @name sjt.xtab
-#' 
+#'
 #' @description Shows contingency tables as HTML file in browser or viewer pane, or saves them as file.
-#' 
+#'
 #' @seealso \itemize{
 #'            \item \href{http://www.strengejacke.de/sjPlot/sjt.xtab}{sjPlot manual: sjt.xtab}
 #'            \item \code{\link{sjp.xtab}}
 #'          }
-#'              
+#'
 #' @param var.row variable that should be displayed in the table rows.
 #' @param var.col variable that should be displayed in the table columns.
-#' @param var.labels character vector with variable names, which will be used 
+#' @param var.labels character vector with variable names, which will be used
 #'          to label variables in the output.
 #' @param string.total label for the total column / row header
 #' @param show.cell.prc logical, if \code{TRUE}, cell percentage values are shown
@@ -18,7 +18,7 @@
 #' @param show.col.prc logical, if \code{TRUE}, column percentage values are shown
 #' @param show.obs logical, if \code{TRUE}, observed values are shown
 #' @param show.exp logical, if \code{TRUE}, expected values are also shown
-#' @param show.summary logical, if \code{TRUE}, a summary row with 
+#' @param show.summary logical, if \code{TRUE}, a summary row with
 #'          chi-squared statistics, degrees of freedom and Cramer's V or Phi
 #'          coefficient and p-value for the chi-squared statistics.
 #' @param tdcol.n Color for highlighting count (observed) values in table cells. Default is black.
@@ -40,12 +40,12 @@
 #'          \code{"kendall"} or \code{"pearson"}. See 'Details'.
 #' @param ... Other arguments, currently passed down to the test statistics functions
 #'        \code{chisq.test()} or \code{fisher.test()}.
-#'          
+#'
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.df
 #' @inheritParams sjp.glmer
 #' @inheritParams sjp.grpfrq
-#'          
+#'
 #' @return Invisibly returns
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
@@ -54,7 +54,7 @@
 #'            \item the html-table with inline-css for use with knitr (\code{knitr})
 #'            }
 #'            for further use.
-#'          
+#'
 #' @details The p-value for Cramer's V and the Phi coefficient are based
 #'          on \code{chisq.test()}. If any expected value of a table cell is
 #'          smaller than 5, or smaller than 10 and the df is 1, then \code{fisher.test()}
@@ -67,31 +67,42 @@
 #'          When \code{statistics = "auto"}, only Cramer's V or Phi are calculated,
 #'          based on the dimension of the table (i.e. if the table has more than
 #'          two rows or columns, Cramer's V is calculated, else Phi).
-#'         
-#' @examples 
+#'
+#' @examples
 #' # prepare sample data set
 #' library(sjmisc)
 #' data(efc)
-#' efc.labels <- get_labels(efc)
-#' 
+#'
 #' # print simple cross table with labels
 #' \dontrun{
 #' sjt.xtab(efc$e16sex, efc$e42dep)
-#'          
+#'
 #' # print cross table with manually set
 #' # labels and expected values
-#' sjt.xtab(efc$e16sex, efc$e42dep, var.labels = c("Elder's gender", 
-#'          "Elder's dependency"), value.labels = list(efc.labels[['e16sex']], 
+#' sjt.xtab(efc$e16sex, efc$e42dep, var.labels = c("Elder's gender",
+#'          "Elder's dependency"), value.labels = list(efc.labels[['e16sex']],
 #'          efc.labels[['e42dep']]), show.exp = TRUE)
-#' 
+#'
 #' # print minimal cross table with labels, total col/row highlighted
 #' sjt.xtab(efc$e16sex, efc$e42dep, show.cell.prc = FALSE, emph.total = TRUE)
-#' 
+#'
 #' # User defined style sheet
-#' sjt.xtab(efc$e16sex, efc$e42dep, 
+#' sjt.xtab(efc$e16sex, efc$e42dep,
 #'          CSS = list(css.table = "border: 2px solid;",
 #'                     css.tdata = "border: 1px solid;",
 #'                     css.horline = "border-bottom: double blue;"))}
+#'
+#' # ordinal data, use Kendall's tau
+#' sjt.xtab(efc$e42dep, efc$quol_5, statistics = "kendall")
+#'
+#' # calculate Spearman's rho, with continuity correction
+#' sjt.xtab(
+#'   efc$e42dep,
+#'   efc$quol_5,
+#'   statistics = "spearman",
+#'   exact = FALSE,
+#'   continuity = TRUE
+#' )
 #'
 #' @importFrom stats ftable
 #' @importFrom sjstats xtab_statistics
@@ -284,12 +295,12 @@ sjt.xtab <- function(var.row,
   # -------------------------------------
   # set style sheet
   # -------------------------------------
-  page.style <- sprintf("<style>\n%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { color:%s }\n.%s { color:%s }\n.%s { color:%s }\n.%s { color:%s }\n.%s { color:%s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>", 
-                        tag.table, css.table, tag.caption, css.caption, tag.thead, css.thead, tag.tdata, css.tdata, tag.secondtablerow, css.secondtablerow, 
-                        tag.leftalign, css.leftalign, tag.centeralign, css.centeralign, tag.lasttablerow, css.lasttablerow, 
+  page.style <- sprintf("<style>\n%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { color:%s }\n.%s { color:%s }\n.%s { color:%s }\n.%s { color:%s }\n.%s { color:%s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
+                        tag.table, css.table, tag.caption, css.caption, tag.thead, css.thead, tag.tdata, css.tdata, tag.secondtablerow, css.secondtablerow,
+                        tag.leftalign, css.leftalign, tag.centeralign, css.centeralign, tag.lasttablerow, css.lasttablerow,
                         tag.totcol, css.totcol, tag.tothi, css.tothi,
                         tag.td_n, tdcol.n, tag.td_c, tdcol.cell, tag.td_rw, tdcol.row,
-                        tag.td_cl, tdcol.col, tag.td_ex, tdcol.expected, 
+                        tag.td_cl, tdcol.col, tag.td_ex, tdcol.expected,
                         tag.summary, css.summary, tag.horline, css.horline,
                         tag.firstcolborder, css.firstcolborder)
   # start writing content
@@ -358,8 +369,8 @@ sjt.xtab <- function(var.row,
       css_last_row_th <- " "
       css_last_row <- ""
     }
-    page.content <- paste(page.content, 
-                          sprintf("\n    <td class=\"tdata %sleftalign\">%s</td>", 
+    page.content <- paste(page.content,
+                          sprintf("\n    <td class=\"tdata %sleftalign\">%s</td>",
                                   css_last_row_th,
                                   labels.var.row[rowlabelcnt[irow]]))
     # -------------------------------------
@@ -406,7 +417,7 @@ sjt.xtab <- function(var.row,
       # -------------------------------------
       # write table cell data
       # -------------------------------------
-      page.content <- paste(page.content, sprintf("\n    <td class=\"tdata centeralign horline%s\">%s</td>", 
+      page.content <- paste(page.content, sprintf("\n    <td class=\"tdata centeralign horline%s\">%s</td>",
                                                   ifelse(css_last_row == "", css_tot_col, css_last_row),
                                                   cellstring), sep = "")
     }
@@ -424,16 +435,16 @@ sjt.xtab <- function(var.row,
       pstring <- "Fisher's p"
     else
       pstring <- "p"
-    
+
     page.content <- paste(
       page.content,
       sprintf(
         "    <td class=\"summary tdata\" colspan=\"%i\">%s=%.3f &middot; df=%i &middot; %s=%.3f &middot; %s=%.3f</td>",
         totalncol + 1,
-        xt_stat$stat.name,
+        xt_stat$stat.html,
         xt_stat$statistic,
         xt_stat$df,
-        xt_stat$method,
+        xt_stat$method.html,
         xt_stat$estimate,
         pstring,
         xt_stat$p.value,
@@ -442,7 +453,7 @@ sjt.xtab <- function(var.row,
     )
     # close table row
     page.content <- paste(page.content, "\n  </tr>\n")
-  }  
+  }
   # -------------------------------------
   # finish table
   # -------------------------------------
@@ -469,16 +480,16 @@ sjt.xtab <- function(var.row,
     # show row percentage?
     # -----------------
     if (show.row.prc) {
-      page.content <- paste(page.content, 
-                            sprintf("<span class=\"td_rw\">&#37; within %s</span><br>\n", 
+      page.content <- paste(page.content,
+                            sprintf("<span class=\"td_rw\">&#37; within %s</span><br>\n",
                                     gsub("<br>", " ", s.var.row, fixed = TRUE)))
     }
     # -----------------
     # show row percentage?
     # -----------------
     if (show.col.prc) {
-      page.content <- paste(page.content, 
-                            sprintf("<span class=\"td_cl\">&#37; within %s</span><br>\n", 
+      page.content <- paste(page.content,
+                            sprintf("<span class=\"td_cl\">&#37; within %s</span><br>\n",
                                     gsub("<br>", " ", s.var.col, fixed = TRUE)))
     }
     # -----------------
@@ -519,21 +530,21 @@ sjt.xtab <- function(var.row,
   knitr <- gsub(tag.thead, css.thead, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.secondtablerow, css.secondtablerow, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.firstcolborder, css.firstcolborder, knitr, fixed = TRUE, useBytes = TRUE)
-  knitr <- gsub(tag.leftalign, css.leftalign, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.centeralign, css.centeralign, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.horline, css.horline, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.lasttablerow, css.lasttablerow, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.totcol, css.totcol, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.summary, css.summary, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.tothi, css.tothi, knitr, fixed = TRUE, useBytes = TRUE)  
+  knitr <- gsub(tag.leftalign, css.leftalign, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.centeralign, css.centeralign, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.horline, css.horline, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.lasttablerow, css.lasttablerow, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.totcol, css.totcol, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.summary, css.summary, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.tothi, css.tothi, knitr, fixed = TRUE, useBytes = TRUE)
   # -------------------------------------
   # replace color-attributes for legend
   # -------------------------------------
-  knitr <- gsub(tag.td_ex, sprintf("color:%s;",tdcol.expected), knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.td_cl, sprintf("color:%s;",tdcol.col), knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.td_rw, sprintf("color:%s;",tdcol.row), knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.td_c, sprintf("color:%s;",tdcol.cell), knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.td_n, sprintf("color:%s;",tdcol.n), knitr, fixed = TRUE, useBytes = TRUE)  
+  knitr <- gsub(tag.td_ex, sprintf("color:%s;",tdcol.expected), knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.td_cl, sprintf("color:%s;",tdcol.col), knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.td_rw, sprintf("color:%s;",tdcol.row), knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.td_c, sprintf("color:%s;",tdcol.cell), knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.td_n, sprintf("color:%s;",tdcol.n), knitr, fixed = TRUE, useBytes = TRUE)
   # -------------------------------------
   # remove spaces?
   # -------------------------------------

@@ -32,7 +32,7 @@ between the highest and 2nd highest factor should be 0.1}
 
 \item{title}{table caption, as character vector.}
 
-\item{var.labels}{character vector with variable names, which will be used 
+\item{var.labels}{character vector with variable names, which will be used
 to label variables in the output.}
 
 \item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
