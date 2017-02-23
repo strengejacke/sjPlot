@@ -73,7 +73,7 @@ This function performs a One-Way-Anova with \code{var.cnt} as dependent
            and \code{var.grp} as independent variable, by calling
            \code{lm(var.cnt ~ as.factor(var.grp))}, to get p-values for each
            sub-group and the complete "model". Thus, p-values indicate whether
-           each group-mean is significantly different from the reference 
+           each group-mean is significantly different from the reference
            group (reference level of \code{var.grp}). Statistics like mean values are
            based on subsetted groups (i.e. \code{var.cnt} is divided into sub-groups
            indicated by \code{var.grp}).
@@ -88,7 +88,7 @@ See 'Notes' in \code{\link{sjt.frq}}.
 library(sjmisc)
 data(efc)
 sjt.grpmean(efc$c12hour, efc$e42dep)}
-            
+
 }
 \seealso{
 \code{\link{sjp.aov1}}

@@ -18,6 +18,7 @@
 
 * Fixed bug in `sjt.frq()` for variables with many missign values and labelled values that did not occur on that variable.
 * Argument `value.labels` had no effect for `sjt.frq()`.
+* Automatic label detection in `sjt.grpmean()` sometimes not worked for factors without variable labels.
 
 # sjPlot 2.3.0
 

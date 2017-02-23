@@ -1,17 +1,17 @@
 #' @title Summary of grouped means as HTML table
 #' @name sjt.grpmean
-#' 
+#'
 #' @description Computes mean, sd and se for each sub-group (indicated by \code{var.grp})
 #'                of \code{var.cnt} and prints the result as HTML table.
-#'              
-#' @seealso \code{\link{sjp.aov1}}  
-#' 
+#'
+#' @seealso \code{\link{sjp.aov1}}
+#'
 #' @param digits.summary amount of digits for summary statistics (Anova).
-#' 
+#'
 #' @inheritParams sjt.frq
 #' @inheritParams sjp.glmer
 #' @inheritParams sjp.grpfrq
-#' 
+#'
 #' @return Invisibly returns a \code{\link{list}} with
 #'          \itemize{
 #'            \item the data frame with the description information (\code{df}),
@@ -23,12 +23,12 @@
 #'            for further use.
 #'
 #' @note See 'Notes' in \code{\link{sjt.frq}}.
-#'  
+#'
 #' @details This function performs a One-Way-Anova with \code{var.cnt} as dependent
 #'            and \code{var.grp} as independent variable, by calling
 #'            \code{lm(var.cnt ~ as.factor(var.grp))}, to get p-values for each
 #'            sub-group and the complete "model". Thus, p-values indicate whether
-#'            each group-mean is significantly different from the reference 
+#'            each group-mean is significantly different from the reference
 #'            group (reference level of \code{var.grp}). Statistics like mean values are
 #'            based on subsetted groups (i.e. \code{var.cnt} is divided into sub-groups
 #'            indicated by \code{var.grp}).
@@ -40,7 +40,7 @@
 #' library(sjmisc)
 #' data(efc)
 #' sjt.grpmean(efc$c12hour, efc$e42dep)}
-#'             
+#'
 #' @importFrom stats na.omit lm
 #' @export
 sjt.grpmean <- function(var.cnt,
@@ -67,6 +67,9 @@ sjt.grpmean <- function(var.cnt,
   # --------------------------------------
   # set value and row labels
   # --------------------------------------
+  varGrpLabel <- sjmisc::get_label(var.grp, def.value = get_var_name(deparse(substitute(var.grp))))
+  varCountLabel <- sjmisc::get_label(var.cnt, def.value = get_var_name(deparse(substitute(var.cnt))))
+
   if (is.null(value.labels)) {
     # first, drop unused labels
     var.grp <- sjmisc::drop_labels(var.grp, drop.na = TRUE)
@@ -75,8 +78,6 @@ sjt.grpmean <- function(var.cnt,
       var.grp, attr.only = F, include.values = NULL, include.non.labelled = T
     )
   }
-  varGrpLabel <- sjmisc::get_label(var.grp, def.value = get_var_name(deparse(substitute(var.grp))))
-  varCountLabel <- sjmisc::get_label(var.cnt, def.value = get_var_name(deparse(substitute(var.cnt))))
   # --------------------------------------
   # handle NULL parameter
   # --------------------------------------
@@ -108,7 +109,7 @@ sjt.grpmean <- function(var.cnt,
     } else {
       pval <- c(pval, sub("0", p_zero, sprintf("%.*f", digits, means.p[i]), fixed = T))
     }
-  } 
+  }
   # --------------------------------------
   # retrieve group indices
   # --------------------------------------
@@ -122,7 +123,7 @@ sjt.grpmean <- function(var.cnt,
     # do we have weighted means?
     # --------------------------------------
     if (!is.null(weight.by)) {
-      mw <- weighted.mean(var.cnt[var.grp == indices[i]], 
+      mw <- weighted.mean(var.cnt[var.grp == indices[i]],
                           w = weight.by[var.grp == indices[i]],
                           na.rm = TRUE)
     } else {
@@ -133,7 +134,7 @@ sjt.grpmean <- function(var.cnt,
     # mean, N, sd and se of var.cnt for each
     # sub-group (indicated by indices)
     # --------------------------------------
-    df <- rbind(df, 
+    df <- rbind(df,
                 cbind(mean = sprintf("%.*f", digits, mw),
                       N = length(stats::na.omit(var.cnt[var.grp == indices[i]])),
                       sd = sprintf("%.*f", digits, sd(var.cnt[var.grp == indices[i]], na.rm = TRUE)),
@@ -151,7 +152,7 @@ sjt.grpmean <- function(var.cnt,
   # --------------------------------------
   # finally, add total-row
   # --------------------------------------
-  df <- rbind(df, 
+  df <- rbind(df,
               cbind(mean = sprintf("%.*f", digits, mw),
                     N = length(stats::na.omit(var.cnt)),
                     sd = sprintf("%.*f", digits, sd(var.cnt, na.rm = TRUE)),
@@ -173,16 +174,16 @@ sjt.grpmean <- function(var.cnt,
   fstat <- sum.fit$fstatistic[1]
   # p-value for F-test
   pval <- sjstats:::lm_pval_fstat(fit)
-  pvalstring <- ifelse(pval < 0.001, 
-                       sprintf("p&lt;%s.001", p_zero), 
+  pvalstring <- ifelse(pval < 0.001,
+                       sprintf("p&lt;%s.001", p_zero),
                        sub("0", p_zero, sprintf("p=%.*f", digits.summary, pval)))
   eta <- sub("0", p_zero, sprintf("&eta;=%.*f", digits.summary, sqrt(r2)))
   # --------------------------------------
   # print data frame to html table
   # --------------------------------------
-  html <- sjt.df(df, 
-                 describe = F, 
-                 title = varCountLabel, 
+  html <- sjt.df(df,
+                 describe = F,
+                 title = varCountLabel,
                  string.var = varGrpLabel,
                  show.rownames = T,
                  show.cmmn.row = T,
@@ -190,7 +191,7 @@ sjt.grpmean <- function(var.cnt,
                  CSS = CSS,
                  encoding = encoding,
                  hide.progress = TRUE,
-                 string.cmmn = gsub("=0.", paste0("=", p_zero, "."), 
+                 string.cmmn = gsub("=0.", paste0("=", p_zero, "."),
                                     sprintf("<strong>Anova:</strong> R<sup>2</sup>=%.*f &middot; adj. R<sup>2</sup>=%.*f &middot; %s &middot; F=%.*f &middot; %s",
                                             digits.summary, r2, digits.summary, r2.adj, eta, digits.summary, fstat, pvalstring),
                                     fixed = TRUE),
@@ -198,7 +199,7 @@ sjt.grpmean <- function(var.cnt,
   # -------------------------------------
   # check if html-content should be printed
   # -------------------------------------
-  #out.html.table(no.output, file, html$knitr, html$output.complete, use.viewer)  
+  #out.html.table(no.output, file, html$knitr, html$output.complete, use.viewer)
   structure(
     class = c("sjTable", "sjtgrpmean"),
     list(
