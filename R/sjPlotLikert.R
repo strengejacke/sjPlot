@@ -3,33 +3,33 @@ utils::globalVariables(c("offset"))
 
 #' @title Plot likert scales as centered stacked bars
 #' @name sjp.likert
-#'             
+#'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.likert/}{sjPlot manual: sjp.likert}
-#' 
+#'
 #' @description Plot likert scales as centered stacked bars.
-#' 
-#' @note Note that only even numbers of categories are possible to plot, so the "positive" 
+#'
+#' @note Note that only even numbers of categories are possible to plot, so the "positive"
 #'        and "negative" values can be splitted into two halfs. A neutral category (like "don't know")
 #'        can be used, but must be indicated by \code{cat.neutral}. \cr \cr
 #'        The \code{catcount}-argument indicates how many item categories are in the
-#'        Likert scale. Normally, this argument can be ignored because the amount of 
+#'        Likert scale. Normally, this argument can be ignored because the amount of
 #'        valid categories is retrieved automatically. However, sometimes (for instance,
 #'        if a certain category is missing in all items), auto-detection of the amount
 #'        of categories fails. In such cases, specify the amount of categories
 #'        with the \code{catcount}-argument.
-#' 
-#' @param catcount optional, amount of categories of \code{items} (e.g. \emph{"strongly disagree", 
+#'
+#' @param catcount optional, amount of categories of \code{items} (e.g. \emph{"strongly disagree",
 #'          "disagree", "agree"} and \emph{"strongly agree"} would be \code{catcount = 4}).
 #'          Note that this argument only applies to "valid" answers, i.e. if you
 #'          have an additional neutral category (see \code{cat.neutral}) like \emph{"don't know"},
-#'          this won't count for \code{catcount} (e.g. "strongly disagree", 
+#'          this won't count for \code{catcount} (e.g. "strongly disagree",
 #'          "disagree", "agree", "strongly agree" and neutral category "don't know"
 #'          would still mean that \code{catcount = 4}). See 'Note'.
 #' @param cat.neutral if there's a neutral category (like "don't know" etc.), specify
 #'          the index number (value) for this category. Else, set \code{cat.neutral = NULL} (default).
 #'          The proportions of neutral category answers are plotted as grey bars on the left side of
 #'          the figure.
-#' @param sort.frq indicates whether the items of \code{items} should be ordered by 
+#' @param sort.frq indicates whether the items of \code{items} should be ordered by
 #'          total sum of positive or negative answers.
 #'          \describe{
 #'            \item{\code{"pos.asc"}}{to order ascending by sum of positive answers}
@@ -50,22 +50,22 @@ utils::globalVariables(c("offset"))
 #'            \item{\code{"sum.outide"}}{shows the sums of percentage values for both negative and positive values and prints them outside the end of each bar}
 #'          }
 #' @param show.prc.sign logical, if \code{TRUE}, \%-signs for value labels are shown.
-#' @param grid.range numeric, limits of the x-axis-range, as proportion of 100. 
-#'          Default is 1, so the x-scale ranges from zero to 100\% on 
+#' @param grid.range numeric, limits of the x-axis-range, as proportion of 100.
+#'          Default is 1, so the x-scale ranges from zero to 100\% on
 #'          both sides from the center. You can use values beyond 1
 #'          (100\%) in case bar labels are not printed because they exceed the axis range.
 #'          E.g. \code{grid.range = 1.4} will set the axis from -140 to +140\%, however, only
 #'          (valid) axis labels from -100 to +100\% are printed. Neutral categories are
 #'          adjusted to the most left limit.
-#' 
+#'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.stackfrq
 #' @inheritParams sjp.glmer
-#' 
+#'
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df.neg} for the negative values,
 #'           \code{df.pos} for the positive values and \code{df.neutral} for the neutral category values).
-#' 
+#'
 #' @examples
 #' # prepare data for 4-category likert scale, with neutral category 5 items
 #' Q1 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(.2, .3, .1, .4)))
@@ -73,21 +73,21 @@ utils::globalVariables(c("offset"))
 #' Q3 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(.25, .1, .4, .25)))
 #' Q4 <- as.factor(sample(1:5, 500, replace = TRUE, prob = c(.1, .3, .38, .1, .12)))
 #' Q5 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(.35, .25, .15, .25)))
-#' 
+#'
 #' likert_4 <- data.frame(Q1, Q2, Q3, Q4, Q5)
-#' 
+#'
 #' # create labels
-#' levels_4 <- c("Strongly agree", "Agree", "Disagree", 
+#' levels_4 <- c("Strongly agree", "Agree", "Disagree",
 #'               "Strongly Disagree", "Don't know")
-#' 
+#'
 #' # create item labels
 #' items <- c("Q1", "Q2", "Q3", "Q4", "Q5")
-#' 
+#'
 #' # plot 4-category-likert-scale, no sorting
-#' sjp.likert(likert_4, cat.neutral = 5, legend.labels = levels_4, 
+#' sjp.likert(likert_4, cat.neutral = 5, legend.labels = levels_4,
 #'            axis.labels = items, grid.range = 1.2, expand.grid = FALSE,
 #'            values = "sum.outside", show.prc.sign = TRUE)
-#' 
+#'
 #' # Data from the EUROFAMCARE sample dataset
 #' library(dplyr)
 #' library(sjmisc)
@@ -95,25 +95,25 @@ utils::globalVariables(c("offset"))
 #' # find all variables from COPE-Index, which all have a "cop" in their
 #' # variable name, and then plot that subset as likert-plot
 #' efc[, find_var(efc, "cop")] %>% sjp.likert()
-#' 
+#'
 #' @import ggplot2
 #' @importFrom stats na.omit xtabs
 #' @importFrom sjmisc is_odd set_na
 #' @export
 sjp.likert <- function(items,
-                       title = NULL, 
+                       title = NULL,
                        legend.title = NULL,
                        legend.labels = NULL,
                        axis.titles = NULL,
                        axis.labels = NULL,
-                       catcount = NULL, 
+                       catcount = NULL,
                        cat.neutral = NULL,
                        sort.frq = NULL,
                        weight.by = NULL,
                        title.wtd.suffix = NULL,
-                       wrap.title = 50, 
-                       wrap.labels = 30, 
-                       wrap.legend.title = 30, 
+                       wrap.title = 50,
+                       wrap.labels = 30,
+                       wrap.legend.title = 30,
                        wrap.legend.labels = 28,
                        geom.size = .6,
                        geom.colors = "BrBG",
@@ -181,7 +181,7 @@ sjp.likert <- function(items,
   if (is.null(axis.labels)) {
     # retrieve variable name attribute
     axis.labels <- unname(sjmisc::get_label(items, def.value = colnames(items)))
-  }  
+  }
   # --------------------------------------------------------
   # unname labels, if necessary, so we have a simple character vector
   if (!is.null(names(axis.labels))) axis.labels <- as.vector(axis.labels)
@@ -191,7 +191,7 @@ sjp.likert <- function(items,
   if (!is.null(legend.labels)) {
     # unname labels, if necessary, so we have a simple character vector
     if (!is.null(names(legend.labels))) legend.labels <- as.vector(legend.labels)
-  } 
+  }
   # --------------------------------------------------------
   # determine catcount
   # --------------------------------------------------------
@@ -225,7 +225,7 @@ sjp.likert <- function(items,
         # are different.
         warning("Length of labels for item categories `legend.labels` differs from detected amount of categories. Use `catcount` argument to define amount of item categories, if plotting does not work.", call. = F)
         # adjust catcount to length of legend labels, because
-        # we assume that labels represent the valid range of 
+        # we assume that labels represent the valid range of
         # item categories
         catcount <- lll
       }
@@ -264,7 +264,7 @@ sjp.likert <- function(items,
              collapse = ";"), ";else=copy"
       )
     # finally, recode data
-    items <- sjmisc::rec(items, recodes = recode.pattern)
+    items <- sjmisc::rec(items, rec = recode.pattern)
     # re-order legend labels as well
     ll.order <- c(seq_len(catcount + adding)[-cat.neutral], cat.neutral)
     legend.labels <- legend.labels[ll.order]
@@ -287,7 +287,7 @@ sjp.likert <- function(items,
     # that category, replace it with NA
     # --------------------------------------------------------
     if (is.null(cat.neutral) && max(items[[i]], na.rm = T) > catcount)
-      items[[i]] <- sjmisc::set_na(items[[i]], value = catcount + 1, as.tag = F)
+      items[[i]] <- sjmisc::set_na(items[[i]], na = catcount + 1, as.tag = F)
     # --------------------------------------------------------
     # create proportional frequency table
     # --------------------------------------------------------
@@ -309,7 +309,7 @@ sjp.likert <- function(items,
     # --------------------------------------------------------
     # append to data frame
     # --------------------------------------------------------
-    if (ncol(freq.df) == 0) 
+    if (ncol(freq.df) == 0)
       freq.df <- as.data.frame(freq)
     else {
       # check for valid rows. if we hav missing categories
@@ -321,7 +321,7 @@ sjp.likert <- function(items,
       else
         freq.df <- as.data.frame(cbind(freq.df, freq))
     }
-      
+
   }
   # --------------------------------------------------------
   # Check whether N of each item should be included into
@@ -329,8 +329,8 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   if (show.n) {
     for (i in seq_len(length(axis.labels))) {
-      axis.labels[i] <- paste(axis.labels[i], 
-                               sprintf(" (n=%i)", length(stats::na.omit(items[[i]]))), 
+      axis.labels[i] <- paste(axis.labels[i],
+                               sprintf(" (n=%i)", length(stats::na.omit(items[[i]]))),
                                sep = "")
     }
   }
@@ -378,9 +378,9 @@ sjp.likert <- function(items,
     # a group indicator, the frequencies (as percent value),
     # and the y position for labels.
     # --------------------------------------------------------
-    mydat.pos <- as.data.frame(rbind(mydat.pos, 
-                                     cbind(x = i, 
-                                           grp = lower.half, 
+    mydat.pos <- as.data.frame(rbind(mydat.pos,
+                                     cbind(x = i,
+                                           grp = lower.half,
                                            frq = fr[lower.half],
                                            ypos = cumsum(fr[lower.half]) - 0.5 * (fr[lower.half]),
                                            ypos2 = sum(fr[lower.half]))))
@@ -392,9 +392,9 @@ sjp.likert <- function(items,
     # --------------------------------------------------------
     # same as above for negative values
     # --------------------------------------------------------
-    mydat.neg <- as.data.frame(rbind(mydat.neg, 
-                                     cbind(x = i, 
-                                           grp = upper.half, 
+    mydat.neg <- as.data.frame(rbind(mydat.neg,
+                                     cbind(x = i,
+                                           grp = upper.half,
                                            frq = -fr[upper.half],
                                            ypos = -1 * (cumsum(fr[upper.half]) - 0.5 * (fr[upper.half])),
                                            ypos2 = -1 * sum(fr[upper.half]))))
@@ -404,9 +404,9 @@ sjp.likert <- function(items,
     # same as above for neutral category, if we have any
     # --------------------------------------------------------
     if (!is.null(cat.neutral)) {
-      mydat.dk <- as.data.frame(rbind(mydat.dk, 
-                                      cbind(x = i, 
-                                            grp = catcount + adding, 
+      mydat.dk <- as.data.frame(rbind(mydat.dk,
+                                      cbind(x = i,
+                                            grp = catcount + adding,
                                             frq = -1 + fr[catcount + adding],
                                             ypos = -1 + (fr[catcount + adding] / 2),
                                             ypos2 = -1 + fr[catcount + adding],
@@ -479,12 +479,12 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   gp <- ggplot() +
     # positive value bars
-    geom_col(data = mydat.pos, 
-             aes_string(x = "x", y = "frq", fill = "grp"), 
+    geom_col(data = mydat.pos,
+             aes_string(x = "x", y = "frq", fill = "grp"),
              width = geom.size) +
     # negative value bars
-    geom_col(data = mydat.neg, 
-             aes_string(x = "x", y = "frq", fill = "grp"), 
+    geom_col(data = mydat.neg,
+             aes_string(x = "x", y = "frq", fill = "grp"),
              width = geom.size,
              position = position_stack(reverse = T))
   # --------------------------------------------------------
@@ -494,9 +494,9 @@ sjp.likert <- function(items,
   # --------------------------------------------------------
   if (!is.null(cat.neutral)) {
     gp <- gp +
-      geom_rect(data = mydat.dk, aes(xmin = x - (geom.size / 2), 
-                                     xmax = x + (geom.size / 2), 
-                                     ymin = offset, 
+      geom_rect(data = mydat.dk, aes(xmin = x - (geom.size / 2),
+                                     xmax = x + (geom.size / 2),
+                                     ymin = offset,
                                      ymax = frq + (offset + 1),
                                      fill = "neutral"))
   }
@@ -517,13 +517,13 @@ sjp.likert <- function(items,
   ypos.sum.pos.lab  <- ifelse(ypos.sum.pos > 0, sprintf("%.*f%s", digits, 100 * ypos.sum.pos, percsign), "")
   ypos.sum.neg.lab  <- ifelse(ypos.sum.neg < 0, sprintf("%.*f%s", digits, 100 * abs(ypos.sum.neg), percsign), "")
   ypos.sum.dk.lab  <- ifelse(ypos.sum.dk > -1, sprintf("%.*f%s", digits, 100 * (1 + ypos.sum.dk), percsign), "")
-  
+
   if (values == "show") {
     # show them in middle of bar
     gp <- gp +
-      geom_text(data = subset(mydat.pos, frq > 0), 
+      geom_text(data = subset(mydat.pos, frq > 0),
                 aes(x = x, y = ypos, label = sprintf("%.*f%s", digits, 100 * frq, percsign))) +
-      geom_text(data = subset(mydat.neg, frq < 0), 
+      geom_text(data = subset(mydat.neg, frq < 0),
                 aes(x = x, y = ypos, label = sprintf("%.*f%s", digits, 100 * abs(frq), percsign)))
     if (!is.null(cat.neutral)) {
       gp <- gp +
@@ -569,10 +569,10 @@ sjp.likert <- function(items,
   # ---------------------------------------------------------
   # set geom colors
   # ---------------------------------------------------------
-  gp <- sj.setGeomColors(gp, 
-                         geom.colors, 
-                         (catcount + adding), 
-                         show.legend, 
+  gp <- sj.setGeomColors(gp,
+                         geom.colors,
+                         (catcount + adding),
+                         show.legend,
                          legend.labels,
                          reverse.colors)
   # ---------------------------------------------------------

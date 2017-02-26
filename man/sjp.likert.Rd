@@ -33,11 +33,11 @@ for the x-axis and y-axis.}
 \item{axis.labels}{character vector with labels used as axis labels. Optional
 argument, since in most cases, axis labels are set automatically.}
 
-\item{catcount}{optional, amount of categories of \code{items} (e.g. \emph{"strongly disagree", 
+\item{catcount}{optional, amount of categories of \code{items} (e.g. \emph{"strongly disagree",
 "disagree", "agree"} and \emph{"strongly agree"} would be \code{catcount = 4}).
 Note that this argument only applies to "valid" answers, i.e. if you
 have an additional neutral category (see \code{cat.neutral}) like \emph{"don't know"},
-this won't count for \code{catcount} (e.g. "strongly disagree", 
+this won't count for \code{catcount} (e.g. "strongly disagree",
 "disagree", "agree", "strongly agree" and neutral category "don't know"
 would still mean that \code{catcount = 4}). See 'Note'.}
 
@@ -46,7 +46,7 @@ the index number (value) for this category. Else, set \code{cat.neutral = NULL} 
 The proportions of neutral category answers are plotted as grey bars on the left side of
 the figure.}
 
-\item{sort.frq}{indicates whether the items of \code{items} should be ordered by 
+\item{sort.frq}{indicates whether the items of \code{items} should be ordered by
 total sum of positive or negative answers.
 \describe{
   \item{\code{"pos.asc"}}{to order ascending by sum of positive answers}
@@ -105,8 +105,8 @@ function, a legend is added to the plot.}
 
 \item{show.prc.sign}{logical, if \code{TRUE}, \%-signs for value labels are shown.}
 
-\item{grid.range}{numeric, limits of the x-axis-range, as proportion of 100. 
-Default is 1, so the x-scale ranges from zero to 100\% on 
+\item{grid.range}{numeric, limits of the x-axis-range, as proportion of 100.
+Default is 1, so the x-scale ranges from zero to 100\% on
 both sides from the center. You can use values beyond 1
 (100\%) in case bar labels are not printed because they exceed the axis range.
 E.g. \code{grid.range = 1.4} will set the axis from -140 to +140\%, however, only
@@ -135,11 +135,11 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 Plot likert scales as centered stacked bars.
 }
 \note{
-Note that only even numbers of categories are possible to plot, so the "positive" 
+Note that only even numbers of categories are possible to plot, so the "positive"
        and "negative" values can be splitted into two halfs. A neutral category (like "don't know")
        can be used, but must be indicated by \code{cat.neutral}. \cr \cr
        The \code{catcount}-argument indicates how many item categories are in the
-       Likert scale. Normally, this argument can be ignored because the amount of 
+       Likert scale. Normally, this argument can be ignored because the amount of
        valid categories is retrieved automatically. However, sometimes (for instance,
        if a certain category is missing in all items), auto-detection of the amount
        of categories fails. In such cases, specify the amount of categories
@@ -156,14 +156,14 @@ Q5 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(.35, .25, .15, .25)))
 likert_4 <- data.frame(Q1, Q2, Q3, Q4, Q5)
 
 # create labels
-levels_4 <- c("Strongly agree", "Agree", "Disagree", 
+levels_4 <- c("Strongly agree", "Agree", "Disagree",
               "Strongly Disagree", "Don't know")
 
 # create item labels
 items <- c("Q1", "Q2", "Q3", "Q4", "Q5")
 
 # plot 4-category-likert-scale, no sorting
-sjp.likert(likert_4, cat.neutral = 5, legend.labels = levels_4, 
+sjp.likert(likert_4, cat.neutral = 5, legend.labels = levels_4,
            axis.labels = items, grid.range = 1.2, expand.grid = FALSE,
            values = "sum.outside", show.prc.sign = TRUE)
 

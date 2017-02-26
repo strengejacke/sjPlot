@@ -1,15 +1,15 @@
 #' @title Summary of linear regression as HTML table
 #' @name sjt.lm
-#' 
+#'
 #' @description Summarizes (multiple) fitted linear models (coefficients, std. beta values etc.)
 #'                as HTML table, or saves them as file. The fitted models may have different predictors,
 #'                e.g. when comparing different stepwise fitted models.
 #'                This function also supports panel models fitted with the \code{plm}-function
 #'                from the \pkg{plm}-package and generalized least squares models fitted with
 #'                the \code{gls}-function from the \pkg{nlme}-package.
-#'                
+#'
 #' @seealso \href{http://strengejacke.de/sjPlot/sjt.lm/}{sjPlot manual: sjt.lm}
-#' 
+#'
 #' @param ... one or more fitted linear (mixed) models.
 #' @param pred.labels character vector with labels of predictor variables.
 #'          If not \code{NULL}, \code{pred.labels} will be used in the first
@@ -17,11 +17,11 @@
 #'          labels are set based on label attributes (see \code{\link[sjmisc]{get_label}}).
 #'          If \code{pred.labels = ""}, column names (vector names) are used
 #'          as predictor labels. See 'Examples'.
-#' @param depvar.labels character vector with labels of dependent 
+#' @param depvar.labels character vector with labels of dependent
 #'          variables of all fitted models. See 'Examples'.
 #' @param string.pred character vector,used as headline for the predictor column.
 #'          Default is \code{"Predictors"}.
-#' @param string.dv character vector, used as headline for the 
+#' @param string.dv character vector, used as headline for the
 #'          dependent variable columns. Default is \code{"Dependent Variables"}.
 #' @param show.header logical, if \code{TRUE}, the header strings \code{string.pred}
 #'          and \code{string.dv} are shown. By default, they're hidden.
@@ -37,7 +37,7 @@
 #' @param show.est logical, if \code{TRUE} (default), the estimates are printed.
 #' @param show.ci logical, if \code{TRUE} (default), the confidence intervall is also printed to the table. Use
 #'          \code{FALSE} to omit the CI in the table.
-#' @param show.std indicates whether standardized beta-coefficients should 
+#' @param show.std indicates whether standardized beta-coefficients should
 #'          also printed, and if yes, which type of standardization is done.
 #'          See 'Details'.
 #' @param show.se logical, if \code{TRUE}, the standard errors are also printed.
@@ -56,25 +56,25 @@
 #' @param p.zero logical, if \code{TRUE}, p-values have a leading 0 before the
 #'          period (e.g. \emph{0.002}), else p-values start with a period and
 #'          without a zero (e.g. \emph{.002}).
-#' @param robust logical, if \code{TRUE}, robust standard errors and confidence 
+#' @param robust logical, if \code{TRUE}, robust standard errors and confidence
 #'          intervals will be reported. Computation of robust standard errors is
-#'          based on the \code{\link[sjstats]{robust}}-function in the 
+#'          based on the \code{\link[sjstats]{robust}}-function in the
 #'          \pkg{sjstats}-package.
 #' @param separate.ci.col if \code{TRUE}, the CI values are shown in a separate table column.
 #'          Default is \code{FALSE}.
 #' @param newline.ci logical, if \code{TRUE} and \code{separate.ci.col = FALSE}, inserts a line break
 #'          between estimate and CI values. If \code{FALSE}, CI values are printed in the same
 #'          line as estimate values.
-#' @param group.pred logical, if \code{TRUE} (default), automatically groups table rows with 
+#' @param group.pred logical, if \code{TRUE} (default), automatically groups table rows with
 #'          factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
 #'          be grouped, if the factor has more than two levels. Grouping means that a separate headline
 #'          row is inserted to the table just before the predictor values.
-#' @param show.col.header logical, if \code{TRUE} (default), the table data columns have a headline with 
+#' @param show.col.header logical, if \code{TRUE} (default), the table data columns have a headline with
 #'          abbreviations for estimates, std. beta-values, confidence interval and p-values.
 #' @param show.r2 logical, if \code{TRUE} (default), the R2 and adjusted R2 values for each model are printed
 #'          in the model summary. For linear mixed models, the R2 and Omega-squared values are printed
 #'          (see \code{\link[sjstats]{r2}} for details).
-#' @param show.icc logical, if \code{TRUE}, the intra-class-correlation for each 
+#' @param show.icc logical, if \code{TRUE}, the intra-class-correlation for each
 #'          model is printed in the model summary. Only applies to mixed models.
 #' @param show.re.var logical, if \code{TRUE}, the variance parameters for the random
 #'          effects for each model are printed in the model summary. Only applies to mixed models.
@@ -84,16 +84,16 @@
 #'          \code{\link{sjt.lmer}}.
 #' @param show.aic logical, if \code{TRUE}, the AIC value for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
-#' @param show.aicc logical, if \code{TRUE}, the second-order AIC value for each model 
+#' @param show.aicc logical, if \code{TRUE}, the second-order AIC value for each model
 #'          is printed in the model summary. Default is \code{FALSE}.
-#' @param show.dev logical, if \code{TRUE}, the deviance for each model 
+#' @param show.dev logical, if \code{TRUE}, the deviance for each model
 #'          is printed in the model summary.
-#' @param remove.estimates numeric vector with indices (order equals to row index of \code{coef(fit)}) 
+#' @param remove.estimates numeric vector with indices (order equals to row index of \code{coef(fit)})
 #'          or character vector with coefficient names that indicate which estimates should be removed
 #'          from the table output. The first estimate is the intercept, followed by the model predictors.
-#'          \emph{The intercept cannot be removed from the table output!} \code{remove.estimates = c(2:4)} 
-#'          would remove the 2nd to the 4th estimate (1st to 3rd predictor after intercept) from the output. 
-#'          \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default 
+#'          \emph{The intercept cannot be removed from the table output!} \code{remove.estimates = c(2:4)}
+#'          would remove the 2nd to the 4th estimate (1st to 3rd predictor after intercept) from the output.
+#'          \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 #'          is \code{NULL}, i.e. all estimates are printed.
 #' @param cell.spacing numeric, inner padding of table cells. By default, this value is 0.2 (unit is cm), which is
 #'          suitable for viewing the table. Decrease this value (0.05 to 0.1) if you want to import the table
@@ -101,16 +101,16 @@
 #'          cell spacing, which would be: \code{CSS = list(css.thead = "padding:0.2cm;", css.tdata = "padding:0.2cm;")}.
 #' @param cell.gpr.indent indent for table rows with grouped factor predictors. Only applies
 #'          if \code{group.pred = TRUE}.
-#' @param sep.column logical, if \code{TRUE}, an empty table column is added after 
+#' @param sep.column logical, if \code{TRUE}, an empty table column is added after
 #'          each model column, to add margins between model columns. By default, this
-#'          column will be added to the output; however, when copying tables to 
+#'          column will be added to the output; however, when copying tables to
 #'          office applications, it might be helpful not to add this separator column
-#'          when modifying the table layout. 
-#'          
+#'          when modifying the table layout.
+#'
 #' @inheritParams sjt.frq
 #' @inheritParams sjp.lmer
 #' @inheritParams sjp.corr
-#'          
+#'
 #' @return Invisibly returns
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
@@ -121,24 +121,24 @@
 #'            for further use.
 #'
 #' @note See 'Note' in \code{\link{sjt.frq}}.
-#'  
+#'
 #' @details Concerning the \code{show.std} argument, \code{show.std = "std"}
 #'            will print normal standardized estimates. For \code{show.std = "std2"},
-#'            however, standardization of estimates follows 
+#'            however, standardization of estimates follows
 #'            \href{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}{Gelman's (2008)}
-#'            suggestion, rescaling the estimates by dividing them by two standard 
-#'            deviations instead of just one. Resulting coefficients are then 
-#'            directly comparable for untransformed binary predictors. This type 
+#'            suggestion, rescaling the estimates by dividing them by two standard
+#'            deviations instead of just one. Resulting coefficients are then
+#'            directly comparable for untransformed binary predictors. This type
 #'            of standardization uses the \code{\link[arm]{standardize}}-function
 #'            from the \pkg{arm}-package.
-#'            For backward compatibility reasons, \code{show.std} also may be 
-#'            a logical value; if \code{TRUE}, normal standardized estimates are 
-#'            printed (same effect as \code{show.std = "std"}). Use 
+#'            For backward compatibility reasons, \code{show.std} also may be
+#'            a logical value; if \code{TRUE}, normal standardized estimates are
+#'            printed (same effect as \code{show.std = "std"}). Use
 #'            \code{show.std = NULL} (default) or \code{show.std = FALSE},
 #'            if standardized estimats should not be printed.
 #'            \cr \cr
 #'            Furthermore, see 'Details' in \code{\link{sjt.frq}}.
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' # Now fit the models. Note that both models share the same predictors
@@ -146,57 +146,57 @@
 #' # models below at the end.
 #' library(sjmisc)
 #' data(efc)
-#' 
+#'
 #' # fit first model
 #' fit1 <- lm(barthtot ~ c160age + c12hour + c161sex + c172code, data = efc)
 #' # fit second model
 #' fit2 <- lm(neg_c_7 ~ c160age + c12hour + c161sex + c172code, data = efc)
-#' 
+#'
 #' # create and open HTML-table in RStudio Viewer Pane or web browser
 #' # note that we don't need to specify labels for the predictors,
 #' # because these are automatically read
 #' sjt.lm(fit1, fit2)
-#' 
+#'
 #' # create and open HTML-table in RStudio Viewer Pane or web browser
 #' # in the following examples, we set labels via argument
-#' sjt.lm(fit1, fit2, 
+#' sjt.lm(fit1, fit2,
 #'        depvar.labels = c("Barthel-Index", "Negative Impact"),
-#'        pred.labels = c("Carer's Age", "Hours of Care", 
+#'        pred.labels = c("Carer's Age", "Hours of Care",
 #'                        "Carer's Sex", "Educational Status"))
-#' 
+#'
 #' # use vector names as labels
 #' sjt.lm(fit1, fit2, pred.labels = "")
-#' 
+#'
 #' # show HTML-table, indicating p-values as asterisks
 #' sjt.lm(fit1, fit2, show.std = TRUE, p.numeric = FALSE)
-#' 
+#'
 #' # create and open HTML-table in RStudio Viewer Pane or web browser,
 #' # integrate CI in estimate column
 #' sjt.lm(fit1, fit2, separate.ci.col = FALSE)
-#' 
+#'
 #' # show HTML-table, indicating p-values as numbers
 #' # and printing CI in a separate column
 #' sjt.lm(fit1, fit2, show.std = TRUE)
-#' 
+#'
 #' # show HTML-table, indicating p-values as stars
 #' # and integrate CI in estimate column
 #' sjt.lm(fit1, fit2, show.std = TRUE, ci.hyphen = " to ",
-#'        minus.sign = "&minus;", p.numeric = FALSE, 
+#'        minus.sign = "&minus;", p.numeric = FALSE,
 #'        separate.ci.col = FALSE)
-#' 
-#' # ---------------------------------- 
+#'
+#' # ----------------------------------
 #' # connecting two html-tables
-#' # ---------------------------------- 
+#' # ----------------------------------
 #' # fit two more models
 #' fit3 <- lm(tot_sc_e ~ c160age + c12hour + c161sex + c172code, data=efc)
 #' fit4 <- lm(e42dep ~ c160age + c12hour + c161sex + c172code, data=efc)
-#' 
+#'
 #' # create and save first HTML-table
 #' part1 <- sjt.lm(fit1, fit2)
-#' 
+#'
 #' # create and save second HTML-table
 #' part2 <- sjt.lm(fit3, fit4)
-#' 
+#'
 #' # browse temporary file
 #' htmlFile <- tempfile(fileext=".html")
 #' write(sprintf("<html><head>%s</head><body>%s<p></p>%s</body></html>",
@@ -204,43 +204,43 @@
 #'       file = htmlFile)
 #' viewer <- getOption("viewer")
 #' if (!is.null(viewer)) viewer(htmlFile) else utils::browseURL(htmlFile)
-#' 
-#' # ---------------------------------- 
+#'
+#' # ----------------------------------
 #' # User defined style sheet
-#' # ---------------------------------- 
-#' sjt.lm(fit1, fit2, 
+#' # ----------------------------------
+#' sjt.lm(fit1, fit2,
 #'        CSS = list(css.table = "border: 2px solid;",
 #'                   css.tdata = "border: 1px solid;",
 #'                   css.depvarhead = "color:#003399;"))
-#'                   
-#' # ---------------------------------- 
+#'
+#' # ----------------------------------
 #' # automatic grouping of predictors
-#' # ---------------------------------- 
+#' # ----------------------------------
 #' library(sjmisc)
 #' data(efc)
-#' 
+#'
 #' # make education categorical
 #' efc$c172code <- to_factor(efc$c172code)
-#'     
+#'
 #' # fit first model again (with c172code as factor)
 #' fit1 <- lm(barthtot ~ c160age + c12hour + c172code + c161sex, data=efc)
 #' # fit second model again (with c172code as factor)
 #' fit2 <- lm(neg_c_7 ~ c160age + c12hour + c172code + c161sex, data=efc)
-#' 
+#'
 #' # plot models, but group by predictors
 #' sjt.lm(fit1, fit2, group.pred = TRUE)
 #'
-#' # ---------------------------------------- 
+#' # ----------------------------------------
 #' # compare models with different predictors
-#' # ---------------------------------------- 
+#' # ----------------------------------------
 #' library(sjmisc)
 #' data(efc)
-#' 
+#'
 #' # make education categorical
 #' efc$c172code <- to_factor(efc$c172code)
 #' # make education categorical
 #' efc$e42dep <- to_factor(efc$e42dep)
-#' 
+#'
 #' # fit first model
 #' fit1 <- lm(neg_c_7 ~ c160age + c172code + c161sex, data = efc)
 #' # fit second model
@@ -250,18 +250,18 @@
 #'
 #' sjt.lm(fit1, fit2, fit3)
 #'
-#' # ---------------------------------------- 
+#' # ----------------------------------------
 #' # compare models with different predictors
 #' # and grouping
-#' # ---------------------------------------- 
+#' # ----------------------------------------
 #' # make cope-index categorical
 #' efc$c82cop1 <- to_factor(efc$c82cop1)
 #' # fit another model
-#' fit4 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e + c82cop1, 
+#' fit4 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e + c82cop1,
 #'            data = efc)
 #'
 #' sjt.lm(fit1, fit2, fit4, fit3)
-#' 
+#'
 #' # show standardized beta only
 #' sjt.lm(fit1, fit2, fit4, fit3, show.est = FALSE, show.std = TRUE,
 #'        show.aic = TRUE, show.fstat = TRUE)
@@ -286,7 +286,7 @@
 #'        p.numeric = FALSE, group.pred = FALSE,
 #'        CSS = list(css.modelcolumn4 = 'border-left:1px solid black;',
 #'                   css.modelcolumn5 = 'padding-right:50px;'))}
-#'                   
+#'
 #' @importFrom dplyr full_join slice bind_cols select_ rename_
 #' @importFrom stats nobs AIC confint coef deviance
 #' @importFrom lme4 VarCorr
@@ -355,7 +355,7 @@ sjt.lm <- function(...,
   # -------------------------------------
   # check arguments
   # -------------------------------------
-  if (is.null(show.std) || show.std == FALSE) 
+  if (is.null(show.std) || show.std == FALSE)
     showStdBetaValues <- FALSE
   else
     showStdBetaValues <- TRUE
@@ -383,7 +383,7 @@ sjt.lm <- function(...,
   # ------------------------
   input_list <- tibble::lst(...)
   # --------------------------------------------------------
-  # check length. if we have a list of fitted model, 
+  # check length. if we have a list of fitted model,
   # we need to "unlist" them
   # --------------------------------------------------------
   if (class(input_list[[1]]) == "list") input_list <- lapply(input_list[[1]], function(x) x)
@@ -455,10 +455,10 @@ sjt.lm <- function(...,
     # get tidy model summary
     # -------------------------------------
     if (robust) {
-      fit.df <- sjstats::robust(input_list[[i]], conf.int = T) %>% 
+      fit.df <- sjstats::robust(input_list[[i]], conf.int = T) %>%
         dplyr::select_("-statistic")
     } else {
-      fit.df <- broom::tidy(input_list[[i]], effects = "fixed", conf.int = T) %>% 
+      fit.df <- broom::tidy(input_list[[i]], effects = "fixed", conf.int = T) %>%
         dplyr::select_("-statistic")
     }
     # -------------------------------------
@@ -466,7 +466,7 @@ sjt.lm <- function(...,
     # -------------------------------------
     if (!sjmisc::str_contains(colnames(fit.df), "p.value")) {
       fit.df <- tibble::add_column(
-        .data = fit.df, 
+        .data = fit.df,
         p.value = sjstats::get_model_pval(input_list[[i]], p.kr)[["p.value"]],
         .before = "conf.low"
       )
@@ -480,10 +480,10 @@ sjt.lm <- function(...,
     # bind std. values to data frame
     # -------------------------------------
     fit.df <- dplyr::bind_cols(
-      fit.df, 
-      sbvals %>% 
-        dplyr::select_("-term") %>% 
-        dplyr::rename_("std.conf.low" = "conf.low", 
+      fit.df,
+      sbvals %>%
+        dplyr::select_("-term") %>%
+        dplyr::rename_("std.conf.low" = "conf.low",
                        "std.conf.high" = "conf.high",
                        "std.std.error" = "std.error")
       )
@@ -518,7 +518,7 @@ sjt.lm <- function(...,
             x <- sprintf("%s%.*f%s", sb1, digits.p, x, sb2)
           }
         } else {
-          x <- sprintf("%.*f", digits.p, x) 
+          x <- sprintf("%.*f", digits.p, x)
         }
         # remove leading zero, APA style for p-value
         x <- sub("0", p_zero, x, fixed = TRUE)
@@ -726,7 +726,7 @@ sjt.lm <- function(...,
   }
   # --------------------------------------------------------
   # auto-retrieving variable labels does not work when we
-  # have factors with different levels, which appear as 
+  # have factors with different levels, which appear as
   # "multiple predictors", but are only one variable
   # --------------------------------------------------------
   if (is.null(pred.labels) || length(pred.labels) < (nrow(joined.df) - 1)) {
@@ -766,7 +766,7 @@ sjt.lm <- function(...,
   # -------------------------------------
   # 1. row: intercept
   # -------------------------------------
-  page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata %sleftalign\">%s</td>", 
+  page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata %sleftalign\">%s</td>",
                                                tcb_class, string.interc))
   for (i in seq_len(length(input_list))) {
     # -------------------------
@@ -776,7 +776,7 @@ sjt.lm <- function(...,
     # show estimates?
     if (show.est) {
       # open table cell for Beta-coefficient
-      page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign %smodelcolumn1\">%s", 
+      page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign %smodelcolumn1\">%s",
                                                    tcb_class, joined.df[1, (i - 1) * 9 + COL_EST]))
       # confidence interval in separate column
       if (separate.ci.col) {
@@ -784,15 +784,15 @@ sjt.lm <- function(...,
         if (!p.numeric) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[1, (i - 1) * 9 + COL_P]))
         # if we have CI, start new table cell (CI in separate column)
         if (show.ci) {
-          page.content <- table_cell_string(page.content, "</td>\n    ", tcb_class, 2, 
-                                            paste(c(joined.df[1, (i - 1) * 9 + COL_CI_LOW], 
+          page.content <- table_cell_string(page.content, "</td>\n    ", tcb_class, 2,
+                                            paste(c(joined.df[1, (i - 1) * 9 + COL_CI_LOW],
                                                     ci.hyphen, joined.df[1, (i - 1) * 9 + COL_CI_HIGH]), collapse = ""))
         } else {
           page.content <- paste0(page.content, "</td>")
         }
       } else {
         # confidence interval in Beta-column
-        if (show.ci) page.content <- paste0(page.content, sprintf("%s(%s%s%s)", linebreakstring, joined.df[1, (i - 1) * 9 + COL_CI_LOW], 
+        if (show.ci) page.content <- paste0(page.content, sprintf("%s(%s%s%s)", linebreakstring, joined.df[1, (i - 1) * 9 + COL_CI_LOW],
                                                                       ci.hyphen,joined.df[1, (i - 1) * 9 + COL_CI_HIGH]))
         # if p-values are not shown as numbers, insert them after beta-value
         if (!p.numeric) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[1, (i - 1) * 9 + COL_P]))
@@ -812,7 +812,7 @@ sjt.lm <- function(...,
       # if we don't have estimates, intercept is not available. so don't show p-value here
       page.content <- table_cell_string(page.content, "\n    ", tcb_class, 7, ifelse(isTRUE(show.est), joined.df[1, (i - 1) * 9 + COL_P], "&nbsp;"))
   }
-  page.content <- paste0(page.content, "\n  </tr>")  
+  page.content <- paste0(page.content, "\n  </tr>")
   # -------------------------------------
   # subsequent rows: predictors
   # -------------------------------------
@@ -821,10 +821,10 @@ sjt.lm <- function(...,
     # do we need to insert a "factor grouping headline row"?
     # -------------------------------------
     if (!is.null(group.pred.rows) && any(group.pred.rows == i)) {
-      page.content <- paste0(page.content, 
-                             "\n  <tr>\n", 
-                             sprintf("\n    <td class=\"grouprow\" colspan=\"%i\">%s</td>", 
-                                     headerColSpan + 1, 
+      page.content <- paste0(page.content,
+                             "\n  <tr>\n",
+                             sprintf("\n    <td class=\"grouprow\" colspan=\"%i\">%s</td>",
+                                     headerColSpan + 1,
                                      group.pred.labs[which(group.pred.rows == i)]),
                              "\n  </tr>")
     }
@@ -852,7 +852,7 @@ sjt.lm <- function(...,
         # values - however, for proper display, we fill these values with "&nbsp;"
         ci.sep.string <- ifelse(sjmisc::is_empty(ci.lo), "&nbsp;", ci.hyphen)
         # open table cell for Beta-coefficient
-        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumn1\">%s", 
+        page.content <- paste0(page.content, sprintf("\n    <td class=\"tdata centeralign modelcolumn1\">%s",
                                                      joined.df[i + 1, (j - 1) * 9 + COL_EST]))
         # confidence interval in separate column
         if (separate.ci.col) {
@@ -860,22 +860,22 @@ sjt.lm <- function(...,
           if (!p.numeric) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[i + 1, (j - 1) * 9 + COL_P]))
           # if we have CI, start new table cell (CI in separate column)
           if (show.ci) {
-            page.content <- paste0(page.content, sprintf("</td>\n    <td class=\"tdata centeralign modelcolumn2\">%s%s%s</td>", 
+            page.content <- paste0(page.content, sprintf("</td>\n    <td class=\"tdata centeralign modelcolumn2\">%s%s%s</td>",
                                                          ci.lo, ci.sep.string, ci.hi))
           } else {
             page.content <- paste0(page.content, "</td>")
           }
         } else {
           # confidence interval in Beta-column
-          if (show.ci && !sjmisc::is_empty(ci.lo)) page.content <- paste0(page.content, 
-                                                                              sprintf("%s(%s%s%s)", 
-                                                                                      linebreakstring, 
-                                                                                      ci.lo, 
-                                                                                      ci.sep.string, 
+          if (show.ci && !sjmisc::is_empty(ci.lo)) page.content <- paste0(page.content,
+                                                                              sprintf("%s(%s%s%s)",
+                                                                                      linebreakstring,
+                                                                                      ci.lo,
+                                                                                      ci.sep.string,
                                                                                       ci.hi))
           # if p-values are not shown as numbers, insert them after beta-value
-          if (!p.numeric) page.content <- paste0(page.content, 
-                                                        sprintf("&nbsp;%s", 
+          if (!p.numeric) page.content <- paste0(page.content,
+                                                        sprintf("&nbsp;%s",
                                                                 joined.df[i + 1, (j - 1) * 9 + COL_P]))
           page.content <- paste0(page.content, "</td>")
         }
@@ -899,7 +899,7 @@ sjt.lm <- function(...,
           # if we have CI, start new table cell (CI in separate column)
           if (show.ci) {
             page.content <- paste0(page.content, sprintf("</td>\n    <td class=\"tdata centeralign modelcolumn5\">%s%s%s</td>",
-                                                         ci.lo, 
+                                                         ci.lo,
                                                          ci.sep.string,
                                                          ci.hi))
           } else {
@@ -910,9 +910,9 @@ sjt.lm <- function(...,
           if (!p.numeric && !show.est) page.content <- paste0(page.content, sprintf("&nbsp;%s", joined.df[i + 1, (j - 1) * 9 + COL_P]))
           # confidence interval in Beta-column
           if (show.ci && !sjmisc::is_empty(ci.lo)) page.content <- paste0(page.content, sprintf("%s(%s%s%s)",
-                                                                                                    linebreakstring, 
-                                                                                                    ci.lo, 
-                                                                                                    ci.sep.string, 
+                                                                                                    linebreakstring,
+                                                                                                    ci.lo,
+                                                                                                    ci.sep.string,
                                                                                                     ci.hi))
           # if p-values are not shown as numbers, insert them after beta-value
           page.content <- paste0(page.content, "</td>")
@@ -978,11 +978,11 @@ sjt.lm <- function(...,
       # -------------------------
       # next, between-group variance
       # -------------------------
-      # first models indicates grouping levels. we have to assume comparable models 
+      # first models indicates grouping levels. we have to assume comparable models
       # with same random intercepts.
       for (gl in seq_len(mmcount)) {
-        page.content <- paste0(page.content, 
-                               sprintf("\n  <tr>\n    <td class=\"tdata summary leftalign\">&tau;<sub>00, %s</sub></td>\n", 
+        page.content <- paste0(page.content,
+                               sprintf("\n  <tr>\n    <td class=\"tdata summary leftalign\">&tau;<sub>00, %s</sub></td>\n",
                                        names(mmgrps[gl])))
         # iterate models
         for (i in seq_len(length(input_list))) {
@@ -995,10 +995,10 @@ sjt.lm <- function(...,
           if (length(tau.00) >= gl) {
             rand.int.var <- paste0(sprintf("%.*f", digits.summary, tau.00[gl], collapse = ""))
             page.content <- paste0(page.content, colspanstring, rand.int.var, "</td>\n")
-            
+
           } else {
             page.content <- paste(page.content, sprintf("   %s&nbsp;</td>\n", colspanstring))
-          }            
+          }
         }
         page.content <- paste0(page.content, "  </tr>\n")
       }
@@ -1028,7 +1028,7 @@ sjt.lm <- function(...,
     # -------------------------------------
     # N of grouping levels
     # -------------------------------------
-    # first models indicates grouping levels. we have to assume comparable models 
+    # first models indicates grouping levels. we have to assume comparable models
     # with same random intercepts.
     for (gl in seq_len(mmcount)) {
       page.content <- paste0(page.content, sprintf("\n  <tr>\n    <td class=\"tdata summary leftalign\">N<sub>%s</sub></td>\n", names(mmgrps[gl])))
@@ -1043,8 +1043,8 @@ sjt.lm <- function(...,
         # does model have enough random intercepts?
         # if yes, print
         if (length(sub.mmgrps) >= gl) {
-          page.content <- paste(page.content, sprintf("   %s%i</td>\n", 
-                                                      colspanstring, 
+          page.content <- paste(page.content, sprintf("   %s%i</td>\n",
+                                                      colspanstring,
                                                       nlevels(sub.mmgrps[[gl]])))
         } else {
           page.content <- paste(page.content, sprintf("   %s&nbsp;</td>\n", colspanstring))
@@ -1112,7 +1112,7 @@ sjt.lm <- function(...,
       r2string <- "&Omega;<sub>0</sub><sup>2</sup>"
     else
       r2string <- "adj. R<sup>2</sup>"
-    
+
     page.content <- paste0(page.content, sprintf("  <tr>\n    <td class=\"tdata leftalign summary\">R<sup>2</sup> / %s</td>\n", r2string))
     for (i in 1:length(input_list)) {
       # -------------------------
@@ -1127,8 +1127,8 @@ sjt.lm <- function(...,
       } else {
         # get r2 values
         r2vals <- sjstats::r2(input_list[[i]])
-        page.content <- paste0(page.content, gsub("0.", paste0(p_zero, "."), 
-                                                  sprintf("    %s%.*f / %.*f</td>\n", colspanstring, digits.summary, 
+        page.content <- paste0(page.content, gsub("0.", paste0(p_zero, "."),
+                                                  sprintf("    %s%.*f / %.*f</td>\n", colspanstring, digits.summary,
                                                           r2vals[[1]], digits.summary, r2vals[[2]]),
                                                   fixed = TRUE))
       }
@@ -1156,10 +1156,10 @@ sjt.lm <- function(...,
         pval <- pf(fstat[1], fstat[2], fstat[3], lower.tail = FALSE)
         # indicate significance level by stars
         pan <- get_p_stars(pval)
-        page.content <- paste(page.content, sprintf("    %s%.*f%s</td>\n", 
-                                                    colspanstring, 
-                                                    digits.summary, 
-                                                    fstat[1], 
+        page.content <- paste(page.content, sprintf("    %s%.*f%s</td>\n",
+                                                    colspanstring,
+                                                    digits.summary,
+                                                    fstat[1],
                                                     pan))
       }
     }
@@ -1235,7 +1235,7 @@ sjt.lm <- function(...,
   # replace class attributes with inline style,
   # useful for knitr
   # -------------------------------------
-  knitr <- replace_css_styles(page.content, cell.spacing, cell.gpr.indent, 
+  knitr <- replace_css_styles(page.content, cell.spacing, cell.gpr.indent,
                               p.numeric, show.header, CSS)
   # -------------------------------------
   # remove spaces?
@@ -1248,7 +1248,7 @@ sjt.lm <- function(...,
   # -------------------------------------
   # check if html-content should be outputted
   # -------------------------------------
-  #out.html.table(no.output, file, knitr, toWrite, use.viewer)  
+  #out.html.table(no.output, file, knitr, toWrite, use.viewer)
   # -------------------------------------
   # replace &nbsp; (former NA), created by join, with empty string
   # -------------------------------------
@@ -1277,19 +1277,19 @@ sjt.lm <- function(...,
 
 #' @title Summary of linear mixed effects models as HTML table
 #' @name sjt.lmer
-#' 
-#' @description Summarizes (multiple) fitted linear mixed effects models 
-#'                (estimates, std. beta values etc.)  as HTML table, 
-#'                or saves them as file. The fitted models may have different 
+#'
+#' @description Summarizes (multiple) fitted linear mixed effects models
+#'                (estimates, std. beta values etc.)  as HTML table,
+#'                or saves them as file. The fitted models may have different
 #'                predictors, e.g. when comparing different stepwise fitted models.
-#'                
-#' @seealso \href{http://strengejacke.de/sjPlot/sjt.lmer/}{sjPlot manual: sjt.lmer} 
+#'
+#' @seealso \href{http://strengejacke.de/sjPlot/sjt.lmer/}{sjPlot manual: sjt.lmer}
 #'            and \code{\link{sjt.lm}} for further examples.
-#' 
+#'
 #' @inheritParams sjt.lm
 #' @inheritParams sjt.frq
 #' @inheritParams sjp.corr
-#' 
+#'
 #' @return Invisibly returns
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
@@ -1306,49 +1306,49 @@ sjt.lm <- function(...,
 #'          \item between-group-variance: tau-zero-zero
 #'          \item random-slope-intercept-correlation: rho-zero-one
 #'          }
-#'  
+#'
 #' @details Concerning the \code{show.std} argument, \code{show.std = "std"}
 #'            will print normal standardized estimates. For \code{show.std = "std2"},
-#'            however, standardization of estimates follows 
+#'            however, standardization of estimates follows
 #'            \href{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}{Gelman's (2008)}
-#'            suggestion, rescaling the estimates by dividing them by two standard 
-#'            deviations instead of just one. Resulting coefficients are then 
-#'            directly comparable for untransformed binary predictors. This type 
+#'            suggestion, rescaling the estimates by dividing them by two standard
+#'            deviations instead of just one. Resulting coefficients are then
+#'            directly comparable for untransformed binary predictors. This type
 #'            of standardization uses the \code{\link[arm]{standardize}}-function
 #'            from the \pkg{arm}-package.
-#'            For backward compatibility reasons, \code{show.std} also may be 
-#'            a logical value; if \code{TRUE}, normal standardized estimates are 
-#'            printed (same effect as \code{show.std = "std"}). Use 
+#'            For backward compatibility reasons, \code{show.std} also may be
+#'            a logical value; if \code{TRUE}, normal standardized estimates are
+#'            printed (same effect as \code{show.std = "std"}). Use
 #'            \code{show.std = NULL} (default) or \code{show.std = FALSE},
 #'            if standardized estimats should not be printed.
 #'            \cr \cr
-#'            Computation of p-values (if necessary and if \code{p.kr = TRUE}) are based 
-#'            on conditional F-tests with Kenward-Roger approximation for the df, using 
+#'            Computation of p-values (if necessary and if \code{p.kr = TRUE}) are based
+#'            on conditional F-tests with Kenward-Roger approximation for the df, using
 #'            the \pkg{pbkrtest}-package. If \pkg{pbkrtest} is not available or
-#'            \code{p.kr = FALSE}, computation of p-values is based 
+#'            \code{p.kr = FALSE}, computation of p-values is based
 #'            on normal-distribution assumption, treating the t-statistics as Wald
 #'            z-statistics. See 'Details' in \code{\link[sjstats]{get_model_pval}}.
 #'            \cr \cr
-#'            The confidence intervals stem from \pkg{broom}'s 
+#'            The confidence intervals stem from \pkg{broom}'s
 #'            \code{\link[broom]{tidy}}-function. For linear mixed models, the computation
 #'            method is "Wald" (\code{lme4::confint.merMod(fit, method = "Wald")}).
 #'            \cr \cr
 #'            Furthermore, see 'Details' in \code{\link{sjt.frq}}.
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' library(lme4)
 #' library(sjmisc)
 #' data(efc)
-#' 
+#'
 #' # prepare group variable
 #' efc$grp = as.factor(efc$e15relat)
 #' levels(x = efc$grp) <- get_labels(efc$e15relat)
-#' efc$care.level <- sjmisc::rec(efc$n4pstu, 
-#'                               recodes = "0=0;1=1;2=2;3:4=3", 
+#' efc$care.level <- sjmisc::rec(efc$n4pstu,
+#'                               rec = "0=0;1=1;2=2;3:4=3",
 #'                               as.num = FALSE)
 #' levels(x = efc$care.level) <- c("none", "I", "II", "III")
-#' 
+#'
 #' # data frame for fitted model
 #' mydf <- data.frame(neg_c_7 = efc$neg_c_7,
 #'                    sex = efc$c161sex,
@@ -1357,38 +1357,38 @@ sjt.lm <- function(...,
 #'                    education = to_factor(efc$c172code),
 #'                    grp = efc$grp,
 #'                    carelevel = efc$care.level)
-#'                    
+#'
 #' # fit three sample models
 #' fit1 <- lmer(neg_c_7 ~ sex + c12hour + barthel + (1|grp), data = mydf)
 #' fit2 <- lmer(neg_c_7 ~ sex + c12hour + education + barthel + (1|grp), data = mydf)
-#' fit3 <- lmer(neg_c_7 ~ sex + c12hour + education + barthel + 
+#' fit3 <- lmer(neg_c_7 ~ sex + c12hour + education + barthel +
 #'               (1|grp) + (1|carelevel), data = mydf)
-#' 
+#'
 #' # print summary table... automatic grouping does not work here,
 #' # barthel-index is printed as category of education (values are
 #' # correct, however, indentation is wrong)
 #' sjt.lmer(fit1, fit2, ci.hyphen = " to ", group.pred = TRUE)
-#' 
+#'
 #' # either change order of models
 #' sjt.lmer(fit2, fit1, group.pred = TRUE)
 #' # or turn off automatic grouping of categorical predictors
 #' sjt.lmer(fit1, fit2, group.pred = FALSE)
-#' 
+#'
 #' # print table, using vector names as labels
 #' sjt.lmer(fit1, fit2, fit3, pred.labels = "")
-#' 
+#'
 #' # show other statistics
-#' sjt.lmer(fit1, fit2, show.aic = TRUE, show.ci = FALSE, 
+#' sjt.lmer(fit1, fit2, show.aic = TRUE, show.ci = FALSE,
 #'          show.se = TRUE, p.numeric = FALSE)
-#'            
-#' sjt.lmer(fit1, fit2, fit3, show.aic = TRUE, 
+#'
+#' sjt.lmer(fit1, fit2, fit3, show.aic = TRUE,
 #'          separate.ci.col = FALSE, newline.ci = FALSE)
 #'
 #' # user defined predictor labels
 #' sjt.lmer(fit1, fit2, fit3, pred.labels = c("Elder's gender (female)",
 #'          "Hours of care per week", "Barthel Index", "Educational level (mid)",
 #'          "Educational level (high)"))}
-#'                   
+#'
 #' @export
 sjt.lmer <- function(...,
                      pred.labels = NULL,
@@ -1446,21 +1446,21 @@ sjt.lmer <- function(...,
   # -------------------------------------
   if (!is.null(show.std) && show.std == "std2") show.std <- "std"
 
-  return(sjt.lm(input_list, file = file, pred.labels = pred.labels, 
-                depvar.labels = depvar.labels, string.pred = string.pred, 
-                string.dv = string.dv, 
+  return(sjt.lm(input_list, file = file, pred.labels = pred.labels,
+                depvar.labels = depvar.labels, string.pred = string.pred,
+                string.dv = string.dv,
                 show.header = show.header, string.interc = string.interc,
-                string.obs = string.obs, string.est = string.est, string.std = string.std, 
+                string.obs = string.obs, string.est = string.est, string.std = string.std,
                 string.ci = string.ci, string.se = string.se, string.p = string.p, show.est = show.est,
-                show.ci = show.ci, show.std = show.std, show.se = show.se, 
+                show.ci = show.ci, show.std = show.std, show.se = show.se,
                 ci.hyphen = ci.hyphen, minus.sign = minus.sign,
                 digits.est = digits.est, digits.p = digits.p, digits.ci = digits.ci,
-                digits.se = digits.se, digits.std = digits.std, digits.summary = digits.summary, 
+                digits.se = digits.se, digits.std = digits.std, digits.summary = digits.summary,
                 p.numeric = p.numeric, emph.p = emph.p, p.zero = p.zero, p.kr = p.kr,
-                robust = FALSE, separate.ci.col = separate.ci.col, newline.ci = newline.ci, 
-                group.pred = group.pred, show.col.header = show.col.header, show.r2 = show.r2, show.icc = show.icc, 
+                robust = FALSE, separate.ci.col = separate.ci.col, newline.ci = newline.ci,
+                group.pred = group.pred, show.col.header = show.col.header, show.r2 = show.r2, show.icc = show.icc,
                 show.re.var = show.re.var, show.fstat = FALSE, show.aic = show.aic, show.aicc = show.aicc, show.dev = show.dev,
                 remove.estimates = remove.estimates, cell.spacing = cell.spacing, cell.gpr.indent = cell.gpr.indent,
-                sep.column = sep.column, encoding = encoding, 
+                sep.column = sep.column, encoding = encoding,
                 CSS = CSS, use.viewer = use.viewer, no.output = no.output, remove.spaces = remove.spaces))
 }

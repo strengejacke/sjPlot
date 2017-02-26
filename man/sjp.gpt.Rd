@@ -14,8 +14,8 @@ sjp.gpt(x, y, groups, geom.colors = "Set1", geom.size = 2.5,
   show.n = TRUE, prnt.plot = TRUE)
 }
 \arguments{
-\item{x}{categorical variable, where the proportion of each category in 
-\code{x} for the highest category of \code{y} will be printed 
+\item{x}{categorical variable, where the proportion of each category in
+\code{x} for the highest category of \code{y} will be printed
 along the x-axis.}
 
 \item{y}{categorical or numeric variable. If not a binary variable, \code{y}
@@ -64,7 +64,7 @@ displayed in one line and when a line break is inserted.}
 
 \item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
 Depending on plot type, may effect either x- or y-axis, or both.
-For multiple plot outputs (e.g., from \code{type = "eff"} or 
+For multiple plot outputs (e.g., from \code{type = "eff"} or
 \code{type = "slope"} in \code{\link{sjp.glm}}), \code{axis.lim} may
 also be a list of vectors of length 2, defining axis limits for each
 plot (only if non-faceted).}
@@ -99,7 +99,7 @@ Plot grouped proportional crosstables, where the proportion of
                is plotted, for each subgroup of \code{groups}.
 }
 \details{
-The p-values are based on \code{\link[stats]{chisq.test}} of \code{x} 
+The p-values are based on \code{\link[stats]{chisq.test}} of \code{x}
            and \code{y} for each \code{groups}.
 }
 \examples{

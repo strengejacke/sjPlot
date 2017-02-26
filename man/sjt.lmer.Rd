@@ -31,18 +31,18 @@ labels are set based on label attributes (see \code{\link[sjmisc]{get_label}}).
 If \code{pred.labels = ""}, column names (vector names) are used
 as predictor labels. See 'Examples'.}
 
-\item{depvar.labels}{character vector with labels of dependent 
+\item{depvar.labels}{character vector with labels of dependent
 variables of all fitted models. See 'Examples'.}
 
-\item{remove.estimates}{numeric vector with indices (order equals to row index of \code{coef(fit)}) 
+\item{remove.estimates}{numeric vector with indices (order equals to row index of \code{coef(fit)})
 or character vector with coefficient names that indicate which estimates should be removed
 from the table output. The first estimate is the intercept, followed by the model predictors.
-\emph{The intercept cannot be removed from the table output!} \code{remove.estimates = c(2:4)} 
-would remove the 2nd to the 4th estimate (1st to 3rd predictor after intercept) from the output. 
-\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default 
+\emph{The intercept cannot be removed from the table output!} \code{remove.estimates = c(2:4)}
+would remove the 2nd to the 4th estimate (1st to 3rd predictor after intercept) from the output.
+\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 is \code{NULL}, i.e. all estimates are printed.}
 
-\item{group.pred}{logical, if \code{TRUE} (default), automatically groups table rows with 
+\item{group.pred}{logical, if \code{TRUE} (default), automatically groups table rows with
 factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
 be grouped, if the factor has more than two levels. Grouping means that a separate headline
 row is inserted to the table just before the predictor values.}
@@ -69,7 +69,7 @@ line as estimate values.}
 
 \item{show.est}{logical, if \code{TRUE} (default), the estimates are printed.}
 
-\item{show.std}{indicates whether standardized beta-coefficients should 
+\item{show.std}{indicates whether standardized beta-coefficients should
 also printed, and if yes, which type of standardization is done.
 See 'Details'.}
 
@@ -82,14 +82,14 @@ Default is \code{FALSE}.}
 \item{show.header}{logical, if \code{TRUE}, the header strings \code{string.pred}
 and \code{string.dv} are shown. By default, they're hidden.}
 
-\item{show.col.header}{logical, if \code{TRUE} (default), the table data columns have a headline with 
+\item{show.col.header}{logical, if \code{TRUE} (default), the table data columns have a headline with
 abbreviations for estimates, std. beta-values, confidence interval and p-values.}
 
 \item{show.r2}{logical, if \code{TRUE} (default), the R2 and adjusted R2 values for each model are printed
 in the model summary. For linear mixed models, the R2 and Omega-squared values are printed
 (see \code{\link[sjstats]{r2}} for details).}
 
-\item{show.icc}{logical, if \code{TRUE}, the intra-class-correlation for each 
+\item{show.icc}{logical, if \code{TRUE}, the intra-class-correlation for each
 model is printed in the model summary. Only applies to mixed models.}
 
 \item{show.re.var}{logical, if \code{TRUE}, the variance parameters for the random
@@ -103,16 +103,16 @@ in the model summary. Default is \code{FALSE}. This argument does not apply to
 \item{show.aic}{logical, if \code{TRUE}, the AIC value for each model is printed
 in the model summary. Default is \code{FALSE}.}
 
-\item{show.aicc}{logical, if \code{TRUE}, the second-order AIC value for each model 
+\item{show.aicc}{logical, if \code{TRUE}, the second-order AIC value for each model
 is printed in the model summary. Default is \code{FALSE}.}
 
-\item{show.dev}{logical, if \code{TRUE}, the deviance for each model 
+\item{show.dev}{logical, if \code{TRUE}, the deviance for each model
 is printed in the model summary.}
 
 \item{string.pred}{character vector,used as headline for the predictor column.
 Default is \code{"Predictors"}.}
 
-\item{string.dv}{character vector, used as headline for the 
+\item{string.dv}{character vector, used as headline for the
 dependent variable columns. Default is \code{"Dependent Variables"}.}
 
 \item{string.interc}{character vector, used as headline for the Intercept row.
@@ -157,9 +157,9 @@ cell spacing, which would be: \code{CSS = list(css.thead = "padding:0.2cm;", css
 \item{cell.gpr.indent}{indent for table rows with grouped factor predictors. Only applies
 if \code{group.pred = TRUE}.}
 
-\item{sep.column}{logical, if \code{TRUE}, an empty table column is added after 
+\item{sep.column}{logical, if \code{TRUE}, an empty table column is added after
 each model column, to add margins between model columns. By default, this
-column will be added to the output; however, when copying tables to 
+column will be added to the output; however, when copying tables to
 office applications, it might be helpful not to add this separator column
 when modifying the table layout.}
 
@@ -200,35 +200,35 @@ Invisibly returns
            for further use.
 }
 \description{
-Summarizes (multiple) fitted linear mixed effects models 
-               (estimates, std. beta values etc.)  as HTML table, 
-               or saves them as file. The fitted models may have different 
+Summarizes (multiple) fitted linear mixed effects models
+               (estimates, std. beta values etc.)  as HTML table,
+               or saves them as file. The fitted models may have different
                predictors, e.g. when comparing different stepwise fitted models.
 }
 \details{
 Concerning the \code{show.std} argument, \code{show.std = "std"}
            will print normal standardized estimates. For \code{show.std = "std2"},
-           however, standardization of estimates follows 
+           however, standardization of estimates follows
            \href{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}{Gelman's (2008)}
-           suggestion, rescaling the estimates by dividing them by two standard 
-           deviations instead of just one. Resulting coefficients are then 
-           directly comparable for untransformed binary predictors. This type 
+           suggestion, rescaling the estimates by dividing them by two standard
+           deviations instead of just one. Resulting coefficients are then
+           directly comparable for untransformed binary predictors. This type
            of standardization uses the \code{\link[arm]{standardize}}-function
            from the \pkg{arm}-package.
-           For backward compatibility reasons, \code{show.std} also may be 
-           a logical value; if \code{TRUE}, normal standardized estimates are 
-           printed (same effect as \code{show.std = "std"}). Use 
+           For backward compatibility reasons, \code{show.std} also may be
+           a logical value; if \code{TRUE}, normal standardized estimates are
+           printed (same effect as \code{show.std = "std"}). Use
            \code{show.std = NULL} (default) or \code{show.std = FALSE},
            if standardized estimats should not be printed.
            \cr \cr
-           Computation of p-values (if necessary and if \code{p.kr = TRUE}) are based 
-           on conditional F-tests with Kenward-Roger approximation for the df, using 
+           Computation of p-values (if necessary and if \code{p.kr = TRUE}) are based
+           on conditional F-tests with Kenward-Roger approximation for the df, using
            the \pkg{pbkrtest}-package. If \pkg{pbkrtest} is not available or
-           \code{p.kr = FALSE}, computation of p-values is based 
+           \code{p.kr = FALSE}, computation of p-values is based
            on normal-distribution assumption, treating the t-statistics as Wald
            z-statistics. See 'Details' in \code{\link[sjstats]{get_model_pval}}.
            \cr \cr
-           The confidence intervals stem from \pkg{broom}'s 
+           The confidence intervals stem from \pkg{broom}'s
            \code{\link[broom]{tidy}}-function. For linear mixed models, the computation
            method is "Wald" (\code{lme4::confint.merMod(fit, method = "Wald")}).
            \cr \cr
@@ -252,8 +252,8 @@ data(efc)
 # prepare group variable
 efc$grp = as.factor(efc$e15relat)
 levels(x = efc$grp) <- get_labels(efc$e15relat)
-efc$care.level <- sjmisc::rec(efc$n4pstu, 
-                              recodes = "0=0;1=1;2=2;3:4=3", 
+efc$care.level <- sjmisc::rec(efc$n4pstu,
+                              rec = "0=0;1=1;2=2;3:4=3",
                               as.num = FALSE)
 levels(x = efc$care.level) <- c("none", "I", "II", "III")
 
@@ -265,11 +265,11 @@ mydf <- data.frame(neg_c_7 = efc$neg_c_7,
                    education = to_factor(efc$c172code),
                    grp = efc$grp,
                    carelevel = efc$care.level)
-                   
+
 # fit three sample models
 fit1 <- lmer(neg_c_7 ~ sex + c12hour + barthel + (1|grp), data = mydf)
 fit2 <- lmer(neg_c_7 ~ sex + c12hour + education + barthel + (1|grp), data = mydf)
-fit3 <- lmer(neg_c_7 ~ sex + c12hour + education + barthel + 
+fit3 <- lmer(neg_c_7 ~ sex + c12hour + education + barthel +
               (1|grp) + (1|carelevel), data = mydf)
 
 # print summary table... automatic grouping does not work here,
@@ -286,19 +286,19 @@ sjt.lmer(fit1, fit2, group.pred = FALSE)
 sjt.lmer(fit1, fit2, fit3, pred.labels = "")
 
 # show other statistics
-sjt.lmer(fit1, fit2, show.aic = TRUE, show.ci = FALSE, 
+sjt.lmer(fit1, fit2, show.aic = TRUE, show.ci = FALSE,
          show.se = TRUE, p.numeric = FALSE)
-           
-sjt.lmer(fit1, fit2, fit3, show.aic = TRUE, 
+
+sjt.lmer(fit1, fit2, fit3, show.aic = TRUE,
          separate.ci.col = FALSE, newline.ci = FALSE)
 
 # user defined predictor labels
 sjt.lmer(fit1, fit2, fit3, pred.labels = c("Elder's gender (female)",
          "Hours of care per week", "Barthel Index", "Educational level (mid)",
          "Educational level (high)"))}
-                  
+
 }
 \seealso{
-\href{http://strengejacke.de/sjPlot/sjt.lmer/}{sjPlot manual: sjt.lmer} 
+\href{http://strengejacke.de/sjPlot/sjt.lmer/}{sjPlot manual: sjt.lmer}
            and \code{\link{sjt.lm}} for further examples.
 }

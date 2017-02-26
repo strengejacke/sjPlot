@@ -30,7 +30,7 @@ will be set automatically. If \code{title = ""}, no title is printed.
 For effect-plots, may also be a character vector of length > 1,
 to define titles for each sub-plot or facet.}
 
-\item{depvar.labels}{character vector with labels of dependent 
+\item{depvar.labels}{character vector with labels of dependent
 variables of all fitted models. See 'Examples'.}
 
 \item{legend.title}{character vector, used as title for the plot legend. Note that
@@ -53,7 +53,7 @@ that are printed. In this case, each plot gets an own axis title
 
 \item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
 Depending on plot type, may effect either x- or y-axis, or both.
-For multiple plot outputs (e.g., from \code{type = "eff"} or 
+For multiple plot outputs (e.g., from \code{type = "eff"} or
 \code{type = "slope"} in \code{\link{sjp.glm}}), \code{axis.lim} may
 also be a list of vectors of length 2, defining axis limits for each
 plot (only if non-faceted).}

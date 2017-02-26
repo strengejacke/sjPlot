@@ -31,18 +31,18 @@ labels are set based on label attributes (see \code{\link[sjmisc]{get_label}}).
 If \code{pred.labels = ""}, column names (vector names) are used
 as predictor labels. See 'Examples'.}
 
-\item{depvar.labels}{character vector with labels of dependent 
+\item{depvar.labels}{character vector with labels of dependent
 variables of all fitted models. See 'Examples'.}
 
-\item{remove.estimates}{numeric vector with indices (order equals to row index of \code{coef(fit)}) 
+\item{remove.estimates}{numeric vector with indices (order equals to row index of \code{coef(fit)})
 or character vector with coefficient names that indicate which estimates should be removed
 from the table output. The first estimate is the intercept, followed by the model predictors.
-\emph{The intercept cannot be removed from the table output!} \code{remove.estimates = c(2:4)} 
-would remove the 2nd to the 4th estimate (1st to 3rd predictor after intercept) from the output. 
-\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default 
+\emph{The intercept cannot be removed from the table output!} \code{remove.estimates = c(2:4)}
+would remove the 2nd to the 4th estimate (1st to 3rd predictor after intercept) from the output.
+\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 is \code{NULL}, i.e. all estimates are printed.}
 
-\item{group.pred}{logical, if \code{TRUE} (default), automatically groups table rows with 
+\item{group.pred}{logical, if \code{TRUE} (default), automatically groups table rows with
 factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
 be grouped, if the factor has more than two levels. Grouping means that a separate headline
 row is inserted to the table just before the predictor values.}
@@ -77,7 +77,7 @@ Default is \code{FALSE}.}
 \item{show.header}{logical, if \code{TRUE}, the header strings \code{string.pred}
 and \code{string.dv} are shown. By default, they're hidden.}
 
-\item{show.col.header}{logical, if \code{TRUE} (default), the table data columns have a headline with 
+\item{show.col.header}{logical, if \code{TRUE} (default), the table data columns have a headline with
 abbreviations for estimates, std. beta-values, confidence interval and p-values.}
 
 \item{show.r2}{logical, if \code{TRUE} (default), the pseudo R2 values for each model are printed
@@ -85,7 +85,7 @@ in the model summary. R2cs is the Cox-Snell-pseudo R-squared value, R2n is Nagel
 pseudo R-squared value and \code{D} is Tjur's Coefficient of Discrimination
 (see \code{\link[sjstats]{cod}}).}
 
-\item{show.icc}{logical, if \code{TRUE}, the intra-class-correlation for each 
+\item{show.icc}{logical, if \code{TRUE}, the intra-class-correlation for each
 model is printed in the model summary. Only applies to mixed models.}
 
 \item{show.re.var}{logical, if \code{TRUE}, the variance parameters for the random
@@ -98,10 +98,10 @@ in the model summary. Default is \code{FALSE}.}
 \item{show.aic}{logical, if \code{TRUE}, the AIC value for each model is printed
 in the model summary. Default is \code{FALSE}.}
 
-\item{show.aicc}{logical, if \code{TRUE}, the second-order AIC value for each model 
+\item{show.aicc}{logical, if \code{TRUE}, the second-order AIC value for each model
 is printed in the model summary. Default is \code{FALSE}.}
 
-\item{show.dev}{logical, if \code{TRUE}, the deviance for each model 
+\item{show.dev}{logical, if \code{TRUE}, the deviance for each model
 is printed in the model summary.}
 
 \item{show.hoslem}{logical, if \code{TRUE}, a Hosmer-Lemeshow-Goodness-of-fit-test is
@@ -118,7 +118,7 @@ decision help for which model to choose.}
 \item{string.pred}{character vector,used as headline for the predictor column.
 Default is \code{"Predictors"}.}
 
-\item{string.dv}{character vector, used as headline for the 
+\item{string.dv}{character vector, used as headline for the
 dependent variable columns. Default is \code{"Dependent Variables"}.}
 
 \item{string.interc}{character vector, used as headline for the Intercept row.
@@ -156,9 +156,9 @@ cell spacing, which would be: \code{CSS = list(css.thead = "padding:0.2cm;", css
 \item{cell.gpr.indent}{indent for table rows with grouped factor predictors. Only applies
 if \code{group.pred = TRUE}.}
 
-\item{sep.column}{logical, if \code{TRUE}, an empty table column is added after 
+\item{sep.column}{logical, if \code{TRUE}, an empty table column is added after
 each model column, to add margins between model columns. By default, this
-column will be added to the output; however, when copying tables to 
+column will be added to the output; however, when copying tables to
 office applications, it might be helpful not to add this separator column
 when modifying the table layout.}
 

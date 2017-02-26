@@ -31,18 +31,18 @@ labels are set based on label attributes (see \code{\link[sjmisc]{get_label}}).
 If \code{pred.labels = ""}, column names (vector names) are used
 as predictor labels. See 'Examples'.}
 
-\item{depvar.labels}{character vector with labels of dependent 
+\item{depvar.labels}{character vector with labels of dependent
 variables of all fitted models. See 'Examples'.}
 
-\item{remove.estimates}{numeric vector with indices (order equals to row index of \code{coef(fit)}) 
+\item{remove.estimates}{numeric vector with indices (order equals to row index of \code{coef(fit)})
 or character vector with coefficient names that indicate which estimates should be removed
 from the table output. The first estimate is the intercept, followed by the model predictors.
-\emph{The intercept cannot be removed from the table output!} \code{remove.estimates = c(2:4)} 
-would remove the 2nd to the 4th estimate (1st to 3rd predictor after intercept) from the output. 
-\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default 
+\emph{The intercept cannot be removed from the table output!} \code{remove.estimates = c(2:4)}
+would remove the 2nd to the 4th estimate (1st to 3rd predictor after intercept) from the output.
+\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 is \code{NULL}, i.e. all estimates are printed.}
 
-\item{group.pred}{logical, if \code{TRUE} (default), automatically groups table rows with 
+\item{group.pred}{logical, if \code{TRUE} (default), automatically groups table rows with
 factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
 be grouped, if the factor has more than two levels. Grouping means that a separate headline
 row is inserted to the table just before the predictor values.}
@@ -60,9 +60,9 @@ without a zero (e.g. \emph{.002}).}
 F-tests with Kenward-Roger approximation for the df. Caution: Computation
 may take very long time for large samples!}
 
-\item{robust}{logical, if \code{TRUE}, robust standard errors and confidence 
+\item{robust}{logical, if \code{TRUE}, robust standard errors and confidence
 intervals will be reported. Computation of robust standard errors is
-based on the \code{\link[sjstats]{robust}}-function in the 
+based on the \code{\link[sjstats]{robust}}-function in the
 \pkg{sjstats}-package.}
 
 \item{separate.ci.col}{if \code{TRUE}, the CI values are shown in a separate table column.
@@ -74,7 +74,7 @@ line as estimate values.}
 
 \item{show.est}{logical, if \code{TRUE} (default), the estimates are printed.}
 
-\item{show.std}{indicates whether standardized beta-coefficients should 
+\item{show.std}{indicates whether standardized beta-coefficients should
 also printed, and if yes, which type of standardization is done.
 See 'Details'.}
 
@@ -87,14 +87,14 @@ Default is \code{FALSE}.}
 \item{show.header}{logical, if \code{TRUE}, the header strings \code{string.pred}
 and \code{string.dv} are shown. By default, they're hidden.}
 
-\item{show.col.header}{logical, if \code{TRUE} (default), the table data columns have a headline with 
+\item{show.col.header}{logical, if \code{TRUE} (default), the table data columns have a headline with
 abbreviations for estimates, std. beta-values, confidence interval and p-values.}
 
 \item{show.r2}{logical, if \code{TRUE} (default), the R2 and adjusted R2 values for each model are printed
 in the model summary. For linear mixed models, the R2 and Omega-squared values are printed
 (see \code{\link[sjstats]{r2}} for details).}
 
-\item{show.icc}{logical, if \code{TRUE}, the intra-class-correlation for each 
+\item{show.icc}{logical, if \code{TRUE}, the intra-class-correlation for each
 model is printed in the model summary. Only applies to mixed models.}
 
 \item{show.re.var}{logical, if \code{TRUE}, the variance parameters for the random
@@ -108,16 +108,16 @@ in the model summary. Default is \code{FALSE}. This argument does not apply to
 \item{show.aic}{logical, if \code{TRUE}, the AIC value for each model is printed
 in the model summary. Default is \code{FALSE}.}
 
-\item{show.aicc}{logical, if \code{TRUE}, the second-order AIC value for each model 
+\item{show.aicc}{logical, if \code{TRUE}, the second-order AIC value for each model
 is printed in the model summary. Default is \code{FALSE}.}
 
-\item{show.dev}{logical, if \code{TRUE}, the deviance for each model 
+\item{show.dev}{logical, if \code{TRUE}, the deviance for each model
 is printed in the model summary.}
 
 \item{string.pred}{character vector,used as headline for the predictor column.
 Default is \code{"Predictors"}.}
 
-\item{string.dv}{character vector, used as headline for the 
+\item{string.dv}{character vector, used as headline for the
 dependent variable columns. Default is \code{"Dependent Variables"}.}
 
 \item{string.interc}{character vector, used as headline for the Intercept row.
@@ -162,9 +162,9 @@ cell spacing, which would be: \code{CSS = list(css.thead = "padding:0.2cm;", css
 \item{cell.gpr.indent}{indent for table rows with grouped factor predictors. Only applies
 if \code{group.pred = TRUE}.}
 
-\item{sep.column}{logical, if \code{TRUE}, an empty table column is added after 
+\item{sep.column}{logical, if \code{TRUE}, an empty table column is added after
 each model column, to add margins between model columns. By default, this
-column will be added to the output; however, when copying tables to 
+column will be added to the output; however, when copying tables to
 office applications, it might be helpful not to add this separator column
 when modifying the table layout.}
 
@@ -215,16 +215,16 @@ Summarizes (multiple) fitted linear models (coefficients, std. beta values etc.)
 \details{
 Concerning the \code{show.std} argument, \code{show.std = "std"}
            will print normal standardized estimates. For \code{show.std = "std2"},
-           however, standardization of estimates follows 
+           however, standardization of estimates follows
            \href{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}{Gelman's (2008)}
-           suggestion, rescaling the estimates by dividing them by two standard 
-           deviations instead of just one. Resulting coefficients are then 
-           directly comparable for untransformed binary predictors. This type 
+           suggestion, rescaling the estimates by dividing them by two standard
+           deviations instead of just one. Resulting coefficients are then
+           directly comparable for untransformed binary predictors. This type
            of standardization uses the \code{\link[arm]{standardize}}-function
            from the \pkg{arm}-package.
-           For backward compatibility reasons, \code{show.std} also may be 
-           a logical value; if \code{TRUE}, normal standardized estimates are 
-           printed (same effect as \code{show.std = "std"}). Use 
+           For backward compatibility reasons, \code{show.std} also may be
+           a logical value; if \code{TRUE}, normal standardized estimates are
+           printed (same effect as \code{show.std = "std"}). Use
            \code{show.std = NULL} (default) or \code{show.std = FALSE},
            if standardized estimats should not be printed.
            \cr \cr
@@ -253,9 +253,9 @@ sjt.lm(fit1, fit2)
 
 # create and open HTML-table in RStudio Viewer Pane or web browser
 # in the following examples, we set labels via argument
-sjt.lm(fit1, fit2, 
+sjt.lm(fit1, fit2,
        depvar.labels = c("Barthel-Index", "Negative Impact"),
-       pred.labels = c("Carer's Age", "Hours of Care", 
+       pred.labels = c("Carer's Age", "Hours of Care",
                        "Carer's Sex", "Educational Status"))
 
 # use vector names as labels
@@ -275,12 +275,12 @@ sjt.lm(fit1, fit2, show.std = TRUE)
 # show HTML-table, indicating p-values as stars
 # and integrate CI in estimate column
 sjt.lm(fit1, fit2, show.std = TRUE, ci.hyphen = " to ",
-       minus.sign = "&minus;", p.numeric = FALSE, 
+       minus.sign = "&minus;", p.numeric = FALSE,
        separate.ci.col = FALSE)
 
-# ---------------------------------- 
+# ----------------------------------
 # connecting two html-tables
-# ---------------------------------- 
+# ----------------------------------
 # fit two more models
 fit3 <- lm(tot_sc_e ~ c160age + c12hour + c161sex + c172code, data=efc)
 fit4 <- lm(e42dep ~ c160age + c12hour + c161sex + c172code, data=efc)
@@ -299,23 +299,23 @@ write(sprintf("<html><head>\%s</head><body>\%s<p></p>\%s</body></html>",
 viewer <- getOption("viewer")
 if (!is.null(viewer)) viewer(htmlFile) else utils::browseURL(htmlFile)
 
-# ---------------------------------- 
+# ----------------------------------
 # User defined style sheet
-# ---------------------------------- 
-sjt.lm(fit1, fit2, 
+# ----------------------------------
+sjt.lm(fit1, fit2,
        CSS = list(css.table = "border: 2px solid;",
                   css.tdata = "border: 1px solid;",
                   css.depvarhead = "color:#003399;"))
-                  
-# ---------------------------------- 
+
+# ----------------------------------
 # automatic grouping of predictors
-# ---------------------------------- 
+# ----------------------------------
 library(sjmisc)
 data(efc)
 
 # make education categorical
 efc$c172code <- to_factor(efc$c172code)
-    
+
 # fit first model again (with c172code as factor)
 fit1 <- lm(barthtot ~ c160age + c12hour + c172code + c161sex, data=efc)
 # fit second model again (with c172code as factor)
@@ -324,9 +324,9 @@ fit2 <- lm(neg_c_7 ~ c160age + c12hour + c172code + c161sex, data=efc)
 # plot models, but group by predictors
 sjt.lm(fit1, fit2, group.pred = TRUE)
 
-# ---------------------------------------- 
+# ----------------------------------------
 # compare models with different predictors
-# ---------------------------------------- 
+# ----------------------------------------
 library(sjmisc)
 data(efc)
 
@@ -344,14 +344,14 @@ fit3 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e, data = efc)
 
 sjt.lm(fit1, fit2, fit3)
 
-# ---------------------------------------- 
+# ----------------------------------------
 # compare models with different predictors
 # and grouping
-# ---------------------------------------- 
+# ----------------------------------------
 # make cope-index categorical
 efc$c82cop1 <- to_factor(efc$c82cop1)
 # fit another model
-fit4 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e + c82cop1, 
+fit4 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e + c82cop1,
            data = efc)
 
 sjt.lm(fit1, fit2, fit4, fit3)
@@ -380,7 +380,7 @@ sjt.lm(fit1, fit2, fit4, fit3, show.est = FALSE, show.std = TRUE,
        p.numeric = FALSE, group.pred = FALSE,
        CSS = list(css.modelcolumn4 = 'border-left:1px solid black;',
                   css.modelcolumn5 = 'padding-right:50px;'))}
-                  
+
 }
 \seealso{
 \href{http://strengejacke.de/sjPlot/sjt.lm/}{sjPlot manual: sjt.lm}
