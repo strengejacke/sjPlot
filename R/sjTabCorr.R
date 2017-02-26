@@ -1,33 +1,33 @@
 #' @title Summary of correlations as HTML table
 #' @name sjt.corr
-#' 
+#'
 #' @seealso \itemize{
 #'           \item \href{http://www.strengejacke.de/sjPlot/sjt.corr}{sjPlot manual: sjt.corr}
 #'           \item \code{\link{sjp.corr}}
 #'          }
-#' 
-#' @description Shows the results of a computed correlation as HTML table. Requires either 
-#'                a \code{\link{data.frame}} or a matrix with correlation coefficients 
+#'
+#' @description Shows the results of a computed correlation as HTML table. Requires either
+#'                a \code{\link{data.frame}} or a matrix with correlation coefficients
 #'                as returned by the \code{\link{cor}}-function.
-#'                
-#' @param fade.ns logical, if \code{TRUE} (default), non-significant correlation-values 
+#'
+#' @param fade.ns logical, if \code{TRUE} (default), non-significant correlation-values
 #'          appear faded (by using a lighter grey text color). See 'Note'.
 #' @param triangle indicates whether only the upper right (use \code{"upper"}), lower left (use \code{"lower"})
 #'          or both (use \code{"both"}) triangles of the correlation table is filled with values. Default
 #'          is \code{"both"}. You can specifiy the inital letter only.
-#' @param val.rm specify a number between 0 and 1 to suppress the output of correlation values 
+#' @param val.rm specify a number between 0 and 1 to suppress the output of correlation values
 #'          that are smaller than \code{val.rm}. The absolute correlation values are used, so
 #'          a correlation value of \code{-.5} would be greater than \code{val.rm = .4} and thus not be
 #'          omitted. By default, this argument is \code{NULL}, hence all values are shown in the table.
 #'          If a correlation value is below the specified value of \code{val.rm}, it is still printed to
 #'          the HTML table, but made "invisible" with white foreground color. You can use the \code{CSS}
 #'          argument (\code{"css.valueremove"}) to change color and appearance of those correlation value that are smaller than
-#'          the limit specified by \code{val.rm}. 
+#'          the limit specified by \code{val.rm}.
 #' @param string.diag a vector with string values of the same length as \code{ncol(data)} (number of
 #'          correlated items) that can be used to display content in the diagonal cells
 #'          where row and column item are identical (i.e. the "self-correlation"). By defauilt,
 #'          this argument is \code{NULL} and the diagnal cells are empty.
-#'          
+#'
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.xtab
 #' @inheritParams sjt.df
@@ -35,7 +35,7 @@
 #' @inheritParams sjp.glmer
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.corr
-#'          
+#'
 #' @return Invisibly returns
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
@@ -45,57 +45,57 @@
 #'            }
 #'            for further use.
 #'
-#' @note If \code{data} is a matrix with correlation coefficients as returned by 
+#' @note If \code{data} is a matrix with correlation coefficients as returned by
 #'       the \code{\link{cor}}-function, p-values can't be computed.
 #'       Thus, \code{show.p}, \code{p.numeric} and \code{fade.ns}
 #'       only have an effect if \code{data} is a \code{\link{data.frame}}.
 #'       \cr \cr
 #'       Additionally, see 'Note' in \code{\link{sjt.frq}}.
-#'  
+#'
 #' @details See 'Details' in \code{\link{sjt.frq}}.
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' # plot correlation matrix using circles
 #' sjt.corr(mydf)
-#' 
+#'
 #' # Data from the EUROFAMCARE sample dataset
 #' library(sjmisc)
 #' data(efc)
-#' 
+#'
 #' # retrieve variable and value labels
 #' varlabs <- get_label(efc)
-#' 
+#'
 #' # recveive first item of COPE-index scale
 #' start <- which(colnames(efc) == "c83cop2")
 #' # recveive last item of COPE-index scale
 #' end <- which(colnames(efc) == "c88cop7")
-#' 
+#'
 #' # create data frame with COPE-index scale
 #' mydf <- data.frame(efc[, c(start:end)])
 #' colnames(mydf) <- varlabs[c(start:end)]
-#' 
+#'
 #' # we have high correlations here, because all items
 #' # belong to one factor. See example from "sjp.pca".
 #' sjt.corr(mydf, p.numeric = TRUE)
-#' 
+#'
 #' # auto-detection of labels, only lower triangle
 #' sjt.corr(efc[, c(start:end)], triangle = "lower")
-#' 
-#' # auto-detection of labels, only lower triangle, all correlation 
+#'
+#' # auto-detection of labels, only lower triangle, all correlation
 #' # values smaller than 0.3 are not shown in the table
 #' sjt.corr(efc[, c(start:end)], triangle = "lower", val.rm = 0.3)
-#' 
-#' # auto-detection of labels, only lower triangle, all correlation 
+#'
+#' # auto-detection of labels, only lower triangle, all correlation
 #' # values smaller than 0.3 are printed in blue
-#' sjt.corr(efc[, c(start:end)], triangle = "lower",val.rm = 0.3, 
+#' sjt.corr(efc[, c(start:end)], triangle = "lower",val.rm = 0.3,
 #'          CSS = list(css.valueremove = 'color:blue;'))}
-#' 
+#'
 #' @importFrom stats na.omit
 #' @export
 sjt.corr <- function(data,
                      na.deletion = c("listwise", "pairwise"),
-                     corr.method = c("spearman", "pearson", "kendall"),
+                     corr.method = c("pearson", "spearman", "kendall"),
                      title = NULL,
                      var.labels = NULL,
                      wrap.labels = 40,
@@ -108,7 +108,7 @@ sjt.corr <- function(data,
                      string.diag = NULL,
                      CSS = NULL,
                      encoding = NULL,
-                     file = NULL, 
+                     file = NULL,
                      use.viewer = TRUE,
                      no.output = FALSE,
                      remove.spaces = TRUE) {
@@ -168,8 +168,8 @@ sjt.corr <- function(data,
     } else {
       # missing deletion corresponds to
       # SPSS pairwise
-      corr <- cor(data, 
-                  method = corr.method, 
+      corr <- cor(data,
+                  method = corr.method,
                   use = "pairwise.complete.obs")
     }
     #---------------------------------------
@@ -189,7 +189,7 @@ sjt.corr <- function(data,
               method = corr.method
             )
           )
-          
+
           pv <- cbind(pv, round(test$p.value, 5))
         }
         cp <- rbind(cp, pv)
@@ -225,10 +225,10 @@ sjt.corr <- function(data,
     }
     cpvalues <- apply(cpvalues, c(1,2), fun.star)
     if (p.numeric) {
-      cpvalues <- 
+      cpvalues <-
         apply(
-          cpvalues, 
-          c(1,2), 
+          cpvalues,
+          c(1,2),
           function(x) {
             if (x < 0.001)
               x <- sprintf("&lt;%s.001", p_zero)
@@ -300,7 +300,7 @@ sjt.corr <- function(data,
   page.style <-  sprintf("<style>%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
                          tag.table, css.table, tag.caption, css.caption,
                          tag.thead, css.thead, tag.tdata, css.tdata,
-                         tag.firsttablecol, css.firsttablecol, 
+                         tag.firsttablecol, css.firsttablecol,
                          tag.centeralign, css.centeralign,
                          tag.notsig, css.notsig,
                          tag.pval, css.pval,
@@ -352,7 +352,7 @@ sjt.corr <- function(data,
         if (is.null(string.diag) || length(string.diag) > ncol(corr)) {
           page.content <- paste0(page.content, "    <td class=\"tdata centeralign\">&nbsp;</td>\n")
         } else {
-          page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign\">%s</td>\n", 
+          page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign\">%s</td>\n",
                                                        string.diag[j]))
         }
       } else {
@@ -402,11 +402,11 @@ sjt.corr <- function(data,
           # be omitted
           # --------------------------------------------------------
           if (!is.null(val.rm) && abs(corr[i, j]) < abs(val.rm)) {
-            value.remove <- " valueremove"            
+            value.remove <- " valueremove"
           }
-          page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s%s\">%s</td>\n", 
-                                                       notsig, 
-                                                       value.remove, 
+          page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s%s\">%s</td>\n",
+                                                       notsig,
+                                                       value.remove,
                                                        cellval))
         } else {
           page.content <- paste0(page.content, "    <td class=\"tdata centeralign\">&nbsp;</td>\n")
@@ -451,11 +451,11 @@ sjt.corr <- function(data,
   knitr <- gsub(tag.tdata, css.tdata, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.thead, css.thead, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.centeralign, css.centeralign, knitr, fixed = TRUE, useBytes = TRUE)
-  knitr <- gsub(tag.notsig, css.notsig, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.pval, css.pval, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.summary, css.summary, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.firsttablecol, css.firsttablecol, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.valueremove, css.valueremove, knitr, fixed = TRUE, useBytes = TRUE)  
+  knitr <- gsub(tag.notsig, css.notsig, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.pval, css.pval, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.summary, css.summary, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.firsttablecol, css.firsttablecol, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.valueremove, css.valueremove, knitr, fixed = TRUE, useBytes = TRUE)
   # -------------------------------------
   # remove spaces?
   # -------------------------------------

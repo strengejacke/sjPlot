@@ -5,7 +5,7 @@
 \title{Summary of correlations as HTML table}
 \usage{
 sjt.corr(data, na.deletion = c("listwise", "pairwise"),
-  corr.method = c("spearman", "pearson", "kendall"), title = NULL,
+  corr.method = c("pearson", "spearman", "kendall"), title = NULL,
   var.labels = NULL, wrap.labels = 40, show.p = TRUE, p.numeric = FALSE,
   fade.ns = TRUE, val.rm = NULL, digits = 3, triangle = "both",
   string.diag = NULL, CSS = NULL, encoding = NULL, file = NULL,
@@ -34,13 +34,13 @@ labels are displayed in one line and when a line break is inserted.}
 \item{show.p}{logical, adds significance levels to values, or value and 
 variable labels.}
 
-\item{p.numeric}{logical, if \code{TRUE}, the p-values are printed 
+\item{p.numeric}{logical, if \code{TRUE}, the p-values are printed
 as numbers. If \code{FALSE} (default), asterisks are used.}
 
-\item{fade.ns}{logical, if \code{TRUE} (default), non-significant correlation-values 
+\item{fade.ns}{logical, if \code{TRUE} (default), non-significant correlation-values
 appear faded (by using a lighter grey text color). See 'Note'.}
 
-\item{val.rm}{specify a number between 0 and 1 to suppress the output of correlation values 
+\item{val.rm}{specify a number between 0 and 1 to suppress the output of correlation values
 that are smaller than \code{val.rm}. The absolute correlation values are used, so
 a correlation value of \code{-.5} would be greater than \code{val.rm = .4} and thus not be
 omitted. By default, this argument is \code{NULL}, hence all values are shown in the table.
@@ -97,15 +97,15 @@ Invisibly returns
            for further use.
 }
 \description{
-Shows the results of a computed correlation as HTML table. Requires either 
-               a \code{\link{data.frame}} or a matrix with correlation coefficients 
+Shows the results of a computed correlation as HTML table. Requires either
+               a \code{\link{data.frame}} or a matrix with correlation coefficients
                as returned by the \code{\link{cor}}-function.
 }
 \details{
 See 'Details' in \code{\link{sjt.frq}}.
 }
 \note{
-If \code{data} is a matrix with correlation coefficients as returned by 
+If \code{data} is a matrix with correlation coefficients as returned by
       the \code{\link{cor}}-function, p-values can't be computed.
       Thus, \code{show.p}, \code{p.numeric} and \code{fade.ns}
       only have an effect if \code{data} is a \code{\link{data.frame}}.
@@ -140,13 +140,13 @@ sjt.corr(mydf, p.numeric = TRUE)
 # auto-detection of labels, only lower triangle
 sjt.corr(efc[, c(start:end)], triangle = "lower")
 
-# auto-detection of labels, only lower triangle, all correlation 
+# auto-detection of labels, only lower triangle, all correlation
 # values smaller than 0.3 are not shown in the table
 sjt.corr(efc[, c(start:end)], triangle = "lower", val.rm = 0.3)
 
-# auto-detection of labels, only lower triangle, all correlation 
+# auto-detection of labels, only lower triangle, all correlation
 # values smaller than 0.3 are printed in blue
-sjt.corr(efc[, c(start:end)], triangle = "lower",val.rm = 0.3, 
+sjt.corr(efc[, c(start:end)], triangle = "lower",val.rm = 0.3,
          CSS = list(css.valueremove = 'color:blue;'))}
 
 }

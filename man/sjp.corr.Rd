@@ -6,13 +6,13 @@
 \usage{
 sjp.corr(data, title = NULL, axis.labels = NULL, sort.corr = TRUE,
   decimals = 3, na.deletion = c("listwise", "pairwise"),
-  corr.method = c("spearman", "pearson", "kendall"), geom.colors = "RdBu",
+  corr.method = c("pearson", "spearman", "kendall"), geom.colors = "RdBu",
   wrap.title = 50, wrap.labels = 20, show.legend = FALSE,
   legend.title = NULL, show.values = TRUE, show.p = TRUE,
   p.numeric = FALSE, prnt.plot = TRUE)
 }
 \arguments{
-\item{data}{matrix with correlation coefficients as returned by the 
+\item{data}{matrix with correlation coefficients as returned by the
 \code{\link{cor}}-function, or a \code{data.frame} of variables where
 correlations between columns should be computed.}
 
@@ -59,7 +59,7 @@ function, a legend is added to the plot.}
 \item{show.p}{logical, adds significance levels to values, or value and 
 variable labels.}
 
-\item{p.numeric}{logical, if \code{TRUE}, the p-values are printed 
+\item{p.numeric}{logical, if \code{TRUE}, the p-values are printed
 as numbers. If \code{FALSE} (default), asterisks are used.}
 
 \item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
@@ -74,21 +74,21 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 Plot correlation matrix as ellipses or tiles.
 }
 \details{
-Required argument is either a \code{\link{data.frame}} or a matrix with correlation coefficients 
+Required argument is either a \code{\link{data.frame}} or a matrix with correlation coefficients
            as returned by the \code{\link{cor}}-function. In case of ellipses, the
            ellipses size indicates the strength of the correlation. Furthermore,
            blue and red colors indicate positive or negative correlations, where
            stronger correlations are darker.
 }
 \note{
-If \code{data} is a matrix with correlation coefficients as returned by 
+If \code{data} is a matrix with correlation coefficients as returned by
       the \code{\link{cor}}-function, p-values can't be computed.
       Thus, \code{show.p} and \code{p.numeric}
       only have an effect if \code{data} is a \code{\link{data.frame}}.
 }
 \examples{
 # create data frame with 5 random variables
-mydf <- data.frame(cbind(runif(10), runif(10), runif(10), 
+mydf <- data.frame(cbind(runif(10), runif(10), runif(10),
                          runif(10), runif(10)))
 
 # plot correlation matrix

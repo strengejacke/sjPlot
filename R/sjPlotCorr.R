@@ -8,7 +8,7 @@ utils::globalVariables(c("ordx", "ordy"))
 #'
 #' @seealso \code{\link{sjt.corr}}
 #'
-#' @param data matrix with correlation coefficients as returned by the 
+#' @param data matrix with correlation coefficients as returned by the
 #'          \code{\link{cor}}-function, or a \code{data.frame} of variables where
 #'          correlations between columns should be computed.
 #' @param sort.corr logical, if \code{TRUE} (default), the axis labels are sorted
@@ -24,22 +24,22 @@ utils::globalVariables(c("ordx", "ordy"))
 #' @param corr.method indicates the correlation computation method. May be one of
 #'          \code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.
 #'          May be abbreviated.
-#' @param p.numeric logical, if \code{TRUE}, the p-values are printed 
+#' @param p.numeric logical, if \code{TRUE}, the p-values are printed
 #'          as numbers. If \code{FALSE} (default), asterisks are used.
-#'          
+#'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lm
-#' 
+#'
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}) and the original correlation matrix
 #'           (\code{corr.matrix}).
 #'
-#' @note If \code{data} is a matrix with correlation coefficients as returned by 
+#' @note If \code{data} is a matrix with correlation coefficients as returned by
 #'       the \code{\link{cor}}-function, p-values can't be computed.
 #'       Thus, \code{show.p} and \code{p.numeric}
 #'       only have an effect if \code{data} is a \code{\link{data.frame}}.
 #'
-#' @details Required argument is either a \code{\link{data.frame}} or a matrix with correlation coefficients 
+#' @details Required argument is either a \code{\link{data.frame}} or a matrix with correlation coefficients
 #'            as returned by the \code{\link{cor}}-function. In case of ellipses, the
 #'            ellipses size indicates the strength of the correlation. Furthermore,
 #'            blue and red colors indicate positive or negative correlations, where
@@ -47,7 +47,7 @@ utils::globalVariables(c("ordx", "ordy"))
 #'
 #' @examples
 #' # create data frame with 5 random variables
-#' mydf <- data.frame(cbind(runif(10), runif(10), runif(10), 
+#' mydf <- data.frame(cbind(runif(10), runif(10), runif(10),
 #'                          runif(10), runif(10)))
 #'
 #' # plot correlation matrix
@@ -89,7 +89,7 @@ sjp.corr <- function(data,
                      sort.corr = TRUE,
                      decimals = 3,
                      na.deletion = c("listwise", "pairwise"),
-                     corr.method = c("spearman", "pearson", "kendall"),
+                     corr.method = c("pearson", "spearman", "kendall"),
                      geom.colors = "RdBu",
                      wrap.title = 50,
                      wrap.labels = 20,
@@ -155,8 +155,8 @@ sjp.corr <- function(data,
       for (i in seq_len(ncol(df))) {
         pv <- c()
         for (j in seq_len(ncol(df))) {
-          test <- suppressWarnings(stats::cor.test(df[[i]], df[[j]], 
-                                                   alternative = "two.sided", 
+          test <- suppressWarnings(stats::cor.test(df[[i]], df[[j]],
+                                                   alternative = "two.sided",
                                                    method = corr.method))
           pv <- c(pv, round(test$p.value, 4))
         }
@@ -206,10 +206,10 @@ sjp.corr <- function(data,
   # --------------------------------------------------------
   # first, save original matrix for return value
   oricor <- orderedCorr
-  orderedCorr <- tidyr::gather(data.frame(orderedCorr), "var", "value", 
+  orderedCorr <- tidyr::gather(data.frame(orderedCorr), "var", "value",
                                seq_len(ncol(orderedCorr)), factor_key = TRUE)
   # orderedCorr <- melt(orderedCorr)
-  if (!is.null(cpvalues)) 
+  if (!is.null(cpvalues))
     cpvalues <- tidyr::gather(data.frame(cpvalues), "var", "value",
                               seq_len(ncol(cpvalues)), factor_key = TRUE)
   # if (!is.null(cpvalues)) cpvalues <- melt(cpvalues)
@@ -224,9 +224,9 @@ sjp.corr <- function(data,
       cpv <- sapply(cpvalues$value, get_p_stars)
     } else {
       cpv <- sapply(cpvalues$value, function(x) {
-        if (x < 0.001) 
-          x <- sprintf("\n(< %s.001)", p_zero) 
-        else 
+        if (x < 0.001)
+          x <- sprintf("\n(< %s.001)", p_zero)
+        else
           x <- sub("0", p_zero, sprintf("\n(%.*f)", decimals, x))
       })
     }
@@ -247,7 +247,7 @@ sjp.corr <- function(data,
     }
   }
   orderedCorr$val.labels[orderedCorr$ordx >= orderedCorr$ordy] <- NA
-  
+
   orderedCorr$ordx <- as.factor(orderedCorr$ordx)
   orderedCorr$ordy <- as.factor(orderedCorr$ordy)
   message(sprintf("Computing correlation using %s-method with %s-deletion...", corr.method, na.deletion))
@@ -266,7 +266,7 @@ sjp.corr <- function(data,
     scale_fill_gradientn(colours = geom.colors, limits = c(-1,1)) +
     geom_text(size = 3.5, colour = "black") +
     labs(title = title, x = NULL, y = NULL)
-  if (show.legend)  
+  if (show.legend)
     corrPlot <- corrPlot + guides(fill = legend.title)
   else
     corrPlot <- corrPlot + guides(fill = "none")

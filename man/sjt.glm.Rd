@@ -53,7 +53,7 @@ confidence intervals are exponentiated. Use \code{FALSE} for
 non-exponentiated coefficients (log-odds) as provided by
 the \code{\link{summary}} function.}
 
-\item{p.numeric}{logical, if \code{TRUE}, the p-values are printed 
+\item{p.numeric}{logical, if \code{TRUE}, the p-values are printed
 as numbers. If \code{FALSE} (default), asterisks are used.}
 
 \item{emph.p}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}

@@ -47,7 +47,7 @@ factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
 be grouped, if the factor has more than two levels. Grouping means that a separate headline
 row is inserted to the table just before the predictor values.}
 
-\item{p.numeric}{logical, if \code{TRUE}, the p-values are printed 
+\item{p.numeric}{logical, if \code{TRUE}, the p-values are printed
 as numbers. If \code{FALSE} (default), asterisks are used.}
 
 \item{emph.p}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
