@@ -6,7 +6,7 @@
 \usage{
 sjp.glm(fit, type = "dots", vars = NULL, group.estimates = NULL,
   remove.estimates = NULL, sort.est = TRUE, title = NULL,
-  legend.title = NULL, axis.labels = NULL, axis.title = "Odds Ratios",
+  legend.title = NULL, axis.labels = NULL, axis.title = NULL,
   geom.size = NULL, geom.colors = "Set1", wrap.title = 50,
   wrap.labels = 25, axis.lim = NULL, grid.breaks = 0.5,
   trns.ticks = TRUE, show.intercept = FALSE, show.values = TRUE,
@@ -93,14 +93,14 @@ plot (only if non-faceted).}
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
-\item{trns.ticks}{logical, if \code{TRUE}, the grid lines have exponential 
-distances (equidistant), i.e. they visually have the same distance from 
-one panel grid to the next. If \code{FALSE}, grids are 
-plotted on every \code{grid.breaks}'s position, thus the grid lines become narrower with 
+\item{trns.ticks}{logical, if \code{TRUE}, the grid lines have exponential
+distances (equidistant), i.e. they visually have the same distance from
+one panel grid to the next. If \code{FALSE}, grids are
+plotted on every \code{grid.breaks}'s position, thus the grid lines become narrower with
 higher odds ratio values.}
 
 \item{show.intercept}{logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
-Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential 
+Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential
 transformation of estimates, the intercept in some cases can not be calculated, thus the
 function call is interrupted and no plot printed.}
 
@@ -185,7 +185,7 @@ Plot odds or incident rate ratios with confidence intervalls as dot plot.
            All other co-variates are set to zero (i.e. ignored), which corresponds
            to \code{family(fit)$linkinv(eta = b0 + bi * xi)} (where \code{xi} is the estimate).
            This plot type can be seen as equivalent to \code{type = "slope"} for \code{\link{sjp.lm}},
-           just for glm objects. This plot type may give similar results as 
+           just for glm objects. This plot type may give similar results as
            \code{type = "pred"}, however, \code{type = "slope"} does not adjust
            for other predictors.}
            \item{\code{type = "eff"}}{computes marginal effects of all higher order
@@ -198,7 +198,7 @@ Plot odds or incident rate ratios with confidence intervalls as dot plot.
            of the response are computed, based on the \code{\link{predict.glm}}
            method. Corresponds to \code{\link{predict}(fit, type = "response")}.
            This plot type requires the \code{vars} argument to select specific terms
-           that should be used for the x-axis and - optional - as grouping factor. 
+           that should be used for the x-axis and - optional - as grouping factor.
            Hence, \code{vars} must be a character vector with the names of
            one or two model predictors. See 'Examples'.}
          }
@@ -215,7 +215,7 @@ fitOR <- glm(y ~ Education + Examination + Infant.Mortality + Catholic,
 sjp.glm(fitOR)
 
 # -------------------------------
-# Predictors for negative impact of care. Data from 
+# Predictors for negative impact of care. Data from
 # the EUROFAMCARE sample dataset
 # -------------------------------
 library(sjmisc)

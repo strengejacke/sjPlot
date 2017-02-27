@@ -139,7 +139,7 @@ will be plotted. Default is \code{FALSE}. Only applies, if \code{show.loess = TR
 or \code{type = "fe.resid"}).}
 
 \item{show.intercept}{logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
-Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential 
+Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential
 transformation of estimates, the intercept in some cases can not be calculated, thus the
 function call is interrupted and no plot printed.}
 

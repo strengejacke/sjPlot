@@ -96,7 +96,7 @@ of same length as groups. See 'Examples'.}
 function, a legend is added to the plot.}
 
 \item{show.intercept}{logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
-Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential 
+Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential
 transformation of estimates, the intercept in some cases can not be calculated, thus the
 function call is interrupted and no plot printed.}
 

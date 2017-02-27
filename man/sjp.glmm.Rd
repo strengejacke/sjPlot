@@ -70,10 +70,10 @@ are displayed in one line and when a line break is inserted.}
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
-\item{trns.ticks}{logical, if \code{TRUE}, the grid lines have exponential 
-distances (equidistant), i.e. they visually have the same distance from 
-one panel grid to the next. If \code{FALSE}, grids are 
-plotted on every \code{grid.breaks}'s position, thus the grid lines become narrower with 
+\item{trns.ticks}{logical, if \code{TRUE}, the grid lines have exponential
+distances (equidistant), i.e. they visually have the same distance from
+one panel grid to the next. If \code{FALSE}, grids are
+plotted on every \code{grid.breaks}'s position, thus the grid lines become narrower with
 higher odds ratio values.}
 
 \item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
@@ -95,7 +95,7 @@ of same length as groups. See 'Examples'.}
 function, a legend is added to the plot.}
 
 \item{show.intercept}{logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
-Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential 
+Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential
 transformation of estimates, the intercept in some cases can not be calculated, thus the
 function call is interrupted and no plot printed.}
 

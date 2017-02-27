@@ -18,7 +18,7 @@ Description: Collection of plotting and table output functions for data
     terms) and much more. This package supports labelled data.
 License: GPL-3
 Depends:
-    R (>= 3.3),
+    R (>= 3.2),
     graphics,
     grDevices,
     methods,
