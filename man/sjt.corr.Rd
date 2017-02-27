@@ -31,7 +31,7 @@ to label variables in the output.}
 \item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
 labels are displayed in one line and when a line break is inserted.}
 
-\item{show.p}{logical, adds significance levels to values, or value and 
+\item{show.p}{logical, adds significance levels to values, or value and
 variable labels.}
 
 \item{p.numeric}{logical, if \code{TRUE}, the p-values are printed

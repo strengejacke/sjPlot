@@ -12,58 +12,58 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #' @description Depending on the \code{type}, this function plots coefficients (estimates)
 #'                of linear regressions (including panel models fitted with the \code{plm}-function
 #'                from the \pkg{plm}-package and generalized least squares models fitted with
-#'                the \code{gls}-function from the \pkg{nlme}-package) with confidence 
+#'                the \code{gls}-function from the \pkg{nlme}-package) with confidence
 #'                intervals as dot plot (forest plot),
 #'                model assumptions for linear models or slopes and scatter plots for each single
 #'                coefficient. See \code{type} for details.
 #'
 #' @details \describe{
-#'            \item{\code{type = "lm"}}{if fitted model only has one predictor, no 
-#'                  forest plot is shown. Instead, a regression line with confidence 
-#'                  interval (in blue) is plotted by default, and a loess-smoothed 
-#'                  line without confidence interval (in red) can be added if argument 
+#'            \item{\code{type = "lm"}}{if fitted model only has one predictor, no
+#'                  forest plot is shown. Instead, a regression line with confidence
+#'                  interval (in blue) is plotted by default, and a loess-smoothed
+#'                  line without confidence interval (in red) can be added if argument
 #'                  \code{show.loess = TRUE}.}
-#'            \item{\code{type = "std2"}}{plots standardized beta values, however, 
-#'                  standardization follows Gelman's (2008) suggestion, rescaling the 
-#'                  estimates by dividing them by two standard deviations instead of 
-#'                  just one. Resulting coefficients are then directly comparable for 
-#'                  untransformed binary predictors. This standardization uses the 
+#'            \item{\code{type = "std2"}}{plots standardized beta values, however,
+#'                  standardization follows Gelman's (2008) suggestion, rescaling the
+#'                  estimates by dividing them by two standard deviations instead of
+#'                  just one. Resulting coefficients are then directly comparable for
+#'                  untransformed binary predictors. This standardization uses the
 #'                  \code{\link[arm]{standardize}}-function from the \pkg{arm}-package.}
-#'            \item{\code{type = "slope"}}{regression lines (slopes) with confidence 
-#'                  intervals for each single predictor of the fitted model are plotted, 
+#'            \item{\code{type = "slope"}}{regression lines (slopes) with confidence
+#'                  intervals for each single predictor of the fitted model are plotted,
 #'                  i.e. all predictors of the fitted model are extracted and for each of
 #'                  them, the linear relationship is plotted against the response variable.
 #'                  Other predictors are omitted, so this plot type is intended to check
 #'                  the linear relationship between a predictor and the response.}
-#'            \item{\code{type = "resid"}}{is similar to the \code{type = "slope"} option, 
+#'            \item{\code{type = "resid"}}{is similar to the \code{type = "slope"} option,
 #'                  however, each predictor is plotted against the residuals
 #'                  (instead of response).}
 #'            \item{\code{type = "pred"}}{plots predicted values of the response, related
-#'                  to specific model predictors. This plot type calls 
-#'                  \code{\link[stats]{predict}(fit, newdata = model.frame, type = "response")} 
-#'                  and requires the \code{vars} argument to select specific terms that should be 
-#'                  used for the x-axis and - optional - as grouping factor. Hence, 
-#'                  \code{vars} must be a character vector with the names of one or 
+#'                  to specific model predictors. This plot type calls
+#'                  \code{\link[stats]{predict}(fit, newdata = model.frame, type = "response")}
+#'                  and requires the \code{vars} argument to select specific terms that should be
+#'                  used for the x-axis and - optional - as grouping factor. Hence,
+#'                  \code{vars} must be a character vector with the names of one or
 #'                  two model predictors. See 'Examples'.}
-#'            \item{\code{type = "eff"}}{computes the marginal effects for all predictors, 
-#'                  using the \code{\link[effects]{allEffects}} function. I.e. for each 
-#'                  predictor, the predicted values towards the response are plotted, with 
-#'                  all remaining co-variates set to the mean. Due to possible different 
-#'                  scales of predictors, a faceted plot is printed (instead of plotting 
+#'            \item{\code{type = "eff"}}{computes the marginal effects for all predictors,
+#'                  using the \code{\link[effects]{allEffects}} function. I.e. for each
+#'                  predictor, the predicted values towards the response are plotted, with
+#'                  all remaining co-variates set to the mean. Due to possible different
+#'                  scales of predictors, a faceted plot is printed (instead of plotting
 #'                  all lines in one plot).
 #'                  You can pass further arguments down to \code{allEffects} for flexible
 #'                  function call via the \code{...}-argument.}
-#'            \item{\code{type = "poly"}}{plots the marginal effects of polynomial terms 
-#'                  in \code{fit}, using the \code{\link[effects]{effect}} function, but 
+#'            \item{\code{type = "poly"}}{plots the marginal effects of polynomial terms
+#'                  in \code{fit}, using the \code{\link[effects]{effect}} function, but
 #'                  only for a selected polynomial term, which is specified with \code{poly.term}.
-#'                  This function helps undertanding the effect of polynomial terms by 
-#'                  plotting the curvilinear relationships of response and quadratic, cubic etc. 
+#'                  This function helps undertanding the effect of polynomial terms by
+#'                  plotting the curvilinear relationships of response and quadratic, cubic etc.
 #'                  terms. This function accepts following argument.}
-#'            \item{\code{type = "ma"}}{checks model assumptions. Please note that only 
-#'                  three arguments are relevant: \code{fit} and \code{complete.dgns}. 
+#'            \item{\code{type = "ma"}}{checks model assumptions. Please note that only
+#'                  three arguments are relevant: \code{fit} and \code{complete.dgns}.
 #'                  All other arguments are ignored.}
-#'            \item{\code{type = "vif"}}{Variance Inflation Factors (check for multicollinearity) 
-#'                  are plotted. As a rule of thumb, values below 5 are considered as good 
+#'            \item{\code{type = "vif"}}{Variance Inflation Factors (check for multicollinearity)
+#'                  are plotted. As a rule of thumb, values below 5 are considered as good
 #'                  and indicate no multicollinearity, values between 5 and 10 may be tolerable.
 #'                  Values greater than 10 are not acceptable and indicate multicollinearity
 #'                  between model's predictors.}
@@ -86,7 +86,7 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #' @param sort.est logical, determines whether estimates should be sorted according to their values.
 #'          If \code{group.estimates} is \emph{not} \code{NULL}, estimates are sorted
 #'          according to their group assignment.
-#' @param resp.label name of dependent variable, as string. Only 
+#' @param resp.label name of dependent variable, as string. Only
 #'          used if fitted model has only one predictor and \code{type = "lm"}.
 #' @param geom.colors user defined color palette for geoms. If \code{group.estimates}
 #'          is \emph{not} specified, must either be vector with two color values or a specific
@@ -100,15 +100,15 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #'          which estimates should be removed from the plot.
 #'          \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 #'          is \code{NULL}, i.e. all estimates are printed.
-#' @param show.p logical, adds significance levels to values, or value and 
+#' @param show.p logical, adds significance levels to values, or value and
 #'          variable labels.
-#' @param show.summary logical, if \code{TRUE}, a summary with model statistics 
+#' @param show.summary logical, if \code{TRUE}, a summary with model statistics
 #'          is added to the plot.
 #' @param show.ci logical, if \code{TRUE}, depending on \code{type}, a confidence
 #'          interval or region is added to the plot.
 #' @param show.scatter logical, if \code{TRUE} (default), adds a scatter plot of
 #'          data points to the plot. Only applies for slope-type or predictions plots.
-#'          For most plot types, dots are jittered to avoid overplotting, hence the 
+#'          For most plot types, dots are jittered to avoid overplotting, hence the
 #'          points don't reflect exact values in the data.
 #' @param legend.title character vector, used as title for the plot legend. Note that
 #'          only some plot types have legends (e.g. \code{type = "pred"} or when
@@ -216,14 +216,14 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #'
 #' # grouped
 #' sjp.lm(fit, type = "pred", vars = c("c12hour", "education"))
-#' 
+#'
 #' # grouped, non-facet
 #' sjp.lm(fit, type = "pred", vars = c("c12hour", "education"),
 #'        facet.grid = FALSE)
-#' 
+#'
 #' # two groupings
 #' sjp.lm(fit, type = "pred", vars = c("c12hour", "gender", "education"))
-#' 
+#'
 #' # --------------------------
 #' # plotting polynomial terms
 #' # --------------------------
@@ -346,7 +346,7 @@ sjp.lm <- function(fit,
     return(invisible(sjp.glm.predy(fit, vars, t.title = title, l.title = legend.title,
                                    a.title = axis.title,
                                    geom.colors, show.ci, jitter.ci, geom.size, ylim = axis.lim,
-                                   facet.grid, type = "fe", show.scatter, point.alpha, 
+                                   facet.grid, type = "fe", show.scatter, point.alpha,
                                    point.color, show.loess, prnt.plot, ...)))
   }
   if (type == "poly") {
@@ -409,7 +409,7 @@ sjp.lm <- function(fit,
   if (type == "std" || type == "std2") {
     # retrieve standardized betas
     tmp <- suppressWarnings(
-      sjstats::std_beta(fit, type = type) %>% 
+      sjstats::std_beta(fit, type = type) %>%
         dplyr::select_("-std.error")
     )
     # add "std." to title?
@@ -418,7 +418,7 @@ sjp.lm <- function(fit,
     colnames(tmp) <- c("term", "estimate", "conf.low", "conf.high")
   } else {
     tmp <- broom::tidy(fit, conf.int = TRUE) %>%
-             dplyr::slice(-1) %>% 
+             dplyr::slice(-1) %>%
              dplyr::select_("term", "estimate", "conf.low", "conf.high")
   }
   tmp$group <- NA
@@ -541,9 +541,9 @@ sjp.lm <- function(fit,
   # --------------------------------------------------------
   betaplot <- betaplot +
     # and error bar
-    geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0) +
+    geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), width = 0) +
     # Print p-values. With vertical adjustment, so they don't overlap with the errorbars
-    geom_text(aes(label = p.string), nudge_x = y.offset, show.legend = FALSE) +
+    geom_text(aes_string(label = "p.string"), nudge_x = y.offset, show.legend = FALSE) +
     # print point
     geom_point(size = geom.size) +
     # Intercept-line
@@ -578,9 +578,9 @@ sjp.lm <- function(fit,
 }
 
 #' @importFrom sjstats resp_val resp_var pred_vars
-sjp.reglin <- function(fit, 
-                       title = NULL, 
-                       wrap.title = 50, 
+sjp.reglin <- function(fit,
+                       title = NULL,
+                       wrap.title = 50,
                        geom.colors = NULL,
                        show.ci = TRUE,
                        point.alpha = 0.2,
@@ -621,6 +621,12 @@ sjp.reglin <- function(fit,
   depvar.label <- sjmisc::get_label(model_data[[1]], def.value = sjstats::resp_var(fit))
   resp <- sjstats::resp_val(fit)
   predvars <- sjstats::pred_vars(fit)
+
+  # tell user that interaction terms are not supported by this method
+  if (sjmisc::str_contains(deparse(formula(fit)), c(":", "*"), logic = "or")) {
+    warning("Interaction terms are not supported by this plot type. Output for interaction terms may be inappropriate.", call. = F)
+  }
+
   # ------------------------
   # remove estimates?
   # ------------------------
@@ -668,7 +674,7 @@ sjp.reglin <- function(fit,
     # plot regression line and confidence intervall
     # -----------------------------------------------------------
     reglinplot <- ggplot(mydat, aes_string(x = "x", y = "y")) +
-      stat_smooth(method = "lm", se = show.ci, colour = lineColor, 
+      stat_smooth(method = "lm", se = show.ci, colour = lineColor,
                   fill = lineColor, alpha = dot.args[["ci.alpha"]], level = dot.args[["ci.lvl"]])
     # -----------------------------------------------------------
     # plot jittered values if requested
@@ -681,7 +687,7 @@ sjp.reglin <- function(fit,
     # -----------------------------------------------------------
     if (show.loess) {
       reglinplot <- reglinplot +
-        stat_smooth(method = "loess", se = show.loess.ci, 
+        stat_smooth(method = "loess", se = show.loess.ci,
                     colour = loessLineColor, alpha = dot.args[["ci.alpha"]], level = dot.args[["ci.lvl"]])
     }
     # -----------------------------------------------------------
@@ -913,7 +919,7 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
       # Plot residuals against predictors
       # ---------------------------------
       p1 <- sjp.reglin(linreg,
-                       title = "Relationship of residuals against predictors",  
+                       title = "Relationship of residuals against predictors",
                        subtitle = "If scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly",
                        wrap.title = 60, useResiduals = T, alpha = .15)$plot.list
       # save plot

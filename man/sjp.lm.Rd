@@ -76,7 +76,7 @@ axis titles (e.g. with \code{type = "eff"} for many predictors),
 that are printed. In this case, each plot gets an own axis title
 (applying, for instance, to the y-axis for \code{type = "eff"}).}
 
-\item{resp.label}{name of dependent variable, as string. Only 
+\item{resp.label}{name of dependent variable, as string. Only
 used if fitted model has only one predictor and \code{type = "lm"}.}
 
 \item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
@@ -107,7 +107,7 @@ i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
-\item{show.p}{logical, adds significance levels to values, or value and 
+\item{show.p}{logical, adds significance levels to values, or value and
 variable labels.}
 
 \item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
@@ -124,12 +124,12 @@ will be plotted. Default is \code{FALSE}. Only applies, if \code{show.loess = TR
 (and for \code{\link{sjp.lmer}}, only applies if \code{type = "fe.slope"}
 or \code{type = "fe.resid"}).}
 
-\item{show.summary}{logical, if \code{TRUE}, a summary with model statistics 
+\item{show.summary}{logical, if \code{TRUE}, a summary with model statistics
 is added to the plot.}
 
 \item{show.scatter}{logical, if \code{TRUE} (default), adds a scatter plot of
 data points to the plot. Only applies for slope-type or predictions plots.
-For most plot types, dots are jittered to avoid overplotting, hence the 
+For most plot types, dots are jittered to avoid overplotting, hence the
 points don't reflect exact values in the data.}
 
 \item{point.alpha}{alpha value of point-geoms in the scatter plots. Only applies,
@@ -188,59 +188,59 @@ Depending on the \code{type}, in most cases (insisibily)
 Depending on the \code{type}, this function plots coefficients (estimates)
                of linear regressions (including panel models fitted with the \code{plm}-function
                from the \pkg{plm}-package and generalized least squares models fitted with
-               the \code{gls}-function from the \pkg{nlme}-package) with confidence 
+               the \code{gls}-function from the \pkg{nlme}-package) with confidence
                intervals as dot plot (forest plot),
                model assumptions for linear models or slopes and scatter plots for each single
                coefficient. See \code{type} for details.
 }
 \details{
 \describe{
-           \item{\code{type = "lm"}}{if fitted model only has one predictor, no 
-                 forest plot is shown. Instead, a regression line with confidence 
-                 interval (in blue) is plotted by default, and a loess-smoothed 
-                 line without confidence interval (in red) can be added if argument 
+           \item{\code{type = "lm"}}{if fitted model only has one predictor, no
+                 forest plot is shown. Instead, a regression line with confidence
+                 interval (in blue) is plotted by default, and a loess-smoothed
+                 line without confidence interval (in red) can be added if argument
                  \code{show.loess = TRUE}.}
-           \item{\code{type = "std2"}}{plots standardized beta values, however, 
-                 standardization follows Gelman's (2008) suggestion, rescaling the 
-                 estimates by dividing them by two standard deviations instead of 
-                 just one. Resulting coefficients are then directly comparable for 
-                 untransformed binary predictors. This standardization uses the 
+           \item{\code{type = "std2"}}{plots standardized beta values, however,
+                 standardization follows Gelman's (2008) suggestion, rescaling the
+                 estimates by dividing them by two standard deviations instead of
+                 just one. Resulting coefficients are then directly comparable for
+                 untransformed binary predictors. This standardization uses the
                  \code{\link[arm]{standardize}}-function from the \pkg{arm}-package.}
-           \item{\code{type = "slope"}}{regression lines (slopes) with confidence 
-                 intervals for each single predictor of the fitted model are plotted, 
+           \item{\code{type = "slope"}}{regression lines (slopes) with confidence
+                 intervals for each single predictor of the fitted model are plotted,
                  i.e. all predictors of the fitted model are extracted and for each of
                  them, the linear relationship is plotted against the response variable.
                  Other predictors are omitted, so this plot type is intended to check
                  the linear relationship between a predictor and the response.}
-           \item{\code{type = "resid"}}{is similar to the \code{type = "slope"} option, 
+           \item{\code{type = "resid"}}{is similar to the \code{type = "slope"} option,
                  however, each predictor is plotted against the residuals
                  (instead of response).}
            \item{\code{type = "pred"}}{plots predicted values of the response, related
-                 to specific model predictors. This plot type calls 
-                 \code{\link[stats]{predict}(fit, newdata = model.frame, type = "response")} 
-                 and requires the \code{vars} argument to select specific terms that should be 
-                 used for the x-axis and - optional - as grouping factor. Hence, 
-                 \code{vars} must be a character vector with the names of one or 
+                 to specific model predictors. This plot type calls
+                 \code{\link[stats]{predict}(fit, newdata = model.frame, type = "response")}
+                 and requires the \code{vars} argument to select specific terms that should be
+                 used for the x-axis and - optional - as grouping factor. Hence,
+                 \code{vars} must be a character vector with the names of one or
                  two model predictors. See 'Examples'.}
-           \item{\code{type = "eff"}}{computes the marginal effects for all predictors, 
-                 using the \code{\link[effects]{allEffects}} function. I.e. for each 
-                 predictor, the predicted values towards the response are plotted, with 
-                 all remaining co-variates set to the mean. Due to possible different 
-                 scales of predictors, a faceted plot is printed (instead of plotting 
+           \item{\code{type = "eff"}}{computes the marginal effects for all predictors,
+                 using the \code{\link[effects]{allEffects}} function. I.e. for each
+                 predictor, the predicted values towards the response are plotted, with
+                 all remaining co-variates set to the mean. Due to possible different
+                 scales of predictors, a faceted plot is printed (instead of plotting
                  all lines in one plot).
                  You can pass further arguments down to \code{allEffects} for flexible
                  function call via the \code{...}-argument.}
-           \item{\code{type = "poly"}}{plots the marginal effects of polynomial terms 
-                 in \code{fit}, using the \code{\link[effects]{effect}} function, but 
+           \item{\code{type = "poly"}}{plots the marginal effects of polynomial terms
+                 in \code{fit}, using the \code{\link[effects]{effect}} function, but
                  only for a selected polynomial term, which is specified with \code{poly.term}.
-                 This function helps undertanding the effect of polynomial terms by 
-                 plotting the curvilinear relationships of response and quadratic, cubic etc. 
+                 This function helps undertanding the effect of polynomial terms by
+                 plotting the curvilinear relationships of response and quadratic, cubic etc.
                  terms. This function accepts following argument.}
-           \item{\code{type = "ma"}}{checks model assumptions. Please note that only 
-                 three arguments are relevant: \code{fit} and \code{complete.dgns}. 
+           \item{\code{type = "ma"}}{checks model assumptions. Please note that only
+                 three arguments are relevant: \code{fit} and \code{complete.dgns}.
                  All other arguments are ignored.}
-           \item{\code{type = "vif"}}{Variance Inflation Factors (check for multicollinearity) 
-                 are plotted. As a rule of thumb, values below 5 are considered as good 
+           \item{\code{type = "vif"}}{Variance Inflation Factors (check for multicollinearity)
+                 are plotted. As a rule of thumb, values below 5 are considered as good
                  and indicate no multicollinearity, values between 5 and 10 may be tolerable.
                  Values greater than 10 are not acceptable and indicate multicollinearity
                  between model's predictors.}

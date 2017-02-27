@@ -579,6 +579,12 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
   axisLabels.mp <- c()
   plot.facet <- NULL
   mydf.facet <- NULL
+
+  # tell user that interaction terms are not supported by this method
+  if (sjmisc::str_contains(deparse(formula(fit)), c(":", "*"), logic = "or")) {
+    warning("Interaction terms are not supported by this plot type. Output for interaction terms may be inappropriate.", call. = F)
+  }
+
   # ----------------------------
   # retrieve data frame of model to check whether
   # we have any numeric terms in fitted model

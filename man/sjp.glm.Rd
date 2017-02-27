@@ -106,7 +106,7 @@ function call is interrupted and no plot printed.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
-\item{show.p}{logical, adds significance levels to values, or value and 
+\item{show.p}{logical, adds significance levels to values, or value and
 variable labels.}
 
 \item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
@@ -115,12 +115,12 @@ interval or region is added to the plot.}
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
-\item{show.summary}{logical, if \code{TRUE}, a summary with model statistics 
+\item{show.summary}{logical, if \code{TRUE}, a summary with model statistics
 is added to the plot.}
 
 \item{show.scatter}{logical, if \code{TRUE} (default), adds a scatter plot of
 data points to the plot. Only applies for slope-type or predictions plots.
-For most plot types, dots are jittered to avoid overplotting, hence the 
+For most plot types, dots are jittered to avoid overplotting, hence the
 points don't reflect exact values in the data.}
 
 \item{point.alpha}{alpha value of point-geoms in the scatter plots. Only applies,

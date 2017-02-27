@@ -79,7 +79,7 @@ i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 the total-row in the figure will be highlighted with a slightly
 shaded background.}
 
-\item{show.p}{logical, adds significance levels to values, or value and 
+\item{show.p}{logical, adds significance levels to values, or value and
 variable labels.}
 
 \item{show.n}{logical, if \code{TRUE}, adds total number of cases for each

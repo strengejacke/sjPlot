@@ -72,7 +72,7 @@ i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
-\item{show.p}{logical, adds significance levels to values, or value and 
+\item{show.p}{logical, adds significance levels to values, or value and
 variable labels.}
 
 \item{show.summary}{logical, if \code{TRUE} (default), a summary with chi-squared 

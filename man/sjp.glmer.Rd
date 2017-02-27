@@ -111,7 +111,7 @@ need smaller values than dot sizes.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
-\item{show.p}{logical, adds significance levels to values, or value and 
+\item{show.p}{logical, adds significance levels to values, or value and
 variable labels.}
 
 \item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
@@ -130,7 +130,7 @@ if \code{show.intercept = TRUE} and \code{axis.labels} is not \code{NULL}.}
 
 \item{show.scatter}{logical, if \code{TRUE} (default), adds a scatter plot of
 data points to the plot. Only applies for slope-type or predictions plots.
-For most plot types, dots are jittered to avoid overplotting, hence the 
+For most plot types, dots are jittered to avoid overplotting, hence the
 points don't reflect exact values in the data.}
 
 \item{point.alpha}{alpha value of point-geoms in the scatter plots. Only applies,

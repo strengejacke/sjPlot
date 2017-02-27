@@ -2261,12 +2261,12 @@ sjp.glm.eff <- function(fit,
   # remove spaces from model terms, required, because 'effects()' removes
   # them, too, else we don't match the model term ("log(term + 1)" => "log(term+1)")
   all.terms <- gsub(" ", "", all.terms, fixed = TRUE)
+  # interaction term found?
+  int.found <- sjmisc::str_contains(names(eff), pattern = c(":", "*"), logic = "or")
   # select specific terms only
   eff <- eff[which(names(eff) %in% all.terms | names(eff) %in% all.pred.names)]
   # init final df
   mydat <- data.frame()
-  # interaction term found?
-  int.found <- FALSE
   # iterate all effects
   for (i in seq_len(length(eff))) {
     # get term, for which effects were calculated
