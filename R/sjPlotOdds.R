@@ -1393,8 +1393,6 @@ sjp.glm.ma <- function(logreg) {
   message("Anova:\n")
   print(stats::anova(logreg, test = "Chisq"))
   # -------------------------------------
-  set_theme("forest")
-  sjp.glm(logreg)
   # return updated model
   invisible(structure(list(class = "sjp.glm.ma",
                            model = model,
