@@ -45,10 +45,10 @@
 #'            }
 #'            for further use.
 #'
-#' @note If \code{exp.coef = TRUE} and Odds Ratios are reported, standard errors 
-#'       for generalized linear (mixed) models are \emph{not} on the untransformed 
-#'       scale, as shown in the \code{summary()}-method. Rather, \code{sjt.glm()} 
-#'       uses adjustments according to the delta method for approximating standard 
+#' @note If \code{exp.coef = TRUE} and Odds Ratios are reported, standard errors
+#'       for generalized linear (mixed) models are \emph{not} on the untransformed
+#'       scale, as shown in the \code{summary()}-method. Rather, \code{sjt.glm()}
+#'       uses adjustments according to the delta method for approximating standard
 #'       errors of transformed regression parameters (see \code{\link[sjstats]{se}}).
 #'       If \code{exp.coef = FALSE} and log-Odds Ratios are reported, the standard
 #'       errors are untransformed.
@@ -117,7 +117,7 @@
 #'             data = efc, family = binomial(link = "probit"))
 #' fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep,
 #'             data = efc, family = poisson(link = "log"))
-#' 
+#'
 #' # compare models
 #' sjt.glm(fit1, fit2, fit3, show.aic = TRUE, show.family = TRUE)
 #'
@@ -180,7 +180,7 @@ sjt.glm <- function(...,
                     group.pred = TRUE,
                     exp.coef = TRUE,
                     p.numeric = TRUE,
-                    emph.p = TRUE,
+                    emph.p = FALSE,
                     p.zero = FALSE,
                     robust = FALSE,
                     separate.ci.col = TRUE,
@@ -312,21 +312,21 @@ sjt.glm <- function(...,
     # get tidy model summary
     # -------------------------------------
     if (robust) {
-      fit.df <- sjstats::robust(fit, conf.int = T, exponentiate = F) %>% 
+      fit.df <- sjstats::robust(fit, conf.int = T, exponentiate = F) %>%
         dplyr::select_("-statistic")
     } else {
       # get tidy output
       fit.df <- broom::tidy(fit, effects = "fixed", conf.int = T)
-      
+
       # check if coefficients should be exponentiated - if yes,
       # also retrieve adjusted standard errors
       if (exp.coef) {
-        fit.df <- fit.df %>% 
+        fit.df <- fit.df %>%
           # remove non-transformed standard error
-          dplyr::select_("-statistic", "-std.error") %>% 
+          dplyr::select_("-statistic", "-std.error") %>%
           # and add adjusted standard errors
           dplyr::mutate(std.error = sjstats::se(fit)[["std.error"]])
-        
+
         # reorder df
         fit.df <- fit.df[, c(1:2, 6, 3:5)]
       } else {
@@ -1128,10 +1128,10 @@ sjt.glm <- function(...,
 #'          \item between-group-variance: tau-zero-zero
 #'          \item random-slope-intercept-correlation: rho-zero-one
 #'          }
-#'       Standard errors for generalized linear (mixed) models are \emph{not} 
+#'       Standard errors for generalized linear (mixed) models are \emph{not}
 #'       the regular standard errors on the untransformed scale, as shown in the
-#'       \code{summary()}-method. Rather, \code{sjt.glmer()} uses adjustments 
-#'       according to the delta method for approximating standard errors of 
+#'       \code{summary()}-method. Rather, \code{sjt.glmer()} uses adjustments
+#'       according to the delta method for approximating standard errors of
 #'       transformed regression parameters (see \code{\link[sjstats]{se}}).
 #'       \cr \cr Futhermore, see 'Notes' in \code{\link{sjt.frq}}.
 #'
@@ -1186,7 +1186,7 @@ sjt.glmer <- function(...,
                       group.pred = FALSE,
                       exp.coef = TRUE,
                       p.numeric = TRUE,
-                      emph.p = TRUE,
+                      emph.p = FALSE,
                       p.zero = FALSE,
                       separate.ci.col = TRUE,
                       newline.ci = TRUE,
@@ -1236,7 +1236,7 @@ sjt.glmer <- function(...,
                  string.ci = string.ci, string.se = string.se, string.p = string.p,
                  digits.est = digits.est, digits.p = digits.p, digits.ci = digits.ci,
                  digits.se = digits.se, digits.summary = digits.summary, exp.coef = exp.coef,
-                 p.numeric = p.numeric, emph.p = emph.p, p.zero = p.zero, robust = FALSE, 
+                 p.numeric = p.numeric, emph.p = emph.p, p.zero = p.zero, robust = FALSE,
                  show.ci = show.ci, show.se = show.se,
                  ci.hyphen = ci.hyphen, separate.ci.col = separate.ci.col, newline.ci = newline.ci,
                  group.pred = group.pred, show.col.header = show.col.header, show.r2 = show.r2, show.icc = show.icc,

@@ -6,7 +6,7 @@
 \usage{
 sjt.lmer(..., pred.labels = NULL, depvar.labels = NULL,
   remove.estimates = NULL, group.pred = FALSE, p.numeric = TRUE,
-  emph.p = TRUE, p.zero = FALSE, p.kr = TRUE, separate.ci.col = TRUE,
+  emph.p = FALSE, p.zero = FALSE, p.kr = TRUE, separate.ci.col = TRUE,
   newline.ci = TRUE, show.est = TRUE, show.std = NULL, show.ci = TRUE,
   show.se = FALSE, show.header = FALSE, show.col.header = TRUE,
   show.r2 = TRUE, show.icc = TRUE, show.re.var = TRUE,
@@ -50,7 +50,7 @@ row is inserted to the table just before the predictor values.}
 \item{p.numeric}{logical, if \code{TRUE}, the p-values are printed
 as numbers. If \code{FALSE} (default), asterisks are used.}
 
-\item{emph.p}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
+\item{emph.p}{logical, if \code{TRUE}, significant p-values are shown bold faced.}
 
 \item{p.zero}{logical, if \code{TRUE}, p-values have a leading 0 before the
 period (e.g. \emph{0.002}), else p-values start with a period and

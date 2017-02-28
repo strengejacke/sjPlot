@@ -52,7 +52,7 @@
 #' @param digits.se amount of decimals for standard error
 #' @param digits.std amount of decimals for standardized beta
 #' @param digits.summary amount of decimals for values in model summary
-#' @param emph.p logical, if \code{TRUE} (default), significant p-values are shown bold faced.
+#' @param emph.p logical, if \code{TRUE}, significant p-values are shown bold faced.
 #' @param p.zero logical, if \code{TRUE}, p-values have a leading 0 before the
 #'          period (e.g. \emph{0.002}), else p-values start with a period and
 #'          without a zero (e.g. \emph{.002}).
@@ -300,7 +300,7 @@ sjt.lm <- function(...,
                    remove.estimates = NULL,
                    group.pred = TRUE,
                    p.numeric = TRUE,
-                   emph.p = TRUE,
+                   emph.p = FALSE,
                    p.zero = FALSE,
                    p.kr = TRUE,
                    robust = FALSE,
@@ -1396,7 +1396,7 @@ sjt.lmer <- function(...,
                      remove.estimates = NULL,
                      group.pred = FALSE,
                      p.numeric = TRUE,
-                     emph.p = TRUE,
+                     emph.p = FALSE,
                      p.zero = FALSE,
                      p.kr = TRUE,
                      separate.ci.col = TRUE,

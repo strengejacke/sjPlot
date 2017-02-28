@@ -14,6 +14,7 @@
 * For `sjp.lm()`, `sjp.glm()`, `sjp.lmer()` and `sjp.glmer()`, if color palette has more values than needed, it is silently shortend to the required length.
 * When plotting mixed models, argument `geom.colors` now also applies to plot-type `type = "ri.slope"`.
 * New default correlation-method for `sjt.corr()` and `sjp.corr()` is now `pearson`.
+* Argument `emph.p` for printing tables of regression models now defaults to `FALSE`.
 
 ## Bug fixes
 
@@ -21,6 +22,7 @@
 * Argument `value.labels` had no effect for `sjt.frq()`.
 * Automatic label detection in `sjt.grpmean()` sometimes not worked for factors without variable labels.
 * `sjp.glm()` used _Odds Ratios_ as default title for y-axis when plotting marginal effects. Fixed, now y-axis is correctly labelled.
+* Solved issue with warning in prediction-plots (`type = "pred"`) for categorical variables on the x-axis.
 
 # sjPlot 2.3.0
 

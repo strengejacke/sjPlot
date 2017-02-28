@@ -6,7 +6,7 @@
 \usage{
 sjt.glmer(..., pred.labels = NULL, depvar.labels = NULL,
   remove.estimates = NULL, group.pred = FALSE, exp.coef = TRUE,
-  p.numeric = TRUE, emph.p = TRUE, p.zero = FALSE,
+  p.numeric = TRUE, emph.p = FALSE, p.zero = FALSE,
   separate.ci.col = TRUE, newline.ci = TRUE, show.ci = TRUE,
   show.se = FALSE, show.header = FALSE, show.col.header = TRUE,
   show.r2 = FALSE, show.icc = TRUE, show.re.var = TRUE,
@@ -55,7 +55,7 @@ the \code{\link{summary}} function.}
 \item{p.numeric}{logical, if \code{TRUE}, the p-values are printed
 as numbers. If \code{FALSE} (default), asterisks are used.}
 
-\item{emph.p}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
+\item{emph.p}{logical, if \code{TRUE}, significant p-values are shown bold faced.}
 
 \item{p.zero}{logical, if \code{TRUE}, p-values have a leading 0 before the
 period (e.g. \emph{0.002}), else p-values start with a period and
@@ -216,10 +216,10 @@ Computation of p-values (if necessary) is based on normal-distribution
          \item between-group-variance: tau-zero-zero
          \item random-slope-intercept-correlation: rho-zero-one
          }
-      Standard errors for generalized linear (mixed) models are \emph{not} 
+      Standard errors for generalized linear (mixed) models are \emph{not}
       the regular standard errors on the untransformed scale, as shown in the
-      \code{summary()}-method. Rather, \code{sjt.glmer()} uses adjustments 
-      according to the delta method for approximating standard errors of 
+      \code{summary()}-method. Rather, \code{sjt.glmer()} uses adjustments
+      according to the delta method for approximating standard errors of
       transformed regression parameters (see \code{\link[sjstats]{se}}).
       \cr \cr Futhermore, see 'Notes' in \code{\link{sjt.frq}}.
 }

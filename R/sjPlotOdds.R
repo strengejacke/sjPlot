@@ -1047,8 +1047,8 @@ sjp.glm.predy <- function(fit,
     # set colors
     geom.colors <- col_check2(geom.colors, 1)
     # init plot
-    mp <- ggplot(mydf, aes_string(x = "x", y = "y", colour = "grp", fill = "grp")) +
-      labs(x = x.title, y = y.title, title = t.title, colour = NULL, fill = NULL)
+    mp <- ggplot(mydf, aes_string(x = "x", y = "y", colour = "grp", fill = "grp", linetype = "grp")) +
+      labs(x = x.title, y = y.title, title = t.title, colour = NULL, fill = NULL, linetype = NULL)
   } else {
     # name data depending on whether we have a facet-variable or not
     if (length(vars) == 2) {
@@ -1180,14 +1180,14 @@ sjp.glm.predy <- function(fit,
                   data = datpoint,
                   size = geom.size,
                   position = position_dodge(.2)) +
-        geom_point(aes_string(x = "x", y = "y", colour = "grp", linetype = "grp"),
+        geom_point(aes_string(x = "x", y = "y", colour = "grp"),
                    data = datpoint,
                    shape = 16,
                    position = position_dodge(.2))
     } else {
       mp <- mp +
         geom_line(aes_string(x = "x", y = "y", colour = "grp", linetype = "grp"), data = datpoint, size = geom.size) +
-        geom_point(aes_string(x = "x", y = "y", colour = "grp", linetype = "grp"), data = datpoint, shape = 16)
+        geom_point(aes_string(x = "x", y = "y", colour = "grp"), data = datpoint, shape = 16)
     }
   } else {
     if (fit.m == "lm") {
@@ -1245,7 +1245,7 @@ sjp.glm.predy <- function(fit,
 
   # check if we have coloured plot or b/w figure with different linetypes
   if (bw.figure)
-    ltypes <- seq_len(6)[seq_len(length(geom.colors))]
+    ltypes <- seq_len(length(geom.colors))
   else
     ltypes <- rep(1, times = length(geom.colors))
 

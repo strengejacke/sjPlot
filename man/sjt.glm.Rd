@@ -6,7 +6,7 @@
 \usage{
 sjt.glm(..., pred.labels = NULL, depvar.labels = NULL,
   remove.estimates = NULL, group.pred = TRUE, exp.coef = TRUE,
-  p.numeric = TRUE, emph.p = TRUE, p.zero = FALSE, robust = FALSE,
+  p.numeric = TRUE, emph.p = FALSE, p.zero = FALSE, robust = FALSE,
   separate.ci.col = TRUE, newline.ci = TRUE, show.ci = TRUE,
   show.se = FALSE, show.header = FALSE, show.col.header = TRUE,
   show.r2 = FALSE, show.icc = FALSE, show.re.var = FALSE,
@@ -56,7 +56,7 @@ the \code{\link{summary}} function.}
 \item{p.numeric}{logical, if \code{TRUE}, the p-values are printed
 as numbers. If \code{FALSE} (default), asterisks are used.}
 
-\item{emph.p}{logical, if \code{TRUE} (default), significant p-values are shown bold faced.}
+\item{emph.p}{logical, if \code{TRUE}, significant p-values are shown bold faced.}
 
 \item{p.zero}{logical, if \code{TRUE}, p-values have a leading 0 before the
 period (e.g. \emph{0.002}), else p-values start with a period and
@@ -220,10 +220,10 @@ Summarizes (multiple) fitted generalized linear models (odds ratios, ci, p-value
 See 'Details' in \code{\link{sjt.frq}}.
 }
 \note{
-If \code{exp.coef = TRUE} and Odds Ratios are reported, standard errors 
-      for generalized linear (mixed) models are \emph{not} on the untransformed 
-      scale, as shown in the \code{summary()}-method. Rather, \code{sjt.glm()} 
-      uses adjustments according to the delta method for approximating standard 
+If \code{exp.coef = TRUE} and Odds Ratios are reported, standard errors
+      for generalized linear (mixed) models are \emph{not} on the untransformed
+      scale, as shown in the \code{summary()}-method. Rather, \code{sjt.glm()}
+      uses adjustments according to the delta method for approximating standard
       errors of transformed regression parameters (see \code{\link[sjstats]{se}}).
       If \code{exp.coef = FALSE} and log-Odds Ratios are reported, the standard
       errors are untransformed.
