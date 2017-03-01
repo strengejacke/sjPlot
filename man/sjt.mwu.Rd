@@ -66,7 +66,7 @@ See 'Notes' in \code{\link{sjt.frq}}.
 }
 \examples{
 \dontrun{
-library(sjmisc)
+library(sjstats)
 data(efc)
 sjt.mwu(mwu(efc$e17age, efc$e42dep))}
 }

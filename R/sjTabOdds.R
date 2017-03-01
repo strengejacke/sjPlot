@@ -119,7 +119,8 @@
 #'             data = efc, family = poisson(link = "log"))
 #'
 #' # compare models
-#' sjt.glm(fit1, fit2, fit3, show.aic = TRUE, show.family = TRUE)
+#' sjt.glm(fit1, fit2, fit3, string.est = "Estimate",
+#'         show.aic = TRUE, show.family = TRUE)
 #'
 #' # --------------------------------------------
 #' # Change style of p-values and CI-appearance
@@ -167,7 +168,7 @@
 #' # print models with different predictors
 #' sjt.glm(fit, fit2, fit3, group.pred = FALSE)}
 #'
-#' @importFrom dplyr full_join slice mutate
+#' @importFrom dplyr full_join slice mutate if_else
 #' @importFrom stats nobs AIC confint coef logLik family deviance
 #' @importFrom sjstats std_beta icc r2 cod chisq_gof hoslem_gof se
 #' @importFrom tibble lst
@@ -203,7 +204,7 @@ sjt.glm <- function(...,
                     string.dv = "Dependent Variables",
                     string.interc = "(Intercept)",
                     string.obs = "Observations",
-                    string.est = "OR",
+                    string.est = NULL,
                     string.ci = "CI",
                     string.se = "std. Error",
                     string.p = "p",
@@ -443,6 +444,40 @@ sjt.glm <- function(...,
     # select rows
     joined.df <- dplyr::slice(joined.df, keep.estimates)
   }
+
+
+  # select correct column heading, depending on model family and link function
+  if (is.null(string.est)) {
+    # get family
+    fitfam <- get_glm_family(input_list[[1]])
+    # check if we have a binomial model
+    if (fitfam$is_bin) {
+      # here we gor for logistic regression
+      # estimate is "Odds Ratio"
+      if (fitfam$is_logit) {
+        string.est <-
+          dplyr::if_else(isTRUE(exp.coef),
+                         true = "Odds Ratio",
+                         false = "Log-Odds",
+                         missing = "Estimate")
+      } else {
+        # estimate is "Risk Ratio"
+        string.est <-
+          dplyr::if_else(isTRUE(exp.coef),
+                         true = "Risk Ratio",
+                         false = "Log-Risk",
+                         missing = "Estimate")
+      }
+    } else if (fitfam$is_pois) {
+      string.est <- dplyr::if_else(isTRUE(exp.coef),
+                                   true = "IRR",
+                                   false = "Log-Mean",
+                                   missing = "Estimate")
+    } else {
+      string.est <- "Estimate"
+    }
+  }
+
   # -------------------------------------
   # if confidence interval should be omitted,
   # don't use separate column for CI!
@@ -1207,7 +1242,7 @@ sjt.glmer <- function(...,
                       string.dv = "Dependent Variables",
                       string.interc = "(Intercept)",
                       string.obs = "Observations",
-                      string.est = "OR",
+                      string.est = NULL,
                       string.ci = "CI",
                       string.se = "std. Error",
                       string.p = "p",

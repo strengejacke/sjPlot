@@ -105,7 +105,6 @@
 #' )
 #'
 #' @importFrom stats ftable
-#' @importFrom sjstats xtab_statistics
 #' @export
 sjt.xtab <- function(var.row,
                      var.col,
@@ -428,7 +427,7 @@ sjt.xtab <- function(var.row,
   # table summary
   # -------------------------------------
   if (show.summary) {
-    xt_stat <- sjstats::xtab_statistics(data = data.frame(var.row, var.col), statistics = statistics, ...)
+    xt_stat <- xtab_stats(data = data.frame(var.row, var.col), statistics = statistics, ...)
 
     # fisher's exact test?
     if (xt_stat$fisher)
@@ -565,4 +564,136 @@ sjt.xtab <- function(var.row,
                            file = file,
                            show = !no.output,
                            use.viewer = use.viewer))
+}
+
+
+#' @importFrom dplyr case_when
+#' @importFrom sjstats table_values cramer phi
+#' @importFrom stats fisher.test cor.test chisq.test
+xtab_stats <- function(data, x1 = NULL, x2 = NULL, statistics = c("auto", "cramer", "phi", "spearman", "kendall", "pearson"), ...) {
+  # match arguments
+  statistics <- match.arg(statistics)
+
+  # name for test statistics in HTML
+  stat.html <- NULL
+
+  # check if data is a table
+  if (!is.table(data)) {
+    # evaluate unquoted names
+    x1 <- deparse(substitute(x1))
+    x2 <- deparse(substitute(x2))
+
+    # if names were quotes, remove quotes
+    x1 <- gsub("\"", "", x1, fixed = T)
+    x2 <- gsub("\"", "", x2, fixed = T)
+
+    # check for "NULL" and get data
+    if (x1 != "NULL" && x2 != "NULL")
+      data <- data[, c(x1, x2)]
+    else
+      data <- data[, 1:2]
+
+    # make simple table
+    tab <- table(data)
+  } else {
+    # 'data' is a table - copy to table object
+    tab <- data
+    # check if statistics are possible to compute
+    if (statistics %in% c("spearman", "kendall", "pearson")) {
+      stop(
+        sprintf(
+          "Need arguments `data`, `x1` and `x2` to compute %s-statistics.",
+          statistics
+        ),
+        call. = F
+      )
+    }
+  }
+
+  # get expected values
+  tab.val <- sjstats::table_values(tab)
+
+  # remember whether fisher's exact test was used or not
+  use.fisher <- FALSE
+
+  # select statistics automatically, based on number of rows/columns
+  if (statistics %in% c("auto", "cramer", "phi")) {
+    # get chisq-statistics, for df and p-value
+    chsq <- suppressWarnings(stats::chisq.test(tab, ...))
+    pv <- chsq$p.value
+    test <- chsq$statistic
+
+    # set statistics name
+    names(test) <- "Chi-squared"
+    stat.html <- "&chi;<sup>2</sup>"
+
+    # check row/column
+    if ((nrow(tab) > 2 || ncol(tab) > 2 || statistics == "cramer") && statistics != "phi") {
+      # get cramer's V
+      s <- sjstats::cramer(tab)
+
+      # if minimum expected values below 5, compute fisher's exact test
+      if (min(tab.val$expected) < 5 ||
+          (min(tab.val$expected) < 10 && chsq$parameter == 1)) {
+        pv <- stats::fisher.test(tab, simulate.p.value = TRUE, ...)$p.value
+        use.fisher <- TRUE
+      }
+
+      # set statistics
+      statistics <- "cramer"
+    } else {
+      # get Phi
+      s <- sjstats::phi(tab)
+
+      # if minimum expected values below 5 and df=1, compute fisher's exact test
+      if (min(tab.val$expected) < 5 ||
+          (min(tab.val$expected) < 10 && chsq$parameter == 1)) {
+        pv <- stats::fisher.test(tab, ...)$p.value
+        use.fisher <- TRUE
+      }
+
+      # set statistics
+      statistics <- "phi"
+    }
+  } else {
+    # compute correlation coefficient
+    cv <- stats::cor.test(x = data[[1]], y = data[[2]], method = statistics, ...)
+    # get statistics and p-value
+    s <- cv$estimate
+    pv <- cv$p.value
+    test <- cv$statistic
+    stat.html <- names(test)
+  }
+
+  # compute method string
+  method <- dplyr::case_when(
+    statistics == "kendall" ~ "Kendall's tau",
+    statistics == "spearman" ~ "Spearman's rho",
+    statistics == "pearson" ~ "Person's r",
+    statistics == "cramer" ~ "Cramer's V",
+    statistics == "phi" ~ "Phi"
+  )
+
+  # compute method string
+  method.html <- dplyr::case_when(
+    statistics == "kendall" ~ "Kendall's &tau;",
+    statistics == "spearman" ~ "Spearman's &rho;",
+    statistics == "pearson" ~ "Person's r",
+    statistics == "cramer" ~ "Cramer's V",
+    statistics == "phi" ~ "&phi;"
+  )
+
+  # return result
+  return(structure(class = "sj_xtab_stat", list(
+    estimate = s,
+    p.value = pv,
+    statistic = test,
+    stat.name = names(test),
+    stat.html = stat.html,
+    df = (nrow(tab) - 1) * (ncol(tab) - 1),
+    method = method,
+    method.html = method.html,
+    method.short = statistics,
+    fisher = use.fisher
+  )))
 }

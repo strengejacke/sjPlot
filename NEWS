@@ -11,7 +11,7 @@ Changes to functions:
 * For effect-plots (`type = "eff"`), the `axis.title`-argument can now be used to change the title of y-axes.
 * For `sjp.lm()`, `sjp.glm()`, `sjp.lmer()` and `sjp.glmer()`, if color palette has more values than needed, it is silently shortend to the required length.
 * When plotting mixed models, argument `geom.colors` now also applies to plot-type `type = "ri.slope"`.
-* New default correlation-method for `sjt.corr()` and `sjp.corr()` is now `pearson`.
+* Default correlation-method for `sjt.corr()` and `sjp.corr()` is now `pearson`.
 * Argument `emph.p` for printing tables of regression models now defaults to `FALSE`.
 
 Bug fixes:
@@ -19,6 +19,7 @@ Bug fixes:
 * Argument `value.labels` had no effect for `sjt.frq()`.
 * Automatic label detection in `sjt.grpmean()` sometimes not worked for factors without variable labels.
 * `sjp.glm()` used "Odds Ratios" as default title for y-axis when plotting marginal effects. Fixed, now y-axis is correctly labelled.
+* `sjt.glm()` used "Odds Ratios" as default column heading for the estimates, even for poisson or other models. Now the string for column headers is selected based on the first model input of the function.
 * Solved issue with warning in prediction-plots (`type = "pred"`) for categorical variables on the x-axis.
 
 Version 2.3.0

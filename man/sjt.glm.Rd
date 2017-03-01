@@ -14,7 +14,7 @@ sjt.glm(..., pred.labels = NULL, depvar.labels = NULL,
   show.dev = FALSE, show.hoslem = FALSE, show.family = FALSE,
   show.chi2 = FALSE, string.pred = "Predictors",
   string.dv = "Dependent Variables", string.interc = "(Intercept)",
-  string.obs = "Observations", string.est = "OR", string.ci = "CI",
+  string.obs = "Observations", string.est = NULL, string.ci = "CI",
   string.se = "std. Error", string.p = "p",
   ci.hyphen = "&nbsp;&ndash;&nbsp;", digits.est = 2, digits.p = 3,
   digits.ci = 2, digits.se = 2, digits.summary = 3, cell.spacing = 0.2,
@@ -292,7 +292,8 @@ fit3 <- glm(services ~ neg_c_7 + c161sex + e42dep,
             data = efc, family = poisson(link = "log"))
 
 # compare models
-sjt.glm(fit1, fit2, fit3, show.aic = TRUE, show.family = TRUE)
+sjt.glm(fit1, fit2, fit3, string.est = "Estimate",
+        show.aic = TRUE, show.family = TRUE)
 
 # --------------------------------------------
 # Change style of p-values and CI-appearance

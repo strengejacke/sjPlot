@@ -908,41 +908,34 @@ sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
   # ---------------------------------
   # summarize old and new model
   # ---------------------------------
-  if (inherits(linreg, "lm")) {
-    p1 <- sjp.lm(linreg, prnt.plot = FALSE)$plot
+  if (inherits(linreg, "lm") && complete.dgns) {
+    # ---------------------------------
+    # Plot residuals against predictors
+    # ---------------------------------
+    p1 <- sjp.reglin(linreg,
+                     title = "Relationship of residuals against predictors",
+                     subtitle = "If scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly",
+                     wrap.title = 60, useResiduals = T, alpha = .15)$plot.list
     # save plot
-    plot.list[[length(plot.list) + 1]] <- p1
-    # print plot
-    graphics::plot(p1)
-    if (complete.dgns) {
-      # ---------------------------------
-      # Plot residuals against predictors
-      # ---------------------------------
-      p1 <- sjp.reglin(linreg,
-                       title = "Relationship of residuals against predictors",
-                       subtitle = "If scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly",
-                       wrap.title = 60, useResiduals = T, alpha = .15)$plot.list
-      # save plot
-      plot.list <- c(plot.list, p1)
-      # ---------------------------------
-      # Non-linearity
-      # ---------------------------------
-      graphics::plot(car::crPlots(linreg))
-      # ---------------------------------
-      # non-independence of residuals
-      # ---------------------------------
-      print(car::durbinWatsonTest(linreg))
-      # ---------------------------------
-      # Print leverage plots
-      # ---------------------------------
-      graphics::plot(car::leveragePlots(linreg))
-      # ---------------------------------
-      # Non-constant residuals
-      # ---------------------------------
-      print(car::ncvTest(linreg))
-      print(lmtest::bptest(linreg))
-      print(car::spreadLevelPlot(linreg))
-    }
+    plot.list <- c(plot.list, p1)
+    # ---------------------------------
+    # Non-linearity
+    # ---------------------------------
+    graphics::plot(car::crPlots(linreg))
+    # ---------------------------------
+    # non-independence of residuals
+    # ---------------------------------
+    print(car::durbinWatsonTest(linreg))
+    # ---------------------------------
+    # Print leverage plots
+    # ---------------------------------
+    graphics::plot(car::leveragePlots(linreg))
+    # ---------------------------------
+    # Non-constant residuals
+    # ---------------------------------
+    print(car::ncvTest(linreg))
+    print(lmtest::bptest(linreg))
+    print(car::spreadLevelPlot(linreg))
   }
   # return updated model
   invisible(structure(list(class = "sjp.lm.ma",

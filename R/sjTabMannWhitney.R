@@ -26,7 +26,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(sjmisc)
+#' library(sjstats)
 #' data(efc)
 #' sjt.mwu(mwu(efc$e17age, efc$e42dep))}
 
@@ -43,7 +43,7 @@ sjt.mwu <- function(x,
   # --------------------------------------------------------
   # check correct class
   # --------------------------------------------------------
-  if (class(x) != "mwu") {
+  if (!inherits(x, "mwu")) {
     stop("`x` must be of class `mwu`, as returned by the `mwu()`-function of the sjstats-package.", call. = F)
   }
   # --------------------------------------------------------
