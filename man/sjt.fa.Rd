@@ -26,8 +26,7 @@ or \code{"promax"} for oblique transformation (default). Requires the \code{"GPA
 correlations with different number of subjects per pair. 
 minrank" will do a minimum rank factor analysis.}
 
-\item{nmbr.fctr}{number of factors used for calculating the varimax
-rotation. By default, this value is \code{NULL} and the amount of factors is
+\item{nmbr.fctr}{number of factors to be extracted. By default, this value is \code{NULL} and the amount of factors is
 calculated according to a parallel analysis.}
 
 \item{title}{table caption, as character vector.}
