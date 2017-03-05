@@ -3,82 +3,82 @@ utils::globalVariables(c("rowname", "total", "ges", "prc", "n", "Count", "Group"
 
 #' @title Plot contingency tables
 #' @name sjp.xtab
-#' 
+#'
 #' @seealso \itemize{
 #'              \item \href{http://www.strengejacke.de/sjPlot/sjp.xtab}{sjPlot manual: sjp.xtab}
 #'              \item \code{\link{sjt.xtab}}
 #'              }
-#' 
+#'
 #' @description Plot proportional crosstables (contingency tables) of two variables as ggplot diagram.
-#' 
-#' @param x a vector of values (variable) describing the bars which make up the plot.
-#' @param grp grouping variable of same length as \code{x}, where \code{x} 
+#'
+#' @param x A vector of values (variable) describing the bars which make up the plot.
+#' @param grp Grouping variable of same length as \code{x}, where \code{x}
 #'          is grouped into the categories represented by \code{grp}.
-#' @param type plot type. may be either \code{"bar"} (default) for bar charts,
+#' @param type Plot type. may be either \code{"bar"} (default) for bar charts,
 #'          or \code{"line"} for line diagram.
-#' @param margin indicates which data of the proportional table should be plotted. Use \code{"row"} for
+#' @param margin Indicates which data of the proportional table should be plotted. Use \code{"row"} for
 #'          calculating row percentages, \code{"col"} for column percentages and \code{"cell"} for cell percentages.
 #'          If \code{margin = "col"}, an additional bar with the total sum of each column
 #'          can be added to the plot (see \code{show.total}).
-#' @param rev.order logical, if \code{TRUE}, order of categories (groups) is reversed.
-#' @param dot.size dot size, only applies, when argument \code{type = "line"}.
-#' @param string.total string for the legend label when a total-column is added. Only applies
+#' @param rev.order Logical, if \code{TRUE}, order of categories (groups) is reversed.
+#' @param dot.size Dot size, only applies, when argument \code{type = "line"}.
+#' @param string.total String for the legend label when a total-column is added. Only applies
 #'          if \code{show.total = TRUE}. Default is \code{"Total"}.
-#' @param show.total when \code{margin = "col"}, an additional bar 
-#'          with the sum within each category and it's percentages will be added 
+#' @param show.total When \code{margin = "col"}, an additional bar
+#'          with the sum within each category and it's percentages will be added
 #'          to each category.
-#'          
+#'
 #' @inheritParams sjp.grpfrq
-#' 
+#'
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{mydf}).
-#' 
+#'
 #' @examples
 #' # create 4-category-items
 #' grp <- sample(1:4, 100, replace = TRUE)
 #' # create 3-category-items
 #' x <- sample(1:3, 100, replace = TRUE)
-#' 
+#'
 #' # plot "cross tablulation" of x and grp
 #' sjp.xtab(x, grp)
-#' 
+#'
 #' # plot "cross tablulation" of x and y, including labels
 #' sjp.xtab(x, grp, axis.labels = c("low", "mid", "high"),
 #'          legend.labels = c("Grp 1", "Grp 2", "Grp 3", "Grp 4"))
-#' 
+#'
 #' # plot "cross tablulation" of x and grp
 #' # as stacked proportional bars
-#' sjp.xtab(x, grp, margin = "row", bar.pos = "stack", 
+#' sjp.xtab(x, grp, margin = "row", bar.pos = "stack",
 #'          show.summary = TRUE, coord.flip = TRUE)
-#' 
+#'
 #' # example with vertical labels
 #' library(sjmisc)
 #' data(efc)
 #' sjp.setTheme(geom.label.angle = 90)
 #' sjp.xtab(efc$e42dep, efc$e16sex, vjust = "center", hjust = "bottom")
-#' 
+#'
 #' # grouped bars with EUROFAMCARE sample dataset
 #' # dataset was importet from an SPSS-file,
 #' # see ?sjmisc::read_spss
 #' data(efc)
 #' efc.val <- get_labels(efc)
 #' efc.var <- get_label(efc)
-#' 
+#'
 #' sjp.xtab(efc$e42dep, efc$e16sex, title = efc.var['e42dep'],
 #'          axis.labels = efc.val[['e42dep']], legend.title = efc.var['e16sex'],
 #'          legend.labels = efc.val[['e16sex']])
-#'          
+#'
 #' sjp.xtab(efc$e16sex, efc$e42dep, title = efc.var['e16sex'],
 #'          axis.labels = efc.val[['e16sex']], legend.title = efc.var['e42dep'],
 #'          legend.labels = efc.val[['e42dep']])
-#'          
+#'
 #' # -------------------------------
 #' # auto-detection of labels works here
 #' # so no need to specify labels. For
 #' # title-auto-detection, use NULL
 #' # -------------------------------
 #' sjp.xtab(efc$e16sex, efc$e42dep, title = NULL)
-#' 
+#'
 #' sjp.xtab(efc$e16sex, efc$e42dep, margin = "row",
 #'          bar.pos = "stack", coord.flip = TRUE)
 #'
@@ -145,7 +145,7 @@ sjp.xtab <- function(x,
     axisTitle.y <- NULL
   } else {
     axisTitle.x <- axis.titles[1]
-    if (length(axis.titles) > 1) 
+    if (length(axis.titles) > 1)
       axisTitle.y <- axis.titles[2]
     else
       axisTitle.y <- NULL
@@ -218,8 +218,8 @@ sjp.xtab <- function(x,
   # --------------------------------------------------------
   if (!is.null(legend.title) && legend.title == "") legend.title <- NULL
   if (!is.null(axisTitle.x) && axisTitle.x == "") axisTitle.x <- NULL
-  if (!is.null(axisTitle.y) && axisTitle.y == "") axisTitle.y <- NULL  
-  if (!is.null(title) && title == "") title <- NULL    
+  if (!is.null(axisTitle.y) && axisTitle.y == "") axisTitle.y <- NULL
+  if (!is.null(title) && title == "") title <- NULL
   # --------------------------------------------------------
   # Check if user wants to add total column, and if so,
   # define amount of categories
@@ -321,9 +321,9 @@ sjp.xtab <- function(x,
   } else if (bar.pos == "stack") {
     # check upper limits. we may have rounding errors, so values
     # sum up to more than 100%
-    ul <- max(mydf %>% 
-                dplyr::group_by(rowname) %>% 
-                dplyr::summarize(ges = sum(prc)) %>% 
+    ul <- max(mydf %>%
+                dplyr::group_by(rowname) %>%
+                dplyr::summarize(ges = sum(prc)) %>%
                 dplyr::select(ges), na.rm = T)
     if (ul > 1L)
       upper_lim <- ul
@@ -408,7 +408,7 @@ sjp.xtab <- function(x,
   if (type == "bar") {
     if (bar.pos == "dodge") {
       geob <- geom_bar(stat = "identity",
-                       position = position_dodge(posdodge), 
+                       position = position_dodge(posdodge),
                        width = geom.size)
     } else {
       geob <- geom_bar(stat = "identity",
@@ -428,7 +428,7 @@ sjp.xtab <- function(x,
   baseplot <- ggplot(mydf, aes_string(x = "xpos", y = "prc", fill = "group")) + geob
   # if we have line diagram, print lines here
   if (type == "line") {
-    baseplot <- baseplot + 
+    baseplot <- baseplot +
       geom_point(size = dot.size, shape = 21, show.legend = FALSE)
   }
   # ------------------------------------------
@@ -441,15 +441,15 @@ sjp.xtab <- function(x,
     # no additional labels for the x- and y-axis, only diagram title
     labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legend.title) +
     # print value labels to the x-axis.
-    # If argument "axis.labels" is NULL, the category numbers (1 to ...) 
+    # If argument "axis.labels" is NULL, the category numbers (1 to ...)
     # appear on the x-axis
     scalex +
     # set Y-axis, depending on the calculated upper y-range.
     # It either corresponds to the maximum amount of cases in the data set
     # (length of var) or to the highest count of var's categories.
-    scale_y_continuous(breaks = gridbreaks, 
-                       limits = c(lower_lim, upper_lim), 
-                       expand = expand.grid, 
+    scale_y_continuous(breaks = gridbreaks,
+                       limits = c(lower_lim, upper_lim),
+                       expand = expand.grid,
                        labels = scales::percent)
   # check whether coordinates should be flipped, i.e.
   # swap x and y axis
@@ -457,10 +457,10 @@ sjp.xtab <- function(x,
   # ---------------------------------------------------------
   # set geom colors
   # ---------------------------------------------------------
-  baseplot <- sj.setGeomColors(baseplot, 
-                               geom.colors, 
-                               length(legend.labels), 
-                               show.legend, 
+  baseplot <- sj.setGeomColors(baseplot,
+                               geom.colors,
+                               length(legend.labels),
+                               show.legend,
                                legend.labels)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted

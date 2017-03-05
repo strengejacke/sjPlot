@@ -14,25 +14,25 @@ sjp.gpt(x, y, groups, geom.colors = "Set1", geom.size = 2.5,
   show.n = TRUE, prnt.plot = TRUE)
 }
 \arguments{
-\item{x}{categorical variable, where the proportion of each category in
+\item{x}{Categorical variable, where the proportion of each category in
 \code{x} for the highest category of \code{y} will be printed
 along the x-axis.}
 
-\item{y}{categorical or numeric variable. If not a binary variable, \code{y}
+\item{y}{Categorical or numeric variable. If not a binary variable, \code{y}
 will be recoded into a binary variable, dichtomized at the highest
 category and all remaining categories.}
 
-\item{groups}{grouping variable, which will define the y-axis}
+\item{groups}{Grouping variable, which will define the y-axis}
 
 \item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function). Note that bar and bin widths mostly 
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size,
+depending on plot type and function). Note that bar and bin widths mostly
 need smaller values than dot sizes.}
 
-\item{shape.fill.color}{optional color vector, fill-color for non-filled shapes}
+\item{shape.fill.color}{Optional color vector, fill-color for non-filled shapes}
 
-\item{shapes}{numeric vector with shape styles, used to map the different
+\item{shapes}{Numeric vector with shape styles, used to map the different
 categories of \code{x}.}
 
 \item{title}{character vector, used as plot title. Depending on plot type and function,
@@ -53,33 +53,33 @@ for the x-axis and y-axis.}
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
 labels are displayed in one line and when a line break is inserted.}
 
-\item{wrap.legend.title}{numeric, determines how many chars of the legend's title 
+\item{wrap.legend.title}{numeric, determines how many chars of the legend's title
 are displayed in one line and when a line break is inserted.}
 
-\item{wrap.legend.labels}{numeric, determines how many chars of the legend labels are 
+\item{wrap.legend.labels}{numeric, determines how many chars of the legend labels are
 displayed in one line and when a line break is inserted.}
 
-\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
+\item{axis.lim}{Numeric vector of length 2, defining the range of the plot axis.
 Depending on plot type, may effect either x- or y-axis, or both.
 For multiple plot outputs (e.g., from \code{type = "eff"} or
 \code{type = "slope"} in \code{\link{sjp.glm}}), \code{axis.lim} may
 also be a list of vectors of length 2, defining axis limits for each
 plot (only if non-faceted).}
 
-\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
+\item{grid.breaks}{numeric; sets the distance between breaks for the axis,
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
-\item{show.total}{logical, if \code{TRUE}, a total summary line for all aggregated
+\item{show.total}{Logical, if \code{TRUE}, a total summary line for all aggregated
 \code{groups} is added.}
 
-\item{annotate.total}{logical, if \code{TRUE} and \code{show.total = TRUE},
+\item{annotate.total}{Logical, if \code{TRUE} and \code{show.total = TRUE},
 the total-row in the figure will be highlighted with a slightly
 shaded background.}
 
-\item{show.p}{logical, adds significance levels to values, or value and
+\item{show.p}{Logical, adds significance levels to values, or value and
 variable labels.}
 
 \item{show.n}{logical, if \code{TRUE}, adds total number of cases for each

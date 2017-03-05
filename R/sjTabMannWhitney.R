@@ -5,7 +5,7 @@
 #'                from the Mann-Whitney-test are obtained by the \code{\link[sjstats]{mwu}}
 #'                function from the \pkg{sjstats}-package.
 #'
-#' @param x results of a Mann-Whitney-U test, provided by \code{\link[sjstats]{mwu}}. See 'Examples'.
+#' @param x Results of a Mann-Whitney-U test, provided by \code{\link[sjstats]{mwu}}. See 'Examples'.
 #'
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.df

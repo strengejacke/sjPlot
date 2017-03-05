@@ -11,18 +11,18 @@ sjp.pca(data, rotation = c("varimax", "oblimin"), nmbr.fctr = NULL,
   show.values = TRUE, show.cronb = TRUE, prnt.plot = TRUE)
 }
 \arguments{
-\item{data}{\code{data.frame} that should be used to compute a PCA, or a \code{\link{prcomp}} object.}
+\item{data}{A data frame that should be used to compute a PCA, or a \code{\link{prcomp}} object.}
 
-\item{rotation}{rotation of the factor loadings. May be \code{"varimax"} for orthogonal rotation
+\item{rotation}{Rotation of the factor loadings. May be \code{"varimax"} for orthogonal rotation
 or \code{"oblimin"} for oblique transformation.}
 
-\item{nmbr.fctr}{number of factors used for calculating the varimax
+\item{nmbr.fctr}{Number of factors used for calculating the varimax
 rotation. By default, this value is \code{NULL} and the amount of factors is
 calculated according to the Kaiser-criteria.}
 
-\item{fctr.load.tlrn}{specifies the minimum difference a variable needs to have between
+\item{fctr.load.tlrn}{Specifies the minimum difference a variable needs to have between
 factor loadings (components) in order to indicate a clear loading on just one factor and not
-diffusing over all factors. For instance, a variable with 0.8, 0.82 and 0.84 factor loading 
+diffusing over all factors. For instance, a variable with 0.8, 0.82 and 0.84 factor loading
 on 3 possible factors can not be clearly assigned to just one factor and thus would be removed
 from the principal component analysis. By default, the minimum difference of loading values
 between the highest and 2nd highest factor should be 0.1}
@@ -30,7 +30,7 @@ between the highest and 2nd highest factor should be 0.1}
 \item{plot.eigen}{If \code{TRUE}, a plot showing the Eigenvalues according to the
 Kaiser criteria is plotted to determine the number of factors.}
 
-\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
+\item{digits}{Numeric, amount of digits after decimal point when rounding estimates and values.}
 
 \item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.
@@ -40,12 +40,12 @@ to define titles for each sub-plot or facet.}
 \item{axis.labels}{character vector with labels used as axis labels. Optional
 argument, since in most cases, axis labels are set automatically.}
 
-\item{type}{Plot type resp. geom type. May be one of following: \code{"circle"} or \code{"tile"} 
+\item{type}{Plot type resp. geom type. May be one of following: \code{"circle"} or \code{"tile"}
 circular or tiled geoms, or \code{"bar"} for a bar plot. You may use initial letter only
 for this argument.}
 
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function). Note that bar and bin widths mostly 
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size,
+depending on plot type and function). Note that bar and bin widths mostly
 need smaller values than dot sizes.}
 
 \item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
@@ -53,12 +53,12 @@ need smaller values than dot sizes.}
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
 labels are displayed in one line and when a line break is inserted.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
-\item{show.cronb}{logical, if \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
+\item{show.cronb}{Logical, if \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
 i.e. all variables with the highest loading for a factor are taken for the
 reliability test. The result is an alpha value for each factor dimension.
 Only applies when \code{data} is a data frame and no \code{\link{prcomp}} object.}
@@ -69,7 +69,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 \value{
 (Invisibly) returns a \code{\link{structure}} with
          \itemize{
-           \item the varimax-rotated factor loading matrix (\code{varim})
+           \item the rotated factor loading matrix (\code{varim})
            \item the column indices of removed variables (for more details see next list item) (\code{removed.colindex})
            \item an updated data frame containing all factors that have a clear loading on a specific scale in case \code{data} was a data frame (See argument \code{fctr.load.tlrn} for more details) (\code{removed.df})
            \item the \code{factor.index}, i.e. the column index of each variable with the highest factor loading for each factor,
@@ -78,68 +78,35 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
            }
 }
 \description{
-Performes a principle component analysis on a data frame or matrix (with
-               varimax rotation) and plots the factor solution as ellipses or tiles. \cr \cr 
-               In case a data frame is used as argument, the cronbach's alpha value for 
-               each factor scale will be calculated, i.e. all variables with the highest 
-               loading for a factor are taken for the reliability test. The result is 
+Performs a principle component analysis on a data frame or matrix (with
+               varimax or oblimin rotation) and plots the factor solution as ellipses or tiles. \cr \cr
+               In case a data frame is used as argument, the cronbach's alpha value for
+               each factor scale will be calculated, i.e. all variables with the highest
+               loading for a factor are taken for the reliability test. The result is
                an alpha value for each factor dimension.
 }
-\note{
-This PCA uses the \code{\link{prcomp}} function and the \code{\link{varimax}} rotation.
-}
 \examples{
-# randomly create data frame with 7 items, each consisting of 4 categories
-likert_4 <- data.frame(
-  sample(1:4, 500, replace = TRUE, prob = c(0.2, 0.3, 0.1, 0.4)),
-  sample(1:4, 500, replace = TRUE, prob = c(0.5, 0.25, 0.15, 0.1)),
-  sample(1:4, 500, replace = TRUE, prob = c(0.4, 0.15, 0.25, 0.2)),
-  sample(1:4, 500, replace = TRUE, prob = c(0.25, 0.1, 0.4, 0.25)),
-  sample(1:4, 500, replace = TRUE, prob = c(0.1, 0.4, 0.4, 0.1)),
-  sample(1:4, 500, replace = TRUE),
-  sample(1:4, 500, replace = TRUE, prob = c(0.35, 0.25, 0.15, 0.25))
-)
-
-# Create variable labels
-colnames(likert_4) <- c("V1", "V2", "V3", "V4", "V5", "V6", "V7")
-
-# plot results from PCA as square-tiled "heatmap"
-sjp.pca(likert_4, type = "tile")
-
-# plot results from PCA as bars
-sjp.pca(likert_4, type = "bar")
-
-# manually compute PCA
-pca <- prcomp(na.omit(likert_4), retx = TRUE, center = TRUE, scale. = TRUE)
-# plot results from PCA as circles, including Eigenvalue-diagnostic.
-# note that this plot does not compute the Cronbach's Alpha
-sjp.pca(pca, plot.eigen = TRUE, type = "circle", geom.size = 10)
-
-# -------------------------------
-# Data from the EUROFAMCARE sample dataset
-# -------------------------------
 library(sjmisc)
 data(efc)
-
-# retrieve variable and value labels
-varlabs <- get_label(efc)
-
 # recveive first item of COPE-index scale
 start <- which(colnames(efc) == "c82cop1")
 # recveive last item of COPE-index scale
 end <- which(colnames(efc) == "c90cop9")
- 
-# create data frame with COPE-index scale
-mydf <- data.frame(efc[, c(start:end)])
-colnames(mydf) <- varlabs[c(start:end)]
 
-sjp.pca(mydf)
-sjp.pca(mydf, type = "tile")
+# manually compute PCA
+pca <- prcomp(
+  na.omit(efc[, start:end]),
+  retx = TRUE,
+  center = TRUE,
+  scale. = TRUE
+)
+# plot results from PCA as circles, including Eigenvalue-diagnostic.
+# note that this plot does not compute the Cronbach's Alpha
+sjp.pca(pca, plot.eigen = TRUE, type = "circle", geom.size = 10)
 
-# -------------------------------
-# auto-detection of labels
-# -------------------------------
-sjp.pca(efc[, c(start:end)], type = "circle", geom.size = 10)
+# use data frame as argument, let sjp.pca() compute PCA
+sjp.pca(efc[, start:end])
+sjp.pca(efc[, start:end], type = "tile")
 
 
 }

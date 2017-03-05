@@ -18,20 +18,20 @@ sjp.xtab(x, grp, type = c("bar", "line"), margin = c("col", "cell", "row"),
   coord.flip = FALSE, prnt.plot = TRUE)
 }
 \arguments{
-\item{x}{a vector of values (variable) describing the bars which make up the plot.}
+\item{x}{A vector of values (variable) describing the bars which make up the plot.}
 
-\item{grp}{grouping variable of same length as \code{x}, where \code{x} 
+\item{grp}{Grouping variable of same length as \code{x}, where \code{x}
 is grouped into the categories represented by \code{grp}.}
 
-\item{type}{plot type. may be either \code{"bar"} (default) for bar charts,
+\item{type}{Plot type. may be either \code{"bar"} (default) for bar charts,
 or \code{"line"} for line diagram.}
 
-\item{margin}{indicates which data of the proportional table should be plotted. Use \code{"row"} for
+\item{margin}{Indicates which data of the proportional table should be plotted. Use \code{"row"} for
 calculating row percentages, \code{"col"} for column percentages and \code{"cell"} for cell percentages.
 If \code{margin = "col"}, an additional bar with the total sum of each column
 can be added to the plot (see \code{show.total}).}
 
-\item{bar.pos}{indicates whether bars should be positioned side-by-side (default),
+\item{bar.pos}{Indicates whether bars should be positioned side-by-side (default),
 or stacked (\code{bar.pos = "stack"}). May be abbreviated.}
 
 \item{title}{character vector, used as plot title. Depending on plot type and function,
@@ -39,8 +39,8 @@ will be set automatically. If \code{title = ""}, no title is printed.
 For effect-plots, may also be a character vector of length > 1,
 to define titles for each sub-plot or facet.}
 
-\item{title.wtd.suffix}{suffix (as string) for the title, if \code{weight.by} is specified,
-e.g. \code{title.wtd.suffix=" (weighted)"}. Default is \code{NULL}, so 
+\item{title.wtd.suffix}{Suffix (as string) for the title, if \code{weight.by} is specified,
+e.g. \code{title.wtd.suffix=" (weighted)"}. Default is \code{NULL}, so
 title will not have a suffix when cases are weighted.}
 
 \item{axis.titles}{character vector of length one or two, defining the title(s)
@@ -53,11 +53,11 @@ argument, since in most cases, axis labels are set automatically.}
 
 \item{legend.labels}{character vector with labels for the guide/legend.}
 
-\item{weight.by}{weight factor that will be applied to weight all cases.
-Must be a vector of same length as the input vector. Default is 
+\item{weight.by}{Vector of weights that will be applied to weight all cases.
+Must be a vector of same length as the input vector. Default is
 \code{NULL}, so no weights are used.}
 
-\item{rev.order}{logical, if \code{TRUE}, order of categories (groups) is reversed.}
+\item{rev.order}{Logical, if \code{TRUE}, order of categories (groups) is reversed.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
@@ -67,74 +67,74 @@ group or category to the labels.}
 \item{show.prc}{logical, if \code{TRUE} (default), percentage values are plotted to each bar
 If \code{FALSE}, percentage values are removed.}
 
-\item{show.total}{when \code{margin = "col"}, an additional bar 
-with the sum within each category and it's percentages will be added 
+\item{show.total}{When \code{margin = "col"}, an additional bar
+with the sum within each category and it's percentages will be added
 to each category.}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
-\item{show.summary}{logical, if \code{TRUE} (default), a summary with chi-squared 
-statistics (see \code{\link{chisq.test}}), Cramer's V or Phi-value etc. 
-is shown. If a cell contains expected values lower than five (or lower than 10 
-if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is 
-computed instead of chi-squared test. If the table's matrix is larger 
+\item{show.summary}{logical, if \code{TRUE} (default), a summary with chi-squared
+statistics (see \code{\link{chisq.test}}), Cramer's V or Phi-value etc.
+is shown. If a cell contains expected values lower than five (or lower than 10
+if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is
+computed instead of chi-squared test. If the table's matrix is larger
 than 2x2, Fisher's excact test with Monte Carlo simulation is computed.}
 
-\item{summary.pos}{position of the model summary which is printed when \code{show.summary} 
-is \code{TRUE}. Default is \code{"r"}, i.e. it's printed to the upper right corner. 
+\item{summary.pos}{position of the model summary which is printed when \code{show.summary}
+is \code{TRUE}. Default is \code{"r"}, i.e. it's printed to the upper right corner.
 Use \code{"l"} for upper left corner.}
 
-\item{string.total}{string for the legend label when a total-column is added. Only applies
+\item{string.total}{String for the legend label when a total-column is added. Only applies
 if \code{show.total = TRUE}. Default is \code{"Total"}.}
 
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
 labels are displayed in one line and when a line break is inserted.}
 
-\item{wrap.legend.title}{numeric, determines how many chars of the legend's title 
+\item{wrap.legend.title}{numeric, determines how many chars of the legend's title
 are displayed in one line and when a line break is inserted.}
 
-\item{wrap.legend.labels}{numeric, determines how many chars of the legend labels are 
+\item{wrap.legend.labels}{numeric, determines how many chars of the legend labels are
 displayed in one line and when a line break is inserted.}
 
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function). Note that bar and bin widths mostly 
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size,
+depending on plot type and function). Note that bar and bin widths mostly
 need smaller values than dot sizes.}
 
 \item{geom.spacing}{the spacing between geoms (i.e. bar spacing)}
 
 \item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
-\item{dot.size}{dot size, only applies, when argument \code{type = "line"}.}
+\item{dot.size}{Dot size, only applies, when argument \code{type = "line"}.}
 
 \item{smooth.lines}{prints a smooth line curve. Only applies, when argument \code{type = "line"}.}
 
-\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
+\item{grid.breaks}{numeric; sets the distance between breaks for the axis,
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
 \item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 axes and plotting region. Default is \code{FALSE}.}
 
 \item{ylim}{numeric vector of length two, defining lower and upper axis limits
-of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
+of the y scale. By default, this argument is set to \code{NULL}, i.e. the
 y-axis fits to the required range of the data.}
 
-\item{vjust}{character vector, indicating the vertical position of value 
-labels. Allowed are same values as for \code{vjust} aesthetics from 
+\item{vjust}{character vector, indicating the vertical position of value
+labels. Allowed are same values as for \code{vjust} aesthetics from
 \code{ggplot2}: "left", "center", "right", "bottom", "middle", "top" and
-new options like "inward" and "outward", which align text towards and 
+new options like "inward" and "outward", which align text towards and
 away from the center of the plot respectively.}
 
-\item{hjust}{character vector, indicating the horizontal position of value 
-labels. Allowed are same values as for \code{vjust} aesthetics from 
+\item{hjust}{character vector, indicating the horizontal position of value
+labels. Allowed are same values as for \code{vjust} aesthetics from
 \code{ggplot2}: "left", "center", "right", "bottom", "middle", "top" and
-new options like "inward" and "outward", which align text towards and 
+new options like "inward" and "outward", which align text towards and
 away from the center of the plot respectively.}
 
-\item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
+\item{y.offset}{numeric, offset for text labels when their alignment is adjusted
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
@@ -164,7 +164,7 @@ sjp.xtab(x, grp, axis.labels = c("low", "mid", "high"),
 
 # plot "cross tablulation" of x and grp
 # as stacked proportional bars
-sjp.xtab(x, grp, margin = "row", bar.pos = "stack", 
+sjp.xtab(x, grp, margin = "row", bar.pos = "stack",
          show.summary = TRUE, coord.flip = TRUE)
 
 # example with vertical labels
@@ -183,11 +183,11 @@ efc.var <- get_label(efc)
 sjp.xtab(efc$e42dep, efc$e16sex, title = efc.var['e42dep'],
          axis.labels = efc.val[['e42dep']], legend.title = efc.var['e16sex'],
          legend.labels = efc.val[['e16sex']])
-         
+
 sjp.xtab(efc$e16sex, efc$e42dep, title = efc.var['e16sex'],
          axis.labels = efc.val[['e16sex']], legend.title = efc.var['e42dep'],
          legend.labels = efc.val[['e42dep']])
-         
+
 # -------------------------------
 # auto-detection of labels works here
 # so no need to specify labels. For

@@ -11,72 +11,75 @@ sjp.poly(x, poly.term, poly.degree, poly.scale = FALSE, fun = NULL,
   loess.color = "#808080", prnt.plot = TRUE)
 }
 \arguments{
-\item{x}{a vector, representing the response variable of a linear (mixed) model; or
+\item{x}{A vector, representing the response variable of a linear (mixed) model; or
 a linear (mixed) model as returned by \code{\link{lm}} or \code{\link[lme4]{lmer}}.}
 
-\item{poly.term}{if \code{x} is a vector, \code{poly.term} should also be a vector, representing
+\item{poly.term}{If \code{x} is a vector, \code{poly.term} should also be a vector, representing
 the polynomial term (independent variabl) in the model; if \code{x} is a
 fitted model, \code{poly.term} should be the polynomial term's name as character string.
 See 'Examples'.}
 
-\item{poly.degree}{numeric, or numeric vector, indicating the degree of the polynomial.
+\item{poly.degree}{Numeric, or numeric vector, indicating the degree of the polynomial.
 If \code{poly.degree} is a numeric vector, multiple polynomial curves for
 each degree are plotted. See 'Examples'.}
 
-\item{poly.scale}{logical, if \code{TRUE}, \code{poly.term} will be scaled before
+\item{poly.scale}{Logical, if \code{TRUE}, \code{poly.term} will be scaled before
 linear regression is computed. Default is \code{FALSE}. Scaling the polynomial
 term may have an impact on the resulting p-values.}
 
-\item{fun}{linear function when modelling polynomial terms. Use \code{fun = "lm"}
+\item{fun}{Linear function when modelling polynomial terms. Use \code{fun = "lm"}
 for linear models, or \code{fun = "glm"} for generalized linear models.
 When \code{x} is not a vector, but a fitted model object, the function
 is detected automatically. If \code{x} is a vector, \code{fun} defaults
 to \code{"lm"}.}
 
-\item{axis.title}{character vector of length one or two (depending on
+\item{axis.title}{Character vector of length one or two (depending on
 the plot function and type), used as title(s) for the x and y axis.
 If not specified, a default labelling  is chosen. To set multiple
 axis titles (e.g. with \code{type = "eff"} for many predictors),
 \code{axis.title} must be a character vector of same length of plots
 that are printed. In this case, each plot gets an own axis title
-(applying, for instance, to the y-axis for \code{type = "eff"}).}
+(applying, for instance, to the y-axis for \code{type = "eff"}).
+\strong{Note:} Some plot types do not support this argument. In such
+cases, use the return value and add axis titles manually with
+\code{\link[ggplot2]{labs}}, e.g.: \code{$plot.list[[1]] + labs(x = ...)}}
 
-\item{geom.colors}{user defined color palette for geoms. If \code{group.estimates}
+\item{geom.colors}{User defined color palette for geoms. If \code{group.estimates}
 is \emph{not} specified, must either be vector with two color values or a specific
 color palette code (see 'Details' in \code{\link{sjp.grpfrq}}). Else, if
 \code{group.estimates} is specified, \code{geom.colors} must be a vector
 of same length as groups. See 'Examples'.}
 
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function). Note that bar and bin widths mostly 
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size,
+depending on plot type and function). Note that bar and bin widths mostly
 need smaller values than dot sizes.}
 
-\item{show.loess}{If \code{TRUE}, an additional loess-smoothed line is plotted.}
+\item{show.loess}{Logical, if \code{TRUE}, an additional loess-smoothed line is plotted.}
 
-\item{show.loess.ci}{If \code{TRUE}, a confidence region for the loess-smoothed line
+\item{show.loess.ci}{Logical, if \code{TRUE}, a confidence region for the loess-smoothed line
 will be plotted.}
 
-\item{show.p}{logical, if \code{TRUE} (default), p-values for polynomial terms are
+\item{show.p}{Logical, if \code{TRUE} (default), p-values for polynomial terms are
 printed to the console.}
 
-\item{show.scatter}{logical, if \code{TRUE} (default), adds a scatter plot of
+\item{show.scatter}{Logical, if \code{TRUE} (default), adds a scatter plot of
 data points to the plot. Only applies for slope-type or predictions plots.
 For most plot types, dots are jittered to avoid overplotting, hence the
 points don't reflect exact values in the data.}
 
-\item{point.alpha}{alpha value of point-geoms in the scatter plots. Only applies,
+\item{point.alpha}{Alpha value of point-geoms in the scatter plots. Only applies,
 if \code{show.scatter = TRUE}.}
 
-\item{point.color}{color of of point-geoms in the scatter plots. Only applies,
+\item{point.color}{Color of of point-geoms in the scatter plots. Only applies,
 if \code{show.scatter = TRUE}.}
 
-\item{loess.color}{color of the loess-smoothed line. Only applies, if \code{show.loess = TRUE}.}
+\item{loess.color}{Color of the loess-smoothed line. Only applies, if \code{show.loess = TRUE}.}
 
 \item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
-(insisibily) returns 
+(Insisibily) returns
           \describe{
            \item{\code{plot}}{the ggplot-object with the complete plot}
            \item{\code{df}}{the data frame that was used for setting up the ggplot-object}
@@ -94,10 +97,10 @@ This function plots a scatter plot of a term \code{poly.term}
 For each polynomial degree, a simple linear regression on \code{x} (resp.
            the extracted response, if \code{x} is a fitted model) is performed,
            where only the polynomial term \code{poly.term} is included as independent variable.
-           Thus, \code{lm(y ~ x + I(x^2) + ... + I(x^i))} is repeatedly computed 
+           Thus, \code{lm(y ~ x + I(x^2) + ... + I(x^i))} is repeatedly computed
            for all values in \code{poly.degree}, and the predicted values of
            the reponse are plotted against the raw values of \code{poly.term}.
-           If \code{x} is a fitted model, other covariates are ignored when 
+           If \code{x} is a fitted model, other covariates are ignored when
            finding the best fitting polynomial. \cr \cr
            This function evaluates raw polynomials, \emph{not orthogonal} polynomials.
            Polynomials are computed using the \code{\link{poly}} function,

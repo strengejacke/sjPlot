@@ -7,42 +7,42 @@
 #'          metrics from \code{theme_gray()} are used. See 'Details'.
 #' @param theme.font base font family for the plot.
 #' @param title.size size of plot title. Default is 1.3.
-#' @param title.color color of plot title. Default is \code{"black"}.
+#' @param title.color Color of plot title. Default is \code{"black"}.
 #' @param title.align alignment of plot title. Must be one of \code{"left"} (default),
 #'          \code{"center"} or \code{"right"}. You may use initial letter only.
 #' @param title.vjust numeric, vertical adjustment for plot title.
 #' @param geom.outline.size size of bar outlines. Default is 0.1. Use
 #'          size of \code{0} to remove geom outline.
-#' @param geom.outline.color color of geom outline. Only applies, if \code{geom.outline.size}
+#' @param geom.outline.color Color of geom outline. Only applies, if \code{geom.outline.size}
 #'          is larger than 0.
 #' @param geom.boxoutline.size size of outlines and median bar especially for boxplots.
 #'          Default is 0.5. Use size of \code{0} to remove boxplot outline.
-#' @param geom.boxoutline.color color of outlines and median bar especially for boxplots.
+#' @param geom.boxoutline.color Color of outlines and median bar especially for boxplots.
 #'          Only applies, if \code{geom.boxoutline.size} is larger than 0.
 #' @param geom.alpha specifies the transparancy (alpha value) of geoms
 #' @param geom.linetype linetype of line geoms. Default is \code{1} (solid line).
 #' @param geom.errorbar.size size (thickness) of error bars. Default is \code{0.8}
 #' @param geom.errorbar.linetype linetype of error bars. Default is \code{1} (solid line).
-#' @param geom.label.color color of geom's value and annotation labels
+#' @param geom.label.color Color of geom's value and annotation labels
 #' @param geom.label.size size of geom's value and annotation labels
 #' @param geom.label.alpha alpha level of geom's value and annotation labels
 #' @param geom.label.angle angle of geom's value and annotation labels
-#' @param axis.title.color color of x- and y-axis title labels
+#' @param axis.title.color Color of x- and y-axis title labels
 #' @param axis.title.size size of x- and y-axis title labels
 #' @param axis.title.x.vjust numeric, vertical adjustment of x-axis-title.
 #' @param axis.title.y.vjust numeric, vertical adjustment of y-axis-title.
 #' @param axis.angle.x angle for x-axis labels
 #' @param axis.angle.y angle for y-axis labels
 #' @param axis.angle angle for x- and y-axis labels. If set, overrides both \code{axis.angle.x} and \code{axis.angle.y}
-#' @param axis.textcolor.x color for x-axis labels. If not specified, a default dark gray
+#' @param axis.textcolor.x Color for x-axis labels. If not specified, a default dark gray
 #'          color palette will be used for the labels.
-#' @param axis.textcolor.y color for y-axis labels. If not specified, a default dark gray
+#' @param axis.textcolor.y Color for y-axis labels. If not specified, a default dark gray
 #'          color palette will be used for the labels.
-#' @param axis.textcolor color for both x- and y-axis labels.
+#' @param axis.textcolor Color for both x- and y-axis labels.
 #'          If set, overrides both \code{axis.textcolor.x} and \code{axis.textcolor.y}
-#' @param axis.linecolor.x color of x-axis border
-#' @param axis.linecolor.y color of y-axis border
-#' @param axis.linecolor color for both x- and y-axis borders.
+#' @param axis.linecolor.x Color of x-axis border
+#' @param axis.linecolor.y Color of y-axis border
+#' @param axis.linecolor Color for both x- and y-axis borders.
 #'          If set, overrides both \code{axis.linecolor.x} and \code{axis.linecolor.y}.
 #' @param axis.line.size size (thickness) of axis lines. Only affected, if \code{axis.linecolor}
 #'          is set.
@@ -53,25 +53,25 @@
 #' @param axis.ticksize.x size of tick marks at x-axis.
 #' @param axis.ticksize.y size of tick marks at y-axis.
 #' @param axis.tickslen length of axis tick marks
-#' @param axis.tickscol color of axis tick marks
+#' @param axis.tickscol Color of axis tick marks
 #' @param axis.ticksmar margin between axis labels and tick marks
-#' @param panel.bordercol color of whole diagram border (panel border)
-#' @param panel.backcol color of the diagram's background
-#' @param panel.col color of both diagram's border and background.
+#' @param panel.bordercol Color of whole diagram border (panel border)
+#' @param panel.backcol Color of the diagram's background
+#' @param panel.col Color of both diagram's border and background.
 #'          If set, overrides both \code{panel.bordercol} and \code{panel.backcol}.
-#' @param panel.major.gridcol color of the major grid lines of the diagram background
-#' @param panel.minor.gridcol color of the minor grid lines of the diagram background
-#' @param panel.gridcol color for both minor and major grid lines of the diagram background.
+#' @param panel.major.gridcol Color of the major grid lines of the diagram background
+#' @param panel.minor.gridcol Color of the minor grid lines of the diagram background
+#' @param panel.gridcol Color for both minor and major grid lines of the diagram background.
 #'          If set, overrides both \code{panel.major.gridcol} and \code{panel.minor.gridcol}.
-#' @param panel.gridcol.x see \code{panel.gridcol}.
-#' @param panel.gridcol.y see \code{panel.gridcol}.
+#' @param panel.gridcol.x See \code{panel.gridcol}.
+#' @param panel.gridcol.y See \code{panel.gridcol}.
 #' @param panel.major.linetype line type for major grid lines
 #' @param panel.minor.linetype line type for minor grid lines
 #' @param plot.margins numeric vector of length 4, indicating the top, right,
 #'          bottom and left margin of the plot region.
-#' @param plot.backcol color of the plot's background
-#' @param plot.bordercol color of whole plot's border (panel border)
-#' @param plot.col color of both plot's region border and background.
+#' @param plot.backcol Color of the plot's background
+#' @param plot.bordercol Color of whole plot's border (panel border)
+#' @param plot.col Color of both plot's region border and background.
 #'          If set, overrides both \code{plot.backcol} and \code{plot.bordercol}.
 #' @param legend.pos position of the legend, if a legend is drawn.
 #'          \describe{
@@ -95,14 +95,14 @@
 #' @param legend.inside logical, use \code{TRUE} to put legend inside the plotting area. See \code{legend.pos}.
 #' @param legend.size text size of the legend. Default is 1. Relative size, so
 #'          recommended values are from 0.3 to 2.5
-#' @param legend.color color of the legend labels
+#' @param legend.color Color of the legend labels
 #' @param legend.title.size text size of the legend title
-#' @param legend.title.color color of the legend title
+#' @param legend.title.color Color of the legend title
 #' @param legend.title.face font face of the legend title. By default, \code{"bold"} face is used.
-#' @param legend.bordercol color of the legend's border. Default is \code{"white"}, so no visible border is drawn.
+#' @param legend.bordercol Color of the legend's border. Default is \code{"white"}, so no visible border is drawn.
 #' @param legend.backgroundcol fill color of the legend's background. Default is \code{"white"}, so no visible background is drawn.
 #' @param legend.item.size size of legend's item (legend key), in centimetres.
-#' @param legend.item.bordercol color of the legend's item-border. Default is \code{"white"}.
+#' @param legend.item.bordercol Color of the legend's item-border. Default is \code{"white"}.
 #' @param legend.item.backcol fill color of the legend's item-background. Default is \code{"grey90"}.
 #'
 #' @return The customized theme object, or \code{NULL}, if a ggplot-theme was used.

@@ -37,7 +37,7 @@ metrics from \code{theme_gray()} are used. See 'Details'.}
 
 \item{theme.font}{base font family for the plot.}
 
-\item{title.color}{color of plot title. Default is \code{"black"}.}
+\item{title.color}{Color of plot title. Default is \code{"black"}.}
 
 \item{title.size}{size of plot title. Default is 1.3.}
 
@@ -46,7 +46,7 @@ metrics from \code{theme_gray()} are used. See 'Details'.}
 
 \item{title.vjust}{numeric, vertical adjustment for plot title.}
 
-\item{geom.outline.color}{color of geom outline. Only applies, if \code{geom.outline.size}
+\item{geom.outline.color}{Color of geom outline. Only applies, if \code{geom.outline.size}
 is larger than 0.}
 
 \item{geom.outline.size}{size of bar outlines. Default is 0.1. Use
@@ -55,7 +55,7 @@ size of \code{0} to remove geom outline.}
 \item{geom.boxoutline.size}{size of outlines and median bar especially for boxplots.
 Default is 0.5. Use size of \code{0} to remove boxplot outline.}
 
-\item{geom.boxoutline.color}{color of outlines and median bar especially for boxplots.
+\item{geom.boxoutline.color}{Color of outlines and median bar especially for boxplots.
 Only applies, if \code{geom.boxoutline.size} is larger than 0.}
 
 \item{geom.alpha}{specifies the transparancy (alpha value) of geoms}
@@ -66,7 +66,7 @@ Only applies, if \code{geom.boxoutline.size} is larger than 0.}
 
 \item{geom.errorbar.linetype}{linetype of error bars. Default is \code{1} (solid line).}
 
-\item{geom.label.color}{color of geom's value and annotation labels}
+\item{geom.label.color}{Color of geom's value and annotation labels}
 
 \item{geom.label.size}{size of geom's value and annotation labels}
 
@@ -74,7 +74,7 @@ Only applies, if \code{geom.boxoutline.size} is larger than 0.}
 
 \item{geom.label.angle}{angle of geom's value and annotation labels}
 
-\item{axis.title.color}{color of x- and y-axis title labels}
+\item{axis.title.color}{Color of x- and y-axis title labels}
 
 \item{axis.title.size}{size of x- and y-axis title labels}
 
@@ -88,20 +88,20 @@ Only applies, if \code{geom.boxoutline.size} is larger than 0.}
 
 \item{axis.angle}{angle for x- and y-axis labels. If set, overrides both \code{axis.angle.x} and \code{axis.angle.y}}
 
-\item{axis.textcolor.x}{color for x-axis labels. If not specified, a default dark gray
+\item{axis.textcolor.x}{Color for x-axis labels. If not specified, a default dark gray
 color palette will be used for the labels.}
 
-\item{axis.textcolor.y}{color for y-axis labels. If not specified, a default dark gray
+\item{axis.textcolor.y}{Color for y-axis labels. If not specified, a default dark gray
 color palette will be used for the labels.}
 
-\item{axis.textcolor}{color for both x- and y-axis labels.
+\item{axis.textcolor}{Color for both x- and y-axis labels.
 If set, overrides both \code{axis.textcolor.x} and \code{axis.textcolor.y}}
 
-\item{axis.linecolor.x}{color of x-axis border}
+\item{axis.linecolor.x}{Color of x-axis border}
 
-\item{axis.linecolor.y}{color of y-axis border}
+\item{axis.linecolor.y}{Color of y-axis border}
 
-\item{axis.linecolor}{color for both x- and y-axis borders.
+\item{axis.linecolor}{Color for both x- and y-axis borders.
 If set, overrides both \code{axis.linecolor.x} and \code{axis.linecolor.y}.}
 
 \item{axis.line.size}{size (thickness) of axis lines. Only affected, if \code{axis.linecolor}
@@ -116,7 +116,7 @@ If set, overrides both \code{axis.textsize.x} and \code{axis.textsize.y}.}
 
 \item{axis.tickslen}{length of axis tick marks}
 
-\item{axis.tickscol}{color of axis tick marks}
+\item{axis.tickscol}{Color of axis tick marks}
 
 \item{axis.ticksmar}{margin between axis labels and tick marks}
 
@@ -124,33 +124,33 @@ If set, overrides both \code{axis.textsize.x} and \code{axis.textsize.y}.}
 
 \item{axis.ticksize.y}{size of tick marks at y-axis.}
 
-\item{panel.backcol}{color of the diagram's background}
+\item{panel.backcol}{Color of the diagram's background}
 
-\item{panel.bordercol}{color of whole diagram border (panel border)}
+\item{panel.bordercol}{Color of whole diagram border (panel border)}
 
-\item{panel.col}{color of both diagram's border and background.
+\item{panel.col}{Color of both diagram's border and background.
 If set, overrides both \code{panel.bordercol} and \code{panel.backcol}.}
 
-\item{panel.major.gridcol}{color of the major grid lines of the diagram background}
+\item{panel.major.gridcol}{Color of the major grid lines of the diagram background}
 
-\item{panel.minor.gridcol}{color of the minor grid lines of the diagram background}
+\item{panel.minor.gridcol}{Color of the minor grid lines of the diagram background}
 
-\item{panel.gridcol}{color for both minor and major grid lines of the diagram background.
+\item{panel.gridcol}{Color for both minor and major grid lines of the diagram background.
 If set, overrides both \code{panel.major.gridcol} and \code{panel.minor.gridcol}.}
 
-\item{panel.gridcol.x}{see \code{panel.gridcol}.}
+\item{panel.gridcol.x}{See \code{panel.gridcol}.}
 
-\item{panel.gridcol.y}{see \code{panel.gridcol}.}
+\item{panel.gridcol.y}{See \code{panel.gridcol}.}
 
 \item{panel.major.linetype}{line type for major grid lines}
 
 \item{panel.minor.linetype}{line type for minor grid lines}
 
-\item{plot.backcol}{color of the plot's background}
+\item{plot.backcol}{Color of the plot's background}
 
-\item{plot.bordercol}{color of whole plot's border (panel border)}
+\item{plot.bordercol}{Color of whole plot's border (panel border)}
 
-\item{plot.col}{color of both plot's region border and background.
+\item{plot.col}{Color of both plot's region border and background.
 If set, overrides both \code{plot.backcol} and \code{plot.bordercol}.}
 
 \item{plot.margins}{numeric vector of length 4, indicating the top, right,
@@ -182,23 +182,23 @@ legend justification is set according to legend position.}
 \item{legend.size}{text size of the legend. Default is 1. Relative size, so
 recommended values are from 0.3 to 2.5}
 
-\item{legend.color}{color of the legend labels}
+\item{legend.color}{Color of the legend labels}
 
 \item{legend.title.size}{text size of the legend title}
 
-\item{legend.title.color}{color of the legend title}
+\item{legend.title.color}{Color of the legend title}
 
 \item{legend.title.face}{font face of the legend title. By default, \code{"bold"} face is used.}
 
 \item{legend.backgroundcol}{fill color of the legend's background. Default is \code{"white"}, so no visible background is drawn.}
 
-\item{legend.bordercol}{color of the legend's border. Default is \code{"white"}, so no visible border is drawn.}
+\item{legend.bordercol}{Color of the legend's border. Default is \code{"white"}, so no visible border is drawn.}
 
 \item{legend.item.size}{size of legend's item (legend key), in centimetres.}
 
 \item{legend.item.backcol}{fill color of the legend's item-background. Default is \code{"grey90"}.}
 
-\item{legend.item.bordercol}{color of the legend's item-border. Default is \code{"white"}.}
+\item{legend.item.bordercol}{Color of the legend's item-border. Default is \code{"white"}.}
 }
 \value{
 The customized theme object, or \code{NULL}, if a ggplot-theme was used.

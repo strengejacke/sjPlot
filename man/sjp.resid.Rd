@@ -8,27 +8,27 @@ sjp.resid(fit, geom.size = 2, remove.estimates = NULL, show.lines = TRUE,
   show.resid = TRUE, show.pred = TRUE, show.ci = F, prnt.plot = TRUE)
 }
 \arguments{
-\item{fit}{fitted linear (mixed) regression model (including objects of class
+\item{fit}{Fitted linear (mixed) regression model (including objects of class
 \code{\link[nlme]{gls}} or \code{plm}).}
 
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function). Note that bar and bin widths mostly 
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size,
+depending on plot type and function). Note that bar and bin widths mostly
 need smaller values than dot sizes.}
 
-\item{remove.estimates}{character vector with coefficient names that indicate
+\item{remove.estimates}{Character vector with coefficient names that indicate
 which estimates should be removed from the plot.
 \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 is \code{NULL}, i.e. all estimates are printed.}
 
-\item{show.lines}{logical, if \code{TRUE}, a line connecting predicted and
+\item{show.lines}{Logical, if \code{TRUE}, a line connecting predicted and
 residual values is plotted. Set this argument to \code{FALSE}, if
 plot-building is too time consuming.}
 
-\item{show.resid}{logical, if \code{TRUE}, residual values are plotted.}
+\item{show.resid}{Logical, if \code{TRUE}, residual values are plotted.}
 
-\item{show.pred}{logical, if \code{TRUE}, predicted values are plotted.}
+\item{show.pred}{Logical, if \code{TRUE}, predicted values are plotted.}
 
-\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
+\item{show.ci}{Logical, if \code{TRUE}, depending on \code{type}, a confidence
 interval or region is added to the plot.}
 
 \item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
@@ -42,8 +42,8 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 \description{
 This function plots observed and predicted values of the response
              of linear (mixed) models for each coefficient and highlights the
-             observed values according to their distance (residuals) to the 
-             predicted values. This allows to investigate how well actual and 
+             observed values according to their distance (residuals) to the
+             predicted values. This allows to investigate how well actual and
              predicted values of the outcome fit across the predictor variables.
 }
 \note{

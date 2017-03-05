@@ -7,46 +7,46 @@
 #'                polynomial curves. A loess-smoothed line can be added to see
 #'                which of the polynomial curves fits best to the data.
 #'
-#' @param x a vector, representing the response variable of a linear (mixed) model; or
+#' @param x A vector, representing the response variable of a linear (mixed) model; or
 #'          a linear (mixed) model as returned by \code{\link{lm}} or \code{\link[lme4]{lmer}}.
-#' @param poly.term if \code{x} is a vector, \code{poly.term} should also be a vector, representing
+#' @param poly.term If \code{x} is a vector, \code{poly.term} should also be a vector, representing
 #'          the polynomial term (independent variabl) in the model; if \code{x} is a
 #'          fitted model, \code{poly.term} should be the polynomial term's name as character string.
 #'          See 'Examples'.
-#' @param poly.degree numeric, or numeric vector, indicating the degree of the polynomial.
+#' @param poly.degree Numeric, or numeric vector, indicating the degree of the polynomial.
 #'          If \code{poly.degree} is a numeric vector, multiple polynomial curves for
 #'          each degree are plotted. See 'Examples'.
-#' @param poly.scale logical, if \code{TRUE}, \code{poly.term} will be scaled before
+#' @param poly.scale Logical, if \code{TRUE}, \code{poly.term} will be scaled before
 #'          linear regression is computed. Default is \code{FALSE}. Scaling the polynomial
 #'          term may have an impact on the resulting p-values.
-#' @param fun linear function when modelling polynomial terms. Use \code{fun = "lm"}
+#' @param fun Linear function when modelling polynomial terms. Use \code{fun = "lm"}
 #'          for linear models, or \code{fun = "glm"} for generalized linear models.
 #'          When \code{x} is not a vector, but a fitted model object, the function
 #'          is detected automatically. If \code{x} is a vector, \code{fun} defaults
 #'          to \code{"lm"}.
-#' @param show.loess If \code{TRUE}, an additional loess-smoothed line is plotted.
-#' @param show.loess.ci If \code{TRUE}, a confidence region for the loess-smoothed line
+#' @param show.loess Logical, if \code{TRUE}, an additional loess-smoothed line is plotted.
+#' @param show.loess.ci Logical, if \code{TRUE}, a confidence region for the loess-smoothed line
 #'          will be plotted.
-#' @param show.p logical, if \code{TRUE} (default), p-values for polynomial terms are
+#' @param show.p Logical, if \code{TRUE} (default), p-values for polynomial terms are
 #'          printed to the console.
-#' @param loess.color color of the loess-smoothed line. Only applies, if \code{show.loess = TRUE}.
-#' @return (insisibily) returns 
+#' @param loess.color Color of the loess-smoothed line. Only applies, if \code{show.loess = TRUE}.
+#' @return (Insisibily) returns
 #'           \describe{
 #'            \item{\code{plot}}{the ggplot-object with the complete plot}
 #'            \item{\code{df}}{the data frame that was used for setting up the ggplot-object}
 #'            \item{\code{cutpoints}}{a data frame that indicates x-values and predicted y-values of each direction change in the loess curvature}
 #'           }
-#' 
+#'
 #' @inheritParams sjp.glmer
 #' @inheritParams sjp.lm
-#' 
+#'
 #' @details For each polynomial degree, a simple linear regression on \code{x} (resp.
 #'            the extracted response, if \code{x} is a fitted model) is performed,
 #'            where only the polynomial term \code{poly.term} is included as independent variable.
-#'            Thus, \code{lm(y ~ x + I(x^2) + ... + I(x^i))} is repeatedly computed 
+#'            Thus, \code{lm(y ~ x + I(x^2) + ... + I(x^i))} is repeatedly computed
 #'            for all values in \code{poly.degree}, and the predicted values of
 #'            the reponse are plotted against the raw values of \code{poly.term}.
-#'            If \code{x} is a fitted model, other covariates are ignored when 
+#'            If \code{x} is a fitted model, other covariates are ignored when
 #'            finding the best fitting polynomial. \cr \cr
 #'            This function evaluates raw polynomials, \emph{not orthogonal} polynomials.
 #'            Polynomials are computed using the \code{\link{poly}} function,
@@ -55,23 +55,23 @@
 #'            line (in dark grey) can be added (with \code{show.loess = TRUE}). The polynomial curves
 #'            that comes closest to the loess-smoothed line should be the best
 #'            fit to the data.
-#'   
+#'
 #' @seealso To plot marginal effects of polynomial terms, call \code{\link{sjp.lm}} with \code{type = "poly"},
 #'            or \code{\link{sjp.lmer}} respectively for linear mixed models.
-#'   
-#' @examples 
+#'
+#' @examples
 #' library(sjmisc)
 #' data(efc)
 #' # linear fit. loess-smoothed line indicates a more
 #' # or less cubic curve
 #' sjp.poly(efc$c160age, efc$quol_5, 1)
-#' 
+#'
 #' # quadratic fit
 #' sjp.poly(efc$c160age, efc$quol_5, 2)
-#' 
+#'
 #' # linear to cubic fit
 #' sjp.poly(efc$c160age, efc$quol_5, 1:4, show.scatter = FALSE)
-#' 
+#'
 #' library(sjmisc)
 #' data(efc)
 #' # fit sample model
@@ -83,20 +83,20 @@
 #' # indicates best fit. Looks like x^4 has the best fit,
 #' # however, only x^3 has significant p-values.
 #' sjp.poly(fit, "e17age", 2:4, show.scatter = FALSE)
-#' 
+#'
 #' \dontrun{
 #' # fit new model
 #' fit <- lm(tot_sc_e ~ c12hour + e42dep + e17age + I(e17age^2) + I(e17age^3),
 #'           data = efc)
 #' # plot marginal effects of polynomial term
 #' sjp.lm(fit, type = "poly", poly.term = "e17age")}
-#' 
+#'
 #' @import ggplot2
 #' @importFrom scales grey_pal brewer_pal
 #' @importFrom stats lm glm binomial predict
 #' @export
-sjp.poly <- function(x, 
-                     poly.term, 
+sjp.poly <- function(x,
+                     poly.term,
                      poly.degree,
                      poly.scale = FALSE,
                      fun = NULL,
@@ -125,7 +125,7 @@ sjp.poly <- function(x,
   # --------------------------------------------
   # parameter check: fitted model or variables?
   # --------------------------------------------
-  if (is_merMod(x)) { 
+  if (is_merMod(x)) {
     # retrieve response vector
     resp <- lme4::getME(x, "y")
     # get model frame
@@ -183,8 +183,8 @@ sjp.poly <- function(x,
     # or a float value
     poly.digit <- ifelse(i %% 1 == 0, 0, 1)
     # create data frame with raw data and the fitted poly-curve
-    plot.df <- rbind(plot.df, cbind(mydat, 
-                                    stats::predict(fit), 
+    plot.df <- rbind(plot.df, cbind(mydat,
+                                    stats::predict(fit),
                                     sprintf("x^%.*f", poly.digit, i)))
     # print p-values?
     if (show.p) {
@@ -205,17 +205,17 @@ sjp.poly <- function(x,
   # create plot
   polyplot <- ggplot(plot.df, aes_string(x = "x", y = "y", colour = "grp"))
   # show scatter plot as well?
-  if (show.scatter) polyplot <- polyplot + 
+  if (show.scatter) polyplot <- polyplot +
     geom_jitter(colour = point.color, alpha = point.alpha, shape = 16)
   # show loess curve? this curve indicates the "perfect" curve through
   # the data
-  if (show.loess) polyplot <- polyplot + stat_smooth(method = "loess", 
+  if (show.loess) polyplot <- polyplot + stat_smooth(method = "loess",
                                                     color = loess.color,
                                                     se = show.loess.ci,
                                                     size = geom.size)
   # add curves for polynomials
-  polyplot <- polyplot + 
-    geom_line(aes_string(y = "pred"), size = geom.size) + 
+  polyplot <- polyplot +
+    geom_line(aes_string(y = "pred"), size = geom.size) +
     scale_color_manual(values = geom.colors, labels = lapply(poly.degree, function(j) bquote(x^.(j)))) +
     labs(x = axis.title, y = axisTitle.y, colour = "Polynomial\ndegrees")
   # ---------------------------------------------------------
@@ -265,6 +265,6 @@ get_loess_cutpoints <- function(mydat) {
     }
     cnt <- cnt + 1
   }
-  
+
   return(data.frame(cutpoint.x = xvals, cutpoint.y = cutpoints))
 }

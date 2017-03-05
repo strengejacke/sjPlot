@@ -8,30 +8,30 @@ dist_t(t = NULL, deg.f = NULL, p = NULL, xmax = NULL,
   geom.colors = NULL, geom.alpha = 0.7)
 }
 \arguments{
-\item{t}{numeric, optional. If specified, a t-distribution with \code{deg.f} degrees
+\item{t}{Numeric, optional. If specified, a t-distribution with \code{deg.f} degrees
 of freedom is plotted and a shaded area at \code{t} value position is plotted that
 indicates whether or not the specified value is significant or not.
 If both \code{t} and \code{p} are not specified, a distribution without shaded
 area is plotted.}
 
-\item{deg.f}{numeric. The degrees of freedom for the t-distribution. Needs to
+\item{deg.f}{Numeric. The degrees of freedom for the t-distribution. Needs to
 be specified.}
 
-\item{p}{numeric, optional. If specified, a t-distribution with \code{deg.f} degrees
+\item{p}{Numeric, optional. If specified, a t-distribution with \code{deg.f} degrees
 of freedom is plotted and a shaded area at the position where the specified p-level
-starts is plotted. If both \code{t} and \code{p} are not specified, a distribution 
+starts is plotted. If both \code{t} and \code{p} are not specified, a distribution
 without shaded area is plotted.}
 
-\item{xmax}{numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
+\item{xmax}{Numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
 ranges to a value where a p-level of 0.00001 is reached.}
 
 \item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
-\item{geom.alpha}{specified the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.}
+\item{geom.alpha}{Specifies the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.}
 }
 \description{
 This function plots a simple t-distribution or a t-distribution
-               with shaded areas that indicate at which t-value a significant p-level 
+               with shaded areas that indicate at which t-value a significant p-level
                is reached.
 }
 \examples{

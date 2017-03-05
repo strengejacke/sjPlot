@@ -6,7 +6,7 @@
 #'
 #' @seealso \code{\link{sjp.aov1}}
 #'
-#' @param digits.summary amount of digits for summary statistics (Anova).
+#' @param digits.summary Amount of digits for summary statistics (Anova).
 #'
 #' @inheritParams sjt.frq
 #' @inheritParams sjp.glmer

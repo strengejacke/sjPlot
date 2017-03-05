@@ -4,41 +4,41 @@ utils::globalVariables(c("pv", "xv"))
 
 #' @title Plot One-Way-Anova tables
 #' @name sjp.aov1
-#' 
-#' @description Plot One-Way-Anova table sum of squares (SS) of each factor level (group) 
-#'                against the dependent variable. The SS of the factor variable against the 
+#'
+#' @description Plot One-Way-Anova table sum of squares (SS) of each factor level (group)
+#'                against the dependent variable. The SS of the factor variable against the
 #'                dependent variable (variance within and between groups) is printed to
 #'                the model summary.
-#'                
+#'
 #' @seealso \code{\link{sjt.grpmean}}
-#'                
-#' @param var.dep dependent variable. Will be used with following formula:
+#'
+#' @param var.dep Dependent variable. Will be used with following formula:
 #'          \code{aov(var.dep ~ var.grp)}
-#' @param var.grp factor with the cross-classifying variable, where \code{var.dep} 
+#' @param var.grp Factor with the cross-classifying variable, where \code{var.dep}
 #'          is grouped into the categories represented by \code{var.grp}.
-#' @param meansums logical, if \code{TRUE}, the values reported are the true group mean values (see also \code{\link{sjt.grpmean}}).
+#' @param meansums Logical, if \code{TRUE}, the values reported are the true group mean values (see also \code{\link{sjt.grpmean}}).
 #'          If \code{FALSE} (default), the values are reported in the standard way, i.e. the values indicate the difference of
 #'          the group mean in relation to the intercept (reference group).
-#' @param string.interc string that indicates the reference group (intercept), that is appended to
+#' @param string.interc Character vector that indicates the reference group (intercept), that is appended to
 #'          the value label of the grouping variable. Default is \code{"(Intercept)"}.
-#'          
+#'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.glmer
 #' @inheritParams sjp.xtab
 #' @inheritParams sjp.gpt
-#'          
+#'
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}).
-#' 
+#'
 #' @examples
 #' library(sjmisc)
 #' data(efc)
 #' # note: "var.grp" does not need to be a factor.
 #' # coercion to factor is done by the function
 #' sjp.aov1(efc$c12hour, efc$e42dep)
-#' 
-#' 
+#'
+#'
 #' @import ggplot2
 #' @importFrom sjmisc get_label get_labels trim word_wrap to_value
 #' @importFrom stats confint aov summary.lm
@@ -72,7 +72,7 @@ sjp.aov1 <- function(var.dep,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(axis.labels)) axis.labels <- sjmisc::get_labels(var.grp, 
+  if (is.null(axis.labels)) axis.labels <- sjmisc::get_labels(var.grp,
                                                               attr.only = F,
                                                               include.values = NULL,
                                                               include.non.labelled = T)
@@ -86,8 +86,8 @@ sjp.aov1 <- function(var.dep,
   # remove titles if empty
   # --------------------------------------------------------
   if (!is.null(axis.labels) && axis.labels == "") axis.labels <- NULL
-  if (!is.null(axis.title) && axis.title == "") axis.title <- NULL  
-  if (!is.null(title) && title == "") title <- NULL    
+  if (!is.null(axis.title) && axis.title == "") axis.title <- NULL
+  if (!is.null(title) && title == "") title <- NULL
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
@@ -179,7 +179,7 @@ sjp.aov1 <- function(var.dep,
   if (show.p) {
     for (i in seq_len(length(means.p))) {
       ps[i] <- sjmisc::trim(paste(ps[i], get_p_stars(means.p[i])))
-    }  
+    }
   }
   # --------------------------------------------------------
   # check whether order of category items should be reversed
@@ -229,7 +229,7 @@ sjp.aov1 <- function(var.dep,
     minval <- min(df$lower)
     if (maxval > 0)
       limfac <- ifelse(abs(maxval) < 5, 5, 10)
-    else 
+    else
       limfac <- ifelse(abs(minval) < 5, 5, 10)
     upper_lim <- ifelse(maxval == 0, 0, limfac * ceiling((maxval + 1) / limfac))
     lower_lim <- ifelse(minval == 0, 0, limfac * floor(minval / limfac))
@@ -245,9 +245,9 @@ sjp.aov1 <- function(var.dep,
   # --------------------------------------------------------
   # Set up plot padding (margins inside diagram)
   # --------------------------------------------------------
-  scaley <- scale_y_continuous(limits = c(lower_lim, upper_lim), 
-                               breaks = ticks, 
-                               labels = ticks)    
+  scaley <- scale_y_continuous(limits = c(lower_lim, upper_lim),
+                               breaks = ticks,
+                               labels = ticks)
   # --------------------------------------------------------
   # Start plot here!
   # --------------------------------------------------------
@@ -256,7 +256,7 @@ sjp.aov1 <- function(var.dep,
     geom_point(size = geom.size, colour = df$geocol) +
     # and error bar
     geom_errorbar(aes(ymin = lower, ymax = upper), colour = df$geocol, width = 0) +
-    # Print p-values. With vertical adjustment, so 
+    # Print p-values. With vertical adjustment, so
     # they don't overlap with the errorbars
     geom_text(aes(label = pv, y = means), nudge_x = y.offset, show.legend = FALSE) +
     # set y-scale-limits, breaks and tick labels
@@ -270,8 +270,8 @@ sjp.aov1 <- function(var.dep,
   if (show.summary) {
     # add annotations with model summary
     # annotations include intercept-value and model's r-square
-    anovaplot <- anovaplot + 
-      annotate("text", label = modsum, parse = TRUE, x = -Inf, y = Inf, 
+    anovaplot <- anovaplot +
+      annotate("text", label = modsum, parse = TRUE, x = -Inf, y = Inf,
                hjust = "right", vjust = "bottom")
   }
   # ---------------------------------------------------------
@@ -282,7 +282,7 @@ sjp.aov1 <- function(var.dep,
   # set proper column names
   # -------------------------------------
   df <- tibble::rownames_to_column(df)
-  colnames(df) <- c("term", "estimate", "conf.low", "conf.high", 
+  colnames(df) <- c("term", "estimate", "conf.low", "conf.high",
                     "p.value", "p.string", "xpos", "geom.color")
   # -------------------------------------
   # return results

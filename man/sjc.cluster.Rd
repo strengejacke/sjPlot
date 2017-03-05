@@ -11,16 +11,16 @@ sjc.cluster(data, groupcount = NULL, method = c("hclust", "kmeans"),
   algorithm = c("Hartigan-Wong", "Lloyd", "MacQueen"))
 }
 \arguments{
-\item{data}{\code{data.frame} with variables that should be used for the
+\item{data}{A data frame with variables that should be used for the
 cluster analysis.}
 
-\item{groupcount}{amount of groups (clusters) used for the cluster solution. May also be
+\item{groupcount}{Amount of groups (clusters) used for the cluster solution. May also be
 a set of initial (distinct) cluster centres, in case \code{method = "kmeans"}
-(see \code{\link{kmeans}} for details on \code{centers} argument). 
-If \code{groupcount = NULL} and \code{method = "kmeans"}, the optimal 
-amount of clusters is calculated using the gap statistics (see 
+(see \code{\link{kmeans}} for details on \code{centers} argument).
+If \code{groupcount = NULL} and \code{method = "kmeans"}, the optimal
+amount of clusters is calculated using the gap statistics (see
 \code{\link{sjc.kgap}}). For \code{method = "hclust"}, \code{groupcount}
-needs to be specified. Following functions may be helpful for estimating 
+needs to be specified. Following functions may be helpful for estimating
 the amount of clusters:
 \itemize{
   \item Use \code{\link{sjc.elbow}} to determine the group-count depending on the elbow-criterion.
@@ -29,34 +29,34 @@ the amount of clusters:
   \item Use \code{\link{sjc.grpdisc}} to inspect the goodness of grouping (accuracy of classification).
   }}
 
-\item{method}{method for computing the cluster analysis. By default (\code{"kmeans"}), a
-kmeans cluster analysis will be computed. Use \code{"hclust"} to 
-compute a hierarchical cluster analysis. You can specify the 
+\item{method}{Method for computing the cluster analysis. By default (\code{"kmeans"}), a
+kmeans cluster analysis will be computed. Use \code{"hclust"} to
+compute a hierarchical cluster analysis. You can specify the
 initial letters only.}
 
-\item{distance}{distance measure to be used when \code{method = "hclust"} (for hierarchical
-clustering). Must be one of \code{"euclidean"}, \code{"maximum"}, \code{"manhattan"}, 
+\item{distance}{Distance measure to be used when \code{method = "hclust"} (for hierarchical
+clustering). Must be one of \code{"euclidean"}, \code{"maximum"}, \code{"manhattan"},
 \code{"canberra"}, \code{"binary"} or \code{"minkowski"}. See \code{\link{dist}}.
 If is \code{method = "kmeans"} this argument will be ignored.}
 
-\item{agglomeration}{agglomeration method to be used when \code{method = "hclust"} (for hierarchical
-clustering). This should be one of \code{"ward"}, \code{"single"}, \code{"complete"}, \code{"average"}, 
+\item{agglomeration}{Agglomeration method to be used when \code{method = "hclust"} (for hierarchical
+clustering). This should be one of \code{"ward"}, \code{"single"}, \code{"complete"}, \code{"average"},
 \code{"mcquitty"}, \code{"median"} or \code{"centroid"}. Default is \code{"ward"} (see \code{\link{hclust}}).
 If \code{method = "kmeans"} this argument will be ignored. See 'Note'.}
 
-\item{iter.max}{maximum number of iterations allowed. Only applies, if 
+\item{iter.max}{Maximum number of iterations allowed. Only applies, if
 \code{method = "kmeans"}. See \code{\link{kmeans}} for details on this argument.}
 
-\item{algorithm}{algorithm used for calculating kmeans cluster. Only applies, if 
-\code{method = "kmeans"}. May be one of \code{"Hartigan-Wong"} (default), 
-\code{"Lloyd"} (used by SPSS), or \code{"MacQueen"}. See \code{\link{kmeans}} 
+\item{algorithm}{Algorithm used for calculating kmeans cluster. Only applies, if
+\code{method = "kmeans"}. May be one of \code{"Hartigan-Wong"} (default),
+\code{"Lloyd"} (used by SPSS), or \code{"MacQueen"}. See \code{\link{kmeans}}
 for details on this argument.}
 }
 \value{
 The group classification for each observation as vector. This group
           classification can be used for \code{\link{sjc.grpdisc}}-function to
           check the goodness of classification.
-          The returned vector includes missing values, so it can be appended 
+          The returned vector includes missing values, so it can be appended
           to the original data frame \code{data}.
 }
 \description{
@@ -64,8 +64,8 @@ Compute hierarchical or kmeans cluster analysis and return the group
                association for each observation as vector.
 }
 \note{
-Since R version > 3.0.3, the \code{"ward"} option has been replaced by 
-       either \code{"ward.D"} or \code{"ward.D2"}, so you may use one of 
+Since R version > 3.0.3, the \code{"ward"} option has been replaced by
+       either \code{"ward.D"} or \code{"ward.D2"}, so you may use one of
        these values. When using \code{"ward"}, it will be replaced by \code{"ward.D2"}.
        \cr \cr
        To get similar results as in SPSS Quick Cluster function, following points

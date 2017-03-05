@@ -1,34 +1,34 @@
 #' @title Plot estimates of multiple fitted glm(er)'s
 #' @name sjp.glmm
-#' 
-#' @description Plot and compare odds or incidents ratios (forest plots) of multiple fitted 
-#'                generalized linear (mixed effects) models with confidence 
+#'
+#' @description Plot and compare odds or incidents ratios (forest plots) of multiple fitted
+#'                generalized linear (mixed effects) models with confidence
 #'                intervals in one plot.
-#' 
-#' @param ... one or more fitted \code{glm}- or \code{glmerMod}-objects. May 
-#'          also be a \code{\link{list}}-object with 
+#'
+#' @param ... One or more fitted \code{glm}- or \code{glmerMod}-objects. May
+#'          also be a \code{\link{list}}-object with
 #'          fitted models, instead of separating each model with comma. See 'Examples'.
-#'          
+#'
 #' @inheritParams sjp.lmm
 #' @inheritParams sjp.glm
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjt.lm
-#'          
-#' @note The fitted models may have differing predictors, but only in a 
+#'
+#' @note The fitted models may have differing predictors, but only in a
 #'         "stepwise" sense; i.e., models should share a common set of predictors,
 #'         while some models may have additional predictors (e.g. added via
 #'         the \code{\link[stats]{update}} function). See 'Examples'.
-#'          
+#'
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{data}).
-#'          
+#'
 #' @examples
 #' # prepare dummy variables for binary logistic regression
 #' y1 <- ifelse(swiss$Fertility < median(swiss$Fertility), 0, 1)
 #' y2 <- ifelse(swiss$Infant.Mortality < median(swiss$Infant.Mortality), 0, 1)
 #' y3 <- ifelse(swiss$Agriculture<median(swiss$Agriculture), 0, 1)
-#' 
+#'
 #' # Now fit the models. Note that all models share the same predictors
 #' # and only differ in their dependent variable (y1, y2 and y3)
 #' fitOR1 <- glm(y1 ~ swiss$Education + swiss$Examination + swiss$Catholic,
@@ -37,23 +37,23 @@
 #'               family = binomial(link = "logit"))
 #' fitOR3 <- glm(y3 ~ swiss$Education + swiss$Examination + swiss$Catholic,
 #'               family = binomial(link = "logit"))
-#' 
+#'
 #' # plot multiple models
 #' sjp.glmm(fitOR1, fitOR2, fitOR3, facet.grid = TRUE)
-#' 
+#'
 #' # plot multiple models with legend labels and point shapes instead of value  labels
 #' sjp.glmm(fitOR1, fitOR2, fitOR3,
 #'          depvar.labels = c("Fertility", "Infant Mortality", "Agriculture"),
 #'          show.values = FALSE, show.p = FALSE, fade.ns = TRUE, p.shape = TRUE)
-#' 
+#'
 #' # plot multiple models from nested lists argument
 #' all.models <- list()
 #' all.models[[1]] <- fitOR1
 #' all.models[[2]] <- fitOR2
 #' all.models[[3]] <- fitOR3
-#' 
+#'
 #' sjp.glmm(all.models)
-#' 
+#'
 #' # -------------------------------
 #' # Predictors for negative impact
 #' # of care. Data from the EUROFAMCARE
@@ -61,7 +61,7 @@
 #' # -------------------------------
 #' library(sjmisc)
 #' data(efc)
-#' 
+#'
 #' # create binary response
 #' y <- ifelse(efc$neg_c_7 < median(na.omit(efc$neg_c_7)), 0, 1)
 #' # create dummy variables for educational status
@@ -70,13 +70,13 @@
 #'                    dep = to_factor(efc$e42dep),
 #'                    barthel = efc$barthtot,
 #'                    education = to_factor(efc$c172code))
-#' 
+#'
 #' fit1 <- glm(y ~ sex + education,  data = mydf, family = binomial(link = "logit"))
 #' fit2 <- update(fit1, . ~ . + barthel)
 #' fit3 <- update(fit2, . ~ . + dep)
-#' 
+#'
 #' sjp.glmm(fit1, fit2, fit3)
-#' 
+#'
 #' @import ggplot2
 #' @importFrom stats na.omit coef confint
 #' @export
@@ -114,10 +114,10 @@ sjp.glmm <- function(...,
   # --------------------------------------------------------
   input_list <- tibble::lst(...)
   # --------------------------------------------------------
-  # check length. if we have a list of fitted model, 
+  # check length. if we have a list of fitted model,
   # we need to "unlist" them
   # --------------------------------------------------------
-  if (length(input_list) == 1 && class(input_list[[1]]) == "list") 
+  if (length(input_list) == 1 && class(input_list[[1]]) == "list")
     input_list <- lapply(input_list[[1]], function(x) x)
   # ----------------------------
   # init final data frame
@@ -131,7 +131,7 @@ sjp.glmm <- function(...,
   if (is.null(axis.labels)) {
     axis.labels <- suppressWarnings(retrieveModelLabels(input_list, group.pred = FALSE))
   }
-  # if we have no labels of dependent variables supplied, use a 
+  # if we have no labels of dependent variables supplied, use a
   # default string (Model) for legend
   if (is.null(depvar.labels))
     depvar.labels <- unname(unlist(lapply(input_list, get_model_response_label)))
@@ -151,13 +151,13 @@ sjp.glmm <- function(...,
     # retrieve fitted model
     fit <- input_list[[fitcnt]]
     # ----------------------------
-    # retrieve odds ratios (glm) 
+    # retrieve odds ratios (glm)
     # ----------------------------
     # create data frame for ggplot
     if (sjmisc::str_contains(class(fit), "merMod", ignore.case = T))
       odds <- get_cleaned_ciMerMod(fit, "glm")
     else
-      odds <- data.frame(exp(stats::coef(fit)), 
+      odds <- data.frame(exp(stats::coef(fit)),
                          exp(stats::confint(fit)))
     # ----------------------------
     # print p-values in bar charts
@@ -207,7 +207,7 @@ sjp.glmm <- function(...,
         if (show.p) ps[i] <- paste(ps[i], "***")
         pointshapes[i] <- 4
       }
-    }  
+    }
     # ----------------------------
     # bind p-values to data frame
     # ----------------------------
@@ -240,8 +240,8 @@ sjp.glmm <- function(...,
     # get row indices of rows that should be removed
     remrows <- c()
     for (re in seq_len(length(remove.estimates))) {
-      remrows <- c(remrows, which(substr(row.names(finalodds), 
-                                         start = 1, 
+      remrows <- c(remrows, which(substr(row.names(finalodds),
+                                         start = 1,
                                          stop = nchar(remove.estimates[re])) == remove.estimates[re]))
     }
     # remember old rownames
@@ -289,8 +289,8 @@ sjp.glmm <- function(...,
   ticks <- seq(lower_lim, upper_lim, by = grid.breaks)
   # --------------------------------------------------------
   # prepare star and shape values. we just copy those values
-  # that are actually needed, so legend shapes are always 
-  # identical, independent whether model have only two 
+  # that are actually needed, so legend shapes are always
+  # identical, independent whether model have only two
   # different p-levels or four.
   # --------------------------------------------------------
   shape.values <- c(1, 16, 17, 15)
@@ -318,15 +318,15 @@ sjp.glmm <- function(...,
       # The order of aesthetics matters in terms of ordering the error bars!
       # Using shape before colour would order points according to shapes instead
       # of colour-aes.
-      geom_point(aes_string(shape = "shape"), 
-                 size = geom.size, 
+      geom_point(aes_string(shape = "shape"),
+                 size = geom.size,
                  position = position_dodge(-geom.spacing)) +
       # and use a shape scale, in order to have a legend
-      scale_shape_manual(values = shape.values, 
+      scale_shape_manual(values = shape.values,
                          labels = star.values)
   } else {
     plotHeader <- plotHeader +
-      geom_point(size = geom.size, 
+      geom_point(size = geom.size,
                  position = position_dodge(-geom.spacing))
   }
   # --------------------------------------------------------
@@ -338,22 +338,22 @@ sjp.glmm <- function(...,
   # --------------------------------------------------------
   plotHeader <- plotHeader +
     # print confidence intervalls (error bars)
-    geom_errorbar(aes_string(ymin = "lower", ymax = "upper"), 
-                  width = 0, 
+    geom_errorbar(aes_string(ymin = "lower", ymax = "upper"),
+                  width = 0,
                   position = position_dodge(-geom.spacing)) +
     # print value labels and p-values
-    geom_text(aes_string(label = "p", y = "upper"), 
-              position = position_dodge(width = -geom.spacing), 
+    geom_text(aes_string(label = "p", y = "upper"),
+              position = position_dodge(width = -geom.spacing),
               hjust = -0.1,
               show.legend = FALSE) +
     # Intercept-line
-    geom_hline(yintercept = 1, 
-               linetype = vline.type, 
+    geom_hline(yintercept = 1,
+               linetype = vline.type,
                colour = vline.color) +
-    labs(title = title, 
-         x = NULL, 
-         y = axis.title, 
-         shape = legend.pval.title, 
+    labs(title = title,
+         x = NULL,
+         y = axis.title,
+         shape = legend.pval.title,
          colour = legend.title) +
     scale_x_discrete(labels = axis.labels) +
     # use transparancy if requested, but hide legend
@@ -368,15 +368,15 @@ sjp.glmm <- function(...,
     # exponential-function on the tick marks
     plotHeader <- plotHeader +
       scale_y_continuous(trans = "log10",
-                         limits = c(lower_lim, upper_lim), 
+                         limits = c(lower_lim, upper_lim),
                          breaks = base_breaks(upper_lim),
                          labels = prettyNum)
   } else {
     plotHeader <- plotHeader +
       # logarithmic scale for odds
       # logarithmic scale for odds
-      scale_y_log10(limits = c(lower_lim, upper_lim), 
-                    breaks = ticks, 
+      scale_y_log10(limits = c(lower_lim, upper_lim),
+                    breaks = ticks,
                     labels = ticks)
   }
   # --------------------------------------------------------
@@ -387,10 +387,10 @@ sjp.glmm <- function(...,
   # ---------------------------------------------------------
   # set geom colors
   # ---------------------------------------------------------
-  plotHeader <- sj.setGeomColors(plotHeader, 
-                                 geom.colors, 
-                                 length(depvar.labels), 
-                                 show.legend, 
+  plotHeader <- sj.setGeomColors(plotHeader,
+                                 geom.colors,
+                                 length(depvar.labels),
+                                 show.legend,
                                  depvar.labels)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
@@ -399,7 +399,7 @@ sjp.glmm <- function(...,
   # -------------------------------------
   # set proper column names
   # -------------------------------------
-  colnames(finalodds) <- c("estimate", "conf.low", "conf.high", "p.string", 
+  colnames(finalodds) <- c("estimate", "conf.low", "conf.high", "p.string",
                            "p.alpha", "shape", "grp", "p.value", "term", "xpos")
   # -------------------------------------
   # return results

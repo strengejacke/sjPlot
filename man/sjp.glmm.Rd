@@ -16,11 +16,11 @@ sjp.glmm(..., remove.estimates = NULL, title = NULL, depvar.labels = NULL,
   coord.flip = TRUE, prnt.plot = TRUE)
 }
 \arguments{
-\item{...}{one or more fitted \code{glm}- or \code{glmerMod}-objects. May 
-also be a \code{\link{list}}-object with 
+\item{...}{One or more fitted \code{glm}- or \code{glmerMod}-objects. May
+also be a \code{\link{list}}-object with
 fitted models, instead of separating each model with comma. See 'Examples'.}
 
-\item{remove.estimates}{character vector with coefficient names that indicate
+\item{remove.estimates}{Character vector with coefficient names that indicate
 which estimates should be removed from the plot.
 \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 is \code{NULL}, i.e. all estimates are printed.}
@@ -30,10 +30,10 @@ will be set automatically. If \code{title = ""}, no title is printed.
 For effect-plots, may also be a character vector of length > 1,
 to define titles for each sub-plot or facet.}
 
-\item{depvar.labels}{character vector with labels of dependent
+\item{depvar.labels}{Character vector with labels of dependent
 variables of all fitted models. See 'Examples'.}
 
-\item{legend.title}{character vector, used as title for the plot legend. Note that
+\item{legend.title}{Character vector, used as title for the plot legend. Note that
 only some plot types have legends (e.g. \code{type = "pred"} or when
 grouping estimates with \code{group.estimates}).}
 
@@ -43,15 +43,18 @@ indicates the p-values. Default is \code{"p-level"}. Only applies if \code{p.sha
 \item{axis.labels}{character vector with labels used as axis labels. Optional
 argument, since in most cases, axis labels are set automatically.}
 
-\item{axis.title}{character vector of length one or two (depending on
+\item{axis.title}{Character vector of length one or two (depending on
 the plot function and type), used as title(s) for the x and y axis.
 If not specified, a default labelling  is chosen. To set multiple
 axis titles (e.g. with \code{type = "eff"} for many predictors),
 \code{axis.title} must be a character vector of same length of plots
 that are printed. In this case, each plot gets an own axis title
-(applying, for instance, to the y-axis for \code{type = "eff"}).}
+(applying, for instance, to the y-axis for \code{type = "eff"}).
+\strong{Note:} Some plot types do not support this argument. In such
+cases, use the return value and add axis titles manually with
+\code{\link[ggplot2]{labs}}, e.g.: \code{$plot.list[[1]] + labs(x = ...)}}
 
-\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
+\item{axis.lim}{Numeric vector of length 2, defining the range of the plot axis.
 Depending on plot type, may effect either x- or y-axis, or both.
 For multiple plot outputs (e.g., from \code{type = "eff"} or
 \code{type = "slope"} in \code{\link{sjp.glm}}), \code{axis.lim} may
@@ -61,29 +64,29 @@ plot (only if non-faceted).}
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
 labels are displayed in one line and when a line break is inserted.}
 
-\item{wrap.legend.title}{numeric, determines how many chars of the legend's title 
+\item{wrap.legend.title}{numeric, determines how many chars of the legend's title
 are displayed in one line and when a line break is inserted.}
 
-\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
+\item{grid.breaks}{numeric; sets the distance between breaks for the axis,
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
-\item{trns.ticks}{logical, if \code{TRUE}, the grid lines have exponential
+\item{trns.ticks}{Logical, if \code{TRUE}, the grid lines have exponential
 distances (equidistant), i.e. they visually have the same distance from
 one panel grid to the next. If \code{FALSE}, grids are
 plotted on every \code{grid.breaks}'s position, thus the grid lines become narrower with
 higher odds ratio values.}
 
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function). Note that bar and bin widths mostly 
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size,
+depending on plot type and function). Note that bar and bin widths mostly
 need smaller values than dot sizes.}
 
 \item{geom.spacing}{spacing between the dots and error bars of the plotted fitted models. Default
 is 0.3.}
 
-\item{geom.colors}{user defined color palette for geoms. If \code{group.estimates}
+\item{geom.colors}{User defined color palette for geoms. If \code{group.estimates}
 is \emph{not} specified, must either be vector with two color values or a specific
 color palette code (see 'Details' in \code{\link{sjp.grpfrq}}). Else, if
 \code{group.estimates} is specified, \code{geom.colors} must be a vector
@@ -94,12 +97,12 @@ of same length as groups. See 'Examples'.}
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
-\item{show.intercept}{logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
+\item{show.intercept}{Logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
 Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential
 transformation of estimates, the intercept in some cases can not be calculated, thus the
 function call is interrupted and no plot printed.}
 
-\item{show.p}{logical, adds significance levels to values, or value and
+\item{show.p}{Logical, adds significance levels to values, or value and
 variable labels.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
@@ -107,16 +110,16 @@ variable labels.}
 \item{p.shape}{If \code{TRUE}, significant levels are distinguished by different point shapes and a related
 legend is plotted. Default is \code{FALSE}.}
 
-\item{vline.type}{linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
+\item{vline.type}{Linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
 
-\item{vline.color}{color of the vertical "zero point" line. Default value is \code{"grey70"}.}
+\item{vline.color}{Color of the vertical "zero point" line. Default value is \code{"grey70"}.}
 
-\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
+\item{digits}{Numeric, amount of digits after decimal point when rounding estimates and values.}
 
-\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
-in a grid of an integrated single plot. This argument calls 
+\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots
+in a grid of an integrated single plot. This argument calls
 \code{\link[ggplot2]{facet_wrap}} or \code{\link[ggplot2]{facet_grid}}
-to arrange plots. Use \code{\link{plot_grid}} to plot multiple plot-objects 
+to arrange plots. Use \code{\link{plot_grid}} to plot multiple plot-objects
 as an arranged grid with \code{\link[gridExtra]{grid.arrange}}.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
@@ -129,12 +132,12 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
           was used for setting up the ggplot-object (\code{data}).
 }
 \description{
-Plot and compare odds or incidents ratios (forest plots) of multiple fitted 
-               generalized linear (mixed effects) models with confidence 
+Plot and compare odds or incidents ratios (forest plots) of multiple fitted
+               generalized linear (mixed effects) models with confidence
                intervals in one plot.
 }
 \note{
-The fitted models may have differing predictors, but only in a 
+The fitted models may have differing predictors, but only in a
         "stepwise" sense; i.e., models should share a common set of predictors,
         while some models may have additional predictors (e.g. added via
         the \code{\link[stats]{update}} function). See 'Examples'.

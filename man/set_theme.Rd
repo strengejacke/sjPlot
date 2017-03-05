@@ -18,7 +18,7 @@ set_theme(theme = c("forest", "538", "539", "scatter", "forestw", "538w",
   \item{\code{"538w"}, \code{"539w"}, \code{"scatterw"} and \code{"forestw"}}{for themes as described above, however all with white backgrounds.}
 }}
 
-\item{...}{other arguments passed down to \code{\link{sjp.setTheme}}.}
+\item{...}{Other arguments passed down to \code{\link{sjp.setTheme}}.}
 }
 \value{
 The customized theme object.

@@ -16,7 +16,7 @@ sjp.likert(items, title = NULL, legend.title = NULL, legend.labels = NULL,
   expand.grid = TRUE, digits = 1, coord.flip = TRUE, prnt.plot = TRUE)
 }
 \arguments{
-\item{items}{\code{data.frame} with each column representing one item.}
+\item{items}{Data frame, with each column representing one item.}
 
 \item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.
@@ -33,7 +33,7 @@ for the x-axis and y-axis.}
 \item{axis.labels}{character vector with labels used as axis labels. Optional
 argument, since in most cases, axis labels are set automatically.}
 
-\item{catcount}{optional, amount of categories of \code{items} (e.g. \emph{"strongly disagree",
+\item{catcount}{Optional, amount of categories of \code{items} (e.g. \emph{"strongly disagree",
 "disagree", "agree"} and \emph{"strongly agree"} would be \code{catcount = 4}).
 Note that this argument only applies to "valid" answers, i.e. if you
 have an additional neutral category (see \code{cat.neutral}) like \emph{"don't know"},
@@ -41,12 +41,12 @@ this won't count for \code{catcount} (e.g. "strongly disagree",
 "disagree", "agree", "strongly agree" and neutral category "don't know"
 would still mean that \code{catcount = 4}). See 'Note'.}
 
-\item{cat.neutral}{if there's a neutral category (like "don't know" etc.), specify
+\item{cat.neutral}{If there's a neutral category (like "don't know" etc.), specify
 the index number (value) for this category. Else, set \code{cat.neutral = NULL} (default).
 The proportions of neutral category answers are plotted as grey bars on the left side of
 the figure.}
 
-\item{sort.frq}{indicates whether the items of \code{items} should be ordered by
+\item{sort.frq}{Indicates whether the items of \code{items} should be ordered by
 total sum of positive or negative answers.
 \describe{
   \item{\code{"pos.asc"}}{to order ascending by sum of positive answers}
@@ -56,40 +56,40 @@ total sum of positive or negative answers.
   \item{\code{NULL}}{(default) for no sorting}
 }}
 
-\item{weight.by}{weight factor that will be applied to weight all cases.
-Must be a vector of same length as the input vector. Default is 
+\item{weight.by}{Vector of weights that will be applied to weight all cases.
+Must be a vector of same length as the input vector. Default is
 \code{NULL}, so no weights are used.}
 
-\item{title.wtd.suffix}{suffix (as string) for the title, if \code{weight.by} is specified,
-e.g. \code{title.wtd.suffix=" (weighted)"}. Default is \code{NULL}, so 
+\item{title.wtd.suffix}{Suffix (as string) for the title, if \code{weight.by} is specified,
+e.g. \code{title.wtd.suffix=" (weighted)"}. Default is \code{NULL}, so
 title will not have a suffix when cases are weighted.}
 
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
 labels are displayed in one line and when a line break is inserted.}
 
-\item{wrap.legend.title}{numeric, determines how many chars of the legend's title 
+\item{wrap.legend.title}{numeric, determines how many chars of the legend's title
 are displayed in one line and when a line break is inserted.}
 
-\item{wrap.legend.labels}{numeric, determines how many chars of the legend labels are 
+\item{wrap.legend.labels}{numeric, determines how many chars of the legend labels are
 displayed in one line and when a line break is inserted.}
 
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function). Note that bar and bin widths mostly 
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size,
+depending on plot type and function). Note that bar and bin widths mostly
 need smaller values than dot sizes.}
 
 \item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
-\item{cat.neutral.color}{color of the neutral category, if plotted (see \code{cat.neutral}).}
+\item{cat.neutral.color}{Color of the neutral category, if plotted (see \code{cat.neutral}).}
 
-\item{intercept.line.color}{color of the vertical intercept line that divides positive and negative values.}
+\item{intercept.line.color}{Color of the vertical intercept line that divides positive and negative values.}
 
-\item{reverse.colors}{logical, if \code{TRUE}, the color scale from \code{geom.colors} will be reversed,
+\item{reverse.colors}{Logical, if \code{TRUE}, the color scale from \code{geom.colors} will be reversed,
 so positive and negative values switch colors.}
 
-\item{values}{determines style and position of percentage value labels on the bars:
+\item{values}{Determines style and position of percentage value labels on the bars:
 \describe{
   \item{\code{"show"}}{(default) shows percentage value labels in the middle of each category bar}
   \item{\code{"hide"}}{hides the value labels, so no percentage values on the bars are printed}
@@ -103,9 +103,9 @@ group or category to the labels.}
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
-\item{show.prc.sign}{logical, if \code{TRUE}, \%-signs for value labels are shown.}
+\item{show.prc.sign}{Logical, if \code{TRUE}, \%-signs for value labels are shown.}
 
-\item{grid.range}{numeric, limits of the x-axis-range, as proportion of 100.
+\item{grid.range}{Numeric, limits of the x-axis-range, as proportion of 100.
 Default is 1, so the x-scale ranges from zero to 100\% on
 both sides from the center. You can use values beyond 1
 (100\%) in case bar labels are not printed because they exceed the axis range.
@@ -113,13 +113,13 @@ E.g. \code{grid.range = 1.4} will set the axis from -140 to +140\%, however, onl
 (valid) axis labels from -100 to +100\% are printed. Neutral categories are
 adjusted to the most left limit.}
 
-\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
+\item{grid.breaks}{numeric; sets the distance between breaks for the axis,
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
 \item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 axes and plotting region. Default is \code{FALSE}.}
 
-\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
+\item{digits}{Numeric, amount of digits after decimal point when rounding estimates and values.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
@@ -146,27 +146,6 @@ Note that only even numbers of categories are possible to plot, so the "positive
        with the \code{catcount}-argument.
 }
 \examples{
-# prepare data for 4-category likert scale, with neutral category 5 items
-Q1 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(.2, .3, .1, .4)))
-Q2 <- as.factor(sample(1:5, 500, replace = TRUE, prob = c(.5, .25, .12, .09, .03)))
-Q3 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(.25, .1, .4, .25)))
-Q4 <- as.factor(sample(1:5, 500, replace = TRUE, prob = c(.1, .3, .38, .1, .12)))
-Q5 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(.35, .25, .15, .25)))
-
-likert_4 <- data.frame(Q1, Q2, Q3, Q4, Q5)
-
-# create labels
-levels_4 <- c("Strongly agree", "Agree", "Disagree",
-              "Strongly Disagree", "Don't know")
-
-# create item labels
-items <- c("Q1", "Q2", "Q3", "Q4", "Q5")
-
-# plot 4-category-likert-scale, no sorting
-sjp.likert(likert_4, cat.neutral = 5, legend.labels = levels_4,
-           axis.labels = items, grid.range = 1.2, expand.grid = FALSE,
-           values = "sum.outside", show.prc.sign = TRUE)
-
 # Data from the EUROFAMCARE sample dataset
 library(dplyr)
 library(sjmisc)
@@ -174,6 +153,14 @@ data(efc)
 # find all variables from COPE-Index, which all have a "cop" in their
 # variable name, and then plot that subset as likert-plot
 efc[, find_var(efc, "cop")] \%>\% sjp.likert()
+
+sjp.likert(
+  find_var(efc, "cop", as.df = TRUE),
+  grid.range = 1.2,
+  expand.grid = FALSE,
+  values = "sum.outside",
+  show.prc.sign = TRUE
+)
 
 }
 \seealso{

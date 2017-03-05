@@ -8,38 +8,38 @@ dist_norm(norm = NULL, mean = 0, sd = 1, p = NULL, xmax = NULL,
   geom.colors = NULL, geom.alpha = 0.7)
 }
 \arguments{
-\item{norm}{numeric, optional. If specified, a normal distribution with \code{mean} and \code{sd}
+\item{norm}{Numeric, optional. If specified, a normal distribution with \code{mean} and \code{sd}
 is plotted and a shaded area at \code{norm} value position is plotted that
 indicates whether or not the specified value is significant or not.
 If both \code{norm} and \code{p} are not specified, a distribution without shaded
 area is plotted.}
 
-\item{mean}{numeric. Mean value for normal distribution. By default 0.}
+\item{mean}{Numeric. Mean value for normal distribution. By default 0.}
 
-\item{sd}{numeric. Standard deviation for normal distribution. By default 1.}
+\item{sd}{Numeric. Standard deviation for normal distribution. By default 1.}
 
-\item{p}{numeric, optional. If specified, a normal distribution with \code{mean} and \code{sd}
+\item{p}{Numeric, optional. If specified, a normal distribution with \code{mean} and \code{sd}
 is plotted and a shaded area at the position where the specified p-level
-starts is plotted. If both \code{norm} and \code{p} are not specified, a distribution 
+starts is plotted. If both \code{norm} and \code{p} are not specified, a distribution
 without shaded area is plotted.}
 
-\item{xmax}{numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
+\item{xmax}{Numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
 ranges to a value where a p-level of 0.00001 is reached.}
 
 \item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
-\item{geom.alpha}{specified the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.}
+\item{geom.alpha}{Specifies the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.}
 }
 \description{
 This function plots a simple normal distribution or a normal distribution
-               with shaded areas that indicate at which value a significant p-level 
+               with shaded areas that indicate at which value a significant p-level
                is reached.
 }
 \examples{
 # a simple normal distribution
 dist_norm()
 
-# a simple normal distribution with different mean and sd. 
+# a simple normal distribution with different mean and sd.
 # note that curve looks similar to above plot, but axis range
 # has changed.
 dist_norm(mean = 2, sd = 4)

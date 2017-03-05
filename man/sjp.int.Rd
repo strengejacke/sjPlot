@@ -16,7 +16,7 @@ sjp.int(fit, type = c("eff", "cond", "emm"), int.term = NULL,
   digits = 2, facet.grid = FALSE, prnt.plot = TRUE, ...)
 }
 \arguments{
-\item{fit}{the fitted (generalized) linear (mixed) model object, including interaction terms. Accepted model
+\item{fit}{A fitted (generalized) linear (mixed) model object, including interaction terms. Accepted model
 classes are
 \itemize{
   \item linear models (\code{\link{lm}})
@@ -29,23 +29,23 @@ classes are
   \item panel data estimators (\code{\link[plm]{plm}})
 }}
 
-\item{type}{interaction plot type. Use one of following values:
+\item{type}{Interaction plot type. Use one of following values:
 \describe{
   \item{\code{type = "eff"}}{(default) plots the overall moderation effect on the response value. See 'Details'.}
   \item{\code{type = "cond"}}{plots the mere \emph{change} of the moderating effect on the response value (conditional effect). See 'Details'.}
   \item{\code{type = "emm"}}{plots the estimated marginal means (least square means). If this type is chosen, not all function arguments are applicable. See 'Details'.}
 }}
 
-\item{int.term}{name of interaction term of \code{fit} (as character), which should be plotted
+\item{int.term}{Name of interaction term of \code{fit} (as character), which should be plotted
 when using \code{type = "eff"}. By default, this argument will be ignored
 (i.e. \code{int.term = NULL}). See 'Details'.}
 
-\item{int.plot.index}{numeric vector with index numbers that indicate which 
+\item{int.plot.index}{Numeric vector with index numbers that indicate which
 interaction terms should be plotted in case the \code{fit} has more than
 one interaction. By default, this value is \code{NULL}, hence all interactions
 are plotted.}
 
-\item{mdrt.values}{indicates which values of the moderator variable should be 
+\item{mdrt.values}{Indicates which values of the moderator variable should be
 used when plotting the interaction effects.
 \describe{
   \item{\code{"minmax"}}{(default) minimum and maximum values (lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator.}
@@ -55,72 +55,72 @@ used when plotting the interaction effects.
   \item{\code{"all"}}{uses all values of the moderator variable. Note that this option only applies to \code{type = "eff"}, for numeric moderator values.}
 }}
 
-\item{swap.pred}{if \code{TRUE}, the predictor on the x-axis and the moderator value in an interaction are
+\item{swap.pred}{Logical, if \code{TRUE}, the predictor on the x-axis and the moderator value in an interaction are
 swapped. For \code{type = "eff"}, the first interaction term is used as moderator and the second term
-is plotted at the x-axis. For \code{type = "cond"}, the interaction's predictor with less unique values is 
-printed along the x-axis. Default is \code{FALSE}, so the second predictor in an interaction, respectively 
+is plotted at the x-axis. For \code{type = "cond"}, the interaction's predictor with less unique values is
+printed along the x-axis. Default is \code{FALSE}, so the second predictor in an interaction, respectively
 the predictor with more unique values is printed along the x-axis.}
 
-\item{plevel}{indicates at which p-value an interaction term is considered as \emph{significant},
+\item{plevel}{Numeric, indicates at which p-value an interaction term is considered as \emph{significant},
 i.e. at which p-level an interaction term will be considered for plotting. Default is
 0.1 (10 percent), hence, non-significant interactions are excluded by default. This
 argument does not apply to \code{type = "eff"}.}
 
-\item{diff}{if \code{FALSE} (default), the minimum and maximum interaction effects of the moderating variable
+\item{diff}{Logical, if \code{FALSE} (default), the minimum and maximum interaction effects of the moderating variable
 is shown (one line each). if \code{TRUE}, only the difference between minimum and maximum interaction effect
 is shown (single line). Only applies to \code{type = "cond"}.}
 
-\item{title}{default title used for the plots. Should be a character vector
+\item{title}{Default title used for the plots. Should be a character vector
 of same length as interaction plots to be plotted. Default value is \code{NULL}, which means that each plot's title
 includes the dependent variable as well as the names of the interaction terms.}
 
-\item{axis.title}{a default title used for the x-axis. Should be a character vector
+\item{axis.title}{Default title used for the x-axis. Should be a character vector
 of same length as interaction plots to be plotted. Default value is \code{NULL},
 which means that each plot's x-axis uses the predictor's name as title.}
 
-\item{axis.labels}{character vector with value labels of the interaction, used
+\item{axis.labels}{Character vector with value labels of the interaction, used
 to label the x-axis. Only applies to \code{type = "emm"}.}
 
-\item{legend.title}{title of the plot's legend. A character vector of same length as 
+\item{legend.title}{Title of the plot's legend. A character vector of same length as
 amount of interaction plots to be plotted (i.e. one vector element for each
 plot's legend title).}
 
-\item{legend.labels}{labels for the guide/legend. Either a character vector of same length as
+\item{legend.labels}{Labels for the guide/legend. Either a character vector of same length as
 amount of legend labels of the plot, or a \code{list} of character vectors, if more than one
 interaction plot is plotted (i.e. one vector of legend labels for each interaction plot).
-Default is \code{NULL}, so the name of the predictor with min/max-effect is used 
+Default is \code{NULL}, so the name of the predictor with min/max-effect is used
 as legend label.}
 
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.legend.labels}{numeric, determines how many chars of the legend labels are 
+\item{wrap.legend.labels}{numeric, determines how many chars of the legend labels are
 displayed in one line and when a line break is inserted.}
 
-\item{wrap.legend.title}{numeric, determines how many chars of the legend's title 
+\item{wrap.legend.title}{numeric, determines how many chars of the legend's title
 are displayed in one line and when a line break is inserted.}
 
-\item{geom.colors}{vector of color values or name of a valid color brewer palette. 
-If not a color brewer palette name, \code{geom.colors} must be of same 
+\item{geom.colors}{Vector of color values or name of a valid color brewer palette.
+If not a color brewer palette name, \code{geom.colors} must be of same
 length as moderator values used in the plot (see \code{mdrt.values}).
 See also 'Details' in \code{\link{sjp.grpfrq}}.}
 
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function). Note that bar and bin widths mostly 
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size,
+depending on plot type and function). Note that bar and bin widths mostly
 need smaller values than dot sizes.}
 
-\item{fill.color}{fill color of the shaded area between the minimum and maximum lines. Default is \code{"grey"}.
+\item{fill.color}{Fill color of the shaded area between the minimum and maximum lines. Default is \code{"grey"}.
 Either set \code{fill.color} to \code{NULL} or use 0 for \code{fill.alpha} if you want to hide the shaded area.}
 
-\item{fill.alpha}{alpha value (transparancy) of the shaded area between the minimum and maximum lines. Default is 0.4.
+\item{fill.alpha}{Alpha value (transparancy) of the shaded area between the minimum and maximum lines. Default is 0.4.
 Use either 0 or set \code{fill.color} to \code{NULL} if you want to hide the shaded area.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
-\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
+\item{show.ci}{Logical, if \code{TRUE}, depending on \code{type}, a confidence
 interval or region is added to the plot.}
 
-\item{jitter.ci}{logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
+\item{jitter.ci}{Logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
 bands are displayed as error bars, adds jittering to lines and error bars
 to avoid overlapping.}
 
@@ -128,32 +128,32 @@ to avoid overlapping.}
 F-tests with Kenward-Roger approximation for the df. Caution: Computation
 may take very long time for large samples!}
 
-\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
+\item{grid.breaks}{numeric; sets the distance between breaks for the axis,
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
-\item{xlim}{numeric vector of length two, defining lower and upper axis limits
-of the x scale. By default, this argument is set to \code{NULL}, i.e. the 
+\item{xlim}{Numeric vector of length two, defining lower and upper axis limits
+of the x scale. By default, this argument is set to \code{NULL}, i.e. the
 x-axis fits to the required range of the data.}
 
 \item{ylim}{numeric vector of length two, defining lower and upper axis limits
-of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
+of the y scale. By default, this argument is set to \code{NULL}, i.e. the
 y-axis fits to the required range of the data.}
 
-\item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
+\item{y.offset}{numeric, offset for text labels when their alignment is adjusted
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
-\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
+\item{digits}{Numeric, amount of digits after decimal point when rounding estimates and values.}
 
-\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
-in a grid of an integrated single plot. This argument calls 
+\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots
+in a grid of an integrated single plot. This argument calls
 \code{\link[ggplot2]{facet_wrap}} or \code{\link[ggplot2]{facet_grid}}
-to arrange plots. Use \code{\link{plot_grid}} to plot multiple plot-objects 
+to arrange plots. Use \code{\link{plot_grid}} to plot multiple plot-objects
 as an arranged grid with \code{\link[gridExtra]{grid.arrange}}.}
 
 \item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 
-\item{...}{other arguments passed down to further functions. Currently, following
+\item{...}{Other arguments passed down to further functions. Currently, following
 arguments are supported:
 \describe{
   \item{\code{?effects::effect}}{
@@ -170,7 +170,7 @@ arguments are supported:
           as well as the data frames that were used for setting up the ggplot-objects (\code{data.list}).
 }
 \description{
-Plot regression (predicted values) or probability lines (predicted probabilities) of 
+Plot regression (predicted values) or probability lines (predicted probabilities) of
                significant interaction terms to better understand effects
                of moderations in regression models. This function accepts following fitted model classes:
                \itemize{
@@ -184,7 +184,7 @@ Plot regression (predicted values) or probability lines (predicted probabilities
                  \item panel data estimators (\code{\link[plm]{plm}})
                }
                Note that beside interaction terms, also the single predictors of each interaction (main effects)
-               must be included in the fitted model as well. Thus, \code{lm(dep ~ pred1 * pred2)} will work, 
+               must be included in the fitted model as well. Thus, \code{lm(dep ~ pred1 * pred2)} will work,
                but \code{lm(dep ~ pred1:pred2)} won't!
 }
 \details{
@@ -195,23 +195,23 @@ Plot regression (predicted values) or probability lines (predicted probabilities
              You can pass further arguments down to \code{allEffects} for flexible
              function call via the \code{...}-argument.
            }
-           \item{\code{type = "cond"}}{plots the effective \emph{change} or \emph{impact} 
-             (conditional effect) on a dependent variable of a moderation effect, as 
-             described by Grace-Martin, i.e. the difference of the moderation effect on the 
-             dependent variable in \emph{presence} and \emph{absence} of the moderating effect 
+           \item{\code{type = "cond"}}{plots the effective \emph{change} or \emph{impact}
+             (conditional effect) on a dependent variable of a moderation effect, as
+             described by Grace-Martin, i.e. the difference of the moderation effect on the
+             dependent variable in \emph{presence} and \emph{absence} of the moderating effect
              (\emph{simple slope} plot or \emph{conditional effect}, see Hayes 2012). All
              remaining predictors are set to zero (i.e. ignored and not adjusted for).
-             Hence, this plot type may be used especially for \emph{binary or dummy coded} 
+             Hence, this plot type may be used especially for \emph{binary or dummy coded}
              moderator values (see also Esarey and Summer 2015).
              This type \emph{does not} show the overall effect (marginal mean, i.e. adjusted
-             for all other predictors and covariates) of interactions on the result of Y. Use 
-             \code{type = "eff"} for effect displays similar to the \code{\link[effects]{effect}}-function 
+             for all other predictors and covariates) of interactions on the result of Y. Use
+             \code{type = "eff"} for effect displays similar to the \code{\link[effects]{effect}}-function
              from the \pkg{effects}-package.
            }
            \item{\code{type = "emm"}}{plots the estimated marginal means of repeated measures designs,
-             like two-way repeated measures AN(C)OVA. In detail, this type plots estimated marginal means 
+             like two-way repeated measures AN(C)OVA. In detail, this type plots estimated marginal means
              (also called \emph{least square means} or \emph{marginal means}) of (significant) interaction terms.
-             The fitted models may be linear (mixed effects) 
+             The fitted models may be linear (mixed effects)
              models of class \code{\link{lm}} or \code{\link[lme4]{merMod}}. This function may be used, for example,
              to plot differences in interventions between control and treatment groups over multiple time points.
            }
@@ -226,7 +226,7 @@ Plot regression (predicted values) or probability lines (predicted probabilities
 }
 \note{
 Note that beside interaction terms, also the single predictors of each interaction (main effects)
-       must be included in the fitted model as well. Thus, \code{lm(dep ~ pred1 * pred2)} will work, 
+       must be included in the fitted model as well. Thus, \code{lm(dep ~ pred1 * pred2)} will work,
        but \code{lm(dep ~ pred1:pred2)} won't! \cr \cr
        For \code{type = "emm"}, all interaction terms have to be factors.
        Furthermore, for \code{type = "eff"}, predictors of interactions that are introduced first into the model
@@ -239,7 +239,7 @@ Note that beside interaction terms, also the single predictors of each interacti
 
 # fit "dummy" model. Note that moderator should enter
 # first the model, followed by predictor. Else, use
-# argument "swap.pred" to change predictor on 
+# argument "swap.pred" to change predictor on
 # x-axis with moderator
 fit <- lm(weight ~ Diet * Time, data = ChickWeight)
 
@@ -266,8 +266,8 @@ mydf$sex <- relevel(factor(mydf$sex), ref = "2")
 fit <- lm(usage ~ .*., data = mydf)
 summary(fit)
 
-# plot interactions. note that type = "cond" only considers 
-# significant interactions by default. use "plevel" to 
+# plot interactions. note that type = "cond" only considers
+# significant interactions by default. use "plevel" to
 # adjust p-level sensivity
 sjp.int(fit, type = "cond")
 
@@ -300,7 +300,7 @@ fit <- glm(y ~ sex * barthel, data = mydf, family = binomial(link = "logit"))
 # plot interaction, increase p-level sensivity
 sjp.int(fit, type = "eff", legend.labels = get_labels(efc$c161sex), plevel = 0.1)
 sjp.int(fit, type = "cond", legend.labels = get_labels(efc$c161sex), plevel = 0.1)
-        
+
 \dontrun{
 # -------------------------------
 # Plot estimated marginal means

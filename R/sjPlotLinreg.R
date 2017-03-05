@@ -69,8 +69,8 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #'                  between model's predictors.}
 #'            }
 #'
-#' @param fit fitted linear regression model (of class \code{\link{lm}}, \code{\link[nlme]{gls}} or \code{plm}).
-#' @param type type of plot. Use one of following:
+#' @param fit Fitted linear regression model (of class \code{\link{lm}}, \code{\link[nlme]{gls}} or \code{plm}).
+#' @param type Type of plot. Use one of following:
 #'          \describe{
 #'            \item{\code{"lm"}}{(default) for forest-plot like plot of estimates. If the fitted model only contains one predictor, intercept and slope are plotted.}
 #'            \item{\code{"std"}}{for forest-plot like plot of standardized beta values. If the fitted model only contains one predictor, intercept and slope are plotted.}
@@ -83,37 +83,37 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only three arguments are relevant for this option \code{fit} and \code{complete.dgns}. All other arguments are ignored.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
-#' @param sort.est logical, determines whether estimates should be sorted according to their values.
+#' @param sort.est Logical, determines whether estimates should be sorted according to their values.
 #'          If \code{group.estimates} is \emph{not} \code{NULL}, estimates are sorted
 #'          according to their group assignment.
-#' @param resp.label name of dependent variable, as string. Only
+#' @param resp.label Name of dependent variable, as string. Only
 #'          used if fitted model has only one predictor and \code{type = "lm"}.
-#' @param geom.colors user defined color palette for geoms. If \code{group.estimates}
+#' @param geom.colors User defined color palette for geoms. If \code{group.estimates}
 #'          is \emph{not} specified, must either be vector with two color values or a specific
 #'          color palette code (see 'Details' in \code{\link{sjp.grpfrq}}). Else, if
 #'          \code{group.estimates} is specified, \code{geom.colors} must be a vector
 #'          of same length as groups. See 'Examples'.
-#' @param group.estimates numeric or character vector, indicating a group identifier for
+#' @param group.estimates Numeric or character vector, indicating a group identifier for
 #'          each estimate. Dots and confidence intervals of estimates are coloured
 #'          according to their group association. See 'Examples'.
-#' @param remove.estimates character vector with coefficient names that indicate
+#' @param remove.estimates Character vector with coefficient names that indicate
 #'          which estimates should be removed from the plot.
 #'          \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 #'          is \code{NULL}, i.e. all estimates are printed.
-#' @param show.p logical, adds significance levels to values, or value and
+#' @param show.p Logical, adds significance levels to values, or value and
 #'          variable labels.
-#' @param show.summary logical, if \code{TRUE}, a summary with model statistics
+#' @param show.summary Logical, if \code{TRUE}, a summary with model statistics
 #'          is added to the plot.
-#' @param show.ci logical, if \code{TRUE}, depending on \code{type}, a confidence
+#' @param show.ci Logical, if \code{TRUE}, depending on \code{type}, a confidence
 #'          interval or region is added to the plot.
-#' @param show.scatter logical, if \code{TRUE} (default), adds a scatter plot of
+#' @param show.scatter Logical, if \code{TRUE} (default), adds a scatter plot of
 #'          data points to the plot. Only applies for slope-type or predictions plots.
 #'          For most plot types, dots are jittered to avoid overplotting, hence the
 #'          points don't reflect exact values in the data.
-#' @param legend.title character vector, used as title for the plot legend. Note that
+#' @param legend.title Character vector, used as title for the plot legend. Note that
 #'          only some plot types have legends (e.g. \code{type = "pred"} or when
 #'          grouping estimates with \code{group.estimates}).
-#' @param complete.dgns logical, if \code{TRUE}, additional tests are performed. Default is \code{FALSE}
+#' @param complete.dgns Logical, if \code{TRUE}, additional tests are performed. Default is \code{FALSE}
 #'          Only applies if \code{type = "ma"}.
 #'
 #' @inheritParams sjp.grpfrq

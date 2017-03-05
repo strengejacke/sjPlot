@@ -8,7 +8,7 @@ sjc.kgap(x, max = 10, B = 100, SE.factor = 1, method = "Tibs2001SEmax",
   plotResults = TRUE)
 }
 \arguments{
-\item{x}{matrix, where rows are observations and columns are individual dimensions, 
+\item{x}{matrix, where rows are observations and columns are individual dimensions,
 to compute and plot the gap statistic (according to a uniform reference distribution).}
 
 \item{max}{maximum number of clusters to consider, must be at least two. Default
@@ -16,13 +16,13 @@ is 10.}
 
 \item{B}{integer, number of Monte Carlo ("bootstrap") samples. Default is 100.}
 
-\item{SE.factor}{[When \code{method} contains "SE"] Determining the optimal 
-number of clusters, Tibshirani et al. proposed the "1 S.E."-rule. 
+\item{SE.factor}{[When \code{method} contains "SE"] Determining the optimal
+number of clusters, Tibshirani et al. proposed the "1 S.E."-rule.
 Using an SE.factor f, the "f S.E."-rule is used, more generally.}
 
-\item{method}{character string indicating how the "optimal" number of clusters, 
-k^, is computed from the gap statistics (and their standard deviations), 
-or more generally how the location k^ of the maximum of f[k] should be 
+\item{method}{character string indicating how the "optimal" number of clusters,
+k^, is computed from the gap statistics (and their standard deviations),
+or more generally how the location k^ of the maximum of f[k] should be
 determined. Default is \code{"Tibs2001SEmax"}. Possible value are:
 \describe{
   \item{\code{"globalmax"}}{simply corresponds to the global maximum, i.e., is which.max(f).}

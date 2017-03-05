@@ -16,8 +16,8 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'                Furthermore, this function also plots predicted probabilities /
 #'                incidents or diagnostic plots.
 #'
-#' @param fit a fitted model as returned by the \code{\link[lme4]{glmer}}-function.
-#' @param type type of plot. Use one of following:
+#' @param fit A fitted model as returned by the \code{\link[lme4]{glmer}}-function.
+#' @param type Type of plot. Use one of following:
 #'          \describe{
 #'            \item{\code{"re"}}{(default) for conditional modes (odds or incidents ratios) of random effects}
 #'            \item{\code{"fe"}}{for odds or incidents ratios of fixed effects}
@@ -31,29 +31,29 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'            \item{\code{"pred.fe"}}{to plot predicted probabilities or incidents for the response, related to specific model predictors, only for fixed effects. See 'Details'.}
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only argument \code{fit} applies to this plot type. All other arguments are ignored.}
 #'          }
-#' @param vars numeric vector with column indices of selected variables or a character vector with
+#' @param vars Numeric vector with column indices of selected variables or a character vector with
 #'          variable names of selected variables from the fitted model, which should be used to plot
 #'          - depending on \code{type} - estimates, fixed effects slopes or predicted values
 #'          (mean, probabilities, incidents rates, ...). See 'Examples'.
-#' @param ri.nr numeric vector. If \code{type = "re"} or \code{type = "ri.slope"},
+#' @param ri.nr Numeric vector. If \code{type = "re"} or \code{type = "ri.slope"},
 #'          and fitted model has more than one random intercept, \code{ri.nr} indicates
 #'          which random effects of which random intercept (or: which list elements
 #'          of \code{\link[lme4]{ranef}}) will be plotted. Default is \code{NULL},
 #'          so all random effects will be plotted.
-#' @param emph.grp numeric vector with index numbers of grouping levels (from random effect).
+#' @param emph.grp Numeric vector with index numbers of grouping levels (from random effect).
 #'          If \code{type = "ri.slope"} and \code{facet.grid = FALSE},
 #'          an integrated plot of predicted probabilities of fixed effects resp. fixed
 #'          effects slopes for each grouping level is plotted. To better find
 #'          certain groups, use this argument to emphasize these groups in the plot.
 #'          See 'Examples'.
-#' @param title character vector with one or more labels that are used as plot title.
-#' @param string.interc string, axis label of intercept estimate. Only applies,
+#' @param title Character vector with one or more labels that are used as plot title.
+#' @param string.interc String, axis label of intercept estimate. Only applies,
 #'          if \code{show.intercept = TRUE} and \code{axis.labels} is not \code{NULL}.
-#' @param point.alpha alpha value of point-geoms in the scatter plots. Only applies,
+#' @param point.alpha Alpha value of point-geoms in the scatter plots. Only applies,
 #'          if \code{show.scatter = TRUE}.
-#' @param point.color color of of point-geoms in the scatter plots. Only applies,
+#' @param point.color Color of of point-geoms in the scatter plots. Only applies,
 #'          if \code{show.scatter = TRUE}.
-#' @param sort.est determines in which way estimates are sorted in the plot:
+#' @param sort.est Determines in which way estimates are sorted in the plot:
 #'          \itemize{
 #'            \item If \code{NULL} (default), no sorting is done and estimates are sorted in order of model coefficients.
 #'            \item If \code{sort.est = "sort.all"}, estimates are re-sorted for each coefficient (only applies if \code{type = "re"} and \code{facet.grid = FALSE}), i.e. the estimates of the random effects for each predictor are sorted and plotted to an own plot.
@@ -61,25 +61,28 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'            \item If \code{type = "re"}, specify a predictor's / coefficient's name to sort estimates according to this coefficient.
 #'            }
 #'            See 'Examples'.
-#' @param fade.ns if \code{TRUE}, non significant estimates will be printed in slightly faded colors.
-#' @param axis.labels character vector with labels for the model terms, used as axis labels.
+#' @param fade.ns Logical, if \code{TRUE}, non significant estimates will be printed in slightly faded colors.
+#' @param axis.labels Character vector with labels for the model terms, used as axis labels.
 #'          For mixed models, should either be vector of fixed effects variable labels
 #'          (if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
 #'          labels from the random intercept's categories (if \code{type = "re"}).
-#' @param axis.title character vector of length one or two (depending on
+#' @param axis.title Character vector of length one or two (depending on
 #'          the plot function and type), used as title(s) for the x and y axis.
 #'          If not specified, a default labelling  is chosen. To set multiple
 #'          axis titles (e.g. with \code{type = "eff"} for many predictors),
 #'          \code{axis.title} must be a character vector of same length of plots
 #'          that are printed. In this case, each plot gets an own axis title
 #'          (applying, for instance, to the y-axis for \code{type = "eff"}).
-#' @param vline.type linetype of the vertical "zero point" line. Default is \code{2} (dashed line).
-#' @param vline.color color of the vertical "zero point" line. Default value is \code{"grey70"}.
-#' @param digits numeric, amount of digits after decimal point when rounding estimates and values.
-#' @param free.scale if \code{TRUE} and \code{facet.grid = TRUE}, each facet grid
+#'          \strong{Note:} Some plot types do not support this argument. In such
+#'          cases, use the return value and add axis titles manually with
+#'          \code{\link[ggplot2]{labs}}, e.g.: \code{$plot.list[[1]] + labs(x = ...)}
+#' @param vline.type Linetype of the vertical "zero point" line. Default is \code{2} (dashed line).
+#' @param vline.color Color of the vertical "zero point" line. Default value is \code{"grey70"}.
+#' @param digits Numeric, amount of digits after decimal point when rounding estimates and values.
+#' @param free.scale Logical, if \code{TRUE} and \code{facet.grid = TRUE}, each facet grid
 #'          gets its own fitted scale. If \code{free.scale = FALSE}, each facet in
 #'          the grid has the same scale range.
-#' @param sample.n numeric vector. only applies, if \code{type = "rs.ri"}. If
+#' @param sample.n Numeric vector. only applies, if \code{type = "rs.ri"}. If
 #'          plot has many random intercepts (grouping levels), overplotting of
 #'          regression lines may occur. In this case, consider random sampling of
 #'          grouping levels. If \code{sample.n} is of length 1, a random sample
@@ -88,7 +91,7 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'          the values in \code{sample.n} are selected to plot random effects.
 #'          Use the latter option to always select a fixed, identical set of
 #'          random effects for plotting (useful when ecomparing multiple models).
-#' @param ... other arguments passed down to further functions. Currently, following
+#' @param ... Other arguments passed down to further functions. Currently, following
 #'          arguments are supported:
 #'          \describe{
 #'            \item{\code{?effects::effect}}{

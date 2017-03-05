@@ -12,8 +12,8 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "grp.est", "ci.low", "ci.h
 #'                assumptions for generalized linear models, or marginal effects
 #'                (predicted probabilities or events).
 #'
-#' @param fit fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).
-#' @param type type of plot. Use one of following:
+#' @param fit Fitted generalized linear model (\code{\link{glm}}- or \code{logistf}-object).
+#' @param type Type of plot. Use one of following:
 #'          \describe{
 #'            \item{\code{"dots"}}{(or \code{"glm"} or \code{"or"} (default)) for odds or incident rate ratios (forest plot). Note that this type plots the exponentiated estimates, thus being appropriate only for specific link-functions.}
 #'            \item{\code{"slope"}}{to plot probability or incidents slopes (predicted probabilities or incidents) for each model term, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
@@ -22,12 +22,12 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "grp.est", "ci.low", "ci.h
 #'            \item{\code{"ma"}}{to check model assumptions. Note that the only relevant argument for this option is \code{fit}. All other arguments are ignored.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
-#' @param trns.ticks logical, if \code{TRUE}, the grid lines have exponential
+#' @param trns.ticks Logical, if \code{TRUE}, the grid lines have exponential
 #'          distances (equidistant), i.e. they visually have the same distance from
 #'          one panel grid to the next. If \code{FALSE}, grids are
 #'          plotted on every \code{grid.breaks}'s position, thus the grid lines become narrower with
 #'          higher odds ratio values.
-#' @param show.intercept logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
+#' @param show.intercept Logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
 #'          Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential
 #'          transformation of estimates, the intercept in some cases can not be calculated, thus the
 #'          function call is interrupted and no plot printed.

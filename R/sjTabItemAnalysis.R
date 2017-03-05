@@ -1,9 +1,9 @@
 #' @title Summary of item analysis of an item scale as HTML table
 #' @name sjt.itemanalysis
-#' 
+#'
 #' @description This function performs an item analysis with certain statistics that are
 #'                useful for scale or index development. The resulting tables are shown in the
-#'                viewer pane resp. webbrowser or can be saved as file. Following statistics are 
+#'                viewer pane resp. webbrowser or can be saved as file. Following statistics are
 #'                computed for each item of a data frame:
 #'                \itemize{
 #'                  \item percentage of missing values
@@ -27,37 +27,37 @@
 #'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjt.itemanalysis/}{sjPlot manual: sjt.itemanalysis}
 #'
-#' @param df data frame with items
-#' @param factor.groups if not \code{NULL}, \code{df} will be splitted into sub-groups,
-#'          where the item analysis is carried out for each of these groups. Must be a vector of same 
+#' @param df A data frame with items.
+#' @param factor.groups If not \code{NULL}, \code{df} will be splitted into sub-groups,
+#'          where the item analysis is carried out for each of these groups. Must be a vector of same
 #'          length as \code{ncol(df)}, where each item in this vector represents the group number of
 #'          the related columns of \code{df}. See 'Examples'.
-#' @param factor.groups.titles titles for each factor group that will be used as table caption for each
+#' @param factor.groups.titles Titles for each factor group that will be used as table caption for each
 #'          component-table. Must be a character vector of same length as \code{length(unique(factor.groups))}.
 #'          Default is \code{"auto"}, which means that each table has a standard caption \emph{Component x}.
 #'          Use \code{NULL} to suppress table captions.
-#' @param scale logical, if \code{TRUE}, the data frame's vectors will be scaled when calculating the
-#'          Cronbach's Alpha value (see \code{\link[sjstats]{reliab_test}}). Recommended, when 
+#' @param scale Logical, if \code{TRUE}, the data frame's vectors will be scaled when calculating the
+#'          Cronbach's Alpha value (see \code{\link[sjstats]{reliab_test}}). Recommended, when
 #'          the variables have different measures / scales.
-#' @param min.valid.rowmean minimum amount of valid values to compute row means for index scores.
+#' @param min.valid.rowmean Minimum amount of valid values to compute row means for index scores.
 #'          Default is 2, i.e. the return values \code{index.scores} and \code{df.index.scores} are
 #'          computed for those items that have at least \code{min.valid.rowmean} per case (observation, or
 #'          technically, row). See \code{mean_n} for details.
-#' @param show.shapiro logical, if \code{TRUE}, a Shapiro-Wilk normality test is computed for each item.
+#' @param show.shapiro Logical, if \code{TRUE}, a Shapiro-Wilk normality test is computed for each item.
 #'          See \code{\link{shapiro.test}} for details.
-#' @param show.kurtosis logical, if \code{TRUE}, the kurtosis for each item will also be shown (see \code{\link[psych]{kurtosi}}
+#' @param show.kurtosis Logical, if \code{TRUE}, the kurtosis for each item will also be shown (see \code{\link[psych]{kurtosi}}
 #'          and \code{\link[psych]{describe}} in the \code{psych}-package for more details.
-#' @param show.corr.matrix logical, if \code{TRUE} (default), a correlation matrix of each component's
+#' @param show.corr.matrix Logical, if \code{TRUE} (default), a correlation matrix of each component's
 #'          index score is shown. Only applies if \code{factor.groups} is not \code{NULL} and \code{df} has
 #'          more than one group. First, for each case (df's row), the sum of all variables (df's columns) is
 #'          scaled (using the \code{\link{scale}}-function) and represents a "total score" for
 #'          each component (a component is represented by each group of \code{factor.groups}).
 #'          After that, each case (df's row) has a scales sum score for each component.
 #'          Finally, a correlation of these "scale sum scores" is computed.
-#'          
+#'
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.df
-#'          
+#'
 #' @return Invisibly returns
 #'         \itemize{
 #'          \item \code{df.list}: List of data frames with the item analysis for each sub.group (or complete, if \code{factor.groups} was \code{NULL})
@@ -69,56 +69,56 @@
 #'          \item \code{knitr}: html-table of all complete output with inline-css for use with knitr
 #'          \item \code{complete.page}: Complete html-output.
 #'          }
-#'          If \code{factor.groups} was \code{NULL}, each list contains only one elment, since just one
-#'          table is printed for the complete scale indicated by \code{df}. If \code{factor.groups} 
+#'          If \code{factor.groups = NULL}, each list contains only one elment, since just one
+#'          table is printed for the complete scale indicated by \code{df}. If \code{factor.groups}
 #'          is a vector of group-index-values, the lists contain elements for each sub-group.
-#' 
+#'
 #' @note \itemize{
 #'          \item The \emph{Shapiro-Wilk Normality Test} (see column \code{W(p)}) tests if an item has a distribution that is significantly different from normal.
 #'          \item \emph{Item difficulty} should range between 0.2 and 0.8. Ideal value is \code{p+(1-p)/2} (which mostly is between 0.5 and 0.8).
 #'          \item For \emph{item discrimination}, acceptable values are 0.20 or higher; the closer to 1.00 the better. See \code{\link[sjstats]{reliab_test}} for more details.
 #'          \item In case the total \emph{Cronbach's Alpha} value is below the acceptable cut-off of 0.7 (mostly if an index has few items), the \emph{mean inter-item-correlation} is an alternative measure to indicate acceptability. Satisfactory range lies between 0.2 and 0.4. See also \code{\link[sjstats]{mic}}.
 #'        }
-#' 
+#'
 #' @note See 'Notes' in \code{\link{sjt.frq}}.
-#'  
+#'
 #' @details See 'Details' in \code{\link{sjt.frq}}.
-#' 
+#'
 #' @references \itemize{
 #'              \item Jorion N, Self B, James K, Schroeder L, DiBello L, Pellegrino J (2013) Classical Test Theory Analysis of the Dynamics Concept Inventory. (\href{https://www.academia.edu/4104752/Classical_Test_Theory_Analysis_of_the_Dynamics_Concept_Inventory}{web})
 #'              \item Briggs SR, Cheek JM (1986) The role of factor analysis in the development and evaluation of personality scales. Journal of Personality, 54(1), 106-148. \doi{10.1111/j.1467-6494.1986.tb00391.x}
 #'              \item McLean S et al. (2013) Stigmatizing attitudes and beliefs about bulimia nervosa: Gender, age, education and income variability in a community sample. International Journal of Eating Disorders. \doi{10.1002/eat.22227}
 #'              \item Trochim WMK (2008) Types of Reliability. (\href{http://www.socialresearchmethods.net/kb/reltypes.php}{web})
 #'             }
-#' 
+#'
 #' @examples
 #' # Data from the EUROFAMCARE sample dataset
 #' library(sjmisc)
 #' data(efc)
-#' 
+#'
 #' # retrieve variable and value labels
 #' varlabs <- get_label(efc)
-#' 
+#'
 #' # recveive first item of COPE-index scale
 #' start <- which(colnames(efc) == "c82cop1")
 #' # recveive last item of COPE-index scale
 #' end <- which(colnames(efc) == "c90cop9")
-#' 
+#'
 #' # create data frame with COPE-index scale
 #' mydf <- data.frame(efc[, c(start:end)])
 #' colnames(mydf) <- varlabs[c(start:end)]
-#' 
+#'
 #' \dontrun{
 #' sjt.itemanalysis(mydf)
-#' 
+#'
 #' # auto-detection of labels
 #' sjt.itemanalysis(efc[, c(start:end)])
-#'   
+#'
 #' # Compute PCA on Cope-Index, and perform a
 #' # item analysis for each extracted factor.
 #' factor.groups <- sjt.pca(mydf, no.output = TRUE)$factor.index
 #' sjt.itemanalysis(mydf, factor.groups)}
-#'  
+#'
 #' @importFrom psych describe
 #' @importFrom stats shapiro.test
 #' @importFrom sjstats reliab_test mean_n mic cronb
@@ -253,9 +253,9 @@ sjt.itemanalysis <- function(df,
     # -----------------------------------
     # create dummy data frame
     # -----------------------------------
-    df.dummy <- data.frame(cbind(sprintf("%.2f %%", missings.prz), 
-                                 round(dstat$mean, 2), 
-                                 round(dstat$sd, 2), 
+    df.dummy <- data.frame(cbind(sprintf("%.2f %%", missings.prz),
+                                 round(dstat$mean, 2),
+                                 round(dstat$sd, 2),
                                  round(dstat$skew, 2)))
     df.colnames <- c("Missings", "Mean", "SD", "Skew")
     # -----------------------------------
@@ -280,7 +280,7 @@ sjt.itemanalysis <- function(df,
     # set names of data frame
     # -----------------------------------
     colnames(df.dummy) <- df.colnames
-    rownames(df.dummy) <- df.names    
+    rownames(df.dummy) <- df.names
     # -----------------------------------
     # add results to return list
     # -----------------------------------
@@ -316,17 +316,17 @@ sjt.itemanalysis <- function(df,
     # check if we have titles for each component-table
     if (!is.null(factor.groups.titles)) dftitle <- factor.groups.titles[i]
     # get html-table from data frame
-    html <- sjt.df(df.ia[[i]], 
-                   describe = FALSE, 
-                   no.output = TRUE, 
-                   title = dftitle, 
-                   sort.asc = sort.asc, 
-                   sort.col = sort.col, 
-                   altr.row.col = altr.row.col, 
-                   CSS = CSS, 
-                   encoding = encoding, 
+    html <- sjt.df(df.ia[[i]],
+                   describe = FALSE,
+                   no.output = TRUE,
+                   title = dftitle,
+                   sort.asc = sort.asc,
+                   sort.col = sort.col,
+                   altr.row.col = altr.row.col,
+                   CSS = CSS,
+                   encoding = encoding,
                    hide.progress = TRUE,
-                   show.cmmn.row = TRUE, 
+                   show.cmmn.row = TRUE,
                    string.cmmn = sprintf("Mean inter-item-correlation=%.3f &middot; Cronbach's &alpha;=%.3f", mic.total[[i]], cronbach.total[[i]]))
     # add to complete html-page
     complete.page <- paste0(complete.page, html$knitr)
@@ -340,18 +340,18 @@ sjt.itemanalysis <- function(df,
     # check if we have enough components
     if (length(df.comcor) > 1) {
       # copy all component correlation values to a data frame
-      df.cc <- data.frame(matrix(unlist(df.comcor), 
-                                 nrow = nrow(df), 
+      df.cc <- data.frame(matrix(unlist(df.comcor),
+                                 nrow = nrow(df),
                                  byrow = FALSE))
       # give proper columm names
       colnames(df.cc) <- sprintf("Component %i", seq_len(ncol(df.cc)))
       # compute correlation table, store html result
       html <- sjt.corr(df.cc,
-                       na.deletion = "listwise", 
-                       p.numeric = TRUE, 
-                       triangle = "lower", 
-                       string.diag = sprintf("&alpha;=%.3f", unlist(cronbach.total)), 
-                       encoding = encoding, 
+                       na.deletion = "listwise",
+                       p.numeric = TRUE,
+                       triangle = "lower",
+                       string.diag = sprintf("&alpha;=%.3f", unlist(cronbach.total)),
+                       encoding = encoding,
                        no.output = TRUE)
       # add to html that is printed
       complete.page <- paste0(complete.page, html$knitr)
@@ -374,8 +374,8 @@ sjt.itemanalysis <- function(df,
   # -------------------------------------
   # check if html-content should be printed
   # -------------------------------------
-  #out.html.table(no.output, file, knitr, complete.page, use.viewer)  
-  
+  #out.html.table(no.output, file, knitr, complete.page, use.viewer)
+
   structure(
     class = c("sjTable", "sjtitemanalysis"),
     list(

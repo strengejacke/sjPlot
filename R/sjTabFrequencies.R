@@ -8,71 +8,72 @@
 #'            \item \code{\link{sjp.frq}}
 #'          }
 #'
-#' @param data variables which frequencies should be printed as table. Either use a single variable
-#'          (vector) or a data frame where each column represents a variable (see 'Examples').
-#' @param file destination file, if the output should be saved as file.
+#' @param data A vector or a data frame, for which frequencies should be printed
+#'          as table.
+#' @param file Destination file, if the output should be saved as file.
 #'          If \code{NULL} (default), the output will be saved as temporary file and
 #'          openend either in the IDE's viewer pane or the default web browser.
-#' @param title table caption, as character vector.
-#' @param value.labels character vector (or \code{list} of character vectors)
+#' @param title Table caption, as character vector.
+#' @param value.labels Character vector (or \code{list} of character vectors)
 #'          with value labels of the supplied variables, which will be used
 #'          to label variable values in the output.
-#' @param altr.row.col logical, if \code{TRUE}, alternating rows are highlighted with a light gray
+#' @param altr.row.col Logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 #'          background color.
-#' @param string.val label for the very first table column containing the values (see
+#' @param string.val Character label for the very first table column containing the values (see
 #'          \code{value.labels}).
-#' @param string.cnt label for the first table data column containing the counts. Default is \code{"N"}.
-#' @param string.prc label for the second table data column containing the raw percentages. Default is \code{"raw \%"}.
-#' @param string.vprc String label for the third data table column containing the valid percentages, i.e. the
+#' @param string.cnt Character label for the first table data column containing the counts. Default is \code{"N"}.
+#' @param string.prc Character label for the second table data column containing the raw percentages. Default is \code{"raw \%"}.
+#' @param string.vprc Character label for the third data table column containing the valid percentages, i.e. the
 #'          count percentage value exluding possible missing values.
-#' @param string.cprc String label for the last table data column containing the cumulative percentages.
-#' @param string.na String label for the last table data row containing missing values.
-#' @param emph.md If \code{TRUE}, the table row indicating the median value will
+#' @param string.cprc Character label for the last table data column containing the cumulative percentages.
+#' @param string.na Character label for the last table data row containing missing values.
+#' @param emph.md Logical, if \code{TRUE}, the table row indicating the median value will
 #'          be emphasized.
-#' @param emph.quart If \code{TRUE}, the table row indicating the lower and upper quartiles will
+#' @param emph.quart Logical, if \code{TRUE}, the table row indicating the lower and upper quartiles will
 #'          be emphasized.
-#' @param skip.zero If \code{TRUE}, rows with only zero-values are not printed
+#' @param skip.zero Logical, if \code{TRUE}, rows with only zero-values are not printed
 #'          (e.g. if a variable has values or levels 1 to 8, and levels / values
 #'          4 to 6 have no counts, these values would not be printed in the table).
 #'          Use \code{FALSE} to print also zero-values, or use \code{"auto"} (default)
 #'          to detect whether it makes sense or not to print zero-values (e.g., a variable
 #'          "age" with values from 10 to 100, where at least 25 percent of all possible values have no
 #'          counts, zero-values would be skipped automatically).
-#' @param show.summary If \code{TRUE} (default), a summary row with total and valid N as well as mean and
+#' @param show.summary Logical, if \code{TRUE} (default), a summary row with total and valid N as well as mean and
 #'          standard deviation is shown.
-#' @param show.skew If \code{TRUE}, the variable's skewness is added to the summary.
+#' @param show.skew Logical, if \code{TRUE}, the variable's skewness is added to the summary.
 #'          The skewness is retrieved from the \code{\link[psych]{describe}}-function
 #'          of the \pkg{psych}-package and indicated by a lower case Greek gamma.
-#' @param show.kurtosis If \code{TRUE}, the variable's kurtosis is added to the summary.
+#' @param show.kurtosis Logical, if \code{TRUE}, the variable's kurtosis is added to the summary.
 #'          The kurtosis is retrieved from the \code{\link[psych]{describe}}-function
 #'          of the \pkg{psych}-package and indicated by a lower case Greek omega.
-#' @param ignore.strings If \code{TRUE} (default), character vectors / string variables will be removed from
+#' @param ignore.strings Logical, if \code{TRUE} (default), character vectors / string variables will be removed from
 #'          \code{data} before frequency tables are computed.
-#' @param auto.grp.strings if \code{TRUE} (default), string values in character
+#' @param auto.grp.strings Logical, if \code{TRUE} (default), string values in character
 #'          vectors (string variables) are automatically grouped based on their
 #'          similarity. The similarity is estimated with the \pkg{stringdist}-package.
 #'          You can specify a distance-measure via \code{max.string.dist} argument. This argument only
 #'          applies if \code{ignore.strings} is \code{FALSE}.
-#' @param max.string.dist the allowed distance of string values in a character vector, which indicates
+#' @param max.string.dist Numeric, the allowed distance of string values in a character vector, which indicates
 #'          when two string values are merged because they are considered as close enough.
 #'          See \code{auto.grp.strings}.
-#' @param encoding string, indicating the charset encoding used for variable and
+#' @param encoding String, indicating the charset encoding used for variable and
 #'          value labels. Default is \code{NULL}, so encoding will be auto-detected
 #'          depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
 #'          Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).
-#' @param CSS \code{\link{list}}-object with user-defined style-sheet-definitions, according to the
+#' @param CSS A \code{\link{list}} with user-defined style-sheet-definitions, according to the
 #'          \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
 #'          see \href{../doc/sjtbasic.html}{this package-vignette}, or 'Details' in
 #'          \code{\link{sjt.frq}}.
-#' @param use.viewer If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
+#' @param use.viewer Logical, if \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 #'          \code{FALSE} or no viewer available, the HTML table is opened in a web browser.
-#' @param no.output logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
+#' @param no.output Logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
 #'          the viewer pane and not even saved to file. This option is useful when the html output
 #'          should be used in \code{knitr} documents. The html output can be accessed via the return
 #'          value.
-#' @param remove.spaces logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+#' @param remove.spaces Logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
 #'          that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
 #'          may look less pretty, but it may help when exporting html-tables to office tools.
+#'
 #' @return Invisibly returns
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
@@ -86,12 +87,12 @@
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.frq
 #'
-#' @note The HTML tables can either be saved as file and manually opened (specify argument \code{file}) or
+#' @note The HTML tables can either be saved as file and manually opened (use argument \code{file}) or
 #'         they can be saved as temporary files and will be displayed in the RStudio Viewer pane (if working with RStudio)
 #'         or opened with the default web browser. Displaying resp. opening a temporary file is the
 #'         default behaviour (i.e. \code{file = NULL}).
 #'
-#' @details \bold{How does the \code{CSS}-argument work?}
+#' @details \bold{How do I use \code{CSS}-argument?}
 #'            \cr \cr
 #'            With the \code{CSS}-argument, the visual appearance of the tables
 #'            can be modified. To get an overview of all style-sheet-classnames

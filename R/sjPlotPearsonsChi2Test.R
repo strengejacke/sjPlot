@@ -1,19 +1,20 @@
 #' @title Plot Pearson's Chi2-Test of multiple contingency tables
 #' @name sjp.chi2
-#' 
+#'
 #' @seealso \href{http://talesofr.wordpress.com/2013/05/05/ridiculously-photogenic-factors-heatmap-with-p-values/}{Tales of R}.
-#' 
-#' @description Plot p-values of Pearson's Chi2-tests for multiple contingency tables as ellipses or tiles. 
+#'
+#' @description Plot p-values of Pearson's Chi2-tests for multiple contingency tables as ellipses or tiles.
 #'                Requires a data frame with dichotomous (dummy) variables.
-#'                Calculation of Chi2-matrix taken from 
+#'                Calculation of Chi2-matrix taken from
 #'                \href{https://talesofr.wordpress.com/2013/05/05/ridiculously-photogenic-factors-heatmap-with-p-values/}{Tales of R}.
-#' 
-#' @param df data frame with (dichotomous) factor variables.
+#'
+#' @param df A data frame with (dichotomous) factor variables.
+#'
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{mydf}).
-#' 
+#'
 #' @inheritParams sjp.grpfrq
-#' 
+#'
 #' @examples
 #' # create data frame with 5 dichotomous (dummy) variables
 #' mydf <- data.frame(as.factor(sample(1:2, 100, replace=TRUE)),
@@ -23,10 +24,10 @@
 #'                    as.factor(sample(1:2, 100, replace=TRUE)))
 #' # create variable labels
 #' items <- list(c("Item 1", "Item 2", "Item 3", "Item 4", "Item 5"))
-#' 
+#'
 #' # plot Chi2-contingency-table
 #' sjp.chi2(mydf, axis.labels = items)
-#' 
+#'
 #' @import ggplot2
 #' @importFrom dplyr bind_rows
 #' @export
@@ -57,10 +58,10 @@ sjp.chi2 <- function(df,
   m <- data.frame()
   for (i in seq_len(ncol(combos))) {
     test <- chisq.test(df[, combos[1, i]], df[, combos[2, i]])
-    out <- data.frame(Row = colnames(df)[combos[1, i]], 
+    out <- data.frame(Row = colnames(df)[combos[1, i]],
                       Column = colnames(df)[combos[2, i]],
-                      Chi.Square = round(test$statistic, 4), 
-                      df =  test$parameter, 
+                      Chi.Square = round(test$statistic, 4),
+                      df =  test$parameter,
                       p.value = round(test$p.value, 4))
     m <- suppressWarnings(dplyr::bind_rows(m, out))
   }
@@ -89,14 +90,14 @@ sjp.chi2 <- function(df,
     geom_tile() +
     scale_x_discrete(labels = axis.labels) +
     scale_y_discrete(labels = axis.labels) +
-    scale_fill_gradient2(low = rgb(128, 205, 193, maxColorValue = 255), 
-                         mid = "white", 
-                         high = rgb(5, 113, 176, maxColorValue = 255), 
+    scale_fill_gradient2(low = rgb(128, 205, 193, maxColorValue = 255),
+                         mid = "white",
+                         high = rgb(5, 113, 176, maxColorValue = 255),
                          midpoint = 0.05) +
     geom_text(label = sprintf("%.3f", m$p.value)) +
-    labs(title = title, 
-         x = NULL, 
-         y = NULL, 
+    labs(title = title,
+         x = NULL,
+         y = NULL,
          fill = legend.title)
   # ---------------------------------------------------------
   # hide legend?

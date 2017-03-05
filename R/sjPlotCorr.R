@@ -8,23 +8,23 @@ utils::globalVariables(c("ordx", "ordy"))
 #'
 #' @seealso \code{\link{sjt.corr}}
 #'
-#' @param data matrix with correlation coefficients as returned by the
+#' @param data Matrix with correlation coefficients as returned by the
 #'          \code{\link{cor}}-function, or a \code{data.frame} of variables where
 #'          correlations between columns should be computed.
-#' @param sort.corr logical, if \code{TRUE} (default), the axis labels are sorted
+#' @param sort.corr Logical, if \code{TRUE} (default), the axis labels are sorted
 #'          according to the correlation strength. If \code{FALSE}, axis labels
 #'          appear in order of how variables were included in the cor-computation or
 #'          data frame.
-#' @param decimals indicates how many decimal values after comma are printed when
+#' @param decimals Indicates how many decimal values after comma are printed when
 #'          the values labels are shown. Default is 3. Only applies when
 #'          \code{show.values = TRUE}.
-#' @param na.deletion indicates how missing values are treated. May be either
+#' @param na.deletion Indicates how missing values are treated. May be either
 #'          \code{"listwise"} (default) or \code{"pairwise"}. May be
 #'          abbreviated.
-#' @param corr.method indicates the correlation computation method. May be one of
+#' @param corr.method Indicates the correlation computation method. May be one of
 #'          \code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.
 #'          May be abbreviated.
-#' @param p.numeric logical, if \code{TRUE}, the p-values are printed
+#' @param p.numeric Logical, if \code{TRUE}, the p-values are printed
 #'          as numbers. If \code{FALSE} (default), asterisks are used.
 #'
 #' @inheritParams sjp.grpfrq

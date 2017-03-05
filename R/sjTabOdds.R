@@ -5,28 +5,28 @@
 #'                as HTML table, or saves them as file. The fitted models may have different predictors,
 #'                e.g. when comparing different stepwise fitted models.
 #'
-#' @param ... one or more fitted generalized linear (mixed) models.
-#' @param exp.coef logical, if \code{TRUE} (default), regression coefficients and
+#' @param ... One or more fitted generalized linear (mixed) models.
+#' @param exp.coef Logical, if \code{TRUE} (default), regression coefficients and
 #'          confidence intervals are exponentiated. Use \code{FALSE} for
 #'          non-exponentiated coefficients (log-odds) as provided by
 #'          the \code{\link{summary}} function.
-#' @param show.r2 logical, if \code{TRUE} (default), the pseudo R2 values for each model are printed
+#' @param show.r2 Logical, if \code{TRUE} (default), the pseudo R2 values for each model are printed
 #'          in the model summary. R2cs is the Cox-Snell-pseudo R-squared value, R2n is Nagelkerke's
 #'          pseudo R-squared value and \code{D} is Tjur's Coefficient of Discrimination
 #'          (see \code{\link[sjstats]{cod}}).
-#' @param show.loglik logical, if \code{TRUE}, the Log-Likelihood for each model is printed
+#' @param show.loglik Logical, if \code{TRUE}, the Log-Likelihood for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
-#' @param show.chi2 logical, if \code{TRUE}, the p-value of the chi-squared value for each
+#' @param show.chi2 Logical, if \code{TRUE}, the p-value of the chi-squared value for each
 #'          model's residual deviance against the null deviance is printed
 #'          in the model summary. Default is \code{FALSE}. A well-fitting model
 #'          with predictors should significantly differ from the null-model
 #'          (without predictors), thus, a p-value less than 0.05 indicates a
 #'          good model-fit.
-#' @param show.hoslem logical, if \code{TRUE}, a Hosmer-Lemeshow-Goodness-of-fit-test is
+#' @param show.hoslem Logical, if \code{TRUE}, a Hosmer-Lemeshow-Goodness-of-fit-test is
 #'          performed. A well-fitting model shows no significant difference between
 #'          the model and the observed data, i.e. the reported p-values should be
 #'          greater than 0.05.
-#' @param show.family logical, if \code{TRUE}, the family object and link function for each fitted model
+#' @param show.family Logical, if \code{TRUE}, the family object and link function for each fitted model
 #'          are printed. Can be used in case you want to compare models with different link functions
 #'          and same predictors and response, to decide which model fits best. See \code{\link{family}}
 #'          for more details. It is recommended to inspect the model \code{\link{AIC}} (see \code{show.aic}) to get a

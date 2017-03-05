@@ -13,7 +13,7 @@
 #'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.int/}{sjPlot manual: sjp.int}
 #'
-#' @description Plot regression (predicted values) or probability lines (predicted probabilities) of 
+#' @description Plot regression (predicted values) or probability lines (predicted probabilities) of
 #'                significant interaction terms to better understand effects
 #'                of moderations in regression models. This function accepts following fitted model classes:
 #'                \itemize{
@@ -27,10 +27,10 @@
 #'                  \item panel data estimators (\code{\link[plm]{plm}})
 #'                }
 #'                Note that beside interaction terms, also the single predictors of each interaction (main effects)
-#'                must be included in the fitted model as well. Thus, \code{lm(dep ~ pred1 * pred2)} will work, 
+#'                must be included in the fitted model as well. Thus, \code{lm(dep ~ pred1 * pred2)} will work,
 #'                but \code{lm(dep ~ pred1:pred2)} won't!
 #'
-#' @param fit the fitted (generalized) linear (mixed) model object, including interaction terms. Accepted model
+#' @param fit A fitted (generalized) linear (mixed) model object, including interaction terms. Accepted model
 #'          classes are
 #'          \itemize{
 #'            \item linear models (\code{\link{lm}})
@@ -42,23 +42,23 @@
 #'            \item generalized least squares models (\code{\link[nlme]{gls}}, but only for \code{type = "eff"})
 #'            \item panel data estimators (\code{\link[plm]{plm}})
 #'          }
-#' @param type interaction plot type. Use one of following values:
+#' @param type Interaction plot type. Use one of following values:
 #'          \describe{
 #'            \item{\code{type = "eff"}}{(default) plots the overall moderation effect on the response value. See 'Details'.}
 #'            \item{\code{type = "cond"}}{plots the mere \emph{change} of the moderating effect on the response value (conditional effect). See 'Details'.}
 #'            \item{\code{type = "emm"}}{plots the estimated marginal means (least square means). If this type is chosen, not all function arguments are applicable. See 'Details'.}
 #'          }
-#' @param int.term name of interaction term of \code{fit} (as character), which should be plotted
+#' @param int.term Name of interaction term of \code{fit} (as character), which should be plotted
 #'          when using \code{type = "eff"}. By default, this argument will be ignored
 #'          (i.e. \code{int.term = NULL}). See 'Details'.
-#' @param int.plot.index numeric vector with index numbers that indicate which 
+#' @param int.plot.index Numeric vector with index numbers that indicate which
 #'          interaction terms should be plotted in case the \code{fit} has more than
 #'          one interaction. By default, this value is \code{NULL}, hence all interactions
 #'          are plotted.
-#' @param diff if \code{FALSE} (default), the minimum and maximum interaction effects of the moderating variable
+#' @param diff Logical, if \code{FALSE} (default), the minimum and maximum interaction effects of the moderating variable
 #'          is shown (one line each). if \code{TRUE}, only the difference between minimum and maximum interaction effect
 #'          is shown (single line). Only applies to \code{type = "cond"}.
-#' @param mdrt.values indicates which values of the moderator variable should be 
+#' @param mdrt.values Indicates which values of the moderator variable should be
 #'          used when plotting the interaction effects.
 #'          \describe{
 #'            \item{\code{"minmax"}}{(default) minimum and maximum values (lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator.}
@@ -67,48 +67,48 @@
 #'            \item{\code{"quart"}}{calculates and uses the quartiles (lower, median and upper) of the moderator value.}
 #'            \item{\code{"all"}}{uses all values of the moderator variable. Note that this option only applies to \code{type = "eff"}, for numeric moderator values.}
 #'          }
-#' @param swap.pred if \code{TRUE}, the predictor on the x-axis and the moderator value in an interaction are
+#' @param swap.pred Logical, if \code{TRUE}, the predictor on the x-axis and the moderator value in an interaction are
 #'          swapped. For \code{type = "eff"}, the first interaction term is used as moderator and the second term
-#'          is plotted at the x-axis. For \code{type = "cond"}, the interaction's predictor with less unique values is 
-#'          printed along the x-axis. Default is \code{FALSE}, so the second predictor in an interaction, respectively 
+#'          is plotted at the x-axis. For \code{type = "cond"}, the interaction's predictor with less unique values is
+#'          printed along the x-axis. Default is \code{FALSE}, so the second predictor in an interaction, respectively
 #'          the predictor with more unique values is printed along the x-axis.
-#' @param plevel indicates at which p-value an interaction term is considered as \emph{significant},
+#' @param plevel Numeric, indicates at which p-value an interaction term is considered as \emph{significant},
 #'          i.e. at which p-level an interaction term will be considered for plotting. Default is
 #'          0.1 (10 percent), hence, non-significant interactions are excluded by default. This
 #'          argument does not apply to \code{type = "eff"}.
-#' @param title default title used for the plots. Should be a character vector
+#' @param title Default title used for the plots. Should be a character vector
 #'          of same length as interaction plots to be plotted. Default value is \code{NULL}, which means that each plot's title
 #'          includes the dependent variable as well as the names of the interaction terms.
-#' @param fill.color fill color of the shaded area between the minimum and maximum lines. Default is \code{"grey"}.
+#' @param fill.color Fill color of the shaded area between the minimum and maximum lines. Default is \code{"grey"}.
 #'          Either set \code{fill.color} to \code{NULL} or use 0 for \code{fill.alpha} if you want to hide the shaded area.
-#' @param fill.alpha alpha value (transparancy) of the shaded area between the minimum and maximum lines. Default is 0.4.
+#' @param fill.alpha Alpha value (transparancy) of the shaded area between the minimum and maximum lines. Default is 0.4.
 #'          Use either 0 or set \code{fill.color} to \code{NULL} if you want to hide the shaded area.
-#' @param geom.colors vector of color values or name of a valid color brewer palette. 
-#'          If not a color brewer palette name, \code{geom.colors} must be of same 
+#' @param geom.colors Vector of color values or name of a valid color brewer palette.
+#'          If not a color brewer palette name, \code{geom.colors} must be of same
 #'          length as moderator values used in the plot (see \code{mdrt.values}).
 #'          See also 'Details' in \code{\link{sjp.grpfrq}}.
-#' @param axis.title a default title used for the x-axis. Should be a character vector
+#' @param axis.title Default title used for the x-axis. Should be a character vector
 #'          of same length as interaction plots to be plotted. Default value is \code{NULL},
 #'          which means that each plot's x-axis uses the predictor's name as title.
-#' @param axis.labels character vector with value labels of the interaction, used
+#' @param axis.labels Character vector with value labels of the interaction, used
 #'          to label the x-axis. Only applies to \code{type = "emm"}.
-#' @param legend.title title of the plot's legend. A character vector of same length as 
+#' @param legend.title Title of the plot's legend. A character vector of same length as
 #'          amount of interaction plots to be plotted (i.e. one vector element for each
 #'          plot's legend title).
-#' @param legend.labels labels for the guide/legend. Either a character vector of same length as
+#' @param legend.labels Labels for the guide/legend. Either a character vector of same length as
 #'          amount of legend labels of the plot, or a \code{list} of character vectors, if more than one
 #'          interaction plot is plotted (i.e. one vector of legend labels for each interaction plot).
-#'          Default is \code{NULL}, so the name of the predictor with min/max-effect is used 
+#'          Default is \code{NULL}, so the name of the predictor with min/max-effect is used
 #'          as legend label.
-#' @param jitter.ci logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
+#' @param jitter.ci Logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
 #'          bands are displayed as error bars, adds jittering to lines and error bars
 #'          to avoid overlapping.
-#' 
+#'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.frq
 #' @inheritParams sjp.lmer
 #' @inheritParams sjp.glmer
-#' 
+#'
 #' @return (Insisibily) returns the ggplot-objects with the complete plot-list (\code{plot.list})
 #'           as well as the data frames that were used for setting up the ggplot-objects (\code{data.list}).
 #'
@@ -119,23 +119,23 @@
 #'              You can pass further arguments down to \code{allEffects} for flexible
 #'              function call via the \code{...}-argument.
 #'            }
-#'            \item{\code{type = "cond"}}{plots the effective \emph{change} or \emph{impact} 
-#'              (conditional effect) on a dependent variable of a moderation effect, as 
-#'              described by Grace-Martin, i.e. the difference of the moderation effect on the 
-#'              dependent variable in \emph{presence} and \emph{absence} of the moderating effect 
+#'            \item{\code{type = "cond"}}{plots the effective \emph{change} or \emph{impact}
+#'              (conditional effect) on a dependent variable of a moderation effect, as
+#'              described by Grace-Martin, i.e. the difference of the moderation effect on the
+#'              dependent variable in \emph{presence} and \emph{absence} of the moderating effect
 #'              (\emph{simple slope} plot or \emph{conditional effect}, see Hayes 2012). All
 #'              remaining predictors are set to zero (i.e. ignored and not adjusted for).
-#'              Hence, this plot type may be used especially for \emph{binary or dummy coded} 
+#'              Hence, this plot type may be used especially for \emph{binary or dummy coded}
 #'              moderator values (see also Esarey and Summer 2015).
 #'              This type \emph{does not} show the overall effect (marginal mean, i.e. adjusted
-#'              for all other predictors and covariates) of interactions on the result of Y. Use 
-#'              \code{type = "eff"} for effect displays similar to the \code{\link[effects]{effect}}-function 
+#'              for all other predictors and covariates) of interactions on the result of Y. Use
+#'              \code{type = "eff"} for effect displays similar to the \code{\link[effects]{effect}}-function
 #'              from the \pkg{effects}-package.
 #'            }
 #'            \item{\code{type = "emm"}}{plots the estimated marginal means of repeated measures designs,
-#'              like two-way repeated measures AN(C)OVA. In detail, this type plots estimated marginal means 
+#'              like two-way repeated measures AN(C)OVA. In detail, this type plots estimated marginal means
 #'              (also called \emph{least square means} or \emph{marginal means}) of (significant) interaction terms.
-#'              The fitted models may be linear (mixed effects) 
+#'              The fitted models may be linear (mixed effects)
 #'              models of class \code{\link{lm}} or \code{\link[lme4]{merMod}}. This function may be used, for example,
 #'              to plot differences in interventions between control and treatment groups over multiple time points.
 #'            }
@@ -149,7 +149,7 @@
 #'          See 'Examples'.
 #'
 #' @note Note that beside interaction terms, also the single predictors of each interaction (main effects)
-#'        must be included in the fitted model as well. Thus, \code{lm(dep ~ pred1 * pred2)} will work, 
+#'        must be included in the fitted model as well. Thus, \code{lm(dep ~ pred1 * pred2)} will work,
 #'        but \code{lm(dep ~ pred1:pred2)} won't! \cr \cr
 #'        For \code{type = "emm"}, all interaction terms have to be factors.
 #'        Furthermore, for \code{type = "eff"}, predictors of interactions that are introduced first into the model
@@ -162,7 +162,7 @@
 #'
 #' # fit "dummy" model. Note that moderator should enter
 #' # first the model, followed by predictor. Else, use
-#' # argument "swap.pred" to change predictor on 
+#' # argument "swap.pred" to change predictor on
 #' # x-axis with moderator
 #' fit <- lm(weight ~ Diet * Time, data = ChickWeight)
 #'
@@ -189,11 +189,11 @@
 #' fit <- lm(usage ~ .*., data = mydf)
 #' summary(fit)
 #'
-#' # plot interactions. note that type = "cond" only considers 
-#' # significant interactions by default. use "plevel" to 
+#' # plot interactions. note that type = "cond" only considers
+#' # significant interactions by default. use "plevel" to
 #' # adjust p-level sensivity
 #' sjp.int(fit, type = "cond")
-#' 
+#'
 #' # plot only selected interaction term for
 #' # type = "eff"
 #' sjp.int(fit, type = "eff", int.term = "sex*education")
@@ -223,7 +223,7 @@
 #' # plot interaction, increase p-level sensivity
 #' sjp.int(fit, type = "eff", legend.labels = get_labels(efc$c161sex), plevel = 0.1)
 #' sjp.int(fit, type = "cond", legend.labels = get_labels(efc$c161sex), plevel = 0.1)
-#'         
+#'
 #' \dontrun{
 #' # -------------------------------
 #' # Plot estimated marginal means
@@ -261,7 +261,7 @@
 #' mydf$barthel <- efc$barthtot
 #' # re-fit model with continuous variable
 #' fit <- lm(burden ~ .*., data = mydf)
-#' 
+#'
 #' # plot effects
 #' sjp.int(fit, type = "eff", show.ci = TRUE)
 #'
@@ -380,7 +380,7 @@ sjp.int <- function(fit,
     return(sjp.emm(fit, swap.pred, plevel, title, geom.colors, geom.size,
                    axis.title, axis.labels, legend.title, legend.labels,
                    show.values, digits, show.ci, p.kr, wrap.title,
-                   wrap.legend.title, wrap.legend.labels, y.offset, ylim, 
+                   wrap.legend.title, wrap.legend.labels, y.offset, ylim,
                    grid.breaks, facet.grid, prnt.plot, ...))
   }
   # --------------------------------------------------------
@@ -394,8 +394,8 @@ sjp.int <- function(fit,
   if (type == "eff") {
     return(sjp.eff.int(fit, int.term, int.plot.index, mdrt.values, swap.pred, plevel,
                        title, geom.colors, geom.size, axis.title,
-                       legend.title, legend.labels, show.values, wrap.title, wrap.legend.labels, 
-                       wrap.legend.title, xlim, ylim, y.offset, grid.breaks, 
+                       legend.title, legend.labels, show.values, wrap.title, wrap.legend.labels,
+                       wrap.legend.title, xlim, ylim, y.offset, grid.breaks,
                        show.ci, jitter.ci, p.kr, facet.grid, prnt.plot, fun, ...))
   }
   # -----------------------------------------------------------
@@ -405,7 +405,7 @@ sjp.int <- function(fit,
   if ((fun == "glm" || fun == "glmer")) {
     if (binom_fam)
       y_title <- "Change in Predicted Probability"
-    else 
+    else
       y_title <- "Change in Incidents Rates"
   }
   # -----------------------------------------------------------
@@ -430,7 +430,7 @@ sjp.int <- function(fit,
   plotlist <- list()
   dflist <- list()
   # -----------------------------------------------------------
-  # when we have linear mixed effects models and both interaction 
+  # when we have linear mixed effects models and both interaction
   # terms are factors, we may have the same interaction term names
   # multiples times - thus, remove redundant duplicates
   # -----------------------------------------------------------
@@ -456,7 +456,7 @@ sjp.int <- function(fit,
     interactionterms <- unlist(strsplit(intnames[cnt], ":"))
     labx <- c()
     # Label on y-axis is name of dependent variable
-    laby <- paste0("Change in ", sjmisc::get_label(modfram[[git[["depvar.label"]]]], 
+    laby <- paste0("Change in ", sjmisc::get_label(modfram[[git[["depvar.label"]]]],
                                                    def.value = git[["depvar.label"]]))
     # -----------------------------------------------------------
     # find estimates (beta values) for each single predictor of
@@ -502,7 +502,7 @@ sjp.int <- function(fit,
     # calculate regression line
     # -----------------------------------------------------------
     if (useFirstPredOnY) {
-      labx <- sjmisc::get_label(modfram[[interactionterms[1]]], 
+      labx <- sjmisc::get_label(modfram[[interactionterms[1]]],
                                 def.value = interactionterms[1])
       predy <- interactionterms[2]
       # -----------------------------------------------------------
@@ -515,7 +515,7 @@ sjp.int <- function(fit,
       # -----------------------------------------------------------
       b.pred <- b1
     } else {
-      labx <- sjmisc::get_label(modfram[[interactionterms[2]]], 
+      labx <- sjmisc::get_label(modfram[[interactionterms[2]]],
                                 def.value = interactionterms[2])
       predy <- interactionterms[1]
       # -----------------------------------------------------------
@@ -563,8 +563,8 @@ sjp.int <- function(fit,
     # the estimates of each term and the associated interaction term,
     # i.e.: y = b0 + (b1 * pred1) + (b2 * pred2) + (b3 * pred1 * pred2)
     # -----------------------------------------------------------
-    # We now calculate the conditional effect of predictor 1 under absence 
-    # (or lowest impact) of predictor 2 on the dependent variable. Thus, 
+    # We now calculate the conditional effect of predictor 1 under absence
+    # (or lowest impact) of predictor 2 on the dependent variable. Thus,
     # the slope for predictor 2 is not calculated. see
     # http://www.theanalysisfactor.com/interpreting-interactions-in-regression/
     # http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/
@@ -572,7 +572,7 @@ sjp.int <- function(fit,
     miny <- (b.pred * pred.value) + (b3 * pred.value * ymin)
     # ------------------------------
     # here we calculate the conditional effect of predictor 1 under presence
-    # (or strongest impact) of predictor 2 on the dependent variable. Thus, 
+    # (or strongest impact) of predictor 2 on the dependent variable. Thus,
     # the slope for predictor 2 only is not needed. see references above
     # ------------------------------
     maxy <- (b.pred * pred.value) + (b3 * pred.value * ymax)
@@ -642,7 +642,7 @@ sjp.int <- function(fit,
           lowerLim.y <- floor(min(intdf$y, na.rm = T))
           upperLim.y <- ceiling(max(intdf$y, na.rm = T))
         }
-      } 
+      }
     } else {
       lowerLim.y <- ylim[1]
       upperLim.y <- ylim[2]
@@ -674,7 +674,7 @@ sjp.int <- function(fit,
                          interactionterms[ifelse(isTRUE(useFirstPredOnY), 2, 1)],
                          ") on ", git[["depvar.label"]])
     } else {
-      # copy plot counter 
+      # copy plot counter
       l_nr <- cnt
       # check if we have enough labels. if not, use last labels
       if (l_nr > length(title)) l_nr <- length(title)
@@ -721,7 +721,7 @@ sjp.int <- function(fit,
         }
       }
     } else {
-      # copy plot counter 
+      # copy plot counter
       l_nr <- cnt
       # check if we have enough labels. if not, use last labels
       if (l_nr > length(legend.labels)) l_nr <- length(legend.labels)
@@ -734,7 +734,7 @@ sjp.int <- function(fit,
     if (is.null(legend.title)) {
       lTitle <- sjmisc::get_label(modfound, def.value = predy)
     } else {
-      # copy plot counter 
+      # copy plot counter
       l_nr <- cnt
       # check if we have enough legend titles, if not, use last legend title
       if (l_nr > length(legend.title)) l_nr <- length(legend.title)
@@ -745,7 +745,7 @@ sjp.int <- function(fit,
     # x axis titles
     # -----------------------------------------------------------
     if (!is.null(axis.title)) {
-      # copy plot counter 
+      # copy plot counter
       l_nr <- cnt
       # check if we have enough axis titles, if not, use last legend title
       if (l_nr > length(axis.title)) l_nr <- length(axis.title)
@@ -855,8 +855,8 @@ sjp.int <- function(fit,
                       list(plot.list = plotlist,
                            data.list = dflist)))
 }
-  
-  
+
+
 #' @importFrom stats na.omit model.frame
 #' @importFrom dplyr if_else
 sjp.eff.int <- function(fit,
@@ -900,26 +900,26 @@ sjp.eff.int <- function(fit,
   if (is.null(grid.breaks)) gridbreaks.x <- gridbreaks.y <- ggplot2::waiver()
   # init default
   binom_fam <- FALSE
-  
+
   # additional arguments for 'effects()'-function?
   add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
   # check whether we have a "transformation" argument
   t.add <- which(names(add.args) == "transformation")
-  # if we have a "transformation" argument, and it's NULL, 
+  # if we have a "transformation" argument, and it's NULL,
   # no transformation of scale
   no.transform <- !sjmisc::is_empty(t.add) && is.null(eval(add.args[[t.add]]))
   # ---------------------------------------
   # get ...-arguments
   # ---------------------------------------
   dot.args <- get_dot_args(match.call(expand.dots = FALSE)$`...`)
-  
+
   # ------------------------
   # calculate effects of higher order terms and
   # check if fitted model contains any interaction terms
-  # allEffects returns a list, with all interaction effects 
+  # allEffects returns a list, with all interaction effects
   # (or higher order terms) as separate list element. each list
   # element contains the higher-order-term of the fitted model,
-  # where the 'term' attribute of interaction terms have a "*". 
+  # where the 'term' attribute of interaction terms have a "*".
   # So we just need to look at each 'term' attribute of each
   # list element and see if there is a "*"...
   # ------------------------
@@ -943,7 +943,7 @@ sjp.eff.int <- function(fit,
     intpos <- 1
   }
   # select only specific plots
-  if (!is.null(int.plot.index) && !any(int.plot.index > length(intpos))) intpos <- intpos[int.plot.index]  
+  if (!is.null(int.plot.index) && !any(int.plot.index > length(intpos))) intpos <- intpos[int.plot.index]
   # init vector that saves ggplot objects
   plotlist <- list()
   dflist <- list()
@@ -976,7 +976,7 @@ sjp.eff.int <- function(fit,
     x_is_factor <- is.factor(intdf[[pred_x.name]]) || (length(unique(na.omit(intdf[[pred_x.name]]))) < 3)
     mod_is_factor <- is.factor(intdf[[moderator.name]])
     # -----------------------------------------------------------
-    # check for moderator values, but only, if moderator 
+    # check for moderator values, but only, if moderator
     # is no factor value. In this case, we can choose
     # the values for continuous moderator intentionally,
     # e.g. only min/max, or mean and sd. We don't need these
@@ -993,7 +993,7 @@ sjp.eff.int <- function(fit,
       # -----------------------------------------------------------
       mdrt.values <- mv_check(mdrt.values, modval)
       # we have more than two values, so re-calculate effects, just using
-      # min and max value of moderator. 
+      # min and max value of moderator.
       if (mdrt.values == "minmax" && length(unique(intdf[[moderator.name]])) > 2) {
         # retrieve min and max values
         mv.min <- min(modval, na.rm = T)
@@ -1033,19 +1033,19 @@ sjp.eff.int <- function(fit,
       # combine lists
       if (is.null(int.term)) {
         # re-compute effects
-        eff.tmp <- effects::allEffects(fit, xlevels = c(xl1, xl2), KR = p.kr, 
+        eff.tmp <- effects::allEffects(fit, xlevels = c(xl1, xl2), KR = p.kr,
                                        confidence.level = dot.args[["ci.lvl"]], ...)
         # reset data frame
         intdf <- data.frame(eff.tmp[[intpos[i]]])
       } else {
         # re-compute effects
-        eff.tmp <- effects::effect(int.term, fit, xlevels = c(xl1, xl2), 
+        eff.tmp <- effects::effect(int.term, fit, xlevels = c(xl1, xl2),
                                    KR = p.kr, confidence.level = dot.args[["ci.lvl"]], ...)
         # reset data frame
         intdf <- data.frame(eff.tmp)
       }
       # -----------------------------------------------------------
-      # check for predictor values on x-axis. if it 
+      # check for predictor values on x-axis. if it
       # is no factor, select whole range of possible
       # values.
       # -----------------------------------------------------------
@@ -1158,14 +1158,14 @@ sjp.eff.int <- function(fit,
       # --------------------------------------------------------
       # for logistic reg.
       if (binom_fam) {
-        ysc <- dplyr::if_else(isTRUE(no.transform), 
-                              true = "log-odds", 
-                              false = "probabilities", 
+        ysc <- dplyr::if_else(isTRUE(no.transform),
+                              true = "log-odds",
+                              false = "probabilities",
                               missing = "values")
       } else if (poisson_fam) {
-        ysc <- dplyr::if_else(isTRUE(no.transform), 
-                              true = "log-mean", 
-                              false = "incidents", 
+        ysc <- dplyr::if_else(isTRUE(no.transform),
+                              true = "log-mean",
+                              false = "incidents",
                               missing = "values")
       } else {
         ysc <- "values"
@@ -1226,7 +1226,7 @@ sjp.eff.int <- function(fit,
       labtitle <- paste0("Interaction effect of ", moderator.name, " and ",
                          pred_x.name, " on ", response.name)
     } else {
-      # copy plot counter 
+      # copy plot counter
       l_nr <- i
       # check if we have enough labels. if not, use last labels
       if (l_nr > length(title)) l_nr <- length(title)
@@ -1239,13 +1239,13 @@ sjp.eff.int <- function(fit,
     if (is.null(legend.labels)) {
       # try to get labels, but only for factors
       if (mod_is_factor) {
-        lLabels <- sjmisc::get_labels(stats::model.frame(fit)[[moderator.name]], 
+        lLabels <- sjmisc::get_labels(stats::model.frame(fit)[[moderator.name]],
                                       attr.only = F)
       }
       # if we still have no labels, get values from group
       if (is.null(lLabels)) lLabels <- unique(as.character(intdf$grp))
     } else {
-      # copy plot counter 
+      # copy plot counter
       l_nr <- i
       # check if we have enough labels. if not, use last labels
       if (l_nr > length(legend.labels)) l_nr <- length(legend.labels)
@@ -1262,10 +1262,10 @@ sjp.eff.int <- function(fit,
     # legend titles
     # -----------------------------------------------------------
     if (is.null(legend.title)) {
-      lTitle <- sjmisc::get_label(stats::model.frame(fit)[[moderator.name]], 
+      lTitle <- sjmisc::get_label(stats::model.frame(fit)[[moderator.name]],
                                   def.value = moderator.name)
     } else {
-      # copy plot counter 
+      # copy plot counter
       l_nr <- i
       # check if we have enough legend titles, if not, use last legend title
       if (l_nr > length(legend.title)) l_nr <- length(legend.title)
@@ -1276,7 +1276,7 @@ sjp.eff.int <- function(fit,
     # x axis titles
     # -----------------------------------------------------------
     if (!is.null(axis.title)) {
-      # copy plot counter 
+      # copy plot counter
       l_nr <- i
       # check if we have enough axis titles, if not, use last legend title
       if (l_nr > length(axis.title)) l_nr <- length(axis.title)
@@ -1314,7 +1314,7 @@ sjp.eff.int <- function(fit,
         if (jitter.ci) {
           baseplot <- baseplot +
             geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high", colour = "grp", linetype = "grp"),
-                          width = dot.args[["eb.width"]], show.legend = FALSE, 
+                          width = dot.args[["eb.width"]], show.legend = FALSE,
                           position = position_dodge(.2)) +
             geom_point(position = position_dodge(.2), shape = 16) +
             geom_line(size = geom.size, position = position_dodge(.2))
@@ -1330,8 +1330,8 @@ sjp.eff.int <- function(fit,
         }
       } else {
         # -------------------------------------------------
-        # for continuous variables, we add  continuous 
-        # confidence region instead of error bars 
+        # for continuous variables, we add  continuous
+        # confidence region instead of error bars
         # -------------------------------------------------
         baseplot <- baseplot +
           geom_ribbon(aes_string(ymin = "conf.low", ymax = "conf.high", colour = NULL, fill = "grp"),
@@ -1345,7 +1345,7 @@ sjp.eff.int <- function(fit,
     # plot value labels
     # ------------------------------------------------------------
     if (show.values) {
-      # don't need geom_point, because point-layer already 
+      # don't need geom_point, because point-layer already
       # added with x_is_factor
       if (!x_is_factor) baseplot <- baseplot + geom_point()
       # add value label text
@@ -1361,29 +1361,29 @@ sjp.eff.int <- function(fit,
     # we have specified labels for factors on x-axis only...
     if (x_is_factor && !is.null(x_labels)) {
       baseplot <- baseplot +
-        scale_x_continuous(limits = c(lowerLim.x, upperLim.x), 
+        scale_x_continuous(limits = c(lowerLim.x, upperLim.x),
                            breaks = gridbreaks.x,
                            labels = x_labels)
-      
+
     } else {
       # ...else, we use waiver-labels
       baseplot <- baseplot +
-        scale_x_continuous(limits = c(lowerLim.x, upperLim.x), 
+        scale_x_continuous(limits = c(lowerLim.x, upperLim.x),
                            breaks = gridbreaks.x)
     }
     # ------------------------
-    # for logistic regression, use 
+    # for logistic regression, use
     # 0 to 1 scale limits and percentage scale
     # ------------------------
     if (binom_fam && !no.transform) {
       baseplot <- baseplot +
-        scale_y_continuous(limits = c(lowerLim.y, upperLim.y), 
+        scale_y_continuous(limits = c(lowerLim.y, upperLim.y),
                            breaks = gridbreaks.y,
                            labels = scales::percent)
     } else {
       baseplot <- baseplot +
         # set axis scale breaks
-        scale_y_continuous(limits = c(lowerLim.y, upperLim.y), 
+        scale_y_continuous(limits = c(lowerLim.y, upperLim.y),
                            breaks = gridbreaks.y)
     }
     # ---------------------------------------------------------
@@ -1393,10 +1393,10 @@ sjp.eff.int <- function(fit,
     # ---------------------------------------------------------
     # set geom colors
     # ---------------------------------------------------------
-    baseplot <- sj.setGeomColors(baseplot, 
-                                 geom.colors, 
-                                 pal.len = length(unique(stats::na.omit(intdf$grp))), 
-                                 show.legend = !is.null(lLabels) & !facet.grid, 
+    baseplot <- sj.setGeomColors(baseplot,
+                                 geom.colors,
+                                 pal.len = length(unique(stats::na.omit(intdf$grp))),
+                                 show.legend = !is.null(lLabels) & !facet.grid,
                                  lLabels)
     # ---------------------------------------------------------
     # Check whether ggplot object should be returned or plotted

@@ -15,15 +15,15 @@ sjp.scatter(x = NULL, y = NULL, grp = NULL, title = "",
   facet.grid = FALSE, prnt.plot = TRUE)
 }
 \arguments{
-\item{x}{vector indicating the x positions. If not specified (i.e. if
+\item{x}{Vector indicating the x positions. If not specified (i.e. if
 \code{NULL}), a range from 1 to length of \code{y} is used to spread the
 dots along the x axis.}
 
-\item{y}{vector indicating the y positions. If not specified (i.e. if
+\item{y}{Vector indicating the y positions. If not specified (i.e. if
 \code{NULL}), a range from 1 to length of \code{x} is used to spread the
 dots along the y axis.}
 
-\item{grp}{grouping variable. If not \code{NULL}, the scatter plot will be grouped. See
+\item{grp}{Grouping variable. If not \code{NULL}, the scatter plot will be grouped. See
 'Examples'. Default is \code{NULL}, i.e. not grouping is done.}
 
 \item{title}{character vector, used as plot title. Depending on plot type and function,
@@ -35,8 +35,8 @@ to define titles for each sub-plot or facet.}
 
 \item{legend.labels}{character vector with labels for the guide/legend.}
 
-\item{dot.labels}{character vector with names for each coordinate pair given
-by \code{x} and \code{y}, so text labels are added to the plot. 
+\item{dot.labels}{Character vector with names for each coordinate pair given
+by \code{x} and \code{y}, so text labels are added to the plot.
 Must be of same length as \code{x} and \code{y}.
 If \code{dot.labels} has a different length, data points will be trimmed
 to match \code{dot.labels}. If \code{dot.labels = NULL} (default),
@@ -48,14 +48,14 @@ for the x-axis and y-axis.}
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.legend.title}{numeric, determines how many chars of the legend's title 
+\item{wrap.legend.title}{numeric, determines how many chars of the legend's title
 are displayed in one line and when a line break is inserted.}
 
-\item{wrap.legend.labels}{numeric, determines how many chars of the legend labels are 
+\item{wrap.legend.labels}{numeric, determines how many chars of the legend labels are
 displayed in one line and when a line break is inserted.}
 
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function). Note that bar and bin widths mostly 
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size,
+depending on plot type and function). Note that bar and bin widths mostly
 need smaller values than dot sizes.}
 
 \item{label.size}{Size of text labels if argument \code{dot.labels} is used.}
@@ -65,47 +65,47 @@ need smaller values than dot sizes.}
 \item{show.axis.values}{logical, whether category, count or percentage values for the axis
 should be printed or not.}
 
-\item{fit.line.grps}{logical, if \code{TRUE}, a fitted line for each group
+\item{fit.line.grps}{Logical, if \code{TRUE}, a fitted line for each group
 is drawn. See \code{fitmethod} to change the fit method of the fitted lines.}
 
-\item{fit.line}{logical, if \code{TRUE}, a fitted line for the overall
+\item{fit.line}{Logical, if \code{TRUE}, a fitted line for the overall
 scatterplot is drawn. See \code{fitmethod} to change the fit method
 of the fitted line.}
 
-\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
+\item{show.ci}{Logical, if \code{TRUE}, depending on \code{type}, a confidence
 interval or region is added to the plot.}
 
 \item{fitmethod}{By default, a linear method (\code{"lm"}) is used for fitting
 the fit lines. Possible values are for instance \code{"lm"}, \code{"glm"},
 \code{"loess"} or \code{"auto"}.}
 
-\item{jitter.dots}{logical, if \code{TRUE}, points will be jittered (to avoid overplotting).}
+\item{jitter.dots}{Logical, if \code{TRUE}, points will be jittered (to avoid overplotting).}
 
-\item{emph.dots}{logical, if \code{TRUE}, overlapping points at same coordinates
+\item{emph.dots}{Logical, if \code{TRUE}, overlapping points at same coordinates
 will be becomme larger, so point size indicates amount of overlapping.}
 
-\item{auto.jitter}{logical, if \code{TRUE}, points will be jittered according
+\item{auto.jitter}{Logical, if \code{TRUE}, points will be jittered according
 to an overlap-estimation. A matrix of \code{x} and \code{y} values
 is created and the amount of cells (indicating a unique point position)
 is calculated. If more than 15\% (see \code{jitter.ratio}) of the
 approximated amount of unique point coordinates seem to
 overlap, they are automatically jittered.}
 
-\item{jitter.ratio}{ratio of tolerated overlapping (see \code{auto.jitter}).
+\item{jitter.ratio}{Ratio of tolerated overlapping (see \code{auto.jitter}).
 If approximated amount of overlapping  points exceed this ratio,
 they are automatically jittered. Default is 0.15. Valid values range
 between 0 and 1.}
 
-\item{show.rug}{logical, if \code{TRUE}, a marginal rug plot is displayed
+\item{show.rug}{Logical, if \code{TRUE}, a marginal rug plot is displayed
 in the graph.}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
-\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
-in a grid of an integrated single plot. This argument calls 
+\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots
+in a grid of an integrated single plot. This argument calls
 \code{\link[ggplot2]{facet_wrap}} or \code{\link[ggplot2]{facet_grid}}
-to arrange plots. Use \code{\link{plot_grid}} to plot multiple plot-objects 
+to arrange plots. Use \code{\link{plot_grid}} to plot multiple plot-objects
 as an arranged grid with \code{\link[gridExtra]{grid.arrange}}.}
 
 \item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
@@ -154,12 +154,12 @@ fit <- lm(neg_c_7 ~ quol_5, data = efc)
 sjp.scatter(y = fit$residuals, fit.line = TRUE)
 
 # "hide" axis titles
-sjp.scatter(efc$c160age, efc$e17age, efc$e42dep, title = "", 
+sjp.scatter(efc$c160age, efc$e17age, efc$e42dep, title = "",
             axis.titles = c("", ""))
 
 # plot text labels
 pl <- c(1:10)
-for (i in 1:10) 
+for (i in 1:10)
   pl[i] <- paste(sample(c(0:9, letters, LETTERS), 8, replace = TRUE), collapse = "")
 sjp.scatter(runif(10), runif(10), dot.labels = pl)
 

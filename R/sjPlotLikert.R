@@ -18,18 +18,18 @@ utils::globalVariables(c("offset"))
 #'        of categories fails. In such cases, specify the amount of categories
 #'        with the \code{catcount}-argument.
 #'
-#' @param catcount optional, amount of categories of \code{items} (e.g. \emph{"strongly disagree",
+#' @param catcount Optional, amount of categories of \code{items} (e.g. \emph{"strongly disagree",
 #'          "disagree", "agree"} and \emph{"strongly agree"} would be \code{catcount = 4}).
 #'          Note that this argument only applies to "valid" answers, i.e. if you
 #'          have an additional neutral category (see \code{cat.neutral}) like \emph{"don't know"},
 #'          this won't count for \code{catcount} (e.g. "strongly disagree",
 #'          "disagree", "agree", "strongly agree" and neutral category "don't know"
 #'          would still mean that \code{catcount = 4}). See 'Note'.
-#' @param cat.neutral if there's a neutral category (like "don't know" etc.), specify
+#' @param cat.neutral If there's a neutral category (like "don't know" etc.), specify
 #'          the index number (value) for this category. Else, set \code{cat.neutral = NULL} (default).
 #'          The proportions of neutral category answers are plotted as grey bars on the left side of
 #'          the figure.
-#' @param sort.frq indicates whether the items of \code{items} should be ordered by
+#' @param sort.frq Indicates whether the items of \code{items} should be ordered by
 #'          total sum of positive or negative answers.
 #'          \describe{
 #'            \item{\code{"pos.asc"}}{to order ascending by sum of positive answers}
@@ -38,19 +38,19 @@ utils::globalVariables(c("offset"))
 #'            \item{\code{"neg.desc"}}{for sorting descending negative answers}
 #'            \item{\code{NULL}}{(default) for no sorting}
 #'          }
-#' @param reverse.colors logical, if \code{TRUE}, the color scale from \code{geom.colors} will be reversed,
+#' @param reverse.colors Logical, if \code{TRUE}, the color scale from \code{geom.colors} will be reversed,
 #'          so positive and negative values switch colors.
-#' @param cat.neutral.color color of the neutral category, if plotted (see \code{cat.neutral}).
-#' @param intercept.line.color color of the vertical intercept line that divides positive and negative values.
-#' @param values determines style and position of percentage value labels on the bars:
+#' @param cat.neutral.color Color of the neutral category, if plotted (see \code{cat.neutral}).
+#' @param intercept.line.color Color of the vertical intercept line that divides positive and negative values.
+#' @param values Determines style and position of percentage value labels on the bars:
 #'          \describe{
 #'            \item{\code{"show"}}{(default) shows percentage value labels in the middle of each category bar}
 #'            \item{\code{"hide"}}{hides the value labels, so no percentage values on the bars are printed}
 #'            \item{\code{"sum.inside"}}{shows the sums of percentage values for both negative and positive values and prints them inside the end of each bar}
 #'            \item{\code{"sum.outide"}}{shows the sums of percentage values for both negative and positive values and prints them outside the end of each bar}
 #'          }
-#' @param show.prc.sign logical, if \code{TRUE}, \%-signs for value labels are shown.
-#' @param grid.range numeric, limits of the x-axis-range, as proportion of 100.
+#' @param show.prc.sign Logical, if \code{TRUE}, \%-signs for value labels are shown.
+#' @param grid.range Numeric, limits of the x-axis-range, as proportion of 100.
 #'          Default is 1, so the x-scale ranges from zero to 100\% on
 #'          both sides from the center. You can use values beyond 1
 #'          (100\%) in case bar labels are not printed because they exceed the axis range.
@@ -67,27 +67,6 @@ utils::globalVariables(c("offset"))
 #'           \code{df.pos} for the positive values and \code{df.neutral} for the neutral category values).
 #'
 #' @examples
-#' # prepare data for 4-category likert scale, with neutral category 5 items
-#' Q1 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(.2, .3, .1, .4)))
-#' Q2 <- as.factor(sample(1:5, 500, replace = TRUE, prob = c(.5, .25, .12, .09, .03)))
-#' Q3 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(.25, .1, .4, .25)))
-#' Q4 <- as.factor(sample(1:5, 500, replace = TRUE, prob = c(.1, .3, .38, .1, .12)))
-#' Q5 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(.35, .25, .15, .25)))
-#'
-#' likert_4 <- data.frame(Q1, Q2, Q3, Q4, Q5)
-#'
-#' # create labels
-#' levels_4 <- c("Strongly agree", "Agree", "Disagree",
-#'               "Strongly Disagree", "Don't know")
-#'
-#' # create item labels
-#' items <- c("Q1", "Q2", "Q3", "Q4", "Q5")
-#'
-#' # plot 4-category-likert-scale, no sorting
-#' sjp.likert(likert_4, cat.neutral = 5, legend.labels = levels_4,
-#'            axis.labels = items, grid.range = 1.2, expand.grid = FALSE,
-#'            values = "sum.outside", show.prc.sign = TRUE)
-#'
 #' # Data from the EUROFAMCARE sample dataset
 #' library(dplyr)
 #' library(sjmisc)
@@ -95,6 +74,14 @@ utils::globalVariables(c("offset"))
 #' # find all variables from COPE-Index, which all have a "cop" in their
 #' # variable name, and then plot that subset as likert-plot
 #' efc[, find_var(efc, "cop")] %>% sjp.likert()
+#'
+#' sjp.likert(
+#'   find_var(efc, "cop", as.df = TRUE),
+#'   grid.range = 1.2,
+#'   expand.grid = FALSE,
+#'   values = "sum.outside",
+#'   show.prc.sign = TRUE
+#' )
 #'
 #' @import ggplot2
 #' @importFrom stats na.omit xtabs
@@ -264,7 +251,7 @@ sjp.likert <- function(items,
              collapse = ";"), ";else=copy"
       )
     # finally, recode data
-    items <- sjmisc::rec(items, rec = recode.pattern)
+    items <- sjmisc::rec(items, recodes = recode.pattern)
     # re-order legend labels as well
     ll.order <- c(seq_len(catcount + adding)[-cat.neutral], cat.neutral)
     legend.labels <- legend.labels[ll.order]

@@ -8,17 +8,17 @@
 #'            \item \code{\link{sjp.xtab}}
 #'          }
 #'
-#' @param var.row variable that should be displayed in the table rows.
-#' @param var.col variable that should be displayed in the table columns.
-#' @param var.labels character vector with variable names, which will be used
+#' @param var.row Variable that should be displayed in the table rows.
+#' @param var.col Cariable that should be displayed in the table columns.
+#' @param var.labels Character vector with variable names, which will be used
 #'          to label variables in the output.
-#' @param string.total label for the total column / row header
-#' @param show.cell.prc logical, if \code{TRUE}, cell percentage values are shown
-#' @param show.row.prc logical, if \code{TRUE}, row percentage values are shown
-#' @param show.col.prc logical, if \code{TRUE}, column percentage values are shown
-#' @param show.obs logical, if \code{TRUE}, observed values are shown
-#' @param show.exp logical, if \code{TRUE}, expected values are also shown
-#' @param show.summary logical, if \code{TRUE}, a summary row with
+#' @param string.total Character label for the total column / row header
+#' @param show.cell.prc Logical, if \code{TRUE}, cell percentage values are shown
+#' @param show.row.prc Logical, if \code{TRUE}, row percentage values are shown
+#' @param show.col.prc Logical, if \code{TRUE}, column percentage values are shown
+#' @param show.obs Logical, if \code{TRUE}, observed values are shown
+#' @param show.exp Logical, if \code{TRUE}, expected values are also shown
+#' @param show.summary Logical, if \code{TRUE}, a summary row with
 #'          chi-squared statistics, degrees of freedom and Cramer's V or Phi
 #'          coefficient and p-value for the chi-squared statistics.
 #' @param tdcol.n Color for highlighting count (observed) values in table cells. Default is black.
@@ -26,9 +26,9 @@
 #' @param tdcol.cell Color for highlighting cell percentage values in table cells. Default is red.
 #' @param tdcol.row Color for highlighting row percentage values in table cells. Default is blue.
 #' @param tdcol.col Color for highlighting column percentage values in table cells. Default is green.
-#' @param emph.total logical, if \code{TRUE}, the total column and row will be emphasized with a
+#' @param emph.total Logical, if \code{TRUE}, the total column and row will be emphasized with a
 #'          different background color. See \code{emph.color}.
-#' @param emph.color logical, if \code{emph.total = TRUE}, this color value will be used
+#' @param emph.color Logical, if \code{emph.total = TRUE}, this color value will be used
 #'          for painting the background of the total column and row. Default is a light grey.
 #' @param prc.sign The percentage sign that is printed in the table cells, in HTML-format.
 #'          Default is \code{"&nbsp;\%"}, hence the percentage sign has a non-breaking-space after

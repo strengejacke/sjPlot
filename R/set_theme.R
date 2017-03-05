@@ -1,8 +1,8 @@
 #' @title Set default theme for sjp-functions
 #' @name set_theme
-#' 
+#'
 #' @description Set default theme for sjp-functions.
-#' 
+#'
 #' @param theme Name of a pre-set theme. May be one of:
 #'        \describe{
 #'          \item{\code{"blank"}}{a theme with no grids and axes.}
@@ -12,25 +12,25 @@
 #'          \item{\code{"scatter"}}{a theme for scatter plots in 539-theme-style.}
 #'          \item{\code{"538w"}, \code{"539w"}, \code{"scatterw"} and \code{"forestw"}}{for themes as described above, however all with white backgrounds.}
 #'        }
-#' @param ... other arguments passed down to \code{\link{sjp.setTheme}}.
-#' 
+#' @param ... Other arguments passed down to \code{\link{sjp.setTheme}}.
+#'
 #' @return The customized theme object.
-#' 
+#'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/custplot/}{sjPlot manual: customize plot appearance}
-#' 
+#'
 #' @references \itemize{
 #'              \item \href{http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/}{Beautiful plotting in R: A ggplot2 cheatsheet}
 #'              \item \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{An Introduction on How to Make Beautiful Charts With R and ggplot2}
 #'             }
-#' 
+#'
 #' @examples
 #' library(sjmisc)
 #' data(efc)
-#' 
+#'
 #' # of the ggplot base theme
 #' set_theme("539")
 #' sjp.xtab(efc$e42dep, efc$e16sex)
-#' 
+#'
 #' @import ggplot2
 #' @importFrom scales brewer_pal grey_pal
 #' @importFrom dplyr case_when
@@ -38,9 +38,9 @@
 set_theme <- function(theme = c("forest", "538", "539", "scatter", "forestw",
                                 "538w", "539w", "scatterw", "blank"),
                       ...) {
-  
+
   theme <- match.arg(theme)
-  
+
   if (theme == "blank") {
     return(sjp.setTheme(
       base = theme_classic(),
@@ -51,12 +51,12 @@ set_theme <- function(theme = c("forest", "538", "539", "scatter", "forestw",
       ...
     ))
   }
-  
+
   g.palette <- scales::brewer_pal(palette = "Greys")(9)
 
   col.ind <- dplyr::case_when(
-    theme == "538" ~ 2, 
-    theme == "539" ~ 2, 
+    theme == "538" ~ 2,
+    theme == "539" ~ 2,
     theme == "forest" ~ 2,
     theme == "scatter" ~ 2,
     theme == "539w" ~ 1,
@@ -70,36 +70,36 @@ set_theme <- function(theme = c("forest", "538", "539", "scatter", "forestw",
     theme %in% c("forest", "forestw") ~ col.ind,
     TRUE ~ 4
   )
-  
+
   axis.linecolor <- dplyr::case_when(
-    theme == "538" ~ g.palette[col.ind], 
+    theme == "538" ~ g.palette[col.ind],
     theme == "538w" ~ g.palette[col.ind],
     TRUE ~ g.palette[5]
   )
-  
+
   axis.linecolor.x <- dplyr::case_when(
-    theme == "538" ~ g.palette[col.ind], 
+    theme == "538" ~ g.palette[col.ind],
     theme == "538w" ~ g.palette[col.ind],
     TRUE ~ g.palette[5]
   )
-  
+
   axis.linecolor.y <- dplyr::case_when(
-    theme == "scatter" ~ g.palette[5], 
+    theme == "scatter" ~ g.palette[5],
     theme == "scatterw" ~ g.palette[5],
     TRUE ~ g.palette[col.ind]
   )
-  
+
   panel.gridcol.x <- dplyr::case_when(
     theme %in% c("539", "539w", "538", "538w", "forest", "forestw") ~ g.palette[col.ind],
     TRUE ~ g.palette[4]
-  )  
-  
+  )
+
   if (theme %in% c("scatter", "scatterw")) {
     panel.major.linetype <- panel.minor.linetype <- 2
   } else {
     panel.major.linetype <- panel.minor.linetype <- NULL
   }
-  
+
   return(sjp.setTheme(
     base = ggplot2::theme_bw(),
     # plot

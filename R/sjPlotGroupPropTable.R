@@ -7,22 +7,22 @@ utils::globalVariables(c("dep", "n"))
 #'                each level of \code{x} for the highest category in \code{y}
 #'                is plotted, for each subgroup of \code{groups}.
 #'
-#' @param x categorical variable, where the proportion of each category in
+#' @param x Categorical variable, where the proportion of each category in
 #'            \code{x} for the highest category of \code{y} will be printed
 #'            along the x-axis.
-#' @param y categorical or numeric variable. If not a binary variable, \code{y}
+#' @param y Categorical or numeric variable. If not a binary variable, \code{y}
 #'            will be recoded into a binary variable, dichtomized at the highest
 #'            category and all remaining categories.
-#' @param groups grouping variable, which will define the y-axis
-#' @param shape.fill.color optional color vector, fill-color for non-filled shapes
-#' @param shapes numeric vector with shape styles, used to map the different
+#' @param groups Grouping variable, which will define the y-axis
+#' @param shape.fill.color Optional color vector, fill-color for non-filled shapes
+#' @param shapes Numeric vector with shape styles, used to map the different
 #'          categories of \code{x}.
-#' @param show.total logical, if \code{TRUE}, a total summary line for all aggregated
+#' @param show.total Logical, if \code{TRUE}, a total summary line for all aggregated
 #'          \code{groups} is added.
-#' @param annotate.total logical, if \code{TRUE} and \code{show.total = TRUE},
+#' @param annotate.total Logical, if \code{TRUE} and \code{show.total = TRUE},
 #'          the total-row in the figure will be highlighted with a slightly
 #'          shaded background.
-#' @param axis.lim numeric vector of length 2, defining the range of the plot axis.
+#' @param axis.lim Numeric vector of length 2, defining the range of the plot axis.
 #'          Depending on plot type, may effect either x- or y-axis, or both.
 #'          For multiple plot outputs (e.g., from \code{type = "eff"} or
 #'          \code{type = "slope"} in \code{\link{sjp.glm}}), \code{axis.lim} may
@@ -175,7 +175,7 @@ sjp.gpt <- function(x,
   # recode dependent variable's categorues
   # max and all others, so we have proportion
   # between maximux value and rest
-  mydf$dep <- sjmisc::rec(mydf$dep, rec = "max=1;else=0")
+  mydf$dep <- sjmisc::rec(mydf$dep, recodes = "max=1;else=0")
 
   # group data by grouping variable, and inside
   # groups, group the x-variable

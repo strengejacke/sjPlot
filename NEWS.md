@@ -1,4 +1,4 @@
-# sjPlot 2.3.0.9000
+# sjPlot 2.3.1
 
 ## General
 
@@ -18,7 +18,7 @@
 
 ## Bug fixes
 
-* Fixed bug in `sjt.frq()` for variables with many missign values and labelled values that did not occur on that variable.
+* Fixed bug in `sjt.frq()` for variables with many missing values and labelled values that did not occur on that variable.
 * Argument `value.labels` had no effect for `sjt.frq()`.
 * Automatic label detection in `sjt.grpmean()` sometimes not worked for factors without variable labels.
 * `sjp.glm()` used _Odds Ratios_ as default title for y-axis when plotting marginal effects. Fixed, now y-axis is correctly labelled.

@@ -7,7 +7,7 @@
 sjc.grpdisc(data, groups, groupcount, clss.fit = TRUE, prnt.plot = TRUE)
 }
 \arguments{
-\item{data}{\code{data.frame} with variables that should be used for the
+\item{data}{A data frame with variables that should be used for the
 cluster analysis.}
 
 \item{groups}{group classification of the cluster analysis that was returned
@@ -27,7 +27,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 \value{
 (Invisibly) returns an object with
           \itemize{
-           \item \code{data}: the used data frame for plotting, 
+           \item \code{data}: the used data frame for plotting,
            \item \code{plot}: the ggplot object,
            \item \code{accuracy}: a vector with the accuracy of classification for each group,
            \item \code{total.accuracy}: the total accuracy of group classification.

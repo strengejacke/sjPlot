@@ -13,74 +13,74 @@ view_df(x, weight.by = NULL, altr.row.col = TRUE, show.id = TRUE,
   remove.spaces = TRUE)
 }
 \arguments{
-\item{x}{\code{data.frame}, imported by \code{\link[sjmisc]{read_spss}},
+\item{x}{A (labelled) data frame, imported by \code{\link[sjmisc]{read_spss}},
 \code{\link[sjmisc]{read_sas}} or \code{\link[sjmisc]{read_stata}} function,
 or any similar labelled data frame (see \code{\link[sjmisc]{set_label}}
 and \code{\link[sjmisc]{set_labels}}).}
 
-\item{weight.by}{weight factor that will be applied to weight all cases.
-Must be a vector of same length as the input vector. Default is 
+\item{weight.by}{Vector of weights that will be applied to weight all cases.
+Must be a vector of same length as the input vector. Default is
 \code{NULL}, so no weights are used.}
 
-\item{altr.row.col}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
+\item{altr.row.col}{Logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
 
-\item{show.id}{logical, if \code{TRUE} (default), the variable ID is shown in the first column.}
+\item{show.id}{Logical, if \code{TRUE} (default), the variable ID is shown in the first column.}
 
 \item{show.type}{logical, if \code{TRUE}, the variable type is shown in a separate
 row respectively column.}
 
-\item{show.values}{logical, if \code{TRUE} (default), the variable values are shown as additional column.}
+\item{show.values}{Logical, if \code{TRUE} (default), the variable values are shown as additional column.}
 
-\item{show.labels}{logical, if \code{TRUE} (default), the value labels are shown as additional column.}
+\item{show.labels}{Logical, if \code{TRUE} (default), the value labels are shown as additional column.}
 
-\item{show.frq}{logical, if \code{TRUE}, an additional column with frequencies for each variable is shown.}
+\item{show.frq}{Logical, if \code{TRUE}, an additional column with frequencies for each variable is shown.}
 
-\item{show.prc}{logical, if \code{TRUE}, an additional column with percentage of frequencies for each variable is shown.}
+\item{show.prc}{Logical, if \code{TRUE}, an additional column with percentage of frequencies for each variable is shown.}
 
-\item{show.wtd.frq}{logical, if \code{TRUE}, an additional column with weighted
+\item{show.wtd.frq}{Logical, if \code{TRUE}, an additional column with weighted
 frequencies for each variable is shown. Weights strem from \code{weight.by}.}
 
-\item{show.wtd.prc}{logical, if \code{TRUE}, an additional column with weighted
+\item{show.wtd.prc}{Logical, if \code{TRUE}, an additional column with weighted
 percentage of frequencies for each variable is shown.
 Weights strem from \code{weight.by}.}
 
 \item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values)
 are added to the output.}
 
-\item{sort.by.name}{logical, if \code{TRUE}, rows are sorted according to the variable
+\item{sort.by.name}{Logical, if \code{TRUE}, rows are sorted according to the variable
 names. By default, rows (variables) are ordered according to their
 order in the data frame.}
 
-\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
 labels are displayed in one line and when a line break is inserted.}
 
 \item{hide.progress}{logical, if \code{TRUE}, the progress bar that is displayed when creating the
 output is hidden. Default in \code{FALSE}, hence the bar is visible.}
 
-\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the
+\item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
 see \href{../doc/sjtbasic.html}{this package-vignette}, or 'Details' in
 \code{\link{sjt.frq}}.}
 
-\item{encoding}{string, indicating the charset encoding used for variable and
+\item{encoding}{String, indicating the charset encoding used for variable and
 value labels. Default is \code{NULL}, so encoding will be auto-detected
 depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
 Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
 
-\item{file}{destination file, if the output should be saved as file.
+\item{file}{Destination file, if the output should be saved as file.
 If \code{NULL} (default), the output will be saved as temporary file and
 openend either in the IDE's viewer pane or the default web browser.}
 
-\item{use.viewer}{If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
+\item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
 
-\item{no.output}{logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
+\item{no.output}{Logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
 the viewer pane and not even saved to file. This option is useful when the html output
 should be used in \code{knitr} documents. The html output can be accessed via the return
 value.}
 
-\item{remove.spaces}{logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+\item{remove.spaces}{Logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
 that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
 may look less pretty, but it may help when exporting html-tables to office tools.}
 }
@@ -97,10 +97,9 @@ Invisibly returns
 \description{
 Save (or show) content of an imported SPSS, SAS or Stata data file,
                or any similar labelled \code{data.frame}, as HTML table.
-               Similar to the SPSS variable view. This quick overview shows
-               variable ID numner, name, label, type and associated
-               value labels. The result can be considered as "codeplan" of
-               the data frame.
+               This quick overview shows variable ID number, name, label,
+               type and associated value labels. The result can be
+               considered as "codeplan" of the data frame.
 }
 \details{
 See 'Details' in \code{\link{sjt.frq}}.
@@ -123,9 +122,7 @@ view_df(efc, show.values = FALSE, show.labels = FALSE)
 # view variables including variable typed, orderd by name
 view_df(efc, sort.by.name = TRUE, show.type = TRUE)
 
-# ----------------------------------------------------------------
 # User defined style sheet
-# ----------------------------------------------------------------
 view_df(efc,
         CSS = list(css.table = "border: 2px solid;",
                    css.tdata = "border: 1px solid;",

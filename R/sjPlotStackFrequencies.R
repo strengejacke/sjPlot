@@ -1,19 +1,19 @@
 #' @title Plot stacked proportional bars
 #' @name sjp.stackfrq
-#' 
+#'
 #' @seealso \itemize{
 #'              \item \href{http://www.strengejacke.de/sjPlot/sjp.stackfrq/}{sjPlot manual: sjp.stackfrq}
 #'              \item \code{\link{sjt.stackfrq}}
 #'              }
-#' 
+#'
 #' @description Plot items (variables) of a scale as stacked proportional bars. This
 #'                function is useful when several items with identical scale/categoroies
 #'                should be plotted to compare the distribution of answers.
-#' 
+#'
 #' @note Thanks to \href{http://www.clas.ufl.edu/users/forrest/}{Forrest Stevens} for bug fixes.
-#' 
-#' @param items \code{data.frame} with each column representing one item.
-#' @param sort.frq indicates whether the \code{items} should be ordered by
+#'
+#' @param items Data frame, with each column representing one item.
+#' @param sort.frq Indicates whether the \code{items} should be ordered by
 #'          by highest count of first or last category of \code{items}.
 #'          \describe{
 #'            \item{\code{"first.asc"}}{to order ascending by lowest count of first category,}
@@ -22,34 +22,16 @@
 #'            \item{\code{"last.desc"}}{to order descending by lowest count of last category,}
 #'            \item{\code{NULL}}{(default) for no sorting.}
 #'          }
-#' @param show.prc If \code{TRUE} (default), the percentage values at the x-axis are shown.
+#' @param show.prc Logical, if \code{TRUE} (default), the percentage values at the x-axis are shown.
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}).
-#' 
+#'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.frq
 #' @inheritParams sjp.glmer
-#' 
+#'
 #' @examples
-#' # random data for 4-category likert scale, 5 items
-#' Q1 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.2, 0.3, 0.1, 0.4)))
-#' Q2 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.5, 0.25, 0.15, 0.1)))
-#' Q3 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.25, 0.1, 0.4, 0.25)))
-#' Q4 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.1, 0.4, 0.4, 0.1)))
-#' Q5 <- as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.35, 0.25, 0.15, 0.25)))
-#' 
-#' likert_4 <- data.frame(Q1, Q2, Q3, Q4, Q5)
-#' 
-#' # create labels
-#' levels_4 <- c("Independent", "Slightly dependent", 
-#'               "Dependent", "Severely dependent")
-#' 
-#' # plot stacked frequencies of 5 (ordered) item-scales
-#' sjp.stackfrq(likert_4, legend.labels = levels_4)
-#' 
-#' # -------------------------------
 #' # Data from the EUROFAMCARE sample dataset
-#' # -------------------------------
 #' library(sjmisc)
 #' data(efc)
 #' # recveive first item of COPE-index scale
@@ -57,9 +39,9 @@
 #' # recveive first item of COPE-index scale
 #' end <- which(colnames(efc) == "c90cop9")
 #' # auto-detection of labels
-#' sjp.stackfrq(efc[, c(start:end)])
-#' 
-#' 
+#' sjp.stackfrq(efc[, start:end])
+#'
+#'
 #' @import ggplot2
 #' @importFrom dplyr group_by mutate arrange
 #' @importFrom scales percent
@@ -133,14 +115,14 @@ sjp.stackfrq <- function(items,
   # --------------------------------------------------------
   # try to automatically set labels if not passed as parameter
   # --------------------------------------------------------
-  if (is.null(legend.labels)) 
+  if (is.null(legend.labels))
     legend.labels <- sjmisc::get_labels(
-      items[[1]], 
+      items[[1]],
       attr.only = F,
-      include.values = NULL, 
+      include.values = NULL,
       include.non.labelled = T
     )
-  
+
   if (is.null(axis.labels)) {
     axis.labels <- sjmisc::get_label(items, def.value = colnames(items))
   }
@@ -171,8 +153,8 @@ sjp.stackfrq <- function(items,
   # --------------------------------------------------------
   if (show.n) {
     for (i in seq_len(length(axis.labels))) {
-      axis.labels[i] <- paste(axis.labels[i], 
-                              sprintf(" (n=%i)", length(stats::na.omit(items[[i]]))), 
+      axis.labels[i] <- paste(axis.labels[i],
+                              sprintf(" (n=%i)", length(stats::na.omit(items[[i]]))),
                               sep = "")
     }
   }
@@ -218,7 +200,7 @@ sjp.stackfrq <- function(items,
     # need to be numeric, so percentage values (see below) are
     # correctly assigned, i.e. missing categories are considered
     df$var <- sjmisc::to_value(df$var, keep.labels = F) + diff # if categories start with zero, fix this here
-    # Create a vector of zeros 
+    # Create a vector of zeros
     prc <- rep(0, countlen)
     # Replace the values in prc for those indices which equal df$var
     prc[df$var] <- df$prc
@@ -230,30 +212,30 @@ sjp.stackfrq <- function(items,
     mydat <- data.frame(rbind(mydat, mydf))
   }
   # ----------------------------
-  # make sure group and count variable 
+  # make sure group and count variable
   # are factor values
   # ----------------------------
   mydat$grp <- as.factor(mydat$grp)
   mydat$cat <- as.factor(mydat$cat)
   # add half of Percentage values as new y-position for stacked bars
-  mydat <- mydat %>% 
-    dplyr::group_by(grp) %>% 
-    dplyr::mutate(ypos = cumsum(prc) - 0.5 * prc) %>% 
+  mydat <- mydat %>%
+    dplyr::group_by(grp) %>%
+    dplyr::mutate(ypos = cumsum(prc) - 0.5 * prc) %>%
     dplyr::arrange(grp)
   # --------------------------------------------------------
   # Prepare and trim legend labels to appropriate size
   # --------------------------------------------------------
   # wrap legend text lines
-  legend.labels <- sjmisc::word_wrap(legend.labels, wrap.legend.labels)    
+  legend.labels <- sjmisc::word_wrap(legend.labels, wrap.legend.labels)
   # check whether we have a title for the legend
   # if yes, wrap legend title line
   if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(legend.title, wrap.legend.title)
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(title)) title <- sjmisc::word_wrap(title, wrap.title)    
+  if (!is.null(title)) title <- sjmisc::word_wrap(title, wrap.title)
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
-  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)    
+  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
   # ----------------------------
   # Check if ordering was requested
   # ----------------------------
@@ -272,7 +254,7 @@ sjp.stackfrq <- function(items,
     # example:
     # we have 4 items, and they may be ordered like this:
     # 1 3 4 2
-    # so the first item is the one with the lowest count , item 3 is on second postion, 
+    # so the first item is the one with the lowest count , item 3 is on second postion,
     # item 4 is on third position and item 2 is the last item (with highest count)
     # we now need their order as subsequent vector: 1 4 2 3
     # (i.e. item 1 is on first pos, item 2 is on fourth pos, item 3 is on
@@ -283,7 +265,7 @@ sjp.stackfrq <- function(items,
       dummy2[facord] <- dummy1
     }
     # now we have the order of either lowest to highest counts of first
-    # or last category of "items". We now need to repeat these values as 
+    # or last category of "items". We now need to repeat these values as
     # often as we have answer categories
     orderedrow <- unlist(tapply(dummy2, seq_len(length(dummy2)), function(x) rep(x, countlen)))
     # replace old grp-order by new order
@@ -330,7 +312,7 @@ sjp.stackfrq <- function(items,
     baseplot <- ggplot(mydat, aes(x = rev(grp), y = prc, fill = cat))
   } else {
     baseplot <- ggplot(mydat, aes(x = grp, y = prc, fill = cat))
-  }  
+  }
   baseplot <- baseplot +
     # plot bar chart
     geom_bar(stat = "identity", position = position_stack(reverse = TRUE), width = geom.size)
@@ -350,15 +332,15 @@ sjp.stackfrq <- function(items,
     # no additional labels for the x- and y-axis, only diagram title
     labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legend.title) +
     # print value labels to the x-axis.
-    # If parameter "axis.labels" is NULL, the category numbers (1 to ...) 
+    # If parameter "axis.labels" is NULL, the category numbers (1 to ...)
     # appear on the x-axis
     scale_x_discrete(labels = axis.labels) +
     # set Y-axis, depending on the calculated upper y-range.
     # It either corresponds to the maximum amount of cases in the data set
     # (length of var) or to the highest count of var's categories.
-    scale_y_continuous(breaks = gridbreaks, 
-                       limits = c(0, 1), 
-                       expand = expgrid, 
+    scale_y_continuous(breaks = gridbreaks,
+                       limits = c(0, 1),
+                       expand = expgrid,
                        labels = perc.val)
   # check whether coordinates should be flipped, i.e.
   # swap x and y axis
@@ -366,10 +348,10 @@ sjp.stackfrq <- function(items,
   # ---------------------------------------------------------
   # set geom colors
   # ---------------------------------------------------------
-  baseplot <- sj.setGeomColors(baseplot, 
-                               geom.colors, 
-                               length(legend.labels), 
-                               show.legend, 
+  baseplot <- sj.setGeomColors(baseplot,
+                               geom.colors,
+                               length(legend.labels),
+                               show.legend,
                                legend.labels)
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted

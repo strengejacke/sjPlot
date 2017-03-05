@@ -10,12 +10,12 @@
 #'                a \code{\link{data.frame}} or a matrix with correlation coefficients
 #'                as returned by the \code{\link{cor}}-function.
 #'
-#' @param fade.ns logical, if \code{TRUE} (default), non-significant correlation-values
+#' @param fade.ns Logical, if \code{TRUE} (default), non-significant correlation-values
 #'          appear faded (by using a lighter grey text color). See 'Note'.
-#' @param triangle indicates whether only the upper right (use \code{"upper"}), lower left (use \code{"lower"})
+#' @param triangle Indicates whether only the upper right (use \code{"upper"}), lower left (use \code{"lower"})
 #'          or both (use \code{"both"}) triangles of the correlation table is filled with values. Default
 #'          is \code{"both"}. You can specifiy the inital letter only.
-#' @param val.rm specify a number between 0 and 1 to suppress the output of correlation values
+#' @param val.rm Specify a number between 0 and 1 to suppress the output of correlation values
 #'          that are smaller than \code{val.rm}. The absolute correlation values are used, so
 #'          a correlation value of \code{-.5} would be greater than \code{val.rm = .4} and thus not be
 #'          omitted. By default, this argument is \code{NULL}, hence all values are shown in the table.
@@ -23,7 +23,7 @@
 #'          the HTML table, but made "invisible" with white foreground color. You can use the \code{CSS}
 #'          argument (\code{"css.valueremove"}) to change color and appearance of those correlation value that are smaller than
 #'          the limit specified by \code{val.rm}.
-#' @param string.diag a vector with string values of the same length as \code{ncol(data)} (number of
+#' @param string.diag A vector with string values of the same length as \code{ncol(data)} (number of
 #'          correlated items) that can be used to display content in the diagonal cells
 #'          where row and column item are identical (i.e. the "self-correlation"). By defauilt,
 #'          this argument is \code{NULL} and the diagnal cells are empty.

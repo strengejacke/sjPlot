@@ -27,7 +27,7 @@ each model with comma. See 'Examples'.}
   \item{\code{"std2"}}{for forest-plot like plot of standardized beta values, however, standardization is done by rescaling estimates by dividing them by two sd (see 'Details' in \code{\link{sjp.lm}}).}
 }}
 
-\item{remove.estimates}{character vector with coefficient names that indicate
+\item{remove.estimates}{Character vector with coefficient names that indicate
 which estimates should be removed from the plot.
 \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 is \code{NULL}, i.e. all estimates are printed.}
@@ -37,10 +37,10 @@ will be set automatically. If \code{title = ""}, no title is printed.
 For effect-plots, may also be a character vector of length > 1,
 to define titles for each sub-plot or facet.}
 
-\item{depvar.labels}{character vector with labels of dependent
+\item{depvar.labels}{Character vector with labels of dependent
 variables of all fitted models. See 'Examples'.}
 
-\item{legend.title}{character vector, used as title for the plot legend. Note that
+\item{legend.title}{Character vector, used as title for the plot legend. Note that
 only some plot types have legends (e.g. \code{type = "pred"} or when
 grouping estimates with \code{group.estimates}).}
 
@@ -50,15 +50,18 @@ indicates the p-values. Default is \code{"p-level"}. Only applies if \code{p.sha
 \item{axis.labels}{character vector with labels used as axis labels. Optional
 argument, since in most cases, axis labels are set automatically.}
 
-\item{axis.title}{character vector of length one or two (depending on
+\item{axis.title}{Character vector of length one or two (depending on
 the plot function and type), used as title(s) for the x and y axis.
 If not specified, a default labelling  is chosen. To set multiple
 axis titles (e.g. with \code{type = "eff"} for many predictors),
 \code{axis.title} must be a character vector of same length of plots
 that are printed. In this case, each plot gets an own axis title
-(applying, for instance, to the y-axis for \code{type = "eff"}).}
+(applying, for instance, to the y-axis for \code{type = "eff"}).
+\strong{Note:} Some plot types do not support this argument. In such
+cases, use the return value and add axis titles manually with
+\code{\link[ggplot2]{labs}}, e.g.: \code{$plot.list[[1]] + labs(x = ...)}}
 
-\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
+\item{axis.lim}{Numeric vector of length 2, defining the range of the plot axis.
 Depending on plot type, may effect either x- or y-axis, or both.
 For multiple plot outputs (e.g., from \code{type = "eff"} or
 \code{type = "slope"} in \code{\link{sjp.glm}}), \code{axis.lim} may
@@ -68,23 +71,23 @@ plot (only if non-faceted).}
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
 labels are displayed in one line and when a line break is inserted.}
 
-\item{wrap.legend.title}{numeric, determines how many chars of the legend's title 
+\item{wrap.legend.title}{numeric, determines how many chars of the legend's title
 are displayed in one line and when a line break is inserted.}
 
-\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
+\item{grid.breaks}{numeric; sets the distance between breaks for the axis,
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function). Note that bar and bin widths mostly 
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size,
+depending on plot type and function). Note that bar and bin widths mostly
 need smaller values than dot sizes.}
 
 \item{geom.spacing}{spacing between the dots and error bars of the plotted fitted models. Default
 is 0.3.}
 
-\item{geom.colors}{user defined color palette for geoms. If \code{group.estimates}
+\item{geom.colors}{User defined color palette for geoms. If \code{group.estimates}
 is \emph{not} specified, must either be vector with two color values or a specific
 color palette code (see 'Details' in \code{\link{sjp.grpfrq}}). Else, if
 \code{group.estimates} is specified, \code{geom.colors} must be a vector
@@ -95,12 +98,12 @@ of same length as groups. See 'Examples'.}
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
-\item{show.intercept}{logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
+\item{show.intercept}{Logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
 Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential
 transformation of estimates, the intercept in some cases can not be calculated, thus the
 function call is interrupted and no plot printed.}
 
-\item{show.p}{logical, adds significance levels to values, or value and
+\item{show.p}{Logical, adds significance levels to values, or value and
 variable labels.}
 
 \item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
@@ -112,16 +115,16 @@ legend is plotted. Default is \code{FALSE}.}
 F-tests with Kenward-Roger approximation for the df. Caution: Computation
 may take very long time for large samples!}
 
-\item{vline.type}{linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
+\item{vline.type}{Linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
 
-\item{vline.color}{color of the vertical "zero point" line. Default value is \code{"grey70"}.}
+\item{vline.color}{Color of the vertical "zero point" line. Default value is \code{"grey70"}.}
 
-\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
+\item{digits}{Numeric, amount of digits after decimal point when rounding estimates and values.}
 
-\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
-in a grid of an integrated single plot. This argument calls 
+\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots
+in a grid of an integrated single plot. This argument calls
 \code{\link[ggplot2]{facet_wrap}} or \code{\link[ggplot2]{facet_grid}}
-to arrange plots. Use \code{\link{plot_grid}} to plot multiple plot-objects 
+to arrange plots. Use \code{\link{plot_grid}} to plot multiple plot-objects
 as an arranged grid with \code{\link[gridExtra]{grid.arrange}}.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}

@@ -12,7 +12,7 @@ sjp.corr(data, title = NULL, axis.labels = NULL, sort.corr = TRUE,
   p.numeric = FALSE, prnt.plot = TRUE)
 }
 \arguments{
-\item{data}{matrix with correlation coefficients as returned by the
+\item{data}{Matrix with correlation coefficients as returned by the
 \code{\link{cor}}-function, or a \code{data.frame} of variables where
 correlations between columns should be computed.}
 
@@ -24,20 +24,20 @@ to define titles for each sub-plot or facet.}
 \item{axis.labels}{character vector with labels used as axis labels. Optional
 argument, since in most cases, axis labels are set automatically.}
 
-\item{sort.corr}{logical, if \code{TRUE} (default), the axis labels are sorted
+\item{sort.corr}{Logical, if \code{TRUE} (default), the axis labels are sorted
 according to the correlation strength. If \code{FALSE}, axis labels
 appear in order of how variables were included in the cor-computation or
 data frame.}
 
-\item{decimals}{indicates how many decimal values after comma are printed when
+\item{decimals}{Indicates how many decimal values after comma are printed when
 the values labels are shown. Default is 3. Only applies when
 \code{show.values = TRUE}.}
 
-\item{na.deletion}{indicates how missing values are treated. May be either
+\item{na.deletion}{Indicates how missing values are treated. May be either
 \code{"listwise"} (default) or \code{"pairwise"}. May be
 abbreviated.}
 
-\item{corr.method}{indicates the correlation computation method. May be one of
+\item{corr.method}{Indicates the correlation computation method. May be one of
 \code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.
 May be abbreviated.}
 
@@ -46,7 +46,7 @@ May be abbreviated.}
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
 labels are displayed in one line and when a line break is inserted.}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
@@ -56,10 +56,10 @@ function, a legend is added to the plot.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
-\item{show.p}{logical, adds significance levels to values, or value and
+\item{show.p}{Logical, adds significance levels to values, or value and
 variable labels.}
 
-\item{p.numeric}{logical, if \code{TRUE}, the p-values are printed
+\item{p.numeric}{Logical, if \code{TRUE}, the p-values are printed
 as numbers. If \code{FALSE} (default), asterisks are used.}
 
 \item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't

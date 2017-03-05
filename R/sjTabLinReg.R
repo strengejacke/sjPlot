@@ -10,98 +10,98 @@
 #'
 #' @seealso \href{http://strengejacke.de/sjPlot/sjt.lm/}{sjPlot manual: sjt.lm}
 #'
-#' @param ... one or more fitted linear (mixed) models.
-#' @param pred.labels character vector with labels of predictor variables.
+#' @param ... One or more fitted linear (mixed) models.
+#' @param pred.labels Character vector with labels of predictor variables.
 #'          If not \code{NULL}, \code{pred.labels} will be used in the first
 #'          table column with the predictors' names. If \code{NULL}, variable
 #'          labels are set based on label attributes (see \code{\link[sjmisc]{get_label}}).
 #'          If \code{pred.labels = ""}, column names (vector names) are used
 #'          as predictor labels. See 'Examples'.
-#' @param depvar.labels character vector with labels of dependent
+#' @param depvar.labels Character vector with labels of dependent
 #'          variables of all fitted models. See 'Examples'.
-#' @param string.pred character vector,used as headline for the predictor column.
+#' @param string.pred Character vector,used as headline for the predictor column.
 #'          Default is \code{"Predictors"}.
-#' @param string.dv character vector, used as headline for the
+#' @param string.dv Character vector, used as headline for the
 #'          dependent variable columns. Default is \code{"Dependent Variables"}.
-#' @param show.header logical, if \code{TRUE}, the header strings \code{string.pred}
+#' @param show.header Logical, if \code{TRUE}, the header strings \code{string.pred}
 #'          and \code{string.dv} are shown. By default, they're hidden.
-#' @param string.interc character vector, used as headline for the Intercept row.
+#' @param string.interc Character vector, used as headline for the Intercept row.
 #'          Default is \code{"Intercept"}.
 #' @param string.obs character vector, used in the summary row for the count of observation
 #'          (cases). Default is \code{"Observations"}.
-#' @param string.est character vector, used for the column heading of estimates.
-#' @param string.std character vector, used for the column heading of standardized beta coefficients. Default is \code{"std. Beta"}.
-#' @param string.ci character vector, used for the column heading of confidence interval values. Default is \code{"CI"}.
-#' @param string.se character vector, used for the column heading of standard error values. Default is \code{"std. Error"}.
-#' @param string.p character vector, used for the column heading of p values. Default is \code{"p"}.
-#' @param show.est logical, if \code{TRUE} (default), the estimates are printed.
-#' @param show.ci logical, if \code{TRUE} (default), the confidence intervall is also printed to the table. Use
+#' @param string.est Character vector, used for the column heading of estimates.
+#' @param string.std Character vector, used for the column heading of standardized beta coefficients. Default is \code{"std. Beta"}.
+#' @param string.ci Character vector, used for the column heading of confidence interval values. Default is \code{"CI"}.
+#' @param string.se Character vector, used for the column heading of standard error values. Default is \code{"std. Error"}.
+#' @param string.p Character vector, used for the column heading of p values. Default is \code{"p"}.
+#' @param show.est Logical, if \code{TRUE} (default), the estimates are printed.
+#' @param show.ci Logical, if \code{TRUE} (default), the confidence intervall is also printed to the table. Use
 #'          \code{FALSE} to omit the CI in the table.
-#' @param show.std indicates whether standardized beta-coefficients should
+#' @param show.std Indicates whether standardized beta-coefficients should
 #'          also printed, and if yes, which type of standardization is done.
 #'          See 'Details'.
-#' @param show.se logical, if \code{TRUE}, the standard errors are also printed.
+#' @param show.se Logical, if \code{TRUE}, the standard errors are also printed.
 #'          Default is \code{FALSE}.
-#' @param ci.hyphen character vector, indicating the hyphen for confidence interval range.
+#' @param ci.hyphen Character vector, indicating the hyphen for confidence interval range.
 #'          May be an HTML entity. See 'Examples'.
 #' @param minus.sign string, indicating the minus sign for negative numbers.
 #'          May be an HTML entity. See 'Examples'.
-#' @param digits.est amount of decimals for estimates
-#' @param digits.p amount of decimals for p-values
-#' @param digits.ci amount of decimals for confidence intervals
-#' @param digits.se amount of decimals for standard error
-#' @param digits.std amount of decimals for standardized beta
-#' @param digits.summary amount of decimals for values in model summary
-#' @param emph.p logical, if \code{TRUE}, significant p-values are shown bold faced.
+#' @param digits.est Amount of decimals for estimates
+#' @param digits.p Amount of decimals for p-values
+#' @param digits.ci Amount of decimals for confidence intervals
+#' @param digits.se Amount of decimals for standard error
+#' @param digits.std Amount of decimals for standardized beta
+#' @param digits.summary Amount of decimals for values in model summary
+#' @param emph.p Logical, if \code{TRUE}, significant p-values are shown bold faced.
 #' @param p.zero logical, if \code{TRUE}, p-values have a leading 0 before the
 #'          period (e.g. \emph{0.002}), else p-values start with a period and
 #'          without a zero (e.g. \emph{.002}).
-#' @param robust logical, if \code{TRUE}, robust standard errors and confidence
+#' @param robust Logical, if \code{TRUE}, robust standard errors and confidence
 #'          intervals will be reported. Computation of robust standard errors is
 #'          based on the \code{\link[sjstats]{robust}}-function in the
 #'          \pkg{sjstats}-package.
-#' @param separate.ci.col if \code{TRUE}, the CI values are shown in a separate table column.
+#' @param separate.ci.col Logical, if \code{TRUE}, the CI values are shown in a separate table column.
 #'          Default is \code{FALSE}.
-#' @param newline.ci logical, if \code{TRUE} and \code{separate.ci.col = FALSE}, inserts a line break
+#' @param newline.ci Logical, if \code{TRUE} and \code{separate.ci.col = FALSE}, inserts a line break
 #'          between estimate and CI values. If \code{FALSE}, CI values are printed in the same
 #'          line as estimate values.
-#' @param group.pred logical, if \code{TRUE} (default), automatically groups table rows with
+#' @param group.pred Logical, if \code{TRUE} (default), automatically groups table rows with
 #'          factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
 #'          be grouped, if the factor has more than two levels. Grouping means that a separate headline
 #'          row is inserted to the table just before the predictor values.
-#' @param show.col.header logical, if \code{TRUE} (default), the table data columns have a headline with
+#' @param show.col.header Logical, if \code{TRUE} (default), the table data columns have a headline with
 #'          abbreviations for estimates, std. beta-values, confidence interval and p-values.
-#' @param show.r2 logical, if \code{TRUE} (default), the R2 and adjusted R2 values for each model are printed
+#' @param show.r2 Logical, if \code{TRUE} (default), the R2 and adjusted R2 values for each model are printed
 #'          in the model summary. For linear mixed models, the R2 and Omega-squared values are printed
 #'          (see \code{\link[sjstats]{r2}} for details).
-#' @param show.icc logical, if \code{TRUE}, the intra-class-correlation for each
+#' @param show.icc Logical, if \code{TRUE}, the intra-class-correlation for each
 #'          model is printed in the model summary. Only applies to mixed models.
-#' @param show.re.var logical, if \code{TRUE}, the variance parameters for the random
+#' @param show.re.var Logical, if \code{TRUE}, the variance parameters for the random
 #'          effects for each model are printed in the model summary. Only applies to mixed models.
 #'          For details output, see 'Note' in \code{\link[sjstats]{icc}}.
-#' @param show.fstat If \code{TRUE}, the F-statistics for each model is printed
+#' @param show.fstat Logical, if \code{TRUE}, the F-statistics for each model is printed
 #'          in the model summary. Default is \code{FALSE}. This argument does not apply to
 #'          \code{\link{sjt.lmer}}.
-#' @param show.aic logical, if \code{TRUE}, the AIC value for each model is printed
+#' @param show.aic Logical, if \code{TRUE}, the AIC value for each model is printed
 #'          in the model summary. Default is \code{FALSE}.
-#' @param show.aicc logical, if \code{TRUE}, the second-order AIC value for each model
+#' @param show.aicc Logical, if \code{TRUE}, the second-order AIC value for each model
 #'          is printed in the model summary. Default is \code{FALSE}.
-#' @param show.dev logical, if \code{TRUE}, the deviance for each model
+#' @param show.dev Logical, if \code{TRUE}, the deviance for each model
 #'          is printed in the model summary.
-#' @param remove.estimates numeric vector with indices (order equals to row index of \code{coef(fit)})
+#' @param remove.estimates Numeric vector with indices (order equals to row index of \code{coef(fit)})
 #'          or character vector with coefficient names that indicate which estimates should be removed
 #'          from the table output. The first estimate is the intercept, followed by the model predictors.
 #'          \emph{The intercept cannot be removed from the table output!} \code{remove.estimates = c(2:4)}
 #'          would remove the 2nd to the 4th estimate (1st to 3rd predictor after intercept) from the output.
 #'          \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 #'          is \code{NULL}, i.e. all estimates are printed.
-#' @param cell.spacing numeric, inner padding of table cells. By default, this value is 0.2 (unit is cm), which is
+#' @param cell.spacing Numeric, inner padding of table cells. By default, this value is 0.2 (unit is cm), which is
 #'          suitable for viewing the table. Decrease this value (0.05 to 0.1) if you want to import the table
 #'          into Office documents. This is a convenient argument for the \code{CSS} argument for changing
 #'          cell spacing, which would be: \code{CSS = list(css.thead = "padding:0.2cm;", css.tdata = "padding:0.2cm;")}.
-#' @param cell.gpr.indent indent for table rows with grouped factor predictors. Only applies
+#' @param cell.gpr.indent Indent for table rows with grouped factor predictors. Only applies
 #'          if \code{group.pred = TRUE}.
-#' @param sep.column logical, if \code{TRUE}, an empty table column is added after
+#' @param sep.column Logical, if \code{TRUE}, an empty table column is added after
 #'          each model column, to add margins between model columns. By default, this
 #'          column will be added to the output; however, when copying tables to
 #'          office applications, it might be helpful not to add this separator column
@@ -1345,7 +1345,7 @@ sjt.lm <- function(...,
 #' efc$grp = as.factor(efc$e15relat)
 #' levels(x = efc$grp) <- get_labels(efc$e15relat)
 #' efc$care.level <- sjmisc::rec(efc$n4pstu,
-#'                               rec = "0=0;1=1;2=2;3:4=3",
+#'                               recodes = "0=0;1=1;2=2;3:4=3",
 #'                               as.num = FALSE)
 #' levels(x = efc$care.level) <- c("none", "I", "II", "III")
 #'

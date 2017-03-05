@@ -17,9 +17,9 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL,
   prnt.plot = TRUE, ...)
 }
 \arguments{
-\item{fit}{a fitted model as returned by the \code{\link[lme4]{glmer}}-function.}
+\item{fit}{A fitted model as returned by the \code{\link[lme4]{glmer}}-function.}
 
-\item{type}{type of plot. Use one of following:
+\item{type}{Type of plot. Use one of following:
 \describe{
   \item{\code{"re"}}{(default) for conditional modes (odds or incidents ratios) of random effects}
   \item{\code{"fe"}}{for odds or incidents ratios of fixed effects}
@@ -34,34 +34,34 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL,
   \item{\code{"ma"}}{to check model assumptions. Note that only argument \code{fit} applies to this plot type. All other arguments are ignored.}
 }}
 
-\item{vars}{numeric vector with column indices of selected variables or a character vector with
+\item{vars}{Numeric vector with column indices of selected variables or a character vector with
 variable names of selected variables from the fitted model, which should be used to plot
 - depending on \code{type} - estimates, fixed effects slopes or predicted values
 (mean, probabilities, incidents rates, ...). See 'Examples'.}
 
-\item{ri.nr}{numeric vector. If \code{type = "re"} or \code{type = "ri.slope"},
+\item{ri.nr}{Numeric vector. If \code{type = "re"} or \code{type = "ri.slope"},
 and fitted model has more than one random intercept, \code{ri.nr} indicates
 which random effects of which random intercept (or: which list elements
 of \code{\link[lme4]{ranef}}) will be plotted. Default is \code{NULL},
 so all random effects will be plotted.}
 
-\item{group.estimates}{numeric or character vector, indicating a group identifier for
+\item{group.estimates}{Numeric or character vector, indicating a group identifier for
 each estimate. Dots and confidence intervals of estimates are coloured
 according to their group association. See 'Examples'.}
 
-\item{remove.estimates}{character vector with coefficient names that indicate
+\item{remove.estimates}{Character vector with coefficient names that indicate
 which estimates should be removed from the plot.
 \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 is \code{NULL}, i.e. all estimates are printed.}
 
-\item{emph.grp}{numeric vector with index numbers of grouping levels (from random effect).
+\item{emph.grp}{Numeric vector with index numbers of grouping levels (from random effect).
 If \code{type = "ri.slope"} and \code{facet.grid = FALSE},
 an integrated plot of predicted probabilities of fixed effects resp. fixed
 effects slopes for each grouping level is plotted. To better find
 certain groups, use this argument to emphasize these groups in the plot.
 See 'Examples'.}
 
-\item{sample.n}{numeric vector. only applies, if \code{type = "rs.ri"}. If
+\item{sample.n}{Numeric vector. only applies, if \code{type = "rs.ri"}. If
 plot has many random intercepts (grouping levels), overplotting of
 regression lines may occur. In this case, consider random sampling of
 grouping levels. If \code{sample.n} is of length 1, a random sample
@@ -71,7 +71,7 @@ the values in \code{sample.n} are selected to plot random effects.
 Use the latter option to always select a fixed, identical set of
 random effects for plotting (useful when ecomparing multiple models).}
 
-\item{sort.est}{determines in which way estimates are sorted in the plot:
+\item{sort.est}{Determines in which way estimates are sorted in the plot:
 \itemize{
   \item If \code{NULL} (default), no sorting is done and estimates are sorted in order of model coefficients.
   \item If \code{sort.est = "sort.all"}, estimates are re-sorted for each coefficient (only applies if \code{type = "re"} and \code{facet.grid = FALSE}), i.e. the estimates of the random effects for each predictor are sorted and plotted to an own plot.
@@ -80,101 +80,104 @@ random effects for plotting (useful when ecomparing multiple models).}
   }
   See 'Examples'.}
 
-\item{title}{character vector with one or more labels that are used as plot title.}
+\item{title}{Character vector with one or more labels that are used as plot title.}
 
-\item{legend.title}{character vector, used as title for the plot legend. Note that
+\item{legend.title}{Character vector, used as title for the plot legend. Note that
 only some plot types have legends (e.g. \code{type = "pred"} or when
 grouping estimates with \code{group.estimates}).}
 
-\item{axis.labels}{character vector with labels for the model terms, used as axis labels.
+\item{axis.labels}{Character vector with labels for the model terms, used as axis labels.
 For mixed models, should either be vector of fixed effects variable labels
 (if \code{type = "fe"} or \code{type = "fe.std"}) or a vector of group (value)
 labels from the random intercept's categories (if \code{type = "re"}).}
 
-\item{axis.title}{character vector of length one or two (depending on
+\item{axis.title}{Character vector of length one or two (depending on
 the plot function and type), used as title(s) for the x and y axis.
 If not specified, a default labelling  is chosen. To set multiple
 axis titles (e.g. with \code{type = "eff"} for many predictors),
 \code{axis.title} must be a character vector of same length of plots
 that are printed. In this case, each plot gets an own axis title
-(applying, for instance, to the y-axis for \code{type = "eff"}).}
+(applying, for instance, to the y-axis for \code{type = "eff"}).
+\strong{Note:} Some plot types do not support this argument. In such
+cases, use the return value and add axis titles manually with
+\code{\link[ggplot2]{labs}}, e.g.: \code{$plot.list[[1]] + labs(x = ...)}}
 
-\item{geom.colors}{user defined color palette for geoms. If \code{group.estimates}
+\item{geom.colors}{User defined color palette for geoms. If \code{group.estimates}
 is \emph{not} specified, must either be vector with two color values or a specific
 color palette code (see 'Details' in \code{\link{sjp.grpfrq}}). Else, if
 \code{group.estimates} is specified, \code{geom.colors} must be a vector
 of same length as groups. See 'Examples'.}
 
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function). Note that bar and bin widths mostly 
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size,
+depending on plot type and function). Note that bar and bin widths mostly
 need smaller values than dot sizes.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
-\item{show.p}{logical, adds significance levels to values, or value and
+\item{show.p}{Logical, adds significance levels to values, or value and
 variable labels.}
 
-\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
+\item{show.ci}{Logical, if \code{TRUE}, depending on \code{type}, a confidence
 interval or region is added to the plot.}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
-\item{show.intercept}{logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
+\item{show.intercept}{Logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
 Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential
 transformation of estimates, the intercept in some cases can not be calculated, thus the
 function call is interrupted and no plot printed.}
 
-\item{string.interc}{string, axis label of intercept estimate. Only applies,
+\item{string.interc}{String, axis label of intercept estimate. Only applies,
 if \code{show.intercept = TRUE} and \code{axis.labels} is not \code{NULL}.}
 
-\item{show.scatter}{logical, if \code{TRUE} (default), adds a scatter plot of
+\item{show.scatter}{Logical, if \code{TRUE} (default), adds a scatter plot of
 data points to the plot. Only applies for slope-type or predictions plots.
 For most plot types, dots are jittered to avoid overplotting, hence the
 points don't reflect exact values in the data.}
 
-\item{point.alpha}{alpha value of point-geoms in the scatter plots. Only applies,
+\item{point.alpha}{Alpha value of point-geoms in the scatter plots. Only applies,
 if \code{show.scatter = TRUE}.}
 
-\item{point.color}{color of of point-geoms in the scatter plots. Only applies,
+\item{point.color}{Color of of point-geoms in the scatter plots. Only applies,
 if \code{show.scatter = TRUE}.}
 
-\item{jitter.ci}{logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
+\item{jitter.ci}{Logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
 bands are displayed as error bars, adds jittering to lines and error bars
 to avoid overlapping.}
 
-\item{fade.ns}{if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
+\item{fade.ns}{Logical, if \code{TRUE}, non significant estimates will be printed in slightly faded colors.}
 
-\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
+\item{axis.lim}{Numeric vector of length 2, defining the range of the plot axis.
 Depending on plot type, may effect either x- or y-axis, or both.
 For multiple plot outputs (e.g., from \code{type = "eff"} or
 \code{type = "slope"} in \code{\link{sjp.glm}}), \code{axis.lim} may
 also be a list of vectors of length 2, defining axis limits for each
 plot (only if non-faceted).}
 
-\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
+\item{digits}{Numeric, amount of digits after decimal point when rounding estimates and values.}
 
-\item{vline.type}{linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
+\item{vline.type}{Linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
 
-\item{vline.color}{color of the vertical "zero point" line. Default value is \code{"grey70"}.}
+\item{vline.color}{Color of the vertical "zero point" line. Default value is \code{"grey70"}.}
 
-\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots 
-in a grid of an integrated single plot. This argument calls 
+\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots
+in a grid of an integrated single plot. This argument calls
 \code{\link[ggplot2]{facet_wrap}} or \code{\link[ggplot2]{facet_grid}}
-to arrange plots. Use \code{\link{plot_grid}} to plot multiple plot-objects 
+to arrange plots. Use \code{\link{plot_grid}} to plot multiple plot-objects
 as an arranged grid with \code{\link[gridExtra]{grid.arrange}}.}
 
-\item{free.scale}{if \code{TRUE} and \code{facet.grid = TRUE}, each facet grid
+\item{free.scale}{Logical, if \code{TRUE} and \code{facet.grid = TRUE}, each facet grid
 gets its own fitted scale. If \code{free.scale = FALSE}, each facet in
 the grid has the same scale range.}
 
-\item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
+\item{y.offset}{numeric, offset for text labels when their alignment is adjusted
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
 \item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 
-\item{...}{other arguments passed down to further functions. Currently, following
+\item{...}{Other arguments passed down to further functions. Currently, following
 arguments are supported:
 \describe{
   \item{\code{?effects::effect}}{

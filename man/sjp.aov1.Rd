@@ -12,13 +12,13 @@ sjp.aov1(var.dep, var.grp, meansums = FALSE, title = NULL,
   show.summary = FALSE, prnt.plot = TRUE)
 }
 \arguments{
-\item{var.dep}{dependent variable. Will be used with following formula:
+\item{var.dep}{Dependent variable. Will be used with following formula:
 \code{aov(var.dep ~ var.grp)}}
 
-\item{var.grp}{factor with the cross-classifying variable, where \code{var.dep} 
+\item{var.grp}{Factor with the cross-classifying variable, where \code{var.dep}
 is grouped into the categories represented by \code{var.grp}.}
 
-\item{meansums}{logical, if \code{TRUE}, the values reported are the true group mean values (see also \code{\link{sjt.grpmean}}).
+\item{meansums}{Logical, if \code{TRUE}, the values reported are the true group mean values (see also \code{\link{sjt.grpmean}}).
 If \code{FALSE} (default), the values are reported in the standard way, i.e. the values indicate the difference of
 the group mean in relation to the intercept (reference group).}
 
@@ -30,20 +30,23 @@ to define titles for each sub-plot or facet.}
 \item{axis.labels}{character vector with labels used as axis labels. Optional
 argument, since in most cases, axis labels are set automatically.}
 
-\item{rev.order}{logical, if \code{TRUE}, order of categories (groups) is reversed.}
+\item{rev.order}{Logical, if \code{TRUE}, order of categories (groups) is reversed.}
 
-\item{string.interc}{string that indicates the reference group (intercept), that is appended to
+\item{string.interc}{Character vector that indicates the reference group (intercept), that is appended to
 the value label of the grouping variable. Default is \code{"(Intercept)"}.}
 
-\item{axis.title}{character vector of length one or two (depending on
+\item{axis.title}{Character vector of length one or two (depending on
 the plot function and type), used as title(s) for the x and y axis.
 If not specified, a default labelling  is chosen. To set multiple
 axis titles (e.g. with \code{type = "eff"} for many predictors),
 \code{axis.title} must be a character vector of same length of plots
 that are printed. In this case, each plot gets an own axis title
-(applying, for instance, to the y-axis for \code{type = "eff"}).}
+(applying, for instance, to the y-axis for \code{type = "eff"}).
+\strong{Note:} Some plot types do not support this argument. In such
+cases, use the return value and add axis titles manually with
+\code{\link[ggplot2]{labs}}, e.g.: \code{$plot.list[[1]] + labs(x = ...)}}
 
-\item{axis.lim}{numeric vector of length 2, defining the range of the plot axis.
+\item{axis.lim}{Numeric vector of length 2, defining the range of the plot axis.
 Depending on plot type, may effect either x- or y-axis, or both.
 For multiple plot outputs (e.g., from \code{type = "eff"} or
 \code{type = "slope"} in \code{\link{sjp.glm}}), \code{axis.lim} may
@@ -52,34 +55,34 @@ plot (only if non-faceted).}
 
 \item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function). Note that bar and bin widths mostly 
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size,
+depending on plot type and function). Note that bar and bin widths mostly
 need smaller values than dot sizes.}
 
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
 labels are displayed in one line and when a line break is inserted.}
 
-\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
+\item{grid.breaks}{numeric; sets the distance between breaks for the axis,
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
-\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
+\item{digits}{Numeric, amount of digits after decimal point when rounding estimates and values.}
 
-\item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
+\item{y.offset}{numeric, offset for text labels when their alignment is adjusted
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
-\item{show.p}{logical, adds significance levels to values, or value and
+\item{show.p}{Logical, adds significance levels to values, or value and
 variable labels.}
 
-\item{show.summary}{logical, if \code{TRUE} (default), a summary with chi-squared 
-statistics (see \code{\link{chisq.test}}), Cramer's V or Phi-value etc. 
-is shown. If a cell contains expected values lower than five (or lower than 10 
-if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is 
-computed instead of chi-squared test. If the table's matrix is larger 
+\item{show.summary}{logical, if \code{TRUE} (default), a summary with chi-squared
+statistics (see \code{\link{chisq.test}}), Cramer's V or Phi-value etc.
+is shown. If a cell contains expected values lower than five (or lower than 10
+if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is
+computed instead of chi-squared test. If the table's matrix is larger
 than 2x2, Fisher's excact test with Monte Carlo simulation is computed.}
 
 \item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
@@ -90,8 +93,8 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
           was used for setting up the ggplot-object (\code{df}).
 }
 \description{
-Plot One-Way-Anova table sum of squares (SS) of each factor level (group) 
-               against the dependent variable. The SS of the factor variable against the 
+Plot One-Way-Anova table sum of squares (SS) of each factor level (group)
+               against the dependent variable. The SS of the factor variable against the
                dependent variable (variance within and between groups) is printed to
                the model summary.
 }

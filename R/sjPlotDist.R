@@ -1,46 +1,42 @@
-# bind global variables
-utils::globalVariables(c("p.level"))
-
-
 #' @title Plot normal distributions
 #' @name dist_norm
-#' 
+#'
 #' @description This function plots a simple normal distribution or a normal distribution
-#'                with shaded areas that indicate at which value a significant p-level 
+#'                with shaded areas that indicate at which value a significant p-level
 #'                is reached.
-#' 
-#' @param norm numeric, optional. If specified, a normal distribution with \code{mean} and \code{sd}
+#'
+#' @param norm Numeric, optional. If specified, a normal distribution with \code{mean} and \code{sd}
 #'          is plotted and a shaded area at \code{norm} value position is plotted that
 #'          indicates whether or not the specified value is significant or not.
 #'          If both \code{norm} and \code{p} are not specified, a distribution without shaded
 #'          area is plotted.
-#' @param mean numeric. Mean value for normal distribution. By default 0.
-#' @param sd numeric. Standard deviation for normal distribution. By default 1.
-#' @param p numeric, optional. If specified, a normal distribution with \code{mean} and \code{sd}
+#' @param mean Numeric. Mean value for normal distribution. By default 0.
+#' @param sd Numeric. Standard deviation for normal distribution. By default 1.
+#' @param p Numeric, optional. If specified, a normal distribution with \code{mean} and \code{sd}
 #'          is plotted and a shaded area at the position where the specified p-level
-#'          starts is plotted. If both \code{norm} and \code{p} are not specified, a distribution 
+#'          starts is plotted. If both \code{norm} and \code{p} are not specified, a distribution
 #'          without shaded area is plotted.
-#' @param xmax numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
+#' @param xmax Numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
 #'          ranges to a value where a p-level of 0.00001 is reached.
-#' @param geom.alpha specified the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.
-#' 
+#' @param geom.alpha Specifies the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.
+#'
 #' @inheritParams sjp.grpfrq
-#' 
+#'
 #' @examples
 #' # a simple normal distribution
 #' dist_norm()
-#' 
-#' # a simple normal distribution with different mean and sd. 
+#'
+#' # a simple normal distribution with different mean and sd.
 #' # note that curve looks similar to above plot, but axis range
 #' # has changed.
 #' dist_norm(mean = 2, sd = 4)
-#' 
+#'
 #' # a simple normal distribution
 #' dist_norm(norm = 1)
-#' 
+#'
 #' # a simple normal distribution
 #' dist_norm(p = 0.2)
-#' 
+#'
 #' @import ggplot2
 #' @importFrom stats qchisq pchisq dchisq qf pf df qnorm pnorm dnorm qt pt dt
 #' @export
@@ -80,7 +76,7 @@ dist_norm <- function(norm = NULL,
   # density normal distribution
   mydat$y <- stats::dnorm(mydat$x, mean, sd)
   # base plot with normal-distribution
-  gp <- ggplot(mydat, aes(x = x, y = y)) + geom_line()
+  gp <- ggplot(mydat, aes_string(x = "x", y = "y")) + geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated x-value...
@@ -95,12 +91,12 @@ dist_norm <- function(norm = NULL,
     cs <- stats::qnorm(0.05, mean, sd, lower.tail = F)
     gp <- gp +
       geom_ribbon(data = sub.df,
-                  aes(ymax = y, fill = p.level),
+                  aes_string(ymax = "y", fill = "p.level"),
                   ymin = 0,
                   alpha = geom.alpha) +
-      annotate("text", 
-               label = sprintf("x = %.2f", cs), 
-               x = cs, 
+      annotate("text",
+               label = sprintf("x = %.2f", cs),
+               x = cs,
                y = 0,
                vjust = 1.3)
     # add limit of p-value
@@ -108,9 +104,9 @@ dist_norm <- function(norm = NULL,
       pv <- stats::pnorm(norm, mean, sd, lower.tail = F)
       if (pv >= 0.05) {
         gp <- gp +
-          annotate("text", 
-                   label = sprintf("p = %.2f", pv), 
-                   x = norm, 
+          annotate("text",
+                   label = sprintf("p = %.2f", pv),
+                   x = norm,
                    y = 0,
                    hjust = -0.1,
                    vjust = -0.5,
@@ -126,33 +122,33 @@ dist_norm <- function(norm = NULL,
 
 #' @title Plot chi-squared distributions
 #' @name dist_chisq
-#' 
+#'
 #' @description This function plots a simple chi-squared distribution or a chi-squared distribution
-#'                with shaded areas that indicate at which chi-squared value a significant p-level 
+#'                with shaded areas that indicate at which chi-squared value a significant p-level
 #'                is reached.
-#' 
-#' @param chi2 numeric, optional. If specified, a chi-squared distribution with \code{deg.f} degrees
+#'
+#' @param chi2 Numeric, optional. If specified, a chi-squared distribution with \code{deg.f} degrees
 #'          of freedom is plotted and a shaded area at \code{chi2} value position is plotted that
 #'          indicates whether or not the specified value is significant or not.
 #'          If both \code{chi2} and \code{p} are not specified, a distribution without shaded
 #'          area is plotted.
-#' @param deg.f numeric. The degrees of freedom for the chi-squared distribution. Needs to
+#' @param deg.f Numeric. The degrees of freedom for the chi-squared distribution. Needs to
 #'          be specified.
-#' @param p numeric, optional. If specified, a chi-squared distribution with \code{deg.f} degrees
+#' @param p Numeric, optional. If specified, a chi-squared distribution with \code{deg.f} degrees
 #'          of freedom is plotted and a shaded area at the position where the specified p-level
-#'          starts is plotted. If both \code{chi2} and \code{p} are not specified, a distribution 
+#'          starts is plotted. If both \code{chi2} and \code{p} are not specified, a distribution
 #'          without shaded area is plotted.
-#' @param xmax numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
+#' @param xmax Numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
 #'          ranges to a value where a p-level of 0.00001 is reached.
-#' 
+#'
 #' @inheritParams dist_norm
 #' @inheritParams sjp.grpfrq
-#' 
+#'
 #' @examples
 #' # a simple chi-squared distribution
 #' # for 6 degrees of freedom
 #' dist_chisq(deg.f = 6)
-#' 
+#'
 #' # a chi-squared distribution for 6 degrees of freedom,
 #' # and a shaded area starting at chi-squared value of ten.
 #' # With a df of 6, a chi-squared value of 12.59 would be "significant",
@@ -160,16 +156,16 @@ dist_norm <- function(norm = NULL,
 #' # while the area starting from chi-squared value 12.59 is filled as
 #' # "significant"
 #' dist_chisq(chi2 = 10, deg.f = 6)
-#' 
+#'
 #' # a chi-squared distribution for 6 degrees of freedom,
 #' # and a shaded area starting at that chi-squared value, which has
 #' # a p-level of about 0.125 (which equals a chi-squared value of about 10).
 #' # With a df of 6, a chi-squared value of 12.59 would be "significant",
-#' # thus the shaded area from 10 to 12.58 (p-level 0.125 to p-level 0.05) 
-#' # is filled as "non-significant", while the area starting from chi-squared 
+#' # thus the shaded area from 10 to 12.58 (p-level 0.125 to p-level 0.05)
+#' # is filled as "non-significant", while the area starting from chi-squared
 #' # value 12.59 (p-level < 0.05) is filled as "significant".
 #' dist_chisq(p = 0.125, deg.f = 6)
-#' 
+#'
 #' @import ggplot2
 #' @export
 dist_chisq <- function(chi2 = NULL,
@@ -217,7 +213,7 @@ dist_chisq <- function(chi2 = NULL,
   # density distribution of chi2
   mydat$y <- stats::dchisq(mydat$x, deg.f)
   # base plot with chi2-distribution
-  gp <- ggplot(mydat, aes(x = x, y = y)) + geom_line()
+  gp <- ggplot(mydat, aes_string(x = "x", y = "y")) + geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated chi2-value...
@@ -232,13 +228,13 @@ dist_chisq <- function(chi2 = NULL,
     cs <- stats::qchisq(0.05, deg.f, lower.tail = F)
     gp <- gp +
       geom_ribbon(data = sub.df,
-                  aes(ymax = y, fill = p.level),
+                  aes_string(ymax = "y", fill = "p.level"),
                   ymin = 0,
                   alpha = geom.alpha) +
-      annotate("text", 
-               label = as.character(as.expression(substitute(chi^2 == c2, list(c2 = sprintf("%.2f", cs))))), 
-               parse = TRUE, 
-               x = cs, 
+      annotate("text",
+               label = as.character(as.expression(substitute(chi^2 == c2, list(c2 = sprintf("%.2f", cs))))),
+               parse = TRUE,
+               x = cs,
                y = 0,
                vjust = 1.2)
     # add limit of p-value
@@ -246,9 +242,9 @@ dist_chisq <- function(chi2 = NULL,
       pv <- stats::pchisq(chi2, deg.f, lower.tail = F)
       if (pv >= 0.05) {
         gp <- gp +
-          annotate("text", 
-                   label = sprintf("p = %.2f", pv), 
-                   x = chi2, 
+          annotate("text",
+                   label = sprintf("p = %.2f", pv),
+                   x = chi2,
                    y = 0,
                    hjust = -0.1,
                    vjust = -0.5,
@@ -264,44 +260,44 @@ dist_chisq <- function(chi2 = NULL,
 
 #' @title Plot F distributions
 #' @name dist_f
-#' 
+#'
 #' @description This function plots a simple F distribution or an F distribution
-#'                with shaded areas that indicate at which F value a significant p-level 
+#'                with shaded areas that indicate at which F value a significant p-level
 #'                is reached.
-#' 
-#' @param f numeric, optional. If specified, an F distribution with \code{deg.f1} and \code{deg.f2} degrees
+#'
+#' @param f Numeric, optional. If specified, an F distribution with \code{deg.f1} and \code{deg.f2} degrees
 #'          of freedom is plotted and a shaded area at \code{f} value position is plotted that
 #'          indicates whether or not the specified value is significant or not.
 #'          If both \code{f} and \code{p} are not specified, a distribution without shaded
 #'          area is plotted.
-#' @param deg.f1 numeric. The first degrees of freedom for the F distribution. Needs to
+#' @param deg.f1 Numeric. The first degrees of freedom for the F distribution. Needs to
 #'          be specified.
-#' @param deg.f2 numeric. The second degrees of freedom for the F distribution. Needs to
+#' @param deg.f2 Numeric. The second degrees of freedom for the F distribution. Needs to
 #'          be specified.
-#' @param p numeric, optional. If specified, a F distribution with \code{deg.f1} and \code{deg.f2} degrees
+#' @param p Numeric, optional. If specified, a F distribution with \code{deg.f1} and \code{deg.f2} degrees
 #'          of freedom is plotted and a shaded area at the position where the specified p-level
-#'          starts is plotted. If both \code{f} and \code{p} are not specified, a distribution 
+#'          starts is plotted. If both \code{f} and \code{p} are not specified, a distribution
 #'          without shaded area is plotted.
-#' @param xmax numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
+#' @param xmax Numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
 #'          ranges to a value where a p-level of 0.00001 is reached.
-#' 
+#'
 #' @inheritParams dist_norm
 #' @inheritParams sjp.grpfrq
-#' 
+#'
 #' @examples
 #' # a simple F distribution for 6 and 45 degrees of freedom
 #' dist_f(deg.f1 = 6, deg.f2 = 45)
-#' 
+#'
 #' # F distribution for 6 and 45 degrees of freedom,
 #' # and a shaded area starting at F value of two.
 #' # F-values equal or greater than 2.31 are "significant"
 #' dist_f(f = 2, deg.f1 = 6, deg.f2 = 45)
-#' 
+#'
 #' # F distribution for 6 and 45 degrees of freedom,
 #' # and a shaded area starting at a p-level of 0.2
 #' # (F-Value about 1.5).
 #' dist_f(p = 0.2, deg.f1 = 6, deg.f2 = 45)
-#' 
+#'
 #' @import ggplot2
 #' @export
 dist_f <- function(f = NULL,
@@ -346,7 +342,7 @@ dist_f <- function(f = NULL,
   # density distribution of f
   mydat$y <- stats::df(mydat$x, deg.f1, deg.f2)
   # base plot with f-distribution
-  gp <- ggplot(mydat, aes(x = x, y = y)) + geom_line()
+  gp <- ggplot(mydat, aes_string(x = "x", y = "y")) + geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated f-value...
@@ -360,12 +356,12 @@ dist_f <- function(f = NULL,
     fv <- stats::qf(0.05, deg.f1, deg.f2, lower.tail = F)
     gp <- gp +
       geom_ribbon(data = sub.df,
-                  aes(ymax = y, fill = p.level),
+                  aes_string(ymax = "y", fill = "p.level"),
                   ymin = 0,
                   alpha = geom.alpha) +
-      annotate("text", 
-               label = sprintf("F = %.2f", fv), 
-               x = fv, 
+      annotate("text",
+               label = sprintf("F = %.2f", fv),
+               x = fv,
                y = 0,
                vjust = 1.3)
     # add limit of p-value
@@ -373,9 +369,9 @@ dist_f <- function(f = NULL,
       pv <- stats::pf(f, deg.f1, deg.f2, lower.tail = F)
       if (pv >= 0.05) {
         gp <- gp +
-          annotate("text", 
-                   label = sprintf("p = %.2f", pv), 
-                   x = f, 
+          annotate("text",
+                   label = sprintf("p = %.2f", pv),
+                   x = f,
                    y = 0,
                    hjust = -0.1,
                    vjust = -0.5,
@@ -392,43 +388,43 @@ dist_f <- function(f = NULL,
 
 #' @title Plot t-distributions
 #' @name dist_t
-#' 
+#'
 #' @description This function plots a simple t-distribution or a t-distribution
-#'                with shaded areas that indicate at which t-value a significant p-level 
+#'                with shaded areas that indicate at which t-value a significant p-level
 #'                is reached.
-#' 
-#' @param t numeric, optional. If specified, a t-distribution with \code{deg.f} degrees
+#'
+#' @param t Numeric, optional. If specified, a t-distribution with \code{deg.f} degrees
 #'          of freedom is plotted and a shaded area at \code{t} value position is plotted that
 #'          indicates whether or not the specified value is significant or not.
 #'          If both \code{t} and \code{p} are not specified, a distribution without shaded
 #'          area is plotted.
-#' @param deg.f numeric. The degrees of freedom for the t-distribution. Needs to
+#' @param deg.f Numeric. The degrees of freedom for the t-distribution. Needs to
 #'          be specified.
-#' @param p numeric, optional. If specified, a t-distribution with \code{deg.f} degrees
+#' @param p Numeric, optional. If specified, a t-distribution with \code{deg.f} degrees
 #'          of freedom is plotted and a shaded area at the position where the specified p-level
-#'          starts is plotted. If both \code{t} and \code{p} are not specified, a distribution 
+#'          starts is plotted. If both \code{t} and \code{p} are not specified, a distribution
 #'          without shaded area is plotted.
-#' @param xmax numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
+#' @param xmax Numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
 #'          ranges to a value where a p-level of 0.00001 is reached.
-#' 
+#'
 #' @inheritParams dist_norm
 #' @inheritParams sjp.grpfrq
-#' 
+#'
 #' @examples
 #' # a simple t-distribution
 #' # for 6 degrees of freedom
 #' dist_t(deg.f = 6)
-#' 
+#'
 #' # a t-distribution for 6 degrees of freedom,
 #' # and a shaded area starting at t-value of one.
 #' # With a df of 6, a t-value of 1.94 would be "significant".
 #' dist_t(t = 1, deg.f = 6)
-#' 
+#'
 #' # a t-distribution for 6 degrees of freedom,
 #' # and a shaded area starting at p-level of 0.4
 #' # (t-value of about 0.26).
 #' dist_t(p = 0.4, deg.f = 6)
-#' 
+#'
 #' @import ggplot2
 #' @export
 dist_t <- function(t = NULL,
@@ -476,7 +472,7 @@ dist_t <- function(t = NULL,
   # density distribution of t
   mydat$y <- stats::dt(mydat$x, deg.f)
   # base plot with t-distribution
-  gp <- ggplot(mydat, aes(x = x, y = y)) + geom_line()
+  gp <- ggplot(mydat, aes_string(x = "x", y = "y")) + geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated t-value...
@@ -491,12 +487,12 @@ dist_t <- function(t = NULL,
     tv <- stats::qt(0.05, deg.f, lower.tail = F)
     gp <- gp +
       geom_ribbon(data = sub.df,
-                  aes(ymax = y, fill = p.level),
+                  aes_string(ymax = "y", fill = "p.level"),
                   ymin = 0,
                   alpha = geom.alpha) +
-      annotate("text", 
-               label = sprintf("t = %.2f", tv), 
-               x = tv, 
+      annotate("text",
+               label = sprintf("t = %.2f", tv),
+               x = tv,
                y = 0,
                vjust = 1.3)
     # add limit of p-value
@@ -504,9 +500,9 @@ dist_t <- function(t = NULL,
       pv <- stats::pt(t, deg.f, lower.tail = F)
       if (pv >= 0.05) {
         gp <- gp +
-          annotate("text", 
-                   label = sprintf("p = %.2f", pv), 
-                   x = t, 
+          annotate("text",
+                   label = sprintf("p = %.2f", pv),
+                   x = t,
                    y = 0,
                    hjust = -0.1,
                    vjust = -0.5,

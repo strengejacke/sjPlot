@@ -8,33 +8,33 @@ dist_f(f = NULL, deg.f1 = NULL, deg.f2 = NULL, p = NULL, xmax = NULL,
   geom.colors = NULL, geom.alpha = 0.7)
 }
 \arguments{
-\item{f}{numeric, optional. If specified, an F distribution with \code{deg.f1} and \code{deg.f2} degrees
+\item{f}{Numeric, optional. If specified, an F distribution with \code{deg.f1} and \code{deg.f2} degrees
 of freedom is plotted and a shaded area at \code{f} value position is plotted that
 indicates whether or not the specified value is significant or not.
 If both \code{f} and \code{p} are not specified, a distribution without shaded
 area is plotted.}
 
-\item{deg.f1}{numeric. The first degrees of freedom for the F distribution. Needs to
+\item{deg.f1}{Numeric. The first degrees of freedom for the F distribution. Needs to
 be specified.}
 
-\item{deg.f2}{numeric. The second degrees of freedom for the F distribution. Needs to
+\item{deg.f2}{Numeric. The second degrees of freedom for the F distribution. Needs to
 be specified.}
 
-\item{p}{numeric, optional. If specified, a F distribution with \code{deg.f1} and \code{deg.f2} degrees
+\item{p}{Numeric, optional. If specified, a F distribution with \code{deg.f1} and \code{deg.f2} degrees
 of freedom is plotted and a shaded area at the position where the specified p-level
-starts is plotted. If both \code{f} and \code{p} are not specified, a distribution 
+starts is plotted. If both \code{f} and \code{p} are not specified, a distribution
 without shaded area is plotted.}
 
-\item{xmax}{numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
+\item{xmax}{Numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
 ranges to a value where a p-level of 0.00001 is reached.}
 
 \item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
-\item{geom.alpha}{specified the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.}
+\item{geom.alpha}{Specifies the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.}
 }
 \description{
 This function plots a simple F distribution or an F distribution
-               with shaded areas that indicate at which F value a significant p-level 
+               with shaded areas that indicate at which F value a significant p-level
                is reached.
 }
 \examples{

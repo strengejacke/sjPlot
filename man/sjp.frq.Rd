@@ -20,23 +20,23 @@ sjp.frq(var.cnt, title = "", weight.by = NULL, title.wtd.suffix = NULL,
   y.offset = NULL, prnt.plot = TRUE)
 }
 \arguments{
-\item{var.cnt}{vector of counts, for which frequencies or means will be plotted or printed.}
+\item{var.cnt}{Vector of counts, for which frequencies or means will be plotted or printed.}
 
 \item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.
 For effect-plots, may also be a character vector of length > 1,
 to define titles for each sub-plot or facet.}
 
-\item{weight.by}{weight factor that will be applied to weight all cases.
-Must be a vector of same length as the input vector. Default is 
+\item{weight.by}{Vector of weights that will be applied to weight all cases.
+Must be a vector of same length as the input vector. Default is
 \code{NULL}, so no weights are used.}
 
-\item{title.wtd.suffix}{suffix (as string) for the title, if \code{weight.by} is specified,
-e.g. \code{title.wtd.suffix=" (weighted)"}. Default is \code{NULL}, so 
+\item{title.wtd.suffix}{Suffix (as string) for the title, if \code{weight.by} is specified,
+e.g. \code{title.wtd.suffix=" (weighted)"}. Default is \code{NULL}, so
 title will not have a suffix when cases are weighted.}
 
-\item{sort.frq}{Determines whether categories should be sorted 
-according to their frequencies or not. Default is \code{"none"}, so 
+\item{sort.frq}{Determines whether categories should be sorted
+according to their frequencies or not. Default is \code{"none"}, so
 categories are not sorted by frequency. Use \code{"asc"} or
 \code{"desc"} for sorting categories ascending or descending order.}
 
@@ -51,42 +51,45 @@ categories are not sorted by frequency. Use \code{"asc"} or
   \item{\code{"violin"}}{for violin plots}
   }}
 
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function). Note that bar and bin widths mostly 
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size,
+depending on plot type and function). Note that bar and bin widths mostly
 need smaller values than dot sizes.}
 
-\item{geom.colors}{user defined color for geoms, e.g. \code{geom.colors = "#0080ff"}.}
+\item{geom.colors}{User defined color for geoms, e.g. \code{geom.colors = "#0080ff"}.}
 
-\item{errorbar.color}{color of confidence interval bars (error bars). 
-Only applies to \code{type = "bar"}. In case of dot plots, error bars 
+\item{errorbar.color}{Color of confidence interval bars (error bars).
+Only applies to \code{type = "bar"}. In case of dot plots, error bars
 will have same colors as dots (see \code{geom.colors}).}
 
-\item{axis.title}{character vector of length one or two (depending on
+\item{axis.title}{Character vector of length one or two (depending on
 the plot function and type), used as title(s) for the x and y axis.
 If not specified, a default labelling  is chosen. To set multiple
 axis titles (e.g. with \code{type = "eff"} for many predictors),
 \code{axis.title} must be a character vector of same length of plots
 that are printed. In this case, each plot gets an own axis title
-(applying, for instance, to the y-axis for \code{type = "eff"}).}
+(applying, for instance, to the y-axis for \code{type = "eff"}).
+\strong{Note:} Some plot types do not support this argument. In such
+cases, use the return value and add axis titles manually with
+\code{\link[ggplot2]{labs}}, e.g.: \code{$plot.list[[1]] + labs(x = ...)}}
 
 \item{axis.labels}{character vector with labels used as axis labels. Optional
 argument, since in most cases, axis labels are set automatically.}
 
-\item{xlim}{numeric vector of length two, defining lower and upper axis limits
-of the x scale. By default, this argument is set to \code{NULL}, i.e. the 
+\item{xlim}{Numeric vector of length two, defining lower and upper axis limits
+of the x scale. By default, this argument is set to \code{NULL}, i.e. the
 x-axis fits to the required range of the data.}
 
 \item{ylim}{numeric vector of length two, defining lower and upper axis limits
-of the y scale. By default, this argument is set to \code{NULL}, i.e. the 
+of the y scale. By default, this argument is set to \code{NULL}, i.e. the
 y-axis fits to the required range of the data.}
 
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
 labels are displayed in one line and when a line break is inserted.}
 
-\item{grid.breaks}{numeric; sets the distance between breaks for the axis, 
+\item{grid.breaks}{numeric; sets the distance between breaks for the axis,
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
 \item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
@@ -103,71 +106,71 @@ If \code{FALSE}, percentage values are removed.}
 \item{show.axis.values}{logical, whether category, count or percentage values for the axis
 should be printed or not.}
 
-\item{show.ci}{logical, if \code{TRUE}, depending on \code{type}, a confidence
+\item{show.ci}{Logical, if \code{TRUE}, depending on \code{type}, a confidence
 interval or region is added to the plot.}
 
 \item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values)
 are added to the output.}
 
-\item{show.mean}{logical, if \code{TRUE}, a vertical line in histograms 
-is drawn to indicate the mean value of the variables. Only 
+\item{show.mean}{Logical, if \code{TRUE}, a vertical line in histograms
+is drawn to indicate the mean value of the variables. Only
 applies to histogram-charts.}
 
-\item{show.mean.val}{logical, if \code{TRUE} (default), the mean value 
+\item{show.mean.val}{Logical, if \code{TRUE} (default), the mean value
 is printed to the vertical line that indicates the variable's
 mean. Only applies to histogram-charts.}
 
-\item{show.sd}{logical, if \code{TRUE}, the standard deviation 
+\item{show.sd}{Logical, if \code{TRUE}, the standard deviation
 is annotated as shaded rectangle around the mean intercept
 line. Only applies to histogram-charts.}
 
-\item{mean.line.type}{numeric value, indicating the linetype of the mean 
-intercept line. Only applies to histogram-charts and 
+\item{mean.line.type}{Numeric value, indicating the linetype of the mean
+intercept line. Only applies to histogram-charts and
 when \code{show.mean = TRUE}.}
 
-\item{mean.line.size}{numeric, size of the mean intercept line. Only 
+\item{mean.line.size}{Numeric, size of the mean intercept line. Only
 applies to histogram-charts and when \code{show.mean = TRUE}.}
 
-\item{inner.box.width}{width of the inner box plot that is plotted inside of violin plots. Only applies 
+\item{inner.box.width}{width of the inner box plot that is plotted inside of violin plots. Only applies
 if \code{type = "violin"}. Default value is 0.15}
 
-\item{inner.box.dotsize}{size of mean dot insie a violin or box plot. Applies only 
+\item{inner.box.dotsize}{size of mean dot insie a violin or box plot. Applies only
 when \code{type = "violin"} or \code{"boxplot"}.}
 
-\item{normal.curve}{logical, if \code{TRUE}, a normal curve, which is adjusted to the data,
+\item{normal.curve}{Logical, if \code{TRUE}, a normal curve, which is adjusted to the data,
 is plotted over the histogram or density plot. Default is
 \code{FALSE}. Only applies when histograms or density plots are plotted (see \code{type}).}
 
-\item{normal.curve.color}{color of the normal curve line. Only
+\item{normal.curve.color}{Color of the normal curve line. Only
 applies if \code{normal.curve = TRUE}.}
 
-\item{normal.curve.size}{numeric, size of the normal curve line. Only
+\item{normal.curve.size}{Numeric, size of the normal curve line. Only
 applies if \code{normal.curve = TRUE}.}
 
-\item{normal.curve.alpha}{transparancy level (alpha value) of the normal curve. Only
+\item{normal.curve.alpha}{Transparancy level (alpha value) of the normal curve. Only
 applies if \code{normal.curve = TRUE}.}
 
-\item{auto.group}{numeric value, indicating the minimum amount of unique values 
-in the count variable, at which automatic grouping into smaller units 
-is done (see \code{\link[sjmisc]{group_var}}). Default value for 
+\item{auto.group}{numeric value, indicating the minimum amount of unique values
+in the count variable, at which automatic grouping into smaller units
+is done (see \code{\link[sjmisc]{group_var}}). Default value for
 \code{auto.group} is \code{NULL}, i.e. auto-grouping is off.
 See \code{\link[sjmisc]{group_var}} for examples on grouping.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
-\item{vjust}{character vector, indicating the vertical position of value 
-labels. Allowed are same values as for \code{vjust} aesthetics from 
+\item{vjust}{character vector, indicating the vertical position of value
+labels. Allowed are same values as for \code{vjust} aesthetics from
 \code{ggplot2}: "left", "center", "right", "bottom", "middle", "top" and
-new options like "inward" and "outward", which align text towards and 
+new options like "inward" and "outward", which align text towards and
 away from the center of the plot respectively.}
 
-\item{hjust}{character vector, indicating the horizontal position of value 
-labels. Allowed are same values as for \code{vjust} aesthetics from 
+\item{hjust}{character vector, indicating the horizontal position of value
+labels. Allowed are same values as for \code{vjust} aesthetics from
 \code{ggplot2}: "left", "center", "right", "bottom", "middle", "top" and
-new options like "inward" and "outward", which align text towards and 
+new options like "inward" and "outward", which align text towards and
 away from the center of the plot respectively.}
 
-\item{y.offset}{numeric, offset for text labels when their alignment is adjusted 
+\item{y.offset}{numeric, offset for text labels when their alignment is adjusted
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
 \item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
@@ -192,7 +195,7 @@ sjp.frq(ChickWeight$weight, type = "box")
 
 # histogram
 sjp.frq(discoveries, type = "hist", show.mean = TRUE)
-        
+
 # violin plot
 sjp.frq(ChickWeight$weight, type = "v")
 
@@ -219,7 +222,7 @@ sjp.frq(efc$neg_c_7)
 
 # plotting confidence intervals. expand grid and v/hjust for text labels
 sjp.frq(efc$e15relat, type = "dot", show.ci = TRUE, sort.frq = "desc",
-        coord.flip = TRUE, expand.grid = TRUE, vjust = "bottom", 
+        coord.flip = TRUE, expand.grid = TRUE, vjust = "bottom",
         hjust = "left")
 
 # Simulate ggplot-default histogram

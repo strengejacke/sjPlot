@@ -9,7 +9,7 @@ sjp.chi2(df, title = "Pearson's Chi2-Test of Independence",
   show.legend = FALSE, legend.title = NULL, prnt.plot = TRUE)
 }
 \arguments{
-\item{df}{data frame with (dichotomous) factor variables.}
+\item{df}{A data frame with (dichotomous) factor variables.}
 
 \item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.
@@ -22,7 +22,7 @@ argument, since in most cases, axis labels are set automatically.}
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
 labels are displayed in one line and when a line break is inserted.}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
@@ -38,9 +38,9 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
           was used for setting up the ggplot-object (\code{mydf}).
 }
 \description{
-Plot p-values of Pearson's Chi2-tests for multiple contingency tables as ellipses or tiles. 
+Plot p-values of Pearson's Chi2-tests for multiple contingency tables as ellipses or tiles.
                Requires a data frame with dichotomous (dummy) variables.
-               Calculation of Chi2-matrix taken from 
+               Calculation of Chi2-matrix taken from
                \href{https://talesofr.wordpress.com/2013/05/05/ridiculously-photogenic-factors-heatmap-with-p-values/}{Tales of R}.
 }
 \examples{

@@ -14,75 +14,75 @@ sjt.pca(data, rotation = c("varimax", "oblimin"), nmbr.fctr = NULL,
   remove.spaces = TRUE)
 }
 \arguments{
-\item{data}{\code{data.frame} that should be used to compute a PCA, or a \code{\link{prcomp}} object.}
+\item{data}{A data frame that should be used to compute a PCA, or a \code{\link{prcomp}} object.}
 
-\item{rotation}{rotation of the factor loadings. May be \code{"varimax"} for orthogonal rotation
+\item{rotation}{Rotation of the factor loadings. May be \code{"varimax"} for orthogonal rotation
 or \code{"oblimin"} for oblique transformation.}
 
-\item{nmbr.fctr}{number of factors used for calculating the varimax
+\item{nmbr.fctr}{Number of factors used for calculating the varimax
 rotation. By default, this value is \code{NULL} and the amount of factors is
 calculated according to the Kaiser-criteria.}
 
-\item{fctr.load.tlrn}{specifies the minimum difference a variable needs to have between
+\item{fctr.load.tlrn}{Specifies the minimum difference a variable needs to have between
 factor loadings (components) in order to indicate a clear loading on just one factor and not
-diffusing over all factors. For instance, a variable with 0.8, 0.82 and 0.84 factor loading 
+diffusing over all factors. For instance, a variable with 0.8, 0.82 and 0.84 factor loading
 on 3 possible factors can not be clearly assigned to just one factor and thus would be removed
 from the principal component analysis. By default, the minimum difference of loading values
 between the highest and 2nd highest factor should be 0.1}
 
-\item{title}{table caption, as character vector.}
+\item{title}{Table caption, as character vector.}
 
-\item{var.labels}{character vector with variable names, which will be used
+\item{var.labels}{Character vector with variable names, which will be used
 to label variables in the output.}
 
-\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
 labels are displayed in one line and when a line break is inserted.}
 
-\item{show.cronb}{logical, if \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
+\item{show.cronb}{Logical, if \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
 i.e. all variables with the highest loading for a factor are taken for the
 reliability test. The result is an alpha value for each factor dimension.
 Only applies when \code{data} is a data frame and no \code{\link{prcomp}} object.}
 
-\item{show.msa}{logical, if \code{TRUE}, shows an additional column with the measure of sampling adequacy according
+\item{show.msa}{Logical, if \code{TRUE}, shows an additional column with the measure of sampling adequacy according
 dor each component.}
 
-\item{show.var}{logical, if \code{TRUE}, the proportions of variances for each component as well as cumulative
+\item{show.var}{Logical, if \code{TRUE}, the proportions of variances for each component as well as cumulative
 variance are shown in the table footer.}
 
-\item{altr.row.col}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
+\item{altr.row.col}{Logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
 
-\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
+\item{digits}{Numeric, amount of digits after decimal point when rounding estimates and values.}
 
-\item{string.pov}{string for the table row that contains the proportions of variances. By default, 
+\item{string.pov}{String for the table row that contains the proportions of variances. By default,
 \emph{"Proportion of Variance"} will be used.}
 
-\item{string.cpov}{string for the table row that contains the cumulative variances. By default, 
+\item{string.cpov}{String for the table row that contains the cumulative variances. By default,
 \emph{"Cumulative Proportion"} will be used.}
 
-\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the
+\item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
 see \href{../doc/sjtbasic.html}{this package-vignette}, or 'Details' in
 \code{\link{sjt.frq}}.}
 
-\item{encoding}{string, indicating the charset encoding used for variable and
+\item{encoding}{String, indicating the charset encoding used for variable and
 value labels. Default is \code{NULL}, so encoding will be auto-detected
 depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
 Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
 
-\item{file}{destination file, if the output should be saved as file.
+\item{file}{Destination file, if the output should be saved as file.
 If \code{NULL} (default), the output will be saved as temporary file and
 openend either in the IDE's viewer pane or the default web browser.}
 
-\item{use.viewer}{If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
+\item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
 
-\item{no.output}{logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
+\item{no.output}{Logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
 the viewer pane and not even saved to file. This option is useful when the html output
 should be used in \code{knitr} documents. The html output can be accessed via the return
 value.}
 
-\item{remove.spaces}{logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+\item{remove.spaces}{Logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
 that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
 may look less pretty, but it may help when exporting html-tables to office tools.}
 }
@@ -99,9 +99,9 @@ Invisibly returns
            for further use.
 }
 \description{
-Performes a principle component analysis on a data frame or matrix 
-               (with varimax rotation) and displays the factor solution as HTML 
-               table, or saves them as file. \cr \cr In case a data frame is used as 
+Performes a principle component analysis on a data frame or matrix
+               (with varimax or oblimin rotation) and displays the factor solution as HTML
+               table, or saves them as file. \cr \cr In case a data frame is used as
                parameter, the Cronbach's Alpha value for each factor scale will be calculated,
                i.e. all variables with the highest loading for a factor are taken for the
                reliability test. The result is an alpha value for each factor dimension.
@@ -111,8 +111,6 @@ See 'Details' in \code{\link{sjt.frq}}.
 }
 \note{
 See 'Notes' in \code{\link{sjt.frq}}.
-       This PCA uses the \code{\link{prcomp}} function and 
-       the \code{\link{varimax}} rotation.
 }
 \examples{
 \dontrun{
@@ -120,20 +118,10 @@ See 'Notes' in \code{\link{sjt.frq}}.
 library(sjmisc)
 data(efc)
 
-# retrieve variable and value labels
-varlabs <- get_label(efc)
-
 # recveive first item of COPE-index scale
 start <- which(colnames(efc) == "c82cop1")
 # recveive last item of COPE-index scale
 end <- which(colnames(efc) == "c90cop9")
-
-# create data frame with COPE-index scale
-mydf <- as.data.frame(efc[, c(start:end)])
-colnames(mydf) <- varlabs[c(start:end)]
-
-sjt.pca(mydf)
-
 # auto-detection of labels
 sjt.pca(efc[, c(start:end)])}
 

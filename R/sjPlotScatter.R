@@ -7,43 +7,43 @@
 #'
 #' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.scatter}{sjPlot manual: sjp.scatter}
 #'
-#' @param x vector indicating the x positions. If not specified (i.e. if
+#' @param x Vector indicating the x positions. If not specified (i.e. if
 #'          \code{NULL}), a range from 1 to length of \code{y} is used to spread the
 #'          dots along the x axis.
-#' @param y vector indicating the y positions. If not specified (i.e. if
+#' @param y Vector indicating the y positions. If not specified (i.e. if
 #'          \code{NULL}), a range from 1 to length of \code{x} is used to spread the
 #'          dots along the y axis.
-#' @param grp grouping variable. If not \code{NULL}, the scatter plot will be grouped. See
+#' @param grp Grouping variable. If not \code{NULL}, the scatter plot will be grouped. See
 #'          'Examples'. Default is \code{NULL}, i.e. not grouping is done.
-#' @param dot.labels character vector with names for each coordinate pair given
-#'          by \code{x} and \code{y}, so text labels are added to the plot. 
+#' @param dot.labels Character vector with names for each coordinate pair given
+#'          by \code{x} and \code{y}, so text labels are added to the plot.
 #'          Must be of same length as \code{x} and \code{y}.
 #'          If \code{dot.labels} has a different length, data points will be trimmed
 #'          to match \code{dot.labels}. If \code{dot.labels = NULL} (default),
 #'          no labels are printed.
 #' @param label.size Size of text labels if argument \code{dot.labels} is used.
-#' @param fit.line.grps logical, if \code{TRUE}, a fitted line for each group
+#' @param fit.line.grps Logical, if \code{TRUE}, a fitted line for each group
 #'          is drawn. See \code{fitmethod} to change the fit method of the fitted lines.
-#' @param fit.line logical, if \code{TRUE}, a fitted line for the overall
+#' @param fit.line Logical, if \code{TRUE}, a fitted line for the overall
 #'          scatterplot is drawn. See \code{fitmethod} to change the fit method
 #'          of the fitted line.
 #' @param fitmethod By default, a linear method (\code{"lm"}) is used for fitting
 #'          the fit lines. Possible values are for instance \code{"lm"}, \code{"glm"},
 #'          \code{"loess"} or \code{"auto"}.
-#' @param jitter.dots logical, if \code{TRUE}, points will be jittered (to avoid overplotting).
-#' @param emph.dots logical, if \code{TRUE}, overlapping points at same coordinates
+#' @param jitter.dots Logical, if \code{TRUE}, points will be jittered (to avoid overplotting).
+#' @param emph.dots Logical, if \code{TRUE}, overlapping points at same coordinates
 #'          will be becomme larger, so point size indicates amount of overlapping.
-#' @param auto.jitter logical, if \code{TRUE}, points will be jittered according
+#' @param auto.jitter Logical, if \code{TRUE}, points will be jittered according
 #'          to an overlap-estimation. A matrix of \code{x} and \code{y} values
 #'          is created and the amount of cells (indicating a unique point position)
 #'          is calculated. If more than 15\% (see \code{jitter.ratio}) of the
 #'          approximated amount of unique point coordinates seem to
 #'          overlap, they are automatically jittered.
-#' @param jitter.ratio ratio of tolerated overlapping (see \code{auto.jitter}).
+#' @param jitter.ratio Ratio of tolerated overlapping (see \code{auto.jitter}).
 #'          If approximated amount of overlapping  points exceed this ratio,
 #'          they are automatically jittered. Default is 0.15. Valid values range
 #'          between 0 and 1.
-#' @param show.rug logical, if \code{TRUE}, a marginal rug plot is displayed
+#' @param show.rug Logical, if \code{TRUE}, a marginal rug plot is displayed
 #'          in the graph.
 #'
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
@@ -86,12 +86,12 @@
 #' sjp.scatter(y = fit$residuals, fit.line = TRUE)
 #'
 #' # "hide" axis titles
-#' sjp.scatter(efc$c160age, efc$e17age, efc$e42dep, title = "", 
+#' sjp.scatter(efc$c160age, efc$e17age, efc$e42dep, title = "",
 #'             axis.titles = c("", ""))
 #'
 #' # plot text labels
 #' pl <- c(1:10)
-#' for (i in 1:10) 
+#' for (i in 1:10)
 #'   pl[i] <- paste(sample(c(0:9, letters, LETTERS), 8, replace = TRUE), collapse = "")
 #' sjp.scatter(runif(10), runif(10), dot.labels = pl)
 #'
@@ -151,7 +151,7 @@ sjp.scatter <- function(x = NULL,
     axisTitle.y <- NULL
   } else {
     axisTitle.x <- axis.titles[1]
-    if (length(axis.titles) > 1) 
+    if (length(axis.titles) > 1)
       axisTitle.y <- axis.titles[2]
     else
       axisTitle.y <- NULL
@@ -295,7 +295,7 @@ sjp.scatter <- function(x = NULL,
     scatter <- scatter + geom_jitter(size = geom.size)
     # do we have text?
     if (!is.null(dot.labels))
-      scatter <- scatter + 
+      scatter <- scatter +
         ggrepel::geom_text_repel(aes_string(label = "dot.lab"), size = label.size, position = "jitter")
   } else {
     if (emph.dots) {
@@ -307,17 +307,17 @@ sjp.scatter <- function(x = NULL,
     }
     # do we have text?
     if (!is.null(dot.labels)) {
-      scatter <- scatter + 
+      scatter <- scatter +
         ggrepel::geom_text_repel(aes_string(label = "dot.lab"), size = label.size)
-      
+
     }
   }
   # --------------------------------------------------------
   # Show fitted lines
   # --------------------------------------------------------
-  if (fit.line.grps) scatter <- scatter + 
+  if (fit.line.grps) scatter <- scatter +
     stat_smooth(data = df, aes_string(colour = "grp"), method = fitmethod, se = show.ci)
-  if (fit.line) scatter <- scatter + 
+  if (fit.line) scatter <- scatter +
     stat_smooth(method = fitmethod, se = show.ci, colour = "black")
   # --------------------------------------------------------
   # set font size for axes.
@@ -327,7 +327,7 @@ sjp.scatter <- function(x = NULL,
   # --------------------------------------------------------
   # Hide or show tick marks
   # --------------------------------------------------------
-  if (!show.axis.values) 
+  if (!show.axis.values)
     scatter <- scatter + scale_y_continuous(labels = NULL) +
                          scale_x_continuous(labels = NULL)
   # --------------------------------------

@@ -1,93 +1,62 @@
 #' @title Plot PCA results
 #' @name sjp.pca
-#' 
-#' @description Performes a principle component analysis on a data frame or matrix (with
-#'                varimax rotation) and plots the factor solution as ellipses or tiles. \cr \cr 
-#'                In case a data frame is used as argument, the cronbach's alpha value for 
-#'                each factor scale will be calculated, i.e. all variables with the highest 
-#'                loading for a factor are taken for the reliability test. The result is 
+#'
+#' @description Performs a principle component analysis on a data frame or matrix (with
+#'                varimax or oblimin rotation) and plots the factor solution as ellipses or tiles. \cr \cr
+#'                In case a data frame is used as argument, the cronbach's alpha value for
+#'                each factor scale will be calculated, i.e. all variables with the highest
+#'                loading for a factor are taken for the reliability test. The result is
 #'                an alpha value for each factor dimension.
-#' 
+#'
 #' @seealso \itemize{
 #'            \item \href{http://www.strengejacke.de/sjPlot/sjp.pca/}{sjPlot manual: sjp.pca}
 #'            \item \code{\link{sjt.pca}}
 #'            }
-#' 
+#'
 #' @param plot.eigen If \code{TRUE}, a plot showing the Eigenvalues according to the
 #'          Kaiser criteria is plotted to determine the number of factors.
-#' @param type Plot type resp. geom type. May be one of following: \code{"circle"} or \code{"tile"} 
+#' @param type Plot type resp. geom type. May be one of following: \code{"circle"} or \code{"tile"}
 #'          circular or tiled geoms, or \code{"bar"} for a bar plot. You may use initial letter only
 #'          for this argument.
+#'
 #' @return (Invisibly) returns a \code{\link{structure}} with
 #'          \itemize{
-#'            \item the varimax-rotated factor loading matrix (\code{varim})
+#'            \item the rotated factor loading matrix (\code{varim})
 #'            \item the column indices of removed variables (for more details see next list item) (\code{removed.colindex})
 #'            \item an updated data frame containing all factors that have a clear loading on a specific scale in case \code{data} was a data frame (See argument \code{fctr.load.tlrn} for more details) (\code{removed.df})
 #'            \item the \code{factor.index}, i.e. the column index of each variable with the highest factor loading for each factor,
 #'            \item the ggplot-object (\code{plot}),
 #'            \item the data frame that was used for setting up the ggplot-object (\code{df}).
 #'            }
-#' 
+#'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.glmer
 #' @inheritParams sjt.pca
-#' 
-#' @note This PCA uses the \code{\link{prcomp}} function and the \code{\link{varimax}} rotation.
-#' 
-#' @examples
-#' # randomly create data frame with 7 items, each consisting of 4 categories
-#' likert_4 <- data.frame(
-#'   sample(1:4, 500, replace = TRUE, prob = c(0.2, 0.3, 0.1, 0.4)),
-#'   sample(1:4, 500, replace = TRUE, prob = c(0.5, 0.25, 0.15, 0.1)),
-#'   sample(1:4, 500, replace = TRUE, prob = c(0.4, 0.15, 0.25, 0.2)),
-#'   sample(1:4, 500, replace = TRUE, prob = c(0.25, 0.1, 0.4, 0.25)),
-#'   sample(1:4, 500, replace = TRUE, prob = c(0.1, 0.4, 0.4, 0.1)),
-#'   sample(1:4, 500, replace = TRUE),
-#'   sample(1:4, 500, replace = TRUE, prob = c(0.35, 0.25, 0.15, 0.25))
-#' )
 #'
-#' # Create variable labels
-#' colnames(likert_4) <- c("V1", "V2", "V3", "V4", "V5", "V6", "V7")
-#' 
-#' # plot results from PCA as square-tiled "heatmap"
-#' sjp.pca(likert_4, type = "tile")
-#' 
-#' # plot results from PCA as bars
-#' sjp.pca(likert_4, type = "bar")
-#' 
-#' # manually compute PCA
-#' pca <- prcomp(na.omit(likert_4), retx = TRUE, center = TRUE, scale. = TRUE)
-#' # plot results from PCA as circles, including Eigenvalue-diagnostic.
-#' # note that this plot does not compute the Cronbach's Alpha
-#' sjp.pca(pca, plot.eigen = TRUE, type = "circle", geom.size = 10)
-#' 
-#' # -------------------------------
-#' # Data from the EUROFAMCARE sample dataset
-#' # -------------------------------
+#' @examples
 #' library(sjmisc)
 #' data(efc)
-#' 
-#' # retrieve variable and value labels
-#' varlabs <- get_label(efc)
-#' 
 #' # recveive first item of COPE-index scale
 #' start <- which(colnames(efc) == "c82cop1")
 #' # recveive last item of COPE-index scale
 #' end <- which(colnames(efc) == "c90cop9")
-#'  
-#' # create data frame with COPE-index scale
-#' mydf <- data.frame(efc[, c(start:end)])
-#' colnames(mydf) <- varlabs[c(start:end)]
-#' 
-#' sjp.pca(mydf)
-#' sjp.pca(mydf, type = "tile")
-#' 
-#' # -------------------------------
-#' # auto-detection of labels
-#' # -------------------------------
-#' sjp.pca(efc[, c(start:end)], type = "circle", geom.size = 10)
-#' 
-#' 
+#'
+#' # manually compute PCA
+#' pca <- prcomp(
+#'   na.omit(efc[, start:end]),
+#'   retx = TRUE,
+#'   center = TRUE,
+#'   scale. = TRUE
+#' )
+#' # plot results from PCA as circles, including Eigenvalue-diagnostic.
+#' # note that this plot does not compute the Cronbach's Alpha
+#' sjp.pca(pca, plot.eigen = TRUE, type = "circle", geom.size = 10)
+#'
+#' # use data frame as argument, let sjp.pca() compute PCA
+#' sjp.pca(efc[, start:end])
+#' sjp.pca(efc[, start:end], type = "tile")
+#'
+#'
 #' @import ggplot2
 #' @importFrom tidyr gather
 #' @importFrom scales brewer_pal grey_pal
@@ -124,7 +93,7 @@ sjp.pca <- function(data,
   }
   # ----------------------------
   # set color palette
-  # ----------------------------  
+  # ----------------------------
   if (is.brewer.pal(geom.colors[1])) {
     geom.colors <- scales::brewer_pal(palette = geom.colors[1])(5)
   } else if (geom.colors[1] == "gs") {
@@ -157,13 +126,13 @@ sjp.pca <- function(data,
     # create data frame with eigen values
     mydat <- as.data.frame(cbind(xpos = seq_len(length(pcadata.eigenval)), eigen = pcadata.eigenval))
     # plot eigenvalues as line curve
-    eigenplot <- 
+    eigenplot <-
       # indicate eigen vlaues > 1
       ggplot(mydat, aes(x = xpos, y = eigen, colour = eigen > 1)) +
         geom_line() + geom_point() +
         geom_hline(yintercept = 1, linetype = 2, colour = "grey50") +
         # print best number of factors according to eigen value
-        annotate("text", label = sprintf("Factors: %i", pcadata.kaiser), 
+        annotate("text", label = sprintf("Factors: %i", pcadata.kaiser),
                  x = Inf, y = Inf, vjust = "top", hjust = "top") +
         scale_x_continuous(breaks = seq(1, nrow(mydat), by = 2)) +
         labs(title = NULL, y = "Eigenvalue", x = "Number of factors")
@@ -180,13 +149,13 @@ sjp.pca <- function(data,
   # --------------------------------------------------------
   # check for predefined number of factors
   if (!is.null(nmbr.fctr) && is.numeric(nmbr.fctr)) pcadata.kaiser <- nmbr.fctr
-  
+
   # rotate matrix
   if (rotation == "varimax")
     pcadata.rotate <- varimaxrota(pcadata, pcadata.kaiser)
   else if (rotation == "oblimin")
     pcadata.rotate <- psych::principal(r = data, nfactors = pcadata.kaiser, rotate = "oblimin")
-  
+
   # create data frame with factor loadings
   df <- as.data.frame(pcadata.rotate$loadings[, seq_len(ncol(pcadata.rotate$loadings))])
   # df <- as.data.frame(pcadata.varim$rotmat[, 1:pcadata.kaiser])
@@ -234,7 +203,7 @@ sjp.pca <- function(data,
   # --------------------------------------------------------
   # this function retrieves a list with the column index ("factor" index)
   # where each case of the data frame has its highedt factor loading.
-  # So we know to which "group" (factor dimension) each case of the 
+  # So we know to which "group" (factor dimension) each case of the
   # data frame belongs to according to the pca results
   # --------------------------------------------------------
   getItemLoadings <- function(dataframe) {
@@ -290,7 +259,7 @@ sjp.pca <- function(data,
   # rename columns, so we have numbers on x axis
   names(df) <- seq_len(ncol(df))
   # convert to long data
-  df <- tidyr::gather(df, "xpos", "value", seq_len(ncol(df)), factor_key = TRUE)  
+  df <- tidyr::gather(df, "xpos", "value", seq_len(ncol(df)), factor_key = TRUE)
   # we need new columns for y-positions and point sizes
   df <- cbind(df, ypos = seq_len(nrow(pcadata.rotate$loadings)), psize = exp(abs(df$value)) * geom.size)
   if (!show.values) {
@@ -324,9 +293,9 @@ sjp.pca <- function(data,
   }
   heatmap <- heatmap + geo +
     # --------------------------------------------------------
-    # fill gradient colour from distinct color brewer palette. 
-    # negative correlations are dark red, positive corr. are dark blue, 
-    # and they become lighter the closer they are to a correlation 
+    # fill gradient colour from distinct color brewer palette.
+    # negative correlations are dark red, positive corr. are dark blue,
+    # and they become lighter the closer they are to a correlation
     # coefficient of zero
     # --------------------------------------------------------
     scale_fill_gradientn(colours = geom.colors, limits = c(-1, 1)) +
@@ -336,24 +305,24 @@ sjp.pca <- function(data,
   # facet bars, and flip coordinates
   # --------------------------------------------------------
   if (type == "bar") {
-    heatmap <- heatmap + 
+    heatmap <- heatmap +
       scale_x_discrete(labels = rev(axis.labels)) +
       scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .2)) +
       facet_grid(~xpos) +
       geom_text(label = valueLabels, hjust = -0.2) +
       coord_flip()
   } else {
-    heatmap <- heatmap + 
+    heatmap <- heatmap +
       geom_text(label = valueLabels) +
-      scale_y_reverse(breaks = seq(1, length(axis.labels), by = 1), 
+      scale_y_reverse(breaks = seq(1, length(axis.labels), by = 1),
                       labels = axis.labels)
     # --------------------------------------------------------
-    # show cronbach's alpha value for each scale 
+    # show cronbach's alpha value for each scale
     # --------------------------------------------------------
     if (show.cronb) {
       heatmap <- heatmap +
-        annotate("text", x = alphaValues$nr, y = Inf, parse = TRUE, 
-                 label = sprintf("alpha == %.*f", digits, alphaValues$alpha), 
+        annotate("text", x = alphaValues$nr, y = Inf, parse = TRUE,
+                 label = sprintf("alpha == %.*f", digits, alphaValues$alpha),
                  vjust = -0.5)
     }
   }

@@ -7,7 +7,7 @@
 sjc.dend(data, groupcount, distance = "euclidean", agglomeration = "ward")
 }
 \arguments{
-\item{data}{\code{data.frame} with variables that should be used for the
+\item{data}{A data frame with variables that should be used for the
 cluster analysis.}
 
 \item{groupcount}{The amount of groups (clusters) that should be used.
@@ -17,13 +17,13 @@ cluster analysis.}
 }
 Solutions for multiple cluster groups can be plotted, for instance with \code{"groupcount = c(3:6)"}.}
 
-\item{distance}{distance measure to be used when \code{method = "hclust"} (for hierarchical
-clustering). Must be one of \code{"euclidean"}, \code{"maximum"}, \code{"manhattan"}, 
+\item{distance}{Distance measure to be used when \code{method = "hclust"} (for hierarchical
+clustering). Must be one of \code{"euclidean"}, \code{"maximum"}, \code{"manhattan"},
 \code{"canberra"}, \code{"binary"} or \code{"minkowski"}. See \code{\link{dist}}.
 If is \code{method = "kmeans"} this argument will be ignored.}
 
-\item{agglomeration}{agglomeration method to be used when \code{method = "hclust"} (for hierarchical
-clustering). This should be one of \code{"ward"}, \code{"single"}, \code{"complete"}, \code{"average"}, 
+\item{agglomeration}{Agglomeration method to be used when \code{method = "hclust"} (for hierarchical
+clustering). This should be one of \code{"ward"}, \code{"single"}, \code{"complete"}, \code{"average"},
 \code{"mcquitty"}, \code{"median"} or \code{"centroid"}. Default is \code{"ward"} (see \code{\link{hclust}}).
 If \code{method = "kmeans"} this argument will be ignored. See 'Note'.}
 }
@@ -34,9 +34,9 @@ Computes a hierarchical cluster analysis and plots a hierarchical
                (see \code{\link{sjc.elbow}}).
 }
 \note{
-Since R version > 3.0.3, the \code{"ward"} option has 
+Since R version > 3.0.3, the \code{"ward"} option has
          been replaced by either \code{"ward.D"} or \code{"ward.D2"},
-         so you may use one of these values. When using \code{"ward"}, 
+         so you may use one of these values. When using \code{"ward"},
          it will be replaced by \code{"ward.D2"}.
 }
 \examples{

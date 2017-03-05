@@ -17,35 +17,35 @@ sjt.xtab(var.row, var.col, weight.by = NULL, title = NULL,
   use.viewer = TRUE, no.output = FALSE, remove.spaces = TRUE, ...)
 }
 \arguments{
-\item{var.row}{variable that should be displayed in the table rows.}
+\item{var.row}{Variable that should be displayed in the table rows.}
 
-\item{var.col}{variable that should be displayed in the table columns.}
+\item{var.col}{Cariable that should be displayed in the table columns.}
 
-\item{weight.by}{weight factor that will be applied to weight all cases.
-Must be a vector of same length as the input vector. Default is 
+\item{weight.by}{Vector of weights that will be applied to weight all cases.
+Must be a vector of same length as the input vector. Default is
 \code{NULL}, so no weights are used.}
 
-\item{title}{table caption, as character vector.}
+\item{title}{Table caption, as character vector.}
 
-\item{var.labels}{character vector with variable names, which will be used
+\item{var.labels}{Character vector with variable names, which will be used
 to label variables in the output.}
 
-\item{value.labels}{character vector (or \code{list} of character vectors)
+\item{value.labels}{Character vector (or \code{list} of character vectors)
 with value labels of the supplied variables, which will be used
 to label variable values in the output.}
 
-\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
 labels are displayed in one line and when a line break is inserted.}
 
-\item{show.obs}{logical, if \code{TRUE}, observed values are shown}
+\item{show.obs}{Logical, if \code{TRUE}, observed values are shown}
 
-\item{show.cell.prc}{logical, if \code{TRUE}, cell percentage values are shown}
+\item{show.cell.prc}{Logical, if \code{TRUE}, cell percentage values are shown}
 
-\item{show.row.prc}{logical, if \code{TRUE}, row percentage values are shown}
+\item{show.row.prc}{Logical, if \code{TRUE}, row percentage values are shown}
 
-\item{show.col.prc}{logical, if \code{TRUE}, column percentage values are shown}
+\item{show.col.prc}{Logical, if \code{TRUE}, column percentage values are shown}
 
-\item{show.exp}{logical, if \code{TRUE}, expected values are also shown}
+\item{show.exp}{Logical, if \code{TRUE}, expected values are also shown}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
@@ -53,7 +53,7 @@ function, a legend is added to the plot.}
 \item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values)
 are added to the output.}
 
-\item{show.summary}{logical, if \code{TRUE}, a summary row with
+\item{show.summary}{Logical, if \code{TRUE}, a summary row with
 chi-squared statistics, degrees of freedom and Cramer's V or Phi
 coefficient and p-value for the chi-squared statistics.}
 
@@ -61,9 +61,9 @@ coefficient and p-value for the chi-squared statistics.}
 be one of \code{"auto"}, \code{"cramer"}, \code{"phi"}, \code{"spearman"},
 \code{"kendall"} or \code{"pearson"}. See 'Details'.}
 
-\item{string.total}{label for the total column / row header}
+\item{string.total}{Character label for the total column / row header}
 
-\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
+\item{digits}{Numeric, amount of digits after decimal point when rounding estimates and values.}
 
 \item{tdcol.n}{Color for highlighting count (observed) values in table cells. Default is black.}
 
@@ -75,10 +75,10 @@ be one of \code{"auto"}, \code{"cramer"}, \code{"phi"}, \code{"spearman"},
 
 \item{tdcol.col}{Color for highlighting column percentage values in table cells. Default is green.}
 
-\item{emph.total}{logical, if \code{TRUE}, the total column and row will be emphasized with a
+\item{emph.total}{Logical, if \code{TRUE}, the total column and row will be emphasized with a
 different background color. See \code{emph.color}.}
 
-\item{emph.color}{logical, if \code{emph.total = TRUE}, this color value will be used
+\item{emph.color}{Logical, if \code{emph.total = TRUE}, this color value will be used
 for painting the background of the total column and row. Default is a light grey.}
 
 \item{prc.sign}{The percentage sign that is printed in the table cells, in HTML-format.
@@ -88,29 +88,29 @@ the percentage value.}
 \item{hundret}{Default value that indicates the 100-percent column-sums (since rounding values
 may lead to non-exact results). Default is \code{"100.0"}.}
 
-\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the
+\item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
 see \href{../doc/sjtbasic.html}{this package-vignette}, or 'Details' in
 \code{\link{sjt.frq}}.}
 
-\item{encoding}{string, indicating the charset encoding used for variable and
+\item{encoding}{String, indicating the charset encoding used for variable and
 value labels. Default is \code{NULL}, so encoding will be auto-detected
 depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
 Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
 
-\item{file}{destination file, if the output should be saved as file.
+\item{file}{Destination file, if the output should be saved as file.
 If \code{NULL} (default), the output will be saved as temporary file and
 openend either in the IDE's viewer pane or the default web browser.}
 
-\item{use.viewer}{If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
+\item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
 
-\item{no.output}{logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
+\item{no.output}{Logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
 the viewer pane and not even saved to file. This option is useful when the html output
 should be used in \code{knitr} documents. The html output can be accessed via the return
 value.}
 
-\item{remove.spaces}{logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+\item{remove.spaces}{Logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
 that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
 may look less pretty, but it may help when exporting html-tables to office tools.}
 

@@ -8,30 +8,30 @@ dist_chisq(chi2 = NULL, deg.f = NULL, p = NULL, xmax = NULL,
   geom.colors = NULL, geom.alpha = 0.7)
 }
 \arguments{
-\item{chi2}{numeric, optional. If specified, a chi-squared distribution with \code{deg.f} degrees
+\item{chi2}{Numeric, optional. If specified, a chi-squared distribution with \code{deg.f} degrees
 of freedom is plotted and a shaded area at \code{chi2} value position is plotted that
 indicates whether or not the specified value is significant or not.
 If both \code{chi2} and \code{p} are not specified, a distribution without shaded
 area is plotted.}
 
-\item{deg.f}{numeric. The degrees of freedom for the chi-squared distribution. Needs to
+\item{deg.f}{Numeric. The degrees of freedom for the chi-squared distribution. Needs to
 be specified.}
 
-\item{p}{numeric, optional. If specified, a chi-squared distribution with \code{deg.f} degrees
+\item{p}{Numeric, optional. If specified, a chi-squared distribution with \code{deg.f} degrees
 of freedom is plotted and a shaded area at the position where the specified p-level
-starts is plotted. If both \code{chi2} and \code{p} are not specified, a distribution 
+starts is plotted. If both \code{chi2} and \code{p} are not specified, a distribution
 without shaded area is plotted.}
 
-\item{xmax}{numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
+\item{xmax}{Numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
 ranges to a value where a p-level of 0.00001 is reached.}
 
 \item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
-\item{geom.alpha}{specified the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.}
+\item{geom.alpha}{Specifies the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.}
 }
 \description{
 This function plots a simple chi-squared distribution or a chi-squared distribution
-               with shaded areas that indicate at which chi-squared value a significant p-level 
+               with shaded areas that indicate at which chi-squared value a significant p-level
                is reached.
 }
 \examples{
@@ -51,8 +51,8 @@ dist_chisq(chi2 = 10, deg.f = 6)
 # and a shaded area starting at that chi-squared value, which has
 # a p-level of about 0.125 (which equals a chi-squared value of about 10).
 # With a df of 6, a chi-squared value of 12.59 would be "significant",
-# thus the shaded area from 10 to 12.58 (p-level 0.125 to p-level 0.05) 
-# is filled as "non-significant", while the area starting from chi-squared 
+# thus the shaded area from 10 to 12.58 (p-level 0.125 to p-level 0.05)
+# is filled as "non-significant", while the area starting from chi-squared
 # value 12.59 (p-level < 0.05) is filled as "significant".
 dist_chisq(p = 0.125, deg.f = 6)
 

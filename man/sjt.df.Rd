@@ -18,7 +18,7 @@ sjt.df(mydf, describe = TRUE, altr.row.col = FALSE, sort.col = NULL,
 The description is retrieved from the \code{\link[psych]{describe}} function. 
 If \code{describe = FALSE}, the data frame's content (values) is shown.}
 
-\item{altr.row.col}{logical, if \code{TRUE}, alternating rows are highlighted with a light gray
+\item{altr.row.col}{Logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
 
 \item{sort.col}{indicates a column, either by column name or by column index number,
@@ -30,7 +30,7 @@ is printed with no specific order. See 'Examples'.}
 data frame is ordered according to the specified column in an ascending order.
 Use \code{FALSE} to apply descending order. See 'Examples'.}
 
-\item{title}{table caption, as character vector.}
+\item{title}{Table caption, as character vector.}
 
 \item{repeat.header}{logical, if \code{TRUE}, the header row will also be added at the bottom at the table. This might
 be helpful, if you have longer tables and want to see the column names at the end of the table as well.}
@@ -56,29 +56,29 @@ thousands decimals before (hence big) the decimal point}
 \item{hide.progress}{logical, if \code{TRUE}, the progress bar that is displayed when creating the
 output is hidden. Default in \code{FALSE}, hence the bar is visible.}
 
-\item{CSS}{\code{\link{list}}-object with user-defined style-sheet-definitions, according to the
+\item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
 see \href{../doc/sjtbasic.html}{this package-vignette}, or 'Details' in
 \code{\link{sjt.frq}}.}
 
-\item{encoding}{string, indicating the charset encoding used for variable and
+\item{encoding}{String, indicating the charset encoding used for variable and
 value labels. Default is \code{NULL}, so encoding will be auto-detected
 depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
 Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
 
-\item{file}{destination file, if the output should be saved as file.
+\item{file}{Destination file, if the output should be saved as file.
 If \code{NULL} (default), the output will be saved as temporary file and
 openend either in the IDE's viewer pane or the default web browser.}
 
-\item{use.viewer}{If \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
+\item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
 
-\item{no.output}{logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
+\item{no.output}{Logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
 the viewer pane and not even saved to file. This option is useful when the html output
 should be used in \code{knitr} documents. The html output can be accessed via the return
 value.}
 
-\item{remove.spaces}{logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+\item{remove.spaces}{Logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
 that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
 may look less pretty, but it may help when exporting html-tables to office tools.}
 

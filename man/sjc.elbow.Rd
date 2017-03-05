@@ -7,13 +7,13 @@
 sjc.elbow(data, steps = 15, show.diff = FALSE)
 }
 \arguments{
-\item{data}{data frame containing all variables that should be used for 
+\item{data}{data frame containing all variables that should be used for
 determining the elbow criteria}
 
 \item{steps}{maximum group-count for the k-means cluster analysis for
 which the elbow-criterion should be displayed. Default is \code{15}.}
 
-\item{show.diff}{logical, if \code{TRUE}, an additional plot with the differences between 
+\item{show.diff}{logical, if \code{TRUE}, an additional plot with the differences between
 each fusion step of the Elbow criterion calculation is shown. This plot
 may help identifying the "elbow". Default for this argument is \code{FALSE}.}
 }
