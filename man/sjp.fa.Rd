@@ -4,39 +4,31 @@
 \alias{sjp.fa}
 \title{Plot FA results}
 \usage{
-sjp.fa(data, rotation = c("promax", "varimax"), method = "ml",
-  nmbr.fctr = NULL, fctr.load.tlrn = 0.1, digits = 2, title = NULL,
-  axis.labels = NULL, type = c("bar", "circle", "tile"), geom.size = 0.6,
+sjp.fa(data, rotation = c("promax", "varimax"), method = c("ml", "minres",
+  "wls", "gls", "pa", "minchi", "minrank"), nmbr.fctr = NULL,
+  fctr.load.tlrn = 0.1, digits = 2, title = NULL, axis.labels = NULL,
+  type = c("bar", "circle", "tile"), geom.size = 0.6,
   geom.colors = "RdBu", wrap.title = 50, wrap.labels = 30,
   show.values = TRUE, show.cronb = TRUE, prnt.plot = TRUE)
 }
 \arguments{
-\item{data}{\code{data.frame} that should be used to compute a FA, or a \code{\link[psych]{fa}} object.}
+\item{data}{A data frame that should be used to compute a FA, or a \code{\link[psych]{fa}} object.}
 
-\item{rotation}{rotation of the factor loadings. May be \code{"varimax"} for orthogonal rotation
+\item{rotation}{Rotation of the factor loadings. May be \code{"varimax"} for orthogonal rotation
 or \code{"promax"} for oblique transformation (default). Requires the \code{"GPArotation"} package.}
 
-\item{method}{the factoring method to be used. "ml" will do a maximum likelihood factor analysis (default). 
-"minres" will do a minimum residual (OLS), 
-"wls" will do a weighted least squares (WLS) solution, 
-"gls" does a generalized weighted least squares (GLS), 
-"pa" will do the principal factor solution, 
-"minchi" will minimize the sample size weighted chi square when treating pairwise 
-correlations with different number of subjects per pair. 
-minrank" will do a minimum rank factor analysis.}
-
-\item{nmbr.fctr}{number of factors used for calculating the varimax
-rotation. By default, this value is \code{NULL} and the amount of factors is
+\item{nmbr.fctr}{Number of factors used for calculating the rotation. By
+default, this value is \code{NULL} and the amount of factors is
 calculated according to a parallel analysis.}
 
-\item{fctr.load.tlrn}{specifies the minimum difference a variable needs to have between
+\item{fctr.load.tlrn}{Specifies the minimum difference a variable needs to have between
 factor loadings (components) in order to indicate a clear loading on just one factor and not
-diffusing over all factors. For instance, a variable with 0.8, 0.82 and 0.84 factor loading 
+diffusing over all factors. For instance, a variable with 0.8, 0.82 and 0.84 factor loading
 on 3 possible factors can not be clearly assigned to just one factor and thus would be removed
 from the principal component analysis. By default, the minimum difference of loading values
 between the highest and 2nd highest factor should be 0.1}
 
-\item{digits}{numeric, amount of digits after decimal point when rounding estimates and values.}
+\item{digits}{Numeric, amount of digits after decimal point when rounding estimates and values.}
 
 \item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.
@@ -46,12 +38,12 @@ to define titles for each sub-plot or facet.}
 \item{axis.labels}{character vector with labels used as axis labels. Optional
 argument, since in most cases, axis labels are set automatically.}
 
-\item{type}{Plot type resp. geom type. May be one of following: \code{"circle"} or \code{"tile"} 
+\item{type}{Plot type resp. geom type. May be one of following: \code{"circle"} or \code{"tile"}
 circular or tiled geoms, or \code{"bar"} for a bar plot. You may use initial letter only
 for this argument.}
 
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size, 
-depending on plot type and function). Note that bar and bin widths mostly 
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size,
+depending on plot type and function). Note that bar and bin widths mostly
 need smaller values than dot sizes.}
 
 \item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
@@ -59,18 +51,27 @@ need smaller values than dot sizes.}
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}
 
-\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis 
+\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
 labels are displayed in one line and when a line break is inserted.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
-\item{show.cronb}{logical, if \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
+\item{show.cronb}{Logical, if \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
 i.e. all variables with the highest loading for a factor are taken for the
 reliability test. The result is an alpha value for each factor dimension.
-Only applies when \code{data} is a data frame and no \code{\link{prcomp}} object.}
+Only applies when \code{data} is a data frame.}
 
 \item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}
+
+\item{Method}{the factoring method to be used. \code{"ml"} will do a maximum likelihood factor analysis (default).
+\code{"minres"} will do a minimum residual (OLS),
+\code{"wls"} will do a weighted least squares (WLS) solution,
+\code{"gls"} does a generalized weighted least squares (GLS),
+\code{"pa"} will do the principal factor solution,
+\code{"minchi"} will minimize the sample size weighted chi square
+when treating pairwise correlations with different number of
+subjects per pair. \code{"minrank"} will do a minimum rank factor analysis.}
 }
 \value{
 (Invisibly) returns a \code{\link{structure}} with
@@ -84,65 +85,29 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
            }
 }
 \description{
-Performes a maximum likelihood factor analysis on a data frame or matrix 
+Performes a maximum likelihood factor analysis on a data frame or matrix
                and plots the factor solution as ellipses or tiles. \cr
-               In case a data frame is used as argument, the cronbach's alpha value for 
-               each factor scale will be calculated, i.e. all variables with the highest 
-               loading for a factor are taken for the reliability test. The result is 
+               In case a data frame is used as argument, the cronbach's alpha value for
+               each factor scale will be calculated, i.e. all variables with the highest
+               loading for a factor are taken for the reliability test. The result is
                an alpha value for each factor dimension.
 }
 \note{
-This method for factor analysis relies on the functions  
-\code{\link[psych]{fa}} and  \code{\link[psych]{fa.parallel}} from the psych package.
+This method for factor analysis relies on the functions
+      \code{\link[psych]{fa}} and \code{\link[psych]{fa.parallel}}
+      from the psych package.
 }
 \examples{
-# randomly create data frame with 7 items, each consisting of 4 categories
-likert_4 <- data.frame(
-  sample(1:4, 500, replace = TRUE, prob = c(0.2, 0.3, 0.1, 0.4)),
-  sample(1:4, 500, replace = TRUE, prob = c(0.5, 0.25, 0.15, 0.1)),
-  sample(1:4, 500, replace = TRUE, prob = c(0.4, 0.15, 0.25, 0.2)),
-  sample(1:4, 500, replace = TRUE, prob = c(0.25, 0.1, 0.4, 0.25)),
-  sample(1:4, 500, replace = TRUE, prob = c(0.1, 0.4, 0.4, 0.1)),
-  sample(1:4, 500, replace = TRUE),
-  sample(1:4, 500, replace = TRUE, prob = c(0.35, 0.25, 0.15, 0.25))
-)
-
-# Create variable labels
-colnames(likert_4) <- c("V1", "V2", "V3", "V4", "V5", "V6", "V7")
-
-# plot results from PCA as square-tiled "heatmap"
-sjp.fa(likert_4, type = "tile")
-
-# plot results from PCA as bars
-sjp.fa(likert_4, type = "bar")
-
-
-# -------------------------------
-# Data from the EUROFAMCARE sample dataset
-# -------------------------------
 library(sjmisc)
 data(efc)
-
-# retrieve variable and value labels
-varlabs <- get_label(efc)
-
 # recveive first item of COPE-index scale
 start <- which(colnames(efc) == "c82cop1")
 # recveive last item of COPE-index scale
 end <- which(colnames(efc) == "c90cop9")
- 
-# create data frame with COPE-index scale
-mydf <- data.frame(efc[, c(start:end)])
-colnames(mydf) <- varlabs[c(start:end)]
 
-sjp.fa(mydf)
-sjp.fa(mydf, type = "tile")
-
-# -------------------------------
-# auto-detection of labels
-# -------------------------------
-sjp.fa(efc[, c(start:end)], type = "circle", geom.size = 10)
-
+# use data frame as argument, let sjp.fa() compute FA
+sjp.fa(efc[, start:end])
+sjp.fa(efc[, start:end], type = "tile")
 
 }
 \seealso{

@@ -1,44 +1,32 @@
 #' @title Plot FA results
 #' @name sjp.fa
-#' 
-#' @description Performes a maximum likelihood factor analysis on a data frame or matrix 
+#'
+#' @description Performes a maximum likelihood factor analysis on a data frame or matrix
 #'                and plots the factor solution as ellipses or tiles. \cr
-#'                In case a data frame is used as argument, the cronbach's alpha value for 
-#'                each factor scale will be calculated, i.e. all variables with the highest 
-#'                loading for a factor are taken for the reliability test. The result is 
+#'                In case a data frame is used as argument, the cronbach's alpha value for
+#'                each factor scale will be calculated, i.e. all variables with the highest
+#'                loading for a factor are taken for the reliability test. The result is
 #'                an alpha value for each factor dimension.
-#' 
+#'
 #' @seealso \itemize{
 #'            \item \href{http://www.strengejacke.de/sjPlot/sjp.pca/}{sjPlot manual: sjp.pca}
 #'            \item \code{\link{sjt.pca}}
 #'            }
-#' @param data \code{data.frame} that should be used to compute a FA, or a \code{\link[psych]{fa}} object.
-#' @param rotation rotation of the factor loadings. May be \code{"varimax"} for orthogonal rotation
+#' @param data A data frame that should be used to compute a FA, or a \code{\link[psych]{fa}} object.
+#' @param rotation Rotation of the factor loadings. May be \code{"varimax"} for orthogonal rotation
 #'          or \code{"promax"} for oblique transformation (default). Requires the \code{"GPArotation"} package.
-#' @param nmbr.fctr number of factors used for calculating the varimax
-#'          rotation. By default, this value is \code{NULL} and the amount of factors is
+#' @param nmbr.fctr Number of factors used for calculating the rotation. By
+#'          default, this value is \code{NULL} and the amount of factors is
 #'          calculated according to a parallel analysis.
-#' @param method the factoring method to be used. "ml" will do a maximum likelihood factor analysis (default). 
-#' "minres" will do a minimum residual (OLS), 
-#' "wls" will do a weighted least squares (WLS) solution, 
-#' "gls" does a generalized weighted least squares (GLS), 
-#' "pa" will do the principal factor solution, 
-#' "minchi" will minimize the sample size weighted chi square when treating pairwise 
-#' correlations with different number of subjects per pair. 
-#' minrank" will do a minimum rank factor analysis.
-#' @param fctr.load.tlrn specifies the minimum difference a variable needs to have between
-#'          factor loadings (components) in order to indicate a clear loading on just one factor and not
-#'          diffusing over all factors. For instance, a variable with 0.8, 0.82 and 0.84 factor loading 
-#'          on 3 possible factors can not be clearly assigned to just one factor and thus would be removed
-#'          from the principal component analysis. By default, the minimum difference of loading values
-#'          between the highest and 2nd highest factor should be 0.1
-#' @param show.cronb logical, if \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
-#'          i.e. all variables with the highest loading for a factor are taken for the
-#'          reliability test. The result is an alpha value for each factor dimension.
-#'          Only applies when \code{data} is a data frame and no \code{\link{prcomp}} object.
-#' @param type Plot type resp. geom type. May be one of following: \code{"circle"} or \code{"tile"} 
-#'          circular or tiled geoms, or \code{"bar"} for a bar plot. You may use initial letter only
-#'          for this argument.
+#' @param Method the factoring method to be used. \code{"ml"} will do a maximum likelihood factor analysis (default).
+#'         \code{"minres"} will do a minimum residual (OLS),
+#'         \code{"wls"} will do a weighted least squares (WLS) solution,
+#'         \code{"gls"} does a generalized weighted least squares (GLS),
+#'         \code{"pa"} will do the principal factor solution,
+#'         \code{"minchi"} will minimize the sample size weighted chi square
+#'         when treating pairwise correlations with different number of
+#'         subjects per pair. \code{"minrank"} will do a minimum rank factor analysis.
+#'
 #' @return (Invisibly) returns a \code{\link{structure}} with
 #'          \itemize{
 #'            \item the rotated factor loading matrix (\code{rotate})
@@ -48,63 +36,28 @@
 #'            \item the ggplot-object (\code{plot}),
 #'            \item the data frame that was used for setting up the ggplot-object (\code{df}).
 #'            }
-#' 
+#'
+#' @inheritParams sjp.pca
+#' @inheritParams sjt.pca
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.glmer
-#' 
-#' 
-#' @note This method for factor analysis relies on the functions  
-#' \code{\link[psych]{fa}} and  \code{\link[psych]{fa.parallel}} from the psych package.
-#' 
-#' @examples
-#' # randomly create data frame with 7 items, each consisting of 4 categories
-#' likert_4 <- data.frame(
-#'   sample(1:4, 500, replace = TRUE, prob = c(0.2, 0.3, 0.1, 0.4)),
-#'   sample(1:4, 500, replace = TRUE, prob = c(0.5, 0.25, 0.15, 0.1)),
-#'   sample(1:4, 500, replace = TRUE, prob = c(0.4, 0.15, 0.25, 0.2)),
-#'   sample(1:4, 500, replace = TRUE, prob = c(0.25, 0.1, 0.4, 0.25)),
-#'   sample(1:4, 500, replace = TRUE, prob = c(0.1, 0.4, 0.4, 0.1)),
-#'   sample(1:4, 500, replace = TRUE),
-#'   sample(1:4, 500, replace = TRUE, prob = c(0.35, 0.25, 0.15, 0.25))
-#' )
 #'
-#' # Create variable labels
-#' colnames(likert_4) <- c("V1", "V2", "V3", "V4", "V5", "V6", "V7")
-#' 
-#' # plot results from PCA as square-tiled "heatmap"
-#' sjp.fa(likert_4, type = "tile")
-#' 
-#' # plot results from PCA as bars
-#' sjp.fa(likert_4, type = "bar")
-#' 
-#' 
-#' # -------------------------------
-#' # Data from the EUROFAMCARE sample dataset
-#' # -------------------------------
+#' @note This method for factor analysis relies on the functions
+#'       \code{\link[psych]{fa}} and \code{\link[psych]{fa.parallel}}
+#'       from the psych package.
+#'
+#' @examples
 #' library(sjmisc)
 #' data(efc)
-#' 
-#' # retrieve variable and value labels
-#' varlabs <- get_label(efc)
-#' 
 #' # recveive first item of COPE-index scale
 #' start <- which(colnames(efc) == "c82cop1")
 #' # recveive last item of COPE-index scale
 #' end <- which(colnames(efc) == "c90cop9")
-#'  
-#' # create data frame with COPE-index scale
-#' mydf <- data.frame(efc[, c(start:end)])
-#' colnames(mydf) <- varlabs[c(start:end)]
-#' 
-#' sjp.fa(mydf)
-#' sjp.fa(mydf, type = "tile")
-#' 
-#' # -------------------------------
-#' # auto-detection of labels
-#' # -------------------------------
-#' sjp.fa(efc[, c(start:end)], type = "circle", geom.size = 10)
-#' 
-#' 
+#'
+#' # use data frame as argument, let sjp.fa() compute FA
+#' sjp.fa(efc[, start:end])
+#' sjp.fa(efc[, start:end], type = "tile")
+#'
 #' @import ggplot2
 #' @importFrom tidyr gather
 #' @importFrom scales brewer_pal grey_pal
@@ -115,7 +68,7 @@
 #' @export
 sjp.fa <- function(data,
                     rotation = c("promax", "varimax"),
-                    method = "ml",
+                    method = c("ml", "minres", "wls", "gls", "pa", "minchi", "minrank"),
                     nmbr.fctr = NULL,
                     fctr.load.tlrn = 0.1,
                     digits = 2,
@@ -134,6 +87,7 @@ sjp.fa <- function(data,
   # --------------------------------------------------------
   type <- match.arg(type)
   rotation <- match.arg(rotation)
+  method <- match.arg(method)
   # --------------------------------------------------------
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
@@ -142,7 +96,7 @@ sjp.fa <- function(data,
   }
   # ----------------------------
   # set color palette
-  # ----------------------------  
+  # ----------------------------
   if (is.brewer.pal(geom.colors[1])) {
     geom.colors <- scales::brewer_pal(palette = geom.colors[1])(5)
   } else if (geom.colors[1] == "gs") {
@@ -156,7 +110,7 @@ sjp.fa <- function(data,
     fadata <- data
     dataframeparam <- FALSE
   } else if (is.data.frame(data)) {
-    
+
     if (is.null(nmbr.fctr)) {
       nr_factors <- psych::fa.parallel(data, fa = 'fa', fm = method)$nfact
       dev.off()
@@ -165,17 +119,17 @@ sjp.fa <- function(data,
      else {
 
     fadata <- psych::fa(data, nfactors = nmbr.fctr, fm = method, rotate = rotation)
-   
+
      }
     dataframeparam <- TRUE
   }
 
 
-  
+
   # create data frame with factor loadings
   loadings <- fadata$loadings[]
   names <- rownames(fadata$loadings)
-  
+
 
   df <- as.data.frame(loadings, row.names = names)
 
@@ -224,7 +178,7 @@ sjp.fa <- function(data,
   # --------------------------------------------------------
   # this function retrieves a list with the column index ("factor" index)
   # where each case of the data frame has its highedt factor loading.
-  # So we know to which "group" (factor dimension) each case of the 
+  # So we know to which "group" (factor dimension) each case of the
   # data frame belongs to according to the pca results
   # --------------------------------------------------------
   getItemLoadings <- function(dataframe) {
@@ -280,7 +234,7 @@ sjp.fa <- function(data,
   # rename columns, so we have numbers on x axis
   names(df) <- seq_len(ncol(df))
   # convert to long data
-  df <- tidyr::gather(df, "xpos", "value", seq_len(ncol(df)), factor_key = TRUE)  
+  df <- tidyr::gather(df, "xpos", "value", seq_len(ncol(df)), factor_key = TRUE)
   # we need new columns for y-positions and point sizes
   df <- cbind(df, ypos = seq_len(nrow(loadings)), psize = exp(abs(df$value)) * geom.size)
   if (!show.values) {
@@ -314,9 +268,9 @@ sjp.fa <- function(data,
   }
   heatmap <- heatmap + geo +
     # --------------------------------------------------------
-  # fill gradient colour from distinct color brewer palette. 
-  # negative correlations are dark red, positive corr. are dark blue, 
-  # and they become lighter the closer they are to a correlation 
+  # fill gradient colour from distinct color brewer palette.
+  # negative correlations are dark red, positive corr. are dark blue,
+  # and they become lighter the closer they are to a correlation
   # coefficient of zero
   # --------------------------------------------------------
   scale_fill_gradientn(colours = geom.colors, limits = c(-1, 1)) +
@@ -326,24 +280,24 @@ sjp.fa <- function(data,
   # facet bars, and flip coordinates
   # --------------------------------------------------------
   if (type == "bar") {
-    heatmap <- heatmap + 
+    heatmap <- heatmap +
       scale_x_discrete(labels = rev(axis.labels)) +
       scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .2)) +
       facet_grid(~xpos) +
       geom_text(label = valueLabels, hjust = -0.2) +
       coord_flip()
   } else {
-    heatmap <- heatmap + 
+    heatmap <- heatmap +
       geom_text(label = valueLabels) +
-      scale_y_reverse(breaks = seq(1, length(axis.labels), by = 1), 
+      scale_y_reverse(breaks = seq(1, length(axis.labels), by = 1),
                       labels = axis.labels)
     # --------------------------------------------------------
-    # show cronbach's alpha value for each scale 
+    # show cronbach's alpha value for each scale
     # --------------------------------------------------------
     if (show.cronb) {
       heatmap <- heatmap +
-        annotate("text", x = alphaValues$nr, y = Inf, parse = TRUE, 
-                 label = sprintf("alpha == %.*f", digits, alphaValues$alpha), 
+        annotate("text", x = alphaValues$nr, y = Inf, parse = TRUE,
+                 label = sprintf("alpha == %.*f", digits, alphaValues$alpha),
                  vjust = -0.5)
     }
   }

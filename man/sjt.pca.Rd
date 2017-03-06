@@ -19,8 +19,8 @@ sjt.pca(data, rotation = c("varimax", "oblimin"), nmbr.fctr = NULL,
 \item{rotation}{Rotation of the factor loadings. May be \code{"varimax"} for orthogonal rotation
 or \code{"oblimin"} for oblique transformation.}
 
-\item{nmbr.fctr}{Number of factors used for calculating the varimax
-rotation. By default, this value is \code{NULL} and the amount of factors is
+\item{nmbr.fctr}{Number of factors used for calculating the rotation. By
+default, this value is \code{NULL} and the amount of factors is
 calculated according to the Kaiser-criteria.}
 
 \item{fctr.load.tlrn}{Specifies the minimum difference a variable needs to have between
@@ -41,7 +41,7 @@ labels are displayed in one line and when a line break is inserted.}
 \item{show.cronb}{Logical, if \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
 i.e. all variables with the highest loading for a factor are taken for the
 reliability test. The result is an alpha value for each factor dimension.
-Only applies when \code{data} is a data frame and no \code{\link{prcomp}} object.}
+Only applies when \code{data} is a data frame.}
 
 \item{show.msa}{Logical, if \code{TRUE}, shows an additional column with the measure of sampling adequacy according
 dor each component.}
@@ -123,7 +123,7 @@ start <- which(colnames(efc) == "c82cop1")
 # recveive last item of COPE-index scale
 end <- which(colnames(efc) == "c90cop9")
 # auto-detection of labels
-sjt.pca(efc[, c(start:end)])}
+sjt.pca(efc[, start:end])}
 
 }
 \seealso{

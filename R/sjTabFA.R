@@ -1,44 +1,22 @@
 #' @title Summary of factor analysis as HTML table
 #' @name sjt.fa
-#' 
-#' @description Performes a factor analysis on a data frame or matrix 
-#'                and displays the factors as HTML 
-#'                table, or saves them as file. \cr \cr In case a data frame is used as 
+#'
+#' @description Performes a factor analysis on a data frame or matrix
+#'                and displays the factors as HTML
+#'                table, or saves them as file. \cr \cr In case a data frame is used as
 #'                parameter, the Cronbach's Alpha value for each factor scale will be calculated,
 #'                i.e. all variables with the highest loading for a factor are taken for the
 #'                reliability test. The result is an alpha value for each factor dimension.
-#' 
-#' @seealso \itemize{
-#'            \item \href{http://www.strengejacke.de/sjPlot/sjt.pca/}{sjPlot manual: sjt.pca}
-#'            \item \code{\link{sjp.pca}}
-#'          }
-#' 
-#' @param data \code{data.frame} that should be used to compute a FA, or a \code{\link[psych]{fa}} object.
-#' @param rotation rotation of the factor loadings. May be \code{"varimax"} for orthogonal rotation
-#'          or \code{"promax"} for oblique transformation (default). Requires the \code{"GPArotation"} package.
-#' @param nmbr.fctr number of factors used for calculating the varimax
-#'          rotation. By default, this value is \code{NULL} and the amount of factors is
-#'          calculated according to a parallel analysis.
-#' @param method the factoring method to be used. "ml" will do a maximum likelihood factor analysis (default). 
-#' "minres" will do a minimum residual (OLS), 
-#' "wls" will do a weighted least squares (WLS) solution, 
-#' "gls" does a generalized weighted least squares (GLS), 
-#' "pa" will do the principal factor solution, 
-#' "minchi" will minimize the sample size weighted chi square when treating pairwise 
-#' correlations with different number of subjects per pair. 
-#' minrank" will do a minimum rank factor analysis.
-#' @param show.cronb logical, if \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
-#'          i.e. all variables with the highest loading for a factor are taken for the
-#'          reliability test. The result is an alpha value for each factor dimension.
-#'          Only applies when \code{data} is a data frame and no \code{\link[psych]{fa}} object.
-#' @param show.comm logical, if \code{TRUE}, shows an additional column with item communalities.
-#'          
+#'
+#' @inheritParams sjp.fa
+#' @inheritParams sjp.pca
+#' @inheritParams sjt.pca
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.xtab
 #' @inheritParams sjt.df
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjt.corr
-#'          
+#'
 #' @return Invisibly returns
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
@@ -50,44 +28,33 @@
 #'            }
 #'            for further use.
 #'
-#' @note See 'Notes' in \code{\link{sjt.frq}}.
-#'        This method for factor analysis relies on the functions  
-#' \code{\link[psych]{fa}} and  \code{\link[psych]{fa.parallel}} from the psych package.
-#'  
+#' @note This method for factor analysis relies on the functions
+#'       \code{\link[psych]{fa}} and \code{\link[psych]{fa.parallel}} from the psych package.
+#'
 #' @details See 'Details' in \code{\link{sjt.frq}}.
-#'         
-#' 
+#'
+#'
 #' @examples
 #' \dontrun{
 #' # Data from the EUROFAMCARE sample dataset
 #' library(sjmisc)
 #' data(efc)
-#' 
-#' # retrieve variable and value labels
-#' varlabs <- get_label(efc)
-#' 
+#'
 #' # recveive first item of COPE-index scale
 #' start <- which(colnames(efc) == "c82cop1")
 #' # recveive last item of COPE-index scale
 #' end <- which(colnames(efc) == "c90cop9")
-#'  
-#' # create data frame with COPE-index scale
-#' mydf <- as.data.frame(efc[, c(start:end)])
-#' colnames(mydf) <- varlabs[c(start:end)]
-#' 
-#' sjt.fa(mydf)
-#' 
 #' # auto-detection of labels
-#' sjt.fa(efc[, c(start:end)])}
-#' 
+#' sjt.fa(efc[, start:end])}
+#'
 #' @importFrom psych KMO
 #' @importFrom psych fa
 #' @importFrom psych fa.parallel
-#' 
+#'
 #' @export
 sjt.fa <- function(data,
                    rotation = c("promax", "varimax"),
-                   method = "ml",
+                   method = c("ml", "minres", "wls", "gls", "pa", "minchi", "minrank"),
                    nmbr.fctr = NULL,
                    fctr.load.tlrn = 0.1,
                     title = "Factor Analysis",
@@ -107,7 +74,10 @@ sjt.fa <- function(data,
   # check encoding
   # -------------------------------------
   encoding <- get.encoding(encoding, data)
+
+  # check arguments
   rotation <- match.arg(rotation)
+  method <- match.arg(method)
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
@@ -126,21 +96,21 @@ sjt.fa <- function(data,
     fadata <- data
     dataframeparam <- FALSE
   } else if (is.data.frame(data)) {
-    
+
     if (is.null(nmbr.fctr)) {
       nr_factors <- psych::fa.parallel(data, fa = 'fa', fm = method)$nfact
       dev.off()
       fadata <- psych::fa(data, nfactors = nr_factors, fm = method, rotate = rotation)
     }
     else {
-      
+
       fadata <- psych::fa(data, nfactors = nmbr.fctr, fm = method, rotate = rotation)
-      
+
     }
     dataframeparam <- TRUE
   }
-  
-  
+
+
   # -------------------------------------
   # init header
   # -------------------------------------
@@ -156,10 +126,10 @@ sjt.fa <- function(data,
   tag.tdata <- "tdata"
   tag.centeralign <- "centeralign"
   tag.rightalign <- "rightalign"
-  tag.cronbach <- "cronbach"  
-  tag.comm <- "comm"  
+  tag.cronbach <- "cronbach"
+  tag.comm <- "comm"
   tag.rotation <- "rotation"
-  tag.kmo <- "kmo"  
+  tag.kmo <- "kmo"
   tag.arc <- "arc"
   tag.minval <- "minval"
   tag.removable <- "removable"
@@ -171,10 +141,10 @@ sjt.fa <- function(data,
   css.tdata <- "padding:0.2cm;"
   css.centeralign <- "text-align:center;"
   css.rightalign <- "text-align:right;"
-  css.cronbach <- "font-style:italic; border-bottom:double;"  
-  css.comm <- "font-style:italic; color:#666666;"  
-  css.kmo <- "font-style:italic;"  
-  css.rotation <- "font-style:italic; font-size:0.9em;"  
+  css.cronbach <- "font-style:italic; border-bottom:double;"
+  css.comm <- "font-style:italic; color:#666666;"
+  css.kmo <- "font-style:italic;"
+  css.rotation <- "font-style:italic; font-size:0.9em;"
   css.minval <- "color:#cccccc;"
   css.arc <- "background-color:#eaeaea;"
   css.removable <- "background-color:#eacccc;"
@@ -206,7 +176,7 @@ sjt.fa <- function(data,
   # set page style
   # ------------------------
   page.style <-  sprintf("<style>%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s  { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s  { %s }\n</style>",
-                         tag.table, css.table, tag.caption, css.caption, tag.thead, css.thead, 
+                         tag.table, css.table, tag.caption, css.caption, tag.thead, css.thead,
                          tag.tdata, css.tdata, tag.cronbach, css.cronbach, tag.minval, css.minval,
                          tag.removable, css.removable, tag.firsttablerow, css.firsttablerow,
                          tag.firsttablecol, css.firsttablecol, tag.centeralign, css.centeralign,
@@ -217,13 +187,13 @@ sjt.fa <- function(data,
   # ------------------------
   toWrite <- paste0(toWrite, page.style)
   toWrite = paste(toWrite, "\n</head>\n<body>", "\n")
-  
-  
+
+
   # create data frame with factor loadings
   loadings <- fadata$loadings[]
   names <- rownames(fadata$loadings)
   df <- as.data.frame(loadings, row.names = names)
-  
+
   # ----------------------------
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
@@ -268,7 +238,7 @@ sjt.fa <- function(data,
   # --------------------------------------------------------
   # this function retrieves a list with the column index ("factor" index)
   # where each case of the data frame has its highedt factor loading.
-  # So we know to which "group" (factor dimension) each case of the 
+  # So we know to which "group" (factor dimension) each case of the
   # data frame belongs to according to the pca results
   # --------------------------------------------------------
   getItemLoadings <- function(dataframe) {
@@ -319,7 +289,7 @@ sjt.fa <- function(data,
   # -------------------------------------
   #kmo <- NULL # not implemented at the moment
   #if (show.msa) kmo <- psych::KMO(data)
- 
+
   # -------------------------------------
   # convert data frame, add label names
   # -------------------------------------
@@ -367,29 +337,29 @@ sjt.fa <- function(data,
     # write tr-tag with class-attributes
     page.content <- paste0(page.content, "  <tr>\n")
     # print first table cell
-    page.content <- paste0(page.content, sprintf("    <td class=\"firsttablecol%s%s\">%s</td>\n", 
+    page.content <- paste0(page.content, sprintf("    <td class=\"firsttablecol%s%s\">%s</td>\n",
                                                  arcstring, rowcss, var.labels[i]))
     # iterate all columns
     for (j in seq_len(ncol(df))) {
       # start table column
       colcss <- sprintf(" class=\"tdata centeralign%s%s\"", arcstring, rowcss)
-      if (maxdf[[i]] != max(abs(df[i, j]))) 
+      if (maxdf[[i]] != max(abs(df[i, j])))
         colcss <- sprintf(" class=\"tdata centeralign minval%s%s\"", arcstring, rowcss)
-      page.content <- paste0(page.content, sprintf("    <td%s>%.*f</td>\n", 
+      page.content <- paste0(page.content, sprintf("    <td%s>%.*f</td>\n",
                                                    colcss, digits, df[i, j]))
     }
     # check if comm column should be shown
-    if (show.comm) page.content <- paste0(page.content, sprintf("    <td class=\"tdata comm centeralign%s%s\">%.*f</td>\n", 
-                                                               arcstring, 
-                                                               rowcss, 
-                                                               digits, 
+    if (show.comm) page.content <- paste0(page.content, sprintf("    <td class=\"tdata comm centeralign%s%s\">%.*f</td>\n",
+                                                               arcstring,
+                                                               rowcss,
+                                                               digits,
                                                                fadata$communalities[[i]]))
     # close row
     page.content <- paste0(page.content, "  </tr>\n")
   }
- 
-  # 
-  # 
+
+  #
+  #
   # # -------------------------------------
   # # Total Communalities   # not implemented at the moment
   # # -------------------------------------
@@ -402,7 +372,7 @@ sjt.fa <- function(data,
     page.content <- paste0(page.content, "  </tr>\n")
   }
 
-  
+
   # -------------------------------------
   # cronbach's alpha
   # -------------------------------------
@@ -413,8 +383,8 @@ sjt.fa <- function(data,
     page.content <- paste0(page.content, "    <td class=\"tdata cronbach\">Cronbach's &alpha;</td>\n")
     # iterate alpha-values
     for (i in seq_len(length(alphaValues))) {
-      page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign cronbach\">%.*f</td>\n", 
-                                                   digits, 
+      page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign cronbach\">%.*f</td>\n",
+                                                   digits,
                                                    alphaValues[i]))
     }
     # check if comm column should be shown
@@ -463,10 +433,10 @@ sjt.fa <- function(data,
   knitr <- gsub(tag.arc, css.arc, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.kmo, css.kmo, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.rotation, css.rotation, knitr, fixed = TRUE, useBytes = TRUE)
-  knitr <- gsub(tag.minval, css.minval, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.removable, css.removable, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.firsttablerow, css.firsttablerow, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.firsttablecol, css.firsttablecol, knitr, fixed = TRUE, useBytes = TRUE)  
+  knitr <- gsub(tag.minval, css.minval, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.removable, css.removable, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.firsttablerow, css.firsttablerow, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.firsttablecol, css.firsttablecol, knitr, fixed = TRUE, useBytes = TRUE)
   # -------------------------------------
   # remove spaces?
   # -------------------------------------
@@ -478,7 +448,7 @@ sjt.fa <- function(data,
   # -------------------------------------
   # check if html-content should be outputted
   # -------------------------------------
-  out.html.table(no.output, file, knitr, toWrite, use.viewer) 
+  out.html.table(no.output, file, knitr, toWrite, use.viewer)
   # -------------------------------------
   # return results
   # -------------------------------------
