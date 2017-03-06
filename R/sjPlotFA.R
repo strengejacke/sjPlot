@@ -63,8 +63,8 @@
 #' @importFrom scales brewer_pal grey_pal
 #' @importFrom stats na.omit prcomp
 #' @importFrom sjstats cronb
-#' @importFrom psych fa
-#' @importFrom psych fa.parallel
+#' @importFrom psych fa fa.parallel
+#' @importFrom grDevices dev.off
 #' @export
 sjp.fa <- function(data,
                     rotation = c("promax", "varimax"),
@@ -113,7 +113,7 @@ sjp.fa <- function(data,
 
     if (is.null(nmbr.fctr)) {
       nr_factors <- psych::fa.parallel(data, fa = 'fa', fm = method)$nfact
-      dev.off()
+      grDevices::dev.off()
       fadata <- psych::fa(data, nfactors = nr_factors, fm = method, rotate = rotation)
     }
      else {
