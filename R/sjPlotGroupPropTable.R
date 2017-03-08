@@ -175,7 +175,7 @@ sjp.gpt <- function(x,
   # recode dependent variable's categorues
   # max and all others, so we have proportion
   # between maximux value and rest
-  mydf$dep <- sjmisc::rec(mydf$dep, recodes = "max=1;else=0")
+  mydf$dep <- sjmisc::rec(mydf$dep, rec = "max=1;else=0")
 
   # group data by grouping variable, and inside
   # groups, group the x-variable
