@@ -11,14 +11,14 @@ To install the latest development snapshot (see latest changes below), type foll
 
 ```r
 library(devtools)
-devtools::install_github("sjPlot/devel")
+devtools::install_github("strengejacke/sjPlot")
 ```
 
-Please note that the latest development snapshot most likely depends on the latest builds of the [sjmisc-package](https://github.com/sjPlot/sjmisc) and [sjstats-package](https://github.com/sjPlot/sjstats), so you probably want to install these as well:
+Please note that the latest development snapshot most likely depends on the latest builds of the [sjmisc-package](https://github.com/strengejacke/sjmisc) and [sjstats-package](https://github.com/strengejacke/sjstats), so you probably want to install these as well:
 
 ```r
-devtools::install_github("sjPlot/sjmisc")
-devtools::install_github("sjPlot/sjstats")
+devtools::install_github("strengejacke/sjmisc")
+devtools::install_github("strengejacke/sjstats")
 ```
 
 ### Officiale, stable release

@@ -52,7 +52,7 @@ Suggests:
     lmerTest,
     lmtest,
     lsmeans
-URL: https://github.com/sjPlot/devel
-BugReports: https://github.com/sjPlot/devel/issues
+URL: https://github.com/strengejacke/sjPlot
+BugReports: https://github.com/strengejacke/sjPlot/issues
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
