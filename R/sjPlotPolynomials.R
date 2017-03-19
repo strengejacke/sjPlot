@@ -93,7 +93,7 @@
 #'
 #' @import ggplot2
 #' @importFrom scales grey_pal brewer_pal
-#' @importFrom stats lm glm binomial predict
+#' @importFrom stats lm glm binomial predict poly
 #' @export
 sjp.poly <- function(x,
                      poly.term,
@@ -176,9 +176,9 @@ sjp.poly <- function(x,
     mydat <- stats::na.omit(data.frame(x = poly.term, y = resp))
     # fit model with polynomials
     if (fun == "lm")
-      fit <- stats::lm(mydat$y ~ poly(mydat$x, i, raw = TRUE))
+      fit <- stats::lm(mydat$y ~ stats::poly(mydat$x, i, raw = TRUE))
     else
-      fit <- stats::glm(mydat$y ~ poly(mydat$x, i, raw = TRUE), family = stats::family(x))
+      fit <- stats::glm(mydat$y ~ stats::poly(mydat$x, i, raw = TRUE), family = stats::family(x))
     # check whether we have an integer poly.degree
     # or a float value
     poly.digit <- ifelse(i %% 1 == 0, 0, 1)

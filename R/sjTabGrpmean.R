@@ -137,7 +137,7 @@ sjt.grpmean <- function(var.cnt,
     df <- rbind(df,
                 cbind(mean = sprintf("%.*f", digits, mw),
                       N = length(stats::na.omit(var.cnt[var.grp == indices[i]])),
-                      sd = sprintf("%.*f", digits, sd(var.cnt[var.grp == indices[i]], na.rm = TRUE)),
+                      sd = sprintf("%.*f", digits, stats::sd(var.cnt[var.grp == indices[i]], na.rm = TRUE)),
                       se = sprintf("%.*f", digits, sjstats::se(var.cnt[var.grp == indices[i]])),
                       p = pval[i]))
   }
@@ -155,7 +155,7 @@ sjt.grpmean <- function(var.cnt,
   df <- rbind(df,
               cbind(mean = sprintf("%.*f", digits, mw),
                     N = length(stats::na.omit(var.cnt)),
-                    sd = sprintf("%.*f", digits, sd(var.cnt, na.rm = TRUE)),
+                    sd = sprintf("%.*f", digits, stats::sd(var.cnt, na.rm = TRUE)),
                     se = sprintf("%.*f", digits, sjstats::se(var.cnt)),
                     p = ""))
   # --------------------------------------

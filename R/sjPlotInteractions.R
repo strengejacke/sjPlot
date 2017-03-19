@@ -269,7 +269,7 @@
 #' sjp.int(fit, type = "eff", int.plot.index = 3, show.ci = TRUE, facet.grid = TRUE)}
 #'
 #' @import ggplot2
-#' @importFrom stats family quantile
+#' @importFrom stats family quantile sd
 #' @importFrom sjmisc is_num_fac
 #' @importFrom effects allEffects effect
 #' @export
@@ -545,8 +545,8 @@ sjp.int <- function(fit,
       ymax <- max(mod.value, na.rm = T)
     } else if (mdrt.values == "meansd") {
       mw <- mean(mod.value, na.rm = T)
-      ymin <- mw - sd(mod.value, na.rm = T)
-      ymax <- mw + sd(mod.value, na.rm = T)
+      ymin <- mw - stats::sd(mod.value, na.rm = T)
+      ymax <- mw + stats::sd(mod.value, na.rm = T)
     } else if (mdrt.values == "zeromax") {
       mw <- NA
       ymin <- 0
