@@ -390,7 +390,7 @@ sjt.lm <- function(...,
   # -----------------------------------------------------------
   # check argument. No model-summary supported for plm-objects
   # -----------------------------------------------------------
-  if (any(class(input_list[[1]]) == "plm")) {
+  if (inherits(input_list[[1]], "plm")) {
     # -----------------------------------------------------------
     # check package availability if fit is plm-object
     # -----------------------------------------------------------
