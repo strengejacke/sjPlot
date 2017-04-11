@@ -1,5 +1,9 @@
 # sjPlot 2.3.1.9000
 
+## New functions
+
+* `sjp.fa()` and `sjt.fa()` to plot or print as table the results of factor analyses.
+
 # sjPlot 2.3.1
 
 ## General
