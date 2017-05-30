@@ -29,7 +29,8 @@ plot-building is too time consuming.}
 \item{show.pred}{Logical, if \code{TRUE}, predicted values are plotted.}
 
 \item{show.ci}{Logical, if \code{TRUE}, depending on \code{type}, a confidence
-interval or region is added to the plot.}
+interval or region is added to the plot. For frequency plots, the
+confidence interval for the relative frequencies are shown.}
 
 \item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
 want to plot any graphs. In either case, the ggplot-object will be returned as value.}

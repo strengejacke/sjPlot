@@ -107,7 +107,8 @@ If \code{FALSE}, percentage values are removed.}
 should be printed or not.}
 
 \item{show.ci}{Logical, if \code{TRUE}, depending on \code{type}, a confidence
-interval or region is added to the plot.}
+interval or region is added to the plot. For frequency plots, the
+confidence interval for the relative frequencies are shown.}
 
 \item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values)
 are added to the output.}

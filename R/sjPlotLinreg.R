@@ -105,7 +105,8 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #' @param show.summary Logical, if \code{TRUE}, a summary with model statistics
 #'          is added to the plot.
 #' @param show.ci Logical, if \code{TRUE}, depending on \code{type}, a confidence
-#'          interval or region is added to the plot.
+#'          interval or region is added to the plot. For frequency plots, the
+#'          confidence interval for the relative frequencies are shown.
 #' @param show.scatter Logical, if \code{TRUE} (default), adds a scatter plot of
 #'          data points to the plot. Only applies for slope-type or predictions plots.
 #'          For most plot types, dots are jittered to avoid overplotting, hence the

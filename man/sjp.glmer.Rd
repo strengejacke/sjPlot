@@ -118,7 +118,8 @@ need smaller values than dot sizes.}
 variable labels.}
 
 \item{show.ci}{Logical, if \code{TRUE}, depending on \code{type}, a confidence
-interval or region is added to the plot.}
+interval or region is added to the plot. For frequency plots, the
+confidence interval for the relative frequencies are shown.}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}

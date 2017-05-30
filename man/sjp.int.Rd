@@ -118,7 +118,8 @@ Use either 0 or set \code{fill.color} to \code{NULL} if you want to hide the sha
 \item{show.values}{logical, whether values should be plotted or not.}
 
 \item{show.ci}{Logical, if \code{TRUE}, depending on \code{type}, a confidence
-interval or region is added to the plot.}
+interval or region is added to the plot. For frequency plots, the
+confidence interval for the relative frequencies are shown.}
 
 \item{jitter.ci}{Logical, if \code{TRUE} and \code{show.ci = TRUE} and confidence
 bands are displayed as error bars, adds jittering to lines and error bars
