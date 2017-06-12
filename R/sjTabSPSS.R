@@ -70,7 +70,8 @@
 #'                    css.arc = "color:blue;"))}
 #'
 #' @importFrom utils txtProgressBar setTxtProgressBar
-#' @importFrom sjmisc is_even get_values
+#' @importFrom sjmisc is_even
+#' @importFrom sjlabelled get_values
 #' @export
 view_df <- function(x,
                     weight.by = NULL,
@@ -235,7 +236,7 @@ view_df <- function(x,
       # do we have valid index?
       if (index <= ncol(x)) {
         # if yes, get variable values
-        vals <- sjmisc::get_values(x[[index]])
+        vals <- sjlabelled::get_values(x[[index]])
         # check if we have any values...
         if (!is.null(vals)) {
           # if we have values, put all values into a string

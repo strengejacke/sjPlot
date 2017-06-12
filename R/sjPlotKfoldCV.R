@@ -10,12 +10,12 @@ utils::globalVariables(c("train", "model", "test", ".response", "sse", "sst"))
 #'
 #' @param data A data frame, used to split the data into \code{k} trainig-test-pairs.
 #' @param formula A model formula, used to fit linear models (\code{\link[stats]{lm}})
-#'          over all \code{k} training data sets. Use \code{fit} to specify a 
+#'          over all \code{k} training data sets. Use \code{fit} to specify a
 #'          fitted model (also other models than linear models), which will be used
 #'          to compute cross validation. If \code{fit} is not missing, \code{formula}
 #'          will be ignored.
 #' @param k Number of folds.
-#' @param fit Model object, which will be used to compute cross validation. If 
+#' @param fit Model object, which will be used to compute cross validation. If
 #'          \code{fit} is not missing, \code{formula} will be ignored. Currently,
 #'          only linear, poisson and negative binomial regression models are supported.
 #'
@@ -28,29 +28,28 @@ utils::globalVariables(c("train", "model", "test", ".response", "sse", "sst"))
 #'            from all test data is plotted against the observed values (outcome)
 #'            from the test data (note: for poisson or negative binomial models, the
 #'            deviance residuals are calculated). This plot can be used to validate the model
-#'            and see, whether it over- (residuals > 0) or underestimates 
+#'            and see, whether it over- (residuals > 0) or underestimates
 #'            (residuals < 0) the model's outcome.
 #'
 #' @note Currently, only linear, poisson and negative binomial regression models are supported.
 #'
-#' @examples 
+#' @examples
 #' library(sjmisc)
 #' data(efc)
-#' 
+#'
 #' sjp.kfold_cv(efc, neg_c_7 ~ e42dep + c172code + c12hour)
 #' sjp.kfold_cv(mtcars, mpg ~.)
 #'
 #' # for poisson models. need to fit a model and use 'fit'-argument
 #' fit <- glm(tot_sc_e ~ neg_c_7 + c172code, data = efc, family = poisson)
 #' sjp.kfold_cv(efc, fit = fit)
-#' 
+#'
 #' # and for negative binomial models
 #' fit <- MASS::glm.nb(tot_sc_e ~ neg_c_7 + c172code, data = efc)
 #' sjp.kfold_cv(efc, fit = fit)
 #'
 #' @import ggplot2
 #' @importFrom tibble is.tibble as_tibble
-#' @importFrom sjmisc get_label
 #' @importFrom modelr crossv_kfold
 #' @importFrom dplyr mutate group_by_ ungroup summarise
 #' @importFrom purrr map map2
@@ -65,7 +64,7 @@ utils::globalVariables(c("train", "model", "test", ".response", "sse", "sst"))
 sjp.kfold_cv <- function(data, formula, k = 5, fit) {
   # make sure that data is a tibble
   if (!tibble::is.tibble(data)) data <- tibble::as_tibble(data)
-  
+
   # check if a formula was passed as argument...
   if (!missing(formula)) {
     # make sure we have a formula
@@ -75,7 +74,7 @@ sjp.kfold_cv <- function(data, formula, k = 5, fit) {
   } else if (!missing(fit)) {
     # ... or a fitted model
     formula <- stats::formula(fit)
-    
+
     # get model family for glm
     if (inherits(fit, "glm"))
       fam <- stats::family(fit)
@@ -84,7 +83,7 @@ sjp.kfold_cv <- function(data, formula, k = 5, fit) {
   } else {
     stop("Either `formula` or `fit` must be supplied.", call. = F)
   }
-  
+
   # get name of response variable and get variable label, if
   # there is any... used for labelling plot axis
   resp <- formula[[2]]
@@ -96,40 +95,40 @@ sjp.kfold_cv <- function(data, formula, k = 5, fit) {
     if (fam$family == "poisson") {
       # create cross-validated test-training pairs, run poisson-model on each
       # pair, get deviance residuals and response value
-      res <- modelr::crossv_kfold(data, k = k) %>% 
-        dplyr::mutate(model = purrr::map(train, ~ stats::glm(formula, data = .x, family = stats::poisson(link = "log")))) %>% 
-        dplyr::mutate(residuals = purrr::map(model, ~ stats::residuals(.x, "deviance"))) %>% 
+      res <- modelr::crossv_kfold(data, k = k) %>%
+        dplyr::mutate(model = purrr::map(train, ~ stats::glm(formula, data = .x, family = stats::poisson(link = "log")))) %>%
+        dplyr::mutate(residuals = purrr::map(model, ~ stats::residuals(.x, "deviance"))) %>%
         dplyr::mutate(.response = purrr::map(model, ~ sjstats::resp_val(.x)))
     # for negative binomial models, show deviance residuals
     } else if (inherits(fit, "negbin")) {
       # create cross-validated test-training pairs, run poisson-model on each
       # pair, get deviance residuals and response value
-      res <- modelr::crossv_kfold(data, k = k) %>% 
-        dplyr::mutate(model = purrr::map(train, ~ MASS::glm.nb(formula, data = .))) %>% 
-        dplyr::mutate(residuals = purrr::map(model, ~ stats::residuals(.x, "deviance"))) %>% 
+      res <- modelr::crossv_kfold(data, k = k) %>%
+        dplyr::mutate(model = purrr::map(train, ~ MASS::glm.nb(formula, data = .))) %>%
+        dplyr::mutate(residuals = purrr::map(model, ~ stats::residuals(.x, "deviance"))) %>%
         dplyr::mutate(.response = purrr::map(model, ~ sjstats::resp_val(.x)))
     }
-    
+
     # unnest residuals and response values
     res <- res %>% tidyr::unnest(residuals, .response)
-    
+
   } else {
     # create cross-validated test-training pairs, run linear model on each
     # pair, get predicted values and quality measures for models fitted on the
     # train data
-    res <- modelr::crossv_kfold(data, k = k) %>% 
-      dplyr::mutate(model = purrr::map(train, ~ stats::lm(formula, data = .))) %>% 
-      dplyr::mutate(predicted = purrr::map2(model, test, ~ broom::augment(.x, newdata = .y))) %>% 
+    res <- modelr::crossv_kfold(data, k = k) %>%
+      dplyr::mutate(model = purrr::map(train, ~ stats::lm(formula, data = .))) %>%
+      dplyr::mutate(predicted = purrr::map2(model, test, ~ broom::augment(.x, newdata = .y))) %>%
       tidyr::unnest(predicted)
-    
+
     # make sure that response vector has an identifiably name
     colnames(res)[which(colnames(res) == deparse(resp))] <- ".response"
-    
+
     # compute residuals for each k-fold model
-    res <- res %>% 
+    res <- res %>%
       dplyr::mutate(residuals = .response - .fitted)
   }
-      
+
   # plot response against residuals, to see where our model over- or
   # underestimates the outcome
   p <- ggplot(data = res, aes_string(x = ".response", y = "residuals")) +
@@ -138,7 +137,7 @@ sjp.kfold_cv <- function(data, formula, k = 5, fit) {
     stat_smooth(method = "loess") +
     theme_minimal() +
     labs(y = "Residuals", x = resp.name)
-  
+
   # plot it
   suppressWarnings(graphics::plot(p))
 

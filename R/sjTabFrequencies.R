@@ -157,7 +157,8 @@
 #'
 #' @importFrom psych describe
 #' @importFrom stats na.omit weighted.mean
-#' @importFrom sjmisc get_note group_str
+#' @importFrom sjmisc group_str
+#' @importFrom sjlabelled get_note
 #' @export
 sjt.frq <- function(data,
                     weight.by = NULL,
@@ -326,12 +327,12 @@ sjt.frq <- function(data,
     # if yes, iterate each variable
     for (i in seq_len(ncol(data))) {
       # retrieve note attribute
-      note.labels <- c(note.labels, sjmisc::get_note(data[[i]]))
+      note.labels <- c(note.labels, sjlabelled::get_note(data[[i]]))
     }
     # we have a single variable only
   } else {
     # retrieve note attribute
-    note.labels <- c(note.labels, sjmisc::get_note(data))
+    note.labels <- c(note.labels, sjlabelled::get_note(data))
   }
 
   # make data frame of single variable, so we have

@@ -10,14 +10,14 @@ sjp.kfold_cv(data, formula, k = 5, fit)
 \item{data}{A data frame, used to split the data into \code{k} trainig-test-pairs.}
 
 \item{formula}{A model formula, used to fit linear models (\code{\link[stats]{lm}})
-over all \code{k} training data sets. Use \code{fit} to specify a 
+over all \code{k} training data sets. Use \code{fit} to specify a
 fitted model (also other models than linear models), which will be used
 to compute cross validation. If \code{fit} is not missing, \code{formula}
 will be ignored.}
 
 \item{k}{Number of folds.}
 
-\item{fit}{Model object, which will be used to compute cross validation. If 
+\item{fit}{Model object, which will be used to compute cross validation. If
 \code{fit} is not missing, \code{formula} will be ignored. Currently,
 only linear, poisson and negative binomial regression models are supported.}
 }
@@ -36,7 +36,7 @@ This function, first, generates \code{k} cross-validated test-training
            from all test data is plotted against the observed values (outcome)
            from the test data (note: for poisson or negative binomial models, the
            deviance residuals are calculated). This plot can be used to validate the model
-           and see, whether it over- (residuals > 0) or underestimates 
+           and see, whether it over- (residuals > 0) or underestimates
            (residuals < 0) the model's outcome.
 }
 \note{

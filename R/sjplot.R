@@ -3,20 +3,20 @@
 #'
 #' @description This function has a pipe-friendly argument-structure, with the
 #'              first argument always being the data, followed by variables that
-#'              should be plotted or printed as table. The function then transforms 
-#'              the input and calls the requested sjp.- resp. sjt.-function 
+#'              should be plotted or printed as table. The function then transforms
+#'              the input and calls the requested sjp.- resp. sjt.-function
 #'              to create a plot or table. \cr \cr
 #'              Both \code{sjplot()} and \code{sjtab()} support grouped data frames.
 #'
 #' @param data A data frame. May also be a grouped data frame (see 'Note' and
 #'          'Examples').
-#' @param ... Names of variables that should be plotted, and also further 
+#' @param ... Names of variables that should be plotted, and also further
 #'          arguments passed down to the \pkg{sjPlot}-functions. See 'Examples'.
 #' @param fun Plotting function. Refers to the function name of \pkg{sjPlot}-functions.
 #'          See 'Details' and 'Examples'.
-#'          
+#'
 #' @return See related sjp. and sjt.-functions.
-#' 
+#'
 #' @note The \code{...}-argument is used, first, to specify the variables from \code{data}
 #'       that should be plotted, and, second, to name further arguments that are
 #'       used in the subsequent plotting functions. Refer to the online-help of
@@ -24,30 +24,30 @@
 #'       \cr \cr
 #'       \code{data} may also be a grouped data frame (see \code{\link[dplyr]{group_by}})
 #'       with up to two grouping variables. Plots are created for each subgroup then.
-#' 
+#'
 #' @details Following \code{fun}-values are currently supported:
 #'          \describe{
-#'             \item{\code{"aov1"}}{calls \code{\link{sjp.aov1}}. The first 
+#'             \item{\code{"aov1"}}{calls \code{\link{sjp.aov1}}. The first
 #'             two variables in \code{data} are used (and required) to create the plot.
 #'             }
 #'             \item{\code{"frq"}}{calls \code{\link{sjp.frq}} or \code{\link{sjt.frq}}.
-#'             If \code{data} has more than one variable, a plot for each 
+#'             If \code{data} has more than one variable, a plot for each
 #'             variable in \code{data} is plotted.
 #'             }
-#'             \item{\code{"gpt"}}{calls \code{\link{sjp.gpt}}. The first 
+#'             \item{\code{"gpt"}}{calls \code{\link{sjp.gpt}}. The first
 #'             three variables in \code{data} are used (and required) to create the plot.
 #'             }
-#'             \item{\code{"grpfrq"}}{calls \code{\link{sjp.grpfrq}}. The first 
+#'             \item{\code{"grpfrq"}}{calls \code{\link{sjp.grpfrq}}. The first
 #'             two variables in \code{data} are used (and required) to create the plot.
 #'             }
 #'             \item{\code{"grpmean"}}{calls \code{\link{sjt.grpmean}}.
-#'             The first two variables in \code{data} are used (and required) 
+#'             The first two variables in \code{data} are used (and required)
 #'             to create the table.
 #'             }
-#'             \item{\code{"likert"}}{calls \code{\link{sjp.likert}}. \code{data} 
+#'             \item{\code{"likert"}}{calls \code{\link{sjp.likert}}. \code{data}
 #'             must be a data frame with items to plot.
 #'             }
-#'             \item{\code{"scatter"}}{calls \code{\link{sjp.scatter}}. The first 
+#'             \item{\code{"scatter"}}{calls \code{\link{sjp.scatter}}. The first
 #'             two variables in \code{data} are used (and required) to create the plot;
 #'             if \code{data} also has a third variable, this is used as grouping-
 #'             variable in \code{sjp.scatter}.
@@ -56,89 +56,90 @@
 #'             \code{data} must be a data frame with items to create the plot or table.
 #'             }
 #'             \item{\code{"xtab"}}{calls \code{\link{sjp.xtab}} or \code{\link{sjt.xtab}}.
-#'             The first two variables in \code{data} are used (and required) 
+#'             The first two variables in \code{data} are used (and required)
 #'             to create the plot or table.
 #'             }
 #'          }
-#' 
+#'
 #' @examples
 #' library(sjmisc)
 #' library(dplyr)
 #' data(efc)
-#' 
+#'
 #' # Frequency plot
 #' sjplot(efc, e42dep, c172code, fun = "frq")
-#' 
+#'
 #' # Grouped frequencies
 #' efc %>% sjplot(e42dep, c172code, fun = "grpfrq")
-#' 
+#'
 #' # Grouped frequencies, as box plots
-#' efc %>% sjplot(e17age, c172code, fun = "grpfrq", 
+#' efc %>% sjplot(e17age, c172code, fun = "grpfrq",
 #'                type = "box", geom.colors = "Set1")
-#' 
+#'
 #' # scatter plot, grouped
-#' efc %>% 
-#'   select(e42dep, c172code, c161sex) %>% 
+#' efc %>%
+#'   select(e42dep, c172code, c161sex) %>%
 #'   sjplot(fun = "scatter")
 #'
 #' # frequencies, as plot grid
-#' efc %>% 
-#'   select(e42dep, c172code, e16sex, c161sex) %>% 
-#'   sjplot() %>% 
+#' efc %>%
+#'   select(e42dep, c172code, e16sex, c161sex) %>%
+#'   sjplot() %>%
 #'   plot_grid()
 #'
 #' # plot grouped data frame
-#' efc %>% 
-#'   group_by(e16sex, c172code) %>% 
-#'   select(e42dep, e16sex, c172code) %>% 
+#' efc %>%
+#'   group_by(e16sex, c172code) %>%
+#'   select(e42dep, e16sex, c172code) %>%
 #'   sjplot(wrap.title = 100) # no line break for subtitles
 #'
 #' \dontrun{
 #' # table output of grouped data frame
-#' efc %>% 
-#'   group_by(e16sex, c172code) %>% 
-#'   select(e42dep, n4pstu, e16sex, c172code) %>% 
+#' efc %>%
+#'   group_by(e16sex, c172code) %>%
+#'   select(e42dep, n4pstu, e16sex, c172code) %>%
 #'   sjtab(fun = "xtab", use.viewer = FALSE) # open all tables in browser}
 #'
-#' @importFrom sjmisc is_empty copy_labels get_label get_labels
+#' @importFrom sjmisc is_empty
+#' @importFrom sjlabelled copy_labels get_label get_labels
 #' @importFrom dplyr select_ filter
 #' @importFrom tidyr nest
 #' @importFrom stats complete.cases
 #' @export
-sjplot <- function(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter", 
+sjplot <- function(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter",
                                       "aov1", "likert", "stackfrq")) {
   # check if x is a data frame
   if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = F)
-  
+
   # match arguments
   fun <- match.arg(fun)
 
   # evaluate arguments, generate data
   x <- get_dot_data(data, match.call(expand.dots = FALSE)$`...`)
-  
+
   # check remaining arguments
   args <- match.call(expand.dots = FALSE)$`...`
   args <- args[names(args) != ""]
-  
+
   p <- NULL
   pl <- NULL
-  
+
   # do we have a grouped data frame?
   if (inherits(x, "grouped_df")) {
     # get grouped data
     grps <- get_grouped_data(x)
-    
+
     # now plot everything
     for (i in seq_len(nrow(grps))) {
       # copy back labels to grouped data frame
-      tmp <- sjmisc::copy_labels(grps$data[[i]], x)
-      
+      tmp <- sjlabelled::copy_labels(grps$data[[i]], x)
+
       # prepare argument list, including title
       tmp.args <- get_grouped_title(x, grps, args, i, sep = "\n")
-      
+
       # plot
       plots <- plot_sj(tmp, fun, tmp.args)
-      
+
       # add plots, check for NULL results
       if (!is.null(plots$p)) pl <- c(pl, list(plots$p))
       if (!is.null(plots$pl)) pl <- c(pl, plots$pl)
@@ -167,54 +168,54 @@ sjplot <- function(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter",
 sjtab <- function(data, ..., fun = c("frq", "xtab", "grpmean", "stackfrq")) {
   # check if x is a data frame
   if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = F)
-  
+
   # match fun-arguments
   fun <- match.arg(fun)
-  
+
   # evaluate arguments, generate data
   x <- get_dot_data(data, match.call(expand.dots = FALSE)$`...`)
-  
+
   tabs.list <- list()
-  
+
   # check remaining arguments
   args <- match.call(expand.dots = FALSE)$`...`
   args <- args[names(args) != ""]
-  
+
   # do we have a grouped data frame?
   if (inherits(x, "grouped_df")) {
     # get grouped data
     grps <- get_grouped_data(x)
-    
+
     # now plot everything
     for (i in seq_len(nrow(grps))) {
       # copy back labels to grouped data frame
-      tmp <- sjmisc::copy_labels(grps$data[[i]], x)
-      
+      tmp <- sjlabelled::copy_labels(grps$data[[i]], x)
+
       # prepare argument list, including title
       tmp.args <- get_grouped_title(x, grps, args, i, sep = "<br>")
-      
+
       # table
       tl <- tab_sj(tmp, fun, tmp.args)
-      
+
       # save list
       tabs.list[[length(tabs.list) + 1]] <- tl
     }
-    
+
     final.table <- paste0(
       tl$header,
       tl$page.style,
       "\n</head>\n<body>\n"
     )
-    
+
     final.knitr <- ""
-    
+
     # iterate table list
     for (i in seq_len(length(tabs.list))) {
       final.table <- paste0(final.table, tabs.list[[i]]$page.content, sep = "\n<p>&nbsp;</p>\n")
       final.knitr <- paste0(final.knitr, tabs.list[[i]]$knitr, sep = "\n<p>&nbsp;</p>\n")
     }
 
-    # close html tags    
+    # close html tags
     final.table <- paste0(final.table, "\n</body>\n</html>")
 
     # return all tables
@@ -241,19 +242,19 @@ sjtab <- function(data, ..., fun = c("frq", "xtab", "grpmean", "stackfrq")) {
 get_grouped_title <- function(x, grps, args, i, sep = "\n") {
   # prepare title for group
   var.name <- colnames(grps)[1]
-  t1 <- sjmisc::get_label(x[[var.name]], def.value = var.name)
-  t2 <- sjmisc::get_labels(x[[var.name]])[grps[[var.name]][i]]
+  t1 <- sjlabelled::get_label(x[[var.name]], def.value = var.name)
+  t2 <- sjlabelled::get_labels(x[[var.name]])[grps[[var.name]][i]]
   title <- sprintf("%s: %s", t1, t2)
-  
+
   # do we have another groupng variable?
   if (length(attr(x, "vars", exact = T)) > 1) {
     # prepare title for group
     var.name <- colnames(grps)[2]
-    t1 <- sjmisc::get_label(x[[var.name]], def.value = var.name)
-    t2 <- sjmisc::get_labels(x[[var.name]])[grps[[var.name]][i]]
+    t1 <- sjlabelled::get_label(x[[var.name]], def.value = var.name)
+    t2 <- sjlabelled::get_labels(x[[var.name]])[grps[[var.name]][i]]
     title <- sprintf("%s%s%s: %s", title, sep, t1, t2)
   }
-  
+
   # add title argument to argument list
   c(args, `title` = title)
 }
@@ -262,21 +263,21 @@ get_grouped_title <- function(x, grps, args, i, sep = "\n") {
 get_grouped_data <- function(x) {
   # nest data frame
   grps <- tidyr::nest(x)
-  
+
   # remove NA category
-  cc <- grps %>% 
-    dplyr::select_("-data") %>% 
+  cc <- grps %>%
+    dplyr::select_("-data") %>%
     stats::complete.cases()
   # select only complete cases
   grps <- grps %>% dplyr::filter(cc)
-  
+
   # arrange data
   if (length(attr(x, "vars", exact = T)) == 1)
     reihe <- order(grps[[1]])
   else
     reihe <- order(grps[[1]], grps[[2]])
   grps <- grps[reihe, ]
-  
+
   grps
 }
 
@@ -284,7 +285,7 @@ get_grouped_data <- function(x) {
 plot_sj <- function(x, fun, args) {
   p <- NULL
   pl <- NULL
-  
+
   # choose plottype, and call plot-function with or w/o additional arguments
   if (sjmisc::is_empty(args)) {
     if (fun == "frq") {
@@ -335,13 +336,13 @@ plot_sj <- function(x, fun, args) {
       p <- do.call(sjp.aov1, args = c(list(var.dep = x[[1]], var.grp = x[[2]], prnt.plot = F), args))$plot
     }
   }
-  
+
   list(p = p, pl = pl)
 }
 
 
 tab_sj <- function(x, fun, args) {
-  
+
   # choose plottype, and call plot-function with or w/o additional arguments
   if (sjmisc::is_empty(args)) {
     if (fun == "frq") {

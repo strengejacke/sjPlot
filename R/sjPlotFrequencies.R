@@ -75,7 +75,7 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #'
 #' # bar plot with EUROFAMCARE sample dataset
 #' # dataset was importet from an SPSS-file, using:
-#' # efc <- sjmisc::read_spss("efc.sav", enc = "UTF-8")
+#' # efc <- sjlabelled::read_spss("efc.sav", enc = "UTF-8")
 #' library(sjmisc)
 #' data(efc)
 #' # you may use sjp.setTheme here to change axis textangle
@@ -105,7 +105,8 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #'
 #' @import ggplot2
 #' @importFrom sjstats wtd_sd
-#' @importFrom sjmisc set_labels group_labels group_var to_value
+#' @importFrom sjmisc group_labels group_var to_value
+#' @importFrom sjlabelled set_labels
 #' @importFrom stats na.omit sd weighted.mean
 #' @export
 sjp.frq <- function(var.cnt,
@@ -190,8 +191,8 @@ sjp.frq <- function(var.cnt,
     )
   }
 
-  if (is.null(axis.title)) axis.title <- sjmisc::get_label(var.cnt, def.value = var.name)
-  if (is.null(title)) title <- sjmisc::get_label(var.cnt, def.value = var.name)
+  if (is.null(axis.title)) axis.title <- sjlabelled::get_label(var.cnt, def.value = var.name)
+  if (is.null(title)) title <- sjlabelled::get_label(var.cnt, def.value = var.name)
 
   # remove titles if empty
   if (!is.null(axis.title) && axis.title == "") axis.title <- NULL
@@ -261,7 +262,7 @@ sjp.frq <- function(var.cnt,
     )
 
     # set label attributes
-    var.cnt <- sjmisc::set_labels(var.cnt, labels = axis.labels)
+    var.cnt <- sjlabelled::set_labels(var.cnt, labels = axis.labels)
   }
 
   # create frequency data frame -----

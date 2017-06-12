@@ -206,7 +206,7 @@ sjp.frq(ChickWeight$Diet)
 
 # bar plot with EUROFAMCARE sample dataset
 # dataset was importet from an SPSS-file, using:
-# efc <- sjmisc::read_spss("efc.sav", enc = "UTF-8")
+# efc <- sjlabelled::read_spss("efc.sav", enc = "UTF-8")
 library(sjmisc)
 data(efc)
 # you may use sjp.setTheme here to change axis textangle

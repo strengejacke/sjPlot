@@ -26,7 +26,7 @@ Depends:
     utils
 Imports:
     broom (>= 0.4.2),
-    dplyr (>= 0.5.0),
+    dplyr (>= 0.7.0),
     effects,
     ggplot2 (>= 2.2.1),
     knitr,
@@ -38,9 +38,10 @@ Imports:
     psych,
     purrr,
     scales,
-    sjmisc (>= 2.4.0),
-    sjstats (>= 0.10.0),
-    tibble (>= 1.3.0),
+    sjlabelled,
+    sjmisc (>= 2.5.0),
+    sjstats (>= 0.10.1),
+    tibble (>= 1.3.3),
     tidyr (>= 0.6.1)
 Suggests:
     AICcmodavg,

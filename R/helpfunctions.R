@@ -62,7 +62,7 @@ base_breaks <- function(n = 10) {
 }
 
 
-#' @importFrom sjmisc get_label get_labels str_contains to_label to_value replace_na word_wrap
+#' @importFrom sjmisc str_contains to_label to_value replace_na word_wrap
 #' @importFrom sjstats resp_val resp_var
 get_lm_data <- function(fit) {
   if (inherits(fit, "plm")) {
@@ -93,7 +93,7 @@ get_lm_data <- function(fit) {
     depvar.label <- sjstats::resp_var(fit)
   }
   # get variable label label
-  depvar.label <- unname(sjmisc::get_label(x = resp, def.value = depvar.label))
+  depvar.label <- unname(sjlabelled::get_label(x = resp, def.value = depvar.label))
   return(list(matrix = fit_x, resp.label = depvar.label, resp = resp))
 }
 
@@ -196,6 +196,7 @@ get_var_name <- function(x) {
 #' @importFrom stats na.omit
 #' @importFrom dplyr full_join
 #' @importFrom sjmisc zap_inf
+#' @importFrom sjlabelled get_label get_labels
 create.frq.df <- function(x,
                           wrap.labels = Inf,
                           order.frq = "none",
@@ -223,7 +224,7 @@ create.frq.df <- function(x,
   #---------------------------------------------------
   # get value labels (if any)
   #---------------------------------------------------
-  labels <- sjmisc::get_labels(
+  labels <- sjlabelled::get_labels(
     x,
     attr.only = T,
     include.values = "n",
@@ -437,11 +438,11 @@ get.encoding <- function(encoding, data = NULL) {
   if (is.null(encoding)) {
     if (!is.null(data) && is.data.frame(data)) {
       # get variable label
-      labs <- sjmisc::get_label(data[[1]])
+      labs <- sjlabelled::get_label(data[[1]])
       # check if vectors of data frame have
       # any valid label. else, default to utf-8
       if (!is.null(labs) && is.character(labs))
-        encoding <- Encoding(sjmisc::get_label(data[[1]]))
+        encoding <- Encoding(sjlabelled::get_label(data[[1]]))
       else
         encoding <- "UTF-8"
       # unknown encoding? default to utf-8
@@ -586,7 +587,7 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
           # if not, save found factor variable name
           found.factors <- c(found.factors, fac.name)
           # save factor name
-          lab <- unname(sjmisc::get_label(fit.var, def.value = fac.name))
+          lab <- unname(sjlabelled::get_label(fit.var, def.value = fac.name))
           # determins startindex
           index <- grp.cnt + add.index - 1
           index.add <- nlevels(fit.var) - 2
@@ -682,7 +683,7 @@ retrieveModelLabels <- function(models, group.pred) {
           # get predictor
           pvar <- m_f[, i]
           # check if we have a variable label
-          lab <- sjmisc::get_label(pvar, def.value = colnames(m_f)[i])
+          lab <- sjlabelled::get_label(pvar, def.value = colnames(m_f)[i])
           # get model coefficients' names
           coef_name <- coef_names[i]
           # is predictor a factor?
@@ -692,7 +693,7 @@ retrieveModelLabels <- function(models, group.pred) {
             # get amount of levels
             pvar.len <- nlevels(pvar)
             # get value labels, if any
-            pvar.lab <- sjmisc::get_labels(pvar)
+            pvar.lab <- sjlabelled::get_labels(pvar)
             # have any labels, and have we same amount of labels
             # as factor levels?
             if (!is.null(pvar.lab) && length(pvar.lab) == pvar.len) {
@@ -786,7 +787,7 @@ unlistlabels <- function(lab) {
 
 get_model_response_label <- function(fit) {
   m_f <- stats::model.frame(fit)
-  unname(sjmisc::get_label(m_f[[1]], def.value = colnames(m_f)[1]))
+  unname(sjlabelled::get_label(m_f[[1]], def.value = colnames(m_f)[1]))
 }
 
 

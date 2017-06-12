@@ -236,11 +236,11 @@ sjp.emm <- function(fit,
       # get response name, which is variable name
       response.name <- sjstats::resp_var(fit)
       # get variable label attribute
-      response.label <- sjmisc::get_label(m_f[[1]], def.value = response.name)
+      response.label <- sjlabelled::get_label(m_f[[1]], def.value = response.name)
       # -----------------------------------------------------------
       # prepare label for x-axix
       # -----------------------------------------------------------
-      alx <- sjmisc::get_labels(m_f[[term.pairs[2]]],
+      alx <- sjlabelled::get_labels(m_f[[term.pairs[2]]],
                                 attr.only = F,
                                 include.values = NULL,
                                 include.non.labelled = T)
@@ -261,7 +261,7 @@ sjp.emm <- function(fit,
       # -----------------------------------------------------------
       if (is.null(legend.labels)) {
         # try to get labels
-        lLabels <- sjmisc::get_labels(m_f[term.pairs[1]][, 1], attr.only = F)
+        lLabels <- sjlabelled::get_labels(m_f[term.pairs[1]][, 1], attr.only = F)
         # if we still have no labels, get factor levels
         if (is.null(lLabels)) levels(m_f[term.pairs[1]][, 1])
       } else {
@@ -271,7 +271,7 @@ sjp.emm <- function(fit,
       # legend title
       # -----------------------------------------------------------
       if (is.null(legend.title)) {
-        lTitle <- sjmisc::get_label(m_f[[term.pairs[1]]], def.value = term.pairs[1])
+        lTitle <- sjlabelled::get_label(m_f[[term.pairs[1]]], def.value = term.pairs[1])
       } else {
         # set legend title for plot
         lTitle <- legend.title
@@ -281,7 +281,7 @@ sjp.emm <- function(fit,
       # -----------------------------------------------------------
       if (is.null(axis.labels)) axis.labels <- alx
       if (is.null(axis.title)) {
-        labx <- sjmisc::get_label(m_f[[term.pairs[2]]], def.value = term.pairs[2])
+        labx <- sjlabelled::get_label(m_f[[term.pairs[2]]], def.value = term.pairs[2])
       } else {
         labx <- axis.title
       }

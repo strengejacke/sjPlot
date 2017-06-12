@@ -40,7 +40,7 @@ utils::globalVariables(c("pv", "xv"))
 #'
 #'
 #' @import ggplot2
-#' @importFrom sjmisc get_label get_labels trim word_wrap to_value
+#' @importFrom sjmisc trim word_wrap to_value
 #' @importFrom stats confint aov summary.lm
 #' @importFrom tibble rownames_to_column
 #' @export
@@ -72,14 +72,14 @@ sjp.aov1 <- function(var.dep,
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
-  if (is.null(axis.labels)) axis.labels <- sjmisc::get_labels(var.grp,
+  if (is.null(axis.labels)) axis.labels <- sjlabelled::get_labels(var.grp,
                                                               attr.only = F,
                                                               include.values = NULL,
                                                               include.non.labelled = T)
-  if (is.null(axis.title)) axis.title <- sjmisc::get_label(var.dep, def.value = var.dep.name)
+  if (is.null(axis.title)) axis.title <- sjlabelled::get_label(var.dep, def.value = var.dep.name)
   if (is.null(title)) {
-    t1 <- sjmisc::get_label(var.grp, def.value = var.grp.name)
-    t2 <- sjmisc::get_label(var.dep, def.value = var.dep.name)
+    t1 <- sjlabelled::get_label(var.grp, def.value = var.grp.name)
+    t2 <- sjlabelled::get_label(var.dep, def.value = var.dep.name)
     if (!is.null(t1) && !is.null(t2)) title <- paste0(t1, " by ", t2)
   }
   # --------------------------------------------------------

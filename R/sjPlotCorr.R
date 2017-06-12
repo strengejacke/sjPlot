@@ -117,7 +117,7 @@ sjp.corr <- function(data,
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
   if (is.null(axis.labels) && is.data.frame(data)) {
-    axis.labels <- unname(sjmisc::get_label(data, def.value = colnames(data)))
+    axis.labels <- unname(sjlabelled::get_label(data, def.value = colnames(data)))
   }
   # ----------------------------
   # set color palette
