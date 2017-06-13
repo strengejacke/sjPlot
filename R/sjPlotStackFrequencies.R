@@ -116,7 +116,7 @@ sjp.stackfrq <- function(items,
   # try to automatically set labels if not passed as parameter
   # --------------------------------------------------------
   if (is.null(legend.labels))
-    legend.labels <- sjmisc::get_labels(
+    legend.labels <- sjlabelled::get_labels(
       items[[1]],
       attr.only = F,
       include.values = NULL,
@@ -124,7 +124,7 @@ sjp.stackfrq <- function(items,
     )
 
   if (is.null(axis.labels)) {
-    axis.labels <- sjmisc::get_label(items, def.value = colnames(items))
+    axis.labels <- sjlabelled::get_label(items, def.value = colnames(items))
   }
   # --------------------------------------------------------
   # unname labels, if necessary, so we have a simple

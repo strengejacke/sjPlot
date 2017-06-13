@@ -162,7 +162,7 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #' @import ggplot2
 #' @importFrom sjstats weight2
 #' @importFrom tidyr gather
-#' @importFrom dplyr group_by mutate arrange summarise
+#' @importFrom dplyr group_by mutate arrange summarise group_by_ arrange_
 #' @importFrom stats na.omit xtabs wilcox.test sd
 #' @export
 sjp.grpfrq <- function(var.cnt,
@@ -360,7 +360,7 @@ sjp.grpfrq <- function(var.cnt,
   # labels become legend labels, but only if user has not specified
   # legend labels yet. In the latter case, leave legend labels unchanged.
   if (is.null(intr.var.labels) && !is.null(intr.var)) {
-    intr.var.labels <- sjmisc::get_labels(
+    intr.var.labels <- sjlabelled::get_labels(
       intr.var,
       attr.only = F,
       include.values = F,
@@ -377,12 +377,12 @@ sjp.grpfrq <- function(var.cnt,
     if (!we_have_legend_labels) legend.labels <- axis.labels
   }
 
-  if (is.null(axisTitle.x)) axisTitle.x <- sjmisc::get_label(var.cnt, def.value = var.name.cnt)
-  if (is.null(legend.title)) legend.title <- sjmisc::get_label(var.grp, def.value = var.name.grp)
+  if (is.null(axisTitle.x)) axisTitle.x <- sjlabelled::get_label(var.cnt, def.value = var.name.cnt)
+  if (is.null(legend.title)) legend.title <- sjlabelled::get_label(var.grp, def.value = var.name.grp)
 
   if (is.null(title)) {
-    t1 <- sjmisc::get_label(var.cnt, def.value = var.name.cnt)
-    t2 <- sjmisc::get_label(var.grp, def.value = var.name.grp)
+    t1 <- sjlabelled::get_label(var.cnt, def.value = var.name.cnt)
+    t2 <- sjlabelled::get_label(var.grp, def.value = var.name.grp)
     if (!is.null(t1) && !is.null(t2)) title <- paste0(t1, " by ", t2)
   }
 
@@ -417,9 +417,9 @@ sjp.grpfrq <- function(var.cnt,
   # add half of Percentage values as new y-position for stacked bars
   # mydat <- ddply(mydat, "count", transform, ypos = cumsum(frq) - 0.5*frq)
   mydf <- mydf %>%
-    dplyr::group_by(label) %>%
+    dplyr::group_by_("label") %>%
     dplyr::mutate(ypos = cumsum(frq) - 0.5 * frq) %>%
-    dplyr::arrange(label)
+    dplyr::arrange_("label")
 
   # add percentages
   mydf$prz <- round(100 * mydf$frq / sum(mydf$frq), 2)

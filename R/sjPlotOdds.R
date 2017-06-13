@@ -701,7 +701,7 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
     y.title <- "Predicted incidents"
     title.fix <- "incidents"
   } else {
-    y.title <- sjmisc::get_label(resp, def.value = resp.col)
+    y.title <- sjlabelled::get_label(resp, def.value = resp.col)
     title.fix <- "effects"
   }
   # ---------------------------------------------------------
@@ -1001,15 +1001,15 @@ sjp.glm.predy <- function(fit,
   }
   # axis titles
   if (is.null(a.title) || length(a.title) != 2) {
-    x.title <- sjmisc::get_label(fitfram[[vars[1]]], def.value = vars[1])
-    y.title <- sjmisc::get_label(fitfram[[1]], def.value = colnames(fitfram)[1])
+    x.title <- sjlabelled::get_label(fitfram[[vars[1]]], def.value = vars[1])
+    y.title <- sjlabelled::get_label(fitfram[[1]], def.value = colnames(fitfram)[1])
   } else {
     x.title <- a.title[1]
     y.title <- a.title[2]
   }
   # legend title
   if (is.null(l.title))
-    l.title <- sjmisc::get_label(fitfram[[vars[2]]], def.value = vars[2])
+    l.title <- sjlabelled::get_label(fitfram[[vars[2]]], def.value = vars[2])
   # ----------------------------
   # check for correct length of vector
   # ----------------------------
@@ -1032,7 +1032,7 @@ sjp.glm.predy <- function(fit,
   legend.labels <- NULL
   # check if we have a categorical variable with value
   # labels at the x-axis.
-  axis_labels <- sjmisc::get_labels(mydf[[1]], include.non.labelled = T, drop.unused = TRUE)
+  axis_labels <- sjlabelled::get_labels(mydf[[1]], include.non.labelled = T, drop.unused = TRUE)
   # check if we have bw-figure
   bw.figure <- !is.null(geom.colors) && geom.colors[1] == "bw"
   # ----------------------------
@@ -1062,7 +1062,7 @@ sjp.glm.predy <- function(fit,
     # convert to factor for proper legend
     mydf$grp <- sjmisc::to_factor(mydf$grp)
     # check if we have legend labels
-    legend.labels <- sjmisc::get_labels(mydf$grp)
+    legend.labels <- sjlabelled::get_labels(mydf$grp)
     # for facets, label factor
     if (facet.grid) mydf$grp <- sjmisc::to_label(mydf$grp, prefix = T, drop.na = T, drop.levels = T)
     # set colors

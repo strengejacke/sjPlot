@@ -53,14 +53,14 @@ background color.}
 \item{show.n}{logical, if \code{TRUE}, adds total number of cases for each
 group or category to the labels.}
 
-\item{show.total}{logical, if \code{TRUE}, an additional column with each 
+\item{show.total}{logical, if \code{TRUE}, an additional column with each
 item's total N is printed.}
 
 \item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values)
 are added to the output.}
 
 \item{show.skew}{logical, if \code{TRUE}, an additional column with each item's skewness is printed.
-The skewness is retrieved from the \code{\link[psych]{describe}}-function 
+The skewness is retrieved from the \code{\link[psych]{describe}}-function
 of the \pkg{psych}-package.}
 
 \item{show.kurtosis}{Logical, if \code{TRUE}, the variable's kurtosis is added to the summary.
@@ -132,7 +132,7 @@ likert_4 <- data.frame(
 )
 
 # create labels
-levels_4 <- c("Independent", "Slightly dependent", 
+levels_4 <- c("Independent", "Slightly dependent",
               "Dependent", "Severely dependent")
 
 # create item labels
@@ -157,15 +157,15 @@ sjt.stackfrq(efc[, c(start:end)], altr.row.col = TRUE)
 
 sjt.stackfrq(efc[, c(start:end)], altr.row.col = TRUE,
              show.n = TRUE, show.na = TRUE)
-         
-# -------------------------------- 
+
+# --------------------------------
 # User defined style sheet
-# -------------------------------- 
-sjt.stackfrq(efc[, c(start:end)], altr.row.col = TRUE, 
+# --------------------------------
+sjt.stackfrq(efc[, c(start:end)], altr.row.col = TRUE,
              show.total = TRUE, show.skew = TRUE, show.kurtosis = TRUE,
              CSS = list(css.ncol = "border-left:1px dotted black;",
                         css.summary = "font-style:italic;"))}
-             
+
 }
 \seealso{
 \itemize{

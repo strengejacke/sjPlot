@@ -148,7 +148,7 @@ sjt.itemanalysis <- function(df,
   # -----------------------------------
   # auto-detect variable labels
   # -----------------------------------
-  varlabels <- sjmisc::get_label(df, def.value = colnames(df))
+  varlabels <- sjlabelled::get_label(df, def.value = colnames(df))
   colnames(df) <- varlabels
   # -----------------------------------
   # check whether we have (factor) groups

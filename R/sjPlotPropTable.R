@@ -206,11 +206,11 @@ sjp.xtab <- function(x,
   # --------------------------------------------------------
   if (is.null(axis.labels)) axis.labels <- mydat$labels.cnt
   if (is.null(legend.labels)) legend.labels <- mydat$labels.grp
-  if (is.null(axisTitle.x)) axisTitle.x <- sjmisc::get_label(x, def.value = var.name.cnt)
-  if (is.null(legend.title)) legend.title <- sjmisc::get_label(grp, def.value = var.name.grp)
+  if (is.null(axisTitle.x)) axisTitle.x <- sjlabelled::get_label(x, def.value = var.name.cnt)
+  if (is.null(legend.title)) legend.title <- sjlabelled::get_label(grp, def.value = var.name.grp)
   if (is.null(title)) {
-    t1 <- sjmisc::get_label(x, def.value = var.name.cnt)
-    t2 <- sjmisc::get_label(grp, def.value = var.name.grp)
+    t1 <- sjlabelled::get_label(x, def.value = var.name.cnt)
+    t2 <- sjlabelled::get_label(grp, def.value = var.name.grp)
     if (!is.null(t1) && !is.null(t2)) title <- paste0(t1, " by ", t2)
   }
   # --------------------------------------------------------

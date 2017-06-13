@@ -1937,13 +1937,13 @@ sjp.lme.rsri <- function(fit,
       # axis-x title
       # ------------------------------
       if (is.null(axis.title))
-        p_axisTitle.x <- sjmisc::get_label(m_f[[rnd.slope.name]], def.value = rnd.slope.name)
+        p_axisTitle.x <- sjlabelled::get_label(m_f[[rnd.slope.name]], def.value = rnd.slope.name)
       else
         p_axisTitle.x <- axis.title
       # ------------------------------
       # prepare base response title
       # ------------------------------
-      p_axisTitle.y <- sjmisc::get_label(m_f[[1]], def.value = colnames(m_f)[1])
+      p_axisTitle.y <- sjlabelled::get_label(m_f[[1]], def.value = colnames(m_f)[1])
       # ------------------------------
       # prepare base plot
       # ------------------------------
@@ -1952,7 +1952,7 @@ sjp.lme.rsri <- function(fit,
         gp <- gp + geom_line(size = geom.size)
       } else {
         # special handling for negativ binomial
-        if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
+        if (sjlabelled::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
           gp <- gp +
             stat_smooth(method = "glm.nb", se = F)
         } else {
@@ -2216,10 +2216,10 @@ sjp.glm.eff <- function(fit,
 
       # set y-axis-title
       axis.title <- paste(sprintf("Predicted %s for", ysc),
-                           sjmisc::get_label(resp, def.value = resp.col))
+                          sjlabelled::get_label(resp, def.value = resp.col))
 
     } else {
-      axis.title <- sjmisc::get_label(resp, def.value = resp.col)
+      axis.title <- sjlabelled::get_label(resp, def.value = resp.col)
     }
   }
   # ------------------------
@@ -2298,7 +2298,7 @@ sjp.glm.eff <- function(fit,
       # get possible labels
       # -------------------------
       if (t %in% colnames(fitfram))
-        tmp_lab <- sjmisc::get_labels(fitfram[[t]])
+        tmp_lab <- sjlabelled::get_labels(fitfram[[t]])
       else
         tmp_lab <- NULL
       # -------------------------
@@ -2320,7 +2320,7 @@ sjp.glm.eff <- function(fit,
       # tmp <- tmp[order(tmp$x), ]
       tmp$x <- sort(tmp$x)
       # get possible variable labels
-      tmp$var.label <- sjmisc::get_label(fitfram[[t]], def.value = t)
+      tmp$var.label <- sjlabelled::get_label(fitfram[[t]], def.value = t)
       # do we already have data?
       if (nrow(mydat) > 0)
         mydat <- rbind(mydat, tmp)

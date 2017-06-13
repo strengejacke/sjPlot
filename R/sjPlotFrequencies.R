@@ -183,7 +183,7 @@ sjp.frq <- function(var.cnt,
   # try to automatically set labels, if not passed as argument -----
   # to make plot annotations more beautiful, supporting labelled data
   if (is.null(axis.labels)) {
-    axis.labels <- sjmisc::get_labels(
+    axis.labels <- sjlabelled::get_labels(
       var.cnt,
       attr.only = F,
       include.values = NULL,

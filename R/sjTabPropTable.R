@@ -173,8 +173,8 @@ sjt.xtab <- function(var.row,
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
   if (is.null(var.labels)) {
-    var.labels <- c(sjmisc::get_label(var.row, def.value = var.name.row),
-                    sjmisc::get_label(var.col, def.value = var.name.col))
+    var.labels <- c(sjlabelled::get_label(var.row, def.value = var.name.row),
+                    sjlabelled::get_label(var.col, def.value = var.name.col))
   }
   # wrap long labels
   var.labels <- sjmisc::word_wrap(var.labels, wrap.labels, "<br>")
@@ -183,8 +183,8 @@ sjt.xtab <- function(var.row,
   # --------------------------------------------------------
   # Do we have notes for vectors?
   # --------------------------------------------------------
-  n.var.row <- sjmisc::get_note(var.row)
-  n.var.col <- sjmisc::get_note(var.col)
+  n.var.row <- sjlabelled::get_note(var.row)
+  n.var.col <- sjlabelled::get_note(var.col)
   # -------------------------------------
   # init variable labels
   # -------------------------------------

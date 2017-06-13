@@ -174,19 +174,19 @@ sjp.scatter <- function(x = NULL,
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
   if (is.null(legend.labels) && !is.null(grp)) {
-    legend.labels <- sjmisc::get_labels(grp, attr.only = F, include.values = NULL,
+    legend.labels <- sjlabelled::get_labels(grp, attr.only = F, include.values = NULL,
                                         include.non.labelled = T)
   }
-  if (is.null(legend.title) && !is.null(grp)) legend.title <- sjmisc::get_label(grp, def.value = name.grp)
-  if (is.null(axisTitle.x)) axisTitle.x <- sjmisc::get_label(x, def.value = name.x)
-  if (is.null(axisTitle.y)) axisTitle.y <- sjmisc::get_label(y, def.value = name.y)
+  if (is.null(legend.title) && !is.null(grp)) legend.title <- sjlabelled::get_label(grp, def.value = name.grp)
+  if (is.null(axisTitle.x)) axisTitle.x <- sjlabelled::get_label(x, def.value = name.x)
+  if (is.null(axisTitle.y)) axisTitle.y <- sjlabelled::get_label(y, def.value = name.y)
   if (is.null(title)) {
-    t1 <- sjmisc::get_label(x, def.value = name.x)
-    t2 <- sjmisc::get_label(y, def.value = name.y)
+    t1 <- sjlabelled::get_label(x, def.value = name.x)
+    t2 <- sjlabelled::get_label(y, def.value = name.y)
     if (!is.null(t1) && !is.null(t2)) {
       title <- paste0(t1, " by ", t2)
       if (!is.null(grp)) {
-        t3 <- sjmisc::get_label(grp, def.value = name.grp)
+        t3 <- sjlabelled::get_label(grp, def.value = name.grp)
         if (!is.null(t3)) title <- paste0(title, " (grouped by ", t3, ")")
       }
     }
@@ -229,7 +229,7 @@ sjp.scatter <- function(x = NULL,
     show.legend <- FALSE
   }
   # get value labels from attribute
-  grl <- sjmisc::get_labels(grp, attr.only = T)
+  grl <- sjlabelled::get_labels(grp, attr.only = T)
   # simple data frame
   df <- stats::na.omit(data.frame(cbind(x = x, y = y, grp = grp)))
   # group as factor

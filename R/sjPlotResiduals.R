@@ -69,7 +69,7 @@ sjp.resid <- function(fit, geom.size = 2, remove.estimates = NULL, show.lines = 
   # set default variable labels, used as column names, so labelled
   # data variable labels appear in facet grid header.
   sel <- 2:length(keep)
-  var.labels <- sjmisc::get_label(dummy, def.value = colnames(dummy)[sel])[sel]
+  var.labels <- sjlabelled::get_label(dummy, def.value = colnames(dummy)[sel])[sel]
   if (is.null(var.labels) || all(var.labels == "")) var.labels <- colnames(dummy)[sel]
   colnames(dummy)[sel] <- var.labels
 
@@ -95,14 +95,14 @@ sjp.resid <- function(fit, geom.size = 2, remove.estimates = NULL, show.lines = 
     facet_grid(~grp, scales = "free") +
     scale_fill_gradient2(low = "#003399", mid = "white", high = "#993300") +
     guides(color = FALSE, fill = FALSE) +
-    labs(x = NULL, y = sjmisc::get_label(mydat[[1]], def.value = rv))
+    labs(x = NULL, y = sjlabelled::get_label(mydat[[1]], def.value = rv))
 
   # residual plot, showing pattern
   pattern.plot <- ggplot(mydat, aes_string(x = "x", y = "residuals")) +
     geom_hline(yintercept = 0, colour = "white", size = 2) +
     geom_line() +
     facet_grid(~grp, scales = "free") +
-    labs(x = NULL, y = sjmisc::get_label(mydat[[1]], def.value = rv))
+    labs(x = NULL, y = sjlabelled::get_label(mydat[[1]], def.value = rv))
 
   # Check whether ggplot object should be returned or plotted
   if (prnt.plot) graphics::plot(res.plot)

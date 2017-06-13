@@ -456,7 +456,7 @@ sjp.int <- function(fit,
     interactionterms <- unlist(strsplit(intnames[cnt], ":"))
     labx <- c()
     # Label on y-axis is name of dependent variable
-    laby <- paste0("Change in ", sjmisc::get_label(modfram[[git[["depvar.label"]]]],
+    laby <- paste0("Change in ", sjlabelled::get_label(modfram[[git[["depvar.label"]]]],
                                                    def.value = git[["depvar.label"]]))
     # -----------------------------------------------------------
     # find estimates (beta values) for each single predictor of
@@ -502,7 +502,7 @@ sjp.int <- function(fit,
     # calculate regression line
     # -----------------------------------------------------------
     if (useFirstPredOnY) {
-      labx <- sjmisc::get_label(modfram[[interactionterms[1]]],
+      labx <- sjlabelled::get_label(modfram[[interactionterms[1]]],
                                 def.value = interactionterms[1])
       predy <- interactionterms[2]
       # -----------------------------------------------------------
@@ -515,7 +515,7 @@ sjp.int <- function(fit,
       # -----------------------------------------------------------
       b.pred <- b1
     } else {
-      labx <- sjmisc::get_label(modfram[[interactionterms[2]]],
+      labx <- sjlabelled::get_label(modfram[[interactionterms[2]]],
                                 def.value = interactionterms[2])
       predy <- interactionterms[1]
       # -----------------------------------------------------------
@@ -694,7 +694,7 @@ sjp.int <- function(fit,
       # find moderator variable in data
       # ---------------------------------
       if (!is.null(modfound)) {
-        lLabels <- sjmisc::get_labels(modfound, attr.only = F)
+        lLabels <- sjlabelled::get_labels(modfound, attr.only = F)
       } else {
         lLabels <- NULL
       }
@@ -732,7 +732,7 @@ sjp.int <- function(fit,
     # legend titles
     # -----------------------------------------------------------
     if (is.null(legend.title)) {
-      lTitle <- sjmisc::get_label(modfound, def.value = predy)
+      lTitle <- sjlabelled::get_label(modfound, def.value = predy)
     } else {
       # copy plot counter
       l_nr <- cnt
@@ -971,7 +971,7 @@ sjp.eff.int <- function(fit,
     moderator.name <- colnames(intdf)[ifelse(isTRUE(swap.pred), 2, 1)]
     response.name <- dummy.eff$response
     # prepare axis titles
-    labx <- sjmisc::get_label(stats::model.frame(fit)[[pred_x.name]], def.value = pred_x.name)
+    labx <- sjlabelled::get_label(stats::model.frame(fit)[[pred_x.name]], def.value = pred_x.name)
     # check whether x-axis-predictor is a factor or not
     x_is_factor <- is.factor(intdf[[pred_x.name]]) || (length(unique(na.omit(intdf[[pred_x.name]]))) < 3)
     mod_is_factor <- is.factor(intdf[[moderator.name]])
@@ -1112,14 +1112,14 @@ sjp.eff.int <- function(fit,
       if (!sjmisc::is_num_fac(intdf$x)) {
         x_labels <- levels(intdf$x)
       } else {
-        x_labels <- sjmisc::get_labels(stats::model.frame(fit)[[pred_x.name]], attr.only = F)
+        x_labels <- sjlabelled::get_labels(stats::model.frame(fit)[[pred_x.name]], attr.only = F)
       }
     }
     # make sure x is numeric
     intdf$x <- sjmisc::to_value(intdf$x, keep.labels = F)
     # get name of response, for axis title
     yaxisname <-
-      sjmisc::get_label(stats::model.frame(fit)[[response.name]], def.value = response.name)
+      sjlabelled::get_label(stats::model.frame(fit)[[response.name]], def.value = response.name)
     # -----------------------------------------------------------
     # check if we have linear regression
     # -----------------------------------------------------------
@@ -1239,7 +1239,7 @@ sjp.eff.int <- function(fit,
     if (is.null(legend.labels)) {
       # try to get labels, but only for factors
       if (mod_is_factor) {
-        lLabels <- sjmisc::get_labels(stats::model.frame(fit)[[moderator.name]],
+        lLabels <- sjlabelled::get_labels(stats::model.frame(fit)[[moderator.name]],
                                       attr.only = F)
       }
       # if we still have no labels, get values from group
@@ -1262,7 +1262,7 @@ sjp.eff.int <- function(fit,
     # legend titles
     # -----------------------------------------------------------
     if (is.null(legend.title)) {
-      lTitle <- sjmisc::get_label(stats::model.frame(fit)[[moderator.name]],
+      lTitle <- sjlabelled::get_label(stats::model.frame(fit)[[moderator.name]],
                                   def.value = moderator.name)
     } else {
       # copy plot counter

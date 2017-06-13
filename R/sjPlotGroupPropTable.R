@@ -102,7 +102,7 @@ sjp.gpt <- function(x,
   # try to automatically set labels if not passed as argument
   x <- suppressMessages(sjmisc::to_factor(x))
   ylabels <-
-    sjmisc::get_labels(
+    sjlabelled::get_labels(
       y,
       attr.only = F,
       include.values = NULL,
@@ -113,7 +113,7 @@ sjp.gpt <- function(x,
   ylabels <- ylabels[length(ylabels)]
   if (is.null(axis.labels)) {
     axis.labels <-
-      sjmisc::get_labels(
+      sjlabelled::get_labels(
         groups,
         attr.only = F,
         include.values = NULL,
@@ -125,9 +125,9 @@ sjp.gpt <- function(x,
     axisTitle.y <-
       paste0(
         "Proportion of ",
-        sjmisc::get_label(x, def.value = var.name.x),
+        sjlabelled::get_label(x, def.value = var.name.x),
         " in ",
-        sjmisc::get_label(y, def.value = var.name.y),
+        sjlabelled::get_label(y, def.value = var.name.y),
         " (",
         ylabels,
         ")"
@@ -135,12 +135,12 @@ sjp.gpt <- function(x,
   }
 
   if (is.null(legend.title)) {
-    legend.title <- sjmisc::get_label(x, def.value = var.name.x)
+    legend.title <- sjlabelled::get_label(x, def.value = var.name.x)
   }
 
   if (is.null(legend.labels)) {
     legend.labels <-
-      sjmisc::get_labels(
+      sjlabelled::get_labels(
         x,
         attr.only = F,
         include.values = NULL,

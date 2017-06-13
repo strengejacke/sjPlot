@@ -619,7 +619,7 @@ sjp.reglin <- function(fit,
   # column the data for each predictor is.
   # -----------------------------------------------------------
   model_data <- stats::model.frame(fit)
-  depvar.label <- sjmisc::get_label(model_data[[1]], def.value = sjstats::resp_var(fit))
+  depvar.label <- sjlabelled::get_label(model_data[[1]], def.value = sjstats::resp_var(fit))
   resp <- sjstats::resp_val(fit)
   predvars <- sjstats::pred_vars(fit)
 
@@ -696,7 +696,7 @@ sjp.reglin <- function(fit,
     # -----------------------------------------------------------
     reglinplot <- reglinplot +
       labs(title = title,
-           x = sjmisc::get_label(model_data[[p_v]], def.value = p_v),
+           x = sjlabelled::get_label(model_data[[p_v]], def.value = p_v),
            y = response)
     # -----------------------------------------------------------
     # y-axis limit
@@ -1009,8 +1009,8 @@ sjp.lm1 <- function(fit,
   if (useResiduals)
     response <- "residuals"
   else
-    response <- sjmisc::get_label(mf[[1]], def.value = cn[1])
-  xval <- sjmisc::get_label(mf[[2]], def.value = cn[2])
+    response <- sjlabelled::get_label(mf[[1]], def.value = cn[1])
+  xval <- sjlabelled::get_label(mf[[2]], def.value = cn[2])
   # -----------------------------------------------------------
   # create dummy-data frame with response and predictor
   # as data columns, used for the ggplot
@@ -1116,7 +1116,7 @@ sjp.lm.poly <- function(fit,
   cn <- colnames(mf)
   xl <- NULL
   # get variable label for response
-  resp.name <- sjmisc::get_label(mf[[1]], def.value = cn[1])
+  resp.name <- sjlabelled::get_label(mf[[1]], def.value = cn[1])
   # -------------------------------------
   # argument check: poly.term required and
   # polynomial must be found in model

@@ -43,7 +43,7 @@ sjp.chi2 <- function(df,
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
   if (is.null(axis.labels)) {
-    axis.labels <- sjmisc::get_label(df, def.value = colnames(df))
+    axis.labels <- sjlabelled::get_label(df, def.value = colnames(df))
   }
   # ----------------------------------------------------------------
   # Calculation of Chi2-matrix taken from following blog-posting:

@@ -162,12 +162,12 @@ sjp.likert <- function(items,
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
   if (is.null(legend.labels)) {
-    legend.labels <- sjmisc::get_labels(items[[1]], attr.only = F,
+    legend.labels <- sjlabelled::get_labels(items[[1]], attr.only = F,
                                         include.values = NULL, include.non.labelled = T)
   }
   if (is.null(axis.labels)) {
     # retrieve variable name attribute
-    axis.labels <- unname(sjmisc::get_label(items, def.value = colnames(items)))
+    axis.labels <- unname(sjlabelled::get_label(items, def.value = colnames(items)))
   }
   # --------------------------------------------------------
   # unname labels, if necessary, so we have a simple character vector

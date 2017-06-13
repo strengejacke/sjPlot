@@ -87,7 +87,7 @@ sjp.kfold_cv <- function(data, formula, k = 5, fit) {
   # get name of response variable and get variable label, if
   # there is any... used for labelling plot axis
   resp <- formula[[2]]
-  resp.name <- sjmisc::get_label(data[[deparse(resp)]], def.value = deparse(resp))
+  resp.name <- sjlabelled::get_label(data[[deparse(resp)]], def.value = deparse(resp))
 
   # check if fit parameter was specified, and we have a model family
   if (!is.null(fam)) {

@@ -155,8 +155,8 @@ sjp.poly <- function(x,
   # --------------------------------------------
   # retrieve labels
   # --------------------------------------------
-  if (is.null(axis.title)) axis.title <- sjmisc::get_label(poly.term, def.value = defv)
-  axisTitle.y <- sjmisc::get_label(resp, def.value = "Response")
+  if (is.null(axis.title)) axis.title <- sjlabelled::get_label(poly.term, def.value = defv)
+  axisTitle.y <- sjlabelled::get_label(resp, def.value = "Response")
   # --------------------------------------------
   # init data frame
   # --------------------------------------------

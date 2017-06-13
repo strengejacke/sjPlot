@@ -102,8 +102,8 @@ view_df <- function(x,
   if (!is.data.frame(x)) stop("Parameter needs to be a data frame!", call. = FALSE)
 
   # retrieve value and variable labels
-  df.var <- sjmisc::get_label(x)
-  df.val <- sjmisc::get_labels(x)
+  df.var <- sjlabelled::get_label(x)
+  df.val <- sjlabelled::get_labels(x)
 
   # get row count and ID's
   colcnt <- ncol(x)

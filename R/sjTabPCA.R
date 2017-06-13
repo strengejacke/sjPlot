@@ -105,7 +105,7 @@ sjt.pca <- function(data,
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
   if (is.null(var.labels) && is.data.frame(data)) {
-    var.labels <- sjmisc::get_label(data, def.value = colnames(data))
+    var.labels <- sjlabelled::get_label(data, def.value = colnames(data))
   }
   # ----------------------------
   # check if user has passed a data frame

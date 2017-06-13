@@ -1,17 +1,17 @@
 #' @title Summary of stacked frequencies as HTML table
 #' @name sjt.stackfrq
-#' 
+#'
 #' @seealso \itemize{
 #'              \item \href{http://www.strengejacke.de/sjPlot/sjt.stackfrq}{sjPlot manual: sjt-basics}
 #'              \item \code{\link{sjp.stackfrq}}
 #'              \item \code{\link{sjp.likert}}
 #'              }
-#' 
+#'
 #' @description Shows the results of stacked frequencies (such as likert scales) as HTML table.
 #'                This function is useful when several items with identical scale/categories
 #'                should be printed as table to compare their distributions (e.g.
 #'                when plotting scales like SF, Barthel-Index, Quality-of-Life-scales etc.).
-#'                
+#'
 #' @param sort.frq logical, indicates whether the \code{items} should be ordered by
 #'          by highest count of first or last category of \code{items}.
 #'          \itemize{
@@ -21,16 +21,16 @@
 #'            \item \code{"last.desc"} to order descending by lowest count of last category,
 #'            \item or \code{NULL} (default) for no sorting.
 #'          }
-#' @param show.total logical, if \code{TRUE}, an additional column with each 
+#' @param show.total logical, if \code{TRUE}, an additional column with each
 #'          item's total N is printed.
 #' @param string.total label for the total N column.
 #' @param string.na label for the missing column/row.
 #' @param show.skew logical, if \code{TRUE}, an additional column with each item's skewness is printed.
-#'          The skewness is retrieved from the \code{\link[psych]{describe}}-function 
+#'          The skewness is retrieved from the \code{\link[psych]{describe}}-function
 #'          of the \pkg{psych}-package.
 #' @param digits.stats amount of digits for rounding the skewness and kurtosis valuess.
 #'          Default is 2, i.e. skewness and kurtosis values have 2 digits after decimal point.
-#'          
+#'
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.df
 #' @inheritParams sjt.itemanalysis
@@ -38,7 +38,7 @@
 #' @inheritParams sjt.xtab
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.stackfrq
-#'          
+#'
 #' @return Invisibly returns
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
@@ -49,9 +49,9 @@
 #'            for further use.
 #'
 #' @note See 'Notes' in \code{\link{sjt.frq}}.
-#'  
+#'
 #' @details See 'Details' in \code{\link{sjt.frq}}.
-#' 
+#'
 #' @examples
 #' # -------------------------------
 #' # random sample
@@ -64,18 +64,18 @@
 #'   as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.1, 0.4, 0.4, 0.1))),
 #'   as.factor(sample(1:4, 500, replace = TRUE, prob = c(0.35, 0.25, 0.15, 0.25)))
 #' )
-#' 
+#'
 #' # create labels
-#' levels_4 <- c("Independent", "Slightly dependent", 
+#' levels_4 <- c("Independent", "Slightly dependent",
 #'               "Dependent", "Severely dependent")
-#' 
+#'
 #' # create item labels
 #' items <- c("Q1", "Q2", "Q3", "Q4", "Q5")
-#' 
+#'
 #' # plot stacked frequencies of 5 (ordered) item-scales
 #' \dontrun{
 #' sjt.stackfrq(likert_4, value.labels = levels_4, var.labels = items)
-#' 
+#'
 #' # -------------------------------
 #' # Data from the EUROFAMCARE sample dataset
 #' # Auto-detection of labels
@@ -86,20 +86,20 @@
 #' start <- which(colnames(efc) == "c82cop1")
 #' # recveive first item of COPE-index scale
 #' end <- which(colnames(efc) == "c90cop9")
-#' 
+#'
 #' sjt.stackfrq(efc[, c(start:end)], altr.row.col = TRUE)
-#' 
+#'
 #' sjt.stackfrq(efc[, c(start:end)], altr.row.col = TRUE,
 #'              show.n = TRUE, show.na = TRUE)
-#'          
-#' # -------------------------------- 
+#'
+#' # --------------------------------
 #' # User defined style sheet
-#' # -------------------------------- 
-#' sjt.stackfrq(efc[, c(start:end)], altr.row.col = TRUE, 
+#' # --------------------------------
+#' sjt.stackfrq(efc[, c(start:end)], altr.row.col = TRUE,
 #'              show.total = TRUE, show.skew = TRUE, show.kurtosis = TRUE,
 #'              CSS = list(css.ncol = "border-left:1px dotted black;",
 #'                         css.summary = "font-style:italic;"))}
-#'              
+#'
 #' @importFrom psych describe
 #' @importFrom stats xtabs
 #' @export
@@ -120,7 +120,7 @@ sjt.stackfrq <- function(items,
                          show.skew = FALSE,
                          show.kurtosis = FALSE,
                          digits.stats = 2,
-                         file = NULL, 
+                         file = NULL,
                          encoding = NULL,
                          CSS = NULL,
                          use.viewer = TRUE,
@@ -157,16 +157,16 @@ sjt.stackfrq <- function(items,
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
   if (is.null(value.labels)) {
-    value.labels <- sjmisc::get_labels(
+    value.labels <- sjlabelled::get_labels(
       items[[1]],
       attr.only = F,
       include.values = NULL,
       include.non.labelled = T
     )
   }
-  
+
   if (is.null(var.labels)) {
-    var.labels <- sjmisc::get_label(items, def.value = colnames(items))
+    var.labels <- sjlabelled::get_label(items, def.value = colnames(items))
   }
   # ----------------------------
   # retrieve min and max values
@@ -190,7 +190,7 @@ sjt.stackfrq <- function(items,
   if (is.null(var.labels)) var.labels <- colnames(items)
   # check length of x-axis-labels and split longer strings at into new lines
   var.labels <- sjmisc::word_wrap(var.labels, wrap.labels, "<br>")
-  # ----------------------------  
+  # ----------------------------
   # additional statistics required from psych-package?
   # ----------------------------
   if (show.skew || show.kurtosis) pstat <- psych::describe(items)
@@ -206,7 +206,7 @@ sjt.stackfrq <- function(items,
   # determine minimum value. if 0, add one, because
   # vector indexing starts with 1
   # ----------------------------
-  if (any(apply(items, c(1, 2), is.factor)) || 
+  if (any(apply(items, c(1, 2), is.factor)) ||
       any(apply(items, c(1, 2), is.character))) {
     diff <- ifelse(min(apply(items, c(1, 2), as.numeric), na.rm = TRUE) == 0, 1, 0)
   } else {
@@ -442,12 +442,12 @@ sjt.stackfrq <- function(items,
   knitr <- gsub(tag.tdata, css.tdata, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.thead, css.thead, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.centeralign, css.centeralign, knitr, fixed = TRUE, useBytes = TRUE)
-  knitr <- gsub(tag.firsttablecol, css.firsttablecol, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.ncol, css.ncol, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.skewcol, css.skewcol, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.kurtcol, css.kurtcol, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.summary, css.summary, knitr, fixed = TRUE, useBytes = TRUE)  
-  knitr <- gsub(tag.arc, css.arc, knitr, fixed = TRUE, useBytes = TRUE)  
+  knitr <- gsub(tag.firsttablecol, css.firsttablecol, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.ncol, css.ncol, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.skewcol, css.skewcol, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.kurtcol, css.kurtcol, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.summary, css.summary, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.arc, css.arc, knitr, fixed = TRUE, useBytes = TRUE)
   # -------------------------------------
   # remove spaces?
   # -------------------------------------

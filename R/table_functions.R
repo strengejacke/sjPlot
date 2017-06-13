@@ -4,7 +4,7 @@ get_table_header <- function(encoding, cell.spacing, cell.gpr.indent, p.numeric,
 
 
 table_cell_string <- function(page.content, cell.prefix, cell.class, col.nr, cell.value) {
-  return(paste0(page.content, sprintf("%s<td class=\"tdata centeralign %smodelcolumn%i\">%s</td>", 
+  return(paste0(page.content, sprintf("%s<td class=\"tdata centeralign %smodelcolumn%i\">%s</td>",
                                       cell.prefix, cell.class, col.nr, cell.value)))
 }
 
@@ -27,8 +27,8 @@ get_table_response_label <- function(page.content, depvar.labels, input_list, tc
       resp_vec <- m_d$resp
       resp_name <- m_d$resp.label
       # get label
-      depvar.labels <- c(depvar.labels, 
-                         sjmisc::get_label(resp_vec, def.value = resp_name))
+      depvar.labels <- c(depvar.labels,
+                         sjlabelled::get_label(resp_vec, def.value = resp_name))
     }
   }
   # -------------------------------------
@@ -41,20 +41,20 @@ get_table_response_label <- function(page.content, depvar.labels, input_list, tc
     # -------------------------
     if (sep.column) page.content <- paste0(page.content, sprintf("\n    <td class=\"labelcellborder separatorcol%s\">&nbsp;</td>", tcp))
     if (headerColSpanFactor > 1) {
-      page.content <- paste0(page.content, 
-                             sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\" colspan=\"%i\">%s</td>", 
-                                     tcp, 
-                                     headerColSpanFactor, 
+      page.content <- paste0(page.content,
+                             sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\" colspan=\"%i\">%s</td>",
+                                     tcp,
+                                     headerColSpanFactor,
                                      depvar.labels[i]))
     } else {
-      page.content <- paste0(page.content, 
-                             sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\">%s</td>", 
-                                     tcp, 
+      page.content <- paste0(page.content,
+                             sprintf("\n    <td class=\"tdata centeralign labelcellborder%s\">%s</td>",
+                                     tcp,
                                      depvar.labels[i]))
     }
   }
   page.content <- paste0(page.content, "\n  </tr>")
-  
+
   return(list(page.content = page.content, depvar.labels = depvar.labels))
 }
 
@@ -70,7 +70,7 @@ get_table_css_styles <- function(cell.spacing, cell.gpr.indent, p.numeric, show.
   return(table_style_worker(NULL, NULL, cell.spacing, cell.gpr.indent, p.numeric, show.header, CSS, option = 3))
 }
 
-table_style_worker <- function(page.content, encoding, cell.spacing, cell.gpr.indent, 
+table_style_worker <- function(page.content, encoding, cell.spacing, cell.gpr.indent,
                                p.numeric, show.header, CSS, option) {
   # -------------------------------------
   # init style sheet and tags used for css-definitions
@@ -177,7 +177,7 @@ table_style_worker <- function(page.content, encoding, cell.spacing, cell.gpr.in
                          tag.summary, css.summary, tag.colnames, css.colnames,
                          tag.firstsumrow, css.firstsumrow, tag.lasttablerow, css.lasttablerow,
                          tag.topborder, css.topborder, tag.depvarhead, css.depvarhead,
-                         tag.topcontentborder, css.topcontentborder, tag.annorow, css.annorow, 
+                         tag.topcontentborder, css.topcontentborder, tag.annorow, css.annorow,
                          tag.noannorow, css.noannorow, tag.annostyle, css.annostyle,
                          tag.labelcellborder, css.labelcellborder,
                          tag.centeralign, css.centeralign, tag.leftalign, css.leftalign,
@@ -193,7 +193,7 @@ table_style_worker <- function(page.content, encoding, cell.spacing, cell.gpr.in
                          tag.randomparts, css.randomparts,
                          tag.separatorcol, css.separatorcol)
 
-  
+
   if (option == 1) {
     # ------------------------
     # set page encoding
@@ -204,7 +204,7 @@ table_style_worker <- function(page.content, encoding, cell.spacing, cell.gpr.in
     # ------------------------
     toWrite <- paste0(toWrite, page.style)
     toWrite <- paste0(toWrite, "\n</head>\n<body>\n")
-    
+
     return(toWrite)
   } else if (option == 2) {
     # -------------------------------------
@@ -224,22 +224,22 @@ table_style_worker <- function(page.content, encoding, cell.spacing, cell.gpr.in
     # -------------------------------------
     knitr <- gsub(tag.tdata, css.tdata, knitr, fixed = TRUE, useBytes = TRUE)
     knitr <- gsub(tag.thead, css.thead, knitr, fixed = TRUE, useBytes = TRUE)
-    knitr <- gsub(tag.summary, css.summary, knitr, fixed = TRUE, useBytes = TRUE)  
-    knitr <- gsub(tag.fixedparts, css.fixedparts, knitr, fixed = TRUE, useBytes = TRUE)  
+    knitr <- gsub(tag.summary, css.summary, knitr, fixed = TRUE, useBytes = TRUE)
+    knitr <- gsub(tag.fixedparts, css.fixedparts, knitr, fixed = TRUE, useBytes = TRUE)
     knitr <- gsub(tag.randomparts, css.randomparts, knitr, fixed = TRUE, useBytes = TRUE)
-    knitr <- gsub(tag.separatorcol, css.separatorcol, knitr, fixed = TRUE, useBytes = TRUE)  
+    knitr <- gsub(tag.separatorcol, css.separatorcol, knitr, fixed = TRUE, useBytes = TRUE)
     knitr <- gsub(tag.colnames, css.colnames, knitr, fixed = TRUE, useBytes = TRUE)
     knitr <- gsub(tag.leftalign, css.leftalign, knitr, fixed = TRUE, useBytes = TRUE)
     knitr <- gsub(tag.centeralign, css.centeralign, knitr, fixed = TRUE, useBytes = TRUE)
     knitr <- gsub(tag.firstsumrow, css.firstsumrow, knitr, fixed = TRUE, useBytes = TRUE)
-    knitr <- gsub(tag.lasttablerow, css.lasttablerow, knitr, fixed = TRUE, useBytes = TRUE)  
-    knitr <- gsub(tag.labelcellborder, css.labelcellborder, knitr, fixed = TRUE, useBytes = TRUE)  
-    knitr <- gsub(tag.topborder, css.topborder, knitr, fixed = TRUE, useBytes = TRUE)  
-    knitr <- gsub(tag.depvarhead, css.depvarhead, knitr, fixed = TRUE, useBytes = TRUE)  
-    knitr <- gsub(tag.topcontentborder, css.topcontentborder, knitr, fixed = TRUE, useBytes = TRUE)  
+    knitr <- gsub(tag.lasttablerow, css.lasttablerow, knitr, fixed = TRUE, useBytes = TRUE)
+    knitr <- gsub(tag.labelcellborder, css.labelcellborder, knitr, fixed = TRUE, useBytes = TRUE)
+    knitr <- gsub(tag.topborder, css.topborder, knitr, fixed = TRUE, useBytes = TRUE)
+    knitr <- gsub(tag.depvarhead, css.depvarhead, knitr, fixed = TRUE, useBytes = TRUE)
+    knitr <- gsub(tag.topcontentborder, css.topcontentborder, knitr, fixed = TRUE, useBytes = TRUE)
     knitr <- gsub(tag.noannorow, css.noannorow, knitr, fixed = TRUE, useBytes = TRUE)
-    knitr <- gsub(tag.annorow, css.annorow, knitr, fixed = TRUE, useBytes = TRUE)  
-    knitr <- gsub(tag.annostyle, css.annostyle, knitr, fixed = TRUE, useBytes = TRUE)  
+    knitr <- gsub(tag.annorow, css.annorow, knitr, fixed = TRUE, useBytes = TRUE)
+    knitr <- gsub(tag.annostyle, css.annostyle, knitr, fixed = TRUE, useBytes = TRUE)
     knitr <- gsub(tag.grouprow, css.grouprow, knitr, fixed = TRUE, useBytes = TRUE)
     knitr <- gsub(tag.tgrpdata, css.tgrpdata, knitr, fixed = TRUE, useBytes = TRUE)
     knitr <- gsub(tag.modelcolumn1, css.modelcolumn1, knitr, fixed = TRUE, useBytes = TRUE)
@@ -249,7 +249,7 @@ table_style_worker <- function(page.content, encoding, cell.spacing, cell.gpr.in
     knitr <- gsub(tag.modelcolumn5, css.modelcolumn5, knitr, fixed = TRUE, useBytes = TRUE)
     knitr <- gsub(tag.modelcolumn6, css.modelcolumn6, knitr, fixed = TRUE, useBytes = TRUE)
     knitr <- gsub(tag.modelcolumn7, css.modelcolumn7, knitr, fixed = TRUE, useBytes = TRUE)
-    
+
     return(knitr)
   } else if (option == 3) {
     # ------------------------

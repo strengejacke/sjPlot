@@ -311,11 +311,11 @@ sjt.frq <- function(data,
     # check if we have data frame with several variables
     if (is.data.frame(data)) {
       # retrieve variable name attribute
-      title <- sjmisc::get_label(data, def.value = colnames(data))
+      title <- sjlabelled::get_label(data, def.value = colnames(data))
     # we have a single variable only
     } else {
       # retrieve variable name attribute
-      title <- sjmisc::get_label(data, def.value = deparse(substitute(data)))
+      title <- sjlabelled::get_label(data, def.value = deparse(substitute(data)))
     }
   }
 

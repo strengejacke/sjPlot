@@ -67,14 +67,14 @@ sjt.grpmean <- function(var.cnt,
   # --------------------------------------
   # set value and row labels
   # --------------------------------------
-  varGrpLabel <- sjmisc::get_label(var.grp, def.value = get_var_name(deparse(substitute(var.grp))))
-  varCountLabel <- sjmisc::get_label(var.cnt, def.value = get_var_name(deparse(substitute(var.cnt))))
+  varGrpLabel <- sjlabelled::get_label(var.grp, def.value = get_var_name(deparse(substitute(var.grp))))
+  varCountLabel <- sjlabelled::get_label(var.cnt, def.value = get_var_name(deparse(substitute(var.cnt))))
 
   if (is.null(value.labels)) {
     # first, drop unused labels
-    var.grp <- sjmisc::drop_labels(var.grp, drop.na = TRUE)
+    var.grp <- sjlabelled::drop_labels(var.grp, drop.na = TRUE)
     # now get valid value labels
-    value.labels <- sjmisc::get_labels(
+    value.labels <- sjlabelled::get_labels(
       var.grp, attr.only = F, include.values = NULL, include.non.labelled = T
     )
   }
