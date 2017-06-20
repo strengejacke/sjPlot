@@ -3,7 +3,7 @@ Type: Package
 Encoding: UTF-8
 Title: Data Visualization for Statistics in Social Science
 Version: 2.3.1.9000
-Date: 2017-03-04
+Date: 2017-06-19
 Authors@R: c(
     person("Daniel", "Lüdecke", email = "d.luedecke@uke.de", role = c("aut", "cre")),
     person("Carsten", "Schwemmer", email = "carsten.schwemmer@uni-bamberg.de", role = "ctb")

@@ -183,14 +183,17 @@ sjp.likert <- function(items,
   # determine catcount
   # --------------------------------------------------------
   adding <- ifelse(is.null(cat.neutral), 0, 1)
+
   if (is.null(catcount)) {
     catcount <- c()
+
     # iterate all items
     for (i in seq_len(ncol(items))) {
       # add new unique item values to catcount, so catcount
       # finally contains all unique values of items
       catcount <- unique(c(catcount, unique(stats::na.omit(items[[i]]))))
     }
+
     # remove neutral category
     if (!is.null(cat.neutral)) {
       # find neutral cat value in catcount
@@ -198,9 +201,11 @@ sjp.likert <- function(items,
       # if not empty, remove
       if (!sjmisc::is_empty(ncv_pos)) catcount <- catcount[-ncv_pos]
     }
+
     # detect range of valid categories, which
     # then equals catcount
     catcount <- max(catcount) - min(catcount) + 1
+
     # check if category count matches category label count
     if (!is.null(legend.labels)) {
       # how many labels do we have?
@@ -217,6 +222,7 @@ sjp.likert <- function(items,
         catcount <- lll
       }
     }
+
     # is catcount odd or even? make catcount even
     if (sjmisc::is_odd(catcount)) {
       # warn user about uneven category count
@@ -224,6 +230,7 @@ sjp.likert <- function(items,
       catcount <- catcount - 1
     }
   }
+
   # --------------------------------------------------------
   # set legend labels, if we have none yet
   # --------------------------------------------------------
@@ -235,30 +242,31 @@ sjp.likert <- function(items,
   mydat.neg <- data.frame()
   mydat.dk <- data.frame()
   freq.df <- data.frame()
-  # --------------------------------------------------------
+
   # If we have neutral category in between and not as last
   # category, recode neutral category to last category
-  # --------------------------------------------------------
   if (!is.null(cat.neutral) && cat.neutral <= catcount) {
     # first, each other category has to be moved down one position
     # therefore, we create a pattern with values from neutral
     # category to category count
     downvote <- seq(cat.neutral, catcount + 1, by = 1)
+
     # now we "shift" this value pattern and make a
     # string out of it
     recode.pattern <- paste0(
       paste0(sprintf("%i=%i", c(downvote[-1], downvote[1]), downvote),
              collapse = ";"), ";else=copy"
       )
+
     # finally, recode data
     items <- sjmisc::rec(items, rec = recode.pattern)
+
     # re-order legend labels as well
     ll.order <- c(seq_len(catcount + adding)[-cat.neutral], cat.neutral)
     legend.labels <- legend.labels[ll.order]
   }
-  # --------------------------------------------------------
+
   # loop through all likert-items
-  # --------------------------------------------------------
   for (i in seq_len(ncol(items))) {
     # --------------------------------------------------------
     # convert to numeric values

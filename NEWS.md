@@ -1,4 +1,8 @@
-# sjPlot 2.3.1.9000
+# sjPlot 2.3.2
+
+# General
+
+* Changed imports to avoid using deprecated functions.
 
 ## New functions
 

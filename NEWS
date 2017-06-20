@@ -1,5 +1,8 @@
-Version 2.3.1.9000
+Version 2.3.2
 -----------------------------------------------------------------------------
+General:
+* Changed imports to avoid using deprecated functions.
+
 New functions:
 * `sjp.fa()` and `sjt.fa()` to plot or print as table the results of factor analyses.
 
