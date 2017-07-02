@@ -591,7 +591,8 @@ sj.setGeomColors <- function(plot,
         plot <- plot + guides(text = FALSE, linetype = FALSE)
       }
     }
-    return(plot)
+
+    plot
   }
   # ---------------------------------------------------------
   # dummy function for only setting legend labels, but no
@@ -616,7 +617,8 @@ sj.setGeomColors <- function(plot,
         plot <- plot + guides(text = FALSE, linetype = FALSE)
       }
     }
-    return(plot)
+
+    plot
   }
 
   # check if we have coloured plot or b/w figure with different linetypes
@@ -662,7 +664,8 @@ sj.setGeomColors <- function(plot,
   } else {
     plot <- uselegendscale(plot, labels, bw.figure, ltypes)
   }
-  return(plot)
+
+  plot
 }
 
 

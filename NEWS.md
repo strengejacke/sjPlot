@@ -2,10 +2,12 @@
 
 # General
 
+* Revising package code from scratch. Part of the old functions will be replaced by new ones, making the code base easier to maintain and reduce redundant functions by merging them together.
 * Changed imports to avoid using deprecated functions.
 
 ## New functions
 
+* `plot_models()` as replacement for `sjp.lmm()` and `sjp.glmm()` (which are now deprecated).
 * `sjp.fa()` and `sjt.fa()` to plot or print as table the results of factor analyses.
 
 # sjPlot 2.3.1

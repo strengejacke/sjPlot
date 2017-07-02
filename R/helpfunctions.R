@@ -872,14 +872,11 @@ sju.rmspc <- function(html.table) {
 
 
 get_p_stars <- function(pval) {
-  pan <- ""
-  if (is.na(pval))
-    pan <- ""
-  else if (pval < 0.001)
-    pan <- "***"
-  else if (pval < 0.01)
-    pan <- "**"
-  else if (pval < 0.05)
-    pan <- "*"
-  return(invisible(pan))
+  dplyr::case_when(
+    is.na(pval) ~ "",
+    pval < 0.001 ~ "***",
+    pval < 0.01 ~ "**",
+    pval < 0.05 ~ "*",
+    TRUE ~ ""
+  )
 }

@@ -762,37 +762,6 @@ col_check <- function(geom.colors, show.loess) {
 }
 
 
-col_check2 <- function(geom.colors, collen) {
-  # --------------------------------------------
-  # check color argument
-  # --------------------------------------------
-  # check for corrct color argument
-  if (!is.null(geom.colors)) {
-    # check for color brewer palette
-    if (is.brewer.pal(geom.colors[1])) {
-      geom.colors <- scales::brewer_pal(palette = geom.colors[1])(collen)
-    } else if (geom.colors[1] == "gs") {
-      geom.colors <- scales::grey_pal()(collen)
-      # do we have correct amount of colours?
-    } else if (geom.colors[1] == "bw") {
-      geom.colors <- rep("black", times = collen)
-      # do we have correct amount of colours?
-    } else if (length(geom.colors) > collen) {
-      # shorten palette
-      geom.colors <- geom.colors[1:collen]
-    } else if (length(geom.colors) < collen) {
-      # warn user abount wrong color palette
-      warning(sprintf("Insufficient length of color palette provided. %i color values needed.", collen), call. = F)
-      # set default palette
-      geom.colors <- scales::brewer_pal(palette = "Set1")(collen)
-    }
-  } else {
-    geom.colors <- scales::brewer_pal(palette = "Set1")(collen)
-  }
-  return(geom.colors)
-}
-
-
 #' @importFrom stats fitted rstudent residuals sd median AIC
 #' @importFrom sjstats outliers
 sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
