@@ -7,7 +7,7 @@
 #' @param ... One or more regression models, including glm's or mixed models.
 #'        May also be a \code{list} with fitted models. See 'Examples'.
 #' @param exponentiate Logical, if \code{TRUE} and models inherit from generalized
-#'        linear models, estimates will be exponentiated (i.e., log-odds will
+#'        linear models, estimates will be exponentiated (e.g., log-odds will
 #'        be displayed as odds ratios). By default, \code{exponentiate} will
 #'        automatically be set to \code{FALSE} or \code{TRUE}, depending on
 #'        model type.
@@ -79,6 +79,7 @@
 #' @importFrom broom tidy
 #' @importFrom forcats fct_rev
 #' @importFrom sjstats std_beta get_model_pval
+#' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom rlang .data
 #' @importFrom sjmisc word_wrap var_rename
 #' @importFrom tibble tidy_names add_column
@@ -175,7 +176,7 @@ plot_models <- function(...,
   if (!is.null(rm.est)) ff <- dplyr::filter(!(.data$term %in% rm.est))
 
   # get labels of dependent variables, and wrap them if too long
-  if (is.null(dv.labels)) dv.labels <- get_intercept_labels(input_list)
+  if (is.null(dv.labels)) dv.labels <- sjlabelled::get_dv_labels(input_list)
   dv.labels <- sjmisc::word_wrap(dv.labels, wrap = wrap.labels)
 
   # make sure we have distinct labels, because we use them as
@@ -234,7 +235,7 @@ plot_models <- function(...,
     )
 
   # check axis labels
-  if (is.null(axis.labels)) axis.labels <- get_estimate_labels(input_list)
+  if (is.null(axis.labels)) axis.labels <- sjlabelled::get_term_labels(input_list)
 
   # set axis labels
   p <- p + scale_x_discrete(labels = sjmisc::word_wrap(axis.labels, wrap = wrap.labels))

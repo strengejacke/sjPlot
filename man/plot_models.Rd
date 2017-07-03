@@ -25,7 +25,7 @@ sjp.glmm(...)
 May also be a \code{list} with fitted models. See 'Examples'.}
 
 \item{exponentiate}{Logical, if \code{TRUE} and models inherit from generalized
-linear models, estimates will be exponentiated (i.e., log-odds will
+linear models, estimates will be exponentiated (e.g., log-odds will
 be displayed as odds ratios). By default, \code{exponentiate} will
 automatically be set to \code{FALSE} or \code{TRUE}, depending on
 model type.}
