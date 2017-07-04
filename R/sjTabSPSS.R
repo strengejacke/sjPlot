@@ -182,8 +182,8 @@ view_df <- function(x,
              sprintf("    <td class=\"tdata%s\">%i</td>\n", arcstring, index))
 
     # name, and note
-    if (!is.null(sjmisc::get_note(x[[index]])))
-      td.title.tag <- sprintf(" title=\"%s\"", sjmisc::get_note(x[[index]]))
+    if (!is.null(sjlabelled::get_note(x[[index]])))
+      td.title.tag <- sprintf(" title=\"%s\"", sjlabelled::get_note(x[[index]]))
     else
       td.title.tag <- ""
 
