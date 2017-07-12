@@ -158,7 +158,7 @@
 #' @importFrom psych describe
 #' @importFrom stats na.omit weighted.mean
 #' @importFrom sjmisc group_str
-#' @importFrom sjlabelled get_note
+#' @importFrom sjlabelled get_note set_labels
 #' @export
 sjt.frq <- function(data,
                     weight.by = NULL,
@@ -401,7 +401,7 @@ sjt.frq <- function(data,
         )
 
       # set labels
-      data[[cnt]] <- sjmisc::set_labels(data[[cnt]], labels = val.lab)
+      data[[cnt]] <- sjlabelled::set_labels(data[[cnt]], labels = val.lab)
     }
 
     # check if we have a string-vector

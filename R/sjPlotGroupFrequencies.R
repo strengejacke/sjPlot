@@ -318,7 +318,7 @@ sjp.grpfrq <- function(var.cnt,
       )
 
     # set value labels
-    grp.var.cnt <- sjmisc::set_labels(grp.var.cnt, labels = axis.labels)
+    grp.var.cnt <- sjlabelled::set_labels(grp.var.cnt, labels = axis.labels)
   } else {
     grp.var.cnt <- var.cnt
   }
