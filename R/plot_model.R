@@ -27,12 +27,12 @@ plot_model <- function(fit,
   axis.labels <- sjmisc::word_wrap(axis.labels, wrap = wrap.labels)
 
   if (type == "est")
-    plot_model_esitamtes(fit, exponentiate, show.intercept, rm.est, title)
+    plot_model_estimates(fit, exponentiate, show.intercept, rm.est, title)
 
 }
 
 
-plot_model_esitamtes <-
+plot_model_estimates <-
   function(fit,
            exponentiate,
            rm.est,
