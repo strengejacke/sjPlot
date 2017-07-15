@@ -241,22 +241,41 @@ sjtab <- function(data, ..., fun = c("frq", "xtab", "grpmean", "stackfrq")) {
 
 get_grouped_title <- function(x, grps, args, i, sep = "\n") {
   # prepare title for group
-  var.name <- colnames(grps)[1]
-  t1 <- sjlabelled::get_label(x[[var.name]], def.value = var.name)
-  t2 <- sjlabelled::get_labels(x[[var.name]])[grps[[var.name]][i]]
-  title <- sprintf("%s: %s", t1, t2)
+  tp <- get_title_part(x, grps, 1, i)
+  title <- sprintf("%s: %s", tp[1], tp[2])
 
   # do we have another groupng variable?
   if (length(attr(x, "vars", exact = T)) > 1) {
     # prepare title for group
-    var.name <- colnames(grps)[2]
-    t1 <- sjlabelled::get_label(x[[var.name]], def.value = var.name)
-    t2 <- sjlabelled::get_labels(x[[var.name]])[grps[[var.name]][i]]
-    title <- sprintf("%s%s%s: %s", title, sep, t1, t2)
+    tp <- get_title_part(x, grps, 2, i)
+    title <- sprintf("%s%s%s: %s", title, sep, tp[1], tp[2])
   }
 
   # add title argument to argument list
   c(args, `title` = title)
+}
+
+
+get_title_part <- function(x, grps, level, i) {
+  # prepare title for group
+  var.name <- colnames(grps)[level]
+
+  # get values from value labels
+  vals <- sjlabelled::get_values(x[[var.name]])
+  # if we have no value labels, get values directly
+  if (is.null(vals)) vals <- unique(x[[var.name]])
+  # find position of value labels for current group
+  lab.pos <- which(vals == grps[[var.name]][i])
+
+  # get variable and value labels
+  t1 <- sjlabelled::get_label(x[[var.name]], def.value = var.name)
+  t2 <- sjlabelled::get_labels(x[[var.name]])[lab.pos]
+
+  # if we have no value label, use value instead
+  if (is.null(t2)) t2 <- vals[lab.pos]
+
+  # generate title
+  c(t1, t2)
 }
 
 
