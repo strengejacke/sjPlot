@@ -6,7 +6,7 @@
 \alias{sjp.glmm}
 \title{Forest plot of multiple regression models}
 \usage{
-plot_models(..., exponentiate, std.est = NULL, rm.est = NULL,
+plot_models(..., exponentiate, std.est = NULL, rm.term = NULL,
   title = NULL, dv.labels = NULL, legend.title = "Dependent Variables",
   legend.pval.title = "p-level", axis.labels = NULL, axis.title = NULL,
   axis.lim = NULL, wrap.title = 50, wrap.labels = 25,
@@ -28,7 +28,7 @@ May also be a \code{list} with fitted models. See 'Examples'.}
 linear models, estimates will be exponentiated (e.g., log-odds will
 be displayed as odds ratios). By default, \code{exponentiate} will
 automatically be set to \code{FALSE} or \code{TRUE}, depending on
-model type.}
+the class of \code{fit}.}
 
 \item{std.est}{For linear models, choose whether standardized coefficients should
 be used for plotting. Default is no standardization.
@@ -37,6 +37,11 @@ be used for plotting. Default is no standardization.
   \item{\code{"std"}}{standardized beta values.}
   \item{\code{"std2"}}{standardized beta values, however, standardization is done by rescaling estimates by dividing them by two sd (see \code{\link[sjstats]{std_beta}}).}
 }}
+
+\item{rm.term}{Character vector with names that indicate which terms should
+be removed from the plot. \code{rm.term = "t_name"} would remove the
+term \emph{t_name}. Default is \code{NULL}, i.e. all terms are
+used.}
 
 \item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.
@@ -102,10 +107,10 @@ of same length as groups. See 'Examples'.}
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
-\item{show.intercept}{Logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
-Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential
-transformation of estimates, the intercept in some cases can not be calculated, thus the
-function call is interrupted and no plot printed.}
+\item{show.intercept}{Logical, if \code{TRUE}, the intercept of the fitted
+model is also plotted. Default is \code{FALSE}. If \code{exponentiate = TRUE},
+please note that due to exponential transformation of estimates, the
+intercept in some cases is non-finite and the plot can not be created.}
 
 \item{show.p}{Logical, adds significance levels to values, or value and
 variable labels.}
