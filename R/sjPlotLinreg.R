@@ -70,19 +70,6 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #'            }
 #'
 #' @param fit Fitted linear regression model (of class \code{\link{lm}}, \code{\link[nlme]{gls}} or \code{plm}).
-#' @param type Type of plot. Use one of following:
-#'          \describe{
-#'            \item{\code{"lm"}}{(default) for forest-plot like plot of estimates. If the fitted model only contains one predictor, intercept and slope are plotted.}
-#'            \item{\code{"std"}}{for forest-plot like plot of standardized beta values. If the fitted model only contains one predictor, intercept and slope are plotted.}
-#'            \item{\code{"std2"}}{for forest-plot like plot of standardized beta values, however, standardization is done by dividing by two sd (see 'Details'). If the fitted model only contains one predictor, intercept and slope are plotted.}
-#'            \item{\code{"slope"}}{to plot regression lines for each single predictor of the fitted model, against the response (linear relationship between each model term and response).}
-#'            \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals (linear relationship between each model term and residuals). May be used for model diagnostics.}
-#'            \item{\code{"pred"}}{to plot predicted values for the response, related to specific predictors. See 'Details'.}
-#'            \item{\code{"eff"}}{to plot marginal effects of all terms in \code{fit}. Note that interaction terms are excluded from this plot; use \code{\link{sjp.int}} to plot effects of interaction terms.}
-#'            \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples').}
-#'            \item{\code{"ma"}}{to check model assumptions. Note that only three arguments are relevant for this option \code{fit} and \code{complete.dgns}. All other arguments are ignored.}
-#'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
-#'          }
 #' @param sort.est Logical, determines whether estimates should be sorted according to their values.
 #'          If \code{group.estimates} is \emph{not} \code{NULL}, estimates are sorted
 #'          according to their group assignment.
@@ -117,6 +104,7 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #' @param complete.dgns Logical, if \code{TRUE}, additional tests are performed. Default is \code{FALSE}
 #'          Only applies if \code{type = "ma"}.
 #'
+#' @inheritParams plot_model
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lmer
 #' @inheritParams sjp.aov1

@@ -6,11 +6,6 @@
 #'
 #' @param ... One or more regression models, including glm's or mixed models.
 #'        May also be a \code{list} with fitted models. See 'Examples'.
-#' @param exponentiate Logical, if \code{TRUE} and models inherit from generalized
-#'        linear models, estimates will be exponentiated (e.g., log-odds will
-#'        be displayed as odds ratios). By default, \code{exponentiate} will
-#'        automatically be set to \code{FALSE} or \code{TRUE}, depending on
-#'        model type.
 #' @param std.est For linear models, choose whether standardized coefficients should
 #'        be used for plotting. Default is no standardization.
 #'        \describe{
@@ -27,6 +22,7 @@
 #'        different point shapes and a related legend is plotted. Default
 #'        is \code{FALSE}.
 #'
+#' @inheritParams plot_model
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.lmer
 #' @inheritParams sjt.lm
@@ -87,7 +83,7 @@
 plot_models <- function(...,
                         exponentiate,
                         std.est = NULL,
-                        rm.est = NULL,
+                        rm.term = NULL,
                         title = NULL,
                         dv.labels = NULL,
                         legend.title = "Dependent Variables",
@@ -173,7 +169,7 @@ plot_models <- function(...,
     ff$term <- substring(ff$term, first = 3)
 
   # remove further estimates
-  if (!is.null(rm.est)) ff <- dplyr::filter(!(.data$term %in% rm.est))
+  if (!is.null(rm.term)) ff <- dplyr::filter(!(.data$term %in% rm.term))
 
   # get labels of dependent variables, and wrap them if too long
   if (is.null(dv.labels)) dv.labels <- sjlabelled::get_dv_labels(input_list)
