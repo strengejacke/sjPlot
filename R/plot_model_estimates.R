@@ -1,12 +1,15 @@
 plot_model_estimates <- function(fit,
                                  exponentiate,
-                                 group.term,
-                                 rm.term,
+                                 group.terms,
+                                 rm.terms,
                                  sort.est,
                                  title,
                                  show.intercept,
                                  show.p,
                                  digits) {
+
+  ## TODO provide own tidier for not-supported models
+
   # get tidy output of summary
   dat <- broom::tidy(fit, conf.int = TRUE, effects = "fixed")
 
@@ -22,7 +25,7 @@ plot_model_estimates <- function(fit,
   }
 
   # remove further estimates
-  if (!is.null(rm.term)) dat <- dplyr::filter(dat$term %in% rm.term)
+  if (!is.null(rm.terms)) dat <- dplyr::filter(dat$term %in% rm.terms)
 
   # add p-asterisks to data
   dat$p.stars <- get_p_stars(dat$p.value)
@@ -31,16 +34,16 @@ plot_model_estimates <- function(fit,
   if (show.p) dat$p.label <- sprintf("%s %s", dat$p.label, dat$p.stars)
 
   # group estimates?
-  if (!is.null(group.term) && length(group.term) == nrow(dat)) {
-    dat$group <- as.character(group.term)
+  if (!is.null(group.terms) && length(group.terms) == nrow(dat)) {
+    dat$group <- as.character(group.terms)
   } else {
-    warning("Length of `group.term` does not equal number of model coefficients. Ignoring this argument.", call. = F)
-    group.term <- NULL
+    warning("Length of `group.terms` does not equal number of model coefficients. Ignoring this argument.", call. = F)
+    group.terms <- NULL
   }
 
   # sort estimates by effect size
   if (sort.est) {
-    if (!is.null(group.term)) {
+    if (!is.null(group.terms)) {
       axis.labels <- rev(axis.labels[order(dat$group, dat$estimate)])
       dat <- dat[rev(order(dat$group, dat$estimate)), ]
     } else {

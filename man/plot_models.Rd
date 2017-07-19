@@ -6,7 +6,7 @@
 \alias{sjp.glmm}
 \title{Forest plot of multiple regression models}
 \usage{
-plot_models(..., exponentiate, std.est = NULL, rm.term = NULL,
+plot_models(..., exponentiate, std.est = NULL, rm.terms = NULL,
   title = NULL, dv.labels = NULL, legend.title = "Dependent Variables",
   legend.pval.title = "p-level", axis.labels = NULL, axis.title = NULL,
   axis.lim = NULL, wrap.title = 50, wrap.labels = 25,
@@ -38,8 +38,8 @@ be used for plotting. Default is no standardization.
   \item{\code{"std2"}}{standardized beta values, however, standardization is done by rescaling estimates by dividing them by two sd (see \code{\link[sjstats]{std_beta}}).}
 }}
 
-\item{rm.term}{Character vector with names that indicate which terms should
-be removed from the plot. \code{rm.term = "t_name"} would remove the
+\item{rm.terms}{Character vector with names that indicate which terms should
+be removed from the plot. \code{rm.terms = "t_name"} would remove the
 term \emph{t_name}. Default is \code{NULL}, i.e. all terms are
 used.}
 

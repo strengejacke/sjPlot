@@ -17,8 +17,8 @@
 #'          be displayed as odds ratios). By default, \code{exponentiate} will
 #'          automatically be set to \code{FALSE} or \code{TRUE}, depending on
 #'          the class of \code{fit}.
-#' @param rm.term Character vector with names that indicate which terms should
-#'          be removed from the plot. \code{rm.term = "t_name"} would remove the
+#' @param rm.terms Character vector with names that indicate which terms should
+#'          be removed from the plot. \code{rm.terms = "t_name"} would remove the
 #'          term \emph{t_name}. Default is \code{NULL}, i.e. all terms are
 #'          used.
 #' @param show.intercept Logical, if \code{TRUE}, the intercept of the fitted
@@ -31,8 +31,8 @@ plot_model <- function(fit,
                        type = "est",
                        exponentiate,
                        sort.est = FALSE,
-                       rm.term = NULL,
-                       group.est = NULL,
+                       rm.terms = NULL,
+                       group.terms = NULL,
                        show.intercept = FALSE,
                        show.p = TRUE,
                        title = NULL,
@@ -57,8 +57,8 @@ plot_model <- function(fit,
     plot_model_estimates(
       fit = fit,
       exponentiate = exponentiate,
-      group.est = group.est,
-      rm.term = rm.term,
+      group.terms = group.terms,
+      rm.terms = rm.terms,
       sort.est = sort.est,
       title = title,
       show.intercept = show.intercept,

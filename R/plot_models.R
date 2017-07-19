@@ -83,7 +83,7 @@
 plot_models <- function(...,
                         exponentiate,
                         std.est = NULL,
-                        rm.term = NULL,
+                        rm.terms = NULL,
                         title = NULL,
                         dv.labels = NULL,
                         legend.title = "Dependent Variables",
@@ -169,7 +169,7 @@ plot_models <- function(...,
     ff$term <- substring(ff$term, first = 3)
 
   # remove further estimates
-  if (!is.null(rm.term)) ff <- dplyr::filter(!(.data$term %in% rm.term))
+  if (!is.null(rm.terms)) ff <- dplyr::filter(!(.data$term %in% rm.terms))
 
   # get labels of dependent variables, and wrap them if too long
   if (is.null(dv.labels)) dv.labels <- sjlabelled::get_dv_labels(input_list)
