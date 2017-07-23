@@ -1,12 +1,18 @@
 plot_model_estimates <- function(fit,
                                  exponentiate,
+                                 terms,
                                  group.terms,
                                  rm.terms,
                                  sort.est,
                                  title,
                                  show.intercept,
+                                 show.values,
                                  show.p,
-                                 digits) {
+                                 digits,
+                                 geom.colors,
+                                 geom.size,
+                                 vline.type,
+                                 vline.color) {
 
   ## TODO provide own tidier for not-supported models
 
@@ -26,6 +32,9 @@ plot_model_estimates <- function(fit,
 
   # remove further estimates
   if (!is.null(rm.terms)) dat <- dplyr::filter(dat$term %in% rm.terms)
+
+  # or select further estimates
+  if (!is.null(terms)) dat <- dplyr::filter(!(dat$term %in% terms))
 
   # add p-asterisks to data
   dat$p.stars <- get_p_stars(dat$p.value)
@@ -55,5 +64,22 @@ plot_model_estimates <- function(fit,
     dat <- dat[nrow(dat):1, ]
   }
 
-  plot_point_estimates(model = fit, dat, geom.size, vline.type, vline.color)
+  plot_point_estimates(
+    model = fit,
+    dat = dat,
+    exponentiate = exponentiate,
+    dv.labels = dv.labels,
+    axis.labels = axis.labels,
+    axis.title = axis.title,
+    wrap.labels = wrap.labels,
+    wrap.title = wrap.title,
+    axis.lim = axis.lim,
+    grid.breaks = grid.breaks,
+    show.values = show.values,
+    geom.size = geom.size,
+    geom.colors = geom.colors,
+    vline.type = vline.type,
+    vline.color = vline.color
+  )
 }
+

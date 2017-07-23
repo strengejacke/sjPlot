@@ -87,8 +87,6 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #'          which estimates should be removed from the plot.
 #'          \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 #'          is \code{NULL}, i.e. all estimates are printed.
-#' @param show.p Logical, adds significance levels to values, or value and
-#'          variable labels.
 #' @param show.summary Logical, if \code{TRUE}, a summary with model statistics
 #'          is added to the plot.
 #' @param show.ci Logical, if \code{TRUE}, depending on \code{type}, a confidence

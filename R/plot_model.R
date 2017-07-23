@@ -8,7 +8,6 @@
 #'            \item{\code{"std2"}}{for forest-plot like plot of standardized beta values, however, standardization is done by dividing by two sd (see 'Details'). If the fitted model only contains one predictor, intercept and slope are plotted.}
 #'            \item{\code{"slope"}}{to plot regression lines for each single predictor of the fitted model, against the response (linear relationship between each model term and response).}
 #'            \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals (linear relationship between each model term and residuals). May be used for model diagnostics.}
-#'            \item{\code{"poly"}}{to plot predicted values (marginal effects) of polynomial terms in \code{fit}. Use \code{poly.term} to specify the polynomial term in the fitted model (see 'Examples').}
 #'            \item{\code{"ma"}}{to check model assumptions. Note that only three arguments are relevant for this option \code{fit} and \code{complete.dgns}. All other arguments are ignored.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
@@ -17,6 +16,18 @@
 #'          be displayed as odds ratios). By default, \code{exponentiate} will
 #'          automatically be set to \code{FALSE} or \code{TRUE}, depending on
 #'          the class of \code{fit}.
+#' @param terms Character vector with the names of those from \code{fit}, which
+#'          should be used to plot for. This argument depends on the plot-type;
+#'          for \code{type = "pred"} or \code{type = "eff"}, \code{terms} indicates
+#'          for which terms marginal effects should be displayed. At least one term
+#'          is required to calculate effects, maximum length is three terms,
+#'          where the second and third term indicate the groups, i.e. predictions
+#'          of first term are grouped by the levels of the second (and third)
+#'          term. Indicating levels in square brackets allows for selecting
+#'          only specific groups. Term name and levels in brackets must be
+#'          separated by a whitespace character, e.g.
+#'          \code{terms = c("age", "education [1,3]")}. For more details, see
+#'          \code{\link[ggeffects]{ggpredict}}.
 #' @param rm.terms Character vector with names that indicate which terms should
 #'          be removed from the plot. \code{rm.terms = "t_name"} would remove the
 #'          term \emph{t_name}. Default is \code{NULL}, i.e. all terms are
@@ -25,21 +36,29 @@
 #'          model is also plotted. Default is \code{FALSE}. If \code{exponentiate = TRUE},
 #'          please note that due to exponential transformation of estimates, the
 #'          intercept in some cases is non-finite and the plot can not be created.
+#' @param show.p Logical, adds significance levels to values, or value and
+#'          variable labels.
 #'
 #' @export
 plot_model <- function(fit,
                        type = "est",
                        exponentiate,
+                       terms = NULL,
                        sort.est = FALSE,
                        rm.terms = NULL,
                        group.terms = NULL,
-                       show.intercept = FALSE,
-                       show.p = TRUE,
+                       rm.terms = NULL,
                        title = NULL,
                        axis.labels = NULL,
+                       show.intercept = FALSE,
+                       show.p = TRUE,
+                       geom.size = NULL,
+                       geom.colors = "Set1",
                        wrap.title = 50,
                        wrap.labels = 25,
                        digits = 2,
+                       vline.type = 2,
+                       vline.color = "grey70",
                        ...
                        ) {
   # check whether estimates should be exponentiated or not
@@ -57,13 +76,19 @@ plot_model <- function(fit,
     plot_model_estimates(
       fit = fit,
       exponentiate = exponentiate,
+      terms = terms,
       group.terms = group.terms,
       rm.terms = rm.terms,
       sort.est = sort.est,
       title = title,
       show.intercept = show.intercept,
+      show.values = show.values,
       show.p = show.p,
-      digits = digits
+      digits = digits,
+      geom.colors = geom.colors,
+      geom.size = geom.size,
+      vline.type = vline.type,
+      vline.color = vline.color
     )
 
 }

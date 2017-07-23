@@ -1,4 +1,18 @@
-plot_point_estimates <- function(model, dat, geom.size, vline.type, vline.color) {
+plot_point_estimates <- function(model,
+                                 dat,
+                                 exponentiate,
+                                 dv.labels,
+                                 axis.labels,
+                                 axis.title,
+                                 wrap.labels,
+                                 wrap.title,
+                                 axis.lim,
+                                 grid.breaks,
+                                 show.values,
+                                 geom.size,
+                                 geom.colors,
+                                 vline.type,
+                                 vline.color) {
   # set up base plot
   p <- ggplot(dat, aes_string(x = "term", y = "estimate", colour = "group")) +
     geom_hline(yintercept = 0, linetype = vline.type, color = vline.color) +
@@ -58,7 +72,7 @@ plot_point_estimates <- function(model, dat, geom.size, vline.type, vline.color)
     p + labs(
       x = NULL,
       y = sjmisc::word_wrap(get_estimate_axis_title(model, axis.title), wrap = wrap.title),
-      title = sjmisc::word_wrap(title, wrap = wrap.title),
+      title = sjmisc::word_wrap(title, wrap = wrap.title)
     )
 
   p
