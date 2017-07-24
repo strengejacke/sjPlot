@@ -1,3 +1,8 @@
+#' @title Various plot types for regression models
+#' @name plot_model
+#'
+#' @description To Do...
+#'
 #' @param type Type of plot. Use one of following:
 #'          \describe{
 #'            \item{\code{"est"}}{(default) for forest-plot like plot of estimates. If the fitted model only contains one predictor, intercept and slope are plotted.}
@@ -47,7 +52,6 @@ plot_model <- function(fit,
                        sort.est = FALSE,
                        rm.terms = NULL,
                        group.terms = NULL,
-                       rm.terms = NULL,
                        title = NULL,
                        axis.labels = NULL,
                        show.intercept = FALSE,
