@@ -174,7 +174,7 @@ sjt.grpmean <- function(var.cnt,
   # get F-statistics
   fstat <- sum.fit$fstatistic[1]
   # p-value for F-test
-  pval <- sjstats::get_model_pval(fit)
+  pval <- sjstats::get_model_pval(fit)[["p.value"]]
   pvalstring <- ifelse(pval < 0.001,
                        sprintf("p&lt;%s.001", p_zero),
                        sub("0", p_zero, sprintf("p=%.*f", digits.summary, pval)))
