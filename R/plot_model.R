@@ -5,15 +5,15 @@
 #'
 #' @param type Type of plot. Use one of following:
 #'          \describe{
-#'            \item{\code{"est"}}{(default) for forest-plot like plot of estimates. If the fitted model only contains one predictor, intercept and slope are plotted.}
-#'            \item{\code{"pred"}}{to plot predicted values for the response, related to specific predictors. See 'Details'.}
+#'            \item{\code{"est"}}{(default) for forest-plot of estimates. If the fitted model only contains one predictor, slope-line is plotted.}
+#'            \item{\code{"pred"}}{to plot predicted values (marginal effects) for specific model terms. See 'Details'.}
 #'            \item{\code{"eff"}}{to plot marginal effects of all terms in \code{fit}. Note that interaction terms are excluded from this plot.}
 #'            \item{\code{"int"}}{to plot marginal effects of interaction terms in \code{fit}.}
-#'            \item{\code{"std"}}{for forest-plot like plot of standardized beta values. If the fitted model only contains one predictor, intercept and slope are plotted.}
-#'            \item{\code{"std2"}}{for forest-plot like plot of standardized beta values, however, standardization is done by dividing by two sd (see 'Details'). If the fitted model only contains one predictor, intercept and slope are plotted.}
+#'            \item{\code{"std"}}{for forest-plot of standardized beta values.}
+#'            \item{\code{"std2"}}{for forest-plot of standardized beta values, however, standardization is done by dividing by two sd (see 'Details').}
 #'            \item{\code{"slope"}}{to plot regression lines for each single predictor of the fitted model, against the response (linear relationship between each model term and response).}
 #'            \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals (linear relationship between each model term and residuals). May be used for model diagnostics.}
-#'            \item{\code{"ma"}}{to check model assumptions. Note that only three arguments are relevant for this option \code{fit} and \code{complete.dgns}. All other arguments are ignored.}
+#'            \item{\code{"ma"}}{to check model assumptions.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
 #' @param exponentiate Logical, if \code{TRUE} and models inherit from generalized
@@ -44,6 +44,10 @@
 #' @param show.p Logical, adds significance levels to values, or value and
 #'          variable labels.
 #'
+#' @importFrom sjstats pred_vars std_beta
+#' @importFrom sjmisc word_wrap
+#' @importFrom sjlabelled get_dv_labels get_term_labels
+#' @importFrom broom tidy
 #' @export
 plot_model <- function(fit,
                        type = "est",
@@ -62,6 +66,7 @@ plot_model <- function(fit,
                        show.p = FALSE,
                        geom.size = NULL,
                        geom.colors = "Set1",
+                       facets,
                        wrap.title = 50,
                        wrap.labels = 25,
                        digits = 2,
@@ -84,6 +89,9 @@ plot_model <- function(fit,
   # title for axis with estimate values
   if (is.null(axis.title)) axis.title <- sjmisc::word_wrap(get_estimate_axis_title(fit, axis.title), wrap = wrap.title)
   axis.title <- sjmisc::word_wrap(axis.title, wrap = wrap.labels)
+
+  # check nr of terms. if only one, plot slope
+  if (type == "est" && length(sjstats::pred_vars(fit)) == 1) type <- "slope"
 
 
   if (type == "est") {
@@ -115,6 +123,7 @@ plot_model <- function(fit,
     )
 
     return(p)
+
   } else if (type %in% c("std", "std2")) {
     # get tidy output of summary
     dat <- sjstats::std_beta(fit, type = type)
