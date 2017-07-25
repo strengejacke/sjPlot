@@ -1,10 +1,15 @@
 plot_model_estimates <- function(fit,
+                                 dat,
                                  exponentiate,
                                  terms,
                                  group.terms,
                                  rm.terms,
                                  sort.est,
                                  title,
+                                 axis.title,
+                                 axis.labels,
+                                 axis.lim,
+                                 grid.breaks,
                                  show.intercept,
                                  show.values,
                                  show.p,
@@ -13,11 +18,6 @@ plot_model_estimates <- function(fit,
                                  geom.size,
                                  vline.type,
                                  vline.color) {
-
-  ## TODO provide own tidier for not-supported models
-
-  # get tidy output of summary
-  dat <- broom::tidy(fit, conf.int = TRUE, effects = "fixed")
 
   # remove intercept from output
   if (!show.intercept) dat <- dplyr::slice(dat, -1)
@@ -43,11 +43,13 @@ plot_model_estimates <- function(fit,
   if (show.p) dat$p.label <- sprintf("%s %s", dat$p.label, dat$p.stars)
 
   # group estimates?
-  if (!is.null(group.terms) && length(group.terms) == nrow(dat)) {
-    dat$group <- as.character(group.terms)
-  } else {
-    warning("Length of `group.terms` does not equal number of model coefficients. Ignoring this argument.", call. = F)
-    group.terms <- NULL
+  if (!is.null(group.terms)) {
+    if (length(group.terms) == nrow(dat)) {
+      dat$group <- as.character(group.terms)
+    } else {
+      warning("Length of `group.terms` does not equal number of model coefficients. Ignoring this argument.", call. = F)
+      group.terms <- NULL
+    }
   }
 
   # sort estimates by effect size
@@ -61,18 +63,15 @@ plot_model_estimates <- function(fit,
     }
   } else {
     axis.labels <- rev(axis.labels)
-    dat <- dat[nrow(dat):1, ]
+    dat <- dat[nrow(dat):1, , drop = FALSE]
   }
 
-  plot_point_estimates(
+  p <- plot_point_estimates(
     model = fit,
     dat = dat,
     exponentiate = exponentiate,
-    dv.labels = dv.labels,
     axis.labels = axis.labels,
     axis.title = axis.title,
-    wrap.labels = wrap.labels,
-    wrap.title = wrap.title,
     axis.lim = axis.lim,
     grid.breaks = grid.breaks,
     show.values = show.values,
@@ -81,5 +80,7 @@ plot_model_estimates <- function(fit,
     vline.type = vline.type,
     vline.color = vline.color
   )
+
+  p
 }
 

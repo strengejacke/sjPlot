@@ -53,9 +53,13 @@ plot_model <- function(fit,
                        rm.terms = NULL,
                        group.terms = NULL,
                        title = NULL,
+                       axis.title = NULL,
                        axis.labels = NULL,
+                       axis.lim = NULL,
+                       grid.breaks = NULL,
                        show.intercept = FALSE,
-                       show.p = TRUE,
+                       show.values = FALSE,
+                       show.p = FALSE,
                        geom.size = NULL,
                        geom.colors = "Set1",
                        wrap.title = 50,
@@ -73,18 +77,33 @@ plot_model <- function(fit,
   if (is.null(title)) title <- sjlabelled::get_dv_labels(fit)
   title <- sjmisc::word_wrap(title, wrap = wrap.title)
 
+  # labels for axis with term names
   if (is.null(axis.labels)) axis.labels <- sjlabelled::get_term_labels(fit)
   axis.labels <- sjmisc::word_wrap(axis.labels, wrap = wrap.labels)
 
-  if (type == "est")
-    plot_model_estimates(
+  # title for axis with estimate values
+  if (is.null(axis.title)) axis.title <- sjmisc::word_wrap(get_estimate_axis_title(fit, axis.title), wrap = wrap.title)
+  axis.title <- sjmisc::word_wrap(axis.title, wrap = wrap.labels)
+
+
+  if (type == "est") {
+    ## TODO provide own tidier for not-supported models
+    # get tidy output of summary
+    dat <- broom::tidy(fit, conf.int = TRUE, effects = "fixed")
+
+    p <- plot_model_estimates(
       fit = fit,
+      dat = dat,
       exponentiate = exponentiate,
       terms = terms,
       group.terms = group.terms,
       rm.terms = rm.terms,
       sort.est = sort.est,
       title = title,
+      axis.title = axis.title,
+      axis.labels = axis.labels,
+      axis.lim = axis.lim,
+      grid.breaks = grid.breaks,
       show.intercept = show.intercept,
       show.values = show.values,
       show.p = show.p,
@@ -94,5 +113,36 @@ plot_model <- function(fit,
       vline.type = vline.type,
       vline.color = vline.color
     )
+
+    return(p)
+  } else if (type %in% c("std", "std2")) {
+    # get tidy output of summary
+    dat <- sjstats::std_beta(fit, type = type)
+
+    p <- plot_model_estimates(
+      fit = fit,
+      dat = dat,
+      exponentiate = exponentiate,
+      terms = terms,
+      group.terms = group.terms,
+      rm.terms = rm.terms,
+      sort.est = sort.est,
+      title = title,
+      axis.title = axis.title,
+      axis.labels = axis.labels,
+      axis.lim = axis.lim,
+      grid.breaks = grid.breaks,
+      show.intercept = FALSE,
+      show.values = show.values,
+      show.p = show.p,
+      digits = digits,
+      geom.colors = geom.colors,
+      geom.size = geom.size,
+      vline.type = vline.type,
+      vline.color = vline.color
+    )
+
+    return(p)
+  }
 
 }

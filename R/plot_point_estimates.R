@@ -1,11 +1,8 @@
 plot_point_estimates <- function(model,
                                  dat,
                                  exponentiate,
-                                 dv.labels,
                                  axis.labels,
                                  axis.title,
-                                 wrap.labels,
-                                 wrap.title,
                                  axis.lim,
                                  grid.breaks,
                                  show.values,
@@ -13,8 +10,16 @@ plot_point_estimates <- function(model,
                                  geom.colors,
                                  vline.type,
                                  vline.color) {
-  # set up base plot
-  p <- ggplot(dat, aes_string(x = "term", y = "estimate", colour = "group")) +
+
+  # set up base aes, either with or w/o groups
+  if (tibble::has_name(dat, "group"))
+    p <- ggplot(dat, aes_string(x = "term", y = "estimate", colour = "group"))
+  else
+    p <- ggplot(dat, aes_string(x = "term", y = "estimate"))
+
+
+  # setup base plot
+  p <- p +
     geom_hline(yintercept = 0, linetype = vline.type, color = vline.color) +
     geom_point(size = geom.size) +
     geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), width = 0) +
@@ -30,11 +35,8 @@ plot_point_estimates <- function(model,
         show.legend = FALSE
       )
 
-  # check axis labels
-  if (is.null(axis.labels)) axis.labels <- sjlabelled::get_term_labels(model)
-
   # set axis labels
-  p <- p + scale_x_discrete(labels = sjmisc::word_wrap(axis.labels, wrap = wrap.labels))
+  p <- p + scale_x_discrete(labels = axis.labels)
 
 
   # axis limits and tick breaks for y-axis
@@ -71,8 +73,8 @@ plot_point_estimates <- function(model,
   p <-
     p + labs(
       x = NULL,
-      y = sjmisc::word_wrap(get_estimate_axis_title(model, axis.title), wrap = wrap.title),
-      title = sjmisc::word_wrap(title, wrap = wrap.title)
+      y = axis.title,
+      title = title
     )
 
   p

@@ -6,10 +6,11 @@
 \usage{
 plot_model(fit, type = "est", exponentiate, terms = NULL,
   sort.est = FALSE, rm.terms = NULL, group.terms = NULL, title = NULL,
-  axis.labels = NULL, show.intercept = FALSE, show.p = TRUE,
-  geom.size = NULL, geom.colors = "Set1", wrap.title = 50,
-  wrap.labels = 25, digits = 2, vline.type = 2, vline.color = "grey70",
-  ...)
+  axis.title = NULL, axis.labels = NULL, axis.lim = NULL,
+  grid.breaks = NULL, show.intercept = FALSE, show.values = FALSE,
+  show.p = FALSE, geom.size = NULL, geom.colors = "Set1",
+  wrap.title = 50, wrap.labels = 25, digits = 2, vline.type = 2,
+  vline.color = "grey70", ...)
 }
 \arguments{
 \item{type}{Type of plot. Use one of following:
