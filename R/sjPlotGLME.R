@@ -182,6 +182,7 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #' @examples
 #' library(lme4)
 #' library(sjmisc)
+#' library(sjlabelled)
 #' # create binary response
 #' sleepstudy$Reaction.dicho <- dicho(sleepstudy$Reaction, dich.by = "median")
 #' # fit model
@@ -478,6 +479,7 @@ sjp.glmer <- function(fit,
 #' sjp.lmer(fit, facet.grid = FALSE, sort.est = "sort.all")
 #'
 #' library(sjmisc)
+#' library(sjlabelled)
 #' data(efc)
 #' # prepare group variable
 #' efc$grp = as.factor(efc$e15relat)
@@ -1952,7 +1954,7 @@ sjp.lme.rsri <- function(fit,
         gp <- gp + geom_line(size = geom.size)
       } else {
         # special handling for negativ binomial
-        if (sjlabelled::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
+        if (sjmisc::str_contains(fitfam$family, "negative binomial", ignore.case = T)) {
           gp <- gp +
             stat_smooth(method = "glm.nb", se = F)
         } else {

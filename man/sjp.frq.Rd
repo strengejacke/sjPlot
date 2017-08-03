@@ -208,6 +208,7 @@ sjp.frq(ChickWeight$Diet)
 # dataset was importet from an SPSS-file, using:
 # efc <- sjlabelled::read_spss("efc.sav", enc = "UTF-8")
 library(sjmisc)
+library(sjlabelled)
 data(efc)
 # you may use sjp.setTheme here to change axis textangle
 sjp.frq(efc$e15relat)

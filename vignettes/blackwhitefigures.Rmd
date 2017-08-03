@@ -21,6 +21,7 @@ There are two ways to create plots in black and white or greyscale. For bar plot
 ```{r}
 library(sjPlot)
 library(sjmisc)
+library(sjlabelled)
 library(ggplot2)
 theme_set(theme_bw())
 data(efc)

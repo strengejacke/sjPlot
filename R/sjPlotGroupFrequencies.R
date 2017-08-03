@@ -164,6 +164,7 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #' @importFrom tidyr gather
 #' @importFrom dplyr group_by mutate arrange summarise group_by_ arrange_
 #' @importFrom stats na.omit xtabs wilcox.test sd
+#' @importFrom rlang .data
 #' @export
 sjp.grpfrq <- function(var.cnt,
                        var.grp,
@@ -304,17 +305,17 @@ sjp.grpfrq <- function(var.cnt,
     axis.labels <-
       sjmisc::group_labels(
         sjmisc::to_value(var.cnt, keep.labels = F),
-        groupsize = "auto",
-        groupcount = agcnt
+        size = "auto",
+        n = agcnt
       )
 
     # group variable
     grp.var.cnt <-
       sjmisc::group_var(
         sjmisc::to_value(var.cnt, keep.labels = F),
-        groupsize = "auto",
+        size = "auto",
         as.num = TRUE,
-        groupcount = agcnt
+        n = agcnt
       )
 
     # set value labels
@@ -408,8 +409,11 @@ sjp.grpfrq <- function(var.cnt,
 
   # create cross table for stats, summary etc.
   # and weight variable
+  # colrange <- 2:(grpcount + 1)
+  # mydf <-
+  #   tidyr::gather(mydat$mydat, key = "group", value = "frq", !! colrange, factor_key = TRUE)
   mydf <-
-    tidyr::gather(mydat$mydat, "group", "frq", 2:(grpcount + 1), factor_key = TRUE)
+    tidyr::gather(mydat$mydat, key = "group", value = "frq", 2:(grpcount + 1), factor_key = TRUE)
 
   # add xpos now
   mydf$xpos <- as.factor(as.numeric(bars.xpos))

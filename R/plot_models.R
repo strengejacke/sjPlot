@@ -6,6 +6,15 @@
 #'
 #' @param ... One or more regression models, including glm's or mixed models.
 #'        May also be a \code{list} with fitted models. See 'Examples'.
+#' @param exponentiate Logical, if \code{TRUE} and models inherit from generalized
+#'          linear models, estimates will be exponentiated (e.g., log-odds will
+#'          be displayed as odds ratios). By default, \code{exponentiate} will
+#'          automatically be set to \code{FALSE} or \code{TRUE}, depending on
+#'          the class of \code{fit}.
+#' @param rm.terms Character vector with names that indicate which terms should
+#'          be removed from the plot. \code{rm.terms = "t_name"} would remove the
+#'          term \emph{t_name}. Default is \code{NULL}, i.e. all terms are
+#'          used.
 #' @param std.est For linear models, choose whether standardized coefficients should
 #'        be used for plotting. Default is no standardization.
 #'        \describe{
@@ -13,6 +22,13 @@
 #'          \item{\code{"std"}}{standardized beta values.}
 #'          \item{\code{"std2"}}{standardized beta values, however, standardization is done by rescaling estimates by dividing them by two sd (see \code{\link[sjstats]{std_beta}}).}
 #'        }
+#' @param m.labels Character vector, used to indicate the different models
+#'          in the plot's legend. If not specified, the labels of the dependent
+#'          variables for each model are used.
+#' @param show.intercept Logical, if \code{TRUE}, the intercept of the fitted
+#'          model is also plotted. Default is \code{FALSE}. If \code{exponentiate = TRUE},
+#'          please note that due to exponential transformation of estimates, the
+#'          intercept in some cases is non-finite and the plot can not be created.
 #' @param legend.pval.title Character vector, used as title of the plot legend that
 #'        indicates the p-values. Default is \code{"p-level"}. Only applies if
 #'        \code{p.shape = TRUE}.
@@ -22,7 +38,6 @@
 #'        different point shapes and a related legend is plotted. Default
 #'        is \code{FALSE}.
 #'
-#' @inheritParams plot_model
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.lmer
 #' @inheritParams sjt.lm
@@ -49,7 +64,7 @@
 #'   axis.labels = c(
 #'     "Carer's Age", "Hours of Care", "Carer's Sex", "Educational Status"
 #'   ),
-#'   dv.labels = c("Barthel Index", "Negative Impact", "Services used"),
+#'   m.labels = c("Barthel Index", "Negative Impact", "Services used"),
 #'   show.values = FALSE, show.p = FALSE, p.shape = TRUE
 #' )
 #'
@@ -85,7 +100,7 @@ plot_models <- function(...,
                         std.est = NULL,
                         rm.terms = NULL,
                         title = NULL,
-                        dv.labels = NULL,
+                        m.labels = NULL,
                         legend.title = "Dependent Variables",
                         legend.pval.title = "p-level",
                         axis.labels = NULL,
@@ -172,17 +187,17 @@ plot_models <- function(...,
   if (!is.null(rm.terms)) ff <- dplyr::filter(!(.data$term %in% rm.terms))
 
   # get labels of dependent variables, and wrap them if too long
-  if (is.null(dv.labels)) dv.labels <- sjlabelled::get_dv_labels(input_list)
-  dv.labels <- sjmisc::word_wrap(dv.labels, wrap = wrap.labels)
+  if (is.null(m.labels)) m.labels <- sjlabelled::get_dv_labels(input_list)
+  m.labels <- sjmisc::word_wrap(m.labels, wrap = wrap.labels)
 
   # make sure we have distinct labels, because we use them as
   # factor levels. else, duplicated factor levels will be dropped,
   # leading to missing groups in plot output
-  if (anyDuplicated(dv.labels) > 0)
-    dv.labels <- suppressMessages(tibble::tidy_names(dv.labels))
+  if (anyDuplicated(m.labels) > 0)
+    m.labels <- suppressMessages(tibble::tidy_names(m.labels))
 
   ff$group <- as.factor(ff$group)
-  levels(ff$group) <- dv.labels
+  levels(ff$group) <- m.labels
 
 
   # reverse group, to plot correct order from top to bottom
@@ -272,7 +287,7 @@ plot_models <- function(...,
 
 
   # set colors
-  p <- p + scale_colour_manual(values = col_check2(geom.colors, length(dv.labels)))
+  p <- p + scale_colour_manual(values = col_check2(geom.colors, length(m.labels)))
 
   # set axis and plot titles
   p <-

@@ -387,17 +387,17 @@ sjt.frq <- function(data,
       val.lab <-
         sjmisc::group_labels(
           sjmisc::to_value(data[[cnt]], keep.labels = F),
-          groupsize = "auto",
-          groupcount = auto.group
+          size = "auto",
+          n = auto.group
         )
 
       # group variable
       data[[cnt]] <-
         sjmisc::group_var(
           sjmisc::to_value(data[[cnt]], keep.labels = F),
-          groupsize = "auto",
+          size = "auto",
           as.num = TRUE,
-          groupcount = auto.group
+          n = auto.group
         )
 
       # set labels

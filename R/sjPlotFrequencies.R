@@ -77,6 +77,7 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' # dataset was importet from an SPSS-file, using:
 #' # efc <- sjlabelled::read_spss("efc.sav", enc = "UTF-8")
 #' library(sjmisc)
+#' library(sjlabelled)
 #' data(efc)
 #' # you may use sjp.setTheme here to change axis textangle
 #' sjp.frq(efc$e15relat)
@@ -249,16 +250,16 @@ sjp.frq <- function(var.cnt,
     # group axis labels
     axis.labels <- sjmisc::group_labels(
       sjmisc::to_value(var.cnt, keep.labels = F),
-      groupsize = "auto",
-      groupcount = auto.group
+      size = "auto",
+      n = auto.group
     )
 
     # group variable
     var.cnt <- sjmisc::group_var(
       sjmisc::to_value(var.cnt, keep.labels = F),
-      groupsize = "auto",
+      size = "auto",
       as.num = TRUE,
-      groupcount = auto.group
+      n = auto.group
     )
 
     # set label attributes
@@ -354,8 +355,8 @@ sjp.frq <- function(var.cnt,
       # add 10% margin to upper limit
       upper_lim <- max(pretty(table(
         sjmisc::group_var(var.cnt,
-                          groupsize = "auto",
-                          groupcount = hist.grp.cnt)
+                          size = "auto",
+                          n = hist.grp.cnt)
       ) * 1.1))
     } else {
       if (show.ci)

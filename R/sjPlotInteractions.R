@@ -175,6 +175,7 @@
 #'
 #' # load sample data set
 #' library(sjmisc)
+#' library(sjlabelled)
 #' data(efc)
 #' # create data frame with variables that should be included
 #' # in the model
@@ -210,8 +211,6 @@
 #' # Predictors for negative impact of care.
 #' # Data from the EUROFAMCARE sample dataset
 #' # -------------------------------
-#' library(sjmisc)
-#' data(efc)
 #' # create binary response
 #' y <- ifelse(efc$neg_c_7 < median(stats::na.omit(efc$neg_c_7)), 0, 1)
 #' # create data frame for fitted model

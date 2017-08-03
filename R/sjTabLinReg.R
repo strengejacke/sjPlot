@@ -14,7 +14,7 @@
 #' @param pred.labels Character vector with labels of predictor variables.
 #'          If not \code{NULL}, \code{pred.labels} will be used in the first
 #'          table column with the predictors' names. If \code{NULL}, variable
-#'          labels are set based on label attributes (see \code{\link[sjmisc]{get_label}}).
+#'          labels are set based on label attributes (see \code{\link[sjlabelled]{get_label}}).
 #'          If \code{pred.labels = ""}, column names (vector names) are used
 #'          as predictor labels. See 'Examples'.
 #' @param depvar.labels Character vector with labels of dependent

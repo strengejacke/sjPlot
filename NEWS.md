@@ -1,13 +1,13 @@
-# sjPlot 2.4
+# sjPlot 2.3.2
 
 # General
 
 * Revising package code from scratch. Part of the old functions will be replaced by new ones, making the code base easier to maintain and reduce redundant functions by merging them together. In the course of the next updates, functions will first become deprecated and later defunct.
 * Changed imports to avoid using deprecated functions.
+* Fixed issue with forthcoming tydir-update on CRAN.
 
 ## New functions
 
-* `plot_model()` as replacement for `sjp.lm()`, `sjp.glm()`, `sjp.lmer()` and `sjp.glmer()` (which are now deprecated). `plot_model()` supports more model objects than the existing functions and hence are a more generic approch to plot (m)any kinds of regression models.
 * `plot_models()` as replacement for `sjp.lmm()` and `sjp.glmm()` (which are now deprecated).
 * `sjp.fa()` and `sjt.fa()` to plot or print as table the results of factor analyses.
 

@@ -22,10 +22,9 @@ sjp.lm(fit, type = "lm", vars = NULL, group.estimates = NULL,
 
 \item{type}{Type of plot. Use one of following:
 \describe{
-  \item{\code{"est"}}{(default) for forest-plot of estimates. If the fitted model only contains one predictor, slope-line is plotted.}
+  \item{\code{"lm"}}{(default) for forest-plot of estimates. If the fitted model only contains one predictor, slope-line is plotted.}
   \item{\code{"pred"}}{to plot predicted values (marginal effects) for specific model terms. See 'Details'.}
   \item{\code{"eff"}}{to plot marginal effects of all terms in \code{fit}. Note that interaction terms are excluded from this plot.}
-  \item{\code{"int"}}{to plot marginal effects of interaction terms in \code{fit}.}
   \item{\code{"std"}}{for forest-plot of standardized beta values.}
   \item{\code{"std2"}}{for forest-plot of standardized beta values, however, standardization is done by dividing by two sd (see 'Details').}
   \item{\code{"slope"}}{to plot regression lines for each single predictor of the fitted model, against the response (linear relationship between each model term and response).}

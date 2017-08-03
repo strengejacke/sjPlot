@@ -55,6 +55,7 @@
 #' @examples
 #' # load sample date
 #' library(sjmisc)
+#' library(sjlabelled)
 #' data(efc)
 #'
 #' # simple scatter plot, auto-jittering

@@ -12,10 +12,10 @@
 #'            \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
 #'          }
 #'
-#' @param x A (labelled) data frame, imported by \code{\link[sjmisc]{read_spss}},
-#'          \code{\link[sjmisc]{read_sas}} or \code{\link[sjmisc]{read_stata}} function,
-#'          or any similar labelled data frame (see \code{\link[sjmisc]{set_label}}
-#'          and \code{\link[sjmisc]{set_labels}}).
+#' @param x A (labelled) data frame, imported by \code{\link[sjlabelled]{read_spss}},
+#'          \code{\link[sjlabelled]{read_sas}} or \code{\link[sjlabelled]{read_stata}} function,
+#'          or any similar labelled data frame (see \code{\link[sjlabelled]{set_label}}
+#'          and \code{\link[sjlabelled]{set_labels}}).
 #' @param show.id Logical, if \code{TRUE} (default), the variable ID is shown in the first column.
 #' @param show.values Logical, if \code{TRUE} (default), the variable values are shown as additional column.
 #' @param show.labels Logical, if \code{TRUE} (default), the value labels are shown as additional column.

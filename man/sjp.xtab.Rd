@@ -169,6 +169,7 @@ sjp.xtab(x, grp, margin = "row", bar.pos = "stack",
 
 # example with vertical labels
 library(sjmisc)
+library(sjlabelled)
 data(efc)
 sjp.setTheme(geom.label.angle = 90)
 sjp.xtab(efc$e42dep, efc$e16sex, vjust = "center", hjust = "bottom")

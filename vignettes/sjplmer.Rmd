@@ -19,6 +19,8 @@ This document shows examples for `sjp.lmer()`, especially the plot-types for plo
 # load packages
 library(sjPlot)
 library(sjmisc)
+library(sjlabelled)
+
 # load sample data set.
 data(efc)
 set_theme(theme = "forest", 

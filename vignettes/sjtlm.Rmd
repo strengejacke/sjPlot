@@ -19,6 +19,8 @@ This document shows examples for using the `sjt.lm()` function of the sjPlot pac
 # load package
 library(sjPlot)
 library(sjmisc)
+library(sjlabelled)
+
 # sample data
 data(efc)
 ```

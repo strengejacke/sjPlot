@@ -18,7 +18,7 @@
 #' @param nmbr.fctr Number of factors used for calculating the rotation. By
 #'          default, this value is \code{NULL} and the amount of factors is
 #'          calculated according to a parallel analysis.
-#' @param Method the factoring method to be used. \code{"ml"} will do a maximum likelihood factor analysis (default).
+#' @param method the factoring method to be used. \code{"ml"} will do a maximum likelihood factor analysis (default).
 #'         \code{"minres"} will do a minimum residual (OLS),
 #'         \code{"wls"} will do a weighted least squares (WLS) solution,
 #'         \code{"gls"} does a generalized weighted least squares (GLS),
@@ -48,6 +48,7 @@
 #'
 #' @examples
 #' library(sjmisc)
+#' library(GPArotation)
 #' data(efc)
 #' # recveive first item of COPE-index scale
 #' start <- which(colnames(efc) == "c82cop1")

@@ -124,6 +124,7 @@ Display scatter plot of two variables. Adding a grouping variable to
 \examples{
 # load sample date
 library(sjmisc)
+library(sjlabelled)
 data(efc)
 
 # simple scatter plot, auto-jittering

@@ -85,6 +85,7 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "grp.est", "ci.low", "ci.h
 #' # the EUROFAMCARE sample dataset
 #' # -------------------------------
 #' library(sjmisc)
+#' library(sjlabelled)
 #' data(efc)
 #' # create binary response
 #' y <- ifelse(efc$neg_c_7 < median(na.omit(efc$neg_c_7)), 0, 1)

@@ -69,6 +69,18 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #'                  between model's predictors.}
 #'            }
 #'
+#' @param type Type of plot. Use one of following:
+#'          \describe{
+#'            \item{\code{"lm"}}{(default) for forest-plot of estimates. If the fitted model only contains one predictor, slope-line is plotted.}
+#'            \item{\code{"pred"}}{to plot predicted values (marginal effects) for specific model terms. See 'Details'.}
+#'            \item{\code{"eff"}}{to plot marginal effects of all terms in \code{fit}. Note that interaction terms are excluded from this plot.}
+#'            \item{\code{"std"}}{for forest-plot of standardized beta values.}
+#'            \item{\code{"std2"}}{for forest-plot of standardized beta values, however, standardization is done by dividing by two sd (see 'Details').}
+#'            \item{\code{"slope"}}{to plot regression lines for each single predictor of the fitted model, against the response (linear relationship between each model term and response).}
+#'            \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals (linear relationship between each model term and residuals). May be used for model diagnostics.}
+#'            \item{\code{"ma"}}{to check model assumptions.}
+#'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
+#'          }
 #' @param fit Fitted linear regression model (of class \code{\link{lm}}, \code{\link[nlme]{gls}} or \code{plm}).
 #' @param sort.est Logical, determines whether estimates should be sorted according to their values.
 #'          If \code{group.estimates} is \emph{not} \code{NULL}, estimates are sorted
@@ -87,6 +99,8 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #'          which estimates should be removed from the plot.
 #'          \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
 #'          is \code{NULL}, i.e. all estimates are printed.
+#' @param show.p Logical, adds significance levels to values, or value and
+#'          variable labels.
 #' @param show.summary Logical, if \code{TRUE}, a summary with model statistics
 #'          is added to the plot.
 #' @param show.ci Logical, if \code{TRUE}, depending on \code{type}, a confidence
@@ -102,7 +116,6 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #' @param complete.dgns Logical, if \code{TRUE}, additional tests are performed. Default is \code{FALSE}
 #'          Only applies if \code{type = "ma"}.
 #'
-#' @inheritParams plot_model
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lmer
 #' @inheritParams sjp.aov1

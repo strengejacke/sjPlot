@@ -109,6 +109,9 @@ function call is interrupted and no plot printed.}
 
 \item{show.values}{logical, whether values should be plotted or not.}
 
+\item{show.p}{Logical, adds significance levels to values, or value and
+variable labels.}
+
 \item{show.ci}{Logical, if \code{TRUE}, depending on \code{type}, a confidence
 interval or region is added to the plot. For frequency plots, the
 confidence interval for the relative frequencies are shown.}
@@ -220,6 +223,7 @@ sjp.glm(fitOR)
 # the EUROFAMCARE sample dataset
 # -------------------------------
 library(sjmisc)
+library(sjlabelled)
 data(efc)
 # create binary response
 y <- ifelse(efc$neg_c_7 < median(na.omit(efc$neg_c_7)), 0, 1)

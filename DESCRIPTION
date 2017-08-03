@@ -51,6 +51,7 @@ Suggests:
     arm,
     car,
     cluster,
+    GPArotation,
     gridExtra,
     ggrepel,
     lmerTest,

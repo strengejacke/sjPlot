@@ -18,6 +18,15 @@ sjt.fa(data, rotation = c("promax", "varimax"), method = c("ml", "minres",
 \item{rotation}{Rotation of the factor loadings. May be \code{"varimax"} for orthogonal rotation
 or \code{"promax"} for oblique transformation (default). Requires the \code{"GPArotation"} package.}
 
+\item{method}{the factoring method to be used. \code{"ml"} will do a maximum likelihood factor analysis (default).
+\code{"minres"} will do a minimum residual (OLS),
+\code{"wls"} will do a weighted least squares (WLS) solution,
+\code{"gls"} does a generalized weighted least squares (GLS),
+\code{"pa"} will do the principal factor solution,
+\code{"minchi"} will minimize the sample size weighted chi square
+when treating pairwise correlations with different number of
+subjects per pair. \code{"minrank"} will do a minimum rank factor analysis.}
+
 \item{nmbr.fctr}{Number of factors used for calculating the rotation. By
 default, this value is \code{NULL} and the amount of factors is
 calculated according to a parallel analysis.}
@@ -44,6 +53,8 @@ labels are displayed in one line and when a line break is inserted.}
 i.e. all variables with the highest loading for a factor are taken for the
 reliability test. The result is an alpha value for each factor dimension.
 Only applies when \code{data} is a data frame.}
+
+\item{show.comm}{Logical, if \code{TRUE}, show the communality column in the table.}
 
 \item{altr.row.col}{Logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
@@ -107,6 +118,7 @@ This method for factor analysis relies on the functions
 \dontrun{
 # Data from the EUROFAMCARE sample dataset
 library(sjmisc)
+library(GPArotation)
 data(efc)
 
 # recveive first item of COPE-index scale

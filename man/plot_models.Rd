@@ -7,7 +7,7 @@
 \title{Forest plot of multiple regression models}
 \usage{
 plot_models(..., exponentiate, std.est = NULL, rm.terms = NULL,
-  title = NULL, dv.labels = NULL, legend.title = "Dependent Variables",
+  title = NULL, m.labels = NULL, legend.title = "Dependent Variables",
   legend.pval.title = "p-level", axis.labels = NULL, axis.title = NULL,
   axis.lim = NULL, wrap.title = 50, wrap.labels = 25,
   wrap.legend.title = 20, grid.breaks = NULL, geom.size = 3,
@@ -47,6 +47,10 @@ used.}
 will be set automatically. If \code{title = ""}, no title is printed.
 For effect-plots, may also be a character vector of length > 1,
 to define titles for each sub-plot or facet.}
+
+\item{m.labels}{Character vector, used to indicate the different models
+in the plot's legend. If not specified, the labels of the dependent
+variables for each model are used.}
 
 \item{legend.title}{Character vector, used as title for the plot legend. Note that
 only some plot types have legends (e.g. \code{type = "pred"} or when
@@ -157,7 +161,7 @@ plot_models(
   axis.labels = c(
     "Carer's Age", "Hours of Care", "Carer's Sex", "Educational Status"
   ),
-  dv.labels = c("Barthel Index", "Negative Impact", "Services used"),
+  m.labels = c("Barthel Index", "Negative Impact", "Services used"),
   show.values = FALSE, show.p = FALSE, p.shape = TRUE
 )
 

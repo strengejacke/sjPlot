@@ -123,8 +123,7 @@ sjp.poly(efc$c160age, efc$quol_5, 2)
 # linear to cubic fit
 sjp.poly(efc$c160age, efc$quol_5, 1:4, show.scatter = FALSE)
 
-library(sjmisc)
-data(efc)
+
 # fit sample model
 fit <- lm(tot_sc_e ~ c12hour + e17age + e42dep, data = efc)
 # inspect relationship between predictors and response

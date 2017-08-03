@@ -8,6 +8,8 @@
 #'                i.e. all variables with the highest loading for a factor are taken for the
 #'                reliability test. The result is an alpha value for each factor dimension.
 #'
+#' @param show.comm Logical, if \code{TRUE}, show the communality column in the table.
+#'
 #' @inheritParams sjp.fa
 #' @inheritParams sjp.pca
 #' @inheritParams sjt.pca
@@ -38,6 +40,7 @@
 #' \dontrun{
 #' # Data from the EUROFAMCARE sample dataset
 #' library(sjmisc)
+#' library(GPArotation)
 #' data(efc)
 #'
 #' # recveive first item of COPE-index scale

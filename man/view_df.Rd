@@ -13,10 +13,10 @@ view_df(x, weight.by = NULL, altr.row.col = TRUE, show.id = TRUE,
   remove.spaces = TRUE)
 }
 \arguments{
-\item{x}{A (labelled) data frame, imported by \code{\link[sjmisc]{read_spss}},
-\code{\link[sjmisc]{read_sas}} or \code{\link[sjmisc]{read_stata}} function,
-or any similar labelled data frame (see \code{\link[sjmisc]{set_label}}
-and \code{\link[sjmisc]{set_labels}}).}
+\item{x}{A (labelled) data frame, imported by \code{\link[sjlabelled]{read_spss}},
+\code{\link[sjlabelled]{read_sas}} or \code{\link[sjlabelled]{read_stata}} function,
+or any similar labelled data frame (see \code{\link[sjlabelled]{set_label}}
+and \code{\link[sjlabelled]{set_labels}}).}
 
 \item{weight.by}{Vector of weights that will be applied to weight all cases.
 Must be a vector of same length as the input vector. Default is

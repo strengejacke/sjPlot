@@ -17,6 +17,7 @@ This document shows examples for using the `sjp.glm()` function of the sjPlot pa
 ```{r, results='hide'}
 library(sjPlot)
 library(sjmisc)
+library(sjlabelled)
 data(efc)
 # set basic theme options
 set_theme("forest",
