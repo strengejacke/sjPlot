@@ -326,14 +326,7 @@ mydf <- data.frame(neg_c_7 = as.numeric(efc$neg_c_7),
 # fit lmer
 fit <- lmer(neg_c_7 ~ sex + c12hour + barthel + (1|grp), data = mydf)
 
-# plot fixed effects
-sjp.lmer(fit, type = "fe")
-
 sjp.lmer(fit, type = "fe.std", sort.est = TRUE)
-
-# plot fixed effects slopes for each random intercept,
-# but only for coefficient "c12hour"
-sjp.lmer(fit, type = "ri.slope", vars = "c12hour")
 
 # highlight specific grouping levels, in this case we compare
 # spouses, children and children-in-law

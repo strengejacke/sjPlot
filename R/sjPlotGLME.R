@@ -195,6 +195,7 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #' # sort by predictor Days
 #' sjp.glmer(fit, sort.est = "Days")
 #'
+#' \dontrun{
 #' data(efc)
 #' # create binary response
 #' efc$hi_qol <- dicho(efc$quol_5)
@@ -208,12 +209,6 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'                    c12hour = efc$c12hour,
 #'                    neg_c_7 = efc$neg_c_7,
 #'                    grp = efc$grp)
-#' # fit glmer
-#' fit <- glmer(hi_qol ~ sex + c12hour + neg_c_7 + (1|grp),
-#'              data = mydf, family = binomial("logit"))
-#'
-#' # plot and sort fixed effects
-#' sjp.glmer(fit, type = "fe", sort.est = TRUE)
 #'
 #' # fit glmer, with categorical predictor with more than 2 levels
 #' fit <- glmer(hi_qol ~ sex + education + c12hour + neg_c_7 + (1|grp),
@@ -227,24 +222,13 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #' # in integrated plots, emphasizing groups 1 and 4
 #' sjp.glmer(fit, type = "ri.slope", emph.grp = c(1, 4), facet.grid = FALSE)
 #'
-#' # plot probability curve (predicted probabilities)
-#' # of fixed effect, only for coefficient "neg_c_7"
-#' sjp.glmer(fit, type = "fe.slope", vars = "neg_c_7")
-#'
 #' # plot predicted probabilities for response,
-#' # related to model predictor, conditioned on random effects
-#' sjp.glmer(fit, type = "pred", vars = "neg_c_7")
-#'
-#' # plot predicted probabilities for response,
-#' # related to model predictor, grouped
-#' sjp.glmer(fit, type = "pred.fe", vars = c("neg_c_7", "sex"))
-#'
 #' # non faceted, with ci
 #' sjp.glmer(fit, type = "pred.fe", vars = c("neg_c_7", "education"),
 #'           show.ci = TRUE, facet.grid = FALSE)
 #'
 #' # predictions by gender and education
-#' sjp.glmer(fit, type = "pred.fe", vars = c("neg_c_7", "sex", "education"))
+#' sjp.glmer(fit, type = "pred.fe", vars = c("neg_c_7", "sex", "education"))}
 #'
 #' @import ggplot2
 #' @importFrom dplyr slice sample_n
@@ -493,15 +477,8 @@ sjp.glmer <- function(fit,
 #' # fit lmer
 #' fit <- lmer(neg_c_7 ~ sex + c12hour + barthel + (1|grp), data = mydf)
 #'
-#' # plot fixed effects
-#' sjp.lmer(fit, type = "fe")
-#'
 #  # plot and sort standardized fixed effects
 #' sjp.lmer(fit, type = "fe.std", sort.est = TRUE)
-#'
-#' # plot fixed effects slopes for each random intercept,
-#' # but only for coefficient "c12hour"
-#' sjp.lmer(fit, type = "ri.slope", vars = "c12hour")
 #'
 #' # highlight specific grouping levels, in this case we compare
 #' # spouses, children and children-in-law

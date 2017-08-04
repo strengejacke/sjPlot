@@ -2,8 +2,8 @@ Package: sjPlot
 Type: Package
 Encoding: UTF-8
 Title: Data Visualization for Statistics in Social Science
-Version: 2.3.1.9000
-Date: 2017-06-19
+Version: 2.3.2
+Date: 2017-08-04
 Authors@R: c(
     person("Daniel", "Lüdecke", email = "d.luedecke@uke.de", role = c("aut", "cre")),
     person("Carsten", "Schwemmer", email = "carsten.schwemmer@uni-bamberg.de", role = "ctb")
@@ -13,9 +13,10 @@ Description: Collection of plotting and table output functions for data
     visualization. Results of various statistical analyses (that are commonly used
     in social sciences) can be visualized using this package, including simple and
     cross tabulated frequencies, histograms, box plots, (generalized) linear models,
-    mixed effects models, PCA and correlation matrices, cluster analyses, scatter
-    plots, Likert scales, effects plots of regression models (including interaction
-    terms) and much more. This package supports labelled data.
+    mixed effects models, principal component analysis and correlation matrices, 
+    cluster analyses, scatter plots, stacked scales, effects plots of regression 
+    models (including interaction terms) and much more. This package supports
+    labelled data.
 License: GPL-3
 Depends:
     R (>= 3.2),
@@ -55,8 +56,7 @@ Suggests:
     gridExtra,
     ggrepel,
     lmerTest,
-    lmtest,
-    lsmeans
+    lmtest
 URL: https://github.com/strengejacke/sjPlot
 BugReports: https://github.com/strengejacke/sjPlot/issues
 RoxygenNote: 6.0.1

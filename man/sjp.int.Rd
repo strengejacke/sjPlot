@@ -4,16 +4,16 @@
 \alias{sjp.int}
 \title{Plot interaction effects of (generalized) linear (mixed) models}
 \usage{
-sjp.int(fit, type = c("eff", "cond", "emm"), int.term = NULL,
+sjp.int(fit, type = c("eff", "cond"), int.term = NULL,
   int.plot.index = NULL, mdrt.values = c("minmax", "meansd", "zeromax",
   "quart", "all"), swap.pred = FALSE, plevel = 0.1, diff = FALSE,
-  title = NULL, axis.title = NULL, axis.labels = NULL,
-  legend.title = NULL, legend.labels = NULL, wrap.title = 50,
-  wrap.legend.labels = 20, wrap.legend.title = 20, geom.colors = "Set1",
-  geom.size = NULL, fill.color = "grey", fill.alpha = 0.3,
-  show.values = FALSE, show.ci = FALSE, jitter.ci = FALSE, p.kr = TRUE,
-  grid.breaks = NULL, xlim = NULL, ylim = NULL, y.offset = 0.07,
-  digits = 2, facet.grid = FALSE, prnt.plot = TRUE, ...)
+  title = NULL, axis.title = NULL, legend.title = NULL,
+  legend.labels = NULL, wrap.title = 50, wrap.legend.labels = 20,
+  wrap.legend.title = 20, geom.colors = "Set1", geom.size = NULL,
+  fill.color = "grey", fill.alpha = 0.3, show.values = FALSE,
+  show.ci = FALSE, jitter.ci = FALSE, p.kr = TRUE, grid.breaks = NULL,
+  xlim = NULL, ylim = NULL, y.offset = 0.07, digits = 2,
+  facet.grid = FALSE, prnt.plot = TRUE, ...)
 }
 \arguments{
 \item{fit}{A fitted (generalized) linear (mixed) model object, including interaction terms. Accepted model
@@ -33,7 +33,6 @@ classes are
 \describe{
   \item{\code{type = "eff"}}{(default) plots the overall moderation effect on the response value. See 'Details'.}
   \item{\code{type = "cond"}}{plots the mere \emph{change} of the moderating effect on the response value (conditional effect). See 'Details'.}
-  \item{\code{type = "emm"}}{plots the estimated marginal means (least square means). If this type is chosen, not all function arguments are applicable. See 'Details'.}
 }}
 
 \item{int.term}{Name of interaction term of \code{fit} (as character), which should be plotted
@@ -77,9 +76,6 @@ includes the dependent variable as well as the names of the interaction terms.}
 \item{axis.title}{Default title used for the x-axis. Should be a character vector
 of same length as interaction plots to be plotted. Default value is \code{NULL},
 which means that each plot's x-axis uses the predictor's name as title.}
-
-\item{axis.labels}{Character vector with value labels of the interaction, used
-to label the x-axis. Only applies to \code{type = "emm"}.}
 
 \item{legend.title}{Title of the plot's legend. A character vector of same length as
 amount of interaction plots to be plotted (i.e. one vector element for each
@@ -209,13 +205,6 @@ Plot regression (predicted values) or probability lines (predicted probabilities
              \code{type = "eff"} for effect displays similar to the \code{\link[effects]{effect}}-function
              from the \pkg{effects}-package.
            }
-           \item{\code{type = "emm"}}{plots the estimated marginal means of repeated measures designs,
-             like two-way repeated measures AN(C)OVA. In detail, this type plots estimated marginal means
-             (also called \emph{least square means} or \emph{marginal means}) of (significant) interaction terms.
-             The fitted models may be linear (mixed effects)
-             models of class \code{\link{lm}} or \code{\link[lme4]{merMod}}. This function may be used, for example,
-             to plot differences in interventions between control and treatment groups over multiple time points.
-           }
          }
          The argument \code{int.term} only applies to \code{type = "eff"} and can be used
          to select a specific interaction term of the model that should be plotted. The function
@@ -229,8 +218,7 @@ Plot regression (predicted values) or probability lines (predicted probabilities
 Note that beside interaction terms, also the single predictors of each interaction (main effects)
        must be included in the fitted model as well. Thus, \code{lm(dep ~ pred1 * pred2)} will work,
        but \code{lm(dep ~ pred1:pred2)} won't! \cr \cr
-       For \code{type = "emm"}, all interaction terms have to be factors.
-       Furthermore, for \code{type = "eff"}, predictors of interactions that are introduced first into the model
+       For \code{type = "eff"}, predictors of interactions that are introduced first into the model
        are used as grouping variable, while the latter predictor is printed along the x-axis
        (i.e. lm(y~a+b+a:b) means that "a" is used as grouping variable and "b" is plotted along the x-axis).
 }
@@ -302,9 +290,6 @@ sjp.int(fit, type = "eff", legend.labels = get_labels(efc$c161sex), plevel = 0.1
 sjp.int(fit, type = "cond", legend.labels = get_labels(efc$c161sex), plevel = 0.1)
 
 \dontrun{
-# -------------------------------
-# Plot estimated marginal means
-# -------------------------------
 # load sample data set
 library(sjmisc)
 data(efc)
@@ -312,7 +297,8 @@ data(efc)
 # in the model
 mydf <- data.frame(burden = efc$neg_c_7,
                    sex = efc$c161sex,
-                   education = efc$c172code)
+                   education = efc$c172code,
+                   barthel = efc$barthtot)
 # convert gender predictor to factor
 mydf$sex <- factor(mydf$sex)
 mydf$education <- factor(mydf$education)
@@ -321,22 +307,6 @@ levels(mydf$sex) <- c("female", "male")
 levels(mydf$education) <- c("low", "mid", "high")
 mydf$burden <- set_label(mydf$burden, lab = "care burden")
 # fit "dummy" model
-fit <- lm(burden ~ .*., data = mydf)
-summary(fit)
-
-# plot marginal means of interactions, no interaction found
-sjp.int(fit, type = "emm")
-# plot marginal means of interactions, including those with p-value up to 1
-sjp.int(fit, type = "emm", plevel = 1)
-# swap predictors
-sjp.int(fit, type = "emm", plevel = 1, swap.pred = TRUE)
-
-# -------------------------------
-# Plot effects
-# -------------------------------
-# add continuous variable
-mydf$barthel <- efc$barthtot
-# re-fit model with continuous variable
 fit <- lm(burden ~ .*., data = mydf)
 
 # plot effects

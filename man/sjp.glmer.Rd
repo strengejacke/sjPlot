@@ -289,6 +289,7 @@ sjp.glmer(fit)
 # sort by predictor Days
 sjp.glmer(fit, sort.est = "Days")
 
+\dontrun{
 data(efc)
 # create binary response
 efc$hi_qol <- dicho(efc$quol_5)
@@ -302,12 +303,6 @@ mydf <- data.frame(hi_qol = to_factor(efc$hi_qol),
                    c12hour = efc$c12hour,
                    neg_c_7 = efc$neg_c_7,
                    grp = efc$grp)
-# fit glmer
-fit <- glmer(hi_qol ~ sex + c12hour + neg_c_7 + (1|grp),
-             data = mydf, family = binomial("logit"))
-
-# plot and sort fixed effects
-sjp.glmer(fit, type = "fe", sort.est = TRUE)
 
 # fit glmer, with categorical predictor with more than 2 levels
 fit <- glmer(hi_qol ~ sex + education + c12hour + neg_c_7 + (1|grp),
@@ -321,24 +316,13 @@ sjp.glmer(fit, type = "fe", sort.est = TRUE)
 # in integrated plots, emphasizing groups 1 and 4
 sjp.glmer(fit, type = "ri.slope", emph.grp = c(1, 4), facet.grid = FALSE)
 
-# plot probability curve (predicted probabilities)
-# of fixed effect, only for coefficient "neg_c_7"
-sjp.glmer(fit, type = "fe.slope", vars = "neg_c_7")
-
 # plot predicted probabilities for response,
-# related to model predictor, conditioned on random effects
-sjp.glmer(fit, type = "pred", vars = "neg_c_7")
-
-# plot predicted probabilities for response,
-# related to model predictor, grouped
-sjp.glmer(fit, type = "pred.fe", vars = c("neg_c_7", "sex"))
-
 # non faceted, with ci
 sjp.glmer(fit, type = "pred.fe", vars = c("neg_c_7", "education"),
           show.ci = TRUE, facet.grid = FALSE)
 
 # predictions by gender and education
-sjp.glmer(fit, type = "pred.fe", vars = c("neg_c_7", "sex", "education"))
+sjp.glmer(fit, type = "pred.fe", vars = c("neg_c_7", "sex", "education"))}
 
 }
 \seealso{
