@@ -262,6 +262,11 @@ view_df <- function(x,
         # the code here corresponds to the above code
         # for variable values
         vals <- df.val[[index]]
+
+        # sort character vectors
+        if (is.character(x[[index]]) && !is.null(vals) && !sjmisc::is_empty(vals))
+          vals <- sort(vals)
+
         # check if we have any values...
         if (!is.null(vals)) {
           # if yes, add all to a string

@@ -5,11 +5,17 @@
 * Revising package code from scratch. Part of the old functions will be replaced by new ones, making the code base easier to maintain and reduce redundant functions by merging them together. In the course of the next updates, functions will first become deprecated and later defunct.
 * Changed imports to avoid using deprecated functions.
 * Fixed issue with forthcoming tydir-update on CRAN.
+* Use more informative warning- and error-messages for certain functions.
 
 ## New functions
 
 * `plot_models()` as replacement for `sjp.lmm()` and `sjp.glmm()` (which are now deprecated).
 * `sjp.fa()` and `sjt.fa()` to plot or print as table the results of factor analyses.
+
+## Bug fixes
+
+* The mean and standard deviation in the summary of `sjt.frq()` were not correctly computed, when `auto.group`-argument was specified. This bug was introduced in the last update and is not fixed again.
+* Values of character vectors were not always correctly sorted in `view_df()` (if `show.frq = TRUE`).
 
 # sjPlot 2.3.1
 

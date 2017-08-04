@@ -191,11 +191,18 @@ This function only works with variables with integer values (or numeric
         with decimals may result in unexpected behaviour.
 }
 \examples{
+# Using EUROFAMCARE sample dataset
+# dataset was importet from an SPSS-file, using:
+# efc <- sjlabelled::read_spss("efc.sav", enc = "UTF-8")
+library(sjmisc)
+library(sjlabelled)
+data(efc)
+
 # boxplot
 sjp.frq(ChickWeight$weight, type = "box")
 
 # histogram
-sjp.frq(discoveries, type = "hist", show.mean = TRUE)
+sjp.frq(efc$e17age, type = "hist", show.mean = TRUE)
 
 # violin plot
 sjp.frq(ChickWeight$weight, type = "v")
@@ -203,17 +210,9 @@ sjp.frq(ChickWeight$weight, type = "v")
 # bar plot
 sjp.frq(ChickWeight$Diet)
 
-
-# bar plot with EUROFAMCARE sample dataset
-# dataset was importet from an SPSS-file, using:
-# efc <- sjlabelled::read_spss("efc.sav", enc = "UTF-8")
-library(sjmisc)
-library(sjlabelled)
-data(efc)
 # you may use sjp.setTheme here to change axis textangle
 sjp.frq(efc$e15relat)
 
-# bar plot with EUROFAMCARE sample dataset
 # grouped variable
 ageGrp <- group_var(efc$e17age)
 ageGrpLab <- group_labels(efc$e17age)
@@ -223,9 +222,10 @@ sjp.frq(ageGrp, title = get_label(efc$e17age), axis.labels = ageGrpLab)
 sjp.frq(efc$neg_c_7)
 
 # plotting confidence intervals. expand grid and v/hjust for text labels
-sjp.frq(efc$e15relat, type = "dot", show.ci = TRUE, sort.frq = "desc",
-        coord.flip = TRUE, expand.grid = TRUE, vjust = "bottom",
-        hjust = "left")
+sjp.frq(
+  efc$e15relat, type = "dot", show.ci = TRUE, sort.frq = "desc",
+  coord.flip = TRUE, expand.grid = TRUE, vjust = "bottom", hjust = "left"
+)
 
 # Simulate ggplot-default histogram
 sjp.frq(efc$c160age, type = "h", geom.size = 3)

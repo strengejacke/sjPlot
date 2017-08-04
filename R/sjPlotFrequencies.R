@@ -60,11 +60,18 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #'           was used for setting up the ggplot-object (\code{data}).
 #'
 #' @examples
+#' # Using EUROFAMCARE sample dataset
+#' # dataset was importet from an SPSS-file, using:
+#' # efc <- sjlabelled::read_spss("efc.sav", enc = "UTF-8")
+#' library(sjmisc)
+#' library(sjlabelled)
+#' data(efc)
+#'
 #' # boxplot
 #' sjp.frq(ChickWeight$weight, type = "box")
 #'
 #' # histogram
-#' sjp.frq(discoveries, type = "hist", show.mean = TRUE)
+#' sjp.frq(efc$e17age, type = "hist", show.mean = TRUE)
 #'
 #' # violin plot
 #' sjp.frq(ChickWeight$weight, type = "v")
@@ -72,17 +79,9 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' # bar plot
 #' sjp.frq(ChickWeight$Diet)
 #'
-#'
-#' # bar plot with EUROFAMCARE sample dataset
-#' # dataset was importet from an SPSS-file, using:
-#' # efc <- sjlabelled::read_spss("efc.sav", enc = "UTF-8")
-#' library(sjmisc)
-#' library(sjlabelled)
-#' data(efc)
 #' # you may use sjp.setTheme here to change axis textangle
 #' sjp.frq(efc$e15relat)
 #'
-#' # bar plot with EUROFAMCARE sample dataset
 #' # grouped variable
 #' ageGrp <- group_var(efc$e17age)
 #' ageGrpLab <- group_labels(efc$e17age)
@@ -92,9 +91,10 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' sjp.frq(efc$neg_c_7)
 #'
 #' # plotting confidence intervals. expand grid and v/hjust for text labels
-#' sjp.frq(efc$e15relat, type = "dot", show.ci = TRUE, sort.frq = "desc",
-#'         coord.flip = TRUE, expand.grid = TRUE, vjust = "bottom",
-#'         hjust = "left")
+#' sjp.frq(
+#'   efc$e15relat, type = "dot", show.ci = TRUE, sort.frq = "desc",
+#'   coord.flip = TRUE, expand.grid = TRUE, vjust = "bottom", hjust = "left"
+#' )
 #'
 #' # Simulate ggplot-default histogram
 #' sjp.frq(efc$c160age, type = "h", geom.size = 3)
@@ -108,7 +108,7 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' @importFrom sjstats wtd_sd
 #' @importFrom sjmisc group_labels group_var to_value
 #' @importFrom sjlabelled set_labels
-#' @importFrom stats na.omit sd weighted.mean
+#' @importFrom stats na.omit sd weighted.mean dnorm
 #' @export
 sjp.frq <- function(var.cnt,
                     title = "",
@@ -250,16 +250,16 @@ sjp.frq <- function(var.cnt,
     # group axis labels
     axis.labels <- sjmisc::group_labels(
       sjmisc::to_value(var.cnt, keep.labels = F),
-      size = "auto",
-      n = auto.group
+      groupsize = "auto",
+      groupcount = auto.group
     )
 
     # group variable
     var.cnt <- sjmisc::group_var(
       sjmisc::to_value(var.cnt, keep.labels = F),
-      size = "auto",
+      groupsize = "auto",
       as.num = TRUE,
-      n = auto.group
+      groupcount = auto.group
     )
 
     # set label attributes
@@ -354,9 +354,11 @@ sjp.frq <- function(var.cnt,
       # ... or the amount of max. answers per category
       # add 10% margin to upper limit
       upper_lim <- max(pretty(table(
-        sjmisc::group_var(var.cnt,
-                          size = "auto",
-                          n = hist.grp.cnt)
+        sjmisc::group_var(
+          var.cnt,
+          groupsize = "auto",
+          groupcount = hist.grp.cnt
+        )
       ) * 1.1))
     } else {
       if (show.ci)
@@ -554,7 +556,7 @@ sjp.frq <- function(var.cnt,
       baseplot <- baseplot +
         stat_function(
           fun = function(xx, mean, sd, n) {
-            n * dnorm(x = xx, mean = mean, sd = sd)
+            n * stats::dnorm(x = xx, mean = mean, sd = sd)
           },
           args = with(mydat, c(
             mean = mittelwert,

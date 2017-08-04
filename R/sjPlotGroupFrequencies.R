@@ -305,17 +305,17 @@ sjp.grpfrq <- function(var.cnt,
     axis.labels <-
       sjmisc::group_labels(
         sjmisc::to_value(var.cnt, keep.labels = F),
-        size = "auto",
-        n = agcnt
+        groupsize = "auto",
+        groupcount = agcnt
       )
 
     # group variable
     grp.var.cnt <-
       sjmisc::group_var(
         sjmisc::to_value(var.cnt, keep.labels = F),
-        size = "auto",
+        groupsize = "auto",
         as.num = TRUE,
-        n = agcnt
+        groupcount = agcnt
       )
 
     # set value labels
