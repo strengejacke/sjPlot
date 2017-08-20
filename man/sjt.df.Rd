@@ -15,7 +15,7 @@ sjt.df(mydf, describe = TRUE, altr.row.col = FALSE, sort.col = NULL,
 \item{mydf}{data frame that should be printed as table}
 
 \item{describe}{logical, if \code{TRUE} (default), a description of the data frame's variables is given.
-The description is retrieved from the \code{\link[psych]{describe}} function. 
+The description is retrieved from the \code{\link[psych]{describe}} function.
 If \code{describe = FALSE}, the data frame's content (values) is shown.}
 
 \item{altr.row.col}{Logical, if \code{TRUE}, alternating rows are highlighted with a light gray
@@ -38,8 +38,8 @@ be helpful, if you have longer tables and want to see the column names at the en
 \item{show.type}{logical, if \code{TRUE}, the variable type is shown in a separate
 row respectively column.}
 
-\item{show.rownames}{logical, if \code{TRUE} and \code{describe = FALSE}, 
-first table column contains row names of data frame. Use 
+\item{show.rownames}{logical, if \code{TRUE} and \code{describe = FALSE},
+first table column contains row names of data frame. Use
 \code{show.rownames = FALSE} to omit first table column with row names.}
 
 \item{show.cmmn.row}{logical, if \code{TRUE}, an optional comment line can be added to the end / below
@@ -50,7 +50,7 @@ applies, if \code{show.cmmn.row = TRUE}.}
 
 \item{string.var}{string, label used for the first column name. Default is \code{"Variable"}.}
 
-\item{big.mark}{character; if not \code{NULL}, used as mark between every 
+\item{big.mark}{character; if not \code{NULL}, used as mark between every
 thousands decimals before (hence big) the decimal point}
 
 \item{hide.progress}{logical, if \code{TRUE}, the progress bar that is displayed when creating the
@@ -97,8 +97,8 @@ Invisibly returns
 }
 \description{
 Shows description or the content of data frame (rows and columns) as HTML table,
-               or saves it as file. Helpful if you want a quick overview of a data frame's 
-               content. See argument \code{describe} for details. By default, \code{describe} 
+               or saves it as file. Helpful if you want a quick overview of a data frame's
+               content. See argument \code{describe} for details. By default, \code{describe}
                is \code{TRUE} and a description of the data frame is given,
                using the \code{\link[psych]{describe}}-function of the \pkg{psych}-package.
 }
@@ -125,7 +125,7 @@ sjt.df(efc, sort.col = "mean", sort.asc = FALSE)
 
 # plot first 20 rows of first 5 columns of example data set,
 # sort by column "e42dep" with alternating row colors
-sjt.df(efc[1:20, 1:5], altr.row.col = TRUE, 
+sjt.df(efc[1:20, 1:5], altr.row.col = TRUE,
        sort.col = "e42dep", describe = FALSE)
 
 # plot first 20 rows of first 5 columns of example data set,
@@ -137,7 +137,7 @@ library(datasets)
 sjt.df(as.data.frame(WorldPhones), big.mark = ",")
 
 # User defined style sheet
-sjt.df(efc, altr.row.col = TRUE, 
+sjt.df(efc, altr.row.col = TRUE,
        CSS = list(css.table = "border: 2px solid #999999;",
                   css.tdata = "border-top: 1px solid;",
                   css.arc = "color:blue;"))}

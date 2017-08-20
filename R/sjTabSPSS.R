@@ -136,7 +136,7 @@ view_df <- function(x,
   }
 
   # set style sheet
-  page.style <- sprintf("<style>\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n%s { %s }\n</style>",
+  page.style <- sprintf("<style>\nhtml, body { background-color: white; }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n%s { %s }\n</style>",
                         tag.table, css.table, tag.thead, css.thead, tag.tdata, css.tdata,
                         tag.arc, css.arc, tag.caption, css.caption)
 

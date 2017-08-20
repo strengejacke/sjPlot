@@ -258,7 +258,7 @@ sjt.frq <- function(data,
 
   # set style sheet -----
   page.style <- sprintf(
-    "<style>\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n%s { %s }\n.%s { %s }\n</style>",
+    "<style>\nhtml, body { background-color: white; }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n%s { %s }\n.%s { %s }\n</style>",
     tag.table, css.table, tag.thead, css.thead, tag.tdata, css.tdata,
     tag.summary, css.summary, tag.arc, css.arc, tag.qrow, css.qrow,
     tag.mdrow, css.mdrow, tag.abstand, css.abstand, tag.lasttablerow, css.lasttablerow,

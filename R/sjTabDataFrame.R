@@ -1,20 +1,20 @@
 #' @title Show (description of) data frame as HTML table
 #' @name sjt.df
-#' 
+#'
 #' @seealso \itemize{
 #'                \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
 #'                \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
 #'              }
-#'              
+#'
 #' @description Shows description or the content of data frame (rows and columns) as HTML table,
-#'                or saves it as file. Helpful if you want a quick overview of a data frame's 
-#'                content. See argument \code{describe} for details. By default, \code{describe} 
+#'                or saves it as file. Helpful if you want a quick overview of a data frame's
+#'                content. See argument \code{describe} for details. By default, \code{describe}
 #'                is \code{TRUE} and a description of the data frame is given,
 #'                using the \code{\link[psych]{describe}}-function of the \pkg{psych}-package.
 #'
 #' @param mydf data frame that should be printed as table
 #' @param describe logical, if \code{TRUE} (default), a description of the data frame's variables is given.
-#'          The description is retrieved from the \code{\link[psych]{describe}} function. 
+#'          The description is retrieved from the \code{\link[psych]{describe}} function.
 #'          If \code{describe = FALSE}, the data frame's content (values) is shown.
 #' @param sort.col indicates a column, either by column name or by column index number,
 #'          that should be sorted. Default order is ascending, which can be changed with
@@ -28,21 +28,21 @@
 #'          be helpful, if you have longer tables and want to see the column names at the end of the table as well.
 #' @param show.type logical, if \code{TRUE}, the variable type is shown in a separate
 #'          row respectively column.
-#' @param show.rownames logical, if \code{TRUE} and \code{describe = FALSE}, 
-#'          first table column contains row names of data frame. Use 
+#' @param show.rownames logical, if \code{TRUE} and \code{describe = FALSE},
+#'          first table column contains row names of data frame. Use
 #'          \code{show.rownames = FALSE} to omit first table column with row names.
 #' @param show.cmmn.row logical, if \code{TRUE}, an optional comment line can be added to the end / below
 #'          the table. Use \code{string.cmmn} to specify the comment.
 #' @param string.cmmn string that will be added to the end / below the table. Only
 #'          applies, if \code{show.cmmn.row = TRUE}.
-#' @param big.mark character; if not \code{NULL}, used as mark between every 
+#' @param big.mark character; if not \code{NULL}, used as mark between every
 #'          thousands decimals before (hence big) the decimal point
 #' @param hide.progress logical, if \code{TRUE}, the progress bar that is displayed when creating the
 #'          output is hidden. Default in \code{FALSE}, hence the bar is visible.
 #' @param ... other arguments passed down to the \code{\link[psych]{describe}} function.
-#'          
+#'
 #' @inheritParams sjt.frq
-#'          
+#'
 #' @return Invisibly returns
 #'          \itemize{
 #'            \item the data frame with the description information (\code{data}),
@@ -54,7 +54,7 @@
 #'            for further use.
 #'
 #' @note See 'Notes' in \code{\link{sjt.frq}}.
-#'  
+#'
 #' @details See 'Details' in \code{\link{sjt.frq}}.
 #'
 #' @examples
@@ -62,31 +62,31 @@
 #' # init dataset
 #' library(sjmisc)
 #' data(efc)
-#' 
+#'
 #' # plot efc-data frame summary
 #' sjt.df(efc, altr.row.col = TRUE)
-#' 
+#'
 #' # plot content, first 50 rows of first 5 columns of example data set
 #' sjt.df(efc[1:50, 1:5], describe = FALSE, string.var = "Observation")
-#' 
+#'
 #' # plot efc-data frame summary, sorted descending by mean-column
 #' sjt.df(efc, sort.col = "mean", sort.asc = FALSE)
-#' 
+#'
 #' # plot first 20 rows of first 5 columns of example data set,
 #' # sort by column "e42dep" with alternating row colors
-#' sjt.df(efc[1:20, 1:5], altr.row.col = TRUE, 
+#' sjt.df(efc[1:20, 1:5], altr.row.col = TRUE,
 #'        sort.col = "e42dep", describe = FALSE)
-#' 
+#'
 #' # plot first 20 rows of first 5 columns of example data set,
 #' # sorted by 4th column in descending order.
 #' sjt.df(efc[1:20, 1:5], sort.col = 4, sort.asc = FALSE, describe = FALSE)
-#' 
+#'
 #' # add big mark to thousands
 #' library(datasets)
 #' sjt.df(as.data.frame(WorldPhones), big.mark = ",")
-#' 
+#'
 #' # User defined style sheet
-#' sjt.df(efc, altr.row.col = TRUE, 
+#' sjt.df(efc, altr.row.col = TRUE,
 #'        CSS = list(css.table = "border: 2px solid #999999;",
 #'                   css.tdata = "border-top: 1px solid;",
 #'                   css.arc = "color:blue;"))}
@@ -110,7 +110,7 @@ sjt.df <- function(mydf,
                    hide.progress = FALSE,
                    CSS = NULL,
                    encoding = NULL,
-                   file = NULL, 
+                   file = NULL,
                    use.viewer = TRUE,
                    no.output = FALSE,
                    remove.spaces = TRUE,
@@ -214,16 +214,16 @@ sjt.df <- function(mydf,
   # -------------------------------------
   # set style sheet
   # -------------------------------------
-  page.style <- sprintf("<style>\n%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
+  page.style <- sprintf("<style>\nhtml, body { background-color: white; }\n%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
                         tag.table, css.table, tag.caption, css.caption,
                         tag.thead, css.thead, tag.tdata, css.tdata, tag.arc, css.arc,
                         tag.lasttablerow, css.lasttablerow, tag.firsttablerow, css.firsttablerow,
                         tag.leftalign, css.leftalign, tag.centertalign, css.centeralign,
                         tag.firsttablecol, css.firsttablecol, tag.comment, css.comment)
-  
+
   # first, save table header
   toWrite <- table.header <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n", encoding)
-  
+
   # then also set page-CSS-stylesheet
   toWrite <- sprintf("%s%s\n</head>\n<body>\n", toWrite, page.style)
   # -------------------------------------
@@ -355,7 +355,7 @@ sjt.df <- function(mydf,
   # -------------------------------------
   # return results
   # -------------------------------------
-  
+
   structure(
     class = c("sjTable", "sjtdf"),
     list(
