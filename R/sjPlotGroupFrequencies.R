@@ -409,11 +409,9 @@ sjp.grpfrq <- function(var.cnt,
 
   # create cross table for stats, summary etc.
   # and weight variable
-  # colrange <- 2:(grpcount + 1)
-  # mydf <-
-  #   tidyr::gather(mydat$mydat, key = "group", value = "frq", !! colrange, factor_key = TRUE)
+  colrange <- 2:(grpcount + 1)
   mydf <-
-    tidyr::gather(mydat$mydat, key = "group", value = "frq", 2:(grpcount + 1), factor_key = TRUE)
+    tidyr::gather(mydat$mydat, key = "group", value = "frq", !! colrange, factor_key = TRUE)
 
   # add xpos now
   mydf$xpos <- as.factor(as.numeric(bars.xpos))

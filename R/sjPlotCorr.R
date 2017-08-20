@@ -207,11 +207,11 @@ sjp.corr <- function(data,
   # first, save original matrix for return value
   oricor <- orderedCorr
   orderedCorr <- tidyr::gather(data.frame(orderedCorr), "var", "value",
-                               seq_len(ncol(orderedCorr)), factor_key = TRUE)
+                               !! seq_len(ncol(orderedCorr)), factor_key = TRUE)
   # orderedCorr <- melt(orderedCorr)
   if (!is.null(cpvalues))
     cpvalues <- tidyr::gather(data.frame(cpvalues), "var", "value",
-                              seq_len(ncol(cpvalues)), factor_key = TRUE)
+                              !! seq_len(ncol(cpvalues)), factor_key = TRUE)
   # if (!is.null(cpvalues)) cpvalues <- melt(cpvalues)
   # bind additional information like order for x- and y-axis
   # as well as the size of plotted points

@@ -235,7 +235,7 @@ sjp.fa <- function(data,
   # rename columns, so we have numbers on x axis
   names(df) <- seq_len(ncol(df))
   # convert to long data
-  df <- tidyr::gather(df, "xpos", "value", seq_len(ncol(df)), factor_key = TRUE)
+  df <- tidyr::gather(df, "xpos", "value", !! seq_len(ncol(df)), factor_key = TRUE)
   # we need new columns for y-positions and point sizes
   df <- cbind(df, ypos = seq_len(nrow(loadings)), psize = exp(abs(df$value)) * geom.size)
   if (!show.values) {

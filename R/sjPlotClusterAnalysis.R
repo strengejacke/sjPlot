@@ -681,6 +681,7 @@ sjc.grpdisc <- function(data, groups, groupcount, clss.fit = TRUE, prnt.plot = T
 #' @importFrom grDevices rgb
 #' @importFrom stats na.omit
 #' @importFrom graphics plot
+#' @importFrom rlang .data
 #' @export
 sjc.elbow <- function(data, steps = 15, show.diff = FALSE) {
   # Prepare Data
@@ -701,7 +702,7 @@ sjc.elbow <- function(data, steps = 15, show.diff = FALSE) {
   dfElbowDiff <- tidyr::gather(as.data.frame(diff),
                                "Var2",
                                "value",
-                               seq_len(ncol(diff)),
+                               !! seq_len(ncol(diff)),
                                factor_key = TRUE)
   # --------------------------------------------------
   # Plot diagram with sum of squares

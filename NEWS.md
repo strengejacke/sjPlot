@@ -1,10 +1,15 @@
+# sjPlot 2.3.3
+
+## General
+
+* Fixed issue with latest tidyr-update on CRAN.
+
 # sjPlot 2.3.2
 
-# General
+## General
 
 * Revising package code from scratch. Part of the old functions will be replaced by new ones, making the code base easier to maintain and reduce redundant functions by merging them together. In the course of the next updates, functions will first become deprecated and later defunct.
 * Changed imports to avoid using deprecated functions.
-* Fixed issue with forthcoming tydir-update on CRAN.
 * Use more informative warning- and error-messages for certain functions.
 
 ## New functions

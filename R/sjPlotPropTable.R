@@ -240,7 +240,7 @@ sjp.xtab <- function(x,
   # -----------------------------------------------
   # tidy data
   #---------------------------------------------------
-  mydf <- tidyr::gather(myptab, "group", "prc", 2:(grpcount + 1), factor_key = TRUE)
+  mydf <- tidyr::gather(myptab, "group", "prc", !! 2:(grpcount + 1), factor_key = TRUE)
   # -----------------------------------------------
   # add total column and row to n-values
   #---------------------------------------------------
@@ -251,7 +251,7 @@ sjp.xtab <- function(x,
   # -----------------------------------------------
   # add n-values to tidy data frame
   #---------------------------------------------------
-  dummydf <- tidyr::gather(mydat$mydat, "group", "n", 2:(grpcount + 1), factor_key = TRUE)
+  dummydf <- tidyr::gather(mydat$mydat, "group", "n", !! 2:(grpcount + 1), factor_key = TRUE)
   mydf$n <- as.numeric(dummydf$n)
   # -----------------------------------------------
   # remove total for row and column index
