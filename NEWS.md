@@ -3,6 +3,7 @@
 ## General
 
 * Fixed issue with latest tidyr-update on CRAN.
+* Table-functions displayed in the viewer pane now automatically add a CSS-style for white page background. This fixes an RStudio issue on OS X, where the new look'n'feel used dark backgrounds in the viewer pane, making output hardly readable.
 
 # sjPlot 2.3.2
 
