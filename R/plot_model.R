@@ -45,14 +45,16 @@ plot_model <- function(fit,
                        axis.labels = NULL,
                        axis.lim = NULL,
                        grid.breaks = NULL,
+                       ci.lvl = .95,
                        show.intercept = FALSE,
                        show.values = FALSE,
                        show.p = FALSE,
-                       geom.size = NULL,
+                       geom.size = .9,
                        geom.colors = "Set1",
                        facets,
                        wrap.title = 50,
                        wrap.labels = 25,
+                       case = NULL,
                        digits = 2,
                        vline.type = 2,
                        vline.color = "grey70",
@@ -63,11 +65,11 @@ plot_model <- function(fit,
     exponentiate <- inherits(fit, c("glm", "glmerMod", "glmmTMB"))
 
   # get labels of dependent variables, and wrap them if too long
-  if (is.null(title)) title <- sjlabelled::get_dv_labels(fit)
+  if (is.null(title)) title <- sjlabelled::get_dv_labels(fit, case = case)
   title <- sjmisc::word_wrap(title, wrap = wrap.title)
 
   # labels for axis with term names
-  if (is.null(axis.labels)) axis.labels <- sjlabelled::get_term_labels(fit)
+  if (is.null(axis.labels)) axis.labels <- sjlabelled::get_term_labels(fit, case = case)
   axis.labels <- sjmisc::word_wrap(axis.labels, wrap = wrap.labels)
 
   # title for axis with estimate values
@@ -78,10 +80,22 @@ plot_model <- function(fit,
   if (type == "est" && length(sjstats::pred_vars(fit)) == 1) type <- "slope"
 
 
+  # set some default options for stan-models, which are not
+  # available for these
+  if (inherits(fit, c("stanreg", "stanfit"))) {
+    show.p <- FALSE
+    if (type %in% c("std", "std2")) type <- "est"
+  }
+
+
   if (type == "est") {
     ## TODO provide own tidier for not-supported models
     # get tidy output of summary
-    dat <- broom::tidy(fit, conf.int = TRUE, effects = "fixed")
+    if (inherits(fit, c("stanreg", "stanfit")))
+      dat <- tidy_stan(fit, ci.lvl, exponentiate)
+    else
+      dat <- broom::tidy(fit, conf.int = TRUE, effects = "fixed")
+
 
     p <- plot_model_estimates(
       fit = fit,

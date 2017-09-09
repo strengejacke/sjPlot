@@ -1,3 +1,5 @@
+#' @importFrom dplyr slice filter
+#' @importFrom forcats fct_reorder fct_rev
 plot_model_estimates <- function(fit,
                                  dat,
                                  exponentiate,
@@ -24,7 +26,7 @@ plot_model_estimates <- function(fit,
 
   # exponentiation from broom::tidy does not work with merMod-objecs,
   # so we do it manually for all model classes
-  if (exponentiate) {
+  if (exponentiate && !inherits(fit, c("stanreg", "stanfit"))) {
     dat[["estimate"]] <- exp(dat[["estimate"]])
     dat[["conf.low"]] <- exp(dat[["conf.low"]])
     dat[["conf.high"]] <- exp(dat[["conf.high"]])
@@ -52,24 +54,21 @@ plot_model_estimates <- function(fit,
     }
   }
 
+  # make term name categorical, for axis labelling
+  dat$term <- as.factor(dat$term)
+
   # sort estimates by effect size
   if (sort.est) {
-    if (!is.null(group.terms)) {
-      axis.labels <- rev(axis.labels[order(dat$group, dat$estimate)])
-      dat <- dat[rev(order(dat$group, dat$estimate)), ]
-    } else {
-      axis.labels <- axis.labels[order(dat$estimate)]
-      dat <- dat[order(dat$estimate), ]
-    }
+    dat$term <- forcats::fct_reorder(dat$term, dat$estimate)
   } else {
-    axis.labels <- rev(axis.labels)
-    dat <- dat[nrow(dat):1, , drop = FALSE]
+    dat$term <- forcats::fct_rev(dat$term)
   }
 
   p <- plot_point_estimates(
     model = fit,
     dat = dat,
     exponentiate = exponentiate,
+    title = title,
     axis.labels = axis.labels,
     axis.title = axis.title,
     axis.lim = axis.lim,

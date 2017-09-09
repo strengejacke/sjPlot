@@ -1,6 +1,9 @@
+#' @importFrom tibble has_name
+#' @importFrom dplyr n_distinct
 plot_point_estimates <- function(model,
                                  dat,
                                  exponentiate,
+                                 title,
                                  axis.labels,
                                  axis.title,
                                  axis.lim,
@@ -12,10 +15,13 @@ plot_point_estimates <- function(model,
                                  vline.color) {
 
   # set up base aes, either with or w/o groups
-  if (tibble::has_name(dat, "group"))
+  if (tibble::has_name(dat, "group")) {
     p <- ggplot(dat, aes_string(x = "term", y = "estimate", colour = "group"))
-  else
+    col.len <- dplyr::n_distinct(dat$group)
+  } else {
     p <- ggplot(dat, aes_string(x = "term", y = "estimate"))
+    col.len <- 1
+  }
 
 
   # setup base plot
@@ -67,7 +73,7 @@ plot_point_estimates <- function(model,
 
 
   # set colors
-  p <- p + scale_colour_manual(values = col_check2(geom.colors, length(dv.labels)))
+  p <- p + scale_colour_manual(values = col_check2(geom.colors, col.len))
 
   # set axis and plot titles
   p <-

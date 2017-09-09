@@ -29,29 +29,16 @@ get_axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, e
 
 
 get_estimate_axis_title <- function(fit, axis.title) {
-  # check if we have a linear model
-  is.linear.model <- any(inherits(fit, c("lm", "lmerMod", "lme"), which = TRUE) == 1)
-
-  if (!is.linear.model) {
-    # get information of glm
-    fitfam <- get_glm_family(fit)
-
-    # create logical for family
-    poisson_fam <- fitfam$is_pois
-    binom_fam <- fitfam$is_bin
-    logit_link <- fitfam$is_logit
-  }
-
   # check default label and fit family
   if (is.null(axis.title)) {
-    if (is.linear.model)
-      axis.title <- "Estimates"
-    else if (poisson_fam)
-      axis.title <- "Incident Rate Ratios"
-    else if (binom_fam && !logit_link)
-      axis.title <- "Risk Ratios"
-    else
-      axis.title <- "Odds Ratios"
+    fitfam <- get_glm_family(fit)
+
+    axis.title <-  dplyr::case_when(
+      fitfam$is_pois ~ "Incident Rate Ratios",
+      fitfam$is_bin && !fitfam$is_logit ~ "Risk Ratios",
+      fitfam$is_bin ~ "Odds Ratios",
+      TRUE ~ "Estimates"
+    )
   }
 
   axis.title
@@ -106,4 +93,62 @@ col_check2 <- function(geom.colors, collen) {
   }
 
   geom.colors
+}
+
+
+#' @importFrom sjmisc str_contains
+#' @importFrom stats family
+get_glm_family <- function(fit) {
+  # do we have glm? if so, get link family. make exceptions
+  # for specific models that don't have family function
+  if (inherits(fit, c("lme", "plm", "gls", "truncreg"))) {
+    fitfam <- "gaussian"
+    logit_link <- FALSE
+    link.fun <- "identity"
+  } else if (inherits(fit, c("vgam", "vglm"))) {
+    faminfo <- fit@family
+    fitfam <- faminfo@vfamily
+    logit_link <- sjmisc::str_contains(faminfo@blurb, "logit")
+    link.fun <- faminfo@blurb[3]
+  } else if (inherits(fit, c("zeroinfl", "hurdle"))) {
+    fitfam <- "negative binomial"
+    logit_link <- FALSE
+    link.fun <- NULL
+  } else if (inherits(fit, "betareg")) {
+    fitfam <- "beta"
+    logit_link <- fit$link$mean$name == "logit"
+    link.fun <- fit$link$mean$linkfun
+  } else if (inherits(fit, "coxph")) {
+    fitfam <- "survival"
+    logit_link <- TRUE
+    link.fun <- NULL
+  } else {
+    # "lrm"-object from pkg "rms" have no family method
+    # so we construct a logistic-regression-family-object
+    if (inherits(fit, c("lrm", "polr")))
+      faminfo <- stats::binomial(link = "logit")
+    else
+      # get family info
+      faminfo <- stats::family(fit)
+
+    fitfam <- faminfo$family
+    logit_link <- faminfo$link == "logit"
+    link.fun <- faminfo$link
+  }
+
+  # create logical for family
+  binom_fam <- fitfam %in% c("binomial", "quasibinomial", "binomialff")
+  poisson_fam <- fitfam %in% c("poisson", "quasipoisson")
+  neg_bin_fam <- sjmisc::str_contains(fitfam, "negative binomial", ignore.case = T)
+
+  return(
+    list(
+      is_bin = binom_fam,
+      is_pois = poisson_fam | neg_bin_fam,
+      is_negbin = neg_bin_fam,
+      is_logit = logit_link,
+      link.fun = link.fun,
+      family = fitfam
+    )
+  )
 }

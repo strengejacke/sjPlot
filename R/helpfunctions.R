@@ -98,29 +98,6 @@ get_lm_data <- function(fit) {
 }
 
 
-get_glm_family <- function(fit) {
-  c.f <- class(fit)
-  # ------------------------
-  # do we have glm? if so, get link family. make exceptions
-  # for specific models that don't have family function
-  # ------------------------
-  if (any(c.f %in% c("lme", "plm"))) {
-    fitfam <- ""
-    logit_link <- FALSE
-  } else {
-    fitfam <- stats::family(fit)$family
-    logit_link <- stats::family(fit)$link == "logit"
-  }
-  # --------------------------------------------------------
-  # create logical for family
-  # --------------------------------------------------------
-  binom_fam <- fitfam %in% c("binomial", "quasibinomial")
-  poisson_fam <- fitfam %in% c("poisson", "quasipoisson") ||
-    sjmisc::str_contains(fitfam, "negative binomial", ignore.case = T)
-  return(list(is_bin = binom_fam, is_pois = poisson_fam, is_logit = logit_link))
-}
-
-
 # add annotations with table summary
 # here we print out total N of cases, chi-square and significance of the table
 print.table.summary <- function(baseplot,
