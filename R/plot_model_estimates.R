@@ -1,5 +1,6 @@
 #' @importFrom dplyr slice filter
 #' @importFrom forcats fct_reorder fct_rev
+#' @importFrom rlang .data
 plot_model_estimates <- function(fit,
                                  dat,
                                  exponentiate,
@@ -33,10 +34,12 @@ plot_model_estimates <- function(fit,
   }
 
   # remove further estimates
-  if (!is.null(rm.terms)) dat <- dplyr::filter(dat$term %in% rm.terms)
+  filter.remove <- !(dat$term %in% terms)
+  if (!is.null(rm.terms)) dat <- dplyr::filter(dat, !! filter.remove)
 
   # or select further estimates
-  if (!is.null(terms)) dat <- dplyr::filter(!(dat$term %in% terms))
+  filter.remove <- dat$term %in% rm.terms
+  if (!is.null(terms)) dat <- dplyr::filter(dat, !! filter.remove)
 
   # add p-asterisks to data
   dat$p.stars <- get_p_stars(dat$p.value)
@@ -59,7 +62,10 @@ plot_model_estimates <- function(fit,
 
   # sort estimates by effect size
   if (sort.est) {
-    dat$term <- forcats::fct_reorder(dat$term, dat$estimate)
+    if (!is.null(group.terms))
+      dat$term <- forcats::fct_reorder(dat$term, dat$group)
+    else
+      dat$term <- forcats::fct_reorder(dat$term, dat$estimate)
   } else {
     dat$term <- forcats::fct_rev(dat$term)
   }

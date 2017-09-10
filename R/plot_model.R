@@ -33,6 +33,7 @@
 #' @importFrom sjmisc word_wrap
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom broom tidy
+#' @export
 plot_model <- function(fit,
                        type = "est",
                        exponentiate,
@@ -62,7 +63,7 @@ plot_model <- function(fit,
                        ) {
   # check whether estimates should be exponentiated or not
   if (missing(exponentiate))
-    exponentiate <- inherits(fit, c("glm", "glmerMod", "glmmTMB"))
+    exponentiate <- !get_glm_family(fit)[["is_linear"]]
 
   # get labels of dependent variables, and wrap them if too long
   if (is.null(title)) title <- sjlabelled::get_dv_labels(fit, case = case)
@@ -94,7 +95,7 @@ plot_model <- function(fit,
     if (inherits(fit, c("stanreg", "stanfit")))
       dat <- tidy_stan(fit, ci.lvl, exponentiate)
     else
-      dat <- broom::tidy(fit, conf.int = TRUE, effects = "fixed")
+      dat <- broom::tidy(fit, conf.int = TRUE, conf.level = ci.lvl, effects = "fixed")
 
 
     p <- plot_model_estimates(
