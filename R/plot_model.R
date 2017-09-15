@@ -89,14 +89,20 @@ plot_model <- function(fit,
   }
 
 
-  if (type == "est") {
-    ## TODO provide own tidier for not-supported models
-    # get tidy output of summary
-    if (inherits(fit, c("stanreg", "stanfit")))
-      dat <- tidy_stan(fit, ci.lvl, exponentiate)
-    else
-      dat <- broom::tidy(fit, conf.int = TRUE, conf.level = ci.lvl, effects = "fixed")
+  if (type %in% c("est", "std", "std2")) {
 
+    if (type == "est") {
+      ## TODO provide own tidier for not-supported models
+      # get tidy output of summary
+      if (inherits(fit, c("stanreg", "stanfit")))
+        dat <- tidy_stan(fit, ci.lvl, exponentiate)
+      else
+        dat <- broom::tidy(fit, conf.int = TRUE, conf.level = ci.lvl, effects = "fixed")
+    } else {
+      # get tidy output of summary
+      dat <- sjstats::std_beta(fit, type = type)
+      show.intercept <- FALSE
+    }
 
     p <- plot_model_estimates(
       fit = fit,
@@ -122,35 +128,5 @@ plot_model <- function(fit,
     )
 
     return(p)
-
-  } else if (type %in% c("std", "std2")) {
-    # get tidy output of summary
-    dat <- sjstats::std_beta(fit, type = type)
-
-    p <- plot_model_estimates(
-      fit = fit,
-      dat = dat,
-      exponentiate = exponentiate,
-      terms = terms,
-      group.terms = group.terms,
-      rm.terms = rm.terms,
-      sort.est = sort.est,
-      title = title,
-      axis.title = axis.title,
-      axis.labels = axis.labels,
-      axis.lim = axis.lim,
-      grid.breaks = grid.breaks,
-      show.intercept = FALSE,
-      show.values = show.values,
-      show.p = show.p,
-      digits = digits,
-      geom.colors = geom.colors,
-      geom.size = geom.size,
-      vline.type = vline.type,
-      vline.color = vline.color
-    )
-
-    return(p)
   }
-
 }

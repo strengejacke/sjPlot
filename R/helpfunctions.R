@@ -444,7 +444,7 @@ is.brewer.pal <- function(pal) {
   bp.qul <- c("Accent", "Dark2", "Paired", "Pastel1", "Pastel2", "Set1",
               "Set2", "Set3")
   bp <- c(bp.seq, bp.div, bp.qul)
-  return(any(bp == pal))
+  pal %in% bp
 }
 
 
