@@ -26,7 +26,7 @@ plot_point_estimates <- function(model,
 
   # setup base plot
   p <- p +
-    geom_hline(yintercept = 0, linetype = vline.type, color = vline.color) +
+    geom_hline(yintercept = ifelse(exponentiate, 1, 0), linetype = vline.type, color = vline.color) +
     geom_point(size = geom.size) +
     geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), width = 0) +
     coord_flip() +
