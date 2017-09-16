@@ -80,7 +80,7 @@ plot_model_estimates <- function(fit,
   # set default colors. for grouped predictors we need more color values
   if (is.null(geom.colors)) geom.colors <- dplyr::if_else(is.null(group.terms), "grey30", "Set1")
 
-  p <- plot_point_estimates(
+  plot_point_estimates(
     model = fit,
     dat = dat,
     exponentiate = exponentiate,
@@ -96,7 +96,5 @@ plot_model_estimates <- function(fit,
     vline.type = vline.type,
     vline.color = vline.color
   )
-
-  p
 }
 

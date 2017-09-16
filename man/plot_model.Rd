@@ -10,7 +10,7 @@ plot_model(model, type = c("est", "re", "eff", "pred", "int", "std", "std2",
   title = NULL, axis.title = NULL, axis.labels = NULL, axis.lim = NULL,
   grid.breaks = NULL, ci.lvl = NULL, show.intercept = FALSE,
   show.values = FALSE, show.p = TRUE, show.data = FALSE,
-  value.offset = NULL, geom.size = NULL, geom.colors = "Set1", facets,
+  value.offset = NULL, geom.size = NULL, colors = "Set1", facets,
   wrap.title = 50, wrap.labels = 25, case = NULL, digits = 2,
   vline.type = 2, vline.color = "grey70", ...)
 }

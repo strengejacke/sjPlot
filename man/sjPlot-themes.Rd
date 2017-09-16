@@ -3,9 +3,18 @@
 \name{sjPlot-themes}
 \alias{sjPlot-themes}
 \alias{theme_sjplot}
+\alias{theme_blank}
+\alias{theme_538}
+\alias{font_size}
 \title{Set default themes for plots}
 \usage{
 theme_sjplot(base_size = 12, base_family = "")
+
+theme_blank(base_size = 12, base_family = "")
+
+theme_538(base_size = 12, base_family = "")
+
+font_size(title, axis_title.x, axis_title.y, labels.x, labels.y)
 }
 \description{
 Set default theme plots.

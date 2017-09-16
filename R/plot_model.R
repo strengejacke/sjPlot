@@ -29,13 +29,16 @@
 #'          \code{terms = c("age", "education [1,3]")}. For more details, see
 #'          \code{\link[ggeffects]{ggpredict}}.
 #'
-#' @importFrom sjstats pred_vars std_beta
-#' @importFrom sjmisc word_wrap
+#' @importFrom sjstats pred_vars std_beta p_value
+#' @importFrom sjmisc word_wrap str_contains
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom broom tidy
 #' @importFrom dplyr if_else n_distinct
 #' @importFrom graphics plot
 #' @importFrom ggeffects ggpredict ggeffect
+#' @importFrom stats terms
+#' @importFrom tibble add_column
+#'
 #' @export
 plot_model <- function(model,
                        type = c("est", "re", "eff", "pred", "int", "std", "std2", "slope", "resid"),
@@ -57,7 +60,7 @@ plot_model <- function(model,
                        show.data = FALSE,
                        value.offset = NULL,
                        geom.size = NULL,
-                       geom.colors = "Set1",
+                       colors = "Set1",
                        facets,
                        wrap.title = 50,
                        wrap.labels = 25,
@@ -69,6 +72,7 @@ plot_model <- function(model,
                        ) {
 
   type <- match.arg(type)
+  pred.type <- match.arg(pred.type)
 
   # do we have a stan-model?
   is.stan <- inherits(model, c("stanreg", "stanfit"))
@@ -99,7 +103,7 @@ plot_model <- function(model,
     # no p-values
     show.p <- FALSE
     # no standardized coefficients
-    if (type %in% c("std", "std2")) type <- "est"
+    if (type %in% c("std", "std2", "slope")) type <- "est"
   }
 
 
@@ -109,26 +113,16 @@ plot_model <- function(model,
   if (is.null(value.offset)) value.offset <- dplyr::if_else(is.stan, .25, .15)
 
 
-  # plot estimates ----
   if (type %in% c("est", "std", "std2")) {
 
-    if (type == "est") {
-      ## TODO provide own tidier for not-supported models
-      # get tidy output of summary
-      if (is.stan)
-        dat <- tidy_stan(model, ci.lvl, exponentiate)
-      else
-        dat <- broom::tidy(model, conf.int = TRUE, conf.level = ci.lvl, effects = "fixed")
-    } else {
-      # get tidy output of summary
-      dat <- sjstats::std_beta(model, type = type)
-      show.intercept <- FALSE
-    }
+    # plot estimates ----
 
-    p <- plot_model_estimates(
-      fit = model,
-      dat = dat,
+    p <- plot_type_est(
+      type = type,
+      is.stan = is.stan,
+      ci.lvl = ci.lvl,
       exponentiate = exponentiate,
+      model = model,
       terms = terms,
       group.terms = group.terms,
       rm.terms = rm.terms,
@@ -143,7 +137,7 @@ plot_model <- function(model,
       show.p = show.p,
       value.offset = value.offset,
       digits = digits,
-      geom.colors = geom.colors,
+      geom.colors = colors,
       geom.size = geom.size,
       vline.type = vline.type,
       vline.color = vline.color
@@ -152,34 +146,28 @@ plot_model <- function(model,
 
     # plot marginal effects ----
 
-    if (type == "pred") {
-      dat <- ggeffects::ggpredict(
-        model = model,
-        terms = terms,
-        ci.lvl = ci.lvl,
-        type = pred.type,
-        full.data = FALSE,
-        ...
-      )
-    } else {
-      dat <- ggeffects::ggeffect(
-        model = model,
-        terms = terms,
-        ci.lvl = ci.lvl,
-        ...
-      )
-    }
-
-    p <- graphics::plot(
-      dat,
-      ci = !is.na(ci.lvl),
+    p <- plot_type_eff(
+      type = type,
+      model = model,
+      terms = terms,
+      ci.lvl = ci.lvl,
+      pred.type = pred.type,
       facets = facets,
-      rawdata = show.data,
-      colors = col_check2(geom.colors, dplyr::n_distinct(dat$group)),
-      use.theme = FALSE,
+      show.data = show.data,
+      geom.colors = colors,
+      axis.title = axis.title,
+      title = title,
+      axis.lim = axis.lim,
       case = case,
       ...
     )
+  } else if (type == "int") {
+
+    # plot interaction terms ----
+
+
+
+
   }
 
   p

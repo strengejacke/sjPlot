@@ -21,16 +21,6 @@ of the following acceptes file types: ".png", ".jpg", ".svg" or ".tif".}
 
 \item{dpi}{resolution in dpi (dots per inch). Ignored for vector formats, such as ".svg".}
 
-\item{theme}{Name of a pre-set theme. May be one of:
-\describe{
-  \item{\code{"blank"}}{a theme with no grids and axes.}
-  \item{\code{"forest"}}{a theme for forest plots, with no grids, in "539" style.}
-  \item{\code{"538"}}{a grey-scaled theme inspired by \href{http://fivethirtyeight.com}{538-charts}, adapted from \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{minimaxir.com}.}
-  \item{\code{"539"}}{a slight modification of the 538-theme.}
-  \item{\code{"scatter"}}{a theme for scatter plots in 539-theme-style.}
-  \item{\code{"538w"}, \code{"539w"}, \code{"scatterw"} and \code{"forestw"}}{for themes as described above, however all with white backgrounds.}
-}}
-
 \item{label.size}{fontsize of value labels inside plot area}
 
 \item{axis.textsize}{fontsize of axis labels}
