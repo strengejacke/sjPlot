@@ -77,16 +77,10 @@ col_check2 <- function(geom.colors, collen) {
       # shorten palette
       geom.colors <- geom.colors[1:collen]
     } else if (length(geom.colors) < collen) {
-      # warn user abount wrong color palette
-      warning(
-        sprintf(
-          "Insufficient length of color palette provided. %i color values needed.",
-          collen
-        ),
-        call. = F
-      )
-      # set default palette
-      geom.colors <- scales::brewer_pal(palette = "Set1")(collen)
+      # repeat color palette
+      geom.colors <- rep(geom.colors, times = collen)
+      # shorten to required length
+      geom.colors <- geom.colors[1:collen]
     }
   } else {
     geom.colors <- scales::brewer_pal(palette = "Set1")(collen)
@@ -153,20 +147,4 @@ get_glm_family <- function(fit) {
       family = fitfam
     )
   )
-}
-
-
-#' @export
-theme_sjplot <- function() {
-  (ggplot2::theme_minimal() +
-    ggplot2::theme(
-      axis.line.x      = ggplot2::element_line(colour = "grey80"),
-      axis.line.y      = ggplot2::element_line(colour = "grey80"),
-      axis.text        = ggplot2::element_text(colour = "grey50"),
-      axis.title       = ggplot2::element_text(colour = "grey30"),
-      strip.background = ggplot2::element_rect(colour = "grey70", fill = "grey90"),
-      strip.text       = ggplot2::element_text(colour = "grey30"),
-      legend.title     = ggplot2::element_text(colour = "grey30"),
-      legend.text      = ggplot2::element_text(colour = "grey30")
-    ))
 }

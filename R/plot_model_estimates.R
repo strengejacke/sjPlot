@@ -1,4 +1,4 @@
-#' @importFrom dplyr slice filter
+#' @importFrom dplyr slice filter if_else
 #' @importFrom forcats fct_reorder fct_rev
 #' @importFrom rlang .data
 plot_model_estimates <- function(fit,
@@ -16,6 +16,7 @@ plot_model_estimates <- function(fit,
                                  show.intercept,
                                  show.values,
                                  show.p,
+                                 value.offset,
                                  digits,
                                  geom.colors,
                                  geom.size,
@@ -47,8 +48,11 @@ plot_model_estimates <- function(fit,
 
   if (show.p) dat$p.label <- sprintf("%s %s", dat$p.label, dat$p.stars)
 
-  # create dummy grouping
-  dat$group <- as.factor(1)
+  # create default grouping, depending on the effect:
+  # split positive and negative associations with outcome
+  # into different groups
+  treshold <- dplyr::if_else(exponentiate, 1, 0)
+  dat$group <- dplyr::if_else(dat$estimate > treshold, "pos", "neg")
 
   # group estimates?
   if (!is.null(group.terms)) {
@@ -73,14 +77,8 @@ plot_model_estimates <- function(fit,
     dat$term <- forcats::fct_rev(dat$term)
   }
 
-  # set default colors. for grouped predictors
-  # we need more color values
-  if (is.null(geom.colors)) {
-    if (!is.null(group.terms))
-      geom.colors <- "Set1"
-    else
-      geom.colors <- "grey30"
-  }
+  # set default colors. for grouped predictors we need more color values
+  if (is.null(geom.colors)) geom.colors <- dplyr::if_else(is.null(group.terms), "grey30", "Set1")
 
   p <- plot_point_estimates(
     model = fit,
@@ -92,6 +90,7 @@ plot_model_estimates <- function(fit,
     axis.lim = axis.lim,
     grid.breaks = grid.breaks,
     show.values = show.values,
+    value.offset = value.offset,
     geom.size = geom.size,
     geom.colors = geom.colors,
     vline.type = vline.type,

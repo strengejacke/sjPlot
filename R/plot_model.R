@@ -7,8 +7,8 @@
 #'          \describe{
 #'            \item{\code{"est"}}{(default) for forest-plot of estimates. If the fitted model only contains one predictor, slope-line is plotted.}
 #'            \item{\code{"pred"}}{to plot predicted values (marginal effects) for specific model terms. See 'Details'.}
-#'            \item{\code{"eff"}}{to plot marginal effects of all terms in \code{fit}. Note that interaction terms are excluded from this plot.}
-#'            \item{\code{"int"}}{to plot marginal effects of interaction terms in \code{fit}.}
+#'            \item{\code{"eff"}}{to plot marginal effects of all terms in \code{model}. Note that interaction terms are excluded from this plot.}
+#'            \item{\code{"int"}}{to plot marginal effects of interaction terms in \code{model}.}
 #'            \item{\code{"std"}}{for forest-plot of standardized beta values.}
 #'            \item{\code{"std2"}}{for forest-plot of standardized beta values, however, standardization is done by dividing by two sd (see 'Details').}
 #'            \item{\code{"slope"}}{to plot regression lines for each single predictor of the fitted model, against the response (linear relationship between each model term and response).}
@@ -16,7 +16,7 @@
 #'            \item{\code{"ma"}}{to check model assumptions.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
-#' @param terms Character vector with the names of those from \code{fit}, which
+#' @param terms Character vector with the names of those from \code{model}, which
 #'          should be used to plot for. This argument depends on the plot-type;
 #'          for \code{type = "pred"} or \code{type = "eff"}, \code{terms} indicates
 #'          for which terms marginal effects should be displayed. At least one term
@@ -33,25 +33,31 @@
 #' @importFrom sjmisc word_wrap
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom broom tidy
+#' @importFrom dplyr if_else n_distinct
+#' @importFrom graphics plot
+#' @importFrom ggeffects ggpredict ggeffect
 #' @export
-plot_model <- function(fit,
-                       type = "est",
+plot_model <- function(model,
+                       type = c("est", "re", "eff", "pred", "int", "std", "std2", "slope", "resid"),
                        exponentiate,
                        terms = NULL,
                        sort.est = FALSE,
                        rm.terms = NULL,
                        group.terms = NULL,
+                       pred.type = c("fe", "re"),
                        title = NULL,
                        axis.title = NULL,
                        axis.labels = NULL,
                        axis.lim = NULL,
                        grid.breaks = NULL,
-                       ci.lvl = .95,
+                       ci.lvl = NULL,
                        show.intercept = FALSE,
                        show.values = FALSE,
-                       show.p = FALSE,
-                       geom.size = .9,
-                       geom.colors = NULL,
+                       show.p = TRUE,
+                       show.data = FALSE,
+                       value.offset = NULL,
+                       geom.size = NULL,
+                       geom.colors = "Set1",
                        facets,
                        wrap.title = 50,
                        wrap.labels = 25,
@@ -61,51 +67,66 @@ plot_model <- function(fit,
                        vline.color = "grey70",
                        ...
                        ) {
+
+  type <- match.arg(type)
+
+  # do we have a stan-model?
+  is.stan <- inherits(model, c("stanreg", "stanfit"))
+
   # check whether estimates should be exponentiated or not
   if (missing(exponentiate))
-    exponentiate <- !get_glm_family(fit)[["is_linear"]]
+    exponentiate <- !get_glm_family(model)[["is_linear"]]
 
   # get labels of dependent variables, and wrap them if too long
-  if (is.null(title)) title <- sjlabelled::get_dv_labels(fit, case = case)
+  if (is.null(title)) title <- sjlabelled::get_dv_labels(model, case = case)
   title <- sjmisc::word_wrap(title, wrap = wrap.title)
 
   # labels for axis with term names
-  if (is.null(axis.labels)) axis.labels <- sjlabelled::get_term_labels(fit, case = case)
+  if (is.null(axis.labels)) axis.labels <- sjlabelled::get_term_labels(model, case = case)
   axis.labels <- sjmisc::word_wrap(axis.labels, wrap = wrap.labels)
 
   # title for axis with estimate values
-  if (is.null(axis.title)) axis.title <- sjmisc::word_wrap(get_estimate_axis_title(fit, axis.title), wrap = wrap.title)
+  if (is.null(axis.title)) axis.title <- sjmisc::word_wrap(get_estimate_axis_title(model, axis.title), wrap = wrap.title)
   axis.title <- sjmisc::word_wrap(axis.title, wrap = wrap.labels)
 
   # check nr of terms. if only one, plot slope
-  if (type == "est" && length(sjstats::pred_vars(fit)) == 1) type <- "slope"
+  if (type == "est" && length(sjstats::pred_vars(model)) == 1) type <- "slope"
 
 
   # set some default options for stan-models, which are not
-  # available for these
-  if (inherits(fit, c("stanreg", "stanfit"))) {
+  # available or appropriate for these
+  if (is.stan) {
+    # no p-values
     show.p <- FALSE
+    # no standardized coefficients
     if (type %in% c("std", "std2")) type <- "est"
   }
 
 
+  # set defaults for arguments, depending on model
+  if (is.null(ci.lvl)) ci.lvl <- dplyr::if_else(is.stan, .89, .95)
+  if (is.null(geom.size)) geom.size <- dplyr::if_else(is.stan, .9, 2.5)
+  if (is.null(value.offset)) value.offset <- dplyr::if_else(is.stan, .25, .15)
+
+
+  # plot estimates ----
   if (type %in% c("est", "std", "std2")) {
 
     if (type == "est") {
       ## TODO provide own tidier for not-supported models
       # get tidy output of summary
-      if (inherits(fit, c("stanreg", "stanfit")))
-        dat <- tidy_stan(fit, ci.lvl, exponentiate)
+      if (is.stan)
+        dat <- tidy_stan(model, ci.lvl, exponentiate)
       else
-        dat <- broom::tidy(fit, conf.int = TRUE, conf.level = ci.lvl, effects = "fixed")
+        dat <- broom::tidy(model, conf.int = TRUE, conf.level = ci.lvl, effects = "fixed")
     } else {
       # get tidy output of summary
-      dat <- sjstats::std_beta(fit, type = type)
+      dat <- sjstats::std_beta(model, type = type)
       show.intercept <- FALSE
     }
 
     p <- plot_model_estimates(
-      fit = fit,
+      fit = model,
       dat = dat,
       exponentiate = exponentiate,
       terms = terms,
@@ -120,13 +141,46 @@ plot_model <- function(fit,
       show.intercept = show.intercept,
       show.values = show.values,
       show.p = show.p,
+      value.offset = value.offset,
       digits = digits,
       geom.colors = geom.colors,
       geom.size = geom.size,
       vline.type = vline.type,
       vline.color = vline.color
     )
+  } else if (type %in% c("pred", "eff")) {
 
-    return(p)
+    # plot marginal effects ----
+
+    if (type == "pred") {
+      dat <- ggeffects::ggpredict(
+        model = model,
+        terms = terms,
+        ci.lvl = ci.lvl,
+        type = pred.type,
+        full.data = FALSE,
+        ...
+      )
+    } else {
+      dat <- ggeffects::ggeffect(
+        model = model,
+        terms = terms,
+        ci.lvl = ci.lvl,
+        ...
+      )
+    }
+
+    p <- graphics::plot(
+      dat,
+      ci = !is.na(ci.lvl),
+      facets = facets,
+      rawdata = show.data,
+      colors = col_check2(geom.colors, dplyr::n_distinct(dat$group)),
+      use.theme = FALSE,
+      case = case,
+      ...
+    )
   }
+
+  p
 }

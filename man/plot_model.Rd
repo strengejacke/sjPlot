@@ -4,21 +4,23 @@
 \alias{plot_model}
 \title{Various plot types for regression models}
 \usage{
-plot_model(fit, type = "est", exponentiate, terms = NULL,
-  sort.est = FALSE, rm.terms = NULL, group.terms = NULL, title = NULL,
-  axis.title = NULL, axis.labels = NULL, axis.lim = NULL,
-  grid.breaks = NULL, ci.lvl = 0.95, show.intercept = FALSE,
-  show.values = FALSE, show.p = FALSE, geom.size = 0.9,
-  geom.colors = NULL, facets, wrap.title = 50, wrap.labels = 25,
-  case = NULL, digits = 2, vline.type = 2, vline.color = "grey70", ...)
+plot_model(model, type = c("est", "re", "eff", "pred", "int", "std", "std2",
+  "slope", "resid"), exponentiate, terms = NULL, sort.est = FALSE,
+  rm.terms = NULL, group.terms = NULL, pred.type = c("fe", "re"),
+  title = NULL, axis.title = NULL, axis.labels = NULL, axis.lim = NULL,
+  grid.breaks = NULL, ci.lvl = NULL, show.intercept = FALSE,
+  show.values = FALSE, show.p = TRUE, show.data = FALSE,
+  value.offset = NULL, geom.size = NULL, geom.colors = "Set1", facets,
+  wrap.title = 50, wrap.labels = 25, case = NULL, digits = 2,
+  vline.type = 2, vline.color = "grey70", ...)
 }
 \arguments{
 \item{type}{Type of plot. Use one of following:
 \describe{
   \item{\code{"est"}}{(default) for forest-plot of estimates. If the fitted model only contains one predictor, slope-line is plotted.}
   \item{\code{"pred"}}{to plot predicted values (marginal effects) for specific model terms. See 'Details'.}
-  \item{\code{"eff"}}{to plot marginal effects of all terms in \code{fit}. Note that interaction terms are excluded from this plot.}
-  \item{\code{"int"}}{to plot marginal effects of interaction terms in \code{fit}.}
+  \item{\code{"eff"}}{to plot marginal effects of all terms in \code{model}. Note that interaction terms are excluded from this plot.}
+  \item{\code{"int"}}{to plot marginal effects of interaction terms in \code{model}.}
   \item{\code{"std"}}{for forest-plot of standardized beta values.}
   \item{\code{"std2"}}{for forest-plot of standardized beta values, however, standardization is done by dividing by two sd (see 'Details').}
   \item{\code{"slope"}}{to plot regression lines for each single predictor of the fitted model, against the response (linear relationship between each model term and response).}
@@ -27,7 +29,7 @@ plot_model(fit, type = "est", exponentiate, terms = NULL,
   \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 }}
 
-\item{terms}{Character vector with the names of those from \code{fit}, which
+\item{terms}{Character vector with the names of those from \code{model}, which
 should be used to plot for. This argument depends on the plot-type;
 for \code{type = "pred"} or \code{type = "eff"}, \code{terms} indicates
 for which terms marginal effects should be displayed. At least one term

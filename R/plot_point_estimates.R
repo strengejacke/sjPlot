@@ -10,6 +10,7 @@ plot_point_estimates <- function(model,
                                  axis.lim,
                                  grid.breaks,
                                  show.values,
+                                 value.offset,
                                  geom.size,
                                  geom.colors,
                                  vline.type,
@@ -27,7 +28,7 @@ plot_point_estimates <- function(model,
     # special setup for rstan-models
     p <- p +
       geom_hline(yintercept = ifelse(exponentiate, 1, 0), linetype = vline.type, color = vline.color) +
-      geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), width = .05) +
+      geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), width = .06) +
       geom_rect(aes_string(ymin = "conf.low50", ymax = "conf.high50", xmin = "xmin", xmax = "xmax"), colour = "white", size = .5) +
       geom_point(aes_string(y = "estimate"), fill = "white", colour = "white", size = geom.size * 1.2)
   } else {
@@ -50,7 +51,7 @@ plot_point_estimates <- function(model,
   if (show.values) p <- p +
       geom_text(
         aes_string(label = "p.label"),
-        hjust = -.1,
+        nudge_x = value.offset,
         show.legend = FALSE
       )
 
