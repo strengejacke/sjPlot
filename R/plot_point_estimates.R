@@ -1,5 +1,6 @@
 #' @importFrom tibble has_name
 #' @importFrom dplyr n_distinct
+#' @importFrom sjmisc to_value
 plot_point_estimates <- function(model,
                                  dat,
                                  exponentiate,
@@ -14,30 +15,22 @@ plot_point_estimates <- function(model,
                                  vline.type,
                                  vline.color) {
 
+  # need some additional data, for stan-geoms
+  dat$xpos <- sjmisc::to_value(dat$term, start.at = 1)
+  dat$xmin <- dat$xpos - (geom.size * .1)
+  dat$xmax <- dat$xpos + (geom.size * .1)
+
+  # basis aes mapping
+  p <- ggplot(dat, aes_string(x = "term", y = "estimate", colour = "group", fill = "group"))
+
   if (inherits(model, c("stanreg", "stanfit"))) {
     # special setup for rstan-models
-    p <- plot_rstan_estimates(
-      model,
-      dat,
-      exponentiate,
-      geom.size,
-      geom.colors,
-      vline.type,
-      vline.color
-    )
-
-    # only one color
-    col.len <- 1
+    p <- p +
+      geom_hline(yintercept = ifelse(exponentiate, 1, 0), linetype = vline.type, color = vline.color) +
+      geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), width = .05) +
+      geom_rect(aes_string(ymin = "conf.low50", ymax = "conf.high50", xmin = "xmin", xmax = "xmax"), colour = "white", size = .5) +
+      geom_point(aes_string(y = "estimate"), fill = "white", colour = "white", size = geom.size * 1.2)
   } else {
-    # set up base aes, either with or w/o groups
-    if (tibble::has_name(dat, "group")) {
-      p <- ggplot(dat, aes_string(x = "term", y = "estimate", colour = "group"))
-      col.len <- dplyr::n_distinct(dat$group)
-    } else {
-      p <- ggplot(dat, aes_string(x = "term", y = "estimate"))
-      col.len <- 1
-    }
-
     # setup base plot
     p <- p +
       geom_hline(yintercept = ifelse(exponentiate, 1, 0), linetype = vline.type, color = vline.color) +
@@ -45,10 +38,13 @@ plot_point_estimates <- function(model,
       geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), width = 0)
   }
 
+  # set up base aes, either with or w/o groups
+  col.len <- dplyr::n_distinct(dat$group)
+
   # flip plot, and remove legend
   p <- p +
     coord_flip() +
-    guides(colour = "none")
+    guides(colour = "none", fill = "none")
 
   # add value labels
   if (show.values) p <- p +
@@ -87,7 +83,9 @@ plot_point_estimates <- function(model,
   }
 
   # set colors
-  p <- p + scale_colour_manual(values = col_check2(geom.colors, col.len))
+  p <- p +
+    scale_colour_manual(values = col_check2(geom.colors, col.len)) +
+    scale_fill_manual(values = col_check2(geom.colors, col.len))
 
   # set axis and plot titles
   p <-
@@ -95,43 +93,6 @@ plot_point_estimates <- function(model,
       x = NULL,
       y = axis.title,
       title = title
-    )
-
-  p
-}
-
-
-
-#' @importFrom sjmisc to_value
-plot_rstan_estimates <-
-  function(model,
-           dat,
-           exponentiate,
-           geom.size,
-           geom.colors,
-           vline.type,
-           vline.color) {
-
-  dat$xpos <- sjmisc::to_value(dat$term, start.at = 1)
-  dat$xmin <- dat$xpos - (geom.size * .1)
-  dat$xmax <- dat$xpos + (geom.size * .1)
-
-  p <- ggplot(dat, aes_string(x = "term")) +
-    geom_hline(yintercept = ifelse(exponentiate, 1, 0), linetype = vline.type, color = vline.color) +
-    geom_errorbar(
-      aes_string(ymin = "conf.low", ymax = "conf.high"),
-      width = .05
-    ) +
-    geom_rect(
-      aes_string(ymin = "conf.low50", ymax = "conf.high50", xmin = "xmin", xmax = "xmax"),
-      colour = "white",
-      size = .5
-    ) +
-    geom_point(
-      aes_string(y = "estimate"),
-      fill = "white",
-      colour = "white",
-      size = geom.size * 1.2
     )
 
   p

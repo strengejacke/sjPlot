@@ -47,6 +47,9 @@ plot_model_estimates <- function(fit,
 
   if (show.p) dat$p.label <- sprintf("%s %s", dat$p.label, dat$p.stars)
 
+  # create dummy grouping
+  dat$group <- as.factor(1)
+
   # group estimates?
   if (!is.null(group.terms)) {
     if (length(group.terms) == nrow(dat)) {
@@ -68,6 +71,15 @@ plot_model_estimates <- function(fit,
       dat$term <- forcats::fct_reorder(dat$term, dat$estimate)
   } else {
     dat$term <- forcats::fct_rev(dat$term)
+  }
+
+  # set default colors. for grouped predictors
+  # we need more color values
+  if (is.null(geom.colors)) {
+    if (!is.null(group.terms))
+      geom.colors <- "Set1"
+    else
+      geom.colors <- "grey30"
   }
 
   p <- plot_point_estimates(
