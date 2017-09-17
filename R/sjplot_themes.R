@@ -1,15 +1,38 @@
-#' @title Set default themes for plots
+#' @title Modify plot appearance
 #' @name sjPlot-themes
 #'
 #' @description Set default theme plots.
 #'
-#' @param base_size
-#' @param base_family
-#' @param title
-#' @param axis_title.x
-#' @param axis_title.y
-#' @param labels.x
-#' @param labels.y
+#' @param base_size Base font size.
+#' @param base_family Base font family.
+#' @param title Font size for plot titles.
+#' @param axis_title.x Font size for x-axis titles.
+#' @param axis_title.y Font size for y-axis titles.
+#' @param labels.x Font size for x-axis labels.
+#' @param labels.y Font size for y-axis labels.
+#' @param angle.x Angle for x-axis labels.
+#' @param angle.y Angle for y-axis labels.
+#' @param offset.x Offset for x-axis titles.
+#' @param offset.y Offset for y-axis titles.
+#' @param pos Position of the legend, if a legend is drawn.
+#'        \describe{
+#'          \item{\emph{Legend outside plot}}{
+#'            Use \code{"bottom"}, \code{"top"}, \code{"left"} or \code{"right"}
+#'            to position the legend above, below, on the left or right side
+#'            of the diagram.
+#'          }
+#'          \item{\emph{Legend inside plot}}{
+#'            If \code{inside = TRUE}, legend can be placed inside
+#'            plot. Use \code{"top left"}, \code{"top right"}, \code{"bottom left"}
+#'            and \code{"bottom right"} to position legend in any of these corners,
+#'            or a two-element numeric vector with values from 0-1. See also
+#'            \code{inside}.
+#'          }
+#'        }
+#' @param justify Justification of legend, relative to its position (\code{"center"} or
+#'          two-element numeric vector with values from 0-1.
+#' @param inside Logical, use \code{TRUE} to put legend inside the plotting area.
+#'        See also \code{pos}.
 
 
 #' @rdname sjPlot-themes
@@ -64,7 +87,7 @@ theme_538 <- function(base_size = 12, base_family = "") {
 
 #' @rdname sjPlot-themes
 #' @export
-font_size <- function(title, axis_title.x, axis_title.y, labels.x, labels.y) {
+font_size <- function(title, axis_title.x, axis_title.y, labels.x, labels.y, offset.x, offset.y) {
   # get current theme
   cur.theme <- theme_get()
 
@@ -91,6 +114,73 @@ font_size <- function(title, axis_title.x, axis_title.y, labels.x, labels.y) {
   if (!missing(labels.y)) {
     cur.theme <- cur.theme +
       theme(axis.text.y =  element_text(size = labels.y))
+  }
+
+  if (!is.null(offset.x)) {
+    cur.theme <- cur.theme +
+      theme(axis.title.x = element_text(vjust = offset.x))
+  }
+
+  if (!is.null(offset.y)) {
+    cur.theme <- cur.theme +
+      theme(axis.title.y = element_text(vjust = offset.y))
+  }
+
+  cur.theme
+}
+
+
+#' @rdname sjPlot-themes
+#' @export
+label_angle <- function(angle.x, angle.y) {
+  # get current theme
+  cur.theme <- theme_get()
+
+  if (!missing(angle.x)) {
+    cur.theme <- cur.theme +
+      theme(axis.text.x = element_text(angle = angle.x))
+  }
+
+  if (!missing(angle.y)) {
+    cur.theme <- cur.theme +
+      theme(axis.text.y = element_text(angle = angle.y))
+  }
+
+  cur.theme
+}
+
+
+#' @rdname sjPlot-themes
+#' @export
+legend_style <- function(inside, pos, justify) {
+
+  # get current theme
+  cur.theme <- theme_get()
+
+  # convert legend position from character to numeric index
+  if (!missing(inside) && inside) {
+    if (!missing(pos) && is.character(pos)) {
+      pos <- dplyr::case_when(
+        pos == "top right" ~ c(1, 1),
+        pos == "bottom right" ~ c(1, 0),
+        pos == "bottom left" ~ c(0, 0),
+        pos == "top left" ~ c(0, 1),
+        TRUE ~ c(1, 1)
+      )
+
+      if (missing(justify)) justify <- pos
+    }
+  }
+
+  # set default justification
+  if (missing(justify)) justify <- "center"
+
+  if (!missing(pos)) {
+    cur.theme <- cur.theme +
+      theme(
+        legend.position = pos,
+        legend.justification = justify
+      )
   }
 
   cur.theme

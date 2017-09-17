@@ -12,6 +12,7 @@ plot_point_estimates <- function(model,
                                  show.values,
                                  value.offset,
                                  geom.size,
+                                 line.size,
                                  geom.colors,
                                  vline.type,
                                  vline.color) {
@@ -24,11 +25,11 @@ plot_point_estimates <- function(model,
   # basis aes mapping
   p <- ggplot(dat, aes_string(x = "term", y = "estimate", colour = "group", fill = "group"))
 
-  if (inherits(model, c("stanreg", "stanfit"))) {
+  if (is.stan(model)) {
     # special setup for rstan-models
     p <- p +
       geom_hline(yintercept = ifelse(exponentiate, 1, 0), linetype = vline.type, color = vline.color) +
-      geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), width = .06) +
+      geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), size = line.size, width = .06) +
       geom_rect(aes_string(ymin = "conf.low50", ymax = "conf.high50", xmin = "xmin", xmax = "xmax"), colour = "white", size = .5) +
       geom_point(aes_string(y = "estimate"), fill = "white", colour = "white", size = geom.size * 1.2)
   } else {
@@ -36,7 +37,7 @@ plot_point_estimates <- function(model,
     p <- p +
       geom_hline(yintercept = ifelse(exponentiate, 1, 0), linetype = vline.type, color = vline.color) +
       geom_point(size = geom.size) +
-      geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), width = 0)
+      geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), width = 0, size = line.size)
   }
 
   # set up base aes, either with or w/o groups

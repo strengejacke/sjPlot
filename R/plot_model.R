@@ -59,7 +59,8 @@ plot_model <- function(model,
                        show.p = TRUE,
                        show.data = FALSE,
                        value.offset = NULL,
-                       geom.size = NULL,
+                       dot.size = NULL,
+                       line.size = NULL,
                        colors = "Set1",
                        facets,
                        wrap.title = 50,
@@ -74,12 +75,7 @@ plot_model <- function(model,
   type <- match.arg(type)
   pred.type <- match.arg(pred.type)
 
-  # do we have a stan-model?
-  is.stan <- inherits(model, c("stanreg", "stanfit"))
-
-  # check whether estimates should be exponentiated or not
-  if (missing(exponentiate))
-    exponentiate <- !get_glm_family(model)[["is_linear"]]
+  # get titles and labels for axis ----
 
   # get labels of dependent variables, and wrap them if too long
   if (is.null(title)) title <- sjlabelled::get_dv_labels(model, case = case)
@@ -90,7 +86,7 @@ plot_model <- function(model,
   axis.labels <- sjmisc::word_wrap(axis.labels, wrap = wrap.labels)
 
   # title for axis with estimate values
-  if (is.null(axis.title)) axis.title <- sjmisc::word_wrap(get_estimate_axis_title(model, axis.title), wrap = wrap.title)
+  if (is.null(axis.title)) axis.title <- sjmisc::word_wrap(get_estimate_axis_title(model, axis.title, type), wrap = wrap.title)
   axis.title <- sjmisc::word_wrap(axis.title, wrap = wrap.labels)
 
   # check nr of terms. if only one, plot slope
@@ -99,7 +95,7 @@ plot_model <- function(model,
 
   # set some default options for stan-models, which are not
   # available or appropriate for these
-  if (is.stan) {
+  if (is.stan(model)) {
     # no p-values
     show.p <- FALSE
     # no standardized coefficients
@@ -107,10 +103,15 @@ plot_model <- function(model,
   }
 
 
-  # set defaults for arguments, depending on model
-  if (is.null(ci.lvl)) ci.lvl <- dplyr::if_else(is.stan, .89, .95)
-  if (is.null(geom.size)) geom.size <- dplyr::if_else(is.stan, .9, 2.5)
-  if (is.null(value.offset)) value.offset <- dplyr::if_else(is.stan, .25, .15)
+  # set defaults for arguments, depending on model ----
+  if (is.null(ci.lvl)) ci.lvl <- dplyr::if_else(is.stan(model), .89, .95)
+  if (is.null(dot.size)) dot.size <- dplyr::if_else(is.stan(model), .9, 2.5)
+  if (is.null(line.size)) line.size <- dplyr::if_else(is.stan(model), .5, .5)
+  if (is.null(value.offset)) value.offset <- dplyr::if_else(is.stan(model), .25, .15)
+
+  # check whether estimates should be exponentiated or not
+  if (missing(exponentiate))
+    exponentiate <- !get_glm_family(model)[["is_linear"]]
 
 
   if (type %in% c("est", "std", "std2")) {
@@ -119,7 +120,6 @@ plot_model <- function(model,
 
     p <- plot_type_est(
       type = type,
-      is.stan = is.stan,
       ci.lvl = ci.lvl,
       exponentiate = exponentiate,
       model = model,
@@ -138,7 +138,8 @@ plot_model <- function(model,
       value.offset = value.offset,
       digits = digits,
       geom.colors = colors,
-      geom.size = geom.size,
+      geom.size = dot.size,
+      line.size = line.size,
       vline.type = vline.type,
       vline.color = vline.color
     )

@@ -1,3 +1,7 @@
+# do we have a stan-model?
+is.stan <- function(x) inherits(x, c("stanreg", "stanfit"))
+
+
 #' @importFrom grDevices axisTicks
 get_axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, exponentiate) {
   # axis limits
@@ -28,7 +32,11 @@ get_axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, e
 }
 
 
-get_estimate_axis_title <- function(fit, axis.title) {
+get_estimate_axis_title <- function(fit, axis.title, type) {
+
+  # no automatic title for effect-plots
+  if (type %in% c("eff", "pred", "int")) return(axis.title)
+
   # check default label and fit family
   if (is.null(axis.title)) {
     fitfam <- get_glm_family(fit)

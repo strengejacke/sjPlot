@@ -1,5 +1,4 @@
 plot_type_est <- function(type,
-                          is.stan,
                           ci.lvl,
                           exponentiate,
                           model,
@@ -19,27 +18,28 @@ plot_type_est <- function(type,
                           digits,
                           geom.colors,
                           geom.size,
+                          line.size,
                           vline.type,
                           vline.color) {
+
+  # get tidy output of summary ----
 
   if (type == "est") {
     ## TODO provide own tidier for not-supported models
 
-    # get tidy output of summary
-    if (is.stan)
+    if (is.stan(model))
       dat <- tidy_stan(model, ci.lvl, exponentiate)
     else
       dat <- broom::tidy(model, conf.int = TRUE, conf.level = ci.lvl, effects = "fixed")
-
   } else {
-    # get tidy output of summary
     dat <- model %>%
-      sjstats::std_beta(type = type) %>%
+      sjstats::std_beta(type = type, ci.lvl = ci.lvl) %>%
       tibble::add_column(p.value = sjstats::p_value(model)[["p.value"]][-1]) %>%
       sjmisc::var_rename(std.estimate = "estimate")
 
     show.intercept <- FALSE
   }
+
 
   plot_model_estimates(
     fit = model,
@@ -61,6 +61,7 @@ plot_type_est <- function(type,
     digits = digits,
     geom.colors = geom.colors,
     geom.size = geom.size,
+    line.size = line.size,
     vline.type = vline.type,
     vline.color = vline.color
   )

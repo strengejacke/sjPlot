@@ -20,6 +20,7 @@ plot_model_estimates <- function(fit,
                                  digits,
                                  geom.colors,
                                  geom.size,
+                                 line.size,
                                  vline.type,
                                  vline.color) {
 
@@ -28,7 +29,7 @@ plot_model_estimates <- function(fit,
 
   # exponentiation from broom::tidy does not work with merMod-objecs,
   # so we do it manually for all model classes
-  if (exponentiate && !inherits(fit, c("stanreg", "stanfit"))) {
+  if (exponentiate && !is.stan(fit)) {
     dat[["estimate"]] <- exp(dat[["estimate"]])
     dat[["conf.low"]] <- exp(dat[["conf.low"]])
     dat[["conf.high"]] <- exp(dat[["conf.high"]])
@@ -92,6 +93,7 @@ plot_model_estimates <- function(fit,
     show.values = show.values,
     value.offset = value.offset,
     geom.size = geom.size,
+    line.size = line.size,
     geom.colors = geom.colors,
     vline.type = vline.type,
     vline.color = vline.color

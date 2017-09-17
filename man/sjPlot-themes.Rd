@@ -6,7 +6,9 @@
 \alias{theme_blank}
 \alias{theme_538}
 \alias{font_size}
-\title{Set default themes for plots}
+\alias{label_angle}
+\alias{legend_style}
+\title{Modify plot appearance}
 \usage{
 theme_sjplot(base_size = 12, base_family = "")
 
@@ -14,7 +16,57 @@ theme_blank(base_size = 12, base_family = "")
 
 theme_538(base_size = 12, base_family = "")
 
-font_size(title, axis_title.x, axis_title.y, labels.x, labels.y)
+font_size(title, axis_title.x, axis_title.y, labels.x, labels.y, offset.x,
+  offset.y)
+
+label_angle(angle.x, angle.y)
+
+legend_style(inside, pos, justify)
+}
+\arguments{
+\item{base_size}{Base font size.}
+
+\item{base_family}{Base font family.}
+
+\item{title}{Font size for plot titles.}
+
+\item{axis_title.x}{Font size for x-axis titles.}
+
+\item{axis_title.y}{Font size for y-axis titles.}
+
+\item{labels.x}{Font size for x-axis labels.}
+
+\item{labels.y}{Font size for y-axis labels.}
+
+\item{offset.x}{Offset for x-axis titles.}
+
+\item{offset.y}{Offset for y-axis titles.}
+
+\item{angle.x}{Angle for x-axis labels.}
+
+\item{angle.y}{Angle for y-axis labels.}
+
+\item{inside}{logical, use \code{TRUE} to put legend inside the plotting area.
+See also \code{pos}.}
+
+\item{pos}{position of the legend, if a legend is drawn.
+\describe{
+  \item{\emph{legend outside plot}}{
+    Use \code{"bottom"}, \code{"top"}, \code{"left"} or \code{"right"}
+    to position the legend above, below, on the left or right side
+    of the diagram.
+  }
+  \item{\emph{legend inside plot}}{
+    If \code{inside = TRUE}, legend can be placed inside
+    plot. Use \code{"top left"}, \code{"top right"}, \code{"bottom left"}
+    and \code{"bottom right"} to position legend in any of these corners,
+    or a two-element numeric vector with values from 0-1. See also
+    \code{inside}.
+  }
+}}
+
+\item{justify}{justification of legend, relative to its position (\code{"center"} or
+two-element numeric vector with values from 0-1.}
 }
 \description{
 Set default theme plots.
