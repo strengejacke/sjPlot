@@ -33,6 +33,9 @@
 #'          two-element numeric vector with values from 0-1.
 #' @param inside Logical, use \code{TRUE} to put legend inside the plotting area.
 #'        See also \code{pos}.
+#' @param theme Optional ggplot-theme-object, which is needed in case multiple
+#'        functions should be combined, e.g. \code{theme_sjplot() + label_angle()}.
+#'        In such cases, use \code{label_angle(theme = theme_sjplot())}.
 
 
 #' @rdname sjPlot-themes
@@ -87,9 +90,12 @@ theme_538 <- function(base_size = 12, base_family = "") {
 
 #' @rdname sjPlot-themes
 #' @export
-font_size <- function(title, axis_title.x, axis_title.y, labels.x, labels.y, offset.x, offset.y) {
+font_size <- function(title, axis_title.x, axis_title.y, labels.x, labels.y, offset.x, offset.y, theme) {
   # get current theme
-  cur.theme <- theme_get()
+  if (!missing(theme))
+    cur.theme <- theme
+  else
+    cur.theme <- theme_get()
 
   if (!missing(title)) {
     cur.theme <- cur.theme +
@@ -132,9 +138,12 @@ font_size <- function(title, axis_title.x, axis_title.y, labels.x, labels.y, off
 
 #' @rdname sjPlot-themes
 #' @export
-label_angle <- function(angle.x, angle.y) {
+label_angle <- function(angle.x, angle.y, theme) {
   # get current theme
-  cur.theme <- theme_get()
+  if (!missing(theme))
+    cur.theme <- theme
+  else
+    cur.theme <- theme_get()
 
   if (!missing(angle.x)) {
     cur.theme <- cur.theme +
@@ -152,10 +161,12 @@ label_angle <- function(angle.x, angle.y) {
 
 #' @rdname sjPlot-themes
 #' @export
-legend_style <- function(inside, pos, justify) {
-
+legend_style <- function(inside, pos, justify, theme) {
   # get current theme
-  cur.theme <- theme_get()
+  if (!missing(theme))
+    cur.theme <- theme
+  else
+    cur.theme <- theme_get()
 
   # convert legend position from character to numeric index
   if (!missing(inside) && inside) {

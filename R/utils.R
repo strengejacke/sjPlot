@@ -1,3 +1,8 @@
+#' @importFrom magrittr %>%
+#' @export
+magrittr::`%>%`
+
+
 # do we have a stan-model?
 is.stan <- function(x) inherits(x, c("stanreg", "stanfit"))
 

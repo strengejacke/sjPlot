@@ -34,6 +34,7 @@ Imports:
     ggplot2 (>= 2.2.1),
     knitr,
     lme4 (>= 1.1-12),
+    magrittr,
     MASS,
     merTools (>= 0.3.0),
     modelr,

@@ -17,11 +17,11 @@ theme_blank(base_size = 12, base_family = "")
 theme_538(base_size = 12, base_family = "")
 
 font_size(title, axis_title.x, axis_title.y, labels.x, labels.y, offset.x,
-  offset.y)
+  offset.y, theme)
 
-label_angle(angle.x, angle.y)
+label_angle(angle.x, angle.y, theme)
 
-legend_style(inside, pos, justify)
+legend_style(inside, pos, justify, theme)
 }
 \arguments{
 \item{base_size}{Base font size.}
@@ -42,21 +42,25 @@ legend_style(inside, pos, justify)
 
 \item{offset.y}{Offset for y-axis titles.}
 
+\item{theme}{Optional ggplot-theme-object, which is needed in case multiple
+functions should be combined, e.g. \code{theme_sjplot() + label_angle()}.
+In such cases, use \code{label_angle(theme = theme_sjplot())}.}
+
 \item{angle.x}{Angle for x-axis labels.}
 
 \item{angle.y}{Angle for y-axis labels.}
 
-\item{inside}{logical, use \code{TRUE} to put legend inside the plotting area.
+\item{inside}{Logical, use \code{TRUE} to put legend inside the plotting area.
 See also \code{pos}.}
 
-\item{pos}{position of the legend, if a legend is drawn.
+\item{pos}{Position of the legend, if a legend is drawn.
 \describe{
-  \item{\emph{legend outside plot}}{
+  \item{\emph{Legend outside plot}}{
     Use \code{"bottom"}, \code{"top"}, \code{"left"} or \code{"right"}
     to position the legend above, below, on the left or right side
     of the diagram.
   }
-  \item{\emph{legend inside plot}}{
+  \item{\emph{Legend inside plot}}{
     If \code{inside = TRUE}, legend can be placed inside
     plot. Use \code{"top left"}, \code{"top right"}, \code{"bottom left"}
     and \code{"bottom right"} to position legend in any of these corners,
@@ -65,7 +69,7 @@ See also \code{pos}.}
   }
 }}
 
-\item{justify}{justification of legend, relative to its position (\code{"center"} or
+\item{justify}{Justification of legend, relative to its position (\code{"center"} or
 two-element numeric vector with values from 0-1.}
 }
 \description{

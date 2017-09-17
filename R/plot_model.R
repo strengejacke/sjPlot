@@ -143,6 +143,14 @@ plot_model <- function(model,
       vline.type = vline.type,
       vline.color = vline.color
     )
+  } else if (type == "re") {
+
+    # plot random effects ----
+
+    p <- plot_type_ranef(
+
+    )
+
   } else if (type %in% c("pred", "eff")) {
 
     # plot marginal effects ----
