@@ -160,6 +160,7 @@ sjp.glm <- function(fit,
                     facet.grid = TRUE,
                     prnt.plot = TRUE,
                     ...) {
+  .Deprecated("plot_model")
   # check args -----
   if (type == "pc" || type == "prob") type <- "slope"
 

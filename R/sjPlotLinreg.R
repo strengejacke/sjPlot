@@ -256,7 +256,7 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #' @importFrom sjmisc is_empty
 #' @importFrom tibble as_tibble
 #' @importFrom nlme getData getResponse getCovariateFormula
-#' @importFrom sjstats get_model_pval std_beta
+#' @importFrom sjstats p_value std_beta
 #' @export
 sjp.lm <- function(fit,
                    type = "lm",
@@ -296,6 +296,7 @@ sjp.lm <- function(fit,
                    complete.dgns = FALSE,
                    prnt.plot = TRUE,
                    ...) {
+  .Deprecated("plot_model")
   # -----------------------------------------------------------
   # remember length of predictor variables
   # -----------------------------------------------------------
@@ -396,7 +397,7 @@ sjp.lm <- function(fit,
   # print beta- and p-values in bar charts
   # ----------------------------
   # retrieve sigificance level of independent variables (p-values)
-  pv <- sjstats::get_model_pval(fit, p.kr = F)[["p.value"]][-1]
+  pv <- sjstats::p_value(fit, p.kr = F)[["p.value"]][-1]
   # -------------------------------------------------
   # for better readability, convert p-values to asterisks
   # with:

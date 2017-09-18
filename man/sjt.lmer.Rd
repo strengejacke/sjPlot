@@ -226,7 +226,7 @@ Concerning the \code{show.std} argument, \code{show.std = "std"}
            the \pkg{pbkrtest}-package. If \pkg{pbkrtest} is not available or
            \code{p.kr = FALSE}, computation of p-values is based
            on normal-distribution assumption, treating the t-statistics as Wald
-           z-statistics. See 'Details' in \code{\link[sjstats]{get_model_pval}}.
+           z-statistics. See 'Details' in \code{\link[sjstats]{p_value}}.
            \cr \cr
            The confidence intervals stem from \pkg{broom}'s
            \code{\link[broom]{tidy}}-function. For linear mixed models, the computation

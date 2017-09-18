@@ -31,7 +31,8 @@ plot_point_estimates <- function(model,
       geom_hline(yintercept = ifelse(exponentiate, 1, 0), linetype = vline.type, color = vline.color) +
       geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), size = line.size, width = .06) +
       geom_rect(aes_string(ymin = "conf.low50", ymax = "conf.high50", xmin = "xmin", xmax = "xmax"), colour = "white", size = .5) +
-      geom_point(aes_string(y = "estimate"), fill = "white", colour = "white", size = geom.size * 1.2)
+      geom_segment(aes_string(x = "xmin", xend = "xmax", y = "estimate", yend = "estimate"), colour = "white", size = geom.size)
+      # geom_point(aes_string(y = "estimate"), fill = "white", colour = "white", size = geom.size * 1.2)
   } else {
     # setup base plot
     p <- p +

@@ -20,7 +20,8 @@ plot_type_est <- function(type,
                           geom.size,
                           line.size,
                           vline.type,
-                          vline.color) {
+                          vline.color,
+                          ...) {
 
   # get tidy output of summary ----
 
@@ -28,7 +29,7 @@ plot_type_est <- function(type,
     ## TODO provide own tidier for not-supported models
 
     if (is.stan(model))
-      dat <- tidy_stan(model, ci.lvl, exponentiate)
+      dat <- tidy_stan(model, ci.lvl, exponentiate, ...)
     else
       dat <- broom::tidy(model, conf.int = TRUE, conf.level = ci.lvl, effects = "fixed")
   } else {

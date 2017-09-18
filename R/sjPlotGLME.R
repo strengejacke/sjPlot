@@ -269,6 +269,7 @@ sjp.glmer <- function(fit,
                       y.offset = .1,
                       prnt.plot = TRUE,
                       ...) {
+  .Deprecated("plot_model")
   # -------------------------------------
   # check for deprecated argument values
   # -------------------------------------
@@ -442,7 +443,7 @@ sjp.glmer <- function(fit,
 #'         the \pkg{pbkrtest}-package. If \pkg{pbkrtest} is not available or
 #'         \code{p.kr = FALSE}, computation of p-values is based
 #'         on normal-distribution assumption, treating the t-statistics as Wald
-#'         z-statistics. See 'Details' in \code{\link[sjstats]{get_model_pval}}.
+#'         z-statistics. See 'Details' in \code{\link[sjstats]{p_value}}.
 #'
 #' @examples
 #' # fit model
@@ -528,7 +529,7 @@ sjp.glmer <- function(fit,
 #'          facet.grid = FALSE, show.ci = FALSE)}
 #'
 #' @import ggplot2
-#' @importFrom sjstats se std_beta get_model_pval
+#' @importFrom sjstats se std_beta p_value
 #' @importFrom dplyr sample_n slice
 #' @export
 sjp.lmer <- function(fit,
@@ -570,6 +571,7 @@ sjp.lmer <- function(fit,
                      y.offset = .1,
                      prnt.plot = TRUE,
                      ...) {
+  .Deprecated("plot_model")
   # -------------------------------------
   # check for deprecated argument values
   # -------------------------------------
@@ -1057,7 +1059,7 @@ sjp.lme4  <- function(fit,
       # ----------------------------
       # retrieve sigificance level of independent variables (p-values)
       # ----------------------------
-      pv <- sjstats::get_model_pval(fit, p.kr)[["p.value"]]
+      pv <- sjstats::p_value(fit, p.kr)[["p.value"]]
       # ----------------------------
       # retrieve odds ratios resp.
       # betas or standardized betas

@@ -89,7 +89,7 @@
 #' @importFrom dplyr slice bind_rows filter
 #' @importFrom broom tidy
 #' @importFrom forcats fct_rev
-#' @importFrom sjstats std_beta get_model_pval
+#' @importFrom sjstats std_beta p_value
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom rlang .data
 #' @importFrom sjmisc word_wrap var_rename
@@ -147,7 +147,7 @@ plot_models <- function(...,
       purrr::map(~ sjstats::std_beta(.x, type = std.est)) %>%
       purrr::map(~ sjmisc::var_rename(.x, std.estimate = "estimate")) %>%
       purrr::map2(input_list, ~ tibble::add_column(
-        .x, p.value = sjstats::get_model_pval(.y)[["p.value"]][-1])
+        .x, p.value = sjstats::p_value(.y)[["p.value"]][-1])
       )
   } else {
     # if not standardized, we can get simple tidy output and

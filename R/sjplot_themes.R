@@ -122,12 +122,12 @@ font_size <- function(title, axis_title.x, axis_title.y, labels.x, labels.y, off
       theme(axis.text.y =  element_text(size = labels.y))
   }
 
-  if (!is.null(offset.x)) {
+  if (!missing(offset.x)) {
     cur.theme <- cur.theme +
       theme(axis.title.x = element_text(vjust = offset.x))
   }
 
-  if (!is.null(offset.y)) {
+  if (!missing(offset.y)) {
     cur.theme <- cur.theme +
       theme(axis.title.y = element_text(vjust = offset.y))
   }

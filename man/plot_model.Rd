@@ -41,6 +41,26 @@ only specific groups. Term name and levels in brackets must be
 separated by a whitespace character, e.g.
 \code{terms = c("age", "education [1,3]")}. For more details, see
 \code{\link[ggeffects]{ggpredict}}.}
+
+\item{...}{Other arguments, passed down to various functions. Here is the
+description of these arguments in detail.
+\describe{
+  \item{\strong{stanreg-models (rstanarm)}}{
+    For \code{stanreg}-models (fitted with the \pkg{rstanarm}-package)
+    and plot-type \code{type = "est"}, you can specify numeric values
+    between 0 and 1 for \code{prob.inner} and \code{prob.outer}, which
+    will then be used as inner and outer probabilities for the uncertainty
+    intervals (HDI). By default, the inner probability is 0.5 and the
+    outer probability is 0.89 (unless \code{ci.lvl} is specified - in
+    this case, \code{ci.lvl} is used as outer probability). The
+    Bayesian point estimate is, by default, the median of the posterior
+    distribution. Use \code{bpe} to define other functions to calculate
+    the Bayesion point estimate. \code{bpe} needs to be a character naming
+    the specific function, which is passed to the \code{fun}-argument
+    in \code{\link[sjstats]{typical_value}}. So, \code{bpe = "mean"}
+    would calculate the mean value of the posterior distribution.
+  }
+}}
 }
 \description{
 To Do...

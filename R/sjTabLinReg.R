@@ -290,7 +290,7 @@
 #' @importFrom dplyr full_join slice bind_cols select_ rename_
 #' @importFrom stats nobs AIC confint coef deviance
 #' @importFrom lme4 VarCorr
-#' @importFrom sjstats std_beta icc r2 cod chisq_gof hoslem_gof get_model_pval robust
+#' @importFrom sjstats std_beta icc r2 cod chisq_gof hoslem_gof p_value robust
 #' @importFrom tibble lst add_row add_column
 #' @importFrom broom tidy
 #' @export
@@ -467,7 +467,7 @@ sjt.lm <- function(...,
     if (!sjmisc::str_contains(colnames(fit.df), "p.value")) {
       fit.df <- tibble::add_column(
         .data = fit.df,
-        p.value = sjstats::get_model_pval(input_list[[i]], p.kr)[["p.value"]],
+        p.value = sjstats::p_value(input_list[[i]], p.kr)[["p.value"]],
         .before = "conf.low"
       )
     }
@@ -1327,7 +1327,7 @@ sjt.lm <- function(...,
 #'            the \pkg{pbkrtest}-package. If \pkg{pbkrtest} is not available or
 #'            \code{p.kr = FALSE}, computation of p-values is based
 #'            on normal-distribution assumption, treating the t-statistics as Wald
-#'            z-statistics. See 'Details' in \code{\link[sjstats]{get_model_pval}}.
+#'            z-statistics. See 'Details' in \code{\link[sjstats]{p_value}}.
 #'            \cr \cr
 #'            The confidence intervals stem from \pkg{broom}'s
 #'            \code{\link[broom]{tidy}}-function. For linear mixed models, the computation

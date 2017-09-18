@@ -8,11 +8,19 @@ is.stan <- function(x) inherits(x, c("stanreg", "stanfit"))
 
 
 #' @importFrom grDevices axisTicks
+#' @importFrom dplyr if_else
+#' @importFrom sjmisc is_empty
 get_axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, exponentiate) {
+
+  # factor to multiply the axis limits. for exponentiated scales,
+  # these need to be large enough to find appropriate pretty numbers
+  fac.ll <- dplyr::if_else(exponentiate, .3, .95)
+  fac.ul <- dplyr::if_else(exponentiate, 3.3, 1.05)
+
   # axis limits
   if (is.null(axis.lim)) {
-    lower_lim <- min.val * .95
-    upper_lim <- max.val * 1.05
+    lower_lim <- min.val * fac.ll
+    upper_lim <- max.val * fac.ul
   } else {
     lower_lim <- axis.lim[1]
     upper_lim <- axis.lim[2]
@@ -22,9 +30,13 @@ get_axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, e
   if (is.null(grid.breaks)) {
     if (exponentiate) {
       # use pretty distances for log-scale
-      ticks <- grDevices::axisTicks(log(c(lower_lim, upper_lim)), log = TRUE)
-      # make sure that scale is not too wide
-      ticks <- ticks[1:which(ticks > max.val)[1]]
+      ticks <- grDevices::axisTicks(log10(c(lower_lim, upper_lim)), log = TRUE)
+      # truncate ticks to highest value below lower lim and
+      # lowest value above upper lim
+      ll <- which(ticks < lower_lim)
+      if (!sjmisc::is_empty(ll) && length(ll) > 1) ticks <- ticks[ll[length(ll)]:length(ticks)]
+      ul <- which(ticks > upper_lim)
+      if (!sjmisc::is_empty(ul) && length(ul) > 1) ticks <- ticks[1:ul[1]]
     } else {
       ticks <- pretty(c(lower_lim, upper_lim))
     }
