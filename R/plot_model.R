@@ -31,20 +31,29 @@
 #' @param ... Other arguments, passed down to various functions. Here is the
 #'        description of these arguments in detail.
 #'        \describe{
-#'          \item{\strong{stanreg-models (rstanarm)}}{
+#'          \item{\code{prob.inner} and \code{prob.outer}}{
 #'            For \code{stanreg}-models (fitted with the \pkg{rstanarm}-package)
 #'            and plot-type \code{type = "est"}, you can specify numeric values
 #'            between 0 and 1 for \code{prob.inner} and \code{prob.outer}, which
 #'            will then be used as inner and outer probabilities for the uncertainty
 #'            intervals (HDI). By default, the inner probability is 0.5 and the
 #'            outer probability is 0.89 (unless \code{ci.lvl} is specified - in
-#'            this case, \code{ci.lvl} is used as outer probability). The
-#'            Bayesian point estimate is, by default, the median of the posterior
+#'            this case, \code{ci.lvl} is used as outer probability).
+#'          }
+#'          \item{\code{bpe}}{
+#'            Also for \code{stanreg}-models (fitted with the \pkg{rstanarm}-package),
+#'            the Bayesian point estimate is, by default, the median of the posterior
 #'            distribution. Use \code{bpe} to define other functions to calculate
 #'            the Bayesion point estimate. \code{bpe} needs to be a character naming
 #'            the specific function, which is passed to the \code{fun}-argument
 #'            in \code{\link[sjstats]{typical_value}}. So, \code{bpe = "mean"}
 #'            would calculate the mean value of the posterior distribution.
+#'          }
+#'          \item{\code{bpe.style}}{
+#'            Again for \code{stanreg}-models (fitted with the \pkg{rstanarm}-package),
+#'            the Bayesian point estimate is indicated as a small, vertical line
+#'            by default. Use \code{bpe.style = "dot"} to plot a dot instead
+#'            of a line for the point estimate.
 #'          }
 #'        }
 #'
@@ -60,7 +69,7 @@
 #'
 #' @export
 plot_model <- function(model,
-                       type = c("est", "re", "eff", "pred", "int", "std", "std2", "slope", "resid"),
+                       type = c("est", "re", "eff", "pred", "int", "std", "std2", "slope", "resid", "diag"),
                        exponentiate,
                        terms = NULL,
                        sort.est = FALSE,
@@ -114,6 +123,7 @@ plot_model <- function(model,
 
   # set some default options for stan-models, which are not
   # available or appropriate for these
+
   if (is.stan(model)) {
     # no p-values
     show.p <- FALSE
@@ -123,10 +133,12 @@ plot_model <- function(model,
 
 
   # set defaults for arguments, depending on model ----
+
   if (is.null(ci.lvl)) ci.lvl <- dplyr::if_else(is.stan(model), .89, .95)
   if (is.null(dot.size)) dot.size <- dplyr::if_else(is.stan(model), 1, 2.5)
   if (is.null(line.size)) line.size <- dplyr::if_else(is.stan(model), .5, .5)
   if (is.null(value.offset)) value.offset <- dplyr::if_else(is.stan(model), .25, .15)
+
 
   # check whether estimates should be exponentiated or not
   if (missing(exponentiate))
@@ -196,6 +208,22 @@ plot_model <- function(model,
 
 
 
+
+  } else if (type == "diag") {
+
+    # plot diagnostic plots ----
+
+    if (is.stan(model)) {
+      p <- plot_diag_stan(
+        model = model,
+        geom.colors = colors,
+        facets = facets,
+        ...
+      )
+
+    } else {
+
+    }
 
   }
 

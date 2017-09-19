@@ -1,10 +1,13 @@
 #' @importFrom sjstats hdi typical_value
 #' @importFrom sjmisc var_rename add_columns
-#' @importFrom dplyr select
+#' @importFrom dplyr select filter
 #' @importFrom tibble add_column
 #' @importFrom purrr map_dbl
+#' @importFrom rlang .data
 tidy_stan <- function(fit, ci.lvl, exponentiate, ...) {
+
   # check if values should be exponentiated
+
   if (exponentiate)
     funtrans <- "exp"
   else
@@ -12,6 +15,7 @@ tidy_stan <- function(fit, ci.lvl, exponentiate, ...) {
 
 
   # set defaults
+
   p.inner <- .5
   p.outer <- ci.lvl
   best <- "median"
@@ -22,29 +26,39 @@ tidy_stan <- function(fit, ci.lvl, exponentiate, ...) {
 
   # check whether we have "prob.inner", "prob.outer" and "bpe" argument
   # and if so, use these for HDI and Bayesian point estimate
+
   if ("prob.inner" %in% names(add.args)) p.inner <- add.args[["prob.inner"]]
   if ("prob.outer" %in% names(add.args)) p.outer <- add.args[["prob.outer"]]
   if ("bpe" %in% names(add.args)) best <- add.args[["bpe"]]
 
 
   # get two HDI-intervals
+
   d1 <- sjstats::hdi(fit, prob = p.outer, trans = funtrans)
   d2 <- sjstats::hdi(fit, prob = p.inner, trans = funtrans)
 
+
   # bind columns, so we have inner and outer hdi interval
+
   dat <- d2 %>%
     dplyr::select(.data$hdi.low, .data$hdi.high) %>%
     sjmisc::var_rename(hdi.low = "conf.low50", hdi.high = "conf.high50") %>%
     sjmisc::add_columns(d1) %>%
     sjmisc::var_rename(hdi.low = "conf.low", hdi.high = "conf.high")
 
+
   # add bayesian point estimate
+
   dat <- dat %>%
     tibble::add_column(
       estimate = purrr::map_dbl(as.data.frame(fit), sjstats::typical_value, best),
       .after = 1
     ) %>%
     tibble::add_column(p.value = 0)
+
+
+  # remove sigma row
+  if ("sigma" %in% dat$term) dat <- dplyr::filter(dat, .data$term != "sigma")
 
   # need to transform point estimate as well
   if (exponentiate) dat$estimate <- exp(dat$estimate)

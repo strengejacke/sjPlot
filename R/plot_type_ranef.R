@@ -41,10 +41,13 @@ plot_type_ranef <- function(type,
   # how many plots? if we have random effects plots,
   # determine number of random effects and iterate
   # all effects
+
   loops <- 1
+
 
   # do we have a specific random intercept
   # specified? If yes, check valid index
+
   if (!missing(ri.nr) && is.null(ri.nr)) {
 
     out.of.bounds <- which(ri.nr > ri.cnt)
@@ -70,12 +73,15 @@ plot_type_ranef <- function(type,
 
 
   # convert to list of data frames, keep only needed random effects
+
   rand.ef <- purrr::map(
     loops,
     ~ rand.ef[.x] %>% as.data.frame() %>% tibble::rownames_to_column()
   )
 
+
   # same for standard errors...
+
   rand.se <- purrr::map(
     loops,
     ~ rand.se[.x] %>% as.data.frame() %>% tibble::rownames_to_column()

@@ -22,13 +22,17 @@ plot_model_estimates <- function(fit,
                                  geom.size,
                                  line.size,
                                  vline.type,
-                                 vline.color) {
+                                 vline.color,
+                                 bpe.style) {
 
   # remove intercept from output
+
   if (!show.intercept) dat <- dplyr::slice(dat, -1)
+
 
   # exponentiation from broom::tidy does not work with merMod-objecs,
   # so we do it manually for all model classes
+
   if (exponentiate && !is.stan(fit)) {
     dat[["estimate"]] <- exp(dat[["estimate"]])
     dat[["conf.low"]] <- exp(dat[["conf.low"]])
@@ -36,26 +40,35 @@ plot_model_estimates <- function(fit,
   }
 
   # remove further estimates
+
   filter.remove <- !(dat$term %in% terms)
   if (!is.null(rm.terms)) dat <- dplyr::filter(dat, !! filter.remove)
 
+
   # or select further estimates
+
   filter.remove <- dat$term %in% rm.terms
   if (!is.null(terms)) dat <- dplyr::filter(dat, !! filter.remove)
 
+
   # add p-asterisks to data
+
   dat$p.stars <- get_p_stars(dat$p.value)
   dat$p.label <- sprintf("%.*f", digits, dat$estimate)
 
   if (show.p) dat$p.label <- sprintf("%s %s", dat$p.label, dat$p.stars)
 
+
   # create default grouping, depending on the effect:
   # split positive and negative associations with outcome
   # into different groups
+
   treshold <- dplyr::if_else(exponentiate, 1, 0)
   dat$group <- dplyr::if_else(dat$estimate > treshold, "pos", "neg")
 
+
   # group estimates?
+
   if (!is.null(group.terms)) {
     if (length(group.terms) == nrow(dat)) {
       dat$group <- as.character(group.terms)
@@ -65,10 +78,13 @@ plot_model_estimates <- function(fit,
     }
   }
 
+
   # make term name categorical, for axis labelling
   dat$term <- as.factor(dat$term)
 
+
   # sort estimates by effect size
+
   if (sort.est) {
     if (!is.null(group.terms))
       dat$term <- forcats::fct_reorder(dat$term, dat$group)
@@ -78,8 +94,11 @@ plot_model_estimates <- function(fit,
     dat$term <- forcats::fct_rev(dat$term)
   }
 
+
   # set default colors. for grouped predictors we need more color values
+
   if (is.null(geom.colors)) geom.colors <- dplyr::if_else(is.null(group.terms), "grey30", "Set1")
+
 
   plot_point_estimates(
     model = fit,
@@ -96,7 +115,8 @@ plot_model_estimates <- function(fit,
     line.size = line.size,
     geom.colors = geom.colors,
     vline.type = vline.type,
-    vline.color = vline.color
+    vline.color = vline.color,
+    bpe.style = bpe.style
   )
 }
 

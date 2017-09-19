@@ -42,6 +42,18 @@ plot_type_est <- function(type,
   }
 
 
+  # for stan-models, we can define the style of the Bayesian point estimate,
+  # which may be a line or a dot.
+
+  bpe.style <- "line"
+
+
+  # additional arguments for 'effects()'-function?
+
+  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  if ("bpe.style" %in% names(add.args)) bpe.style <- add.args[["bpe.style"]]
+
+
   plot_model_estimates(
     fit = model,
     dat = dat,
@@ -64,6 +76,7 @@ plot_type_est <- function(type,
     geom.size = geom.size,
     line.size = line.size,
     vline.type = vline.type,
-    vline.color = vline.color
+    vline.color = vline.color,
+    bpe.style = bpe.style
   )
 }
