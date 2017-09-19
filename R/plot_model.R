@@ -75,6 +75,7 @@ plot_model <- function(model,
                        sort.est = FALSE,
                        rm.terms = NULL,
                        group.terms = NULL,
+                       order.terms = NULL,
                        pred.type = c("fe", "re"),
                        title = NULL,
                        axis.title = NULL,
@@ -173,6 +174,7 @@ plot_model <- function(model,
       line.size = line.size,
       vline.type = vline.type,
       vline.color = vline.color,
+      order.terms = order.terms,
       ...
     )
   } else if (type == "re") {

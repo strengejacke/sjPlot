@@ -6,13 +6,14 @@
 \usage{
 plot_model(model, type = c("est", "re", "eff", "pred", "int", "std", "std2",
   "slope", "resid", "diag"), exponentiate, terms = NULL, sort.est = FALSE,
-  rm.terms = NULL, group.terms = NULL, pred.type = c("fe", "re"),
-  title = NULL, axis.title = NULL, axis.labels = NULL, axis.lim = NULL,
-  grid.breaks = NULL, ci.lvl = NULL, show.intercept = FALSE,
-  show.values = FALSE, show.p = TRUE, show.data = FALSE,
-  value.offset = NULL, dot.size = NULL, line.size = NULL,
-  colors = "Set1", facets, wrap.title = 50, wrap.labels = 25,
-  case = NULL, digits = 2, vline.type = 2, vline.color = "grey70", ...)
+  rm.terms = NULL, group.terms = NULL, order.terms = NULL,
+  pred.type = c("fe", "re"), title = NULL, axis.title = NULL,
+  axis.labels = NULL, axis.lim = NULL, grid.breaks = NULL,
+  ci.lvl = NULL, show.intercept = FALSE, show.values = FALSE,
+  show.p = TRUE, show.data = FALSE, value.offset = NULL,
+  dot.size = NULL, line.size = NULL, colors = "Set1", facets,
+  wrap.title = 50, wrap.labels = 25, case = NULL, digits = 2,
+  vline.type = 2, vline.color = "grey70", ...)
 }
 \arguments{
 \item{type}{Type of plot. Use one of following:

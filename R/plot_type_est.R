@@ -21,6 +21,7 @@ plot_type_est <- function(type,
                           line.size,
                           vline.type,
                           vline.color,
+                          order.terms = order.terms,
                           ...) {
 
   # get tidy output of summary ----
@@ -46,7 +47,6 @@ plot_type_est <- function(type,
   # which may be a line or a dot.
 
   bpe.style <- "line"
-
 
   # additional arguments for 'effects()'-function?
 
@@ -77,6 +77,7 @@ plot_type_est <- function(type,
     line.size = line.size,
     vline.type = vline.type,
     vline.color = vline.color,
-    bpe.style = bpe.style
+    bpe.style = bpe.style,
+    term.order = order.terms
   )
 }

@@ -23,7 +23,8 @@ plot_model_estimates <- function(fit,
                                  line.size,
                                  vline.type,
                                  vline.color,
-                                 bpe.style) {
+                                 bpe.style,
+                                 term.order) {
 
   # remove intercept from output
 
@@ -81,6 +82,18 @@ plot_model_estimates <- function(fit,
 
   # make term name categorical, for axis labelling
   dat$term <- as.factor(dat$term)
+
+
+  # does user want a specific order for terms?
+
+  if (!is.null(term.order)) {
+    if (length(term.order) == nrow(dat)) {
+      dat$term <- forcats::fct_reorder(dat$term, term.order)
+      sort.est <- FALSE
+    } else {
+      message("Number of values in `order.terms` does not match number of terms. Terms are not sorted.")
+    }
+  }
 
 
   # sort estimates by effect size
