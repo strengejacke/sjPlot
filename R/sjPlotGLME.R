@@ -2464,7 +2464,6 @@ sjp.glm.eff <- function(fit,
 #' @importFrom graphics plot
 sjp.glmer.ma <- function(fit) {
   m_f <- stats::model.frame(fit)
-  set_theme("scatterw")
   gp <- ggplot(data.frame(x = stats::predict(fit),
                           y = stats::residuals(fit),
                           grp = as.factor(lme4::getME(fit, "y"))),

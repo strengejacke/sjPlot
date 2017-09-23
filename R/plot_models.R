@@ -184,7 +184,8 @@ plot_models <- function(...,
     ff$term <- substring(ff$term, first = 3)
 
   # remove further estimates
-  if (!is.null(rm.terms)) ff <- dplyr::filter(!(.data$term %in% rm.terms))
+  rems <- !(ff$term %in% rm.terms)
+  if (!is.null(rm.terms)) ff <- dplyr::filter(ff, !! rems)
 
   # get labels of dependent variables, and wrap them if too long
   if (is.null(m.labels)) m.labels <- sjlabelled::get_dv_labels(input_list)
@@ -293,7 +294,7 @@ plot_models <- function(...,
   p <-
     p + labs(
       x = NULL,
-      y = sjmisc::word_wrap(get_estimate_axis_title(input_list[[1]], axis.title), wrap = wrap.title),
+      y = sjmisc::word_wrap(get_estimate_axis_title(input_list[[1]], axis.title, type = "est"), wrap = wrap.title),
       title = sjmisc::word_wrap(title, wrap = wrap.title),
       colour = sjmisc::word_wrap(legend.title, wrap = wrap.legend.title),
       shape = sjmisc::word_wrap(legend.pval.title, wrap = wrap.legend.title)

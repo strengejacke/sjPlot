@@ -57,6 +57,23 @@ theme_sjplot <- function(base_size = 12, base_family = "") {
 
 #' @rdname sjPlot-themes
 #' @export
+theme_sjplot2 <- function(base_size = 12, base_family = "") {
+  (theme_minimal(base_size = base_size, base_family = base_family) +
+     theme(
+       axis.line.x      = element_line(colour = "grey50"),
+       axis.line.y      = element_line(colour = "grey50"),
+       axis.text        = element_text(colour = "grey10"),
+       axis.title       = element_text(colour = "black"),
+       strip.background = element_rect(colour = "grey50", fill = "grey70"),
+       strip.text       = element_text(colour = "grey20"),
+       legend.title     = element_text(colour = "grey10"),
+       legend.text      = element_text(colour = "grey20")
+     ))
+}
+
+
+#' @rdname sjPlot-themes
+#' @export
 theme_blank <- function(base_size = 12, base_family = "") {
   (theme_minimal(base_size = base_size, base_family = base_family) +
      theme(

@@ -1362,7 +1362,6 @@ sjp.glm.ma <- function(logreg) {
   # ------------------------------------------------------
   # Residual plot two
   # ------------------------------------------------------
-  set_theme("scatterw")
   gp <- ggplot(data.frame(x = stats::predict(logreg),
                           y = stats::residuals(logreg),
                           grp = stats::model.frame(logreg)[[1]]),

@@ -3,6 +3,7 @@
 \name{sjPlot-themes}
 \alias{sjPlot-themes}
 \alias{theme_sjplot}
+\alias{theme_sjplot2}
 \alias{theme_blank}
 \alias{theme_538}
 \alias{font_size}
@@ -11,6 +12,8 @@
 \title{Modify plot appearance}
 \usage{
 theme_sjplot(base_size = 12, base_family = "")
+
+theme_sjplot2(base_size = 12, base_family = "")
 
 theme_blank(base_size = 12, base_family = "")
 

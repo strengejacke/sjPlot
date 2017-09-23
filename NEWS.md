@@ -1,3 +1,9 @@
+# sjPlot 2.4.0
+
+## Bug fixes
+
+* Fixed bug with `rm.terms`-argument in `plot_models()`.
+
 # sjPlot 2.3.3
 
 ## General

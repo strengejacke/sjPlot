@@ -114,8 +114,6 @@ sjp.corr(mydf, show.legend = TRUE)
 # -------------------------------
 # auto-detection of labels
 # -------------------------------
-# blank theme
-set_theme("blank", axis.angle.x = 90)
 sjp.corr(efc[, vars.index])
 
 
