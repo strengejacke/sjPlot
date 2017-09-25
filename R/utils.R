@@ -17,6 +17,11 @@ get_axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, e
   fac.ll <- dplyr::if_else(exponentiate, .3, .95)
   fac.ul <- dplyr::if_else(exponentiate, 3.3, 1.05)
 
+  # for negative signes, need to change multiplier
+  if (min.val < 0) fac.ll <- 1 / fac.ll
+  if (max.val < 0) fac.ul <- 1 / fac.ul
+
+
   # axis limits
   if (is.null(axis.lim)) {
     lower_lim <- min.val * fac.ll

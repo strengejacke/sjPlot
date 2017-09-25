@@ -30,6 +30,8 @@ plot_diag_stan <- function(model, geom.colors, facets, ...) {
   if (!facets) {
     d1 <- dplyr::select(d1, -.data$`(Intercept)`)
     d2 <- dplyr::select(d2, -.data$`(Intercept)`)
+    d1 <- dplyr::select(d1, -.data$sigma)
+    d2 <- dplyr::select(d2, -.data$sigma)
   }
 
 
