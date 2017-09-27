@@ -57,8 +57,11 @@ tidy_stan <- function(fit, ci.lvl, exponentiate, ...) {
     tibble::add_column(p.value = 0)
 
 
-  # remove sigma row
+  # remove sigma and lp__ row
+
   if ("sigma" %in% dat$term) dat <- dplyr::filter(dat, .data$term != "sigma")
+  if ("lp__" %in% dat$term) dat <- dplyr::filter(dat, .data$term != "lp__")
+
 
   # need to transform point estimate as well
   if (exponentiate) dat$estimate <- exp(dat$estimate)

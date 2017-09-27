@@ -4,7 +4,7 @@ magrittr::`%>%`
 
 
 # do we have a stan-model?
-is.stan <- function(x) inherits(x, c("stanreg", "stanfit"))
+is.stan <- function(x) inherits(x, c("stanreg", "stanfit", "brmsfit"))
 
 
 #' @importFrom grDevices axisTicks
@@ -149,7 +149,7 @@ get_glm_family <- function(fit) {
   } else {
     # "lrm"-object from pkg "rms" have no family method
     # so we construct a logistic-regression-family-object
-    if (inherits(fit, c("lrm", "polr")))
+    if (inherits(fit, c("lrm", "polr", "logistf")))
       faminfo <- stats::binomial(link = "logit")
     else
       # get family info
