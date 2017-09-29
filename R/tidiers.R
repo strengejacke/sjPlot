@@ -1,10 +1,11 @@
 #' @importFrom sjstats hdi typical_value
-#' @importFrom sjmisc var_rename add_columns
-#' @importFrom dplyr select filter
+#' @importFrom sjmisc var_rename add_columns is_empty
+#' @importFrom dplyr select filter slice
 #' @importFrom tibble add_column
 #' @importFrom purrr map_dbl
 #' @importFrom rlang .data
-tidy_stan <- function(fit, ci.lvl, exponentiate, ...) {
+#' @importFrom tidyselect starts_with
+tidy_stan_model <- function(fit, ci.lvl, exponentiate, type, ...) {
 
   # check if values should be exponentiated
 
@@ -34,8 +35,8 @@ tidy_stan <- function(fit, ci.lvl, exponentiate, ...) {
 
   # get two HDI-intervals
 
-  d1 <- sjstats::hdi(fit, prob = p.outer, trans = funtrans)
-  d2 <- sjstats::hdi(fit, prob = p.inner, trans = funtrans)
+  d1 <- sjstats::hdi(fit, prob = p.outer, trans = funtrans, type = "all")
+  d2 <- sjstats::hdi(fit, prob = p.inner, trans = funtrans, type = "all")
 
 
   # bind columns, so we have inner and outer hdi interval
@@ -63,11 +64,21 @@ tidy_stan <- function(fit, ci.lvl, exponentiate, ...) {
   if ("lp__" %in% dat$term) dat <- dplyr::filter(dat, .data$term != "lp__")
 
 
+  # check if we need to remove random effects
+
+  if (type == "est") {
+    # remove all random effect intercepts
+    re <- tidyselect::starts_with("b[", vars = dat$term)
+    if (!sjmisc::is_empty(re)) dat <- dplyr::slice(dat, !! -re)
+
+    # and all random effect error terms
+    re.s <- tidyselect::starts_with("Sigma[", vars = dat$term)
+    if (!sjmisc::is_empty(re.s)) dat <- dplyr::slice(dat, !! -re.s)
+  }
+
+
   # need to transform point estimate as well
   if (exponentiate) dat$estimate <- exp(dat$estimate)
 
   dat
 }
-
-
-

@@ -14,9 +14,8 @@ plot_point_estimates <- function(model,
                                  geom.size,
                                  line.size,
                                  geom.colors,
-                                 vline.type,
-                                 vline.color,
-                                 bpe.style) {
+                                 bpe.style,
+                                 vline.color) {
 
   # need some additional data, for stan-geoms
 
@@ -25,13 +24,49 @@ plot_point_estimates <- function(model,
   dat$xmax <- dat$xpos + (geom.size * .1)
 
 
+  # set default for empty titles/labels
+
+  if (sjmisc::is_empty(title)) title <- NULL
+  if (sjmisc::is_empty(axis.labels)) axis.labels <- dat$term
+  if (sjmisc::is_empty(axis.title)) axis.title <- NULL
+
+
+  # axis limits and tick breaks for y-axis
+
+  axis.scaling <- get_axis_limits_and_ticks(
+    axis.lim = axis.lim,
+    min.val = min(dat$conf.low),
+    max.val = max(dat$conf.high),
+    grid.breaks = grid.breaks,
+    exponentiate = exponentiate
+  )
+
+
+  # based on current ggplot theme, highlights vertical default line
+
+  yintercept = ifelse(exponentiate, 1, 0)
+
+  layer_vertical_line <- if (yintercept > axis.scaling$axis.lim[1] && yintercept < axis.scaling$axis.lim[2]) {
+    t <- theme_get()
+    color <- nulldef(vline.color, t$panel.grid.major$colour, "grey90")
+    minor_size <- nulldef(t$panel.grid.minor$size, .125)
+    major_size <- nulldef(t$panel.grid.major$size, minor_size * 2)
+    size <- major_size * 2
+    geom_hline(yintercept = yintercept, color = color, size = size)
+  } else {
+    geom_ignore()
+  }
+
+
   # basis aes mapping
+
   p <- ggplot(dat, aes_string(x = "term", y = "estimate", colour = "group", fill = "group"))
+
 
   if (is.stan(model)) {
     # special setup for rstan-models
     p <- p +
-      geom_hline(yintercept = ifelse(exponentiate, 1, 0), linetype = vline.type, color = vline.color) +
+      layer_vertical_line +
       geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), size = line.size, width = .06) +
       geom_rect(aes_string(ymin = "conf.low50", ymax = "conf.high50", xmin = "xmin", xmax = "xmax"), colour = "white", size = .5)
 
@@ -45,7 +80,7 @@ plot_point_estimates <- function(model,
   } else {
     # setup base plot
     p <- p +
-      geom_hline(yintercept = ifelse(exponentiate, 1, 0), linetype = vline.type, color = vline.color) +
+      layer_vertical_line +
       geom_point(size = geom.size) +
       geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), width = 0, size = line.size)
   }
@@ -76,17 +111,6 @@ plot_point_estimates <- function(model,
   # set axis labels
 
   p <- p + scale_x_discrete(labels = axis.labels)
-
-
-  # axis limits and tick breaks for y-axis
-
-  axis.scaling <- get_axis_limits_and_ticks(
-    axis.lim = axis.lim,
-    min.val = min(dat$conf.low),
-    max.val = max(dat$conf.high),
-    grid.breaks = grid.breaks,
-    exponentiate = exponentiate
-  )
 
 
   # we need transformed scale for exponentiated estimates

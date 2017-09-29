@@ -178,3 +178,14 @@ get_glm_family <- function(fit) {
     )
   )
 }
+
+
+nulldef <- function(x, y, z = NULL) {
+  if (is.null(x)) {
+    if (is.null(y))
+      z
+    else
+      y
+  } else
+    x
+}

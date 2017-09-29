@@ -13,35 +13,43 @@ plot_model(model, type = c("est", "re", "eff", "pred", "int", "std", "std2",
   show.p = TRUE, show.data = FALSE, value.offset = NULL,
   dot.size = NULL, line.size = NULL, colors = "Set1", facets,
   wrap.title = 50, wrap.labels = 25, case = NULL, digits = 2,
-  vline.type = 2, vline.color = "grey70", ...)
+  vline.color = NULL, ...)
 }
 \arguments{
 \item{type}{Type of plot. Use one of following:
 \describe{
   \item{\code{"est"}}{(default) for forest-plot of estimates. If the fitted model only contains one predictor, slope-line is plotted.}
-  \item{\code{"pred"}}{to plot predicted values (marginal effects) for specific model terms. See 'Details'.}
-  \item{\code{"eff"}}{to plot marginal effects of all terms in \code{model}. Note that interaction terms are excluded from this plot.}
+  \item{\code{"re"}}{for mixed effects models, plots the random effects.}
+  \item{\code{"pred"}}{to plot predicted values (marginal effects) for specific model terms. \code{\link[ggeffects]{ggpredict}}.}
+  \item{\code{"eff"}}{similar to \code{type = "pred"}, however, discrete predictors are held constant at their proportions (not reference level). See \code{\link[ggeffects]{ggeffect}} for details.}
   \item{\code{"int"}}{to plot marginal effects of interaction terms in \code{model}.}
   \item{\code{"std"}}{for forest-plot of standardized beta values.}
   \item{\code{"std2"}}{for forest-plot of standardized beta values, however, standardization is done by dividing by two sd (see 'Details').}
   \item{\code{"slope"}}{to plot regression lines for each single predictor of the fitted model, against the response (linear relationship between each model term and response).}
   \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals (linear relationship between each model term and residuals). May be used for model diagnostics.}
-  \item{\code{"ma"}}{to check model assumptions.}
+  \item{\code{"diag"}}{to check model assumptions.}
   \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 }}
 
-\item{terms}{Character vector with the names of those from \code{model}, which
-should be used to plot for. This argument depends on the plot-type;
-for \code{type = "pred"} or \code{type = "eff"}, \code{terms} indicates
-for which terms marginal effects should be displayed. At least one term
-is required to calculate effects, maximum length is three terms,
-where the second and third term indicate the groups, i.e. predictions
-of first term are grouped by the levels of the second (and third)
-term. Indicating levels in square brackets allows for selecting
-only specific groups. Term name and levels in brackets must be
-separated by a whitespace character, e.g.
-\code{terms = c("age", "education [1,3]")}. For more details, see
-\code{\link[ggeffects]{ggpredict}}.}
+\item{terms}{Character vector with the names of those terms from \code{model}
+that should be plotted. This argument depends on the plot-type:
+\describe{
+  \item{\code{type = "est"}}{
+    Select terms that should be plotted. All other term are removed
+    from the output.
+  }
+  \item{\code{type = "pred"} or \code{type = "eff"}}{
+    Here \code{terms} indicates for which terms marginal effects
+    should be displayed. At least one term is required to calculate
+    effects, maximum length is three terms, where the second and
+    third term indicate the groups, i.e. predictions of first term
+    are grouped by the levels of the second (and third) term.
+    Indicating levels in square brackets allows for selecting only
+    specific groups. Term name and levels in brackets must be separated
+    by a whitespace character, e.g. \code{terms = c("age", "education [1,3]")}.
+    For more details, see \code{\link[ggeffects]{ggpredict}}.
+  }
+}}
 
 \item{...}{Other arguments, passed down to various functions. Here is the
 description of these arguments in detail.

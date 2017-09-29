@@ -21,10 +21,9 @@ plot_model_estimates <- function(fit,
                                  geom.colors,
                                  geom.size,
                                  line.size,
-                                 vline.type,
-                                 vline.color,
                                  bpe.style,
-                                 term.order) {
+                                 term.order,
+                                 vline.color) {
 
   # remove intercept from output
 
@@ -127,9 +126,8 @@ plot_model_estimates <- function(fit,
     geom.size = geom.size,
     line.size = line.size,
     geom.colors = geom.colors,
-    vline.type = vline.type,
-    vline.color = vline.color,
-    bpe.style = bpe.style
+    bpe.style = bpe.style,
+    vline.color = vline.color
   )
 }
 
