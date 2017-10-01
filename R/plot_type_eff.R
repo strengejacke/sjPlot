@@ -1,3 +1,4 @@
+#' @importFrom ggeffects ggpredict ggeffect
 plot_type_eff <- function(type,
                           model,
                           terms,

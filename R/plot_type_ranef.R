@@ -38,6 +38,7 @@ plot_type_ranef <- function(type,
 
   ri.cnt <- length(ranef)
 
+
   # how many plots? if we have random effects plots,
   # determine number of random effects and iterate
   # all effects

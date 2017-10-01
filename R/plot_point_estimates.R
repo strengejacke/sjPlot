@@ -54,7 +54,12 @@ plot_point_estimates <- function(model,
     size <- major_size * 2
     geom_hline(yintercept = yintercept, color = color, size = size)
   } else {
-    geom_ignore()
+    geom_blank(
+      mapping = NULL,
+      data = NULL,
+      show.legend = FALSE,
+      inherit.aes = FALSE
+    )
   }
 
 
