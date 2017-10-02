@@ -29,20 +29,7 @@ plot_type_est <- function(type,
 
   if (type == "est") {
     ## TODO provide own tidier for not-supported models
-
-    # for stan models, we have our own tidyr. for other models,
-    # we use pkg broom, and may need to tweak the output a bit...
-
-    if (is.stan(model)) {
-      dat <- tidy_stan_model(model, ci.lvl, exponentiate, type, ...)
-    } else {
-      # tidy the model
-      dat <- broom::tidy(model, conf.int = TRUE, conf.level = ci.lvl, effects = "fixed")
-
-      # see if we have p-values. if not, add them
-      if (!tibble::has_name(dat, "p.value"))
-        dat$p.value <- sjstats::p_value(model)[["p.value"]]
-    }
+    dat <- tidy_model(model, ci.lvl, exponentiate, type, ...)
   } else {
     dat <- model %>%
       sjstats::std_beta(type = type, ci.lvl = ci.lvl) %>%
