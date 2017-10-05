@@ -15,7 +15,8 @@ plot_point_estimates <- function(model,
                                  line.size,
                                  geom.colors,
                                  bpe.style,
-                                 vline.color) {
+                                 vline.color,
+                                 value.size) {
 
   # need some additional data, for stan-geoms
 
@@ -69,6 +70,7 @@ plot_point_estimates <- function(model,
 
 
   if (is.stan(model)) {
+
     # special setup for rstan-models
     p <- p +
       layer_vertical_line +
@@ -82,12 +84,15 @@ plot_point_estimates <- function(model,
     else
       p <- p +
         geom_point(aes_string(y = "estimate"), fill = "white", colour = "white", size = geom.size * 1.2)
+
   } else {
+
     # setup base plot
     p <- p +
       layer_vertical_line +
       geom_point(size = geom.size) +
       geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), width = 0, size = line.size)
+
   }
 
 
@@ -109,7 +114,8 @@ plot_point_estimates <- function(model,
       geom_text(
         aes_string(label = "p.label"),
         nudge_x = value.offset,
-        show.legend = FALSE
+        show.legend = FALSE,
+        size = value.size
       )
 
 
@@ -141,6 +147,13 @@ plot_point_estimates <- function(model,
   p <- p +
     scale_colour_manual(values = col_check2(geom.colors, col.len)) +
     scale_fill_manual(values = col_check2(geom.colors, col.len))
+
+
+  # facets?
+
+  if (tibble::has_name(dat, "facet"))
+    p <- p +
+      facet_grid(~facet)
 
 
   # set axis and plot titles

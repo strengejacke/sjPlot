@@ -7,20 +7,20 @@
 plot_model(model, type = c("est", "re", "eff", "pred", "int", "std", "std2",
   "slope", "resid", "diag"), exponentiate, terms = NULL, sort.est = FALSE,
   rm.terms = NULL, group.terms = NULL, order.terms = NULL,
-  pred.type = c("fe", "re"), title = NULL, axis.title = NULL,
-  axis.labels = NULL, axis.lim = NULL, grid.breaks = NULL,
-  ci.lvl = NULL, show.intercept = FALSE, show.values = FALSE,
-  show.p = TRUE, show.data = FALSE, value.offset = NULL,
-  dot.size = NULL, line.size = NULL, colors = "Set1", facets,
-  wrap.title = 50, wrap.labels = 25, case = NULL, digits = 2,
-  vline.color = NULL, ...)
+  pred.type = c("fe", "re"), ri.nr = NULL, title = NULL,
+  axis.title = NULL, axis.labels = NULL, axis.lim = NULL,
+  grid.breaks = NULL, ci.lvl = NULL, show.intercept = FALSE,
+  show.values = FALSE, show.p = TRUE, show.data = FALSE,
+  value.offset = NULL, dot.size = NULL, line.size = NULL,
+  colors = "Set1", facets, wrap.title = 50, wrap.labels = 25,
+  case = "parsed", digits = 2, vline.color = NULL, ...)
 }
 \arguments{
 \item{type}{Type of plot. Use one of following:
 \describe{
   \item{\code{"est"}}{(default) for forest-plot of estimates. If the fitted model only contains one predictor, slope-line is plotted.}
   \item{\code{"re"}}{for mixed effects models, plots the random effects.}
-  \item{\code{"pred"}}{to plot predicted values (marginal effects) for specific model terms. \code{\link[ggeffects]{ggpredict}}.}
+  \item{\code{"pred"}}{to plot predicted values (marginal effects) for specific model terms. See \code{\link[ggeffects]{ggpredict}} for details.}
   \item{\code{"eff"}}{similar to \code{type = "pred"}, however, discrete predictors are held constant at their proportions (not reference level). See \code{\link[ggeffects]{ggeffect}} for details.}
   \item{\code{"int"}}{to plot marginal effects of interaction terms in \code{model}.}
   \item{\code{"std"}}{for forest-plot of standardized beta values.}
@@ -54,6 +54,11 @@ that should be plotted. This argument depends on the plot-type:
 \item{...}{Other arguments, passed down to various functions. Here is the
 description of these arguments in detail.
 \describe{
+  \item{\code{value.size}}{
+    Numeric value, which can be used for all plot types where the
+    argument \code{show.values} is applicable, e.g.
+    \code{value.size = 4}.
+  }
   \item{\code{prob.inner} and \code{prob.outer}}{
     For \code{stanreg}-models (fitted with the \pkg{rstanarm}-package)
     and plot-type \code{type = "est"}, you can specify numeric values

@@ -1,3 +1,5 @@
+## TODO provide own tidier for not-supported models
+
 tidy_model <- function(model, ci.lvl, exponentiate, type, ...) {
   if (is.stan(model))
     tidy_stan_model(model, ci.lvl, exponentiate, type, ...)

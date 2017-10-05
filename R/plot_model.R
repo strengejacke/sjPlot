@@ -7,7 +7,7 @@
 #'          \describe{
 #'            \item{\code{"est"}}{(default) for forest-plot of estimates. If the fitted model only contains one predictor, slope-line is plotted.}
 #'            \item{\code{"re"}}{for mixed effects models, plots the random effects.}
-#'            \item{\code{"pred"}}{to plot predicted values (marginal effects) for specific model terms. \code{\link[ggeffects]{ggpredict}}.}
+#'            \item{\code{"pred"}}{to plot predicted values (marginal effects) for specific model terms. See \code{\link[ggeffects]{ggpredict}} for details.}
 #'            \item{\code{"eff"}}{similar to \code{type = "pred"}, however, discrete predictors are held constant at their proportions (not reference level). See \code{\link[ggeffects]{ggeffect}} for details.}
 #'            \item{\code{"int"}}{to plot marginal effects of interaction terms in \code{model}.}
 #'            \item{\code{"std"}}{for forest-plot of standardized beta values.}
@@ -39,6 +39,11 @@
 #' @param ... Other arguments, passed down to various functions. Here is the
 #'        description of these arguments in detail.
 #'        \describe{
+#'          \item{\code{value.size}}{
+#'            Numeric value, which can be used for all plot types where the
+#'            argument \code{show.values} is applicable, e.g.
+#'            \code{value.size = 4}.
+#'          }
 #'          \item{\code{prob.inner} and \code{prob.outer}}{
 #'            For \code{stanreg}-models (fitted with the \pkg{rstanarm}-package)
 #'            and plot-type \code{type = "est"}, you can specify numeric values
@@ -84,6 +89,7 @@ plot_model <- function(model,
                        group.terms = NULL,
                        order.terms = NULL,
                        pred.type = c("fe", "re"),
+                       ri.nr = NULL,
                        title = NULL,
                        axis.title = NULL,
                        axis.labels = NULL,
@@ -101,7 +107,7 @@ plot_model <- function(model,
                        facets,
                        wrap.title = 50,
                        wrap.labels = 25,
-                       case = NULL,
+                       case = "parsed",
                        digits = 2,
                        vline.color = NULL,
                        ...
@@ -112,17 +118,25 @@ plot_model <- function(model,
 
   # get titles and labels for axis ----
 
-  # get labels of dependent variables, and wrap them if too long
-  if (is.null(title)) title <- sjlabelled::get_dv_labels(model, case = case)
-  title <- sjmisc::word_wrap(title, wrap = wrap.title)
+  # this is not appropriate when plotting random effects,
+  # so retrieve labels only for other plot types
 
-  # labels for axis with term names
-  if (is.null(axis.labels)) axis.labels <- sjlabelled::get_term_labels(model, case = case)
-  axis.labels <- sjmisc::word_wrap(axis.labels, wrap = wrap.labels)
+  if (type != "re") {
 
-  # title for axis with estimate values
-  if (is.null(axis.title)) axis.title <- sjmisc::word_wrap(get_estimate_axis_title(model, axis.title, type), wrap = wrap.title)
-  axis.title <- sjmisc::word_wrap(axis.title, wrap = wrap.labels)
+    # get labels of dependent variables, and wrap them if too long
+    if (is.null(title)) title <- sjlabelled::get_dv_labels(model, case = case)
+    title <- sjmisc::word_wrap(title, wrap = wrap.title)
+
+    # labels for axis with term names
+    if (is.null(axis.labels)) axis.labels <- sjlabelled::get_term_labels(model, case = case)
+    axis.labels <- sjmisc::word_wrap(axis.labels, wrap = wrap.labels)
+
+    # title for axis with estimate values
+    if (is.null(axis.title)) axis.title <- sjmisc::word_wrap(get_estimate_axis_title(model, axis.title, type), wrap = wrap.title)
+    axis.title <- sjmisc::word_wrap(axis.title, wrap = wrap.labels)
+
+  }
+
 
   # check nr of terms. if only one, plot slope
   if (type == "est" && length(sjstats::pred_vars(model)) == 1) type <- "slope"
@@ -187,7 +201,24 @@ plot_model <- function(model,
     # plot random effects ----
 
     p <- plot_type_ranef(
-
+      model = model,
+      type = type,
+      ri.nr = ri.nr,
+      ci.lvl = ci.lvl,
+      exponentiate = exponentiate,
+      sort.est = sort.est,
+      axis.labels = axis.labels,
+      axis.lim = axis.lim,
+      grid.breaks = grid.breaks,
+      show.values = show.values,
+      value.offset = value.offset,
+      digits = digits,
+      facets = facets,
+      geom.colors = colors,
+      geom.size = dot.size,
+      line.size = line.size,
+      vline.color = vline.color,
+      ...
     )
 
   } else if (type %in% c("pred", "eff")) {

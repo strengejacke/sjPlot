@@ -28,7 +28,6 @@ plot_type_est <- function(type,
   # get tidy output of summary ----
 
   if (type == "est") {
-    ## TODO provide own tidier for not-supported models
     dat <- tidy_model(model, ci.lvl, exponentiate, type, ...)
   } else {
     dat <- model %>%
@@ -44,11 +43,14 @@ plot_type_est <- function(type,
   # which may be a line or a dot.
 
   bpe.style <- "line"
+  value.size <- 4
+
 
   # additional arguments for 'effects()'-function?
 
   add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
   if ("bpe.style" %in% names(add.args)) bpe.style <- add.args[["bpe.style"]]
+  if ("value.size" %in% names(add.args)) value.size <- add.args[["value.size"]]
 
 
   plot_model_estimates(
@@ -74,6 +76,7 @@ plot_type_est <- function(type,
     line.size = line.size,
     bpe.style = bpe.style,
     term.order = order.terms,
-    vline.color = vline.color
+    vline.color = vline.color,
+    value.size = value.size
   )
 }
