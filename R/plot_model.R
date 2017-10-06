@@ -17,6 +17,24 @@
 #'            \item{\code{"diag"}}{to check model assumptions.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
+#' @param sort.est Determines in which way estimates are sorted in the plot:
+#'          \itemize{
+#'            \item If \code{NULL} (default), no sorting is done and estimates are sorted in the same order as they appear in the model formula.
+#'            \item If \code{TRUE}, estimates are sorted in descending order, with highedt estimate at the top.
+#'            \item If \code{sort.est = "sort.all"}, estimates are re-sorted for each coefficient (only applies if \code{type = "re"} and \code{facets = FALSE}), i.e. the estimates of the random effects for each predictor are sorted and plotted to an own plot.
+#'            \item If \code{type = "re"}, specify a predictor's / coefficient's name to sort estimates according to this random effect.
+#'            }
+#' @param exponentiate Logical, if \code{TRUE} and models inherit from generalized
+#'          linear models, estimates will be exponentiated (e.g., log-odds will
+#'          be displayed as odds ratios). By default, \code{exponentiate} will
+#'          automatically be set to \code{FALSE} or \code{TRUE}, depending on
+#'          the class of \code{fit}.
+#' @param rm.terms Character vector with names that indicate which terms should
+#'          be removed from the plot. Counterpart to \code{terms}.
+#'          \code{rm.terms = "t_name"} would remove the term \emph{t_name}.
+#'          Default is \code{NULL}, i.e. all terms are used. Note that this
+#'          argument does not apply to \code{type = "eff"}, \code{type = "pred"}
+#'          or \code{type = "int"}.
 #' @param terms Character vector with the names of those terms from \code{model}
 #'          that should be plotted. This argument depends on the plot-type:
 #'          \describe{
@@ -36,9 +54,25 @@
 #'              For more details, see \code{\link[ggeffects]{ggpredict}}.
 #'            }
 #'          }
+#' @param axis.title Character vector of length one or two (depending on
+#'          the plot function and type), used as title(s) for the x and y axis.
+#'          If not specified, a default labelling  is chosen. \strong{Note:}
+#'          Some plot types may not support this argument sufficiently. In such
+#'          cases, use the returned ggplot-object and add axis titles manually with
+#'          \code{\link[ggplot2]{labs}}.
+#' @param show.intercept Logical, if \code{TRUE}, the intercept of the fitted
+#'          model is also plotted. Default is \code{FALSE}. If \code{exponentiate = TRUE},
+#'          please note that due to exponential transformation of estimates, the
+#'          intercept in some cases is non-finite and the plot can not be created.
 #' @param ... Other arguments, passed down to various functions. Here is the
 #'        description of these arguments in detail.
 #'        \describe{
+#'          \item{\code{auto.label}}{
+#'            Logical value, if \code{TRUE} (the default), plot-labels are based
+#'            on value and variable labels, if the data is labelled. See
+#'            \code{\link[sjlabelled]{get_label}} and
+#'            \code{\link[sjlabelled]{get_term_labels}} for details.
+#'          }
 #'          \item{\code{value.size}}{
 #'            Numeric value, which can be used for all plot types where the
 #'            argument \code{show.values} is applicable, e.g.
@@ -84,7 +118,7 @@ plot_model <- function(model,
                        type = c("est", "re", "eff", "pred", "int", "std", "std2", "slope", "resid", "diag"),
                        exponentiate,
                        terms = NULL,
-                       sort.est = FALSE,
+                       sort.est = NULL,
                        rm.terms = NULL,
                        group.terms = NULL,
                        order.terms = NULL,
@@ -116,12 +150,20 @@ plot_model <- function(model,
   type <- match.arg(type)
   pred.type <- match.arg(pred.type)
 
+  auto.label <- TRUE
+
+  # additional arguments?
+
+  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  if ("auto.label" %in% names(add.args)) auto.label <- add.args[["auto.label"]]
+
+
   # get titles and labels for axis ----
 
   # this is not appropriate when plotting random effects,
   # so retrieve labels only for other plot types
 
-  if (type != "re") {
+  if (type != "re" && isTRUE(auto.label)) {
 
     # get labels of dependent variables, and wrap them if too long
     if (is.null(title)) title <- sjlabelled::get_dv_labels(model, case = case)
@@ -266,4 +308,75 @@ plot_model <- function(model,
   }
 
   p
+}
+
+
+#' @rdname plot_model
+#' @export
+get_model_data <- function(model,
+                       type = c("est", "re", "eff", "pred", "int", "std", "std2", "slope", "resid", "diag"),
+                       exponentiate,
+                       terms = NULL,
+                       sort.est = NULL,
+                       rm.terms = NULL,
+                       group.terms = NULL,
+                       order.terms = NULL,
+                       pred.type = c("fe", "re"),
+                       ri.nr = NULL,
+                       title = NULL,
+                       axis.title = NULL,
+                       axis.labels = NULL,
+                       axis.lim = NULL,
+                       grid.breaks = NULL,
+                       ci.lvl = NULL,
+                       show.intercept = FALSE,
+                       show.values = FALSE,
+                       show.p = TRUE,
+                       show.data = FALSE,
+                       value.offset = NULL,
+                       dot.size = NULL,
+                       line.size = NULL,
+                       colors = "Set1",
+                       facets,
+                       wrap.title = 50,
+                       wrap.labels = 25,
+                       case = "parsed",
+                       digits = 2,
+                       vline.color = NULL,
+                       ...) {
+  p <- plot_model(
+    model = model,
+    type = type,
+    exponentiate = exponentiate,
+    terms = terms,
+    sort.est = sort.est,
+    rm.terms = rm.terms,
+    group.terms = group.terms,
+    order.terms = order.terms,
+    pred.type = pred.type,
+    ri.nr = ri.nr,
+    title = title,
+    axis.title = axis.title,
+    axis.labels = axis.labels,
+    axis.lim = axis.lim,
+    grid.breaks = grid.breaks,
+    ci.lvl = ci.lvl,
+    show.intercept = show.intercept,
+    show.values = show.values,
+    show.p = show.p,
+    show.data = show.data,
+    value.offset = value.offset,
+    dot.size = dot.size,
+    line.size = line.size,
+    colors = colors,
+    facets = facets,
+    wrap.title = wrap.title,
+    wrap.labels = wrap.labels,
+    case = case,
+    digits = digits,
+    vline.color = vline.color,
+    ...
+  )
+
+  p$data
 }

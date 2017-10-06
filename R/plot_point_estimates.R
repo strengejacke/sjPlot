@@ -28,7 +28,7 @@ plot_point_estimates <- function(model,
   # set default for empty titles/labels
 
   if (sjmisc::is_empty(title)) title <- NULL
-  if (sjmisc::is_empty(axis.labels)) axis.labels <- dat$term
+  if (sjmisc::is_empty(axis.labels)) axis.labels <- NULL
   if (sjmisc::is_empty(axis.title)) axis.title <- NULL
 
 
@@ -121,7 +121,8 @@ plot_point_estimates <- function(model,
 
   # set axis labels
 
-  p <- p + scale_x_discrete(labels = axis.labels)
+  if (!is.null(axis.labels))
+    p <- p + scale_x_discrete(labels = axis.labels)
 
 
   # we need transformed scale for exponentiated estimates

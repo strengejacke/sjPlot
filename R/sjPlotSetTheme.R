@@ -1,5 +1,5 @@
 #' @title Set global theme options for sjp-functions
-#' @name sjp.setTheme
+#' @name set_theme
 #'
 #' @description Set global theme options for sjp-functions.
 #'
@@ -107,16 +107,7 @@
 #'
 #' @return The customized theme object, or \code{NULL}, if a ggplot-theme was used.
 #'
-#' @details The \code{base} argument is intended to select a ggplot-theme
-#'            as base for further modifications (which can be triggered
-#'            via the various function arguments).
-#'
-#' @seealso \href{http://www.strengejacke.de/sjPlot/custplot/}{sjPlot manual: customize plot appearance}
-#'
-#' @references \itemize{
-#'              \item \href{http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/}{Beautiful plotting in R: A ggplot2 cheatsheet}
-#'              \item \href{http://minimaxir.com/2015/02/ggplot-tutorial/}{An Introduction on How to Make Beautiful Charts With R and ggplot2}
-#'             }
+#' @seealso \code{\link{sjPlot-themes}}
 #'
 #' @examples
 #' \dontrun{
@@ -124,116 +115,120 @@
 #' data(efc)
 #' # set sjPlot-defaults, a slightly modification
 #' # of the ggplot base theme
-#' sjp.setTheme()
+#' set_theme()
 #'
 #' # legends of all plots inside
-#' sjp.setTheme(legend.pos = "top left",
-#'              legend.inside = TRUE)
+#' set_theme(legend.pos = "top left", legend.inside = TRUE)
 #' sjp.xtab(efc$e42dep, efc$e16sex)
 #'
 #' # Use classic-theme. you may need to
 #' # load the ggplot2-library.
 #' library(ggplot2)
-#' sjp.setTheme(base = theme_classic())
+#' set_theme(base = theme_classic())
 #' sjp.frq(efc$e42dep)
 #'
 #' # adjust value labels
-#' sjp.setTheme(geom.label.size = 3.5, geom.label.color = "#3366cc",
-#'              geom.label.angle = 90)
+#' set_theme(
+#'   geom.label.size = 3.5,
+#'   geom.label.color = "#3366cc",
+#'   geom.label.angle = 90
+#' )
+#'
 #' # hjust-aes needs adjustment for this
 #' update_geom_defaults('text', list(hjust = -0.1))
 #' sjp.xtab(efc$e42dep, efc$e16sex, vjust = "center", hjust = "center")
 #'
 #' # Create own theme based on classic-theme
-#' sjp.setTheme(base = theme_classic(), axis.linecolor = "grey50",
-#'              axis.textcolor = "#6699cc")
+#' set_theme(
+#'   base = theme_classic(), axis.linecolor = "grey50",
+#'   axis.textcolor = "#6699cc"
+#' )
 #' sjp.frq(efc$e42dep)}
 #'
 #' @import ggplot2
 #' @importFrom scales brewer_pal grey_pal
 #' @importFrom dplyr case_when
 #' @export
-sjp.setTheme <- function(# base theme
-                         base = theme_grey(),
-                         theme.font = NULL,
-                         # title defaults
-                         title.color = "black",
-                         title.size = 1.2,
-                         title.align = "left",
-                         title.vjust = NULL,
-                         # geom defaults
-                         # geom.colors=NULL,
-                         geom.outline.color = NULL,
-                         geom.outline.size = 0,
-                         geom.boxoutline.size = 0.5,
-                         geom.boxoutline.color = "black",
-                         geom.alpha = 1,
-                         geom.linetype = 1,
-                         geom.errorbar.size = 0.7,
-                         geom.errorbar.linetype = 1,
-                         # value labels
-                         geom.label.color = NULL,
-                         geom.label.size = 4,
-                         geom.label.alpha = 1,
-                         geom.label.angle = 0,
-                         # axis titles
-                         axis.title.color = "grey30",
-                         axis.title.size = 1.1,
-                         axis.title.x.vjust = NULL,
-                         axis.title.y.vjust = NULL,
-                         # axis text angle
-                         axis.angle.x = 0,
-                         axis.angle.y = 0,
-                         axis.angle = NULL,
-                         # axis text colors
-                         axis.textcolor.x = "grey30",
-                         axis.textcolor.y = "grey30",
-                         axis.textcolor = NULL,
-                         # axis line colors
-                         axis.linecolor.x = NULL,
-                         axis.linecolor.y = NULL,
-                         axis.linecolor = NULL,
-                         axis.line.size = 0.5,
-                         # axis text size
-                         axis.textsize.x = 1,
-                         axis.textsize.y = 1,
-                         axis.textsize = NULL,
-                         # axis ticks
-                         axis.tickslen = NULL,
-                         axis.tickscol = NULL,
-                         axis.ticksmar = NULL,
-                         axis.ticksize.x = NULL,
-                         axis.ticksize.y = NULL,
-                         # panel defaults
-                         panel.backcol = NULL,
-                         panel.bordercol = NULL,
-                         panel.col = NULL,
-                         panel.major.gridcol = NULL,
-                         panel.minor.gridcol = NULL,
-                         panel.gridcol = NULL,
-                         panel.gridcol.x = NULL,
-                         panel.gridcol.y = NULL,
-                         panel.major.linetype = 1,
-                         panel.minor.linetype = 1,
-                         # plot background color
-                         plot.backcol = NULL,
-                         plot.bordercol = NULL,
-                         plot.col = NULL,
-                         plot.margins = NULL,
-                         # legend
-                         legend.pos = "right",
-                         legend.just = NULL,
-                         legend.inside = FALSE,
-                         legend.size = 1,
-                         legend.color = "black",
-                         legend.title.size = 1,
-                         legend.title.color = "black",
-                         legend.title.face = "bold",
-                         legend.backgroundcol = "white",
-                         legend.bordercol = "white",
-                         legend.item.size = NULL,
-                         legend.item.backcol = "grey90",
-                         legend.item.bordercol = "white") {
+set_theme <- function(base = theme_grey(),
+                      theme.font = NULL,
+                     # title defaults
+                     title.color = "black",
+                     title.size = 1.2,
+                     title.align = "left",
+                     title.vjust = NULL,
+                     # geom defaults
+                     # geom.colors=NULL,
+                     geom.outline.color = NULL,
+                     geom.outline.size = 0,
+                     geom.boxoutline.size = 0.5,
+                     geom.boxoutline.color = "black",
+                     geom.alpha = 1,
+                     geom.linetype = 1,
+                     geom.errorbar.size = 0.7,
+                     geom.errorbar.linetype = 1,
+                     # value labels
+                     geom.label.color = NULL,
+                     geom.label.size = 4,
+                     geom.label.alpha = 1,
+                     geom.label.angle = 0,
+                     # axis titles
+                     axis.title.color = "grey30",
+                     axis.title.size = 1.1,
+                     axis.title.x.vjust = NULL,
+                     axis.title.y.vjust = NULL,
+                     # axis text angle
+                     axis.angle.x = 0,
+                     axis.angle.y = 0,
+                     axis.angle = NULL,
+                     # axis text colors
+                     axis.textcolor.x = "grey30",
+                     axis.textcolor.y = "grey30",
+                     axis.textcolor = NULL,
+                     # axis line colors
+                     axis.linecolor.x = NULL,
+                     axis.linecolor.y = NULL,
+                     axis.linecolor = NULL,
+                     axis.line.size = 0.5,
+                     # axis text size
+                     axis.textsize.x = 1,
+                     axis.textsize.y = 1,
+                     axis.textsize = NULL,
+                     # axis ticks
+                     axis.tickslen = NULL,
+                     axis.tickscol = NULL,
+                     axis.ticksmar = NULL,
+                     axis.ticksize.x = NULL,
+                     axis.ticksize.y = NULL,
+                     # panel defaults
+                     panel.backcol = NULL,
+                     panel.bordercol = NULL,
+                     panel.col = NULL,
+                     panel.major.gridcol = NULL,
+                     panel.minor.gridcol = NULL,
+                     panel.gridcol = NULL,
+                     panel.gridcol.x = NULL,
+                     panel.gridcol.y = NULL,
+                     panel.major.linetype = 1,
+                     panel.minor.linetype = 1,
+                     # plot background color
+                     plot.backcol = NULL,
+                     plot.bordercol = NULL,
+                     plot.col = NULL,
+                     plot.margins = NULL,
+                     # legend
+                     legend.pos = "right",
+                     legend.just = NULL,
+                     legend.inside = FALSE,
+                     legend.size = 1,
+                     legend.color = "black",
+                     legend.title.size = 1,
+                     legend.title.color = "black",
+                     legend.title.face = "bold",
+                     legend.backgroundcol = "white",
+                     legend.bordercol = "white",
+                     legend.item.size = NULL,
+                     legend.item.backcol = "grey90",
+                     legend.item.bordercol = "white") {
   sjtheme <- NULL
   # ----------------------------------------
   # set defaults for geom label colors
@@ -666,111 +661,4 @@ sj.setGeomColors <- function(plot,
   }
 
   plot
-}
-
-
-#' @title Save ggplot-figure for print publication
-#' @name save_plot
-#'
-#' @description Convenient function to save the last ggplot-figure in
-#'                high quality for publication.
-#'
-#' @param filename the name of the output file; filename must end with one
-#'          of the following acceptes file types: ".png", ".jpg", ".svg" or ".tif".
-#' @param fig the plot that should be saved. By default, the last plot is saved.
-#' @param width the width of the figure, in centimetres
-#' @param height the height of the figure, in centimetres
-#' @param dpi resolution in dpi (dots per inch). Ignored for vector formats, such as ".svg".
-#' @param label.size fontsize of value labels inside plot area
-#' @param axis.textsize fontsize of axis labels
-#' @param axis.titlesize fontsize of axis titles
-#' @param legend.textsize fontsize of legend labels
-#' @param legend.titlesize fontsize of legend title
-#' @param legend.itemsize size of legend's item (legend key), in centimetres.
-#'
-#' @inheritParams sjp.setTheme
-#' @inheritParams set_theme
-#'
-#' @note This is a convenient function with some default settings that should
-#'         come close to most of the needs for fontsize and scaling in figures
-#'         when saving them for printing or publishing. It uses cairographics
-#'         anti-aliasing (see \code{\link[grDevices]{png}}).
-#'
-#' @import ggplot2
-#' @importFrom grDevices png jpeg tiff dev.off cm svg
-#' @export
-save_plot <- function(filename,
-                      fig = ggplot2::last_plot(),
-                      width = 12,
-                      height = 9,
-                      dpi = 300,
-                      theme = ggplot2::theme_get(),
-                      label.size = 2.4,
-                      axis.textsize = .8,
-                      axis.titlesize = .75,
-                      legend.textsize = .6,
-                      legend.titlesize = .65,
-                      legend.itemsize = .5) {
-  # -------------------------
-  # get file extension
-  # -------------------------
-  ext <- tolower(substring(filename,
-                           regexpr("\\.[^\\.]*$", filename) + 1,
-                           nchar(filename)))
-  # -------------------------
-  # valid file ytpe?
-  # -------------------------
-  if (!ext %in% c("png", "jpg", "tif", "svg")) {
-    stop("filetype must be one of `.png`, `.jpg`, '.svg' or `.tif`.", call. = F)
-  }
-  # -------------------------
-  # set printable theme, adjust font sizes.
-  # this is the most critical point...
-  # -------------------------
-  sjp.setTheme(base = theme,
-    geom.label.color = "black",
-    axis.title.color = "black",
-    axis.textcolor = "black",
-    legend.title.color = "black",
-    legend.color = "black",
-    geom.label.size = label.size,
-    axis.textsize = axis.textsize,
-    axis.title.size = axis.titlesize,
-    legend.size = legend.textsize,
-    legend.title.size = legend.titlesize,
-    legend.item.size = legend.itemsize
-  )
-  # -------------------------
-  # prapare save
-  # -------------------------
-  if (ext == "png")
-    grDevices::png(filename = filename,
-        width = width,
-        height = height,
-        units = "cm",
-        res = dpi,
-        type = "cairo")
-  else if (ext == "jpg")
-    grDevices::jpeg(filename = filename,
-         width = width,
-         height = height,
-         units = "cm",
-         res = dpi,
-         type = "cairo")
-  else if (ext == "tif")
-    grDevices::tiff(filename = filename,
-                    width = width,
-                    height = height,
-                    units = "cm",
-                    res = dpi,
-                    type = "cairo")
-  else if (ext == 'svg')
-    grDevices::svg(filename = filename,
-                   width = width / grDevices::cm(1),
-                   height = height / grDevices::cm(1))
-
-  # print plot to device
-  graphics::plot(fig)
-  # close device
-  grDevices::dev.off()
 }

@@ -1,0 +1,102 @@
+---
+title: "Plotting Estimates (Fixed Effects) of Regression Models"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Plotting Estimates (Fixed Effects) of Regression Models}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 5, message = FALSE, warning = FALSE)
+```
+
+This document describes how to plot estimates as forest plots (or dot whisker plots) of various regression models, using the `plot_model()` function. `plot_model()` is a generic plot-function, which accepts many model-objects, like `lm`, `glm`, `lme`, `lmerMod` etc.
+
+`plot_model()` allows to create various plot tyes, which can be defined via the `type`-argument. The default is `type = "fe"`, which means that fixed effects (model coefficients) are plotted. For mixed effects models, only fixed effects are plotted by default as well.
+
+```{r, results='hide'}
+library(sjPlot)
+library(sjmisc)
+library(sjlabelled)
+data(efc)
+```
+
+
+## Fitting a logistic regression model
+
+First, we fit an example model, which will be used in the following examples. The examples work in the same way for any other model as well.
+
+```{r results='hide'}
+# create binary response
+y <- ifelse(efc$neg_c_7 < median(na.omit(efc$neg_c_7)), 0, 1)
+
+# create data frame for fitting model
+df <- data.frame(
+  y = to_factor(y),
+  sex = to_factor(efc$c161sex),
+  dep = to_factor(efc$e42dep),
+  barthel = efc$barthtot,
+  education = to_factor(efc$c172code)
+)
+
+# set variable label for response
+set_label(df$y) <- "High Negative Impact"
+
+# fit model
+m1 <- glm(y ~., data = df, family = binomial(link = "logit"))
+
+# set variable label for service usage
+set_label(efc$tot_sc_e) <- "Total number of services used by carer"
+```
+
+## Plotting estimates of generalized linear models
+
+The simplest function call is just passing the model object as argument. By default, estimates are sorted in descending order, with the highest effect at the top.
+
+```{r}
+plot_model(m1)
+``` 
+
+The "neutral" line, i.e. the vertical intercept that indicates no effect (x-axis position 1 for most glm's and position 0 for most linear models), is drawn slightly thicker than the other grid lines. You can change the line color with the `vline.color`-argument.
+
+```{r}
+plot_model(m1, vline.color = "red")
+``` 
+
+## Sorting estimates
+
+By default, the odds ratios are sorted from highest to lowest value. You can also keep the order of predictors as they were introduced into the model if you set `sort.est` to `FALSE`.
+```{r}
+plot_model(m1, sort.est = FALSE)
+``` 
+
+Another way to sort estimates is to use the `order.terms`-argument. This is a numeric vector, indicating the order of estimates in the plot. In the summary, we see that "sex2" is the first term, followed by the three dependency-categories (position 2-4), the Barthel-Index (5) and two levels for intermediate and high level of education (6 and 7).
+
+```{r}
+summary(m1)
+```
+
+Now we want the educational levels (6 and 7) first, than gender (1), followed by dependency (2-4)and finally the Barthel-Index (5). Use this order as numeric vector for the `order.terms`-argument.
+
+```{r}
+plot_model(m1, order.terms = c(6, 7, 1, 2, 3, 4, 5))
+``` 
+
+## Estimates on the untransformed scale 
+
+By default, `plot_model()` automatically exponentiates coefficients, if appropriate (e.g. for models with log or logit link). You can explicitley (dis-)allow this transformation using the `exponentiate`-argument.
+
+```{r}
+plot_model(m1, exponentiate = FALSE)
+``` 
+
+## Showing value labels
+
+By default, just the dots and error bars are plotted. Use `show.values = TRUE` to show the value labels with the estimates values, and use `show.p = FALSE` to suppress the asterisks that indicate the significance level of the p-values.
+
+```{r}
+plot_model(m1, show.values = TRUE)
+``` 
+

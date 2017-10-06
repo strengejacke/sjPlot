@@ -6,15 +6,6 @@
 #'
 #' @param ... One or more regression models, including glm's or mixed models.
 #'        May also be a \code{list} with fitted models. See 'Examples'.
-#' @param exponentiate Logical, if \code{TRUE} and models inherit from generalized
-#'          linear models, estimates will be exponentiated (e.g., log-odds will
-#'          be displayed as odds ratios). By default, \code{exponentiate} will
-#'          automatically be set to \code{FALSE} or \code{TRUE}, depending on
-#'          the class of \code{fit}.
-#' @param rm.terms Character vector with names that indicate which terms should
-#'          be removed from the plot. \code{rm.terms = "t_name"} would remove the
-#'          term \emph{t_name}. Default is \code{NULL}, i.e. all terms are
-#'          used.
 #' @param std.est For linear models, choose whether standardized coefficients should
 #'        be used for plotting. Default is no standardization.
 #'        \describe{
@@ -25,10 +16,6 @@
 #' @param m.labels Character vector, used to indicate the different models
 #'          in the plot's legend. If not specified, the labels of the dependent
 #'          variables for each model are used.
-#' @param show.intercept Logical, if \code{TRUE}, the intercept of the fitted
-#'          model is also plotted. Default is \code{FALSE}. If \code{exponentiate = TRUE},
-#'          please note that due to exponential transformation of estimates, the
-#'          intercept in some cases is non-finite and the plot can not be created.
 #' @param legend.pval.title Character vector, used as title of the plot legend that
 #'        indicates the p-values. Default is \code{"p-level"}. Only applies if
 #'        \code{p.shape = TRUE}.
@@ -38,6 +25,7 @@
 #'        different point shapes and a related legend is plotted. Default
 #'        is \code{FALSE}.
 #'
+#' @inheritParams plot_model
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.lmer
 #' @inheritParams sjt.lm

@@ -39,9 +39,11 @@ be used for plotting. Default is no standardization.
 }}
 
 \item{rm.terms}{Character vector with names that indicate which terms should
-be removed from the plot. \code{rm.terms = "t_name"} would remove the
-term \emph{t_name}. Default is \code{NULL}, i.e. all terms are
-used.}
+be removed from the plot. Counterpart to \code{terms}.
+\code{rm.terms = "t_name"} would remove the term \emph{t_name}.
+Default is \code{NULL}, i.e. all terms are used. Note that this
+argument does not apply to \code{type = "eff"}, \code{type = "pred"}
+or \code{type = "int"}.}
 
 \item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.
@@ -65,14 +67,10 @@ argument, since in most cases, axis labels are set automatically.}
 
 \item{axis.title}{Character vector of length one or two (depending on
 the plot function and type), used as title(s) for the x and y axis.
-If not specified, a default labelling  is chosen. To set multiple
-axis titles (e.g. with \code{type = "eff"} for many predictors),
-\code{axis.title} must be a character vector of same length of plots
-that are printed. In this case, each plot gets an own axis title
-(applying, for instance, to the y-axis for \code{type = "eff"}).
-\strong{Note:} Some plot types do not support this argument. In such
-cases, use the return value and add axis titles manually with
-\code{\link[ggplot2]{labs}}, e.g.: \code{$plot.list[[1]] + labs(x = ...)}}
+If not specified, a default labelling  is chosen. \strong{Note:}
+Some plot types may not support this argument sufficiently. In such
+cases, use the returned ggplot-object and add axis titles manually with
+\code{\link[ggplot2]{labs}}.}
 
 \item{axis.lim}{Numeric vector of length 2, defining the range of the plot axis.
 Depending on plot type, may effect either x- or y-axis, or both.

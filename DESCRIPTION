@@ -26,6 +26,7 @@ Depends:
     stats,
     utils
 Imports:
+    arm,
     broom (>= 0.4.2),
     dplyr (>= 0.7.1),
     effects,
@@ -51,7 +52,6 @@ Imports:
     tidyr (>= 0.7.0)
 Suggests:
     AICcmodavg,
-    arm,
     car,
     cluster,
     GPArotation,
@@ -59,7 +59,8 @@ Suggests:
     ggrepel,
     ggridges,
     lmerTest,
-    lmtest
+    lmtest,
+    rstanarm
 URL: https://github.com/strengejacke/sjPlot
 BugReports: https://github.com/strengejacke/sjPlot/issues
 RoxygenNote: 6.0.1

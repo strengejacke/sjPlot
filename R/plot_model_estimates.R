@@ -88,7 +88,7 @@ plot_model_estimates <- function(fit,
 
   if (!is.null(term.order)) {
     if (length(term.order) == nrow(dat)) {
-      dat$term <- forcats::fct_reorder(dat$term, term.order)
+      dat$term <- forcats::fct_reorder(dat$term, order(term.order))
       sort.est <- FALSE
     } else {
       message("Number of values in `order.terms` does not match number of terms. Terms are not sorted.")
@@ -98,7 +98,7 @@ plot_model_estimates <- function(fit,
 
   # sort estimates by effect size
 
-  if (sort.est) {
+  if (isTRUE(sort.est)) {
     if (!is.null(group.terms))
       dat$term <- forcats::fct_reorder(dat$term, dat$group)
     else

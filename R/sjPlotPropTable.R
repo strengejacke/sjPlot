@@ -55,7 +55,7 @@ utils::globalVariables(c("rowname", "total", "ges", "prc", "n", "Count", "Group"
 #' library(sjmisc)
 #' library(sjlabelled)
 #' data(efc)
-#' sjp.setTheme(geom.label.angle = 90)
+#' set_theme(geom.label.angle = 90)
 #' sjp.xtab(efc$e42dep, efc$e16sex, vjust = "center", hjust = "bottom")
 #'
 #' # grouped bars with EUROFAMCARE sample dataset

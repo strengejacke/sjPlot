@@ -269,7 +269,6 @@ sjp.glmer <- function(fit,
                       y.offset = .1,
                       prnt.plot = TRUE,
                       ...) {
-  .Deprecated("plot_model")
   # -------------------------------------
   # check for deprecated argument values
   # -------------------------------------
@@ -571,7 +570,6 @@ sjp.lmer <- function(fit,
                      y.offset = .1,
                      prnt.plot = TRUE,
                      ...) {
-  .Deprecated("plot_model")
   # -------------------------------------
   # check for deprecated argument values
   # -------------------------------------
@@ -878,12 +876,6 @@ sjp.lme4  <- function(fit,
                                    geom.colors, show.ci, jitter.ci, geom.size, ylim = axis.lim, facet.grid,
                                    type = "fe", show.scatter, point.alpha,
                                    point.color, show.loess = F, prnt.plot, ...)))
-  }
-  # ------------------------
-  # check if suggested package is available
-  # ------------------------
-  if (!requireNamespace("arm", quietly = TRUE)) {
-    stop("Package `arm` needed for this function to work. Please install it.", call. = FALSE)
   }
   # ---------------------------------------
   # check geom size
@@ -2126,13 +2118,6 @@ sjp.glm.eff <- function(fit,
                         fun,
                         prnt.plot,
                         ...) {
-  # ------------------------
-  # check if suggested package is available
-  # ------------------------
-  if (!requireNamespace("effects", quietly = TRUE)) {
-    stop("Package `effects` needed for this function to work. Please install it.", call. = FALSE)
-  }
-
   # additional arguments for 'effects()'-function?
   add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
   # check whether we have a "transformation" argument

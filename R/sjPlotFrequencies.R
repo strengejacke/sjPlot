@@ -79,7 +79,7 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' # bar plot
 #' sjp.frq(ChickWeight$Diet)
 #'
-#' # you may use sjp.setTheme here to change axis textangle
+#' # you may use set_theme() here to change axis textangle
 #' sjp.frq(efc$e15relat)
 #'
 #' # grouped variable

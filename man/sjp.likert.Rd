@@ -147,12 +147,11 @@ Note that only even numbers of categories are possible to plot, so the "positive
 }
 \examples{
 # Data from the EUROFAMCARE sample dataset
-library(dplyr)
 library(sjmisc)
 data(efc)
 # find all variables from COPE-Index, which all have a "cop" in their
 # variable name, and then plot that subset as likert-plot
-efc[, find_var(efc, "cop")] \%>\% sjp.likert()
+find_var(efc, "cop", as.df = TRUE) \%>\% sjp.likert()
 
 sjp.likert(
   find_var(efc, "cop", as.df = TRUE),

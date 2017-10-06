@@ -20,11 +20,13 @@ library(sjmisc)
 library(sjlabelled)
 data(efc)
 # set basic theme options
-set_theme("forest",
-          axis.title.size = .85, 
-          axis.textsize = .85, 
-          legend.size = .8, 
-          geom.label.size = 3.5)
+sjp.setTheme(
+  base = theme_sjplot(),
+  axis.title.size = .85, 
+  axis.textsize = .85, 
+  legend.size = .8, 
+  geom.label.size = 3.5
+)
 ```
 
 
@@ -116,16 +118,6 @@ sjp.glm(fit, type = "eff")
 As you can see in the above examples, multiple plots for `type = "eff"` are plotted as [facet grid](http://docs.ggplot2.org/current/facet_grid.html) resp. as [facet wrap](http://docs.ggplot2.org/current/facet_wrap.html). Since this does not allow to set a different x-scale for each plot, x-axis are not properly labelled. However, `facet.grid = FALSE` produces a single plot for each predictor.
 
 To arrange all predictors of multiple in one plot, as grid, use the `plot_grid()` function _on multiple plot objects_. `plot_grid()` requires multiple plots, so you have to set `facet.grid = FALSE` to get a `plot.list`-value as return value from the function (see `?sjp.lm` on _Return Value_ for more details). This allows you arrange multiple plots as grid in one plot, but with different x-axis-scales.
-
-```{r echo=FALSE, results='hide'}
-# set basic theme options
-set_theme("forestw",
-          axis.title.size = .65, 
-          axis.textsize = .7, 
-          legend.size = .6, 
-          geom.label.size = 3,
-          title.size = .7)
-```
 
 ```{r}
 # get list of all plots

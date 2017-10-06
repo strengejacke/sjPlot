@@ -23,10 +23,6 @@ library(sjlabelled)
 
 # load sample data set.
 data(efc)
-set_theme(theme = "forest", 
-          geom.label.size = 3, 
-          axis.textsize = .9, 
-          axis.title.size = .9)
 ```
 
 ## Plotting random effects of linear mixed effects models

@@ -45,7 +45,7 @@ plot_type_ranef <- function(model,
   p <- list()
 
 
-  # additional arguments for 'effects()'-function?
+  # additional arguments?
 
   add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
   if ("value.size" %in% names(add.args)) value.size <- add.args[["value.size"]]

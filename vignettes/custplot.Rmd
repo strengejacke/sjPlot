@@ -20,7 +20,7 @@ The examples refer to the `sjp.grpfrq` function, but most arguments are similar 
 
 Tweaking plot appearance
 ------------------------
-The base function to globally change theme option for all sjp-function is `sjp.setTheme()`, and to use presets of themes, `set_theme()`. Except for geom-colors and geom-sizes, all theme-options can be set via this function. This new theme will be applied to all following plots created with the `sjPlot` package.
+The base function to globally change theme option for all sjp-function is `sjp.setTheme()`. Except for geom-colors and geom-sizes, all theme-options can be set via this function. This new theme will be applied to all following plots created with the `sjPlot` package.
 
 There are various arguments to change colors, sizes, angles etc. of labels. Following example show changes to colors, sizes, angles, geom-outlines and theme.
 ```{r}
@@ -51,12 +51,14 @@ All plotting functions support the usage of the [Colorbrewer](http://colorbrewer
 
 ```{r}
 # blank theme
-set_theme(theme = "blank",
-          axis.title.size = .9,
-          axis.textsize = .9,
-          legend.size = .7,
-          legend.title.size = .8,
-          geom.label.size = 3)
+sjp.setTheme(
+  base = theme_blank(),
+  axis.title.size = .9,
+  axis.textsize = .9,
+  legend.size = .7,
+  legend.title.size = .8,
+  geom.label.size = 3
+)
 sjp.grpfrq(efc$e42dep, 
            efc$e15relat, 
            geom.colors = "PuRd", 
@@ -113,15 +115,12 @@ sjp.frq(efc$e42dep)
 Pre-defined themes
 ------------------
 
-There is a set of pre-defined themes from the sjPlot-package that can be applied by calling `set_theme()`:
+There is a set of pre-defined themes from the sjPlot-package. See `?"sjPlot-themes"` for a complete list.
 
 ```{r}
-set_theme("blank")
-sjp.frq(efc$e42dep)
+sjp.frq(efc$e42dep) + theme_blank()
 
-set_theme("scatter")
-sjp.frq(efc$e42dep,
-        geom.colors = "#2255aa")
+sjp.frq(efc$e42dep, geom.colors = "#2255aa") + theme_sjplot()
 ```
 
 

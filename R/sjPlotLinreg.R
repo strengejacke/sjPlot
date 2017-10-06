@@ -296,7 +296,6 @@ sjp.lm <- function(fit,
                    complete.dgns = FALSE,
                    prnt.plot = TRUE,
                    ...) {
-  .Deprecated("plot_model")
   # -----------------------------------------------------------
   # remember length of predictor variables
   # -----------------------------------------------------------
@@ -1062,6 +1061,7 @@ sjp.lm1 <- function(fit,
 }
 
 
+#' @importFrom effects effect
 sjp.lm.poly <- function(fit,
                         poly.term,
                         geom.colors,
@@ -1071,12 +1071,6 @@ sjp.lm.poly <- function(fit,
                         prnt.plot) {
   # check size argument
   if (is.null(geom.size)) geom.size <- .8
-  # ------------------------
-  # check if suggested package is available
-  # ------------------------
-  if (!requireNamespace("effects", quietly = TRUE)) {
-    stop("Package `effects` needed for this function to work. Please install it.", call. = FALSE)
-  }
   # -------------------------------------
   # retrieve model matrix
   # -------------------------------------

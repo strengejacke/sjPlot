@@ -818,6 +818,7 @@ sjp.int <- function(fit,
 
 #' @importFrom stats na.omit model.frame
 #' @importFrom dplyr if_else
+#' @importFrom effects effect allEffects
 sjp.eff.int <- function(fit,
                         int.term = NULL,
                         int.plot.index = NULL,
