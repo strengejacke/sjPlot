@@ -112,7 +112,7 @@ of same length as groups. See 'Examples'.}
 depending on plot type and function). Note that bar and bin widths mostly
 need smaller values than dot sizes.}
 
-\item{show.values}{logical, whether values should be plotted or not.}
+\item{show.values}{Logical, whether values should be plotted or not.}
 
 \item{show.p}{Logical, adds significance levels to values, or value and
 variable labels.}

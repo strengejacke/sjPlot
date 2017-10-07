@@ -95,7 +95,7 @@ i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 \item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 axes and plotting region. Default is \code{FALSE}.}
 
-\item{show.values}{logical, whether values should be plotted or not.}
+\item{show.values}{Logical, whether values should be plotted or not.}
 
 \item{show.n}{logical, if \code{TRUE}, adds total number of cases for each
 group or category to the labels.}

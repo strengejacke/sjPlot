@@ -16,17 +16,19 @@ This document describes how to plot estimates as forest plots (or dot whisker pl
 
 `plot_model()` allows to create various plot tyes, which can be defined via the `type`-argument. The default is `type = "fe"`, which means that fixed effects (model coefficients) are plotted. For mixed effects models, only fixed effects are plotted by default as well.
 
-```{r, results='hide'}
+```{r results='hide'}
 library(sjPlot)
-library(sjmisc)
 library(sjlabelled)
+library(ggplot2)
+
 data(efc)
+theme_set(theme_sjplot())
 ```
 
 
 ## Fitting a logistic regression model
 
-First, we fit an example model, which will be used in the following examples. The examples work in the same way for any other model as well.
+First, we fit a model that will be used in the following examples. The examples work in the same way for any other model as well.
 
 ```{r results='hide'}
 # create binary response
@@ -46,9 +48,6 @@ set_label(df$y) <- "High Negative Impact"
 
 # fit model
 m1 <- glm(y ~., data = df, family = binomial(link = "logit"))
-
-# set variable label for service usage
-set_label(efc$tot_sc_e) <- "Total number of services used by carer"
 ```
 
 ## Plotting estimates of generalized linear models
@@ -67,9 +66,9 @@ plot_model(m1, vline.color = "red")
 
 ## Sorting estimates
 
-By default, the odds ratios are sorted from highest to lowest value. You can also keep the order of predictors as they were introduced into the model if you set `sort.est` to `FALSE`.
+By default, the estimates are sorted in the same order as they were introduced into the model. Use `sort.est = TRUE` to sort estimates in descending order, from highest to lowest value.
 ```{r}
-plot_model(m1, sort.est = FALSE)
+plot_model(m1, sort.est = TRUE)
 ``` 
 
 Another way to sort estimates is to use the `order.terms`-argument. This is a numeric vector, indicating the order of estimates in the plot. In the summary, we see that "sex2" is the first term, followed by the three dependency-categories (position 2-4), the Barthel-Index (5) and two levels for intermediate and high level of education (6 and 7).
@@ -94,9 +93,76 @@ plot_model(m1, exponentiate = FALSE)
 
 ## Showing value labels
 
-By default, just the dots and error bars are plotted. Use `show.values = TRUE` to show the value labels with the estimates values, and use `show.p = FALSE` to suppress the asterisks that indicate the significance level of the p-values.
+By default, just the dots and error bars are plotted. Use `show.values = TRUE` to show the value labels with the estimates values, and use `show.p = FALSE` to suppress the asterisks that indicate the significance level of the p-values. Use `value.offset` to adjust the relative positioning of value labels to the dots and lines.
 
 ```{r}
-plot_model(m1, show.values = TRUE)
+plot_model(m1, show.values = TRUE, value.offset = .3)
 ``` 
 
+## Labelling the plot
+
+As seen in the above examples, by default, the plotting-functions of **sjPlot** retrieve value and variable labels if the data is _labelled_, using the [sjlabelled-package](https://cran.r-project.org/package=sjlabelled). If the data is not labelled, the variable names are used. In such cases, use the arguments `title`, `axis.labels` and `axis.title` to annotate the plot title and axes. If you want variable names instead of labels, even for labelled data, use `""` as argument-value, e.g. `axis.labels = ""`, or set `auto.label` to `FALSE`.
+
+Furthermore, `plot_model()` applies case-conversion to all labels by default, using the [snakecase-package](https://cran.r-project.org/package=snakecase). This converts labels into human-readable versions. Use `case = NULL` to turn case-conversion off.
+
+```{r}
+data(iris)
+m2 <- lm(Sepal.Length ~ Sepal.Width + Petal.Length + Species, data = iris)
+
+# variable names as labels, but made "human readable"
+# separating dots are removed
+plot_model(m2)
+# to use variable names even for labelled data
+plot_model(m1, axis.labels = "", title = "my own title")
+```
+
+## Pick or remove specific terms from plot
+
+Use `terms` resp. `rm.terms` to select specific terms that should (not) be plotted.
+
+```{r}
+# keep only coefficients sex2, dep2 and dep3
+plot_model(m1, terms = c("sex2", "dep2", "dep3"))
+# remove coefficients sex2, dep2 and dep3
+plot_model(m1, rm.terms = c("sex2", "dep2", "dep3"))
+```
+
+## Standardized estimates
+
+For linear models, you can also plot standardized beta coefficients, using `type = "std"` or `type = "std2"`. These two options differ in the way how coefficients are standardized. `type = "std2"` plots standardized beta values, however, standardization follows Gelman's (2008) suggestion, rescaling the estimates by dividing them by two standard deviations instead of just one.
+
+```{r}
+plot_model(m2, type = "std")
+```
+
+## Bayesian models from rstanarm
+
+`plot_model()` also supports stan-models fitted with the **rstanarm** package. However, there are a few differences compared to the previous plot examples.
+
+First, of course, there are no _confidence intervals_, but _uncertainty intervals_ - high density intervals, to be precise.
+
+Second, there's not just one interval range, but an inner and outer probability. By default, the inner probability is fixed to `.5`, while the outer probability is specified via `ci.lvl`. However, you can also use the arguments `prob.inner` and `prob.outer` to define the intervals boundaries.
+
+Third, the point estimate is by default the median, but can also be another value, like mean. This can be specified with the `bpe`-argument.
+
+```{r results='hide'}
+library(rstanarm)
+data(mtcars)
+m <- stan_glm(mpg ~ wt + am + cyl + gear, data = mtcars, chains = 1)
+
+# default model
+plot_model(m)
+# same model, with mean point estimate, dot-style for point estimate
+# and different inner/outer probabilities of the HDI
+plot_model(
+  m, 
+  bpe = "mean",
+  bpe.style = "dot",
+  prob.inner = .4,
+  prob.outer = .8
+)
+```
+
+# References
+
+Gelman A (2008) _Scaling regression inputs by dividing by two standard deviations._ Statistics in Medicine 27: 2865–2873.

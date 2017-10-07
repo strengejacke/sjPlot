@@ -10,19 +10,29 @@ is.stan <- function(x) inherits(x, c("stanreg", "stanfit", "brmsfit"))
 #' @importFrom grDevices axisTicks
 #' @importFrom dplyr if_else
 #' @importFrom sjmisc is_empty
-get_axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, exponentiate) {
+get_axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, exponentiate, min.est, max.est) {
 
   # factor to multiply the axis limits. for exponentiated scales,
   # these need to be large enough to find appropriate pretty numbers
+
   fac.ll <- dplyr::if_else(exponentiate, .3, .95)
   fac.ul <- dplyr::if_else(exponentiate, 3.3, 1.05)
 
+
+  # check for correct boundaries
+
+  if (is.infinite(min.val) || is.na(min.val)) min.val <- min.est
+  if (is.infinite(max.val) || is.na(max.val)) max.val <- max.est
+
+
   # for negative signes, need to change multiplier
+
   if (min.val < 0) fac.ll <- 1 / fac.ll
   if (max.val < 0) fac.ul <- 1 / fac.ul
 
 
   # axis limits
+
   if (is.null(axis.lim)) {
     lower_lim <- min.val * fac.ll
     upper_lim <- max.val * fac.ul
@@ -31,18 +41,25 @@ get_axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, e
     upper_lim <- axis.lim[2]
   }
 
+
   # determine gridbreaks
+
   if (is.null(grid.breaks)) {
     if (exponentiate) {
+
       # use pretty distances for log-scale
       ticks <- grDevices::axisTicks(log10(c(lower_lim, upper_lim)), log = TRUE)
+
       # truncate ticks to highest value below lower lim and
       # lowest value above upper lim
+
       ll <- which(ticks < lower_lim)
       if (!sjmisc::is_empty(ll) && length(ll) > 1) ticks <- ticks[ll[length(ll)]:length(ticks)]
+
       ul <- which(ticks > upper_lim)
       if (!sjmisc::is_empty(ul) && length(ul) > 1) ticks <- ticks[1:ul[1]]
-    } else {
+
+      } else {
       ticks <- pretty(c(lower_lim, upper_lim))
     }
   } else {
@@ -188,4 +205,23 @@ nulldef <- function(x, y, z = NULL) {
       y
   } else
     x
+}
+
+
+geom_intercep_line <- function(yintercept, axis.scaling, vline.color) {
+  if (yintercept > axis.scaling$axis.lim[1] && yintercept < axis.scaling$axis.lim[2]) {
+    t <- theme_get()
+    color <- nulldef(vline.color, t$panel.grid.major$colour, "grey90")
+    minor_size <- nulldef(t$panel.grid.minor$size, .125)
+    major_size <- nulldef(t$panel.grid.major$size, minor_size * 2)
+    size <- major_size * 2
+    geom_hline(yintercept = yintercept, color = color, size = size)
+  } else {
+    geom_blank(
+      mapping = NULL,
+      data = NULL,
+      show.legend = FALSE,
+      inherit.aes = FALSE
+    )
+  }
 }

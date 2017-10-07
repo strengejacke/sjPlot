@@ -107,7 +107,7 @@ plot (only if non-faceted).}
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis,
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
-\item{show.values}{logical, whether values should be plotted or not.}
+\item{show.values}{Logical, whether values should be plotted or not.}
 
 \item{show.p}{Logical, adds significance levels to values, or value and
 variable labels.}

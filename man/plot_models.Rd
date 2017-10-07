@@ -10,11 +10,11 @@ plot_models(..., exponentiate, std.est = NULL, rm.terms = NULL,
   title = NULL, m.labels = NULL, legend.title = "Dependent Variables",
   legend.pval.title = "p-level", axis.labels = NULL, axis.title = NULL,
   axis.lim = NULL, wrap.title = 50, wrap.labels = 25,
-  wrap.legend.title = 20, grid.breaks = NULL, geom.size = 3,
-  geom.spacing = 0.4, geom.colors = "Set1", show.values = FALSE,
+  wrap.legend.title = 20, grid.breaks = NULL, dot.size = 3,
+  spacing = 0.4, colors = "Set1", show.values = FALSE,
   show.legend = TRUE, show.intercept = FALSE, show.p = TRUE,
-  p.shape = FALSE, vline.type = 2, vline.color = "grey70", digits = 2,
-  facet.grid = FALSE)
+  p.shape = FALSE, ci.lvl = 0.95, vline.type = 2,
+  vline.color = "grey70", digits = 2, facet.grid = FALSE)
 
 sjp.lmm(...)
 
@@ -45,10 +45,10 @@ Default is \code{NULL}, i.e. all terms are used. Note that this
 argument does not apply to \code{type = "eff"}, \code{type = "pred"}
 or \code{type = "int"}.}
 
-\item{title}{character vector, used as plot title. Depending on plot type and function,
-will be set automatically. If \code{title = ""}, no title is printed.
-For effect-plots, may also be a character vector of length > 1,
-to define titles for each sub-plot or facet.}
+\item{title}{Character vector, used as plot title. By default,
+\code{\link[sjlabelled]{get_dv_labels}} is called to retrieve the
+label of the dependent variable, which will be used as title. Use
+\code{title = ""} to remove title.}
 
 \item{m.labels}{Character vector, used to indicate the different models
 in the plot's legend. If not specified, the labels of the dependent
@@ -62,49 +62,55 @@ grouping estimates with \code{group.estimates}).}
 indicates the p-values. Default is \code{"p-level"}. Only applies if
 \code{p.shape = TRUE}.}
 
-\item{axis.labels}{character vector with labels used as axis labels. Optional
-argument, since in most cases, axis labels are set automatically.}
+\item{axis.labels}{Character vector with labels for the model terms, used as
+axis labels. By default, \code{\link[sjlabelled]{get_term_labels}} is
+called to retrieve the labels of the coefficients, which will be used as
+axis labels. Use \code{axis.labels = ""} or \code{auto.label = FALSE}
+to use the bare term names as labels instead.}
 
 \item{axis.title}{Character vector of length one or two (depending on
 the plot function and type), used as title(s) for the x and y axis.
 If not specified, a default labelling  is chosen. \strong{Note:}
 Some plot types may not support this argument sufficiently. In such
 cases, use the returned ggplot-object and add axis titles manually with
-\code{\link[ggplot2]{labs}}.}
+\code{\link[ggplot2]{labs}}. Use \code{axis.title = ""} to remove axis
+titles.}
 
-\item{axis.lim}{Numeric vector of length 2, defining the range of the plot axis.
-Depending on plot type, may effect either x- or y-axis, or both.
-For multiple plot outputs (e.g., from \code{type = "eff"} or
-\code{type = "slope"} in \code{\link{sjp.glm}}), \code{axis.lim} may
-also be a list of vectors of length 2, defining axis limits for each
-plot (only if non-faceted).}
+\item{axis.lim}{Numeric vector of length 2, defining the range of the plot
+axis. Depending on plot-type, may effect either x- or y-axis. For
+\emph{Marginal Effects} plots, \code{axis.lim} may also be a list of two
+vectors of length 2, defining axis limits for both the x and y axis.}
 
-\item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
-one line and when a line break is inserted.}
+\item{wrap.title}{Numeric, determines how many chars of the plot title are
+displayed in one line and when a line break is inserted.}
 
-\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
-labels are displayed in one line and when a line break is inserted.}
+\item{wrap.labels}{Numeric, determines how many chars of the value, variable
+or axis labels are displayed in one line and when a line break is inserted.}
 
 \item{wrap.legend.title}{numeric, determines how many chars of the legend's title
 are displayed in one line and when a line break is inserted.}
 
-\item{grid.breaks}{numeric; sets the distance between breaks for the axis,
-i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
+\item{grid.breaks}{Numeric; sets the distance between breaks for the axis,
+i.e. at every \code{grid.breaks}'th position a major grid is plotted.}
 
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size,
-depending on plot type and function). Note that bar and bin widths mostly
-need smaller values than dot sizes.}
+\item{dot.size}{Numeric, size of the dots that indicate the point estimates.}
 
-\item{geom.spacing}{Numeric, spacing between the dots and error bars of the
+\item{spacing}{Numeric, spacing between the dots and error bars of the
 plotted fitted models. Default is 0.3.}
 
-\item{geom.colors}{User defined color palette for geoms. If \code{group.estimates}
-is \emph{not} specified, must either be vector with two color values or a specific
-color palette code (see 'Details' in \code{\link{sjp.grpfrq}}). Else, if
-\code{group.estimates} is specified, \code{geom.colors} must be a vector
-of same length as groups. See 'Examples'.}
+\item{colors}{May be a character vector of color values in hex-format, valid
+color value names (see \code{demo("colors")} or a name of a
+\href{http://colorbrewer2.org}{color brewer} palette. Following options
+are valid for the \code{colors} argument:
+\itemize{
+  \item If not specified, a default color brewer palette will be used, which is suitable for the plot style.
+  \item If \code{"gs"}, a greyscale will be used.
+  \item If \code{"bw"}, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see \href{../doc/blackwhitefigures.html}{this package-vignette}).
+  \item If \code{colors} is any valid color brewer palette name, the related palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view all available palette names.
+  \item Else specify own color values or names as vector (e.g. \code{colors = "#00ff00"}).
+}}
 
-\item{show.values}{logical, whether values should be plotted or not.}
+\item{show.values}{Logical, whether values should be plotted or not.}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
@@ -114,18 +120,30 @@ model is also plotted. Default is \code{FALSE}. If \code{exponentiate = TRUE},
 please note that due to exponential transformation of estimates, the
 intercept in some cases is non-finite and the plot can not be created.}
 
-\item{show.p}{Logical, adds significance levels to values, or value and
-variable labels.}
+\item{show.p}{Logical, adds asterisks that indicate the significance level
+of estimates to the value labels.}
 
 \item{p.shape}{Logical, if \code{TRUE}, significant levels are distinguished by
 different point shapes and a related legend is plotted. Default
 is \code{FALSE}.}
 
+\item{ci.lvl}{Numeric, the level of the confidence intervals (error bars).
+Use \code{ci.lvl = NA} to remove error bars. For \code{stanreg}-models,
+\code{ci.lvl} defines the (outer) probability for the \code{\link[sjstats]{hdi}}
+(High Density Interval) that is plotted. By default, \code{stanreg}-models
+are printed with two intervals: the "inner" interval, which defaults to
+the 50\%-HDI; and the "outer" interval, which defaults to the 89\%-HDI.
+\code{ci.lvl} affects only the outer interval in such cases. See
+\code{prob.inner} and \code{prob.outer} under the \code{...}-argument
+for more details.}
+
 \item{vline.type}{Linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
 
-\item{vline.color}{Color of the vertical "zero point" line. Default value is \code{"grey70"}.}
+\item{vline.color}{Color of the vertical "zero effect" line. Default color
+is inherited from the current theme.}
 
-\item{digits}{Numeric, amount of digits after decimal point when rounding estimates and values.}
+\item{digits}{Numeric, amount of digits after decimal point when rounding
+estimates or values.}
 
 \item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots
 in a grid of an integrated single plot. This argument calls

@@ -56,7 +56,7 @@ one line and when a line break is inserted.}
 \item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
 labels are displayed in one line and when a line break is inserted.}
 
-\item{show.values}{logical, whether values should be plotted or not.}
+\item{show.values}{Logical, whether values should be plotted or not.}
 
 \item{show.cronb}{Logical, if \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
 i.e. all variables with the highest loading for a factor are taken for the

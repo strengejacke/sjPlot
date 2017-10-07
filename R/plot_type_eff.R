@@ -56,8 +56,13 @@ plot_type_eff <- function(type,
     p <- p + ggtitle(title)
 
   # set axis limits
-  if (!is.null(axis.lim))
-    p <- p + ylim(axis.lim)
+  if (!is.null(axis.lim)) {
+    if (is.list(axis.lim))
+      p <- p + xlim(axis.lim[[1]]) + + ylim(axis.lim[[2]])
+    else
+      p <- p + ylim(axis.lim)
+  }
+
 
   p
 }

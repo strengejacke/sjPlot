@@ -44,7 +44,7 @@ Imports:
     purrr,
     rlang,
     scales,
-    sjlabelled (>= 1.0.3),
+    sjlabelled (>= 1.0.4),
     sjmisc (>= 2.6.1),
     sjstats (>= 0.11.2),
     tidyselect,

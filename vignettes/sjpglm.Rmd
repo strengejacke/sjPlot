@@ -20,7 +20,7 @@ library(sjmisc)
 library(sjlabelled)
 data(efc)
 # set basic theme options
-sjp.setTheme(
+set_theme(
   base = theme_sjplot(),
   axis.title.size = .85, 
   axis.textsize = .85, 

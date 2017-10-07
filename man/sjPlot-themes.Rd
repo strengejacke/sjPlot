@@ -20,11 +20,11 @@ theme_blank(base_size = 12, base_family = "")
 theme_538(base_size = 12, base_family = "")
 
 font_size(title, axis_title.x, axis_title.y, labels.x, labels.y, offset.x,
-  offset.y, theme)
+  offset.y, base.theme)
 
-label_angle(angle.x, angle.y, theme)
+label_angle(angle.x, angle.y, base.theme)
 
-legend_style(inside, pos, justify, theme)
+legend_style(inside, pos, justify, base.theme)
 }
 \arguments{
 \item{base_size}{Base font size.}
@@ -45,9 +45,9 @@ legend_style(inside, pos, justify, theme)
 
 \item{offset.y}{Offset for y-axis titles.}
 
-\item{theme}{Optional ggplot-theme-object, which is needed in case multiple
+\item{base.theme}{Optional ggplot-theme-object, which is needed in case multiple
 functions should be combined, e.g. \code{theme_sjplot() + label_angle()}.
-In such cases, use \code{label_angle(theme = theme_sjplot())}.}
+In such cases, use \code{label_angle(base.theme = theme_sjplot())}.}
 
 \item{angle.x}{Angle for x-axis labels.}
 
@@ -77,4 +77,21 @@ two-element numeric vector with values from 0-1.}
 }
 \description{
 Set default theme plots.
+}
+\examples{
+# prepare data
+library(sjmisc)
+data(efc)
+efc <- to_factor(efc, c161sex, e42dep, c172code)
+m <- lm(neg_c_7 ~ pos_v_4 + c12hour + e42dep + c172code, data = efc)
+
+# create plot-object
+p <- plot_model(m)
+
+# change theme
+p + theme_sjplot()
+
+# change font-size
+p + font_size(axis_title.x = 30)
+
 }

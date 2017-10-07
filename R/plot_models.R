@@ -19,7 +19,7 @@
 #' @param legend.pval.title Character vector, used as title of the plot legend that
 #'        indicates the p-values. Default is \code{"p-level"}. Only applies if
 #'        \code{p.shape = TRUE}.
-#' @param geom.spacing Numeric, spacing between the dots and error bars of the
+#' @param spacing Numeric, spacing between the dots and error bars of the
 #'        plotted fitted models. Default is 0.3.
 #' @param p.shape Logical, if \code{TRUE}, significant levels are distinguished by
 #'        different point shapes and a related legend is plotted. Default
@@ -34,7 +34,6 @@
 #' @return A ggplot-object.
 #'
 #' @examples
-#' library(sjmisc)
 #' data(efc)
 #'
 #' # fit three models
@@ -98,16 +97,17 @@ plot_models <- function(...,
                         wrap.labels = 25,
                         wrap.legend.title = 20,
                         grid.breaks = NULL,
-                        geom.size = 3,
-                        geom.spacing = 0.4,
-                        geom.colors = "Set1",
+                        dot.size = 3,
+                        spacing = 0.4,
+                        colors = "Set1",
                         show.values = FALSE,
                         show.legend = TRUE,
                         show.intercept = FALSE,
                         show.p = TRUE,
                         p.shape = FALSE,
+                        ci.lvl = .95,
                         vline.type = 2,
-                        vline.color = "grey70",
+                        vline.color = NULL,
                         digits = 2,
                         facet.grid = FALSE) {
   # retrieve list of fitted models
@@ -128,29 +128,36 @@ plot_models <- function(...,
 
   # tidy output
   if (!is.null(std.est)) {
+
     # for standardized estimates, we need to rename a column,
     # and manually add p-values to the output. intercept is already
     # removed from output
+
     fl <- input_list %>%
       purrr::map(~ sjstats::std_beta(.x, type = std.est)) %>%
       purrr::map(~ sjmisc::var_rename(.x, std.estimate = "estimate")) %>%
       purrr::map2(input_list, ~ tibble::add_column(
         .x, p.value = sjstats::p_value(.y)[["p.value"]][-1])
       )
+
   } else {
+
     # if not standardized, we can get simple tidy output and
     # need to check whether intercept should be removed or not
+
     fl <- purrr::map(
-      input_list, ~ broom::tidy(.x, conf.int = TRUE, effects = "fixed")
+      input_list, ~ tidy_model(.x, ci.lvl, exponentiate, type = "est", bpe = "line", ...)
     )
 
     # remove intercept from output
     if (!show.intercept) fl <- purrr::map(fl, ~ dplyr::slice(.x, -1))
+
   }
 
 
   # exponentiation from broom::tidy does not work with merMod-objecs,
   # so we do it manually for all model classes
+
   if (exponentiate) fl <- purrr::map(fl, function(x) {
     x[["estimate"]] <- exp(x[["estimate"]])
     x[["conf.low"]] <- exp(x[["conf.low"]])
@@ -166,22 +173,30 @@ plot_models <- function(...,
   # merge models to one data frame
   ff <- dplyr::bind_rows(fl)
 
+
   # rename terms, if we did std2-type of standardization. pkg "arm" adds
   # a "z." suffix to each term name
+
   if (!is.null(std.est) && std.est == "std2")
     ff$term <- substring(ff$term, first = 3)
 
+
   # remove further estimates
+
   rems <- !(ff$term %in% rm.terms)
   if (!is.null(rm.terms)) ff <- dplyr::filter(ff, !! rems)
 
+
   # get labels of dependent variables, and wrap them if too long
+
   if (is.null(m.labels)) m.labels <- sjlabelled::get_dv_labels(input_list)
   m.labels <- sjmisc::word_wrap(m.labels, wrap = wrap.labels)
+
 
   # make sure we have distinct labels, because we use them as
   # factor levels. else, duplicated factor levels will be dropped,
   # leading to missing groups in plot output
+
   if (anyDuplicated(m.labels) > 0)
     m.labels <- suppressMessages(tibble::tidy_names(m.labels))
 
@@ -192,13 +207,35 @@ plot_models <- function(...,
   # reverse group, to plot correct order from top to bottom
   ff$group <- forcats::fct_rev(ff$group)
 
+
   # add p-asterisks to data
+
   ff$p.stars <- get_p_stars(ff$p.value)
   ff$p.label <- sprintf("%.*f", digits, ff$estimate)
   if (show.p) ff$p.label <- sprintf("%s %s", ff$p.label, ff$p.stars)
 
 
+  # axis limits and tick breaks for y-axis
+
+  axis.scaling <- get_axis_limits_and_ticks(
+    axis.lim = axis.lim,
+    min.val = min(ff$conf.low),
+    max.val = max(ff$conf.high),
+    grid.breaks = grid.breaks,
+    exponentiate = exponentiate,
+    min.est = min(ff$estimate),
+    max.est = max(ff$estimate)
+  )
+
+
+  # based on current ggplot theme, highlights vertical default line
+
+  yintercept = ifelse(exponentiate, 1, 0)
+  layer_vertical_line <- geom_intercep_line(yintercept, axis.scaling, vline.color)
+
+
   # set up base plot
+
   if (p.shape)
     p <- ggplot(ff, aes_string(x = "term", y = "estimate", colour = "group", shape = "p.stars"))
   else
@@ -206,11 +243,11 @@ plot_models <- function(...,
 
 
   p <- p +
-    geom_hline(yintercept = 0, linetype = vline.type, color = vline.color) +
-    geom_point(position = position_dodge(geom.spacing), size = geom.size) +
+    layer_vertical_line +
+    geom_point(position = position_dodge(spacing), size = dot.size) +
     geom_errorbar(
       aes_string(ymin = "conf.low", ymax = "conf.high"),
-      position = position_dodge(geom.spacing),
+      position = position_dodge(spacing),
       width = 0
     ) +
     coord_flip() +
@@ -218,21 +255,25 @@ plot_models <- function(...,
 
 
   # show different shapes depending on p-value
+
   if (p.shape) p <- p +
     scale_shape_manual(
       values = c(1, 16, 17, 15),
       labels = c("n.s.", "*", "**", "***")
     )
 
+
   # add value labels
+
   if (show.values) p <- p +
     geom_text(
       aes_string(label = "p.label"),
-      position = position_dodge(geom.spacing),
-      vjust = geom.spacing * -1.5,
+      position = position_dodge(spacing),
+      vjust = spacing * -1.5,
       hjust = -.1,
       show.legend = FALSE
     )
+
 
   # check axis labels
   if (is.null(axis.labels)) axis.labels <- sjlabelled::get_term_labels(input_list)
@@ -248,17 +289,8 @@ plot_models <- function(...,
   if (facet.grid) p <- p + facet_grid(~group)
 
 
-  # axis limits and tick breaks for y-axis
-  axis.scaling <- get_axis_limits_and_ticks(
-    axis.lim = axis.lim,
-    min.val = min(ff$conf.low),
-    max.val = max(ff$conf.high),
-    grid.breaks = grid.breaks,
-    exponentiate = exponentiate
-  )
-
-
   # we need transformed scale for exponentiated estimates
+
   if (exponentiate) {
     p <- p + scale_y_continuous(
       trans = "log10",
@@ -276,9 +308,11 @@ plot_models <- function(...,
 
 
   # set colors
-  p <- p + scale_colour_manual(values = col_check2(geom.colors, length(m.labels)))
+  p <- p + scale_colour_manual(values = col_check2(colors, length(m.labels)))
+
 
   # set axis and plot titles
+
   p <-
     p + labs(
       x = NULL,

@@ -24,6 +24,7 @@ plot_type_ranef <- function(model,
                             geom.size,
                             line.size,
                             vline.color,
+                            value.size,
                             ...) {
 
   # get tidy output of summary ----
@@ -41,14 +42,8 @@ plot_type_ranef <- function(model,
   # set some initial values
 
   loops <- 1
-  value.size <- 3.5
   p <- list()
-
-
-  # additional arguments?
-
-  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
-  if ("value.size" %in% names(add.args)) value.size <- add.args[["value.size"]]
+  if (missing(value.size) || is.null(value.size)) value.size <- 4
 
 
   # do we have a specific random intercept
@@ -248,7 +243,7 @@ plot_type_ranef <- function(model,
         # plot random effects
 
         plot_point_estimates(
-          model = fit,
+          model = model,
           dat = x,
           exponentiate = exponentiate,
           title = x[["title"]],
@@ -262,7 +257,8 @@ plot_type_ranef <- function(model,
           line.size = line.size,
           geom.colors = geom.colors,
           vline.color = vline.color,
-          value.size = value.size
+          value.size = value.size,
+          ...
         )
       }
     )

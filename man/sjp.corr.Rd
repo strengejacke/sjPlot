@@ -54,7 +54,7 @@ function, a legend is added to the plot.}
 
 \item{legend.title}{character vector, used as title for the plot legend.}
 
-\item{show.values}{logical, whether values should be plotted or not.}
+\item{show.values}{Logical, whether values should be plotted or not.}
 
 \item{show.p}{Logical, adds significance levels to values, or value and
 variable labels.}

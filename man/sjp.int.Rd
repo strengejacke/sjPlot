@@ -111,7 +111,7 @@ Either set \code{fill.color} to \code{NULL} or use 0 for \code{fill.alpha} if yo
 \item{fill.alpha}{Alpha value (transparancy) of the shaded area between the minimum and maximum lines. Default is 0.4.
 Use either 0 or set \code{fill.color} to \code{NULL} if you want to hide the shaded area.}
 
-\item{show.values}{logical, whether values should be plotted or not.}
+\item{show.values}{Logical, whether values should be plotted or not.}
 
 \item{show.ci}{Logical, if \code{TRUE}, depending on \code{type}, a confidence
 interval or region is added to the plot. For frequency plots, the

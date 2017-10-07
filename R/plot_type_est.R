@@ -23,12 +23,15 @@ plot_type_est <- function(type,
                           line.size,
                           order.terms,
                           vline.color,
+                          value.size,
+                          bpe,
+                          bpe.style,
                           ...) {
 
   # get tidy output of summary ----
 
   if (type == "est") {
-    dat <- tidy_model(model, ci.lvl, exponentiate, type, ...)
+    dat <- tidy_model(model, ci.lvl, exponentiate, type, bpe, ...)
   } else {
     dat <- model %>%
       sjstats::std_beta(type = type, ci.lvl = ci.lvl) %>%
@@ -42,19 +45,12 @@ plot_type_est <- function(type,
   # for stan-models, we can define the style of the Bayesian point estimate,
   # which may be a line or a dot.
 
-  bpe.style <- "line"
-  value.size <- 4
-
-
-  # additional arguments for 'effects()'-function?
-
-  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
-  if ("bpe.style" %in% names(add.args)) bpe.style <- add.args[["bpe.style"]]
-  if ("value.size" %in% names(add.args)) value.size <- add.args[["value.size"]]
+  if (missing(bpe.style) || is.null(bpe.style)) bpe.style <- "line"
+  if (missing(value.size) || is.null(value.size)) value.size <- 4
 
 
   plot_model_estimates(
-    fit = model,
+    model = model,
     dat = dat,
     exponentiate = exponentiate,
     terms = terms,
@@ -77,6 +73,7 @@ plot_type_est <- function(type,
     bpe.style = bpe.style,
     term.order = order.terms,
     vline.color = vline.color,
-    value.size = value.size
+    value.size = value.size,
+    ...
   )
 }

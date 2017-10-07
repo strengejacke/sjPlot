@@ -1,5 +1,15 @@
 # sjPlot 2.4.0
 
+## General
+
+* The old `set_theme()` was removed. Instead, there are some new predifined themes available (see `?"sjPlot-themes"`). The former `sjp.setThemes()` was renamed to `set_theme()` instead.
+
+## New functions
+
+* `plot_model()` as replacement for `sjp.lm()`, `sjp.glm()`, `sjp.lmer()` and `sjp.glmer()` (which will become deprecated in the future, and will later be removed).
+* `get_model_data()` to get the data from plot-objects created with `plot_model()`.
+* `font_size()`, `label_angle()` and `legend_style()` as convenient ways to tweak common ggplot-theme-elements.
+
 ## Bug fixes
 
 * Fixed bug with `rm.terms`-argument in `plot_models()`.

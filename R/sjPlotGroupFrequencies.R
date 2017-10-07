@@ -79,7 +79,7 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #' @param smooth.lines prints a smooth line curve. Only applies, when argument \code{type = "line"}.
 #' @param expand.grid logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 #'          axes and plotting region. Default is \code{FALSE}.
-#' @param show.values logical, whether values should be plotted or not.
+#' @param show.values Logical, whether values should be plotted or not.
 #' @param show.n logical, if \code{TRUE}, adds total number of cases for each
 #'          group or category to the labels.
 #' @param show.axis.values logical, whether category, count or percentage values for the axis
@@ -137,7 +137,7 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'            \item If \code{geom.colors} is any valid color brewer palette name, the related palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view all available palette names.
 #'            \item Else specify own color values or names as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
 #'          }
-
+#'
 #' @examples
 #' # histrogram with EUROFAMCARE sample dataset
 #' library(sjmisc)

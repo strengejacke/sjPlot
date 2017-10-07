@@ -16,13 +16,26 @@ plot_point_estimates <- function(model,
                                  geom.colors,
                                  bpe.style,
                                  vline.color,
-                                 value.size) {
+                                 value.size,
+                                 ...) {
+
+  # some defaults...
+
+  size.inner <- .1
+  width <- ifelse(is.stan(model), .06, 0)
+
+  # check additional arguments, for stan-geoms
+
+  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  if ("size.inner" %in% names(add.args)) size.inner <- add.args[["size.inner"]]
+  if ("width" %in% names(add.args)) width <- add.args[["width"]]
+
 
   # need some additional data, for stan-geoms
 
   dat$xpos <- sjmisc::to_value(dat$term, start.at = 1)
-  dat$xmin <- dat$xpos - (geom.size * .1)
-  dat$xmax <- dat$xpos + (geom.size * .1)
+  dat$xmin <- dat$xpos - (geom.size * size.inner)
+  dat$xmax <- dat$xpos + (geom.size * size.inner)
 
 
   # set default for empty titles/labels
@@ -39,29 +52,16 @@ plot_point_estimates <- function(model,
     min.val = min(dat$conf.low),
     max.val = max(dat$conf.high),
     grid.breaks = grid.breaks,
-    exponentiate = exponentiate
+    exponentiate = exponentiate,
+    min.est = min(dat$estimate),
+    max.est = max(dat$estimate)
   )
 
 
   # based on current ggplot theme, highlights vertical default line
 
   yintercept = ifelse(exponentiate, 1, 0)
-
-  layer_vertical_line <- if (yintercept > axis.scaling$axis.lim[1] && yintercept < axis.scaling$axis.lim[2]) {
-    t <- theme_get()
-    color <- nulldef(vline.color, t$panel.grid.major$colour, "grey90")
-    minor_size <- nulldef(t$panel.grid.minor$size, .125)
-    major_size <- nulldef(t$panel.grid.major$size, minor_size * 2)
-    size <- major_size * 2
-    geom_hline(yintercept = yintercept, color = color, size = size)
-  } else {
-    geom_blank(
-      mapping = NULL,
-      data = NULL,
-      show.legend = FALSE,
-      inherit.aes = FALSE
-    )
-  }
+  layer_vertical_line <- geom_intercep_line(yintercept, axis.scaling, vline.color)
 
 
   # basis aes mapping
@@ -74,7 +74,7 @@ plot_point_estimates <- function(model,
     # special setup for rstan-models
     p <- p +
       layer_vertical_line +
-      geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), size = line.size, width = .06) +
+      geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), size = line.size, width = width) +
       geom_rect(aes_string(ymin = "conf.low50", ymax = "conf.high50", xmin = "xmin", xmax = "xmax"), colour = "white", size = .5)
 
     # define style for Bayesian point estimate
@@ -91,7 +91,7 @@ plot_point_estimates <- function(model,
     p <- p +
       layer_vertical_line +
       geom_point(size = geom.size) +
-      geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), width = 0, size = line.size)
+      geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), width = width, size = line.size)
 
   }
 

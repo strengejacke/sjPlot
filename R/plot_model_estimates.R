@@ -1,7 +1,7 @@
 #' @importFrom dplyr slice filter if_else
 #' @importFrom forcats fct_reorder fct_rev
 #' @importFrom rlang .data
-plot_model_estimates <- function(fit,
+plot_model_estimates <- function(model,
                                  dat,
                                  exponentiate,
                                  terms,
@@ -24,17 +24,19 @@ plot_model_estimates <- function(fit,
                                  bpe.style,
                                  term.order,
                                  vline.color,
-                                 value.size) {
+                                 value.size,
+                                 ...) {
 
   # remove intercept from output
 
-  if (!show.intercept) dat <- dplyr::slice(dat, -1)
+  if (!show.intercept && "(Intercept)" %in% dat$term)
+    dat <- dplyr::slice(dat, -1)
 
 
   # exponentiation from broom::tidy does not work with merMod-objecs,
   # so we do it manually for all model classes
 
-  if (exponentiate && !is.stan(fit)) {
+  if (exponentiate && !is.stan(model)) {
     dat[["estimate"]] <- exp(dat[["estimate"]])
     dat[["conf.low"]] <- exp(dat[["conf.low"]])
     dat[["conf.high"]] <- exp(dat[["conf.high"]])
@@ -42,14 +44,14 @@ plot_model_estimates <- function(fit,
 
   # remove further estimates
 
-  filter.remove <- !(dat$term %in% terms)
-  if (!is.null(rm.terms)) dat <- dplyr::filter(dat, !! filter.remove)
+  filter.remove <- dat$term %in% terms
+  if (!is.null(terms)) dat <- dplyr::filter(dat, !! filter.remove)
 
 
   # or select further estimates
 
-  filter.remove <- dat$term %in% rm.terms
-  if (!is.null(terms)) dat <- dplyr::filter(dat, !! filter.remove)
+  filter.remove <- !(dat$term %in% rm.terms)
+  if (!is.null(rm.terms)) dat <- dplyr::filter(dat, !! filter.remove)
 
 
   # add p-asterisks to data
@@ -114,7 +116,7 @@ plot_model_estimates <- function(fit,
 
 
   plot_point_estimates(
-    model = fit,
+    model = model,
     dat = dat,
     exponentiate = exponentiate,
     title = title,
@@ -129,7 +131,8 @@ plot_model_estimates <- function(fit,
     geom.colors = geom.colors,
     bpe.style = bpe.style,
     vline.color = vline.color,
-    value.size = value.size
+    value.size = value.size,
+    ...
   )
 }
 

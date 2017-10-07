@@ -63,7 +63,7 @@ need smaller values than dot sizes.}
 
 \item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
-\item{show.values}{logical, whether values should be plotted or not.}
+\item{show.values}{Logical, whether values should be plotted or not.}
 
 \item{show.n}{logical, if \code{TRUE}, adds total number of cases for each
 group or category to the labels.}

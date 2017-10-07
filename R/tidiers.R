@@ -1,12 +1,14 @@
 ## TODO provide own tidier for not-supported models
 
-tidy_model <- function(model, ci.lvl, exponentiate, type, ...) {
+tidy_model <- function(model, ci.lvl, exponentiate, type, bpe, ...) {
   if (is.stan(model))
-    tidy_stan_model(model, ci.lvl, exponentiate, type, ...)
+    tidy_stan_model(model, ci.lvl, exponentiate, type, bpe, ...)
   else if (inherits(model, "lme"))
     tidy_lme_model(model, ci.lvl)
   else if (inherits(model, "gls"))
     tidy_gls_model(model, ci.lvl)
+  else if (inherits(model, "coxph"))
+    tidy_cox_model(model, ci.lvl)
   else
     tidy_generic(model, ci.lvl)
 }
@@ -27,6 +29,22 @@ tidy_generic <- function(model, ci.lvl) {
   dat
 }
 
+
+#' @importFrom broom tidy
+#' @importFrom tibble has_name
+#' @importFrom sjstats p_value
+tidy_cox_model <- function(model, ci.lvl) {
+  # tidy the model
+  dat <- broom::tidy(model, conf.int = ci.lvl)
+
+  # see if we have p-values. if not, add them
+  if (!tibble::has_name(dat, "p.value"))
+    dat$p.value <- sjstats::p_value(model)[["p.value"]]
+
+  dat
+}
+
+
 #' @importFrom sjstats hdi typical_value
 #' @importFrom sjmisc var_rename add_columns is_empty
 #' @importFrom dplyr select filter slice
@@ -34,7 +52,7 @@ tidy_generic <- function(model, ci.lvl) {
 #' @importFrom purrr map_dbl
 #' @importFrom rlang .data
 #' @importFrom tidyselect starts_with
-tidy_stan_model <- function(fit, ci.lvl, exponentiate, type, ...) {
+tidy_stan_model <- function(model, ci.lvl, exponentiate, type, bpe, ...) {
 
   # check if values should be exponentiated
 
@@ -48,24 +66,22 @@ tidy_stan_model <- function(fit, ci.lvl, exponentiate, type, ...) {
 
   p.inner <- .5
   p.outer <- ci.lvl
-  best <- "median"
 
 
   # additional arguments for 'effects()'-function?
   add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
 
-  # check whether we have "prob.inner", "prob.outer" and "bpe" argument
+  # check whether we have "prob.inner" and "prob.outer" argument
   # and if so, use these for HDI and Bayesian point estimate
 
   if ("prob.inner" %in% names(add.args)) p.inner <- add.args[["prob.inner"]]
   if ("prob.outer" %in% names(add.args)) p.outer <- add.args[["prob.outer"]]
-  if ("bpe" %in% names(add.args)) best <- add.args[["bpe"]]
 
 
   # get two HDI-intervals
 
-  d1 <- sjstats::hdi(fit, prob = p.outer, trans = funtrans, type = "all")
-  d2 <- sjstats::hdi(fit, prob = p.inner, trans = funtrans, type = "all")
+  d1 <- sjstats::hdi(model, prob = p.outer, trans = funtrans, type = "all")
+  d2 <- sjstats::hdi(model, prob = p.inner, trans = funtrans, type = "all")
 
 
   # bind columns, so we have inner and outer hdi interval
@@ -81,7 +97,7 @@ tidy_stan_model <- function(fit, ci.lvl, exponentiate, type, ...) {
 
   dat <- dat %>%
     tibble::add_column(
-      estimate = purrr::map_dbl(as.data.frame(fit), sjstats::typical_value, best),
+      estimate = purrr::map_dbl(as.data.frame(model), sjstats::typical_value, bpe),
       .after = 1
     ) %>%
     tibble::add_column(p.value = 0)

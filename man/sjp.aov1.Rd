@@ -68,7 +68,7 @@ labels are displayed in one line and when a line break is inserted.}
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis,
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
-\item{show.values}{logical, whether values should be plotted or not.}
+\item{show.values}{Logical, whether values should be plotted or not.}
 
 \item{digits}{Numeric, amount of digits after decimal point when rounding estimates and values.}
 
