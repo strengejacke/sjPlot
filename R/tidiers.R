@@ -17,6 +17,8 @@ tidy_model <- function(model, ci.lvl, exponentiate, type, bpe, ...) {
     tidy_hurdle_model(model, ci.lvl)
   else if (inherits(model, "logistf"))
     tidy_logistf_model(model, ci.lvl)
+  else if (inherits(model, "gam"))
+    tidy_gam_model(model, ci.lvl)
   else
     tidy_generic(model, ci.lvl)
 }
@@ -339,5 +341,35 @@ tidy_logistf_model <- function(model, ci.lvl) {
     conf.low = estimate - stats::qnorm(ci) * std.error,
     conf.high = estimate + stats::qnorm(ci) * std.error,
     p.value = model$prob
+  )
+}
+
+
+#' @importFrom stats coef qnorm pnorm
+#' @importFrom tibble tibble
+tidy_gam_model <- function(model, ci.lvl) {
+
+  # compute ci, two-ways
+
+  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+    ci <- 1 - ((1 - ci.lvl) / 2)
+  else
+    ci <- .975
+
+
+  # get estimates
+
+  est <- stats::coef(model)
+  se <- sqrt(diag(model$Ve))
+  sm <- summary(model)
+
+  tibble::tibble(
+    term = names(est),
+    estimate = est,
+    std.error = se,
+    statistic = sm$p.t,
+    conf.low = estimate - stats::qnorm(ci) * std.error,
+    conf.high = estimate + stats::qnorm(ci) * std.error,
+    p.value = sm$p.pv
   )
 }
