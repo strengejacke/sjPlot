@@ -13,8 +13,8 @@ plot_models(..., exponentiate, std.est = NULL, rm.terms = NULL,
   wrap.legend.title = 20, grid.breaks = NULL, dot.size = 3,
   spacing = 0.4, colors = "Set1", show.values = FALSE,
   show.legend = TRUE, show.intercept = FALSE, show.p = TRUE,
-  p.shape = FALSE, ci.lvl = 0.95, vline.type = 2,
-  vline.color = "grey70", digits = 2, facet.grid = FALSE)
+  p.shape = FALSE, ci.lvl = 0.95, vline.type = 2, vline.color = NULL,
+  digits = 2, facet.grid = FALSE)
 
 sjp.lmm(...)
 
@@ -159,7 +159,6 @@ Plot and compare regression coefficients with confidence
                intervals of multiple regression models in one plot.
 }
 \examples{
-library(sjmisc)
 data(efc)
 
 # fit three models

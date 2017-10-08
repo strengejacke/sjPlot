@@ -1,6 +1,6 @@
 #' @importFrom tibble has_name
 #' @importFrom dplyr n_distinct
-#' @importFrom sjmisc to_value
+#' @importFrom sjmisc to_value is_empty
 plot_point_estimates <- function(model,
                                  dat,
                                  exponentiate,
@@ -152,9 +152,12 @@ plot_point_estimates <- function(model,
 
   # facets?
 
-  if (tibble::has_name(dat, "facet"))
+  if (tibble::has_name(dat, "facet") && dplyr::n_distinct(dat$facet, na.rm = TRUE) > 1)
     p <- p +
       facet_grid(~facet)
+  else if (tibble::has_name(dat, "wrap.facet") && dplyr::n_distinct(dat$wrap.facet, na.rm = TRUE) > 1)
+    p <- p +
+      facet_wrap(~wrap.facet, ncol = 1)
 
 
   # set axis and plot titles

@@ -1,5 +1,6 @@
 #' @importFrom dplyr slice filter if_else
 #' @importFrom forcats fct_reorder fct_rev
+#' @importFrom tidyselect contains
 #' @importFrom rlang .data
 plot_model_estimates <- function(model,
                                  dat,
@@ -27,10 +28,20 @@ plot_model_estimates <- function(model,
                                  value.size,
                                  ...) {
 
-  # remove intercept from output
+  # remove intercept(s) from output
 
-  if (!show.intercept && "(Intercept)" %in% dat$term)
-    dat <- dplyr::slice(dat, -1)
+  if (!show.intercept) {
+    ints <- tidyselect::contains("(Intercept)", vars = dat$term)
+
+    if (!sjmisc::is_empty(ints))
+      dat <- dplyr::slice(dat, !! -ints)
+  }
+
+
+  # remove non-coefficients
+
+  noncoef <- tidyselect::contains("Log(theta)", vars = dat$term)
+  if (!sjmisc::is_empty(noncoef)) dat <- dplyr::slice(dat, !! -noncoef)
 
 
   # exponentiation from broom::tidy does not work with merMod-objecs,

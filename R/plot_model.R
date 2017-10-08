@@ -500,6 +500,7 @@ get_model_data <- function(model,
     facets = facets,
     case = case,
     digits = digits,
+    auto.label = FALSE,
     ...
   )
 

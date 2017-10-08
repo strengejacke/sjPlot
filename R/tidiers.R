@@ -9,6 +9,14 @@ tidy_model <- function(model, ci.lvl, exponentiate, type, bpe, ...) {
     tidy_gls_model(model, ci.lvl)
   else if (inherits(model, "coxph"))
     tidy_cox_model(model, ci.lvl)
+  else if (inherits(model, "svyglm.nb"))
+    tidy_svynb_model(model, ci.lvl)
+  else if (inherits(model, "glmmTMB"))
+    tidy_glmmTMB_model(model, ci.lvl)
+  else if (inherits(model, c("hurdle", "zeroinfl")))
+    tidy_hurdle_model(model, ci.lvl)
+  else if (inherits(model, "logistf"))
+    tidy_logistf_model(model, ci.lvl)
   else
     tidy_generic(model, ci.lvl)
 }
@@ -27,6 +35,38 @@ tidy_generic <- function(model, ci.lvl) {
     dat$p.value <- sjstats::p_value(model)[["p.value"]]
 
   dat
+}
+
+
+#' @importFrom stats coef vcov qnorm pnorm
+#' @importFrom tibble tibble
+tidy_svynb_model <- function(model, ci.lvl) {
+  if (!isNamespaceLoaded("survey"))
+    requireNamespace("survey", quietly = TRUE)
+
+
+  # compute ci, two-ways
+
+  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+    ci <- 1 - ((1 - ci.lvl) / 2)
+  else
+    ci <- .975
+
+
+  # keep original value, not rounded
+
+  est <- stats::coef(model)
+  se <- sqrt(diag(stats::vcov(model, stderr = "robust")))
+
+
+  tibble::tibble(
+    term = gsub("\\beta\\.", "", names(est), fixed = FALSE),
+    estimate = est,
+    std.error = se,
+    conf.low = est - stats::qnorm(ci) * se,
+    conf.high = est + stats::qnorm(ci) * se,
+    p.value = 2 * stats::pnorm(abs(est / se), lower.tail = FALSE)
+  )
 }
 
 
@@ -174,4 +214,130 @@ tidy_gls_model <- function(model, ci.lvl) {
     `p-value` = "p.value"
   ) %>%
     tibble::rownames_to_column("term")
+}
+
+
+#' @importFrom glmmTMB fixef
+#' @importFrom stats vcov qnorm pnorm
+#' @importFrom tibble tibble
+#' @importFrom sjmisc is_empty
+#' @importFrom dplyr bind_rows
+tidy_glmmTMB_model <- function(model, ci.lvl) {
+
+  # compute ci, two-ways
+
+  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+    ci <- 1 - ((1 - ci.lvl) / 2)
+  else
+    ci <- .975
+
+
+  # get fixed effects
+
+  est <- glmmTMB::fixef(model)
+  vcovs <- stats::vcov(model)
+
+
+  # save conditional model
+
+  cond <- tibble::tibble(
+    term = names(est[[1]]),
+    estimate = est[[1]],
+    std.error = sqrt(diag(vcovs[[1]])),
+    statistic = estimate / std.error,
+    conf.low = estimate - stats::qnorm(ci) * std.error,
+    conf.high = estimate + stats::qnorm(ci) * std.error,
+    p.value = 2 * stats::pnorm(abs(estimate / std.error), lower.tail = FALSE),
+    wrap.facet = "Conditional Model"
+  )
+
+
+  # save zi model
+
+  if (!sjmisc::is_empty(est[[2]])) {
+    zi <- tibble::tibble(
+      term = names(est[[1]]),
+      estimate = est[[2]],
+      std.error = sqrt(diag(vcovs[[2]])),
+      statistic = estimate / std.error,
+      conf.low = estimate - stats::qnorm(ci) * std.error,
+      conf.high = estimate + stats::qnorm(ci) * std.error,
+      p.value = 2 * stats::pnorm(abs(estimate / std.error), lower.tail = FALSE),
+      wrap.facet = "Zero-Inflated Model"
+    )
+
+    cond <- dplyr::bind_rows(cond, zi)
+  }
+
+
+  cond
+}
+
+
+#' @importFrom stats qnorm
+#' @importFrom tibble rownames_to_column
+#' @importFrom sjmisc var_rename
+#' @importFrom dplyr mutate
+#' @importFrom purrr map2_df
+tidy_hurdle_model <- function(model, ci.lvl) {
+
+  # compute ci, two-ways
+
+  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+    ci <- 1 - ((1 - ci.lvl) / 2)
+  else
+    ci <- .975
+
+
+  # get estimates
+
+  est <- summary(model)$coefficients
+  mn <- c("Count Model", ifelse(inherits(model, "hurdle"), "Zero Hurdle Model", "Zero Inflation Model"))
+
+  purrr::map2_df(est, mn, function(x, y) {
+    x %>%
+      as.data.frame() %>%
+      tibble::rownames_to_column(var = "term") %>%
+      sjmisc::var_rename(
+        Estimate = "estimate",
+        `Std. Error` = "std.error",
+        `z value` = "statistic",
+        `Pr(>|z|)` = "p.value"
+      ) %>%
+      dplyr::mutate(
+        conf.low = .data$estimate - stats::qnorm(ci) * .data$std.error,
+        conf.high = .data$estimate + stats::qnorm(ci) * .data$std.error,
+        wrap.facet = y
+      )
+  })
+}
+
+
+#' @importFrom stats qnorm pnorm
+#' @importFrom tibble tibble
+tidy_logistf_model <- function(model, ci.lvl) {
+
+  # compute ci, two-ways
+
+  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+    ci <- 1 - ((1 - ci.lvl) / 2)
+  else
+    ci <- .975
+
+
+  # get estimates
+
+  est <- model$coefficients
+  se <- sqrt(diag(model$var))
+
+
+  tibble::tibble(
+    term = model$terms,
+    estimate = est,
+    std.error = se,
+    statistic = estimate / std.error,
+    conf.low = estimate - stats::qnorm(ci) * std.error,
+    conf.high = estimate + stats::qnorm(ci) * std.error,
+    p.value = model$prob
+  )
 }
