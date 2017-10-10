@@ -225,3 +225,57 @@ geom_intercep_line <- function(yintercept, axis.scaling, vline.color) {
     )
   }
 }
+
+
+#' @importFrom stats model.frame
+#' @importFrom prediction find_data
+#' @importFrom purrr map_lgl
+#' @importFrom dplyr select bind_cols one_of
+get_model_frame <- function(model) {
+  if (inherits(model, c("merMod", "lmerMod", "glmerMod", "nlmerMod", "merModLmerTest")))
+    fitfram <- stats::model.frame(model, fixed.only = TRUE)
+  else if (inherits(model, "lme"))
+    fitfram <- model$data
+  else if (inherits(model, "vgam"))
+    fitfram <- prediction::find_data(model)
+  else
+    fitfram <- stats::model.frame(model)
+
+  # check if we have any matrix columns, e.g. from splines
+  mc <- purrr::map_lgl(fitfram, is.matrix)
+
+  # if we have any matrix columns, we remove them from original
+  # model frame and convert them to regular data frames, give
+  # proper column names and bind them back to the original model frame
+  if (any(mc)) {
+    fitfram <- dplyr::select(fitfram, -which(mc))
+    spline.term <- get_cleaned_varnames(names(which(mc)))
+    # try to get model data from environment
+    md <- eval(stats::getCall(model)$data, environment(stats::formula(model)))
+    # bind spline terms to model frame
+    fitfram <- dplyr::bind_cols(fitfram, dplyr::select(md, dplyr::one_of(spline.term)))
+  }
+
+  # clean variable names
+  colnames(fitfram) <- get_cleaned_varnames(colnames(fitfram))
+
+  fitfram
+}
+
+
+#' @importFrom purrr map_chr
+get_cleaned_varnames <- function(x) {
+  # for gam-smoothers/loess, remove s()- and lo()-function in column name
+  # for survival, remove strata()
+  pattern <- c("log", "s", "lo", "bs", "poly", "strata")
+
+  # do we have a "log()" pattern here? if yes, get capture region
+  # which matches the "cleaned" variable name
+  purrr::map_chr(1:length(x), function(i) {
+    for (j in 1:length(pattern)) {
+      p <- paste0("^", pattern[j], "\\(([^,)]*).*")
+      x[i] <- unique(sub(p, "\\1", x[i]))
+    }
+    x[i]
+  })
+}

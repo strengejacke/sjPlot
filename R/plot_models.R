@@ -42,7 +42,7 @@
 #' fit3 <- lm(tot_sc_e ~ c160age + c12hour + c161sex + c172code, data = efc)
 #'
 #' # plot multiple models
-#' plot_models(fit1, fit2, fit3, facet.grid = TRUE)
+#' plot_models(fit1, fit2, fit3, grid = TRUE)
 #'
 #' # plot multiple models with legend labels and
 #' # point shapes instead of value labels
@@ -106,10 +106,9 @@ plot_models <- function(...,
                         show.p = TRUE,
                         p.shape = FALSE,
                         ci.lvl = .95,
-                        vline.type = 2,
                         vline.color = NULL,
                         digits = 2,
-                        facet.grid = FALSE) {
+                        grid = FALSE) {
   # retrieve list of fitted models
   input_list <- tibble::lst(...)
 
@@ -286,7 +285,7 @@ plot_models <- function(...,
   if (!show.legend) p <- p + guides(colour = "none", shape = "none")
 
   # facets
-  if (facet.grid) p <- p + facet_grid(~group)
+  if (grid) p <- p + facet_grid(~group)
 
 
   # we need transformed scale for exponentiated estimates

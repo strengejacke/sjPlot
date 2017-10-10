@@ -13,8 +13,8 @@ plot_models(..., exponentiate, std.est = NULL, rm.terms = NULL,
   wrap.legend.title = 20, grid.breaks = NULL, dot.size = 3,
   spacing = 0.4, colors = "Set1", show.values = FALSE,
   show.legend = TRUE, show.intercept = FALSE, show.p = TRUE,
-  p.shape = FALSE, ci.lvl = 0.95, vline.type = 2, vline.color = NULL,
-  digits = 2, facet.grid = FALSE)
+  p.shape = FALSE, ci.lvl = 0.95, vline.color = NULL, digits = 2,
+  grid = FALSE)
 
 sjp.lmm(...)
 
@@ -137,19 +137,13 @@ the 50\%-HDI; and the "outer" interval, which defaults to the 89\%-HDI.
 \code{prob.inner} and \code{prob.outer} under the \code{...}-argument
 for more details.}
 
-\item{vline.type}{Linetype of the vertical "zero point" line. Default is \code{2} (dashed line).}
-
 \item{vline.color}{Color of the vertical "zero effect" line. Default color
 is inherited from the current theme.}
 
 \item{digits}{Numeric, amount of digits after decimal point when rounding
 estimates or values.}
 
-\item{facet.grid}{\code{TRUE} to arrange the lay out of of multiple plots
-in a grid of an integrated single plot. This argument calls
-\code{\link[ggplot2]{facet_wrap}} or \code{\link[ggplot2]{facet_grid}}
-to arrange plots. Use \code{\link{plot_grid}} to plot multiple plot-objects
-as an arranged grid with \code{\link[gridExtra]{grid.arrange}}.}
+\item{grid}{Logical, if \code{TRUE}, multiple plots are plotted as grid layout.}
 }
 \value{
 A ggplot-object.
@@ -167,7 +161,7 @@ fit2 <- lm(neg_c_7 ~ c160age + c12hour + c161sex + c172code, data = efc)
 fit3 <- lm(tot_sc_e ~ c160age + c12hour + c161sex + c172code, data = efc)
 
 # plot multiple models
-plot_models(fit1, fit2, fit3, facet.grid = TRUE)
+plot_models(fit1, fit2, fit3, grid = TRUE)
 
 # plot multiple models with legend labels and
 # point shapes instead of value labels

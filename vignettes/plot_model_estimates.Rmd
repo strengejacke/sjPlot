@@ -103,7 +103,7 @@ plot_model(m1, show.values = TRUE, value.offset = .3)
 
 As seen in the above examples, by default, the plotting-functions of **sjPlot** retrieve value and variable labels if the data is _labelled_, using the [sjlabelled-package](https://cran.r-project.org/package=sjlabelled). If the data is not labelled, the variable names are used. In such cases, use the arguments `title`, `axis.labels` and `axis.title` to annotate the plot title and axes. If you want variable names instead of labels, even for labelled data, use `""` as argument-value, e.g. `axis.labels = ""`, or set `auto.label` to `FALSE`.
 
-Furthermore, `plot_model()` applies case-conversion to all labels by default, using the [snakecase-package](https://cran.r-project.org/package=snakecase). This converts labels into human-readable versions. Use `case = NULL` to turn case-conversion off.
+Furthermore, `plot_model()` applies case-conversion to all labels by default, using the [snakecase-package](https://cran.r-project.org/package=snakecase). This converts labels into human-readable versions. Use `case = NULL` to turn case-conversion off, or refer to the package-vignette of the **snakecase**-package for further options.
 
 ```{r}
 data(iris)
@@ -161,6 +161,15 @@ plot_model(
   prob.inner = .4,
   prob.outer = .8
 )
+```
+
+## Tweaking plot appearance
+
+```{r}
+# keep only coefficients sex2, dep2 and dep3
+plot_model(m1, terms = c("sex2", "dep2", "dep3"))
+# remove coefficients sex2, dep2 and dep3
+plot_model(m1, rm.terms = c("sex2", "dep2", "dep3"))
 ```
 
 # References

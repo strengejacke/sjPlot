@@ -9,19 +9,19 @@ plot_model(model, type = c("est", "re", "eff", "pred", "int", "std", "std2",
   "slope", "resid", "diag"), exponentiate, terms = NULL, sort.est = NULL,
   rm.terms = NULL, group.terms = NULL, order.terms = NULL,
   pred.type = c("fe", "re"), ri.nr = NULL, title = NULL,
-  axis.title = NULL, axis.labels = NULL, axis.lim = NULL,
-  grid.breaks = NULL, ci.lvl = NULL, show.intercept = FALSE,
-  show.values = FALSE, show.p = TRUE, show.data = FALSE,
-  value.offset = NULL, dot.size = NULL, line.size = NULL,
-  colors = "Set1", facets, wrap.title = 50, wrap.labels = 25,
-  case = "parsed", auto.label = TRUE, digits = 2, value.size,
-  vline.color = NULL, bpe = "median", bpe.style = "line", ...)
+  axis.title = NULL, axis.labels = NULL, wrap.title = 50,
+  wrap.labels = 25, axis.lim = NULL, grid.breaks = NULL, ci.lvl = NULL,
+  colors = "Set1", show.intercept = FALSE, show.values = FALSE,
+  show.p = TRUE, show.data = FALSE, value.offset = NULL, value.size,
+  digits = 2, dot.size = NULL, line.size = NULL, vline.color = NULL,
+  grid, case = "parsed", auto.label = TRUE, bpe = "median",
+  bpe.style = "line", ...)
 
 get_model_data(model, type = c("est", "re", "eff", "pred", "int", "std",
   "std2", "slope", "resid", "diag"), exponentiate, terms = NULL,
   sort.est = NULL, rm.terms = NULL, group.terms = NULL,
   order.terms = NULL, pred.type = c("fe", "re"), ri.nr = NULL,
-  ci.lvl = NULL, colors = "Set1", facets, case = "parsed", digits = 2,
+  ci.lvl = NULL, colors = "Set1", grid, case = "parsed", digits = 2,
   ...)
 }
 \arguments{
@@ -47,6 +47,8 @@ kinds of models are supported, e.g. from packages like \pkg{stats},
 }
 \emph{Model diagnostics}
 \describe{
+  \item{\code{type = "slope"}}{slope of coefficients for each single predictor, against the response (linear relationship between each model term and response).}
+  \item{\code{type = "resid"}}{slope of coefficients for each single predictor, against the residuals (linear relationship between each model term and residuals).}
   \item{\code{type = "diag"}}{Check model assumptions.}
 }}
 
@@ -80,7 +82,7 @@ that should be plotted. This argument depends on the plot-type:
 \itemize{
   \item If \code{NULL} (default), no sorting is done and estimates are sorted in the same order as they appear in the model formula.
   \item If \code{TRUE}, estimates are sorted in descending order, with highedt estimate at the top.
-  \item If \code{sort.est = "sort.all"}, estimates are re-sorted for each coefficient (only applies if \code{type = "re"} and \code{facets = FALSE}), i.e. the estimates of the random effects for each predictor are sorted and plotted to an own plot.
+  \item If \code{sort.est = "sort.all"}, estimates are re-sorted for each coefficient (only applies if \code{type = "re"} and \code{grid = FALSE}), i.e. the estimates of the random effects for each predictor are sorted and plotted to an own plot.
   \item If \code{type = "re"}, specify a predictor's / coefficient's name to sort estimates according to this random effect.
 }}
 
@@ -128,6 +130,12 @@ called to retrieve the labels of the coefficients, which will be used as
 axis labels. Use \code{axis.labels = ""} or \code{auto.label = FALSE}
 to use the bare term names as labels instead.}
 
+\item{wrap.title}{Numeric, determines how many chars of the plot title are
+displayed in one line and when a line break is inserted.}
+
+\item{wrap.labels}{Numeric, determines how many chars of the value, variable
+or axis labels are displayed in one line and when a line break is inserted.}
+
 \item{axis.lim}{Numeric vector of length 2, defining the range of the plot
 axis. Depending on plot-type, may effect either x- or y-axis. For
 \emph{Marginal Effects} plots, \code{axis.lim} may also be a list of two
@@ -146,6 +154,18 @@ the 50\%-HDI; and the "outer" interval, which defaults to the 89\%-HDI.
 \code{prob.inner} and \code{prob.outer} under the \code{...}-argument
 for more details.}
 
+\item{colors}{May be a character vector of color values in hex-format, valid
+color value names (see \code{demo("colors")} or a name of a
+\href{http://colorbrewer2.org}{color brewer} palette. Following options
+are valid for the \code{colors} argument:
+\itemize{
+  \item If not specified, a default color brewer palette will be used, which is suitable for the plot style.
+  \item If \code{"gs"}, a greyscale will be used.
+  \item If \code{"bw"}, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see \href{../doc/blackwhitefigures.html}{this package-vignette}).
+  \item If \code{colors} is any valid color brewer palette name, the related palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view all available palette names.
+  \item Else specify own color values or names as vector (e.g. \code{colors = "#00ff00"}).
+}}
+
 \item{show.intercept}{Logical, if \code{TRUE}, the intercept of the fitted
 model is also plotted. Default is \code{FALSE}. If \code{exponentiate = TRUE},
 please note that due to exponential transformation of estimates, the
@@ -162,29 +182,21 @@ the raw data points.}
 \item{value.offset}{Numeric, offset for text labels to adjust their position
 relative to the dots or lines.}
 
+\item{value.size}{Numeric, indicates the size of value labels. Can be used
+for all plot types where the argument \code{show.values} is applicable,
+e.g. \code{value.size = 4}.}
+
+\item{digits}{Numeric, amount of digits after decimal point when rounding
+estimates or values.}
+
 \item{dot.size}{Numeric, size of the dots that indicate the point estimates.}
 
 \item{line.size}{Numeric, size of the lines that indicate the error bars.}
 
-\item{colors}{May be a character vector of color values in hex-format, valid
-color value names (see \code{demo("colors")} or a name of a
-\href{http://colorbrewer2.org}{color brewer} palette. Following options
-are valid for the \code{colors} argument:
-\itemize{
-  \item If not specified, a default color brewer palette will be used, which is suitable for the plot style.
-  \item If \code{"gs"}, a greyscale will be used.
-  \item If \code{"bw"}, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see \href{../doc/blackwhitefigures.html}{this package-vignette}).
-  \item If \code{colors} is any valid color brewer palette name, the related palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view all available palette names.
-  \item Else specify own color values or names as vector (e.g. \code{colors = "#00ff00"}).
-}}
+\item{vline.color}{Color of the vertical "zero effect" line. Default color
+is inherited from the current theme.}
 
-\item{facets}{Logical, if \code{TRUE} multiple plots are plotted as facet grid.}
-
-\item{wrap.title}{Numeric, determines how many chars of the plot title are
-displayed in one line and when a line break is inserted.}
-
-\item{wrap.labels}{Numeric, determines how many chars of the value, variable
-or axis labels are displayed in one line and when a line break is inserted.}
+\item{grid}{Logical, if \code{TRUE}, multiple plots are plotted as grid layout.}
 
 \item{case}{Desired target case. Labels will automatically converted into the
 specified character case. See \code{\link[snakecase]{to_any_case}} for
@@ -194,16 +206,6 @@ more details on this argument.}
 on value and variable labels, if the data is labelled. See
 \code{\link[sjlabelled]{get_label}} and \code{\link[sjlabelled]{get_term_labels}}
 for details.}
-
-\item{digits}{Numeric, amount of digits after decimal point when rounding
-estimates or values.}
-
-\item{value.size}{Numeric, indicates the size of value labels. Can be used
-for all plot types where the argument \code{show.values} is applicable,
-e.g. \code{value.size = 4}.}
-
-\item{vline.color}{Color of the vertical "zero effect" line. Default color
-is inherited from the current theme.}
 
 \item{bpe}{For \code{stanreg}-models (fitted with the \pkg{rstanarm}-package),
 the Bayesian point estimate is, by default, the median of the posterior
@@ -239,6 +241,10 @@ of supported arguments and their description in detail.
     Passed down to \code{geom_errorbar()} or \code{geom_density_ridges()},
     for forest or diagnostic plots; or passed down to
     \code{\link[ggeffects]{plot.ggeffects}} for marginal effects plots.
+  }
+  \item{\code{show.loess}}{
+    Logical, for diagnostic plot-types \code{"slope"} and \code{"resid"},
+    adds (or hides) a loess-smoothed line to the plot.
   }
   \item{\emph{Marginal Effects} plot-types}{
     When plotting marginal effects, arguments are also passed down to

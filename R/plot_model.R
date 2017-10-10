@@ -25,6 +25,8 @@
 #'    }
 #'    \emph{Model diagnostics}
 #'    \describe{
+#'      \item{\code{type = "slope"}}{slope of coefficients for each single predictor, against the response (linear relationship between each model term and response).}
+#'      \item{\code{type = "resid"}}{slope of coefficients for each single predictor, against the residuals (linear relationship between each model term and residuals).}
 #'      \item{\code{type = "diag"}}{Check model assumptions.}
 #'    }
 #' @param exponentiate Logical, if \code{TRUE} and models inherit from generalized
@@ -55,7 +57,7 @@
 #'    \itemize{
 #'      \item If \code{NULL} (default), no sorting is done and estimates are sorted in the same order as they appear in the model formula.
 #'      \item If \code{TRUE}, estimates are sorted in descending order, with highedt estimate at the top.
-#'      \item If \code{sort.est = "sort.all"}, estimates are re-sorted for each coefficient (only applies if \code{type = "re"} and \code{facets = FALSE}), i.e. the estimates of the random effects for each predictor are sorted and plotted to an own plot.
+#'      \item If \code{sort.est = "sort.all"}, estimates are re-sorted for each coefficient (only applies if \code{type = "re"} and \code{grid = FALSE}), i.e. the estimates of the random effects for each predictor are sorted and plotted to an own plot.
 #'      \item If \code{type = "re"}, specify a predictor's / coefficient's name to sort estimates according to this random effect.
 #'    }
 #' @param rm.terms Character vector with names that indicate which terms should
@@ -133,7 +135,7 @@
 #'      \item If \code{colors} is any valid color brewer palette name, the related palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view all available palette names.
 #'      \item Else specify own color values or names as vector (e.g. \code{colors = "#00ff00"}).
 #'    }
-#' @param facets Logical, if \code{TRUE} multiple plots are plotted as facet grid.
+#' @param grid Logical, if \code{TRUE}, multiple plots are plotted as grid layout.
 #' @param wrap.title Numeric, determines how many chars of the plot title are
 #'    displayed in one line and when a line break is inserted.
 #' @param wrap.labels Numeric, determines how many chars of the value, variable
@@ -184,6 +186,10 @@
 #'        Passed down to \code{geom_errorbar()} or \code{geom_density_ridges()},
 #'        for forest or diagnostic plots; or passed down to
 #'        \code{\link[ggeffects]{plot.ggeffects}} for marginal effects plots.
+#'      }
+#'      \item{\code{show.loess}}{
+#'        Logical, for diagnostic plot-types \code{"slope"} and \code{"resid"},
+#'        adds (or hides) a loess-smoothed line to the plot.
 #'      }
 #'      \item{\emph{Marginal Effects} plot-types}{
 #'        When plotting marginal effects, arguments are also passed down to
@@ -280,25 +286,25 @@ plot_model <- function(model,
                        title = NULL,
                        axis.title = NULL,
                        axis.labels = NULL,
+                       wrap.title = 50,
+                       wrap.labels = 25,
                        axis.lim = NULL,
                        grid.breaks = NULL,
                        ci.lvl = NULL,
+                       colors = "Set1",
                        show.intercept = FALSE,
                        show.values = FALSE,
                        show.p = TRUE,
                        show.data = FALSE,
                        value.offset = NULL,
+                       value.size,
+                       digits = 2,
                        dot.size = NULL,
                        line.size = NULL,
-                       colors = "Set1",
-                       facets,
-                       wrap.title = 50,
-                       wrap.labels = 25,
+                       vline.color = NULL,
+                       grid,
                        case = "parsed",
                        auto.label = TRUE,
-                       digits = 2,
-                       value.size,
-                       vline.color = NULL,
                        bpe = "median",
                        bpe.style = "line",
                        ...
@@ -353,9 +359,20 @@ plot_model <- function(model,
   if (is.null(value.offset)) value.offset <- dplyr::if_else(is.stan(model), .25, .15)
 
 
+  # get info on model family
+  fam.info <- get_glm_family(model)
+
   # check whether estimates should be exponentiated or not
   if (missing(exponentiate))
-    exponentiate <- !get_glm_family(model)[["is_linear"]]
+    exponentiate <- !fam.info$is_linear
+
+
+  # check if plot-type is applicable
+
+  if (type %in% c("slope", "resid") && !fam.info$is_linear) {
+    type <- "est"
+    message("Plot-types \"slope\" and \"resid\" only available for linear models. Using `type = \"est\"` now.")
+  }
 
 
   if (type %in% c("est", "std", "std2")) {
@@ -391,6 +408,7 @@ plot_model <- function(model,
       bpe.style = bpe.style,
       ...
     )
+
   } else if (type == "re") {
 
     # plot random effects ----
@@ -408,7 +426,7 @@ plot_model <- function(model,
       show.values = show.values,
       value.offset = value.offset,
       digits = digits,
-      facets = facets,
+      facets = grid,
       geom.colors = colors,
       geom.size = dot.size,
       line.size = line.size,
@@ -427,7 +445,7 @@ plot_model <- function(model,
       terms = terms,
       ci.lvl = ci.lvl,
       pred.type = pred.type,
-      facets = facets,
+      facets = grid,
       show.data = show.data,
       geom.colors = colors,
       axis.title = axis.title,
@@ -436,12 +454,31 @@ plot_model <- function(model,
       case = case,
       ...
     )
+
   } else if (type == "int") {
 
     # plot interaction terms ----
 
 
 
+
+  } else if (type %in% c("slope", "resid")) {
+
+    # plot slopes of estimates ----
+
+    p <- plot_type_slope(
+      model = model,
+      terms = terms,
+      rm.terms = rm.terms,
+      ci.lvl = ci.lvl,
+      colors = colors,
+      title = title,
+      show.data = show.data,
+      facet = grid,
+      case = case,
+      useResiduals = type == "resid",
+      ...
+    )
 
   } else if (type == "diag") {
 
@@ -451,7 +488,7 @@ plot_model <- function(model,
       p <- plot_diag_stan(
         model = model,
         geom.colors = colors,
-        facets = facets,
+        facets = grid,
         ...
       )
 
@@ -480,7 +517,7 @@ get_model_data <- function(model,
                        ri.nr = NULL,
                        ci.lvl = NULL,
                        colors = "Set1",
-                       facets,
+                       grid,
                        case = "parsed",
                        digits = 2,
                        ...) {
@@ -497,7 +534,7 @@ get_model_data <- function(model,
     ri.nr = ri.nr,
     ci.lvl = ci.lvl,
     colors = colors,
-    facets = facets,
+    facets = grid,
     case = case,
     digits = digits,
     auto.label = FALSE,
