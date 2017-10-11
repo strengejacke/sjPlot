@@ -2,6 +2,7 @@
 #' @importFrom sjstats resp_val pred_vars resp_var
 #' @importFrom sjmisc str_contains is_empty
 #' @importFrom stats formula residuals
+#' @importFrom dplyr filter
 plot_type_slope <- function(model,
                             terms,
                             rm.terms,

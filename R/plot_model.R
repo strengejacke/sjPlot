@@ -7,7 +7,7 @@
 #' @param model A regression model object. Depending on the \code{type}, many
 #'    kinds of models are supported, e.g. from packages like \pkg{stats},
 #'    \pkg{lme4}, \pkg{nlme}, \pkg{rstanarm}, \pkg{survey}, \pkg{glmmTMB},
-#'    \pkg{MASS} etc.
+#'    \pkg{MASS}, \pkg{brms} etc.
 #' @param type Type of plot. There are three higher groups of plot-tyes:
 #'    \cr \cr
 #'    \emph{Coefficients}
@@ -75,6 +75,15 @@
 #'    with mixed effects models. Indicates whether predicted values should be
 #'    conditioned on random effects (\code{pred.type = "re"}) or fixed effects
 #'    only (\code{pred.type = "fe"}, the default).
+#' @param mdrt.values Indicates which values of the moderator variable should be
+#'    used when plotting the interaction effects.
+#'    \describe{
+#'      \item{\code{"minmax"}}{(default) minimum and maximum values (lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator(s).}
+#'      \item{\code{"meansd"}}{uses the mean value of the moderator as well as one standard deviation below and above mean value to plot the effect of the moderator on the independent variable (following the convention suggested by Cohen and Cohen and popularized by Aiken and West, i.e. using the mean, the value one standard deviation above, and the value one standard deviation below the mean as values of the moderator, see \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}).}
+#'      \item{\code{"zeromax"}}{is similar to the \code{"minmax"} option, however, \code{0} is always used as minimum value for the moderator. This may be useful for predictors that don't have an empirical zero-value, but absence of moderation should be simulated by using 0 as minimum.}
+#'      \item{\code{"quart"}}{calculates and uses the quartiles (lower, median and upper) of the moderator value.}
+#'      \item{\code{"all"}}{uses all values of the moderator variable.}
+#'    }
 #' @param ri.nr Numeric vector. If \code{type = "re"} or \code{type = "ri.slope"},
 #'    and fitted model has more than one random intercept, \code{ri.nr} indicates
 #'    which random effects of which random intercept (or: which list elements
@@ -154,31 +163,33 @@
 #'    e.g. \code{value.size = 4}.
 #' @param vline.color Color of the vertical "zero effect" line. Default color
 #'    is inherited from the current theme.
-#' @param bpe For \code{stanreg}-models (fitted with the \pkg{rstanarm}-package),
-#'    the Bayesian point estimate is, by default, the median of the posterior
-#'    distribution. Use \code{bpe} to define other functions to calculate the
-#'    Bayesion point estimate. \code{bpe} needs to be a character naming the
-#'    specific function, which is passed to the \code{fun}-argument in
-#'    \code{\link[sjstats]{typical_value}}. So, \code{bpe = "mean"} would
-#'    calculate the mean value of the posterior distribution.
-#' @param bpe.style For \code{stanreg}-models (fitted with the \pkg{rstanarm}-package),
-#'    the Bayesian point estimate is indicated as a small, vertical line by
-#'    default. Use \code{bpe.style = "dot"} to plot a dot instead of a line
-#'    for the point estimate.
+#' @param bpe For \strong{Stan}-models (fitted with the \pkg{rstanarm}- or
+#'    \pkg{brms}-package), the Bayesian point estimate is, by default, the
+#'    median of the posterior distribution. Use \code{bpe} to define other
+#'    functions to calculate the Bayesion point estimate. \code{bpe} needs to
+#'    be a character naming the specific function, which is passed to the
+#'    \code{fun}-argument in \code{\link[sjstats]{typical_value}}. So,
+#'    \code{bpe = "mean"} would calculate the mean value of the posterior
+#'    distribution.
+#' @param bpe.style For \strong{Stan}-models (fitted with the \pkg{rstanarm}- or
+#'    \pkg{brms}-package), the Bayesian point estimate is indicated as a small,
+#'    vertical line by default. Use \code{bpe.style = "dot"} to plot a dot
+#'    instead of a line for the point estimate.
 #' @param ... Other arguments, passed down to various functions. Here is a list
 #'    of supported arguments and their description in detail.
 #'    \describe{
 #'      \item{\code{prob.inner} and \code{prob.outer}}{
-#'        For \code{stanreg}-models (fitted with the \pkg{rstanarm}-package)
-#'        and plot-type \code{type = "est"}, you can specify numeric values
-#'        between 0 and 1 for \code{prob.inner} and \code{prob.outer}, which
-#'        will then be used as inner and outer probabilities for the uncertainty
-#'        intervals (HDI). By default, the inner probability is 0.5 and the
-#'        outer probability is 0.89 (unless \code{ci.lvl} is specified - in
-#'        this case, \code{ci.lvl} is used as outer probability).
+#'        For \strong{Stan}-models (fitted with the \pkg{rstanarm}- or
+#'        \pkg{brms}-package) and plot-type \code{type = "est"}, you can specify
+#'        numeric values between 0 and 1 for \code{prob.inner} and
+#'        \code{prob.outer}, which will then be used as inner and outer
+#'        probabilities for the uncertainty intervals (HDI). By default, the
+#'        inner probability is 0.5 and the outer probability is 0.89 (unless
+#'        \code{ci.lvl} is specified - in this case, \code{ci.lvl} is used as
+#'        outer probability).
 #'      }
 #'      \item{\code{size.inner}}{
-#'        For \code{stanreg}-models and plot-type \code{type = "est"}, you
+#'        For \strong{Stan}-models and plot-type \code{type = "est"}, you
 #'        can specify the width of the bar for the inner probabilities.
 #'        Default is \code{0.1}.
 #'      }
@@ -282,6 +293,7 @@ plot_model <- function(model,
                        group.terms = NULL,
                        order.terms = NULL,
                        pred.type = c("fe", "re"),
+                       mdrt.values = c("minmax", "meansd", "zeromax", "quart", "all"),
                        ri.nr = NULL,
                        title = NULL,
                        axis.title = NULL,
@@ -312,6 +324,7 @@ plot_model <- function(model,
 
   type <- match.arg(type)
   pred.type <- match.arg(pred.type)
+  mdrt.values <- match.arg(mdrt.values)
 
 
   # get titles and labels for axis ----
@@ -375,7 +388,7 @@ plot_model <- function(model,
   }
 
 
-  if (type %in% c("est", "std", "std2")) {
+  if (type %in% c("est", "std", "std2") || (is.stan(model) && type == "re")) {
 
     # plot estimates ----
 
@@ -459,7 +472,21 @@ plot_model <- function(model,
 
     # plot interaction terms ----
 
-
+    p <- plot_type_int(
+      type = type,
+      model = model,
+      mdrt.values = mdrt.values,
+      ci.lvl = ci.lvl,
+      pred.type = pred.type,
+      facets = grid,
+      show.data = show.data,
+      geom.colors = colors,
+      axis.title = axis.title,
+      title = title,
+      axis.lim = axis.lim,
+      case = case,
+      ...
+    )
 
 
   } else if (type %in% c("slope", "resid")) {
@@ -474,7 +501,7 @@ plot_model <- function(model,
       colors = colors,
       title = title,
       show.data = show.data,
-      facet = grid,
+      facets = grid,
       case = case,
       useResiduals = type == "resid",
       ...

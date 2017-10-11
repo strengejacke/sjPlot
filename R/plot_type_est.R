@@ -30,7 +30,7 @@ plot_type_est <- function(type,
 
   # get tidy output of summary ----
 
-  if (type == "est") {
+  if (type == "est" || type == "re") {
     dat <- tidy_model(model, ci.lvl, exponentiate, type, bpe, ...)
   } else {
     dat <- model %>%

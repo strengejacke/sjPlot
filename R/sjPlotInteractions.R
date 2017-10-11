@@ -1375,18 +1375,6 @@ sjp.eff.int <- function(fit,
 }
 
 
-#' @importFrom stats quantile
-mv_check <- function(mdrt.values, x) {
-  mvc <- length(unique(as.vector(stats::quantile(x, na.rm = T))))
-  if (mdrt.values == "quart" && mvc < 3) {
-    # tell user that quart won't work
-    message("Could not compute quartiles, too small range of moderator variable. Defaulting `mdrt.values` to `minmax`.")
-    mdrt.values <- "minmax"
-  }
-  return(mdrt.values)
-}
-
-
 # get all (significant) interaction terms from model
 # the function "getInteractionTerms" checks if a fitted
 # model contains any interaction terms that are significant

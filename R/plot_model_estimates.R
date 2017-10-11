@@ -31,7 +31,10 @@ plot_model_estimates <- function(model,
   # remove intercept(s) from output
 
   if (!show.intercept) {
-    ints <- tidyselect::contains("(Intercept)", vars = dat$term)
+    ints1 <- tidyselect::contains("(Intercept)", vars = dat$term)
+    ints2 <- tidyselect::contains("b_Intercept", vars = dat$term)
+
+    ints <- c(ints1, ints2)
 
     if (!sjmisc::is_empty(ints))
       dat <- dplyr::slice(dat, !! -ints)

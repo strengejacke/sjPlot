@@ -178,21 +178,30 @@ get_glm_family <- function(fit) {
   }
 
   # create logical for family
-  binom_fam <- fitfam %in% c("binomial", "quasibinomial", "binomialff")
-  poisson_fam <- fitfam %in% c("poisson", "quasipoisson")
-  neg_bin_fam <- sjmisc::str_contains(fitfam, "negative binomial", ignore.case = T)
+  binom_fam <-
+    fitfam %in% c("binomial", "quasibinomial", "binomialff") |
+    sjmisc::str_contains(fitfam, "binomial", ignore.case = TRUE)
+
+  poisson_fam <-
+    fitfam %in% c("poisson", "quasipoisson") |
+    sjmisc::str_contains(fitfam, "poisson", ignore.case = TRUE)
+
+  neg_bin_fam <-
+    sjmisc::str_contains(fitfam, "negative binomial", ignore.case = T) |
+    sjmisc::str_contains(fitfam, "nbinom", ignore.case = TRUE) |
+    sjmisc::str_contains(fitfam, "neg_binomial", ignore.case = TRUE)
+
   linear_model <- !binom_fam & !poisson_fam & !neg_bin_fam & !logit_link
 
-  return(
-    list(
-      is_bin = binom_fam,
-      is_pois = poisson_fam | neg_bin_fam,
-      is_negbin = neg_bin_fam,
-      is_logit = logit_link,
-      is_linear = linear_model,
-      link.fun = link.fun,
-      family = fitfam
-    )
+
+  list(
+    is_bin = binom_fam & !neg_bin_fam,
+    is_pois = poisson_fam | neg_bin_fam,
+    is_negbin = neg_bin_fam,
+    is_logit = logit_link,
+    is_linear = linear_model,
+    link.fun = link.fun,
+    family = fitfam
   )
 }
 

@@ -93,7 +93,7 @@ tidy_cox_model <- function(model, ci.lvl) {
 #' @importFrom tibble add_column
 #' @importFrom purrr map_dbl
 #' @importFrom rlang .data
-#' @importFrom tidyselect starts_with
+#' @importFrom tidyselect starts_with ends_with
 tidy_stan_model <- function(model, ci.lvl, exponentiate, type, bpe, ...) {
 
   # check if values should be exponentiated
@@ -135,11 +135,27 @@ tidy_stan_model <- function(model, ci.lvl, exponentiate, type, bpe, ...) {
     sjmisc::var_rename(hdi.low = "conf.low", hdi.high = "conf.high")
 
 
+  # for brmsfit models, we need to remove some columns here to
+  # match data rows later
+
+  mod.dat <- as.data.frame(model)
+
+  if (inherits(model, "brmsfit")) {
+    re.sd <- tidyselect::starts_with("sd_", vars = colnames(mod.dat))
+    re.cor <- tidyselect::starts_with("cor_", vars = colnames(mod.dat))
+
+    brmsfit.removers <- unique(c(re.sd, re.cor))
+
+    if (!sjmisc::is_empty(brmsfit.removers))
+      mod.dat <- dplyr::select(mod.dat, !! -brmsfit.removers)
+  }
+
+
   # add bayesian point estimate
 
   dat <- dat %>%
     tibble::add_column(
-      estimate = purrr::map_dbl(as.data.frame(model), sjstats::typical_value, bpe),
+      estimate = purrr::map_dbl(mod.dat, sjstats::typical_value, bpe),
       .after = 1
     ) %>%
     tibble::add_column(p.value = 0)
@@ -150,17 +166,101 @@ tidy_stan_model <- function(model, ci.lvl, exponentiate, type, bpe, ...) {
   if ("sigma" %in% dat$term) dat <- dplyr::filter(dat, .data$term != "sigma")
   if ("lp__" %in% dat$term) dat <- dplyr::filter(dat, .data$term != "lp__")
 
+  # remove sd_c and cor_ row
 
-  # check if we need to remove random effects
+  re <- tidyselect::starts_with("sd_", vars = dat$term)
+  if (!sjmisc::is_empty(re)) dat <- dplyr::slice(dat, !! -re)
+
+  re <- tidyselect::starts_with("cor_", vars = dat$term)
+  if (!sjmisc::is_empty(re)) dat <- dplyr::slice(dat, !! -re)
+
+
+  # check if we need to keep or remove random effects
+
+  re <- tidyselect::starts_with("b[", vars = dat$term)
+  re.s <- tidyselect::starts_with("Sigma[", vars = dat$term)
+  re.i <- intersect(
+    tidyselect::starts_with("r_", vars = dat$term),
+    tidyselect::ends_with(".", vars = dat$term)
+  )
+
+  # and all random effect error terms
+  if (!sjmisc::is_empty(re.s)) dat <- dplyr::slice(dat, !! -re.s)
+
 
   if (type == "est") {
+
     # remove all random effect intercepts
-    re <- tidyselect::starts_with("b[", vars = dat$term)
     if (!sjmisc::is_empty(re)) dat <- dplyr::slice(dat, !! -re)
 
-    # and all random effect error terms
-    re.s <- tidyselect::starts_with("Sigma[", vars = dat$term)
-    if (!sjmisc::is_empty(re.s)) dat <- dplyr::slice(dat, !! -re.s)
+    # remove random effects from brmsfit-models
+    if (!sjmisc::is_empty(re.i)) dat <- dplyr::slice(dat, !! -re.i)
+
+  } else if (type == "re") {
+
+    # remove all random effect intercepts
+    if (!sjmisc::is_empty(re)) dat <- dplyr::slice(dat, !! re)
+
+    # remove random effects from brmsfit-models
+    if (!sjmisc::is_empty(re.i)) dat <- dplyr::slice(dat, !! re.i)
+
+  }
+
+
+  # for plot-type random effects, make sure that the random effects
+  # are plotted as facet grid, grouped by groups
+
+  if (type == "re") {
+
+    dat$facet <- "re"
+
+    # find random intercepts
+
+    ri <- grep("b\\[\\(Intercept\\) (.*)\\]", dat$term)
+
+    if (!sjmisc::is_empty(ri)) {
+      dat$facet[ri] <- "(Intercept)"
+      dat$term[ri] <- gsub("b\\[\\(Intercept\\) (.*)\\]", "\\1", dat$term[ri])
+    }
+
+
+    # find random intercepts
+
+    ri1 <- grep("r_(.*)\\.(.*)\\.", dat$term)
+    ri2 <- which(gsub("r_(.*)\\.(.*)\\.", "\\2", dat$term) == "Intercept")
+
+    if (!sjmisc::is_empty(ri1)) {
+      ri <- intersect(ri1, ri2)
+      dat$facet[ri] <- "(Intercept)"
+      dat$term[ri] <- gsub("r_(.*)\\.(.*)\\.", "\\1", dat$term[ri])
+    }
+
+
+    # find random slopes
+
+    rs1 <- grep("b\\[(.*) (.*)\\]", dat$term)
+    rs2 <- which(gsub("b\\[(.*) (.*)\\]", "\\1", dat$term) != "(Intercept)")
+
+    if (!sjmisc::is_empty(rs1)) {
+      rs <- intersect(rs1, rs2)
+      rs.string <- gsub("b\\[(.*) (.*)\\]", "\\1", dat$term[rs])
+      dat$facet[rs] <- rs.string
+      dat$term[rs] <- gsub("b\\[(.*) (.*)\\]", "\\2", dat$term[rs])
+    }
+
+
+    # find random slopes
+
+    rs1 <- grep("r_(.*)\\.(.*)\\.", dat$term)
+    rs2 <- which(gsub("r_(.*)\\.(.*)\\.", "\\2", dat$term) != "Intercept")
+
+    if (!sjmisc::is_empty(rs1)) {
+      rs <- intersect(rs1, rs2)
+      rs.string <- gsub("r_(.*)\\.(.*)\\.", "\\2", dat$term[rs])
+      dat$facet[rs] <- rs.string
+      dat$term[rs] <- gsub("r_(.*)\\.(.*)\\.", "\\1", dat$term[rs])
+    }
+
   }
 
 
@@ -224,6 +324,7 @@ tidy_gls_model <- function(model, ci.lvl) {
 #' @importFrom tibble tibble
 #' @importFrom sjmisc is_empty
 #' @importFrom dplyr bind_rows
+#' @importFrom rlang .data
 tidy_glmmTMB_model <- function(model, ci.lvl) {
 
   # compute ci, two-ways
@@ -246,10 +347,10 @@ tidy_glmmTMB_model <- function(model, ci.lvl) {
     term = names(est[[1]]),
     estimate = est[[1]],
     std.error = sqrt(diag(vcovs[[1]])),
-    statistic = estimate / std.error,
-    conf.low = estimate - stats::qnorm(ci) * std.error,
-    conf.high = estimate + stats::qnorm(ci) * std.error,
-    p.value = 2 * stats::pnorm(abs(estimate / std.error), lower.tail = FALSE),
+    statistic = .data$estimate / .data$std.error,
+    conf.low = .data$estimate - stats::qnorm(ci) * .data$std.error,
+    conf.high = .data$estimate + stats::qnorm(ci) * .data$std.error,
+    p.value = 2 * stats::pnorm(abs(.data$estimate / .data$std.error), lower.tail = FALSE),
     wrap.facet = "Conditional Model"
   )
 
@@ -261,10 +362,10 @@ tidy_glmmTMB_model <- function(model, ci.lvl) {
       term = names(est[[1]]),
       estimate = est[[2]],
       std.error = sqrt(diag(vcovs[[2]])),
-      statistic = estimate / std.error,
-      conf.low = estimate - stats::qnorm(ci) * std.error,
-      conf.high = estimate + stats::qnorm(ci) * std.error,
-      p.value = 2 * stats::pnorm(abs(estimate / std.error), lower.tail = FALSE),
+      statistic = .data$estimate / .data$std.error,
+      conf.low = .data$estimate - stats::qnorm(ci) * .data$std.error,
+      conf.high = .data$estimate + stats::qnorm(ci) * .data$std.error,
+      p.value = 2 * stats::pnorm(abs(.data$estimate / .data$std.error), lower.tail = FALSE),
       wrap.facet = "Zero-Inflated Model"
     )
 
@@ -281,6 +382,7 @@ tidy_glmmTMB_model <- function(model, ci.lvl) {
 #' @importFrom sjmisc var_rename
 #' @importFrom dplyr mutate
 #' @importFrom purrr map2_df
+#' @importFrom rlang .data
 tidy_hurdle_model <- function(model, ci.lvl) {
 
   # compute ci, two-ways
@@ -317,6 +419,7 @@ tidy_hurdle_model <- function(model, ci.lvl) {
 
 #' @importFrom stats qnorm pnorm
 #' @importFrom tibble tibble
+#' @importFrom rlang .data
 tidy_logistf_model <- function(model, ci.lvl) {
 
   # compute ci, two-ways
@@ -337,9 +440,9 @@ tidy_logistf_model <- function(model, ci.lvl) {
     term = model$terms,
     estimate = est,
     std.error = se,
-    statistic = estimate / std.error,
-    conf.low = estimate - stats::qnorm(ci) * std.error,
-    conf.high = estimate + stats::qnorm(ci) * std.error,
+    statistic = .data$estimate / .data$std.error,
+    conf.low = .data$estimate - stats::qnorm(ci) * .data$std.error,
+    conf.high = .data$estimate + stats::qnorm(ci) * .data$std.error,
     p.value = model$prob
   )
 }
@@ -347,6 +450,7 @@ tidy_logistf_model <- function(model, ci.lvl) {
 
 #' @importFrom stats coef qnorm pnorm
 #' @importFrom tibble tibble
+#' @importFrom rlang .data
 tidy_gam_model <- function(model, ci.lvl) {
 
   # compute ci, two-ways
@@ -368,8 +472,8 @@ tidy_gam_model <- function(model, ci.lvl) {
     estimate = est,
     std.error = se,
     statistic = sm$p.t,
-    conf.low = estimate - stats::qnorm(ci) * std.error,
-    conf.high = estimate + stats::qnorm(ci) * std.error,
+    conf.low = .data$estimate - stats::qnorm(ci) * .data$std.error,
+    conf.high = .data$estimate + stats::qnorm(ci) * .data$std.error,
     p.value = sm$p.pv
   )
 }

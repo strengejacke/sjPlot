@@ -32,6 +32,7 @@ Imports:
     effects,
     forcats,
     ggeffects (>= 0.2.2),
+    glmmTMB,
     ggplot2 (>= 2.2.1),
     knitr,
     lme4 (>= 1.1-12),
@@ -40,6 +41,7 @@ Imports:
     merTools (>= 0.3.0),
     modelr,
     nlme,
+    prediction,
     psych,
     purrr,
     rlang,
@@ -60,7 +62,8 @@ Suggests:
     ggridges,
     lmerTest,
     lmtest,
-    rstanarm
+    rstanarm,
+    survey
 URL: https://github.com/strengejacke/sjPlot
 BugReports: https://github.com/strengejacke/sjPlot/issues
 RoxygenNote: 6.0.1
