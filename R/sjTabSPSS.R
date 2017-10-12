@@ -268,7 +268,7 @@ view_df <- function(x,
               if (i < length(vals)) valstring <- paste0(valstring, "<br>")
             }
             if (max.len < length(vals))
-              valstring <- paste0(valstring, "<span class=\"omit\">&lt;... truncated&gt;</span>")
+              valstring <- paste0(valstring, "<span class=\"omit\">&lt;...&gt;</span>")
           }
         }
       } else {
