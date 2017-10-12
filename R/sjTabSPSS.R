@@ -32,6 +32,9 @@
 #' @param sort.by.name Logical, if \code{TRUE}, rows are sorted according to the variable
 #'          names. By default, rows (variables) are ordered according to their
 #'          order in the data frame.
+#' @param max.len Numeric, indicates how many values and value labels per variable
+#'    are shown. Useful for variables with many different values, where the output
+#'    can be truncated.
 #'
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.df
@@ -89,6 +92,7 @@ view_df <- function(x,
                     show.wtd.frq = FALSE,
                     show.wtd.prc = FALSE,
                     show.na = FALSE,
+                    max.len = 15,
                     sort.by.name = FALSE,
                     wrap.labels = 50,
                     hide.progress = FALSE,
@@ -189,7 +193,7 @@ view_df <- function(x,
              sprintf("    <td class=\"tdata%s\">%i</td>\n", arcstring, index))
 
     # name, and note
-    if (!is.null(sjlabelled::get_note(x[[index]])))
+    if (!is.list(x[[index]]) && !is.null(sjlabelled::get_note(x[[index]])))
       td.title.tag <- sprintf(" title=\"%s\"", sjlabelled::get_note(x[[index]]))
     else
       td.title.tag <- ""
@@ -212,6 +216,7 @@ view_df <- function(x,
         paste0(page.content,
                sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, vartype))
     }
+
     # label
     if (index <= length(df.var)) {
       varlab <- df.var[index]
@@ -226,15 +231,22 @@ view_df <- function(x,
 
     # missings and missing percentage
     if (show.na) {
-      page.content <- paste0(
-        page.content,
-        sprintf(
-          "    <td class=\"tdata%s\">%i (%.2f%%)</td>\n",
-          arcstring,
-          sum(is.na(x[[index]]), na.rm = T),
-          100 * sum(is.na(x[[index]]), na.rm = T) / nrow(x)
+      if (is.list(x[[index]])) {
+        page.content <- paste0(
+          page.content,
+          sprintf("    <td class=\"tdata%s\"><span class=\"omit\">&lt;list&gt;</span></td>\n", arcstring)
         )
-      )
+      } else {
+        page.content <- paste0(
+          page.content,
+          sprintf(
+            "    <td class=\"tdata%s\">%i (%.2f%%)</td>\n",
+            arcstring,
+            sum(is.na(x[[index]]), na.rm = T),
+            100 * sum(is.na(x[[index]]), na.rm = T) / nrow(x)
+          )
+        )
+      }
     }
 
     # values
@@ -242,14 +254,21 @@ view_df <- function(x,
       valstring <- ""
       # do we have valid index?
       if (index <= ncol(x)) {
-        # if yes, get variable values
-        vals <- sjlabelled::get_values(x[[index]])
-        # check if we have any values...
-        if (!is.null(vals)) {
-          # if we have values, put all values into a string
-          for (i in seq_len(length(vals))) {
-            valstring <- paste0(valstring, vals[i])
-            if (i < length(vals)) valstring <- paste0(valstring, "<br>")
+        if (is.list(x[[index]])) {
+          valstring <- "<span class=\"omit\">&lt;list&gt;</span>"
+        } else {
+          # if yes, get variable values
+          vals <- sjlabelled::get_values(x[[index]])
+          # check if we have any values...
+          if (!is.null(vals)) {
+            # if we have values, put all values into a string
+            loop <- na.omit(seq_len(length(vals))[1:max.len])
+            for (i in loop) {
+              valstring <- paste0(valstring, vals[i])
+              if (i < length(vals)) valstring <- paste0(valstring, "<br>")
+            }
+            if (max.len < length(vals))
+              valstring <- paste0(valstring, "<span class=\"omit\">&lt;... truncated&gt;</span>")
           }
         }
       } else {
@@ -265,26 +284,33 @@ view_df <- function(x,
       valstring <- ""
       # do we have valid index?
       if (index <= length(df.val)) {
-        # if yes, get value labels
-        # the code here corresponds to the above code
-        # for variable values
-        vals <- na.omit(df.val[[index]])
+        if (is.list(x[[index]])) {
+          valstring <- "<span class=\"omit\">&lt;list&gt;</span>"
+        } else {
+          # if yes, get value labels
+          # the code here corresponds to the above code
+          # for variable values
+          vals <- df.val[[index]]
+          if (!is.null(vals)) vals <- na.omit(vals)
 
-        # sort character vectors
-        if (is.character(x[[index]]) && !is.null(vals) && !sjmisc::is_empty(vals)) {
-          if (show.string.values)
-            vals <- sort(vals)
-          else
-            vals <- "<span class=\"omit\">&lt;output omitted&gt;</span>"
-        }
+          # sort character vectors
+          if (is.character(x[[index]]) && !is.null(vals) && !sjmisc::is_empty(vals)) {
+            if (show.string.values)
+              vals <- sort(vals)
+            else
+              vals <- "<span class=\"omit\">&lt;output omitted&gt;</span>"
+          }
 
-
-        # check if we have any values...
-        if (!is.null(vals)) {
-          # if yes, add all to a string
-          for (i in seq_len(length(vals))) {
-            valstring <- paste0(valstring, vals[i])
-            if (i < length(vals)) valstring <- paste0(valstring, "<br>")
+          # check if we have any values...
+          if (!is.null(vals)) {
+            # if yes, add all to a string
+            loop <- na.omit(seq_len(length(vals))[1:max.len])
+            for (i in loop) {
+              valstring <- paste0(valstring, vals[i])
+              if (i < length(vals)) valstring <- paste0(valstring, "<br>")
+            }
+            if (max.len < length(vals))
+              valstring <- paste0(valstring, "<span class=\"omit\">&lt;... truncated&gt;</span>")
           }
         }
       } else {
@@ -295,45 +321,65 @@ view_df <- function(x,
 
     # frequencies
     if (show.frq) {
+      if (is.list(x[[index]]))
+        valstring <- "<span class=\"omit\">&lt;list&gt;</span>"
+      else
+        valstring <- frq.value(index, x, df.val)
+
       page.content <-
         paste0(page.content,
                sprintf(
                  "    <td class=\"tdata%s\">%s</td>\n",
                  arcstring,
-                 frq.value(index, x, df.val)
+                 valstring
                ))
     }
 
     # percentage of frequencies
     if (show.prc) {
+      if (is.list(x[[index]]))
+        valstring <- "<span class=\"omit\">&lt;list&gt;</span>"
+      else
+        valstring <- prc.value(index, x, df.val)
+
       page.content <-
         paste0(page.content,
                sprintf(
                  "    <td class=\"tdata%s\">%s</td>\n",
                  arcstring,
-                 prc.value(index, x, df.val)
+                 valstring
                ))
     }
 
     # frequencies
     if (show.wtd.frq && !is.null(weight.by)) {
+      if (is.list(x[[index]]))
+        valstring <- "<span class=\"omit\">&lt;list&gt;</span>"
+      else
+        valstring <- frq.value(index, x, df.val, weight.by)
+
       page.content <-
         paste0(page.content,
                sprintf(
                  "    <td class=\"tdata%s\">%s</td>\n",
                  arcstring,
-                 frq.value(index, x, df.val, weight.by)
+                 valstring
                ))
     }
 
     # percentage of frequencies
     if (show.prc && !is.null(weight.by)) {
+      if (is.list(x[[index]]))
+        valstring <- "<span class=\"omit\">&lt;list&gt;</span>"
+      else
+        valstring <- prc.value(index, x, df.val, weight.by)
+
       page.content <-
         paste0(page.content,
                sprintf(
                  "    <td class=\"tdata%s\">%s</td>\n",
                  arcstring,
-                 prc.value(index, x, df.val, weight.by)
+                 valstring
                ))
     }
 

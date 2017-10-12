@@ -10,9 +10,15 @@
 * `get_model_data()` to get the data from plot-objects created with `plot_model()`.
 * `font_size()`, `label_angle()` and `legend_style()` as convenient ways to tweak common ggplot-theme-elements.
 
+## Changes to functions
+
+* `view_df()` now better handles string variables and gets a `show.string.values`-argument to omit the output of values from string variables.
+* `view_df()` gets a `max.len`-argument to truncate output for variables with many values.
+
 ## Bug fixes
 
 * Fixed bug with `rm.terms`-argument in `plot_models()`.
+* In rare situations, `view_df()` did not work for string variables with missing values.
 
 # sjPlot 2.3.3
 

@@ -8,9 +8,9 @@ view_df(x, weight.by = NULL, altr.row.col = TRUE, show.id = TRUE,
   show.type = FALSE, show.values = TRUE, show.string.values = FALSE,
   show.labels = TRUE, show.frq = FALSE, show.prc = FALSE,
   show.wtd.frq = FALSE, show.wtd.prc = FALSE, show.na = FALSE,
-  sort.by.name = FALSE, wrap.labels = 50, hide.progress = FALSE,
-  CSS = NULL, encoding = NULL, file = NULL, use.viewer = TRUE,
-  no.output = FALSE, remove.spaces = TRUE)
+  max.len = 15, sort.by.name = FALSE, wrap.labels = 50,
+  hide.progress = FALSE, CSS = NULL, encoding = NULL, file = NULL,
+  use.viewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{x}{A (labelled) data frame, imported by \code{\link[sjlabelled]{read_spss}},
@@ -51,6 +51,10 @@ Weights strem from \code{weight.by}.}
 
 \item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values)
 are added to the output.}
+
+\item{max.len}{Numeric, indicates how many values and value labels per variable
+are shown. Useful for variables with many different values, where the output
+can be truncated.}
 
 \item{sort.by.name}{Logical, if \code{TRUE}, rows are sorted according to the variable
 names. By default, rows (variables) are ordered according to their
