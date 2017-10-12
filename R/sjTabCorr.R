@@ -91,7 +91,7 @@
 #' sjt.corr(efc[, c(start:end)], triangle = "lower",val.rm = 0.3,
 #'          CSS = list(css.valueremove = 'color:blue;'))}
 #'
-#' @importFrom stats na.omit
+#' @importFrom stats na.omit cor cor.test
 #' @export
 sjt.corr <- function(data,
                      na.deletion = c("listwise", "pairwise"),
@@ -156,7 +156,7 @@ sjt.corr <- function(data,
   # check if user has passed a data frame
   # or a pca object
   # ----------------------------
-  if (any(class(data) == "matrix")) {
+  if (is.matrix(data)) {
     corr <- data
     cpvalues <- NULL
   } else {
@@ -164,11 +164,11 @@ sjt.corr <- function(data,
     # SPSS listwise
     if (na.deletion == "listwise") {
       data <- stats::na.omit(data)
-      corr <- cor(data, method = corr.method)
+      corr <- stats::cor(data, method = corr.method)
     } else {
       # missing deletion corresponds to
       # SPSS pairwise
-      corr <- cor(data,
+      corr <- stats::cor(data,
                   method = corr.method,
                   use = "pairwise.complete.obs")
     }

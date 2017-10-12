@@ -18,6 +18,9 @@
 #'          and \code{\link[sjlabelled]{set_labels}}).
 #' @param show.id Logical, if \code{TRUE} (default), the variable ID is shown in the first column.
 #' @param show.values Logical, if \code{TRUE} (default), the variable values are shown as additional column.
+#' @param show.string.values Logical, if \code{TRUE}, elements of character vectors
+#'    are also shown. By default, these are omitted due to possibly overlengthy
+#'    tables.
 #' @param show.labels Logical, if \code{TRUE} (default), the value labels are shown as additional column.
 #' @param show.frq Logical, if \code{TRUE}, an additional column with frequencies for each variable is shown.
 #' @param show.prc Logical, if \code{TRUE}, an additional column with percentage of frequencies for each variable is shown.
@@ -70,7 +73,7 @@
 #'                    css.arc = "color:blue;"))}
 #'
 #' @importFrom utils txtProgressBar setTxtProgressBar
-#' @importFrom sjmisc is_even
+#' @importFrom sjmisc is_even var_type
 #' @importFrom sjlabelled get_values
 #' @export
 view_df <- function(x,
@@ -79,6 +82,7 @@ view_df <- function(x,
                     show.id = TRUE,
                     show.type = FALSE,
                     show.values = TRUE,
+                    show.string.values = FALSE,
                     show.labels = TRUE,
                     show.frq = FALSE,
                     show.prc = FALSE,
@@ -120,11 +124,13 @@ view_df <- function(x,
   tag.tdata <- "tdata"
   tag.arc <- "arc"
   tag.caption <- "caption"
+  tag.omit <- "omit"
   css.table <- "border-collapse:collapse; border:none;"
   css.thead <- "border-bottom:double; font-style:italic; font-weight:normal; padding:0.2cm; text-align:left; vertical-align:top;"
   css.tdata <- "padding:0.2cm; text-align:left; vertical-align:top;"
   css.arc <- "background-color:#eaeaea"
   css.caption <- "font-weight: bold; text-align:left;"
+  css.omit <- "color:#999999;"
 
   # check user defined style sheets
   if (!is.null(CSS)) {
@@ -133,12 +139,13 @@ view_df <- function(x,
     if (!is.null(CSS[['css.tdata']])) css.tdata <- ifelse(substring(CSS[['css.tdata']], 1, 1) == '+', paste0(css.tdata, substring(CSS[['css.tdata']], 2)), CSS[['css.tdata']])
     if (!is.null(CSS[['css.arc']])) css.arc <- ifelse(substring(CSS[['css.arc']], 1, 1) == '+', paste0(css.arc, substring(CSS[['css.arc']], 2)), CSS[['css.arc']])
     if (!is.null(CSS[['css.caption']])) css.caption <- ifelse(substring(CSS[['css.caption']], 1, 1) == '+', paste0(css.caption, substring(CSS[['css.caption']], 2)), CSS[['css.caption']])
+    if (!is.null(CSS[['css.omit']])) css.omit <- ifelse(substring(CSS[['css.omit']], 1, 1) == '+', paste0(css.omit, substring(CSS[['css.omit']], 2)), CSS[['css.omit']])
   }
 
   # set style sheet
-  page.style <- sprintf("<style>\nhtml, body { background-color: white; }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n%s { %s }\n</style>",
+  page.style <- sprintf("<style>\nhtml, body { background-color: white; }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n%s { %s }\n.%s { %s }\n</style>",
                         tag.table, css.table, tag.thead, css.thead, tag.tdata, css.tdata,
-                        tag.arc, css.arc, tag.caption, css.caption)
+                        tag.arc, css.arc, tag.caption, css.caption, tag.omit, css.omit)
 
   # table init
   toWrite <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n%s\n</head>\n<body>\n", encoding, page.style)
@@ -200,7 +207,7 @@ view_df <- function(x,
 
     # type
     if (show.type) {
-      vartype <- get.vartype(x[[index]])
+      vartype <- sjmisc::var_type(x[[index]])
       page.content <-
         paste0(page.content,
                sprintf("    <td class=\"tdata%s\">%s</td>\n", arcstring, vartype))
@@ -261,11 +268,16 @@ view_df <- function(x,
         # if yes, get value labels
         # the code here corresponds to the above code
         # for variable values
-        vals <- df.val[[index]]
+        vals <- na.omit(df.val[[index]])
 
         # sort character vectors
-        if (is.character(x[[index]]) && !is.null(vals) && !sjmisc::is_empty(vals))
-          vals <- sort(vals)
+        if (is.character(x[[index]]) && !is.null(vals) && !sjmisc::is_empty(vals)) {
+          if (show.string.values)
+            vals <- sort(vals)
+          else
+            vals <- "<span class=\"omit\">&lt;output omitted&gt;</span>"
+        }
+
 
         # check if we have any values...
         if (!is.null(vals)) {

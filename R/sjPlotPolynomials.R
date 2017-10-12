@@ -145,7 +145,7 @@ sjp.poly <- function(x,
   # check for glm or lm
   # --------------------------------------------
   if (is.null(fun)) {
-    if (any(class(x) == "glmerMod") || any(class(x) == "glm")) {
+    if (inherits(x, c("glmerMod", "glm"))) {
       fun <- "glm"
     } else {
       fun <- "lm"

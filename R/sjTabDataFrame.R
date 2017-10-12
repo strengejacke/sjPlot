@@ -93,6 +93,7 @@
 #'
 #' @importFrom utils txtProgressBar setTxtProgressBar
 #' @importFrom psych describe
+#' @importFrom sjmisc var_type
 #' @export
 sjt.df <- function(mydf,
                    describe = TRUE,
@@ -252,7 +253,7 @@ sjt.df <- function(mydf,
   if (show.rownames) page.content <- paste0(page.content, sprintf("    <th class=\"thead firsttablerow firsttablecol\">%s</th>\n", string.var))
   for (i in 1:colcnt) {
     # check variable type
-    vartype <- get.vartype(mydf[[i]])
+    vartype <- sjmisc::var_type(mydf[[i]])
     # column names and variable as table headline
     page.content <- paste0(page.content, sprintf("    <th class=\"thead firsttablerow\">%s", cnames[i]))
     if (show.type) page.content <- paste0(page.content, sprintf("<br>(%s)", vartype))
@@ -292,7 +293,7 @@ sjt.df <- function(mydf,
     if (show.rownames) page.content <- paste0(page.content, sprintf("    <th class=\"thead lasttablerow firsttablecol\">%s</th>\n", string.var))
     for (i in 1:colcnt) {
       # check variable type
-      vartype <- get.vartype(mydf[[i]])
+      vartype <- sjmisc::var_type(mydf[[i]])
       # column names and variable as table headline
       page.content <- paste0(page.content, sprintf("    <th class=\"thead lasttablerow\">%s", cnames[i]))
       if (show.type) page.content <- paste0(page.content, sprintf("<br>(%s)", vartype))
@@ -369,37 +370,4 @@ sjt.df <- function(mydf,
       use.viewer = use.viewer
     )
   )
-}
-
-
-# -------------------------------------
-# helper function to retrieve type
-# of variables
-# -------------------------------------
-#' @importFrom methods is
-get.vartype <- function(x) {
-  vt <- c("unknown type")
-  if (methods::is(x, "Date"))
-    vt <- c("date")
-  else if (inherits(x, "POSIXct"))
-    vt <- c("POSIXct")
-  else if (inherits(x, "POSIXlt"))
-    vt <- c("POSIXlt")
-  else if (inherits(x, "POSIXt"))
-    vt <- c("POSIXt")
-  else if (is.character(x))
-    vt <- c("character")
-  else if (is.ordered(x))
-    vt <- c("ordinal")
-  else if (is.factor(x))
-    vt <- c("categorical")
-  else if (is.integer(x))
-    vt <- c("numeric")
-  else if (is.double(x))
-    vt <- c("numeric-double")
-  else if (is.numeric(x))
-    vt <- c("numeric")
-  else if (is.atomic(x))
-    vt <- c("atomic")
-  return(vt)
 }

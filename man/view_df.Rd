@@ -5,12 +5,12 @@
 \title{View structure of labelled data frames}
 \usage{
 view_df(x, weight.by = NULL, altr.row.col = TRUE, show.id = TRUE,
-  show.type = FALSE, show.values = TRUE, show.labels = TRUE,
-  show.frq = FALSE, show.prc = FALSE, show.wtd.frq = FALSE,
-  show.wtd.prc = FALSE, show.na = FALSE, sort.by.name = FALSE,
-  wrap.labels = 50, hide.progress = FALSE, CSS = NULL, encoding = NULL,
-  file = NULL, use.viewer = TRUE, no.output = FALSE,
-  remove.spaces = TRUE)
+  show.type = FALSE, show.values = TRUE, show.string.values = FALSE,
+  show.labels = TRUE, show.frq = FALSE, show.prc = FALSE,
+  show.wtd.frq = FALSE, show.wtd.prc = FALSE, show.na = FALSE,
+  sort.by.name = FALSE, wrap.labels = 50, hide.progress = FALSE,
+  CSS = NULL, encoding = NULL, file = NULL, use.viewer = TRUE,
+  no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{x}{A (labelled) data frame, imported by \code{\link[sjlabelled]{read_spss}},
@@ -31,6 +31,10 @@ background color.}
 row respectively column.}
 
 \item{show.values}{Logical, if \code{TRUE} (default), the variable values are shown as additional column.}
+
+\item{show.string.values}{Logical, if \code{TRUE}, elements of character vectors
+are also shown. By default, these are omitted due to possibly overlengthy
+tables.}
 
 \item{show.labels}{Logical, if \code{TRUE} (default), the value labels are shown as additional column.}
 

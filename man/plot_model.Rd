@@ -237,7 +237,7 @@ of supported arguments and their description in detail.
 \describe{
   \item{\code{prob.inner} and \code{prob.outer}}{
     For \strong{Stan}-models (fitted with the \pkg{rstanarm}- or
-    \pkg{brms}-package) and plot-type \code{type = "est"}, you can specify
+    \pkg{brms}-package) and coefficients plot-types, you can specify
     numeric values between 0 and 1 for \code{prob.inner} and
     \code{prob.outer}, which will then be used as inner and outer
     probabilities for the uncertainty intervals (HDI). By default, the
@@ -246,7 +246,7 @@ of supported arguments and their description in detail.
     outer probability).
   }
   \item{\code{size.inner}}{
-    For \strong{Stan}-models and plot-type \code{type = "est"}, you
+    For \strong{Stan}-models and coefficients plot-types, you
     can specify the width of the bar for the inner probabilities.
     Default is \code{0.1}.
   }
