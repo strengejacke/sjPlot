@@ -14,6 +14,7 @@
 
 * `view_df()` now better handles string variables and gets a `show.string.values`-argument to omit the output of values from string variables.
 * `view_df()` gets a `max.len`-argument to truncate output for variables with many values.
+* `view_df()` displayes more information on non-labelled, numeric variables.
 
 ## Bug fixes
 

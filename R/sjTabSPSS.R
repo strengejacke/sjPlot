@@ -317,7 +317,7 @@ view_df <- function(x,
               if (show.string.values)
                 vals <- sort(vals)
               else
-                vals <- "<span class=\"omit\">&lt;output omitted&gt;</span>"
+                vals <- "<span class=\"omit\" title =\"'show.string.values = TRUE' to show values.\">&lt;output omitted&gt;</span>"
             }
 
             # check if we have any values...
