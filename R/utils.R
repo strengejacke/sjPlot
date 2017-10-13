@@ -7,6 +7,11 @@ magrittr::`%>%`
 is.stan <- function(x) inherits(x, c("stanreg", "stanfit", "brmsfit"))
 
 
+has_value_labels <- function(x) {
+  !(is.null(attr(x, "labels", exact = T)) && is.null(attr(x, "value.labels", exact = T)))
+}
+
+
 #' @importFrom grDevices axisTicks
 #' @importFrom dplyr if_else
 #' @importFrom sjmisc is_empty
