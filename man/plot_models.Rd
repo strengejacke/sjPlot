@@ -6,8 +6,8 @@
 \alias{sjp.glmm}
 \title{Forest plot of multiple regression models}
 \usage{
-plot_models(..., exponentiate, std.est = NULL, rm.terms = NULL,
-  title = NULL, m.labels = NULL, legend.title = "Dependent Variables",
+plot_models(..., transform, std.est = NULL, rm.terms = NULL, title = NULL,
+  m.labels = NULL, legend.title = "Dependent Variables",
   legend.pval.title = "p-level", axis.labels = NULL, axis.title = NULL,
   axis.lim = NULL, wrap.title = 50, wrap.labels = 25,
   wrap.legend.title = 20, grid.breaks = NULL, dot.size = 3,
@@ -24,11 +24,12 @@ sjp.glmm(...)
 \item{...}{One or more regression models, including glm's or mixed models.
 May also be a \code{list} with fitted models. See 'Examples'.}
 
-\item{exponentiate}{Logical, if \code{TRUE} and models inherit from generalized
-linear models, estimates will be exponentiated (e.g., log-odds will
-be displayed as odds ratios). By default, \code{exponentiate} will
-automatically be set to \code{FALSE} or \code{TRUE}, depending on
-the class of \code{fit}.}
+\item{transform}{A character vector, naming a function that will be applied
+on estimates and confidence intervals. By default, \code{transform} will
+automatically use \code{"exp"} as transformation for applicable classes
+of \code{fit} (e.g. logistic or poisson regression). Estimates of linear
+models remain untransformed. Use \code{NULL} if you want the raw, non-transformed
+estimates.}
 
 \item{std.est}{For linear models, choose whether standardized coefficients should
 be used for plotting. Default is no standardization.
@@ -116,7 +117,7 @@ are valid for the \code{colors} argument:
 function, a legend is added to the plot.}
 
 \item{show.intercept}{Logical, if \code{TRUE}, the intercept of the fitted
-model is also plotted. Default is \code{FALSE}. If \code{exponentiate = TRUE},
+model is also plotted. Default is \code{FALSE}. If \code{transform = "exp"},
 please note that due to exponential transformation of estimates, the
 intercept in some cases is non-finite and the plot can not be created.}
 

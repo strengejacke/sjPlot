@@ -6,7 +6,7 @@
 \title{Plot regression models}
 \usage{
 plot_model(model, type = c("est", "re", "eff", "pred", "int", "std", "std2",
-  "slope", "resid", "diag"), exponentiate, terms = NULL, sort.est = NULL,
+  "slope", "resid", "diag"), transform, terms = NULL, sort.est = NULL,
   rm.terms = NULL, group.terms = NULL, order.terms = NULL,
   pred.type = c("fe", "re"), mdrt.values = c("minmax", "meansd", "zeromax",
   "quart", "all"), ri.nr = NULL, title = NULL, axis.title = NULL,
@@ -19,7 +19,7 @@ plot_model(model, type = c("est", "re", "eff", "pred", "int", "std", "std2",
   bpe.style = "line", ...)
 
 get_model_data(model, type = c("est", "re", "eff", "pred", "int", "std",
-  "std2", "slope", "resid", "diag"), exponentiate, terms = NULL,
+  "std2", "slope", "resid", "diag"), transform, terms = NULL,
   sort.est = NULL, rm.terms = NULL, group.terms = NULL,
   order.terms = NULL, pred.type = c("fe", "re"), ri.nr = NULL,
   ci.lvl = NULL, colors = "Set1", grid, case = "parsed", digits = 2,
@@ -53,11 +53,12 @@ kinds of models are supported, e.g. from packages like \pkg{stats},
   \item{\code{type = "diag"}}{Check model assumptions.}
 }}
 
-\item{exponentiate}{Logical, if \code{TRUE} and models inherit from generalized
-linear models, estimates will be exponentiated (e.g., log-odds will
-be displayed as odds ratios). By default, \code{exponentiate} will
-automatically be set to \code{FALSE} or \code{TRUE}, depending on
-the class of \code{fit}.}
+\item{transform}{A character vector, naming a function that will be applied
+on estimates and confidence intervals. By default, \code{transform} will
+automatically use \code{"exp"} as transformation for applicable classes
+of \code{fit} (e.g. logistic or poisson regression). Estimates of linear
+models remain untransformed. Use \code{NULL} if you want the raw, non-transformed
+estimates.}
 
 \item{terms}{Character vector with the names of those terms from \code{model}
 that should be plotted. This argument depends on the plot-type:
@@ -178,7 +179,7 @@ are valid for the \code{colors} argument:
 }}
 
 \item{show.intercept}{Logical, if \code{TRUE}, the intercept of the fitted
-model is also plotted. Default is \code{FALSE}. If \code{exponentiate = TRUE},
+model is also plotted. Default is \code{FALSE}. If \code{transform = "exp"},
 please note that due to exponential transformation of estimates, the
 intercept in some cases is non-finite and the plot can not be created.}
 

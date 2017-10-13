@@ -2,7 +2,7 @@
 #' @importFrom broom tidy
 plot_type_est <- function(type,
                           ci.lvl,
-                          exponentiate,
+                          tf,
                           model,
                           terms,
                           group.terms,
@@ -31,7 +31,7 @@ plot_type_est <- function(type,
   # get tidy output of summary ----
 
   if (type == "est" || type == "re") {
-    dat <- tidy_model(model, ci.lvl, exponentiate, type, bpe, ...)
+    dat <- tidy_model(model, ci.lvl, tf, type, bpe, ...)
   } else {
     dat <- model %>%
       sjstats::std_beta(type = type, ci.lvl = ci.lvl) %>%
@@ -52,7 +52,7 @@ plot_type_est <- function(type,
   plot_model_estimates(
     model = model,
     dat = dat,
-    exponentiate = exponentiate,
+    tf = tf,
     terms = terms,
     group.terms = group.terms,
     rm.terms = rm.terms,

@@ -76,7 +76,7 @@ get_axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, e
 }
 
 
-get_estimate_axis_title <- function(fit, axis.title, type) {
+get_estimate_axis_title <- function(fit, axis.title, type, transform = NULL) {
 
   # no automatic title for effect-plots
   if (type %in% c("eff", "pred", "int")) return(axis.title)
@@ -86,6 +86,7 @@ get_estimate_axis_title <- function(fit, axis.title, type) {
     fitfam <- get_glm_family(fit)
 
     axis.title <-  dplyr::case_when(
+      !is.null(transform) && transform == "plogis" ~ "Probabilities",
       fitfam$is_pois ~ "Incident Rate Ratios",
       fitfam$is_bin && !fitfam$is_logit ~ "Risk Ratios",
       fitfam$is_bin ~ "Odds Ratios",

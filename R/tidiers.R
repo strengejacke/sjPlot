@@ -1,8 +1,8 @@
 ## TODO provide own tidier for not-supported models
 
-tidy_model <- function(model, ci.lvl, exponentiate, type, bpe, ...) {
+tidy_model <- function(model, ci.lvl, tf, type, bpe, ...) {
   if (is.stan(model))
-    tidy_stan_model(model, ci.lvl, exponentiate, type, bpe, ...)
+    tidy_stan_model(model, ci.lvl, tf, type, bpe, ...)
   else if (inherits(model, "lme"))
     tidy_lme_model(model, ci.lvl)
   else if (inherits(model, "gls"))
@@ -94,15 +94,7 @@ tidy_cox_model <- function(model, ci.lvl) {
 #' @importFrom purrr map_dbl
 #' @importFrom rlang .data
 #' @importFrom tidyselect starts_with ends_with
-tidy_stan_model <- function(model, ci.lvl, exponentiate, type, bpe, ...) {
-
-  # check if values should be exponentiated
-
-  if (exponentiate)
-    funtrans <- "exp"
-  else
-    funtrans <- NULL
-
+tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, ...) {
 
   # set defaults
 
@@ -122,8 +114,8 @@ tidy_stan_model <- function(model, ci.lvl, exponentiate, type, bpe, ...) {
 
   # get two HDI-intervals
 
-  d1 <- sjstats::hdi(model, prob = p.outer, trans = funtrans, type = "all")
-  d2 <- sjstats::hdi(model, prob = p.inner, trans = funtrans, type = "all")
+  d1 <- sjstats::hdi(model, prob = p.outer, trans = tf, type = "all")
+  d2 <- sjstats::hdi(model, prob = p.inner, trans = tf, type = "all")
 
 
   # bind columns, so we have inner and outer hdi interval
@@ -265,7 +257,10 @@ tidy_stan_model <- function(model, ci.lvl, exponentiate, type, bpe, ...) {
 
 
   # need to transform point estimate as well
-  if (exponentiate) dat$estimate <- exp(dat$estimate)
+  if (!is.null(tf)) {
+    funtrans <- match.fun(tf)
+    dat$estimate <- funtrans(dat$estimate)
+  }
 
   dat
 }

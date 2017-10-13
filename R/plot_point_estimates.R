@@ -1,9 +1,9 @@
 #' @importFrom tibble has_name
-#' @importFrom dplyr n_distinct
+#' @importFrom dplyr n_distinct if_else
 #' @importFrom sjmisc to_value is_empty
 plot_point_estimates <- function(model,
                                  dat,
-                                 exponentiate,
+                                 tf,
                                  title,
                                  axis.labels,
                                  axis.title,
@@ -52,7 +52,7 @@ plot_point_estimates <- function(model,
     min.val = min(dat$conf.low),
     max.val = max(dat$conf.high),
     grid.breaks = grid.breaks,
-    exponentiate = exponentiate,
+    exponentiate = isTRUE(tf == "exp"),
     min.est = min(dat$estimate),
     max.est = max(dat$estimate)
   )
@@ -60,7 +60,7 @@ plot_point_estimates <- function(model,
 
   # based on current ggplot theme, highlights vertical default line
 
-  yintercept = ifelse(exponentiate, 1, 0)
+  yintercept = dplyr::if_else(isTRUE(tf == "exp"), 1, 0)
   layer_vertical_line <- geom_intercep_line(yintercept, axis.scaling, vline.color)
 
 
@@ -127,7 +127,7 @@ plot_point_estimates <- function(model,
 
   # we need transformed scale for exponentiated estimates
 
-  if (exponentiate) {
+  if (isTRUE(tf == "exp")) {
     p <- p + scale_y_continuous(
       trans = "log10",
       limits = axis.scaling$axis.lim,

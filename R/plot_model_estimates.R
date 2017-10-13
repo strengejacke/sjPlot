@@ -4,7 +4,7 @@
 #' @importFrom rlang .data
 plot_model_estimates <- function(model,
                                  dat,
-                                 exponentiate,
+                                 tf,
                                  terms,
                                  group.terms,
                                  rm.terms,
@@ -50,10 +50,11 @@ plot_model_estimates <- function(model,
   # exponentiation from broom::tidy does not work with merMod-objecs,
   # so we do it manually for all model classes
 
-  if (exponentiate && !is.stan(model)) {
-    dat[["estimate"]] <- exp(dat[["estimate"]])
-    dat[["conf.low"]] <- exp(dat[["conf.low"]])
-    dat[["conf.high"]] <- exp(dat[["conf.high"]])
+  if (!is.null(tf) && !is.stan(model)) {
+    funtrans <- match.fun(tf)
+    dat[["estimate"]] <- funtrans(dat[["estimate"]])
+    dat[["conf.low"]] <- funtrans(dat[["conf.low"]])
+    dat[["conf.high"]] <- funtrans(dat[["conf.high"]])
   }
 
   # remove further estimates
@@ -80,7 +81,7 @@ plot_model_estimates <- function(model,
   # split positive and negative associations with outcome
   # into different groups
 
-  treshold <- dplyr::if_else(exponentiate, 1, 0)
+  treshold <- dplyr::if_else(isTRUE(tf == "exp"), 1, 0)
   dat$group <- dplyr::if_else(dat$estimate > treshold, "pos", "neg")
 
 
@@ -132,7 +133,7 @@ plot_model_estimates <- function(model,
   plot_point_estimates(
     model = model,
     dat = dat,
-    exponentiate = exponentiate,
+    tf = tf,
     title = title,
     axis.labels = axis.labels,
     axis.title = axis.title,

@@ -11,7 +11,7 @@ plot_type_ranef <- function(model,
                             type,
                             ri.nr,
                             ci.lvl,
-                            exponentiate,
+                            tf,
                             sort.est,
                             axis.labels,
                             axis.lim,
@@ -147,10 +147,11 @@ plot_type_ranef <- function(model,
         tmp$conf.high = NA
       }
 
-      if (exponentiate) {
-        tmp$estimate <- exp(tmp$estimate)
-        tmp$conf.low <- exp(tmp$conf.low)
-        tmp$conf.high <- exp(tmp$conf.high)
+      if (!is.null(tf)) {
+        funtrans <- match.fun(tf)
+        tmp$estimate <- funtrans(tmp$estimate)
+        tmp$conf.low <- funtrans(tmp$conf.low)
+        tmp$conf.high <- funtrans(tmp$conf.high)
       }
 
       # set column names (variable / coefficient name)
@@ -200,7 +201,7 @@ plot_type_ranef <- function(model,
       # split positive and negative associations with outcome
       # into different groups
 
-      treshold <- dplyr::if_else(exponentiate, 1, 0)
+      treshold <- dplyr::if_else(isTRUE(tf == "exp"), 1, 0)
       tmp$group <- dplyr::if_else(tmp$estimate > treshold, "pos", "neg")
 
 
@@ -245,7 +246,7 @@ plot_type_ranef <- function(model,
         plot_point_estimates(
           model = model,
           dat = x,
-          exponentiate = exponentiate,
+          tf = tf,
           title = x[["title"]],
           axis.labels = labs,
           axis.title = NULL,

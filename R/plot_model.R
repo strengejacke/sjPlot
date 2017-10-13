@@ -29,11 +29,12 @@
 #'      \item{\code{type = "resid"}}{slope of coefficients for each single predictor, against the residuals (linear relationship between each model term and residuals).}
 #'      \item{\code{type = "diag"}}{Check model assumptions.}
 #'    }
-#' @param exponentiate Logical, if \code{TRUE} and models inherit from generalized
-#'    linear models, estimates will be exponentiated (e.g., log-odds will
-#'    be displayed as odds ratios). By default, \code{exponentiate} will
-#'    automatically be set to \code{FALSE} or \code{TRUE}, depending on
-#'    the class of \code{fit}.
+#' @param transform A character vector, naming a function that will be applied
+#'    on estimates and confidence intervals. By default, \code{transform} will
+#'    automatically use \code{"exp"} as transformation for applicable classes
+#'    of \code{fit} (e.g. logistic or poisson regression). Estimates of linear
+#'    models remain untransformed. Use \code{NULL} if you want the raw, non-transformed
+#'    estimates.
 #' @param terms Character vector with the names of those terms from \code{model}
 #'    that should be plotted. This argument depends on the plot-type:
 #'    \describe{
@@ -121,7 +122,7 @@
 #'    \code{prob.inner} and \code{prob.outer} under the \code{...}-argument
 #'    for more details.
 #' @param show.intercept Logical, if \code{TRUE}, the intercept of the fitted
-#'    model is also plotted. Default is \code{FALSE}. If \code{exponentiate = TRUE},
+#'    model is also plotted. Default is \code{FALSE}. If \code{transform = "exp"},
 #'    please note that due to exponential transformation of estimates, the
 #'    intercept in some cases is non-finite and the plot can not be created.
 #' @param show.values Logical, whether values should be plotted or not.
@@ -286,7 +287,7 @@
 #' @export
 plot_model <- function(model,
                        type = c("est", "re", "eff", "pred", "int", "std", "std2", "slope", "resid", "diag"),
-                       exponentiate,
+                       transform,
                        terms = NULL,
                        sort.est = NULL,
                        rm.terms = NULL,
@@ -327,6 +328,20 @@ plot_model <- function(model,
   mdrt.values <- match.arg(mdrt.values)
 
 
+  # get info on model family
+  fam.info <- get_glm_family(model)
+
+
+  # check whether estimates should be transformed or not
+
+  if (missing(transform)) {
+    if (fam.info$is_linear)
+      transform <- NULL
+    else
+      transform <- "exp"
+  }
+
+
   # get titles and labels for axis ----
 
   # this is not appropriate when plotting random effects,
@@ -343,7 +358,7 @@ plot_model <- function(model,
     axis.labels <- sjmisc::word_wrap(axis.labels, wrap = wrap.labels)
 
     # title for axis with estimate values
-    if (is.null(axis.title)) axis.title <- sjmisc::word_wrap(get_estimate_axis_title(model, axis.title, type), wrap = wrap.title)
+    if (is.null(axis.title)) axis.title <- sjmisc::word_wrap(get_estimate_axis_title(model, axis.title, type, transform), wrap = wrap.title)
     axis.title <- sjmisc::word_wrap(axis.title, wrap = wrap.labels)
 
   }
@@ -372,14 +387,6 @@ plot_model <- function(model,
   if (is.null(value.offset)) value.offset <- dplyr::if_else(is.stan(model), .25, .15)
 
 
-  # get info on model family
-  fam.info <- get_glm_family(model)
-
-  # check whether estimates should be exponentiated or not
-  if (missing(exponentiate))
-    exponentiate <- !fam.info$is_linear
-
-
   # check if plot-type is applicable
 
   if (type %in% c("slope", "resid") && !fam.info$is_linear) {
@@ -395,7 +402,7 @@ plot_model <- function(model,
     p <- plot_type_est(
       type = type,
       ci.lvl = ci.lvl,
-      exponentiate = exponentiate,
+      tf = transform,
       model = model,
       terms = terms,
       group.terms = group.terms,
@@ -431,7 +438,7 @@ plot_model <- function(model,
       type = type,
       ri.nr = ri.nr,
       ci.lvl = ci.lvl,
-      exponentiate = exponentiate,
+      tf = transform,
       sort.est = sort.est,
       axis.labels = axis.labels,
       axis.lim = axis.lim,
@@ -534,7 +541,7 @@ plot_model <- function(model,
 #' @export
 get_model_data <- function(model,
                        type = c("est", "re", "eff", "pred", "int", "std", "std2", "slope", "resid", "diag"),
-                       exponentiate,
+                       transform,
                        terms = NULL,
                        sort.est = NULL,
                        rm.terms = NULL,
@@ -551,7 +558,7 @@ get_model_data <- function(model,
   p <- plot_model(
     model = model,
     type = type,
-    exponentiate = exponentiate,
+    transform = transform,
     terms = terms,
     sort.est = sort.est,
     rm.terms = rm.terms,

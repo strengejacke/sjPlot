@@ -83,7 +83,7 @@
 #' @importFrom tibble tidy_names add_column
 #' @export
 plot_models <- function(...,
-                        exponentiate,
+                        transform,
                         std.est = NULL,
                         rm.terms = NULL,
                         title = NULL,
@@ -117,8 +117,13 @@ plot_models <- function(...,
     input_list <- purrr::map(input_list[[1]], ~ .x)
 
   # check whether estimates should be exponentiated or not
-  if (missing(exponentiate))
-    exponentiate <- inherits(input_list[[1]], c("glm", "glmerMod", "glmmTMB"))
+  if (missing(transform)) {
+    if (inherits(input_list[[1]], c("glm", "glmerMod", "glmmTMB")))
+      tf <- "exp"
+    else
+      tf <- NULL
+  } else
+    tf <- transform
 
   # check for standardization, only applies to linear models
   if (!any(inherits(input_list[[1]], c("lm", "lmerMod", "lme"), which = TRUE) == 1))
@@ -145,7 +150,7 @@ plot_models <- function(...,
     # need to check whether intercept should be removed or not
 
     fl <- purrr::map(
-      input_list, ~ tidy_model(.x, ci.lvl, exponentiate, type = "est", bpe = "line", ...)
+      input_list, ~ tidy_model(.x, ci.lvl, tf = transform, type = "est", bpe = "line", ...)
     )
 
     # remove intercept from output
@@ -157,13 +162,16 @@ plot_models <- function(...,
   # exponentiation from broom::tidy does not work with merMod-objecs,
   # so we do it manually for all model classes
 
-  if (exponentiate) fl <- purrr::map(fl, function(x) {
-    x[["estimate"]] <- exp(x[["estimate"]])
-    x[["conf.low"]] <- exp(x[["conf.low"]])
-    x[["conf.high"]] <- exp(x[["conf.high"]])
+  if (!is.null(tf)) {
+    funtrans <- match.fun(tf)
+    fl <- purrr::map(fl, function(x) {
+      x[["estimate"]] <- funtrans(x[["estimate"]])
+      x[["conf.low"]] <- funtrans(x[["conf.low"]])
+      x[["conf.high"]] <- funtrans(x[["conf.high"]])
 
-    x
-  })
+      x
+    })
+  }
 
 
   # add grouping index
@@ -221,7 +229,7 @@ plot_models <- function(...,
     min.val = min(ff$conf.low),
     max.val = max(ff$conf.high),
     grid.breaks = grid.breaks,
-    exponentiate = exponentiate,
+    exponentiate = isTRUE(tf == "exp"),
     min.est = min(ff$estimate),
     max.est = max(ff$estimate)
   )
@@ -229,7 +237,7 @@ plot_models <- function(...,
 
   # based on current ggplot theme, highlights vertical default line
 
-  yintercept = ifelse(exponentiate, 1, 0)
+  yintercept = ifelse(isTRUE(tf == "exp"), 1, 0)
   layer_vertical_line <- geom_intercep_line(yintercept, axis.scaling, vline.color)
 
 
@@ -290,7 +298,7 @@ plot_models <- function(...,
 
   # we need transformed scale for exponentiated estimates
 
-  if (exponentiate) {
+  if (isTRUE(tf == "exp")) {
     p <- p + scale_y_continuous(
       trans = "log10",
       limits = axis.scaling$axis.lim,
