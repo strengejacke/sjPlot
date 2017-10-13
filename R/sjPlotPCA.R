@@ -60,7 +60,7 @@
 #' @import ggplot2
 #' @importFrom tidyr gather
 #' @importFrom scales brewer_pal grey_pal
-#' @importFrom stats na.omit prcomp
+#' @importFrom stats na.omit prcomp varimax
 #' @importFrom sjstats cronb
 #' @importFrom psych principal
 #' @export
@@ -149,6 +149,10 @@ sjp.pca <- function(data,
   # --------------------------------------------------------
   # check for predefined number of factors
   if (!is.null(nmbr.fctr) && is.numeric(nmbr.fctr)) pcadata.kaiser <- nmbr.fctr
+
+  if (pcadata.kaiser < 2) {
+    stop("Only one principal component extracted. Can't rotate loading matrices. You may use `nmbr.fctr` to extract more than one component.", call. = F)
+  }
 
   # rotate matrix
   if (rotation == "varimax")

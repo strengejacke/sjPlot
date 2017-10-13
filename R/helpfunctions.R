@@ -748,7 +748,7 @@ varimaxrota <- function(data, factors) {
   # mit den Faktorladungen der ausgewählten Faktoren (Anzahl = Parameter "factors")
   # Varimax Rotation durchführen
   varib <- stats::varimax(ladungen[, seq_len(factors)])
-  return(varib)
+  varib
 }
 
 

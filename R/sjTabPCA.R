@@ -143,7 +143,7 @@ sjt.pca <- function(data,
   tag.msa <- "msa"
   tag.pov <- "pov"
   tag.cpov <- "cpov"
-  tag.rotation <- "rotation"
+  tag.rotate <- "rotate"
   tag.kmo <- "kmo"
   tag.arc <- "arc"
   tag.minval <- "minval"
@@ -159,7 +159,7 @@ sjt.pca <- function(data,
   css.cronbach <- "font-style:italic;"
   css.msa <- "font-style:italic; color:#666666;"
   css.kmo <- "font-style:italic; border-bottom:double;"
-  css.rotation <- "font-style:italic; font-size:0.9em;"
+  css.rotate <- "font-style:italic; font-size:0.9em;"
   css.pov <- "font-style:italic; border-top:1px solid;"
   css.cpov <- "font-style:italic;"
   css.minval <- "color:#cccccc;"
@@ -188,7 +188,7 @@ sjt.pca <- function(data,
     if (!is.null(CSS[['css.cronbach']])) css.cronbach <- ifelse(substring(CSS[['css.cronbach']], 1, 1) == '+', paste0(css.cronbach, substring(CSS[['css.cronbach']], 2)), CSS[['css.cronbach']])
     if (!is.null(CSS[['css.msa']])) css.msa <- ifelse(substring(CSS[['css.msa']], 1, 1) == '+', paste0(css.msa, substring(CSS[['css.msa']], 2)), CSS[['css.msa']])
     if (!is.null(CSS[['css.kmo']])) css.kmo <- ifelse(substring(CSS[['css.kmo']], 1, 1) == '+', paste0(css.kmo, substring(CSS[['css.kmo']], 2)), CSS[['css.kmo']])
-    if (!is.null(CSS[['css.rotation']])) css.rotation <- ifelse(substring(CSS[['css.rotation']], 1, 1) == '+', paste0(css.rotation, substring(CSS[['css.rotation']], 2)), CSS[['css.rotation']])
+    if (!is.null(CSS[['css.rotate']])) css.rotate <- ifelse(substring(CSS[['css.rotate']], 1, 1) == '+', paste0(css.rotate, substring(CSS[['css.rotate']], 2)), CSS[['css.rotate']])
     if (!is.null(CSS[['css.pov']])) css.pov <- ifelse(substring(CSS[['css.pov']], 1, 1) == '+', paste0(css.pov, substring(CSS[['css.pov']], 2)), CSS[['css.pov']])
     if (!is.null(CSS[['css.cpov']])) css.cpov <- ifelse(substring(CSS[['css.cpov']], 1, 1) == '+', paste0(css.cpov, substring(CSS[['css.cpov']], 2)), CSS[['css.cpov']])
     if (!is.null(CSS[['css.minval']])) css.minval <- ifelse(substring(CSS[['css.minval']], 1, 1) == '+', paste0(css.minval, substring(CSS[['css.minval']], 2)), CSS[['css.minval']])
@@ -202,7 +202,7 @@ sjt.pca <- function(data,
                          tag.tdata, css.tdata, tag.cronbach, css.cronbach, tag.minval, css.minval,
                          tag.removable, css.removable, tag.firsttablerow, css.firsttablerow,
                          tag.firsttablecol, css.firsttablecol, tag.centeralign, css.centeralign,
-                         tag.rightalign, css.rightalign, tag.rotation, css.rotation,
+                         tag.rightalign, css.rightalign, tag.rotate, css.rotate,
                          tag.msa, css.msa, tag.kmo, css.kmo, tag.pov, css.pov, tag.cpov,
                          css.cpov, tag.arc, css.arc)
   # ------------------------
@@ -224,6 +224,10 @@ sjt.pca <- function(data,
   # --------------------------------------------------------
   # check for predefined number of factors
   if (!is.null(nmbr.fctr) && is.numeric(nmbr.fctr)) pcadata.kaiser <- nmbr.fctr
+
+  if (pcadata.kaiser < 2) {
+    stop("Only one principal component extracted. Can't rotate loading matrices. You may use `nmbr.fctr` to extract more than one component.", call. = F)
+  }
 
   # rotate matrix
   if (rotation == "varimax")
@@ -467,7 +471,7 @@ sjt.pca <- function(data,
   colsp <- ncol(df) + 1
   if (show.msa) colsp <- colsp + 1
   page.content <- paste0(page.content, "  <tr>\n")
-  page.content <- paste0(page.content, sprintf("    <td class=\"tdata rightalign rotation\" colspan=\"%i\">%s-rotation</td>\n", colsp, rotation))
+  page.content <- paste0(page.content, sprintf("    <td class=\"tdata rightalign rotate\" colspan=\"%i\">%s-rotation</td>\n", colsp, rotation))
   page.content <- paste0(page.content, "  </tr>\n")
   # -------------------------------------
   # finish table
@@ -510,7 +514,7 @@ sjt.pca <- function(data,
   knitr <- gsub(tag.arc, css.arc, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.cpov, css.cpov, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.kmo, css.kmo, knitr, fixed = TRUE, useBytes = TRUE)
-  knitr <- gsub(tag.rotation, css.rotation, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.rotate, css.rotate, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.minval, css.minval, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.removable, css.removable, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.firsttablerow, css.firsttablerow, knitr, fixed = TRUE, useBytes = TRUE)

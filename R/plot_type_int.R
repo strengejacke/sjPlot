@@ -1,3 +1,4 @@
+#' @importFrom sjstats get_model_frame
 plot_type_int <- function(type,
                           model,
                           mdrt.values,
@@ -28,7 +29,7 @@ plot_type_int <- function(type,
   # get interaction terms and model frame
 
   ia.terms <- purrr::map(rhs[int.terms], ~ sjmisc::trim(unlist(strsplit(.x, "*", fixed = TRUE))))
-  mf <- get_model_frame(model)
+  mf <- sjstats::get_model_frame(model)
 
 
   # intertate interaction terms

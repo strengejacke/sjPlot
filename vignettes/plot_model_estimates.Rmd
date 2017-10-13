@@ -85,10 +85,11 @@ plot_model(m1, order.terms = c(6, 7, 1, 2, 3, 4, 5))
 
 ## Estimates on the untransformed scale 
 
-By default, `plot_model()` automatically exponentiates coefficients, if appropriate (e.g. for models with log or logit link). You can explicitley (dis-)allow this transformation using the `exponentiate`-argument.
+By default, `plot_model()` automatically exponentiates coefficients, if appropriate (e.g. for models with log or logit link). You can explicitley prevent transformation by setting the `transform`-argument to `NULL`, or apply any transformation by using a character vector with the function name.
 
 ```{r}
-plot_model(m1, exponentiate = FALSE)
+plot_model(m1, transform = NULL)
+plot_model(m1, transform = "plogis")
 ``` 
 
 ## Showing value labels

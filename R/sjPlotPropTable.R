@@ -193,6 +193,9 @@ sjp.xtab <- function(x,
   # total column only applies to column percentages
   # --------------------------------------------------------
   if (margin != "col") show.total <- FALSE
+
+  # need to set this to FALSE
+  if (!show.n && !show.prc) show.values <- F
   # --------------------------------------------------------
   # create cross table of frequencies and percentages
   # --------------------------------------------------------
