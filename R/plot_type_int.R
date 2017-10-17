@@ -1,4 +1,4 @@
-#' @importFrom sjstats get_model_frame
+#' @importFrom sjstats model_frame
 plot_type_int <- function(type,
                           model,
                           mdrt.values,
@@ -13,11 +13,9 @@ plot_type_int <- function(type,
                           case,
                           ...) {
 
-  # find right hand side of formula, to extract interaction terms
-  rhs <- unlist(strsplit(as.character(stats::formula(model))[3], "+", fixed = TRUE))
-
-  # interaction terms are separated with ":"
-  int.terms <- purrr::map_lgl(rhs, ~ sjmisc::str_contains(.x, "*"))
+  # get interaction terms
+  it <- stats::terms(model)
+  int.terms <- attr(it, "order", exact = TRUE) > 1
 
 
   # stop if no interaction found
@@ -28,8 +26,9 @@ plot_type_int <- function(type,
 
   # get interaction terms and model frame
 
-  ia.terms <- purrr::map(rhs[int.terms], ~ sjmisc::trim(unlist(strsplit(.x, "*", fixed = TRUE))))
-  mf <- sjstats::get_model_frame(model)
+  ia.terms <- attr(it, "term.labels", exact = TRUE)[int.terms]
+  ia.terms <- purrr::map(ia.terms, ~ sjmisc::trim(unlist(strsplit(.x, ":", fixed = TRUE))))
+  mf <- sjstats::model_frame(model)
 
 
   # intertate interaction terms

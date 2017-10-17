@@ -1,5 +1,5 @@
 # bind global variables
-utils::globalVariables(c("rowname", "total", "ges", "prc", "n", "Count", "Group", "line.break"))
+utils::globalVariables(c("prc","ges", "n", "Count", "Group", "line.break"))
 
 #' @title Plot contingency tables
 #' @name sjp.xtab
@@ -259,8 +259,8 @@ sjp.xtab <- function(x,
   # -----------------------------------------------
   # remove total for row and column index
   #---------------------------------------------------
-  if (margin != "col") mydf <- dplyr::filter(mydf, rowname != "total")
-  if (margin == "cell") mydf <- dplyr::select(mydf, -total)
+  if (margin != "col") mydf <- dplyr::filter(mydf, .data$rowname != "total")
+  if (margin == "cell") mydf <- dplyr::select(mydf, -.data$total)
   # --------------------------------------------------------
   # add xpos now
   # --------------------------------------------------------
@@ -269,9 +269,9 @@ sjp.xtab <- function(x,
   # add half of Percentage values as new y-position for stacked bars
   # --------------------------------------------------------
   mydf <- mydf %>%
-    dplyr::group_by(xpos) %>%
-    dplyr::mutate(ypos = cumsum(prc) - 0.5 * prc) %>%
-    dplyr::arrange(group)
+    dplyr::group_by(.data$xpos) %>%
+    dplyr::mutate(ypos = cumsum(.data$prc) - 0.5 * .data$prc) %>%
+    dplyr::arrange(.data$group)
   # --------------------------------------------------------
   # add line-break char
   # --------------------------------------------------------
@@ -326,9 +326,9 @@ sjp.xtab <- function(x,
     # check upper limits. we may have rounding errors, so values
     # sum up to more than 100%
     ul <- max(mydf %>%
-                dplyr::group_by(rowname) %>%
-                dplyr::summarize(ges = sum(prc)) %>%
-                dplyr::select(ges), na.rm = T)
+                dplyr::group_by(.data$rowname) %>%
+                dplyr::summarize(ges = sum(.data$prc)) %>%
+                dplyr::select(.data$ges), na.rm = T)
     if (ul > 1L)
       upper_lim <- ul
     else

@@ -1,5 +1,5 @@
 #' @importFrom sjlabelled get_label
-#' @importFrom sjstats resp_val pred_vars resp_var get_model_frame
+#' @importFrom sjstats resp_val pred_vars resp_var model_frame
 #' @importFrom sjmisc str_contains is_empty
 #' @importFrom stats formula residuals
 #' @importFrom dplyr filter
@@ -45,7 +45,7 @@ plot_type_slope <- function(model,
   # retrieve column names of dataset so we can identify in which
   # column the data for each predictor is.
 
-  model_data <- sjstats::get_model_frame(model)
+  model_data <- sjstats::model_frame(model)
   depvar.label <- sjlabelled::get_label(model_data[[1]], def.value = sjstats::resp_var(model), case = case)
   predvars <- sjstats::pred_vars(model)
 

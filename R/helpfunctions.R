@@ -762,8 +762,9 @@ unlistlabels <- function(lab) {
 }
 
 
+#' @importFrom sjstats model_frame
 get_model_response_label <- function(fit) {
-  m_f <- stats::model.frame(fit)
+  m_f <- sjstats::model_frame(fit)
   unname(sjlabelled::get_label(m_f[[1]], def.value = colnames(m_f)[1]))
 }
 

@@ -1,6 +1,3 @@
-# bind global variables
-utils::globalVariables(c("predicted", "residuals"))
-
 #' @title Plot predicted values and their residuals
 #' @name sjp.resid
 #'
@@ -27,7 +24,6 @@ utils::globalVariables(c("predicted", "residuals"))
 #'       values have a solid outline without filling.
 #'
 #' @examples
-#' library(sjmisc)
 #' data(efc)
 #' # fit model
 #' fit <- lm(neg_c_7 ~ c12hour + e17age + e42dep, data = efc)
@@ -41,6 +37,7 @@ utils::globalVariables(c("predicted", "residuals"))
 #' # show pattern
 #' sjp.resid(fit, remove.estimates = c("e17age", "e42dep"))$pattern
 #'
+#' @importFrom rlang .data
 #' @export
 sjp.resid <- function(fit, geom.size = 2, remove.estimates = NULL, show.lines = TRUE,
                       show.resid = TRUE, show.pred = TRUE, show.ci = F, prnt.plot = TRUE) {
@@ -49,7 +46,7 @@ sjp.resid <- function(fit, geom.size = 2, remove.estimates = NULL, show.lines = 
   if (!show.pred || !show.resid) show.lines <- FALSE
 
   # Obtain predicted and residual values
-  mydat <- stats::model.frame(fit)
+  mydat <- sjstats::model_frame(fit)
 
   # check whether estimates should be removed from plot
   if (!is.null(remove.estimates)) {
@@ -64,7 +61,7 @@ sjp.resid <- function(fit, geom.size = 2, remove.estimates = NULL, show.lines = 
   rv <- sjstats::resp_var(fit)
 
   # remove estimates, if required
-  dummy <- mydat %>% dplyr::select(keep, predicted, residuals)
+  dummy <- mydat %>% dplyr::select(keep, .data$predicted, .data$residuals)
 
   # set default variable labels, used as column names, so labelled
   # data variable labels appear in facet grid header.
@@ -75,7 +72,7 @@ sjp.resid <- function(fit, geom.size = 2, remove.estimates = NULL, show.lines = 
 
   # melt data
   mydat <- suppressWarnings(dummy %>%
-    tidyr::gather(key = "grp", value = "x", -1, -predicted, -residuals))
+    tidyr::gather(key = "grp", value = "x", -1, -.data$predicted, -.data$residuals))
 
   # melt data, build basic plot
   res.plot <- ggplot(mydat, aes_string(x = "x", y = rv)) +

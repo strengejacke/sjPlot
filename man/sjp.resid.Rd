@@ -52,7 +52,6 @@ The actual (observed) values have a coloured fill, while the predicted
       values have a solid outline without filling.
 }
 \examples{
-library(sjmisc)
 data(efc)
 # fit model
 fit <- lm(neg_c_7 ~ c12hour + e17age + e42dep, data = efc)

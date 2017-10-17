@@ -274,6 +274,10 @@ sjp.int <- function(fit,
                     facet.grid = FALSE,
                     prnt.plot = TRUE,
                     ...) {
+
+  if (stats::runif(1) < .2)
+    message("`sjp.int()` will become deprecated in the future. Please use `plot_model()` instead.")
+
   # -----------------------------------------------------------
   # match arguments
   # -----------------------------------------------------------
