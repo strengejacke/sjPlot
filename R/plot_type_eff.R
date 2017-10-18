@@ -30,6 +30,9 @@ plot_type_eff <- function(type,
     )
   }
 
+  # select color palette
+  geom.colors <- col_check2(geom.colors, dplyr::n_distinct(dat$group))
+
   p <- graphics::plot(
     dat,
     ci = !is.na(ci.lvl),
