@@ -32,7 +32,6 @@ utils::globalVariables(c("pv", "xv"))
 #'           was used for setting up the ggplot-object (\code{df}).
 #'
 #' @examples
-#' library(sjmisc)
 #' data(efc)
 #' # note: "var.grp" does not need to be a factor.
 #' # coercion to factor is done by the function

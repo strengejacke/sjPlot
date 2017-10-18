@@ -146,7 +146,6 @@ sjt.stackfrq(likert_4, value.labels = levels_4, var.labels = items)
 # Data from the EUROFAMCARE sample dataset
 # Auto-detection of labels
 # -------------------------------
-library(sjmisc)
 data(efc)
 # recveive first item of COPE-index scale
 start <- which(colnames(efc) == "c82cop1")

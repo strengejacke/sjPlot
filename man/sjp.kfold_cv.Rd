@@ -43,7 +43,6 @@ This function, first, generates \code{k} cross-validated test-training
 Currently, only linear, poisson and negative binomial regression models are supported.
 }
 \examples{
-library(sjmisc)
 data(efc)
 
 sjp.kfold_cv(efc, neg_c_7 ~ e42dep + c172code + c12hour)

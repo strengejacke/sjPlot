@@ -146,7 +146,6 @@ The p-value for Cramer's V and the Phi coefficient are based
 }
 \examples{
 # prepare sample data set
-library(sjmisc)
 data(efc)
 
 # print simple cross table with labels

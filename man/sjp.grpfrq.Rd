@@ -198,8 +198,6 @@ Plot grouped or stacked frequencies of variables as bar/dot,
          }
 }
 \examples{
-# histrogram with EUROFAMCARE sample dataset
-library(sjmisc)
 data(efc)
 sjp.grpfrq(efc$e17age, efc$e16sex, show.values = FALSE)
 

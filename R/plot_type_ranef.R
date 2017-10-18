@@ -8,7 +8,6 @@
 #' @importFrom sjmisc remove_var
 plot_type_ranef <- function(model,
                             dat,
-                            type,
                             ri.nr,
                             ci.lvl,
                             tf,

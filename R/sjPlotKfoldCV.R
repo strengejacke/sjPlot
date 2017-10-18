@@ -34,7 +34,6 @@ utils::globalVariables(c("train", "model", "test", ".response", "sse", "sst"))
 #' @note Currently, only linear, poisson and negative binomial regression models are supported.
 #'
 #' @examples
-#' library(sjmisc)
 #' data(efc)
 #'
 #' sjp.kfold_cv(efc, neg_c_7 ~ e42dep + c172code + c12hour)

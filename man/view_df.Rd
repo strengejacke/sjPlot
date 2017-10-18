@@ -118,7 +118,6 @@ See 'Notes' in \code{\link{sjt.frq}}.
 \examples{
 \dontrun{
 # init dataset
-library(sjmisc)
 data(efc)
 
 # view variables

@@ -146,7 +146,6 @@ Note that only even numbers of categories are possible to plot, so the "positive
        with the \code{catcount}-argument.
 }
 \examples{
-# Data from the EUROFAMCARE sample dataset
 library(sjmisc)
 data(efc)
 # find all variables from COPE-Index, which all have a "cop" in their

@@ -16,7 +16,6 @@
 #'          To arrange these plots as grid as a single plot, use \code{plot_grid}.
 #'
 #' @examples
-#' library(sjmisc)
 #' data(efc)
 #' # fit model
 #' fit <- lm(tot_sc_e ~ c12hour + e17age + e42dep + neg_c_7, data = efc)

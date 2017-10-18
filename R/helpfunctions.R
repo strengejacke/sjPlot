@@ -433,21 +433,6 @@ get.encoding <- function(encoding, data = NULL) {
 }
 
 
-# check whether a color value is indicating
-# a color brewer palette
-is.brewer.pal <- function(pal) {
-  bp.seq <- c("BuGn", "BuPu", "GnBu", "OrRd", "PuBu", "PuBuGn", "PuRd", "RdPu",
-              "YlGn", "YlGnBu", "YlOrBr", "YlOrRd", "Blues", "Greens", "Greys",
-              "Oranges", "Purples", "Reds")
-  bp.div <- c("BrBG", "PiYG", "PRGn", "PuOr", "RdBu", "RdGy", "RdYlBu",
-              "RdYlGn", "Spectral")
-  bp.qul <- c("Accent", "Dark2", "Paired", "Pastel1", "Pastel2", "Set1",
-              "Set2", "Set3")
-  bp <- c(bp.seq, bp.div, bp.qul)
-  pal %in% bp
-}
-
-
 # Calculate statistics of cross tabs
 #' @importFrom stats chisq.test fisher.test xtabs
 crosstabsum <- function(x, grp, weight.by) {
@@ -623,11 +608,6 @@ retrieveModelGroupIndices <- function(models, rem_rows = NULL) {
   return(list(group.pred.rows,
               group.pred.span,
               group.pred.labs))
-}
-
-
-is_merMod <- function(fit) {
-  return(inherits(fit, c("lmerMod", "glmerMod", "nlmerMod", "merModLmerTest")))
 }
 
 
@@ -846,15 +826,4 @@ sju.rmspc <- function(html.table) {
   cleaned <- gsub("    <", "<", cleaned, fixed = TRUE, useBytes = TRUE)
   cleaned <- gsub("  <", "<", cleaned, fixed = TRUE, useBytes = TRUE)
   return(cleaned)
-}
-
-
-get_p_stars <- function(pval) {
-  dplyr::case_when(
-    is.na(pval) ~ "",
-    pval < 0.001 ~ "***",
-    pval < 0.01 ~ "**",
-    pval < 0.05 ~ "*",
-    TRUE ~ ""
-  )
 }

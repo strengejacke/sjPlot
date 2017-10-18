@@ -41,7 +41,6 @@ utils::globalVariables(c("dep", "n"))
 #'            and \code{y} for each \code{groups}.
 #'
 #' @examples
-#' library(sjmisc)
 #' data(efc)
 #'
 #' # the proportion of dependency levels in female

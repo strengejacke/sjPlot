@@ -67,7 +67,6 @@ utils::globalVariables(c("offset"))
 #'           \code{df.pos} for the positive values and \code{df.neutral} for the neutral category values).
 #'
 #' @examples
-#' # Data from the EUROFAMCARE sample dataset
 #' library(sjmisc)
 #' data(efc)
 #' # find all variables from COPE-Index, which all have a "cop" in their

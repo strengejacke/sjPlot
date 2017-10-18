@@ -62,7 +62,6 @@
 #'          }
 #'
 #' @examples
-#' library(sjmisc)
 #' library(dplyr)
 #' data(efc)
 #'

@@ -47,7 +47,6 @@
 #'       from the psych package.
 #'
 #' @examples
-#' library(sjmisc)
 #' library(GPArotation)
 #' data(efc)
 #' # recveive first item of COPE-index scale

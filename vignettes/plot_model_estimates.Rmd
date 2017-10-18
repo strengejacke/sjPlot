@@ -19,6 +19,7 @@ This document describes how to plot estimates as forest plots (or dot whisker pl
 ```{r results='hide'}
 library(sjPlot)
 library(sjlabelled)
+library(sjmisc)
 library(ggplot2)
 
 data(efc)
@@ -136,15 +137,15 @@ For linear models, you can also plot standardized beta coefficients, using `type
 plot_model(m2, type = "std")
 ```
 
-## Bayesian models from rstanarm
+## Bayesian models (fitted with Stan)
 
-`plot_model()` also supports stan-models fitted with the **rstanarm** package. However, there are a few differences compared to the previous plot examples.
+`plot_model()` also supports stan-models fitted with the **rstanarm** or **brms** packages. However, there are a few differences compared to the previous plot examples.
 
 First, of course, there are no _confidence intervals_, but _uncertainty intervals_ - high density intervals, to be precise.
 
-Second, there's not just one interval range, but an inner and outer probability. By default, the inner probability is fixed to `.5`, while the outer probability is specified via `ci.lvl`. However, you can also use the arguments `prob.inner` and `prob.outer` to define the intervals boundaries.
+Second, there's not just one interval range, but an _inner_ and _outer_ probability. By default, the inner probability is fixed to `.5` (50%), while the outer probability is specified via `ci.lvl` (which defaults to `.89` (89%) for Bayesian models). However, you can also use the arguments `prob.inner` and `prob.outer` to define the intervals boundaries.
 
-Third, the point estimate is by default the median, but can also be another value, like mean. This can be specified with the `bpe`-argument.
+Third, the point estimate is by default the _median_, but can also be another value, like mean. This can be specified with the `bpe`-argument.
 
 ```{r results='hide'}
 library(rstanarm)
@@ -166,11 +167,26 @@ plot_model(
 
 ## Tweaking plot appearance
 
+There are several options to customize the plot appearance:
+
+  * The `colors`-argument either takes the name of a valid [colorbrewer palette](http://colorbrewer2.org) (see also the related [vignette](custplot.html)), `"bw"` or `"gs"` for black/white or greyscaled colors, or a string with a color name.
+  * `value.offset` and `value.size` adjust the positioning and size of value labels, if shown.
+  * `dot.size` and `line.size` change the size of dots and error bars.
+  * `vline.color` changes the neutral "intercept" line.
+  * `width`, `alpha` and `scale` are passed down to certain ggplot-geoms, like `geom_errorbar()` or `geom_density_ridges()`.
+
 ```{r}
-# keep only coefficients sex2, dep2 and dep3
-plot_model(m1, terms = c("sex2", "dep2", "dep3"))
-# remove coefficients sex2, dep2 and dep3
-plot_model(m1, rm.terms = c("sex2", "dep2", "dep3"))
+plot_model(
+  m1, 
+  colors = "Accent", 
+  show.values = TRUE,
+  value.offset = .4,
+  value.size = 4,
+  dot.size = 3,
+  line.size = 1.5,
+  vline.color = "blue",
+  width = 1.5
+)
 ```
 
 # References

@@ -70,7 +70,6 @@
 #'
 #' @examples
 #' # prepare sample data set
-#' library(sjmisc)
 #' data(efc)
 #'
 #' # print simple cross table with labels

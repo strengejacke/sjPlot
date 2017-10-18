@@ -78,7 +78,6 @@ The \code{...}-argument is used, first, to specify the variables from \code{data
       with up to two grouping variables. Plots are created for each subgroup then.
 }
 \examples{
-library(sjmisc)
 library(dplyr)
 data(efc)
 

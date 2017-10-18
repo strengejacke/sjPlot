@@ -139,8 +139,6 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'          }
 #'
 #' @examples
-#' # histrogram with EUROFAMCARE sample dataset
-#' library(sjmisc)
 #' data(efc)
 #' sjp.grpfrq(efc$e17age, efc$e16sex, show.values = FALSE)
 #'

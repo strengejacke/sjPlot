@@ -57,7 +57,6 @@
 #' @examples
 #' \dontrun{
 #' # init dataset
-#' library(sjmisc)
 #' data(efc)
 #'
 #' # view variables

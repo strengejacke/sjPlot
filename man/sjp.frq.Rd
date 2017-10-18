@@ -191,35 +191,25 @@ This function only works with variables with integer values (or numeric
         with decimals may result in unexpected behaviour.
 }
 \examples{
-# Using EUROFAMCARE sample dataset
-# dataset was importet from an SPSS-file, using:
-# efc <- sjlabelled::read_spss("efc.sav", enc = "UTF-8")
-library(sjmisc)
 library(sjlabelled)
 data(efc)
 
 # boxplot
-sjp.frq(ChickWeight$weight, type = "box")
+sjp.frq(efc$e17age, type = "box")
 
 # histogram
 sjp.frq(efc$e17age, type = "hist", show.mean = TRUE)
 
 # violin plot
-sjp.frq(ChickWeight$weight, type = "v")
+sjp.frq(efc$e17age, type = "v")
 
 # bar plot
-sjp.frq(ChickWeight$Diet)
-
-# you may use set_theme() here to change axis textangle
-sjp.frq(efc$e15relat)
+sjp.frq(efc$e42dep)
 
 # grouped variable
 ageGrp <- group_var(efc$e17age)
 ageGrpLab <- group_labels(efc$e17age)
 sjp.frq(ageGrp, title = get_label(efc$e17age), axis.labels = ageGrpLab)
-
-# negative impact scale, ranging from 7-28
-sjp.frq(efc$neg_c_7)
 
 # plotting confidence intervals. expand grid and v/hjust for text labels
 sjp.frq(

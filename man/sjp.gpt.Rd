@@ -103,7 +103,6 @@ The p-values are based on \code{\link[stats]{chisq.test}} of \code{x}
            and \code{y} for each \code{groups}.
 }
 \examples{
-library(sjmisc)
 data(efc)
 
 # the proportion of dependency levels in female

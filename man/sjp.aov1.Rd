@@ -99,7 +99,6 @@ Plot One-Way-Anova table sum of squares (SS) of each factor level (group)
                the model summary.
 }
 \examples{
-library(sjmisc)
 data(efc)
 # note: "var.grp" does not need to be a factor.
 # coercion to factor is done by the function

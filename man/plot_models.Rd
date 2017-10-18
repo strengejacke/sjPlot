@@ -27,7 +27,7 @@ May also be a \code{list} with fitted models. See 'Examples'.}
 \item{transform}{A character vector, naming a function that will be applied
 on estimates and confidence intervals. By default, \code{transform} will
 automatically use \code{"exp"} as transformation for applicable classes
-of \code{fit} (e.g. logistic or poisson regression). Estimates of linear
+of \code{model} (e.g. logistic or poisson regression). Estimates of linear
 models remain untransformed. Use \code{NULL} if you want the raw, non-transformed
 estimates.}
 
@@ -43,8 +43,7 @@ be used for plotting. Default is no standardization.
 be removed from the plot. Counterpart to \code{terms}.
 \code{rm.terms = "t_name"} would remove the term \emph{t_name}.
 Default is \code{NULL}, i.e. all terms are used. Note that this
-argument does not apply to \code{type = "eff"}, \code{type = "pred"}
-or \code{type = "int"}.}
+argument does not apply to \emph{Marginal Effects} plots.}
 
 \item{title}{Character vector, used as plot title. By default,
 \code{\link[sjlabelled]{get_dv_labels}} is called to retrieve the
@@ -67,7 +66,7 @@ indicates the p-values. Default is \code{"p-level"}. Only applies if
 axis labels. By default, \code{\link[sjlabelled]{get_term_labels}} is
 called to retrieve the labels of the coefficients, which will be used as
 axis labels. Use \code{axis.labels = ""} or \code{auto.label = FALSE}
-to use the bare term names as labels instead.}
+to use the variable names as labels instead.}
 
 \item{axis.title}{Character vector of length one or two (depending on
 the plot function and type), used as title(s) for the x and y axis.
@@ -100,7 +99,7 @@ i.e. at every \code{grid.breaks}'th position a major grid is plotted.}
 plotted fitted models. Default is 0.3.}
 
 \item{colors}{May be a character vector of color values in hex-format, valid
-color value names (see \code{demo("colors")} or a name of a
+color value names (see \code{demo("colors")}) or a name of a
 \href{http://colorbrewer2.org}{color brewer} palette. Following options
 are valid for the \code{colors} argument:
 \itemize{

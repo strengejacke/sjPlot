@@ -1,6 +1,11 @@
 #' @importFrom sjstats model_frame
-plot_type_int <- function(type,
-                          model,
+#' @importFrom stats formula sd quantile
+#' @importFrom purrr map map_lgl map_chr
+#' @importFrom sjmisc trim is_empty str_contains
+#' @importFrom dplyr select n_distinct
+#' @importFrom ggeffects ggpredict
+#' @importFrom graphics plot
+plot_type_int <- function(model,
                           mdrt.values,
                           ci.lvl,
                           pred.type,
@@ -13,9 +18,11 @@ plot_type_int <- function(type,
                           case,
                           ...) {
 
-  # get interaction terms
-  it <- stats::terms(model)
-  int.terms <- attr(it, "order", exact = TRUE) > 1
+  # find right hand side of formula, to extract interaction terms
+  rhs <- unlist(strsplit(as.character(stats::formula(model))[3], "+", fixed = TRUE))
+
+  # interaction terms are separated with ":"
+  int.terms <- purrr::map_lgl(rhs, ~ sjmisc::str_contains(.x, "*"))
 
 
   # stop if no interaction found
@@ -26,10 +33,10 @@ plot_type_int <- function(type,
 
   # get interaction terms and model frame
 
-  ia.terms <- attr(it, "term.labels", exact = TRUE)[int.terms]
-  ia.terms <- purrr::map(ia.terms, ~ sjmisc::trim(unlist(strsplit(.x, ":", fixed = TRUE))))
+  ia.terms <- purrr::map(rhs[int.terms], ~ sjmisc::trim(unlist(strsplit(.x, "*", fixed = TRUE))))
   mf <- sjstats::model_frame(model)
 
+  pl <- list()
 
   # intertate interaction terms
 
@@ -45,23 +52,69 @@ plot_type_int <- function(type,
     check_cont <- ia[-1][!find.fac[2:length(find.fac)]]
 
 
-    # for quartiles used as moderator values, make sure
-    # that the variable's range is large enough to compute
-    # quartiles
+    # if we have just categorical as interaction terms,
+    # we plot all category values
 
-    mdrt.val <- mv_check(mdrt.values = mdrt.values, dplyr::select(mf, !! check_cont))
+    if (!sjmisc::is_empty(check_cont)) {
+
+      # get data from continuous interaction terms. we
+      # need this to compute the specific values that
+      # should be used as group characteristic for the plot
+
+      cont_terms <- dplyr::select(mf, !! check_cont)
 
 
+      # for quartiles used as moderator values, make sure
+      # that the variable's range is large enough to compute
+      # quartiles
 
+      mdrt.val <- mv_check(mdrt.values = mdrt.values, cont_terms)
+
+      # prepare terms for ggpredict()-call. terms is a character-vector
+      # with term name and values to plot in square brackets
+
+      terms <- purrr::map_chr(check_cont, function(x) {
+        if (mdrt.val == "minmax") {
+          sprintf("%s [%i,%i]",
+                  x,
+                  min(cont_terms[[x]], na.rm = TRUE),
+                  max(cont_terms[[x]], na.rm = TRUE))
+        } else if (mdrt.val == "meansd") {
+          mw <- mean(cont_terms[[x]], na.rm = TRUE)
+          sabw <- stats::sd(cont_terms[[x]], na.rm = TRUE)
+          sprintf("%s [%.2f,%.2f,%.2f]", x, mw, mw - sabw, mw + sabw)
+        } else if (mdrt.val == "zeromax") {
+          sprintf("%s [0,%i]", x, max(cont_terms[[x]], na.rm = TRUE))
+        } else if (mdrt.val == "quart") {
+          qu <- as.vector(stats::quantile(cont_terms[[x]], na.rm = T))
+          sprintf("%s [%.2f,%.2f,%.2f]", x, qu[3], qu[2], qu[4])
+        } else {
+          x
+        }
+      })
+
+      ia[match(check_cont, ia)] <- terms
+    }
+
+
+    # compute marginal effects for interaction terms
 
     dat <- ggeffects::ggpredict(
       model = model,
-      terms = terms,
+      terms = ia,
       ci.lvl = ci.lvl,
       type = pred.type,
       full.data = FALSE,
       ...
     )
+
+
+    # select color palette
+
+    geom.colors <- col_check2(geom.colors, dplyr::n_distinct(dat$group))
+
+
+    # save plot of marginal effects for interaction terms
 
     p <- graphics::plot(
       dat,
@@ -91,20 +144,21 @@ plot_type_int <- function(type,
     # set axis limits
     if (!is.null(axis.lim)) {
       if (is.list(axis.lim))
-        p <- p + xlim(axis.lim[[1]]) + + ylim(axis.lim[[2]])
+        p <- p + xlim(axis.lim[[1]]) + ylim(axis.lim[[2]])
       else
         p <- p + ylim(axis.lim)
     }
 
 
-    p
+    # add plot result to final return value
 
+    if (length(ia.terms) == 1)
+      pl <- p
+    else
+      pl[[length(pl) + 1]] <- p
   }
 
-
-
-
-  p
+  pl
 }
 
 

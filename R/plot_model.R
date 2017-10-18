@@ -8,7 +8,7 @@
 #'    kinds of models are supported, e.g. from packages like \pkg{stats},
 #'    \pkg{lme4}, \pkg{nlme}, \pkg{rstanarm}, \pkg{survey}, \pkg{glmmTMB},
 #'    \pkg{MASS}, \pkg{brms} etc.
-#' @param type Type of plot. There are three higher groups of plot-tyes:
+#' @param type Type of plot. There are three groups of plot-types:
 #'    \cr \cr
 #'    \emph{Coefficients}
 #'    \describe{
@@ -25,14 +25,14 @@
 #'    }
 #'    \emph{Model diagnostics}
 #'    \describe{
-#'      \item{\code{type = "slope"}}{slope of coefficients for each single predictor, against the response (linear relationship between each model term and response).}
-#'      \item{\code{type = "resid"}}{slope of coefficients for each single predictor, against the residuals (linear relationship between each model term and residuals).}
+#'      \item{\code{type = "slope"}}{Slope of coefficients for each single predictor, against the response (linear relationship between each model term and response).}
+#'      \item{\code{type = "resid"}}{Slope of coefficients for each single predictor, against the residuals (linear relationship between each model term and residuals).}
 #'      \item{\code{type = "diag"}}{Check model assumptions.}
 #'    }
 #' @param transform A character vector, naming a function that will be applied
 #'    on estimates and confidence intervals. By default, \code{transform} will
 #'    automatically use \code{"exp"} as transformation for applicable classes
-#'    of \code{fit} (e.g. logistic or poisson regression). Estimates of linear
+#'    of \code{model} (e.g. logistic or poisson regression). Estimates of linear
 #'    models remain untransformed. Use \code{NULL} if you want the raw, non-transformed
 #'    estimates.
 #' @param terms Character vector with the names of those terms from \code{model}
@@ -47,7 +47,8 @@
 #'        should be displayed. At least one term is required to calculate
 #'        effects, maximum length is three terms, where the second and
 #'        third term indicate the groups, i.e. predictions of first term
-#'        are grouped by the levels of the second (and third) term.
+#'        are grouped by the levels of the second (and third) term. \code{terms}
+#'        may also indicate higher order terms (e.g. interaction terms).
 #'        Indicating levels in square brackets allows for selecting only
 #'        specific groups. Term name and levels in brackets must be separated
 #'        by a whitespace character, e.g. \code{terms = c("age", "education [1,3]")}.
@@ -65,8 +66,7 @@
 #'    be removed from the plot. Counterpart to \code{terms}.
 #'    \code{rm.terms = "t_name"} would remove the term \emph{t_name}.
 #'    Default is \code{NULL}, i.e. all terms are used. Note that this
-#'    argument does not apply to \code{type = "eff"}, \code{type = "pred"}
-#'    or \code{type = "int"}.
+#'    argument does not apply to \emph{Marginal Effects} plots.
 #' @param group.terms Numeric vector with group indices, to group coefficients.
 #'    Each group of coefficients gets its own color (see 'Examples').
 #' @param order.terms Numeric vector, indicating in which order the coefficients
@@ -77,7 +77,7 @@
 #'    conditioned on random effects (\code{pred.type = "re"}) or fixed effects
 #'    only (\code{pred.type = "fe"}, the default).
 #' @param mdrt.values Indicates which values of the moderator variable should be
-#'    used when plotting the interaction effects.
+#'    used when plotting interaction terms (i.e. \code{type = "int"}).
 #'    \describe{
 #'      \item{\code{"minmax"}}{(default) minimum and maximum values (lower and upper bounds) of the moderator are used to plot the interaction between independent variable and moderator(s).}
 #'      \item{\code{"meansd"}}{uses the mean value of the moderator as well as one standard deviation below and above mean value to plot the effect of the moderator on the independent variable (following the convention suggested by Cohen and Cohen and popularized by Aiken and West, i.e. using the mean, the value one standard deviation above, and the value one standard deviation below the mean as values of the moderator, see \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin K: 3 Tips to Make Interpreting Moderation Effects Easier}).}
@@ -85,11 +85,11 @@
 #'      \item{\code{"quart"}}{calculates and uses the quartiles (lower, median and upper) of the moderator value.}
 #'      \item{\code{"all"}}{uses all values of the moderator variable.}
 #'    }
-#' @param ri.nr Numeric vector. If \code{type = "re"} or \code{type = "ri.slope"},
-#'    and fitted model has more than one random intercept, \code{ri.nr} indicates
-#'    which random effects of which random intercept (or: which list elements
-#'    of \code{\link[lme4]{ranef}}) will be plotted. Default is \code{NULL},
-#'    so all random effects will be plotted.
+#' @param ri.nr Numeric vector. If \code{type = "re"} and fitted model has more
+#'    than one random intercept, \code{ri.nr} indicates which random effects of
+#'    which random intercept (or: which list elements of \code{\link[lme4]{ranef}})
+#'    will be plotted. Default is \code{NULL}, so all random effects will be
+#'    plotted.
 #' @param title Character vector, used as plot title. By default,
 #'    \code{\link[sjlabelled]{get_dv_labels}} is called to retrieve the
 #'    label of the dependent variable, which will be used as title. Use
@@ -105,7 +105,7 @@
 #'    axis labels. By default, \code{\link[sjlabelled]{get_term_labels}} is
 #'    called to retrieve the labels of the coefficients, which will be used as
 #'    axis labels. Use \code{axis.labels = ""} or \code{auto.label = FALSE}
-#'    to use the bare term names as labels instead.
+#'    to use the variable names as labels instead.
 #' @param axis.lim Numeric vector of length 2, defining the range of the plot
 #'    axis. Depending on plot-type, may effect either x- or y-axis. For
 #'    \emph{Marginal Effects} plots, \code{axis.lim} may also be a list of two
@@ -135,7 +135,7 @@
 #' @param dot.size Numeric, size of the dots that indicate the point estimates.
 #' @param line.size Numeric, size of the lines that indicate the error bars.
 #' @param colors May be a character vector of color values in hex-format, valid
-#'    color value names (see \code{demo("colors")} or a name of a
+#'    color value names (see \code{demo("colors")}) or a name of a
 #'    \href{http://colorbrewer2.org}{color brewer} palette. Following options
 #'    are valid for the \code{colors} argument:
 #'    \itemize{
@@ -190,14 +190,14 @@
 #'        outer probability).
 #'      }
 #'      \item{\code{size.inner}}{
-#'        For \strong{Stan}-models and coefficients plot-types, you
+#'        For \strong{Stan}-models and \emph{Coefficients} plot-types, you
 #'        can specify the width of the bar for the inner probabilities.
 #'        Default is \code{0.1}.
 #'      }
 #'      \item{\code{width}, \code{alpha} and \code{scale}}{
 #'        Passed down to \code{geom_errorbar()} or \code{geom_density_ridges()},
 #'        for forest or diagnostic plots; or passed down to
-#'        \code{\link[ggeffects]{plot.ggeffects}} for marginal effects plots.
+#'        \code{\link[ggeffects]{plot.ggeffects}} for \emph{Marginal Effects} plots.
 #'      }
 #'      \item{\code{show.loess}}{
 #'        Logical, for diagnostic plot-types \code{"slope"} and \code{"resid"},
@@ -231,16 +231,21 @@
 #'       the \pkg{arm}-package.
 #'     }
 #'     \item{\code{type = "pred"}}{
-#'       Plots marginal effetcs. Simply wraps \code{\link[ggeffects]{ggpredict}}.
+#'       Plots marginal effects. Simply wraps \code{\link[ggeffects]{ggpredict}}.
 #'     }
 #'     \item{\code{type = "eff"}}{
-#'       Plots marginal effetcs. Simply wraps \code{\link[ggeffects]{ggeffect}}.
+#'       Plots marginal effects. Simply wraps \code{\link[ggeffects]{ggeffect}}.
+#'     }
+#'     \item{\code{type = "int"}}{
+#'       A shortcut for marginal effects plots, where interaction terms are
+#'       automatically detected and used as `terms`-argument. Then,
+#'       \code{\link[ggeffects]{ggpredict}} is called.
 #'     }
 #'   }
 #'
 #' @note \code{plot_model()} replaces the functions \code{sjp.lm}, \code{sjp.glm},
-#'   \code{sjp.lmer} and \code{sjp.glmer}. These are becoming softly deprecated
-#'   and will be removed in a future update.
+#'   \code{sjp.lmer}, \code{sjp.glmer} and \code{sjp.int}. These are becoming
+#'   softly deprecated and will be removed in a future update.
 #'
 #' @references Gelman A (2008) "Scaling regression inputs by dividing by two standard deviations." \emph{Statistics in Medicine 27: 2865–2873.} \url{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}
 #'
@@ -258,6 +263,12 @@
 #'
 #' # grouped coefficients
 #' plot_model(m, group.terms = c(1, 2, 3, 3, 3, 4, 4))
+#'
+#' # multiple plots, as returned from "diagnostic"-plot type,
+#' # can be arranged with 'plot_grid()'
+#' \dontrun{
+#' p <- plot_model(m, type = "diag")
+#' plot_grid(p)}
 #'
 #' # plot random effects
 #' library(lme4)
@@ -389,9 +400,9 @@ plot_model <- function(model,
 
   # check if plot-type is applicable
 
-  if (type %in% c("slope", "resid") && !fam.info$is_linear) {
+  if (type == "slope" && !fam.info$is_linear) {
     type <- "est"
-    message("Plot-types \"slope\" and \"resid\" only available for linear models. Using `type = \"est\"` now.")
+    message("Plot-type \"slope\" only available for linear models. Using `type = \"est\"` now.")
   }
 
 
@@ -435,7 +446,6 @@ plot_model <- function(model,
 
     p <- plot_type_ranef(
       model = model,
-      type = type,
       ri.nr = ri.nr,
       ci.lvl = ci.lvl,
       tf = transform,
@@ -480,7 +490,6 @@ plot_model <- function(model,
     # plot interaction terms ----
 
     p <- plot_type_int(
-      type = type,
       model = model,
       mdrt.values = mdrt.values,
       ci.lvl = ci.lvl,
@@ -519,6 +528,7 @@ plot_model <- function(model,
     # plot diagnostic plots ----
 
     if (is.stan(model)) {
+
       p <- plot_diag_stan(
         model = model,
         geom.colors = colors,
@@ -526,8 +536,17 @@ plot_model <- function(model,
         ...
       )
 
-    } else {
+    } else if (fam.info$is_linear) {
 
+      p <- plot_diag_linear(
+        model = model,
+        geom.colors = colors,
+        ...
+      )
+
+    } else {
+      message("Not implemented yet.")
+      p <- NULL
     }
 
   }
