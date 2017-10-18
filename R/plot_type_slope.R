@@ -3,6 +3,7 @@
 #' @importFrom sjmisc str_contains is_empty
 #' @importFrom stats formula residuals
 #' @importFrom dplyr filter
+#' @importFrom tibble has_name
 plot_type_slope <- function(model,
                             terms,
                             rm.terms,
@@ -10,6 +11,7 @@ plot_type_slope <- function(model,
                             colors,
                             show.data,
                             facets,
+                            axis.title,
                             case,
                             useResiduals,
                             ...) {
@@ -84,18 +86,27 @@ plot_type_slope <- function(model,
   # iterate all predictors
 
   mydat <- purrr::map_df(predvars, function(p_v) {
-    if (useResiduals) {
-      tibble::tibble(
-        x = sjlabelled::as_numeric(model_data[[p_v]]),
-        y = stats::residuals(model),
-        group = sjlabelled::get_label(model_data[[p_v]], def.value = p_v, case = case)
-      )
-    } else {
-      tibble::tibble(
-        x = sjlabelled::as_numeric(model_data[[p_v]]),
-        y = sjstats::resp_val(model),
-        group = sjlabelled::get_label(model_data[[p_v]], def.value = p_v, case = case)
-      )
+
+    # make sure we have the variable in our data. for mixed
+    # models, we might have some random effects which were not
+    # in the model frame
+
+    if (tibble::has_name(model_data, p_v)) {
+
+      if (useResiduals) {
+        tibble::tibble(
+          x = sjlabelled::as_numeric(model_data[[p_v]]),
+          y = stats::residuals(model),
+          group = sjlabelled::get_label(model_data[[p_v]], def.value = p_v, case = case)
+        )
+      } else {
+        tibble::tibble(
+          x = sjlabelled::as_numeric(model_data[[p_v]]),
+          y = sjstats::resp_val(model),
+          group = sjlabelled::get_label(model_data[[p_v]], def.value = p_v, case = case)
+        )
+      }
+
     }
   })
 
@@ -124,7 +135,7 @@ plot_type_slope <- function(model,
 
 
     # set plot labs
-    p <- p + labs(y = response)
+    p <- p + labs(x = NULL, y = response)
 
   } else {
 
@@ -150,13 +161,25 @@ plot_type_slope <- function(model,
         pl <- pl + geom_point(alpha = .2, colour = pointColor, shape = 16)
 
 
-      # set plot labs
+      # set plot labs. check if we have custom axis titles
+
+      if (!is.null(axis.title)) {
+
+        if (is.list(axis.title)) {
+          xt <- axis.title[[length(p) + 1]][1]
+          yt <- axis.title[[length(p) + 1]][2]
+        } else {
+          xt <- axis.title[1]
+          yt <- axis.title[2]
+        }
+
+      } else {
+        xt <- p_v
+        yt <- response
+      }
 
       pl <- pl +
-        labs(
-          x = sjlabelled::get_label(model_data[[p_v]], def.value = p_v, case = case),
-          y = response
-        )
+        labs(x = xt, y = yt)
 
 
       # add plot object to list

@@ -358,7 +358,7 @@ plot_model <- function(model,
   # this is not appropriate when plotting random effects,
   # so retrieve labels only for other plot types
 
-  if (type != "re" && isTRUE(auto.label)) {
+  if (!(type %in% c("re", "slope", "resid")) && isTRUE(auto.label)) {
 
     # get labels of dependent variables, and wrap them if too long
     if (is.null(title)) title <- sjlabelled::get_dv_labels(model, case = case)
@@ -518,6 +518,7 @@ plot_model <- function(model,
       title = title,
       show.data = show.data,
       facets = grid,
+      axis.title = axis.title,
       case = case,
       useResiduals = type == "resid",
       ...
