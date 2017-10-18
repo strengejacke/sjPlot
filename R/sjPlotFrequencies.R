@@ -75,6 +75,7 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' # bar plot
 #' sjp.frq(efc$e42dep)
 #'
+#' library(sjmisc)
 #' # grouped variable
 #' ageGrp <- group_var(efc$e17age)
 #' ageGrpLab <- group_labels(efc$e17age)

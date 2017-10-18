@@ -143,6 +143,7 @@
 #'      \item If \code{"gs"}, a greyscale will be used.
 #'      \item If \code{"bw"}, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see \href{../doc/blackwhitefigures.html}{this package-vignette}).
 #'      \item If \code{colors} is any valid color brewer palette name, the related palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view all available palette names.
+#'      \item If \pkg{wesanderson} is installed, you may also specify a name of a palette from that package.
 #'      \item Else specify own color values or names as vector (e.g. \code{colors = "#00ff00"}).
 #'    }
 #' @param grid Logical, if \code{TRUE}, multiple plots are plotted as grid layout.

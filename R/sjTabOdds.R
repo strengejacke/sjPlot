@@ -961,7 +961,7 @@ sjt.glm <- function(...,
     # -------------------------------------
     if (lmerob && length(input_list) > 1) {
       # check whether we have mixed models fitted with REML
-      models.reml <- vapply(input_list, function(x) is(x, "merMod") && lme4::isREML(x), NA)
+      models.reml <- purrr::map_lgl(input_list, ~ is_merMod(.x) && lme4::isREML(.x))
       if (any(models.reml)) warning("Some models were fit with REML. To get meaningful AIC values for comparison, refit models with ML (`REML = FALSE`).", call. = F)
     }
     page.content <- paste0(page.content, "  <tr>\n    <td class=\"tdata leftalign summary\">AIC</td>")

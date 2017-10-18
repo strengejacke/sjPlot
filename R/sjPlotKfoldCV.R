@@ -1,5 +1,5 @@
 # bind global variables
-utils::globalVariables(c("train", "model", "test", ".response", "sse", "sst"))
+utils::globalVariables(c("train", "model", "test", "predicted", ".response", "sse", "sst"))
 
 #' @title Plot model fit from k-fold cross-validation
 #' @name sjp.kfold_cv

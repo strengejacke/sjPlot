@@ -22,7 +22,6 @@ Depends:
     R (>= 3.2),
     graphics,
     grDevices,
-    methods,
     stats,
     utils
 Imports:

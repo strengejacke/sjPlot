@@ -124,7 +124,7 @@ sjp.poly <- function(x,
   # --------------------------------------------
   # parameter check: fitted model or variables?
   # --------------------------------------------
-  mf <- sjstats::model_frame(x)
+  if (!is.vector(x) && !is.numeric(x) && !is.factor(x)) mf <- sjstats::model_frame(x)
 
   if (is_merMod(x)) {
     # retrieve response vector
