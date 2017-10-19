@@ -302,8 +302,16 @@ Depending on the plot-type, \code{plot_model()} returns a
     }
     \item{\code{type = "int"}}{
       A shortcut for marginal effects plots, where interaction terms are
-      automatically detected and used as `terms`-argument. Then,
-      \code{\link[ggeffects]{ggpredict}} is called.
+      automatically detected and used as `terms`-argument. Furthermore,
+      if the moderator variable (the second - and third - term in an interaction)
+      is continuous, \code{type = "int"} automatically chooses useful values
+      based on the `mdrt.values`-argument, which are passed to `terms`. Then,
+      \code{\link[ggeffects]{ggpredict}} is called. \code{type = "int"} plots
+      the interaction term that appears first in the formula along the x-axis,
+      while the second (and possibly third) variable in an interaction is
+      used as grouping factor(s) (moderating variable). Use \code{type = "pred"}
+      or \code{type = "eff"} and specify a certain order in the `terms`-argument
+      to indicate which variable(s) should be used as moderator.
     }
   }
 }
@@ -338,6 +346,23 @@ plot_model(m, type = "re")
 
 # plot marginal effects
 plot_model(m, type = "eff", terms = "Days")
+
+# plot interactions
+\dontrun{
+m <- glm(
+  tot_sc_e ~ c161sex + c172code * neg_c_7,
+  data = efc,
+  family = poisson()
+)
+# type = "int" automatically selects groups for continuous moderator
+# variables - see argument 'mdrt.values'. The following function call is
+# identical to:
+# plot_model(m, type = "pred", terms = c("c172code", "neg_c_7 [7,28]"))
+plot_model(m, type = "int")
+# switch moderator
+plot_model(m, type = "pred", terms = c("neg_c_7", "c172code"))
+# same as
+# ggeffects::ggpredict(m, terms = c("neg_c_7", "c172code"))}
 
 # plot Stan-model
 \dontrun{
