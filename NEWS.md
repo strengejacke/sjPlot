@@ -1,3 +1,9 @@
+# sjPlot 2.4.1
+
+## General
+
+* Remove unnecessary imports.
+
 # sjPlot 2.4.0
 
 ## General

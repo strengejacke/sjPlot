@@ -2,8 +2,8 @@ Package: sjPlot
 Type: Package
 Encoding: UTF-8
 Title: Data Visualization for Statistics in Social Science
-Version: 2.4.0
-Date: 2017-10-19
+Version: 2.4.0.9000
+Date: 2017-10-20
 Authors@R: c(
     person("Daniel", "Lüdecke", email = "d.luedecke@uke.de", role = c("aut", "cre")),
     person("Carsten", "Schwemmer", email = "carsten.schwemmer@uni-bamberg.de", role = "ctb")
@@ -40,7 +40,6 @@ Imports:
     merTools (>= 0.3.0),
     modelr,
     nlme,
-    prediction,
     psych,
     purrr,
     rlang,
