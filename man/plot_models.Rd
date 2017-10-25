@@ -113,8 +113,7 @@ are valid for the \code{colors} argument:
 
 \item{show.values}{Logical, whether values should be plotted or not.}
 
-\item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
-function, a legend is added to the plot.}
+\item{show.legend}{For \emph{Marginal Effects} plots, shows or hides the legend.}
 
 \item{show.intercept}{Logical, if \code{TRUE}, the intercept of the fitted
 model is also plotted. Default is \code{FALSE}. If \code{transform = "exp"},

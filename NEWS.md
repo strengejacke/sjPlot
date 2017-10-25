@@ -4,6 +4,10 @@
 
 * Remove unnecessary imports.
 
+## Changes to functions
+
+* `plot_model()` gets a `show.legend`-argument to show or hide the legend for marginal effects plots.
+
 ## Bug fixes
 
 * `view_df()` did not work with double values (with decimal points) when `show.values = TRUE`.

@@ -11,6 +11,7 @@ plot_type_eff <- function(type,
                           title,
                           axis.lim,
                           case,
+                          show.legend,
                           ...) {
   if (type == "pred") {
     dat <- ggeffects::ggpredict(
@@ -41,6 +42,7 @@ plot_type_eff <- function(type,
     colors = geom.colors,
     use.theme = FALSE,
     case = case,
+    show.legend = show.legend,
     ...
   )
 

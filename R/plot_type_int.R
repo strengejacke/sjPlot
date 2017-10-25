@@ -16,6 +16,7 @@ plot_type_int <- function(model,
                           title,
                           axis.lim,
                           case,
+                          show.legend,
                           ...) {
 
   # find right hand side of formula, to extract interaction terms
@@ -124,6 +125,7 @@ plot_type_int <- function(model,
       colors = geom.colors,
       use.theme = FALSE,
       case = case,
+      show.legend = show.legend,
       ...
     )
 

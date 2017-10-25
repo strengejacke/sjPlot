@@ -13,9 +13,9 @@ plot_model(model, type = c("est", "re", "eff", "pred", "int", "std", "std2",
   axis.labels = NULL, wrap.title = 50, wrap.labels = 25,
   axis.lim = NULL, grid.breaks = NULL, ci.lvl = NULL, colors = "Set1",
   show.intercept = FALSE, show.values = FALSE, show.p = TRUE,
-  show.data = FALSE, value.offset = NULL, value.size, digits = 2,
-  dot.size = NULL, line.size = NULL, vline.color = NULL, grid,
-  case = "parsed", auto.label = TRUE, bpe = "median",
+  show.data = FALSE, show.legend = TRUE, value.offset = NULL, value.size,
+  digits = 2, dot.size = NULL, line.size = NULL, vline.color = NULL,
+  grid, case = "parsed", auto.label = TRUE, bpe = "median",
   bpe.style = "line", ...)
 
 get_model_data(model, type = c("est", "re", "eff", "pred", "int", "std",
@@ -191,6 +191,8 @@ of estimates to the value labels.}
 
 \item{show.data}{Logical, for \emph{Marginal Effects} plots, also plots
 the raw data points.}
+
+\item{show.legend}{For \emph{Marginal Effects} plots, shows or hides the legend.}
 
 \item{value.offset}{Numeric, offset for text labels to adjust their position
 relative to the dots or lines.}

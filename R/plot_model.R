@@ -130,6 +130,7 @@
 #'    of estimates to the value labels.
 #' @param show.data Logical, for \emph{Marginal Effects} plots, also plots
 #'    the raw data points.
+#' @param show.legend For \emph{Marginal Effects} plots, shows or hides the legend.
 #' @param value.offset Numeric, offset for text labels to adjust their position
 #'    relative to the dots or lines.
 #' @param dot.size Numeric, size of the dots that indicate the point estimates.
@@ -346,6 +347,7 @@ plot_model <- function(model,
                        show.values = FALSE,
                        show.p = TRUE,
                        show.data = FALSE,
+                       show.legend = TRUE,
                        value.offset = NULL,
                        value.size,
                        digits = 2,
@@ -508,6 +510,7 @@ plot_model <- function(model,
       title = title,
       axis.lim = axis.lim,
       case = case,
+      show.legend = show.legend,
       ...
     )
 
@@ -527,6 +530,7 @@ plot_model <- function(model,
       title = title,
       axis.lim = axis.lim,
       case = case,
+      show.legend = show.legend,
       ...
     )
 
