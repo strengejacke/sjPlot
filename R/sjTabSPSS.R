@@ -75,7 +75,7 @@
 #'                    css.arc = "color:blue;"))}
 #'
 #' @importFrom utils txtProgressBar setTxtProgressBar
-#' @importFrom sjmisc is_even var_type
+#' @importFrom sjmisc is_even var_type is_float
 #' @importFrom sjlabelled get_values
 #' @export
 view_df <- function(x,
@@ -254,7 +254,10 @@ view_df <- function(x,
 
     if (is.numeric(x[[index]]) && !has_value_labels(x[[index]])) {
       if (show.values || show.labels) {
-        valstring <- paste0(sprintf("%i", range(x[[index]], na.rm = T)), collapse = "-")
+        if (sjmisc::is_float(x[[index]]))
+          valstring <- paste0(sprintf("%.1f", range(x[[index]], na.rm = T)), collapse = "-")
+        else
+          valstring <- paste0(sprintf("%i", range(x[[index]], na.rm = T)), collapse = "-")
 
         if (show.values && show.labels) {
           colsp <- " colspan=\"2\""

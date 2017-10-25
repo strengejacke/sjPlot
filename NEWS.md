@@ -4,6 +4,12 @@
 
 * Remove unnecessary imports.
 
+## Bug fixes
+
+* `view_df()` did not work with double values (with decimal points) when `show.values = TRUE`.
+* `plot_models()` did not properly remove intercepts from output for survey models, when `show.intercept = FALSE`.
+* `plot_models()` did not automatically transform axis for all applicable model types.
+
 # sjPlot 2.4.0
 
 ## General
