@@ -13,6 +13,7 @@
 * `view_df()` did not work with double values (with decimal points) when `show.values = TRUE`.
 * `plot_models()` did not properly remove intercepts from output for survey models, when `show.intercept = FALSE`.
 * `plot_models()` did not automatically transform axis for all applicable model types.
+* `get_model_data()` did not work for marginal effects plots.
 
 # sjPlot 2.4.0
 
