@@ -93,6 +93,7 @@
 #' @import ggplot2
 #' @importFrom scales grey_pal brewer_pal
 #' @importFrom stats lm glm binomial predict poly
+#' @importFrom graphics plot
 #' @export
 sjp.poly <- function(x,
                      poly.term,
@@ -218,7 +219,7 @@ sjp.poly <- function(x,
   # ---------------------------------------------------------
   # Check whether ggplot object should be returned or plotted
   # ---------------------------------------------------------
-  if (prnt.plot) print(polyplot)
+  if (prnt.plot) graphics::plot(polyplot)
   # -------------------------------------
   # return results
   # -------------------------------------
@@ -263,5 +264,5 @@ get_loess_cutpoints <- function(mydat) {
     cnt <- cnt + 1
   }
 
-  return(data.frame(cutpoint.x = xvals, cutpoint.y = cutpoints))
+  data.frame(cutpoint.x = xvals, cutpoint.y = cutpoints)
 }

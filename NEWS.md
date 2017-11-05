@@ -3,6 +3,7 @@
 ## General
 
 * Remove unnecessary imports.
+* `sjp.lm()`, `sjp.glm()`, `sjp.lmer()`, `sjp.glmer()` and `sjp.int()` are now deprecated.
 
 ## Changes to functions
 

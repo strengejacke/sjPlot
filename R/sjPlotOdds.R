@@ -161,8 +161,7 @@ sjp.glm <- function(fit,
                     prnt.plot = TRUE,
                     ...) {
 
-  if (stats::runif(1) < .2)
-    message("`sjp.glm()` will become deprecated in the future. Please use `plot_model()` instead.")
+  .Deprecated("plot_model")
 
   # check args -----
   if (type == "pc" || type == "prob") type <- "slope"
