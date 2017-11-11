@@ -76,7 +76,6 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #'            \item{\code{"eff"}}{to plot marginal effects of all terms in \code{fit}. Note that interaction terms are excluded from this plot.}
 #'            \item{\code{"std"}}{for forest-plot of standardized beta values.}
 #'            \item{\code{"std2"}}{for forest-plot of standardized beta values, however, standardization is done by dividing by two sd (see 'Details').}
-#'            \item{\code{"slope"}}{to plot regression lines for each single predictor of the fitted model, against the response (linear relationship between each model term and response).}
 #'            \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals (linear relationship between each model term and residuals). May be used for model diagnostics.}
 #'            \item{\code{"ma"}}{to check model assumptions.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
@@ -302,6 +301,11 @@ sjp.lm <- function(fit,
 
   ## TODO activate in future update
   # .Deprecated("plot_model")
+
+  if (type == "pc" || type == "prob" || type == "slope") {
+    message("This plot type has been removed, as it was misleading. Use `plot_model` with `type = \"pred\"` to plot marginal effects, or with `type = \"slope\"` for model diagnostisc.")
+    type <- "lm"
+  }
 
   # -----------------------------------------------------------
   # remember length of predictor variables

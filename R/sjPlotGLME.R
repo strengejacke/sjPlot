@@ -23,7 +23,6 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #'            \item{\code{"fe"}}{for odds or incidents ratios of fixed effects}
 #'            \item{\code{"fe.cor"}}{for correlation matrix of fixed effects}
 #'            \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
-#'            \item{\code{"fe.slope"}}{to plot probability or incidents curves (predicted probabilities or incidents) of all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
 #'            \item{\code{"ri.slope"}}{to plot probability or incidents curves (predicted probabilities or incidents) of random intercept variances for all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
 #'            \item{\code{"rs.ri"}}{for fitted probability curves (predicted probabilities) indicating the random slope-intercept pairs. Use this to visualize the random parts of random slope-intercept (or repeated measure) models. When having too many groups, use \code{sample.n} argument.}
 #'            \item{\code{"eff"}}{to plot marginal effects of predicted probabilities or incidents for each fixed term, where remaining co-variates are set to the mean. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
@@ -279,7 +278,7 @@ sjp.glmer <- function(fit,
   # -------------------------------------
   # check for deprecated argument values
   # -------------------------------------
-  if (type == "fe.prob" || type == "fe.pc") type <- "fe.slope"
+  if (type == "fe.prob" || type == "fe.pc" ||type == "fe.slope") type <- "fe"
   if (type == "ri.prob" || type == "ri.pc" || type == "fe.ri") type <- "ri.slope"
   if (type == "y.prob" || type == "y.pc") type <- "pred"
   # -------------------------------------
@@ -404,7 +403,6 @@ sjp.glmer <- function(fit,
 #'            \item{\code{"re"}}{(default) for conditional modes of random effects as forest plot}
 #'            \item{\code{"fe"}}{for estimates of fixed effects as forest plot}
 #'            \item{\code{"fe.std"}}{for standardized estimates of fixed effects as forest plot}
-#'            \item{\code{"fe.slope"}}{to plot regression lines (slopes) with confidence intervals for each single fixed effect, i.e. all fixed terms are extracted and each is plotted against the response variable (linear relationship between each fixed term and response)}
 #'            \item{\code{"fe.resid"}}{to plot regression lines (slopes) with confidence intervals for each single fixed effect (against residuals), i.e. all fixed terms are extracted and each is plotted against the model residuals (linear relationship between each fixed term and residuals)}
 #'            \item{\code{"fe.cor"}}{for correlation matrix of fixed effects}
 #'            \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
@@ -679,7 +677,7 @@ sjp.lme4  <- function(fit,
   # -------------------------------------
   # check type
   # -------------------------------------
-  if (!(type %in% c("re", "fe", "fe.std", "fe.slope", "fe.resid", "fe.cor", "re.qq",
+  if (!(type %in% c("re", "fe", "fe.std", "fe.resid", "fe.cor", "re.qq",
                     "ri.slope", "rs.ri", "coef", "pred", "pred.fe", "poly", "eff",
                     "eff.ri", "ma"))) {
     warning("Invalid option for `type` argument. Defaulting to `type = \"fe\"` now.")

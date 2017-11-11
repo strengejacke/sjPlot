@@ -22,7 +22,6 @@ sjp.glm(fit, type = "dots", vars = NULL, group.estimates = NULL,
 \item{type}{Type of plot. Use one of following:
 \describe{
   \item{\code{"dots"}}{(or \code{"glm"} or \code{"or"} (default)) for odds or incident rate ratios (forest plot). Note that this type plots the exponentiated estimates, thus being appropriate only for specific link-functions.}
-  \item{\code{"slope"}}{to plot probability or incidents slopes (predicted probabilities or incidents) for each model term, where all remaining co-variates are set to zero (i.e. ignored). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
   \item{\code{"eff"}}{to plot marginal effects of predicted probabilities or incidents for each model term, where all remaining co-variates are set to the mean (see 'Details'). Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot.}
   \item{\code{"pred"}}{to plot predicted values for the response, related to specific model predictors. See 'Details'.}
   \item{\code{"ma"}}{to check model assumptions. Note that the only relevant argument for this option is \code{fit}. All other arguments are ignored.}

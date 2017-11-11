@@ -25,7 +25,6 @@ sjp.glmer(fit, type = "re", vars = NULL, ri.nr = NULL,
   \item{\code{"fe"}}{for odds or incidents ratios of fixed effects}
   \item{\code{"fe.cor"}}{for correlation matrix of fixed effects}
   \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
-  \item{\code{"fe.slope"}}{to plot probability or incidents curves (predicted probabilities or incidents) of all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
   \item{\code{"ri.slope"}}{to plot probability or incidents curves (predicted probabilities or incidents) of random intercept variances for all fixed effects coefficients. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
   \item{\code{"rs.ri"}}{for fitted probability curves (predicted probabilities) indicating the random slope-intercept pairs. Use this to visualize the random parts of random slope-intercept (or repeated measure) models. When having too many groups, use \code{sample.n} argument.}
   \item{\code{"eff"}}{to plot marginal effects of predicted probabilities or incidents for each fixed term, where remaining co-variates are set to the mean. Use \code{facet.grid} to decide whether to plot each coefficient as separate plot or as integrated faceted plot. See 'Details'.}
