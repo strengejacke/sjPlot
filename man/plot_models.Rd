@@ -26,10 +26,10 @@ May also be a \code{list} with fitted models. See 'Examples'.}
 
 \item{transform}{A character vector, naming a function that will be applied
 on estimates and confidence intervals. By default, \code{transform} will
-automatically use \code{"exp"} as transformation for applicable classes
-of \code{model} (e.g. logistic or poisson regression). Estimates of linear
-models remain untransformed. Use \code{NULL} if you want the raw, non-transformed
-estimates.}
+automatically use \code{"exp"} as transformation for applicable classes of
+\code{model} (e.g. logistic or poisson regression). Estimates of linear
+models remain untransformed. Use \code{NULL} if you want the raw,
+non-transformed estimates.}
 
 \item{std.est}{For linear models, choose whether standardized coefficients should
 be used for plotting. Default is no standardization.
@@ -40,15 +40,15 @@ be used for plotting. Default is no standardization.
 }}
 
 \item{rm.terms}{Character vector with names that indicate which terms should
-be removed from the plot. Counterpart to \code{terms}.
-\code{rm.terms = "t_name"} would remove the term \emph{t_name}.
-Default is \code{NULL}, i.e. all terms are used. Note that this
-argument does not apply to \emph{Marginal Effects} plots.}
+be removed from the plot. Counterpart to \code{terms}. \code{rm.terms =
+"t_name"} would remove the term \emph{t_name}. Default is \code{NULL}, i.e.
+all terms are used. Note that this argument does not apply to
+\emph{Marginal Effects} plots.}
 
 \item{title}{Character vector, used as plot title. By default,
-\code{\link[sjlabelled]{get_dv_labels}} is called to retrieve the
-label of the dependent variable, which will be used as title. Use
-\code{title = ""} to remove title.}
+\code{\link[sjlabelled]{get_dv_labels}} is called to retrieve the label of
+the dependent variable, which will be used as title. Use \code{title = ""}
+to remove title.}
 
 \item{m.labels}{Character vector, used to indicate the different models
 in the plot's legend. If not specified, the labels of the dependent
@@ -65,14 +65,14 @@ indicates the p-values. Default is \code{"p-level"}. Only applies if
 \item{axis.labels}{Character vector with labels for the model terms, used as
 axis labels. By default, \code{\link[sjlabelled]{get_term_labels}} is
 called to retrieve the labels of the coefficients, which will be used as
-axis labels. Use \code{axis.labels = ""} or \code{auto.label = FALSE}
-to use the variable names as labels instead.}
+axis labels. Use \code{axis.labels = ""} or \code{auto.label = FALSE} to
+use the variable names as labels instead.}
 
-\item{axis.title}{Character vector of length one or two (depending on
-the plot function and type), used as title(s) for the x and y axis.
-If not specified, a default labelling  is chosen. \strong{Note:}
-Some plot types may not support this argument sufficiently. In such
-cases, use the returned ggplot-object and add axis titles manually with
+\item{axis.title}{Character vector of length one or two (depending on the
+plot function and type), used as title(s) for the x and y axis. If not
+specified, a default labelling  is chosen. \strong{Note:} Some plot types
+may not support this argument sufficiently. In such cases, use the returned
+ggplot-object and add axis titles manually with
 \code{\link[ggplot2]{labs}}. Use \code{axis.title = ""} to remove axis
 titles.}
 
@@ -100,28 +100,31 @@ plotted fitted models. Default is 0.3.}
 
 \item{colors}{May be a character vector of color values in hex-format, valid
 color value names (see \code{demo("colors")}) or a name of a
-\href{http://colorbrewer2.org}{color brewer} palette. Following options
-are valid for the \code{colors} argument:
-\itemize{
-  \item If not specified, a default color brewer palette will be used, which is suitable for the plot style.
-  \item If \code{"gs"}, a greyscale will be used.
-  \item If \code{"bw"}, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see \href{../doc/blackwhitefigures.html}{this package-vignette}).
-  \item If \code{colors} is any valid color brewer palette name, the related palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view all available palette names.
-  \item If \pkg{wesanderson} is installed, you may also specify a name of a palette from that package.
-  \item Else specify own color values or names as vector (e.g. \code{colors = "#00ff00"}).
-}}
+\href{http://colorbrewer2.org}{color brewer} palette. Following options are
+valid for the \code{colors} argument: \itemize{ \item If not specified, a
+default color brewer palette will be used, which is suitable for the plot
+style. \item If \code{"gs"}, a greyscale will be used. \item If
+\code{"bw"}, and plot-type is a line-plot, the plot is black/white and uses
+different line types to distinguish groups (see
+\href{../doc/blackwhitefigures.html}{this package-vignette}). \item If
+\code{colors} is any valid color brewer palette name, the related palette
+will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view
+all available palette names. \item If \pkg{wesanderson} is installed, you
+may also specify a name of a palette from that package. \item Else specify
+own color values or names as vector (e.g. \code{colors = "#00ff00"}). }}
 
 \item{show.values}{Logical, whether values should be plotted or not.}
 
-\item{show.legend}{For \emph{Marginal Effects} plots, shows or hides the legend.}
+\item{show.legend}{For \emph{Marginal Effects} plots, shows or hides the
+legend.}
 
 \item{show.intercept}{Logical, if \code{TRUE}, the intercept of the fitted
-model is also plotted. Default is \code{FALSE}. If \code{transform = "exp"},
-please note that due to exponential transformation of estimates, the
-intercept in some cases is non-finite and the plot can not be created.}
+model is also plotted. Default is \code{FALSE}. If \code{transform =
+"exp"}, please note that due to exponential transformation of estimates,
+the intercept in some cases is non-finite and the plot can not be created.}
 
-\item{show.p}{Logical, adds asterisks that indicate the significance level
-of estimates to the value labels.}
+\item{show.p}{Logical, adds asterisks that indicate the significance level of
+estimates to the value labels.}
 
 \item{p.shape}{Logical, if \code{TRUE}, significant levels are distinguished by
 different point shapes and a related legend is plotted. Default
@@ -129,21 +132,22 @@ is \code{FALSE}.}
 
 \item{ci.lvl}{Numeric, the level of the confidence intervals (error bars).
 Use \code{ci.lvl = NA} to remove error bars. For \code{stanreg}-models,
-\code{ci.lvl} defines the (outer) probability for the \code{\link[sjstats]{hdi}}
-(High Density Interval) that is plotted. By default, \code{stanreg}-models
-are printed with two intervals: the "inner" interval, which defaults to
-the 50\%-HDI; and the "outer" interval, which defaults to the 89\%-HDI.
-\code{ci.lvl} affects only the outer interval in such cases. See
-\code{prob.inner} and \code{prob.outer} under the \code{...}-argument
-for more details.}
+\code{ci.lvl} defines the (outer) probability for the
+\code{\link[sjstats]{hdi}} (High Density Interval) that is plotted. By
+default, \code{stanreg}-models are printed with two intervals: the "inner"
+interval, which defaults to the 50\%-HDI; and the "outer" interval, which
+defaults to the 89\%-HDI. \code{ci.lvl} affects only the outer interval in
+such cases. See \code{prob.inner} and \code{prob.outer} under the
+\code{...}-argument for more details.}
 
-\item{vline.color}{Color of the vertical "zero effect" line. Default color
-is inherited from the current theme.}
+\item{vline.color}{Color of the vertical "zero effect" line. Default color is
+inherited from the current theme.}
 
 \item{digits}{Numeric, amount of digits after decimal point when rounding
 estimates or values.}
 
-\item{grid}{Logical, if \code{TRUE}, multiple plots are plotted as grid layout.}
+\item{grid}{Logical, if \code{TRUE}, multiple plots are plotted as grid
+layout.}
 }
 \value{
 A ggplot-object.

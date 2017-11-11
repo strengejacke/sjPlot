@@ -297,7 +297,11 @@ sjp.lm <- function(fit,
                    prnt.plot = TRUE,
                    ...) {
 
-  .Deprecated("plot_model")
+  if (stats::runif(1) < .2)
+    message("`sjp.lm()` will become deprecated in the future. Please use `plot_model()` instead.")
+
+  ## TODO activate in future update
+  # .Deprecated("plot_model")
 
   # -----------------------------------------------------------
   # remember length of predictor variables

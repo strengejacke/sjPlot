@@ -3,11 +3,11 @@
 ## General
 
 * Remove unnecessary imports.
-* `sjp.lm()`, `sjp.glm()`, `sjp.lmer()`, `sjp.glmer()` and `sjp.int()` are now deprecated.
 
 ## Changes to functions
 
 * `plot_model()` gets a `show.legend`-argument to show or hide the legend for marginal effects plots.
+* `plot_model()` gets a `se`-argument to plot standard errors instead of confidence intervals for coefficient-plots.
 
 ## Bug fixes
 

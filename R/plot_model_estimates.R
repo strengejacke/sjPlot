@@ -5,6 +5,7 @@
 plot_model_estimates <- function(model,
                                  dat,
                                  tf,
+                                 se,
                                  terms,
                                  group.terms,
                                  rm.terms,
@@ -51,11 +52,30 @@ plot_model_estimates <- function(model,
   # so we do it manually for all model classes
 
   if (!is.null(tf) && !is.stan(model)) {
-    funtrans <- match.fun(tf)
-    dat[["estimate"]] <- funtrans(dat[["estimate"]])
-    dat[["conf.low"]] <- funtrans(dat[["conf.low"]])
-    dat[["conf.high"]] <- funtrans(dat[["conf.high"]])
+
+    # no transformation if standard errors should be reported
+    # instead of conf. int.
+
+    if (isTRUE(se)) {
+      message("If standard errors are requested, no transformation is applied to estimates.")
+      tf <- NULL
+    } else {
+      funtrans <- match.fun(tf)
+      dat[["estimate"]] <- funtrans(dat[["estimate"]])
+      dat[["conf.low"]] <- funtrans(dat[["conf.low"]])
+      dat[["conf.high"]] <- funtrans(dat[["conf.high"]])
+    }
+
   }
+
+
+  # use standard error instead of ci's?
+
+  if (isTRUE(se)) {
+    dat[["conf.low"]] <- dat[["estimate"]] - dat[["std.error"]]
+    dat[["conf.high"]] <- dat[["estimate"]] + dat[["std.error"]]
+  }
+
 
   # remove further estimates
 

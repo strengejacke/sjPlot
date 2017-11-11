@@ -10,6 +10,7 @@ plot_type_ranef <- function(model,
                             dat,
                             ri.nr,
                             ci.lvl,
+                            se,
                             tf,
                             sort.est,
                             axis.labels,
@@ -138,7 +139,10 @@ plot_type_ranef <- function(model,
 
       tmp <- data.frame(estimate = mydf.ef[[i]])
 
-      if (!is.na(ci.lvl)) {
+      if (isTRUE(se)) {
+        tmp$conf.low = mydf.ef[[i]] - se.fit[[i]]
+        tmp$conf.high = mydf.ef[[i]] + se.fit[[i]]
+      } else if (!is.na(ci.lvl)) {
         tmp$conf.low = mydf.ef[[i]] - (stats::qnorm(ci) * se.fit[[i]])
         tmp$conf.high = mydf.ef[[i]] + (stats::qnorm(ci) * se.fit[[i]])
       } else {
@@ -146,12 +150,21 @@ plot_type_ranef <- function(model,
         tmp$conf.high = NA
       }
 
+
       if (!is.null(tf)) {
-        funtrans <- match.fun(tf)
-        tmp$estimate <- funtrans(tmp$estimate)
-        tmp$conf.low <- funtrans(tmp$conf.low)
-        tmp$conf.high <- funtrans(tmp$conf.high)
+        # no transformation if standard errors should be reported
+        # instead of conf. int.
+        if (isTRUE(se)) {
+          message("If standard errors are requested, no transformation is applied to estimates.")
+          tf <- NULL
+        } else {
+          funtrans <- match.fun(tf)
+          tmp$estimate <- funtrans(tmp$estimate)
+          tmp$conf.low <- funtrans(tmp$conf.low)
+          tmp$conf.high <- funtrans(tmp$conf.high)
+        }
       }
+
 
       # set column names (variable / coefficient name)
       # as group indicator, and save axis labels and title in variable
