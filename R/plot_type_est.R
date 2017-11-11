@@ -1,5 +1,6 @@
 #' @importFrom tibble has_name
 #' @importFrom broom tidy
+#' @importFrom sjstats robust
 plot_type_est <- function(type,
                           ci.lvl,
                           se,
@@ -32,7 +33,7 @@ plot_type_est <- function(type,
   # get tidy output of summary ----
 
   if (type == "est" || type == "re") {
-    dat <- tidy_model(model, ci.lvl, tf, type, bpe, ...)
+    dat <- tidy_model(model, ci.lvl, tf, type, bpe, se, ...)
   } else {
     dat <- model %>%
       sjstats::std_beta(type = type, ci.lvl = ci.lvl) %>%
@@ -42,6 +43,8 @@ plot_type_est <- function(type,
     show.intercept <- FALSE
   }
 
+  # se needs to be logical from here on
+  if (!is.null(se) && !is.logical(se)) se <- TRUE
 
   # for stan-models, we can define the style of the Bayesian point estimate,
   # which may be a line or a dot.

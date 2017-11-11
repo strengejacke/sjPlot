@@ -11,7 +11,7 @@ plot_model(model, type = c("est", "re", "eff", "pred", "int", "std", "std2",
   pred.type = c("fe", "re"), mdrt.values = c("minmax", "meansd", "zeromax",
   "quart", "all"), ri.nr = NULL, title = NULL, axis.title = NULL,
   axis.labels = NULL, wrap.title = 50, wrap.labels = 25,
-  axis.lim = NULL, grid.breaks = NULL, ci.lvl = NULL, se = FALSE,
+  axis.lim = NULL, grid.breaks = NULL, ci.lvl = NULL, se = NULL,
   colors = "Set1", show.intercept = FALSE, show.values = FALSE,
   show.p = TRUE, show.data = FALSE, show.legend = TRUE,
   value.offset = NULL, value.size, digits = 2, dot.size = NULL,
@@ -172,10 +172,14 @@ defaults to the 89\%-HDI. \code{ci.lvl} affects only the outer interval in
 such cases. See \code{prob.inner} and \code{prob.outer} under the
 \code{...}-argument for more details.}
 
-\item{se}{Logical, if \code{TRUE}, error bars indicate standard errors, not
-confidence intervals. This argument overrides \code{ci.lvl}. If \code{se =
-TRUE}, arguments \code{ci.lvl} and \code{transform} will be ignored.
-Currently, \code{se} only applies to \emph{Coefficients} plots.}
+\item{se}{Either a logical, and if \code{TRUE}, error bars indicate standard
+errors, not confidence intervals. Or a character vector with a specification
+of the covariance matrix to compute robust standard errors (see argument
+\code{vcov} of \code{link[sjstats]{robust}} for valid values; robust standard
+errors is only supported for models that work with \code{\link[lmtest]{coeftest}}).
+\code{se} overrides \code{ci.lvl}. If is not \code{NULL}, arguments \code{ci.lvl}
+and \code{transform} will be ignored. Currently, \code{se} only applies
+to \emph{Coefficients} plots.}
 
 \item{colors}{May be a character vector of color values in hex-format, valid
 color value names (see \code{demo("colors")}) or a name of a

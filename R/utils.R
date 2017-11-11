@@ -207,3 +207,27 @@ geom_intercep_line <- function(yintercept, axis.scaling, vline.color) {
     NULL
   }
 }
+
+
+check_se_argument <- function(se, type = NULL) {
+  if (!is.null(se) && !is.logical(se) && !is.null(type) && type %in% c("std", "std2")) {
+    warning("No robust standard errors for `type = \"std\"` or `type = \"std2\"`.")
+    se <- TRUE
+  }
+
+  if (!is.null(se) && !is.logical(se)) {
+    # check for valid values, if robust standard errors are requested
+    if (!(se %in% c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m", "HC5"))) {
+      warning("`se` must be one of \"HC3\", \"const\", \"HC\", \"HC0\", \"HC1\", \"HC2\", \"HC4\", \"HC4m\" or \"HC5\" for robust standard errors, or `TRUE` for normal standard errors.")
+      se <- NULL
+    }
+
+    # no robust s.e. for random effetcs
+    if (type == "re") {
+      warning("No robust standard errors for `type = \"re\"`.")
+      se <- TRUE
+    }
+  }
+
+  se
+}

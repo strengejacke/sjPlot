@@ -127,10 +127,14 @@
 #'   defaults to the 89\%-HDI. \code{ci.lvl} affects only the outer interval in
 #'   such cases. See \code{prob.inner} and \code{prob.outer} under the
 #'   \code{...}-argument for more details.
-#' @param se Logical, if \code{TRUE}, error bars indicate standard errors, not
-#'   confidence intervals. This argument overrides \code{ci.lvl}. If \code{se =
-#'   TRUE}, arguments \code{ci.lvl} and \code{transform} will be ignored.
-#'   Currently, \code{se} only applies to \emph{Coefficients} plots.
+#' @param se Either a logical, and if \code{TRUE}, error bars indicate standard
+#'   errors, not confidence intervals. Or a character vector with a specification
+#'   of the covariance matrix to compute robust standard errors (see argument
+#'   \code{vcov} of \code{link[sjstats]{robust}} for valid values; robust standard
+#'   errors is only supported for models that work with \code{\link[lmtest]{coeftest}}).
+#'   \code{se} overrides \code{ci.lvl}. If is not \code{NULL}, arguments \code{ci.lvl}
+#'   and \code{transform} will be ignored. Currently, \code{se} only applies
+#'   to \emph{Coefficients} plots.
 #' @param show.intercept Logical, if \code{TRUE}, the intercept of the fitted
 #'   model is also plotted. Default is \code{FALSE}. If \code{transform =
 #'   "exp"}, please note that due to exponential transformation of estimates,
@@ -338,7 +342,7 @@ plot_model <- function(model,
                        axis.lim = NULL,
                        grid.breaks = NULL,
                        ci.lvl = NULL,
-                       se = FALSE,
+                       se = NULL,
                        colors = "Set1",
                        show.intercept = FALSE,
                        show.values = FALSE,
@@ -362,6 +366,10 @@ plot_model <- function(model,
   type <- match.arg(type)
   pred.type <- match.arg(pred.type)
   mdrt.values <- match.arg(mdrt.values)
+
+
+  # check se-argument
+  se <- check_se_argument(se = se, type = type)
 
 
   # get info on model family

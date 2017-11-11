@@ -1,6 +1,19 @@
 ## TODO provide own tidier for not-supported models
 
-tidy_model <- function(model, ci.lvl, tf, type, bpe, ...) {
+tidy_model <- function(model, ci.lvl, tf, type, bpe, se, ...) {
+  dat <- get_tidy_data(model, ci.lvl, tf, type, bpe, ...)
+
+  # get robust standard errors, if requestes, and replace former s.e.
+  if (!is.null(se) && !is.logical(se)) {
+    std.err <- sjstats::robust(model, se)
+    dat[["std.error"]] <- std.err[["std.error"]]
+  }
+
+  dat
+}
+
+
+get_tidy_data <- function(model, ci.lvl, tf, type, bpe, ...) {
   if (is.stan(model))
     tidy_stan_model(model, ci.lvl, tf, type, bpe, ...)
   else if (inherits(model, "lme"))
@@ -22,7 +35,6 @@ tidy_model <- function(model, ci.lvl, tf, type, bpe, ...) {
   else
     tidy_generic(model, ci.lvl)
 }
-
 
 
 #' @importFrom broom tidy
