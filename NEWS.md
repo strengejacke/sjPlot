@@ -3,6 +3,7 @@
 ## General
 
 * Remove unnecessary imports.
+* Add back `save_plot()` function.
 
 ## Changes to functions
 

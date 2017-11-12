@@ -1,7 +1,7 @@
 #' @title Modify plot appearance
 #' @name sjPlot-themes
 #'
-#' @description Set default theme plots.
+#' @description Set default theme plots or modify plot appearance.
 #'
 #' @param base_size Base font size.
 #' @param base_family Base font family.

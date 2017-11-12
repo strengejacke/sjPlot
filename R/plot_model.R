@@ -131,8 +131,8 @@
 #'   errors, not confidence intervals. Or a character vector with a specification
 #'   of the covariance matrix to compute robust standard errors (see argument
 #'   \code{vcov} of \code{link[sjstats]{robust}} for valid values; robust standard
-#'   errors is only supported for models that work with \code{\link[lmtest]{coeftest}}).
-#'   \code{se} overrides \code{ci.lvl}. If is not \code{NULL}, arguments \code{ci.lvl}
+#'   errors are only supported for models that work with \code{\link[lmtest]{coeftest}}).
+#'   \code{se} overrides \code{ci.lvl}: if not \code{NULL}, arguments \code{ci.lvl}
 #'   and \code{transform} will be ignored. Currently, \code{se} only applies
 #'   to \emph{Coefficients} plots.
 #' @param show.intercept Logical, if \code{TRUE}, the intercept of the fitted

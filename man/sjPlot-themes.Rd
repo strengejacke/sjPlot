@@ -76,7 +76,7 @@ See also \code{pos}.}
 two-element numeric vector with values from 0-1.}
 }
 \description{
-Set default theme plots.
+Set default theme plots or modify plot appearance.
 }
 \examples{
 # prepare data
