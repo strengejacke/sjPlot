@@ -22,7 +22,7 @@ plot_point_estimates <- function(model,
   # some defaults...
 
   size.inner <- .1
-  width <- ifelse(is.stan(model), .06, 0)
+  width <- if (is.stan(model)) .06 else 0
 
   # check additional arguments, for stan-geoms
 

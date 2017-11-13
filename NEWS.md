@@ -16,6 +16,7 @@
 * `plot_models()` did not properly remove intercepts from output for survey models, when `show.intercept = FALSE`.
 * `plot_models()` did not automatically transform axis for all applicable model types.
 * `get_model_data()` did not work for marginal effects plots.
+* Fixed a bug that was introduced during the past update in `sjt.grpmean()`, resulting in multiple table outputs and a wrong overall p-value in the summary line.
 
 # sjPlot 2.4.0
 

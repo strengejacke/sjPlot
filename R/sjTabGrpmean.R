@@ -41,7 +41,7 @@
 #' data(efc)
 #' sjt.grpmean(efc$c12hour, efc$e42dep)}
 #'
-#' @importFrom stats na.omit lm
+#' @importFrom stats na.omit lm pf
 #' @importFrom sjstats p_value
 #' @export
 sjt.grpmean <- function(var.cnt,
@@ -174,7 +174,8 @@ sjt.grpmean <- function(var.cnt,
   # get F-statistics
   fstat <- sum.fit$fstatistic[1]
   # p-value for F-test
-  pval <- sjstats::p_value(fit)[["p.value"]]
+  fp <- sum.fit$fstatistic
+  pval <- stats::pf(fp[1], fp[2], fp[3], lower.tail = F)
   pvalstring <- ifelse(pval < 0.001,
                        sprintf("p&lt;%s.001", p_zero),
                        sub("0", p_zero, sprintf("p=%.*f", digits.summary, pval)))

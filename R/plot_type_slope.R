@@ -30,7 +30,7 @@ plot_type_slope <- function(model,
 
   # set color defaults
 
-  colors <- col_check2(colors, ifelse(isTRUE(show.loess), 3, 2))
+  colors <- col_check2(colors, if (isTRUE(show.loess)) 3 else 2)
 
   if (isTRUE(show.loess)) {
     lineColor <- colors[1]

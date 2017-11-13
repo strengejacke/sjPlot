@@ -250,7 +250,7 @@ plot_models <- function(...,
 
   # based on current ggplot theme, highlights vertical default line
 
-  yintercept = ifelse(isTRUE(tf == "exp"), 1, 0)
+  yintercept <- if (isTRUE(tf == "exp")) 1 else 0
   layer_vertical_line <- geom_intercep_line(yintercept, axis.scaling, vline.color)
 
 
