@@ -7,7 +7,7 @@
 
 ## Changes to functions
 
-* `plot_model()` now also supports `clm`-models from package *ordinal*.
+* `plot_model()` now also supports `clm`-models from package *ordinal* amd `polr`-models from package *MASS*.
 * `plot_model()` gets a `show.legend`-argument to show or hide the legend for marginal effects plots.
 * `plot_model()` gets a `se`-argument to plot (robust) standard errors instead of confidence intervals for coefficient-plots.
 

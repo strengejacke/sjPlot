@@ -32,6 +32,8 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, ...) {
     tidy_logistf_model(model, ci.lvl)
   else if (inherits(model, "clm"))
     tidy_clm_model(model, ci.lvl)
+  else if (inherits(model, "polr"))
+    tidy_polr_model(model, ci.lvl)
   else if (inherits(model, "gam"))
     tidy_gam_model(model, ci.lvl)
   else
@@ -492,6 +494,42 @@ tidy_clm_model <- function(model, ci.lvl) {
 
   # re-arrange columns
   est[, c(1:4, 6:7, 5)]
+}
+
+
+#' @importFrom stats qnorm pnorm
+#' @importFrom tibble rownames_to_column
+#' @importFrom rlang .data
+#' @importFrom dplyr mutate
+tidy_polr_model <- function(model, ci.lvl) {
+
+  # compute ci, two-ways
+
+  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+    ci <- 1 - ((1 - ci.lvl) / 2)
+  else
+    ci <- .975
+
+
+  # get estimates, as data frame
+
+  smry <- summary(model)
+  est <- smry$coefficients %>%
+    as.data.frame() %>%
+    tibble::rownames_to_column(var = "term")
+
+  # proper column names
+  colnames(est) <- c("term", "estimate", "std.error", "statistic")
+
+
+  # add conf. int. and p.value
+
+  est %>%
+    dplyr::mutate(
+      conf.low = .data$estimate - stats::qnorm(ci) * .data$std.error,
+      conf.high = .data$estimate + stats::qnorm(ci) * .data$std.error,
+      p.value = 2 * stats::pnorm(abs(.data$estimate / .data$std.error), lower.tail = FALSE)
+    )
 }
 
 
