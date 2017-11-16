@@ -1,7 +1,7 @@
 ## TODO provide own tidier for not-supported models
 
-tidy_model <- function(model, ci.lvl, tf, type, bpe, se, ...) {
-  dat <- get_tidy_data(model, ci.lvl, tf, type, bpe, ...)
+tidy_model <- function(model, ci.lvl, tf, type, bpe, se, facets, ...) {
+  dat <- get_tidy_data(model, ci.lvl, tf, type, bpe, facets, ...)
 
   # get robust standard errors, if requestes, and replace former s.e.
   if (!is.null(se) && !is.logical(se)) {
@@ -13,7 +13,7 @@ tidy_model <- function(model, ci.lvl, tf, type, bpe, se, ...) {
 }
 
 
-get_tidy_data <- function(model, ci.lvl, tf, type, bpe, ...) {
+get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, ...) {
   if (is.stan(model))
     tidy_stan_model(model, ci.lvl, tf, type, bpe, ...)
   else if (inherits(model, "lme"))
@@ -34,6 +34,8 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, ...) {
     tidy_clm_model(model, ci.lvl)
   else if (inherits(model, "polr"))
     tidy_polr_model(model, ci.lvl)
+  else if (inherits(model, "multinom"))
+    tidy_multinom_model(model, ci.lvl, facets)
   else if (inherits(model, "gam"))
     tidy_gam_model(model, ci.lvl)
   else
@@ -530,6 +532,46 @@ tidy_polr_model <- function(model, ci.lvl) {
       conf.high = .data$estimate + stats::qnorm(ci) * .data$std.error,
       p.value = 2 * stats::pnorm(abs(.data$estimate / .data$std.error), lower.tail = FALSE)
     )
+}
+
+
+#' @importFrom stats qnorm pnorm
+#' @importFrom rlang .data
+#' @importFrom dplyr mutate
+#' @importFrom broom tidy
+#' @importFrom sjmisc var_rename
+tidy_multinom_model <- function(model, ci.lvl, facets) {
+
+  # compute ci, two-ways
+
+  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+    ci <- 1 - ((1 - ci.lvl) / 2)
+  else
+    ci <- .975
+
+
+  # get estimates, as data frame
+  dat <- broom::tidy(model, conf.int = FALSE, exponentiate = FALSE)
+
+
+  # add conf. int.
+
+  dat <- dat %>%
+    dplyr::mutate(
+      conf.low = .data$estimate - stats::qnorm(ci) * .data$std.error,
+      conf.high = .data$estimate + stats::qnorm(ci) * .data$std.error
+    )
+
+
+  # check whether each category should be printed in facets, or
+  # in a single graph (with dodged geoms)
+
+  if (isTRUE(facets))
+    colnames(dat)[1] <- "facet"
+  else
+    colnames(dat)[1] <- "response.level"
+
+  dat
 }
 
 

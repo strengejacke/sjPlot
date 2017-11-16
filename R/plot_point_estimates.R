@@ -1,6 +1,7 @@
 #' @importFrom tibble has_name
 #' @importFrom dplyr n_distinct if_else
 #' @importFrom sjmisc to_value is_empty
+#' @importFrom sjstats resp_var
 plot_point_estimates <- function(model,
                                  dat,
                                  tf,
@@ -22,6 +23,7 @@ plot_point_estimates <- function(model,
   # some defaults...
 
   size.inner <- .1
+  spacing <- .4
   width <- if (is.stan(model)) .06 else 0
 
   # check additional arguments, for stan-geoms
@@ -29,6 +31,7 @@ plot_point_estimates <- function(model,
   add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
   if ("size.inner" %in% names(add.args)) size.inner <- add.args[["size.inner"]]
   if ("width" %in% names(add.args)) width <- add.args[["width"]]
+  if ("spacing" %in% names(add.args)) spacing <- add.args[["spacing"]]
 
 
   # need some additional data, for stan-geoms
@@ -63,11 +66,15 @@ plot_point_estimates <- function(model,
   yintercept = dplyr::if_else(isTRUE(tf == "exp"), 1, 0)
   layer_vertical_line <- geom_intercep_line(yintercept, axis.scaling, vline.color)
 
+  # check whether we have a multinomial log. reg. model
+  multinomial <- tibble::has_name(dat, "response.level")
 
   # basis aes mapping
 
-  p <- ggplot(dat, aes_string(x = "term", y = "estimate", colour = "group", fill = "group"))
-
+  if (multinomial)
+    p <- ggplot(dat, aes_string(x = "term", y = "estimate", colour = "response.level", fill = "response.level"))
+  else
+    p <- ggplot(dat, aes_string(x = "term", y = "estimate", colour = "group", fill = "group"))
 
   if (is.stan(model)) {
 
@@ -88,24 +95,34 @@ plot_point_estimates <- function(model,
   } else {
 
     # setup base plot
-    p <- p +
-      layer_vertical_line +
-      geom_point(size = geom.size) +
-      geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), width = width, size = line.size)
+    p <- p + layer_vertical_line
+
+    if (multinomial) {
+      p <- p +
+        geom_point(size = geom.size, position = position_dodge(width = spacing)) +
+        geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), position = position_dodge(width = spacing), width = width, size = line.size)
+    } else {
+      p <- p +
+        geom_point(size = geom.size) +
+        geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), width = width, size = line.size)
+    }
 
   }
 
 
   # set up base aes, either with or w/o groups
 
-  col.len <- dplyr::n_distinct(dat$group)
+  p <- p + coord_flip()
 
-
-  # flip plot, and remove legend
-
-  p <- p +
-    coord_flip() +
-    guides(colour = "none", fill = "none")
+  if (multinomial) {
+    col.len <- dplyr::n_distinct(dat$response.level)
+    # remove legend
+    p <- p + guides(fill = "none")
+  } else {
+    col.len <- dplyr::n_distinct(dat$group)
+    # remove legend
+    p <- p + guides(colour = "none", fill = "none")
+  }
 
 
   # add value labels
@@ -168,6 +185,9 @@ plot_point_estimates <- function(model,
       y = axis.title,
       title = title
     )
+
+  # for multinomial models, set response variable name as name for legend
+  if (multinomial) p <- p + labs(colour = sjstats::resp_var(model))
 
   p
 }

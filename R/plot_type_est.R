@@ -28,12 +28,15 @@ plot_type_est <- function(type,
                           value.size,
                           bpe,
                           bpe.style,
+                          facets,
                           ...) {
+
+  if (missing(facets)) facets <- TRUE
 
   # get tidy output of summary ----
 
   if (type == "est" || type == "re") {
-    dat <- tidy_model(model, ci.lvl, tf, type, bpe, se, ...)
+    dat <- tidy_model(model, ci.lvl, tf, type, bpe, se, facets, ...)
   } else {
     dat <- model %>%
       sjstats::std_beta(type = type, ci.lvl = ci.lvl) %>%

@@ -471,6 +471,7 @@ plot_model <- function(model,
       value.size = value.size,
       bpe = bpe,
       bpe.style = bpe.style,
+      facets = grid,
       ...
     )
 
