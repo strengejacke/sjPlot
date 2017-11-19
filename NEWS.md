@@ -10,6 +10,7 @@
 * `plot_model()` now also supports `clm`-models from package *ordinal*, `polr`-models from package *MASS* and `multinom` from package *nnet*.
 * `plot_model()` gets a `show.legend`-argument to show or hide the legend for marginal effects plots.
 * `plot_model()` gets a `se`-argument to plot (robust) standard errors instead of confidence intervals for coefficient-plots.
+* The `...`-argument of `plot_model()` now also accepts the arguments `preprocess`, `postprocess` and `protect`, which are passed down to `snakecase::to_any_case()` for case conversion of term labels (axis labels).
 
 ## Bug fixes
 

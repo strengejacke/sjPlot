@@ -255,26 +255,40 @@ vertical line by default. Use \code{bpe.style = "dot"} to plot a dot
 instead of a line for the point estimate.}
 
 \item{...}{Other arguments, passed down to various functions. Here is a list
-of supported arguments and their description in detail. \describe{
-\item{\code{prob.inner} and \code{prob.outer}}{ For \strong{Stan}-models
-(fitted with the \pkg{rstanarm}- or \pkg{brms}-package) and coefficients
-plot-types, you can specify numeric values between 0 and 1 for
-\code{prob.inner} and \code{prob.outer}, which will then be used as inner
-and outer probabilities for the uncertainty intervals (HDI). By default,
-the inner probability is 0.5 and the outer probability is 0.89 (unless
-\code{ci.lvl} is specified - in this case, \code{ci.lvl} is used as outer
-probability). } \item{\code{size.inner}}{ For \strong{Stan}-models and
-\emph{Coefficients} plot-types, you can specify the width of the bar for
-the inner probabilities. Default is \code{0.1}. } \item{\code{width},
-\code{alpha} and \code{scale}}{ Passed down to \code{geom_errorbar()} or
-\code{geom_density_ridges()}, for forest or diagnostic plots; or passed
-down to \code{\link[ggeffects]{plot.ggeffects}} for \emph{Marginal Effects}
-plots. } \item{\code{show.loess}}{ Logical, for diagnostic plot-types
-\code{"slope"} and \code{"resid"}, adds (or hides) a loess-smoothed line to
-the plot. } \item{\emph{Marginal Effects} plot-types}{ When plotting
-marginal effects, arguments are also passed down to
-\code{\link[ggeffects]{ggpredict}}, \code{\link[ggeffects]{ggeffect}} or
-\code{\link[ggeffects]{plot.ggeffects}}. } }}
+of supported arguments and their description in detail.
+\describe{
+  \item{\code{prob.inner} and \code{prob.outer}}{For \strong{Stan}-models
+    (fitted with the \pkg{rstanarm}- or \pkg{brms}-package) and coefficients
+    plot-types, you can specify numeric values between 0 and 1 for
+    \code{prob.inner} and \code{prob.outer}, which will then be used as inner
+    and outer probabilities for the uncertainty intervals (HDI). By default,
+    the inner probability is 0.5 and the outer probability is 0.89 (unless
+    \code{ci.lvl} is specified - in this case, \code{ci.lvl} is used as outer
+    probability).
+  }
+  \item{\code{size.inner}}{For \strong{Stan}-models and \emph{Coefficients}
+    plot-types, you can specify the width of the bar for the inner
+    probabilities. Default is \code{0.1}.
+  }
+  \item{\code{width}, \code{alpha} and \code{scale}}{Passed down to
+    \code{geom_errorbar()} or \code{geom_density_ridges()}, for forest or
+    diagnostic plots; or passed down to \code{\link[ggeffects]{plot.ggeffects}}
+    for \emph{Marginal Effects} plots.
+  }
+  \item{\code{show.loess}}{Logical, for diagnostic plot-types \code{"slope"}
+    and \code{"resid"}, adds (or hides) a loess-smoothed line to the plot.
+  }
+  \item{\emph{Marginal Effects} plot-types}{When plotting marginal effects,
+    arguments are also passed down to \code{\link[ggeffects]{ggpredict}},
+    \code{\link[ggeffects]{ggeffect}} or \code{\link[ggeffects]{plot.ggeffects}}.
+  }
+  \item{Case conversion of labels}{For case conversion of labels (see argument
+    \code{case}), arguments \code{prerocess}, \code{postprocess} and \code{protect}
+    will be passed down to \code{\link[snakecase]{to_any_case}}. This only
+    applies to automatically retrieved term labels, \emph{not} if
+    term labels are provided by the \code{axis.labels}-argument.
+  }
+}}
 }
 \value{
 Depending on the plot-type, \code{plot_model()} returns a
