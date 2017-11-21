@@ -29,9 +29,9 @@ plot_point_estimates <- function(model,
   # check additional arguments, for stan-geoms
 
   add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
-  if ("size.inner" %in% names(add.args)) size.inner <- add.args[["size.inner"]]
-  if ("width" %in% names(add.args)) width <- add.args[["width"]]
-  if ("spacing" %in% names(add.args)) spacing <- add.args[["spacing"]]
+  if ("size.inner" %in% names(add.args)) size.inner <- eval(add.args[["size.inner"]])
+  if ("width" %in% names(add.args)) width <- eval(add.args[["width"]])
+  if ("spacing" %in% names(add.args)) spacing <- eval(add.args[["spacing"]])
 
 
   # need some additional data, for stan-geoms

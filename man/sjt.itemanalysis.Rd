@@ -89,8 +89,7 @@ may look less pretty, but it may help when exporting html-tables to office tools
 Invisibly returns
         \itemize{
          \item \code{df.list}: List of data frames with the item analysis for each sub.group (or complete, if \code{factor.groups} was \code{NULL})
-         \item \code{index.scores}: List of standardized scale / index scores of each case (mean value of all scale items for each case) for each sub-group. Note that NA's are removed from this list. Use \code{df.index.scores} if you want to append the cases' related index scores to the original data frame.
-         \item \code{df.index.scores}: A data frame with all \code{index.scores} as column variables. While \code{index.scores} don't have NA's included, this data frame's row-length equals to the originals data frame's row-length (and thus can be appended)
+         \item \code{index.scores}: A data frame with of standardized scale / index scores for each case (mean value of all scale items for each case) for each sub-group.
          \item \code{ideal.item.diff}: List of vectors that indicate the ideal item difficulty for each item in each sub-group. Item difficulty only differs when items have different levels.
          \item \code{cronbach.values}: List of Cronbach's Alpha values for the overall item scale for each sub-group.
          \item \code{knitr.list}: List of html-tables with inline-css for use with knitr for each table (sub-group)
@@ -154,14 +153,14 @@ start <- which(colnames(efc) == "c82cop1")
 end <- which(colnames(efc) == "c90cop9")
 
 # create data frame with COPE-index scale
-mydf <- data.frame(efc[, c(start:end)])
-colnames(mydf) <- varlabs[c(start:end)]
+mydf <- data.frame(efc[, start:end])
+colnames(mydf) <- varlabs[start:end]
 
 \dontrun{
 sjt.itemanalysis(mydf)
 
 # auto-detection of labels
-sjt.itemanalysis(efc[, c(start:end)])
+sjt.itemanalysis(efc[, start:end])
 
 # Compute PCA on Cope-Index, and perform a
 # item analysis for each extracted factor.

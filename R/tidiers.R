@@ -126,8 +126,8 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, ...) {
   # check whether we have "prob.inner" and "prob.outer" argument
   # and if so, use these for HDI and Bayesian point estimate
 
-  if ("prob.inner" %in% names(add.args)) p.inner <- add.args[["prob.inner"]]
-  if ("prob.outer" %in% names(add.args)) p.outer <- add.args[["prob.outer"]]
+  if ("prob.inner" %in% names(add.args)) p.inner <- eval(add.args[["prob.inner"]])
+  if ("prob.outer" %in% names(add.args)) p.outer <- eval(add.args[["prob.outer"]])
 
 
   # get two HDI-intervals

@@ -50,8 +50,8 @@ plot_diag_stan <- function(model, geom.colors, facets, ...) {
 
   # additional arguments?
   add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
-  if ("alpha" %in% names(add.args)) alpha <- add.args[["alpha"]]
-  if ("scale" %in% names(add.args)) scale <- add.args[["scale"]]
+  if ("alpha" %in% names(add.args)) alpha <- eval(add.args[["alpha"]])
+  if ("scale" %in% names(add.args)) scale <- eval(add.args[["scale"]])
 
 
   if (!facets && requireNamespace("ggridges", quietly = TRUE)) {
