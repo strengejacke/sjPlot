@@ -151,19 +151,18 @@
 #' @param dot.size Numeric, size of the dots that indicate the point estimates.
 #' @param line.size Numeric, size of the lines that indicate the error bars.
 #' @param colors May be a character vector of color values in hex-format, valid
-#'   color value names (see \code{demo("colors")}) or a name of a
-#'   \href{http://colorbrewer2.org}{color brewer} palette. Following options are
-#'   valid for the \code{colors} argument: \itemize{ \item If not specified, a
-#'   default color brewer palette will be used, which is suitable for the plot
-#'   style. \item If \code{"gs"}, a greyscale will be used. \item If
-#'   \code{"bw"}, and plot-type is a line-plot, the plot is black/white and uses
-#'   different line types to distinguish groups (see
-#'   \href{../doc/blackwhitefigures.html}{this package-vignette}). \item If
-#'   \code{colors} is any valid color brewer palette name, the related palette
-#'   will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view
-#'   all available palette names. \item If \pkg{wesanderson} is installed, you
-#'   may also specify a name of a palette from that package. \item Else specify
-#'   own color values or names as vector (e.g. \code{colors = "#00ff00"}). }
+#'   color value names (see \code{demo("colors")}) or a name of a pre-defined
+#'   color palette. Following options are valid for the \code{colors} argument:
+#'   \itemize{
+#'     \item If not specified, a default color brewer palette will be used, which is suitable for the plot style.
+#'     \item If \code{"gs"}, a greyscale will be used.
+#'     \item If \code{"bw"}, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see \href{../doc/blackwhitefigures.html}{this package-vignette}).
+#'     \item If \code{colors} is any valid color brewer palette name, the related palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view all available palette names.
+#'     \item If \pkg{wesanderson} is installed, you may also specify a name of a palette from that package.
+#'     \item If \pkg{viridis} is installed, use \code{colors = "v"} to get the viridis color palette.
+#'     \item There are some pre-defined color palettes in this package: \code{"aqua", "warm", "dust", "blambus", "simply", "us"}.
+#'     \item Else specify own color values or names as vector (e.g. \code{colors = "#00ff00"} or \code{colors = c("firebrick", "blue")}).
+#'   }
 #' @param grid Logical, if \code{TRUE}, multiple plots are plotted as grid
 #'   layout.
 #' @param wrap.title Numeric, determines how many chars of the plot title are
