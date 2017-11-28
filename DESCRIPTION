@@ -45,7 +45,7 @@ Imports:
     rlang,
     scales,
     sjlabelled (>= 1.0.5),
-    sjmisc (>= 2.6.2),
+    sjmisc (>= 2.6.3),
     sjstats (>= 0.13.0),
     tidyselect,
     tibble (>= 1.3.3),
