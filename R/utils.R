@@ -144,7 +144,7 @@ get_glm_family <- function(fit) {
   } else {
     # "lrm"-object from pkg "rms" have no family method
     # so we construct a logistic-regression-family-object
-    if (inherits(fit, c("lrm", "polr", "logistf", "clm", "multinom")))
+    if (inherits(fit, c("lrm", "polr", "logistf", "clm", "multinom", "Zelig-relogit")))
       faminfo <- stats::binomial(link = "logit")
     else
       # get family info

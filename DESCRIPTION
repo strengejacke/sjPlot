@@ -63,7 +63,8 @@ Suggests:
     rstanarm,
     survey,
     viridis,
-    wesanderson
+    wesanderson,
+    Zelig
 URL: https://github.com/strengejacke/sjPlot
 BugReports: https://github.com/strengejacke/sjPlot/issues
 RoxygenNote: 6.0.1

@@ -38,6 +38,8 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, ...) {
     tidy_multinom_model(model, ci.lvl, facets)
   else if (inherits(model, "gam"))
     tidy_gam_model(model, ci.lvl)
+  else if (inherits(model, "Zelig-relogit"))
+    tidy_zelig_model(model, ci.lvl)
   else
     tidy_generic(model, ci.lvl)
 }
@@ -602,5 +604,37 @@ tidy_gam_model <- function(model, ci.lvl) {
     conf.low = .data$estimate - stats::qnorm(ci) * .data$std.error,
     conf.high = .data$estimate + stats::qnorm(ci) * .data$std.error,
     p.value = sm$p.pv
+  )
+}
+
+
+#' @importFrom rlang .data
+#' @importFrom stats coef qnorm
+tidy_zelig_model <- function(model, ci.lvl) {
+
+  # compute ci, two-ways
+
+  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+    ci <- 1 - ((1 - ci.lvl) / 2)
+  else
+    ci <- .975
+
+
+  if (!requireNamespace("Zelig"))
+    stop("Package `Zelig` required. Please install", call. = F)
+
+  # get estimates
+
+  est <- Zelig::coef(model)
+  se <- unlist(Zelig::get_se(model))
+
+  tibble::tibble(
+    term = names(est),
+    estimate = est,
+    std.error = se,
+    statistic = .data$estimate / .data$std.error,
+    conf.low = .data$estimate - stats::qnorm(ci) * .data$std.error,
+    conf.high = .data$estimate + stats::qnorm(ci) * .data$std.error,
+    p.value = unname(unlist(Zelig::get_pvalue(model)))
   )
 }
