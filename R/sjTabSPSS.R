@@ -77,6 +77,7 @@
 #' @importFrom utils txtProgressBar setTxtProgressBar
 #' @importFrom sjmisc is_even var_type is_float
 #' @importFrom sjlabelled get_values
+#' @importFrom purrr map_lgl
 #' @export
 view_df <- function(x,
                     weight.by = NULL,
@@ -108,16 +109,32 @@ view_df <- function(x,
   # unique handling for the data
   if (!is.data.frame(x)) stop("Parameter needs to be a data frame!", call. = FALSE)
 
+  # save name of object
+  dfname <- deparse(substitute(x))
+
+  # variables with all missings?
+  all.na <- purrr::map_lgl(x, ~ all(is.na(.x)))
+  id <- seq_len(ncol(x))
+  cnames <- colnames(x)
+
+  # do we have any "all-missing-variables"?
+  if (any(all.na)) {
+    rem.col <- seq_len(ncol(x))[all.na]
+
+    message(sprintf("Following %i variables have only missing values and are not shown:", sum(all.na)))
+    cat(paste(sprintf("%s [%i]", cnames[all.na], rem.col), collapse = ", "))
+    cat("\n")
+
+    id <- id[!all.na]
+    cnames <- cnames[!all.na]
+  }
+
   # retrieve value and variable labels
   df.var <- sjlabelled::get_label(x)
   df.val <- sjlabelled::get_labels(x)
 
-  # get row count and ID's
-  colcnt <- ncol(x)
-  id <- seq_len(colcnt)
-
   # Order data set if requested
-  if (sort.by.name) id <- id[order(colnames(x))]
+  if (sort.by.name) id <- id[order(cnames)]
 
   # init style sheet and tags used for css-definitions
   # we can use these variables for string-replacement
@@ -154,7 +171,7 @@ view_df <- function(x,
   toWrite <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n%s\n</head>\n<body>\n", encoding, page.style)
 
   # table caption, data frame name
-  page.content <- sprintf("<table>\n  <caption>Data frame: %s</caption>\n", deparse(substitute(x)))
+  page.content <- sprintf("<table>\n  <caption>Data frame: %s</caption>\n", dfname)
 
   # header row
   page.content <- paste0(page.content, "  <tr>\n    ")
@@ -172,10 +189,10 @@ view_df <- function(x,
   page.content <- paste0(page.content, "\n  </tr>\n")
 
   # create progress bar
-  if (!hide.progress) pb <- utils::txtProgressBar(min = 0, max = colcnt, style = 3)
+  if (!hide.progress) pb <- utils::txtProgressBar(min = 0, max = length(id), style = 3)
 
   # subsequent rows
-  for (ccnt in seq_len(colcnt)) {
+  for (ccnt in 1:length(id)) {
     # get index number, depending on sorting
     index <- id[ccnt]
     # default row string

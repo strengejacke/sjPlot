@@ -87,6 +87,7 @@ get_estimate_axis_title <- function(fit, axis.title, type, transform = NULL) {
 
     axis.title <-  dplyr::case_when(
       !is.null(transform) && transform == "plogis" ~ "Probabilities",
+      is.null(transform) && fitfam$is_bin ~ "Log-Odds",
       fitfam$is_pois ~ "Incidence Rate Ratios",
       fitfam$is_bin && !fitfam$is_logit ~ "Risk Ratios",
       fitfam$is_bin ~ "Odds Ratios",

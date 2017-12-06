@@ -93,7 +93,7 @@
 #'
 #' @importFrom utils txtProgressBar setTxtProgressBar
 #' @importFrom psych describe
-#' @importFrom sjmisc var_type
+#' @importFrom sjmisc var_type is_even
 #' @export
 sjt.df <- function(mydf,
                    describe = TRUE,
