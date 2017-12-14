@@ -481,14 +481,25 @@ sjp.frq <- function(var.cnt,
     # and x-axis
     scalex <- scale_x_discrete(labels = "")
     if (type == "boxplot") {
-      baseplot <- baseplot +
-        geom_boxplot(width = geom.size, fill = geom.colors)
+      if (show.ci) {
+        baseplot <- baseplot +
+          geom_boxplot(width = geom.size, fill = geom.colors, notch = TRUE)
+      } else {
+        baseplot <- baseplot +
+          geom_boxplot(width = geom.size, fill = geom.colors)
+      }
     } else {
       baseplot <- baseplot +
-        geom_violin(trim = trimViolin, width = geom.size, fill = geom.colors) +
-        # if we have a violin plot, add an additional boxplot inside to show
-        # more information
-        geom_boxplot(width = inner.box.width, fill = "white")
+        geom_violin(trim = trimViolin, width = geom.size, fill = geom.colors)
+      # if we have a violin plot, add an additional boxplot inside to show
+      # more information
+      if (show.ci) {
+        baseplot <- baseplot +
+          geom_boxplot(width = inner.box.width, fill = "white", notch = TRUE)
+      } else {
+        baseplot <- baseplot +
+          geom_boxplot(width = inner.box.width, fill = "white")
+      }
     }
 
     # if we have boxplots or violon plots, also add a point that indicates
