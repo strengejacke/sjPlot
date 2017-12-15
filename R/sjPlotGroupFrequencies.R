@@ -188,6 +188,7 @@ sjp.grpfrq <- function(var.cnt,
                        show.n = TRUE,
                        show.prc = TRUE,
                        show.axis.values = TRUE,
+                       show.ci = FALSE,
                        show.grpcnt = FALSE,
                        show.legend = TRUE,
                        show.na = FALSE,
@@ -633,7 +634,7 @@ sjp.grpfrq <- function(var.cnt,
     else
       geob <- geom_line(size = geom.size)
   } else if (type == "boxplot") {
-    geob <- geom_boxplot(width = geom.size)
+      geob <- geom_boxplot(width = geom.size, notch = show.ci)
   } else if (type == "violin") {
     geob <- geom_violin(trim = trimViolin, width = geom.size)
   } else {
@@ -763,8 +764,13 @@ sjp.grpfrq <- function(var.cnt,
     # if we have a violin plot, add an additional boxplot inside to show
     # more information
     if (type == "violin") {
-      baseplot <- baseplot +
-        geom_boxplot(width = inner.box.width, fill = "white", outlier.colour = NA)
+      if (show.ci) {
+        baseplot <- baseplot +
+          geom_boxplot(width = inner.box.width, fill = "white", outlier.colour = NA, notch = TRUE)
+      } else {
+        baseplot <- baseplot +
+          geom_boxplot(width = inner.box.width, fill = "white", outlier.colour = NA)
+      }
     }
 
     # if we have boxplots or violon plots, also add a point that indicates
