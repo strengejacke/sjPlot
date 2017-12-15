@@ -634,11 +634,7 @@ sjp.grpfrq <- function(var.cnt,
     else
       geob <- geom_line(size = geom.size)
   } else if (type == "boxplot") {
-      if (show.ci) {
-        geob <- geom_boxplot(width = geom.size, notch = TRUE)
-      } else {
-        geob <- geom_boxplot(width = geom.size)
-      }
+      geob <- geom_boxplot(width = geom.size, notch = show.ci)
   } else if (type == "violin") {
     geob <- geom_violin(trim = trimViolin, width = geom.size)
   } else {
