@@ -64,7 +64,7 @@ plot_point_estimates <- function(model,
   # based on current ggplot theme, highlights vertical default line
 
   yintercept = dplyr::if_else(isTRUE(tf == "exp"), 1, 0)
-  layer_vertical_line <- geom_intercep_line(yintercept, axis.scaling, vline.color)
+  layer_vertical_line <- geom_intercept_line(yintercept, axis.scaling, vline.color)
 
   # check whether we have a multinomial log. reg. model
   multinomial <- tibble::has_name(dat, "response.level")

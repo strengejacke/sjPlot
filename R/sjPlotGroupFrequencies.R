@@ -86,6 +86,9 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'          should be printed or not.
 #' @param show.prc logical, if \code{TRUE} (default), percentage values are plotted to each bar
 #'          If \code{FALSE}, percentage values are removed.
+#' @param show.ci Logical, if \code{TRUE)}, adds notches to the box plot, which are
+#'          used to compare groups; if the notches of two boxes do not overlap,
+#'          medians are considered to be significantly different.
 #' @param emph.dots logical, if \code{TRUE}, the groups of dots in a dot-plot are highlighted
 #'          with a shaded rectangle.
 #' @param show.summary logical, if \code{TRUE} (default), a summary with chi-squared

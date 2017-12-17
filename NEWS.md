@@ -10,8 +10,10 @@
 * `plot_model()` now also supports `clm`-models from package *ordinal*, `polr`-models from package *MASS*, `multinom`-models from package *nnet* and `Zelig-relogit`-models from package *Zelig*.
 * `plot_model()` gets a `show.legend`-argument to show or hide the legend for marginal effects plots.
 * `plot_model()` gets a `se`-argument to plot (robust) standard errors instead of confidence intervals for coefficient-plots.
+* Diagnostic plots in `plot_model()` (`type = "diag"`) now also plots diagnostics of random effects models of (generalized) linear mixed models.
 * The `...`-argument of `plot_model()` now also accepts the arguments `preprocess`, `postprocess` and `protect`, which are passed down to `snakecase::to_any_case()` for case conversion of term labels (axis labels).
 * `sjt.itemanalysis()` no longer returns a list of score items, but only a data frame of scores.
+* `sjp.grpfrq()` gets a `show.ci`-argument to add notches to boxplots.
 
 ## Bug fixes
 

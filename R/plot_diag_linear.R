@@ -1,5 +1,6 @@
 plot_diag_linear <- function(model,
                              geom.colors,
+                             dot.size,
                              ...) {
   plot.list <- list()
   geom.colors <- col_check2(geom.colors, 2)
@@ -8,6 +9,9 @@ plot_diag_linear <- function(model,
   if (!is.null(p)) plot.list[[length(plot.list) + 1]] <- p
 
   p <- diag_qq(model, geom.colors)
+  if (!is.null(p)) plot.list[[length(plot.list) + 1]] <- p
+
+  p <- diag_reqq(model, dot.size)
   if (!is.null(p)) plot.list[[length(plot.list) + 1]] <- p
 
   p <- diag_norm(model, geom.colors)
@@ -20,6 +24,12 @@ plot_diag_linear <- function(model,
 }
 
 
+plot_diag_glm <- function(model, geom.colors, dot.size, ...) {
+  geom.colors <- col_check2(geom.colors, 2)
+  diag_reqq(model, dot.size)
+}
+
+
 #' @importFrom tibble tibble
 #' @importFrom stats residuals fitted
 diag_ncv <- function(model) {
@@ -29,7 +39,7 @@ diag_ncv <- function(model) {
   )
 
   ggplot(dat, aes_string(x = "fitted", y = "res")) +
-    geom_hline(yintercept = 0, alpha = 0.7) +
+    geom_intercept_line2(0, NULL) +
     geom_point() +
     geom_smooth(method = "loess", se = FALSE) +
     labs(
@@ -68,7 +78,7 @@ diag_norm <- function(model, geom.colors) {
 
 
 #' @importFrom stats residuals rstudent fitted
-diag_qq <- function(model, geom.colors) {
+diag_qq <- function(model, geom.colors, ...) {
   # qq-plot of studentized residuals for base model
   # mixed model model?
   if (inherits(model, c("lme", "lmerMod"))) {
@@ -96,6 +106,55 @@ diag_qq <- function(model, geom.colors) {
       y = y_lab,
       x = "Theoretical quantiles (predicted values)"
     )
+}
+
+
+#' @importFrom lme4 ranef
+#' @importFrom purrr map map_dbl
+#' @importFrom tibble tibble
+#' @importFrom stats qnorm ppoints
+diag_reqq <- function(model, dot.size) {
+
+  if (!is_merMod(model)) return(NULL)
+
+  re   <- lme4::ranef(model, condVar = T)[[1]]
+  pv   <- attr(re, "postVar")
+  cols <- seq_len(dim(pv)[1])
+
+  se <- unlist(lapply(cols, function(.x) sqrt(pv[.x, .x, ])))
+  ord  <- unlist(lapply(re, order)) + rep((0:(ncol(re) - 1)) * nrow(re), each = nrow(re))
+
+  pDf  <- tibble::tibble(
+    y = unlist(re)[ord],
+    ci = stats::qnorm(.975) * se[ord],
+    nQQ = rep(stats::qnorm(stats::ppoints(nrow(re))), ncol(re)),
+    ID = factor(rep(rownames(re), ncol(re))[ord], levels = rownames(re)[ord]),
+    ind = gl(ncol(re), nrow(re), labels = names(re)),
+    conf.low = .data$y - .data$ci,
+    conf.high = .data$y + .data$ci
+  )
+
+  alpha <- .3
+  if (is.null(dot.size)) dot.size <- 2
+
+  # get ...-arguments
+  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  if ("alpha" %in% names(add.args)) alpha <- eval(add.args[["alpha"]])
+
+  ggplot(pDf, aes_string(
+    x = "nQQ",
+    y = "y"
+  )) +
+    facet_wrap(~ ind, scales = "free") +
+    labs(x = "Standard normal quantiles", y = "Random effect quantiles") +
+    geom_intercept_line2(0, NULL) +
+    stat_smooth(method = "lm", alpha = alpha) +
+    geom_errorbar(
+      aes_string(ymin = "conf.low", ymax = "conf.high"),
+      width = 0,
+      colour = "black"
+    ) +
+    geom_point(size = dot.size, colour = "darkblue")
 }
 
 

@@ -12,12 +12,13 @@ sjp.grpfrq(var.cnt, var.grp, type = c("bar", "dot", "line", "boxplot",
   wrap.labels = 15, wrap.legend.title = 20, wrap.legend.labels = 20,
   geom.size = NULL, geom.spacing = 0.15, geom.colors = "Paired",
   show.values = TRUE, show.n = TRUE, show.prc = TRUE,
-  show.axis.values = TRUE, show.grpcnt = FALSE, show.legend = TRUE,
-  show.na = FALSE, show.summary = FALSE, auto.group = NULL, ylim = NULL,
-  grid.breaks = NULL, expand.grid = FALSE, inner.box.width = 0.15,
-  inner.box.dotsize = 3, smooth.lines = FALSE, emph.dots = TRUE,
-  summary.pos = "r", facet.grid = FALSE, coord.flip = FALSE,
-  y.offset = NULL, vjust = "bottom", hjust = "center", prnt.plot = TRUE)
+  show.axis.values = TRUE, show.ci = FALSE, show.grpcnt = FALSE,
+  show.legend = TRUE, show.na = FALSE, show.summary = FALSE,
+  auto.group = NULL, ylim = NULL, grid.breaks = NULL,
+  expand.grid = FALSE, inner.box.width = 0.15, inner.box.dotsize = 3,
+  smooth.lines = FALSE, emph.dots = TRUE, summary.pos = "r",
+  facet.grid = FALSE, coord.flip = FALSE, y.offset = NULL,
+  vjust = "bottom", hjust = "center", prnt.plot = TRUE)
 }
 \arguments{
 \item{var.cnt}{Vector of counts, for which frequencies or means will be plotted or printed.}
@@ -102,6 +103,10 @@ If \code{FALSE}, percentage values are removed.}
 
 \item{show.axis.values}{logical, whether category, count or percentage values for the axis
 should be printed or not.}
+
+\item{show.ci}{Logical, if \code{TRUE)}, adds notches to the box plot, which are
+used to compare groups; if the notches of two boxes do not overlap,
+medians are considered to be significantly different.}
 
 \item{show.grpcnt}{logical, if \code{TRUE}, the count within each group is added
 to the category labels (e.g. \code{"Cat 1 (n=87)"}). Default value is \code{FALSE}.}

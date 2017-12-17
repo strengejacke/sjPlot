@@ -106,9 +106,9 @@ If \code{FALSE}, percentage values are removed.}
 \item{show.axis.values}{logical, whether category, count or percentage values for the axis
 should be printed or not.}
 
-\item{show.ci}{Logical, if \code{TRUE}, depending on \code{type}, a confidence
-interval or region is added to the plot. For frequency plots, the
-confidence interval for the relative frequencies are shown.}
+\item{show.ci}{Logical, if \code{TRUE)}, adds notches to the box plot, which are
+used to compare groups; if the notches of two boxes do not overlap,
+medians are considered to be significantly different.}
 
 \item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values)
 are added to the output.}

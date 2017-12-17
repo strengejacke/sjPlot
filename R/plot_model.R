@@ -9,25 +9,40 @@
 #'   \pkg{lme4}, \pkg{nlme}, \pkg{rstanarm}, \pkg{survey}, \pkg{glmmTMB},
 #'   \pkg{MASS}, \pkg{brms} etc.
 #' @param type Type of plot. There are three groups of plot-types: \cr \cr
-#'   \emph{Coefficients} \describe{ \item{\code{type = "est"}}{Forest-plot of
-#'   estimates. If the fitted model only contains one predictor, slope-line is
-#'   plotted.} \item{\code{type = "re"}}{For mixed effects models, plots the
-#'   random effects.} \item{\code{type = "std"}}{Forest-plot of standardized
-#'   beta values.} \item{\code{type = "std2"}}{Forest-plot of standardized beta
-#'   values, however, standardization is done by dividing by two sd (see
-#'   'Details').} } \emph{Marginal Effects} \describe{ \item{\code{type =
-#'   "pred"}}{Predicted values (marginal effects) for specific model terms. See
-#'   \code{\link[ggeffects]{ggpredict}} for details.} \item{\code{type =
-#'   "eff"}}{Similar to \code{type = "pred"}, however, discrete predictors are
-#'   held constant at their proportions (not reference level). See
-#'   \code{\link[ggeffects]{ggeffect}} for details.} \item{\code{type =
-#'   "int"}}{Marginal effects of interaction terms in \code{model}.} }
-#'   \emph{Model diagnostics} \describe{ \item{\code{type = "slope"}}{Slope of
-#'   coefficients for each single predictor, against the response (linear
-#'   relationship between each model term and response).} \item{\code{type =
-#'   "resid"}}{Slope of coefficients for each single predictor, against the
-#'   residuals (linear relationship between each model term and residuals).}
-#'   \item{\code{type = "diag"}}{Check model assumptions.} }
+#'   \emph{Coefficients}
+#'   \describe{
+#'     \item{\code{type = "est"}}{Forest-plot of estimates. If the fitted model
+#'     only contains one predictor, slope-line is plotted.}
+#'     \item{\code{type = "re"}}{For mixed effects models, plots the random
+#'     effects.}
+#'     \item{\code{type = "std"}}{Forest-plot of standardized beta values.}
+#'     \item{\code{type = "std2"}}{Forest-plot of standardized beta values,
+#'     however, standardization is done by dividing by two sd (see 'Details').}
+#'   }
+#'   \emph{Marginal Effects}
+#'   \describe{
+#'     \item{\code{type = "pred"}}{Predicted values (marginal effects) for
+#'     specific model terms. See \code{\link[ggeffects]{ggpredict}} for details.}
+#'     \item{\code{type = "eff"}}{Similar to \code{type = "pred"}, however,
+#'     discrete predictors are held constant at their proportions (not reference
+#'     level). See \code{\link[ggeffects]{ggeffect}} for details.}
+#'     \item{\code{type = "int"}}{Marginal effects of interaction terms in
+#'     \code{model}.}
+#'   }
+#'   \emph{Model diagnostics}
+#'   \describe{
+#'     \item{\code{type = "slope"}}{Slope of coefficients for each single
+#'     predictor, against the response (linear relationship between each model
+#'     term and response).}
+#'     \item{\code{type = "resid"}}{Slope of coefficients for each single
+#'     predictor, against the residuals (linear relationship between each model
+#'     term and residuals).}
+#'     \item{\code{type = "diag"}}{Check model assumptions.}
+#'   }
+#'   \strong{Note:} For mixed models, the diagnostic plots like linear relationship
+#'   or check for Homoscedasticity, do \strong{not} take the uncertainty of
+#'   random effects into account, but is only based on the fixed effects part
+#'   of the model.
 #' @param transform A character vector, naming a function that will be applied
 #'   on estimates and confidence intervals. By default, \code{transform} will
 #'   automatically use \code{"exp"} as transformation for applicable classes of
@@ -593,12 +608,19 @@ plot_model <- function(model,
       p <- plot_diag_linear(
         model = model,
         geom.colors = colors,
+        dot.size = dot.size,
         ...
       )
 
     } else {
-      message("Not implemented yet.")
-      p <- NULL
+
+      p <- plot_diag_glm(
+        model = model,
+        geom.colors = colors,
+        dot.size = dot.size,
+        ...
+      )
+
     }
 
   }

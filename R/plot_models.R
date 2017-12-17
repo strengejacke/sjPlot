@@ -251,7 +251,7 @@ plot_models <- function(...,
   # based on current ggplot theme, highlights vertical default line
 
   yintercept <- if (isTRUE(tf == "exp")) 1 else 0
-  layer_vertical_line <- geom_intercep_line(yintercept, axis.scaling, vline.color)
+  layer_vertical_line <- geom_intercept_line(yintercept, axis.scaling, vline.color)
 
 
   # set up base plot

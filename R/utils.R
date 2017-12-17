@@ -196,7 +196,7 @@ nulldef <- function(x, y, z = NULL) {
 }
 
 
-geom_intercep_line <- function(yintercept, axis.scaling, vline.color) {
+geom_intercept_line <- function(yintercept, axis.scaling, vline.color) {
   if (yintercept > axis.scaling$axis.lim[1] && yintercept < axis.scaling$axis.lim[2]) {
     t <- theme_get()
     color <- nulldef(vline.color, t$panel.grid.major$colour, "grey90")
@@ -207,6 +207,16 @@ geom_intercep_line <- function(yintercept, axis.scaling, vline.color) {
   } else {
     NULL
   }
+}
+
+# same as above, but no check if intercept is within boundaries or not
+geom_intercept_line2 <- function(yintercept, vline.color) {
+  t <- theme_get()
+  color <- nulldef(vline.color, t$panel.grid.major$colour, "grey90")
+  minor_size <- nulldef(t$panel.grid.minor$size, .125)
+  major_size <- nulldef(t$panel.grid.major$size, minor_size * 2)
+  size <- major_size * 2
+  geom_hline(yintercept = yintercept, color = color, size = size)
 }
 
 
