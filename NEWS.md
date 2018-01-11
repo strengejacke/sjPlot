@@ -12,6 +12,7 @@
 * `plot_model()` gets a `se`-argument to plot (robust) standard errors instead of confidence intervals for coefficient-plots.
 * Diagnostic plots in `plot_model()` (`type = "diag"`) now also plots diagnostics of random effects models of (generalized) linear mixed models.
 * The `...`-argument of `plot_model()` now also accepts the arguments `preprocess`, `postprocess` and `protect`, which are passed down to `snakecase::to_any_case()` for case conversion of term labels (axis labels).
+* The `title`-argument in `plot_model()` now also works for plotting random effects (`type = "re"`).
 * `sjt.itemanalysis()` no longer returns a list of score items, but only a data frame of scores.
 * `sjp.grpfrq()` gets a `show.ci`-argument to add notches to boxplots.
 

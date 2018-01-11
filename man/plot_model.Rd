@@ -253,7 +253,8 @@ details on this argument.}
 \item{auto.label}{Logical, if \code{TRUE} (the default), plot-labels are
 based on value and variable labels, if the data is labelled. See
 \code{\link[sjlabelled]{get_label}} and
-\code{\link[sjlabelled]{get_term_labels}} for details.}
+\code{\link[sjlabelled]{get_term_labels}} for details. If \code{FALSE},
+original variable names and value labels (factor levels) are used.}
 
 \item{bpe}{For \strong{Stan}-models (fitted with the \pkg{rstanarm}- or
 \pkg{brms}-package), the Bayesian point estimate is, by default, the median

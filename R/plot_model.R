@@ -190,7 +190,8 @@
 #' @param auto.label Logical, if \code{TRUE} (the default), plot-labels are
 #'   based on value and variable labels, if the data is labelled. See
 #'   \code{\link[sjlabelled]{get_label}} and
-#'   \code{\link[sjlabelled]{get_term_labels}} for details.
+#'   \code{\link[sjlabelled]{get_term_labels}} for details. If \code{FALSE},
+#'   original variable names and value labels (factor levels) are used.
 #' @param digits Numeric, amount of digits after decimal point when rounding
 #'   estimates or values.
 #' @param value.size Numeric, indicates the size of value labels. Can be used
@@ -514,6 +515,7 @@ plot_model <- function(model,
       se = se,
       tf = transform,
       sort.est = sort.est,
+      title = title,
       axis.labels = axis.labels,
       axis.lim = axis.lim,
       grid.breaks = grid.breaks,
