@@ -330,16 +330,16 @@ Depending on the plot-type, \code{plot_model()} returns a
   \code{\link[ggeffects]{ggpredict}}. } \item{\code{type = "eff"}}{ Plots
   marginal effects. Simply wraps \code{\link[ggeffects]{ggeffect}}. }
   \item{\code{type = "int"}}{ A shortcut for marginal effects plots, where
-  interaction terms are automatically detected and used as `terms`-argument.
+  interaction terms are automatically detected and used as \code{terms}-argument.
   Furthermore, if the moderator variable (the second - and third - term in an
   interaction) is continuous, \code{type = "int"} automatically chooses
-  useful values based on the `mdrt.values`-argument, which are passed to
-  `terms`. Then, \code{\link[ggeffects]{ggpredict}} is called. \code{type =
+  useful values based on the \code{mdrt.values}-argument, which are passed to
+  \code{terms}. Then, \code{\link[ggeffects]{ggpredict}} is called. \code{type =
   "int"} plots the interaction term that appears first in the formula along
   the x-axis, while the second (and possibly third) variable in an
   interaction is used as grouping factor(s) (moderating variable). Use
   \code{type = "pred"} or \code{type = "eff"} and specify a certain order in
-  the `terms`-argument to indicate which variable(s) should be used as
+  the \code{terms}-argument to indicate which variable(s) should be used as
   moderator. } }
 }
 \note{
@@ -386,6 +386,7 @@ m <- glm(
 # identical to:
 # plot_model(m, type = "pred", terms = c("c172code", "neg_c_7 [7,28]"))
 plot_model(m, type = "int")
+
 # switch moderator
 plot_model(m, type = "pred", terms = c("neg_c_7", "c172code"))
 # same as
