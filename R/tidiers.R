@@ -167,7 +167,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, ...) {
 
   dat <- dat %>%
     tibble::add_column(
-      estimate = purrr::map_dbl(mod.dat, sjstats::typical_value, bpe),
+      estimate = purrr::map_dbl(mod.dat, ~ sjstats::typical_value(.x, fun = bpe)),
       .after = 1
     ) %>%
     tibble::add_column(p.value = 0)
