@@ -71,10 +71,10 @@ utils::globalVariables(c("offset"))
 #' data(efc)
 #' # find all variables from COPE-Index, which all have a "cop" in their
 #' # variable name, and then plot that subset as likert-plot
-#' find_var(efc, "cop", as.df = TRUE) %>% sjp.likert()
+#' find_var(efc, pattern = "cop", out = "df") %>% sjp.likert()
 #'
 #' sjp.likert(
-#'   find_var(efc, "cop", as.df = TRUE),
+#'   find_var(efc, pattern = "cop", out = "df"),
 #'   grid.range = 1.2,
 #'   expand.grid = FALSE,
 #'   values = "sum.outside",
@@ -84,6 +84,7 @@ utils::globalVariables(c("offset"))
 #' @import ggplot2
 #' @importFrom stats na.omit xtabs
 #' @importFrom sjmisc is_odd set_na
+#' @importFrom sjlabelled as_numeric
 #' @export
 sjp.likert <- function(items,
                        title = NULL,
@@ -256,6 +257,16 @@ sjp.likert <- function(items,
              collapse = ";"), ";else=copy"
       )
 
+    # all factors with char labels need to be numeric,
+    # else, recode won't work
+
+    items <- purrr::modify_if(
+      items,
+      is_labelled_factor,
+      sjlabelled::as_numeric,
+      keep.labels = FALSE
+    )
+
     # finally, recode data
     items <- sjmisc::rec(items, rec = recode.pattern)
 
@@ -273,7 +284,7 @@ sjp.likert <- function(items,
       # --------------------------------------------------------
       # convert non-numeric factors to numeric values
       # --------------------------------------------------------
-      items[[i]] <- sjmisc::to_value(items[[i]], keep.labels = F)
+      items[[i]] <- sjlabelled::as_numeric(items[[i]], keep.labels = F)
     }
     # --------------------------------------------------------
     # If we don't plot neutral category, but item still contains

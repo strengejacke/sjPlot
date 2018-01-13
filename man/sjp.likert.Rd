@@ -150,10 +150,10 @@ library(sjmisc)
 data(efc)
 # find all variables from COPE-Index, which all have a "cop" in their
 # variable name, and then plot that subset as likert-plot
-find_var(efc, "cop", as.df = TRUE) \%>\% sjp.likert()
+find_var(efc, pattern = "cop", out = "df") \%>\% sjp.likert()
 
 sjp.likert(
-  find_var(efc, "cop", as.df = TRUE),
+  find_var(efc, pattern = "cop", out = "df"),
   grid.range = 1.2,
   expand.grid = FALSE,
   values = "sum.outside",

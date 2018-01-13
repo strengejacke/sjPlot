@@ -3,6 +3,10 @@ utils::globalVariables(c("Freq", "vif"))
 
 # Help-functions
 
+# is factor with char levels?
+#' @importFrom sjmisc is_num_fac
+is_labelled_factor <- function(x) is.factor(x) && !sjmisc::is_num_fac(x)
+
 
 # get additional arguments for geoms
 get_dot_args <- function(x) {
