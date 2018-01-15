@@ -1,5 +1,3 @@
-## TODO provide own tidier for not-supported models
-
 tidy_model <- function(model, ci.lvl, tf, type, bpe, se, facets, ...) {
   dat <- get_tidy_data(model, ci.lvl, tf, type, bpe, facets, ...)
 

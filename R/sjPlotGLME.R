@@ -232,6 +232,7 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #' @import ggplot2
 #' @importFrom dplyr slice sample_n
 #' @importFrom lme4 fixef ranef confint.merMod getME
+#' @importFrom stats runif
 #' @export
 sjp.glmer <- function(fit,
                       type = "re",
@@ -269,7 +270,7 @@ sjp.glmer <- function(fit,
                       prnt.plot = TRUE,
                       ...) {
 
-  if (stats::runif(1) < .2)
+  if (stats::runif(1) < .3)
     message("`sjp.glmer()` will become deprecated in the future. Please use `plot_model()` instead.")
 
   ## TODO activate in future update
@@ -278,7 +279,7 @@ sjp.glmer <- function(fit,
   # -------------------------------------
   # check for deprecated argument values
   # -------------------------------------
-  if (type == "fe.prob" || type == "fe.pc" ||type == "fe.slope") type <- "fe"
+  if (type == "fe.prob" || type == "fe.pc" || type == "fe.slope") type <- "fe"
   if (type == "ri.prob" || type == "ri.pc" || type == "fe.ri") type <- "ri.slope"
   if (type == "y.prob" || type == "y.pc") type <- "pred"
   # -------------------------------------
@@ -576,7 +577,7 @@ sjp.lmer <- function(fit,
                      prnt.plot = TRUE,
                      ...) {
 
-  if (stats::runif(1) < .2)
+  if (stats::runif(1) < .3)
     message("`sjp.lmer()` will become deprecated in the future. Please use `plot_model()` instead.")
 
   ## TODO activate in future update

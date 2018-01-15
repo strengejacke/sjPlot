@@ -1,0 +1,195 @@
+---
+title: "Tidy Data Frames of Marginal Effects"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Tidy Data Frames of Marginal Effects}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r set-options, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 3.5, message = FALSE, warning = FALSE)
+options(width = 800, tibble.width = Inf)
+```
+
+# Aim of the ggeffects-package
+
+The aim of this package is similar to the [broom-package](https://cran.r-project.org/package=broom): transforming "untidy" input into a tidy data frame, especially for further use with [ggplot](https://cran.r-project.org/package=ggplot2). However, **ggeffects** does not return model-summaries; rather, this package computes marginal effects at the mean or average marginal effects from statistical models and returns the result as tidy data frame (as _tibbles_, to be more precisely).
+
+Since the focus lies on plotting the data (the marginal effects), at least one model term needs to be specified for which the effects are computed. It is also possible to compute marginal effects for model terms, grouped by the levels of another model's predictor. The package also allows plotting marginal effects for two- or three-way-interactions, or for specific values of a model term only. Examples are shown below.
+
+# Consistent and tidy structure
+
+The returned data frames always have the same, consistent structure and column names, so it's easy to create ggplot-plots without the need to re-write the arguments to be mapped in each ggplot-call. `x` and `predicted` are the values for the x- and y-axis. `conf.low` and `conf.high` could be used as `ymin` and `ymax` aesthetics for ribbons to add confidence bands to the plot. `group` can be used as grouping-aesthetics, or for faceting.
+
+# Marginal effects at the mean
+
+`ggpredict()` computes predicted values for all possible levels and values from a model's predictors. In the simplest case, a fitted model is passed as first argument, and the term in question as second argument:
+
+```{r}
+library(ggeffects)
+data(efc)
+fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
+
+ggpredict(fit, terms = "c12hour")
+```
+
+The output shows the predicted values for the response at each value from the term _c12hour_. The data is already in shape for ggplot:
+
+```{r}
+library(ggplot2)
+theme_set(theme_bw())
+
+mydf <- ggpredict(fit, terms = "c12hour")
+ggplot(mydf, aes(x, predicted)) + geom_line()
+```
+
+# Marginal effects at the mean for different groups
+
+The `terms`-argument accepts up to three model terms, where the second and third term indicate grouping levels. This allows predictions for the term in question at different levels for other model terms:
+
+```{r}
+ggpredict(fit, terms = c("c12hour", "c172code"))
+```
+
+Creating a ggplot is pretty straightforward: the colour-aesthetics is mapped with the `group`-column:
+
+```{r}
+mydf <- ggpredict(fit, terms = c("c12hour", "c172code"))
+ggplot(mydf, aes(x, predicted, colour = group)) + geom_line()
+```
+
+Finally, a second grouping structure can be defined, which will create another column named `facet`, which - as the name implies - might be used to create a facted plot:
+
+```{r}
+mydf <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
+mydf
+ggplot(mydf, aes(x, predicted, colour = group)) + 
+  geom_line() + 
+  facet_wrap(~facet)
+```
+
+# Average marginal effects
+
+`ggaverage()` compute average marginal effects. While `ggpredict()` creates a data-grid (using `expand.grid()`) for all possible combinations of values (even if some combinations are not present in the data), `ggaverage()` computes predicted values based on the given data. This means that _different_ predicted values for the outcome may occure at the _same_ value or level for the term in question. The predicted values are then averaged for each value of the term in question and the linear trend is smoothed accross the averaged predicted values. This means that the line representing the marginal effects may cross or diverge, and are not necessarily in paralell to each other.
+
+```{r}
+mydf <- ggaverage(fit, terms = c("c12hour", "c172code"))
+ggplot(mydf, aes(x, predicted, colour = group)) + geom_line()
+```
+
+# Marginal effects at specific values or levels
+
+The `terms`-argument not only defines the model terms of interest, but each model term _that defines the grouping structure_ can be limited to certain values. This allows to compute and plot marginal effects for terms at specific values only. To define these values, put them in square brackets directly after the term name: `terms = c("c12hour [30, 50, 80]", "c172code [1,3]")`
+
+```{r}
+mydf <- ggpredict(fit, terms = c("c12hour [30, 50, 80]", "c172code [1,3]"))
+mydf
+ggplot(mydf, aes(x, predicted, colour = group)) + geom_line()
+```
+
+# Two- and Three-Way-Interactions
+
+To plot the marginal effects of interaction terms, simply specify these terms in the `terms`-argument.
+
+```{r}
+library(sjmisc)
+data(efc)
+
+# make categorical
+efc$c161sex <- to_factor(efc$c161sex)
+
+# fit model with interaction
+fit <- lm(neg_c_7 ~ c12hour + barthtot * c161sex, data = efc)
+
+# select only levels 30, 50 and 70 from continuous variable Barthel-Index
+mydf <- ggpredict(fit, terms = c("barthtot [30,50,70]", "c161sex"))
+ggplot(mydf, aes(x, predicted, colour = group)) + geom_line()
+```
+
+Since the `terms`-argument accepts up to three model terms, you can also compute marginal effects for a 3-way-interaction.
+
+To plot the marginal effects of interaction terms, simply specify these terms in the `terms`-argument.
+
+```{r}
+# fit model with 3-way-interaction
+fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex, data = efc)
+
+# select only levels 30, 50 and 70 from continuous variable Barthel-Index
+mydf <- ggpredict(fit, terms = c("c12hour", "barthtot [30,50,70]", "c161sex"))
+
+ggplot(mydf, aes(x, predicted, colour = group)) + 
+  geom_line() +
+  facet_wrap(~facet)
+```
+
+# Polynomial terms and splines
+
+`ggpredict()` also works for models with polynomial terms or splines. Following code reproduces the plot from `?splines::bs`:
+
+
+```{r}
+library(splines)
+data(women)
+
+fm1 <- lm(weight ~ bs(height, df = 5), data = women)
+dat <- ggpredict(fm1, "height")
+
+ggplot(dat, aes(x, predicted)) + 
+  geom_line() +
+  geom_point()
+```
+
+# Labelling the data
+
+**ggeffects** makes use of the [sjlabelled-package](https://cran.r-project.org/package=sjlabelled) and supports [labelled data](https://cran.r-project.org/package=sjlabelled/vignettes/intro_sjlabelled.html). If the data from the fitted models is labelled, the value and variable label attributes are usually copied to the model frame stored in the model object. **ggeffects** provides various _getter_-functions to access these labels, which are returned as character vector and can be used in ggplot's `lab()`- or `scale_*()`-functions.
+
+* `get_title()` - a generic title for the plot, based on the model family, like "predicted values" or "predicted probabilities"
+* `get_x_title()` - the variable label of the first model term in `terms`.
+* `get_y_title()` - the variable label of the response.
+* `get_legend_title()` - the variable label of the second model term in `terms`.
+* `get_x_labels()` - value labels of the first model term in `terms`.
+* `get_legend_labels()` - value labels of the second model term in `terms`.
+
+The data frame returned by `ggpredict()` or `ggaverage()` must be used as argument to one of the above function calls.
+
+```{r}
+get_x_title(mydf)
+get_y_title(mydf)
+
+ggplot(mydf, aes(x, predicted, colour = group)) + 
+  geom_line() +
+  facet_wrap(~facet) +
+  labs(
+    x = get_x_title(mydf),
+    y = get_y_title(mydf),
+    colour = get_legend_title(mydf)
+  )
+```
+
+# plot()-method
+
+If you don't want to write your own ggplot-code, **ggeffects** has a `plot()`-method with some convenient defaults, which allows quickly creating ggplot-objects. `plot()` has only a few arguments to keep this function small and simple. For instance, `ci` allows you to show or hide confidence bands (or error bars, for discrete variables), `facets` allows you to create facets even for just one grouping variable, or `colors` allows you to quickly choose from some color-palettes, including black & white colored plots. Use `rawdata` to add the raw data points to the plot.
+
+```{r}
+data(efc)
+efc$c172code <- to_label(efc$c172code)
+fit <- lm(barthtot ~ c12hour + neg_c_7 + c161sex + c172code, data = efc)
+
+# facet by group
+dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
+plot(dat, facet = TRUE)
+# don't use facets, b/w figure, w/o confidence bands
+plot(dat, colors = "bw", ci = FALSE)
+# plot raw data
+dat <- ggpredict(fit, terms = c("c12hour", "c172code"))
+plot(dat, rawdata = TRUE)
+# for three variables, automatic facetting
+dat <- ggpredict(fit, terms = c("c12hour", "c172code", "c161sex"))
+plot(dat)
+# categorical variables have errorbars
+dat <- ggpredict(fit, terms = c("c172code", "c161sex"))
+plot(dat)
+```

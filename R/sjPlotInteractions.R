@@ -275,7 +275,7 @@ sjp.int <- function(fit,
                     prnt.plot = TRUE,
                     ...) {
 
-  if (stats::runif(1) < .2)
+  if (stats::runif(1) < .3)
     message("`sjp.int()` will become deprecated in the future. Please use `plot_model()` instead.")
 
   ## TODO activate in future update

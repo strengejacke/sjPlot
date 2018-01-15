@@ -344,16 +344,3 @@ plot_models <- function(...,
 
   p
 }
-
-
-#' @rdname plot_models
-#' @export
-sjp.lmm <- function(...) {
-  .Deprecated(new = "plot_models")
-}
-
-#' @rdname plot_models
-#' @export
-sjp.glmm <- function(...) {
-  .Deprecated(new = "plot_models")
-}

@@ -2,8 +2,6 @@
 % Please edit documentation in R/plot_models.R
 \name{plot_models}
 \alias{plot_models}
-\alias{sjp.lmm}
-\alias{sjp.glmm}
 \title{Forest plot of multiple regression models}
 \usage{
 plot_models(..., transform, std.est = NULL, rm.terms = NULL, title = NULL,
@@ -15,10 +13,6 @@ plot_models(..., transform, std.est = NULL, rm.terms = NULL, title = NULL,
   show.legend = TRUE, show.intercept = FALSE, show.p = TRUE,
   p.shape = FALSE, ci.lvl = 0.95, vline.color = NULL, digits = 2,
   grid = FALSE)
-
-sjp.lmm(...)
-
-sjp.glmm(...)
 }
 \arguments{
 \item{...}{One or more regression models, including glm's or mixed models.
