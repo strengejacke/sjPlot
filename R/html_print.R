@@ -56,10 +56,7 @@ tab_df <- function(x, encoding = "UTF-8", CSS = NULL, ...) {
                         tag.firsttablecol, css.firsttablecol, tag.comment, css.comment)
 
   # first, save table header
-  toWrite <- table.header <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n", encoding)
-
-  # then also set page-CSS-stylesheet
-  toWrite <- sprintf("%s%s\n</head>\n<body>\n", toWrite, page.style)
+  table.header <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n%s\n</head>\n<body>\n", encoding, page.style)
 
   # get row and column count of data frame
   rowcnt <- nrow(mydf)
@@ -134,7 +131,7 @@ tab_df <- function(x, encoding = "UTF-8", CSS = NULL, ...) {
   # finish html page
   # -------------------------------------
   page.content <- paste0(page.content, "</table>\n")
-  toWrite <- paste0(toWrite, sprintf("%s\n</body></html>", page.content))
+  toWrite <- paste0(table.header, page.content, "\n</body></html>")
   # -------------------------------------
   # replace class attributes with inline style,
   # useful for knitr
@@ -171,7 +168,7 @@ tab_df <- function(x, encoding = "UTF-8", CSS = NULL, ...) {
   # -------------------------------------
 
   structure(
-    class = c("sjtatsTable"),
+    class = c("sjTable"),
     list(
       page.style = page.style,
       page.content = page.content,
