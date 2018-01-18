@@ -149,6 +149,10 @@ Third, the point estimate is by default the _median_, but can also be another va
 
 ```{r results='hide'}
 if (require("rstanarm", quietly = TRUE)) {
+  # make sure we apply a nice theme
+  library(ggplot2)
+  theme_set(theme_sjplot())
+  
   data(mtcars)
   m <- stan_glm(mpg ~ wt + am + cyl + gear, data = mtcars, chains = 1)
   
