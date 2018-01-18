@@ -148,21 +148,22 @@ Second, there's not just one interval range, but an _inner_ and _outer_ probabil
 Third, the point estimate is by default the _median_, but can also be another value, like mean. This can be specified with the `bpe`-argument.
 
 ```{r results='hide'}
-library(rstanarm)
-data(mtcars)
-m <- stan_glm(mpg ~ wt + am + cyl + gear, data = mtcars, chains = 1)
-
-# default model
-plot_model(m)
-# same model, with mean point estimate, dot-style for point estimate
-# and different inner/outer probabilities of the HDI
-plot_model(
-  m, 
-  bpe = "mean",
-  bpe.style = "dot",
-  prob.inner = .4,
-  prob.outer = .8
-)
+if (require("rstanarm", quietly = TRUE)) {
+  data(mtcars)
+  m <- stan_glm(mpg ~ wt + am + cyl + gear, data = mtcars, chains = 1)
+  
+  # default model
+  plot_model(m)
+  # same model, with mean point estimate, dot-style for point estimate
+  # and different inner/outer probabilities of the HDI
+  plot_model(
+    m, 
+    bpe = "mean",
+    bpe.style = "dot",
+    prob.inner = .4,
+    prob.outer = .8
+  )
+}
 ```
 
 ## Tweaking plot appearance
