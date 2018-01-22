@@ -4,6 +4,7 @@
 
 * Remove unnecessary imports.
 * Add back `save_plot()` function.
+* Revised and updated package vignettes.
 
 ## Changes to functions
 

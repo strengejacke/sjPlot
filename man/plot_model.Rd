@@ -32,7 +32,7 @@ kinds of models are supported, e.g. from packages like \pkg{stats},
 \pkg{MASS}, \pkg{brms} etc.}
 
 \item{type}{Type of plot. There are three groups of plot-types: \cr \cr
-\emph{Coefficients}
+\emph{Coefficients} (\href{../doc/plot_model_estimates.html}{related vignette})
 \describe{
   \item{\code{type = "est"}}{Forest-plot of estimates. If the fitted model
   only contains one predictor, slope-line is plotted.}
@@ -42,7 +42,7 @@ kinds of models are supported, e.g. from packages like \pkg{stats},
   \item{\code{type = "std2"}}{Forest-plot of standardized beta values,
   however, standardization is done by dividing by two sd (see 'Details').}
 }
-\emph{Marginal Effects}
+\emph{Marginal Effects}  (\href{../doc/plot_marginal_effects.html}{related vignette})
 \describe{
   \item{\code{type = "pred"}}{Predicted values (marginal effects) for
   specific model terms. See \code{\link[ggeffects]{ggpredict}} for details.}
@@ -298,8 +298,8 @@ of supported arguments and their description in detail.
     \code{\link[ggeffects]{ggeffect}} or \code{\link[ggeffects]{plot.ggeffects}}.
   }
   \item{Case conversion of labels}{For case conversion of labels (see argument
-    \code{case}), arguments \code{prerocess}, \code{postprocess} and \code{protect}
-    will be passed down to \code{\link[snakecase]{to_any_case}}. This only
+    \code{case}), arguments \code{sep_in} and \code{sep_out} will be passed
+    down to \code{\link[snakecase]{to_any_case}}. This only
     applies to automatically retrieved term labels, \emph{not} if
     term labels are provided by the \code{axis.labels}-argument.
   }
@@ -320,27 +320,33 @@ Depending on the plot-type, \code{plot_model()} returns a
   the data from the ggplot-object. Hence, it is rather inefficient and should
   be used as alternative to \pkg{brooms} \code{tidy()}-function only in
   specific situations. \cr \cr Some notes on the different plot-types:
-  \describe{ \item{\code{type = "std2"}}{ Plots standardized beta values,
-  however, standardization follows Gelman's (2008) suggestion, rescaling the
-  estimates by dividing them by two standard deviations instead of just one.
-  Resulting coefficients are then directly comparable for untransformed
-  binary predictors. This standardization uses the
-  \code{\link[arm]{standardize}}-function from the \pkg{arm}-package. }
-  \item{\code{type = "pred"}}{ Plots marginal effects. Simply wraps
-  \code{\link[ggeffects]{ggpredict}}. } \item{\code{type = "eff"}}{ Plots
-  marginal effects. Simply wraps \code{\link[ggeffects]{ggeffect}}. }
-  \item{\code{type = "int"}}{ A shortcut for marginal effects plots, where
-  interaction terms are automatically detected and used as \code{terms}-argument.
-  Furthermore, if the moderator variable (the second - and third - term in an
-  interaction) is continuous, \code{type = "int"} automatically chooses
-  useful values based on the \code{mdrt.values}-argument, which are passed to
-  \code{terms}. Then, \code{\link[ggeffects]{ggpredict}} is called. \code{type =
-  "int"} plots the interaction term that appears first in the formula along
-  the x-axis, while the second (and possibly third) variable in an
-  interaction is used as grouping factor(s) (moderating variable). Use
-  \code{type = "pred"} or \code{type = "eff"} and specify a certain order in
-  the \code{terms}-argument to indicate which variable(s) should be used as
-  moderator. } }
+  \describe{
+    \item{\code{type = "std2"}}{Plots standardized beta values,
+    however, standardization follows Gelman's (2008) suggestion, rescaling the
+    estimates by dividing them by two standard deviations instead of just one.
+    Resulting coefficients are then directly comparable for untransformed
+    binary predictors. This standardization uses the
+    \code{\link[arm]{standardize}}-function from the \pkg{arm}-package.
+  }
+  \item{\code{type = "pred"}}{Plots marginal effects. Simply wraps
+    \code{\link[ggeffects]{ggpredict}}.
+  }
+  \item{\code{type = "eff"}}{Plots marginal effects. Simply wraps
+    \code{\link[ggeffects]{ggeffect}}.
+  }
+  \item{\code{type = "int"}}{A shortcut for marginal effects plots, where
+    interaction terms are automatically detected and used as
+    \code{terms}-argument. Furthermore, if the moderator variable (the second
+    - and third - term in an interaction) is continuous, \code{type = "int"}
+    automatically chooses useful values based on the \code{mdrt.values}-argument,
+    which are passed to \code{terms}. Then, \code{\link[ggeffects]{ggpredict}}
+    is called. \code{type = "int"} plots the interaction term that appears
+    first in the formula along the x-axis, while the second (and possibly
+    third) variable in an interaction is used as grouping factor(s)
+    (moderating variable). Use \code{type = "pred"} or \code{type = "eff"}
+    and specify a certain order in the \code{terms}-argument to indicate
+    which variable(s) should be used as moderator.}
+  }
 }
 \note{
 \code{plot_model()} replaces the functions \code{sjp.lm},
@@ -405,10 +411,6 @@ if (require("rstanarm")) {
 Gelman A (2008) "Scaling regression inputs by dividing by two
   standard deviations." \emph{Statistics in Medicine 27: 2865–2873.}
   \url{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}
-   \cr \cr Aiken and West (1991). Multiple Regression: Testing and
-  Interpreting Interactions.
-}
-\seealso{
-Package-vignette about
-  \href{../doc/plot_model_estimates.html}{plot_model()}.
+  \cr \cr
+  Aiken and West (1991). Multiple Regression: Testing and Interpreting Interactions.
 }

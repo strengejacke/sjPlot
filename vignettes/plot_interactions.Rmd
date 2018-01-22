@@ -1,0 +1,69 @@
+---
+title: "Plotting Interaction Effects of Regression Models"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Plotting Interaction Effects of Regression Models}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r set-options, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 3.5, message = FALSE, warning = FALSE)
+options(width = 800, tibble.width = Inf)
+```
+
+This document describes how to plot marginal effects of various regression models, using the `plot_model()` function. `plot_model()` is a generic plot-function, which accepts many model-objects, like `lm`, `glm`, `lme`, `lmerMod` etc.
+
+`plot_model()` allows to create various plot tyes, which can be defined via the `type`-argument. The default is `type = "fe"`, which means that fixed effects (model coefficients) are plotted. To plot marginal effects, call `plot_model()` with:
+
+  * `type = "pred"` to plot predicted values (marginal effects) for specific model terms.
+  * `type = "eff"`, which is similar to `type = "pred"`, however, discrete predictors are held constant at their proportions (not reference level).
+  * `type = "int"` to plot marginal effects of interaction terms.
+
+To plot marginal effects of regression models, at least one model term needs to be specified for which the effects are computed. It is also possible to compute marginal effects for model terms, grouped by the levels of another model's predictor. The function also allows plotting marginal effects for two- or three-way-interactions, however, this is shown in a different vignette.
+
+# Two- and Three-Way-Interactions
+
+To plot the marginal effects of interaction terms, simply specify these terms in the `terms`-argument.
+
+```{r}
+library(sjPlot)
+library(sjmisc)
+library(ggplot2)
+data(efc)
+theme_set(theme_sjplot())
+
+# make categorical
+efc$c161sex <- to_factor(efc$c161sex)
+
+# fit model with interaction
+fit <- lm(neg_c_7 ~ c12hour + barthtot * c161sex, data = efc)
+
+plot_model(fit, type = "pred", terms = c("barthtot", "c161sex"))
+
+plot_model(fit, type = "int")
+
+plot_model(fit, type = "pred", terms = c("c161sex", "barthtot [0, 100]"))
+
+# fit model with interaction, switching terms in formula
+fit <- lm(neg_c_7 ~ c12hour + c161sex * barthtot, data = efc)
+plot_model(fit, type = "int")
+
+```
+
+Since the `terms`-argument accepts up to three model terms, you can also compute marginal effects for a 3-way-interaction.
+
+To plot the marginal effects of interaction terms, simply specify these terms in the `terms`-argument.
+
+```{r}
+# fit model with 3-way-interaction
+fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex, data = efc)
+
+# select only levels 30, 50 and 70 from continuous variable Barthel-Index
+plot_model(fit, type = "pred", terms = c("c12hour", "barthtot [30,50,70]", "c161sex"))
+
+plot_model(fit, type = "int")
+```
+
