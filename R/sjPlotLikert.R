@@ -268,7 +268,7 @@ sjp.likert <- function(items,
     )
 
     # finally, recode data
-    items <- sjmisc::rec(items, rec = recode.pattern)
+    items <- sjmisc::rec(items, rec = recode.pattern, append = FALSE)
 
     # re-order legend labels as well
     ll.order <- c(seq_len(catcount + adding)[-cat.neutral], cat.neutral)

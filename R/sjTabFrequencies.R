@@ -408,7 +408,8 @@ sjt.frq <- function(data,
           sjmisc::to_value(data[[cnt]], keep.labels = F),
           size = "auto",
           as.num = TRUE,
-          n = auto.group
+          n = auto.group,
+          append = FALSE
         )
 
       # set labels

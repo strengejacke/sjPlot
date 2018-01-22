@@ -224,7 +224,7 @@ sjc.qclus <- function(data,
     }
   }
   # scale data
-  z <- sjmisc::std(data)
+  z <- sjmisc::std(data, append = FALSE)
   # retrieve column count
   colnr <- ncol(data)
   # init data frame

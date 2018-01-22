@@ -250,7 +250,8 @@ sjp.frq <- function(var.cnt,
       sjmisc::to_value(var.cnt, keep.labels = F),
       size = "auto",
       as.num = TRUE,
-      n = auto.group
+      n = auto.group,
+      append = FALSE
     )
 
     # set label attributes
@@ -348,7 +349,8 @@ sjp.frq <- function(var.cnt,
         sjmisc::group_var(
           var.cnt,
           size = "auto",
-          n = hist.grp.cnt
+          n = hist.grp.cnt,
+          append = FALSE
         )
       ) * 1.1))
     } else {

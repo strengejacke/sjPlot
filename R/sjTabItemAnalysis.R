@@ -211,7 +211,7 @@ sjt.itemanalysis <- function(df,
     # store scaled values of each item's total score
     # to compute correlation coefficients between identified components
     df.subcc <- subset(df, select = which(factor.groups == findex[i]))
-    comcor <- sjmisc::std(rowSums(df.subcc))
+    comcor <- sjmisc::std(rowSums(df.subcc), append = FALSE)
 
     # check if we have valid return values from reliability test.
     # In case df had less than 3 columns, NULL is returned

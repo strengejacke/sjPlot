@@ -317,7 +317,8 @@ sjp.grpfrq <- function(var.cnt,
         sjmisc::to_value(var.cnt, keep.labels = F),
         size = "auto",
         as.num = TRUE,
-        n = agcnt
+        n = agcnt,
+        append = FALSE
       )
 
     # set value labels
