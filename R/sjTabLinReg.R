@@ -1346,7 +1346,8 @@ sjt.lm <- function(...,
 #' levels(x = efc$grp) <- get_labels(efc$e15relat)
 #' efc$care.level <- sjmisc::rec(efc$n4pstu,
 #'                               rec = "0=0;1=1;2=2;3:4=3",
-#'                               as.num = FALSE)
+#'                               as.num = FALSE,
+#'                               append = FALSE)
 #' levels(x = efc$care.level) <- c("none", "I", "II", "III")
 #'
 #' # data frame for fitted model
