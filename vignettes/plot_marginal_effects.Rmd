@@ -41,7 +41,7 @@ plot_model(fit, type = "pred", terms = "c12hour")
 
 The plot shows the predicted values for the response at each value from the term _c12hour_.
 
-# Marginal effects for different groups
+## Marginal effects for different groups
 
 The `terms`-argument accepts up to three model terms, where the second and third term indicate grouping levels. This allows predictions for the term in question at different levels for other model terms:
 
@@ -56,7 +56,7 @@ plot_model(fit, type = "pred", terms = c("c12hour", "c172code", "c161sex"))
 ```
 
 
-# Marginal effects at specific values or levels
+## Marginal effects at specific values or levels
 
 The `terms`-argument not only defines the model terms of interest, but each model term _that defines the grouping structure_ can be limited to certain values. This allows to compute and plot marginal effects for terms at specific values only. To define these values, put them in square brackets directly after the term name: `terms = c("c12hour [30, 50, 80]", "c172code [1,3]")`
 
@@ -66,7 +66,7 @@ plot_model(fit, type = "pred", terms = c("c12hour [30, 50, 80]", "c172code [1,3]
 
 Note that in the above plot, although the values 30, 50 and 80 only are selected from _c12hour_, the continuous scale automatically adds panel grids every 5 units along the x-axis.
 
-# Polynomial terms and splines
+## Polynomial terms and splines
 
 The function also works for models with polynomial terms or splines. Following code reproduces the plot from `?splines::bs`:
 
@@ -79,8 +79,9 @@ fm1 <- lm(weight ~ bs(height, df = 5), data = women)
 plot_model(fm1, type = "pred", terms = "height")
 ```
 
-# Different constant values for factors
+## Different constant values for factors
 
+Model predictions are based on all possible combinations of the model terms, which are - roughly speaking - created using `expand.grid()`. For the terms in question, all values are used for combinations. All other model predictors that are _not_ specified in the `terms`-argument, are held constant (which is achieved with `sjstats::typical_value()`). By default, continuous variables are set to their mean, while factors are set to their reference level.
 
 ```{r}
 data(efc)
@@ -92,7 +93,7 @@ fit <- lm(neg_c_7 ~ c12hour + c172code, data = efc)
 plot_model(fit, type = "pred", terms = "c12hour")
 ```
 
-
+However, one may want to set factors to their _proportions_ instead of reference level. E.g., a factor _gender_ with value 0 for female and value 1 for male persons, would be set to `0` when marginal effects are computed with `type = "pred"`. But if 40% of the sample are female persons, another possibility to hold this factor constant is to use the value `.4` (reflecting the proportion of 40%). If this is required, use `type = "eff"`, which internally does not call `predict()` to compute marginal effects, but rather `effects::effect()`.
 
 ```{r}
 # proportion is used for "c172code", i.e. it is set to
@@ -101,6 +102,6 @@ plot_model(fit, type = "pred", terms = "c12hour")
 plot_model(fit, type = "eff", terms = "c12hour")
 ```
 
+# Interaction terms
 
-
-
+Plotting interaction terms are describe in a [separate vignette](plot_interactions.html).
