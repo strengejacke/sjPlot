@@ -24,6 +24,8 @@ This document describes how to plot marginal effects of various regression model
 
 To plot marginal effects of regression models, at least one model term needs to be specified for which the effects are computed. It is also possible to compute marginal effects for model terms, grouped by the levels of another model's predictor. The function also allows plotting marginal effects for two- or three-way-interactions, however, this is shown in a different vignette.
 
+`plot_model()` supports [labelled data](https://cran.r-project.org/package=sjlabelled) and automatically uses variable and value labels to annotate the plot. This works with most regression modelling functions.
+
 # Marginal effects
 
 `plot_model(type = "pred")` computes predicted values for all possible levels and values from a model's predictors. In the simplest case, a fitted model is passed as first argument, followed by the `type` argument and the term in question as `terms` argument:
@@ -104,4 +106,4 @@ plot_model(fit, type = "eff", terms = "c12hour")
 
 # Interaction terms
 
-Plotting interaction terms are describe in a [separate vignette](plot_interactions.html).
+Plotting interaction terms are described in a [separate vignette](plot_interactions.html).

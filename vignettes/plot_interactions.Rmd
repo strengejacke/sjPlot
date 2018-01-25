@@ -22,13 +22,13 @@ This document describes how to plot marginal effects of interaction terms from v
   * `type = "eff"`, which is similar to `type = "pred"`, however, discrete predictors are held constant at their proportions (not reference level).
   * `type = "int"` to plot marginal effects of interaction terms in a more convenient way.
 
-To plot marginal effects of interaction terms, at least two model terms need to be specified (the terms that define the interaction) for which the effects are computed. To plot marginal effects for three-way-interactions, all three terms need to be specified in the `terms`-argument.
+`plot_model()` supports [labelled data](https://cran.r-project.org/package=sjlabelled) and automatically uses variable and value labels to annotate the plot. This works with most regression modelling functions.
+
+# Two-Way-Interactions
+
+To plot marginal effects of interaction terms, at least two model terms need to be specified (the terms that define the interaction) in the `terms`-argument, for which the effects are computed. To plot marginal effects for three-way-interactions, all three terms need to be specified in `terms`.
 
 A convenient way to automatically plot interactions is `type = "int"`, which scans the model formula for interaction terms and then uses these as `terms`-argument.
-
-# Two- and Three-Way-Interactions
-
-To plot the marginal effects of interaction terms, simply specify these terms in the `terms`-argument.
 
 ```{r}
 library(sjPlot)
@@ -44,20 +44,39 @@ efc$c161sex <- to_factor(efc$c161sex)
 fit <- lm(neg_c_7 ~ c12hour + barthtot * c161sex, data = efc)
 
 plot_model(fit, type = "pred", terms = c("barthtot", "c161sex"))
+```
 
+For `type = "int"`, no terms need to be specified. Note that this plot type automatically uses the first interaction term in the formula for the x-axis, while the second term is used as grouping factor. Furthermore, if continuous variables are used as second term, you can specify preset-values for this term with the `mdrt.values`-argument, which are then used as grouping levels.
+
+In this example, the second term is a factor with two levels (male/female), so there is no need for choosing specific values for the moderator.
+
+```{r}
 plot_model(fit, type = "int")
+```
 
+To switch the terms, in this example _barthtot_ and _c161sex_, simply switch the order of these terms on the `terms`-argument and use `type = "pred"`.
+
+```{r}
 plot_model(fit, type = "pred", terms = c("c161sex", "barthtot [0, 100]"))
+```
 
+To switch the terms for plot-type `type = "int"`, you need to re-fit the model and change the formula accordingly, i.e. using _c161sex_ as first term in the interaction.
+
+```{r}
 # fit model with interaction, switching terms in formula
 fit <- lm(neg_c_7 ~ c12hour + c161sex * barthtot, data = efc)
 plot_model(fit, type = "int")
-
 ```
 
-Since the `terms`-argument accepts up to three model terms, you can also compute marginal effects for a 3-way-interaction.
+By default, for continuous variables, the minimum and maximum values are chosen as grouping levels, which are 0 and 100 - that's why the previous two plots are identical. You have other options as well, e.g. the mean-value and +/- 1 standard deviation (as suggested by Cohen and Cohen for continuous variables and popularized by Aiken and West 1991), which can be specified using `mdrt.values`, 
 
-To plot the marginal effects of interaction terms, simply specify these terms in the `terms`-argument.
+```{r}
+plot_model(fit, type = "int", mdrt.values = "meansd")
+```
+
+# Three-Way-Interactions
+
+Since the `terms`-argument accepts up to three model terms, you can also compute marginal effects for a 3-way-interaction.
 
 ```{r}
 # fit model with 3-way-interaction
@@ -65,7 +84,14 @@ fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex, data = efc)
 
 # select only levels 30, 50 and 70 from continuous variable Barthel-Index
 plot_model(fit, type = "pred", terms = c("c12hour", "barthtot [30,50,70]", "c161sex"))
+```
 
+Again, `type = "int"` will automatically plot the interaction terms, however, using `mdrt.values = "minmax` as default - in this case, the "levels" 0 and 100 from continuous variable _barthtot_ are chosen by default.
+
+```{r}
 plot_model(fit, type = "int")
 ```
 
+# References
+
+Aiken and West (1991). _Multiple Regression: Testing and Interpreting Interactions._
