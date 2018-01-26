@@ -153,8 +153,9 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, ...) {
   if (inherits(model, "brmsfit")) {
     re.sd <- tidyselect::starts_with("sd_", vars = colnames(mod.dat))
     re.cor <- tidyselect::starts_with("cor_", vars = colnames(mod.dat))
+    lp <- tidyselect::starts_with("lp__", vars = colnames(mod.dat))
 
-    brmsfit.removers <- unique(c(re.sd, re.cor))
+    brmsfit.removers <- unique(c(re.sd, re.cor, lp))
 
     if (!sjmisc::is_empty(brmsfit.removers))
       mod.dat <- dplyr::select(mod.dat, !! -brmsfit.removers)

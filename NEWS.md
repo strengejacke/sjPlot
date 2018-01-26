@@ -27,6 +27,7 @@
 * Fixed a bug that was introduced during the past update in `sjt.grpmean()`, resulting in multiple table outputs and a wrong overall p-value in the summary line.
 * Model weights are now correctly taken into account for marginal effect plots in `plot_model()`.
 * `sjp.likert()` did not show correct order for factors with character levels, when a neutral category was specified and was not the last factor level.
+* Fixed issue when plotting random effects (`type = "re"`) for specific `brms`-models.
 
 # sjPlot 2.4.0
 
