@@ -68,7 +68,7 @@ fit <- lm(neg_c_7 ~ c12hour + c161sex * barthtot, data = efc)
 plot_model(fit, type = "int")
 ```
 
-By default, for continuous variables, the minimum and maximum values are chosen as grouping levels, which are 0 and 100 - that's why the previous two plots are identical. You have other options as well, e.g. the mean-value and +/- 1 standard deviation (as suggested by Cohen and Cohen for continuous variables and popularized by Aiken and West 1991), which can be specified using `mdrt.values`, 
+By default, for continuous variables, the minimum and maximum values are chosen as grouping levels, which are 0 and 100 - that's why the previous two plots are identical. You have other options as well, e.g. the mean-value and +/- 1 standard deviation (as suggested by Cohen and Cohen for continuous variables and popularized by Aiken and West 1991), which can be specified using `mdrt.values`.
 
 ```{r}
 plot_model(fit, type = "int", mdrt.values = "meansd")
@@ -86,7 +86,7 @@ fit <- lm(neg_c_7 ~ c12hour * barthtot * c161sex, data = efc)
 plot_model(fit, type = "pred", terms = c("c12hour", "barthtot [30,50,70]", "c161sex"))
 ```
 
-Again, `type = "int"` will automatically plot the interaction terms, however, using `mdrt.values = "minmax` as default - in this case, the "levels" 0 and 100 from continuous variable _barthtot_ are chosen by default.
+Again, `type = "int"` will automatically plot the interaction terms, however, using `mdrt.values = "minmax"` as default - in this case, the "levels" 0 and 100 from continuous variable _barthtot_ are chosen by default.
 
 ```{r}
 plot_model(fit, type = "int")
