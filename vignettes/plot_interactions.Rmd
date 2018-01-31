@@ -26,6 +26,8 @@ This document describes how to plot marginal effects of interaction terms from v
 
 # Two-Way-Interactions
 
+_Note: To better understand the principle of plotting interaction terms, it might be helpful to read the vignette on [marginal effects](plot_marginal_effects.html) first._
+
 To plot marginal effects of interaction terms, at least two model terms need to be specified (the terms that define the interaction) in the `terms`-argument, for which the effects are computed. To plot marginal effects for three-way-interactions, all three terms need to be specified in `terms`.
 
 A convenient way to automatically plot interactions is `type = "int"`, which scans the model formula for interaction terms and then uses these as `terms`-argument.
