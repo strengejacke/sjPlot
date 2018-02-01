@@ -36,15 +36,6 @@ technically, row). See \code{mean_n} for details.}
 \item{altr.row.col}{Logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
 
-\item{sort.col}{indicates a column, either by column name or by column index number,
-that should be sorted. Default order is ascending, which can be changed with
-\code{sort.asc} argument. Default is \code{NULL}, hence the data frame
-is printed with no specific order. See 'Examples'.}
-
-\item{sort.asc}{logical, if \code{TRUE} (default) and \code{sort.col} is not \code{NULL},
-data frame is ordered according to the specified column in an ascending order.
-Use \code{FALSE} to apply descending order. See 'Examples'.}
-
 \item{show.shapiro}{Logical, if \code{TRUE}, a Shapiro-Wilk normality test is computed for each item.
 See \code{\link{shapiro.test}} for details.}
 

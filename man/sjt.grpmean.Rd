@@ -2,9 +2,12 @@
 % Please edit documentation in R/sjTabGrpmean.R
 \name{sjt.grpmean}
 \alias{sjt.grpmean}
-\title{Summary of grouped means as HTML table}
+\alias{sjt.df}
+\title{Deprecated functions}
 \usage{
 sjt.grpmean(...)
+
+sjt.df(...)
 }
 \arguments{
 \item{...}{Not used.}
@@ -13,5 +16,5 @@ sjt.grpmean(...)
 Nothing.
 }
 \description{
-Computes mean, sd and se for each sub-group.
+A list of deprecated functions.
 }

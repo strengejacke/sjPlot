@@ -27,9 +27,6 @@ background color.}
 
 \item{show.id}{Logical, if \code{TRUE} (default), the variable ID is shown in the first column.}
 
-\item{show.type}{logical, if \code{TRUE}, the variable type is shown in a separate
-row respectively column.}
-
 \item{show.values}{Logical, if \code{TRUE} (default), the variable values are shown as additional column.}
 
 \item{show.string.values}{Logical, if \code{TRUE}, elements of character vectors
@@ -62,9 +59,6 @@ order in the data frame.}
 
 \item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
 labels are displayed in one line and when a line break is inserted.}
-
-\item{hide.progress}{logical, if \code{TRUE}, the progress bar that is displayed when creating the
-output is hidden. Default in \code{FALSE}, hence the bar is visible.}
 
 \item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,

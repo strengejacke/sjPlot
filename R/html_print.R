@@ -1,5 +1,42 @@
+#' @title Print data frames as HTML table.
+#' @name tab_df
+#'
+#' @description These functions print data frames as HTML-table, showing
+#'   the results in RStudio's viewer pane or in a web browser.
+#'
+#' @param x For \code{tab_df()}, a data frame; and for \code{tab_dfs()}, a
+#'   list of data frames.
+#' @param title Character vector (of length 1) with table caption. Only
+#'   applies to \code{tab_df()}. For \code{tab_dfs()}, add a character vector
+#'   as \code{title}-attribute to each data frame, which will then be used as
+#'   caption for each table.
+#' @param footnote Character vector (of length 1) with table footnote. Only
+#'   applies to \code{tab_df()}. For \code{tab_dfs()}, add a character vector
+#'   as \code{footnote}-attribute to each data frame, which will then be used
+#'   as footnote under each table.
+#' @param encoding Character vector, indicating the charset encoding used
+#'   for variable and value labels. Default is \code{"UTF-8"}. For Windows
+#'   Systems, \code{encoding = "Windows-1252"} might be necessary for proper
+#'   display of special characters.
+#' @param show.type
+#' @param show.rownames
+#' @param show.footnote
+#' @param alternate.rows
+#'
+#' @inheritParams sjt.frq
+#'
+#' @return A list with following items:
+#'   \itemize{
+#'     \item the web page style sheet (\code{page.style}),
+#'     \item the HTML content of the data frame (\code{page.content}),
+#'     \item the complete HTML page, including header, style sheet and body (\code{page.complete})
+#'     \item the HTML table with inline-css for use with knitr (\code{knitr})
+#'     \item the file path, if the HTML page should be saved to disk (\code{file})
+#'   }
+#'
 #' @importFrom sjmisc var_type is_even
 #' @importFrom purrr flatten_chr map
+#' @export
 tab_df <- function(x,
                    title,
                    show.type = FALSE,
@@ -63,6 +100,8 @@ tab_df <- function(x,
 
 #' @importFrom sjmisc var_type is_even
 #' @importFrom purrr flatten_chr map
+#' @rdname tab_df
+#' @export
 tab_dfs <- function(x,
                     show.type = FALSE,
                     show.rownames = TRUE,

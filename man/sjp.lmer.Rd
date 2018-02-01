@@ -91,9 +91,7 @@ for polynomial terms. See 'Examples'.}
 
 \item{title}{Character vector with one or more labels that are used as plot title.}
 
-\item{legend.title}{Character vector, used as title for the plot legend. Note that
-only some plot types have legends (e.g. \code{type = "pred"} or when
-grouping estimates with \code{group.estimates}).}
+\item{legend.title}{character vector, used as title for the plot legend.}
 
 \item{axis.labels}{Character vector with labels for the model terms, used as axis labels.
 For mixed models, should either be vector of fixed effects variable labels
@@ -115,20 +113,16 @@ cases, use the return value and add axis titles manually with
 depending on plot type and function). Note that bar and bin widths mostly
 need smaller values than dot sizes.}
 
-\item{geom.colors}{User defined color palette for geoms. If \code{group.estimates}
-is \emph{not} specified, must either be vector with two color values or a specific
-color palette code (see 'Details' in \code{\link{sjp.grpfrq}}). Else, if
-\code{group.estimates} is specified, \code{geom.colors} must be a vector
-of same length as groups. See 'Examples'.}
+\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
 
 \item{show.values}{Logical, whether values should be plotted or not.}
 
 \item{show.p}{Logical, adds significance levels to values, or value and
 variable labels.}
 
-\item{show.ci}{Logical, if \code{TRUE}, depending on \code{type}, a confidence
-interval or region is added to the plot. For frequency plots, the
-confidence interval for the relative frequencies are shown.}
+\item{show.ci}{Logical, if \code{TRUE)}, adds notches to the box plot, which are
+used to compare groups; if the notches of two boxes do not overlap,
+medians are considered to be significantly different.}
 
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
@@ -140,11 +134,6 @@ additional loess-smoothed line is plotted.}
 will be plotted. Default is \code{FALSE}. Only applies, if \code{show.loess = TRUE}
 (and for \code{\link{sjp.lmer}}, only applies if \code{type = "fe.slope"}
 or \code{type = "fe.resid"}).}
-
-\item{show.intercept}{Logical, if \code{TRUE}, the intercept of the fitted model is also plotted.
-Default is \code{FALSE}. For \code{glm}'s, please note that due to exponential
-transformation of estimates, the intercept in some cases can not be calculated, thus the
-function call is interrupted and no plot printed.}
 
 \item{string.interc}{String, axis label of intercept estimate. Only applies,
 if \code{show.intercept = TRUE} and \code{axis.labels} is not \code{NULL}.}
