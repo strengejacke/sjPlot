@@ -78,7 +78,7 @@
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
 #'            \item each frequency table as web page content (\code{page.content.list}),
-#'            \item the complete html-output (\code{output.complete}) and
+#'            \item the complete html-output (\code{page.complete}) and
 #'            \item the html-table with inline-css for use with knitr (\code{knitr})
 #'            }
 #'            for further use.
@@ -694,12 +694,12 @@ sjt.frq <- function(data,
     list(
       page.style = page.style,
       page.content = page.content.list[[1]],
-      output.complete = toWrite,
+      page.complete = toWrite,
       knitr = knitr,
       header = table.header,
       file = file,
       show = !no.output,
-      use.viewer = use.viewer
+      viewer = use.viewer
     )
   )
 }

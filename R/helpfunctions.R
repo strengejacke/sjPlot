@@ -130,37 +130,6 @@ print.table.summary <- function(baseplot,
 }
 
 
-# display html-content in viewer pane
-# or write it to file
-out.html.table <- function(no.output, file, knitr, toWrite, use.viewer) {
-  if (!no.output) {
-    # -------------------------------------
-    # check if we have filename specified
-    # -------------------------------------
-    if (!is.null(file)) {
-      # write file
-      write(knitr, file = file)
-    } else {
-      # -------------------------------------
-      # else open in viewer pane
-      # -------------------------------------
-      # create and browse temporary file
-      htmlFile <- tempfile(fileext = ".html")
-      write(toWrite, file = htmlFile)
-      # check whether we have RStudio Viewer
-      viewer <- getOption("viewer")
-      if (use.viewer && !is.null(viewer)) {
-        viewer(htmlFile)
-      } else {
-        utils::browseURL(htmlFile)
-      }
-      # delete temp file
-      # unlink(htmlFile)
-    }
-  }
-}
-
-
 get_var_name <- function(x) {
   # remove "data frame name"
   dollar_pos <- regexpr("$", x, fixed = T)[1]

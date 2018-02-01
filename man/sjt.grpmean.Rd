@@ -4,92 +4,14 @@
 \alias{sjt.grpmean}
 \title{Summary of grouped means as HTML table}
 \usage{
-sjt.grpmean(var.cnt, var.grp, weight.by = NULL, value.labels = NULL,
-  digits = 2, digits.summary = 3, CSS = NULL, encoding = NULL,
-  file = NULL, use.viewer = TRUE, no.output = FALSE,
-  remove.spaces = TRUE)
+sjt.grpmean(...)
 }
 \arguments{
-\item{var.cnt}{Vector of counts, for which frequencies or means will be plotted or printed.}
-
-\item{var.grp}{Factor with the cross-classifying variable, where \code{var.cnt}
-is grouped into the categories represented by \code{var.grp}.}
-
-\item{weight.by}{Vector of weights that will be applied to weight all cases.
-Must be a vector of same length as the input vector. Default is
-\code{NULL}, so no weights are used.}
-
-\item{value.labels}{Character vector (or \code{list} of character vectors)
-with value labels of the supplied variables, which will be used
-to label variable values in the output.}
-
-\item{digits}{Numeric, amount of digits after decimal point when rounding estimates and values.}
-
-\item{digits.summary}{Amount of digits for summary statistics (Anova).}
-
-\item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
-\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
-see \href{../doc/sjtbasic.html}{this package-vignette}, or 'Details' in
-\code{\link{sjt.frq}}.}
-
-\item{encoding}{String, indicating the charset encoding used for variable and
-value labels. Default is \code{NULL}, so encoding will be auto-detected
-depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
-Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
-
-\item{file}{Destination file, if the output should be saved as file.
-If \code{NULL} (default), the output will be saved as temporary file and
-openend either in the IDE's viewer pane or the default web browser.}
-
-\item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
-\code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
-
-\item{no.output}{Logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
-the viewer pane and not even saved to file. This option is useful when the html output
-should be used in \code{knitr} documents. The html output can be accessed via the return
-value.}
-
-\item{remove.spaces}{Logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
-that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
-may look less pretty, but it may help when exporting html-tables to office tools.}
+\item{...}{Not used.}
 }
 \value{
-Invisibly returns a \code{\link{list}} with
-         \itemize{
-           \item the data frame with the description information (\code{df}),
-           \item the web page style sheet (\code{page.style}),
-           \item the web page content (\code{page.content}),
-           \item the complete html-output (\code{output.complete}) and
-           \item the html-table with inlin-css for use with knitr (\code{knitr})
-           }
-           for further use.
+Nothing.
 }
 \description{
-Computes mean, sd and se for each sub-group (indicated by \code{var.grp})
-               of \code{var.cnt} and prints the result as HTML table.
-}
-\details{
-This function performs a One-Way-Anova with \code{var.cnt} as dependent
-           and \code{var.grp} as independent variable, by calling
-           \code{lm(var.cnt ~ as.factor(var.grp))}, to get p-values for each
-           sub-group and the complete "model". Thus, p-values indicate whether
-           each group-mean is significantly different from the reference
-           group (reference level of \code{var.grp}). Statistics like mean values are
-           based on subsetted groups (i.e. \code{var.cnt} is divided into sub-groups
-           indicated by \code{var.grp}).
-           \cr \cr
-           Furthermore, see 'Details' in \code{\link{sjt.frq}}.
-}
-\note{
-See 'Notes' in \code{\link{sjt.frq}}.
-}
-\examples{
-\dontrun{
-library(sjmisc)
-data(efc)
-sjt.grpmean(efc$c12hour, efc$e42dep)}
-
-}
-\seealso{
-\code{\link{sjp.aov1}}
+Computes mean, sd and se for each sub-group.
 }

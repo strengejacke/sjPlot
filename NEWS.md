@@ -5,6 +5,7 @@
 * Remove unnecessary imports.
 * Add back `save_plot()` function.
 * Revised and updated package vignettes.
+* `sjt.grpmean` is now deprecated. Please use `sjstats::grpmean()` instead.
 
 ## Changes to functions
 

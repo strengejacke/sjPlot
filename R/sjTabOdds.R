@@ -40,7 +40,7 @@
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
 #'            \item the web page content (\code{page.content}),
-#'            \item the complete html-output (\code{output.complete}) and
+#'            \item the complete html-output (\code{page.complete}) and
 #'            \item the html-table with inline-css for use with knitr (\code{knitr})
 #'            }
 #'            for further use.
@@ -1109,10 +1109,6 @@ sjt.glm <- function(...,
     page.content <- sju.rmspc(page.content)
   }
   # -------------------------------------
-  # check if html-content should be outputted
-  # -------------------------------------
-  #out.html.table(no.output, file, knitr, toWrite, use.viewer)
-  # -------------------------------------
   # replace &nbsp; (former NA), created by join, with empty string
   # -------------------------------------
   joined.df <- apply(joined.df, 1:2, function(x) if (x == "&nbsp;") "" else x)
@@ -1123,13 +1119,12 @@ sjt.glm <- function(...,
                       list(page.style = get_table_css_styles(cell.spacing, cell.gpr.indent,
                                                              p.numeric, show.header, CSS),
                            page.content = page.content,
-                           #page.content.list = page.content.list,
-                           output.complete = toWrite,
+                           page.complete = toWrite,
                            knitr = knitr,
                            file = file,
                            header = NULL,
                            show = !no.output,
-                           use.viewer = use.viewer,
+                           viewer = use.viewer,
                            data = joined.df))
 }
 
@@ -1149,7 +1144,7 @@ sjt.glm <- function(...,
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
 #'            \item the web page content (\code{page.content}),
-#'            \item the complete html-output (\code{output.complete}) and
+#'            \item the complete html-output (\code{page.complete}) and
 #'            \item the html-table with inline-css for use with knitr (\code{knitr})
 #'            }
 #'            for further use.

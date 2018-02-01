@@ -90,7 +90,7 @@ Invisibly returns
            \item the data frame with the description information (\code{data}),
            \item the web page style sheet (\code{page.style}),
            \item the web page content (\code{page.content}),
-           \item the complete html-output (\code{output.complete}) and
+           \item the complete html-output (\code{page.complete}) and
            \item the html-table with inline-css for use with knitr (\code{knitr})
            }
            for further use.

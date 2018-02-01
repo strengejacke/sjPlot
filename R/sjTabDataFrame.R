@@ -48,7 +48,7 @@
 #'            \item the data frame with the description information (\code{data}),
 #'            \item the web page style sheet (\code{page.style}),
 #'            \item the web page content (\code{page.content}),
-#'            \item the complete html-output (\code{output.complete}) and
+#'            \item the complete html-output (\code{page.complete}) and
 #'            \item the html-table with inline-css for use with knitr (\code{knitr})
 #'            }
 #'            for further use.
@@ -350,10 +350,6 @@ sjt.df <- function(mydf,
     page.content <- sju.rmspc(page.content)
   }
   # -------------------------------------
-  # check if html-content should be outputted
-  # -------------------------------------
-  #out.html.table(no.output, file, knitr, toWrite, use.viewer)
-  # -------------------------------------
   # return results
   # -------------------------------------
 
@@ -362,12 +358,12 @@ sjt.df <- function(mydf,
     list(
       page.style = page.style,
       page.content = page.content,
-      output.complete = toWrite,
+      page.complete = toWrite,
       header = table.header,
       knitr = knitr,
       file = file,
       show = !no.output,
-      use.viewer = use.viewer
+      viewer = use.viewer
     )
   )
 }

@@ -115,7 +115,7 @@
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
 #'            \item the web page content (\code{page.content}),
-#'            \item the complete html-output (\code{output.complete}) and
+#'            \item the complete html-output (\code{page.complete}) and
 #'            \item the html-table with inline-css for use with knitr (\code{knitr})
 #'            }
 #'            for further use.
@@ -1246,10 +1246,6 @@ sjt.lm <- function(...,
     page.content <- sju.rmspc(page.content)
   }
   # -------------------------------------
-  # check if html-content should be outputted
-  # -------------------------------------
-  #out.html.table(no.output, file, knitr, toWrite, use.viewer)
-  # -------------------------------------
   # replace &nbsp; (former NA), created by join, with empty string
   # -------------------------------------
   joined.df <- apply(joined.df, 1:2, function(x) if (x == "&nbsp;") "" else x)
@@ -1263,12 +1259,12 @@ sjt.lm <- function(...,
       page.style = get_table_css_styles(cell.spacing, cell.gpr.indent,
                                         p.numeric, show.header, CSS),
       page.content = page.content,
-      output.complete = toWrite,
+      page.complete = toWrite,
       knitr = knitr,
       header = NULL,
       file = file,
       show = !no.output,
-      use.viewer = use.viewer,
+      viewer = use.viewer,
       data = joined.df
     )
   )
@@ -1294,7 +1290,7 @@ sjt.lm <- function(...,
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
 #'            \item the web page content (\code{page.content}),
-#'            \item the complete html-output (\code{output.complete}) and
+#'            \item the complete html-output (\code{page.complete}) and
 #'            \item the html-table with inline-css for use with knitr (\code{knitr})
 #'            }
 #'            for further use.

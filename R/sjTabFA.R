@@ -23,7 +23,7 @@
 #'          \itemize{
 #'            \item the web page style sheet (\code{page.style}),
 #'            \item the web page content (\code{page.content}),
-#'            \item the complete html-output (\code{output.complete}),
+#'            \item the complete html-output (\code{page.complete}),
 #'            \item the html-table with inline-css for use with knitr (\code{knitr}),
 #'            \item the \code{factor.index}, i.e. the column index of each variable with the highest factor loading for each factor and
 #'            \item the \code{removed.items}, i.e. which variables have been removed because they were outside of the \code{fctr.load.tlrn}'s range.
@@ -449,17 +449,20 @@ sjt.fa <- function(data,
     page.content <- sju.rmspc(page.content)
   }
   # -------------------------------------
-  # check if html-content should be outputted
-  # -------------------------------------
-  out.html.table(no.output, file, knitr, toWrite, use.viewer)
-  # -------------------------------------
   # return results
   # -------------------------------------
-  invisible(structure(class = c("sjTable", "sjtfa"),
-                      list(page.style = page.style,
-                           page.content = page.content,
-                           output.complete = toWrite,
-                           knitr = knitr,
-                           factor.index = factorindex,
-                           removed.items = removableItems)))
+  structure(
+    class = c("sjTable", "sjtfa"),
+    list(
+      page.style = page.style,
+      page.content = page.content,
+      page.complete = toWrite,
+      knitr = knitr,
+      factor.index = factorindex,
+      removed.items = removableItems,
+      file = file,
+      show = !no.output,
+      viewer = use.viewer
+    )
+  )
 }
