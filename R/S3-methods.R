@@ -221,7 +221,10 @@ print.sjt_descr <- function(x, ...) {
 #' @export
 print.sjt_grpdescr <- function(x, ...) {
 
-  ## TODO
+  titles <- purrr::map_chr(x, ~ sprintf(
+    "Basic descriptives<br><span class=\"subtitle\">grouped by %s</span>",
+    gsub(pattern = "\n", replacement = "<br>", attr(.x, "group", exact = TRUE), fixed = T)
+  ))
 
   digits <- 2
 
@@ -251,12 +254,15 @@ print.sjt_grpdescr <- function(x, ...) {
 
 
   x <- x %>%
-    purrr::map_if(sjmisc::is_float, ~ round(.x, digits)) %>%
-    tibble::as_tibble()
+    purrr::map(~ purrr::map_if(
+      .x,
+      sjmisc::is_float,
+      ~ round(.x, digits)
+    ) %>% tibble::as_tibble())
 
-  tab <- tab_df(
+  tab <- tab_dfs(
     x = x,
-    title = "Basic descriptive statistics",
+    titles = titles,
     footnote = NULL,
     col.header = chead,
     show.type = FALSE,
