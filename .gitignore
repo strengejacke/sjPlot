@@ -60,3 +60,4 @@ $RECYCLE.BIN/
 inst/doc
 revdep
 vignettes/*.html
+Rplots.pdf
