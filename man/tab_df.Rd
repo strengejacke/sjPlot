@@ -5,11 +5,13 @@
 \alias{tab_dfs}
 \title{Print data frames as HTML table.}
 \usage{
-tab_df(x, title, show.type = FALSE, show.rownames = TRUE,
-  show.footnote = FALSE, alternate.rows = FALSE, footnote = NULL,
-  encoding = "UTF-8", CSS = NULL, file = NULL, use.viewer = TRUE, ...)
+tab_df(x, title = NULL, footnote = NULL, col.header = NULL,
+  show.type = FALSE, show.rownames = TRUE, show.footnote = FALSE,
+  alternate.rows = FALSE, encoding = "UTF-8", CSS = NULL, file = NULL,
+  use.viewer = TRUE, ...)
 
-tab_dfs(x, show.type = FALSE, show.rownames = TRUE, show.footnote = FALSE,
+tab_dfs(x, titles = NULL, footnotes = NULL, col.header = NULL,
+  show.type = FALSE, show.rownames = TRUE, show.footnote = FALSE,
   alternate.rows = FALSE, encoding = "UTF-8", CSS = NULL, file = NULL,
   use.viewer = TRUE, ...)
 }
@@ -17,17 +19,21 @@ tab_dfs(x, show.type = FALSE, show.rownames = TRUE, show.footnote = FALSE,
 \item{x}{For \code{tab_df()}, a data frame; and for \code{tab_dfs()}, a
 list of data frames.}
 
-\item{title}{Character vector (of length 1) with table caption. Only
+\item{title, titles}{Character vector (of length 1) with table caption. Only
 applies to \code{tab_df()}. For \code{tab_dfs()}, add a character vector
 as \code{title}-attribute to each data frame, which will then be used as
 caption for each table.}
 
-\item{alternate.rows}{}
-
-\item{footnote}{Character vector (of length 1) with table footnote. Only
+\item{footnote, footnotes}{Character vector (of length 1) with table footnote. Only
 applies to \code{tab_df()}. For \code{tab_dfs()}, add a character vector
 as \code{footnote}-attribute to each data frame, which will then be used
 as footnote under each table.}
+
+\item{col.header}{Character vector with elements used as column header for
+the table. If \code{NULL}, column names from \code{x} are used as
+column header.}
+
+\item{alternate.rows}{}
 
 \item{encoding}{Character vector, indicating the charset encoding used
 for variable and value labels. Default is \code{"UTF-8"}. For Windows

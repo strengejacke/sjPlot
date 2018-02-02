@@ -6,14 +6,17 @@
 #'
 #' @param x For \code{tab_df()}, a data frame; and for \code{tab_dfs()}, a
 #'   list of data frames.
-#' @param title Character vector (of length 1) with table caption. Only
+#' @param title,titles Character vector (of length 1) with table caption. Only
 #'   applies to \code{tab_df()}. For \code{tab_dfs()}, add a character vector
 #'   as \code{title}-attribute to each data frame, which will then be used as
 #'   caption for each table.
-#' @param footnote Character vector (of length 1) with table footnote. Only
+#' @param footnote,footnotes Character vector (of length 1) with table footnote. Only
 #'   applies to \code{tab_df()}. For \code{tab_dfs()}, add a character vector
 #'   as \code{footnote}-attribute to each data frame, which will then be used
 #'   as footnote under each table.
+#' @param col.header Character vector with elements used as column header for
+#'   the table. If \code{NULL}, column names from \code{x} are used as
+#'   column header.
 #' @param encoding Character vector, indicating the charset encoding used
 #'   for variable and value labels. Default is \code{"UTF-8"}. For Windows
 #'   Systems, \code{encoding = "Windows-1252"} might be necessary for proper
@@ -38,12 +41,13 @@
 #' @importFrom purrr flatten_chr map
 #' @export
 tab_df <- function(x,
-                   title,
+                   title = NULL,
+                   footnote = NULL,
+                   col.header = NULL,
                    show.type = FALSE,
                    show.rownames = TRUE,
                    show.footnote = FALSE,
                    alternate.rows = FALSE,
-                   footnote = NULL,
                    encoding = "UTF-8",
                    CSS = NULL,
                    file = NULL,
@@ -59,6 +63,7 @@ tab_df <- function(x,
       mydf = x,
       title = title,
       footnote = footnote,
+      col.header = col.header,
       show.type = show.type,
       show.rownames = show.rownames,
       show.footnote = show.footnote,
@@ -99,10 +104,13 @@ tab_df <- function(x,
 
 
 #' @importFrom sjmisc var_type is_even
-#' @importFrom purrr flatten_chr map
+#' @importFrom purrr flatten_chr pmap
 #' @rdname tab_df
 #' @export
 tab_dfs <- function(x,
+                    titles = NULL,
+                    footnotes = NULL,
+                    col.header = NULL,
                     show.type = FALSE,
                     show.rownames = TRUE,
                     show.footnote = FALSE,
@@ -116,19 +124,33 @@ tab_dfs <- function(x,
   # get style definition
   style <- tab_df_style(CSS = CSS, ...)
 
+  # check arguments
+
+  if (is.null(titles)) titles <- rep("", length(x))
+  if (is.null(footnotes)) footnotes <- rep("", length(x))
+
+  if (length(titles) != length(x))
+    stop("Number of elements in `title` does not match number of data frames to print.", call. = F)
+
+  if (length(footnotes) != length(x))
+    stop("Number of elements in `footnote` does not match number of data frames to print.", call. = F)
+
 
   # get HTML content
   page.content <- paste(
-      purrr::flatten_chr(purrr::map(x, ~ tab_df_content(
-        mydf = .x,
-        title = attr(.x, "title", exact = TRUE),
-        footnote = attr(.x, "footnote", exact = TRUE),
-        show.type = show.type,
-        show.rownames = show.rownames,
-        show.footnote = show.footnote,
-        altr.row.col = alternate.rows,
-        ...
-      ))),
+      purrr::flatten_chr(purrr::pmap(list(x, titles, footnotes), function(dat, title, footnote) {
+        tab_df_content(
+          mydf = dat,
+          title = title,
+          footnote = footnote,
+          col.header = col.header,
+          show.type = show.type,
+          show.rownames = show.rownames,
+          show.footnote = show.footnote,
+          altr.row.col = alternate.rows,
+          ...
+        )
+      })),
       collapse = "<p>&nbsp;</p>"
     )
 
@@ -167,13 +189,17 @@ tab_dfs <- function(x,
 # This functions creates the body of the HTML page, i.e. it puts
 # the content of a data frame into a HTML table that is returned.
 
+#' @importFrom sjmisc is_empty
 #' @importFrom tibble has_rownames has_name
-tab_df_content <- function(mydf, title, footnote, show.type, show.rownames, show.footnote, altr.row.col, ...) {
+tab_df_content <- function(mydf, title, footnote, col.header, show.type, show.rownames, show.footnote, altr.row.col, ...) {
 
   rowcnt <- nrow(mydf)
   colcnt <- ncol(mydf)
 
   cnames <- colnames(mydf)
+
+  if (!sjmisc::is_empty(col.header) && length(col.header) == length(cnames))
+    cnames <- col.header
 
   if (tibble::has_rownames(mydf))
     rnames <- rownames(mydf)
@@ -191,7 +217,8 @@ tab_df_content <- function(mydf, title, footnote, show.type, show.rownames, show
   page.content <- "<table>\n"
 
   # table caption, variable label
-  if (!is.null(title)) page.content <- paste0(page.content, sprintf("  <caption>%s</caption>\n", title))
+  if (!sjmisc::is_empty(title))
+    page.content <- paste0(page.content, sprintf("  <caption>%s</caption>\n", title))
 
 
   # header row ----
@@ -259,10 +286,11 @@ tab_df_content <- function(mydf, title, footnote, show.type, show.rownames, show
 
 
       page.content <- paste0(page.content, sprintf(
-          "    <td class=\"tdata%s centertalign%s%s\">%s</td>\n",
+          "    <td class=\"tdata%s centertalign%s%s col%i\">%s</td>\n",
           ftc,
           ltr,
           arcstring,
+          ccnt,
           mydf[rcnt, ccnt])
         )
     }
@@ -342,6 +370,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
   tag.tdata <- "tdata"
   tag.arc <- "arc"
   tag.footnote <- "footnote"
+  tag.subtitle <- "subtitle"
   tag.firsttablerow <- "firsttablerow"
   tag.lasttablerow <- "lasttablerow"
   tag.firsttablecol <- "firsttablecol"
@@ -351,13 +380,14 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
   css.caption <- "font-weight: bold; text-align:left;"
   css.thead <- "border-top: double; text-align:center; font-style:italic; font-weight:normal; padding:0.2cm;"
   css.tdata <- "padding:0.2cm; text-align:left; vertical-align:top;"
-  css.arc <- "background-color:#eaeaea;"
+  css.arc <- "background-color:#f2f2f2;"
   css.lasttablerow <- "border-top:1px solid; border-bottom: double;"
   css.firsttablerow <- "border-bottom:1px solid black;"
   css.firsttablecol <- ""
   css.leftalign <- "text-align:left;"
   css.centeralign <- "text-align:center;"
   css.footnote <- "font-style:italic; border-top:double black; text-align:right;"
+  css.subtitle <- "font-weight: normal;"
 
 
   # check user defined style sheets
@@ -374,6 +404,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
     if (!is.null(CSS[['css.centeralign']])) css.centeralign <- ifelse(substring(CSS[['css.centeralign']], 1, 1) == '+', paste0(css.centeralign, substring(CSS[['css.centeralign']], 2)), CSS[['css.centeralign']])
     if (!is.null(CSS[['css.firsttablecol']])) css.firsttablecol <- ifelse(substring(CSS[['css.firsttablecol']], 1, 1) == '+', paste0(css.firsttablecol, substring(CSS[['css.firsttablecol']], 2)), CSS[['css.firsttablecol']])
     if (!is.null(CSS[['css.footnote']])) css.footnote <- ifelse(substring(CSS[['css.footnote']], 1, 1) == '+', paste0(css.footnote, substring(CSS[['css.footnote']], 2)), CSS[['css.footnote']])
+    if (!is.null(CSS[['css.subtitle']])) css.subtitle <- ifelse(substring(CSS[['css.subtitle']], 1, 1) == '+', paste0(css.subtitle, substring(CSS[['css.subtitle']], 2)), CSS[['css.subtitle']])
   }
 
 
@@ -381,7 +412,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
 
   if (task == 1) {
     content <- sprintf(
-      "<style>\nhtml, body { background-color: white; }\n%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
+      "<style>\nhtml, body { background-color: white; }\n%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
       tag.table,
       css.table,
       tag.caption,
@@ -403,7 +434,9 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
       tag.firsttablecol,
       css.firsttablecol,
       tag.footnote,
-      css.footnote
+      css.footnote,
+      tag.subtitle,
+      css.subtitle
     )
 
   } else if (task == 2) {
@@ -412,12 +445,12 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
     content <- gsub("<table", sprintf("<table style=\"%s\"", css.table), content, fixed = TRUE, useBytes = TRUE)
     content <- gsub("<caption", sprintf("<caption style=\"%s\"", css.caption), content, fixed = TRUE, useBytes = TRUE)
 
-
     # replace class-attributes with inline-style-definitions
     content <- gsub(tag.tdata, css.tdata, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.thead, css.thead, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.arc, css.arc, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.footnote, css.footnote, content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub(tag.subtitle, css.subtitle, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.lasttablerow, css.lasttablerow, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.firsttablerow, css.firsttablerow, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.firsttablecol, css.firsttablecol, content, fixed = TRUE, useBytes = TRUE)
