@@ -6,6 +6,10 @@
 * Add back `save_plot()` function.
 * Revised and updated package vignettes.
 
+## New functions
+
+* `tab_df()` and `tab_dfs()` as (more generic) replacement for `sjt.df()`. `tab_df()` prints the content of a data frame as HTML table, while `tab_dfs()` prints a list of data frames into a HTML table. The HTML table is then displayed in the Viewer-pane of RStudio or in a web browser.
+
 ## Deprecated
 
 * `sjt.grpmean` is now deprecated. Please use `sjstats::grpmean()` with argument `out = "viewer"` instead.
