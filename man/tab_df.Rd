@@ -80,19 +80,19 @@ These functions print data frames as HTML-table, showing
   that are used in this function, see return value \code{page.style} for
   details. Arguments for this list have following syntax:
   \enumerate{
-    \item the class-names with \code{"css."}-prefix as argument name and
+    \item the class-name as argument name and
     \item each style-definition must end with a semicolon
   }
   You can add style information to the default styles by using a +
   (plus-sign) as initial character for the argument attributes.
   Examples:
   \itemize{
-    \item \code{css.table = 'border:2px solid red;'} for a solid 2-pixel table border in red.
-    \item \code{css.summary = 'font-weight:bold;'} for a bold fontweight in the summary row.
-    \item \code{css.lasttablerow = 'border-bottom: 1px dotted blue;'} for a blue dotted border of the last table row.
-    \item \code{css.colnames = '+color:green'} to add green color formatting to column names.
-    \item \code{css.arc = 'color:blue;'} for a blue text color each 2nd row.
-    \item \code{css.caption = '+color:red;'} to add red font-color to the default table caption style.
+    \item \code{table = 'border:2px solid red;'} for a solid 2-pixel table border in red.
+    \item \code{summary = 'font-weight:bold;'} for a bold fontweight in the summary row.
+    \item \code{lasttablerow = 'border-bottom: 1px dotted blue;'} for a blue dotted border of the last table row.
+    \item \code{colnames = '+color:green'} to add green color formatting to column names.
+    \item \code{arc = 'color:blue;'} for a blue text color each 2nd row.
+    \item \code{caption = '+color:red;'} to add red font-color to the default table caption style.
   }
   See further examples in \href{../doc/sjtbasic.html}{this package-vignette}.
 }
@@ -102,4 +102,12 @@ The HTML tables can either be saved as file and manually opened
   will be displayed in the RStudio Viewer pane (if working with RStudio)
   or opened with the default web browser. Displaying resp. opening a
   temporary file is the default behaviour.
+}
+\examples{
+\dontrun{
+data(iris)
+data(mtcars)
+tab_df(iris[1:5, ])
+tab_dfs(list(iris[1:5, ], mtcars[1:5, 1:5]))}
+
 }

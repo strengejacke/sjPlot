@@ -51,21 +51,28 @@
 #'   that are used in this function, see return value \code{page.style} for
 #'   details. Arguments for this list have following syntax:
 #'   \enumerate{
-#'     \item the class-names with \code{"css."}-prefix as argument name and
+#'     \item the class-name as argument name and
 #'     \item each style-definition must end with a semicolon
 #'   }
 #'   You can add style information to the default styles by using a +
 #'   (plus-sign) as initial character for the argument attributes.
 #'   Examples:
 #'   \itemize{
-#'     \item \code{css.table = 'border:2px solid red;'} for a solid 2-pixel table border in red.
-#'     \item \code{css.summary = 'font-weight:bold;'} for a bold fontweight in the summary row.
-#'     \item \code{css.lasttablerow = 'border-bottom: 1px dotted blue;'} for a blue dotted border of the last table row.
-#'     \item \code{css.colnames = '+color:green'} to add green color formatting to column names.
-#'     \item \code{css.arc = 'color:blue;'} for a blue text color each 2nd row.
-#'     \item \code{css.caption = '+color:red;'} to add red font-color to the default table caption style.
+#'     \item \code{table = 'border:2px solid red;'} for a solid 2-pixel table border in red.
+#'     \item \code{summary = 'font-weight:bold;'} for a bold fontweight in the summary row.
+#'     \item \code{lasttablerow = 'border-bottom: 1px dotted blue;'} for a blue dotted border of the last table row.
+#'     \item \code{colnames = '+color:green'} to add green color formatting to column names.
+#'     \item \code{arc = 'color:blue;'} for a blue text color each 2nd row.
+#'     \item \code{caption = '+color:red;'} to add red font-color to the default table caption style.
 #'   }
 #'   See further examples in \href{../doc/sjtbasic.html}{this package-vignette}.
+#'
+#' @examples
+#' \dontrun{
+#' data(iris)
+#' data(mtcars)
+#' tab_df(iris[1:5, ])
+#' tab_dfs(list(iris[1:5, ], mtcars[1:5, 1:5]))}
 #'
 #' @importFrom sjmisc var_type is_even
 #' @importFrom purrr flatten_chr map
@@ -83,6 +90,9 @@ tab_df <- function(x,
                    file = NULL,
                    use.viewer = TRUE,
                    ...) {
+
+  # make sure list elements in CSS argument have proper name attribute
+  CSS <- check_css_param(CSS)
 
   # get style definition
   style <- tab_df_style(CSS = CSS, ...)
@@ -151,6 +161,9 @@ tab_dfs <- function(x,
                     use.viewer = TRUE,
                     ...) {
 
+  # make sure list elements in CSS argument have proper name attribute
+  CSS <- check_css_param(CSS)
+
   # get style definition
   style <- tab_df_style(CSS = CSS, ...)
 
@@ -216,31 +229,53 @@ tab_dfs <- function(x,
 }
 
 
+#' @importFrom sjmisc is_empty str_start
+check_css_param <- function(CSS) {
+  if (sjmisc::is_empty(CSS)) return(CSS)
+
+  n <- names(CSS)
+  nocss <-
+    unlist(lapply(sjmisc::str_start(x = n, pattern = "css."), sjmisc::is_empty))
+
+  if (any(nocss)) {
+    n[nocss] <- paste0("css.", n[nocss])
+    names(CSS) <- n
+  }
+
+  CSS
+}
+
+
 # This functions creates the body of the HTML page, i.e. it puts
 # the content of a data frame into a HTML table that is returned.
 
 #' @importFrom sjmisc is_empty
-#' @importFrom tibble has_rownames has_name
+#' @importFrom tibble has_rownames has_name rownames_to_column
 tab_df_content <- function(mydf, title, footnote, col.header, show.type, show.rownames, show.footnote, altr.row.col, ...) {
+
+  # save no of rows and columns
 
   rowcnt <- nrow(mydf)
   colcnt <- ncol(mydf)
 
   cnames <- colnames(mydf)
 
+
+  # if user supplied own column header, which also has the same length
+  # as no. columns, replace column names with user header
+
   if (!sjmisc::is_empty(col.header) && length(col.header) == length(cnames))
     cnames <- col.header
 
-  if (tibble::has_rownames(mydf))
-    rnames <- rownames(mydf)
-  else if (tibble::has_name(mydf, "rownames"))
-    rnames <- mydf[["rownames"]]
-  else
-    rnames <- ""
 
+  # check if rownames should be shown and data has any rownames at all
+  # if so, we need to update our information on column names
 
-  if (show.rownames && sjmisc::is_empty(rnames))
-    show.rownames <- FALSE
+  if (show.rownames && tibble::has_rownames(mydf)) {
+    mydf <- tibble::rownames_to_column(mydf)
+    colcnt <- colcnt + 1
+    cnames <- c("Row", cnames)
+  }
 
 
   # start table tag
@@ -296,20 +331,11 @@ tab_df_content <- function(mydf, title, footnote, col.header, show.type, show.ro
 
     page.content <- paste0(page.content, "  <tr>\n")
 
-    # first table cell is rowname
-    if (show.rownames)
-      page.content <- paste0(page.content, sprintf(
-        "    <td class=\"tdata leftalign firsttablecol%s%s\">%s</td>\n",
-        ltr,
-        arcstring,
-        rnames[rcnt])
-      )
-
     # all columns of a row
     for (ccnt in 1:colcnt) {
 
       # separate CSS for first column
-      if (ccnt == 1 && !show.rownames)
+      if (ccnt == 1)
         ftc <- " firsttablecol"
       else
         ftc <- ""
@@ -333,7 +359,6 @@ tab_df_content <- function(mydf, title, footnote, col.header, show.type, show.ro
 
   if (show.footnote) {
     page.content <- paste0(page.content, "  <tr>\n")
-    if (!show.rownames) colcnt <- colcnt - 1
     page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"footnote\">%s</td>\n", colcnt + 1, footnote))
     page.content <- paste0(page.content, "</tr>\n")
   }
@@ -417,7 +442,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
   css.thead <- "border-top: double; text-align:center; font-style:italic; font-weight:normal; padding:0.2cm;"
   css.tdata <- "padding:0.2cm; text-align:left; vertical-align:top;"
   css.arc <- "background-color:#f2f2f2;"
-  css.lasttablerow <- "border-top:1px solid; border-bottom: double;"
+  css.lasttablerow <- "border-bottom: double;"
   css.firsttablerow <- "border-bottom:1px solid black;"
   css.firsttablecol <- ""
   css.leftalign <- "text-align:left;"

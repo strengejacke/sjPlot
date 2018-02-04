@@ -65,7 +65,10 @@ print.sjt_grpmean <- function(x, ...) {
     show.footnote = TRUE,
     alternate.rows = FALSE,
     encoding = "UTF-8",
-    CSS = list(css.firsttablecol = '+text-align:left;'),
+    CSS = list(
+      css.firsttablecol = '+text-align:left;',
+      css.lasttablerow = 'border-top:1px solid; border-bottom: double;'
+    ),
     file = NULL,
     use.viewer = attr(x, "print", exact = TRUE) == "viewer",
     ...
@@ -109,7 +112,10 @@ print.sjt_grpmeans <- function(x, ...) {
     show.footnote = TRUE,
     alternate.rows = FALSE,
     encoding = "UTF-8",
-    CSS = list(css.firsttablecol = '+text-align:left;'),
+    CSS = list(
+      css.firsttablecol = '+text-align:left;',
+      css.lasttablerow = 'border-top:1px solid; border-bottom: double;'
+    ),
     file = NULL,
     use.viewer = uv,
     ...
