@@ -6,14 +6,10 @@
 #'
 #' @param x For \code{tab_df()}, a data frame; and for \code{tab_dfs()}, a
 #'   list of data frames.
-#' @param title,titles Character vector (of length 1) with table caption. Only
-#'   applies to \code{tab_df()}. For \code{tab_dfs()}, add a character vector
-#'   as \code{title}-attribute to each data frame, which will then be used as
-#'   caption for each table.
-#' @param footnote,footnotes Character vector (of length 1) with table footnote. Only
-#'   applies to \code{tab_df()}. For \code{tab_dfs()}, add a character vector
-#'   as \code{footnote}-attribute to each data frame, which will then be used
-#'   as footnote under each table.
+#' @param title,titles,footnote,footnotes Character vector with table
+#'   caption(s) resp. footnote(s). For  \code{tab_df()}, must be a character
+#'   of length 1; for \code{tab_dfs()}, a character vector of same length as
+#'   \code{x} (i.e. one title or footnote per data frame).
 #' @param col.header Character vector with elements used as column header for
 #'   the table. If \code{NULL}, column names from \code{x} are used as
 #'   column header.
@@ -21,10 +17,15 @@
 #'   for variable and value labels. Default is \code{"UTF-8"}. For Windows
 #'   Systems, \code{encoding = "Windows-1252"} might be necessary for proper
 #'   display of special characters.
-#' @param show.type
-#' @param show.rownames
-#' @param show.footnote
-#' @param alternate.rows
+#' @param show.type Logical, if \code{TRUE}, adds information about the
+#'   variable type to the variable column.
+#' @param show.rownames Logical, if \code{TRUE}, adds a column with the
+#'   data frame's rowname to the table output.
+#' @param show.footnote Logical, if \code{TRUE},adds a summary footnote below
+#'   the table. For \code{tab_df()}, specify the string in \code{footnote},
+#'   for \code{tab_dfs()} provide a character vector in \code{footnotes}.
+#' @param alternate.rows Logical, if \code{TRUE}, rows are printed in
+#'   alternatig colors (white and light grey by default).
 #'
 #' @inheritParams sjt.frq
 #'
@@ -36,6 +37,35 @@
 #'     \item the HTML table with inline-css for use with knitr (\code{knitr})
 #'     \item the file path, if the HTML page should be saved to disk (\code{file})
 #'   }
+#'
+#' @note The HTML tables can either be saved as file and manually opened
+#'   (use argument \code{file}) or they can be saved as temporary files and
+#'   will be displayed in the RStudio Viewer pane (if working with RStudio)
+#'   or opened with the default web browser. Displaying resp. opening a
+#'   temporary file is the default behaviour.
+#'
+#' @details \strong{How do I use \code{CSS}-argument?}
+#'   \cr \cr
+#'   With the \code{CSS}-argument, the visual appearance of the tables
+#'   can be modified. To get an overview of all style-sheet-classnames
+#'   that are used in this function, see return value \code{page.style} for
+#'   details. Arguments for this list have following syntax:
+#'   \enumerate{
+#'     \item the class-names with \code{"css."}-prefix as argument name and
+#'     \item each style-definition must end with a semicolon
+#'   }
+#'   You can add style information to the default styles by using a +
+#'   (plus-sign) as initial character for the argument attributes.
+#'   Examples:
+#'   \itemize{
+#'     \item \code{css.table = 'border:2px solid red;'} for a solid 2-pixel table border in red.
+#'     \item \code{css.summary = 'font-weight:bold;'} for a bold fontweight in the summary row.
+#'     \item \code{css.lasttablerow = 'border-bottom: 1px dotted blue;'} for a blue dotted border of the last table row.
+#'     \item \code{css.colnames = '+color:green'} to add green color formatting to column names.
+#'     \item \code{css.arc = 'color:blue;'} for a blue text color each 2nd row.
+#'     \item \code{css.caption = '+color:red;'} to add red font-color to the default table caption style.
+#'   }
+#'   See further examples in \href{../doc/sjtbasic.html}{this package-vignette}.
 #'
 #' @importFrom sjmisc var_type is_even
 #' @importFrom purrr flatten_chr map
@@ -236,7 +266,7 @@ tab_df_content <- function(mydf, title, footnote, col.header, show.type, show.ro
     # column names and variable type as table headline
     vartype <- sjmisc::var_type(mydf[[i]])
     page.content <- paste0(
-      page.content, sprintf("    <th class=\"thead firsttablerow%s\">%s", ftc, cnames[i])
+      page.content, sprintf("    <th class=\"thead firsttablerow%s col%i\">%s", ftc, i, cnames[i])
     )
 
     if (show.type)
@@ -376,6 +406,12 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
   tag.firsttablecol <- "firsttablecol"
   tag.leftalign <- "leftalign"
   tag.centertalign <- "centertalign"
+  tag.col1 <- "col1"
+  tag.col2 <- "col2"
+  tag.col3 <- "col3"
+  tag.col4 <- "col4"
+  tag.col5 <- "col5"
+  tag.col6 <- "col6"
   css.table <- "border-collapse:collapse; border:none;"
   css.caption <- "font-weight: bold; text-align:left;"
   css.thead <- "border-top: double; text-align:center; font-style:italic; font-weight:normal; padding:0.2cm;"
@@ -388,6 +424,12 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
   css.centeralign <- "text-align:center;"
   css.footnote <- "font-style:italic; border-top:double black; text-align:right;"
   css.subtitle <- "font-weight: normal;"
+  css.col1 <- ""
+  css.col2 <- ""
+  css.col3 <- ""
+  css.col4 <- ""
+  css.col5 <- ""
+  css.col6 <- ""
 
 
   # check user defined style sheets
@@ -405,6 +447,12 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
     if (!is.null(CSS[['css.firsttablecol']])) css.firsttablecol <- ifelse(substring(CSS[['css.firsttablecol']], 1, 1) == '+', paste0(css.firsttablecol, substring(CSS[['css.firsttablecol']], 2)), CSS[['css.firsttablecol']])
     if (!is.null(CSS[['css.footnote']])) css.footnote <- ifelse(substring(CSS[['css.footnote']], 1, 1) == '+', paste0(css.footnote, substring(CSS[['css.footnote']], 2)), CSS[['css.footnote']])
     if (!is.null(CSS[['css.subtitle']])) css.subtitle <- ifelse(substring(CSS[['css.subtitle']], 1, 1) == '+', paste0(css.subtitle, substring(CSS[['css.subtitle']], 2)), CSS[['css.subtitle']])
+    if (!is.null(CSS[['css.col1']])) css.col1 <- ifelse(substring(CSS[['css.col1']], 1, 1) == '+', paste0(css.col1, substring(CSS[['css.col1']], 2)), CSS[['css.col1']])
+    if (!is.null(CSS[['css.col2']])) css.col2 <- ifelse(substring(CSS[['css.col2']], 1, 1) == '+', paste0(css.col2, substring(CSS[['css.col2']], 2)), CSS[['css.col2']])
+    if (!is.null(CSS[['css.col3']])) css.col3 <- ifelse(substring(CSS[['css.col3']], 1, 1) == '+', paste0(css.col3, substring(CSS[['css.col3']], 2)), CSS[['css.col3']])
+    if (!is.null(CSS[['css.col4']])) css.col4 <- ifelse(substring(CSS[['css.col4']], 1, 1) == '+', paste0(css.col4, substring(CSS[['css.col4']], 2)), CSS[['css.col4']])
+    if (!is.null(CSS[['css.col5']])) css.col5 <- ifelse(substring(CSS[['css.col5']], 1, 1) == '+', paste0(css.col5, substring(CSS[['css.col5']], 2)), CSS[['css.col5']])
+    if (!is.null(CSS[['css.col6']])) css.col6 <- ifelse(substring(CSS[['css.col6']], 1, 1) == '+', paste0(css.col6, substring(CSS[['css.col6']], 2)), CSS[['css.col6']])
   }
 
 
@@ -412,7 +460,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
 
   if (task == 1) {
     content <- sprintf(
-      "<style>\nhtml, body { background-color: white; }\n%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
+      "<style>\nhtml, body { background-color: white; }\n%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
       tag.table,
       css.table,
       tag.caption,
@@ -436,7 +484,19 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
       tag.footnote,
       css.footnote,
       tag.subtitle,
-      css.subtitle
+      css.subtitle,
+      tag.col1,
+      css.col1,
+      tag.col2,
+      css.col2,
+      tag.col3,
+      css.col3,
+      tag.col4,
+      css.col4,
+      tag.col5,
+      css.col5,
+      tag.col6,
+      css.col6
     )
 
   } else if (task == 2) {
@@ -456,6 +516,13 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
     content <- gsub(tag.firsttablecol, css.firsttablecol, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.leftalign, css.leftalign, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.centertalign, css.centeralign, content, fixed = TRUE, useBytes = TRUE)
+
+    content <- gsub(tag.col1, css.col1, content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub(tag.col2, css.col2, content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub(tag.col3, css.col3, content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub(tag.col4, css.col4, content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub(tag.col5, css.col5, content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub(tag.col6, css.col6, content, fixed = TRUE, useBytes = TRUE)
   }
 
   content

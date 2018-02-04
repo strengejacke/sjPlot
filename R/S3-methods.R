@@ -222,7 +222,7 @@ print.sjt_descr <- function(x, ...) {
 print.sjt_grpdescr <- function(x, ...) {
 
   titles <- purrr::map_chr(x, ~ sprintf(
-    "Basic descriptives<br><span class=\"subtitle\">grouped by %s</span>",
+    "Basic descriptives<br><span class=\"subtitle\"><em>grouped by</em> %s</span>",
     gsub(pattern = "\n", replacement = "<br>", attr(.x, "group", exact = TRUE), fixed = T)
   ))
 
@@ -263,7 +263,7 @@ print.sjt_grpdescr <- function(x, ...) {
   tab <- tab_dfs(
     x = x,
     titles = titles,
-    footnote = NULL,
+    footnotes = NULL,
     col.header = chead,
     show.type = FALSE,
     show.rownames = FALSE,
@@ -281,3 +281,79 @@ print.sjt_grpdescr <- function(x, ...) {
 
   print(tab, ...)
 }
+
+
+#' @importFrom purrr map_if map_chr map
+#' @importFrom tibble as_tibble
+#' @importFrom sjmisc is_float
+#' @importFrom dplyr n_distinct select
+#' @export
+print.sjt_frq <- function(x, ...) {
+
+  uv <- attr(x, "print", exact = TRUE) == "viewer"
+
+
+  titles <- purrr::map_chr(x, function(i) {
+
+    ret <- ""
+
+    # get variable label
+    lab <- attr(i, "label", exact = T)
+    vt <- attr(i, "vartype", exact = T)
+
+    if (!is.null(lab)) ret <- sprintf("%s <span style=\"font-weight: normal; font-style: italic\">&lt;%s&gt</span>", lab, vt)
+
+    # get grouping title label
+    grp <- attr(i, "group", exact = T)
+
+    if (!is.null(grp))
+      ret <- sprintf("%s<br><span class=\"subtitle\"><em>grouped by:</em><br>%s</span>", ret, grp)
+
+    gsub(pattern = "\n", replacement = "<br>", x = ret, fixed = T)
+  })
+
+
+  footnotes <- purrr::map_chr(x, ~ sprintf(
+      "total N=%i &middot; valid N=%i &middot; x&#772=%.2f &middot; &sigma;=%.2f\n",
+      sum(.x$frq, na.rm = TRUE),
+      sum(.x$frq[1:(nrow(.x) - 1)], na.rm = TRUE),
+      attr(.x, "mean", exact = T),
+      attr(.x, "sd", exact = T)
+    )
+  )
+
+
+  x <- purrr::map(x, function(i) {
+    if (dplyr::n_distinct(i$label) == 1 && unique(i$label) == "<none>")
+      i <- dplyr::select(i, -.data$label)
+    i
+  })
+
+
+  tab <- tab_dfs(
+    x = x,
+    titles = titles,
+    footnotes = footnotes,
+    col.header = NULL,
+    show.type = FALSE,
+    show.rownames = FALSE,
+    show.footnote = TRUE,
+    alternate.rows = FALSE,
+    encoding = "UTF-8",
+    CSS = list(
+      css.firsttablecol = '+text-align:left;',
+      css.lasttablerow = 'border-bottom: 1px solid;',
+      css.col2 = 'text-align: left;',
+      css.col3 = 'text-align: right;',
+      css.col4 = 'text-align: right;',
+      css.col5 = 'text-align: right;',
+      css.col6 = 'text-align: right;'
+    ),
+    file = NULL,
+    use.viewer = uv,
+    ...
+  )
+
+  print(tab, ...)
+}
+

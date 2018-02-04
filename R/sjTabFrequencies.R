@@ -190,6 +190,12 @@ sjt.frq <- function(data,
                     use.viewer = TRUE,
                     no.output = FALSE,
                     remove.spaces = TRUE) {
+  if (stats::runif(1) < .4)
+    message("`sjt.frq()` will become deprecated in the future. Please use `sjmisc::frq(out = \"v\")` instead.")
+
+  ## TODO activate in future update
+  # .Deprecated("plot_model")
+
   # check encoding
   encoding <- get.encoding(encoding, data)
 

@@ -5,7 +5,11 @@
 * Remove unnecessary imports.
 * Add back `save_plot()` function.
 * Revised and updated package vignettes.
+
+## Deprecated
+
 * `sjt.grpmean` is now deprecated. Please use `sjstats::grpmean()` with argument `out = "viewer"` instead.
+* `sjt.df` is now deprecated. Please use `sjmisc::descr()` with argument `out = "viewer"` or `tab_df()` instead.
 
 ## Changes to functions
 

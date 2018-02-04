@@ -160,7 +160,7 @@ sjp.glm <- function(fit,
                     prnt.plot = TRUE,
                     ...) {
 
-  if (stats::runif(1) < .3)
+  if (stats::runif(1) < .35)
     message("`sjp.glm()` will become deprecated in the future. Please use `plot_model()` instead.")
 
   ## TODO activate in future update

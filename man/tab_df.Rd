@@ -19,21 +19,27 @@ tab_dfs(x, titles = NULL, footnotes = NULL, col.header = NULL,
 \item{x}{For \code{tab_df()}, a data frame; and for \code{tab_dfs()}, a
 list of data frames.}
 
-\item{title, titles}{Character vector (of length 1) with table caption. Only
-applies to \code{tab_df()}. For \code{tab_dfs()}, add a character vector
-as \code{title}-attribute to each data frame, which will then be used as
-caption for each table.}
-
-\item{footnote, footnotes}{Character vector (of length 1) with table footnote. Only
-applies to \code{tab_df()}. For \code{tab_dfs()}, add a character vector
-as \code{footnote}-attribute to each data frame, which will then be used
-as footnote under each table.}
+\item{title, titles, footnote, footnotes}{Character vector with table
+caption(s) resp. footnote(s). For  \code{tab_df()}, must be a character
+of length 1; for \code{tab_dfs()}, a character vector of same length as
+\code{x} (i.e. one title or footnote per data frame).}
 
 \item{col.header}{Character vector with elements used as column header for
 the table. If \code{NULL}, column names from \code{x} are used as
 column header.}
 
-\item{alternate.rows}{}
+\item{show.type}{Logical, if \code{TRUE}, adds information about the
+variable type to the variable column.}
+
+\item{show.rownames}{Logical, if \code{TRUE}, adds a column with the
+data frame's rowname to the table output.}
+
+\item{show.footnote}{Logical, if \code{TRUE},adds a summary footnote below
+the table. For \code{tab_df()}, specify the string in \code{footnote},
+for \code{tab_dfs()} provide a character vector in \code{footnotes}.}
+
+\item{alternate.rows}{Logical, if \code{TRUE}, rows are printed in
+alternatig colors (white and light grey by default).}
 
 \item{encoding}{Character vector, indicating the charset encoding used
 for variable and value labels. Default is \code{"UTF-8"}. For Windows
@@ -65,4 +71,35 @@ A list with following items:
 \description{
 These functions print data frames as HTML-table, showing
   the results in RStudio's viewer pane or in a web browser.
+}
+\details{
+\strong{How do I use \code{CSS}-argument?}
+  \cr \cr
+  With the \code{CSS}-argument, the visual appearance of the tables
+  can be modified. To get an overview of all style-sheet-classnames
+  that are used in this function, see return value \code{page.style} for
+  details. Arguments for this list have following syntax:
+  \enumerate{
+    \item the class-names with \code{"css."}-prefix as argument name and
+    \item each style-definition must end with a semicolon
+  }
+  You can add style information to the default styles by using a +
+  (plus-sign) as initial character for the argument attributes.
+  Examples:
+  \itemize{
+    \item \code{css.table = 'border:2px solid red;'} for a solid 2-pixel table border in red.
+    \item \code{css.summary = 'font-weight:bold;'} for a bold fontweight in the summary row.
+    \item \code{css.lasttablerow = 'border-bottom: 1px dotted blue;'} for a blue dotted border of the last table row.
+    \item \code{css.colnames = '+color:green'} to add green color formatting to column names.
+    \item \code{css.arc = 'color:blue;'} for a blue text color each 2nd row.
+    \item \code{css.caption = '+color:red;'} to add red font-color to the default table caption style.
+  }
+  See further examples in \href{../doc/sjtbasic.html}{this package-vignette}.
+}
+\note{
+The HTML tables can either be saved as file and manually opened
+  (use argument \code{file}) or they can be saved as temporary files and
+  will be displayed in the RStudio Viewer pane (if working with RStudio)
+  or opened with the default web browser. Displaying resp. opening a
+  temporary file is the default behaviour.
 }

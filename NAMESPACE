@@ -3,6 +3,7 @@
 S3method(knit_print,sjTable)
 S3method(print,sjTable)
 S3method(print,sjt_descr)
+S3method(print,sjt_frq)
 S3method(print,sjt_grpdescr)
 S3method(print,sjt_grpmean)
 S3method(print,sjt_grpmeans)
