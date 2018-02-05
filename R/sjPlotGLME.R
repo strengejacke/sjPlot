@@ -435,6 +435,7 @@ sjp.glmer <- function(fit,
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.gpt
 #' @inheritParams sjp.int
+#' @inheritParams plot_model
 #'
 #' @return (Insisibily) returns
 #'          \itemize{

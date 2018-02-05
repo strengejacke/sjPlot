@@ -57,6 +57,7 @@
 #'
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.df
+#' @inheritParams tab_df
 #'
 #' @return Invisibly returns
 #'         \itemize{
@@ -130,8 +131,7 @@ sjt.itemanalysis <- function(df,
                              scale = FALSE,
                              min.valid.rowmean = 2,
                              altr.row.col = TRUE,
-                             sort.col = NULL,
-                             sort.asc = TRUE,
+                             sort.column = NULL,
                              show.shapiro = FALSE,
                              show.kurtosis = FALSE,
                              show.corr.matrix = TRUE,
@@ -272,41 +272,29 @@ sjt.itemanalysis <- function(df,
   # proper col names
   colnames(df.index.scores) <- sprintf("Score%i", seq_len(ncol(df.index.scores)))
 
-  # create page with all html content
-  complete.page <- ""
-  knitr.list <- list()
+  footns <- purrr::map2_chr(mic.total, cronbach.total, ~ sprintf(
+      "Mean inter-item-correlation=%.3f &middot; Cronbach's &alpha;=%.3f", .x, .y
+    ))
 
-  # iterate all data frames etc.
-  for (i in seq_len(length(df.ia))) {
+  if (is.null(CSS)) CSS <- list(firsttablecol = "text-align: left;")
 
-    # check if we have titles for each component-table
-    if (!is.null(factor.groups.titles)) dftitle <- factor.groups.titles[i]
+  # get html-table from data frame
+  html <- tab_dfs(
+    x = df.ia,
+    titles = factor.groups.titles,
+    col.header = NULL,
+    alternate.rows = altr.row.col,
+    CSS = CSS,
+    sort.column = sort.column,
+    show.type = FALSE,
+    show.rownames = TRUE,
+    use.viewer = TRUE,
+    encoding = encoding,
+    show.footnote = TRUE,
+    footnotes = footns
+  )
 
-    # get html-table from data frame
-    html <- sjt.df(
-      df.ia[[i]],
-      describe = FALSE,
-      no.output = TRUE,
-      title = dftitle,
-      sort.asc = sort.asc,
-      sort.col = sort.col,
-      altr.row.col = altr.row.col,
-      CSS = CSS,
-      encoding = encoding,
-      hide.progress = TRUE,
-      show.cmmn.row = TRUE,
-      string.cmmn = sprintf(
-        "Mean inter-item-correlation=%.3f &middot; Cronbach's &alpha;=%.3f",
-        mic.total[[i]],
-        cronbach.total[[i]]
-      )
-    )
-
-    # add to complete html-page
-    complete.page <- paste0(complete.page, html$knitr)
-    complete.page <- paste0(complete.page, "<p style=\"margin:2em;\">&nbsp;</p>")
-    knitr.list[[length(knitr.list) + 1]] <- html$knitr
-  }
+  html2 <- NULL
 
   # show component correlation table
   if (show.corr.matrix) {
@@ -323,7 +311,7 @@ sjt.itemanalysis <- function(df,
       colnames(df.cc) <- sprintf("Component %i", seq_len(ncol(df.cc)))
 
       # compute correlation table, store html result
-      html <- sjt.corr(
+      html2 <- sjt.corr(
         df.cc,
         na.deletion = "listwise",
         p.numeric = TRUE,
@@ -333,36 +321,26 @@ sjt.itemanalysis <- function(df,
         no.output = TRUE
       )
 
-      # add to html that is printed
-      complete.page <- paste0(complete.page, html$knitr)
-      knitr.list[[length(knitr.list) + 1]] <- html$knitr
     }
   }
 
-  # wrap html-tags
-  knitr <- complete.page
-  table.header <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n", encoding)
-  complete.page <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n</head>\n<body>\n%s\n</body></html>", encoding, complete.page)
-
-  # remove spaces?
-  if (remove.spaces) {
-    knitr <- sju.rmspc(knitr)
-    complete.page <- sju.rmspc(complete.page)
+  if (!is.null(html2)) {
+    html$knitr <- paste0(html$knitr, "<p>&nbsp;</p>", html2$knitr)
+    html$page.content <- paste0(html$page.content, "<p>&nbsp;</p>", html2$page.content)
+    html$page.style <- paste0(html$page.style, html2$page.style)
+    html$page.complete <-
+      sprintf(
+        "<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n%s\n</head>\n<body>\n%s\n</body></html>",
+        encoding,
+        html$page.style,
+        html$page.content
+      )
   }
 
-  structure(
-    class = c("sjTable", "sjtitemanalysis"),
-    list(
-      page.complete = complete.page,
-      knitr = knitr,
-      file = file,
-      header = table.header,
-      show = !no.output,
-      viewer = use.viewer,
-      df.list = df.ia,
-      index.scores = df.index.scores,
-      cronbach.values = cronbach.total,
-      ideal.item.diff = diff.ideal.list
-    )
-  )
+  html$df.list <- df.ia
+  html$index.scores <- df.index.scores
+  html$cronbach.values <- cronbach.total
+  html$ideal.item.diff <- diff.ideal.list
+
+  html
 }

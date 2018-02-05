@@ -12,8 +12,9 @@
 
 ## Deprecated
 
-* `sjt.grpmean` is now deprecated. Please use `sjstats::grpmean()` with argument `out = "viewer"` instead.
-* `sjt.df` is now deprecated. Please use `sjmisc::descr()` with argument `out = "viewer"` or `tab_df()` instead.
+* `sjt.grpmean()` is now deprecated. Please use `sjstats::grpmean()` with argument `out = "viewer"` instead.
+* `sjt.mwu()` is now deprecated. Please use `sjstats::mwu()` with argument `out = "viewer"` instead.
+* `sjt.df()` is now deprecated. Please use `sjmisc::descr()` with argument `out = "viewer"` or `tab_df()` instead.
 
 ## Changes to functions
 

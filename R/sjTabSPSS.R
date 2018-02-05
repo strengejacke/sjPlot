@@ -7,37 +7,40 @@
 #'                type and associated value labels. The result can be
 #'                considered as "codeplan" of the data frame.
 #'
-#' @seealso \itemize{
-#'            \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
-#'            \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
-#'          }
-#'
 #' @param x A (labelled) data frame, imported by \code{\link[sjlabelled]{read_spss}},
-#'          \code{\link[sjlabelled]{read_sas}} or \code{\link[sjlabelled]{read_stata}} function,
-#'          or any similar labelled data frame (see \code{\link[sjlabelled]{set_label}}
-#'          and \code{\link[sjlabelled]{set_labels}}).
-#' @param show.id Logical, if \code{TRUE} (default), the variable ID is shown in the first column.
-#' @param show.values Logical, if \code{TRUE} (default), the variable values are shown as additional column.
+#'   \code{\link[sjlabelled]{read_sas}} or \code{\link[sjlabelled]{read_stata}} function,
+#'   or any similar labelled data frame (see \code{\link[sjlabelled]{set_label}}
+#'   and \code{\link[sjlabelled]{set_labels}}).
+#' @param show.id Logical, if \code{TRUE} (default), the variable ID is shown in
+#'   the first column.
+#' @param show.values Logical, if \code{TRUE} (default), the variable values
+#'   are shown as additional column.
 #' @param show.string.values Logical, if \code{TRUE}, elements of character vectors
-#'    are also shown. By default, these are omitted due to possibly overlengthy
-#'    tables.
-#' @param show.labels Logical, if \code{TRUE} (default), the value labels are shown as additional column.
-#' @param show.frq Logical, if \code{TRUE}, an additional column with frequencies for each variable is shown.
-#' @param show.prc Logical, if \code{TRUE}, an additional column with percentage of frequencies for each variable is shown.
+#'   are also shown. By default, these are omitted due to possibly overlengthy
+#'   tables.
+#' @param show.labels Logical, if \code{TRUE} (default), the value labels are
+#'   shown as additional column.
+#' @param show.frq Logical, if \code{TRUE}, an additional column with
+#'   frequencies for each variable is shown.
+#' @param show.prc Logical, if \code{TRUE}, an additional column with percentage
+#'   of frequencies for each variable is shown.
 #' @param show.wtd.frq Logical, if \code{TRUE}, an additional column with weighted
-#'          frequencies for each variable is shown. Weights strem from \code{weight.by}.
+#'   frequencies for each variable is shown. Weights strem from \code{weight.by}.
 #' @param show.wtd.prc Logical, if \code{TRUE}, an additional column with weighted
-#'          percentage of frequencies for each variable is shown.
-#'          Weights strem from \code{weight.by}.
-#' @param sort.by.name Logical, if \code{TRUE}, rows are sorted according to the variable
-#'          names. By default, rows (variables) are ordered according to their
-#'          order in the data frame.
+#'   percentage of frequencies for each variable is shown. Weights strem from
+#'   \code{weight.by}.
+#' @param sort.by.name Logical, if \code{TRUE}, rows are sorted according to the
+#'   variable names. By default, rows (variables) are ordered according to their
+#'   order in the data frame.
 #' @param max.len Numeric, indicates how many values and value labels per variable
-#'    are shown. Useful for variables with many different values, where the output
-#'    can be truncated.
+#'   are shown. Useful for variables with many different values, where the output
+#'   can be truncated.
+#' @param hide.progress logical, if \code{TRUE}, the progress bar that is displayed
+#'   when creating the output is hidden. Default in \code{FALSE}, hence the
+#'   bar is visible.
 #'
+#' @inheritParams tab_df
 #' @inheritParams sjt.frq
-#' @inheritParams sjt.df
 #' @inheritParams sjt.xtab
 #' @inheritParams sjp.grpfrq
 #'
@@ -49,10 +52,6 @@
 #'            \item the html-table with inline-css for use with knitr (\code{knitr})
 #'            }
 #'            for further use.
-#'
-#' @note See 'Notes' in \code{\link{sjt.frq}}.
-#'
-#' @details See 'Details' in \code{\link{sjt.frq}}.
 #'
 #' @examples
 #' \dontrun{

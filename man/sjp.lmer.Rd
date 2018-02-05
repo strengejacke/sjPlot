@@ -135,6 +135,11 @@ will be plotted. Default is \code{FALSE}. Only applies, if \code{show.loess = TR
 (and for \code{\link{sjp.lmer}}, only applies if \code{type = "fe.slope"}
 or \code{type = "fe.resid"}).}
 
+\item{show.intercept}{Logical, if \code{TRUE}, the intercept of the fitted
+model is also plotted. Default is \code{FALSE}. If \code{transform =
+"exp"}, please note that due to exponential transformation of estimates,
+the intercept in some cases is non-finite and the plot can not be created.}
+
 \item{string.interc}{String, axis label of intercept estimate. Only applies,
 if \code{show.intercept = TRUE} and \code{axis.labels} is not \code{NULL}.}
 

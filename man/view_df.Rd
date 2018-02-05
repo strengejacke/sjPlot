@@ -25,26 +25,34 @@ Must be a vector of same length as the input vector. Default is
 \item{altr.row.col}{Logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
 
-\item{show.id}{Logical, if \code{TRUE} (default), the variable ID is shown in the first column.}
+\item{show.id}{Logical, if \code{TRUE} (default), the variable ID is shown in
+the first column.}
 
-\item{show.values}{Logical, if \code{TRUE} (default), the variable values are shown as additional column.}
+\item{show.type}{Logical, if \code{TRUE}, adds information about the
+variable type to the variable column.}
+
+\item{show.values}{Logical, if \code{TRUE} (default), the variable values
+are shown as additional column.}
 
 \item{show.string.values}{Logical, if \code{TRUE}, elements of character vectors
 are also shown. By default, these are omitted due to possibly overlengthy
 tables.}
 
-\item{show.labels}{Logical, if \code{TRUE} (default), the value labels are shown as additional column.}
+\item{show.labels}{Logical, if \code{TRUE} (default), the value labels are
+shown as additional column.}
 
-\item{show.frq}{Logical, if \code{TRUE}, an additional column with frequencies for each variable is shown.}
+\item{show.frq}{Logical, if \code{TRUE}, an additional column with
+frequencies for each variable is shown.}
 
-\item{show.prc}{Logical, if \code{TRUE}, an additional column with percentage of frequencies for each variable is shown.}
+\item{show.prc}{Logical, if \code{TRUE}, an additional column with percentage
+of frequencies for each variable is shown.}
 
 \item{show.wtd.frq}{Logical, if \code{TRUE}, an additional column with weighted
 frequencies for each variable is shown. Weights strem from \code{weight.by}.}
 
 \item{show.wtd.prc}{Logical, if \code{TRUE}, an additional column with weighted
-percentage of frequencies for each variable is shown.
-Weights strem from \code{weight.by}.}
+percentage of frequencies for each variable is shown. Weights strem from
+\code{weight.by}.}
 
 \item{show.na}{logical, if \code{TRUE}, \code{\link{NA}}'s (missing values)
 are added to the output.}
@@ -53,22 +61,26 @@ are added to the output.}
 are shown. Useful for variables with many different values, where the output
 can be truncated.}
 
-\item{sort.by.name}{Logical, if \code{TRUE}, rows are sorted according to the variable
-names. By default, rows (variables) are ordered according to their
+\item{sort.by.name}{Logical, if \code{TRUE}, rows are sorted according to the
+variable names. By default, rows (variables) are ordered according to their
 order in the data frame.}
 
 \item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
 labels are displayed in one line and when a line break is inserted.}
+
+\item{hide.progress}{logical, if \code{TRUE}, the progress bar that is displayed
+when creating the output is hidden. Default in \code{FALSE}, hence the
+bar is visible.}
 
 \item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
 see \href{../doc/sjtbasic.html}{this package-vignette}, or 'Details' in
 \code{\link{sjt.frq}}.}
 
-\item{encoding}{String, indicating the charset encoding used for variable and
-value labels. Default is \code{NULL}, so encoding will be auto-detected
-depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
-Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
+\item{encoding}{Character vector, indicating the charset encoding used
+for variable and value labels. Default is \code{"UTF-8"}. For Windows
+Systems, \code{encoding = "Windows-1252"} might be necessary for proper
+display of special characters.}
 
 \item{file}{Destination file, if the output should be saved as file.
 If \code{NULL} (default), the output will be saved as temporary file and
@@ -103,12 +115,6 @@ Save (or show) content of an imported SPSS, SAS or Stata data file,
                type and associated value labels. The result can be
                considered as "codeplan" of the data frame.
 }
-\details{
-See 'Details' in \code{\link{sjt.frq}}.
-}
-\note{
-See 'Notes' in \code{\link{sjt.frq}}.
-}
 \examples{
 \dontrun{
 # init dataset
@@ -129,10 +135,4 @@ view_df(efc,
                    css.tdata = "border: 1px solid;",
                    css.arc = "color:blue;"))}
 
-}
-\seealso{
-\itemize{
-           \item \href{http://www.strengejacke.de/sjPlot/datainit/}{sjPlot manual: data initialization}
-           \item \href{http://www.strengejacke.de/sjPlot/view_spss/}{sjPlot manual: inspecting (SPSS imported) data frames}
-         }
 }

@@ -24,8 +24,14 @@
 #' @param show.footnote Logical, if \code{TRUE},adds a summary footnote below
 #'   the table. For \code{tab_df()}, specify the string in \code{footnote},
 #'   for \code{tab_dfs()} provide a character vector in \code{footnotes}.
+#' @param sort.column Numeric vector, indicating the index of the column
+#'   that should sorted. by default, the column is sorted in ascending order.
+#'   Use negative index for descending order, for instance,
+#'   \code{sort.column = -3} would sort the third column in descending order.
+#'   Note that the first column with rownames is not counted.
 #' @param alternate.rows Logical, if \code{TRUE}, rows are printed in
 #'   alternatig colors (white and light grey by default).
+#' @param ... Currently not used.
 #'
 #' @inheritParams sjt.frq
 #'
@@ -72,7 +78,13 @@
 #' data(iris)
 #' data(mtcars)
 #' tab_df(iris[1:5, ])
-#' tab_dfs(list(iris[1:5, ], mtcars[1:5, 1:5]))}
+#' tab_dfs(list(iris[1:5, ], mtcars[1:5, 1:5]))
+#'
+#' # sort 2nd column ascending
+#' tab_df(iris[1:5, ], sort.column = 2)
+#'
+#' # sort 2nd column descending
+#' tab_df(iris[1:5, ], sort.column = -2)}
 #'
 #' @importFrom sjmisc var_type is_even
 #' @importFrom purrr flatten_chr map
@@ -85,6 +97,7 @@ tab_df <- function(x,
                    show.rownames = TRUE,
                    show.footnote = FALSE,
                    alternate.rows = FALSE,
+                   sort.column = NULL,
                    encoding = "UTF-8",
                    CSS = NULL,
                    file = NULL,
@@ -108,6 +121,7 @@ tab_df <- function(x,
       show.rownames = show.rownames,
       show.footnote = show.footnote,
       altr.row.col = alternate.rows,
+      sort.column = sort.column,
       ...
     )
 
@@ -155,6 +169,7 @@ tab_dfs <- function(x,
                     show.rownames = TRUE,
                     show.footnote = FALSE,
                     alternate.rows = FALSE,
+                    sort.column = NULL,
                     encoding = "UTF-8",
                     CSS = NULL,
                     file = NULL,
@@ -191,6 +206,7 @@ tab_dfs <- function(x,
           show.rownames = show.rownames,
           show.footnote = show.footnote,
           altr.row.col = alternate.rows,
+          sort.column = sort.column,
           ...
         )
       })),
@@ -249,14 +265,29 @@ check_css_param <- function(CSS) {
 # This functions creates the body of the HTML page, i.e. it puts
 # the content of a data frame into a HTML table that is returned.
 
-#' @importFrom sjmisc is_empty
+#' @importFrom sjmisc is_empty var_type is_even
 #' @importFrom tibble has_rownames has_name rownames_to_column
-tab_df_content <- function(mydf, title, footnote, col.header, show.type, show.rownames, show.footnote, altr.row.col, ...) {
+tab_df_content <- function(mydf, title, footnote, col.header, show.type, show.rownames, show.footnote, altr.row.col, sort.column, ...) {
 
   # save no of rows and columns
 
   rowcnt <- nrow(mydf)
   colcnt <- ncol(mydf)
+
+
+  # check sorting
+
+  if (!is.null(sort.column)) {
+    sc <- abs(sort.column)
+    if (sc < 1 || sc > colcnt)
+      message("Column index in `sort.column` for sorting columns out of bounds. No sorting applied.")
+    else {
+      rows <- order(mydf[[sc]])
+      if (sort.column < 0) rows <- rev(rows)
+      mydf <- mydf[rows, ]
+    }
+  }
+
 
   cnames <- colnames(mydf)
 
@@ -399,6 +430,9 @@ tab_df_knitr <- function(CSS = NULL, content = NULL, ...) {
 # section of the final HTML page. Required for display in the browser.
 
 tab_create_page <- function(style, content, encoding = "UTF-8") {
+
+  if (is.null(encoding)) encoding <- "UTF-8"
+
   # first, save table header
   sprintf(
     "<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n%s\n</head>\n<body>\n%s\n</body></html>",

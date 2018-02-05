@@ -3,11 +3,14 @@
 \name{sjt.grpmean}
 \alias{sjt.grpmean}
 \alias{sjt.df}
+\alias{sjt.mwu}
 \title{Deprecated functions}
 \usage{
 sjt.grpmean(...)
 
 sjt.df(...)
+
+sjt.mwu(...)
 }
 \arguments{
 \item{...}{Not used.}

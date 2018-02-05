@@ -7,13 +7,13 @@
 \usage{
 tab_df(x, title = NULL, footnote = NULL, col.header = NULL,
   show.type = FALSE, show.rownames = TRUE, show.footnote = FALSE,
-  alternate.rows = FALSE, encoding = "UTF-8", CSS = NULL, file = NULL,
-  use.viewer = TRUE, ...)
+  alternate.rows = FALSE, sort.column = NULL, encoding = "UTF-8",
+  CSS = NULL, file = NULL, use.viewer = TRUE, ...)
 
 tab_dfs(x, titles = NULL, footnotes = NULL, col.header = NULL,
   show.type = FALSE, show.rownames = TRUE, show.footnote = FALSE,
-  alternate.rows = FALSE, encoding = "UTF-8", CSS = NULL, file = NULL,
-  use.viewer = TRUE, ...)
+  alternate.rows = FALSE, sort.column = NULL, encoding = "UTF-8",
+  CSS = NULL, file = NULL, use.viewer = TRUE, ...)
 }
 \arguments{
 \item{x}{For \code{tab_df()}, a data frame; and for \code{tab_dfs()}, a
@@ -41,6 +41,12 @@ for \code{tab_dfs()} provide a character vector in \code{footnotes}.}
 \item{alternate.rows}{Logical, if \code{TRUE}, rows are printed in
 alternatig colors (white and light grey by default).}
 
+\item{sort.column}{Numeric vector, indicating the index of the column
+that should sorted. by default, the column is sorted in ascending order.
+Use negative index for descending order, for instance,
+\code{sort.column = -3} would sort the third column in descending order.
+Note that the first column with rownames is not counted.}
+
 \item{encoding}{Character vector, indicating the charset encoding used
 for variable and value labels. Default is \code{"UTF-8"}. For Windows
 Systems, \code{encoding = "Windows-1252"} might be necessary for proper
@@ -57,6 +63,8 @@ openend either in the IDE's viewer pane or the default web browser.}
 
 \item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 \code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
+
+\item{...}{Currently not used.}
 }
 \value{
 A list with following items:
@@ -108,6 +116,12 @@ The HTML tables can either be saved as file and manually opened
 data(iris)
 data(mtcars)
 tab_df(iris[1:5, ])
-tab_dfs(list(iris[1:5, ], mtcars[1:5, 1:5]))}
+tab_dfs(list(iris[1:5, ], mtcars[1:5, 1:5]))
+
+# sort 2nd column ascending
+tab_df(iris[1:5, ], sort.column = 2)
+
+# sort 2nd column descending
+tab_df(iris[1:5, ], sort.column = -2)}
 
 }

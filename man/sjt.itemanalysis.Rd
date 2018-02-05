@@ -6,10 +6,9 @@
 \usage{
 sjt.itemanalysis(df, factor.groups = NULL, factor.groups.titles = "auto",
   scale = FALSE, min.valid.rowmean = 2, altr.row.col = TRUE,
-  sort.col = NULL, sort.asc = TRUE, show.shapiro = FALSE,
-  show.kurtosis = FALSE, show.corr.matrix = TRUE, CSS = NULL,
-  encoding = NULL, file = NULL, use.viewer = TRUE, no.output = FALSE,
-  remove.spaces = TRUE)
+  sort.column = NULL, show.shapiro = FALSE, show.kurtosis = FALSE,
+  show.corr.matrix = TRUE, CSS = NULL, encoding = NULL, file = NULL,
+  use.viewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{df}{A data frame with items.}
@@ -35,6 +34,12 @@ technically, row). See \code{mean_n} for details.}
 
 \item{altr.row.col}{Logical, if \code{TRUE}, alternating rows are highlighted with a light gray
 background color.}
+
+\item{sort.column}{Numeric vector, indicating the index of the column
+that should sorted. by default, the column is sorted in ascending order.
+Use negative index for descending order, for instance,
+\code{sort.column = -3} would sort the third column in descending order.
+Note that the first column with rownames is not counted.}
 
 \item{show.shapiro}{Logical, if \code{TRUE}, a Shapiro-Wilk normality test is computed for each item.
 See \code{\link{shapiro.test}} for details.}

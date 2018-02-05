@@ -363,3 +363,65 @@ print.sjt_frq <- function(x, ...) {
   print(tab, ...)
 }
 
+
+#' @importFrom stats na.omit kruskal.test
+#' @export
+print.sjt_mwu <- function(x, ...) {
+
+  fn <- NULL
+
+  chead <- c(
+    "Groups",
+    "N",
+    "Mean Rank",
+    "Mann-Whitney U",
+    "Wilcoxon W",
+    "Z",
+    "Effect Size",
+    "p-value"
+  )
+
+  # if we have more than 2 groups, also perfom kruskal-wallis-test
+  if (length(unique(stats::na.omit(x$data$grp))) > 2) {
+
+    kw <- stats::kruskal.test(x$data$x, x$data$grp)
+
+    if (kw$p.value < 0.001) {
+      p  <- 0.001
+      p.string <- "<"
+    } else {
+      p <- kw$p.value
+      p.string <- "="
+    }
+
+    fn <-
+      sprintf(
+        "Kruskal-Wallis-Test: &chi;<sup>2</sup>=%.3f &middot; df=%i &middot; p%s%.3f",
+        kw$statistic,
+        kw$parameter,
+        p.string,
+        p
+      )
+  }
+
+
+  tab <- tab_df(
+    x = x$tab.df,
+    title = "Mann-Whitney U-Test",
+    footnote = fn,
+    col.header = chead,
+    show.rownames = FALSE,
+    show.type = FALSE,
+    show.footnote = !is.null(fn),
+    alternate.rows = TRUE,
+    file = NULL,
+    CSS = list(
+      css.firsttablecol = '+text-align:left;',
+      css.lasttablerow = 'border-bottom: 1px solid;'
+    ),
+    use.viewer = attr(x, "print", exact = TRUE) == "viewer",
+    ...
+  )
+
+  print(tab, ...)
+}
