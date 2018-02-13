@@ -166,9 +166,9 @@ sjp.gpt <- function(x,
   # create data frame, for dplyr-chain
   mydf <-
     stats::na.omit(data.frame(
-      grp = sjmisc::to_value(groups, keep.labels = F),
+      grp = sjlabelled::as_numeric(groups, keep.labels = F),
       xpos = x,
-      dep = sjmisc::to_value(y, keep.labels = F)
+      dep = sjlabelled::as_numeric(y, keep.labels = F)
     ))
 
   # recode dependent variable's categorues
@@ -224,7 +224,7 @@ sjp.gpt <- function(x,
   newdf$xpos <- suppressMessages(sjmisc::to_factor(newdf$xpos))
 
   # proportion needs to be numeric
-  newdf$ypos <- sjmisc::to_value(newdf$ypos, keep.labels = F)
+  newdf$ypos <- sjlabelled::as_numeric(newdf$ypos, keep.labels = F)
 
   # add N and p-values to axis labels?
   if (show.n) axis.labels <- paste0(axis.labels, " (n=", group.n, ")")

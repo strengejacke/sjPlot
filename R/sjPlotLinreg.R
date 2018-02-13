@@ -296,11 +296,7 @@ sjp.lm <- function(fit,
                    prnt.plot = TRUE,
                    ...) {
 
-  if (stats::runif(1) < .35)
-    message("`sjp.lm()` will become deprecated in the future. Please use `plot_model()` instead.")
-
-  ## TODO activate in future update
-  # .Deprecated("plot_model")
+  .Deprecated("plot_model")
 
   if (type == "pc" || type == "prob" || type == "slope") {
     message("This plot type has been removed, as it was misleading. Use `plot_model` with `type = \"pred\"` to plot marginal effects, or with `type = \"slope\"` for model diagnostisc.")

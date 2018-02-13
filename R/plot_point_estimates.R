@@ -1,6 +1,7 @@
 #' @importFrom tibble has_name
 #' @importFrom dplyr n_distinct if_else
-#' @importFrom sjmisc to_value is_empty
+#' @importFrom sjmisc is_empty
+#' @importFrom sjlabelled as_numeric
 #' @importFrom sjstats resp_var
 plot_point_estimates <- function(model,
                                  dat,
@@ -36,7 +37,7 @@ plot_point_estimates <- function(model,
 
   # need some additional data, for stan-geoms
 
-  dat$xpos <- sjmisc::to_value(dat$term, start.at = 1)
+  dat$xpos <- sjlabelled::as_numeric(dat$term, start.at = 1)
   dat$xmin <- dat$xpos - (geom.size * size.inner)
   dat$xmax <- dat$xpos + (geom.size * size.inner)
 

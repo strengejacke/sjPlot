@@ -190,11 +190,8 @@ sjt.frq <- function(data,
                     use.viewer = TRUE,
                     no.output = FALSE,
                     remove.spaces = TRUE) {
-  if (stats::runif(1) < .4)
-    message("`sjt.frq()` will become deprecated in the future. Please use `sjmisc::frq(out = \"v\")` instead.")
 
-  ## TODO activate in future update
-  # .Deprecated("plot_model")
+  .Deprecated("sjmisc::frq(out = \"v\")")
 
   # check encoding
   encoding <- get.encoding(encoding, data)
@@ -387,7 +384,7 @@ sjt.frq <- function(data,
       # here we have numeric or factor variables
     } else {
       # convert to numeric
-      orivar <- varia <- sjmisc::to_value(data[[cnt]], keep.labels = F)
+      orivar <- varia <- sjlabelled::as_numeric(data[[cnt]], keep.labels = F)
     }
 
     # check for length of unique values and skip if too long
@@ -403,7 +400,7 @@ sjt.frq <- function(data,
       # group labels
       val.lab <-
         sjmisc::group_labels(
-          sjmisc::to_value(data[[cnt]], keep.labels = F),
+          sjlabelled::as_numeric(data[[cnt]], keep.labels = F),
           size = "auto",
           n = auto.group
         )
@@ -411,7 +408,7 @@ sjt.frq <- function(data,
       # group variable
       data[[cnt]] <-
         sjmisc::group_var(
-          sjmisc::to_value(data[[cnt]], keep.labels = F),
+          sjlabelled::as_numeric(data[[cnt]], keep.labels = F),
           size = "auto",
           as.num = TRUE,
           n = auto.group,

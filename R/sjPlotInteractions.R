@@ -275,11 +275,7 @@ sjp.int <- function(fit,
                     prnt.plot = TRUE,
                     ...) {
 
-  if (stats::runif(1) < .35)
-    message("`sjp.int()` will become deprecated in the future. Please use `plot_model()` instead.")
-
-  ## TODO activate in future update
-  # .Deprecated("plot_model")
+  .Deprecated("plot_model")
 
   # -----------------------------------------------------------
   # match arguments
@@ -563,10 +559,10 @@ sjp.int <- function(fit,
     # convert df-values to numeric
     # -----------------------------------------------------------
     if (fun == "lm" || fun == "lmer" || fun == "lme") {
-      intdf$x <- sjmisc::to_value(intdf$x, keep.labels = F)
-      intdf$y <- sjmisc::to_value(intdf$y, keep.labels = F)
-      intdf$ymin <- sjmisc::to_value(intdf$ymin, keep.labels = F)
-      intdf$ymax <- sjmisc::to_value(intdf$ymax, keep.labels = F)
+      intdf$x <- sjlabelled::as_numeric(intdf$x, keep.labels = F)
+      intdf$y <- sjlabelled::as_numeric(intdf$y, keep.labels = F)
+      intdf$ymin <- sjlabelled::as_numeric(intdf$ymin, keep.labels = F)
+      intdf$ymax <- sjlabelled::as_numeric(intdf$ymax, keep.labels = F)
       intdf$ydiff <- intdf$ymax - intdf$ymin
       # -----------------------------------------------------------
       # retrieve lowest and highest x and y position to determine
@@ -586,10 +582,10 @@ sjp.int <- function(fit,
       }
     } else {
       invlink <- stats::family(fit)
-      intdf$x <- sjmisc::to_value(intdf$x, keep.labels = F)
-      intdf$y <- invlink$linkinv(eta = sjmisc::to_value(intdf$y, keep.labels = F))
-      intdf$ymin <- invlink$linkinv(eta = sjmisc::to_value(intdf$ymin, keep.labels = F))
-      intdf$ymax <- invlink$linkinv(eta = sjmisc::to_value(intdf$ymax, keep.labels = F))
+      intdf$x <- sjlabelled::as_numeric(intdf$x, keep.labels = F)
+      intdf$y <- invlink$linkinv(eta = sjlabelled::as_numeric(intdf$y, keep.labels = F))
+      intdf$ymin <- invlink$linkinv(eta = sjlabelled::as_numeric(intdf$ymin, keep.labels = F))
+      intdf$ymax <- invlink$linkinv(eta = sjlabelled::as_numeric(intdf$ymax, keep.labels = F))
       intdf$ydiff <- invlink$linkinv(eta = intdf$ymax - intdf$ymin)
     }
     # -----------------------------------------------------------
@@ -1083,7 +1079,7 @@ sjp.eff.int <- function(fit,
       }
     }
     # make sure x is numeric
-    intdf$x <- sjmisc::to_value(intdf$x, keep.labels = F)
+    intdf$x <- sjlabelled::as_numeric(intdf$x, keep.labels = F)
     # get name of response, for axis title
     yaxisname <-
       sjlabelled::get_label(stats::model.frame(fit)[[response.name]], def.value = response.name)

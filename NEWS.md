@@ -1,3 +1,12 @@
+# sjPlot 2.4.2
+
+## Deprecated
+
+Following functions are now deprecated:
+
+* `sjp.lm()`, `sjp.glm()`, `sjp.lmer()`, `sjp.glmer()` and `sjp.int()`. Please use `plot_model()` instead.
+* `sjt.frq()`. Please use `sjmisc::frq(out = "v")` instead.
+
 # sjPlot 2.4.1
 
 ## General

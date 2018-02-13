@@ -270,11 +270,7 @@ sjp.glmer <- function(fit,
                       prnt.plot = TRUE,
                       ...) {
 
-  if (stats::runif(1) < .35)
-    message("`sjp.glmer()` will become deprecated in the future. Please use `plot_model()` instead.")
-
-  ## TODO activate in future update
-  # .Deprecated("plot_model")
+  .Deprecated("plot_model")
 
   # -------------------------------------
   # check for deprecated argument values
@@ -578,11 +574,7 @@ sjp.lmer <- function(fit,
                      prnt.plot = TRUE,
                      ...) {
 
-  if (stats::runif(1) < .35)
-    message("`sjp.lmer()` will become deprecated in the future. Please use `plot_model()` instead.")
-
-  ## TODO activate in future update
-  # .Deprecated("plot_model")
+  .Deprecated("plot_model")
 
   # -------------------------------------
   # check for deprecated argument values

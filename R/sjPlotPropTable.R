@@ -422,7 +422,7 @@ sjp.xtab <- function(x,
   # check if we have lines
   } else if (type == "line") {
     # for lines, numeric scale
-    mydf$xpos <- sjmisc::to_value(mydf$xpos, keep.labels = F)
+    mydf$xpos <- sjlabelled::as_numeric(mydf$xpos, keep.labels = F)
     line.stat <- ifelse(isTRUE(smooth.lines), "smooth", "identity")
     geob <- geom_line(aes_string(colour = "group"), size = geom.size,  stat = line.stat)
   }

@@ -160,11 +160,7 @@ sjp.glm <- function(fit,
                     prnt.plot = TRUE,
                     ...) {
 
-  if (stats::runif(1) < .35)
-    message("`sjp.glm()` will become deprecated in the future. Please use `plot_model()` instead.")
-
-  ## TODO activate in future update
-  # .Deprecated("plot_model")
+  .Deprecated("plot_model")
 
   # check args -----
 
@@ -666,7 +662,7 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
       # melt variable
       mydf.vals <- data.frame(values = vals.unique)
       # convert factor to numeric
-      if (is.factor(mydf.vals$values)) mydf.vals$values <- sjmisc::to_value(mydf.vals$values, start.at = 0, keep.labels = F)
+      if (is.factor(mydf.vals$values)) mydf.vals$values <- sjlabelled::as_numeric(mydf.vals$values, start.at = 0, keep.labels = F)
       # check if we have a factor, then we may have reference levels
       if (is.factor(values)) {
         # add reference level to coefficient name
@@ -695,8 +691,8 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
         mydf.vals$grp <- pred.name
         # now copy original values for response and predictor,
         # so we can also plot a scatter plot
-        mydf.vals$resp.y <- sjmisc::to_value(resp, start.at = 0, keep.labels = F)
-        if (is.factor(values)) values <- sjmisc::to_value(values, start.at = 0, keep.labels = F)
+        mydf.vals$resp.y <- sjlabelled::as_numeric(resp, start.at = 0, keep.labels = F)
+        if (is.factor(values)) values <- sjlabelled::as_numeric(values, start.at = 0, keep.labels = F)
         mydf.vals$coef.x <- values
         # add mydf to list
         mydf.metricpred[[length(mydf.metricpred) + 1]] <- mydf.vals
@@ -1039,7 +1035,7 @@ sjp.glm.predy <- function(fit,
   # the predictions and the originial response vector (needed for scatter plot)
   mydf <- fitfram %>%
     dplyr::select(match(c(vars, "predicted.values", "conf.low", "conf.high"), colnames(fitfram))) %>%
-    dplyr::mutate(resp.y = sjmisc::to_value(sjstats::resp_val(fit), start.at = 0, keep.labels = F))
+    dplyr::mutate(resp.y = sjlabelled::as_numeric(sjstats::resp_val(fit), start.at = 0, keep.labels = F))
   # init legend labels
   legend.labels <- NULL
   # check if we have a categorical variable with value
@@ -1053,7 +1049,7 @@ sjp.glm.predy <- function(fit,
   if (length(vars) == 1) {
     colnames(mydf) <- c("x", "y", "ci.low", "ci.high", "resp.y")
     # x needs to be numeric
-    mydf$x <- sjmisc::to_value(mydf$x)
+    mydf$x <- sjlabelled::as_numeric(mydf$x)
     # convert to factor for proper legend
     mydf$grp <- sjmisc::to_factor(1)
     # set colors
@@ -1070,7 +1066,7 @@ sjp.glm.predy <- function(fit,
       mydf$facet <- sjmisc::to_label(mydf$facet, prefix = T, drop.na = T, drop.levels = T)
     }
     # x needs to be numeric
-    mydf$x <- sjmisc::to_value(mydf$x)
+    mydf$x <- sjlabelled::as_numeric(mydf$x)
     # convert to factor for proper legend
     mydf$grp <- sjmisc::to_factor(mydf$grp)
     # check if we have legend labels
