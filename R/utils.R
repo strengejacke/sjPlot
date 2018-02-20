@@ -52,8 +52,12 @@ get_axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, e
   if (is.null(grid.breaks)) {
     if (exponentiate) {
 
+      # make sure we have nice x-positions for breaks
+      lower_lim <- round(lower_lim, 2)
+      upper_lim <- round(upper_lim, 2)
+
       # use pretty distances for log-scale
-      ticks <- grDevices::axisTicks(log10(c(lower_lim, upper_lim)), log = TRUE)
+      ticks <- grDevices::axisTicks(log10(c(lower_lim, uppeer_lim)), log = TRUE)
 
       # truncate ticks to highest value below lower lim and
       # lowest value above upper lim
@@ -64,11 +68,14 @@ get_axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, e
       ul <- which(ticks > upper_lim)
       if (!sjmisc::is_empty(ul) && length(ul) > 1) ticks <- ticks[1:ul[1]]
 
-      } else {
-      ticks <- pretty(c(lower_lim, upper_lim))
+    } else {
+      ticks <- pretty(c(floor(lower_lim), ceiling(upper_lim)))
     }
   } else {
-    ticks <- seq(lower_lim, upper_lim, by = grid.breaks)
+    if (length(grid.breaks) == 1)
+      ticks <- seq(floor(lower_lim), ceiling(upper_lim), by = grid.breaks)
+    else
+      ticks <- grid.breaks
   }
 
   # save proper axis limits

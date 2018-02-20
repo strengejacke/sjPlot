@@ -84,8 +84,11 @@ or axis labels are displayed in one line and when a line break is inserted.}
 \item{wrap.legend.title}{numeric, determines how many chars of the legend's title
 are displayed in one line and when a line break is inserted.}
 
-\item{grid.breaks}{Numeric; sets the distance between breaks for the axis,
-i.e. at every \code{grid.breaks}'th position a major grid is plotted.}
+\item{grid.breaks}{Numeric value or vector; if \code{grid.breaks} is a
+single value, sets the distance between breaks for the axis at every
+\code{grid.breaks}'th position, where a major grid line is plotted. If
+\code{grid.breaks} is a vector, values will be used to define the
+axis positions of the major grid lines.}
 
 \item{dot.size}{Numeric, size of the dots that indicate the point estimates.}
 

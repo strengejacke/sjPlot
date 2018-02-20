@@ -52,7 +52,7 @@ tidy_generic <- function(model, ci.lvl) {
 
   # see if we have p-values. if not, add them
   if (!tibble::has_name(dat, "p.value"))
-    dat$p.value <- sjstats::p_value(model)[["p.value"]]
+    dat$p.value <- sjstats::p_value(model, p.kr = FALSE)[["p.value"]]
 
   dat
 }

@@ -174,8 +174,11 @@ axis. Depending on plot-type, may effect either x- or y-axis. For
 \emph{Marginal Effects} plots, \code{axis.lim} may also be a list of two
 vectors of length 2, defining axis limits for both the x and y axis.}
 
-\item{grid.breaks}{Numeric; sets the distance between breaks for the axis,
-i.e. at every \code{grid.breaks}'th position a major grid is plotted.}
+\item{grid.breaks}{Numeric value or vector; if \code{grid.breaks} is a
+single value, sets the distance between breaks for the axis at every
+\code{grid.breaks}'th position, where a major grid line is plotted. If
+\code{grid.breaks} is a vector, values will be used to define the
+axis positions of the major grid lines.}
 
 \item{ci.lvl}{Numeric, the level of the confidence intervals (error bars).
 Use \code{ci.lvl = NA} to remove error bars. For \code{stanreg}-models,

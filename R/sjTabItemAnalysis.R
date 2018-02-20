@@ -276,7 +276,7 @@ sjt.itemanalysis <- function(df,
       "Mean inter-item-correlation=%.3f &middot; Cronbach's &alpha;=%.3f", .x, .y
     ))
 
-  if (is.null(CSS)) CSS <- list(firsttablecol = "text-align: left;")
+  if (is.null(CSS)) CSS <- list(css.firsttablecol = '+text-align:left;')
 
   # get html-table from data frame
   html <- tab_dfs(

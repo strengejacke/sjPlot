@@ -7,6 +7,12 @@ Following functions are now deprecated:
 * `sjp.lm()`, `sjp.glm()`, `sjp.lmer()`, `sjp.glmer()` and `sjp.int()`. Please use `plot_model()` instead.
 * `sjt.frq()`. Please use `sjmisc::frq(out = "v")` instead.
 
+## Changes to functions
+
+* The `grid.breaks`-argument for `plot_model()` and `plot_models()` now also takes a vector of values to directly define the grid breaks for the plot.
+* Better default calculation for grid breaks in `plot_model()` and `plot_models()` when the `grid.breaks`-argument is of length one.
+
+
 # sjPlot 2.4.1
 
 ## General
