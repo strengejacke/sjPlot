@@ -44,9 +44,9 @@ Imports:
     purrr,
     rlang,
     scales,
-    sjlabelled (>= 1.0.7),
-    sjmisc (>= 2.6.3),
-    sjstats (>= 0.14.0),
+    sjlabelled (>= 1.0.8),
+    sjmisc (>= 2.7.0),
+    sjstats (>= 0.14.1),
     tidyselect,
     tibble (>= 1.3.3),
     tidyr (>= 0.7.0)
