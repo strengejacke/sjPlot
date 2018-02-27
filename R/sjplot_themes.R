@@ -1,7 +1,8 @@
 #' @title Modify plot appearance
 #' @name sjPlot-themes
 #'
-#' @description Set default theme plots or modify plot appearance.
+#' @description Set default theme plots, use pre-defined color scales or modify
+#'   plot appearance.
 #'
 #' @param base_size Base font size.
 #' @param base_family Base font family.
@@ -36,6 +37,9 @@
 #' @param base.theme Optional ggplot-theme-object, which is needed in case multiple
 #'        functions should be combined, e.g. \code{theme_sjplot() + label_angle()}.
 #'        In such cases, use \code{label_angle(base.theme = theme_sjplot())}.
+#' @param palette Character name of color palette.
+#' @param discrete
+#' @param reverse
 #'
 #' @examples
 #' # prepare data
@@ -227,4 +231,51 @@ legend_style <- function(inside, pos, justify, base.theme) {
   }
 
   cur.theme
+}
+
+
+sjplot_colors <- list(
+  `aqua` = c("#BAF5F3", "#46A9BE", "#8B7B88", "#BD7688", "#F2C29E", "#BAF5F3", "#46A9BE", "#8B7B88"),
+  `warm` = c("#F8EB85", "#F1B749", "#C45B46", "#664458", "#072835", "#F8EB85", "#F1B749", "#C45B46"),
+  `dust` = c("#AAAE9D", "#F8F7CF", "#F7B98B", "#7B5756", "#232126", "#AAAE9D", "#F8F7CF", "#F7B98B"),
+  `blambus` = c("#5D8191", "#F2DD26", "#494949", "#BD772D", "#E02E1F", "#5D8191", "#F2DD26", "#494949"),
+  `simply` = c("#CD423F", "#FCDA3B", "#0171D3", "#018F77", "#F5C6AC", "#CD423F", "#FCDA3B", "#0171D3"),
+  `us` = c("#004D80", "#376C8E", "#37848E", "#9BC2B6", "#B5D2C0", "#004D80", "#376C8E", "#37848E"),
+  `deep reefs` = c("#43a9b6", "#218282", "#dbdcd1", "#44515c", "#517784"),
+  `breakfast club` = c("#b6411a", "#eec3d8", "#4182dd", "#ecf0c8", "#2d6328")
+)
+
+sjplot_pal <- function(palette = "deep reefs", reverse = FALSE, ...) {
+  pal <- sjplot_colors[[palette]]
+  if (reverse) pal <- rev(pal)
+  grDevices::colorRampPalette(pal, ...)
+}
+
+
+
+#' @rdname sjPlot-themes
+#' @importFrom ggplot2 discrete_scale scale_color_gradientn
+#' @export
+scale_color_sjplot <- function(palette = "deep reefs", discrete = TRUE, reverse = FALSE, ...) {
+  pal <- sjplot_pal(palette = palette, reverse = reverse)
+
+  if (discrete) {
+    ggplot2::discrete_scale("colour", paste0("sjplot_pal_", palette), palette = pal, ...)
+  } else {
+    ggplot2::scale_color_gradientn(colours = pal(256), ...)
+  }
+}
+
+
+#' @rdname sjPlot-themes
+#' @importFrom ggplot2 discrete_scale scale_fill_gradientn
+#' @export
+scale_fill_sjplot <- function(palette = "deep reefs", discrete = TRUE, reverse = FALSE, ...) {
+  pal <- sjplot_pal(palette = palette, reverse = reverse)
+
+  if (discrete) {
+    ggplot2::discrete_scale("fill", paste0("sjplot_pal_", palette), palette = pal, ...)
+  } else {
+    ggplot2::scale_fill_gradientn(colours = pal(256), ...)
+  }
 }

@@ -57,7 +57,7 @@ get_axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, e
       upper_lim <- round(upper_lim, 2)
 
       # use pretty distances for log-scale
-      ticks <- grDevices::axisTicks(log10(c(lower_lim, uppeer_lim)), log = TRUE)
+      ticks <- grDevices::axisTicks(log10(c(lower_lim, upper_lim)), log = TRUE)
 
       # truncate ticks to highest value below lower lim and
       # lowest value above upper lim

@@ -9,6 +9,8 @@
 \alias{font_size}
 \alias{label_angle}
 \alias{legend_style}
+\alias{scale_color_sjplot}
+\alias{scale_fill_sjplot}
 \title{Modify plot appearance}
 \usage{
 theme_sjplot(base_size = 12, base_family = "")
@@ -25,6 +27,12 @@ font_size(title, axis_title.x, axis_title.y, labels.x, labels.y, offset.x,
 label_angle(angle.x, angle.y, base.theme)
 
 legend_style(inside, pos, justify, base.theme)
+
+scale_color_sjplot(palette = "deep reefs", discrete = TRUE,
+  reverse = FALSE, ...)
+
+scale_fill_sjplot(palette = "deep reefs", discrete = TRUE,
+  reverse = FALSE, ...)
 }
 \arguments{
 \item{base_size}{Base font size.}
@@ -74,9 +82,14 @@ See also \code{pos}.}
 
 \item{justify}{Justification of legend, relative to its position (\code{"center"} or
 two-element numeric vector with values from 0-1.}
+
+\item{palette}{Character name of color palette.}
+
+\item{reverse}{}
 }
 \description{
-Set default theme plots or modify plot appearance.
+Set default theme plots, use pre-defined color scales or modify
+  plot appearance.
 }
 \examples{
 # prepare data
