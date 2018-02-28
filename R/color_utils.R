@@ -54,7 +54,7 @@ is.brewer.pal <- function(pal) {
 
 
 is.sjplot.pal <- function(pal) {
-  pal %in% c("aqua", "warm", "dust", "blambus", "simply", "us", "random")
+  pal %in% names(sjplot_colors)
 }
 
 
@@ -86,23 +86,7 @@ get_viridis_colorpalette <- function(len) {
 
 
 get_sjplot_colorpalette <- function(pal, len) {
-  col <- NULL
-
-  if (pal == "random")
-    pal <- sample(c("aqua", "warm", "dust", "blambus", "simply", "us"), size = 1)
-
-  if (pal == "aqua")
-    col <- c("#BAF5F3", "#46A9BE", "#8B7B88", "#BD7688", "#F2C29E", "#BAF5F3", "#46A9BE", "#8B7B88")
-  else if (pal == "warm")
-    col <- c("#F8EB85", "#F1B749", "#C45B46", "#664458", "#072835", "#F8EB85", "#F1B749", "#C45B46")
-  else if (pal == "dust")
-    col <- c("#AAAE9D", "#F8F7CF", "#F7B98B", "#7B5756", "#232126", "#AAAE9D", "#F8F7CF", "#F7B98B")
-  else if (pal == "blambus")
-    col <- c("#5D8191", "#F2DD26", "#494949", "#BD772D", "#E02E1F", "#5D8191", "#F2DD26", "#494949")
-  else if (pal == "simply")
-    col <- c("#CD423F", "#FCDA3B", "#0171D3", "#018F77", "#F5C6AC", "#CD423F", "#FCDA3B", "#0171D3")
-  else if (pal == "us")
-    col <- c("#004D80", "#376C8E", "#37848E", "#9BC2B6", "#B5D2C0", "#004D80", "#376C8E", "#37848E")
+  col <- sjplot_colors[[pal]]
 
   if (len > length(col)) {
     warning("More colors requested than length of color palette.", call. = F)

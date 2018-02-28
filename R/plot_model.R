@@ -179,7 +179,7 @@
 #'     \item If \code{colors} is any valid color brewer palette name, the related palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view all available palette names.
 #'     \item If \pkg{wesanderson} is installed, you may also specify a name of a palette from that package.
 #'     \item If \pkg{viridis} is installed, use \code{colors = "v"} to get the viridis color palette.
-#'     \item There are some pre-defined color palettes in this package: \code{"aqua", "warm", "dust", "blambus", "simply", "us"}.
+#'     \item There are some pre-defined color palettes in this package, see \code{\link{sjplot-themes}} for details.
 #'     \item Else specify own color values or names as vector (e.g. \code{colors = "#00ff00"} or \code{colors = c("firebrick", "blue")}).
 #'   }
 #' @param grid Logical, if \code{TRUE}, multiple plots are plotted as grid
