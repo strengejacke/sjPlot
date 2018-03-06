@@ -56,6 +56,10 @@ get_axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, e
       lower_lim <- round(lower_lim, 2)
       upper_lim <- round(upper_lim, 2)
 
+      # for *very* small values, lower_lim might be zero, so
+      # correct value here. else we have Inf as limit
+      if (lower_lim == 0) lower_lim <- min.val * fac.ll / 10
+
       # use pretty distances for log-scale
       ticks <- grDevices::axisTicks(log10(c(lower_lim, upper_lim)), log = TRUE)
 
