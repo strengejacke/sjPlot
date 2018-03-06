@@ -185,8 +185,8 @@ sjt.xtab <- function(var.row,
   # --------------------------------------------------------
   # Do we have notes for vectors?
   # --------------------------------------------------------
-  n.var.row <- sjlabelled::get_note(var.row)
-  n.var.col <- sjlabelled::get_note(var.col)
+  n.var.row <- comment(var.row)
+  n.var.col <- comment(var.col)
   # -------------------------------------
   # init variable labels
   # -------------------------------------
