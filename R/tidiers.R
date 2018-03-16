@@ -373,7 +373,7 @@ tidy_glmmTMB_model <- function(model, ci.lvl) {
 
   if (!sjmisc::is_empty(est[[2]])) {
     zi <- tibble::tibble(
-      term = names(est[[1]]),
+      term = names(est[[2]]),
       estimate = est[[2]],
       std.error = sqrt(diag(vcovs[[2]])),
       statistic = .data$estimate / .data$std.error,
