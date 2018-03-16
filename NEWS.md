@@ -18,6 +18,9 @@ Following functions are now deprecated:
 * The `grid.breaks`-argument for `plot_model()` and `plot_models()` now also takes a vector of values to directly define the grid breaks for the plot.
 * Better default calculation for grid breaks in `plot_model()` and `plot_models()` when the `grid.breaks`-argument is of length one.
 
+## Bug fixes
+
+* Fixed typo for `glmmTMB`-tidier, which may have returned wrong data for zero-inflation part of model.
 
 # sjPlot 2.4.1
 
