@@ -51,28 +51,30 @@
 #'   models remain untransformed. Use \code{NULL} if you want the raw,
 #'   non-transformed estimates.
 #' @param terms Character vector with the names of those terms from \code{model}
-#'   that should be plotted. This argument depends on the plot-type: \describe{
-#'   \item{\emph{Coefficients}}{ Select terms that should be plotted. All other
-#'   term are removed from the output. } \item{\emph{Marginal Effects}}{ Here
-#'   \code{terms} indicates for which terms marginal effects should be
-#'   displayed. At least one term is required to calculate effects, maximum
-#'   length is three terms, where the second and third term indicate the groups,
-#'   i.e. predictions of first term are grouped by the levels of the second (and
-#'   third) term. \code{terms} may also indicate higher order terms (e.g.
-#'   interaction terms). Indicating levels in square brackets allows for
-#'   selecting only specific groups. Term name and levels in brackets must be
-#'   separated by a whitespace character, e.g. \code{terms = c("age", "education
-#'   [1,3]")}. For more details, see \code{\link[ggeffects]{ggpredict}}. } }
+#'   that should be plotted. This argument depends on the plot-type:
+#'   \describe{
+#'     \item{\emph{Coefficients}}{Select terms that should be plotted. All other
+#'       term are removed from the output.}
+#'     \item{\emph{Marginal Effects}}{Here \code{terms} indicates for which
+#'       terms marginal effects should be displayed. At least one term is
+#'       required to calculate effects, maximum length is three terms, where
+#'       the second and third term indicate the groups, i.e. predictions of
+#'       first term are grouped by the levels of the second (and third) term.
+#'       \code{terms} may also indicate higher order terms (e.g. interaction
+#'       terms). Indicating levels in square brackets allows for selecting only
+#'       specific groups. Term name and levels in brackets must be separated by
+#'       a whitespace character, e.g. \code{terms = c("age", "education [1,3]")}.
+#'       It is also possible to specify a range of numeric values for the
+#'       predictions with a colon, for instance \code{terms = c("education [1,3]",
+#'       "age [30:50]")}. For more details, see \code{\link[ggeffects]{ggpredict}}.}
+#'  }
 #' @param sort.est Determines in which way estimates are sorted in the plot:
-#'   \itemize{ \item If \code{NULL} (default), no sorting is done and estimates
-#'   are sorted in the same order as they appear in the model formula. \item If
-#'   \code{TRUE}, estimates are sorted in descending order, with highedt
-#'   estimate at the top. \item If \code{sort.est = "sort.all"}, estimates are
-#'   re-sorted for each coefficient (only applies if \code{type = "re"} and
-#'   \code{grid = FALSE}), i.e. the estimates of the random effects for each
-#'   predictor are sorted and plotted to an own plot. \item If \code{type =
-#'   "re"}, specify a predictor's / coefficient's name to sort estimates
-#'   according to this random effect. }
+#'   \itemize{
+#'     \item If \code{NULL} (default), no sorting is done and estimates are sorted in the same order as they appear in the model formula.
+#'     \item If \code{TRUE}, estimates are sorted in descending order, with highest estimate at the top.
+#'     \item If \code{sort.est = "sort.all"}, estimates are re-sorted for each coefficient (only applies if \code{type = "re"} and \code{grid = FALSE}), i.e. the estimates of the random effects for each predictor are sorted and plotted to an own plot.
+#'     \item If \code{type = "re"}, specify a predictor's / coefficient's name to sort estimates according to this random effect.
+#'   }
 #' @param rm.terms Character vector with names that indicate which terms should
 #'   be removed from the plot. Counterpart to \code{terms}. \code{rm.terms =
 #'   "t_name"} would remove the term \emph{t_name}. Default is \code{NULL}, i.e.
@@ -86,7 +88,8 @@
 #' @param pred.type Character, only applies for \emph{Marginal Effects} plots
 #'   with mixed effects models. Indicates whether predicted values should be
 #'   conditioned on random effects (\code{pred.type = "re"}) or fixed effects
-#'   only (\code{pred.type = "fe"}, the default).
+#'   only (\code{pred.type = "fe"}, the default). For details, see documentation
+#'   of the \code{type}-argument in \code{\link[ggeffects]{ggpredict}}.
 #' @param mdrt.values Indicates which values of the moderator variable should be
 #'   used when plotting interaction terms (i.e. \code{type = "int"}). \describe{
 #'   \item{\code{"minmax"}}{(default) minimum and maximum values (lower and
