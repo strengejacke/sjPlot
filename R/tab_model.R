@@ -92,8 +92,13 @@ tab_model <- function(
           digits,
           .data$conf.high
         )) %>%
-        dplyr::select(-.data$conf.low, -.data$conf.high, -.data$wrap.facet) %>%
+        dplyr::select(-.data$conf.low, -.data$conf.high) %>%
         dplyr::mutate(p.value = sprintf("%.*f", digits.p, .data$p.value))
+
+
+      # remove special columns ----
+
+      if (tibble::has_name(dat, "wrap.facet")) dat <- dplyr::select(dat, -.data$wrap.facet)
 
 
       # indicate p <0.001
