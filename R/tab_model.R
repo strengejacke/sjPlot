@@ -33,6 +33,7 @@ tab_model <- function(
   group.terms = NULL,
   order.terms = NULL,
 
+  caption = NULL,
   pred.labels = NULL,
   dv.labels = NULL,
   wrap.labels = 25,
@@ -220,7 +221,7 @@ tab_model <- function(
     }
   }
 
-  tab_df(dat)
+  tab_df(dat, title = caption)
 }
 
 
@@ -261,12 +262,12 @@ remove_unwanted <- function(dat, show.intercept, show.est, show.std, show.ci, sh
   }
 
   if (!is.null(terms)) {
-    keep <- which(x$term %in% terms)
+    keep <- which(dat$term %in% terms)
     dat <- dplyr::slice(dat, !! keep)
   }
 
   if (!is.null(rm.terms)) {
-    keep <- which(!(x$term %in% rm.terms))
+    keep <- which(!(dat$term %in% rm.terms))
     dat <- dplyr::slice(dat, !! keep)
   }
 
