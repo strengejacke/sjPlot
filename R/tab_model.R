@@ -77,6 +77,8 @@ tab_model <- function(
 
       ## TODO probably indicate estimate with "*"
       ## TODO check Bayesian models
+      ## TODO check correct columns for glmmTMB models
+      ## TODO check zero-inflated parts of models (hurdle etc.)
 
       # get tidy output of summary ----
 
@@ -90,7 +92,7 @@ tab_model <- function(
           digits,
           .data$conf.high
         )) %>%
-        dplyr::select(-.data$conf.low, -.data$conf.high) %>%
+        dplyr::select(-.data$conf.low, -.data$conf.high, -.data$wrap.facet) %>%
         dplyr::mutate(p.value = sprintf("%.*f", digits.p, .data$p.value))
 
 

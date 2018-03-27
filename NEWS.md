@@ -2,6 +2,7 @@
 
 ## New functions
 
+* `tab_model()` as replacement for `sjt.lm()`, `sjt.glm()`, `sjt.lmer()` and `sjt.glmer()`. Furthermore, `tab_model()` is designed to work with the same model-objects as `plot_model()`.
 * New colour scales for ggplot-objects: `scale_fill_sjplot()` and `scale_color_sjplot()`. These provide predifined colour palettes from this package.
 * `show_sjplot_pals()` to show all predefined colour palettes provided by this package.
 * `sjplot_pal()` to return colour values of a specific palette.
