@@ -13,6 +13,12 @@ Following functions are now deprecated:
 * `sjp.lm()`, `sjp.glm()`, `sjp.lmer()`, `sjp.glmer()` and `sjp.int()`. Please use `plot_model()` instead.
 * `sjt.frq()`. Please use `sjmisc::frq(out = "v")` instead.
 
+## Removed / Defunct
+
+Following functions are now defunct:
+
+* `sjt.grpmean()`, `sjt.mwu()` and `sjt.df()`.
+
 ## Changes to functions
 
 * The `grid.breaks`-argument for `plot_model()` and `plot_models()` now also takes a vector of values to directly define the grid breaks for the plot.

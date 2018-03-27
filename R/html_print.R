@@ -265,7 +265,7 @@ check_css_param <- function(CSS) {
 # This functions creates the body of the HTML page, i.e. it puts
 # the content of a data frame into a HTML table that is returned.
 
-#' @importFrom sjmisc is_empty var_type is_even
+#' @importFrom sjmisc is_empty var_type is_even trim
 #' @importFrom tibble has_rownames has_name rownames_to_column
 tab_df_content <- function(mydf, title, footnote, col.header, show.type, show.rownames, show.footnote, altr.row.col, sort.column, ...) {
 
@@ -273,6 +273,14 @@ tab_df_content <- function(mydf, title, footnote, col.header, show.type, show.ro
 
   rowcnt <- nrow(mydf)
   colcnt <- ncol(mydf)
+
+
+  # check if data frame has CSS-attribute. must be a 2x2 matrix with same
+  # dimension as data frame. CSS attributes are than mapped for each
+  # value in the data frame.
+
+  own.css <- attr(mydf, "CSS", exact = TRUE)
+  if (!identical(dim(own.css), dim(mydf))) own.css <- NULL
 
 
   # check sorting
@@ -324,15 +332,13 @@ tab_df_content <- function(mydf, title, footnote, col.header, show.type, show.ro
   for (i in 1:colcnt) {
 
     # separate CSS for first column
-    if (i == 1)
-      ftc <- " firsttablecol"
-    else
-      ftc <- ""
+    ftc <- dplyr::if_else(i == 1, " firsttablecol", "", "")
+    oc <- ifelse(is.null(own.css), "", sprintf(" %s", sjmisc::trim(own.css[1, i])))
 
     # column names and variable type as table headline
     vartype <- sjmisc::var_type(mydf[[i]])
     page.content <- paste0(
-      page.content, sprintf("    <th class=\"thead firsttablerow%s col%i\">%s", ftc, i, cnames[i])
+      page.content, sprintf("    <th class=\"thead firsttablerow%s%s col%i\">%s", ftc, oc, i, cnames[i])
     )
 
     if (show.type)
@@ -355,10 +361,7 @@ tab_df_content <- function(mydf, title, footnote, col.header, show.type, show.ro
     if (altr.row.col)
       arcstring <- ifelse(sjmisc::is_even(rcnt), " arc", "")
 
-    if (rcnt == rowcnt)
-      ltr <- " lasttablerow"
-    else
-      ltr <- ""
+    ltr <- dplyr::if_else(rcnt == rowcnt, " lasttablerow", "", "")
 
     page.content <- paste0(page.content, "  <tr>\n")
 
@@ -366,15 +369,15 @@ tab_df_content <- function(mydf, title, footnote, col.header, show.type, show.ro
     for (ccnt in 1:colcnt) {
 
       # separate CSS for first column
-      if (ccnt == 1)
-        ftc <- " firsttablecol"
-      else
-        ftc <- ""
+
+      ftc <- dplyr::if_else(ccnt == 1, " firsttablecol", " centertalign", "")
+      oc <- ifelse(is.null(own.css), "", sprintf(" %s", sjmisc::trim(own.css[rcnt, ccnt])))
 
 
       page.content <- paste0(page.content, sprintf(
-          "    <td class=\"tdata%s centertalign%s%s col%i\">%s</td>\n",
+          "    <td class=\"tdata%s%s%s%s col%i\">%s</td>\n",
           ftc,
+          oc,
           ltr,
           arcstring,
           ccnt,
