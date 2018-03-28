@@ -20,6 +20,7 @@ tab_model <- function(
   show.header = FALSE,
   show.col.header = TRUE,
 
+  show.zeroinf = TRUE,
   show.r2 = TRUE,
   show.icc = FALSE,
   show.re.var = FALSE,
@@ -55,7 +56,7 @@ tab_model <- function(
   models <- tibble::lst(...)
   auto.transform <- missing(transform)
   ci.lvl <- ifelse(is.null(show.ci), .95, show.ci)
-
+  zeroinf.list <- list()
 
   model.list <- purrr::map2(
     models,
@@ -85,7 +86,7 @@ tab_model <- function(
       # get tidy output of summary ----
 
       dat <- model %>%
-        tidy_model(ci.lvl = ci.lvl, transform, type = "est", bpe, se = show.se, facets = FALSE, show.zeroinf = TRUE) %>%
+        tidy_model(ci.lvl = ci.lvl, transform, type = "est", bpe, se = show.se, facets = FALSE, show.zeroinf = show.zeroinf) %>%
         dplyr::mutate(conf.int = sprintf(
           "%.*f%s%.*f",
           digits,
@@ -98,9 +99,23 @@ tab_model <- function(
         dplyr::mutate(p.value = sprintf("%.*f", digits.p, .data$p.value))
 
 
-      # remove special columns ----
+      # handle zero-inflation part ----
 
-      if (tibble::has_name(dat, "wrap.facet")) dat <- dplyr::select(dat, -.data$wrap.facet)
+      if (tibble::has_name(dat, "wrap.facet")) {
+        zi <- which(dat$wrap.facet == "Zero-Inflated Model")
+
+        if (show.zeroinf && !sjmisc::is_empty(zi)) {
+          zidat <- dat %>%
+            dplyr::slice(!! zi) %>%
+            dplyr::select(-.data$wrap.facet)
+          zeroinf.list[[i]] <- zidat
+        } else {
+          zeroinf.list[[i]] <- NULL
+        }
+
+        if (!sjmisc::is_empty(zi)) dat <- dplyr::slice(dat, !! -zi)
+        dat <- dplyr::select(dat, -.data$wrap.facet)
+      }
 
 
       # indicate p <0.001

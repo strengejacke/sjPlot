@@ -1,4 +1,4 @@
-# sjPlot 2.4.2
+# sjPlot 2.5.0
 
 ## New functions
 
