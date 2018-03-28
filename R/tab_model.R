@@ -78,10 +78,6 @@ tab_model <- function(
 
       ## TODO probably indicate estimate with "*"
       ## TODO check Bayesian models
-      ## TODO check correct columns for glmmTMB models
-      ## TODO check zero-inflated parts of models (hurdle etc.)
-            # for glmmTMB: column "wrap.facet" with value "Zero-Inflated Model"
-            # for brms: row with "zi"-prefix
 
       # get tidy output of summary ----
 
