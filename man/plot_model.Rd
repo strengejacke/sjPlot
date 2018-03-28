@@ -14,9 +14,10 @@ plot_model(model, type = c("est", "re", "eff", "pred", "int", "std", "std2",
   axis.lim = NULL, grid.breaks = NULL, ci.lvl = NULL, se = NULL,
   colors = "Set1", show.intercept = FALSE, show.values = FALSE,
   show.p = TRUE, show.data = FALSE, show.legend = TRUE,
-  value.offset = NULL, value.size, digits = 2, dot.size = NULL,
-  line.size = NULL, vline.color = NULL, grid, case = "parsed",
-  auto.label = TRUE, bpe = "median", bpe.style = "line", ...)
+  show.zeroinf = TRUE, value.offset = NULL, value.size, digits = 2,
+  dot.size = NULL, line.size = NULL, vline.color = NULL, grid,
+  case = "parsed", auto.label = TRUE, bpe = "median",
+  bpe.style = "line", ...)
 
 get_model_data(model, type = c("est", "re", "eff", "pred", "int", "std",
   "std2", "slope", "resid", "diag"), transform, terms = NULL,
@@ -231,6 +232,9 @@ raw data points.}
 
 \item{show.legend}{For \emph{Marginal Effects} plots, shows or hides the
 legend.}
+
+\item{show.zeroinf}{Logical, if \code{TRUE}, shows the zero-inflation part of
+hurdle- or zero-inflated models.}
 
 \item{value.offset}{Numeric, offset for text labels to adjust their position
 relative to the dots or lines.}

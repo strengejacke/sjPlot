@@ -1,5 +1,5 @@
-tidy_model <- function(model, ci.lvl, tf, type, bpe, se, facets, ...) {
-  dat <- get_tidy_data(model, ci.lvl, tf, type, bpe, facets, ...)
+tidy_model <- function(model, ci.lvl, tf, type, bpe, se, facets, show.zeroinf, ...) {
+  dat <- get_tidy_data(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, ...)
 
   # get robust standard errors, if requestes, and replace former s.e.
   if (!is.null(se) && !is.logical(se)) {
@@ -11,9 +11,9 @@ tidy_model <- function(model, ci.lvl, tf, type, bpe, se, facets, ...) {
 }
 
 
-get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, ...) {
+get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, ...) {
   if (is.stan(model))
-    tidy_stan_model(model, ci.lvl, tf, type, bpe, ...)
+    tidy_stan_model(model, ci.lvl, tf, type, bpe, show.zeroinf, ...)
   else if (inherits(model, "lme"))
     tidy_lme_model(model, ci.lvl)
   else if (inherits(model, "gls"))
@@ -23,7 +23,7 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, ...) {
   else if (inherits(model, "svyglm.nb"))
     tidy_svynb_model(model, ci.lvl)
   else if (inherits(model, "glmmTMB"))
-    tidy_glmmTMB_model(model, ci.lvl)
+    tidy_glmmTMB_model(model, ci.lvl, show.zeroinf)
   else if (inherits(model, c("hurdle", "zeroinfl")))
     tidy_hurdle_model(model, ci.lvl)
   else if (inherits(model, "logistf"))
@@ -112,7 +112,7 @@ tidy_cox_model <- function(model, ci.lvl) {
 #' @importFrom purrr map_dbl
 #' @importFrom rlang .data
 #' @importFrom tidyselect starts_with ends_with
-tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, ...) {
+tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, ...) {
 
   # set defaults
 
@@ -176,6 +176,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, ...) {
 
   if ("sigma" %in% dat$term) dat <- dplyr::filter(dat, .data$term != "sigma")
   if ("lp__" %in% dat$term) dat <- dplyr::filter(dat, .data$term != "lp__")
+  if ("shape" %in% dat$term) dat <- dplyr::filter(dat, .data$term != "shape")
 
   # remove sd_c and cor_ row
 
@@ -275,11 +276,35 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, ...) {
   }
 
 
+  # do we have a zero-inflation model?
+
+  modfam <- get_glm_family(model)
+
+  if (modfam$is_zeroinf || sjmisc::str_contains(dat$term, "b_zi_", ignore.case = T)) {
+    dat$wrap.facet <- "Conditional Model"
+
+    # zero-inflated part
+    zi <- tidyselect::starts_with("b_zi_", vars = dat$term)
+
+    # check if zero-inflated part should be shown or removed
+    if (show.zeroinf) {
+      dat$wrap.facet[zi] <- "Zero-Inflated Model"
+      dat$term[zi] <- sub(pattern = "b_zi_", replacement = "b_", x = dat$term[zi], fixed = T)
+    } else {
+      if (!sjmisc::is_empty(zi)) dat <- dplyr::slice(dat, !! -zi)
+    }
+  }
+
+
   # need to transform point estimate as well
   if (!is.null(tf)) {
     funtrans <- match.fun(tf)
     dat$estimate <- funtrans(dat$estimate)
   }
+
+
+  # remove facet column if not necessary
+  if (!show.zeroinf) dat <- dplyr::select(dat, -.data$wrap.facet)
 
   dat
 }
@@ -339,7 +364,7 @@ tidy_gls_model <- function(model, ci.lvl) {
 #' @importFrom sjmisc is_empty
 #' @importFrom dplyr bind_rows
 #' @importFrom rlang .data
-tidy_glmmTMB_model <- function(model, ci.lvl) {
+tidy_glmmTMB_model <- function(model, ci.lvl, show.zeroinf) {
 
   # compute ci, two-ways
 
@@ -371,7 +396,7 @@ tidy_glmmTMB_model <- function(model, ci.lvl) {
 
   # save zi model
 
-  if (!sjmisc::is_empty(est[[2]])) {
+  if (!sjmisc::is_empty(est[[2]]) && show.zeroinf) {
     zi <- tibble::tibble(
       term = names(est[[2]]),
       estimate = est[[2]],
@@ -386,6 +411,8 @@ tidy_glmmTMB_model <- function(model, ci.lvl) {
     cond <- dplyr::bind_rows(cond, zi)
   }
 
+  # remove facet column if not necessary
+  if (!show.zeroinf) cond <- dplyr::select(cond, -.data$wrap.facet)
 
   cond
 }

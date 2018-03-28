@@ -168,6 +168,8 @@
 #'   raw data points.
 #' @param show.legend For \emph{Marginal Effects} plots, shows or hides the
 #'   legend.
+#' @param show.zeroinf Logical, if \code{TRUE}, shows the zero-inflation part of
+#'   hurdle- or zero-inflated models.
 #' @param value.offset Numeric, offset for text labels to adjust their position
 #'   relative to the dots or lines.
 #' @param dot.size Numeric, size of the dots that indicate the point estimates.
@@ -393,6 +395,7 @@ plot_model <- function(model,
                        show.p = TRUE,
                        show.data = FALSE,
                        show.legend = TRUE,
+                       show.zeroinf = TRUE,
                        value.offset = NULL,
                        value.size,
                        digits = 2,
@@ -516,6 +519,7 @@ plot_model <- function(model,
       bpe = bpe,
       bpe.style = bpe.style,
       facets = grid,
+      show.zeroinf = show.zeroinf,
       ...
     )
 

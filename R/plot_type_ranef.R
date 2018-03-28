@@ -285,6 +285,7 @@ plot_type_ranef <- function(model,
           geom.colors = geom.colors,
           vline.color = vline.color,
           value.size = value.size,
+          facets = facets,
           ...
         )
       }

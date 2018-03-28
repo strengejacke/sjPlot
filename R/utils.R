@@ -61,7 +61,8 @@ get_axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, e
       if (lower_lim == 0) lower_lim <- min.val * fac.ll / 10
 
       # use pretty distances for log-scale
-      ticks <- grDevices::axisTicks(log10(c(lower_lim, upper_lim)), log = TRUE)
+      ls <- log10(c(lower_lim, upper_lim))
+      ticks <- grDevices::axisTicks(c(floor(ls[1]), ceiling(ls[2])), log = TRUE)
 
       # truncate ticks to highest value below lower lim and
       # lowest value above upper lim
@@ -130,6 +131,7 @@ is_merMod <- function(fit) {
 #' @importFrom sjmisc str_contains
 #' @importFrom stats family
 get_glm_family <- function(fit) {
+  zero.inf <- FALSE
   # do we have glm? if so, get link family. make exceptions
   # for specific models that don't have family function
   if (inherits(fit, c("lme", "plm", "gls", "truncreg"))) {
@@ -145,6 +147,7 @@ get_glm_family <- function(fit) {
     fitfam <- "negative binomial"
     logit_link <- FALSE
     link.fun <- NULL
+    zero.inf <- TRUE
   } else if (inherits(fit, "betareg")) {
     fitfam <- "beta"
     logit_link <- fit$link$mean$name == "logit"
@@ -184,6 +187,8 @@ get_glm_family <- function(fit) {
 
   linear_model <- !binom_fam & !poisson_fam & !neg_bin_fam & !logit_link
 
+  zero.inf <- zero.inf | sjmisc::str_contains(fitfam, "zero_inflated", ignore.case = T)
+
 
   list(
     is_bin = binom_fam & !neg_bin_fam,
@@ -191,6 +196,7 @@ get_glm_family <- function(fit) {
     is_negbin = neg_bin_fam,
     is_logit = logit_link,
     is_linear = linear_model,
+    is_zeroinf = zero.inf,
     link.fun = link.fun,
     family = fitfam
   )

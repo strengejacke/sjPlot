@@ -19,6 +19,7 @@ plot_point_estimates <- function(model,
                                  bpe.style,
                                  vline.color,
                                  value.size,
+                                 facets,
                                  ...) {
 
   # some defaults...

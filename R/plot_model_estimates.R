@@ -27,6 +27,7 @@ plot_model_estimates <- function(model,
                                  term.order,
                                  vline.color,
                                  value.size,
+                                 facets,
                                  ...) {
 
   # remove intercept(s) from output
@@ -34,8 +35,9 @@ plot_model_estimates <- function(model,
   if (!show.intercept) {
     ints1 <- tidyselect::contains("(Intercept)", vars = dat$term)
     ints2 <- tidyselect::contains("b_Intercept", vars = dat$term)
+    ints3 <- tidyselect::contains("b_zi_Intercept", vars = dat$term)
 
-    ints <- c(ints1, ints2)
+    ints <- c(ints1, ints2, ints3)
 
     if (!sjmisc::is_empty(ints))
       dat <- dplyr::slice(dat, !! -ints)
@@ -167,6 +169,7 @@ plot_model_estimates <- function(model,
     bpe.style = bpe.style,
     vline.color = vline.color,
     value.size = value.size,
+    facets = facets,
     ...
   )
 }

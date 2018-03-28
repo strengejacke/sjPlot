@@ -79,11 +79,13 @@ tab_model <- function(
       ## TODO check Bayesian models
       ## TODO check correct columns for glmmTMB models
       ## TODO check zero-inflated parts of models (hurdle etc.)
+            # for glmmTMB: column "wrap.facet" with value "Zero-Inflated Model"
+            # for brms: row with "zi"-prefix
 
       # get tidy output of summary ----
 
       dat <- model %>%
-        tidy_model(ci.lvl = ci.lvl, transform, type = "est", bpe, se = show.se, facets = FALSE) %>%
+        tidy_model(ci.lvl = ci.lvl, transform, type = "est", bpe, se = show.se, facets = FALSE, show.zeroinf = TRUE) %>%
         dplyr::mutate(conf.int = sprintf(
           "%.*f%s%.*f",
           digits,

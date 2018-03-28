@@ -158,7 +158,7 @@ plot_models <- function(...,
     # need to check whether intercept should be removed or not
 
     fl <- purrr::map(
-      input_list, ~ tidy_model(.x, ci.lvl, tf = transform, type = "est", bpe = "line", se = FALSE, facets = TRUE, ...)
+      input_list, ~ tidy_model(.x, ci.lvl, tf = transform, type = "est", bpe = "line", se = FALSE, facets = TRUE, show.zeroinf = FALSE, ...)
     )
 
     # remove intercept from output
