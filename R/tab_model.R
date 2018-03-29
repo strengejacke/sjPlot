@@ -1,3 +1,53 @@
+#' @title Print regression models to HTML table
+#' @name tab_model
+#'
+#' @description
+#'   \code{tab_model()} creates HTML tables from regression models.
+#'
+#' @param transform A character vector, naming a function that will be applied
+#'   on estimates and confidence intervals. By default, \code{transform} will
+#'   automatically use \code{"exp"} as transformation for applicable classes of
+#'   regression models (e.g. logistic or poisson regression). Estimates of linear
+#'   models remain untransformed. Use \code{NULL} if you want the raw,
+#'   non-transformed estimates.
+#' @param terms Character vector with names of those terms (variables) that should
+#'    be printed in the table. All other terms are removed from the output. If
+#'    \code{NULL}, all terms are printed.
+#' @param rm.terms Character vector with names that indicate which terms should
+#'    be removed from the output Counterpart to \code{terms}. \code{rm.terms =
+#'    "t_name"} would remove the term \emph{t_name}. Default is \code{NULL}, i.e.
+#'    all terms are used.
+#' @param pred.labels Character vector with labels of predictor variables.
+#'    If not \code{NULL}, \code{pred.labels} will be used in the first
+#'    table column with the predictors' names. If \code{NULL}, label
+#'    attributes will be used in the output (see \code{\link[sjlabelled]{get_label}}).
+#'    If \code{pred.labels = ""} or \code{auto.label = FALSE}, the raw
+#'    variable names as used in the model formula are used as predictor
+#'    labels. See 'Examples'.
+#' @param dv.labels Character vector with labels of dependent variables of all
+#'    fitted models. See 'Examples'.
+#' @param show.intercept Logical, if \code{TRUE}, the intercepts are printed.
+#' @param show.est Logical, if \code{TRUE}, the estimates are printed.
+#' @param show.ci Logical, if \code{TRUE}, the confidence interval
+#'    is printed to the table.
+#' @param show.std Indicates whether standardized beta-coefficients should
+#'    also printed, and if yes, which type of standardization is done.
+#'    See 'Details'.
+#' @param show.se Logical, if \code{TRUE}, the standard errors are also printed.
+#' @param ci.hyphen Character vector, indicating the hyphen for confidence interval range.
+#'    May be an HTML entity. See 'Examples'.
+#' @param minus.sign string, indicating the minus sign for negative numbers.
+#'    May be an HTML entity. See 'Examples'.
+#' @param digits Amount of decimals for estimates
+#' @param digits.p Amount of decimals for p-values
+#' @param separate.ci.col Logical, if \code{TRUE}, the CI values are shown in
+#'    a separate table column.
+#' @param separate.se.col Logical, if \code{TRUE}, the SE values are shown in
+#'    a separate table column.
+#'
+#' @inheritParams plot_models
+#' @inheritParams plot_model
+#'
 #' @importFrom dplyr full_join select if_else mutate
 #' @importFrom tibble lst add_case as_tibble
 #' @importFrom purrr reduce map2 map_if map_df
@@ -34,7 +84,7 @@ tab_model <- function(
   group.terms = NULL,
   order.terms = NULL,
 
-  caption = NULL,
+  title = NULL,
   pred.labels = NULL,
   dv.labels = NULL,
   wrap.labels = 25,
@@ -206,25 +256,6 @@ tab_model <- function(
   )
 
 
-  # get default labels for dv and terms ----
-
-  if (isTRUE(auto.label) && sjmisc::is_empty(pred.labels)) {
-    pred.labels <- sjmisc::word_wrap(
-      sjlabelled::get_term_labels(models, mark.cat = TRUE, case = case),
-      wrap = wrap.labels,
-      linesep = "<br>"
-    )
-  }
-
-  if (isTRUE(auto.label) && sjmisc::is_empty(dv.labels)) {
-    dv.labels <- sjmisc::word_wrap(
-      sjlabelled::get_dv_labels(models, mark.cat = TRUE, case = case),
-      wrap = wrap.labels,
-      linesep = "<br>"
-    )
-  }
-
-
   # join all model data frames and convert to character ----
 
   na.vals <- c("NA", sprintf("NA%sNA", ci.hyphen), sprintf("NA (NA%sNA)", ci.hyphen), sprintf("NA (NA%sNA) (NA)", ci.hyphen))
@@ -239,6 +270,31 @@ tab_model <- function(
   dat <- remove_unwanted(dat, show.intercept, show.est, show.std, show.ci, show.se, show.stat, show.p, terms, rm.terms)
 
 
+  # get default labels for dv and terms ----
+
+  if (isTRUE(auto.label) && sjmisc::is_empty(pred.labels)) {
+    pred.labels <- sjlabelled::get_term_labels(models, mark.cat = TRUE, case = case)
+    pred.labels <- pred.labels[!duplicated(names(pred.labels))]
+    labs <- sjmisc::word_wrap(pred.labels, wrap = wrap.labels, linesep = "<br>")
+    # some labels may not match. in this case, we only need to replace those
+    # elements in the vector that match a specific label, but
+    # at the correct position inside "dat$term"
+    tr <- 1:nrow(dat)
+    tr <- tr[-which(is.na(match(dat$term, names(pred.labels))))]
+    rp <- as.vector(na.omit(match(dat$term, names(pred.labels))))
+
+    dat$term[tr] <- unname(labs[rp])
+  }
+
+  if (isTRUE(auto.label) && sjmisc::is_empty(dv.labels)) {
+    dv.labels <- sjmisc::word_wrap(
+      sjlabelled::get_dv_labels(models, mark.cat = TRUE, case = case),
+      wrap = wrap.labels,
+      linesep = "<br>"
+    )
+  }
+
+
   # does user want a specific order for terms?
 
   if (!is.null(order.terms)) {
@@ -249,7 +305,7 @@ tab_model <- function(
     }
   }
 
-  tab_df(dat, title = caption)
+  tab_model_df(dat, zeroinf.list, title = title)
 }
 
 
