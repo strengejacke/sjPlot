@@ -34,10 +34,17 @@
 #'    also printed, and if yes, which type of standardization is done.
 #'    See 'Details'.
 #' @param show.se Logical, if \code{TRUE}, the standard errors are also printed.
+#' @param string.pred Character vector,used as headline for the predictor column.
+#'    Default is \code{"Predictors"}.
+#' @param string.std Character vector, used for the column heading of standardized beta coefficients. Default is \code{"std. Beta"}.
+#' @param string.ci Character vector, used for the column heading of confidence interval values. Default is \code{"CI"}.
+#' @param string.se Character vector, used for the column heading of standard error values. Default is \code{"std. Error"}.
+#' @param string.p Character vector, used for the column heading of p values. Default is \code{"p"}.
 #' @param ci.hyphen Character vector, indicating the hyphen for confidence interval range.
 #'    May be an HTML entity. See 'Examples'.
 #' @param minus.sign string, indicating the minus sign for negative numbers.
 #'    May be an HTML entity. See 'Examples'.
+#' @param emph.p Logical, if \code{TRUE}, significant p-values are shown bold faced.
 #' @param digits Amount of decimals for estimates
 #' @param digits.p Amount of decimals for p-values
 #' @param separate.ci.col Logical, if \code{TRUE}, the CI values are shown in
@@ -89,6 +96,11 @@ tab_model <- function(
   dv.labels = NULL,
   wrap.labels = 25,
 
+  string.pred = "Predictors",
+  string.std = "std. Beta",
+  string.ci = "CI",
+  string.se = "std. Error",
+  string.p = "p",
   ci.hyphen = "&nbsp;&ndash;&nbsp;",
   minus.sign = "&#45;",
   separate.ci.col = TRUE,
@@ -97,6 +109,7 @@ tab_model <- function(
 
   digits = 2,
   digits.p = 3,
+  emph.p = TRUE,
 
   case = "parsed",
   auto.label = TRUE,
@@ -106,7 +119,6 @@ tab_model <- function(
   models <- tibble::lst(...)
   auto.transform <- missing(transform)
   ci.lvl <- ifelse(is.null(show.ci), .95, show.ci)
-  zeroinf.list <- list()
 
   model.list <- purrr::map2(
     models,
@@ -125,7 +137,6 @@ tab_model <- function(
           transform <- "exp"
       }
 
-
       ## TODO probably indicate estimate with "*"
 
       # get tidy output of summary ----
@@ -141,13 +152,23 @@ tab_model <- function(
           .data$conf.high
         )) %>%
         dplyr::select(-.data$conf.low, -.data$conf.high) %>%
-        dplyr::mutate(p.value = sprintf("%.*f", digits.p, .data$p.value))
+        dplyr::mutate(
+          p.sig = .data$p.value < .05,
+          p.value = sprintf("%.*f", digits.p, .data$p.value)
+        )
+
+
+      # emphasize p-values ----
+
+      if (emph.p) dat$p.value[dat$p.sig] <- sprintf("<strong>%s</strong>", dat$p.value[dat$p.sig])
+      dat <- dplyr::select(dat, -.data$p.sig)
 
 
       # get inner probability (i.e. 2nd CI for Stan-models) ----
 
       if (is.stan(model)) {
         dat <- dat %>%
+          sjmisc::var_rename(conf.int = "hdi.outer") %>%
           dplyr::mutate(hdi.inner = sprintf(
             "%.*f%s%.*f",
             digits,
@@ -162,6 +183,8 @@ tab_model <- function(
 
       # handle zero-inflation part ----
 
+      zidat <- NULL
+
       if (tibble::has_name(dat, "wrap.facet")) {
         zi <- which(dat$wrap.facet == "Zero-Inflated Model")
 
@@ -169,9 +192,6 @@ tab_model <- function(
           zidat <- dat %>%
             dplyr::slice(!! zi) %>%
             dplyr::select(-.data$wrap.facet)
-          zeroinf.list[[i]] <- zidat
-        } else {
-          zeroinf.list[[i]] <- NULL
         }
 
         if (!sjmisc::is_empty(zi)) dat <- dplyr::slice(dat, !! -zi)
@@ -187,13 +207,16 @@ tab_model <- function(
       }
 
 
-      # indicate p <0.001
+      # indicate p <0.001 ----
 
       pv <- paste0("0.", paste(rep("0", digits.p), collapse = ""))
       dat$p.value[dat$p.value == pv] <- "&lt;0.001"
 
+      pv <- paste0("<strong>0.", paste(rep("0", digits.p), collapse = ""), "</strong>")
+      dat$p.value[dat$p.value == pv] <- "<strong>&lt;0.001"
 
-      # switch column for p-value and conf. int.
+
+      # switch column for p-value and conf. int. ----
 
       if (is.stan(model))
         dat <- dat[, c(1, 2, 4, 5, 6)]
@@ -234,7 +257,7 @@ tab_model <- function(
       colnames(dat)[2:ncol(dat)] <- sprintf("%s_%i", cn, i)
 
 
-      # for HTML, convert numerics to character
+      # for HTML, convert numerics to character ----
 
       dat <- dat %>%
         purrr::map_if(is.numeric, ~ sprintf("%.*f", digits, .x)) %>%
@@ -248,12 +271,14 @@ tab_model <- function(
       if (!separate.ci.col) {
         est.cols <- tidyselect::starts_with("estimate", vars = colnames(dat))
         dat[[est.cols]] <- sprintf("%s (%s)", dat[[est.cols]], dat[[est.cols + 2]])
-        dat <- dplyr::select(dat, -tidyselect::starts_with("conf.int"))
 
         # for stan models, we also have 50% HDI
-        if (!sjmisc::is_empty(tidyselect::starts_with("hdi.inner", vars = colnames(dat)))) {
+        if (!sjmisc::is_empty(tidyselect::starts_with("hdi", vars = colnames(dat)))) {
+          dat <- dplyr::select(dat, -tidyselect::starts_with("hdi.outer"))
           dat[[est.cols]] <- sprintf("%s (%s)", dat[[est.cols]], dat[[est.cols + 2]])
           dat <- dplyr::select(dat, -tidyselect::starts_with("hdi.inner"))
+        } else {
+          dat <- dplyr::select(dat, -tidyselect::starts_with("conf.int"))
         }
 
         std.cols <- tidyselect::starts_with("std.estimate", vars = colnames(dat))
@@ -275,7 +300,7 @@ tab_model <- function(
         }
       }
 
-      dat
+      list(dat = dat, transform = transform, zeroinf = zidat)
     }
   )
 
@@ -284,7 +309,15 @@ tab_model <- function(
 
   na.vals <- c("NA", sprintf("NA%sNA", ci.hyphen), sprintf("NA (NA%sNA)", ci.hyphen), sprintf("NA (NA%sNA) (NA)", ci.hyphen))
 
-  dat <- model.list %>%
+  # we have data for fixed effects and zero inflation part as
+  # well as transformation of coefficients in a list, so separate
+  # them out into own objects
+
+  model.data <- purrr::map(model.list, ~.x[[1]])
+  transform.data <- purrr::map(model.list, ~.x[[2]])
+  zeroinf.data <- purrr::map(model.list, ~.x[[3]])
+
+  dat <- model.data %>%
     purrr::reduce(~ dplyr::full_join(.x, .y, by = "term")) %>%
     purrr::map_df(~ dplyr::if_else(.x %in% na.vals | is.na(.x), "", .x))
 
@@ -329,7 +362,52 @@ tab_model <- function(
     }
   }
 
-  tab_model_df(dat, zeroinf.list, title = title)
+
+  # get proper column header labels
+
+  col.header <- purrr::map_chr(colnames(dat), function(x) {
+    pos <- grep("estimate", x, fixed = T)
+    if (!sjmisc::is_empty(pos)) {
+      i <- as.numeric(sub("estimate_", "", x = x, fixed = T))
+      x <- get_estimate_axis_title(
+        models[[i]],
+        axis.title = NULL,
+        type = "est",
+        transform = transform.data[[i]]
+      )
+    }
+
+    pos <- grep("term", x, fixed = T)
+    if (!sjmisc::is_empty(pos)) x <- string.pred
+
+    pos <- grep("conf.int", x, fixed = T)
+    if (!sjmisc::is_empty(pos)) x <- string.ci
+
+    pos <- grep("std.error", x, fixed = T)
+    if (!sjmisc::is_empty(pos)) x <- string.se
+
+    pos <- grep("std.estimate", x, fixed = T)
+    if (!sjmisc::is_empty(pos)) x <- string.std
+
+    pos <- grep("std.se", x, fixed = T)
+    if (!sjmisc::is_empty(pos)) x <- paste("std.", string.se)
+
+    pos <- grep("std.conf.int", x, fixed = T)
+    if (!sjmisc::is_empty(pos)) x <- paste("std.", string.ci)
+
+    pos <- grep("p.value", x, fixed = T)
+    if (!sjmisc::is_empty(pos)) x <- string.p
+
+    pos <- grep("hdi.inner", x, fixed = T)
+    if (!sjmisc::is_empty(pos)) x <- "HDI (50%)"
+
+    pos <- grep("hdi.outer", x, fixed = T)
+    if (!sjmisc::is_empty(pos)) x <- sprintf("HDI (%i%%)", round(100 * show.ci))
+
+    x
+  })
+
+  tab_model_df(dat, zeroinf.data, title = title, col.header = col.header)
 }
 
 
@@ -354,7 +432,12 @@ remove_unwanted <- function(dat, show.intercept, show.est, show.std, show.ci, sh
   }
 
   if (is.null(show.ci) || show.ci == FALSE) {
-    dat <- dplyr::select(dat, -tidyselect::starts_with("conf"), -tidyselect::starts_with("std.conf"))
+    dat <- dplyr::select(
+      dat,
+      -tidyselect::starts_with("conf"),
+      -tidyselect::starts_with("std.conf"),
+      -tidyselect::starts_with("hdi")
+    )
   }
 
   if (is.null(show.se) || show.se == FALSE) {

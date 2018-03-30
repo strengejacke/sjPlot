@@ -12,9 +12,12 @@ tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
   show.aicc = FALSE, show.dev = FALSE, terms = NULL, rm.terms = NULL,
   group.terms = NULL, order.terms = NULL, title = NULL,
   pred.labels = NULL, dv.labels = NULL, wrap.labels = 25,
+  string.pred = "Predictors", string.std = "std. Beta", string.ci = "CI",
+  string.se = "std. Error", string.p = "p",
   ci.hyphen = "&nbsp;&ndash;&nbsp;", minus.sign = "&#45;",
   separate.ci.col = TRUE, separate.se.col = TRUE, digits = 2,
-  digits.p = 3, case = "parsed", auto.label = TRUE, bpe = "median")
+  digits.p = 3, emph.p = TRUE, case = "parsed", auto.label = TRUE,
+  bpe = "median")
 }
 \arguments{
 \item{...}{One or more regression models, including glm's or mixed models.
@@ -81,6 +84,17 @@ fitted models. See 'Examples'.}
 \item{wrap.labels}{Numeric, determines how many chars of the value, variable
 or axis labels are displayed in one line and when a line break is inserted.}
 
+\item{string.pred}{Character vector,used as headline for the predictor column.
+Default is \code{"Predictors"}.}
+
+\item{string.std}{Character vector, used for the column heading of standardized beta coefficients. Default is \code{"std. Beta"}.}
+
+\item{string.ci}{Character vector, used for the column heading of confidence interval values. Default is \code{"CI"}.}
+
+\item{string.se}{Character vector, used for the column heading of standard error values. Default is \code{"std. Error"}.}
+
+\item{string.p}{Character vector, used for the column heading of p values. Default is \code{"p"}.}
+
 \item{ci.hyphen}{Character vector, indicating the hyphen for confidence interval range.
 May be an HTML entity. See 'Examples'.}
 
@@ -96,6 +110,8 @@ a separate table column.}
 \item{digits}{Amount of decimals for estimates}
 
 \item{digits.p}{Amount of decimals for p-values}
+
+\item{emph.p}{Logical, if \code{TRUE}, significant p-values are shown bold faced.}
 
 \item{case}{Desired target case. Labels will automatically converted into the
 specified character case. See \code{\link[snakecase]{to_any_case}} for more
