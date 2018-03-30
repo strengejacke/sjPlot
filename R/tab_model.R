@@ -332,16 +332,32 @@ tab_model <- function(
   if (isTRUE(auto.label) && sjmisc::is_empty(pred.labels)) {
     pred.labels <- sjlabelled::get_term_labels(models, mark.cat = TRUE, case = case)
     pred.labels <- pred.labels[!duplicated(names(pred.labels))]
-    labs <- sjmisc::word_wrap(pred.labels, wrap = wrap.labels, linesep = "<br>")
-    # some labels may not match. in this case, we only need to replace those
-    # elements in the vector that match a specific label, but
-    # at the correct position inside "dat$term"
-    tr <- 1:nrow(dat)
-    tr <- tr[-which(is.na(match(dat$term, names(pred.labels))))]
-    rp <- as.vector(na.omit(match(dat$term, names(pred.labels))))
-
-    dat$term[tr] <- unname(labs[rp])
   }
+
+  # named vector for predictor labels means we try to match labels
+  # with model terms
+
+  if (!sjmisc::is_empty(pred.labels)) {
+    if (!is.null(names(pred.labels))) {
+      labs <- sjmisc::word_wrap(pred.labels, wrap = wrap.labels, linesep = "<br>")
+      # some labels may not match. in this case, we only need to replace those
+      # elements in the vector that match a specific label, but
+      # at the correct position inside "dat$term"
+      tr <- 1:nrow(dat)
+      find.matches <- match(dat$term, names(pred.labels))
+      find.na <- which(is.na(find.matches))
+      if (!sjmisc::is_empty(find.na)) tr <- tr[-find.na]
+      rp <- as.vector(na.omit(find.matches))
+
+      dat$term[tr] <- unname(labs[rp])
+    } else {
+      if (length(pred.labels) == nrow(dat))
+        dat$term <- pred.labels
+      else
+        message("Length of `pred.labels` does not equal number of predictors, no labelling applied.")
+    }
+  }
+
 
   if (isTRUE(auto.label) && sjmisc::is_empty(dv.labels)) {
     dv.labels <- sjmisc::word_wrap(
