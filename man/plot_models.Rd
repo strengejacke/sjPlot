@@ -60,7 +60,11 @@ indicates the p-values. Default is \code{"p-level"}. Only applies if
 axis labels. By default, \code{\link[sjlabelled]{get_term_labels}} is
 called to retrieve the labels of the coefficients, which will be used as
 axis labels. Use \code{axis.labels = ""} or \code{auto.label = FALSE} to
-use the variable names as labels instead.}
+use the variable names as labels instead. If \code{axis.labels} is a named
+vector, axis labels (by default, the names of the model's coefficients)
+will be matched with the names of \code{axis.label}. This ensures that
+labels always match the related axis value, no matter in which way
+axis labels are sorted.}
 
 \item{axis.title}{Character vector of length one or two (depending on the
 plot function and type), used as title(s) for the x and y axis. If not

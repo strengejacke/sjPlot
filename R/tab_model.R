@@ -19,11 +19,16 @@
 #'    all terms are used.
 #' @param pred.labels Character vector with labels of predictor variables.
 #'    If not \code{NULL}, \code{pred.labels} will be used in the first
-#'    table column with the predictors' names. If \code{NULL}, label
-#'    attributes will be used in the output (see \code{\link[sjlabelled]{get_label}}).
+#'    table column with the predictors' names. By default, if \code{auto.label = TRUE}
+#'    and \code{\link[sjlabelled]{get_term_labels}} is called to retrieve the labels
+#'    of the coefficients, which will be used as predictor labels.
 #'    If \code{pred.labels = ""} or \code{auto.label = FALSE}, the raw
 #'    variable names as used in the model formula are used as predictor
-#'    labels. See 'Examples'.
+#'    labels.  If \code{pred.labels} is a named vector, predictor labels (by
+#'    default, the names of the model's coefficients) will be matched with the
+#'    names of \code{pred.labels}. This ensures that labels always match the
+#'    related predictor in the table, no matter in which way the predictors
+#'    are sorted. See 'Examples'.
 #' @param dv.labels Character vector with labels of dependent variables of all
 #'    fitted models. See 'Examples'.
 #' @param show.intercept Logical, if \code{TRUE}, the intercepts are printed.

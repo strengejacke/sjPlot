@@ -130,7 +130,11 @@
 #'   axis labels. By default, \code{\link[sjlabelled]{get_term_labels}} is
 #'   called to retrieve the labels of the coefficients, which will be used as
 #'   axis labels. Use \code{axis.labels = ""} or \code{auto.label = FALSE} to
-#'   use the variable names as labels instead.
+#'   use the variable names as labels instead. If \code{axis.labels} is a named
+#'   vector, axis labels (by default, the names of the model's coefficients)
+#'   will be matched with the names of \code{axis.label}. This ensures that
+#'   labels always match the related axis value, no matter in which way
+#'   axis labels are sorted.
 #' @param axis.lim Numeric vector of length 2, defining the range of the plot
 #'   axis. Depending on plot-type, may effect either x- or y-axis. For
 #'   \emph{Marginal Effects} plots, \code{axis.lim} may also be a list of two
