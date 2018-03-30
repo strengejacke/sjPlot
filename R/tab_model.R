@@ -127,7 +127,6 @@ tab_model <- function(
 
 
       ## TODO probably indicate estimate with "*"
-      ## TODO check Bayesian models
 
       # get tidy output of summary ----
 
@@ -143,6 +142,22 @@ tab_model <- function(
         )) %>%
         dplyr::select(-.data$conf.low, -.data$conf.high) %>%
         dplyr::mutate(p.value = sprintf("%.*f", digits.p, .data$p.value))
+
+
+      # get inner probability (i.e. 2nd CI for Stan-models) ----
+
+      if (is.stan(model)) {
+        dat <- dat %>%
+          dplyr::mutate(hdi.inner = sprintf(
+            "%.*f%s%.*f",
+            digits,
+            .data$conf.low50,
+            ci.hyphen,
+            digits,
+            .data$conf.high50
+          )) %>%
+            dplyr::select(-.data$conf.low50, -.data$conf.high50)
+      }
 
 
       # handle zero-inflation part ----
@@ -180,12 +195,15 @@ tab_model <- function(
 
       # switch column for p-value and conf. int.
 
-      dat <- dat[, c(1, 2, 3, 6, 4, 5)]
+      if (is.stan(model))
+        dat <- dat[, c(1, 2, 4, 5, 6)]
+      else
+        dat <- dat[, c(1, 2, 3, 6, 4, 5)]
 
 
       # tidy output of standardized values ----
 
-      if (!is.null(show.std) && fam.info$is_linear) {
+      if (!is.null(show.std) && fam.info$is_linear && !is.stan(model)) {
         dat <- model %>%
           sjstats::std_beta(type = show.std, ci.lvl = ci.lvl) %>%
           sjmisc::var_rename(
@@ -231,6 +249,12 @@ tab_model <- function(
         est.cols <- tidyselect::starts_with("estimate", vars = colnames(dat))
         dat[[est.cols]] <- sprintf("%s (%s)", dat[[est.cols]], dat[[est.cols + 2]])
         dat <- dplyr::select(dat, -tidyselect::starts_with("conf.int"))
+
+        # for stan models, we also have 50% HDI
+        if (!sjmisc::is_empty(tidyselect::starts_with("hdi.inner", vars = colnames(dat)))) {
+          dat[[est.cols]] <- sprintf("%s (%s)", dat[[est.cols]], dat[[est.cols + 2]])
+          dat <- dplyr::select(dat, -tidyselect::starts_with("hdi.inner"))
+        }
 
         std.cols <- tidyselect::starts_with("std.estimate", vars = colnames(dat))
         if (!sjmisc::is_empty(std.cols)) {

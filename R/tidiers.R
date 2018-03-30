@@ -105,6 +105,7 @@ tidy_cox_model <- function(model, ci.lvl) {
 }
 
 
+#' @importFrom stats mad
 #' @importFrom sjstats hdi typical_value
 #' @importFrom sjmisc var_rename add_columns is_empty
 #' @importFrom dplyr select filter slice
@@ -169,7 +170,8 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, ...) {
       estimate = purrr::map_dbl(mod.dat, ~ sjstats::typical_value(.x, fun = bpe)),
       .after = 1
     ) %>%
-    tibble::add_column(p.value = 0)
+    tibble::add_column(p.value = 0) %>%
+    dplyr::mutate(std.error = purrr::map_dbl(mod.dat, stats::mad))
 
 
   # remove sigma and lp__ row
