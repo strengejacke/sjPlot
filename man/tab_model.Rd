@@ -5,12 +5,12 @@
 \title{Print regression models to HTML table}
 \usage{
 tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
-  show.ci = 0.95, show.se = NULL, show.std = NULL, show.p = TRUE,
-  show.stat = FALSE, show.header = FALSE, show.col.header = TRUE,
-  show.zeroinf = TRUE, show.r2 = TRUE, show.icc = FALSE,
-  show.re.var = FALSE, show.fstat = FALSE, show.aic = FALSE,
-  show.aicc = FALSE, show.dev = FALSE, terms = NULL, rm.terms = NULL,
-  group.terms = NULL, order.terms = NULL, title = NULL,
+  show.ci = 0.95, show.hdi50 = TRUE, show.se = NULL, show.std = NULL,
+  show.p = TRUE, show.stat = FALSE, show.header = FALSE,
+  show.col.header = TRUE, show.zeroinf = TRUE, show.r2 = TRUE,
+  show.icc = FALSE, show.re.var = FALSE, show.fstat = FALSE,
+  show.aic = FALSE, show.aicc = FALSE, show.dev = FALSE, terms = NULL,
+  rm.terms = NULL, group.terms = NULL, order.terms = NULL, title = NULL,
   pred.labels = NULL, dv.labels = NULL, wrap.labels = 25,
   string.pred = "Predictors", string.std = "std. Beta", string.ci = "CI",
   string.se = "std. Error", string.p = "p",

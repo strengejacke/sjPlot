@@ -74,6 +74,7 @@ tab_model <- function(
   show.intercept = TRUE,
   show.est = TRUE,
   show.ci = .95,
+  show.hdi50 = TRUE,
   show.se = NULL,
   show.std = NULL,
   show.p = TRUE,
@@ -253,6 +254,12 @@ tab_model <- function(
       dat <- dat %>%
         purrr::map_if(is.numeric, ~ sprintf("%.*f", digits, .x)) %>%
         tibble::as_tibble()
+
+
+      # remove 2nd HDI if requested ----
+
+      if (!show.hdi50)
+        dat <- dplyr::select(dat, -tidyselect::starts_with("hdi.inner"))
 
 
       ## TODO optionally insert linebreak for new-line-CI / SE
