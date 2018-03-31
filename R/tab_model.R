@@ -341,6 +341,7 @@ tab_model <- function(
 
   # same for zero-inflated parts ----
 
+  zeroinf <- NULL
   if (!sjmisc::is_empty(zeroinf.data)) {
     zeroinf <- zeroinf.data %>%
       purrr::reduce(~ dplyr::full_join(.x, .y, by = "term")) %>%
@@ -373,6 +374,19 @@ tab_model <- function(
       rp <- as.vector(na.omit(find.matches))
 
       dat$term[tr] <- unname(labs[rp])
+
+      # also label zero-inflated part
+
+      if (!is.null(zeroinf)) {
+        tr <- 1:nrow(zeroinf)
+        find.matches <- match(zeroinf$term, names(pred.labels))
+        find.na <- which(is.na(find.matches))
+        if (!sjmisc::is_empty(find.na)) tr <- tr[-find.na]
+        rp <- as.vector(na.omit(find.matches))
+
+        zeroinf$term[tr] <- unname(labs[rp])
+      }
+
     } else {
       if (length(pred.labels) == nrow(dat))
         dat$term <- pred.labels
