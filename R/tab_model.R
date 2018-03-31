@@ -62,7 +62,7 @@
 #'
 #' @importFrom dplyr full_join select if_else mutate
 #' @importFrom tibble lst add_case as_tibble
-#' @importFrom purrr reduce map2 map_if map_df
+#' @importFrom purrr reduce map2 map_if map_df compact
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom sjmisc word_wrap var_rename add_columns
 #' @importFrom sjstats std_beta
@@ -186,24 +186,6 @@ tab_model <- function(
       }
 
 
-      # handle zero-inflation part ----
-
-      zidat <- NULL
-
-      if (tibble::has_name(dat, "wrap.facet")) {
-        zi <- which(dat$wrap.facet == "Zero-Inflated Model")
-
-        if (show.zeroinf && !sjmisc::is_empty(zi)) {
-          zidat <- dat %>%
-            dplyr::slice(!! zi) %>%
-            dplyr::select(-.data$wrap.facet)
-        }
-
-        if (!sjmisc::is_empty(zi)) dat <- dplyr::slice(dat, !! -zi)
-        dat <- dplyr::select(dat, -.data$wrap.facet)
-      }
-
-
       # fix term-names from brmsfit ----
 
       if (inherits(model, "brmsfit")) {
@@ -223,8 +205,12 @@ tab_model <- function(
 
       # switch column for p-value and conf. int. ----
 
-      if (is.stan(model))
+      if (is.stan(model) && tibble::has_name(dat, "wrap.facet"))
+        dat <- dat[, c(1, 2, 4, 6, 7, 5)]
+      else if (is.stan(model) && !tibble::has_name(dat, "wrap.facet"))
         dat <- dat[, c(1, 2, 4, 5, 6)]
+      else if (!is.stan(model) && tibble::has_name(dat, "wrap.facet"))
+        dat <- dat[, c(1, 2, 3, 7, 4, 5, 6)]
       else
         dat <- dat[, c(1, 2, 3, 6, 4, 5)]
 
@@ -305,6 +291,26 @@ tab_model <- function(
         }
       }
 
+
+      # handle zero-inflation part ----
+
+      zidat <- NULL
+      wf <- tidyselect::starts_with("wrap.facet", vars = colnames(dat))
+
+      if (!sjmisc::is_empty(wf)) {
+        zi <- which(dat[[wf]] == "Zero-Inflated Model")
+
+        if (show.zeroinf && !sjmisc::is_empty(zi)) {
+          zidat <- dat %>%
+            dplyr::slice(!! zi) %>%
+            dplyr::select(!! -wf)
+        }
+
+        if (!sjmisc::is_empty(zi)) dat <- dplyr::slice(dat, !! -zi)
+        dat <- dplyr::select(dat, !! -wf)
+      }
+
+
       list(dat = dat, transform = transform, zeroinf = zidat)
     }
   )
@@ -322,14 +328,26 @@ tab_model <- function(
   transform.data <- purrr::map(model.list, ~.x[[2]])
   zeroinf.data <- purrr::map(model.list, ~.x[[3]])
 
+  zeroinf.data <- purrr::compact(zeroinf.data)
+
   dat <- model.data %>%
     purrr::reduce(~ dplyr::full_join(.x, .y, by = "term")) %>%
     purrr::map_df(~ dplyr::if_else(.x %in% na.vals | is.na(.x), "", .x))
 
-
   # remove unwanted columns and rows ----
 
   dat <- remove_unwanted(dat, show.intercept, show.est, show.std, show.ci, show.se, show.stat, show.p, terms, rm.terms)
+
+
+  # same for zero-inflated parts ----
+
+  if (!sjmisc::is_empty(zeroinf.data)) {
+    zeroinf <- zeroinf.data %>%
+      purrr::reduce(~ dplyr::full_join(.x, .y, by = "term")) %>%
+      purrr::map_df(~ dplyr::if_else(.x %in% na.vals | is.na(.x), "", .x))
+
+    zeroinf <- remove_unwanted(zeroinf, show.intercept, show.est, show.std, show.ci, show.se, show.stat, show.p, terms, rm.terms)
+  }
 
 
   # get default labels for dv and terms ----
@@ -428,7 +446,7 @@ tab_model <- function(
     x
   })
 
-  tab_model_df(dat, zeroinf.data, title = title, col.header = col.header)
+  tab_model_df(dat, zeroinf, title = title, col.header = col.header)
 }
 
 
