@@ -36,7 +36,7 @@ scale_color_sjplot(palette = "metro ui", discrete = TRUE, reverse = FALSE,
 scale_fill_sjplot(palette = "metro ui", discrete = TRUE, reverse = FALSE,
   ...)
 
-sjplot_pal(pal = "metro ui")
+sjplot_pal(pal = "metro ui", n = NULL)
 
 show_sjplot_pals()
 }
@@ -96,6 +96,9 @@ Else, a gradient palette is returned, where colours of the requested palette
 are interpolated using \code{\link[grDevices]{colorRampPalette}}.}
 
 \item{reverse}{Logical, if \code{TRUE}, order of returned colours is reversed.}
+
+\item{n}{Numeric, number of colors to be returned. By default, the complete
+colour palette is returned.}
 }
 \description{
 Set default theme plots, use pre-defined color scales or modify

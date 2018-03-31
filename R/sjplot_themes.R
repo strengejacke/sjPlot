@@ -42,6 +42,8 @@
 #'   Else, a gradient palette is returned, where colours of the requested palette
 #'   are interpolated using \code{\link[grDevices]{colorRampPalette}}.
 #' @param reverse Logical, if \code{TRUE}, order of returned colours is reversed.
+#' @param n Numeric, number of colors to be returned. By default, the complete
+#'   colour palette is returned.
 #'
 #' @details
 #'   When using the \code{colors} argument in function calls (e.g.
@@ -285,8 +287,13 @@ scale_fill_sjplot <- function(palette = "metro ui", discrete = TRUE, reverse = F
 
 #' @rdname sjPlot-themes
 #' @export
-sjplot_pal <- function(pal = "metro ui") {
-  sjplot_colors[[pal]]
+sjplot_pal <- function(pal = "metro ui", n = NULL) {
+  pl <- sjplot_colors[[pal]]
+
+  if (!is.null(n) && n <= length(pl))
+    pl <- pl[1:n]
+
+  pl
 }
 
 
