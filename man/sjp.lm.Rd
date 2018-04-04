@@ -28,7 +28,6 @@ sjp.lm(fit, type = "lm", vars = NULL, group.estimates = NULL,
   \item{\code{"std"}}{for forest-plot of standardized beta values.}
   \item{\code{"std2"}}{for forest-plot of standardized beta values, however, standardization is done by dividing by two sd (see 'Details').}
   \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals (linear relationship between each model term and residuals). May be used for model diagnostics.}
-  \item{\code{"ma"}}{to check model assumptions.}
   \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 }}
 

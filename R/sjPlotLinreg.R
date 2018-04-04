@@ -77,7 +77,6 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #'            \item{\code{"std"}}{for forest-plot of standardized beta values.}
 #'            \item{\code{"std2"}}{for forest-plot of standardized beta values, however, standardization is done by dividing by two sd (see 'Details').}
 #'            \item{\code{"resid"}}{to plot regression lines for each single predictor of the fitted model, against the residuals (linear relationship between each model term and residuals). May be used for model diagnostics.}
-#'            \item{\code{"ma"}}{to check model assumptions.}
 #'            \item{\code{"vif"}}{to plot Variance Inflation Factors.}
 #'          }
 #' @param fit Fitted linear regression model (of class \code{\link{lm}}, \code{\link[nlme]{gls}} or \code{plm}).
@@ -364,9 +363,6 @@ sjp.lm <- function(fit,
     return(invisible(sjp.glm.eff(fit, title, axis.title, geom.size, remove.estimates, vars,
                                  show.ci, ylim = axis.lim, facet.grid,
                                  fun = "lm", prnt.plot, ...)))
-  }
-  if (type == "ma") {
-    return(invisible(sjp.lm.ma(fit, complete.dgns)))
   }
   if (type == "vif") {
     return(invisible(sjp.vif(fit)))
@@ -765,159 +761,6 @@ col_check <- function(geom.colors, show.loess) {
     }
   }
   return(geom.colors)
-}
-
-
-#' @importFrom stats fitted rstudent residuals sd median AIC
-#' @importFrom sjstats outliers
-sjp.lm.ma <- function(linreg, complete.dgns = FALSE) {
-  # ------------------------
-  # prepare plot list
-  # ------------------------
-  plot.list <- list()
-  # ------------------------
-  # check if suggested package is available
-  # ------------------------
-  if (!requireNamespace("car", quietly = TRUE)) {
-    stop("Package `car` needed for this function to work. Please install it.", call. = F)
-  }
-  if (!requireNamespace("lmtest", quietly = TRUE)) {
-    stop("Package `lmtest` needed for this function to work. Please install it.", call. = FALSE)
-  }
-  # copy current model
-  model <- linreg
-  # ---------------------------------
-  # remove outliers, only non-mixed models
-  # ---------------------------------
-  outlier <- sjstats::outliers(linreg)
-  print(outlier$result)
-  # ---------------------------------
-  # show VIF-Values
-  # ---------------------------------
-  ggplot2::theme_set(ggplot2::theme_bw())
-  sjp.vif(linreg)
-  # ---------------------------------
-  # Print non-normality of residuals and outliers both of original and updated model
-  # dots should be plotted along the line, this the dots should follow a linear direction
-  # ---------------------------------
-  # qq-plot of studentized residuals for base model
-  # mixed model model?
-  if (inherits(linreg, c("lme", "lmerMod"))) {
-    res_ <- sort(stats::residuals(linreg), na.last = NA)
-    y_lab <- "Residuals"
-  } else {
-    # else, normal model
-    res_ <- sort(stats::rstudent(linreg), na.last = NA)
-    y_lab <- "Studentized Residuals"
-  }
-  fitted_ <- sort(stats::fitted(linreg), na.last = NA)
-  # create data frame
-  mydf <- na.omit(data.frame(x = fitted_, y = res_))
-  # plot it
-  p1 <- ggplot(mydf, aes_string(x = "x", y = "y")) +
-           geom_point() +
-           scale_colour_manual(values = c("#0033cc", "#993300")) +
-           stat_smooth(method = "lm", se = FALSE) +
-           labs(title = "Non-normality of residuals and outliers",
-                subtitle = "Dots should be plotted along the line",
-                y = y_lab, x = "Theoretical quantiles (predicted values)")
-  # save plots
-  plot.list[[length(plot.list) + 1]] <- p1
-  # print plot
-  suppressWarnings(graphics::plot(p1))
-  # ---------------------------------
-  # Print non-normality of residuals both of original and updated model
-  # Distribution should look like normal curve
-  # ---------------------------------
-  gghist <- function(fit) {
-    return(ggplot(fit, aes(x = .resid)) +
-             geom_histogram(aes(y = ..density..), binwidth = 0.2, fill = "grey60", colour = "grey30") +
-             geom_density(aes(y = ..density..), fill = "#4080cc", alpha = 0.2) +
-             stat_function(fun = dnorm,
-                           args = list(mean = mean(unname(stats::residuals(fit)), na.rm = TRUE),
-                                       sd = stats::sd(unname(stats::residuals(fit)), na.rm = TRUE)),
-                           colour = "FireBrick",
-                           size = 0.8) +
-             labs(x = "Residuals",
-                  y = "Density",
-                  title = "Non-normality of residuals",
-                  subtitle = "Distribution should look like normal curve"))
-  }
-  # residuals histrogram for base model
-  p1 <- gghist(linreg)
-  # save plot
-  plot.list[[length(plot.list) + 1]] <- p1
-  # print plot
-  graphics::plot(p1)
-  # ---------------------------------
-  # Non-constant residuals
-  # ---------------------------------
-  # Frage: Können hohe Werte auf der X-Achse genauso gut hervorgesagt
-  # werden wie niedrige Werte auf der X-Achse? Das Muster muss sich ähneln
-  # über den Verlauf der X-Achse
-  #
-  # The linearity assumption is supported to the extent that the amount
-  # of points scattered above and below the line is equal.
-  #
-  # A linear trend would mean that the error of the model (the difference between observed and fitted values)
-  # is in some way systematic. If, for instance, lower fitted values have residuals that are more towards the 0 line.
-  # Higher fitted values are consistently more off, so the model is more wrong with larger values. So, ideally what
-  # you want is something that is akin towards a horizontal line. In such case, the data is somehow not homogenous
-  # maybe because one part of the data is more variable than another. If that is the case, you might need to transform
-  # the data in order to make it meet the assumptions that are necessary for linear models.
-  ggsced <- function(fit) {
-    return(ggplot(fit, aes(x = .fitted, y = .resid)) +
-             geom_hline(yintercept = 0, alpha = 0.7) +
-             geom_point() +
-             geom_smooth(method = "loess", se = FALSE) +
-             labs(x = "Fitted values",
-                  y = "Residuals",
-                  title = "Homoscedasticity (constant variance of residuals)",
-                  subtitle = "Amount and distance of points scattered above/below line is equal or randomly spread"))
-  }
-  # homoscedascity for base model
-  p1 <- ggsced(linreg)
-  # save plot
-  plot.list[[length(plot.list) + 1]] <- p1
-  # print plot
-  graphics::plot(p1)
-  # ---------------------------------
-  # summarize old and new model
-  # ---------------------------------
-  if (inherits(linreg, "lm") && complete.dgns) {
-    # ---------------------------------
-    # Plot residuals against predictors
-    # ---------------------------------
-    p1 <- sjp.reglin(linreg,
-                     title = "Relationship of residuals against predictors",
-                     subtitle = "If scatterplots show a pattern, relationship may be nonlinear and model needs to be modified accordingly",
-                     wrap.title = 60, useResiduals = T, alpha = .15)$plot.list
-    # save plot
-    plot.list <- c(plot.list, p1)
-    # ---------------------------------
-    # Non-linearity
-    # ---------------------------------
-    graphics::plot(car::crPlots(linreg))
-    # ---------------------------------
-    # non-independence of residuals
-    # ---------------------------------
-    print(car::durbinWatsonTest(linreg))
-    # ---------------------------------
-    # Print leverage plots
-    # ---------------------------------
-    graphics::plot(car::leveragePlots(linreg))
-    # ---------------------------------
-    # Non-constant residuals
-    # ---------------------------------
-    print(car::ncvTest(linreg))
-    print(lmtest::bptest(linreg))
-    print(car::spreadLevelPlot(linreg))
-  }
-  # return updated model
-  invisible(structure(list(class = "sjp.lm.ma",
-                           model = model,
-                           plot.list = plot.list,
-                           outlier = outlier$removed.obs)))
 }
 
 

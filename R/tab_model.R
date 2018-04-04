@@ -56,6 +56,10 @@
 #'    a separate table column.
 #' @param separate.se.col Logical, if \code{TRUE}, the SE values are shown in
 #'    a separate table column.
+#' @param group.terms Logical, if \code{TRUE} (default), automatically groups table rows with
+#'    factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
+#'    be grouped, if the factor has more than two levels. Grouping means that a separate headline
+#'    row is inserted to the table just before the predictor values.
 #'
 #' @inheritParams plot_models
 #' @inheritParams plot_model
@@ -71,6 +75,7 @@
 tab_model <- function(
   ...,
   transform,
+
   show.intercept = TRUE,
   show.est = TRUE,
   show.ci = .95,
@@ -94,7 +99,7 @@ tab_model <- function(
 
   terms = NULL,
   rm.terms = NULL,
-  group.terms = NULL,
+  group.terms = TRUE,
   order.terms = NULL,
 
   title = NULL,
@@ -109,9 +114,9 @@ tab_model <- function(
   string.p = "p",
   ci.hyphen = "&nbsp;&ndash;&nbsp;",
   minus.sign = "&#45;",
+
   separate.ci.col = TRUE,
   separate.se.col = TRUE,
-
 
   digits = 2,
   digits.p = 3,
@@ -325,7 +330,12 @@ tab_model <- function(
 
   # join all model data frames and convert to character ----
 
-  na.vals <- c("NA", sprintf("NA%sNA", ci.hyphen), sprintf("NA (NA%sNA)", ci.hyphen), sprintf("NA (NA%sNA) (NA)", ci.hyphen))
+  na.vals <- c(
+    "NA",
+    sprintf("NA%sNA", ci.hyphen),
+    sprintf("NA (NA%sNA)", ci.hyphen),
+    sprintf("NA (NA%sNA) (NA)", ci.hyphen)
+  )
 
   # we have data for fixed effects and zero inflation part as
   # well as transformation of coefficients in a list, so separate
@@ -343,7 +353,19 @@ tab_model <- function(
 
   # remove unwanted columns and rows ----
 
-  dat <- remove_unwanted(dat, show.intercept, show.est, show.std, show.ci, show.se, show.stat, show.p, terms, rm.terms)
+  dat <-
+    remove_unwanted(
+      dat,
+      show.intercept,
+      show.est,
+      show.std,
+      show.ci,
+      show.se,
+      show.stat,
+      show.p,
+      terms,
+      rm.terms
+    )
 
 
   # same for zero-inflated parts ----
@@ -354,7 +376,19 @@ tab_model <- function(
       purrr::reduce(~ dplyr::full_join(.x, .y, by = "term")) %>%
       purrr::map_df(~ dplyr::if_else(.x %in% na.vals | is.na(.x), "", .x))
 
-    zeroinf <- remove_unwanted(zeroinf, show.intercept, show.est, show.std, show.ci, show.se, show.stat, show.p, terms, rm.terms)
+    zeroinf <-
+      remove_unwanted(
+        zeroinf,
+        show.intercept,
+        show.est,
+        show.std,
+        show.ci,
+        show.se,
+        show.stat,
+        show.p,
+        terms,
+        rm.terms
+      )
   }
 
 
@@ -363,12 +397,24 @@ tab_model <- function(
   if (isTRUE(auto.label) && sjmisc::is_empty(pred.labels)) {
     pred.labels <- sjlabelled::get_term_labels(models, mark.cat = TRUE, case = case)
     pred.labels <- pred.labels[!duplicated(names(pred.labels))]
+    pred.labels <- prepare.labels(pred.labels, grp = group.terms)
+  } else {
+    # no automatic grouping of table rows for categorical variables
+    # when user supplies own labels
+    group.terms <- FALSE
   }
+
 
   # named vector for predictor labels means we try to match labels
   # with model terms
 
   if (!sjmisc::is_empty(pred.labels)) {
+
+    # to insert "header" rows for categorical variables, we need to
+    # save the original term names first.
+
+    remember.terms <- dat$term
+
     if (!is.null(names(pred.labels))) {
       labs <- sjmisc::word_wrap(pred.labels, wrap = wrap.labels, linesep = "<br>")
       # some labels may not match. in this case, we only need to replace those
@@ -412,6 +458,14 @@ tab_model <- function(
   }
 
 
+  # group terms ----
+
+  if (group.terms) {
+    ## TODO group terms by variables, so category values of factors are "grouped"
+    remember.terms[attr(pred.labels, "category.value")]
+  }
+
+
   # does user want a specific order for terms?
 
   if (!is.null(order.terms)) {
@@ -423,7 +477,7 @@ tab_model <- function(
   }
 
 
-  # get proper column header labels
+  # get proper column header labels ----
 
   col.header <- purrr::map_chr(colnames(dat), function(x) {
     pos <- grep("estimate", x, fixed = T)
@@ -523,4 +577,22 @@ remove_unwanted <- function(dat, show.intercept, show.est, show.std, show.ci, sh
   }
 
   dat
+}
+
+
+#' @importFrom tidyselect starts_with
+prepare.labels <- function(x, grp) {
+  x_var <- names(x[attr(x, "category.value") == FALSE])
+  x_val <- names(x[attr(x, "category.value") == TRUE])
+
+  for (i in x_var) {
+    pos <- tidyselect::starts_with(i, vars = x_val)
+
+    if (!grp || (length(pos) > 0 && length(pos) < 3)) {
+      match.vals <- x_val[pos]
+      x[match.vals] <- sprintf("%s: %s", x[i], x[match.vals])
+    }
+  }
+
+  x
 }

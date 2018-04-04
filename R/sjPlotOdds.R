@@ -880,7 +880,6 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
 #' @importFrom stats model.frame predict predict.glm family
 #' @importFrom dplyr select mutate group_by_ summarize
 #' @importFrom sjstats resp_val
-#' @importFrom merTools predictInterval
 sjp.glm.predy <- function(fit,
                           vars,
                           t.title,
@@ -964,19 +963,6 @@ sjp.glm.predy <- function(fit,
     # calculate CI
     fitfram$conf.low <- prdat$fit - 1.96 * prdat$se.fit
     fitfram$conf.high <- prdat$fit + 1.96 * prdat$se.fit
-  } else if (show.ci && (fun == "lmer" || (fun == "glmer" && binom_fam))) {
-    # prediction intervals from merMod-package only work for linear or
-    # binary logistic multilevel models
-    prdat <- merTools::predictInterval(
-      fit, newdata = fitfram, which = ifelse(type == "fe", "fixed", "full"),
-      type = ifelse(fit.m == "lm", "linear.prediction", "probability"),
-      level = dot.args[["ci.lvl"]]
-    )
-    # copy predictions
-    fitfram$predicted.values <- prdat$fit
-    # calculate CI
-    fitfram$conf.low <- prdat$lwr
-    fitfram$conf.high <- prdat$upr
   } else if (fun %in% c("lmer", "nlmer", "glmer")) {
     # for all other kinds of glmer or nlmer, we need the predict-function from
     # lme4, however, without ci-bands

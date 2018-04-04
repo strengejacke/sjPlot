@@ -10,7 +10,7 @@ tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
   show.col.header = TRUE, show.zeroinf = TRUE, show.r2 = TRUE,
   show.icc = FALSE, show.re.var = FALSE, show.fstat = FALSE,
   show.aic = FALSE, show.aicc = FALSE, show.dev = FALSE, terms = NULL,
-  rm.terms = NULL, group.terms = NULL, order.terms = NULL, title = NULL,
+  rm.terms = NULL, group.terms = TRUE, order.terms = NULL, title = NULL,
   pred.labels = NULL, dv.labels = NULL, wrap.labels = 25,
   string.pred = "Predictors", string.std = "std. Beta", string.ci = "CI",
   string.se = "std. Error", string.p = "p",
@@ -58,8 +58,10 @@ be removed from the output Counterpart to \code{terms}. \code{rm.terms =
 "t_name"} would remove the term \emph{t_name}. Default is \code{NULL}, i.e.
 all terms are used.}
 
-\item{group.terms}{Numeric vector with group indices, to group coefficients.
-Each group of coefficients gets its own color (see 'Examples').}
+\item{group.terms}{Logical, if \code{TRUE} (default), automatically groups table rows with
+factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
+be grouped, if the factor has more than two levels. Grouping means that a separate headline
+row is inserted to the table just before the predictor values.}
 
 \item{order.terms}{Numeric vector, indicating in which order the coefficients
 should be plotted. See examples in
