@@ -369,7 +369,7 @@ pfrq <- function(x, ...) {
     lab <- attr(i, "label", exact = T)
     vt <- attr(i, "vartype", exact = T)
 
-    if (!is.null(lab)) ret <- sprintf("%s <span style=\"font-weight: normal; font-style: italic\">&lt;%s&gt</span>", lab, vt)
+    if (!is.null(lab)) ret <- sprintf("%s <span style=\"font-weight: normal; font-style: italic\">&lt;%s&gt;</span>", lab, vt)
 
     # get grouping title label
     grp <- attr(i, "group", exact = T)
@@ -382,7 +382,7 @@ pfrq <- function(x, ...) {
 
 
   footnotes <- purrr::map_chr(x, ~ sprintf(
-    "total N=%i &middot; valid N=%i &middot; x&#772=%.2f &middot; &sigma;=%.2f\n",
+    "total N=%i &middot; valid N=%i &middot; x&#772;=%.2f &middot; &sigma;=%.2f\n",
     sum(.x$frq, na.rm = TRUE),
     sum(.x$frq[1:(nrow(.x) - 1)], na.rm = TRUE),
     attr(.x, "mean", exact = T),
