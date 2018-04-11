@@ -1,11 +1,8 @@
 #' @importFrom stats update
-#' @importFrom dplyr bind_rows
+#' @importFrom dplyr bind_rows select mutate
 #' @importFrom tidyr gather
-plot_diag_stan <- function(model, geom.colors, facets, ...) {
-
-  # check if rstanarm can be loaded
-  if (!requireNamespace("rstanarm", quietly = TRUE))
-    stop("Package `rstanarm` needs to be loaded first!", call. = F)
+#' @importFrom tidyselect starts_with
+plot_diag_stan <- function(model, geom.colors, axis.lim, facets, ...) {
 
   # check some defaults
   if (missing(facets)) facets <- TRUE
@@ -14,24 +11,56 @@ plot_diag_stan <- function(model, geom.colors, facets, ...) {
   scale <- .9
 
 
-  # get samples from posterior and prior
+  if (inherits(model, "brmsfit")) {
 
-  prior <- suppressWarnings(
-    stats::update(model, prior_PD = TRUE, refresh = -1, iter = 2000, chains = 2)
-  )
+    # check if brms can be loaded
 
-  d1 <- as.data.frame(model)
-  d2 <- as.data.frame(prior)
+    if (!requireNamespace("brms", quietly = TRUE))
+      stop("Package `brms` needs to be loaded first!", call. = F)
+
+    # check if prior sample are available
+
+    d1 <- brms::prior_samples(model)
+
+    if (is.null(d1))
+      stop("No prior-samples found. Please use option `sample_prior = TRUE` when fitting the model.", call. = FALSE)
 
 
-  # remove intercept from output for ridgeline plot.
-  # this would increase the range of the scale too much
+    # get samples from posterior and prior
 
-  if (!facets) {
+    d1 <- dplyr::select(d1, tidyselect::starts_with("b_"), -tidyselect::starts_with("b_Intercept"))
+
+    d2 <- brms::posterior_samples(model) %>%
+      dplyr::select(tidyselect::starts_with("b_"), -tidyselect::starts_with("b_Intercept"))
+
+  } else if (inherits(model, c("stanreg", "stanfit"))) {
+
+    # check if rstanarm can be loaded
+    if (!requireNamespace("rstanarm", quietly = TRUE))
+      stop("Package `rstanarm` needs to be loaded first!", call. = F)
+
+
+    # get samples from posterior and prior
+
+    prior <- suppressWarnings(
+      stats::update(model, prior_PD = TRUE, refresh = -1, iter = 2000, chains = 2)
+    )
+
+    d1 <- as.data.frame(model)
+    d2 <- as.data.frame(prior)
+
+
+    # remove intercept from output for ridgeline plot.
+    # this would increase the range of the scale too much
+
     d1 <- dplyr::select(d1, -.data$`(Intercept)`)
     d2 <- dplyr::select(d2, -.data$`(Intercept)`)
     d1 <- dplyr::select(d1, -.data$sigma)
     d2 <- dplyr::select(d2, -.data$sigma)
+    d1 <- dplyr::select(d1, -tidyselect::starts_with("b[(Intercept)"))
+    d2 <- dplyr::select(d2, -tidyselect::starts_with("b[(Intercept)"))
+    d1 <- dplyr::select(d1, -tidyselect::starts_with("Sigma["))
+    d2 <- dplyr::select(d2, -tidyselect::starts_with("Sigma["))
   }
 
 
@@ -64,6 +93,10 @@ plot_diag_stan <- function(model, geom.colors, facets, ...) {
       facet_wrap(~Term, scales = "free") +
       scale_fill_manual(values = col_check2(geom.colors, 2))
   }
+
+
+  if (!is.null(axis.lim))
+    p <- p + scale_x_continuous(limits = axis.lim)
 
 
   p + xlab("Distribution")

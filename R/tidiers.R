@@ -13,7 +13,7 @@ tidy_model <- function(model, ci.lvl, tf, type, bpe, se, facets, show.zeroinf, .
 
 get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, ...) {
   if (is.stan(model))
-    tidy_stan_model(model, ci.lvl, tf, type, bpe, show.zeroinf, ...)
+    tidy_stan_model(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, ...)
   else if (inherits(model, "lme"))
     tidy_lme_model(model, ci.lvl)
   else if (inherits(model, "gls"))
@@ -39,20 +39,57 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, ..
   else if (inherits(model, "Zelig-relogit"))
     tidy_zelig_model(model, ci.lvl)
   else
-    tidy_generic(model, ci.lvl)
+    tidy_generic(model, ci.lvl, facets)
 }
 
 
 #' @importFrom broom tidy
 #' @importFrom tibble has_name
 #' @importFrom sjstats p_value
-tidy_generic <- function(model, ci.lvl) {
-  # tidy the model
-  dat <- broom::tidy(model, conf.int = TRUE, conf.level = ci.lvl, effects = "fixed")
+#' @importFrom stats coef qnorm
+#' @importFrom dplyr mutate
+tidy_generic <- function(model, ci.lvl, facets) {
 
-  # see if we have p-values. if not, add them
-  if (!tibble::has_name(dat, "p.value"))
-    dat$p.value <- sjstats::p_value(model, p.kr = FALSE)[["p.value"]]
+  # check for multiple reponse levels
+
+  if (inherits(stats::coef(summary(model)), "listof")) {
+
+    # compute ci, two-ways
+
+    if (!is.null(ci.lvl) && !is.na(ci.lvl))
+      ci <- 1 - ((1 - ci.lvl) / 2)
+    else
+      ci <- .975
+
+    # get estimates, as data frame
+    dat <- broom::tidy(model, conf.int = FALSE, exponentiate = FALSE)
+
+
+    # add conf. int.
+
+    dat <- dat %>%
+      dplyr::mutate(
+        conf.low = .data$estimate - stats::qnorm(ci) * .data$std.error,
+        conf.high = .data$estimate + stats::qnorm(ci) * .data$std.error
+      )
+
+    # check whether each category should be printed in facets, or
+    # in a single graph (with dodged geoms)
+
+    if (isTRUE(facets))
+      colnames(dat)[1] <- "facet"
+    else
+      colnames(dat)[1] <- "response.level"
+
+  } else {
+
+    # tidy the model
+    dat <- broom::tidy(model, conf.int = TRUE, conf.level = ci.lvl, effects = "fixed")
+
+    # see if we have p-values. if not, add them
+    if (!tibble::has_name(dat, "p.value"))
+      dat$p.value <- sjstats::p_value(model, p.kr = FALSE)[["p.value"]]
+  }
 
   dat
 }
@@ -105,7 +142,7 @@ tidy_cox_model <- function(model, ci.lvl) {
 }
 
 
-#' @importFrom stats mad
+#' @importFrom stats mad formula
 #' @importFrom sjstats hdi typical_value
 #' @importFrom sjmisc var_rename add_columns is_empty
 #' @importFrom dplyr select filter slice
@@ -113,7 +150,7 @@ tidy_cox_model <- function(model, ci.lvl) {
 #' @importFrom purrr map_dbl
 #' @importFrom rlang .data
 #' @importFrom tidyselect starts_with ends_with
-tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, ...) {
+tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, ...) {
 
   # set defaults
 
@@ -155,11 +192,18 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, ...) {
     re.sd <- tidyselect::starts_with("sd_", vars = colnames(mod.dat))
     re.cor <- tidyselect::starts_with("cor_", vars = colnames(mod.dat))
     lp <- tidyselect::starts_with("lp__", vars = colnames(mod.dat))
+    resp.cor <- tidyselect::starts_with("rescor__", vars = colnames(mod.dat))
 
-    brmsfit.removers <- unique(c(re.sd, re.cor, lp))
+    brmsfit.removers <- unique(c(re.sd, re.cor, lp, resp.cor))
 
     if (!sjmisc::is_empty(brmsfit.removers))
       mod.dat <- dplyr::select(mod.dat, !! -brmsfit.removers)
+
+    # also clean prepared data frame
+    resp.cor <- tidyselect::starts_with("rescor__", vars = dat$term)
+
+    if (!sjmisc::is_empty(resp.cor))
+      dat <- dplyr::slice(dat, !! -resp.cor)
   }
 
 
@@ -174,11 +218,12 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, ...) {
     dplyr::mutate(std.error = purrr::map_dbl(mod.dat, stats::mad))
 
 
-  # remove sigma and lp__ row
+  # remove some of the information not needed for plotting
 
   if ("sigma" %in% dat$term) dat <- dplyr::filter(dat, .data$term != "sigma")
   if ("lp__" %in% dat$term) dat <- dplyr::filter(dat, .data$term != "lp__")
   if ("shape" %in% dat$term) dat <- dplyr::filter(dat, .data$term != "shape")
+
 
   # remove sd_c and cor_ row
 
@@ -278,6 +323,45 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, ...) {
   }
 
 
+  # multivariate-response model?
+
+  if (inherits(model, "brmsfit") && !is.null(stats::formula(model)$response)) {
+
+    # get response variables
+
+    responses <- stats::formula(model)$response
+
+    # also clean prepared data frame
+    resp.sigma <- tidyselect::starts_with("sigma_", vars = dat$term)
+
+    if (!sjmisc::is_empty(resp.sigma))
+      dat <- dplyr::slice(dat, !! -resp.sigma)
+
+
+    # create "response-level" variable
+
+    dat <- tibble::add_column(dat, response.level = "", .before = 1)
+
+    # copy name of response into new character variable
+    # and remove response name from term name
+
+    for (i in responses) {
+      m <- tidyselect::contains(i, vars = dat$term)
+      dat$response.level[m] <- i
+    }
+
+    dat$term <- gsub("b_(.*)\\_", "", dat$term)
+
+    # check whether each category should be printed in facets, or
+    # in a single graph (with dodged geoms)
+
+    if (isTRUE(facets))
+      colnames(dat)[1] <- "facet"
+    else
+      colnames(dat)[1] <- "response.level"
+  }
+
+
   # do we have a zero-inflation model?
 
   modfam <- get_glm_family(model)
@@ -306,7 +390,8 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, ...) {
 
 
   # remove facet column if not necessary
-  if (!show.zeroinf) dat <- dplyr::select(dat, -.data$wrap.facet)
+  if (!show.zeroinf && tibble::has_name(dat, "wrap.facet"))
+    dat <- dplyr::select(dat, -.data$wrap.facet)
 
   dat
 }

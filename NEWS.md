@@ -24,6 +24,9 @@ Following functions are now defunct:
 
 * `plot_model()` gets a `show.zeroinf`-argument to show or hide the zero-inflation-part of models in the plot.
 * `plot_model()` now plots the zero-inflated part of the model for `brmsfit`-objects.
+* `plot_model()` now plots multivariate response models, i.e. models with multiple outcomes.
+* Diagnostic plots in `plot_model()` (`type = "diag"`) can now also be used with `brmsfit`-objects.
+* Axis limits of diagnostic plots in `plot_model()` (`type = "diag"`) for Stan-models (`brmsfit` or `stanreg` resp. `stanfit`) can now be set with the `axis.lim`-argument.
 * The `grid.breaks`-argument for `plot_model()` and `plot_models()` now also takes a vector of values to directly define the grid breaks for the plot.
 * Better default calculation for grid breaks in `plot_model()` and `plot_models()` when the `grid.breaks`-argument is of length one.
 * The `terms`-argument for `plot_model()` now also allows the specification of a range of numeric values in square brackets for marginal effects plots, e.g. `terms = "age [30:50]"`.

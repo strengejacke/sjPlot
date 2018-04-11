@@ -51,6 +51,7 @@ Imports:
     tidyr (>= 0.7.0)
 Suggests:
     AICcmodavg,
+    brms,
     car,
     cluster,
     GPArotation,

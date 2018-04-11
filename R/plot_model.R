@@ -624,6 +624,7 @@ plot_model <- function(model,
       p <- plot_diag_stan(
         model = model,
         geom.colors = colors,
+        axis.lim = axis.lim,
         facets = grid,
         ...
       )
