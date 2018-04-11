@@ -17,7 +17,7 @@ plot_model(model, type = c("est", "re", "eff", "pred", "int", "std", "std2",
   show.zeroinf = TRUE, value.offset = NULL, value.size, digits = 2,
   dot.size = NULL, line.size = NULL, vline.color = NULL, grid,
   case = "parsed", auto.label = TRUE, bpe = "median",
-  bpe.style = "line", ...)
+  bpe.style = "line", bpe.color = "white", ...)
 
 get_model_data(model, type = c("est", "re", "eff", "pred", "int", "std",
   "std2", "slope", "resid", "diag"), transform, terms = NULL,
@@ -283,6 +283,10 @@ calculate the mean value of the posterior distribution.}
 vertical line by default. Use \code{bpe.style = "dot"} to plot a dot
 instead of a line for the point estimate.}
 
+\item{bpe.color}{Character vector, indicating the color of the Bayesian
+point estimate. Setting \code{bpe.color = NULL} will inherit the color
+from the mapped aesthetic to match it with the geom's color.}
+
 \item{...}{Other arguments, passed down to various functions. Here is a list
 of supported arguments and their description in detail.
 \describe{
@@ -297,7 +301,8 @@ of supported arguments and their description in detail.
   }
   \item{\code{size.inner}}{For \strong{Stan}-models and \emph{Coefficients}
     plot-types, you can specify the width of the bar for the inner
-    probabilities. Default is \code{0.1}.
+    probabilities. Default is \code{0.1}. Setting \code{size.inner = 0}
+    removes the inner probability regions.
   }
   \item{\code{width}, \code{alpha} and \code{scale}}{Passed down to
     \code{geom_errorbar()} or \code{geom_density_ridges()}, for forest or

@@ -26,6 +26,7 @@ plot_type_ranef <- function(model,
                             line.size,
                             vline.color,
                             value.size,
+                            bpe.color,
                             ...) {
 
   # get tidy output of summary ----
@@ -286,6 +287,7 @@ plot_type_ranef <- function(model,
           vline.color = vline.color,
           value.size = value.size,
           facets = facets,
+          bpe.color = bpe.color,
           ...
         )
       }

@@ -96,6 +96,7 @@ tab_model <- function(
   show.aic = FALSE,
   show.aicc = FALSE,
   show.dev = FALSE,
+  show.obs = TRUE,
 
   terms = NULL,
   rm.terms = NULL,
@@ -195,6 +196,7 @@ tab_model <- function(
       # fix term-names from brmsfit ----
 
       if (inherits(model, "brmsfit")) {
+        ## TODO check if this works for multivariate response models as well
         dat$term <- sub(pattern = "b_Intercept", replacement = "(Intercept)", x = dat$term, fixed = T)
         dat$term <- sub(pattern = "b_", replacement = "", x = dat$term, fixed = T)
       }
@@ -210,6 +212,8 @@ tab_model <- function(
 
 
       # switch column for p-value and conf. int. ----
+
+      ## TODO check code for multiple response models
 
       if (is.stan(model) && tibble::has_name(dat, "wrap.facet"))
         dat <- dat[, c(1, 2, 4, 6, 7, 5)]
@@ -243,6 +247,8 @@ tab_model <- function(
             .data$std.conf.high
           )) %>%
           dplyr::select(-.data$std.conf.low, -.data$std.conf.high)
+
+        ## TODO check code for multiple response models
 
         dat <- dat[, c(1, 2, 3, 4, 7, 8, 9, 5, 6)]
       }
@@ -323,6 +329,8 @@ tab_model <- function(
       }
 
 
+      ## TODO add another object with summary information, e.g. ICC, F-Stat, AIC etc.
+
       list(dat = dat, transform = transform, zeroinf = zidat)
     }
   )
@@ -346,6 +354,8 @@ tab_model <- function(
   zeroinf.data <- purrr::map(model.list, ~.x[[3]])
 
   zeroinf.data <- purrr::compact(zeroinf.data)
+
+  ## TODO split multivariate response models into multiple data frames for table output
 
   dat <- model.data %>%
     purrr::reduce(~ dplyr::full_join(.x, .y, by = "term")) %>%

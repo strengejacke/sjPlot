@@ -223,6 +223,9 @@
 #'   \pkg{brms}-package), the Bayesian point estimate is indicated as a small,
 #'   vertical line by default. Use \code{bpe.style = "dot"} to plot a dot
 #'   instead of a line for the point estimate.
+#' @param bpe.color Character vector, indicating the color of the Bayesian
+#'   point estimate. Setting \code{bpe.color = NULL} will inherit the color
+#'   from the mapped aesthetic to match it with the geom's color.
 #' @param ... Other arguments, passed down to various functions. Here is a list
 #'   of supported arguments and their description in detail.
 #'   \describe{
@@ -237,7 +240,8 @@
 #'     }
 #'     \item{\code{size.inner}}{For \strong{Stan}-models and \emph{Coefficients}
 #'       plot-types, you can specify the width of the bar for the inner
-#'       probabilities. Default is \code{0.1}.
+#'       probabilities. Default is \code{0.1}. Setting \code{size.inner = 0}
+#'       removes the inner probability regions.
 #'     }
 #'     \item{\code{width}, \code{alpha} and \code{scale}}{Passed down to
 #'       \code{geom_errorbar()} or \code{geom_density_ridges()}, for forest or
@@ -411,6 +415,7 @@ plot_model <- function(model,
                        auto.label = TRUE,
                        bpe = "median",
                        bpe.style = "line",
+                       bpe.color = "white",
                        ...
                        ) {
 
@@ -522,6 +527,7 @@ plot_model <- function(model,
       value.size = value.size,
       bpe = bpe,
       bpe.style = bpe.style,
+      bpe.color = bpe.color,
       facets = grid,
       show.zeroinf = show.zeroinf,
       ...
@@ -551,6 +557,7 @@ plot_model <- function(model,
       line.size = line.size,
       vline.color = vline.color,
       value.size = value.size,
+      bpe.color = bpe.color,
       ...
     )
 
