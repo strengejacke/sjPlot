@@ -16,8 +16,8 @@ plot_model(model, type = c("est", "re", "eff", "pred", "int", "std", "std2",
   show.p = TRUE, show.data = FALSE, show.legend = TRUE,
   show.zeroinf = TRUE, value.offset = NULL, value.size, digits = 2,
   dot.size = NULL, line.size = NULL, vline.color = NULL, grid,
-  case = "parsed", auto.label = TRUE, bpe = "median",
-  bpe.style = "line", bpe.color = "white", ...)
+  case = "parsed", auto.label = TRUE, prefix.labels = c("none", "varname",
+  "label"), bpe = "median", bpe.style = "line", bpe.color = "white", ...)
 
 get_model_data(model, type = c("est", "re", "eff", "pred", "int", "std",
   "std2", "slope", "resid", "diag"), transform, terms = NULL,
@@ -269,6 +269,10 @@ based on value and variable labels, if the data is labelled. See
 \code{\link[sjlabelled]{get_label}} and
 \code{\link[sjlabelled]{get_term_labels}} for details. If \code{FALSE},
 original variable names and value labels (factor levels) are used.}
+
+\item{prefix.labels}{Indicates whether the value labels of categorical variables
+should be prefixed, e.g. with the variable name or label. See argument
+\code{prefix} in \code{\link[sjlabelled]{get_term_labels}} for details.}
 
 \item{bpe}{For \strong{Stan}-models (fitted with the \pkg{rstanarm}- or
 \pkg{brms}-package), the Bayesian point estimate is, by default, the median

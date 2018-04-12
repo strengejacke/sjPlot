@@ -205,6 +205,9 @@
 #'   \code{\link[sjlabelled]{get_label}} and
 #'   \code{\link[sjlabelled]{get_term_labels}} for details. If \code{FALSE},
 #'   original variable names and value labels (factor levels) are used.
+#' @param prefix.labels Indicates whether the value labels of categorical variables
+#'   should be prefixed, e.g. with the variable name or label. See argument
+#'   \code{prefix} in \code{\link[sjlabelled]{get_term_labels}} for details.
 #' @param digits Numeric, amount of digits after decimal point when rounding
 #'   estimates or values.
 #' @param value.size Numeric, indicates the size of value labels. Can be used
@@ -413,6 +416,7 @@ plot_model <- function(model,
                        grid,
                        case = "parsed",
                        auto.label = TRUE,
+                       prefix.labels = c("none", "varname", "label"),
                        bpe = "median",
                        bpe.style = "line",
                        bpe.color = "white",
@@ -422,6 +426,7 @@ plot_model <- function(model,
   type <- match.arg(type)
   pred.type <- match.arg(pred.type)
   mdrt.values <- match.arg(mdrt.values)
+  prefix.labels <- match.arg(prefix.labels)
 
 
   # check se-argument
@@ -454,7 +459,7 @@ plot_model <- function(model,
     title <- sjmisc::word_wrap(title, wrap = wrap.title)
 
     # labels for axis with term names
-    if (is.null(axis.labels)) axis.labels <- sjlabelled::get_term_labels(model, case = case, ...)
+    if (is.null(axis.labels)) axis.labels <- sjlabelled::get_term_labels(model, case = case, prefix = prefix.labels, ...)
     axis.labels <- sjmisc::word_wrap(axis.labels, wrap = wrap.labels)
 
     # title for axis with estimate values

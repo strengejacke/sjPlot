@@ -193,8 +193,9 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     re.cor <- tidyselect::starts_with("cor_", vars = colnames(mod.dat))
     lp <- tidyselect::starts_with("lp__", vars = colnames(mod.dat))
     resp.cor <- tidyselect::starts_with("rescor__", vars = colnames(mod.dat))
+    priors <- tidyselect::starts_with("prior_", vars = colnames(mod.dat))
 
-    brmsfit.removers <- unique(c(re.sd, re.cor, lp, resp.cor))
+    brmsfit.removers <- unique(c(re.sd, re.cor, lp, resp.cor, priors))
 
     if (!sjmisc::is_empty(brmsfit.removers))
       mod.dat <- dplyr::select(mod.dat, !! -brmsfit.removers)
@@ -379,6 +380,15 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     } else {
       if (!sjmisc::is_empty(zi)) dat <- dplyr::slice(dat, !! -zi)
     }
+  }
+
+
+  # fix term-names from brmsfit
+
+  if (inherits(model, "brmsfit")) {
+    ## TODO check if this works for multivariate response models as well
+    dat$term <- sub(pattern = "b_Intercept", replacement = "(Intercept)", x = dat$term, fixed = T)
+    dat$term <- sub(pattern = "b_", replacement = "", x = dat$term, fixed = T)
   }
 
 

@@ -22,6 +22,7 @@ Following functions are now defunct:
 
 ## Changes to functions
 
+* `plot_model()` and `plot_models()` get a `prefix.labels`-argument, to prefix automatically retrieved term labels with either the related variable name or label.
 * `plot_model()` gets a `show.zeroinf`-argument to show or hide the zero-inflation-part of models in the plot.
 * `plot_model()` now plots the zero-inflated part of the model for `brmsfit`-objects.
 * `plot_model()` now plots multivariate response models, i.e. models with multiple outcomes.

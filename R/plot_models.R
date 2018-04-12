@@ -109,7 +109,9 @@ plot_models <- function(...,
                         ci.lvl = .95,
                         vline.color = NULL,
                         digits = 2,
-                        grid = FALSE) {
+                        grid = FALSE,
+                        auto.label = TRUE,
+                        prefix.labels = c("none", "varname", "label")) {
   # retrieve list of fitted models
   input_list <- tibble::lst(...)
 
@@ -296,7 +298,8 @@ plot_models <- function(...,
 
 
   # check axis labels
-  if (is.null(axis.labels)) axis.labels <- sjlabelled::get_term_labels(input_list)
+  if (is.null(axis.labels) && isTRUE(auto.label))
+    axis.labels <- sjlabelled::get_term_labels(input_list, prefix = prefix.labels)
 
   # set axis labels
   p <- p + scale_x_discrete(labels = sjmisc::word_wrap(axis.labels, wrap = wrap.labels))

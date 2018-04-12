@@ -193,15 +193,6 @@ tab_model <- function(
       }
 
 
-      # fix term-names from brmsfit ----
-
-      if (inherits(model, "brmsfit")) {
-        ## TODO check if this works for multivariate response models as well
-        dat$term <- sub(pattern = "b_Intercept", replacement = "(Intercept)", x = dat$term, fixed = T)
-        dat$term <- sub(pattern = "b_", replacement = "", x = dat$term, fixed = T)
-      }
-
-
       # indicate p <0.001 ----
 
       pv <- paste0("0.", paste(rep("0", digits.p), collapse = ""))

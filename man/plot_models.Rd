@@ -12,7 +12,8 @@ plot_models(..., transform, std.est = NULL, rm.terms = NULL, title = NULL,
   spacing = 0.4, colors = "Set1", show.values = FALSE,
   show.legend = TRUE, show.intercept = FALSE, show.p = TRUE,
   p.shape = FALSE, ci.lvl = 0.95, vline.color = NULL, digits = 2,
-  grid = FALSE)
+  grid = FALSE, auto.label = TRUE, prefix.labels = c("none", "varname",
+  "label"))
 }
 \arguments{
 \item{...}{One or more regression models, including glm's or mixed models.
@@ -148,6 +149,16 @@ estimates or values.}
 
 \item{grid}{Logical, if \code{TRUE}, multiple plots are plotted as grid
 layout.}
+
+\item{auto.label}{Logical, if \code{TRUE} (the default), plot-labels are
+based on value and variable labels, if the data is labelled. See
+\code{\link[sjlabelled]{get_label}} and
+\code{\link[sjlabelled]{get_term_labels}} for details. If \code{FALSE},
+original variable names and value labels (factor levels) are used.}
+
+\item{prefix.labels}{Indicates whether the value labels of categorical variables
+should be prefixed, e.g. with the variable name or label. See argument
+\code{prefix} in \code{\link[sjlabelled]{get_term_labels}} for details.}
 }
 \value{
 A ggplot-object.
