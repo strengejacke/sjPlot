@@ -199,15 +199,21 @@
 #'   or axis labels are displayed in one line and when a line break is inserted.
 #' @param case Desired target case. Labels will automatically converted into the
 #'   specified character case. See \code{\link[snakecase]{to_any_case}} for more
-#'   details on this argument.
+#'   details on this argument. By default, if \code{case} is not specified,
+#'   it will be set to \code{"parsed"}, unless \code{prefix.labels} is not
+#'   \code{"none"}. If \code{prefix.labels} is either \code{"label"} (or
+#'   \code{"l"}) or \code{"varname"} (or \code{"v"}) and \code{case} is not
+#'   specified, it will be set to \code{NULL} - this is a more convenient
+#'   default when prefixing labels.
 #' @param auto.label Logical, if \code{TRUE} (the default), plot-labels are
 #'   based on value and variable labels, if the data is labelled. See
 #'   \code{\link[sjlabelled]{get_label}} and
 #'   \code{\link[sjlabelled]{get_term_labels}} for details. If \code{FALSE},
 #'   original variable names and value labels (factor levels) are used.
 #' @param prefix.labels Indicates whether the value labels of categorical variables
-#'   should be prefixed, e.g. with the variable name or label. See argument
-#'   \code{prefix} in \code{\link[sjlabelled]{get_term_labels}} for details.
+#'   should be prefixed, e.g. with the variable name or variable label. See
+#'   argument \code{prefix} in \code{\link[sjlabelled]{get_term_labels}} for
+#'   details.
 #' @param digits Numeric, amount of digits after decimal point when rounding
 #'   estimates or values.
 #' @param value.size Numeric, indicates the size of value labels. Can be used
@@ -414,7 +420,7 @@ plot_model <- function(model,
                        line.size = NULL,
                        vline.color = NULL,
                        grid,
-                       case = "parsed",
+                       case,
                        auto.label = TRUE,
                        prefix.labels = c("none", "varname", "label"),
                        bpe = "median",
@@ -428,6 +434,15 @@ plot_model <- function(model,
   mdrt.values <- match.arg(mdrt.values)
   prefix.labels <- match.arg(prefix.labels)
 
+
+  # if we prefix labels, use different default for case conversion,
+  # else the separating white spaces after colon are removed.
+  if (missing(case)) {
+    if (prefix.labels == "none")
+      case <- "parsed"
+    else
+      case <- NULL
+  }
 
   # check se-argument
   se <- check_se_argument(se = se, type = type)

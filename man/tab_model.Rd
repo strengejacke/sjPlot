@@ -122,7 +122,12 @@ a separate table column.}
 
 \item{case}{Desired target case. Labels will automatically converted into the
 specified character case. See \code{\link[snakecase]{to_any_case}} for more
-details on this argument.}
+details on this argument. By default, if \code{case} is not specified,
+it will be set to \code{"parsed"}, unless \code{prefix.labels} is not
+\code{"none"}. If \code{prefix.labels} is either \code{"label"} (or
+\code{"l"}) or \code{"varname"} (or \code{"v"}) and \code{case} is not
+specified, it will be set to \code{NULL} - this is a more convenient
+default when prefixing labels.}
 
 \item{auto.label}{Logical, if \code{TRUE} (the default), plot-labels are
 based on value and variable labels, if the data is labelled. See

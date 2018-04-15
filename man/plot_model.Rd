@@ -15,9 +15,9 @@ plot_model(model, type = c("est", "re", "eff", "pred", "int", "std", "std2",
   colors = "Set1", show.intercept = FALSE, show.values = FALSE,
   show.p = TRUE, show.data = FALSE, show.legend = TRUE,
   show.zeroinf = TRUE, value.offset = NULL, value.size, digits = 2,
-  dot.size = NULL, line.size = NULL, vline.color = NULL, grid,
-  case = "parsed", auto.label = TRUE, prefix.labels = c("none", "varname",
-  "label"), bpe = "median", bpe.style = "line", bpe.color = "white", ...)
+  dot.size = NULL, line.size = NULL, vline.color = NULL, grid, case,
+  auto.label = TRUE, prefix.labels = c("none", "varname", "label"),
+  bpe = "median", bpe.style = "line", bpe.color = "white", ...)
 
 get_model_data(model, type = c("est", "re", "eff", "pred", "int", "std",
   "std2", "slope", "resid", "diag"), transform, terms = NULL,
@@ -262,7 +262,12 @@ layout.}
 
 \item{case}{Desired target case. Labels will automatically converted into the
 specified character case. See \code{\link[snakecase]{to_any_case}} for more
-details on this argument.}
+details on this argument. By default, if \code{case} is not specified,
+it will be set to \code{"parsed"}, unless \code{prefix.labels} is not
+\code{"none"}. If \code{prefix.labels} is either \code{"label"} (or
+\code{"l"}) or \code{"varname"} (or \code{"v"}) and \code{case} is not
+specified, it will be set to \code{NULL} - this is a more convenient
+default when prefixing labels.}
 
 \item{auto.label}{Logical, if \code{TRUE} (the default), plot-labels are
 based on value and variable labels, if the data is labelled. See
@@ -271,8 +276,9 @@ based on value and variable labels, if the data is labelled. See
 original variable names and value labels (factor levels) are used.}
 
 \item{prefix.labels}{Indicates whether the value labels of categorical variables
-should be prefixed, e.g. with the variable name or label. See argument
-\code{prefix} in \code{\link[sjlabelled]{get_term_labels}} for details.}
+should be prefixed, e.g. with the variable name or variable label. See
+argument \code{prefix} in \code{\link[sjlabelled]{get_term_labels}} for
+details.}
 
 \item{bpe}{For \strong{Stan}-models (fitted with the \pkg{rstanarm}- or
 \pkg{brms}-package), the Bayesian point estimate is, by default, the median

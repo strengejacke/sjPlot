@@ -157,8 +157,9 @@ based on value and variable labels, if the data is labelled. See
 original variable names and value labels (factor levels) are used.}
 
 \item{prefix.labels}{Indicates whether the value labels of categorical variables
-should be prefixed, e.g. with the variable name or label. See argument
-\code{prefix} in \code{\link[sjlabelled]{get_term_labels}} for details.}
+should be prefixed, e.g. with the variable name or variable label. See
+argument \code{prefix} in \code{\link[sjlabelled]{get_term_labels}} for
+details.}
 }
 \value{
 A ggplot-object.
