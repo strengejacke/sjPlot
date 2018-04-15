@@ -333,7 +333,10 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     responses <- stats::formula(model)$response
 
     # also clean prepared data frame
-    resp.sigma <- tidyselect::starts_with("sigma_", vars = dat$term)
+    resp.sigma1 <- tidyselect::starts_with("sigma_", vars = dat$term)
+    resp.sigma2 <- tidyselect::starts_with("b_sigma_", vars = dat$term)
+
+    resp.sigma <- c(resp.sigma1, resp.sigma2)
 
     if (!sjmisc::is_empty(resp.sigma))
       dat <- dplyr::slice(dat, !! -resp.sigma)
@@ -349,9 +352,10 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     for (i in responses) {
       m <- tidyselect::contains(i, vars = dat$term)
       dat$response.level[m] <- i
+      dat$term <- gsub(sprintf("b_%s_", i), "", dat$term, fixed = TRUE)
+      dat$term <- gsub(sprintf("s_%s_", i), "", dat$term, fixed = TRUE)
     }
 
-    dat$term <- gsub("b_(.*)\\_", "", dat$term)
 
     # check whether each category should be printed in facets, or
     # in a single graph (with dodged geoms)
@@ -380,15 +384,6 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     } else {
       if (!sjmisc::is_empty(zi)) dat <- dplyr::slice(dat, !! -zi)
     }
-  }
-
-
-  # fix term-names from brmsfit
-
-  if (inherits(model, "brmsfit")) {
-    ## TODO check if this works for multivariate response models as well
-    dat$term <- sub(pattern = "b_Intercept", replacement = "(Intercept)", x = dat$term, fixed = T)
-    dat$term <- sub(pattern = "b_", replacement = "", x = dat$term, fixed = T)
   }
 
 
