@@ -326,11 +326,11 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
 
   # multivariate-response model?
 
-  if (inherits(model, "brmsfit") && !is.null(stats::formula(model)$response)) {
+  if (inherits(model, "brmsfit") && !is.null(stats::formula(model)$responses)) {
 
     # get response variables
 
-    responses <- stats::formula(model)$response
+    responses <- stats::formula(model)$responses
 
     # also clean prepared data frame
     resp.sigma1 <- tidyselect::starts_with("sigma_", vars = dat$term)

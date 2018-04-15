@@ -167,7 +167,7 @@ get_glm_family <- function(fit) {
 
     # in case of multivariate response models for brms, we just take the
     # information from the first model
-    if (inherits(fit, "brmsfit") && !is.null(stats::formula(fit)$response))
+    if (inherits(fit, "brmsfit") && !is.null(stats::formula(fit)$responses))
       faminfo <- faminfo[[1]]
 
     fitfam <- faminfo$family
