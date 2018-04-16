@@ -259,11 +259,8 @@ pdescr <- function(x, ...) {
     "SE",
     "Median",
     "Trimmed Mean",
-    "Min",
-    "Max",
     "Range",
-    "Skewness",
-    "Kurtosis"
+    "Skewness"
   )
 
 
@@ -283,7 +280,10 @@ pdescr <- function(x, ...) {
     encoding = "UTF-8",
     CSS = list(
       css.firsttablecol = '+text-align:left;',
-      css.lasttablerow = 'border-bottom: 1px solid;'
+      css.lasttablerow = 'border-bottom: 1px solid;',
+      css.centeralign = 'text-align:right;',
+      css.col2 = '+text-align:left;',
+      css.col3 = '+text-align:left;'
     ),
     file = NULL,
     use.viewer = uv,
@@ -320,11 +320,8 @@ pgdescr <- function(x, ...) {
     "SE",
     "Median",
     "Trimmed Mean",
-    "Min",
-    "Max",
     "Range",
-    "Skewness",
-    "Kurtosis"
+    "Skewness"
   )
 
   x <- x %>%
@@ -346,7 +343,8 @@ pgdescr <- function(x, ...) {
     encoding = "UTF-8",
     CSS = list(
       css.firsttablecol = '+text-align:left;',
-      css.lasttablerow = 'border-bottom: 1px solid;'
+      css.lasttablerow = 'border-bottom: 1px solid;',
+      css.col3 = '+text-align:left;'
     ),
     file = NULL,
     use.viewer = uv,

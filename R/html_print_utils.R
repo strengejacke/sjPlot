@@ -123,7 +123,7 @@ tab_df_content <- function(mydf, title, footnote, col.header, show.type, show.ro
 
       # separate CSS for first column
 
-      ftc <- dplyr::if_else(ccnt == 1, " firsttablecol", " centertalign", "")
+      ftc <- dplyr::if_else(ccnt == 1, " firsttablecol", " centeralign", "")
       oc <- ifelse(is.null(own.css), "", sprintf(" %s", sjmisc::trim(own.css[rcnt, ccnt])))
 
 
@@ -220,7 +220,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
   tag.lasttablerow <- "lasttablerow"
   tag.firsttablecol <- "firsttablecol"
   tag.leftalign <- "leftalign"
-  tag.centertalign <- "centertalign"
+  tag.centeralign <- "centeralign"
   tag.col1 <- "col1"
   tag.col2 <- "col2"
   tag.col3 <- "col3"
@@ -292,7 +292,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
       css.firsttablerow,
       tag.leftalign,
       css.leftalign,
-      tag.centertalign,
+      tag.centeralign,
       css.centeralign,
       tag.firsttablecol,
       css.firsttablecol,
@@ -330,7 +330,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
     content <- gsub(tag.firsttablerow, css.firsttablerow, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.firsttablecol, css.firsttablecol, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.leftalign, css.leftalign, content, fixed = TRUE, useBytes = TRUE)
-    content <- gsub(tag.centertalign, css.centeralign, content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub(tag.centeralign, css.centeralign, content, fixed = TRUE, useBytes = TRUE)
 
     content <- gsub(tag.col1, css.col1, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.col2, css.col2, content, fixed = TRUE, useBytes = TRUE)
