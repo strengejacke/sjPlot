@@ -20,6 +20,7 @@ plot_type_eff <- function(type,
       ci.lvl = ci.lvl,
       type = pred.type,
       full.data = FALSE,
+      pretty = TRUE,
       ...
     )
   } else {
