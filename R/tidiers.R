@@ -145,8 +145,8 @@ tidy_cox_model <- function(model, ci.lvl) {
 #' @importFrom stats mad formula
 #' @importFrom sjstats hdi typical_value
 #' @importFrom sjmisc var_rename add_columns is_empty
-#' @importFrom dplyr select filter slice
-#' @importFrom tibble add_column
+#' @importFrom dplyr select filter slice inner_join
+#' @importFrom tibble add_column tibble
 #' @importFrom purrr map_dbl
 #' @importFrom rlang .data
 #' @importFrom tidyselect starts_with ends_with
@@ -170,8 +170,13 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
 
   # get two HDI-intervals
 
-  d1 <- sjstats::hdi(model, prob = p.outer, trans = tf, type = "all")
-  d2 <- sjstats::hdi(model, prob = p.inner, trans = tf, type = "all")
+  if (type == "re")
+    ty <- "random"
+  else
+    ty <- "fixed"
+
+  d1 <- sjstats::hdi(model, prob = p.outer, trans = tf, type = ty)
+  d2 <- sjstats::hdi(model, prob = p.inner, trans = tf, type = ty)
 
 
   # bind columns, so we have inner and outer hdi interval
@@ -210,14 +215,21 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
 
   # add bayesian point estimate
 
-  dat <- dat %>%
-    tibble::add_column(
-      estimate = purrr::map_dbl(mod.dat, ~ sjstats::typical_value(.x, fun = bpe)),
-      .after = 1
-    ) %>%
-    tibble::add_column(p.value = 0) %>%
-    dplyr::mutate(std.error = purrr::map_dbl(mod.dat, stats::mad))
+  est <- purrr::map_dbl(mod.dat, ~ sjstats::typical_value(.x, fun = bpe))
 
+  dat <- tibble::tibble(
+    term = names(est),
+    estimate = est,
+    p.value = 0,
+    std.error = purrr::map_dbl(mod.dat, stats::mad)
+  ) %>%
+    dplyr::inner_join(
+      dat,
+      by = "term"
+    )
+
+  # sort columns, for tab_model()
+  dat <- dat[, c(1, 2, 4:8, 3)]
 
   # remove some of the information not needed for plotting
 
@@ -351,7 +363,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
 
     for (i in responses) {
       m <- tidyselect::contains(i, vars = dat$term)
-      dat$response.level[m] <- i
+      dat$response.level[intersect(which(dat$response.level == ""), m)] <- i
       dat$term <- gsub(sprintf("b_%s_", i), "", dat$term, fixed = TRUE)
       dat$term <- gsub(sprintf("s_%s_", i), "", dat$term, fixed = TRUE)
     }
