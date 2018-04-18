@@ -142,6 +142,8 @@ tidy_cox_model <- function(model, ci.lvl) {
 }
 
 
+## TODO replace with sjstats::tidy_stan() in the future?
+
 #' @importFrom stats mad formula
 #' @importFrom sjstats hdi typical_value
 #' @importFrom sjmisc var_rename add_columns is_empty

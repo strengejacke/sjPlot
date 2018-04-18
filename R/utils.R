@@ -128,6 +128,8 @@ is_merMod <- function(fit) {
 }
 
 
+## TODO replace with sjstats::model_family() in the future
+
 #' @importFrom sjmisc str_contains
 #' @importFrom stats family
 get_glm_family <- function(fit) {
