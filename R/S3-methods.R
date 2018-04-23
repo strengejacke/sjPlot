@@ -26,7 +26,15 @@ print.sjTable <- function(x, ...) {
 #' @importFrom knitr knit_print asis_output
 #' @export
 knit_print.sjTable <-  function(input, ...) {
-  knitr::asis_output(input$knitr, ...)
+  x <- input$knitr
+  x <- gsub("ä", "&auml;", x, fixed = TRUE, useBytes = TRUE)
+  x <- gsub("ö", "&ouml;", x, fixed = TRUE, useBytes = TRUE)
+  x <- gsub("ü", "&uuml;", x, fixed = TRUE, useBytes = TRUE)
+  x <- gsub("Ä", "&Auml;", x, fixed = TRUE, useBytes = TRUE)
+  x <- gsub("Ö", "&Ouml;", x, fixed = TRUE, useBytes = TRUE)
+  x <- gsub("Ü", "&Uuml;", x, fixed = TRUE, useBytes = TRUE)
+  x <- gsub("ß", "&szlig;", x, fixed = TRUE, useBytes = TRUE)
+  knitr::asis_output(x, ...)
 }
 
 
