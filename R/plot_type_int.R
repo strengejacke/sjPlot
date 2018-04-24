@@ -106,7 +106,7 @@ plot_type_int <- function(model,
       ci.lvl = ci.lvl,
       type = pred.type,
       full.data = FALSE,
-      pretty = TRUE,
+      pretty = FALSE,
       ...
     )
 
