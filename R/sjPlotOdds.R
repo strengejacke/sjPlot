@@ -68,59 +68,6 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "grp.est", "ci.low", "ci.h
 #'            one or two model predictors. See 'Examples'.}
 #'          }
 #'
-#' @examples
-#' # prepare dichotomous dependent variable
-#' swiss$y <- ifelse(swiss$Fertility < median(swiss$Fertility), 0, 1)
-#'
-#' # fit model
-#' fitOR <- glm(y ~ Education + Examination + Infant.Mortality + Catholic,
-#'              family = binomial(link = "logit"), data = swiss)
-#'
-#' # print Odds Ratios as dots
-#' sjp.glm(fitOR)
-#'
-#' # -------------------------------
-#' # Predictors for negative impact of care. Data from
-#' # the EUROFAMCARE sample dataset
-#' # -------------------------------
-#' library(sjmisc)
-#' library(sjlabelled)
-#' data(efc)
-#' # create binary response
-#' y <- ifelse(efc$neg_c_7 < median(na.omit(efc$neg_c_7)), 0, 1)
-#' # create data frame for fitted model
-#' mydf <- data.frame(y = as.factor(y),
-#'                    sex = to_factor(efc$c161sex),
-#'                    dep = to_factor(efc$e42dep),
-#'                    barthel = efc$barthtot,
-#'                    education = to_factor(efc$c172code))
-#' # fit model
-#' fit <- glm(y ~., data = mydf, family = binomial(link = "logit"))
-#'
-#' # plot odds ratios
-#' sjp.glm(fit, title = get_label(efc$neg_c_7))
-#'
-#' # plot probability curves (relationship between predictors and response)
-#' sjp.glm(fit, title = get_label(efc$neg_c_7), type = "slope")
-#'
-#' # --------------------------
-#' # grouping estimates
-#' # --------------------------
-#' sjp.glm(fit,  group.estimates = c(1, 2, 2, 2, 3, 4, 4))
-#'
-#' # --------------------------
-#' # model predictions, with selected model terms.
-#' # 'vars' needs to be a character vector of length 1 to 3
-#' # with names of model terms for x-axis and grouping factor.
-#' # --------------------------
-#' sjp.glm(fit, type = "pred", vars = "barthel")
-#' # faceted, with ci
-#' sjp.glm(fit, type = "pred", vars = c("barthel", "dep"), show.ci = TRUE)
-#' # w/o facets
-#' sjp.glm(fit, type = "pred", vars = c("barthel", "dep"), facet.grid = FALSE)
-#' # with third grouping variable - this type automatically uses grid layout
-#' sjp.glm(fit, type = "pred", vars = c("barthel", "sex", "education"))
-#'
 #' @import ggplot2
 #' @importFrom stats na.omit coef confint logLik
 #' @export

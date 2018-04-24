@@ -8,7 +8,7 @@
 sjplot(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter", "aov1",
   "likert", "stackfrq"))
 
-sjtab(data, ..., fun = c("frq", "xtab", "grpmean", "stackfrq"))
+sjtab(data, ..., fun = c("xtab", "stackfrq"))
 }
 \arguments{
 \item{data}{A data frame. May also be a grouped data frame (see 'Note' and
@@ -37,7 +37,7 @@ Following \code{fun}-values are currently supported:
             \item{\code{"aov1"}}{calls \code{\link{sjp.aov1}}. The first
             two variables in \code{data} are used (and required) to create the plot.
             }
-            \item{\code{"frq"}}{calls \code{\link{sjp.frq}} or \code{\link{sjt.frq}}.
+            \item{\code{"frq"}}{calls \code{\link{sjp.frq}}.
             If \code{data} has more than one variable, a plot for each
             variable in \code{data} is plotted.
             }
@@ -46,10 +46,6 @@ Following \code{fun}-values are currently supported:
             }
             \item{\code{"grpfrq"}}{calls \code{\link{sjp.grpfrq}}. The first
             two variables in \code{data} are used (and required) to create the plot.
-            }
-            \item{\code{"grpmean"}}{calls \code{\link{sjt.grpmean}}.
-            The first two variables in \code{data} are used (and required)
-            to create the table.
             }
             \item{\code{"likert"}}{calls \code{\link{sjp.likert}}. \code{data}
             must be a data frame with items to plot.

@@ -30,7 +30,7 @@
 #'             \item{\code{"aov1"}}{calls \code{\link{sjp.aov1}}. The first
 #'             two variables in \code{data} are used (and required) to create the plot.
 #'             }
-#'             \item{\code{"frq"}}{calls \code{\link{sjp.frq}} or \code{\link{sjt.frq}}.
+#'             \item{\code{"frq"}}{calls \code{\link{sjp.frq}}.
 #'             If \code{data} has more than one variable, a plot for each
 #'             variable in \code{data} is plotted.
 #'             }
@@ -39,10 +39,6 @@
 #'             }
 #'             \item{\code{"grpfrq"}}{calls \code{\link{sjp.grpfrq}}. The first
 #'             two variables in \code{data} are used (and required) to create the plot.
-#'             }
-#'             \item{\code{"grpmean"}}{calls \code{\link{sjt.grpmean}}.
-#'             The first two variables in \code{data} are used (and required)
-#'             to create the table.
 #'             }
 #'             \item{\code{"likert"}}{calls \code{\link{sjp.likert}}. \code{data}
 #'             must be a data frame with items to plot.
@@ -164,7 +160,7 @@ sjplot <- function(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter",
 
 #' @rdname sjplot
 #' @export
-sjtab <- function(data, ..., fun = c("frq", "xtab", "grpmean", "stackfrq")) {
+sjtab <- function(data, ..., fun = c("xtab", "stackfrq")) {
   # check if x is a data frame
   if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = F)
 
@@ -363,24 +359,16 @@ tab_sj <- function(x, fun, args) {
 
   # choose plottype, and call plot-function with or w/o additional arguments
   if (sjmisc::is_empty(args)) {
-    if (fun == "frq") {
-      sjt.frq(x)
-    } else if (fun  == "xtab") {
+    if (fun  == "xtab") {
       sjt.xtab(x[[1]], x[[2]])
     } else if (fun  == "stackfrq") {
       sjt.stackfrq(x)
-    } else if (fun  == "grpmean") {
-      sjt.grpmean(x[[1]], x[[2]])
     }
   } else {
-    if (fun == "frq") {
-      do.call(sjt.frq, args = c(list(data = x), args))
-    } else if (fun  == "stackfrq") {
+    if (fun  == "stackfrq") {
       do.call(sjt.stackfrq, args = c(list(items = x), args))
     } else if (fun  == "xtab") {
       do.call(sjt.xtab, args = c(list(var.row = x[[1]], var.col = x[[2]]), args))
-    } else if (fun  == "grpmean") {
-      do.call(sjt.grpmean, args = c(list(var.cnt = x[[1]], var.grp = x[[2]]), args))
     }
   }
 }

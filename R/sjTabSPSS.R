@@ -273,7 +273,7 @@ view_df <- function(x,
         if (sjmisc::is_float(x[[index]]))
           valstring <- paste0(sprintf("%.1f", range(x[[index]], na.rm = T)), collapse = "-")
         else
-          valstring <- paste0(sprintf("%i", range(x[[index]], na.rm = T)), collapse = "-")
+          valstring <- paste0(sprintf("%i", as.integer(range(x[[index]], na.rm = T))), collapse = "-")
 
         if (show.values && show.labels) {
           colsp <- " colspan=\"2\""
