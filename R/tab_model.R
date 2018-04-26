@@ -149,8 +149,6 @@ tab_model <- function(
           transform <- "exp"
       }
 
-      ## TODO probably indicate estimate with "*"
-
       # get tidy output of summary ----
 
       dat <- model %>%
