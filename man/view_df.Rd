@@ -18,8 +18,8 @@ view_df(x, weight.by = NULL, altr.row.col = TRUE, show.id = TRUE,
 or any similar labelled data frame (see \code{\link[sjlabelled]{set_label}}
 and \code{\link[sjlabelled]{set_labels}}).}
 
-\item{weight.by}{Vector of weights that will be applied to weight all cases.
-Must be a vector of same length as the input vector. Default is
+\item{weight.by}{Name of variable in \code{x} that indicated the vector of
+weights that will be applied to weight all  observations. Default is
 \code{NULL}, so no weights are used.}
 
 \item{altr.row.col}{Logical, if \code{TRUE}, alternating rows are highlighted with a light gray

@@ -11,6 +11,9 @@
 #'   \code{\link[sjlabelled]{read_sas}} or \code{\link[sjlabelled]{read_stata}} function,
 #'   or any similar labelled data frame (see \code{\link[sjlabelled]{set_label}}
 #'   and \code{\link[sjlabelled]{set_labels}}).
+#' @param weight.by Name of variable in \code{x} that indicated the vector of
+#'   weights that will be applied to weight all  observations. Default is
+#'   \code{NULL}, so no weights are used.
 #' @param show.id Logical, if \code{TRUE} (default), the variable ID is shown in
 #'   the first column.
 #' @param show.values Logical, if \code{TRUE} (default), the variable values
