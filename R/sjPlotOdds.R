@@ -218,7 +218,7 @@ sjp.glm <- function(fit,
   }
 
   # check model family, do we have count model?
-  fitfam <- get_glm_family(fit)
+  fitfam <- sjstats::model_family(fit)
 
   # create logical for family
   poisson_fam <- fitfam$is_pois
@@ -547,7 +547,7 @@ sjp.glm.slope <- function(fit, title, geom.size, geom.colors, remove.estimates, 
   # ----------------------------
   fit.df <- stats::model.frame(fit)
   fitfam <- stats::family(fit)
-  faminfo <- get_glm_family(fit)
+  faminfo <- sjstats::model_family(fit)
   # --------------------------------------------------------
   # create logical for family
   # --------------------------------------------------------
@@ -885,7 +885,7 @@ sjp.glm.predy <- function(fit,
   # ----------------------------
   # check model family, do we have count model?
   # ----------------------------
-  faminfo <- get_glm_family(fit)
+  faminfo <- sjstats::model_family(fit)
   # only for glm
   if (fit.m == "lm") {
     fitfam <- ""

@@ -45,7 +45,7 @@ Imports:
     scales,
     sjlabelled (>= 1.0.10),
     sjmisc (>= 2.7.1),
-    sjstats (>= 0.14.2),
+    sjstats (>= 0.14.3),
     tidyselect,
     tibble (>= 1.3.3),
     tidyr (>= 0.7.0)

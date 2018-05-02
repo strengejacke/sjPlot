@@ -77,7 +77,7 @@
 #' @importFrom tidyselect ends_with
 #' @importFrom broom tidy
 #' @importFrom forcats fct_rev
-#' @importFrom sjstats std_beta p_value
+#' @importFrom sjstats std_beta p_value model_family
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom rlang .data
 #' @importFrom sjmisc word_wrap var_rename
@@ -121,7 +121,7 @@ plot_models <- function(...,
 
 
   # get info on model family
-  fam.info <- get_glm_family(input_list[[1]])
+  fam.info <- sjstats::model_family(input_list[[1]])
 
 
   # check whether estimates should be transformed or not

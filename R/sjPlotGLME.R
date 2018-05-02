@@ -1263,7 +1263,7 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
   # ----------------------------
   fit.df <- stats::model.frame(fit, fixed.only = TRUE)
   fitfam <- stats::family(fit)
-  faminfo <- get_glm_family(fit)
+  faminfo <- sjstats::model_family(fit)
   # --------------------------------------------------------
   # create logical for family
   # --------------------------------------------------------
@@ -2008,7 +2008,7 @@ sjp.glm.eff <- function(fit,
     fitfram <- stats::model.frame(fit, fixed.only = TRUE)
   else
     fitfram <- stats::model.frame(fit)
-  fitfam <- get_glm_family(fit)
+  fitfam <- sjstats::model_family(fit)
   # --------------------------------------------------------
   # create logical for family
   # --------------------------------------------------------

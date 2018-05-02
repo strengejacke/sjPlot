@@ -449,7 +449,7 @@ sjt.glm <- function(...,
   # select correct column heading, depending on model family and link function
   if (is.null(string.est)) {
     # get family
-    fitfam <- get_glm_family(input_list[[1]])
+    fitfam <- sjstats::model_family(input_list[[1]])
     # check if we have a binomial model
     if (fitfam$is_bin) {
       # here we gor for logistic regression

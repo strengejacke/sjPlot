@@ -247,7 +247,7 @@ sjp.int <- function(fit,
   # do we have glm? if so, get link family. make exceptions
   # for specific models that don't have family function
   # ------------------------
-  fitfam <- get_glm_family(fit)
+  fitfam <- sjstats::model_family(fit)
   # --------------------------------------------------------
   # create logical for family
   # --------------------------------------------------------
@@ -1017,7 +1017,7 @@ sjp.eff.int <- function(fit,
       # do we have glm? if so, get link family. make exceptions
       # for specific models that don't have family function
       # ------------------------
-      fitfam <- get_glm_family(fit)
+      fitfam <- sjstats::model_family(fit)
       # --------------------------------------------------------
       # create logical for family
       # --------------------------------------------------------

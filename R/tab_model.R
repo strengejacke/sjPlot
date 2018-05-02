@@ -69,7 +69,7 @@
 #' @importFrom purrr reduce map2 map_if map_df compact
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom sjmisc word_wrap var_rename add_columns
-#' @importFrom sjstats std_beta
+#' @importFrom sjstats std_beta model_family
 #' @importFrom rlang .data
 #' @export
 tab_model <- function(
@@ -138,7 +138,7 @@ tab_model <- function(
     function(model, i) {
 
       # get info on model family
-      fam.info <- get_glm_family(model)
+      fam.info <- sjstats::model_family(model)
 
       # check whether estimates should be transformed or not
 

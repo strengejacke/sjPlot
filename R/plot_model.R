@@ -376,7 +376,7 @@
 #'   plot_model(m, bpe.style = "dot")
 #' }}
 #'
-#' @importFrom sjstats pred_vars std_beta p_value
+#' @importFrom sjstats pred_vars std_beta p_value model_family
 #' @importFrom sjmisc word_wrap str_contains
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom dplyr if_else n_distinct
@@ -449,7 +449,7 @@ plot_model <- function(model,
 
 
   # get info on model family
-  fam.info <- get_glm_family(model)
+  fam.info <- sjstats::model_family(model)
 
 
   # check whether estimates should be transformed or not

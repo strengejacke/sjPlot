@@ -145,7 +145,7 @@ tidy_cox_model <- function(model, ci.lvl) {
 ## TODO replace with sjstats::tidy_stan() in the future?
 
 #' @importFrom stats mad formula
-#' @importFrom sjstats hdi typical_value
+#' @importFrom sjstats hdi typical_value model_family
 #' @importFrom sjmisc var_rename add_columns is_empty
 #' @importFrom dplyr select filter slice inner_join
 #' @importFrom tibble add_column tibble
@@ -383,7 +383,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
 
   # do we have a zero-inflation model?
 
-  modfam <- get_glm_family(model)
+  modfam <- sjstats::model_family(model)
 
   if (modfam$is_zeroinf || sjmisc::str_contains(dat$term, "b_zi_", ignore.case = T)) {
     dat$wrap.facet <- "Conditional Model"

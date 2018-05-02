@@ -88,6 +88,8 @@ get_axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, e
 }
 
 
+#' @importFrom sjstats model_family
+#' @importFrom dplyr case_when
 get_estimate_axis_title <- function(fit, axis.title, type, transform = NULL) {
 
   # no automatic title for effect-plots
@@ -95,7 +97,7 @@ get_estimate_axis_title <- function(fit, axis.title, type, transform = NULL) {
 
   # check default label and fit family
   if (is.null(axis.title)) {
-    fitfam <- get_glm_family(fit)
+    fitfam <- sjstats::model_family(fit)
 
     axis.title <-  dplyr::case_when(
       !is.null(transform) && transform == "plogis" ~ "Probabilities",
@@ -125,88 +127,6 @@ get_p_stars <- function(pval) {
 
 is_merMod <- function(fit) {
   inherits(fit, c("lmerMod", "glmerMod", "nlmerMod", "merModLmerTest"))
-}
-
-
-## TODO replace with sjstats::model_family() in the future
-
-#' @importFrom sjmisc str_contains
-#' @importFrom stats family
-get_glm_family <- function(fit) {
-  zero.inf <- FALSE
-  # do we have glm? if so, get link family. make exceptions
-  # for specific models that don't have family function
-  if (inherits(fit, c("lme", "plm", "gls", "truncreg"))) {
-    fitfam <- "gaussian"
-    logit_link <- FALSE
-    link.fun <- "identity"
-  } else if (inherits(fit, c("vgam", "vglm"))) {
-    faminfo <- fit@family
-    fitfam <- faminfo@vfamily
-    logit_link <- sjmisc::str_contains(faminfo@blurb, "logit")
-    link.fun <- faminfo@blurb[3]
-  } else if (inherits(fit, c("zeroinfl", "hurdle"))) {
-    fitfam <- "negative binomial"
-    logit_link <- FALSE
-    link.fun <- NULL
-    zero.inf <- TRUE
-  } else if (inherits(fit, "betareg")) {
-    fitfam <- "beta"
-    logit_link <- fit$link$mean$name == "logit"
-    link.fun <- fit$link$mean$linkfun
-  } else if (inherits(fit, "coxph")) {
-    fitfam <- "survival"
-    logit_link <- TRUE
-    link.fun <- NULL
-  } else {
-    # "lrm"-object from pkg "rms" have no family method
-    # so we construct a logistic-regression-family-object
-    if (inherits(fit, c("lrm", "polr", "logistf", "clm", "multinom", "Zelig-relogit")))
-      faminfo <- stats::binomial(link = "logit")
-    else
-      # get family info
-      faminfo <- stats::family(fit)
-
-    # in case of multivariate response models for brms, we just take the
-    # information from the first model
-    if (inherits(fit, "brmsfit") && !is.null(stats::formula(fit)$responses))
-      faminfo <- faminfo[[1]]
-
-    fitfam <- faminfo$family
-    logit_link <- faminfo$link == "logit"
-    link.fun <- faminfo$link
-  }
-
-  # create logical for family
-  binom_fam <-
-    fitfam %in% c("binomial", "quasibinomial", "binomialff") |
-    sjmisc::str_contains(fitfam, "binomial", ignore.case = TRUE)
-
-  poisson_fam <-
-    fitfam %in% c("poisson", "quasipoisson") |
-    sjmisc::str_contains(fitfam, "poisson", ignore.case = TRUE)
-
-  neg_bin_fam <-
-    sjmisc::str_contains(fitfam, "negative binomial", ignore.case = T) |
-    sjmisc::str_contains(fitfam, "nbinom", ignore.case = TRUE) |
-    sjmisc::str_contains(fitfam, "negbinomial", ignore.case = TRUE) |
-    sjmisc::str_contains(fitfam, "neg_binomial", ignore.case = TRUE)
-
-  linear_model <- !binom_fam & !poisson_fam & !neg_bin_fam & !logit_link
-
-  zero.inf <- zero.inf | sjmisc::str_contains(fitfam, "zero_inflated", ignore.case = T)
-
-
-  list(
-    is_bin = binom_fam & !neg_bin_fam,
-    is_pois = poisson_fam | neg_bin_fam,
-    is_negbin = neg_bin_fam,
-    is_logit = logit_link,
-    is_linear = linear_model,
-    is_zeroinf = zero.inf,
-    link.fun = link.fun,
-    family = fitfam
-  )
 }
 
 
