@@ -30,7 +30,7 @@ Imports:
     dplyr (>= 0.7.1),
     effects,
     forcats,
-    ggeffects (>= 0.3.2),
+    ggeffects (>= 0.3.3),
     glmmTMB,
     ggplot2 (>= 2.2.1),
     knitr,
