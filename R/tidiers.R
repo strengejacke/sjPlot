@@ -310,6 +310,23 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     }
 
 
+    # fix multiple random intercepts
+
+    if (inherits(model, "brmsfit")) {
+      interc <- which(dat$facet == "(Intercept)")
+
+      if (!sjmisc::is_empty(interc)) {
+        interc.grps <- gsub("(.*)\\.(.*)", "\\1", dat$term[interc])
+        resp.lvl <- gsub("(.*)\\.(.*)", "\\2", dat$term[interc])
+
+        if (!sjmisc::is_empty(interc.grps) && dplyr::n_distinct(interc.grps) > 1) {
+          dat$facet[interc] <- sprintf("(Intercept: %s)", interc.grps)
+          dat$term[interc] <- resp.lvl
+        }
+      }
+    }
+
+
     # find random slopes
 
     rs1 <- grep("b\\[(.*) (.*)\\]", dat$term)

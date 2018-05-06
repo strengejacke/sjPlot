@@ -35,6 +35,7 @@ Following functions are now defunct:
 ## Bug fixes
 
 * Fixed typo for `glmmTMB`-tidier, which may have returned wrong data for zero-inflation part of model.
+* Multiple random intercepts for multilevel models fitted with `brms` area now shown in each own facet per intercept.
 
 # sjPlot 2.4.1
 
