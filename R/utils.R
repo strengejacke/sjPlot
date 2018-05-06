@@ -7,6 +7,20 @@ magrittr::`%>%`
 is.stan <- function(x) inherits(x, c("stanreg", "stanfit", "brmsfit"))
 
 
+#' @importFrom sjmisc is_empty
+#' @importFrom tidyselect starts_with
+#' @importFrom tibble has_name
+#' @importFrom dplyr n_distinct
+brms.has.multiranef <- function(x) {
+  if (is.stan(x) && tibble::has_name(x, "facet")) {
+    ri <- tidyselect::starts_with("(Intercept", vars = x$facet)
+    if (!sjmisc::is_empty(ri)) {
+      return(dplyr::n_distinct(x$facet[ri]) > 1)
+    }
+  }
+  FALSE
+}
+
 has_value_labels <- function(x) {
   !(is.null(attr(x, "labels", exact = T)) && is.null(attr(x, "value.labels", exact = T)))
 }

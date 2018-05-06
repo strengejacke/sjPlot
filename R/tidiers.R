@@ -147,7 +147,7 @@ tidy_cox_model <- function(model, ci.lvl) {
 #' @importFrom stats mad formula
 #' @importFrom sjstats hdi typical_value model_family
 #' @importFrom sjmisc var_rename add_columns is_empty
-#' @importFrom dplyr select filter slice inner_join
+#' @importFrom dplyr select filter slice inner_join n_distinct
 #' @importFrom tibble add_column tibble
 #' @importFrom purrr map_dbl
 #' @importFrom rlang .data
@@ -313,16 +313,20 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     # fix multiple random intercepts
 
     if (inherits(model, "brmsfit")) {
-      interc <- which(dat$facet == "(Intercept)")
+      pattern <- "(.*)\\.(.*)"
+    } else {
+      pattern <- "(.*)\\:(.*)"
+    }
 
-      if (!sjmisc::is_empty(interc)) {
-        interc.grps <- gsub("(.*)\\.(.*)", "\\1", dat$term[interc])
-        resp.lvl <- gsub("(.*)\\.(.*)", "\\2", dat$term[interc])
+    interc <- which(dat$facet == "(Intercept)")
 
-        if (!sjmisc::is_empty(interc.grps) && dplyr::n_distinct(interc.grps) > 1) {
-          dat$facet[interc] <- sprintf("(Intercept: %s)", interc.grps)
-          dat$term[interc] <- resp.lvl
-        }
+    if (!sjmisc::is_empty(interc)) {
+      interc.grps <- gsub(pattern, "\\1", dat$term[interc])
+      resp.lvl <- gsub(pattern, "\\2", dat$term[interc])
+
+      if (!sjmisc::is_empty(interc.grps) && dplyr::n_distinct(interc.grps) > 1) {
+        dat$facet[interc] <- sprintf("(Intercept: %s)", interc.grps)
+        dat$term[interc] <- resp.lvl
       }
     }
 
