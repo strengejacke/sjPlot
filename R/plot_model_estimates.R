@@ -158,7 +158,7 @@ plot_model_estimates <- function(model,
   # for brms multilevel with multiple random intercepts, we need
   # special handling
 
-  if (brms.has.multiranef(dat)) {
+  if (is.stan(model) && stan.has.multiranef(dat)) {
     # split data, create data frame for each random intercept
     dat <- purrr::map(split(dat, f = dat$facet), ~ sjmisc::remove_var(.x, "facet"))
 

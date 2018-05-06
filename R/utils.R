@@ -11,8 +11,8 @@ is.stan <- function(x) inherits(x, c("stanreg", "stanfit", "brmsfit"))
 #' @importFrom tidyselect starts_with
 #' @importFrom tibble has_name
 #' @importFrom dplyr n_distinct
-brms.has.multiranef <- function(x) {
-  if (is.stan(x) && tibble::has_name(x, "facet")) {
+stan.has.multiranef <- function(x) {
+  if (tibble::has_name(x, "facet")) {
     ri <- tidyselect::starts_with("(Intercept", vars = x$facet)
     if (!sjmisc::is_empty(ri)) {
       return(dplyr::n_distinct(x$facet[ri]) > 1)
