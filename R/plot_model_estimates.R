@@ -180,10 +180,11 @@ plot_model_estimates <- function(model,
         # sort terms
 
         if (!is.null(sort.est)) {
-          x$reihe <- order(x$estimate)
+          reihe <- order(x$estimate)
         } else {
-          x$reihe <- 1:nrow(x)
+          reihe <- 1:nrow(x)
         }
+        x$reihe <- order(reihe)
 
         x$term <- forcats::fct_reorder(x$term, x$reihe)
 
