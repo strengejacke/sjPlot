@@ -310,7 +310,7 @@ view_df <- function(x,
             # check if we have any values...
             if (!is.null(vals)) {
               # if we have values, put all values into a string
-              loop <- na.omit(seq_len(length(vals))[1:max.len])
+              loop <- stats::na.omit(seq_len(length(vals))[1:max.len])
               for (i in loop) {
                 valstring <- paste0(valstring, vals[i])
                 if (i < length(vals)) valstring <- paste0(valstring, "<br>")
@@ -339,7 +339,7 @@ view_df <- function(x,
             # the code here corresponds to the above code
             # for variable values
             vals <- df.val[[index]]
-            if (!is.null(vals)) vals <- na.omit(vals)
+            if (!is.null(vals)) vals <- stats::na.omit(vals)
 
             # sort character vectors
             if (is.character(x[[index]]) && !is.null(vals) && !sjmisc::is_empty(vals)) {
@@ -352,7 +352,7 @@ view_df <- function(x,
             # check if we have any values...
             if (!is.null(vals)) {
               # if yes, add all to a string
-              loop <- na.omit(seq_len(length(vals))[1:max.len])
+              loop <- stats::na.omit(seq_len(length(vals))[1:max.len])
               for (i in loop) {
                 valstring <- paste0(valstring, vals[i])
                 if (i < length(vals)) valstring <- paste0(valstring, "<br>")

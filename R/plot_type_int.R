@@ -164,8 +164,9 @@ plot_type_int <- function(model,
 }
 
 
+#' @importFrom stats na.omit
 is_categorical <- function(x) {
-  is.factor(x) || (length(unique(na.omit(x))) < 3)
+  is.factor(x) || (length(unique(stats::na.omit(x))) < 3)
 }
 
 

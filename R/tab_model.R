@@ -434,7 +434,7 @@ tab_model <- function(
       find.matches <- match(dat$term, names(pred.labels))
       find.na <- which(is.na(find.matches))
       if (!sjmisc::is_empty(find.na)) tr <- tr[-find.na]
-      rp <- as.vector(na.omit(find.matches))
+      rp <- as.vector(stats::na.omit(find.matches))
 
       dat$term[tr] <- unname(labs[rp])
 
@@ -445,7 +445,7 @@ tab_model <- function(
         find.matches <- match(zeroinf$term, names(pred.labels))
         find.na <- which(is.na(find.matches))
         if (!sjmisc::is_empty(find.na)) tr <- tr[-find.na]
-        rp <- as.vector(na.omit(find.matches))
+        rp <- as.vector(stats::na.omit(find.matches))
 
         zeroinf$term[tr] <- unname(labs[rp])
       }
@@ -535,6 +535,7 @@ tab_model <- function(
 }
 
 
+#' @importFrom stats na.omit
 sort_columns <- function(x, is.stan) {
   ## TODO check code for multiple response models
 
@@ -555,7 +556,7 @@ sort_columns <- function(x, is.stan) {
   )
 
   if (is.stan) reihe <- reihe[-which(reihe == "p.value")]
-  as.vector(na.omit(match(reihe, x)))
+  as.vector(stats::na.omit(match(reihe, x)))
 }
 
 
@@ -563,7 +564,15 @@ sort_columns <- function(x, is.stan) {
 #' @importFrom dplyr select slice
 remove_unwanted <- function(dat, show.intercept, show.est, show.std, show.ci, show.se, show.stat, show.p, terms, rm.terms) {
   if (!show.intercept) {
-    dat <- dplyr::slice(dat, -1)
+    ints1 <- tidyselect::contains("(Intercept", vars = dat$term)
+    ints2 <- tidyselect::contains("b_Intercept", vars = dat$term)
+    ints3 <- tidyselect::contains("b_zi_Intercept", vars = dat$term)
+    ints4 <- which(dat$term %in% "Intercept")
+
+    ints <- c(ints1, ints2, ints3, ints4)
+
+    if (!sjmisc::is_empty(ints))
+      dat <- dplyr::slice(dat, !! -ints)
   }
 
   if (show.est == FALSE) {

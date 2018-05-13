@@ -35,7 +35,7 @@ plot_model_estimates <- function(model,
   # remove intercept(s) from output
 
   if (!show.intercept) {
-    ints1 <- tidyselect::contains("(Intercept)", vars = dat$term)
+    ints1 <- tidyselect::contains("(Intercept", vars = dat$term)
     ints2 <- tidyselect::contains("b_Intercept", vars = dat$term)
     ints3 <- tidyselect::contains("b_zi_Intercept", vars = dat$term)
     ints4 <- which(dat$term %in% "Intercept")

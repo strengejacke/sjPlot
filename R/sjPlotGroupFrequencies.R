@@ -397,12 +397,12 @@ sjp.grpfrq <- function(var.cnt,
   if (!is.null(title) && title == "") title <- NULL
 
   # variables may not be factors
-  if (anyNA(as.numeric(na.omit(var.cnt))))
+  if (anyNA(as.numeric(stats::na.omit(var.cnt))))
     var.cnt <- sjmisc::to_value(var.cnt, keep.labels = F)
   else
     var.cnt <- as.numeric(var.cnt)
 
-  if (anyNA(as.numeric(na.omit(var.grp))))
+  if (anyNA(as.numeric(stats::na.omit(var.grp))))
     var.grp <- sjmisc::to_value(var.grp, keep.labels = F)
   else
     var.grp <- as.numeric(var.grp)

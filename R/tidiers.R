@@ -640,6 +640,9 @@ tidy_clm_model <- function(model, ci.lvl) {
   # proper column names
   colnames(est) <- c("term", "estimate", "std.error", "statistic", "p.value")
 
+  # mark intercepts
+  intercepts <- stats::na.omit(match(dimnames(model$Theta)[[2]], est$term))
+  est$term[intercepts] <- sprintf("(Intercept: %s)", dimnames(model$Theta)[[2]])
 
   # add conf. int.
 
@@ -678,6 +681,9 @@ tidy_polr_model <- function(model, ci.lvl) {
   # proper column names
   colnames(est) <- c("term", "estimate", "std.error", "statistic")
 
+  # mark intercepts
+  intercepts <- stats::na.omit(match(names(model$zeta), est$term))
+  est$term[intercepts] <- sprintf("(Intercept: %s)", names(model$zeta))
 
   # add conf. int. and p.value
 

@@ -268,7 +268,7 @@ create.frq.df <- function(x,
   # wrap labels?
   # -------------------------------------
   if (!is.infinite(wrap.labels) && !is.null(labels)) {
-    if (anyNA(labels)) labels <- na.omit(labels)
+    if (anyNA(labels)) labels <- stats::na.omit(labels)
     labels <- sjmisc::word_wrap(labels, wrap.labels)
   }
   # -------------------------------------

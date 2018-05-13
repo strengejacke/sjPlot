@@ -1323,7 +1323,7 @@ sjp.glmer.ri.slope <- function(fit, show.ci, facet.grid, ri.nr, vars, emph.grp,
         # get color platte
         geom.colors <- suppressWarnings(col_check2(geom.colors, length(row.names(rand.ef))))
         # check if we have enough colors - if not, set to NULL
-        if (length(na.omit(geom.colors)) < length(row.names(rand.ef))) geom.colors <- NULL
+        if (length(stats::na.omit(geom.colors)) < length(row.names(rand.ef))) geom.colors <- NULL
       }
     }
     # ----------------------------
@@ -1530,7 +1530,7 @@ sjp.lmer.ri.slope <- function(fit, ri.nr, vars, emph.grp, ylim, geom.size, prnt.
         #
         if (type == "eff.ri") {
           # retrieve unique values of estimates
-          est.values <- as.vector(na.omit(unique(m_m[[fit.term.names[j]]])))
+          est.values <- as.vector(stats::na.omit(unique(m_m[[fit.term.names[j]]])))
           # retrieve all other estimates, which should be set to mean
           # we need the switch-argument for interaction terms, to find the correct
           # data in the model matrix

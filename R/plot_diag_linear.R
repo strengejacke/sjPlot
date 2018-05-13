@@ -93,7 +93,7 @@ diag_qq <- function(model, geom.colors, ...) {
   fitted_ <- sort(stats::fitted(model), na.last = NA)
 
   # create data frame
-  mydf <- na.omit(data.frame(x = fitted_, y = res_))
+  mydf <- stats::na.omit(data.frame(x = fitted_, y = res_))
 
   # plot it
   ggplot(mydf, aes_string(x = "x", y = "y")) +

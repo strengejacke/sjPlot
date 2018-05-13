@@ -164,7 +164,7 @@ sjp.poly <- function(x,
   # --------------------------------------------
   # get cutpoints for loess curve
   # --------------------------------------------
-  cutpoints <- get_loess_cutpoints(na.omit(data.frame(x = poly.term, y = resp)))
+  cutpoints <- get_loess_cutpoints(stats::na.omit(data.frame(x = poly.term, y = resp)))
   # --------------------------------------------
   # if user wants to plot multiple curves for
   # polynomials, create data frame for each curve here

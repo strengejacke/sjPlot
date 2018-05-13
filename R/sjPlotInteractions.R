@@ -843,7 +843,7 @@ sjp.eff.int <- function(fit,
     # prepare axis titles
     labx <- sjlabelled::get_label(stats::model.frame(fit)[[pred_x.name]], def.value = pred_x.name)
     # check whether x-axis-predictor is a factor or not
-    x_is_factor <- is.factor(intdf[[pred_x.name]]) || (length(unique(na.omit(intdf[[pred_x.name]]))) < 3)
+    x_is_factor <- is.factor(intdf[[pred_x.name]]) || (length(unique(stats::na.omit(intdf[[pred_x.name]]))) < 3)
     mod_is_factor <- is.factor(intdf[[moderator.name]])
     # -----------------------------------------------------------
     # check for moderator values, but only, if moderator
