@@ -881,7 +881,7 @@ sjp.eff.int <- function(fit,
       } else if (mdrt.values == "meansd") {
         # retrieve mean and sd
         mv.mean <- round(mean(modval, na.rm = T), 2)
-        mv.sd <- round(sd(modval, na.rm = T), 2)
+        mv.sd <- round(stats::sd(modval, na.rm = T), 2)
         # re-compute effects, prepare xlevels
         xl1 <- list(x = c(mv.mean - mv.sd, mv.mean, mv.mean + mv.sd))
       } else if (mdrt.values == "all") {
