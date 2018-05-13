@@ -36,6 +36,7 @@ Following functions are now defunct:
 
 * Fixed typo for `glmmTMB`-tidier, which may have returned wrong data for zero-inflation part of model.
 * Multiple random intercepts for multilevel models fitted with `brms` area now shown in each own facet per intercept.
+* Remove unnecessary warning in `sjp.likert()` for uneven category count when neutral category is specified.
 
 # sjPlot 2.4.1
 

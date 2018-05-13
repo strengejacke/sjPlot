@@ -83,8 +83,11 @@ utils::globalVariables(c("offset"))
 #'
 #' @import ggplot2
 #' @importFrom stats na.omit xtabs
-#' @importFrom sjmisc is_odd set_na
+#' @importFrom sjmisc is_odd set_na is_empty
 #' @importFrom sjlabelled as_numeric
+#' @importFrom purrr map flatten_dbl
+#' @importFrom dplyr between
+#'
 #' @export
 sjp.likert <- function(items,
                        title = NULL,
@@ -184,21 +187,26 @@ sjp.likert <- function(items,
   adding <- ifelse(is.null(cat.neutral), 0, 1)
 
   if (is.null(catcount)) {
-    catcount <- c()
+    # add new unique item values to catcount, so catcount
+    # finally contains all unique values of items
 
-    # iterate all items
-    for (i in seq_len(ncol(items))) {
-      # add new unique item values to catcount, so catcount
-      # finally contains all unique values of items
-      catcount <- unique(c(catcount, unique(stats::na.omit(items[[i]]))))
-    }
+    catcount <- items %>%
+      purrr::map(~ stats::na.omit(unique(.x))) %>%
+      purrr::flatten_dbl() %>%
+      unique() %>%
+      sort()
+
+    neutral.between <- FALSE
 
     # remove neutral category
     if (!is.null(cat.neutral)) {
       # find neutral cat value in catcount
       ncv_pos <- which(catcount == cat.neutral)
       # if not empty, remove
-      if (!sjmisc::is_empty(ncv_pos)) catcount <- catcount[-ncv_pos]
+      if (!sjmisc::is_empty(ncv_pos)) {
+        catcount <- catcount[-ncv_pos]
+        neutral.between <- dplyr::between(cat.neutral, min(catcount), max(catcount))
+      }
     }
 
     # detect range of valid categories, which
@@ -224,8 +232,11 @@ sjp.likert <- function(items,
 
     # is catcount odd or even? make catcount even
     if (sjmisc::is_odd(catcount)) {
-      # warn user about uneven category count
-      warning("Detected uneven category count in items. Dropping last category.", call. = F)
+      # warn user about uneven category count, but only if
+      # neutral category is not inside valid categories
+      if (!neutral.between)
+        warning("Detected uneven category count in items. Dropping last category.", call. = F)
+
       catcount <- catcount - 1
     }
   }
