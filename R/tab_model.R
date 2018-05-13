@@ -151,8 +151,31 @@ tab_model <- function(
 
       # get tidy output of summary ----
 
-      dat <- model %>%
-        tidy_model(ci.lvl = ci.lvl, transform, type = "est", bpe, se = show.se, facets = FALSE, show.zeroinf = show.zeroinf) %>%
+      dat <- tidy_model(
+        model,
+        ci.lvl = ci.lvl,
+        transform,
+        type = "est",
+        bpe,
+        se = show.se,
+        facets = FALSE,
+        show.zeroinf = show.zeroinf
+      )
+
+
+      # transform estimates
+
+      if (!is.stan(model) && !is.null(transform)) {
+        funtrans <- match.fun(transform)
+        dat[["estimate"]] <- funtrans(dat[["estimate"]])
+        dat[["conf.low"]] <- funtrans(dat[["conf.low"]])
+        dat[["conf.high"]] <- funtrans(dat[["conf.high"]])
+      }
+
+
+      # merge CI columns
+
+      dat <- dat %>%
         dplyr::mutate(conf.int = sprintf(
           "%.*f%s%.*f",
           digits,
@@ -200,20 +223,6 @@ tab_model <- function(
       dat$p.value[dat$p.value == pv] <- "<strong>&lt;0.001"
 
 
-      # switch column for p-value and conf. int. ----
-
-      ## TODO check code for multiple response models
-
-      if (is.stan(model) && tibble::has_name(dat, "wrap.facet"))
-        dat <- dat[, c(1, 2, 4, 6, 7, 5)]
-      else if (is.stan(model) && !tibble::has_name(dat, "wrap.facet"))
-        dat <- dat[, c(1, 2, 4, 5, 6)]
-      else if (!is.stan(model) && tibble::has_name(dat, "wrap.facet"))
-        dat <- dat[, c(1, 2, 3, 7, 4, 5, 6)]
-      else
-        dat <- dat[, c(1, 2, 3, 6, 4, 5)]
-
-
       # tidy output of standardized values ----
 
       if (!is.null(show.std) && fam.info$is_linear && !is.stan(model)) {
@@ -237,10 +246,12 @@ tab_model <- function(
           )) %>%
           dplyr::select(-.data$std.conf.low, -.data$std.conf.high)
 
-        ## TODO check code for multiple response models
-
-        dat <- dat[, c(1, 2, 3, 4, 7, 8, 9, 5, 6)]
       }
+
+
+      # switch column for p-value and conf. int. ----
+
+      dat <- dat[, sort_columns(colnames(dat), is.stan(model))]
 
 
       # add suffix to column names, so we can distinguish models later
@@ -521,6 +532,30 @@ tab_model <- function(
   })
 
   tab_model_df(dat, zeroinf, title = title, col.header = col.header)
+}
+
+
+sort_columns <- function(x, is.stan) {
+  ## TODO check code for multiple response models
+
+  reihe <- c(
+    "term",
+    "estimate",
+    "std.error",
+    "std.estimate",
+    "std.se",
+    "conf.int",
+    "std.conf.int",
+    "hdi.inner",
+    "hdi.outer",
+    "statistic",
+    "p.value",
+    "wrap.facet",
+    "response.level"
+  )
+
+  if (is.stan) reihe <- reihe[-which(reihe == "p.value")]
+  as.vector(na.omit(match(reihe, x)))
 }
 
 

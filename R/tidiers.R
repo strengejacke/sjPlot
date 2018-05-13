@@ -520,7 +520,6 @@ tidy_glmmTMB_model <- function(model, ci.lvl, show.zeroinf) {
     wrap.facet = "Conditional Model"
   )
 
-
   # save zi model
 
   if (!sjmisc::is_empty(est[[2]]) && show.zeroinf) {
@@ -537,6 +536,7 @@ tidy_glmmTMB_model <- function(model, ci.lvl, show.zeroinf) {
 
     cond <- dplyr::bind_rows(cond, zi)
   }
+
 
   # remove facet column if not necessary
   if (!show.zeroinf) cond <- dplyr::select(cond, -.data$wrap.facet)
