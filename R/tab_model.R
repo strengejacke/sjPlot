@@ -358,6 +358,19 @@ tab_model <- function(
   ## TODO split multivariate response models into multiple data frames for table output
 
   dat <- model.data %>%
+    # purrr::map(function(i) {
+    #   pos <- tidyselect::starts_with("response.level", vars = colnames(i))
+    #   if (!sjmisc::is_empty(pos)) {
+    #     i <- split(i, i[[pos]], drop = TRUE)
+    #   }
+    #   i
+    # }) %>%
+    # purrr::map(function(i) {
+    #   if (list.depth(i) > 1)
+    #     unlist(i, recursive = T)
+    #   else
+    #     i
+    # }) %>%
     purrr::reduce(~ dplyr::full_join(.x, .y, by = "term")) %>%
     purrr::map_df(~ dplyr::if_else(.x %in% na.vals | is.na(.x), "", .x))
 
