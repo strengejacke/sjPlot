@@ -2,3 +2,4 @@
 ^\.Rproj\.user$
 ^\.travis\.yml$
 Rplots.pdf
+^docs$
