@@ -5,7 +5,7 @@ Title: Data Visualization for Statistics in Social Science
 Version: 2.4.1.9000
 Date: 2018-02-05
 Authors@R: c(
-    person("Daniel", "Lüdecke", email = "d.luedecke@uke.de", role = c("aut", "cre")),
+    person("Daniel", "Lüdecke", email = "d.luedecke@uke.de", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8895-3206"))),
     person("Carsten", "Schwemmer", email = "carsten.schwemmer@uni-bamberg.de", role = "ctb")
           )
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
