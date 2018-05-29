@@ -24,6 +24,7 @@ Following functions are now defunct:
 
 * `plot_model()` and `plot_models()` get a `prefix.labels`-argument, to prefix automatically retrieved term labels with either the related variable name or label.
 * `plot_model()` gets a `show.zeroinf`-argument to show or hide the zero-inflation-part of models in the plot.
+* `plot_model()` gets a `jitter`-argument to add some random variation to data points for those plot types that accept `show.data = TRUE`.
 * `plot_model()` now plots the zero-inflated part of the model for `brmsfit`-objects.
 * `plot_model()` now plots multivariate response models, i.e. models with multiple outcomes.
 * Diagnostic plots in `plot_model()` (`type = "diag"`) can now also be used with `brmsfit`-objects.

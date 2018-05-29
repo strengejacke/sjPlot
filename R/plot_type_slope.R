@@ -10,6 +10,7 @@ plot_type_slope <- function(model,
                             ci.lvl,
                             colors,
                             show.data,
+                            jitter,
                             facets,
                             axis.title,
                             case,
@@ -127,8 +128,13 @@ plot_type_slope <- function(model,
 
     # plot raw data if requested
 
-    if (show.data)
-      p <- p + geom_point(alpha = .2, colour = pointColor, shape = 16)
+    if (show.data) {
+      if (!is.null(jitter))
+        p <- p + geom_jitter(alpha = .2, colour = pointColor, shape = 16, width = jitter)
+      else
+        p <- p + geom_point(alpha = .2, colour = pointColor, shape = 16)
+    }
+
 
 
     p <- p + facet_wrap(~group, scales = "free")

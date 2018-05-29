@@ -6,6 +6,7 @@ plot_type_eff <- function(type,
                           pred.type,
                           facets,
                           show.data,
+                          jitter,
                           geom.colors,
                           axis.title,
                           title,
@@ -13,6 +14,7 @@ plot_type_eff <- function(type,
                           case,
                           show.legend,
                           ...) {
+
   if (type == "pred") {
     dat <- ggeffects::ggpredict(
       model = model,
@@ -41,6 +43,7 @@ plot_type_eff <- function(type,
     rawdata = show.data,
     colors = geom.colors,
     use.theme = FALSE,
+    jitter = jitter,
     case = case,
     show.legend = show.legend,
     ...
@@ -49,8 +52,7 @@ plot_type_eff <- function(type,
   # set axis and plot titles
   if (!is.null(axis.title)) {
     if (length(axis.title) > 1) {
-      p <- p + labs(x = axis.title[1],
-                    y = axis.title[2])
+      p <- p + labs(x = axis.title[1], y = axis.title[2])
     } else {
       p <- p + labs(y = axis.title)
     }
@@ -63,7 +65,7 @@ plot_type_eff <- function(type,
   # set axis limits
   if (!is.null(axis.lim)) {
     if (is.list(axis.lim))
-      p <- p + xlim(axis.lim[[1]]) + + ylim(axis.lim[[2]])
+      p <- p + xlim(axis.lim[[1]]) + ylim(axis.lim[[2]])
     else
       p <- p + ylim(axis.lim)
   }

@@ -214,6 +214,10 @@
 #'   should be prefixed, e.g. with the variable name or variable label. See
 #'   argument \code{prefix} in \code{\link[sjlabelled]{get_term_labels}} for
 #'   details.
+#' @param jitter Numeric, between 0 and 1. If \code{show.data = TRUE}, you can
+#'   add a small amount of random variation to the location of each data point.
+#'   \code{jitter} then indicates the width, i.e. how much of a bin's width
+#'   will be occupied by the jittered values.
 #' @param digits Numeric, amount of digits after decimal point when rounding
 #'   estimates or values.
 #' @param value.size Numeric, indicates the size of value labels. Can be used
@@ -415,6 +419,7 @@ plot_model <- function(model,
                        show.zeroinf = TRUE,
                        value.offset = NULL,
                        value.size,
+                       jitter = NULL,
                        digits = 2,
                        dot.size = NULL,
                        line.size = NULL,
@@ -593,6 +598,7 @@ plot_model <- function(model,
       pred.type = pred.type,
       facets = grid,
       show.data = show.data,
+      jitter = jitter,
       geom.colors = colors,
       axis.title = axis.title,
       title = title,
@@ -613,6 +619,7 @@ plot_model <- function(model,
       pred.type = pred.type,
       facets = grid,
       show.data = show.data,
+      jitter = jitter,
       geom.colors = colors,
       axis.title = axis.title,
       title = title,
@@ -635,6 +642,7 @@ plot_model <- function(model,
       colors = colors,
       title = title,
       show.data = show.data,
+      jitter = jitter,
       facets = grid,
       axis.title = axis.title,
       case = case,

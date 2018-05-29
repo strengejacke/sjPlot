@@ -14,10 +14,10 @@ plot_model(model, type = c("est", "re", "eff", "pred", "int", "std", "std2",
   axis.lim = NULL, grid.breaks = NULL, ci.lvl = NULL, se = NULL,
   colors = "Set1", show.intercept = FALSE, show.values = FALSE,
   show.p = TRUE, show.data = FALSE, show.legend = TRUE,
-  show.zeroinf = TRUE, value.offset = NULL, value.size, digits = 2,
-  dot.size = NULL, line.size = NULL, vline.color = NULL, grid, case,
-  auto.label = TRUE, prefix.labels = c("none", "varname", "label"),
-  bpe = "median", bpe.style = "line", bpe.color = "white", ...)
+  show.zeroinf = TRUE, value.offset = NULL, value.size, jitter = NULL,
+  digits = 2, dot.size = NULL, line.size = NULL, vline.color = NULL,
+  grid, case, auto.label = TRUE, prefix.labels = c("none", "varname",
+  "label"), bpe = "median", bpe.style = "line", bpe.color = "white", ...)
 
 get_model_data(model, type = c("est", "re", "eff", "pred", "int", "std",
   "std2", "slope", "resid", "diag"), transform, terms = NULL,
@@ -246,6 +246,11 @@ relative to the dots or lines.}
 \item{value.size}{Numeric, indicates the size of value labels. Can be used
 for all plot types where the argument \code{show.values} is applicable,
 e.g. \code{value.size = 4}.}
+
+\item{jitter}{Numeric, between 0 and 1. If \code{show.data = TRUE}, you can
+add a small amount of random variation to the location of each data point.
+\code{jitter} then indicates the width, i.e. how much of a bin's width
+will be occupied by the jittered values.}
 
 \item{digits}{Numeric, amount of digits after decimal point when rounding
 estimates or values.}
