@@ -38,7 +38,7 @@ plot_type_est <- function(type,
   # get tidy output of summary ----
 
   if (type == "est" || type == "re") {
-    dat <- tidy_model(model, ci.lvl, tf, type, bpe, se, facets, show.zeroinf, ...)
+    dat <- tidy_model(model, ci.lvl, tf, type, bpe, se, facets, show.zeroinf, p.val = "wald", ...)
   } else {
     dat <- model %>%
       sjstats::std_beta(type = type, ci.lvl = ci.lvl) %>%

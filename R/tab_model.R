@@ -84,6 +84,7 @@ tab_model <- function(
   show.std = NULL,
   show.p = TRUE,
   show.stat = FALSE,
+  show.df = FALSE,
 
   show.header = FALSE,
   show.col.header = TRUE,
@@ -113,6 +114,7 @@ tab_model <- function(
   string.ci = "CI",
   string.se = "std. Error",
   string.p = "p",
+  string.df = "df",
   ci.hyphen = "&nbsp;&ndash;&nbsp;",
   minus.sign = "&#45;",
 
@@ -122,11 +124,14 @@ tab_model <- function(
   digits = 2,
   digits.p = 3,
   emph.p = TRUE,
+  p.val = c("wald", "kr"),
 
   case = "parsed",
   auto.label = TRUE,
   bpe = "median"
 ) {
+
+  p.val <- match.arg(p.val)
 
   models <- tibble::lst(...)
   auto.transform <- missing(transform)
@@ -159,7 +164,8 @@ tab_model <- function(
         bpe,
         se = show.se,
         facets = FALSE,
-        show.zeroinf = show.zeroinf
+        show.zeroinf = show.zeroinf,
+        p.val = p.val
       )
 
 
@@ -386,6 +392,7 @@ tab_model <- function(
       show.se,
       show.stat,
       show.p,
+      show.df,
       terms,
       rm.terms
     )
@@ -409,6 +416,7 @@ tab_model <- function(
         show.se,
         show.stat,
         show.p,
+        show.df,
         terms,
         rm.terms
       )
@@ -535,6 +543,9 @@ tab_model <- function(
     pos <- grep("p.value", x, fixed = T)
     if (!sjmisc::is_empty(pos)) x <- string.p
 
+    pos <- grep("df", x, fixed = T)
+    if (!sjmisc::is_empty(pos)) x <- string.df
+
     pos <- grep("hdi.inner", x, fixed = T)
     if (!sjmisc::is_empty(pos)) x <- "HDI (50%)"
 
@@ -564,6 +575,7 @@ sort_columns <- function(x, is.stan) {
     "hdi.outer",
     "statistic",
     "p.value",
+    "df",
     "wrap.facet",
     "response.level"
   )
@@ -575,7 +587,7 @@ sort_columns <- function(x, is.stan) {
 
 #' @importFrom tidyselect starts_with
 #' @importFrom dplyr select slice
-remove_unwanted <- function(dat, show.intercept, show.est, show.std, show.ci, show.se, show.stat, show.p, terms, rm.terms) {
+remove_unwanted <- function(dat, show.intercept, show.est, show.std, show.ci, show.se, show.stat, show.p, show.df, terms, rm.terms) {
   if (!show.intercept) {
     ints1 <- tidyselect::contains("(Intercept", vars = dat$term)
     ints2 <- tidyselect::contains("b_Intercept", vars = dat$term)
@@ -620,6 +632,10 @@ remove_unwanted <- function(dat, show.intercept, show.est, show.std, show.ci, sh
 
   if (show.p == FALSE) {
     dat <- dplyr::select(dat, -tidyselect::starts_with("p.value"))
+  }
+
+  if (show.df == FALSE) {
+    dat <- dplyr::select(dat, -tidyselect::starts_with("df"))
   }
 
   if (!is.null(terms)) {

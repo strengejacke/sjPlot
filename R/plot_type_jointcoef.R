@@ -1,4 +1,4 @@
-plot_type_jointcoef <- function(fit, ri.nr) {
+plot_type_jointcoef <- function(fit, ri.nr, ...) {
 
   ri.cnt <- length(lme4::ranef(fit))
 

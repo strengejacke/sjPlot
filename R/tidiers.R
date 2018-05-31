@@ -1,5 +1,5 @@
-tidy_model <- function(model, ci.lvl, tf, type, bpe, se, facets, show.zeroinf, ...) {
-  dat <- get_tidy_data(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, ...)
+tidy_model <- function(model, ci.lvl, tf, type, bpe, se, facets, show.zeroinf, p.val, ...) {
+  dat <- get_tidy_data(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.val, ...)
 
   # get robust standard errors, if requestes, and replace former s.e.
   if (!is.null(se) && !is.logical(se)) {
@@ -11,7 +11,7 @@ tidy_model <- function(model, ci.lvl, tf, type, bpe, se, facets, show.zeroinf, .
 }
 
 
-get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, ...) {
+get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.val, ...) {
   if (is.stan(model))
     tidy_stan_model(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, ...)
   else if (inherits(model, "lme"))
@@ -39,7 +39,7 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, ..
   else if (inherits(model, "Zelig-relogit"))
     tidy_zelig_model(model, ci.lvl)
   else
-    tidy_generic(model, ci.lvl, facets)
+    tidy_generic(model, ci.lvl, facets, p.val)
 }
 
 
@@ -48,7 +48,7 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, ..
 #' @importFrom sjstats p_value
 #' @importFrom stats coef qnorm
 #' @importFrom dplyr mutate
-tidy_generic <- function(model, ci.lvl, facets) {
+tidy_generic <- function(model, ci.lvl, facets, p.val) {
 
   # check for multiple reponse levels
 
@@ -86,9 +86,23 @@ tidy_generic <- function(model, ci.lvl, facets) {
     # tidy the model
     dat <- broom::tidy(model, conf.int = TRUE, conf.level = ci.lvl, effects = "fixed")
 
-    # see if we have p-values. if not, add them
-    if (!tibble::has_name(dat, "p.value"))
-      dat$p.value <- sjstats::p_value(model, p.kr = FALSE)[["p.value"]]
+    if (is_merMod(model) && !is.null(p.val) && p.val == "kr") {
+      pv <- sjstats::p_value(model, p.kr = TRUE)
+
+      dat$p.value <- pv$p.value
+      dat$std.error <- attr(pv, "se.kr", exact = TRUE)
+      dat$statistic <- attr(pv, "t.kr", exact = TRUE)
+      dat$df <- round(attr(pv, "df.kr", exact = TRUE))
+
+      dat$conf.low <- dat$estimate - stats::qnorm(ci.lvl) * dat$std.error
+      dat$conf.high <- dat$estimate + stats::qnorm(ci.lvl) * dat$std.error
+
+    } else {
+
+      # see if we have p-values. if not, add them
+      if (!tibble::has_name(dat, "p.value"))
+        dat$p.value <- sjstats::p_value(model, p.kr = FALSE)[["p.value"]]
+    }
   }
 
   dat
