@@ -91,7 +91,12 @@ non-transformed estimates.}
      a whitespace character, e.g. \code{terms = c("age", "education [1,3]")}.
      It is also possible to specify a range of numeric values for the
      predictions with a colon, for instance \code{terms = c("education [1,3]",
-     "age [30:50]")}. For more details, see \code{\link[ggeffects]{ggpredict}}.}
+     "age [30:50]")}. Furthermore, it is possible to specify a function name.
+     Values for predictions will then be transformed, e.g.
+     \code{terms = "income [exp]"}. This is useful when model predictors were
+     transformed for fitting the model and should be back-transformed to the
+     original scale for predictions. For more details, see
+     \code{\link[ggeffects]{ggpredict}}.}
 }}
 
 \item{sort.est}{Determines in which way estimates are sorted in the plot:

@@ -68,6 +68,27 @@ plot_model(fit, type = "pred", terms = c("c12hour [30, 50, 80]", "c172code [1,3]
 
 Note that in the above plot, although the values 30, 50 and 80 only are selected from _c12hour_, the continuous scale automatically adds panel grids every 5 units along the x-axis.
 
+Defining own values is especially useful when variables are, for instance, log-transformed. `plot_model()` then typically only uses the range of the log-transformed variable, which is in most cases not what we want. In such situation, specify the range in the `terms`-argument.
+
+```{r}
+data(mtcars)
+mpg_model <- lm(mpg ~ log(hp), data = mtcars)
+
+# x-values and predictions based on the log(hp)-values
+plot_model(mpg_model, type = "pred", terms = "hp")
+
+# x-values and predictions based on hp-values from 50 to 150
+plot_model(mpg_model, type = "pred", terms = "hp [50:150]")
+```
+
+The brackets in the `terms`-argument also accept the name of a valid function, to (back-)transform predicted valued. In this example, an alternative would be to specify that values should be exponentiated, which is indicated by `[exp]` in the `terms`-argument:
+
+```{r}
+# x-values and predictions based on exponentiated hp-values
+plot_model(mpg_model, type = "pred", terms = "hp [exp]")
+```
+
+
 ## Polynomial terms and splines
 
 The function also works for models with polynomial terms or splines. Following code reproduces the plot from `?splines::bs`:
