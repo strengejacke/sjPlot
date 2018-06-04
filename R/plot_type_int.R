@@ -1,7 +1,7 @@
 #' @importFrom sjstats model_frame
 #' @importFrom stats formula sd quantile
 #' @importFrom purrr map map_lgl map_chr
-#' @importFrom sjmisc trim is_empty str_contains
+#' @importFrom sjmisc trim is_empty str_contains is_float
 #' @importFrom dplyr select n_distinct
 #' @importFrom ggeffects ggpredict
 #' @importFrom graphics plot
@@ -77,16 +77,22 @@ plot_type_int <- function(model,
 
       terms <- purrr::map_chr(check_cont, function(x) {
         if (mdrt.val == "minmax") {
-          sprintf("%s [%i,%i]",
-                  x,
-                  min(cont_terms[[x]], na.rm = TRUE),
-                  max(cont_terms[[x]], na.rm = TRUE))
+          ct.min <- min(cont_terms[[x]], na.rm = TRUE)
+          ct.max <- max(cont_terms[[x]], na.rm = TRUE)
+          if (sjmisc::is_float(ct.min) || sjmisc::is_float(ct.max))
+            sprintf("%s [%.2f,%.2f]", x, ct.min, ct.max)
+          else
+            sprintf("%s [%i,%i]", x, ct.min, ct.max)
         } else if (mdrt.val == "meansd") {
           mw <- mean(cont_terms[[x]], na.rm = TRUE)
           sabw <- stats::sd(cont_terms[[x]], na.rm = TRUE)
           sprintf("%s [%.2f,%.2f,%.2f]", x, mw, mw - sabw, mw + sabw)
         } else if (mdrt.val == "zeromax") {
-          sprintf("%s [0,%i]", x, max(cont_terms[[x]], na.rm = TRUE))
+          ct.max <- max(cont_terms[[x]], na.rm = TRUE)
+          if (sjmisc::is_float(ct.max))
+            sprintf("%s [0,%.2f]", x, ct.max)
+          else
+            sprintf("%s [0,%i]", x, ct.max)
         } else if (mdrt.val == "quart") {
           qu <- as.vector(stats::quantile(cont_terms[[x]], na.rm = T))
           sprintf("%s [%.2f,%.2f,%.2f]", x, qu[3], qu[2], qu[4])
