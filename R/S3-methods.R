@@ -73,6 +73,14 @@ knit_print.sjt_grpdescr <-  function(input, ...) {
 }
 
 
+# knitr method method for equi_test() ----
+
+#' @export
+knit_print.sjt_descr <-  function(input, ...) {
+  knitr::asis_output(pequi_test(input, ...)$knitr)
+}
+
+
 # knitr method for frq() ----
 
 #' @export
@@ -107,6 +115,14 @@ print.sjt_grpmeans <- function(x, ...) {
 #' @export
 print.sjt_reliab <- function(x, ...) {
   print(preliab(x, ...), ...)
+}
+
+
+# HTMl table method for equi_test() ----
+
+#' @export
+print.sjt_equi_test <- function(x, ...) {
+  print(pequi_test(x, ...), ...)
 }
 
 
@@ -212,6 +228,57 @@ pgrpmeans <- function(x, ...) {
     ),
     file = NULL,
     use.viewer = uv,
+    ...
+  )
+}
+
+
+pequi_test <- function(x, ...) {
+  chead <- c(
+    "Term",
+    "H<sub>0</sub>",
+    "% in ROPE",
+    "HDI (95%)"
+  )
+
+  x$inside.rope <- sprintf("%.1f%%", x$inside.rope)
+  x$hdi <- sprintf("%.2f &ndash; %.2f", x$hdi.low, x$hdi.high)
+
+  x <- dplyr::select(x, c(1:3, 6))
+
+  footnote <- sprintf(
+    "Effect Size: %.2f &middot; ROPE: %.2f &ndash; %.2f &middot; Samples: %i",
+    attr(x, "eff_size", exact = TRUE),
+    attr(x, "rope", exact = TRUE)[1],
+    attr(x, "rope", exact = TRUE)[2],
+    attr(x, "nsamples", exact = TRUE)
+  )
+
+  if (isTRUE(attr(x, "critical"))) {
+    footnote <- paste0(
+      footnote,
+      "<br>(*) number of effective samples may be insufficient for this parameter"
+    )
+  }
+
+
+  tab_df(
+    x = x,
+    title = "Test for Practical Equivalence of Model Parameters",
+    footnote = footnote,
+    col.header = chead,
+    show.type = FALSE,
+    show.rownames = FALSE,
+    show.footnote = TRUE,
+    alternate.rows = FALSE,
+    encoding = "UTF-8",
+    CSS = list(
+      css.firsttablecol = '+text-align:left;',
+      css.lasttablerow = 'border-bottom: 1px solid;',
+      css.col3 = '+text-align:right;'
+    ),
+    file = NULL,
+    use.viewer = attr(x, "print", exact = TRUE) == "viewer",
     ...
   )
 }
