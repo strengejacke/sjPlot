@@ -59,8 +59,8 @@ The simplest way of producing the table output is by passing the fitted models a
 
 The resulting table is divided into three parts:
 
-1. _Fixed parts_ - the model's fixed effects coefficients, including confidence intervals and p-values.
-2. _Random parts_ - the model's group count (amount of random intercepts) as well as the Intra-Class-Correlation-Coefficient _ICC_ and information on the random effect variances (within-group, between-group etc.)
+1. _Fixed effects_ - the model's fixed effects coefficients, including confidence intervals and p-values.
+2. _Random effects_ - the model's group count (amount of random intercepts) as well as the Intra-Class-Correlation-Coefficient _ICC_ and information on the random effect variances (within-group, between-group etc.)
 3. _Summary_ - Observations, AIC etc.
 
 ```{r}
@@ -129,7 +129,7 @@ Note that in the above example, the order of fitted model was changed. This is s
 
 ## Models with different random intercepts
 
-When models have different random intercepts, the `sjt.lmer()` function tries to detect these information from each model. In the _Random parts_ section of the table, information on multiple grouping levels and ICC's are printed then.
+When models have different random intercepts, the `sjt.lmer()` function tries to detect these information from each model. In the _Random effects_ section of the table, information on multiple grouping levels and ICC's are printed then.
 
 ```{r}
 sjt.lmer(fit1, fit2, fit3)
@@ -185,4 +185,3 @@ sjt.lmer(fit1, fit2, fit3,
          show.re.var = FALSE,
          show.icc = FALSE)
 ```
-
