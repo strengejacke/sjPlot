@@ -749,7 +749,7 @@ sjt.lm <- function(...,
     group.pred.rows <- group.pred.span <- group.pred.labs <- NULL
   }
   # -------------------------------------
-  # 1. table part: "Fixed parts" - only used
+  # 1. table part: "Fixed Effects" - only used
   # for linear mixed models
   # -------------------------------------
   if (lmerob) {
@@ -1295,7 +1295,7 @@ sjt.lm <- function(...,
 #'            }
 #'            for further use.
 #'
-#' @note The variance components of the random parts (see \code{show.re.var}) are
+#' @note The variance components of the random effects (see \code{show.re.var}) are
 #'         denoted like:
 #'         \itemize{
 #'          \item within-group variance: sigma-squared

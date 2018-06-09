@@ -602,7 +602,7 @@ sjt.glm <- function(...,
     page.content <- paste(page.content, "\n  </tr>\n")
   }
   # -------------------------------------
-  # 1. table part: "Fixed parts" - only used
+  # 1. table part: "Fixed Effects" - only used
   # for linear mixed models
   # -------------------------------------
   if (lmerob) {
@@ -1152,7 +1152,7 @@ sjt.glm <- function(...,
 #' @note Computation of p-values (if necessary) is based on normal-distribution
 #'         assumption, treating the t-statistics as Wald z-statistics.
 #'         \cr \cr
-#'         The variance components of the random parts (see \code{show.re.var}) are
+#'         The variance components of the random effects (see \code{show.re.var}) are
 #'         denoted like:
 #'         \itemize{
 #'          \item between-group-variance: tau-zero-zero
