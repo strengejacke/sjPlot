@@ -29,7 +29,7 @@ sjp.lmer(fit, type = "re", vars = NULL, ri.nr = NULL,
   \item{\code{"fe.cor"}}{for correlation matrix of fixed effects}
   \item{\code{"re.qq"}}{for a QQ-plot of random effects (random effects quantiles against standard normal quantiles)}
   \item{\code{"ri.slope"}}{for fixed effects slopes depending on the random intercept.}
-  \item{\code{"rs.ri"}}{for fitted regression lines indicating the random slope-intercept pairs. Use this to visualize the random parts of random slope-intercept (or repeated measure) models. When having too many groups, use \code{sample.n} argument.}
+  \item{\code{"rs.ri"}}{for fitted regression lines indicating the random slope-intercept pairs. Use this to visualize the random effects of random slope-intercept (or repeated measure) models. When having too many groups, use \code{sample.n} argument.}
   \item{\code{"coef"}}{for joint (sum of) random and fixed effects coefficients for each explanatory variable for each level of each grouping factor as forest plot.}
   \item{\code{"pred"}}{to plot predicted values for the response, related to specific model predictors and conditioned on random effects. See 'Details'.}
   \item{\code{"pred.fe"}}{to plot predicted values for the response, related to specific model predictors and conditioned on fixed effects only. See 'Details'.}
@@ -249,7 +249,7 @@ By default, this function plots estimates (coefficients) with confidence
            set to zero, but adjusted for. This plot type differs from \code{type = "ri.slope"}
            only in the adjusted y-axis-scale}
            \item{\code{type = "rs.ri"}}{plots regression lines for the random
-           parts of the model, i.e. all random slopes for each random intercept.
+           effects of the model, i.e. all random slopes for each random intercept.
            As the random intercepts describe the deviation from the global intercept,
            the regression lines are computed as global intercept + random intercept +
            random slope. In case of overplotting,

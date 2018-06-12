@@ -235,7 +235,7 @@ Concerning the \code{show.std} argument, \code{show.std = "std"}
            Furthermore, see 'Details' in \code{\link{sjt.frq}}.
 }
 \note{
-The variance components of the random parts (see \code{show.re.var}) are
+The variance components of the random effects (see \code{show.re.var}) are
         denoted like:
         \itemize{
          \item within-group variance: sigma-squared

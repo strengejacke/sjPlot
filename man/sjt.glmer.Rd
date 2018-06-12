@@ -210,7 +210,7 @@ See 'Details' in \code{\link{sjt.frq}}.
 Computation of p-values (if necessary) is based on normal-distribution
         assumption, treating the t-statistics as Wald z-statistics.
         \cr \cr
-        The variance components of the random parts (see \code{show.re.var}) are
+        The variance components of the random effects (see \code{show.re.var}) are
         denoted like:
         \itemize{
          \item between-group-variance: tau-zero-zero
