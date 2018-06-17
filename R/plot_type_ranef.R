@@ -29,10 +29,19 @@ plot_type_ranef <- function(model,
                             bpe.color,
                             ...) {
 
+  if (inherits(model, "clmm")) {
+    se <- FALSE
+    ci.lvl <- NA
+  }
+
   # get tidy output of summary ----
 
   rand.ef <- lme4::ranef(model)
-  rand.se <- arm::se.ranef(model)
+
+  if (inherits(model, "clmm"))
+    rand.se <- NULL
+  else
+    rand.se <- arm::se.ranef(model)
 
 
   # get some initial values
@@ -121,7 +130,7 @@ plot_type_ranef <- function(model,
   for (lcnt in loops) {
 
     mydf.ef <- as.data.frame(rand.ef[[lcnt]])
-    se.fit <- rand.se[[lcnt]]
+    if (!sjmisc::is_empty(rand.se)) se.fit <- rand.se[[lcnt]]
 
     grp.names <- colnames(mydf.ef)
     grp.names[2] <- paste(ran.names[lcnt], grp.names[2])

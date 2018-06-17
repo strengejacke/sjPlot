@@ -32,6 +32,7 @@ Following functions are now defunct:
 * The `grid.breaks`-argument for `plot_model()` and `plot_models()` now also takes a vector of values to directly define the grid breaks for the plot.
 * Better default calculation for grid breaks in `plot_model()` and `plot_models()` when the `grid.breaks`-argument is of length one.
 * The `terms`-argument for `plot_model()` now also allows the specification of a range of numeric values in square brackets for marginal effects plots, e.g. `terms = "age [30:50]"`.
+* `plot_model()` now supports `clmm`-objects (package *ordinal*).
 
 ## Bug fixes
 
