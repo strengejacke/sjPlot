@@ -28,7 +28,7 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.
     tidy_hurdle_model(model, ci.lvl)
   else if (inherits(model, "logistf"))
     tidy_logistf_model(model, ci.lvl)
-  else if (inherits(model, "clm"))
+  else if (inherits(model, c("clm", "clmm")))
     tidy_clm_model(model, ci.lvl)
   else if (inherits(model, "polr"))
     tidy_polr_model(model, ci.lvl)
