@@ -95,8 +95,10 @@ non-transformed estimates.}
      Values for predictions will then be transformed, e.g.
      \code{terms = "income [exp]"}. This is useful when model predictors were
      transformed for fitting the model and should be back-transformed to the
-     original scale for predictions. For more details, see
-     \code{\link[ggeffects]{ggpredict}}.}
+     original scale for predictions. Finally, using \code{range} for numeric
+     variables (e.g. \code{terms = "age [range]"}) calculates a pretty range
+     of values for the term, roughly of proportional length of the term's
+     value range. For more details, see \code{\link[ggeffects]{ggpredict}}.}
 }}
 
 \item{sort.est}{Determines in which way estimates are sorted in the plot:
