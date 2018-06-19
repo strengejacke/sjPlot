@@ -45,8 +45,7 @@ plot_type_eff <- function(type,
     use.theme = FALSE,
     jitter = jitter,
     case = case,
-    show.legend = show.legend,
-    ...
+    show.legend = show.legend
   )
 
   # set axis and plot titles
