@@ -10,14 +10,15 @@ plot_model(model, type = c("est", "re", "eff", "pred", "int", "std", "std2",
   rm.terms = NULL, group.terms = NULL, order.terms = NULL,
   pred.type = c("fe", "re"), mdrt.values = c("minmax", "meansd", "zeromax",
   "quart", "all"), ri.nr = NULL, title = NULL, axis.title = NULL,
-  axis.labels = NULL, wrap.title = 50, wrap.labels = 25,
-  axis.lim = NULL, grid.breaks = NULL, ci.lvl = NULL, se = NULL,
-  colors = "Set1", show.intercept = FALSE, show.values = FALSE,
-  show.p = TRUE, show.data = FALSE, show.legend = TRUE,
-  show.zeroinf = TRUE, value.offset = NULL, value.size, jitter = NULL,
-  digits = 2, dot.size = NULL, line.size = NULL, vline.color = NULL,
-  grid, case, auto.label = TRUE, prefix.labels = c("none", "varname",
-  "label"), bpe = "median", bpe.style = "line", bpe.color = "white", ...)
+  axis.labels = NULL, legend.title = NULL, wrap.title = 50,
+  wrap.labels = 25, axis.lim = NULL, grid.breaks = NULL, ci.lvl = NULL,
+  se = NULL, colors = "Set1", show.intercept = FALSE,
+  show.values = FALSE, show.p = TRUE, show.data = FALSE,
+  show.legend = TRUE, show.zeroinf = TRUE, value.offset = NULL,
+  value.size, jitter = NULL, digits = 2, dot.size = NULL,
+  line.size = NULL, vline.color = NULL, grid, case, auto.label = TRUE,
+  prefix.labels = c("none", "varname", "label"), bpe = "median",
+  bpe.style = "line", bpe.color = "white", ...)
 
 get_model_data(model, type = c("est", "re", "eff", "pred", "int", "std",
   "std2", "slope", "resid", "diag"), transform, terms = NULL,
@@ -178,6 +179,9 @@ will be matched with the names of \code{axis.label}. This ensures that
 labels always match the related axis value, no matter in which way
 axis labels are sorted.}
 
+\item{legend.title}{Character vector, used as legend title for plots that
+have a legend.}
+
 \item{wrap.title}{Numeric, determines how many chars of the plot title are
 displayed in one line and when a line break is inserted.}
 
@@ -326,10 +330,13 @@ of supported arguments and their description in detail.
     probabilities. Default is \code{0.1}. Setting \code{size.inner = 0}
     removes the inner probability regions.
   }
-  \item{\code{width}, \code{alpha} and \code{scale}}{Passed down to
-    \code{geom_errorbar()} or \code{geom_density_ridges()}, for forest or
-    diagnostic plots; or passed down to \code{\link[ggeffects]{plot.ggeffects}}
-    for \emph{Marginal Effects} plots.
+  \item{\code{width}, \code{alpha}, and \code{scale}}{Passed
+    down to \code{geom_errorbar()} or \code{geom_density_ridges()}, for
+    forest or diagnostic plots.
+  }
+  \item{\code{width}, \code{alpha}, \code{dot.alpha}, \code{dodge} and \code{log.y}}{Passed
+    down to \code{\link[ggeffects]{plot.ggeffects}} for \emph{Marginal Effects}
+    plots.
   }
   \item{\code{show.loess}}{Logical, for diagnostic plot-types \code{"slope"}
     and \code{"resid"}, adds (or hides) a loess-smoothed line to the plot.

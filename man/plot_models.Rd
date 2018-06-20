@@ -49,9 +49,8 @@ to remove title.}
 in the plot's legend. If not specified, the labels of the dependent
 variables for each model are used.}
 
-\item{legend.title}{Character vector, used as title for the plot legend. Note that
-only some plot types have legends (e.g. \code{type = "pred"} or when
-grouping estimates with \code{group.estimates}).}
+\item{legend.title}{Character vector, used as legend title for plots that
+have a legend.}
 
 \item{legend.pval.title}{Character vector, used as title of the plot legend that
 indicates the p-values. Default is \code{"p-level"}. Only applies if

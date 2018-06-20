@@ -10,6 +10,7 @@ plot_type_eff <- function(type,
                           geom.colors,
                           axis.title,
                           title,
+                          legend.title,
                           axis.lim,
                           case,
                           show.legend,
@@ -33,6 +34,19 @@ plot_type_eff <- function(type,
     )
   }
 
+  # evaluate dots-arguments
+  alpha <- .15
+  dodge <- .1
+  dot.alpha <- .5
+  log.y <- FALSE
+
+  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  if ("alpha" %in% names(add.args)) alpha <- eval(add.args[["alpha"]])
+  if ("dodge" %in% names(add.args)) dodge <- eval(add.args[["dodge"]])
+  if ("dot.alpha" %in% names(add.args)) dot.alpha <- eval(add.args[["dot.alpha"]])
+  if ("log.y" %in% names(add.args)) log.y <- eval(add.args[["log.y"]])
+
+
   # select color palette
   geom.colors <- col_check2(geom.colors, dplyr::n_distinct(dat$group))
 
@@ -45,7 +59,11 @@ plot_type_eff <- function(type,
     use.theme = FALSE,
     jitter = jitter,
     case = case,
-    show.legend = show.legend
+    show.legend = show.legend,
+    dot.alpha = dot.alpha,
+    alpha = alpha,
+    dodge = dodge,
+    log.y = log.y
   )
 
   # set axis and plot titles
@@ -60,6 +78,10 @@ plot_type_eff <- function(type,
   # set axis and plot titles
   if (!is.null(title))
     p <- p + ggtitle(title)
+
+  # set axis and plot titles
+  if (!is.null(legend.title))
+    p <- p + labs(colour = legend.title)
 
   # set axis limits
   if (!is.null(axis.lim)) {

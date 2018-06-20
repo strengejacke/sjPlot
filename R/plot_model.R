@@ -146,6 +146,8 @@
 #'   axis. Depending on plot-type, may effect either x- or y-axis. For
 #'   \emph{Marginal Effects} plots, \code{axis.lim} may also be a list of two
 #'   vectors of length 2, defining axis limits for both the x and y axis.
+#' @param legend.title Character vector, used as legend title for plots that
+#'   have a legend.
 #' @param grid.breaks Numeric value or vector; if \code{grid.breaks} is a
 #'   single value, sets the distance between breaks for the axis at every
 #'   \code{grid.breaks}'th position, where a major grid line is plotted. If
@@ -263,10 +265,13 @@
 #'       probabilities. Default is \code{0.1}. Setting \code{size.inner = 0}
 #'       removes the inner probability regions.
 #'     }
-#'     \item{\code{width}, \code{alpha} and \code{scale}}{Passed down to
-#'       \code{geom_errorbar()} or \code{geom_density_ridges()}, for forest or
-#'       diagnostic plots; or passed down to \code{\link[ggeffects]{plot.ggeffects}}
-#'       for \emph{Marginal Effects} plots.
+#'     \item{\code{width}, \code{alpha}, and \code{scale}}{Passed
+#'       down to \code{geom_errorbar()} or \code{geom_density_ridges()}, for
+#'       forest or diagnostic plots.
+#'     }
+#'     \item{\code{width}, \code{alpha}, \code{dot.alpha}, \code{dodge} and \code{log.y}}{Passed
+#'       down to \code{\link[ggeffects]{plot.ggeffects}} for \emph{Marginal Effects}
+#'       plots.
 #'     }
 #'     \item{\code{show.loess}}{Logical, for diagnostic plot-types \code{"slope"}
 #'       and \code{"resid"}, adds (or hides) a loess-smoothed line to the plot.
@@ -411,6 +416,7 @@ plot_model <- function(model,
                        title = NULL,
                        axis.title = NULL,
                        axis.labels = NULL,
+                       legend.title = NULL,
                        wrap.title = 50,
                        wrap.labels = 25,
                        axis.lim = NULL,
@@ -609,6 +615,7 @@ plot_model <- function(model,
       geom.colors = colors,
       axis.title = axis.title,
       title = title,
+      legend.title = legend.title,
       axis.lim = axis.lim,
       case = case,
       show.legend = show.legend,
@@ -630,6 +637,7 @@ plot_model <- function(model,
       geom.colors = colors,
       axis.title = axis.title,
       title = title,
+      legend.title = legend.title,
       axis.lim = axis.lim,
       case = case,
       show.legend = show.legend,
