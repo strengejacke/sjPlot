@@ -47,7 +47,7 @@ utils::globalVariables(c("offset"))
 #'            \item{\code{"show"}}{(default) shows percentage value labels in the middle of each category bar}
 #'            \item{\code{"hide"}}{hides the value labels, so no percentage values on the bars are printed}
 #'            \item{\code{"sum.inside"}}{shows the sums of percentage values for both negative and positive values and prints them inside the end of each bar}
-#'            \item{\code{"sum.outide"}}{shows the sums of percentage values for both negative and positive values and prints them outside the end of each bar}
+#'            \item{\code{"sum.outside"}}{shows the sums of percentage values for both negative and positive values and prints them outside the end of each bar}
 #'          }
 #' @param show.prc.sign Logical, if \code{TRUE}, \%-signs for value labels are shown.
 #' @param grid.range Numeric, limits of the x-axis-range, as proportion of 100.

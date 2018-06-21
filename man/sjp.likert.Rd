@@ -94,7 +94,7 @@ so positive and negative values switch colors.}
   \item{\code{"show"}}{(default) shows percentage value labels in the middle of each category bar}
   \item{\code{"hide"}}{hides the value labels, so no percentage values on the bars are printed}
   \item{\code{"sum.inside"}}{shows the sums of percentage values for both negative and positive values and prints them inside the end of each bar}
-  \item{\code{"sum.outide"}}{shows the sums of percentage values for both negative and positive values and prints them outside the end of each bar}
+  \item{\code{"sum.outside"}}{shows the sums of percentage values for both negative and positive values and prints them outside the end of each bar}
 }}
 
 \item{show.n}{logical, if \code{TRUE}, adds total number of cases for each
