@@ -52,12 +52,24 @@ hurdle- or zero-inflated models.}
 
 \item{terms}{Character vector with names of those terms (variables) that should
 be printed in the table. All other terms are removed from the output. If
-\code{NULL}, all terms are printed.}
+\code{NULL}, all terms are printed. Note that the term names must match
+the names of the model's coefficients. For factors, this means that
+the variable name is suffixed with the related factor level, and each
+category counts as one term. E.g. \code{rm.terms = "t_name [2,3]"}
+would remove the terms \code{"t_name2"} and \code{"t_name3"} (assuming
+that the variable \code{t_name} is categorical and has at least
+the factor levels \code{2} and \code{3}). Another example for the
+\emph{iris}-dataset: \code{terms = "Species"} would not work, instead
+you would \code{terms = "Species [versicolor,virginica]"}.}
 
 \item{rm.terms}{Character vector with names that indicate which terms should
 be removed from the output Counterpart to \code{terms}. \code{rm.terms =
 "t_name"} would remove the term \emph{t_name}. Default is \code{NULL}, i.e.
-all terms are used.}
+all terms are used. For factors, levels that should be removed from the plot
+need to be explicitely indicated in square brackets, and match the model's
+coefficient names, e.g. \code{rm.terms = "t_name [2,3]"} would remove the terms
+\code{"t_name2"} and \code{"t_name3"} (assuming that the variable \code{t_name}
+was categorical and has at least the factor levels \code{2} and \code{3}).}
 
 \item{group.terms}{Logical, if \code{TRUE} (default), automatically groups table rows with
 factor levels of same factor, i.e. predictors of type \code{\link{factor}} will

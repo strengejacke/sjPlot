@@ -12,11 +12,23 @@
 #'   non-transformed estimates.
 #' @param terms Character vector with names of those terms (variables) that should
 #'    be printed in the table. All other terms are removed from the output. If
-#'    \code{NULL}, all terms are printed.
+#'    \code{NULL}, all terms are printed. Note that the term names must match
+#'    the names of the model's coefficients. For factors, this means that
+#'    the variable name is suffixed with the related factor level, and each
+#'    category counts as one term. E.g. \code{rm.terms = "t_name [2,3]"}
+#'    would remove the terms \code{"t_name2"} and \code{"t_name3"} (assuming
+#'    that the variable \code{t_name} is categorical and has at least
+#'    the factor levels \code{2} and \code{3}). Another example for the
+#'    \emph{iris}-dataset: \code{terms = "Species"} would not work, instead
+#'    you would \code{terms = "Species [versicolor,virginica]"}.
 #' @param rm.terms Character vector with names that indicate which terms should
 #'    be removed from the output Counterpart to \code{terms}. \code{rm.terms =
 #'    "t_name"} would remove the term \emph{t_name}. Default is \code{NULL}, i.e.
-#'    all terms are used.
+#'    all terms are used. For factors, levels that should be removed from the plot
+#'    need to be explicitely indicated in square brackets, and match the model's
+#'    coefficient names, e.g. \code{rm.terms = "t_name [2,3]"} would remove the terms
+#'    \code{"t_name2"} and \code{"t_name3"} (assuming that the variable \code{t_name}
+#'    was categorical and has at least the factor levels \code{2} and \code{3}).
 #' @param pred.labels Character vector with labels of predictor variables.
 #'    If not \code{NULL}, \code{pred.labels} will be used in the first
 #'    table column with the predictors' names. By default, if \code{auto.label = TRUE}
@@ -639,11 +651,13 @@ remove_unwanted <- function(dat, show.intercept, show.est, show.std, show.ci, sh
   }
 
   if (!is.null(terms)) {
+    terms <- parse_terms_arg(terms)
     keep <- which(dat$term %in% terms)
     dat <- dplyr::slice(dat, !! keep)
   }
 
   if (!is.null(rm.terms)) {
+    rm.terms <- parse_terms_arg(rm.terms)
     keep <- which(!(dat$term %in% rm.terms))
     dat <- dplyr::slice(dat, !! keep)
   }

@@ -217,6 +217,7 @@ plot_models <- function(...,
 
   # remove further estimates
 
+  rm.terms <- parse_terms_arg(rm.terms)
   rems <- !(ff$term %in% rm.terms)
   if (!is.null(rm.terms)) ff <- dplyr::filter(ff, !! rems)
 

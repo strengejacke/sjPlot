@@ -84,12 +84,14 @@ plot_model_estimates <- function(model,
 
   # remove further estimates
 
+  terms <- parse_terms_arg(terms)
   filter.remove <- dat$term %in% terms
   if (!is.null(terms)) dat <- dplyr::filter(dat, !! filter.remove)
 
 
   # or select further estimates
 
+  rm.terms <- parse_terms_arg(rm.terms)
   filter.remove <- !(dat$term %in% rm.terms)
   if (!is.null(rm.terms)) dat <- dplyr::filter(dat, !! filter.remove)
 

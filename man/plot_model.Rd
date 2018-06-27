@@ -80,7 +80,15 @@ non-transformed estimates.}
  that should be plotted. This argument depends on the plot-type:
  \describe{
    \item{\emph{Coefficients}}{Select terms that should be plotted. All other
-     term are removed from the output.}
+     term are removed from the output. Note that the term names must match
+     the names of the model's coefficients. For factors, this means that
+     the variable name is suffixed with the related factor level, and each
+     category counts as one term. E.g. \code{rm.terms = "t_name [2,3]"}
+     would remove the terms \code{"t_name2"} and \code{"t_name3"} (assuming
+     that the variable \code{t_name} is categorical and has at least
+     the factor levels \code{2} and \code{3}). Another example for the
+     \emph{iris}-dataset: \code{terms = "Species"} would not work, instead
+     you would \code{terms = "Species [versicolor,virginica]"}.}
    \item{\emph{Marginal Effects}}{Here \code{terms} indicates for which
      terms marginal effects should be displayed. At least one term is
      required to calculate effects, maximum length is three terms, where
@@ -113,8 +121,14 @@ non-transformed estimates.}
 \item{rm.terms}{Character vector with names that indicate which terms should
 be removed from the plot. Counterpart to \code{terms}. \code{rm.terms =
 "t_name"} would remove the term \emph{t_name}. Default is \code{NULL}, i.e.
-all terms are used. Note that this argument does not apply to
-\emph{Marginal Effects} plots.}
+all terms are used. For factors, levels that should be removed from the plot
+need to be explicitely indicated in square brackets, and match the model's
+coefficient names, e.g. \code{rm.terms = "t_name [2,3]"} would remove the terms
+\code{"t_name2"} and \code{"t_name3"} (assuming that the variable \code{t_name}
+was categorical and has at least the factor levels \code{2} and \code{3}).
+Another example for the \emph{iris} dataset would be
+\code{rm.terms = "Species [versicolor,virginica]"}. Note that the
+\code{rm.terms}-argument does not apply to \emph{Marginal Effects} plots.}
 
 \item{group.terms}{Numeric vector with group indices, to group coefficients.
 Each group of coefficients gets its own color (see 'Examples').}
@@ -413,6 +427,10 @@ plot_model(m)
 
 # grouped coefficients
 plot_model(m, group.terms = c(1, 2, 3, 3, 3, 4, 4))
+
+# keep only selected terms in the model: pos_v_4, the
+# levels 3 and 4 of factor e42dep and levels 2 and 3 for c172code
+plot_model(m, terms = c("pos_v_4", "e42dep [3,4]", "c172code [2,3]"))
 
 # multiple plots, as returned from "diagnostic"-plot type,
 # can be arranged with 'plot_grid()'

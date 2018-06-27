@@ -37,8 +37,14 @@ be used for plotting. Default is no standardization.
 \item{rm.terms}{Character vector with names that indicate which terms should
 be removed from the plot. Counterpart to \code{terms}. \code{rm.terms =
 "t_name"} would remove the term \emph{t_name}. Default is \code{NULL}, i.e.
-all terms are used. Note that this argument does not apply to
-\emph{Marginal Effects} plots.}
+all terms are used. For factors, levels that should be removed from the plot
+need to be explicitely indicated in square brackets, and match the model's
+coefficient names, e.g. \code{rm.terms = "t_name [2,3]"} would remove the terms
+\code{"t_name2"} and \code{"t_name3"} (assuming that the variable \code{t_name}
+was categorical and has at least the factor levels \code{2} and \code{3}).
+Another example for the \emph{iris} dataset would be
+\code{rm.terms = "Species [versicolor,virginica]"}. Note that the
+\code{rm.terms}-argument does not apply to \emph{Marginal Effects} plots.}
 
 \item{title}{Character vector, used as plot title. By default,
 \code{\link[sjlabelled]{get_dv_labels}} is called to retrieve the label of

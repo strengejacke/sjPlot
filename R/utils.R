@@ -207,9 +207,69 @@ check_se_argument <- function(se, type = NULL) {
 
 list.depth <- function(this, thisdepth = 0) {
   # http://stackoverflow.com/a/13433689/1270695
-  if(!is.list(this)) {
+  if (!is.list(this)) {
     return(thisdepth)
   } else {
-    return(max(unlist(lapply(this, list.depth, thisdepth = thisdepth+1))))
+    return(max(unlist(lapply(this, list.depth, thisdepth = thisdepth + 1))))
   }
+}
+
+
+#' @importFrom purrr map flatten_chr
+#' @importFrom sjmisc is_empty trim
+parse_terms_arg <- function(x) {
+  if (sjmisc::is_empty(x)) return(x)
+
+  # get variable with suffix
+  vars.pos <-
+    which(as.vector(regexpr(
+      pattern = " ([^\\]]*)\\]",
+      text = x,
+      perl = T
+    )) != -1)
+
+  # is empty?
+  if (sjmisc::is_empty(vars.pos)) return(x)
+
+  # get variable names. needed later to set as
+  # names attributes
+  vars.names <- get_clear_terms(x)[vars.pos]
+
+  # get levels inside brackets
+  tmp <- unlist(regmatches(
+    x,
+    gregexpr(
+      pattern = " ([^\\]]*)\\]",
+      text = x,
+      perl = T
+    )
+  ))
+
+  # remove brackets
+  tmp <- gsub("(\\[*)(\\]*)", "", tmp)
+
+  # see if we have multiple values, split at comma
+  tmp <- sjmisc::trim(strsplit(tmp, ",", fixed = T))
+
+  parsed.terms <- seq_len(length(tmp)) %>%
+    purrr::map(~ sprintf("%s%s", vars.names[.x], tmp[[.x]])) %>%
+    purrr::flatten_chr()
+
+  c(x[-vars.pos], parsed.terms)
+}
+
+
+#' @importFrom sjmisc trim
+get_clear_terms <- function(x) {
+  # get positions of variable names and see if we have
+  # a suffix for certain values
+  cleaned.pos <- regexpr(pattern = "\\s", x)
+
+  # position "-1" means we only had variable name, no suffix
+  replacers <- which(cleaned.pos == -1)
+  # replace -1 with number of chars
+  cleaned.pos[replacers] <- nchar(x)[replacers]
+
+  # get variable names only
+  sjmisc::trim(substr(x, 0, cleaned.pos))
 }
