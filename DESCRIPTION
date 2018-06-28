@@ -60,6 +60,7 @@ Suggests:
     ggridges,
     rstanarm,
     survey,
+    TMB,
     viridis,
     wesanderson,
     Zelig

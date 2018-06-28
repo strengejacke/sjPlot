@@ -36,9 +36,11 @@ Following functions are now defunct:
 * The `terms`-argument for `plot_model()` now also allows the specification of a range of numeric values in square brackets for marginal effects plots, e.g. `terms = "age [30:50]"` or `terms = "age [pretty]"`.
 * For coefficient-plots, the `terms`- and `rm.terms`-arguments for `plot_model()` now also allows specification of factor levels for categorical terms. Coefficients for the indicted factor levels are kept resp. removed (see `?plot_model` for details).
 * `plot_model()` now supports `clmm`-objects (package *ordinal*).
+* `plot_model(type = "diag")` now also shows random-effects QQ-plots for `glmmTMB`-models, and also plots random-effects QQ-plots for all random effects (if model has more than one random effect term).
 
 ## Bug fixes
 
+* `plot_model(type = "re")` now supports standard errors and confidence intervals for `glmmTMB`-objects.
 * Fixed typo for `glmmTMB`-tidier, which may have returned wrong data for zero-inflation part of model.
 * Multiple random intercepts for multilevel models fitted with `brms` area now shown in each own facet per intercept.
 * Remove unnecessary warning in `sjp.likert()` for uneven category count when neutral category is specified.

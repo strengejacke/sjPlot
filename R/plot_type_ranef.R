@@ -36,11 +36,30 @@ plot_type_ranef <- function(model,
 
   # get tidy output of summary ----
 
-  rand.ef <- lme4::ranef(model)
+  if (inherits(model, "glmmTMB"))
+    rand.ef <- glmmTMB::ranef(model)[[1]]
+  else
+    rand.ef <- lme4::ranef(model)
+
 
   if (inherits(model, "clmm"))
     rand.se <- NULL
-  else
+  else if (inherits(model, "glmmTMB")) {
+    if (requireNamespace("TMB", quietly = TRUE)) {
+      s1 <- TMB::sdreport(model$obj, getJointPrecision = TRUE)
+      s2 <- sqrt(s1$diag.cov.random)
+      rand.se <- purrr::map(rand.ef, function(.x) {
+        cnt <- nrow(.x) * ncol(.x)
+        s3 <- s2[1:cnt]
+        s2 <- s2[-(1:cnt)]
+        as.data.frame(matrix(sqrt(s3), ncol = ncol(.x), byrow = TRUE))
+      })
+    } else {
+      se <- FALSE
+      ci.lvl <- NA
+      rand.se <- NULL
+    }
+  } else
     rand.se <- arm::se.ranef(model)
 
 

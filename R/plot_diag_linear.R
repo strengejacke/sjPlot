@@ -79,9 +79,8 @@ diag_norm <- function(model, geom.colors) {
 
 #' @importFrom stats residuals rstudent fitted
 diag_qq <- function(model, geom.colors, ...) {
-  # qq-plot of studentized residuals for base model
-  # mixed model model?
-  if (inherits(model, c("lme", "lmerMod"))) {
+  # qq-plot of studentized residuals
+  if (inherits(model, c("lme", "lmerMod", "glmmTMB"))) {
     res_ <- sort(stats::residuals(model), na.last = NA)
     y_lab <- "Residuals"
   } else {
@@ -115,24 +114,27 @@ diag_qq <- function(model, geom.colors, ...) {
 #' @importFrom stats qnorm ppoints
 diag_reqq <- function(model, dot.size) {
 
-  if (!is_merMod(model)) return(NULL)
+  if (!is_merMod(model) && !inherits(model, "glmmTMB")) return(NULL)
 
-  re   <- lme4::ranef(model, condVar = T)[[1]]
-  pv   <- attr(re, "postVar")
-  cols <- seq_len(dim(pv)[1])
+  if (inherits(model, "glmmTMB")) {
+    re <- glmmTMB::ranef(model)[[1]]
+    s1 <- TMB::sdreport(model$obj, getJointPrecision = TRUE)
+    s2 <- sqrt(s1$diag.cov.random)
+    se <- purrr::map(re, function(.x) {
+      cnt <- nrow(.x) * ncol(.x)
+      s3 <- s2[1:cnt]
+      s2 <- s2[-(1:cnt)]
+      s3
+    })
+  } else {
+    re   <- lme4::ranef(model, condVar = T)
+    se <- purrr::map(re, function(.x) {
+      pv   <- attr(.x, "postVar")
+      cols <- seq_len(dim(pv)[1])
+      unlist(lapply(cols, function(.y) sqrt(pv[.y, .y, ])))
+    })
+  }
 
-  se <- unlist(lapply(cols, function(.x) sqrt(pv[.x, .x, ])))
-  ord  <- unlist(lapply(re, order)) + rep((0:(ncol(re) - 1)) * nrow(re), each = nrow(re))
-
-  pDf  <- tibble::tibble(
-    y = unlist(re)[ord],
-    ci = stats::qnorm(.975) * se[ord],
-    nQQ = rep(stats::qnorm(stats::ppoints(nrow(re))), ncol(re)),
-    ID = factor(rep(rownames(re), ncol(re))[ord], levels = rownames(re)[ord]),
-    ind = gl(ncol(re), nrow(re), labels = names(re)),
-    conf.low = .data$y - .data$ci,
-    conf.high = .data$y + .data$ci
-  )
 
   alpha <- .3
   if (is.null(dot.size)) dot.size <- 2
@@ -141,20 +143,35 @@ diag_reqq <- function(model, dot.size) {
   add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
   if ("alpha" %in% names(add.args)) alpha <- eval(add.args[["alpha"]])
 
-  ggplot(pDf, aes_string(
-    x = "nQQ",
-    y = "y"
-  )) +
-    facet_wrap(~ ind, scales = "free") +
-    labs(x = "Standard normal quantiles", y = "Random effect quantiles") +
-    geom_intercept_line2(0, NULL) +
-    stat_smooth(method = "lm", alpha = alpha) +
-    geom_errorbar(
-      aes_string(ymin = "conf.low", ymax = "conf.high"),
-      width = 0,
-      colour = "black"
-    ) +
-    geom_point(size = dot.size, colour = "darkblue")
+
+  purrr::map2(re, se, function(.re, .se) {
+    ord  <- unlist(lapply(.re, order)) + rep((0:(ncol(.re) - 1)) * nrow(.re), each = nrow(.re))
+
+    pDf  <- tibble::tibble(
+      y = unlist(.re)[ord],
+      ci = stats::qnorm(.975) * .se[ord],
+      nQQ = rep(stats::qnorm(stats::ppoints(nrow(.re))), ncol(.re)),
+      ID = factor(rep(rownames(.re), ncol(.re))[ord], levels = rownames(.re)[ord]),
+      ind = gl(ncol(.re), nrow(.re), labels = names(.re)),
+      conf.low = .data$y - .data$ci,
+      conf.high = .data$y + .data$ci
+    )
+
+    ggplot(pDf, aes_string(
+      x = "nQQ",
+      y = "y"
+    )) +
+      facet_wrap(~ ind, scales = "free") +
+      labs(x = "Standard normal quantiles", y = "Random effect quantiles") +
+      geom_intercept_line2(0, NULL) +
+      stat_smooth(method = "lm", alpha = alpha) +
+      geom_errorbar(
+        aes_string(ymin = "conf.low", ymax = "conf.high"),
+        width = 0,
+        colour = "black"
+      ) +
+      geom_point(size = dot.size, colour = "darkblue")
+  })
 }
 
 
