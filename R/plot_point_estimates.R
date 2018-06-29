@@ -53,7 +53,7 @@ plot_point_estimates <- function(model,
 
   # axis limits and tick breaks for y-axis
 
-  axis.scaling <- get_axis_limits_and_ticks(
+  axis.scaling <- axis_limits_and_ticks(
     axis.lim = axis.lim,
     min.val = min(dat$conf.low),
     max.val = max(dat$conf.high),

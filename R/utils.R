@@ -29,7 +29,7 @@ has_value_labels <- function(x) {
 #' @importFrom grDevices axisTicks
 #' @importFrom dplyr if_else
 #' @importFrom sjmisc is_empty
-get_axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, exponentiate, min.est, max.est) {
+axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, exponentiate, min.est, max.est) {
 
   # factor to multiply the axis limits. for exponentiated scales,
   # these need to be large enough to find appropriate pretty numbers
@@ -104,7 +104,7 @@ get_axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, e
 
 #' @importFrom sjstats model_family
 #' @importFrom dplyr case_when
-get_estimate_axis_title <- function(fit, axis.title, type, transform = NULL) {
+estimate_axis_title <- function(fit, axis.title, type, transform = NULL) {
 
   # no automatic title for effect-plots
   if (type %in% c("eff", "pred", "int")) return(axis.title)
@@ -217,7 +217,7 @@ list.depth <- function(this, thisdepth = 0) {
 
 #' @importFrom purrr map flatten_chr
 #' @importFrom sjmisc is_empty trim
-parse_terms_arg <- function(x) {
+parse_terms <- function(x) {
   if (sjmisc::is_empty(x)) return(x)
 
   # get variable with suffix
@@ -233,7 +233,7 @@ parse_terms_arg <- function(x) {
 
   # get variable names. needed later to set as
   # names attributes
-  vars.names <- get_clear_terms(x)[vars.pos]
+  vars.names <- clear_terms(x)[vars.pos]
 
   # get levels inside brackets
   tmp <- unlist(regmatches(
@@ -260,7 +260,7 @@ parse_terms_arg <- function(x) {
 
 
 #' @importFrom sjmisc trim
-get_clear_terms <- function(x) {
+clear_terms <- function(x) {
   # get positions of variable names and see if we have
   # a suffix for certain values
   cleaned.pos <- regexpr(pattern = "\\s", x)

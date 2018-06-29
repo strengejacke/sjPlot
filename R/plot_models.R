@@ -217,7 +217,7 @@ plot_models <- function(...,
 
   # remove further estimates
 
-  rm.terms <- parse_terms_arg(rm.terms)
+  rm.terms <- parse_terms(rm.terms)
   rems <- !(ff$term %in% rm.terms)
   if (!is.null(rm.terms)) ff <- dplyr::filter(ff, !! rems)
 
@@ -252,7 +252,7 @@ plot_models <- function(...,
 
   # axis limits and tick breaks for y-axis
 
-  axis.scaling <- get_axis_limits_and_ticks(
+  axis.scaling <- axis_limits_and_ticks(
     axis.lim = axis.lim,
     min.val = min(ff$conf.low),
     max.val = max(ff$conf.high),
@@ -352,7 +352,7 @@ plot_models <- function(...,
   p <-
     p + labs(
       x = NULL,
-      y = sjmisc::word_wrap(get_estimate_axis_title(input_list[[1]], axis.title, type = "est"), wrap = wrap.title),
+      y = sjmisc::word_wrap(estimate_axis_title(input_list[[1]], axis.title, type = "est"), wrap = wrap.title),
       title = sjmisc::word_wrap(title, wrap = wrap.title),
       colour = sjmisc::word_wrap(legend.title, wrap = wrap.legend.title),
       shape = sjmisc::word_wrap(legend.pval.title, wrap = wrap.legend.title)

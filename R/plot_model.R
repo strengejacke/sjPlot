@@ -514,7 +514,7 @@ plot_model <- function(model,
     axis.labels <- sjmisc::word_wrap(axis.labels, wrap = wrap.labels)
 
     # title for axis with estimate values
-    if (is.null(axis.title)) axis.title <- sjmisc::word_wrap(get_estimate_axis_title(model, axis.title, type, transform), wrap = wrap.title)
+    if (is.null(axis.title)) axis.title <- sjmisc::word_wrap(estimate_axis_title(model, axis.title, type, transform), wrap = wrap.title)
     axis.title <- sjmisc::word_wrap(axis.title, wrap = wrap.labels)
 
   }

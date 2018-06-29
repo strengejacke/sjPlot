@@ -526,7 +526,7 @@ tab_model <- function(
     pos <- grep("estimate", x, fixed = T)
     if (!sjmisc::is_empty(pos)) {
       i <- as.numeric(sub("estimate_", "", x = x, fixed = T))
-      x <- get_estimate_axis_title(
+      x <- estimate_axis_title(
         models[[i]],
         axis.title = NULL,
         type = "est",
@@ -651,13 +651,13 @@ remove_unwanted <- function(dat, show.intercept, show.est, show.std, show.ci, sh
   }
 
   if (!is.null(terms)) {
-    terms <- parse_terms_arg(terms)
+    terms <- parse_terms(terms)
     keep <- which(dat$term %in% terms)
     dat <- dplyr::slice(dat, !! keep)
   }
 
   if (!is.null(rm.terms)) {
-    rm.terms <- parse_terms_arg(rm.terms)
+    rm.terms <- parse_terms(rm.terms)
     keep <- which(!(dat$term %in% rm.terms))
     dat <- dplyr::slice(dat, !! keep)
   }
