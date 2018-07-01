@@ -88,7 +88,9 @@ non-transformed estimates.}
      that the variable \code{t_name} is categorical and has at least
      the factor levels \code{2} and \code{3}). Another example for the
      \emph{iris}-dataset: \code{terms = "Species"} would not work, instead
-     you would \code{terms = "Species [versicolor,virginica]"}.}
+     you would write \code{terms = "Species [versicolor,virginica]"} to
+     remove these two levels, or \code{terms = "Speciesversicolor"} if you
+     just want to remove the level \emph{versicolor} from the plot.}
    \item{\emph{Marginal Effects}}{Here \code{terms} indicates for which
      terms marginal effects should be displayed. At least one term is
      required to calculate effects, maximum length is three terms, where
