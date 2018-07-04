@@ -26,16 +26,27 @@ This function takes a \code{list} of ggplot-objects as argument.
          To arrange these plots as grid as a single plot, use \code{plot_grid}.
 }
 \examples{
+library(ggeffects)
 data(efc)
+
 # fit model
-fit <- lm(tot_sc_e ~ c12hour + e17age + e42dep + neg_c_7, data = efc)
+fit <- glm(
+  tot_sc_e ~ c12hour + e17age + e42dep + neg_c_7,
+  data = efc,
+  family = poisson
+)
+
 # plot marginal effects for each predictor, each as single plot
-p <- sjp.lm(fit, type = "eff", facet.grid = FALSE, prnt.plot = FALSE)
+p1 <- ggpredict(fit, "c12hour") \%>\%
+  plot(show.y.title = FALSE, show.title = FALSE)
+p2 <- ggpredict(fit, "e17age") \%>\%
+  plot(show.y.title = FALSE, show.title = FALSE)
+p3 <- ggpredict(fit, "e42dep") \%>\%
+  plot(show.y.title = FALSE, show.title = FALSE)
+p4 <- ggpredict(fit, "neg_c_7") \%>\%
+  plot(show.y.title = FALSE, show.title = FALSE)
 
 # plot grid
-plot_grid(p$plot.list)
-
-# or
-plot_grid(p)
+plot_grid(list(p1, p2, p3, p4))
 
 }

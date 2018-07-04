@@ -127,7 +127,7 @@ sjp.poly(efc$c160age, efc$quol_5, 1:4, show.scatter = FALSE)
 # fit sample model
 fit <- lm(tot_sc_e ~ c12hour + e17age + e42dep, data = efc)
 # inspect relationship between predictors and response
-sjp.lm(fit, type = "slope", show.loess = TRUE, show.scatter = FALSE)
+plot_model(fit, type = "slope")
 # "e17age" does not seem to be linear correlated to response
 # try to find appropiate polynomial. Grey line (loess smoothed)
 # indicates best fit. Looks like x^4 has the best fit,
@@ -139,7 +139,7 @@ sjp.poly(fit, "e17age", 2:4, show.scatter = FALSE)
 fit <- lm(tot_sc_e ~ c12hour + e42dep + e17age + I(e17age^2) + I(e17age^3),
           data = efc)
 # plot marginal effects of polynomial term
-sjp.lm(fit, type = "poly", poly.term = "e17age")}
+plot_model(fit, type = "pred", terms = "e17age")}
 
 }
 \seealso{
