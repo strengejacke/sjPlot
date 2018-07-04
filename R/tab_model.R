@@ -36,7 +36,7 @@
 #'    of the coefficients, which will be used as predictor labels.
 #'    If \code{pred.labels = ""} or \code{auto.label = FALSE}, the raw
 #'    variable names as used in the model formula are used as predictor
-#'    labels.  If \code{pred.labels} is a named vector, predictor labels (by
+#'    labels. If \code{pred.labels} is a named vector, predictor labels (by
 #'    default, the names of the model's coefficients) will be matched with the
 #'    names of \code{pred.labels}. This ensures that labels always match the
 #'    related predictor in the table, no matter in which way the predictors
@@ -81,7 +81,8 @@
 #' @importFrom purrr reduce map2 map_if map_df compact
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom sjmisc word_wrap var_rename add_columns
-#' @importFrom sjstats std_beta model_family
+#' @importFrom sjstats std_beta model_family r2
+#' @importFrom stats nobs
 #' @importFrom rlang .data
 #' @export
 tab_model <- function(
@@ -349,7 +350,50 @@ tab_model <- function(
 
       ## TODO add another object with summary information, e.g. ICC, F-Stat, AIC etc.
 
-      list(dat = dat, transform = transform, zeroinf = zidat)
+      # Add r-squared statistic ----
+
+      rsq <- NULL
+
+      if (show.r2) {
+        rsq <- tryCatch(
+          suppressWarnings(sjstats::r2(model)),
+          error = function(x) { NULL }
+        )
+      }
+
+
+      # Add no of observations statistic ----
+
+      n_obs <- NULL
+
+      if (show.obs) {
+        n_obs <- tryCatch(
+          stats::nobs(model),
+          error = function(x) { NULL }
+        )
+      }
+
+
+      # Add ICC statistic ----
+
+      icc <- NULL
+
+      if (show.icc && is_mixed_model(model)) {
+        icc <- tryCatch(
+          stats::icc(model),
+          error = function(x) { NULL }
+        )
+      }
+
+
+      list(
+        dat = dat,
+        transform = transform,
+        zeroinf = zidat,
+        rsq = rsq,
+        n_obs = n_obs,
+        icc = icc
+      )
     }
   )
 

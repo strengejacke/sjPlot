@@ -92,7 +92,7 @@ and \code{\link[sjlabelled]{get_term_labels}} is called to retrieve the labels
 of the coefficients, which will be used as predictor labels.
 If \code{pred.labels = ""} or \code{auto.label = FALSE}, the raw
 variable names as used in the model formula are used as predictor
-labels.  If \code{pred.labels} is a named vector, predictor labels (by
+labels. If \code{pred.labels} is a named vector, predictor labels (by
 default, the names of the model's coefficients) will be matched with the
 names of \code{pred.labels}. This ensures that labels always match the
 related predictor in the table, no matter in which way the predictors

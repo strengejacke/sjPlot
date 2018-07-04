@@ -146,6 +146,17 @@ is_merMod <- function(fit) {
 }
 
 
+is_brms_mixed <- function(fit) {
+  inherits(fit, "brmsfit") && !sjmisc::is_empty(fit$ranef)
+}
+
+
+# short checker so we know if we need more summary statistics like ICC
+is_mixed_model <- function(fit) {
+  is_merMod(fit) | is_brms_mixed(fit) | inherits(fit, "glmmTMB")
+}
+
+
 nulldef <- function(x, y, z = NULL) {
   if (is.null(x)) {
     if (is.null(y))
