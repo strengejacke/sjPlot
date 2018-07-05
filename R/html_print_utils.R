@@ -399,6 +399,11 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
     content <- gsub(tag.firsttablecol, css.firsttablecol, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.leftalign, css.leftalign, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.centeralign, css.centeralign, content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub(tag.summary, css.summary, content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub(tag.fixedparts, css.fixedparts, content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub(tag.randomparts, css.randomparts, content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub(tag.firstsumrow, css.firstsumrow, content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub(tag.depvarhead, css.depvarhead, content, fixed = TRUE, useBytes = TRUE)
 
     content <- gsub(tag.col1, css.col1, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.col2, css.col2, content, fixed = TRUE, useBytes = TRUE)
@@ -406,6 +411,14 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
     content <- gsub(tag.col4, css.col4, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.col5, css.col5, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.col6, css.col6, content, fixed = TRUE, useBytes = TRUE)
+
+    content <- gsub(tag.modelcolumn1, css.modelcolumn1, content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub(tag.modelcolumn2, css.modelcolumn2, content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub(tag.modelcolumn3, css.modelcolumn3, content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub(tag.modelcolumn4, css.modelcolumn4, content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub(tag.modelcolumn5, css.modelcolumn5, content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub(tag.modelcolumn6, css.modelcolumn6, content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub(tag.modelcolumn7, css.modelcolumn7, content, fixed = TRUE, useBytes = TRUE)
   }
 
   content
