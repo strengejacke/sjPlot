@@ -248,8 +248,12 @@ tab_dfs <- function(x,
 
 
 # this function is used from tab_model()
+#' @importFrom dplyr slice full_join
+#' @importFrom sjmisc replace_na
+#' @importFrom tidyselect ends_with
+#' @importFrom purrr map map_dbl
 tab_model_df <- function(x,
-                         zeroinf.list,
+                         zeroinf,
                          is.zeroinf,
                          rsq.list,
                          n_obs.list,
@@ -265,6 +269,8 @@ tab_model_df <- function(x,
                          sort.column = NULL,
                          encoding = "UTF-8",
                          CSS = NULL,
+                         show.re.var = FALSE,
+                         show.icc = FALSE,
                          file = NULL,
                          use.viewer = TRUE,
                          ...) {
@@ -276,6 +282,7 @@ tab_model_df <- function(x,
 
 
   ## TODO add table caption afterwards
+  ## TODO add column header with name of dependent variable
 
   # get HTML content
   page.content <- tab_df_content(
@@ -294,19 +301,130 @@ tab_model_df <- function(x,
   )
 
 
-  ## TODO add zero inflation part here
-  # if not NULL:
-  # dplyr::full_join(x, zeroinf.list) %>% sjmisc::replace_na(value = "")
-  # remove rows 1:nrow(x)
-  # call tab_df_content() again
-  # add table row with subheading, "zero-inflated model", or so
+  # zero inflation part here ----
 
+  if (!is.null(zeroinf)) {
+
+    rem <- 1:nrow(x)
+
+    zero.part <- suppressMessages(
+      x %>%
+        dplyr::full_join(zeroinf) %>%
+        dplyr::slice(!! -rem) %>%
+        sjmisc::replace_na(value = "")
+    )
+
+    page.content <- paste0(page.content, "  <tr>\n")
+    page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"randomparts\">Zero-Inflated Model</td>\n", ncol(x) - 1))
+    page.content <- paste0(page.content, "  </tr>\n")
+
+    zero.content <- tab_df_content(
+      mydf = zero.part,
+      title = NULL,
+      footnote = NULL,
+      col.header = NULL,
+      show.type = FALSE,
+      show.rownames = show.rownames,
+      show.footnote = FALSE,
+      altr.row.col = alternate.rows,
+      sort.column = sort.column,
+      include.table.tag = FALSE,
+      no.last.table.row = TRUE,
+      show.header = FALSE,
+      ...
+    )
+
+    page.content <- paste0(page.content, zero.content)
+  }
 
   # prepare column span for summary information, including CSS
 
-  colspan <- (ncol(x) - 1) / n.models
   summary.css <- "tdata summary centeralign"
   firstsumrow <- TRUE
+
+
+  # add random parts ----
+
+  if (!is_empty_list(icc.list) && show.re.var) {
+
+    page.content <- paste0(page.content, "  <tr>\n")
+    page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"randomparts\">Random Parts</td>\n", ncol(x) - 1))
+    page.content <- paste0(page.content, "  </tr>\n")
+
+    s_css <- "tdata leftalign summary"
+    page.content <- paste0(page.content, sprintf("\n  <tr>\n    <td class=\"%s\">&sigma;<sup>2</sup></td>\n", s_css))
+    s_css <- summary.css
+
+    for (i in 1:length(icc.list)) {
+
+      colspan <- length(tidyselect::ends_with(sprintf("_%i", i), vars = colnames(x)))
+
+      if (is.null(icc.list[[i]])) {
+
+        page.content <- paste0(
+          page.content,
+          sprintf("    <td class=\"%s\" colspan=\"%i\">&nbsp;</td>\n", s_css, as.integer(colspan))
+        )
+
+      } else {
+
+        page.content <- paste0(
+          page.content,
+          sprintf(
+            "    <td class=\"%s\" colspan=\"%i\">%.2f</td>\n",
+            s_css,
+            as.integer(colspan),
+            attr(icc.list[[i]], "sigma_2", exact = TRUE)
+          )
+        )
+
+      }
+    }
+
+    tau00 <- purrr::map(icc.list, ~ attr(.x, "tau.00", exact = TRUE))
+    tau00.len <- max(purrr::map_dbl(tau00, length))
+
+    for (i in 1:tau00.len) {
+
+      s_css <- "tdata leftalign summary"
+      page.content <- paste0(
+        page.content,
+        sprintf("\n  <tr>\n    <td class=\"%s\">&tau;<sub>00</sub></td>\n", s_css)
+      )
+      s_css <- summary.css
+
+      for (j in 1:length(tau00)) {
+
+        colspan <- length(tidyselect::ends_with(sprintf("_%i", j), vars = colnames(x)))
+
+        if (is.null(tau00[[j]]) || is.na(tau00[[j]][i])) {
+
+          page.content <- paste0(
+            page.content,
+            sprintf("    <td class=\"%s\" colspan=\"%i\">&nbsp;</td>\n", s_css, as.integer(colspan))
+          )
+
+        } else {
+
+          page.content <- paste0(
+            page.content,
+            sprintf(
+              "    <td class=\"%s\" colspan=\"%i\">%.2f (%s)</td>\n",
+              s_css,
+              as.integer(colspan),
+              tau00[[j]][i],
+              names(tau00[[j]][i])
+            )
+          )
+
+        }
+      }
+    }
+  }
+
+
+  ## TODO print ICC
+  ## TODO print tau01 and rho01
 
 
   # add no of observations ----
@@ -328,6 +446,8 @@ tab_model_df <- function(x,
 
     for (i in 1:length(n_obs.list)) {
 
+      colspan <- length(tidyselect::ends_with(sprintf("_%i", i), vars = colnames(x)))
+
       if (is.null(n_obs.list[[i]])) {
 
         page.content <- paste0(
@@ -342,8 +462,8 @@ tab_model_df <- function(x,
           sprintf(
             "    <td class=\"%s\" colspan=\"%i\">%i</td>\n",
             s_css,
-            colspan,
-            n_obs.list[[i]]
+            as.integer(colspan),
+            as.integer(n_obs.list[[i]])
           )
         )
 
@@ -387,11 +507,13 @@ tab_model_df <- function(x,
 
     for (i in 1:length(rsq.list)) {
 
+      colspan <- length(tidyselect::ends_with(sprintf("_%i", i), vars = colnames(x)))
+
       if (is.null(rsq.list[[i]])) {
 
         page.content <- paste0(
           page.content,
-          sprintf("    <td class=\"%s\" colspan=\"%i\">NA</td>\n", s_css, colspan)
+          sprintf("    <td class=\"%s\" colspan=\"%i\">NA</td>\n", s_css, as.integer(colspan))
         )
 
       } else {
@@ -401,7 +523,7 @@ tab_model_df <- function(x,
           sprintf(
             "    <td class=\"%s\" colspan=\"%i\">%.3f / %.3f</td>\n",
             s_css,
-            colspan,
+            as.integer(colspan),
             rsq.list[[i]][[1]],
             rsq.list[[i]][[2]]
           )
@@ -413,6 +535,9 @@ tab_model_df <- function(x,
     firstsumrow <- FALSE
     page.content <- paste0(page.content, "  </tr>\n")
   }
+
+
+  ## TODO add bottom table border
 
 
   # surround output with table-tag ----

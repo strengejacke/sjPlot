@@ -7,7 +7,7 @@
 tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
   show.ci = 0.95, show.hdi50 = TRUE, show.se = NULL, show.std = NULL,
   show.p = TRUE, show.stat = FALSE, show.df = FALSE,
-  show.header = FALSE, show.col.header = TRUE, show.zeroinf = TRUE,
+  show.header = FALSE, show.col.header = TRUE, show.zeroinf = FALSE,
   show.r2 = TRUE, show.icc = FALSE, show.re.var = FALSE,
   show.fstat = FALSE, show.aic = FALSE, show.aicc = FALSE,
   show.dev = FALSE, show.obs = TRUE, terms = NULL, rm.terms = NULL,
@@ -18,7 +18,7 @@ tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
   ci.hyphen = "&nbsp;&ndash;&nbsp;", minus.sign = "&#45;",
   separate.ci.col = TRUE, separate.se.col = TRUE, digits = 2,
   digits.p = 3, emph.p = TRUE, p.val = c("wald", "kr"), case = "parsed",
-  auto.label = TRUE, bpe = "median")
+  auto.label = TRUE, bpe = "median", CSS = NULL)
 }
 \arguments{
 \item{...}{One or more regression models, including glm's or mixed models.

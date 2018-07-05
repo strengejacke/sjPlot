@@ -102,7 +102,7 @@ tab_model <- function(
   show.header = FALSE,
   show.col.header = TRUE,
 
-  show.zeroinf = TRUE,
+  show.zeroinf = FALSE,
   show.r2 = TRUE,
   show.icc = FALSE,
   show.re.var = FALSE,
@@ -141,7 +141,8 @@ tab_model <- function(
 
   case = "parsed",
   auto.label = TRUE,
-  bpe = "median"
+  bpe = "median",
+  CSS = NULL
 ) {
 
   p.val <- match.arg(p.val)
@@ -378,7 +379,7 @@ tab_model <- function(
 
       icc <- NULL
 
-      if (show.icc && is_mixed_model(model)) {
+      if ((show.icc || show.re.var) && is_mixed_model(model)) {
         icc <- tryCatch(
           sjstats::icc(model),
           error = function(x) { NULL }
@@ -491,15 +492,16 @@ tab_model <- function(
   }
 
 
+  # to insert "header" rows for categorical variables, we need to
+  # save the original term names first.
+
+  remember.terms <- dat$term
+
+
   # named vector for predictor labels means we try to match labels
   # with model terms
 
   if (!sjmisc::is_empty(pred.labels)) {
-
-    # to insert "header" rows for categorical variables, we need to
-    # save the original term names first.
-
-    remember.terms <- dat$term
 
     if (!is.null(names(pred.labels))) {
       labs <- sjmisc::word_wrap(pred.labels, wrap = wrap.labels, linesep = "<br>")
@@ -546,10 +548,10 @@ tab_model <- function(
 
   # group terms ----
 
-  if (group.terms) {
-    ## TODO group terms by variables, so category values of factors are "grouped"
-    remember.terms[attr(pred.labels, "category.value")]
-  }
+  # if (group.terms) {
+  #   ## TODO group terms by variables, so category values of factors are "grouped"
+  #   remember.terms[attr(pred.labels, "category.value")]
+  # }
 
 
   # does user want a specific order for terms?
@@ -612,14 +614,17 @@ tab_model <- function(
 
   tab_model_df(
     x = dat,
-    zeroinf.list = zeroinf,
+    zeroinf = zeroinf,
     is.zeroinf = is.zeroinf,
     title = title,
     col.header = col.header,
     rsq.list = rsq.data,
     n_obs.list = n_obs.data,
     icc.list = icc.data,
-    n.models = length(model.list)
+    n.models = length(model.list),
+    show.re.var = show.re.var,
+    show.icc = show.icc,
+    CSS = CSS
   )
 }
 

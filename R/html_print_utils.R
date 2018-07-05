@@ -20,7 +20,20 @@ check_css_param <- function(CSS) {
 
 #' @importFrom sjmisc is_empty var_type is_even trim
 #' @importFrom tibble has_rownames has_name rownames_to_column
-tab_df_content <- function(mydf, title, footnote, col.header, show.type, show.rownames, show.footnote, altr.row.col, sort.column, include.table.tag = TRUE, no.last.table.row = FALSE, ...) {
+tab_df_content <- function(
+  mydf,
+  title,
+  footnote,
+  col.header,
+  show.type,
+  show.rownames,
+  show.footnote,
+  altr.row.col,
+  sort.column,
+  include.table.tag = TRUE,
+  no.last.table.row = FALSE,
+  show.header = TRUE,
+  ...) {
 
   # save no of rows and columns
 
@@ -83,27 +96,31 @@ tab_df_content <- function(mydf, title, footnote, col.header, show.type, show.ro
 
   # header row ----
 
-  page.content <- paste0(page.content, "  <tr>\n")
+  if (isTRUE(show.header)) {
 
-  for (i in 1:colcnt) {
+    page.content <- paste0(page.content, "  <tr>\n")
 
-    # separate CSS for first column
-    ftc <- dplyr::if_else(i == 1, " firsttablecol", "", "")
-    oc <- ifelse(is.null(own.css), "", sprintf(" %s", sjmisc::trim(own.css[1, i])))
+    for (i in 1:colcnt) {
 
-    # column names and variable type as table headline
-    vartype <- sjmisc::var_type(mydf[[i]])
-    page.content <- paste0(
-      page.content, sprintf("    <th class=\"thead firsttablerow%s%s col%i\">%s", ftc, oc, i, cnames[i])
-    )
+      # separate CSS for first column
+      ftc <- dplyr::if_else(i == 1, " firsttablecol", "", "")
+      oc <- ifelse(is.null(own.css), "", sprintf(" %s", sjmisc::trim(own.css[1, i])))
 
-    if (show.type)
-      page.content <- paste0(page.content, sprintf("<br>(%s)", vartype))
+      # column names and variable type as table headline
+      vartype <- sjmisc::var_type(mydf[[i]])
+      page.content <- paste0(
+        page.content, sprintf("    <th class=\"thead firsttablerow%s%s col%i\">%s", ftc, oc, i, cnames[i])
+      )
 
-    page.content <- paste0(page.content, "</th>\n")
+      if (show.type)
+        page.content <- paste0(page.content, sprintf("<br>(%s)", vartype))
+
+      page.content <- paste0(page.content, "</th>\n")
+    }
+
+    page.content <- paste0(page.content, "  </tr>\n")
+
   }
-
-  page.content <- paste0(page.content, "  </tr>\n")
 
 
   # subsequent rows ----
@@ -129,13 +146,24 @@ tab_df_content <- function(mydf, title, footnote, col.header, show.type, show.ro
       ftc <- dplyr::if_else(ccnt == 1, " firsttablecol", " centeralign", "")
       oc <- ifelse(is.null(own.css), "", sprintf(" %s", sjmisc::trim(own.css[rcnt, ccnt])))
 
+      # for regression models, column name ends with "_<number>". use this
+      # as css-class, so we may modify specific model columns
+
+      model.column <- gsub("(.*)(\\_.*)(?=[0-9]$)", "\\3", colnames(mydf)[ccnt], perl = TRUE)
+      mcn <- suppressWarnings(as.numeric(model.column))
+      if (nchar(model.column) == 1 && !is.na(mcn))
+        mcc <- sprintf(" modelcolumn%i", as.integer(mcn))
+      else
+        mcc <- ""
+
 
       page.content <- paste0(page.content, sprintf(
-        "    <td class=\"tdata%s%s%s%s col%i\">%s</td>\n",
+        "    <td class=\"tdata%s%s%s%s%s col%i\">%s</td>\n",
         ftc,
         oc,
         ltr,
         arcstring,
+        mcc,
         ccnt,
         mydf[rcnt, ccnt])
       )
@@ -239,6 +267,13 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
   tag.col4 <- "col4"
   tag.col5 <- "col5"
   tag.col6 <- "col6"
+  tag.modelcolumn1 <- "modelcolumn1"
+  tag.modelcolumn2 <- "modelcolumn2"
+  tag.modelcolumn3 <- "modelcolumn3"
+  tag.modelcolumn4 <- "modelcolumn4"
+  tag.modelcolumn5 <- "modelcolumn5"
+  tag.modelcolumn6 <- "modelcolumn6"
+  tag.modelcolumn7 <- "modelcolumn7"
 
   css.table <- "border-collapse:collapse; border:none;"
   css.caption <- "font-weight: bold; text-align:left;"
@@ -254,7 +289,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
   css.subtitle <- "font-weight: normal;"
   css.summary <- "padding-top:0.1cm; padding-bottom:0.1cm;"
   css.fixedparts <- "font-weight:bold; text-align:left;"
-  css.randomparts <- "font-weight:bold; text-align:left; padding-top:0.5em;"
+  css.randomparts <- "font-weight:bold; text-align:left; padding-top:.8em;"
   css.firstsumrow <- "border-top:1px solid;"
   css.labelcellborder <- "border-bottom:1px solid;"
   css.depvarhead <- "text-align:center; border-bottom:1px solid;"
@@ -264,7 +299,13 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
   css.col4 <- ""
   css.col5 <- ""
   css.col6 <- ""
-
+  css.modelcolumn1 <- ""
+  css.modelcolumn2 <- ""
+  css.modelcolumn3 <- ""
+  css.modelcolumn4 <- ""
+  css.modelcolumn5 <- ""
+  css.modelcolumn6 <- ""
+  css.modelcolumn7 <- ""
 
   # check user defined style sheets
 
@@ -293,6 +334,13 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
     if (!is.null(CSS[['css.firstsumrow']])) css.firstsumrow <- ifelse(substring(CSS[['css.firstsumrow']], 1, 1) == '+', paste0(css.firstsumrow, substring(CSS[['css.firstsumrow']], 2)), CSS[['css.firstsumrow']])
     if (!is.null(CSS[['css.labelcellborder']])) css.labelcellborder <- ifelse(substring(CSS[['css.labelcellborder']], 1, 1) == '+', paste0(css.table, substring(CSS[['css.labelcellborder']], 2)), CSS[['css.labelcellborder']])
     if (!is.null(CSS[['css.depvarhead']])) css.depvarhead <- ifelse(substring(CSS[['css.depvarhead']], 1, 1) == '+', paste0(css.depvarhead, substring(CSS[['css.depvarhead']], 2)), CSS[['css.depvarhead']])
+    if (!is.null(CSS[['css.modelcolumn1']])) css.modelcolumn1 <- ifelse(substring(CSS[['css.modelcolumn1']], 1, 1) == '+', paste0(css.modelcolumn1, substring(CSS[['css.modelcolumn1']], 2)), CSS[['css.modelcolumn1']])
+    if (!is.null(CSS[['css.modelcolumn2']])) css.modelcolumn2 <- ifelse(substring(CSS[['css.modelcolumn2']], 1, 1) == '+', paste0(css.modelcolumn2, substring(CSS[['css.modelcolumn2']], 2)), CSS[['css.modelcolumn2']])
+    if (!is.null(CSS[['css.modelcolumn3']])) css.modelcolumn3 <- ifelse(substring(CSS[['css.modelcolumn3']], 1, 1) == '+', paste0(css.modelcolumn3, substring(CSS[['css.modelcolumn3']], 2)), CSS[['css.modelcolumn3']])
+    if (!is.null(CSS[['css.modelcolumn4']])) css.modelcolumn4 <- ifelse(substring(CSS[['css.modelcolumn4']], 1, 1) == '+', paste0(css.modelcolumn4, substring(CSS[['css.modelcolumn4']], 2)), CSS[['css.modelcolumn4']])
+    if (!is.null(CSS[['css.modelcolumn5']])) css.modelcolumn5 <- ifelse(substring(CSS[['css.modelcolumn5']], 1, 1) == '+', paste0(css.modelcolumn5, substring(CSS[['css.modelcolumn5']], 2)), CSS[['css.modelcolumn5']])
+    if (!is.null(CSS[['css.modelcolumn6']])) css.modelcolumn6 <- ifelse(substring(CSS[['css.modelcolumn6']], 1, 1) == '+', paste0(css.modelcolumn6, substring(CSS[['css.modelcolumn6']], 2)), CSS[['css.modelcolumn6']])
+    if (!is.null(CSS[['css.modelcolumn7']])) css.modelcolumn7 <- ifelse(substring(CSS[['css.modelcolumn7']], 1, 1) == '+', paste0(css.modelcolumn7, substring(CSS[['css.modelcolumn7']], 2)), CSS[['css.modelcolumn7']])
   }
 
 
@@ -300,55 +348,38 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
 
   if (task == 1) {
     content <- sprintf(
-      "<style>\nhtml, body { background-color: white; }\n%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
-      tag.table,
-      css.table,
-      tag.caption,
-      css.caption,
-      tag.thead,
-      css.thead,
-      tag.tdata,
-      css.tdata,
-      tag.arc,
-      css.arc,
-      tag.summary,
-      css.summary,
-      tag.fixedparts,
-      css.fixedparts,
-      tag.randomparts,
-      css.randomparts,
-      tag.lasttablerow,
-      css.lasttablerow,
-      tag.firsttablerow,
-      css.firsttablerow,
-      tag.firstsumrow,
-      css.firstsumrow,
-      tag.labelcellborder,
-      css.labelcellborder,
-      tag.depvarhead,
-      css.depvarhead,
-      tag.leftalign,
-      css.leftalign,
-      tag.centeralign,
-      css.centeralign,
-      tag.firsttablecol,
-      css.firsttablecol,
-      tag.footnote,
-      css.footnote,
-      tag.subtitle,
-      css.subtitle,
-      tag.col1,
-      css.col1,
-      tag.col2,
-      css.col2,
-      tag.col3,
-      css.col3,
-      tag.col4,
-      css.col4,
-      tag.col5,
-      css.col5,
-      tag.col6,
-      css.col6
+      "<style>\nhtml, body { background-color: white; }\n%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
+      tag.table, css.table,
+      tag.caption, css.caption,
+      tag.thead, css.thead,
+      tag.tdata, css.tdata,
+      tag.arc, css.arc,
+      tag.summary, css.summary,
+      tag.fixedparts, css.fixedparts,
+      tag.randomparts, css.randomparts,
+      tag.lasttablerow, css.lasttablerow,
+      tag.firsttablerow, css.firsttablerow,
+      tag.firstsumrow, css.firstsumrow,
+      tag.labelcellborder, css.labelcellborder,
+      tag.depvarhead, css.depvarhead,
+      tag.leftalign, css.leftalign,
+      tag.centeralign, css.centeralign,
+      tag.firsttablecol, css.firsttablecol,
+      tag.footnote, css.footnote,
+      tag.subtitle, css.subtitle,
+      tag.modelcolumn1, css.modelcolumn1,
+      tag.modelcolumn2, css.modelcolumn2,
+      tag.modelcolumn3, css.modelcolumn3,
+      tag.modelcolumn4, css.modelcolumn4,
+      tag.modelcolumn5, css.modelcolumn5,
+      tag.modelcolumn6, css.modelcolumn6,
+      tag.modelcolumn7, css.modelcolumn7,
+      tag.col1, css.col1,
+      tag.col2, css.col2,
+      tag.col3, css.col3,
+      tag.col4, css.col4,
+      tag.col5, css.col5,
+      tag.col6, css.col6
     )
 
   } else if (task == 2) {
