@@ -78,10 +78,10 @@
 #'
 #' @importFrom dplyr full_join select if_else mutate
 #' @importFrom tibble lst add_case as_tibble
-#' @importFrom purrr reduce map2 map_if map_df compact
+#' @importFrom purrr reduce map2 map_if map_df compact map_lgl
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom sjmisc word_wrap var_rename add_columns
-#' @importFrom sjstats std_beta model_family r2
+#' @importFrom sjstats std_beta model_family r2 icc
 #' @importFrom stats nobs
 #' @importFrom rlang .data
 #' @export
@@ -380,7 +380,7 @@ tab_model <- function(
 
       if (show.icc && is_mixed_model(model)) {
         icc <- tryCatch(
-          stats::icc(model),
+          sjstats::icc(model),
           error = function(x) { NULL }
         )
       }
@@ -414,6 +414,10 @@ tab_model <- function(
   model.data <- purrr::map(model.list, ~.x[[1]])
   transform.data <- purrr::map(model.list, ~.x[[2]])
   zeroinf.data <- purrr::map(model.list, ~.x[[3]])
+  rsq.data <- purrr::map(model.list, ~.x[[4]])
+  n_obs.data <- purrr::map(model.list, ~.x[[5]])
+  icc.data <- purrr::map(model.list, ~.x[[6]])
+  is.zeroinf <- purrr::map_lgl(model.list, ~ !is.null(.x[[3]]))
 
   zeroinf.data <- purrr::compact(zeroinf.data)
 
@@ -606,7 +610,17 @@ tab_model <- function(
     x
   })
 
-  tab_model_df(dat, zeroinf, title = title, col.header = col.header)
+  tab_model_df(
+    x = dat,
+    zeroinf.list = zeroinf,
+    is.zeroinf = is.zeroinf,
+    title = title,
+    col.header = col.header,
+    rsq.list = rsq.data,
+    n_obs.list = n_obs.data,
+    icc.list = icc.data,
+    n.models = length(model.list)
+  )
 }
 
 

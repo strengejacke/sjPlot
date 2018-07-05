@@ -250,6 +250,11 @@ tab_dfs <- function(x,
 # this function is used from tab_model()
 tab_model_df <- function(x,
                          zeroinf.list,
+                         is.zeroinf,
+                         rsq.list,
+                         n_obs.list,
+                         icc.list,
+                         n.models,
                          title = NULL,
                          footnote = NULL,
                          col.header = NULL,
@@ -270,7 +275,6 @@ tab_model_df <- function(x,
   style <- tab_df_style(CSS = CSS, ...)
 
 
-  ## TODO surround output with table tag
   ## TODO add table caption afterwards
 
   # get HTML content
@@ -285,9 +289,135 @@ tab_model_df <- function(x,
     altr.row.col = alternate.rows,
     sort.column = sort.column,
     include.table.tag = FALSE,
+    no.last.table.row = TRUE,
     ...
   )
 
+
+  ## TODO add zero inflation part here
+  # if not NULL:
+  # dplyr::full_join(x, zeroinf.list) %>% sjmisc::replace_na(value = "")
+  # remove rows 1:nrow(x)
+  # call tab_df_content() again
+  # add table row with subheading, "zero-inflated model", or so
+
+
+  # prepare column span for summary information, including CSS
+
+  colspan <- (ncol(x) - 1) / n.models
+  summary.css <- "tdata summary centeralign"
+  firstsumrow <- TRUE
+
+
+  # add no of observations ----
+
+  if (!is_empty_list(n_obs.list)) {
+
+    # find first name occurence
+
+    s_css <- "tdata leftalign summary"
+    if (firstsumrow) s_css <- paste0(s_css, " firstsumrow")
+
+    page.content <- paste0(page.content, "  <tr>\n")
+    page.content <- paste0(page.content, sprintf("    <td class=\"%s\">Observations</td>\n", s_css))
+
+    # print all r-squared to table
+
+    s_css <- summary.css
+    if (firstsumrow) s_css <- paste0(s_css, " firstsumrow")
+
+    for (i in 1:length(n_obs.list)) {
+
+      if (is.null(n_obs.list[[i]])) {
+
+        page.content <- paste0(
+          page.content,
+          sprintf("    <td class=\"%s\" colspan=\"%i\">NA</td>\n", s_css, colspan)
+        )
+
+      } else {
+
+        page.content <- paste0(
+          page.content,
+          sprintf(
+            "    <td class=\"%s\" colspan=\"%i\">%i</td>\n",
+            s_css,
+            colspan,
+            n_obs.list[[i]]
+          )
+        )
+
+      }
+    }
+
+    firstsumrow <- FALSE
+    page.content <- paste0(page.content, "  </tr>\n")
+  }
+
+
+  # add r-squared ----
+
+  if (!is_empty_list(rsq.list)) {
+
+    # find first name occurence
+
+    for (i in 1:length(rsq.list)) {
+      if (!is.null(rsq.list[[i]])) {
+        rname <- names(rsq.list[[i]][[1]])
+        if (length(rsq.list[[i]] > 1))
+          rname <- sprintf("%s / %s", rname, names(rsq.list[[i]][[2]]))
+        break
+      }
+    }
+
+    # superscript 2
+
+    s_css <- "tdata leftalign summary"
+    if (firstsumrow) s_css <- paste0(s_css, " firstsumrow")
+
+    rname <- gsub("R2", "R<sup>2</sup>", rname, fixed = TRUE)
+
+    page.content <- paste0(page.content, "  <tr>\n")
+    page.content <- paste0(page.content, sprintf("    <td class=\"%s\">%s</td>\n", s_css, rname))
+
+    # print all r-squared to table
+
+    s_css <- summary.css
+    if (firstsumrow) s_css <- paste0(s_css, " firstsumrow")
+
+    for (i in 1:length(rsq.list)) {
+
+      if (is.null(rsq.list[[i]])) {
+
+        page.content <- paste0(
+          page.content,
+          sprintf("    <td class=\"%s\" colspan=\"%i\">NA</td>\n", s_css, colspan)
+        )
+
+      } else {
+
+        page.content <- paste0(
+          page.content,
+          sprintf(
+            "    <td class=\"%s\" colspan=\"%i\">%.3f / %.3f</td>\n",
+            s_css,
+            colspan,
+            rsq.list[[i]][[1]],
+            rsq.list[[i]][[2]]
+          )
+        )
+
+      }
+    }
+
+    firstsumrow <- FALSE
+    page.content <- paste0(page.content, "  </tr>\n")
+  }
+
+
+  # surround output with table-tag ----
+
+  page.content <- paste0("<table>\n", page.content, "\n<table>\n")
 
   # create HTML page with header information
   page.complete <- tab_create_page(

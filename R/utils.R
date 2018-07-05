@@ -284,3 +284,8 @@ clear_terms <- function(x) {
   # get variable names only
   sjmisc::trim(substr(x, 0, cleaned.pos))
 }
+
+
+is_empty_list <- function(x) {
+  all(purrr::map_lgl(x, sjmisc::is_empty))
+}
