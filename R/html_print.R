@@ -348,7 +348,7 @@ tab_model_df <- function(x,
   if (!is_empty_list(icc.list) && show.re.var) {
 
     page.content <- paste0(page.content, "  <tr>\n")
-    page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"randomparts\">Random Parts</td>\n", ncol(x) - 1))
+    page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"randomparts\">Random Effects</td>\n", ncol(x) - 1))
     page.content <- paste0(page.content, "  </tr>\n")
 
     s_css <- "tdata leftalign summary"
