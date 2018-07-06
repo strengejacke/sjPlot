@@ -45,6 +45,7 @@ Following functions are now defunct:
 * Multiple random intercepts for multilevel models fitted with `brms` area now shown in each own facet per intercept.
 * Remove unnecessary warning in `sjp.likert()` for uneven category count when neutral category is specified.
 * `plot_model(type = "int")` could not automatically select `mdrt.values` properly for non-integer variables.
+* `sjp.grpfrq()` now correctly uses the complete space in facets when `facet.grid = TRUE`.
 
 # sjPlot 2.4.1
 

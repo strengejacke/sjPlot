@@ -854,8 +854,8 @@ sjp.grpfrq <- function(var.cnt,
   if (facet.grid) {
     baseplot <- baseplot +
       # set font size for axes.
-      theme(strip.text = element_text(face = "bold", size = rel(1.2))) +
-      facet_wrap(~group)
+      # theme(strip.text = element_text(face = "bold", size = rel(1.1))) +
+      facet_wrap(~group, scales = "free")
   }
 
   # set geom colors
