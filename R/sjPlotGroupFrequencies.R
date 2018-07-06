@@ -449,6 +449,11 @@ sjp.grpfrq <- function(var.cnt,
         wb = w
       )))
 
+    if (!is.null(axis.labels) &&
+        length(axis.labels) > dplyr::n_distinct(mydf$group, na.rm = TRUE)) {
+      axis.labels <- axis.labels[na.omit(unique(mydf$group))]
+    }
+
     mydf$ia <- as.factor(mydf$ia)
     mydf$group <- as.factor(mydf$group)
   }

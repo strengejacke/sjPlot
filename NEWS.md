@@ -46,6 +46,8 @@ Following functions are now defunct:
 * Remove unnecessary warning in `sjp.likert()` for uneven category count when neutral category is specified.
 * `plot_model(type = "int")` could not automatically select `mdrt.values` properly for non-integer variables.
 * `sjp.grpfrq()` now correctly uses the complete space in facets when `facet.grid = TRUE`.
+* `sjp.grpfrq(type = "boxplot")` did not correctly label the x-axis when one category had no elements in a vector.
+
 
 # sjPlot 2.4.1
 
