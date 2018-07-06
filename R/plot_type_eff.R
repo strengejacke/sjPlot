@@ -48,7 +48,8 @@ plot_type_eff <- function(type,
 
 
   # select color palette
-  geom.colors <- col_check2(geom.colors, dplyr::n_distinct(dat$group))
+  if (geom.colors[1] != "bw")
+    geom.colors <- col_check2(geom.colors, dplyr::n_distinct(dat$group))
 
   p <- graphics::plot(
     dat,
