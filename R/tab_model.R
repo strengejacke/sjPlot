@@ -45,12 +45,29 @@
 #'    fitted models. See 'Examples'.
 #' @param show.intercept Logical, if \code{TRUE}, the intercepts are printed.
 #' @param show.est Logical, if \code{TRUE}, the estimates are printed.
-#' @param show.ci Logical, if \code{TRUE}, the confidence interval
-#'    is printed to the table.
+#' @param show.zeroinf Logical, if \code{TRUE} and model has a zero-inflated
+#'    model part, this is also printed to the table.
+#' @param show.re.var Logical, if \code{TRUE}, prints the random effect variances
+#'    for mixed models. See \code{\link[sjstats]{re_var}} for details.
+#' @param show.icc Logical, if \code{TRUE}, prints the intraclass correlation
+#'    coefficient for mixed models. See \code{\link[sjstats]{icc}} for details.
+#' @param show.dev Logical, if \code{TRUE}, shows the deviance of the model.
+#' @param show.ci Either logical, and if \code{TRUE}, the confidence intervals
+#'    is printed to the table; if \code{FALSE}, confidence intervals are
+#'    omitted. Or numeric, between 0 and 1, indicating the range of the
+#'    confidence intervals.
 #' @param show.std Indicates whether standardized beta-coefficients should
 #'    also printed, and if yes, which type of standardization is done.
 #'    See 'Details'.
 #' @param show.se Logical, if \code{TRUE}, the standard errors are also printed.
+#' @param show.r2 Logical, if \code{TRUE}, the r-squared value is also printed.
+#'    Depending on the model, these might be pseudo-r-squared values, or Bayesian
+#'    r-squared etc. See \code{\link[sjstats]{r2}} for details.
+#' @param show.stat Logical, if \code{TRUE}, the coefficients' test statistic
+#'    is also printed.
+#' @param show.df Logical, if \code{TRUE} and \code{p.val = "kr"}, the p-values
+#'    for linear mixed models are based on df with Kenward-Rogers approximation.
+#'    These df-values are printed. See \code{\link[sjstats]{p_value}} for details.
 #' @param string.pred Character vector,used as headline for the predictor column.
 #'    Default is \code{"Predictors"}.
 #' @param string.std Character vector, used for the column heading of standardized beta coefficients. Default is \code{"std. Beta"}.
@@ -76,12 +93,13 @@
 #' @inheritParams plot_models
 #' @inheritParams plot_model
 #'
+#
 #' @importFrom dplyr full_join select if_else mutate
 #' @importFrom tibble lst add_case as_tibble
-#' @importFrom purrr reduce map2 map_if map_df compact map_lgl
+#' @importFrom purrr reduce map2 map_if map_df compact map_lgl map_chr flatten_chr
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom sjmisc word_wrap var_rename add_columns
-#' @importFrom sjstats std_beta model_family r2 icc
+#' @importFrom sjstats std_beta model_family r2 icc resp_var
 #' @importFrom stats nobs
 #' @importFrom rlang .data
 #' @export
@@ -99,13 +117,10 @@ tab_model <- function(
   show.stat = FALSE,
   show.df = FALSE,
 
-  show.header = FALSE,
-  show.col.header = TRUE,
-
-  show.zeroinf = FALSE,
+  show.zeroinf = TRUE,
   show.r2 = TRUE,
-  show.icc = FALSE,
-  show.re.var = FALSE,
+  show.icc = TRUE,
+  show.re.var = TRUE,
   show.fstat = FALSE,
   show.aic = FALSE,
   show.aicc = FALSE,
@@ -128,6 +143,7 @@ tab_model <- function(
   string.se = "std. Error",
   string.p = "p",
   string.df = "df",
+  string.stat = "Statistic",
   ci.hyphen = "&nbsp;&ndash;&nbsp;",
   minus.sign = "&#45;",
 
@@ -142,7 +158,7 @@ tab_model <- function(
   case = "parsed",
   auto.label = TRUE,
   bpe = "median",
-  CSS = NULL
+  CSS = css_theme("regression")
 ) {
 
   p.val <- match.arg(p.val)
@@ -387,13 +403,20 @@ tab_model <- function(
       }
 
 
+      # Add deviance statistic ----
+
+      dev <- NULL
+      if (show.dev) dev <- model_deviance(model)
+
+
       list(
         dat = dat,
         transform = transform,
         zeroinf = zidat,
         rsq = rsq,
         n_obs = n_obs,
-        icc = icc
+        icc = icc,
+        dev = dev
       )
     }
   )
@@ -418,11 +441,13 @@ tab_model <- function(
   rsq.data <- purrr::map(model.list, ~.x[[4]])
   n_obs.data <- purrr::map(model.list, ~.x[[5]])
   icc.data <- purrr::map(model.list, ~.x[[6]])
+  dev.data <- purrr::map(model.list, ~.x[[7]])
   is.zeroinf <- purrr::map_lgl(model.list, ~ !is.null(.x[[3]]))
 
   zeroinf.data <- purrr::compact(zeroinf.data)
 
-  ## sort multivariate response models by response level
+
+  # sort multivariate response models by response level
 
   model.data <- purrr::map(model.data, function(.x) {
     resp.col <- tidyselect::starts_with("response.level", vars = colnames(.x))
@@ -431,6 +456,44 @@ tab_model <- function(
     else
       .x
   })
+
+
+  # if only one multivariate response model, split data
+  # to print models side by side, and update labels of
+  # dependent variables
+
+  show.response <- TRUE
+
+  if (length(model.data) == 1) {
+    fi <- sjstats::model_family(models[[1]])
+    if (fi$is_multivariate) {
+      show.response <- FALSE
+
+      dv.labels <- sjmisc::word_wrap(
+        sjlabelled::get_dv_labels(models, multi.resp = TRUE, case = case),
+        wrap = wrap.labels,
+        linesep = "<br>"
+      )
+
+      if (sjmisc::is_empty(dv.labels) || !isTRUE(auto.label))
+        dv.labels <- sjstats::resp_var(models[[1]])
+
+      model.data <- split(model.data[[1]], model.data[[1]]["response.level_1"])
+      dv.labels <- dv.labels[match(names(dv.labels), names(model.data))]
+
+      model.data <- purrr::map2(model.data, 1:length(model.data), function(x, y) {
+        colnames(x) <- gsub(
+          pattern = "_1",
+          replacement = sprintf("_%i", y),
+          x = colnames(x)
+        )
+        x
+      })
+    }
+  }
+
+
+  # Join all models into one data frame, and replace NA by empty strings
 
   dat <- model.data %>%
     purrr::reduce(~ dplyr::full_join(.x, .y, by = "term")) %>%
@@ -449,6 +512,7 @@ tab_model <- function(
       show.stat,
       show.p,
       show.df,
+      show.response,
       terms,
       rm.terms
     )
@@ -473,6 +537,7 @@ tab_model <- function(
         show.stat,
         show.p,
         show.df,
+        show.response,
         terms,
         rm.terms
       )
@@ -495,7 +560,7 @@ tab_model <- function(
   # to insert "header" rows for categorical variables, we need to
   # save the original term names first.
 
-  remember.terms <- dat$term
+  # remember.terms <- dat$term
 
 
   # named vector for predictor labels means we try to match labels
@@ -539,10 +604,12 @@ tab_model <- function(
 
   if (isTRUE(auto.label) && sjmisc::is_empty(dv.labels)) {
     dv.labels <- sjmisc::word_wrap(
-      sjlabelled::get_dv_labels(models, mark.cat = TRUE, case = case),
+      sjlabelled::get_dv_labels(models, case = case),
       wrap = wrap.labels,
       linesep = "<br>"
     )
+  } else if (sjmisc::is_empty(dv.labels)) {
+    dv.labels <- purrr::map(models, sjstats::resp_var) %>% purrr::flatten_chr()
   }
 
 
@@ -569,15 +636,40 @@ tab_model <- function(
 
   col.header <- purrr::map_chr(colnames(dat), function(x) {
     pos <- grep("estimate", x, fixed = T)
+
     if (!sjmisc::is_empty(pos)) {
       i <- as.numeric(sub("estimate_", "", x = x, fixed = T))
-      x <- estimate_axis_title(
-        models[[i]],
-        axis.title = NULL,
-        type = "est",
-        transform = transform.data[[i]]
-      )
+
+      if (i <= length(models)) {
+        x <- estimate_axis_title(
+          models[[i]],
+          axis.title = NULL,
+          type = "est",
+          transform = transform.data[[i]],
+          multi.resp = NULL
+        )
+      } else if (length(models) == 1) {
+
+        fi <- sjstats::model_family(models[[1]])
+
+        if (fi$is_multivariate)
+          mr <- i
+        else
+          mr <- NULL
+
+        x <- estimate_axis_title(
+          models[[1]],
+          axis.title = NULL,
+          type = "est",
+          transform = transform.data[[1]],
+          multi.resp = mr
+        )
+
+      } else {
+        x <- "Estimate"
+      }
     }
+
 
     pos <- grep("term", x, fixed = T)
     if (!sjmisc::is_empty(pos)) x <- string.pred
@@ -603,6 +695,12 @@ tab_model <- function(
     pos <- grep("df", x, fixed = T)
     if (!sjmisc::is_empty(pos)) x <- string.df
 
+    pos <- grep("statistic", x, fixed = T)
+    if (!sjmisc::is_empty(pos)) x <- string.stat
+
+    pos <- grep("response.level", x, fixed = T)
+    if (!sjmisc::is_empty(pos)) x <- "Response"
+
     pos <- grep("hdi.inner", x, fixed = T)
     if (!sjmisc::is_empty(pos)) x <- "HDI (50%)"
 
@@ -618,9 +716,11 @@ tab_model <- function(
     is.zeroinf = is.zeroinf,
     title = title,
     col.header = col.header,
+    dv.labels = dv.labels,
     rsq.list = rsq.data,
     n_obs.list = n_obs.data,
     icc.list = icc.data,
+    dev.list = dev.data,
     n.models = length(model.list),
     show.re.var = show.re.var,
     show.icc = show.icc,
@@ -657,7 +757,7 @@ sort_columns <- function(x, is.stan) {
 
 #' @importFrom tidyselect starts_with
 #' @importFrom dplyr select slice
-remove_unwanted <- function(dat, show.intercept, show.est, show.std, show.ci, show.se, show.stat, show.p, show.df, terms, rm.terms) {
+remove_unwanted <- function(dat, show.intercept, show.est, show.std, show.ci, show.se, show.stat, show.p, show.df, show.response, terms, rm.terms) {
   if (!show.intercept) {
     ints1 <- tidyselect::contains("(Intercept", vars = dat$term)
     ints2 <- tidyselect::contains("b_Intercept", vars = dat$term)
@@ -698,6 +798,10 @@ remove_unwanted <- function(dat, show.intercept, show.est, show.std, show.ci, sh
 
   if (show.stat == FALSE) {
     dat <- dplyr::select(dat, -tidyselect::starts_with("statistic"))
+  }
+
+  if (show.response == FALSE) {
+    dat <- dplyr::select(dat, -tidyselect::starts_with("response.level"))
   }
 
   if (show.p == FALSE) {

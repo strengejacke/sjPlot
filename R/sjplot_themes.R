@@ -1,8 +1,8 @@
 #' @title Modify plot appearance
 #' @name sjPlot-themes
 #'
-#' @description Set default theme plots, use pre-defined color scales or modify
-#'   plot appearance.
+#' @description Set default plot themes, use pre-defined color scales or modify
+#'   plot or table appearance.
 #'
 #' @param base_size Base font size.
 #' @param base_family Base font family.
@@ -44,6 +44,7 @@
 #' @param reverse Logical, if \code{TRUE}, order of returned colours is reversed.
 #' @param n Numeric, number of colors to be returned. By default, the complete
 #'   colour palette is returned.
+#' @param css.theme Name of the CSS pre-set theme-style. Can be used for table-functions.
 #' @param ... Further arguments passed down to ggplot's \code{scale()}-functions.
 #'
 #' @details
@@ -364,4 +365,30 @@ sjplot_colors <- list(
   `deep reefs` = c("#43a9b6", "#218282", "#dbdcd1", "#44515c", "#517784"),
   `breakfast club` = c("#b6411a", "#eec3d8", "#4182dd", "#ecf0c8", "#2d6328"),
   `metro ui` = c("#d11141", "#00aedb", "#00b159", "#f37735", "#8c8c8c", "#ffc425", "#cccccc")
+)
+
+
+#' @rdname sjPlot-themes
+#' @export
+css_theme <- function(css.theme = "regression") {
+
+  if (!(css.theme %in% names(css.themes))) {
+    warning(sprintf("No valid CSS-theme name. Current available themes are: %s", paste(names(css.themes), collapse = ", ")), call. = FALSE)
+    return(NULL)
+  }
+
+  css.themes[[css.theme]]
+}
+
+
+css.themes <- list(
+  `regression` = list(
+    css.thead = "border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;",
+    css.firsttablerow = "",
+    css.summarydata = "text-align:left;"
+  ),
+  `cells` = list(
+    css.td = "border:1px solid black;",
+    css.thead = "border:1px solid black;"
+  )
 )

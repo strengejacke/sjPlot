@@ -104,14 +104,18 @@ axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, expon
 
 #' @importFrom sjstats model_family
 #' @importFrom dplyr case_when
-estimate_axis_title <- function(fit, axis.title, type, transform = NULL) {
+estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.resp = NULL) {
 
   # no automatic title for effect-plots
   if (type %in% c("eff", "pred", "int")) return(axis.title)
 
   # check default label and fit family
   if (is.null(axis.title)) {
-    fitfam <- sjstats::model_family(fit)
+
+    if (!is.null(multi.resp))
+      fitfam <- sjstats::model_family(fit, multi.resp = TRUE)[[multi.resp]]
+    else
+      fitfam <- sjstats::model_family(fit)
 
     axis.title <-  dplyr::case_when(
       !is.null(transform) && transform == "plogis" ~ "Probabilities",
@@ -286,6 +290,30 @@ clear_terms <- function(x) {
 }
 
 
+#' @importFrom purrr map_lgl
+#' @importFrom sjmisc is_empty
 is_empty_list <- function(x) {
   all(purrr::map_lgl(x, sjmisc::is_empty))
+}
+
+
+model_deviance <- function(x) {
+  tryCatch(
+    m_deviance(x),
+    error = function(x) { NULL }
+  )
+}
+
+
+#' @importFrom lme4 getME
+#' @importFrom stats deviance
+m_deviance <- function(x) {
+  if (is_merMod(x)) {
+    d <- lme4::getME(x, "devcomp")$cmp["dev"]
+    if (is.na(d)) d <- stats::deviance(x, REML = FALSE)
+  } else {
+    d <- stats::deviance(x)
+  }
+
+  d
 }

@@ -255,22 +255,18 @@ tab_dfs <- function(x,
 tab_model_df <- function(x,
                          zeroinf,
                          is.zeroinf,
+                         dv.labels,
                          rsq.list,
                          n_obs.list,
                          icc.list,
+                         dev.list,
                          n.models,
                          title = NULL,
-                         footnote = NULL,
                          col.header = NULL,
-                         show.type = FALSE,
-                         show.rownames = TRUE,
-                         show.footnote = FALSE,
-                         alternate.rows = FALSE,
-                         sort.column = NULL,
-                         encoding = "UTF-8",
-                         CSS = NULL,
                          show.re.var = FALSE,
                          show.icc = FALSE,
+                         encoding = "UTF-8",
+                         CSS = NULL,
                          file = NULL,
                          use.viewer = TRUE,
                          ...) {
@@ -282,23 +278,68 @@ tab_model_df <- function(x,
 
 
   ## TODO add table caption afterwards
-  ## TODO add column header with name of dependent variable
 
   # get HTML content
   page.content <- tab_df_content(
     mydf = x,
     title = NULL,
-    footnote = footnote,
+    footnote = NULL,
     col.header = col.header,
-    show.type = show.type,
-    show.rownames = show.rownames,
-    show.footnote = show.footnote,
-    altr.row.col = alternate.rows,
-    sort.column = sort.column,
+    show.type = FALSE,
+    show.rownames = FALSE,
+    show.footnote = FALSE,
+    show.header = TRUE,
+    altr.row.col = FALSE,
+    sort.column = NULL,
     include.table.tag = FALSE,
     no.last.table.row = TRUE,
     ...
   )
+
+  # replace CSS for first table row
+
+  page.content <- gsub(
+    pattern = "thead ",
+    replacement = "depvarhead ",
+    x = page.content,
+    fixed = TRUE,
+    useBytes = TRUE
+  )
+
+  # replace HTML-Tag for first table row
+
+  page.content <- gsub(
+    pattern = "<th ",
+    replacement = "<td ",
+    x = page.content,
+    fixed = TRUE,
+    useBytes = TRUE
+  )
+
+  page.content <- gsub(
+    pattern = "</th",
+    replacement = "</td",
+    x = page.content,
+    fixed = TRUE,
+    useBytes = TRUE
+  )
+
+
+  # table column header, with label of dependent variables ----
+
+  dv.content <- "  <tr>\n"
+  dv.content <- paste0(dv.content, "    <th class=\"thead firsttablerow firsttablecol col1\">&nbsp;</th>\n")
+
+  for (i in 1:length(dv.labels)) {
+    colspan <- length(tidyselect::ends_with(sprintf("_%i", i), vars = colnames(x)))
+    dv.content <- paste0(
+      dv.content,
+      sprintf("    <th colspan=\"%i\" class=\"thead firsttablerow\">%s</th>\n", colspan, dv.labels[i])
+    )
+  }
+
+  dv.content <- paste0(dv.content, "  </tr>\n")
+  page.content <- paste0(dv.content, page.content)
 
 
   # zero inflation part here ----
@@ -315,7 +356,7 @@ tab_model_df <- function(x,
     )
 
     page.content <- paste0(page.content, "  <tr>\n")
-    page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"randomparts\">Zero-Inflated Model</td>\n", ncol(x) - 1))
+    page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"zeroparts\">Zero-Inflated Model</td>\n", ncol(x)))
     page.content <- paste0(page.content, "  </tr>\n")
 
     zero.content <- tab_df_content(
@@ -324,13 +365,13 @@ tab_model_df <- function(x,
       footnote = NULL,
       col.header = NULL,
       show.type = FALSE,
-      show.rownames = show.rownames,
+      show.rownames = FALSE,
       show.footnote = FALSE,
-      altr.row.col = alternate.rows,
-      sort.column = sort.column,
+      show.header = FALSE,
+      altr.row.col = FALSE,
+      sort.column = NULL,
       include.table.tag = FALSE,
       no.last.table.row = TRUE,
-      show.header = FALSE,
       ...
     )
 
@@ -339,17 +380,20 @@ tab_model_df <- function(x,
 
   # prepare column span for summary information, including CSS
 
-  summary.css <- "tdata summary centeralign"
+  summary.css <- "tdata summary summarydata"
   firstsumrow <- TRUE
 
 
-  # add random parts ----
+  # add random effects ----
 
   if (!is_empty_list(icc.list) && show.re.var) {
 
     page.content <- paste0(page.content, "  <tr>\n")
-    page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"randomparts\">Random Effects</td>\n", ncol(x) - 1))
+    page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"randomparts\">Random Effects</td>\n", ncol(x)))
     page.content <- paste0(page.content, "  </tr>\n")
+
+
+    ## random effects: within-group-variance: sigma ----
 
     s_css <- "tdata leftalign summary"
     page.content <- paste0(page.content, sprintf("\n  <tr>\n    <td class=\"%s\">&sigma;<sup>2</sup></td>\n", s_css))
@@ -357,7 +401,10 @@ tab_model_df <- function(x,
 
     for (i in 1:length(icc.list)) {
 
-      colspan <- length(tidyselect::ends_with(sprintf("_%i", i), vars = colnames(x)))
+      if (length(icc.list) == 1)
+        colspan <- ncol(x) - 1
+      else
+        colspan <- length(tidyselect::ends_with(sprintf("_%i", i), vars = colnames(x)))
 
       if (is.null(icc.list[[i]])) {
 
@@ -381,50 +428,85 @@ tab_model_df <- function(x,
       }
     }
 
+
+    # random effects: Between-group-variance: tau.00 ----
+
     tau00 <- purrr::map(icc.list, ~ attr(.x, "tau.00", exact = TRUE))
     tau00.len <- max(purrr::map_dbl(tau00, length))
 
-    for (i in 1:tau00.len) {
+    page.content <- paste0(
+      page.content,
+      create_random_effects(
+        rv.len = tau00.len,
+        rv = tau00,
+        rv.string = "&tau;<sub>00</sub>",
+        clean.rv = "tau.00",
+        var.names = colnames(x),
+        summary.css = summary.css,
+        n.cols = ncol(x)
+    ))
 
-      s_css <- "tdata leftalign summary"
+
+    # random effects: random-slope-variance: tau11 ----
+
+    has_rnd_slope <- purrr::map_lgl(icc.list, ~ isTRUE(attr(.x, "rnd.slope.model", exact = TRUE)))
+
+    if (any(has_rnd_slope)) {
+
+      tau11 <- purrr::map(icc.list, ~ attr(.x, "tau.11", exact = TRUE))
+      tau11.len <- max(purrr::map_dbl(tau11, length))
+
       page.content <- paste0(
         page.content,
-        sprintf("\n  <tr>\n    <td class=\"%s\">&tau;<sub>00</sub></td>\n", s_css)
-      )
-      s_css <- summary.css
+        create_random_effects(
+          rv.len = tau11.len,
+          rv = tau11,
+          rv.string = "&tau;<sub>11</sub>",
+          clean.rv = "tau.11",
+          var.names = colnames(x),
+          summary.css = summary.css,
+          n.cols = ncol(x)
+      ))
 
-      for (j in 1:length(tau00)) {
+      rho01 <- purrr::map(icc.list, ~ attr(.x, "rho.01", exact = TRUE))
+      rho01.len <- max(purrr::map_dbl(rho01, length))
 
-        colspan <- length(tidyselect::ends_with(sprintf("_%i", j), vars = colnames(x)))
+      page.content <- paste0(
+        page.content,
+        create_random_effects(
+          rv.len = rho01.len,
+          rv = rho01,
+          rv.string = "&rho;<sub>01</sub>",
+          clean.rv = "rho.01",
+          var.names = colnames(x),
+          summary.css = summary.css,
+          n.cols = ncol(x)
+      ))
 
-        if (is.null(tau00[[j]]) || is.na(tau00[[j]][i])) {
-
-          page.content <- paste0(
-            page.content,
-            sprintf("    <td class=\"%s\" colspan=\"%i\">&nbsp;</td>\n", s_css, as.integer(colspan))
-          )
-
-        } else {
-
-          page.content <- paste0(
-            page.content,
-            sprintf(
-              "    <td class=\"%s\" colspan=\"%i\">%.2f (%s)</td>\n",
-              s_css,
-              as.integer(colspan),
-              tau00[[j]][i],
-              names(tau00[[j]][i])
-            )
-          )
-
-        }
-      }
     }
+
   }
 
 
-  ## TODO print ICC
-  ## TODO print tau01 and rho01
+  # add ICC ----
+
+  if (!is_empty_list(icc.list) && show.icc) {
+
+    icc.len <- max(purrr::map_dbl(icc.list, length))
+
+    page.content <- paste0(
+      page.content,
+      create_random_effects(
+        rv.len = icc.len,
+        rv = icc.list,
+        rv.string = "ICC",
+        clean.rv = "icc",
+        var.names = colnames(x),
+        summary.css = summary.css,
+        n.cols = ncol(x)
+    ))
+
+  }
 
 
   # add no of observations ----
@@ -446,7 +528,10 @@ tab_model_df <- function(x,
 
     for (i in 1:length(n_obs.list)) {
 
-      colspan <- length(tidyselect::ends_with(sprintf("_%i", i), vars = colnames(x)))
+      if (length(n_obs.list) == 1)
+        colspan <- ncol(x) - 1
+      else
+        colspan <- length(tidyselect::ends_with(sprintf("_%i", i), vars = colnames(x)))
 
       if (is.null(n_obs.list[[i]])) {
 
@@ -496,6 +581,7 @@ tab_model_df <- function(x,
     if (firstsumrow) s_css <- paste0(s_css, " firstsumrow")
 
     rname <- gsub("R2", "R<sup>2</sup>", rname, fixed = TRUE)
+    rname <- gsub("R-squared", "R<sup>2</sup>", rname, fixed = TRUE)
 
     page.content <- paste0(page.content, "  <tr>\n")
     page.content <- paste0(page.content, sprintf("    <td class=\"%s\">%s</td>\n", s_css, rname))
@@ -507,7 +593,10 @@ tab_model_df <- function(x,
 
     for (i in 1:length(rsq.list)) {
 
-      colspan <- length(tidyselect::ends_with(sprintf("_%i", i), vars = colnames(x)))
+      if (length(rsq.list) == 1)
+        colspan <- ncol(x) - 1
+      else
+        colspan <- length(tidyselect::ends_with(sprintf("_%i", i), vars = colnames(x)))
 
       if (is.null(rsq.list[[i]])) {
 
@@ -534,6 +623,21 @@ tab_model_df <- function(x,
 
     firstsumrow <- FALSE
     page.content <- paste0(page.content, "  </tr>\n")
+  }
+
+
+  # add deviance ----
+
+  if (!is_empty_list(dev.list)) {
+    page.content <- paste0(page.content, create_stats(
+      data.list = dev.list,
+      data.string = "Deviance",
+      firstsumrow = firstsumrow,
+      summary.css = summary.css,
+      var.names = colnames(x),
+      n.cols = ncol(x)
+    ))
+    firstsumrow <- FALSE
   }
 
 
@@ -572,4 +676,115 @@ tab_model_df <- function(x,
       viewer = use.viewer
     )
   )
+}
+
+
+create_random_effects <- function(rv.len, rv, rv.string, clean.rv, var.names, summary.css, n.cols) {
+  page.content <- ""
+  pattern <- paste0("^", clean.rv, "_")
+
+  for (i in 1:rv.len) {
+
+    s_css <- "tdata leftalign summary"
+    rvs <- rv.string
+    rv.name <- gsub(pattern, "", names(rv[[1]][i]))
+
+    if (length(rv) == 1)
+      rvs <- sprintf("%s <sub>%s</sub>", rv.string, rv.name)
+    else if (i > 1)
+      rvs <- ""
+
+    page.content <- paste0(
+      page.content,
+      sprintf("\n  <tr>\n    <td class=\"%s\">%s</td>\n", s_css, rvs)
+    )
+    s_css <- summary.css
+
+    for (j in 1:length(rv)) {
+
+      if (length(rv) == 1)
+        colspan <- n.cols - 1
+      else
+        colspan <- length(tidyselect::ends_with(sprintf("_%i", j), vars = var.names))
+
+      if (is.null(rv[[j]]) || is.na(rv[[j]][i])) {
+
+        page.content <- paste0(
+          page.content,
+          sprintf("    <td class=\"%s\" colspan=\"%i\">&nbsp;</td>\n", s_css, as.integer(colspan))
+        )
+
+      } else {
+
+        rv.name <- gsub(pattern, "", names(rv[[j]][i]))
+
+        if (length(rv) > 1)
+          suffix <- sprintf(" <sub>%s</sub>", rv.name)
+        else
+          suffix <- ""
+
+        page.content <- paste0(
+          page.content,
+          sprintf(
+            "    <td class=\"%s\" colspan=\"%i\">%.2f%s</td>\n",
+            s_css,
+            as.integer(colspan),
+            rv[[j]][i],
+            suffix
+          )
+        )
+
+      }
+    }
+  }
+
+  page.content
+}
+
+
+#' @importFrom tidyselect ends_with
+create_stats <- function(data.list, data.string, firstsumrow, summary.css, var.names, n.cols) {
+  page.content <- ""
+
+  s_css <- "tdata leftalign summary"
+  if (firstsumrow) s_css <- paste0(s_css, " firstsumrow")
+
+  page.content <- paste0(page.content, "  <tr>\n")
+  page.content <- paste0(page.content, sprintf("    <td class=\"%s\">%s</td>\n", s_css, data.string))
+
+  # print all r-squared to table
+
+  s_css <- summary.css
+  if (firstsumrow) s_css <- paste0(s_css, " firstsumrow")
+
+  for (i in 1:length(data.list)) {
+
+    if (length(data.list) == 1)
+      colspan <- n.cols - 1
+    else
+      colspan <- length(tidyselect::ends_with(sprintf("_%i", i), vars = var.names))
+
+    if (is.null(data.list[[i]])) {
+
+      page.content <- paste0(
+        page.content,
+        sprintf("    <td class=\"%s\" colspan=\"%i\">&nbsp;</td>\n", s_css, as.integer(colspan))
+      )
+
+    } else {
+
+      page.content <- paste0(
+        page.content,
+        sprintf(
+          "    <td class=\"%s\" colspan=\"%i\">%.3f</td>\n",
+          s_css,
+          as.integer(colspan),
+          data.list[[i]]
+        )
+      )
+
+    }
+  }
+
+  paste0(page.content, "  </tr>\n")
 }

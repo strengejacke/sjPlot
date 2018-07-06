@@ -244,6 +244,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
   # later for return value
 
   tag.table <- "table"
+  tag.td <- "td"
   tag.caption <- "caption"
   tag.thead <- "thead"
   tag.tdata <- "tdata"
@@ -256,8 +257,10 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
   tag.leftalign <- "leftalign"
   tag.centeralign <- "centeralign"
   tag.summary <- "summary"
+  tag.summarydata <- "summarydata"
   tag.fixedparts <- "fixedparts"
   tag.randomparts <- "randomparts"
+  tag.zeroparts <- "zeroparts"
   tag.firstsumrow <- "firstsumrow"
   tag.labelcellborder <- "labelcellborder"
   tag.depvarhead <- "depvarhead"
@@ -276,23 +279,26 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
   tag.modelcolumn7 <- "modelcolumn7"
 
   css.table <- "border-collapse:collapse; border:none;"
+  css.td <- ""
   css.caption <- "font-weight: bold; text-align:left;"
   css.thead <- "border-top: double; text-align:center; font-style:italic; font-weight:normal; padding:0.2cm;"
   css.tdata <- "padding:0.2cm; text-align:left; vertical-align:top;"
   css.arc <- "background-color:#f2f2f2;"
   css.lasttablerow <- "border-bottom: double;"
   css.firsttablerow <- "border-bottom:1px solid black;"
-  css.firsttablecol <- ""
+  css.firsttablecol <- "text-align:left;"
   css.leftalign <- "text-align:left;"
   css.centeralign <- "text-align:center;"
   css.footnote <- "font-style:italic; border-top:double black; text-align:right;"
   css.subtitle <- "font-weight: normal;"
   css.summary <- "padding-top:0.1cm; padding-bottom:0.1cm;"
+  css.summarydata <- "text-align:center;"
   css.fixedparts <- "font-weight:bold; text-align:left;"
   css.randomparts <- "font-weight:bold; text-align:left; padding-top:.8em;"
+  css.zeroparts <- "font-weight:bold; text-align:left; padding-top:.8em;"
   css.firstsumrow <- "border-top:1px solid;"
   css.labelcellborder <- "border-bottom:1px solid;"
-  css.depvarhead <- "text-align:center; border-bottom:1px solid;"
+  css.depvarhead <- "text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;"
   css.col1 <- ""
   css.col2 <- ""
   css.col3 <- ""
@@ -311,6 +317,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
 
   if (!is.null(CSS)) {
     if (!is.null(CSS[['css.table']])) css.table <- ifelse(substring(CSS[['css.table']], 1, 1) == '+', paste0(css.table, substring(CSS[['css.table']], 2)), CSS[['css.table']])
+    if (!is.null(CSS[['css.td']])) css.td <- ifelse(substring(CSS[['css.td']], 1, 1) == '+', paste0(css.td, substring(CSS[['css.td']], 2)), CSS[['css.td']])
     if (!is.null(CSS[['css.caption']])) css.caption <- ifelse(substring(CSS[['css.caption']], 1, 1) == '+', paste0(css.caption, substring(CSS[['css.caption']], 2)), CSS[['css.caption']])
     if (!is.null(CSS[['css.thead']])) css.thead <- ifelse(substring(CSS[['css.thead']], 1, 1) == '+', paste0(css.thead, substring(CSS[['css.thead']], 2)), CSS[['css.thead']])
     if (!is.null(CSS[['css.tdata']])) css.tdata <- ifelse(substring(CSS[['css.tdata']], 1, 1) == '+', paste0(css.tdata, substring(CSS[['css.tdata']], 2)), CSS[['css.tdata']])
@@ -329,8 +336,10 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
     if (!is.null(CSS[['css.col5']])) css.col5 <- ifelse(substring(CSS[['css.col5']], 1, 1) == '+', paste0(css.col5, substring(CSS[['css.col5']], 2)), CSS[['css.col5']])
     if (!is.null(CSS[['css.col6']])) css.col6 <- ifelse(substring(CSS[['css.col6']], 1, 1) == '+', paste0(css.col6, substring(CSS[['css.col6']], 2)), CSS[['css.col6']])
     if (!is.null(CSS[['css.summary']])) css.summary <- ifelse(substring(CSS[['css.summary']], 1, 1) == '+', paste0(css.summary, substring(CSS[['css.summary']], 2)), CSS[['css.summary']])
+    if (!is.null(CSS[['css.summarydata']])) css.summarydata <- ifelse(substring(CSS[['css.summarydata']], 1, 1) == '+', paste0(css.summarydata, substring(CSS[['css.summarydata']], 2)), CSS[['css.summarydata']])
     if (!is.null(CSS[['css.fixedparts']])) css.fixedparts <- ifelse(substring(CSS[['css.fixedparts']], 1, 1) == '+', paste0(css.fixedparts, substring(CSS[['css.fixedparts']], 2)), CSS[['css.fixedparts']])
     if (!is.null(CSS[['css.randomparts']])) css.randomparts <- ifelse(substring(CSS[['css.randomparts']], 1, 1) == '+', paste0(css.randomparts, substring(CSS[['css.randomparts']], 2)), CSS[['css.randomparts']])
+    if (!is.null(CSS[['css.zeroparts']])) css.zeroparts <- ifelse(substring(CSS[['css.zeroparts']], 1, 1) == '+', paste0(css.zeroparts, substring(CSS[['css.zeroparts']], 2)), CSS[['css.zeroparts']])
     if (!is.null(CSS[['css.firstsumrow']])) css.firstsumrow <- ifelse(substring(CSS[['css.firstsumrow']], 1, 1) == '+', paste0(css.firstsumrow, substring(CSS[['css.firstsumrow']], 2)), CSS[['css.firstsumrow']])
     if (!is.null(CSS[['css.labelcellborder']])) css.labelcellborder <- ifelse(substring(CSS[['css.labelcellborder']], 1, 1) == '+', paste0(css.table, substring(CSS[['css.labelcellborder']], 2)), CSS[['css.labelcellborder']])
     if (!is.null(CSS[['css.depvarhead']])) css.depvarhead <- ifelse(substring(CSS[['css.depvarhead']], 1, 1) == '+', paste0(css.depvarhead, substring(CSS[['css.depvarhead']], 2)), CSS[['css.depvarhead']])
@@ -348,15 +357,18 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
 
   if (task == 1) {
     content <- sprintf(
-      "<style>\nhtml, body { background-color: white; }\n%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
+      "<style>\nhtml, body { background-color: white; }\n%s { %s }\n%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
       tag.table, css.table,
       tag.caption, css.caption,
+      tag.td, css.td,
       tag.thead, css.thead,
       tag.tdata, css.tdata,
       tag.arc, css.arc,
       tag.summary, css.summary,
+      tag.summarydata, css.summarydata,
       tag.fixedparts, css.fixedparts,
       tag.randomparts, css.randomparts,
+      tag.zeroparts, css.zeroparts,
       tag.lasttablerow, css.lasttablerow,
       tag.firsttablerow, css.firsttablerow,
       tag.firstsumrow, css.firstsumrow,
@@ -387,6 +399,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
     content <- gsub("class=", "style=", content, fixed = TRUE, useBytes = TRUE)
     content <- gsub("<table", sprintf("<table style=\"%s\"", css.table), content, fixed = TRUE, useBytes = TRUE)
     content <- gsub("<caption", sprintf("<caption style=\"%s\"", css.caption), content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub("<td", sprintf("<td style=\"%s\"", css.td), content, fixed = TRUE, useBytes = TRUE)
 
     # replace class-attributes with inline-style-definitions
     content <- gsub(tag.tdata, css.tdata, content, fixed = TRUE, useBytes = TRUE)
@@ -400,8 +413,10 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
     content <- gsub(tag.leftalign, css.leftalign, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.centeralign, css.centeralign, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.summary, css.summary, content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub(tag.summarydata, css.summarydata, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.fixedparts, css.fixedparts, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.randomparts, css.randomparts, content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub(tag.zeroparts, css.zeroparts, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.firstsumrow, css.firstsumrow, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.depvarhead, css.depvarhead, content, fixed = TRUE, useBytes = TRUE)
 

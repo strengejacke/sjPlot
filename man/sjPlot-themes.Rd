@@ -13,6 +13,7 @@
 \alias{scale_fill_sjplot}
 \alias{sjplot_pal}
 \alias{show_sjplot_pals}
+\alias{css_theme}
 \title{Modify plot appearance}
 \usage{
 theme_sjplot(base_size = 12, base_family = "")
@@ -39,6 +40,8 @@ scale_fill_sjplot(palette = "metro ui", discrete = TRUE, reverse = FALSE,
 sjplot_pal(palette = "metro ui", n = NULL)
 
 show_sjplot_pals()
+
+css_theme(css.theme = "regression")
 }
 \arguments{
 \item{base_size}{Base font size.}
@@ -101,10 +104,12 @@ are interpolated using \code{\link[grDevices]{colorRampPalette}}.}
 
 \item{n}{Numeric, number of colors to be returned. By default, the complete
 colour palette is returned.}
+
+\item{css.theme}{Name of the CSS pre-set theme-style. Can be used for table-functions.}
 }
 \description{
-Set default theme plots, use pre-defined color scales or modify
-  plot appearance.
+Set default plot themes, use pre-defined color scales or modify
+  plot or table appearance.
 }
 \details{
 When using the \code{colors} argument in function calls (e.g.

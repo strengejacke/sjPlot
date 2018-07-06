@@ -7,18 +7,18 @@
 tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
   show.ci = 0.95, show.hdi50 = TRUE, show.se = NULL, show.std = NULL,
   show.p = TRUE, show.stat = FALSE, show.df = FALSE,
-  show.header = FALSE, show.col.header = TRUE, show.zeroinf = FALSE,
-  show.r2 = TRUE, show.icc = FALSE, show.re.var = FALSE,
-  show.fstat = FALSE, show.aic = FALSE, show.aicc = FALSE,
-  show.dev = FALSE, show.obs = TRUE, terms = NULL, rm.terms = NULL,
-  group.terms = TRUE, order.terms = NULL, title = NULL,
+  show.zeroinf = TRUE, show.r2 = TRUE, show.icc = TRUE,
+  show.re.var = TRUE, show.fstat = FALSE, show.aic = FALSE,
+  show.aicc = FALSE, show.dev = FALSE, show.obs = TRUE, terms = NULL,
+  rm.terms = NULL, group.terms = TRUE, order.terms = NULL, title = NULL,
   pred.labels = NULL, dv.labels = NULL, wrap.labels = 25,
   string.pred = "Predictors", string.std = "std. Beta", string.ci = "CI",
   string.se = "std. Error", string.p = "p", string.df = "df",
-  ci.hyphen = "&nbsp;&ndash;&nbsp;", minus.sign = "&#45;",
-  separate.ci.col = TRUE, separate.se.col = TRUE, digits = 2,
-  digits.p = 3, emph.p = TRUE, p.val = c("wald", "kr"), case = "parsed",
-  auto.label = TRUE, bpe = "median", CSS = NULL)
+  string.stat = "Statistic", ci.hyphen = "&nbsp;&ndash;&nbsp;",
+  minus.sign = "&#45;", separate.ci.col = TRUE, separate.se.col = TRUE,
+  digits = 2, digits.p = 3, emph.p = TRUE, p.val = c("wald", "kr"),
+  case = "parsed", auto.label = TRUE, bpe = "median",
+  CSS = css_theme("regression"))
 }
 \arguments{
 \item{...}{One or more regression models, including glm's or mixed models.
@@ -35,8 +35,10 @@ non-transformed estimates.}
 
 \item{show.est}{Logical, if \code{TRUE}, the estimates are printed.}
 
-\item{show.ci}{Logical, if \code{TRUE}, the confidence interval
-is printed to the table.}
+\item{show.ci}{Either logical, and if \code{TRUE}, the confidence intervals
+is printed to the table; if \code{FALSE}, confidence intervals are
+omitted. Or numeric, between 0 and 1, indicating the range of the
+confidence intervals.}
 
 \item{show.se}{Logical, if \code{TRUE}, the standard errors are also printed.}
 
@@ -47,8 +49,27 @@ See 'Details'.}
 \item{show.p}{Logical, adds asterisks that indicate the significance level of
 estimates to the value labels.}
 
-\item{show.zeroinf}{Logical, if \code{TRUE}, shows the zero-inflation part of
-hurdle- or zero-inflated models.}
+\item{show.stat}{Logical, if \code{TRUE}, the coefficients' test statistic
+is also printed.}
+
+\item{show.df}{Logical, if \code{TRUE} and \code{p.val = "kr"}, the p-values
+for linear mixed models are based on df with Kenward-Rogers approximation.
+These df-values are printed. See \code{\link[sjstats]{p_value}} for details.}
+
+\item{show.zeroinf}{Logical, if \code{TRUE} and model has a zero-inflated
+model part, this is also printed to the table.}
+
+\item{show.r2}{Logical, if \code{TRUE}, the r-squared value is also printed.
+Depending on the model, these might be pseudo-r-squared values, or Bayesian
+r-squared etc. See \code{\link[sjstats]{r2}} for details.}
+
+\item{show.icc}{Logical, if \code{TRUE}, prints the intraclass correlation
+coefficient for mixed models. See \code{\link[sjstats]{icc}} for details.}
+
+\item{show.re.var}{Logical, if \code{TRUE}, prints the random effect variances
+for mixed models. See \code{\link[sjstats]{re_var}} for details.}
+
+\item{show.dev}{Logical, if \code{TRUE}, shows the deviance of the model.}
 
 \item{terms}{Character vector with names of those terms (variables) that should
 be printed in the table. All other terms are removed from the output. If
