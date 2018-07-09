@@ -116,158 +116,10 @@
 #'            \item the complete html-output (\code{page.complete}) and
 #'            \item the html-table with inline-css for use with knitr (\code{knitr})
 #'            }
-#'            for further use.
 #'
-#' @examples
-#' \dontrun{
-#' # Now fit the models. Note that both models share the same predictors
-#' # and only differ in their dependent variable. See examples of stepwise
-#' # models below at the end.
-#' library(sjmisc)
-#' data(efc)
-#'
-#' # fit first model
-#' fit1 <- lm(barthtot ~ c160age + c12hour + c161sex + c172code, data = efc)
-#' # fit second model
-#' fit2 <- lm(neg_c_7 ~ c160age + c12hour + c161sex + c172code, data = efc)
-#'
-#' # create and open HTML-table in RStudio Viewer Pane or web browser
-#' # note that we don't need to specify labels for the predictors,
-#' # because these are automatically read
-#' sjt.lm(fit1, fit2)
-#'
-#' # create and open HTML-table in RStudio Viewer Pane or web browser
-#' # in the following examples, we set labels via argument
-#' sjt.lm(fit1, fit2,
-#'        depvar.labels = c("Barthel-Index", "Negative Impact"),
-#'        pred.labels = c("Carer's Age", "Hours of Care",
-#'                        "Carer's Sex", "Educational Status"))
-#'
-#' # use vector names as labels
-#' sjt.lm(fit1, fit2, pred.labels = "")
-#'
-#' # show HTML-table, indicating p-values as asterisks
-#' sjt.lm(fit1, fit2, show.std = TRUE, p.numeric = FALSE)
-#'
-#' # create and open HTML-table in RStudio Viewer Pane or web browser,
-#' # integrate CI in estimate column
-#' sjt.lm(fit1, fit2, separate.ci.col = FALSE)
-#'
-#' # show HTML-table, indicating p-values as numbers
-#' # and printing CI in a separate column
-#' sjt.lm(fit1, fit2, show.std = TRUE)
-#'
-#' # show HTML-table, indicating p-values as stars
-#' # and integrate CI in estimate column
-#' sjt.lm(fit1, fit2, show.std = TRUE, ci.hyphen = " to ",
-#'        minus.sign = "&minus;", p.numeric = FALSE,
-#'        separate.ci.col = FALSE)
-#'
-#' # ----------------------------------
-#' # connecting two html-tables
-#' # ----------------------------------
-#' # fit two more models
-#' fit3 <- lm(tot_sc_e ~ c160age + c12hour + c161sex + c172code, data=efc)
-#' fit4 <- lm(e42dep ~ c160age + c12hour + c161sex + c172code, data=efc)
-#'
-#' # create and save first HTML-table
-#' part1 <- sjt.lm(fit1, fit2)
-#'
-#' # create and save second HTML-table
-#' part2 <- sjt.lm(fit3, fit4)
-#'
-#' # browse temporary file
-#' htmlFile <- tempfile(fileext=".html")
-#' write(sprintf("<html><head>%s</head><body>%s<p></p>%s</body></html>",
-#'               part1$page.style, part1$page.content, part2$page.content),
-#'       file = htmlFile)
-#' viewer <- getOption("viewer")
-#' if (!is.null(viewer)) viewer(htmlFile) else utils::browseURL(htmlFile)
-#'
-#' # ----------------------------------
-#' # User defined style sheet
-#' # ----------------------------------
-#' sjt.lm(fit1, fit2,
-#'        CSS = list(css.table = "border: 2px solid;",
-#'                   css.tdata = "border: 1px solid;",
-#'                   css.depvarhead = "color:#003399;"))
-#'
-#' # ----------------------------------
-#' # automatic grouping of predictors
-#' # ----------------------------------
-#' library(sjmisc)
-#' data(efc)
-#'
-#' # make education categorical
-#' efc$c172code <- to_factor(efc$c172code)
-#'
-#' # fit first model again (with c172code as factor)
-#' fit1 <- lm(barthtot ~ c160age + c12hour + c172code + c161sex, data=efc)
-#' # fit second model again (with c172code as factor)
-#' fit2 <- lm(neg_c_7 ~ c160age + c12hour + c172code + c161sex, data=efc)
-#'
-#' # plot models, but group by predictors
-#' sjt.lm(fit1, fit2, group.pred = TRUE)
-#'
-#' # ----------------------------------------
-#' # compare models with different predictors
-#' # ----------------------------------------
-#' library(sjmisc)
-#' data(efc)
-#'
-#' # make education categorical
-#' efc$c172code <- to_factor(efc$c172code)
-#' # make education categorical
-#' efc$e42dep <- to_factor(efc$e42dep)
-#'
-#' # fit first model
-#' fit1 <- lm(neg_c_7 ~ c160age + c172code + c161sex, data = efc)
-#' # fit second model
-#' fit2 <- lm(neg_c_7 ~ c160age + c172code + c161sex + c12hour, data = efc)
-#' # fit second model
-#' fit3 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e, data = efc)
-#'
-#' sjt.lm(fit1, fit2, fit3)
-#'
-#' # ----------------------------------------
-#' # compare models with different predictors
-#' # and grouping
-#' # ----------------------------------------
-#' # make cope-index categorical
-#' efc$c82cop1 <- to_factor(efc$c82cop1)
-#' # fit another model
-#' fit4 <- lm(neg_c_7 ~ c160age + c172code + e42dep + tot_sc_e + c82cop1,
-#'            data = efc)
-#'
-#' sjt.lm(fit1, fit2, fit4, fit3)
-#'
-#' # show standardized beta only
-#' sjt.lm(fit1, fit2, fit4, fit3, show.est = FALSE, show.std = TRUE,
-#'        show.aic = TRUE, show.fstat = TRUE)
-#'
-#' # -----------------------------------------------------------
-#' # color insanity. just to show that each column has an own
-#' # CSS-tag, so - depending on the stats and values you show -
-#' # you can define column spaces / margins, border etc. to
-#' # visually separate your models in the table
-#' # -----------------------------------------------------------
-#' sjt.lm(fit1, fit2, fit4, fit3, show.std = TRUE, show.aic = TRUE,
-#'        show.fstat = TRUE, show.se = TRUE,
-#'        CSS = list(css.modelcolumn1 = 'color:blue;',
-#'                   css.modelcolumn2 = 'color:red;',
-#'                   css.modelcolumn3 = 'color:green;',
-#'                   css.modelcolumn4 = 'color:#ffff00;',
-#'                   css.modelcolumn5 = 'color:#777777;',
-#'                   css.modelcolumn6 = 'color:#3399cc;',
-#'                   css.modelcolumn7 = 'color:#cc9933;'))
-#'
-#' sjt.lm(fit1, fit2, fit4, fit3, show.est = FALSE, show.std = TRUE,
-#'        p.numeric = FALSE, group.pred = FALSE,
-#'        CSS = list(css.modelcolumn4 = 'border-left:1px solid black;',
-#'                   css.modelcolumn5 = 'padding-right:50px;'))}
 #'
 #' @importFrom dplyr full_join slice bind_cols select_ rename_
-#' @importFrom stats nobs AIC confint coef deviance
+#' @importFrom stats nobs AIC confint coef deviance runif
 #' @importFrom lme4 VarCorr
 #' @importFrom sjstats std_beta icc r2 cod chisq_gof hoslem_gof p_value robust
 #' @importFrom tibble lst add_row add_column
@@ -331,6 +183,13 @@ sjt.lm <- function(...,
     p_zero <- ""
   else
     p_zero <- "0"
+
+  if (stats::runif(1) < .35)
+    message("`sjt.lm()` and `sjt.lmer()` will become deprecated in the future. Please use `tab_model()` instead.")
+
+  ## TODO activate in future update
+  # .Deprecated("tab_model")
+
   # -------------------------------------
   # check arguments
   # -------------------------------------
@@ -1304,63 +1163,6 @@ sjt.lm <- function(...,
 #'            The confidence intervals stem from \pkg{broom}'s
 #'            \code{\link[broom]{tidy}}-function. For linear mixed models, the computation
 #'            method is "Wald" (\code{lme4::confint.merMod(fit, method = "Wald")}).
-#'            \cr \cr
-#'            Furthermore, see 'Details' in \code{\link{sjt.frq}}.
-#'
-#' @examples
-#' \dontrun{
-#' library(lme4)
-#' library(sjmisc)
-#' data(efc)
-#'
-#' # prepare group variable
-#' efc$grp = as.factor(efc$e15relat)
-#' levels(x = efc$grp) <- get_labels(efc$e15relat)
-#' efc$care.level <- sjmisc::rec(efc$n4pstu,
-#'                               rec = "0=0;1=1;2=2;3:4=3",
-#'                               as.num = FALSE,
-#'                               append = FALSE)
-#' levels(x = efc$care.level) <- c("none", "I", "II", "III")
-#'
-#' # data frame for fitted model
-#' mydf <- data.frame(neg_c_7 = efc$neg_c_7,
-#'                    sex = efc$c161sex,
-#'                    c12hour = efc$c12hour,
-#'                    barthel = efc$barthtot,
-#'                    education = to_factor(efc$c172code),
-#'                    grp = efc$grp,
-#'                    carelevel = efc$care.level)
-#'
-#' # fit three sample models
-#' fit1 <- lmer(neg_c_7 ~ sex + c12hour + barthel + (1|grp), data = mydf)
-#' fit2 <- lmer(neg_c_7 ~ sex + c12hour + education + barthel + (1|grp), data = mydf)
-#' fit3 <- lmer(neg_c_7 ~ sex + c12hour + education + barthel +
-#'               (1|grp) + (1|carelevel), data = mydf)
-#'
-#' # print summary table... automatic grouping does not work here,
-#' # barthel-index is printed as category of education (values are
-#' # correct, however, indentation is wrong)
-#' sjt.lmer(fit1, fit2, ci.hyphen = " to ", group.pred = TRUE)
-#'
-#' # either change order of models
-#' sjt.lmer(fit2, fit1, group.pred = TRUE)
-#' # or turn off automatic grouping of categorical predictors
-#' sjt.lmer(fit1, fit2, group.pred = FALSE)
-#'
-#' # print table, using vector names as labels
-#' sjt.lmer(fit1, fit2, fit3, pred.labels = "")
-#'
-#' # show other statistics
-#' sjt.lmer(fit1, fit2, show.aic = TRUE, show.ci = FALSE,
-#'          show.se = TRUE, p.numeric = FALSE)
-#'
-#' sjt.lmer(fit1, fit2, fit3, show.aic = TRUE,
-#'          separate.ci.col = FALSE, newline.ci = FALSE)
-#'
-#' # user defined predictor labels
-#' sjt.lmer(fit1, fit2, fit3, pred.labels = c("Elder's gender (female)",
-#'          "Hours of care per week", "Barthel Index", "Educational level (mid)",
-#'          "Educational level (high)"))}
 #'
 #' @export
 sjt.lmer <- function(...,

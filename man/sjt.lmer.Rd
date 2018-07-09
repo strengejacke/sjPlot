@@ -231,8 +231,6 @@ Concerning the \code{show.std} argument, \code{show.std = "std"}
            The confidence intervals stem from \pkg{broom}'s
            \code{\link[broom]{tidy}}-function. For linear mixed models, the computation
            method is "Wald" (\code{lme4::confint.merMod(fit, method = "Wald")}).
-           \cr \cr
-           Furthermore, see 'Details' in \code{\link{sjt.frq}}.
 }
 \note{
 The variance components of the random effects (see \code{show.re.var}) are
@@ -242,60 +240,4 @@ The variance components of the random effects (see \code{show.re.var}) are
          \item between-group-variance: tau-zero-zero
          \item random-slope-intercept-correlation: rho-zero-one
          }
-}
-\examples{
-\dontrun{
-library(lme4)
-library(sjmisc)
-data(efc)
-
-# prepare group variable
-efc$grp = as.factor(efc$e15relat)
-levels(x = efc$grp) <- get_labels(efc$e15relat)
-efc$care.level <- sjmisc::rec(efc$n4pstu,
-                              rec = "0=0;1=1;2=2;3:4=3",
-                              as.num = FALSE,
-                              append = FALSE)
-levels(x = efc$care.level) <- c("none", "I", "II", "III")
-
-# data frame for fitted model
-mydf <- data.frame(neg_c_7 = efc$neg_c_7,
-                   sex = efc$c161sex,
-                   c12hour = efc$c12hour,
-                   barthel = efc$barthtot,
-                   education = to_factor(efc$c172code),
-                   grp = efc$grp,
-                   carelevel = efc$care.level)
-
-# fit three sample models
-fit1 <- lmer(neg_c_7 ~ sex + c12hour + barthel + (1|grp), data = mydf)
-fit2 <- lmer(neg_c_7 ~ sex + c12hour + education + barthel + (1|grp), data = mydf)
-fit3 <- lmer(neg_c_7 ~ sex + c12hour + education + barthel +
-              (1|grp) + (1|carelevel), data = mydf)
-
-# print summary table... automatic grouping does not work here,
-# barthel-index is printed as category of education (values are
-# correct, however, indentation is wrong)
-sjt.lmer(fit1, fit2, ci.hyphen = " to ", group.pred = TRUE)
-
-# either change order of models
-sjt.lmer(fit2, fit1, group.pred = TRUE)
-# or turn off automatic grouping of categorical predictors
-sjt.lmer(fit1, fit2, group.pred = FALSE)
-
-# print table, using vector names as labels
-sjt.lmer(fit1, fit2, fit3, pred.labels = "")
-
-# show other statistics
-sjt.lmer(fit1, fit2, show.aic = TRUE, show.ci = FALSE,
-         show.se = TRUE, p.numeric = FALSE)
-
-sjt.lmer(fit1, fit2, fit3, show.aic = TRUE,
-         separate.ci.col = FALSE, newline.ci = FALSE)
-
-# user defined predictor labels
-sjt.lmer(fit1, fit2, fit3, pred.labels = c("Elder's gender (female)",
-         "Hours of care per week", "Barthel Index", "Educational level (mid)",
-         "Educational level (high)"))}
-
 }

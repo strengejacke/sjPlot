@@ -108,6 +108,8 @@
 #'         they can be saved as temporary files and will be displayed in the RStudio Viewer pane (if working with RStudio)
 #'         or opened with the default web browser. Displaying resp. opening a temporary file is the
 #'         default behaviour (i.e. \code{file = NULL}).
+#'         \cr \cr
+#'         Examples are shown in \href{../doc/tab_model_estimates.html}{this package-vignette}.
 #'
 #' @details \strong{Standardized Estimates}
 #'    \cr \cr

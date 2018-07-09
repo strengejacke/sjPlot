@@ -17,7 +17,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", warning = FALSE, message 
 
 HTML is the only output-format, you can't (directly) create a LaTex or PDF output from `tab_model()` and related table-functions. However, it is possible to easily export the tables into Microsoft Word or Libre Office Writer.
 
-This vignette shows how to create table from regression models with `tab_model()`.
+This vignette shows how to create table from regression models with `tab_model()`. There's a dedicated vignette that demonstrate how to change the [table layout and appearance with CSS](table_css.html).
 
 **Note!** Due to the custom CSS, the layout of the table inside a knitr-document differs from the output in the viewer-pane and web browser!
 

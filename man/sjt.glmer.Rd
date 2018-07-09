@@ -203,9 +203,6 @@ Summarizes (multiple) fitted generalized linear mixed models (odds ratios, ci, p
                as HTML table, or saves them as file. The fitted models may have different predictors,
                e.g. when comparing different stepwise fitted models.
 }
-\details{
-See 'Details' in \code{\link{sjt.frq}}.
-}
 \note{
 Computation of p-values (if necessary) is based on normal-distribution
         assumption, treating the t-statistics as Wald z-statistics.
@@ -221,47 +218,4 @@ Computation of p-values (if necessary) is based on normal-distribution
       \code{summary()}-method. Rather, \code{sjt.glmer()} uses adjustments
       according to the delta method for approximating standard errors of
       transformed regression parameters (see \code{\link[sjstats]{se}}).
-      \cr \cr Futhermore, see 'Notes' in \code{\link{sjt.frq}}.
-}
-\examples{
-\dontrun{
-library(lme4)
-library(sjmisc)
-data(efc)
-
-# create binary response
-efc$hi_qol <- dicho(efc$quol_5)
-# prepare group variable
-efc$grp = as.factor(efc$e15relat)
-levels(x = efc$grp) <- get_labels(efc$e15relat)
-# data frame for fitted model
-mydf <- data.frame(hi_qol = to_factor(efc$hi_qol),
-                   sex = to_factor(efc$c161sex),
-                   c12hour = efc$c12hour,
-                   neg_c_7 = efc$neg_c_7,
-                   education = to_factor(efc$c172code),
-                   grp = efc$grp)
-
-# fit glmer
-fit1 <- glmer(hi_qol ~ sex + c12hour + neg_c_7 + (1|grp),
-              data = mydf, family = binomial("logit"))
-fit2 <- glmer(hi_qol ~ sex + c12hour + neg_c_7 + education + (1|grp),
-              data = mydf, family = binomial("logit"))
-
-# print summary table
-sjt.glmer(fit1, fit2, ci.hyphen = " to ")
-
-# print summary table, using different table layout
-sjt.glmer(fit1, fit2, show.aic = TRUE, show.ci = FALSE,
-          show.se = TRUE, p.numeric = FALSE)
-
-# print summary table
-sjt.glmer(fit1, fit2, pred.labels = c("Elder's gender (female)",
-            "Hours of care per week", "Negative Impact",
-            "Educational level (mid)", "Educational level (high)"))
-
-# use vector names as predictor labels
-sjt.glmer(fit1, fit2, pred.labels = "")}
-
-
 }
