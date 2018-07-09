@@ -32,6 +32,25 @@ library(brms)
 data("efc")
 efc <- to_factor(efc, e42dep, c172code, c161sex, e15relat)
 zinb <- read.csv("http://stats.idre.ucla.edu/stat/data/fish.csv")
+
+# fit two sample models
+m1 <- brm(
+  bf(count ~ child + camper + (1 | persons), 
+     zi ~ child + camper),
+  data = zinb,
+  family = zero_inflated_poisson(),
+  cores = 4,
+  iter = 1000
+)
+
+f1 <- bf(neg_c_7 ~ e42dep + c12hour + c172code + (1 |ID| e15relat))
+f2 <- bf(c12hour ~ c172code + (1 |ID| e15relat))
+m2 <- brm(
+  f1 + f2 + set_rescor(FALSE), 
+  data = efc, 
+  cores = 4,
+  iter = 1000
+)
 ```
 
 ## Bayesian models summaries as HTML table
@@ -39,13 +58,6 @@ zinb <- read.csv("http://stats.idre.ucla.edu/stat/data/fish.csv")
 For Bayesian regression models, some of the differences to the table output from [simple models](tab_model_estimates.html) or [mixed models](tab_mixed.html) of `tab_models()` are the use of _Highest Density Intervals_ instead of confidence intervals, the Bayes-R-squared values, and a different "point estimate" (which is, by default, the median from the posterior draws).
 
 ```{r}
-m1 <- brm(
-  bf(count ~ child + camper + (1 | persons), 
-     zi ~ child + camper),
-  data = zinb,
-  family = zero_inflated_poisson()
-)
-
 tab_model(m1)
 ``` 
 
@@ -54,10 +66,6 @@ tab_model(m1)
 For multivariate response models, like mediator-analysis-models, it is recommended to print just one model in the table, as each regression is displayed as own "model" in the output.
 
 ```{r}
-f1 <- bf(neg_c_7 ~ e42dep + c12hour + c172code + (1 |ID| e15relat))
-f2 <- bf(c12hour ~ c172code + (1 |ID| e15relat))
-m2 <- brm(f1 + f2 + set_rescor(FALSE), data = efc)
-
 tab_model(m2)
 ``` 
 
