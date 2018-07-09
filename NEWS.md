@@ -47,7 +47,7 @@ Following functions are now defunct:
 * `plot_model(type = "int")` could not automatically select `mdrt.values` properly for non-integer variables.
 * `sjp.grpfrq()` now correctly uses the complete space in facets when `facet.grid = TRUE`.
 * `sjp.grpfrq(type = "boxplot")` did not correctly label the x-axis when one category had no elements in a vector.
-
+* Problems with German umlauts when printing HTML tables were fixed.
 
 # sjPlot 2.4.1
 

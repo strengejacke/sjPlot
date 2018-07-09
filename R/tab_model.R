@@ -91,6 +91,17 @@
 #'    factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
 #'    be grouped, if the factor has more than two levels. Grouping means that a separate headline
 #'    row is inserted to the table just before the predictor values.
+#' @param show.hdi50
+#' @param show.fstat
+#' @param show.aic
+#' @param show.aicc
+#' @param show.obs
+#' @param string.df
+#' @param string.stat
+#' @param p.val
+#' @param CSS A \code{\link{list}} with user-defined style-sheet-definitions,
+#'    according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
+#'    See 'Details' or \href{../doc/table_css.html}{this package-vignette}.
 #'
 #' @inheritParams plot_models
 #' @inheritParams plot_model
