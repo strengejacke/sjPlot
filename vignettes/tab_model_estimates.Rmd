@@ -1,0 +1,187 @@
+---
+title: "Summary of Regression Models as HTML Table"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Summary of Regression Models as HTML Table}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", warning = FALSE, message = FALSE)
+```
+
+`tab_model()` is the pendant to `plot_model()`, however, instead of creating plots, `tab_model()` creates HTML-tables that will be displayed either in your IDE's viewer-pane, in a web browser or in a knitr-markdown-document (like this vignette).
+
+HTML is the only output-format, you can't (directly) create a LaTex or PDF output from `tab_model()` and related table-functions. However, it is possible to easily export the tables into Microsoft Word or Libre Office Writer.
+
+This vignette shows how to create table from regression models with `tab_model()`.
+
+**Note!** Due to the custom CSS, the layout of the table inside a knitr-document differs from the output in the viewer-pane and web browser!
+
+```{r}
+# load package
+library(sjPlot)
+library(sjmisc)
+library(sjlabelled)
+
+# sample data
+data(efc)
+efc <- as_factor(efc, c161sex, c172code)
+```
+
+## A simple HTML table from regression results
+
+First, we fit two linear models to demonstrate the `tab_model()`-function.
+
+```{r, results='hide'}
+m1 <- lm(barthtot ~ c160age + c12hour + c161sex + c172code, data = efc)
+m2 <- lm(neg_c_7 ~ c160age + c12hour + c161sex + e17age, data = efc)
+``` 
+
+The simplest way of producing the table output is by passing the fitted model as parameter. By default, estimates, confidence intervals (_CI_) and p-values (_p_) are reported. As summary, the numbers of observations as well as the R-squared values are shown.
+
+```{r}
+tab_model(m1)
+```
+
+## Automatic labelling
+
+As the **sjPlot**-packages features [labelled data](https://strengejacke.github.io/sjlabelled/), the coefficients in the table are already labelled in this example. The name of the dependent variable(s) is used as main column header for each model. For non-labelled data, the coefficient names are shown.
+
+```{r}
+data(mtcars)
+m.mtcars <- lm(mpg ~ cyl + hp + wt, data = mtcars)
+tab_model(m.mtcars)
+```
+
+### Turn off automatic labelling
+
+To turn off automatic labelling, use `auto.label = FALSE`, or provide an empty character vector for `pred.labels` and `dv.labels`.
+
+```{r}
+tab_model(m1, auto.label = FALSE)
+```
+
+## More than one model
+
+`tab_model()` can print multiple models at once, which are then printed side-by-side. Identical coefficients are matched in a row.
+
+```{r}
+tab_model(m1, m2)
+```
+
+## Generalized linear models
+
+For generalized linear models, the ouput is slightly adapted. Instead of _Estimates_, the column is named _Odds Ratios_, _Incidence Rate Ratios_ etc., depending on the model. The coefficients are in this case automatically converted (exponentiated). Furthermore, pseudo R-squared statistics are shown in the summary.
+
+```{r}
+m3 <- glm(
+  tot_sc_e ~ c160age + c12hour + c161sex + c172code, 
+  data = efc,
+  family = poisson(link = "log")
+)
+
+efc$neg_c_7d <- ifelse(efc$neg_c_7 < median(efc$neg_c_7, na.rm = TRUE), 0, 1)
+m4 <- glm(
+  neg_c_7d ~ c161sex + barthtot + c172code,
+  data = efc,
+  family = binomial(link = "logit")
+)
+
+tab_model(m3, m4)
+``` 
+
+### Untransformed estimates on the linear scale
+
+To plot the estimates on the linear scale, use `transform = NULL`. 
+
+```{r}
+tab_model(m3, m4, transform = NULL, auto.label = FALSE)
+``` 
+
+## Show or hide further columns
+
+`tab_model()` has some argument that allow to show or hide specific columns from the output:
+
+* `show.est` to show/hide the column with model estimates.
+* `show.ci` to show/hide the column with confidence intervals.
+* `show.se` to show/hide the column with standard errors.
+* `show.std` to show/hide the column with standardized estimates (and their standard errors).
+* `show.p` to show/hide the column with p-values.
+* `show.stat` to show/hide the column with the coefficients' test statistics.
+* `show.df` for linear mixed models, when p-values are based on degrees of freedom with Kenward-Rogers approximation, these degrees of freedom are shown.
+
+### Adding columns
+
+In the following example, standard errors, standardized coefficients and test statistics are also shown.
+
+```{r}
+tab_model(m1, show.se = TRUE, show.std = TRUE, show.stat = TRUE)
+``` 
+
+### Removing columns
+
+In the following example, default columns are removed.
+
+```{r}
+tab_model(m3, m4, show.ci = FALSE, show.p = FALSE, auto.label = FALSE)
+``` 
+
+## Defining own labels
+
+There are different options to change the labels of the column headers or coefficients, e.g. with:
+
+* `pred.labels` to change the names of the coefficients in the _Predictors_ column. Note that the length of `pred.labels` must exactly match the amount of predictors in the _Predictor_ column.
+* `dv.labels` to change the names of the model columns, which are labelled with the variable labels / names from the dependent variables.
+* Further more, there are various `string.*`-arguments, to change the name of column headings.
+
+```{r}
+tab_model(
+  m1, m2, 
+  pred.labels = c("Intercept", "Age (Carer)", "Hours per Week", "Gender (Carer)",
+                  "Education: middle (Carer)", "Education: high (Carer)", 
+                  "Age (Older Person)"),
+  dv.labels = c("First Model", "M2"),
+  string.pred = "Coeffcient",
+  string.ci = "Conf. Int (95%)",
+  string.p = "P-Value"
+)
+``` 
+
+### Automatic matching for names vectors
+
+Another way to easily assign labels are _named vectors_. In this case, it doesn't matter if `pred.labels` has more labels than coefficients in the model(s), or in which order the labels are passed to `tab_model()`. The only requirement is that the labels' names equal the coefficients names as they appear in the `summary()`-output.
+
+```{r}
+# example, coefficients are "c161sex2" or "c172code3"
+summary(m1)
+
+pl <- c(
+  `(Intercept)` = "Intercept",
+  e17age = "Age (Older Person)",
+  c160age = "Age (Carer)", 
+  c12hour = "Hours per Week", 
+  barthtot = "Barthel-Index",
+  c161sex2 = "Gender (Carer)",
+  c172code2 = "Education: middle (Carer)", 
+  c172code3 = "Education: high (Carer)",
+  a_non_used_label = "We don't care"
+)
+ 
+tab_model(
+  m1, m2, m3, m4, 
+  pred.labels = pl, 
+  dv.labels = c("Model1", "Model2", "Model3", "Model4"),
+  show.ci = FALSE, 
+  show.p = FALSE, 
+  transform = NULL
+)
+``` 
+
+## Keep or remove coefficients from the table
+
+## Change order of coefficients
+

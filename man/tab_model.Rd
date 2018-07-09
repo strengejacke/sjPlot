@@ -2,7 +2,7 @@
 % Please edit documentation in R/tab_model.R
 \name{tab_model}
 \alias{tab_model}
-\title{Print regression models to HTML table}
+\title{Print regression models as HTML table}
 \usage{
 tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
   show.ci = 0.95, show.hdi50 = TRUE, show.se = NULL, show.std = NULL,
@@ -46,8 +46,7 @@ confidence intervals.}
 also printed, and if yes, which type of standardization is done.
 See 'Details'.}
 
-\item{show.p}{Logical, adds asterisks that indicate the significance level of
-estimates to the value labels.}
+\item{show.p}{Logical, if \code{TRUE}, p-values are also printed.}
 
 \item{show.stat}{Logical, if \code{TRUE}, the coefficients' test statistic
 is also printed.}
@@ -101,10 +100,7 @@ row is inserted to the table just before the predictor values.}
 should be plotted. See examples in
 \href{../doc/plot_model_estimates.html}{this package-vignette}.}
 
-\item{title}{Character vector, used as plot title. By default,
-\code{\link[sjlabelled]{get_dv_labels}} is called to retrieve the label of
-the dependent variable, which will be used as title. Use \code{title = ""}
-to remove title.}
+\item{title}{String, will be used as table caption.}
 
 \item{pred.labels}{Character vector with labels of predictor variables.
 If not \code{NULL}, \code{pred.labels} will be used in the first
@@ -172,11 +168,66 @@ original variable names and value labels (factor levels) are used.}
 \item{bpe}{For \strong{Stan}-models (fitted with the \pkg{rstanarm}- or
 \pkg{brms}-package), the Bayesian point estimate is, by default, the median
 of the posterior distribution. Use \code{bpe} to define other functions to
-calculate the Bayesion point estimate. \code{bpe} needs to be a character
+calculate the Bayesian point estimate. \code{bpe} needs to be a character
 naming the specific function, which is passed to the \code{fun}-argument in
 \code{\link[sjstats]{typical_value}}. So, \code{bpe = "mean"} would
 calculate the mean value of the posterior distribution.}
 }
+\value{
+Invisibly returns
+         \itemize{
+           \item the web page style sheet (\code{page.style}),
+           \item the web page content (\code{page.content}),
+           \item the complete html-output (\code{page.complete}) and
+           \item the html-table with inline-css for use with knitr (\code{knitr})
+           }
+           for further use.
+}
 \description{
 \code{tab_model()} creates HTML tables from regression models.
+}
+\details{
+\strong{Standardized Estimates}
+   \cr \cr
+   Concerning the \code{show.std} argument, \code{show.std = "std"}
+   will print normal standardized estimates. For \code{show.std = "std2"},
+   however, standardization of estimates follows
+   \href{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}{Gelman's (2008)}
+   suggestion, rescaling the estimates by dividing them by two standard
+   deviations instead of just one. Resulting coefficients are then
+   directly comparable for untransformed binary predictors. This type
+   of standardization uses the \code{\link[arm]{standardize}}-function
+   from the \pkg{arm}-package.
+   For backward compatibility reasons, \code{show.std} also may be
+   a logical value; if \code{TRUE}, normal standardized estimates are
+   printed (same effect as \code{show.std = "std"}). Use
+   \code{show.std = NULL} (default) or \code{show.std = FALSE},
+   if standardized estimats should not be printed.
+   \cr \cr
+   \strong{How do I use \code{CSS}-argument?}
+   \cr \cr
+   With the \code{CSS}-argument, the visual appearance of the tables
+   can be modified. To get an overview of all style-sheet-classnames
+   that are used in this function, see return value \code{page.style} for details.
+   Arguments for this list have following syntax:
+   \enumerate{
+     \item the class-names with \code{"css."}-prefix as argument name and
+     \item each style-definition must end with a semicolon
+   }
+   You can add style information to the default styles by using a + (plus-sign) as
+   initial character for the argument attributes. Examples:
+   \itemize{
+     \item \code{css.table = 'border:2px solid red;'} for a solid 2-pixel table border in red.
+     \item \code{css.summary = 'font-weight:bold;'} for a bold fontweight in the summary row.
+     \item \code{css.lasttablerow = 'border-bottom: 1px dotted blue;'} for a blue dotted border of the last table row.
+     \item \code{css.colnames = '+color:green'} to add green color formatting to column names.
+     \item \code{css.arc = 'color:blue;'} for a blue text color each 2nd row.
+     \item \code{css.caption = '+color:red;'} to add red font-color to the default table caption style.
+   }
+}
+\note{
+The HTML tables can either be saved as file and manually opened (use argument \code{file}) or
+        they can be saved as temporary files and will be displayed in the RStudio Viewer pane (if working with RStudio)
+        or opened with the default web browser. Displaying resp. opening a temporary file is the
+        default behaviour (i.e. \code{file = NULL}).
 }

@@ -121,6 +121,7 @@ estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.r
       !is.null(transform) && transform == "plogis" ~ "Probabilities",
       is.null(transform) && fitfam$is_bin ~ "Log-Odds",
       is.null(transform) && fitfam$is_ordinal ~ "Log-Odds",
+      is.null(transform) && fitfam$is_pois ~ "Log-Mean",
       fitfam$is_pois ~ "Incidence Rate Ratios",
       fitfam$is_ordinal ~ "Odds Ratios",
       fitfam$is_bin && !fitfam$is_logit ~ "Risk Ratios",
@@ -175,10 +176,11 @@ nulldef <- function(x, y, z = NULL) {
 geom_intercept_line <- function(yintercept, axis.scaling, vline.color) {
   if (yintercept > axis.scaling$axis.lim[1] && yintercept < axis.scaling$axis.lim[2]) {
     t <- theme_get()
+    if (is.null(t$panel.grid.major)) t$panel.grid.major <- t$panel.grid
     color <- nulldef(vline.color, t$panel.grid.major$colour, "grey90")
     minor_size <- nulldef(t$panel.grid.minor$size, .125)
-    major_size <- nulldef(t$panel.grid.major$size, minor_size * 2)
-    size <- major_size * 2
+    major_size <- nulldef(t$panel.grid.major$size, minor_size * 1.5)
+    size <- major_size * 1.5
     geom_hline(yintercept = yintercept, color = color, size = size)
   } else {
     NULL
@@ -188,10 +190,11 @@ geom_intercept_line <- function(yintercept, axis.scaling, vline.color) {
 # same as above, but no check if intercept is within boundaries or not
 geom_intercept_line2 <- function(yintercept, vline.color) {
   t <- theme_get()
+  if (is.null(t$panel.grid.major)) t$panel.grid.major <- t$panel.grid
   color <- nulldef(vline.color, t$panel.grid.major$colour, "grey90")
   minor_size <- nulldef(t$panel.grid.minor$size, .125)
-  major_size <- nulldef(t$panel.grid.major$size, minor_size * 2)
-  size <- major_size * 2
+  major_size <- nulldef(t$panel.grid.major$size, minor_size * 1.5)
+  size <- major_size * 1.5
   geom_hline(yintercept = yintercept, color = color, size = size)
 }
 

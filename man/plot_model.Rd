@@ -315,7 +315,7 @@ details.}
 \item{bpe}{For \strong{Stan}-models (fitted with the \pkg{rstanarm}- or
 \pkg{brms}-package), the Bayesian point estimate is, by default, the median
 of the posterior distribution. Use \code{bpe} to define other functions to
-calculate the Bayesion point estimate. \code{bpe} needs to be a character
+calculate the Bayesian point estimate. \code{bpe} needs to be a character
 naming the specific function, which is passed to the \code{fun}-argument in
 \code{\link[sjstats]{typical_value}}. So, \code{bpe = "mean"} would
 calculate the mean value of the posterior distribution.}

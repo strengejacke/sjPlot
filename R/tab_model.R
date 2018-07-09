@@ -1,9 +1,10 @@
-#' @title Print regression models to HTML table
+#' @title Print regression models as HTML table
 #' @name tab_model
 #'
 #' @description
 #'   \code{tab_model()} creates HTML tables from regression models.
 #'
+#' @param title String, will be used as table caption.
 #' @param transform A character vector, naming a function that will be applied
 #'   on estimates and confidence intervals. By default, \code{transform} will
 #'   automatically use \code{"exp"} as transformation for applicable classes of
@@ -59,6 +60,7 @@
 #' @param show.std Indicates whether standardized beta-coefficients should
 #'    also printed, and if yes, which type of standardization is done.
 #'    See 'Details'.
+#' @param show.p Logical, if \code{TRUE}, p-values are also printed.
 #' @param show.se Logical, if \code{TRUE}, the standard errors are also printed.
 #' @param show.r2 Logical, if \code{TRUE}, the r-squared value is also printed.
 #'    Depending on the model, these might be pseudo-r-squared values, or Bayesian
@@ -93,6 +95,57 @@
 #' @inheritParams plot_models
 #' @inheritParams plot_model
 #'
+#' @return Invisibly returns
+#'          \itemize{
+#'            \item the web page style sheet (\code{page.style}),
+#'            \item the web page content (\code{page.content}),
+#'            \item the complete html-output (\code{page.complete}) and
+#'            \item the html-table with inline-css for use with knitr (\code{knitr})
+#'            }
+#'            for further use.
+#'
+#' @note The HTML tables can either be saved as file and manually opened (use argument \code{file}) or
+#'         they can be saved as temporary files and will be displayed in the RStudio Viewer pane (if working with RStudio)
+#'         or opened with the default web browser. Displaying resp. opening a temporary file is the
+#'         default behaviour (i.e. \code{file = NULL}).
+#'
+#' @details \strong{Standardized Estimates}
+#'    \cr \cr
+#'    Concerning the \code{show.std} argument, \code{show.std = "std"}
+#'    will print normal standardized estimates. For \code{show.std = "std2"},
+#'    however, standardization of estimates follows
+#'    \href{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}{Gelman's (2008)}
+#'    suggestion, rescaling the estimates by dividing them by two standard
+#'    deviations instead of just one. Resulting coefficients are then
+#'    directly comparable for untransformed binary predictors. This type
+#'    of standardization uses the \code{\link[arm]{standardize}}-function
+#'    from the \pkg{arm}-package.
+#'    For backward compatibility reasons, \code{show.std} also may be
+#'    a logical value; if \code{TRUE}, normal standardized estimates are
+#'    printed (same effect as \code{show.std = "std"}). Use
+#'    \code{show.std = NULL} (default) or \code{show.std = FALSE},
+#'    if standardized estimats should not be printed.
+#'    \cr \cr
+#'    \strong{How do I use \code{CSS}-argument?}
+#'    \cr \cr
+#'    With the \code{CSS}-argument, the visual appearance of the tables
+#'    can be modified. To get an overview of all style-sheet-classnames
+#'    that are used in this function, see return value \code{page.style} for details.
+#'    Arguments for this list have following syntax:
+#'    \enumerate{
+#'      \item the class-names with \code{"css."}-prefix as argument name and
+#'      \item each style-definition must end with a semicolon
+#'    }
+#'    You can add style information to the default styles by using a + (plus-sign) as
+#'    initial character for the argument attributes. Examples:
+#'    \itemize{
+#'      \item \code{css.table = 'border:2px solid red;'} for a solid 2-pixel table border in red.
+#'      \item \code{css.summary = 'font-weight:bold;'} for a bold fontweight in the summary row.
+#'      \item \code{css.lasttablerow = 'border-bottom: 1px dotted blue;'} for a blue dotted border of the last table row.
+#'      \item \code{css.colnames = '+color:green'} to add green color formatting to column names.
+#'      \item \code{css.arc = 'color:blue;'} for a blue text color each 2nd row.
+#'      \item \code{css.caption = '+color:red;'} to add red font-color to the default table caption style.
+#'    }
 #
 #' @importFrom dplyr full_join select if_else mutate
 #' @importFrom tibble lst add_case as_tibble
@@ -409,6 +462,14 @@ tab_model <- function(
       if (show.dev) dev <- model_deviance(model)
 
 
+      # fix brms coefficient names
+
+      if (inherits(model, "brmsfit")) {
+        dat$term <- gsub("^b_", "", dat$term)
+        zidat$term <- gsub("^b_", "", zidat$term)
+      }
+
+
       list(
         dat = dat,
         transform = transform,
@@ -547,8 +608,12 @@ tab_model <- function(
   # get default labels for dv and terms ----
 
   if (isTRUE(auto.label) && sjmisc::is_empty(pred.labels)) {
-    pred.labels <- sjlabelled::get_term_labels(models, mark.cat = TRUE, case = case)
-    pred.labels <- pred.labels[!duplicated(names(pred.labels))]
+    ## TODO fix in sjlabelled
+    pred.labels <- sjlabelled::get_term_labels(models, case = case)
+    pred.cat <- sjlabelled::get_term_labels(models, mark.cat = TRUE)
+    no.dupes <- !duplicated(names(pred.labels))
+    pred.labels <- pred.labels[no.dupes]
+    attr(pred.labels, "category.value") <- attr(pred.cat, "category.value")[no.dupes]
     pred.labels <- prepare.labels(pred.labels, grp = group.terms)
   } else {
     # no automatic grouping of table rows for categorical variables
@@ -635,7 +700,7 @@ tab_model <- function(
   # get proper column header labels ----
 
   col.header <- purrr::map_chr(colnames(dat), function(x) {
-    pos <- grep("estimate", x, fixed = T)
+    pos <- grep("^estimate_", x)
 
     if (!sjmisc::is_empty(pos)) {
       i <- as.numeric(sub("estimate_", "", x = x, fixed = T))
@@ -671,40 +736,40 @@ tab_model <- function(
     }
 
 
-    pos <- grep("term", x, fixed = T)
+    pos <- grep("^term", x)
     if (!sjmisc::is_empty(pos)) x <- string.pred
 
-    pos <- grep("conf.int", x, fixed = T)
+    pos <- grep("^conf.int", x)
     if (!sjmisc::is_empty(pos)) x <- string.ci
 
-    pos <- grep("std.error", x, fixed = T)
+    pos <- grep("^std.error", x)
     if (!sjmisc::is_empty(pos)) x <- string.se
 
-    pos <- grep("std.estimate", x, fixed = T)
+    pos <- grep("^std.estimate", x)
     if (!sjmisc::is_empty(pos)) x <- string.std
 
-    pos <- grep("std.se", x, fixed = T)
-    if (!sjmisc::is_empty(pos)) x <- paste("std.", string.se)
+    pos <- grep("^std.se", x)
+    if (!sjmisc::is_empty(pos)) x <- paste("standardized", string.se)
 
-    pos <- grep("std.conf.int", x, fixed = T)
-    if (!sjmisc::is_empty(pos)) x <- paste("std.", string.ci)
+    pos <- grep("^std.conf.int", x)
+    if (!sjmisc::is_empty(pos)) x <- paste("standardized", string.ci)
 
-    pos <- grep("p.value", x, fixed = T)
+    pos <- grep("^p.value", x)
     if (!sjmisc::is_empty(pos)) x <- string.p
 
-    pos <- grep("df", x, fixed = T)
+    pos <- grep("^df", x)
     if (!sjmisc::is_empty(pos)) x <- string.df
 
-    pos <- grep("statistic", x, fixed = T)
+    pos <- grep("^statistic", x)
     if (!sjmisc::is_empty(pos)) x <- string.stat
 
-    pos <- grep("response.level", x, fixed = T)
+    pos <- grep("^response.level", x)
     if (!sjmisc::is_empty(pos)) x <- "Response"
 
-    pos <- grep("hdi.inner", x, fixed = T)
+    pos <- grep("^hdi.inner", x)
     if (!sjmisc::is_empty(pos)) x <- "HDI (50%)"
 
-    pos <- grep("hdi.outer", x, fixed = T)
+    pos <- grep("^hdi.outer", x)
     if (!sjmisc::is_empty(pos)) x <- sprintf("HDI (%i%%)", round(100 * show.ci))
 
     x

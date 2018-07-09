@@ -277,8 +277,6 @@ tab_model_df <- function(x,
   style <- tab_df_style(CSS = CSS, ...)
 
 
-  ## TODO add table caption afterwards
-
   # get HTML content
   page.content <- tab_df_content(
     mydf = x,
@@ -643,10 +641,17 @@ tab_model_df <- function(x,
 
   ## TODO add bottom table border
 
+  # add table-caption ----
+
+  if (!is.null(title))
+    table.caption <- sprintf("<caption>%s</caption>\n", title)
+  else
+    table.caption <- ""
+
 
   # surround output with table-tag ----
 
-  page.content <- paste0("<table>\n", page.content, "\n<table>\n")
+  page.content <- paste0("<table>\n", table.caption, page.content, "\n<table>\n")
 
   # create HTML page with header information
   page.complete <- tab_create_page(

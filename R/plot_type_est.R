@@ -48,6 +48,40 @@ plot_type_est <- function(type,
     show.intercept <- FALSE
   }
 
+  # fix brms coefficient names
+
+  if (inherits(model, "brmsfit")) {
+    dat$term <- gsub("^b_", "", dat$term)
+  }
+
+
+  # check if facet groups need to be replaced with title
+
+  if (length(title) > 1) {
+
+    tnames <- names(title)
+
+    if (tibble::has_name(dat, "facet") && !is.null(tnames)) {
+      if (all(tnames %in% dat$facet)) {
+        for (i in tnames) {
+          dat$facet[which(dat$facet == i)] <- title[i]
+        }
+        title <- ""
+      }
+    }
+
+    if (tibble::has_name(dat, "response.level") && !is.null(tnames)) {
+      if (all(tnames %in% dat$response.level)) {
+        for (i in tnames) {
+          dat$response.level[which(dat$response.level == i)] <- title[i]
+        }
+        title <- ""
+      }
+    }
+
+  }
+
+
   # se needs to be logical from here on
   if (!is.null(se) && !is.logical(se)) se <- TRUE
 

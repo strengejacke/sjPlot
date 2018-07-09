@@ -87,33 +87,6 @@
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.frq
 #'
-#' @note The HTML tables can either be saved as file and manually opened (use argument \code{file}) or
-#'         they can be saved as temporary files and will be displayed in the RStudio Viewer pane (if working with RStudio)
-#'         or opened with the default web browser. Displaying resp. opening a temporary file is the
-#'         default behaviour (i.e. \code{file = NULL}).
-#'
-#' @details \bold{How do I use \code{CSS}-argument?}
-#'            \cr \cr
-#'            With the \code{CSS}-argument, the visual appearance of the tables
-#'            can be modified. To get an overview of all style-sheet-classnames
-#'            that are used in this function, see return value \code{page.style} for details.
-#'            Arguments for this list have following syntax:
-#'          \enumerate{
-#'            \item the class-names with \code{"css."}-prefix as argument name and
-#'            \item each style-definition must end with a semicolon
-#'          }
-#'          You can add style information to the default styles by using a + (plus-sign) as
-#'          initial character for the argument attributes. Examples:
-#'          \itemize{
-#'            \item \code{css.table = 'border:2px solid red;'} for a solid 2-pixel table border in red.
-#'            \item \code{css.summary = 'font-weight:bold;'} for a bold fontweight in the summary row.
-#'            \item \code{css.lasttablerow = 'border-bottom: 1px dotted blue;'} for a blue dotted border of the last table row.
-#'            \item \code{css.colnames = '+color:green'} to add green color formatting to column names.
-#'            \item \code{css.arc = 'color:blue;'} for a blue text color each 2nd row.
-#'            \item \code{css.caption = '+color:red;'} to add red font-color to the default table caption style.
-#'          }
-#'          See further examples in \href{../doc/sjtbasic.html}{this package-vignette}.
-#'
 #' @examples
 #' \dontrun{
 #' # load sample data

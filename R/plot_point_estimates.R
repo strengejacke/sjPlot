@@ -93,7 +93,7 @@ plot_point_estimates <- function(model,
     }
 
     # define style for Bayesian point estimate
-    if (bpe.style == "line")
+    if (bpe.style == "line") {
       if (is.null(bpe.color)) {
         p <- p +
           geom_segment(aes_string(x = "xmin", xend = "xmax", y = "estimate", yend = "estimate"), size = geom.size * .9)
@@ -101,14 +101,13 @@ plot_point_estimates <- function(model,
         p <- p +
           geom_segment(aes_string(x = "xmin", xend = "xmax", y = "estimate", yend = "estimate"), colour = bpe.color, size = geom.size * .9)
       }
-    else
-      if (is.null(bpe.color)) {
+    } else if (is.null(bpe.color)) {
         p <- p +
           geom_point(aes_string(y = "estimate"), fill = "white", size = geom.size * 1.2)
-      } else {
-        p <- p +
-          geom_point(aes_string(y = "estimate"), fill = "white", colour = bpe.color, size = geom.size * 1.2)
-      }
+    } else {
+      p <- p +
+        geom_point(aes_string(y = "estimate"), fill = "white", colour = bpe.color, size = geom.size * 1.2)
+    }
 
   } else {
 

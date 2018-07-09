@@ -2,12 +2,12 @@
 #' @export
 print.sjTable <- function(x, ...) {
   if (x$show) {
-
     # check if we have filename specified
     if (!is.null(x$file)) {
       # write file
       write(x$knitr, file = x$file)
     } else {
+      x$page.complete <- replace_umlauts(x$page.complete)
       # else open in viewer pane
       htmlFile <- tempfile(fileext = ".html")
       write(x$page.complete, file = htmlFile)
@@ -27,6 +27,13 @@ print.sjTable <- function(x, ...) {
 #' @export
 knit_print.sjTable <-  function(input, ...) {
   x <- input$knitr
+  x <- replace_umlauts(x)
+  knitr::asis_output(x)
+  # knitr::asis_output(input$knitr)
+}
+
+
+replace_umlauts <- function(x) {
   x <- gsub("\u00E4", "&auml;", x, fixed = TRUE, useBytes = FALSE)
   x <- gsub("\u00F6", "&ouml;", x, fixed = TRUE, useBytes = FALSE)
   x <- gsub("\u00FC", "&uuml;", x, fixed = TRUE, useBytes = FALSE)
@@ -34,8 +41,15 @@ knit_print.sjTable <-  function(input, ...) {
   x <- gsub("\u00D6", "&Ouml;", x, fixed = TRUE, useBytes = FALSE)
   x <- gsub("\u00DC", "&Uuml;", x, fixed = TRUE, useBytes = FALSE)
   x <- gsub("\u00DF", "&szlig;", x, fixed = TRUE, useBytes = FALSE)
-  knitr::asis_output(x)
-  # knitr::asis_output(input$knitr)
+  # x <- gsub("ä", "&auml;", x, fixed = TRUE, useBytes = TRUE)
+  # x <- gsub("ö", "&ouml;", x, fixed = TRUE, useBytes = TRUE)
+  # x <- gsub("ü", "&uuml;", x, fixed = TRUE, useBytes = TRUE)
+  # x <- gsub("Ä", "&Auml;", x, fixed = TRUE, useBytes = TRUE)
+  # x <- gsub("Ö", "&Ouml;", x, fixed = TRUE, useBytes = TRUE)
+  # x <- gsub("Ü", "&Uuml;", x, fixed = TRUE, useBytes = TRUE)
+  # x <- gsub("ß", "&szlig;", x, fixed = TRUE, useBytes = TRUE)
+
+  x
 }
 
 

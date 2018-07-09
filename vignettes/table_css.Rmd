@@ -1,0 +1,93 @@
+---
+title: "Customizing HTML tables"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Customizing HTML tables}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", warning = FALSE, message = FALSE)
+```
+
+All `sjt.*`-functions as well as `tab_model()` create a HTML page with the table output. This table, by default, is opened in the viewer pane of your IDE (in case you’re using an IDE that also supports the viewer pane). If a viewer pane is not available, the created HTML output is saved as temporary file and opened in your default web browser. The temporary files are deleted after your R session ends.
+
+## Copying table output to office or word processors
+
+### Export table as HTML file to open in word processors
+
+You can save the HTML page as file for further usage by specifying the `file`-argument The saved HTML file can be opened by word processors like LibreOffice or Microsoft Office.
+
+### Drag and drop from browser or RStudio viewer pane
+
+You can directly drag and drop a table from the RStudio viewer pane or browser into your word processor. Simply select the complete table with your mouse and drag it into office.
+
+## Customizing table output with the CSS parameter
+
+The table output is in in HTML format. The table style (visual appearance) is formatted using _Cascading Style Sheets_ (CSS). If you are a bit familiar with these topics, you can easily customize the appearance of the table output.
+
+Many table elements (header, row, column, cell, summary row, first row or column...) have CSS-class attributes, which can be used to change the table style. Since each `sjt.*` function as well as `tab_model()` has different table elements and thus different class attributes, you first need to know which styles can be customized.
+
+### Retrieving customizable styles
+
+The table functions invisibly return several values. The return value `page.style` contains the style information for the HTML table. You can print this style sheet to console using the `cat()`-function:
+
+```{r}
+library(sjPlot)
+data(efc)
+m <- lm(barthtot ~ c160age + c12hour + c161sex + c172code, data = efc)
+tab <- tab_model(m)
+```
+
+```{r echo = TRUE}
+cat(tab$page.style)
+```
+
+The HTML code is in the `page.content` return value. The following code prints the HTML code of the table to the R console:
+
+```{r echo = TRUE}
+cat(tab$page.content)
+```
+
+Now you can see which table elements are associated with which CSS class attributes.
+
+## Customizing table output with the CSS parameter
+
+You can customize the table output with the `CSS` parameter. This parameter requires a list of attributes, which follow a certain pattern:
+
+1) each attributes needs a `css.` prefix
+2) followed by the class name (e.g. `caption`, `thead`, `centeralign`, etc.)
+3) equal-sign
+4) the CSS format (in (single) quotation marks)
+5) the CSS format must end with a colon (;)
+
+Example:
+
+```{r}
+tab_model(
+  m,
+  CSS = list(
+    css.depvarhead = 'color: red;',
+    css.centeralign = 'text-align: left;', 
+    css.firsttablecol = 'font-weight: bold;', 
+    css.summary = 'color: blue;'
+  )
+)
+```
+
+In the above example, the header row lost the original style and just became red. If you want to keep the original style and just add additional style information, use the plus-sign (+) as initial character for the parameter attributes. In the following example, the header row keeps its original style and is additionally printed in red:
+
+```{r}
+tab_model(m, CSS = list(css.depvarhead = '+color: red;'))
+```
+
+## Pre-defined Table-Layouts
+
+There are a few pre-defined CSS-themes, which can be accessed with the `css_theme()`-function. There are more pre-defined themes planned for the future.
+
+```{r}
+tab_model(m, CSS = css_theme("cells"))
+```

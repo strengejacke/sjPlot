@@ -399,7 +399,6 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
     content <- gsub("class=", "style=", content, fixed = TRUE, useBytes = TRUE)
     content <- gsub("<table", sprintf("<table style=\"%s\"", css.table), content, fixed = TRUE, useBytes = TRUE)
     content <- gsub("<caption", sprintf("<caption style=\"%s\"", css.caption), content, fixed = TRUE, useBytes = TRUE)
-    content <- gsub("<td", sprintf("<td style=\"%s\"", css.td), content, fixed = TRUE, useBytes = TRUE)
 
     # replace class-attributes with inline-style-definitions
     content <- gsub(tag.tdata, css.tdata, content, fixed = TRUE, useBytes = TRUE)
@@ -412,8 +411,8 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
     content <- gsub(tag.firsttablecol, css.firsttablecol, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.leftalign, css.leftalign, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.centeralign, css.centeralign, content, fixed = TRUE, useBytes = TRUE)
-    content <- gsub(tag.summary, css.summary, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.summarydata, css.summarydata, content, fixed = TRUE, useBytes = TRUE)
+    content <- gsub(tag.summary, css.summary, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.fixedparts, css.fixedparts, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.randomparts, css.randomparts, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.zeroparts, css.zeroparts, content, fixed = TRUE, useBytes = TRUE)
@@ -434,6 +433,8 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
     content <- gsub(tag.modelcolumn5, css.modelcolumn5, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.modelcolumn6, css.modelcolumn6, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.modelcolumn7, css.modelcolumn7, content, fixed = TRUE, useBytes = TRUE)
+
+    content <- gsub("<td style=\"", sprintf("<td style=\"%s ", css.td), content, fixed = TRUE, useBytes = TRUE)
   }
 
   content
