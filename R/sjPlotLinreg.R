@@ -5,10 +5,6 @@ utils::globalVariables(c("fit", "vars", "stdbeta", "x", "ydiff", "y", "grp", ".s
 #' @title Plot estimates, predictions or effects of linear models
 #' @name sjp.lm
 #'
-#' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm} for
-#'            more details and examples of this function; use \code{\link{sjp.poly}}
-#'            to see which polynomial degree fits best for possible polynomial terms.
-#'
 #' @description Depending on the \code{type}, this function plots coefficients (estimates)
 #'                of linear regressions (including panel models fitted with the \code{plm}-function
 #'                from the \pkg{plm}-package and generalized least squares models fitted with

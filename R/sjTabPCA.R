@@ -8,11 +8,6 @@
 #'                i.e. all variables with the highest loading for a factor are taken for the
 #'                reliability test. The result is an alpha value for each factor dimension.
 #'
-#' @seealso \itemize{
-#'            \item \href{http://www.strengejacke.de/sjPlot/sjt.pca/}{sjPlot manual: sjt.pca}
-#'            \item \code{\link{sjp.pca}}
-#'          }
-#'
 #' @param data A data frame that should be used to compute a PCA, or a \code{\link{prcomp}} object.
 #' @param rotation Rotation of the factor loadings. May be \code{"varimax"} for orthogonal rotation
 #'          or \code{"oblimin"} for oblique transformation.

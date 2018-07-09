@@ -161,6 +161,3 @@ sjp.likert(
 )
 
 }
-\seealso{
-\href{http://www.strengejacke.de/sjPlot/sjp.likert/}{sjPlot manual: sjp.likert}
-}

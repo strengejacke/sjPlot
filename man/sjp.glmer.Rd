@@ -271,6 +271,3 @@ By default, this function plots estimates (odds, risk or incidents
                random effects.}
        }
 }
-\seealso{
-\href{http://www.strengejacke.de/sjPlot/sjp.glmer/}{sjPlot manual: sjp.glmer}
-}

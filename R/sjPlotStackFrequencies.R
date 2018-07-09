@@ -1,11 +1,6 @@
 #' @title Plot stacked proportional bars
 #' @name sjp.stackfrq
 #'
-#' @seealso \itemize{
-#'              \item \href{http://www.strengejacke.de/sjPlot/sjp.stackfrq/}{sjPlot manual: sjp.stackfrq}
-#'              \item \code{\link{sjt.stackfrq}}
-#'              }
-#'
 #' @description Plot items (variables) of a scale as stacked proportional bars. This
 #'                function is useful when several items with identical scale/categoroies
 #'                should be plotted to compare the distribution of answers.

@@ -81,7 +81,7 @@ Windows OS). Change encoding if specific chars are not properly displayed (e.g. 
 
 \item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
-see \href{../doc/sjtbasic.html}{this package-vignette}, or 'Details' in
+see \href{../doc/table_css.html}{this package-vignette}, or 'Details' in
 \code{\link{sjt.frq}}.}
 
 \item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
@@ -165,11 +165,4 @@ sjt.stackfrq(efc[, c(start:end)], altr.row.col = TRUE,
              CSS = list(css.ncol = "border-left:1px dotted black;",
                         css.summary = "font-style:italic;"))}
 
-}
-\seealso{
-\itemize{
-             \item \href{http://www.strengejacke.de/sjPlot/sjt.stackfrq}{sjPlot manual: sjt-basics}
-             \item \code{\link{sjp.stackfrq}}
-             \item \code{\link{sjp.likert}}
-             }
 }

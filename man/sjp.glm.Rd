@@ -206,6 +206,3 @@ Plot odds or incident rate ratios with confidence intervalls as dot plot.
            one or two model predictors. See 'Examples'.}
          }
 }
-\seealso{
-\href{http://www.strengejacke.de/sjPlot/sjp.glm/}{sjPlot manual: sjp.glm}
-}

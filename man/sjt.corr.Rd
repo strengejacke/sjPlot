@@ -62,7 +62,7 @@ this argument is \code{NULL} and the diagnal cells are empty.}
 
 \item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
-see \href{../doc/sjtbasic.html}{this package-vignette}, or 'Details' in
+see \href{../doc/table_css.html}{this package-vignette}, or 'Details' in
 \code{\link{sjt.frq}}.}
 
 \item{encoding}{String, indicating the charset encoding used for variable and
@@ -149,10 +149,4 @@ sjt.corr(efc[, c(start:end)], triangle = "lower", val.rm = 0.3)
 sjt.corr(efc[, c(start:end)], triangle = "lower",val.rm = 0.3,
          CSS = list(css.valueremove = 'color:blue;'))}
 
-}
-\seealso{
-\itemize{
-          \item \href{http://www.strengejacke.de/sjPlot/sjt.corr}{sjPlot manual: sjt.corr}
-          \item \code{\link{sjp.corr}}
-         }
 }

@@ -286,6 +286,3 @@ Computation of p-values (if necessary and if \code{p.kr = TRUE}) are based
         on normal-distribution assumption, treating the t-statistics as Wald
         z-statistics. See 'Details' in \code{\link[sjstats]{p_value}}.
 }
-\seealso{
-\href{http://www.strengejacke.de/sjPlot/sjp.lmer/}{sjPlot manual: sjp.lmer}
-}

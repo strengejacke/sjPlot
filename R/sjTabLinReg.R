@@ -8,8 +8,6 @@
 #'                from the \pkg{plm}-package and generalized least squares models fitted with
 #'                the \code{gls}-function from the \pkg{nlme}-package.
 #'
-#' @seealso \href{http://strengejacke.de/sjPlot/sjt.lm/}{sjPlot manual: sjt.lm}
-#'
 #' @param ... One or more fitted linear (mixed) models.
 #' @param pred.labels Character vector with labels of predictor variables.
 #'          If not \code{NULL}, \code{pred.labels} will be used in the first
@@ -1259,9 +1257,6 @@ sjt.lm <- function(...,
 #'                (estimates, std. beta values etc.)  as HTML table,
 #'                or saves them as file. The fitted models may have different
 #'                predictors, e.g. when comparing different stepwise fitted models.
-#'
-#' @seealso \href{http://strengejacke.de/sjPlot/sjt.lmer/}{sjPlot manual: sjt.lmer}
-#'            and \code{\link{sjt.lm}} for further examples.
 #'
 #' @inheritParams sjt.lm
 #' @inheritParams sjt.frq

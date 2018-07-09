@@ -4,8 +4,6 @@ utils::globalVariables(c("offset"))
 #' @title Plot likert scales as centered stacked bars
 #' @name sjp.likert
 #'
-#' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.likert/}{sjPlot manual: sjp.likert}
-#'
 #' @description Plot likert scales as centered stacked bars.
 #'
 #' @note Note that only even numbers of categories are possible to plot, so the "positive"

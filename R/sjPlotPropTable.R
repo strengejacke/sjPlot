@@ -4,11 +4,6 @@ utils::globalVariables(c("prc","ges", "n", "Count", "Group", "line.break"))
 #' @title Plot contingency tables
 #' @name sjp.xtab
 #'
-#' @seealso \itemize{
-#'              \item \href{http://www.strengejacke.de/sjPlot/sjp.xtab}{sjPlot manual: sjp.xtab}
-#'              \item \code{\link{sjt.xtab}}
-#'              }
-#'
 #' @description Plot proportional crosstables (contingency tables) of two variables as ggplot diagram.
 #'
 #' @param x A vector of values (variable) describing the bars which make up the plot.

@@ -252,8 +252,3 @@ Gelman A (2008) "Scaling regression inputs by dividing by two standard deviation
             \cr \cr
             Hyndman RJ, Athanasopoulos G (2013) "Forecasting: principles and practice." OTexts; accessed from \url{https://www.otexts.org/fpp/5/4}.
 }
-\seealso{
-\href{http://www.strengejacke.de/sjPlot/sjp.lm}{sjPlot manual: sjp.lm} for
-           more details and examples of this function; use \code{\link{sjp.poly}}
-           to see which polynomial degree fits best for possible polynomial terms.
-}

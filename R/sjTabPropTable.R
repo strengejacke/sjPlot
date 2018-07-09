@@ -3,11 +3,6 @@
 #'
 #' @description Shows contingency tables as HTML file in browser or viewer pane, or saves them as file.
 #'
-#' @seealso \itemize{
-#'            \item \href{http://www.strengejacke.de/sjPlot/sjt.xtab}{sjPlot manual: sjt.xtab}
-#'            \item \code{\link{sjp.xtab}}
-#'          }
-#'
 #' @param var.row Variable that should be displayed in the table rows.
 #' @param var.col Cariable that should be displayed in the table columns.
 #' @param var.labels Character vector with variable names, which will be used

@@ -5,8 +5,6 @@ utils::globalVariables(c("OR", "lower", "upper", "p", "grp.est", "ci.low", "ci.h
 #' @title Plot estimates, predictions or effects of generalized linear models
 #' @name sjp.glm
 #'
-#' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.glm/}{sjPlot manual: sjp.glm}
-#'
 #' @description Plot odds or incident rate ratios with confidence intervalls as dot plot.
 #'                Depending on the \code{type} argument, this function may also plot model
 #'                assumptions for generalized linear models, or marginal effects

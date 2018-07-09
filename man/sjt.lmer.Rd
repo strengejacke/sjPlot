@@ -165,7 +165,7 @@ when modifying the table layout.}
 
 \item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
-see \href{../doc/sjtbasic.html}{this package-vignette}, or 'Details' in
+see \href{../doc/table_css.html}{this package-vignette}, or 'Details' in
 \code{\link{sjt.frq}}.}
 
 \item{encoding}{String, indicating the charset encoding used for variable and
@@ -298,8 +298,4 @@ sjt.lmer(fit1, fit2, fit3, pred.labels = c("Elder's gender (female)",
          "Hours of care per week", "Barthel Index", "Educational level (mid)",
          "Educational level (high)"))}
 
-}
-\seealso{
-\href{http://strengejacke.de/sjPlot/sjt.lmer/}{sjPlot manual: sjt.lmer}
-           and \code{\link{sjt.lm}} for further examples.
 }

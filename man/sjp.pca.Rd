@@ -110,9 +110,3 @@ sjp.pca(efc[, start:end], type = "tile")
 
 
 }
-\seealso{
-\itemize{
-           \item \href{http://www.strengejacke.de/sjPlot/sjp.pca/}{sjPlot manual: sjp.pca}
-           \item \code{\link{sjt.pca}}
-           }
-}

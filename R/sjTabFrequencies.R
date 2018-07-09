@@ -3,11 +3,6 @@
 #'
 #' @description Shows (multiple) frequency tables as HTML file, or saves them as file.
 #'
-#' @seealso \itemize{
-#'            \item \href{http://www.strengejacke.de/sjPlot/sjt.frq/}{sjPlot manual: sjt.frq}
-#'            \item \code{\link{sjp.frq}}
-#'          }
-#'
 #' @param data A vector or a data frame, for which frequencies should be printed
 #'          as table.
 #' @param file Destination file, if the output should be saved as file.
@@ -62,7 +57,7 @@
 #'          Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).
 #' @param CSS A \code{\link{list}} with user-defined style-sheet-definitions, according to the
 #'          \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
-#'          see \href{../doc/sjtbasic.html}{this package-vignette}, or 'Details' in
+#'          see \href{../doc/table_css.html}{this package-vignette}, or 'Details' in
 #'          \code{\link{sjt.frq}}.
 #' @param use.viewer Logical, if \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
 #'          \code{FALSE} or no viewer available, the HTML table is opened in a web browser.

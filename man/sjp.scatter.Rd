@@ -166,6 +166,3 @@ for (i in 1:10)
 sjp.scatter(runif(10), runif(10), dot.labels = pl)
 
 }
-\seealso{
-\href{http://www.strengejacke.de/sjPlot/sjp.scatter}{sjPlot manual: sjp.scatter}
-}

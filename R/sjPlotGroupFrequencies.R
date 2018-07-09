@@ -5,8 +5,6 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #' @title Plot grouped or stacked frequencies
 #' @name sjp.grpfrq
 #'
-#' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.grpfrq/}{sjPlot manual: sjp.grpfrq}
-#'
 #' @description Plot grouped or stacked frequencies of variables as bar/dot,
 #'                box or violin plots, or line plot.
 #'

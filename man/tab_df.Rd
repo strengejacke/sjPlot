@@ -54,7 +54,7 @@ display of special characters.}
 
 \item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
-see \href{../doc/sjtbasic.html}{this package-vignette}, or 'Details' in
+see \href{../doc/table_css.html}{this package-vignette}, or 'Details' in
 \code{\link{sjt.frq}}.}
 
 \item{file}{Destination file, if the output should be saved as file.
@@ -102,7 +102,7 @@ These functions print data frames as HTML-table, showing
     \item \code{arc = 'color:blue;'} for a blue text color each 2nd row.
     \item \code{caption = '+color:red;'} to add red font-color to the default table caption style.
   }
-  See further examples in \href{../doc/sjtbasic.html}{this package-vignette}.
+  See further examples in \href{../doc/table_css.html}{this package-vignette}.
 }
 \note{
 The HTML tables can either be saved as file and manually opened

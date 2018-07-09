@@ -11,8 +11,6 @@
 #'              \item \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin K: Clarifications on Interpreting Interactions in Regression}
 #'              }
 #'
-#' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.int/}{sjPlot manual: sjp.int}
-#'
 #' @description Plot regression (predicted values) or probability lines (predicted probabilities) of
 #'                significant interaction terms to better understand effects
 #'                of moderations in regression models. This function accepts following fitted model classes:

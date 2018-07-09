@@ -71,7 +71,7 @@
 #'     \item \code{arc = 'color:blue;'} for a blue text color each 2nd row.
 #'     \item \code{caption = '+color:red;'} to add red font-color to the default table caption style.
 #'   }
-#'   See further examples in \href{../doc/sjtbasic.html}{this package-vignette}.
+#'   See further examples in \href{../doc/table_css.html}{this package-vignette}.
 #'
 #' @examples
 #' \dontrun{

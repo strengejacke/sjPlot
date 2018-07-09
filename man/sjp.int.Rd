@@ -233,6 +233,3 @@ Note that beside interaction terms, also the single predictors of each interacti
              \item \href{http://www.theanalysisfactor.com/clarifications-on-interpreting-interactions-in-regression/}{Grace-Martin K: Clarifications on Interpreting Interactions in Regression}
              }
 }
-\seealso{
-\href{http://www.strengejacke.de/sjPlot/sjp.int/}{sjPlot manual: sjp.int}
-}

@@ -8,10 +8,6 @@
 #'                loading for a factor are taken for the reliability test. The result is
 #'                an alpha value for each factor dimension.
 #'
-#' @seealso \itemize{
-#'            \item \href{http://www.strengejacke.de/sjPlot/sjp.pca/}{sjPlot manual: sjp.pca}
-#'            \item \code{\link{sjt.pca}}
-#'            }
 #' @param data A data frame that should be used to compute a FA, or a \code{\link[psych]{fa}} object.
 #' @param rotation Rotation of the factor loadings. May be \code{"varimax"} for orthogonal rotation
 #'          or \code{"promax"} for oblique transformation (default). Requires the \code{"GPArotation"} package.

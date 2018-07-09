@@ -5,8 +5,6 @@ utils::globalVariables(c("estimate", "nQQ", "ci", "fixef", "fade", "conf.low", "
 #' @title Plot estimates, predictions or effects of generalized linear mixed effects models
 #' @name sjp.glmer
 #'
-#' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.glmer/}{sjPlot manual: sjp.glmer}
-#'
 #' @description By default, this function plots estimates (odds, risk or incidents
 #'                ratios, i.e. exponentiated coefficients, depending on family and
 #'                link function)
@@ -276,8 +274,6 @@ sjp.glmer <- function(fit,
 
 #' @title Plot estimates, predictions or effects of linear mixed effects models
 #' @name sjp.lmer
-#'
-#' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.lmer/}{sjPlot manual: sjp.lmer}
 #'
 #' @description By default, this function plots estimates (coefficients) with confidence
 #'                intervalls of either fixed effects or random effects of linear mixed

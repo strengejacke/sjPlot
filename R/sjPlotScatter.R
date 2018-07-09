@@ -5,8 +5,6 @@
 #'                the scatter plot is possible. Furthermore, fitted lines can be added
 #'                for each group as well as for the overall plot.
 #'
-#' @seealso \href{http://www.strengejacke.de/sjPlot/sjp.scatter}{sjPlot manual: sjp.scatter}
-#'
 #' @param x Vector indicating the x positions. If not specified (i.e. if
 #'          \code{NULL}), a range from 1 to length of \code{y} is used to spread the
 #'          dots along the x axis.

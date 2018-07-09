@@ -117,9 +117,3 @@ sjp.stackfrq(efc[, start:end])
 
 
 }
-\seealso{
-\itemize{
-             \item \href{http://www.strengejacke.de/sjPlot/sjp.stackfrq/}{sjPlot manual: sjp.stackfrq}
-             \item \code{\link{sjt.stackfrq}}
-             }
-}

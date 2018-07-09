@@ -1,11 +1,6 @@
 #' @title Summary of correlations as HTML table
 #' @name sjt.corr
 #'
-#' @seealso \itemize{
-#'           \item \href{http://www.strengejacke.de/sjPlot/sjt.corr}{sjPlot manual: sjt.corr}
-#'           \item \code{\link{sjp.corr}}
-#'          }
-#'
 #' @description Shows the results of a computed correlation as HTML table. Requires either
 #'                a \code{\link{data.frame}} or a matrix with correlation coefficients
 #'                as returned by the \code{\link{cor}}-function.

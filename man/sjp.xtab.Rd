@@ -200,9 +200,3 @@ sjp.xtab(efc$e16sex, efc$e42dep, margin = "row",
          bar.pos = "stack", coord.flip = TRUE)
 
 }
-\seealso{
-\itemize{
-             \item \href{http://www.strengejacke.de/sjPlot/sjp.xtab}{sjPlot manual: sjp.xtab}
-             \item \code{\link{sjt.xtab}}
-             }
-}

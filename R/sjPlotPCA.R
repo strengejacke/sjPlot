@@ -8,11 +8,6 @@
 #'                loading for a factor are taken for the reliability test. The result is
 #'                an alpha value for each factor dimension.
 #'
-#' @seealso \itemize{
-#'            \item \href{http://www.strengejacke.de/sjPlot/sjp.pca/}{sjPlot manual: sjp.pca}
-#'            \item \code{\link{sjt.pca}}
-#'            }
-#'
 #' @param plot.eigen If \code{TRUE}, a plot showing the Eigenvalues according to the
 #'          Kaiser criteria is plotted to determine the number of factors.
 #' @param type Plot type resp. geom type. May be one of following: \code{"circle"} or \code{"tile"}

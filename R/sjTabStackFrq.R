@@ -1,12 +1,6 @@
 #' @title Summary of stacked frequencies as HTML table
 #' @name sjt.stackfrq
 #'
-#' @seealso \itemize{
-#'              \item \href{http://www.strengejacke.de/sjPlot/sjt.stackfrq}{sjPlot manual: sjt-basics}
-#'              \item \code{\link{sjp.stackfrq}}
-#'              \item \code{\link{sjp.likert}}
-#'              }
-#'
 #' @description Shows the results of stacked frequencies (such as likert scales) as HTML table.
 #'                This function is useful when several items with identical scale/categories
 #'                should be printed as table to compare their distributions (e.g.

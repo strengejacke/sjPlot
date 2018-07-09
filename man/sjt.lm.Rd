@@ -170,7 +170,7 @@ when modifying the table layout.}
 
 \item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
 \href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
-see \href{../doc/sjtbasic.html}{this package-vignette}, or 'Details' in
+see \href{../doc/table_css.html}{this package-vignette}, or 'Details' in
 \code{\link{sjt.frq}}.}
 
 \item{encoding}{String, indicating the charset encoding used for variable and
@@ -360,7 +360,4 @@ sjt.lm(fit1, fit2, fit4, fit3, show.est = FALSE, show.std = TRUE,
        CSS = list(css.modelcolumn4 = 'border-left:1px solid black;',
                   css.modelcolumn5 = 'padding-right:50px;'))}
 
-}
-\seealso{
-\href{http://strengejacke.de/sjPlot/sjt.lm/}{sjPlot manual: sjt.lm}
 }

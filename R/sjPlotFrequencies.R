@@ -5,11 +5,6 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' @title Plot frequencies of variables
 #' @name sjp.frq
 #'
-#' @seealso \itemize{
-#'            \item \href{http://www.strengejacke.de/sjPlot/sjp.frq/}{sjPlot manual: sjp.frq}
-#'            \item \code{\link{sjt.frq}}
-#'          }
-#'
 #' @description Plot frequencies of a variable as bar graph, histogram,
 #'                box plot etc.
 #'
