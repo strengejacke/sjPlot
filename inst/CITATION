@@ -6,4 +6,5 @@ bibentry(bibtype="manual",
          author = person("Daniel", "Lüdecke"),
          year = year,
          note = note,
-         url = "https://CRAN.R-project.org/package=sjPlot")
+         url = "https://CRAN.R-project.org/package=sjPlot",
+         doi = "10.5281/zenodo.1308157")
