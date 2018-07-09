@@ -58,6 +58,7 @@ Suggests:
     gridExtra,
     ggrepel,
     ggridges,
+    pscl,
     rstanarm,
     survey,
     TMB,

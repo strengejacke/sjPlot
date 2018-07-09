@@ -407,7 +407,7 @@ tab_model <- function(
       wf <- tidyselect::starts_with("wrap.facet", vars = colnames(dat))
 
       if (!sjmisc::is_empty(wf)) {
-        zi <- which(dat[[wf]] == "Zero-Inflated Model")
+        zi <- which(dat[[wf]] %in% c("Zero-Inflated Model", "Zero Inflation Model"))
 
         if (show.zeroinf && !sjmisc::is_empty(zi)) {
           zidat <- dat %>%
@@ -468,7 +468,7 @@ tab_model <- function(
 
       if (inherits(model, "brmsfit")) {
         dat$term <- gsub("^b_", "", dat$term)
-        zidat$term <- gsub("^b_", "", zidat$term)
+        if (!is.null(zidat)) zidat$term <- gsub("^b_", "", zidat$term)
       }
 
 
@@ -508,6 +508,11 @@ tab_model <- function(
   is.zeroinf <- purrr::map_lgl(model.list, ~ !is.null(.x[[3]]))
 
   zeroinf.data <- purrr::compact(zeroinf.data)
+
+
+  # make sure we don't have zi-data if not wanted
+
+  if (!show.zeroinf) zeroinf.data <- NULL
 
 
   # sort multivariate response models by response level

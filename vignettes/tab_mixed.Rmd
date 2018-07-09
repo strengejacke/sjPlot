@@ -1,0 +1,80 @@
+---
+title: "Summary of Mixed Models as HTML Table"
+author: "Daniel Lüdecke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Summary of Mixed Models as HTML Table}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", message = FALSE)
+```
+
+This vignette shows examples for using `tab_model()` to create HTML tables for mixed models. Basically, `tab_model()` behaves in a very similar way for mixed models as for other, simple regression models, as shown [in this vignette](tab_model_estimates.html).
+
+```{r, results='hide', message=FALSE, warning=FALSE}
+# load required packages
+library(sjPlot)
+library(lme4)
+library(nlme)
+data("sleepstudy")
+data("Orthodont")
+```
+
+## Mixed models summaries as HTML table
+
+Unlike tables for [non-mixed models](tab_model_estimates.html), `tab_models()` adds additional information on the random effects to the table output for mixed models. You can hide these information with `show.icc = FALSE` and `show.re.var = FALSE`. Furthermore, the R-squared values are marginal and conditional R-squared statistics, based on _Nakagawa et al. 2017_.
+
+```{r}
+m1 <- lmer(distance ~ age + Sex + (1 | Subject), data = Orthodont)
+m2 <- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy)
+
+tab_model(m1, m2)
+``` 
+
+The marginal R-squared considers only the variance of the fixed effects, while the conditional R-squared takes both the fixed and random effects into account.
+
+The p-value is a simple approximation, based on the t-statistics and using the normal distribution function. A more precise p-value can be computed using `p.val = "kr"`. In this case, which only applies to linear mixed models, the computation of p-values is based on conditional F-tests with Kenward-Roger approximation for the degrees of freedom (using the using the **pbkrtest**-package). Note that here the computation is more time consuming and thus not used as default. You can also display the approximated degrees of freedom with `show.df`.
+
+```{r}
+tab_model(m1, p.val = "kr", show.df = TRUE)
+``` 
+
+## Generalized linear mixed models
+
+`tab_model()` can also print and combine models with different link-functions.
+
+```{r}
+data("cvpp")
+m3 <- glmer(
+  cbind(incidence, size - incidence) ~ period + (1 | herd),
+  data = cbpp, 
+  family = binomial(link = "logit")
+)
+
+tab_model(m1, m3)
+``` 
+
+## More complex models
+
+Finally, an example from the **glmmTMB**-package to show how easy it is to print zero-inflated generalized linear mixed models as HTML table.
+
+```{r}
+library(glmmTMB)
+data("Salamanders")
+m4 <- glmmTMB(
+  count ~ spp + mined + (1 | site),
+  ziformula = ~ spp + mined, 
+  family = truncated_poisson(link = "log"), 
+  data = Salamanders
+)
+
+tab_model(m1, m3, m4, show.ci = FALSE)
+``` 
+
+## References
+
+Nakagawa S, Johnson P, Schielzeth H (2017) _The coefficient of determination R2 and intra-class correlation coefficient from generalized linear mixed-effects models revisted and expanded._ J. R. Soc. Interface 14. doi: 10.1098/rsif.2017.0213

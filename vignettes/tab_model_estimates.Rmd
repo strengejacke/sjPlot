@@ -28,7 +28,7 @@ library(sjmisc)
 library(sjlabelled)
 
 # sample data
-data(efc)
+data("efc")
 efc <- as_factor(efc, c161sex, c172code)
 ```
 
@@ -101,6 +101,24 @@ To plot the estimates on the linear scale, use `transform = NULL`.
 ```{r}
 tab_model(m3, m4, transform = NULL, auto.label = FALSE)
 ``` 
+
+## More complex models
+
+Other models, like hurdle- or zero-inflated models, also work with `tab_model()`. In this case, the zero inflation model is indicated in the table. Use `show.zeroinf = FALSE` to hide this part from the table.
+
+```{r}
+library(pscl)
+data("bioChemists")
+
+m5 <- zeroinfl(art ~ . | ., data = bioChemists)
+tab_model(m5)
+```
+
+You can combine any model in one table.
+
+```{r}
+tab_model(m1, m3, m5, auto.label = FALSE, show.ci = FALSE)
+```
 
 ## Show or hide further columns
 
