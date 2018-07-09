@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -35,6 +37,7 @@
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -61,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.1.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.5</span>
       </span>
     </div>
 
@@ -102,10 +105,13 @@
       <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
     </li>
     <li>
-      <a href="../articles/sjtlm.html">Summary of Linear Regression Models as HTML Table</a>
+      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
     </li>
     <li>
-      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
+      <a href="../articles/table_css.html">Customizing HTML tables</a>
+    </li>
+    <li>
+      <a href="../articles/tab_model_estimates.html">Summary of Regression Models as HTML Table</a>
     </li>
   </ul>
 </li>
@@ -187,8 +193,14 @@ be used for plotting. Default is no standardization.</p><dl class='dl-horizontal
       <td><p>Character vector with names that indicate which terms should
 be removed from the plot. Counterpart to <code>terms</code>. <code>rm.terms =
 "t_name"</code> would remove the term <em>t_name</em>. Default is <code>NULL</code>, i.e.
-all terms are used. Note that this argument does not apply to
-<em>Marginal Effects</em> plots.</p></td>
+all terms are used. For factors, levels that should be removed from the plot
+need to be explicitely indicated in square brackets, and match the model's
+coefficient names, e.g. <code>rm.terms = "t_name [2,3]"</code> would remove the terms
+<code>"t_name2"</code> and <code>"t_name3"</code> (assuming that the variable <code>t_name</code>
+was categorical and has at least the factor levels <code>2</code> and <code>3</code>).
+Another example for the <em>iris</em> dataset would be
+<code>rm.terms = "Species [versicolor,virginica]"</code>. Note that the
+<code>rm.terms</code>-argument does not apply to <em>Marginal Effects</em> plots.</p></td>
     </tr>
     <tr>
       <th>title</th>
@@ -205,9 +217,8 @@ variables for each model are used.</p></td>
     </tr>
     <tr>
       <th>legend.title</th>
-      <td><p>Character vector, used as title for the plot legend. Note that
-only some plot types have legends (e.g. <code>type = "pred"</code> or when
-grouping estimates with <code>group.estimates</code>).</p></td>
+      <td><p>Character vector, used as legend title for plots that
+have a legend.</p></td>
     </tr>
     <tr>
       <th>legend.pval.title</th>

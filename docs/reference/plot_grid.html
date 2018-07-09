@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -34,6 +36,7 @@
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -60,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.1.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.5</span>
       </span>
     </div>
 
@@ -101,10 +104,13 @@
       <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
     </li>
     <li>
-      <a href="../articles/sjtlm.html">Summary of Linear Regression Models as HTML Table</a>
+      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
     </li>
     <li>
-      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
+      <a href="../articles/table_css.html">Customizing HTML tables</a>
+    </li>
+    <li>
+      <a href="../articles/tab_model_estimates.html">Summary of Regression Models as HTML Table</a>
     </li>
   </ul>
 </li>
@@ -173,17 +179,26 @@ and left margin for each plot, in centimetres.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>efc</span>)
+    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>ggeffects</span>)
+<span class='fu'>data</span>(<span class='no'>efc</span>)
+
 <span class='co'># fit model</span>
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>tot_sc_e</span> ~ <span class='no'>c12hour</span> + <span class='no'>e17age</span> + <span class='no'>e42dep</span> + <span class='no'>neg_c_7</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
+<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(
+  <span class='no'>tot_sc_e</span> ~ <span class='no'>c12hour</span> + <span class='no'>e17age</span> + <span class='no'>e42dep</span> + <span class='no'>neg_c_7</span>,
+  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>,
+  <span class='kw'>family</span> <span class='kw'>=</span> <span class='no'>poisson</span>
+)
+
 <span class='co'># plot marginal effects for each predictor, each as single plot</span>
-<span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sjp.lm.html'>sjp.lm</a></span>(<span class='no'>fit</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"eff"</span>, <span class='kw'>facet.grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>prnt.plot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: 'sjp.lm' is deprecated.</span>
-#&gt; <span class='warning'>Use 'plot_model' instead.</span>
-#&gt; <span class='warning'>See help("Deprecated")</span></div><div class='input'>
+<span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/ggeffects/topics/ggpredict'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='st'>"c12hour"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggeffects/topics/plot'>plot</a></span>(<span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>Following variables had many unique values and were prettified: c12hour. Use `pretty = FALSE` to get smoother plots with all values, however, at the cost of increased memory usage.</span></div><div class='input'><span class='no'>p2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/ggeffects/topics/ggpredict'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='st'>"e17age"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggeffects/topics/plot'>plot</a></span>(<span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>Following variables had many unique values and were prettified: e17age. Use `pretty = FALSE` to get smoother plots with all values, however, at the cost of increased memory usage.</span></div><div class='input'><span class='no'>p3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/ggeffects/topics/ggpredict'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='st'>"e42dep"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggeffects/topics/plot'>plot</a></span>(<span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>p4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/ggeffects/topics/ggpredict'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='st'>"neg_c_7"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://www.rdocumentation.org/packages/ggeffects/topics/plot'>plot</a></span>(<span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
 <span class='co'># plot grid</span>
-<span class='fu'>plot_grid</span>(<span class='no'>p</span>$<span class='no'>plot.list</span>)</div><div class='img'><img src='plot_grid-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># or</span>
-<span class='fu'>plot_grid</span>(<span class='no'>p</span>)</div><div class='img'><img src='plot_grid-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_grid</span>(<span class='fu'>list</span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='no'>p4</span>))</div><div class='img'><img src='plot_grid-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

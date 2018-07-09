@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -34,6 +36,7 @@
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -60,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.1.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.5</span>
       </span>
     </div>
 
@@ -101,10 +104,13 @@
       <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
     </li>
     <li>
-      <a href="../articles/sjtlm.html">Summary of Linear Regression Models as HTML Table</a>
+      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
     </li>
     <li>
-      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
+      <a href="../articles/table_css.html">Customizing HTML tables</a>
+    </li>
+    <li>
+      <a href="../articles/tab_model_estimates.html">Summary of Regression Models as HTML Table</a>
     </li>
   </ul>
 </li>
@@ -339,33 +345,6 @@ may look less pretty, but it may help when exporting html-tables to office tools
 <li><p>the html-table with inline-css for use with knitr (<code>knitr</code>)</p></li>
 </ul><p>for further use.</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p><b>How do I use <code>CSS</code>-argument?</b>
-           <br /> <br />
-           With the <code>CSS</code>-argument, the visual appearance of the tables
-           can be modified. To get an overview of all style-sheet-classnames
-           that are used in this function, see return value <code>page.style</code> for details.
-           Arguments for this list have following syntax:</p><ol>
-<li><p>the class-names with <code>"css."</code>-prefix as argument name and</p></li>
-<li><p>each style-definition must end with a semicolon</p></li>
-</ol><p>You can add style information to the default styles by using a + (plus-sign) as
-         initial character for the argument attributes. Examples:</p><ul>
-<li><p><code>css.table = 'border:2px solid red;'</code> for a solid 2-pixel table border in red.</p></li>
-<li><p><code>css.summary = 'font-weight:bold;'</code> for a bold fontweight in the summary row.</p></li>
-<li><p><code>css.lasttablerow = 'border-bottom: 1px dotted blue;'</code> for a blue dotted border of the last table row.</p></li>
-<li><p><code>css.colnames = '+color:green'</code> to add green color formatting to column names.</p></li>
-<li><p><code>css.arc = 'color:blue;'</code> for a blue text color each 2nd row.</p></li>
-<li><p><code>css.caption = '+color:red;'</code> to add red font-color to the default table caption style.</p></li>
-</ul><p>See further examples in <a href='../doc/sjtbasic.html'>this package-vignette</a>.</p>
-    
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
-
-    <p>The HTML tables can either be saved as file and manually opened (use argument <code>file</code>) or
-        they can be saved as temporary files and will be displayed in the RStudio Viewer pane (if working with RStudio)
-        or opened with the default web browser. Displaying resp. opening a temporary file is the
-        default behaviour (i.e. <code>file = NULL</code>).</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><ul>
@@ -423,10 +402,6 @@ may look less pretty, but it may help when exporting html-tables to office tools
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#note">Note</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

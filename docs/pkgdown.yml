@@ -1,6 +1,6 @@
 pandoc: 1.19.2.1
-pkgdown: 1.0.0
-pkgdown_sha: ~
+pkgdown: 1.1.0.9000
+pkgdown_sha: 8526f488456da3e10974a9def39a44d2d2b0b07d
 articles:
   blackwhitefigures: blackwhitefigures.html
   custplot: custplot.html
@@ -8,6 +8,7 @@ articles:
   plot_marginal_effects: plot_marginal_effects.html
   plot_model_estimates: plot_model_estimates.html
   sjtitemanalysis: sjtitemanalysis.html
-  sjtlm: sjtlm.html
   sjtlmer: sjtlmer.html
+  table_css: table_css.html
+  tab_model_estimates: tab_model_estimates.html
 

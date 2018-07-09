@@ -3,3 +3,4 @@
 ^\.travis\.yml$
 Rplots.pdf
 ^docs$
+^_pkgdown\.yml$

@@ -21,20 +21,23 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
 
 <meta property="og:title" content="Compute quick cluster analysis — sjc.qclus" />
 
-<meta property="og:description" content="Compute a quick kmeans or hierarchical cluster analysis and displays "cluster characteristics"
+<meta property="og:description" content="Compute a quick kmeans or hierarchical cluster analysis and displays &quot;cluster characteristics&quot;
                as plot." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -61,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.1.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.5</span>
       </span>
     </div>
 
@@ -102,10 +105,13 @@
       <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
     </li>
     <li>
-      <a href="../articles/sjtlm.html">Summary of Linear Regression Models as HTML Table</a>
+      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
     </li>
     <li>
-      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
+      <a href="../articles/table_css.html">Customizing HTML tables</a>
+    </li>
+    <li>
+      <a href="../articles/tab_model_estimates.html">Summary of Regression Models as HTML Table</a>
     </li>
   </ul>
 </li>
@@ -358,10 +364,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 <span class='co'># k-means clustering of airquality data</span>
 <span class='co'># and saving the results. most likely, 3 cluster</span>
 <span class='co'># groups have been found (see below).</span>
-<span class='no'>airgrp</span> <span class='kw'>&lt;-</span> <span class='fu'>sjc.qclus</span>(<span class='no'>airquality</span>)</div><div class='output co'>#&gt; Clustering k = 1,2,..., K.max (= 10): .. done
-#&gt; Bootstrapping, b = 1,2,..., B (= 100)  [one "." per sample]:
-#&gt; .................................................. 50 
-#&gt; .................................................. 100 </div><div class='output co'>#&gt; <span class='message'>Clustering Gap statistic ["clusGap"].</span>
+<span class='no'>airgrp</span> <span class='kw'>&lt;-</span> <span class='fu'>sjc.qclus</span>(<span class='no'>airquality</span>)</div><div class='output co'>#&gt; <span class='message'>Clustering Gap statistic ["clusGap"].</span>
 #&gt; <span class='message'>B=100 simulated reference sets, k = 1..10</span></div><div class='output co'>#&gt; <span class='message'> --&gt; Number of clusters (method 'Tibs2001SEmax', SE.factor=1): 3</span></div><div class='img'><img src='sjc.qclus-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># "re-plot" cluster groups, without computing</span>
 <span class='co'># new k-means cluster analysis.</span>

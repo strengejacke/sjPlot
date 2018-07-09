@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -32,6 +34,7 @@
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -58,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.1.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.5</span>
       </span>
     </div>
 
@@ -99,10 +102,13 @@
       <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
     </li>
     <li>
-      <a href="../articles/sjtlm.html">Summary of Linear Regression Models as HTML Table</a>
+      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
     </li>
     <li>
-      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
+      <a href="../articles/table_css.html">Customizing HTML tables</a>
+    </li>
+    <li>
+      <a href="../articles/tab_model_estimates.html">Summary of Regression Models as HTML Table</a>
     </li>
   </ul>
 </li>
@@ -168,7 +174,7 @@
 <p>Following functions are now defunct:</p>
 <ul>
 <li>
-<code><a href="../reference/sjt.grpmean.html">sjt.grpmean()</a></code>, <code><a href="../reference/sjt.grpmean.html">sjt.mwu()</a></code> and <code><a href="../reference/sjt.grpmean.html">sjt.df()</a></code>.</li>
+<code><a href="../reference/sjt.grpmean.html">sjt.grpmean()</a></code>, <code><a href="../reference/sjt.grpmean.html">sjt.mwu()</a></code> and <code><a href="../reference/sjt.grpmean.html">sjt.df()</a></code>. The replacements are <code><a href="http://www.rdocumentation.org/packages/sjstats/topics/grpmean">sjstats::grpmean()</a></code>, <code><a href="http://www.rdocumentation.org/packages/sjstats/topics/mwu">sjstats::mwu()</a></code> and <code><a href="../reference/tab_df.html">tab_df()</a></code> resp. <code><a href="../reference/tab_df.html">tab_dfs()</a></code>.</li>
 </ul>
 </div>
 <div id="changes-to-functions" class="section level2">
@@ -180,6 +186,12 @@
 <li>
 <code><a href="../reference/plot_model.html">plot_model()</a></code> gets a <code>show.zeroinf</code>-argument to show or hide the zero-inflation-part of models in the plot.</li>
 <li>
+<code><a href="../reference/plot_model.html">plot_model()</a></code> gets a <code>jitter</code>-argument to add some random variation to data points for those plot types that accept <code>show.data = TRUE</code>.</li>
+<li>
+<code><a href="../reference/plot_model.html">plot_model()</a></code> gets a <code>legend.title</code>-argument to define the legend title for plots that display a legend.</li>
+<li>
+<code><a href="../reference/plot_model.html">plot_model()</a></code> now passes more arguments in <code>...</code> down to <code><a href="http://www.rdocumentation.org/packages/ggeffects/topics/plot">ggeffects::plot()</a></code> for marginal effects plots.</li>
+<li>
 <code><a href="../reference/plot_model.html">plot_model()</a></code> now plots the zero-inflated part of the model for <code>brmsfit</code>-objects.</li>
 <li>
 <code><a href="../reference/plot_model.html">plot_model()</a></code> now plots multivariate response models, i.e. models with multiple outcomes.</li>
@@ -187,16 +199,29 @@
 <li>Axis limits of diagnostic plots in <code><a href="../reference/plot_model.html">plot_model()</a></code> (<code>type = "diag"</code>) for Stan-models (<code>brmsfit</code> or <code>stanreg</code> resp. <code>stanfit</code>) can now be set with the <code>axis.lim</code>-argument.</li>
 <li>The <code>grid.breaks</code>-argument for <code><a href="../reference/plot_model.html">plot_model()</a></code> and <code><a href="../reference/plot_models.html">plot_models()</a></code> now also takes a vector of values to directly define the grid breaks for the plot.</li>
 <li>Better default calculation for grid breaks in <code><a href="../reference/plot_model.html">plot_model()</a></code> and <code><a href="../reference/plot_models.html">plot_models()</a></code> when the <code>grid.breaks</code>-argument is of length one.</li>
-<li>The <code>terms</code>-argument for <code><a href="../reference/plot_model.html">plot_model()</a></code> now also allows the specification of a range of numeric values in square brackets for marginal effects plots, e.g. <code>terms = "age [30:50]"</code>.</li>
+<li>The <code>terms</code>-argument for <code><a href="../reference/plot_model.html">plot_model()</a></code> now also allows the specification of a range of numeric values in square brackets for marginal effects plots, e.g. <code>terms = "age [30:50]"</code> or <code>terms = "age [pretty]"</code>.</li>
+<li>For coefficient-plots, the <code>terms</code>- and <code>rm.terms</code>-arguments for <code><a href="../reference/plot_model.html">plot_model()</a></code> now also allows specification of factor levels for categorical terms. Coefficients for the indicted factor levels are kept resp. removed (see <code><a href="../reference/plot_model.html">?plot_model</a></code> for details).</li>
+<li>
+<code><a href="../reference/plot_model.html">plot_model()</a></code> now supports <code>clmm</code>-objects (package <em>ordinal</em>).</li>
+<li>
+<code><a href="../reference/plot_model.html">plot_model(type = "diag")</a></code> now also shows random-effects QQ-plots for <code>glmmTMB</code>-models, and also plots random-effects QQ-plots for all random effects (if model has more than one random effect term).</li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
 <ul>
+<li>
+<code><a href="../reference/plot_model.html">plot_model(type = "re")</a></code> now supports standard errors and confidence intervals for <code>glmmTMB</code>-objects.</li>
 <li>Fixed typo for <code>glmmTMB</code>-tidier, which may have returned wrong data for zero-inflation part of model.</li>
 <li>Multiple random intercepts for multilevel models fitted with <code>brms</code> area now shown in each own facet per intercept.</li>
 <li>Remove unnecessary warning in <code><a href="../reference/sjp.likert.html">sjp.likert()</a></code> for uneven category count when neutral category is specified.</li>
+<li>
+<code><a href="../reference/plot_model.html">plot_model(type = "int")</a></code> could not automatically select <code>mdrt.values</code> properly for non-integer variables.</li>
+<li>
+<code><a href="../reference/sjp.grpfrq.html">sjp.grpfrq()</a></code> now correctly uses the complete space in facets when <code>facet.grid = TRUE</code>.</li>
+<li>
+<code><a href="../reference/sjp.grpfrq.html">sjp.grpfrq(type = "boxplot")</a></code> did not correctly label the x-axis when one category had no elements in a vector.</li>
 </ul>
 </div>
 </div>
@@ -450,166 +475,6 @@
 </ul>
 </div>
 </div>
-    <div id="sjplot-2-2-1" class="section level1">
-<h1 class="page-header">
-<a href="#sjplot-2-2-1" class="anchor"></a>sjPlot 2.2.1<small> 2017-01-10 </small>
-</h1>
-<div id="changes-to-functions-5" class="section level2">
-<h2 class="hasAnchor">
-<a href="#changes-to-functions-5" class="anchor"></a>Changes to functions</h2>
-<ul>
-<li>
-<code><a href="../reference/sjp.lm.html">sjp.lm()</a></code> for <code>type = "ma"</code> now uses subtitles in multi-line plot-titles.</li>
-</ul>
-</div>
-<div id="bug-fixes-6" class="section level2">
-<h2 class="hasAnchor">
-<a href="#bug-fixes-6" class="anchor"></a>Bug fixes</h2>
-<ul>
-<li>Residuals in <code><a href="../reference/sjp.kfold_cv.html">sjp.kfold_cv()</a></code> had wrong leading sign (i.e. positive residuals were negative and vice versa).</li>
-</ul>
-</div>
-</div>
-    <div id="sjplot-2-2-0" class="section level1">
-<h1 class="page-header">
-<a href="#sjplot-2-2-0" class="anchor"></a>sjPlot 2.2.0<small> 2016-12-27 </small>
-</h1>
-<div id="new-functions-4" class="section level2">
-<h2 class="hasAnchor">
-<a href="#new-functions-4" class="anchor"></a>New Functions</h2>
-<ul>
-<li>
-<code><a href="../reference/sjp.kfold_cv.html">sjp.kfold_cv()</a></code> to plot model fit from k-fold cross-validation.</li>
-</ul>
-</div>
-<div id="changes-to-functions-6" class="section level2">
-<h2 class="hasAnchor">
-<a href="#changes-to-functions-6" class="anchor"></a>Changes to functions</h2>
-<ul>
-<li>Argument <code>scatter.plot</code> was renamed to <code>show.scatter</code>.</li>
-<li>Argument <code>var.labels</code> in <code><a href="../reference/sjt.frq.html">sjt.frq()</a></code> was renamed to <code>title</code>.</li>
-<li>
-<code><a href="../reference/sjplot.html">sjplot()</a></code> and <code><a href="../reference/sjplot.html">sjtab()</a></code> also accept grouped data frames, to create plots or tables for all subgroups.</li>
-<li>For <code><a href="../reference/sjp.glm.html">sjp.glm()</a></code> and <code><a href="../reference/sjp.glmer.html">sjp.glmer()</a></code>, <code>type = "pred"</code>, <code>type = "slope"</code>, <code>type = "pred.fe"</code> and <code>type = "fe.slope"</code> can now also plot data points when <code>show.scatter = TRUE</code>. Use <code>point.alpha</code> to adjust alpha-level of data points.</li>
-<li>For <code><a href="../reference/sjp.lm.html">sjp.lm()</a></code>, <code><a href="../reference/sjp.lmer.html">sjp.lmer()</a></code>, <code><a href="../reference/sjp.glm.html">sjp.glm()</a></code> and <code><a href="../reference/sjp.glmer.html">sjp.glmer()</a></code>, <code>type = "pred"</code> and <code>type = "pred.fe"</code> now plot error bars for <code>show.ci = TRUE</code> and a discrete variable on the x-axis.</li>
-<li>For <code><a href="../reference/sjp.glm.html">sjp.glm()</a></code> and <code><a href="../reference/sjp.glmer.html">sjp.glmer()</a></code>, <code>type = "pred"</code> and <code>type = "pred.fe"</code> now accept three variables for the <code>vars</code>-argument, to facet grouped predictions by a third variable.</li>
-<li>For <code><a href="../reference/sjp.lm.html">sjp.lm()</a></code>, <code><a href="../reference/sjp.lmer.html">sjp.lmer()</a></code>, <code><a href="../reference/sjp.glm.html">sjp.glm()</a></code> and <code><a href="../reference/sjp.glmer.html">sjp.glmer()</a></code>, the <code>...</code>-ellipses argument now is also passed down to all errorbars- and smooth-geoms in prediction- and effect-plots, so you can now use the <code>width</code>-argument to show the small stripes at the lower/upper end of the error bars, the <code>alpha</code>-argument to define alpha-level or the <code>level</code>-argument to define the level of confidence bands.</li>
-<li>
-<code><a href="../reference/sjp.lm.html">sjp.lm()</a></code>, <code><a href="../reference/sjp.lmer.html">sjp.lmer()</a></code>, <code><a href="../reference/sjp.glm.html">sjp.glm()</a></code> and <code><a href="../reference/sjp.glmer.html">sjp.glmer()</a></code> get a <code>point.color</code>-argument, do define color of point-geoms when <code>show.scatter = TRUE</code>. If not defined, point-geoms will have same group-color as lines.</li>
-<li>Effect-plots (<code>type = "eff"</code>) now plot data points for discrete variables on the x-axis.</li>
-<li>
-<code><a href="../reference/sjt.lm.html">sjt.lm()</a></code> and <code><a href="../reference/sjt.glm.html">sjt.glm()</a></code> get a <code>robust</code>-argument to compute robust standard errors and confidence intervals.</li>
-<li>
-<code><a href="../reference/sjp.resid.html">sjp.resid()</a></code> now also returns a plot with the residual pattern, <code>$pattern</code>.</li>
-<li>Plot and axis titles from effect-plots can now be changed with <code>title</code> or <code>axis.title</code> argument. Use a character vector of length &gt; 1 to define (axis) titles for each plot or facet; use <code>""</code> to remove the titles.</li>
-<li>Pick better defaults for <code>geom.size</code>-argument for histogram and density plots in <code><a href="../reference/sjp.frq.html">sjp.frq()</a></code>.</li>
-<li>Improved automatic label detection for regression models for plot or table output.</li>
-</ul>
-</div>
-<div id="bug-fixes-7" class="section level2">
-<h2 class="hasAnchor">
-<a href="#bug-fixes-7" class="anchor"></a>Bug fixes</h2>
-<ul>
-<li>Restored correct order of categories in <code><a href="../reference/sjp.xtab.html">sjp.xtab()</a></code> and <code><a href="../reference/sjp.grpfrq.html">sjp.grpfrq()</a></code> for stacked bars (<code>position_stack()</code> reversed order since last ggplot2-update), so labels are now correclty positioned again.</li>
-<li>Restored correct order of categories in <code><a href="../reference/sjp.likert.html">sjp.likert()</a></code>, so groups are now in correct order again.</li>
-<li>Fixed bug in <code><a href="../reference/sjt.grpmean.html">sjt.grpmean()</a></code> for variables with unused value labels (values that were labelled, but did not appear on the vector).</li>
-<li>Fixed wrong documentation for <code>show.summary</code>-argument in <code><a href="../reference/sjt.xtab.html">sjt.xtab()</a></code>.</li>
-<li>
-<code><a href="../reference/sjt.frq.html">sjt.frq()</a></code> and <code><a href="../reference/sjp.frq.html">sjp.frq()</a></code> showed messed up labels when a labelled vector had both <code>NA</code> values <em>and</em> <code>NaN</code> or infinite values.</li>
-<li>
-<code><a href="../reference/sjplot.html">sjtab()</a></code> did not create tables for <code>fun = "xtab"</code> with additional arguments.</li>
-</ul>
-</div>
-</div>
-    <div id="sjplot-2-1-2" class="section level1">
-<h1 class="page-header">
-<a href="#sjplot-2-1-2" class="anchor"></a>sjPlot 2.1.2<small> 2016-11-12 </small>
-</h1>
-<div id="general-6" class="section level2">
-<h2 class="hasAnchor">
-<a href="#general-6" class="anchor"></a>General</h2>
-<ul>
-<li>Effect-plots from <code><a href="../reference/sjp.int.html">sjp.int()</a></code>, <code><a href="../reference/sjp.glm.html">sjp.glm()</a></code> and <code><a href="../reference/sjp.glmer.html">sjp.glmer()</a></code> now support the <code>transformation</code>-argument from the <strong>effects</strong>-package. For example, when calling <code><a href="../reference/sjp.glm.html">sjp.glm(fit, type = "eff", transformation = NULL)</a></code>, predictions are on their original scale (y-scale) and the title for the y-scale is changed accordingly.</li>
-</ul>
-</div>
-<div id="changes-to-functions-7" class="section level2">
-<h2 class="hasAnchor">
-<a href="#changes-to-functions-7" class="anchor"></a>Changes to functions</h2>
-<ul>
-<li>Restored order of categories in <code><a href="../reference/sjp.stackfrq.html">sjp.stackfrq()</a></code>, which were reversed by the last ggplot2-update, where <code>position_stack()</code> now sort the stacking order to match grouping order.</li>
-</ul>
-</div>
-<div id="bug-fixes-8" class="section level2">
-<h2 class="hasAnchor">
-<a href="#bug-fixes-8" class="anchor"></a>Bug fixes</h2>
-<ul>
-<li>Fixed bug in <code><a href="../reference/sjplot.html">sjplot()</a></code> that caused figures not being plotted in certain situations.</li>
-<li>Fixed bug in <code>sjp.lmm()</code>, which caused an error for plotting multiple mixed models when Intercept was hidden.</li>
-<li>Fixed bug in <code>sjp.lmm()</code>, which caused an error for plotting multiple mixed models when <code>type = "std"</code> or <code>type = "std2"</code>.</li>
-</ul>
-</div>
-</div>
-    <div id="sjplot-2-1-1" class="section level1">
-<h1 class="page-header">
-<a href="#sjplot-2-1-1" class="anchor"></a>sjPlot 2.1.1<small> 2016-10-31 </small>
-</h1>
-<div id="general-7" class="section level2">
-<h2 class="hasAnchor">
-<a href="#general-7" class="anchor"></a>General</h2>
-<ul>
-<li>Some fixes needed to be compatible with the latest ggplot2-update.</li>
-</ul>
-</div>
-<div id="new-functions-5" class="section level2">
-<h2 class="hasAnchor">
-<a href="#new-functions-5" class="anchor"></a>New functions</h2>
-<ul>
-<li>
-<code>sjplot</code>, a pipe-friendly wrapper for some of this package’s plotting-functions.</li>
-<li>
-<code>sjtab</code>, a pipe-friendly wrapper for some of this package’s table-functions.</li>
-</ul>
-</div>
-</div>
-    <div id="sjplot-2-1-0" class="section level1">
-<h1 class="page-header">
-<a href="#sjplot-2-1-0" class="anchor"></a>sjPlot 2.1.0<small> 2016-09-27 </small>
-</h1>
-<div id="new-functions-6" class="section level2">
-<h2 class="hasAnchor">
-<a href="#new-functions-6" class="anchor"></a>New functions</h2>
-<ul>
-<li>
-<code>sjp.resid</code>, an experimental function to plot and analyze residuals from linear models.</li>
-<li>
-<code>plot_grid</code> to plot a list of ggplot-objects as arranged grid in a single plot.</li>
-<li>
-<code>set_theme</code> to use a preset of default themes for plots from the sjp-functions.</li>
-</ul>
-</div>
-<div id="changes-to-functions-8" class="section level2">
-<h2 class="hasAnchor">
-<a href="#changes-to-functions-8" class="anchor"></a>Changes to functions</h2>
-<ul>
-<li>For <code>sjp.glmer</code> and <code>sjp.lmer</code>, argument <code>show.ci</code> now also applies for plotting random effects (<code>type = "re"</code>, the default), so confidence intervals may not be calculated. This may be useful in some cases where computation of standard errors for random effects caused an error.</li>
-<li>Effect plots (<code>type = "eff"</code>) for <code>sjp.lm</code>, <code>sjp.glm</code>, <code>sjp.lmer</code> and <code>sjp.glmer</code> should now better handle categorical variables and their labels, including using error bars insted of regions for confidence intervals.</li>
-<li>
-<code>table(*, exclude = NULL)</code> was changed to <code>table(*, useNA = "always")</code>, because of planned changes in upcoming R version 3.4.</li>
-<li>
-<code>get_option("p_zero")</code> was removed, and <code>sjt.lm</code>, <code>sjt.glm</code>, <code>sjt.lmer</code> and <code>sjt.glmer</code> get a <code>p.zero</code> argument.</li>
-<li>
-<code>sjp.setTheme</code> no longer sets default theme presets for plots; use <code>set_theme</code> instead.</li>
-</ul>
-</div>
-<div id="bug-fixes-9" class="section level2">
-<h2 class="hasAnchor">
-<a href="#bug-fixes-9" class="anchor"></a>Bug fixes</h2>
-<ul>
-<li>A bug introduced in update 2.0.2 caused an error in <code>sjp.lm</code> for <code>type = "std"</code>.</li>
-<li>Effect plots (<code>type = "eff"</code>) for <code>sjp.lm</code>, <code>sjp.glm</code>, <code>sjp.lmer</code> and <code>sjp.glmer</code> did not plot all predictors, when predictor name was not exactly specified in formula, but transformed inside formula (e.g. <code>log(pred + 1)</code>).</li>
-</ul>
-</div>
-</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -623,11 +488,6 @@
         <li><a href="#sjplot-2-3-2">2.3.2</a></li>
         <li><a href="#sjplot-2-3-1">2.3.1</a></li>
         <li><a href="#sjplot-2-3-0">2.3.0</a></li>
-        <li><a href="#sjplot-2-2-1">2.2.1</a></li>
-        <li><a href="#sjplot-2-2-0">2.2.0</a></li>
-        <li><a href="#sjplot-2-1-2">2.1.2</a></li>
-        <li><a href="#sjplot-2-1-1">2.1.1</a></li>
-        <li><a href="#sjplot-2-1-0">2.1.0</a></li>
       </ul>
     </div>
   </div>

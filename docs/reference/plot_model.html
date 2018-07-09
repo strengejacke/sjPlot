@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -35,6 +37,7 @@
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -61,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.1.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.5</span>
       </span>
     </div>
 
@@ -102,10 +105,13 @@
       <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
     </li>
     <li>
-      <a href="../articles/sjtlm.html">Summary of Linear Regression Models as HTML Table</a>
+      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
     </li>
     <li>
-      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
+      <a href="../articles/table_css.html">Customizing HTML tables</a>
+    </li>
+    <li>
+      <a href="../articles/tab_model_estimates.html">Summary of Regression Models as HTML Table</a>
     </li>
   </ul>
 </li>
@@ -150,14 +156,15 @@
   <span class='kw'>rm.terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>group.terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>order.terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>pred.type</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>), <span class='kw'>mdrt.values</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"minmax"</span>, <span class='st'>"meansd"</span>, <span class='st'>"zeromax"</span>,
   <span class='st'>"quart"</span>, <span class='st'>"all"</span>), <span class='kw'>ri.nr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axis.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>25</span>,
-  <span class='kw'>axis.lim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"Set1"</span>, <span class='kw'>show.intercept</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.zeroinf</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>value.offset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>value.size</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>dot.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>line.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vline.color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>grid</span>, <span class='no'>case</span>,
-  <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>prefix.labels</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"none"</span>, <span class='st'>"varname"</span>, <span class='st'>"label"</span>),
-  <span class='kw'>bpe</span> <span class='kw'>=</span> <span class='st'>"median"</span>, <span class='kw'>bpe.style</span> <span class='kw'>=</span> <span class='st'>"line"</span>, <span class='kw'>bpe.color</span> <span class='kw'>=</span> <span class='st'>"white"</span>, <span class='no'>...</span>)
+  <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>,
+  <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>axis.lim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>se</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"Set1"</span>, <span class='kw'>show.intercept</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.zeroinf</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>value.offset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>value.size</span>, <span class='kw'>jitter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>dot.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>line.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vline.color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>grid</span>, <span class='no'>case</span>, <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>prefix.labels</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"none"</span>, <span class='st'>"varname"</span>, <span class='st'>"label"</span>), <span class='kw'>bpe</span> <span class='kw'>=</span> <span class='st'>"median"</span>,
+  <span class='kw'>bpe.style</span> <span class='kw'>=</span> <span class='st'>"line"</span>, <span class='kw'>bpe.color</span> <span class='kw'>=</span> <span class='st'>"white"</span>, <span class='no'>...</span>)
 
 <span class='fu'>get_model_data</span>(<span class='no'>model</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"est"</span>, <span class='st'>"re"</span>, <span class='st'>"eff"</span>, <span class='st'>"pred"</span>, <span class='st'>"int"</span>, <span class='st'>"std"</span>,
   <span class='st'>"std2"</span>, <span class='st'>"slope"</span>, <span class='st'>"resid"</span>, <span class='st'>"diag"</span>), <span class='no'>transform</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -222,7 +229,17 @@ non-transformed estimates.</p></td>
       <td><p>Character vector with the names of those terms from <code>model</code>
  that should be plotted. This argument depends on the plot-type:</p><dl class='dl-horizontal'>
    <dt><em>Coefficients</em></dt><dd><p>Select terms that should be plotted. All other
-     term are removed from the output.</p></dd>
+     term are removed from the output. Note that the term names must match
+     the names of the model's coefficients. For factors, this means that
+     the variable name is suffixed with the related factor level, and each
+     category counts as one term. E.g. <code>rm.terms = "t_name [2,3]"</code>
+     would remove the terms <code>"t_name2"</code> and <code>"t_name3"</code> (assuming
+     that the variable <code>t_name</code> is categorical and has at least
+     the factor levels <code>2</code> and <code>3</code>). Another example for the
+     <em>iris</em>-dataset: <code>terms = "Species"</code> would not work, instead
+     you would write <code>terms = "Species [versicolor,virginica]"</code> to
+     remove these two levels, or <code>terms = "Speciesversicolor"</code> if you
+     just want to remove the level <em>versicolor</em> from the plot.</p></dd>
    <dt><em>Marginal Effects</em></dt><dd><p>Here <code>terms</code> indicates for which
      terms marginal effects should be displayed. At least one term is
      required to calculate effects, maximum length is three terms, where
@@ -234,7 +251,14 @@ non-transformed estimates.</p></td>
      a whitespace character, e.g. <code>terms = c("age", "education [1,3]")</code>.
      It is also possible to specify a range of numeric values for the
      predictions with a colon, for instance <code>terms = c("education [1,3]",
-     "age [30:50]")</code>. For more details, see <code><a href='http://www.rdocumentation.org/packages/ggeffects/topics/ggpredict'>ggpredict</a></code>.</p></dd>
+     "age [30:50]")</code>. Furthermore, it is possible to specify a function name.
+     Values for predictions will then be transformed, e.g.
+     <code>terms = "income [exp]"</code>. This is useful when model predictors were
+     transformed for fitting the model and should be back-transformed to the
+     original scale for predictions. Finally, using <code>pretty</code> for numeric
+     variables (e.g. <code>terms = "age [pretty]"</code>) calculates a pretty range
+     of values for the term, roughly of proportional length to the term's
+     value range. For more details, see <code><a href='http://www.rdocumentation.org/packages/ggeffects/topics/ggpredict'>ggpredict</a></code>.</p></dd>
 </dl></td>
     </tr>
     <tr>
@@ -251,8 +275,14 @@ non-transformed estimates.</p></td>
       <td><p>Character vector with names that indicate which terms should
 be removed from the plot. Counterpart to <code>terms</code>. <code>rm.terms =
 "t_name"</code> would remove the term <em>t_name</em>. Default is <code>NULL</code>, i.e.
-all terms are used. Note that this argument does not apply to
-<em>Marginal Effects</em> plots.</p></td>
+all terms are used. For factors, levels that should be removed from the plot
+need to be explicitely indicated in square brackets, and match the model's
+coefficient names, e.g. <code>rm.terms = "t_name [2,3]"</code> would remove the terms
+<code>"t_name2"</code> and <code>"t_name3"</code> (assuming that the variable <code>t_name</code>
+was categorical and has at least the factor levels <code>2</code> and <code>3</code>).
+Another example for the <em>iris</em> dataset would be
+<code>rm.terms = "Species [versicolor,virginica]"</code>. Note that the
+<code>rm.terms</code>-argument does not apply to <em>Marginal Effects</em> plots.</p></td>
     </tr>
     <tr>
       <th>group.terms</th>
@@ -334,6 +364,11 @@ labels always match the related axis value, no matter in which way
 axis labels are sorted.</p></td>
     </tr>
     <tr>
+      <th>legend.title</th>
+      <td><p>Character vector, used as legend title for plots that
+have a legend.</p></td>
+    </tr>
+    <tr>
       <th>wrap.title</th>
       <td><p>Numeric, determines how many chars of the plot title are
 displayed in one line and when a line break is inserted.</p></td>
@@ -375,7 +410,7 @@ such cases. See <code>prob.inner</code> and <code>prob.outer</code> under the
       <td><p>Either a logical, and if <code>TRUE</code>, error bars indicate standard
 errors, not confidence intervals. Or a character vector with a specification
 of the covariance matrix to compute robust standard errors (see argument
-<code>vcov</code> of <code>link[sjstats]{robust}</code> for valid values; robust standard
+<code>vcov</code> of <code><a href='http://www.rdocumentation.org/packages/sjstats/topics/robust'>robust</a></code> for valid values; robust standard
 errors are only supported for models that work with <code><a href='http://www.rdocumentation.org/packages/lmtest/topics/coeftest'>coeftest</a></code>).
 <code>se</code> overrides <code>ci.lvl</code>: if not <code>NULL</code>, arguments <code>ci.lvl</code>
 and <code>transform</code> will be ignored. Currently, <code>se</code> only applies
@@ -439,6 +474,13 @@ for all plot types where the argument <code>show.values</code> is applicable,
 e.g. <code>value.size = 4</code>.</p></td>
     </tr>
     <tr>
+      <th>jitter</th>
+      <td><p>Numeric, between 0 and 1. If <code>show.data = TRUE</code>, you can
+add a small amount of random variation to the location of each data point.
+<code>jitter</code> then indicates the width, i.e. how much of a bin's width
+will be occupied by the jittered values.</p></td>
+    </tr>
+    <tr>
       <th>digits</th>
       <td><p>Numeric, amount of digits after decimal point when rounding
 estimates or values.</p></td>
@@ -492,7 +534,7 @@ details.</p></td>
       <td><p>For <strong>Stan</strong>-models (fitted with the <span class="pkg">rstanarm</span>- or
 <span class="pkg">brms</span>-package), the Bayesian point estimate is, by default, the median
 of the posterior distribution. Use <code>bpe</code> to define other functions to
-calculate the Bayesion point estimate. <code>bpe</code> needs to be a character
+calculate the Bayesian point estimate. <code>bpe</code> needs to be a character
 naming the specific function, which is passed to the <code>fun</code>-argument in
 <code><a href='http://www.rdocumentation.org/packages/sjstats/topics/typical_value'>typical_value</a></code>. So, <code>bpe = "mean"</code> would
 calculate the mean value of the posterior distribution.</p></td>
@@ -526,10 +568,12 @@ of supported arguments and their description in detail.</p><dl class='dl-horizon
     plot-types, you can specify the width of the bar for the inner
     probabilities. Default is <code>0.1</code>. Setting <code>size.inner = 0</code>
     removes the inner probability regions.</p></dd>
-  <dt><code>width</code>, <code>alpha</code> and <code>scale</code></dt><dd><p>Passed down to
-    <code>geom_errorbar()</code> or <code>geom_density_ridges()</code>, for forest or
-    diagnostic plots; or passed down to <code><a href='http://www.rdocumentation.org/packages/ggeffects/topics/plot'>plot.ggeffects</a></code>
-    for <em>Marginal Effects</em> plots.</p></dd>
+  <dt><code>width</code>, <code>alpha</code>, and <code>scale</code></dt><dd><p>Passed
+    down to <code>geom_errorbar()</code> or <code>geom_density_ridges()</code>, for
+    forest or diagnostic plots.</p></dd>
+  <dt><code>width</code>, <code>alpha</code>, <code>dot.alpha</code>, <code>dodge</code> and <code>log.y</code></dt><dd><p>Passed
+    down to <code><a href='http://www.rdocumentation.org/packages/ggeffects/topics/plot'>plot.ggeffects</a></code> for <em>Marginal Effects</em>
+    plots.</p></dd>
   <dt><code>show.loess</code></dt><dd><p>Logical, for diagnostic plot-types <code>"slope"</code>
     and <code>"resid"</code>, adds (or hides) a loess-smoothed line to the plot.</p></dd>
   <dt><em>Marginal Effects</em> plot-types</dt><dd><p>When plotting marginal effects,
@@ -607,6 +651,9 @@ of supported arguments and their description in detail.</p><dl class='dl-horizon
 <span class='fu'>plot_model</span>(<span class='no'>m</span>)</div><div class='img'><img src='plot_model-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># grouped coefficients</span>
 <span class='fu'>plot_model</span>(<span class='no'>m</span>, <span class='kw'>group.terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>3</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>4</span>))</div><div class='img'><img src='plot_model-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># keep only selected terms in the model: pos_v_4, the</span>
+<span class='co'># levels 3 and 4 of factor e42dep and levels 2 and 3 for c172code</span>
+<span class='fu'>plot_model</span>(<span class='no'>m</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"pos_v_4"</span>, <span class='st'>"e42dep [3,4]"</span>, <span class='st'>"c172code [2,3]"</span>))</div><div class='img'><img src='plot_model-3.png' alt='' width='700' height='433' /></div><div class='input'>
 # multiple plots, as returned from "diagnostic"-plot type,
 # can be arranged with 'plot_grid()'
 </div><span class='co'># NOT RUN {</span>
@@ -614,11 +661,10 @@ of supported arguments and their description in detail.</p><dl class='dl-horizon
 <span class='fu'><a href='plot_grid.html'>plot_grid</a></span>(<span class='no'>p</span>)
 <span class='co'># }</span><div class='input'>
 <span class='co'># plot random effects</span>
-<span class='fu'>library</span>(<span class='no'>lme4</span>)
-<span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/lme4/topics/lmer'>lmer</a></span>(<span class='no'>Reaction</span> ~ <span class='no'>Days</span> + (<span class='no'>Days</span> <span class='kw'>|</span> <span class='no'>Subject</span>), <span class='no'>sleepstudy</span>)
-<span class='fu'>plot_model</span>(<span class='no'>m</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"re"</span>)</div><div class='img'><img src='plot_model-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>library</span>(<span class='no'>lme4</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: Matrix</span></div><div class='input'><span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/lme4/topics/lmer'>lmer</a></span>(<span class='no'>Reaction</span> ~ <span class='no'>Days</span> + (<span class='no'>Days</span> <span class='kw'>|</span> <span class='no'>Subject</span>), <span class='no'>sleepstudy</span>)
+<span class='fu'>plot_model</span>(<span class='no'>m</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"re"</span>)</div><div class='img'><img src='plot_model-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot marginal effects</span>
-<span class='fu'>plot_model</span>(<span class='no'>m</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"eff"</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"Days"</span>)</div><div class='img'><img src='plot_model-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_model</span>(<span class='no'>m</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"eff"</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"Days"</span>)</div><div class='img'><img src='plot_model-5.png' alt='' width='700' height='433' /></div><div class='input'>
 # plot interactions
 </div><span class='co'># NOT RUN {</span>
 <span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(

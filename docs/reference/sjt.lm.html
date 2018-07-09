@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -39,6 +41,7 @@
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -65,7 +68,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.1.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.5</span>
       </span>
     </div>
 
@@ -106,10 +109,13 @@
       <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
     </li>
     <li>
-      <a href="../articles/sjtlm.html">Summary of Linear Regression Models as HTML Table</a>
+      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
     </li>
     <li>
-      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
+      <a href="../articles/table_css.html">Customizing HTML tables</a>
+    </li>
+    <li>
+      <a href="../articles/tab_model_estimates.html">Summary of Regression Models as HTML Table</a>
     </li>
   </ul>
 </li>
@@ -281,7 +287,7 @@ abbreviations for estimates, std. beta-values, confidence interval and p-values.
       <th>show.r2</th>
       <td><p>Logical, if <code>TRUE</code> (default), the R2 and adjusted R2 values for each model are printed
 in the model summary. For linear mixed models, the R2 and Omega-squared values are printed
-(see <code><a href='http://www.rdocumentation.org/packages/sjstats/topics/r2'>r2</a></code> for details).</p></td>
+(see <code><a href='http://www.rdocumentation.org/packages/sjstats/topics/cod'>r2</a></code> for details).</p></td>
     </tr>
     <tr>
       <th>show.icc</th>
@@ -458,29 +464,6 @@ may look less pretty, but it may help when exporting html-tables to office tools
 <li><p>the html-table with inline-css for use with knitr (<code>knitr</code>)</p></li>
 </ul><p>for further use.</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Concerning the <code>show.std</code> argument, <code>show.std = "std"</code>
-           will print normal standardized estimates. For <code>show.std = "std2"</code>,
-           however, standardization of estimates follows
-           <a href='http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf'>Gelman's (2008)</a>
-           suggestion, rescaling the estimates by dividing them by two standard
-           deviations instead of just one. Resulting coefficients are then
-           directly comparable for untransformed binary predictors. This type
-           of standardization uses the <code><a href='http://www.rdocumentation.org/packages/arm/topics/standardize'>standardize</a></code>-function
-           from the <span class="pkg">arm</span>-package.
-           For backward compatibility reasons, <code>show.std</code> also may be
-           a logical value; if <code>TRUE</code>, normal standardized estimates are
-           printed (same effect as <code>show.std = "std"</code>). Use
-           <code>show.std = NULL</code> (default) or <code>show.std = FALSE</code>,
-           if standardized estimats should not be printed.
-           <br /> <br />
-           Furthermore, see 'Details' in <code><a href='sjt.frq.html'>sjt.frq</a></code>.</p>
-    
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
-
-    <p>See 'Note' in <code><a href='sjt.frq.html'>sjt.frq</a></code>.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='http://strengejacke.de/sjPlot/sjt.lm/'>sjPlot manual: sjt.lm</a></p></div>
@@ -642,10 +625,6 @@ may look less pretty, but it may help when exporting html-tables to office tools
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#note">Note</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

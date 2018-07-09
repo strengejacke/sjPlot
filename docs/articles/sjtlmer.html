@@ -8,8 +8,8 @@
 <title>Summary of Linear Mixed Regression Models as HTML Table • sjPlot</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><meta property="og:title" content="Summary of Linear Mixed Regression Models as HTML Table">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Summary of Linear Mixed Regression Models as HTML Table">
 <meta property="og:description" content="">
 <meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.1.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.5</span>
       </span>
     </div>
 
@@ -71,10 +71,13 @@
       <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
     </li>
     <li>
-      <a href="../articles/sjtlm.html">Summary of Linear Regression Models as HTML Table</a>
+      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
     </li>
     <li>
-      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
+      <a href="../articles/table_css.html">Customizing HTML tables</a>
+    </li>
+    <li>
+      <a href="../articles/tab_model_estimates.html">Summary of Regression Models as HTML Table</a>
     </li>
   </ul>
 </li>
@@ -104,7 +107,7 @@
       <h1>Summary of Linear Mixed Regression Models as HTML Table</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2018-05-18</h4>
+            <h4 class="date">2018-07-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/sjtlmer.Rmd"><code>vignettes/sjtlmer.Rmd</code></a></small>
       <div class="hidden name"><code>sjtlmer.Rmd</code></div>
@@ -151,9 +154,9 @@ fit3 &lt;-<span class="st"> </span><span class="kw">lmer</span>(neg_c_<span clas
 <p>The resulting table is divided into three parts:</p>
 <ol style="list-style-type: decimal">
 <li>
-<em>Fixed parts</em> - the model’s fixed effects coefficients, including confidence intervals and p-values.</li>
+<em>Fixed effects</em> - the model’s fixed effects coefficients, including confidence intervals and p-values.</li>
 <li>
-<em>Random parts</em> - the model’s group count (amount of random intercepts) as well as the Intra-Class-Correlation-Coefficient <em>ICC</em> and information on the random effect variances (within-group, between-group etc.)</li>
+<em>Random effects</em> - the model’s group count (amount of random intercepts) as well as the Intra-Class-Correlation-Coefficient <em>ICC</em> and information on the random effect variances (within-group, between-group etc.)</li>
 <li>
 <em>Summary</em> - Observations, AIC etc.</li>
 </ol>
@@ -252,7 +255,7 @@ carer’s gender (Female)
 -0.07 – 1.03
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.091
+.087
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -264,7 +267,7 @@ carer’s gender (Female)
 0.10 – 1.25
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.023
+.021
 </td>
 </tr>
 <tr>
@@ -281,7 +284,7 @@ average number of hours of care per week
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.238
+.241
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -293,7 +296,7 @@ average number of hours of care per week
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.218
+.222
 </td>
 </tr>
 <tr>
@@ -376,7 +379,7 @@ carer’s level of education (high level of education)
 0.03 – 1.58
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.045
+.043
 </td>
 </tr>
 <tr>
@@ -477,13 +480,13 @@ R<sup>2</sup> / Ω<sub>0</sub><sup>2</sup>
  
 </td>
 <td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.185 / .185
+.158 / .177
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
 </td>
 <td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.193 / .193
+.167 / .184
 </td>
 </tr>
 </table>
@@ -587,7 +590,7 @@ carer’s gender (Female)
 -0.07 – 1.03
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.091
+.087
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -599,7 +602,7 @@ carer’s gender (Female)
 0.10 – 1.25
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.023
+.021
 </td>
 </tr>
 <tr>
@@ -616,7 +619,7 @@ average number of hours of care per week
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.238
+.241
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -628,7 +631,7 @@ average number of hours of care per week
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.218
+.222
 </td>
 </tr>
 <tr>
@@ -711,7 +714,7 @@ carer’s level of education (high level of education)
 0.03 – 1.58
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.045
+.043
 </td>
 </tr>
 <tr>
@@ -812,13 +815,13 @@ R<sup>2</sup> / Ω<sub>0</sub><sup>2</sup>
  
 </td>
 <td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.185 / .185
+.158 / .177
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
 </td>
 <td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.193 / .193
+.167 / .184
 </td>
 </tr>
 </table>
@@ -931,7 +934,7 @@ carer’s gender (Female)
 -0.07 – 1.03
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.091
+.087
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -943,7 +946,7 @@ carer’s gender (Female)
 0.10 – 1.25
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.023
+.021
 </td>
 </tr>
 <tr>
@@ -960,7 +963,7 @@ average number of hours of care per week
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.238
+.241
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -972,7 +975,7 @@ average number of hours of care per week
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.218
+.222
 </td>
 </tr>
 <tr>
@@ -1055,7 +1058,7 @@ carer’s level of education (high level of education)
 0.03 – 1.58
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.045
+.043
 </td>
 </tr>
 <tr>
@@ -1156,13 +1159,13 @@ R<sup>2</sup> / Ω<sub>0</sub><sup>2</sup>
  
 </td>
 <td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.185 / .185
+.158 / .177
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
 </td>
 <td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.193 / .193
+.167 / .184
 </td>
 </tr>
 </table>
@@ -1547,7 +1550,7 @@ Carer’s Sex
 -0.07 – 1.03
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.091
+.087
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -1559,7 +1562,7 @@ Carer’s Sex
 0.10 – 1.25
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.023
+.021
 </td>
 </tr>
 <tr>
@@ -1576,7 +1579,7 @@ Hours of Care
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.238
+.241
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -1588,7 +1591,7 @@ Hours of Care
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.218
+.222
 </td>
 </tr>
 <tr>
@@ -1671,7 +1674,7 @@ High Educational Level
 0.03 – 1.58
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.045
+.043
 </td>
 </tr>
 <tr>
@@ -1772,13 +1775,13 @@ R<sup>2</sup> / Ω<sub>0</sub><sup>2</sup>
  
 </td>
 <td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.185 / .185
+.158 / .177
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
 </td>
 <td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.193 / .193
+.167 / .184
 </td>
 </tr>
 </table>
@@ -1787,7 +1790,8 @@ R<sup>2</sup> / Ω<sub>0</sub><sup>2</sup>
 <h2 class="hasAnchor">
 <a href="#grouping-predictors" class="anchor"></a>Grouping predictors</h2>
 <p>Categorical variables with more than two levels can be grouped in the table output. Grouping means, that a row with the variable label is inserted before these variables, and a value label for each category (i.e. factor level) is printed with a small margin.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/sjt.lmer.html">sjt.lmer</a></span>(fit3, fit2, fit1, <span class="dt">group.pred =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/sjt.lmer.html">sjt.lmer</a></span>(fit3, fit2, fit1, <span class="dt">group.pred =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; Warning: Some variance components equal zero. Respecify random structure!</span></code></pre></div>
 <table style="border-collapse:collapse; border:none;border-bottom:double;" class="table">
 <td style="padding:0.2cm; border-top:double;">
  
@@ -1912,7 +1916,7 @@ carer’s gender (Female)
 0.08 – 1.22
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.029
+.027
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -1924,7 +1928,7 @@ carer’s gender (Female)
 0.10 – 1.25
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.023
+.021
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -1936,7 +1940,7 @@ carer’s gender (Female)
 -0.07 – 1.03
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.091
+.087
 </td>
 </tr>
 <tr>
@@ -1953,7 +1957,7 @@ average number of hours of care per week
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.208
+.217
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -1965,7 +1969,7 @@ average number of hours of care per week
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.218
+.222
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -1977,7 +1981,7 @@ average number of hours of care per week
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.238
+.241
 </td>
 </tr>
 <tr>
@@ -1999,7 +2003,7 @@ intermediate level of education
 -0.46 – 0.79
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.606
+.608
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -2038,7 +2042,7 @@ high level of education
 0.01 – 1.57
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.052
+.050
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -2050,7 +2054,7 @@ high level of education
 0.03 – 1.58
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.045
+.043
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -2300,20 +2304,17 @@ R<sup>2</sup> / Ω<sub>0</sub><sup>2</sup>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
 </td>
+<td style="padding-left:0.5em; padding-right:0.5em;">
+ 
+</td>
 <td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.190 / .190
+.167 / .184
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
 </td>
 <td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.193 / .193
-</td>
-<td style="padding-left:0.5em; padding-right:0.5em;">
- 
-</td>
-<td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.185 / .185
+.158 / .177
 </td>
 </tr>
 </table>
@@ -2322,8 +2323,9 @@ R<sup>2</sup> / Ω<sub>0</sub><sup>2</sup>
 <div id="models-with-different-random-intercepts" class="section level2">
 <h2 class="hasAnchor">
 <a href="#models-with-different-random-intercepts" class="anchor"></a>Models with different random intercepts</h2>
-<p>When models have different random intercepts, the <code><a href="../reference/sjt.lmer.html">sjt.lmer()</a></code> function tries to detect these information from each model. In the <em>Random parts</em> section of the table, information on multiple grouping levels and ICC’s are printed then.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/sjt.lmer.html">sjt.lmer</a></span>(fit1, fit2, fit3)</code></pre></div>
+<p>When models have different random intercepts, the <code><a href="../reference/sjt.lmer.html">sjt.lmer()</a></code> function tries to detect these information from each model. In the <em>Random effects</em> section of the table, information on multiple grouping levels and ICC’s are printed then.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/sjt.lmer.html">sjt.lmer</a></span>(fit1, fit2, fit3)
+<span class="co">#&gt; Warning: Some variance components equal zero. Respecify random structure!</span></code></pre></div>
 <table style="border-collapse:collapse; border:none;border-bottom:double;" class="table">
 <td style="padding:0.2cm; border-top:double;">
  
@@ -2448,7 +2450,7 @@ carer’s gender (Female)
 -0.07 – 1.03
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.091
+.087
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -2460,7 +2462,7 @@ carer’s gender (Female)
 0.10 – 1.25
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.023
+.021
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -2472,7 +2474,7 @@ carer’s gender (Female)
 0.08 – 1.22
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.029
+.027
 </td>
 </tr>
 <tr>
@@ -2489,7 +2491,7 @@ average number of hours of care per week
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.238
+.241
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -2501,7 +2503,7 @@ average number of hours of care per week
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.218
+.222
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -2513,7 +2515,7 @@ average number of hours of care per week
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.208
+.217
 </td>
 </tr>
 <tr>
@@ -2593,7 +2595,7 @@ carer’s level of education (intermediate level of education)
 -0.46 – 0.79
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.606
+.608
 </td>
 </tr>
 <tr>
@@ -2620,7 +2622,7 @@ carer’s level of education (high level of education)
 0.03 – 1.58
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.045
+.043
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -2632,7 +2634,7 @@ carer’s level of education (high level of education)
 0.01 – 1.57
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.052
+.050
 </td>
 </tr>
 <tr>
@@ -2832,19 +2834,16 @@ R<sup>2</sup> / Ω<sub>0</sub><sup>2</sup>
  
 </td>
 <td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.185 / .185
+.158 / .177
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
 </td>
 <td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.193 / .193
+.167 / .184
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
-</td>
-<td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.190 / .190
 </td>
 </tr>
 </table>
@@ -2983,7 +2982,7 @@ carer’s gender (Female)
 -0.07 – 1.03
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.091
+.087
 </td>
 <td style="padding-right:1.5em; padding-left:1.5em;">
  
@@ -2995,7 +2994,7 @@ carer’s gender (Female)
 0.10 – 1.25
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.023
+.021
 </td>
 <td style="padding-right:1.5em; padding-left:1.5em;">
  
@@ -3007,7 +3006,7 @@ carer’s gender (Female)
 0.08 – 1.22
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.029
+.027
 </td>
 </tr>
 <tr>
@@ -3024,7 +3023,7 @@ average number of hours of care per week
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.238
+.241
 </td>
 <td style="padding-right:1.5em; padding-left:1.5em;">
  
@@ -3036,7 +3035,7 @@ average number of hours of care per week
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.218
+.222
 </td>
 <td style="padding-right:1.5em; padding-left:1.5em;">
  
@@ -3048,7 +3047,7 @@ average number of hours of care per week
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.208
+.217
 </td>
 </tr>
 <tr>
@@ -3128,7 +3127,7 @@ carer’s level of education (intermediate level of education)
 -0.46 – 0.79
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.606
+.608
 </td>
 </tr>
 <tr>
@@ -3155,7 +3154,7 @@ carer’s level of education (high level of education)
 0.03 – 1.58
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.045
+.043
 </td>
 <td style="padding-right:1.5em; padding-left:1.5em;">
  
@@ -3167,7 +3166,7 @@ carer’s level of education (high level of education)
 0.01 – 1.57
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.052
+.050
 </td>
 </tr>
 <tr>
@@ -3257,7 +3256,8 @@ Observations
 <p>Here you have the complete table output. This helps you identify the row index numbers. Especially when you have multiple models with different predictors, the estimate’s position in the last model may differ from this estimate’s position in the table output.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/sjt.lmer.html">sjt.lmer</a></span>(fit1, fit2, fit3,
          <span class="dt">show.re.var =</span> <span class="ot">FALSE</span>,
-         <span class="dt">show.icc =</span> <span class="ot">FALSE</span>)</code></pre></div>
+         <span class="dt">show.icc =</span> <span class="ot">FALSE</span>)
+<span class="co">#&gt; Warning: Some variance components equal zero. Respecify random structure!</span></code></pre></div>
 <table style="border-collapse:collapse; border:none;border-bottom:double;" class="table">
 <td style="padding:0.2cm; border-top:double;">
  
@@ -3382,7 +3382,7 @@ carer’s gender (Female)
 -0.07 – 1.03
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.091
+.087
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -3394,7 +3394,7 @@ carer’s gender (Female)
 0.10 – 1.25
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.023
+.021
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -3406,7 +3406,7 @@ carer’s gender (Female)
 0.08 – 1.22
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.029
+.027
 </td>
 </tr>
 <tr>
@@ -3423,7 +3423,7 @@ average number of hours of care per week
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.238
+.241
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -3435,7 +3435,7 @@ average number of hours of care per week
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.218
+.222
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -3447,7 +3447,7 @@ average number of hours of care per week
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.208
+.217
 </td>
 </tr>
 <tr>
@@ -3527,7 +3527,7 @@ carer’s level of education (intermediate level of education)
 -0.46 – 0.79
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.606
+.608
 </td>
 </tr>
 <tr>
@@ -3554,7 +3554,7 @@ carer’s level of education (high level of education)
 0.03 – 1.58
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.045
+.043
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -3566,7 +3566,7 @@ carer’s level of education (high level of education)
 0.01 – 1.57
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.052
+.050
 </td>
 </tr>
 <tr>
@@ -3651,19 +3651,16 @@ R<sup>2</sup> / Ω<sub>0</sub><sup>2</sup>
  
 </td>
 <td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.185 / .185
+.158 / .177
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
 </td>
 <td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.193 / .193
+.167 / .184
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
-</td>
-<td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.190 / .190
 </td>
 </tr>
 </table>
@@ -3674,7 +3671,8 @@ R<sup>2</sup> / Ω<sub>0</sub><sup>2</sup>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/sjt.lmer.html">sjt.lmer</a></span>(fit1, fit2, fit3,
          <span class="dt">remove.estimates =</span> <span class="dv">2</span>,
          <span class="dt">show.re.var =</span> <span class="ot">FALSE</span>,
-         <span class="dt">show.icc =</span> <span class="ot">FALSE</span>)</code></pre></div>
+         <span class="dt">show.icc =</span> <span class="ot">FALSE</span>)
+<span class="co">#&gt; Warning: Some variance components equal zero. Respecify random structure!</span></code></pre></div>
 <table style="border-collapse:collapse; border:none;border-bottom:double;" class="table">
 <td style="padding:0.2cm; border-top:double;">
  
@@ -3799,7 +3797,7 @@ average number of hours of care per week
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.238
+.241
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -3811,7 +3809,7 @@ average number of hours of care per week
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.218
+.222
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -3823,7 +3821,7 @@ average number of hours of care per week
 -0.00 – 0.01
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.208
+.217
 </td>
 </tr>
 <tr>
@@ -3877,7 +3875,7 @@ carer’s level of education (intermediate level of education)
 <td style="padding:0.2cm; text-align:center; ">
 </td>
 <td style="padding:0.2cm; text-align:center; ">
- – 
+ 
 </td>
 <td style="padding:0.2cm; text-align:center; ">
 </td>
@@ -3903,7 +3901,7 @@ carer’s level of education (intermediate level of education)
 -0.46 – 0.79
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.606
+.608
 </td>
 </tr>
 <tr>
@@ -3916,7 +3914,7 @@ carer’s level of education (high level of education)
 <td style="padding:0.2cm; text-align:center; ">
 </td>
 <td style="padding:0.2cm; text-align:center; ">
- – 
+ 
 </td>
 <td style="padding:0.2cm; text-align:center; ">
 </td>
@@ -3930,7 +3928,7 @@ carer’s level of education (high level of education)
 0.03 – 1.58
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.045
+.043
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -3942,7 +3940,7 @@ carer’s level of education (high level of education)
 0.01 – 1.57
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.052
+.050
 </td>
 </tr>
 <tr>
@@ -4027,19 +4025,16 @@ R<sup>2</sup> / Ω<sub>0</sub><sup>2</sup>
  
 </td>
 <td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.185 / .185
+.158 / .177
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
 </td>
 <td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.193 / .193
+.167 / .184
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
-</td>
-<td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.190 / .190
 </td>
 </tr>
 </table>
@@ -4050,7 +4045,8 @@ R<sup>2</sup> / Ω<sub>0</sub><sup>2</sup>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/sjt.lmer.html">sjt.lmer</a></span>(fit1, fit2, fit3,
          <span class="dt">remove.estimates =</span> <span class="kw">c</span>(<span class="st">"c12hour"</span>, <span class="st">"sex2"</span>),
          <span class="dt">show.re.var =</span> <span class="ot">FALSE</span>,
-         <span class="dt">show.icc =</span> <span class="ot">FALSE</span>)</code></pre></div>
+         <span class="dt">show.icc =</span> <span class="ot">FALSE</span>)
+<span class="co">#&gt; Warning: Some variance components equal zero. Respecify random structure!</span></code></pre></div>
 <table style="border-collapse:collapse; border:none;border-bottom:double;" class="table">
 <td style="padding:0.2cm; border-top:double;">
  
@@ -4212,7 +4208,7 @@ carer’s level of education (intermediate level of education)
 <td style="padding:0.2cm; text-align:center; ">
 </td>
 <td style="padding:0.2cm; text-align:center; ">
- – 
+ 
 </td>
 <td style="padding:0.2cm; text-align:center; ">
 </td>
@@ -4238,7 +4234,7 @@ carer’s level of education (intermediate level of education)
 -0.46 – 0.79
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.606
+.608
 </td>
 </tr>
 <tr>
@@ -4251,7 +4247,7 @@ carer’s level of education (high level of education)
 <td style="padding:0.2cm; text-align:center; ">
 </td>
 <td style="padding:0.2cm; text-align:center; ">
- – 
+ 
 </td>
 <td style="padding:0.2cm; text-align:center; ">
 </td>
@@ -4265,7 +4261,7 @@ carer’s level of education (high level of education)
 0.03 – 1.58
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.045
+.043
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
@@ -4277,7 +4273,7 @@ carer’s level of education (high level of education)
 0.01 – 1.57
 </td>
 <td style="padding:0.2cm; text-align:center; ">
-.052
+.050
 </td>
 </tr>
 <tr>
@@ -4362,19 +4358,16 @@ R<sup>2</sup> / Ω<sub>0</sub><sup>2</sup>
  
 </td>
 <td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.185 / .185
+.158 / .177
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
 </td>
 <td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.193 / .193
+.167 / .184
 </td>
 <td style="padding-left:0.5em; padding-right:0.5em;">
  
-</td>
-<td style="padding:0.2cm; text-align:center; padding-top:0.1cm; padding-bottom:0.1cm;" colspan="3">
-.190 / .190
 </td>
 </tr>
 </table>

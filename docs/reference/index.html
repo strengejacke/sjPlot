@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -32,6 +34,7 @@
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -58,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.1.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.5</span>
       </span>
     </div>
 
@@ -99,10 +102,13 @@
       <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
     </li>
     <li>
-      <a href="../articles/sjtlm.html">Summary of Linear Regression Models as HTML Table</a>
+      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
     </li>
     <li>
-      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
+      <a href="../articles/table_css.html">Customizing HTML tables</a>
+    </li>
+    <li>
+      <a href="../articles/tab_model_estimates.html">Summary of Regression Models as HTML Table</a>
     </li>
   </ul>
 </li>
@@ -136,6 +142,7 @@
     <table class="ref-index">
 
     <colgroup>
+      
       <col class="alias" />
       <col class="title" />
     </colgroup>
@@ -148,325 +155,325 @@
         </th>
       </tr>
       <tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="dist_chisq.html">dist_chisq()</a></code> </p>
         </td>
         <td><p>Plot chi-squared distributions</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="dist_f.html">dist_f()</a></code> </p>
         </td>
         <td><p>Plot F distributions</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="dist_norm.html">dist_norm()</a></code> </p>
         </td>
         <td><p>Plot normal distributions</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="dist_t.html">dist_t()</a></code> </p>
         </td>
         <td><p>Plot t-distributions</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="efc.html">efc</a></code> </p>
         </td>
         <td><p>Sample dataset from the EUROFAMCARE project</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="plot_grid.html">plot_grid()</a></code> </p>
         </td>
         <td><p>Arrange list of plots as grid</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="plot_model.html">plot_model()</a></code> <code><a href="plot_model.html">get_model_data()</a></code> </p>
         </td>
         <td><p>Plot regression models</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="plot_models.html">plot_models()</a></code> </p>
         </td>
         <td><p>Forest plot of multiple regression models</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="save_plot.html">save_plot()</a></code> </p>
         </td>
         <td><p>Save ggplot-figure for print publication</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="set_theme.html">set_theme()</a></code> </p>
         </td>
         <td><p>Set global theme options for sjp-functions</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjc.cluster.html">sjc.cluster()</a></code> </p>
         </td>
         <td><p>Compute hierarchical or kmeans cluster analysis</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjc.dend.html">sjc.dend()</a></code> </p>
         </td>
         <td><p>Compute hierarchical cluster analysis and visualize group classification</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjc.elbow.html">sjc.elbow()</a></code> </p>
         </td>
         <td><p>Compute elbow values of a k-means cluster analysis</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjc.grpdisc.html">sjc.grpdisc()</a></code> </p>
         </td>
         <td><p>Compute a linear discriminant analysis on classified cluster groups</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjc.kgap.html">sjc.kgap()</a></code> </p>
         </td>
         <td><p>Compute gap statistics for k-means-cluster</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjc.qclus.html">sjc.qclus()</a></code> </p>
         </td>
         <td><p>Compute quick cluster analysis</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjp.aov1.html">sjp.aov1()</a></code> </p>
         </td>
         <td><p>Plot One-Way-Anova tables</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjp.chi2.html">sjp.chi2()</a></code> </p>
         </td>
         <td><p>Plot Pearson's Chi2-Test of multiple contingency tables</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjp.corr.html">sjp.corr()</a></code> </p>
         </td>
         <td><p>Plot correlation matrix</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjp.fa.html">sjp.fa()</a></code> </p>
         </td>
         <td><p>Plot FA results</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjp.frq.html">sjp.frq()</a></code> </p>
         </td>
         <td><p>Plot frequencies of variables</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjp.glm.html">sjp.glm()</a></code> </p>
         </td>
         <td><p>Plot estimates, predictions or effects of generalized linear models</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjp.glmer.html">sjp.glmer()</a></code> </p>
         </td>
         <td><p>Plot estimates, predictions or effects of generalized linear mixed effects models</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjp.gpt.html">sjp.gpt()</a></code> </p>
         </td>
         <td><p>Plot grouped proportional tables</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjp.grpfrq.html">sjp.grpfrq()</a></code> </p>
         </td>
         <td><p>Plot grouped or stacked frequencies</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjp.int.html">sjp.int()</a></code> </p>
         </td>
         <td><p>Plot interaction effects of (generalized) linear (mixed) models</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjp.kfold_cv.html">sjp.kfold_cv()</a></code> </p>
         </td>
         <td><p>Plot model fit from k-fold cross-validation</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjp.likert.html">sjp.likert()</a></code> </p>
         </td>
         <td><p>Plot likert scales as centered stacked bars</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjp.lm.html">sjp.lm()</a></code> </p>
         </td>
         <td><p>Plot estimates, predictions or effects of linear models</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjp.lmer.html">sjp.lmer()</a></code> </p>
         </td>
         <td><p>Plot estimates, predictions or effects of linear mixed effects models</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjp.pca.html">sjp.pca()</a></code> </p>
         </td>
         <td><p>Plot PCA results</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjp.poly.html">sjp.poly()</a></code> </p>
         </td>
         <td><p>Plot polynomials for (generalized) linear regression</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjp.resid.html">sjp.resid()</a></code> </p>
         </td>
         <td><p>Plot predicted values and their residuals</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjp.scatter.html">sjp.scatter()</a></code> </p>
         </td>
         <td><p>Plot (grouped) scatter plots</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjp.stackfrq.html">sjp.stackfrq()</a></code> </p>
         </td>
         <td><p>Plot stacked proportional bars</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjp.xtab.html">sjp.xtab()</a></code> </p>
         </td>
         <td><p>Plot contingency tables</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjPlot-package.html">sjPlot-package</a></code> </p>
         </td>
         <td><p>Data Visualization for Statistics in Social Science</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
-          <p><code><a href="sjPlot-themes.html">theme_sjplot()</a></code> <code><a href="sjPlot-themes.html">theme_sjplot2()</a></code> <code><a href="sjPlot-themes.html">theme_blank()</a></code> <code><a href="sjPlot-themes.html">theme_538()</a></code> <code><a href="sjPlot-themes.html">font_size()</a></code> <code><a href="sjPlot-themes.html">label_angle()</a></code> <code><a href="sjPlot-themes.html">legend_style()</a></code> <code><a href="sjPlot-themes.html">scale_color_sjplot()</a></code> <code><a href="sjPlot-themes.html">scale_fill_sjplot()</a></code> <code><a href="sjPlot-themes.html">sjplot_pal()</a></code> <code><a href="sjPlot-themes.html">show_sjplot_pals()</a></code> </p>
+          <p><code><a href="sjPlot-themes.html">theme_sjplot()</a></code> <code><a href="sjPlot-themes.html">theme_sjplot2()</a></code> <code><a href="sjPlot-themes.html">theme_blank()</a></code> <code><a href="sjPlot-themes.html">theme_538()</a></code> <code><a href="sjPlot-themes.html">font_size()</a></code> <code><a href="sjPlot-themes.html">label_angle()</a></code> <code><a href="sjPlot-themes.html">legend_style()</a></code> <code><a href="sjPlot-themes.html">scale_color_sjplot()</a></code> <code><a href="sjPlot-themes.html">scale_fill_sjplot()</a></code> <code><a href="sjPlot-themes.html">sjplot_pal()</a></code> <code><a href="sjPlot-themes.html">show_sjplot_pals()</a></code> <code><a href="sjPlot-themes.html">css_theme()</a></code> </p>
         </td>
         <td><p>Modify plot appearance</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjplot.html">sjplot()</a></code> <code><a href="sjplot.html">sjtab()</a></code> </p>
         </td>
         <td><p>Wrapper to create plots and tables within a pipe-workflow</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjt.corr.html">sjt.corr()</a></code> </p>
         </td>
         <td><p>Summary of correlations as HTML table</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjt.fa.html">sjt.fa()</a></code> </p>
         </td>
         <td><p>Summary of factor analysis as HTML table</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjt.frq.html">sjt.frq()</a></code> </p>
         </td>
         <td><p>Summary of frequencies as HTML table</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjt.glm.html">sjt.glm()</a></code> </p>
         </td>
         <td><p>Summary of generalized linear models as HTML table</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjt.glmer.html">sjt.glmer()</a></code> </p>
         </td>
         <td><p>Summary of generalized linear mixed models as HTML table</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjt.grpmean.html">sjt.grpmean()</a></code> <code><a href="sjt.grpmean.html">sjt.df()</a></code> <code><a href="sjt.grpmean.html">sjt.mwu()</a></code> </p>
         </td>
         <td><p>Deprecated functions</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjt.itemanalysis.html">sjt.itemanalysis()</a></code> </p>
         </td>
         <td><p>Summary of item analysis of an item scale as HTML table</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjt.lm.html">sjt.lm()</a></code> </p>
         </td>
         <td><p>Summary of linear regression as HTML table</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjt.lmer.html">sjt.lmer()</a></code> </p>
         </td>
         <td><p>Summary of linear mixed effects models as HTML table</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjt.pca.html">sjt.pca()</a></code> </p>
         </td>
         <td><p>Summary of principal component analysis as HTML table</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjt.stackfrq.html">sjt.stackfrq()</a></code> </p>
         </td>
         <td><p>Summary of stacked frequencies as HTML table</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="sjt.xtab.html">sjt.xtab()</a></code> </p>
         </td>
         <td><p>Summary of contingency tables as HTML table</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="tab_df.html">tab_df()</a></code> <code><a href="tab_df.html">tab_dfs()</a></code> </p>
         </td>
         <td><p>Print data frames as HTML table.</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="tab_model.html">tab_model()</a></code> </p>
         </td>
-        <td><p>Print regression models to HTML table</p></td>
+        <td><p>Print regression models as HTML table</p></td>
       </tr><tr>
-        <!--  -->
+        
         <td>
           <p><code><a href="view_df.html">view_df()</a></code> </p>
         </td>

@@ -21,20 +21,23 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
 
 <meta property="og:title" content="Modify plot appearance — sjPlot-themes" />
 
-<meta property="og:description" content="Set default theme plots, use pre-defined color scales or modify
-  plot appearance." />
+<meta property="og:description" content="Set default plot themes, use pre-defined color scales or modify
+  plot or table appearance." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 <!-- mathjax -->
@@ -61,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.1.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.5</span>
       </span>
     </div>
 
@@ -102,10 +105,13 @@
       <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
     </li>
     <li>
-      <a href="../articles/sjtlm.html">Summary of Linear Regression Models as HTML Table</a>
+      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
     </li>
     <li>
-      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
+      <a href="../articles/table_css.html">Customizing HTML tables</a>
+    </li>
+    <li>
+      <a href="../articles/tab_model_estimates.html">Summary of Regression Models as HTML Table</a>
     </li>
   </ul>
 </li>
@@ -140,8 +146,8 @@
 
     <div class="ref-description">
     
-    <p>Set default theme plots, use pre-defined color scales or modify
-  plot appearance.</p>
+    <p>Set default plot themes, use pre-defined color scales or modify
+  plot or table appearance.</p>
     
     </div>
 
@@ -168,7 +174,9 @@
 
 <span class='fu'>sjplot_pal</span>(<span class='kw'>palette</span> <span class='kw'>=</span> <span class='st'>"metro ui"</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
-<span class='fu'>show_sjplot_pals</span>()</pre>
+<span class='fu'>show_sjplot_pals</span>()
+
+<span class='fu'>css_theme</span>(<span class='kw'>css.theme</span> <span class='kw'>=</span> <span class='st'>"regression"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -268,6 +276,10 @@ are interpolated using <code><a href='http://www.rdocumentation.org/packages/grD
       <th>n</th>
       <td><p>Numeric, number of colors to be returned. By default, the complete
 colour palette is returned.</p></td>
+    </tr>
+    <tr>
+      <th>css.theme</th>
+      <td><p>Name of the CSS pre-set theme-style. Can be used for table-functions.</p></td>
     </tr>
     </table>
     
