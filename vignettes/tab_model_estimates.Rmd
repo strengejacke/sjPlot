@@ -151,7 +151,7 @@ tab_model(
 )
 ``` 
 
-### Automatic matching for names vectors
+### Automatic matching for named vectors
 
 Another way to easily assign labels are _named vectors_. In this case, it doesn't matter if `pred.labels` has more labels than coefficients in the model(s), or in which order the labels are passed to `tab_model()`. The only requirement is that the labels' names equal the coefficients names as they appear in the `summary()`-output.
 
@@ -182,6 +182,18 @@ tab_model(
 ``` 
 
 ## Keep or remove coefficients from the table
+
+Using the `terms`- or `rm.terms`-argument allows us to explicitly show or remove specific coefficients from the table output.
+
+```{r}
+tab_model(m1, terms = c("c160age", "c12hour"))
+``` 
+
+Note that the names of terms to keep or remove should match the coefficients names. For categorical predictors, one example would be:
+
+```{r}
+tab_model(m1, rm.terms = c("c172code2", "c161sex2"))
+``` 
 
 ## Change order of coefficients
 
