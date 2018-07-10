@@ -3,14 +3,24 @@ title: "Summary of Mixed Models as HTML Table"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+params:
+    EVAL: !r identical(Sys.getenv("NOT_CRAN"), "true")
+---
+
+<!--
 vignette: >
   %\VignetteIndexEntry{Summary of Mixed Models as HTML Table}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
----
+-->
 
 ```{r echo = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>", message = FALSE)
+knitr::opts_chunk$set(
+  collapse = TRUE, 
+  comment = "#>", 
+  message = FALSE,
+  eval = if (isTRUE(exists("params"))) params$EVAL else FALSE
+)
 ```
 
 This vignette shows examples for using `tab_model()` to create HTML tables for mixed models. Basically, `tab_model()` behaves in a very similar way for mixed models as for other, simple regression models, as shown [in this vignette](tab_model_estimates.html).
@@ -48,10 +58,12 @@ tab_model(m1, p.val = "kr", show.df = TRUE)
 `tab_model()` can also print and combine models with different link-functions.
 
 ```{r}
-data("cvpp")
+data("efc")
+efc$neg_c_7d <- ifelse(efc$neg_c_7 < median(efc$neg_c_7, na.rm = TRUE), 0, 1)
+efc$cluster <- as.factor(efc$e15relat)
 m3 <- glmer(
-  cbind(incidence, size - incidence) ~ period + (1 | herd),
-  data = cbpp, 
+  neg_c_7d ~ c160age + c161sex + e42dep + (1 | cluster),
+  data = efc, 
   family = binomial(link = "logit")
 )
 

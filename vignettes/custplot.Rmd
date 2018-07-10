@@ -14,13 +14,13 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 7, fig.height
 ```
 
 
-This vignette shows how the plots created by the `sjp.` functions of the sjPlot package can be customized.
+This vignette shows how the plots created by the `sjp.*` and `plot_model()` functions of the **sjPlot** package can be customized.
 
-The examples refer to the `sjp.grpfrq` function, but most arguments are similar across all plotting function of the **sjPlot** package.
+The examples refer to `sjp.grpfrq()`, but most arguments are similar across all plotting function of the **sjPlot** package.
 
-Tweaking plot appearance
-------------------------
-The base function to globally change theme option for all sjp-function is `set_theme()`. Except for geom-colors and geom-sizes, all theme-options can be set via this function. This new theme will be applied to all following plots created with the `sjPlot` package.
+## Tweaking plot appearance
+
+The base function to globally change theme option for all sjp-function is `set_theme()`. Except for geom-colors and geom-sizes, all theme-options can be set via this function. This new theme will be applied to all following plots created with the **sjPlot** package.
 
 There are various arguments to change colors, sizes, angles etc. of labels. Following example show changes to colors, sizes, angles, geom-outlines and theme.
 ```{r}
@@ -53,7 +53,7 @@ sjp.grpfrq(
 )
 ```
 
-### Using the Color Brewer palettes
+## Using the Color Brewer palettes
 
 All plotting functions support the usage of the [Colorbrewer](http://colorbrewer2.org) palettes. To apply a color brewer palette, use specify the palette as `geom.colors`. Any valid color brewer palette is recognized automatically.
 
@@ -83,8 +83,8 @@ library(RColorBrewer)
 display.brewer.all()
 ```
 
-Plot with flipped coordinates
------------------------------
+## Plot with flipped coordinates
+
 The plot's axes can be flipped using `coord.flip = TRUE`. If needed, labels can be placed inside the bars with the `vjust` or `hjust` arguments. In such cases, you might need to adjust the label colors with `geom.label.color = "white"`.
 
 ```{r}
@@ -94,8 +94,8 @@ set_theme(geom.label.color = "white", geom.label.size = 3)
 sjp.grpfrq(efc$e42dep, efc$e16sex, coord.flip = TRUE)
 ```
 
-Adding plot margins
--------------------
+## Adding plot margins
+
 Plots with no margins towards the axes may look strange to some people (not to me, though). To restore the ggplot-default behaviour, use the `expand.grid` argument:
 
 ```{r results='hide', echo=FALSE}
@@ -112,8 +112,8 @@ set_theme(
 sjp.grpfrq(efc$e42dep, efc$e16sex, expand.grid = TRUE)
 ```
 
-Theme options
--------------
+## Theme options
+
 You can use any pre-defined theme from ggplot, like `theme_bw()`, `theme_classic()` or `theme_minimal()` as default theme.
 
 ```{r}
@@ -121,13 +121,45 @@ set_theme(base = theme_light())
 sjp.frq(efc$e42dep)
 ```
 
-Pre-defined themes
-------------------
+## Pre-defined themes
 
 There is a set of pre-defined themes from the sjPlot-package. See `?"sjPlot-themes"` for a complete list.
 
-Set up own themes based on existing themes
-------------------------------------------
+```{r}
+library(sjmisc)
+data(efc)
+efc <- to_factor(efc, e42dep, c172code)
+m <- lm(neg_c_7 ~ pos_v_4 + c12hour + e42dep + c172code, data = efc)
+
+# reset theme
+set_theme(base = theme_grey())
+
+# forest plot of regression model
+p <- plot_model(m)
+
+# default theme
+p
+# pre-defined theme
+p + theme_sjplot()
+```
+
+## Pre-defined scales
+
+There is also a new scale for **ggplot**-objects, `scale_color_sjplot()` and `scale_fill_sjplot()`. 
+
+```{r}
+p + 
+  theme_sjplot2() + 
+  scale_color_sjplot("simply")
+```
+
+To see all currently available color sets, use `show_sjplot_pals()`.
+
+```{r}
+show_sjplot_pals()
+```
+
+## Set up own themes based on existing themes
 
 If you want to use a specific theme as base for building your own theme, use the `base` argument. When using `base` instead of `theme`, further arguments for settings colors etc. are not ignored.
 ```{r}

@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.5</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
       </span>
     </div>
 
@@ -104,10 +104,13 @@
       <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
     </li>
     <li>
-      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
+      <a href="../articles/table_css.html">Customizing HTML tables</a>
     </li>
     <li>
-      <a href="../articles/table_css.html">Customizing HTML tables</a>
+      <a href="../articles/tab_bayes.html">Summary of Baysian Models as HTML Table</a>
+    </li>
+    <li>
+      <a href="../articles/tab_mixed.html">Summary of Mixed Models as HTML Table</a>
     </li>
     <li>
       <a href="../articles/tab_model_estimates.html">Summary of Regression Models as HTML Table</a>
@@ -160,10 +163,10 @@
   <span class='kw'>string.pred</span> <span class='kw'>=</span> <span class='st'>"Predictors"</span>, <span class='kw'>string.std</span> <span class='kw'>=</span> <span class='st'>"std. Beta"</span>, <span class='kw'>string.ci</span> <span class='kw'>=</span> <span class='st'>"CI"</span>,
   <span class='kw'>string.se</span> <span class='kw'>=</span> <span class='st'>"std. Error"</span>, <span class='kw'>string.p</span> <span class='kw'>=</span> <span class='st'>"p"</span>, <span class='kw'>string.df</span> <span class='kw'>=</span> <span class='st'>"df"</span>,
   <span class='kw'>string.stat</span> <span class='kw'>=</span> <span class='st'>"Statistic"</span>, <span class='kw'>ci.hyphen</span> <span class='kw'>=</span> <span class='st'>"&amp;nbsp;&amp;ndash;&amp;nbsp;"</span>,
-  <span class='kw'>minus.sign</span> <span class='kw'>=</span> <span class='st'>"&amp;#45;"</span>, <span class='kw'>separate.ci.col</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>separate.se.col</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>digits.p</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>emph.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.val</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"wald"</span>, <span class='st'>"kr"</span>),
-  <span class='kw'>case</span> <span class='kw'>=</span> <span class='st'>"parsed"</span>, <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>bpe</span> <span class='kw'>=</span> <span class='st'>"median"</span>,
-  <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='fu'><a href='sjPlot-themes.html'>css_theme</a></span>(<span class='st'>"regression"</span>))</pre>
+  <span class='kw'>minus.sign</span> <span class='kw'>=</span> <span class='st'>"&amp;#45;"</span>, <span class='kw'>collapse.ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>collapse.se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>linebreak</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>digits.p</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>emph.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>p.val</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"wald"</span>, <span class='st'>"kr"</span>), <span class='kw'>case</span> <span class='kw'>=</span> <span class='st'>"parsed"</span>, <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>bpe</span> <span class='kw'>=</span> <span class='st'>"median"</span>, <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='fu'><a href='sjPlot-themes.html'>css_theme</a></span>(<span class='st'>"regression"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -196,6 +199,11 @@ non-transformed estimates.</p></td>
 is printed to the table; if <code>FALSE</code>, confidence intervals are
 omitted. Or numeric, between 0 and 1, indicating the range of the
 confidence intervals.</p></td>
+    </tr>
+    <tr>
+      <th>show.hdi50</th>
+      <td><p>Logical, if <code>TRUE</code>, for Bayesian models, a second
+credible interval is added to the table output.</p></td>
     </tr>
     <tr>
       <th>show.se</th>
@@ -244,8 +252,28 @@ coefficient for mixed models. See <code><a href='http://www.rdocumentation.org/p
 for mixed models. See <code><a href='http://www.rdocumentation.org/packages/sjstats/topics/re_var'>re_var</a></code> for details.</p></td>
     </tr>
     <tr>
+      <th>show.fstat</th>
+      <td><p>Logical, if <code>TRUE</code>, the F-statistics for each model is
+printed in the table summary. This option is not supported by all model types.</p></td>
+    </tr>
+    <tr>
+      <th>show.aic</th>
+      <td><p>Logical, if <code>TRUE</code>, the AIC value for each model is printed
+in the table summary.</p></td>
+    </tr>
+    <tr>
+      <th>show.aicc</th>
+      <td><p>Logical, if <code>TRUE</code>, the second-order AIC value for each model
+is printed in the table summary.</p></td>
+    </tr>
+    <tr>
       <th>show.dev</th>
       <td><p>Logical, if <code>TRUE</code>, shows the deviance of the model.</p></td>
+    </tr>
+    <tr>
+      <th>show.obs</th>
+      <td><p>Logical, if <code>TRUE</code>, the number of observations per model is
+printed in the table summary.</p></td>
     </tr>
     <tr>
       <th>terms</th>
@@ -336,6 +364,14 @@ Default is <code>"Predictors"</code>.</p></td>
       <td><p>Character vector, used for the column heading of p values. Default is <code>"p"</code>.</p></td>
     </tr>
     <tr>
+      <th>string.df</th>
+      <td><p>Character vector, used for the column heading of degrees of freedom. Default is <code>"df"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>string.stat</th>
+      <td><p>Character vector, used for the test statistic. Default is <code>"Statistic"</code>.</p></td>
+    </tr>
+    <tr>
       <th>ci.hyphen</th>
       <td><p>Character vector, indicating the hyphen for confidence interval range.
 May be an HTML entity. See 'Examples'.</p></td>
@@ -346,14 +382,21 @@ May be an HTML entity. See 'Examples'.</p></td>
 May be an HTML entity. See 'Examples'.</p></td>
     </tr>
     <tr>
-      <th>separate.ci.col</th>
-      <td><p>Logical, if <code>TRUE</code>, the CI values are shown in
+      <th>collapse.ci</th>
+      <td><p>Logical, if <code>FALSE</code>, the CI values are shown in
 a separate table column.</p></td>
     </tr>
     <tr>
-      <th>separate.se.col</th>
-      <td><p>Logical, if <code>TRUE</code>, the SE values are shown in
+      <th>collapse.se</th>
+      <td><p>Logical, if <code>FALSE</code>, the SE values are shown in
 a separate table column.</p></td>
+    </tr>
+    <tr>
+      <th>linebreak</th>
+      <td><p>Logical, if <code>TRUE</code> and <code>collapse.ci = FALSE</code> or
+<code>collapse.se = FALSE</code>, inserts a line break between estimate and
+CI resp. SE values. If <code>FALSE</code>, values are printed in the same line
+as estimate values.</p></td>
     </tr>
     <tr>
       <th>digits</th>
@@ -366,6 +409,15 @@ a separate table column.</p></td>
     <tr>
       <th>emph.p</th>
       <td><p>Logical, if <code>TRUE</code>, significant p-values are shown bold faced.</p></td>
+    </tr>
+    <tr>
+      <th>p.val</th>
+      <td><p>Character, for mixed models, indicates how p-values are computed.
+Use <code>p.val = "wald"</code> for a faster, but less precise computation. For
+<code>p.val = "kr"</code>, computation of p-values is based on conditional F-tests
+with Kenward-Roger approximation for the degrees of freedom, using the
+<span class="pkg">pbkrtest</span>-package. In this case, use <code>show.df = TRUE</code> to show
+the approximated degrees of freedom for each coefficient.</p></td>
     </tr>
     <tr>
       <th>case</th>
@@ -395,6 +447,12 @@ calculate the Bayesian point estimate. <code>bpe</code> needs to be a character
 naming the specific function, which is passed to the <code>fun</code>-argument in
 <code><a href='http://www.rdocumentation.org/packages/sjstats/topics/typical_value'>typical_value</a></code>. So, <code>bpe = "mean"</code> would
 calculate the mean value of the posterior distribution.</p></td>
+    </tr>
+    <tr>
+      <th>CSS</th>
+      <td><p>A <code>list</code> with user-defined style-sheet-definitions,
+according to the <a href='http://www.w3.org/Style/CSS/'>official CSS syntax</a>.
+See 'Details' or <a href='../doc/table_css.html'>this package-vignette</a>.</p></td>
     </tr>
     </table>
     
@@ -449,7 +507,9 @@ calculate the mean value of the posterior distribution.</p></td>
     <p>The HTML tables can either be saved as file and manually opened (use argument <code>file</code>) or
         they can be saved as temporary files and will be displayed in the RStudio Viewer pane (if working with RStudio)
         or opened with the default web browser. Displaying resp. opening a temporary file is the
-        default behaviour (i.e. <code>file = NULL</code>).</p>
+        default behaviour (i.e. <code>file = NULL</code>).
+        <br /> <br />
+        Examples are shown in <a href='../doc/tab_model_estimates.html'>this package-vignette</a>.</p>
     
 
   </div>

@@ -44,12 +44,12 @@
 #'          May be an HTML entity. See 'Examples'.
 #' @param minus.sign string, indicating the minus sign for negative numbers.
 #'          May be an HTML entity. See 'Examples'.
-#' @param digits.est Amount of decimals for estimates
-#' @param digits.p Amount of decimals for p-values
-#' @param digits.ci Amount of decimals for confidence intervals
-#' @param digits.se Amount of decimals for standard error
-#' @param digits.std Amount of decimals for standardized beta
-#' @param digits.summary Amount of decimals for values in model summary
+#' @param digits.est Amount of decimals for table values.
+#' @param digits.p Amount of decimals for p-values.
+#' @param digits.ci Amount of decimals for confidence intervals.
+#' @param digits.se Amount of decimals for standard error.
+#' @param digits.std Amount of decimals for standardized beta.
+#' @param digits.summary Amount of decimals for values in model summary.
 #' @param emph.p Logical, if \code{TRUE}, significant p-values are shown bold faced.
 #' @param p.zero logical, if \code{TRUE}, p-values have a leading 0 before the
 #'          period (e.g. \emph{0.002}), else p-values start with a period and

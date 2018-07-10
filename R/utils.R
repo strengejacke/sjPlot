@@ -308,6 +308,15 @@ model_deviance <- function(x) {
 }
 
 
+#' @importFrom stats AIC
+model_aic <- function(x) {
+  tryCatch(
+    stats::AIC(x),
+    error = function(x) { NULL }
+  )
+}
+
+
 #' @importFrom lme4 getME
 #' @importFrom stats deviance
 m_deviance <- function(x) {

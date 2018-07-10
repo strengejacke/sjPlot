@@ -68,7 +68,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.5</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
       </span>
     </div>
 
@@ -109,10 +109,13 @@
       <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
     </li>
     <li>
-      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
+      <a href="../articles/table_css.html">Customizing HTML tables</a>
     </li>
     <li>
-      <a href="../articles/table_css.html">Customizing HTML tables</a>
+      <a href="../articles/tab_bayes.html">Summary of Baysian Models as HTML Table</a>
+    </li>
+    <li>
+      <a href="../articles/tab_mixed.html">Summary of Mixed Models as HTML Table</a>
     </li>
     <li>
       <a href="../articles/tab_model_estimates.html">Summary of Regression Models as HTML Table</a>
@@ -373,27 +376,27 @@ May be an HTML entity. See 'Examples'.</p></td>
     </tr>
     <tr>
       <th>digits.est</th>
-      <td><p>Amount of decimals for estimates</p></td>
+      <td><p>Amount of decimals for table values.</p></td>
     </tr>
     <tr>
       <th>digits.std</th>
-      <td><p>Amount of decimals for standardized beta</p></td>
+      <td><p>Amount of decimals for standardized beta.</p></td>
     </tr>
     <tr>
       <th>digits.p</th>
-      <td><p>Amount of decimals for p-values</p></td>
+      <td><p>Amount of decimals for p-values.</p></td>
     </tr>
     <tr>
       <th>digits.ci</th>
-      <td><p>Amount of decimals for confidence intervals</p></td>
+      <td><p>Amount of decimals for confidence intervals.</p></td>
     </tr>
     <tr>
       <th>digits.se</th>
-      <td><p>Amount of decimals for standard error</p></td>
+      <td><p>Amount of decimals for standard error.</p></td>
     </tr>
     <tr>
       <th>digits.summary</th>
-      <td><p>Amount of decimals for values in model summary</p></td>
+      <td><p>Amount of decimals for values in model summary.</p></td>
     </tr>
     <tr>
       <th>cell.spacing</th>
@@ -419,7 +422,7 @@ when modifying the table layout.</p></td>
       <th>CSS</th>
       <td><p>A <code>list</code> with user-defined style-sheet-definitions, according to the
 <a href='http://www.w3.org/Style/CSS/'>official CSS syntax</a>. For more details,
-see <a href='../doc/sjtbasic.html'>this package-vignette</a>, or 'Details' in
+see <a href='../doc/table_css.html'>this package-vignette</a>, or 'Details' in
 <code><a href='sjt.frq.html'>sjt.frq</a></code>.</p></td>
     </tr>
     <tr>
@@ -462,162 +465,10 @@ may look less pretty, but it may help when exporting html-tables to office tools
 <li><p>the web page content (<code>page.content</code>),</p></li>
 <li><p>the complete html-output (<code>page.complete</code>) and</p></li>
 <li><p>the html-table with inline-css for use with knitr (<code>knitr</code>)</p></li>
-</ul><p>for further use.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+</ul>
 
-    <div class='dont-index'><p><a href='http://strengejacke.de/sjPlot/sjt.lm/'>sjPlot manual: sjt.lm</a></p></div>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># Now fit the models. Note that both models share the same predictors</span>
-<span class='co'># and only differ in their dependent variable. See examples of stepwise</span>
-<span class='co'># models below at the end.</span>
-<span class='fu'>library</span>(<span class='no'>sjmisc</span>)
-<span class='fu'>data</span>(<span class='no'>efc</span>)
-
-<span class='co'># fit first model</span>
-<span class='no'>fit1</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>barthtot</span> ~ <span class='no'>c160age</span> + <span class='no'>c12hour</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
-<span class='co'># fit second model</span>
-<span class='no'>fit2</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>neg_c_7</span> ~ <span class='no'>c160age</span> + <span class='no'>c12hour</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
-
-<span class='co'># create and open HTML-table in RStudio Viewer Pane or web browser</span>
-<span class='co'># note that we don't need to specify labels for the predictors,</span>
-<span class='co'># because these are automatically read</span>
-<span class='fu'>sjt.lm</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>)
-
-<span class='co'># create and open HTML-table in RStudio Viewer Pane or web browser</span>
-<span class='co'># in the following examples, we set labels via argument</span>
-<span class='fu'>sjt.lm</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>,
-       <span class='kw'>depvar.labels</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Barthel-Index"</span>, <span class='st'>"Negative Impact"</span>),
-       <span class='kw'>pred.labels</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Carer's Age"</span>, <span class='st'>"Hours of Care"</span>,
-                       <span class='st'>"Carer's Sex"</span>, <span class='st'>"Educational Status"</span>))
-
-<span class='co'># use vector names as labels</span>
-<span class='fu'>sjt.lm</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='kw'>pred.labels</span> <span class='kw'>=</span> <span class='st'>""</span>)
-
-<span class='co'># show HTML-table, indicating p-values as asterisks</span>
-<span class='fu'>sjt.lm</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='kw'>show.std</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.numeric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='co'># create and open HTML-table in RStudio Viewer Pane or web browser,</span>
-<span class='co'># integrate CI in estimate column</span>
-<span class='fu'>sjt.lm</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='kw'>separate.ci.col</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='co'># show HTML-table, indicating p-values as numbers</span>
-<span class='co'># and printing CI in a separate column</span>
-<span class='fu'>sjt.lm</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='kw'>show.std</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-
-<span class='co'># show HTML-table, indicating p-values as stars</span>
-<span class='co'># and integrate CI in estimate column</span>
-<span class='fu'>sjt.lm</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='kw'>show.std</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ci.hyphen</span> <span class='kw'>=</span> <span class='st'>" to "</span>,
-       <span class='kw'>minus.sign</span> <span class='kw'>=</span> <span class='st'>"&amp;minus;"</span>, <span class='kw'>p.numeric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-       <span class='kw'>separate.ci.col</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='co'># ----------------------------------</span>
-<span class='co'># connecting two html-tables</span>
-<span class='co'># ----------------------------------</span>
-<span class='co'># fit two more models</span>
-<span class='no'>fit3</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>tot_sc_e</span> ~ <span class='no'>c160age</span> + <span class='no'>c12hour</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>efc</span>)
-<span class='no'>fit4</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>e42dep</span> ~ <span class='no'>c160age</span> + <span class='no'>c12hour</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>efc</span>)
-
-<span class='co'># create and save first HTML-table</span>
-<span class='no'>part1</span> <span class='kw'>&lt;-</span> <span class='fu'>sjt.lm</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>)
-
-<span class='co'># create and save second HTML-table</span>
-<span class='no'>part2</span> <span class='kw'>&lt;-</span> <span class='fu'>sjt.lm</span>(<span class='no'>fit3</span>, <span class='no'>fit4</span>)
-
-<span class='co'># browse temporary file</span>
-<span class='no'>htmlFile</span> <span class='kw'>&lt;-</span> <span class='fu'>tempfile</span>(<span class='kw'>fileext</span><span class='kw'>=</span><span class='st'>".html"</span>)
-<span class='fu'>write</span>(<span class='fu'>sprintf</span>(<span class='st'>"&lt;html&gt;&lt;head&gt;%s&lt;/head&gt;&lt;body&gt;%s&lt;p&gt;&lt;/p&gt;%s&lt;/body&gt;&lt;/html&gt;"</span>,
-              <span class='no'>part1</span>$<span class='no'>page.style</span>, <span class='no'>part1</span>$<span class='no'>page.content</span>, <span class='no'>part2</span>$<span class='no'>page.content</span>),
-      <span class='kw'>file</span> <span class='kw'>=</span> <span class='no'>htmlFile</span>)
-<span class='no'>viewer</span> <span class='kw'>&lt;-</span> <span class='fu'>getOption</span>(<span class='st'>"viewer"</span>)
-<span class='kw'>if</span> (!<span class='fu'>is.null</span>(<span class='no'>viewer</span>)) <span class='fu'>viewer</span>(<span class='no'>htmlFile</span>) <span class='kw'>else</span> <span class='kw pkg'>utils</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/utils/topics/browseURL'>browseURL</a></span>(<span class='no'>htmlFile</span>)
-
-<span class='co'># ----------------------------------</span>
-<span class='co'># User defined style sheet</span>
-<span class='co'># ----------------------------------</span>
-<span class='fu'>sjt.lm</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>,
-       <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>css.table</span> <span class='kw'>=</span> <span class='st'>"border: 2px solid;"</span>,
-                  <span class='kw'>css.tdata</span> <span class='kw'>=</span> <span class='st'>"border: 1px solid;"</span>,
-                  <span class='kw'>css.depvarhead</span> <span class='kw'>=</span> <span class='st'>"color:#003399;"</span>))
-
-<span class='co'># ----------------------------------</span>
-<span class='co'># automatic grouping of predictors</span>
-<span class='co'># ----------------------------------</span>
-<span class='fu'>library</span>(<span class='no'>sjmisc</span>)
-<span class='fu'>data</span>(<span class='no'>efc</span>)
-
-<span class='co'># make education categorical</span>
-<span class='no'>efc</span>$<span class='no'>c172code</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/sjmisc/topics/to_factor'>to_factor</a></span>(<span class='no'>efc</span>$<span class='no'>c172code</span>)
-
-<span class='co'># fit first model again (with c172code as factor)</span>
-<span class='no'>fit1</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>barthtot</span> ~ <span class='no'>c160age</span> + <span class='no'>c12hour</span> + <span class='no'>c172code</span> + <span class='no'>c161sex</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>efc</span>)
-<span class='co'># fit second model again (with c172code as factor)</span>
-<span class='no'>fit2</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>neg_c_7</span> ~ <span class='no'>c160age</span> + <span class='no'>c12hour</span> + <span class='no'>c172code</span> + <span class='no'>c161sex</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>efc</span>)
-
-<span class='co'># plot models, but group by predictors</span>
-<span class='fu'>sjt.lm</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='kw'>group.pred</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-
-<span class='co'># ----------------------------------------</span>
-<span class='co'># compare models with different predictors</span>
-<span class='co'># ----------------------------------------</span>
-<span class='fu'>library</span>(<span class='no'>sjmisc</span>)
-<span class='fu'>data</span>(<span class='no'>efc</span>)
-
-<span class='co'># make education categorical</span>
-<span class='no'>efc</span>$<span class='no'>c172code</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/sjmisc/topics/to_factor'>to_factor</a></span>(<span class='no'>efc</span>$<span class='no'>c172code</span>)
-<span class='co'># make education categorical</span>
-<span class='no'>efc</span>$<span class='no'>e42dep</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/sjmisc/topics/to_factor'>to_factor</a></span>(<span class='no'>efc</span>$<span class='no'>e42dep</span>)
-
-<span class='co'># fit first model</span>
-<span class='no'>fit1</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>neg_c_7</span> ~ <span class='no'>c160age</span> + <span class='no'>c172code</span> + <span class='no'>c161sex</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
-<span class='co'># fit second model</span>
-<span class='no'>fit2</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>neg_c_7</span> ~ <span class='no'>c160age</span> + <span class='no'>c172code</span> + <span class='no'>c161sex</span> + <span class='no'>c12hour</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
-<span class='co'># fit second model</span>
-<span class='no'>fit3</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>neg_c_7</span> ~ <span class='no'>c160age</span> + <span class='no'>c172code</span> + <span class='no'>e42dep</span> + <span class='no'>tot_sc_e</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
-
-<span class='fu'>sjt.lm</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='no'>fit3</span>)
-
-<span class='co'># ----------------------------------------</span>
-<span class='co'># compare models with different predictors</span>
-<span class='co'># and grouping</span>
-<span class='co'># ----------------------------------------</span>
-<span class='co'># make cope-index categorical</span>
-<span class='no'>efc</span>$<span class='no'>c82cop1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/sjmisc/topics/to_factor'>to_factor</a></span>(<span class='no'>efc</span>$<span class='no'>c82cop1</span>)
-<span class='co'># fit another model</span>
-<span class='no'>fit4</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>neg_c_7</span> ~ <span class='no'>c160age</span> + <span class='no'>c172code</span> + <span class='no'>e42dep</span> + <span class='no'>tot_sc_e</span> + <span class='no'>c82cop1</span>,
-           <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
-
-<span class='fu'>sjt.lm</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='no'>fit4</span>, <span class='no'>fit3</span>)
-
-<span class='co'># show standardized beta only</span>
-<span class='fu'>sjt.lm</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='no'>fit4</span>, <span class='no'>fit3</span>, <span class='kw'>show.est</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.std</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-       <span class='kw'>show.aic</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.fstat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-
-<span class='co'># -----------------------------------------------------------</span>
-<span class='co'># color insanity. just to show that each column has an own</span>
-<span class='co'># CSS-tag, so - depending on the stats and values you show -</span>
-<span class='co'># you can define column spaces / margins, border etc. to</span>
-<span class='co'># visually separate your models in the table</span>
-<span class='co'># -----------------------------------------------------------</span>
-<span class='fu'>sjt.lm</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='no'>fit4</span>, <span class='no'>fit3</span>, <span class='kw'>show.std</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.aic</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-       <span class='kw'>show.fstat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.se</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-       <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>css.modelcolumn1</span> <span class='kw'>=</span> <span class='st'>'color:blue;'</span>,
-                  <span class='kw'>css.modelcolumn2</span> <span class='kw'>=</span> <span class='st'>'color:red;'</span>,
-                  <span class='kw'>css.modelcolumn3</span> <span class='kw'>=</span> <span class='st'>'color:green;'</span>,
-                  <span class='kw'>css.modelcolumn4</span> <span class='kw'>=</span> <span class='st'>'color:#ffff00;'</span>,
-                  <span class='kw'>css.modelcolumn5</span> <span class='kw'>=</span> <span class='st'>'color:#777777;'</span>,
-                  <span class='kw'>css.modelcolumn6</span> <span class='kw'>=</span> <span class='st'>'color:#3399cc;'</span>,
-                  <span class='kw'>css.modelcolumn7</span> <span class='kw'>=</span> <span class='st'>'color:#cc9933;'</span>))
-
-<span class='fu'>sjt.lm</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='no'>fit4</span>, <span class='no'>fit3</span>, <span class='kw'>show.est</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.std</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-       <span class='kw'>p.numeric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>group.pred</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-       <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>css.modelcolumn4</span> <span class='kw'>=</span> <span class='st'>'border-left:1px solid black;'</span>,
-                  <span class='kw'>css.modelcolumn5</span> <span class='kw'>=</span> <span class='st'>'padding-right:50px;'</span>))
-<span class='co'># }</span><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -625,11 +476,7 @@ may look less pretty, but it may help when exporting html-tables to office tools
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>

@@ -76,6 +76,8 @@
 #' @param string.ci Character vector, used for the column heading of confidence interval values. Default is \code{"CI"}.
 #' @param string.se Character vector, used for the column heading of standard error values. Default is \code{"std. Error"}.
 #' @param string.p Character vector, used for the column heading of p values. Default is \code{"p"}.
+#' @param string.df Character vector, used for the column heading of degrees of freedom. Default is \code{"df"}.
+#' @param string.stat Character vector, used for the test statistic. Default is \code{"Statistic"}.
 #' @param ci.hyphen Character vector, indicating the hyphen for confidence interval range.
 #'    May be an HTML entity. See 'Examples'.
 #' @param minus.sign string, indicating the minus sign for negative numbers.
@@ -83,22 +85,34 @@
 #' @param emph.p Logical, if \code{TRUE}, significant p-values are shown bold faced.
 #' @param digits Amount of decimals for estimates
 #' @param digits.p Amount of decimals for p-values
-#' @param separate.ci.col Logical, if \code{TRUE}, the CI values are shown in
+#' @param collapse.ci Logical, if \code{FALSE}, the CI values are shown in
 #'    a separate table column.
-#' @param separate.se.col Logical, if \code{TRUE}, the SE values are shown in
+#' @param collapse.se Logical, if \code{FALSE}, the SE values are shown in
 #'    a separate table column.
+#' @param linebreak Logical, if \code{TRUE} and \code{collapse.ci = FALSE} or
+#'    \code{collapse.se = FALSE}, inserts a line break between estimate and
+#'    CI resp. SE values. If \code{FALSE}, values are printed in the same line
+#'    as estimate values.
 #' @param group.terms Logical, if \code{TRUE} (default), automatically groups table rows with
 #'    factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
 #'    be grouped, if the factor has more than two levels. Grouping means that a separate headline
 #'    row is inserted to the table just before the predictor values.
-#' @param show.hdi50
-#' @param show.fstat
-#' @param show.aic
-#' @param show.aicc
-#' @param show.obs
-#' @param string.df
-#' @param string.stat
-#' @param p.val
+#' @param show.hdi50 Logical, if \code{TRUE}, for Bayesian models, a second
+#'    credible interval is added to the table output.
+#' @param show.fstat Logical, if \code{TRUE}, the F-statistics for each model is
+#'    printed in the table summary. This option is not supported by all model types.
+#' @param show.aic Logical, if \code{TRUE}, the AIC value for each model is printed
+#'    in the table summary.
+#' @param show.aicc Logical, if \code{TRUE}, the second-order AIC value for each model
+#'    is printed in the table summary.
+#' @param show.obs Logical, if \code{TRUE}, the number of observations per model is
+#'    printed in the table summary.
+#' @param p.val Character, for mixed models, indicates how p-values are computed.
+#'   Use \code{p.val = "wald"} for a faster, but less precise computation. For
+#'   \code{p.val = "kr"}, computation of p-values is based on conditional F-tests
+#'   with Kenward-Roger approximation for the degrees of freedom, using the
+#'   \pkg{pbkrtest}-package. In this case, use \code{show.df = TRUE} to show
+#'   the approximated degrees of freedom for each coefficient.
 #' @param CSS A \code{\link{list}} with user-defined style-sheet-definitions,
 #'    according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
 #'    See 'Details' or \href{../doc/table_css.html}{this package-vignette}.
@@ -213,8 +227,9 @@ tab_model <- function(
   ci.hyphen = "&nbsp;&ndash;&nbsp;",
   minus.sign = "&#45;",
 
-  separate.ci.col = TRUE,
-  separate.se.col = TRUE,
+  collapse.ci = FALSE,
+  collapse.se = FALSE,
+  linebreak = TRUE,
 
   digits = 2,
   digits.p = 3,
@@ -295,7 +310,7 @@ tab_model <- function(
 
       # emphasize p-values ----
 
-      if (emph.p) dat$p.value[dat$p.sig] <- sprintf("<strong>%s</strong>", dat$p.value[dat$p.sig])
+      if (emph.p && !all(dat$p.value == "NA")) dat$p.value[dat$p.sig] <- sprintf("<strong>%s</strong>", dat$p.value[dat$p.sig])
       dat <- dplyr::select(dat, -.data$p.sig)
 
 
@@ -379,14 +394,20 @@ tab_model <- function(
 
       # merge estimates and CI / SE columns, if requested ----
 
-      if (!separate.ci.col) {
+      if (collapse.ci) {
+
+        if (linebreak)
+          lb <- "<br>"
+        else
+          lb <- " "
+
         est.cols <- tidyselect::starts_with("estimate", vars = colnames(dat))
-        dat[[est.cols]] <- sprintf("%s (%s)", dat[[est.cols]], dat[[est.cols + 2]])
+        dat[[est.cols]] <- sprintf("%s%s(%s)", dat[[est.cols]], lb, dat[[est.cols + 2]])
 
         # for stan models, we also have 50% HDI
         if (!sjmisc::is_empty(tidyselect::starts_with("hdi", vars = colnames(dat)))) {
           dat <- dplyr::select(dat, -tidyselect::starts_with("hdi.outer"))
-          dat[[est.cols]] <- sprintf("%s (%s)", dat[[est.cols]], dat[[est.cols + 2]])
+          dat[[est.cols]] <- sprintf("%s%s(%s)", dat[[est.cols]], lb, dat[[est.cols + 2]])
           dat <- dplyr::select(dat, -tidyselect::starts_with("hdi.inner"))
         } else {
           dat <- dplyr::select(dat, -tidyselect::starts_with("conf.int"))
@@ -394,19 +415,25 @@ tab_model <- function(
 
         std.cols <- tidyselect::starts_with("std.estimate", vars = colnames(dat))
         if (!sjmisc::is_empty(std.cols)) {
-          dat[[std.cols]] <- sprintf("%s (%s)", dat[[std.cols]], dat[[std.cols + 2]])
+          dat[[std.cols]] <- sprintf("%s%s(%s)", dat[[std.cols]], lb, dat[[std.cols + 2]])
           dat <- dplyr::select(dat, -tidyselect::starts_with("std.conf.int"))
         }
       }
 
-      if (!separate.se.col) {
+      if (collapse.se) {
+
+        if (linebreak)
+          lb <- "<br>"
+        else
+          lb <- " "
+
         est.cols <- tidyselect::starts_with("estimate", vars = colnames(dat))
-        dat[[est.cols]] <- sprintf("%s (%s)", dat[[est.cols]], dat[[est.cols + 1]])
+        dat[[est.cols]] <- sprintf("%s%s(%s)", dat[[est.cols]], lb, dat[[est.cols + 1]])
         dat <- dplyr::select(dat, -tidyselect::starts_with("std.error"))
 
         std.cols <- tidyselect::starts_with("std.estimate", vars = colnames(dat))
         if (!sjmisc::is_empty(std.cols)) {
-          dat[[std.cols]] <- sprintf("%s (%s)", dat[[std.cols]], dat[[std.cols + 1]])
+          dat[[std.cols]] <- sprintf("%s%s(%s)", dat[[std.cols]], lb, dat[[std.cols + 1]])
           dat <- dplyr::select(dat, -tidyselect::starts_with("std.se"))
         }
       }
@@ -430,8 +457,6 @@ tab_model <- function(
         dat <- dplyr::select(dat, !! -wf)
       }
 
-
-      ## TODO add another object with summary information, e.g. ICC, F-Stat, AIC etc.
 
       # Add r-squared statistic ----
 
@@ -469,10 +494,13 @@ tab_model <- function(
       }
 
 
-      # Add deviance statistic ----
+      # Add deviance and AIC statistic ----
 
       dev <- NULL
       if (show.dev) dev <- model_deviance(model)
+
+      aic <- NULL
+      if (show.aic) aic <- model_aic(model)
 
 
       # fix brms coefficient names
@@ -490,7 +518,8 @@ tab_model <- function(
         rsq = rsq,
         n_obs = n_obs,
         icc = icc,
-        dev = dev
+        dev = dev,
+        aic = aic
       )
     }
   )
@@ -516,6 +545,7 @@ tab_model <- function(
   n_obs.data <- purrr::map(model.list, ~.x[[5]])
   icc.data <- purrr::map(model.list, ~.x[[6]])
   dev.data <- purrr::map(model.list, ~.x[[7]])
+  aic.data <- purrr::map(model.list, ~.x[[8]])
   is.zeroinf <- purrr::map_lgl(model.list, ~ !is.null(.x[[3]]))
 
   zeroinf.data <- purrr::compact(zeroinf.data)
@@ -804,6 +834,7 @@ tab_model <- function(
     n_obs.list = n_obs.data,
     icc.list = icc.data,
     dev.list = dev.data,
+    aic.list = aic.data,
     n.models = length(model.list),
     show.re.var = show.re.var,
     show.icc = show.icc,

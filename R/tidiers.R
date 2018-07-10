@@ -87,12 +87,19 @@ tidy_generic <- function(model, ci.lvl, facets, p.val) {
     dat <- broom::tidy(model, conf.int = TRUE, conf.level = ci.lvl, effects = "fixed")
 
     if (is_merMod(model) && !is.null(p.val) && p.val == "kr") {
-      pv <- sjstats::p_value(model, p.kr = TRUE)
+      pv <- tryCatch(
+        suppressMessages(sjstats::p_value(model, p.kr = TRUE)),
+        error = function(x) { NULL }
+      )
 
-      dat$p.value <- pv$p.value
-      dat$std.error <- attr(pv, "se.kr", exact = TRUE)
-      dat$statistic <- attr(pv, "t.kr", exact = TRUE)
-      dat$df <- round(attr(pv, "df.kr", exact = TRUE))
+      if (is.null(pv)) {
+        dat$p.value <- NA
+      } else {
+        dat$p.value <- pv$p.value
+        dat$std.error <- attr(pv, "se.kr", exact = TRUE)
+        dat$statistic <- attr(pv, "t.kr", exact = TRUE)
+        dat$df <- round(attr(pv, "df.kr", exact = TRUE))
+      }
 
       dat$conf.low <- dat$estimate - stats::qnorm(ci.lvl) * dat$std.error
       dat$conf.high <- dat$estimate + stats::qnorm(ci.lvl) * dat$std.error
@@ -101,7 +108,10 @@ tidy_generic <- function(model, ci.lvl, facets, p.val) {
 
       # see if we have p-values. if not, add them
       if (!tibble::has_name(dat, "p.value"))
-        dat$p.value <- sjstats::p_value(model, p.kr = FALSE)[["p.value"]]
+        dat$p.value <- tryCatch(
+          sjstats::p_value(model, p.kr = FALSE)[["p.value"]],
+          error = function(x) { NA }
+        )
     }
   }
 

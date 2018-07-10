@@ -260,6 +260,7 @@ tab_model_df <- function(x,
                          n_obs.list,
                          icc.list,
                          dev.list,
+                         aic.list,
                          n.models,
                          title = NULL,
                          col.header = NULL,
@@ -630,6 +631,21 @@ tab_model_df <- function(x,
     page.content <- paste0(page.content, create_stats(
       data.list = dev.list,
       data.string = "Deviance",
+      firstsumrow = firstsumrow,
+      summary.css = summary.css,
+      var.names = colnames(x),
+      n.cols = ncol(x)
+    ))
+    firstsumrow <- FALSE
+  }
+
+
+  # add aic ----
+
+  if (!is_empty_list(aic.list)) {
+    page.content <- paste0(page.content, create_stats(
+      data.list = aic.list,
+      data.string = "AIC",
       firstsumrow = firstsumrow,
       summary.css = summary.css,
       var.names = colnames(x),

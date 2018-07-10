@@ -66,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.5</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
       </span>
     </div>
 
@@ -107,10 +107,13 @@
       <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
     </li>
     <li>
-      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
+      <a href="../articles/table_css.html">Customizing HTML tables</a>
     </li>
     <li>
-      <a href="../articles/table_css.html">Customizing HTML tables</a>
+      <a href="../articles/tab_bayes.html">Summary of Baysian Models as HTML Table</a>
+    </li>
+    <li>
+      <a href="../articles/tab_mixed.html">Summary of Mixed Models as HTML Table</a>
     </li>
     <li>
       <a href="../articles/tab_model_estimates.html">Summary of Regression Models as HTML Table</a>
@@ -362,27 +365,27 @@ May be an HTML entity. See 'Examples'.</p></td>
     </tr>
     <tr>
       <th>digits.est</th>
-      <td><p>Amount of decimals for estimates</p></td>
+      <td><p>Amount of decimals for table values.</p></td>
     </tr>
     <tr>
       <th>digits.std</th>
-      <td><p>Amount of decimals for standardized beta</p></td>
+      <td><p>Amount of decimals for standardized beta.</p></td>
     </tr>
     <tr>
       <th>digits.p</th>
-      <td><p>Amount of decimals for p-values</p></td>
+      <td><p>Amount of decimals for p-values.</p></td>
     </tr>
     <tr>
       <th>digits.ci</th>
-      <td><p>Amount of decimals for confidence intervals</p></td>
+      <td><p>Amount of decimals for confidence intervals.</p></td>
     </tr>
     <tr>
       <th>digits.se</th>
-      <td><p>Amount of decimals for standard error</p></td>
+      <td><p>Amount of decimals for standard error.</p></td>
     </tr>
     <tr>
       <th>digits.summary</th>
-      <td><p>Amount of decimals for values in model summary</p></td>
+      <td><p>Amount of decimals for values in model summary.</p></td>
     </tr>
     <tr>
       <th>cell.spacing</th>
@@ -408,7 +411,7 @@ when modifying the table layout.</p></td>
       <th>CSS</th>
       <td><p>A <code>list</code> with user-defined style-sheet-definitions, according to the
 <a href='http://www.w3.org/Style/CSS/'>official CSS syntax</a>. For more details,
-see <a href='../doc/sjtbasic.html'>this package-vignette</a>, or 'Details' in
+see <a href='../doc/table_css.html'>this package-vignette</a>, or 'Details' in
 <code><a href='sjt.frq.html'>sjt.frq</a></code>.</p></td>
     </tr>
     <tr>
@@ -479,9 +482,7 @@ may look less pretty, but it may help when exporting html-tables to office tools
            <br /> <br />
            The confidence intervals stem from <span class="pkg">broom</span>'s
            <code><a href='http://www.rdocumentation.org/packages/broom/topics/tidy'>tidy</a></code>-function. For linear mixed models, the computation
-           method is "Wald" (<code><a href='http://www.rdocumentation.org/packages/lme4/topics/confint.merMod'>lme4::confint.merMod(fit, method = "Wald")</a></code>).
-           <br /> <br />
-           Furthermore, see 'Details' in <code><a href='sjt.frq.html'>sjt.frq</a></code>.</p>
+           method is "Wald" (<code><a href='http://www.rdocumentation.org/packages/lme4/topics/confint.merMod'>lme4::confint.merMod(fit, method = "Wald")</a></code>).</p>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
@@ -492,68 +493,7 @@ may look less pretty, but it may help when exporting html-tables to office tools
 <li><p>random-slope-intercept-correlation: rho-zero-one</p></li>
 </ul>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='http://strengejacke.de/sjPlot/sjt.lmer/'>sjPlot manual: sjt.lmer</a>
-           and <code><a href='sjt.lm.html'>sjt.lm</a></code> for further examples.</p></div>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>library</span>(<span class='no'>lme4</span>)
-<span class='fu'>library</span>(<span class='no'>sjmisc</span>)
-<span class='fu'>data</span>(<span class='no'>efc</span>)
-
-<span class='co'># prepare group variable</span>
-<span class='no'>efc</span>$<span class='no'>grp</span> <span class='kw'>=</span> <span class='fu'>as.factor</span>(<span class='no'>efc</span>$<span class='no'>e15relat</span>)
-<span class='fu'>levels</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>efc</span>$<span class='no'>grp</span>) <span class='kw'>&lt;-</span> <span class='fu'>get_labels</span>(<span class='no'>efc</span>$<span class='no'>e15relat</span>)
-<span class='no'>efc</span>$<span class='no'>care.level</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>sjmisc</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/sjmisc/topics/rec'>rec</a></span>(<span class='no'>efc</span>$<span class='no'>n4pstu</span>,
-                              <span class='kw'>rec</span> <span class='kw'>=</span> <span class='st'>"0=0;1=1;2=2;3:4=3"</span>,
-                              <span class='kw'>as.num</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-                              <span class='kw'>append</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='fu'>levels</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>efc</span>$<span class='no'>care.level</span>) <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"none"</span>, <span class='st'>"I"</span>, <span class='st'>"II"</span>, <span class='st'>"III"</span>)
-
-<span class='co'># data frame for fitted model</span>
-<span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>neg_c_7</span> <span class='kw'>=</span> <span class='no'>efc</span>$<span class='no'>neg_c_7</span>,
-                   <span class='kw'>sex</span> <span class='kw'>=</span> <span class='no'>efc</span>$<span class='no'>c161sex</span>,
-                   <span class='kw'>c12hour</span> <span class='kw'>=</span> <span class='no'>efc</span>$<span class='no'>c12hour</span>,
-                   <span class='kw'>barthel</span> <span class='kw'>=</span> <span class='no'>efc</span>$<span class='no'>barthtot</span>,
-                   <span class='kw'>education</span> <span class='kw'>=</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/sjmisc/topics/to_factor'>to_factor</a></span>(<span class='no'>efc</span>$<span class='no'>c172code</span>),
-                   <span class='kw'>grp</span> <span class='kw'>=</span> <span class='no'>efc</span>$<span class='no'>grp</span>,
-                   <span class='kw'>carelevel</span> <span class='kw'>=</span> <span class='no'>efc</span>$<span class='no'>care.level</span>)
-
-<span class='co'># fit three sample models</span>
-<span class='no'>fit1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/lme4/topics/lmer'>lmer</a></span>(<span class='no'>neg_c_7</span> ~ <span class='no'>sex</span> + <span class='no'>c12hour</span> + <span class='no'>barthel</span> + (<span class='fl'>1</span><span class='kw'>|</span><span class='no'>grp</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mydf</span>)
-<span class='no'>fit2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/lme4/topics/lmer'>lmer</a></span>(<span class='no'>neg_c_7</span> ~ <span class='no'>sex</span> + <span class='no'>c12hour</span> + <span class='no'>education</span> + <span class='no'>barthel</span> + (<span class='fl'>1</span><span class='kw'>|</span><span class='no'>grp</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mydf</span>)
-<span class='no'>fit3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/lme4/topics/lmer'>lmer</a></span>(<span class='no'>neg_c_7</span> ~ <span class='no'>sex</span> + <span class='no'>c12hour</span> + <span class='no'>education</span> + <span class='no'>barthel</span> +
-              (<span class='fl'>1</span><span class='kw'>|</span><span class='no'>grp</span>) + (<span class='fl'>1</span><span class='kw'>|</span><span class='no'>carelevel</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mydf</span>)
-
-<span class='co'># print summary table... automatic grouping does not work here,</span>
-<span class='co'># barthel-index is printed as category of education (values are</span>
-<span class='co'># correct, however, indentation is wrong)</span>
-<span class='fu'>sjt.lmer</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='kw'>ci.hyphen</span> <span class='kw'>=</span> <span class='st'>" to "</span>, <span class='kw'>group.pred</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-
-<span class='co'># either change order of models</span>
-<span class='fu'>sjt.lmer</span>(<span class='no'>fit2</span>, <span class='no'>fit1</span>, <span class='kw'>group.pred</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='co'># or turn off automatic grouping of categorical predictors</span>
-<span class='fu'>sjt.lmer</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='kw'>group.pred</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='co'># print table, using vector names as labels</span>
-<span class='fu'>sjt.lmer</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='no'>fit3</span>, <span class='kw'>pred.labels</span> <span class='kw'>=</span> <span class='st'>""</span>)
-
-<span class='co'># show other statistics</span>
-<span class='fu'>sjt.lmer</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='kw'>show.aic</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-         <span class='kw'>show.se</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.numeric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='fu'>sjt.lmer</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='no'>fit3</span>, <span class='kw'>show.aic</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-         <span class='kw'>separate.ci.col</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>newline.ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='co'># user defined predictor labels</span>
-<span class='fu'>sjt.lmer</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='no'>fit3</span>, <span class='kw'>pred.labels</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Elder's gender (female)"</span>,
-         <span class='st'>"Hours of care per week"</span>, <span class='st'>"Barthel Index"</span>, <span class='st'>"Educational level (mid)"</span>,
-         <span class='st'>"Educational level (high)"</span>))
-<span class='co'># }</span><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -565,11 +505,7 @@ may look less pretty, but it may help when exporting html-tables to office tools
       <li><a href="#details">Details</a></li>
 
       <li><a href="#note">Note</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>

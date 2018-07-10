@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.5</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
       </span>
     </div>
 
@@ -71,10 +71,13 @@
       <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
     </li>
     <li>
-      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
+      <a href="../articles/table_css.html">Customizing HTML tables</a>
     </li>
     <li>
-      <a href="../articles/table_css.html">Customizing HTML tables</a>
+      <a href="../articles/tab_bayes.html">Summary of Baysian Models as HTML Table</a>
+    </li>
+    <li>
+      <a href="../articles/tab_mixed.html">Summary of Mixed Models as HTML Table</a>
     </li>
     <li>
       <a href="../articles/tab_model_estimates.html">Summary of Regression Models as HTML Table</a>
@@ -107,7 +110,7 @@
       <h1>Summary of Regression Models as HTML Table</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2018-07-09</h4>
+            <h4 class="date">2018-07-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/tab_model_estimates.Rmd"><code>vignettes/tab_model_estimates.Rmd</code></a></small>
       <div class="hidden name"><code>tab_model_estimates.Rmd</code></div>
@@ -118,24 +121,24 @@
     
 <p><code><a href="../reference/tab_model.html">tab_model()</a></code> is the pendant to <code><a href="../reference/plot_model.html">plot_model()</a></code>, however, instead of creating plots, <code><a href="../reference/tab_model.html">tab_model()</a></code> creates HTML-tables that will be displayed either in your IDE’s viewer-pane, in a web browser or in a knitr-markdown-document (like this vignette).</p>
 <p>HTML is the only output-format, you can’t (directly) create a LaTex or PDF output from <code><a href="../reference/tab_model.html">tab_model()</a></code> and related table-functions. However, it is possible to easily export the tables into Microsoft Word or Libre Office Writer.</p>
-<p>This vignette shows how to create table from regression models with <code><a href="../reference/tab_model.html">tab_model()</a></code>.</p>
+<p>This vignette shows how to create table from regression models with <code><a href="../reference/tab_model.html">tab_model()</a></code>. There’s a dedicated vignette that demonstrate how to change the <a href="table_css.html">table layout and appearance with CSS</a>.</p>
 <p><strong>Note!</strong> Due to the custom CSS, the layout of the table inside a knitr-document differs from the output in the viewer-pane and web browser!</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load package</span>
-<span class="kw">library</span>(sjPlot)
-<span class="kw">library</span>(sjmisc)
-<span class="kw">library</span>(sjlabelled)
-
-<span class="co"># sample data</span>
-<span class="kw">data</span>(efc)
-efc &lt;-<span class="st"> </span><span class="kw">as_factor</span>(efc, c161sex, c172code)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># load package</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(sjPlot)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(sjmisc)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">library</span>(sjlabelled)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co"># sample data</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw">data</span>(<span class="st">"efc"</span>)</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">efc &lt;-<span class="st"> </span><span class="kw">as_factor</span>(efc, c161sex, c172code)</a></code></pre></div>
 <div id="a-simple-html-table-from-regression-results" class="section level2">
 <h2 class="hasAnchor">
 <a href="#a-simple-html-table-from-regression-results" class="anchor"></a>A simple HTML table from regression results</h2>
 <p>First, we fit two linear models to demonstrate the <code><a href="../reference/tab_model.html">tab_model()</a></code>-function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m1 &lt;-<span class="st"> </span><span class="kw">lm</span>(barthtot <span class="op">~</span><span class="st"> </span>c160age <span class="op">+</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>c172code, <span class="dt">data =</span> efc)
-m2 &lt;-<span class="st"> </span><span class="kw">lm</span>(neg_c_<span class="dv">7</span> <span class="op">~</span><span class="st"> </span>c160age <span class="op">+</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>e17age, <span class="dt">data =</span> efc)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">m1 &lt;-<span class="st"> </span><span class="kw">lm</span>(barthtot <span class="op">~</span><span class="st"> </span>c160age <span class="op">+</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>c172code, <span class="dt">data =</span> efc)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">m2 &lt;-<span class="st"> </span><span class="kw">lm</span>(neg_c_<span class="dv">7</span> <span class="op">~</span><span class="st"> </span>c160age <span class="op">+</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>e17age, <span class="dt">data =</span> efc)</a></code></pre></div>
 <p>The simplest way of producing the table output is by passing the fitted model as parameter. By default, estimates, confidence intervals (<em>CI</em>) and p-values (<em>p</em>) are reported. As summary, the numbers of observations as well as the R-squared values are shown.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m1)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m1)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -265,9 +268,9 @@ R<sup>2</sup> / adjusted R<sup>2</sup>
 <h2 class="hasAnchor">
 <a href="#automatic-labelling" class="anchor"></a>Automatic labelling</h2>
 <p>As the <strong>sjPlot</strong>-packages features <a href="https://strengejacke.github.io/sjlabelled/">labelled data</a>, the coefficients in the table are already labelled in this example. The name of the dependent variable(s) is used as main column header for each model. For non-labelled data, the coefficient names are shown.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(mtcars)
-m.mtcars &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt, <span class="dt">data =</span> mtcars)
-<span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m.mtcars)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">data</span>(mtcars)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">m.mtcars &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt, <span class="dt">data =</span> mtcars)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m.mtcars)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -369,7 +372,7 @@ R<sup>2</sup> / adjusted R<sup>2</sup>
 <h3 class="hasAnchor">
 <a href="#turn-off-automatic-labelling" class="anchor"></a>Turn off automatic labelling</h3>
 <p>To turn off automatic labelling, use <code>auto.label = FALSE</code>, or provide an empty character vector for <code>pred.labels</code> and <code>dv.labels</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m1, <span class="dt">auto.label =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m1, <span class="dt">auto.label =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -499,7 +502,7 @@ R<sup>2</sup> / adjusted R<sup>2</sup>
 <h2 class="hasAnchor">
 <a href="#more-than-one-model" class="anchor"></a>More than one model</h2>
 <p><code><a href="../reference/tab_model.html">tab_model()</a></code> can print multiple models at once, which are then printed side-by-side. Identical coefficients are matched in a row.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m1, m2)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m1, m2)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -717,20 +720,20 @@ R<sup>2</sup> / adjusted R<sup>2</sup>
 <h2 class="hasAnchor">
 <a href="#generalized-linear-models" class="anchor"></a>Generalized linear models</h2>
 <p>For generalized linear models, the ouput is slightly adapted. Instead of <em>Estimates</em>, the column is named <em>Odds Ratios</em>, <em>Incidence Rate Ratios</em> etc., depending on the model. The coefficients are in this case automatically converted (exponentiated). Furthermore, pseudo R-squared statistics are shown in the summary.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m3 &lt;-<span class="st"> </span><span class="kw">glm</span>(
-  tot_sc_e <span class="op">~</span><span class="st"> </span>c160age <span class="op">+</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>c172code, 
-  <span class="dt">data =</span> efc,
-  <span class="dt">family =</span> <span class="kw">poisson</span>(<span class="dt">link =</span> <span class="st">"log"</span>)
-)
-
-efc<span class="op">$</span>neg_c_7d &lt;-<span class="st"> </span><span class="kw">ifelse</span>(efc<span class="op">$</span>neg_c_<span class="dv">7</span> <span class="op">&lt;</span><span class="st"> </span><span class="kw">median</span>(efc<span class="op">$</span>neg_c_<span class="dv">7</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), <span class="dv">0</span>, <span class="dv">1</span>)
-m4 &lt;-<span class="st"> </span><span class="kw">glm</span>(
-  neg_c_7d <span class="op">~</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>barthtot <span class="op">+</span><span class="st"> </span>c172code,
-  <span class="dt">data =</span> efc,
-  <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">"logit"</span>)
-)
-
-<span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m3, m4)</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">m3 &lt;-<span class="st"> </span><span class="kw">glm</span>(</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">  tot_sc_e <span class="op">~</span><span class="st"> </span>c160age <span class="op">+</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>c172code, </a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">  <span class="dt">data =</span> efc,</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">  <span class="dt">family =</span> <span class="kw">poisson</span>(<span class="dt">link =</span> <span class="st">"log"</span>)</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">)</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">efc<span class="op">$</span>neg_c_7d &lt;-<span class="st"> </span><span class="kw">ifelse</span>(efc<span class="op">$</span>neg_c_<span class="dv">7</span> <span class="op">&lt;</span><span class="st"> </span><span class="kw">median</span>(efc<span class="op">$</span>neg_c_<span class="dv">7</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), <span class="dv">0</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">m4 &lt;-<span class="st"> </span><span class="kw">glm</span>(</a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">  neg_c_7d <span class="op">~</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>barthtot <span class="op">+</span><span class="st"> </span>c172code,</a>
+<a class="sourceLine" id="cb7-10" data-line-number="10">  <span class="dt">data =</span> efc,</a>
+<a class="sourceLine" id="cb7-11" data-line-number="11">  <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">"logit"</span>)</a>
+<a class="sourceLine" id="cb7-12" data-line-number="12">)</a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m3, m4)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -951,7 +954,7 @@ Cox &amp; Snell’s R<sup>2</sup> / Nagelkerke’s R<sup>2</sup>
 <h3 class="hasAnchor">
 <a href="#untransformed-estimates-on-the-linear-scale" class="anchor"></a>Untransformed estimates on the linear scale</h3>
 <p>To plot the estimates on the linear scale, use <code>transform = NULL</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m3, m4, <span class="dt">transform =</span> <span class="ot">NULL</span>, <span class="dt">auto.label =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m3, m4, <span class="dt">transform =</span> <span class="ot">NULL</span>, <span class="dt">auto.label =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -1168,6 +1171,633 @@ Cox &amp; Snell’s R<sup>2</sup> / Nagelkerke’s R<sup>2</sup>
 0.184 / 0.247
 </td>
 </tr>
+<table style="border-collapse:collapse; border:none;" class="table"><div id="more-complex-models" class="section level2">
+<h2 class="hasAnchor">
+<a href="#more-complex-models" class="anchor"></a>More complex models</h2>
+<p>Other models, like hurdle- or zero-inflated models, also work with <code><a href="../reference/tab_model.html">tab_model()</a></code>. In this case, the zero inflation model is indicated in the table. Use <code>show.zeroinf = FALSE</code> to hide this part from the table.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">library</span>(pscl)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw">data</span>(<span class="st">"bioChemists"</span>)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">m5 &lt;-<span class="st"> </span><span class="kw">zeroinfl</span>(art <span class="op">~</span><span class="st"> </span>. <span class="op">|</span><span class="st"> </span>., <span class="dt">data =</span> bioChemists)</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m5)</a></code></pre></div>
+<table style="border-collapse:collapse; border:none;" class="table">
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+ 
+</th>
+<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+art
+</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+Predictors
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+Incidence Rate Ratios
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+CI
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+p
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+(Intercept)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.90
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.50 – 2.41
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+femWomen
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.81
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.72 – 0.92
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>0.001</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+marMarried
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.11
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.97 – 1.28
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.145
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+kid 5
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.87
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.79 – 0.95
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>0.003</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+phd
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.99
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.94 – 1.06
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.842
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+ment
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.02
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.01 – 1.02
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</strong>
+</td>
+</tr>
+<tr>
+<td colspan="4" style="font-weight:bold; text-align:left; padding-top:.8em;">
+Zero-Inflated Model
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+(Intercept)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.56
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.21 – 1.52
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.257
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+femWomen
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.12
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.64 – 1.93
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.695
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+marMarried
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.70
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.38 – 1.31
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.265
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+kid 5
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.24
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.85 – 1.83
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.269
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+phd
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.00
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.75 – 1.33
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.993
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+ment
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.87
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.80 – 0.96
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>0.003</strong>
+</td>
+</tr>
+<table style="border-collapse:collapse; border:none;" class="table">
+<p>You can combine any model in one table.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m1, m3, m5, <span class="dt">auto.label =</span> <span class="ot">FALSE</span>, <span class="dt">show.ci =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<table style="border-collapse:collapse; border:none;" class="table">
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+ 
+</th>
+<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+barthtot
+</th>
+<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+tot_sc_e
+</th>
+<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+art
+</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+Predictors
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+Estimates
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+p
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+Incidence Rate Ratios
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+p
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+Incidence Rate Ratios
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col7">
+p
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+(Intercept)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+87.15
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</strong>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.30
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</strong>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.90
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<strong>&lt;0.001
+</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+c160age
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.21
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>0.004</strong>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.01
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</strong>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+c12hour
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.28
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</strong>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.00
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</strong>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+c161sex2
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.39
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.850
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.01
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.867
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+c172code2
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.37
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.550
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.47
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</strong>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+c172code3
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-1.64
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.564
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.90
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</strong>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+femWomen
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.81
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<strong>0.001</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+marMarried
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.11
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+0.145
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+kid5
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.87
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<strong>0.003</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+phd
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.99
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+0.842
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+ment
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.02
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<strong>&lt;0.001
+</strong>
+</td>
+</tr>
+<tr>
+<td colspan="7" style="font-weight:bold; text-align:left; padding-top:.8em;">
+Zero-Inflated Model
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+(Intercept)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.56
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+0.257
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+femWomen
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.12
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+0.695
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+marMarried
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.70
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+0.265
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+kid5
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.24
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+0.269
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+phd
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.00
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+0.993
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+ment
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.87
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<strong>0.003</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+Observations
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">
+821
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">
+840
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">
+NA
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+R<sup>2</sup> / adjusted R<sup>2</sup>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
+0.271 / 0.266
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
+0.083 / 0.106
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
+NA
+</td>
+</tr>
 <table style="border-collapse:collapse; border:none;" class="table"><div id="show-or-hide-further-columns" class="section level2">
 <h2 class="hasAnchor">
 <a href="#show-or-hide-further-columns" class="anchor"></a>Show or hide further columns</h2>
@@ -1192,7 +1822,7 @@ Cox &amp; Snell’s R<sup>2</sup> / Nagelkerke’s R<sup>2</sup>
 <h3 class="hasAnchor">
 <a href="#adding-columns" class="anchor"></a>Adding columns</h3>
 <p>In the following example, standard errors, standardized coefficients and test statistics are also shown.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m1, <span class="dt">show.se =</span> <span class="ot">TRUE</span>, <span class="dt">show.std =</span> <span class="ot">TRUE</span>, <span class="dt">show.stat =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m1, <span class="dt">show.se =</span> <span class="ot">TRUE</span>, <span class="dt">show.std =</span> <span class="ot">TRUE</span>, <span class="dt">show.stat =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -1424,7 +2054,7 @@ R<sup>2</sup> / adjusted R<sup>2</sup>
 <h3 class="hasAnchor">
 <a href="#removing-columns" class="anchor"></a>Removing columns</h3>
 <p>In the following example, default columns are removed.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m3, m4, <span class="dt">show.ci =</span> <span class="ot">FALSE</span>, <span class="dt">show.p =</span> <span class="ot">FALSE</span>, <span class="dt">auto.label =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m3, m4, <span class="dt">show.ci =</span> <span class="ot">FALSE</span>, <span class="dt">show.p =</span> <span class="ot">FALSE</span>, <span class="dt">auto.label =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -1544,6 +2174,115 @@ Cox &amp; Snell’s R<sup>2</sup> / Nagelkerke’s R<sup>2</sup>
 0.184 / 0.247
 </td>
 </tr>
+<table style="border-collapse:collapse; border:none;" class="table"><div id="collapsing-columns" class="section level3">
+<h3 class="hasAnchor">
+<a href="#collapsing-columns" class="anchor"></a>Collapsing columns</h3>
+<p>With <code>collapse.ci</code> and <code>collapse.se</code>, the columns for confidence intervals and standard errors can be collapsed into one column together with the estimates. Sometimes this table layout is required.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m1, <span class="dt">collapse.ci =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<table style="border-collapse:collapse; border:none;" class="table">
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+ 
+</th>
+<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+Total score BARTHEL INDEX
+</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+Predictors
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+Estimates
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+p
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+(Intercept)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+87.15<br>(77.96 – 96.34)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+carer’age
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.21<br>(-0.35 – -0.07)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>0.004</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+average number of hours<br>of care per week
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.28<br>(-0.32 – -0.24)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+carer’s gender: Female
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.39<br>(-4.49 – 3.71)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.850
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+intermediate level of<br>education
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.37<br>(-3.12 – 5.85)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.550
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+high level of education
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-1.64<br>(-7.22 – 3.93)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.564
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+Observations
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">
+821
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+R<sup>2</sup> / adjusted R<sup>2</sup>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
+0.271 / 0.266
+</td>
+</tr>
 <table style="border-collapse:collapse; border:none;" class="table"><div id="defining-own-labels" class="section level2">
 <h2 class="hasAnchor">
 <a href="#defining-own-labels" class="anchor"></a>Defining own labels</h2>
@@ -1555,16 +2294,16 @@ Cox &amp; Snell’s R<sup>2</sup> / Nagelkerke’s R<sup>2</sup>
 <code>dv.labels</code> to change the names of the model columns, which are labelled with the variable labels / names from the dependent variables.</li>
 <li>Further more, there are various <code>string.*</code>-arguments, to change the name of column headings.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(
-  m1, m2, 
-  <span class="dt">pred.labels =</span> <span class="kw">c</span>(<span class="st">"Intercept"</span>, <span class="st">"Age (Carer)"</span>, <span class="st">"Hours per Week"</span>, <span class="st">"Gender (Carer)"</span>,
-                  <span class="st">"Education: middle (Carer)"</span>, <span class="st">"Education: high (Carer)"</span>, 
-                  <span class="st">"Age (Older Person)"</span>),
-  <span class="dt">dv.labels =</span> <span class="kw">c</span>(<span class="st">"First Model"</span>, <span class="st">"M2"</span>),
-  <span class="dt">string.pred =</span> <span class="st">"Coeffcient"</span>,
-  <span class="dt">string.ci =</span> <span class="st">"Conf. Int (95%)"</span>,
-  <span class="dt">string.p =</span> <span class="st">"P-Value"</span>
-)</code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">  m1, m2, </a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">  <span class="dt">pred.labels =</span> <span class="kw">c</span>(<span class="st">"Intercept"</span>, <span class="st">"Age (Carer)"</span>, <span class="st">"Hours per Week"</span>, <span class="st">"Gender (Carer)"</span>,</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">                  <span class="st">"Education: middle (Carer)"</span>, <span class="st">"Education: high (Carer)"</span>, </a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">                  <span class="st">"Age (Older Person)"</span>),</a>
+<a class="sourceLine" id="cb14-6" data-line-number="6">  <span class="dt">dv.labels =</span> <span class="kw">c</span>(<span class="st">"First Model"</span>, <span class="st">"M2"</span>),</a>
+<a class="sourceLine" id="cb14-7" data-line-number="7">  <span class="dt">string.pred =</span> <span class="st">"Coeffcient"</span>,</a>
+<a class="sourceLine" id="cb14-8" data-line-number="8">  <span class="dt">string.ci =</span> <span class="st">"Conf. Int (95%)"</span>,</a>
+<a class="sourceLine" id="cb14-9" data-line-number="9">  <span class="dt">string.p =</span> <span class="st">"P-Value"</span></a>
+<a class="sourceLine" id="cb14-10" data-line-number="10">)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -1778,57 +2517,57 @@ R<sup>2</sup> / adjusted R<sup>2</sup>
 0.067 / 0.063
 </td>
 </tr>
-<table style="border-collapse:collapse; border:none;" class="table"><div id="automatic-matching-for-names-vectors" class="section level3">
+<table style="border-collapse:collapse; border:none;" class="table"><div id="automatic-matching-for-named-vectors" class="section level3">
 <h3 class="hasAnchor">
-<a href="#automatic-matching-for-names-vectors" class="anchor"></a>Automatic matching for names vectors</h3>
+<a href="#automatic-matching-for-named-vectors" class="anchor"></a>Automatic matching for named vectors</h3>
 <p>Another way to easily assign labels are <em>named vectors</em>. In this case, it doesn’t matter if <code>pred.labels</code> has more labels than coefficients in the model(s), or in which order the labels are passed to <code><a href="../reference/tab_model.html">tab_model()</a></code>. The only requirement is that the labels’ names equal the coefficients names as they appear in the <code>summary()</code>-output.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># example, coefficients are "c161sex2" or "c172code3"</span>
-<span class="kw">summary</span>(m1)
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Call:</span>
-<span class="co">#&gt; lm(formula = barthtot ~ c160age + c12hour + c161sex + c172code, </span>
-<span class="co">#&gt;     data = efc)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Residuals:</span>
-<span class="co">#&gt;     Min      1Q  Median      3Q     Max </span>
-<span class="co">#&gt; -75.144 -14.944   4.401  18.661  72.393 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Coefficients:</span>
-<span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span>
-<span class="co">#&gt; (Intercept) 87.14994    4.68009  18.621  &lt; 2e-16 ***</span>
-<span class="co">#&gt; c160age     -0.20716    0.07211  -2.873  0.00418 ** </span>
-<span class="co">#&gt; c12hour     -0.27883    0.01865 -14.950  &lt; 2e-16 ***</span>
-<span class="co">#&gt; c161sex2    -0.39402    2.08893  -0.189  0.85044    </span>
-<span class="co">#&gt; c172code2    1.36596    2.28440   0.598  0.55004    </span>
-<span class="co">#&gt; c172code3   -1.64045    2.84037  -0.578  0.56373    </span>
-<span class="co">#&gt; ---</span>
-<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Residual standard error: 25.35 on 815 degrees of freedom</span>
-<span class="co">#&gt;   (87 observations deleted due to missingness)</span>
-<span class="co">#&gt; Multiple R-squared:  0.2708, Adjusted R-squared:  0.2664 </span>
-<span class="co">#&gt; F-statistic: 60.54 on 5 and 815 DF,  p-value: &lt; 2.2e-16</span>
-
-pl &lt;-<span class="st"> </span><span class="kw">c</span>(
-  <span class="st">`</span><span class="dt">(Intercept)</span><span class="st">`</span> =<span class="st"> "Intercept"</span>,
-  <span class="dt">e17age =</span> <span class="st">"Age (Older Person)"</span>,
-  <span class="dt">c160age =</span> <span class="st">"Age (Carer)"</span>, 
-  <span class="dt">c12hour =</span> <span class="st">"Hours per Week"</span>, 
-  <span class="dt">barthtot =</span> <span class="st">"Barthel-Index"</span>,
-  <span class="dt">c161sex2 =</span> <span class="st">"Gender (Carer)"</span>,
-  <span class="dt">c172code2 =</span> <span class="st">"Education: middle (Carer)"</span>, 
-  <span class="dt">c172code3 =</span> <span class="st">"Education: high (Carer)"</span>,
-  <span class="dt">a_non_used_label =</span> <span class="st">"We don't care"</span>
-)
- 
-<span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(
-  m1, m2, m3, m4, 
-  <span class="dt">pred.labels =</span> pl, 
-  <span class="dt">dv.labels =</span> <span class="kw">c</span>(<span class="st">"Model1"</span>, <span class="st">"Model2"</span>, <span class="st">"Model3"</span>, <span class="st">"Model4"</span>),
-  <span class="dt">show.ci =</span> <span class="ot">FALSE</span>, 
-  <span class="dt">show.p =</span> <span class="ot">FALSE</span>, 
-  <span class="dt">transform =</span> <span class="ot">NULL</span>
-)</code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co"># example, coefficients are "c161sex2" or "c172code3"</span></a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw">summary</span>(m1)</a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="co">#&gt; Call:</span></a>
+<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="co">#&gt; lm(formula = barthtot ~ c160age + c12hour + c161sex + c172code, </span></a>
+<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#&gt;     data = efc)</span></a>
+<a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#&gt; Residuals:</span></a>
+<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></a>
+<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="co">#&gt; -75.144 -14.944   4.401  18.661  72.393 </span></a>
+<a class="sourceLine" id="cb15-11" data-line-number="11"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb15-12" data-line-number="12"><span class="co">#&gt; Coefficients:</span></a>
+<a class="sourceLine" id="cb15-13" data-line-number="13"><span class="co">#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    </span></a>
+<a class="sourceLine" id="cb15-14" data-line-number="14"><span class="co">#&gt; (Intercept) 87.14994    4.68009  18.621  &lt; 2e-16 ***</span></a>
+<a class="sourceLine" id="cb15-15" data-line-number="15"><span class="co">#&gt; c160age     -0.20716    0.07211  -2.873  0.00418 ** </span></a>
+<a class="sourceLine" id="cb15-16" data-line-number="16"><span class="co">#&gt; c12hour     -0.27883    0.01865 -14.950  &lt; 2e-16 ***</span></a>
+<a class="sourceLine" id="cb15-17" data-line-number="17"><span class="co">#&gt; c161sex2    -0.39402    2.08893  -0.189  0.85044    </span></a>
+<a class="sourceLine" id="cb15-18" data-line-number="18"><span class="co">#&gt; c172code2    1.36596    2.28440   0.598  0.55004    </span></a>
+<a class="sourceLine" id="cb15-19" data-line-number="19"><span class="co">#&gt; c172code3   -1.64045    2.84037  -0.578  0.56373    </span></a>
+<a class="sourceLine" id="cb15-20" data-line-number="20"><span class="co">#&gt; ---</span></a>
+<a class="sourceLine" id="cb15-21" data-line-number="21"><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></a>
+<a class="sourceLine" id="cb15-22" data-line-number="22"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb15-23" data-line-number="23"><span class="co">#&gt; Residual standard error: 25.35 on 815 degrees of freedom</span></a>
+<a class="sourceLine" id="cb15-24" data-line-number="24"><span class="co">#&gt;   (87 observations deleted due to missingness)</span></a>
+<a class="sourceLine" id="cb15-25" data-line-number="25"><span class="co">#&gt; Multiple R-squared:  0.2708, Adjusted R-squared:  0.2664 </span></a>
+<a class="sourceLine" id="cb15-26" data-line-number="26"><span class="co">#&gt; F-statistic: 60.54 on 5 and 815 DF,  p-value: &lt; 2.2e-16</span></a>
+<a class="sourceLine" id="cb15-27" data-line-number="27"></a>
+<a class="sourceLine" id="cb15-28" data-line-number="28">pl &lt;-<span class="st"> </span><span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb15-29" data-line-number="29">  <span class="st">`</span><span class="dt">(Intercept)</span><span class="st">`</span> =<span class="st"> "Intercept"</span>,</a>
+<a class="sourceLine" id="cb15-30" data-line-number="30">  <span class="dt">e17age =</span> <span class="st">"Age (Older Person)"</span>,</a>
+<a class="sourceLine" id="cb15-31" data-line-number="31">  <span class="dt">c160age =</span> <span class="st">"Age (Carer)"</span>, </a>
+<a class="sourceLine" id="cb15-32" data-line-number="32">  <span class="dt">c12hour =</span> <span class="st">"Hours per Week"</span>, </a>
+<a class="sourceLine" id="cb15-33" data-line-number="33">  <span class="dt">barthtot =</span> <span class="st">"Barthel-Index"</span>,</a>
+<a class="sourceLine" id="cb15-34" data-line-number="34">  <span class="dt">c161sex2 =</span> <span class="st">"Gender (Carer)"</span>,</a>
+<a class="sourceLine" id="cb15-35" data-line-number="35">  <span class="dt">c172code2 =</span> <span class="st">"Education: middle (Carer)"</span>, </a>
+<a class="sourceLine" id="cb15-36" data-line-number="36">  <span class="dt">c172code3 =</span> <span class="st">"Education: high (Carer)"</span>,</a>
+<a class="sourceLine" id="cb15-37" data-line-number="37">  <span class="dt">a_non_used_label =</span> <span class="st">"We don't care"</span></a>
+<a class="sourceLine" id="cb15-38" data-line-number="38">)</a>
+<a class="sourceLine" id="cb15-39" data-line-number="39"> </a>
+<a class="sourceLine" id="cb15-40" data-line-number="40"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(</a>
+<a class="sourceLine" id="cb15-41" data-line-number="41">  m1, m2, m3, m4, </a>
+<a class="sourceLine" id="cb15-42" data-line-number="42">  <span class="dt">pred.labels =</span> pl, </a>
+<a class="sourceLine" id="cb15-43" data-line-number="43">  <span class="dt">dv.labels =</span> <span class="kw">c</span>(<span class="st">"Model1"</span>, <span class="st">"Model2"</span>, <span class="st">"Model3"</span>, <span class="st">"Model4"</span>),</a>
+<a class="sourceLine" id="cb15-44" data-line-number="44">  <span class="dt">show.ci =</span> <span class="ot">FALSE</span>, </a>
+<a class="sourceLine" id="cb15-45" data-line-number="45">  <span class="dt">show.p =</span> <span class="ot">FALSE</span>, </a>
+<a class="sourceLine" id="cb15-46" data-line-number="46">  <span class="dt">transform =</span> <span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb15-47" data-line-number="47">)</a></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -2024,18 +2763,181 @@ R<sup>2</sup> / adjusted R<sup>2</sup>
 0.184 / 0.247
 </td>
 </tr>
-<table style="border-collapse:collapse; border:none;" class="table">
-<div id="keep-or-remove-coefficients-from-the-table" class="section level2">
+<table style="border-collapse:collapse; border:none;" class="table"><div id="keep-or-remove-coefficients-from-the-table" class="section level2">
 <h2 class="hasAnchor">
 <a href="#keep-or-remove-coefficients-from-the-table" class="anchor"></a>Keep or remove coefficients from the table</h2>
-</div>
-<div id="change-order-of-coefficients" class="section level2">
-<h2 class="hasAnchor">
-<a href="#change-order-of-coefficients" class="anchor"></a>Change order of coefficients</h2>
-</div>
-  
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+<p>Using the <code>terms</code>- or <code>rm.terms</code>-argument allows us to explicitly show or remove specific coefficients from the table output.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m1, <span class="dt">terms =</span> <span class="kw">c</span>(<span class="st">"c160age"</span>, <span class="st">"c12hour"</span>))</a></code></pre></div>
+<table style="border-collapse:collapse; border:none;" class="table">
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+ 
+</th>
+<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+Total score BARTHEL INDEX
+</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+Predictors
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+Estimates
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+CI
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+p
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+carer’age
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.21
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.35 – -0.07
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>0.004</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+average number of hours<br>of care per week
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.28
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.32 – -0.24
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+Observations
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
+821
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+R<sup>2</sup> / adjusted R<sup>2</sup>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+0.271 / 0.266
+</td>
+</tr>
+<table style="border-collapse:collapse; border:none;" class="table">
+<p>Note that the names of terms to keep or remove should match the coefficients names. For categorical predictors, one example would be:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m1, <span class="dt">rm.terms =</span> <span class="kw">c</span>(<span class="st">"c172code2"</span>, <span class="st">"c161sex2"</span>))</a></code></pre></div>
+<table style="border-collapse:collapse; border:none;" class="table">
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+ 
+</th>
+<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+Total score BARTHEL INDEX
+</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+Predictors
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+Estimates
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+CI
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+p
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+(Intercept)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+87.15
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+77.96 – 96.34
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+carer’age
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.21
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.35 – -0.07
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>0.004</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+average number of hours<br>of care per week
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.28
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-0.32 – -0.24
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>&lt;0.001
+</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+high level of education
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-1.64
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+-7.22 – 3.93
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.564
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+Observations
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
+821
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+R<sup>2</sup> / adjusted R<sup>2</sup>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+0.271 / 0.266
+</td>
+</tr>
+<table style="border-collapse:collapse; border:none;" class="table">
+<div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -2044,10 +2946,10 @@ R<sup>2</sup> / adjusted R<sup>2</sup>
       <li><a href="#automatic-labelling">Automatic labelling</a></li>
       <li><a href="#more-than-one-model">More than one model</a></li>
       <li><a href="#generalized-linear-models">Generalized linear models</a></li>
+      <li><a href="#more-complex-models">More complex models</a></li>
       <li><a href="#show-or-hide-further-columns">Show or hide further columns</a></li>
       <li><a href="#defining-own-labels">Defining own labels</a></li>
       <li><a href="#keep-or-remove-coefficients-from-the-table">Keep or remove coefficients from the table</a></li>
-      <li><a href="#change-order-of-coefficients">Change order of coefficients</a></li>
       </ul>
 </div>
       </div>
@@ -2066,6 +2968,12 @@ R<sup>2</sup> / adjusted R<sup>2</sup>
       </footer>
 </table>
 </table>
+</table>
+</table>
+</div></table>
+</table>
+</div></table>
+</table>
 </div></table>
 </table>
 </div></table>
@@ -2073,6 +2981,10 @@ R<sup>2</sup> / adjusted R<sup>2</sup>
 </div></table>
 </table>
 </div>
+</div></table>
+</table>
+</table>
+</table>
 </div></table>
 </table>
 </div></table>

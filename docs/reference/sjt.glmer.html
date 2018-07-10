@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.5</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
       </span>
     </div>
 
@@ -106,10 +106,13 @@
       <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
     </li>
     <li>
-      <a href="../articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
+      <a href="../articles/table_css.html">Customizing HTML tables</a>
     </li>
     <li>
-      <a href="../articles/table_css.html">Customizing HTML tables</a>
+      <a href="../articles/tab_bayes.html">Summary of Baysian Models as HTML Table</a>
+    </li>
+    <li>
+      <a href="../articles/tab_mixed.html">Summary of Mixed Models as HTML Table</a>
     </li>
     <li>
       <a href="../articles/tab_model_estimates.html">Summary of Regression Models as HTML Table</a>
@@ -357,23 +360,23 @@ May be an HTML entity. See 'Examples'.</p></td>
     </tr>
     <tr>
       <th>digits.est</th>
-      <td><p>Amount of decimals for estimates</p></td>
+      <td><p>Amount of decimals for table values.</p></td>
     </tr>
     <tr>
       <th>digits.p</th>
-      <td><p>Amount of decimals for p-values</p></td>
+      <td><p>Amount of decimals for p-values.</p></td>
     </tr>
     <tr>
       <th>digits.ci</th>
-      <td><p>Amount of decimals for confidence intervals</p></td>
+      <td><p>Amount of decimals for confidence intervals.</p></td>
     </tr>
     <tr>
       <th>digits.se</th>
-      <td><p>Amount of decimals for standard error</p></td>
+      <td><p>Amount of decimals for standard error.</p></td>
     </tr>
     <tr>
       <th>digits.summary</th>
-      <td><p>Amount of decimals for values in model summary</p></td>
+      <td><p>Amount of decimals for values in model summary.</p></td>
     </tr>
     <tr>
       <th>cell.spacing</th>
@@ -399,7 +402,7 @@ when modifying the table layout.</p></td>
       <th>CSS</th>
       <td><p>A <code>list</code> with user-defined style-sheet-definitions, according to the
 <a href='http://www.w3.org/Style/CSS/'>official CSS syntax</a>. For more details,
-see <a href='../doc/sjtbasic.html'>this package-vignette</a>, or 'Details' in
+see <a href='../doc/table_css.html'>this package-vignette</a>, or 'Details' in
 <code><a href='sjt.frq.html'>sjt.frq</a></code>.</p></td>
     </tr>
     <tr>
@@ -444,10 +447,6 @@ may look less pretty, but it may help when exporting html-tables to office tools
 <li><p>the html-table with inline-css for use with knitr (<code>knitr</code>)</p></li>
 </ul><p>for further use.</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>See 'Details' in <code><a href='sjt.frq.html'>sjt.frq</a></code>.</p>
-    
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>Computation of p-values (if necessary) is based on normal-distribution
@@ -461,52 +460,9 @@ may look less pretty, but it may help when exporting html-tables to office tools
       the regular standard errors on the untransformed scale, as shown in the
       <code>summary()</code>-method. Rather, <code>sjt.glmer()</code> uses adjustments
       according to the delta method for approximating standard errors of
-      transformed regression parameters (see <code><a href='http://www.rdocumentation.org/packages/sjstats/topics/se'>se</a></code>).
-      <br /> <br /> Futhermore, see 'Notes' in <code><a href='sjt.frq.html'>sjt.frq</a></code>.</p>
+      transformed regression parameters (see <code><a href='http://www.rdocumentation.org/packages/sjstats/topics/se'>se</a></code>).</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>library</span>(<span class='no'>lme4</span>)
-<span class='fu'>library</span>(<span class='no'>sjmisc</span>)
-<span class='fu'>data</span>(<span class='no'>efc</span>)
-
-<span class='co'># create binary response</span>
-<span class='no'>efc</span>$<span class='no'>hi_qol</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/sjmisc/topics/dicho'>dicho</a></span>(<span class='no'>efc</span>$<span class='no'>quol_5</span>)
-<span class='co'># prepare group variable</span>
-<span class='no'>efc</span>$<span class='no'>grp</span> <span class='kw'>=</span> <span class='fu'>as.factor</span>(<span class='no'>efc</span>$<span class='no'>e15relat</span>)
-<span class='fu'>levels</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>efc</span>$<span class='no'>grp</span>) <span class='kw'>&lt;-</span> <span class='fu'>get_labels</span>(<span class='no'>efc</span>$<span class='no'>e15relat</span>)
-<span class='co'># data frame for fitted model</span>
-<span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>hi_qol</span> <span class='kw'>=</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/sjmisc/topics/to_factor'>to_factor</a></span>(<span class='no'>efc</span>$<span class='no'>hi_qol</span>),
-                   <span class='kw'>sex</span> <span class='kw'>=</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/sjmisc/topics/to_factor'>to_factor</a></span>(<span class='no'>efc</span>$<span class='no'>c161sex</span>),
-                   <span class='kw'>c12hour</span> <span class='kw'>=</span> <span class='no'>efc</span>$<span class='no'>c12hour</span>,
-                   <span class='kw'>neg_c_7</span> <span class='kw'>=</span> <span class='no'>efc</span>$<span class='no'>neg_c_7</span>,
-                   <span class='kw'>education</span> <span class='kw'>=</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/sjmisc/topics/to_factor'>to_factor</a></span>(<span class='no'>efc</span>$<span class='no'>c172code</span>),
-                   <span class='kw'>grp</span> <span class='kw'>=</span> <span class='no'>efc</span>$<span class='no'>grp</span>)
-
-<span class='co'># fit glmer</span>
-<span class='no'>fit1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/lme4/topics/glmer'>glmer</a></span>(<span class='no'>hi_qol</span> ~ <span class='no'>sex</span> + <span class='no'>c12hour</span> + <span class='no'>neg_c_7</span> + (<span class='fl'>1</span><span class='kw'>|</span><span class='no'>grp</span>),
-              <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mydf</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='fu'>binomial</span>(<span class='st'>"logit"</span>))
-<span class='no'>fit2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/lme4/topics/glmer'>glmer</a></span>(<span class='no'>hi_qol</span> ~ <span class='no'>sex</span> + <span class='no'>c12hour</span> + <span class='no'>neg_c_7</span> + <span class='no'>education</span> + (<span class='fl'>1</span><span class='kw'>|</span><span class='no'>grp</span>),
-              <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mydf</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='fu'>binomial</span>(<span class='st'>"logit"</span>))
-
-<span class='co'># print summary table</span>
-<span class='fu'>sjt.glmer</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='kw'>ci.hyphen</span> <span class='kw'>=</span> <span class='st'>" to "</span>)
-
-<span class='co'># print summary table, using different table layout</span>
-<span class='fu'>sjt.glmer</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='kw'>show.aic</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-          <span class='kw'>show.se</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.numeric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='co'># print summary table</span>
-<span class='fu'>sjt.glmer</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='kw'>pred.labels</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Elder's gender (female)"</span>,
-            <span class='st'>"Hours of care per week"</span>, <span class='st'>"Negative Impact"</span>,
-            <span class='st'>"Educational level (mid)"</span>, <span class='st'>"Educational level (high)"</span>))
-
-<span class='co'># use vector names as predictor labels</span>
-<span class='fu'>sjt.glmer</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='kw'>pred.labels</span> <span class='kw'>=</span> <span class='st'>""</span>)
-<span class='co'># }</span><div class='input'>
-
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -515,12 +471,8 @@ may look less pretty, but it may help when exporting html-tables to office tools
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#details">Details</a></li>
-
       <li><a href="#note">Note</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>

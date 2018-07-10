@@ -15,10 +15,10 @@ tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
   string.pred = "Predictors", string.std = "std. Beta", string.ci = "CI",
   string.se = "std. Error", string.p = "p", string.df = "df",
   string.stat = "Statistic", ci.hyphen = "&nbsp;&ndash;&nbsp;",
-  minus.sign = "&#45;", separate.ci.col = TRUE, separate.se.col = TRUE,
-  digits = 2, digits.p = 3, emph.p = TRUE, p.val = c("wald", "kr"),
-  case = "parsed", auto.label = TRUE, bpe = "median",
-  CSS = css_theme("regression"))
+  minus.sign = "&#45;", collapse.ci = FALSE, collapse.se = FALSE,
+  linebreak = TRUE, digits = 2, digits.p = 3, emph.p = TRUE,
+  p.val = c("wald", "kr"), case = "parsed", auto.label = TRUE,
+  bpe = "median", CSS = css_theme("regression"))
 }
 \arguments{
 \item{...}{One or more regression models, including glm's or mixed models.
@@ -39,6 +39,9 @@ non-transformed estimates.}
 is printed to the table; if \code{FALSE}, confidence intervals are
 omitted. Or numeric, between 0 and 1, indicating the range of the
 confidence intervals.}
+
+\item{show.hdi50}{Logical, if \code{TRUE}, for Bayesian models, a second
+credible interval is added to the table output.}
 
 \item{show.se}{Logical, if \code{TRUE}, the standard errors are also printed.}
 
@@ -68,7 +71,19 @@ coefficient for mixed models. See \code{\link[sjstats]{icc}} for details.}
 \item{show.re.var}{Logical, if \code{TRUE}, prints the random effect variances
 for mixed models. See \code{\link[sjstats]{re_var}} for details.}
 
+\item{show.fstat}{Logical, if \code{TRUE}, the F-statistics for each model is
+printed in the table summary. This option is not supported by all model types.}
+
+\item{show.aic}{Logical, if \code{TRUE}, the AIC value for each model is printed
+in the table summary.}
+
+\item{show.aicc}{Logical, if \code{TRUE}, the second-order AIC value for each model
+is printed in the table summary.}
+
 \item{show.dev}{Logical, if \code{TRUE}, shows the deviance of the model.}
+
+\item{show.obs}{Logical, if \code{TRUE}, the number of observations per model is
+printed in the table summary.}
 
 \item{terms}{Character vector with names of those terms (variables) that should
 be printed in the table. All other terms are removed from the output. If
@@ -132,23 +147,39 @@ Default is \code{"Predictors"}.}
 
 \item{string.p}{Character vector, used for the column heading of p values. Default is \code{"p"}.}
 
+\item{string.df}{Character vector, used for the column heading of degrees of freedom. Default is \code{"df"}.}
+
+\item{string.stat}{Character vector, used for the test statistic. Default is \code{"Statistic"}.}
+
 \item{ci.hyphen}{Character vector, indicating the hyphen for confidence interval range.
 May be an HTML entity. See 'Examples'.}
 
 \item{minus.sign}{string, indicating the minus sign for negative numbers.
 May be an HTML entity. See 'Examples'.}
 
-\item{separate.ci.col}{Logical, if \code{TRUE}, the CI values are shown in
+\item{collapse.ci}{Logical, if \code{FALSE}, the CI values are shown in
 a separate table column.}
 
-\item{separate.se.col}{Logical, if \code{TRUE}, the SE values are shown in
+\item{collapse.se}{Logical, if \code{FALSE}, the SE values are shown in
 a separate table column.}
+
+\item{linebreak}{Logical, if \code{TRUE} and \code{collapse.ci = FALSE} or
+\code{collapse.se = FALSE}, inserts a line break between estimate and
+CI resp. SE values. If \code{FALSE}, values are printed in the same line
+as estimate values.}
 
 \item{digits}{Amount of decimals for estimates}
 
 \item{digits.p}{Amount of decimals for p-values}
 
 \item{emph.p}{Logical, if \code{TRUE}, significant p-values are shown bold faced.}
+
+\item{p.val}{Character, for mixed models, indicates how p-values are computed.
+Use \code{p.val = "wald"} for a faster, but less precise computation. For
+\code{p.val = "kr"}, computation of p-values is based on conditional F-tests
+with Kenward-Roger approximation for the degrees of freedom, using the
+\pkg{pbkrtest}-package. In this case, use \code{show.df = TRUE} to show
+the approximated degrees of freedom for each coefficient.}
 
 \item{case}{Desired target case. Labels will automatically converted into the
 specified character case. See \code{\link[snakecase]{to_any_case}} for more
@@ -172,6 +203,10 @@ calculate the Bayesian point estimate. \code{bpe} needs to be a character
 naming the specific function, which is passed to the \code{fun}-argument in
 \code{\link[sjstats]{typical_value}}. So, \code{bpe = "mean"} would
 calculate the mean value of the posterior distribution.}
+
+\item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions,
+according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
+See 'Details' or \href{../doc/table_css.html}{this package-vignette}.}
 }
 \value{
 Invisibly returns

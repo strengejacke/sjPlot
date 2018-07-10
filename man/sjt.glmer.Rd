@@ -138,15 +138,15 @@ Default is \code{"Intercept"}.}
 \item{ci.hyphen}{Character vector, indicating the hyphen for confidence interval range.
 May be an HTML entity. See 'Examples'.}
 
-\item{digits.est}{Amount of decimals for estimates}
+\item{digits.est}{Amount of decimals for table values.}
 
-\item{digits.p}{Amount of decimals for p-values}
+\item{digits.p}{Amount of decimals for p-values.}
 
-\item{digits.ci}{Amount of decimals for confidence intervals}
+\item{digits.ci}{Amount of decimals for confidence intervals.}
 
-\item{digits.se}{Amount of decimals for standard error}
+\item{digits.se}{Amount of decimals for standard error.}
 
-\item{digits.summary}{Amount of decimals for values in model summary}
+\item{digits.summary}{Amount of decimals for values in model summary.}
 
 \item{cell.spacing}{Numeric, inner padding of table cells. By default, this value is 0.2 (unit is cm), which is
 suitable for viewing the table. Decrease this value (0.05 to 0.1) if you want to import the table

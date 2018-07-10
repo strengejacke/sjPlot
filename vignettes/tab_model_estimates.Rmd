@@ -148,6 +148,14 @@ In the following example, default columns are removed.
 tab_model(m3, m4, show.ci = FALSE, show.p = FALSE, auto.label = FALSE)
 ``` 
 
+### Collapsing columns
+
+With `collapse.ci` and `collapse.se`, the columns for confidence intervals and standard errors can be collapsed into one column together with the estimates. Sometimes this table layout is required.
+
+```{r}
+tab_model(m1, collapse.ci = TRUE)
+``` 
+
 ## Defining own labels
 
 There are different options to change the labels of the column headers or coefficients, e.g. with:
@@ -211,7 +219,4 @@ Note that the names of terms to keep or remove should match the coefficients nam
 
 ```{r}
 tab_model(m1, rm.terms = c("c172code2", "c161sex2"))
-``` 
-
-## Change order of coefficients
-
+```

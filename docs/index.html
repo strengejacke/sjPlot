@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.4.5</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
       </span>
     </div>
 
@@ -78,10 +78,13 @@
       <a href="articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
     </li>
     <li>
-      <a href="articles/sjtlmer.html">Summary of Linear Mixed Regression Models as HTML Table</a>
+      <a href="articles/table_css.html">Customizing HTML tables</a>
     </li>
     <li>
-      <a href="articles/table_css.html">Customizing HTML tables</a>
+      <a href="articles/tab_bayes.html">Summary of Baysian Models as HTML Table</a>
+    </li>
+    <li>
+      <a href="articles/tab_mixed.html">Summary of Mixed Models as HTML Table</a>
     </li>
     <li>
       <a href="articles/tab_model_estimates.html">Summary of Regression Models as HTML Table</a>
@@ -123,8 +126,8 @@
 <h3 class="hasAnchor">
 <a href="#latest-development-build" class="anchor"></a>Latest development build</h3>
 <p>To install the latest development snapshot (see latest changes below), type following commands into the R console:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(devtools)
-devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"strengejacke/sjPlot"</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(devtools)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"strengejacke/sjPlot"</span>)</a></code></pre></div>
 <p>Please note the package dependencies when installing from GitHub. The GitHub version of this package may depend on latest GitHub versions of my other packages, so you may need to install those first, if you encounter any problems. Here’s the order for installing packages from GitHub:</p>
 <p><a href="https://github.com/strengejacke/sjlabelled">sjlabelled</a> → <a href="https://github.com/strengejacke/sjmisc">sjmisc</a> → <a href="https://github.com/strengejacke/sjstats">sjstats</a> → <a href="https://github.com/strengejacke/ggeffects">ggeffects</a> → <a href="https://github.com/strengejacke/sjPlot">sjPlot</a></p>
 </div>
@@ -133,7 +136,7 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <a href="#officiale-stable-release" class="anchor"></a>Officiale, stable release</h3>
 <p><a href="https://cran.r-project.org/package=sjPlot"><img src="http://www.r-pkg.org/badges/version/sjPlot" alt="CRAN_Status_Badge"></a>    <a href="http://cranlogs.r-pkg.org/"><img src="http://cranlogs.r-pkg.org/badges/sjPlot" alt="downloads"></a>    <a href="http://cranlogs.r-pkg.org/"><img src="http://cranlogs.r-pkg.org/badges/grand-total/sjPlot" alt="total"></a></p>
 <p>To install the latest stable release from CRAN, type following command into the R console:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"sjPlot"</span>)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"sjPlot"</span>)</a></code></pre></div>
 </div>
 </div>
 <div id="documentation-and-examples" class="section level2">
