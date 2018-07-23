@@ -37,8 +37,6 @@ on 3 possible factors can not be clearly assigned to just one factor and thus wo
 from the principal component analysis. By default, the minimum difference of loading values
 between the highest and 2nd highest factor should be 0.1}
 
-\item{digits}{Numeric, amount of digits after decimal point when rounding estimates and values.}
-
 \item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.
 For effect-plots, may also be a character vector of length > 1,

@@ -54,7 +54,6 @@
 #'          Finally, a correlation of these "scale sum scores" is computed.
 #'
 #' @inheritParams sjt.frq
-#' @inheritParams sjt.df
 #' @inheritParams tab_df
 #'
 #' @return Invisibly returns

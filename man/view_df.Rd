@@ -22,9 +22,6 @@ and \code{\link[sjlabelled]{set_labels}}).}
 weights that will be applied to weight all  observations. Default is
 \code{NULL}, so no weights are used.}
 
-\item{altr.row.col}{Logical, if \code{TRUE}, alternating rows are highlighted with a light gray
-background color.}
-
 \item{show.id}{Logical, if \code{TRUE} (default), the variable ID is shown in
 the first column.}
 
@@ -72,31 +69,10 @@ labels are displayed in one line and when a line break is inserted.}
 when creating the output is hidden. Default in \code{FALSE}, hence the
 bar is visible.}
 
-\item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
-\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
-see \href{../doc/table_css.html}{this package-vignette}, or 'Details' in
-\code{\link{sjt.frq}}.}
-
 \item{encoding}{Character vector, indicating the charset encoding used
 for variable and value labels. Default is \code{"UTF-8"}. For Windows
 Systems, \code{encoding = "Windows-1252"} might be necessary for proper
 display of special characters.}
-
-\item{file}{Destination file, if the output should be saved as file.
-If \code{NULL} (default), the output will be saved as temporary file and
-openend either in the IDE's viewer pane or the default web browser.}
-
-\item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
-\code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
-
-\item{no.output}{Logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
-the viewer pane and not even saved to file. This option is useful when the html output
-should be used in \code{knitr} documents. The html output can be accessed via the return
-value.}
-
-\item{remove.spaces}{Logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
-that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
-may look less pretty, but it may help when exporting html-tables to office tools.}
 }
 \value{
 Invisibly returns

@@ -109,6 +109,13 @@ sjt.glm <- function(...,
                     no.output = FALSE,
                     remove.spaces = TRUE) {
 
+  if (stats::runif(1) < .35)
+    message("`sjt.glm()` will become deprecated in the future. Please use `tab_model()` instead.")
+
+  ## TODO activate in future update
+  # .Deprecated("tab_model")
+
+
   # --------------------------------------------------------
   # check p-value-style option
   # --------------------------------------------------------
@@ -1104,6 +1111,12 @@ sjt.glmer <- function(...,
                       use.viewer = TRUE,
                       no.output = FALSE,
                       remove.spaces = TRUE) {
+
+  if (stats::runif(1) < .35)
+    message("`sjt.glmer()` will become deprecated in the future. Please use `tab_model()` instead.")
+
+  ## TODO activate in future update
+  # .Deprecated("tab_model")
 
   input_list <- tibble::lst(...)
   return(sjt.glm(input_list, file = file, pred.labels = pred.labels,

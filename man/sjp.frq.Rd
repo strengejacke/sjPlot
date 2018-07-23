@@ -61,17 +61,6 @@ need smaller values than dot sizes.}
 Only applies to \code{type = "bar"}. In case of dot plots, error bars
 will have same colors as dots (see \code{geom.colors}).}
 
-\item{axis.title}{Character vector of length one or two (depending on
-the plot function and type), used as title(s) for the x and y axis.
-If not specified, a default labelling  is chosen. To set multiple
-axis titles (e.g. with \code{type = "eff"} for many predictors),
-\code{axis.title} must be a character vector of same length of plots
-that are printed. In this case, each plot gets an own axis title
-(applying, for instance, to the y-axis for \code{type = "eff"}).
-\strong{Note:} Some plot types do not support this argument. In such
-cases, use the return value and add axis titles manually with
-\code{\link[ggplot2]{labs}}, e.g.: \code{$plot.list[[1]] + labs(x = ...)}}
-
 \item{axis.labels}{character vector with labels used as axis labels. Optional
 argument, since in most cases, axis labels are set automatically.}
 

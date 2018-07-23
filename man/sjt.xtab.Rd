@@ -25,14 +25,13 @@ sjt.xtab(var.row, var.col, weight.by = NULL, title = NULL,
 Must be a vector of same length as the input vector. Default is
 \code{NULL}, so no weights are used.}
 
-\item{title}{Table caption, as character vector.}
+\item{title}{character vector, used as plot title. Depending on plot type and function,
+will be set automatically. If \code{title = ""}, no title is printed.
+For effect-plots, may also be a character vector of length > 1,
+to define titles for each sub-plot or facet.}
 
 \item{var.labels}{Character vector with variable names, which will be used
 to label variables in the output.}
-
-\item{value.labels}{Character vector (or \code{list} of character vectors)
-with value labels of the supplied variables, which will be used
-to label variable values in the output.}
 
 \item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
 labels are displayed in one line and when a line break is inserted.}
@@ -63,8 +62,6 @@ be one of \code{"auto"}, \code{"cramer"}, \code{"phi"}, \code{"spearman"},
 
 \item{string.total}{Character label for the total column / row header}
 
-\item{digits}{Numeric, amount of digits after decimal point when rounding estimates and values.}
-
 \item{tdcol.n}{Color for highlighting count (observed) values in table cells. Default is black.}
 
 \item{tdcol.expected}{Color for highlighting expected values in table cells. Default is cyan.}
@@ -87,32 +84,6 @@ the percentage value.}
 
 \item{hundret}{Default value that indicates the 100-percent column-sums (since rounding values
 may lead to non-exact results). Default is \code{"100.0"}.}
-
-\item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
-\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
-see \href{../doc/table_css.html}{this package-vignette}, or 'Details' in
-\code{\link{sjt.frq}}.}
-
-\item{encoding}{String, indicating the charset encoding used for variable and
-value labels. Default is \code{NULL}, so encoding will be auto-detected
-depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
-Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
-
-\item{file}{Destination file, if the output should be saved as file.
-If \code{NULL} (default), the output will be saved as temporary file and
-openend either in the IDE's viewer pane or the default web browser.}
-
-\item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
-\code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
-
-\item{no.output}{Logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
-the viewer pane and not even saved to file. This option is useful when the html output
-should be used in \code{knitr} documents. The html output can be accessed via the return
-value.}
-
-\item{remove.spaces}{Logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
-that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
-may look less pretty, but it may help when exporting html-tables to office tools.}
 
 \item{...}{Other arguments, currently passed down to the test statistics functions
 \code{chisq.test()} or \code{fisher.test()}.}

@@ -30,8 +30,6 @@ between the highest and 2nd highest factor should be 0.1}
 \item{plot.eigen}{If \code{TRUE}, a plot showing the Eigenvalues according to the
 Kaiser criteria is plotted to determine the number of factors.}
 
-\item{digits}{Numeric, amount of digits after decimal point when rounding estimates and values.}
-
 \item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.
 For effect-plots, may also be a character vector of length > 1,

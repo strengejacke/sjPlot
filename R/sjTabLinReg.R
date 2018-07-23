@@ -176,6 +176,12 @@ sjt.lm <- function(...,
                    use.viewer = TRUE,
                    no.output = FALSE,
                    remove.spaces = TRUE) {
+  if (stats::runif(1) < .35)
+    message("`sjt.lm()` will become deprecated in the future. Please use `tab_model()` instead.")
+
+  ## TODO activate in future update
+  # .Deprecated("tab_model")
+
   # --------------------------------------------------------
   # check p-value-style option
   # --------------------------------------------------------
@@ -1220,6 +1226,13 @@ sjt.lmer <- function(...,
   # check arguments
   # -------------------------------------
   if (!is.null(show.std) && show.std == "std2") show.std <- "std"
+
+  if (stats::runif(1) < .35)
+    message("`sjt.lmer()` will become deprecated in the future. Please use `tab_model()` instead.")
+
+  ## TODO activate in future update
+  # .Deprecated("tab_model")
+
 
   return(sjt.lm(input_list, file = file, pred.labels = pred.labels,
                 depvar.labels = depvar.labels, string.pred = string.pred,

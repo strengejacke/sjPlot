@@ -174,32 +174,6 @@ each model column, to add margins between model columns. By default, this
 column will be added to the output; however, when copying tables to
 office applications, it might be helpful not to add this separator column
 when modifying the table layout.}
-
-\item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
-\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
-see \href{../doc/table_css.html}{this package-vignette}, or 'Details' in
-\code{\link{sjt.frq}}.}
-
-\item{encoding}{String, indicating the charset encoding used for variable and
-value labels. Default is \code{NULL}, so encoding will be auto-detected
-depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
-Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
-
-\item{file}{Destination file, if the output should be saved as file.
-If \code{NULL} (default), the output will be saved as temporary file and
-openend either in the IDE's viewer pane or the default web browser.}
-
-\item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
-\code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
-
-\item{no.output}{Logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
-the viewer pane and not even saved to file. This option is useful when the html output
-should be used in \code{knitr} documents. The html output can be accessed via the return
-value.}
-
-\item{remove.spaces}{Logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
-that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
-may look less pretty, but it may help when exporting html-tables to office tools.}
 }
 \value{
 Invisibly returns
