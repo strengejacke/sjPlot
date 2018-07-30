@@ -37,7 +37,6 @@
 #'        \code{chisq.test()} or \code{fisher.test()}.
 #'
 #' @inheritParams sjt.frq
-#' @inheritParams sjt.df
 #' @inheritParams sjp.glmer
 #' @inheritParams sjp.grpfrq
 #'

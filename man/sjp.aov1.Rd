@@ -35,17 +35,6 @@ argument, since in most cases, axis labels are set automatically.}
 \item{string.interc}{Character vector that indicates the reference group (intercept), that is appended to
 the value label of the grouping variable. Default is \code{"(Intercept)"}.}
 
-\item{axis.title}{Character vector of length one or two (depending on
-the plot function and type), used as title(s) for the x and y axis.
-If not specified, a default labelling  is chosen. To set multiple
-axis titles (e.g. with \code{type = "eff"} for many predictors),
-\code{axis.title} must be a character vector of same length of plots
-that are printed. In this case, each plot gets an own axis title
-(applying, for instance, to the y-axis for \code{type = "eff"}).
-\strong{Note:} Some plot types do not support this argument. In such
-cases, use the return value and add axis titles manually with
-\code{\link[ggplot2]{labs}}, e.g.: \code{$plot.list[[1]] + labs(x = ...)}}
-
 \item{axis.lim}{Numeric vector of length 2, defining the range of the plot axis.
 Depending on plot type, may effect either x- or y-axis, or both.
 For multiple plot outputs (e.g., from \code{type = "eff"} or
@@ -70,13 +59,8 @@ i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
 \item{show.values}{Logical, whether values should be plotted or not.}
 
-\item{digits}{Numeric, amount of digits after decimal point when rounding estimates and values.}
-
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
-
-\item{show.p}{Logical, adds significance levels to values, or value and
-variable labels.}
 
 \item{show.summary}{logical, if \code{TRUE} (default), a summary with chi-squared
 statistics (see \code{\link{chisq.test}}), Cramer's V or Phi-value etc.

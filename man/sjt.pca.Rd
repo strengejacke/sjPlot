@@ -30,7 +30,10 @@ on 3 possible factors can not be clearly assigned to just one factor and thus wo
 from the principal component analysis. By default, the minimum difference of loading values
 between the highest and 2nd highest factor should be 0.1}
 
-\item{title}{Table caption, as character vector.}
+\item{title}{character vector, used as plot title. Depending on plot type and function,
+will be set automatically. If \code{title = ""}, no title is printed.
+For effect-plots, may also be a character vector of length > 1,
+to define titles for each sub-plot or facet.}
 
 \item{var.labels}{Character vector with variable names, which will be used
 to label variables in the output.}
@@ -49,42 +52,11 @@ dor each component.}
 \item{show.var}{Logical, if \code{TRUE}, the proportions of variances for each component as well as cumulative
 variance are shown in the table footer.}
 
-\item{altr.row.col}{Logical, if \code{TRUE}, alternating rows are highlighted with a light gray
-background color.}
-
-\item{digits}{Numeric, amount of digits after decimal point when rounding estimates and values.}
-
 \item{string.pov}{String for the table row that contains the proportions of variances. By default,
 \emph{"Proportion of Variance"} will be used.}
 
 \item{string.cpov}{String for the table row that contains the cumulative variances. By default,
 \emph{"Cumulative Proportion"} will be used.}
-
-\item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions, according to the
-\href{http://www.w3.org/Style/CSS/}{official CSS syntax}. For more details,
-see \href{../doc/table_css.html}{this package-vignette}, or 'Details' in
-\code{\link{sjt.frq}}.}
-
-\item{encoding}{String, indicating the charset encoding used for variable and
-value labels. Default is \code{NULL}, so encoding will be auto-detected
-depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
-Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
-
-\item{file}{Destination file, if the output should be saved as file.
-If \code{NULL} (default), the output will be saved as temporary file and
-openend either in the IDE's viewer pane or the default web browser.}
-
-\item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's viewer pane. If
-\code{FALSE} or no viewer available, the HTML table is opened in a web browser.}
-
-\item{no.output}{Logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
-the viewer pane and not even saved to file. This option is useful when the html output
-should be used in \code{knitr} documents. The html output can be accessed via the return
-value.}
-
-\item{remove.spaces}{Logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
-that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
-may look less pretty, but it may help when exporting html-tables to office tools.}
 }
 \value{
 Invisibly returns

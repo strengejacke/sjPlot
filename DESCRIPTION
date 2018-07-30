@@ -4,6 +4,8 @@ Encoding: UTF-8
 Title: Data Visualization for Statistics in Social Science
 Version: 2.5.0
 Date: 2018-07-10
+Version: 2.5.0.9000
+Date: 2018-07-23
 Authors@R: c(
     person("Daniel", "Lüdecke", email = "d.luedecke@uke.de", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8895-3206")),
     person("Carsten", "Schwemmer", email = "carsten.schwemmer@uni-bamberg.de", role = "ctb")
@@ -65,7 +67,7 @@ Suggests:
     viridis,
     wesanderson,
     Zelig
-URL: https://github.com/strengejacke/sjPlot
+URL: https://strengejacke.github.io/sjPlot/
 BugReports: https://github.com/strengejacke/sjPlot/issues
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr

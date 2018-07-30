@@ -15,7 +15,6 @@
 #' @inheritParams sjt.pca
 #' @inheritParams sjt.frq
 #' @inheritParams sjt.xtab
-#' @inheritParams sjt.df
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjt.corr
 #'

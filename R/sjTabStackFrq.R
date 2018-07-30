@@ -25,8 +25,6 @@
 #' @param digits.stats amount of digits for rounding the skewness and kurtosis valuess.
 #'          Default is 2, i.e. skewness and kurtosis values have 2 digits after decimal point.
 #'
-#' @inheritParams sjt.frq
-#' @inheritParams sjt.df
 #' @inheritParams sjt.itemanalysis
 #' @inheritParams sjp.glmer
 #' @inheritParams sjt.xtab

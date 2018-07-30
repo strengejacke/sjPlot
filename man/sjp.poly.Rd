@@ -33,27 +33,6 @@ When \code{x} is not a vector, but a fitted model object, the function
 is detected automatically. If \code{x} is a vector, \code{fun} defaults
 to \code{"lm"}.}
 
-\item{axis.title}{Character vector of length one or two (depending on
-the plot function and type), used as title(s) for the x and y axis.
-If not specified, a default labelling  is chosen. To set multiple
-axis titles (e.g. with \code{type = "eff"} for many predictors),
-\code{axis.title} must be a character vector of same length of plots
-that are printed. In this case, each plot gets an own axis title
-(applying, for instance, to the y-axis for \code{type = "eff"}).
-\strong{Note:} Some plot types do not support this argument. In such
-cases, use the return value and add axis titles manually with
-\code{\link[ggplot2]{labs}}, e.g.: \code{$plot.list[[1]] + labs(x = ...)}}
-
-\item{geom.colors}{User defined color palette for geoms. If \code{group.estimates}
-is \emph{not} specified, must either be vector with two color values or a specific
-color palette code (see 'Details' in \code{\link{sjp.grpfrq}}). Else, if
-\code{group.estimates} is specified, \code{geom.colors} must be a vector
-of same length as groups. See 'Examples'.}
-
-\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size,
-depending on plot type and function). Note that bar and bin widths mostly
-need smaller values than dot sizes.}
-
 \item{show.loess}{Logical, if \code{TRUE}, an additional loess-smoothed line is plotted.}
 
 \item{show.loess.ci}{Logical, if \code{TRUE}, a confidence region for the loess-smoothed line
@@ -62,21 +41,7 @@ will be plotted.}
 \item{show.p}{Logical, if \code{TRUE} (default), p-values for polynomial terms are
 printed to the console.}
 
-\item{show.scatter}{Logical, if \code{TRUE} (default), adds a scatter plot of
-data points to the plot. Only applies for slope-type or predictions plots.
-For most plot types, dots are jittered to avoid overplotting, hence the
-points don't reflect exact values in the data.}
-
-\item{point.alpha}{Alpha value of point-geoms in the scatter plots. Only applies,
-if \code{show.scatter = TRUE}.}
-
-\item{point.color}{Color of of point-geoms in the scatter plots. Only applies,
-if \code{show.scatter = TRUE}.}
-
 \item{loess.color}{Color of the loess-smoothed line. Only applies, if \code{show.loess = TRUE}.}
-
-\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
 (Insisibily) returns
